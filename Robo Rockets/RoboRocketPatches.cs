@@ -1,20 +1,21 @@
 using HarmonyLib;
 using System.Collections.Generic;
 using TUNING;
+using UnityEngine;
 using static Robo_Rockets.Utils;
 namespace Robo_Rockets
 {
     public class RoboRocketPatches
     {
-       
+
         [HarmonyPatch(typeof(GeneratedBuildings))]
         [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
         public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
         {
-           
+
             public static void Prefix()
             {
-                AddBuildingStrings(RoboRocketConfig.ID, RoboRocketConfig.DisplayName, RoboRocketConfig.Description,RoboRocketConfig.Effect);
+                AddBuildingStrings(RoboRocketConfig.ID, RoboRocketConfig.DisplayName, RoboRocketConfig.Description, RoboRocketConfig.Effect);
 
                 AddBuildingToPlanScreen(Utils.GameStrings.PlanMenuCategory.Rocketry, RoboRocketConfig.ID);
 
@@ -34,13 +35,15 @@ namespace Robo_Rockets
         [HarmonyPatch("OnSpawn")]
         public class SelectModuleSideScreen_OnSpawn_Patch
         {
-            
+
             public static void Prefix()
             {
-                //var crawler = Traverse.Create<SelectModuleSideScreen>().Method("OnSpawn").GetValue<SelectModuleSideScreen>();
-                //Traverse.Create<SelectModuleSideScreen>().Method("OnSpawn", null);
-                SelectModuleSideScreen.moduleButtonSortOrder.Add(RoboRocketConfig.ID);
+                int i = SelectModuleSideScreen.moduleButtonSortOrder.IndexOf("HabitatModuleMedium");
+                int j = (i == -1) ? SelectModuleSideScreen.moduleButtonSortOrder.Count : ++i;
+                SelectModuleSideScreen.moduleButtonSortOrder.Insert(j, RoboRocketConfig.ID);
             }
         }
+
+        
     }
 }

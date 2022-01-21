@@ -39,7 +39,7 @@ namespace Robo_Rockets
         }
         public static void AddRocketPartToPartList(string partId)
         {
-            
+            //Db.Get().AssignableSlots;
         }
 
         public static void AddPlantStrings(string plantId, string name, string description, string domesticatedDescription)
