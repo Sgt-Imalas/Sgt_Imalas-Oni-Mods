@@ -11,8 +11,6 @@ namespace Robo_Rockets
         public ConditionDestinationReachable reachable;
         public ConditionAllModulesComplete allModulesComplete;
         public ConditionHasEngine hasEngine;
-        public FakePilot pilotOnBoard;
-        public ConditionHasControlStation hasControlStation;
         public ConditionHasNosecone hasNosecone;
         public ConditionOnLaunchPad onLaunchPad;
         public ConditionFlightPathIsClear flightPathIsClear;
@@ -27,6 +25,7 @@ namespace Robo_Rockets
             this.hasNosecone = (ConditionHasNosecone)component.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketPrep, (ProcessCondition)new ConditionHasNosecone(this.GetComponent<LaunchableRocketCluster>()));
             this.onLaunchPad = (ConditionOnLaunchPad)component.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketPrep, (ProcessCondition)new ConditionOnLaunchPad(this.GetComponent<RocketModuleCluster>().CraftInterface));
             this.flightPathIsClear = (ConditionFlightPathIsClear)component.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketFlight, (ProcessCondition)new ConditionFlightPathIsClear(this.gameObject, 1)); 
+
         }
     }
 }

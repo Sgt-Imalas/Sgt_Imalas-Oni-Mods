@@ -2,6 +2,7 @@ using HarmonyLib;
 using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 using static Robo_Rockets.Utils;
 namespace Robo_Rockets
 {
@@ -15,9 +16,9 @@ namespace Robo_Rockets
 
             public static void Prefix()
             {
-                AddBuildingStrings(RoboRocketConfig.ID, RoboRocketConfig.DisplayName, RoboRocketConfig.Description, RoboRocketConfig.Effect);
+                InjectionMethods.AddBuildingStrings(RoboRocketConfig.ID, RoboRocketConfig.DisplayName, RoboRocketConfig.Description, RoboRocketConfig.Effect);
 
-                AddBuildingToPlanScreen(Utils.GameStrings.PlanMenuCategory.Rocketry, RoboRocketConfig.ID);
+                InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, RoboRocketConfig.ID);
 
             }
         }
@@ -27,7 +28,7 @@ namespace Robo_Rockets
         {
             public static void Postfix()
             {
-                AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, RoboRocketConfig.ID);
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, RoboRocketConfig.ID);
             }
         }
 

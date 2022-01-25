@@ -1,71 +1,14 @@
-﻿using STRINGS;
+﻿using System;
 using System.Collections.Generic;
-using TUNING;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Robo_Rockets
+namespace UtilLibs
 {
-    public static class Utils
-    {
-		public static void AddBuildingToPlanScreen(HashedString category, string buildingId, string addAfterBuildingId = null)
-		{
-			var index = TUNING.BUILDINGS.PLANORDER.FindIndex(x => x.category == category);
-
-			if (index == -1)
-				return;
-
-			if (!(TUNING.BUILDINGS.PLANORDER[index].data is IList<string> planOrderList))
-			{
-				Debug.Log($"Could not add {buildingId} to the building menu.");
-				return;
-			}
-
-			var neighborIdx = planOrderList.IndexOf(addAfterBuildingId);
-
-			if (neighborIdx != -1)
-				planOrderList.Insert(neighborIdx + 1, buildingId);
-			else
-				planOrderList.Add(buildingId);
-		}
-
-		public static void AddBuildingToTechnology(string techId, string buildingId)
-		{
-			Db.Get().Techs.Get(techId).unlockedItemIDs.Add(buildingId);
-		}
-        public static void AddBuildingStrings(string buildingId, string name, string description, string effect)
-        {
-            Strings.Add($"STRINGS.BUILDINGS.PREFABS.{buildingId.ToUpperInvariant()}.NAME", UI.FormatAsLink(name, buildingId));
-            Strings.Add($"STRINGS.BUILDINGS.PREFABS.{buildingId.ToUpperInvariant()}.DESC", description);
-            Strings.Add($"STRINGS.BUILDINGS.PREFABS.{buildingId.ToUpperInvariant()}.EFFECT", effect);
-        }
-        public static void AddRocketPartToPartList(string partId)
-        {
-            //Db.Get().AssignableSlots;
-        }
-
-        public static void AddPlantStrings(string plantId, string name, string description, string domesticatedDescription)
-        {
-            Strings.Add($"STRINGS.CREATURES.SPECIES.{plantId.ToUpperInvariant()}.NAME", UI.FormatAsLink(name, plantId));
-            Strings.Add($"STRINGS.CREATURES.SPECIES.{plantId.ToUpperInvariant()}.DESC", description);
-            Strings.Add($"STRINGS.CREATURES.SPECIES.{plantId.ToUpperInvariant()}.DOMESTICATEDDESC", domesticatedDescription);
-        }
-
-        public static void AddPlantSeedStrings(string plantId, string name, string description)
-        {
-            Strings.Add($"STRINGS.CREATURES.SPECIES.SEEDS.{plantId.ToUpperInvariant()}.NAME", UI.FormatAsLink(name, plantId));
-            Strings.Add($"STRINGS.CREATURES.SPECIES.SEEDS.{plantId.ToUpperInvariant()}.DESC", description);
-        }
-
-        public static void AddFoodStrings(string foodId, string name, string description, string recipeDescription = null)
-        {
-            Strings.Add($"STRINGS.ITEMS.FOOD.{foodId.ToUpperInvariant()}.NAME", UI.FormatAsLink(name, foodId));
-            Strings.Add($"STRINGS.ITEMS.FOOD.{foodId.ToUpperInvariant()}.DESC", description);
-
-            if (recipeDescription != null)
-                Strings.Add($"STRINGS.ITEMS.FOOD.{foodId.ToUpperInvariant()}.RECIPEDESC", recipeDescription);
-        }
-        public static class GameStrings
-        {
-            public static class PlanMenuCategory
+    public static class GameStrings
+    { 
+        public static class PlanMenuCategory
             {
                 public const string Base = "Base";
                 public const string Oxygen = "Oxygen";
@@ -242,7 +185,5 @@ namespace Robo_Rockets
                 }
             }
         }
-
     }
-}
 

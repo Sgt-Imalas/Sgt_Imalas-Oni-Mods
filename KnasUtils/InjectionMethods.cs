@@ -1,0 +1,7 @@
+﻿
+
+namespace KnasUtils
+{
+    class InjectionMethods
+    
+}
