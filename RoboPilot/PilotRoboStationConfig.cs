@@ -31,10 +31,21 @@ namespace RoboPilot
 
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
-            Prioritizable.AddRef(go);
+            Prioritizable.AddRef(go); 
+            Storage botMaterialStorage = go.AddComponent<Storage>();
+            botMaterialStorage.showInUI = true;
+            botMaterialStorage.allowItemRemoval = false;
+            botMaterialStorage.ignoreSourcePriority = true;
+            botMaterialStorage.showDescriptor = false;
+            botMaterialStorage.storageFilters = STORAGEFILTERS.NOT_EDIBLE_SOLIDS;
+            botMaterialStorage.storageFullMargin = STORAGE.STORAGE_LOCKER_FILLED_MARGIN;
+            botMaterialStorage.fetchCategory = Storage.FetchCategory.Building;
+            botMaterialStorage.capacityKg = 25f;
+            botMaterialStorage.allowClearable = false;
             go.AddOrGet<CharacterOverlay>().shouldShowName = true;
+            go.AddOrGet<PilotRoboStation>().SetStorages(botMaterialStorage);
         }
 
         public override void DoPostConfigureComplete(GameObject go) => go.AddOrGetDef<StorageController.Def>();
-        }
     }
+}

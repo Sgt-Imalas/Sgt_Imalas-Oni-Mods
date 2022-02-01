@@ -10,9 +10,8 @@ namespace RoboPilot
         [Serialize]
         public Ref<KSelectable> Robo;
         [Serialize]
-        public string storedName;
+        public string storedName = "robo duckie";
         private Operational.Flag dockedRobot = new Operational.Flag(nameof(dockedRobot), Operational.Flag.Type.Functional);
-        private MeterController meter;
         [SerializeField]
         private Storage botMaterialStorage;
 
@@ -27,7 +26,7 @@ namespace RoboPilot
             this.Initialize(false);
             this.Subscribe<PilotRoboStation>(-592767678, PilotRoboStation.OnOperationalChangedDelegate);
         }
-        public void SetStorages(Storage botMaterialStorage, Storage sweepStorage)
+        public void SetStorages(Storage botMaterialStorage)
         {
             this.botMaterialStorage = botMaterialStorage;
         }
@@ -42,6 +41,7 @@ namespace RoboPilot
         {
             if (this.Robo == null || (UnityEngine.Object)this.Robo.Get() == (UnityEngine.Object)null)
             {
+
                 this.RequestNewRobo();
             }
             this.UpdateNameDisplay();
@@ -49,10 +49,10 @@ namespace RoboPilot
 
         private void RequestNewRobo(object data = null)
         {
-            if ((UnityEngine.Object)this.botMaterialStorage.FindFirstWithMass(GameTags.RefinedMetal, SweepBotConfig.MASS) == (UnityEngine.Object)null)
+            if ((UnityEngine.Object)this.botMaterialStorage.FindFirstWithMass(GameTags.RefinedMetal, PilotRoboConfig.MASS) == (UnityEngine.Object)null)
             {
                 FetchList2 fetchList2 = new FetchList2(this.botMaterialStorage, Db.Get().ChoreTypes.Fetch);
-                fetchList2.Add(GameTags.RefinedMetal, amount: SweepBotConfig.MASS);
+                fetchList2.Add(GameTags.RefinedMetal, amount: PilotRoboConfig.MASS);
                 fetchList2.Submit((System.Action)null, true);
             }
             else
@@ -61,13 +61,13 @@ namespace RoboPilot
 
         private void MakeNewRobo(object data = null)
         {
-            if (this.newRoboHandle.IsValid || (double)this.botMaterialStorage.GetAmountAvailable(GameTags.RefinedMetal) < (double)SweepBotConfig.MASS)
+            if (this.newRoboHandle.IsValid || (double)this.botMaterialStorage.GetAmountAvailable(GameTags.RefinedMetal) < (double)PilotRoboConfig.MASS)
                 return;
-            PrimaryElement firstWithMass = this.botMaterialStorage.FindFirstWithMass(GameTags.RefinedMetal, SweepBotConfig.MASS);
+            PrimaryElement firstWithMass = this.botMaterialStorage.FindFirstWithMass(GameTags.RefinedMetal, PilotRoboConfig.MASS);
             if ((UnityEngine.Object)firstWithMass == (UnityEngine.Object)null)
                 return;
-            SimHashes sweepBotMaterial = firstWithMass.ElementID;
-            firstWithMass.Mass -= SweepBotConfig.MASS;
+            SimHashes pilotBotMaterial = firstWithMass.ElementID;
+            firstWithMass.Mass -= PilotRoboConfig.MASS;
             this.newRoboHandle = GameScheduler.Instance.Schedule("MakePilotRobo", 2f, (System.Action<object>)(obj =>
             {
                 GameObject go = GameUtil.KInstantiate(Assets.GetPrefab((Tag)"RoboPilot"), Grid.CellToPos(Grid.CellRight(Grid.PosToCell(this.gameObject))), Grid.SceneLayer.Creatures);
@@ -76,9 +76,10 @@ namespace RoboPilot
                 if (!string.IsNullOrEmpty(this.storedName))
                     this.Robo.Get().GetComponent<UserNameable>().SetName(this.storedName);
                 this.UpdateNameDisplay();
-                this.Robo.Get().GetComponent<PrimaryElement>().ElementID = sweepBotMaterial;
+                this.Robo.Get().GetComponent<PrimaryElement>().ElementID = pilotBotMaterial;
                 this.RefreshRoboBotSubscription();
                 this.newRoboHandle.ClearScheduler();
+                UpdateStoredName("Printed");
             }), (object)null, (SchedulerGroup)null);
             this.GetComponent<KBatchedAnimController>().Play((HashedString)"newsweepy");
         }
