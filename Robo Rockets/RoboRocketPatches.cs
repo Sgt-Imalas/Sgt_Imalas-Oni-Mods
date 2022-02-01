@@ -44,6 +44,16 @@ namespace Robo_Rockets
             }
         }
 
-        
+        [HarmonyPatch(typeof(PassengerRocketModule))]
+        [HarmonyPatch("CheckPassengersBoarded")]
+        public class PassengerRocketModule_CheckPassengersBoarded_Patch
+        { 
+            public static void Postfix(ref bool __result)
+            {
+                __result = true;
+
+            }
+        }
+            
     }
 }

@@ -1,4 +1,5 @@
-﻿using TUNING;
+﻿using KnastoronOniMods;
+using TUNING;
 using UnityEngine;
 namespace Robo_Rockets 
 {
@@ -44,10 +45,14 @@ namespace Robo_Rockets
             go.GetComponent<KPrefabID>().AddTag(GameTags.LaunchButtonRocketModule);
 
             go.AddOrGet<AssignmentGroupController>().generateGroupOnStart = true;
-
+            go.AddOrGet<PassengerRocketModule>().interiorReverbSnapshot = AudioMixerSnapshots.Get().MediumRocketInteriorReverbSnapshot;
+            go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "expansion1::interiors/habitat_small";
+            go.AddOrGetDef<SimpleDoorController.Def>();
+            go.AddOrGet<NavTeleporter>();
             go.AddOrGet<LaunchableRocketCluster>();
             go.AddOrGet<RocketAiConditions>();
-            
+            go.AddOrGet<AccessControl>();
+
             go.AddOrGet<RocketProcessConditionDisplayTarget>();
             go.AddOrGet<CharacterOverlay>().shouldShowName = true;
 

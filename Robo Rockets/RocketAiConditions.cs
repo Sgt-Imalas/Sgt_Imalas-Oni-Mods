@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KnastoronOniMods;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ namespace Robo_Rockets
         public ConditionHasNosecone hasNosecone;
         public ConditionOnLaunchPad onLaunchPad;
         public ConditionFlightPathIsClear flightPathIsClear;
+        public ConditionAiHasControl conditionAiHasControl;
 
         protected override void OnSpawn()
         {
@@ -24,7 +26,8 @@ namespace Robo_Rockets
             this.hasEngine = (ConditionHasEngine)component.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketPrep, (ProcessCondition)new ConditionHasEngine(this.GetComponent<ILaunchableRocket>()));
             this.hasNosecone = (ConditionHasNosecone)component.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketPrep, (ProcessCondition)new ConditionHasNosecone(this.GetComponent<LaunchableRocketCluster>()));
             this.onLaunchPad = (ConditionOnLaunchPad)component.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketPrep, (ProcessCondition)new ConditionOnLaunchPad(this.GetComponent<RocketModuleCluster>().CraftInterface));
-            this.flightPathIsClear = (ConditionFlightPathIsClear)component.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketFlight, (ProcessCondition)new ConditionFlightPathIsClear(this.gameObject, 1)); 
+            this.flightPathIsClear = (ConditionFlightPathIsClear)component.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketFlight, (ProcessCondition)new ConditionFlightPathIsClear(this.gameObject, 1));
+            this.conditionAiHasControl = (ConditionAiHasControl)component.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketBoard, (ProcessCondition)new ConditionAiHasControl());
 
         }
     }

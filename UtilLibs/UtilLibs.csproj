@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="GameStrings.cs" />
     <Compile Include="InjectionMethods.cs" />
+    <Compile Include="PrivateMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RocketryUtils.cs" />
   </ItemGroup>
