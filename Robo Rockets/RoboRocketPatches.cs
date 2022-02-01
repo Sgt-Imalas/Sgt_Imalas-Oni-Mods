@@ -54,6 +54,26 @@ namespace Robo_Rockets
 
             }
         }
-            
+        [HarmonyPatch(typeof(LaunchButtonSideScreen))]
+        [HarmonyPatch("Refresh")]
+        public class LaunchButtonSideScreen_Refresh_Patch
+        {
+            public static void Prefix()
+            {
+                bool isAutomated = false;
+
+            }
+        }
+        [HarmonyPatch(typeof(Clustercraft))]
+        [HarmonyPatch("CheckReadyToLaunch")]
+        public class LaunchButtonSideScreen_Launch_Patch
+        {
+            public static void Postfix(Clustercraft __instance, ref bool __result)
+            {
+                __result = true;
+                return;
+            }
+        }
+
     }
 }

@@ -1,4 +1,6 @@
-﻿using KnastoronOniMods;
+﻿using Database;
+using KnastoronOniMods;
+using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
 namespace Robo_Rockets 
@@ -20,7 +22,7 @@ namespace Robo_Rockets
             EffectorValues none = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
 
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef("AiModule", 3, 3, "rocket_pioneer_cargo_module_kanim", 1000, 30f, denseTieR0, refinedMetals, 9999f, BuildLocationRule.Anywhere, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef("AiModule", 3, 3, "rocket_pioneer_cargo_module_kanim", 1000, 400f, denseTieR0, refinedMetals, 9999f, BuildLocationRule.Anywhere, none, noise);
             BuildingTemplates.CreateRocketBuildingDef(buildingDef);
             buildingDef.AttachmentSlotTag = GameTags.Rocket;
             buildingDef.SceneLayer = Grid.SceneLayer.Building;
@@ -35,6 +37,7 @@ namespace Robo_Rockets
             buildingDef.attachablePosition = new CellOffset(0, 0);
             buildingDef.CanMove = true;
             buildingDef.Cancellable = false;
+            buildingDef.ShowInBuildMenu = false;
             return buildingDef;
         }
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
@@ -79,5 +82,23 @@ namespace Robo_Rockets
             go.AddOrGet<BuildingCellVisualizer>();
             go.GetComponent<ReorderableBuilding>().buildConditions.Add((SelectModuleCondition)new LimitOneCommandModule());
         }
+        public void DoPostConfigureOfInternalControlModule(GameObject go)
+        {
+
+            RocketControlStationLaunchWorkable stationLaunchWorkable = (RocketControlStationLaunchWorkable)null;
+            List<RocketControlStation> worldItems = Components.RocketControlStations.GetWorldItems(go.GetComponent<ClustercraftExteriorDoor>().GetTargetWorld().id);
+            if (worldItems != null && worldItems.Count > 0)
+                stationLaunchWorkable = worldItems[0].GetComponent<RocketControlStationLaunchWorkable>();
+            Worker test = new Worker();
+            stationLaunchWorkable.StartWork(test);
+
+        }
+
+        public override void DoPostConfigureUnderConstruction(GameObject go)
+        {
+            base.DoPostConfigureUnderConstruction(go);
+            go.AddOrGet<BuildingCellVisualizer>();
+        }
     }
+
 }

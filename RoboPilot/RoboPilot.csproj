@@ -61,6 +61,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Patches.cs" />
+    <Compile Include="PilotRoboConfig.cs" />
+    <Compile Include="PilotRoboStation.cs" />
+    <Compile Include="PilotRoboStationConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +73,12 @@
     <None Include="mod_info.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UtilLibs\UtilLibs.csproj">
+      <Project>{BFA3D6B9-F435-448E-B1A0-0D33F944CEB3}</Project>
+      <Name>UtilLibs</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
