@@ -1,51 +1,61 @@
 ﻿
+using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
 namespace RoboPilot
 {
     class PilotRoboStationConfig : IBuildingConfig
     {
-        public const string ID = "RoboDock";
+        public const string ID = "AIPilot";
         public const float POWER_USAGE = 240f;
+
+        public const float CONSOLE_WORK_TIME = 30f;
+        public const float CONSOLE_IDLE_TIME = 120f;
+        public const float WARNING_COOLDOWN = 30f;
+        public const float DEFAULT_SPEED = 1f;
+        public const float SLOW_SPEED = 0.5f;
+        public const float DEFAULT_PILOT_MODIFIER = 1f;
+
+        public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
 
         public override BuildingDef CreateBuildingDef()
         {
-            float[] construction_mass = new float[1]
-            {
-                BUILDINGS.CONSTRUCTION_MASS_KG.TIER4[0] - PilotRoboConfig.MASS
-            };
-            string[] refinedMetals = MATERIALS.REFINED_METALS;
-            EffectorValues none = NOISE_POLLUTION.NONE;
-            EffectorValues tieR1 = BUILDINGS.DECOR.PENALTY.TIER1;
-            EffectorValues noise = none;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef("RoboDock", 2, 2, "sweep_bot_base_station_kanim", 100, 30f, construction_mass, refinedMetals, 1600f, BuildLocationRule.OnFloor, tieR1, noise);
-            buildingDef.ViewMode = OverlayModes.Power.ID;
+            string id = RocketControlStationConfig.ID;
+            float[] tieR2_1 = TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER2;
+            string[] rawMetals = MATERIALS.RAW_METALS;
+            EffectorValues tieR3 = TUNING.NOISE_POLLUTION.NOISY.TIER3;
+            EffectorValues tieR2_2 = TUNING.BUILDINGS.DECOR.BONUS.TIER2;
+            EffectorValues noise = tieR3;
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(id, 2, 2, "rocket_control_station_kanim", 30, 60f, tieR2_1, rawMetals, 1600f, BuildLocationRule.OnFloor, tieR2_2, noise);
+            buildingDef.Overheatable = false;
+            buildingDef.Repairable = false;
             buildingDef.Floodable = false;
             buildingDef.AudioCategory = "Metal";
-            buildingDef.RequiresPowerInput = true;
-            buildingDef.EnergyConsumptionWhenActive = 240f;
-            buildingDef.ExhaustKilowattsWhenActive = 0.0f;
-            buildingDef.SelfHeatKilowattsWhenActive = 0f;
+            buildingDef.AudioSize = "large";
+            buildingDef.DefaultAnimState = "off";
+            buildingDef.OnePerWorld = true;
+            buildingDef.LogicInputPorts = new List<LogicPorts.Port>()
+                {
+                LogicPorts.Port.InputPort(RocketControlStation.PORT_ID, new CellOffset(0, 0), (string) STRINGS.BUILDINGS.PREFABS.ROCKETCONTROLSTATION.LOGIC_PORT, (string) STRINGS.BUILDINGS.PREFABS.ROCKETCONTROLSTATION.LOGIC_PORT_ACTIVE, (string) STRINGS.BUILDINGS.PREFABS.ROCKETCONTROLSTATION.LOGIC_PORT_INACTIVE)
+                };
             return buildingDef;
         }
 
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
-            Prioritizable.AddRef(go); 
-            Storage botMaterialStorage = go.AddComponent<Storage>();
-            botMaterialStorage.showInUI = true;
-            botMaterialStorage.allowItemRemoval = false;
-            botMaterialStorage.ignoreSourcePriority = true;
-            botMaterialStorage.showDescriptor = false;
-            botMaterialStorage.storageFilters = STORAGEFILTERS.NOT_EDIBLE_SOLIDS;
-            botMaterialStorage.storageFullMargin = STORAGE.STORAGE_LOCKER_FILLED_MARGIN;
-            botMaterialStorage.fetchCategory = Storage.FetchCategory.Building;
-            botMaterialStorage.capacityKg = 100f;
-            botMaterialStorage.allowClearable = false;
-            go.AddOrGet<CharacterOverlay>().shouldShowName = true;
-            go.AddOrGet<PilotRoboStation>().SetStorages(botMaterialStorage, botMaterialStorage);
+            KPrefabID component = go.GetComponent<KPrefabID>();
+            component.AddTag(GameTags.RocketInteriorBuilding);
+            component.AddTag(GameTags.UniquePerWorld);
         }
 
-        public override void DoPostConfigureComplete(GameObject go) => go.AddOrGetDef<StorageController.Def>();
+        public override void DoPostConfigureComplete(GameObject go)
+        {
+            go.AddOrGet<BuildingComplete>().isManuallyOperated = true;
+            go.AddOrGet<RocketControlStationIdleWorkable>().workLayer = Grid.SceneLayer.BuildingUse;
+            go.AddOrGet<RocketControlStationLaunchWorkable>().workLayer = Grid.SceneLayer.BuildingUse;
+            go.AddOrGet<RocketControlStation>();
+            go.AddOrGetDef<PoweredController.Def>();
+            go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.RocketInterior);
+        }
     }
 }

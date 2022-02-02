@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AIPassengerModule.cs" />
     <Compile Include="ConditionAiHasControl.cs" />
     <Compile Include="RoboRocketPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="RocketAiConditions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="habitat_robo.yaml" />
     <None Include="mod.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -84,5 +86,6 @@
       <Name>UtilLibs</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

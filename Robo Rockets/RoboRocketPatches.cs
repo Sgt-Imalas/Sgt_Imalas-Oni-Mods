@@ -1,4 +1,5 @@
 using HarmonyLib;
+using KnastoronOniMods;
 using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
@@ -47,33 +48,23 @@ namespace Robo_Rockets
         [HarmonyPatch(typeof(PassengerRocketModule))]
         [HarmonyPatch("CheckPassengersBoarded")]
         public class PassengerRocketModule_CheckPassengersBoarded_Patch
-        { 
-            public static void Postfix(ref bool __result)
+        {
+            public static void Postfix(PassengerRocketModule __instance, ref bool __result)
+            {
+                if (__instance.GetType()== typeof(AIPassengerModule))
+                {
+                    __result = true;
+                }
+            }
+        }
+        [HarmonyPatch(typeof(PassengerRocketModule))]
+        [HarmonyPatch("CheckPilotBoarded")]
+        public static void Postfix(PassengerRocketModule __instance, ref bool __result)
+        {
+            if (__instance.GetType() == typeof(AIPassengerModule))
             {
                 __result = true;
-
             }
         }
-        [HarmonyPatch(typeof(LaunchButtonSideScreen))]
-        [HarmonyPatch("Refresh")]
-        public class LaunchButtonSideScreen_Refresh_Patch
-        {
-            public static void Prefix()
-            {
-                bool isAutomated = false;
-
-            }
-        }
-        [HarmonyPatch(typeof(Clustercraft))]
-        [HarmonyPatch("CheckReadyToLaunch")]
-        public class LaunchButtonSideScreen_Launch_Patch
-        {
-            public static void Postfix(Clustercraft __instance, ref bool __result)
-            {
-                __result = true;
-                return;
-            }
-        }
-
     }
 }

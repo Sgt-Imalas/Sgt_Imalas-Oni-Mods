@@ -48,8 +48,8 @@ namespace Robo_Rockets
             go.GetComponent<KPrefabID>().AddTag(GameTags.LaunchButtonRocketModule);
 
             go.AddOrGet<AssignmentGroupController>().generateGroupOnStart = true;
-            go.AddOrGet<PassengerRocketModule>().interiorReverbSnapshot = AudioMixerSnapshots.Get().MediumRocketInteriorReverbSnapshot;
-            go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "expansion1::interiors/habitat_small";
+            go.AddOrGet<AIPassengerModule>().interiorReverbSnapshot = AudioMixerSnapshots.Get().SmallRocketInteriorReverbSnapshot;
+            go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_robo";
             go.AddOrGetDef<SimpleDoorController.Def>();
             go.AddOrGet<NavTeleporter>();
             go.AddOrGet<LaunchableRocketCluster>();

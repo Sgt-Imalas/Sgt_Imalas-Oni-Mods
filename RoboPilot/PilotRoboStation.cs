@@ -1,333 +1,221 @@
 ﻿
+using Klei.AI;
 using KSerialization;
 using STRINGS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace RoboPilot
 {
-    class PilotRoboStation : KMonoBehaviour
-    
-    //{
-    //    [Serialize]
-    //    public Ref<KSelectable> Robo;
-    //    [Serialize]
-    //    public string storedName = "robo duckie";
-    //    private Operational.Flag dockedRobot = new Operational.Flag(nameof(dockedRobot), Operational.Flag.Type.Functional);
-    //    [SerializeField]
-    //    private Storage botMaterialStorage;
+    class PilotRoboStation :  
+  RocketControlStation,
+  IGameObjectEffectDescriptor
+{
+  public static List<Tag> CONTROLLED_BUILDINGS = new List<Tag>();
+    private const int UNNETWORKED_VALUE = 1;
+    [Serialize]
+    public float TimeRemaining;
+    [Serialize]
+    private bool m_restrictWhenGrounded;
+    public static readonly HashedString PORT_ID = (HashedString)"LogicUsageRestriction";
+    private static readonly EventSystem.IntraObjectHandler<RocketControlStation> OnLogicValueChangedDelegate = new EventSystem.IntraObjectHandler<RocketControlStation>((System.Action<RocketControlStation, object>)((component, data) => component.OnLogicValueChanged(data)));
+    private static readonly EventSystem.IntraObjectHandler<RocketControlStation> OnRocketRestrictionChanged = new EventSystem.IntraObjectHandler<RocketControlStation>((System.Action<RocketControlStation, object>)((component, data) => component.UpdateRestrictionAnimSymbol(data)));
 
-    //    private SchedulerHandle newRoboHandle;
-    //    private static readonly EventSystem.IntraObjectHandler<PilotRoboStation> OnOperationalChangedDelegate = new EventSystem.IntraObjectHandler<PilotRoboStation>((System.Action<PilotRoboStation, object>)((component, data) => component.OnOperationalChanged(data)));
-    //    private int refreshRoboHandle = -1;
-    //    private int BotNameChangeHandle = -1;
-
-
-    //    protected override void OnPrefabInit()
-    //    {
-    //        this.Initialize();
-    //        this.Subscribe<PilotRoboStation>(-592767678, PilotRoboStation.OnOperationalChangedDelegate);
-    //    }
-    //    public void SetStorages(Storage botMaterialStorage)
-    //    {
-    //        this.botMaterialStorage = botMaterialStorage;
-    //    }
-
-    //    protected void Initialize()
-    //    {
-    //        base.OnPrefabInit();
-    //        this.GetComponent<Operational>().SetFlag(this.dockedRobot, false);
-    //    }
-
-    //    protected override void OnSpawn()
-    //    {
-    //        if (this.Robo == null || (UnityEngine.Object)this.Robo.Get() == (UnityEngine.Object)null)
-    //        {
-
-    //            this.RequestNewRobo();
-    //        }
-    //        else
-    //        {
-    //            this.RefreshRoboBotSubscription();
-    //        }
-    //        this.UpdateNameDisplay();
-    //    }
-
-    //    private void RequestNewRobo(object data = null)
-    //    {
-    //        if ((UnityEngine.Object)this.botMaterialStorage.FindFirstWithMass(GameTags.RefinedMetal, PilotRoboConfig.MASS) == (UnityEngine.Object)null)
-    //        {
-    //            FetchList2 fetchList2 = new FetchList2(this.botMaterialStorage, Db.Get().ChoreTypes.Fetch);
-    //            fetchList2.Add(GameTags.RefinedMetal, amount: PilotRoboConfig.MASS);
-    //            fetchList2.Submit((System.Action)null, true);
-    //        }
-    //        else
-    //            this.MakeNewRobo();
-    //    }
-
-    //    private void MakeNewRobo(object data = null)
-    //    {
-    //        if (this.newRoboHandle.IsValid || (double)this.botMaterialStorage.GetAmountAvailable(GameTags.RefinedMetal) < (double)PilotRoboConfig.MASS)
-    //            return;
-    //        PrimaryElement firstWithMass = this.botMaterialStorage.FindFirstWithMass(GameTags.RefinedMetal, PilotRoboConfig.MASS);
-    //        if ((UnityEngine.Object)firstWithMass == (UnityEngine.Object)null)
-    //            return;
-    //        SimHashes pilotBotMaterial = firstWithMass.ElementID;
-    //        firstWithMass.Mass -= PilotRoboConfig.MASS;
-    //        this.newRoboHandle = GameScheduler.Instance.Schedule("MakePilotRobo", 2f, (System.Action<object>)(obj =>
-    //        {
-    //            GameObject go = GameUtil.KInstantiate(Assets.GetPrefab((Tag)"PilotRobo"), Grid.CellToPos(Grid.CellRight(Grid.PosToCell(this.gameObject))), Grid.SceneLayer.Creatures);
-    //            go.SetActive(true);
-    //            this.Robo = new Ref<KSelectable>(go.GetComponent<KSelectable>());
-    //            if (!string.IsNullOrEmpty(this.storedName))
-    //                this.Robo.Get().GetComponent<UserNameable>().SetName(this.storedName);
-    //            this.UpdateNameDisplay();
-    //            this.Robo.Get().GetComponent<PrimaryElement>().ElementID = pilotBotMaterial;
-    //            this.RefreshRoboBotSubscription();
-    //            this.newRoboHandle.ClearScheduler();
-    //            UpdateStoredName("Printed");
-    //        }), (object)null, (SchedulerGroup)null);
-    //        this.GetComponent<KBatchedAnimController>().Play((HashedString)"newsweepy");
-    //    }
-    //    private void RefreshRoboBotSubscription()
-    //    {
-    //        if (this.refreshRoboHandle != -1)
-    //        {
-    //            this.Robo.Get().Unsubscribe(this.refreshRoboHandle);
-    //            this.Robo.Get().Unsubscribe(this.BotNameChangeHandle);
-    //        }
-    //        this.refreshRoboHandle = this.Robo.Get().Subscribe(1969584890, new System.Action<object>(this.RequestNewRobo));
-    //        this.BotNameChangeHandle = this.Robo.Get().Subscribe(1102426921, new System.Action<object>(this.UpdateStoredName));
-    //    }
-    //    private void UpdateStoredName(object data)
-    //    {
-    //        this.storedName = (string)data;
-    //        this.UpdateNameDisplay();
-    //    }
-
-    //    private void UpdateNameDisplay()
-    //    {
-    //        if (string.IsNullOrEmpty(this.storedName))
-    //            this.GetComponent<KSelectable>().SetName(string.Format((string)BUILDINGS.PREFABS.PilotRoboStation.NAMEDSTATION, (object)ROBOTS.MODELS.SWEEPBOT.NAME));
-    //        else
-    //            this.GetComponent<KSelectable>().SetName(string.Format((string)BUILDINGS.PREFABS.SWEEPBOTSTATION.NAMEDSTATION, (object)this.storedName));
-    //        NameDisplayScreen.Instance.UpdateName(this.gameObject);
-    //    }
-
-    //    public void DockRobot(bool docked) => this.GetComponent<Operational>().SetFlag(this.dockedRobot, docked);
-
-    //    public void StartCharging()
-    //    {
-    //        this.GetComponent<KBatchedAnimController>().Queue((HashedString)"sleep_pre");
-    //        this.GetComponent<KBatchedAnimController>().Queue((HashedString)"sleep_idle", KAnim.PlayMode.Loop);
-    //    }
-
-    //    public void StopCharging()
-    //    {
-    //        this.GetComponent<KBatchedAnimController>().Play((HashedString)"sleep_pst");
-    //        this.UpdateNameDisplay();
-    //    }
-
-    //    protected override void OnCleanUp()
-    //    {
-    //        if (this.newRoboHandle.IsValid)
-    //            this.newRoboHandle.ClearScheduler();
-    //        if (this.refreshRoboHandle == -1 || !((UnityEngine.Object)this.Robo.Get() != (UnityEngine.Object)null))
-    //            return;
-    //        this.Robo.Get().Unsubscribe(this.refreshRoboHandle);
-    //    }
-
-    //    private void OnOperationalChanged(object data)
-    //    {
-    //        Operational component = this.GetComponent<Operational>();
-    //        if (component.Flags.ContainsValue(false))
-    //            component.SetActive(false);
-    //        else
-    //            component.SetActive(true);
-    //        if (this.Robo != null && !((UnityEngine.Object)this.Robo.Get() == (UnityEngine.Object)null))
-    //            return;
-    //        this.RequestNewRobo();
-    //    }
-    //}
-
+    public bool RestrictWhenGrounded
     {
-        [Serialize]
-        public Ref<KSelectable> sweepBot;
-        [Serialize]
-        public string storedName;
-        private Operational.Flag dockedRobot = new Operational.Flag(nameof(dockedRobot), Operational.Flag.Type.Functional);
-        private MeterController meter;
-        [SerializeField]
-        private Storage botMaterialStorage;
-        [SerializeField]
-        private Storage sweepStorage;
-        private SchedulerHandle newSweepyHandle;
-        private static readonly EventSystem.IntraObjectHandler<PilotRoboStation> OnOperationalChangedDelegate = new EventSystem.IntraObjectHandler<PilotRoboStation>((System.Action<PilotRoboStation, object>)((component, data) => component.OnOperationalChanged(data)));
-        private int refreshSweepbotHandle = -1;
-        private int sweepBotNameChangeHandle = -1;
-
-        public void SetStorages(Storage botMaterialStorage, Storage sweepStorage)
+        get => this.m_restrictWhenGrounded;
+        set
         {
-            this.botMaterialStorage = botMaterialStorage;
-            this.sweepStorage = sweepStorage;
+            this.m_restrictWhenGrounded = value;
+            this.Trigger(1861523068, (object)null);
+        }
+    }
+
+    protected override void OnSpawn()
+    {
+        base.OnSpawn();
+        this.smi.StartSM();
+        Components.RocketControlStations.Add(this);
+        this.Subscribe<RocketControlStation>(-801688580, RocketControlStation.OnLogicValueChangedDelegate);
+        this.Subscribe<RocketControlStation>(1861523068, RocketControlStation.OnRocketRestrictionChanged);
+        this.UpdateRestrictionAnimSymbol();
+    }
+
+    protected override void OnCleanUp()
+    {
+        base.OnCleanUp();
+        Components.RocketControlStations.Remove(this);
+    }
+
+    public bool BuildingRestrictionsActive
+    {
+        get
+        {
+            if (this.IsLogicInputConnected())
+                return this.m_logicUsageRestrictionState;
+            GameObject gameObject = this.smi.sm.clusterCraft.Get(this.smi);
+            return this.RestrictWhenGrounded && (UnityEngine.Object)gameObject != (UnityEngine.Object)null && gameObject.gameObject.HasTag(GameTags.RocketOnGround);
+        }
+    }
+
+    public bool IsLogicInputConnected() => this.GetNetwork() != null;
+
+    public void OnLogicValueChanged(object data)
+    {
+        if (!(((LogicValueChanged)data).portID == RocketControlStation.PORT_ID))
+            return;
+        LogicCircuitNetwork network = this.GetNetwork();
+        this.m_logicUsageRestrictionState = LogicCircuitNetwork.IsBitActive(0, network != null ? network.OutputValue : 1);
+        this.Trigger(1861523068, (object)null);
+    }
+
+    public void OnTagsChanged(object obj)
+    {
+        if (!(((TagChangedEventData)obj).tag == GameTags.RocketOnGround))
+            return;
+        this.Trigger(1861523068, (object)null);
+    }
+
+    private LogicCircuitNetwork GetNetwork() => Game.Instance.logicCircuitManager.GetNetworkForCell(this.GetComponent<LogicPorts>().GetPortCell(RocketControlStation.PORT_ID));
+
+    private void UpdateRestrictionAnimSymbol(object o = null) => this.GetComponent<KAnimControllerBase>().SetSymbolVisiblity((KAnimHashedString)"restriction_sign", this.BuildingRestrictionsActive);
+
+    public List<Descriptor> GetDescriptors(GameObject go)
+    {
+        List<Descriptor> descriptors = new List<Descriptor>();
+        descriptors.Add(new Descriptor((string)UI.BUILDINGEFFECTS.ROCKETRESTRICTION_HEADER, (string)UI.BUILDINGEFFECTS.TOOLTIPS.ROCKETRESTRICTION_HEADER));
+        string newValue = string.Join(", ", RocketControlStation.CONTROLLED_BUILDINGS.Select<Tag, string>((Func<Tag, string>)(t => Strings.Get("STRINGS.BUILDINGS.PREFABS." + t.Name.ToUpper() + ".NAME").String)).ToArray<string>());
+        descriptors.Add(new Descriptor(UI.BUILDINGEFFECTS.ROCKETRESTRICTION_BUILDINGS.text.Replace("{buildinglist}", newValue), UI.BUILDINGEFFECTS.TOOLTIPS.ROCKETRESTRICTION_BUILDINGS.text.Replace("{buildinglist}", newValue)));
+        return descriptors;
+    }
+
+        List<Descriptor> IGameObjectEffectDescriptor.GetDescriptors(GameObject go)
+        {
+            throw new NotImplementedException();
         }
 
-        protected override void OnPrefabInit()
-        {
-            this.Initialize(false);
-            this.Subscribe<PilotRoboStation>(-592767678, PilotRoboStation.OnOperationalChangedDelegate);
-        }
+        public class States :
+      GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation>
+    {
+        public StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.TargetParameter clusterCraft;
+        private GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State unoperational;
+        private GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State operational;
+        private GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State running;
+        private RocketControlStation.States.ReadyStates ready;
+        private RocketControlStation.States.LaunchStates launch;
+        public StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.Signal pilotSuccessful;
+        public StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.FloatParameter timeRemaining;
 
-        protected void Initialize(bool use_logic_meter)
+        public override void InitializeStates(out StateMachine.BaseState default_state)
         {
-            base.OnPrefabInit();
-            this.GetComponent<Operational>().SetFlag(this.dockedRobot, false);
-        }
-
-        protected override void OnSpawn()
-        {
-            this.Subscribe(-1697596308, new System.Action<object>(this.OnStorageChanged));
-            this.meter = new MeterController((KAnimControllerBase)this.gameObject.GetComponent<KBatchedAnimController>(), "meter_target", "meter", Meter.Offset.Infront, Grid.SceneLayer.NoLayer, new string[2]
+            this.serializable = StateMachine.SerializeType.ParamsOnly;
+            default_state = (StateMachine.BaseState)this.unoperational;
+            this.root.Enter("SetTarget", (StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State.Callback)(smi =>
             {
-      "meter_frame",
-      "meter_level"
-            });
-            if (this.sweepBot == null || (UnityEngine.Object)this.sweepBot.Get() == (UnityEngine.Object)null)
+                this.clusterCraft.Set(this.GetRocket(smi), smi);
+                this.clusterCraft.Get(smi).Subscribe(-1582839653, new System.Action<object>(smi.master.OnTagsChanged));
+            })).Target(this.masterTarget).Exit((StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State.Callback)(smi => this.SetRocketSpeedModifiers(smi, 0.5f)));
+            this.unoperational.PlayAnim("off").TagTransition(GameTags.Operational, this.operational);
+            double num1;
+            this.operational.Enter((StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State.Callback)(smi => this.SetRocketSpeedModifiers(smi, 1f, smi.pilotSpeedMult))).PlayAnim("on").TagTransition(GameTags.Operational, this.unoperational, true).Transition((GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State)this.ready, new StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.Transition.ConditionCallback(this.IsInFlight), UpdateRate.SIM_4000ms).Target(this.clusterCraft).EventTransition(GameHashes.RocketRequestLaunch, (GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State)this.launch, new StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.Transition.ConditionCallback(this.RocketReadyForLaunch)).EventTransition(GameHashes.LaunchConditionChanged, (GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State)this.launch, new StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.Transition.ConditionCallback(this.RocketReadyForLaunch)).Target(this.masterTarget).Exit((StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State.Callback)(smi => num1 = (double)this.timeRemaining.Set(120f, smi)));
+            this.launch.Enter((StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State.Callback)(smi => this.SetRocketSpeedModifiers(smi, 1f, smi.pilotSpeedMult))).ToggleChore(new Func<RocketControlStation.StatesInstance, Chore>(this.CreateLaunchChore), this.operational).Transition(this.launch.fadein, new StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.Transition.ConditionCallback(this.IsInFlight)).Target(this.clusterCraft).EventTransition(GameHashes.RocketRequestLaunch, this.operational, GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.Not(new StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.Transition.ConditionCallback(this.RocketReadyForLaunch))).EventTransition(GameHashes.LaunchConditionChanged, (GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State)this.launch, GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.Not(new StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.Transition.ConditionCallback(this.RocketReadyForLaunch))).Target(this.masterTarget);
+            this.launch.fadein.Enter((StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State.Callback)(smi =>
             {
-                this.RequestNewSweepBot();
-            }
-            else
-            {
-                StorageUnloadMonitor.Instance smi = this.sweepBot.Get().GetSMI<StorageUnloadMonitor.Instance>();
-                smi.sm.sweepLocker.Set(this.sweepStorage, smi);
-                this.RefreshSweepBotSubscription();
-            }
-            this.UpdateMeter();
-            this.UpdateNameDisplay();
+                if (CameraController.Instance.cameraActiveCluster != this.clusterCraft.Get(smi).GetComponent<WorldContainer>().id)
+                    return;
+                CameraController.Instance.FadeIn();
+            }));
+            double num2;
+            this.running.PlayAnim("on").TagTransition(GameTags.Operational, this.unoperational, true).Transition(this.operational, GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.Not(new StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.Transition.ConditionCallback(this.IsInFlight))).ParamTransition<float>((StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.Parameter<float>)this.timeRemaining, (GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State)this.ready, (StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.Parameter<float>.Callback)((smi, p) => (double)p <= 0.0)).Enter((StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State.Callback)(smi => this.SetRocketSpeedModifiers(smi, 1f, smi.pilotSpeedMult))).Update("Decrement time", new System.Action<RocketControlStation.StatesInstance, float>(this.DecrementTime)).Exit((StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State.Callback)(smi => num2 = (double)this.timeRemaining.Set(30f, smi)));
+            this.ready.TagTransition(GameTags.Operational, this.unoperational, true).DefaultState(this.ready.idle).ToggleChore(new Func<RocketControlStation.StatesInstance, Chore>(this.CreateChore), this.ready.post, (GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State)this.ready).Transition(this.operational, GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.Not(new StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.Transition.ConditionCallback(this.IsInFlight))).OnSignal(this.pilotSuccessful, this.ready.post).Update("Decrement time", new System.Action<RocketControlStation.StatesInstance, float>(this.DecrementTime));
+            this.ready.idle.PlayAnim("on", KAnim.PlayMode.Loop).WorkableStartTransition((Func<RocketControlStation.StatesInstance, Workable>)(smi => (Workable)smi.master.GetComponent<RocketControlStationIdleWorkable>()), this.ready.working).ParamTransition<float>((StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.Parameter<float>)this.timeRemaining, this.ready.warning, (StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.Parameter<float>.Callback)((smi, p) => (double)p <= 15.0));
+            this.ready.warning.PlayAnim("on_alert", KAnim.PlayMode.Loop).WorkableStartTransition((Func<RocketControlStation.StatesInstance, Workable>)(smi => (Workable)smi.master.GetComponent<RocketControlStationIdleWorkable>()), this.ready.working).ToggleMainStatusItem(Db.Get().BuildingStatusItems.PilotNeeded).ParamTransition<float>((StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.Parameter<float>)this.timeRemaining, this.ready.autopilot, (StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.Parameter<float>.Callback)((smi, p) => (double)p <= 0.0));
+            this.ready.autopilot.PlayAnim("on_failed", KAnim.PlayMode.Loop).ToggleMainStatusItem(Db.Get().BuildingStatusItems.AutoPilotActive).WorkableStartTransition((Func<RocketControlStation.StatesInstance, Workable>)(smi => (Workable)smi.master.GetComponent<RocketControlStationIdleWorkable>()), this.ready.working).Enter((StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State.Callback)(smi => this.SetRocketSpeedModifiers(smi, 0.5f, smi.pilotSpeedMult)));
+            this.ready.working.PlayAnim("working_pre").QueueAnim("working_loop", true).Enter((StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State.Callback)(smi => this.SetRocketSpeedModifiers(smi, 1f, smi.pilotSpeedMult))).WorkableStopTransition((Func<RocketControlStation.StatesInstance, Workable>)(smi => (Workable)smi.master.GetComponent<RocketControlStationIdleWorkable>()), this.ready.idle);
+            double num3;
+            this.ready.post.PlayAnim("working_pst").OnAnimQueueComplete(this.running).Exit((StateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State.Callback)(smi => num3 = (double)this.timeRemaining.Set(120f, smi)));
         }
 
-        private void RequestNewSweepBot(object data = null)
+        private void DecrementTime(RocketControlStation.StatesInstance smi, float dt)
         {
-            if ((UnityEngine.Object)this.botMaterialStorage.FindFirstWithMass(GameTags.RefinedMetal, PilotRoboConfig.MASS) == (UnityEngine.Object)null)
-            {
-                FetchList2 fetchList2 = new FetchList2(this.botMaterialStorage, Db.Get().ChoreTypes.Fetch);
-                fetchList2.Add(GameTags.RefinedMetal, amount: PilotRoboConfig.MASS);
-                fetchList2.Submit((System.Action)null, true);
-            }
-            else
-                this.MakeNewSweepBot();
+            double num = (double)this.timeRemaining.Delta(-dt, smi);
         }
 
-        private void MakeNewSweepBot(object data = null)
+        private bool RocketReadyForLaunch(RocketControlStation.StatesInstance smi)
         {
-            if (this.newSweepyHandle.IsValid || (double)this.botMaterialStorage.GetAmountAvailable(GameTags.RefinedMetal) < (double)PilotRoboConfig.MASS)
-                return;
-            PrimaryElement firstWithMass = this.botMaterialStorage.FindFirstWithMass(GameTags.RefinedMetal, PilotRoboConfig.MASS);
-            if ((UnityEngine.Object)firstWithMass == (UnityEngine.Object)null)
-                return;
-            SimHashes sweepBotMaterial = firstWithMass.ElementID;
-            firstWithMass.Mass -= PilotRoboConfig.MASS;
-            this.UpdateMeter();
-            this.newSweepyHandle = GameScheduler.Instance.Schedule("MakePilot", 2f, (System.Action<object>)(obj =>
-            {
-                GameObject go = GameUtil.KInstantiate(Assets.GetPrefab((Tag)"PilotRobo"), Grid.CellToPos(Grid.CellRight(Grid.PosToCell(this.gameObject))), Grid.SceneLayer.Creatures);
-                go.SetActive(true);
-                this.sweepBot = new Ref<KSelectable>(go.GetComponent<KSelectable>());
-                if (!string.IsNullOrEmpty(this.storedName))
-                    this.sweepBot.Get().GetComponent<UserNameable>().SetName(this.storedName);
-                this.UpdateNameDisplay();
-                StorageUnloadMonitor.Instance smi = go.GetSMI<StorageUnloadMonitor.Instance>();
-                smi.sm.sweepLocker.Set(this.sweepStorage, smi);
-                this.sweepBot.Get().GetComponent<PrimaryElement>().ElementID = sweepBotMaterial;
-                this.RefreshSweepBotSubscription();
-                this.newSweepyHandle.ClearScheduler();
-            }), (object)null, (SchedulerGroup)null);
-            this.GetComponent<KBatchedAnimController>().Play((HashedString)"newsweepy");
+            Clustercraft component = this.clusterCraft.Get(smi).GetComponent<Clustercraft>();
+            return component.LaunchRequested && component.CheckReadyToLaunch();
         }
 
-        private void RefreshSweepBotSubscription()
+        private GameObject GetRocket(RocketControlStation.StatesInstance smi) => ClusterManager.Instance.GetWorld(smi.GetMyWorldId()).gameObject.GetComponent<Clustercraft>().gameObject;
+
+        private void SetRocketSpeedModifiers(
+          RocketControlStation.StatesInstance smi,
+          float autoPilotSpeedMultiplier,
+          float pilotSkillMultiplier = 1f)
         {
-            if (this.refreshSweepbotHandle != -1)
-            {
-                this.sweepBot.Get().Unsubscribe(this.refreshSweepbotHandle);
-                this.sweepBot.Get().Unsubscribe(this.sweepBotNameChangeHandle);
-            }
-            this.refreshSweepbotHandle = this.sweepBot.Get().Subscribe(1969584890, new System.Action<object>(this.RequestNewSweepBot));
-            this.sweepBotNameChangeHandle = this.sweepBot.Get().Subscribe(1102426921, new System.Action<object>(this.UpdateStoredName));
+            this.clusterCraft.Get(smi).GetComponent<Clustercraft>().AutoPilotMultiplier = autoPilotSpeedMultiplier;
+            this.clusterCraft.Get(smi).GetComponent<Clustercraft>().PilotSkillMultiplier = pilotSkillMultiplier;
         }
 
-        private void UpdateStoredName(object data)
+        private Chore CreateChore(RocketControlStation.StatesInstance smi)
         {
-            this.storedName = (string)data;
-            this.UpdateNameDisplay();
+            Workable component = (Workable)smi.master.GetComponent<RocketControlStationIdleWorkable>();
+            WorkChore<RocketControlStationIdleWorkable> chore = new WorkChore<RocketControlStationIdleWorkable>(Db.Get().ChoreTypes.RocketControl, (IStateMachineTarget)component, allow_in_red_alert: false, schedule_block: Db.Get().ScheduleBlockTypes.Work, allow_prioritization: false, priority_class: PriorityScreen.PriorityClass.high);
+            chore.AddPrecondition(ChorePreconditions.instance.HasSkillPerk, (object)Db.Get().SkillPerks.CanUseRocketControlStation);
+            chore.AddPrecondition(ChorePreconditions.instance.IsRocketTravelling);
+            return (Chore)chore;
         }
 
-        private void UpdateNameDisplay()
+        private Chore CreateLaunchChore(RocketControlStation.StatesInstance smi)
         {
-            if (string.IsNullOrEmpty(this.storedName))
-                this.GetComponent<KSelectable>().SetName(string.Format((string)BUILDINGS.PREFABS.SWEEPBOTSTATION.NAMEDSTATION, (object)ROBOTS.MODELS.SWEEPBOT.NAME));
-            else
-                this.GetComponent<KSelectable>().SetName(string.Format((string)BUILDINGS.PREFABS.SWEEPBOTSTATION.NAMEDSTATION, (object)this.storedName));
-            NameDisplayScreen.Instance.UpdateName(this.gameObject);
+            Workable component = (Workable)smi.master.GetComponent<RocketControlStationLaunchWorkable>();
+            WorkChore<RocketControlStationLaunchWorkable> launchChore = new WorkChore<RocketControlStationLaunchWorkable>(Db.Get().ChoreTypes.RocketControl, (IStateMachineTarget)component, ignore_schedule_block: true, allow_prioritization: false, priority_class: PriorityScreen.PriorityClass.topPriority);
+            launchChore.AddPrecondition(ChorePreconditions.instance.HasSkillPerk, (object)Db.Get().SkillPerks.CanUseRocketControlStation);
+            return (Chore)launchChore;
         }
 
-        public void DockRobot(bool docked) => this.GetComponent<Operational>().SetFlag(this.dockedRobot, docked);
+        public void LaunchRocket(RocketControlStation.StatesInstance smi) => this.clusterCraft.Get(smi).GetComponent<Clustercraft>().Launch();
 
-        public void StartCharging()
+        public bool IsInFlight(RocketControlStation.StatesInstance smi) => this.clusterCraft.Get(smi).GetComponent<Clustercraft>().Status == Clustercraft.CraftStatus.InFlight;
+
+        public bool IsLaunching(RocketControlStation.StatesInstance smi) => this.clusterCraft.Get(smi).GetComponent<Clustercraft>().Status == Clustercraft.CraftStatus.Launching;
+
+        public class ReadyStates :
+          GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State
         {
-            this.GetComponent<KBatchedAnimController>().Queue((HashedString)"sleep_pre");
-            this.GetComponent<KBatchedAnimController>().Queue((HashedString)"sleep_idle", KAnim.PlayMode.Loop);
+            public GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State idle;
+            public GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State working;
+            public GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State post;
+            public GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State warning;
+            public GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State autopilot;
         }
 
-        public void StopCharging()
+        public class LaunchStates :
+          GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State
         {
-            this.GetComponent<KBatchedAnimController>().Play((HashedString)"sleep_pst");
-            this.UpdateNameDisplay();
+            public GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State launch;
+            public GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State fadein;
         }
+    }
 
-        protected override void OnCleanUp()
+    public class StatesInstance :
+      GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.GameInstance
+    {
+        public float pilotSpeedMult = 1f;
+
+        public StatesInstance(RocketControlStation smi)
+          : base(smi)
         {
-            if (this.newSweepyHandle.IsValid)
-                this.newSweepyHandle.ClearScheduler();
-            if (this.refreshSweepbotHandle == -1 || !((UnityEngine.Object)this.sweepBot.Get() != (UnityEngine.Object)null))
-                return;
-            this.sweepBot.Get().Unsubscribe(this.refreshSweepbotHandle);
         }
 
-        private void UpdateMeter()
+        public void LaunchRocket() => this.sm.LaunchRocket(this);
+
+        public void SetPilotSpeedMult(Worker pilot)
         {
-            float minusStorageMargin = this.GetMaxCapacityMinusStorageMargin();
-            float percent_full = Mathf.Clamp01(this.GetAmountStored() / minusStorageMargin);
-            if (this.meter == null)
-                return;
-            this.meter.SetPositionPercent(percent_full);
+            this.pilotSpeedMult = 1f;
         }
-
-        private void OnStorageChanged(object data)
-        {
-            this.UpdateMeter();
-            if (this.sweepBot == null || (UnityEngine.Object)this.sweepBot.Get() == (UnityEngine.Object)null)
-                this.RequestNewSweepBot();
-            KBatchedAnimController component = this.GetComponent<KBatchedAnimController>();
-            if (component.currentFrame >= component.GetCurrentNumFrames())
-                this.GetComponent<KBatchedAnimController>().Play((HashedString)"remove");
-            for (int idx = 0; idx < this.sweepStorage.Count; ++idx)
-                this.sweepStorage[idx].GetComponent<Clearable>().MarkForClear(allowWhenStored: true);
-        }
-
-        private void OnOperationalChanged(object data)
-        {
-            Operational component = this.GetComponent<Operational>();
-            if (component.Flags.ContainsValue(false))
-                component.SetActive(false);
-            else
-                component.SetActive(true);
-            if (this.sweepBot != null && !((UnityEngine.Object)this.sweepBot.Get() == (UnityEngine.Object)null))
-                return;
-            this.RequestNewSweepBot();
-        }
-
-        private float GetMaxCapacityMinusStorageMargin() => this.sweepStorage.Capacity() - this.sweepStorage.storageFullMargin;
-
-        private float GetAmountStored() => this.sweepStorage.MassStored();
     }
 }
