@@ -11,6 +11,7 @@ namespace RoboPilot
     class PilotRoboConfig : IEntityConfig
     {
         public const string ID = "PilotRobo";
+        public const string NAME = "robo pilot";
         //    public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
 
         //    public static string ROVER_BASE_TRAIT_ID = "ScoutRoverBaseTrait";

@@ -40,10 +40,10 @@ namespace RoboPilot
             botMaterialStorage.storageFilters = STORAGEFILTERS.NOT_EDIBLE_SOLIDS;
             botMaterialStorage.storageFullMargin = STORAGE.STORAGE_LOCKER_FILLED_MARGIN;
             botMaterialStorage.fetchCategory = Storage.FetchCategory.Building;
-            botMaterialStorage.capacityKg = 25f;
+            botMaterialStorage.capacityKg = 100f;
             botMaterialStorage.allowClearable = false;
             go.AddOrGet<CharacterOverlay>().shouldShowName = true;
-            go.AddOrGet<PilotRoboStation>().SetStorages(botMaterialStorage);
+            go.AddOrGet<PilotRoboStation>().SetStorages(botMaterialStorage, botMaterialStorage);
         }
 
         public override void DoPostConfigureComplete(GameObject go) => go.AddOrGetDef<StorageController.Def>();

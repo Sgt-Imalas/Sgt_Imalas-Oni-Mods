@@ -25,5 +25,14 @@ namespace RoboPilot
                 InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, PilotRoboStationConfig.ID);
             }
         }
+        [HarmonyPatch(typeof(EntityConfigManager))]
+        [HarmonyPatch("LoadGeneratedEntities")]
+        public static class EntityConfigManager_LoadGeneratedEntities_Patch
+        {
+            public static void Prefix()
+            {
+                InjectionMethods.AddCreatureStrings(PilotRoboConfig.ID, PilotRoboConfig.NAME);
+            }
+        }
     }
 }
