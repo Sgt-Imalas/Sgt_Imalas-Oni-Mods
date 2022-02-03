@@ -72,7 +72,7 @@ namespace Robo_Rockets
         }
         [HarmonyPatch(typeof(RocketControlStationConfig))]
         [HarmonyPatch("DoPostConfigureComplete")]
-        public class RocketControlStationConfig_CheckPilotBoarded_Patch
+        public class RocketControlStationDoPostConfigureComplete_Patch
         {
             public static bool Prefix(ref GameObject go)
             {
@@ -86,9 +86,24 @@ namespace Robo_Rockets
                 return false;
             }
         }
-        [HarmonyPatch(typeof(RocketControlStation))]
+
+        [HarmonyPatch(typeof(RocketControlStation.States))]
         [HarmonyPatch("CreateLaunchChore")]
         public class RocketControlStation_CreateLaunchChore_Patch
+        {
+            public static bool Prefix(RocketControlStation.StatesInstance smi, ref Chore __result)
+            {
+                if (smi == null)
+                {
+                    __result = null;
+                    return false;
+                }
+                else return true;
+            }
+        }
+        [HarmonyPatch(typeof(RocketControlStation.States))]
+        [HarmonyPatch("CreateChore")]
+        public class RocketControlStation_CreateChore_Patch
         {
             public static bool Prefix(RocketControlStation.StatesInstance smi, ref Chore __result)
             {
