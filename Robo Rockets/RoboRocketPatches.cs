@@ -1,5 +1,6 @@
 using HarmonyLib;
 using KnastoronOniMods;
+using System;
 using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
@@ -59,11 +60,44 @@ namespace Robo_Rockets
         }
         [HarmonyPatch(typeof(PassengerRocketModule))]
         [HarmonyPatch("CheckPilotBoarded")]
-        public static void Postfix(PassengerRocketModule __instance, ref bool __result)
+        public class PassengerRocketModule_CheckPilotBoarded_Patch
         {
-            if (__instance.GetType() == typeof(AIPassengerModule))
+            public static void Postfix(PassengerRocketModule __instance, ref bool __result)
             {
-                __result = true;
+                if (__instance.GetType() == typeof(AIPassengerModule))
+                {
+                    __result = true;
+                }
+            }
+        }
+        [HarmonyPatch(typeof(RocketControlStationConfig))]
+        [HarmonyPatch("DoPostConfigureComplete")]
+        public class RocketControlStationConfig_CheckPilotBoarded_Patch
+        {
+            public static bool Prefix(ref GameObject go)
+            {
+                go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
+                //__result.AddOrGet<RocketControlStationIdleWorkable>().workLayer = Grid.SceneLayer.BuildingUse;
+                //__result.AddOrGet<RocketControlStationLaunchWorkable>().workLayer = Grid.SceneLayer.BuildingUse;
+                go.AddOrGet<RocketControlStation>();
+                go.AddOrGetDef<PoweredController.Def>();
+                go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.RocketInterior);
+                Debug.Log("Should Skip now abasada");
+                return false;
+            }
+        }
+        [HarmonyPatch(typeof(RocketControlStation))]
+        [HarmonyPatch("CreateLaunchChore")]
+        public class RocketControlStation_CreateLaunchChore_Patch
+        {
+            public static bool Prefix(RocketControlStation.StatesInstance smi, ref Chore __result)
+            {
+                if (smi == null)
+                {
+                    __result = null;
+                    return false;
+                }
+                else return true;
             }
         }
     }

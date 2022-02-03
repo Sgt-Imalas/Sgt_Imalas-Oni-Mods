@@ -87,10 +87,9 @@ namespace Robo_Rockets
 
             RocketControlStationLaunchWorkable stationLaunchWorkable = (RocketControlStationLaunchWorkable)null;
             List<RocketControlStation> worldItems = Components.RocketControlStations.GetWorldItems(go.GetComponent<ClustercraftExteriorDoor>().GetTargetWorld().id);
-            if (worldItems != null && worldItems.Count > 0)
+            if (worldItems != null && worldItems.Count > 0) {
                 stationLaunchWorkable = worldItems[0].GetComponent<RocketControlStationLaunchWorkable>();
-            Worker test = new Worker();
-            stationLaunchWorkable.StartWork(test);
+            }
 
         }
 

@@ -70,6 +70,7 @@
     <Compile Include="RoboRocketConfig.cs" />
     <Compile Include="RoboRocketMod.cs" />
     <Compile Include="RocketAiConditions.cs" />
+    <Compile Include="RocketAiControlStation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="habitat_robo.yaml" />
