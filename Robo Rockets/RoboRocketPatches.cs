@@ -18,9 +18,10 @@ namespace Robo_Rockets
             public static void Prefix()
             {
                 InjectionMethods.AddBuildingStrings(RoboRocketConfig.ID, RoboRocketConfig.DisplayName, RoboRocketConfig.Description, RoboRocketConfig.Effect);
-
                 InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, RoboRocketConfig.ID);
 
+                InjectionMethods.AddBuildingStrings(RocketAiControlstationConfig.ID, "Ai core");
+                InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, RocketAiControlstationConfig.ID);
             }
         }
         [HarmonyPatch(typeof(Db))]
@@ -74,45 +75,10 @@ namespace Robo_Rockets
         [HarmonyPatch("DoPostConfigureComplete")]
         public class RocketControlStationDoPostConfigureComplete_Patch
         {
-            public static bool Prefix(ref GameObject go)
+            public static void Postfix(ref GameObject go)
             {
+                if(go.GetComponent<RocketControlStation>())
                 go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
-                //__result.AddOrGet<RocketControlStationIdleWorkable>().workLayer = Grid.SceneLayer.BuildingUse;
-                //__result.AddOrGet<RocketControlStationLaunchWorkable>().workLayer = Grid.SceneLayer.BuildingUse;
-                go.AddOrGet<RocketControlStation>();
-                go.AddOrGetDef<PoweredController.Def>();
-                go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.RocketInterior);
-                Debug.Log("Should Skip now abasada");
-                return false;
-            }
-        }
-
-        [HarmonyPatch(typeof(RocketControlStation.States))]
-        [HarmonyPatch("CreateLaunchChore")]
-        public class RocketControlStation_CreateLaunchChore_Patch
-        {
-            public static bool Prefix(RocketControlStation.StatesInstance smi, ref Chore __result)
-            {
-                if (smi == null)
-                {
-                    __result = null;
-                    return false;
-                }
-                else return true;
-            }
-        }
-        [HarmonyPatch(typeof(RocketControlStation.States))]
-        [HarmonyPatch("CreateChore")]
-        public class RocketControlStation_CreateChore_Patch
-        {
-            public static bool Prefix(RocketControlStation.StatesInstance smi, ref Chore __result)
-            {
-                if (smi == null)
-                {
-                    __result = null;
-                    return false;
-                }
-                else return true;
             }
         }
     }

@@ -154,7 +154,7 @@ buildings:
   location_y: 3
   element: Steel
   temperature: 293.149994
-- id: RocketControlStation
+- id: RocketAiControlstation
   location_y: -2
   element: Cuprite
   temperature: 293.149994

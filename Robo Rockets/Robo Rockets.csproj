@@ -71,9 +71,9 @@
     <Compile Include="RoboRocketMod.cs" />
     <Compile Include="RocketAiConditions.cs" />
     <Compile Include="RocketAiControlStation.cs" />
+    <Compile Include="RocketAiControlstationConfig.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="habitat_robo.yaml" />
     <None Include="mod.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
