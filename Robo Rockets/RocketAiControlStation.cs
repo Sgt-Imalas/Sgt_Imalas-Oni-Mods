@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace KnastoronOniMods
 {
-    class RocketAiControlStation : RocketControlStation
+    class RocketAiControlStation : KMonoBehaviour
     {
         private SchedulerHandle newSweepyHandle;
         [Serialize]
