@@ -106,7 +106,10 @@ namespace Robo_Rockets
                 if (smi.master.GetType() == typeof(RocketControlStationNoChorePrecondition))
                 {
                     Workable component = (Workable)smi.master.GetComponent<RocketControlStationLaunchWorkable>();
-                    WorkChore<RocketControlStationLaunchWorkable> launchChore = new WorkChore<RocketControlStationLaunchWorkable>(Db.Get().ChoreTypes.RocketControl, (IStateMachineTarget)component, ignore_schedule_block: true, allow_prioritization: false, priority_class: PriorityScreen.PriorityClass.topPriority);
+                    WorkChore<RocketControlStationLaunchWorkable> launchChore = 
+                        new WorkChore<RocketControlStationLaunchWorkable>(Db.Get().ChoreTypes.RocketControl, 
+                        (IStateMachineTarget)component, ignore_schedule_block: true, allow_prioritization:
+                        false, priority_class: PriorityScreen.PriorityClass.topPriority);
                     launchChore.AddPrecondition(ChorePreconditions.instance.ConsumerHasTrait, AiBrainConfig.ROVER_BASE_TRAIT_ID);
                     __result = (Chore)launchChore;
                     Debug.Log("Patching of LaunchChore Method successful");
@@ -124,7 +127,7 @@ namespace Robo_Rockets
                 if (pilot.GetComponent<AttributeConverters>().GetConverter(pilotingSpeed.Id) == null)
                 {
                     Debug.Log("skippingNormalSpeedSetter");
-                    __instance.pilotSpeedMult = 0.1f;
+                    __instance.pilotSpeedMult = 100f;
                     return false;
                 }
                 return true;

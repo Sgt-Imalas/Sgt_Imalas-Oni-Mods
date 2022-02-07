@@ -8,6 +8,6 @@ namespace KnastoronOniMods
 {
     class RocketControlStationLaunchWorkableAI : RocketControlStationLaunchWorkable
     {
-        public override float GetEfficiencyMultiplier(Worker worker) => 0.1f;
+        public override float GetEfficiencyMultiplier(Worker worker) => 0.5f;
     }
 }
