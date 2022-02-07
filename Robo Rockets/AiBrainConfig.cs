@@ -21,13 +21,49 @@ namespace KnastoronOniMods
         private const float HEIGHT = 2f;
 
         public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
-        public void OnPrefabInit(GameObject inst)
+        public void OnPrefabInit(GameObject prefab)
         {
         }
-        public void  OnSpawn(GameObject inst)
+        public void OnSpawn(GameObject inst)
         {
-            inst.GetSMI<CreatureFallMonitor.Instance>().anim = "idle_loop";
+            Sensors component1 = inst.GetComponent<Sensors>();
+            component1.Add((Sensor)new PathProberSensor(component1));
+            component1.Add((Sensor)new PickupableSensor(component1));
+            Navigator component2 = inst.GetComponent<Navigator>();
+            component2.transitionDriver.overrideLayers.Add((TransitionDriver.OverrideLayer)new BipedTransitionLayer(component2, 3.325f, 2.5f));
+            component2.transitionDriver.overrideLayers.Add((TransitionDriver.OverrideLayer)new DoorTransitionLayer(component2));
+            component2.transitionDriver.overrideLayers.Add((TransitionDriver.OverrideLayer)new LadderDiseaseTransitionLayer(component2));
+            component2.transitionDriver.overrideLayers.Add((TransitionDriver.OverrideLayer)new SplashTransitionLayer(component2));
+            component2.SetFlags(PathFinder.PotentialPath.Flags.None);
+            component2.CurrentNavType = NavType.Floor;
+            PathProber component3 = inst.GetComponent<PathProber>();
+            if ((UnityEngine.Object)component3 != (UnityEngine.Object)null)
+                component3.SetGroupProber((IGroupProber)MinionGroupProber.Get());
+            Effects effects = inst.GetComponent<Effects>();
+            if ((UnityEngine.Object)inst.transform.parent == (UnityEngine.Object)null)
+            {
+                if (effects.HasEffect("ScoutBotCharging"))
+                    effects.Remove("ScoutBotCharging");
+            }
+            else if (!effects.HasEffect("ScoutBotCharging"))
+                effects.Add("ScoutBotCharging", false);
+            inst.Subscribe(856640610, (System.Action<object>)(data =>
+            {
+                if ((UnityEngine.Object)inst.transform.parent == (UnityEngine.Object)null)
+                {
+                    if (!effects.HasEffect("ScoutBotCharging"))
+                        return;
+                    effects.Remove("ScoutBotCharging");
+                }
+                else
+                {
+                    if (effects.HasEffect("ScoutBotCharging"))
+                        return;
+                    effects.Add("ScoutBotCharging", false);
+                }
+            }));
         }
+
         public GameObject CreatePrefab()
         {
             GameObject scout = AiBrainConfig.CreateBrain();
