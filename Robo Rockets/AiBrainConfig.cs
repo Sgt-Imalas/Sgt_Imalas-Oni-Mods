@@ -21,8 +21,11 @@ namespace KnastoronOniMods
         private const float HEIGHT = 2f;
 
         public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
-        public void OnPrefabInit(GameObject prefab)
+        public void OnPrefabInit(GameObject inst)
         {
+            ChoreConsumer component = inst.GetComponent<ChoreConsumer>();
+            if ((UnityEngine.Object)component != (UnityEngine.Object)null)
+                component.AddProvider((ChoreProvider)GlobalChoreProvider.Instance);
         }
         public void OnSpawn(GameObject inst)
         {
@@ -87,25 +90,28 @@ namespace KnastoronOniMods
             component2.initialAttributes.Add(Db.Get().Attributes.CarryAmount.Id);
             component2.initialAttributes.Add(Db.Get().Attributes.Machinery.Id);
             component2.initialAttributes.Add(Db.Get().Attributes.Athletics.Id);
-            ChoreGroup[] disabled_chore_groups = new ChoreGroup[12]
-            {
+            ChoreGroup[] disabled_chore_groups = new ChoreGroup[11]
+             {
       Db.Get().ChoreGroups.Basekeeping,
       Db.Get().ChoreGroups.Cook,
       Db.Get().ChoreGroups.Art,
-      Db.Get().ChoreGroups.Dig,
+      Db.Get().ChoreGroups.Research,
       Db.Get().ChoreGroups.Farming,
       Db.Get().ChoreGroups.Ranching,
-      Db.Get().ChoreGroups.Build,
       Db.Get().ChoreGroups.MedicalAid,
       Db.Get().ChoreGroups.Combat,
       Db.Get().ChoreGroups.LifeSupport,
       Db.Get().ChoreGroups.Recreation,
       Db.Get().ChoreGroups.Toggle
-            };
+             };
             basicEntity.AddOrGet<Traits>();
-            Trait trait = Db.Get().CreateTrait(AiBrainConfig.ROVER_BASE_TRAIT_ID, (string)STRINGS.ROBOTS.MODELS.SCOUT.NAME, (string)STRINGS.ROBOTS.MODELS.SCOUT.NAME, (string)null, false, disabled_chore_groups, true, true);
-            trait.Add(new AttributeModifier(Db.Get().Attributes.Athletics.Id, TUNING.ROBOTS.SCOUTBOT.ATHLETICS, (string)STRINGS.ROBOTS.MODELS.SCOUT.NAME));
-            trait.Add(new AttributeModifier(Db.Get().Amounts.HitPoints.maxAttribute.Id, TUNING.ROBOTS.SCOUTBOT.HIT_POINTS, (string)STRINGS.ROBOTS.MODELS.SCOUT.NAME));
+            Trait trait = Db.Get().CreateTrait(AiBrainConfig.ROVER_BASE_TRAIT_ID, "a Brain", NAME, (string)null, false, disabled_chore_groups, true, true);
+            trait.Add(new AttributeModifier(Db.Get().Attributes.CarryAmount.Id, 200f, (string)NAME));
+            trait.Add(new AttributeModifier(Db.Get().Attributes.Digging.Id, TUNING.ROBOTS.SCOUTBOT.DIGGING, NAME));
+            trait.Add(new AttributeModifier(Db.Get().Attributes.Construction.Id, TUNING.ROBOTS.SCOUTBOT.CONSTRUCTION,NAME));
+            trait.Add(new AttributeModifier(Db.Get().Attributes.Athletics.Id, TUNING.ROBOTS.SCOUTBOT.ATHLETICS, (string)NAME));
+            trait.Add(new AttributeModifier(Db.Get().Attributes.Machinery.Id, TUNING.ROBOTS.SCOUTBOT.ATHLETICS, (string)NAME));
+            trait.Add(new AttributeModifier(Db.Get().Amounts.HitPoints.maxAttribute.Id, TUNING.ROBOTS.SCOUTBOT.HIT_POINTS, (string)NAME));
             trait.Add(new AttributeModifier(Db.Get().Amounts.InternalBattery.maxAttribute.Id, 9000f,"tba."));
             trait.Add(new AttributeModifier(Db.Get().Amounts.InternalBattery.deltaAttribute.Id, -17.14286f, "tba."));
             component2.initialTraits.Add(AiBrainConfig.ROVER_BASE_TRAIT_ID);
@@ -118,7 +124,6 @@ namespace KnastoronOniMods
             basicEntity.AddOrGet<Traits>();
             basicEntity.AddOrGet<AnimEventHandler>();
             basicEntity.AddOrGet<Health>();
-            //RocketPiloting1
             MoverLayerOccupier moverLayerOccupier = basicEntity.AddOrGet<MoverLayerOccupier>();
             moverLayerOccupier.objectLayers = new ObjectLayer[2]
             {
@@ -136,8 +141,12 @@ namespace KnastoronOniMods
             def.lowBatteryWarningPercent = 0.2f;
             basicEntity.AddOrGetDef<CreatureDebugGoToMonitor.Def>();
             basicEntity.AddOrGetDef<RobotAi.Def>();
-            ChoreTable.Builder chore_table = new ChoreTable.Builder().Add((StateMachine.BaseDef)new RobotDeathStates.Def()).Add((StateMachine.BaseDef)new FallStates.Def()).Add((StateMachine.BaseDef)new DebugGoToStates.Def()).Add((StateMachine.BaseDef)new IdleStates.Def(), forcePriority: Db.Get().ChoreTypes.Idle.priority);
-            EntityTemplates.AddCreatureBrain(basicEntity, chore_table, GameTags.Robots.Models.ScoutRover, (string)null);
+            ChoreTable.Builder chore_table = new ChoreTable.Builder().
+                Add((StateMachine.BaseDef)new RobotDeathStates.Def())
+                .Add((StateMachine.BaseDef)new FallStates.Def())
+                .Add((StateMachine.BaseDef)new DebugGoToStates.Def())
+                .Add((StateMachine.BaseDef)new IdleStates.Def(), forcePriority: Db.Get().ChoreTypes.Idle.priority);
+            EntityTemplates.AddCreatureBrain(basicEntity, chore_table, AiBrain,(string)null);
             basicEntity.AddOrGet<KPrefabID>().RemoveTag(GameTags.CreatureBrain);
             basicEntity.AddOrGet<KPrefabID>().AddTag(GameTags.DupeBrain);
             Navigator navigator = basicEntity.AddOrGet<Navigator>();
@@ -153,5 +162,6 @@ namespace KnastoronOniMods
             component1.SetSymbolVisiblity((KAnimHashedString)"snapto_radar", false);
             return basicEntity;
         }
+        public static readonly Tag AiBrain = TagManager.Create(nameof(AiBrain));
     }
 }

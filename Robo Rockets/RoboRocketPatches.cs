@@ -1,4 +1,5 @@
 using HarmonyLib;
+using Klei.AI;
 using KnastoronOniMods;
 using System;
 using System.Collections.Generic;
@@ -81,14 +82,52 @@ namespace Robo_Rockets
                 }
             }
         }
-        [HarmonyPatch(typeof(RocketControlStationConfig))]
-        [HarmonyPatch("DoPostConfigureComplete")]
-        public class RocketControlStationDoPostConfigureComplete_Patch
+        [HarmonyPatch(typeof(RocketControlStation.States))]
+        [HarmonyPatch("CreateChore")]
+        public class RocketControlStation_CreateChore_Patch
         {
-            public static void Postfix(ref GameObject go)
+            public static void Postfix(RocketControlStation.StatesInstance smi, ref Chore __result)
             {
-                if(go.GetComponent<RocketControlStation>())
-                go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
+                if(smi.master.GetType() == typeof(RocketControlStationNoChorePrecondition))
+                {
+                    Workable component = (Workable)smi.master.GetComponent<RocketControlStationLaunchWorkable>();
+                    WorkChore<RocketControlStationIdleWorkable> chore = new WorkChore<RocketControlStationIdleWorkable>(Db.Get().ChoreTypes.RocketControl, (IStateMachineTarget)component, allow_in_red_alert: false, schedule_block: Db.Get().ScheduleBlockTypes.Work, allow_prioritization: false, priority_class: PriorityScreen.PriorityClass.high);
+                    __result = (Chore)chore;
+                    Debug.Log("Patching of Chore Method successful");
+                }
+            }
+        }
+        [HarmonyPatch(typeof(RocketControlStation.States))]
+        [HarmonyPatch("CreateLaunchChore")]
+        public class RocketControlStation_CreateLaunchChore_Patch
+        {
+            public static void Postfix(RocketControlStation.StatesInstance smi, ref Chore __result)
+            {
+                if (smi.master.GetType() == typeof(RocketControlStationNoChorePrecondition))
+                {
+                    Workable component = (Workable)smi.master.GetComponent<RocketControlStationLaunchWorkable>();
+                    WorkChore<RocketControlStationLaunchWorkable> launchChore = new WorkChore<RocketControlStationLaunchWorkable>(Db.Get().ChoreTypes.RocketControl, (IStateMachineTarget)component, ignore_schedule_block: true, allow_prioritization: false, priority_class: PriorityScreen.PriorityClass.topPriority);
+                    launchChore.AddPrecondition(ChorePreconditions.instance.ConsumerHasTrait, AiBrainConfig.ROVER_BASE_TRAIT_ID);
+                    __result = (Chore)launchChore;
+                    Debug.Log("Patching of LaunchChore Method successful");
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(RocketControlStation.StatesInstance))]
+        [HarmonyPatch("SetPilotSpeedMult")]
+        public class RocketControlStation_SetPilotSpeedMult_Patch
+        {
+            public static bool Prefix(Worker pilot, RocketControlStation.StatesInstance __instance)
+            {
+                AttributeConverter pilotingSpeed = Db.Get().AttributeConverters.PilotingSpeed;
+                if (pilot.GetComponent<AttributeConverters>().GetConverter(pilotingSpeed.Id) == null)
+                {
+                    Debug.Log("skippingNormalSpeedSetter");
+                    __instance.pilotSpeedMult = 0.1f;
+                    return false;
+                }
+                return true;
             }
         }
     }

@@ -74,6 +74,8 @@
     <Compile Include="RocketAiConditions.cs" />
     <Compile Include="RocketAiControlStation.cs" />
     <Compile Include="RocketAiControlstationConfig.cs" />
+    <Compile Include="RocketControlStationIdleWorkableAI.cs" />
+    <Compile Include="RocketControlStationLaunchWorkableAI.cs" />
     <Compile Include="RocketControlStationNoChorePrecondition.cs" />
     <Compile Include="RocketControlStationNoChorePreconditionConfig.cs" />
   </ItemGroup>

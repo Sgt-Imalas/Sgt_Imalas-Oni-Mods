@@ -53,8 +53,8 @@ namespace KnastoronOniMods
         public override void DoPostConfigureComplete(GameObject go)
         {
             go.AddOrGet<BuildingComplete>().isManuallyOperated = true;
-            go.AddOrGet<RocketControlStationIdleWorkable>().workLayer = Grid.SceneLayer.BuildingUse;
-            go.AddOrGet<RocketControlStationLaunchWorkable>().workLayer = Grid.SceneLayer.BuildingUse;
+            go.AddOrGet<RocketControlStationIdleWorkableAI>().workLayer = Grid.SceneLayer.BuildingUse;
+            go.AddOrGet<RocketControlStationLaunchWorkableAI>().workLayer = Grid.SceneLayer.BuildingUse;
             go.AddOrGet<RocketControlStationNoChorePrecondition>();
             go.AddOrGetDef<PoweredController.Def>();
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.RocketInterior);
