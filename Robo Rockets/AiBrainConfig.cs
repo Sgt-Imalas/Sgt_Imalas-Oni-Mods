@@ -104,6 +104,10 @@ namespace KnastoronOniMods
       Db.Get().ChoreGroups.Recreation,
       Db.Get().ChoreGroups.Toggle
              };
+            Deconstructable deconstructable = basicEntity.AddOrGet<Deconstructable>();
+            deconstructable.enabled = false;
+            deconstructable.audioSize = "medium";
+            deconstructable.looseEntityDeconstructable = true;
             basicEntity.AddOrGet<Traits>();
             Trait trait = Db.Get().CreateTrait(AiBrainConfig.ROVER_BASE_TRAIT_ID, "a Brain", NAME, (string)null, false, disabled_chore_groups, true, true);
             trait.Add(new AttributeModifier(Db.Get().Attributes.CarryAmount.Id, 200f, (string)NAME));
