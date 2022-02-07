@@ -28,8 +28,9 @@ namespace Robo_Rockets
             {
                 InjectionMethods.AddBuildingStrings(RoboRocketConfig.ID, RoboRocketConfig.DisplayName, RoboRocketConfig.Description, RoboRocketConfig.Effect);
                 InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, RoboRocketConfig.ID);
-
+                
                 InjectionMethods.AddBuildingStrings(RocketAiControlstationConfig.ID, "Ai core");
+                InjectionMethods.AddBuildingStrings(RocketControlStationNoChorePreconditionConfig.ID, "Rocket Control Station (automated)");
                 InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, RocketAiControlstationConfig.ID);
             }
         }

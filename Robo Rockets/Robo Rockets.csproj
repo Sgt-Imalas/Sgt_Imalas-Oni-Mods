@@ -66,6 +66,7 @@
     <Compile Include="AiBrainConfig.cs" />
     <Compile Include="AIPassengerModule.cs" />
     <Compile Include="ConditionAiHasControl.cs" />
+    <Compile Include="EmptyResume.cs" />
     <Compile Include="RoboRocketPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoboRocketConfig.cs" />
@@ -73,6 +74,8 @@
     <Compile Include="RocketAiConditions.cs" />
     <Compile Include="RocketAiControlStation.cs" />
     <Compile Include="RocketAiControlstationConfig.cs" />
+    <Compile Include="RocketControlStationNoChorePrecondition.cs" />
+    <Compile Include="RocketControlStationNoChorePreconditionConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="mod.yaml">

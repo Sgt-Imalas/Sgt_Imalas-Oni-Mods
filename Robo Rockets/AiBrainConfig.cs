@@ -20,8 +20,8 @@ namespace KnastoronOniMods
         private const float WIDTH = 1f;
         private const float HEIGHT = 2f;
 
-        public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY; 
-        public void OnPrefabInit(GameObject prefab)
+        public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+        public void OnPrefabInit(GameObject inst)
         {
         }
         public void  OnSpawn(GameObject inst)
@@ -78,10 +78,11 @@ namespace KnastoronOniMods
             gridVisibility.radius = 30;
             gridVisibility.innerRadius = 20f;
             basicEntity.AddOrGet<Worker>(); //RocketPiloting1
-            basicEntity.AddOrGet<Effects>();
+            basicEntity.AddOrGet<Effects>();//Db.Get().SkillPerks.CanUseRocketControlStation
             basicEntity.AddOrGet<Traits>();
             basicEntity.AddOrGet<AnimEventHandler>();
             basicEntity.AddOrGet<Health>();
+            //RocketPiloting1
             MoverLayerOccupier moverLayerOccupier = basicEntity.AddOrGet<MoverLayerOccupier>();
             moverLayerOccupier.objectLayers = new ObjectLayer[2]
             {
