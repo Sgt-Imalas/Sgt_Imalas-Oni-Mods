@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using HarmonyLib;
 using STRINGS;
 using TUNING;
+using UnityEngine;
 
 namespace UtilLibs
 {
@@ -39,11 +41,77 @@ namespace UtilLibs
 			Strings.Add($"STRINGS.BUILDINGS.PREFABS.{buildingId.ToUpperInvariant()}.EFFECT", effect);
 		}
 
-
+		//[HarmonyPatch(typeof(CodexEntryGenerator), "GenerateCreatureEntries")]
+		//CodexEntryGenerator_GenerateCreatureEntries_Patch
 		public static void AddCreatureStrings(string creatureId, string name)
 		{
 			Strings.Add($"STRINGS.CREATURES.FAMILY.{creatureId.ToUpperInvariant()}", UI.FormatAsLink(name, creatureId));
-			Strings.Add($"STRINGS.CREATURES.FAMILY_PLURAL.{creatureId.ToUpperInvariant()}", UI.FormatAsLink(name, creatureId));
+			Strings.Add($"STRINGS.CREATURES.FAMILY_PLURAL.{creatureId.ToUpperInvariant()}", UI.FormatAsLink(name+"s", creatureId));
 		}
-	}
+		public static void AddRobotStrings(string botID, string name, string description)
+		
+        {
+		//	Strings.Add($"STRINGS.ROBOTS.MODELS.{botID.ToUpperInvariant()}.NAME", UI.FormatAsLink(name, botID));
+		//	Strings.Add($"STRINGS.ROBOTS.MODELS.{botID.ToUpperInvariant()}.DESC", description);
+			Strings.Add($"STRINGS.CREATURES.FAMILY.{botID.ToUpperInvariant()}.NAME", UI.FormatAsLink(name, botID));
+			Strings.Add($"STRINGS.CREATURES.FAMILY_PLURAL.{botID.ToUpperInvariant()}.DESC", description);
+			//AddCreatureStrings(botID, name);
+		}
+
+        public static void Action(Tag speciesTag, string name, Dictionary<string, CodexEntry> results)
+        {
+            List<GameObject> brains = Assets.GetPrefabsWithComponent<CreatureBrain>();
+            CodexEntry entry = new CodexEntry("CREATURES", new List<ContentContainer>()
+            {
+                new ContentContainer(new List<ICodexWidget>()
+                {
+                    new CodexSpacer(),
+                    new CodexSpacer()
+                }, ContentContainer.ContentLayout.Vertical)
+            }, name);
+            entry.parentId = "CREATURES";
+            CodexCache.AddEntry(speciesTag.ToString(), entry, null);
+            results.Add(speciesTag.ToString(), entry);
+            foreach (GameObject gameObject in brains)
+            {
+                if (gameObject.GetDef<BabyMonitor.Def>() == null)
+                {
+                    Sprite sprite = null;
+                    GameObject prefab = Assets.TryGetPrefab((gameObject.PrefabID().ToString() + "Baby"));
+                    if (prefab != null)
+                        sprite = Def.GetUISprite(prefab, "ui", false).first;
+                    CreatureBrain component = gameObject.GetComponent<CreatureBrain>();
+                    if (component.species == speciesTag)
+                    {
+                        List<ContentContainer> contentContainerList = new List<ContentContainer>();
+                        string symbolPrefix = component.symbolPrefix;
+                        Sprite first = Def.GetUISprite(gameObject, symbolPrefix + "ui", false).first;
+                        if ((bool)((UnityEngine.Object)sprite))
+                        {
+                            Traverse.Create(typeof(CodexEntryGenerator)).Method("GenerateImageContainers", new[] { typeof(Sprite[]), typeof(List<ContentContainer>), typeof(ContentContainer.ContentLayout) })
+                                .GetValue(new Sprite[2]
+                                {
+                                    first,
+                                    sprite
+                                }, contentContainerList, ContentContainer.ContentLayout.Horizontal);
+                        }
+                        else
+                        {
+                            contentContainerList.Add(new ContentContainer(new List<ICodexWidget>()
+                            {
+                              new CodexImage(128, 128, first)
+                            }, ContentContainer.ContentLayout.Vertical));
+                        }
+
+                        Traverse.Create(typeof(CodexEntryGenerator)).Method("GenerateCreatureDescriptionContainers", new[] { typeof(GameObject), typeof(List<ContentContainer>) }).GetValue(gameObject, contentContainerList);
+                        entry.subEntries.Add(new SubEntry(component.PrefabID().ToString(), speciesTag.ToString(), contentContainerList, component.GetProperName())
+                        {
+                            icon = first,
+                            iconColor = UnityEngine.Color.white
+                        });
+                    }
+                }
+            }
+        }
+    }
 }

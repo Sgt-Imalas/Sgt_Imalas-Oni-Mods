@@ -9,6 +9,15 @@ namespace Robo_Rockets
 {
     public class RoboRocketPatches
     {
+        //[HarmonyPatch(typeof(CodexEntryGenerator), "GenerateCreatureEntries")]
+        //public class CodexEntryGenerator_GenerateCreatureEntries_Patch
+        //{
+        //    public static void Postfix(Dictionary<string, CodexEntry> __result)
+        //    {
+        //        InjectionMethods.AddRobotStrings(AiBrainConfig.ID, AiBrainConfig.NAME, AiBrainConfig.DESCR);
+        //        InjectionMethods.Action(AiBrainConfig.ID, AiBrainConfig.NAME, __result);
+        //    }
+        //}
 
         [HarmonyPatch(typeof(GeneratedBuildings))]
         [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]

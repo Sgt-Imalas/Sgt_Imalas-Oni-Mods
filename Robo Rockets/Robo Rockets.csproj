@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AiBrainConfig.cs" />
     <Compile Include="AIPassengerModule.cs" />
     <Compile Include="ConditionAiHasControl.cs" />
     <Compile Include="RoboRocketPatches.cs" />
