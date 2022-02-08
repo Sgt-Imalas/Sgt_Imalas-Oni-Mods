@@ -144,107 +144,44 @@ namespace Robo_Rockets
 
             public static Vector2I ConditionForSize(string templateString)
             {
-                return templateString.Contains("robo") ? new Vector2I(4, 4) : ROCKETRY.ROCKET_INTERIOR_SIZE;
+                if (templateString.Contains("robo"))
+                        return new Vector2I(4, 6);
 
+                return ROCKETRY.ROCKET_INTERIOR_SIZE;
             }
+
+            private static readonly MethodInfo InteriorSizeHelper = AccessTools.Method(
+               typeof(RocketControlStation_CreateRocketInteriorWorld_Patch),
+               nameof(ConditionForSize)
+            );
+
+
+            private static readonly FieldInfo SizeFieldInfo = AccessTools.Field(
+                typeof(TUNING.ROCKETRY),
+                "ROCKET_INTERIOR_SIZE"
+            );
 
             //interiorTemplateName.Contains("robo") ? new Vector2I(4,4): ROCKETRY.ROCKET_INTERIOR_SIZE;
             static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
             {
                 var code = instructions.ToList();
 
-                int insertionIndex = -1;
-                for (int i = 0; i < code.Count - 1; i++) // -1 since we will be checking i + 1
-                {
-                    if (code[i].opcode == OpCodes.Ldsfld && code[i].operand == AccessTools.Field(typeof(TUNING.ROCKETRY), "ROCKET_INTERIOR_SIZE") && code[i + 1].opcode == OpCodes.Stloc_1)
-                    {
-                        insertionIndex = i;
-                        break;
-                    }
-                }
-                code[insertionIndex].opcode = OpCodes.Nop;
-                code[insertionIndex+1].opcode = OpCodes.Nop;
-
-                var instructionsToInsert = new List<CodeInstruction>();
-
-                Label trueLabel = il.DefineLabel();
-                Label falseLabel = il.DefineLabel();
-
-                //                                  IL_0014: ldarg.2
-                instructionsToInsert.Add(new CodeInstruction(OpCodes.Ldarg_2));
-                //                                  IL_0015: ldstr     "robo"
-                instructionsToInsert.Add(new CodeInstruction(OpCodes.Ldstr, "robo"));
-                //                                  IL_001A: callvirt instance bool[mscorlib] System.String::Contains(string)
-                instructionsToInsert.Add(new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(String), "Contains" , new Type[] { typeof(String) })));
-                //                                  IL_001F: brtrue.s IL_0028
-                instructionsToInsert.Add(new CodeInstruction(OpCodes.Brtrue_S, trueLabel));
-                //                                  IL_0021: ldsfld valuetype['Assembly-CSharp-firstpass']Vector2I TUNING.ROCKETRY::ROCKET_INTERIOR_SIZE
-                instructionsToInsert.Add(new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(TUNING.ROCKETRY), "ROCKETRY.ROCKET_INTERIOR_SIZE")));
-                //                                  IL_0026: br.s IL_002F
-                instructionsToInsert.Add(new CodeInstruction(OpCodes.Br_S, falseLabel));
-                //                                  IL_0028: ldc.i4.4
-                instructionsToInsert.Add(new CodeInstruction(OpCodes.Ldc_I4_4));
-                instructionsToInsert.Last().labels.Add(trueLabel);
-                //                                  IL_0029: ldc.i4.4
-                instructionsToInsert.Add(new CodeInstruction(OpCodes.Ldc_I4_4));
-                //                                  IL_002A: newobj instance void ['Assembly-CSharp-firstpass']Vector2I::.ctor(int32, int32)
-                instructionsToInsert.Add(new CodeInstruction(OpCodes.Newobj, AccessTools.Constructor(typeof(Vector2I), new Type[] { typeof(Int32), typeof(Int32) })));
-                //                                  IL_002F: stloc.1
-                instructionsToInsert.Add(new CodeInstruction(OpCodes.Stloc_1));
-                instructionsToInsert.Last().labels.Add(falseLabel);
-                //                                 IL_0030: ldloc.1
-                //instructionsToInsert.Add(new CodeInstruction(OpCodes.Ldloc_1));
+                //int insertionIndex = -1;
+                //foreach(var v in code)
+                //{
+                //    Debug.Log(v.opcode + " <<->>" + v.operand);
+                //}
+                var insertionIndex = code.FindIndex(ci => ci.operand is FieldInfo f && f == SizeFieldInfo);
+               
 
                 if (insertionIndex != -1)
                 {
-                    code.InsertRange(insertionIndex, instructionsToInsert);
+                    code[insertionIndex++] = new CodeInstruction(OpCodes.Ldarg_2);
+                    code.Insert(insertionIndex, new CodeInstruction(OpCodes.Call, InteriorSizeHelper));
                 }
-
                 return code.AsEnumerable();
             }
         }
-        ////As long as I dont understand Transpiling...
-        //[HarmonyPatch(typeof(ClusterManager))]
-        //[HarmonyPatch("CreateRocketInteriorWorld")]
-        //public class RocketControlStation_CreateRocketInteriorWorld_Patch
-        //{
-        //    public static bool Prefix(GameObject craft_go, string interiorTemplateName, System.Action callback, ClusterManager __instance)
-        //        {
-        //            Vector2I rocketInteriorSize = interiorTemplateName.Contains("robo") ?new Vector2I(4,4): ROCKETRY.ROCKET_INTERIOR_SIZE;
-        //            Vector2I offset;
-        //            if (Grid.GetFreeGridSpace(rocketInteriorSize, out offset))
-        //            {
-        //                int nextWorldId = __instance.GetNextWorldId();
-        //                craft_go.AddComponent<WorldInventory>();
-        //                WorldContainer rocketInteriorWorld = craft_go.AddComponent<WorldContainer>();
-        //                rocketInteriorWorld.SetRocketInteriorWorldDetails(nextWorldId, rocketInteriorSize, offset);
-        //                Vector2I vector2I = offset + rocketInteriorSize;
-        //                for (int y = offset.y; y < vector2I.y; ++y)
-        //                {
-        //                    for (int x = offset.x; x < vector2I.x; ++x)
-        //                    {
-        //                        int cell = Grid.XYToCell(x, y);
-        //                        Grid.WorldIdx[cell] = (byte)nextWorldId;
-        //                        Pathfinding.Instance.AddDirtyNavGridCell(cell);
-        //                    }
-        //                }
-        //                Debug.Log((object)string.Format("Created new rocket interior id: {0}, at {1} with size {2}", (object)nextWorldId, (object)offset, (object)rocketInteriorSize));
-        //                rocketInteriorWorld.PlaceInteriorTemplate(interiorTemplateName, (System.Action)(() =>
-        //                {
-        //                    if (callback != null)
-        //                        callback();
-        //                    craft_go.GetComponent<CraftModuleInterface>().TriggerEventOnCraftAndRocket(GameHashes.RocketInteriorComplete, (object)null);
-        //                }));
-        //                craft_go.AddOrGet<OrbitalMechanics>().CreateOrbitalObject(Db.Get().OrbitalTypeCategories.landed.Id);
-        //                __instance.Trigger(-1280433810, (object)rocketInteriorWorld.id);
-        //                return rocketInteriorWorld;
-        //            }
-        //            Debug.LogError((object)"Failed to create rocket interior.");
-        //            return (WorldContainer)null;
-        //        }
-                
-            
-        //}
 
     }
 
