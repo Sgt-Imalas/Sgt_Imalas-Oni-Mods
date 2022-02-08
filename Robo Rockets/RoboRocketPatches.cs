@@ -141,6 +141,13 @@ namespace Robo_Rockets
         [HarmonyPatch("CreateRocketInteriorWorld")]
         public class RocketControlStation_CreateRocketInteriorWorld_Patch
         {
+
+            public static Vector2I ConditionForSize(string templateString)
+            {
+                return templateString.Contains("robo") ? new Vector2I(4, 4) : ROCKETRY.ROCKET_INTERIOR_SIZE;
+
+            }
+
             //interiorTemplateName.Contains("robo") ? new Vector2I(4,4): ROCKETRY.ROCKET_INTERIOR_SIZE;
             static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
             {
@@ -149,7 +156,7 @@ namespace Robo_Rockets
                 int insertionIndex = -1;
                 for (int i = 0; i < code.Count - 1; i++) // -1 since we will be checking i + 1
                 {
-                    if (code[i].opcode == OpCodes.Ldsfld && (Vector2I)code[i].operand == TUNING.ROCKETRY.ROCKET_INTERIOR_SIZE && code[i + 1].opcode == OpCodes.Stloc_1)
+                    if (code[i].opcode == OpCodes.Ldsfld && code[i].operand == AccessTools.Field(typeof(TUNING.ROCKETRY), "ROCKET_INTERIOR_SIZE") && code[i + 1].opcode == OpCodes.Stloc_1)
                     {
                         insertionIndex = i;
                         break;
@@ -168,11 +175,11 @@ namespace Robo_Rockets
                 //                                  IL_0015: ldstr     "robo"
                 instructionsToInsert.Add(new CodeInstruction(OpCodes.Ldstr, "robo"));
                 //                                  IL_001A: callvirt instance bool[mscorlib] System.String::Contains(string)
-                instructionsToInsert.Add(new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(string), "Contains" , new Type[] { typeof(string) })));
+                instructionsToInsert.Add(new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(String), "Contains" , new Type[] { typeof(String) })));
                 //                                  IL_001F: brtrue.s IL_0028
                 instructionsToInsert.Add(new CodeInstruction(OpCodes.Brtrue_S, trueLabel));
                 //                                  IL_0021: ldsfld valuetype['Assembly-CSharp-firstpass']Vector2I TUNING.ROCKETRY::ROCKET_INTERIOR_SIZE
-                instructionsToInsert.Add(new CodeInstruction(OpCodes.Ldsfld,AccessTools.Field(typeof(Vector2I), nameof(ROCKETRY.ROCKET_INTERIOR_SIZE))));
+                instructionsToInsert.Add(new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(TUNING.ROCKETRY), "ROCKETRY.ROCKET_INTERIOR_SIZE")));
                 //                                  IL_0026: br.s IL_002F
                 instructionsToInsert.Add(new CodeInstruction(OpCodes.Br_S, falseLabel));
                 //                                  IL_0028: ldc.i4.4
@@ -181,11 +188,11 @@ namespace Robo_Rockets
                 //                                  IL_0029: ldc.i4.4
                 instructionsToInsert.Add(new CodeInstruction(OpCodes.Ldc_I4_4));
                 //                                  IL_002A: newobj instance void ['Assembly-CSharp-firstpass']Vector2I::.ctor(int32, int32)
-                instructionsToInsert.Add(new CodeInstruction(OpCodes.Newobj,AccessTools.Method(typeof(Vector2I),"ctor", new Type[] { typeof(Int32), typeof(Int32) })));
+                instructionsToInsert.Add(new CodeInstruction(OpCodes.Newobj, AccessTools.Constructor(typeof(Vector2I), new Type[] { typeof(Int32), typeof(Int32) })));
                 //                                  IL_002F: stloc.1
                 instructionsToInsert.Add(new CodeInstruction(OpCodes.Stloc_1));
                 instructionsToInsert.Last().labels.Add(falseLabel);
-                //////                                  IL_0030: ldloc.1
+                //                                 IL_0030: ldloc.1
                 //instructionsToInsert.Add(new CodeInstruction(OpCodes.Ldloc_1));
 
                 if (insertionIndex != -1)
