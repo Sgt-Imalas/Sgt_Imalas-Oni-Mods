@@ -73,7 +73,9 @@ namespace Robo_Rockets
         {
            
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MODERATE);
-            ModuleBattery moduleBattery = go.AddOrGet<ModuleBattery>();
+            ModuleBattery moduleBattery = go.AddOrGet<ModuleBattery>(); Ownable ownable = go.AddOrGet<Ownable>();
+            ownable.slotID = Db.Get().AssignableSlots.HabitatModule.Id;
+            ownable.canBePublic = false;
             moduleBattery.capacity = 25000f;
             moduleBattery.joulesLostPerSecond = 0.6666667f; 
             WireUtilitySemiVirtualNetworkLink virtualNetworkLink = go.AddOrGet<WireUtilitySemiVirtualNetworkLink>();

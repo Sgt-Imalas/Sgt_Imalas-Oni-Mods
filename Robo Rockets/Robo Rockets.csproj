@@ -66,7 +66,6 @@
     <Compile Include="AiBrainConfig.cs" />
     <Compile Include="AIPassengerModule.cs" />
     <Compile Include="ConditionAiHasControl.cs" />
-    <Compile Include="EmptyResume.cs" />
     <Compile Include="RoboRocketPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoboRocketConfig.cs" />
@@ -76,6 +75,7 @@
     <Compile Include="RocketControlStationLaunchWorkableAI.cs" />
     <Compile Include="RocketControlStationNoChorePrecondition.cs" />
     <Compile Include="RocketControlStationNoChorePreconditionConfig.cs" />
+    <Compile Include="SelfDestructInWrongEnvironmentComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="templates\interiors\habitat_robo.yaml">

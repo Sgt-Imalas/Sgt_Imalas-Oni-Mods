@@ -93,9 +93,13 @@ namespace Robo_Rockets
                 if (smi.master.GetType() == typeof(RocketControlStationNoChorePrecondition))
                 {
                     Workable component = (Workable)smi.master.GetComponent<RocketControlStationLaunchWorkable>();
-                    WorkChore<RocketControlStationIdleWorkable> chore = new WorkChore<RocketControlStationIdleWorkable>(Db.Get().ChoreTypes.RocketControl, (IStateMachineTarget)component, allow_in_red_alert: false, schedule_block: Db.Get().ScheduleBlockTypes.Work, allow_prioritization: false, priority_class: PriorityScreen.PriorityClass.high);
+                    WorkChore<RocketControlStationIdleWorkable> chore = 
+                        new WorkChore<RocketControlStationIdleWorkable>(Db.Get().ChoreTypes.RocketControl, 
+                        (IStateMachineTarget)component, allow_in_red_alert: false, schedule_block: Db.Get().ScheduleBlockTypes.Work, 
+                        allow_prioritization: false, priority_class: PriorityScreen.PriorityClass.high);
+                        chore.AddPrecondition(ChorePreconditions.instance.ConsumerHasTrait, AiBrainConfig.ROVER_BASE_TRAIT_ID);
                     __result = (Chore)chore;
-                    Debug.Log("Patching of Chore Method successful");
+                    //Debug.Log("Patching of Chore Method successful");
                 }
             }
         }
@@ -128,7 +132,7 @@ namespace Robo_Rockets
                         false, priority_class: PriorityScreen.PriorityClass.topPriority);
                     launchChore.AddPrecondition(ChorePreconditions.instance.ConsumerHasTrait, AiBrainConfig.ROVER_BASE_TRAIT_ID);
                     __result = (Chore)launchChore;
-                    Debug.Log("Patching of LaunchChore Method successful");
+                    //Debug.Log("Patching of LaunchChore Method successful");
                 }
             }
         }
@@ -142,7 +146,7 @@ namespace Robo_Rockets
                 AttributeConverter pilotingSpeed = Db.Get().AttributeConverters.PilotingSpeed;
                 if (pilot.GetComponent<AttributeConverters>().GetConverter(pilotingSpeed.Id) == null)
                 {
-                    Debug.Log("skippingNormalSpeedSetter");
+                    //Debug.Log("skippingNormalSpeedSetter");
                     __instance.pilotSpeedMult = 1f;
                     return false;
                 }
@@ -182,22 +186,13 @@ namespace Robo_Rockets
 
                 if (insertionIndex != -1)
                 {
-                    code[insertionIndex++] = new CodeInstruction(OpCodes.Ldarg_2);
-                    code.Insert(insertionIndex, new CodeInstruction(OpCodes.Call, InteriorSizeHelper));
+                    code[insertionIndex] = new CodeInstruction(OpCodes.Ldarg_2);
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, InteriorSizeHelper));
                 }
                 return code.AsEnumerable();
             }
         }
 
-        //[HarmonyPatch(typeof(ClusterCoverPostFX))]
-        //[HarmonyPatch("SetupUVs")]
-        //public class WorldContainer_RevealInterior_Patch
-        //{
-        //    public static bool Prefix()
-        //    {
-        //        return false;
-        //    }
-        //}
 
     }
 

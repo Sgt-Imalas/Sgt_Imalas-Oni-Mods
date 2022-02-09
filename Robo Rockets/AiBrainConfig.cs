@@ -20,6 +20,7 @@ namespace KnastoronOniMods
         private const float WIDTH = 1f;
         private const float HEIGHT = 2f;
 
+
         public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public void OnPrefabInit(GameObject inst)
         {
@@ -42,29 +43,6 @@ namespace KnastoronOniMods
             PathProber component3 = inst.GetComponent<PathProber>();
             if ((UnityEngine.Object)component3 != (UnityEngine.Object)null)
                 component3.SetGroupProber((IGroupProber)MinionGroupProber.Get());
-            Effects effects = inst.GetComponent<Effects>();
-            if ((UnityEngine.Object)inst.transform.parent == (UnityEngine.Object)null)
-            {
-                if (effects.HasEffect("ScoutBotCharging"))
-                    effects.Remove("ScoutBotCharging");
-            }
-            else if (!effects.HasEffect("ScoutBotCharging"))
-                effects.Add("ScoutBotCharging", false);
-            inst.Subscribe(856640610, (System.Action<object>)(data =>
-            {
-                if ((UnityEngine.Object)inst.transform.parent == (UnityEngine.Object)null)
-                {
-                    if (!effects.HasEffect("ScoutBotCharging"))
-                        return;
-                    effects.Remove("ScoutBotCharging");
-                }
-                else
-                {
-                    if (effects.HasEffect("ScoutBotCharging"))
-                        return;
-                    effects.Add("ScoutBotCharging", false);
-                }
-            }));
         }
 
         public GameObject CreatePrefab()
@@ -80,8 +58,8 @@ namespace KnastoronOniMods
             basicEntity.AddOrGet<Modifiers>();
             basicEntity.AddOrGet<LoopingSounds>();
             KBoxCollider2D kboxCollider2D = basicEntity.AddOrGet<KBoxCollider2D>();
-            kboxCollider2D.size = new Vector2(1f, 2f);
-            kboxCollider2D.offset = (Vector2)new Vector2f(0.0f, 1f);
+            kboxCollider2D.size = new Vector2(1f, 1f);
+            kboxCollider2D.offset = (Vector2)new Vector2f(0.0f, 0.5f);
             Modifiers component2 = basicEntity.GetComponent<Modifiers>();
             component2.initialAmounts.Add(Db.Get().Amounts.HitPoints.Id);
             component2.initialAmounts.Add(Db.Get().Amounts.InternalBattery.Id);
@@ -104,10 +82,6 @@ namespace KnastoronOniMods
       Db.Get().ChoreGroups.Recreation,
       Db.Get().ChoreGroups.Toggle
              };
-            Deconstructable deconstructable = basicEntity.AddOrGet<Deconstructable>();
-            deconstructable.enabled = false;
-            deconstructable.audioSize = "medium";
-            deconstructable.looseEntityDeconstructable = true;
             basicEntity.AddOrGet<Traits>();
             Trait trait = Db.Get().CreateTrait(AiBrainConfig.ROVER_BASE_TRAIT_ID, "a Brain", NAME, (string)null, false, disabled_chore_groups, true, true);
             trait.Add(new AttributeModifier(Db.Get().Attributes.CarryAmount.Id, 200f, (string)NAME));
@@ -115,14 +89,9 @@ namespace KnastoronOniMods
             trait.Add(new AttributeModifier(Db.Get().Attributes.Construction.Id, TUNING.ROBOTS.SCOUTBOT.CONSTRUCTION,NAME));
             trait.Add(new AttributeModifier(Db.Get().Attributes.Athletics.Id, TUNING.ROBOTS.SCOUTBOT.ATHLETICS, (string)NAME));
             trait.Add(new AttributeModifier(Db.Get().Attributes.Machinery.Id, TUNING.ROBOTS.SCOUTBOT.ATHLETICS, (string)NAME));
-            trait.Add(new AttributeModifier(Db.Get().Amounts.HitPoints.maxAttribute.Id, TUNING.ROBOTS.SCOUTBOT.HIT_POINTS, (string)NAME));
-            trait.Add(new AttributeModifier(Db.Get().Amounts.InternalBattery.maxAttribute.Id, 9000f,"tba."));
-            trait.Add(new AttributeModifier(Db.Get().Amounts.InternalBattery.deltaAttribute.Id, -17.14286f, "tba."));
+            trait.Add(new AttributeModifier(Db.Get().Amounts.HitPoints.maxAttribute.Id, 3f, (string)NAME));
             component2.initialTraits.Add(AiBrainConfig.ROVER_BASE_TRAIT_ID);
             basicEntity.AddOrGet<AttributeConverters>();
-            GridVisibility gridVisibility = basicEntity.AddOrGet<GridVisibility>();
-            gridVisibility.radius = 30;
-            gridVisibility.innerRadius = 20f;
             basicEntity.AddOrGet<Worker>(); //RocketPiloting1
             basicEntity.AddOrGet<Effects>();//Db.Get().SkillPerks.CanUseRocketControlStation
             basicEntity.AddOrGet<Traits>();
@@ -139,12 +108,9 @@ namespace KnastoronOniMods
       CellOffset.none,
       new CellOffset(0, 1)
             };
-            RobotBatteryMonitor.Def def = basicEntity.AddOrGetDef<RobotBatteryMonitor.Def>();
-            def.batteryAmountId = Db.Get().Amounts.InternalBattery.Id;
-            def.canCharge = true;
-            def.lowBatteryWarningPercent = 0.2f;
             basicEntity.AddOrGetDef<CreatureDebugGoToMonitor.Def>();
             basicEntity.AddOrGetDef<RobotAi.Def>();
+            basicEntity.AddOrGet<SelfDestructInWrongEnvironmentComponent>();
             ChoreTable.Builder chore_table = new ChoreTable.Builder().
                 Add((StateMachine.BaseDef)new RobotDeathStates.Def())
                 .Add((StateMachine.BaseDef)new FallStates.Def())
@@ -156,11 +122,10 @@ namespace KnastoronOniMods
             Navigator navigator = basicEntity.AddOrGet<Navigator>();
             navigator.NavGridName = "RobotNavGrid";
             navigator.CurrentNavType = NavType.Floor;
-            navigator.defaultSpeed = 2f;
+            navigator.defaultSpeed = 1f;
             navigator.updateProber = true;
             navigator.sceneLayer = Grid.SceneLayer.Creatures;
             basicEntity.AddOrGet<Sensors>();
-            basicEntity.AddOrGet<Pickupable>().SetWorkTime(5f);
             basicEntity.AddOrGet<SnapOn>();
             component1.SetSymbolVisiblity((KAnimHashedString)"snapto_pivot", false);
             component1.SetSymbolVisiblity((KAnimHashedString)"snapto_radar", false);

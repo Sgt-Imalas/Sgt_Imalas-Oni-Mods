@@ -84,6 +84,11 @@ cells:
   temperature: 293.149994
   location_x: 1
   location_y: 1
+- element: Cuprite
+  mass: 1
+  temperature: 293.149994
+  location_x: 4
+  location_y: 4
 buildings:
 - id: RocketWallTile
   location_x: -2
@@ -150,12 +155,17 @@ buildings:
   location_y: -1
   element: Cuprite
   temperature: 293.149994
+- id: Tile
+  location_x: 4
+  location_y: 4
+  element: Cuprite
+  temperature: 293.149994
     
 otherEntities:
 - id: ClustercraftInteriorDoor
   location_x: 4
   location_y: 4
-  element: Unobtanium
+  element: Cuprite
   temperature: 294.149994
   units: 1
   type: Other
