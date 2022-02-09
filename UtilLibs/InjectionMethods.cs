@@ -48,15 +48,6 @@ namespace UtilLibs
 			Strings.Add($"STRINGS.CREATURES.FAMILY.{creatureId.ToUpperInvariant()}", UI.FormatAsLink(name, creatureId));
 			Strings.Add($"STRINGS.CREATURES.FAMILY_PLURAL.{creatureId.ToUpperInvariant()}", UI.FormatAsLink(name+"s", creatureId));
 		}
-		public static void AddRobotStrings(string botID, string name, string description)
-		
-        {
-		//	Strings.Add($"STRINGS.ROBOTS.MODELS.{botID.ToUpperInvariant()}.NAME", UI.FormatAsLink(name, botID));
-		//	Strings.Add($"STRINGS.ROBOTS.MODELS.{botID.ToUpperInvariant()}.DESC", description);
-			Strings.Add($"STRINGS.CREATURES.FAMILY.{botID.ToUpperInvariant()}.NAME", UI.FormatAsLink(name, botID));
-			Strings.Add($"STRINGS.CREATURES.FAMILY_PLURAL.{botID.ToUpperInvariant()}.DESC", description);
-			//AddCreatureStrings(botID, name);
-		}
 
         public static void Action(Tag speciesTag, string name, Dictionary<string, CodexEntry> results)
         {

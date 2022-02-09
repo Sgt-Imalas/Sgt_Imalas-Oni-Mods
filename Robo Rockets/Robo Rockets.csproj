@@ -72,14 +72,15 @@
     <Compile Include="RoboRocketConfig.cs" />
     <Compile Include="RoboRocketMod.cs" />
     <Compile Include="RocketAiConditions.cs" />
-    <Compile Include="RocketAiControlStation.cs" />
-    <Compile Include="RocketAiControlstationConfig.cs" />
     <Compile Include="RocketControlStationIdleWorkableAI.cs" />
     <Compile Include="RocketControlStationLaunchWorkableAI.cs" />
     <Compile Include="RocketControlStationNoChorePrecondition.cs" />
     <Compile Include="RocketControlStationNoChorePreconditionConfig.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="templates\interiors\habitat_robo.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="mod.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

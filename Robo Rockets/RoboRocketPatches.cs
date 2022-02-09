@@ -34,9 +34,7 @@ namespace Robo_Rockets
                 InjectionMethods.AddBuildingStrings(RoboRocketConfig.ID, RoboRocketConfig.DisplayName, RoboRocketConfig.Description, RoboRocketConfig.Effect);
                 InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, RoboRocketConfig.ID);
                 
-                InjectionMethods.AddBuildingStrings(RocketAiControlstationConfig.ID, "Ai core");
                 InjectionMethods.AddBuildingStrings(RocketControlStationNoChorePreconditionConfig.ID, "Rocket Control Station (automated)");
-                InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, RocketAiControlstationConfig.ID);
             }
         }
         [HarmonyPatch(typeof(Db))]
@@ -92,12 +90,26 @@ namespace Robo_Rockets
         {
             public static void Postfix(RocketControlStation.StatesInstance smi, ref Chore __result)
             {
-                if(smi.master.GetType() == typeof(RocketControlStationNoChorePrecondition))
+                if (smi.master.GetType() == typeof(RocketControlStationNoChorePrecondition))
                 {
                     Workable component = (Workable)smi.master.GetComponent<RocketControlStationLaunchWorkable>();
                     WorkChore<RocketControlStationIdleWorkable> chore = new WorkChore<RocketControlStationIdleWorkable>(Db.Get().ChoreTypes.RocketControl, (IStateMachineTarget)component, allow_in_red_alert: false, schedule_block: Db.Get().ScheduleBlockTypes.Work, allow_prioritization: false, priority_class: PriorityScreen.PriorityClass.high);
                     __result = (Chore)chore;
                     Debug.Log("Patching of Chore Method successful");
+                }
+            }
+        }
+        [HarmonyPatch(typeof(RocketControlStation))]
+        [HarmonyPatch("OnSpawn")]
+        public class RocketControlStation_SpawnBot_Patch
+        {
+            public static void Postfix(RocketControlStation __instance)
+            {
+                if (__instance.GetType() == typeof(RocketControlStationNoChorePrecondition))
+                {
+
+                    var dis = __instance as RocketControlStationNoChorePrecondition;
+                    dis.MakeNewPilotBot();
                 }
             }
         }
@@ -131,7 +143,7 @@ namespace Robo_Rockets
                 if (pilot.GetComponent<AttributeConverters>().GetConverter(pilotingSpeed.Id) == null)
                 {
                     Debug.Log("skippingNormalSpeedSetter");
-                    __instance.pilotSpeedMult = 100f;
+                    __instance.pilotSpeedMult = 1f;
                     return false;
                 }
                 return true;
@@ -145,7 +157,7 @@ namespace Robo_Rockets
             public static Vector2I ConditionForSize(string templateString)
             {
                 if (templateString.Contains("robo"))
-                        return new Vector2I(4, 6);
+                        return new Vector2I(10, 10);
 
                 return ROCKETRY.ROCKET_INTERIOR_SIZE;
             }
@@ -161,16 +173,10 @@ namespace Robo_Rockets
                 "ROCKET_INTERIOR_SIZE"
             );
 
-            //interiorTemplateName.Contains("robo") ? new Vector2I(4,4): ROCKETRY.ROCKET_INTERIOR_SIZE;
             static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
             {
                 var code = instructions.ToList();
 
-                //int insertionIndex = -1;
-                //foreach(var v in code)
-                //{
-                //    Debug.Log(v.opcode + " <<->>" + v.operand);
-                //}
                 var insertionIndex = code.FindIndex(ci => ci.operand is FieldInfo f && f == SizeFieldInfo);
                
 
@@ -182,6 +188,16 @@ namespace Robo_Rockets
                 return code.AsEnumerable();
             }
         }
+
+        //[HarmonyPatch(typeof(ClusterCoverPostFX))]
+        //[HarmonyPatch("SetupUVs")]
+        //public class WorldContainer_RevealInterior_Patch
+        //{
+        //    public static bool Prefix()
+        //    {
+        //        return false;
+        //    }
+        //}
 
     }
 
