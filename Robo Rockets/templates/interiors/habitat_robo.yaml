@@ -24,23 +24,19 @@ cells:
   temperature: 293.149994
   location_x: 1
   location_y: -2
-- element: Ethanol
-  mass: 1000
+- element: Vacuum
   temperature: 293.149994
   location_x: 0
   location_y: -1
-- element: Ethanol
-  mass: 1000
+- element: Vacuum
   temperature: 293.149994
   location_x: 0
   location_y: 0
-- element: Ethanol
-  mass: 1000
+- element: Vacuum
   temperature: 293.149994
   location_x: -1
   location_y: -1
-- element: Ethanol
-  mass: 1000
+- element: Vacuum
   temperature: 293.149994
   location_x: -1
   location_y: 0
@@ -153,7 +149,7 @@ buildings:
 - id: RocketControlStationNoChorePrecondition
   location_x: -1
   location_y: -1
-  element: Cuprite
+  element: Creature
   temperature: 293.149994
 - id: Tile
   location_x: 4

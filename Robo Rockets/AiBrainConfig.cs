@@ -52,7 +52,7 @@ namespace KnastoronOniMods
         }
         public static GameObject CreateBrain()
         {
-            GameObject basicEntity = EntityTemplates.CreateBasicEntity("AiBrain", "AI Brain", DESCR, 100f, true, Assets.GetAnim((HashedString)"scout_bot_kanim"), "idle_loop", Grid.SceneLayer.Creatures);
+            GameObject basicEntity = EntityTemplates.CreateBasicEntity("AiBrain", "AI Brain", DESCR, 100f, true, Assets.GetAnim((HashedString)"spark_radial_high_energy_particles_kanim"), "travel_pst", Grid.SceneLayer.Creatures);
             KBatchedAnimController component1 = basicEntity.GetComponent<KBatchedAnimController>();
             component1.isMovable = true;
             basicEntity.AddOrGet<Modifiers>();
@@ -61,8 +61,6 @@ namespace KnastoronOniMods
             kboxCollider2D.size = new Vector2(1f, 1f);
             kboxCollider2D.offset = (Vector2)new Vector2f(0.0f, 0.5f);
             Modifiers component2 = basicEntity.GetComponent<Modifiers>();
-            component2.initialAmounts.Add(Db.Get().Amounts.HitPoints.Id);
-            component2.initialAmounts.Add(Db.Get().Amounts.InternalBattery.Id);
             component2.initialAttributes.Add(Db.Get().Attributes.Construction.Id);
             component2.initialAttributes.Add(Db.Get().Attributes.Digging.Id);
             component2.initialAttributes.Add(Db.Get().Attributes.CarryAmount.Id);
@@ -96,7 +94,6 @@ namespace KnastoronOniMods
             basicEntity.AddOrGet<Effects>();//Db.Get().SkillPerks.CanUseRocketControlStation
             basicEntity.AddOrGet<Traits>();
             basicEntity.AddOrGet<AnimEventHandler>();
-            basicEntity.AddOrGet<Health>();
             MoverLayerOccupier moverLayerOccupier = basicEntity.AddOrGet<MoverLayerOccupier>();
             moverLayerOccupier.objectLayers = new ObjectLayer[2]
             {

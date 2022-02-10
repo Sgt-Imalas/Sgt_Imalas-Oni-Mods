@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using static KAnim;
 
 namespace KnastoronOniMods
 {
@@ -28,13 +29,13 @@ namespace KnastoronOniMods
             EffectorValues tieR3 = TUNING.NOISE_POLLUTION.NOISY.TIER3;
             EffectorValues tieR2_2 = TUNING.BUILDINGS.DECOR.BONUS.TIER2;
             EffectorValues noise = tieR3;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(id, 2, 2, "Brain_Controller_kanim", 30, 60f, tieR2_1, rawMetals, 1600f, BuildLocationRule.OnFloor, tieR2_2, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(id, 2, 2, "BrainController_kanim", 30, 60f, tieR2_1, rawMetals, 1600f, BuildLocationRule.OnFloor, tieR2_2, noise);
             buildingDef.Overheatable = false;
             buildingDef.Repairable = false;
             buildingDef.Floodable = false;
             buildingDef.AudioCategory = "Metal";
             buildingDef.AudioSize = "large";
-            buildingDef.DefaultAnimState = "off";
+            buildingDef.DefaultAnimState = "on";
             buildingDef.OnePerWorld = true;
             buildingDef.LogicInputPorts = new List<LogicPorts.Port>()
     {

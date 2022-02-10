@@ -34,7 +34,7 @@ namespace Robo_Rockets
                 InjectionMethods.AddBuildingStrings(RoboRocketConfig.ID, RoboRocketConfig.DisplayName, RoboRocketConfig.Description, RoboRocketConfig.Effect);
                 InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, RoboRocketConfig.ID);
                 
-                InjectionMethods.AddBuildingStrings(RocketControlStationNoChorePreconditionConfig.ID, "Rocket Control Station (automated)");
+                InjectionMethods.AddBuildingStrings(RocketControlStationNoChorePreconditionConfig.ID, "brain station");
             }
         }
         [HarmonyPatch(typeof(Db))]
@@ -84,6 +84,17 @@ namespace Robo_Rockets
                 }
             }
         }
+        //[HarmonyPatch(typeof(RocketControlStationNoChorePrecondition.States))]
+        //[HarmonyPatch("InitializeStates")]
+        //public class RocketControlStation_InitializeStates_Patch
+        //{
+        //    public static void Postfix(RocketControlStationNoChorePrecondition.States __instance)
+        //    {
+        //        Debug.Log("Starting Patch, " + __instance.ToString());
+                
+        //    }
+        //}
+
         [HarmonyPatch(typeof(RocketControlStation.States))]
         [HarmonyPatch("CreateChore")]
         public class RocketControlStation_CreateChore_Patch
@@ -93,13 +104,12 @@ namespace Robo_Rockets
                 if (smi.master.GetType() == typeof(RocketControlStationNoChorePrecondition))
                 {
                     Workable component = (Workable)smi.master.GetComponent<RocketControlStationLaunchWorkable>();
-                    WorkChore<RocketControlStationIdleWorkable> chore = 
-                        new WorkChore<RocketControlStationIdleWorkable>(Db.Get().ChoreTypes.RocketControl, 
-                        (IStateMachineTarget)component, allow_in_red_alert: false, schedule_block: Db.Get().ScheduleBlockTypes.Work, 
+                    WorkChore<RocketControlStationIdleWorkable> chore =
+                        new WorkChore<RocketControlStationIdleWorkable>(Db.Get().ChoreTypes.RocketControl,
+                        (IStateMachineTarget)component, allow_in_red_alert: false, schedule_block: Db.Get().ScheduleBlockTypes.Work,
                         allow_prioritization: false, priority_class: PriorityScreen.PriorityClass.high);
-                        chore.AddPrecondition(ChorePreconditions.instance.ConsumerHasTrait, AiBrainConfig.ROVER_BASE_TRAIT_ID);
+                    chore.AddPrecondition(ChorePreconditions.instance.ConsumerHasTrait, AiBrainConfig.ROVER_BASE_TRAIT_ID);
                     __result = (Chore)chore;
-                    //Debug.Log("Patching of Chore Method successful");
                 }
             }
         }
@@ -132,7 +142,6 @@ namespace Robo_Rockets
                         false, priority_class: PriorityScreen.PriorityClass.topPriority);
                     launchChore.AddPrecondition(ChorePreconditions.instance.ConsumerHasTrait, AiBrainConfig.ROVER_BASE_TRAIT_ID);
                     __result = (Chore)launchChore;
-                    //Debug.Log("Patching of LaunchChore Method successful");
                 }
             }
         }
