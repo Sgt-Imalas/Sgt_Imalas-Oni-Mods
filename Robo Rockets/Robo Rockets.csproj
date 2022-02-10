@@ -78,6 +78,12 @@
     <Compile Include="SelfDestructInWrongEnvironmentComponent.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="anim\assets\Brain_Control\Brain_Control_anim.bytes">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="anim\assets\Brain_Control\Brain_Control_build.bytes">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="templates\interiors\habitat_robo.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -95,5 +101,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Content Include="anim\assets\Brain_Control\Brain_Control.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

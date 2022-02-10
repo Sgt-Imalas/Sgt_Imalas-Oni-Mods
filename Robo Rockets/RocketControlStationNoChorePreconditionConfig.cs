@@ -28,7 +28,7 @@ namespace KnastoronOniMods
             EffectorValues tieR3 = TUNING.NOISE_POLLUTION.NOISY.TIER3;
             EffectorValues tieR2_2 = TUNING.BUILDINGS.DECOR.BONUS.TIER2;
             EffectorValues noise = tieR3;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(id, 2, 2, "rocket_control_station_kanim", 30, 60f, tieR2_1, rawMetals, 1600f, BuildLocationRule.OnFloor, tieR2_2, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(id, 2, 2, "Brain_Controller_anim", 30, 60f, tieR2_1, rawMetals, 1600f, BuildLocationRule.OnFloor, tieR2_2, noise);
             buildingDef.Overheatable = false;
             buildingDef.Repairable = false;
             buildingDef.Floodable = false;
