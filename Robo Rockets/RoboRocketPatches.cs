@@ -26,7 +26,7 @@ namespace Robo_Rockets
                 InjectionMethods.AddBuildingStrings(RoboRocketConfig.ID, RoboRocketConfig.DisplayName, RoboRocketConfig.Description, RoboRocketConfig.Effect);
                 InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, RoboRocketConfig.ID);
 
-                InjectionMethods.AddBuildingStrings(RocketControlStationNoChorePreconditionConfig.ID, "brain station");
+                InjectionMethods.AddBuildingStrings(RocketControlStationNoChorePreconditionConfig.ID, RocketControlStationNoChorePreconditionConfig.NAME, RocketControlStationNoChorePreconditionConfig.DESCR, RocketControlStationNoChorePreconditionConfig.EFFECT);
             }
         }
         [HarmonyPatch(typeof(Db))]
@@ -80,12 +80,14 @@ namespace Robo_Rockets
         [HarmonyPatch("InitializeStates")]
         public class RocketControlStation_InitializeStates_Patch
         {
-            public static void Postfix(RocketControlStation.States __instance 
+            public static void Postfix(RocketControlStation.States __instance
                , GMState ___operational
-                ,GMState ___running
+                , GMState ___running
+
+                , GMState ___root
                 )
             {
-                //___root.Update((smi, dt) => Debug.Log($"State is {smi.GetCurrentState().name}"));
+               // ___root.Update((smi, dt) => Debug.Log($"State is {smi.GetCurrentState().name}"));
                 
 
                     ___running.QueueAnim("on", true);
@@ -93,12 +95,6 @@ namespace Robo_Rockets
 
             } 
         }
-
-        //Debug.Log("ABBA Starting Patch, " + __instance.ToString());
-        //var uncoop = Traverse.Create(__instance).Field("unoperational").GetValue() as GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State;
-        //var oop = Traverse.Create(__instance).Field("operational").GetValue() as GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State;
-        //Debug.Log(uncoop.ToString());
-        //Traverse.Create(__instance).Field("operational").SetValue(uncoop.PlayAnim("off", KAnim.PlayMode.Loop).TagTransition(GameTags.Operational, oop));
         [HarmonyPatch(typeof(RocketControlStation.States))]
         [HarmonyPatch("CreateChore")]
         public class RocketControlStation_CreateChore_Patch

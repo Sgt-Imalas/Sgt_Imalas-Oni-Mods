@@ -81,7 +81,9 @@ namespace KnastoronOniMods
       Db.Get().ChoreGroups.Recreation,
       Db.Get().ChoreGroups.Toggle
              };
-            basicEntity.AddOrGet<Traits>();
+            basicEntity.AddOrGet<Traits>(); 
+            KSelectable kselectable = basicEntity.AddOrGet<KSelectable>();
+            kselectable.IsSelectable = false;
             Trait trait = Db.Get().CreateTrait(AiBrainConfig.ROVER_BASE_TRAIT_ID, "a Brain", NAME, (string)null, false, disabled_chore_groups, true, true);
             trait.Add(new AttributeModifier(Db.Get().Attributes.CarryAmount.Id, 200f, (string)NAME));
             trait.Add(new AttributeModifier(Db.Get().Attributes.Digging.Id, TUNING.ROBOTS.SCOUTBOT.DIGGING, NAME));
