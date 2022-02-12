@@ -12,6 +12,7 @@ namespace KnastoronOniMods
     class RocketControlStationNoChorePreconditionConfig : IBuildingConfig
     {
         public static string ID = "RocketControlStationNoChorePrecondition";
+        public const string DESCR = "A brain of not disclosed origin, somehow it knows how to fly this bucket";
         public const float CONSOLE_WORK_TIME = 30f;
         public const float CONSOLE_IDLE_TIME = 120f;
         public const float WARNING_COOLDOWN = 30f;

@@ -52,7 +52,7 @@ namespace KnastoronOniMods
         }
         public static GameObject CreateBrain()
         {
-            GameObject basicEntity = EntityTemplates.CreateBasicEntity("AiBrain", "AI Brain", DESCR, 100f, true, Assets.GetAnim((HashedString)"spark_radial_high_energy_particles_kanim"), "travel_pst", Grid.SceneLayer.Creatures);
+            GameObject basicEntity = EntityTemplates.CreateBasicEntity("AiBrain", "AI Brain", DESCR, 100f, true, Assets.GetAnim((HashedString)"sucrose_kanim"), "idle", Grid.SceneLayer.Creatures);
             KBatchedAnimController component1 = basicEntity.GetComponent<KBatchedAnimController>();
             component1.isMovable = true;
             component1.SetVisiblity(false);
