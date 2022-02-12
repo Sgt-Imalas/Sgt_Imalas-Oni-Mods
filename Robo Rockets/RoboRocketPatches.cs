@@ -9,20 +9,12 @@ using TUNING;
 using UnityEngine;
 using UtilLibs;
 using System.Linq;
+using GMState = GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State;
 
 namespace Robo_Rockets
 {
     public class RoboRocketPatches
     {
-        //[HarmonyPatch(typeof(CodexEntryGenerator), "GenerateCreatureEntries")]
-        //public class CodexEntryGenerator_GenerateCreatureEntries_Patch
-        //{
-        //    public static void Postfix(Dictionary<string, CodexEntry> __result)
-        //    {
-        //        InjectionMethods.AddRobotStrings(AiBrainConfig.ID, AiBrainConfig.NAME, AiBrainConfig.DESCR);
-        //        InjectionMethods.Action(AiBrainConfig.ID, AiBrainConfig.NAME, __result);
-        //    }
-        //}
 
         [HarmonyPatch(typeof(GeneratedBuildings))]
         [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
@@ -33,7 +25,7 @@ namespace Robo_Rockets
             {
                 InjectionMethods.AddBuildingStrings(RoboRocketConfig.ID, RoboRocketConfig.DisplayName, RoboRocketConfig.Description, RoboRocketConfig.Effect);
                 InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, RoboRocketConfig.ID);
-                
+
                 InjectionMethods.AddBuildingStrings(RocketControlStationNoChorePreconditionConfig.ID, "brain station");
             }
         }
@@ -66,7 +58,7 @@ namespace Robo_Rockets
         {
             public static void Postfix(PassengerRocketModule __instance, ref bool __result)
             {
-                if (__instance.GetType()== typeof(AIPassengerModule))
+                if (__instance.GetType() == typeof(AIPassengerModule))
                 {
                     __result = true;
                 }
@@ -84,17 +76,29 @@ namespace Robo_Rockets
                 }
             }
         }
-        //[HarmonyPatch(typeof(RocketControlStationNoChorePrecondition.States))]
-        //[HarmonyPatch("InitializeStates")]
-        //public class RocketControlStation_InitializeStates_Patch
-        //{
-        //    public static void Postfix(RocketControlStationNoChorePrecondition.States __instance)
-        //    {
-        //        Debug.Log("Starting Patch, " + __instance.ToString());
+        [HarmonyPatch(typeof(RocketControlStation.States))]
+        [HarmonyPatch("InitializeStates")]
+        public class RocketControlStation_InitializeStates_Patch
+        {
+            public static void Postfix(RocketControlStation.States __instance 
+               , GMState ___operational
+                ,GMState ___running
+                )
+            {
+                //___root.Update((smi, dt) => Debug.Log($"State is {smi.GetCurrentState().name}"));
                 
-        //    }
-        //}
 
+                    ___running.QueueAnim("on", true);
+                    ___operational.QueueAnim("on", true);
+
+            } 
+        }
+
+        //Debug.Log("ABBA Starting Patch, " + __instance.ToString());
+        //var uncoop = Traverse.Create(__instance).Field("unoperational").GetValue() as GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State;
+        //var oop = Traverse.Create(__instance).Field("operational").GetValue() as GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State;
+        //Debug.Log(uncoop.ToString());
+        //Traverse.Create(__instance).Field("operational").SetValue(uncoop.PlayAnim("off", KAnim.PlayMode.Loop).TagTransition(GameTags.Operational, oop));
         [HarmonyPatch(typeof(RocketControlStation.States))]
         [HarmonyPatch("CreateChore")]
         public class RocketControlStation_CreateChore_Patch
@@ -113,20 +117,36 @@ namespace Robo_Rockets
                 }
             }
         }
-        [HarmonyPatch(typeof(RocketControlStation))]
-        [HarmonyPatch("OnSpawn")]
-        public class RocketControlStation_SpawnBot_Patch
-        {
-            public static void Postfix(RocketControlStation __instance)
-            {
-                if (__instance.GetType() == typeof(RocketControlStationNoChorePrecondition))
-                {
+        //[HarmonyPatch(typeof(RocketControlStation))]
+        //[HarmonyPatch("OnSpawn")]
+        //public class RocketControlStation_SpawnBot_Patch
+        //{
+            //public static bool Prefix(RocketControlStation __instance)
+            //{
+            //    if (__instance.GetType() == typeof(RocketControlStationNoChorePrecondition))
+            //    {
 
-                    var dis = __instance as RocketControlStationNoChorePrecondition;
-                    dis.MakeNewPilotBot();
-                }
-            }
-        }
+            //        var dis = __instance as RocketControlStationNoChorePrecondition; base.OnSpawn();
+            //        dis.smi.StartSM();
+            //        Components.RocketControlStations.Add(dis);
+            //        dis.Subscribe<RocketControlStationNoChorePrecondition>(-801688580, RocketControlStationNoChorePrecondition.OnLogicValueChangedDelegate);
+            //        dis.Subscribe<RocketControlStationNoChorePrecondition>(1861523068, RocketControlStationNoChorePrecondition.OnRocketRestrictionChanged);
+            //        dis.MakeNewPilotBot();
+            //        return false;
+            //    }
+            //    return true;
+            //}
+
+            //public static void Postfix(RocketControlStation __instance)
+            //{
+            //    if (__instance.GetType() == typeof(RocketControlStationNoChorePrecondition))
+            //    {
+
+            //        var dis = __instance as RocketControlStationNoChorePrecondition;
+            //        dis.MakeNewPilotBot();
+            //    }
+            //}
+        //}
         [HarmonyPatch(typeof(RocketControlStation.States))]
         [HarmonyPatch("CreateLaunchChore")]
         public class RocketControlStation_CreateLaunchChore_Patch
