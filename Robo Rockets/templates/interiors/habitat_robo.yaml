@@ -149,7 +149,7 @@ buildings:
 - id: RocketControlStationNoChorePrecondition
   location_x: -1
   location_y: -1
-  element: Creature
+  element: Cuprite
   temperature: 293.149994
 - id: Tile
   location_x: 4

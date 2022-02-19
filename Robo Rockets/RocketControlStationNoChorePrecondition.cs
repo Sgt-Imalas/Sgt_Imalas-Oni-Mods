@@ -14,6 +14,7 @@ namespace KnastoronOniMods
         [Serialize]
         
         private SchedulerHandle newSweepyHandle;
+        private GameObject brainController;
         public void MakeNewPilotBot()
         {
             if (this.newSweepyHandle.IsValid)
@@ -22,7 +23,9 @@ namespace KnastoronOniMods
             {
                 GameObject go = GameUtil.KInstantiate(Assets.GetPrefab((Tag)"AiBrain"), Grid.CellToPos(Grid.CellRight(Grid.PosToCell(this.gameObject))), Grid.SceneLayer.Creatures);
                 go.SetActive(true);
-                
+                brainController = go;
+
+
                 this.newSweepyHandle.ClearScheduler();
             }), (object)null, (SchedulerGroup)null);
 
@@ -32,6 +35,11 @@ namespace KnastoronOniMods
         {
             base.OnSpawn();
             MakeNewPilotBot(); smi.enableConsoleLogging = true;
+        }
+        protected override void OnCleanUp()
+        {
+            base.OnCleanUp();
+            brainController.GetComponent<SelfDestructInWrongEnvironmentComponent>().SelfDestruct();
         }
     }
 }

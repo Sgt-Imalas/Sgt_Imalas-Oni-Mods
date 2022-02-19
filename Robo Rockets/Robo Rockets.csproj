@@ -78,6 +78,12 @@
     <Compile Include="SelfDestructInWrongEnvironmentComponent.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="anim\assets\AI-Exterior\rocket_habitat_ai_module_anim.bytes">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="anim\assets\AI-Exterior\rocket_habitat_ai_module_build.bytes">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="anim\assets\BrainController\BrainController_anim.bytes">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -102,6 +108,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="anim\assets\AI-Exterior\rocket_habitat_ai_module.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="anim\assets\BrainController\BrainController.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
