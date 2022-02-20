@@ -64,7 +64,22 @@ namespace Robo_Rockets
                 }
             }
         }
+
         [HarmonyPatch(typeof(PassengerRocketModule))]
+        [HarmonyPatch("RefreshAccessStatus")]
+        public class PassengerRocketModule_RefreshAccessStatus_Patch
+        {
+            public static bool Prefix(PassengerRocketModule __instance)
+            {
+                if (__instance.GetType() == typeof(AIPassengerModule))
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
+        
+       [HarmonyPatch(typeof(PassengerRocketModule))]
         [HarmonyPatch("CheckPilotBoarded")]
         public class PassengerRocketModule_CheckPilotBoarded_Patch
         {

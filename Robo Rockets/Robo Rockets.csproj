@@ -63,19 +63,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AiBrainConfig.cs" />
-    <Compile Include="AIPassengerModule.cs" />
-    <Compile Include="ConditionAiHasControl.cs" />
+    <Compile Include="Entities\AiBrainConfig.cs" />
+    <Compile Include="RocketSubstitutionClasses\AIPassengerModule.cs" />
+    <Compile Include="RocketSubstitutionClasses\ConditionAiHasControl.cs" />
+    <Compile Include="RocketSubstitutionClasses\LimitOneCommandModuleAi.cs" />
     <Compile Include="RoboRocketPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RoboRocketConfig.cs" />
+    <Compile Include="Buildings\RoboRocketConfig.cs" />
     <Compile Include="RoboRocketMod.cs" />
-    <Compile Include="RocketAiConditions.cs" />
-    <Compile Include="RocketControlStationIdleWorkableAI.cs" />
-    <Compile Include="RocketControlStationLaunchWorkableAI.cs" />
-    <Compile Include="RocketControlStationNoChorePrecondition.cs" />
-    <Compile Include="RocketControlStationNoChorePreconditionConfig.cs" />
-    <Compile Include="SelfDestructInWrongEnvironmentComponent.cs" />
+    <Compile Include="RocketSubstitutionClasses\RocketAiConditions.cs" />
+    <Compile Include="RocketSubstitutionClasses\RocketControlStationIdleWorkableAI.cs" />
+    <Compile Include="RocketSubstitutionClasses\RocketControlStationLaunchWorkableAI.cs" />
+    <Compile Include="RocketSubstitutionClasses\RocketControlStationNoChorePrecondition.cs" />
+    <Compile Include="Buildings\RocketControlStationNoChorePreconditionConfig.cs" />
+    <Compile Include="RocketSubstitutionClasses\SelfDestructInWrongEnvironmentComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="anim\assets\rocket_habitat_ai_module_anim\rocket_habitat_ai_module_anim.bytes">

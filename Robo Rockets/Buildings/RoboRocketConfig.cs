@@ -38,6 +38,7 @@ namespace Robo_Rockets
             buildingDef.CanMove = true;
             buildingDef.Cancellable = false;
             buildingDef.ShowInBuildMenu = false;
+
             return buildingDef;
         }
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
@@ -54,10 +55,11 @@ namespace Robo_Rockets
             go.AddOrGet<NavTeleporter>();
             go.AddOrGet<LaunchableRocketCluster>();
             go.AddOrGet<RocketAiConditions>();
-            go.AddOrGet<AccessControl>();
+            //go.AddOrGet<AccessControl>();
 
             go.AddOrGet<RocketProcessConditionDisplayTarget>();
             go.AddOrGet<CharacterOverlay>().shouldShowName = true;
+
 
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1] //top module attaches here
             {
@@ -73,16 +75,22 @@ namespace Robo_Rockets
         {
            
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MODERATE);
-            ModuleBattery moduleBattery = go.AddOrGet<ModuleBattery>(); Ownable ownable = go.AddOrGet<Ownable>();
-            ownable.slotID = Db.Get().AssignableSlots.HabitatModule.Id;
-            ownable.canBePublic = false;
-            moduleBattery.capacity = 25000f;
-            moduleBattery.joulesLostPerSecond = 0.6666667f; 
-            WireUtilitySemiVirtualNetworkLink virtualNetworkLink = go.AddOrGet<WireUtilitySemiVirtualNetworkLink>();
-            virtualNetworkLink.link1 = new CellOffset(0, 0);
-            virtualNetworkLink.visualizeOnly = true;
+            //Ownable ownable = go.AddOrGet<Ownable>();
+            //ownable.slotID = Db.Get().AssignableSlots.HabitatModule.Id;
+            //ownable.canBePublic = false;
+            FakeFloorAdder fakeFloorAdder = go.AddOrGet<FakeFloorAdder>();
+            fakeFloorAdder.floorOffsets = new CellOffset[5]
+            {
+      new CellOffset(-2, -1),
+      new CellOffset(-1, -1),
+      new CellOffset(0, -1),
+      new CellOffset(1, -1),
+      new CellOffset(2, -1)
+            };
+            fakeFloorAdder.initiallyActive = false;
+
             go.AddOrGet<BuildingCellVisualizer>();
-            go.GetComponent<ReorderableBuilding>().buildConditions.Add((SelectModuleCondition)new LimitOneCommandModule());
+            go.GetComponent<ReorderableBuilding>().buildConditions.Add((SelectModuleCondition)new LimitOneCommandModuleAi());
         }
         public void DoPostConfigureOfInternalControlModule(GameObject go)
         {
