@@ -48,7 +48,7 @@ namespace Robo_Rockets
 
             go.AddOrGet<AssignmentGroupController>().generateGroupOnStart = true;
             go.AddOrGet<AIPassengerModule>().interiorReverbSnapshot = AudioMixerSnapshots.Get().SmallRocketInteriorReverbSnapshot;
-            go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_robo";
+            go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_robo(10,10)";
             //go.AddOrGetDef<SimpleDoorController.Def>();
             go.AddOrGet<NavTeleporter>();
             go.AddOrGet<LaunchableRocketCluster>();

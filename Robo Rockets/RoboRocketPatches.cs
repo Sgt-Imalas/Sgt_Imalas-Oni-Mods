@@ -187,10 +187,7 @@ namespace Robo_Rockets
 
             public static Vector2I ConditionForSize(string templateString)
             {
-                if (templateString.Contains("robo"))
-                        return new Vector2I(10, 10);
-
-                return ROCKETRY.ROCKET_INTERIOR_SIZE;
+                return RocketryUtils.GetCustomInteriorSize(templateString);
             }
 
             private static readonly MethodInfo InteriorSizeHelper = AccessTools.Method(

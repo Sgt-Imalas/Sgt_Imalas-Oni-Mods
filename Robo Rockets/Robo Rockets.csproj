@@ -91,7 +91,7 @@
     <None Include="anim\assets\BrainController\BrainController_build.bytes">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="templates\interiors\habitat_robo.yaml">
+    <None Include="templates\interiors\habitat_robo%2810,10%29.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="mod.yaml">
