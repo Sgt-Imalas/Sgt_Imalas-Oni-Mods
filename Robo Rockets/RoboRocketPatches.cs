@@ -23,10 +23,8 @@ namespace Robo_Rockets
 
             public static void Prefix()
             {
-                InjectionMethods.AddBuildingStrings(RoboRocketConfig.ID, RoboRocketConfig.DisplayName, RoboRocketConfig.Description, RoboRocketConfig.Effect);
                 InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, RoboRocketConfig.ID);
 
-                InjectionMethods.AddBuildingStrings(RocketControlStationNoChorePreconditionConfig.ID, RocketControlStationNoChorePreconditionConfig.NAME, RocketControlStationNoChorePreconditionConfig.DESCR, RocketControlStationNoChorePreconditionConfig.EFFECT);
             }
         }
         [HarmonyPatch(typeof(Db))]
@@ -35,6 +33,8 @@ namespace Robo_Rockets
         {
             public static void Postfix()
             {
+                InjectionMethods.AddBuildingStrings(RoboRocketConfig.ID, RoboRocketConfig.DisplayName, RoboRocketConfig.Description, RoboRocketConfig.Effect);
+                InjectionMethods.AddBuildingStrings(RocketControlStationNoChorePreconditionConfig.ID, RocketControlStationNoChorePreconditionConfig.NAME, RocketControlStationNoChorePreconditionConfig.DESCR, RocketControlStationNoChorePreconditionConfig.EFFECT);
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, RoboRocketConfig.ID);
             }
         }
@@ -46,9 +46,7 @@ namespace Robo_Rockets
 
             public static void Prefix()
             {
-                int i = SelectModuleSideScreen.moduleButtonSortOrder.IndexOf("HabitatModuleMedium");
-                int j = (i == -1) ? SelectModuleSideScreen.moduleButtonSortOrder.Count : ++i;
-                SelectModuleSideScreen.moduleButtonSortOrder.Insert(j, RoboRocketConfig.ID);
+                RocketryUtils.AddRocketModuleToBuildList(RoboRocketConfig.ID, "HabitatModuleMedium");
             }
         }
 
@@ -93,6 +91,7 @@ namespace Robo_Rockets
         }
         [HarmonyPatch(typeof(RocketControlStation.States))]
         [HarmonyPatch("InitializeStates")]
+
         public class RocketControlStation_InitializeStates_Patch
         {
             public static void Postfix(RocketControlStation.States __instance
@@ -232,8 +231,5 @@ namespace Robo_Rockets
                 return code.AsEnumerable();
             }
         }
-
-
     }
-
 }

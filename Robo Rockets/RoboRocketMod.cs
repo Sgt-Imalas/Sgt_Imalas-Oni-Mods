@@ -8,6 +8,7 @@ namespace Robo_Rockets
 		public override void OnLoad(Harmony harmony)
 		{
 			base.OnLoad(harmony);
+			GameTags.MaterialBuildingElements.Add(GeneShufflerRechargeConfig.ID);
 		}
 	}
 }

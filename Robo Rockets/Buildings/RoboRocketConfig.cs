@@ -8,36 +8,34 @@ namespace Robo_Rockets
     class RoboRocketConfig : IBuildingConfig
     {
         public const string ID = "AiModule";
-        public const string DisplayName = "Ai Module";
-        public const string Description = "A Module to control your Rockets without dupes.";
-        public const string Effect = "Fly far away...";
+        public const string DisplayName = " AI Control Module";
+        public const string Description = "A Module that controls your Rocket without any duplicant input.";
+        public const string Effect = "Functions as a Command Module.\n\nOne Command Module may be installed per rocket. \n\n Won't allow any duplicants inside";
 
 
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public override BuildingDef CreateBuildingDef()
         {
-            float[] denseTieR0 = BUILDINGS.ROCKETRY_MASS_KG.DENSE_TIER0;
-            string[] refinedMetals = MATERIALS.REFINED_METALS;
+            float[] matCosts = {300f,1}; 
+            string[] construction_materials = new string[2]
+            {
+                "RefinedMetal"
+               ,"GeneShufflerRecharge"
+            };
             EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
 
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef("AiModule", 3, 3, "rocket_habitat_ai_module_kanim", 1000, 400f, denseTieR0, refinedMetals, 9999f, BuildLocationRule.Anywhere, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef("AiModule", 3, 3, "rocket_habitat_ai_module_kanim", 1000, 400f, matCosts, construction_materials, 9999f, BuildLocationRule.Anywhere, none, noise);
             BuildingTemplates.CreateRocketBuildingDef(buildingDef);
             buildingDef.AttachmentSlotTag = GameTags.Rocket;
             buildingDef.SceneLayer = Grid.SceneLayer.Building;
             buildingDef.ForegroundLayer = Grid.SceneLayer.Front;
             buildingDef.OverheatTemperature = 2273.15f;
             buildingDef.Floodable = false;
-            buildingDef.PowerInputOffset = new CellOffset(0, 0);
-            buildingDef.PowerOutputOffset = new CellOffset(0, 0);
             buildingDef.ObjectLayer = ObjectLayer.Building;
-            buildingDef.RequiresPowerOutput = true;
-            buildingDef.UseWhitePowerOutputConnectorColour = true;
-            buildingDef.attachablePosition = new CellOffset(0, 0);
             buildingDef.CanMove = true;
             buildingDef.Cancellable = false;
-            buildingDef.ShowInBuildMenu = false;
 
             return buildingDef;
         }
@@ -51,7 +49,7 @@ namespace Robo_Rockets
             go.AddOrGet<AssignmentGroupController>().generateGroupOnStart = true;
             go.AddOrGet<AIPassengerModule>().interiorReverbSnapshot = AudioMixerSnapshots.Get().SmallRocketInteriorReverbSnapshot;
             go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_robo";
-            go.AddOrGetDef<SimpleDoorController.Def>();
+            //go.AddOrGetDef<SimpleDoorController.Def>();
             go.AddOrGet<NavTeleporter>();
             go.AddOrGet<LaunchableRocketCluster>();
             go.AddOrGet<RocketAiConditions>();
