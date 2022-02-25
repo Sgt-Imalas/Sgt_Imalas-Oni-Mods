@@ -25,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>AI Controlled Rockets</ModName>
 		<ModDescription>Adds in a Control Module that allows Rockets to fly without a Pilot</ModDescription>
-		<SupportedContent>DLC</SupportedContent>
+		<SupportedContent>EXPANSION1_ID</SupportedContent>
 		<MinimumSupportedBuild>496423</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
@@ -59,21 +59,11 @@
 			<HintPath>D:\Programs\Steam\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.UIModule.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
-	</ItemGroup>
-	
-	<ItemGroup>
-		<PackageReference Include="Cairath.ONIMetadataFileGenerator" Version="1.0.0">
-			<Private>false</Private>
-		</PackageReference>
-		<PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.18.2">
-			<Private>false</Private>
-		</PackageReference>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1">
-			<Private>false</Private></PackageReference>
 		<PackageReference Include="PLib" Version="4.8.0">
 			<Private>false</Private>
 		</PackageReference>
 	</ItemGroup>
+	
 	<ItemGroup>
 	  <ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>

@@ -20,7 +20,7 @@
 		<ItemGroup>
 			<InputAssemblies
 			  Include="$(TargetDir)\*.dll"
-			  Exclude="**/0Harmony.dll ;**/System.*; **/Microsoft.*" />
+			  Exclude="**/0Harmony.dll ;**Newtonsoft.Json;**/System.*; **/Microsoft.*" />
 		</ItemGroup>
 
 		<ILRepack

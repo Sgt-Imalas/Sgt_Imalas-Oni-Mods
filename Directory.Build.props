@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<GameLibsFolder>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed</GameLibsFolder>
 		<ModFolder>$(UserProfile)\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>
-		<ClearOutputDirectory>True</ClearOutputDirectory>
+		<ClearOutputDirectory>true</ClearOutputDirectory>
 		<Optimize>true</Optimize>
 	</PropertyGroup>
 
