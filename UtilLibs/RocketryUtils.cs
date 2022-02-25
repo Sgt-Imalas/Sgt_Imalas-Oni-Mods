@@ -18,7 +18,7 @@ namespace UtilLibs
             }
             int j = (i == -1) ? SelectModuleSideScreen.moduleButtonSortOrder.Count : ++i;
             SelectModuleSideScreen.moduleButtonSortOrder.Insert(j, moduleId);
-        }
+            }
         }
     }
 }

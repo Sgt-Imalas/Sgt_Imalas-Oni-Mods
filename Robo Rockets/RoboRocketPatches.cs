@@ -23,8 +23,9 @@ namespace Robo_Rockets
 
             public static void Prefix()
             {
-                InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, RoboRocketConfig.ID);
-
+                InjectionMethods.AddBuildingStrings(RoboRocketConfig.ID, RoboRocketConfig.DisplayName, RoboRocketConfig.Description, RoboRocketConfig.Effect);
+                InjectionMethods.AddBuildingStrings(RocketControlStationNoChorePreconditionConfig.ID, RocketControlStationNoChorePreconditionConfig.NAME, RocketControlStationNoChorePreconditionConfig.DESCR, RocketControlStationNoChorePreconditionConfig.EFFECT);
+                RocketryUtils.AddRocketModuleToBuildList(RoboRocketConfig.ID, "HabitatModuleMedium");
             }
         }
         [HarmonyPatch(typeof(Db))]
@@ -33,20 +34,7 @@ namespace Robo_Rockets
         {
             public static void Postfix()
             {
-                InjectionMethods.AddBuildingStrings(RoboRocketConfig.ID, RoboRocketConfig.DisplayName, RoboRocketConfig.Description, RoboRocketConfig.Effect);
-                InjectionMethods.AddBuildingStrings(RocketControlStationNoChorePreconditionConfig.ID, RocketControlStationNoChorePreconditionConfig.NAME, RocketControlStationNoChorePreconditionConfig.DESCR, RocketControlStationNoChorePreconditionConfig.EFFECT);
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, RoboRocketConfig.ID);
-            }
-        }
-
-        [HarmonyPatch(typeof(SelectModuleSideScreen))]
-        [HarmonyPatch("OnSpawn")]
-        public class SelectModuleSideScreen_OnSpawn_Patch
-        {
-
-            public static void Prefix()
-            {
-                RocketryUtils.AddRocketModuleToBuildList(RoboRocketConfig.ID, "HabitatModuleMedium");
             }
         }
 

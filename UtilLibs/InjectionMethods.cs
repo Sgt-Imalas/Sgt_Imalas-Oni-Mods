@@ -34,16 +34,16 @@ namespace UtilLibs
 		{
 			Db.Get().Techs.Get(techId).unlockedItemIDs.Add(buildingId);
 		}
-		public static void AddBuildingStrings(string buildingId, string name, string description = "tba", string effect = "tba")
-		{
-			Strings.Add($"STRINGS.BUILDINGS.PREFABS.{buildingId.ToUpperInvariant()}.NAME", UI.FormatAsLink(name, buildingId));
-			Strings.Add($"STRINGS.BUILDINGS.PREFABS.{buildingId.ToUpperInvariant()}.DESC", description);
-			Strings.Add($"STRINGS.BUILDINGS.PREFABS.{buildingId.ToUpperInvariant()}.EFFECT", effect);
-		}
+        public static void AddBuildingStrings(string buildingId, string name, string description, string effect)
+        {
+            Strings.Add($"STRINGS.BUILDINGS.PREFABS.{buildingId.ToUpperInvariant()}.NAME", UI.FormatAsLink(name, buildingId));
+            Strings.Add($"STRINGS.BUILDINGS.PREFABS.{buildingId.ToUpperInvariant()}.DESC", description);
+            Strings.Add($"STRINGS.BUILDINGS.PREFABS.{buildingId.ToUpperInvariant()}.EFFECT", effect);
+        }
 
-		//[HarmonyPatch(typeof(CodexEntryGenerator), "GenerateCreatureEntries")]
-		//CodexEntryGenerator_GenerateCreatureEntries_Patch
-		public static void AddCreatureStrings(string creatureId, string name)
+        //[HarmonyPatch(typeof(CodexEntryGenerator), "GenerateCreatureEntries")]
+        //CodexEntryGenerator_GenerateCreatureEntries_Patch
+        public static void AddCreatureStrings(string creatureId, string name)
 		{
 			Strings.Add($"STRINGS.CREATURES.FAMILY.{creatureId.ToUpperInvariant()}", UI.FormatAsLink(name, creatureId));
 			Strings.Add($"STRINGS.CREATURES.FAMILY_PLURAL.{creatureId.ToUpperInvariant()}", UI.FormatAsLink(name+"s", creatureId));
