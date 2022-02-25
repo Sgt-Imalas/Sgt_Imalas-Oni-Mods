@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Robo Rockets", "Robo Rockets\Robo Rockets.csproj", "{AAA43DBC-7B67-4027-B615-4289936FB99C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UtilLibs", "UtilLibs\UtilLibs.csproj", "{BFA3D6B9-F435-448E-B1A0-0D33F944CEB3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{24F61C11-CC87-4DFE-A4CF-659E31DFF121}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AAA43DBC-7B67-4027-B615-4289936FB99C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAA43DBC-7B67-4027-B615-4289936FB99C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAA43DBC-7B67-4027-B615-4289936FB99C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAA43DBC-7B67-4027-B615-4289936FB99C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFA3D6B9-F435-448E-B1A0-0D33F944CEB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFA3D6B9-F435-448E-B1A0-0D33F944CEB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFA3D6B9-F435-448E-B1A0-0D33F944CEB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFA3D6B9-F435-448E-B1A0-0D33F944CEB3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {898228DF-1C3B-4527-B10D-83145966681D}
+	EndGlobalSection
+EndGlobal

@@ -1,5 +1,10 @@
 ﻿using HarmonyLib;
 using KMod;
+using KnastoronOniMods;
+using PeterHan.PLib;
+using PeterHan.PLib.Core;
+using PeterHan.PLib.Options;
+using System;
 
 namespace Robo_Rockets
 {
@@ -7,8 +12,10 @@ namespace Robo_Rockets
     {		
 		public override void OnLoad(Harmony harmony)
 		{
-			base.OnLoad(harmony);
 			GameTags.MaterialBuildingElements.Add(GeneShufflerRechargeConfig.ID);
+			PUtil.InitLibrary(false);
+			new POptions().RegisterOptions(this,typeof(Config));
+			base.OnLoad(harmony);
 		}
 	}
 }

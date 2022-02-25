@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Target Name="GenerateYAML" BeforeTargets="Build" Condition="'$(GenerateMetadata)' == 'true'">
+		<GenerateMetadataFiles
+			OutputPath="$(TargetDir)"
+
+			Title="$(ModName)"
+			Description="$(ModDescription)"
+			StaticID="$(AssemblyName)"
+      
+			SupportedContent="$(SupportedContent)"
+			MinimumSupportedBuild="$(MinimumSupportedBuild)"
+			Version="$(FileVersion)"
+			APIVersion="$(APIVersion)"
+        />
+	</Target>
+
+	<Target Name="ILRepack" AfterTargets="Build" Condition="'$(IsPacked)' == 'true'">
+		<ItemGroup>
+			<InputAssemblies
+			  Include="$(TargetDir)\*.dll"
+			  Exclude="**/0Harmony.dll ;**/System.*; **/Microsoft.*" />
+		</ItemGroup>
+
+		<ILRepack
+		  TargetPlatformVersion="v4"
+		  TargetKind="SameAsPrimaryAssembly"
+		  InputAssemblies="@(InputAssemblies)"
+		  Wildcards="true"
+		  LibraryPath="$(GameLibsFolder)"
+		  Parallel="true"
+		  OutputFile="$(TargetPath)"/>
+	</Target>
+
+	<!--<Target Name="huh" AfterTargets="ILRepack" Condition="'$(AssemblyName)' != 'FUtility'">
+		<Exec Command="xcopy /yqsr &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(ModFolder)\$(TargetName)_dev\&quot;"/>
+		<Exec Command="xcopy /yqsr &quot;$(TargetDir)mod.yaml&quot; &quot;$(ModFolder)\$(TargetName)_dev\&quot;"/>
+		<Exec Command="xcopy /yqsr &quot;$(TargetDir)mod_info.yaml&quot; &quot;$(ModFolder)\$(TargetName)_dev\&quot;"/>
+	</Target>-->
+
+</Project>

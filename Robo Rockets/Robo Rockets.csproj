@@ -1,120 +1,106 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+	<!-- General Package Properties -->
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AAA43DBC-7B67-4027-B615-4289936FB99C}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KnastoronOniMods</RootNamespace>
-    <AssemblyName>RoboRockets</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
+    <PackageId>Robo Rockets</PackageId>
+    <Version>1.0.0.0</Version>
+    <Authors>Sgt_Imalas</Authors>
+    <Copyright>2022 Sgt_Imalas</Copyright>
+    <RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>..\lib\0Harmony.dll</HintPath>
-    </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\lib\Assembly-CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\lib\Assembly-CSharp-firstpass.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="UnityEngine">
-      <HintPath>..\lib\UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\lib\UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>..\lib\UnityEngine.UI.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Entities\AiBrainConfig.cs" />
-    <Compile Include="RocketSubstitutionClasses\AIPassengerModule.cs" />
-    <Compile Include="RocketSubstitutionClasses\ConditionAiHasControl.cs" />
-    <Compile Include="RocketSubstitutionClasses\LimitOneCommandModuleAi.cs" />
-    <Compile Include="RoboRocketPatches.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Buildings\RoboRocketConfig.cs" />
-    <Compile Include="RoboRocketMod.cs" />
-    <Compile Include="RocketSubstitutionClasses\RocketAiConditions.cs" />
-    <Compile Include="RocketSubstitutionClasses\RocketControlStationIdleWorkableAI.cs" />
-    <Compile Include="RocketSubstitutionClasses\RocketControlStationLaunchWorkableAI.cs" />
-    <Compile Include="RocketSubstitutionClasses\RocketControlStationNoChorePrecondition.cs" />
-    <Compile Include="Buildings\RocketControlStationNoChorePreconditionConfig.cs" />
-    <Compile Include="RocketSubstitutionClasses\SelfDestructInWrongEnvironmentComponent.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module_anim.bytes">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module_build.bytes">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="anim\assets\BrainController\BrainController_anim.bytes">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="anim\assets\BrainController\BrainController_build.bytes">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="templates\interiors\habitat_robo%2810,10%29.yaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="mod.yaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="mod_info.yaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\UtilLibs\UtilLibs.csproj">
-      <Project>{BFA3D6B9-F435-448E-B1A0-0D33F944CEB3}</Project>
-      <Name>UtilLibs</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <Content Include="anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="anim\assets\BrainController\BrainController.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
+	<!-- Build Properties -->
+	<PropertyGroup>
+		<TargetFramework>net471</TargetFramework>
+		<Configurations>Debug</Configurations>
+		<AssemblyName>Robo Rockets</AssemblyName>
+		<RootNamespace>Robo Rockets</RootNamespace>
+		<IsMod>true</IsMod>
+		<GenerateMetadata>true</GenerateMetadata>
+		<IsPacked>true</IsPacked>
+	</PropertyGroup>
+	
+	
+	<!-- Mod Info -->
+	<PropertyGroup>
+		<ModName>AI Controlled Rockets</ModName>
+		<ModDescription>Adds in a Control Module that allows Rockets to fly without a Pilot</ModDescription>
+		<SupportedContent>DLC</SupportedContent>
+		<MinimumSupportedBuild>496423</MinimumSupportedBuild>
+		<APIVersion>2</APIVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<OutDir>bin</OutDir>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<OutDir>bin</OutDir>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="Unity.TextMeshPro">
+			<HintPath>D:\Programs\Steam\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="UnityEngine.AssetBundleModule">
+			<HintPath>D:\Programs\Steam\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="UnityEngine.ImageConversionModule">
+			<HintPath>D:\Programs\Steam\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="UnityEngine.UI">
+			<HintPath>D:\Programs\Steam\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.UI.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="UnityEngine.UIModule">
+			<HintPath>D:\Programs\Steam\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+	</ItemGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="Cairath.ONIMetadataFileGenerator" Version="1.0.0">
+			<Private>false</Private>
+		</PackageReference>
+		<PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.18.2">
+			<Private>false</Private>
+		</PackageReference>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1">
+			<Private>false</Private></PackageReference>
+		<PackageReference Include="PLib" Version="4.8.0">
+			<Private>false</Private>
+		</PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Properties\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="anim\assets\BrainController\BrainController.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="anim\assets\BrainController\BrainController_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="anim\assets\BrainController\BrainController_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="templates\interiors\habitat_robo%2810,10%29.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
 </Project>

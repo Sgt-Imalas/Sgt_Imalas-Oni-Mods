@@ -16,12 +16,24 @@ namespace Robo_Rockets
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public override BuildingDef CreateBuildingDef()
         {
-            float[] matCosts = {300f,1}; 
-            string[] construction_materials = new string[2]
+            float[] matCosts = {300f,1};
+
+            bool usesAdvRecipe = Config.Instance.UsesNeuralVaccilatorRecharge;
+            string[] construction_materials;
+            if (usesAdvRecipe) { 
+                construction_materials = new string[2]
+                {
+                    "RefinedMetal"
+                    ,"GeneShufflerRecharge"
+                };
+            }
+            else
             {
-                "RefinedMetal"
-               ,"GeneShufflerRecharge"
-            };
+                construction_materials = new string[1]
+                {
+                    "RefinedMetal"
+                };
+            }
             EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;

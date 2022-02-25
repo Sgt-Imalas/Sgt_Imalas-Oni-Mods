@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+	<PropertyGroup>
+		<GameLibsFolder>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed</GameLibsFolder>
+		<ModFolder>$(UserProfile)\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>
+		<ClearOutputDirectory>True</ClearOutputDirectory>
+		<Optimize>true</Optimize>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(GenerateMetadata)' == 'true' ">
+		<PackageReference Include="Cairath.ONIMetadataFileGenerator" Version="1.0.0">
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(GameLibsFolder)/Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>$(GameLibsFolder)/Assembly-CSharp-firstpass.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(GameLibsFolder)/0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(GameLibsFolder)/UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(GameLibsFolder)/UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(GameLibsFolder)/Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  
+
+  <ItemGroup Condition="'$(IsPacked)' == 'true'">
+    <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.18.2" />
+  </ItemGroup>
+  
+</Project>
