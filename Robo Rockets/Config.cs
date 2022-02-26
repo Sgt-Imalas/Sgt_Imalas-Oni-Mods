@@ -6,7 +6,7 @@ namespace KnastoronOniMods
 {
     [Serializable]
     [RestartRequired]
-    [ModInfo("AI controlled Rockets")]
+    [ModInfo("Automated AI Rockets")]
     public class Config : SingletonOptions<Config>
     {
         [Option("Advanced Recipe", "Creating the AI Control Module requires a neural vaccilator recharge.")]
