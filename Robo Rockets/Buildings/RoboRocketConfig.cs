@@ -8,9 +8,9 @@ namespace Robo_Rockets
     class RoboRocketConfig : IBuildingConfig
     {
         public const string ID = "AiModule";
-        public const string DisplayName = " AI Control Module";
+        public const string DisplayName = "AI Control Module";
         public const string Description = "A Module that controls your Rocket without any duplicant input.";
-        public const string Effect = "Functions as a Command Module.\n\nOne Command Module may be installed per rocket. \n\n Won't allow any duplicants inside";
+        public const string Effect = "Functions as a Command Module.\n\nOne Command Module may be installed per rocket.\n\nWon't allow any duplicants inside";
 
 
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
