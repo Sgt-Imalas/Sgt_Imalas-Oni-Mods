@@ -1,7 +1,6 @@
 using HarmonyLib;
 using Klei.AI;
 using KnastoronOniMods;
-using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Reflection;
@@ -28,6 +27,45 @@ namespace Robo_Rockets
                 RocketryUtils.AddRocketModuleToBuildList(RoboRocketConfig.ID, "HabitatModuleMedium");
             }
         }
+
+        [HarmonyPatch(typeof(LimitOneCommandModule))]
+        [HarmonyPatch(nameof(LimitOneCommandModule.EvaluateCondition))]
+        public static class LimitOneCommandModule_AI_Patch
+        {
+
+            public static bool Prefix( bool __result,
+                GameObject existingModule,
+                SelectModuleCondition.SelectionContext selectionContext)
+            {
+
+                if ((Object)existingModule == (Object)null)
+                {
+                    __result = true;
+                    return false;
+                }
+                    
+
+                foreach (GameObject gameObject in AttachableBuilding.GetAttachedNetwork(existingModule.GetComponent<AttachableBuilding>()))
+                {
+                    if (
+                        (selectionContext != SelectModuleCondition.SelectionContext.ReplaceModule ||  !((Object)gameObject == (Object)existingModule.gameObject))
+                        && (
+                        (Object)gameObject.GetComponent<RocketCommandConditions>() != (Object)null ||
+                        (Object)gameObject.GetComponent<RocketAiConditions>() != (Object)null ||
+                        (Object)gameObject.GetComponent<BuildingUnderConstruction>() != (Object)null && (Object)gameObject.GetComponent<BuildingUnderConstruction>().Def.BuildingComplete.GetComponent<RocketCommandConditions>() != (Object)null ||
+                        (Object)gameObject.GetComponent<BuildingUnderConstruction>() != (Object)null && (Object)gameObject.GetComponent<BuildingUnderConstruction>().Def.BuildingComplete.GetComponent<RocketAiConditions>() != (Object)null
+                        )
+                     )
+                    {
+                        __result = false;
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+
+
         [HarmonyPatch(typeof(Db))]
         [HarmonyPatch("Initialize")]
         public class Db_Initialize_Patch

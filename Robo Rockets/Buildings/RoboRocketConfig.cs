@@ -100,7 +100,7 @@ namespace Robo_Rockets
             fakeFloorAdder.initiallyActive = false;
 
             go.AddOrGet<BuildingCellVisualizer>();
-            go.GetComponent<ReorderableBuilding>().buildConditions.Add((SelectModuleCondition)new LimitOneCommandModuleAi());
+            go.GetComponent<ReorderableBuilding>().buildConditions.Add((SelectModuleCondition)new LimitOneCommandModule());
         }
         public void DoPostConfigureOfInternalControlModule(GameObject go)
         {
