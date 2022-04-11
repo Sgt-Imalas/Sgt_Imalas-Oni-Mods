@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Robo Rockets", "Robo Rockets\Robo Rockets.csproj", "{AAA43DBC-7B67-4027-B615-4289936FB99C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoboRockets", "Robo Rockets\RoboRockets.csproj", "{AAA43DBC-7B67-4027-B615-4289936FB99C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UtilLibs", "UtilLibs\UtilLibs.csproj", "{BFA3D6B9-F435-448E-B1A0-0D33F944CEB3}"
 EndProject
@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radiator_Mod", "Radiator_Mod\Radiator_Mod.csproj", "{27578E2C-D7D3-4A01-94C1-58F72668471C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{BFA3D6B9-F435-448E-B1A0-0D33F944CEB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFA3D6B9-F435-448E-B1A0-0D33F944CEB3}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{BFA3D6B9-F435-448E-B1A0-0D33F944CEB3}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{27578E2C-D7D3-4A01-94C1-58F72668471C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27578E2C-D7D3-4A01-94C1-58F72668471C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27578E2C-D7D3-4A01-94C1-58F72668471C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27578E2C-D7D3-4A01-94C1-58F72668471C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,6 +9,7 @@ using UnityEngine;
 using UtilLibs;
 using System.Linq;
 using GMState = GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State;
+using RoboRockets.Buildings;
 
 namespace Robo_Rockets
 {
@@ -25,6 +26,7 @@ namespace Robo_Rockets
                 InjectionMethods.AddBuildingStrings(RoboRocketConfig.ID, RoboRocketConfig.DisplayName, RoboRocketConfig.Description, RoboRocketConfig.Effect);
                 InjectionMethods.AddBuildingStrings(RocketControlStationNoChorePreconditionConfig.ID, RocketControlStationNoChorePreconditionConfig.NAME, RocketControlStationNoChorePreconditionConfig.DESCR, RocketControlStationNoChorePreconditionConfig.EFFECT);
                 RocketryUtils.AddRocketModuleToBuildList(RoboRocketConfig.ID, "HabitatModuleMedium");
+                //RocketryUtils.AddRocketModuleToBuildList(TouristModuleClusterConfig.ID);
             }
         }
 

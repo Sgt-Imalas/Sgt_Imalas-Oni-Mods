@@ -34,7 +34,7 @@ namespace UtilLibs
 		{
 			Db.Get().Techs.Get(techId).unlockedItemIDs.Add(buildingId);
 		}
-        public static void AddBuildingStrings(string buildingId, string name, string description, string effect)
+        public static void AddBuildingStrings(string buildingId, string name, string description = "", string effect= "")
         {
             Strings.Add($"STRINGS.BUILDINGS.PREFABS.{buildingId.ToUpperInvariant()}.NAME", UI.FormatAsLink(name, buildingId));
             Strings.Add($"STRINGS.BUILDINGS.PREFABS.{buildingId.ToUpperInvariant()}.DESC", description);
