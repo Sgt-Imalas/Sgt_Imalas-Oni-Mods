@@ -34,22 +34,23 @@ namespace RoboRockets.Buildings
             EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none2 = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 2, "utilitygasbridge_kanim", 100, 120f, matCosts, construction_materials, 1600f, BuildLocationRule.NotInTiles, none2, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 1, "waterpump_kanim", 100, 120f, matCosts, construction_materials, 1600f, BuildLocationRule.NotInTiles, none2, noise);
             BuildingTemplates.CreateElectricalBuildingDef(buildingDef);
+            buildingDef.DefaultAnimState = "on";
             buildingDef.EnergyConsumptionWhenActive = 320f;
             buildingDef.SelfHeatKilowattsWhenActive = 0.0f;
             buildingDef.InputConduitType = ConduitType.Liquid;
             buildingDef.OutputConduitType = ConduitType.Liquid;
             buildingDef.Floodable = false;
             buildingDef.PowerInputOffset = new CellOffset(0, 0);
-            buildingDef.UtilityInputOffset = new CellOffset(-1, 0);
+            buildingDef.UtilityInputOffset = new CellOffset(0, 0);
             buildingDef.UtilityOutputOffset = new CellOffset(1, 0);
 
             buildingDef.PermittedRotations = PermittedRotations.R360;
             buildingDef.ViewMode = OverlayModes.LiquidConduits.ID;
 
             buildingDef.OverheatTemperature = 398.15f;
-            buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(1, 1));
+            buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 1));
             GeneratedBuildings.RegisterWithOverlay(OverlayScreen.LiquidVentIDs, ID);
             return buildingDef;
         }
@@ -57,10 +58,10 @@ namespace RoboRockets.Buildings
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
             go.AddOrGet<LoopingSounds>();
-            AirConditioner airConditioner = go.AddOrGet<AirConditioner>();
-            airConditioner.temperatureDelta = -14f;
-            airConditioner.maxEnvironmentDelta = -50f;
-            airConditioner.isLiquidConditioner = true;
+            //AirConditioner airConditioner = go.AddOrGet<AirConditioner>();
+            //airConditioner.temperatureDelta = -14f;
+            //airConditioner.maxEnvironmentDelta = -50f;
+            //airConditioner.isLiquidConditioner = true;
             ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
             conduitConsumer.conduitType = ConduitType.Liquid;
             conduitConsumer.consumptionRate = 10f;

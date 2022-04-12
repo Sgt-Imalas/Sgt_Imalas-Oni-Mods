@@ -6,7 +6,17 @@ using System.Threading.Tasks;
 
 namespace RadiatorMod
 {
-    class Radiator : KMonoBehaviour, ISaveLoadable, IGameObjectEffectDescriptor, ISim200ms
+    class Radiator : KMonoBehaviour
+        //, IGameObjectEffectDescriptor
+        , ISim200ms
     {
+        [MyCmpGet]
+        private Rotatable rotatable;
+
+        public void Sim200ms(float fl)
+        {
+            if ((bool)(UnityEngine.Object)this.rotatable)
+                Debug.Log(rotatable.GetOrientation());
+        }
     }
 }
