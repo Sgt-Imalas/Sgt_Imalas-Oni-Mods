@@ -68,8 +68,8 @@ namespace RoboRockets.Buildings
         }
         public override void DoPostConfigureComplete(GameObject go)
         {
-            go.AddOrGet<RadiatorBase>();
             go.AddOrGet<LogicOperationalController>();
+            go.AddOrGet<RadiatorBase>();
             //AddVisualPreview(go, false);
 
             MakeBaseSolid.Def solidBase = go.AddOrGetDef<MakeBaseSolid.Def>();
