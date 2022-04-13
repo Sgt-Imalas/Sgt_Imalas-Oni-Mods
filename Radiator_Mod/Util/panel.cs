@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace RadiatorMod.Util
 {
-    class panel : KMonoBehaviour, ISim1000ms
+    public class panel : KMonoBehaviour, ISim1000ms
     {
         public bool SpaceExposedCurrent = false;
 
@@ -18,7 +18,7 @@ namespace RadiatorMod.Util
         }
         public void Sim1000ms(float dt)
         {
-           // UpdateExposure();
+            Debug.Log(ExposedToSpace());
         }
     }
 }

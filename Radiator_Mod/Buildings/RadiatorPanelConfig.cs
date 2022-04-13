@@ -26,7 +26,11 @@ namespace RoboRockets.Buildings
             EffectorValues none2 = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
             BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "heavywatttile_kanim", 100, 20f, matCosts, construction_materials, 1600f, BuildLocationRule.NotInTiles, none2, noise);
+            buildingDef.Floodable = false; 
+            BuildingTemplates.CreateFoundationTileDef(buildingDef);
             buildingDef.Floodable = false;
+            buildingDef.Overheatable = false;
+            buildingDef.Entombable = false;
             buildingDef.PermittedRotations = PermittedRotations.Unrotatable;
             return buildingDef;
         }
@@ -34,11 +38,11 @@ namespace RoboRockets.Buildings
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
             go.AddOrGet<LoopingSounds>();
-            go.AddOrGet<panel>();
             
         }
         public override void DoPostConfigureComplete(GameObject go)
         {
+            go.AddOrGet<panel>();
         }
     }
 }

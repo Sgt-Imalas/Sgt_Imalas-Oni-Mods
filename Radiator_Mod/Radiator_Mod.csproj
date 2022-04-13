@@ -70,7 +70,19 @@
 
 	<ItemGroup>
 	  <Folder Include="anim\assets\RadiatorPanel\" />
-	  <Folder Include="anim\assets\Radiator\" />
+	  <Folder Include="anim\assets\heat_radiator\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="anim\assets\heat_radiator\heat_radiator.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="anim\assets\heat_radiator\heat_radiator_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="anim\assets\heat_radiator\heat_radiator_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 	
 </Project>

@@ -14,7 +14,7 @@ namespace Radiator_Mod
             public static void Postfix()
             {
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.LiquidTuning, RadiatorBaseConfig.ID);
-                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.LiquidTuning, RadiatorPanelConfig.ID);
+                //InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.LiquidTuning, RadiatorPanelConfig.ID);
                 Debug.Log("Initialized");
             }
         }
@@ -27,10 +27,10 @@ namespace Radiator_Mod
             public static void Prefix()
             {
                 InjectionMethods.AddBuildingStrings(RadiatorBaseConfig.ID, RadiatorBaseConfig.NAME);
-                InjectionMethods.AddBuildingStrings(RadiatorPanelConfig.ID, RadiatorPanelConfig.NAME);
+               // InjectionMethods.AddBuildingStrings(RadiatorPanelConfig.ID, RadiatorPanelConfig.NAME);
 
                 InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, RadiatorBaseConfig.ID);
-                InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, RadiatorPanelConfig.ID);
+                //InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, RadiatorPanelConfig.ID);
             }
         }
     }
