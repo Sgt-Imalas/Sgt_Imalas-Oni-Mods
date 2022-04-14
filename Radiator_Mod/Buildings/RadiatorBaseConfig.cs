@@ -14,24 +14,20 @@ namespace RoboRockets.Buildings
         public const string ID = "RadiatorBase";
         public const string NAME = "Space Radiator";
 
-        private static readonly List<Storage.StoredItemModifier> StoredItemModifiers = new List<Storage.StoredItemModifier>()
-        {
-            Storage.StoredItemModifier.Hide,
-            Storage.StoredItemModifier.Insulate,
-            Storage.StoredItemModifier.Seal
-        };
-
-        public override BuildingDef CreateBuildingDef()
-        {
-            float[] matCosts = { 1200f
+        public static float[] matCosts = { 1200f
                     //, 400f 
             };
 
-            string[] construction_materials = new string[]
-                {
+        public static string[] construction_materials = new string[]
+            {
                     "RefinedMetal"
-                   // ,"KATAIRITE"
-                };
+                // ,"KATAIRITE"
+            };
+
+
+        public override BuildingDef CreateBuildingDef()
+        {
+          
             EffectorValues tieR2 = NOISE_POLLUTION.NONE;
             EffectorValues none2 = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
@@ -40,39 +36,36 @@ namespace RoboRockets.Buildings
 
             buildingDef.InputConduitType = ConduitType.Liquid;
             buildingDef.OutputConduitType = ConduitType.Liquid;
-            buildingDef.Floodable = false;
-
             buildingDef.UtilityInputOffset = new CellOffset(0, 0);
             buildingDef.UtilityOutputOffset = new CellOffset(1, 0);
 
             buildingDef.SceneLayer = Grid.SceneLayer.TileMain;
-            buildingDef.TileLayer = ObjectLayer.FoundationTile;
+            buildingDef.TileLayer = ObjectLayer.Building;
 
             buildingDef.PermittedRotations = PermittedRotations.R360;
             buildingDef.ViewMode = OverlayModes.LiquidConduits.ID;
+            buildingDef.Overheatable = false;
+            buildingDef.Floodable = false;
+            buildingDef.Entombable = true;
 
-            buildingDef.OverheatTemperature = 398.15f;
             buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
-            GeneratedBuildings.RegisterWithOverlay(OverlayScreen.LiquidVentIDs, ID);
+
+            //GeneratedBuildings.RegisterWithOverlay(OverlayScreen.LiquidVentIDs, ID);
             return buildingDef;
         }
 
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
-            go.AddOrGet<LoopingSounds>();
-            ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
-            conduitConsumer.conduitType = ConduitType.Liquid;
-            conduitConsumer.consumptionRate = 10f;
-            conduitConsumer.alwaysConsume = true;
+            GeneratedBuildings.MakeBuildingAlwaysOperational(go);
+            //go.AddOrGet<LoopingSounds>();
+            go.AddOrGet<RadiatorBase>();
         }
         public override void DoPostConfigureComplete(GameObject go)
         {
             go.AddOrGet<LogicOperationalController>();
-            go.AddOrGet<RadiatorBase>();
             UnityEngine.Object.DestroyImmediate(go.GetComponent<RequireInputs>());
             UnityEngine.Object.DestroyImmediate(go.GetComponent<ConduitConsumer>());
             UnityEngine.Object.DestroyImmediate(go.GetComponent<ConduitDispenser>());
-           // AddVisualPreview(go, false);
 
             MakeBaseSolid.Def solidBase = go.AddOrGetDef<MakeBaseSolid.Def>();
             solidBase.occupyFoundationLayer = true;
@@ -82,6 +75,7 @@ namespace RoboRockets.Buildings
                 new CellOffset(1, 0)
             };
 
+            BuildingTemplates.DoPostConfigure(go);
         }
         //public override void DoPostConfigurePreview(BuildingDef def, GameObject go) => RadiatorBaseConfig.AddVisualPreview(go, true);
 
