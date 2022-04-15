@@ -26,11 +26,12 @@ namespace RoboRockets.Buildings
             EffectorValues none2 = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
             BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "heavywatttile_kanim", 100, 20f, matCosts, construction_materials, 1600f, BuildLocationRule.NotInTiles, none2, noise);
-            buildingDef.Floodable = false; 
+
             BuildingTemplates.CreateFoundationTileDef(buildingDef);
             buildingDef.Floodable = false;
             buildingDef.Overheatable = false;
-            buildingDef.Entombable = false;
+            buildingDef.Entombable = true;
+
             buildingDef.PermittedRotations = PermittedRotations.Unrotatable;
             return buildingDef;
         }

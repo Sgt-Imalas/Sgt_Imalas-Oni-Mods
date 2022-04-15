@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TemplateClasses;
 using UnityEngine;
+using UtilLibs;
 
 namespace RadiatorMod.Util
 {
@@ -16,7 +17,9 @@ namespace RadiatorMod.Util
 		[MyCmpReq] protected Operational operational;
 		[MyCmpReq] private KSelectable selectable;
         [MyCmpGet] private Rotatable rotatable;
+		[MyCmpGet] protected PrimaryElement mainElement;
 
+		//public Operational.Flag visualHeatRadiationInSpace = new Operational.Flag("VisualHeatRadiationInSpace", Operational.Flag.Type.Functional);
 		public StatusItem _radiating_status;
 		private Guid handle_radiating;
 		
@@ -25,14 +28,11 @@ namespace RadiatorMod.Util
 
 		private static readonly double stefanBoltzmanConstant = 5.67e-8;
 		public float emissivity = .9f;
-		public int RadiatorAreaCurrent = 10;
-		public bool InSpace;
-
-		public float CurrentCooling { get; private set; }
+		public int RadiatorAreaCurrent = 20;
+		public List<CellOffset> RadiatorArea;
 		private HandleVector<int>.Handle accumulator = HandleVector<int>.InvalidHandle;
 		private HandleVector<int>.Handle structureTemperature;
 
-		public bool Radiating = true;
 
 		#region NetworkStuff
 
@@ -63,16 +63,25 @@ namespace RadiatorMod.Util
 
 		#endregion
 
-        public void Sim200ms(float dt)
+		public void RadiateIntoSpace()
         {
-			var temperature = gameObject.GetComponent<PrimaryElement>().Temperature;
-			if (temperature > 10f)
+			if (mainElement.Temperature > 5f)
+				return;
+			var cooling = heatRadiationAmount(mainElement.Temperature);
+			if (cooling > 1f)
 			{
-				RecalculateRadiationArea();
+				GameComps.StructureTemperatures.ProduceEnergy(structureTemperature, (float)-cooling / 1000,
+					BUILDING.STATUSITEMS.OPERATINGENERGY.PIPECONTENTS_TRANSFER, (float)-cooling / 1000);
+			}
+		}
+        public void Sim200ms(float dt)
+		{
+			var temperature = gameObject.GetComponent<PrimaryElement>().Temperature;
+			if (temperature > 5f)
+			{
 				var cooling = heatRadiationAmount(temperature);
-				if (cooling > 1f && Radiating && InSpace)
+				if (cooling > 1f && AmIInSpace())
 				{
-					CurrentCooling = (float)cooling;
 					GameComps.StructureTemperatures.ProduceEnergy(structureTemperature, (float)-cooling / 1000,
 						BUILDING.STATUSITEMS.OPERATINGENERGY.PIPECONTENTS_TRANSFER, (float)-cooling / 1000);
 				}
@@ -82,15 +91,28 @@ namespace RadiatorMod.Util
         protected override void OnSpawn()
 		{
 			base.OnSpawn();
+			SetRadiatorArea();
+			AmIInSpace();
 			var building = GetComponent<Building>();
 			inputCell = building.GetUtilityInputCell();
 			outputCell = building.GetUtilityOutputCell();
 
 			smi.StartSM(); 
-			RecalculateRadiationArea();
-
 			Conduit.GetFlowManager(type).AddConduitUpdater(ConduitUpdate);
 			structureTemperature = GameComps.StructureTemperatures.GetHandle(gameObject);
+		}
+
+		public void SetRadiatorArea()
+        {
+			RadiatorArea = new List<CellOffset>();
+			for(int i = 1; i<6; i++)
+            {
+				for (int j = 0; j <= 1; j++)
+                {
+					RadiatorArea.Add(new CellOffset(j, i));
+                }
+            }
+
 		}
 		protected override void OnPrefabInit()
 		{
@@ -147,54 +169,24 @@ namespace RadiatorMod.Util
 		{
 			return Math.Pow(temp, 4) * stefanBoltzmanConstant * emissivity * RadiatorAreaCurrent * 0.2f;
 		}
+		public bool AmIInSpace()
+		{
+			bool retVal = true;
+			var root_cell = Grid.PosToCell(this);
+			foreach (var _cell in RadiatorArea)
+			{
+				var _cellRotated = Rotatable.GetRotatedCellOffset(_cell, rotatable.Orientation);
+				if (!UtilMethods.IsCellInSpaceAndVacuum(Grid.OffsetCell(root_cell, _cellRotated)))
+				{
+					retVal = false;
+					break;
+				}
+			}
+			smi.sm.IsInTrueSpace.Set(retVal, smi);
+			return retVal;
+		}
 
-		private void UpdateStatusItem()
-		{
-			// if it's in space, update status.
-			// Update the existing callback
-			_radiating_status = new StatusItem("RADIATESHEAT_RADIATING", "MISC", "", StatusItem.IconType.Info,
-				NotificationType.Neutral, false, OverlayModes.HeatFlow.ID);
-			_radiating_status.resolveTooltipCallback = _FormatStatusCallback;
-				_radiating_status.resolveStringCallback = _FormatStatusCallback;
-				if (handle_radiating == Guid.Empty)
-					handle_radiating = selectable.AddStatusItem(_radiating_status, this);
-			
-		}
-		private static string _FormatStatusCallback(string formatstr, object data)
-		{
-			var radiate = (RadiatorBase)data;
-			var radiation_rate = GameUtil.GetFormattedHeatEnergyRate(radiate.CurrentCooling);
-			return string.Format(formatstr, radiation_rate);
-		}
         #region StateMachine
-        public void RecalculateRadiationArea()
-        {
-            int _radStrength = 0;
-            CellOffset offset = new CellOffset(1, 5);
-            offset = Rotatable.GetRotatedCellOffset(offset, rotatable.Orientation);
-
-            var lPos = Grid.CellToXY(Grid.PosToCell(this));
-            int lx = 0, ly = 0;
-
-            if (offset.x < 0) lx += offset.x;
-            if (offset.y < 0) ly += offset.y;
-            //Debug.Log(lx + " " + offset.x + " " + ly + " " + offset.y);
-            for (int i = lx; i <= (offset.x-lx); i++)
-            {
-                for (int j = ly; j <= (offset.y-ly); j++)
-                {
-                    int l2x = lPos.x+i;
-                    int l2y = lPos.y+j;
-					int currentCell = Grid.XYToCell(l2x, l2y);
-
-					if (Grid.IsCellOpenToSpace(currentCell) && Grid.Mass[currentCell] == 0)
-					{
-                        _radStrength += 1;
-                    }
-                }
-            }
-			InSpace = _radStrength < RadiatorAreaCurrent;
-        }
 		public class SMInstance : GameStateMachine<States, SMInstance, RadiatorBase, object>.GameInstance
 		{
 			private readonly Operational _operational;
@@ -209,33 +201,29 @@ namespace RadiatorMod.Util
 
 		public class States : GameStateMachine<States, SMInstance, RadiatorBase>
 		{
-			public State Cooling;
+			public BoolParameter IsInTrueSpace;
+			public State Radiating;
 			public State Retracting;
 			public State Extending;
 			public State Protecting;
-			public State NotCooling;
-			public State NotOperational;
-
+			public State NotRadiating;
 			public override void InitializeStates(out BaseState defaultState)
 			{
-				defaultState = NotOperational;
-				NotOperational
-					.EventTransition(GameHashes.OperationalChanged, NotCooling, smi => smi.IsOperational)
-					.EventTransition(GameHashes.OperationalChanged, Protecting, smi => !smi.IsOperational);
+				defaultState = Extending;
 
-				NotCooling
+				NotRadiating
 					.QueueAnim("on")
 					.EventTransition(GameHashes.OperationalChanged, Retracting, smi => !smi.IsOperational)
-					.EventTransition(GameHashes.OperationalChanged, Cooling, smi => smi.master.InSpace);
+					.ParamTransition(this.IsInTrueSpace, Radiating, IsTrue);
 
-				Cooling
+
+				Radiating
 					.QueueAnim("on_rad", true)
 					.EventTransition(GameHashes.OperationalChanged, Retracting, smi => !smi.IsOperational)
-					.EventTransition(GameHashes.OperationalChanged, NotCooling, smi => !smi.master.InSpace);
+					.ParamTransition(this.IsInTrueSpace, NotRadiating, IsFalse);
 
 				Retracting
 					.PlayAnim("on_pst")
-					.Enter(smi => smi.master.Radiating = false)
 					.OnAnimQueueComplete(Protecting);
 
 				Protecting
@@ -246,8 +234,7 @@ namespace RadiatorMod.Util
 
 				Extending
 					.PlayAnim("on_pre")
-					.Exit(smi => smi.master.Radiating = true)
-					.OnAnimQueueComplete(NotCooling);
+					.OnAnimQueueComplete(NotRadiating);
 			}
 		}
 #endregion
