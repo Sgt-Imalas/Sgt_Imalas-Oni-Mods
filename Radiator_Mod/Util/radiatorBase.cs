@@ -13,15 +13,10 @@ namespace RadiatorMod.Util
     public class RadiatorBase : StateMachineComponent<RadiatorBase.SMInstance>, ISim200ms, IBridgedNetworkItem
 	//, IGameObjectEffectDescriptor
 	{
-		[MyCmpReq]
-		protected Operational operational;
-
+		[MyCmpReq] protected Operational operational;
 		[MyCmpReq] private KSelectable selectable;
+        [MyCmpGet] private Rotatable rotatable;
 
-        [MyCmpGet]
-        private Rotatable rotatable;
-
-		private bool _radiating = false;
 		public StatusItem _radiating_status;
 		private Guid handle_radiating;
 		
@@ -31,25 +26,17 @@ namespace RadiatorMod.Util
 		private static readonly double stefanBoltzmanConstant = 5.67e-8;
 		public float emissivity = .9f;
 		public int RadiatorAreaCurrent = 10;
+		public bool InSpace;
+
 		public float CurrentCooling { get; private set; }
 		private HandleVector<int>.Handle accumulator = HandleVector<int>.InvalidHandle;
 		private HandleVector<int>.Handle structureTemperature;
 
-		public bool Radiating {
-			get { return _radiating; }
-			set {
-                if (_radiating != value)
-                {
-					_radiating = value;
-					if (value == true)
-					{
-					RecalculateRadiationArea();
-					}
-				}
-			}
-		}
+		public bool Radiating = true;
 
 		#region NetworkStuff
+
+		public ConduitType type = ConduitType.Liquid;
 		public void AddNetworks(ICollection<UtilityNetwork> networks)
 		{
 			var networkManager = Conduit.GetNetworkManager(type);
@@ -61,7 +48,6 @@ namespace RadiatorMod.Util
 				return;
 			networks.Add(networkForCell2);
 		}
-		public ConduitType type = ConduitType.Liquid;
 		public bool IsConnectedToNetworks(ICollection<UtilityNetwork> networks)
 		{
 			var flag = false;
@@ -77,15 +63,14 @@ namespace RadiatorMod.Util
 
 		#endregion
 
-        private static readonly int MaxAreaLength = 5;
         public void Sim200ms(float dt)
         {
 			var temperature = gameObject.GetComponent<PrimaryElement>().Temperature;
 			if (temperature > 10f)
 			{
+				RecalculateRadiationArea();
 				var cooling = heatRadiationAmount(temperature);
-				Radiating = cooling > 1f;
-				if (Radiating)
+				if (cooling > 1f && Radiating && InSpace)
 				{
 					CurrentCooling = (float)cooling;
 					GameComps.StructureTemperatures.ProduceEnergy(structureTemperature, (float)-cooling / 1000,
@@ -97,10 +82,14 @@ namespace RadiatorMod.Util
         protected override void OnSpawn()
 		{
 			base.OnSpawn();
+			var building = GetComponent<Building>();
+			inputCell = building.GetUtilityInputCell();
+			outputCell = building.GetUtilityOutputCell();
+
 			smi.StartSM(); 
 			RecalculateRadiationArea();
 
-			Conduit.GetFlowManager(type).AddConduitUpdater(ConduitUpdateForHeatTransfer);
+			Conduit.GetFlowManager(type).AddConduitUpdater(ConduitUpdate);
 			structureTemperature = GameComps.StructureTemperatures.GetHandle(gameObject);
 		}
 		protected override void OnPrefabInit()
@@ -110,13 +99,13 @@ namespace RadiatorMod.Util
 		}
 		protected override void OnCleanUp()
 		{
-			Conduit.GetFlowManager(type).RemoveConduitUpdater(ConduitUpdateForHeatTransfer);
+			Conduit.GetFlowManager(type).RemoveConduitUpdater(ConduitUpdate);
 			Game.Instance.accumulators.Remove(accumulator);
 			base.OnCleanUp();
 		}
 
 		#endregion
-		public void ConduitUpdateForHeatTransfer(float dt)
+		public void ConduitUpdate(float dt)
         {
 			var flowManager = Conduit.GetFlowManager(type);
 			if (!flowManager.HasConduit(inputCell)) return;
@@ -181,7 +170,7 @@ namespace RadiatorMod.Util
         public void RecalculateRadiationArea()
         {
             int _radStrength = 0;
-            CellOffset offset = new CellOffset(1, MaxAreaLength);
+            CellOffset offset = new CellOffset(1, 5);
             offset = Rotatable.GetRotatedCellOffset(offset, rotatable.Orientation);
 
             var lPos = Grid.CellToXY(Grid.PosToCell(this));
@@ -196,30 +185,25 @@ namespace RadiatorMod.Util
                 {
                     int l2x = lPos.x+i;
                     int l2y = lPos.y+j;
+					int currentCell = Grid.XYToCell(l2x, l2y);
 
-                    if (Grid.IsCellOpenToSpace(Grid.XYToCell(l2x, l2y))){
+					if (Grid.IsCellOpenToSpace(currentCell) && Grid.Mass[currentCell] == 0)
+					{
                         _radStrength += 1;
                     }
                 }
             }
-            RadiatorAreaCurrent = _radStrength;
-            Debug.Log("New Ratiation Area: " + RadiatorAreaCurrent);
+			InSpace = _radStrength < RadiatorAreaCurrent;
         }
 		public class SMInstance : GameStateMachine<States, SMInstance, RadiatorBase, object>.GameInstance
 		{
 			private readonly Operational _operational;
-			private readonly ConduitConsumer _consumer;
 
 			public SMInstance(RadiatorBase master) : base(master)
 			{
 				_operational = master.GetComponent<Operational>();
-				_consumer = master.GetComponent<ConduitConsumer>();
 			}
-
-			public bool Satisfied => _consumer.IsSatisfied;
 			public bool IsOperational => _operational.IsOperational;
-			public bool IsActive => _operational.IsActive;
-			public bool IsFunctional => _operational.IsFunctional; //Controlled
 
 		}
 
@@ -242,15 +226,16 @@ namespace RadiatorMod.Util
 				NotCooling
 					.QueueAnim("on")
 					.EventTransition(GameHashes.OperationalChanged, Retracting, smi => !smi.IsOperational)
-					.EventTransition(GameHashes.ActiveChanged, Cooling, smi => smi.master.Radiating);
+					.EventTransition(GameHashes.OperationalChanged, Cooling, smi => smi.master.InSpace);
 
 				Cooling
 					.QueueAnim("on_rad", true)
 					.EventTransition(GameHashes.OperationalChanged, Retracting, smi => !smi.IsOperational)
-					.EventTransition(GameHashes.ActiveChanged, NotCooling, smi => !smi.master.Radiating);
+					.EventTransition(GameHashes.OperationalChanged, NotCooling, smi => !smi.master.InSpace);
 
 				Retracting
 					.PlayAnim("on_pst")
+					.Enter(smi => smi.master.Radiating = false)
 					.OnAnimQueueComplete(Protecting);
 
 				Protecting
@@ -261,6 +246,7 @@ namespace RadiatorMod.Util
 
 				Extending
 					.PlayAnim("on_pre")
+					.Exit(smi => smi.master.Radiating = true)
 					.OnAnimQueueComplete(NotCooling);
 			}
 		}

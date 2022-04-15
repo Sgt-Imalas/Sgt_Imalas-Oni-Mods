@@ -14,14 +14,15 @@ namespace RoboRockets.Buildings
         public const string ID = "RadiatorBase";
         public const string NAME = "Space Radiator";
 
-        public static float[] matCosts = { 1200f
-                    //, 400f 
+        public static float[] matCosts = { 
+                800f,
+                400f 
             };
 
         public static string[] construction_materials = new string[]
             {
                     "RefinedMetal"
-                // ,"KATAIRITE"
+                   ,"BuildableRaw"
             };
 
 
@@ -32,25 +33,21 @@ namespace RoboRockets.Buildings
             EffectorValues none2 = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
             BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 6, "heat_radiator_kanim", 100, 120f, matCosts, construction_materials, 1600f, BuildLocationRule.Anywhere, none2, noise);
-            BuildingTemplates.CreateFoundationTileDef(buildingDef);
 
             buildingDef.InputConduitType = ConduitType.Liquid;
             buildingDef.OutputConduitType = ConduitType.Liquid;
             buildingDef.UtilityInputOffset = new CellOffset(0, 0);
             buildingDef.UtilityOutputOffset = new CellOffset(1, 0);
 
-            buildingDef.SceneLayer = Grid.SceneLayer.TileMain;
-            buildingDef.TileLayer = ObjectLayer.Building;
-
             buildingDef.PermittedRotations = PermittedRotations.R360;
             buildingDef.ViewMode = OverlayModes.LiquidConduits.ID;
             buildingDef.Overheatable = false;
-            buildingDef.Floodable = false;
+            buildingDef.Floodable = true;
             buildingDef.Entombable = true;
 
             buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
 
-            //GeneratedBuildings.RegisterWithOverlay(OverlayScreen.LiquidVentIDs, ID);
+            GeneratedBuildings.RegisterWithOverlay(OverlayScreen.LiquidVentIDs, ID);
             return buildingDef;
         }
 
@@ -68,7 +65,7 @@ namespace RoboRockets.Buildings
             UnityEngine.Object.DestroyImmediate(go.GetComponent<ConduitDispenser>());
 
             MakeBaseSolid.Def solidBase = go.AddOrGetDef<MakeBaseSolid.Def>();
-            solidBase.occupyFoundationLayer = true;
+            solidBase.occupyFoundationLayer = false;
             solidBase.solidOffsets = new CellOffset[]
             {
                 new CellOffset(0, 0),
