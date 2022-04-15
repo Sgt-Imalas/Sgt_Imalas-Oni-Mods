@@ -14,17 +14,9 @@ namespace RoboRockets.Buildings
         public const string ID = "RadiatorBase";
         public const string NAME = "Space Radiator";
 
-        public static float[] matCosts = { 
-                800f,
-                400f 
-            };
+        public static float[] matCosts = BUILDINGS.CONSTRUCTION_MASS_KG.TIER5;
 
-        public static string[] construction_materials = new string[]
-            {
-                    "RefinedMetal"
-                   ,"BuildableRaw"
-            };
-
+        public static string[] construction_materials = MATERIALS.REFINED_METALS;
 
         public override BuildingDef CreateBuildingDef()
         {
@@ -41,9 +33,10 @@ namespace RoboRockets.Buildings
 
             buildingDef.PermittedRotations = PermittedRotations.R360;
             buildingDef.ViewMode = OverlayModes.LiquidConduits.ID;
+
             buildingDef.Overheatable = false;
-            buildingDef.Floodable = true;
-            buildingDef.Entombable = true;
+            buildingDef.Floodable = false;
+            buildingDef.Entombable = false;
 
             buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
 
@@ -55,14 +48,16 @@ namespace RoboRockets.Buildings
         {
             GeneratedBuildings.MakeBuildingAlwaysOperational(go);
             //go.AddOrGet<LoopingSounds>();
-            go.AddOrGet<RadiatorBase>();
         }
         public override void DoPostConfigureComplete(GameObject go)
         {
-            go.AddOrGet<LogicOperationalController>();
+            go.AddOrGet<RadiatorBase>();
             UnityEngine.Object.DestroyImmediate(go.GetComponent<RequireInputs>());
+            UnityEngine.Object.DestroyImmediate(go.GetComponent<RequireOutputs>());
             UnityEngine.Object.DestroyImmediate(go.GetComponent<ConduitConsumer>());
             UnityEngine.Object.DestroyImmediate(go.GetComponent<ConduitDispenser>());
+
+            go.AddOrGet<LogicOperationalController>();
 
             MakeBaseSolid.Def solidBase = go.AddOrGetDef<MakeBaseSolid.Def>();
             solidBase.occupyFoundationLayer = false;
