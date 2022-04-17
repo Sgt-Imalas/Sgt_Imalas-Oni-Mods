@@ -251,7 +251,7 @@ namespace RadiatorMod.Util
 				_operational = master.GetComponent<Operational>();
 				_selectable = master.GetComponent<KSelectable>();
 			}
-			public bool IsOperational => _operational.IsOperational;
+			public bool IsOperational => _operational.IsFunctional && _operational.IsOperational;
 
 		}
 
