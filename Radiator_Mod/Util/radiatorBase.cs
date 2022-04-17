@@ -11,7 +11,7 @@ using UtilLibs;
 
 namespace RadiatorMod.Util
 {
-    public class RadiatorBase : StateMachineComponent<RadiatorBase.SMInstance>,  IBridgedNetworkItem
+    public class RadiatorBase : StateMachineComponent<RadiatorBase.SMInstance>, ISaveLoadable, IBridgedNetworkItem
 	//, IGameObjectEffectDescriptor
 	{
 		[MyCmpReq] protected Operational operational;
@@ -87,12 +87,19 @@ namespace RadiatorMod.Util
 		/// </summary>
 		/// <param name="on"></param>
 		public void SetBunkerState(bool on)
-        {
+		{
+			
 			if (on)
+			{
 				GetComponent<KPrefabID>().AddTag(GameTags.Bunker);
-			else
+			}
+            else
+			{
 				GetComponent<KPrefabID>().RemoveTag(GameTags.Bunker);
+			}
+			Debug.Log(GetComponent<Building>().Def.ThermalConductivity);
 			selectable.ToggleStatusItem(_protected_from_impacts_status, on);
+			
 		}
 
 		/// <summary>
@@ -258,6 +265,7 @@ namespace RadiatorMod.Util
 		public class States : GameStateMachine<States, SMInstance, RadiatorBase>
 		{
 			public BoolParameter IsInTrueSpace;
+			public State StarterState;
 			public State Radiating;
 			public State Retracting;
 			public State Extending;
@@ -265,11 +273,12 @@ namespace RadiatorMod.Util
 			public State NotRadiating;
 			public override void InitializeStates(out BaseState defaultState)
 			{
-				defaultState = Extending;
+				defaultState = NotRadiating;
+
 
 				NotRadiating
 					.QueueAnim("on")
-					.Update((smi,dt) => smi.master.AmIInSpace())
+					.Update((smi, dt) => smi.master.AmIInSpace())
 					.EventTransition(GameHashes.OperationalChanged, Retracting, smi => !smi.IsOperational)
 					.ParamTransition(this.IsInTrueSpace, Radiating, IsTrue);
 

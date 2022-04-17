@@ -32,10 +32,11 @@ namespace RoboRockets.Buildings
             buildingDef.OutputConduitType = ConduitType.Liquid;
             buildingDef.UtilityInputOffset = new CellOffset(0, 0);
             buildingDef.UtilityOutputOffset = new CellOffset(1, 0);
+            buildingDef.DefaultAnimState = "on";
 
             buildingDef.PermittedRotations = PermittedRotations.R360;
             buildingDef.ViewMode = OverlayModes.LiquidConduits.ID;
-
+            buildingDef.ThermalConductivity = 2f;
             buildingDef.AudioCategory = "HollowMetal";
             buildingDef.AudioSize = "small";
 
@@ -72,7 +73,7 @@ namespace RoboRockets.Buildings
                 new CellOffset(0, 0),
                 new CellOffset(1, 0)
             };
-
+            go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayBehindConduits);
             BuildingTemplates.DoPostConfigure(go);
         }
         //public override void DoPostConfigurePreview(BuildingDef def, GameObject go) => RadiatorBaseConfig.AddVisualPreview(go, true);

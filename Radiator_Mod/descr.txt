@@ -1,0 +1,35 @@
+﻿[img]https://github.com/Knastoron/Knastoron-Oni-Mods/blob/master/Radiator_Mod/ModSupportAllVersions.png?raw=true[/img]
+
+[h1]Space Radiator[/h1]
+
+This mod adds a new utility building called “Space Radiator”, that radiates heat off into space.
+
+[h1]Features[/h1]
+New Building: Space Radiator
+[list][*] exchanges heat with the fluid pumped through it.
+[*] When the radiator panels are fully exposed to space, it will constantly emit heat radiation into space.
+[*] Still exchanges heat with environment (gasses, liquids) when not fully exposed to space, therefore it can be used as a very potent radiant pipe.
+[*] Can be folded to protect against meteor impacts.
+[*] When it breaks, it will close to prevent fully destructing the radiator, however it needs to be repaired to work again.
+[/list]
+
+[h1]Requirements[/h1]
+[list]    [*]Locked behind the research “Liquid Tuning”.
+    [*]Requires 800 refined metal.
+[*]Material choice affects radiation rate and heat exchange rate with fluid.
+[*]does not require power
+[*]can be folded by disabling the building either manually or via automation wire. (Disabling won't stop fluids from getting pumped through.)
+[/list] 
+
+
+[h1]Remarks[/h1]
+This mod is my first mod ever created.
+Additionally, the framework of the rockets in the DLC is a duct taped mess.
+Therefore, some parts from the normal rockets are still there, but won’t have any function, for example; access control.
+
+[b]Do not add any regular command modules to a rocket with the AI-Control-Module and vice versa, it probably will crash your game![/b] (this sholdn’t be possible anymore)
+
+also, before uninstalling, remove all existing AI control modules in the save game.
+
+[h1]Credits[/h1]
+Thanks again to the Oni Modding Discord who again helped me with debugging, feature implementation and brainstorming.  Much thanks to Sky for letting me use her radiator code ->[url=https://github.com/skairunner/sky-oni-mods/tree/master/Radiator] skys github[/url].
