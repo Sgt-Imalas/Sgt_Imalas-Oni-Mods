@@ -36,6 +36,9 @@ namespace RoboRockets.Buildings
             buildingDef.PermittedRotations = PermittedRotations.R360;
             buildingDef.ViewMode = OverlayModes.LiquidConduits.ID;
 
+            buildingDef.AudioCategory = "HollowMetal";
+            buildingDef.AudioSize = "small";
+
             buildingDef.Overheatable = false;
             buildingDef.Floodable = false;
             buildingDef.Entombable = false;
@@ -48,12 +51,13 @@ namespace RoboRockets.Buildings
 
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
-            GeneratedBuildings.MakeBuildingAlwaysOperational(go);
-            //go.AddOrGet<LoopingSounds>();
+            go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
+            go.AddOrGet<RadiatorBase>();
+            //GeneratedBuildings.MakeBuildingAlwaysOperational(go);
+            go.AddOrGet<LoopingSounds>();
         }
         public override void DoPostConfigureComplete(GameObject go)
         {
-            go.AddOrGet<RadiatorBase>();
             UnityEngine.Object.DestroyImmediate(go.GetComponent<RequireInputs>());
             UnityEngine.Object.DestroyImmediate(go.GetComponent<RequireOutputs>());
             UnityEngine.Object.DestroyImmediate(go.GetComponent<ConduitConsumer>());

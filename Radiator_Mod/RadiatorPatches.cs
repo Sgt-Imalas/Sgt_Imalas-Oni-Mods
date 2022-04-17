@@ -34,7 +34,7 @@ namespace Radiator_Mod
                     "This radiator is currently radiating heat at {0}.");
 
                 InjectionMethods.AddStatusItem(RadiatorBase.NotInSpace,  RadiatorBase.Category, "Not in space",
-                    "This radiators panels are not fully exposed to space and won't radiate heat into space.");
+                    "This radiators panels are not fully exposed to space, thus it won't radiate any heat into space.");
 
                 InjectionMethods.AddStatusItem(RadiatorBase.BunkerDown, RadiatorBase.Category, "Bunkered down",
                     "This radiator is currently protected from meteor impacts.");
