@@ -13,6 +13,8 @@ namespace RoboRockets.Buildings
     {
         public const string ID = "RadiatorBase";
         public const string NAME = "Space Radiator";
+        public const string DESC = "";
+        public const string EFFECT = "";
 
         public static float[] matCosts = BUILDINGS.CONSTRUCTION_MASS_KG.TIER5;
 

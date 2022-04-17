@@ -11,24 +11,24 @@ using UtilLibs;
 
 namespace RadiatorMod.Util
 {
-    public class RadiatorBase : StateMachineComponent<RadiatorBase.SMInstance>, ISim200ms, IBridgedNetworkItem
+    public class RadiatorBase : StateMachineComponent<RadiatorBase.SMInstance>,  IBridgedNetworkItem
 	//, IGameObjectEffectDescriptor
 	{
 		[MyCmpReq] protected Operational operational;
 		[MyCmpReq] private KSelectable selectable;
         [MyCmpGet] private Rotatable rotatable;
-		[MyCmpGet] protected PrimaryElement mainElement;
 
-		//public Operational.Flag visualHeatRadiationInSpace = new Operational.Flag("VisualHeatRadiationInSpace", Operational.Flag.Type.Functional);
+		public static string Category = "BUILDING", InSpaceRadiating = "RadiatorInSpaceRadiating", NotInSpace = "RadiatorNotInSpace", BunkerDown = "RadiatorBunkeredDown";
+
 		public StatusItem _radiating_status;
-		private Guid handle_radiating;
-		
+		public StatusItem _no_space_status;
+		public StatusItem _protected_from_impacts_status;
+
 		private int inputCell;
 		private int outputCell;
-
+		public float CurrentCoolingRadiation { get; private set; }
 		private static readonly double stefanBoltzmanConstant = 5.67e-8;
 		public float emissivity = .9f;
-		public int RadiatorAreaCurrent = 20;
 		public List<CellOffset> RadiatorArea;
 		private HandleVector<int>.Handle accumulator = HandleVector<int>.InvalidHandle;
 		private HandleVector<int>.Handle structureTemperature;
@@ -63,36 +63,65 @@ namespace RadiatorMod.Util
 
 		#endregion
 
+		/// <summary>
+		/// Method that runs while radiating, deletes the heat from the building "into space"
+		/// </summary>
 		public void RadiateIntoSpace()
         {
-			if (mainElement.Temperature > 5f)
+			var temperature = gameObject.GetComponent<PrimaryElement>().Temperature;
+			if (temperature < 5f)
 				return;
-			var cooling = heatRadiationAmount(mainElement.Temperature);
+
+			var cooling = heatRadiationAmount(temperature);
 			if (cooling > 1f)
 			{
+				CurrentCoolingRadiation = (float)cooling;
 				GameComps.StructureTemperatures.ProduceEnergy(structureTemperature, (float)-cooling / 1000,
 					BUILDING.STATUSITEMS.OPERATINGENERGY.PIPECONTENTS_TRANSFER, (float)-cooling / 1000);
+				UpdateRadiation();
 			}
 		}
-        public void Sim200ms(float dt)
+
+		/// <summary>
+		/// Sets the Bunker state to make the building immune to meteors, also updates the status message to show up in that state
+		/// </summary>
+		/// <param name="on"></param>
+		public void SetBunkerState(bool on)
+        {
+			if (on)
+				GetComponent<KPrefabID>().AddTag(GameTags.Bunker);
+			else
+				GetComponent<KPrefabID>().RemoveTag(GameTags.Bunker);
+			selectable.ToggleStatusItem(_protected_from_impacts_status, on);
+		}
+
+		/// <summary>
+		/// Shows/hides the dtu/sec status msg
+		/// </summary>
+		/// <param name="isOn"></param>
+		public void UpdateRadiation(bool isOn = true)
+        {
+			selectable.ToggleStatusItem(_radiating_status, isOn, this);
+		}
+
+		/// <summary>
+		/// formatting for dtu/s status msg
+		/// </summary>
+		/// <param name="formatstr"></param>
+		/// <param name="data"></param>
+		/// <returns></returns>
+		private static string _FormatStatusCallback(string formatstr, object data)
 		{
-			var temperature = gameObject.GetComponent<PrimaryElement>().Temperature;
-			if (temperature > 5f)
-			{
-				var cooling = heatRadiationAmount(temperature);
-				if (cooling > 1f && AmIInSpace())
-				{
-					GameComps.StructureTemperatures.ProduceEnergy(structureTemperature, (float)-cooling / 1000,
-						BUILDING.STATUSITEMS.OPERATINGENERGY.PIPECONTENTS_TRANSFER, (float)-cooling / 1000);
-				}
-			}
+			var radiator = (RadiatorBase)data;
+			var radiation_rate = GameUtil.GetFormattedHeatEnergyRate(radiator.CurrentCoolingRadiation * 5);
+			return string.Format(formatstr, radiation_rate);
 		}
-        #region Spawn&Cleanup
-        protected override void OnSpawn()
+
+		#region Spawn&Cleanup
+		protected override void OnSpawn()
 		{
 			base.OnSpawn();
 			SetRadiatorArea();
-			AmIInSpace();
 			var building = GetComponent<Building>();
 			inputCell = building.GetUtilityInputCell();
 			outputCell = building.GetUtilityOutputCell();
@@ -100,6 +129,14 @@ namespace RadiatorMod.Util
 			smi.StartSM(); 
 			Conduit.GetFlowManager(type).AddConduitUpdater(ConduitUpdate);
 			structureTemperature = GameComps.StructureTemperatures.GetHandle(gameObject);
+			
+			_radiating_status = new StatusItem(InSpaceRadiating, Category, string.Empty, StatusItem.IconType.Info, NotificationType.Neutral, false, OverlayModes.HeatFlow.ID);
+			_radiating_status.resolveTooltipCallback = _FormatStatusCallback;
+			_radiating_status.resolveStringCallback = _FormatStatusCallback;
+			_no_space_status = new StatusItem(NotInSpace, Category, string.Empty, StatusItem.IconType.Exclamation, NotificationType.Neutral, false, OverlayModes.TileMode.ID);
+			_protected_from_impacts_status = new StatusItem(BunkerDown, Category, string.Empty, StatusItem.IconType.Info, NotificationType.Good, false, OverlayModes.TileMode.ID);
+
+			AmIInSpace();
 		}
 
 		public void SetRadiatorArea()
@@ -127,6 +164,11 @@ namespace RadiatorMod.Util
 		}
 
 		#endregion
+
+		/// <summary>
+		/// Updates for Liquids inside the radiator + connected liquid networks
+		/// </summary>
+		/// <param name="dt"></param>
 		public void ConduitUpdate(float dt)
         {
 			var flowManager = Conduit.GetFlowManager(type);
@@ -135,7 +177,7 @@ namespace RadiatorMod.Util
 			if (contents.mass <= 0f) return;
 			var panel_mat = gameObject.GetComponent<PrimaryElement>();
 			var element = ElementLoader.FindElementByHash(contents.element);
-			var deltaheat = conductive_heat(element, contents.temperature, panel_mat.Element, panel_mat.Temperature, RadiatorAreaCurrent);
+			var deltaheat = conductive_heat(element, contents.temperature, panel_mat.Element, panel_mat.Temperature, RadiatorArea.Count);
 			// heat change = mass * specific heat capacity * temp change        
 			var deltatemp_panel = deltaheat / RadiatorBaseConfig.matCosts[0] / panel_mat.Element.specificHeatCapacity * dt;
 			var deltatemp_liquid = -deltaheat / contents.mass / element.specificHeatCapacity * dt;
@@ -165,10 +207,21 @@ namespace RadiatorMod.Util
 			var conductivity = Math.Min(from.thermalConductivity, panel_material.thermalConductivity);
 			return conductivity * area * (from_temp - panel_temp) * 1f;
 		}
+
+		/// <summary>
+		/// Calculates Thermal radiation based on temperature & some fancy formula thats based on the Stefan-Boltzman-Constant
+		/// </summary>
+		/// <param name="temp"></param>
+		/// <returns></returns>
 		private double heatRadiationAmount(float temp)
 		{
-			return Math.Pow(temp, 4) * stefanBoltzmanConstant * emissivity * RadiatorAreaCurrent * 0.2f;
+			return Math.Pow(temp, 4) * stefanBoltzmanConstant * emissivity * RadiatorArea.Count * 0.2f;
 		}
+
+		/// <summary>
+		/// Checks if all panel tiles are space exposed & in vacuum, updates the status msg and the state bool of the state machine
+		/// </summary>
+		/// <returns></returns>
 		public bool AmIInSpace()
 		{
 			bool retVal = true;
@@ -182,6 +235,7 @@ namespace RadiatorMod.Util
 					break;
 				}
 			}
+			selectable.ToggleStatusItem(_no_space_status, !retVal);
 			smi.sm.IsInTrueSpace.Set(retVal, smi);
 			return retVal;
 		}
@@ -190,10 +244,12 @@ namespace RadiatorMod.Util
 		public class SMInstance : GameStateMachine<States, SMInstance, RadiatorBase, object>.GameInstance
 		{
 			private readonly Operational _operational;
+			public readonly KSelectable _selectable;
 
 			public SMInstance(RadiatorBase master) : base(master)
 			{
 				_operational = master.GetComponent<Operational>();
+				_selectable = master.GetComponent<KSelectable>();
 			}
 			public bool IsOperational => _operational.IsOperational;
 
@@ -213,12 +269,20 @@ namespace RadiatorMod.Util
 
 				NotRadiating
 					.QueueAnim("on")
+					.Update((smi,dt) => smi.master.AmIInSpace())
 					.EventTransition(GameHashes.OperationalChanged, Retracting, smi => !smi.IsOperational)
 					.ParamTransition(this.IsInTrueSpace, Radiating, IsTrue);
 
 
 				Radiating
+					.Update("Radiating", (smi, dt) => 
+					{ 
+						smi.master.RadiateIntoSpace();
+						smi.master.AmIInSpace();
+
+					}, UpdateRate.SIM_200ms)
 					.QueueAnim("on_rad", true)
+					.Exit(smi => smi.master.UpdateRadiation(false))
 					.EventTransition(GameHashes.OperationalChanged, Retracting, smi => !smi.IsOperational)
 					.ParamTransition(this.IsInTrueSpace, NotRadiating, IsFalse);
 
@@ -227,8 +291,8 @@ namespace RadiatorMod.Util
 					.OnAnimQueueComplete(Protecting);
 
 				Protecting
-					.Enter(smi => smi.master.GetComponent<KPrefabID>().AddTag(GameTags.Bunker))
-					.Exit(smi => smi.master.GetComponent<KPrefabID>().RemoveTag(GameTags.Bunker))
+					.Enter(smi => smi.master.SetBunkerState(true))
+					.Exit(smi =>smi.master.SetBunkerState(false))
 					.QueueAnim("off", true)
 					.EventTransition(GameHashes.OperationalChanged, Extending, smi => smi.IsOperational);
 

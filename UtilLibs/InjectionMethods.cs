@@ -28,9 +28,16 @@ namespace UtilLibs
 				planOrderList.Insert(neighborIdx + 1, buildingId);
 			else
 				planOrderList.Add(buildingId);
-		}
+        }
+        public static void AddStatusItem(string status_id, string category , string name, string desc)
+        {
+            status_id = status_id.ToUpperInvariant();
+             category = category.ToUpperInvariant();
+            Strings.Add("STRINGS." + category + ".STATUSITEMS." + status_id + ".NAME", name);
+            Strings.Add("STRINGS." + category + ".STATUSITEMS." + status_id + ".TOOLTIP", desc);
+        }
 
-		public static void AddBuildingToTechnology(string techId, string buildingId)
+        public static void AddBuildingToTechnology(string techId, string buildingId)
 		{
 			Db.Get().Techs.Get(techId).unlockedItemIDs.Add(buildingId);
 		}
