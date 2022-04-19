@@ -91,14 +91,17 @@ namespace RadiatorMod.Util
 			
 			if (on)
 			{
-				GetComponent<KPrefabID>().AddTag(GameTags.Bunker);
+				if (GetComponent<KPrefabID>() != null)
+					GetComponent<KPrefabID>().AddTag(GameTags.Bunker);
 			}
             else
 			{
+				if (GetComponent<KPrefabID>()!=null)
 				GetComponent<KPrefabID>().RemoveTag(GameTags.Bunker);
 			}
-			Debug.Log(GetComponent<Building>().Def.ThermalConductivity);
-			selectable.ToggleStatusItem(_protected_from_impacts_status, on);
+
+			if (selectable != null && selectable.HasStatusItem(_protected_from_impacts_status))
+				selectable.ToggleStatusItem(_protected_from_impacts_status, on);
 			
 		}
 
@@ -107,8 +110,9 @@ namespace RadiatorMod.Util
 		/// </summary>
 		/// <param name="isOn"></param>
 		public void UpdateRadiation(bool isOn = true)
-        {
-			selectable.ToggleStatusItem(_radiating_status, isOn, this);
+		{
+			if (selectable != null && selectable.HasStatusItem(_radiating_status))
+				selectable.ToggleStatusItem(_radiating_status, isOn, this);
 		}
 
 		/// <summary>
@@ -133,7 +137,7 @@ namespace RadiatorMod.Util
 			inputCell = building.GetUtilityInputCell();
 			outputCell = building.GetUtilityOutputCell();
 
-			smi.StartSM(); 
+			smi.StartSM();
 			Conduit.GetFlowManager(type).AddConduitUpdater(ConduitUpdate);
 			structureTemperature = GameComps.StructureTemperatures.GetHandle(gameObject);
 			
@@ -257,15 +261,15 @@ namespace RadiatorMod.Util
 			{
 				_operational = master.GetComponent<Operational>();
 				_selectable = master.GetComponent<KSelectable>();
+				
 			}
 			public bool IsOperational => _operational.IsFunctional && _operational.IsOperational;
-
+			
 		}
 
 		public class States : GameStateMachine<States, SMInstance, RadiatorBase>
 		{
 			public BoolParameter IsInTrueSpace;
-			public State StarterState;
 			public State Radiating;
 			public State Retracting;
 			public State Extending;
@@ -273,8 +277,8 @@ namespace RadiatorMod.Util
 			public State NotRadiating;
 			public override void InitializeStates(out BaseState defaultState)
 			{
-				defaultState = NotRadiating;
 
+				defaultState = NotRadiating;
 
 				NotRadiating
 					.QueueAnim("on")

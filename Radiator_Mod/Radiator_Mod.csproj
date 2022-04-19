@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>Radiator</PackageId>
-		<Version>1.0.0.0</Version>
+		<Version>1.0.1</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022 Sgt_Imalas</Copyright>
 		<RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
@@ -24,9 +24,9 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>Space Radiator</ModName>
-		<ModDescription>Adds a modular radiator building that radiates heat into space</ModDescription>
+		<ModDescription>Adds a space radiator building that radiates heat into space</ModDescription>
 		<SupportedContent>ALL</SupportedContent>
-		<MinimumSupportedBuild>496423</MinimumSupportedBuild>
+		<MinimumSupportedBuild>498381</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 
