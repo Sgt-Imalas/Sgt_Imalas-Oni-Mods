@@ -13,8 +13,8 @@
 	<PropertyGroup>
 		<TargetFramework>net471</TargetFramework>
 		<Configurations>Debug</Configurations>
-		<AssemblyName>ModdingTemplate</AssemblyName>
-		<RootNamespace>ModdingTemplate</RootNamespace>
+		<AssemblyName>ModdingTemplateForOni1</AssemblyName>
+		<RootNamespace>ModdingTemplateForOni1</RootNamespace>
 		<IsMod>true</IsMod>
 		<GenerateMetadata>true</GenerateMetadata>
 		<IsPacked>true</IsPacked>
