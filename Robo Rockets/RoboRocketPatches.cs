@@ -222,16 +222,28 @@ namespace Robo_Rockets
         }
         [HarmonyPatch(typeof(ClusterManager))]
         [HarmonyPatch("CreateRocketInteriorWorld")]
-        public class RocketControlStation_CreateRocketInteriorWorld_Patch
+        public class ClusterManager_CreateRocketInteriorWorld_Patch
         {
-
-            public static Vector2I ConditionForSize(string templateString)
+            public static void PrintInstructions(List<HarmonyLib.CodeInstruction> codes)
             {
-                return RocketryUtils.GetCustomInteriorSize(templateString);
+                //#if DEBUG
+                Debug.Log("\n");
+                for (int i = 0; i < codes.Count; i++)
+                {
+                    Debug.Log(i + ": " + codes[i]);
+                }
+                //#endif
+            }
+            public static Vector2I ConditionForSize(Vector2I original, string templateString)
+            {
+                if (templateString.Contains("habitat_robo"))
+                    original = new Vector2I(10, 10);
+
+                return original;
             }
 
             private static readonly MethodInfo InteriorSizeHelper = AccessTools.Method(
-               typeof(RocketControlStation_CreateRocketInteriorWorld_Patch),
+               typeof(ClusterManager_CreateRocketInteriorWorld_Patch),
                nameof(ConditionForSize)
             );
 
@@ -244,16 +256,16 @@ namespace Robo_Rockets
             static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
             {
                 var code = instructions.ToList();
-
                 var insertionIndex = code.FindIndex(ci => ci.operand is FieldInfo f && f == SizeFieldInfo);
-               
 
                 if (insertionIndex != -1)
                 {
-                    code[insertionIndex] = new CodeInstruction(OpCodes.Ldarg_2);
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldarg_2));
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, InteriorSizeHelper));
                 }
-                return code.AsEnumerable();
+               
+                PrintInstructions(code);
+                return code;
             }
         }
     }

@@ -28,7 +28,7 @@ namespace Radiator_Mod
             public static void Prefix()
             {
                 InjectionMethods.AddBuildingStrings(RadiatorBaseConfig.ID, RadiatorBaseConfig.NAME,RadiatorBaseConfig.DESC,RadiatorBaseConfig.EFFECT);
-                InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, RadiatorBaseConfig.ID);
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, RadiatorBaseConfig.ID);
 
                 InjectionMethods.AddStatusItem(RadiatorBase.InSpaceRadiating,  RadiatorBase.Category, "Radiating {0}",
                     "This radiator is currently radiating heat at {0}.");

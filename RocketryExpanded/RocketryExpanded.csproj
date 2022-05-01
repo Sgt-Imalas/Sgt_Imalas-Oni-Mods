@@ -1,39 +1,38 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
- 
+<Project Sdk="Microsoft.NET.Sdk">
+
 	<!-- General Package Properties -->
-  <PropertyGroup>
-    <PackageId>Robo Rockets2</PackageId>
-    <Version>1.0.1</Version>
-    <Authors>Sgt_Imalas</Authors>
-    <Copyright>2022 Sgt_Imalas</Copyright>
-    <RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
-  </PropertyGroup>
+	<PropertyGroup>
+		<PackageId>Rocketry Expanded</PackageId>
+		<Version>1.0.0</Version>
+		<Authors>Sgt_Imalas</Authors>
+		<Copyright>2022 Sgt_Imalas</Copyright>
+		<RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
+	</PropertyGroup>
 
 	<!-- Build Properties -->
 	<PropertyGroup>
 		<TargetFramework>net471</TargetFramework>
 		<Configurations>Debug</Configurations>
-		<AssemblyName>Robo Rockets</AssemblyName>
-		<RootNamespace>Robo Rockets</RootNamespace>
+		<AssemblyName>RocketryExpanded</AssemblyName>
+		<RootNamespace>RocketryExpanded</RootNamespace>
 		<IsMod>true</IsMod>
 		<GenerateMetadata>true</GenerateMetadata>
 		<IsPacked>true</IsPacked>
 	</PropertyGroup>
-	
-	
-	<!-- Mod Info AI Controlled Rockets-->
+
+
+	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>MOOOOOOOOOOOD</ModName>
-		<ModDescription>Adds in a Control Module that allows Rockets to fly without a Pilot</ModDescription>
+		<ModName>Rocketry Expanded</ModName>
+		<ModDescription>adds various rocketry related extras</ModDescription>
 		<SupportedContent>EXPANSION1_ID</SupportedContent>
-		<MinimumSupportedBuild>496423</MinimumSupportedBuild>
+		<MinimumSupportedBuild>498381</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<OutDir>bin</OutDir>
-		<OutputPath></OutputPath>
-		<DocumentationFile></DocumentationFile>
+		<OutputPath>E:\Documents\Klei\OxygenNotIncluded\mods\Dev\LongeRocket\</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -61,38 +60,19 @@
 			<HintPath>D:\Programs\Steam\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.UIModule.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
-		<PackageReference Include="PLib" Version="4.8.0">
+		<!--<PackageReference Include="PLib" Version="4.8.0">
 			<Private>false</Private>
-		</PackageReference>
+		</PackageReference>-->
 	</ItemGroup>
-	
+
 	<ItemGroup>
-	  <ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
+		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
+
 	<ItemGroup>
-	  <Folder Include="Properties\" />
-	</ItemGroup>
-	<ItemGroup>
-	  <None Update="anim\assets\BrainController\BrainController.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="anim\assets\BrainController\BrainController_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="anim\assets\BrainController\BrainController_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="templates\interiors\habitat_robo.yaml">
+	  <None Update="templates\interiors\habitat_long.yaml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>
+
 </Project>
