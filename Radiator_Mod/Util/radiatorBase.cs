@@ -100,7 +100,7 @@ namespace RadiatorMod.Util
 				GetComponent<KPrefabID>().RemoveTag(GameTags.Bunker);
 			}
 
-			if (selectable != null && selectable.HasStatusItem(_protected_from_impacts_status))
+			if (selectable != null)
 				selectable.ToggleStatusItem(_protected_from_impacts_status, on);
 			
 		}
@@ -110,8 +110,7 @@ namespace RadiatorMod.Util
 		/// </summary>
 		/// <param name="isOn"></param>
 		public void UpdateRadiation(bool isOn = true)
-		{
-			if (selectable != null && selectable.HasStatusItem(_radiating_status))
+		{if (selectable != null)
 				selectable.ToggleStatusItem(_radiating_status, isOn, this);
 		}
 
