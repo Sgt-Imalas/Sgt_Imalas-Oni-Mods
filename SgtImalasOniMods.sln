@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Radiator_Mod", "Radiator_Mo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RocketryExpanded", "RocketryExpanded\RocketryExpanded.csproj", "{784D7585-0768-4D16-8534-FC8891A28E04}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModdingTemplate", "ModdingTemplate\ModdingTemplate.csproj", "{ED6CFD45-F146-4427-A9A9-8A5644496775}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{784D7585-0768-4D16-8534-FC8891A28E04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{784D7585-0768-4D16-8534-FC8891A28E04}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{784D7585-0768-4D16-8534-FC8891A28E04}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{ED6CFD45-F146-4427-A9A9-8A5644496775}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED6CFD45-F146-4427-A9A9-8A5644496775}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED6CFD45-F146-4427-A9A9-8A5644496775}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED6CFD45-F146-4427-A9A9-8A5644496775}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

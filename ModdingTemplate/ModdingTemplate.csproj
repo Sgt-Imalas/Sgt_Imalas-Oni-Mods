@@ -2,7 +2,7 @@
 
 	<!-- General Package Properties -->
 	<PropertyGroup>
-		<PackageId>Rocketry Expanded</PackageId>
+		<PackageId>MODNAME</PackageId>
 		<Version>1.0.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022 Sgt_Imalas</Copyright>
@@ -13,8 +13,8 @@
 	<PropertyGroup>
 		<TargetFramework>net471</TargetFramework>
 		<Configurations>Debug</Configurations>
-		<AssemblyName>RocketryExpanded</AssemblyName>
-		<RootNamespace>RocketryExpanded</RootNamespace>
+		<AssemblyName>ModdingTemplate</AssemblyName>
+		<RootNamespace>ModdingTemplate</RootNamespace>
 		<IsMod>true</IsMod>
 		<GenerateMetadata>true</GenerateMetadata>
 		<IsPacked>true</IsPacked>
@@ -23,11 +23,16 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>Rocketry Expanded</ModName>
-		<ModDescription>adds various rocketry related extras</ModDescription>
-		<SupportedContent>EXPANSION1_ID</SupportedContent>
+		<ModName>MODNAME</ModName>
+		<ModDescription>MODDESCR</ModDescription>
+		<SupportedContent>EXPANSION1_ID/</SupportedContent>
 		<MinimumSupportedBuild>498381</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<OutDir>bin</OutDir>
+		<OutputPath>E:\Documents\Klei\OxygenNotIncluded\mods\Dev\LongeRocket\</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -64,5 +69,10 @@
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<None Update="templates\interiors\habitat_long.yaml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>
