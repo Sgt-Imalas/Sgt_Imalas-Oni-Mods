@@ -8,6 +8,7 @@ namespace RocketryExpanded
 	{
 		public override void OnLoad(Harmony harmony)
 		{
+			//GameTags.Other.Add("x");
 			base.OnLoad(harmony);
 		}
 	}

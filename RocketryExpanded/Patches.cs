@@ -26,17 +26,10 @@ namespace RocketryExpanded
             {
                 if (__instance.master.PrefabID() == NuclearPulseEngineConfig.ID)
                 {
-                    for (int index = 0; index < 3; ++index)
-                    {
-                        KBatchedAnimController animContr = (KBatchedAnimController)Traverse.Create(__instance.master).Field("animController").GetValue();
-                        int cell = Grid.PosToCell(__instance.master.gameObject.transform.GetPosition() + animContr.Offset);
-
-                        if (Grid.AreCellsInSameWorld(cell, (int)Traverse.Create(__instance).Field("pad_cell").GetValue()))
-                        {
-                            GameObject gameObject = Util.KInstantiate(Assets.GetPrefab((Tag)NuclearWasteCometConfig.ID), __instance.master.transform.position + animContr.Offset + Vector3.down * 2f, Quaternion.identity);
-                            gameObject.SetActive(true);
-                        }
-                    }
+                    __instance.master.GetComponent<ExhaustDispenser>().exhaustMethod(
+                        dt, __instance,
+                        (KBatchedAnimController)Traverse.Create(__instance.master).Field("animController").GetValue(),
+                        (int)Traverse.Create(__instance).Field("pad_cell").GetValue());
                 }
             }
         }

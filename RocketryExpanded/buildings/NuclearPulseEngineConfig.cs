@@ -15,8 +15,7 @@ namespace RocketryExpanded.buildings
 
         public const SimHashes FUEL = SimHashes.EnrichedUranium;
         public Tag FUEL_TAG = SimHashes.EnrichedUranium.CreateTag();
-        public const float FUEL_CAPACITY = 450f;
-        public static float FUEL_EFFICIENCY = 0.125f;
+        public const float FUEL_CAPACITY = 700f;
 
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public override BuildingDef CreateBuildingDef()
@@ -52,7 +51,8 @@ namespace RocketryExpanded.buildings
         {
             BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
             go.AddOrGet<LoopingSounds>();
-            go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
+            go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery); 
+            go.AddOrGet<ExhaustDispenser>();
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
             {
       new BuildingAttachPoint.HardPoint(new CellOffset(0, 5), GameTags.Rocket, (AttachableBuilding) null)
@@ -85,7 +85,7 @@ namespace RocketryExpanded.buildings
             rocketEngineCluster.requireOxidizer = false;
             rocketEngineCluster.exhaustElement = SimHashes.Fallout;
             rocketEngineCluster.exhaustTemperature = 3000f;
-            rocketEngineCluster.exhaustEmitRate = 500f;
+            rocketEngineCluster.exhaustEmitRate = 50f;
             rocketEngineCluster.exhaustDiseaseIdx = Db.Get().Diseases.GetIndex((HashedString)Db.Get().Diseases.RadiationPoisoning.Id);
             rocketEngineCluster.exhaustDiseaseCount = 100000;
             rocketEngineCluster.emitRadiation = true;
@@ -113,7 +113,7 @@ namespace RocketryExpanded.buildings
             manualDeliveryKg.capacity = storage.capacityKg;
             manualDeliveryKg.operationalRequirement = FetchOrder2.OperationalRequirement.None;
             manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
-            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MAJOR_PLUS, (float)ROCKETRY.ENGINE_POWER.LATE_VERY_STRONG, ROCKETRY.FUEL_COST_PER_DISTANCE.MEDIUM);
+            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MAJOR_PLUS, (float)ROCKETRY.ENGINE_POWER.LATE_VERY_STRONG, ROCKETRY.FUEL_COST_PER_DISTANCE.VERY_LOW);
             go.GetComponent<KPrefabID>().prefabInitFn += (KPrefabID.PrefabFn)(inst => { });
         }
     }
