@@ -42,7 +42,7 @@ namespace RocketryExpanded
                  5778f,
                  Db.Get().Diseases.GetIndex((HashedString)Db.Get().Diseases.RadiationPoisoning.Id),
                  100000000);
-            UnityEngine.Object.Destroy(this.gameObject);
+            Util.KDestroyGameObject(this.gameObject);
         }
     }
 }

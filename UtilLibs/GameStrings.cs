@@ -24,6 +24,7 @@ namespace UtilLibs
                 public const string Automation = "Automation";
                 public const string Shipping = "Conveyance";
                 public const string Rocketry = "Rocketry";
+            public const string Radiation = "HEP";
             }
 
             public static class Technology

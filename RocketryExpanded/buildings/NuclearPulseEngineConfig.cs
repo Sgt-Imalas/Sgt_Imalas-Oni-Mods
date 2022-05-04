@@ -15,7 +15,7 @@ namespace RocketryExpanded.buildings
 
         public const SimHashes FUEL = SimHashes.EnrichedUranium;
         public Tag FUEL_TAG = SimHashes.EnrichedUranium.CreateTag();
-        public const float FUEL_CAPACITY = 700f;
+        public const float FUEL_CAPACITY = 350f;
 
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public override BuildingDef CreateBuildingDef()
@@ -71,9 +71,9 @@ namespace RocketryExpanded.buildings
         {
             RadiationEmitter radiationEmitter = go.AddOrGet<RadiationEmitter>();
             radiationEmitter.emitType = RadiationEmitter.RadiationEmitterType.Constant;
-            radiationEmitter.emitRadiusX = (short)25;
-            radiationEmitter.emitRadiusY = (short)25;
-            radiationEmitter.emitRads = (float)(30000.0 / ((double)radiationEmitter.emitRadiusX / 6.0));
+            radiationEmitter.emitRadiusX = (short)15;
+            radiationEmitter.emitRadiusY = (short)15;
+            radiationEmitter.emitRads = (float)(16800.0 / ((double)radiationEmitter.emitRadiusX / 6.0));
             radiationEmitter.emissionOffset = new Vector3(0.0f, 3f, 0.0f);
 
             RocketEngineCluster rocketEngineCluster = go.AddOrGet<RocketEngineCluster>();

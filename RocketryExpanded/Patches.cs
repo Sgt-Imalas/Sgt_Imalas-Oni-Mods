@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using RocketryExpanded.buildings;
+using RocketryExpanded.entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,25 +42,62 @@ namespace RocketryExpanded
 
             public static void Prefix()
             {
+                InjectionMethods.AddBuildingStrings(BombBuildingStationConfig.ID, BombBuildingStationConfig.NAME);
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Radiation, BombBuildingStationConfig.ID);
+
                 InjectionMethods.AddBuildingStrings(HabitatModuleLongConfig.ID, HabitatModuleLongConfig.DisplayName);
                 RocketryUtils.AddRocketModuleToBuildList(HabitatModuleLongConfig.ID);
                 InjectionMethods.AddBuildingStrings(NuclearPulseEngineConfig.ID, NuclearPulseEngineConfig.DisplayName);
                 RocketryUtils.AddRocketModuleToBuildList(NuclearPulseEngineConfig.ID);
             }
         }
+
+        [HarmonyPatch(typeof(SolidConduitDispenser))]
+        [HarmonyPatch("ConduitUpdate")]
+        public class ConduitDispenserImplementOneElementTag
+        {
+            private static readonly MethodInfo SuitableMethodInfo = AccessTools.Method(
+                    typeof(Pickupable),
+                   "get_PrimaryElement"
+               );
+            public static Pickupable CheckForTag(Pickupable original)
+            {
+                Debug.Log(original.KPrefabID);
+                if (original.KPrefabID.HasTag(ModAssets.Tags.SplitOnRail))
+                {
+                    original = original.Take(1f);
+                }
+                return original;
+            }
+
+            private static readonly MethodInfo PacketSizeHelper = AccessTools.Method(
+               typeof(ConduitDispenserImplementOneElementTag),
+               nameof(CheckForTag)
+            );
+
+            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+            {
+                var code = instructions.ToList();
+
+                var insertionIndex = code.FindIndex(ci => ci.operand is MethodInfo f && f == SuitableMethodInfo);
+
+                if (insertionIndex != -1)
+                {
+                    Debug.Log("PATCH APPLIED!\n\n\n\n\n\n\n");
+                    code.Insert(insertionIndex, new CodeInstruction(OpCodes.Call, PacketSizeHelper));
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Stloc_2));
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_2));
+                }
+                Debug.Log("DEBUGMETHOD: " + new CodeInstruction(OpCodes.Call, PacketSizeHelper));
+                InjectionMethods.PrintInstructions(code);
+                return code;
+            }
+        }
+
         [HarmonyPatch(typeof(ClusterManager))]
-        [HarmonyDebug]
         [HarmonyPatch("CreateRocketInteriorWorld")]
         public class ClusterManager_PatchRocketInteriorWorldGen
         {
-            public static void PrintInstructions(List<HarmonyLib.CodeInstruction> codes)
-            {
-                Debug.Log("\n");
-                for (int i = 0; i < codes.Count; i++)
-                {
-                    Debug.Log(i + ": " + codes[i]);
-                }
-            }
 
             public static Vector2I ConditionForSize(Vector2I original,string templateString)
             {
@@ -89,8 +127,6 @@ namespace RocketryExpanded
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldarg_2));
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, InteriorSizeHelper));
                 }
-
-                PrintInstructions(code);
                 return code;
             }
         }

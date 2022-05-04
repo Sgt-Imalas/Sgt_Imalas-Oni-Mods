@@ -9,6 +9,14 @@ namespace UtilLibs
 {
     public static class InjectionMethods
 	{
+        public static void PrintInstructions(List<HarmonyLib.CodeInstruction> codes)
+        {
+            Debug.Log("\n");
+            for (int i = 0; i < codes.Count; i++)
+            {
+                Debug.Log(i + ": " + codes[i]);
+            }
+        }
         public static void AddStatusItem(string status_id, string category , string name, string desc)
         {
             status_id = status_id.ToUpperInvariant();

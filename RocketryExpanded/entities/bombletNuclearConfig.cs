@@ -7,18 +7,24 @@ using UnityEngine;
 
 namespace RocketryExpanded.entities
 {
-    public class bombletNuclearConfig : IEntityConfig
+    public class BombletNuclearConfig : IEntityConfig
     {
         public const string ID = "nuclear_bomblet";
         public const string NAME = "Nuclear Bomblet";
         public const string DESC = "I wonder what this red button does";
+        public static ComplexRecipe recipe;
+        public string[] GetDlcIds()
+        {
+            return DlcManager.AVAILABLE_EXPANSION1_ONLY;
+        }
+
         public GameObject CreatePrefab()
         {
             GameObject looseEntity = EntityTemplates.CreateLooseEntity(
                   id: ID,
                   name: NAME,
                   desc: DESC,
-                  mass: 5f,
+                  mass: 10f,
                   unitMass: true,
                   anim: Assets.GetAnim("bomblet_nuclear_kanim"),
                   initialAnim: "object",
@@ -30,9 +36,12 @@ namespace RocketryExpanded.entities
                   element: SimHashes.EnrichedUranium,
                   additionalTags: new List<Tag>()
                   {
+                      ModAssets.Tags.SplitOnRail,
                       GameTags.IndustrialIngredient
                   });
             var bomb = looseEntity.AddOrGet<ExplosiveBomblet>();
+
+            looseEntity.AddOrGet<EntitySplitter>().maxStackSize = 20f;
 
             RadiationEmitter radiationEmitter = looseEntity.AddComponent<RadiationEmitter>();
             radiationEmitter.emitType = RadiationEmitter.RadiationEmitterType.Constant;
@@ -45,11 +54,9 @@ namespace RocketryExpanded.entities
             return looseEntity;
         }
 
-        public void OnPrefabInit(GameObject inst) { }
-        public void OnSpawn(GameObject inst) { }
-        public string[] GetDlcIds()
+        public void OnPrefabInit(GameObject inst)
         {
-            return DlcManager.AVAILABLE_EXPANSION1_ONLY;
         }
+        public void OnSpawn(GameObject inst) { }
     }
 }
