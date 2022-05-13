@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RadiatorMod.Buildings;
 using RadiatorMod.Util;
 using RoboRockets.Buildings;
 using System;
@@ -14,8 +15,10 @@ namespace Radiator_Mod
         {
             public static void Postfix()
             {
+                //add buildings to technology tree
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.LiquidTuning, RadiatorBaseConfig.ID);
-                //InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.LiquidTuning, RadiatorPanelConfig.ID);
+
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.DurableLifeSupport, HabitatMediumRadiator.ID);
                 //Debug.Log("Initialized");
             }
         }
@@ -27,8 +30,20 @@ namespace Radiator_Mod
 
             public static void Prefix()
             {
-                InjectionMethods.AddBuildingStrings(RadiatorBaseConfig.ID, RadiatorBaseConfig.NAME,RadiatorBaseConfig.DESC,RadiatorBaseConfig.EFFECT);
+                //add buildings to the game
+                InjectionMethods.AddBuildingStrings(RadiatorBaseConfig.ID, RadiatorBaseConfig.NAME, RadiatorBaseConfig.DESC, RadiatorBaseConfig.EFFECT);
+                InjectionMethods.AddBuildingStrings(RadiatorRocketWallConfig.ID, RadiatorRocketWallConfig.NAME, RadiatorRocketWallConfig.DESC, RadiatorRocketWallConfig.EFFECT);
+                InjectionMethods.AddBuildingStrings(HabitatMediumRadiator.ID, HabitatMediumRadiator.NAME, HabitatMediumRadiator.DESC, HabitatMediumRadiator.EFFECT);
+
+                //add special habitat module
+                RocketryUtils.AddRocketModuleToBuildList(HabitatMediumRadiator.ID, "HabitatModuleMedium");
+
+
+                //add buildings to build menu
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, RadiatorBaseConfig.ID);
+
+
+                //StatusItemInit.
 
                 InjectionMethods.AddStatusItem(RadiatorBase.InSpaceRadiating,  RadiatorBase.Category, "Radiating {0}",
                     "This radiator is currently radiating heat at {0}.");

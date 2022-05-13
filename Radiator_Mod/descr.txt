@@ -12,6 +12,8 @@ New Building: Space Radiator
 [*] When the radiator panels are fully exposed to space, it will constantly emit heat radiation into space.
 [*] Still exchanges heat with environment (gasses, liquids) when not fully exposed to space, therefore it can be used as a very potent radiant pipe / heatsink.
 [*] Can be folded to protect against meteor impacts.
+[*] Material choice affects the heat capacity & thermal conductivity of the building
+[*] With SCIENCE™ (Calculates the amount of energy radiated based on the Stefan–Boltzmann constant and and associated calculations)
 [*] When it breaks, it will close to prevent fully destructing the radiator, however it needs to be repaired to work again.
 [/list]
 
@@ -24,7 +26,6 @@ New Building: Space Radiator
 [*]can be folded by disabling the building either manually or via automation wire. (Disabling won’t stop fluids from getting pumped through.)
 [*]due to limitations set by the way the game loads, the radiator will refold itself on loading a save, during this time it’s vulnerable.
 [/list] 
-
 
 [h1]Credits[/h1]
 Thanks again to the Oni Modding Discord who again helped me with debugging, feature implementation and brainstorming.  Much thanks to Sky for letting me use her radiator code [url=https://github.com/skairunner/sky-oni-mods/tree/master/Radiator] -> skys github[/url].

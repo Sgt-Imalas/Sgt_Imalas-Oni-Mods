@@ -90,7 +90,7 @@ namespace KnastoronOniMods
             trait.Add(new AttributeModifier(Db.Get().Attributes.Construction.Id, TUNING.ROBOTS.SCOUTBOT.CONSTRUCTION,NAME));
             trait.Add(new AttributeModifier(Db.Get().Attributes.Athletics.Id, TUNING.ROBOTS.SCOUTBOT.ATHLETICS, (string)NAME));
             trait.Add(new AttributeModifier(Db.Get().Attributes.Machinery.Id, TUNING.ROBOTS.SCOUTBOT.ATHLETICS, (string)NAME));
-            trait.Add(new AttributeModifier(Db.Get().Amounts.HitPoints.maxAttribute.Id, 3f, (string)NAME));
+            trait.Add(new AttributeModifier(Db.Get().Amounts.HitPoints.maxAttribute.Id, 100f, (string)NAME));
             component2.initialTraits.Add(AiBrainConfig.ROVER_BASE_TRAIT_ID);
             basicEntity.AddOrGet<AttributeConverters>();
             basicEntity.AddOrGet<Worker>(); //RocketPiloting1

@@ -9,12 +9,12 @@ using UnityEngine;
 
 namespace RoboRockets.Buildings
 {
-    class RadiatorBaseConfig : IBuildingConfig
+    public class RadiatorBaseConfig : IBuildingConfig
     {
         public const string ID = "RadiatorBase";
         public const string NAME = "Space Radiator";
-        public const string DESC = "";
-        public const string EFFECT = "";
+        public const string DESC = "Radiates off heat energy into space as infrared radiation.";
+        public const string EFFECT = "Exchanges heat with the liquid pumped through it.\n\nIf in space, radiates off infrared energy based off the Stefan–Boltzmann law.";
 
         public static float[] matCosts = BUILDINGS.CONSTRUCTION_MASS_KG.TIER5;
 
