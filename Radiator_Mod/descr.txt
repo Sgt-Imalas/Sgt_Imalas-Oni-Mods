@@ -5,6 +5,7 @@
 This mod adds a new utility building called “Space Radiator”, that radiates heat off into space.
 [img]https://i.imgur.com/2kLYsza.gif[/img]
 
+[h1]Current latest Version: 2.0.2[/h1]
 
 [h1]Features[/h1]
 New Building: Space Radiator
@@ -13,8 +14,13 @@ New Building: Space Radiator
 [*] Still exchanges heat with environment (gasses, liquids) when not fully exposed to space, therefore it can be used as a very potent radiant pipe / heatsink.
 [*] Can be folded to protect against meteor impacts.
 [*] Material choice affects the heat capacity & thermal conductivity of the building
-[*] With SCIENCE™ (Calculates the amount of energy radiated based on the Stefan–Boltzmann constant and and associated calculations)
+[*] THE SCIENCE™ (Calculates the amount of energy radiated based on the Stefan–Boltzmann constant and and associated calculations)
 [*] When it breaks, it will close to prevent fully destructing the radiator, however it needs to be repaired to work again.
+[/list]
+
+[h1]DLC Features[/h1]
+[list][*] Adds a separate habitat module that has two preinstalled steel radiators 
+[*] Costs the material for the habitat module (500 raw ore) & the material cost of the two radiators (2x 800 steel).
 [/list]
 
 [h1]Requirements[/h1]
