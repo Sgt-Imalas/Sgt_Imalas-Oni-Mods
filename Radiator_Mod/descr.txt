@@ -19,7 +19,7 @@ New Building: Space Radiator
 [/list]
 
 [h1]DLC Features[/h1]
-[list][*] Adds a separate habitat module that has two preinstalled steel radiators 
+[list][*] Adds a separate habitat module that has two preinstalled steel radiators .
 [*] Costs the material for the habitat module (500 raw ore) & the material cost of the two radiators (2x 800 steel).
 [/list]
 
@@ -35,3 +35,6 @@ New Building: Space Radiator
 
 [h1]Credits[/h1]
 Thanks again to the Oni Modding Discord who again helped me with debugging, feature implementation and brainstorming.  Much thanks to Sky for letting me use her radiator code [url=https://github.com/skairunner/sky-oni-mods/tree/master/Radiator] -> skys github[/url].
+
+[h1]Bug Reports[/h1]
+Please post bug reports and issues on my [url=https://github.com/Knastoron/Knastoron-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
