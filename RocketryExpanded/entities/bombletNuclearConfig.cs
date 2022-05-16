@@ -56,6 +56,7 @@ namespace RocketryExpanded.entities
 
         public void OnPrefabInit(GameObject inst)
         {
+            inst.AddComponent<BombSideScreen>();
         }
         public void OnSpawn(GameObject inst) { }
     }

@@ -35,4 +35,4 @@ Much thanks to Romen, Aki,  Peter Han & Cairath from the Modding Discord who hel
 Also special thanks to Aki who teached me how to create animations and draw more "oni-style"
 
 [h1]Bug Reports[/h1]
-Please post bug reports and issues on my [url=https://github.com/Knastoron/Knastoron-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.

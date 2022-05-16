@@ -23,8 +23,8 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>Rocketry Expanded</ModName>
-		<ModDescription>adds various rocketry related extras</ModDescription>
+		<ModName>Nukes Expanded</ModName>
+		<ModDescription>big boom</ModDescription>
 		<SupportedContent>EXPANSION1_ID</SupportedContent>
 		<MinimumSupportedBuild>498381</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
