@@ -9,9 +9,9 @@ namespace RocketryExpanded
     public class BombSideScreen : KMonoBehaviour, ISidescreenButtonControl
     {
         [MyCmpReq]
-        private ExplosiveBomblet bomb;
+        private ExplosiveBomblet bomb; 
 
-        public string SidescreenTitleKey => "Bomb.STRINGS.UI.BIGBOMB.SIDESCREEN.TITLE";
+        public string SidescreenTitle => "Nuclear Bomblet";
 
         public string SidescreenStatusMessage => "";
 
