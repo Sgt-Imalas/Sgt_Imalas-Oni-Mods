@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RocketryExpanded.entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,11 +10,11 @@ namespace RocketryExpanded
 {
     public class ExhaustDispenser : KMonoBehaviour
     {
-        public float interval = 1.0f;
-        public int amount = 20;
-        public float angle = 180.0f;
-        private float currentDt = 0f;
-        public float speed = 20f;
+        public float interval = 1.0f; //time in s.
+        public int amount = 20;        //amount of entities spawned
+        public float angle = 180.0f;   //angle spawning applies to
+        private float currentDt = 0f;   //dTime for interval
+        public float speed = 20f;       //flySpeed of entities
 
         public void exhaustMethod(float dt, RocketEngineCluster.StatesInstance smi, KBatchedAnimController animContr,int padCell)
         {
@@ -30,7 +31,7 @@ namespace RocketryExpanded
                     
                     if (Grid.AreCellsInSameWorld(cell, padCell))
                     {
-                        GameObject gameObject = Util.KInstantiate(Assets.GetPrefab((Tag)NuclearWasteCometConfig.ID), smi.master.transform.position + animContr.Offset + Vector3.down * 1f, Quaternion.identity);
+                        GameObject gameObject = Util.KInstantiate(Assets.GetPrefab((Tag)BombletNuclearConfig.ID), smi.master.transform.position + animContr.Offset + Vector3.down * 1f, Quaternion.identity);
                         gameObject.SetActive(true);
                         Comet component = gameObject.GetComponent<Comet>();
                         component.ignoreObstacleForDamage.Set(smi.master.gameObject.GetComponent<KPrefabID>());

@@ -17,7 +17,7 @@ namespace RocketryExpanded
 
         public void OnSidescreenButtonPressed()
         {
-            bomb.Explode();
+            bomb.Detonate();
         }
 
         public string SidescreenButtonText => "Detonate Bomb";

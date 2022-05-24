@@ -7,14 +7,18 @@ using UnityEngine;
 
 namespace RocketryExpanded
 {
-    public class ExplosiveBomblet : KMonoBehaviour
+    public class ExplosiveBomblet : KMonoBehaviour, ISim200ms
     {
+        private bool isTriggered = false;
+        private float timeToDetonate = -1f;
+
         public int radius = -1;
         public float dmg = 5f;
 
         public float windowDamageMultiplier = 5f;
         public float entityDmgMultiplier = 100f;
         public float bunkerDamageMultiplier = 0f;
+
         public bool hasExhaustGas = true;
         public SimHashes exhaustElement = SimHashes.Fallout;
         public bool isRadioactive = true;
@@ -28,9 +32,28 @@ namespace RocketryExpanded
         {
             base.OnSpawn();
         }
+        public void Sim200ms(float dt)
+        {
+            if (isTriggered)
+            {
+                if(timeToDetonate > 0)
+                {
+                    timeToDetonate -= dt;
+                }
+                else
+                {
+                    Explode();
+                }
+            }
+        }
 
+        public void Detonate(float timer = -1f)
+        {
+            isTriggered = true;
+            timeToDetonate = timer;
+        }
 
-        public void Explode()
+        private void Explode()
         {
             radius = radius == -1 ? GetDmgRadiusFromVal(dmg) : radius;
             smokeMass = smokeMass == -1f ? (float)(radius * 3.1416 * 2): smokeMass;

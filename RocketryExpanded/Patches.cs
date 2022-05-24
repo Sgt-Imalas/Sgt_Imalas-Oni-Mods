@@ -16,8 +16,6 @@ namespace RocketryExpanded
 {
     class Patches
     {
-
-
         [HarmonyPatch(typeof(RocketEngineCluster.StatesInstance))]
         [HarmonyPatch(nameof(RocketEngineCluster.StatesInstance.DoBurn))]
 
@@ -25,12 +23,29 @@ namespace RocketryExpanded
         {
             public static void Postfix(float dt, RocketEngineCluster.StatesInstance __instance)
             {
+                return;
                 if (__instance.master.PrefabID() == NuclearPulseEngineConfig.ID)
                 {
                     __instance.master.GetComponent<ExhaustDispenser>().exhaustMethod(
                         dt, __instance,
                         (KBatchedAnimController)Traverse.Create(__instance.master).Field("animController").GetValue(),
                         (int)Traverse.Create(__instance).Field("pad_cell").GetValue());
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(LaunchableRocketCluster.StatesInstance))]
+        [HarmonyPatch(nameof(LaunchableRocketCluster.StatesInstance.SetupLaunch))]
+        public static class NukeRocketGoesBrr
+        {
+            public static void Postfix(LaunchableRocketCluster.StatesInstance __instance)
+            {
+                if (__instance.master.GetEngines().First().PrefabID() == NuclearPulseEngineConfig.ID)
+                {
+                    Debug.Log("Bomb has been planted");
+                    var bomblet = Util.KInstantiate(Assets.GetPrefab((Tag)BombletNuclearConfig.ID), __instance.master.transform.position, Quaternion.identity);
+                    bomblet.SetActive(true);
+                    bomblet.GetComponent<ExplosiveBomblet>().Detonate(5f);
                 }
             }
         }
