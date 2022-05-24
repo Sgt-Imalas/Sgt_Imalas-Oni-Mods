@@ -51,14 +51,32 @@ namespace RocketryExpanded
                    Debug.Log(bnk);
                 AddHeatFromExplosion(bnk, center);
             }
-            //ReleaseExhaustGas(center);
+            ReleaseExhaustGas(center);
             Util.KDestroyGameObject(this.gameObject);
         }
         public void AddHeatFromExplosion(Vector2I cell, Vector2I center)
         {
             float percentile = GetDmgValAtPos2(center, cell, dmg) / dmg;
-            Debug.Log("Percentile = " + percentile + " , Energy = " + percentile * KJAtExplosion);
-            SimMessages.ModifyEnergy(Grid.PosToCell(cell), percentile * KJAtExplosion, 9999f, SimMessages.EnergySourceID.DebugHeat);
+            float energy = percentile;
+            if (Grid.Element[Grid.PosToCell(cell)].IsVacuum)
+            {
+                return;
+            }
+            if (Grid.Element[Grid.PosToCell(cell)].IsLiquid)
+            {
+                energy = energy * 50 * KJAtExplosion;
+            }
+            else if (Grid.Element[Grid.PosToCell(cell)].IsGas)
+            {
+                energy = energy / 200 * KJAtExplosion;
+            }
+            else if (Grid.Element[Grid.PosToCell(cell)].IsSolid)
+            {
+                energy = energy * KJAtExplosion;
+            }
+            Debug.Log("Percentile = " + percentile + " , Energy = " + energy);
+
+            SimMessages.ModifyEnergy(Grid.PosToCell(cell), energy, 9999f, SimMessages.EnergySourceID.DebugHeat);
         }
 
         public List<Vector2I> GetExplosionArea(List<Vector2> borderTiles, Vector2I center)
