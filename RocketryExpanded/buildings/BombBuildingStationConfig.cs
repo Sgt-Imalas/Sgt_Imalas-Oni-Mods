@@ -12,7 +12,7 @@ namespace RocketryExpanded.buildings
 {
     class BombBuildingStationConfig : IBuildingConfig
     {
-        public const string ID = "BombBuildStation";
+        public static string ID = "BombBuildStation";
         public const string NAME = "Explosives Workbench";
         public const string DESC = "Create all kinds of explosives";
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;

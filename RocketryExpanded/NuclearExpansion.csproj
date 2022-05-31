@@ -13,8 +13,8 @@
 	<PropertyGroup>
 		<TargetFramework>net471</TargetFramework>
 		<Configurations>Debug</Configurations>
-		<AssemblyName>RocketryExpanded</AssemblyName>
-		<RootNamespace>RocketryExpanded</RootNamespace>
+		<AssemblyName>NuclearExpansion</AssemblyName>
+		<RootNamespace>NuclearExpansion</RootNamespace>
 		<IsMod>true</IsMod>
 		<GenerateMetadata>true</GenerateMetadata>
 		<IsPacked>true</IsPacked>

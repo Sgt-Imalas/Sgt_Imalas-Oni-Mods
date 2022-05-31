@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using KMod;
+using RocketryExpanded.entities;
 using System;
 
 namespace RocketryExpanded
@@ -8,6 +9,7 @@ namespace RocketryExpanded
 	{
 		public override void OnLoad(Harmony harmony)
 		{
+			GameTags.MaterialBuildingElements.Add(ModAssets.Tags.BuildableExplosive);
 			//GameTags.Other.Add("x");
 			base.OnLoad(harmony);
 		}

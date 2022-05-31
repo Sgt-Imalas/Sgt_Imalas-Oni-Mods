@@ -11,6 +11,7 @@ namespace RocketryExpanded
         public class Tags
         {
             public static Tag SplitOnRail = TagManager.Create("NBE_Split_On_Rail");
+            public static Tag BuildableExplosive = TagManager.Create("NBE_Explosive_Building_Material", "Explosive Material");
         }
     }
 }

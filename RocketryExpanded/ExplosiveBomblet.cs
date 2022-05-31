@@ -53,6 +53,13 @@ namespace RocketryExpanded
             timeToDetonate = timer;
         }
 
+        public void SetNoGravity()
+        {
+            Debug.Log(GameComps.Fallers.Has((object)gameObject));
+            if (GameComps.Fallers.Has((object)gameObject))
+                GameComps.Fallers.Remove(gameObject);
+        }
+
         private void Explode()
         {
             radius = radius == -1 ? GetDmgRadiusFromVal(dmg) : radius;

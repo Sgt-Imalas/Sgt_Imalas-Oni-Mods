@@ -42,10 +42,10 @@ namespace RocketryExpanded
             {
                 if (__instance.master.GetEngines().First().PrefabID() == NuclearPulseEngineConfig.ID)
                 {
-                    Debug.Log("Bomb has been planted");
-                    var bomblet = Util.KInstantiate(Assets.GetPrefab((Tag)BombletNuclearConfig.ID), __instance.master.transform.position, Quaternion.identity);
-                    bomblet.SetActive(true);
-                    bomblet.GetComponent<ExplosiveBomblet>().Detonate(5f);
+                    Debug.Log("Nuclear Launch initiated");
+                    //var bomblet = Util.KInstantiate(Assets.GetPrefab((Tag)BombletNuclearConfig.ID), __instance.master.transform.position, Quaternion.identity);
+                    //bomblet.SetActive(true);
+                    //bomblet.GetComponent<ExplosiveBomblet>().Detonate(5f);
                 }
             }
         }
@@ -60,8 +60,12 @@ namespace RocketryExpanded
                 InjectionMethods.AddBuildingStrings(BombBuildingStationConfig.ID, BombBuildingStationConfig.NAME);
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Radiation, BombBuildingStationConfig.ID);
 
+                InjectionMethods.AddBuildingStrings(PlacableExplosiveConfig.ID, PlacableExplosiveConfig.NAME);
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, PlacableExplosiveConfig.ID);
+
                 InjectionMethods.AddBuildingStrings(HabitatModuleLongConfig.ID, HabitatModuleLongConfig.DisplayName);
                 RocketryUtils.AddRocketModuleToBuildList(HabitatModuleLongConfig.ID);
+
                 InjectionMethods.AddBuildingStrings(NuclearPulseEngineConfig.ID, NuclearPulseEngineConfig.DisplayName);
                 RocketryUtils.AddRocketModuleToBuildList(NuclearPulseEngineConfig.ID);
             }
