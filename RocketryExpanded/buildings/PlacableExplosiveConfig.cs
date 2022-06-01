@@ -28,7 +28,7 @@ namespace RocketryExpanded.buildings
             };
             EffectorValues noise = TUNING.NOISE_POLLUTION.NOISY.TIER4;
             EffectorValues decor = TUNING.BUILDINGS.DECOR.PENALTY.TIER1;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "radiation_sensor_kanim", 100, 30f, mass, material, 1600f, BuildLocationRule.Anywhere, decor, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "radiation_sensor_kanim", 100, 30f, mass, material, 1600f, BuildLocationRule.WallFloor, decor, noise);
             
 
             return buildingDef;
