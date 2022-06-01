@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RocketryExpanded.entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,10 +13,10 @@ namespace RocketryExpanded.buildings
     {
         public const string ID = "NuclearPulseEngine";
         public const string DisplayName = "Project Orion";
+        private float costPerTile = (1f / 600f);
 
-        public const SimHashes FUEL = SimHashes.EnrichedUranium;
-        public Tag FUEL_TAG = SimHashes.EnrichedUranium.CreateTag();
-        public const float FUEL_CAPACITY = 350f;
+        public Tag FUEL_TAG = ModAssets.Tags.NuclearFuel;
+        public const float FUEL_CAPACITY = 400f;
 
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public override BuildingDef CreateBuildingDef()
@@ -44,6 +45,10 @@ namespace RocketryExpanded.buildings
             buildingDef.CanMove = true;
             buildingDef.Cancellable = false;
             buildingDef.ShowInBuildMenu = false;
+
+            buildingDef.InputConduitType = ConduitType.Solid;
+            buildingDef.UtilityInputOffset = new CellOffset(0, 4);
+            GeneratedBuildings.RegisterWithOverlay(OverlayScreen.SolidConveyorIDs, DisplayName);
             return buildingDef;
         }
 
@@ -52,10 +57,10 @@ namespace RocketryExpanded.buildings
             BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
             go.AddOrGet<LoopingSounds>();
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery); 
-            go.AddOrGet<ExhaustDispenser>();
+            //go.AddOrGet<ExhaustDispenser>();
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
             {
-      new BuildingAttachPoint.HardPoint(new CellOffset(0, 5), GameTags.Rocket, (AttachableBuilding) null)
+                new BuildingAttachPoint.HardPoint(new CellOffset(0, 5), GameTags.Rocket, (AttachableBuilding) null)
             };
         }
 
@@ -69,36 +74,41 @@ namespace RocketryExpanded.buildings
 
         public override void DoPostConfigureComplete(GameObject go)
         {
-            RadiationEmitter radiationEmitter = go.AddOrGet<RadiationEmitter>();
-            radiationEmitter.emitType = RadiationEmitter.RadiationEmitterType.Constant;
-            radiationEmitter.emitRadiusX = (short)15;
-            radiationEmitter.emitRadiusY = (short)15;
-            radiationEmitter.emitRads = (float)(16800.0 / ((double)radiationEmitter.emitRadiusX / 6.0));
-            radiationEmitter.emissionOffset = new Vector3(0.0f, 3f, 0.0f);
+            //RadiationEmitter radiationEmitter = go.AddOrGet<RadiationEmitter>();
+            //radiationEmitter.emitType = RadiationEmitter.RadiationEmitterType.Constant;
+            //radiationEmitter.emitRadiusX = (short)15;
+            //radiationEmitter.emitRadiusY = (short)15;
+            //radiationEmitter.emitRads = (float)(16800.0 / ((double)radiationEmitter.emitRadiusX / 6.0));
+            //radiationEmitter.emissionOffset = new Vector3(0.0f, 3f, 0.0f);
 
             RocketEngineCluster rocketEngineCluster = go.AddOrGet<RocketEngineCluster>();
             rocketEngineCluster.maxModules = 7;
             rocketEngineCluster.maxHeight = ROCKETRY.ROCKET_HEIGHT.VERY_TALL;
-            rocketEngineCluster.fuelTag = SimHashes.EnrichedUranium.CreateTag();
-            rocketEngineCluster.efficiency = 90f;
+            rocketEngineCluster.fuelTag = FUEL_TAG;
             rocketEngineCluster.explosionEffectHash = SpawnFXHashes.MeteorImpactDust;
             rocketEngineCluster.requireOxidizer = false;
             rocketEngineCluster.exhaustElement = SimHashes.Fallout;
-            rocketEngineCluster.exhaustTemperature = 3000f;
-            rocketEngineCluster.exhaustEmitRate = 50f;
+            rocketEngineCluster.exhaustTemperature = 600f;
+            rocketEngineCluster.exhaustEmitRate = 1f;
             rocketEngineCluster.exhaustDiseaseIdx = Db.Get().Diseases.GetIndex((HashedString)Db.Get().Diseases.RadiationPoisoning.Id);
             rocketEngineCluster.exhaustDiseaseCount = 100000;
-            rocketEngineCluster.emitRadiation = true;
+            //rocketEngineCluster.emitRadiation = true;
 
             go.AddOrGet<ModuleGenerator>();
             Storage storage = go.AddOrGet<Storage>();
-            storage.capacityKg = FUEL_CAPACITY;
+            storage.capacityKg = FUEL_CAPACITY; 
             storage.SetDefaultStoredItemModifiers(new List<Storage.StoredItemModifier>()
-    {
-      Storage.StoredItemModifier.Hide,
-      Storage.StoredItemModifier.Seal,
-      Storage.StoredItemModifier.Insulate
-    });
+            {
+                Storage.StoredItemModifier.Hide,
+                Storage.StoredItemModifier.Seal,
+                Storage.StoredItemModifier.Insulate
+            });
+
+            SolidConduitConsumer conduitConsumer = go.AddOrGet<SolidConduitConsumer>();
+
+            conduitConsumer.capacityTag = FUEL_TAG;
+            conduitConsumer.capacityKG = storage.capacityKg;
+
             FuelTank fuelTank = go.AddOrGet<FuelTank>();
             fuelTank.consumeFuelOnLand = false;
             fuelTank.storage = storage;
@@ -106,14 +116,14 @@ namespace RocketryExpanded.buildings
             fuelTank.targetFillMass = storage.capacityKg;
             fuelTank.physicalFuelCapacity = storage.capacityKg;
             go.AddOrGet<CopyBuildingSettings>();
-            ManualDeliveryKG manualDeliveryKg = go.AddOrGet<ManualDeliveryKG>();
-            manualDeliveryKg.SetStorage(storage);
-            manualDeliveryKg.requestedItemTag = FUEL_TAG;
-            manualDeliveryKg.refillMass = storage.capacityKg;
-            manualDeliveryKg.capacity = storage.capacityKg;
-            manualDeliveryKg.operationalRequirement = FetchOrder2.OperationalRequirement.None;
-            manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
-            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MAJOR_PLUS, (float)ROCKETRY.ENGINE_POWER.LATE_VERY_STRONG, ROCKETRY.FUEL_COST_PER_DISTANCE.VERY_LOW);
+            //ManualDeliveryKG manualDeliveryKg = go.AddOrGet<ManualDeliveryKG>();
+            //manualDeliveryKg.SetStorage(storage);
+            //manualDeliveryKg.requestedItemTag = FUEL_TAG;
+            //manualDeliveryKg.refillMass = storage.capacityKg;
+            //manualDeliveryKg.capacity = storage.capacityKg;
+            //manualDeliveryKg.operationalRequirement = FetchOrder2.OperationalRequirement.None;
+            //manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
+            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MAJOR_PLUS, (float)ROCKETRY.ENGINE_POWER.LATE_VERY_STRONG, costPerTile);
             go.GetComponent<KPrefabID>().prefabInitFn += (KPrefabID.PrefabFn)(inst => { });
         }
     }

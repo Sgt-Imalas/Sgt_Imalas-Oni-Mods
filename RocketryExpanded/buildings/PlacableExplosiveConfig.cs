@@ -26,9 +26,9 @@ namespace RocketryExpanded.buildings
                 MATERIALS.REFINED_METALS[0],
                 explosives
             };
-            EffectorValues noise = TUNING.NOISE_POLLUTION.NOISY.TIER4;
-            EffectorValues decor = TUNING.BUILDINGS.DECOR.PENALTY.TIER1;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "radiation_sensor_kanim", 100, 30f, mass, material, 1600f, BuildLocationRule.WallFloor, decor, noise);
+            EffectorValues noise = TUNING.NOISE_POLLUTION.NONE;
+            EffectorValues decor = TUNING.BUILDINGS.DECOR.PENALTY.TIER5;
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "radiation_sensor_kanim", 100, 30f, mass, material, 1600f, BuildLocationRule.NotInTiles, decor, noise);
             
 
             return buildingDef;

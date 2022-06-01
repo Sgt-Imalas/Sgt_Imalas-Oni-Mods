@@ -10,7 +10,6 @@ namespace RocketryExpanded.entities
     public class BombletNuclearConfig : IEntityConfig
     {
         public const string ID = "nuclearBomblet";
-        public static readonly Tag tag = TagManager.Create(ID);
         public const string NAME = "Nuclear Bomblet";
         public const string DESC = "I wonder what this red button does";
         public static ComplexRecipe recipe;
@@ -19,7 +18,9 @@ namespace RocketryExpanded.entities
             return DlcManager.AVAILABLE_EXPANSION1_ONLY;
         }
 
-        public GameObject CreatePrefab() =>EntityTemplates.CreateLooseEntity(
+        public GameObject CreatePrefab()
+        {
+            GameObject looseEntity = EntityTemplates.CreateLooseEntity(
                   id: ID,
                   name: NAME,
                   desc: DESC,
@@ -36,9 +37,21 @@ namespace RocketryExpanded.entities
                   additionalTags: new List<Tag>()
                   {
                       ModAssets.Tags.SplitOnRail,
+                      ModAssets.Tags.NuclearFuel,
                       ModAssets.Tags.BuildableExplosive,
                       GameTags.IndustrialIngredient
                   });
+            var bomb = looseEntity.AddOrGet<ExplosiveBomblet>();
+
+            looseEntity.AddOrGet<EntitySplitter>().maxStackSize = 20f;
+
+            RadiationEmitter radiationEmitter = looseEntity.AddComponent<RadiationEmitter>();
+            radiationEmitter.emitType = RadiationEmitter.RadiationEmitterType.Constant;
+            radiationEmitter.radiusProportionalToRads = true;
+            radiationEmitter.emitRads = 200;
+            radiationEmitter.emissionOffset = new Vector3(0.0f, 0.0f, 0.0f);
+            return looseEntity;
+        }
         
 
         public void OnPrefabInit(GameObject inst)
