@@ -12,9 +12,9 @@
 	<!-- Build Properties -->
 	<PropertyGroup>
 		<TargetFramework>net471</TargetFramework>
-		<Configurations>Release</Configurations>
-		<AssemblyName>CannedFoodNGoods</AssemblyName>
-		<RootNamespace>CannedFoodNGoods</RootNamespace>
+		<Configurations>Debug</Configurations>
+		<AssemblyName>CannedFoods</AssemblyName>
+		<RootNamespace>CannedFoods</RootNamespace>
 		<IsMod>true</IsMod>
 		<GenerateMetadata>true</GenerateMetadata>
 		<IsPacked>true</IsPacked>
@@ -31,8 +31,10 @@
 	</PropertyGroup>
 
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<OutDir>bin</OutDir>
+		<OutputPath></OutputPath>
+		<DocumentationFile></DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -63,9 +65,5 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Foods\" />
 	</ItemGroup>
 </Project>
