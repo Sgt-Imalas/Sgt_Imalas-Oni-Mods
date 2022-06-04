@@ -224,16 +224,7 @@ namespace Robo_Rockets
         [HarmonyPatch("CreateRocketInteriorWorld")]
         public class ClusterManager_CreateRocketInteriorWorld_Patch
         {
-            public static void PrintInstructions(List<HarmonyLib.CodeInstruction> codes)
-            {
-                //#if DEBUG
-                Debug.Log("\n");
-                for (int i = 0; i < codes.Count; i++)
-                {
-                    Debug.Log(i + ": " + codes[i]);
-                }
-                //#endif
-            }
+            
             public static Vector2I ConditionForSize(Vector2I original, string templateString)
             {
                 if (templateString.Contains("habitat_robo"))
@@ -264,7 +255,6 @@ namespace Robo_Rockets
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, InteriorSizeHelper));
                 }
                
-                PrintInstructions(code);
                 return code;
             }
         }
