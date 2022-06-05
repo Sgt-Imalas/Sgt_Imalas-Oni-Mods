@@ -152,15 +152,15 @@ buildings:
   element: Cuprite
   temperature: 293.149994
 - id: Tile
-  location_x: 4
-  location_y: 4
+  location_x: 3
+  location_y: 3
   element: Cuprite
   temperature: 293.149994
     
 otherEntities:
 - id: ClustercraftInteriorDoor
-  location_x: 4
-  location_y: 4
+  location_x: 3
+  location_y: 3
   element: Cuprite
   temperature: 294.149994
   units: 1

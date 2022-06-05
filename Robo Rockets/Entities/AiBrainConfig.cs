@@ -35,9 +35,6 @@ namespace KnastoronOniMods
             component1.Add((Sensor)new PickupableSensor(component1));
             Navigator component2 = inst.GetComponent<Navigator>();
             component2.transitionDriver.overrideLayers.Add((TransitionDriver.OverrideLayer)new BipedTransitionLayer(component2, 3.325f, 2.5f));
-            component2.transitionDriver.overrideLayers.Add((TransitionDriver.OverrideLayer)new DoorTransitionLayer(component2));
-            component2.transitionDriver.overrideLayers.Add((TransitionDriver.OverrideLayer)new LadderDiseaseTransitionLayer(component2));
-            component2.transitionDriver.overrideLayers.Add((TransitionDriver.OverrideLayer)new SplashTransitionLayer(component2));
             component2.SetFlags(PathFinder.PotentialPath.Flags.None);
             component2.CurrentNavType = NavType.Floor;
             PathProber component3 = inst.GetComponent<PathProber>();
@@ -48,22 +45,24 @@ namespace KnastoronOniMods
         public GameObject CreatePrefab()
         {
             GameObject scout = AiBrainConfig.CreateBrain();
+            SymbolOverrideControllerUtil.AddToPrefab(scout);
             return scout;
         }
         public static GameObject CreateBrain()
         {
-            GameObject basicEntity = EntityTemplates.CreateBasicEntity("AiBrain", "AI Brain", DESCR, 100f, true, Assets.GetAnim((HashedString)"sucrose_kanim"), "idle", Grid.SceneLayer.Creatures);
+            string anim_file = "brain_bot_kanim";
+            GameObject basicEntity = EntityTemplates.CreateBasicEntity("AiBrain", "AI Brain", DESCR, 100f, true, Assets.GetAnim((HashedString)"brain_bot_kanim"), "idle", Grid.SceneLayer.Creatures);
             KBatchedAnimController component1 = basicEntity.GetComponent<KBatchedAnimController>();
             component1.isMovable = true;
-            component1.SetVisiblity(false);
+            component1.SetVisiblity(true);
             basicEntity.AddOrGet<Modifiers>();
             basicEntity.AddOrGet<LoopingSounds>();
             KBoxCollider2D kboxCollider2D = basicEntity.AddOrGet<KBoxCollider2D>();
             kboxCollider2D.size = new Vector2(1f, 1f);
             kboxCollider2D.offset = (Vector2)new Vector2f(0.0f, 0.5f);
             Modifiers component2 = basicEntity.GetComponent<Modifiers>();
-            component2.initialAttributes.Add(Db.Get().Attributes.Construction.Id);
-            component2.initialAttributes.Add(Db.Get().Attributes.Digging.Id);
+            //component2.initialAttributes.Add(Db.Get().Attributes.Construction.Id);
+            //component2.initialAttributes.Add(Db.Get().Attributes.Digging.Id);
             component2.initialAttributes.Add(Db.Get().Attributes.CarryAmount.Id);
             component2.initialAttributes.Add(Db.Get().Attributes.Machinery.Id);
             component2.initialAttributes.Add(Db.Get().Attributes.Athletics.Id);
@@ -83,12 +82,9 @@ namespace KnastoronOniMods
              };
             basicEntity.AddOrGet<Traits>(); 
             KSelectable kselectable = basicEntity.AddOrGet<KSelectable>();
-            kselectable.IsSelectable = false;
+            kselectable.IsSelectable = true;
             Trait trait = Db.Get().CreateTrait(AiBrainConfig.ROVER_BASE_TRAIT_ID, "a Brain", NAME, (string)null, false, disabled_chore_groups, true, true);
             trait.Add(new AttributeModifier(Db.Get().Attributes.CarryAmount.Id, 200f, (string)NAME));
-            trait.Add(new AttributeModifier(Db.Get().Attributes.Digging.Id, TUNING.ROBOTS.SCOUTBOT.DIGGING, NAME));
-            trait.Add(new AttributeModifier(Db.Get().Attributes.Construction.Id, TUNING.ROBOTS.SCOUTBOT.CONSTRUCTION,NAME));
-            trait.Add(new AttributeModifier(Db.Get().Attributes.Athletics.Id, TUNING.ROBOTS.SCOUTBOT.ATHLETICS, (string)NAME));
             trait.Add(new AttributeModifier(Db.Get().Attributes.Machinery.Id, TUNING.ROBOTS.SCOUTBOT.ATHLETICS, (string)NAME));
             trait.Add(new AttributeModifier(Db.Get().Amounts.HitPoints.maxAttribute.Id, 100f, (string)NAME));
             component2.initialTraits.Add(AiBrainConfig.ROVER_BASE_TRAIT_ID);
@@ -111,9 +107,7 @@ namespace KnastoronOniMods
             basicEntity.AddOrGetDef<CreatureDebugGoToMonitor.Def>();
             basicEntity.AddOrGetDef<RobotAi.Def>();
             basicEntity.AddOrGet<SelfDestructInWrongEnvironmentComponent>();
-            ChoreTable.Builder chore_table = new ChoreTable.Builder().
-                Add((StateMachine.BaseDef)new RobotDeathStates.Def())
-                .Add((StateMachine.BaseDef)new FallStates.Def())
+            ChoreTable.Builder chore_table = new ChoreTable.Builder()
                 .Add((StateMachine.BaseDef)new DebugGoToStates.Def())
                 .Add((StateMachine.BaseDef)new IdleStates.Def(), forcePriority: Db.Get().ChoreTypes.Idle.priority);
             EntityTemplates.AddCreatureBrain(basicEntity, chore_table, AiBrain,(string)null);
@@ -127,10 +121,9 @@ namespace KnastoronOniMods
             navigator.sceneLayer = Grid.SceneLayer.Creatures;
             basicEntity.AddOrGet<Sensors>();
             basicEntity.AddOrGet<SnapOn>();
-            component1.SetSymbolVisiblity((KAnimHashedString)"snapto_pivot", false);
-            component1.SetSymbolVisiblity((KAnimHashedString)"snapto_radar", false);
             return basicEntity;
         }
+
         public static readonly Tag AiBrain = TagManager.Create(nameof(AiBrain));
     }
 }

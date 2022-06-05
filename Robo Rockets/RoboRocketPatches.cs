@@ -228,7 +228,7 @@ namespace Robo_Rockets
             public static Vector2I ConditionForSize(Vector2I original, string templateString)
             {
                 if (templateString.Contains("habitat_robo"))
-                    original = new Vector2I(10, 10);
+                    original = new Vector2I(8, 8);
 
                 return original;
             }
