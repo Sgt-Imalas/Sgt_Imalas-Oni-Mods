@@ -15,7 +15,7 @@ namespace CannedFoods
             {
                 public class CF_CANNEDBBQ
                 {
-                    public static LocString NAME = global::STRINGS.UI.FormatAsLink("Canned Tuna", CannedBBQConfig.ID);
+                    public static LocString NAME = global::STRINGS.UI.FormatAsLink("Canned Barbecue", CannedBBQConfig.ID);
                     public static LocString DESC = "Barbecue preserved for the ages.";
                 }
                 public class CF_CANNEDFISH
