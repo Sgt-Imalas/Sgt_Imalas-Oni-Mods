@@ -50,11 +50,10 @@ namespace KnastoronOniMods
         }
         public static GameObject CreateBrain()
         {
-            string anim_file = "brain_bot_kanim";
             GameObject basicEntity = EntityTemplates.CreateBasicEntity("AiBrain", "AI Brain", DESCR, 100f, true, Assets.GetAnim((HashedString)"brain_bot_kanim"), "idle", Grid.SceneLayer.Creatures);
             KBatchedAnimController component1 = basicEntity.GetComponent<KBatchedAnimController>();
             component1.isMovable = true;
-            component1.SetVisiblity(true);
+            component1.SetVisiblity(false);
             basicEntity.AddOrGet<Modifiers>();
             basicEntity.AddOrGet<LoopingSounds>();
             KBoxCollider2D kboxCollider2D = basicEntity.AddOrGet<KBoxCollider2D>();
@@ -66,9 +65,10 @@ namespace KnastoronOniMods
             component2.initialAttributes.Add(Db.Get().Attributes.CarryAmount.Id);
             component2.initialAttributes.Add(Db.Get().Attributes.Machinery.Id);
             component2.initialAttributes.Add(Db.Get().Attributes.Athletics.Id);
-            ChoreGroup[] disabled_chore_groups = new ChoreGroup[11]
+            ChoreGroup[] disabled_chore_groups = new ChoreGroup[]
              {
       Db.Get().ChoreGroups.Basekeeping,
+      Db.Get().ChoreGroups.Hauling,
       Db.Get().ChoreGroups.Cook,
       Db.Get().ChoreGroups.Art,
       Db.Get().ChoreGroups.Research,
@@ -82,7 +82,7 @@ namespace KnastoronOniMods
              };
             basicEntity.AddOrGet<Traits>(); 
             KSelectable kselectable = basicEntity.AddOrGet<KSelectable>();
-            kselectable.IsSelectable = true;
+            kselectable.IsSelectable = false;
             Trait trait = Db.Get().CreateTrait(AiBrainConfig.ROVER_BASE_TRAIT_ID, "a Brain", NAME, (string)null, false, disabled_chore_groups, true, true);
             trait.Add(new AttributeModifier(Db.Get().Attributes.CarryAmount.Id, 200f, (string)NAME));
             trait.Add(new AttributeModifier(Db.Get().Attributes.Machinery.Id, TUNING.ROBOTS.SCOUTBOT.ATHLETICS, (string)NAME));
@@ -104,6 +104,16 @@ namespace KnastoronOniMods
       CellOffset.none,
       new CellOffset(0, 1)
             };
+
+            Storage storage = basicEntity.AddOrGet<Storage>();
+            storage.fxPrefix = Storage.FXPrefix.PickedUp;
+            storage.dropOnLoad = true;
+            storage.SetDefaultStoredItemModifiers(new List<Storage.StoredItemModifier>()
+    {
+      Storage.StoredItemModifier.Preserve,
+      Storage.StoredItemModifier.Seal
+    });
+
             basicEntity.AddOrGetDef<CreatureDebugGoToMonitor.Def>();
             basicEntity.AddOrGetDef<RobotAi.Def>();
             basicEntity.AddOrGet<SelfDestructInWrongEnvironmentComponent>();

@@ -13,7 +13,7 @@ namespace CannedFoods.Foods
     internal class FoodPatches
     {
         [HarmonyPatch(typeof(CraftingTableConfig), "ConfigureRecipes")]
-        public static class Patch_CookingStationConfig_ConfigureRecipes
+        public static class Patch_CraftingTableConfig_ConfigureRecipes
         {
             public static void Postfix()
             {
@@ -31,12 +31,12 @@ namespace CannedFoods.Foods
 
                 RecipeElement[] output = new RecipeElement[]
                 {
-                    new RecipeElement(cannedTunaConfig.ID, 1f)
+                    new RecipeElement(CannedTunaConfig.ID, 1f)
                 };
 
-                string recipeID = ComplexRecipeManager.MakeRecipeID(GourmetCookingStationConfig.ID, input, output);
+                string recipeID = ComplexRecipeManager.MakeRecipeID(CraftingTableConfig.ID, input, output);
 
-                cannedTunaConfig.recipe = new ComplexRecipe(recipeID, input, output)
+                CannedTunaConfig.recipe = new ComplexRecipe(recipeID, input, output)
                 {
                     time = FOOD.RECIPES.SMALL_COOK_TIME,
                     description = STRINGS.ITEMS.FOOD.CF_CANNEDFISH.DESC,
@@ -55,17 +55,17 @@ namespace CannedFoods.Foods
 
                 RecipeElement[] output = new RecipeElement[]
                 {
-                    new RecipeElement(cannedTunaConfig.ID, 1f)
+                    new RecipeElement(CannedBBQConfig.ID, 1f)
                 };
 
-                string recipeID = ComplexRecipeManager.MakeRecipeID(GourmetCookingStationConfig.ID, input, output);
+                string recipeID = ComplexRecipeManager.MakeRecipeID(CraftingTableConfig.ID, input, output);
 
-                CookedMeatConfig.recipe = new ComplexRecipe(recipeID, input, output)
+                CannedBBQConfig.recipe = new ComplexRecipe(recipeID, input, output)
                 {
                     time = FOOD.RECIPES.SMALL_COOK_TIME,
                     description = STRINGS.ITEMS.FOOD.CF_CANNEDBBQ.DESC,
                     nameDisplay = RecipeNameDisplay.Result,
-                    fabricators = new List<Tag> { CookingStationConfig.ID }
+                    fabricators = new List<Tag> { CraftingTableConfig.ID }
                 };
             }
         }

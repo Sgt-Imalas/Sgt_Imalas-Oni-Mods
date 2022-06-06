@@ -8,7 +8,7 @@ using static EdiblesManager;
 
 namespace CannedFoods.Foods
 {
-    public class cannedTunaConfig
+    public class CannedTunaConfig : IEntityConfig
     {
         public const string ID = "CF_CannedTuna";
         public static ComplexRecipe recipe;
@@ -25,8 +25,8 @@ namespace CannedFoods.Foods
                 initialAnim: "object",
                 sceneLayer: Grid.SceneLayer.Front,
                 collisionShape: EntityTemplates.CollisionShape.RECTANGLE,
-                width: 0.4f,
-                height: 0.6f,
+                width: 0.9f,
+                height: 0.45f,
                 isPickupable: true,
                 sortOrder: 0,
                 element: SimHashes.Creature,
@@ -37,14 +37,14 @@ namespace CannedFoods.Foods
                 id: ID,
                 dlcId: DlcManager.VANILLA_ID,
                 caloriesPerUnit: 800 * 1000f,
-                quality: TUNING.FOOD.FOOD_QUALITY_GOOD,
+                quality: TUNING.FOOD.FOOD_QUALITY_GREAT,
                 preserveTemperatue: TUNING.FOOD.DEFAULT_PRESERVE_TEMPERATURE,
                 rotTemperature: TUNING.FOOD.DEFAULT_ROT_TEMPERATURE,
                 spoilTime: TUNING.FOOD.SPOIL_TIME.VERYSLOW,
                 can_rot: false).AddEffects(new List<string>
                 {
                     "SeafoodRadiationResistance"
-                }, DlcManager.AVAILABLE_EXPANSION1_ONLY); ;
+                }, DlcManager.AVAILABLE_EXPANSION1_ONLY);
 
             return EntityTemplates.ExtendEntityToFood(prefab, foodInfo);
         }
@@ -63,4 +63,4 @@ namespace CannedFoods.Foods
         }
     }
 }
-}
+
