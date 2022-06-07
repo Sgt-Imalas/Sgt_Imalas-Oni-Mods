@@ -12,3 +12,5 @@ Mods for Oxygen Not Included and ONI - Spaced Out.
 |Project Orion|Adds an Engine fueled by nuclear explosions. Also adds mini nukes and some other regular explosives|-|
 |Rocketry Expanded|add in several new rocket modules; bigger command modules, cryopod module, alternative engines|prob. will split this one up into sub mods|
 |Space Stations & Satelites|adds more functionality to the space map, allows the deployment of satelites & the creation of autonomous space stations (deployable, then behaves like rocket interiors)|-|
+|Canned Goods|canned tuna and canned bbq as non spoiling foods, intended for space travels|-|
+|Space Elevator|an alternative way to go to space|-|
