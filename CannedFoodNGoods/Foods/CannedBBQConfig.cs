@@ -25,8 +25,8 @@ namespace CannedFoods.Foods
                 initialAnim: "object",
                 sceneLayer: Grid.SceneLayer.Front,
                 collisionShape: EntityTemplates.CollisionShape.RECTANGLE,
-                width: 0.5f,
-                height: 0.7f,
+                width: 0.4f,
+                height: 0.5f,
                 isPickupable: true,
                 sortOrder: 0,
                 element: SimHashes.Creature,
@@ -53,6 +53,7 @@ namespace CannedFoods.Foods
 
         public void OnPrefabInit(GameObject inst)
         {
+            inst.AddOrGet<CanRecycler>();
         }
 
         public void OnSpawn(GameObject inst)

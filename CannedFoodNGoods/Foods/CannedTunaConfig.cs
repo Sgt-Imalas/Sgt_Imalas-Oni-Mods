@@ -17,16 +17,16 @@ namespace CannedFoods.Foods
         {
             GameObject prefab = EntityTemplates.CreateLooseEntity(
                 id: ID,
-                name: STRINGS.ITEMS.FOOD.CF_CANNEDFISH.NAME,
-                desc: STRINGS.ITEMS.FOOD.CF_CANNEDFISH.DESC,
+                name: STRINGS.ITEMS.FOOD.CF_CANNEDTUNA.NAME,
+                desc: STRINGS.ITEMS.FOOD.CF_CANNEDTUNA.DESC,
                 mass: 1f,
                 unitMass: false,
                 anim: Assets.GetAnim("canned_tuna_kanim"),
                 initialAnim: "object",
                 sceneLayer: Grid.SceneLayer.Front,
                 collisionShape: EntityTemplates.CollisionShape.RECTANGLE,
-                width: 0.9f,
-                height: 0.45f,
+                width: 0.8f,
+                height: 0.4f,
                 isPickupable: true,
                 sortOrder: 0,
                 element: SimHashes.Creature,
@@ -56,6 +56,7 @@ namespace CannedFoods.Foods
 
         public void OnPrefabInit(GameObject inst)
         {
+            inst.AddOrGet<CanRecycler>();
         }
 
         public void OnSpawn(GameObject inst)

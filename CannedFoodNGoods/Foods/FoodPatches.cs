@@ -25,7 +25,7 @@ namespace CannedFoods.Foods
             {
                 RecipeElement[] input = new RecipeElement[]
                 {
-                    new RecipeElement(SimHashes.Iron.CreateTag(), 0.5f),
+                    new RecipeElement(SimHashes.Copper.CreateTag(), 0.5f),
                     new RecipeElement(CookedFishConfig.ID, 0.5f)
                 };
 
@@ -39,7 +39,7 @@ namespace CannedFoods.Foods
                 CannedTunaConfig.recipe = new ComplexRecipe(recipeID, input, output)
                 {
                     time = FOOD.RECIPES.SMALL_COOK_TIME,
-                    description = STRINGS.ITEMS.FOOD.CF_CANNEDFISH.DESC,
+                    description = STRINGS.ITEMS.FOOD.CF_CANNEDTUNA.DESC,
                     nameDisplay = RecipeNameDisplay.Result,
                     fabricators = new List<Tag> { CraftingTableConfig.ID }
                 };
@@ -49,7 +49,7 @@ namespace CannedFoods.Foods
             {
                 RecipeElement[] input = new RecipeElement[]
                 {
-                    new RecipeElement(SimHashes.Iron.CreateTag(), 0.5f),
+                    new RecipeElement(SimHashes.Copper.CreateTag(), 0.5f),
                     new RecipeElement(CookedMeatConfig.ID, 0.5f)
                 };
 
