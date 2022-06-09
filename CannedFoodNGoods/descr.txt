@@ -4,8 +4,7 @@
 
 This mod adds a canned barbeque and canned tuna, non spoiling food variants that are made at the crafting station.
 
-
-[h1]Current latest Version: 1.0.0[/h1]
+[h1]Current latest Version: 1.0.1[/h1]
 
 [h1]Features[/h1]
 New Foods: Canned Barbeque & Canned Tuna
