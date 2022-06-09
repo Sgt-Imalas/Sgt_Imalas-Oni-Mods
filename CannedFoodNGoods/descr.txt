@@ -1,0 +1,24 @@
+﻿[img]https://i.imgur.com/GbFtLZ2.png[/img]
+
+[h1]Canned Food[/h1]
+
+This mod adds a canned barbeque and canned tuna, non spoiling food variants that are made at the crafting station.
+
+
+[h1]Current latest Version: 1.0.0[/h1]
+
+[h1]Features[/h1]
+New Foods: Canned Barbeque & Canned Tuna
+[list][*] made at the crafting station.
+[*] Canned BBQ has 2000kCal, Canned Tuna has 800kCal.
+[*] requires 500g of (refined) Copper, those will drop once eaten.
+[*] does NOT spoil!
+[*] designed for space missions!
+[/list]
+
+[h1]DLC Features[/h1]
+[list][*] Canned Tuna will provide Radiation Resistance, similar to normal sea food.
+[/list]
+
+[h1]Bug Reports[/h1]
+Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
