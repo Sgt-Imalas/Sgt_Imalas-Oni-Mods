@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace KnastoronOniMods
 {
-    class RocketControlStationNoChorePrecondition : RocketControlStation
+    public class RocketControlStationNoChorePrecondition : RocketControlStation
     {
         [Serialize]
         
@@ -17,7 +17,7 @@ namespace KnastoronOniMods
         private GameObject brainController;
         public void MakeNewPilotBot()
         {
-            if (this.newSweepyHandle.IsValid)
+            if (this.newSweepyHandle.IsValid || brainController!=null)
                 return;
             this.newSweepyHandle = GameScheduler.Instance.Schedule("Make brain", 1f, (System.Action<object>)(obj =>
             {
@@ -40,6 +40,7 @@ namespace KnastoronOniMods
         {
             base.OnCleanUp();
             brainController.GetComponent<SelfDestructInWrongEnvironmentComponent>().SelfDestruct();
+            brainController = null;
         }
     }
 }

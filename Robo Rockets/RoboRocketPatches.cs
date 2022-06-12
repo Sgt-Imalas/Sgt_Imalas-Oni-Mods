@@ -9,7 +9,6 @@ using UnityEngine;
 using UtilLibs;
 using System.Linq;
 using GMState = GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State;
-using RoboRockets.Buildings;
 
 namespace Robo_Rockets
 {
@@ -104,8 +103,8 @@ namespace Robo_Rockets
                 return true;
             }
         }
-        
-       [HarmonyPatch(typeof(PassengerRocketModule))]
+
+        [HarmonyPatch(typeof(PassengerRocketModule))]
         [HarmonyPatch("CheckPilotBoarded")]
         public class PassengerRocketModule_CheckPilotBoarded_Patch
         {
@@ -129,13 +128,13 @@ namespace Robo_Rockets
                 , GMState ___root
                 )
             {
-               // ___root.Update((smi, dt) => Debug.Log($"State is {smi.GetCurrentState().name}"));
-                
+                // ___root.Update((smi, dt) => Debug.Log($"State is {smi.GetCurrentState().name}"));
 
-                    ___running.QueueAnim("on", true);
-                    ___operational.QueueAnim("on", true);
 
-            } 
+                ___running.QueueAnim("on", true);
+                ___operational.QueueAnim("on", true);
+
+            }
         }
         [HarmonyPatch(typeof(RocketControlStation.States))]
         [HarmonyPatch("CreateChore")]

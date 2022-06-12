@@ -82,7 +82,7 @@ namespace KnastoronOniMods
              };
             basicEntity.AddOrGet<Traits>(); 
             KSelectable kselectable = basicEntity.AddOrGet<KSelectable>();
-            kselectable.IsSelectable = false;
+            kselectable.IsSelectable = true; //DEBUG : needs false on release
             Trait trait = Db.Get().CreateTrait(AiBrainConfig.ROVER_BASE_TRAIT_ID, "a Brain", NAME, (string)null, false, disabled_chore_groups, true, true);
             trait.Add(new AttributeModifier(Db.Get().Attributes.CarryAmount.Id, 200f, (string)NAME));
             trait.Add(new AttributeModifier(Db.Get().Attributes.Machinery.Id, TUNING.ROBOTS.SCOUTBOT.ATHLETICS, (string)NAME));
@@ -117,12 +117,14 @@ namespace KnastoronOniMods
             basicEntity.AddOrGetDef<CreatureDebugGoToMonitor.Def>();
             basicEntity.AddOrGetDef<RobotAi.Def>();
             basicEntity.AddOrGet<SelfDestructInWrongEnvironmentComponent>();
+
             ChoreTable.Builder chore_table = new ChoreTable.Builder()
                 .Add((StateMachine.BaseDef)new DebugGoToStates.Def())
                 .Add((StateMachine.BaseDef)new IdleStates.Def(), forcePriority: Db.Get().ChoreTypes.Idle.priority);
             EntityTemplates.AddCreatureBrain(basicEntity, chore_table, AiBrain,(string)null);
             basicEntity.AddOrGet<KPrefabID>().RemoveTag(GameTags.CreatureBrain);
             basicEntity.AddOrGet<KPrefabID>().AddTag(GameTags.DupeBrain);
+
             Navigator navigator = basicEntity.AddOrGet<Navigator>();
             navigator.NavGridName = "RobotNavGrid";
             navigator.CurrentNavType = NavType.Floor;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RoboRockets;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -62,6 +63,7 @@ namespace KnastoronOniMods
             go.AddOrGet<RocketControlStationLaunchWorkableAI>().workLayer = Grid.SceneLayer.BuildingUse;
             go.AddOrGet<RocketControlStationNoChorePrecondition>();
             go.AddOrGetDef<PoweredController.Def>();
+            //go.AddOrGet<DebugSideScreen>();
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.RocketInterior);
         }
     }
