@@ -11,10 +11,10 @@ namespace KnastoronOniMods
     class AiBrainConfig : IEntityConfig
     {
         public const string ID = "AiBrain";
-        public const string NAME = "Debug.BrainWorker";
+        public const string NAME = "Ai Brain";
 
         public static string ROVER_BASE_TRAIT_ID = "AIBrainBaseTrait";
-        public const string DESCR = "The Worker behind the Control Tasks. If atleast one of these exists, your Rocket should work.";
+        public const string DESCR = "A brain of not disclosed origin, somehow it knows how to fly this bucket";
         public const int MAXIMUM_TECH_CONSTRUCTION_TIER = 2;
         public const float MASS = 100f;
         private const float WIDTH = 1f;
@@ -82,7 +82,7 @@ namespace KnastoronOniMods
              };
             basicEntity.AddOrGet<Traits>(); 
             KSelectable kselectable = basicEntity.AddOrGet<KSelectable>();
-            kselectable.IsSelectable = Config.Instance.DebugFunctionsEnabled; //DEBUG : needs false on release
+            kselectable.IsSelectable = true; //DEBUG : needs false on release
             Trait trait = Db.Get().CreateTrait(AiBrainConfig.ROVER_BASE_TRAIT_ID, "a Brain", NAME, (string)null, false, disabled_chore_groups, true, true);
             trait.Add(new AttributeModifier(Db.Get().Attributes.CarryAmount.Id, 200f, (string)NAME));
             trait.Add(new AttributeModifier(Db.Get().Attributes.Machinery.Id, TUNING.ROBOTS.SCOUTBOT.ATHLETICS, (string)NAME));
