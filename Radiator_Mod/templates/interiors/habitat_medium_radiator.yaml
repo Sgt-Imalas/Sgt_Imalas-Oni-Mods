@@ -1,8 +1,8 @@
 info:
   size:
-    X: 22
+    X: 24
     Y: 11
-  area: 144
+  area: 164
 cells:
 - element: Steel
   mass: 100
@@ -81,11 +81,13 @@ cells:
   location_x: -1
   location_y: -3
 - element: Vacuum
+  diseaseCount: 312
   location_y: -3
 - element: Vacuum
   location_x: 1
   location_y: -3
 - element: Vacuum
+  diseaseCount: 312
   location_x: 2
   location_y: -3
 - element: Vacuum
@@ -141,7 +143,9 @@ cells:
   temperature: 293.149994
   location_x: 6
   location_y: -2
-- element: Vacuum
+- element: Steel
+  mass: 100
+  temperature: 293.149994
   location_x: -5
   location_y: -1
 - element: Vacuum
@@ -173,10 +177,14 @@ cells:
 - element: Vacuum
   location_x: 5
   location_y: -1
-- element: Vacuum
+- element: Steel
+  mass: 100
+  temperature: 293.149994
   location_x: 6
   location_y: -1
-- element: Vacuum
+- element: Steel
+  mass: 100
+  temperature: 293.149994
   location_x: -5
 - element: Vacuum
   location_x: -4
@@ -197,7 +205,9 @@ cells:
   location_x: 4
 - element: Vacuum
   location_x: 5
-- element: Vacuum
+- element: Steel
+  mass: 100
+  temperature: 293.149994
   location_x: 6
 - element: Diamond
   mass: 100
@@ -433,11 +443,89 @@ cells:
   temperature: 293.149994
   location_x: 2
   location_y: 6
+- element: Vacuum
+  location_x: -6
+  location_y: -4
+- element: Vacuum
+  location_x: 7
+  location_y: -4
+- element: Vacuum
+  location_x: -6
+  location_y: -3
+- element: Vacuum
+  location_x: 7
+  location_y: -3
+- element: Vacuum
+  location_x: -6
+  location_y: -2
+- element: Vacuum
+  location_x: 7
+  location_y: -2
+- element: Vacuum
+  location_x: -6
+  location_y: -1
+- element: Vacuum
+  location_x: 7
+  location_y: -1
+- element: Vacuum
+  location_x: -6
 - element: Vacuum
   location_x: 7
 - element: Vacuum
+  location_x: -6
+  location_y: 1
+- element: Vacuum
   location_x: 7
+  location_y: 1
+- element: Vacuum
+  location_x: -6
+  location_y: 2
+- element: Vacuum
+  location_x: 7
+  location_y: 2
+- element: Vacuum
+  location_x: -6
+  location_y: 3
+- element: Vacuum
+  location_x: 7
+  location_y: 3
+- element: Vacuum
+  location_x: -6
+  location_y: 4
+- element: Vacuum
+  location_x: 7
+  location_y: 4
+- element: Vacuum
+  location_x: -6
+  location_y: 5
+- element: Vacuum
+  location_x: 7
+  location_y: 5
+- element: Vacuum
+  location_x: -7
   location_y: -1
+- element: Vacuum
+  location_x: -7
+- element: Vacuum
+  location_x: -8
+  location_y: -1
+- element: Vacuum
+  location_x: -8
+- element: Vacuum
+  location_x: -9
+  location_y: -1
+- element: Vacuum
+  location_x: -9
+- element: Vacuum
+  location_x: -10
+  location_y: -1
+- element: Vacuum
+  location_x: -10
+- element: Vacuum
+  location_x: -11
+  location_y: -1
+- element: Vacuum
+  location_x: -11
 - element: Vacuum
   location_x: 8
 - element: Vacuum
@@ -459,30 +547,10 @@ cells:
   location_x: 11
   location_y: -1
 - element: Vacuum
-  location_x: -6
+  location_x: 12
+- element: Vacuum
+  location_x: 12
   location_y: -1
-- element: Vacuum
-  location_x: -6
-- element: Vacuum
-  location_x: -7
-  location_y: -1
-- element: Vacuum
-  location_x: -7
-- element: Vacuum
-  location_x: -8
-  location_y: -1
-- element: Vacuum
-  location_x: -8
-- element: Vacuum
-  location_x: -9
-  location_y: -1
-- element: Vacuum
-  location_x: -9
-- element: Vacuum
-  location_x: -10
-  location_y: -1
-- element: Vacuum
-  location_x: -10
 buildings:
 - id: RocketWallTile
   location_x: 6
@@ -529,6 +597,10 @@ buildings:
   element: Diamond
   temperature: 293.149994
 - id: RocketWallTile
+  location_x: -5
+  element: Steel
+  temperature: 293.149994
+- id: RocketWallTile
   location_x: -4
   location_y: 5
   element: Steel
@@ -608,6 +680,20 @@ buildings:
   location_y: -2
   element: Steel
   temperature: 294.149994
+- id: RocketWallTile
+  location_x: 6
+  location_y: -1
+  element: Steel
+  temperature: 293.149994
+- id: RocketWallTile
+  location_x: 6
+  element: Steel
+  temperature: 293.149994
+- id: RocketWallTile
+  location_x: -5
+  location_y: -1
+  element: Steel
+  temperature: 293.149994
 - id: RocketWallTile
   location_x: -2
   location_y: -4
@@ -686,16 +772,34 @@ buildings:
   element: Steel
   temperature: 293.149994
 - id: RadiatorRocketWall
-  location_x: 6
-  element: Steel
-  temperature: 293.149994
-  rotationOrientation: R90
-- id: RadiatorRocketWall
-  location_x: -5
+  location_x: -6
   location_y: -1
   element: Steel
-  temperature: 293.149994
+  temperature: 292.881195
   rotationOrientation: R270
+- id: RadiatorRocketWall
+  location_x: 7
+  element: Steel
+  temperature: 292.881195
+  rotationOrientation: R90
+- id: InsulatedLiquidConduit
+  location_x: -6
+  location_y: -1
+  element: Unobtanium
+  temperature: 293.149994
+- id: InsulatedLiquidConduit
+  location_x: -6
+  element: Unobtanium
+  temperature: 293.149994
+- id: InsulatedLiquidConduit
+  location_x: 7
+  element: Unobtanium
+  temperature: 293.149994
+- id: InsulatedLiquidConduit
+  location_x: 7
+  location_y: -1
+  element: Unobtanium
+  temperature: 293.149994
 otherEntities:
 - id: ClustercraftInteriorDoor
   location_x: -5
