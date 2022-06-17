@@ -24,7 +24,7 @@ namespace RadiatorMod.Buildings
             EffectorValues tieR2 = NOISE_POLLUTION.NONE;
             EffectorValues none2 = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 6, "heat_radiator_kanim", 100, 120f, matCosts, construction_materials, 1600f, BuildLocationRule.Anywhere, none2, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 2, "heat_radiator_kanim", 100, 120f, matCosts, construction_materials, 1600f, BuildLocationRule.Anywhere, none2, noise);
 
             buildingDef.InputConduitType = ConduitType.Liquid;
             buildingDef.OutputConduitType = ConduitType.Liquid;
@@ -57,7 +57,6 @@ namespace RadiatorMod.Buildings
             base.DoPostConfigureComplete(go);
             KPrefabID component = go.GetComponent<KPrefabID>();
             component.AddTag(GameTags.RocketEnvelopeTile);
-            component.AddTag(GameTags.NoRocketRefund);
             go.GetComponent<Deconstructable>().allowDeconstruction = false;
         }
 
