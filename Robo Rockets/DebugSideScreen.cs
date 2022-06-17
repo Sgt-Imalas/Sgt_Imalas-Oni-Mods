@@ -23,7 +23,7 @@ namespace RoboRockets
 
         public string SidescreenButtonText => "Reset AI";
 
-        public string SidescreenButtonTooltip => "Reset AI State";
+        public string SidescreenButtonTooltip => "If rocket is stuck on start, press this button";
 
         public bool SidescreenEnabled() => true;
 

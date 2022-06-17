@@ -798,7 +798,7 @@ buildings:
   location_x: 6
   location_y: -3
   element: Steel
-  temperature: 270.475647
+  temperature: 293.149994
   rotationOrientation: R90
 - id: RocketWallTile
   location_y: 5
