@@ -14,7 +14,13 @@ namespace KnastoronOniMods
         public bool UsesNeuralVaccilatorRecharge { get; set; }
         public Config()
         {
-            UsesNeuralVaccilatorRecharge = true;
+                DebugFunctionsEnabled = false;
+               UsesNeuralVaccilatorRecharge = true;
         }
+
+        [Option("Debug Mode", "Enable to get some debug functions ")]
+        [JsonProperty]
+        public bool DebugFunctionsEnabled { get; set; }
+        
     }
 }
