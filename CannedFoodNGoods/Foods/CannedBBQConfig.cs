@@ -53,7 +53,7 @@ namespace CannedFoods.Foods
 
         public void OnPrefabInit(GameObject inst)
         {
-            inst.AddOrGet<CanRecycler>();
+            //inst.AddOrGet<CanRecycler>();
         }
 
         public void OnSpawn(GameObject inst)

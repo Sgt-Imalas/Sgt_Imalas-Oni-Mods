@@ -20,7 +20,6 @@ namespace CannedFoods.Foods
                 AddCannedTunaRecipe();
                 AddCannedBBQRecipe();
             }
-
             private static void AddCannedTunaRecipe()
             {
                 RecipeElement[] input = new RecipeElement[]
@@ -44,7 +43,6 @@ namespace CannedFoods.Foods
                     fabricators = new List<Tag> { CraftingTableConfig.ID }
                 };
             }
-
             private static void AddCannedBBQRecipe()
             {
                 RecipeElement[] input = new RecipeElement[]
@@ -67,6 +65,25 @@ namespace CannedFoods.Foods
                     nameDisplay = RecipeNameDisplay.Result,
                     fabricators = new List<Tag> { CraftingTableConfig.ID }
                 };
+            }
+        }
+
+        [HarmonyPatch(typeof(Edible), "StopConsuming")]
+        public static class PatchDroppingOfTincans
+        {
+            public static void Prefix(Edible __instance )
+            {
+                if (__instance.FoodInfo.Id.Contains("CF_")){
+                    float trashMass = 0.5f * __instance.unitsConsumed;
+                    DropCan(__instance, trashMass);
+                }
+            }
+            public static void DropCan(Edible gameObject, float mass)
+            {
+                var element = ElementLoader.FindElementByHash(SimHashes.Copper);
+                var temperature = gameObject.GetComponent<PrimaryElement>().Temperature;
+                var pos = Grid.CellToPosCCC(Grid.PosToCell(gameObject.transform.GetPosition()), Grid.SceneLayer.Ore);
+                element.substance.SpawnResource(pos, mass, temperature, 0, 0);
             }
         }
     }
