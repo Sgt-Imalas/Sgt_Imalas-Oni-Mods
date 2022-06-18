@@ -26,7 +26,7 @@ namespace KnastoronOniMods
             }
             this.newSweepyHandle = GameScheduler.Instance.Schedule("Make brain", 1f, (System.Action<object>)(obj =>
             {
-                GameObject go = GameUtil.KInstantiate(Assets.GetPrefab((Tag)"AI-Worker"), Grid.CellToPos(Grid.CellRight(Grid.PosToCell(this.gameObject))), Grid.SceneLayer.Creatures);
+                GameObject go = GameUtil.KInstantiate(Assets.GetPrefab((Tag)"AiBrain"), Grid.CellToPos(Grid.CellRight(Grid.PosToCell(this.gameObject))), Grid.SceneLayer.Creatures);
                 go.SetActive(true);
                 brainController = go;
 
