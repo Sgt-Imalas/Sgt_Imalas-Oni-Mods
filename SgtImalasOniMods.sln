@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuclearExpansion", "Rocketr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CannedFoodNGoods", "CannedFoodNGoods\CannedFoodNGoods.csproj", "{F25316D9-C3B0-4FBE-B112-4952336D4A07}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicSatelites", "LogicSatelites\LogicSatelites.csproj", "{7F120EDF-5E97-4962-8A0A-1D96E654BF8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{F25316D9-C3B0-4FBE-B112-4952336D4A07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F25316D9-C3B0-4FBE-B112-4952336D4A07}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{F25316D9-C3B0-4FBE-B112-4952336D4A07}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{7F120EDF-5E97-4962-8A0A-1D96E654BF8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F120EDF-5E97-4962-8A0A-1D96E654BF8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F120EDF-5E97-4962-8A0A-1D96E654BF8F}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F120EDF-5E97-4962-8A0A-1D96E654BF8F}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
