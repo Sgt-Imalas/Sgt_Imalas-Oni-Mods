@@ -73,7 +73,8 @@ namespace CannedFoods.Foods
         {
             public static void Prefix(Edible __instance )
             {
-                if (__instance.FoodInfo.Id.Contains("CF_")){
+                if (__instance.FoodInfo.Id==CannedBBQConfig.ID || __instance.FoodInfo.Id == CannedTunaConfig.ID)
+                {
                     float trashMass = 0.5f * __instance.unitsConsumed;
                     DropCan(__instance, trashMass);
                 }
@@ -82,8 +83,16 @@ namespace CannedFoods.Foods
             {
                 var element = ElementLoader.FindElementByHash(SimHashes.Copper);
                 var temperature = gameObject.GetComponent<PrimaryElement>().Temperature;
-                var pos = Grid.CellToPosCCC(Grid.PosToCell(gameObject.transform.GetPosition()), Grid.SceneLayer.Ore);
-                element.substance.SpawnResource(pos, mass, temperature, 0, 0);
+
+                var scrapObject = GameUtil.KInstantiate(Assets.GetPrefab((Tag)"CF_CanScrap"), gameObject.transform.position, Grid.SceneLayer.Ore);
+                scrapObject.SetActive(true);
+                var scrapObjectElement = scrapObject.GetComponent<PrimaryElement>();
+                Debug.Log(scrapObjectElement.ElementID);
+                scrapObjectElement.Mass = mass;
+                scrapObjectElement.Temperature = temperature;
+                Debug.Log(scrapObjectElement.ElementID);
+                // var pos = Grid.CellToPosCCC(Grid.PosToCell(gameObject.transform.GetPosition()), Grid.SceneLayer.Ore);
+                //element.substance.SpawnResource(pos, mass, temperature, 0, 0);
             }
         }
     }

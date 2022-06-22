@@ -23,8 +23,8 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>MODNAME</ModName>
-		<ModDescription>MODDESCR</ModDescription>
+		<ModName>Logic Satelites</ModName>
+		<ModDescription>Deployable Satelites to relay logic information</ModDescription>
 		<SupportedContent>EXPANSION1_ID/</SupportedContent>
 		<MinimumSupportedBuild>498381</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
@@ -65,5 +65,17 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="anim\assets\satelite_deployer_module\satelite_deployer_module.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="anim\assets\satelite_deployer_module\satelite_deployer_module_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="anim\assets\satelite_deployer_module\satelite_deployer_module_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 </Project>

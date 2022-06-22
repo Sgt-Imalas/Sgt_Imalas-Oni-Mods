@@ -29,7 +29,7 @@ namespace RocketryExpanded
             EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 4, "rocket_habitat_medium_module_kanim", 1000, 60f, denseTieR1, rawMetals, 9999f, BuildLocationRule.Anywhere, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 8, "rocket_habitat_medium_module_kanim", 1000, 60f, denseTieR1, rawMetals, 9999f, BuildLocationRule.Anywhere, none, noise);
             BuildingTemplates.CreateRocketBuildingDef(buildingDef);
             buildingDef.AttachmentSlotTag = GameTags.Rocket;
             buildingDef.SceneLayer = Grid.SceneLayer.Building;
