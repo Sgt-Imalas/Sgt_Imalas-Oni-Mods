@@ -1,10 +1,12 @@
-﻿using System;
+﻿using LogicSatelites.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using static ComplexRecipe;
 
 namespace LogicSatelites.Buildings
 {
@@ -38,34 +40,93 @@ namespace LogicSatelites.Buildings
         {
             BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
             go.AddOrGet<LoopingSounds>();
-            go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
+            go.AddOrGet<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
             Storage storage = go.AddComponent<Storage>();
             storage.showInUI = true;
             storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
-            BuildingInternalConstructor.Def def1 = go.AddOrGetDef<BuildingInternalConstructor.Def>();
-            def1.constructionMass = 500f;
-            def1.outputIDs = new List<string>()
+
+            ComplexFabricator fabricator = go.AddOrGet<ComplexFabricator>();
+            fabricator.heatedTemperature = 318.15f;
+            fabricator.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ClassicFabricator;
+            fabricator.storeProduced = true;
+            go.AddOrGet<FabricatorIngredientStatusManager>();
+            go.AddOrGet<ComplexFabricatorWorkable>().overrideAnims = new KAnimFile[1]
             {
-                "LS_ClusterSateliteLogicDeployer",
+                Assets.GetAnim((HashedString) "anim_interacts_material_research_centre_kanim")
             };
-            def1.spawnIntoStorage = true;
-            def1.storage = (DefComponent<Storage>)storage;
-            def1.constructionSymbol = "under_construction";
-            go.AddOrGet<BuildingInternalConstructorWorkable>().SetWorkTime(30f);
-            JettisonableCargoModule.Def def2 = go.AddOrGetDef<JettisonableCargoModule.Def>();
-            def2.landerPrefabID = "ScoutLander".ToTag();
-            def2.landerContainer = (DefComponent<Storage>)storage;
-            def2.clusterMapFXPrefabID = "DeployingScoutLanderFXConfig";
+
+
+            BuildingTemplates.CreateComplexFabricatorStorage(go, fabricator);
+
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
             {
-      new BuildingAttachPoint.HardPoint(new CellOffset(0, 5), GameTags.Rocket, (AttachableBuilding) null)
+                new BuildingAttachPoint.HardPoint(new CellOffset(0, 5), GameTags.Rocket, (AttachableBuilding) null)
             };
+
+            this.ConfigureRecipes();
         }
 
         public override void DoPostConfigureComplete(GameObject go)
         {
             Prioritizable.AddRef(go);
+            AddFabricatorSkillInteraction(go);
+            AddFakeFloor(go);
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MODERATE);
+        }
+
+        private void AddFabricatorSkillInteraction(GameObject go)
+        {
+            go.GetComponent<KPrefabID>().prefabSpawnFn += (KPrefabID.PrefabFn)(game_object =>
+            {
+                ComplexFabricatorWorkable component = game_object.GetComponent<ComplexFabricatorWorkable>();
+                component.WorkerStatusItem = Db.Get().DuplicantStatusItems.Fabricating;
+                component.AttributeConverter = Db.Get().AttributeConverters.MachinerySpeed;
+                component.AttributeExperienceMultiplier = DUPLICANTSTATS.ATTRIBUTE_LEVELING.PART_DAY_EXPERIENCE;
+                component.SkillExperienceSkillGroup = Db.Get().SkillGroups.Technicals.Id;
+                component.SkillExperienceMultiplier = SKILLS.PART_DAY_EXPERIENCE;
+            });
+
+        }
+        private void AddFakeFloor(GameObject go)
+        {
+            FakeFloorAdder fakeFloorAdder = go.AddOrGet<FakeFloorAdder>();
+            fakeFloorAdder.floorOffsets = new CellOffset[5]
+            {
+                new CellOffset(-2, -1),
+                new CellOffset(-1, -1),
+                new CellOffset(0, -1),
+                new CellOffset(1, -1),
+                new CellOffset(2, -1)
+            };
+            fakeFloorAdder.initiallyActive = false;
+        }
+
+
+        private void ConfigureRecipes()
+        {
+            RecipeElement[] logicSatelliteComponents = new ComplexRecipe.RecipeElement[]
+            {
+                new ComplexRecipe.RecipeElement(SimHashes.Glass.CreateTag(), 400f),
+                new ComplexRecipe.RecipeElement(SimHashes.Steel.CreateTag(), 200f)
+            };
+            ComplexRecipe.RecipeElement[] logicSatelliteProduct = new ComplexRecipe.RecipeElement[]
+            {
+                new ComplexRecipe.RecipeElement(SatelliteLogicConfig.ID, 1f)
+            };
+
+            string LogicSatellite = ComplexRecipeManager.MakeRecipeID(ID, logicSatelliteComponents, logicSatelliteProduct);
+
+            SatelliteLogicConfig.recipe = new ComplexRecipe(LogicSatellite, logicSatelliteComponents, logicSatelliteProduct)
+            {
+                time = 30,
+                description = "A logic relay to be deployed into space.",
+                nameDisplay = RecipeNameDisplay.Result,
+                fabricators = new List<Tag>()
+                {
+                    ID
+                },              
+            };
+            
         }
     }
 }

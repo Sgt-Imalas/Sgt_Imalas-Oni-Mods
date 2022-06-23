@@ -9,10 +9,13 @@ namespace LogicSatelites.Entities
 {
     class SatelliteLogicConfig : IEntityConfig
     {
-        public const string ID = "LS_ClusterSateliteLogicDeployer";
+        public const string ID = "LS_ClusterSateliteLogic";
         public const string NAME = "Logic Satellite in Storage";
         public const string DESC = "Deploy this satellite on the star map to create a logic relay";
-        public const float MASS = 400f;
+        public const float MASS = 600f;
+
+        public static ComplexRecipe recipe;
+
         public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public GameObject CreatePrefab()
         {
@@ -34,6 +37,8 @@ namespace LogicSatelites.Entities
                    {
                       GameTags.IndustrialIngredient
                    });
+
+
             return looseEntity;
         }
 

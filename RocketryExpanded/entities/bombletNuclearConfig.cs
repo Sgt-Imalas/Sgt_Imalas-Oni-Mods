@@ -43,7 +43,7 @@ namespace RocketryExpanded.entities
                   });
             var bomb = looseEntity.AddOrGet<ExplosiveBomblet>();
 
-            looseEntity.AddOrGet<EntitySplitter>().maxStackSize = 20f;
+            looseEntity.AddOrGet<EntitySplitter>().maxStackSize = 50f;
 
             RadiationEmitter radiationEmitter = looseEntity.AddComponent<RadiationEmitter>();
             radiationEmitter.emitType = RadiationEmitter.RadiationEmitterType.Constant;
