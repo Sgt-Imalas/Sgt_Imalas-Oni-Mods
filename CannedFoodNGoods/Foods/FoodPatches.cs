@@ -98,7 +98,7 @@ namespace CannedFoods.Foods
                 var copperTag = SimHashes.Copper.CreateTag();
                 var input = new RecipeElement[]
                 {
-                    new RecipeElement(CanScrapConfig.ID, 10f)
+                    new RecipeElement(TagManager.Create(CanScrapConfig.ID), 10f)
                 };
 
                 var output = new RecipeElement[]
@@ -110,7 +110,7 @@ namespace CannedFoods.Foods
 
                 ComplexRecipe complexRecipe = new ComplexRecipe(recipeID, input, output)
                 {
-                    time = 5f,
+                    time = 10f,
                     description = string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.RECIPE_DESCRIPTION, CanScrapConfig.NAME, (object)copperTag.ProperName()),
                     nameDisplay = ComplexRecipe.RecipeNameDisplay.Ingredient,
                     fabricators = new List<Tag>()
@@ -134,7 +134,7 @@ namespace CannedFoods.Foods
                 var copperTag = SimHashes.Copper.CreateTag();
                 var input = new RecipeElement[]
                 {
-                    new RecipeElement(CanScrapConfig.ID, 10f)
+                    new RecipeElement(TagManager.Create(CanScrapConfig.ID), 10f)
                 };
 
                 var output = new RecipeElement[]
@@ -146,7 +146,7 @@ namespace CannedFoods.Foods
 
                 ComplexRecipe complexRecipe = new ComplexRecipe(recipeID, input, output)
                 {
-                    time = 5f,
+                    time = 10f,
                     description = string.Format(global::STRINGS.BUILDINGS.PREFABS.METALREFINERY.RECIPE_DESCRIPTION, (object)copperTag.ProperName(),CanScrapConfig.NAME),
                     nameDisplay = ComplexRecipe.RecipeNameDisplay.Ingredient,
                     fabricators = new List<Tag>()

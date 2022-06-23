@@ -14,7 +14,7 @@ namespace CannedFoods
         public const string DESC = "You don't want to know where this can has been.\n\nDecreases Decor\n\nCan be recycled at the Rock Crusher or the Refinery.";
         public string[] GetDlcIds()
         {
-            return DlcManager.AVAILABLE_EXPANSION1_ONLY;
+            return DlcManager.AVAILABLE_ALL_VERSIONS;
         }
 
         public GameObject CreatePrefab()
@@ -39,6 +39,7 @@ namespace CannedFoods
                   });
 
             looseEntity.AddOrGet<EntitySplitter>();
+
 
             looseEntity.AddOrGet<OccupyArea>().OccupiedCellsOffsets = EntityTemplates.GenerateOffsets(0, 0);
 
