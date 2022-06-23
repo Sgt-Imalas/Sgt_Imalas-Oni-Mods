@@ -36,10 +36,16 @@ namespace CannedFoods
                   additionalTags: new List<Tag>()
                   {
                       GameTags.IndustrialIngredient
-
                   });
 
             looseEntity.AddOrGet<EntitySplitter>();
+
+            looseEntity.AddOrGet<OccupyArea>().OccupiedCellsOffsets = EntityTemplates.GenerateOffsets(0, 0);
+
+            DecorProvider decorProvider = looseEntity.AddOrGet<DecorProvider>();
+            decorProvider.SetValues(TUNING.DECOR.PENALTY.TIER5);
+            decorProvider.overrideName = NAME;
+
             return looseEntity;
         }
 

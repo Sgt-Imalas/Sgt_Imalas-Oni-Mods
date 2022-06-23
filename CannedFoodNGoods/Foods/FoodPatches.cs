@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using Database;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,6 +69,97 @@ namespace CannedFoods.Foods
             }
         }
 
+        /// <summary>
+        /// Carnivore Achievment: add canned meat
+        /// </summary>
+        [HarmonyPatch(typeof(EatXCaloriesFromY), MethodType.Constructor)]
+        [HarmonyPatch(new Type[] { typeof(int), typeof(List<string>) })]
+        public static class PatchCarnivoreAchievment
+        {
+            public static void Postfix(List<string> fromFoodType)
+            {
+                if (!fromFoodType.Contains(CannedBBQConfig.ID))
+                {
+                    fromFoodType.Add(CannedBBQConfig.ID);
+                    fromFoodType.Add(CannedTunaConfig.ID);
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(RockCrusherConfig), "ConfigureBuildingTemplate")]
+        public static class PatchRecyclingRockCrusher
+        {
+            public static void Postfix()
+            {
+                AddRecyclingRecipeRockCrusher();
+            }
+            private static void AddRecyclingRecipeRockCrusher()
+            {
+                var copperTag = SimHashes.Copper.CreateTag();
+                var input = new RecipeElement[]
+                {
+                    new RecipeElement(CanScrapConfig.ID, 10f)
+                };
+
+                var output = new RecipeElement[]
+                {
+                    new RecipeElement(copperTag, 5f)
+                };
+
+                var recipeID = ComplexRecipeManager.MakeRecipeID(RockCrusherConfig.ID, input, output);
+
+                ComplexRecipe complexRecipe = new ComplexRecipe(recipeID, input, output)
+                {
+                    time = 5f,
+                    description = string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.RECIPE_DESCRIPTION, CanScrapConfig.NAME, (object)copperTag.ProperName()),
+                    nameDisplay = ComplexRecipe.RecipeNameDisplay.Ingredient,
+                    fabricators = new List<Tag>()
+                    {
+                        TagManager.Create("RockCrusher")
+                    }
+                };
+            }
+        }
+
+
+        [HarmonyPatch(typeof(MetalRefineryConfig), "ConfigureBuildingTemplate")]
+        public static class PatchRecyclingMetalRefinery
+        {
+            public static void Postfix()
+            {
+                AddRecyclingRecipeMetalRefinery();
+            }
+            private static void AddRecyclingRecipeMetalRefinery()
+            {
+                var copperTag = SimHashes.Copper.CreateTag();
+                var input = new RecipeElement[]
+                {
+                    new RecipeElement(CanScrapConfig.ID, 10f)
+                };
+
+                var output = new RecipeElement[]
+                {
+                    new RecipeElement(copperTag, 10f)
+                };
+
+                var recipeID = ComplexRecipeManager.MakeRecipeID(MetalRefineryConfig.ID, input, output);
+
+                ComplexRecipe complexRecipe = new ComplexRecipe(recipeID, input, output)
+                {
+                    time = 5f,
+                    description = string.Format(global::STRINGS.BUILDINGS.PREFABS.METALREFINERY.RECIPE_DESCRIPTION, (object)copperTag.ProperName(),CanScrapConfig.NAME),
+                    nameDisplay = ComplexRecipe.RecipeNameDisplay.Ingredient,
+                    fabricators = new List<Tag>()
+                    {
+                        TagManager.Create("MetalRefinery")
+                    }
+                };
+            }
+        }
+
+        /// <summary>
+        /// Drops Can at the end of eating.
+        /// </summary>
         [HarmonyPatch(typeof(Edible), "StopConsuming")]
         public static class PatchDroppingOfTincans
         {
@@ -87,10 +179,9 @@ namespace CannedFoods.Foods
                 var scrapObject = GameUtil.KInstantiate(Assets.GetPrefab((Tag)"CF_CanScrap"), gameObject.transform.position, Grid.SceneLayer.Ore);
                 scrapObject.SetActive(true);
                 var scrapObjectElement = scrapObject.GetComponent<PrimaryElement>();
-                Debug.Log(scrapObjectElement.ElementID);
                 scrapObjectElement.Mass = mass;
                 scrapObjectElement.Temperature = temperature;
-                Debug.Log(scrapObjectElement.ElementID);
+                //Debug.Log(scrapObjectElement.ElementID);
                 // var pos = Grid.CellToPosCCC(Grid.PosToCell(gameObject.transform.GetPosition()), Grid.SceneLayer.Ore);
                 //element.substance.SpawnResource(pos, mass, temperature, 0, 0);
             }

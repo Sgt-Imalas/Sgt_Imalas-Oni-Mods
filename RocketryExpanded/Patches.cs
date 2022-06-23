@@ -102,12 +102,11 @@ namespace RocketryExpanded
 
                 if (insertionIndex != -1)
                 {
-                    Debug.Log("PATCH APPLIED!\n\n\n\n\n\n\n");
                     code.Insert(insertionIndex, new CodeInstruction(OpCodes.Call, PacketSizeHelper));
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Stloc_2));
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_2));
                 }
-                Debug.Log("DEBUGMETHOD: " + new CodeInstruction(OpCodes.Call, PacketSizeHelper));
+               // Debug.Log("DEBUGMETHOD: " + new CodeInstruction(OpCodes.Call, PacketSizeHelper));
                 InjectionMethods.PrintInstructions(code);
                 return code;
             }
