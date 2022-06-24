@@ -35,8 +35,6 @@ namespace RocketryExpanded.buildings
         }
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
-
-
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
             go.AddOrGet<DropAllWorkable>();
             go.AddOrGet<Prioritizable>();

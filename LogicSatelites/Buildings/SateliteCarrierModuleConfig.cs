@@ -47,21 +47,16 @@ namespace LogicSatelites.Buildings
 
             ComplexFabricator fabricator = go.AddOrGet<ComplexFabricator>();
             fabricator.heatedTemperature = 318.15f;
-            fabricator.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ClassicFabricator;
+            fabricator.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
             fabricator.storeProduced = true;
-            fabricator.inStorage = storage;
-            fabricator.buildStorage = storage;
-            fabricator.outStorage = storage;
             go.AddOrGet<FabricatorIngredientStatusManager>();
-            go.AddOrGet<ComplexFabricatorWorkable>()
-                .overrideAnims = new KAnimFile[1]
+            go.AddOrGet<ComplexFabricatorWorkable>().overrideAnims = new KAnimFile[1]
             {
-               Assets.GetAnim((HashedString) "anim_interacts_material_research_centre_kanim")
-            }
-            ;
+                Assets.GetAnim((HashedString) "anim_interacts_material_research_centre_kanim")
+            };
 
 
-            //BuildingTemplates.CreateComplexFabricatorStorage(go, fabricator);
+            BuildingTemplates.CreateComplexFabricatorStorage(go, fabricator);
 
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
             {

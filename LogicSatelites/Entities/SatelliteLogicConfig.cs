@@ -10,7 +10,7 @@ namespace LogicSatelites.Entities
     class SatelliteLogicConfig : IEntityConfig
     {
         public const string ID = "LS_ClusterSateliteLogic";
-        public const string NAME = "Logic Satellite in Storage";
+        public const string NAME = "Logic Satellite";
         public const string DESC = "Deploy this satellite on the star map to create a logic relay";
         public const float MASS = 600f;
 
