@@ -1,4 +1,5 @@
-﻿using LogicSatelites.Entities;
+﻿using LogicSatelites.Behaviours;
+using LogicSatelites.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,6 +56,7 @@ namespace LogicSatelites.Buildings
                 Assets.GetAnim((HashedString) "anim_interacts_material_research_centre_kanim")
             };
 
+            go.AddOrGet<SatelliteCarrierModule>();
 
             BuildingTemplates.CreateComplexFabricatorStorage(go, fabricator);
 
