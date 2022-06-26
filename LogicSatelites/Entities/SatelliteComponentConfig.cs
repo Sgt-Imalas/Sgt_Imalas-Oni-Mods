@@ -7,12 +7,12 @@ using UnityEngine;
 
 namespace LogicSatelites.Entities
 {
-    class SatelliteLogicConfig : IEntityConfig
+    class SatelliteComponentConfig : IEntityConfig
     {
-        public const string ID = "LS_ClusterSateliteLogic";
-        public const string NAME = "Logic Satellite";
-        public const string DESC = "Deploy this satellite on the star map to create a logic relay";
-        public const float MASS = 600f;
+        public const string ID = "LS_ClusterSatelitePart";
+        public const string NAME = "Satellite Parts";
+        public const string DESC = "A bunch of duct taped electronics and parts found in the back of the storage bin.\nMaybe these will come in handy for a satellite?";
+        public const float MASS = 30f;
 
         public static ComplexRecipe recipe;
 
@@ -25,7 +25,7 @@ namespace LogicSatelites.Entities
                    desc: DESC,
                    mass: MASS,
                    unitMass: true,
-                   anim: Assets.GetAnim("seed_saltPlant_kanim"),
+                   anim: Assets.GetAnim("space_satellite_kanim"),
                    initialAnim: "object",
                    sceneLayer: Grid.SceneLayer.Front,
                    collisionShape: EntityTemplates.CollisionShape.RECTANGLE,
@@ -38,14 +38,17 @@ namespace LogicSatelites.Entities
                       GameTags.IndustrialIngredient
                    });
 
+            looseEntity.AddOrGet<EntitySplitter>();
+            //looseEntity.AddOrGet<LogicBroadcaster>(); needs custom made comp.
 
+            looseEntity.AddOrGet<LogicBroadcastReceiver>();
             return looseEntity;
         }
 
 
-    public void OnPrefabInit(GameObject inst)
-    {
-    }
-    public void OnSpawn(GameObject inst) { }
+        public void OnPrefabInit(GameObject inst)
+        {
+        }
+        public void OnSpawn(GameObject inst) { }
     }
 }

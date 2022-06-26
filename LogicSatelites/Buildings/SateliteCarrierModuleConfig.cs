@@ -44,51 +44,38 @@ namespace LogicSatelites.Buildings
             go.AddOrGet<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
             Storage storage = go.AddComponent<Storage>();
             storage.showInUI = true;
+            storage.allowItemRemoval = false;
             storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 
-            ComplexFabricator fabricator = go.AddOrGet<ComplexFabricator>();
-            fabricator.heatedTemperature = 318.15f;
-            fabricator.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
-            fabricator.storeProduced = true;
-            go.AddOrGet<FabricatorIngredientStatusManager>();
-            go.AddOrGet<ComplexFabricatorWorkable>().overrideAnims = new KAnimFile[1]
+
+            BuildingInternalConstructorRocket.Def def1 = go.AddOrGetDef<BuildingInternalConstructorRocket.Def>();
+            def1.constructionMass = 20f;
+            def1.ConstructionMatID = SatelliteComponentConfig.ID;
+            def1.outputIDs = new List<string>()
             {
-                Assets.GetAnim((HashedString) "anim_interacts_material_research_centre_kanim")
+                "LS_ClusterSateliteLogic"
             };
+            def1.spawnIntoStorage = true;
+            def1.storage = (DefComponent<Storage>)storage;
+            def1.constructionSymbol = "under_construction";
+            go.AddOrGet<BuildingInternalConstructorRocketWorkable>().SetWorkTime(30f);
 
             go.AddOrGet<SatelliteCarrierModule>();
-
-            BuildingTemplates.CreateComplexFabricatorStorage(go, fabricator);
 
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
             {
                 new BuildingAttachPoint.HardPoint(new CellOffset(0, 5), GameTags.Rocket, (AttachableBuilding) null)
             };
 
-            this.ConfigureRecipes();
         }
 
         public override void DoPostConfigureComplete(GameObject go)
         {
             Prioritizable.AddRef(go);
-            AddFabricatorSkillInteraction(go);
             AddFakeFloor(go);
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MODERATE);
         }
 
-        private void AddFabricatorSkillInteraction(GameObject go)
-        {
-            go.GetComponent<KPrefabID>().prefabSpawnFn += (KPrefabID.PrefabFn)(game_object =>
-            {
-                ComplexFabricatorWorkable component = game_object.GetComponent<ComplexFabricatorWorkable>();
-                component.WorkerStatusItem = Db.Get().DuplicantStatusItems.Fabricating;
-                component.AttributeConverter = Db.Get().AttributeConverters.MachinerySpeed;
-                component.AttributeExperienceMultiplier = DUPLICANTSTATS.ATTRIBUTE_LEVELING.PART_DAY_EXPERIENCE;
-                component.SkillExperienceSkillGroup = Db.Get().SkillGroups.Technicals.Id;
-                component.SkillExperienceMultiplier = SKILLS.PART_DAY_EXPERIENCE;
-            });
-
-        }
         private void AddFakeFloor(GameObject go)
         {
             FakeFloorAdder fakeFloorAdder = go.AddOrGet<FakeFloorAdder>();
@@ -101,34 +88,6 @@ namespace LogicSatelites.Buildings
                 new CellOffset(2, -1)
             };
             fakeFloorAdder.initiallyActive = false;
-        }
-
-
-        private void ConfigureRecipes()
-        {
-            RecipeElement[] logicSatelliteComponents = new ComplexRecipe.RecipeElement[]
-            {
-                new ComplexRecipe.RecipeElement(SimHashes.Glass.CreateTag(), 400f),
-                new ComplexRecipe.RecipeElement(SimHashes.Steel.CreateTag(), 200f)
-            };
-            ComplexRecipe.RecipeElement[] logicSatelliteProduct = new ComplexRecipe.RecipeElement[]
-            {
-                new ComplexRecipe.RecipeElement(SatelliteLogicConfig.ID, 1f)
-            };
-
-            string LogicSatellite = ComplexRecipeManager.MakeRecipeID(ID, logicSatelliteComponents, logicSatelliteProduct);
-
-            SatelliteLogicConfig.recipe = new ComplexRecipe(LogicSatellite, logicSatelliteComponents, logicSatelliteProduct)
-            {
-                time = 30,
-                description = "A logic relay to be deployed into space.",
-                nameDisplay = RecipeNameDisplay.Result,
-                fabricators = new List<Tag>()
-                {
-                    ID
-                },              
-            };
-            
         }
     }
 }

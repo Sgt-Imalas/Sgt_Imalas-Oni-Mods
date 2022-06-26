@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LogicSatelites.Behaviours
 {
-    public class SMDeployableSatelite
+    public class SatelliteGridStates
     {
     }
 }

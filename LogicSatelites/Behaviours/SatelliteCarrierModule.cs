@@ -24,7 +24,6 @@ namespace LogicSatelites.Behaviours
 			public SMInstance(SatelliteCarrierModule master) : base(master)
 			{
 			}
-
 		}
 
 		public class States : GameStateMachine<States, SMInstance, SatelliteCarrierModule>
@@ -41,38 +40,7 @@ namespace LogicSatelites.Behaviours
 
 				defaultState = InitState;
 
-				NotRadiating
-					.QueueAnim("on")
-					.Update((smi, dt) => smi.master.AmIInSpace())
-					.EventTransition(GameHashes.OperationalChanged, Retracting, smi => !smi.IsOperational)
-					.ParamTransition(this.IsInTrueSpace, Radiating, IsTrue);
-
-
-				Radiating
-					.Update("Radiating", (smi, dt) =>
-					{
-						smi.master.RadiateIntoSpace();
-						smi.master.AmIInSpace();
-
-					}, UpdateRate.SIM_200ms)
-					.QueueAnim("on_rad", true)
-					.Exit(smi => smi.master.UpdateRadiation(false))
-					.EventTransition(GameHashes.OperationalChanged, Retracting, smi => !smi.IsOperational)
-					.ParamTransition(this.IsInTrueSpace, NotRadiating, IsFalse);
-
-				Retracting
-					.PlayAnim("on_pst")
-					.OnAnimQueueComplete(Protecting);
-
-				Protecting
-					.Enter(smi => smi.master.SetBunkerState(true))
-					.Exit(smi => smi.master.SetBunkerState(false))
-					.QueueAnim("off", true)
-					.EventTransition(GameHashes.OperationalChanged, Extending, smi => smi.IsOperational);
-
-				Extending
-					.PlayAnim("on_pre")
-					.OnAnimQueueComplete(NotRadiating);
+				
 			}
 		}
 		#endregion

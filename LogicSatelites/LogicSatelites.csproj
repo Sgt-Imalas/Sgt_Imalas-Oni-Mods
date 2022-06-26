@@ -77,5 +77,14 @@
 	  <None Update="anim\assets\satelite_deployer_module\satelite_deployer_module_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="anim\assets\space_satellite\space_satellite.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="anim\assets\space_satellite\space_satellite_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="anim\assets\space_satellite\space_satellite_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 </Project>
