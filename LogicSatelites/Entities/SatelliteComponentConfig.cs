@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LogicSatelites.Behaviours;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,9 +40,7 @@ namespace LogicSatelites.Entities
                    });
 
             looseEntity.AddOrGet<EntitySplitter>();
-            //looseEntity.AddOrGet<LogicBroadcaster>(); needs custom made comp.
-
-            looseEntity.AddOrGet<LogicBroadcastReceiver>();
+           // looseEntity.AddOrGet<SatelliteGridStates>();
             return looseEntity;
         }
 

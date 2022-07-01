@@ -15,8 +15,6 @@ namespace LogicSatelites.Entities
         public const string DESC = "Deploy this satellite on the star map to create a logic relay";
         public const float MASS = 600f;
 
-        public static ComplexRecipe recipe;
-
         public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public GameObject CreatePrefab()
         {
@@ -32,15 +30,21 @@ namespace LogicSatelites.Entities
                    collisionShape: EntityTemplates.CollisionShape.RECTANGLE,
                    width: 1f,
                    height: 1f,
-                   isPickupable: true,
+                   isPickupable: false,
                    element: SimHashes.Steel,
                    additionalTags: new List<Tag>()
                    {
                       GameTags.IndustrialIngredient
                    }); 
+
+
             var entity = looseEntity.AddOrGet<SatelliteGridEntity>();
             entity.name = "Satellite";
             entity.clusterAnimName = "space_satellite_kanim";
+
+            //looseEntity.AddOrGet<LogicBroadcaster>(); needs custom made comp.
+
+            //looseEntity.AddOrGet<LogicBroadcastReceiver>();
             return looseEntity;
         }
 

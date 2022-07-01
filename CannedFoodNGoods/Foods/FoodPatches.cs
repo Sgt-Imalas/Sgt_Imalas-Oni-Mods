@@ -160,7 +160,7 @@ namespace CannedFoods.Foods
         /// <summary>
         /// Drops Can at the end of eating.
         /// </summary>
-        [HarmonyPatch(typeof(Edible), "StopConsuming")]
+        [HarmonyPatch(typeof(Edible), "OnStopWork")]
         public static class PatchDroppingOfTincans
         {
             public static void Prefix(Edible __instance )

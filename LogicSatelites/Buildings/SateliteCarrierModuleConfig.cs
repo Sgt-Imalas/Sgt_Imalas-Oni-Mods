@@ -49,11 +49,11 @@ namespace LogicSatelites.Buildings
 
 
             BuildingInternalConstructorRocket.Def def1 = go.AddOrGetDef<BuildingInternalConstructorRocket.Def>();
-            def1.constructionMass = 20f;
+            def1.constructionUnits = 20f;
             def1.ConstructionMatID = SatelliteComponentConfig.ID;
-            def1.outputIDs = new List<string>()
+            def1.outputIDs = new List<Tag>()
             {
-                "LS_ClusterSateliteLogic"
+                SatelliteLogicConfig.ID.ToTag()
             };
             def1.spawnIntoStorage = true;
             def1.storage = (DefComponent<Storage>)storage;

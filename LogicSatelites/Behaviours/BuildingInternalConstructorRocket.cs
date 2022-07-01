@@ -52,8 +52,8 @@ namespace LogicSatelites.Behaviours
         public class Def : StateMachine.BaseDef
         {
             public DefComponent<Storage> storage;
-            public float constructionMass;
-            public List<string> outputIDs;
+            public float constructionUnits;
+            public List<Tag> outputIDs;
             public bool spawnIntoStorage;
             public string constructionSymbol;
             public string ConstructionMatID;
@@ -85,13 +85,14 @@ namespace LogicSatelites.Behaviours
                 this.GetComponent<RocketModule>().AddModuleCondition(ProcessCondition.ProcessConditionType.RocketPrep, (ProcessCondition)new SatelliteConstructionCompleteCondition(this));
             }
 
-            private void DropConstructionMass(Tag constructionElement, float mass)
+            private void DropConstructionUnits(Tag constructionElement, float mass)
             {
-                if(mass >= Assets.GetPrefab(constructionElement).GetComponent<PrimaryElement>().MassPerUnit) { 
+                var MassPerUnit = Assets.GetPrefab(constructionElement).GetComponent<PrimaryElement>().MassPerUnit;
+                if (mass >= MassPerUnit) { 
                 var constructionPart = GameUtil.KInstantiate(Assets.GetPrefab(constructionElement), gameObject.transform.position, Grid.SceneLayer.Ore);
                 constructionPart.SetActive(true);
                 var constructionPartElement = constructionPart.GetComponent<PrimaryElement>();
-                constructionPartElement.Units = (float)Math.Round(mass / constructionPartElement.MassPerUnit, MidpointRounding.AwayFromZero);
+                constructionPartElement.Units = mass / MassPerUnit;
                 }
             }
 
@@ -100,9 +101,9 @@ namespace LogicSatelites.Behaviours
             {
                 Element element = (Element)null;
                 float mass = 0.0f;
-                foreach (string outputId in this.def.outputIDs)
+                foreach (var outputId in this.def.outputIDs)
                 {
-                    GameObject first = this.storage.FindFirst((Tag)outputId);
+                    GameObject first = this.storage.FindFirst(outputId);
                     if ((UnityEngine.Object)first != (UnityEngine.Object)null)
                     {
                         PrimaryElement component = first.GetComponent<PrimaryElement>();
@@ -112,18 +113,18 @@ namespace LogicSatelites.Behaviours
                         first.DeleteObject();
                     }
                 }
-                DropConstructionMass((Tag)def.ConstructionMatID, mass);
+                DropConstructionUnits((Tag)def.ConstructionMatID, mass);
                 base.OnCleanUp();
             }
 
             public FetchList2 CreateFetchList()
             {
                 FetchList2 fetchList = new FetchList2(this.storage, Db.Get().ChoreTypes.Fetch);
-                fetchList.Add(constructionMaterial, amount: this.def.constructionMass);
+                fetchList.Add(constructionMaterial, amount: this.def.constructionUnits);
                 return fetchList;
             }
 
-            public PrimaryElement GetMassForConstruction() => FindFirstWithUnitCount(this.storage, def.ConstructionMatID, this.def.constructionMass);
+            public PrimaryElement GetMassForConstruction() => FindFirstWithUnitCount(this.storage, def.ConstructionMatID, this.def.constructionUnits);
 
 
             public PrimaryElement FindFirstWithUnitCount(Storage storage,Tag tag, float units = 0.0f)
@@ -145,7 +146,7 @@ namespace LogicSatelites.Behaviours
                 return firstWithUnits;
             }
 
-            public bool HasOutputInStorage() => (bool)(UnityEngine.Object)this.storage.FindFirst(this.def.outputIDs[0].ToTag());
+            public bool HasOutputInStorage() => (bool)(UnityEngine.Object)this.storage.FindFirst(this.def.outputIDs[0]);
 
             public bool IsRequestingConstruction()
             {
@@ -159,21 +160,17 @@ namespace LogicSatelites.Behaviours
                 if (!force)
                 {
                     PrimaryElement massForConstruction = this.GetMassForConstruction();
-                    element_id = massForConstruction.ElementID;
                     float mass = massForConstruction.Units;
                     double num1 = (double)massForConstruction.Temperature * (double)massForConstruction.Mass;
-                    massForConstruction.Mass -= this.def.constructionMass;
-                    double num2 = (double)mass;
-                    double num3 = (double)Mathf.Clamp((float)(num1 / num2), 288.15f, 318.15f);
+                    massForConstruction.Units -= this.def.constructionUnits;
                 }
                 else
                 {
                     element_id = SimHashes.Cuprite;
                 }
-                foreach (string outputId in this.def.outputIDs)
+                foreach (var outputId in this.def.outputIDs)
                 {
-                    GameObject go = GameUtil.KInstantiate(Assets.GetPrefab((Tag)outputId), this.transform.GetPosition(), Grid.SceneLayer.Ore);
-                    go.GetComponent<PrimaryElement>().SetElement(element_id, false);
+                    GameObject go = GameUtil.KInstantiate(Assets.GetPrefab(outputId), this.transform.GetPosition(), Grid.SceneLayer.Ore);
                     go.SetActive(true);
                     if (this.def.spawnIntoStorage)
                         this.storage.Store(go);
