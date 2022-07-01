@@ -38,24 +38,24 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Reference Include="Unity.TextMeshPro">
-			<HintPath>D:\Programs\Steam\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+				<Reference Include="Unity.TextMeshPro">
+			<HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\Unity.TextMeshPro.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
 		<Reference Include="UnityEngine.AssetBundleModule">
-			<HintPath>D:\Programs\Steam\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
+			<HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
 		<Reference Include="UnityEngine.ImageConversionModule">
-			<HintPath>D:\Programs\Steam\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+			<HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
 		<Reference Include="UnityEngine.UI">
-			<HintPath>D:\Programs\Steam\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.UI.dll</HintPath>
+			<HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.UI.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
 		<Reference Include="UnityEngine.UIModule">
-			<HintPath>D:\Programs\Steam\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+			<HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.UIModule.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
 		<!--<PackageReference Include="PLib" Version="4.8.0">

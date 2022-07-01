@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using LogicSatelites.Behaviours;
 using LogicSatelites.Buildings;
 using LogicSatelites.Entities;
 using System;
@@ -60,6 +61,15 @@ namespace LogicSatelites
                     },
                 };
 
+            }
+        }
+
+        [HarmonyPatch(typeof(DetailsScreen), "OnPrefabInit")]
+        public static class CusomSideScreenPatch_SatelliteCarrier
+        {
+            public static void Postfix()
+            {
+                UIUtils.AddClonedSideScreen<SatelliteCarrierModuleSideScreen>("Telepad Recharge Sidescreen", "Sealed Door Side Screen", typeof(SealedDoorSideScreen));
             }
         }
 
