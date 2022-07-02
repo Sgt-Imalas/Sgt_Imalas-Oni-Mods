@@ -22,6 +22,8 @@ namespace LogicSatelites.Behaviours
         private LocText label;
         [SerializeField]
         private LocText buttonText;
+        private LocText titleText;
+
 
         private List<int> refreshHandle = new List<int>();
 
@@ -30,22 +32,10 @@ namespace LogicSatelites.Behaviours
         
         public override void SetTarget(GameObject target)
         {
-            if ((UnityEngine.Object)target != (UnityEngine.Object)null)
-            {
-                foreach (int id in this.refreshHandle)
-                    target.Unsubscribe(id);
-                this.refreshHandle.Clear();
-            }
             base.SetTarget(target);
             this.targetCraft = target.GetComponent<Clustercraft>();
-            if ((UnityEngine.Object)this.targetCraft == (UnityEngine.Object)null && (UnityEngine.Object)target.GetComponent<RocketControlStation>() != (UnityEngine.Object)null)
-                this.targetCraft = target.GetMyWorld().GetComponent<Clustercraft>();
-            this.refreshHandle.Add(this.targetCraft.gameObject.Subscribe(-1298331547, new System.Action<object>(this.RefreshAll)));
-            this.refreshHandle.Add(this.targetCraft.gameObject.Subscribe(1792516731, new System.Action<object>(this.RefreshAll)));
-            this.BuildModules();
+            this.Refresh();
         }
-        private void RefreshAll(object data = null) => this.BuildModules();
-
 
         private bool HasSatelliteCarriers(Clustercraft craft)
         {
@@ -84,24 +74,20 @@ namespace LogicSatelites.Behaviours
         protected override void OnPrefabInit()
         {
             base.OnPrefabInit();
+            UIUtils.ListAllChildren(transform);
             this.titleKey = "STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLE";
-            HierarchyReferences component = this.GetComponent<HierarchyReferences>();
 
-             //UIUtils.ListChildrenHR(component);
-            component.GetReference<Image>("icon").sprite = Def.GetUISprite((object)Modules.First().master.gameObject).first;
-            button = component.GetReference<KButton>("button");
-            label = component.GetReference<LocText>("label");
+            //Transform contents = transform.Find("Contents");
+
+            titleText = transform.Find("TitleBox/Label").GetComponent<LocText>();
+            transform.Find("ModuleWidget/Layout/Portrait/Sprite").GetComponent<Image>().sprite = Def.GetUISprite((object)Modules.First().master.gameObject).first;
+            button = transform.Find("ModuleWidget/Layout/Info/Buttons/Button")?.GetComponent<KButton>();
+            label = transform.Find("ModuleWidget/Layout/Info/Label")?.GetComponent<LocText>();
             buttonText = button.GetComponentInChildren<LocText>(true);
 
             BuildModules();
-
-
-            //var SubObjects = this.GetComponentsInChildren<UnityEngine.Object>(); //finding the pesky tooltip; maybe usefull l8er
-            //foreach (var v in SubObjects)
-            //{
-            //    Debug.Log(v);
-            //}
         }
+        
         protected override void OnSpawn()
         {
             base.OnSpawn();
@@ -110,12 +96,14 @@ namespace LogicSatelites.Behaviours
         }
         private void Refresh()
         {
-            Debug.Log(Modules.Count+ " COAUTNS");
+            BuildModules();
+
             if (buttonText is null || label is null || Modules.Count==0)
             {
                 return;
             }
-            button.GetComponentInChildren<ToolTip>().SetSimpleTooltip(CanDeploySatellite() ? "Deploys the satellite at the current space hex" : "Retrieves the satellite from the current space hex");
+            titleText.SetText(GetTitle());
+            button.GetComponentInChildren<ToolTip>().SetSimpleTooltip(CanDeploySatellite() ? "Deploys a satellite at the current space hex" : "Retrieves a satellite from the current space hex");
             buttonText.SetText(CanDeploySatellite() ? "Deploy Satellite" : "Retrieve Satellite");
             label.SetText(String.Format("Holding {0}x Satellite",SatelliteCount()));
             
@@ -144,12 +132,7 @@ namespace LogicSatelites.Behaviours
 
         private void OnButtonClick()
         {
-            Debug.Log(GetTitle());
-            Refresh();
-        }
-        protected override void OnActivate()
-        {
-            base.OnActivate();
+
             Refresh();
         }
     }

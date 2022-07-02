@@ -11,14 +11,25 @@ namespace UtilLibs
 {
     public class UIUtils
     {
-        public static void ListChildren(Transform parent, int level = 0, int maxDepth = 10)
+
+        public static void GiveAllChildObjects(GameObject start)
+        {
+            var SubObjects = start.GetComponentsInChildren<UnityEngine.Object>(); //finding the pesky tooltip; maybe usefull l8er
+            foreach (var v in SubObjects)
+            {
+                Debug.Log(v);
+            }
+        }
+
+
+        public static void ListAllChildren(Transform parent, int level = 0, int maxDepth = 10)
         {
             if (level >= maxDepth) return;
 
             foreach (Transform child in parent)
             {
                 Console.WriteLine(string.Concat(Enumerable.Repeat('-', level)) + child.name);
-                ListChildren(child, level + 1);
+                ListAllChildren(child, level + 1);
             }
         }
 
@@ -29,7 +40,7 @@ namespace UtilLibs
             foreach (var child in parent.references)
             {
                 Console.WriteLine(string.Concat(Enumerable.Repeat('-', level)) + child.Name +", " + child.behaviour.ToString());
-                ListChildren(child.behaviour.transform,level+1);
+                ListAllChildren(child.behaviour.transform,level+1);
             }
         }
 
