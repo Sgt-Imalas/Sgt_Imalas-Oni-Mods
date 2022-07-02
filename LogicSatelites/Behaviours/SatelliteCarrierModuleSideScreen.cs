@@ -103,6 +103,7 @@ namespace LogicSatelites.Behaviours
                 return;
             }
             titleText.SetText(GetTitle());
+            
             button.GetComponentInChildren<ToolTip>().SetSimpleTooltip(CanDeploySatellite() ? "Deploys a satellite at the current space hex" : "Retrieves a satellite from the current space hex");
             buttonText.SetText(CanDeploySatellite() ? "Deploy Satellite" : "Retrieve Satellite");
             label.SetText(String.Format("Holding {0}x Satellite",SatelliteCount()));
@@ -132,6 +133,7 @@ namespace LogicSatelites.Behaviours
 
         private void OnButtonClick()
         {
+            Modules[0].DeploySatellite();
 
             Refresh();
         }

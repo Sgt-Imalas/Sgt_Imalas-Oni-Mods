@@ -11,8 +11,6 @@ namespace LogicSatelites.Entities
     class SatelliteLogicConfig : IEntityConfig
     {
         public const string ID = "LS_ClusterSateliteLogic";
-        public const string NAME = "Logic Satellite";
-        public const string DESC = "Deploy this satellite on the star map to create a logic relay";
         public const float MASS = 600f;
 
         public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
@@ -20,8 +18,8 @@ namespace LogicSatelites.Entities
         {
             GameObject looseEntity = EntityTemplates.CreateLooseEntity(
                    id: ID,
-                   name: NAME,
-                   desc: DESC,
+                   name: STRINGS.ITEMS.SATELLITE.TITLE,
+                   desc: STRINGS.ITEMS.SATELLITE.DESC,
                    mass: MASS,
                    unitMass: true,
                    anim: Assets.GetAnim("space_satellite_kanim"),
@@ -36,11 +34,6 @@ namespace LogicSatelites.Entities
                    {
                       GameTags.IndustrialIngredient
                    }); 
-
-
-            var entity = looseEntity.AddOrGet<SatelliteGridEntity>();
-            entity.name = "Satellite";
-            entity.clusterAnimName = "space_satellite_kanim";
 
             //looseEntity.AddOrGet<LogicBroadcaster>(); needs custom made comp.
 

@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace LogicSatelites.Behaviours
 {
-    public class SatelliteGridStates
+    public static class ModAssets
     {
+        public static string GetSatelliteNameRandom()
+        {
+            return "SateliteNameGeneratorWIP";
+        }
     }
 }
