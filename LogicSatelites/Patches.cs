@@ -69,9 +69,17 @@ namespace LogicSatelites
         {
             public static void Postfix()
             {
-                UIUtils.AddClonedSideScreen<SatelliteCarrierModuleSideScreen>("Telepad Recharge Sidescreen", "Sealed Door Side Screen", typeof(SealedDoorSideScreen));
+                UIUtils.AddClonedSideScreen<SatelliteCarrierModuleSideScreen>("SatelliteCarrierModuleSideScreen", "HabitatModuleSideScreen", typeof(HabitatModuleSideScreen));
             }
         }
 
+        [HarmonyPatch(typeof(Localization), "Initialize")]
+        public class Localization_Initialize_Patch
+        {
+            public static void Postfix()
+            {
+                LocalisationUtil.Translate(typeof(STRINGS), true);
+            }
+        }
     }
 }

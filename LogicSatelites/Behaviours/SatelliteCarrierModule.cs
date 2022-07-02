@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 namespace LogicSatelites.Behaviours
 {
     class SatelliteCarrierModule : StateMachineComponent<SatelliteCarrierModule.SMInstance>, ISaveLoadable
-    {
+	{
         [MyCmpReq] private KSelectable selectable;
         [MyCmpGet] private Storage storage;
+
 
 		protected override void OnSpawn()
 		{
@@ -17,11 +18,30 @@ namespace LogicSatelites.Behaviours
 			this.smi.StartSM();
 		}
 
-
 		#region StateMachine
-		public class SMInstance : GameStateMachine<States, SMInstance, SatelliteCarrierModule, object>.GameInstance
-		{
-			public SMInstance(SatelliteCarrierModule master) : base(master)
+		public class SMInstance : GameStateMachine<States, SMInstance, IStateMachineTarget, object>.GameInstance, ISatelliteCarrier
+		{        
+			public bool CanManipulateSatellite()
+			{
+				return smi.IsHoldingSatellite;
+			}
+			
+			public bool HoldingSatellite()
+			{
+				return smi.IsHoldingSatellite;
+			}
+			
+			public void ManipulateSatellite()
+			{
+				Debug.Log("Uhhhh manipulating");
+			}
+
+            public bool CanDeploySatellite()
+            {
+				return smi.IsHoldingSatellite; // && freeSpace
+            }
+
+            public SMInstance(SatelliteCarrierModule master) : base(master)
 			{
 				IsHoldingSatellite = true;
 			}
@@ -35,7 +55,7 @@ namespace LogicSatelites.Behaviours
 
         }
 
-		public class States : GameStateMachine<States, SMInstance, SatelliteCarrierModule>
+		public class States : GameStateMachine<States, SMInstance, IStateMachineTarget>
 		{
 			public State InitState;
 			public State InSpace;

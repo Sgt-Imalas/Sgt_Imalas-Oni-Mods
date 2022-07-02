@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace LogicSatelites
 {
-    class STRINGS
+    public class STRINGS
     {
-        class UI
+        public class UI
         {
-            class UISIDESCREENS
+            public class UISIDESCREENS
             {
-                class SATELLITECARRIER_SIDESCREEN
+                public class SATELLITECARRIER_SIDESCREEN
                 {
                     public static LocString TITLE = "Satellite Carrier";
                 }

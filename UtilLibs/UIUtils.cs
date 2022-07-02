@@ -11,10 +11,32 @@ namespace UtilLibs
 {
     public class UIUtils
     {
+        public static void ListChildren(Transform parent, int level = 0, int maxDepth = 10)
+        {
+            if (level >= maxDepth) return;
+
+            foreach (Transform child in parent)
+            {
+                Console.WriteLine(string.Concat(Enumerable.Repeat('-', level)) + child.name);
+                ListChildren(child, level + 1);
+            }
+        }
+
+        public static void ListChildrenHR(HierarchyReferences parent, int level = 0, int maxDepth = 10)
+        {
+            if (level >= maxDepth) return;
+
+            foreach (var child in parent.references)
+            {
+                Console.WriteLine(string.Concat(Enumerable.Repeat('-', level)) + child.Name +", " + child.behaviour.ToString());
+                ListChildren(child.behaviour.transform,level+1);
+            }
+        }
+
         /// <summary>
         /// Create sidescreen by cloning an already existing one.
         /// </summary>
-        public static void AddClonedSideScreen<T>(string name, string originalName, Type originalType)
+        public static GameObject AddClonedSideScreen<T>(string name, string originalName, Type originalType)
         {
             bool elementsReady = GetElements(out List<SideScreenRef> screens, out GameObject contentBody);
             if (elementsReady)
@@ -23,7 +45,9 @@ namespace UtilLibs
                 var newPrefab = Copy<T>(oldPrefab, contentBody, name, originalType);
 
                 screens.Add(NewSideScreen(name, newPrefab));
+                return contentBody;
             }
+            return null;
         }
 
         /// <summary>
@@ -43,8 +67,11 @@ namespace UtilLibs
         {
             var detailsScreen = Traverse.Create(DetailsScreen.Instance);
             screens = detailsScreen.Field("sideScreens").GetValue<List<SideScreenRef>>();
+            foreach (var v in screens)
+            {
+               // Debug.Log(v.name);
+            }
             contentBody = detailsScreen.Field("sideScreenContentBody").GetValue<GameObject>();
-
             return screens != null && contentBody != null;
         }
 
