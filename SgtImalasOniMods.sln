@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31624.102
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoboRockets", "Robo Rockets\RoboRockets.csproj", "{AAA43DBC-7B67-4027-B615-4289936FB99C}"
 EndProject
@@ -20,7 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuclearExpansion", "Rocketr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CannedFoodNGoods", "CannedFoodNGoods\CannedFoodNGoods.csproj", "{F25316D9-C3B0-4FBE-B112-4952336D4A07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicSatelites", "LogicSatelites\LogicSatelites.csproj", "{7F120EDF-5E97-4962-8A0A-1D96E654BF8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicSatelites", "LogicSatelites\LogicSatelites.csproj", "{7F120EDF-5E97-4962-8A0A-1D96E654BF8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -37,53 +37,28 @@
 		<DocumentationFile></DocumentationFile>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<Reference Include="Unity.TextMeshPro">
-			<HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\Unity.TextMeshPro.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-		<Reference Include="UnityEngine.AssetBundleModule">
-			<HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-		<Reference Include="UnityEngine.ImageConversionModule">
-			<HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-		<Reference Include="UnityEngine.UI">
-			<HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.UI.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-		<Reference Include="UnityEngine.UIModule">
-			<HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.UIModule.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-		<!--<PackageReference Include="PLib" Version="4.8.0">
-			<Private>false</Private>
-		</PackageReference>-->
-	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="anim\assets\satelite_deployer_module\satelite_deployer_module.png">
+	  <None Update="ModAssets\anim\assets\satelite_deployer_module\satelite_deployer_module.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="anim\assets\satelite_deployer_module\satelite_deployer_module_anim.bytes">
+	  <None Update="ModAssets\anim\assets\satelite_deployer_module\satelite_deployer_module_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="anim\assets\satelite_deployer_module\satelite_deployer_module_build.bytes">
+	  <None Update="ModAssets\anim\assets\satelite_deployer_module\satelite_deployer_module_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="anim\assets\space_satellite\space_satellite.png">
+	  <None Update="ModAssets\anim\assets\space_satellite\space_satellite.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="anim\assets\space_satellite\space_satellite_anim.bytes">
+	  <None Update="ModAssets\anim\assets\space_satellite\space_satellite_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="anim\assets\space_satellite\space_satellite_build.bytes">
+	  <None Update="ModAssets\anim\assets\space_satellite\space_satellite_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>

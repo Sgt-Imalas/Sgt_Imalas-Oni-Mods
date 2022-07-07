@@ -33,10 +33,28 @@
 		  OutputFile="$(TargetPath)"/>
 	</Target>
 
-	<!--<Target Name="huh" AfterTargets="ILRepack" Condition="'$(AssemblyName)' != 'FUtility'">
-		<Exec Command="xcopy /yqsr &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(ModFolder)\$(TargetName)_dev\&quot;"/>
-		<Exec Command="xcopy /yqsr &quot;$(TargetDir)mod.yaml&quot; &quot;$(ModFolder)\$(TargetName)_dev\&quot;"/>
-		<Exec Command="xcopy /yqsr &quot;$(TargetDir)mod_info.yaml&quot; &quot;$(ModFolder)\$(TargetName)_dev\&quot;"/>
-	</Target>-->
+	<Target Name="CopyModsToDevFolder" AfterTargets="ILRepack" Condition="'$(AssemblyName)' != 'UtilLibs'">
+		
+		<Message Text="Executing CopyDLLs task" Importance="High" />
+
+		<ItemGroup>
+			<ModAssets Include="$(TargetDir)\ModAssets\**\*.*" />
+		</ItemGroup>
+
+		<Copy
+		  SourceFiles="
+			$(TargetDir)$(TargetName).dll;
+			$(TargetDir)mod.yaml;
+			$(TargetDir)mod_info.yaml;"
+		  
+		  DestinationFolder="$(ModFolder)\$(TargetName)_dev\" />
+
+		<Message Text="Copy ModAssets" Importance="High"></Message>
+		
+		<Copy SourceFiles="@(ModAssets)" DestinationFolder="$(ModFolder)\$(TargetName)_dev\%(RecursiveDir)" SkipUnchangedFiles="false" />
+		
+		<Message Text="Copied build files" Importance="High" />
+		
+	</Target>
 
 </Project>

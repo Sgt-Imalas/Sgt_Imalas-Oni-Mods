@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
 	<PropertyGroup>
-		<GameLibsFolder>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed</GameLibsFolder>
+		<GameLibsFolder>C:\Program Files (x86)\Steam\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed</GameLibsFolder>
 		<ModFolder>$(UserProfile)\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>
-		<ClearOutputDirectory>true</ClearOutputDirectory>
 		<Optimize>true</Optimize>
 	</PropertyGroup>
 
@@ -13,36 +12,56 @@
 		</PackageReference>
 	</ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>$(GameLibsFolder)/Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>$(GameLibsFolder)/Assembly-CSharp-firstpass.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="0Harmony">
-      <HintPath>$(GameLibsFolder)/0Harmony.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>$(GameLibsFolder)/UnityEngine.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>$(GameLibsFolder)/UnityEngine.CoreModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>$(GameLibsFolder)/Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  
+	<ItemGroup>
+		<Reference Include="Assembly-CSharp">
+			<HintPath>$(GameLibsFolder)/Assembly-CSharp.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Assembly-CSharp-firstpass">
+			<HintPath>$(GameLibsFolder)/Assembly-CSharp-firstpass.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="0Harmony">
+			<HintPath>$(GameLibsFolder)/0Harmony.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="UnityEngine">
+			<HintPath>$(GameLibsFolder)/UnityEngine.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<HintPath>$(GameLibsFolder)/UnityEngine.CoreModule.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Newtonsoft.Json">
+			<HintPath>$(GameLibsFolder)/Newtonsoft.Json.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Unity.TextMeshPro">
+			<HintPath>$(GameLibsFolder)/Unity.TextMeshPro.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="UnityEngine.AssetBundleModule">
+			<HintPath>$(GameLibsFolder)/UnityEngine.AssetBundleModule.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="UnityEngine.ImageConversionModule">
+			<HintPath>$(GameLibsFolder)/UnityEngine.ImageConversionModule.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="UnityEngine.UI">
+			<HintPath>$(GameLibsFolder)/UnityEngine.UI.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="UnityEngine.UIModule">
+			<HintPath>$(GameLibsFolder)/UnityEngine.UIModule.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+	</ItemGroup>
 
-  <ItemGroup Condition="'$(IsPacked)' == 'true'">
-    <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.18.2" />
-  </ItemGroup>
-  
+
+	<ItemGroup Condition="'$(IsPacked)' == 'true'">
+		<PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.18.2" />
+	</ItemGroup>
+
 </Project>

@@ -41,73 +41,47 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Reference Include="Unity.TextMeshPro">
-			<HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+
+		<PackageReference Include="PLib" Version="4.8.0">
 			<Private>false</Private>
-		</Reference>
-		<Reference Include="UnityEngine.AssetBundleModule">
-			<HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-		<Reference Include="UnityEngine.ImageConversionModule">
-			<HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-		<Reference Include="UnityEngine.UI">
-			<HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.UI.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-		<Reference Include="UnityEngine.UIModule">
-			<HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.UIModule.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
+		</PackageReference>
 	</ItemGroup>
 	
 	<ItemGroup>
 	  <ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="anim\assets\brain_bot\" />
 	  <Folder Include="Properties\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Update="anim\assets\BrainController\BrainController.png">
+	  <None Update="ModAssets\anim\assets\brain_bot\brain_bot_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="anim\assets\BrainController\BrainController_anim.bytes">
+	  <None Update="ModAssets\anim\assets\brain_bot\brain_bot_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="anim\assets\BrainController\BrainController_build.bytes">
+	  <None Update="ModAssets\anim\assets\brain_bot\brain_bot_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="anim\assets\brain_bot\brain_bot_0.png">
+	  <None Update="ModAssets\anim\assets\Brain_Controller\Brain_Controller.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="anim\assets\brain_bot\brain_bot_anim.bytes">
+	  <None Update="ModAssets\anim\assets\Brain_Controller\Brain_Controller_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="anim\assets\brain_bot\brain_bot_build.bytes">
+	  <None Update="ModAssets\anim\assets\Brain_Controller\Brain_Controller_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="anim\assets\Brain_Controller\Brain_Controller.png">
+	  <None Update="ModAssets\anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="anim\assets\Brain_Controller\Brain_Controller_anim.bytes">
+	  <None Update="ModAssets\anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="anim\assets\Brain_Controller\Brain_Controller_build.bytes">
+	  <None Update="ModAssets\anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="templates\interiors\habitat_robo.yaml">
+	  <None Update="ModAssets\templates\interiors\habitat_robo.yaml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>
