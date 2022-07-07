@@ -64,12 +64,14 @@ namespace LogicSatelites.Behaviours
 			{
 				if (CanDeploySatellite() && HoldingSatellite())
 				{
+					Debug.Log("1");
 					Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
+					Debug.Log("2");
+					var satellite = storage.FindFirst(SatelliteLogicConfig.ID).GetComponent<Pickupable>();
 
-					var satellite = storage.FindFirst(SatelliteLogicConfig.ID).GetComponent<Pickupable>().Take(storage.RemainingCapacity());
-
+					Debug.Log("3");
 					var clusterSat = SpawnSatellite(component.Location);
-					clusterSat.Store(satellite.gameObject);
+					//clusterSat.Store(satellite.gameObject);
 
 				}
 			}

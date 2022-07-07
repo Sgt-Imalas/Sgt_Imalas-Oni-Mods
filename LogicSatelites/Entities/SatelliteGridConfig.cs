@@ -1,21 +1,22 @@
-﻿using System;
+﻿using LogicSatelites.Behaviours;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace LogicSatelites.Behaviours
+namespace LogicSatelites.Entities
 {
     public class SatelliteGridConfig : IEntityConfig
     {
-        public const string ID = "LS_SatelliteOnGrid";
+        public const string ID = "LS_SatelliteGrid";
 
         public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
 
         public GameObject CreatePrefab()
         {
-            var looseEntity = EntityTemplates.CreateLooseEntity(
+            var looseEntity = EntityTemplates.CreateBasicEntity(
                    id: ID,
                    name: STRINGS.ITEMS.SATELLITE.TITLE,
                    desc: STRINGS.ITEMS.SATELLITE.DESC,
@@ -23,11 +24,7 @@ namespace LogicSatelites.Behaviours
                    unitMass: true,
                    anim: Assets.GetAnim("space_satellite_kanim"),
                    initialAnim: "object",
-                   sceneLayer: Grid.SceneLayer.Front,
-                   collisionShape: EntityTemplates.CollisionShape.RECTANGLE,
-                   width: 1f,
-                   height: 1f,
-                   isPickupable: false,
+                   sceneLayer: Grid.SceneLayer.Creatures,
                    element: SimHashes.Steel,
                    additionalTags: new List<Tag>()
                    {
@@ -38,8 +35,6 @@ namespace LogicSatelites.Behaviours
             Storage defaultStorage = BuildingTemplates.CreateDefaultStorage(looseEntity);
             defaultStorage.showInUI = false;
             defaultStorage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
-            defaultStorage.allowSettingOnlyFetchMarkedItems = false;
-            defaultStorage.allowItemRemoval = false;
             defaultStorage.capacityKg = 5000f;
 
             var entity = looseEntity.AddOrGet<SatelliteGridEntity>();

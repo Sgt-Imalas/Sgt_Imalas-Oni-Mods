@@ -24,11 +24,8 @@ namespace LogicSatelites.Entities
                    unitMass: true,
                    anim: Assets.GetAnim("space_satellite_kanim"),
                    initialAnim: "object",
-                   sceneLayer: Grid.SceneLayer.Front,
+                   sceneLayer: Grid.SceneLayer.Creatures,
                    collisionShape: EntityTemplates.CollisionShape.RECTANGLE,
-                   width: 1f,
-                   height: 1f,
-                   isPickupable: false,
                    element: SimHashes.Steel,
                    additionalTags: new List<Tag>()
                    {

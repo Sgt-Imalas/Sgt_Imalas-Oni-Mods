@@ -43,7 +43,7 @@ namespace LogicSatelites.Buildings
             go.AddOrGet<LoopingSounds>();
             go.AddOrGet<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
             Storage storage = go.AddComponent<Storage>();
-            storage.showInUI = true;
+            storage.showInUI = false; //??
             storage.allowItemRemoval = false;
             storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 
