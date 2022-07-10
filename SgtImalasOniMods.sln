@@ -22,7 +22,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CannedFoodNGoods", "CannedF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicSatelites", "LogicSatelites\LogicSatelites.csproj", "{7F120EDF-5E97-4962-8A0A-1D96E654BF8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rockets-TinyYetBig", "Rockets-TinyYetBig\Rockets-TinyYetBig.csproj", "{F7AC93F7-8808-4677-A547-5BD90FF17290}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rockets-TinyYetBig", "Rockets-TinyYetBig\Rockets-TinyYetBig.csproj", "{F7AC93F7-8808-4677-A547-5BD90FF17290}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YamlTemplateExportFix", "YamlTemplateExportFix\YamlTemplateExportFix.csproj", "{BA44B3B4-DB2A-4378-9C0A-F91ECCB8FA37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +60,10 @@ Global
 		{F7AC93F7-8808-4677-A547-5BD90FF17290}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7AC93F7-8808-4677-A547-5BD90FF17290}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{F7AC93F7-8808-4677-A547-5BD90FF17290}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{BA44B3B4-DB2A-4378-9C0A-F91ECCB8FA37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA44B3B4-DB2A-4378-9C0A-F91ECCB8FA37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA44B3B4-DB2A-4378-9C0A-F91ECCB8FA37}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA44B3B4-DB2A-4378-9C0A-F91ECCB8FA37}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

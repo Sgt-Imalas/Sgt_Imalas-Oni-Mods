@@ -42,10 +42,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="ModAssets\templates\interiors\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <None Update="ModAssets\anim\assets\rocket_nosecone_small_expanded\rocket_nosecone_small_expanded.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
@@ -53,6 +49,9 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\anim\assets\rocket_nosecone_small_expanded\rocket_nosecone_small_expanded_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\templates\interiors\habitat_medium_normal_compressed.yaml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\templates\interiors\habitat_small_expanded.yaml">

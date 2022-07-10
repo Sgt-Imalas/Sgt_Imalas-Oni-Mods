@@ -13,13 +13,14 @@ namespace Rockets_TinyYetBig
     class RocketControlPodsPatches
     {
         [HarmonyPatch(typeof(Localization), "Initialize")]
-        public class Localization_Initialize_Patch
+        public static class Localization_Initialize_Patch
         {
             public static void Postfix()
             {
                 LocalisationUtil.Translate(typeof(STRINGS), true);
             }
         }
+
 
         [HarmonyPatch(typeof(GeneratedBuildings))]
         [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
@@ -28,8 +29,8 @@ namespace Rockets_TinyYetBig
 
             public static void Prefix()
             {
-                // InjectionMethods.AddBuildingStrings(SateliteCarrierModuleConfig.ID, SateliteCarrierModuleConfig.Name);
                 RocketryUtils.AddRocketModuleToBuildList(HabitatModuleSmallExpandedConfig.ID,HabitatModuleSmallConfig.ID);
+                RocketryUtils.AddRocketModuleToBuildList(HabitatModuleMediumExpandedConfig.ID, HabitatModuleMediumConfig.ID);
             }
         }
         [HarmonyPatch(typeof(ClusterManager))]
@@ -39,10 +40,27 @@ namespace Rockets_TinyYetBig
 
             public static Vector2I ConditionForSize(Vector2I original, string templateString)
             {
-                Debug.Log(templateString);
-                if (templateString.Contains("habitat_small_expanded"))
-                    original = new Vector2I(10, 12);
+                //if options.keepnormalmoduleslarge == false
+                switch (templateString)
+                {
+                    case "habitat_medium_normal_compressed":
+                        original = new Vector2I(14, 12);
+                        break;
+                    case "habitat_medium_small_compressed":
+                        original = new Vector2I(10, 10);
+                        break;
 
+                }
+
+                switch (templateString)
+                {
+                    case "interiors/habitat_small_expanded":
+                        original = new Vector2I(10, 12);
+                        break;
+                    case "interiors/habitat_medium_expanded":
+                        original = new Vector2I(14, 16);
+                        break;
+                }
                 return original;
             }
 
