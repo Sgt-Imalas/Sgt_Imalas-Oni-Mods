@@ -18,7 +18,7 @@ namespace Rockets_TinyYetBig
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public override BuildingDef CreateBuildingDef()
         {
-            float[] denseTieR0 = BUILDINGS.ROCKETRY_MASS_KG.DENSE_TIER0;
+            float[] denseTieR0 = new float[] { 350f }; ;
             string[] rawMetals = MATERIALS.RAW_METALS;
             EffectorValues noiseLevel = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;

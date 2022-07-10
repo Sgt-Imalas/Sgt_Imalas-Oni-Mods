@@ -20,7 +20,7 @@ namespace Rockets_TinyYetBig
 
         public override BuildingDef CreateBuildingDef()
         {
-            float[] denseTieR1 = BUILDINGS.ROCKETRY_MASS_KG.DENSE_TIER1;
+            float[] denseTieR1 = new float[] { 800f };
             string[] rawMetals = MATERIALS.RAW_METALS;
             EffectorValues noiseLevel = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;
