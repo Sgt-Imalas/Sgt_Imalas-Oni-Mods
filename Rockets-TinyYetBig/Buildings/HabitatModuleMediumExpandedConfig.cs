@@ -61,7 +61,7 @@ namespace Rockets_TinyYetBig
             go.GetComponent<KPrefabID>().AddTag(GameTags.LaunchButtonRocketModule);
             go.AddOrGet<AssignmentGroupController>().generateGroupOnStart = true;
             go.AddOrGet<PassengerRocketModule>().interiorReverbSnapshot = AudioMixerSnapshots.Get().MediumRocketInteriorReverbSnapshot;
-            go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "expansion1::interiors/habitat_medium";
+            go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_medium_expanded";
             go.AddOrGetDef<SimpleDoorController.Def>();
             go.AddOrGet<NavTeleporter>();
             go.AddOrGet<AccessControl>();

@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UtilLibs;
 
 namespace Rockets_TinyYetBig
@@ -21,18 +22,51 @@ namespace Rockets_TinyYetBig
             }
         }
 
+        [HarmonyPatch(typeof(ClusterManager))]
+        [HarmonyPatch("OnPrefabInit")]
 
+        public static class RocketCount_Patch
+        {
+            public static void Postfix()
+            {
+                ClusterManager.MAX_ROCKET_INTERIOR_COUNT = 100;
+            }
+        }
+
+        [HarmonyPatch(typeof(HabitatModuleMediumConfig))]
+        [HarmonyPatch("ConfigureBuildingTemplate")]
+        public static class SaveSpace_HabitatMedium_Patch
+        {
+            public static void Postfix(GameObject go)
+            {
+                go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_medium_compressed";
+            }
+        }
+        [HarmonyPatch(typeof(HabitatModuleSmallConfig))]
+        [HarmonyPatch("ConfigureBuildingTemplate")]
+        public static class SaveSpace_HabitatSmall_Patch
+        {
+            public static void Postfix(GameObject go)
+            {
+                go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_small_compressed";
+            }
+        }
+
+        
         [HarmonyPatch(typeof(GeneratedBuildings))]
         [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
+
         public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
         {
 
             public static void Prefix()
             {
-                RocketryUtils.AddRocketModuleToBuildList(HabitatModuleSmallExpandedConfig.ID,HabitatModuleSmallConfig.ID);
+                RocketryUtils.AddRocketModuleToBuildList(HabitatModuleSmallExpandedConfig.ID, HabitatModuleSmallConfig.ID);
                 RocketryUtils.AddRocketModuleToBuildList(HabitatModuleMediumExpandedConfig.ID, HabitatModuleMediumConfig.ID);
             }
         }
+
+
         [HarmonyPatch(typeof(ClusterManager))]
         [HarmonyPatch("CreateRocketInteriorWorld")]
         public class ClusterManager_CreateRocketInteriorWorld_Patch
@@ -40,20 +74,14 @@ namespace Rockets_TinyYetBig
 
             public static Vector2I ConditionForSize(Vector2I original, string templateString)
             {
-                //if options.keepnormalmoduleslarge == false
                 switch (templateString)
                 {
-                    case "habitat_medium_normal_compressed":
+                    case "interiors/habitat_medium_compressed":
                         original = new Vector2I(14, 12);
                         break;
-                    case "habitat_medium_small_compressed":
+                    case "interiors/habitat_small_compressed":
                         original = new Vector2I(10, 10);
                         break;
-
-                }
-
-                switch (templateString)
-                {
                     case "interiors/habitat_small_expanded":
                         original = new Vector2I(10, 12);
                         break;
