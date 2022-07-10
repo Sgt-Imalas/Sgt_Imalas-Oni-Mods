@@ -49,7 +49,7 @@
 		  
 		  DestinationFolder="$(ModFolder)\$(TargetName)_dev\" />
 
-		<Message Text="Copy ModAssets" Importance="High"></Message>
+		<Message Text="Copy ModAssets to $(ModFolder)\$(TargetName)_dev\" Importance="High"></Message>
 		
 		<Copy SourceFiles="@(ModAssets)" DestinationFolder="$(ModFolder)\$(TargetName)_dev\%(RecursiveDir)" SkipUnchangedFiles="false" />
 		

@@ -2,7 +2,8 @@
 <Project>
 	<PropertyGroup>
 		<GameLibsFolder>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed</GameLibsFolder>
-		<ModFolder>$(UserProfile)\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>
+		<!--<ModFolder>$(UserProfile)\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>-->
+		<ModFolder>E:\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>
 		<Optimize>true</Optimize>
 	</PropertyGroup>
 

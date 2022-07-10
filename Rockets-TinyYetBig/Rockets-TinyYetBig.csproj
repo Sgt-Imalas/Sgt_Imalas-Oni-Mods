@@ -2,7 +2,7 @@
 
 	<!-- General Package Properties -->
 	<PropertyGroup>
-		<PackageId>LogicSatelites</PackageId>
+		<PackageId>Larger_Interiors</PackageId>
 		<Version>1.0.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022 Sgt_Imalas</Copyright>
@@ -13,8 +13,8 @@
 	<PropertyGroup>
 		<TargetFramework>net471</TargetFramework>
 		<Configurations>Debug</Configurations>
-		<AssemblyName>LogicSatelites</AssemblyName>
-		<RootNamespace>LogicSatelites</RootNamespace>
+		<AssemblyName>Rockets_TinyYetBig</AssemblyName>
+		<RootNamespace>Rockets_TinyYetBig</RootNamespace>
 		<IsMod>true</IsMod>
 		<GenerateMetadata>true</GenerateMetadata>
 		<IsPacked>true</IsPacked>
@@ -23,42 +23,39 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>Logic Satelites</ModName>
-		<ModDescription>Deployable Satelites to relay logic information</ModDescription>
+		<ModName>Larger Interiors</ModName>
+		<ModDescription>Shrinks the border around rocket interiors and provides some larger variants to construct.</ModDescription>
 		<SupportedContent>EXPANSION1_ID</SupportedContent>
 		<MinimumSupportedBuild>498381</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<OutDir>bin</OutDir>
 		<OutputPath></OutputPath>
 		<DocumentationFile></DocumentationFile>
 	</PropertyGroup>
-
 
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="ModAssets\anim\assets\satelite_deployer_module\satelite_deployer_module.png">
+	  <Folder Include="ModAssets\templates\interiors\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="ModAssets\anim\assets\rocket_nosecone_small_expanded\rocket_nosecone_small_expanded.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\satelite_deployer_module\satelite_deployer_module_anim.bytes">
+	  <None Update="ModAssets\anim\assets\rocket_nosecone_small_expanded\rocket_nosecone_small_expanded_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\satelite_deployer_module\satelite_deployer_module_build.bytes">
+	  <None Update="ModAssets\anim\assets\rocket_nosecone_small_expanded\rocket_nosecone_small_expanded_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\space_satellite\space_satellite.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\space_satellite\space_satellite_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\space_satellite\space_satellite_build.bytes">
+	  <None Update="ModAssets\templates\interiors\habitat_small_expanded.yaml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>

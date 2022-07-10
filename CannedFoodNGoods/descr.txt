@@ -6,6 +6,8 @@ This mod adds a canned barbeque and canned tuna, non spoiling food variants that
 
 [h1]Current latest Version: 2.0.0[/h1]
 
+[hr][/hr]
+
 [h1]Features[/h1]
 New Foods: Canned Barbeque & Canned Tuna
 [list][*] made at the crafting station.
@@ -20,10 +22,17 @@ New Foods: Canned Barbeque & Canned Tuna
 [list][*] Canned Tuna will provide Radiation Resistance, similar to normal sea food.
 [/list]
 
+[hr][/hr]
+
 [h1]Credits[/h1]
 Can Trash art made by Kraastoron
+
+[hr][/hr]
 
 [h1]Bug Reports[/h1]
 Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
 
+[hr][/hr]
+
+If you like the mods I made? You can leave me a donation [url=https://ko-fi.com/sgtimalas]here[/url] :D.
 

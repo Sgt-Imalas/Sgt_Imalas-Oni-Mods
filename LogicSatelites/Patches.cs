@@ -21,7 +21,7 @@ namespace LogicSatelites
 
             public static void Prefix()
             {
-                InjectionMethods.AddBuildingStrings(SateliteCarrierModuleConfig.ID, SateliteCarrierModuleConfig.Name);
+               // InjectionMethods.AddBuildingStrings(SateliteCarrierModuleConfig.ID, SateliteCarrierModuleConfig.Name);
                 RocketryUtils.AddRocketModuleToBuildList(SateliteCarrierModuleConfig.ID);
             }
         }

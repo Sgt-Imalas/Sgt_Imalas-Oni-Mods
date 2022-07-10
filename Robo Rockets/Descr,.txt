@@ -3,7 +3,9 @@ Have you ever wanted to [b]truly[/b] automate rockets, just to have been hit wit
 
 [b]Then this mod is for you![/b]
 
-[h1]Current latest Version: 1.1.0[/h1]
+[h1]Current latest Version: 1.2.3[/h1]
+
+[hr][/hr]
 
 [h1]Features[/h1]
 This mod adds a new command module to your rocket arsenal, the [b]AI Control Module[/b].
@@ -26,13 +28,28 @@ This mod is my first mod ever created.
 Additionally, the framework of the rockets in the DLC is a duct taped mess.
 Therefore, some parts from the normal rockets are still there, but won't have any function, for example; access control.
 
-[b]Do not add any regular command modules to a rocket with the AI-Control-Module and vice versa, it probably will crash your game![/b] (this sholdn't be possible anymore)
+before uninstalling, remove all existing AI control modules in the save game, otherwise that save will crash on load.
 
-also, before uninstalling, remove all existing AI control modules in the save game.
+[hr][/hr]
 
 [h1]Credits[/h1]
 Much thanks to Romen, Aki,  Peter Han & Cairath from the Modding Discord who helped me get a hold in Oni modding
 Also special thanks to Aki who teached me how to create animations and draw more "oni-style"
 
+[hr][/hr]
+
 [h1]Bug Reports[/h1]
-Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+Please post bug reports and issues on my [url=https://github.com/Knastoron/Knastoron-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+
+How to add Log:
+
+Windows: 
+C:\Users\%username%\AppData\LocalLow\Klei\Oxygen Not Included\Player.log
+  Mac: 
+~/Library/Logs/Klei/Oxygen Not Included/Player.log
+ Linux: 
+~/.config/unity3d/Klei/Oxygen Not Included/Player.log
+
+[hr][/hr]
+
+If you like the mods I made? You can leave me a donation [url=https://ko-fi.com/sgtimalas]here[/url] :D.

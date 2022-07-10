@@ -8,6 +8,16 @@ namespace LogicSatelites
 {
     public class STRINGS
     {
+        public class BUILDINGS
+        {
+            public class PREFABS
+            {
+                public class LS_SATELLITECARRIERMODULE
+                {
+                    public static LocString TITLE = "Satellite Carrier Module";
+                }
+            }
+        }
         public class ITEMS
         {
             public class SATELLITE

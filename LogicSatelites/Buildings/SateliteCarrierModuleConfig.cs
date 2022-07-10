@@ -14,7 +14,6 @@ namespace LogicSatelites.Buildings
     class SateliteCarrierModuleConfig : IBuildingConfig
     {
         public const string ID = "LS_SatelliteCarrierModule";
-        public const string Name = "Satellite Carrier Module";
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public override BuildingDef CreateBuildingDef()
         {
@@ -27,6 +26,7 @@ namespace LogicSatelites.Buildings
             BuildingTemplates.CreateRocketBuildingDef(buildingDef);
             buildingDef.DefaultAnimState = "satelite_construction";
             buildingDef.AttachmentSlotTag = GameTags.Rocket;
+            buildingDef.ForegroundLayer = Grid.SceneLayer.Front;
             buildingDef.SceneLayer = Grid.SceneLayer.Building;
             buildingDef.OverheatTemperature = 2273.15f;
             buildingDef.Floodable = false;
