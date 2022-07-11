@@ -24,7 +24,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicSatelites", "LogicSate
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rockets-TinyYetBig", "Rockets-TinyYetBig\Rockets-TinyYetBig.csproj", "{F7AC93F7-8808-4677-A547-5BD90FF17290}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YamlTemplateExportFix", "YamlTemplateExportFix\YamlTemplateExportFix.csproj", "{BA44B3B4-DB2A-4378-9C0A-F91ECCB8FA37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YamlTemplateExportFix", "YamlTemplateExportFix\YamlTemplateExportFix.csproj", "{BA44B3B4-DB2A-4378-9C0A-F91ECCB8FA37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
