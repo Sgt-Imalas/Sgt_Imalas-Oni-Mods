@@ -23,9 +23,10 @@ namespace CannedFoods.Foods
             }
             private static void AddCannedTunaRecipe()
             {
+                var MetalTag = Config.Instance.UsesAluminumForCans ? SimHashes.Aluminum.CreateTag() : SimHashes.Copper.CreateTag();
                 RecipeElement[] input = new RecipeElement[]
                 {
-                    new RecipeElement(SimHashes.Copper.CreateTag(), 0.5f),
+                    new RecipeElement(MetalTag, 0.5f),
                     new RecipeElement(CookedFishConfig.ID, 0.5f)
                 };
 
@@ -46,9 +47,10 @@ namespace CannedFoods.Foods
             }
             private static void AddCannedBBQRecipe()
             {
+                var MetalTag = Config.Instance.UsesAluminumForCans ? SimHashes.Aluminum.CreateTag() : SimHashes.Copper.CreateTag();
                 RecipeElement[] input = new RecipeElement[]
                 {
-                    new RecipeElement(SimHashes.Copper.CreateTag(), 0.5f),
+                    new RecipeElement(MetalTag, 0.5f),
                     new RecipeElement(CookedMeatConfig.ID, 0.5f)
                 };
 
@@ -95,7 +97,7 @@ namespace CannedFoods.Foods
             }
             private static void AddRecyclingRecipeRockCrusher()
             {
-                var copperTag = SimHashes.Copper.CreateTag();
+                var metalTag =  Config.Instance.UsesAluminumForCans ? SimHashes.Aluminum.CreateTag() : SimHashes.Copper.CreateTag();
                 var input = new RecipeElement[]
                 {
                     new RecipeElement(TagManager.Create(CanScrapConfig.ID), 10f)
@@ -103,7 +105,7 @@ namespace CannedFoods.Foods
 
                 var output = new RecipeElement[]
                 {
-                    new RecipeElement(copperTag, 5f)
+                    new RecipeElement(metalTag, 5f)
                 };
 
                 var recipeID = ComplexRecipeManager.MakeRecipeID(RockCrusherConfig.ID, input, output);
@@ -111,7 +113,7 @@ namespace CannedFoods.Foods
                 ComplexRecipe complexRecipe = new ComplexRecipe(recipeID, input, output)
                 {
                     time = 10f,
-                    description = string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.RECIPE_DESCRIPTION, CanScrapConfig.NAME, (object)copperTag.ProperName()),
+                    description = string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.RECIPE_DESCRIPTION, CanScrapConfig.NAME, (object)metalTag.ProperName()),
                     nameDisplay = ComplexRecipe.RecipeNameDisplay.Ingredient,
                     fabricators = new List<Tag>()
                     {
@@ -131,7 +133,7 @@ namespace CannedFoods.Foods
             }
             private static void AddRecyclingRecipeMetalRefinery()
             {
-                var copperTag = SimHashes.Copper.CreateTag();
+                var metalTag = Config.Instance.UsesAluminumForCans ? SimHashes.Aluminum.CreateTag() : SimHashes.Copper.CreateTag();
                 var input = new RecipeElement[]
                 {
                     new RecipeElement(TagManager.Create(CanScrapConfig.ID), 10f)
@@ -139,7 +141,7 @@ namespace CannedFoods.Foods
 
                 var output = new RecipeElement[]
                 {
-                    new RecipeElement(copperTag, 10f)
+                    new RecipeElement(metalTag, 10f)
                 };
 
                 var recipeID = ComplexRecipeManager.MakeRecipeID(MetalRefineryConfig.ID, input, output);
@@ -147,7 +149,7 @@ namespace CannedFoods.Foods
                 ComplexRecipe complexRecipe = new ComplexRecipe(recipeID, input, output)
                 {
                     time = 10f,
-                    description = string.Format(global::STRINGS.BUILDINGS.PREFABS.METALREFINERY.RECIPE_DESCRIPTION, (object)copperTag.ProperName(),CanScrapConfig.NAME),
+                    description = string.Format(global::STRINGS.BUILDINGS.PREFABS.METALREFINERY.RECIPE_DESCRIPTION, (object)metalTag.ProperName(),CanScrapConfig.NAME),
                     nameDisplay = ComplexRecipe.RecipeNameDisplay.Ingredient,
                     fabricators = new List<Tag>()
                     {
@@ -165,7 +167,9 @@ namespace CannedFoods.Foods
         {
             public static void Prefix(Edible __instance )
             {
-                if (__instance.FoodInfo.Id==CannedBBQConfig.ID || __instance.FoodInfo.Id == CannedTunaConfig.ID)
+                if (__instance.HasTag(ModAssets.Tags.DropCanOnEat) 
+                    || __instance.FoodInfo.Id==CannedBBQConfig.ID || __instance.FoodInfo.Id == CannedTunaConfig.ID //compatiblitiy
+                    )
                 {
                     float trashMass = 0.5f * __instance.unitsConsumed;
                     DropCan(__instance, trashMass);
@@ -173,7 +177,8 @@ namespace CannedFoods.Foods
             }
             public static void DropCan(Edible gameObject, float mass)
             {
-                var element = ElementLoader.FindElementByHash(SimHashes.Copper);
+                var MetalHash = Config.Instance.UsesAluminumForCans ? SimHashes.Aluminum : SimHashes.Copper;
+                var element = ElementLoader.FindElementByHash(MetalHash);
                 var temperature = gameObject.GetComponent<PrimaryElement>().Temperature;
 
                 var scrapObject = GameUtil.KInstantiate(Assets.GetPrefab((Tag)"CF_CanScrap"), gameObject.transform.position, Grid.SceneLayer.Ore);

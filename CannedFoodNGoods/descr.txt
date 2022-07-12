@@ -12,10 +12,10 @@ This mod adds a canned barbeque and canned tuna, non spoiling food variants that
 New Foods: Canned Barbeque & Canned Tuna
 [list][*] made at the crafting station.
 [*] Canned BBQ has 2000kCal/kg, Canned Tuna has 800kCal/kg.
-[*] requires 500g of (refined) Copper
+[*] requires 500g of (refined) Copper OR Aluminium (configurable in Mod Settings)
 [*] does NOT spoil!
 [*] designed for space missions!
-[*] once eaten, can scraps are dropped, those can be recycled back into copper
+[*] once eaten, can scraps are dropped, those can be recycled back into the metal used on construction
 [/list]
 
 [h1]DLC Features[/h1]
@@ -34,5 +34,5 @@ Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_
 
 [hr][/hr]
 
-If you like the mods I made? You can leave me a donation [url=https://ko-fi.com/sgtimalas]here[/url] :D.
+Do you like the mods I made? If you want, you can support me here[ko-fi.com] :D.
 

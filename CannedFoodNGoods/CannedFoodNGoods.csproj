@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>CannedFoods</PackageId>
-		<Version>2.0.1</Version>
+		<Version>2.1.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022 Sgt_Imalas</Copyright>
 		<RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
@@ -37,6 +37,12 @@
 		<DocumentationFile></DocumentationFile>
 	</PropertyGroup>
 
+	<ItemGroup>
+
+		<PackageReference Include="PLib" Version="4.8.0">
+			<Private>false</Private>
+		</PackageReference>
+	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />

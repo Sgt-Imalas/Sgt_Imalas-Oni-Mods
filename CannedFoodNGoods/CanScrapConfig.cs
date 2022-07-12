@@ -19,6 +19,7 @@ namespace CannedFoods
 
         public GameObject CreatePrefab()
         {
+            var canElement = Config.Instance.UsesAluminumForCans ? SimHashes.Aluminum : SimHashes.Copper;
             GameObject looseEntity = EntityTemplates.CreateLooseEntity(
                   id: ID,
                   name: NAME,
@@ -32,7 +33,7 @@ namespace CannedFoods
                   width: 0.64f,
                   height: 0.7f,
                   isPickupable: true,
-                  element: SimHashes.Copper,
+                  element: canElement,
                   additionalTags: new List<Tag>()
                   {
                       GameTags.IndustrialIngredient

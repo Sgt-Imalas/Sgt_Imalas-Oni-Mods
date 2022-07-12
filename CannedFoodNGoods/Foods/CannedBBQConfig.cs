@@ -30,7 +30,10 @@ namespace CannedFoods.Foods
                 isPickupable: true,
                 sortOrder: 0,
                 element: SimHashes.Creature,
-                additionalTags: null);
+                additionalTags: new List<Tag>
+                {
+                    ModAssets.Tags.DropCanOnEat
+                });
 
 
             FoodInfo foodInfo = new FoodInfo(
