@@ -9,9 +9,10 @@ Mods for Oxygen Not Included and ONI - Spaced Out.
 |CannedFoods|Canned Food|Canned BBQ and Canned Tuna as non spoiling space food|[Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2818855295)|[Direct](https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/tag/v2.1.0_CannedFood)| v2.1.0
 ## WiP
 | Mod Title | Description | Notes |
+|-|-|-|
 |Logic Satellites|deployable satellites|next big release|
 |Rocketry Adjustment|drastically reduces Grid space taken up by Spacefarer Modules, thus allowing more rockets (and other stuff(space stations, dungeons...)) to use the Grid space. Also adds in larger Variants of the existing spacefarer modules with custom art|a small release coming soon|
-|-|-|-|
+
 |Project Orion|Adds an Engine fueled by nuclear explosions. Also adds mini nukes and some other regular explosives|-|
 |Rocketry Expanded|add in several new rocket modules; bigger command modules, cryopod module, alternative engines|prob. will split this one up into sub mods|
 |Space Stations|adds more functionality to the space map, allows the deployment of autonomous space stations (deployable, then behaves like rocket interiors)|-|
