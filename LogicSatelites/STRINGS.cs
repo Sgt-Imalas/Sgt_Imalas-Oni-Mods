@@ -14,7 +14,7 @@ namespace LogicSatelites
             {
                 public class LS_SATELLITECARRIERMODULE
                 {
-                    public static LocString TITLE = "Satellite Carrier Module";
+                    public static LocString NAME = "Satellite Carrier Module";
                 }
             }
         }
@@ -22,7 +22,7 @@ namespace LogicSatelites
         {
             public class SATELLITE
             {
-                public static LocString TITLE = "Logic Satellite";
+                public static LocString NAME = "Logic Satellite";
                 public static LocString DESC = "Deploy this satellite on the star map to create a logic relay";
             }
         }

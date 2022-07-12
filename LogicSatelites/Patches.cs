@@ -25,6 +25,16 @@ namespace LogicSatelites
             }
         }
 
+        [HarmonyPatch(typeof(ModuleFlightUtilitySideScreen), "SetTarget")]
+        [HarmonyPatch(nameof(ModuleFlightUtilitySideScreen.SetTarget))]
+        public static class ModuleFlightUtilitySideScreen_Gibinfo
+        {
+            public static void Postfix(ModuleFlightUtilitySideScreen __instance)
+            {
+                Debug.Log("FLIGHTSCREEN MONO");
+                UIUtils.ListAllChildren(__instance.transform);
+            }
+        }
 
         [HarmonyPatch(typeof(CraftingTableConfig), "ConfigureRecipes")]
         public static class SatelitePartsPatch
@@ -64,11 +74,16 @@ namespace LogicSatelites
         }
 
         [HarmonyPatch(typeof(DetailsScreen), "OnPrefabInit")]
-        public static class CusomSideScreenPatch_SatelliteCarrier
+        public static class CustomSideScreenPatch_SatelliteCarrier
         {
-            public static void Postfix()
+            public static void Postfix(List<DetailsScreen.SideScreenRef> ___sideScreens)
             {
-                UIUtils.AddClonedSideScreen<SatelliteCarrierModuleSideScreen>("SatelliteCarrierModuleSideScreen", "HabitatModuleSideScreen", typeof(HabitatModuleSideScreen));
+                foreach(var v in ___sideScreens)
+                {
+                    Debug.Log(v.name);
+                }
+                UIUtils.AddClonedSideScreen<SatelliteCarrierModuleSideScreen>("SatelliteCarrierModuleSideScreen", "ModuleFlightUtilitySideScreen", typeof(ModuleFlightUtilitySideScreen));
+
             }
         }
 

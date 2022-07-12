@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static LogicSatelites.STRINGS.ITEMS;
 
 namespace LogicSatelites.Entities
 {
@@ -18,8 +19,8 @@ namespace LogicSatelites.Entities
         {
             GameObject looseEntity = EntityTemplates.CreateLooseEntity(
                    id: ID,
-                   name: STRINGS.ITEMS.SATELLITE.TITLE,
-                   desc: STRINGS.ITEMS.SATELLITE.DESC,
+                   name: SATELLITE.NAME,
+                   desc: SATELLITE.DESC,
                    mass: MASS,
                    unitMass: true,
                    anim: Assets.GetAnim("space_satellite_kanim"),

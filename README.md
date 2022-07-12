@@ -12,6 +12,7 @@ Mods for Oxygen Not Included and ONI - Spaced Out.
 |-|-|-|
 |Logic Satellites|deployable satellites|next big release|
 |Rocketry Adjustment|drastically reduces Grid space taken up by Spacefarer Modules, thus allowing more rockets (and other stuff(space stations, dungeons...)) to use the Grid space. Also adds in larger Variants of the existing spacefarer modules with custom art|a small release coming soon|
+|Starship start|Starting asteroid is the giant derelict of a ship - rebuild it|-|
 |Project Orion|Adds an Engine fueled by nuclear explosions. Also adds mini nukes and some other regular explosives|-|
 |Rocketry Expanded|add in several new rocket modules; bigger command modules, cryopod module, alternative engines|prob. will split this one up into sub mods|
 |Space Stations|adds more functionality to the space map, allows the deployment of autonomous space stations (deployable, then behaves like rocket interiors)|-|

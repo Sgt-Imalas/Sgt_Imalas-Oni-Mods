@@ -11,8 +11,21 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig
 {
-    class RocketControlPodsPatches
+    class Patches
     {
+        [HarmonyPatch(typeof(WorldSelector), "OnPrefabInit")]
+        public static class CustomSideScreenPatch_Gibinfo
+        {
+            public static void Postfix(WorldSelector __instance)
+            {
+                UIUtils.ListAllChildren(__instance.transform);
+            }
+        }
+        
+        
+        /// <summary>
+        /// Translation & String initialisation
+        /// </summary>
         [HarmonyPatch(typeof(Localization), "Initialize")]
         public static class Localization_Initialize_Patch
         {
@@ -22,9 +35,11 @@ namespace Rockets_TinyYetBig
             }
         }
 
+        /// <summary>
+        /// More than 16 Rockets allowed simultaniously
+        /// </summary>
         [HarmonyPatch(typeof(ClusterManager))]
         [HarmonyPatch("OnPrefabInit")]
-
         public static class RocketCount_Patch
         {
             public static void Postfix()
@@ -33,6 +48,9 @@ namespace Rockets_TinyYetBig
             }
         }
 
+        /// <summary>
+        /// Compact interior template for Medium Habitat
+        /// </summary>
         [HarmonyPatch(typeof(HabitatModuleMediumConfig))]
         [HarmonyPatch("ConfigureBuildingTemplate")]
         public static class SaveSpace_HabitatMedium_Patch
@@ -42,6 +60,10 @@ namespace Rockets_TinyYetBig
                 go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_medium_compressed";
             }
         }
+
+        /// <summary>
+        /// Compact interior template for Small Habitat
+        /// </summary>
         [HarmonyPatch(typeof(HabitatModuleSmallConfig))]
         [HarmonyPatch("ConfigureBuildingTemplate")]
         public static class SaveSpace_HabitatSmall_Patch
@@ -52,10 +74,11 @@ namespace Rockets_TinyYetBig
             }
         }
 
-        
+        /// <summary>
+        /// Adding Rocket buildings to build Screen
+        /// </summary>
         [HarmonyPatch(typeof(GeneratedBuildings))]
         [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
-
         public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
         {
 
@@ -66,7 +89,9 @@ namespace Rockets_TinyYetBig
             }
         }
 
-
+        /// <summary>
+        /// Patch to decrease interior size from 32x32 to dynamic value per habitat template
+        /// </summary>
         [HarmonyPatch(typeof(ClusterManager))]
         [HarmonyPatch("CreateRocketInteriorWorld")]
         public class ClusterManager_CreateRocketInteriorWorld_Patch

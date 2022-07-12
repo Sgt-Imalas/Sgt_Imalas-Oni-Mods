@@ -68,7 +68,6 @@ namespace LogicSatelites.Behaviours
 					Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
 					Debug.Log("2");
 					var satellite = storage.FindFirst(SatelliteLogicConfig.ID).GetComponent<Pickupable>();
-
 					Debug.Log("3");
 					var clusterSat = SpawnSatellite(component.Location);
 					//clusterSat.Store(satellite.gameObject);
