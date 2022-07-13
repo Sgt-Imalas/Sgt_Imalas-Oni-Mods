@@ -18,11 +18,19 @@ namespace Rockets_TinyYetBig
         {
             public static void Postfix(WorldSelector __instance)
             {
-                UIUtils.ListAllChildren(__instance.transform);
+                   UIUtils.ListAllChildren(__instance.transform);
             }
         }
-        
-        
+
+        [HarmonyPatch(typeof(ScannerModule.Instance),"Scan")]
+        public static class BuffScannerModule
+        {
+            public static void Prefix(ScannerModule.Instance __instance)
+            {
+                __instance.def.scanRadius = Config.Instance.ScannerModuleRange;
+            }
+        }
+
         /// <summary>
         /// Translation & String initialisation
         /// </summary>
@@ -99,8 +107,9 @@ namespace Rockets_TinyYetBig
 
             public static Vector2I ConditionForSize(Vector2I original, string templateString)
             {
-                switch (templateString)
-                {
+                if (Config.Instance.ClipRocketSpace) { 
+                   switch (templateString)
+                    {
                     case "interiors/habitat_medium_compressed":
                         original = new Vector2I(14, 12);
                         break;
@@ -113,6 +122,7 @@ namespace Rockets_TinyYetBig
                     case "interiors/habitat_medium_expanded":
                         original = new Vector2I(14, 16);
                         break;
+                    }
                 }
                 return original;
             }

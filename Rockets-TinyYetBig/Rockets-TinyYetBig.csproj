@@ -2,7 +2,7 @@
 
 	<!-- General Package Properties -->
 	<PropertyGroup>
-		<PackageId>Larger_Interiors</PackageId>
+		<PackageId>Rocketry_Tweaks</PackageId>
 		<Version>1.0.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022 Sgt_Imalas</Copyright>
@@ -23,13 +23,18 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>Larger Interiors</ModName>
-		<ModDescription>Shrinks the border around rocket interiors and provides some larger variants to construct.</ModDescription>
+		<ModName>Rocketry Tweaks</ModName>
+		<ModDescription>Various QoL Additions to RocketsShrinks the border around rocket interiors and provides some larger variants to construct.</ModDescription>
 		<SupportedContent>EXPANSION1_ID</SupportedContent>
 		<MinimumSupportedBuild>498381</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 
+	<ItemGroup>
+		<PackageReference Include="PLib" Version="4.8.0">
+			<Private>false</Private>
+		</PackageReference>
+	</ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<OutDir>bin</OutDir>

@@ -12,8 +12,8 @@ namespace CannedFoods
     [Serializable]
     [RestartRequired]
     [ModInfo("Canned Food")]
-public class Config : SingletonOptions<Config>
-{
+    public class Config : SingletonOptions<Config>
+    {
         [Option("More realistic can material", "changes the material used for the cans from copper to aluminum to reflect the material used in the real world.")]
         [JsonProperty]
         public bool UsesAluminumForCans { get; set; }
