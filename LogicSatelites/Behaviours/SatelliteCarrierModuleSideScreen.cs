@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PeterHan.PLib.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -58,12 +59,6 @@ namespace LogicSatelites.Behaviours
 
         private void ClearModules()
         {
-            var Content = transform.Find("ScrollSetup/ScrollRect/Content/ModuleWidget");
-            while (Content != null)
-            {
-
-            }
-            Transform Content = transform.Find("ScrollSetup/ScrollRect/Content"); Util.KDestroyGameObject(
             foreach (KeyValuePair<ISatelliteCarrier, HierarchyReferences> modulePanel in this.modulePanels)
                 Util.KDestroyGameObject(modulePanel.Value.gameObject);
             modulePanels.Clear();
@@ -74,6 +69,7 @@ namespace LogicSatelites.Behaviours
             ClearModules();
             foreach (Ref<RocketModuleCluster> clusterModule in targetCraft.GetComponent<CraftModuleInterface>().ClusterModules)
             {
+                if (clusterModule.Get().GetSMI<ISatelliteCarrier>() != null) { 
                 HierarchyReferences hierarchyReferences = Util.KInstantiateUI<HierarchyReferences>(this.modulePanelPrefab, this.moduleContentContainer, true);
                 ISatelliteCarrier carrierInstance = clusterModule.Get().GetSMI<ISatelliteCarrier>();
                 if (carrierInstance != null)
@@ -81,8 +77,8 @@ namespace LogicSatelites.Behaviours
                     this.modulePanels.Add(carrierInstance, hierarchyReferences);
                     this.RefreshModulePanel(carrierInstance);
                 }
+                }
             }
-            Debug.Log(modulePanels.Count);
         }
 
         protected override void OnShow(bool show)
@@ -92,17 +88,16 @@ namespace LogicSatelites.Behaviours
         }
         private void GetPrefabStrings()
         {
-            Transform Content = transform.Find("ScrollSetup/ScrollRect/Content");
+            Transform Content = transform.Find("ScrollSetup/ScrollRect/Content");            
             moduleContentContainer = Content.gameObject;
             modulePanelPrefab = Content.Find("ModuleWidget").gameObject;
+
         }
 
         protected override void OnPrefabInit()
         {
             base.OnPrefabInit();
-            UIUtils.ListAllChildren(this.transform);
             this.titleKey = "STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLE";
-
             
 
             //titleText = transform.Find("TitleBox/Label").GetComponent<LocText>();

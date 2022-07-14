@@ -78,10 +78,6 @@ namespace LogicSatelites
         {
             public static void Postfix(List<DetailsScreen.SideScreenRef> ___sideScreens)
             {
-                foreach(var v in ___sideScreens)
-                {
-                    Debug.Log(v.name);
-                }
                 UIUtils.AddClonedSideScreen<SatelliteCarrierModuleSideScreen>("SatelliteCarrierModuleSideScreen", "ModuleFlightUtilitySideScreen", typeof(ModuleFlightUtilitySideScreen));
 
             }

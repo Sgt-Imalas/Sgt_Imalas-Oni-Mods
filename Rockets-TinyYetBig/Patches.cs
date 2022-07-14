@@ -18,7 +18,7 @@ namespace Rockets_TinyYetBig
         {
             public static void Postfix(WorldSelector __instance)
             {
-                   UIUtils.ListAllChildren(__instance.transform);
+                  // UIUtils.ListAllChildren(__instance.transform);
             }
         }
 
