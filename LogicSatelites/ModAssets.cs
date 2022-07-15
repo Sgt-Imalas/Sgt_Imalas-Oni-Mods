@@ -12,5 +12,9 @@ namespace LogicSatelites.Behaviours
         {
             return "SateliteNameGeneratorWIP";
         }
+        public static class Tags
+        {
+           public static Tag LS_Satellite = TagManager.Create("LS_Space_Satellite");
+        }
     }
 }

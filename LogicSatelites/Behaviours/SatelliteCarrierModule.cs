@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static LogicSatelites.Behaviours.ModAssets;
 
 namespace LogicSatelites.Behaviours
 {
@@ -41,8 +42,8 @@ namespace LogicSatelites.Behaviours
 			}
 
             public bool CanRetrieveSatellite()
-            {
-				return IsEntityAtLocation().gameObject.GetComponent<SatelliteLogicConfig>()!=null;
+			{//?.gameObject.GetComponent<SatelliteLogicConfig>()
+				return IsEntityAtLocation().gameObject.GetComponent<SatelliteGridEntity>() != null;
 			}
 			public void OnButtonClicked()
 			{
@@ -60,10 +61,12 @@ namespace LogicSatelites.Behaviours
 
 			public void TryRetrieveSatellite()
             {
+				Debug.Log(this.CanRetrieveSatellite() + " - " + !this.HoldingSatellite());
                 if (this.CanRetrieveSatellite()&& !this.HoldingSatellite())
 				{
 					var clusterSat = IsEntityAtLocation().gameObject;
 					clusterSat.DeleteObject();
+					sm.hasSatellite.Set(true, this);
 
 					Vector3 position = new Vector3(-1f, -1f, 0.0f);
 					GameObject sat = Util.KInstantiate(Assets.GetPrefab((Tag)"LS_ClusterSateliteLogic"), position);
@@ -76,16 +79,13 @@ namespace LogicSatelites.Behaviours
 				Debug.Log(this.CanDeploySatellite() +" - " + this.HoldingSatellite());
 				if (this.CanDeploySatellite() && this.HoldingSatellite())
 				{
-					Debug.Log("1");
 					Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
-					Debug.Log("2");
-					var satellite = storage.FindFirst(SatelliteLogicConfig.ID);
-					Debug.Log("3");
-					satellite.DeleteObject();
-					Debug.Log("4");
+					var satellite = storage.FindFirst(Tags.LS_Satellite);
+					Debug.Log(satellite);
+					storage.Remove(satellite);
+					Util.KDestroyGameObject(satellite);
 					SpawnSatellite(component.Location);
-					Debug.Log("5");
-
+					sm.hasSatellite.Set(false,this);
 				}
 			}
 

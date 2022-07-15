@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static LogicSatelites.Behaviours.ModAssets;
 using static LogicSatelites.STRINGS.ITEMS;
 
 namespace LogicSatelites.Entities
@@ -30,6 +31,7 @@ namespace LogicSatelites.Entities
                    element: SimHashes.Steel,
                    additionalTags: new List<Tag>()
                    {
+                       Tags.LS_Satellite,
                       GameTags.IndustrialIngredient
                    }); 
 

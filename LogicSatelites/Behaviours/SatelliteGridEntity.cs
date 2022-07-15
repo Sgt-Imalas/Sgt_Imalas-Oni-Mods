@@ -18,6 +18,8 @@ namespace LogicSatelites.Behaviours
 
         public override bool SpaceOutInSameHex() => true;
 
+        public override EntityLayer Layer => EntityLayer.POI;
+
         public override string Name => (string)Strings.Get(this.nameKey);
         public override List<ClusterGridEntity.AnimConfig> AnimConfigs => new List<ClusterGridEntity.AnimConfig>()
         {
@@ -32,7 +34,6 @@ namespace LogicSatelites.Behaviours
         public override bool IsVisible => true;
 
         public override ClusterRevealLevel IsVisibleInFOW => ClusterRevealLevel.Visible;
-        public override EntityLayer Layer => EntityLayer.POI;
         public void Init(AxialI location) => this.Location = location;
 
     }
