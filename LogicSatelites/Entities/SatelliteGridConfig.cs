@@ -33,11 +33,6 @@ namespace LogicSatelites.Entities
                       GameTags.Experimental
                    });
 
-            Storage defaultStorage = BuildingTemplates.CreateDefaultStorage(looseEntity);
-            defaultStorage.showInUI = false;
-            defaultStorage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
-            defaultStorage.capacityKg = 5000f;
-
             var entity = looseEntity.AddOrGet<SatelliteGridEntity>();
             entity.clusterAnimName = "space_satellite_kanim";
             entity.isWorldEntity = true;

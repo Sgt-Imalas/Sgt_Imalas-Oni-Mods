@@ -111,6 +111,7 @@ namespace LogicSatelites.Behaviours
             base.OnPrefabInit();
             this.titleKey = "STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLE";
             Title  = transform.Find("Title/Label").GetComponent<LocText>();
+            RefreshStrings();
 
             //titleText = transform.Find("TitleBox/Label").GetComponent<LocText>();
             //button = transform.Find("ModuleWidget/Layout/Info/Buttons/Button")?.GetComponent<KButton>();
@@ -140,41 +141,34 @@ namespace LogicSatelites.Behaviours
             buttonTooltips1.Add(module, Button1.GetComponentInChildren<ToolTip>());
             buttonTooltips2.Add(module, Button2.GetComponentInChildren<ToolTip>());
 
-            Button1.onClick += () =>  RefreshStrings();
+            Button1.onClick += () => module.OnButtonClicked();
             Button1.GetComponentInChildren<ToolTip>().SetSimpleTooltip(module.HoldingSatellite() ? "Deploys a satellite at the current space hex" : "Retrieves a satellite from the current space hex");
             Button2.onClick += () => ChangeOperationMode(module);
             //UIUtils.ListAllChildren(Button1);
             UIUtils.GiveAllChildObjects(Button1.gameObject);
+            RefreshStrings();
         }
         private void RefreshStrings(ISatelliteCarrier module = null)
         {
-            if (module != null)
+            foreach (var v in modulePanels.Keys)
             {
-                buttonLabels[module].SetText(module.ModeIsDeployment ? "Deploy Satellite" : "Retrieve Satellite");
-                buttonTooltips1[module].SetSimpleTooltip(module.ModeIsDeployment ? "Deploys a satellite at the current space hex" : "Retrieves a satellite from the current space hex");
-                return;
-            }
-            else
-            {
-                foreach (var v in modulePanels.Keys)
-                {
-                    buttonLabels[v].SetText(v.ModeIsDeployment ? "Deploy Satellite" : "Retrieve Satellite");
-                    buttonTooltips1[v].SetSimpleTooltip(v.ModeIsDeployment ? "Deploys a satellite at the current space hex" : "Retrieves a satellite from the current space hex");
-                    buttonTooltips2[v].SetSimpleTooltip("Change the operation the module should perform");
-                }
+                buttonLabels[v].SetText(v.ModeIsDeployment ? "Deploy Satellite" : "Retrieve Satellite");
+                buttonTooltips1[v].SetSimpleTooltip(v.ModeIsDeployment ? "Deploys a satellite at the current space hex" : "Retrieves a satellite from the current space hex");
+                buttonTooltips2[v].SetSimpleTooltip("Change the operation the module should perform");
             }
         }
         private void ChangeOperationMode(ISatelliteCarrier module)
         {
             module.ModeIsDeployment = !module.ModeIsDeployment;
-            RefreshStrings(module);
+            RefreshStrings();
         }
 
 
         protected override void OnSpawn()
         {
             base.OnSpawn();
-            Title.SetText(STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLE); RefreshStrings();
+            Title.SetText(STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLE); 
+            RefreshStrings();
         }
         //private void Refresh()
         //{

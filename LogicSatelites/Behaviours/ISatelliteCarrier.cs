@@ -15,8 +15,6 @@ namespace LogicSatelites.Behaviours
         bool HoldingSatellite();
         bool CanRetrieveSatellite();
         bool CanDeploySatellite();
-
-        void RetrieveSatellite();
-        void DeploySatellite();
+        void OnButtonClicked();
     }
 }

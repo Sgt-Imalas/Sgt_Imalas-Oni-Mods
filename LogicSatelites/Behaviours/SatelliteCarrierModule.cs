@@ -43,45 +43,59 @@ namespace LogicSatelites.Behaviours
             public bool CanRetrieveSatellite()
             {
 				return IsEntityAtLocation().gameObject.GetComponent<SatelliteLogicConfig>()!=null;
-
+			}
+			public void OnButtonClicked()
+			{
+                if (ModeIsDeployment)
+                {
+					TryDeploySatellite();
+					Debug.Log("Deploying Satellite");
+				}
+				else
+                {
+					TryRetrieveSatellite();
+					Debug.Log("Retrieving Satellite");
+				}
 			}
 
-            public void RetrieveSatellite()
+			public void TryRetrieveSatellite()
             {
-				return;
-                if (CanRetrieveSatellite()&&!HoldingSatellite())
+                if (this.CanRetrieveSatellite()&& !this.HoldingSatellite())
 				{
 					var clusterSat = IsEntityAtLocation().gameObject;
-					var satellite = clusterSat.GetComponent<Storage>().FindFirst(SatelliteLogicConfig.ID).GetComponent<Pickupable>().Take(storage.RemainingCapacity());
-					storage.Store(satellite.gameObject);
 					clusterSat.DeleteObject();
-				}
 
+					Vector3 position = new Vector3(-1f, -1f, 0.0f);
+					GameObject sat = Util.KInstantiate(Assets.GetPrefab((Tag)"LS_ClusterSateliteLogic"), position);
+					storage.Store(sat.gameObject);
+				}
 			}
 
-            public void DeploySatellite()
+            public void TryDeploySatellite()
 			{
-				if (CanDeploySatellite() && HoldingSatellite())
+				Debug.Log(this.CanDeploySatellite() +" - " + this.HoldingSatellite());
+				if (this.CanDeploySatellite() && this.HoldingSatellite())
 				{
 					Debug.Log("1");
 					Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
 					Debug.Log("2");
-					var satellite = storage.FindFirst(SatelliteLogicConfig.ID).GetComponent<Pickupable>();
+					var satellite = storage.FindFirst(SatelliteLogicConfig.ID);
 					Debug.Log("3");
-					var clusterSat = SpawnSatellite(component.Location);
-					//clusterSat.Store(satellite.gameObject);
+					satellite.DeleteObject();
+					Debug.Log("4");
+					SpawnSatellite(component.Location);
+					Debug.Log("5");
 
 				}
 			}
 
-			private static Storage SpawnSatellite(AxialI location)
+			private void SpawnSatellite(AxialI location)
             {
 				Vector3 position = new Vector3(-1f, -1f, 0.0f);
 				GameObject sat = Util.KInstantiate(Assets.GetPrefab((Tag)"LS_SatelliteGrid"), position);
 				sat.name = ModAssets.GetSatelliteNameRandom();
 				sat.GetComponent<ClusterGridEntity>().Location = location;
-				sat.SetActive(true);
-				return sat.GetComponent<Storage>();				
+				sat.SetActive(true);			
 			}
 
 
