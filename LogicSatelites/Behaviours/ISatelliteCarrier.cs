@@ -10,6 +10,8 @@ namespace LogicSatelites.Behaviours
     {
         IStateMachineTarget master { get; }
 
+        bool ModeIsDeployment { get; set; }
+
         bool HoldingSatellite();
         bool CanRetrieveSatellite();
         bool CanDeploySatellite();

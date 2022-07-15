@@ -23,7 +23,6 @@ namespace LogicSatelites.Behaviours
 		#region StateMachine
 		public class StatesInstance : GameStateMachine<States, StatesInstance, IStateMachineTarget, object>.GameInstance, ISatelliteCarrier
 		{       
-			
 			public bool HoldingSatellite()
 			{
 				return sm.hasSatellite.Get(this);
@@ -85,6 +84,13 @@ namespace LogicSatelites.Behaviours
 				return sat.GetComponent<Storage>();				
 			}
 
+
+            public bool ModeIsDeployment
+			{ 
+				get;
+				set; 
+			}
+
             public Storage storage;
 			public StatesInstance(IStateMachineTarget master) : base(master)
 			{
@@ -112,7 +118,7 @@ namespace LogicSatelites.Behaviours
 					.PlayAnim("satelite_construction",KAnim.PlayMode.Loop)
 					.Update((smi, dt) =>
 					{
-                        if (smi.storage.Has(SatelliteLogicConfig.ID))
+                        if (smi.storage.Has(SatelliteLogicConfig.ID)&&hasSatellite.Get(smi) ==false)
                         {
 							hasSatellite.Set(true,smi);
                         }

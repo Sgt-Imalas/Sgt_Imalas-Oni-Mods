@@ -25,16 +25,16 @@ namespace LogicSatelites
             }
         }
 
-        [HarmonyPatch(typeof(ModuleFlightUtilitySideScreen), "SetTarget")]
-        [HarmonyPatch(nameof(ModuleFlightUtilitySideScreen.SetTarget))]
-        public static class ModuleFlightUtilitySideScreen_Gibinfo
-        {
-            public static void Postfix(ModuleFlightUtilitySideScreen __instance)
-            {
-                Debug.Log("FLIGHTSCREEN MONO");
-                UIUtils.ListAllChildren(__instance.transform);
-            }
-        }
+        //[HarmonyPatch(typeof(ModuleFlightUtilitySideScreen), "SetTarget")]
+        //[HarmonyPatch(nameof(ModuleFlightUtilitySideScreen.SetTarget))]
+        //public static class ModuleFlightUtilitySideScreen_Gibinfo
+        //{
+        //    public static void Postfix(ModuleFlightUtilitySideScreen __instance)
+        //    {
+        //        Debug.Log("FLIGHTSCREEN MONO");
+        //        UIUtils.ListAllChildren(__instance.transform);
+        //    }
+        //}
 
         [HarmonyPatch(typeof(CraftingTableConfig), "ConfigureRecipes")]
         public static class SatelitePartsPatch
