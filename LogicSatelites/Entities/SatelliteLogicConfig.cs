@@ -20,7 +20,7 @@ namespace LogicSatelites.Entities
         {
             GameObject looseEntity = EntityTemplates.CreateLooseEntity(
                    id: ID,
-                   name: SATELLITE.NAME,
+                   name: SATELLITE.TITLE,
                    desc: SATELLITE.DESC,
                    mass: MASS,
                    unitMass: true,

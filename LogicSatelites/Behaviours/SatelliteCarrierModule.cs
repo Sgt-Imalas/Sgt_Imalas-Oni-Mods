@@ -42,8 +42,8 @@ namespace LogicSatelites.Behaviours
 			}
 
             public bool CanRetrieveSatellite()
-			{//?.gameObject.GetComponent<SatelliteLogicConfig>()
-				return IsEntityAtLocation().gameObject.GetComponent<SatelliteGridEntity>() != null;
+			{
+				return IsEntityAtLocation()?.gameObject.GetComponent<SatelliteGridEntity>() != null;
 			}
 			public void OnButtonClicked()
 			{
@@ -61,7 +61,6 @@ namespace LogicSatelites.Behaviours
 
 			public void TryRetrieveSatellite()
             {
-				Debug.Log(this.CanRetrieveSatellite() + " - " + !this.HoldingSatellite());
                 if (this.CanRetrieveSatellite()&& !this.HoldingSatellite())
 				{
 					var clusterSat = IsEntityAtLocation().gameObject;

@@ -19,12 +19,12 @@ namespace LogicSatelites.Entities
         {
             var looseEntity = EntityTemplates.CreateBasicEntity(
                    id: ID,
-                   name: SATELLITE.NAME,
+                   name: SATELLITE.TITLE,
                    desc: SATELLITE.DESC,
                    mass: 600,
                    unitMass: true,
                    anim: Assets.GetAnim("space_satellite_kanim"),
-                   initialAnim: "object",
+                   initialAnim: "idle_loop",
                    sceneLayer: Grid.SceneLayer.Creatures,
                    element: SimHashes.Steel,
                    additionalTags: new List<Tag>()
@@ -34,6 +34,7 @@ namespace LogicSatelites.Entities
                    });
 
             var entity = looseEntity.AddOrGet<SatelliteGridEntity>();
+
             entity.clusterAnimName = "space_satellite_kanim";
             entity.isWorldEntity = true;
             entity.enabled = true;

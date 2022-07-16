@@ -97,6 +97,7 @@ namespace LogicSatelites.Behaviours
         {
             base.OnShow(show);
             this.ConsumeMouseScroll = true;
+            RefreshStrings();
         }
         private void GetPrefabStrings()
         {
@@ -162,30 +163,11 @@ namespace LogicSatelites.Behaviours
             module.ModeIsDeployment = !module.ModeIsDeployment;
             RefreshStrings();
         }
-
-
         protected override void OnSpawn()
         {
             base.OnSpawn();
             Title.SetText(STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLE); 
             RefreshStrings();
         }
-        //private void Refresh()
-        //{
-        //    return;
-        //    BuildModules();
-
-        //    if (buttonText is null || label is null || modulePanels.Count==0)
-        //    {
-        //        return;
-        //    }
-        //    titleText.SetText(GetTitle());
-
-        //    //button.GetComponentInChildren<ToolTip>().SetSimpleTooltip(CanDeploySatellite() ? "Deploys a satellite at the current space hex" : "Retrieves a satellite from the current space hex");
-        //    //buttonText.SetText(CanDeploySatellite() ? "Deploy Satellite" : "Retrieve Satellite");
-        //    //label.SetText(String.Format("Holding {0}x Satellite",SatelliteCount()));
-
-        //}
-
     }
 }

@@ -68,8 +68,7 @@ namespace LogicSatelites.Behaviours
         }
 
         public new class Instance :
-          GameStateMachine<BuildingInternalConstructorRocket, BuildingInternalConstructorRocket.Instance, IStateMachineTarget, BuildingInternalConstructorRocket.Def>.GameInstance,
-          ISidescreenButtonControl
+          GameStateMachine<BuildingInternalConstructorRocket, BuildingInternalConstructorRocket.Instance, IStateMachineTarget, BuildingInternalConstructorRocket.Def>.GameInstance
         {
             private Storage storage;
             [Serialize]
@@ -186,24 +185,6 @@ namespace LogicSatelites.Behaviours
                     return;
                 component.SetSymbolVisiblity((KAnimHashedString)this.def.constructionSymbol, show);
             }
-
-            public string SidescreenButtonText => !this.smi.sm.constructionRequested.Get(this.smi) ? string.Format(UI.UISIDESCREENS.BUTTONMENUSIDESCREEN.ALLOW_INTERNAL_CONSTRUCTOR.text, (object)Assets.GetPrefab((Tag)this.def.outputIDs[0]).GetProperName()) : string.Format(UI.UISIDESCREENS.BUTTONMENUSIDESCREEN.DISALLOW_INTERNAL_CONSTRUCTOR.text, (object)Assets.GetPrefab((Tag)this.def.outputIDs[0]).GetProperName());
-
-            public string SidescreenButtonTooltip => !this.smi.sm.constructionRequested.Get(this.smi) ? string.Format(UI.UISIDESCREENS.BUTTONMENUSIDESCREEN.ALLOW_INTERNAL_CONSTRUCTOR_TOOLTIP.text, (object)Assets.GetPrefab((Tag)this.def.outputIDs[0]).GetProperName()) : string.Format(UI.UISIDESCREENS.BUTTONMENUSIDESCREEN.DISALLOW_INTERNAL_CONSTRUCTOR_TOOLTIP.text, (object)Assets.GetPrefab((Tag)this.def.outputIDs[0]).GetProperName());
-
-            public void OnSidescreenButtonPressed()
-            {
-                this.smi.sm.constructionRequested.Set(!this.smi.sm.constructionRequested.Get(this.smi), this.smi);
-                if (!DebugHandler.InstantBuildMode || !this.smi.sm.constructionRequested.Get(this.smi) || this.HasOutputInStorage())
-                    return;
-                this.ConstructionComplete(true);
-            }
-
-            public bool SidescreenEnabled() => true;
-
-            public bool SidescreenButtonInteractable() => true;
-
-            public int ButtonSideScreenSortOrder() => 20;
         }
     }
 }

@@ -26,7 +26,7 @@ namespace LogicSatelites.Behaviours
             new ClusterGridEntity.AnimConfig()
             {
                 animFile = Assets.GetAnim((HashedString) this.clusterAnimName),
-                initialAnim = "object",
+                initialAnim = "idle_loop",
                 //symbolSwapTarget = this.clusterAnimSymbolSwapTarget,
                // symbolSwapSymbol = this.clusterAnimSymbolSwapSymbol
             }
