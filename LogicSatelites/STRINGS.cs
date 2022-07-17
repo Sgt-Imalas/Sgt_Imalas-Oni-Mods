@@ -27,6 +27,12 @@ namespace LogicSatelites
                 public static LocString TITLE = "Logic Satellite";
                 public static LocString DESC = "Deploy this satellite on the star map to create a logic relay";
             }
+            public class LS_SATELLITEGRID
+            {
+                public static LocString TITLE = "Satellite";
+                public static LocString DESC = "This Satellite monitors the space around its location and amplifies interplanetary logic signals."+
+                    string.Format("\n\n\nThis Satellite will gradually reveal the space around it up to a radius of {0}.\n\nIt will also amplify a logic signal by redirecting it up to {1} Tiles further", 3,5);
+            }
         }
         public class UI
         {

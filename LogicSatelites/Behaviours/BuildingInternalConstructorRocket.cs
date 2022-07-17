@@ -179,7 +179,7 @@ namespace LogicSatelites.Behaviours
             }
 
             public WorkChore<BuildingInternalConstructorRocketWorkable> CreateWorkChore() => new WorkChore<BuildingInternalConstructorRocketWorkable>(Db.Get().ChoreTypes.Build, this.master);
-
+            
             public void ShowConstructionSymbol(bool show)
             {
                 KBatchedAnimController component = this.master.GetComponent<KBatchedAnimController>();

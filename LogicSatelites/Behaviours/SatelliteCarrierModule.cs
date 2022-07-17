@@ -1,4 +1,5 @@
-﻿using LogicSatelites.Entities;
+﻿using KSerialization;
+using LogicSatelites.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace LogicSatelites.Behaviours
     class SatelliteCarrierModule : StateMachineComponent<SatelliteCarrierModule.StatesInstance>, ISaveLoadable
 	{
         [MyCmpReq] private KSelectable selectable;
-        [MyCmpReq] public Storage storage;
+        [MyCmpReq] [SerializeField]public Storage storage;
 
 
 		protected override void OnSpawn()
@@ -31,17 +32,28 @@ namespace LogicSatelites.Behaviours
 
             public bool CanDeploySatellite()
             {
-				return IsEntityAtLocation()==null; // && freeSpace
-            }
+				Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
+				ClusterGridEntity atCurrentLocation = component.GetPOIAtCurrentLocation();
+				return atCurrentLocation==null;
+			}
 
 			public ClusterGridEntity IsEntityAtLocation()
             {
 				Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
-				ClusterGridEntity atCurrentLocation = component.GetPOIAtCurrentLocation();
+				ClusterGridEntity atCurrentLocation = GetSatelliteAtCurrentLocation(component);
 				return atCurrentLocation;
 			}
 
-            public bool CanRetrieveSatellite()
+			ClusterGridEntity GetSatelliteAtCurrentLocation(Clustercraft craft) { 
+				var entity = craft.Status != Clustercraft.CraftStatus.InFlight || craft.IsFlightInProgress() ? (ClusterGridEntity)null : ClusterGrid.Instance.GetVisibleEntityOfLayerAtCell(craft.Location, EntityLayer.Payload);
+				if(entity!= null && entity.GetComponent<SatelliteGridEntity>())
+				{
+					return entity;
+                }
+                else { return null; }
+
+			}
+			public bool CanRetrieveSatellite()
 			{
 				return IsEntityAtLocation()?.gameObject.GetComponent<SatelliteGridEntity>() != null;
 			}
@@ -92,7 +104,7 @@ namespace LogicSatelites.Behaviours
             {
 				Vector3 position = new Vector3(-1f, -1f, 0.0f);
 				GameObject sat = Util.KInstantiate(Assets.GetPrefab((Tag)"LS_SatelliteGrid"), position);
-				sat.name = ModAssets.GetSatelliteNameRandom();
+				sat.GetComponent<ClusterDestinationSelector>().SetDestination(location);
 				sat.GetComponent<ClusterGridEntity>().Location = location;
 				sat.SetActive(true);			
 			}
@@ -143,12 +155,14 @@ namespace LogicSatelites.Behaviours
 					.TagTransition(GameTags.RocketNotOnGround, this.grounded, true);
 
 				not_grounded.loaded
+					.PlayAnim("ready_to_launch", KAnim.PlayMode.Loop)
 					.ParamTransition<bool>(this.hasSatellite, this.not_grounded.empty, IsFalse)
 					.Update((smi, dt) =>
 					{
 						
 					});				
 				not_grounded.empty
+					.PlayAnim("satelite_construction", KAnim.PlayMode.Loop)
 					.ParamTransition<bool>(this.hasSatellite, this.not_grounded.loaded, IsTrue)
 					.Update((smi, dt) =>
 					{

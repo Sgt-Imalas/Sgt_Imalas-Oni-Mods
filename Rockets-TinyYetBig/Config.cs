@@ -10,7 +10,7 @@ namespace Rockets_TinyYetBig
 {
     [Serializable]
     [RestartRequired]
-    [ModInfo("Canned Food")]
+    [ModInfo("Rocketry Tewaks")]
     public class Config : SingletonOptions<Config>
     {
         [Option("Shrink Rocket Interior Space", "Removes the unused space outside of Rocket Interiors, thus allowing more rockets to be placed simultaniously.")]

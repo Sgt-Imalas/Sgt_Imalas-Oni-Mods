@@ -25,6 +25,7 @@ namespace LogicSatelites.Behaviours
             this.workingPstComplete = (HashedString[])null;
             this.workingPstFailed = (HashedString[])null;
             this.SetOffsetTable(OffsetGroups.InvertedStandardTable);
+            this.SetWorkTime(30f);
         }
 
         protected override void OnSpawn()

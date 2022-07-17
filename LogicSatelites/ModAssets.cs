@@ -10,7 +10,20 @@ namespace LogicSatelites.Behaviours
     {
         public static string GetSatelliteNameRandom()
         {
-            return "SateliteNameGeneratorWIP";
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            var stringChars = new char[3];
+
+            string returnString = string.Empty;
+            Random random = new Random();
+
+            for (int i = 0; i < stringChars.Length; i++)
+            {
+                stringChars[i] = chars[random.Next(chars.Length)];
+            }
+
+            int number = random.Next(0, 999);
+            returnString = new string(stringChars) + "-" + number.ToString("D3");
+            return returnString;
         }
         public static class Tags
         {

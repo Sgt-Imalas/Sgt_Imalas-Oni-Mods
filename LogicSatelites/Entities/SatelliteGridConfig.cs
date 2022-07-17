@@ -17,28 +17,39 @@ namespace LogicSatelites.Entities
 
         public GameObject CreatePrefab()
         {
-            var looseEntity = EntityTemplates.CreateBasicEntity(
+            var looseEntity = EntityTemplates.CreateLooseEntity(
                    id: ID,
-                   name: SATELLITE.TITLE,
-                   desc: SATELLITE.DESC,
+                   name: LS_SATELLITEGRID.TITLE,
+                   desc: LS_SATELLITEGRID.DESC,
                    mass: 600,
-                   unitMass: true,
+                   unitMass: true, 
+                   collisionShape: EntityTemplates.CollisionShape.RECTANGLE, 
+                   isPickupable: false,
                    anim: Assets.GetAnim("space_satellite_kanim"),
                    initialAnim: "idle_loop",
                    sceneLayer: Grid.SceneLayer.Creatures,
-                   element: SimHashes.Steel,
+                   element: SimHashes.Steel, 
                    additionalTags: new List<Tag>()
                    {
                       GameTags.IgnoreMaterialCategory,
                       GameTags.Experimental
                    });
-
+            looseEntity.AddOrGet<CharacterOverlay>().shouldShowName = true;
+            ClusterDestinationSelector destinationSelector = looseEntity.AddOrGet<ClusterDestinationSelector>();
+            destinationSelector.assignable = false;
+            destinationSelector.shouldPointTowardsPath = false;
+            destinationSelector.requireAsteroidDestination = false;
+            var traveler = looseEntity.AddOrGet<ClusterTraveler>();
+            traveler.stopAndNotifyWhenPathChanges = false;
             var entity = looseEntity.AddOrGet<SatelliteGridEntity>();
-
+            looseEntity.AddOrGetDef<SatelliteTelescope.Def>();
             entity.clusterAnimName = "space_satellite_kanim";
-            entity.isWorldEntity = true;
             entity.enabled = true;
-            entity.nameKey = new StringKey("STRINGS.ITEMS.SATELLITE.TITLE");
+
+            looseEntity.AddComponent<Operational>();
+            looseEntity.AddComponent<LogicBroadcastReceiver>();
+
+            looseEntity.AddComponent<LogicBroadcaster>();
             return looseEntity;
         }
 

@@ -12,15 +12,15 @@ namespace LogicSatelites.Behaviours
         [SerializeField]
         public string clusterAnimName;
         [SerializeField]
-        public StringKey nameKey;
-       // private string clusterAnimSymbolSwapTarget;
-       // private string clusterAnimSymbolSwapSymbol;
+        private string m_name;
+        // private string clusterAnimSymbolSwapTarget;
+        // private string clusterAnimSymbolSwapSymbol;
 
         public override bool SpaceOutInSameHex() => true;
 
-        public override EntityLayer Layer => EntityLayer.POI;
+        public override EntityLayer Layer => EntityLayer.Payload;
 
-        public override string Name => (string)Strings.Get(this.nameKey);
+        public override string Name => this.m_name;
         public override List<ClusterGridEntity.AnimConfig> AnimConfigs => new List<ClusterGridEntity.AnimConfig>()
         {
             new ClusterGridEntity.AnimConfig()
@@ -31,6 +31,29 @@ namespace LogicSatelites.Behaviours
                // symbolSwapSymbol = this.clusterAnimSymbolSwapSymbol
             }
         };
+        protected override void OnSpawn()
+        {
+            base.OnSpawn();
+            SetSatelliteName(ModAssets.GetSatelliteNameRandom());
+        }
+
+        public void SetSatelliteName(string newName)
+        {
+            this.m_name = newName;
+            this.name = "Satellite: " + newName;
+            CharacterOverlay component = this.GetComponent<CharacterOverlay>();
+            KSelectable selectable = this.GetComponent<KSelectable>();
+            if (selectable != null)
+            {
+                selectable.SetName(this.name);
+                selectable.entityName = this.name;
+            }
+            if ((UnityEngine.Object)component != (UnityEngine.Object)null)
+                {
+                    NameDisplayScreen.Instance.UpdateName(component.gameObject);
+                }
+            
+        }
         public override bool IsVisible => true;
 
         public override ClusterRevealLevel IsVisibleInFOW => ClusterRevealLevel.Visible;
