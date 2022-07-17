@@ -68,7 +68,8 @@ namespace LogicSatelites.Behaviours
         }
 
         public new class Instance :
-          GameStateMachine<BuildingInternalConstructorRocket, BuildingInternalConstructorRocket.Instance, IStateMachineTarget, BuildingInternalConstructorRocket.Def>.GameInstance
+          GameStateMachine<BuildingInternalConstructorRocket, BuildingInternalConstructorRocket.Instance, IStateMachineTarget, BuildingInternalConstructorRocket.Def>.GameInstance,
+          ISidescreenButtonControl
         {
             private Storage storage;
             [Serialize]
@@ -87,11 +88,12 @@ namespace LogicSatelites.Behaviours
             private void DropConstructionUnits(Tag constructionElement, float mass)
             {
                 var MassPerUnit = Assets.GetPrefab(constructionElement).GetComponent<PrimaryElement>().MassPerUnit;
-                if (mass >= MassPerUnit) { 
-                var constructionPart = GameUtil.KInstantiate(Assets.GetPrefab(constructionElement), gameObject.transform.position, Grid.SceneLayer.Ore);
-                constructionPart.SetActive(true);
-                var constructionPartElement = constructionPart.GetComponent<PrimaryElement>();
-                constructionPartElement.Units = mass / MassPerUnit;
+                if (mass >= MassPerUnit)
+                {
+                    var constructionPart = GameUtil.KInstantiate(Assets.GetPrefab(constructionElement), gameObject.transform.position, Grid.SceneLayer.Ore);
+                    constructionPart.SetActive(true);
+                    var constructionPartElement = constructionPart.GetComponent<PrimaryElement>();
+                    constructionPartElement.Units = mass / MassPerUnit;
                 }
             }
 
@@ -126,7 +128,7 @@ namespace LogicSatelites.Behaviours
             public PrimaryElement GetMassForConstruction() => FindFirstWithUnitCount(this.storage, def.ConstructionMatID, this.def.constructionUnits);
 
 
-            public PrimaryElement FindFirstWithUnitCount(Storage storage,Tag tag, float units = 0.0f)
+            public PrimaryElement FindFirstWithUnitCount(Storage storage, Tag tag, float units = 0.0f)
             {
                 PrimaryElement firstWithUnits = (PrimaryElement)null;
                 for (int index = 0; index < storage.items.Count; ++index)
@@ -185,6 +187,23 @@ namespace LogicSatelites.Behaviours
                     return;
                 component.SetSymbolVisiblity((KAnimHashedString)this.def.constructionSymbol, show);
             }
+            public string SidescreenButtonText => !this.smi.sm.constructionRequested.Get(this.smi) ? string.Format(UI.UISIDESCREENS.BUTTONMENUSIDESCREEN.ALLOW_INTERNAL_CONSTRUCTOR.text, (object)Assets.GetPrefab((Tag)this.def.outputIDs[0]).GetProperName()) : string.Format(UI.UISIDESCREENS.BUTTONMENUSIDESCREEN.DISALLOW_INTERNAL_CONSTRUCTOR.text, (object)Assets.GetPrefab((Tag)this.def.outputIDs[0]).GetProperName());
+
+            public string SidescreenButtonTooltip => !this.smi.sm.constructionRequested.Get(this.smi) ? string.Format(UI.UISIDESCREENS.BUTTONMENUSIDESCREEN.ALLOW_INTERNAL_CONSTRUCTOR_TOOLTIP.text, (object)Assets.GetPrefab((Tag)this.def.outputIDs[0]).GetProperName()) : string.Format(UI.UISIDESCREENS.BUTTONMENUSIDESCREEN.DISALLOW_INTERNAL_CONSTRUCTOR_TOOLTIP.text, (object)Assets.GetPrefab((Tag)this.def.outputIDs[0]).GetProperName());
+
+            public void OnSidescreenButtonPressed()
+            {
+                this.smi.sm.constructionRequested.Set(!this.smi.sm.constructionRequested.Get(this.smi), this.smi);
+                if (!DebugHandler.InstantBuildMode || !this.smi.sm.constructionRequested.Get(this.smi) || this.HasOutputInStorage())
+                    return;
+                this.ConstructionComplete(true);
+            }
+
+            public bool SidescreenEnabled() => true;
+
+            public bool SidescreenButtonInteractable() => true;
+
+            public int ButtonSideScreenSortOrder() => 20;
         }
     }
 }
