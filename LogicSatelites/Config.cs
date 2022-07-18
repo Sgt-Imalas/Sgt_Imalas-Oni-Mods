@@ -36,7 +36,7 @@ namespace LogicSatelites
         {
             SatelliteScannerRange = 3;
             SatelliteScannerSpeed = 0.8f; 
-            SatelliteLogicRange = 50;
+            SatelliteLogicRange = 5;
         }
     }
 }

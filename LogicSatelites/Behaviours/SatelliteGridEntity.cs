@@ -35,6 +35,8 @@ namespace LogicSatelites.Behaviours
         {
             base.OnSpawn();
             SetSatelliteName(ModAssets.GetSatelliteNameRandom());
+            ModAssets.Satellites.Add(this);
+            ModAssets.AdjazenzMatrixHolder.AddItemToGraph(this.Location);
         }
 
         public void SetSatelliteName(string newName)
@@ -58,14 +60,12 @@ namespace LogicSatelites.Behaviours
         protected override void OnPrefabInit()
         {
             base.OnPrefabInit();
-            ModAssets.Satellites.Add(this);
-            ModAssets.RedoAdjacencyMatrix();
         }
 
         protected override void OnCleanUp()
         {
             ModAssets.Satellites.Remove(this);
-            ModAssets.RedoAdjacencyMatrix();
+            ModAssets.AdjazenzMatrixHolder.RemoveItemTFromGraph(this.Location);
             base.OnCleanUp();
         }
         public override bool IsVisible => true;

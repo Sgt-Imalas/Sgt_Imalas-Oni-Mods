@@ -19,11 +19,15 @@ namespace LogicSatelites.Behaviours
         public static bool FindConnectionViaAdjacencyMatrix(AxialI a, AxialI b)
         {
             bool HasConnection = false;
-            AdjazenzMatrixHolder.AddItemToGraph(a);
-            AdjazenzMatrixHolder.AddItemToGraph(b);
-            //Add ConnectionSearch Here!!!!
-            AdjazenzMatrixHolder.RemoveItemTFromGraph(a);
-            AdjazenzMatrixHolder.RemoveItemTFromGraph(b);
+            Node A = AdjazenzMatrixHolder.AddItemToGraph(a);
+            Node B = AdjazenzMatrixHolder.AddItemToGraph(b);
+            HasConnection = AdjazenzMatrixHolder.PathFinding(A,B);
+            foreach(var node in AdjazenzMatrixHolder.AllNodes)
+            {
+                Debug.Log(node);
+            }
+            AdjazenzMatrixHolder.RemoveItemTFromGraph(A);
+            AdjazenzMatrixHolder.RemoveItemTFromGraph(B);
             return HasConnection;
         }
 
@@ -53,6 +57,36 @@ namespace LogicSatelites.Behaviours
         {
             public List<Node> AllNodes = new List<Node>();
             public bool?[,] AdjacencyMatrix;
+
+            public bool PathFinding(Node startNode, Node TargetNode)
+            {
+                var openList = new List<Node>();
+                var closedList = new List<Node>();
+                openList.Add(startNode);
+                while (openList.Count > 0)
+                {
+                    var currenNode = openList.First();
+                    
+
+                    if(currenNode == TargetNode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        foreach(var link in currenNode.Links)
+                        {
+                            if (!closedList.Contains(link.Child)){
+                                 openList.Add(link.Child);
+                            }
+                        }
+                        openList.RemoveAt(0);
+                        closedList.Add(currenNode);
+                    }
+                }
+                return false;
+
+            }
 
             public Node CreateNode(AxialI location)
             {
@@ -97,11 +131,11 @@ namespace LogicSatelites.Behaviours
                 }
                 AdjacencyMatrix = CreateAdjMatrix();
             } 
-            public void AddItemToGraph(AxialI item)
+            public Node AddItemToGraph(AxialI item)
             {
                 if(AllNodes.Find(f=> f.Satellite == item) != null)
                 {
-                    return;
+                    return AllNodes.Find(f => f.Satellite == item);
                 }
                 var newNode = CreateNode(item);
                 foreach (var node in AllNodes)
@@ -115,6 +149,7 @@ namespace LogicSatelites.Behaviours
                         }
                     }
                 }
+                return newNode;
             }
             public void RemoveItemTFromGraph(AxialI item)
             {
@@ -128,6 +163,18 @@ namespace LogicSatelites.Behaviours
                     link.Child.RemoveLink(nodeToRemove);
                 }
                 AllNodes.Remove(nodeToRemove);
+            }
+            public void RemoveItemTFromGraph(Node item)
+            {
+                if (!AllNodes.Contains(item))
+                {
+                    return;
+                }
+                foreach (var link in item.Links)
+                {
+                    link.Child.RemoveLink(item);
+                }
+                AllNodes.Remove(item);
             }
 
 

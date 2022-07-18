@@ -122,8 +122,8 @@ namespace RocketryExpanded.buildings
             //manualDeliveryKg.refillMass = storage.capacityKg;
             //manualDeliveryKg.capacity = storage.capacityKg;
             //manualDeliveryKg.operationalRequirement = FetchOrder2.OperationalRequirement.None;
-            //manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
-            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MAJOR_PLUS, (float)ROCKETRY.ENGINE_POWER.LATE_VERY_STRONG, costPerTile);
+            //manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;                   (float)ROCKETRY.ENGINE_POWER.LATE_VERY_STRONG
+            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MAJOR_PLUS, 900f, costPerTile);
             go.GetComponent<KPrefabID>().prefabInitFn += (KPrefabID.PrefabFn)(inst => { });
         }
     }
