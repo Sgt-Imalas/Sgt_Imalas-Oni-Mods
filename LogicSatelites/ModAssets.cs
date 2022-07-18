@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogicSatelites.Behaviours
+namespace LogicSatellites.Behaviours
 {
     public static class ModAssets
     {

@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
-using LogicSatelites.Behaviours;
-using LogicSatelites.Buildings;
-using LogicSatelites.Entities;
+using LogicSatellites.Behaviours;
+using LogicSatellites.Buildings;
+using LogicSatellites.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +12,21 @@ using UnityEngine.UI;
 using UtilLibs;
 using static ComplexRecipe;
 
-namespace LogicSatelites
+namespace LogicSatellites
 {
     class Patches
     {
+        [HarmonyPatch(typeof(Db))]
+        [HarmonyPatch("Initialize")]
+        public class Db_Initialize_Patch
+        {
+            public static void Postfix()
+            {
+                //add buildings to technology tree
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Computers.SensitiveMicroimaging, SatelliteCarrierModuleConfig.ID); 
+            }
+        }
+
         [HarmonyPatch(typeof(GeneratedBuildings))]
         [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
         public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
@@ -23,7 +34,7 @@ namespace LogicSatelites
 
             public static void Prefix()
             {
-                RocketryUtils.AddRocketModuleToBuildList(SateliteCarrierModuleConfig.ID);
+                RocketryUtils.AddRocketModuleToBuildList(SatelliteCarrierModuleConfig.ID);
             }
         }
 
@@ -79,7 +90,7 @@ namespace LogicSatelites
         //}
 
         [HarmonyPatch(typeof(CraftingTableConfig), "ConfigureRecipes")]
-        public static class SatelitePartsPatch
+        public static class SatellitePartsPatch
         {
             public static void Postfix()
             {

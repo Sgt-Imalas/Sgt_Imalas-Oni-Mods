@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 
-namespace LogicSatelites.Behaviours
+namespace LogicSatellites.Behaviours
 {
     public class BuildingInternalConstructorRocketWorkable : Workable
     {

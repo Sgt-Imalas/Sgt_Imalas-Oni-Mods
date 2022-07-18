@@ -4,7 +4,7 @@ using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
 using System;
 
-namespace LogicSatelites
+namespace LogicSatellites
 {
     public class Mod : UserMod2
     {

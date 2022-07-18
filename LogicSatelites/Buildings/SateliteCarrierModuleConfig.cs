@@ -1,5 +1,5 @@
-﻿using LogicSatelites.Behaviours;
-using LogicSatelites.Entities;
+﻿using LogicSatellites.Behaviours;
+using LogicSatellites.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +9,9 @@ using TUNING;
 using UnityEngine;
 using static ComplexRecipe;
 
-namespace LogicSatelites.Buildings
+namespace LogicSatellites.Buildings
 {
-    class SateliteCarrierModuleConfig : IBuildingConfig
+    class SatelliteCarrierModuleConfig : IBuildingConfig
     {
         public const string ID = "LS_SatelliteCarrierModule";
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
@@ -28,7 +28,7 @@ namespace LogicSatelites.Buildings
             EffectorValues noise = tieR2;
             BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 5, "satelite_deployer_module_kanim", 1000, 30f, MatCosts, Materials, 9999f, BuildLocationRule.Anywhere, none, noise);
             BuildingTemplates.CreateRocketBuildingDef(buildingDef);
-            buildingDef.DefaultAnimState = "satelite_construction";
+            buildingDef.DefaultAnimState = "Satellite_construction";
             buildingDef.AttachmentSlotTag = GameTags.Rocket;
             buildingDef.ForegroundLayer = Grid.SceneLayer.Front;
             buildingDef.SceneLayer = Grid.SceneLayer.Building;

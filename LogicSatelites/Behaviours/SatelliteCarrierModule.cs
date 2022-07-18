@@ -1,14 +1,14 @@
 ﻿using KSerialization;
-using LogicSatelites.Entities;
+using LogicSatellites.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using static LogicSatelites.Behaviours.ModAssets;
+using static LogicSatellites.Behaviours.ModAssets;
 
-namespace LogicSatelites.Behaviours
+namespace LogicSatellites.Behaviours
 {
     class SatelliteCarrierModule : StateMachineComponent<SatelliteCarrierModule.StatesInstance>, ISaveLoadable
 	{
@@ -80,7 +80,7 @@ namespace LogicSatelites.Behaviours
 					sm.hasSatellite.Set(true, this);
 
 					Vector3 position = new Vector3(-1f, -1f, 0.0f);
-					GameObject sat = Util.KInstantiate(Assets.GetPrefab((Tag)"LS_ClusterSateliteLogic"), position);
+					GameObject sat = Util.KInstantiate(Assets.GetPrefab((Tag)"LS_ClusterSatelliteLogic"), position);
 					storage.Store(sat.gameObject);
 				}
 			}
@@ -140,7 +140,7 @@ namespace LogicSatelites.Behaviours
 					.ParamTransition<bool>(this.hasSatellite, this.grounded.empty, IsFalse)
 					.PlayAnim("ready_to_launch", KAnim.PlayMode.Loop);
 				grounded.empty
-					.PlayAnim("satelite_construction",KAnim.PlayMode.Loop)
+					.PlayAnim("Satellite_construction",KAnim.PlayMode.Loop)
 					.Update((smi, dt) =>
 					{
                         if (smi.storage.Has(SatelliteLogicConfig.ID)&&hasSatellite.Get(smi) ==false)
@@ -162,7 +162,7 @@ namespace LogicSatelites.Behaviours
 						
 					});				
 				not_grounded.empty
-					.PlayAnim("satelite_construction", KAnim.PlayMode.Loop)
+					.PlayAnim("Satellite_construction", KAnim.PlayMode.Loop)
 					.ParamTransition<bool>(this.hasSatellite, this.not_grounded.loaded, IsTrue)
 					.Update((smi, dt) =>
 					{

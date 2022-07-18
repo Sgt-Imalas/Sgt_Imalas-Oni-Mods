@@ -1,10 +1,12 @@
-﻿using System;
+﻿using LogicSatellites.Buildings;
+using LogicSatellites.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogicSatelites
+namespace LogicSatellites
 {
     public class STRINGS
     {
@@ -16,7 +18,7 @@ namespace LogicSatelites
                 {
                     public static LocString NAME = "Satellite Carrier Module";
                     public static LocString DESC = "Stores and delivers Satellites to orbit.";
-                    public static LocString EFFECT = "The Satellite Carrier Module is used to deploy and retrieve satellites on the star map";
+                    public static LocString EFFECT = "The Satellite Carrier Module is used to deploy and retrieve satellites on the star map\n\nA satellite can be constructed from satellite parts, made at the "+ global::STRINGS.UI.FormatAsLink(global::STRINGS.BUILDINGS.PREFABS.CRAFTINGTABLE.NAME, CraftingTableConfig.ID);
                 }
             }
         }
@@ -26,6 +28,12 @@ namespace LogicSatelites
             {
                 public static LocString TITLE = "Logic Satellite";
                 public static LocString DESC = "Deploy this satellite on the star map to create a logic relay";
+            }
+            public class LS_CLUSTERSATELLITEPART
+            {
+
+                public static LocString TITLE = "Satellite Parts";
+                public static LocString DESC = "Construct a satellite from these.";
             }
             public class LS_SATELLITEGRID
             {

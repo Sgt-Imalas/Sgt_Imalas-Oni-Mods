@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
 
-namespace LogicSatelites.Behaviours
+namespace LogicSatellites.Behaviours
 {
     public class SatelliteCarrierModuleSideScreen : SideScreenContent
     {

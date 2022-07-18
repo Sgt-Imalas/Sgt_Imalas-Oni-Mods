@@ -1,13 +1,13 @@
-﻿using LogicSatelites.Behaviours;
+﻿using LogicSatellites.Behaviours;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using static LogicSatelites.STRINGS.ITEMS;
+using static LogicSatellites.STRINGS.ITEMS;
 
-namespace LogicSatelites.Entities
+namespace LogicSatellites.Entities
 {
     public class SatelliteGridConfig : IEntityConfig
     {

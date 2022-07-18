@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace LogicSatelites.Behaviours
+namespace LogicSatellites.Behaviours
 {
     public class SatelliteGridEntity : ClusterGridEntity
     {

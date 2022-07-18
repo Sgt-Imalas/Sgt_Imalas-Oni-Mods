@@ -1,18 +1,18 @@
-﻿using LogicSatelites.Behaviours;
+﻿using LogicSatellites.Behaviours;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using static LogicSatelites.Behaviours.ModAssets;
-using static LogicSatelites.STRINGS.ITEMS;
+using static LogicSatellites.Behaviours.ModAssets;
+using static LogicSatellites.STRINGS.ITEMS;
 
-namespace LogicSatelites.Entities
+namespace LogicSatellites.Entities
 {
     class SatelliteLogicConfig : IEntityConfig
     {
-        public const string ID = "LS_ClusterSateliteLogic";
+        public const string ID = "LS_ClusterSatelliteLogic";
         public const float MASS = 600f;
 
         public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;

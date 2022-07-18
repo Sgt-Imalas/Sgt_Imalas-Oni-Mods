@@ -1,18 +1,17 @@
-﻿using LogicSatelites.Behaviours;
+﻿using LogicSatellites.Behaviours;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static LogicSatellites.STRINGS.ITEMS;
 
-namespace LogicSatelites.Entities
+namespace LogicSatellites.Entities
 {
     class SatelliteComponentConfig : IEntityConfig
     {
-        public const string ID = "LS_ClusterSatelitePart";
-        public const string NAME = "Satellite Parts";
-        public const string DESC = "A bunch of duct taped electronics and parts found in the back of the storage bin.\nMaybe these will come in handy for a satellite?";
+        public const string ID = "LS_ClusterSatellitePart";
         public const float MASS = 30f;
 
         public static ComplexRecipe recipe;
@@ -22,8 +21,8 @@ namespace LogicSatelites.Entities
         {
             GameObject looseEntity = EntityTemplates.CreateLooseEntity(
                    id: ID,
-                   name: NAME,
-                   desc: DESC,
+                   name: LS_CLUSTERSATELLITEPART.TITLE,
+                   desc: LS_CLUSTERSATELLITEPART.DESC,
                    mass: MASS,
                    unitMass: true,
                    anim: Assets.GetAnim("space_satellite_kanim"),

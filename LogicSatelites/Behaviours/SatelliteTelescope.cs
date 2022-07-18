@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace LogicSatelites.Behaviours
+namespace LogicSatellites.Behaviours
 {
     class SatelliteTelescope :
     GameStateMachine<SatelliteTelescope, SatelliteTelescope.Instance, IStateMachineTarget, SatelliteTelescope.Def>
