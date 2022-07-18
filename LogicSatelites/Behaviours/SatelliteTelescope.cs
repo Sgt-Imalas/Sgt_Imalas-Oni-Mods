@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace LogicSatellites.Behaviours
 {
-    class SatelliteTelescope :
+    public class SatelliteTelescope :
     GameStateMachine<SatelliteTelescope, SatelliteTelescope.Instance, IStateMachineTarget, SatelliteTelescope.Def>
     {
         public GameStateMachine<SatelliteTelescope, SatelliteTelescope.Instance, IStateMachineTarget, SatelliteTelescope.Def>.State all_work_complete;
@@ -30,25 +30,28 @@ namespace LogicSatellites.Behaviours
 
                     smi.currentPercentage = smi.m_fowManager.GetRevealCompleteFraction(smi.m_analyzeTarget)*100;
                     //Debug.Log(smi.currentPercentage+ " <-> "+ detectionIncrease);
-                    if (smi.currentPercentage == 0.01f)
-                    {
+                    //if (smi.currentPercentage == 0.01f)
+                    //{
                         currentTarget = smi.m_analyzeTarget;
                         if (!(bool)(UnityEngine.Object)ClusterGrid.Instance.GetEntityOfLayerAtCell(currentTarget, EntityLayer.Telescope))
                         {
                             this.telescopeTargetMarker = GameUtil.KInstantiate(Assets.GetPrefab((Tag)"TelescopeTarget"), Grid.SceneLayer.Background);
                             this.telescopeTargetMarker.SetActive(true);
                             this.telescopeTargetMarker.GetComponent<TelescopeTarget>().Init(this.currentTarget);
-                            this.telescopeTargetMarker.name = "Satellite Scan Target";
 
                         }
-                    }
+                    //}
                     if (smi.currentPercentage + detectionIncrease >= 100f)
                     {
-                        if ((UnityEngine.Object)this.telescopeTargetMarker != (UnityEngine.Object)null)
-                            Util.KDestroyGameObject(this.telescopeTargetMarker);
+                        smi.DestroyTelescope();
                     }
                     smi.m_fowManager.EarnRevealPointsForLocation(this.currentTarget, detectionIncrease);
                 });
+            this.all_work_complete.
+                EventTransition(GameHashes.ClusterFogOfWarRevealed,
+                (smi => Game.Instance),
+                this.working,
+                (smi => smi.CheckHasAnalyzeTarget()));
 
 
         }
@@ -65,14 +68,24 @@ namespace LogicSatellites.Behaviours
             [Serialize]
             public AxialI m_analyzeTarget;
             [Serialize]
-            public float currentPercentage; 
+            public float currentPercentage;
 
+            public void DestroyTelescope()
+            {
+                if ((UnityEngine.Object)sm.telescopeTargetMarker != (UnityEngine.Object)null)
+                    Util.KDestroyGameObject(sm.telescopeTargetMarker);
+            }
             public ClusterFogOfWarManager.Instance m_fowManager;
 
             public Instance(IStateMachineTarget smi, SatelliteTelescope.Def def) : base(smi, def)
             {
                 m_fowManager = SaveGame.Instance.GetSMI<ClusterFogOfWarManager.Instance>();
                 currentPercentage = m_fowManager.GetRevealCompleteFraction(m_analyzeTarget);
+            }
+            protected override void OnCleanUp()
+            {
+                DestroyTelescope();
+                base.OnCleanUp();
             }
 
             public bool CheckHasAnalyzeTarget()

@@ -1,9 +1,4 @@
-﻿using LogicSatellites.Behaviours;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using static LogicSatellites.Behaviours.ModAssets;
 using static LogicSatellites.STRINGS.ITEMS;
@@ -26,18 +21,17 @@ namespace LogicSatellites.Entities
                    unitMass: true,
                    anim: Assets.GetAnim("space_satellite_kanim"),
                    initialAnim: "object",
-                   sceneLayer: Grid.SceneLayer.Creatures,
+                   sceneLayer: Grid.SceneLayer.Ore,
                    collisionShape: EntityTemplates.CollisionShape.RECTANGLE,
                    element: SimHashes.Steel,
+                   isPickupable: true,
                    additionalTags: new List<Tag>()
                    {
                        Tags.LS_Satellite,
                       GameTags.IndustrialIngredient
-                   }); 
+                   });
 
-            //looseEntity.AddOrGet<LogicBroadcaster>(); needs custom made comp.
-
-            //looseEntity.AddOrGet<LogicBroadcastReceiver>();
+            looseEntity.AddOrGet<EntitySplitter>();
             return looseEntity;
         }
 

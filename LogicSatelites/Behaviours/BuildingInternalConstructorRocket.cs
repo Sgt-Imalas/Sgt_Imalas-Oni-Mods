@@ -71,6 +71,7 @@ namespace LogicSatellites.Behaviours
           GameStateMachine<BuildingInternalConstructorRocket, BuildingInternalConstructorRocket.Instance, IStateMachineTarget, BuildingInternalConstructorRocket.Def>.GameInstance,
           ISidescreenButtonControl
         {
+            [Serialize]
             private Storage storage;
             [Serialize]
             private float constructionElapsed;

@@ -35,7 +35,7 @@ namespace LogicSatellites
         public Config()
         {
             SatelliteScannerRange = 3;
-            SatelliteScannerSpeed = 0.8f; 
+            SatelliteScannerSpeed = 0.001f;//0.8f; 
             SatelliteLogicRange = 5;
         }
     }

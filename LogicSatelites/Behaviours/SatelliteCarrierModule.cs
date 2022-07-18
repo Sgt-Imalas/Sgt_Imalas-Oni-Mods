@@ -15,7 +15,6 @@ namespace LogicSatellites.Behaviours
         [MyCmpReq] private KSelectable selectable;
         [MyCmpReq] [SerializeField]public Storage storage;
 
-
 		protected override void OnSpawn()
 		{
 			base.OnSpawn();
@@ -79,22 +78,25 @@ namespace LogicSatellites.Behaviours
 					clusterSat.DeleteObject();
 					sm.hasSatellite.Set(true, this);
 
-					Vector3 position = new Vector3(-1f, -1f, 0.0f);
-					GameObject sat = Util.KInstantiate(Assets.GetPrefab((Tag)"LS_ClusterSatelliteLogic"), position);
+					GameObject sat = Util.KInstantiate(Assets.GetPrefab((Tag)"LS_ClusterSatelliteLogic"), this.transform.position);
 					storage.Store(sat.gameObject);
+					sat.GetComponent<Pickupable>().storage = storage;
 				}
 			}
 
             public void TryDeploySatellite()
 			{
-				Debug.Log(this.CanDeploySatellite() +" - " + this.HoldingSatellite());
+				//Debug.Log(this.CanDeploySatellite() +" - " + this.HoldingSatellite());
 				if (this.CanDeploySatellite() && this.HoldingSatellite())
 				{
 					Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
 					var satellite = storage.FindFirst(Tags.LS_Satellite);
-					Debug.Log(satellite);
-					storage.Remove(satellite);
-					Util.KDestroyGameObject(satellite);
+					//Debug.Log(satellite);
+					storage.Remove(satellite.gameObject);
+					storage.items.Remove(satellite.gameObject);
+					satellite.gameObject.DeleteObject();
+					GameObject.Destroy(satellite);
+					Debug.Log(satellite.IsNullOrDestroyed() + "SHOULD BE TRUE");
 					SpawnSatellite(component.Location);
 					sm.hasSatellite.Set(false,this);
 				}
@@ -138,9 +140,9 @@ namespace LogicSatellites.Behaviours
 
 				grounded.loaded
 					.ParamTransition<bool>(this.hasSatellite, this.grounded.empty, IsFalse)
-					.PlayAnim("ready_to_launch", KAnim.PlayMode.Loop);
+					.PlayAnim("satelite_build", KAnim.PlayMode.Loop);
 				grounded.empty
-					.PlayAnim("Satellite_construction",KAnim.PlayMode.Loop)
+					.PlayAnim("satelite_construction", KAnim.PlayMode.Loop)
 					.Update((smi, dt) =>
 					{
                         if (smi.storage.Has(SatelliteLogicConfig.ID)&&hasSatellite.Get(smi) ==false)
@@ -155,17 +157,25 @@ namespace LogicSatellites.Behaviours
 					.TagTransition(GameTags.RocketNotOnGround, this.grounded, true);
 
 				not_grounded.loaded
-					.PlayAnim("ready_to_launch", KAnim.PlayMode.Loop)
+					.PlayAnim("satelite_build", KAnim.PlayMode.Loop)
 					.ParamTransition<bool>(this.hasSatellite, this.not_grounded.empty, IsFalse)
 					.Update((smi, dt) =>
 					{
-						
+						if(smi.storage.Has(SatelliteLogicConfig.ID) && hasSatellite.Get(smi) == false)
+						{
+							hasSatellite.Set(true, smi);
+						}
+
 					});				
 				not_grounded.empty
-					.PlayAnim("Satellite_construction", KAnim.PlayMode.Loop)
+					.PlayAnim("satelite_construction", KAnim.PlayMode.Loop)
 					.ParamTransition<bool>(this.hasSatellite, this.not_grounded.loaded, IsTrue)
 					.Update((smi, dt) =>
 					{
+						if (smi.storage.Has(SatelliteLogicConfig.ID) && hasSatellite.Get(smi) == false)
+						{
+							hasSatellite.Set(true, smi);
+						}
 
 					});
 			}

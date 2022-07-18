@@ -125,7 +125,7 @@ namespace LogicSatellites.Behaviours
 
         private void RefreshModulePanel(ISatelliteCarrier module)
         {
-            UIUtils.ListAllChildren(transform);
+            //UIUtils.ListAllChildren(transform);
             //UIUtils.GiveAllChildObjects(transform.gameObject);
             var modulePanel = this.modulePanels[module].transform;
             modulePanel.Find("Layout/Portrait/Sprite").GetComponent<Image>().sprite = Def.GetUISprite((object)module.master.gameObject).first;
@@ -134,7 +134,7 @@ namespace LogicSatellites.Behaviours
             modulePanel.Find("Layout/Info/DropDown").GetComponent<DropDown>().gameObject.SetActive(false);
             //modulePanel.Find("ModuleWidget/Layout/Info/Label").GetComponent<CrewPortrait>().gameObject.SetActive(false);
             modulePanel.Find("Layout/Info/Label").GetComponent<LocText>().SetText(module.master.gameObject.GetProperName());
-            Debug.Log(modulePanel.Find("Layout/Info/Buttons/Button/Label"));
+            //Debug.Log(modulePanel.Find("Layout/Info/Buttons/Button/Label"));
 
 
 
@@ -146,7 +146,7 @@ namespace LogicSatellites.Behaviours
             Button1.GetComponentInChildren<ToolTip>().SetSimpleTooltip(module.HoldingSatellite() ? "Deploys a satellite at the current space hex" : "Retrieves a satellite from the current space hex");
             Button2.onClick += () => ChangeOperationMode(module);
             //UIUtils.ListAllChildren(Button1);
-            UIUtils.GiveAllChildObjects(Button1.gameObject);
+            //UIUtils.GiveAllChildObjects(Button1.gameObject);
             RefreshStrings();
         }
         private void RefreshStrings(ISatelliteCarrier module = null)

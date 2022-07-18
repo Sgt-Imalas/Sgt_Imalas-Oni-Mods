@@ -22,10 +22,6 @@ namespace LogicSatellites.Behaviours
             Node A = AdjazenzMatrixHolder.AddItemToGraph(a);
             Node B = AdjazenzMatrixHolder.AddItemToGraph(b);
             HasConnection = AdjazenzMatrixHolder.PathFinding(A,B);
-            foreach(var node in AdjazenzMatrixHolder.AllNodes)
-            {
-                Debug.Log(node);
-            }
             AdjazenzMatrixHolder.RemoveItemTFromGraph(A);
             AdjazenzMatrixHolder.RemoveItemTFromGraph(B);
             return HasConnection;

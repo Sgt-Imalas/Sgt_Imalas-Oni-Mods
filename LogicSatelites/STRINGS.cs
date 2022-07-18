@@ -33,7 +33,7 @@ namespace LogicSatellites
             {
 
                 public static LocString TITLE = "Satellite Parts";
-                public static LocString DESC = "Construct a satellite from these.";
+                public static LocString DESC = "These parts are used to build a satellite in the " + global::STRINGS.UI.FormatAsLink(STRINGS.BUILDINGS.PREFABS.LS_SATELLITECARRIERMODULE.NAME, SatelliteCarrierModuleConfig.ID)+".";
             }
             public class LS_SATELLITEGRID
             {

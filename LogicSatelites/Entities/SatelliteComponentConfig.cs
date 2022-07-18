@@ -1,9 +1,4 @@
-﻿using LogicSatellites.Behaviours;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using static LogicSatellites.STRINGS.ITEMS;
 
@@ -13,9 +8,7 @@ namespace LogicSatellites.Entities
     {
         public const string ID = "LS_ClusterSatellitePart";
         public const float MASS = 30f;
-
         public static ComplexRecipe recipe;
-
         public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public GameObject CreatePrefab()
         {
@@ -27,7 +20,7 @@ namespace LogicSatellites.Entities
                    unitMass: true,
                    anim: Assets.GetAnim("space_satellite_kanim"),
                    initialAnim: "object",
-                   sceneLayer: Grid.SceneLayer.Front,
+                   sceneLayer: Grid.SceneLayer.Ore,
                    collisionShape: EntityTemplates.CollisionShape.RECTANGLE,
                    width: 1f,
                    height: 1f,
@@ -39,7 +32,6 @@ namespace LogicSatellites.Entities
                    });
 
             looseEntity.AddOrGet<EntitySplitter>();
-           // looseEntity.AddOrGet<SatelliteGridStates>();
             return looseEntity;
         }
 

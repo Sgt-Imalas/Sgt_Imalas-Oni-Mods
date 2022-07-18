@@ -28,7 +28,7 @@ namespace LogicSatellites.Buildings
             EffectorValues noise = tieR2;
             BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 5, "satelite_deployer_module_kanim", 1000, 30f, MatCosts, Materials, 9999f, BuildLocationRule.Anywhere, none, noise);
             BuildingTemplates.CreateRocketBuildingDef(buildingDef);
-            buildingDef.DefaultAnimState = "Satellite_construction";
+            buildingDef.DefaultAnimState = "satelite_construction";
             buildingDef.AttachmentSlotTag = GameTags.Rocket;
             buildingDef.ForegroundLayer = Grid.SceneLayer.Front;
             buildingDef.SceneLayer = Grid.SceneLayer.Building;
