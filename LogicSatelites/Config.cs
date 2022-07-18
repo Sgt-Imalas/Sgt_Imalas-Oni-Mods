@@ -27,10 +27,16 @@ namespace LogicSatelites
         [Limit(0.1f, 2f)]
         [JsonProperty]
         public float SatelliteScannerSpeed { get; set; }
+
+        [Option("Satellite Logic Repeater Range", "Range of the satellites logic relay")]
+        [Limit(0, 10)]
+        [JsonProperty]
+        public int SatelliteLogicRange { get; set; }
         public Config()
         {
             SatelliteScannerRange = 3;
-            SatelliteScannerSpeed = 0.8f;
+            SatelliteScannerSpeed = 0.8f; 
+            SatelliteLogicRange = 50;
         }
     }
 }

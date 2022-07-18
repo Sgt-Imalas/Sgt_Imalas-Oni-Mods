@@ -28,75 +28,40 @@ namespace LogicSatelites
         }
 
         [HarmonyPatch(typeof(LogicBroadcastReceiver))]
-        [HarmonyPatch(nameof(LogicBroadcastReceiver.IsSpaceVisible))]
-        public static class BroadcastRecieverInSpace_patch
+        [HarmonyPatch(nameof(LogicBroadcastReceiver.CheckRange))]
+        public static class BroadcastRecieverRangePatch
         {
-            public static bool Prefix(LogicBroadcastReceiver __instance, ref bool __result)
+            public static bool Prefix(LogicBroadcastReceiver __instance, ref bool __result, GameObject broadcaster, GameObject receiver)
             {
-                if (__instance.gameObject.GetComponent<SatelliteGridEntity>() != null)
+                AxialI a, b;
+                a = broadcaster.GetMyWorldLocation();
+                b = receiver.GetMyWorldLocation();
+                bool returnValue = AxialUtil.GetDistance(a, b) <= LogicBroadcaster.RANGE;
+                if (returnValue)
                 {
-                    //Debug.Log("satellite is in Space");
                     __result = true;
                     return false;
                 }
-                return true;
+                __result = ModAssets.FindConnectionViaAdjacencyMatrix(a, b);
+                return false;
             }
-        }
-        [HarmonyPatch(typeof(LogicBroadcaster))]
-        [HarmonyPatch(nameof(LogicBroadcaster.IsSpaceVisible))]
-        public static class BroadcasterInSpace_patch
-        {
-            public static bool Prefix(LogicBroadcaster __instance, ref bool __result)
+            public static bool RecursiveBool(AxialI start, List<AxialI> nodes, AxialI goal)
             {
-                if (__instance.gameObject.GetComponent<SatelliteGridEntity>() != null)
+                foreach (var node in nodes)
                 {
-                    //Debug.Log("satellite is in Space");
-                    __result = true;
-                    return false;
-                }
-                return true;
-            }
-        }
-        [HarmonyPatch(typeof(LogicBroadcastChannelSideScreen), "Refresh")]
-        public static class BroadCasterSidescreenWorldPatch
-        {
-           // (int) Traverse.Create(__instance).Field("pad_cell").GetValue());
-            public static bool Prefix(LogicBroadcastChannelSideScreen __instance, Dictionary<LogicBroadcaster, GameObject> ___broadcasterRows, LogicBroadcastReceiver ___sensor)
-            {
-                foreach (KeyValuePair<LogicBroadcaster, GameObject> broadcasterRow in ___broadcasterRows)
-                {
-                        KeyValuePair<LogicBroadcaster, GameObject> kvp = broadcasterRow;
-                        kvp.Value.GetComponent<HierarchyReferences>().GetReference<LocText>("Label").SetText(kvp.Key.gameObject.GetProperName());
-                        kvp.Value.GetComponent<HierarchyReferences>().GetReference<LocText>("DistanceLabel").SetText((string)(LogicBroadcastReceiver.CheckRange(___sensor.gameObject, kvp.Key.gameObject) ? global::STRINGS.UI.UISIDESCREENS.LOGICBROADCASTCHANNELSIDESCREEN.IN_RANGE : global::STRINGS.UI.UISIDESCREENS.LOGICBROADCASTCHANNELSIDESCREEN.OUT_OF_RANGE));
-                        kvp.Value.GetComponent<HierarchyReferences>().GetReference<Image>("Icon").sprite = Def.GetUISprite((object)kvp.Key.gameObject).first;
-                        kvp.Value.GetComponent<HierarchyReferences>().GetReference<Image>("Icon").color = Def.GetUISprite((object)kvp.Key.gameObject).second;
-                        WorldContainer myWorld = kvp.Key.GetMyWorld();
-                    if (myWorld != null) { 
-                        kvp.Value.GetComponent<HierarchyReferences>().GetReference<Image>("WorldIcon").sprite = myWorld.IsModuleInterior ? Assets.GetSprite((HashedString)"icon_category_rocketry") : Def.GetUISprite((object)myWorld.GetComponent<ClusterGridEntity>()).first;
-                        kvp.Value.GetComponent<HierarchyReferences>().GetReference<Image>("WorldIcon").color = myWorld.IsModuleInterior ? Color.white : Def.GetUISprite((object)myWorld.GetComponent<ClusterGridEntity>()).second;
-                    }
-                    else
+                    if (!(AxialUtil.GetDistance(start, node) <= Config.Instance.SatelliteLogicRange))
                     {
-                        var sat = kvp.Key.gameObject.GetComponent<SatelliteGridEntity>();
-                        if(sat != null)
+                        var newNodes = nodes;
+                        newNodes.Remove(node);
+                        if (newNodes.Count>0)
                         {
-                            kvp.Value.GetComponent<HierarchyReferences>().GetReference<Image>("WorldIcon").sprite =  Def.GetUISprite((object)sat.GetComponent<ClusterGridEntity>()).first;
-                            kvp.Value.GetComponent<HierarchyReferences>().GetReference<Image>("WorldIcon").color = Def.GetUISprite((object)sat.GetComponent<ClusterGridEntity>()).second;
+                            RecursiveBool(node, newNodes,goal);
                         }
-                        else
-                        {
-                            throw new ArgumentNullException("No world or Satellite found");
-                        }
-
                     }
-                    kvp.Value.GetComponent<HierarchyReferences>().GetReference<MultiToggle>("Toggle").onClick = (System.Action)(() =>
-                        {
-                            ___sensor.SetChannel(kvp.Key);
-                            Traverse.Create(__instance).Method("Refresh");
-                        });
-                        kvp.Value.GetComponent<HierarchyReferences>().GetReference<MultiToggle>("Toggle").ChangeState((UnityEngine.Object)___sensor.GetChannel() == (UnityEngine.Object)kvp.Key ? 1 : 0);
-                    }
-                    return false;
+                    else if(AxialUtil.GetDistance(start, node) <= Config.Instance.SatelliteLogicRange&& AxialUtil.GetDistance(node, goal) <= Config.Instance.SatelliteLogicRange)
+                        return true;
+                }
+                return false;
             }
         }
 

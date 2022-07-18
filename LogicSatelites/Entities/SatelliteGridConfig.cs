@@ -46,10 +46,6 @@ namespace LogicSatelites.Entities
             entity.clusterAnimName = "space_satellite_kanim";
             entity.enabled = true;
 
-            looseEntity.AddComponent<Operational>();
-            looseEntity.AddComponent<LogicBroadcastReceiver>();
-
-            looseEntity.AddComponent<LogicBroadcaster>();
             return looseEntity;
         }
 

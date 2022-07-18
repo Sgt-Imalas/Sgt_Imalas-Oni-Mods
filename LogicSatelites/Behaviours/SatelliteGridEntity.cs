@@ -54,6 +54,20 @@ namespace LogicSatelites.Behaviours
                 }
             
         }
+
+        protected override void OnPrefabInit()
+        {
+            base.OnPrefabInit();
+            ModAssets.Satellites.Add(this);
+            ModAssets.RedoAdjacencyMatrix();
+        }
+
+        protected override void OnCleanUp()
+        {
+            ModAssets.Satellites.Remove(this);
+            ModAssets.RedoAdjacencyMatrix();
+            base.OnCleanUp();
+        }
         public override bool IsVisible => true;
 
         public override ClusterRevealLevel IsVisibleInFOW => ClusterRevealLevel.Visible;
