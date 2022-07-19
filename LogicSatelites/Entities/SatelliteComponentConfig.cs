@@ -18,7 +18,7 @@ namespace LogicSatellites.Entities
                    desc: LS_CLUSTERSATELLITEPART.DESC,
                    mass: MASS,
                    unitMass: true,
-                   anim: Assets.GetAnim("space_satellite_kanim"),
+                   anim: Assets.GetAnim("satellite_parts_kanim"),
                    initialAnim: "object",
                    sceneLayer: Grid.SceneLayer.Ore,
                    collisionShape: EntityTemplates.CollisionShape.RECTANGLE,

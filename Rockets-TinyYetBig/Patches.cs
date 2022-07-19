@@ -31,6 +31,19 @@ namespace Rockets_TinyYetBig
             }
         }
 
+
+        [HarmonyPatch(typeof(Db))]
+        [HarmonyPatch("Initialize")]
+        public class Db_Initialize_Patch
+        {
+            public static void Postfix()
+            {
+                //add buildings to technology tree
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.SpaceProgram, HabitatModuleSmallExpandedConfig.ID);
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.DurableLifeSupport, HabitatModuleMediumExpandedConfig.ID);
+            }
+        }
+
         /// <summary>
         /// Translation & String initialisation
         /// </summary>

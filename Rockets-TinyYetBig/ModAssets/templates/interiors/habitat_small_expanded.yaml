@@ -2,7 +2,7 @@ info:
   size:
     X: 8
     Y: 10
-  area: 88
+  area: 80
 cells:
 - element: Steel
   mass: 100
@@ -22,236 +22,189 @@ cells:
 - element: Steel
   mass: 100
   temperature: 293.149994
-  location_y: -5
-- element: Steel
-  mass: 100
-  temperature: 293.149994
-  location_x: 0
-  location_y: -5
-- element: Steel
-  mass: 100
-  temperature: 293.149994
-  location_x: 1
-  location_y: -5
-- element: Steel
-  mass: 100
-  temperature: 293.149994
-  location_x: 2
-  location_y: -5
-- element: Steel
-  mass: 100
-  temperature: 293.149994
-  location_x: 3
-  location_y: -5
-- element: Steel
-  mass: 100
-  temperature: 293.149994
-  location_x: -4
-  location_y: -5
-- element: Steel
-  mass: 100
-  temperature: 293.149994
-  location_x: -3
-  location_y: -5
-- element: Steel
-  mass: 100
-  temperature: 293.149994
-  location_x: -2
-  location_y: -5
-- element: Steel
-  mass: 100
-  temperature: 293.149994
-  location_y: -5
-- element: Steel
-  mass: 100
-  temperature: 293.149994
-  location_x: 0
-  location_y: -5
-- element: Steel
-  mass: 100
-  temperature: 293.149994
-  location_x: 1
-  location_y: -5
-- element: Steel
-  mass: 100
-  temperature: 293.149994
-  location_x: 2
-  location_y: -5
-- element: Steel
-  mass: 100
-  temperature: 293.149994
-  location_x: 3
-  location_y: -5
-- element: Steel
-  mass: 100
-  temperature: 293.149994
-  location_x: -4
-  location_y: -4
-- element: Vacuum
-  location_x: -3
-  location_y: -4
-- element: Vacuum
-  location_x: -2
-  location_y: -4
-- element: Vacuum
   location_x: -1
-  location_y: -4
-- element: Vacuum
-  location_x: 0
-  location_y: -4
-- element: Vacuum
-  location_x: 1
-  location_y: -4
-- element: Vacuum
-  location_x: 2
-  location_y: -4
-- element: Steel
-  mass: 100
-  temperature: 293.149994
-  location_x: 3
-  location_y: -4
-- element: Steel
-  mass: 100
-  temperature: 293.149994
-  location_x: -4
-  location_y: -3
-- element: Vacuum
-  location_x: -3
-  location_y: -3
-- element: Steel
-  mass: 100
-  location_x: -2
   location_y: -5
-- element: Vacuum
-  location_x: -1
-  location_y: -3
-- element: Vacuum
-  location_x: 0
-  location_y: -3
+- element: Steel
+  mass: 100
+  temperature: 293.149994
+  location_y: -5
 - element: Steel
   mass: 100
   temperature: 293.149994
   location_x: 1
   location_y: -5
-- element: Vacuum
+- element: Steel
+  mass: 100
+  temperature: 293.149994
   location_x: 2
-  location_y: -3
+  location_y: -5
 - element: Steel
   mass: 100
   temperature: 293.149994
   location_x: 3
-  location_y: -3
+  location_y: -5
 - element: Unobtanium
   mass: 200
   temperature: 294.149994
   location_x: -4
-  location_y: -5
+  location_y: -4
 - element: Vacuum
   location_x: -3
-  location_y: -2
+  location_y: -4
 - element: Vacuum
   location_x: -2
-  location_y: -2
-- element: Vacuum  
-  location_x: -1
-  location_y: -2
+  location_y: -4
 - element: Vacuum
-  location_x: 0
-  location_y: -2
+  location_x: -1
+  location_y: -4
+- element: Vacuum
+  location_y: -4
 - element: Vacuum
   location_x: 1
-  location_y: -2
+  location_y: -4
 - element: Vacuum
   location_x: 2
-  location_y: -2
+  location_y: -4
 - element: Steel
   mass: 100
   temperature: 293.149994
   location_x: 3
-  location_y: -2
+  location_y: -4
 - element: Unobtanium
   mass: 200
   temperature: 294.149994
   location_x: -4
+  location_y: -3
 - element: Vacuum
   location_x: -3
+  location_y: -3
 - element: Vacuum
   location_x: -2
+  location_y: -3
 - element: Vacuum
+  location_x: -1
+  location_y: -3
 - element: Vacuum
-  location_x: 0
+  location_y: -3
 - element: Vacuum
   location_x: 1
+  location_y: -3
 - element: Vacuum
   location_x: 2
+  location_y: -3
 - element: Steel
   mass: 100
   temperature: 293.149994
   location_x: 3
-- element: Diamond
-  mass: 100
-  temperature: 293.149994
-  location_x: -4
-  location_y: 0
-- element: Vacuum
-  location_x: -3
-  location_y: 0
-- element: Vacuum
-  location_x: -2
-  location_y: 0
-- element: Vacuum
-  location_x: -1
-  location_y: 0
-- element: Vacuum
-  location_x: 0
-  location_y: 0
-- element: Vacuum
-  location_x: 1
-  location_y: 0
-- element: Vacuum
-  location_x: 2
-  location_y: 0
-- element: Diamond
-  mass: 100
-  temperature: 293.149994
-  location_x: 3
-  location_y: 0
+  location_y: -3
 - element: Steel
   mass: 100
   temperature: 293.149994
   location_x: -4
-  location_y: 1
-- element: Steel
-  mass: 100
-  temperature: 293.149994
+  location_y: -2
+- element: Vacuum
   location_x: -3
-  location_y: 1
+  location_y: -2
 - element: Vacuum
   location_x: -2
-  location_y: 1
+  location_y: -2
 - element: Vacuum
   location_x: -1
-  location_y: 1
+  location_y: -2
 - element: Vacuum
-  location_x: 0
-  location_y: 1
+  location_y: -2
 - element: Vacuum
   location_x: 1
-  location_y: 1
-- element: Steel
-  mass: 100
-  temperature: 293.149994
+  location_y: -2
+- element: Vacuum
   location_x: 2
-  location_y: 1
+  location_y: -2
 - element: Steel
   mass: 100
   temperature: 293.149994
   location_x: 3
+  location_y: -2
+- element: Diamond
+  mass: 100
+  temperature: 294.149994
+  location_x: -4
+  location_y: -1
+- element: Vacuum
+  location_x: -3
+  location_y: -1
+- element: Vacuum
+  location_x: -2
+  location_y: -1
+- element: Vacuum
+  location_x: -1
+  location_y: -1
+- element: Vacuum
+  location_y: -1
+- element: Vacuum
+  location_x: 1
+  location_y: -1
+- element: Vacuum
+  location_x: 2
+  location_y: -1
+- element: Diamond
+  mass: 100
+  temperature: 293.149994
+  location_x: 3
+  location_y: -1
+- element: Diamond
+  mass: 100
+  temperature: 293.149994
+  location_x: -4
+- element: Vacuum
+  location_x: -3
+- element: Vacuum
+  location_x: -2
+- element: Vacuum
+  location_x: -1
+- element: Vacuum
+- element: Vacuum
+  location_x: 1
+- element: Vacuum
+  location_x: 2
+- element: Diamond
+  mass: 100
+  temperature: 293.149994
+  location_x: 3
+- element: Steel
+  mass: 100
+  temperature: 293.149994
+  location_x: -4
+  location_y: 1
+- element: Steel
+  mass: 100
+  temperature: 293.149994
+  location_x: -3
+  location_y: 1
+- element: Vacuum
+  location_x: -2
+  location_y: 1
+- element: Vacuum
+  location_x: -1
+  location_y: 1
+- element: Vacuum
+  location_y: 1
+- element: Vacuum
+  location_x: 1
+  location_y: 1
+- element: Steel
+  mass: 100
+  temperature: 293.149994
+  location_x: 2
+  location_y: 1
+- element: Steel
+  mass: 100
+  temperature: 293.149994
+  location_x: 3
   location_y: 1
 - element: Vacuum
   location_x: -4
   location_y: 2
-- element: Diamond
+- element: Steel
   mass: 100
   temperature: 293.149994
   location_x: -3
@@ -263,12 +216,11 @@ cells:
   location_x: -1
   location_y: 2
 - element: Vacuum
-  location_x: 0
   location_y: 2
 - element: Vacuum
   location_x: 1
   location_y: 2
-- element: Diamond
+- element: Steel
   mass: 100
   temperature: 293.149994
   location_x: 2
@@ -293,7 +245,6 @@ cells:
   location_x: -1
   location_y: 3
 - element: Vacuum
-  location_x: 0
   location_y: 3
 - element: Steel
   mass: 100
@@ -321,13 +272,12 @@ cells:
   location_y: 4
 - element: Steel
   mass: 100
-  location_x: -1
   temperature: 293.149994
+  location_x: -1
   location_y: 4
 - element: Steel
   mass: 100
   temperature: 293.149994
-  location_x: 0
   location_y: 4
 - element: Steel
   mass: 100
@@ -355,21 +305,21 @@ buildings:
   location_x: -4
   location_y: -3
   element: Steel
-  temperature: 293.149994
-- id: RocketEnvelopeWindowTile
-  location_x: -4
-  location_y: -2
-  element: Diamond
   temperature: 294.149994
+- id: RocketWallTile
+  location_x: -3
+  location_y: -5
+  element: Steel
+  temperature: 293.149994
 - id: RocketWallTile
   location_x: 3
   location_y: -5
   element: Steel
   temperature: 293.149994
-- id: RocketEnvelopeWindowTile
-  location_x: 3
-  location_y: -2
-  element: Diamond
+- id: RocketControlStation
+  location_x: -1
+  location_y: -4
+  element: Cuprite
   temperature: 293.149994
 - id: RocketWallTile
   location_x: -3
@@ -383,7 +333,6 @@ buildings:
   temperature: 293.149994
 - id: RocketEnvelopeWindowTile
   location_x: 3
-  location_y: 0
   element: Diamond
   temperature: 293.149994
 - id: RocketWallTile
@@ -398,7 +347,6 @@ buildings:
   temperature: 293.149994
 - id: RocketEnvelopeWindowTile
   location_x: -4
-  location_y: 0
   element: Diamond
   temperature: 293.149994
 - id: RocketWallTile
@@ -412,7 +360,6 @@ buildings:
   element: Steel
   temperature: 293.149994
 - id: RocketWallTile
-  location_x: 0
   location_y: -5
   element: Steel
   temperature: 293.149994
@@ -472,7 +419,6 @@ buildings:
   element: Steel
   temperature: 293.149994
 - id: RocketInteriorLiquidInputPort
-  location_x: 0
   location_y: 4
   element: Steel
   temperature: 293.149994
@@ -490,7 +436,7 @@ buildings:
   location_x: -4
   location_y: -4
   element: Steel
-  temperature: 293.149994
+  temperature: 294.149994
 - id: RocketWallTile
   location_x: -4
   location_y: -5
@@ -502,14 +448,14 @@ buildings:
   element: Steel
   temperature: 293.149994
 - id: RocketWallTile
-  location_x: -3
-  location_y: -5
+  location_x: -4
+  location_y: -2
   element: Steel
   temperature: 293.149994
-- id: RocketControlStation
-  location_x: -1
-  location_y: -4
-  element: Cuprite
+- id: RocketWallTile
+  location_x: 3
+  location_y: -2
+  element: Steel
   temperature: 293.149994
 otherEntities:
 - id: ClustercraftInteriorDoor
@@ -519,4 +465,3 @@ otherEntities:
   temperature: 294.149994
   units: 1
   type: Other
-

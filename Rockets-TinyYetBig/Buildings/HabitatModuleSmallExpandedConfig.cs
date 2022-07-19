@@ -26,7 +26,7 @@ namespace Rockets_TinyYetBig
                 id : ID,
                 width: 3,
                 height: 4,
-                anim: "rocket_nosecone_small_expanded_kanim", 
+                anim: "rocket_nosecone_small_extended_kanim", 
                 hitpoints: 1000,
                 construction_time: 60f, 
                 construction_mass: denseTieR0, 

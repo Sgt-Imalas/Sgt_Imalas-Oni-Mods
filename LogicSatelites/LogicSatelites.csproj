@@ -66,6 +66,15 @@
 	  <None Update="ModAssets\anim\assets\Satellite_deployer_module\Satellite_deployer_module_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\anim\assets\satellite_parts\satellite_parts.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\satellite_parts\satellite_parts_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\satellite_parts\satellite_parts_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\anim\assets\space_satellite\space_satellite.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>

@@ -47,13 +47,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="ModAssets\anim\assets\rocket_nosecone_small_expanded\rocket_nosecone_small_expanded.png">
+	  <None Update="ModAssets\anim\assets\rocket_nosecone_small_extended\rocket_nosecone_small_extended.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_nosecone_small_expanded\rocket_nosecone_small_expanded_anim.bytes">
+	  <None Update="ModAssets\anim\assets\rocket_nosecone_small_extended\rocket_nosecone_small_extended_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_nosecone_small_expanded\rocket_nosecone_small_expanded_build.bytes">
+	  <None Update="ModAssets\anim\assets\rocket_nosecone_small_extended\rocket_nosecone_small_extended_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\templates\interiors\habitat_medium_expanded.yaml">
