@@ -107,7 +107,7 @@ namespace RocketryExpanded
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_2));
                 }
                // Debug.Log("DEBUGMETHOD: " + new CodeInstruction(OpCodes.Call, PacketSizeHelper));
-                InjectionMethods.PrintInstructions(code);
+                //InjectionMethods.PrintInstructions(code);
                 return code;
             }
         }

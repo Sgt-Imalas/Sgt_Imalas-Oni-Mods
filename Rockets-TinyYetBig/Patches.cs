@@ -13,6 +13,45 @@ namespace Rockets_TinyYetBig
 {
     class Patches
     {
+
+
+        [HarmonyPatch(typeof(WorldContainer))]
+        [HarmonyPatch(nameof(WorldContainer.PlaceInteriorTemplate))]
+        public static class RocketBackgroundGeneration_Patch
+        {
+            public static bool BackgroundExtension(string id, string rwtName)
+            {
+                return (id == rwtName || id == "RocketEnvelopeWindowTile");
+            }
+
+            private static readonly MethodInfo BackgroundHelper = AccessTools.Method(
+               typeof(RocketBackgroundGeneration_Patch),
+               nameof(BackgroundExtension)
+            );
+
+
+            private static readonly MethodInfo SuitableMethodInfo = AccessTools.Method(
+                    typeof(System.String),
+                   "op_Equality"
+               );
+
+            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+            {
+                var code = instructions.ToList();
+                var insertionIndex = code.FindIndex(ci => ci.operand is MethodInfo f && f == SuitableMethodInfo);
+
+
+                //InjectionMethods.PrintInstructions(code);
+                if (insertionIndex != -1)
+                {
+                    //Debug.Log("FOUNDDDDDDDDDDD");
+                    code[insertionIndex] = new CodeInstruction(OpCodes.Call, BackgroundHelper);
+                }
+
+                return code;
+            }
+        }
+
         [HarmonyPatch(typeof(WorldSelector), "OnPrefabInit")]
         public static class CustomSideScreenPatch_Gibinfo
         {
@@ -133,7 +172,7 @@ namespace Rockets_TinyYetBig
                         original = new Vector2I(10, 12);
                         break;
                     case "interiors/habitat_medium_expanded":
-                        original = new Vector2I(14, 16);
+                        original = new Vector2I(18, 17);
                         break;
                     }
                 }

@@ -47,6 +47,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Update="ModAssets\anim\assets\rocket_habitat_medium_module_extended\rocket_habitat_medium_module_extended.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\rocket_habitat_medium_module_extended\rocket_habitat_medium_module_extended_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\rocket_habitat_medium_module_extended\rocket_habitat_medium_module_extended_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\anim\assets\rocket_nosecone_small_extended\rocket_nosecone_small_extended.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
@@ -66,6 +75,9 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\templates\interiors\habitat_small_expanded.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\templates\interiors\habitat_stargazer.yaml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>
