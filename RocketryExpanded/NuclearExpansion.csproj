@@ -52,9 +52,6 @@
 	  <None Update="ModAssets\anim\assets\bomblet_nuclear\bomblet_nuclear_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\templates\interiors\habitat_long.yaml">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
 	</ItemGroup>
 
 

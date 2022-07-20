@@ -18,19 +18,29 @@ namespace Rockets_TinyYetBig
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public override BuildingDef CreateBuildingDef()
         {
-            float[] denseTieR0 = new float[] { 350f }; ;
-            string[] rawMetals = MATERIALS.RAW_METALS;
+            float[] materialMass = new float[3]
+            {
+                400f,
+                200f,
+                300f
+            };
+            string[] materialType = new string[3]
+            {
+                "RefinedMetal",
+                "Insulator",
+                "Diamond"
+            }; ;
             EffectorValues noiseLevel = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;
             BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(
                 id : ID,
                 width: 5,
                 height: 3,
-                anim: "rocket_nosecone_small_extended_kanim", 
+                anim: "rocket_habitat_stargazer_kanim", 
                 hitpoints: 1000,
                 construction_time: 60f, 
-                construction_mass: denseTieR0, 
-                construction_materials: rawMetals,
+                construction_mass: materialMass, 
+                construction_materials: materialType,
                 melting_point: 9999f, 
                 BuildLocationRule.Anywhere, 
                 decor: none,
@@ -59,7 +69,7 @@ namespace Rockets_TinyYetBig
             go.GetComponent<KPrefabID>().AddTag(GameTags.LaunchButtonRocketModule);
             go.AddOrGet<AssignmentGroupController>().generateGroupOnStart = true;
             go.AddOrGet<PassengerRocketModule>().interiorReverbSnapshot = AudioMixerSnapshots.Get().SmallRocketInteriorReverbSnapshot;
-            go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_stargazer";
+            go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_medium_stargazer";
             go.AddOrGetDef<SimpleDoorController.Def>();
             go.AddOrGet<NavTeleporter>();
             go.AddOrGet<AccessControl>();
@@ -98,11 +108,13 @@ namespace Rockets_TinyYetBig
             ownable.slotID = Db.Get().AssignableSlots.HabitatModule.Id;
             ownable.canBePublic = false;
             FakeFloorAdder fakeFloorAdder = go.AddOrGet<FakeFloorAdder>();
-            fakeFloorAdder.floorOffsets = new CellOffset[3]
+            fakeFloorAdder.floorOffsets = new CellOffset[5]
             {
-      new CellOffset(-1, -1),
-      new CellOffset(0, -1),
-      new CellOffset(1, -1)
+                new CellOffset(-2, -1),
+                new CellOffset(-1, -1),
+                new CellOffset(0, -1),
+                new CellOffset(1, -1),
+                new CellOffset(2, -1)
             };
             fakeFloorAdder.initiallyActive = false;
             go.AddOrGet<BuildingCellVisualizer>();

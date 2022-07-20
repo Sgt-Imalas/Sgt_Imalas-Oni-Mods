@@ -666,19 +666,13 @@ cells:
 - element: Vacuum
   location_x: -6
   location_y: 7
-- element: Copper
-  mass: 100
-  temperature: 293.149994
+- element: Vacuum
   location_x: -5
   location_y: 7
-- element: Copper
-  mass: 100
-  temperature: 293.149994
+- element: Vacuum
   location_x: -4
   location_y: 7
-- element: Copper
-  mass: 100
-  temperature: 293.149994
+- element: Vacuum
   location_x: -3
   location_y: 7
 - element: Steel
@@ -700,19 +694,13 @@ cells:
   temperature: 293.149994
   location_x: 1
   location_y: 7
-- element: Copper
-  mass: 100
-  temperature: 293.149994
+- element: Vacuum
   location_x: 2
   location_y: 7
-- element: Copper
-  mass: 100
-  temperature: 293.149994
+- element: Vacuum
   location_x: 3
   location_y: 7
-- element: Copper
-  mass: 100
-  temperature: 293.149994
+- element: Vacuum
   location_x: 4
   location_y: 7
 - element: Vacuum
@@ -884,10 +872,10 @@ buildings:
   location_y: -1
   element: Diamond
   temperature: 293.149994
-- id: RocketWallTile
-  location_x: 2
-  location_y: 7
-  element: Copper
+- id: RocketEnvelopeWindowTile
+  location_x: -6
+  location_y: 4
+  element: Diamond
   temperature: 293.149994
 - id: RocketEnvelopeWindowTile
   location_x: 6
@@ -899,10 +887,10 @@ buildings:
   location_y: -1
   element: Diamond
   temperature: 293.149994
-- id: RocketWallTile
-  location_x: 3
-  location_y: 7
-  element: Copper
+- id: RocketEnvelopeWindowTile
+  location_x: 5
+  location_y: -3
+  element: Diamond
   temperature: 293.149994
 - id: RocketEnvelopeWindowTile
   location_x: -7
@@ -928,10 +916,10 @@ buildings:
   location_y: 3
   element: Diamond
   temperature: 293.149994
-- id: RocketWallTile
-  location_x: -5
-  location_y: 7
-  element: Copper
+- id: RocketEnvelopeWindowTile
+  location_x: -6
+  location_y: -3
+  element: Diamond
   temperature: 293.149994
 - id: RocketEnvelopeWindowTile
   location_x: 6
@@ -952,10 +940,10 @@ buildings:
   location_y: 3
   element: Diamond
   temperature: 293.149994
-- id: RocketWallTile
-  location_x: 4
-  location_y: 7
-  element: Copper
+- id: RocketEnvelopeWindowTile
+  location_x: 5
+  location_y: 4
+  element: Diamond
   temperature: 293.149994
 - id: RocketInteriorLiquidOutputPort
   location_x: -4
@@ -981,36 +969,6 @@ buildings:
   location_x: -1
   location_y: -6
   element: Cuprite
-  temperature: 293.149994
-- id: RocketWallTile
-  location_x: -3
-  location_y: 7
-  element: Copper
-  temperature: 293.149994
-- id: RocketWallTile
-  location_x: -4
-  location_y: 7
-  element: Copper
-  temperature: 293.149994
-- id: RocketEnvelopeWindowTile
-  location_x: -6
-  location_y: -3
-  element: Diamond
-  temperature: 293.149994
-- id: RocketEnvelopeWindowTile
-  location_x: -6
-  location_y: 4
-  element: Diamond
-  temperature: 293.149994
-- id: RocketEnvelopeWindowTile
-  location_x: 5
-  location_y: 4
-  element: Diamond
-  temperature: 293.149994
-- id: RocketEnvelopeWindowTile
-  location_x: 5
-  location_y: -3
-  element: Diamond
   temperature: 293.149994
 otherEntities:
 - id: ClustercraftInteriorDoor

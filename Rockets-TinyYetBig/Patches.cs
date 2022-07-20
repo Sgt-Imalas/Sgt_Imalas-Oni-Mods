@@ -21,7 +21,11 @@ namespace Rockets_TinyYetBig
         {
             public static bool BackgroundExtension(string id, string rwtName)
             {
-                return (id == rwtName || id == "RocketEnvelopeWindowTile");
+                return (id == rwtName 
+                    || id == "RocketEnvelopeWindowTile"
+                    || id == "RocketInteriorLiquidOutputPort"
+                    || id == "RocketInteriorLiquidInputPort"
+                    );
             }
 
             private static readonly MethodInfo BackgroundHelper = AccessTools.Method(
@@ -145,6 +149,7 @@ namespace Rockets_TinyYetBig
             public static void Prefix()
             {
                 RocketryUtils.AddRocketModuleToBuildList(HabitatModuleSmallExpandedConfig.ID, HabitatModuleSmallConfig.ID);
+                RocketryUtils.AddRocketModuleToBuildList(HabitatModuleStargazerConfig.ID, NoseconeBasicConfig.ID);
                 RocketryUtils.AddRocketModuleToBuildList(HabitatModuleMediumExpandedConfig.ID, HabitatModuleMediumConfig.ID);
             }
         }
@@ -173,6 +178,9 @@ namespace Rockets_TinyYetBig
                         break;
                     case "interiors/habitat_medium_expanded":
                         original = new Vector2I(18, 17);
+                        break;
+                    case "interiors/habitat_medium_stargazer":
+                         original = new Vector2I(14, 11);
                         break;
                     }
                 }

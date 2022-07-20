@@ -57,16 +57,10 @@ namespace RocketryExpanded
 
             public static void Prefix()
             {
-                InjectionMethods.AddBuildingStrings(BombBuildingStationConfig.ID, BombBuildingStationConfig.NAME);
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Radiation, BombBuildingStationConfig.ID);
 
-                InjectionMethods.AddBuildingStrings(PlacableExplosiveConfig.ID, PlacableExplosiveConfig.NAME);
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, PlacableExplosiveConfig.ID);
 
-                InjectionMethods.AddBuildingStrings(HabitatModuleLongConfig.ID, HabitatModuleLongConfig.DisplayName);
-                RocketryUtils.AddRocketModuleToBuildList(HabitatModuleLongConfig.ID);
-
-                InjectionMethods.AddBuildingStrings(NuclearPulseEngineConfig.ID, NuclearPulseEngineConfig.DisplayName);
                 RocketryUtils.AddRocketModuleToBuildList(NuclearPulseEngineConfig.ID);
             }
         }
@@ -108,43 +102,6 @@ namespace RocketryExpanded
                 }
                // Debug.Log("DEBUGMETHOD: " + new CodeInstruction(OpCodes.Call, PacketSizeHelper));
                 //InjectionMethods.PrintInstructions(code);
-                return code;
-            }
-        }
-
-        [HarmonyPatch(typeof(ClusterManager))]
-        [HarmonyPatch("CreateRocketInteriorWorld")]
-        public class ClusterManager_PatchRocketInteriorWorldGen
-        {
-
-            public static Vector2I ConditionForSize(Vector2I original,string templateString)
-            {
-                if (templateString.Contains("habitat_long"))
-                    original = new Vector2I(32, 44);
-                return original;
-            }
-
-            private static readonly MethodInfo InteriorSizeHelper = AccessTools.Method(
-               typeof(ClusterManager_PatchRocketInteriorWorldGen),
-               nameof(ConditionForSize)
-            );
-
-
-            private static readonly FieldInfo SizeFieldInfo = AccessTools.Field(
-                typeof(TUNING.ROCKETRY),
-                "ROCKET_INTERIOR_SIZE"
-            );
-
-            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
-            {
-                var code = instructions.ToList();
-                var insertionIndex = code.FindIndex(ci => ci.operand is FieldInfo f && f == SizeFieldInfo);
-
-                if (insertionIndex != -1)
-                {
-                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldarg_2));
-                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, InteriorSizeHelper));
-                }
                 return code;
             }
         }
