@@ -31,7 +31,7 @@ namespace Rockets_TinyYetBig
                 height: 6,
                 anim: "rocket_habitat_medium_module_extended_kanim",
                 hitpoints: 1000,
-                construction_time: 60f,
+                construction_time: 70f,
                 construction_mass: denseTieR1,
                 construction_materials: rawMetals,
                 melting_point: 9999f,

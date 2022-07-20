@@ -61,10 +61,49 @@ namespace Rockets_TinyYetBig
         {
             public static void Postfix(WorldSelector __instance)
             {
-                  // UIUtils.ListAllChildren(__instance.transform);
+                  UIUtils.ListAllChildren(__instance.transform);
             }
         }
 
+        //[HarmonyPatch(typeof(RocketModuleCluster), "UpdateAnimations")]
+        //public static class LandingAnimation_Patch
+        //{
+        //    public static void Prefix(RocketModuleCluster __instance)
+        //    {
+        //        Debug.Log("Method Called");
+        //        KBatchedAnimController component2 = __instance.GetComponent<KBatchedAnimController>();
+        //        var clustercraftModules = __instance.CraftInterface == null ? null : __instance.CraftInterface.ClusterModules;
+        //        if (clustercraftModules != null)
+        //        {
+        //            RocketModuleCluster engine = null;
+        //            foreach (Ref<RocketModuleCluster> clusterModule in clustercraftModules)
+        //            {
+        //            RocketEngineCluster componentee = clusterModule.Get().GetComponent<RocketEngineCluster>();
+        //            if ((UnityEngine.Object)componentee != (UnityEngine.Object)null)
+        //                engine = componentee.GetComponent<RocketModuleCluster>();
+        //            break;
+        //            }
+        //            if (engine != null)
+        //            {
+        //                var smii = engine.GetSMI<RocketEngineCluster.StatesInstance>();
+        //                Debug.Log(smii.GetCurrentState().name);
+        //                if (smii.IsInsideState((StateMachine.BaseState)smii.sm.burnComplete))
+        //                {
+        //                    component2.ClearQueue();
+        //                    component2.initialAnim = "launch";
+        //                    if (component2.HasAnimation((HashedString)"launch_pst"))
+        //                    {
+        //                        component2.Play((HashedString)"launch_pst", KAnim.PlayMode.Once);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+
+        /// <summary>
+        /// Adjust Scanner Module range
+        /// </summary>
         [HarmonyPatch(typeof(ScannerModule.Instance),"Scan")]
         public static class BuffScannerModule
         {
@@ -74,7 +113,9 @@ namespace Rockets_TinyYetBig
             }
         }
 
-
+        /// <summary>
+        /// Add new Buildings to Technologies
+        /// </summary>
         [HarmonyPatch(typeof(Db))]
         [HarmonyPatch("Initialize")]
         public class Db_Initialize_Patch
@@ -84,6 +125,7 @@ namespace Rockets_TinyYetBig
                 //add buildings to technology tree
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.SpaceProgram, HabitatModuleSmallExpandedConfig.ID);
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.DurableLifeSupport, HabitatModuleMediumExpandedConfig.ID);
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CelestialDetection, HabitatModuleStargazerConfig.ID);
             }
         }
 
@@ -164,7 +206,7 @@ namespace Rockets_TinyYetBig
 
             public static Vector2I ConditionForSize(Vector2I original, string templateString)
             {
-                if (Config.Instance.ClipRocketSpace) { 
+                if (true) { 
                    switch (templateString)
                     {
                     case "interiors/habitat_medium_compressed":

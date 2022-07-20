@@ -28,7 +28,7 @@ namespace Rockets_TinyYetBig
                 height: 4,
                 anim: "rocket_nosecone_small_extended_kanim", 
                 hitpoints: 1000,
-                construction_time: 60f, 
+                construction_time: 40f, 
                 construction_mass: denseTieR0, 
                 construction_materials: rawMetals,
                 melting_point: 9999f, 

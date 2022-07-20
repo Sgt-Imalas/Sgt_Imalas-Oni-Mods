@@ -13,9 +13,6 @@ namespace Rockets_TinyYetBig
     [ModInfo("Rocketry Tewaks")]
     public class Config : SingletonOptions<Config>
     {
-        [Option("Shrink Rocket Interior Space", "Removes the unused space outside of Rocket Interiors, thus allowing more rockets to be placed simultaniously.")]
-        [JsonProperty]
-        public bool ClipRocketSpace { get; set; }
 
         [Option("Cartographic Module Scan Range", "Cartographic Modules will instantly reveal hexes in this radius.")]
         [Limit(0, 3)]
@@ -24,7 +21,6 @@ namespace Rockets_TinyYetBig
 
         public Config()
         {
-            ClipRocketSpace = true;
             ScannerModuleRange = 1;
         }
     }

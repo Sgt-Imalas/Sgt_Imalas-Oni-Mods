@@ -20,15 +20,15 @@ namespace Rockets_TinyYetBig
         {
             float[] materialMass = new float[3]
             {
-                400f,
-                200f,
-                300f
+                250f,
+                50f,
+                150f
             };
             string[] materialType = new string[3]
             {
-                "RefinedMetal",
+                "Metal",
                 "Insulator",
-                "Diamond"
+                "Transparent"
             }; ;
             EffectorValues noiseLevel = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;

@@ -7,14 +7,14 @@ Mods for Oxygen Not Included and ONI - Spaced Out.
 | Radiator_Mod | Space Radiator | Adds a Space Radiator that radiates heat off into space. | [Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2795878144) | [Direct](https://github.com/Knastoron/Knastoron-Oni-Mods/releases/tag/Space_Radiator)| v2.0.2
 | Robo Rockets | AI Controlled Rockets (DLC) | Adds a brain in a jar that can fly your rockets without any duplicant interactions as a new rocket module| [Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2765256496) |[Direct](https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/tag/v1.2.3)|v1.2.3
 |CannedFoods|Canned Food|Canned BBQ and Canned Tuna as non spoiling space food|[Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2818855295)|[Direct](https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/tag/v2.1.0_CannedFood)| v2.1.0
+|Rocketry Tweaks|New Spacefarer Modules, less Space Usage, More than 16 rockets allowed|[Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2837919908)|[Direct](https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/tag/v1.0.0_Rocketry_Tweaks)|1.0.0
 ## WiP
 | Mod Title | Description | Notes |
 |-|-|-|
 |Logic Satellites|deployable satellites|next big release|
-|Rocketry Adjustment|drastically reduces Grid space taken up by Spacefarer Modules, thus allowing more rockets (and other stuff(space stations, dungeons...)) to use the Grid space. Also adds in larger Variants of the existing spacefarer modules with custom art|a small release coming soon|
 |Starship start|Starting asteroid is the giant derelict of a ship - rebuild it|-|
 |Project Orion|Adds an Engine fueled by nuclear explosions. Also adds mini nukes and some other regular explosives|-|
-|Rocketry Expanded|add in several new rocket modules; bigger command modules, cryopod module, alternative engines|prob. will split this one up into sub mods|
+|Rocketry Expanded|add in several new rocket modules; cryopod module, alternative engines|split into sub mods; Rocketry Tweaks Released|
 |Space Stations|adds more functionality to the space map, allows the deployment of autonomous space stations (deployable, then behaves like rocket interiors)|-|
 |Space Elevator|an alternative way to go to space|possible addon for space stations|
 |Space Exploration|Mini dungeons for dupes to explore inside of space poi derelics|-|

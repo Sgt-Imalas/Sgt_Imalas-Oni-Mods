@@ -14,9 +14,6 @@ namespace LogicSatellites
     [ModInfo("Logic Satellites")]
     public class Config : SingletonOptions<Config>
     {
-        //    [Option("Shrink Rocket Interior Space", "Removes the unused space outside of Rocket Interiors, thus allowing more rockets to be placed simultaniously.")]
-        //    [JsonProperty]
-        //    public bool ClipRocketSpace { get; set; }
 
         [Option("Satellite Scan Range", "Range of the satellite space scanner")]
         [Limit(0, 5)]
@@ -35,7 +32,7 @@ namespace LogicSatellites
         public Config()
         {
             SatelliteScannerRange = 3;
-            SatelliteScannerSpeed = 0.001f;//0.8f; 
+            SatelliteScannerSpeed = 0.8f; 
             SatelliteLogicRange = 5;
         }
     }
