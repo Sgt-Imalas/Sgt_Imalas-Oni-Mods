@@ -28,6 +28,7 @@ Options made with PLib.
 [list]
 [*] Camera glitches out / is black inside of rocket - A camera bug derived from the main game camera, zoom in / out to fix.
 [*] Starfarer landing animation is glitchy - Basegame limitations do not allow extra animation there to fix it.
+[*] Game Crash after disabling the mod - Reenable it, deconstruct all Spacefarer modules added by this mod, then disable it again.
 [*] Game Crash on construction of an additional rocket - you used up all the grid space with 32x32 rockets, deconstruct some of those and it should work again.
 [/list]
 
