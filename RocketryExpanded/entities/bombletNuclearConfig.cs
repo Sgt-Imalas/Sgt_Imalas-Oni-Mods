@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace RocketryExpanded.entities
+namespace ExplosiveMaterials.entities
 {
     public class BombletNuclearConfig : IEntityConfig
     {
