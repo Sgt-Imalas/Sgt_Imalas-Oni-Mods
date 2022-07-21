@@ -1,4 +1,4 @@
-﻿using RocketryExpanded.entities;
+﻿using ExplosiveMaterials.entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 
-namespace RocketryExpanded.buildings
+namespace ExplosiveMaterials.buildings
 {
     class NuclearPulseEngineConfig : IBuildingConfig
     {

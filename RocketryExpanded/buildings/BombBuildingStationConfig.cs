@@ -1,4 +1,4 @@
-﻿using RocketryExpanded.entities;
+﻿using ExplosiveMaterials.entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using TUNING;
 using UnityEngine;
 using static ComplexRecipe;
 
-namespace RocketryExpanded.buildings
+namespace ExplosiveMaterials.buildings
 {
     class BombBuildingStationConfig : IBuildingConfig
     {

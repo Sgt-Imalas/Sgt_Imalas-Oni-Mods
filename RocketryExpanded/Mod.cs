@@ -1,9 +1,9 @@
 ﻿using HarmonyLib;
 using KMod;
-using RocketryExpanded.entities;
+using ExplosiveMaterials.entities;
 using System;
 
-namespace RocketryExpanded
+namespace ExplosiveMaterials
 {
 	public class Mod : UserMod2
 	{

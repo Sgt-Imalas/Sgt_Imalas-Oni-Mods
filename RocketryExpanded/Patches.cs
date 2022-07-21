@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
-using RocketryExpanded.buildings;
-using RocketryExpanded.entities;
+using ExplosiveMaterials.buildings;
+using ExplosiveMaterials.entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using TUNING;
 using UnityEngine;
 using UtilLibs;
 
-namespace RocketryExpanded
+namespace ExplosiveMaterials
 {
     class Patches
     {

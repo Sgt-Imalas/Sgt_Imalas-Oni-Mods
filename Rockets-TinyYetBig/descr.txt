@@ -1,11 +1,12 @@
 ﻿[img]https://i.imgur.com/VgZFBU7.png[/img]
 
-[h1]Rocketry Tweaks (DLC)[/h1]
+[h1]Rocketry Expanded (DLC)[/h1]
+[h2]More Rockets - more fun![/h2]
 
 This mod decreases the map space taken up by Spacefarer Modules while adding 3 new Variants.
 Also it buffs the Cartographic Module and removes the Rocket Cap of 16.
 
-[h1]Current latest Version: 1.0.0[/h1]
+[h1]Current latest Version: 1.0.1[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]

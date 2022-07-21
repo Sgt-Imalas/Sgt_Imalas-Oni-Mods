@@ -26,8 +26,8 @@ namespace LogicSatellites
         {
             public class SATELLITE
             {
-                public static LocString TITLE = "Logic Satellite";
-                public static LocString DESC = "Deploy this satellite on the star map to create a logic relay";
+                public static LocString TITLE = "Deployable Satellite";
+                public static LocString DESC = "Deploy this satellite on the star map to create a logic relay and scout the surrounding hexes";
             }
             public class LS_CLUSTERSATELLITEPART
             {
