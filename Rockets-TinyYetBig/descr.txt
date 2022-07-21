@@ -12,7 +12,7 @@ Also it buffs the Cartographic Module and removes the Rocket Cap of 16.
 [h1]Features[/h1]
 [list]
 [*] Interior Shrinking: Rockets no longer take up 32x32 Tiles, instead the interior size gets set dependant on the actual interior space used (this only applies to newly constructed spacefarer modules).
-[*] Rocket cap of 16 gone (Possible due to the space saving from the interior shrinking).
+[*] Rocket cap of 16 gone (This is possible due to the space saving from the interior shrinking).
 [*] New Spacefarer Modules: [list] 
 	[*]extended Solo Nosecone & extended Spacefarer, elongated variants of the vanilla modules with custom made art.
 	[*]Stargazer Nosecone: A rather small, 5 wide nosecone that has a glass dome, thus providing sunlight to the interior. It also extends a protective cover at start and landing.[/list] 
@@ -43,6 +43,20 @@ Where to find the Log:
 [*] Linux: 
 ~/.config/unity3d/Klei/Oxygen Not Included/Player.log
 [/list] 
+
+[hr][/hr]
+
+[h1]FAQ[/h1]
+[h2]What does "Interior Shrinking" mean for the game?[/h2]
+The Game runs on a grid of cells with a finite size. In Spaced Out, this grid is split between the asteroids, with some space remaining unused, thus staying available as "free grid space".
+In the unmodded game, creating a rocket takes 32x32 tiles from that "free grid space" and makes a "mini asteroid"-Box at that location for the rocket interior.
+Since the grid space is limited and each rocket takes some of that remaining space, the game has a limit of 16 to not run out of free space for rocket interiors.
+
+my mod significantly reduces the amount of space taken for each rocket interior by removing the empty space around the interior. 
+That way, you can create much more rockets, since each takes way less space from the remaining free grid space. This allows to disable the "16 rockets"-Limit without leading to "missing free space"-problems.
+
+[h2]There are base game research modules in the preview?[/h2]
+A small teaser for my upcoming satellite mod, these are satellite carrier modules.
 
 [hr][/hr]
 
