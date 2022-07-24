@@ -26,9 +26,13 @@ namespace LogicSatellites.Behaviours
         private List<int> refreshHandle = new List<int>();
 
         private LocText Title;
+
+        private Dictionary<ISatelliteCarrier, LocText> titleLabels = new Dictionary<ISatelliteCarrier, LocText>();
         private Dictionary<ISatelliteCarrier, LocText> buttonLabels = new Dictionary<ISatelliteCarrier, LocText>();
         private Dictionary<ISatelliteCarrier, ToolTip> buttonTooltips1 = new Dictionary<ISatelliteCarrier, ToolTip>();
+        private Dictionary<ISatelliteCarrier, KButton> buttons = new Dictionary<ISatelliteCarrier, KButton>();
         private Dictionary<ISatelliteCarrier, ToolTip> buttonTooltips2 = new Dictionary<ISatelliteCarrier, ToolTip>();
+        private Dictionary<ISatelliteCarrier, KButton> buttonsRepeat = new Dictionary<ISatelliteCarrier, KButton>();
 
 
         public override float GetSortKey() => 21f;
@@ -68,8 +72,11 @@ namespace LogicSatellites.Behaviours
         private void ClearModules()
         {
             buttonLabels.Clear();
+            titleLabels.Clear();
             buttonTooltips1.Clear();
             buttonTooltips2.Clear();
+            buttons.Clear();
+            buttonsRepeat.Clear();
 
             foreach (KeyValuePair<ISatelliteCarrier, GameObject> modulePanel in this.modulePanels)
                 Util.KDestroyGameObject(modulePanel.Value.gameObject);
@@ -125,39 +132,41 @@ namespace LogicSatellites.Behaviours
 
         private void RefreshModulePanel(ISatelliteCarrier module)
         {
-            //UIUtils.ListAllChildren(transform);
-            //UIUtils.GiveAllChildObjects(transform.gameObject);
             var modulePanel = this.modulePanels[module].transform;
             modulePanel.Find("Layout/Portrait/Sprite").GetComponent<Image>().sprite = Def.GetUISprite((object)module.master.gameObject).first;
             var Button1 = modulePanel.Find("Layout/Info/Buttons/Button").GetComponent<KButton>();
             var Button2 = modulePanel.Find("Layout/Info/Buttons/RepeatButton").GetComponent<KButton>();
             modulePanel.Find("Layout/Info/DropDown").GetComponent<DropDown>().gameObject.SetActive(false);
-            //modulePanel.Find("ModuleWidget/Layout/Info/Label").GetComponent<CrewPortrait>().gameObject.SetActive(false);
             modulePanel.Find("Layout/Info/Label").GetComponent<LocText>().SetText(module.master.gameObject.GetProperName());
-            //Debug.Log(modulePanel.Find("Layout/Info/Buttons/Button/Label"));
 
-
-
-            buttonLabels.Add(module, modulePanel.Find("Layout/Info/Buttons/Button/Label").GetComponent<LocText>());// module.HoldingSatellite() ? "Deploy Satellite" : "Retrieve Satellite";
+            titleLabels.Add(module, modulePanel.Find("Layout/Info/Label").GetComponent<LocText>());
+            buttonLabels.Add(module, modulePanel.Find("Layout/Info/Buttons/Button/Label").GetComponent<LocText>());
             buttonTooltips1.Add(module, Button1.GetComponentInChildren<ToolTip>());
             buttonTooltips2.Add(module, Button2.GetComponentInChildren<ToolTip>());
+            buttons.Add(module, Button1);
+            buttonsRepeat.Add(module, Button2);
 
-            Button1.onClick += () => module.OnButtonClicked();
-            Button1.GetComponentInChildren<ToolTip>().SetSimpleTooltip(module.HoldingSatellite() ? "Deploys a satellite at the current space hex" : "Retrieves a satellite from the current space hex");
+            Button1.onClick += () => DeployButtonClicked(module);
             Button2.onClick += () => ChangeOperationMode(module);
-            //UIUtils.ListAllChildren(Button1);
-            //UIUtils.GiveAllChildObjects(Button1.gameObject);
             RefreshStrings();
         }
         private void RefreshStrings(ISatelliteCarrier module = null)
         {
             foreach (var v in modulePanels.Keys)
             {
-                buttonLabels[v].SetText(v.ModeIsDeployment ? "Deploy Satellite" : "Retrieve Satellite");
-                buttonTooltips1[v].SetSimpleTooltip(v.ModeIsDeployment ? "Deploys a satellite at the current space hex" : "Retrieves a satellite from the current space hex");
-                buttonTooltips2[v].SetSimpleTooltip("Change the operation the module should perform");
+                titleLabels[v].SetText(v.HoldingSatellite() ? STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_TRUE : STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_FALSE);
+                buttons[v].isInteractable = (v.HoldingSatellite() == v.ModeIsDeployment);
+                buttonLabels[v].SetText(v.ModeIsDeployment ? STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONLABEL_HASSAT_TRUE : STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONLABEL_HASSAT_FALSE);
+                buttonTooltips1[v].SetSimpleTooltip(v.ModeIsDeployment ? STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONTOOLTIP_DEPLOY : STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONTOOLTIP_RETRIEVE);
+                buttonTooltips2[v].SetSimpleTooltip(STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONTOOLTIP_CHANGEMODE);
             }
         }
+        private void DeployButtonClicked(ISatelliteCarrier module)
+        {
+            module.OnButtonClicked();
+            RefreshStrings();
+        }
+
         private void ChangeOperationMode(ISatelliteCarrier module)
         {
             module.ModeIsDeployment = !module.ModeIsDeployment;

@@ -28,7 +28,6 @@ namespace LogicSatellites.Behaviours
                 {                                                                                      //TUNING.ROCKETRY.CLUSTER_FOW.DEFAULT_CYCLES_PER_REVEAL         
                     float detectionIncrease = dt * ((float)((double)TUNING.ROCKETRY.CLUSTER_FOW.POINTS_TO_REVEAL / (double)Config.Instance.SatelliteScannerSpeed / 600.0));
 
-                    smi.currentPercentage = smi.m_fowManager.GetRevealCompleteFraction(smi.m_analyzeTarget)*100;
                     //Debug.Log(smi.currentPercentage+ " <-> "+ detectionIncrease);
                     //if (smi.currentPercentage == 0.01f)
                     //{
@@ -39,7 +38,8 @@ namespace LogicSatellites.Behaviours
                             this.telescopeTargetMarker.SetActive(true);
                             this.telescopeTargetMarker.GetComponent<TelescopeTarget>().Init(this.currentTarget);
 
-                        }
+                    }
+                    smi.currentPercentage = smi.m_fowManager.GetRevealCompleteFraction(smi.m_analyzeTarget) * 100;
                     //}
                     if (smi.currentPercentage + detectionIncrease >= 100f)
                     {
@@ -80,7 +80,6 @@ namespace LogicSatellites.Behaviours
             public Instance(IStateMachineTarget smi, SatelliteTelescope.Def def) : base(smi, def)
             {
                 m_fowManager = SaveGame.Instance.GetSMI<ClusterFogOfWarManager.Instance>();
-                currentPercentage = m_fowManager.GetRevealCompleteFraction(m_analyzeTarget);
             }
             protected override void OnCleanUp()
             {

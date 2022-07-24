@@ -49,6 +49,14 @@ namespace LogicSatellites
                 public class SATELLITECARRIER_SIDESCREEN
                 {
                     public static LocString TITLE = "Satellite Carrier";
+
+                    public static LocString TITLELABEL_HASSAT_TRUE = "Satellite stored.";
+                    public static LocString TITLELABEL_HASSAT_FALSE = "No Satellite in storage";
+                    public static LocString BUTTONLABEL_HASSAT_TRUE = "Deploy Satellite";
+                    public static LocString BUTTONLABEL_HASSAT_FALSE = "Retrieve Satellite";
+                    public static LocString BUTTONTOOLTIP_DEPLOY = "Deploys a satellite at the current space hex.";
+                    public static LocString BUTTONTOOLTIP_RETRIEVE = "Retrieves a satellite from the current space hex";
+                    public static LocString BUTTONTOOLTIP_CHANGEMODE = "Change the operation the module should perform";
                 }
             }
         }

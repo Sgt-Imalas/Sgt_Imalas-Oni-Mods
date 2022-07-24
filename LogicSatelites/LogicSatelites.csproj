@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>LogicSatellites</PackageId>
-		<Version>0.9.0</Version>
+		<Version>1.0.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022 Sgt_Imalas</Copyright>
 		<RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
@@ -23,7 +23,7 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>Logic Satellites</ModName>
+		<ModName>Scan &amp; Relay Satellites</ModName>
 		<ModDescription>Deployable Satellites to relay logic signals and reveal the space around them</ModDescription>
 		<SupportedContent>EXPANSION1_ID</SupportedContent>
 		<MinimumSupportedBuild>514967</MinimumSupportedBuild>
@@ -84,9 +84,5 @@
 	  <None Update="ModAssets\anim\assets\space_satellite\space_satellite_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="BroadCastLogic\" />
 	</ItemGroup>
 </Project>
