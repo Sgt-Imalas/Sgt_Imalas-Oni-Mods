@@ -210,13 +210,13 @@ namespace Rockets_TinyYetBig
                    switch (templateString)
                     {
                     case "interiors/habitat_medium_compressed":
-                        original = new Vector2I(14, 12);
+                        original = new Vector2I(14, 13);
                         break;
                     case "interiors/habitat_small_compressed":
-                        original = new Vector2I(10, 10);
+                        original = new Vector2I(10, 11);
                         break;
                     case "interiors/habitat_small_expanded":
-                        original = new Vector2I(10, 12);
+                        original = new Vector2I(10, 13);
                         break;
                     case "interiors/habitat_medium_expanded":
                         original = new Vector2I(18, 17);

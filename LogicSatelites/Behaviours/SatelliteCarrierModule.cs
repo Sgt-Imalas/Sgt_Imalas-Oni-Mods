@@ -96,7 +96,7 @@ namespace LogicSatellites.Behaviours
 					storage.items.Remove(satellite.gameObject);
 					satellite.gameObject.DeleteObject();
 					GameObject.Destroy(satellite);
-					Debug.Log(satellite.IsNullOrDestroyed() + "SHOULD BE TRUE");
+					//Debug.Log(satellite.IsNullOrDestroyed() + "SHOULD BE TRUE");
 					SpawnSatellite(component.Location);
 					sm.hasSatellite.Set(false,this);
 				}
@@ -168,7 +168,7 @@ namespace LogicSatellites.Behaviours
 
 					});				
 				not_grounded.empty
-					.PlayAnim("satelite_construction", KAnim.PlayMode.Loop)
+					.PlayAnim("satelite_missing", KAnim.PlayMode.Loop)
 					.ParamTransition<bool>(this.hasSatellite, this.not_grounded.loaded, IsTrue)
 					.Update((smi, dt) =>
 					{
