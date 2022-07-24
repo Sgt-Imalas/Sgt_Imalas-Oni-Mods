@@ -14,7 +14,8 @@ Mods for Oxygen Not Included and ONI - Spaced Out.
 |Logic Satellites|deployable satellites|next big release|
 |Starship start|Starting asteroid is the giant derelict of a ship - rebuild it|-|
 |Project Orion|Adds an Engine fueled by nuclear explosions. Also adds mini nukes and some other regular explosives|-|
-|Rocketry Expanded|add in several new rocket modules; cryopod module, alternative engines|split into sub mods; Rocketry Expanded Released|
+|Rocketry Additions|add in several new rocket modules; cryopod module, alternative engines|split into sub mods; Rocketry Expanded Released|
 |Space Stations|adds more functionality to the space map, allows the deployment of autonomous space stations (deployable, then behaves like rocket interiors)|-|
 |Space Elevator|an alternative way to go to space|possible addon for space stations|
 |Space Exploration|Mini dungeons for dupes to explore inside of space poi derelics|-|
+|Reusable Cryopods|freeze your dupes for l8er|-|
