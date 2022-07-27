@@ -56,24 +56,6 @@ namespace LogicSatellites
                 __result = ModAssets.FindConnectionViaAdjacencyMatrix(a, b);
                 return false;
             }
-            public static bool RecursiveBool(AxialI start, List<AxialI> nodes, AxialI goal)
-            {
-                foreach (var node in nodes)
-                {
-                    if (!(AxialUtil.GetDistance(start, node) <= Config.Instance.SatelliteLogicRange))
-                    {
-                        var newNodes = nodes;
-                        newNodes.Remove(node);
-                        if (newNodes.Count>0)
-                        {
-                            RecursiveBool(node, newNodes,goal);
-                        }
-                    }
-                    else if(AxialUtil.GetDistance(start, node) <= Config.Instance.SatelliteLogicRange&& AxialUtil.GetDistance(node, goal) <= Config.Instance.SatelliteLogicRange)
-                        return true;
-                }
-                return false;
-            }
         }
 
 
