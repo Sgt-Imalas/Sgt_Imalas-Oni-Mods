@@ -49,7 +49,8 @@ namespace Cryopod.Buildings
             go.AddOrGet<EnergyConsumer>();
             go.AddOrGet<MinionStorage>();
             go.AddOrGet<CryopodReusable>();
-            go.AddOrGet<CryopodFreezeWorkable>();
+            go.AddOrGet<CryopodFreezeWorkable>(); 
+            go.AddOrGet<OpenCryopodWorkable>(); 
             go.AddOrGet<Prioritizable>();
         }
     }    

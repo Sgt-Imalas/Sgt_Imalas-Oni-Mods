@@ -20,9 +20,11 @@ namespace Cryopod.Buildings
 		[MyCmpGet]
 		private Operational operational;
 		[MyCmpReq]
-		private CryopodFreezeWorkable Workable;
-		//[MyCmpReq] protected Operational operational;
-		[MyCmpReq] private KSelectable selectable;
+		private OpenCryopodWorkable WorkableOpen;
+		[MyCmpReq]
+		private CryopodFreezeWorkable Workable; 
+		 //[MyCmpReq] protected Operational operational;
+		 [MyCmpReq] private KSelectable selectable;
 		[MyCmpReq] private MinionStorage DupeStorage;
 		[Serialize] private float ForceThawed;
 
@@ -131,7 +133,12 @@ namespace Cryopod.Buildings
 
 		public void StartThawing()
 		{
-			//ClearAssignable();
+			ClearAssignable(); 
+			WorkableOpen.CreateOpenChore();
+		}
+		public void OpenChoreDone()
+        {
+
 			this.smi.GoTo(this.smi.sm.HoldingDuplicant.Thawing);
 		}
 		
