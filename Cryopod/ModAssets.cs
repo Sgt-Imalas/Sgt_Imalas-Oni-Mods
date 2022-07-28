@@ -14,9 +14,20 @@ namespace Cryopod
         {
             public static StatusItem DupeName;
             public static StatusItem CurrentDupeTemperature;
-
+            public static StatusItem CryoDamage;
+            public static StatusItem EnergySaverModeCryopod;
+            
             public static void Register()
             {
+                EnergySaverModeCryopod = new StatusItem(
+                      "CRY_DUPLICANTATTEMPERATURE",
+                      "BUILDING",
+                      "",
+                      StatusItem.IconType.Info,
+                      NotificationType.Neutral,
+                      false,
+                      OverlayModes.None.ID
+                      );
                 DupeName = new StatusItem(
                    "CRY_DuplicantNameStatus",
                    "BUILDING",
@@ -31,6 +42,15 @@ namespace Cryopod
                    "",
                    StatusItem.IconType.Info,
                    NotificationType.Neutral,
+                   false,
+                   OverlayModes.None.ID
+                   );
+                CryoDamage = new StatusItem(
+                   "CRY_DuplicantCryoDamage",
+                   "BUILDING",
+                   "",
+                   StatusItem.IconType.Info,
+                   NotificationType.BadMinor,
                    false,
                    OverlayModes.None.ID
                    );

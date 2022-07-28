@@ -1,4 +1,6 @@
-﻿using KSerialization;
+﻿using Klei.AI;
+using KSerialization;
+using STRINGS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,40 +15,30 @@ namespace Cryopod.Buildings
 	{
 		[MyCmpReq]
 		public Assignable assignable;
-		[MyCmpReq] protected Operational operational;
+		[MyCmpGet]
+		private LogicPorts ports;
+		[MyCmpGet]
+		private Operational operational;
+		[MyCmpReq]
+		private CryopodFreezeWorkable Workable;
+		//[MyCmpReq] protected Operational operational;
 		[MyCmpReq] private KSelectable selectable;
 		[MyCmpReq] private MinionStorage DupeStorage;
-		private Chore chore;
-		private Chore activationChore;
-		[Serialize]
-		public float InternalTemperatureKelvin;
+		[Serialize] private float ForceThawed;
+
+		[Serialize] public float storedDupeDamage = -1;
+		[Serialize] public List<string> StoredSicknessIDs = new List<string>();
+		[Serialize] public float InternalTemperatureKelvin;
+
 		public float InternalTemperatureKelvinUpperLimit = 293.15f;
 		public float InternalTemperatureKelvinLowerLimit = 77.15f;
 		public float TimeForProcess = 60f;
 
-      
-        protected override void OnPrefabInit()
-		{
-			base.OnPrefabInit();
-			this.assignable.OnAssign += new System.Action<IAssignableIdentity>(this.Assign);
-		}
-		private void Assign(IAssignableIdentity new_assignee)
-		{
-			this.CancelFreezeChore();
-			if (new_assignee == null)
-				return;
-			this.FreezeChore();
-		}
-
-		public Chore FreezeChore(object param = null)
-		{
-			if (this.chore != null)
-				return chore;
-			this.chore = (Chore)new WorkChore<CryopodFreezeWorkable>(Db.Get().ChoreTypes.Migrate, (IStateMachineTarget)this, on_complete: ((System.Action<Chore>)(o => this.CompleteFreezeChore())), priority_class: PriorityScreen.PriorityClass.high);
-			return chore;
-		}
-
-        internal string GetDupeName()
+		public float GetDamage()
+        {
+			return ForceThawed;
+        }
+		internal string GetDupeName()
         {
             if (HoldingDupe())
             {
@@ -55,19 +47,7 @@ namespace Cryopod.Buildings
 			return "No duplicant stored.";
         }
 
-        public void CancelFreezeChore(object param = null)
-		{
-			if (this.chore == null)
-				return;
-			this.chore.Cancel("User cancelled");
-			this.chore = (Chore)null;
-		}
-		private void CompleteFreezeChore()
-		{
-			this.smi.GoTo((StateMachine.BaseState)this.smi.sm.HoldingDuplicant);
-			this.chore = (Chore)null;
-			Game.Instance.userMenu.Refresh(this.gameObject);
-		}
+        
 		public void RefreshSideScreen()
 		{
 			if (!this.GetComponent<KSelectable>().IsSelected)
@@ -79,17 +59,26 @@ namespace Cryopod.Buildings
 			this.assignable.SetCanBeAssigned(set_it);
 			this.RefreshSideScreen();
 		}
+		public void ClearAssignable()
+        {
+			this.assignable.Unassign();
+		}
 		public bool HoldingDupe()
         {
 			return DupeStorage.GetStoredMinionInfo().Count>0;
 		}
 
-		#region Spawn&Cleanup
-		protected override void OnSpawn()
+        internal void FreezeChoreDone()
+		{
+			this.smi.GoTo(this.smi.sm.RecievedDupe);
+		}
+
+        #region Spawn&Cleanup
+        protected override void OnSpawn()
 		{
 			base.OnSpawn();
 			this.smi.StartSM();
-			ModAssets.CryoPods.Add(this);
+			ModAssets.CryoPods.Add(this); 
 		}
 
 		protected override void OnCleanUp()
@@ -97,69 +86,130 @@ namespace Cryopod.Buildings
 			ModAssets.CryoPods.Remove(this); 
 			if (this.HoldingDupe())
 			{
-				ThrowOutDupe(true);
+				ForceThawed += (InternalTemperatureKelvinUpperLimit- InternalTemperatureKelvin);
+				ThrowOutDupe();
 			}
 			base.OnCleanUp();
 		}
-        #endregion
 
-        #region SideScreen
-        public string SidescreenButtonText => global::STRINGS.BUILDINGS.PREFABS.CRYOTANK.DEFROSTBUTTON;
+		private void UpdateLogicCircuit()
+		{
+			bool on = this.HoldingDupe();
+			this.ports.SendSignal(FilteredStorage.FULL_PORT_ID, on ? 1 : 0);
+		}
 
-		public string SidescreenButtonTooltip => global::STRINGS.BUILDINGS.PREFABS.CRYOTANK.DEFROSTBUTTONTOOLTIP;
+		#endregion
+
+		#region SideScreen
+		public string SidescreenButtonText => STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANK.DEFROSTBUTTON;
+
+		public string SidescreenButtonTooltip => STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANK.DEFROSTBUTTONTOOLTIP;
 
 		public bool SidescreenEnabled() => true;
 
-		public bool SidescreenButtonInteractable() => this.HoldingDupe();
+		public bool SidescreenButtonInteractable() => this.HoldingDupe() &&
+			!this.smi.IsInsideState(this.smi.sm.HoldingDuplicant.Thawing);
 
         public void OnSidescreenButtonPressed()
         {
-			StartManualThawing();
+			StartThawing();
 		}
 		public int ButtonSideScreenSortOrder() => 20;
 
 		#endregion
 
 
-		public void StartManualThawing()
-        {
-			//this.GetComponent<Operational>().enabled = !this.GetComponent<Operational>().enabled;
-			this.smi.GoTo(smi.sm.HoldingDuplicant.Thawing);
-		}
 
         #region Freezing&Thawing
 		
+		private enum TemperatureMode
+        {
+			Freezing,
+			Thawing,
+			ForceThawing
+        }
+
+		public void StartThawing()
+		{
+			//ClearAssignable();
+			this.smi.GoTo(this.smi.sm.HoldingDuplicant.Thawing);
+		}
 		
-		public void ThrowOutDupe(bool applyCryoSickness = true, Vector3 spawn_pos = new Vector3())
+		public void ThrowOutDupe( Vector3 spawn_pos = new Vector3())
 		{
 			assignable.Unassign();
 			var newDupe = DupeStorage.GetStoredMinionInfo().First();
 			var spawn_position = spawn_pos == new Vector3() ? this.transform.position : (Vector3)spawn_pos;
 
 			var NewDupeDeserialized = DupeStorage.DeserializeMinion(newDupe.id, spawn_position);
-			Debug.Log(spawn_position + " spawned here");
-			if (applyCryoSickness)
+
+			foreach(var sickness in StoredSicknessIDs)
             {
-				Debug.Log(NewDupeDeserialized + " should have CryoSickness");
+				NewDupeDeserialized.GetComponent<MinionModifiers>().sicknesses.Infect(new SicknessExposureInfo(sickness, "Frozen Disease"));
+			}
+			if(storedDupeDamage != -1f)
+            {
+				NewDupeDeserialized.GetComponent<Health>().Damage(storedDupeDamage);
+				storedDupeDamage = -1;
+			}
+			//Debug.Log(spawn_position + " spawned here");
+			if (ForceThawed>0)
+            {
+				HandleCryoDamage(NewDupeDeserialized, ForceThawed);
+				//Debug.Log(NewDupeDeserialized + " should have CryoSickness with Hardness "+ForceThawed );
+				ForceThawed = 0;
             }
 			SetAssignable(true);
-			DupeStorage.GetStoredMinionInfo().Clear();
+			DupeStorage.GetStoredMinionInfo().Clear(); 
+			UpdateLogicCircuit();
+		}
+
+		private void HandleCryoDamage(GameObject dupe, float dmgVal)
+        {
+			var dupeModifiers = dupe.GetComponent<MinionModifiers>();
+            if (dmgVal > 20f)
+			{
+				SicknessExposureInfo cold = new SicknessExposureInfo(ColdBrain.ID, "Cryogenic Damage");
+				dupeModifiers.sicknesses.Infect(cold);
+			}
+			if (dmgVal > 120f)
+			{
+				SicknessExposureInfo zombie = new SicknessExposureInfo(ZombieSickness.ID, "Cryogenic Damage");
+				dupeModifiers.sicknesses.Infect(zombie);
+			}
+			var doDamage = dmgVal / 2 < 99f ? dmgVal / 2 : 99f;
+			dupe.GetComponent<Health>().Damage(doDamage);
 		}
 
         private void StartCoolingProcess()
 		{
+			UpdateLogicCircuit();
 			SetAssignable(false);
 			this.InternalTemperatureKelvin = InternalTemperatureKelvinUpperLimit; 
 		}
-		private void ChangeInternalTemperature(float dt, bool cooling)
+
+
+		private void ChangeInternalTemperature(float dt, TemperatureMode cooling)
         {
 			float temperatureStep = ((InternalTemperatureKelvinUpperLimit - InternalTemperatureKelvinLowerLimit) / TimeForProcess) * dt;
-			
-			InternalTemperatureKelvin = cooling? InternalTemperatureKelvin - temperatureStep: InternalTemperatureKelvin + temperatureStep;
-			if(cooling && InternalTemperatureKelvin <= InternalTemperatureKelvinLowerLimit || !cooling && InternalTemperatureKelvin >= InternalTemperatureKelvinUpperLimit)
+
+			if (cooling == TemperatureMode.ForceThawing)
+			{
+				ForceThawed += temperatureStep;
+			}
+            else
+            {
+                if (ForceThawed > 0)
+                {
+					var recoveryVal = temperatureStep / 3;
+					ForceThawed = ForceThawed - recoveryVal < 0f ? 0f : ForceThawed - recoveryVal;
+				}
+            }
+			InternalTemperatureKelvin = cooling==TemperatureMode.Freezing ? InternalTemperatureKelvin - temperatureStep: InternalTemperatureKelvin + temperatureStep;
+			if(cooling == TemperatureMode.Freezing && InternalTemperatureKelvin <= InternalTemperatureKelvinLowerLimit || !(cooling == TemperatureMode.Freezing) && InternalTemperatureKelvin >= InternalTemperatureKelvinUpperLimit)
             {
 				smi.sm.HasReachedTargetTemp.Set(true, smi);
-				InternalTemperatureKelvin = cooling ? InternalTemperatureKelvinLowerLimit : InternalTemperatureKelvinUpperLimit;
+				InternalTemperatureKelvin = cooling == TemperatureMode.Freezing ? InternalTemperatureKelvinLowerLimit : InternalTemperatureKelvinUpperLimit;
 
 			}
 		}
@@ -169,9 +219,30 @@ namespace Cryopod.Buildings
 
         public class StatesInstance : GameStateMachine<States, StatesInstance, CryopodReusable, object>.GameInstance
 		{
+			private HandleVector<int>.Handle structureTemperature;
+			private float coolingHeatKW = 80.0f;
+			private float steadyHeatKW = 0.0f;
+			public void ApplyCoolingExhaust(float dt,bool coolingExterior =false) {
+                if (coolingExterior)
+					GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, (-this.coolingHeatKW*0.98f) * dt, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.FOOD_TRANSFER, dt);
+				else
+					GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, this.coolingHeatKW * dt, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.FOOD_TRANSFER, dt);
+			}
+			public void ApplySteadyExhaust(float dt) => GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, this.steadyHeatKW * dt, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.FOOD_TRANSFER, dt);
+			public float GetSaverPower() => this.GetComponent<EnergyConsumer>().WattsNeededWhenActive/10;
+
+			public float GetNormalPower() => this.GetComponent<EnergyConsumer>().WattsNeededWhenActive;
+			public void SetEnergySaver(bool energySaving)
+			{
+				EnergyConsumer component = this.GetComponent<EnergyConsumer>();
+				if (energySaving)
+					component.BaseWattageRating = this.GetSaverPower();
+				else
+					component.BaseWattageRating = this.GetNormalPower();
+			}
 			public StatesInstance(CryopodReusable master) : base(master)
 			{
-
+				this.structureTemperature = GameComps.StructureTemperatures.GetHandle(this.gameObject);
 			}
 		}
 
@@ -184,70 +255,119 @@ namespace Cryopod.Buildings
 				public State Cooling;
 				public State OnTemperature;
 				public State Thawing;
+				public ForceStates ForceThawing;
 				public State ThrowDupeOut;
+				public class ForceStates : State{
+					public State Entombed;
+					public State OverHeated;
+					public State NoPower;
+				}
 			}
 
+			public State Init;
 			public State Idle;
+			public State RecievedDupe;
 			public HoldingDuplicantStates HoldingDuplicant;
-			public State AwaitingDuplicant;
 
 			public override void InitializeStates(out BaseState defaultState)
 			{
 
-				defaultState = Idle;
+				defaultState = Init;
+
+				Init.Enter((smi) => { 
+						HoldsDuplicant.Set(smi.master.HoldingDupe(), smi);
+						if (smi.master.HoldingDupe())
+						{
+							smi.GoTo(HoldingDuplicant);
+						}
+						else
+						{
+							smi.GoTo(Idle);
+						}
+					smi.master.operational.SetActive(true);
+					Debug.Log(smi.master.operational.IsActive);
+					})
+					//.ToggleStatusItem("State: Init", "")
+					;
+
 
 				Idle
-					.QueueAnim("off")
-					.ToggleChore((smi => smi.master.FreezeChore()), this.AwaitingDuplicant)
-					.Update((smi, dt) => smi.master.CheckForDupe())
-					.ParamTransition<bool>(this.HoldsDuplicant, this.HoldingDuplicant, IsTrue);
+					.Enter(smi=>smi.SetEnergySaver(true))
+					.Update((smi,dt)=>smi.ApplySteadyExhaust(dt))
+					.QueueAnim("off");
 
-
-				AwaitingDuplicant
-					.QueueAnim("off")
-					.EventTransition(GameHashes.AssigneeChanged, Idle)
-					.Exit(smi => smi.master.StartCoolingProcess());
+				RecievedDupe
+					.Enter(smi => HoldsDuplicant.Set(true, smi))
+					//.ToggleStatusItem("State: RecievingDupe", "")
+					.PlayAnim("working_pre")
+					.Exit(smi => smi.master.StartCoolingProcess())
+					.GoTo(HoldingDuplicant);
 
 				HoldingDuplicant.defaultState = HoldingDuplicant.Cooling;
 				HoldingDuplicant
+					.Enter(smi => { smi.master.UpdateLogicCircuit();
+						})
+					.Exit(smi => smi.master.UpdateLogicCircuit())
 					.ToggleStatusItem(ModAssets.StatusItems.DupeName, smi => smi.master)
 					.ToggleStatusItem(ModAssets.StatusItems.CurrentDupeTemperature, smi => smi.master);
-
 				HoldingDuplicant.Cooling
-					.PlayAnim("working_pre")
+					.Enter(smi => smi.SetEnergySaver(false))
+					.Exit(smi => smi.SetEnergySaver(true))
 					.QueueAnim("working_loop")
 					.Update("Freezing", (smi, dt) =>
 					{
-						smi.master.ChangeInternalTemperature(dt,true);
+						smi.ApplyCoolingExhaust(dt, false);
+						smi.master.ChangeInternalTemperature(dt, TemperatureMode.Freezing);
 
 					}, UpdateRate.SIM_200ms)
 					.ParamTransition<bool>(this.HasReachedTargetTemp, this.HoldingDuplicant.OnTemperature, IsTrue)
-					.EventTransition(GameHashes.OperationalChanged, HoldingDuplicant.Thawing, smi => !smi.GetComponent<Operational>().IsOperational)
+					.EventTransition(GameHashes.OperationalChanged, HoldingDuplicant.ForceThawing, smi => !smi.GetComponent<Operational>().IsOperational)
 					;
 
 				HoldingDuplicant.OnTemperature
+					//.ToggleStatusItem("State: OnTemp.", "")
 					.Enter((smi) => HasReachedTargetTemp.Set(false, smi))
-					.EventTransition(GameHashes.OperationalChanged, HoldingDuplicant.Thawing, smi => !smi.GetComponent<Operational>().IsOperational)
+					.Update((smi, dt) => smi.ApplySteadyExhaust(dt))
+					.ToggleStatusItem(ModAssets.StatusItems.EnergySaverModeCryopod, smi => smi.master)
+					.EventTransition(GameHashes.OperationalChanged, HoldingDuplicant.ForceThawing, smi => !smi.GetComponent<Operational>().IsOperational)
 					;
+				HoldingDuplicant.ForceThawing
 
-				HoldingDuplicant.Thawing
-					.Update("Thawing", (smi, dt) =>
+					.ToggleStatusItem(ModAssets.StatusItems.CryoDamage, smi => smi.master)
+					.Update("ForceThawing", (smi, dt) =>
 					{
-						smi.master.ChangeInternalTemperature(dt, false);
+						smi.ApplyCoolingExhaust(dt, true);
+						smi.master.ChangeInternalTemperature(dt, TemperatureMode.ForceThawing);
 
 					}, UpdateRate.SIM_200ms)
 					.ParamTransition<bool>(this.HasReachedTargetTemp, this.HoldingDuplicant.ThrowDupeOut, IsTrue)
-					//.EventTransition(GameHashes.OperationalChanged, HoldingDuplicant.Cooling, smi => smi.GetComponent<Operational>().IsOperational)
+						.EventTransition(GameHashes.OperationalChanged, HoldingDuplicant.Cooling, smi => smi.GetComponent<Operational>().IsOperational)
+					;
+				HoldingDuplicant.Thawing
+					//.ToggleStatusItem("State: Thawing.", "")
+					.Enter(smi => smi.SetEnergySaver(false))
+					.Exit(smi => smi.SetEnergySaver(true))
+					.Update("Thawing", (smi, dt) =>
+					{
+						smi.ApplyCoolingExhaust(dt, true);
+						smi.master.ChangeInternalTemperature(dt, TemperatureMode.Thawing);
+
+					}, UpdateRate.SIM_200ms)
+					.ParamTransition<bool>(this.HasReachedTargetTemp, this.HoldingDuplicant.ThrowDupeOut, IsTrue)
+					.EventTransition(GameHashes.OperationalChanged, HoldingDuplicant.ForceThawing, smi => !smi.GetComponent<Operational>().IsOperational)
 					;
 
 				HoldingDuplicant.ThrowDupeOut
+					.Enter(smi => smi.SetEnergySaver(false))
+					.Exit(smi => smi.SetEnergySaver(true))
 					.PlayAnim("defrost")
 					.QueueAnim("defrost_exit")
+					//.ToggleStatusItem("State: ThrowDupeOut.", "")
 					.Enter(smi => 
 					{
 						HasReachedTargetTemp.Set(false, smi);
-						smi.master.ThrowOutDupe(false); 
-						HoldsDuplicant.Set(false, smi); 
+						smi.master.ThrowOutDupe(); 
+						HoldsDuplicant.Set(false, smi);
 					})
 					.GoTo(Idle);
 			}

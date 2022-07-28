@@ -64,7 +64,13 @@ namespace UtilLibs
             if (recipeDescription != null)
                 Strings.Add($"STRINGS.ITEMS.FOOD.{foodId.ToUpperInvariant()}.RECIPEDESC", recipeDescription);
         }
-
+        public static void AddDiseaseStrings(string id, string name, string symptomps, string description)
+        {
+            Strings.Add($"STRINGS.DUPLICANTS.DISEASES.{id.ToUpperInvariant()}.NAME", UI.FormatAsLink(name, id));
+            Strings.Add($"STRINGS.DUPLICANTS.DISEASES.{id.ToUpperInvariant()}.DESCRIPTIVE_SYMPTOMS", symptomps);
+            Strings.Add($"STRINGS.DUPLICANTS.DISEASES.{id.ToUpperInvariant()}.DESC", description);
+            //Strings.Add($"STRINGS.DUPLICANTS.DISEASES.{id.ToUpperInvariant()}.LEGEND_HOVERTEXT", hover);
+        }
         public static void Action(Tag speciesTag, string name, Dictionary<string, CodexEntry> results)
         {
             List<GameObject> brains = Assets.GetPrefabsWithComponent<CreatureBrain>();

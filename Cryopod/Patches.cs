@@ -1,5 +1,6 @@
 ﻿using Cryopod.Buildings;
 using HarmonyLib;
+using Klei.AI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,10 @@ namespace Cryopod
         //    }
         //}
 
-
+        /// <summary>
+        /// Sickness should be Stored
+        /// </summary>
+        
         [HarmonyPatch(typeof(GeneratedBuildings))]
         [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
         public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
@@ -38,6 +42,8 @@ namespace Cryopod
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, BuildableCryopodConfig.ID);
             }
         }
+
+        
         [HarmonyPatch(typeof(Localization), "Initialize")]
         public static class Localization_Initialize_Patch
         {
