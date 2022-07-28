@@ -16,7 +16,7 @@ namespace Cryopod
             this.synchronizeAnims = false;
             this.overrideAnims = new KAnimFile[1]
             {
-      Assets.GetAnim((HashedString) "anim_interacts_incubator_kanim")
+      Assets.GetAnim((HashedString) "anim_interacts_warp_portal_sender_kanim")
             };
             this.SetWorkTime(float.PositiveInfinity);
             this.showProgressBar = false;
@@ -31,9 +31,9 @@ namespace Cryopod
             GameObject gameObject1 = worker.gameObject;
             this.CompleteWork(worker);
             this.GetComponent<MinionStorage>().SerializeMinion(gameObject1);
+            this.GetComponent<Ownable>().enabled = false;
             return true;
         }
-
         protected override void OnStopWork(Worker worker) => base.OnStopWork(worker);
 
         protected override void OnCompleteWork(Worker worker)

@@ -5,12 +5,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UtilLibs;
 
 namespace Cryopod
 {
     class Patches
     {
+        //needs Changes
+        //[HarmonyPatch(typeof(WorldContainer))]
+        //[HarmonyPatch(nameof(WorldContainer.SpacePodAllDupes))]
+        //public static class ThrowOutFrozenDupesInsideRocket_ToWorld_Patch
+        //{
+        //    public static void Prefix(Vector3 spawn_pos, WorldContainer __instance)
+        //    {
+        //        foreach (var worldItem in ModAssets.CryoPods.GetWorldItems(__instance.id))
+        //        {
+        //            Debug.Log("PATCH !" + worldItem + spawn_pos);
+        //            worldItem.ThrowOutDupe(true, spawn_pos);
+        //        }
+        //    }
+        //}
+
+
         [HarmonyPatch(typeof(GeneratedBuildings))]
         [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
         public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
@@ -21,13 +38,21 @@ namespace Cryopod
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, BuildableCryopodConfig.ID);
             }
         }
-
-        [HarmonyPatch(typeof(DetailsScreen), "OnPrefabInit")]
-        public static class CustomSideScreenPatch_SatelliteCarrier
+        [HarmonyPatch(typeof(Localization), "Initialize")]
+        public static class Localization_Initialize_Patch
         {
-            public static void Postfix(List<DetailsScreen.SideScreenRef> ___sideScreens)
+            public static void Postfix()
             {
-                UIUtils.AddClonedSideScreen<CryopodSidescreen>("CryopodSidescreen", "WarpPortalSideScreen", typeof(WarpPortalSideScreen));
+                LocalisationUtil.Translate(typeof(STRINGS), true);
+            }
+        }
+
+        [HarmonyPatch(typeof(Database.BuildingStatusItems), "CreateStatusItems")]
+        public static class Database_BuildingStatusItems_CreateStatusItems_Patch
+        {
+            public static void Postfix()
+            {
+                ModAssets.StatusItems.Register();
             }
         }
     }

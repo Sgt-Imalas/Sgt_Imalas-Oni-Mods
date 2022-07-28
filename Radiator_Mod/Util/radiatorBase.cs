@@ -18,6 +18,7 @@ namespace RadiatorMod.Util
 		[MyCmpReq] private KSelectable selectable;
         [MyCmpGet] private Rotatable rotatable;
 
+
 		public static string Category = "BUILDING", InSpaceRadiating = "RadiatorInSpaceRadiating", NotInSpace = "RadiatorNotInSpace", BunkerDown = "RadiatorBunkeredDown";
 
 		public StatusItem _radiating_status;
