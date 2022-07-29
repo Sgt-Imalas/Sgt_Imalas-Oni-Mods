@@ -37,22 +37,23 @@ namespace Cryopod
         }
         public Chore CreateOpenChore()
         {
-            openChore = (Chore)new WorkChore<OpenCryopodWorkable>(Db.Get().ChoreTypes.Migrate, (IStateMachineTarget)this, on_complete: ((System.Action<Chore>)(o => this.CompleteOpenChore())), priority_class: PriorityScreen.PriorityClass.high);
+            openChore = (Chore)new WorkChore<OpenCryopodWorkable>(Db.Get().ChoreTypes.EmptyStorage, (IStateMachineTarget)this,null,true,null,null,null,false,null,true,false, override_anims: Assets.GetAnim((HashedString)"anim_interacts_cryo_activation_kanim"), false,true, true,PriorityScreen.PriorityClass.high,5,true,false);
             
+            this.requireMinionToWork = true;
             return openChore;
-        }
+        }   
         protected override void OnStartWork(Worker worker) => base.OnStartWork(worker);
 
         protected override bool OnWorkTick(Worker worker, float dt)
         {
             base.OnWorkTick(worker, dt);
-            Debug.Log(worker);
-            return true;
+            return false;
         }
         protected override void OnStopWork(Worker worker) => base.OnStopWork(worker);
 
         protected override void OnCompleteWork(Worker worker)
         {
+            
             CompleteOpenChore();
         }
     }
