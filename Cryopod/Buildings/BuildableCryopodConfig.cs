@@ -48,9 +48,9 @@ namespace Cryopod.Buildings
             ownable.slotID = Db.Get().AssignableSlots.WarpPortal.Id;
             go.AddOrGet<EnergyConsumer>();
             go.AddOrGet<MinionStorage>();
-            go.AddOrGet<CryopodReusable>();
+            go.AddOrGet<CryopodReusable>().dropOffset = new CellOffset(1, 0);
             go.AddOrGet<CryopodFreezeWorkable>(); 
-            go.AddOrGet<OpenCryopodWorkable>(); 
+            go.AddOrGet<OpenCryopodWorkable>() ; 
             go.AddOrGet<Prioritizable>();
         }
     }    

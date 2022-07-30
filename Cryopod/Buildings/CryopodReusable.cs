@@ -22,9 +22,10 @@ namespace Cryopod.Buildings
 		[MyCmpReq]
 		private OpenCryopodWorkable WorkableOpen;
 		[MyCmpReq]
-		private CryopodFreezeWorkable Workable; 
-		 //[MyCmpReq] protected Operational operational;
-		 [MyCmpReq] private KSelectable selectable;
+		private CryopodFreezeWorkable Workable;
+		public Chore defrostAnimChore;
+		//[MyCmpReq] protected Operational operational;
+		[MyCmpReq] private KSelectable selectable;
 		[MyCmpReq] private MinionStorage DupeStorage;
 		[Serialize] private float ForceThawed;
 
@@ -35,6 +36,7 @@ namespace Cryopod.Buildings
 		public float InternalTemperatureKelvinUpperLimit = 293.15f;
 		public float InternalTemperatureKelvinLowerLimit = 77.15f;
 		public float TimeForProcess = 60f;
+		[Serialize] public CellOffset dropOffset = CellOffset.none;
 
 		public float GetDamage()
         {
@@ -142,15 +144,20 @@ namespace Cryopod.Buildings
 			this.smi.GoTo(this.smi.sm.HoldingDuplicant.Thawing);
 		}
 		
-		public void ThrowOutDupe( Vector3 spawn_pos = new Vector3())
+		public void ThrowOutDupe()
 		{
 			assignable.Unassign();
 			var newDupe = DupeStorage.GetStoredMinionInfo().First();
-			var spawn_position = spawn_pos == new Vector3() ? this.transform.position : (Vector3)spawn_pos;
+			var spawn_position = Grid.CellToPosCBC(Grid.OffsetCell(Grid.PosToCell(this.transform.position), this.dropOffset), Grid.SceneLayer.Move);
 
 			var NewDupeDeserialized = DupeStorage.DeserializeMinion(newDupe.id, spawn_position);
 
-			foreach(var sickness in StoredSicknessIDs)
+			var dupeModifiers = NewDupeDeserialized.GetComponent<MinionModifiers>();
+			SicknessExposureInfo cold = new SicknessExposureInfo(ColdBrain.ID, "Frozen within self made cryopod.");
+			dupeModifiers.sicknesses.Infect(cold);
+
+
+			foreach (var sickness in StoredSicknessIDs)
             {
 				NewDupeDeserialized.GetComponent<MinionModifiers>().sicknesses.Infect(new SicknessExposureInfo(sickness, "Frozen Disease"));
 			}
@@ -165,7 +172,20 @@ namespace Cryopod.Buildings
 				HandleCryoDamage(NewDupeDeserialized, ForceThawed);
 				//Debug.Log(NewDupeDeserialized + " should have CryoSickness with Hardness "+ForceThawed );
 				ForceThawed = 0;
-            }
+			}
+			ChoreProvider choreProvider = NewDupeDeserialized.GetComponent<ChoreProvider>();
+			if ((UnityEngine.Object)choreProvider != (UnityEngine.Object) null)
+			{
+				this.defrostAnimChore = (Chore) new EmoteChore((IStateMachineTarget)choreProvider, Db.Get().ChoreTypes.EmoteHighPriority, (HashedString) "anim_interacts_cryo_chamber_kanim", new HashedString[2]
+				{
+					(HashedString) "defrost",
+					(HashedString) "defrost_exit"
+				}, KAnim.PlayMode.Once);
+				//Vector3 position = NewDupeDeserialized.transform.GetPosition();
+				//position.z = Grid.GetLayerZ(Grid.SceneLayer.Gas);
+				//NewDupeDeserialized.transform.SetPosition(position);
+			}
+
 			SetAssignable(true);
 			DupeStorage.GetStoredMinionInfo().Clear(); 
 			UpdateLogicCircuit();
