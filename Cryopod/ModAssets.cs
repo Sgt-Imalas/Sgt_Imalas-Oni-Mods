@@ -77,5 +77,10 @@ namespace Cryopod
 
             }
         }
+
+        public class Techs
+        {
+            public static string FrostedDupeResearchID = "FrostedDupeResearch";
+        }
     }
 }

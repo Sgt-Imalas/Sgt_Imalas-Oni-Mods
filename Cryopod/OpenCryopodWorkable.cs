@@ -10,8 +10,14 @@ namespace Cryopod
     class OpenCryopodWorkable : Workable
     {
         private Chore openChore;
+
+        public bool ChoreExisting()
+        {
+            return openChore != null;
+        }
         protected override void OnPrefabInit()
         {
+            
             base.OnPrefabInit();
             this.synchronizeAnims = false;
             this.overrideAnims = new KAnimFile[1]
@@ -22,7 +28,7 @@ namespace Cryopod
             this.showProgressBar = false;
         }
         
-        public void CancelFreezeChore(object param = null)
+        public void CancelOpenChore(object param = null)
         {
             if (this.openChore == null)
                 return;

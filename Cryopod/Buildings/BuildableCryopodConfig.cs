@@ -29,6 +29,8 @@ namespace Cryopod.Buildings
             buildingDef.ViewMode = OverlayModes.Power.ID;
             buildingDef.AudioCategory = "Metal";
             buildingDef.Floodable = false;
+            buildingDef.SceneLayer = Grid.SceneLayer.BuildingBack;
+            buildingDef.ForegroundLayer = Grid.SceneLayer.BuildingFront;
             buildingDef.PowerInputOffset = new CellOffset(0, 0); 
             buildingDef.LogicOutputPorts = new List<LogicPorts.Port>(){
                 LogicPorts.Port.OutputPort(FilteredStorage.FULL_PORT_ID, new CellOffset(0, 1), (string) global::STRINGS.BUILDINGS.PREFABS.REFRIGERATOR.LOGIC_PORT, (string) global::STRINGS.BUILDINGS.PREFABS.REFRIGERATOR.LOGIC_PORT_ACTIVE, (string) global::STRINGS.BUILDINGS.PREFABS.REFRIGERATOR.LOGIC_PORT_INACTIVE)
@@ -50,8 +52,9 @@ namespace Cryopod.Buildings
             go.AddOrGet<MinionStorage>();
             go.AddOrGet<CryopodReusable>().dropOffset = new CellOffset(1, 0);
             go.AddOrGet<CryopodFreezeWorkable>(); 
-            go.AddOrGet<OpenCryopodWorkable>() ; 
+            go.AddOrGet<OpenCryopodWorkable>(); 
             go.AddOrGet<Prioritizable>();
         }
+        
     }    
 }

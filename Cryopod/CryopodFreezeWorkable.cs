@@ -69,7 +69,8 @@ namespace Cryopod
                 StoredSicknessIDs.Add(sickness.ExposureInfo.sicknessID);
             }
             var hp = worker.GetComponent<Health>();
-            cryopod.storedDupeDamage = hp.maxHitPoints- hp.hitPoints;
+            cryopod.storedDupeDamage = hp.maxHitPoints- hp.hitPoints; 
+            cryopod.RefreshSideScreen();
             this.GetComponent<MinionStorage>().SerializeMinion(gameObject1);
             CompleteFreezeChore();
             return true;
