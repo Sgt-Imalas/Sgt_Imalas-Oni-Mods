@@ -2,6 +2,7 @@
 using KSerialization;
 using STRINGS;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -87,11 +88,12 @@ namespace Cryopod.Buildings
 
 		protected override void OnCleanUp()
 		{
-			ModAssets.CryoPods.Remove(this); 
+			ModAssets.CryoPods.Remove(this);
 			if (this.HoldingDupe())
 			{
 				ForceThawed += (InternalTemperatureKelvinUpperLimit- InternalTemperatureKelvin);
-				ThrowOutDupe();
+				ThrowOutDupe(true);
+				AnimationChore = null;
 			}
 			base.OnCleanUp();
 		}
@@ -105,7 +107,7 @@ namespace Cryopod.Buildings
 		#endregion
 
 		#region SideScreen
-		public string SidescreenButtonText => WorkableOpen.ChoreExisting() ? STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANK.DEFROSTBUTTON : STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANK.DEFROSTBUTTONCANCEL;
+		public string SidescreenButtonText => WorkableOpen.ChoreExisting() ? STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANK.DEFROSTBUTTONCANCEL : STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANK.DEFROSTBUTTON;
 
 		public string SidescreenButtonTooltip => STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANK.DEFROSTBUTTONTOOLTIP;
 
@@ -116,7 +118,9 @@ namespace Cryopod.Buildings
 
         public void OnSidescreenButtonPressed()
         {
-            if (WorkableOpen.ChoreExisting())
+			Debug.Log("DEBUG: CHORE EXISTING: "+WorkableOpen.ChoreExisting());
+
+			if (!WorkableOpen.ChoreExisting())
             {
 				WorkableOpen.CreateOpenChore();
 			}
@@ -145,9 +149,10 @@ namespace Cryopod.Buildings
         {
 
 			this.smi.GoTo(this.smi.sm.HoldingDuplicant.Thawing);
+			this.RefreshSideScreen();
 		}
 		
-		public void ThrowOutDupe()
+		public void ThrowOutDupe(bool skipAnim = false)
 		{
 			assignable.Unassign();
 			var newDupe = DupeStorage.GetStoredMinionInfo().First();
@@ -183,15 +188,8 @@ namespace Cryopod.Buildings
 			ChoreProvider choreProvider = NewDupeDeserialized.GetComponent<ChoreProvider>();
 			Debug.Log(this.transform.GetPosition().z+ " FG-Layer of building");
 
-			if ((UnityEngine.Object)choreProvider != (UnityEngine.Object) null)
+			if ((UnityEngine.Object)choreProvider != (UnityEngine.Object) null && !skipAnim)
 			{
-				Vector3 positionForChoreAnim = spawn_position with
-				{
-					z = Grid.GetLayerZ(Grid.SceneLayer.BuildingBack)
-				};
-
-				Debug.Log(NewDupeDeserialized.GetComponent<KBatchedAnimController>().sceneLayer + " z-Layer of dupe 1");
-
 				this.AnimationChore = (Chore)new EmoteChore((IStateMachineTarget)choreProvider, Db.Get().ChoreTypes.EmoteHighPriority, (HashedString)"anim_interacts_cryo_chamber_kanim", new HashedString[2]
 					{
 						(HashedString) "defrost",
@@ -202,7 +200,7 @@ namespace Cryopod.Buildings
 					z = Grid.GetLayerZ(Grid.SceneLayer.BuildingUse)
 				};
 				NewDupeDeserialized.transform.SetPosition(position);
-				Debug.Log(NewDupeDeserialized.GetComponent<KBatchedAnimController>().sceneLayer + " z-Layer of dupe 2");
+				
 			}
 
 			SetAssignable(true);
@@ -212,22 +210,64 @@ namespace Cryopod.Buildings
 
 		private void HandleCryoDamage(GameObject dupe, float dmgVal)
         {
-			var dupeModifiers = dupe.GetComponent<MinionModifiers>();
-            if (dmgVal > 20f)
-			{
-				SicknessExposureInfo cold = new SicknessExposureInfo(ColdBrain.ID, "Cryogenic Damage");
-				dupeModifiers.sicknesses.Infect(cold);
-			}
 			if (dmgVal > 120f)
 			{
-				SicknessExposureInfo zombie = new SicknessExposureInfo(ZombieSickness.ID, "Cryogenic Damage");
-				dupeModifiers.sicknesses.Infect(zombie);
+				//SicknessExposureInfo zombie = new SicknessExposureInfo(ZombieSickness.ID, "Cryogenic Damage");
+				//dupeModifiers.sicknesses.Infect(zombie);
 			}
-			var doDamage = dmgVal / 2 < 99f ? dmgVal / 2 : 99f;
-			dupe.GetComponent<Health>().Damage(doDamage);
+			var helf = dupe.GetComponent<Health>();
+			var doDamage = dmgVal / 2 ;
+
+			Effect cryoSickness = new Effect(
+				 ModAssets.ForcedCryoThawedID,
+				 STRINGS.DUPLICANTS.STATUSITEMS.FORCETHAWED.NAME,
+				 STRINGS.DUPLICANTS.STATUSITEMS.FORCETHAWED.NAME,
+				 120f,
+				 true,
+				 true,
+				 true);
+
+			var debuffs = new List<AttributeModifier>();
+			var debuffStrength = -(dmgVal / 16) <=-1f? -(dmgVal / 16) : -1;
+			
+				debuffs.Add(new AttributeModifier(Db.Get().Attributes.Athletics.Id, debuffStrength));
+				debuffs.Add(new AttributeModifier(Db.Get().Attributes.Strength.Id, debuffStrength));
+				debuffs.Add(new AttributeModifier(Db.Get().Attributes.Digging.Id, debuffStrength));
+				debuffs.Add(new AttributeModifier(Db.Get().Attributes.Construction.Id, debuffStrength));
+				debuffs.Add(new AttributeModifier(Db.Get().Attributes.Machinery.Id, debuffStrength));
+				debuffs.Add(new AttributeModifier(Db.Get().Attributes.Caring.Id, debuffStrength));
+				debuffs.Add(new AttributeModifier(Db.Get().Attributes.Ranching.Id, debuffStrength));
+				//debuffs.Add(new AttributeModifier("AirConsumptionRate", 7.5f));
+
+			if (dmgVal > 80)
+			{
+				debuffs.Add(new AttributeModifier(Db.Get().Attributes.Art.Id, debuffStrength));
+				debuffs.Add(new AttributeModifier("SPACENAVIGATION", debuffStrength));
+				debuffs.Add(new AttributeModifier(Db.Get().Attributes.Learning.Id, debuffStrength));
+				debuffs.Add(new AttributeModifier(Db.Get().Attributes.Cooking.Id, debuffStrength));
+				debuffs.Add(new AttributeModifier(Db.Get().Attributes.Botanist.Id, debuffStrength));
+			}
+			debuffs.Add(new AttributeModifier(Db.Get().Amounts.Stress.deltaAttribute.Id, (5f + (-debuffStrength)) / 600, STRINGS.DISEASES.CRYOSICKNESS.NAME));
+			cryoSickness.duration = (60 * dmgVal);
+			cryoSickness.SelfModifiers = debuffs;
+			//helf.Damage(doDamage);
+			helf.StartCoroutine(this.KillOnEndEditRoutine(helf, doDamage));
+			if (helf.hitPoints == 0)
+            {
+				//helf.Incapacitate(GameTags.HitPointsDepleted);
+			}
+			Debug.Log("Health State: " + helf.State);
+			dupe.GetComponent<Effects>().Add(cryoSickness, true);
+		}
+		private IEnumerator KillOnEndEditRoutine(Health helf, float dmg)
+		{
+
+			yield return (object)new WaitForEndOfFrame();
+			yield return (object)new WaitForEndOfFrame();
+			helf.Damage(dmg);
 		}
 
-        private void StartCoolingProcess()
+		private void StartCoolingProcess()
 		{
 			UpdateLogicCircuit();
 			SetAssignable(false);

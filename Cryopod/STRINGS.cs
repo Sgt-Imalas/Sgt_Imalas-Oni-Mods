@@ -9,6 +9,18 @@ namespace Cryopod
 {
     class STRINGS
     {
+        public class DUPLICANTS
+        {
+            public class STATUSITEMS 
+            { 
+                public class FORCETHAWED
+                {
+                    public static LocString NAME = "Cryo Sickness";
+                    public static LocString TOOLTIP = "Being forcefully thawed, this Duplicant does not have a good time.";
+                }
+            }
+        }
+
         public class BUILDINGS
         {
             public class PREFABS

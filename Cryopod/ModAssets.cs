@@ -10,6 +10,7 @@ namespace Cryopod
     internal class ModAssets
     {
         public static Components.Cmps<CryopodReusable> CryoPods = new Components.Cmps<CryopodReusable>();
+        public const string ForcedCryoThawedID = "CRY_ForcedCryoThawed";
         public class StatusItems
         {
             public static StatusItem DupeName;

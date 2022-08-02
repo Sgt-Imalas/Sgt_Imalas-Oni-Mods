@@ -68,6 +68,7 @@ namespace Cryopod
                 cryopod.
                 StoredSicknessIDs.Add(sickness.ExposureInfo.sicknessID);
             }
+            
             var hp = worker.GetComponent<Health>();
             cryopod.storedDupeDamage = hp.maxHitPoints- hp.hitPoints; 
             cryopod.RefreshSideScreen();
