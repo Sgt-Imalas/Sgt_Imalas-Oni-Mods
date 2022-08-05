@@ -79,6 +79,21 @@ namespace Cryopod
             }
         }
 
+        public static void UnlockCryopod(int chanceInPercent = 100)
+        {
+            var frostedResearch = Research.Instance.GetTechInstance(ModAssets.Techs.FrostedDupeResearchID);
+            if (!frostedResearch.IsComplete() && SuccessPerChance(chanceInPercent)) { 
+                frostedResearch.Purchased();
+                Game.Instance.Trigger((int)GameHashes.ResearchComplete, frostedResearch.tech);
+            }
+        }
+
+        public static bool SuccessPerChance(int chanceOfSuccess)
+        {
+            var randGen = new Random();
+            return randGen.Next(100) < chanceOfSuccess;
+        }
+
         public class Techs
         {
             public static string FrostedDupeResearchID = "FrostedDupeResearch";

@@ -18,12 +18,12 @@ namespace Cryopod.Buildings
             string[] material = MATERIALS.REFINED_METALS;
             EffectorValues noise = TUNING.NOISE_POLLUTION.NOISY.TIER1;
             EffectorValues decor = TUNING.BUILDINGS.DECOR.BONUS.TIER0;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 3, "cryo_chamber_kanim", 100, 30f, mass, material, 1600f, BuildLocationRule.OnFloor, decor, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 3, "cryo_chamber_buildable_kanim", 100, 30f, mass, material, 1600f, BuildLocationRule.OnFloor, decor, noise);
 
             buildingDef.RequiresPowerInput = true;
             buildingDef.AddLogicPowerPort = false;
             buildingDef.OverheatTemperature = 498.15f;
-            buildingDef.EnergyConsumptionWhenActive = 1000f;
+            buildingDef.EnergyConsumptionWhenActive = 960f;
             buildingDef.SelfHeatKilowattsWhenActive = 0.125f;
             buildingDef.ExhaustKilowattsWhenActive = 0.0f;
             buildingDef.ViewMode = OverlayModes.Power.ID;

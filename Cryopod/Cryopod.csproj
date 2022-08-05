@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<!-- General Package Properties -->
 	<PropertyGroup>
@@ -25,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>Cryogenic Technologies</ModName>
 		<ModDescription>MODDESCR</ModDescription>
-		<SupportedContent>ALL/</SupportedContent>
+		<SupportedContent>EXPANSION1_ID</SupportedContent>
 		<MinimumSupportedBuild>498381</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
@@ -41,5 +41,17 @@
 	
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <None Update="ModAssets\anim\assets\cryo_chamber_buildable\cryo_chamber_buildable.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\cryo_chamber_buildable\cryo_chamber_buildable_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\cryo_chamber_buildable\cryo_chamber_buildable_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 </Project>

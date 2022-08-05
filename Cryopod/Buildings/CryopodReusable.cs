@@ -33,8 +33,8 @@ namespace Cryopod.Buildings
 		[Serialize] public List<string> StoredSicknessIDs = new List<string>(); //Sicknessses the dupe had prior to storing
 		[Serialize] public float InternalTemperatureKelvin;
 
-		public float InternalTemperatureKelvinUpperLimit = 310.15f;
-		public float InternalTemperatureKelvinLowerLimit = 77.15f;
+		public const float InternalTemperatureKelvinUpperLimit = 310.15f;
+		public const float InternalTemperatureKelvinLowerLimit = 77.15f;
 		public float TimeForProcess = 60f;
 		[Serialize] public CellOffset dropOffset = CellOffset.none;
 
@@ -114,11 +114,11 @@ namespace Cryopod.Buildings
 		public bool SidescreenEnabled() => true;
 
 		public bool SidescreenButtonInteractable() => this.HoldingDupe() &&
-			!this.smi.IsInsideState(this.smi.sm.HoldingDuplicant.Thawing);
+			!this.smi.IsInsideState(this.smi.sm.HoldingDuplicant.Working.Thawing);
 
         public void OnSidescreenButtonPressed()
         {
-			Debug.Log("DEBUG: CHORE EXISTING: "+WorkableOpen.ChoreExisting());
+			//Debug.Log("DEBUG: CHORE EXISTING: "+WorkableOpen.ChoreExisting());
 
 			if (!WorkableOpen.ChoreExisting())
             {
@@ -148,7 +148,7 @@ namespace Cryopod.Buildings
 		public void OpenChoreDone()
         {
 
-			this.smi.GoTo(this.smi.sm.HoldingDuplicant.Thawing);
+			this.smi.GoTo(this.smi.sm.HoldingDuplicant.Working.Thawing);
 			this.RefreshSideScreen();
 		}
 		
@@ -181,12 +181,11 @@ namespace Cryopod.Buildings
 			if (ForceThawed>0)
             {
 				HandleCryoDamage(NewDupeDeserialized, ForceThawed);
-				//Debug.Log(NewDupeDeserialized + " should have CryoSickness with Hardness "+ForceThawed );
 				ForceThawed = 0;
 			}
 			
 			ChoreProvider choreProvider = NewDupeDeserialized.GetComponent<ChoreProvider>();
-			Debug.Log(this.transform.GetPosition().z+ " FG-Layer of building");
+			//Debug.Log(this.transform.GetPosition().z+ " FG-Layer of building");
 
 			if ((UnityEngine.Object)choreProvider != (UnityEngine.Object) null && !skipAnim)
 			{
@@ -221,7 +220,7 @@ namespace Cryopod.Buildings
 			Effect cryoSickness = new Effect(
 				 ModAssets.ForcedCryoThawedID,
 				 STRINGS.DUPLICANTS.STATUSITEMS.FORCETHAWED.NAME,
-				 STRINGS.DUPLICANTS.STATUSITEMS.FORCETHAWED.NAME,
+				 STRINGS.DUPLICANTS.STATUSITEMS.FORCETHAWED.TOOLTIP,
 				 120f,
 				 true,
 				 true,
@@ -274,6 +273,12 @@ namespace Cryopod.Buildings
 			this.InternalTemperatureKelvin = InternalTemperatureKelvinUpperLimit; 
 		}
 
+		private float GetMeterPercentage()
+        {
+			var percentage = (InternalTemperatureKelvin - InternalTemperatureKelvinLowerLimit) / (InternalTemperatureKelvinUpperLimit - InternalTemperatureKelvinLowerLimit); //base 100%
+
+			return Mathf.Clamp01(percentage);
+		}
 
 		private void ChangeInternalTemperature(float dt, TemperatureMode cooling)
         {
@@ -302,12 +307,32 @@ namespace Cryopod.Buildings
 
         #endregion
         #region StateMachine
+		public enum EnergyConsumption
+        {
+			None,
+			EnergySaver,
+			FullPower
+        }
 
         public class StatesInstance : GameStateMachine<States, StatesInstance, CryopodReusable, object>.GameInstance
 		{
 			private HandleVector<int>.Handle structureTemperature;
+			public MeterController meter { get; private set; }
+
+			private Color32 colorCold = new Color32(39, 183, 245, 255);
+			private Color32 colorWarm = new Color32(22, 207, 39, 255);
+			private Color32 colorBad = new Color32(255, 0, 0, 255);
+
 			private float coolingHeatKW = 80.0f;
 			private float steadyHeatKW = 0.0f;
+
+			public void ApplyTint(bool badState = false)
+            {
+				float lerpVal = smi.master.GetMeterPercentage();
+				var currentColor = badState ? colorBad : Color32.Lerp(colorCold, colorWarm, lerpVal);
+				this.meter.SetSymbolTint(new KAnimHashedString("meter_fill"), currentColor);
+			}
+
 			public void ApplyCoolingExhaust(float dt,bool coolingExterior =false) {
                 if (coolingExterior)
 					GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, (-this.coolingHeatKW*0.98f) * dt, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.FOOD_TRANSFER, dt);
@@ -318,19 +343,21 @@ namespace Cryopod.Buildings
 			public float GetSaverPower() => this.GetComponent<EnergyConsumer>().WattsNeededWhenActive/10;
 
 			public float GetNormalPower() => this.GetComponent<EnergyConsumer>().WattsNeededWhenActive;
-			public void SetEnergySaver(int energySaving)
+			public void SetEnergySaver(EnergyConsumption energySaving)
 			{
 				EnergyConsumer component = this.GetComponent<EnergyConsumer>();
-				if (energySaving==1)
+				if (energySaving== EnergyConsumption.EnergySaver)
 					component.BaseWattageRating = this.GetSaverPower();
-				else if(energySaving == 0)
+				else if(energySaving == EnergyConsumption.FullPower)
 					component.BaseWattageRating = this.GetNormalPower();
-				else if (energySaving == 2)
+				else if (energySaving == EnergyConsumption.None)
 					component.BaseWattageRating = 0f;
 			}
 			public StatesInstance(CryopodReusable master) : base(master)
 			{
-				this.structureTemperature = GameComps.StructureTemperatures.GetHandle(this.gameObject);
+				this.structureTemperature = GameComps.StructureTemperatures.GetHandle(this.gameObject); 
+				
+				this.meter = new MeterController((KAnimControllerBase)this.GetComponent<KBatchedAnimController>(), "meter_overlay", nameof(meter), Meter.Offset.Infront, Grid.SceneLayer.NoLayer, Array.Empty<string>());
 			}
 		}
 
@@ -341,17 +368,17 @@ namespace Cryopod.Buildings
 			[Serialize] public BoolParameter HoldsDuplicant;
 			public class HoldingDuplicantStates : State
 			{
-				public State Cooling;
-				public State OnTemperature;
-				public State Thawing;
-				public ForceStates ForceThawing;
+				public class WorkingStates : State
+				{
+					public State Cooling;
+					public State OnTemperature;
+					public State Thawing;
+
+				}
+				public WorkingStates Working;
+				public State ForceThawing;
 				public State ThrowDupeOut;
 				public State ThrowDupeOutPost;
-				public class ForceStates : State{
-					public State Entombed;
-					public State OverHeated;
-					public State NoPower;
-				}
 			}
 
 			public State Init;
@@ -376,14 +403,13 @@ namespace Cryopod.Buildings
 					}
 					smi.master.operational.SetActive(true);
 					Debug.Log(smi.master.operational.IsActive);
-				})
-					//.ToggleStatusItem("State: Init", "")
-					;
+				});
 
 
 				Idle
-					.Enter(smi => { smi.SetEnergySaver(2);
+					.Enter(smi => { smi.SetEnergySaver(EnergyConsumption.None);
 						smi.sm.defrostedDuplicant.Set(null, smi);
+						smi.meter.SetPositionPercent(smi.master.GetMeterPercentage());
 					})
 					.Update((smi,dt)=>smi.ApplySteadyExhaust(dt))
 					.QueueAnim("off");
@@ -395,51 +421,62 @@ namespace Cryopod.Buildings
 					.Exit(smi => smi.master.StartCoolingProcess())
 					.GoTo(HoldingDuplicant);
 
-				HoldingDuplicant.defaultState = HoldingDuplicant.Cooling;
+				HoldingDuplicant.defaultState = HoldingDuplicant.Working.Cooling;
 				HoldingDuplicant
 					.Enter(smi => { smi.master.UpdateLogicCircuit();
 
-						})
+					})
 					.Exit(smi => smi.master.UpdateLogicCircuit())
+					.Update((smi, dt) => 
+					{ 
+						smi.meter.SetPositionPercent(smi.master.GetMeterPercentage()); 
+					})
 					.ToggleStatusItem(ModAssets.StatusItems.DupeName, smi => smi.master)
 					.ToggleStatusItem(ModAssets.StatusItems.CurrentDupeTemperature, smi => smi.master);
-				HoldingDuplicant.Cooling
-					.Enter(smi => smi.SetEnergySaver(0))
-					.Exit(smi => smi.SetEnergySaver(1))
-					.QueueAnim("working_loop")
+				HoldingDuplicant.Working.Cooling
+					.Enter(smi => smi.SetEnergySaver(EnergyConsumption.FullPower))
+					.Exit(smi => smi.SetEnergySaver(EnergyConsumption.EnergySaver))
 					.Update("Freezing", (smi, dt) =>
 					{
 						smi.ApplyCoolingExhaust(dt, false);
 						smi.master.ChangeInternalTemperature(dt, TemperatureMode.Freezing);
 
 					}, UpdateRate.SIM_200ms)
-					.ParamTransition<bool>(this.HasReachedTargetTemp, this.HoldingDuplicant.OnTemperature, IsTrue)
+					.ParamTransition<bool>(this.HasReachedTargetTemp, this.HoldingDuplicant.Working.OnTemperature, IsTrue)
 					.EventTransition(GameHashes.OperationalChanged, HoldingDuplicant.ForceThawing, smi => !smi.GetComponent<Operational>().IsOperational)
 					;
 
-				HoldingDuplicant.OnTemperature
+				HoldingDuplicant.Working.OnTemperature
 					//.ToggleStatusItem("State: OnTemp.", "")
 					.Enter((smi) => HasReachedTargetTemp.Set(false, smi))
 					.Update((smi, dt) => smi.ApplySteadyExhaust(dt))
 					.ToggleStatusItem(ModAssets.StatusItems.EnergySaverModeCryopod, smi => smi.master)
 					.EventTransition(GameHashes.OperationalChanged, HoldingDuplicant.ForceThawing, smi => !smi.GetComponent<Operational>().IsOperational)
 					;
-				HoldingDuplicant.ForceThawing
+				HoldingDuplicant.Working
+					.PlayAnim("working_loop",KAnim.PlayMode.Loop)
+					.Update((smi, dt) =>
+					{
+						smi.ApplyTint();
+						smi.meter.SetPositionPercent(smi.master.GetMeterPercentage());
+					});
 
+				HoldingDuplicant.ForceThawing
 					.ToggleStatusItem(ModAssets.StatusItems.CryoDamage, smi => smi.master)
 					.Update("ForceThawing", (smi, dt) =>
 					{
+						smi.ApplyTint(true);
 						smi.ApplyCoolingExhaust(dt, true);
 						smi.master.ChangeInternalTemperature(dt, TemperatureMode.ForceThawing);
 
 					}, UpdateRate.SIM_200ms)
 					.ParamTransition<bool>(this.HasReachedTargetTemp, this.HoldingDuplicant.ThrowDupeOut, IsTrue)
-						.EventTransition(GameHashes.OperationalChanged, HoldingDuplicant.Cooling, smi => smi.GetComponent<Operational>().IsOperational)
+						.EventTransition(GameHashes.OperationalChanged, HoldingDuplicant.Working.Cooling, smi => smi.GetComponent<Operational>().IsOperational)
 					;
-				HoldingDuplicant.Thawing
+				HoldingDuplicant.Working.Thawing
 					//.ToggleStatusItem("State: Thawing.", "")
-					.Enter(smi => smi.SetEnergySaver(0))
-					.Exit(smi => smi.SetEnergySaver(1))
+					.Enter(smi => smi.SetEnergySaver(EnergyConsumption.FullPower))
+					.Exit(smi => smi.SetEnergySaver(EnergyConsumption.EnergySaver))
 					.Update("Thawing", (smi, dt) =>
 					{
 						smi.ApplyCoolingExhaust(dt, true);
@@ -451,7 +488,7 @@ namespace Cryopod.Buildings
 					;
 
 				HoldingDuplicant.ThrowDupeOut
-					.Exit(smi => smi.SetEnergySaver(2))
+					.Exit(smi => smi.SetEnergySaver(EnergyConsumption.None))
 					.PlayAnim("defrost")
 					.OnAnimQueueComplete(HoldingDuplicant.ThrowDupeOutPost)
 					.Enter(smi => 

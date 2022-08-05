@@ -15,8 +15,20 @@ namespace Cryopod
             { 
                 public class FORCETHAWED
                 {
-                    public static LocString NAME = "Cryo Sickness";
+                    public static LocString NAME = UI.FormatAsLink("Cryo Sickness", nameof(FORCETHAWED));
                     public static LocString TOOLTIP = "Being forcefully thawed, this Duplicant does not have a good time.";
+                }
+            }
+        }
+        public class RESEARCH
+        {
+            public class TECHS
+            {
+                public class FROSTEDDUPERESEARCH
+                {
+                    public static LocString NAME = UI.FormatAsLink("Cryogenics", nameof(FROSTEDDUPERESEARCH));
+                    public static LocString DESC = "Unlocked by investigating ancient artifacts left behind.\nEnables freezing your Duplicants in cryosleep.";
+
                 }
             }
         }
@@ -27,7 +39,7 @@ namespace Cryopod
             {
                 public class CRY_BUILDABLECRYOTANK
                 {
-                    public static LocString NAME = "Cryotank 3001";
+                    public static LocString NAME = UI.FormatAsLink("Cryotank 3001", nameof(CRY_BUILDABLECRYOTANK));
                     public static LocString DESC = (LocString)"A design found in an ancient facility, your Duplicants have managed to almost perfectly replicate it.";
                     public static LocString EFFECT = (LocString)"Can store 1 Duplicant.\n\nWill generate a lot of heat during cooling.\nWill draw a lot of heat from the surrounding area during thawing.";
                     public static LocString DEFROSTBUTTON = (LocString)"Defrost stored Friend";
@@ -68,7 +80,7 @@ namespace Cryopod
         {
             public class CRYOSICKNESS
             {
-                public static LocString NAME = (LocString)UI.FormatAsLink("Cryo Sickness", nameof(CRYOSICKNESS));
+                public static LocString NAME = "Cryo Sickness";
                 public static LocString DESCRIPTIVE_SYMPTOMS = (LocString)"A lot of cells got pierced by a non standard cryopod thawing.";
                 public static LocString DESCRIPTION = (LocString)"After a botched thawing process, this dupe will take time to feel normal again.";
             }

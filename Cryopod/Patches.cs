@@ -29,10 +29,36 @@ namespace Cryopod
         //    }
         //}
 
+        [HarmonyPatch(typeof(SpaceArtifact))]
+        [HarmonyPatch("RemoveCharm")]
+        public class UnlockCryopodOnArtifactScanning_Patch
+        {
+            public static void Postfix(SpaceArtifact __instance)
+            {
+                if (__instance.artifactType == ArtifactType.Space)
+                {
+                    int chance = DlcManager.IsExpansion1Active() ? 33 : 100;
+                    ModAssets.UnlockCryopod(chance);
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(ArtifactFinder))]
+        [HarmonyPatch("GetArtifactsOfTier")]
+        public class UnlockCryopodOnArtifactFoundBaseGame_Patch
+        {
+            public static void Prefix(ArtifactTier tier)
+            {
+                if (tier != TUNING.DECOR.SPACEARTIFACT.TIER_NONE)
+                {
+                    ModAssets.UnlockCryopod();
+                }
+            }
+        }
+
         /// <summary>
-        /// Sickness should be Stored
+        /// Disallows Researching the Cryopod
         /// </summary>
-        /// 
         [HarmonyPatch(typeof(Research))]
         [HarmonyPatch("SetActiveResearch")]
         public class Research_SetActiveResearch_Patch
@@ -41,10 +67,8 @@ namespace Cryopod
             {
                 if (tech == null)
                     return;
-                Debug.Log(tech.Id);
-                // Can use last check status - req was checked while opening research screen to generate tooltips
-                //if (tech.Id == ModAssets.Techs.FrostedDupeResearchID)
-                //tech = null;
+                if (tech.Id == ModAssets.Techs.FrostedDupeResearchID)
+                tech = null;
 
             }
         }
@@ -53,7 +77,6 @@ namespace Cryopod
         {
             public static void Postfix(ResourceTreeLoader<ResourceTreeNode> __instance, TextAsset file)
             {
-                //Debug.Log("ADDNEWTECH");
                 AddNode(__instance);
             }
 
@@ -65,20 +88,23 @@ namespace Cryopod
 
                 foreach (var item in tech_tree_nodes)
                 {
-                    if (item.Id == GameStrings.Technology.ColonyDevelopment.RoboticTools)
+                    if (item.Id == GameStrings.Technology.Medicine.MicroTargetedMedicine)
                     {
                         tempModNode = item;
                     }
-                    else if (item.Id == GameStrings.Technology.ColonyDevelopment.ArtificialFriends)
+                    else if (item.Id == GameStrings.Technology.Medicine.Pharmacology)
                     {
                         y = item.nodeY;
                     }
-                    else if (item.Id == GameStrings.Technology.ColonyDevelopment.DurableLifeSupport)
+                    else if (item.Id == GameStrings.Technology.SolidMaterial.SuperheatedForging && !DlcManager.IsExpansion1Active())
+                    {
+                        x = item.nodeX;
+                    }
+                    else if (item.Id == GameStrings.Technology.SolidMaterial.PressurizedForging && DlcManager.IsExpansion1Active())
                     {
                         x = item.nodeX;
                     }
                 }
-                Debug.Log(x + " - " + y + " -> " + tempModNode);
                 if (tempModNode == null)
                 {
                     return;
@@ -129,12 +155,7 @@ namespace Cryopod
         {
             public static void Postfix()
             {
-                var frostedResearch = Research.Instance.GetTechInstance(ModAssets.Techs.FrostedDupeResearchID);
-                //frostedResearch.progressInventory.AddResearchPoints("space", 1f);
-                frostedResearch.Purchased();
-                Game.Instance.Trigger((int)GameHashes.ResearchComplete, frostedResearch.tech);
-                //Game.Instance.Trigger(-107300940, (object)this.activeResearch.tech);
-
+                ModAssets.UnlockCryopod();
             }
         }
         [HarmonyPatch(typeof(GeneratedBuildings))]
@@ -144,7 +165,7 @@ namespace Cryopod
 
             public static void Prefix()
             {
-                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, BuildableCryopodConfig.ID);
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Medicine, BuildableCryopodConfig.ID);
             }
         }
 

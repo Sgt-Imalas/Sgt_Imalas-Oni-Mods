@@ -23,7 +23,7 @@ namespace Cryopod
             this.synchronizeAnims = false;
             this.overrideAnims = new KAnimFile[1]
             {
-            Assets.GetAnim((HashedString) "anim_interacts_warp_portal_sender_kanim")
+            Assets.GetAnim((HashedString) "anim_sleep_bed_kanim")
             };
             this.SetWorkTime(float.PositiveInfinity);
             this.showProgressBar = false;
