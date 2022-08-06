@@ -8,9 +8,9 @@ using UnityEngine;
 
 namespace Cryopod.Buildings
 {
-    class BuildableCryopodLiquidConfig : IBuildingConfig
+    class BuildableCryopodConfig : IBuildingConfig
     {
-        public const string ID = "CRY_BuildableCryoTankLiquid";
+        public const string ID = "CRY_BuildableCryoTank";
 
         public override BuildingDef CreateBuildingDef()
         {
@@ -18,13 +18,13 @@ namespace Cryopod.Buildings
             string[] material = MATERIALS.REFINED_METALS;
             EffectorValues noise = TUNING.NOISE_POLLUTION.NOISY.TIER1;
             EffectorValues decor = TUNING.BUILDINGS.DECOR.BONUS.TIER0;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 3, "cryo_chamber_buildable_liquid_kanim", 100, 30f, mass, material, 1600f, BuildLocationRule.OnFloor, decor, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 3, "cryo_chamber_buildable_kanim", 100, 30f, mass, material, 1600f, BuildLocationRule.OnFloor, decor, noise);
 
             buildingDef.RequiresPowerInput = true;
             buildingDef.AddLogicPowerPort = false;
             buildingDef.OverheatTemperature = 498.15f;
-            buildingDef.EnergyConsumptionWhenActive = 50f;
-            buildingDef.SelfHeatKilowattsWhenActive = 0.0f;
+            buildingDef.EnergyConsumptionWhenActive = 960f;
+            buildingDef.SelfHeatKilowattsWhenActive = 0.125f;
             buildingDef.ExhaustKilowattsWhenActive = 0.0f;
             buildingDef.ViewMode = OverlayModes.Power.ID;
             buildingDef.AudioCategory = "Metal";

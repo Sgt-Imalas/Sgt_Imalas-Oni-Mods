@@ -139,6 +139,7 @@ namespace Cryopod
                 var CryoTech = new Tech(ModAssets.Techs.FrostedDupeResearchID, new List<string>
                 {
                     BuildableCryopodConfig.ID,
+                    BuildableCryopodLiquidConfig.ID,
                 },
                 __instance);
 
@@ -166,6 +167,7 @@ namespace Cryopod
             public static void Prefix()
             {
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Medicine, BuildableCryopodConfig.ID);
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Medicine, BuildableCryopodLiquidConfig.ID);
             }
         }
 

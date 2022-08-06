@@ -32,10 +32,10 @@ namespace Cryopod.Buildings
 		[Serialize] public float storedDupeDamage = -1; //Damage the dupe has recieved prior to storing
 		[Serialize] public List<string> StoredSicknessIDs = new List<string>(); //Sicknessses the dupe had prior to storing
 		[Serialize] public float InternalTemperatureKelvin;
-
+		[Serialize] public BuildingeMode buildingeMode;
 		public const float InternalTemperatureKelvinUpperLimit = 310.15f;
 		public const float InternalTemperatureKelvinLowerLimit = 77.15f;
-		public float TimeForProcess = 60f;
+		public float TimeForProcess = 20f;
 		[Serialize] public CellOffset dropOffset = CellOffset.none;
 
 		private Chore AnimationChore;
@@ -51,7 +51,6 @@ namespace Cryopod.Buildings
 			}
 			return "No duplicant stored.";
         }
-
         
 		public void RefreshSideScreen()
 		{
@@ -136,8 +135,12 @@ namespace Cryopod.Buildings
 
 
 
-        #region Freezing&Thawing
-		
+		#region Freezing&Thawing
+		public enum BuildingeMode
+		{
+			Piped,
+			Standalone
+		}
 		private enum TemperatureMode
         {
 			Freezing,
@@ -251,11 +254,6 @@ namespace Cryopod.Buildings
 			cryoSickness.SelfModifiers = debuffs;
 			//helf.Damage(doDamage);
 			helf.StartCoroutine(this.KillOnEndEditRoutine(helf, doDamage));
-			if (helf.hitPoints == 0)
-            {
-				//helf.Incapacitate(GameTags.HitPointsDepleted);
-			}
-			Debug.Log("Health State: " + helf.State);
 			dupe.GetComponent<Effects>().Add(cryoSickness, true);
 		}
 		private IEnumerator KillOnEndEditRoutine(Health helf, float dmg)
@@ -334,10 +332,17 @@ namespace Cryopod.Buildings
 			}
 
 			public void ApplyCoolingExhaust(float dt,bool coolingExterior =false) {
-                if (coolingExterior)
-					GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, (-this.coolingHeatKW*0.98f) * dt, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.FOOD_TRANSFER, dt);
-				else
-					GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, this.coolingHeatKW * dt, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.FOOD_TRANSFER, dt);
+
+				if (smi.master.buildingeMode == BuildingeMode.Standalone)
+				{
+					if (coolingExterior)
+						GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, (-this.coolingHeatKW * 0.98f) * dt, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.FOOD_TRANSFER, dt);
+					else
+						GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, this.coolingHeatKW * dt, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.FOOD_TRANSFER, dt);
+				}
+				else if (smi.master.buildingeMode == BuildingeMode.Piped)
+				{ 
+				}
 			}
 			public void ApplySteadyExhaust(float dt) => GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, this.steadyHeatKW * dt, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.FOOD_TRANSFER, dt);
 			public float GetSaverPower() => this.GetComponent<EnergyConsumer>().WattsNeededWhenActive/10;
@@ -358,6 +363,19 @@ namespace Cryopod.Buildings
 				this.structureTemperature = GameComps.StructureTemperatures.GetHandle(this.gameObject); 
 				
 				this.meter = new MeterController((KAnimControllerBase)this.GetComponent<KBatchedAnimController>(), "meter_overlay", nameof(meter), Meter.Offset.Infront, Grid.SceneLayer.NoLayer, Array.Empty<string>());
+				this.meter.SetSymbolTint(new KAnimHashedString("meter_fill"), colorWarm);
+				this.meter.SetPositionPercent(smi.master.GetMeterPercentage());
+
+				if(master.buildingeMode == BuildingeMode.Standalone)
+                {
+					coolingHeatKW = 80.0f;
+					 steadyHeatKW = 0.0f;
+				}
+				else if(master.buildingeMode == BuildingeMode.Piped)
+                {
+					coolingHeatKW = 0.0f;
+					steadyHeatKW = 0.0f;
+				}
 			}
 		}
 

@@ -53,5 +53,14 @@
 	  <None Update="ModAssets\anim\assets\cryo_chamber_buildable\cryo_chamber_buildable_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\anim\assets\cryo_chamber_buildable_liquid\cryo_chamber_buildable_liquid.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\cryo_chamber_buildable_liquid\cryo_chamber_buildable_liquid_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\cryo_chamber_buildable_liquid\cryo_chamber_buildable_liquid_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 </Project>
