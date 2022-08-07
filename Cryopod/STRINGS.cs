@@ -39,12 +39,18 @@ namespace Cryopod
             {
                 public class CRY_BUILDABLECRYOTANK
                 {
-                    public static LocString NAME = UI.FormatAsLink("Cryotank 3001", nameof(CRY_BUILDABLECRYOTANK));
+                    public static LocString NAME = UI.FormatAsLink("Cryotank 4000", nameof(CRY_BUILDABLECRYOTANK));
                     public static LocString DESC = (LocString)"A design found in an ancient facility, your Duplicants have managed to almost perfectly replicate it.";
                     public static LocString EFFECT = (LocString)"Can store 1 Duplicant.\n\nWill generate a lot of heat during cooling.\nWill draw a lot of heat from the surrounding area during thawing.";
                     public static LocString DEFROSTBUTTON = (LocString)"Defrost stored Friend";
                     public static LocString DEFROSTBUTTONCANCEL = (LocString)"Cancel Defrosting";
                     public static LocString DEFROSTBUTTONTOOLTIP = (LocString)"Unfreeze the duplicant stored here.";
+                }
+                public class CRY_BUILDABLECRYOTANKLIQUID
+                {
+                    public static LocString NAME = UI.FormatAsLink("Cryotank 5000", nameof(CRY_BUILDABLECRYOTANK));
+                    public static LocString DESC = (LocString)"A design found in an ancient facility, your Duplicants have managed to almost perfectly replicate it.";
+                    public static LocString EFFECT = (LocString)"Can store 1 Duplicant.\n\nHeats up the liquid pumped through during freezing.\nCools down the liquid pumped through during thawing.";
                 }
             }
         }
@@ -63,6 +69,21 @@ namespace Cryopod
                 {
                     public static LocString NAME = "Duplicant in cryogenic sleep: {DupeName}";
                     public static LocString TOOLTIP = "{DupeName} takes a cool nap.";
+                }
+                public class CRY_DUPLICANTHEALTHSTATUS
+                {
+                    public static LocString NAME = "Cryogenic Healthyness: {DupeHealthState}";
+                    public static LocString TOOLTIP = "{DupeHealthStateTooltip}";
+                    public static LocString HEALTHGOODNAME = "Healthy";
+                    public static LocString HEALTHSOMEDAMAGENAME = "Light Wounds";
+                    public static LocString HEALTHMAJORDAMAGENAME = "Severe Wounds";
+                    public static LocString HEALTHINCAPACITATENAME = "Critical";
+
+
+                    public static LocString HEALTHGOOD = "The Duplicant is in a healthy condition";
+                    public static LocString HEALTHSOMEDAMAGE = "The Duplicant has suffered minor damage due to malfunctions.";
+                    public static LocString HEALTHMAJORDAMAGE = "The Duplicant has suffered major damage due to malfunctions!";
+                    public static LocString HEALTHINCAPACITATE = "The Duplicant has suffered extreme amounts of cell damage and will die if thawed";
                 }
                 public class CRY_DUPLICANTCRYODAMAGE
                 {

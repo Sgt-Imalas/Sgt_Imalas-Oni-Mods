@@ -8,22 +8,30 @@ using UnityEngine;
 
 namespace Cryopod.Buildings
 {
-    class BuildableCryopodLiquidConfig : IBuildingConfig
+    class BuildableCryopodConfig : IBuildingConfig
     {
-        public const string ID = "CRY_BuildableCryoTankLiquid";
+        public const string ID = "CRY_BuildableCryoTank";
 
         public override BuildingDef CreateBuildingDef()
         {
-            float[] mass = TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER4;
-            string[] material = MATERIALS.REFINED_METALS;
+            float[] mass = {
+                800f,
+                200f,
+                200f,
+            };
+            string[] material = {
+                "RefinedMetal"
+                ,"Glass"
+                ,"Plastic"
+            };
             EffectorValues noise = TUNING.NOISE_POLLUTION.NOISY.TIER1;
             EffectorValues decor = TUNING.BUILDINGS.DECOR.BONUS.TIER0;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 3, "cryo_chamber_buildable_liquid_kanim", 100, 30f, mass, material, 1600f, BuildLocationRule.OnFloor, decor, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 3, "cryo_chamber_buildable_kanim", 100, 30f, mass, material, 1600f, BuildLocationRule.OnFloor, decor, noise);
 
             buildingDef.RequiresPowerInput = true;
             buildingDef.AddLogicPowerPort = false;
-            buildingDef.OverheatTemperature = 498.15f;
-            buildingDef.EnergyConsumptionWhenActive = 50f;
+            buildingDef.OverheatTemperature = 348.15f;
+            buildingDef.EnergyConsumptionWhenActive = 960f;
             buildingDef.SelfHeatKilowattsWhenActive = 0.0f;
             buildingDef.ExhaustKilowattsWhenActive = 0.0f;
             buildingDef.ViewMode = OverlayModes.Power.ID;
@@ -45,6 +53,7 @@ namespace Cryopod.Buildings
 
         public override void DoPostConfigureComplete(GameObject go)
         {
+            go.GetComponent<Overheatable>().baseOverheatTemp = 398.15f;
             var ownable = go.AddOrGet<Ownable>();
             ownable.tintWhenUnassigned = false;
             ownable.slotID = Db.Get().AssignableSlots.WarpPortal.Id;

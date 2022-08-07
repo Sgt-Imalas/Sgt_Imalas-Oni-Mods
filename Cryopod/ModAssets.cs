@@ -14,6 +14,7 @@ namespace Cryopod
         public class StatusItems
         {
             public static StatusItem DupeName;
+            public static StatusItem DupeHealth;
             public static StatusItem CurrentDupeTemperature;
             public static StatusItem CryoDamage;
             public static StatusItem EnergySaverModeCryopod;
@@ -37,6 +38,16 @@ namespace Cryopod
                    NotificationType.Neutral,
                    false,
                    OverlayModes.None.ID);
+
+                DupeHealth = new StatusItem(
+                   "CRY_DuplicantHealthStatus",
+                   "BUILDING",
+                   "",
+                   StatusItem.IconType.Info,
+                   NotificationType.Neutral,
+                   false,
+                   OverlayModes.None.ID);
+
                 CurrentDupeTemperature = new StatusItem(
                    "CRY_DuplicantInternalTemperature",
                    "BUILDING",
@@ -66,6 +77,41 @@ namespace Cryopod
                     return str;
                 });
 
+                DupeHealth.SetResolveStringCallback((str, obj) =>
+                {
+                    if (obj is CryopodReusable cryopod)
+                    {
+                        string name = "", tooltip = "";
+                        var potentialDamage = cryopod.GetDamage() / 2;
+                        //Debug.Log("DAMAGE: " + potentialDamage);
+                        if (potentialDamage <= 1f)
+                        {
+                            name = STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTHEALTHSTATUS.HEALTHGOODNAME;
+                            tooltip = STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTHEALTHSTATUS.HEALTHGOOD;
+                        }
+                        if (potentialDamage > 1 && potentialDamage <= 50)
+                        {
+                            name = STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTHEALTHSTATUS.HEALTHSOMEDAMAGENAME;
+                            tooltip = STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTHEALTHSTATUS.HEALTHSOMEDAMAGE;
+                        }
+                        if (potentialDamage > 50 && potentialDamage <= 99)
+                        {
+                            name = STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTHEALTHSTATUS.HEALTHMAJORDAMAGENAME;
+                            tooltip = STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTHEALTHSTATUS.HEALTHMAJORDAMAGE;
+                        }
+                        if (potentialDamage > 99)
+                        {
+                            name = STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTHEALTHSTATUS.HEALTHINCAPACITATENAME;
+                            tooltip = STRINGS.BUILDING.STATUSITEMS.CRY_DUPLICANTHEALTHSTATUS.HEALTHINCAPACITATE;
+                        }
+
+                        if (str.Contains("{DupeHealthState}"))
+                            return str.Replace("{DupeHealthState}", name);
+                        if (str.Contains("{DupeHealthStateTooltip}"))
+                            return str.Replace("{DupeHealthStateTooltip}", tooltip);
+                    }
+                    return str;
+                });
                 CurrentDupeTemperature.SetResolveStringCallback((str, obj) =>
                 {
                     if (obj is CryopodReusable cryopod)

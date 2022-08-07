@@ -8,23 +8,31 @@ using UnityEngine;
 
 namespace Cryopod.Buildings
 {
-    class BuildableCryopodConfig : IBuildingConfig
+    class BuildableCryopodLiquidConfig : IBuildingConfig
     {
-        public const string ID = "CRY_BuildableCryoTank";
+        public const string ID = "CRY_BuildableCryoTankLiquid";
 
         public override BuildingDef CreateBuildingDef()
         {
-            float[] mass = TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER4;
-            string[] material = MATERIALS.REFINED_METALS;
+            float[] mass = {
+                800f,
+                200f,
+                200f,
+            };
+            string[] material = {
+                "RefinedMetal"
+                ,"Glass"
+                ,"Plastic"
+            };
             EffectorValues noise = TUNING.NOISE_POLLUTION.NOISY.TIER1;
             EffectorValues decor = TUNING.BUILDINGS.DECOR.BONUS.TIER0;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 3, "cryo_chamber_buildable_kanim", 100, 30f, mass, material, 1600f, BuildLocationRule.OnFloor, decor, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 3, "cryo_chamber_buildable_liquid_kanim", 100, 30f, mass, material, 1600f, BuildLocationRule.OnFloor, decor, noise);
 
             buildingDef.RequiresPowerInput = true;
             buildingDef.AddLogicPowerPort = false;
-            buildingDef.OverheatTemperature = 498.15f;
-            buildingDef.EnergyConsumptionWhenActive = 960f;
-            buildingDef.SelfHeatKilowattsWhenActive = 0.125f;
+            buildingDef.OverheatTemperature = 348.15f;
+            buildingDef.EnergyConsumptionWhenActive = 50f;
+            buildingDef.SelfHeatKilowattsWhenActive = 0.0f;
             buildingDef.ExhaustKilowattsWhenActive = 0.0f;
             buildingDef.ViewMode = OverlayModes.Power.ID;
             buildingDef.AudioCategory = "Metal";
@@ -35,12 +43,19 @@ namespace Cryopod.Buildings
             buildingDef.LogicOutputPorts = new List<LogicPorts.Port>(){
                 LogicPorts.Port.OutputPort(FilteredStorage.FULL_PORT_ID, new CellOffset(0, 1), (string) global::STRINGS.BUILDINGS.PREFABS.REFRIGERATOR.LOGIC_PORT, (string) global::STRINGS.BUILDINGS.PREFABS.REFRIGERATOR.LOGIC_PORT_ACTIVE, (string) global::STRINGS.BUILDINGS.PREFABS.REFRIGERATOR.LOGIC_PORT_INACTIVE)
             };
+
+            buildingDef.InputConduitType = ConduitType.Liquid;
+            buildingDef.OutputConduitType = ConduitType.Liquid;
+            buildingDef.UtilityInputOffset = new CellOffset(2, 0);
+            buildingDef.UtilityOutputOffset = new CellOffset(2, 1);
+
             return buildingDef;
         }
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
             UnityEngine.Object.DestroyImmediate(go.GetComponent<BuildingEnabledButton>());
             go.GetComponent<KPrefabID>().AddTag(GameTags.NotRocketInteriorBuilding);
+            AddLiquidStuff(go);
         }
 
         public override void DoPostConfigureComplete(GameObject go)
@@ -53,10 +68,26 @@ namespace Cryopod.Buildings
             var cryopod = go.AddOrGet<CryopodReusable>();
             cryopod.dropOffset = new CellOffset(1, 0);
             cryopod.InternalTemperatureKelvin = CryopodReusable.InternalTemperatureKelvinUpperLimit;
-            cryopod.buildingeMode = CryopodReusable.BuildingeMode.Standalone;
+            cryopod.buildingeMode = CryopodReusable.BuildingeMode.Piped;
+            go.AddOrGet<CryopodLiquidPortAddon>();
             go.AddOrGet<CryopodFreezeWorkable>(); 
             go.AddOrGet<OpenCryopodWorkable>(); 
             go.AddOrGet<Prioritizable>();
+        }
+        private void AddLiquidStuff(GameObject go)
+        {
+            Storage storage = go.AddOrGet<Storage>();
+            storage.showInUI = true; //False for release
+            storage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
+            ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
+            conduitConsumer.capacityKG = 60f;
+            conduitConsumer.conduitType = ConduitType.Liquid;
+            conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+            conduitConsumer.storage = storage;
+            ConduitDispenser conduitDispenser = go.AddOrGet<ConduitDispenser>();
+            conduitDispenser.conduitType = ConduitType.Liquid;
+            conduitDispenser.storage = storage;
+            conduitDispenser.isOn = false;
         }
         
     }    
