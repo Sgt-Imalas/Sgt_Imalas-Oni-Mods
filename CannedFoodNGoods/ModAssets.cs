@@ -12,5 +12,23 @@ namespace CannedFoods
         {
             public static Tag DropCanOnEat = TagManager.Create("CF_Drop_Can_On_Eat");
         }
+        public sealed class ExportSettings
+        {
+            private static readonly Lazy<ExportSettings> lazy =
+            new Lazy<ExportSettings>(() => new ExportSettings());
+
+            public static ExportSettings Instance { get { return lazy.Value; } }
+
+            
+            public SimHashes GetMaterialHashForCans()
+            {
+                return Config.Instance.GetCanElement();
+            }
+            public Tag GetCanTag()
+            {
+                return Tags.DropCanOnEat;
+            }
+
+        }
     }
 }

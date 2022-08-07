@@ -23,7 +23,7 @@ namespace CannedFoods.Foods
             }
             private static void AddCannedTunaRecipe()
             {
-                var MetalTag = Config.Instance.UsesAluminumForCans ? SimHashes.Aluminum.CreateTag() : SimHashes.Copper.CreateTag();
+                var MetalTag = Config.Instance.GetCanElement().CreateTag();
                 RecipeElement[] input = new RecipeElement[]
                 {
                     new RecipeElement(MetalTag, 0.5f),
@@ -47,7 +47,7 @@ namespace CannedFoods.Foods
             }
             private static void AddCannedBBQRecipe()
             {
-                var MetalTag = Config.Instance.UsesAluminumForCans ? SimHashes.Aluminum.CreateTag() : SimHashes.Copper.CreateTag();
+                var MetalTag = Config.Instance.GetCanElement().CreateTag();
                 RecipeElement[] input = new RecipeElement[]
                 {
                     new RecipeElement(MetalTag, 0.5f),
@@ -97,7 +97,7 @@ namespace CannedFoods.Foods
             }
             private static void AddRecyclingRecipeRockCrusher()
             {
-                var metalTag =  Config.Instance.UsesAluminumForCans ? SimHashes.Aluminum.CreateTag() : SimHashes.Copper.CreateTag();
+                var metalTag = Config.Instance.GetCanElement().CreateTag();
                 var input = new RecipeElement[]
                 {
                     new RecipeElement(TagManager.Create(CanScrapConfig.ID), 10f)
@@ -133,7 +133,7 @@ namespace CannedFoods.Foods
             }
             private static void AddRecyclingRecipeMetalRefinery()
             {
-                var metalTag = Config.Instance.UsesAluminumForCans ? SimHashes.Aluminum.CreateTag() : SimHashes.Copper.CreateTag();
+                var metalTag = Config.Instance.GetCanElement().CreateTag();
                 var input = new RecipeElement[]
                 {
                     new RecipeElement(TagManager.Create(CanScrapConfig.ID), 10f)
@@ -177,7 +177,7 @@ namespace CannedFoods.Foods
             }
             public static void DropCan(Edible gameObject, float mass)
             {
-                var MetalHash = Config.Instance.UsesAluminumForCans ? SimHashes.Aluminum : SimHashes.Copper;
+                var MetalHash = Config.Instance.GetCanElement();
                 var element = ElementLoader.FindElementByHash(MetalHash);
                 var temperature = gameObject.GetComponent<PrimaryElement>().Temperature;
 

@@ -14,12 +14,32 @@ namespace CannedFoods
     [ModInfo("Canned Food")]
     public class Config : SingletonOptions<Config>
     {
-        [Option("More realistic can material", "changes the material used for the cans from copper to aluminum to reflect the material used in the real world.")]
+        [Option("Can material", "Select the material the cans are made of.\nThis affects the recipes and the drops")]
         [JsonProperty]
-        public bool UsesAluminumForCans { get; set; }
+        public MaterialUsed UsesAluminumForCans { get; set; }
         public Config()
         {
-            UsesAluminumForCans = false;
+            UsesAluminumForCans = MaterialUsed.Copper;
         }
+        public enum MaterialUsed
+        {
+            Steel,
+            Aluminum,
+            Copper
+        }
+        public SimHashes GetCanElement()
+        {
+            switch (UsesAluminumForCans)
+            {
+                case MaterialUsed.Steel:
+                    return SimHashes.Steel;
+                case MaterialUsed.Aluminum:
+                    return SimHashes.Aluminum;
+                case MaterialUsed.Copper:
+                default:
+                    return SimHashes.Copper;
+            }
+        }
+
     }
 }
