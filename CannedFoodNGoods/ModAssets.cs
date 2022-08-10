@@ -20,11 +20,11 @@ namespace CannedFoods
             public static ExportSettings Instance { get { return lazy.Value; } }
 
             
-            public SimHashes GetMaterialHashForCans()
+            public static SimHashes GetMaterialHashForCans()
             {
                 return Config.Instance.GetCanElement();
             }
-            public Tag GetCanTag()
+            public static Tag GetCanTag()
             {
                 return Tags.DropCanOnEat;
             }

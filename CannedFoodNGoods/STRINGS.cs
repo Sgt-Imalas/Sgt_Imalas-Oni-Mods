@@ -6,6 +6,15 @@ namespace CannedFoods
     {
         public class ITEMS
         {
+            public class INDUSTRIAL_PRODUCTS 
+            { 
+                public class CF_CANSCRAP
+                {
+                    public static LocString NAME = "Can Scraps";
+                    public static LocString DESC = "You don't want to know where this can has been.\n\nDecreases Decor\n\nCan be recycled at the Rock Crusher or the Refinery.";
+                }
+            }
+
             public class FOOD
             {
                 public class CF_CANNEDBBQ

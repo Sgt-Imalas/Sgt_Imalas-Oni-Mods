@@ -10,8 +10,7 @@ namespace CannedFoods
     class CanScrapConfig : IEntityConfig
     {
         public const string ID = "CF_CanScrap";
-        public const string NAME = "Can Scraps";
-        public const string DESC = "You don't want to know where this can has been.\n\nDecreases Decor\n\nCan be recycled at the Rock Crusher or the Refinery.";
+       
         public string[] GetDlcIds()
         {
             return DlcManager.AVAILABLE_ALL_VERSIONS;
@@ -22,8 +21,8 @@ namespace CannedFoods
             var canElement = Config.Instance.GetCanElement();
             GameObject looseEntity = EntityTemplates.CreateLooseEntity(
                   id: ID,
-                  name: NAME,
-                  desc: DESC, 
+                  name: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_CANSCRAP.NAME,
+                  desc: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_CANSCRAP.DESC, 
                   mass: 1f,
                   unitMass: false,
                   anim: Assets.GetAnim("can_scrap_kanim"),
@@ -46,7 +45,7 @@ namespace CannedFoods
 
             DecorProvider decorProvider = looseEntity.AddOrGet<DecorProvider>();
             decorProvider.SetValues(TUNING.DECOR.PENALTY.TIER5);
-            decorProvider.overrideName = NAME;
+            decorProvider.overrideName = STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_CANSCRAP.NAME;
 
             return looseEntity;
         }

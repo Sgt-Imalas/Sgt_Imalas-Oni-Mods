@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUNING;
+using static CannedFoods.ModAssets;
 using static ComplexRecipe;
 
 namespace CannedFoods.Foods
@@ -23,10 +24,10 @@ namespace CannedFoods.Foods
             }
             private static void AddCannedTunaRecipe()
             {
-                var MetalTag = Config.Instance.GetCanElement().CreateTag();
+                var metalTag = ElementLoader.FindElementByHash(ExportSettings.GetMaterialHashForCans()).tag;
                 RecipeElement[] input = new RecipeElement[]
                 {
-                    new RecipeElement(MetalTag, 0.5f),
+                    new RecipeElement(metalTag, 0.5f),
                     new RecipeElement(CookedFishConfig.ID, 0.5f)
                 };
 
@@ -47,10 +48,10 @@ namespace CannedFoods.Foods
             }
             private static void AddCannedBBQRecipe()
             {
-                var MetalTag = Config.Instance.GetCanElement().CreateTag();
+                var metalTag = ElementLoader.FindElementByHash(ExportSettings.GetMaterialHashForCans()).tag;
                 RecipeElement[] input = new RecipeElement[]
                 {
-                    new RecipeElement(MetalTag, 0.5f),
+                    new RecipeElement(metalTag, 0.5f),
                     new RecipeElement(CookedMeatConfig.ID, 0.5f)
                 };
 
@@ -97,7 +98,7 @@ namespace CannedFoods.Foods
             }
             private static void AddRecyclingRecipeRockCrusher()
             {
-                var metalTag = Config.Instance.GetCanElement().CreateTag();
+                var metalTag = ElementLoader.FindElementByHash(ExportSettings.GetMaterialHashForCans()).tag;
                 var input = new RecipeElement[]
                 {
                     new RecipeElement(TagManager.Create(CanScrapConfig.ID), 10f)
@@ -113,7 +114,7 @@ namespace CannedFoods.Foods
                 ComplexRecipe complexRecipe = new ComplexRecipe(recipeID, input, output)
                 {
                     time = 10f,
-                    description = string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.RECIPE_DESCRIPTION, CanScrapConfig.NAME, (object)metalTag.ProperName()),
+                    description = string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.RECIPE_DESCRIPTION, STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_CANSCRAP.NAME, (object)metalTag.ProperName()),
                     nameDisplay = ComplexRecipe.RecipeNameDisplay.Ingredient,
                     fabricators = new List<Tag>()
                     {
@@ -133,7 +134,7 @@ namespace CannedFoods.Foods
             }
             private static void AddRecyclingRecipeMetalRefinery()
             {
-                var metalTag = Config.Instance.GetCanElement().CreateTag();
+                var metalTag = ElementLoader.FindElementByHash(Config.Instance.GetCanElement()).tag;
                 var input = new RecipeElement[]
                 {
                     new RecipeElement(TagManager.Create(CanScrapConfig.ID), 10f)
@@ -149,7 +150,7 @@ namespace CannedFoods.Foods
                 ComplexRecipe complexRecipe = new ComplexRecipe(recipeID, input, output)
                 {
                     time = 10f,
-                    description = string.Format(global::STRINGS.BUILDINGS.PREFABS.METALREFINERY.RECIPE_DESCRIPTION, (object)metalTag.ProperName(),CanScrapConfig.NAME),
+                    description = string.Format(global::STRINGS.BUILDINGS.PREFABS.METALREFINERY.RECIPE_DESCRIPTION, (object)metalTag.ProperName(),STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_CANSCRAP.NAME),
                     nameDisplay = ComplexRecipe.RecipeNameDisplay.Ingredient,
                     fabricators = new List<Tag>()
                     {
