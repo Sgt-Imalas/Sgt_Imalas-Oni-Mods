@@ -33,11 +33,12 @@ This mod adds in two constructable cryopods that allow you to freeze your Duplic
 [*]Draws 320W on Cooling / Thawing, draws 80W while holding a dupe at freezing temperature
 [*]Will get very hot / cold during the active cooling / thawing process.
 [*]Exchanges heat with the liquid pumped through, thus allowing the building to function in vacuum.
+[*]Produces a lot more heat that the non piped version, so always use in a cooling loop
 [/list] 
 
 [h1]Disclaimer[/h1]
 [list]
-[*]Don't blow up (self destruct) a rocket whith a frozen Duplicant, the Duplicant will be lost to space.
+[*]Don't blow up (self destruct) a rocket with a frozen Duplicant, the Duplicant will be lost to space.
 [*]Don't freeze all your duplicants, noone will be left to initiate thawing and your colony will be lost.
 [/list] 
 
