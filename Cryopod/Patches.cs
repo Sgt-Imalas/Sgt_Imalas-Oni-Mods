@@ -1,5 +1,4 @@
 ﻿using Cryopod.Buildings;
-using Cryopod.Entities;
 using Database;
 using HarmonyLib;
 using Klei.AI;
@@ -30,23 +29,34 @@ namespace Cryopod
         //        }
         //    }
         //}
-        [HarmonyPatch(typeof(WorldContainer))]
-        [HarmonyPatch(nameof(WorldContainer.EjectAllDupes))]
+        [HarmonyPatch(typeof(ClusterManager))]
+        [HarmonyPatch(nameof(ClusterManager.DestoryRocketInteriorWorld))]
         public static class ThrowOutFrozenDupesInsideRocket_ToWorld_Patch
         {
-            public static void Prefix(Vector3 spawn_pos, WorldContainer __instance)
+            public static void Prefix(int world_id, ClustercraftExteriorDoor door, ClusterManager __instance)
             {
-                foreach (var worldItem in ModAssets.CryoPods.GetWorldItems(__instance.id))
+                foreach (var worldItem in ModAssets.CryoPods.GetWorldItems(world_id))
                 {
-                    Debug.Log("PATCH !" + worldItem + spawn_pos);
-
-                    var icicleObject = GameUtil.KInstantiate(Assets.GetPrefab((Tag)"CRY_FrozenDupe"), spawn_pos, Grid.SceneLayer.Ore);
-                    icicleObject.SetActive(true);
-                    var icicle = icicleObject.GetComponent<frozenDupe>();
-                    Debug.Log("IS ICICLE NULL? " + icicle.name);
-                    Thawing.TransferToFrozen(worldItem, ref icicle);
-                    
+                    worldItem.ThrowOutDupe(true);
                 }
+            }
+        }
+
+
+        /// <summary>
+        /// Fixes Crash on moduleDestroy with pod inside (also why would you discover a rocket module?)
+        /// </summary>
+        [HarmonyPatch(typeof(WorldContainer))]
+        [HarmonyPatch(nameof(WorldContainer.SetDiscovered))]
+        public static class RemoveDiscoveryOfRocketModules_ToWorld_Patch
+        {
+            public static bool Prefix(WorldContainer __instance)
+            {
+                if (__instance.IsModuleInterior)
+                {
+                    return false;
+                }
+                return true;
             }
         }
 

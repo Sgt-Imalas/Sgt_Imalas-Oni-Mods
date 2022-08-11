@@ -32,7 +32,7 @@ namespace Cryopod.Buildings
             buildingDef.RequiresPowerInput = true;
             buildingDef.AddLogicPowerPort = false;
             buildingDef.OverheatTemperature = 348.15f;
-            buildingDef.EnergyConsumptionWhenActive = 50f;
+            buildingDef.EnergyConsumptionWhenActive = 240f;
             buildingDef.SelfHeatKilowattsWhenActive = 0.0f;
             buildingDef.ExhaustKilowattsWhenActive = 0.0f;
             buildingDef.ViewMode = OverlayModes.Power.ID;
@@ -74,7 +74,7 @@ namespace Cryopod.Buildings
             cryopod.dropOffset = new CellOffset(1, 0);
             cryopod.InternalTemperatureKelvin = CryopodReusable.InternalTemperatureKelvinUpperLimit;
             cryopod.buildingeMode = CryopodReusable.BuildingeMode.Piped;
-            cryopod.powerSaverEnergyUsage = 50f;
+            cryopod.powerSaverEnergyUsage = 80f;
             go.AddOrGet<CryopodLiquidPortAddon>();
             go.AddOrGet<CryopodFreezeWorkable>(); 
             go.AddOrGet<OpenCryopodWorkable>(); 

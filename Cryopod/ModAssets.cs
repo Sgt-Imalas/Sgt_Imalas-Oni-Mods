@@ -1,5 +1,4 @@
 ﻿using Cryopod.Buildings;
-using Cryopod.Entities;
 using Klei.AI;
 using System;
 using System.Collections;
@@ -140,17 +139,17 @@ namespace Cryopod
 
         public static class Thawing
         {
-            public static void TransferToFrozen(CryopodReusable from, ref frozenDupe to)
-            {
-                if(from.GetDupeName()!= "No duplicant stored.") { 
-                    Debug.Log(from + " and " + to);
-                    to.SetMinionInStorage(from.GetStoredDupe());
-                    to.SetStoredSicknesses(from.StoredSicknessIDs);
-                    to.SetDamageValue(from.storedDupeDamage);
-                    to.SetCryoDamageValue(from.GetDamage());
-                    from.DeleteDupeFromStorage(from.GetStoredDupe().First().id);
-                }
-            }
+            //public static void TransferToFrozen(CryopodReusable from, ref frozenDupe to)
+            //{
+            //    if(from.GetDupeName()!= "No duplicant stored.") { 
+            //        Debug.Log(from + " and " + to);
+            //        to.SetMinionInStorage(from.GetStoredDupe());
+            //        to.SetStoredSicknesses(from.StoredSicknessIDs);
+            //        to.SetDamageValue(from.storedDupeDamage);
+            //        to.SetCryoDamageValue(from.GetDamage());
+            //        from.DeleteDupeFromStorage(from.GetStoredDupe().First().id);
+            //    }
+            //}
             public static void HandleDupeThawing(ref GameObject dupe, ref List<string> storedSicknesses, ref float storedDamage, ref float cryoDamage)
             {
                 var dupeModifiers = dupe.GetComponent<MinionModifiers>();

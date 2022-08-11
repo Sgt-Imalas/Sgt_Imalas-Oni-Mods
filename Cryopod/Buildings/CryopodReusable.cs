@@ -1,5 +1,4 @@
-﻿using Cryopod.Entities;
-using Klei.AI;
+﻿using Klei.AI;
 using KSerialization;
 using STRINGS;
 using System;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 using static Cryopod.ModAssets;
 
 namespace Cryopod.Buildings
@@ -40,7 +40,7 @@ namespace Cryopod.Buildings
 		public const float InternalTemperatureKelvinUpperLimit = 310.15f;
 		public const float InternalTemperatureKelvinLowerLimit = 77.15f;
 		public const float TimeForProcess = 15f;
-		public const float TimeForForceThaw = 120f;
+		public const float TimeForForceThaw = 180f;
 		[Serialize] public CellOffset dropOffset = CellOffset.none;
 		public float powerSaverEnergyUsage = 50f;
 
@@ -208,9 +208,15 @@ namespace Cryopod.Buildings
 			var newDupe = DupeStorage.GetStoredMinionInfo().First();
 			var spawn_position = overrideSpawnPos == null ? Grid.CellToPosCBC(Grid.OffsetCell(Grid.PosToCell(this.transform.position), this.dropOffset), Grid.SceneLayer.BuildingUse) : (Vector3)overrideSpawnPos;
 
+			
+			
 			var NewDupeDeserialized = DupeStorage.DeserializeMinion(newDupe.id, spawn_position);
 			NewDupeDeserialized.transform.SetLocalPosition(spawn_position);
+
 			this.smi.sm.defrostedDuplicant.Set(NewDupeDeserialized, this.smi);
+
+			int SpawnCell = Grid.XYToCell((int)spawn_position.x, (int)spawn_position.y);
+			int OwnCell = Grid.XYToCell((int)this.transform.position.x, (int)this.transform.position.y);
 
 			Thawing.HandleDupeThawing(ref NewDupeDeserialized, ref StoredSicknessIDs, ref storedDupeDamage, ref ForceThawed);
 
