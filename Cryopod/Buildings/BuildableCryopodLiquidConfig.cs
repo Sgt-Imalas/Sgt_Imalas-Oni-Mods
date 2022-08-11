@@ -11,11 +11,12 @@ namespace Cryopod.Buildings
     class BuildableCryopodLiquidConfig : IBuildingConfig
     {
         public const string ID = "CRY_BuildableCryoTankLiquid";
+        public const float MetalCost = 800f;
 
         public override BuildingDef CreateBuildingDef()
         {
             float[] mass = {
-                800f,
+                MetalCost,
                 200f,
                 200f,
             };
@@ -46,8 +47,8 @@ namespace Cryopod.Buildings
 
             buildingDef.InputConduitType = ConduitType.Liquid;
             buildingDef.OutputConduitType = ConduitType.Liquid;
-            buildingDef.UtilityInputOffset = new CellOffset(2, 0);
-            buildingDef.UtilityOutputOffset = new CellOffset(2, 1);
+            buildingDef.UtilityInputOffset = new CellOffset(2, 2);
+            buildingDef.UtilityOutputOffset = new CellOffset(2, 0);
 
             return buildingDef;
         }
@@ -55,11 +56,15 @@ namespace Cryopod.Buildings
         {
             UnityEngine.Object.DestroyImmediate(go.GetComponent<BuildingEnabledButton>());
             go.GetComponent<KPrefabID>().AddTag(GameTags.NotRocketInteriorBuilding);
-            AddLiquidStuff(go);
         }
 
         public override void DoPostConfigureComplete(GameObject go)
         {
+            UnityEngine.Object.DestroyImmediate(go.GetComponent<RequireInputs>());
+            UnityEngine.Object.DestroyImmediate(go.GetComponent<RequireOutputs>());
+            UnityEngine.Object.DestroyImmediate(go.GetComponent<ConduitConsumer>());
+            UnityEngine.Object.DestroyImmediate(go.GetComponent<ConduitDispenser>());
+
             var ownable = go.AddOrGet<Ownable>();
             ownable.tintWhenUnassigned = false;
             ownable.slotID = Db.Get().AssignableSlots.WarpPortal.Id;
@@ -73,21 +78,6 @@ namespace Cryopod.Buildings
             go.AddOrGet<CryopodFreezeWorkable>(); 
             go.AddOrGet<OpenCryopodWorkable>(); 
             go.AddOrGet<Prioritizable>();
-        }
-        private void AddLiquidStuff(GameObject go)
-        {
-            Storage storage = go.AddOrGet<Storage>();
-            storage.showInUI = true; //False for release
-            storage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
-            ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
-            conduitConsumer.capacityKG = 60f;
-            conduitConsumer.conduitType = ConduitType.Liquid;
-            conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
-            conduitConsumer.storage = storage;
-            ConduitDispenser conduitDispenser = go.AddOrGet<ConduitDispenser>();
-            conduitDispenser.conduitType = ConduitType.Liquid;
-            conduitDispenser.storage = storage;
-            conduitDispenser.isOn = false;
         }
         
     }    

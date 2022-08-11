@@ -351,40 +351,23 @@ namespace Cryopod.Buildings
 			}
 
 			public void ApplyCoolingExhaust(float dt,bool coolingExterior =false) {
-
-				if (smi.master.buildingeMode == BuildingeMode.Standalone)
-				{
-					var element = gameObject.GetComponent<PrimaryElement>();
-					if(element.Temperature>15 && element.Temperature < 2000f) { 
+				
+				var element = gameObject.GetComponent<PrimaryElement>();
+				if(element.Temperature>15 && element.Temperature < 2000f) { 
 					if (coolingExterior)
-						{
+					{
 						GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, this.coolingHeatKW * 0.8f * dt, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.FOOD_TRANSFER, dt);
-						}
-
-                    else
-						{
-						GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, this.coolingHeatKW * dt, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.FOOD_TRANSFER, dt);
-						}
 					}
-				}
-				else if (smi.master.buildingeMode == BuildingeMode.Piped)
-				{
-					var liquidHandler = GetComponent<CryopodLiquidPortAddon>();
-					liquidHandler.AddHeatToLiquid(this.coolingHeatKW * dt);
+					
+					else
+					{
+						GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, this.coolingHeatKW * dt, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.FOOD_TRANSFER, dt);
+					}
 				}
 			}
 			public void ApplySteadyExhaust(float dt)
 			{
-
-				if (smi.master.buildingeMode == BuildingeMode.Standalone)
-				{
-					GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, this.steadyHeatKW * dt, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.FOOD_TRANSFER, dt);
-				}
-				else if (smi.master.buildingeMode == BuildingeMode.Piped)
-				{
-					var liquidHandler = GetComponent<CryopodLiquidPortAddon>();
-					liquidHandler.AddHeatToLiquid(this.steadyHeatKW * dt);
-				}
+				GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, this.steadyHeatKW * dt, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.FOOD_TRANSFER, dt);
 			}
 			public float GetSaverPower() => this.GetComponent<EnergyConsumer>().WattsNeededWhenActive/5;
 
