@@ -43,22 +43,27 @@ namespace Cryopod
             }
         }
 
-        [HarmonyPatch(typeof(ArtifactFinder))]
-        [HarmonyPatch("GetArtifactsOfTier")]
-        public class UnlockCryopodOnArtifactFoundBaseGame_Patch
-        {
-            public static void Prefix(ArtifactTier tier)
-            {
-                if (tier != TUNING.DECOR.SPACEARTIFACT.TIER_NONE)
-                {
-                    ModAssets.UnlockCryopod();
-                }
-            }
-        }
+        /// Basegame Compatibility - cryopod is dlc asset so.. . nope, dont want legal [anything] 
+
+        //[HarmonyPatch(typeof(ArtifactFinder))]
+        //[HarmonyPatch("GetArtifactsOfTier")]
+        //public class UnlockCryopodOnArtifactFoundBaseGame_Patch
+        //{
+        //    public static void Prefix(ArtifactTier tier)
+        //    {
+        //        if (tier != TUNING.DECOR.SPACEARTIFACT.TIER_NONE)
+        //        {
+        //            ModAssets.UnlockCryopod();
+        //        }
+        //    }
+        //}
+
+
 
         /// <summary>
-        /// Disallows Researching the Cryopod
+        /// Disallows Selecting; thus Researching the Cryopod
         /// </summary>
+        /// 
         [HarmonyPatch(typeof(Research))]
         [HarmonyPatch("SetActiveResearch")]
         public class Research_SetActiveResearch_Patch
@@ -72,6 +77,11 @@ namespace Cryopod
 
             }
         }
+
+
+        /// <summary>
+        /// add research card to research screen
+        /// </summary>
         [HarmonyPatch(typeof(ResourceTreeLoader<ResourceTreeNode>), MethodType.Constructor, typeof(TextAsset))]
         public class ResourceTreeLoader_Load_Patch
         {
@@ -130,7 +140,9 @@ namespace Cryopod
             }
         }
 
-
+        /// <summary>
+        /// Add research node to tree
+        /// </summary>
         [HarmonyPatch(typeof(Techs), "Init")]
         public class Techs_TargetMethod_Patch
         {
@@ -148,17 +160,36 @@ namespace Cryopod
                 CryoTech.costsByResearchTypeID.Add("space", 1f);
             }
         }
-        
 
 
-        [HarmonyPatch(typeof(CryoTank), "DropContents")]
-        public class AddTechUnlock_Patch
+        /// <summary>
+        /// Researches on dupe thawing; disabled, I want that on demolishing
+        /// </summary>
+        //[HarmonyPatch(typeof(CryoTank), "DropContents")]
+        //public class AddTechUnlock_Patch
+        //{
+        //    public static void Postfix()
+        //    {
+        //        ModAssets.UnlockCryopod();
+        //    }
+        //}
+
+
+        [HarmonyPatch(typeof(Demolishable), "TriggerDestroy")]
+        public class UnlockCryotechOnDestruction_patch
         {
-            public static void Postfix()
+            public static void Prefix(Demolishable __instance)
             {
-                ModAssets.UnlockCryopod();
+                if(__instance.gameObject.GetComponent<CryoTank>() != null)
+                {
+                    ModAssets.UnlockCryopod();
+                }
             }
         }
+
+        /// <summary>
+        /// add buildings to plan screen
+        /// </summary>
         [HarmonyPatch(typeof(GeneratedBuildings))]
         [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
         public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
@@ -171,7 +202,9 @@ namespace Cryopod
             }
         }
 
-        
+        /// <summary>
+        /// Init. auto translation
+        /// </summary>
         [HarmonyPatch(typeof(Localization), "Initialize")]
         public static class Localization_Initialize_Patch
         {
@@ -181,6 +214,9 @@ namespace Cryopod
             }
         }
 
+        /// <summary>
+        /// register custom status items
+        /// </summary>
         [HarmonyPatch(typeof(Database.BuildingStatusItems), "CreateStatusItems")]
         public static class Database_BuildingStatusItems_CreateStatusItems_Patch
         {

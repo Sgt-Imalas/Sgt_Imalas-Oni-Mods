@@ -47,6 +47,7 @@ namespace Cryopod.Buildings
         }
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
+            go.AddOrGet<LoopingSounds>();
             UnityEngine.Object.DestroyImmediate(go.GetComponent<BuildingEnabledButton>());
             go.GetComponent<KPrefabID>().AddTag(GameTags.NotRocketInteriorBuilding);
         }
@@ -63,6 +64,7 @@ namespace Cryopod.Buildings
             cryopod.dropOffset = new CellOffset(1, 0);
             cryopod.InternalTemperatureKelvin = CryopodReusable.InternalTemperatureKelvinUpperLimit;
             cryopod.buildingeMode = CryopodReusable.BuildingeMode.Standalone;
+            cryopod.powerSaverEnergyUsage = 240f;
             go.AddOrGet<CryopodFreezeWorkable>(); 
             go.AddOrGet<OpenCryopodWorkable>(); 
             go.AddOrGet<Prioritizable>();

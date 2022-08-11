@@ -74,6 +74,7 @@ namespace Cryopod.Buildings
             cryopod.dropOffset = new CellOffset(1, 0);
             cryopod.InternalTemperatureKelvin = CryopodReusable.InternalTemperatureKelvinUpperLimit;
             cryopod.buildingeMode = CryopodReusable.BuildingeMode.Piped;
+            cryopod.powerSaverEnergyUsage = 50f;
             go.AddOrGet<CryopodLiquidPortAddon>();
             go.AddOrGet<CryopodFreezeWorkable>(); 
             go.AddOrGet<OpenCryopodWorkable>(); 

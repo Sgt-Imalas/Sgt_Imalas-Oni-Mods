@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HarmonyLib;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,6 +20,16 @@ namespace UtilLibs
         {
             WorldContainer w = Grid.IsValidCell(_cell) && (int)Grid.WorldIdx[_cell] != (int)ClusterManager.INVALID_WORLD_IDX ? ClusterManager.Instance.GetWorld((int)Grid.WorldIdx[_cell]) : (WorldContainer)null;
             return w.IsModuleInterior;
+        }
+        public static void GetSounds()
+        {
+            var trav = Traverse.Create(GlobalAssets.Instance);
+            var dic = trav.Field("SoundTable").GetValue<Dictionary<string, string>>();
+            Debug.Log("Dic found? - " + (dic.Count > 0));
+            foreach (var sound in dic)
+            {
+                Debug.Log(sound);
+            }
         }
     }
 }

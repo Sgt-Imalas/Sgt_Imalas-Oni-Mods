@@ -20,6 +20,8 @@ namespace Cryopod.Buildings
 		private LogicPorts ports;
 		[MyCmpGet]
 		private Operational operational;
+		[MyCmpGet]
+		private LoopingSounds sounds;
 		[MyCmpReq]
 		private OpenCryopodWorkable WorkableOpen;
 		[MyCmpReq]
@@ -38,6 +40,7 @@ namespace Cryopod.Buildings
 		public const float TimeForProcess = 15f;
 		public const float TimeForForceThaw = 120f;
 		[Serialize] public CellOffset dropOffset = CellOffset.none;
+		public float powerSaverEnergyUsage = 50f;
 
 		private Chore AnimationChore;
 		public float GetDamage()
@@ -109,6 +112,22 @@ namespace Cryopod.Buildings
 			bool on = this.HoldingDupe();
 			this.ports.SendSignal(FilteredStorage.FULL_PORT_ID, on ? 1 : 0);
 		}
+		private void HandleSounds(bool start = false)
+        {
+            if (start)
+			{
+                if (buildingeMode == BuildingeMode.Standalone)
+					sounds.StartSound(GlobalAssets.GetSound("IceCooledFan_fan_LP"));
+				else
+					sounds.StartSound(GlobalAssets.GetSound("LiquidConditioner_lP"));
+
+			}
+            else
+            {
+				sounds.StopAllSounds();
+			}
+
+        }
 
 		#endregion
 
@@ -369,7 +388,7 @@ namespace Cryopod.Buildings
 			{
 				GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, this.steadyHeatKW * dt, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.FOOD_TRANSFER, dt);
 			}
-			public float GetSaverPower() => this.GetComponent<EnergyConsumer>().WattsNeededWhenActive/5;
+			public float GetSaverPower() => smi.master.powerSaverEnergyUsage;
 
 			public float GetNormalPower() => this.GetComponent<EnergyConsumer>().WattsNeededWhenActive;
 			public void SetEnergySaver(EnergyConsumption energySaving)
@@ -455,8 +474,13 @@ namespace Cryopod.Buildings
 				HoldingDuplicant
 					.Enter(smi => { 
 						smi.master.UpdateLogicCircuit();
+						smi.master.HandleSounds(true);
 					})
-					.Exit(smi => smi.master.UpdateLogicCircuit())
+					.Exit(smi => 
+					{
+						smi.master.UpdateLogicCircuit();
+						smi.master.HandleSounds(false);
+					})
 					.Update((smi, dt) => 
 					{ 
 						smi.meter.SetPositionPercent(smi.master.GetMeterPercentage()); 
