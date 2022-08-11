@@ -21,7 +21,7 @@ This mod adds in two constructable cryopods that allow you to freeze your Duplic
 [/list] 
 
 [h2]Cryopod 4000[/h2]
-[img]https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/master/Cryopod/SteamImages/Cryopod4000.png[/img]
+[img]https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/master/Cryopod/SteamImages/Cryopod4001.png[/img]
 [list]
 [*]Draws 960W on Cooling / Thawing, draws 240W while holding a dupe at freezing temperature
 [*]Will get very hot / cold during the active cooling / thawing process.
