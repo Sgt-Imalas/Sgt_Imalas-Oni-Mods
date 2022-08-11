@@ -54,9 +54,19 @@ namespace Cryopod
                 }
             }
         }
+        public class ITEMS
+        {
+            public class INDUSTRIAL_PRODUCTS
+            {
+                public class CRY_FROZENDUPE
+                {
+                    public static LocString NAME = UI.FormatAsLink("Dupecle", nameof(CRY_FROZENDUPE));
+                    public static LocString DESC = (LocString)"A dupe thrown out of his frozen slumber";
+                }
+            }
+        }
         public class BUILDING
         {
-            
             public class STATUSITEMS
             {
                 public class CRY_DUPLICANTINTERNALTEMPERATURE

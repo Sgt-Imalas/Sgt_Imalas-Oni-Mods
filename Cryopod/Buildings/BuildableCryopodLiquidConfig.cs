@@ -55,12 +55,12 @@ namespace Cryopod.Buildings
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
             UnityEngine.Object.DestroyImmediate(go.GetComponent<BuildingEnabledButton>());
-            go.GetComponent<KPrefabID>().AddTag(GameTags.NotRocketInteriorBuilding);
+            //go.GetComponent<KPrefabID>().AddTag(GameTags.NotRocketInteriorBuilding);
         }
 
         public override void DoPostConfigureComplete(GameObject go)
         {
-            UnityEngine.Object.DestroyImmediate(go.GetComponent<RequireInputs>());
+            go.GetComponent<RequireInputs>().SetRequirements(true, false);
             UnityEngine.Object.DestroyImmediate(go.GetComponent<RequireOutputs>());
             UnityEngine.Object.DestroyImmediate(go.GetComponent<ConduitConsumer>());
             UnityEngine.Object.DestroyImmediate(go.GetComponent<ConduitDispenser>());

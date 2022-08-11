@@ -73,6 +73,7 @@ namespace Cryopod
             cryopod.storedDupeDamage = hp.maxHitPoints- hp.hitPoints; 
             cryopod.RefreshSideScreen();
             this.GetComponent<MinionStorage>().SerializeMinion(gameObject1);
+            Debug.Log("TEST HELP ID SHOULDNT BE FALS" +this.GetComponent<MinionStorage>().GetStoredMinionInfo().First().serializedMinion);
             CompleteFreezeChore();
             return true;
         }

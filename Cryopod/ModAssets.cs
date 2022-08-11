@@ -1,9 +1,13 @@
 ﻿using Cryopod.Buildings;
+using Cryopod.Entities;
+using Klei.AI;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Cryopod
 {
@@ -134,9 +138,98 @@ namespace Cryopod
             }
         }
 
+        public static class Thawing
+        {
+            public static void TransferToFrozen(CryopodReusable from, ref frozenDupe to)
+            {
+                if(from.GetDupeName()!= "No duplicant stored.") { 
+                    Debug.Log(from + " and " + to);
+                    to.SetMinionInStorage(from.GetStoredDupe());
+                    to.SetStoredSicknesses(from.StoredSicknessIDs);
+                    to.SetDamageValue(from.storedDupeDamage);
+                    to.SetCryoDamageValue(from.GetDamage());
+                    from.DeleteDupeFromStorage(from.GetStoredDupe().First().id);
+                }
+            }
+            public static void HandleDupeThawing(ref GameObject dupe, ref List<string> storedSicknesses, ref float storedDamage, ref float cryoDamage)
+            {
+                var dupeModifiers = dupe.GetComponent<MinionModifiers>();
+                SicknessExposureInfo cold = new SicknessExposureInfo(ColdBrain.ID, "Frozen within self made cryopod.");
+                dupeModifiers.sicknesses.Infect(cold);
+
+                if (storedSicknesses.Count > 0)
+                {
+                    foreach (var sickness in storedSicknesses)
+                    {
+                        dupe.GetComponent<MinionModifiers>().sicknesses.Infect(new SicknessExposureInfo(sickness, "Got frozen with the disease"));
+                    }
+                    storedSicknesses.Clear();
+                }
+                if (storedDamage != -1f)
+                {
+                    dupe.GetComponent<Health>().Damage(storedDamage);
+                    storedDamage = -1f;
+                }
+                if (cryoDamage > 0)
+                {
+                    HandleCryoDamage(dupe, cryoDamage);
+                    cryoDamage = 0;
+                }
+            }
+
+            private static void HandleCryoDamage(GameObject dupe, float dmgVal)
+            {
+                var helf = dupe.GetComponent<Health>();
+                var doDamage = dmgVal / 2;
+
+                Effect cryoSickness = new Effect(
+                     ModAssets.ForcedCryoThawedID,
+                     STRINGS.DUPLICANTS.STATUSITEMS.FORCETHAWED.NAME,
+                     STRINGS.DUPLICANTS.STATUSITEMS.FORCETHAWED.TOOLTIP,
+                     120f,
+                     true,
+                     true,
+                     true);
+
+                var debuffs = new List<AttributeModifier>();
+                var debuffStrength = -(dmgVal / 16) <= -1f ? -(dmgVal / 16) : -1;
+
+                debuffs.Add(new AttributeModifier(Db.Get().Attributes.Athletics.Id, debuffStrength));
+                debuffs.Add(new AttributeModifier(Db.Get().Attributes.Strength.Id, debuffStrength));
+                debuffs.Add(new AttributeModifier(Db.Get().Attributes.Digging.Id, debuffStrength));
+                debuffs.Add(new AttributeModifier(Db.Get().Attributes.Construction.Id, debuffStrength));
+                debuffs.Add(new AttributeModifier(Db.Get().Attributes.Machinery.Id, debuffStrength));
+                debuffs.Add(new AttributeModifier(Db.Get().Attributes.Caring.Id, debuffStrength));
+                debuffs.Add(new AttributeModifier(Db.Get().Attributes.Ranching.Id, debuffStrength));
+                //debuffs.Add(new AttributeModifier("AirConsumptionRate", 7.5f));
+
+                if (dmgVal > 80)
+                {
+                    debuffs.Add(new AttributeModifier(Db.Get().Attributes.Art.Id, debuffStrength));
+                    debuffs.Add(new AttributeModifier("SPACENAVIGATION", debuffStrength));
+                    debuffs.Add(new AttributeModifier(Db.Get().Attributes.Learning.Id, debuffStrength));
+                    debuffs.Add(new AttributeModifier(Db.Get().Attributes.Cooking.Id, debuffStrength));
+                    debuffs.Add(new AttributeModifier(Db.Get().Attributes.Botanist.Id, debuffStrength));
+                }
+                debuffs.Add(new AttributeModifier(Db.Get().Amounts.Stress.deltaAttribute.Id, (5f + (-debuffStrength)) / 600, STRINGS.DISEASES.CRYOSICKNESS.NAME));
+                cryoSickness.duration = (60 * dmgVal);
+                cryoSickness.SelfModifiers = debuffs;
+                //helf.Damage(doDamage);
+                helf.StartCoroutine(KillOnEndEditRoutine(helf, doDamage));
+                dupe.GetComponent<Effects>().Add(cryoSickness, true);
+            }
+            private static IEnumerator KillOnEndEditRoutine(Health helf, float dmg)
+            {
+                yield return (object)new WaitForEndOfFrame();
+                yield return (object)new WaitForEndOfFrame();
+                helf.Damage(dmg);
+            }
+
+        }
+
         public static bool SuccessPerChance(int chanceOfSuccess)
         {
-            var randGen = new Random();
+            var randGen = new System.Random();
             return randGen.Next(100) < chanceOfSuccess;
         }
 

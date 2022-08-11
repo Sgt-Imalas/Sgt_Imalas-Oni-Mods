@@ -1,4 +1,5 @@
-﻿using Klei.AI;
+﻿using Cryopod.Entities;
+using Klei.AI;
 using KSerialization;
 using STRINGS;
 using System;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static Cryopod.ModAssets;
 
 namespace Cryopod.Buildings
 {
@@ -61,6 +63,22 @@ namespace Cryopod.Buildings
 			}
 			return "No duplicant stored.";
         }
+		public List<MinionStorage.Info> GetStoredDupe()
+        {
+			if (HoldingDupe())
+			{
+				return DupeStorage.GetStoredMinionInfo();
+			}
+			else
+			{
+				return new List<MinionStorage.Info>();
+			}
+		}
+		public void DeleteDupeFromStorage(Guid id)
+        {
+			DupeStorage.DeleteStoredMinion(id);
+
+		}
         
 		public void RefreshSideScreen()
 		{
@@ -180,39 +198,23 @@ namespace Cryopod.Buildings
 			this.smi.GoTo(this.smi.sm.HoldingDuplicant.Working.Thawing);
 			this.RefreshSideScreen();
 		}
-		
-		public void ThrowOutDupe(bool skipAnim = false)
+
+
+		public void ThrowOutDupe(bool skipAnim = false, Vector3? overrideSpawnPos = null)
 		{
 			ClearAssignable();
+			if (DupeStorage.GetStoredMinionInfo().Count <= 0)
+				return;
 			var newDupe = DupeStorage.GetStoredMinionInfo().First();
-			var spawn_position = Grid.CellToPosCBC(Grid.OffsetCell(Grid.PosToCell(this.transform.position), this.dropOffset), Grid.SceneLayer.BuildingUse);
+			var spawn_position = overrideSpawnPos == null ? Grid.CellToPosCBC(Grid.OffsetCell(Grid.PosToCell(this.transform.position), this.dropOffset), Grid.SceneLayer.BuildingUse) : (Vector3)overrideSpawnPos;
 
 			var NewDupeDeserialized = DupeStorage.DeserializeMinion(newDupe.id, spawn_position);
 			NewDupeDeserialized.transform.SetLocalPosition(spawn_position);
 			this.smi.sm.defrostedDuplicant.Set(NewDupeDeserialized, this.smi);
 
-			var dupeModifiers = NewDupeDeserialized.GetComponent<MinionModifiers>();
-			SicknessExposureInfo cold = new SicknessExposureInfo(ColdBrain.ID, "Frozen within self made cryopod.");
-			dupeModifiers.sicknesses.Infect(cold);
+			Thawing.HandleDupeThawing(ref NewDupeDeserialized, ref StoredSicknessIDs, ref storedDupeDamage, ref ForceThawed);
 
 
-			foreach (var sickness in StoredSicknessIDs)
-            {
-				NewDupeDeserialized.GetComponent<MinionModifiers>().sicknesses.Infect(new SicknessExposureInfo(sickness, "Got frozen with the disease"));
-			}
-
-			if(storedDupeDamage != -1f)
-            {
-				NewDupeDeserialized.GetComponent<Health>().Damage(storedDupeDamage);
-				storedDupeDamage = -1;
-			}
-
-			if (ForceThawed>0)
-            {
-				HandleCryoDamage(NewDupeDeserialized, ForceThawed);
-				ForceThawed = 0;
-			}
-			
 			ChoreProvider choreProvider = NewDupeDeserialized.GetComponent<ChoreProvider>();
 			//Debug.Log(this.transform.GetPosition().z+ " FG-Layer of building");
 
@@ -234,60 +236,6 @@ namespace Cryopod.Buildings
 			SetAssignable(true);
 			DupeStorage.GetStoredMinionInfo().Clear(); 
 			UpdateLogicCircuit();
-		}
-
-		private void HandleCryoDamage(GameObject dupe, float dmgVal)
-        {
-			if (dmgVal > 120f)
-			{
-				//SicknessExposureInfo zombie = new SicknessExposureInfo(ZombieSickness.ID, "Cryogenic Damage");
-				//dupeModifiers.sicknesses.Infect(zombie);
-			}
-			var helf = dupe.GetComponent<Health>();
-			var doDamage = dmgVal / 2 ;
-
-			Effect cryoSickness = new Effect(
-				 ModAssets.ForcedCryoThawedID,
-				 STRINGS.DUPLICANTS.STATUSITEMS.FORCETHAWED.NAME,
-				 STRINGS.DUPLICANTS.STATUSITEMS.FORCETHAWED.TOOLTIP,
-				 120f,
-				 true,
-				 true,
-				 true);
-
-			var debuffs = new List<AttributeModifier>();
-			var debuffStrength = -(dmgVal / 16) <=-1f? -(dmgVal / 16) : -1;
-			
-				debuffs.Add(new AttributeModifier(Db.Get().Attributes.Athletics.Id, debuffStrength));
-				debuffs.Add(new AttributeModifier(Db.Get().Attributes.Strength.Id, debuffStrength));
-				debuffs.Add(new AttributeModifier(Db.Get().Attributes.Digging.Id, debuffStrength));
-				debuffs.Add(new AttributeModifier(Db.Get().Attributes.Construction.Id, debuffStrength));
-				debuffs.Add(new AttributeModifier(Db.Get().Attributes.Machinery.Id, debuffStrength));
-				debuffs.Add(new AttributeModifier(Db.Get().Attributes.Caring.Id, debuffStrength));
-				debuffs.Add(new AttributeModifier(Db.Get().Attributes.Ranching.Id, debuffStrength));
-				//debuffs.Add(new AttributeModifier("AirConsumptionRate", 7.5f));
-
-			if (dmgVal > 80)
-			{
-				debuffs.Add(new AttributeModifier(Db.Get().Attributes.Art.Id, debuffStrength));
-				debuffs.Add(new AttributeModifier("SPACENAVIGATION", debuffStrength));
-				debuffs.Add(new AttributeModifier(Db.Get().Attributes.Learning.Id, debuffStrength));
-				debuffs.Add(new AttributeModifier(Db.Get().Attributes.Cooking.Id, debuffStrength));
-				debuffs.Add(new AttributeModifier(Db.Get().Attributes.Botanist.Id, debuffStrength));
-			}
-			debuffs.Add(new AttributeModifier(Db.Get().Amounts.Stress.deltaAttribute.Id, (5f + (-debuffStrength)) / 600, STRINGS.DISEASES.CRYOSICKNESS.NAME));
-			cryoSickness.duration = (60 * dmgVal);
-			cryoSickness.SelfModifiers = debuffs;
-			//helf.Damage(doDamage);
-			helf.StartCoroutine(this.KillOnEndEditRoutine(helf, doDamage));
-			dupe.GetComponent<Effects>().Add(cryoSickness, true);
-		}
-		private IEnumerator KillOnEndEditRoutine(Health helf, float dmg)
-		{
-
-			yield return (object)new WaitForEndOfFrame();
-			yield return (object)new WaitForEndOfFrame();
-			helf.Damage(dmg);
 		}
 
 		private void StartCoolingProcess()

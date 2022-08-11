@@ -1,4 +1,5 @@
 ﻿using Cryopod.Buildings;
+using Cryopod.Entities;
 using Database;
 using HarmonyLib;
 using Klei.AI;
@@ -9,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static Cryopod.ModAssets;
 
 namespace Cryopod
 {
@@ -28,6 +30,28 @@ namespace Cryopod
         //        }
         //    }
         //}
+        [HarmonyPatch(typeof(WorldContainer))]
+        [HarmonyPatch(nameof(WorldContainer.EjectAllDupes))]
+        public static class ThrowOutFrozenDupesInsideRocket_ToWorld_Patch
+        {
+            public static void Prefix(Vector3 spawn_pos, WorldContainer __instance)
+            {
+                foreach (var worldItem in ModAssets.CryoPods.GetWorldItems(__instance.id))
+                {
+                    Debug.Log("PATCH !" + worldItem + spawn_pos);
+
+                    var icicleObject = GameUtil.KInstantiate(Assets.GetPrefab((Tag)"CRY_FrozenDupe"), spawn_pos, Grid.SceneLayer.Ore);
+                    icicleObject.SetActive(true);
+                    var icicle = icicleObject.GetComponent<frozenDupe>();
+                    Debug.Log("IS ICICLE NULL? " + icicle.name);
+                    Thawing.TransferToFrozen(worldItem, ref icicle);
+                    
+                }
+            }
+        }
+
+
+
 
         [HarmonyPatch(typeof(SpaceArtifact))]
         [HarmonyPatch("RemoveCharm")]
@@ -143,10 +167,10 @@ namespace Cryopod
         /// <summary>
         /// Add research node to tree
         /// </summary>
-        [HarmonyPatch(typeof(Techs), "Init")]
+        [HarmonyPatch(typeof(Database.Techs), "Init")]
         public class Techs_TargetMethod_Patch
         {
-            public static void Postfix(Techs __instance)
+            public static void Postfix(Database.Techs __instance)
             {
                 var CryoTech = new Tech(ModAssets.Techs.FrostedDupeResearchID, new List<string>
                 {
