@@ -32,7 +32,7 @@ namespace Cryopod.Buildings
             buildingDef.RequiresPowerInput = true;
             buildingDef.AddLogicPowerPort = false;
             buildingDef.OverheatTemperature = 348.15f;
-            buildingDef.EnergyConsumptionWhenActive = 240f;
+            buildingDef.EnergyConsumptionWhenActive = 320f;
             buildingDef.SelfHeatKilowattsWhenActive = 0.0f;
             buildingDef.ExhaustKilowattsWhenActive = 0.0f;
             buildingDef.ViewMode = OverlayModes.Power.ID;

@@ -325,22 +325,24 @@ namespace Cryopod.Buildings
 
 			public void ApplyCoolingExhaust(float dt,bool coolingExterior =false) {
 				
+				float liquidMultiplier = smi.master.buildingeMode == BuildingeMode.Piped ? 2f : 1f;
 				var element = gameObject.GetComponent<PrimaryElement>();
 				if(element.Temperature>15 && element.Temperature < 2000f) { 
 					if (coolingExterior)
 					{
-						GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, this.coolingHeatKW * 0.8f * dt, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.FOOD_TRANSFER, dt);
+						GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, liquidMultiplier * this.coolingHeatKW * 0.8f * dt, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.FOOD_TRANSFER, dt);
 					}
 					
 					else
 					{
-						GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, this.coolingHeatKW * dt, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.FOOD_TRANSFER, dt);
+						GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, liquidMultiplier * this.coolingHeatKW * dt, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.FOOD_TRANSFER, dt);
 					}
 				}
 			}
 			public void ApplySteadyExhaust(float dt)
 			{
-				GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, this.steadyHeatKW * dt, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.FOOD_TRANSFER, dt);
+				float liquidMultiplier = smi.master.buildingeMode == BuildingeMode.Piped ? 2f : 1f;
+				GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, this.steadyHeatKW * dt * liquidMultiplier, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.FOOD_TRANSFER, dt);
 			}
 			public float GetSaverPower() => smi.master.powerSaverEnergyUsage;
 

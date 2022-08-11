@@ -1,0 +1,61 @@
+﻿[img]https://i.imgur.com/VgZFBU7.png[/img]
+
+[h1]Buildable Cryopod (DLC)[/h1]
+
+Upon demolishing a cryopod, one of your Duplicants had a flash of inspiration - "Why don't we rebuild it ourself?"
+This mod adds in two constructable cryopods that allow you to freeze your Duplicants in cryosleep.
+
+[h1]Current latest Version: 1.0.0[/h1]
+
+[hr][/hr]
+[h1]Features[/h1]
+
+[list]
+[*]You cannot research the buildable cryopods like a normal tech - Instead it will be unlocked upon demolishing a Gravitas Cryopod (If all cryopods are already demolished - there is also a chance of unlocking the tech on researching a space artifact at the Artifact Analysis Station)
+[*]Cryopods are found under the "Medicine"-building category.
+[*]Cryopods are made from 800kg of refined metal, 200kg of glass and 200kg of plastic.
+[*]When the pod loses power, the Duplicant inside will start to get cryo damage (indicated by a status item).
+[*]If deconstructed while a Duplicant was still inside/thawing, the Duplicant will get thrown out and recieve a lot of cryo damage.
+[*]cryo damage scales with the amount of improper thawing.
+[*]Duplicants thawed will always recieve Hypothermia, since the technology isn't fully replicated.
+[/list] 
+
+[h2]Cryopod 4000[/h2]
+[img]https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/master/Cryopod/SteamImages/Cryopod4000.png[/img]
+[list]
+[*]Draws 960W on Cooling / Thawing, draws 240W while holding a dupe at freezing temperature
+[*]Will get very hot / cold during the active cooling / thawing process.
+[/list] 
+
+[h2]Cryopod 5000[/h2]
+[img]https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/master/Cryopod/SteamImages/Cryopod5000.png[/img]
+[list]
+[*]Draws 320W on Cooling / Thawing, draws 80W while holding a dupe at freezing temperature
+[*]Will get very hot / cold during the active cooling / thawing process.
+[*]Exchanges heat with the liquid pumped through, thus allowing the building to function in vacuum.
+[/list] 
+
+[h1]Disclaimer[/h1]
+[list]
+[*]Don't blow up (self destruct) a rocket whith a frozen Duplicant, the Duplicant will be lost to space.
+[*]Don't freeze all your duplicants, noone will be left to initiate thawing and your colony will be lost.
+[/list] 
+
+[hr][/hr]
+[h1]Bug Reports[/h1]
+Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+
+Where to find the Log:
+[list]
+[*]Windows: 
+    C:\Users\%username%\AppData\LocalLow\Klei\Oxygen Not Included\Player.log
+[*]Mac: 
+    ~/Library/Logs/Klei/Oxygen Not Included/Player.log
+[*] Linux: 
+~/.config/unity3d/Klei/Oxygen Not Included/Player.log
+[/list] 
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
+
