@@ -29,6 +29,7 @@ namespace LogicSatellites
         [Limit(0, 10)]
         [JsonProperty]
         public int SatelliteLogicRange { get; set; }
+
         public Config()
         {
             SatelliteScannerRange = 3;

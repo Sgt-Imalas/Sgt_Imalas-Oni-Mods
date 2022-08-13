@@ -11,8 +11,6 @@ namespace Rockets_TinyYetBig
     public class HEPBatteryModuleConfig : IBuildingConfig
     {
         public const string ID = "RTB_HEPBatteryModule";
-        public const float NUM_CAPSULES = 3f;
-        private static readonly CellOffset PLUG_OFFSET = new CellOffset(-1, 0);
 
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
 

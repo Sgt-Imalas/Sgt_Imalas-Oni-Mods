@@ -11,8 +11,8 @@ namespace Rockets_TinyYetBig
 {
     class RadiationBatteryOutputHandler : KMonoBehaviour, 
         IHighEnergyParticleDirection,
+        ISim200ms,
         //IUserControlledCapacity, 
-        ISidescreenButtonControl,
         ISingleSliderControl
     {
         [MyCmpReq]
@@ -34,6 +34,31 @@ namespace Rockets_TinyYetBig
             var cell = build.GetHighEnergyParticleOutputCell();
             return cell;
         }
+
+
+        public bool AllowSpawnParticles => this.hasLogicWire && this.isLogicActive;
+        private bool hasLogicWire;
+        private bool isLogicActive;
+        private float launchTimer = 0;
+        private readonly float minLaunchInterval = 1f;
+        public void Sim200ms(float dt)
+        {
+            launchTimer += dt;
+            if ((double)launchTimer < (double)minLaunchInterval || !AllowSpawnParticles || (double)hepStorage.Particles < (double)particleThreshold)
+                return;
+            launchTimer = 0.0f;
+            this.Fire();
+        }
+
+        private void OnLogicValueChanged(object data)
+        {
+            LogicValueChanged logicValueChanged = (LogicValueChanged)data;
+            if (!(logicValueChanged.portID == HEPBattery.FIRE_PORT_ID))
+                return;
+            this.isLogicActive = logicValueChanged.newValue > 0;
+            this.hasLogicWire = this.GetNetwork() != null;
+        }
+        private LogicCircuitNetwork GetNetwork() => Game.Instance.logicCircuitManager.GetNetworkForCell(this.GetComponent<LogicPorts>().GetPortCell(HEPBattery.FIRE_PORT_ID));
 
         public void UpdateOutputCell()
         {
@@ -127,6 +152,7 @@ namespace Rockets_TinyYetBig
             this.OnStorageChange((object)null);
             //this.Subscribe<RadiationBatteryOutputHandler>((int)GameHashes.ParticleStorageCapacityChanged, OnStorageChangedDelegate);
             this.Subscribe<RadiationBatteryOutputHandler>((int)GameHashes.OnParticleStorageChanged, OnStorageChangedDelegate);
+            this.Subscribe((int)GameHashes.LogicEvent, new System.Action<object>(this.OnLogicValueChanged));
 
         }
 
@@ -162,21 +188,6 @@ namespace Rockets_TinyYetBig
         public string GetSliderTooltipKey(int index) => "STRINGS.UI.UISIDESCREENS.RADBOLTTHRESHOLDSIDESCREEN.TOOLTIP";
 
         string ISliderControl.GetSliderTooltip() => string.Format((string)Strings.Get("STRINGS.UI.UISIDESCREENS.RADBOLTTHRESHOLDSIDESCREEN.TOOLTIP"), (object)this.particleThreshold);
-
-        public string SidescreenButtonText => "FIRE";
-
-        public string SidescreenButtonTooltip => "gib radbolt";
-
-        public bool SidescreenEnabled() => true;
-
-        public bool SidescreenButtonInteractable() => true;
-
-        public void OnSidescreenButtonPressed()
-        {
-            Fire();
-        }
-
-        public int ButtonSideScreenSortOrder() => 20;
 
         #endregion
     }

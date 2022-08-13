@@ -19,9 +19,14 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public int ScannerModuleRange { get; set; }
 
+        [Option("Critter Containment Module Capacity", "Amount of critters the module can hold at once")]
+        [Limit(1, 15)]
+        [JsonProperty]
+        public int CritterStorageCapacity { get; set; }
         public Config()
         {
             ScannerModuleRange = 1;
+            CritterStorageCapacity = 5;
         }
     }
 }

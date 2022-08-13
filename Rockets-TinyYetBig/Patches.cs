@@ -14,7 +14,9 @@ namespace Rockets_TinyYetBig
     class Patches
     {
 
-
+        /// <summary>
+        /// Extend rocket backwall to all wall buildings in rocket (glass, ports)
+        /// </summary>
         [HarmonyPatch(typeof(WorldContainer))]
         [HarmonyPatch(nameof(WorldContainer.PlaceInteriorTemplate))]
         public static class RocketBackgroundGeneration_Patch
@@ -56,12 +58,27 @@ namespace Rockets_TinyYetBig
             }
         }
 
+
         [HarmonyPatch(typeof(WorldSelector), "OnPrefabInit")]
         public static class CustomSideScreenPatch_Gibinfo
         {
             public static void Postfix(WorldSelector __instance)
             {
-                  UIUtils.ListAllChildren(__instance.transform);
+                 // UIUtils.ListAllChildren(__instance.transform);
+            }
+        }
+
+        [HarmonyPatch(typeof(Storage), "MassStored")]
+        public static class KGToUnitsPatch
+        {
+            public static bool Prefix(Storage __instance, ref float __result)
+            {
+                if(__instance.storageFilters.Intersect(CritterContainmentModuleConfig.GetCritterTags()).Count() > 0)
+                {
+                    __result = __instance.UnitsStored();
+                    return false;
+                }
+                return true;
             }
         }
 
@@ -147,7 +164,8 @@ namespace Rockets_TinyYetBig
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.SpaceProgram, HabitatModuleSmallExpandedConfig.ID);
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.DurableLifeSupport, HabitatModuleMediumExpandedConfig.ID);
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CelestialDetection, HabitatModuleStargazerConfig.ID);
-                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CelestialDetection, HEPBatteryModuleConfig.ID); 
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CelestialDetection, HEPBatteryModuleConfig.ID);
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CelestialDetection, CritterContainmentModuleConfig.ID);
             }
         }
 
@@ -215,7 +233,8 @@ namespace Rockets_TinyYetBig
                 RocketryUtils.AddRocketModuleToBuildList(HabitatModuleSmallExpandedConfig.ID, HabitatModuleSmallConfig.ID);
                 RocketryUtils.AddRocketModuleToBuildList(HabitatModuleStargazerConfig.ID, NoseconeBasicConfig.ID);
                 RocketryUtils.AddRocketModuleToBuildList(HabitatModuleMediumExpandedConfig.ID, HabitatModuleMediumConfig.ID);
-                RocketryUtils.AddRocketModuleToBuildList(HEPBatteryModuleConfig.ID,BatteryModuleConfig.ID);
+                RocketryUtils.AddRocketModuleToBuildList(HEPBatteryModuleConfig.ID,BatteryModuleConfig.ID); 
+                RocketryUtils.AddRocketModuleToBuildList(CritterContainmentModuleConfig.ID,GasCargoBayClusterConfig.ID); 
             }
         }
 
