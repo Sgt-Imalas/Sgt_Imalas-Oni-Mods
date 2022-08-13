@@ -113,6 +113,27 @@ namespace Rockets_TinyYetBig
             }
         }
 
+
+        /// <summary>
+        /// add destination selection sidescreen to rad battery
+        /// </summary>
+        [HarmonyPatch(typeof(HighEnergyParticleDirectionSideScreen))]
+        [HarmonyPatch(nameof(HighEnergyParticleDirectionSideScreen.IsValidForTarget))]
+        public static class AddTargetValidityForRadBattery
+        {
+            public static bool Prefix(GameObject target, ref bool __result)
+            {
+                var targetComponent = target.GetComponent<RadiationBatteryOutputHandler>();
+                Debug.Log((target != null) + " ATLEAST ONCE TRUE");
+                if(targetComponent != null)
+                {
+                    __result = true;
+                    return false;
+                }
+                return true;
+            }
+        }
+
         /// <summary>
         /// Add new Buildings to Technologies
         /// </summary>
@@ -126,6 +147,7 @@ namespace Rockets_TinyYetBig
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.SpaceProgram, HabitatModuleSmallExpandedConfig.ID);
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.DurableLifeSupport, HabitatModuleMediumExpandedConfig.ID);
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CelestialDetection, HabitatModuleStargazerConfig.ID);
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CelestialDetection, HEPBatteryModuleConfig.ID); 
             }
         }
 
@@ -193,6 +215,7 @@ namespace Rockets_TinyYetBig
                 RocketryUtils.AddRocketModuleToBuildList(HabitatModuleSmallExpandedConfig.ID, HabitatModuleSmallConfig.ID);
                 RocketryUtils.AddRocketModuleToBuildList(HabitatModuleStargazerConfig.ID, NoseconeBasicConfig.ID);
                 RocketryUtils.AddRocketModuleToBuildList(HabitatModuleMediumExpandedConfig.ID, HabitatModuleMediumConfig.ID);
+                RocketryUtils.AddRocketModuleToBuildList(HEPBatteryModuleConfig.ID,BatteryModuleConfig.ID);
             }
         }
 
