@@ -90,7 +90,7 @@ namespace Rockets_TinyYetBig
 
             //WireUtilitySemiVirtualNetworkLink virtualNetworkLink = go.AddOrGet<WireUtilitySemiVirtualNetworkLink>();
             //virtualNetworkLink.visualizeOnly = true;
-            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MODERATE_PLUS);
+            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MAJOR_PLUS);
         }
     }
 }

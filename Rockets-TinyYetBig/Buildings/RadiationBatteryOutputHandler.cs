@@ -19,7 +19,7 @@ namespace Rockets_TinyYetBig
         private KSelectable selectable;
         [Serialize]
         private EightDirection _direction;
-        private EightDirectionController directionController;
+        private MeterController directionController;
 
         private static readonly EventSystem.IntraObjectHandler<RadiationBatteryOutputHandler> OnStorageChangedDelegate
             = new EventSystem.IntraObjectHandler<RadiationBatteryOutputHandler>((System.Action<RadiationBatteryOutputHandler, object>)((component, data) => component.OnStorageChange(data)));
@@ -104,9 +104,7 @@ namespace Rockets_TinyYetBig
                 if (this.directionController == null)
                     return;
                 UpdateOutputCell();
-                this.directionController.SetRotation((float)(45 * EightDirectionUtil.GetDirectionIndex(this._direction)));
-                this.directionController.controller.enabled = false;
-                this.directionController.controller.enabled = true;
+                this.directionController.SetPositionPercent( (45f*EightDirectionUtil.GetDirectionIndex(this._direction))/360f);
             }
         }
 
@@ -142,11 +140,12 @@ namespace Rockets_TinyYetBig
             //this.selectable.AddStatusItem(infoStatusItem_Logic, (object)this);
 
 
-            this.directionController = new EightDirectionController((KAnimControllerBase)this.GetComponent<KBatchedAnimController>(), "redirector_target", "redirector", EightDirectionController.Offset.Infront);
             this.Direction = this.Direction;
 
             this.m_meter = new MeterController((KAnimControllerBase)this.GetComponent<KBatchedAnimController>(), "meter_target", "meter", Meter.Offset.Infront, Grid.SceneLayer.NoLayer, Array.Empty<string>());
             this.m_meter.gameObject.GetComponent<KBatchedAnimTracker>().matchParentOffset = true;
+            this.directionController = new MeterController((KAnimControllerBase)this.GetComponent<KBatchedAnimController>(), "redirector_target", "redirector", Meter.Offset.Infront, Grid.SceneLayer.NoLayer, Array.Empty<string>());
+            this.directionController.gameObject.GetComponent<KBatchedAnimTracker>().matchParentOffset = true;
 
 
             this.OnStorageChange((object)null);

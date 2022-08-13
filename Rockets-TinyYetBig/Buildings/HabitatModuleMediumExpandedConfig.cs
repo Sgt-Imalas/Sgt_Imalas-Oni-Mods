@@ -99,7 +99,7 @@ namespace Rockets_TinyYetBig
 
         public override void DoPostConfigureComplete(GameObject go)
         {
-            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MAJOR);
+            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MEGA);
             Ownable ownable = go.AddOrGet<Ownable>();
             ownable.slotID = Db.Get().AssignableSlots.HabitatModule.Id;
             ownable.canBePublic = false;

@@ -54,7 +54,7 @@ namespace Rockets_TinyYetBig
             Prioritizable.AddRef(go);
 
 
-            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MODERATE_PLUS);
+            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MAJOR_PLUS);
             StorageLocker storage = go.AddOrGet<StorageLocker>();
         }
 
