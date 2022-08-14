@@ -48,71 +48,7 @@
 
 	<ItemGroup>
 	  <None Update="ModAssets\anim\assets\radbolt_battery_module\radbolt_battery_module.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>[img]https://i.imgur.com/VgZFBU7.png[/img]
-
-[h1]Rocketry Expanded (DLC)[/h1]
-[h2]More Rockets - more fun![/h2]
-
-This mod decreases the map space taken up by Spacefarer Modules while adding 3 new Variants.
-Also it buffs the Cartographic Module and removes the Rocket Cap of 16.
-
-[h1]Current latest Version: 1.0.2[/h1]
-
-[hr][/hr]
-[h1]Features[/h1]
-[list]
-[*] Interior Shrinking: Rockets no longer take up 32x32 Tiles, instead the interior size gets set dependant on the actual interior space used (this only applies to newly constructed spacefarer modules).
-[*] Rocket cap of 16 gone (This is possible due to the space saving from the interior shrinking).
-[*] New Spacefarer Modules: [list] 
-	[*]extended Solo Nosecone & extended Spacefarer, elongated variants of the vanilla modules with custom made art.
-	[*]Stargazer Nosecone: A rather small, 5 wide nosecone that has a glass dome, thus providing sunlight to the interior. It also extends a protective cover at start and landing.[/list] 
-[*]Cartographic Module Buff: The Cartographic Module will now instantly reveal all Space Hexes in a radius of 1 (value adjustable in mod settings).
-[/list]
-
-[hr][/hr]
-[h1]Credits[/h1]
-Options made with PLib.
-
-[hr][/hr]
-[h1]Known Issues[/h1]
-[list]
-[*] Camera glitches out / is black inside of rocket - A camera bug derived from the main game camera, zoom in / out to fix.
-[*] Starfarer landing animation is glitchy - Basegame limitations do not allow extra animation there to fix it.
-[*] Game Crash on construction of an additional rocket - you used up all the grid space with 32x32 rockets, deconstruct some of those and it should work again.
-[/list]
-
-[h1]Bug Reports[/h1]
-Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
-
-Where to find the Log:
-[list]
-[*]Windows: 
-    C:\Users\%username%\AppData\LocalLow\Klei\Oxygen Not Included\Player.log
-[*]Mac: 
-    ~/Library/Logs/Klei/Oxygen Not Included/Player.log
-[*] Linux: 
-~/.config/unity3d/Klei/Oxygen Not Included/Player.log
-[/list] 
-
-[hr][/hr]
-
-[h1]FAQ[/h1]
-[h2]What does "Interior Shrinking" mean for the game?[/h2]
-The Game runs on a grid of cells with a finite size. In Spaced Out, this grid is split between the asteroids, with some space remaining unused, thus staying available as "free grid space".
-In the unmodded game, creating a rocket takes 32x32 tiles from that "free grid space" and makes a "mini asteroid"-Box at that location for the rocket interior.
-Since the grid space is limited and each rocket takes some of that remaining space, the game has a limit of 16 to not run out of free space for rocket interiors.
-
-my mod significantly reduces the amount of space taken for each (new) rocket interior by removing the empty space around the interior. 
-That way, you can create much more rockets, since each takes way less space from the remaining free grid space. This allows to disable the "16 rockets"-Limit without leading to "missing free space"-problems.
-
-[h2]There are base game research modules in the preview?[/h2]
-From my satellite mod, these are satellite carrier modules.
-
-[hr][/hr]
-
-Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
-
-
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\anim\assets\radbolt_battery_module\radbolt_battery_module_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
