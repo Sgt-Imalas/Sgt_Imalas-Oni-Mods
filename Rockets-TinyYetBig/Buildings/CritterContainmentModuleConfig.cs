@@ -16,19 +16,24 @@ namespace Rockets_TinyYetBig
 
         public override BuildingDef CreateBuildingDef()
         {
-            float[] buildingMass = BUILDINGS.ROCKETRY_MASS_KG.HOLLOW_TIER2;
-            string[] buildingMaterials = new string[2]
+            float[] MatCosts = { 
+                600f, 
+                300f 
+            };
+            string[] Materials = 
             {
                 "RefinedMetal",
-                "Insulator"
+                "Plastic"
             };
             EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER1;
             EffectorValues none = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 5, "rocket_storage_live_kanim", 1000, 30f, buildingMass, buildingMaterials, 9999f, BuildLocationRule.Anywhere, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 5, "rocket_storage_live_kanim", 1000, 30f, MatCosts, Materials, 9999f, BuildLocationRule.Anywhere, none, noise);
             BuildingTemplates.CreateRocketBuildingDef(buildingDef);
             buildingDef.DefaultAnimState = "grounded";
             buildingDef.AttachmentSlotTag = GameTags.Rocket;
+            buildingDef.OverheatTemperature = 2273.15f;
+            buildingDef.Floodable = false;
             buildingDef.ObjectLayer = ObjectLayer.Building;
             buildingDef.CanMove = true;
             buildingDef.Cancellable = false;
@@ -54,7 +59,7 @@ namespace Rockets_TinyYetBig
             Prioritizable.AddRef(go);
 
 
-            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MAJOR_PLUS);
+            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MODERATE);
             StorageLocker storage = go.AddOrGet<StorageLocker>();
         }
 
