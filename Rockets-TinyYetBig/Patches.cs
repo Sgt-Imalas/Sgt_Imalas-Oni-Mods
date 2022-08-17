@@ -73,10 +73,13 @@ namespace Rockets_TinyYetBig
         {
             public static bool Prefix(Storage __instance, ref float __result)
             {
-                if(__instance.storageFilters.Intersect(CritterContainmentModuleConfig.GetCritterTags()).Count() > 0)
-                {
-                    __result = __instance.UnitsStored();
-                    return false;
+                if (__instance.storageFilters != null && __instance.storageFilters.Count > 0) {
+
+                    if (__instance.storageFilters.All(CritterContainmentModuleConfig.GetCritterTags().Contains))
+                    {
+                        __result = __instance.UnitsStored();
+                        return false;
+                    }
                 }
                 return true;
             }
@@ -141,7 +144,7 @@ namespace Rockets_TinyYetBig
             public static bool Prefix(GameObject target, ref bool __result)
             {
                 var targetComponent = target.GetComponent<RadiationBatteryOutputHandler>();
-                Debug.Log((target != null) + " ATLEAST ONCE TRUE");
+                //Debug.Log((target != null) + " ATLEAST ONCE TRUE");
                 if(targetComponent != null)
                 {
                     __result = true;
