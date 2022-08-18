@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Rockets_TinyYetBig.Buildings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,6 +69,9 @@ namespace Rockets_TinyYetBig
             }
         }
 
+        /// <summary>
+        /// Adjusts Critter storage to go with units instead of kg (would be 100kg/critter)
+        /// </summary>
         [HarmonyPatch(typeof(Storage), "MassStored")]
         public static class KGToUnitsPatch
         {
@@ -85,41 +89,6 @@ namespace Rockets_TinyYetBig
             }
         }
 
-        //[HarmonyPatch(typeof(RocketModuleCluster), "UpdateAnimations")]
-        //public static class LandingAnimation_Patch
-        //{
-        //    public static void Prefix(RocketModuleCluster __instance)
-        //    {
-        //        Debug.Log("Method Called");
-        //        KBatchedAnimController component2 = __instance.GetComponent<KBatchedAnimController>();
-        //        var clustercraftModules = __instance.CraftInterface == null ? null : __instance.CraftInterface.ClusterModules;
-        //        if (clustercraftModules != null)
-        //        {
-        //            RocketModuleCluster engine = null;
-        //            foreach (Ref<RocketModuleCluster> clusterModule in clustercraftModules)
-        //            {
-        //            RocketEngineCluster componentee = clusterModule.Get().GetComponent<RocketEngineCluster>();
-        //            if ((UnityEngine.Object)componentee != (UnityEngine.Object)null)
-        //                engine = componentee.GetComponent<RocketModuleCluster>();
-        //            break;
-        //            }
-        //            if (engine != null)
-        //            {
-        //                var smii = engine.GetSMI<RocketEngineCluster.StatesInstance>();
-        //                Debug.Log(smii.GetCurrentState().name);
-        //                if (smii.IsInsideState((StateMachine.BaseState)smii.sm.burnComplete))
-        //                {
-        //                    component2.ClearQueue();
-        //                    component2.initialAnim = "launch";
-        //                    if (component2.HasAnimation((HashedString)"launch_pst"))
-        //                    {
-        //                        component2.Play((HashedString)"launch_pst", KAnim.PlayMode.Once);
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
 
         /// <summary>
         /// Adjust Scanner Module range
@@ -168,7 +137,8 @@ namespace Rockets_TinyYetBig
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.DurableLifeSupport, HabitatModuleMediumExpandedConfig.ID);
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CelestialDetection, HabitatModuleStargazerConfig.ID);
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CelestialDetection, HEPBatteryModuleConfig.ID);
-                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CelestialDetection, CritterContainmentModuleConfig.ID);
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CelestialDetection, CritterContainmentModuleConfig.ID); 
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CelestialDetection, NoseConeHEPHarvestConfig.ID); 
             }
         }
 
@@ -209,6 +179,32 @@ namespace Rockets_TinyYetBig
                 go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_medium_compressed";
             }
         }
+        /// <summary>
+        /// Add launch_pst anim to normal modules
+        /// </summary>
+        [HarmonyPatch(typeof(RocketModuleCluster))]
+        [HarmonyPatch("UpdateAnimations")]
+        public static class AddPstLaunchAnim
+        {
+            public static bool Prefix(RocketModuleCluster __instance)
+            {
+                KBatchedAnimController component = __instance.GetComponent<KBatchedAnimController>();
+                Clustercraft clustercraft = (UnityEngine.Object)__instance.CraftInterface == (UnityEngine.Object)null ? (Clustercraft)null : __instance.CraftInterface.GetComponent<Clustercraft>();
+                if (clustercraft == null)
+                    return true;
+                if (clustercraft.Status == Clustercraft.CraftStatus.Landing && component.HasAnimation((HashedString)"launch") && component.HasAnimation((HashedString)"launch_pst"))
+                {
+                    component.ClearQueue();
+                    component.initialAnim = "grounded";
+                    if (component.HasAnimation((HashedString)"launch_pst"))
+                        component.Play((HashedString)"launch_pst");
+                    component.Queue((HashedString)"grounded", KAnim.PlayMode.Loop);
+                    return false;
+                }
+                return true;
+
+            }
+        }
 
         /// <summary>
         /// Compact interior template for Small Habitat
@@ -238,6 +234,7 @@ namespace Rockets_TinyYetBig
                 RocketryUtils.AddRocketModuleToBuildList(HabitatModuleMediumExpandedConfig.ID, HabitatModuleMediumConfig.ID);
                 RocketryUtils.AddRocketModuleToBuildList(HEPBatteryModuleConfig.ID,BatteryModuleConfig.ID); 
                 RocketryUtils.AddRocketModuleToBuildList(CritterContainmentModuleConfig.ID,GasCargoBayClusterConfig.ID); 
+                RocketryUtils.AddRocketModuleToBuildList(NoseConeHEPHarvestConfig.ID, NoseconeHarvestConfig.ID); 
             }
         }
 
