@@ -38,7 +38,18 @@ namespace Rockets_TinyYetBig.Buildings
             buildingDef.Cancellable = false;
             buildingDef.ShowInBuildMenu = false;
             buildingDef.UseHighEnergyParticleInputPort = true;
-            buildingDef.HighEnergyParticleInputOffset = new CellOffset(0, 1);
+            buildingDef.HighEnergyParticleInputOffset = new CellOffset(0, 1); 
+            
+            buildingDef.AddLogicPowerPort = true;
+            GeneratedBuildings.RegisterWithOverlay(OverlayScreen.RadiationIDs, ID);
+
+            buildingDef.LogicOutputPorts = new List<LogicPorts.Port>()
+            {
+                LogicPorts.Port.OutputPort((HashedString) "HEP_STORAGE", new CellOffset(1, 1),
+                (string) global::STRINGS.BUILDINGS.PREFABS.HEPBATTERY.LOGIC_PORT_STORAGE,
+                (string) global::STRINGS.BUILDINGS.PREFABS.HEPBATTERY.LOGIC_PORT_STORAGE_ACTIVE,
+                (string) global::STRINGS.BUILDINGS.PREFABS.HEPBATTERY.LOGIC_PORT_STORAGE_INACTIVE)
+            };
             return buildingDef;
         }
 
@@ -57,6 +68,8 @@ namespace Rockets_TinyYetBig.Buildings
             energyParticleStorage.showCapacityAsMainStatus = true;
 
             go.AddOrGetDef<NoseConeHEPHarvest.Def>().harvestSpeed = Config.Instance.LaserDrillconeSpeed;
+
+
         }
 
         public override void DoPostConfigureComplete(GameObject go)

@@ -146,7 +146,8 @@ namespace Rockets_TinyYetBig
             this.m_meter.gameObject.GetComponent<KBatchedAnimTracker>().matchParentOffset = true;
             this.directionController = new MeterController((KAnimControllerBase)this.GetComponent<KBatchedAnimController>(), "redirector_target", "redirector", Meter.Offset.Infront, Grid.SceneLayer.NoLayer, Array.Empty<string>());
             this.directionController.gameObject.GetComponent<KBatchedAnimTracker>().matchParentOffset = true;
-
+            this.UpdateOutputCell();
+            this.Direction = this.Direction;
 
             this.OnStorageChange((object)null);
             //this.Subscribe<RadiationBatteryOutputHandler>((int)GameHashes.ParticleStorageCapacityChanged, OnStorageChangedDelegate);
