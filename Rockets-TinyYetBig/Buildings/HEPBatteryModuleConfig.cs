@@ -45,7 +45,7 @@ namespace Rockets_TinyYetBig
             buildingDef.UseHighEnergyParticleInputPort = true;
             buildingDef.HighEnergyParticleInputOffset = new CellOffset(0, 2);
             buildingDef.UseHighEnergyParticleOutputPort = true;
-            buildingDef.HighEnergyParticleOutputOffset = new CellOffset(0, 3);
+            buildingDef.HighEnergyParticleOutputOffset = new CellOffset(0, 2);
 
             buildingDef.AddLogicPowerPort = true;
             GeneratedBuildings.RegisterWithOverlay(OverlayScreen.RadiationIDs, ID);

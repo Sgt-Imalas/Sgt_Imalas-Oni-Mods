@@ -78,7 +78,7 @@ namespace Rockets_TinyYetBig.Behaviours
             GenericUIProgressBar reference2 = component1.GetReference<GenericUIProgressBar>("diamondProgressBar");
             HighEnergyParticleStorage component2 = resourceHarvestModule.GetComponent<HighEnergyParticleStorage>();
             reference2.SetFillPercentage(component2.Particles / component2.Capacity());
-            reference2.label.SetText(UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES + ": " + component2.Particles);
+            reference2.label.SetText(UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES + ": " + component2.Particles.ToString("0.#"));
         }
     }
 }

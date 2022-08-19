@@ -11,7 +11,7 @@ namespace Rockets_TinyYetBig
 {
     class RadiationBatteryOutputHandler : KMonoBehaviour, 
         IHighEnergyParticleDirection,
-        ISim200ms,
+        ISim200ms, ISaveLoadable,
         //IUserControlledCapacity, 
         ISingleSliderControl
     {
@@ -28,12 +28,6 @@ namespace Rockets_TinyYetBig
         public HighEnergyParticleStorage hepStorage;
         private MeterController m_meter;
 
-        public int GetOutputCell()
-        {
-            var build = GetComponent<Building>();
-            var cell = build.GetHighEnergyParticleOutputCell();
-            return cell;
-        }
 
 
         public bool AllowSpawnParticles => this.hasLogicWire && this.isLogicActive;
@@ -60,28 +54,30 @@ namespace Rockets_TinyYetBig
         }
         private LogicCircuitNetwork GetNetwork() => Game.Instance.logicCircuitManager.GetNetworkForCell(this.GetComponent<LogicPorts>().GetPortCell(HEPBattery.FIRE_PORT_ID));
 
-        public void UpdateOutputCell()
+        public int GetCircularHEPOutputCell()
         {
             int x = 0, y = 0;
-            if (Direction.ToString().Contains("Down"))
+            if (this.Direction.ToString().Contains("Down"))
                 y -= 1;
-            else if (Direction.ToString().Contains("Up"))
+            else if (this.Direction.ToString().Contains("Up"))
                 y += 1;
-            if (Direction.ToString().Contains("Right"))
+            if (this.Direction.ToString().Contains("Right"))
                 x += 1;
-            else if (Direction.ToString().Contains("Left"))
+            else if (this.Direction.ToString().Contains("Left"))
                 x -= 1;
-            var build = GetComponent<Building>();
+            var build = this.GetComponent<Building>();
 
-            var offset = build.GetHighEnergyParticleInputOffset();
+            var offset = build.GetHighEnergyParticleOutputOffset();
             offset.x += x;
             offset.y += y;
-            build.Def.HighEnergyParticleOutputOffset = offset;
+
+            int cell = Grid.OffsetCell(this.GetComponent<Building>().GetCell(), offset);
+            return cell;
         }
 
         public void Fire()
         {
-            int particleOutputCell = this.GetOutputCell();
+            int particleOutputCell = this.GetCircularHEPOutputCell();
             GameObject gameObject = GameUtil.KInstantiate(Assets.GetPrefab((Tag)"HighEnergyParticle"), Grid.CellToPosCCC(particleOutputCell, Grid.SceneLayer.FXFront2), Grid.SceneLayer.FXFront2);
             gameObject.SetActive(true);
             if (!((UnityEngine.Object)gameObject != (UnityEngine.Object)null))
@@ -103,7 +99,6 @@ namespace Rockets_TinyYetBig
                 this._direction = value;
                 if (this.directionController == null)
                     return;
-                UpdateOutputCell();
                 this.directionController.SetPositionPercent( (45f*EightDirectionUtil.GetDirectionIndex(this._direction))/360f);
             }
         }
@@ -140,15 +135,13 @@ namespace Rockets_TinyYetBig
             //this.selectable.AddStatusItem(infoStatusItem_Logic, (object)this);
 
 
-            this.Direction = this.Direction;
 
             this.m_meter = new MeterController((KAnimControllerBase)this.GetComponent<KBatchedAnimController>(), "meter_target", "meter", Meter.Offset.Infront, Grid.SceneLayer.NoLayer, Array.Empty<string>());
             this.m_meter.gameObject.GetComponent<KBatchedAnimTracker>().matchParentOffset = true;
             this.directionController = new MeterController((KAnimControllerBase)this.GetComponent<KBatchedAnimController>(), "redirector_target", "redirector", Meter.Offset.Infront, Grid.SceneLayer.NoLayer, Array.Empty<string>());
             this.directionController.gameObject.GetComponent<KBatchedAnimTracker>().matchParentOffset = true;
-            this.UpdateOutputCell();
-            this.Direction = this.Direction;
 
+            Direction = Direction;
             this.OnStorageChange((object)null);
             //this.Subscribe<RadiationBatteryOutputHandler>((int)GameHashes.ParticleStorageCapacityChanged, OnStorageChangedDelegate);
             this.Subscribe<RadiationBatteryOutputHandler>((int)GameHashes.OnParticleStorageChanged, OnStorageChangedDelegate);
