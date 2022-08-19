@@ -23,10 +23,16 @@ namespace Rockets_TinyYetBig
         [Limit(1, 15)]
         [JsonProperty]
         public int CritterStorageCapacity { get; set; }
+
+        [Option("Laser Drillcone Speed", "Mining speed in Kg/s for the Laser Drillcone. (The Basic Drillcone mines at 7.5kg/s).")]
+        [Limit(1f, 15f)]
+        [JsonProperty]
+        public float LaserDrillconeSpeed { get; set; }
         public Config()
         {
             ScannerModuleRange = 1;
             CritterStorageCapacity = 5;
+            LaserDrillconeSpeed = 3.75f;
         }
     }
 }

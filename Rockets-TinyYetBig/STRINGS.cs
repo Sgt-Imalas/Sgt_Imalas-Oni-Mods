@@ -31,6 +31,13 @@ namespace Rockets_TinyYetBig
                     public static LocString EFFECT = "This module allows the safe transport of critters to their new home. ";
                     public static LocString DESC = "These critters will go where no critter has gone before.";
                 }
+                public class RYB_NOSECONEHEPHARVEST
+                {
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Laser Drillcone", nameof(RYB_NOSECONEHEPHARVEST));
+                    public static LocString DESC = (LocString)"Harvests resources from the universe with the power of radbolts and lasers";
+                    public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.NOSECONEHARVEST.EFFECT;
+                }
+
                 public class RTB_HEPBATTERYMODULE
                 {
                     public static LocString NAME = (LocString)UI.FormatAsLink("Radbolt Chamber Module", nameof(HEPBatteryModuleConfig)); public static 

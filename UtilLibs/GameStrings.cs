@@ -24,7 +24,7 @@ namespace UtilLibs
                 public const string Automation = "Automation";
                 public const string Shipping = "Conveyance";
                 public const string Rocketry = "Rocketry";
-            public const string Radiation = "HEP";
+                public const string Radiation = "HEP";
             }
 
             public static class Technology
@@ -97,7 +97,17 @@ namespace UtilLibs
                     public const string RoboticTools = "RoboticTools";
                 }
 
-                public static class Medicine
+                // Spaced Out!
+                public static class RadiationTechnologies
+                {
+                    public const string MaterialsScienceResearch = "NuclearResearch";
+                    public const string MoreMaterialsScienceResearch = "AdvancedNuclearResearch";
+                    public const string RadboltContainment = "NuclearStorage";
+                    public const string RadiationRefinement = "NuclearRefinement";
+                public const string RadboltPropulsion = "NuclearPropulsion";
+                }
+
+            public static class Medicine
                 {
                     public const string Pharmacology = "MedicineI";
                     public const string MedicalEquipment = "MedicineII";

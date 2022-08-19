@@ -15,7 +15,7 @@ namespace Rockets_TinyYetBig.Buildings
         public StateMachine<NoseConeHEPHarvest, NoseConeHEPHarvest.StatesInstance, IStateMachineTarget, NoseConeHEPHarvest.Def>.FloatParameter lastHarvestTime;
         public GameStateMachine<NoseConeHEPHarvest, NoseConeHEPHarvest.StatesInstance, IStateMachineTarget, NoseConeHEPHarvest.Def>.State grounded;
         public NoseConeHEPHarvest.NotGroundedStates not_grounded;
-
+        public const float HEPConsumtionRate = 0.25f;
         public override void InitializeStates(out StateMachine.BaseState default_state)
         {
             default_state = (StateMachine.BaseState)this.grounded;
@@ -65,7 +65,7 @@ namespace Rockets_TinyYetBig.Buildings
               : base(master, def)
             {
                 this.storage = this.GetComponent<HighEnergyParticleStorage>();
-                this.GetComponent<RocketModule>().AddModuleCondition(ProcessCondition.ProcessConditionType.RocketStorage, (ProcessCondition)new ConditionHasRadbolts(this.storage, 1000f));
+                this.GetComponent<RocketModule>().AddModuleCondition(ProcessCondition.ProcessConditionType.RocketStorage, (ProcessCondition)new ConditionHasRadbolts(this.storage, 6000f));
                 this.Subscribe(-1697596308, new System.Action<object>(this.UpdateMeter));
                 this.meter = new MeterController((KAnimControllerBase)this.GetComponent<KBatchedAnimController>(), "meter_target", nameof(meter), Meter.Offset.Infront, Grid.SceneLayer.NoLayer, Array.Empty<string>());
                 this.meter.gameObject.GetComponent<KBatchedAnimTracker>().matchParentOffset = true;
@@ -144,7 +144,7 @@ namespace Rockets_TinyYetBig.Buildings
                         break;
                 }
                 smi.DeltaPOICapacity(-num3);
-                this.ConsumeParticles(num3 * 0.05f);
+                this.ConsumeParticles(num3 * HEPConsumtionRate);
                 if ((double)num5 > 0.0)
                     component.GetComponent<KSelectable>().AddStatusItem(Db.Get().BuildingStatusItems.SpacePOIWasting, (object)(float)((double)num5 / (double)dt));
                 else
@@ -154,7 +154,7 @@ namespace Rockets_TinyYetBig.Buildings
 
             public void ConsumeParticles(float amount) => this.GetComponent<HighEnergyParticleStorage>().ConsumeIgnoringDisease(GameTags.HighEnergyParticle, amount);
 
-            public float GetMaxExtractKGFromHEPsAvailable() => this.GetComponent<HighEnergyParticleStorage>().Particles / 0.05f;
+            public float GetMaxExtractKGFromHEPsAvailable() => this.GetComponent<HighEnergyParticleStorage>().Particles / HEPConsumtionRate;
 
             public bool CheckIfCanHarvest()
             {

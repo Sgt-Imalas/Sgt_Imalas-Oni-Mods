@@ -6,7 +6,7 @@
 This mod decreases the map space taken up by Spacefarer Modules while adding 3 new Variants.
 Also it buffs the Cartographic Module and removes the Rocket Cap of 16.
 
-[h1]Current latest Version: 2.1.0[/h1]
+[h1]Current latest Version: 2.2.0[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
@@ -20,6 +20,7 @@ Also it buffs the Cartographic Module and removes the Rocket Cap of 16.
 [*]New Modules: [list]
 	[*]Radbolt Chamber Module: Transport Radbolts to other planetoids with this module. Has a capacity of 3000 Radbolts with a configurable output direction.
 	[*]Critter Containment Module: Allows the transport of critters without the need to store them in the spacefarer module. Base Capacity: 5 Critters (adjustable in mod settings).
+	[*]Laser Drillcone: Radbolt powered drillcone. Stores 6000 Radbolts for a total mining amount of 24 tons. Mines half as fast as the regular drillcone (speed adjustable in mod settings).
 	[/list]
 [/list]
 
@@ -30,6 +31,7 @@ Options made with PLib.
 [hr][/hr]
 [h1]Known Issues[/h1]
 [list]
+[*] The game crashes on changing one spacefarer module to another. - even to the mod will recieve blame, this is a vanilla crash issue, just don't do that -> deconstruct the module, then construct the new one after.
 [*] Camera glitches out / is black inside of rocket - A camera bug derived from the main game camera, zoom in / out to fix.
 [*] Starfarer landing animation is glitchy - Basegame limitations do not allow extra animation there to fix it.
 [*] Game Crash on construction of an additional rocket - you used up all the grid space with 32x32 rockets, deconstruct some of those and it should work again.

@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.Buildings;
 using System;
 using System.Collections.Generic;
@@ -93,7 +94,7 @@ namespace Rockets_TinyYetBig
         /// <summary>
         /// Adjust Scanner Module range
         /// </summary>
-        [HarmonyPatch(typeof(ScannerModule.Instance),"Scan")]
+        [HarmonyPatch(typeof(ScannerModule.Instance), "Scan")]
         public static class BuffScannerModule
         {
             public static void Prefix(ScannerModule.Instance __instance)
@@ -102,6 +103,17 @@ namespace Rockets_TinyYetBig
             }
         }
 
+        /// <summary>
+        /// Add Custom Sidescreen for Nosecone
+        /// </summary>
+        [HarmonyPatch(typeof(DetailsScreen), "OnPrefabInit")]
+        public static class CustomSideScreenPatch_SatelliteCarrier
+        {
+            public static void Postfix(List<DetailsScreen.SideScreenRef> ___sideScreens)
+            {
+                UIUtils.AddClonedSideScreen<NoseConeHEPHarvestSideScreen>("HarvestModuleHEPSideScreen", "HarvestModuleSideScreen", typeof(HarvestModuleSideScreen));
+            }
+        }
 
         /// <summary>
         /// add destination selection sidescreen to rad battery
@@ -136,9 +148,9 @@ namespace Rockets_TinyYetBig
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.SpaceProgram, HabitatModuleSmallExpandedConfig.ID);
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.DurableLifeSupport, HabitatModuleMediumExpandedConfig.ID);
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CelestialDetection, HabitatModuleStargazerConfig.ID);
-                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CelestialDetection, HEPBatteryModuleConfig.ID);
-                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CelestialDetection, CritterContainmentModuleConfig.ID); 
-                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CelestialDetection, NoseConeHEPHarvestConfig.ID); 
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.RadiationTechnologies.RadboltContainment, HEPBatteryModuleConfig.ID);
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.AnimalControl, CritterContainmentModuleConfig.ID); 
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, NoseConeHEPHarvestConfig.ID); 
             }
         }
 

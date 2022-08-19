@@ -24,7 +24,7 @@ namespace Rockets_TinyYetBig.Buildings
             EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 4, "rocket_nosecone_laser_harvest_kanim", 1000, 60f, hollowTieR2, construction_materials, 9999f, BuildLocationRule.Anywhere, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 5, "rocket_nosecone_laser_harvest_kanim", 1000, 60f, hollowTieR2, construction_materials, 9999f, BuildLocationRule.Anywhere, none, noise);
             BuildingTemplates.CreateRocketBuildingDef(buildingDef);
             buildingDef.AttachmentSlotTag = GameTags.Rocket;
             buildingDef.SceneLayer = Grid.SceneLayer.Building;
@@ -50,13 +50,13 @@ namespace Rockets_TinyYetBig.Buildings
             go.GetComponent<KPrefabID>().AddTag(GameTags.NoseRocketModule); 
             
             HighEnergyParticleStorage energyParticleStorage = go.AddOrGet<HighEnergyParticleStorage>();
-            energyParticleStorage.capacity = 3000f;
+            energyParticleStorage.capacity = 6000f;
             energyParticleStorage.autoStore = true;
             energyParticleStorage.PORT_ID = "HEP_STORAGE";
             energyParticleStorage.showCapacityStatusItem = true;
             energyParticleStorage.showCapacityAsMainStatus = true;
 
-            go.AddOrGetDef<NoseConeHEPHarvest.Def>().harvestSpeed = 1.0f;
+            go.AddOrGetDef<NoseConeHEPHarvest.Def>().harvestSpeed = Config.Instance.LaserDrillconeSpeed;
         }
 
         public override void DoPostConfigureComplete(GameObject go)
