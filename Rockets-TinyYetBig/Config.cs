@@ -28,11 +28,19 @@ namespace Rockets_TinyYetBig
         [Limit(1f, 15f)]
         [JsonProperty]
         public float LaserDrillconeSpeed { get; set; }
+
+
+        [Option("Radioisotope Decay time", "Time in cycles for all the enriched uranium in the RTG to decay into depleted uranium. RTG needs a rebuild if all enriched uranium has decayed.")]
+        [Limit(100f, 2000f)]
+        [JsonProperty]
+        public float IsotopeDecayTime { get; set; }
+
         public Config()
         {
             ScannerModuleRange = 1;
             CritterStorageCapacity = 5;
             LaserDrillconeSpeed = 3.75f;
+            IsotopeDecayTime = 200;
         }
     }
 }

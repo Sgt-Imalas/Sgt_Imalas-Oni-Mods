@@ -19,9 +19,9 @@ namespace SpaceMapExpansionTest
         {
             public static void Prefix(ref int rings)
             {
-                Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"); //Working :D
+                //Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"); //Working :D
 
-                Debug.Log("rings"+ rings.ToString());
+                Debug.Log("Space Expansion patched"+ rings.ToString());
                 rings = rings * 2;
             }
             

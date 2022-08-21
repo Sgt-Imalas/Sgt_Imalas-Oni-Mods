@@ -107,7 +107,7 @@ namespace Rockets_TinyYetBig
         /// Add Custom Sidescreen for Nosecone
         /// </summary>
         [HarmonyPatch(typeof(DetailsScreen), "OnPrefabInit")]
-        public static class CustomSideScreenPatch_SatelliteCarrier
+        public static class CustomSideScreenPatch_LaserDrillcone
         {
             public static void Postfix(List<DetailsScreen.SideScreenRef> ___sideScreens)
             {
@@ -241,6 +241,9 @@ namespace Rockets_TinyYetBig
 
             public static void Prefix()
             {
+                RocketryUtils.AddRocketModuleToBuildList(GeneratorTestConfig.ID, BatteryModuleConfig.ID);
+                RocketryUtils.AddRocketModuleToBuildList(RTGModuleConfig.ID, HabitatModuleSmallConfig.ID);
+
                 RocketryUtils.AddRocketModuleToBuildList(HabitatModuleSmallExpandedConfig.ID, HabitatModuleSmallConfig.ID);
                 RocketryUtils.AddRocketModuleToBuildList(HabitatModuleStargazerConfig.ID, NoseconeBasicConfig.ID);
                 RocketryUtils.AddRocketModuleToBuildList(HabitatModuleMediumExpandedConfig.ID, HabitatModuleMediumConfig.ID);
