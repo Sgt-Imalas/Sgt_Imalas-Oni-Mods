@@ -38,6 +38,10 @@
 	<PropertyGroup>
 		<LangVersion>preview</LangVersion>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="DotNetZip" Version="1.16.0" />
+	</ItemGroup>
 	
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
