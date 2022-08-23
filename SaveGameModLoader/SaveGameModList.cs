@@ -12,8 +12,10 @@ namespace SaveGameModLoader
 {
     public class SaveGameModList
     {
-        public string ColonyName;
+        public string ReferencedColonySaveName;
         public string ModlistPath;
+        public readonly string ColonyGuid;
+
         public List<ModListEntree> SavePoints = new();
 
         public static bool ModListFileExists(string filePath)
@@ -34,36 +36,70 @@ namespace SaveGameModLoader
                 return JsonConvert.DeserializeObject<SaveGameModList>(jsonString);
             }
         }
-        public SaveGameModList(string referencedModFolder = "")
+        public SaveGameModList(string referencedColonySave, string guid)
         {
-            string ColonyToReference;
-            if(referencedModFolder == "")
-            {
-                ColonyToReference = Path.GetFileName(SaveLoader.GetActiveSaveFilePath());
-            }
+            ColonyGuid = guid;
+            ReferencedColonySaveName = GetModListFileName(referencedColonySave);
+
+            ModlistPath = ModAssets.ModPath + GetModListFileName(referencedColonySave);
         }
 
+        public static string GetModListFileName(string pathOfReference)
+        {
+            string FileNameInSpe = Directory.GetParent(pathOfReference).Name;
+            if (FileNameInSpe.Contains("auto_save"))
+            {
+                FileNameInSpe = GetModListFileName(Directory.GetParent(pathOfReference).FullName);
+            }
+            return FileNameInSpe;
+        }
+
+        public static string StripAllPaths(string toStrip)
+        {
+            var fileOnly = Path.GetFileNameWithoutExtension(toStrip);
+            var output = string.Empty;
+            if (toStrip.Contains("auto_save"))
+            {
+                output = "\\auto_save\\";
+            }
+            output += fileOnly;
+            return output;
+        }
 
         public void WriteModlistToFile()
         {
-            ModlistPath = ModAssets.ModPath + ColonyName + ".json";
-            File.WriteAllText(ModlistPath, JsonConvert.SerializeObject(this));
+            try 
+            {
+                Debug.Log("Writing mod config to " + ModlistPath);
+                File.WriteAllText(ModlistPath + ".json", JsonConvert.SerializeObject(this));
+            }
+            catch(Exception e)
+            {
+                Debug.LogError("Could not write file, Exception: " + e);
+            }
         }
 
 
-        public void AddEntryToModList(string subSavePath, List<KMod.Label> mods)
+        public bool AddOrUpdateEntryToModList(string subSavePath, List<KMod.Label> mods)
         {
-            var Entry = new ModListEntree();
-            Entry.EnabledMods = mods;
-            Entry.referencedSavePath = subSavePath;
+            bool initializeCall = false;
+            string SubSaveFileName = subSavePath;
 
-            if (!SavePoints.Contains(Entry))
+            var Entry = SavePoints.Find(s => s.referencedSavePath == SubSaveFileName);
+            if (Entry == null)
             {
+                initializeCall = true;
+                Entry = new ModListEntree();
+                Entry.referencedSavePath = SubSaveFileName;
                 SavePoints.Add(Entry);
-                WriteModlistToFile();
             }
             else
-                Debug.Log("Entry already exists");
+                Debug.Log("Mod config already exists for this save game, overwriting..");
+            Entry.EnabledMods.Clear();
+            Entry.EnabledMods.AddRange(mods);
+
+            this.WriteModlistToFile();
+            return initializeCall;
         }
 
     }

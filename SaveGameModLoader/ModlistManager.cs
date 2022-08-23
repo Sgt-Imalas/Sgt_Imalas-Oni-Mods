@@ -10,18 +10,13 @@ namespace SaveGameModLoader
     public class ModlistManager
     {
         public List<SaveGameModList> Modlists = new();
-        private static ModlistManager _instance;
-        public static ModlistManager Instance
-        {
-            get
-            {
-                return _instance == null ? new ModlistManager() : _instance;
-            }
-        }
+        private static readonly Lazy<ModlistManager> _instance = new Lazy<ModlistManager>(() => new ModlistManager());
+
+        public static ModlistManager Instance { get { return _instance.Value; } }
         
         public ModlistManager()
         {
-            GetAllStoredModlists();
+            //GetAllStoredModlists();
         }
         public void GetAllStoredModlists()
         {
@@ -39,13 +34,26 @@ namespace SaveGameModLoader
                     Debug.LogError("Couln't load modlist from: " + modlist);
                 }
             }
+            Debug.Log("Found Mod Configs for " + files.Count() + " Colonies");
         }
 
-        public Get
-        public void AddNewModlist(SaveGameModList list)
+        public bool CreateOrAddToModLists(string savePath, string colonyGuid ,List<KMod.Label> list)
         {
-            Modlists.Add(list);
-            list.WriteModlistToFile();
+            //var savePath = SaveGameModList.StripAllPaths(savePathPreStripped);
+            bool Initialized=false;
+            Debug.Log("GUID: " + colonyGuid.ToString());
+            Debug.Log(savePath);
+
+            var colonyModSave = Modlists.Find(entry => entry.ReferencedColonySaveName  == SaveGameModList.GetModListFileName(savePath));
+
+            if (colonyModSave == null)
+            {
+                Initialized = true;
+                colonyModSave = new SaveGameModList(savePath, colonyGuid);
+                Modlists.Add(colonyModSave);
+            }
+            bool subEntryExisting = colonyModSave.AddOrUpdateEntryToModList(savePath, list);
+            return Initialized || subEntryExisting;
         }
     }
 }
