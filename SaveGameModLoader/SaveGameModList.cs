@@ -36,6 +36,17 @@ namespace SaveGameModLoader
                 return JsonConvert.DeserializeObject<SaveGameModList>(jsonString);
             }
         }
+
+        /// <summary>
+        /// When Modlist is created by Deserializing
+        /// </summary>
+        public SaveGameModList() { }
+
+        /// <summary>
+        /// When Modlist is created by the game
+        /// </summary>
+        /// <param name="referencedColonySave"></param>
+        /// <param name="guid"></param>
         public SaveGameModList(string referencedColonySave, string guid)
         {
             ColonyGuid = guid;

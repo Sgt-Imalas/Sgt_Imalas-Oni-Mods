@@ -22,6 +22,8 @@ namespace SaveGameModLoader
 {
     class Patches
     {
+
+
         //public class MainMenuModSelectionPatch
         //{
         //    public static void LoadMods(IReader reader, SaveGame.GameInfo GameInfo)
@@ -115,6 +117,9 @@ namespace SaveGameModLoader
         //    }            
         //}
 
+        /// <summary>
+        /// ButtonInfoType copy since its private in MainMenu
+        /// </summary>
         private struct ButtonInfo
         {
             public LocString text;
@@ -131,6 +136,27 @@ namespace SaveGameModLoader
             }
         }
 
+        /// <summary>
+        /// Copy of Addbutton in main menu to add a button using the copied type above
+        /// </summary>
+        /// <param name="info">Button information</param>
+        /// <param name="instance">Main Menu instance reference</param>
+        /// <returns></returns>
+        private static KButton MakeButton(ButtonInfo info, MainMenu instance)
+        {
+            KButton buttonPrefab = (KButton)Traverse.Create(instance).Field("buttonPrefab").GetValue();
+            GameObject buttonParent = (GameObject)Traverse.Create(instance).Field("buttonParent").GetValue();
+
+            KButton kbutton = Util.KInstantiateUI<KButton>(buttonPrefab.gameObject, buttonParent, true);
+            kbutton.onClick += info.action;
+            KImage component = kbutton.GetComponent<KImage>();
+            component.colorStyleSetting = info.style;
+            component.ApplyColorStyleSetting();
+            LocText componentInChildren = kbutton.GetComponentInChildren<LocText>();
+            componentInChildren.text = (string)info.text;
+            componentInChildren.fontSize = (float)info.fontSize;
+            return kbutton;
+        }
 
 
         [HarmonyPatch(typeof(MainMenu), "ResumeGame")]
@@ -149,7 +175,7 @@ namespace SaveGameModLoader
                     return true;
                 else
                 {
-                    Debug.Log("Data DID IT");
+                    Debug.Log("For now, Broke button as intended :D");
                     Debug.Log(path);
                     return false;
                 }
@@ -158,27 +184,75 @@ namespace SaveGameModLoader
 
 
 
+        [HarmonyPatch(typeof(LoadScreen), "OnPrefabInit")]
+        public static class GiveUIForLoadscreen
+
+        {
+            public static void Test()
+            {
+                var active = SaveLoader.GetActiveSaveFilePath();
+                ModlistManager.Instance.DoesModlistExist(active);
+                Debug.Log("yep this works ---------------");
+            }
+            public static void Prefix(LoadScreen __instance)
+            {
+
+                //Debug.Log("Start Logging LoadScreen parts:");
+                //UIUtils.ListAllChildren(__instance.gameObject.transform);
+                //Debug.Log("End Logging LoadScreen parts");
+
+                GameObject viewRoot = (GameObject)Traverse.Create(__instance).Field("colonyViewRoot").GetValue();
+
+                HierarchyReferences references = viewRoot.GetComponent<HierarchyReferences>();
+                
+                RectTransform template = references.GetReference<RectTransform>("SaveTemplate");
+
+                UIUtils.ListAllChildren(template);
+
+                HierarchyReferences TemplateRefs = template.GetComponent<HierarchyReferences>();
+
+                var SyncTemplate = TemplateRefs.GetReference<RectTransform>("LoadButton");
+
+                //SyncTemplate.offsetMax = new Vector2((SyncTemplate.rect.width + 15f), SyncTemplate.offsetMax.y);
+                SyncTemplate.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 65f, SyncTemplate.rect.width);
+
+
+                KButton kbutton = Util.KInstantiateUI<KButton>(SyncTemplate.gameObject, template.Find("BG").gameObject, true);
+                kbutton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 10, 50);
+                var date = TemplateRefs.GetReference<RectTransform>("DateText");
+                date.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 240, date.rect.width);
+                
+
+                kbutton.name = "SyncButton";
+                LocText componentInChildren = kbutton.GetComponentInChildren<LocText>();
+                //componentInChildren.SetText("Sync Mods");
+                UnityEngine.Object.Destroy(componentInChildren);
+
+                kbutton.bgImage.sprite = Assets.GetSprite("icon_thermal_conductivity");
+                kbutton.
+
+                Debug.Log("SaveGameTemplate:");
+                UIUtils.ListAllChildren(template);
+
+                //__instance.transform.Find("Panel/ColonyView/ListView").GetComponent<DropDown>().gameObject.SetActive(false);
+
+                //ColorStyleSetting style = (ColorStyleSetting)Traverse.Create(__instance).Field("topButtonStyle").GetValue();
+
+                //var UpdateButton = new ButtonInfo("SYNCHRONIZE MODS AND RESUME GAME", new System.Action(GiveUI.Test), 18, style);
+
+                //MakeButton(UpdateButton, __instance);
+            }
+        }
+
+
         [HarmonyPatch(typeof(MainMenu), "OnPrefabInit")]
         public static class GiveUI
         {
-            private static KButton MakeButton(ButtonInfo info, MainMenu instance)
-            {
-                KButton buttonPrefab = (KButton)Traverse.Create(instance).Field("buttonPrefab").GetValue();
-                GameObject buttonParent = (GameObject)Traverse.Create(instance).Field("buttonParent").GetValue();
-
-                KButton kbutton = Util.KInstantiateUI<KButton>(buttonPrefab.gameObject, buttonParent, true);
-                kbutton.onClick += info.action;
-                KImage component = kbutton.GetComponent<KImage>();
-                component.colorStyleSetting = info.style;
-                component.ApplyColorStyleSetting();
-                LocText componentInChildren = kbutton.GetComponentInChildren<LocText>();
-                componentInChildren.text = (string)info.text;
-                componentInChildren.fontSize = (float)info.fontSize;
-                return kbutton;
-            }
 
             public static void Test()
             {
+                var active = SaveLoader.GetActiveSaveFilePath();
+                ModlistManager.Instance.DoesModlistExist(active);
                 Debug.Log("yep this works ---------------");
             }
             public static void Prefix(MainMenu __instance)
@@ -198,15 +272,14 @@ namespace SaveGameModLoader
 
                 var UpdateButton = new ButtonInfo("SYNCHRONIZE MODS AND RESUME GAME", new System.Action(GiveUI.Test), 18, style);
 
-                GiveUI.MakeButton(UpdateButton, __instance);
+                MakeButton(UpdateButton, __instance);
             }
-
-
-
-
-
         }
 
+
+        /// <summary>
+        /// On loading a savegame, store the mod config in the modlist file.
+        /// </summary>
         [HarmonyPatch(typeof(SaveLoader), "Load")]
         [HarmonyPatch(new Type[] { typeof(IReader) })]
 

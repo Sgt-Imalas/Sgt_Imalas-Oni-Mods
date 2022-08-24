@@ -6,7 +6,7 @@
 This mod decreases the map space taken up by Spacefarer Modules while adding 3 new Variants.
 Also it buffs the Cartographic Module and removes the Rocket Cap of 16.
 
-[h1]Current latest Version: 2.2.1[/h1]
+[h1]Current latest Version: 2.2.2[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
@@ -35,6 +35,7 @@ Options made with PLib.
 [*] Camera glitches out / is black inside of rocket - A camera bug derived from the main game camera, zoom in / out to fix.
 [*] Starfarer landing animation is glitchy - Basegame limitations do not allow extra animation there to fix it.
 [*] Game Crash on construction of an additional rocket - you used up all the grid space with 32x32 rockets, deconstruct some of those and it should work again.
+[*] Cannot place something in the rocket / space blocked / invisible mining tiles - game hiccup for not removing invisible world border neutronium, reloading fixes this.
 [/list]
 
 [h1]Bug Reports[/h1]

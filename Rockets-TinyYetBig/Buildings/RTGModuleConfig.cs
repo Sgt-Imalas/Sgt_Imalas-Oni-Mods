@@ -13,7 +13,8 @@ namespace Rockets_TinyYetBig
     public class RTGModuleConfig : IBuildingConfig
     {
         public const string ID = "RTB_RtgGeneratorModule";
-
+        public const float UraniumCapacity = 50f;
+        public float ConsumptionRate =  (UraniumCapacity / Config.Instance.IsotopeDecayTime )/600f; 
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
 
         public override BuildingDef CreateBuildingDef()
@@ -57,14 +58,14 @@ namespace Rockets_TinyYetBig
             go.AddOrGet<LoopingSounds>();
             
             Storage storage = go.AddOrGet<Storage>();
-            storage.capacityKg = 100f;
+            storage.capacityKg = UraniumCapacity;
 
             ManualDeliveryKG manualDeliveryKg = go.AddOrGet<ManualDeliveryKG>();
             manualDeliveryKg.SetStorage(storage);
             manualDeliveryKg.requestedItemTag = ElementLoader.FindElementByHash(SimHashes.EnrichedUranium).tag;
             manualDeliveryKg.capacity = storage.capacityKg;
-            manualDeliveryKg.refillMass = 100f;
-            manualDeliveryKg.minimumMass = 100f;
+            manualDeliveryKg.refillMass = UraniumCapacity;
+            manualDeliveryKg.minimumMass = UraniumCapacity;
             manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
 
 
@@ -85,11 +86,11 @@ namespace Rockets_TinyYetBig
             var generator = go.AddOrGet<RTB_ModuleGenerator>();
 
             generator.consumptionElement = SimHashes.EnrichedUranium.CreateTag();
-            generator.consumptionRate = (1f / 600f);
-            generator.consumptionMaxStoredMass = 100f;
+            generator.consumptionRate = ConsumptionRate;
+            generator.consumptionMaxStoredMass = UraniumCapacity;
 
             generator.outputElement = SimHashes.DepletedUranium;
-            generator.OutputCreationRate = (1f / 600f);
+            generator.OutputCreationRate = ConsumptionRate;
             generator.OutputTemperature = 363.15f;
 
             generator.AllowRefill = false;

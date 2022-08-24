@@ -18,6 +18,15 @@ namespace SaveGameModLoader
         {
             //GetAllStoredModlists();
         }
+
+        public bool DoesModlistExist(string path)
+        {
+            GetAllStoredModlists();
+            var result = Modlists.Find(list => list.SavePoints.Find(sp => sp.referencedSavePath == path) != null) != null;
+            Debug.Log("ModList found for this savegame");
+            return result;
+        }
+
         public void GetAllStoredModlists()
         {
             Modlists.Clear();
@@ -26,12 +35,13 @@ namespace SaveGameModLoader
             {
                 try
                 {
+                    Debug.Log("Trying to load: " + modlist);
                    var list = SaveGameModList.ReadModlistListFromFile(modlist);
                     Modlists.Add(list);
                 }
-                catch
+                catch(Exception e)
                 {
-                    Debug.LogError("Couln't load modlist from: " + modlist);
+                    Debug.LogError("Couln't load modlist from: " + modlist + ", Error: "+e);
                 }
             }
             Debug.Log("Found Mod Configs for " + files.Count() + " Colonies");

@@ -30,7 +30,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryopod", "Cryopod\Cryopod.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaceMapExpansionTest", "SpaceMapExpansionTest\SpaceMapExpansionTest.csproj", "{FD7AD2ED-E042-4193-B8D8-196F077D229A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceStationsAndExploration", "SpaceStationsAndExploration\SpaceStationsAndExploration.csproj", "{B5D47E1B-5F2C-4232-8C97-5B11F8076907}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaceStationsAndExploration", "SpaceStationsAndExploration\SpaceStationsAndExploration.csproj", "{B5D47E1B-5F2C-4232-8C97-5B11F8076907}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaveGameModLoader", "SaveGameModLoader\SaveGameModLoader.csproj", "{ED0AEDB8-8A03-45AE-8E61-71E7CA1EBCC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -82,6 +84,10 @@ Global
 		{B5D47E1B-5F2C-4232-8C97-5B11F8076907}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5D47E1B-5F2C-4232-8C97-5B11F8076907}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{B5D47E1B-5F2C-4232-8C97-5B11F8076907}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{ED0AEDB8-8A03-45AE-8E61-71E7CA1EBCC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED0AEDB8-8A03-45AE-8E61-71E7CA1EBCC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED0AEDB8-8A03-45AE-8E61-71E7CA1EBCC6}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED0AEDB8-8A03-45AE-8E61-71E7CA1EBCC6}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
