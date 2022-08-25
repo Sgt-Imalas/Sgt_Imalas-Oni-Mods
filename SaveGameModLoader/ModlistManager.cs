@@ -39,6 +39,11 @@ namespace SaveGameModLoader
             Debug.Log("Tried Loading Modlist, but the feature doesnt exist yet! Ö ");
             Debug.Log("Parameters are: Colony Name: "+colonyName + ": Savepath: "+ referencedPath);
         }
+        public void InstantiateModViewForPathOnly(string referencedPath)
+        {
+            Debug.Log("Tried Loading Modlist without ColonyName but the feature doesnt exist yet! Ö ");
+            Debug.Log("Parameter;" +  referencedPath);
+        }
 
         public void GetAllStoredModlists()
         {

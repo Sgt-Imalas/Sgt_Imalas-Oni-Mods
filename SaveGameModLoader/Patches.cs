@@ -161,24 +161,24 @@ namespace SaveGameModLoader
         [HarmonyPatch(typeof(MainMenu), "ResumeGame")]
         public static class AddModSyncToResumeButton
         {
-            public static bool Prefix(MainMenu __instance)
-            {
-                string path;
-                if (KPlayerPrefs.HasKey("AutoResumeSaveFile"))
-                {
-                    path = KPlayerPrefs.GetString("AutoResumeSaveFile");
-                }
-                else
-                    path = string.IsNullOrEmpty(GenericGameSettings.instance.performanceCapture.saveGame) ? SaveLoader.GetLatestSaveForCurrentDLC() : GenericGameSettings.instance.performanceCapture.saveGame;
-                if (string.IsNullOrEmpty(path))
-                    return true;
-                else
-                {
-                    Debug.Log("For now, Broke button as intended :D");
-                    Debug.Log(path);
-                    return false;
-                }
-            }
+            //public static bool Prefix(MainMenu __instance)
+            //{
+            //    string path;
+            //    if (KPlayerPrefs.HasKey("AutoResumeSaveFile"))
+            //    {
+            //        path = KPlayerPrefs.GetString("AutoResumeSaveFile");
+            //    }
+            //    else
+            //        path = string.IsNullOrEmpty(GenericGameSettings.instance.performanceCapture.saveGame) ? SaveLoader.GetLatestSaveForCurrentDLC() : GenericGameSettings.instance.performanceCapture.saveGame;
+            //    if (string.IsNullOrEmpty(path))
+            //        return true;
+            //    else
+            //    {
+            //        Debug.Log("For now, Broke button as intended :D");
+            //        Debug.Log(path);
+            //        return false;
+            //    }
+            //}
         }
 
         //[HarmonyDebug]
@@ -257,12 +257,6 @@ namespace SaveGameModLoader
         [HarmonyPatch(typeof(LoadScreen), "OnPrefabInit")]
         public static class AddModSyncButtonToLoadscreen
         {
-            public static void Test()
-            {
-                var active = SaveLoader.GetActiveSaveFilePath();
-                ModlistManager.Instance.DoesModlistExistForThisSave(active);
-                Debug.Log("yep this works ---------------");
-            }
             public static void Prefix(LoadScreen __instance)
             {
 
@@ -301,15 +295,8 @@ namespace SaveGameModLoader
 
 
         [HarmonyPatch(typeof(MainMenu), "OnPrefabInit")]
-        public static class GiveUI
+        public static class AddSyncContinueButton
         {
-
-            public static void Test()
-            {
-                var active = SaveLoader.GetActiveSaveFilePath();
-                ModlistManager.Instance.DoesModlistExistForThisSave(active);
-                Debug.Log("yep this works ---------------");
-            }
             public static void Prefix(MainMenu __instance)
             {
                 Debug.Log("START");
@@ -322,12 +309,28 @@ namespace SaveGameModLoader
 
                 Debug.Log("END2");
 
+                string path;
+                if (KPlayerPrefs.HasKey("AutoResumeSaveFile"))
+                {
+                    path = KPlayerPrefs.GetString("AutoResumeSaveFile");
+                }
+                else
+                    path = string.IsNullOrEmpty(GenericGameSettings.instance.performanceCapture.saveGame) ? SaveLoader.GetLatestSaveForCurrentDLC() : GenericGameSettings.instance.performanceCapture.saveGame;
 
                 ColorStyleSetting style = (ColorStyleSetting)Traverse.Create(__instance).Field("topButtonStyle").GetValue();
+               
 
-                var UpdateButton = new ButtonInfo("SYNCHRONIZE MODS AND RESUME GAME", new System.Action(GiveUI.Test), 18, style);
+                var UpdateButton = new ButtonInfo("SYNCHRONIZE MODS AND RESUME GAME",
+                    () => 
+                    {
+                        ModlistManager.Instance.InstantiateModViewForPathOnly(path);
+                    }, 
+                    18, style);
 
-                MakeButton(UpdateButton, __instance);
+                var bt = MakeButton(UpdateButton, __instance);
+
+                bool interactable = ModlistManager.Instance.DoesModlistExistForThisSave(path);
+                bt.isInteractable = interactable;
             }
         }
 
