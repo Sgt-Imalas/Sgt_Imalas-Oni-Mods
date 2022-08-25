@@ -20,9 +20,8 @@ using Klei;
 
 namespace SaveGameModLoader
 {
-    class Patches
+    class AllPatches
     {
-
 
         //public class MainMenuModSelectionPatch
         //{
@@ -182,11 +181,102 @@ namespace SaveGameModLoader
             }
         }
 
+        //[HarmonyDebug]
+        [HarmonyPatch(typeof(LoadScreen), "ShowColony")]
+        public static class AddModSyncButtonLogic
+        {
+            public static void InsertModButtonCode(RectTransform entry
+                , object FileDetails
+                )
+            {
+
+                //var one = FileDetails.GetType();
+                //Debug.Log("STEP 1:") ;
+                //Debug.Log(one);
+
+                //var two = one.GetField("save", BindingFlags.Public | BindingFlags.Instance);
+                //Debug.Log("STEP 2:");
+                //Debug.Log(two);
+
+                //var three = two.GetValue(FileDetails);
+
+                //Debug.Log("STEP 3:");
+
+                //Debug.Log(three);
+
+
+                //var four = three.GetType().GetField("FileName").GetValue(three);
+
+                //Debug.Log("STEP 4:");
+                //Debug.Log(four);
+
+                var ContainerOpener = FileDetails.GetType().GetField("save").GetValue(FileDetails);
+                string baseName = (string)ContainerOpener.GetType().GetField("BaseName").GetValue(ContainerOpener);
+                string fileName = (string)ContainerOpener.GetType().GetField("FileName").GetValue(ContainerOpener);
+
+                //string fileName = (string)___field.GetType().GetField("FileName").GetValue(___field);
+
+                Console.WriteLine("Properties of Type are:");
+                Debug.Log("NAME: " + baseName);
+                Debug.Log("FILE: " + fileName);
+
+                //var Converted = (SaveGameFileDetails)___field;
+                var btn = entry.Find("SyncButton").GetComponent<KButton>();
+               //Debug.Log(Converted.FileName + " Eeeeeeeeeeeeeeeee");
+
+
+                if (btn != null)
+                {
+                    btn.isInteractable = false;
+                    btn.onClick += (() =>
+                    {
+                        Debug.Log("BUTTONNNNNNNNNNN");
+                    });
+                }
+            }
+            public static readonly MethodInfo ButtonLogic = AccessTools.Method(
+               typeof(AddModSyncButtonLogic),
+               nameof(InsertModButtonCode));
+
+            private static readonly MethodInfo SuitableMethodInfo = AccessTools.Method(
+                    typeof(KButton),
+                    nameof(KButton.ClearOnClick));
+
+            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+            {
+                var code = instructions.ToList();
+                var insertionIndex = code.FindLastIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo f && f == SuitableMethodInfo);
+
+
+
+                //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
+                if (insertionIndex != -1)
+                {
+                    insertionIndex += 1;
+                    code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 7));
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 6));
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, ButtonLogic));
+                }
+                foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
+
+                return code;
+            }
+
+            public struct SaveGameFileDetails
+            {
+                public string BaseName;
+                public string FileName;
+                public string UniqueID;
+                public System.DateTime FileDate;
+                public SaveGame.Header FileHeader;
+                public SaveGame.GameInfo FileInfo;
+                public long Size;
+            }
+        }
 
 
         [HarmonyPatch(typeof(LoadScreen), "OnPrefabInit")]
-        public static class GiveUIForLoadscreen
-
+        public static class AddModSyncButtonToLoadscreen
         {
             public static void Test()
             {
@@ -205,42 +295,28 @@ namespace SaveGameModLoader
 
                 HierarchyReferences references = viewRoot.GetComponent<HierarchyReferences>();
                 
+                ///get ListEntryTemplate 
                 RectTransform template = references.GetReference<RectTransform>("SaveTemplate");
 
-                UIUtils.ListAllChildren(template);
-
+                ///Get LoadButton and move it to the left 
                 HierarchyReferences TemplateRefs = template.GetComponent<HierarchyReferences>();
-
                 var SyncTemplate = TemplateRefs.GetReference<RectTransform>("LoadButton");
-
-                //SyncTemplate.offsetMax = new Vector2((SyncTemplate.rect.width + 15f), SyncTemplate.offsetMax.y);
                 SyncTemplate.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 65f, SyncTemplate.rect.width);
-
-
-                KButton kbutton = Util.KInstantiateUI<KButton>(SyncTemplate.gameObject, template.Find("BG").gameObject, true);
-                kbutton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 10, 50);
+                ///Move Time&Date text to the left
                 var date = TemplateRefs.GetReference<RectTransform>("DateText");
-                date.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 240, date.rect.width);
+                date.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, SyncTemplate.rect.width + 85f, date.rect.width);
+
+
+                ///Instantiate SyncButton
+                RectTransform kbutton = Util.KInstantiateUI<RectTransform>(SyncTemplate.gameObject, template.gameObject, true);
+                kbutton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 10, 50);
                 
-
+                ///Add SyncButton to template and set Params
                 kbutton.name = "SyncButton";
-                LocText componentInChildren = kbutton.GetComponentInChildren<LocText>();
-                //componentInChildren.SetText("Sync Mods");
-                UnityEngine.Object.Destroy(componentInChildren);
-
-                kbutton.bgImage.sprite = Assets.GetSprite("icon_thermal_conductivity");
-                kbutton.
-
-                Debug.Log("SaveGameTemplate:");
-                UIUtils.ListAllChildren(template);
-
-                //__instance.transform.Find("Panel/ColonyView/ListView").GetComponent<DropDown>().gameObject.SetActive(false);
-
-                //ColorStyleSetting style = (ColorStyleSetting)Traverse.Create(__instance).Field("topButtonStyle").GetValue();
-
-                //var UpdateButton = new ButtonInfo("SYNCHRONIZE MODS AND RESUME GAME", new System.Action(GiveUI.Test), 18, style);
-
-                //MakeButton(UpdateButton, __instance);
+                var syncText = kbutton.GetComponentInChildren<LocText>(true);
+                var btn = kbutton.GetComponentInChildren<KButton>(true);
+                syncText.key = "STRINGS.UI.FRONTEND.MODSYNCING.SYNCMODS";
+                btn.bgImage.sprite = Assets.GetSprite("icon_thermal_conductivity");
             }
         }
 

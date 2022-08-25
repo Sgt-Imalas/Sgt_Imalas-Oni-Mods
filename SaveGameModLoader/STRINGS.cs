@@ -1,19 +1,16 @@
-﻿using STRINGS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SaveGameModLoader
+﻿
+namespace ModManagerStrings
 {
     public class STRINGS
     {
-        public class BUILDINGS
+        public class UI
         {
-            public class PREFABS
+            public class FRONTEND
             {
-
+                public class MODSYNCING
+                {
+                    public static LocString SYNCMODS = "SYNC MODS";
+                }
             }
         }
     }
