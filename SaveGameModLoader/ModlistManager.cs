@@ -19,12 +19,25 @@ namespace SaveGameModLoader
             //GetAllStoredModlists();
         }
 
-        public bool DoesModlistExist(string path)
+
+        public bool DoesColonyExist(string colonyName)
+        {
+            GetAllStoredModlists();
+            var result = Modlists.Find(list => list.ReferencedColonySaveName == colonyName) != null;
+            Debug.Log("ModList found for this savegame");
+            return result;
+        }
+        public bool DoesModlistExistForThisSave(string path)
         {
             GetAllStoredModlists();
             var result = Modlists.Find(list => list.SavePoints.Find(sp => sp.referencedSavePath == path) != null) != null;
-            Debug.Log("ModList found for this savegame");
             return result;
+        }
+
+        public void InstantiateModView(string colonyName, string referencedPath)
+        {
+            Debug.Log("Tried Loading Modlist, but the feature doesnt exist yet! Ö ");
+            Debug.Log("Parameters are: Colony Name: "+colonyName + ": Savepath: "+ referencedPath);
         }
 
         public void GetAllStoredModlists()
@@ -35,7 +48,7 @@ namespace SaveGameModLoader
             {
                 try
                 {
-                    Debug.Log("Trying to load: " + modlist);
+                   //Debug.Log("Trying to load: " + modlist);
                    var list = SaveGameModList.ReadModlistListFromFile(modlist);
                     Modlists.Add(list);
                 }
@@ -44,7 +57,7 @@ namespace SaveGameModLoader
                     Debug.LogError("Couln't load modlist from: " + modlist + ", Error: "+e);
                 }
             }
-            Debug.Log("Found Mod Configs for " + files.Count() + " Colonies");
+            //Debug.Log("Found Mod Configs for " + files.Count() + " Colonies");
         }
 
         public bool CreateOrAddToModLists(string savePath, string colonyGuid ,List<KMod.Label> list)

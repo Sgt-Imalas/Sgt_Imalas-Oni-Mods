@@ -190,47 +190,26 @@ namespace SaveGameModLoader
                 )
             {
 
-                //var one = FileDetails.GetType();
-                //Debug.Log("STEP 1:") ;
-                //Debug.Log(one);
-
-                //var two = one.GetField("save", BindingFlags.Public | BindingFlags.Instance);
-                //Debug.Log("STEP 2:");
-                //Debug.Log(two);
-
-                //var three = two.GetValue(FileDetails);
-
-                //Debug.Log("STEP 3:");
-
-                //Debug.Log(three);
-
-
-                //var four = three.GetType().GetField("FileName").GetValue(three);
-
-                //Debug.Log("STEP 4:");
-                //Debug.Log(four);
-
                 var ContainerOpener = FileDetails.GetType().GetField("save").GetValue(FileDetails);
                 string baseName = (string)ContainerOpener.GetType().GetField("BaseName").GetValue(ContainerOpener);
                 string fileName = (string)ContainerOpener.GetType().GetField("FileName").GetValue(ContainerOpener);
 
-                //string fileName = (string)___field.GetType().GetField("FileName").GetValue(___field);
 
-                Console.WriteLine("Properties of Type are:");
-                Debug.Log("NAME: " + baseName);
-                Debug.Log("FILE: " + fileName);
+                //Console.WriteLine("Properties of Type are:");
+                //Debug.Log("NAME: " + baseName);
+                //Debug.Log("FILE: " + fileName);
 
-                //var Converted = (SaveGameFileDetails)___field;
                 var btn = entry.Find("SyncButton").GetComponent<KButton>();
-               //Debug.Log(Converted.FileName + " Eeeeeeeeeeeeeeeee");
-
-
+                
                 if (btn != null)
                 {
-                    btn.isInteractable = false;
+                    bool colonyExisting = ModlistManager.Instance.DoesColonyExist(baseName);
+                    bool saveGameEntryExisting = ModlistManager.Instance.DoesModlistExistForThisSave(fileName);
+
+                    btn.isInteractable = colonyExisting&&saveGameEntryExisting;
                     btn.onClick += (() =>
                     {
-                        Debug.Log("BUTTONNNNNNNNNNN");
+                        ModlistManager.Instance.InstantiateModView(baseName, fileName);
                     });
                 }
             }
@@ -281,7 +260,7 @@ namespace SaveGameModLoader
             public static void Test()
             {
                 var active = SaveLoader.GetActiveSaveFilePath();
-                ModlistManager.Instance.DoesModlistExist(active);
+                ModlistManager.Instance.DoesModlistExistForThisSave(active);
                 Debug.Log("yep this works ---------------");
             }
             public static void Prefix(LoadScreen __instance)
@@ -328,7 +307,7 @@ namespace SaveGameModLoader
             public static void Test()
             {
                 var active = SaveLoader.GetActiveSaveFilePath();
-                ModlistManager.Instance.DoesModlistExist(active);
+                ModlistManager.Instance.DoesModlistExistForThisSave(active);
                 Debug.Log("yep this works ---------------");
             }
             public static void Prefix(MainMenu __instance)
