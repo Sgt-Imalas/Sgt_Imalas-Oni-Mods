@@ -8,7 +8,7 @@ namespace SaveGameModLoader
     {
         public override void OnLoad(Harmony harmony)
         {
-            ModAssets.ModPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)+ "\\SaveGames\\";
+            ModAssets.ModPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)+ "\\StoredModConfigs\\";
             System.IO.Directory.CreateDirectory(ModAssets.ModPath);
             Debug.Log("[ModLists per Savegame]: Initialized file paths.");
             ModlistManager.Instance.GetAllStoredModlists();

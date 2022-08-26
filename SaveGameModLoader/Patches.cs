@@ -241,7 +241,7 @@ namespace SaveGameModLoader
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 6));
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, ButtonLogic));
                 }
-                foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
+                //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
 
                 return code;
             }

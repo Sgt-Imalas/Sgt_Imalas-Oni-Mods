@@ -13,7 +13,11 @@ namespace ModManagerStrings
                     public static LocString MODDIFFS = "MOD DIFFERENCES";
                     public static LocString SYNCSELECTED = "SYNC CURRENT CONFIG";
                     public static LocString MISSINGMOD = "MISSING MODS!";
-                    public static LocString ALLSYNCED = "ALL MODS SYNCED, LOAD GAME";
+                    public static LocString ALLSYNCED = "ALL MODS SYNCED, CLOSE TO LOAD GAME";
+
+
+                    public static LocString MISSINGMODSTITLE = "MISSING MODS";
+                    public static LocString MISSINGMODSDESC = "Stored mod config listed the following mods, but they are not installed:\n{0}";
                 }
             }
         }

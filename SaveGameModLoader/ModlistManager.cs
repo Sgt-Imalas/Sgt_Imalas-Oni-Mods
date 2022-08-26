@@ -45,7 +45,7 @@ namespace SaveGameModLoader
             //Debug.Log("ModList found for this savegame");
             return result;
         }
-        
+
 
         public void InstantiateModView(List<KMod.Label> mods)
         {
@@ -54,11 +54,11 @@ namespace SaveGameModLoader
 
             var modScreen = Util.KInstantiateUI<ModsScreen>(ScreenPrefabs.Instance.modsMenu.gameObject, ParentObjectRef).transform;
 
-            UIUtils.ListAllChildren(modScreen);
+            //UIUtils.ListAllChildren(modScreen);
 
             ///Set Title of Mod Sync Screen.
             modScreen.Find("Panel/Title/Title").GetComponent<LocText>().text = ModManagerStrings.STRINGS.UI.FRONTEND.MODSYNCING.MODDIFFS;
-            
+
             var DetailsView = modScreen.Find("Panel/DetailsView").gameObject;
             var workShopButton = modScreen.Find("Panel/DetailsView/WorkshopButton");
             if (workShopButton == null)
@@ -67,16 +67,17 @@ namespace SaveGameModLoader
                 return;
             }
             ///Disable toggle all button
-            var togglebtn = modScreen.Find("Panel/DetailsView/ToggleAllButton");
-            var bt = togglebtn.GetComponent<KButton>();
-            bt.isInteractable = false;
+            var ToggleAll = modScreen.Find("Panel/DetailsView/ToggleAllButton");
+            var ToggleAllButton = ToggleAll.GetComponent<KButton>();
+            ToggleAllButton.isInteractable = false;
+            ToggleAll.gameObject.SetActive(false);
 
             //UnityEngine.Object.Destroy(togglebtn);
             ///Add Syncing to close button
             var closeBtObj = modScreen.Find("Panel/DetailsView/CloseButton");
             var closeBt = closeBtObj.GetComponent<KButton>();
-            closeBt.isInteractable = ModListDifferences.Count > 0 && ModListDifferences.Count>MissingMods.Count;
-            closeBt.onClick += () => { SyncAllMods(modScreen.GetComponent<ModsScreen>(), null); }; 
+            closeBt.isInteractable = ModListDifferences.Count > 0 && ModListDifferences.Count > MissingMods.Count;
+            closeBt.onClick += () => { SyncAllMods(modScreen.GetComponent<ModsScreen>(), null); };
             closeBtObj.Find("Text").GetComponent<LocText>().text = ModManagerStrings.STRINGS.UI.FRONTEND.MODSYNCING.SYNCSELECTED;
 
             var SyncAllButtonObject = Util.KInstantiateUI<RectTransform>(workShopButton.gameObject, DetailsView, true);
@@ -86,50 +87,85 @@ namespace SaveGameModLoader
             //Button.GetComponent<LocText>().key = "STRINGS.UI.FRONTEND.MODSYNCING.SYNCMODS";
             SyncAllButton.ClearOnClick();
             SyncAllButton.isInteractable = ModListDifferences.Count > 0;
-            SyncAllButton.onClick += () => { SyncAllMods(modScreen.GetComponent<ModsScreen>(),null); };
+            SyncAllButton.onClick += () => { SyncAllMods(modScreen.GetComponent<ModsScreen>(), null); };
 
             var EntryPos2 = modScreen.Find("Panel").gameObject;
 
-            Debug.Log(MissingMods.Count);
             var missingModListEntry = Util.KInstantiateUI<RectTransform>(workShopButton.gameObject, EntryPos2, true);
-            missingModListEntry.name = "BottomButton";
+            missingModListEntry.name = "infoButton";
             var BtnText = missingModListEntry.Find("Text").GetComponent<LocText>();
             var bgColorImage = missingModListEntry.GetComponent<KImage>();
+            var Btn = missingModListEntry.GetComponent<KButton>();
 
-            Debug.Log(bgColorImage.colorStyleSetting);
 
-            if (MissingMods.Count==0 && ModListDifferences.Count == 0)
+            if (MissingMods.Count == 0 && ModListDifferences.Count == 0)
             {
                 BtnText.text = ModManagerStrings.STRINGS.UI.FRONTEND.MODSYNCING.ALLSYNCED;
-                var ColorStyle = new ColorStyleSetting();
+                var ColorStyle = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
                 ColorStyle.inactiveColor = new Color(0.25f, 0.8f, 0.25f);
                 ColorStyle.hoverColor = new Color(0.35f, 0.8f, 0.35f);
                 bgColorImage.colorStyleSetting = ColorStyle;
                 bgColorImage.ApplyColorStyleSetting();
+                Btn.ClearOnClick();
+                Btn.onClick += () =>
+                {
+                    ModsScreen screen = modScreen.GetComponent<ModsScreen>();
+                    var method = typeof(ModsScreen).GetMethod("Exit", BindingFlags.NonPublic | BindingFlags.Instance);
+                    method.Invoke(screen, null);
+                };
             }
             else if (MissingMods.Count > 0)
             {
-                var ColorStyle = new ColorStyleSetting();
+                var ColorStyle = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
                 ColorStyle.inactiveColor = new Color(1f, 0.25f, 0.25f);
                 ColorStyle.hoverColor = new Color(1f, 0.35f, 0.35f);
                 bgColorImage.colorStyleSetting = ColorStyle;
                 bgColorImage.ApplyColorStyleSetting();
-
                 BtnText.text = ModManagerStrings.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMOD;
+                Btn.ClearOnClick();
+                Btn.onClick += () =>
+                {
+                    ShowMissingMods();
+                };
             }
             else
                 UnityEngine.Object.Destroy(missingModListEntry.gameObject);
 
-            UIUtils.ListAllChildren(modScreen);
             // var infoHeader = Util.KInstantiateUI<RectTransform>(workShopButton.gameObject, ListView, true);
+        }
+        public void ShowMissingMods()
+        {
+
+
+            Manager.Dialog(Global.Instance.globalCanvas, 
+                ModManagerStrings.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSTITLE, 
+                string.Format(ModManagerStrings.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSDESC, 
+                ListMissingMods()));
 
         }
+        public string ListMissingMods()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine();
+            Debug.LogWarning("------Mod Sync------");
+            Debug.LogWarning("---[Missing Mods]---");
+
+            for (int i = 0; i< MissingMods.Count-1; i++)
+            {
+                stringBuilder.Append(MissingMods[i].title + ",  ");
+                Debug.LogWarning(MissingMods[i].title);
+            }
+            stringBuilder.Append(MissingMods[MissingMods.Count - 1].title);
+            Debug.LogWarning(MissingMods[MissingMods.Count - 1].title);
+
+            Debug.LogWarning("-----[List End]-----");
+            Debug.LogWarning("------Mod Sync------");
+            return stringBuilder.ToString();
+        }
+
 
         public void SyncAllMods(ModsScreen modScreen, bool? enableAll)
         {
-            var field = typeof(ModsScreen).GetField("mod_footprint", BindingFlags.NonPublic | BindingFlags.Instance);
-            Debug.Log("FIELD IS NULL? " + field == null);
-
             Manager modManager = Global.Instance.modManager;
 
             foreach (var mod in this.ModListDifferences.Keys)
@@ -234,7 +270,6 @@ namespace SaveGameModLoader
         public bool CreateOrAddToModLists(string savePath,List<KMod.Label> list)
         {
             bool hasBeenInitialized = false;
-            Debug.Log(savePath);
 
             Modlists.TryGetValue(SaveGameModList.GetModListFileName(savePath),out SaveGameModList colonyModSave);
 
