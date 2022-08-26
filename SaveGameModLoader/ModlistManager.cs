@@ -146,20 +146,23 @@ namespace SaveGameModLoader
         public string ListMissingMods()
         {
             StringBuilder stringBuilder = new StringBuilder();
+            var SortedNames = MissingMods.Select(mod => mod.title).ToList();
+            SortedNames.Sort();
+
             stringBuilder.AppendLine();
-            Debug.LogWarning("------Mod Sync------");
-            Debug.LogWarning("---[Missing Mods]---");
+            Console.WriteLine("------Mod Sync------");
+            Console.WriteLine("---[Missing Mods]---");
 
-            for (int i = 0; i< MissingMods.Count-1; i++)
+            for (int i = 0; i< SortedNames.Count-1; i++)
             {
-                stringBuilder.Append(MissingMods[i].title + ",  ");
-                Debug.LogWarning(MissingMods[i].title);
+                stringBuilder.Append(SortedNames[i] + ",  ");
+                Console.WriteLine(SortedNames[i]);
             }
-            stringBuilder.Append(MissingMods[MissingMods.Count - 1].title);
-            Debug.LogWarning(MissingMods[MissingMods.Count - 1].title);
+            stringBuilder.Append(SortedNames[MissingMods.Count - 1]);
+            Console.WriteLine(SortedNames[MissingMods.Count - 1]);
 
-            Debug.LogWarning("-----[List End]-----");
-            Debug.LogWarning("------Mod Sync------");
+            Console.WriteLine("-----[List End]-----");
+            Console.WriteLine("------Mod Sync------");
             return stringBuilder.ToString();
         }
 
