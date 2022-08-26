@@ -283,9 +283,7 @@ namespace SaveGameModLoader
             public static void Prefix(LoadScreen __instance)
             {
                 ModlistManager.Instance.ParentObjectRef = __instance.transform.parent.gameObject;
-                //Debug.Log("Start Logging LoadScreen parts:");
-                //UIUtils.ListAllChildren(__instance.gameObject.transform);
-                //Debug.Log("End Logging LoadScreen parts");
+                ModlistManager.Instance.GetAllStoredModlists();
 
                 GameObject viewRoot = (GameObject)Traverse.Create(__instance).Field("colonyViewRoot").GetValue();
 
@@ -316,7 +314,9 @@ namespace SaveGameModLoader
             }
         }
 
-
+        /// <summary>
+        /// Add a "Sync and Continue"-Button to the main menu prefab
+        /// </summary>
         [HarmonyPatch(typeof(MainMenu), "OnPrefabInit")]
         public static class AddSyncContinueButton
         {
@@ -354,11 +354,10 @@ namespace SaveGameModLoader
 
 
         /// <summary>
-        /// On loading a savegame, store the mod config in the modlist file.
+        /// On loading a savegame, store the mod config in the modlist.
         /// </summary>
         [HarmonyPatch(typeof(SaveLoader), "Load")]
         [HarmonyPatch(new Type[] { typeof(IReader) })]
-
         public static class LoadModConfigPatch
         {
             internal class SaveFileRoot
@@ -380,16 +379,13 @@ namespace SaveGameModLoader
             {
                 var savedButNotEnabledMods = saveFileRoot.active_mods;
                 savedButNotEnabledMods.Remove(savedButNotEnabledMods.Find(mod => mod.title == "SaveGameModLoader"));
-                Debug.Log("Writing Mod Config to File..");
-                //ModlistManager.Instance.CreateOrAddToModLists(instance.GameInfo.originalSaveName, instance.GameInfo.colonyGuid, saveFileRoot.active_mods);
+                
+                
                 bool init = ModlistManager.Instance.CreateOrAddToModLists(
                     SaveLoader.GetActiveSaveFilePath(), 
                     saveFileRoot.active_mods
                     );
-                if (init)
-                    Debug.Log("Save game mod config created.");
-                else 
-                    Debug.Log("Save game mod config overwritten.");
+                
                 KPlayerPrefs.DeleteKey("AutoResumeSaveFile");
             }
 
@@ -417,6 +413,9 @@ namespace SaveGameModLoader
             }
         }
 
+        /// <summary>
+        /// On Saving, store the mod config to the modlist
+        /// </summary>
         [HarmonyPatch(typeof(SaveLoader))]
         [HarmonyPatch(nameof(SaveLoader.Save))]
         [HarmonyPatch(new Type[] { typeof(string), typeof(bool), typeof(bool) })]
@@ -426,6 +425,7 @@ namespace SaveGameModLoader
             {
                 Debug.Log(filename + isAutoSave + updateSavePointer);
                 KMod.Manager modManager = Global.Instance.modManager;
+
                 var enabledModLabels = modManager.mods.FindAll(mod => mod.IsActive() == true).Select(mod => mod.label).ToList();
 
                 bool init = ModlistManager.Instance.CreateOrAddToModLists(
@@ -434,5 +434,21 @@ namespace SaveGameModLoader
                     );
             }
         }
+
+        ///// <summary>
+        ///// Since the Mod patches the load method, it will recieve blame on ANY load crash.
+        ///// This Patch keeps it enabled on a crash, so you dont need to reenable it for syncing,
+        ///// </summary>
+        //[HarmonyPatch(typeof(KMod.Mod))]
+        //[HarmonyPatch(nameof(KMod.Mod.SetCrashed))]
+        //public static class DontDisableModOnCrash
+        //{
+        //    public static bool Prefix(KMod.Mod __instance)
+        //    {
+        //        if (__instance.label.title == ModAssets.ThisModName)
+        //            return false;
+        //        return true;
+        //    }
+        //}
     }
 }

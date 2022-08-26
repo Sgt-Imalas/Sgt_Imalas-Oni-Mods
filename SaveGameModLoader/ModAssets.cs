@@ -12,5 +12,6 @@ namespace SaveGameModLoader
     internal class ModAssets
     {
         public static string ModPath;
+        public static string ThisModName = "SaveGameModSynchronizer";
     }
 }

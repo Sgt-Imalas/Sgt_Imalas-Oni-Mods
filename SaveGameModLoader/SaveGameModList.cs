@@ -13,7 +13,6 @@ namespace SaveGameModLoader
     {
         public string ReferencedColonySaveName;
         public string ModlistPath;
-        public readonly string ColonyGuid;
 
         public Dictionary<string, List<KMod.Label>> SavePoints = new();
 
@@ -49,7 +48,7 @@ namespace SaveGameModLoader
         public SaveGameModList(string referencedColonySave)
         {
             ReferencedColonySaveName = GetModListFileName(referencedColonySave);
-            ModlistPath = ModAssets.ModPath + GetModListFileName(referencedColonySave);
+            ModlistPath = GetModListFileName(referencedColonySave);
         }
 
         public static string GetModListFileName(string pathOfReference)
@@ -68,7 +67,7 @@ namespace SaveGameModLoader
             try 
             {
                 Debug.Log("Writing mod config to " + ModlistPath);
-                File.WriteAllText(ModlistPath + ".json", JsonConvert.SerializeObject(this));
+                File.WriteAllText(ModAssets.ModPath+ModlistPath + ".json", JsonConvert.SerializeObject(this));
             }
             catch(Exception e)
             {
@@ -91,30 +90,7 @@ namespace SaveGameModLoader
             SavePoints[subSavePath] = mods;
             this.WriteModlistToFile();
             return hasBeenInitialized;
-            //SavePoints.TryGetValue(SubSaveFileName, out List<KMod.Label> Entry);
-
-
-            //if (Entry == null)
-            //{
-            //    initializeCall = true;
-            //    SavePoints[]
-            //    Entry = new ModListEntry();
-            //    Entry.referencedSavePath = SubSaveFileName;
-            //    SavePoints.Add(Entry);
-            //}
-            //else
-            //    Debug.Log("Mod config already exists for this save game, overwriting..");
-            //Entry.EnabledMods.Clear();
-            //Entry.EnabledMods.AddRange(mods);
-
-            //this.WriteModlistToFile();
-            //return initializeCall;
         }
 
     }
-    //public class ModListEntry
-    //{
-    //    public string referencedSavePath;
-    //    public List<KMod.Label> EnabledMods = new();
-    //}
 }

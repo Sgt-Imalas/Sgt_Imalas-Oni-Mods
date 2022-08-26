@@ -25,15 +25,9 @@ namespace SaveGameModLoader
         public bool IsSyncing { get; set; }
         public string ActiveSave = string.Empty;
 
-
-        public ModlistManager()
-        {
-            GetAllStoredModlists();
-        }
-
         public bool ModIsNotInSync(KMod.Mod mod)
         {
-            if (mod.label.title == "SaveGameModSynchronizer")
+            if (mod.label.title == ModAssets.ThisModName)
                 return false;
             return ModListDifferences.Keys.Contains(mod.label);
         }
@@ -69,19 +63,20 @@ namespace SaveGameModLoader
             ///Disable toggle all button
             var ToggleAll = modScreen.Find("Panel/DetailsView/ToggleAllButton");
             var ToggleAllButton = ToggleAll.GetComponent<KButton>();
-            ToggleAllButton.isInteractable = false;
-            ToggleAll.gameObject.SetActive(false);
+            ToggleAllButton.isInteractable = ModListDifferences.Count > 0;
+            ToggleAll.gameObject.SetActive(ModListDifferences.Count > 0);
 
             //UnityEngine.Object.Destroy(togglebtn);
             ///Add Syncing to close button
             var closeBtObj = modScreen.Find("Panel/DetailsView/CloseButton");
             var closeBt = closeBtObj.GetComponent<KButton>();
             closeBt.isInteractable = ModListDifferences.Count > 0 && ModListDifferences.Count > MissingMods.Count;
-            closeBt.onClick += () => { SyncAllMods(modScreen.GetComponent<ModsScreen>(), null); };
+            closeBt.onClick += () => { AutoRestart(modScreen.GetComponent<ModsScreen>()); };
             closeBtObj.Find("Text").GetComponent<LocText>().text = ModManagerStrings.STRINGS.UI.FRONTEND.MODSYNCING.SYNCSELECTED;
 
             var SyncAllButtonObject = Util.KInstantiateUI<RectTransform>(workShopButton.gameObject, DetailsView, true);
-            SyncAllButtonObject.Find("Text").GetComponent<LocText>().text = ModManagerStrings.STRINGS.UI.FRONTEND.MODSYNCING.SYNCMODS;
+            SyncAllButtonObject.name = "SyncAllModsButton";
+            SyncAllButtonObject.Find("Text").GetComponent<LocText>().text = ModManagerStrings.STRINGS.UI.FRONTEND.MODSYNCING.SYNCALL;
 
             var SyncAllButton = SyncAllButtonObject.GetComponentInChildren<KButton>(true);
             //Button.GetComponent<LocText>().key = "STRINGS.UI.FRONTEND.MODSYNCING.SYNCMODS";
@@ -135,13 +130,12 @@ namespace SaveGameModLoader
         }
         public void ShowMissingMods()
         {
-
-
             Manager.Dialog(Global.Instance.globalCanvas, 
                 ModManagerStrings.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSTITLE, 
-                string.Format(ModManagerStrings.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSDESC, 
+                string.Format(ModManagerStrings.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSDESC,
+                ModListDifferences.Count,
+                MissingMods.Count,
                 ListMissingMods()));
-
         }
         public string ListMissingMods()
         {
@@ -153,19 +147,37 @@ namespace SaveGameModLoader
             Console.WriteLine("------Mod Sync------");
             Console.WriteLine("---[Missing Mods]---");
 
-            for (int i = 0; i< SortedNames.Count-1; i++)
+            for (int i = 0; i< SortedNames.Count; i++)
             {
-                stringBuilder.Append(SortedNames[i] + ",  ");
+                if (i < 35)
+                {
+                    stringBuilder.AppendLine(" • " + SortedNames[i]);
+                }
                 Console.WriteLine(SortedNames[i]);
             }
-            stringBuilder.Append(SortedNames[MissingMods.Count - 1]);
-            Console.WriteLine(SortedNames[MissingMods.Count - 1]);
+            if (SortedNames.Count > 35)
+            {
+                stringBuilder.AppendLine("and " + (SortedNames.Count - 35) + " more..");
+                stringBuilder.AppendLine("See the Player.log file for a full list.");
+            }
 
             Console.WriteLine("-----[List End]-----");
             Console.WriteLine("------Mod Sync------");
             return stringBuilder.ToString();
         }
 
+        public void AutoRestart(ModsScreen screen)
+        {
+            var methodInfo = typeof(ModsScreen).GetMethod("Exit", BindingFlags.NonPublic | BindingFlags.Instance);
+            if (methodInfo != null)
+                methodInfo.Invoke(screen, null);
+            if (ModListDifferences.Count > 0)
+            {
+                ModListDifferences.Clear();
+                MissingMods.Clear();
+                AutoLoadOnRestart();
+            }
+        }
 
         public void SyncAllMods(ModsScreen modScreen, bool? enableAll)
         {
@@ -180,18 +192,13 @@ namespace SaveGameModLoader
                 }
 
                 bool enabled = enableAll == null? ModListDifferences[mod] : (bool)enableAll;
+                if (mod.title == ModAssets.ThisModName)
+                    enabled = true;
+
                 modManager.EnableMod(mod, enabled, null);
             }
 
-            var methodInfo = typeof(ModsScreen).GetMethod("Exit", BindingFlags.NonPublic | BindingFlags.Instance);
-            if (methodInfo != null)
-                methodInfo.Invoke(modScreen,null);
-            if (ModListDifferences.Count > 0) 
-            {
-                ModListDifferences.Clear(); 
-                MissingMods.Clear();
-                AutoLoadOnRestart();
-            }
+            AutoRestart(modScreen);
         }
 
         public void AssignModDifferences(List<KMod.Label> modList)
@@ -219,7 +226,7 @@ namespace SaveGameModLoader
             {
                 ModListDifferences.Add(toEnable, true);
             }
-            var thisMod = modList.Find(mod => mod.title == "SaveGameModSynchronizer");
+            var thisMod = modList.Find(mod => mod.title == ModAssets.ThisModName);
             ModListDifferences.Remove(thisMod);
             
         }
@@ -228,6 +235,8 @@ namespace SaveGameModLoader
             if(ActiveSave!=string.Empty)
                 KPlayerPrefs.SetString("AutoResumeSaveFile", ActiveSave);
             ActiveSave = string.Empty;
+            Global.Instance.modManager.Save(); 
+            App.instance.Restart();
         }
 
 
@@ -237,14 +246,14 @@ namespace SaveGameModLoader
             var mods = TryGetColonyModlist(SaveGameModList.GetModListFileName(referencedPath));
             if (mods == null)
             {
-                Debug.LogError("No Modlist found for " + referencedPath);
+                Debug.LogError("No Modlist found for " + SaveGameModList.GetModListFileName(referencedPath));
                 return;
             }
             var list = mods.TryGetModListEntry(referencedPath);
 
             if(list==null)
             {
-                Debug.LogError("No Modlist found for " + referencedPath);
+                Debug.LogError("No ModConfig found for " + referencedPath);
                 return;
             }
             InstantiateModView(list);
@@ -253,6 +262,7 @@ namespace SaveGameModLoader
         public void GetAllStoredModlists()
         {
             Modlists.Clear();
+            MissingMods.Clear();
             var files = Directory.GetFiles(ModAssets.ModPath);
             foreach(var modlist in files)
             {
@@ -283,6 +293,12 @@ namespace SaveGameModLoader
             }
             bool subListInitialized = colonyModSave.AddOrUpdateEntryToModList(savePath, list);
             Modlists[SaveGameModList.GetModListFileName(savePath)] = colonyModSave;
+            if (hasBeenInitialized)
+                Debug.Log("New mod config file created for: "+ SaveGameModList.GetModListFileName(savePath));
+            if(subListInitialized)
+                Debug.Log("New mod list added for: " + savePath);
+            else
+                Debug.Log("mod list overwritten for: "+ savePath);
 
             return hasBeenInitialized | subListInitialized;
 

@@ -9,15 +9,16 @@ namespace ModManagerStrings
             {
                 public class MODSYNCING
                 {
-                    public static LocString SYNCMODS = "SYNC ALL";
+                    public static LocString SYNCMODS = "SYNC MODS";
+                    public static LocString SYNCALL = "SYNC ALL AND LOAD";
                     public static LocString MODDIFFS = "MOD DIFFERENCES";
-                    public static LocString SYNCSELECTED = "SYNC CURRENT CONFIG";
+                    public static LocString SYNCSELECTED = "SYNC CURRENT CONFIG AND LOAD";
                     public static LocString MISSINGMOD = "MISSING MODS!";
-                    public static LocString ALLSYNCED = "ALL MODS SYNCED, CLOSE TO LOAD GAME";
+                    public static LocString ALLSYNCED = "ALL MODS SYNCED, CLOSE";
 
 
                     public static LocString MISSINGMODSTITLE = "MISSING MODS";
-                    public static LocString MISSINGMODSDESC = "Stored mod config listed the following mods, but they are not installed:\n{0}";
+                    public static LocString MISSINGMODSDESC = "Stored config has {0} mods, but these {1} are not installed:{2}";
                 }
             }
         }
