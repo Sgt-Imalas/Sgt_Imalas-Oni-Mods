@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static SaveGame;
-using static SaveGameModLoader.ModListEntree;
 
 namespace SaveGameModLoader
 {
@@ -16,7 +15,7 @@ namespace SaveGameModLoader
         public string ModlistPath;
         public readonly string ColonyGuid;
 
-        public List<ModListEntree> SavePoints = new();
+        public Dictionary<string, List<KMod.Label>> SavePoints = new();
 
         public static bool ModListFileExists(string filePath)
         {
@@ -47,11 +46,9 @@ namespace SaveGameModLoader
         /// </summary>
         /// <param name="referencedColonySave"></param>
         /// <param name="guid"></param>
-        public SaveGameModList(string referencedColonySave, string guid)
+        public SaveGameModList(string referencedColonySave)
         {
-            ColonyGuid = guid;
             ReferencedColonySaveName = GetModListFileName(referencedColonySave);
-
             ModlistPath = ModAssets.ModPath + GetModListFileName(referencedColonySave);
         }
 
@@ -65,17 +62,6 @@ namespace SaveGameModLoader
             return FileNameInSpe;
         }
 
-        public static string StripAllPaths(string toStrip)
-        {
-            var fileOnly = Path.GetFileNameWithoutExtension(toStrip);
-            var output = string.Empty;
-            if (toStrip.Contains("auto_save"))
-            {
-                output = "\\auto_save\\";
-            }
-            output += fileOnly;
-            return output;
-        }
 
         public void WriteModlistToFile()
         {
@@ -90,33 +76,45 @@ namespace SaveGameModLoader
             }
         }
 
-
+        public List<KMod.Label> TryGetModListEntry(string path)
+        {
+            this.SavePoints.TryGetValue(path, out var result);
+            return result;
+        }
         public bool AddOrUpdateEntryToModList(string subSavePath, List<KMod.Label> mods)
         {
-            bool initializeCall = false;
-            string SubSaveFileName = subSavePath;
-
-            var Entry = SavePoints.Find(s => s.referencedSavePath == SubSaveFileName);
-            if (Entry == null)
+            bool hasBeenInitialized = false;
+            if (TryGetModListEntry(subSavePath) == null)
             {
-                initializeCall = true;
-                Entry = new ModListEntree();
-                Entry.referencedSavePath = SubSaveFileName;
-                SavePoints.Add(Entry);
+                hasBeenInitialized = true;
             }
-            else
-                Debug.Log("Mod config already exists for this save game, overwriting..");
-            Entry.EnabledMods.Clear();
-            Entry.EnabledMods.AddRange(mods);
-
+            SavePoints[subSavePath] = mods;
             this.WriteModlistToFile();
-            return initializeCall;
+            return hasBeenInitialized;
+            //SavePoints.TryGetValue(SubSaveFileName, out List<KMod.Label> Entry);
+
+
+            //if (Entry == null)
+            //{
+            //    initializeCall = true;
+            //    SavePoints[]
+            //    Entry = new ModListEntry();
+            //    Entry.referencedSavePath = SubSaveFileName;
+            //    SavePoints.Add(Entry);
+            //}
+            //else
+            //    Debug.Log("Mod config already exists for this save game, overwriting..");
+            //Entry.EnabledMods.Clear();
+            //Entry.EnabledMods.AddRange(mods);
+
+            //this.WriteModlistToFile();
+            //return initializeCall;
         }
 
     }
-    public class ModListEntree
-    {
-        public string referencedSavePath;
-        public List<KMod.Label> EnabledMods = new();
-    }
+    //public class ModListEntry
+    //{
+    //    public string referencedSavePath;
+    //    public List<KMod.Label> EnabledMods = new();
+    //}
 }

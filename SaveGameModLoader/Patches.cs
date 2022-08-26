@@ -141,11 +141,10 @@ namespace SaveGameModLoader
         /// <param name="info">Button information</param>
         /// <param name="instance">Main Menu instance reference</param>
         /// <returns></returns>
-        private static KButton MakeButton(ButtonInfo info, MainMenu instance)
-        {
-            KButton buttonPrefab = (KButton)Traverse.Create(instance).Field("buttonPrefab").GetValue();
-            GameObject buttonParent = (GameObject)Traverse.Create(instance).Field("buttonParent").GetValue();
+        /// 
 
+        private static KButton MakeButton(KButton buttonPrefab, GameObject buttonParent, ButtonInfo info)
+        {
             KButton kbutton = Util.KInstantiateUI<KButton>(buttonPrefab.gameObject, buttonParent, true);
             kbutton.onClick += info.action;
             KImage component = kbutton.GetComponent<KImage>();
@@ -156,30 +155,36 @@ namespace SaveGameModLoader
             componentInChildren.fontSize = (float)info.fontSize;
             return kbutton;
         }
-
-
-        [HarmonyPatch(typeof(MainMenu), "ResumeGame")]
-        public static class AddModSyncToResumeButton
+        private static KButton MakeButton(ButtonInfo info, MainMenu instance)
         {
-            //public static bool Prefix(MainMenu __instance)
-            //{
-            //    string path;
-            //    if (KPlayerPrefs.HasKey("AutoResumeSaveFile"))
-            //    {
-            //        path = KPlayerPrefs.GetString("AutoResumeSaveFile");
-            //    }
-            //    else
-            //        path = string.IsNullOrEmpty(GenericGameSettings.instance.performanceCapture.saveGame) ? SaveLoader.GetLatestSaveForCurrentDLC() : GenericGameSettings.instance.performanceCapture.saveGame;
-            //    if (string.IsNullOrEmpty(path))
-            //        return true;
-            //    else
-            //    {
-            //        Debug.Log("For now, Broke button as intended :D");
-            //        Debug.Log(path);
-            //        return false;
-            //    }
-            //}
+            KButton buttonPrefab = (KButton)Traverse.Create(instance).Field("buttonPrefab").GetValue();
+            GameObject buttonParent = (GameObject)Traverse.Create(instance).Field("buttonParent").GetValue();
+            return MakeButton(buttonPrefab, buttonParent, info);
         }
+
+
+        //[HarmonyPatch(typeof(MainMenu), "ResumeGame")]
+        //public static class AddModSyncToResumeButton
+        //{
+        //    //public static bool Prefix(MainMenu __instance)
+        //    //{
+        //    //    string path;
+        //    //    if (KPlayerPrefs.HasKey("AutoResumeSaveFile"))
+        //    //    {
+        //    //        path = KPlayerPrefs.GetString("AutoResumeSaveFile");
+        //    //    }
+        //    //    else
+        //    //        path = string.IsNullOrEmpty(GenericGameSettings.instance.performanceCapture.saveGame) ? SaveLoader.GetLatestSaveForCurrentDLC() : GenericGameSettings.instance.performanceCapture.saveGame;
+        //    //    if (string.IsNullOrEmpty(path))
+        //    //        return true;
+        //    //    else
+        //    //    {
+        //    //        Debug.Log("For now, Broke button as intended :D");
+        //    //        Debug.Log(path);
+        //    //        return false;
+        //    //    }
+        //    //}
+        //}
 
         //[HarmonyDebug]
         [HarmonyPatch(typeof(LoadScreen), "ShowColony")]
@@ -203,13 +208,13 @@ namespace SaveGameModLoader
                 
                 if (btn != null)
                 {
-                    bool colonyExisting = ModlistManager.Instance.DoesColonyExist(baseName);
-                    bool saveGameEntryExisting = ModlistManager.Instance.DoesModlistExistForThisSave(fileName);
+                    var colonyList = ModlistManager.Instance.TryGetColonyModlist(baseName);
+                    var saveGameEntry = colonyList != null ? colonyList.TryGetModListEntry(fileName) : null;
 
-                    btn.isInteractable = colonyExisting&&saveGameEntryExisting;
+                    btn.isInteractable = colonyList !=null && saveGameEntry !=null && App.GetCurrentSceneName() == "frontend";
                     btn.onClick += (() =>
                     {
-                        ModlistManager.Instance.InstantiateModView(baseName, fileName);
+                        ModlistManager.Instance.InstantiateModViewForPathOnly(fileName);
                     });
                 }
             }
@@ -253,13 +258,31 @@ namespace SaveGameModLoader
             }
         }
 
-
+        [HarmonyPatch(typeof(ModsScreen), "Exit")]
+        public static class SyncModeOff
+        {
+            public static void Postfix( )
+            {
+                ModlistManager.Instance.IsSyncing = false;
+            }
+        }
+        [HarmonyPatch(typeof(ModsScreen), "ShouldDisplayMod")]
+        public static class ModsScreen_ShouldDisplayMod_Patch
+        {
+            public static void Postfix(KMod.Mod mod, ref bool __result)
+            {
+                if (__result && ModlistManager.Instance.IsSyncing)
+                {
+                    __result = ModlistManager.Instance.ModIsNotInSync(mod);
+                }
+            }
+        }
         [HarmonyPatch(typeof(LoadScreen), "OnPrefabInit")]
         public static class AddModSyncButtonToLoadscreen
         {
             public static void Prefix(LoadScreen __instance)
             {
-
+                ModlistManager.Instance.ParentObjectRef = __instance.transform.parent.gameObject;
                 //Debug.Log("Start Logging LoadScreen parts:");
                 //UIUtils.ListAllChildren(__instance.gameObject.transform);
                 //Debug.Log("End Logging LoadScreen parts");
@@ -299,15 +322,6 @@ namespace SaveGameModLoader
         {
             public static void Prefix(MainMenu __instance)
             {
-                Debug.Log("START");
-                var prefabGo = ScreenPrefabs.Instance.modsMenu.gameObject;
-                UIUtils.ListAllChildren(prefabGo.transform);
-                Debug.Log("END");
-
-                Debug.Log("START2");
-                UIUtils.ListAllChildren(__instance.gameObject.transform);
-
-                Debug.Log("END2");
 
                 string path;
                 if (KPlayerPrefs.HasKey("AutoResumeSaveFile"))
@@ -328,9 +342,13 @@ namespace SaveGameModLoader
                     18, style);
 
                 var bt = MakeButton(UpdateButton, __instance);
+                string colonyName = SaveGameModList.GetModListFileName(path);
 
-                bool interactable = ModlistManager.Instance.DoesModlistExistForThisSave(path);
+                var colony =  ModlistManager.Instance.TryGetColonyModlist(colonyName);
+                bool interactable = colony != null ? colony.TryGetModListEntry(path)!=null : false;
+
                 bt.isInteractable = interactable;
+                ModlistManager.Instance.ParentObjectRef = __instance.gameObject;
             }
         }
 
@@ -366,13 +384,13 @@ namespace SaveGameModLoader
                 //ModlistManager.Instance.CreateOrAddToModLists(instance.GameInfo.originalSaveName, instance.GameInfo.colonyGuid, saveFileRoot.active_mods);
                 bool init = ModlistManager.Instance.CreateOrAddToModLists(
                     SaveLoader.GetActiveSaveFilePath(), 
-                    SaveGame.GetSaveUniqueID(instance.GameInfo),
                     saveFileRoot.active_mods
                     );
                 if (init)
                     Debug.Log("Save game mod config created.");
                 else 
                     Debug.Log("Save game mod config overwritten.");
+                KPlayerPrefs.DeleteKey("AutoResumeSaveFile");
             }
 
             public static readonly MethodInfo ScreenCreator = AccessTools.Method(
@@ -396,6 +414,24 @@ namespace SaveGameModLoader
                 }
 
                 return code;
+            }
+        }
+
+        [HarmonyPatch(typeof(SaveLoader))]
+        [HarmonyPatch(nameof(SaveLoader.Save))]
+        [HarmonyPatch(new Type[] { typeof(string), typeof(bool), typeof(bool) })]
+        public static class SaaveModConfigOnSave
+        {
+            public static void Postfix(string filename, bool isAutoSave = false, bool updateSavePointer = true)
+            {
+                Debug.Log(filename + isAutoSave + updateSavePointer);
+                KMod.Manager modManager = Global.Instance.modManager;
+                var enabledModLabels = modManager.mods.FindAll(mod => mod.IsActive() == true).Select(mod => mod.label).ToList();
+
+                bool init = ModlistManager.Instance.CreateOrAddToModLists(
+                    filename,
+                    enabledModLabels
+                    );
             }
         }
     }
