@@ -27,7 +27,7 @@ namespace SaveGameModLoader
 
         public bool ModIsNotInSync(KMod.Mod mod)
         {
-            if (mod.label.title == ModAssets.ThisModName)
+            if (mod.label.id == ModAssets.ModID)
                 return false;
             return ModListDifferences.Keys.Contains(mod.label);
         }
@@ -45,6 +45,8 @@ namespace SaveGameModLoader
         {
             IsSyncing = true;
             AssignModDifferences(mods);
+
+
 
             var modScreen = Util.KInstantiateUI<ModsScreen>(ScreenPrefabs.Instance.modsMenu.gameObject, ParentObjectRef).transform;
 
@@ -83,6 +85,20 @@ namespace SaveGameModLoader
             SyncAllButton.ClearOnClick();
             SyncAllButton.isInteractable = ModListDifferences.Count > 0;
             SyncAllButton.onClick += () => { SyncAllMods(modScreen.GetComponent<ModsScreen>(), null); };
+
+
+            var NewCloseButtonObject = Util.KInstantiateUI<RectTransform>(workShopButton.gameObject, DetailsView, true);
+            NewCloseButtonObject.name = "newCloseButton";
+            NewCloseButtonObject.Find("Text").GetComponent<LocText>().text = global::STRINGS.UI.CREDITSSCREEN.CLOSEBUTTON; 
+            NewCloseButtonObject.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 10, 100);
+            var NewCloseButton = NewCloseButtonObject.GetComponentInChildren<KButton>(true);
+            NewCloseButton.ClearOnClick();
+
+            var methodInfo = typeof(ModsScreen).GetMethod("Exit", BindingFlags.NonPublic | BindingFlags.Instance);
+            if (methodInfo != null)
+                
+
+            NewCloseButton.onClick += ()=> methodInfo.Invoke(modScreen.GetComponent<ModsScreen>(), null); 
 
             var EntryPos2 = modScreen.Find("Panel").gameObject;
 
@@ -192,7 +208,7 @@ namespace SaveGameModLoader
                 }
 
                 bool enabled = enableAll == null? ModListDifferences[mod] : (bool)enableAll;
-                if (mod.title == ModAssets.ThisModName)
+                if (mod.id == ModAssets.ModID)
                     enabled = true;
 
                 modManager.EnableMod(mod, enabled, null);
@@ -205,9 +221,12 @@ namespace SaveGameModLoader
         {
             KMod.Manager modManager = Global.Instance.modManager;
 
+            var thisMod = modManager.mods.Find(mod => mod.label.id == ModAssets.ModID).label;
+
+            Debug.Log(thisMod+"§§§§§§§§§§ EEEEEEEEEEEE");
+
             var allMods = modManager.mods.Select(mod => mod.label).ToList();
             var enabledModLabels = modManager.mods.FindAll(mod => mod.IsActive() == true).Select(mod => mod.label).ToList();
-
 
             var enabledButNotSavedMods = enabledModLabels.Except(modList).ToList();
             var savedButNotEnabledMods = modList.Except(enabledModLabels).ToList();
@@ -226,8 +245,16 @@ namespace SaveGameModLoader
             {
                 ModListDifferences.Add(toEnable, true);
             }
-            var thisMod = modList.Find(mod => mod.title == ModAssets.ThisModName);
             ModListDifferences.Remove(thisMod);
+
+
+            Debug.Log("The Following mods deviate from the config:");
+            foreach (var modDif in ModListDifferences)
+            {
+                string status = modDif.Value ? "enabled" : "disabled";
+                Debug.Log(modDif.Key.id + ": "+ modDif.Key + " -> should be " + status);
+            }
+            
             
         }
         void AutoLoadOnRestart()

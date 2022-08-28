@@ -11,7 +11,7 @@ namespace ModManagerStrings
                 {
                     public static LocString SYNCMODS = "SYNC MODS";
                     public static LocString SYNCALL = "SYNC ALL AND LOAD";
-                    public static LocString MODDIFFS = "MOD DIFFERENCES";
+                    public static LocString MODDIFFS = "MOD SYNC DIFFERENCES";
                     public static LocString SYNCSELECTED = "SYNC CURRENT CONFIG AND LOAD";
                     public static LocString MISSINGMOD = "MISSING MODS!";
                     public static LocString ALLSYNCED = "ALL MODS SYNCED, CLOSE";
