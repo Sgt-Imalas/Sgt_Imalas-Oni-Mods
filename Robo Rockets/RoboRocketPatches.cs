@@ -9,25 +9,12 @@ using UnityEngine;
 using UtilLibs;
 using System.Linq;
 using GMState = GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State;
+using RoboRockets;
 
 namespace Robo_Rockets
 {
     public class RoboRocketPatches
     {
-
-        [HarmonyPatch(typeof(GeneratedBuildings))]
-        [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
-        public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
-        {
-
-            public static void Prefix()
-            {
-                InjectionMethods.AddBuildingStrings(RoboRocketConfig.ID, RoboRocketConfig.DisplayName, RoboRocketConfig.Description, RoboRocketConfig.Effect);
-                InjectionMethods.AddBuildingStrings(RocketControlStationNoChorePreconditionConfig.ID, RocketControlStationNoChorePreconditionConfig.NAME, RocketControlStationNoChorePreconditionConfig.DESCR, RocketControlStationNoChorePreconditionConfig.EFFECT);
-                RocketryUtils.AddRocketModuleToBuildList(RoboRocketConfig.ID, "HabitatModuleMedium");
-                //RocketryUtils.AddRocketModuleToBuildList(TouristModuleClusterConfig.ID);
-            }
-        }
 
         [HarmonyPatch(typeof(LimitOneCommandModule))]
         [HarmonyPatch(nameof(LimitOneCommandModule.EvaluateCondition))]
@@ -66,16 +53,6 @@ namespace Robo_Rockets
             }
         }
 
-
-        [HarmonyPatch(typeof(Db))]
-        [HarmonyPatch("Initialize")]
-        public class Db_Initialize_Patch
-        {
-            public static void Postfix()
-            {
-                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, RoboRocketConfig.ID);
-            }
-        }
 
         [HarmonyPatch(typeof(PassengerRocketModule))]
         [HarmonyPatch("CheckPassengersBoarded")]
@@ -116,26 +93,7 @@ namespace Robo_Rockets
                 }
             }
         }
-        [HarmonyPatch(typeof(RocketControlStation.States))]
-        [HarmonyPatch("InitializeStates")]
 
-        public class RocketControlStation_InitializeStates_Patch
-        {
-            public static void Postfix(RocketControlStation.States __instance
-               , GMState ___operational
-                , GMState ___running
-
-                , GMState ___root
-                )
-            {
-                // ___root.Update((smi, dt) => Debug.Log($"State is {smi.GetCurrentState().name}"));
-
-
-                ___running.QueueAnim("on", true);
-                ___operational.QueueAnim("on", true);
-
-            }
-        }
         [HarmonyPatch(typeof(RocketControlStation.States))]
         [HarmonyPatch("CreateChore")]
         public class RocketControlStation_CreateChore_Patch
@@ -154,36 +112,7 @@ namespace Robo_Rockets
                 }
             }
         }
-        //[HarmonyPatch(typeof(RocketControlStation))]
-        //[HarmonyPatch("OnSpawn")]
-        //public class RocketControlStation_SpawnBot_Patch
-        //{
-            //public static bool Prefix(RocketControlStation __instance)
-            //{
-            //    if (__instance.GetType() == typeof(RocketControlStationNoChorePrecondition))
-            //    {
-
-            //        var dis = __instance as RocketControlStationNoChorePrecondition; base.OnSpawn();
-            //        dis.smi.StartSM();
-            //        Components.RocketControlStations.Add(dis);
-            //        dis.Subscribe<RocketControlStationNoChorePrecondition>(-801688580, RocketControlStationNoChorePrecondition.OnLogicValueChangedDelegate);
-            //        dis.Subscribe<RocketControlStationNoChorePrecondition>(1861523068, RocketControlStationNoChorePrecondition.OnRocketRestrictionChanged);
-            //        dis.MakeNewPilotBot();
-            //        return false;
-            //    }
-            //    return true;
-            //}
-
-            //public static void Postfix(RocketControlStation __instance)
-            //{
-            //    if (__instance.GetType() == typeof(RocketControlStationNoChorePrecondition))
-            //    {
-
-            //        var dis = __instance as RocketControlStationNoChorePrecondition;
-            //        dis.MakeNewPilotBot();
-            //    }
-            //}
-        //}
+       
         [HarmonyPatch(typeof(RocketControlStation.States))]
         [HarmonyPatch("CreateLaunchChore")]
         public class RocketControlStation_CreateLaunchChore_Patch
@@ -203,6 +132,7 @@ namespace Robo_Rockets
             }
         }
 
+
         [HarmonyPatch(typeof(RocketControlStation.StatesInstance))]
         [HarmonyPatch("SetPilotSpeedMult")]
         public class RocketControlStation_SetPilotSpeedMult_Patch
@@ -219,6 +149,94 @@ namespace Robo_Rockets
                 return true;
             }
         }
+
+        [HarmonyPatch(typeof(HabitatModuleSideScreen))]
+        [HarmonyPatch("RefreshModulePanel")]
+        public class DisableViewInteriorSpace_Patch
+        {
+            public static void Postfix(PassengerRocketModule module, HabitatModuleSideScreen __instance)
+            {
+                if (module.gameObject.GetComponent<AIPassengerModule>() == null)
+                {
+                    return;
+                }
+
+                HierarchyReferences component = __instance.GetComponent<HierarchyReferences>();
+                KButton reference = component.GetReference<KButton>("button");
+                reference.ClearOnClick();
+                reference.isInteractable = false;
+            }
+        }
+
+        [HarmonyPatch(typeof(WorldSelector))]
+        [HarmonyPatch(nameof(WorldSelector.OnWorldRowClicked))]
+        public class DisableViewInteriorWorldSelector_Patch
+        {
+            public static bool Prefix(int id)
+            {
+                Debug.Log("Checking worldID if allowed to look into: " + id);
+                if (ModAssets.ForbiddenInteriorIDs.Contains(id))
+                    return false;
+                return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(ClustercraftExteriorDoor))]
+        [HarmonyPatch("OnSpawn")]
+        public class AddInteriorToForbiddenListIfAI
+        {
+            public static void Postfix(ClustercraftExteriorDoor __instance)
+            {
+                if (__instance.gameObject.GetComponent<AIPassengerModule>() != null)
+                {
+                    int worldRefID = (int)typeof(ClustercraftExteriorDoor).GetField("targetWorldId", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
+
+                    Debug.Log("Forbidden World to look into: " + worldRefID);
+                    ModAssets.ForbiddenInteriorIDs.Add(worldRefID);
+                }
+            }
+        }
+
+
+        [HarmonyPatch(typeof(ClustercraftExteriorDoor))]
+        [HarmonyPatch(nameof(ClustercraftExteriorDoor.HasTargetWorld))]
+        public class DisableViewInterior_Patch
+        {
+            public static void Postfix(ClustercraftExteriorDoor __instance, ref bool __result)
+            {
+                if (__instance.gameObject.GetComponent<AIPassengerModule>() != null)
+                {
+                    __result = false;
+                }
+
+            }
+        }
+
+        [HarmonyPatch(typeof(Clustercraft))]
+        [HarmonyPatch("RequestLaunch")]
+        public class TriggerLaunchForAIRocketsPatch
+        {
+            public static void Prefix(Clustercraft __instance)
+            {
+                bool isAiRocket = false;
+                foreach (Ref<RocketModuleCluster> clusterModule in __instance.ModuleInterface.ClusterModules)
+                {
+                    var isAI = clusterModule.Get().GetComponent<AIPassengerModule>();
+                    if (isAI != null)
+                        isAiRocket = true;
+                }
+                if (isAiRocket)
+                {
+                    __instance.Launch();
+                }
+
+            }
+        }
+
+
+        /// <summary>
+        /// Set interior size to bare minimum
+        /// </summary>
         [HarmonyPatch(typeof(ClusterManager))]
         [HarmonyPatch("CreateRocketInteriorWorld")]
         public class ClusterManager_CreateRocketInteriorWorld_Patch
@@ -228,6 +246,9 @@ namespace Robo_Rockets
             {
                 if (templateString.Contains("habitat_robo"))
                     original = new Vector2I(8, 8);
+
+                else if (templateString.Contains("AIRocketV2"))
+                    original = new Vector2I(1, 2);
 
                 return original;
             }

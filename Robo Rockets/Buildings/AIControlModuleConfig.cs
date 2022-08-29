@@ -5,9 +5,9 @@ using TUNING;
 using UnityEngine;
 namespace Robo_Rockets 
 {
-    class RoboRocketConfig : IBuildingConfig
+    class AIControlModuleConfig : IBuildingConfig
     {
-        public const string ID = "AiModule";
+        public const string ID = "RR_AIControlModule";
         
 
 
@@ -36,7 +36,7 @@ namespace Robo_Rockets
             EffectorValues none = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
 
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef("AiModule", 3, 3, "rocket_habitat_ai_module_kanim", 1000, 400f, matCosts, construction_materials, 9999f, BuildLocationRule.Anywhere, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 3, "rocket_habitat_ai_module_kanim", 1000, 400f, matCosts, construction_materials, 9999f, BuildLocationRule.Anywhere, none, noise);
             BuildingTemplates.CreateRocketBuildingDef(buildingDef);
             buildingDef.AttachmentSlotTag = GameTags.Rocket;
             buildingDef.SceneLayer = Grid.SceneLayer.Building;
@@ -58,12 +58,10 @@ namespace Robo_Rockets
 
             go.AddOrGet<AssignmentGroupController>().generateGroupOnStart = true;
             go.AddOrGet<AIPassengerModule>().interiorReverbSnapshot = AudioMixerSnapshots.Get().SmallRocketInteriorReverbSnapshot;
-            go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_robo";
-            //go.AddOrGetDef<SimpleDoorController.Def>();
+            go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/AIRocketV2";
             go.AddOrGet<NavTeleporter>();
             go.AddOrGet<LaunchableRocketCluster>();
             go.AddOrGet<RocketAiConditions>();
-            //go.AddOrGet<AccessControl>();
 
             go.AddOrGet<RocketProcessConditionDisplayTarget>();
             go.AddOrGet<CharacterOverlay>().shouldShowName = true;
@@ -82,34 +80,12 @@ namespace Robo_Rockets
         public override void DoPostConfigureComplete(GameObject go)
         {
            
-            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MODERATE);
-            //Ownable ownable = go.AddOrGet<Ownable>();
-            //ownable.slotID = Db.Get().AssignableSlots.HabitatModule.Id;
-            //ownable.canBePublic = false;
-            FakeFloorAdder fakeFloorAdder = go.AddOrGet<FakeFloorAdder>();
-            fakeFloorAdder.floorOffsets = new CellOffset[5]
-            {
-      new CellOffset(-2, -1),
-      new CellOffset(-1, -1),
-      new CellOffset(0, -1),
-      new CellOffset(1, -1),
-      new CellOffset(2, -1)
-            };
-            fakeFloorAdder.initiallyActive = false;
+            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MINOR_PLUS);
 
             go.AddOrGet<BuildingCellVisualizer>();
             go.GetComponent<ReorderableBuilding>().buildConditions.Add((SelectModuleCondition)new LimitOneCommandModule());
         }
-        public void DoPostConfigureOfInternalControlModule(GameObject go)
-        {
-
-            RocketControlStationLaunchWorkable stationLaunchWorkable = (RocketControlStationLaunchWorkable)null;
-            List<RocketControlStation> worldItems = Components.RocketControlStations.GetWorldItems(go.GetComponent<ClustercraftExteriorDoor>().GetTargetWorld().id);
-            if (worldItems != null && worldItems.Count > 0) {
-                stationLaunchWorkable = worldItems[0].GetComponent<RocketControlStationLaunchWorkable>();
-            }
-
-        }
+        
 
         public override void DoPostConfigureUnderConstruction(GameObject go)
         {

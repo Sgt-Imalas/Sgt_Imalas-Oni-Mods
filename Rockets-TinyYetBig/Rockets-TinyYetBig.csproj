@@ -13,7 +13,7 @@
 	<PropertyGroup>
 		<TargetFramework>net471</TargetFramework>
 		<Configurations>Debug</Configurations>
-		<AssemblyName>Rockets_TinyYetBig</AssemblyName>
+		<AssemblyName>Rocketry Expanded</AssemblyName>
 		<RootNamespace>Rockets_TinyYetBig</RootNamespace>
 		<IsMod>true</IsMod>
 		<GenerateMetadata>true</GenerateMetadata>

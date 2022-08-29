@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
   <PropertyGroup>
     <PackageId>RoboRockets</PackageId>
-    <Version>1.2.3</Version>
+    <Version>2.1.0</Version>
     <Authors>Sgt_Imalas</Authors>
     <Copyright>2022 Sgt_Imalas</Copyright>
     <RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
@@ -79,6 +79,9 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\templates\interiors\AIRocketV2.yaml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\templates\interiors\habitat_robo.yaml">

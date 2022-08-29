@@ -1,5 +1,6 @@
 ﻿
-using STRINGS;
+
+using static RoboRockets.STRINGS;
 
 namespace KnastoronOniMods
 {
@@ -8,8 +9,8 @@ namespace KnastoronOniMods
         public ConditionAiHasControl() { }
 
         public override Status EvaluateCondition() => ProcessCondition.Status.Ready;
-        public override string GetStatusMessage(Status status) => (string)"Ai controlled";
-        public override string GetStatusTooltip(Status status) => (string)"This Rocket flies on it's own - your duplicants are scared yet impressed!";
+        public override string GetStatusMessage(Status status) => (string)UI.STARMAP.AISTATUS.NAME;
+        public override string GetStatusTooltip(Status status) => (string)UI.STARMAP.AISTATUS.TOOLTIP;
         public override bool ShowInUI() => true;
     }
 }

@@ -48,6 +48,7 @@ namespace KnastoronOniMods
         }
         protected void KillRobo()
         {
+            if(!brainController.IsNullOrDestroyed())
             brainController.GetComponent<SelfDestructInWrongEnvironmentComponent>().SelfDestruct();
             brainController = null;
         }
