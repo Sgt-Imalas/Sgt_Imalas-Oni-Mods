@@ -3,14 +3,17 @@ Mods for Oxygen Not Included and ONI - Spaced Out.
 (This List is probably not up to date)
 
 ## Released
-| Mod ID | Mod Title | Description | Steam Release | Direct Download | latest Version|
+| Mod ID | Mod Title | Description | Steam Release | latest Version |
 |-|-|-|-|-|-|
-| Radiator_Mod | Space Radiator | Adds a Space Radiator that radiates heat off into space. | [Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2795878144) | [Direct](https://github.com/Knastoron/Knastoron-Oni-Mods/releases/tag/Space_Radiator)| v2.0.2
+| Radiator_Mod | Space Radiator | Adds a Space Radiator that radiates heat off into space. | [Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2795878144) |  v2.0.2
 | BuildableCryopod | Buildable Cryopod | Adds two constructable Cryopods to the game to store your dupes in. | [Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2795878144) | - | v1.0.0
-| RoboRockets | AI Controlled Rockets (DLC) | Adds a brain in a jar that can fly your rockets without any duplicant interactions as a new rocket module| [Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2765256496) |[Direct](https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/tag/v1.2.3)| v1.2.3
+| RoboRockets | AI Controlled Rockets (DLC) | Adds a brain in a jar that can fly your rockets without any duplicant interactions as a new rocket module| [Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2765256496) | v2.1
 | CannedFoods | Canned Food |Canned BBQ and Canned Tuna as non spoiling space food|[Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2818855295)|[Direct](https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/tag/v2.2.1_CannedFood)| v2.2.1
-| Rocketry_Tweaks | Rocketry Expanded (DLC)|New Spacefarer Modules, less Space Usage, More than 16 rockets allowed|[Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2837919908)|[Direct](https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/tag/v1.0.2_RocketryExpanded)| v1.0.2
-| LogicSatelites | Scan & Relay Satellites (DLC) | Deployable Satellites that function as logic relays and telescopes |[Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2840104621)|[Direct](https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/tag/LogicSatellites)|v 1.0.0|
+| Rocketry_Tweaks | Rocketry Expanded (DLC)|New Spacefarer Modules, less Space Usage, More than 16 rockets allowed|[Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2837919908)| v2.2.2
+| LogicSatelites | Scan & Relay Satellites (DLC) | Deployable Satellites that function as logic relays and telescopes |[Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2840104621)|v1.0.0
+| SaveGameModLoader |Synchronize your mods with those stored in a save-file. Supports per-savefile-mod-syncing|[Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2854869130)|v1.0.0
+
+For direct downloads, see [here](https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases)
 ## WiP/on Roadmap
 | Mod Title | Description | Notes |
 |-|-|-|
@@ -23,5 +26,4 @@ Mods for Oxygen Not Included and ONI - Spaced Out.
 | Mod Title | Description | Notes |
 |-|-|-|
 |YAMLTemplateExportFix|Corrects the offset applied to templates created from rocket interiors|-|
-|SaveGameModLoader|Synchronize your mods with those stored in a save-file. Supports per-savefile-mod-syncing|[Beta](https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/tag/SaveGameModSynchronizerBetav0.1)|
 
