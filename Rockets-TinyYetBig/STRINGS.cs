@@ -1,4 +1,5 @@
-﻿using STRINGS;
+﻿using Rockets_TinyYetBig.Buildings;
+using STRINGS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,16 @@ namespace Rockets_TinyYetBig
             
             public class PREFABS
             {
+                public class RTB_RTGGENERATORMODULE
+                {
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Radioisotope Thermoelectric Generator", nameof(RTGModuleConfig));
+                    public static LocString DESC = "Through exploitation of the natural decay of enriched Uranium, this elegantly simple power generator can provide consistent, stable power for hundreds of cycles.";
+                    public static LocString EFFECT = (string.Format("After adding {0}kg of enriched Uranium, this module will constantly produce {1}W of energy until all of the uranium is depleted", RTGModuleConfig.UraniumCapacity, RTGModuleConfig.energyProduction));
+                }
+
                 public class RTB_HABITATMODULESTARGAZER
                 {
-                    public static LocString NAME = (LocString)UI.FormatAsLink("Stargazer Nosecone", nameof(HabitatModuleSmallExpandedConfig));
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Stargazer Nosecone", nameof(HabitatModuleStargazerConfig));
                     public static LocString DESC = "The stars have never felt this close before like in this Command Module.";
                     public static LocString EFFECT = ("Closes during starts and landings to protect the glass\n\n"+
                                                         "Functions as a Command Module and a Nosecone.\n\n" +
@@ -24,7 +32,6 @@ namespace Rockets_TinyYetBig
                                                     "Must be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + 
                                             ". \n\nMust be built at the top of a rocket.");
                 }
-
                 public class RTB_CRITTERCONTAINMENTMODULE
                 {
                     public static LocString NAME = (LocString)UI.FormatAsLink("Critter Containment Module", nameof(CritterContainmentModuleConfig));
@@ -33,7 +40,7 @@ namespace Rockets_TinyYetBig
                 }
                 public class RYB_NOSECONEHEPHARVEST
                 {
-                    public static LocString NAME = (LocString)UI.FormatAsLink("Laser Drillcone", nameof(RYB_NOSECONEHEPHARVEST));
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Laser Drillcone", nameof(NoseConeHEPHarvestConfig));
                     public static LocString DESC = (LocString)"Harvests resources from the universe with the power of radbolts and lasers";
                     public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.NOSECONEHARVEST.EFFECT;
                 }

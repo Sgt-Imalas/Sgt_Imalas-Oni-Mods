@@ -14,6 +14,7 @@ namespace Rockets_TinyYetBig
     {
         public const string ID = "RTB_RtgGeneratorModule";
         public const float UraniumCapacity = 50f;
+        public const float energyProduction = 120f;
         public float ConsumptionRate =  (UraniumCapacity / Config.Instance.IsotopeDecayTime )/600f; 
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
 
@@ -29,7 +30,7 @@ namespace Rockets_TinyYetBig
             EffectorValues tieR2 = NOISE_POLLUTION.NONE;
             EffectorValues none = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "artifact_transport_module_kanim", 1000, 30f, MatCosts, Materials, 9999f, BuildLocationRule.Anywhere, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "rtg_module_kanim", 1000, 30f, MatCosts, Materials, 9999f, BuildLocationRule.Anywhere, none, noise);
             BuildingTemplates.CreateRocketBuildingDef(buildingDef);
             buildingDef.DefaultAnimState = "grounded";
             buildingDef.AttachmentSlotTag = GameTags.Rocket;
@@ -44,10 +45,14 @@ namespace Rockets_TinyYetBig
 
             buildingDef.attachablePosition = new CellOffset(0, 0);
 
-            buildingDef.GeneratorWattageRating = 120f;
+            buildingDef.GeneratorWattageRating = energyProduction;
             buildingDef.GeneratorBaseCapacity = 2400f;
             buildingDef.RequiresPowerInput = false;
             buildingDef.RequiresPowerOutput = false;
+
+
+
+          
 
             return buildingDef;
         }
@@ -60,6 +65,14 @@ namespace Rockets_TinyYetBig
             Storage storage = go.AddOrGet<Storage>();
             storage.capacityKg = UraniumCapacity;
 
+            RadiationEmitter radiationEmitter = go.AddOrGet<RadiationEmitter>();
+            radiationEmitter.emitType = RadiationEmitter.RadiationEmitterType.Constant;
+            radiationEmitter.radiusProportionalToRads = false;
+            radiationEmitter.emitRadiusX = (short)6;
+            radiationEmitter.emitRadiusY = radiationEmitter.emitRadiusX;
+            radiationEmitter.emitRads = 300f;
+            radiationEmitter.emissionOffset = new Vector3(0.0f, 0.0f, 0.0f);
+
             ManualDeliveryKG manualDeliveryKg = go.AddOrGet<ManualDeliveryKG>();
             manualDeliveryKg.SetStorage(storage);
             manualDeliveryKg.requestedItemTag = ElementLoader.FindElementByHash(SimHashes.EnrichedUranium).tag;
@@ -68,8 +81,6 @@ namespace Rockets_TinyYetBig
             manualDeliveryKg.minimumMass = UraniumCapacity;
             manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
 
-
-            
 
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 

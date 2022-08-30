@@ -30,17 +30,21 @@ namespace Rockets_TinyYetBig
         public float LaserDrillconeSpeed { get; set; }
 
 
+        [Option("Compress Interiors & Remove Rocket Limit", "Disable this Option to use the default 32x32 size rocket interiors. This will also reenable the Rocket Limit of 16 (changing this option only affects new Rockets)")]
+        [JsonProperty]
+        public bool CompressInteriors { get; set; }
+
         [Option("Radioisotope Decay time", "Time in cycles for all the enriched uranium in the RTG to decay into depleted uranium. RTG needs a rebuild if all enriched uranium has decayed.")]
         [Limit(100f, 2000f)]
         [JsonProperty]
         public float IsotopeDecayTime { get; set; }
-
         public Config()
         {
             ScannerModuleRange = 1;
             CritterStorageCapacity = 5;
             LaserDrillconeSpeed = 3.75f;
             IsotopeDecayTime = 200;
+            CompressInteriors = true;
         }
     }
 }

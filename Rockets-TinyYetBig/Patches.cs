@@ -175,7 +175,8 @@ namespace Rockets_TinyYetBig
         {
             public static void Postfix()
             {
-                ClusterManager.MAX_ROCKET_INTERIOR_COUNT = 100;
+                if(Config.Instance.CompressInteriors)
+                    ClusterManager.MAX_ROCKET_INTERIOR_COUNT = 100;
             }
         }
 
@@ -242,7 +243,7 @@ namespace Rockets_TinyYetBig
             public static void Prefix()
             {
                 RocketryUtils.AddRocketModuleToBuildList(GeneratorTestConfig.ID, BatteryModuleConfig.ID);
-                RocketryUtils.AddRocketModuleToBuildList(RTGModuleConfig.ID, HabitatModuleSmallConfig.ID);
+                RocketryUtils.AddRocketModuleToBuildList(RTGModuleConfig.ID, BatteryModuleConfig.ID);
 
                 RocketryUtils.AddRocketModuleToBuildList(HabitatModuleSmallExpandedConfig.ID, HabitatModuleSmallConfig.ID);
                 RocketryUtils.AddRocketModuleToBuildList(HabitatModuleStargazerConfig.ID, NoseconeBasicConfig.ID);
@@ -263,23 +264,23 @@ namespace Rockets_TinyYetBig
 
             public static Vector2I ConditionForSize(Vector2I original, string templateString)
             {
-                if (true) { 
+                if (Config.Instance.CompressInteriors) { 
                    switch (templateString)
                     {
                     case "interiors/habitat_medium_compressed":
-                        original = new Vector2I(14, 13);
+                        original = new Vector2I(16, 13);
                         break;
                     case "interiors/habitat_small_compressed":
-                        original = new Vector2I(10, 11);
+                        original = new Vector2I(12, 11);
                         break;
                     case "interiors/habitat_small_expanded":
-                        original = new Vector2I(10, 13);
+                        original = new Vector2I(12, 13);
                         break;
                     case "interiors/habitat_medium_expanded":
                         original = new Vector2I(18, 17);
                         break;
                     case "interiors/habitat_medium_stargazer":
-                         original = new Vector2I(14, 11);
+                         original = new Vector2I(16, 11);
                         break;
                     }
                 }

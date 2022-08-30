@@ -219,6 +219,8 @@ namespace Robo_Rockets
             public static void Prefix(Clustercraft __instance)
             {
                 bool isAiRocket = false;
+                if (__instance == null)
+                    return;
                 foreach (Ref<RocketModuleCluster> clusterModule in __instance.ModuleInterface.ClusterModules)
                 {
                     var isAI = clusterModule.Get().GetComponent<AIPassengerModule>();
