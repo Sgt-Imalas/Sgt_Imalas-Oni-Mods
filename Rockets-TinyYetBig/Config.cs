@@ -10,7 +10,7 @@ namespace Rockets_TinyYetBig
 {
     [Serializable]
     [RestartRequired]
-    [ModInfo("Rocketry Tewaks")]
+    [ModInfo("Rocketry Expanded")]
     public class Config : SingletonOptions<Config>
     {
 

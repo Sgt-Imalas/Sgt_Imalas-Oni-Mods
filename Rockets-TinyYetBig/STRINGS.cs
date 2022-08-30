@@ -19,7 +19,7 @@ namespace Rockets_TinyYetBig
                 {
                     public static LocString NAME = (LocString)UI.FormatAsLink("Radioisotope Thermoelectric Generator", nameof(RTGModuleConfig));
                     public static LocString DESC = "Through exploitation of the natural decay of enriched Uranium, this elegantly simple power generator can provide consistent, stable power for hundreds of cycles.";
-                    public static LocString EFFECT = (string.Format("After adding {0}kg of enriched Uranium, this module will constantly produce {1}W of energy until all of the uranium is depleted", RTGModuleConfig.UraniumCapacity, RTGModuleConfig.energyProduction));
+                    public static LocString EFFECT = (string.Format("After adding {0} kg of enriched Uranium, this module will constantly produce {1} W of energy until all of the uranium is depleted", RTGModuleConfig.UraniumCapacity, RTGModuleConfig.energyProduction));
                 }
 
                 public class RTB_HABITATMODULESTARGAZER

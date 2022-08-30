@@ -60,16 +60,30 @@ namespace Rockets_TinyYetBig.Behaviours
 
             RemoveRefillOnSatisfied();
             base.EnergySim200ms(dt);
+            var emitter = this.gameObject.GetComponent<RadiationEmitter>();
+
             if (this.IsProducingPower())
             {
                 if (ConsumptionSatisfied(dt))
                 {
+                    if (emitter != null)
+                    {
+                        emitter.SetEmitting(true);
+                    }
+
                     this.GenerateJoules(this.WattageRating * dt);
 
                     if (!(this.poweringStatusItemHandle == Guid.Empty))
                         return;
-                    this.poweringStatusItemHandle = this.selectable.ReplaceStatusItem(this.notPoweringStatusItemHandle, Db.Get().BuildingStatusItems.ModuleGeneratorPowered, (object)this);
+                    this.poweringStatusItemHandle = this.selectable.ReplaceStatusItem(this.notPoweringStatusItemHandle, Db.Get().BuildingStatusItems.Wattage, (object)this);
                     this.notPoweringStatusItemHandle = Guid.Empty;
+                }
+                else
+                {
+                    if (emitter != null)
+                    {
+                        emitter.SetEmitting(false);
+                    }
                 }
             }
             else
@@ -78,7 +92,10 @@ namespace Rockets_TinyYetBig.Behaviours
                     return;
                 this.notPoweringStatusItemHandle = this.selectable.ReplaceStatusItem(this.poweringStatusItemHandle, Db.Get().BuildingStatusItems.ModuleGeneratorNotPowered, (object)this);
                 this.poweringStatusItemHandle = Guid.Empty;
+                
+
             }
+            ResetRefillStatus();
         }
 
         public bool ConsumptionSatisfied(float dt)
@@ -89,21 +106,35 @@ namespace Rockets_TinyYetBig.Behaviours
             {
                 //foreach (var consumable in formula.inputs)
                 //{
-                 if (storage.GetMassAvailable(consumptionElement) < consumptionRate * dt)
+                var ratio = this.ConsumeRessources(dt);
+                this.ProduceRessources(dt,ratio);
+                if (storage.GetMassAvailable(consumptionElement) < consumptionRate * dt)
                      return false;
                 //}
 
-                this.ConsumeRessources(dt);
-                this.ProduceRessources(dt);
                 return true;
             }
 
         }
+        private void ResetRefillStatus()
+        {
+            if (!AllowRefill &&storage.GetAmountAvailable(consumptionElement) == 0)
+            {
+                if(clustercraft.Status == Clustercraft.CraftStatus.Grounded)
+                {
+                    var delivery = this.GetComponent<ManualDeliveryKG>();
+                    if(delivery.IsPaused)
+                        delivery.Pause(false, "one Refill allowed.");
+                    if (outputElement != SimHashes.Void && storage.GetAmountAvailable(outputElement.CreateTag())>0f)
+                        storage.DropAll(this.transform.position, true, true); 
+
+                }
+            }
+        }
 
         private void RemoveRefillOnSatisfied()
         {
-            Debug.Log("Name: " + this.GetProperName());
-            Debug.Log("Allow Refill: " + AllowRefill);
+            
 
             var delivery = this.GetComponent<ManualDeliveryKG>();
 
@@ -114,34 +145,41 @@ namespace Rockets_TinyYetBig.Behaviours
 
             //foreach (var consumable in consumptionElement)
             //{
-                Debug.Log(consumptionElement);
                 if (storage.GetMassAvailable(consumptionElement) < consumptionMaxStoredMass)
                     return;
             //}
-            Destroy(delivery);
-            Debug.Log("Delivery was fullfilled; removed DeliveryComponent on " + this.GetProperName());
+            delivery.Pause(true, "no Refill allowed.");
+            //Destroy(delivery);
+            //Debug.Log("Delivery was fullfilled; removed DeliveryComponent on " + this.GetProperName());
         }
 
-        private void ConsumeRessources(float dt)
+        private float ConsumeRessources(float dt)
         {
 
             if (consumptionElement == SimHashes.Void.CreateTag())
-                return;
+                return 0;
 
             //foreach (var consumable in formula.inputs)
             //{
+                var remainingMats = storage.GetAmountAvailable(consumptionElement);
+
                 float amount = consumptionRate * dt;
+                float ratio = 1f;
+                ratio = remainingMats < amount ? remainingMats / amount : 1;
+
+
                 this.storage.ConsumeIgnoringDisease(consumptionElement, amount);
             //}
+            return ratio;
         }
 
-        private void ProduceRessources(float dt)
+        private void ProduceRessources(float dt, float amountLeftMultiplier = 1f)
         {
             if (outputElement == SimHashes.Void)
                 return;
             //foreach (var producable in formula.outputs)
             //{
-                float amount = OutputCreationRate * dt;
+                float amount = OutputCreationRate * dt * amountLeftMultiplier;
 
                 Element elementByHash = ElementLoader.FindElementByHash(outputElement);
 
