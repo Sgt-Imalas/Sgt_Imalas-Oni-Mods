@@ -1,0 +1,38 @@
+﻿[img]https://i.imgur.com/GbFtLZ2.png[/img]
+
+[h1]Introduction[/h1]
+
+This mod allows to adjust the amount of Duplicants you start the game with.
+
+[h1]Current latest Version: 1.0.0[/h1]
+
+[hr][/hr]
+[h1]Features[/h1]
+[list]
+[*] By Default, enabling the mod sets the amount of Duplicants to start with to 1.
+[*] This value is adjustable in mod settings to start with up to 6 duplicants.
+[/list] 
+
+[h1]Known Issues[/h1]
+[list]
+[*]Similar to mods done before, having fever than 3 duplicants prevents the Game-Start-Popup to become visible. Hit Esc. to close the invisible startup menu.
+[/list] 
+
+[hr][/hr]
+[h1]Bug Reports[/h1]
+Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+
+Where to find the Log:
+[list]
+[*]Windows: 
+    C:\Users\%username%\AppData\LocalLow\Klei\Oxygen Not Included\Player.log
+[*]Mac: 
+    ~/Library/Logs/Klei/Oxygen Not Included/Player.log
+[*] Linux: 
+    ~/.config/unity3d/Klei/Oxygen Not Included/Player.log
+[/list] 
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
+

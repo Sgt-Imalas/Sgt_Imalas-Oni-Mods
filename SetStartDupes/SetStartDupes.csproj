@@ -1,0 +1,77 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<!-- General Package Properties -->
+	<PropertyGroup>
+		<PackageId>SetStartDupes</PackageId>
+		<Version>1.0.0</Version>
+		<Authors>Sgt_Imalas</Authors>
+		<Copyright>2022 Sgt_Imalas</Copyright>
+		<RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
+	</PropertyGroup>
+
+	<!-- Build Properties -->
+	<PropertyGroup>
+		<TargetFramework>net471</TargetFramework>
+		<Configurations>Debug</Configurations>
+		<AssemblyName>SetStartDupes</AssemblyName>
+		<RootNamespace>SetStartDupes</RootNamespace>
+		<IsMod>true</IsMod>
+		<GenerateMetadata>true</GenerateMetadata>
+		<IsPacked>true</IsPacked>
+	</PropertyGroup>
+
+
+	<!-- Mod Info -->
+	<PropertyGroup>
+		<ModName>Adjust Start Duplicant Count</ModName>
+		<ModDescription>Adjust the amount of duplicants you start a game with.</ModDescription>
+		<SupportedContent>ALL</SupportedContent>
+		<MinimumSupportedBuild>498381</MinimumSupportedBuild>
+		<APIVersion>2</APIVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="PLib" Version="4.8.0">
+			<Private>false</Private>
+		</PackageReference>
+	</ItemGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<OutDir>bin</OutDir>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<LangVersion>preview</LangVersion>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Reference Include="UnityEngine.TextRenderingModule">
+	    <HintPath>UnityEngine.TextRenderingModule.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <None Update="ModAssets\anim\assets\cryo_chamber_buildable\cryo_chamber_buildable.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\cryo_chamber_buildable\cryo_chamber_buildable_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\cryo_chamber_buildable\cryo_chamber_buildable_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\cryo_chamber_buildable_liquid\cryo_chamber_buildable_liquid.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\cryo_chamber_buildable_liquid\cryo_chamber_buildable_liquid_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\cryo_chamber_buildable_liquid\cryo_chamber_buildable_liquid_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+</Project>
