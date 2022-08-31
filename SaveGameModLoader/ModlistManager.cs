@@ -223,7 +223,7 @@ namespace SaveGameModLoader
 
             var thisMod = modManager.mods.Find(mod => mod.label.id == ModAssets.ModID).label;
 
-            Debug.Log(thisMod+"§§§§§§§§§§ EEEEEEEEEEEE");
+           // Debug.Log(thisMod+"§§§§§§§§§§ EEEEEEEEEEEE");
 
             var allMods = modManager.mods.Select(mod => mod.label).ToList();
             var enabledModLabels = modManager.mods.FindAll(mod => mod.IsActive() == true).Select(mod => mod.label).ToList();

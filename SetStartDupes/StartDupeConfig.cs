@@ -16,7 +16,7 @@ namespace SetStartDupes
 
 
         [Option("Starting Duplicants", "Choose the amount of duplicants you want to start with")]
-        [Limit(1, 6)]
+        [Limit(1, 16)]
         [JsonProperty]
         public int DuplicantStartAmount { get; set; }
 

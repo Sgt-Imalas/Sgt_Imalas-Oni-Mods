@@ -4,7 +4,8 @@
 
 This mod allows to adjust the amount of Duplicants you start the game with.
 
-[h1]Current latest Version: 1.0.0[/h1]
+
+[h1]Current latest Version: 1.1.0[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
@@ -13,9 +14,11 @@ This mod allows to adjust the amount of Duplicants you start the game with.
 [*] This value is adjustable in mod settings to start with up to 6 duplicants.
 [/list] 
 
+[Incompatible with DGSM]
+
 [h1]Known Issues[/h1]
 [list]
-[*]Similar to mods done before, having fever than 3 duplicants prevents the Game-Start-Popup to become visible. Hit Esc. to close the invisible startup menu.
+[*]Similar to mods done before, having fever than 3 duplicants prevents the Game-Start-Popup to become visible. Hit Esc. to close the invisible start message popup.
 [/list] 
 
 [hr][/hr]
