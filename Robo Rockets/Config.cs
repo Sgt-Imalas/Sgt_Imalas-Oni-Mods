@@ -19,9 +19,9 @@ namespace KnastoronOniMods
         }
 
 
-        [Option("Ai Speed Multiplier", "adjust the speed penalty of AI Controlled Rockets; 0.5 is the vanilla autopilot speed, 1.0 is no penalty, 2.0 doubles rocket speed")]
+        [Option("Ai Speed Multiplier", "adjust the speed multiplier of AI Controlled Rockets; 0.5 is the vanilla autopilot speed, 1.0 is no penalty, 1.75 is the Equivalent of a dupe with maxed piloting")]
         [JsonProperty]
-        [Limit(0.5f, 2f)]
+        [Limit(0.5f, 1.75f)]
         public float AiSpeedMultiplier { get; set; }
         
     }
