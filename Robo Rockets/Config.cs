@@ -14,13 +14,15 @@ namespace KnastoronOniMods
         public bool UsesNeuralVaccilatorRecharge { get; set; }
         public Config()
         {
-                DebugFunctionsEnabled = false;
+                AiSpeedMultiplier = 1.0f;
                UsesNeuralVaccilatorRecharge = true;
         }
 
-        [Option("Debug Mode", "Enable to get some debug functions ")]
+
+        [Option("Ai Speed Multiplier", "adjust the speed penalty of AI Controlled Rockets; 0.5 is the vanilla autopilot speed, 1.0 is no penalty, 2.0 doubles rocket speed")]
         [JsonProperty]
-        public bool DebugFunctionsEnabled { get; set; }
+        [Limit(0.5f, 2f)]
+        public float AiSpeedMultiplier { get; set; }
         
     }
 }

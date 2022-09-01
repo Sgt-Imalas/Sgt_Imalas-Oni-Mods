@@ -18,7 +18,7 @@ namespace RoboRockets
 
         public void OnSidescreenButtonPressed()
         {
-            if (Config.Instance.DebugFunctionsEnabled)
+            if (false)
             {
                 AIController.MakeNewPilotBot(true);
             }

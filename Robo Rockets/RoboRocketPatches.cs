@@ -131,24 +131,22 @@ namespace Robo_Rockets
                 }
             }
         }
-
-
-        [HarmonyPatch(typeof(RocketControlStation.StatesInstance))]
-        [HarmonyPatch("SetPilotSpeedMult")]
-        public class RocketControlStation_SetPilotSpeedMult_Patch
-        {
-            public static bool Prefix(Worker pilot, RocketControlStation.StatesInstance __instance)
-            {
-                AttributeConverter pilotingSpeed = Db.Get().AttributeConverters.PilotingSpeed;
-                if (pilot.GetComponent<AttributeConverters>().GetConverter(pilotingSpeed.Id) == null)
-                {
-                    //Debug.Log("skippingNormalSpeedSetter");
-                    __instance.pilotSpeedMult = 1f;
-                    return false;
-                }
-                return true;
-            }
-        }
+        //[HarmonyPatch(typeof(RocketControlStation.StatesInstance))]
+        //[HarmonyPatch("SetPilotSpeedMult")]
+        //public class RocketControlStation_SetPilotSpeedMult_Patch
+        //{
+        //    public static bool Prefix(Worker pilot, RocketControlStation.StatesInstance __instance)
+        //    {
+        //        AttributeConverter pilotingSpeed = Db.Get().AttributeConverters.PilotingSpeed;
+        //        if (pilot.GetComponent<AttributeConverters>().GetConverter(pilotingSpeed.Id) == null)
+        //        {
+        //            //Debug.Log("skippingNormalSpeedSetter");
+        //            __instance.pilotSpeedMult = 1f;
+        //            return false;
+        //        }
+        //        return true;
+        //    }
+        //}
 
         [HarmonyPatch(typeof(HabitatModuleSideScreen))]
         [HarmonyPatch("RefreshModulePanel")]
@@ -190,13 +188,30 @@ namespace Robo_Rockets
                 if (__instance.gameObject.GetComponent<AIPassengerModule>() != null)
                 {
                     int worldRefID = (int)typeof(ClustercraftExteriorDoor).GetField("targetWorldId", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
+                    Clustercraft component = __instance.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
 
-                    Debug.Log("Forbidden World to look into: " + worldRefID);
+                    Debug.Log("AI Module added; adjusting automated Speed to " + Config.Instance.AiSpeedMultiplier);
+                    component.AutoPilotMultiplier = Config.Instance.AiSpeedMultiplier;
+
+                    Debug.Log("World forbidden to look into: " + worldRefID);
                     ModAssets.ForbiddenInteriorIDs.Add(worldRefID);
                 }
             }
         }
+        [HarmonyPatch(typeof(ClustercraftExteriorDoor))]
+        [HarmonyPatch("OnCleanUp")]
+        public class RemoveInteriorToForbiddenListIfAI
+        {
+            public static void Prefix(ClustercraftExteriorDoor __instance)
+            {
+                if (__instance.gameObject.GetComponent<AIPassengerModule>() != null)
+                {
+                    int worldRefID = (int)typeof(ClustercraftExteriorDoor).GetField("targetWorldId", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
 
+                    ModAssets.ForbiddenInteriorIDs.Remove(worldRefID);
+                }
+            }
+        }
 
         [HarmonyPatch(typeof(ClustercraftExteriorDoor))]
         [HarmonyPatch(nameof(ClustercraftExteriorDoor.HasTargetWorld))]

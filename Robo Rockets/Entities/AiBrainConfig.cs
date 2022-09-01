@@ -82,7 +82,7 @@ namespace KnastoronOniMods
              };
             basicEntity.AddOrGet<Traits>(); 
             KSelectable kselectable = basicEntity.AddOrGet<KSelectable>();
-            kselectable.IsSelectable = Config.Instance.DebugFunctionsEnabled; //DEBUG : needs false on release
+            kselectable.IsSelectable = false; //DEBUG : needs false on release
             Trait trait = Db.Get().CreateTrait(AiBrainConfig.ROVER_BASE_TRAIT_ID, "a Brain", NAME, (string)null, false, disabled_chore_groups, true, true);
             trait.Add(new AttributeModifier(Db.Get().Attributes.CarryAmount.Id, 200f, (string)NAME));
             trait.Add(new AttributeModifier(Db.Get().Attributes.Machinery.Id, TUNING.ROBOTS.SCOUTBOT.ATHLETICS, (string)NAME));
