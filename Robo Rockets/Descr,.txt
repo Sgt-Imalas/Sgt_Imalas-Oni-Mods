@@ -6,7 +6,7 @@ Have you ever wanted to [b]truly[/b] automate rockets, just to have been hit wit
 
 [img]https://i.imgur.com/VgZFBU7.png[/img]
 
-[h1]Current latest Version: 2.2.1[/h1]
+[h1]Current latest Version: 2.2.2[/h1]
 
 [hr][/hr]
 
