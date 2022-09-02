@@ -8,17 +8,36 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Behaviours
 {
-    public class RTB_ModuleGenerator : Generator
+    public class RTB_ModuleGenerator : Generator, ISidescreenButtonControl
     {
-        [MyCmpGet]
+
+        /// <summary>
+        /// IDEAS:
+        /// Rocket Engine thats not limited to the bottom
+        /// Advanced Starting Platform with Ribbons
+        /// Bunkered Starting Platform
+        /// Steam Generator; Coal Generator ; Status msg for generators
+        /// 
+        /// Swimming pool Chlordispenser disinfectant
+        /// </summary>
+
+        [MyCmpGet] 
         private Storage storage;
 
         private Clustercraft clustercraft;
         private Guid poweringStatusItemHandle;
         private Guid notPoweringStatusItemHandle;
 
+        [SerializeField]
         public bool AlwaysActive = false;
+        [SerializeField]
+        public bool produceWhileLanded = false;
+        [SerializeField]
         public bool AllowRefill = true;
+
+        [SerializeField]
+        public CargoBay.CargoType PullFromRocketStorageType = CargoBay.CargoType.Entities;
+
 
         public Tag consumptionElement = SimHashes.Void.CreateTag();
         public float consumptionRate = 1f;
@@ -27,8 +46,6 @@ namespace Rockets_TinyYetBig.Behaviours
         public SimHashes outputElement = SimHashes.Void;
         public float OutputCreationRate = -1f;
         public float OutputTemperature = 293.15f;
-
-
 
 
         protected override void OnPrefabInit()
@@ -53,7 +70,28 @@ namespace Rockets_TinyYetBig.Behaviours
             Game.Instance.electricalConduitSystem.RemoveFromVirtualNetworks(this.VirtualCircuitKey, (object)this, true);
         }
 
-        public override bool IsProducingPower() => AlwaysActive || this.clustercraft.IsFlightInProgress();
+        public override bool IsProducingPower() => AlwaysActive || this.clustercraft.IsFlightInProgress() &&  BatteriesNotFull() || produceWhileLanded && BatteriesNotFull();
+
+
+        public bool BatteriesNotFull()
+        {
+            List<Battery> batteriesOnCircuit = Game.Instance.circuitManager.GetBatteriesOnCircuit(this.CircuitID);
+            if (!AlwaysActive && batteriesOnCircuit.Count > 0)
+            {
+                foreach (Battery battery in batteriesOnCircuit)
+                {
+                    if (battery.PercentFull <= 0.95f)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
 
         public override void EnergySim200ms(float dt)
         {
@@ -104,18 +142,51 @@ namespace Rockets_TinyYetBig.Behaviours
                 return true;
             else
             {
-                //foreach (var consumable in formula.inputs)
-                //{
+                if (this.PullFromRocketStorageType != CargoBay.CargoType.Entities)
+                {
+                    PullFuelFromRocketStorage(dt);
+                }
+
+                if (storage.GetMassAvailable(consumptionElement) < consumptionRate * dt)
+                    return false;
                 var ratio = this.ConsumeRessources(dt);
                 this.ProduceRessources(dt,ratio);
-                if (storage.GetMassAvailable(consumptionElement) < consumptionRate * dt)
-                     return false;
+                
                 //}
 
                 return true;
             }
 
         }
+
+        private void PullFuelFromRocketStorage(float dt)
+        {
+            
+            foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)clustercraft.ModuleInterface.ClusterModules)
+            {
+                CargoBayCluster component = clusterModule.Get().GetComponent<CargoBayCluster>();
+                if (component != null && component.storageType == this.PullFromRocketStorageType)
+                {
+                    if ((double)component.storage.MassStored() > 0.0)
+                    {
+                        for (int index = component.storage.items.Count - 1; index >= 0; --index)
+                        {
+                            GameObject go = component.storage.items[index];
+                            if (go.PrefabID() == this.consumptionElement)
+                            {
+                                Pickupable pickupable = go.GetComponent<Pickupable>().Take(consumptionRate * dt);
+                                if (pickupable != null)
+                                {
+                                    this.storage.Store(pickupable.gameObject, true);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         private void ResetRefillStatus()
         {
             if (!AllowRefill &&storage.GetAmountAvailable(consumptionElement) == 0)
@@ -138,19 +209,13 @@ namespace Rockets_TinyYetBig.Behaviours
 
             var delivery = this.GetComponent<ManualDeliveryKG>();
 
-            Debug.Log(delivery);
-
             if (delivery == null || AllowRefill || consumptionElement == SimHashes.Void.CreateTag())
                 return;
+            
+            if (storage.GetMassAvailable(consumptionElement) < consumptionMaxStoredMass)
+                return;
 
-            //foreach (var consumable in consumptionElement)
-            //{
-                if (storage.GetMassAvailable(consumptionElement) < consumptionMaxStoredMass)
-                    return;
-            //}
             delivery.Pause(true, "no Refill allowed.");
-            //Destroy(delivery);
-            //Debug.Log("Delivery was fullfilled; removed DeliveryComponent on " + this.GetProperName());
         }
 
         private float ConsumeRessources(float dt)
@@ -159,8 +224,7 @@ namespace Rockets_TinyYetBig.Behaviours
             if (consumptionElement == SimHashes.Void.CreateTag())
                 return 0;
 
-            //foreach (var consumable in formula.inputs)
-            //{
+
                 var remainingMats = storage.GetAmountAvailable(consumptionElement);
 
                 float amount = consumptionRate * dt;
@@ -169,7 +233,6 @@ namespace Rockets_TinyYetBig.Behaviours
 
 
                 this.storage.ConsumeIgnoringDisease(consumptionElement, amount);
-            //}
             return ratio;
         }
 
@@ -192,5 +255,20 @@ namespace Rockets_TinyYetBig.Behaviours
             //}
         }
 
+
+        public string SidescreenButtonText => produceWhileLanded ? "Disable generator on ground" : "Enable generator on ground";
+
+        public string SidescreenButtonTooltip => "Select if the generator module should produce power while the rocket is grounded";
+
+        public bool SidescreenEnabled() => !this.AlwaysActive;
+
+        public bool SidescreenButtonInteractable() => !this.AlwaysActive;
+
+        public void OnSidescreenButtonPressed()
+        {
+            produceWhileLanded = !produceWhileLanded;
+        }
+
+        public int ButtonSideScreenSortOrder() => 20;
     }
 }

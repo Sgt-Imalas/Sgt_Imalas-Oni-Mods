@@ -1,6 +1,6 @@
 ﻿[img]https://i.imgur.com/VgZFBU7.png[/img]
 
-[h1]Rocketry Expanded (DLC)[/h1]
+[h1]Introduction[/h1]
 [h2]More Rockets - more fun![/h2]
 
 This mod decreases the map space taken up by Spacefarer Modules while adding 3 new Variants.
@@ -62,8 +62,21 @@ Since the grid space is limited and each rocket takes some of that remaining spa
 my mod significantly reduces the amount of space taken for each (new) rocket interior by removing the empty space around the interior. 
 That way, you can create much more rockets, since each takes way less space from the remaining free grid space. This allows to disable the "16 rockets"-Limit without leading to "missing free space"-problems.
 
-[h2]There are base game research modules in the preview?[/h2]
-From my satellite mod, these are satellite carrier modules.
+For comparison, this is the space taken by 9 normal sized rocket interiors:
+
+[img]https://i.imgur.com/IoIS9HZ.png[/img]
+
+This is the space taken by 16 shrunken (medium) interiors:
+
+[img]https://i.imgur.com/lrbg559.png[/img]
+
+
+[hr][/hr]
+
+Also check out these mods for more Rocketry Additions:[list] 
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2765256496]AI controlled Rockets[/url] <= Let your rockets fly without any duplicant inputs
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2840104621]Scan & Relay Satellites[/url] <= Deploy satellites to the space map to increase the range of broadcasters and autonomously scan the space tiles
+[/list] 
 
 [hr][/hr]
 

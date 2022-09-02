@@ -9,7 +9,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using UtilLibs;
+using SgtImalasUtilityLib;
 
 namespace Rockets_TinyYetBig
 {
@@ -135,36 +135,7 @@ namespace Rockets_TinyYetBig
             }
         }
 
-        /// <summary>
-        /// Add new Buildings to Technologies
-        /// </summary>
-        [HarmonyPatch(typeof(Db))]
-        [HarmonyPatch("Initialize")]
-        public class Db_Initialize_Patch
-        {
-            public static void Postfix()
-            {
-                //add buildings to technology tree
-                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.SpaceProgram, HabitatModuleSmallExpandedConfig.ID);
-                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.DurableLifeSupport, HabitatModuleMediumExpandedConfig.ID);
-                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CelestialDetection, HabitatModuleStargazerConfig.ID);
-                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.RadiationTechnologies.RadboltContainment, HEPBatteryModuleConfig.ID);
-                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.AnimalControl, CritterContainmentModuleConfig.ID); 
-                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, NoseConeHEPHarvestConfig.ID); 
-            }
-        }
-
-        /// <summary>
-        /// Translation & String initialisation
-        /// </summary>
-        [HarmonyPatch(typeof(Localization), "Initialize")]
-        public static class Localization_Initialize_Patch
-        {
-            public static void Postfix()
-            {
-                LocalisationUtil.Translate(typeof(STRINGS), true);
-            }
-        }
+        
 
         /// <summary>
         /// More than 16 Rockets allowed simultaniously
@@ -229,28 +200,6 @@ namespace Rockets_TinyYetBig
             public static void Postfix(GameObject go)
             {
                 go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_small_compressed";
-            }
-        }
-
-        /// <summary>
-        /// Adding Rocket buildings to build Screen
-        /// </summary>
-        [HarmonyPatch(typeof(GeneratedBuildings))]
-        [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
-        public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
-        {
-
-            public static void Prefix()
-            {
-                RocketryUtils.AddRocketModuleToBuildList(GeneratorTestConfig.ID, BatteryModuleConfig.ID);
-                RocketryUtils.AddRocketModuleToBuildList(RTGModuleConfig.ID, BatteryModuleConfig.ID);
-
-                RocketryUtils.AddRocketModuleToBuildList(HabitatModuleSmallExpandedConfig.ID, HabitatModuleSmallConfig.ID);
-                RocketryUtils.AddRocketModuleToBuildList(HabitatModuleStargazerConfig.ID, NoseconeBasicConfig.ID);
-                RocketryUtils.AddRocketModuleToBuildList(HabitatModuleMediumExpandedConfig.ID, HabitatModuleMediumConfig.ID);
-                RocketryUtils.AddRocketModuleToBuildList(HEPBatteryModuleConfig.ID,BatteryModuleConfig.ID); 
-                RocketryUtils.AddRocketModuleToBuildList(CritterContainmentModuleConfig.ID,GasCargoBayClusterConfig.ID); 
-                RocketryUtils.AddRocketModuleToBuildList(NoseConeHEPHarvestConfig.ID, NoseconeHarvestConfig.ID); 
             }
         }
 

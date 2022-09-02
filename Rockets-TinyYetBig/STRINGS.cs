@@ -1,4 +1,5 @@
 ﻿using Rockets_TinyYetBig.Buildings;
+using Rockets_TinyYetBig.NonRocketBuildings;
 using STRINGS;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,12 @@ namespace Rockets_TinyYetBig
             
             public class PREFABS
             {
+                public class RTB_BUNKERLAUNCHPAD
+                {
+                    public static LocString NAME = UI.FormatAsLink("Fortified Rocket Platform", nameof(BunkeredLaunchPadConfig)); 
+                    public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.DESC + "\n\nFortified to withstand comets.";
+                    public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.EFFECT + "\n\nBlocks comets and is immune to comet damage.";
+                }
                 public class RTB_RTGGENERATORMODULE
                 {
                     public static LocString NAME = (LocString)UI.FormatAsLink("Radioisotope Thermoelectric Generator", nameof(RTGModuleConfig));
