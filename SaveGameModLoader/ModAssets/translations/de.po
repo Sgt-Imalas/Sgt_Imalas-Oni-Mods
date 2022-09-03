@@ -1,0 +1,68 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.1.1\n"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.ALLSYNCED
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.ALLSYNCED"
+msgid "ALL MODS SYNCED, CLOSE"
+msgstr "ALLE MODS SYNCHRONISIERT, SCHLIESSEN"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.CONTINUEANDSYNC
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.CONTINUEANDSYNC"
+msgid "SYNCHRONIZE MODS AND RESUME GAME"
+msgstr "MODS SYNCHRONISIEREN UND SPIEL FORTSETZEN"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMOD
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMOD"
+msgid "MISSING MODS!"
+msgstr "FEHLENDE MODS!"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSDESC
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSDESC"
+msgid "Stored config has {0} mods, but these {1} are not installed:{2}"
+msgstr "Gespeicherte Modkonfiguration hat {0} Mods, von diesen sind jedoch die folgenden {1} nicht installiert:{2}"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSDESCEND
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSDESCEND"
+msgid ""
+"and {0} more..\n"
+"See in the \"Player.log\" file for a full list."
+msgstr ""
+"und {0} mehr.\n"
+"Sieh in der Datei \"Player.log\" für eine vollständige Liste nach."
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSTITLE
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSTITLE"
+msgid "MISSING MODS"
+msgstr "FEHLENDE MODS"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.MODDIFFS
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.MODDIFFS"
+msgid "MOD DIFFERENCES"
+msgstr "MOD UNTERSCHIEDE"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.SYNCALL
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.SYNCALL"
+msgid "SYNC ALL AND LOAD"
+msgstr "GESPEICHERTE KONFIG. LADEN"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.SYNCMODSBUTTONBG
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.SYNCMODSBUTTONBG"
+msgid "SYNC MODS"
+msgstr "SYNC MODS"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.SYNCSELECTED
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.SYNCSELECTED"
+msgid "SYNC CURRENT CONFIG AND LOAD"
+msgstr "JETZIGE KONFIG. LADEN"

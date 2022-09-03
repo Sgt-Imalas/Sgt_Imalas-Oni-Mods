@@ -15,7 +15,7 @@ namespace SaveGameModLoader.Patches
         {
             public static void Postfix()
             {
-                LocalisationUtil.Translate(typeof(ModManagerStrings.STRINGS), true);
+                LocalisationUtil.Translate(typeof(STRINGS), true);
             }
         }
     }

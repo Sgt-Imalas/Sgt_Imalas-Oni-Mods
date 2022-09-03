@@ -22,171 +22,6 @@ namespace SaveGameModLoader
 {
     class AllPatches
     {
-
-        //public class MainMenuModSelectionPatch
-        //{
-        //    public static void LoadMods(IReader reader, SaveGame.GameInfo GameInfo)
-        //    {
-        //        Debug.Assert(reader.ReadKleiString() == "world");
-
-        //        Deserializer deserializer = new Deserializer(reader);
-        //        deserializer.Deserialize((object)saveFileRoot);
-        //        if ((GameInfo.saveMajorVersion == 7 || GameInfo.saveMinorVersion < 8) && saveFileRoot.requiredMods != null)
-        //        {
-        //            saveFileRoot.active_mods = new List<KMod.Label>();
-        //            foreach (ModInfo requiredMod in saveFileRoot.requiredMods)
-        //                saveFileRoot.active_mods.Add(new KMod.Label()
-        //                {
-        //                    id = requiredMod.assetID,
-        //                    version = (long)requiredMod.lastModifiedTime,
-        //                    distribution_platform = KMod.Label.DistributionPlatform.Steam,
-        //                    title = requiredMod.description
-        //                });
-        //            saveFileRoot.requiredMods.Clear();
-        //        }
-        //        KMod.Manager modManager = Global.Instance.modManager;
-
-        //        var enabledMods = modManager.mods.FindAll(mod => mod.IsActive() == true);
-        //        var enabledModLabels = modManager.mods.FindAll(mod => mod.IsActive() == true).Select(mod => mod.label).ToList();
-
-        //        Debug.Log(saveFileRoot.active_mods);
-        //        Debug.Log("Enabled Mods before Changes:" + enabledMods.Count);
-        //        Debug.Log(0);
-        //        var enabledButNotSavedMods = enabledModLabels.Except(saveFileRoot.active_mods).ToList(); Debug.Log(1);
-        //        var savedButNotEnabledMods = saveFileRoot.active_mods.Except(enabledModLabels).ToList(); Debug.Log(2);
-        //        List<string> enabledIds = new();
-        //        List<string> disabledIds = new();
-        //        Debug.Log(3);
-        //        if (enabledButNotSavedMods.Count > 0)
-        //        {
-        //            enabledButNotSavedMods.Remove(enabledButNotSavedMods.Find(mod => mod.title == "SaveGameModLoader"));
-        //            enabledIds = enabledButNotSavedMods.Select(label => label.id).ToList();
-        //        }
-
-        //        Debug.Log(4);
-        //        if (savedButNotEnabledMods.Count > 0)
-        //        {
-        //            savedButNotEnabledMods.Remove(savedButNotEnabledMods.Find(mod => mod.title == "SaveGameModLoader"));
-        //            disabledIds = savedButNotEnabledMods.Select(label => label.id).ToList();
-        //        }
-
-        //        Debug.Log(5);
-
-        //        foreach (var id in enabledIds)
-        //        {
-        //            var modToDisable = Global.Instance.modManager.mods.Find(ListMod => ListMod.label.id == id);
-        //            {
-        //                if (modToDisable != null)
-        //                {
-        //                    modToDisable.SetEnabledForActiveDlc(false);
-        //                    Debug.Log("enabled but not stored in SaveGame, disabling: " + id + " : " + modToDisable.title);
-        //                }
-        //                else
-        //                {
-        //                    Debug.LogWarning("Mod " + id + " : " + enabledButNotSavedMods.Find(m => m.id == id).title + " is not installed, how did this happen?");
-        //                }
-        //            }
-        //            Debug.Log(6);
-        //        }
-        //        foreach (var id in disabledIds)
-        //        {
-
-        //            var modToEnable = Global.Instance.modManager.mods.Find(ListMod => ListMod.label.id == id);
-        //            if (modToEnable != null)
-        //            {
-        //                modToEnable.SetEnabledForActiveDlc(true);
-        //                Debug.Log("stored in SaveGame but not enabled, enabling: " + id + " : " + modToEnable.title);
-        //            }
-        //            else
-        //            {
-        //                Debug.LogWarning("Mod " + id + " : " + modToEnable.title + " is stored in this SaveGame, but not installed!");
-        //            }
-        //            Debug.Log(7);
-
-        //        }
-
-
-        //        if (enabledButNotSavedMods.Count > 0 || savedButNotEnabledMods.Count > 0)
-        //        {
-        //            Global.Instance.modManager.Save();
-        //            new System.Action(App.Quit).Invoke(); //App.Instance.Restart
-        //            return;
-        //        }
-
-        //    }            
-        //}
-
-        /// <summary>
-        /// ButtonInfoType copy since its private in MainMenu
-        /// </summary>
-        private struct ButtonInfo
-        {
-            public LocString text;
-            public System.Action action;
-            public int fontSize;
-            public ColorStyleSetting style;
-
-            public ButtonInfo(LocString text, System.Action action, int font_size, ColorStyleSetting style)
-            {
-                this.text = text;
-                this.action = action;
-                this.fontSize = font_size;
-                this.style = style;
-            }
-        }
-
-        /// <summary>
-        /// Copy of Addbutton in main menu to add a button using the copied type above
-        /// </summary>
-        /// <param name="info">Button information</param>
-        /// <param name="instance">Main Menu instance reference</param>
-        /// <returns></returns>
-        /// 
-
-        private static KButton MakeButton(KButton buttonPrefab, GameObject buttonParent, ButtonInfo info)
-        {
-            KButton kbutton = Util.KInstantiateUI<KButton>(buttonPrefab.gameObject, buttonParent, true);
-            kbutton.onClick += info.action;
-            KImage component = kbutton.GetComponent<KImage>();
-            component.colorStyleSetting = info.style;
-            component.ApplyColorStyleSetting();
-            LocText componentInChildren = kbutton.GetComponentInChildren<LocText>();
-            componentInChildren.text = (string)info.text;
-            componentInChildren.fontSize = (float)info.fontSize;
-            return kbutton;
-        }
-        private static KButton MakeButton(ButtonInfo info, MainMenu instance)
-        {
-            KButton buttonPrefab = (KButton)Traverse.Create(instance).Field("buttonPrefab").GetValue();
-            GameObject buttonParent = (GameObject)Traverse.Create(instance).Field("buttonParent").GetValue();
-            return MakeButton(buttonPrefab, buttonParent, info);
-        }
-
-
-        //[HarmonyPatch(typeof(MainMenu), "ResumeGame")]
-        //public static class AddModSyncToResumeButton
-        //{
-        //    //public static bool Prefix(MainMenu __instance)
-        //    //{
-        //    //    string path;
-        //    //    if (KPlayerPrefs.HasKey("AutoResumeSaveFile"))
-        //    //    {
-        //    //        path = KPlayerPrefs.GetString("AutoResumeSaveFile");
-        //    //    }
-        //    //    else
-        //    //        path = string.IsNullOrEmpty(GenericGameSettings.instance.performanceCapture.saveGame) ? SaveLoader.GetLatestSaveForCurrentDLC() : GenericGameSettings.instance.performanceCapture.saveGame;
-        //    //    if (string.IsNullOrEmpty(path))
-        //    //        return true;
-        //    //    else
-        //    //    {
-        //    //        Debug.Log("For now, Broke button as intended :D");
-        //    //        Debug.Log(path);
-        //    //        return false;
-        //    //    }
-        //    //}
-        //}
-
-        //[HarmonyDebug]
         [HarmonyPatch(typeof(LoadScreen), "ShowColony")]
         public static class AddModSyncButtonLogic
         {
@@ -198,11 +33,6 @@ namespace SaveGameModLoader
                 var ContainerOpener = FileDetails.GetType().GetField("save").GetValue(FileDetails);
                 string baseName = (string)ContainerOpener.GetType().GetField("BaseName").GetValue(ContainerOpener);
                 string fileName = (string)ContainerOpener.GetType().GetField("FileName").GetValue(ContainerOpener);
-
-
-                //Console.WriteLine("Properties of Type are:");
-                //Debug.Log("NAME: " + baseName);
-                //Debug.Log("FILE: " + fileName);
 
                 var btn = entry.Find("SyncButton").GetComponent<KButton>();
                 
@@ -309,7 +139,7 @@ namespace SaveGameModLoader
                 kbutton.name = "SyncButton";
                 var syncText = kbutton.GetComponentInChildren<LocText>(true);
                 var btn = kbutton.GetComponentInChildren<KButton>(true);
-                syncText.key = "STRINGS.UI.FRONTEND.MODSYNCING.SYNCMODS";
+                syncText.key = "STRINGS.UI.FRONTEND.MODSYNCING.SYNCMODSBUTTONBG";
                 btn.bgImage.sprite = Assets.GetSprite("icon_thermal_conductivity");
             }
         }
@@ -322,7 +152,7 @@ namespace SaveGameModLoader
         {
             public static void Prefix(MainMenu __instance)
             {
-
+                UIUtils.ListAllChildren(__instance.transform);
                 string path;
                 if (KPlayerPrefs.HasKey("AutoResumeSaveFile"))
                 {
@@ -331,24 +161,37 @@ namespace SaveGameModLoader
                 else
                     path = string.IsNullOrEmpty(GenericGameSettings.instance.performanceCapture.saveGame) ? SaveLoader.GetLatestSaveForCurrentDLC() : GenericGameSettings.instance.performanceCapture.saveGame;
 
-                ColorStyleSetting style = (ColorStyleSetting)Traverse.Create(__instance).Field("topButtonStyle").GetValue();
-               
+                
+                var parentBar = __instance.transform.Find("MainMenuMenubar/MainMenuButtons");
+                var contButton = __instance.transform.Find("MainMenuMenubar/MainMenuButtons/Button_ResumeGame");
 
-                var UpdateButton = new ButtonInfo("SYNCHRONIZE MODS AND RESUME GAME",
-                    () => 
-                    {
-                        ModlistManager.Instance.InstantiateModViewForPathOnly(path);
-                    }, 
-                    18, style);
+                var bt = Util.KInstantiateUI(contButton.gameObject, parentBar.gameObject, true);
 
-                var bt = MakeButton(UpdateButton, __instance);
                 string colonyName = SaveGameModList.GetModListFileName(path);
 
                 var colony =  ModlistManager.Instance.TryGetColonyModlist(colonyName);
                 bool interactable = colony != null ? colony.TryGetModListEntry(path)!=null : false;
 
-                bt.isInteractable = interactable;
+                var button = bt.GetComponent<KButton>();
+                bt.name = "SyncAndContinue";
+                var internalText = bt.transform.Find("ResumeText").GetComponent<LocText>();
+
+                internalText.text = STRINGS.UI.FRONTEND.MODSYNCING.CONTINUEANDSYNC;
+
+                button.isInteractable = interactable;
+                button.ClearOnClick();
+                button.onClick +=
+                    () =>
+                    {
+                        ModlistManager.Instance.InstantiateModViewForPathOnly(path);
+                    };
+
+
                 ModlistManager.Instance.ParentObjectRef = __instance.gameObject;
+
+
+                var SaveGameName = button.transform.Find("SaveNameText").gameObject;
+                UnityEngine.Object.Destroy(SaveGameName);
             }
         }
 

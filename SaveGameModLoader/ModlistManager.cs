@@ -53,7 +53,7 @@ namespace SaveGameModLoader
             //UIUtils.ListAllChildren(modScreen);
 
             ///Set Title of Mod Sync Screen.
-            modScreen.Find("Panel/Title/Title").GetComponent<LocText>().text = ModManagerStrings.STRINGS.UI.FRONTEND.MODSYNCING.MODDIFFS;
+            modScreen.Find("Panel/Title/Title").GetComponent<LocText>().text = STRINGS.UI.FRONTEND.MODSYNCING.MODDIFFS;
 
             var DetailsView = modScreen.Find("Panel/DetailsView").gameObject;
             var workShopButton = modScreen.Find("Panel/DetailsView/WorkshopButton");
@@ -74,14 +74,13 @@ namespace SaveGameModLoader
             var closeBt = closeBtObj.GetComponent<KButton>();
             closeBt.isInteractable = ModListDifferences.Count > 0 && ModListDifferences.Count > MissingMods.Count;
             closeBt.onClick += () => { AutoRestart(modScreen.GetComponent<ModsScreen>()); };
-            closeBtObj.Find("Text").GetComponent<LocText>().text = ModManagerStrings.STRINGS.UI.FRONTEND.MODSYNCING.SYNCSELECTED;
+            closeBtObj.Find("Text").GetComponent<LocText>().text = STRINGS.UI.FRONTEND.MODSYNCING.SYNCSELECTED;
 
             var SyncAllButtonObject = Util.KInstantiateUI<RectTransform>(workShopButton.gameObject, DetailsView, true);
             SyncAllButtonObject.name = "SyncAllModsButton";
-            SyncAllButtonObject.Find("Text").GetComponent<LocText>().text = ModManagerStrings.STRINGS.UI.FRONTEND.MODSYNCING.SYNCALL;
+            SyncAllButtonObject.Find("Text").GetComponent<LocText>().text = STRINGS.UI.FRONTEND.MODSYNCING.SYNCALL;
 
             var SyncAllButton = SyncAllButtonObject.GetComponentInChildren<KButton>(true);
-            //Button.GetComponent<LocText>().key = "STRINGS.UI.FRONTEND.MODSYNCING.SYNCMODS";
             SyncAllButton.ClearOnClick();
             SyncAllButton.isInteractable = ModListDifferences.Count > 0;
             SyncAllButton.onClick += () => { SyncAllMods(modScreen.GetComponent<ModsScreen>(), null); };
@@ -111,7 +110,7 @@ namespace SaveGameModLoader
 
             if (MissingMods.Count == 0 && ModListDifferences.Count == 0)
             {
-                BtnText.text = ModManagerStrings.STRINGS.UI.FRONTEND.MODSYNCING.ALLSYNCED;
+                BtnText.text = STRINGS.UI.FRONTEND.MODSYNCING.ALLSYNCED;
                 var ColorStyle = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
                 ColorStyle.inactiveColor = new Color(0.25f, 0.8f, 0.25f);
                 ColorStyle.hoverColor = new Color(0.35f, 0.8f, 0.35f);
@@ -132,7 +131,7 @@ namespace SaveGameModLoader
                 ColorStyle.hoverColor = new Color(1f, 0.35f, 0.35f);
                 bgColorImage.colorStyleSetting = ColorStyle;
                 bgColorImage.ApplyColorStyleSetting();
-                BtnText.text = ModManagerStrings.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMOD;
+                BtnText.text = STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMOD;
                 Btn.ClearOnClick();
                 Btn.onClick += () =>
                 {
@@ -147,8 +146,8 @@ namespace SaveGameModLoader
         public void ShowMissingMods()
         {
             Manager.Dialog(Global.Instance.globalCanvas, 
-                ModManagerStrings.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSTITLE, 
-                string.Format(ModManagerStrings.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSDESC,
+                STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSTITLE, 
+                string.Format(STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSDESC,
                 ModListDifferences.Count,
                 MissingMods.Count,
                 ListMissingMods()));
@@ -173,8 +172,7 @@ namespace SaveGameModLoader
             }
             if (SortedNames.Count > 35)
             {
-                stringBuilder.AppendLine("and " + (SortedNames.Count - 35) + " more..");
-                stringBuilder.AppendLine("See the Player.log file for a full list.");
+                stringBuilder.AppendLine(String.Format(STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSDESCEND, SortedNames.Count - 35));
             }
 
             Console.WriteLine("-----[List End]-----");
