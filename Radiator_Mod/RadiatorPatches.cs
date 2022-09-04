@@ -41,7 +41,7 @@ namespace Radiator_Mod
                     InjectionMethods.AddBuildingStrings(HabitatMediumRadiator.ID, HabitatMediumRadiator.NAME, HabitatMediumRadiator.DESC, HabitatMediumRadiator.EFFECT);
 
                     //add special habitat module
-                    RocketryUtils.AddRocketModuleToBuildList(HabitatMediumRadiator.ID, "HabitatModuleMedium");
+                    RocketryUtils.AddRocketModuleToBuildList(HabitatMediumRadiator.ID, "HabitatModuleMedium", RocketryUtils.RocketCategory.habitats);
                 }
 
                 //add buildings to build menu

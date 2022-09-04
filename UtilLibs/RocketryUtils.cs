@@ -1,4 +1,6 @@
-﻿using HarmonyLib;
+﻿using Epic.OnlineServices.Platform;
+using HarmonyLib;
+using PeterHan.PLib.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,23 +9,169 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TUNING;
+using UnityEngine;
 
 namespace UtilLibs
 {
-    public class RocketryUtils
+    public static class RocketryUtils
     {
-        public static void AddRocketModuleToBuildList(string moduleId, string placebehind = "")
+        public const string CategoryDataKey = "Sgt_Imalas_RocketModuleSortOrder";
+        public const string CategoryInitKey = "Sgt_Imalas_VanillaRocketModulesCategorized";
+
+        public enum RocketCategory
         {
-            if (!SelectModuleSideScreen.moduleButtonSortOrder.Contains(moduleId)) { 
-            int i = -1;
-            if (placebehind != "")
+            engines = 0,
+            habitats = 1,
+            nosecones = 2,
+            deployables = 3,
+            fuel = 4,
+            cargo = 5,
+            power = 6,
+            production = 7,
+            utility = 8,
+            uncategorized = -1
+        }
+        public class RocketModuleList
+        {
+            public static Dictionary<int, List<string>>  GetRocketModuleList()
+
             {
-                 i = SelectModuleSideScreen.moduleButtonSortOrder.IndexOf(placebehind);
+                bool init = PRegistry.GetData<bool>(CategoryInitKey);
+                if (init == false)
+                {
+                    Debug.Log("Rocketry Expanded: Initializing global keys");
+                    PRegistry.PutData(CategoryInitKey, true);
+
+                    var moduleList = (Dictionary<int, List<string>>)new RocketModuleList().CategorizedButtonSortOrder;
+                    CategorizeVanillaModules(moduleList);
+                    PRegistry.PutData(CategoryDataKey, moduleList);
+                    return moduleList;
+                }
+                else
+                {
+                    var ReturnValue = PRegistry.GetData<Dictionary<int, List<string>>>(CategoryDataKey);
+                    //Debug.Log("Rocketry Expanded: Existing global categories found: " + ReturnValue);
+                    return ReturnValue;
+                }
             }
-            int j = (i == -1) ? SelectModuleSideScreen.moduleButtonSortOrder.Count : ++i;
-            SelectModuleSideScreen.moduleButtonSortOrder.Insert(j, moduleId);
+            public static void SetRocketModuleList(Dictionary<int, List<string>> list)
+            {
+                PRegistry.PutData(CategoryDataKey, list);
+            }
+
+
+            public bool VanillaModulesCategorized;
+            public Dictionary<int, List<string>> CategorizedButtonSortOrder;
+            public RocketModuleList()
+            {
+                CategorizedButtonSortOrder = new Dictionary<int, List<string>>
+                {
+                { (int)RocketCategory.engines,new List<string>()},
+                { (int)RocketCategory.habitats,new List<string>()},
+                { (int)RocketCategory.nosecones,new List<string>()},
+                { (int)RocketCategory.deployables,new List<string>()},
+                { (int)RocketCategory.fuel,new List<string>()},
+                { (int)RocketCategory.cargo,new List<string>()},
+                { (int)RocketCategory.power,new List<string>()},
+                { (int)RocketCategory.production,new List<string>()},
+                { (int)RocketCategory.utility,new List<string>()},
+                { (int)RocketCategory.uncategorized,new List<string>()},
+                };
             }
         }
+
+        public static void CategorizeRocketModule(string module, Dictionary<int, List<string>> sortedModules)
+        {
+            if (module.Contains("Engine"))
+            {
+                AddIfNotExists(sortedModules[(int)RocketCategory.engines],module);
+            }
+            else if (module.Contains("HabitatModule"))
+            {
+                AddIfNotExists(sortedModules[(int)RocketCategory.habitats], module);
+            }
+            else if (module.Contains("Nosecone"))
+            {
+                AddIfNotExists(sortedModules[(int)RocketCategory.nosecones], module);
+            }
+            else if (module == "OrbitalCargoModule" || module == "ScoutModule" || module == "PioneerModule")
+            {
+                AddIfNotExists(sortedModules[(int)RocketCategory.deployables],module);
+            }
+            else if (module.Contains("Tank"))
+            {
+                AddIfNotExists(sortedModules[(int)RocketCategory.fuel],module);
+            }
+            else if (module.Contains("CargoBay"))
+            {
+                AddIfNotExists(sortedModules[(int)RocketCategory.cargo],module);
+            }
+            else if (module.Contains("Battery") || module.Contains("SolarPanel"))
+            {
+                AddIfNotExists(sortedModules[(int)RocketCategory.power],module);
+            }
+            else if (module == "ScannerModule")
+            {
+                AddIfNotExists(sortedModules[(int)RocketCategory.utility],module);
+            }
+            else
+            {
+                Debug.LogWarning("No Category found for " + module);
+                AddIfNotExists(sortedModules[(int)RocketCategory.uncategorized], module);
+            }
+        }
+
+
+        public static bool AddIfNotExists<T>(List<T> list, T value)
+        {
+            if (!list.Contains(value))
+            {
+                list.Add(value);
+                return true;
+            }
+            return false;
+        }
+
+        public static void CategorizeVanillaModules(Dictionary<int, List<string>> categories)
+        {
+            var allModules = SelectModuleSideScreen.moduleButtonSortOrder;
+
+            foreach (var module in allModules)
+            {
+                CategorizeRocketModule(module, categories);
+            }
+            Debug.Log("Vanilla rocket parts categorized");
+        }
+
+        public static void AddRocketModuleToBuildList(
+            string moduleId,
+            string placebehind = "", 
+            RocketCategory category = RocketCategory.uncategorized)
+        {
+            var sorted = RocketModuleList.GetRocketModuleList();
+            if (!sorted[(int)category].Contains(moduleId))
+            {
+                    sorted[(int)category].Insert(
+                    GetInsertionIndex(sorted[(int)category], placebehind)
+                    , moduleId);
+                RocketModuleList.SetRocketModuleList(sorted);
+            }
+            if (!SelectModuleSideScreen.moduleButtonSortOrder.Contains(moduleId))
+            {
+
+                SelectModuleSideScreen.moduleButtonSortOrder.Insert(
+                    GetInsertionIndex(SelectModuleSideScreen.moduleButtonSortOrder, placebehind),
+                    moduleId);
+            }
+        }
+        public static int GetInsertionIndex(List<string> list, string indexID = "")
+        {
+            int startIndex = indexID != "" ? list.IndexOf(indexID) : -1;
+            int insertionIndex = (startIndex == -1) ? list.Count : ++startIndex;
+            return insertionIndex;
+        }
+
+
         public static Vector2I GetCustomInteriorSize(string templateString)
         {
             Regex getSize = new Regex(@"\(([0-9]*?)[,]([0-9]*?)\)");

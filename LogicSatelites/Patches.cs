@@ -34,7 +34,7 @@ namespace LogicSatellites
 
             public static void Prefix()
             {
-                RocketryUtils.AddRocketModuleToBuildList(SatelliteCarrierModuleConfig.ID);
+                RocketryUtils.AddRocketModuleToBuildList(SatelliteCarrierModuleConfig.ID,"", RocketryUtils.RocketCategory.deployables);
             }
         }
 

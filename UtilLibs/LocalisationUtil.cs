@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace UtilLibs
 {
-    public class LocalisationUtil
+    public static class LocalisationUtil
     {
         public static void Translate(Type root, bool generateTemplate = false)
         {
@@ -29,7 +29,7 @@ namespace UtilLibs
 
             if (code.IsNullOrWhiteSpace()) return;
 
-            string path = Path.Combine(UtilMethods.ModPath, "translations", code + ".po");
+            string path = Path.Combine(UtilMethods.ModPath, "translations", Localization.GetLocale().Code + ".po");
 
             if (File.Exists(path))
             {

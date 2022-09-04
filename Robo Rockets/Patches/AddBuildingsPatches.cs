@@ -18,7 +18,7 @@ namespace RoboRockets.Patches
 
             public static void Prefix()
             {
-                RocketryUtils.AddRocketModuleToBuildList(AIControlModuleConfig.ID, "HabitatModuleMedium");
+                RocketryUtils.AddRocketModuleToBuildList(AIControlModuleConfig.ID, "HabitatModuleMedium", RocketryUtils.RocketCategory.habitats);
             }
         }
 
