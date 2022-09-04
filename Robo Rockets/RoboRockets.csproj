@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
   <PropertyGroup>
     <PackageId>RoboRockets</PackageId>
-    <Version>2.2.1</Version>
+    <Version>2.2.3</Version>
     <Authors>Sgt_Imalas</Authors>
     <Copyright>2022 Sgt_Imalas</Copyright>
     <RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>

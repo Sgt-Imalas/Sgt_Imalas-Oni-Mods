@@ -166,15 +166,19 @@ namespace Robo_Rockets
             }
         }
 
-        [HarmonyPatch(typeof(WorldSelector))]
-        [HarmonyPatch(nameof(WorldSelector.OnWorldRowClicked))]
+        [HarmonyPatch(typeof(CameraController))]
+        [HarmonyPatch(nameof(CameraController.ActiveWorldStarWipe))]
+        [HarmonyPatch(new System.Type[] { typeof(int), typeof(System.Action) })]
         public class DisableViewInteriorWorldSelector_Patch
         {
             public static bool Prefix(int id)
             {
-                Debug.Log("Checking worldID if allowed to look into: " + id);
                 if (ModAssets.ForbiddenInteriorIDs.Contains(id))
+                {
+
+                    Debug.Log("WorldID is forbidden to look into: " + id);
                     return false;
+                }
                 return true;
             }
         }
