@@ -45,13 +45,13 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             };
             buildingDef.LogicOutputPorts = new List<LogicPorts.Port>()
             {
-                LogicPorts.Port.OutputPort((HashedString) "LaunchReady", new CellOffset(1, -3), 
+                LogicPorts.Port.OutputPort((HashedString) "LaunchReady", new CellOffset(3, 0), 
                 (string) global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.LOGIC_PORT_READY, 
                 (string) global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.LOGIC_PORT_READY_ACTIVE, 
                 (string) global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.LOGIC_PORT_READY_INACTIVE),
                 
-                LogicPorts.Port.OutputPort((HashedString) "LandedRocket", 
-                new CellOffset(0, 3), 
+                LogicPorts.Port.OutputPort((HashedString) "LandedRocket", new CellOffset(-3, 1)
+                , 
                 (string) global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.LOGIC_PORT_LANDED_ROCKET, 
                 (string) global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.LOGIC_PORT_LANDED_ROCKET_ACTIVE, 
                 (string) global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.LOGIC_PORT_LANDED_ROCKET_INACTIVE)

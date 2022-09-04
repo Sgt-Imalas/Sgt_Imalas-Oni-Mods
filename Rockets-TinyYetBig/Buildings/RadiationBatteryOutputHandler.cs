@@ -88,7 +88,7 @@ namespace Rockets_TinyYetBig
         }
 
 
-        public LocString CapacityUnits => UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES;
+        //public LocString CapacityUnits => UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES;
 
         public IStorage Storage => (IStorage)this.hepStorage;
         public EightDirection Direction
