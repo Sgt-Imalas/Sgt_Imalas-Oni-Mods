@@ -152,7 +152,7 @@ namespace SaveGameModLoader
         {
             public static void Prefix(MainMenu __instance)
             {
-                UIUtils.ListAllChildren(__instance.transform);
+                //UIUtils.ListAllChildren(__instance.transform);
                 string path;
                 if (KPlayerPrefs.HasKey("AutoResumeSaveFile"))
                 {

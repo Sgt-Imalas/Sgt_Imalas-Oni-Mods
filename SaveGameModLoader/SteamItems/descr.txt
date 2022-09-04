@@ -2,12 +2,12 @@
 
 [h1]Introduction[/h1]
 
-This mod stores the individual mod configs of your savegames and allows you to switch between different savegames with deviating mod lists with one click.
-To generate a mod list, just load the corresponding save or save your game with the mod enabled.
+This mod allows you to synchronize your enabled mods to those used in a save game.
+It stores the individual mod configs of your save games and allows you to switch between different configurations with deviating mod lists with one click.
 
-[h2]This is a beta release, there may be bugs. If you find one, please report it to me.[/h2]
+To generate a mod list, just load the corresponding save or save your game with this mod enabled.
 
-[h1]Current latest Version: 1.0.0[/h1]
+[h1]Current latest Version: 2.0.2[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
@@ -32,6 +32,13 @@ To generate a mod list, just load the corresponding save or save your game with 
 [*]Do not close the Sync Menu with a right click next to it, it will prevent the mod menu from refreshing until you hit one of the close buttons in either of the menus.
 [*]Mod Syncing is only supported in the main menu. I disabled it in the ingame load menu, since using that causes a base game bug which reinstalls and shuffles the entire modlist.
 [*]Crashes that happen while loading WILL wrongfully blame this mod for the crash. This happens due to the fact that modlists get created during loading. It is save to keep the mod enabled after such a crash, since these crashes often occur due to missing/not enabled mods.
+[/list] 
+
+
+[h1]Localisations[/h1]
+[list]
+[*]English
+[*]German
 [/list] 
 
 [hr][/hr]
