@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SgtImalasUtilityLib;
+using UtilLibs;
 
 namespace Rockets_TinyYetBig
 {
@@ -15,7 +15,7 @@ namespace Rockets_TinyYetBig
         {
             public static void Postfix()
             {
-                ImalasLocalisationUtil.Translate(typeof(STRINGS), true);
+                LocalisationUtil.Translate(typeof(STRINGS), true);
             }
         }
     }

@@ -54,8 +54,8 @@ namespace Rockets_TinyYetBig
 
                 public class RTB_HEPBATTERYMODULE
                 {
-                    public static LocString NAME = (LocString)UI.FormatAsLink("Radbolt Chamber Module", nameof(HEPBatteryModuleConfig)); public static 
-                        LocString DESC = (LocString)"Particles packed up and ready to visit the stars.";
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Radbolt Chamber Module", nameof(HEPBatteryModuleConfig)); 
+                    public static LocString DESC = (LocString)"Particles packed up and ready to visit the stars.";
                     public static LocString EFFECT = (LocString)("Stores Radbolts in a high-energy state, ready for transport.\n\n" +
                         "Requires a " + UI.FormatAsAutomationState("Green Signal", UI.AutomationState.Active) + " to release radbolts from storage when the Radbolt threshold is reached.\n\n" +
                         "Radbolts in storage won't decay as long as the modules solar panels can function.");

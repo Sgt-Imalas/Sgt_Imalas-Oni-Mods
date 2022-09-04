@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UtilLibs;
+using static UtilLibs.RocketryUtils;
 
 namespace RoboRockets.Rockets_TinyYetBig
 {
@@ -26,18 +27,19 @@ namespace RoboRockets.Rockets_TinyYetBig
             public static void Prefix()
             {
 
-                RocketryUtils.AddRocketModuleToBuildList(HabitatModuleSmallExpandedConfig.ID, HabitatModuleSmallConfig.ID);
-                RocketryUtils.AddRocketModuleToBuildList(HabitatModuleStargazerConfig.ID, NoseconeBasicConfig.ID);
-                RocketryUtils.AddRocketModuleToBuildList(HabitatModuleMediumExpandedConfig.ID, HabitatModuleMediumConfig.ID);
+                AddRocketModuleToBuildList(HabitatModuleSmallExpandedConfig.ID, HabitatModuleSmallConfig.ID, RocketryUtils.RocketCategory.habitats);
+                AddRocketModuleToBuildList(HabitatModuleStargazerConfig.ID, NoseconeBasicConfig.ID, RocketryUtils.RocketCategory.habitats);
+                AddRocketModuleToBuildList(HabitatModuleMediumExpandedConfig.ID, HabitatModuleMediumConfig.ID, RocketryUtils.RocketCategory.habitats);
 
-                RocketryUtils.AddRocketModuleToBuildList(HEPBatteryModuleConfig.ID, BatteryModuleConfig.ID);
-                RocketryUtils.AddRocketModuleToBuildList(CritterContainmentModuleConfig.ID, GasCargoBayClusterConfig.ID);
+                AddRocketModuleToBuildList(HEPBatteryModuleConfig.ID, BatteryModuleConfig.ID, RocketryUtils.RocketCategory.power);
+                AddRocketModuleToBuildList(CritterContainmentModuleConfig.ID, GasCargoBayClusterConfig.ID, RocketryUtils.RocketCategory.cargo);
 
-                RocketryUtils.AddRocketModuleToBuildList(NoseConeHEPHarvestConfig.ID, NoseconeHarvestConfig.ID);
+                AddRocketModuleToBuildList(NoseConeHEPHarvestConfig.ID, NoseconeHarvestConfig.ID, RocketCategory.nosecones);
 
-                RocketryUtils.AddRocketModuleToBuildList(GeneratorTestConfig.ID, BatteryModuleConfig.ID);
-                RocketryUtils.AddRocketModuleToBuildList(RTGModuleConfig.ID, BatteryModuleConfig.ID); 
-                RocketryUtils.AddRocketModuleToBuildList(SteamGeneratorModuleConfig.ID, BatteryModuleConfig.ID);
+                AddRocketModuleToBuildList(GeneratorTestConfig.ID, BatteryModuleConfig.ID, RocketCategory.power);
+                AddRocketModuleToBuildList(RTGModuleConfig.ID, BatteryModuleConfig.ID, RocketCategory.power);
+                AddRocketModuleToBuildList(SteamGeneratorModuleConfig.ID, BatteryModuleConfig.ID, RocketCategory.power);
+
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, BunkeredLaunchPadConfig.ID,null,LaunchPadConfig.ID);
             }
         }
@@ -60,8 +62,8 @@ namespace RoboRockets.Rockets_TinyYetBig
 
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, NoseConeHEPHarvestConfig.ID);
 
-                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.RadiationTechnologies.RadiationRefinement, RTGModuleConfig.ID);
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SuperheatedForging, BunkeredLaunchPadConfig.ID);
+                //InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.RadiationTechnologies.RadiationRefinement, RTGModuleConfig.ID);
             }
         }
     }
