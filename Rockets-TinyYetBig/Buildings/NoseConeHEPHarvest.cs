@@ -43,7 +43,7 @@ namespace Rockets_TinyYetBig.Buildings
             {
                 smi.HarvestFromPOI(dt);
                 double num = (double)this.lastHarvestTime.Set(Time.time, smi);
-            }), UpdateRate.SIM_4000ms).ParamTransition<bool>((StateMachine<NoseConeHEPHarvest, NoseConeHEPHarvest.StatesInstance, IStateMachineTarget, NoseConeHEPHarvest.Def>.Parameter<bool>)this.canHarvest, this.not_grounded.not_harvesting, GameStateMachine<NoseConeHEPHarvest, NoseConeHEPHarvest.StatesInstance, IStateMachineTarget, NoseConeHEPHarvest.Def>.IsFalse);
+            }), UpdateRate.SIM_4000ms).ParamTransition<bool>(this.canHarvest, this.not_grounded.not_harvesting, GameStateMachine<NoseConeHEPHarvest, NoseConeHEPHarvest.StatesInstance, IStateMachineTarget, NoseConeHEPHarvest.Def>.IsFalse);
         }
 
         public class Def : StateMachine.BaseDef
