@@ -12,6 +12,7 @@ namespace SaveGameModLoader
     internal class ModAssets
     {
         public static string ModPath;
+        public static string ModPacksPath;
         public static string ModID;
     }
 }

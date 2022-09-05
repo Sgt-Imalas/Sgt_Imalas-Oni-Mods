@@ -160,38 +160,47 @@ namespace SaveGameModLoader
                 }
                 else
                     path = string.IsNullOrEmpty(GenericGameSettings.instance.performanceCapture.saveGame) ? SaveLoader.GetLatestSaveForCurrentDLC() : GenericGameSettings.instance.performanceCapture.saveGame;
+#if DEBUG
+                //UIUtils.ListAllChildren(__instance.transform);
+#endif
+                Transform parentBar;
+                Transform contButton;
 
-                
-                var parentBar = __instance.transform.Find("MainMenuMenubar/MainMenuButtons");
-                var contButton = __instance.transform.Find("MainMenuMenubar/MainMenuButtons/Button_ResumeGame");
+                if (DlcManager.IsExpansion1Active()) 
+                { 
+                    parentBar = __instance.transform.Find("MainMenuMenubar/MainMenuButtons");
+                    contButton = __instance.transform.Find("MainMenuMenubar/MainMenuButtons/Button_ResumeGame");
+                }
+                else
+                {
+                    parentBar = __instance.transform.Find("UI Group/TopRight/MainMenuButtons");
+                    contButton = __instance.transform.Find("UI Group/TopRight/MainMenuButtons/Button_ResumeGame");
+                }
 
-                var bt = Util.KInstantiateUI(contButton.gameObject, parentBar.gameObject, true);
+                    var bt = Util.KInstantiateUI(contButton.gameObject, parentBar.gameObject, true);
 
-                string colonyName = SaveGameModList.GetModListFileName(path);
+                    string colonyName = SaveGameModList.GetModListFileName(path);
 
-                var colony =  ModlistManager.Instance.TryGetColonyModlist(colonyName);
-                bool interactable = colony != null ? colony.TryGetModListEntry(path)!=null : false;
+                    var colony =  ModlistManager.Instance.TryGetColonyModlist(colonyName);
+                    bool interactable = colony != null ? colony.TryGetModListEntry(path)!=null : false;
 
-                var button = bt.GetComponent<KButton>();
-                bt.name = "SyncAndContinue";
-                var internalText = bt.transform.Find("ResumeText").GetComponent<LocText>();
+                    var button = bt.GetComponent<KButton>();
+                    bt.name = "SyncAndContinue";
+                    var internalText = bt.transform.Find("ResumeText").GetComponent<LocText>();
 
-                internalText.text = STRINGS.UI.FRONTEND.MODSYNCING.CONTINUEANDSYNC;
+                    internalText.text = STRINGS.UI.FRONTEND.MODSYNCING.CONTINUEANDSYNC;
 
-                button.isInteractable = interactable;
-                button.ClearOnClick();
-                button.onClick +=
+                    button.isInteractable = interactable;
+                    button.ClearOnClick();
+                    button.onClick +=
                     () =>
                     {
                         ModlistManager.Instance.InstantiateModViewForPathOnly(path);
                     };
 
-
-                ModlistManager.Instance.ParentObjectRef = __instance.gameObject;
-
-
-                var SaveGameName = button.transform.Find("SaveNameText").gameObject;
-                UnityEngine.Object.Destroy(SaveGameName);
+                    ModlistManager.Instance.ParentObjectRef = __instance.gameObject;
+                    var SaveGameName = button.transform.Find("SaveNameText").gameObject;
+                    UnityEngine.Object.Destroy(SaveGameName);
             }
         }
 
@@ -262,11 +271,11 @@ namespace SaveGameModLoader
         [HarmonyPatch(typeof(SaveLoader))]
         [HarmonyPatch(nameof(SaveLoader.Save))]
         [HarmonyPatch(new Type[] { typeof(string), typeof(bool), typeof(bool) })]
-        public static class SaaveModConfigOnSave
+        public static class SaveModConfigOnSave
         {
             public static void Postfix(string filename, bool isAutoSave = false, bool updateSavePointer = true)
             {
-                Debug.Log(filename + isAutoSave + updateSavePointer);
+                //Debug.Log(filename + isAutoSave + updateSavePointer);
                 KMod.Manager modManager = Global.Instance.modManager;
 
                 var enabledModLabels = modManager.mods.FindAll(mod => mod.IsActive() == true).Select(mod => mod.label).ToList();

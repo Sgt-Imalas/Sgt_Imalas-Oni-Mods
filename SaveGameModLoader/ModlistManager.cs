@@ -15,6 +15,7 @@ namespace SaveGameModLoader
     public class ModlistManager
     {
         public Dictionary<string,SaveGameModList> Modlists = new();
+        public Dictionary<string, SaveGameModList> ModPacks = new();
         private static readonly Lazy<ModlistManager> _instance = new Lazy<ModlistManager>(() => new ModlistManager());
 
         public static ModlistManager Instance { get { return _instance.Value; } }
@@ -226,14 +227,41 @@ namespace SaveGameModLoader
             var allMods = modManager.mods.Select(mod => mod.label).ToList();
             var enabledModLabels = modManager.mods.FindAll(mod => mod.IsActive() == true).Select(mod => mod.label).ToList();
 
+            ///Workaroundarea for ONY mods
+            bool ONYModActivated = false;
+            foreach(var mod in enabledModLabels)
+            {
+                if (mod.title.Contains("by @Ony"))
+                {
+                    ONYModActivated = true;
+                    break;
+                }
+            }
+            if (!ONYModActivated) { 
+            for (int i = 0; i < modList.Count; i++)
+            {
+                if (modList[i].title.Contains("by @Ony ") && !modList[i].title.Contains("👾"))
+                {
+                    var replaceModLabel = modList[i];
+
+                    Debug.LogWarning("Tell @Ony to remove the stupid Emoji from the mod title of: " +replaceModLabel.title);
+
+                    replaceModLabel.title = replaceModLabel.title+ "👾";
+                    modList[i] = replaceModLabel;
+                }
+            }
+            }
+            ///End Workaroundarea
+            
             var enabledButNotSavedMods = enabledModLabels.Except(modList).ToList();
             var savedButNotEnabledMods = modList.Except(enabledModLabels).ToList();
 
             MissingMods = modList.Except(allMods).ToList();
-            //Debug.Log("MissingMOds");
-            //foreach (var m in MissingMods) Debug.Log(m.title);
-            //Debug.Log("MissingMOds");
-
+#if DEBUG
+            Debug.Log("MissingMods start");
+            foreach (var m in MissingMods) Debug.Log(m.title);
+            Debug.Log("MissingMods end");
+#endif
             ModListDifferences.Clear();
             foreach(var toDisable in enabledButNotSavedMods)
             {
@@ -300,6 +328,26 @@ namespace SaveGameModLoader
                 catch(Exception e)
                 {
                     Debug.LogError("Couln't load modlist from: " + modlist + ", Error: "+e);
+                }
+            }
+            //Debug.Log("Found Mod Configs for " + files.Count() + " Colonies");
+        }
+        public void GetModPacks()
+        {
+            ModPacks.Clear();
+            MissingMods.Clear();
+            var files = Directory.GetFiles(ModAssets.ModPacksPath);
+            foreach (var modlist in files)
+            {
+                try
+                {
+                    //Debug.Log("Trying to load: " + modlist);
+                    var list = SaveGameModList.ReadModlistListFromFile(modlist);
+                    ModPacks.Add(list.ReferencedColonySaveName, list);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("Couln't load modlist from: " + modlist + ", Error: " + e);
                 }
             }
             //Debug.Log("Found Mod Configs for " + files.Count() + " Colonies");
