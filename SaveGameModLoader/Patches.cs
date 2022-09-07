@@ -107,28 +107,32 @@ namespace SaveGameModLoader
                 }
             }
         }
+        [HarmonyPatch(typeof(ModsScreen), "OnActivate")]
         public static class ModsScreen_AddModListButton
         {
-            public  static void Postfix()
-        {
-            ///Add Modlist Button
-
-            var modlistButtonGO = Util.KInstantiateUI<RectTransform>(workShopButton.gameObject, DetailsView, true);
-        var modlistButtonText = modlistButtonGO.Find("Text").GetComponent<LocText>();
-        modlistButtonText.text = STRINGS.UI.FRONTEND.MODSYNCING.MODPACKSBUTTON;
-            var modlistButton = modlistButtonGO.GetComponent<KButton>();
-        modlistButton.ClearOnClick();
-            modlistButton.onClick += () =>
+            public  static void Postfix(ModsScreen __instance)
             {
+                ///Add Modlist Button
+                var workShopButton = __instance.transform.Find("Panel/DetailsView/WorkshopButton");
+                var DetailsView = __instance.transform.Find("Panel/DetailsView").gameObject;
+                if (__instance.gameObject.name == "SYNCSCREEN")
+                    return;
+                var modlistButtonGO = Util.KInstantiateUI<RectTransform>(workShopButton.gameObject, DetailsView, true);
+                modlistButtonGO.name = "ModListsButton";
+                var modlistButtonText = modlistButtonGO.Find("Text").GetComponent<LocText>();
+                modlistButtonText.text = STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTSBUTTON;
+                modlistButtonGO.FindOrAddUnityComponent<ToolTip>().SetSimpleTooltip(STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTSBUTTONINFO);
+                var modlistButton = modlistButtonGO.GetComponent<KButton>();
+                modlistButton.ClearOnClick();
+                modlistButton.onClick += () =>
+                {
                 ///Util.KInstantiateUI(ScreenPrefabs.Instance.RailModUploadMenu.gameObject, modScreen.gameObject, true); ///HMMM; great if modified for modpack creation
-                var window = Util.KInstantiateUI(ScreenPrefabs.Instance.languageOptionsScreen.gameObject);
-        //var window = Util.KInstantiateUI(ScreenPrefabs.Instance.ModeSelectScreen.gameObject);
-        window.SetActive(false);
-                var copy = window.transform;
-        UnityEngine.Object.Destroy(window);
-
-                var newScreen = Util.KInstantiateUI(copy.gameObject, modScreen.gameObject, true);
-        newScreen.AddComponent(typeof(ModListScreen));
+                    var window = Util.KInstantiateUI(ScreenPrefabs.Instance.languageOptionsScreen.gameObject);
+                    window.SetActive(false);
+                    var copy = window.transform;
+                    UnityEngine.Object.Destroy(window);
+                    var newScreen = Util.KInstantiateUI(copy.gameObject, __instance.gameObject, true);
+                    newScreen.AddComponent(typeof(ModListScreen));
 
                 }; 
             }
@@ -179,7 +183,6 @@ namespace SaveGameModLoader
         {
             public static void Prefix(MainMenu __instance)
             {
-                //UIUtils.ListAllChildren(__instance.transform);
                 string path;
                 if (KPlayerPrefs.HasKey("AutoResumeSaveFile"))
                 {
@@ -188,7 +191,7 @@ namespace SaveGameModLoader
                 else
                     path = string.IsNullOrEmpty(GenericGameSettings.instance.performanceCapture.saveGame) ? SaveLoader.GetLatestSaveForCurrentDLC() : GenericGameSettings.instance.performanceCapture.saveGame;
 #if DEBUG
-                //UIUtils.ListAllChildren(__instance.transform);
+                UIUtils.ListAllChildren(__instance.transform);
 #endif
                 Transform parentBar;
                 Transform contButton;

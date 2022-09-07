@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UtilLibs;
 
 namespace SaveGameModLoader
 {
     class ModListScreen : KModalScreen
     {
+        private GameObject ButtonPrefab;
+        private GameObject ContentParentStandalone;
+        List<GameObject> buttonRefs = new();
+
         protected override void OnSpawn()
         {
             base.OnSpawn();
@@ -20,8 +25,11 @@ namespace SaveGameModLoader
 #endif
             var TitleBar = transform.Find("Content/BG/TitleBar");
 
-            TitleBar.Find("Title").GetComponent<LocText>().text = "Modpacks";
+            TitleBar.Find("Title").GetComponent<LocText>().text = STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTWINDOWTITLE;
             TitleBar.Find("CloseButton").GetComponent<KButton>().onClick += new System.Action(((KScreen)this).Deactivate);
+
+            ContentParentStandalone = transform.Find("Content/ScrollWindow/Viewport/Content/PreinstalledContent").gameObject;
+            
 
             var ButtonBar = transform.Find("Content/BG/Buttons");
 
@@ -30,20 +38,58 @@ namespace SaveGameModLoader
 
             var OpenModPackFolderButtonGO  = ButtonBar.Find("DoneButton") ;
             var CreateMPButtonGO = ButtonBar.Find("WorkshopButton");
-            var DoneButtonGO = Util.KInstantiateUI(CreateMPButtonGO.gameObject,ButtonBar.gameObject,true);
+
+            ButtonPrefab = CreateMPButtonGO.gameObject;
+            var DoneButtonGO = Util.KInstantiateUI(ButtonPrefab, ButtonBar.gameObject,true);
 
             var DoneButton = DoneButtonGO.transform;
-            DoneButton.Find("Label").GetComponent<LocText>().text = "Done";
+            DoneButton.Find("Label").GetComponent<LocText>().text = global::STRINGS.UI.FRONTEND.DONE_BUTTON;
             DoneButton.GetComponent<KButton>().onClick += new System.Action(((KScreen)this).Deactivate);
 
-            CreateMPButtonGO.Find("Label").GetComponent<LocText>().text = "Create Modpack";
-            CreateMPButtonGO.FindOrAddUnityComponent<ToolTip>().SetSimpleTooltip("Create a new Modpack from your current mod config");
+            CreateMPButtonGO.Find("Label").GetComponent<LocText>().text = STRINGS.UI.FRONTEND.MODLISTVIEW.EXPORTMODLISTBUTTON;
+            CreateMPButtonGO.FindOrAddUnityComponent<ToolTip>().SetSimpleTooltip(STRINGS.UI.FRONTEND.MODLISTVIEW.EXPORTMODLISTBUTTONINFO);
             CreateMPButtonGO.GetComponent<KButton>().onClick += new System.Action(this.OnClickNewModPack);
 
-            OpenModPackFolderButtonGO.Find("Label").GetComponent<LocText>().text = "Open Modpack Folder";
-            OpenModPackFolderButtonGO.FindOrAddUnityComponent<ToolTip>().SetSimpleTooltip("Open the Modpack Folder to see all installed your modpacks");
+            OpenModPackFolderButtonGO.Find("Label").GetComponent<LocText>().text = STRINGS.UI.FRONTEND.MODLISTVIEW.OPENMODLISTFOLDERBUTTON;
+            OpenModPackFolderButtonGO.FindOrAddUnityComponent<ToolTip>().SetSimpleTooltip(STRINGS.UI.FRONTEND.MODLISTVIEW.OPENMODLISTFOLDERBUTTONINFO);
             OpenModPackFolderButtonGO.GetComponent<KButton>().onClick += () => App.OpenWebURL("file://" + ModAssets.ModPacksPath);
+            RefreshModlistView();
+        }
 
+        public void RefreshModlistView()
+        {
+            ModlistManager.Instance.GetAllStoredModlists();
+            ModlistManager.Instance.GetAllModPacks();
+            foreach (var btnToRemove in buttonRefs)
+            {
+                UnityEngine.Object.Destroy(btnToRemove);
+            }
+#if DEBUG
+            Debug.Log("Exported Lists:");
+#endif
+            foreach (var exportedList in ModlistManager.Instance.ModPacks)
+            {
+#if DEBUG
+                Debug.Log(exportedList.Key);
+#endif
+                var contentbutton = Util.KInstantiateUI(ButtonPrefab, ContentParentStandalone, true);
+                contentbutton.transform.Find("Label").GetComponent<LocText>().text = exportedList.Key;
+                buttonRefs.Add(contentbutton);
+                contentbutton.GetComponent<KButton>().onClick += () => ModlistManager.Instance.InstantiateModViewFromGridView(exportedList.Value.SavePoints.Last().Value, this.gameObject);
+            }
+#if DEBUG
+            Debug.Log("Savegames:");
+#endif
+            foreach (var saveGameList in ModlistManager.Instance.Modlists)
+            {
+#if DEBUG
+                Debug.Log(saveGameList.Key);
+#endif
+                var contentbutton = Util.KInstantiateUI(ButtonPrefab, ContentParentStandalone, true);
+                contentbutton.transform.Find("Label").GetComponent<LocText>().text = saveGameList.Key;
+                buttonRefs.Add(contentbutton);
+                contentbutton.GetComponent<KButton>().onClick += () => ModlistManager.Instance.InstantiateModViewFromGridView(saveGameList.Value.SavePoints.Last().Value, this.gameObject);
+            }
         }
         public void OnClickNewModPack()
         {
@@ -54,8 +100,7 @@ namespace SaveGameModLoader
             UnityEngine.Object.Destroy(Prefab);
 
             var newScreen = Util.KInstantiateUI(copy.gameObject, this.gameObject, true);
-            newScreen.AddComponent(typeof(StoreModPackNameScreen));
-
+            newScreen.AddComponent<StoreModPackNameScreen>().parent = this;
             //var fileNameDialog = (FileNameDialog)KScreenManager.Instance.StartScreen(fileNameDialogGO, this.transform.parent.gameObject);
 
             //fileNameDialog.onConfirm = (System.Action<string>)(filename =>

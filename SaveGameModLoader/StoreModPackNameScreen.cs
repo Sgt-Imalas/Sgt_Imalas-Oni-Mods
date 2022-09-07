@@ -10,6 +10,8 @@ namespace SaveGameModLoader
     class StoreModPackNameScreen : KModalScreen
     {
         KInputTextField textField;
+        public ModListScreen parent;
+
         protected override void OnSpawn()
         {
             base.OnSpawn();
@@ -22,7 +24,7 @@ namespace SaveGameModLoader
 #endif
             var TitleBar = transform.Find("Panel/Title_BG");
 
-            TitleBar.Find("Title").GetComponent<LocText>().text = "Create Modpack";
+            TitleBar.Find("Title").GetComponent<LocText>().text = STRINGS.UI.FRONTEND.MODSYNCING.EXPORTMODLISTCONFIRMSCREEN;
             TitleBar.Find("CloseButton").GetComponent<KButton>().onClick += new System.Action(((KScreen)this).Deactivate);
 
             var ContentBar = transform.Find("Panel/Body");
@@ -43,14 +45,15 @@ namespace SaveGameModLoader
         {
             var fileName = textField.text;
             SaveModPack(fileName);
-            ModlistManager.Instance.GetModPacks();
+            ModlistManager.Instance.GetAllModPacks();
+            parent.RefreshModlistView();
         }
         public void SaveModPack(string fileName)
         {
             fileName = fileName.Replace(".sav", ".json");
             var enabledModLabels = Global.Instance.modManager.mods.FindAll(mod => mod.IsActive() == true).Select(mod => mod.label).ToList();
             ModlistManager.Instance.CreateOrAddToModPacks(fileName, enabledModLabels);
-            ModlistManager.Instance.GetModPacks();
+            ModlistManager.Instance.GetAllModPacks();
         }
     }
 }

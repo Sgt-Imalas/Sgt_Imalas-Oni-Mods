@@ -41,22 +41,26 @@ namespace SaveGameModLoader
             return result;
         }
 
+        public void InstantiateModViewFromGridView(List<KMod.Label> mods, GameObject parent)
+        {
+            InstantiateModView(mods, parent);
+        }
 
         /// <summary>
         /// Create a modified Modview for syncing
         /// </summary>
         /// <param name="mods"></param>
-        public void InstantiateModView(List<KMod.Label> mods)
+        public void InstantiateModView(List<KMod.Label> mods, GameObject parent = null)
         {
             IsSyncing = true;
             AssignModDifferences(mods);
+            var ParentGO = parent == null ? ParentObjectRef : parent;
 
-
-
-            var modScreen = Util.KInstantiateUI<ModsScreen>(ScreenPrefabs.Instance.modsMenu.gameObject, ParentObjectRef).transform;
-
-            //UIUtils.ListAllChildren(modScreen);
-
+            var modScreen = Util.KInstantiateUI<ModsScreen>(ScreenPrefabs.Instance.modsMenu.gameObject, ParentGO).transform;
+#if DEBUG
+            UIUtils.ListAllChildren(modScreen);
+#endif
+            modScreen.gameObject.name = "SYNCSCREEN";
             ///Set Title of Mod Sync Screen.
             modScreen.Find("Panel/Title/Title").GetComponent<LocText>().text = STRINGS.UI.FRONTEND.MODSYNCING.MODDIFFS;
 
@@ -72,6 +76,9 @@ namespace SaveGameModLoader
             var ToggleAllButton = ToggleAll.GetComponent<KButton>();
             ToggleAllButton.isInteractable = ModListDifferences.Count > 0;
             ToggleAll.gameObject.SetActive(ModListDifferences.Count > 0);
+
+            //var rmRecursionBtn = modScreen.Find("Panel/DetailsView/ModListsButton");
+            //rmRecursionBtn.gameObject.SetActive(false);
 
             //UnityEngine.Object.Destroy(togglebtn);
             ///Make Close button to "SyncSelected"-button
@@ -339,7 +346,7 @@ namespace SaveGameModLoader
             }
             //Debug.Log("Found Mod Configs for " + files.Count() + " Colonies");
         }
-        public void GetModPacks()
+        public void GetAllModPacks()
         {
             ModPacks.Clear();
             MissingMods.Clear();
