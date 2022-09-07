@@ -13,8 +13,8 @@ namespace Rockets_TinyYetBig
         public const string ID = "RTB_HabitatModuleMediumExpanded";
         private ConduitPortInfo gasInputPort = new ConduitPortInfo(ConduitType.Gas, new CellOffset(-2, 0));
         private ConduitPortInfo gasOutputPort = new ConduitPortInfo(ConduitType.Gas, new CellOffset(2, 0));
-        private ConduitPortInfo liquidInputPort = new ConduitPortInfo(ConduitType.Liquid, new CellOffset(-2, 3));
-        private ConduitPortInfo liquidOutputPort = new ConduitPortInfo(ConduitType.Liquid, new CellOffset(2, 3));
+        private ConduitPortInfo liquidInputPort = new ConduitPortInfo(ConduitType.Liquid, new CellOffset(-2, 5));
+        private ConduitPortInfo liquidOutputPort = new ConduitPortInfo(ConduitType.Liquid, new CellOffset(2, 5));
 
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
 
@@ -80,6 +80,7 @@ namespace Rockets_TinyYetBig
             rocketConduitSender1.conduitStorage = storage1;
             rocketConduitSender1.conduitPortInfo = this.liquidInputPort;
             go.AddComponent<RocketConduitReceiver>().conduitPortInfo = this.liquidOutputPort;
+            
             Storage storage2 = go.AddComponent<Storage>();
             storage2.showInUI = false;
             storage2.capacityKg = 1f;

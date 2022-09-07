@@ -121,15 +121,9 @@ namespace Rockets_TinyYetBig
 #if DEBUG
                         Debug.Log("Category:");
                         UIUtils.ListAllChildren(categoryGO.transform);
-                        //Debug.Log("HR:");
-                        //UIUtils.ListChildrenHR(component);
 
 #endif
                         __instance.categories.Add(categoryGO);
-
-                        var header = component.GetReference<LocText>("label");
-                        var copy = header.textStyleSetting;
-                        copy.textColor = Color.black;
 
                         //header.key = ((RocketCategory)category.Key).ToString();
                         //header.enabled = true;
@@ -161,13 +155,12 @@ namespace Rockets_TinyYetBig
                         foldButton.isInteractable = true;
                         var buttonText = foldButtonGO.transform.Find("Label").GetComponent<LocText>();
                         buttonText.text = ((RocketCategory)category.Key).ToString().ToUpperInvariant();
-                        buttonText.textStyleSetting = copy;
 
                         headergo.transform.Find("BG").gameObject.SetActive(false);
                         CategoryText.gameObject.SetActive(false);
 
                         Transform reference = component.GetReference<Transform>("content");
-                    List<GameObject> prefabsWithComponent = Assets.GetPrefabsWithComponent<RocketModuleCluster>();
+                        List<GameObject> prefabsWithComponent = Assets.GetPrefabsWithComponent<RocketModuleCluster>();
                         foreach (string str in category.Value)
                         {
                             string id = str;
@@ -193,8 +186,6 @@ namespace Rockets_TinyYetBig
                                     __instance.SelectModule(selectedModuleReflec);
                             }
                         }
-                        Debug.Log("Category2:");
-                        UIUtils.ListAllChildren(categoryGO.transform);
                     }
                 }
                 var updateMethod = typeof(SelectModuleSideScreen).GetMethod("UpdateBuildableStates", BindingFlags.NonPublic | BindingFlags.Instance);
