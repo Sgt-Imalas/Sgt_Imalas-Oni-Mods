@@ -18,6 +18,7 @@ namespace SaveGameModLoader
                     public static LocString MISSINGMOD = "MISSING MODS!";
                     public static LocString ALLSYNCED = "ALL MODS SYNCED, CLOSE";
 
+                    public static LocString MODPACKSBUTTON = "MODPACKS";
 
                     public static LocString MISSINGMODSTITLE = "MISSING MODS";
                     public static LocString MISSINGMODSDESC = "Stored config has {0} mods, but these {1} are not installed:{2}";

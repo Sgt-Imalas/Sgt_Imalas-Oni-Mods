@@ -35,13 +35,13 @@ namespace SaveGameModLoader
                 string fileName = (string)ContainerOpener.GetType().GetField("FileName").GetValue(ContainerOpener);
 
                 var btn = entry.Find("SyncButton").GetComponent<KButton>();
-                
+
                 if (btn != null)
                 {
                     var colonyList = ModlistManager.Instance.TryGetColonyModlist(baseName);
                     var saveGameEntry = colonyList != null ? colonyList.TryGetModListEntry(fileName) : null;
 
-                    btn.isInteractable = colonyList !=null && saveGameEntry !=null && App.GetCurrentSceneName() == "frontend";
+                    btn.isInteractable = colonyList != null && saveGameEntry != null && App.GetCurrentSceneName() == "frontend";
                     btn.onClick += (() =>
                     {
                         ModlistManager.Instance.InstantiateModViewForPathOnly(fileName);
@@ -91,7 +91,7 @@ namespace SaveGameModLoader
         [HarmonyPatch(typeof(ModsScreen), "Exit")]
         public static class SyncModeOff
         {
-            public static void Postfix( )
+            public static void Postfix()
             {
                 ModlistManager.Instance.IsSyncing = false;
             }
@@ -107,6 +107,33 @@ namespace SaveGameModLoader
                 }
             }
         }
+        public static class ModsScreen_AddModListButton
+        {
+            public  static void Postfix()
+        {
+            ///Add Modlist Button
+
+            var modlistButtonGO = Util.KInstantiateUI<RectTransform>(workShopButton.gameObject, DetailsView, true);
+        var modlistButtonText = modlistButtonGO.Find("Text").GetComponent<LocText>();
+        modlistButtonText.text = STRINGS.UI.FRONTEND.MODSYNCING.MODPACKSBUTTON;
+            var modlistButton = modlistButtonGO.GetComponent<KButton>();
+        modlistButton.ClearOnClick();
+            modlistButton.onClick += () =>
+            {
+                ///Util.KInstantiateUI(ScreenPrefabs.Instance.RailModUploadMenu.gameObject, modScreen.gameObject, true); ///HMMM; great if modified for modpack creation
+                var window = Util.KInstantiateUI(ScreenPrefabs.Instance.languageOptionsScreen.gameObject);
+        //var window = Util.KInstantiateUI(ScreenPrefabs.Instance.ModeSelectScreen.gameObject);
+        window.SetActive(false);
+                var copy = window.transform;
+        UnityEngine.Object.Destroy(window);
+
+                var newScreen = Util.KInstantiateUI(copy.gameObject, modScreen.gameObject, true);
+        newScreen.AddComponent(typeof(ModListScreen));
+
+                }; 
+            }
+        }
+
         [HarmonyPatch(typeof(LoadScreen), "OnPrefabInit")]
         public static class AddModSyncButtonToLoadscreen
         {

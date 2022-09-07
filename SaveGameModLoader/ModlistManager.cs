@@ -42,6 +42,10 @@ namespace SaveGameModLoader
         }
 
 
+        /// <summary>
+        /// Create a modified Modview for syncing
+        /// </summary>
+        /// <param name="mods"></param>
         public void InstantiateModView(List<KMod.Label> mods)
         {
             IsSyncing = true;
@@ -63,30 +67,33 @@ namespace SaveGameModLoader
                 Debug.LogError("Couldnt add buttons to Sync Menu");
                 return;
             }
-            ///Disable toggle all button
+            ///Disable toggle all button if no mods are in the list
             var ToggleAll = modScreen.Find("Panel/DetailsView/ToggleAllButton");
             var ToggleAllButton = ToggleAll.GetComponent<KButton>();
             ToggleAllButton.isInteractable = ModListDifferences.Count > 0;
             ToggleAll.gameObject.SetActive(ModListDifferences.Count > 0);
 
             //UnityEngine.Object.Destroy(togglebtn);
-            ///Add Syncing to close button
+            ///Make Close button to "SyncSelected"-button
             var closeBtObj = modScreen.Find("Panel/DetailsView/CloseButton");
             var closeBt = closeBtObj.GetComponent<KButton>();
             closeBt.isInteractable = ModListDifferences.Count > 0 && ModListDifferences.Count > MissingMods.Count;
             closeBt.onClick += () => { AutoRestart(modScreen.GetComponent<ModsScreen>()); };
             closeBtObj.Find("Text").GetComponent<LocText>().text = STRINGS.UI.FRONTEND.MODSYNCING.SYNCSELECTED;
+            closeBtObj.name = "SyncSelectedButton";
 
+            ///Sync all mods button
             var SyncAllButtonObject = Util.KInstantiateUI<RectTransform>(workShopButton.gameObject, DetailsView, true);
             SyncAllButtonObject.name = "SyncAllModsButton";
             SyncAllButtonObject.Find("Text").GetComponent<LocText>().text = STRINGS.UI.FRONTEND.MODSYNCING.SYNCALL;
-
             var SyncAllButton = SyncAllButtonObject.GetComponentInChildren<KButton>(true);
             SyncAllButton.ClearOnClick();
             SyncAllButton.isInteractable = ModListDifferences.Count > 0;
             SyncAllButton.onClick += () => { SyncAllMods(modScreen.GetComponent<ModsScreen>(), null); };
 
 
+
+            ///new Close button
             var NewCloseButtonObject = Util.KInstantiateUI<RectTransform>(workShopButton.gameObject, DetailsView, true);
             NewCloseButtonObject.name = "newCloseButton";
             NewCloseButtonObject.Find("Text").GetComponent<LocText>().text = global::STRINGS.UI.CREDITSSCREEN.CLOSEBUTTON; 
@@ -109,6 +116,7 @@ namespace SaveGameModLoader
             var Btn = missingModListEntry.GetComponent<KButton>();
 
 
+            workShopButton.gameObject.SetActive(false);
             if (MissingMods.Count == 0 && ModListDifferences.Count == 0)
             {
                 BtnText.text = STRINGS.UI.FRONTEND.MODSYNCING.ALLSYNCED;
@@ -222,7 +230,6 @@ namespace SaveGameModLoader
 
             var thisMod = modManager.mods.Find(mod => mod.label.id == ModAssets.ModID).label;
 
-           // Debug.Log(thisMod+"§§§§§§§§§§ EEEEEEEEEEEE");
 
             var allMods = modManager.mods.Select(mod => mod.label).ToList();
             var enabledModLabels = modManager.mods.FindAll(mod => mod.IsActive() == true).Select(mod => mod.label).ToList();
@@ -243,10 +250,10 @@ namespace SaveGameModLoader
                 if (modList[i].title.Contains("by @Ony ") && !modList[i].title.Contains("👾"))
                 {
                     var replaceModLabel = modList[i];
-
-                    Debug.LogWarning("Tell @Ony to remove the stupid Emoji from the mod title of: " +replaceModLabel.title);
-
-                    replaceModLabel.title = replaceModLabel.title+ "👾";
+#if DEBUG
+                        Debug.LogWarning("Tell @Ony to remove the stupid Emoji from the mod title of: " +replaceModLabel.title);
+#endif
+                        replaceModLabel.title = replaceModLabel.title+ "👾";
                     modList[i] = replaceModLabel;
                 }
             }
@@ -327,7 +334,7 @@ namespace SaveGameModLoader
                 }
                 catch(Exception e)
                 {
-                    Debug.LogError("Couln't load modlist from: " + modlist + ", Error: "+e);
+                    Debug.LogError("Couln't load savegamemod list from: " + modlist + ", Error: "+e);
                 }
             }
             //Debug.Log("Found Mod Configs for " + files.Count() + " Colonies");
@@ -347,7 +354,7 @@ namespace SaveGameModLoader
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError("Couln't load modlist from: " + modlist + ", Error: " + e);
+                    Debug.LogError("Couln't load Mod list from: " + modlist + ", Error: " + e);
                 }
             }
             //Debug.Log("Found Mod Configs for " + files.Count() + " Colonies");
@@ -372,6 +379,38 @@ namespace SaveGameModLoader
                 Debug.Log("New mod list added for: " + savePath);
             else
                 Debug.Log("mod list overwritten for: "+ savePath);
+
+            return hasBeenInitialized | subListInitialized;
+
+        }
+
+
+        public bool CreateOrAddToModPacks(string savePath, List<KMod.Label> list)
+        {
+            bool hasBeenInitialized = false;
+
+            ModPacks.TryGetValue(savePath, out SaveGameModList ModPackFile);
+
+            if (ModPackFile == null)
+            {
+                hasBeenInitialized = true;
+                ModPackFile = new SaveGameModList(savePath,true);
+            }
+
+            int versionNumber = ModPackFile.SavePoints.Count + 1;
+
+            var VersionString = "Version " + versionNumber.ToString();
+
+            bool subListInitialized = ModPackFile.AddOrUpdateEntryToModList(VersionString, list,true);
+#if DEBUG
+            Debug.Log(savePath + "<>"+ VersionString);
+#endif
+
+            ModPacks[(savePath)] = ModPackFile;
+            if (hasBeenInitialized)
+                Debug.Log("New mod pack file created: " + savePath);
+            if (subListInitialized)
+                Debug.Log("New mod pack added for: " + savePath);
 
             return hasBeenInitialized | subListInitialized;
 

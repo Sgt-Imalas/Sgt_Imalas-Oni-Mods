@@ -13,6 +13,7 @@ namespace SaveGameModLoader
     {
         public string ReferencedColonySaveName;
         public string ModlistPath;
+        public bool IsModPack = false;
 
         public Dictionary<string, List<KMod.Label>> SavePoints = new();
 
@@ -45,10 +46,18 @@ namespace SaveGameModLoader
         /// </summary>
         /// <param name="referencedColonySave"></param>
         /// <param name="guid"></param>
-        public SaveGameModList(string referencedColonySave)
+        public SaveGameModList(string referencedColonySave, bool _isModPack=false)
         {
-            ReferencedColonySaveName = GetModListFileName(referencedColonySave);
-            ModlistPath = GetModListFileName(referencedColonySave);
+            if (!_isModPack) { 
+                ReferencedColonySaveName = GetModListFileName(referencedColonySave);
+                ModlistPath = GetModListFileName(referencedColonySave);
+            }
+            else
+            {
+                ReferencedColonySaveName = referencedColonySave;
+                ModlistPath = referencedColonySave;
+            }
+
         }
 
         public static string GetModListFileName(string pathOfReference)
@@ -66,8 +75,16 @@ namespace SaveGameModLoader
         {
             try 
             {
-                Debug.Log("Writing mod config to " + ModlistPath);
-                File.WriteAllText(ModAssets.ModPath+ModlistPath + ".json", JsonConvert.SerializeObject(this));
+                if (!this.IsModPack)
+                {
+                    Debug.Log("Writing mod config to " + ModlistPath);
+                    File.WriteAllText(ModAssets.ModPath + ModlistPath + ".json", JsonConvert.SerializeObject(this));
+                }
+                else
+                {
+                    Debug.Log("Writing mod pack to " + ModlistPath);
+                    File.WriteAllText(ModAssets.ModPacksPath + ModlistPath + ".json", JsonConvert.SerializeObject(this));
+                }
             }
             catch(Exception e)
             {
@@ -80,8 +97,9 @@ namespace SaveGameModLoader
             this.SavePoints.TryGetValue(path, out var result);
             return result;
         }
-        public bool AddOrUpdateEntryToModList(string subSavePath, List<KMod.Label> mods)
+        public bool AddOrUpdateEntryToModList(string subSavePath, List<KMod.Label> mods, bool isModPack = false)
         {
+            this.IsModPack = isModPack;
             bool hasBeenInitialized = false;
             if (TryGetModListEntry(subSavePath) == null)
             {
