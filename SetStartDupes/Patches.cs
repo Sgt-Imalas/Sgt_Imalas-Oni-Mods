@@ -41,6 +41,12 @@ namespace SetStartDupes
                 {
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, AdjustNumber));
                 }
+                else
+                    Debug.Log("ONY!!!!!");
+#if DEBUG
+                foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
+#endif
+
 
                 return code;
             }
@@ -92,7 +98,7 @@ namespace SetStartDupes
                     {
                         if (locText.key == "STRINGS.UI.IMMIGRANTSCREEN.SELECTYOURCREW")
                         {
-                            locText.key = "STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURCREW";
+                            locText.key = StartDupeConfig.Instance.DuplicantStartAmount == 1? "STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURLONECREWMAN" : "STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURCREW";
                             break;
                         }
                     }
@@ -103,7 +109,7 @@ namespace SetStartDupes
         [HarmonyPatch(typeof(CharacterContainer), "GenerateCharacter")]
         public static class AddChangeButtonToCharacterContainer
         {
-            public static void Postfix(CharacterContainer __instance)
+            public static void Postfix(CharacterContainer __instance, MinionStartingStats ___stats)
             {
                 var buttonPrefab = __instance.transform.Find("TitleBar/RenameButton").gameObject;
                 var titlebar = __instance.transform.Find("TitleBar").gameObject;
@@ -118,9 +124,13 @@ namespace SetStartDupes
                 img.sprite = Assets.GetSprite("icon_gear");
                 var button = changebtn.GetComponent<KButton>();
                 button.ClearOnClick();
-
+                button.onClick += ()=> InstantiateDupeMod(__instance, ___stats);
             }
 
+            private static void InstantiateDupeMod(CharacterContainer parent, MinionStartingStats referencedStats)
+            {
+                Debug.Log("TBA.");
+            }
         }
         
 

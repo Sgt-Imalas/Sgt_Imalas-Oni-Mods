@@ -10,7 +10,9 @@ namespace SetStartDupes
     public class STRINGS
     {
         public class UI {
-            public class MODDEDIMMIGRANTSCREEN {
+            public class MODDEDIMMIGRANTSCREEN
+            {
+                public static LocString SELECTYOURLONECREWMAN = "CHOOSE YOUR LONE DUPLICANT TO BEGIN";
                 public static LocString SELECTYOURCREW = "CHOOSE YOUR DUPLICANTS TO BEGIN";
             } 
         }
