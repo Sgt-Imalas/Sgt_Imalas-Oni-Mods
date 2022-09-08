@@ -74,6 +74,7 @@ namespace SaveGameModLoader
             var handle = SteamUGC.CreateQueryUGCDetailsRequest(mods, (uint)mods.Length);
             if (handle != UGCQueryHandle_t.Invalid)
             {
+                SteamUGC.SetReturnChildren(handle, true);
                 SteamUGC.SetReturnLongDescription(handle, true);
                 var apiCall = SteamUGC.SendQueryUGCRequest(handle);
                 if (apiCall != SteamAPICall_t.Invalid)
@@ -111,9 +112,19 @@ namespace SaveGameModLoader
                         Debug.Log("Title: " + details.m_rgchTitle);
                         Debug.Log("Description: " + details.m_rgchDescription);
                         Debug.Log("ChildrenCount: " + details.m_unNumChildren);
+                        if(details.m_eFileType== EWorkshopFileType.k_EWorkshopFileTypeCollection)
+                        {
+                            var returnArray = new PublishedFileId_t[details.m_unNumChildren];
+                            SteamUGC.GetQueryUGCChildren(handle, 0, returnArray, details.m_unNumChildren);
+                             foreach(var v in returnArray)
+                            {
+                                Debug.Log("ITEM: " + v.m_PublishedFileId);
+                            }
+                        }
                     }
                 }
             }
+            
             SteamUGC.ReleaseQueryUGCRequest(handle);
             onQueryComplete?.Dispose();
             onQueryComplete = null;
@@ -129,17 +140,6 @@ namespace SaveGameModLoader
         //    Debug.Log("Called GetNumberOfCurrentPlayers()");
         //}
 
-        private void OnQueryComplete(SteamUGCQueryCompleted_t pCallback,bool bIOFailure)
-        {
-            if (!pCallback.m_bCachedData || bIOFailure)
-            {
-                Debug.Log("There was an error retrieving the NumberOfCurrentPlayers.");
-            }
-            else
-            {
-                Debug.Log("Daten:" + pCallback);
-            }
-        }
         public void ImportModList(UInt32 id = 2857827854)
         {
             if (!SteamManager.Initialized)
