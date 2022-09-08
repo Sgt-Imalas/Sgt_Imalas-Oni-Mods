@@ -38,7 +38,7 @@ namespace SaveGameModLoader
                     public static LocString OPENMODLISTFOLDERBUTTON = "Open Modlist Folder";
                     public static LocString OPENMODLISTFOLDERBUTTONINFO = "Open the Modlist Folder to see all stored modlists";
 
-                    public static LocString MODLISTSTANDALONEHEADER = "Exported Modlists";
+                    public static LocString MODLISTSTANDALONEHEADER = "Created & Imported Modlists";
                     public static LocString MODLISTSAVEGAMEHEADER = "Modlists from SaveGames";
 
                     public class SINGLEENTRY
