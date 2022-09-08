@@ -14,17 +14,26 @@ namespace SaveGameModLoader
 {
     public class ModlistManager
     {
-        public Dictionary<string,SaveGameModList> Modlists = new();
+        public Dictionary<string, SaveGameModList> Modlists = new();
         public Dictionary<string, SaveGameModList> ModPacks = new();
         private static readonly Lazy<ModlistManager> _instance = new Lazy<ModlistManager>(() => new ModlistManager());
 
         public static ModlistManager Instance { get { return _instance.Value; } }
 
         public GameObject ParentObjectRef;
-        Dictionary<KMod.Label,bool> ModListDifferences = new Dictionary<KMod.Label,bool>();
+        Dictionary<KMod.Label, bool> ModListDifferences = new Dictionary<KMod.Label, bool>();
         List<KMod.Label> MissingMods = new List<KMod.Label>();
         public bool IsSyncing { get; set; }
         public string ActiveSave = string.Empty;
+
+        public static Dictionary<KMod.Label, bool>  ModListDifferencesPublic
+        {
+            get { return Instance.ModListDifferences; }
+        }
+        public static List<KMod.Label> MissingModsPublic
+        {
+            get { return Instance.MissingMods; }
+        }
 
         public bool ModIsNotInSync(KMod.Mod mod)
         {
@@ -41,123 +50,30 @@ namespace SaveGameModLoader
             return result;
         }
 
-        public void InstantiateModViewFromGridView(List<KMod.Label> mods, GameObject parent)
+        public void InstantiateSyncViewWithoutRestart(List<KMod.Label> mods, GameObject parent)
         {
-            InstantiateModView(mods, parent);
+            InstantiateModView(mods, parent, false);
         }
 
         /// <summary>
         /// Create a modified Modview for syncing
         /// </summary>
         /// <param name="mods"></param>
-        public void InstantiateModView(List<KMod.Label> mods, GameObject parent = null)
+        public void InstantiateModView(List<KMod.Label> mods, GameObject parent = null, bool LoadOnCLose = true)
         {
             IsSyncing = true;
             AssignModDifferences(mods);
             var ParentGO = parent == null ? ParentObjectRef : parent;
 
-            var modScreen = Util.KInstantiateUI<ModsScreen>(ScreenPrefabs.Instance.modsMenu.gameObject, ParentGO).transform;
-#if DEBUG
-            UIUtils.ListAllChildren(modScreen);
-#endif
+            var modScreen = Util.KInstantiateUI(ScreenPrefabs.Instance.modsMenu.gameObject, ParentGO);
             modScreen.gameObject.name = "SYNCSCREEN";
-            ///Set Title of Mod Sync Screen.
-            modScreen.Find("Panel/Title/Title").GetComponent<LocText>().text = STRINGS.UI.FRONTEND.MODSYNCING.MODDIFFS;
+#if DEBUG
+           // UIUtils.ListAllChildren(modScreen.transform);
+#endif
 
-            var DetailsView = modScreen.Find("Panel/DetailsView").gameObject;
-            var workShopButton = modScreen.Find("Panel/DetailsView/WorkshopButton");
-            if (workShopButton == null)
-            {
-                Debug.LogError("Couldnt add buttons to Sync Menu");
-                return;
-            }
-            ///Disable toggle all button if no mods are in the list
-            var ToggleAll = modScreen.Find("Panel/DetailsView/ToggleAllButton");
-            var ToggleAllButton = ToggleAll.GetComponent<KButton>();
-            ToggleAllButton.isInteractable = ModListDifferences.Count > 0;
-            ToggleAll.gameObject.SetActive(ModListDifferences.Count > 0);
+            var screen =(SyncViewScreen)modScreen.AddComponent(typeof(SyncViewScreen));
+            screen.LoadOnClose = LoadOnCLose;
 
-            //var rmRecursionBtn = modScreen.Find("Panel/DetailsView/ModListsButton");
-            //rmRecursionBtn.gameObject.SetActive(false);
-
-            //UnityEngine.Object.Destroy(togglebtn);
-            ///Make Close button to "SyncSelected"-button
-            var closeBtObj = modScreen.Find("Panel/DetailsView/CloseButton");
-            var closeBt = closeBtObj.GetComponent<KButton>();
-            closeBt.isInteractable = ModListDifferences.Count > 0 && ModListDifferences.Count > MissingMods.Count;
-            closeBt.onClick += () => { AutoRestart(modScreen.GetComponent<ModsScreen>()); };
-            closeBtObj.Find("Text").GetComponent<LocText>().text = STRINGS.UI.FRONTEND.MODSYNCING.SYNCSELECTED;
-            closeBtObj.name = "SyncSelectedButton";
-
-            ///Sync all mods button
-            var SyncAllButtonObject = Util.KInstantiateUI<RectTransform>(workShopButton.gameObject, DetailsView, true);
-            SyncAllButtonObject.name = "SyncAllModsButton";
-            SyncAllButtonObject.Find("Text").GetComponent<LocText>().text = STRINGS.UI.FRONTEND.MODSYNCING.SYNCALL;
-            var SyncAllButton = SyncAllButtonObject.GetComponentInChildren<KButton>(true);
-            SyncAllButton.ClearOnClick();
-            SyncAllButton.isInteractable = ModListDifferences.Count > 0;
-            SyncAllButton.onClick += () => { SyncAllMods(modScreen.GetComponent<ModsScreen>(), null); };
-
-
-
-            ///new Close button
-            var NewCloseButtonObject = Util.KInstantiateUI<RectTransform>(workShopButton.gameObject, DetailsView, true);
-            NewCloseButtonObject.name = "newCloseButton";
-            NewCloseButtonObject.Find("Text").GetComponent<LocText>().text = global::STRINGS.UI.CREDITSSCREEN.CLOSEBUTTON; 
-            NewCloseButtonObject.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 10, 100);
-            var NewCloseButton = NewCloseButtonObject.GetComponentInChildren<KButton>(true);
-            NewCloseButton.ClearOnClick();
-
-            var methodInfo = typeof(ModsScreen).GetMethod("Exit", BindingFlags.NonPublic | BindingFlags.Instance);
-            if (methodInfo != null)
-                
-
-            NewCloseButton.onClick += ()=> methodInfo.Invoke(modScreen.GetComponent<ModsScreen>(), null); 
-
-            var EntryPos2 = modScreen.Find("Panel").gameObject;
-
-            var missingModListEntry = Util.KInstantiateUI<RectTransform>(workShopButton.gameObject, EntryPos2, true);
-            missingModListEntry.name = "infoButton";
-            var BtnText = missingModListEntry.Find("Text").GetComponent<LocText>();
-            var bgColorImage = missingModListEntry.GetComponent<KImage>();
-            var Btn = missingModListEntry.GetComponent<KButton>();
-
-
-            workShopButton.gameObject.SetActive(false);
-            if (MissingMods.Count == 0 && ModListDifferences.Count == 0)
-            {
-                BtnText.text = STRINGS.UI.FRONTEND.MODSYNCING.ALLSYNCED;
-                var ColorStyle = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
-                ColorStyle.inactiveColor = new Color(0.25f, 0.8f, 0.25f);
-                ColorStyle.hoverColor = new Color(0.35f, 0.8f, 0.35f);
-                bgColorImage.colorStyleSetting = ColorStyle;
-                bgColorImage.ApplyColorStyleSetting();
-                Btn.ClearOnClick();
-                Btn.onClick += () =>
-                {
-                    ModsScreen screen = modScreen.GetComponent<ModsScreen>();
-                    var method = typeof(ModsScreen).GetMethod("Exit", BindingFlags.NonPublic | BindingFlags.Instance);
-                    method.Invoke(screen, null);
-                };
-            }
-            else if (MissingMods.Count > 0)
-            {
-                var ColorStyle = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
-                ColorStyle.inactiveColor = new Color(1f, 0.25f, 0.25f);
-                ColorStyle.hoverColor = new Color(1f, 0.35f, 0.35f);
-                bgColorImage.colorStyleSetting = ColorStyle;
-                bgColorImage.ApplyColorStyleSetting();
-                BtnText.text = STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMOD;
-                Btn.ClearOnClick();
-                Btn.onClick += () =>
-                {
-                    ShowMissingMods();
-                };
-            }
-            else
-                UnityEngine.Object.Destroy(missingModListEntry.gameObject);
-
-            // var infoHeader = Util.KInstantiateUI<RectTransform>(workShopButton.gameObject, ListView, true);
         }
         public void ShowMissingMods()
         {
@@ -209,7 +125,7 @@ namespace SaveGameModLoader
             }
         }
 
-        public void SyncAllMods(ModsScreen modScreen, bool? enableAll)
+        public void SyncAllMods(ModsScreen modScreen, bool? enableAll, bool restartAfter = true)
         {
             Manager modManager = Global.Instance.modManager;
 
@@ -227,8 +143,8 @@ namespace SaveGameModLoader
 
                 modManager.EnableMod(mod, enabled, null);
             }
-
-            AutoRestart(modScreen);
+            if(restartAfter)
+                AutoRestart(modScreen);
         }
 
         public void AssignModDifferences(List<KMod.Label> modList)
@@ -241,39 +157,39 @@ namespace SaveGameModLoader
             var allMods = modManager.mods.Select(mod => mod.label).ToList();
             var enabledModLabels = modManager.mods.FindAll(mod => mod.IsActive() == true).Select(mod => mod.label).ToList();
 
-            ///Workaroundarea for ONY mods
-            bool ONYModActivated = false;
-            foreach(var mod in enabledModLabels)
-            {
-                if (mod.title.Contains("by @Ony"))
-                {
-                    ONYModActivated = true;
-                    break;
-                }
-            }
-            if (!ONYModActivated) { 
-            for (int i = 0; i < modList.Count; i++)
-            {
-                if (modList[i].title.Contains("by @Ony ") && !modList[i].title.Contains("👾"))
-                {
-                    var replaceModLabel = modList[i];
-#if DEBUG
-                        Debug.LogWarning("Tell @Ony to remove the stupid Emoji from the mod title of: " +replaceModLabel.title);
-#endif
-                        replaceModLabel.title = replaceModLabel.title+ "👾";
-                    modList[i] = replaceModLabel;
-                }
-            }
-            }
+            ///Workaroundarea for ONY mods; no longer needed due to added ID-Comparer
+//            bool ONYModActivated = false;
+//            foreach(var mod in enabledModLabels)
+//            {
+//                if (mod.title.Contains("by @Ony"))
+//                {
+//                    ONYModActivated = true;
+//                    break;
+//                }
+//            }
+//            if (!ONYModActivated) { 
+//            for (int i = 0; i < modList.Count; i++)
+//            {
+//                if (modList[i].title.Contains("by @Ony ") && !modList[i].title.Contains("👾"))
+//                {
+//                    var replaceModLabel = modList[i];
+//#if DEBUG
+//                        Debug.LogWarning("Tell @Ony to remove the stupid Emoji from the mod title of: " +replaceModLabel.title);
+//#endif
+//                        replaceModLabel.title = replaceModLabel.title+ "👾";
+//                    modList[i] = replaceModLabel;
+//                }
+//            }
+//            }
             ///End Workaroundarea
-            
-            var enabledButNotSavedMods = enabledModLabels.Except(modList).ToList();
-            var savedButNotEnabledMods = modList.Except(enabledModLabels).ToList();
+            var comparer = new ModDifferencesByIdComparer();
+            var enabledButNotSavedMods = enabledModLabels.Except(modList, comparer).ToList(); 
+            var savedButNotEnabledMods = modList.Except(enabledModLabels, comparer).ToList();
 
-            MissingMods = modList.Except(allMods).ToList();
+            MissingMods = modList.Except(allMods, comparer).ToList();
 #if DEBUG
             Debug.Log("MissingMods start");
-            foreach (var m in MissingMods) Debug.Log(m.title);
+            foreach (var m in MissingMods) Debug.Log(m.id+": "+m.title);
             Debug.Log("MissingMods end");
 #endif
             ModListDifferences.Clear();
@@ -297,6 +213,21 @@ namespace SaveGameModLoader
             
             
         }
+
+        public class ModDifferencesByIdComparer : IEqualityComparer<Label>
+        {
+            public bool Equals(Label l1, Label l2)
+            {
+                return l1.id == l2.id || l1.title == l2.title;
+            }
+
+            public int GetHashCode(Label obj)
+            {
+                //Debug.Log(obj.id + ": "+obj.title);
+                return obj.id.GetHashCode();
+            }
+        }
+
         void AutoLoadOnRestart()
         {
             if(ActiveSave!=string.Empty)
@@ -378,6 +309,9 @@ namespace SaveGameModLoader
                 hasBeenInitialized = true;
                    colonyModSave = new SaveGameModList(savePath);
             }
+            
+            colonyModSave.Type = DlcManager.IsExpansion1Active() ? SaveGameModList.DLCType.spacedOut : SaveGameModList.DLCType.baseGame;
+
             bool subListInitialized = colonyModSave.AddOrUpdateEntryToModList(savePath, list);
             Modlists[SaveGameModList.GetModListFileName(savePath)] = colonyModSave;
             if (hasBeenInitialized)
@@ -388,7 +322,7 @@ namespace SaveGameModLoader
                 Debug.Log("mod list overwritten for: "+ savePath);
 
             return hasBeenInitialized | subListInitialized;
-
+            
         }
 
 

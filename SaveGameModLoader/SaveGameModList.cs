@@ -11,9 +11,18 @@ namespace SaveGameModLoader
 {
     public class SaveGameModList
     {
+        public enum DLCType
+        {
+            undefined =0,
+            baseGame = 1,
+            spacedOut = 2,
+
+        }
+
         public string ReferencedColonySaveName;
         public string ModlistPath;
         public bool IsModPack = false;
+        public DLCType Type = 0;
 
         public Dictionary<string, List<KMod.Label>> SavePoints = new();
 
@@ -57,7 +66,7 @@ namespace SaveGameModLoader
                 ReferencedColonySaveName = referencedColonySave;
                 ModlistPath = referencedColonySave;
             }
-
+            Type = DlcManager.IsExpansion1Active() ? DLCType.spacedOut : DLCType.baseGame;
         }
 
         public static string GetModListFileName(string pathOfReference)

@@ -21,6 +21,77 @@ namespace UtilLibs
             }
         }
 
+        /// <summary>
+        /// Adds an Action to a click on a button.
+        /// </summary>
+        /// <param name="parent">Transform parent where the button is located</param>
+        /// <param name="subCompName">child component path</param>
+        /// <param name="action">Action to add to the button click</param>
+        /// <param name="clearOnclick">Should the previous OnClick Actions be discarded?</param>
+        /// <returns></returns>
+        public static bool AddActionToButton(Transform parent, string subCompName, System.Action action, bool clearOnclick = false)
+        {
+            var comp = parent.Find(subCompName);
+            if (comp == null)
+                return false;
+            var button = TryFindComponent<KButton>(comp);
+            if (button == null) return false;
+            if(clearOnclick)
+                button.ClearOnClick();
+            button.onClick += action;
+            return true;
+        }
+        public static T TryFindComponent<T> (Transform parent, string subCompName="")
+        {
+            Transform BtTransform;
+            if (subCompName != "")
+                BtTransform = parent.Find(subCompName);
+            else
+                BtTransform = parent;
+            if (BtTransform == null)
+                return default(T);
+            var button = BtTransform.GetComponent<T>();
+            return button;
+        }
+
+        public static bool TryChangeText(Transform transform, string subCompName, string newText)
+        {
+            Transform textToChangeComp;
+            if (subCompName != "")
+                textToChangeComp = transform.Find(subCompName);
+            else
+                textToChangeComp = transform;
+
+            if (textToChangeComp == null)
+                return false;
+            var textToChange = textToChangeComp.GetComponent<LocText>();
+            if (textToChange == null)
+                return false;
+            textToChange.text = newText;
+           
+            return true;
+        }
+        public static Transform TryInsertNamedCopy(Transform parent, string subCompName = "", string copyName = "copy")
+        {
+            var toCopy = parent.Find(subCompName);
+            if (toCopy == null)
+                return null;
+            var copy = Util.KInstantiateUI(toCopy.gameObject, parent.gameObject,true);
+            copy.name = copyName;
+            return copy.transform;
+        }
+
+        public static bool FindAndDisable(Transform parent, string name)
+        {
+#if DEBUG
+            Debug.Log("Disabling " + name);
+#endif
+            var toDisable = parent.Find(name);
+            if (toDisable == null)
+                return false;
+            toDisable.gameObject.SetActive(false);
+            return true;
+        }
 
         public static void ListAllChildren(Transform parent, int level = 0, int maxDepth = 10)
         {

@@ -114,7 +114,7 @@ namespace SetStartDupes
                 var buttonPrefab = __instance.transform.Find("TitleBar/RenameButton").gameObject;
                 var titlebar = __instance.transform.Find("TitleBar").gameObject;
 
-                UIUtils.ListAllChildren(titlebar.transform);
+                //UIUtils.ListAllChildren(titlebar.transform);
                 var changebtn = Util.KInstantiateUI(buttonPrefab, titlebar);
                 changebtn.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 40f, changebtn.rectTransform().sizeDelta.x);
                 changebtn.name = "ChangeDupeStatButton";

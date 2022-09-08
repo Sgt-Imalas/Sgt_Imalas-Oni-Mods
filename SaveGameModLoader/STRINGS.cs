@@ -35,6 +35,19 @@ namespace SaveGameModLoader
                     public static LocString EXPORTMODLISTBUTTONINFO = "Export your current mod config to a file.";
                     public static LocString OPENMODLISTFOLDERBUTTON = "Open Modlist Folder";
                     public static LocString OPENMODLISTFOLDERBUTTONINFO = "Open the Modlist Folder to see all stored modlists";
+
+                    public static LocString MODLISTSTANDALONEHEADER = "Exported Modlists";
+                    public static LocString MODLISTSAVEGAMEHEADER = "Modlists from SaveGames";
+                }
+
+                public class SINGLEMODLIST
+                {
+                    public static LocString TITLE = "ModLists stored in \"{0}\"";
+                    public static LocString TITLESAVEGAMELIST = "ModLists from SaveGame \"{0}\"";
+                    public static LocString MODLISTCOUNT= "Modlist contains {0} mods.";
+                    public static LocString LOADLIST= "View Modlist";
+                    public static LocString SYNCLIST= "Sync Modlist";
+                    public static LocString RETURN= "RETURN";
                 }
             }
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 using UtilLibs;
 
 namespace SaveGameModLoader
@@ -12,6 +13,7 @@ namespace SaveGameModLoader
     {
         private GameObject ButtonPrefab;
         private GameObject ContentParentStandalone;
+        private GameObject ContentParentSaveGame;
         List<GameObject> buttonRefs = new();
 
         protected override void OnSpawn()
@@ -28,8 +30,6 @@ namespace SaveGameModLoader
             TitleBar.Find("Title").GetComponent<LocText>().text = STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTWINDOWTITLE;
             TitleBar.Find("CloseButton").GetComponent<KButton>().onClick += new System.Action(((KScreen)this).Deactivate);
 
-            ContentParentStandalone = transform.Find("Content/ScrollWindow/Viewport/Content/PreinstalledContent").gameObject;
-            
 
             var ButtonBar = transform.Find("Content/BG/Buttons");
 
@@ -40,6 +40,35 @@ namespace SaveGameModLoader
             var CreateMPButtonGO = ButtonBar.Find("WorkshopButton");
 
             ButtonPrefab = CreateMPButtonGO.gameObject;
+
+            ContentParentStandalone = transform.Find("Content/ScrollWindow/Viewport/Content/PreinstalledContent").gameObject;
+#if DEBUG
+            foreach (var v in ContentParentStandalone.transform.parent.gameObject.GetComponents(typeof(Component)))
+            {
+                Debug.Log(v.GetType() + " <- Type, name ->" + v.name);
+            }
+#endif
+            var SpacerParent = ContentParentStandalone.transform.parent.gameObject;
+            var csf = UIUtils.TryFindComponent<VerticalLayoutGroup>(SpacerParent.transform);
+
+            var spacer = Util.KInstantiateUI(ButtonPrefab, SpacerParent, true);
+            UIUtils.TryChangeText(spacer.transform, "Label", STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTSTANDALONEHEADER);
+            //UIUtils.FindAndDisable(spacer.transform, "Label");
+            var bt1 = UIUtils.TryFindComponent<KButton>(spacer.transform);
+            spacer.rectTransform().SetAsFirstSibling();
+            bt1.isInteractable = false;
+
+
+            var spacer2 = Util.KInstantiateUI(ButtonPrefab, SpacerParent, true);
+            UIUtils.TryChangeText(spacer2.transform, "Label", STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTSAVEGAMEHEADER);
+            //UIUtils.FindAndDisable(spacer2.transform, "Label");
+            UIUtils.TryChangeText(spacer2.transform, "Label", STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTSAVEGAMEHEADER);
+            var bt2 = UIUtils.TryFindComponent<KButton>(spacer2.transform);
+            bt2.isInteractable = false;
+
+            ContentParentSaveGame = Util.KInstantiateUI(ContentParentStandalone, ContentParentStandalone.transform.parent.gameObject, true);
+
+
             var DoneButtonGO = Util.KInstantiateUI(ButtonPrefab, ButtonBar.gameObject,true);
 
             var DoneButton = DoneButtonGO.transform;
@@ -56,6 +85,23 @@ namespace SaveGameModLoader
             RefreshModlistView();
         }
 
+        public void InstantiateSingleModlistView(GameObject parent, KeyValuePair<string, SaveGameModList> exportedList)
+        {
+            var window = Util.KInstantiateUI(ScreenPrefabs.Instance.modsMenu.gameObject,parent);
+            //window.SetActive(false);
+
+            window.name = "SingleList";
+#if DEBUG
+           // Debug.Log("SINGLE LIST:");
+           // UIUtils.ListAllChildren(window.transform);
+#endif
+            var oldComp = window.GetComponent<ModsScreen>();
+            UnityEngine.Object.Destroy(oldComp);
+            var mlv = (SingleModListView)window.AddComponent(typeof(SingleModListView));
+            mlv.InstantiateParams(exportedList);
+        }
+
+
         public void RefreshModlistView()
         {
             ModlistManager.Instance.GetAllStoredModlists();
@@ -64,18 +110,47 @@ namespace SaveGameModLoader
             {
                 UnityEngine.Object.Destroy(btnToRemove);
             }
-#if DEBUG
+#if DEBUG 
+            Debug.Log("LAYOUT:");
+            foreach (var v in ContentParentStandalone.GetComponents(typeof (Component)))
+            {
+                Debug.Log(v.GetType() + " <- Type, name ->" + v.name);
+            }
             Debug.Log("Exported Lists:");
 #endif
+
+            ///Layout Exported
+
+            var Layout = UIUtils.TryFindComponent<GridLayoutGroup>(ContentParentStandalone.transform);
+
+            Layout.constraintCount = 2;
+            Layout.startAxis = GridLayoutGroup.Axis.Vertical;
+            Layout.cellSize = new Vector2(320, 100);
+            Layout.padding = new RectOffset(5, 5, 5, 5);
+            ///Layout Savegames
+
+            var Layout2 = UIUtils.TryFindComponent<GridLayoutGroup>(ContentParentSaveGame.transform);
+
+            Layout2.constraintCount = 2;
+            Layout2.startAxis = GridLayoutGroup.Axis.Vertical;
+            Layout2.cellSize = new Vector2(320, 100);
+            Layout2.padding = new RectOffset(5, 5, 5, 5);
+
+
+
             foreach (var exportedList in ModlistManager.Instance.ModPacks)
             {
 #if DEBUG
                 Debug.Log(exportedList.Key);
 #endif
                 var contentbutton = Util.KInstantiateUI(ButtonPrefab, ContentParentStandalone, true);
-                contentbutton.transform.Find("Label").GetComponent<LocText>().text = exportedList.Key;
+                
+
+                //contentbutton.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 150f);
+                contentbutton.transform.Find("Label").GetComponent<LocText>().text = ModListInfoBuilder(exportedList.Key, exportedList.Value.SavePoints);
                 buttonRefs.Add(contentbutton);
-                contentbutton.GetComponent<KButton>().onClick += () => ModlistManager.Instance.InstantiateModViewFromGridView(exportedList.Value.SavePoints.Last().Value, this.gameObject);
+                contentbutton.GetComponent<KButton>().onClick += () => InstantiateSingleModlistView(gameObject, exportedList);//ModlistManager.Instance.InstantiateSyncViewWithoutRestart(exportedList.Value.SavePoints.Last().Value, this.gameObject);
+                contentbutton.GetComponent<KButton>().isInteractable = DlcManager.IsExpansion1Active() ? exportedList.Value.Type != SaveGameModList.DLCType.baseGame : exportedList.Value.Type != SaveGameModList.DLCType.spacedOut;
             }
 #if DEBUG
             Debug.Log("Savegames:");
@@ -85,12 +160,22 @@ namespace SaveGameModLoader
 #if DEBUG
                 Debug.Log(saveGameList.Key);
 #endif
-                var contentbutton = Util.KInstantiateUI(ButtonPrefab, ContentParentStandalone, true);
-                contentbutton.transform.Find("Label").GetComponent<LocText>().text = saveGameList.Key;
+                var contentbutton = Util.KInstantiateUI(ButtonPrefab, ContentParentSaveGame, true);
+                contentbutton.transform.Find("Label").GetComponent<LocText>().text = ModListInfoBuilder(saveGameList.Key, saveGameList.Value.SavePoints);
                 buttonRefs.Add(contentbutton);
-                contentbutton.GetComponent<KButton>().onClick += () => ModlistManager.Instance.InstantiateModViewFromGridView(saveGameList.Value.SavePoints.Last().Value, this.gameObject);
+                contentbutton.GetComponent<KButton>().onClick += () => InstantiateSingleModlistView(gameObject, saveGameList);//ModlistManager.Instance.InstantiateSyncViewWithoutRestart(saveGameList.Value.SavePoints.Last().Value, this.gameObject);
+                contentbutton.GetComponent<KButton>().isInteractable = DlcManager.IsExpansion1Active() ? saveGameList.Value.Type != SaveGameModList.DLCType.baseGame : saveGameList.Value.Type != SaveGameModList.DLCType.spacedOut;
             }
         }
+        public string ModListInfoBuilder(string name,Dictionary<string,List<KMod.Label>> mods)
+        {
+            var sb = new StringBuilder();
+            sb.Append("\""); sb.Append(name); sb.AppendLine("\"");
+            sb.Append(""); sb.Append(mods.Count); sb.AppendLine(mods.Count>1? " stored Lists": " stored List");
+            sb.Append("Latest Version contains "); sb.Append(mods.Last().Value.Count); sb.AppendLine(" Mods");
+            return sb.ToString();
+        }
+
         public void OnClickNewModPack()
         {
 
@@ -101,13 +186,6 @@ namespace SaveGameModLoader
 
             var newScreen = Util.KInstantiateUI(copy.gameObject, this.gameObject, true);
             newScreen.AddComponent<StoreModPackNameScreen>().parent = this;
-            //var fileNameDialog = (FileNameDialog)KScreenManager.Instance.StartScreen(fileNameDialogGO, this.transform.parent.gameObject);
-
-            //fileNameDialog.onConfirm = (System.Action<string>)(filename =>
-            //{
-            //    filename = System.IO.Path.Combine(SaveLoader.GetActiveSaveColonyFolder(), filename);
-            //    this.SaveModPack(filename);
-            //});
         }
 
 

@@ -19,8 +19,8 @@ namespace SaveGameModLoader
         protected override void OnActivate()
         {
 #if DEBUG
-            Debug.Log("StoreModPackScreen:");
-            UIUtils.ListAllChildren(this.transform);
+            //Debug.Log("StoreModPackScreen:");
+            //UIUtils.ListAllChildren(this.transform);
 #endif
             var TitleBar = transform.Find("Panel/Title_BG");
 

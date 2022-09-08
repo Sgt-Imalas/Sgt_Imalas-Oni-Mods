@@ -132,24 +132,31 @@ namespace SaveGameModLoader
                     var copy = window.transform;
                     UnityEngine.Object.Destroy(window);
                     var newScreen = Util.KInstantiateUI(copy.gameObject, __instance.gameObject, true);
+                    newScreen.name = "ModListView";
+#if DEBUG
+                    //UIUtils.ListAllChildren(newScreen.transform);
+#endif
                     newScreen.AddComponent(typeof(ModListScreen));
 
                 }; 
             }
         }
-
-        [HarmonyPatch(typeof(LoadScreen), "OnPrefabInit")]
+        [HarmonyPatch(typeof(LoadScreen), "OnActivate")]
         public static class AddModSyncButtonToLoadscreen
         {
-            public static void Prefix(LoadScreen __instance)
+            public static bool Prefix(LoadScreen __instance)
             {
+                if( __instance.name == "NODONTDOTHAT") return false;
+
                 ModlistManager.Instance.ParentObjectRef = __instance.transform.parent.gameObject;
                 ModlistManager.Instance.GetAllStoredModlists();
 
-                GameObject viewRoot = (GameObject)Traverse.Create(__instance).Field("colonyViewRoot").GetValue();
+
+                var ViewRootFinder = typeof(LoadScreen).GetField("colonyViewRoot", BindingFlags.NonPublic | BindingFlags.Instance);
+                
+                GameObject viewRoot = (GameObject)ViewRootFinder.GetValue(__instance);
 
                 HierarchyReferences references = viewRoot.GetComponent<HierarchyReferences>();
-                
                 ///get ListEntryTemplate 
                 RectTransform template = references.GetReference<RectTransform>("SaveTemplate");
 
@@ -165,13 +172,14 @@ namespace SaveGameModLoader
                 ///Instantiate SyncButton
                 RectTransform kbutton = Util.KInstantiateUI<RectTransform>(SyncTemplate.gameObject, template.gameObject, true);
                 kbutton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 10, 50);
-                
+
                 ///Add SyncButton to template and set Params
                 kbutton.name = "SyncButton";
                 var syncText = kbutton.GetComponentInChildren<LocText>(true);
                 var btn = kbutton.GetComponentInChildren<KButton>(true);
                 syncText.key = "STRINGS.UI.FRONTEND.MODSYNCING.SYNCMODSBUTTONBG";
                 btn.bgImage.sprite = Assets.GetSprite("icon_thermal_conductivity");
+                return true;
             }
         }
 
@@ -191,7 +199,7 @@ namespace SaveGameModLoader
                 else
                     path = string.IsNullOrEmpty(GenericGameSettings.instance.performanceCapture.saveGame) ? SaveLoader.GetLatestSaveForCurrentDLC() : GenericGameSettings.instance.performanceCapture.saveGame;
 #if DEBUG
-                UIUtils.ListAllChildren(__instance.transform);
+                //UIUtils.ListAllChildren(__instance.transform);
 #endif
                 Transform parentBar;
                 Transform contButton;
