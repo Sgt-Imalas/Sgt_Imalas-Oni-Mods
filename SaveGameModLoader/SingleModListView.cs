@@ -12,8 +12,10 @@ namespace SaveGameModLoader
 {
     class SingleModListView : KModalScreen
     {
-        bool ViewSingleEntry = false;
 
+        bool ViewSingleEntry = false;
+        bool IsMissingModsOnly = false;
+        List<KMod.Label> MissingModsList = new List<KMod.Label>();
         string Title = string.Empty;
         SaveGameModList Mods;
         List<GameObject> Entries = new List<GameObject>();
@@ -21,16 +23,18 @@ namespace SaveGameModLoader
         Transform EntryPrefab;
         Transform InsertLocation;
 
-        GameObject ReturnButton;
-        //GameObject SyncButton;
+        //GameObject ReturnButton;
+        GameObject SyncButton;
+        KModalScreen ParentWindow;
 
-        internal void SetAdditionalButtons(bool active)
+        public void SetAdditionalButtons(bool active)
         {
             ViewSingleEntry = active;
 
-            if(ReturnButton!=null)
-                ReturnButton.SetActive(active);
+            if(SyncButton != null)
+                SyncButton.SetActive(active);
             //SyncButton.SetActive(active);
+            //Debug.Log(IsMissingModsOnly + "<-Missing only  IsActive? " + active);
             if (!active) RebuildList();
         }
 
@@ -39,32 +43,57 @@ namespace SaveGameModLoader
 
             var SingleFileModlists = this.transform;
             ///Set Title of Mod Sync Screen.
-            TryChangeText(
-                SingleFileModlists, 
-                "Panel/Title/Title", 
-                Mods.IsModPack ? 
-                    string.Format(TITLE, Title) 
-                    : string.Format(TITLESAVEGAMELIST, Title));
+            if (Mods != null)
+            {
+                TryChangeText(
+                    SingleFileModlists,
+                    "Panel/Title/Title",
+                    Mods.IsModPack ?
+                        string.Format(TITLE, Title)
+                        : string.Format(TITLESAVEGAMELIST, Title));
+            }
+            else
+            {
+                TryChangeText(
+                    SingleFileModlists,
+                    "Panel/Title/Title", 
+                    STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSTITLE
+                   );
+            }
 
             var DetailsView = SingleFileModlists.Find("Panel/DetailsView").gameObject;
 
             ///Disable unneeded buttons
             FindAndDisable(SingleFileModlists, "Panel/DetailsView/ToggleAllButton");
-            FindAndDisable(SingleFileModlists, "Panel/DetailsView/WorkshopButton");
+            //FindAndDisable(SingleFileModlists, "Panel/DetailsView/WorkshopButton");
 
 
-            /////Return Button for single list view
-            //ReturnButton = transform.Find("Panel/DetailsView/WorkshopButton").gameObject;
+
+            /////WorkshopButton Button for single list view sync
+            SyncButton = transform.Find("Panel/DetailsView/WorkshopButton").gameObject;
+            SyncButton.SetActive(false);
+
+            TryChangeText(
+                SingleFileModlists,
+                "Panel/DetailsView/WorkshopButton/Text",
+                SYNCLIST);
+
 
             TryChangeText(
                 SingleFileModlists,
                 "Panel/DetailsView/CloseButton/Text",
                 RETURN);
 
-            ///Make Close functional
+            ///Make Close(s) functional
             AddActionToButton(
                 SingleFileModlists,
                 "Panel/DetailsView/CloseButton",
+                new System.Action(this.Deactivate),
+                true);
+
+            AddActionToButton(
+                transform,
+                "Panel/Title/CloseButton",
                 new System.Action(this.Deactivate),
                 true);
 
@@ -72,47 +101,92 @@ namespace SaveGameModLoader
             EntryPrefab = SingleFileModlists.Find("Panel/ListView/Files/Viewport/Entry");
             FindAndDisable(EntryPrefab, "DragReorderIndicator");
             FindAndDisable(EntryPrefab, "EnabledToggle");
-
+            FindAndRemove<DragMe>(EntryPrefab);
             InsertLocation = SingleFileModlists.Find("Panel/ListView/Files/Viewport/Content");
             SetAdditionalButtons(false);
         }
 
+
+
         void RebuildList(List<KMod.Label> modsForSingleView = null)
         {
+
             if (Entries.Count > 0) 
             { 
                 foreach (var entry in Entries)
                 UnityEngine.Object.Destroy(entry);
                 Entries.Clear();
             }
+            var missingModColorStyle = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
+            missingModColorStyle.inactiveColor = new Color(0.7f, 0.25f, 0.25f);
+            missingModColorStyle.activeColor = new Color(0.7f, 0.25f, 0.25f);
+            missingModColorStyle.disabledColor = new Color(0.7f, 0.25f, 0.25f);
+            missingModColorStyle.hoverColor = new Color(0.8f, 0.25f, 0.25f);
+
+            if (IsMissingModsOnly)
+            {
+                //Debug.Log("AddedMissingToView");
+                foreach (var mod in MissingModsList)
+                {
+                    var entry = Util.KInstantiateUI(EntryPrefab.gameObject, InsertLocation.gameObject, true).transform;
+                    TryChangeText(entry, "Title", mod.title);
+                    TryChangeText(entry, "Version", "internal mod Version: " + mod.version.ToString());
+                    
+                    var bgColor = TryFindComponent<KImage>(entry, "BG");
+                    bgColor.defaultState = KImage.ColorSelector.Disabled;
+                    bgColor.ColorState = KImage.ColorSelector.Disabled;
+                    var infoBt = TryFindComponent<KButton>(entry, "ManageButton");
+
+                    bool isSteamMod = mod.distribution_platform == KMod.Label.DistributionPlatform.Steam;
+                    infoBt.FindOrAddUnityComponent<ToolTip>().SetSimpleTooltip(isSteamMod ? WORKSHOPFINDTOOLTIP : NOSTEAMMOD);
+                    infoBt.isInteractable = isSteamMod;
+                    AddActionToButton(
+                            infoBt.transform,
+                            "",
+                            () => { App.OpenWebURL("https://steamcommunity.com/sharedfiles/filedetails/?id=" + mod.id); }, true);
+
+                        var bgColorImage = infoBt.bgImage;
+                        bgColorImage.colorStyleSetting = missingModColorStyle;
+                        bgColorImage.ApplyColorStyleSetting();
+
+                        TryChangeText(entry, "ManageButton/Text", "<!> "+MISSING);
+                    Entries.Add(entry.gameObject);
+
+                }
+                return;
+            }
 
             if (ViewSingleEntry)
             {
-                if (modsForSingleView == null)
+                
+                if (modsForSingleView == null|| modsForSingleView.Count == 0)
                     return;
                 KMod.Manager modManager = Global.Instance.modManager;
 
                 var allMods = modManager.mods.Select(mod => mod.label).ToList();
                 var MissingMods = modsForSingleView.Except(allMods, new ModlistManager.ModDifferencesByIdComparer()).ToList();
 
-                var missingModColorStyle = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
-                missingModColorStyle.inactiveColor = new Color(0.7f, 0.25f, 0.25f);
-                missingModColorStyle.activeColor = new Color(0.7f, 0.25f, 0.25f);
-                missingModColorStyle.disabledColor = new Color(0.7f, 0.25f, 0.25f);
 
                 foreach (var mod in modsForSingleView)
                 {
                     var entry = Util.KInstantiateUI(EntryPrefab.gameObject, InsertLocation.gameObject, true).transform;
                     TryChangeText(entry, "Title", mod.title);
                     TryChangeText(entry, "Version", "internal mod Version: " + mod.version.ToString());
-                    if (MissingMods.Contains(mod))
+
+                    if (MissingMods.Contains(mod, new ModlistManager.ModDifferencesByIdComparer()))
                     {
                         var bgColor = TryFindComponent<KImage>(entry,"BG");
                         bgColor.defaultState = KImage.ColorSelector.Disabled;
                         bgColor.ColorState = KImage.ColorSelector.Disabled;
 
                         var infoBt = TryFindComponent<KButton>(entry, "ManageButton");
-                        infoBt.isInteractable = false;
+                        bool isSteamMod = mod.distribution_platform == KMod.Label.DistributionPlatform.Steam;
+                        infoBt.FindOrAddUnityComponent<ToolTip>().SetSimpleTooltip(isSteamMod?WORKSHOPFINDTOOLTIP: NOSTEAMMOD);
+                        infoBt.isInteractable = isSteamMod;
+                        AddActionToButton(
+                            infoBt.transform, 
+                            "",
+                            () => { App.OpenWebURL("https://steamcommunity.com/sharedfiles/filedetails/?id=" + mod.id); }, true);
 
                         var bgColorImage = infoBt.bgImage;
                         bgColorImage.colorStyleSetting = missingModColorStyle;
@@ -125,11 +199,25 @@ namespace SaveGameModLoader
                         FindAndDisable(entry, "ManageButton");
                     }
                     Entries.Add(entry.gameObject);
-                }
 
+                }
+                TryFindComponent<KButton>(SyncButton.transform).isInteractable = modsForSingleView.Count > MissingMods.Count;
+                AddActionToButton(
+                       SyncButton.transform,
+                       "",
+                       () => SyncSingleList(modsForSingleView),
+                       true);
+
+                AddActionToButton(
+                    transform,
+                    "Panel/DetailsView/CloseButton",
+                    () => SetAdditionalButtons(false),
+                    true);
             }
             else
             {
+                //Debug.Log("All View");
+                if (Mods == null) return;
                 foreach (var mod in Mods.SavePoints.Reverse())
                 {
                     var entry = Util.KInstantiateUI(EntryPrefab.gameObject, InsertLocation.gameObject, true).transform;
@@ -151,19 +239,7 @@ namespace SaveGameModLoader
                         , true);
                     Entries.Add(entry.gameObject);
                 }
-            }
-
-            ///Extra if for buttons; Readability
-            if (ViewSingleEntry)
-            {
-                AddActionToButton(
-                    transform,
-                    "Panel/DetailsView/CloseButton",
-                    () => SetAdditionalButtons(false),
-                    true);
-            }
-            else
-            {
+                
                 AddActionToButton(
                 transform,
                 "Panel/DetailsView/CloseButton",
@@ -180,15 +256,30 @@ namespace SaveGameModLoader
 
         internal void SyncSingleList(List<KMod.Label> modsInList)
         {
-            
+            ModlistManager.Instance.SyncFromModListWithoutAutoLoad(modsInList);
+            KMod.Manager.Dialog(Global.Instance.globalCanvas,
+               POPUPSYNCEDTITLE,
+               POPUPSYNCEDTEXT,
+               RETURNTWO,
+               ()=> { 
+                   this.Deactivate();
+                   if(ParentWindow!=null)
+                       ParentWindow.Deactivate();
+                    }               
+               );
         }
-
-
-
-        internal void InstantiateParams(KeyValuePair<string, SaveGameModList> exportedList)
+        internal void InstantiateParams(KeyValuePair<string, SaveGameModList> exportedList, KModalScreen parent)
         {
             Title = exportedList.Key;
             Mods = exportedList.Value;
+            ParentWindow = parent;
+        }
+        public void InstantiateMissing(List<KMod.Label> missingMods)
+        {
+            Title = STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSTITLE;
+            IsMissingModsOnly = true; 
+            MissingModsList.Clear();
+            MissingModsList.AddRange(missingMods);
         }
     }
 }

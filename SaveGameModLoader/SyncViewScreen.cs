@@ -46,7 +46,7 @@ namespace SaveGameModLoader
             var closeBt = closeBtObj.GetComponent<KButton>();
             closeBt.isInteractable = DiffCount > 0 && DiffCount > MissingCount; ///higher than missing count so it only enabled if diffs>missing; aka atleast 1 mod in the list to change
             if(LoadOnClose)
-                closeBt.onClick += () => { manager.AutoRestart(modScreen.GetComponent<ModsScreen>()); };
+                closeBt.onClick += () => { manager.AutoRestart(); };
             closeBtObj.Find("Text").GetComponent<LocText>().text = STRINGS.UI.FRONTEND.MODSYNCING.SYNCSELECTED;
             closeBtObj.name = "SyncSelectedButton";
 
@@ -57,7 +57,7 @@ namespace SaveGameModLoader
             var SyncAllButton = SyncAllButtonObject.GetComponentInChildren<KButton>(true);
             SyncAllButton.ClearOnClick();
             SyncAllButton.isInteractable = DiffCount > 0;
-            SyncAllButton.onClick += () => { manager.SyncAllMods(modScreen.GetComponent<ModsScreen>(), null,LoadOnClose); };
+            SyncAllButton.onClick += () => { manager.SyncAllMods(null,LoadOnClose); };
 
 
 
@@ -109,7 +109,7 @@ namespace SaveGameModLoader
                 Btn.ClearOnClick();
                 Btn.onClick += () =>
                 {
-                    manager.ShowMissingMods();
+                    ModListScreen.InstantiateMissingModsView(this.gameObject,ModlistManager.MissingModsPublic);
                 };
             }
             else

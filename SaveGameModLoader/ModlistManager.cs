@@ -75,57 +75,61 @@ namespace SaveGameModLoader
             screen.LoadOnClose = LoadOnCLose;
 
         }
-        public void ShowMissingMods()
+        //public void ShowMissingMods()
+        //{
+            
+        //    Manager.Dialog(Global.Instance.globalCanvas, 
+        //        STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSTITLE, 
+        //        string.Format(STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSDESC,
+        //        ModListDifferences.Count,
+        //        MissingMods.Count,
+        //        ListMissingMods()));
+        //}
+        //public string ListMissingMods()
+        //{
+        //    StringBuilder stringBuilder = new StringBuilder();
+        //    var SortedNames = MissingMods.Select(mod => mod.title).ToList();
+        //    SortedNames.Sort();
+
+        //    stringBuilder.AppendLine();
+        //    Console.WriteLine("------Mod Sync------");
+        //    Console.WriteLine("---[Missing Mods]---");
+
+        //    for (int i = 0; i< SortedNames.Count; i++)
+        //    {
+        //        if (i < 35)
+        //        {
+        //            stringBuilder.AppendLine(" • " + SortedNames[i]);
+        //        }
+        //        Console.WriteLine(SortedNames[i]);
+        //    }
+        //    if (SortedNames.Count > 35)
+        //    {
+        //        stringBuilder.AppendLine(String.Format(STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSDESCEND, SortedNames.Count - 35));
+        //    }
+
+        //    Console.WriteLine("-----[List End]-----");
+        //    Console.WriteLine("------Mod Sync------");
+        //    return stringBuilder.ToString();
+        //}
+
+        public void AutoRestart()
         {
-            Manager.Dialog(Global.Instance.globalCanvas, 
-                STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSTITLE, 
-                string.Format(STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSDESC,
-                ModListDifferences.Count,
-                MissingMods.Count,
-                ListMissingMods()));
-        }
-        public string ListMissingMods()
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            var SortedNames = MissingMods.Select(mod => mod.title).ToList();
-            SortedNames.Sort();
-
-            stringBuilder.AppendLine();
-            Console.WriteLine("------Mod Sync------");
-            Console.WriteLine("---[Missing Mods]---");
-
-            for (int i = 0; i< SortedNames.Count; i++)
-            {
-                if (i < 35)
-                {
-                    stringBuilder.AppendLine(" • " + SortedNames[i]);
-                }
-                Console.WriteLine(SortedNames[i]);
-            }
-            if (SortedNames.Count > 35)
-            {
-                stringBuilder.AppendLine(String.Format(STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSDESCEND, SortedNames.Count - 35));
-            }
-
-            Console.WriteLine("-----[List End]-----");
-            Console.WriteLine("------Mod Sync------");
-            return stringBuilder.ToString();
-        }
-
-        public void AutoRestart(ModsScreen screen)
-        {
-            var methodInfo = typeof(ModsScreen).GetMethod("Exit", BindingFlags.NonPublic | BindingFlags.Instance);
-            if (methodInfo != null)
-                methodInfo.Invoke(screen, null);
             if (ModListDifferences.Count > 0)
             {
+                Global.Instance.modManager.Save();
                 ModListDifferences.Clear();
                 MissingMods.Clear();
                 AutoLoadOnRestart();
             }
         }
+        public void SyncFromModListWithoutAutoLoad(List<KMod.Label> modList)
+        {
+            AssignModDifferences(modList);
+            SyncAllMods(null, false);
+        }
 
-        public void SyncAllMods(ModsScreen modScreen, bool? enableAll, bool restartAfter = true)
+        public void SyncAllMods(bool? enableAll, bool restartAfter = true)
         {
             Manager modManager = Global.Instance.modManager;
 
@@ -144,7 +148,7 @@ namespace SaveGameModLoader
                 modManager.EnableMod(mod, enabled, null);
             }
             if(restartAfter)
-                AutoRestart(modScreen);
+                AutoRestart();
         }
 
         public void AssignModDifferences(List<KMod.Label> modList)
@@ -157,31 +161,6 @@ namespace SaveGameModLoader
             var allMods = modManager.mods.Select(mod => mod.label).ToList();
             var enabledModLabels = modManager.mods.FindAll(mod => mod.IsActive() == true).Select(mod => mod.label).ToList();
 
-            ///Workaroundarea for ONY mods; no longer needed due to added ID-Comparer
-//            bool ONYModActivated = false;
-//            foreach(var mod in enabledModLabels)
-//            {
-//                if (mod.title.Contains("by @Ony"))
-//                {
-//                    ONYModActivated = true;
-//                    break;
-//                }
-//            }
-//            if (!ONYModActivated) { 
-//            for (int i = 0; i < modList.Count; i++)
-//            {
-//                if (modList[i].title.Contains("by @Ony ") && !modList[i].title.Contains("👾"))
-//                {
-//                    var replaceModLabel = modList[i];
-//#if DEBUG
-//                        Debug.LogWarning("Tell @Ony to remove the stupid Emoji from the mod title of: " +replaceModLabel.title);
-//#endif
-//                        replaceModLabel.title = replaceModLabel.title+ "👾";
-//                    modList[i] = replaceModLabel;
-//                }
-//            }
-//            }
-            ///End Workaroundarea
             var comparer = new ModDifferencesByIdComparer();
             var enabledButNotSavedMods = enabledModLabels.Except(modList, comparer).ToList(); 
             var savedButNotEnabledMods = modList.Except(enabledModLabels, comparer).ToList();
@@ -203,15 +182,15 @@ namespace SaveGameModLoader
             }
             ModListDifferences.Remove(thisMod);
 
-
+#if DEBUG
             Debug.Log("The Following mods deviate from the config:");
             foreach (var modDif in ModListDifferences)
             {
                 string status = modDif.Value ? "enabled" : "disabled";
                 Debug.Log(modDif.Key.id + ": "+ modDif.Key + " -> should be " + status);
             }
-            
-            
+#endif
+
         }
 
         public class ModDifferencesByIdComparer : IEqualityComparer<Label>

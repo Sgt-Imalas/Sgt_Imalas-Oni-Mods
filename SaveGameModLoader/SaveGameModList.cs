@@ -13,7 +13,7 @@ namespace SaveGameModLoader
     {
         public enum DLCType
         {
-            undefined =0,
+            undefined = 0,
             baseGame = 1,
             spacedOut = 2,
 

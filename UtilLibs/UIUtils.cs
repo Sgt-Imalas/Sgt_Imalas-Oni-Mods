@@ -71,6 +71,13 @@ namespace UtilLibs
            
             return true;
         }
+        public static void AddSimpleTooltipToObject(Transform go, string tooltip)
+        {
+            if (go == null)
+                return;
+            go.gameObject.AddComponent<ToolTip>().SetSimpleTooltip(tooltip);
+        }
+
         public static Transform TryInsertNamedCopy(Transform parent, string subCompName = "", string copyName = "copy")
         {
             var toCopy = parent.Find(subCompName);
@@ -80,7 +87,20 @@ namespace UtilLibs
             copy.name = copyName;
             return copy.transform;
         }
+        public static bool FindAndRemove<T>(Transform parent, string subCompName="")
+        {
 
+            var toRemove = TryFindComponent<T>(parent, subCompName) as UnityEngine.Object;
+            if(toRemove != null)
+            {
+#if DEBUG
+                Debug.Log("Removing " + subCompName);
+#endif
+                UnityEngine.Object.Destroy(toRemove);
+                return true;
+            }
+            return false;
+        }
         public static bool FindAndDisable(Transform parent, string name)
         {
 #if DEBUG
