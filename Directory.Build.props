@@ -58,6 +58,10 @@
 			<HintPath>$(GameLibsFolder)/UnityEngine.UIModule.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
+		<Reference Include="com.rlabrecque.steamworks.net">
+			<HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\com.rlabrecque.steamworks.net.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
 	</ItemGroup>
 
 

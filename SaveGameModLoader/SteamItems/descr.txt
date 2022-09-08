@@ -7,7 +7,7 @@ It stores the individual mod configs of your save games and allows you to switch
 
 To generate a mod list, just load the corresponding save or save your game with this mod enabled.
 
-[h1]Current latest Version: 2.0.2[/h1]
+[h1]Current latest Version: 3.0.0[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
@@ -22,10 +22,14 @@ To generate a mod list, just load the corresponding save or save your game with 
     [*] Clicking "Sync All and Load" will synchronize all mods to the stored config, afterwards it will restart the game and automatically load the save
     [*] Clicking "Sync Current Config and Load" will load the state the modlist is on click, allowing you to manually select the mods you want to have enabled/disabled
     [*] If all mods are in sync, the menu will be empty and will have an extra green button telling that.
-    [*] If there are mods in the mod config that are not installed, the menu will get a red button that will display them in a popup (and log them to the player.log)
+    [*] If there are mods in the mod config that are not installed, the menu will get a red button that will display them in a popup with a redirection to the steam workshop page of that mod
     [/list] 
 [*] See the steam images for visual explanation.
 [/list] 
+
+[h2]New with 3.0: Modlist-Export[/h2]
+Added a new submenu to the mod-view that allows you to view all your Modlists and export them yourself from your current mod loadout.
+Lists
 
 [h1]Disclaimer[/h1]
 [list]

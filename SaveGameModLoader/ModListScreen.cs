@@ -75,6 +75,7 @@ namespace SaveGameModLoader
             
             var ImportCollection = ImportCollectionGO.transform;
             UIUtils.TryChangeText(ImportCollection,"Label",STRINGS.UI.FRONTEND.MODLISTVIEW.IMPORTCOLLECTIONLIST);
+            //UIUtils.TryFindComponent<KButton>(ImportCollection).isInteractable = false;///Until I have figured it out;
             UIUtils.AddActionToButton(ImportCollection, "", () => { this.OnClickNewModPack(false); }, true);
 
             UIUtils.AddSimpleTooltipToObject(ImportCollection, STRINGS.UI.FRONTEND.MODLISTVIEW.IMPORTCOLLECTIONLISTTOOLTIP);

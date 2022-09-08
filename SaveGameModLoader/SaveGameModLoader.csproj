@@ -47,6 +47,8 @@
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
 	
+
+	
 	<ItemGroup>
 	  <None Update="ModAssets\translations\de.po">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
