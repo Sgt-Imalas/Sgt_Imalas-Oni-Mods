@@ -98,6 +98,7 @@ namespace CannedFoods.Foods
             }
             private static void AddRecyclingRecipeRockCrusher()
             {
+                Tag sandTag = SimHashes.Sand.CreateTag();
                 var metalTag = ElementLoader.FindElementByHash(ExportSettings.GetMaterialHashForCans()).tag;
                 var input = new RecipeElement[]
                 {
@@ -106,7 +107,8 @@ namespace CannedFoods.Foods
 
                 var output = new RecipeElement[]
                 {
-                    new RecipeElement(metalTag, 5f)
+                    new RecipeElement(metalTag, 5f),
+                    new RecipeElement(sandTag, 5f, RecipeElement.TemperatureOperation.AverageTemperature)
                 };
 
                 var recipeID = ComplexRecipeManager.MakeRecipeID(RockCrusherConfig.ID, input, output);
