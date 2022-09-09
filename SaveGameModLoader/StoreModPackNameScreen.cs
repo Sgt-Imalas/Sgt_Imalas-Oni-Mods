@@ -146,6 +146,7 @@ namespace SaveGameModLoader
                     }
                     Debug.Log("all known mods added");
                     ++Progress;
+                    Debug.Log("MissingCOunt: " + missingMods.Count);
                     if(missingMods.Count>0)
                         parentTwo.FindMissingModsQuery(missingMods);
                     else
@@ -184,7 +185,7 @@ namespace SaveGameModLoader
                 var ModListTitle = string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.IMPORTEDTITLEANDAUTHOR, this.Title, this.authorName);
                 ModlistManager.Instance.CreateOrAddToModPacks(ModListTitle, mods);
                 parentTwo.parent.RefreshModlistView();
-                UIUtils.
+                
                 Progress = 0;
             }
 
@@ -194,6 +195,7 @@ namespace SaveGameModLoader
         {
             if (SteamManager.Initialized)
             {
+                Debug.Log("TryFetchingMissingMods, " + IDs.Count);
                 var list = new List<PublishedFileId_t>();
                 foreach(var id in IDs)
                 {
@@ -232,9 +234,11 @@ namespace SaveGameModLoader
                 Debug.LogError("Invalid Collection ID");
             }
 
+            Debug.Log(mods.Length + "< - count");
             var handle = SteamUGC.CreateQueryUGCDetailsRequest(mods, (uint)mods.Length);
             if (handle != UGCQueryHandle_t.Invalid)
             {
+                Debug.Log("HandleValid");
                 SteamUGC.SetReturnChildren(handle, true);
                 SteamUGC.SetReturnLongDescription(handle, true);
                 var apiCall = SteamUGC.SendQueryUGCRequest(handle);
@@ -246,7 +250,11 @@ namespace SaveGameModLoader
                     onQueryComplete.Set(apiCall);
                 }
                 else
+                {
+                    Debug.LogWarning("Invalid API Call "+handle);
                     SteamUGC.ReleaseQueryUGCRequest(handle);
+
+                }
             }
         }
 

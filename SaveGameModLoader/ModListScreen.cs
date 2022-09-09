@@ -196,7 +196,7 @@ namespace SaveGameModLoader
         public string ModListInfoBuilder(string name,Dictionary<string,List<KMod.Label>> mods)
         {
             var sb = new StringBuilder();
-            sb.Append("\""); sb.Append(name); sb.AppendLine("\"");
+            sb.AppendLine(name); 
             sb.Append(""); sb.Append(mods.Count); sb.AppendLine(mods.Count>1? STRINGS.UI.FRONTEND.MODLISTVIEW.SINGLEENTRY.MORESTOREDLISTS : STRINGS.UI.FRONTEND.MODLISTVIEW.SINGLEENTRY.ONESTOREDLIST);
             sb.Append(string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.SINGLEENTRY.LATESTCOUNT,mods.Last().Value.Count));
             return sb.ToString();
