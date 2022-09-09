@@ -71,11 +71,17 @@ namespace SaveGameModLoader
         private CallResult<SteamUGCQueryCompleted_t> onQueryComplete;
 
         private Callback<PersonaStateChange_t> personaState;
-        Constructable constructable = new();
+        Constructable constructable ;
 
         
         class Constructable
         {
+            public int GetProgress() => Progress;
+            public Constructable(StoreModPackNameScreen parent)
+            {
+                parentTwo = parent;
+            }
+
          /// <summary>
          /// 0 == not started
          /// 1 == mod ids & title fetched
@@ -84,7 +90,7 @@ namespace SaveGameModLoader
          /// 4 == all missing mod titles fetched
          /// </summary>
             int Progress = 0;
-            StoreModPackNameScreen parent;
+            StoreModPackNameScreen parentTwo;
 
             List<ulong> modIDs = new();
             List<KMod.Label> mods = new();
@@ -92,10 +98,7 @@ namespace SaveGameModLoader
             string authorName;
 
             List<ulong> missingMods = new();
-            public void SetParent(StoreModPackNameScreen _parent)
-            {
-                parent = _parent;
-            }
+
 
             public void SetModIDsAndTitle(List<ulong> _mods, string title)
             {
@@ -111,6 +114,7 @@ namespace SaveGameModLoader
             {
                 if (Progress == 1)
                 {
+                    Debug.Log("adding Author: " +name);
                     authorName = name;
                     ++Progress;
                     InitModStats();
@@ -142,7 +146,7 @@ namespace SaveGameModLoader
                     }
                     Debug.Log("all known mods added");
                     ++Progress;
-                    parent.FindMissingModsQuery(missingMods);
+                    parentTwo.FindMissingModsQuery(missingMods);
                 }
                 //ModlistManager.Instance.CreateOrAddToModPacks(ModListTitle, ModLabels);
                 //reference.RefreshModlistView();
@@ -165,15 +169,17 @@ namespace SaveGameModLoader
                         Debug.Log(mod.title + ": " + mod.id);
                     }
                     Debug.Log("all unknown mods added");
-                    ++Progress;
+                    ++Progress; 
+                    FinalizeConstructedList();
                 }
             }
             public void FinalizeConstructedList()
             {
                 var ModListTitle = string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.IMPORTEDTITLEANDAUTHOR, this.Title, this.authorName);
                 ModlistManager.Instance.CreateOrAddToModPacks(ModListTitle, mods);
-                parent.parent.RefreshModlistView();
-                ((KScreen)parent).Deactivate();
+                parentTwo.parent.RefreshModlistView();
+                ((KScreen)parentTwo).Deactivate();
+                Progress = 0;
             }
 
         }
@@ -194,6 +200,7 @@ namespace SaveGameModLoader
 
         public void StartModCollectionQuery()
         {
+            constructable = new Constructable(this);
             if (SteamManager.Initialized)
             {
                 string cut = textField.text;
@@ -246,7 +253,7 @@ namespace SaveGameModLoader
                 if (id == (CSteamID)cb.m_ulSteamID)
                 {
                     string CollectionAuthor = SteamFriends.GetFriendPersonaName(id);
-                    Debug.Log(CollectionAuthor + "AUTOR");
+                    Debug.Log(CollectionAuthor + " AUTOR");
                     if (CollectionAuthor == "" || CollectionAuthor == "[unknown]")
                         LoadName(id);
                     else
@@ -280,7 +287,7 @@ namespace SaveGameModLoader
                         Debug.Log("ChildrenCount: " + details.m_unNumChildren);
 #endif
 
-                        if (details.m_eFileType== EWorkshopFileType.k_EWorkshopFileTypeCollection)
+                        if (details.m_eFileType== EWorkshopFileType.k_EWorkshopFileTypeCollection && constructable.GetProgress()==0)
                         {
                             var returnArray = new PublishedFileId_t[details.m_unNumChildren];
                             SteamUGC.GetQueryUGCChildren(handle, i, returnArray, details.m_unNumChildren);
@@ -291,7 +298,9 @@ namespace SaveGameModLoader
                             constructable.SetModIDsAndTitle(ModList, details.m_rgchTitle);
 
                             var steamID = new CSteamID(details.m_ulSteamIDOwner);
+
                             LoadName(steamID);
+                            SteamFriends.RequestUserInformation(steamID, true);
                         }
                         else
                         {
