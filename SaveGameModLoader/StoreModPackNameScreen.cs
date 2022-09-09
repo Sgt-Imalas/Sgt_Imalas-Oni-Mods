@@ -70,6 +70,147 @@ namespace SaveGameModLoader
         /// </summary>
         private CallResult<SteamUGCQueryCompleted_t> onQueryComplete;
 
+        private Callback<PersonaStateChange_t> personaState;
+        Constructable constructable = new();
+
+        
+        class Constructable
+        {
+         /// <summary>
+         /// 0 == not started
+         /// 1 == mod ids & title fetched
+         /// 2 == author fetched
+         /// 3 == all missing mods noted;
+         /// 4 == all missing mod titles fetched
+         /// </summary>
+            int Progress = 0;
+            StoreModPackNameScreen parent;
+
+            List<ulong> modIDs = new();
+            List<KMod.Label> mods = new();
+            string Title;
+            string authorName;
+
+            List<ulong> missingMods = new();
+            public void SetParent(StoreModPackNameScreen _parent)
+            {
+                parent = _parent;
+            }
+
+            public void SetModIDsAndTitle(List<ulong> _mods, string title)
+            {
+                if(Progress == 0) 
+                { 
+                    mods.Clear();
+                    modIDs.AddRange(_mods); 
+                    Title = title;
+                     ++Progress;
+                }
+            }
+            public void SetAuthorName(string name)
+            {
+                if (Progress == 1)
+                {
+                    authorName = name;
+                    ++Progress;
+                    InitModStats();
+                }
+            }
+            public void InitModStats()
+            {
+                if(Progress == 2) { 
+                    var allMods = Global.Instance.modManager.mods.Select(mod => mod.label).ToList();
+                    Debug.Log("adding known mods");
+                    foreach (var id in modIDs)
+                    {
+                        KMod.Label mod = new();
+                        mod.id = id.ToString();
+                        mod.distribution_platform = KMod.Label.DistributionPlatform.Steam;
+                        var RefMod = allMods.Find(refm => refm.id == mod.id);
+                        if (RefMod.id != null && RefMod.id != "")
+                        {
+                            mod.title = RefMod.title;
+                            mod.version = RefMod.version;
+                        }
+                        else
+                        {
+                            missingMods.Add(id);
+                            continue;
+                        }
+                        mods.Add(mod);
+                        Debug.Log(mod.title + "; " + mod.id);
+                    }
+                    Debug.Log("all known mods added");
+                    ++Progress;
+                    parent.FindMissingModsQuery(missingMods);
+                }
+                //ModlistManager.Instance.CreateOrAddToModPacks(ModListTitle, ModLabels);
+                //reference.RefreshModlistView();
+                //((KScreen)this).Deactivate();
+            }
+            public void InsertMissingIDs(List<Tuple<ulong, string>> missingMods)
+            {
+                if (Progress == 3)
+                {
+                    Debug.Log("adding unknown mods");
+                    foreach (var id in missingMods)
+                    {
+                        KMod.Label mod = new();
+                        mod.id = id.first.ToString();
+                        mod.distribution_platform = KMod.Label.DistributionPlatform.Steam;
+                        
+                        mod.title = id.second.ToString();
+                        mod.version = 404;
+                        mods.Add(mod);
+                        Debug.Log(mod.title + ": " + mod.id);
+                    }
+                    Debug.Log("all unknown mods added");
+                    ++Progress;
+                }
+            }
+            public void FinalizeConstructedList()
+            {
+                var ModListTitle = string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.IMPORTEDTITLEANDAUTHOR, this.Title, this.authorName);
+                ModlistManager.Instance.CreateOrAddToModPacks(ModListTitle, mods);
+                parent.parent.RefreshModlistView();
+                ((KScreen)parent).Deactivate();
+            }
+
+        }
+
+        public void FindMissingModsQuery(List<ulong> IDs)
+        {
+            if (SteamManager.Initialized)
+            {
+                var list = new List<PublishedFileId_t>();
+                foreach(var id in IDs)
+                {
+                    list.Add(new(id));
+                }
+                QueryUGCDetails(list.ToArray());
+            }
+        }
+
+
+        public void StartModCollectionQuery()
+        {
+            if (SteamManager.Initialized)
+            {
+                string cut = textField.text;
+
+                if (!cut.Contains("https://steamcommunity.com/sharedfiles/filedetails/?id="))
+                    return;
+
+                cut = cut.Replace("https://steamcommunity.com/sharedfiles/filedetails/?id=", string.Empty);
+
+                var CollectionID = ulong.Parse(cut);
+                Debug.Log("TRY Parse ID: " + CollectionID);
+
+                var list = new List<PublishedFileId_t>() { new(CollectionID) };
+                QueryUGCDetails(list.ToArray());
+            }
+        }
+
         private void QueryUGCDetails(PublishedFileId_t[] mods)
         {
 
@@ -96,32 +237,35 @@ namespace SaveGameModLoader
             }
         }
 
-        public void StartModCollectionQuery()
+
+
+        void LoadName(CSteamID id)
         {
-            if (SteamManager.Initialized)
+            personaState = Callback<PersonaStateChange_t>.Create((cb) =>
             {
-                string cut = textField.text;
-
-                if (!cut.Contains("https://steamcommunity.com/sharedfiles/filedetails/?id="))
-                    return;
-
-                cut = cut.Replace("https://steamcommunity.com/sharedfiles/filedetails/?id=", string.Empty);
-
-                var CollectionID = ulong.Parse(cut);
-                Debug.Log("TRY Parse ID: " + CollectionID);
-
-                var list = new List<PublishedFileId_t>() { new(CollectionID) };
-                QueryUGCDetails(list.ToArray());
-            }
+                if (id == (CSteamID)cb.m_ulSteamID)
+                {
+                    string CollectionAuthor = SteamFriends.GetFriendPersonaName(id);
+                    Debug.Log(CollectionAuthor + "AUTOR");
+                    if (CollectionAuthor == "" || CollectionAuthor == "[unknown]")
+                        LoadName(id);
+                    else
+                    {
+                        constructable.SetAuthorName(CollectionAuthor);
+                    }
+                }
+            });
         }
         private void OnUGCDetailsComplete(SteamUGCQueryCompleted_t callback, bool ioError)
         {
+            List<Tuple<ulong, string>> missingIds = new();
+
             ModListScreen reference = parent;
                var result = callback.m_eResult;
             var handle = callback.m_handle;
-            Debug.Log("QUERY CALL DONE");
-
-            string ModListTitle=string.Empty;
+#if DEBUG
+            Debug.Log("QUERY CALL 1 DONE");
+#endif
             List<ulong> ModList = new();
 
             if (!ioError && result == EResult.k_EResultOK)
@@ -130,10 +274,11 @@ namespace SaveGameModLoader
                 {
                     if (SteamUGC.GetQueryUGCResult(handle, i, out SteamUGCDetails_t details))
                     {
+#if DEBUG
                         Debug.Log("DATA RECIEVED:");
                         Debug.Log("Title: " + details.m_rgchTitle);
                         Debug.Log("ChildrenCount: " + details.m_unNumChildren);
-                        ModListTitle = details.m_rgchTitle;
+#endif
 
                         if (details.m_eFileType== EWorkshopFileType.k_EWorkshopFileTypeCollection)
                         {
@@ -142,55 +287,30 @@ namespace SaveGameModLoader
                             foreach(var v in returnArray)
                             {
                                 ModList.Add(v.m_PublishedFileId);
-                                //Debug.Log("ITEM: " + v.m_PublishedFileId);
                             }
+                            constructable.SetModIDsAndTitle(ModList, details.m_rgchTitle);
+
+                            var steamID = new CSteamID(details.m_ulSteamIDOwner);
+                            LoadName(steamID);
+                        }
+                        else
+                        {
+                            var tuple = new Tuple<ulong, string>(details.m_nPublishedFileId.m_PublishedFileId, details.m_rgchTitle.ToString());
+                            missingIds.Add(tuple);
                         }
                     }
                 }
-
-                
             }
             
             SteamUGC.ReleaseQueryUGCRequest(handle);
             onQueryComplete?.Dispose();
             onQueryComplete = null;
-#if DEBUG
-            Debug.Log(ModListTitle + " -> count: " + ModList.Count);
-#endif
 
-            if (ModListTitle != string.Empty && ModList.Count > 0)
+            if (missingIds.Count > 0)
             {
-                var allMods = Global.Instance.modManager.mods.Select(mod=>mod.label).ToList();
-                List<KMod.Label> ModLabels = new();
-                foreach (var id in ModList)
-                {
-                    //var mod = allMods.Except(id, new ModlistManager.ModDifferencesByIdComparer());
-                    KMod.Label mod = new();
-                    mod.id = id.ToString();
-                    mod.distribution_platform = KMod.Label.DistributionPlatform.Steam;
+                Debug.Log("Inserting missing IDs");
+                constructable.InsertMissingIDs(missingIds);
 
-                    var RefMod = allMods.Find(refm => refm.id == mod.id);
-
-                    if(RefMod.id != null && RefMod.id != "")
-                    {
-                        mod.title = RefMod.title;
-                        mod.version = RefMod.version;
-                    }
-                    else
-                    {
-
-                        mod.title =  "Missing Info; ID: "+id;
-                        mod.version = 404;
-                    }
-
-
-                    ModLabels.Add(mod);
-                    Debug.Log(mod.title + "; "+mod.id);
-                }
-                Debug.Log("STILL EXISTING");
-                ModlistManager.Instance.CreateOrAddToModPacks(ModListTitle, ModLabels);
-                reference.RefreshModlistView(); 
-                //((KScreen)this).Deactivate();
             }
         }
 

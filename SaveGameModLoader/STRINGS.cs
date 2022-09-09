@@ -41,6 +41,8 @@ namespace SaveGameModLoader
                     public static LocString MODLISTSTANDALONEHEADER = "Created & Imported Modlists";
                     public static LocString MODLISTSAVEGAMEHEADER = "Modlists from SaveGames";
 
+                    public static LocString IMPORTEDTITLEANDAUTHOR = "{0}, made by {1}";
+
                     public class SINGLEENTRY
                     {
                         public static LocString ONESTOREDLIST = " stored List";
