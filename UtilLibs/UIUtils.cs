@@ -104,7 +104,7 @@ namespace UtilLibs
         public static bool FindAndDisable(Transform parent, string name)
         {
 #if DEBUG
-            Debug.Log("Disabling " + name);
+            //Debug.Log("Disabling " + name);
 #endif
             var toDisable = parent.Find(name);
             if (toDisable == null)

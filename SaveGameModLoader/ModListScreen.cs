@@ -23,7 +23,7 @@ namespace SaveGameModLoader
         protected override void OnActivate()
         {
 #if DEBUG
-            UIUtils.ListAllChildren(this.transform);
+            //UIUtils.ListAllChildren(this.transform);
 #endif
             var TitleBar = transform.Find("Content/BG/TitleBar");
 
@@ -45,7 +45,7 @@ namespace SaveGameModLoader
 #if DEBUG
             foreach (var v in ContentParentStandalone.transform.parent.gameObject.GetComponents(typeof(Component)))
             {
-                Debug.Log(v.GetType() + " <- Type, name ->" + v.name);
+                //Debug.Log(v.GetType() + " <- Type, name ->" + v.name);
             }
 #endif
             var SpacerParent = ContentParentStandalone.transform.parent.gameObject;
@@ -137,12 +137,12 @@ namespace SaveGameModLoader
                 UnityEngine.Object.Destroy(btnToRemove);
             }
 #if DEBUG 
-            Debug.Log("LAYOUT:");
-            foreach (var v in ContentParentStandalone.GetComponents(typeof (Component)))
-            {
-                Debug.Log(v.GetType() + " <- Type, name ->" + v.name);
-            }
-            Debug.Log("Exported Lists:");
+            //Debug.Log("LAYOUT:");
+            //foreach (var v in ContentParentStandalone.GetComponents(typeof (Component)))
+            //{
+            //    Debug.Log(v.GetType() + " <- Type, name ->" + v.name);
+            //}
+            //Debug.Log("Exported Lists:");
 #endif
 
             ///Layout Exported
@@ -167,7 +167,7 @@ namespace SaveGameModLoader
             foreach (var exportedList in ModlistManager.Instance.ModPacks)
             {
 #if DEBUG
-                Debug.Log(exportedList.Key);
+               // Debug.Log(exportedList.Key);
 #endif
                 var contentbutton = Util.KInstantiateUI(ButtonPrefab, ContentParentStandalone, true);
                 
@@ -179,12 +179,12 @@ namespace SaveGameModLoader
                 contentbutton.GetComponent<KButton>().isInteractable = DlcManager.IsExpansion1Active() ? exportedList.Value.Type != SaveGameModList.DLCType.baseGame : exportedList.Value.Type != SaveGameModList.DLCType.spacedOut;
             }
 #if DEBUG
-            Debug.Log("Savegames:");
+            //Debug.Log("Savegames:");
 #endif
             foreach (var saveGameList in ModlistManager.Instance.Modlists)
             {
 #if DEBUG
-                Debug.Log(saveGameList.Key);
+                //Debug.Log(saveGameList.Key);
 #endif
                 var contentbutton = Util.KInstantiateUI(ButtonPrefab, ContentParentSaveGame, true);
                 contentbutton.transform.Find("Label").GetComponent<LocText>().text = ModListInfoBuilder(saveGameList.Key, saveGameList.Value.SavePoints);

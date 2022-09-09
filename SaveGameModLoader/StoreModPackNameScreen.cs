@@ -44,7 +44,11 @@ namespace SaveGameModLoader
             var ConfirmButton = ConfirmButtonGO.GetComponent<KButton>();
 
             if (ExportToFile)
+            {
                 ConfirmButton.onClick += new System.Action(this.CreateModPack);
+                ConfirmButton.onClick += new System.Action(((KScreen)this).Deactivate);
+
+            }
             else
                 ConfirmButton.onClick += () =>
                 {
@@ -52,7 +56,6 @@ namespace SaveGameModLoader
                    //((KScreen)this).Deactivate();
                 };// ImportModList(2854869130);
 
-            ConfirmButton.onClick += new System.Action(((KScreen)this).Deactivate);
         }
 
         public void CreateModPack()
@@ -68,7 +71,8 @@ namespace SaveGameModLoader
         /// <summary>
         /// Triggered when a query for mod details completes.
         /// </summary>
-        private CallResult<SteamUGCQueryCompleted_t> onQueryComplete;
+        private CallResult<SteamUGCQueryCompleted_t> onInitialQueryComplete;
+        private CallResult<SteamUGCQueryCompleted_t> onMissingQueryComplete;
 
         private Callback<PersonaStateChange_t> personaState;
         Constructable constructable ;
@@ -77,6 +81,7 @@ namespace SaveGameModLoader
         class Constructable
         {
             public int GetProgress() => Progress;
+            public void ResetProgress() => Progress = 0;
             public Constructable(StoreModPackNameScreen parent)
             {
                 parentTwo = parent;
@@ -187,6 +192,7 @@ namespace SaveGameModLoader
                 parentTwo.parent.RefreshModlistView();
                 
                 Progress = 0;
+                ((KScreen)parentTwo).Deactivate();
             }
 
         }
@@ -201,7 +207,7 @@ namespace SaveGameModLoader
                 {
                     list.Add(new(id));
                 }
-                QueryUGCDetails(list.ToArray());
+                QueryUGCDetails(list.ToArray(),onMissingQueryComplete);
             }
         }
 
@@ -211,6 +217,7 @@ namespace SaveGameModLoader
             constructable = new Constructable(this);
             if (SteamManager.Initialized)
             {
+                constructable.ResetProgress();
                 string cut = textField.text;
 
                 if (!cut.Contains("https://steamcommunity.com/sharedfiles/filedetails/?id="))
@@ -222,16 +229,17 @@ namespace SaveGameModLoader
                 Debug.Log("TRY Parse ID: " + CollectionID);
 
                 var list = new List<PublishedFileId_t>() { new(CollectionID) };
-                QueryUGCDetails(list.ToArray());
+                QueryUGCDetails(list.ToArray(), onInitialQueryComplete);
             }
         }
 
-        private void QueryUGCDetails(PublishedFileId_t[] mods)
+        private void QueryUGCDetails(PublishedFileId_t[] mods, CallResult<SteamUGCQueryCompleted_t> onQueryComplete)
         {
 
             if (mods == null)
             {
                 Debug.LogError("Invalid Collection ID");
+                return;
             }
 
             Debug.Log(mods.Length + "< - count");
@@ -239,11 +247,15 @@ namespace SaveGameModLoader
             if (handle != UGCQueryHandle_t.Invalid)
             {
                 Debug.Log("HandleValid");
+                if (constructable.GetProgress() < 2) { }
                 SteamUGC.SetReturnChildren(handle, true);
                 SteamUGC.SetReturnLongDescription(handle, true);
+                
                 var apiCall = SteamUGC.SendQueryUGCRequest(handle);
+                
                 if (apiCall != SteamAPICall_t.Invalid)
                 {
+                    Debug.Log("Apicall: " + apiCall);
                     onQueryComplete?.Dispose();
                     onQueryComplete = new CallResult<SteamUGCQueryCompleted_t>(
                         OnUGCDetailsComplete);
@@ -292,10 +304,13 @@ namespace SaveGameModLoader
             ModListScreen reference = parent;
                var result = callback.m_eResult;
             var handle = callback.m_handle;
-#if DEBUG
-            Debug.Log("QUERY CALL 1 DONE");
-#endif
+
+            Debug.Log("QUERY CALL " + constructable.GetProgress()+" DONE");
+
             List<ulong> ModList = new();
+
+            Debug.Log(ioError + " <- Error?");
+            Debug.Log(EResult.k_EResultOK + " <- Result?");
 
             if (!ioError && result == EResult.k_EResultOK)
             {
@@ -309,11 +324,11 @@ namespace SaveGameModLoader
                         Debug.Log("ChildrenCount: " + details.m_unNumChildren);
 #endif
 
-                        if (details.m_eFileType== EWorkshopFileType.k_EWorkshopFileTypeCollection && constructable.GetProgress()==0)
+                        if (details.m_eFileType == EWorkshopFileType.k_EWorkshopFileTypeCollection && constructable.GetProgress() == 0)
                         {
                             var returnArray = new PublishedFileId_t[details.m_unNumChildren];
                             SteamUGC.GetQueryUGCChildren(handle, i, returnArray, details.m_unNumChildren);
-                            foreach(var v in returnArray)
+                            foreach (var v in returnArray)
                             {
                                 ModList.Add(v.m_PublishedFileId);
                             }
@@ -332,12 +347,15 @@ namespace SaveGameModLoader
                     }
                 }
             }
-            
-            SteamUGC.ReleaseQueryUGCRequest(handle);
-            onQueryComplete?.Dispose();
-            onQueryComplete = null;
 
-            if (missingIds.Count > 0)
+            SteamUGC.ReleaseQueryUGCRequest(handle);
+            onInitialQueryComplete?.Dispose();
+            onMissingQueryComplete?.Dispose();
+            onInitialQueryComplete = null;
+            onMissingQueryComplete = null;
+            Debug.Log("PRog: " + constructable.GetProgress());
+
+            if (missingIds.Count > 0&&constructable.GetProgress()==3)
             {
                 Debug.Log("Inserting missing IDs");
                 constructable.InsertMissingIDs(missingIds);
