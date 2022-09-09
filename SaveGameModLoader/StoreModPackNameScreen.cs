@@ -49,7 +49,7 @@ namespace SaveGameModLoader
                 ConfirmButton.onClick += () =>
                 {
                     StartModCollectionQuery();
-                   // ((KScreen)this).Deactivate();
+                   //((KScreen)this).Deactivate();
                 };// ImportModList(2854869130);
 
             ConfirmButton.onClick += new System.Action(((KScreen)this).Deactivate);
@@ -146,7 +146,13 @@ namespace SaveGameModLoader
                     }
                     Debug.Log("all known mods added");
                     ++Progress;
-                    parentTwo.FindMissingModsQuery(missingMods);
+                    if(missingMods.Count>0)
+                        parentTwo.FindMissingModsQuery(missingMods);
+                    else
+                    {
+                        ++Progress;
+                        FinalizeConstructedList();
+                    }
                 }
                 //ModlistManager.Instance.CreateOrAddToModPacks(ModListTitle, ModLabels);
                 //reference.RefreshModlistView();
@@ -178,7 +184,7 @@ namespace SaveGameModLoader
                 var ModListTitle = string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.IMPORTEDTITLEANDAUTHOR, this.Title, this.authorName);
                 ModlistManager.Instance.CreateOrAddToModPacks(ModListTitle, mods);
                 parentTwo.parent.RefreshModlistView();
-                ((KScreen)parentTwo).Deactivate();
+                UIUtils.
                 Progress = 0;
             }
 
@@ -248,20 +254,28 @@ namespace SaveGameModLoader
 
         void LoadName(CSteamID id)
         {
-            personaState = Callback<PersonaStateChange_t>.Create((cb) =>
-            {
-                if (id == (CSteamID)cb.m_ulSteamID)
+            string CollectionAuthor = SteamFriends.GetFriendPersonaName(id);
+            Debug.Log(CollectionAuthor + " AUTOR");
+            if (CollectionAuthor == "" || CollectionAuthor == "[unknown]")
+                personaState = Callback<PersonaStateChange_t>.Create((cb) =>
                 {
-                    string CollectionAuthor = SteamFriends.GetFriendPersonaName(id);
-                    Debug.Log(CollectionAuthor + " AUTOR");
-                    if (CollectionAuthor == "" || CollectionAuthor == "[unknown]")
-                        LoadName(id);
-                    else
+                    if (id == (CSteamID)cb.m_ulSteamID)
                     {
-                        constructable.SetAuthorName(CollectionAuthor);
+                        string CollectionAuthor = SteamFriends.GetFriendPersonaName(id);
+                        Debug.Log(CollectionAuthor + " AUTOR");
+                        if (CollectionAuthor == "" || CollectionAuthor == "[unknown]")
+                            LoadName(id);
+                        else
+                        {
+                            constructable.SetAuthorName(CollectionAuthor);
+                        }
                     }
-                }
-            });
+                });
+            else
+            {
+                constructable.SetAuthorName(CollectionAuthor);
+
+            }
         }
         private void OnUGCDetailsComplete(SteamUGCQueryCompleted_t callback, bool ioError)
         {
