@@ -8,8 +8,10 @@ using UnityEngine;
 
 namespace SetStartDupes
 {
-    internal class ModAssets
+    public class ModAssets
     {
-
+        public static CharacterContainer PrefabToFix;
+        public static GameObject StartPrefab;
+        public static bool HasShrunkenDown = false;
     }
 }

@@ -113,6 +113,14 @@ namespace UtilLibs
             return true;
         }
 
+        public static void ListComponents(GameObject instance)
+        {
+            foreach (var comp in instance.GetComponents(typeof(Component)))
+            {
+                Console.WriteLine("Type: "+comp.GetType() + ", Name ->" + comp.name);
+            }
+        }
+
         public static void ListAllChildren(Transform parent, int level = 0, int maxDepth = 10)
         {
             if (level >= maxDepth) return;
