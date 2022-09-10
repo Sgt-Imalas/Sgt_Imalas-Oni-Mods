@@ -50,6 +50,14 @@ namespace SaveGameModLoader
                         public static LocString LATESTCOUNT = "Latest Version contains {0} Mods.";
                     }
 
+                    public class POPUP
+                    {
+                        public static LocString ERRORTITLE = "Could not import Collection";
+                        public static LocString WRONGFORMAT = "Not a valid Collection link!";
+                        public static LocString SUCCESSTITLE = "Import successful";
+                        public static LocString ADDEDNEW = "Successfully imported Modlist:\n{0}";
+
+                    }
                 }
 
                 public class SINGLEMODLIST

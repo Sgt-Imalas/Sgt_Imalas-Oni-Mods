@@ -16,6 +16,7 @@ namespace SaveGameModLoader
             undefined = 0,
             baseGame = 1,
             spacedOut = 2,
+            modPack = 3
 
         }
 
@@ -60,13 +61,14 @@ namespace SaveGameModLoader
             if (!_isModPack) { 
                 ReferencedColonySaveName = GetModListFileName(referencedColonySave);
                 ModlistPath = GetModListFileName(referencedColonySave);
+                Type = DlcManager.IsExpansion1Active() ? DLCType.spacedOut : DLCType.baseGame;
             }
             else
             {
                 ReferencedColonySaveName = referencedColonySave;
                 ModlistPath = referencedColonySave;
+                Type = DLCType.modPack ;
             }
-            Type = DlcManager.IsExpansion1Active() ? DLCType.spacedOut : DLCType.baseGame;
         }
 
         public static string GetModListFileName(string pathOfReference)

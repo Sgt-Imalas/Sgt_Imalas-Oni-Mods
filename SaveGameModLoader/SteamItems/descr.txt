@@ -6,8 +6,10 @@ This mod allows you to synchronize your enabled mods to those used in a save gam
 It stores the individual mod configs of your save games and allows you to switch between different configurations with deviating mod lists with one click.
 
 To generate a mod list, just load the corresponding save or save your game with this mod enabled.
+Import Modlists from Steam Collections & Export/Save your own.
 
-[h1]Current latest Version: 3.0.0[/h1]
+
+[h1]Current latest Version: 4.0.0[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
@@ -31,12 +33,16 @@ To generate a mod list, just load the corresponding save or save your game with 
 Added a new submenu to the mod-view that allows you to view all your Modlists and export them yourself from your current mod loadout.
 Lists
 
+[h2]New with 4.0: Modlist Import from Steam Collection[/h2]
+[img]https://i.imgur.com/uQKWLa0.gif[/img]
+
 [h1]Disclaimer[/h1]
 [list]
 [*]Do not close the Sync Menu with a right click next to it, it will prevent the mod menu from refreshing until you hit one of the close buttons in either of the menus.
 [*]Mod Syncing is only supported in the main menu. I disabled it in the ingame load menu, since using that causes a base game bug which reinstalls and shuffles the entire modlist.
 [*]Crashes that happen while loading WILL wrongfully blame this mod for the crash. This happens due to the fact that modlists get created during loading. It is save to keep the mod enabled after such a crash, since these crashes often occur due to missing/not enabled mods.
-[/list] 
+[/list]
+
 
 
 [h1]Localisations[/h1]

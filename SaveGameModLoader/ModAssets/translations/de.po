@@ -24,6 +24,24 @@ msgctxt ""
 msgid "Export your current mod config to a file."
 msgstr "Exportiere die momentane Modkonfiguration als Datei."
 
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.IMPORTCOLLECTIONLIST
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.IMPORTCOLLECTIONLIST"
+msgid "Import Modlist"
+msgstr "Importiere Modliste"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.IMPORTCOLLECTIONLISTTOOLTIP
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.IMPORTCOLLECTIONLISTTOOLTIP"
+msgid "Import a modlist from a Steam collection"
+msgstr "Erstelle eine Modliste aus einer Steam-Sammlung"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.IMPORTEDTITLEANDAUTHOR
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.IMPORTEDTITLEANDAUTHOR"
+msgid "{0}, Collection by {1}"
+msgstr "{0}, Sammlung von {1}"
+
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTSAVEGAMEHEADER
 msgctxt ""
 "SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTSAVEGAMEHEADER"
@@ -43,8 +61,8 @@ msgstr "Alle Modlisten anzeigen und verwalten"
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTSTANDALONEHEADER
 msgctxt ""
 "SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTSTANDALONEHEADER"
-msgid "Exported Modlists"
-msgstr "Exportierte Modlisten"
+msgid "Created & Imported Modlists"
+msgstr "Erstellte & Importierte Modlisten"
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTWINDOWTITLE
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTWINDOWTITLE"
@@ -62,6 +80,30 @@ msgctxt ""
 "SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.OPENMODLISTFOLDERBUTTONINFO"
 msgid "Open the Modlist Folder to see all stored modlists"
 msgstr "Öffnet den Ordner, in welchem exportierte Modlisten gespeichert sind"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ADDEDNEW
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ADDEDNEW"
+msgid ""
+"Successfully imported Modlist:\n"
+"{0}"
+msgstr ""
+"Erfolgreich importierte Modliste:\n"
+"{0}"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ERRORTITLE
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ERRORTITLE"
+msgid "Could not import Collection"
+msgstr "Konnte Sammlung nicht importieren"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.SUCCESSTITLE
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.SUCCESSTITLE"
+msgid "Import successful"
+msgstr "Import erfolgreich"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.WRONGFORMAT
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.WRONGFORMAT"
+msgid "Not a valid Collection link!"
+msgstr "Kein valider Link einer Steam-Sammlung!"
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.SINGLEENTRY.LATESTCOUNT
 msgctxt ""
@@ -98,6 +140,12 @@ msgctxt ""
 "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.EXPORTMODLISTCONFIRMSCREEN"
 msgid "Export Modlist"
 msgstr "Modliste exportieren"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.IMPORTMODLISTCONFIRMSCREEN
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.IMPORTMODLISTCONFIRMSCREEN"
+msgid "Paste collection link to import Modlist"
+msgstr "Sammlungslink einfügen um Modliste zu importieren"
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMOD
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMOD"
@@ -176,8 +224,8 @@ msgstr "Modliste anwenden"
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.TITLE
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.TITLE"
-msgid "ModLists stored in \"{0}\""
-msgstr "Modlisten, gespeichert in  {0}"
+msgid "ModLists stored in {0}"
+msgstr "Modlisten gespeichert in  {0}"
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.TITLESAVEGAMELIST
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.TITLESAVEGAMELIST"
@@ -187,8 +235,8 @@ msgstr "Modlisten aus Spielstand {0}"
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WORKSHOPFINDTOOLTIP
 msgctxt ""
 "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WORKSHOPFINDTOOLTIP"
-msgid "CLick here to visit the Steam Workshop page of this mod."
-msgstr "Hier klicken, um die Steam-Workshop Seite des Mods aufzurufen."
+msgid "Click here to visit the Steam Workshop page of this mod."
+msgstr "Hier klicken, um die Steam-Workshop-Seite des Mods aufzurufen."
 
 #~ msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSDESC"
 #~ msgid "Stored config has {0} mods, but these {1} are not installed:{2}"

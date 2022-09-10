@@ -1,4 +1,5 @@
 ﻿
+using KMod;
 using Steamworks;
 using System;
 using System.Collections.Generic;
@@ -193,6 +194,7 @@ namespace SaveGameModLoader
                 
                 Progress = 0;
                 ((KScreen)parentTwo).Deactivate();
+                CreatePopup(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.SUCCESSTITLE, string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ADDEDNEW, ModListTitle));
             }
 
         }
@@ -211,6 +213,12 @@ namespace SaveGameModLoader
             }
         }
 
+        void ThrowErrorPopup()
+        {
+
+            CreatePopup(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ERRORTITLE, STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.WRONGFORMAT);
+            textField.text = string.Empty;
+        }
 
         public void StartModCollectionQuery()
         {
@@ -219,18 +227,36 @@ namespace SaveGameModLoader
             {
                 constructable.ResetProgress();
                 string cut = textField.text;
-
-                if (!cut.Contains("https://steamcommunity.com/sharedfiles/filedetails/?id="))
-                    return;
-
                 cut = cut.Replace("https://steamcommunity.com/sharedfiles/filedetails/?id=", string.Empty);
 
-                var CollectionID = ulong.Parse(cut);
-                Debug.Log("TRY Parse ID: " + CollectionID);
+                if (cut.Length<10 || !cut.All(Char.IsDigit)) 
+                {
+                    ThrowErrorPopup();
+                    return;
+                }
+
+                cut = cut.Substring(cut.Length - 10);
+
+                ulong CollectionID = 0;
+                CollectionID = ulong.Parse(cut);
+
+                //Debug.Log("TRY Parse ID: " + CollectionID);
+
+                if(CollectionID == 0)
+                {
+                    ThrowErrorPopup();
+                    return;
+                }
 
                 var list = new List<PublishedFileId_t>() { new(CollectionID) };
                 QueryUGCDetails(list.ToArray(), onInitialQueryComplete);
             }
+        }
+
+        static void CreatePopup( string title, string content)
+        {
+            KMod.Manager.Dialog(Global.Instance.globalCanvas,
+                title, content);
         }
 
         private void QueryUGCDetails(PublishedFileId_t[] mods, CallResult<SteamUGCQueryCompleted_t> onQueryComplete)
@@ -239,7 +265,7 @@ namespace SaveGameModLoader
             if (mods == null)
             {
                 Debug.LogError("Invalid Collection ID");
-                return;
+                return; 
             }
 
             Debug.Log(mods.Length + "< - count");
@@ -255,7 +281,7 @@ namespace SaveGameModLoader
                 
                 if (apiCall != SteamAPICall_t.Invalid)
                 {
-                    Debug.Log("Apicall: " + apiCall);
+                    //Debug.Log("Apicall: " + apiCall);
                     onQueryComplete?.Dispose();
                     onQueryComplete = new CallResult<SteamUGCQueryCompleted_t>(
                         OnUGCDetailsComplete);
@@ -282,7 +308,9 @@ namespace SaveGameModLoader
                     if (id == (CSteamID)cb.m_ulSteamID)
                     {
                         string CollectionAuthor = SteamFriends.GetFriendPersonaName(id);
+#if DEBUG
                         Debug.Log(CollectionAuthor + " AUTOR");
+#endif
                         if (CollectionAuthor == "" || CollectionAuthor == "[unknown]")
                             LoadName(id);
                         else
@@ -305,23 +333,29 @@ namespace SaveGameModLoader
                var result = callback.m_eResult;
             var handle = callback.m_handle;
 
-            Debug.Log("QUERY CALL " + constructable.GetProgress()+" DONE");
-
             List<ulong> ModList = new();
 
+#if DEBUG
+            Debug.Log("QUERY CALL " + constructable.GetProgress() + " DONE");
             Debug.Log(ioError + " <- Error?");
             Debug.Log(EResult.k_EResultOK + " <- Result?");
-
+#endif
             if (!ioError && result == EResult.k_EResultOK)
             {
                 for (uint i = 0U; i < callback.m_unNumResultsReturned; i++)
                 {
                     if (SteamUGC.GetQueryUGCResult(handle, i, out SteamUGCDetails_t details))
                     {
+                        if (details.m_rgchTitle == string.Empty && details.m_unNumChildren == 0) { 
+                            ThrowErrorPopup();
+                            return;
+                        }
 #if DEBUG
-                        Debug.Log("DATA RECIEVED:");
+
+
                         Debug.Log("Title: " + details.m_rgchTitle);
-                        Debug.Log("ChildrenCount: " + details.m_unNumChildren);
+                        if(details.m_unNumChildren>0)
+                            Debug.Log("ChildrenCount: " + details.m_unNumChildren);
 #endif
 
                         if (details.m_eFileType == EWorkshopFileType.k_EWorkshopFileTypeCollection && constructable.GetProgress() == 0)
@@ -353,11 +387,14 @@ namespace SaveGameModLoader
             onMissingQueryComplete?.Dispose();
             onInitialQueryComplete = null;
             onMissingQueryComplete = null;
+#if DEBUG
             Debug.Log("PRog: " + constructable.GetProgress());
-
+#endif
             if (missingIds.Count > 0&&constructable.GetProgress()==3)
             {
+#if DEBUG
                 Debug.Log("Inserting missing IDs");
+#endif
                 constructable.InsertMissingIDs(missingIds);
 
             }
