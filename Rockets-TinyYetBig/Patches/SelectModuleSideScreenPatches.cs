@@ -42,13 +42,13 @@ namespace Rockets_TinyYetBig
             {
                 if (Config.Instance.EnableBuildingCategories)
                 {
-                    foreach (KeyValuePair<BuildingDef, GameObject> button in __instance.buttons)
-                    {
-                        if (CategoryPatchTest.EnabledButtons.Contains(button.Key.PrefabID))
-                            button.Value.SetActive(true);
-                        else
-                            button.Value.SetActive(false);
-                    }
+                    //foreach (KeyValuePair<BuildingDef, GameObject> button in __instance.buttons)
+                    //{
+                    //    if (CategoryPatchTest.EnabledButtons.Contains(button.Key.PrefabID))
+                    //        button.Value.SetActive(true);
+                    //    else
+                    //        button.Value.SetActive(false);
+                    //}
 
 
 
@@ -88,18 +88,38 @@ namespace Rockets_TinyYetBig
         [HarmonyPatch(nameof(SelectModuleSideScreen.SpawnButtons))]
         public static class CategoryPatchTest
         {
-            public static List<string> EnabledButtons = new List<string>();
 
-            public static void ToggleCategory(List<string> items)
+            public static void ToggleCategory(int category, SelectModuleSideScreen reference,bool initializing = false)
             {
-                if (EnabledButtons.Any(items.Contains))
+                string categoryName = category.ToString();
+               
+
+                if (initializing)
                 {
-                    EnabledButtons.Clear();
+                    foreach (var cat in reference.categories)
+                        cat.transform.Find("Grid").gameObject.SetActive(false);
+                    return;
+                }
+
+                var ReferencedCategory = reference.categories.Find(go => go.name == categoryName);
+
+                bool wasActive = ReferencedCategory.transform.Find("Grid").gameObject.activeSelf;
+
+                if (wasActive)
+                {
+                    ReferencedCategory.transform.Find("Grid").gameObject.SetActive(false);
                 }
                 else
                 {
-                    EnabledButtons.Clear();
-                    EnabledButtons.AddRange(items);
+                    foreach (var cat in reference.categories) 
+                    {
+                        if(cat == ReferencedCategory)
+                            cat.transform.Find("Grid").gameObject.SetActive(true);
+                        else
+                            cat.transform.Find("Grid").gameObject.SetActive(false);
+                    }
+
+                    Debug.Log(ReferencedCategory.name + " <-category to activate");
                 }
             }
             private static void ClearButtons(SelectModuleSideScreen _this)
@@ -116,7 +136,6 @@ namespace Rockets_TinyYetBig
             {
                 if (Config.Instance.EnableBuildingCategories)
                 {
-                    EnabledButtons.Clear();
                     ClearButtons(__instance);
                     foreach (var category in RocketModuleList.GetRocketModuleList())
                     {
@@ -127,11 +146,8 @@ namespace Rockets_TinyYetBig
                             GameObject categoryGO = Util.KInstantiateUI(__instance.categoryPrefab, __instance.categoryContent, true);
                             categoryGO.name = category.Key.ToString();
                             HierarchyReferences component = categoryGO.GetComponent<HierarchyReferences>();
-#if DEBUG
-                            Debug.Log("Category:");
-                            UIUtils.ListAllChildren(categoryGO.transform);
+                            //categoryGO.name = ((RocketCategory)category.Key).ToString().ToUpperInvariant();
 
-#endif
                             __instance.categories.Add(categoryGO);
 
                             //header.key = ((RocketCategory)category.Key).ToString();
@@ -158,9 +174,10 @@ namespace Rockets_TinyYetBig
                             foldButton.ClearOnClick();
                             foldButton.onClick += () =>
                             {
-                                ToggleCategory(category.Value);
-                                var refresh = typeof(SelectModuleSideScreen).GetMethod("UpdateBuildableStates", BindingFlags.NonPublic | BindingFlags.Instance);
-                                refresh.Invoke(__instance, new[] { (System.Object)null });
+                                
+                                ToggleCategory(category.Key, __instance);
+                                //var refresh = typeof(SelectModuleSideScreen).GetMethod("UpdateBuildableStates", BindingFlags.NonPublic | BindingFlags.Instance);
+                                //refresh.Invoke(__instance, new[] { (System.Object)null });
                             };
                             foldButton.isInteractable = true;
                             var buttonText = foldButtonGO.transform.Find("Label").GetComponent<LocText>();
@@ -196,11 +213,16 @@ namespace Rockets_TinyYetBig
                                         __instance.SelectModule(selectedModuleReflec);
                                 }
                             }
+#if DEBUG
+                            Debug.Log("Category:");
+                            UIUtils.ListAllChildren(categoryGO.transform);
+
+#endif
                         }
                     }
                     var updateMethod = typeof(SelectModuleSideScreen).GetMethod("UpdateBuildableStates", BindingFlags.NonPublic | BindingFlags.Instance);
                     updateMethod.Invoke(__instance, new[] { (System.Object)null });
-
+                    ToggleCategory(0, __instance, true);
 
                     return false;
                 }

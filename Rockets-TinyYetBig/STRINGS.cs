@@ -11,6 +11,32 @@ namespace Rockets_TinyYetBig
 {
     public class STRINGS
     {
+        public class CATEGORYTOOLTIPS
+        {
+            public static LocString REQUIRED = "\nA Rocket needs atleast one of these!";
+
+            public static LocString ENGINES = "Every rocket has to fly somehow.\nOne of these can provide the thrust."+ REQUIRED;
+            public static LocString HABITATS = "Strapped to the side a pilot won't survive long.\nBuild them a nice home to live in one of these."+ REQUIRED;
+            public static LocString NOSECONES = "When not using a habitat nosecone,\nthe rocket needs one of these to keep it's tip nicely shaped.";
+            public static LocString DEPLOYABLES = "Colonizing new worlds needs some perimeter establishment.\nThese modules help with getting the ressources down there.";
+            public static LocString FUEL = "A rocket without fuel or oxidizer won't fly far.\nThese modules help you with that.";
+            public static LocString POWER = "Without power, the lights inside of the rocket will go out\nThese modules help you store it and some even generate it.";
+            public static LocString PRODUCTION = "Just bring the production with you!\nThese modules can produce something.";
+            public static LocString UTILITY = "These modules add some nice utility functions to your rocket.";
+            public static LocString UNCATEGORIZED = "What do these do?\n(not properly categorized)";
+
+            //engines = 0,
+            //habitats = 1,
+            //nosecones = 2,
+            //deployables = 3,
+            //fuel = 4,
+            //cargo = 5,
+            //power = 6,
+            //production = 7,
+            //utility = 8,
+            //uncategorized = -1
+        }
+
         public class BUILDINGS
         {
             
