@@ -97,7 +97,7 @@ namespace Rockets_TinyYetBig
                 if (initializing)
                 {
                     foreach (var cat in reference.categories)
-                        cat.transform.Find("Grid").gameObject.SetActive(false);
+                        cat.transform.Find("Grid").gameObject.SetActive(false); 
                     return;
                 }
 
@@ -164,6 +164,15 @@ namespace Rockets_TinyYetBig
                             CategoryText.text = ((RocketCategory)category.Key).ToString().ToUpperInvariant();
 
                             var foldButtonGO = Util.KInstantiateUI(buttonPrefab, headergo.gameObject, true);
+                            if(Config.Instance.HideRocketCategoryTooltips ==false)
+                            {
+                                var tooltip = UIUtils.AddSimpleTooltipToObject(foldButtonGO.transform, Mod.Tooltips[category.Key]);
+                                tooltip.toolTipPosition = ToolTip.TooltipPosition.Custom;
+                                tooltip.parentPositionAnchor = new Vector2(0.0f, 0.5f);
+                                tooltip.tooltipPivot = new Vector2(1f, 1f);
+                                tooltip.tooltipPositionOffset = new Vector2(-24f, 20f);
+                            }
+
                             var foldButton = foldButtonGO.GetComponent<KButton>();
 
                             var rect = headergo.rectTransform().rect;

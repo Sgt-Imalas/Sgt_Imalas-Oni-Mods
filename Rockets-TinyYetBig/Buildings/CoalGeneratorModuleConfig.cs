@@ -9,25 +9,25 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig
 {
-    public class GeneratorTestConfig : IBuildingConfig
+    public class CoalGeneratorModuleConfig : IBuildingConfig
     {
-        public const string ID = "RTB_GeneratorTestConfig";
+        public const string ID = "RTB_GeneratorCoalModule";
 
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
 
         public override BuildingDef CreateBuildingDef()
         {
             float[] MatCosts = {
-                1200f
+                600f
             };
-            string[] Materials =
-            {
-                "Steel"
-            };
+            string[] Materials = MATERIALS.ALL_METALS;
+            //{
+            //    "Steel"
+            //};
             EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 5, "generatorphos_kanim", 1000, 30f, MatCosts, Materials, 9999f, BuildLocationRule.Anywhere, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "coal_generator_module_kanim", 1000, 90f, MatCosts, Materials, 9999f, BuildLocationRule.Anywhere, none, noise);
             BuildingTemplates.CreateRocketBuildingDef(buildingDef);
             buildingDef.DefaultAnimState = "grounded";
             buildingDef.AttachmentSlotTag = GameTags.Rocket;
@@ -55,26 +55,32 @@ namespace Rockets_TinyYetBig
             go.AddOrGet<LoopingSounds>();
             
             Storage storage = go.AddOrGet<Storage>();
-            storage.capacityKg = 200f;
+            storage.capacityKg = 400f;
 
             ManualDeliveryKG manualDeliveryKg = go.AddOrGet<ManualDeliveryKG>();
             manualDeliveryKg.SetStorage(storage);
             manualDeliveryKg.requestedItemTag = new Tag("Coal");
             manualDeliveryKg.capacity = storage.capacityKg;
-            manualDeliveryKg.refillMass = 200f;
+            manualDeliveryKg.refillMass = storage.capacityKg;
             manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
 
             var generator = go.AddOrGet<RTB_ModuleGenerator>();
 
             generator.consumptionElement = SimHashes.Carbon.CreateTag();
-            generator.consumptionRate = 0.25f;
+            generator.consumptionRate = 0.3f;
             generator.consumptionMaxStoredMass = 200f;
+
+            generator.outputElement = SimHashes.CarbonDioxide;
+            generator.outputProductionTemperature = 383.15f;
+            generator.outputProductionRate = 0.15f;
+            generator.ElementOutputCellOffset = new Vector3(1, 0);
+
 
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
             {
-                new BuildingAttachPoint.HardPoint(new CellOffset(0, 5), GameTags.Rocket, (AttachableBuilding) null)
+                new BuildingAttachPoint.HardPoint(new CellOffset(0, 3), GameTags.Rocket, (AttachableBuilding) null)
             }; 
            
         }
@@ -82,12 +88,6 @@ namespace Rockets_TinyYetBig
         public override void DoPostConfigureComplete(GameObject go)
         {
             Prioritizable.AddRef(go);
-
-
-
-
-            //WireUtilitySemiVirtualNetworkLink virtualNetworkLink = go.AddOrGet<WireUtilitySemiVirtualNetworkLink>();
-            //virtualNetworkLink.visualizeOnly = true;
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MODERATE_PLUS);
         }
     }

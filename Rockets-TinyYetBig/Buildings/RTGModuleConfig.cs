@@ -68,9 +68,9 @@ namespace Rockets_TinyYetBig
             RadiationEmitter radiationEmitter = go.AddOrGet<RadiationEmitter>();
             radiationEmitter.emitType = RadiationEmitter.RadiationEmitterType.Constant;
             radiationEmitter.radiusProportionalToRads = false;
-            radiationEmitter.emitRadiusX = (short)6;
+            radiationEmitter.emitRadiusX = (short)7;
             radiationEmitter.emitRadiusY = radiationEmitter.emitRadiusX;
-            radiationEmitter.emitRads = 300f;
+            radiationEmitter.emitRads = 420f;
             radiationEmitter.emissionOffset = new Vector3(0.0f, 0.0f, 0.0f);
 
             ManualDeliveryKG manualDeliveryKg = go.AddOrGet<ManualDeliveryKG>();
@@ -101,11 +101,12 @@ namespace Rockets_TinyYetBig
             generator.consumptionMaxStoredMass = UraniumCapacity;
 
             generator.outputElement = SimHashes.DepletedUranium;
-            generator.OutputCreationRate = ConsumptionRate;
-            generator.OutputTemperature = 363.15f;
+            generator.outputProductionRate = ConsumptionRate;
+            generator.outputProductionTemperature = 363.15f;
 
             generator.AllowRefill = false;
             generator.AlwaysActive = true;
+            generator.OutputToOwnStorage = true;
 
             //WireUtilitySemiVirtualNetworkLink virtualNetworkLink = go.AddOrGet<WireUtilitySemiVirtualNetworkLink>();
             //virtualNetworkLink.visualizeOnly = true;

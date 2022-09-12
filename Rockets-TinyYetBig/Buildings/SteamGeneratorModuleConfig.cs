@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 using static Rockets_TinyYetBig.Behaviours.RTB_ModuleGenerator;
 
 namespace Rockets_TinyYetBig
@@ -78,11 +79,17 @@ namespace Rockets_TinyYetBig
 
             generator.consumptionElement = SimHashes.Steam.CreateTag();
             generator.consumptionRate = 1f;
-
             generator.PullFromRocketStorageType = CargoBay.CargoType.Gasses;
+
+            generator.outputElement = SimHashes.Water;
+            generator.outputProductionRate = generator.consumptionRate;
+            generator.outputProductionTemperature = UtilMethods.GetKelvinFromC(95);
+
 
             generator.AllowRefill = true;
             generator.AlwaysActive = false;
+            generator.PushToRocketStorageType = CargoBay.CargoType.Liquids;
+            generator.ElementOutputCellOffset = new Vector3(1, 0);
 
             //WireUtilitySemiVirtualNetworkLink virtualNetworkLink = go.AddOrGet<WireUtilitySemiVirtualNetworkLink>();
             //virtualNetworkLink.visualizeOnly = true;

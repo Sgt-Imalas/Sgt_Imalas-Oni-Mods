@@ -36,7 +36,7 @@ namespace RoboRockets.Rockets_TinyYetBig
 
                 AddRocketModuleToBuildList(NoseConeHEPHarvestConfig.ID, NoseconeHarvestConfig.ID, RocketCategory.nosecones);
 
-                AddRocketModuleToBuildList(GeneratorTestConfig.ID, BatteryModuleConfig.ID, RocketCategory.power);
+                AddRocketModuleToBuildList(CoalGeneratorModuleConfig.ID, BatteryModuleConfig.ID, RocketCategory.power);
                 AddRocketModuleToBuildList(RTGModuleConfig.ID, BatteryModuleConfig.ID, RocketCategory.power);
                 AddRocketModuleToBuildList(SteamGeneratorModuleConfig.ID, BatteryModuleConfig.ID, RocketCategory.power);
 

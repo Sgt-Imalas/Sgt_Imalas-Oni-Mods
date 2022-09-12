@@ -38,6 +38,10 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool EnableBuildingCategories { get; set; }
 
+        [Option("Hide Tooltips", "Hide category tooltips. Only has an effect if Rocket Building Categories are enabled", "Tweaks")]
+        [JsonProperty]
+        public bool HideRocketCategoryTooltips { get; set; }
+
         [Option("Radioisotope Decay time", "Time in cycles for all the enriched uranium in the RTG to decay into depleted uranium. RTG needs a rebuild if all enriched uranium has decayed.", "Balancing")]
         [Limit(100f, 2000f)]
         [JsonProperty]
@@ -50,6 +54,7 @@ namespace Rockets_TinyYetBig
             IsotopeDecayTime = 200;
             CompressInteriors = true; 
             EnableBuildingCategories = true;
+            HideRocketCategoryTooltips = false;
         }
     }
 }

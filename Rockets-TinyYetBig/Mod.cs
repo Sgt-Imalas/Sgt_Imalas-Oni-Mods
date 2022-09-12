@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using UtilLibs;
 using static UtilLibs.RocketryUtils;
-using static Rockets_TinyYetBig.STRINGS
+using static Rockets_TinyYetBig.STRINGS;
 
 namespace Rockets_TinyYetBig
 {
@@ -20,7 +20,7 @@ namespace Rockets_TinyYetBig
             
             new POptions().RegisterOptions(this, typeof(Config));
             base.OnLoad(harmony);
-
+            CreateTooltipDictionary();
             Debug.Log("Rocketry Expanded - Initialized");
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
@@ -30,9 +30,18 @@ namespace Rockets_TinyYetBig
             
         }
 
-        void CreateTooltipDic()
+        void CreateTooltipDictionary()
         {
-            Tooltips.Add
+            Tooltips.Add(0, CATEGORYTOOLTIPS.ENGINES);
+            Tooltips.Add(1, CATEGORYTOOLTIPS.HABITATS);
+            Tooltips.Add(2, CATEGORYTOOLTIPS.NOSECONES);
+            Tooltips.Add(3, CATEGORYTOOLTIPS.DEPLOYABLES);
+            Tooltips.Add(4, CATEGORYTOOLTIPS.FUEL);
+            Tooltips.Add(5, CATEGORYTOOLTIPS.CARGO);
+            Tooltips.Add(6, CATEGORYTOOLTIPS.POWER);
+            Tooltips.Add(7, CATEGORYTOOLTIPS.PRODUCTION);
+            Tooltips.Add(8, CATEGORYTOOLTIPS.UTILITY);
+            Tooltips.Add(-1, CATEGORYTOOLTIPS.UNCATEGORIZED);
 
             //engines = 0,
             //    habitats = 1,

@@ -71,11 +71,13 @@ namespace UtilLibs
            
             return true;
         }
-        public static void AddSimpleTooltipToObject(Transform go, string tooltip)
+        public static ToolTip AddSimpleTooltipToObject(Transform go, string tooltip)
         {
             if (go == null)
-                return;
-            go.gameObject.AddComponent<ToolTip>().SetSimpleTooltip(tooltip);
+                return null;
+            var tt = go.gameObject.AddOrGet<ToolTip>();
+            tt.SetSimpleTooltip(tooltip);
+            return tt;
         }
 
         public static Transform TryInsertNamedCopy(Transform parent, string subCompName = "", string copyName = "copy")

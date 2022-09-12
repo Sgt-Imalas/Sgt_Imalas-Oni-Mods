@@ -11,6 +11,10 @@ namespace UtilLibs
 {
     public static class UtilMethods
     {
+        public static float GetKelvinFromC(float degreeC)
+        {
+            return degreeC + 273.15f;
+        }
         public static string ModPath => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         public static bool IsCellInSpaceAndVacuum(int _cell)
         {

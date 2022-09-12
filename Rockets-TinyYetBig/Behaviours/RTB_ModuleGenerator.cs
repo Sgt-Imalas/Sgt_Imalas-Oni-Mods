@@ -34,9 +34,15 @@ namespace Rockets_TinyYetBig.Behaviours
         public bool produceWhileLanded = false;
         [SerializeField]
         public bool AllowRefill = true;
+        [SerializeField]
+        public bool OutputToOwnStorage = false;
+        [SerializeField]
+        public Vector3 ElementOutputCellOffset = new Vector3(0,0);
 
         [SerializeField]
         public CargoBay.CargoType PullFromRocketStorageType = CargoBay.CargoType.Entities;
+        [SerializeField]
+        public CargoBay.CargoType PushToRocketStorageType = CargoBay.CargoType.Entities;
 
 
         public Tag consumptionElement = SimHashes.Void.CreateTag();
@@ -44,8 +50,8 @@ namespace Rockets_TinyYetBig.Behaviours
         public float consumptionMaxStoredMass = 100f;
 
         public SimHashes outputElement = SimHashes.Void;
-        public float OutputCreationRate = -1f;
-        public float OutputTemperature = 293.15f;
+        public float outputProductionRate = -1f;
+        public float outputProductionTemperature = 293.15f;
 
 
         protected override void OnPrefabInit()
@@ -167,7 +173,7 @@ namespace Rockets_TinyYetBig.Behaviours
                 CargoBayCluster component = clusterModule.Get().GetComponent<CargoBayCluster>();
                 if (component != null && component.storageType == this.PullFromRocketStorageType)
                 {
-                    if ((double)component.storage.MassStored() > 0.0)
+                    if ((double)component.storage.MassStored() >= consumptionRate * dt)
                     {
                         for (int index = component.storage.items.Count - 1; index >= 0; --index)
                         {
@@ -186,6 +192,26 @@ namespace Rockets_TinyYetBig.Behaviours
                 }
             }
         }
+        private bool TryPuttingOutputIntoStorage(float dt)
+        {
+            bool putAwaySuccess = false;
+            foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)clustercraft.ModuleInterface.ClusterModules)
+            {
+                CargoBayCluster component = clusterModule.Get().GetComponent<CargoBayCluster>();
+                if (component != null && component.storageType == this.PushToRocketStorageType)
+                {
+                    if ((double)component.RemainingCapacity >= outputProductionRate * dt && component.storage.storageFilters.Contains(outputElement.CreateTag())) 
+                    {
+                        component.storage.Store(ElementLoader.FindElementByHash(outputElement).substance.SpawnResource(this.transform.GetPosition(), outputProductionRate * dt, outputProductionTemperature, byte.MaxValue, 0), true);
+                        putAwaySuccess = true;
+                    }
+                }
+            }
+            return putAwaySuccess;
+        }
+
+
+
 
         private void ResetRefillStatus()
         {
@@ -242,17 +268,37 @@ namespace Rockets_TinyYetBig.Behaviours
                 return;
             //foreach (var producable in formula.outputs)
             //{
-                float amount = OutputCreationRate * dt * amountLeftMultiplier;
+                float amount = outputProductionRate * dt * amountLeftMultiplier;
 
                 Element elementByHash = ElementLoader.FindElementByHash(outputElement);
 
+            if (this.OutputToOwnStorage) { 
                 if (elementByHash.IsGas)
-                    this.storage.AddGasChunk(outputElement, amount, OutputTemperature, byte.MaxValue, 0, true);
+                    this.storage.AddGasChunk(outputElement, amount, outputProductionTemperature, byte.MaxValue, 0, true);
                 else if (elementByHash.IsLiquid)
-                    this.storage.AddLiquid(outputElement, amount, OutputTemperature, byte.MaxValue, 0, true);
+                    this.storage.AddLiquid(outputElement, amount, outputProductionTemperature, byte.MaxValue, 0, true);
                 else
-                    this.storage.Store(elementByHash.substance.SpawnResource(this.transform.GetPosition(), amount, OutputTemperature, byte.MaxValue, 0), true);
-            //}
+                    this.storage.Store(elementByHash.substance.SpawnResource(this.transform.GetPosition(), amount, outputProductionTemperature, byte.MaxValue, 0), true);
+            }
+            else
+            {
+                if (this.PushToRocketStorageType != CargoBay.CargoType.Entities)
+                {
+                    if (TryPuttingOutputIntoStorage(dt))
+                        return;
+                }
+
+                if (clustercraft.Status == Clustercraft.CraftStatus.Grounded)
+                {
+                    Vector3 output = this.transform.GetPosition() + ElementOutputCellOffset; 
+                    
+                    if (elementByHash.IsGas || elementByHash.IsLiquid)
+                        SimMessages.AddRemoveSubstance(Grid.PosToCell(output), outputElement, CellEventLogger.Instance.ElementEmitted, amount, outputProductionTemperature, byte.MaxValue, 0);
+                    else if (elementByHash.IsSolid)
+                        elementByHash.substance.SpawnResource(output, amount, outputProductionTemperature, byte.MaxValue, 0);
+                    //Debug.Log("dumped Element " + outputElement + " with " + amount + " amount");
+                }
+            }
         }
 
 

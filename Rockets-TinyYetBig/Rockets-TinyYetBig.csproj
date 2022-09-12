@@ -47,6 +47,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Update="ModAssets\anim\assets\coal_generator_module\coal_generator_module.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\coal_generator_module\coal_generator_module_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\coal_generator_module\coal_generator_module_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\anim\assets\radbolt_battery_module\radbolt_battery_module.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
