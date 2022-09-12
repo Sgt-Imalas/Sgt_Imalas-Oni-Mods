@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -15,7 +16,7 @@ namespace Rockets_TinyYetBig.Buildings
         public StateMachine<NoseConeHEPHarvest, NoseConeHEPHarvest.StatesInstance, IStateMachineTarget, NoseConeHEPHarvest.Def>.FloatParameter lastHarvestTime;
         public GameStateMachine<NoseConeHEPHarvest, NoseConeHEPHarvest.StatesInstance, IStateMachineTarget, NoseConeHEPHarvest.Def>.State grounded;
         public NoseConeHEPHarvest.NotGroundedStates not_grounded;
-        public const float HEPConsumtionRate = 0.25f;
+        public const float HEPConsumptionRate = 0.25f;
         public override void InitializeStates(out StateMachine.BaseState default_state)
         {
             default_state = (StateMachine.BaseState)this.grounded;
@@ -147,7 +148,7 @@ namespace Rockets_TinyYetBig.Buildings
                         break;
                 }
                 smi.DeltaPOICapacity(-consumptionMass);
-                this.ConsumeParticles(consumptionMass * HEPConsumtionRate);
+                this.ConsumeParticles(consumptionMass * HEPConsumptionRate);
                 if ((double)wastedHarvestingMass > 0.0)
                     component.GetComponent<KSelectable>().AddStatusItem(Db.Get().BuildingStatusItems.SpacePOIWasting, (object)(float)((double)wastedHarvestingMass / (double)dt));
                 else
@@ -157,7 +158,7 @@ namespace Rockets_TinyYetBig.Buildings
 
             public void ConsumeParticles(float amount) => this.GetComponent<HighEnergyParticleStorage>().ConsumeIgnoringDisease(GameTags.HighEnergyParticle, amount);
 
-            public float GetMaxExtractKGFromHEPsAvailable() => this.GetComponent<HighEnergyParticleStorage>().Particles / HEPConsumtionRate;
+            public float GetMaxExtractKGFromHEPsAvailable() => this.GetComponent<HighEnergyParticleStorage>().Particles / HEPConsumptionRate;
 
             public bool CheckIfCanHarvest()
             {
@@ -167,8 +168,12 @@ namespace Rockets_TinyYetBig.Buildings
                     this.sm.canHarvest.Set(false, this);
                     return false;
                 }
-                if ((double)this.master.GetComponent<HighEnergyParticleStorage>().Particles <= 0.0)
+                //var UpdateMethod = typeof(RocketClusterDestinationSelector).GetMethod("OnStorageChange", BindingFlags.NonPublic | BindingFlags.Instance);
+                //var loopmaster = component.GetComponent<RocketClusterDestinationSelector>();
+
+                if ((double)this.GetMaxExtractKGFromHEPsAvailable() <= 0.0)
                 {
+                    //UpdateMethod.Invoke(loopmaster, new[] { (System.Object)null });
                     this.sm.canHarvest.Set(false, this);
                     return false;
                 }
@@ -180,6 +185,7 @@ namespace Rockets_TinyYetBig.Buildings
                     if (!smi.POICanBeHarvested())
                     {
                         this.sm.canHarvest.Set(false, this);
+                        //UpdateMethod.Invoke(loopmaster, new[] { (System.Object)null });
                         return false;
                     }
                     foreach (KeyValuePair<SimHashes, float> elementsWithWeight in smi.configuration.GetElementsWithWeights())

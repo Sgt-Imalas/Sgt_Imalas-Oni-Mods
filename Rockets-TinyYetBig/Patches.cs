@@ -13,7 +13,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig
 {
-    class Patches
+    class OldPatches
     {
         /// <summary>
         /// Extend rocket backwall to all wall buildings in rocket (glass, ports)
@@ -69,39 +69,7 @@ namespace Rockets_TinyYetBig
             }
         }
 
-        /// <summary>
-        /// Adds Laser Nosecone to harvestCheck
-        /// </summary>
-        [HarmonyPatch(typeof(RocketClusterDestinationSelector), "CanRocketHarvest")]
-        public static class AddLaserNosecone_Patch
-        {
-            public static void Postfix(RocketClusterDestinationSelector __instance, ref bool __result)
-            {
-                if (!__result)
-                {
-                    List<NoseConeHEPHarvest.StatesInstance> resourceHarvestModules = GetAllLaserNoseconeHarvestModules(__instance.GetComponent<Clustercraft>());
-                    if (resourceHarvestModules.Count > 0)
-                    {
-                        foreach (var statesInstance in resourceHarvestModules)
-                        {
-                            if (statesInstance.CheckIfCanHarvest())
-                                __result = true;
-                        }
-                    }
-                }
-            }
-            public static List<NoseConeHEPHarvest.StatesInstance> GetAllLaserNoseconeHarvestModules(Clustercraft craft)
-            {
-                List<NoseConeHEPHarvest.StatesInstance> laserNosecones = new List<NoseConeHEPHarvest.StatesInstance>();
-                foreach (Ref<RocketModuleCluster> clusterModule in craft.ModuleInterface.ClusterModules)
-                {
-                    NoseConeHEPHarvest.StatesInstance smi = clusterModule.Get().GetSMI<NoseConeHEPHarvest.StatesInstance>();
-                    if (smi != null)
-                        laserNosecones.Add(smi);
-                }
-                return laserNosecones;
-            }
-        }
+        
 
 
         /// <summary>
