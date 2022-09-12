@@ -73,14 +73,14 @@ namespace Rockets_TinyYetBig
             generator.outputElement = SimHashes.CarbonDioxide;
             generator.outputProductionTemperature = 383.15f;
             generator.outputProductionRate = 0.15f;
-            generator.ElementOutputCellOffset = new Vector3(1, 0);
+            generator.ElementOutputCellOffset = new Vector3(2, 0);
 
 
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
             {
-                new BuildingAttachPoint.HardPoint(new CellOffset(0, 3), GameTags.Rocket, (AttachableBuilding) null)
+                new BuildingAttachPoint.HardPoint(new CellOffset(0, 1), GameTags.Rocket, (AttachableBuilding) null)
             }; 
            
         }
@@ -88,7 +88,7 @@ namespace Rockets_TinyYetBig
         public override void DoPostConfigureComplete(GameObject go)
         {
             Prioritizable.AddRef(go);
-            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MODERATE_PLUS);
+            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, 2);
         }
     }
 }

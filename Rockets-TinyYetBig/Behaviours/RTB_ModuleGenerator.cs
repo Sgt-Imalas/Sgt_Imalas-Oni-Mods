@@ -200,7 +200,7 @@ namespace Rockets_TinyYetBig.Behaviours
                 CargoBayCluster component = clusterModule.Get().GetComponent<CargoBayCluster>();
                 if (component != null && component.storageType == this.PushToRocketStorageType)
                 {
-                    if ((double)component.RemainingCapacity >= outputProductionRate * dt && component.storage.storageFilters.Contains(outputElement.CreateTag())) 
+                    if ((double)component.RemainingCapacity >= outputProductionRate * dt && component.GetComponent<TreeFilterable>().ContainsTag(outputElement.CreateTag())) 
                     {
                         component.storage.Store(ElementLoader.FindElementByHash(outputElement).substance.SpawnResource(this.transform.GetPosition(), outputProductionRate * dt, outputProductionTemperature, byte.MaxValue, 0), true);
                         putAwaySuccess = true;
@@ -284,8 +284,10 @@ namespace Rockets_TinyYetBig.Behaviours
             {
                 if (this.PushToRocketStorageType != CargoBay.CargoType.Entities)
                 {
-                    if (TryPuttingOutputIntoStorage(dt))
+                    if (TryPuttingOutputIntoStorage(dt)) 
+                    { 
                         return;
+                    }
                 }
 
                 if (clustercraft.Status == Clustercraft.CraftStatus.Grounded)

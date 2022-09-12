@@ -28,7 +28,7 @@ namespace Rockets_TinyYetBig
             EffectorValues tieR2 = NOISE_POLLUTION.NONE;
             EffectorValues none = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "rtg_module_kanim", 1000, 30f, MatCosts, Materials, 9999f, BuildLocationRule.Anywhere, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 1, "steam_generator_module_kanim", 1000, 30f, MatCosts, Materials, 9999f, BuildLocationRule.Anywhere, none, noise);
             BuildingTemplates.CreateRocketBuildingDef(buildingDef);
             buildingDef.DefaultAnimState = "grounded";
             buildingDef.AttachmentSlotTag = GameTags.Rocket;
@@ -89,11 +89,11 @@ namespace Rockets_TinyYetBig
             generator.AllowRefill = true;
             generator.AlwaysActive = false;
             generator.PushToRocketStorageType = CargoBay.CargoType.Liquids;
-            generator.ElementOutputCellOffset = new Vector3(1, 0);
+            generator.ElementOutputCellOffset = new Vector3(0, 0);
 
             //WireUtilitySemiVirtualNetworkLink virtualNetworkLink = go.AddOrGet<WireUtilitySemiVirtualNetworkLink>();
             //virtualNetworkLink.visualizeOnly = true;
-            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MODERATE_PLUS);
+            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, 2);
         }
     }
 }
