@@ -119,7 +119,7 @@
 	  <None Update="ModAssets\anim\assets\rtg_module\rtg_module_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\steam_generator_module\steam_generator_module.png">
+	  <None Update="ModAssets\anim\assets\steam_generator_module\steam_generator_module_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\anim\assets\steam_generator_module\steam_generator_module_anim.bytes">

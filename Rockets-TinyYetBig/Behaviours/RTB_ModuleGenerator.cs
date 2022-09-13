@@ -308,7 +308,11 @@ namespace Rockets_TinyYetBig.Behaviours
 
         public string SidescreenButtonTooltip => "Select if the generator module should produce power while the rocket is grounded";
 
-        public bool SidescreenEnabled() => !this.AlwaysActive;
+        /// <summary>
+        /// No generators on land.
+        /// </summary>
+        /// <returns></returns>
+        public bool SidescreenEnabled() => false;//!this.AlwaysActive; 
 
         public bool SidescreenButtonInteractable() => !this.AlwaysActive;
 
