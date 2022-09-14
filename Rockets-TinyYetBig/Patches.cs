@@ -24,7 +24,7 @@ namespace Rockets_TinyYetBig
         {
             public static bool BackgroundExtension(string id, string rwtName)
             {
-                return (id == rwtName 
+                return (id == rwtName
                     || id == "RocketEnvelopeWindowTile"
                     || id == "RocketInteriorLiquidOutputPort"
                     || id == "RocketInteriorLiquidInputPort"
@@ -65,11 +65,11 @@ namespace Rockets_TinyYetBig
         {
             public static void Postfix(WorldSelector __instance)
             {
-                 // UIUtils.ListAllChildren(__instance.transform);
+                // UIUtils.ListAllChildren(__instance.transform);
             }
         }
 
-        
+
 
 
         /// <summary>
@@ -80,7 +80,8 @@ namespace Rockets_TinyYetBig
         {
             public static bool Prefix(Storage __instance, ref float __result)
             {
-                if (__instance.storageFilters != null && __instance.storageFilters.Count > 0) {
+                if (__instance.storageFilters != null && __instance.storageFilters.Count > 0)
+                {
 
                     if (__instance.storageFilters.All(CritterContainmentModuleConfig.GetCritterTags().Contains))
                     {
@@ -128,7 +129,7 @@ namespace Rockets_TinyYetBig
             {
                 var targetComponent = target.GetComponent<RadiationBatteryOutputHandler>();
                 //Debug.Log((target != null) + " ATLEAST ONCE TRUE");
-                if(targetComponent != null)
+                if (targetComponent != null)
                 {
                     __result = true;
                     return false;
@@ -137,7 +138,7 @@ namespace Rockets_TinyYetBig
             }
         }
 
-        
+
 
         /// <summary>
         /// More than 16 Rockets allowed simultaniously
@@ -148,7 +149,7 @@ namespace Rockets_TinyYetBig
         {
             public static void Postfix()
             {
-                if(Config.Instance.CompressInteriors)
+                if (Config.Instance.CompressInteriors)
                     ClusterManager.MAX_ROCKET_INTERIOR_COUNT = 100;
             }
         }
@@ -215,24 +216,26 @@ namespace Rockets_TinyYetBig
 
             public static Vector2I ConditionForSize(Vector2I original, string templateString)
             {
-                if (Config.Instance.CompressInteriors) { 
-                   switch (templateString)
+                if (Config.Instance.CompressInteriors)
+                {
+                    switch (templateString)
                     {
-                    case "interiors/habitat_medium_compressed":
-                        original = new Vector2I(16, 13);
-                        break;
-                    case "interiors/habitat_small_compressed":
-                        original = new Vector2I(12, 11);
-                        break;
-                    case "interiors/habitat_small_expanded":
-                        original = new Vector2I(12, 13);
-                        break;
-                    case "interiors/habitat_medium_expanded":
-                        original = new Vector2I(18, 17);
-                        break;
-                    case "interiors/habitat_medium_stargazer":
-                         original = new Vector2I(16, 11);
-                        break;
+                        case "interiors/habitat_medium_compressed":
+                        //case "interiors/habitat_medium_radiator":
+                            original = new Vector2I(16, 13);
+                            break;
+                        case "interiors/habitat_small_compressed":
+                            original = new Vector2I(12, 11);
+                            break;
+                        case "interiors/habitat_small_expanded":
+                            original = new Vector2I(12, 13);
+                            break;
+                        case "interiors/habitat_medium_expanded":
+                            original = new Vector2I(18, 17);
+                            break;
+                        case "interiors/habitat_medium_stargazer":
+                            original = new Vector2I(16, 11);
+                            break;
                     }
                 }
                 return original;

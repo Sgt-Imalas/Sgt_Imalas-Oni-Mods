@@ -19,11 +19,13 @@ namespace Rockets_TinyYetBig
         public override BuildingDef CreateBuildingDef()
         {
             float[] MatCosts = {
-                600f
+                600f,
+                100f
             };
             string[] Materials =
             {
-                "Steel"
+                "RefinedMetal",
+                "Plastic"
             };
             EffectorValues tieR2 = NOISE_POLLUTION.NONE;
             EffectorValues none = BUILDINGS.DECOR.NONE;
@@ -47,11 +49,6 @@ namespace Rockets_TinyYetBig
             buildingDef.GeneratorBaseCapacity = 2400f;
             buildingDef.RequiresPowerInput = false;
             buildingDef.RequiresPowerOutput = false;
-
-
-
-          
-
             return buildingDef;
         }
 
@@ -91,8 +88,6 @@ namespace Rockets_TinyYetBig
             generator.PushToRocketStorageType = CargoBay.CargoType.Liquids;
             generator.ElementOutputCellOffset = new Vector3(0, 0);
 
-            //WireUtilitySemiVirtualNetworkLink virtualNetworkLink = go.AddOrGet<WireUtilitySemiVirtualNetworkLink>();
-            //virtualNetworkLink.visualizeOnly = true;
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, 2);
         }
     }

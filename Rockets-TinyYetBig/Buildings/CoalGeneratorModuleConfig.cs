@@ -18,7 +18,7 @@ namespace Rockets_TinyYetBig
         public override BuildingDef CreateBuildingDef()
         {
             float[] MatCosts = {
-                600f
+                500f
             };
             string[] Materials = MATERIALS.ALL_METALS;
             //{
@@ -55,7 +55,7 @@ namespace Rockets_TinyYetBig
             go.AddOrGet<LoopingSounds>();
             
             Storage storage = go.AddOrGet<Storage>();
-            storage.capacityKg = 400f;
+            storage.capacityKg = 300f;
 
             ManualDeliveryKG manualDeliveryKg = go.AddOrGet<ManualDeliveryKG>();
             manualDeliveryKg.SetStorage(storage);

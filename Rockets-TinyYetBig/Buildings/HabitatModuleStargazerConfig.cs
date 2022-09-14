@@ -18,18 +18,16 @@ namespace Rockets_TinyYetBig
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public override BuildingDef CreateBuildingDef()
         {
-            float[] materialMass = new float[3]
+            float[] materialMass = new float[2]
             {
                 250f,
-                50f,
-                150f
+                200f
             };
-            string[] materialType = new string[3]
+            string[] materialType = new string[2]
             {
                 "Metal",
-                "Insulator",
                 "Transparent"
-            }; ;
+            }; 
             EffectorValues noiseLevel = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;
             BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(

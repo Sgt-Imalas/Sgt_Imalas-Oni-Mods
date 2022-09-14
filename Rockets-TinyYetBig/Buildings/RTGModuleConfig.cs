@@ -12,6 +12,7 @@ namespace Rockets_TinyYetBig
 {
     public class RTGModuleConfig : IBuildingConfig
     {
+        public static readonly Tag RTB_RTG = TagManager.Create("RTB_RTG");
         public const string ID = "RTB_RtgGeneratorModule";
         public const float UraniumCapacity = 50f;
         public const float energyProduction = 120f;
@@ -21,7 +22,7 @@ namespace Rockets_TinyYetBig
         public override BuildingDef CreateBuildingDef()
         {
             float[] MatCosts = {
-                350f
+                400f
             };
             string[] Materials =
             {
@@ -61,10 +62,10 @@ namespace Rockets_TinyYetBig
         {
             BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
             go.AddOrGet<LoopingSounds>();
-            
+            go.GetComponent<KPrefabID>().AddTag(RTB_RTG);
             Storage storage = go.AddOrGet<Storage>();
             storage.capacityKg = UraniumCapacity;
-
+            go.AddOrGet<FlushUranium>();
             RadiationEmitter radiationEmitter = go.AddOrGet<RadiationEmitter>();
             radiationEmitter.emitType = RadiationEmitter.RadiationEmitterType.Constant;
             radiationEmitter.radiusProportionalToRads = false;
@@ -111,6 +112,7 @@ namespace Rockets_TinyYetBig
             //WireUtilitySemiVirtualNetworkLink virtualNetworkLink = go.AddOrGet<WireUtilitySemiVirtualNetworkLink>();
             //virtualNetworkLink.visualizeOnly = true;
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, 3);
+            //go.GetComponent<ReorderableBuilding>().buildConditions.Add(new OnlynRtgPerRocket());
         }
     }
 }

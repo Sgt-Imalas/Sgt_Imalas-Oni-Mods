@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Behaviours
 {
-    public class RTB_ModuleGenerator : Generator, ISidescreenButtonControl
+    public class RTB_ModuleGenerator : Generator//, ISidescreenButtonControl
     {
 
         /// <summary>
@@ -30,8 +30,8 @@ namespace Rockets_TinyYetBig.Behaviours
 
         [SerializeField]
         public bool AlwaysActive = false;
-        [SerializeField]
-        public bool produceWhileLanded = false;
+        //[SerializeField]
+        //public bool produceWhileLanded = false;
         [SerializeField]
         public bool AllowRefill = true;
         [SerializeField]
@@ -76,7 +76,7 @@ namespace Rockets_TinyYetBig.Behaviours
             Game.Instance.electricalConduitSystem.RemoveFromVirtualNetworks(this.VirtualCircuitKey, (object)this, true);
         }
 
-        public override bool IsProducingPower() => AlwaysActive || this.clustercraft.IsFlightInProgress() &&  BatteriesNotFull() || produceWhileLanded && BatteriesNotFull();
+        public override bool IsProducingPower() => AlwaysActive || this.clustercraft.IsFlightInProgress() && BatteriesNotFull();// || produceWhileLanded && BatteriesNotFull();
 
 
         public bool BatteriesNotFull()
@@ -119,7 +119,9 @@ namespace Rockets_TinyYetBig.Behaviours
 
                     if (!(this.poweringStatusItemHandle == Guid.Empty))
                         return;
-                    this.poweringStatusItemHandle = this.selectable.ReplaceStatusItem(this.notPoweringStatusItemHandle, Db.Get().BuildingStatusItems.Wattage, (object)this);
+                    this.poweringStatusItemHandle = this.AlwaysActive ?
+                        this.selectable.ReplaceStatusItem(this.notPoweringStatusItemHandle, ModAssets.StatusItems.RTB_AlwaysActiveOn , (object)this):
+                        this.selectable.ReplaceStatusItem(this.notPoweringStatusItemHandle, ModAssets.StatusItems.RTB_ModuleGeneratorPowered, (object)this);
                     this.notPoweringStatusItemHandle = Guid.Empty;
                 }
                 else
@@ -134,7 +136,9 @@ namespace Rockets_TinyYetBig.Behaviours
             {
                 if (!(this.notPoweringStatusItemHandle == Guid.Empty))
                     return;
-                this.notPoweringStatusItemHandle = this.selectable.ReplaceStatusItem(this.poweringStatusItemHandle, Db.Get().BuildingStatusItems.ModuleGeneratorNotPowered, (object)this);
+                this.notPoweringStatusItemHandle = this.AlwaysActive ?
+                        this.selectable.ReplaceStatusItem(this.notPoweringStatusItemHandle, ModAssets.StatusItems.RTB_AlwaysActiveOff, (object)this) :
+                        this.selectable.ReplaceStatusItem(this.notPoweringStatusItemHandle, ModAssets.StatusItems.RTB_ModuleGeneratorNotPowered, (object)this);
                 this.poweringStatusItemHandle = Guid.Empty;
                 
 
@@ -304,22 +308,22 @@ namespace Rockets_TinyYetBig.Behaviours
         }
 
 
-        public string SidescreenButtonText => produceWhileLanded ? "Disable generator on ground" : "Enable generator on ground";
+        //public string SidescreenButtonText => produceWhileLanded ? "Disable generator on ground" : "Enable generator on ground";
 
-        public string SidescreenButtonTooltip => "Select if the generator module should produce power while the rocket is grounded";
+        //public string SidescreenButtonTooltip => "Select if the generator module should produce power while the rocket is grounded";
 
         /// <summary>
         /// No generators on land.
         /// </summary>
         /// <returns></returns>
-        public bool SidescreenEnabled() => false;//!this.AlwaysActive; 
+        //public bool SidescreenEnabled() => false;//!this.AlwaysActive; 
 
-        public bool SidescreenButtonInteractable() => !this.AlwaysActive;
+        // public bool SidescreenButtonInteractable() => !this.AlwaysActive;
 
-        public void OnSidescreenButtonPressed()
-        {
-            produceWhileLanded = !produceWhileLanded;
-        }
+        //public void OnSidescreenButtonPressed()
+        //{
+        //    produceWhileLanded = !produceWhileLanded;
+        //}
 
         public int ButtonSideScreenSortOrder() => 20;
     }

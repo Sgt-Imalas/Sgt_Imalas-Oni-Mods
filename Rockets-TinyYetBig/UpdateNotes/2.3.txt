@@ -1,11 +1,10 @@
-﻿Update 2.5:
-
+﻿Update 2.3:
 Features:
 - Generator Modules: Produce some extra power during the flight with one of the 3 new generator modules:
 	(generators will be disabled while landed if not explicitly stated. when used with a battery of any kind, generators will fill that battery until 95% and then stop producing power & consuming ressources)
 	- Coal Generator Module: early game, uses coal, produces 200W of power. Dimensions: 3x1
 	- Steam Generator Module: fairly advanced, pulls steam from gas cargo, puts out hot water to liquid cargo (if exists, not required). produces 400W of power. Dimensions: 5x1
-	- Radioisotope Thermoelectric Generator (RTG): once fed with 50kg of enriched uranium, it will decay these very slowly into depleted uranium, producing power during that. produces 120W of power. will always be active. Decay time can be adjusted in mod settings, default is 200 cycles. Dimensions: 3x1
+	- Radioisotope Thermoelectric Generator (RTG): once fed with 50kg of enriched uranium, it will decay these very slowly into depleted uranium, producing power during that. produces 120W of power. will always be active. Decay time can be adjusted in mod settings, default is 40 cycles. Dimensions: 3x1
 
 - Build Categories for Rocket modules: All rocket buildings are now sorted into fitting categories to reduce the amount of scrolling (can be deactivated in mod settings if you prefer the vanilla look).
 

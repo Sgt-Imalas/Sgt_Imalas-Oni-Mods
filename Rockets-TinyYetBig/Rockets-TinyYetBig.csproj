@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>Rocketry_Tweaks</PackageId>
-		<Version>2.2.4</Version>
+		<Version>2.3.1</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022 Sgt_Imalas</Copyright>
 		<RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
@@ -24,7 +24,7 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>Rocketry Expanded</ModName>
-		<ModDescription>Various QoL Additions to Rockets. Shrinks the border around rocket interiors and provides some larger variants to construct.</ModDescription>
+		<ModDescription>Various QoL Additions to Rockets. Shrinks the border around rocket interiors and provides some larger variants to construct. Also adds several new modules and mechanics to rockets</ModDescription>
 		<SupportedContent>EXPANSION1_ID</SupportedContent>
 		<MinimumSupportedBuild>514967</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
@@ -126,6 +126,9 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\anim\assets\steam_generator_module\steam_generator_module_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\preview.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\templates\interiors\habitat_medium_expanded.yaml">

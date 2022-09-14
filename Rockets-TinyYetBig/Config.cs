@@ -42,8 +42,8 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool HideRocketCategoryTooltips { get; set; }
 
-        [Option("Radioisotope Decay time", "Time in cycles for all the enriched uranium in the RTG to decay into depleted uranium. RTG needs a rebuild if all enriched uranium has decayed.", "Balancing")]
-        [Limit(100f, 2000f)]
+        [Option("Radioisotope Decay time", "Time in cycles for all the enriched uranium in the RTG to decay into depleted uranium. RTG needs a refill if all enriched uranium has decayed.", "Balancing")]
+        [Limit(10f, 2000f)]
         [JsonProperty]
         public float IsotopeDecayTime { get; set; }
         public Config()
@@ -51,7 +51,7 @@ namespace Rockets_TinyYetBig
             ScannerModuleRange = 1;
             CritterStorageCapacity = 5;
             LaserDrillconeSpeed = 3.75f;
-            IsotopeDecayTime = 200;
+            IsotopeDecayTime = 40;
             CompressInteriors = true; 
             EnableBuildingCategories = true;
             HideRocketCategoryTooltips = false;
