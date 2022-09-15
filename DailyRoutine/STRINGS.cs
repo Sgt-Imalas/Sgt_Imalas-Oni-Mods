@@ -9,12 +9,9 @@ namespace DailyRoutine
 {
     class STRINGS
     {
-        public class BUILDINGS
+        public class UISTRINGS
         {
-            public class PREFABS
-            {
-
-            }
+            public static LocString TimeLeftText = "Time in seconds the tasks reset every day:";
         }
     }
 }

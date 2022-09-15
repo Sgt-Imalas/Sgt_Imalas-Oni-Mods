@@ -39,5 +39,35 @@ namespace DailyRoutine
                 LocalisationUtil.Translate(typeof(STRINGS), true);
             }
         }
+
+        [HarmonyPatch(typeof(GeneratedBuildings))]
+        [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
+        [HarmonyPriority(Priority.LowerThanNormal)]
+        public static class AddNewCmpToComplexFabricators
+        {
+            public static void Postfix()
+            {
+                foreach(var building in Assets.BuildingDefs)
+                {
+                    if (building.BuildingComplete.GetComponent<ComplexFabricator>() != null)
+                    {
+                        var addon = building.BuildingComplete.AddOrGet<DR_ResetComponent>();
+                        addon.fabricator = building.BuildingComplete.GetComponent<ComplexFabricator>();
+                        //Debug.Log("Added Reset Cmp to " + building.Name);
+                    }
+                }
+
+            }
+        }
+
+
+        [HarmonyPatch(typeof(DetailsScreen), "OnPrefabInit")]
+        public static class CustomSideScreenPatch_DailyReset
+        {
+            public static void Postfix(List<DetailsScreen.SideScreenRef> ___sideScreens)
+            {
+                UIUtils.AddClonedSideScreen<DailyResetSidescreen>("DailyResetSidescreen", "Timer SideScreen", typeof(TimerSideScreen));
+            }
+        }
     }
 }
