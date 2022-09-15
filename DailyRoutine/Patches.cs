@@ -40,6 +40,38 @@ namespace DailyRoutine
             }
         }
 
+
+        //[HarmonyPatch(typeof(ComplexFabricatorSideScreen), "Initialize")]
+        //public static class AddNOTFractionsToScreen
+        //{
+        //    public static void Postfix(ComplexFabricatorSideScreen __instance)
+        //    {
+        //        UIUtils.ListAllChildren(__instance.transform);
+        //    }
+        //}
+        //[HarmonyPatch(typeof(ComplexFabricatorSideScreen), "RefreshQueueCountDisplay")]
+        //public static class ManipulateToShowRoutine
+        //{
+        //    public static void Postfix(ComplexFabricator ___targetFab, GameObject entryGO, ComplexFabricator fabricator, Dictionary<GameObject, ComplexRecipe> ___recipeMap)
+        //    {
+        //        if(___targetFab.TryGetComponent(out DR_ResetComponent recipes)) 
+        //        {
+        //            ComplexRecipe recipe = ___recipeMap[entryGO];
+
+
+
+        //            if (recipes.StoredRecipes.ContainsKey(recipe)&&recipes.StoredRecipes[recipe] > 0)
+        //            {
+        //                Debug.Log(recipe.FirstResult.ProperNameStripLink() + "<-target");
+        //                HierarchyReferences component = entryGO.GetComponent<HierarchyReferences>();
+        //                bool flag = fabricator.GetRecipeQueueCount(___recipeMap[entryGO]) == ComplexFabricator.QUEUE_INFINITE;
+        //                component.GetReference<LocText>("CountLabel").text = flag ? "" : fabricator.GetRecipeQueueCount(recipe).ToString() + "\n("+ recipes.StoredRecipes[recipe]+")";
+        //            }
+        //        }                
+        //    }
+        //}
+
+
         [HarmonyPatch(typeof(GeneratedBuildings))]
         [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
         [HarmonyPriority(Priority.LowerThanNormal)]
@@ -49,10 +81,10 @@ namespace DailyRoutine
             {
                 foreach(var building in Assets.BuildingDefs)
                 {
-                    if (building.BuildingComplete.GetComponent<ComplexFabricator>() != null)
+                    if (building.BuildingComplete.TryGetComponent(out ComplexFabricator fab) ==true)
                     {
                         var addon = building.BuildingComplete.AddOrGet<DR_ResetComponent>();
-                        addon.fabricator = building.BuildingComplete.GetComponent<ComplexFabricator>();
+                        addon.fabricator = fab;
                         //Debug.Log("Added Reset Cmp to " + building.Name);
                     }
                 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KMod;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -21,11 +22,13 @@ namespace DailyRoutine
 
         public KSlider startTime;
         public KToggle bt1Toggle;
+        public KToggle RecipeMode;
         //public RectTransform endIndicator;
 
         public LocText labelHeaderDuration;
 
-        public LocText ActiveRecipes;
+        public LocText ActiveRecipesCountInfo;
+
 
         public LocText timeResetInfo;
 
@@ -42,11 +45,12 @@ namespace DailyRoutine
         {
             //Debug.Log("Setting Target");
             targetComponent = target.GetComponent<DR_ResetComponent>();
+            targetComponent.fabricator = target.GetComponent<ComplexFabricator>();
             //Debug.Log("Target: " + targetComponent);
-            if (this.IsInitialized()) 
-            { 
+            if (this.IsInitialized())
+            {
                 UpdateUI(targetComponent.UseCustomTime);
-                this.ChangeSetting(targetComponent.timeToReset); 
+                this.ChangeSetting(targetComponent.timeToReset);
                 UpdateButtons();
             }
         }
@@ -65,8 +69,9 @@ namespace DailyRoutine
         protected override void OnPrefabInit()
         {
             Debug.Log("Initiating Sidescreen Prefab");
-
+#if DEBUG
             UIUtils.ListAllChildren(gameObject.transform);
+#endif   
             base.OnPrefabInit();
 
             imageInactiveZone = transform.Find("Contents/ClockContainer/Clock/RedRange").GetComponent<Image>();
@@ -78,7 +83,8 @@ namespace DailyRoutine
            
             labelHeaderDuration = transform.Find("Contents/GreenDurationSliderContainer/NumberInputField/Text Area/Text").GetComponent<LocText>();
 
-            ActiveRecipes = transform.Find("Contents/TimeLeftText").GetComponent<LocText>();
+            UIUtils.FindAndDisable(transform, "Contents/TimeLeftText");
+            //ActiveRecipesCountInfo = transform.Find("Contents/TimeLeftText").GetComponent<LocText>();
 
             timeResetInfo= transform.Find("Contents/GreenDurationLabel").GetComponent<LocText>();
             timeResetInfo.text = STRINGS.UISTRINGS.TimeLeftText;
@@ -98,6 +104,7 @@ namespace DailyRoutine
                 
             transform.Find("Contents/RedDurationSliderContainer").gameObject.SetActive(false);
             transform.Find("Contents/RedDurationLabel").gameObject.SetActive(false);
+            transform.Find("Contents/TimeLeftText").gameObject.SetActive(false);
 
             var clock = transform.Find("Contents/ClockContainer/Clock").gameObject;
             var clockbg = Util.KInstantiateUI(new GameObject(), clock, true);
@@ -134,29 +141,66 @@ namespace DailyRoutine
             bt1Toggle.onClick += () =>
             {
                 targetComponent.UseCustomTime = !targetComponent.UseCustomTime;
-                if (!targetComponent.UseCustomTime)
-                {
-                    targetComponent.timeToReset = 0f;
-                    ChangeSetting(); 
-                }
+
                 UpdateUI(targetComponent.UseCustomTime);
+                UpdateButtons();
             };
             UIUtils.TryChangeText(transform, "Contents/Buttons/ModeButton/Label", "Toggle Custom Time");
+            UIUtils.AddSimpleTooltipToObject(bt1Toggle.transform, "By default, the recipes reset at\nthe start of each cycle.\nToggle to adjust the time of that reset.");
+
+
 
             var bt2 = UIUtils.TryFindComponent<KButton>(transform, "Contents/Buttons/ResetButton");
+
             bt2.onClick += ()=>
             {
                 targetComponent.IsActive = !targetComponent.IsActive;                
-                targetComponent.ChangeStoredRecipes(); 
+                targetComponent.ChangeStoredRecipes();
+
+                if (!targetComponent.IsActive)
+                {
+                    targetComponent.UseCustomTime = false;
+                }
                 UpdateButtons();
             };
+
+            var buttonContainer = Util.KInstantiateUI(transform.Find("Contents/Buttons").gameObject, transform.Find("Contents").gameObject, true);
+            buttonContainer.name = "Container2";
+
+            UIUtils.AddActionToButton(buttonContainer.transform, "ResetButton", () =>
+            {
+
+                targetComponent.ChangeStoredRecipes();
+                UpdateButtons();
+                //Manager.Dialog(Global.Instance.globalCanvas,"Recipes for Daily Routine",targetComponent.GetFormattedRecipes());
+            }, 
+            true);
+
+            ActiveRecipesCountInfo = UIUtils.TryFindComponent<LocText>(buttonContainer.transform, "ResetButton/Label");
+
+            RecipeMode = UIUtils.TryFindComponent<KToggle>(buttonContainer.transform, "ModeButton");
+
+            RecipeMode.onClick += () =>
+            {
+                targetComponent.QueueRecipes = !targetComponent.QueueRecipes;
+            };
+            UIUtils.TryChangeText(buttonContainer.transform, "ModeButton/Label", "Toggle Recipe Queueing");
+            UIUtils.AddSimpleTooltipToObject(RecipeMode.transform, "When disabled, the recipe count for each recipe will be set to the stored value regardless of remaining recipe count.\nEnabling this option instead adds the amount to the existing count instead.");
+
+
+
+            //transform.Find("Contents/ClockContainer").localScale = new(0.5f, 0.5f);
 
             ElementsToDisable.Add(transform.Find("Contents/ClockContainer").gameObject);
             ElementsToDisable.Add(transform.Find("Contents/GreenDurationLabel").gameObject);
             ElementsToDisable.Add(transform.Find("Contents/GreenDurationSliderContainer").gameObject);
-            
+
+            transform.Find("Contents/Buttons").SetAsLastSibling();
+
             UpdateButtons();
             UpdateUI(false);
+            var vlg = UIUtils.TryFindComponent<VerticalLayoutGroup>(transform);
+            vlg.childForceExpandHeight = false;
 
         }
         void UpdateButtons()
@@ -164,20 +208,29 @@ namespace DailyRoutine
             UIUtils.TryChangeText(transform, "Contents/Buttons/ResetButton/Label", targetComponent.IsActive ? "Disable Daily Routine" : "Enable Daily Routine");
 
             bool enabled = targetComponent.IsActive;
-            ActiveRecipes.gameObject.SetActive(enabled);
-            UIUtils.TryChangeText(ActiveRecipes.transform, "", targetComponent.GetFormattedRecipes());
+            //ActiveRecipesCountInfo.gameObject.GetComponent<KButton>().isInteractable = enabled;
+            UIUtils.TryChangeText(ActiveRecipesCountInfo.transform, "", "Update Daily Tasks\n(Hover to see current)");
+            UIUtils.AddSimpleTooltipToObject(ActiveRecipesCountInfo.transform, targetComponent.GetFormattedRecipes());
+
             //Debug.Log("isactive: "+ enabled + ", toggleison: "+ bt1Toggle.isOn)
             if (enabled)
             {
                 bt1Toggle.isOn = targetComponent.UseCustomTime;
+                RecipeMode.isOn = targetComponent.QueueRecipes;
+                
             }
             else
             {
                 bt1Toggle.isOn = false;
+                RecipeMode.isOn = false;
+
                 targetComponent.UseCustomTime = false;
-                bt1Toggle.Select();
+                targetComponent.QueueRecipes = false;
+
                 UpdateUI(false);
             }
+            Debug.Log("hide? " + RecipeMode.isOn);
+            RecipeMode.interactable = enabled;
             bt1Toggle.interactable = enabled;
 
         }

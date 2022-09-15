@@ -11,7 +11,7 @@ namespace DailyRoutine
     {
         public class UISTRINGS
         {
-            public static LocString TimeLeftText = "Time in seconds the tasks reset every day:";
+            public static LocString TimeLeftText = "Time when the tasks reset every day (in seconds):";
         }
     }
 }

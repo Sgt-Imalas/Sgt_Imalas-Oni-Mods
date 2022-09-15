@@ -1,0 +1,35 @@
+﻿[img]https://i.imgur.com/GbFtLZ2.png[/img]
+
+[h1]Introduction[/h1]
+
+This mod adds the option to set daily production routines in production buildings.
+
+
+[h1]Current latest Version: 1.0.4[/h1]
+
+[hr][/hr]
+[h1]Features[/h1]
+[list]
+[*] Enable repeatable recipes on any building with a complex fabricator. To do so, queue the amount of products you want for each recipe, then click "Enable Daily Routine".
+[*] By default the recipe reset happens at the start of a new cycle. This can be adjusted by enabling "Custom Time".
+[*] Toggle Recipe Queueing: switch between setting recipe count to a value & Adding the amount to existing number.
+[/list] 
+
+[hr][/hr]
+[h1]Bug Reports[/h1]
+Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+
+Where to find the Log:
+[list]
+[*]Windows: 
+    C:\Users\%username%\AppData\LocalLow\Klei\Oxygen Not Included\Player.log
+[*]Mac: 
+    ~/Library/Logs/Klei/Oxygen Not Included/Player.log
+[*] Linux: 
+~/.config/unity3d/Klei/Oxygen Not Included/Player.log
+[/list] 
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
+

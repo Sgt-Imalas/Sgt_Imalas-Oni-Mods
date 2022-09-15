@@ -11,20 +11,22 @@ namespace DailyRoutine
 {
     class DR_ResetComponent : KMonoBehaviour, ISim200ms
     {
-        [SerializeField]
+        [Serialize]
         public ComplexFabricator fabricator;
 
-        [SerializeField]
+        [Serialize]
         public Dictionary<ComplexRecipe, int> StoredRecipes = new();
 
-        [SerializeField]
+        [Serialize]
         public float timeToReset = 0f;
-        [SerializeField]
+        [Serialize]
         public bool IsActive = false;
-        [SerializeField]
+        [Serialize]
         int LastCycle = 0;
-        [SerializeField]
-        public bool UseCustomTime = false; 
+        [Serialize]
+        public bool UseCustomTime = false;
+        [Serialize]
+        public bool QueueRecipes = false;
 
         public void Sim200ms(float dt)
         {
@@ -35,12 +37,12 @@ namespace DailyRoutine
         {
             int currentTime = (int)Math.Round(GameClock.Instance.GetTimeSinceStartOfCycle());
             int CurrentCycle = GameClock.Instance.GetCycle();
-            int SetTime = (int)Math.Round(timeToReset);
+            int SetTime = this.UseCustomTime ? (int)Math.Round(timeToReset) : 0;
 
             //Debug.Log("Current Seconds: " + currentTime + ", Time at reset: " + SetTime + ", Current Cycle: "+ CurrentCycle+", Last Cycle: "+LastCycle);
             if ((int)currentTime == SetTime && CurrentCycle != LastCycle)
             {
-                Debug.Log("CHAAAAAAAAAAAAAAAAAAAAAAAAAAAANGE");
+                //Debug.Log("CHAAAAAAAAAAAAAAAAAAAAAAAAAAAANGE");
                 OverrideRecipeCount();
                 LastCycle = CurrentCycle;
             }
@@ -75,7 +77,15 @@ namespace DailyRoutine
             {
                 foreach(var recipeCount in StoredRecipes) 
                 {
-                    fabricator.SetRecipeQueueCount(recipeCount.Key, recipeCount.Value);
+                    if (QueueRecipes)
+                    {
+                        for(int i = recipeCount.Value; i>0; i--)
+                            fabricator.IncrementRecipeQueueCount(recipeCount.Key);
+                    }
+                    else
+                    {
+                        fabricator.SetRecipeQueueCount(recipeCount.Key, recipeCount.Value);
+                    }
                 }
             }
         }
@@ -83,8 +93,37 @@ namespace DailyRoutine
         protected override void OnPrefabInit()
         {
             base.OnPrefabInit();
-            Debug.Log("Cmp Initialized");
-            Debug.Log("Was stored active? " + IsActive);
+           // Debug.Log("Cmp Initialized");
+           // Debug.Log("Was stored active? " + IsActive);
+        }
+
+
+      
+
+        internal string GetFormattedCount(bool isTooltip = false)
+        {
+            StringBuilder sb = new();
+            if (StoredRecipes.Count > 0)
+            {
+                int amount = 0, types = 0;
+                foreach (var recipeCount in StoredRecipes)
+                {
+                    if (recipeCount.Value > 0)
+                    {
+                        amount += recipeCount.Value;
+                        ++types;
+                    }
+                }
+                if (isTooltip)
+                    sb.Append(string.Format("{0} items over {1} recipes set as daily tasks", amount, types));
+                else
+                    sb.Append(amount.ToString() + " items set as daily task.");
+            }
+            else
+            {
+                sb.Append("No recipes queued.");
+            }
+            return sb.ToString();
         }
 
         internal string GetFormattedRecipes()
@@ -92,9 +131,10 @@ namespace DailyRoutine
             StringBuilder sb = new();
             if (StoredRecipes.Count > 0)
             {
+                sb.AppendLine("Daily Routine Recipes:");
                 foreach (var recipeCount in StoredRecipes)
                 {
-                    sb.Append(TagManager.GetProperName(recipeCount.Key.FirstResult.Name)) ;sb.Append(": x");sb.AppendLine(recipeCount.Value.ToString());
+                    sb.Append(TagManager.GetProperName(recipeCount.Key.FirstResult.Name)) ;sb.Append(" x");sb.AppendLine(recipeCount.Value.ToString());
                 }
             }
             else

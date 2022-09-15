@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>DailyRoutine</PackageId>
-		<Version>1.0.0</Version>
+		<Version>1.0.4</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022 Sgt_Imalas</Copyright>
 		<RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
@@ -23,9 +23,9 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>DailyRoutine</ModName>
-		<ModDescription></ModDescription>
-		<SupportedContent>EXPANSION1_ID</SupportedContent>
+		<ModName>Daily Routine</ModName>
+		<ModDescription>Set reoccuring production tasks to reoccur each day</ModDescription>
+		<SupportedContent>ALL</SupportedContent>
 		<MinimumSupportedBuild>498381</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
