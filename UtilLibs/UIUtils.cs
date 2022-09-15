@@ -67,15 +67,25 @@ namespace UtilLibs
             var textToChange = textToChangeComp.GetComponent<LocText>();
             if (textToChange == null)
                 return false;
+            textToChange.key = string.Empty;
             textToChange.text = newText;
            
             return true;
         }
-        public static ToolTip AddSimpleTooltipToObject(Transform go, string tooltip)
+        public static ToolTip AddSimpleTooltipToObject(Transform go, string tooltip, bool alignCenter = false, float wrapWidth = 0)
         {
             if (go == null)
                 return null;
             var tt = go.gameObject.AddOrGet<ToolTip>();
+            tt.tooltipPivot = alignCenter ? new Vector2(0.5f, 0f) : new Vector2(1f, 0f);
+            tt.tooltipPositionOffset = new Vector2(0f, 20f);
+            tt.parentPositionAnchor = new Vector2(0.5f, 0.5f);
+            if (wrapWidth > 0)
+            {
+                tt.WrapWidth = wrapWidth;
+                tt.SizingSetting = ToolTip.ToolTipSizeSetting.MaxWidthWrapContent;
+            }
+            ToolTipScreen.Instance.SetToolTip(tt);
             tt.SetSimpleTooltip(tooltip);
             return tt;
         }
@@ -134,6 +144,18 @@ namespace UtilLibs
             }
         }
 
+        public static void ListAllChildrenWithComponents(Transform parent, int level = 0, int maxDepth = 10)
+        {
+            if (level >= maxDepth) return;
+
+            ListComponents(parent.gameObject);
+            foreach (Transform child in parent)
+            {
+                Console.WriteLine(string.Concat(Enumerable.Repeat('-', level)) + child.name);
+                ListAllChildrenWithComponents(child, level + 1);
+            }
+        }
+
         public static void ListChildrenHR(HierarchyReferences parent, int level = 0, int maxDepth = 10)
         {
             if (level >= maxDepth) return;
@@ -179,10 +201,12 @@ namespace UtilLibs
         {
             var detailsScreen = Traverse.Create(DetailsScreen.Instance);
             screens = detailsScreen.Field("sideScreens").GetValue<List<SideScreenRef>>();
+#if DEBUG
             foreach (var v in screens)
             {
-               // Debug.Log(v.name);
+                Debug.Log(v.name);
             }
+#endif
             contentBody = detailsScreen.Field("sideScreenContentBody").GetValue<GameObject>();
             return screens != null && contentBody != null;
         }

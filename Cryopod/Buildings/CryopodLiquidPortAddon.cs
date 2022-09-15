@@ -95,7 +95,7 @@ namespace Cryopod.Buildings
             //{
             //    var contents = storage.GetItems().First().GetComponent<PrimaryElement>();
             //    var element = ElementLoader.FindElementByHash(contents.ElementID);
-            //    meter_liquid.SetSymbolTint(new KAnimHashedString("meter_fill_liquid"), element.substance.colour);
+            //  meter_liquid.SetSymbolTint(new KAnimHashedString("meter_fill_liquid"), element.substance.colour);
             //}
         }
 
