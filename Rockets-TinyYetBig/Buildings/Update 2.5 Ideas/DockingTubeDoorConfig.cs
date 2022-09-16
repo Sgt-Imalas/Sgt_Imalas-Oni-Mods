@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Rockets_TinyYetBig.Buildings.Update_2._5_Ideas
 {
-    class DockingTubeDoor
+    class DockingTubeDoorConfig
     {
+        
     }
 }
