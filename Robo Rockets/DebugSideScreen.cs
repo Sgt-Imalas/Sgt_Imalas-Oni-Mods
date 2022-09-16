@@ -18,10 +18,7 @@ namespace RoboRockets
 
         public void OnSidescreenButtonPressed()
         {
-            if (false)
-            {
-                AIController.MakeNewPilotBot(true);
-            }
+            
         }
 
         public string SidescreenButtonText => "Reset AI";

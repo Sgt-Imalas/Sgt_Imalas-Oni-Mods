@@ -158,17 +158,12 @@ namespace LogicSatellites.Behaviours
 
             public void ConstructionComplete(bool force = false)
             {
-                SimHashes element_id;
                 if (!force)
                 {
                     PrimaryElement massForConstruction = this.GetMassForConstruction();
                     float mass = massForConstruction.Units;
                     double num1 = (double)massForConstruction.Temperature * (double)massForConstruction.Mass;
                     massForConstruction.Units -= this.def.constructionUnits;
-                }
-                else
-                {
-                    element_id = SimHashes.Cuprite;
                 }
                 foreach (var outputId in this.def.outputIDs)
                 {

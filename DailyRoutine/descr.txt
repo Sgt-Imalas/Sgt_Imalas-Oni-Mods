@@ -14,7 +14,14 @@ This mod adds the option to set daily production routines in production building
 [*] By default the recipe reset happens at the start of a new cycle. This can be adjusted by enabling "Custom Time".
 [*] Toggle Recipe Queueing: switch between setting recipe count to a value & Adding the amount to existing number.
 [/list] 
-
+[hr][/hr]
+[h1]How is that useful?[/h1]
+The intent of this mod is to provide the possibility to optimize supply chains without preoccupying too much dupe time or producing a large excess of ressources. Use it as an alternative to "infinite" products to regulate the time dupes spend on that machine in total while still producing exactly the amount of products you need 
+Example: you want to produce exactly 100kg of glass per day: 
+[list] 
+[*]set daily routine for glass forge to 4x 25kg glass
+[*]set rock crusher to 4x any sand recipe that produces 100kg of sand.
+[/list]Effect: there will be recipes queued for exactly 100kg of glass without reducing the amount of sand you have at your disposal
 [hr][/hr]
 [h1]Bug Reports[/h1]
 Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
