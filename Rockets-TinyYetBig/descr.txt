@@ -3,10 +3,9 @@
 [h1]Introduction[/h1]
 [h2]More Rockets - more fun![/h2]
 
-This mod aims to increase rocket versatility by adding new rocket modules, rocket mechanics and in general adding to the experience of Rocketry in Spaced Out.
+This mod aims to increase rocket versatility by adding new rocket modules, rocket mechanics and in general adding to the experience of rocketry in Spaced Out.
 
-This mod decreases the map space taken up by Spacefarer Modules while adding 3 new Variants.
-Also it buffs the Cartographic Module and removes the Rocket Cap of 16.
+This mod introduces various new additions and tweaks to the spaced out rocketry system.
 
 [h1]Current latest Version: 2.3[/h1]
 

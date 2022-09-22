@@ -204,7 +204,7 @@ namespace UtilLibs
 #if DEBUG
             foreach (var v in screens)
             {
-                Debug.Log(v.name);
+                //Debug.Log(v.name);
             }
 #endif
             contentBody = detailsScreen.Field("sideScreenContentBody").GetValue<GameObject>();

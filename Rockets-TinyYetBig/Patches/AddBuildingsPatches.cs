@@ -41,6 +41,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 AddRocketModuleToBuildList(SteamGeneratorModuleConfig.ID, BatteryModuleConfig.ID, RocketCategory.power);
 
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, BunkeredLaunchPadConfig.ID,null,LaunchPadConfig.ID);
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, DockingTubeDoorConfig.ID,null, LaunchPadConfig.ID);
             }
         }
 

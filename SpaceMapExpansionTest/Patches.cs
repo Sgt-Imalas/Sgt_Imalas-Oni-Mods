@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
-using static SpaceMapExpansionTest.ModAssets;
 
 namespace SpaceMapExpansionTest
 {
@@ -22,11 +21,23 @@ namespace SpaceMapExpansionTest
                 //Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"); //Working :D
 
                 Debug.Log("Space Expansion patched"+ rings.ToString());
-                rings = rings * 2;
+                //rings = rings * 2;
             }
             
         }
 
+        [HarmonyPatch(typeof(ClusterGrid), "GenerateGrid")]
+        public static class DoubleAsteroidsTest
+        {
+            public static void Prefix(ref int rings)
+            {
+                //Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"); //Working :D
+
+                //Debug.Log("Space Expansion patched" + rings.ToString());
+               // rings = rings * 2;
+            }
+
+        }
 
         /// <summary>
         /// add buildings to plan screen

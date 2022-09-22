@@ -9,6 +9,10 @@ namespace Rockets_TinyYetBig
 {
     class ModAssets
     {
+        public static Components.Cmps<DockingManager> Dockables = new Components.Cmps<DockingManager>();
+
+        public static int InnerLimit = 0;
+        public static int Rings = 0;
         public class StatusItems
         {
             public static StatusItem RTB_ModuleGeneratorNotPowered;

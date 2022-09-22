@@ -1,0 +1,244 @@
+name: EEEEEEEEEEEEEEE
+description: EEEEEEEEEEEEEEEEEEEE
+nameTables: [ FOREST ]
+asteroidIcon: asteroid_forest_start_kanim
+
+worldTraitScale: 0.44 # Adjust with worldSize. Traits are tuned to base game world sizes.
+worldsize:
+  X: 160
+  Y: 274
+layoutMethod: PowerTree
+
+defaultsOverrides:
+  data:
+    OverworldDensityMin: 18
+    OverworldDensityMax: 18
+    OverworldSampleBehaviour: PoissonDisk
+  startingWorldElements: [] # remove the algae check
+
+startSubworldName: expansion1::subworlds/forest/med_ForestStart
+startingBaseTemplate: bases/forestBase
+startingBasePositionHorizontal:
+  min: 0.5
+  max: 0.5
+startingBasePositionVertical:
+  min: 0.46
+  max: 0.46
+
+worldTraitRules:
+  - min: 2
+    max: 4
+    forbiddenTags:
+      - Oil
+      - NonStartWorld
+      - GenericGeysers
+
+fixedTraits:
+  - sunlightVeryLow
+  - cosmicRadiationVeryLow
+
+# List all the subworld files to load
+subworldFiles:
+  - name: expansion1::subworlds/forest/med_ForestStart
+  - name: expansion1::subworlds/forest/med_Forest
+    minCount: 2
+    maxCount: 3
+  - name: subworlds/space/Space
+  - name: subworlds/magma/Bottom
+  - name: expansion1::subworlds/space/HospitableSurface
+  - name: expansion1::subworlds/barren/CoalyGranite
+  - name: subworlds/rust/Rust
+    minCount: 2
+  - name: expansion1::subworlds/frozen/FrozenSlush
+    minCount: 3
+  - name: expansion1::subworlds/jungle/JungleGassy
+    minCount: 3
+  - name: expansion1::subworlds/wasteland/WastelandWorm
+    minCount: 3
+    
+unknownCellsAllowedSubworlds: 
+  - tagcommand: Default
+    command: Replace
+    subworldNames:
+      - expansion1::subworlds/forest/med_Forest
+  - tagcommand: DistanceFromTag # two tall space
+    tag: AtSurface
+    minDistance: 0
+    maxDistance: 1
+    command: Replace
+    subworldNames:
+      - subworlds/space/Space
+  - tagcommand: DistanceFromTag # surface under space
+    tag: AtSurface
+    minDistance: 2 
+    maxDistance: 2
+    command: Replace
+    subworldNames:
+      - expansion1::subworlds/space/HospitableSurface
+  - tagcommand: DistanceFromTag # general world filler (rings 2/3)
+    tag: AtSurface
+    minDistance: 3
+    maxDistance: 99
+    command: Replace
+    subworldNames:
+      - expansion1::subworlds/wasteland/WastelandWorm
+      - expansion1::subworlds/frozen/FrozenSlush
+      - expansion1::subworlds/jungle/JungleGassy
+  - tagcommand: DistanceFromTag # Ring-1 around start
+    tag: AtStart
+    minDistance: 1
+    maxDistance: 1
+    command: Replace
+    subworldNames:
+      - expansion1::subworlds/forest/med_Forest
+      - expansion1::subworlds/jungle/JungleGassy
+      - subworlds/rust/Rust
+  - tagcommand: DistanceFromTag # above bottom node
+    tag: AtDepths
+    minDistance: 1
+    maxDistance: 1
+    command: Replace
+    subworldNames:
+      - expansion1::subworlds/barren/CoalyGranite
+  - tagcommand: DistanceFromTag # bottom node
+    tag: AtDepths
+    minDistance: 0
+    maxDistance: 0
+    command: Replace
+    subworldNames:
+      - subworlds/magma/Bottom
+
+worldTemplateRules:
+  # JungleGassy
+  - names:
+      - poi/jungle/geyser_steam
+    listRule: GuaranteeOne
+    priority: 100
+    allowedCellsFilter:
+      - command: Replace
+        zoneTypes: [ToxicJungle]
+  - names:
+      - expansion1::poi/jungle/geyser_hydrogen
+      - poi/jungle/geyser_chlorine
+    listRule: GuaranteeOne
+    priority: 100
+    allowedCellsFilter:
+      - command: Replace
+        zoneTypes: [ToxicJungle]
+  # FrozenSlush
+  - names:
+    - expansion1::poi/poi_geyser_dirty_slush
+    - expansion1::poi/poi_frozen_salt_water_geyser
+    listRule: GuaranteeAll
+    priority: 100
+    allowedCellsFilter:
+      - command: Replace
+        zoneTypes: [FrozenWastes]
+      - command: IntersectWith
+        tagcommand: DistanceFromTag
+        tag: AtStart
+        minDistance: 1
+        maxDistance: 3
+  - names:
+      - poi/frozen/heatsink_a
+      - poi/frozen/heatsink_b
+    listRule: GuaranteeOne
+    priority: 100 
+    allowedCellsFilter:
+      - command: Replace
+        zoneTypes: [FrozenWastes]
+  # Curated Geysers
+  - names: 
+    - geysers/steam
+    - geysers/chlorine_gas
+    - geysers/hot_po2
+    - geysers/methane
+    - geysers/filthy_water
+    - geysers/liquid_co2
+    - geysers/hot_hydrogen
+    - geysers/small_volcano
+    - geysers/big_volcano
+    - expansion1::geysers/liquid_sulfur
+    listRule: TryOne
+    times: 3
+    allowDuplicates: true
+    priority: 10
+    allowedCellsFilter:
+      - command: Replace
+        tagcommand: DistanceFromTag
+        tag: AtStart
+        minDistance: 2
+        maxDistance: 10
+      - command: ExceptWith
+        zoneTypes: [ Space ]
+      - command: ExceptWith
+        tagcommand: AtTag
+        tag: NoGlobalFeatureSpawning
+  - names:
+    - expansion1::poi/poi_geyser_magma
+    - expansion1::poi/poi_geyser_magma_2
+    - expansion1::poi/poi_geyser_magma_3
+    listRule: TryAll
+    priority: 50
+    allowedCellsFilter:
+      - command: Replace
+        tagcommand: DistanceFromTag
+        tag: AtDepths
+        minDistance: 1
+        maxDistance: 1
+      - command: IntersectWith
+        zoneTypes: [ Barren, MagmaCore ]
+  # Gravitas
+  - names:
+    - expansion1::poi/warp/sender
+    - expansion1::poi/warp/receiver
+    - expansion1::poi/warp/teleporter
+    listRule: GuaranteeAll
+    priority: 90
+    allowedCellsFilter:
+      - command: Replace
+        tagcommand: DistanceFromTag
+        tag: AtStart
+        minDistance: 1
+        maxDistance: 2
+      - command: IntersectWith
+        zoneTypes: [ Wasteland, FrozenWastes, ToxicJungle ]
+      - command: ExceptWith
+        tagcommand: AtTag
+        tag: NoGravitasFeatures
+  - names:
+    - expansion1::poi/genericGravitas/poi_office
+    listRule: GuaranteeAll
+    priority: 90
+    allowedCellsFilter:
+      - command: Replace
+        tagcommand: DistanceFromTag
+        tag: AtStart
+        minDistance: 2
+        maxDistance: 99
+      - command: ExceptWith
+        tagcommand: AtTag
+        tag: NoGravitasFeatures
+      - command: ExceptWith
+        tagcommand: DistanceFromTag
+        tag: AtDepths
+        minDistance: 0
+        maxDistance: 2
+      - command: ExceptWith
+        tagcommand: DistanceFromTag
+        tag: AtSurface
+        minDistance: 0
+        maxDistance: 2
+  # Uranium Geode
+  - names:
+    - expansion1::poi/radioactive/uranium_geode1
+    listRule: GuaranteeOne
+    useRelaxedFiltering: true
+    allowExtremeTemperatureOverlap: true # has Abyssalite border
+    priority: 200
+    allowedCellsFilter:
+      - command: Replace
+        tagcommand: DistanceFromTag
+        tag: AtStart
+        minDistance: 1
+        maxDistance: 1
