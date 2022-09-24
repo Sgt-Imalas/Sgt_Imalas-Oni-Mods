@@ -14,26 +14,27 @@ namespace Rockets_TinyYetBig.Behaviours
         [MyCmpGet]
         public NavTeleporter Teleporter;
 
-        //[Serialize]
-        DockingDoor connected = null;
+        [Serialize]
+        Ref<DockingDoor> connected = null;
 
         public DockingManager Manager;
 
         public void ConnecDoor(DockingDoor d)
         {
-            connected = d;
+           // Debug.Log("Door: " + d);
+            connected = new Ref<DockingDoor>(d);
             Debug.Log(Manager.GetWorldId() +" conneccted to " + d.Manager.GetWorldId());
             Teleporter.SetTarget(d.Teleporter);
             ///DoStuffUpdateidk;
         }
         public DockingDoor GetConnec()
         {
-            return connected;
+            return connected.Get();
         }
 
         public void DisconnecDoor()
         {
-            Debug.Log(Manager.GetWorldId() + " disconneccted from " + connected.Manager.GetWorldId());
+            Debug.Log(Manager.GetWorldId() + " disconneccted from " + connected.Get().Manager.GetWorldId());
             connected = null;
 
             Teleporter.SetTarget(null);

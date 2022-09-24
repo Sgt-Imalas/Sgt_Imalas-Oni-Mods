@@ -130,6 +130,15 @@ namespace Rockets_TinyYetBig.Behaviours
             door1.Teleporter.EnableTwoWayTarget(true);
 
         }
+
+
+        public void StartupConnect(DockingDoor door1, DockingDoor door2)
+        {
+            door1.ConnecDoor(door2);
+            door2.ConnecDoor(door1);
+            door1.Teleporter.EnableTwoWayTarget(true);
+        }
+
         public void UnDockFromTargetWorld(int targetWorldId)
         {
             var door = DockingDoors.Keys.First(d => d.GetConnec().Manager.OwnWorldId == targetWorldId);
@@ -137,6 +146,7 @@ namespace Rockets_TinyYetBig.Behaviours
             {
                 Debug.LogWarning("No connection to undock from found");
             }
+            door.Teleporter.EnableTwoWayTarget(false);
             var door2 = door.GetConnec();
             door2.Manager.DockingDoors[door2] = null;
             door2.DisconnecDoor();
@@ -144,7 +154,6 @@ namespace Rockets_TinyYetBig.Behaviours
             DockingDoors[door] = null;
             door.DisconnecDoor();
 
-            door.Teleporter.EnableTwoWayTarget(false);
         }
 
         public string GetProperName() => this.GetComponent<Clustercraft>().name;

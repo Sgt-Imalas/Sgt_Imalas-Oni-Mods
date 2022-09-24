@@ -49,20 +49,30 @@ namespace Rockets_TinyYetBig
                     //    else
                     //        button.Value.SetActive(false);
                     //}
+                    //foreach (var category in RocketModuleList.GetRocketModuleList())
+                    //{
+                    //    Debug.Log("-" + (RocketCategory)category.Key);
+                    //    foreach (var item in category.Value)
+                    //    {
+                    //        Debug.Log("--" + item);
+                    //    }
+                    //}
 
-
-
+                    
                     foreach (var category in RocketModuleList.GetRocketModuleList())
                     {
                         bool keepCategory = false;
                         foreach (var item in category.Value)
                         {
                             TechItem techItem = Db.Get().TechItems.TryGet(item);
+                            
                             if (techItem != null)
                             {
-                                if (DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || techItem.IsComplete())
+                                if (DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || techItem.IsComplete()) 
+                                { 
                                     keepCategory = true;
-                                break;
+                                    break;
+                                }
                             }
                             else
                             {
@@ -223,8 +233,8 @@ namespace Rockets_TinyYetBig
                                 }
                             }
 #if DEBUG
-                            Debug.Log("Category:");
-                            UIUtils.ListAllChildren(categoryGO.transform);
+                            //Debug.Log("Category:");
+                            //UIUtils.ListAllChildren(categoryGO.transform);
 
 #endif
                         }

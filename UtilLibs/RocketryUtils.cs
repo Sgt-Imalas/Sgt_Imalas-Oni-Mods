@@ -39,18 +39,18 @@ namespace UtilLibs
                 bool init = PRegistry.GetData<bool>(CategoryInitKey);
                 if (init == false)
                 {
-                    Debug.Log("Rocketry Expanded: Initializing global keys");
+                    Debug.Log("Rocketry Utils: Initializing global keys");
                     PRegistry.PutData(CategoryInitKey, true);
 
                     var moduleList = (Dictionary<int, List<string>>)new RocketModuleList().CategorizedButtonSortOrder;
                     CategorizeVanillaModules(moduleList);
-                    PRegistry.PutData(CategoryDataKey, moduleList);
+                    SetRocketModuleList(moduleList);
                     return moduleList;
                 }
                 else
                 {
                     var ReturnValue = PRegistry.GetData<Dictionary<int, List<string>>>(CategoryDataKey);
-                    //Debug.Log("Rocketry Expanded: Existing global categories found: " + ReturnValue);
+                    //Debug.Log("Rocketry Utils. Existing global categories found: " + ReturnValue);
                     return ReturnValue;
                 }
             }
@@ -85,34 +85,58 @@ namespace UtilLibs
             if (module.Contains("Engine"))
             {
                 AddIfNotExists(sortedModules[(int)RocketCategory.engines],module);
+#if DEBUG
+                Debug.Log("Added " + module + " to category engines");
+#endif
             }
             else if (module.Contains("HabitatModule"))
             {
                 AddIfNotExists(sortedModules[(int)RocketCategory.habitats], module);
+#if DEBUG
+                Debug.Log("Added " + module + " to category habitats");
+#endif
             }
             else if (module.Contains("Nosecone"))
             {
                 AddIfNotExists(sortedModules[(int)RocketCategory.nosecones], module);
+#if DEBUG
+                Debug.Log("Added " + module + " to category nosecones");
+#endif
             }
             else if (module == "OrbitalCargoModule" || module == "ScoutModule" || module == "PioneerModule")
             {
                 AddIfNotExists(sortedModules[(int)RocketCategory.deployables],module);
+#if DEBUG
+                Debug.Log("Added " + module + " to category deployables");
+#endif
             }
             else if (module.Contains("Tank"))
             {
                 AddIfNotExists(sortedModules[(int)RocketCategory.fuel],module);
+#if DEBUG
+                Debug.Log("Added " + module + " to category fuel");
+#endif
             }
             else if (module.Contains("CargoBay"))
             {
                 AddIfNotExists(sortedModules[(int)RocketCategory.cargo],module);
+#if DEBUG
+                Debug.Log("Added " + module + " to category cargo");
+#endif
             }
             else if (module.Contains("Battery") || module.Contains("SolarPanel"))
             {
                 AddIfNotExists(sortedModules[(int)RocketCategory.power],module);
+#if DEBUG
+                Debug.Log("Added " + module + " to category power");
+#endif
             }
             else if (module == "ScannerModule")
             {
                 AddIfNotExists(sortedModules[(int)RocketCategory.utility],module);
+#if DEBUG
+                Debug.Log("Added " + module + " to category util");
+#endif
             }
             else
             {
@@ -149,6 +173,9 @@ namespace UtilLibs
             RocketCategory category = RocketCategory.uncategorized)
         {
             var sorted = RocketModuleList.GetRocketModuleList();
+
+
+
             if (!sorted[(int)category].Contains(moduleId))
             {
                     sorted[(int)category].Insert(
@@ -158,11 +185,13 @@ namespace UtilLibs
             }
             if (!SelectModuleSideScreen.moduleButtonSortOrder.Contains(moduleId))
             {
-
                 SelectModuleSideScreen.moduleButtonSortOrder.Insert(
                     GetInsertionIndex(SelectModuleSideScreen.moduleButtonSortOrder, placebehind),
                     moduleId);
             }
+#if DEBUG
+            Debug.Log("Added " + moduleId + " to category " + category.ToString());
+#endif
         }
         public static int GetInsertionIndex(List<string> list, string indexID = "")
         {
