@@ -23,7 +23,7 @@ namespace Rockets_TinyYetBig.Behaviours
         {
            // Debug.Log("Door: " + d);
             connected = new Ref<DockingDoor>(d);
-            Debug.Log(dManager.GetWorldId() +" conneccted to " + d.dManager.GetWorldId());
+            //Debug.Log(dManager.GetWorldId() +" conneccted to " + d.dManager.GetWorldId());
             Teleporter.SetTarget(d.Teleporter);
             ///DoStuffUpdateidk;
         }
@@ -51,6 +51,10 @@ namespace Rockets_TinyYetBig.Behaviours
             dManager = GetRocket().AddOrGet<DockingManager>();
             dManager.StartupID(worldId);
             dManager.AddDoor(this);
+            if (connected != null && connected.Get() != null && connected.Get().Teleporter != null )
+            {
+                Teleporter.SetTarget(connected.Get().Teleporter);
+            }
         }
         protected override void OnCleanUp()
         {
