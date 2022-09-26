@@ -16,17 +16,18 @@ namespace Rockets_TinyYetBig.Docking
         public override bool IsValidForTarget(GameObject target)
         {
             var manager = target.GetComponent<DockingManager>();
+            Debug.Log(manager + "is docking manager? "+manager!=null);
             return manager != null && manager.HasDoors();
         }
 
         protected override void OnSpawn()
         {
             base.OnSpawn();
-            ListAllChildren(this.transform);
+           // ListAllChildren(this.transform);
         }
 
-        [SerializeField]
-        private Dictionary<DockingDoor, GameObject> dockingPorts = new Dictionary<DockingDoor, GameObject>();
+        //[SerializeField]
+        //private Dictionary<DockingDoor, GameObject> dockingPorts = new Dictionary<DockingDoor, GameObject>();
         [SerializeField]
         private Clustercraft targetCraft;
         private DockingManager targetManager;
@@ -143,7 +144,7 @@ namespace Rockets_TinyYetBig.Docking
                     targetManager.HandleUiDocking(toggle.CurrentState,kvp.Key.GetWorldId());
                     this.Refresh();
                 });
-                kvp.Value.GetComponent<HierarchyReferences>().GetReference<MultiToggle>("Toggle").ChangeState(targetManager.IsDockedTo(kvp.Key) ? 1 : 0);
+                kvp.Value.GetComponent<HierarchyReferences>().GetReference<MultiToggle>("Toggle").ChangeState(targetManager.IsDockedTo(kvp.Key.GetWorldId()) ? 1 : 0);
             }
         }
     }

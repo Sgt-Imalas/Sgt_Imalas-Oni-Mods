@@ -26,7 +26,7 @@
 
 //        public override void InitializeStates(out BaseState default_state)
 //        {
-
+//            default_state = (StateMachine.BaseState)this.notDocked;
 //        }
 //        public new class Instance : GameInstance
 //        {

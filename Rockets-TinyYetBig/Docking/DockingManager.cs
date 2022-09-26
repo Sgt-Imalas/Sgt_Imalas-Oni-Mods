@@ -11,12 +11,17 @@ namespace Rockets_TinyYetBig.Behaviours
     [SerializationConfig(MemberSerialization.Invalid)]
     class DockingManager : KMonoBehaviour, IListableOption
     {
+        public void StartupID(int world)
+        {
+            OwnWorldId = world;
+        }
+
         /// <summary>
         /// My door + connectedDoor
         /// </summary>
         int OwnWorldId=-1;
 
-        public Dictionary<DockingDoor, DockingManager> DockingDoors = new Dictionary<DockingDoor, DockingManager>();
+        public Dictionary<DockingDoor,int> DockingDoors = new Dictionary<DockingDoor, int>();
         public int GetWorldId() => OwnWorldId;
 
         DockableType Type = DockableType.Rocket;
@@ -48,7 +53,6 @@ namespace Rockets_TinyYetBig.Behaviours
 
         protected override void OnSpawn()
         {
-            base.OnLoadLevel();
             base.OnSpawn();
             ModAssets.Dockables.Add(this);
             Debug.Log("AddedDockable");
@@ -65,32 +69,39 @@ namespace Rockets_TinyYetBig.Behaviours
                 OwnWorldId = ClusterUtil.GetMyWorldId(door);
             if(!DockingDoors.ContainsKey(door))
             {
-                DockingDoors.Add(door,null);
+                int target = -1;
+                if (door.GetConnec() != null)
+                    target = door.GetConnec().GetMyWorldId();
+                DockingDoors.Add(door, target);
             }
-            Debug.Log("ADDED DOOR!, ID: " + OwnWorldId);
+            Debug.Log("ADDED DOOR!, ID: " + OwnWorldId+", Doorcount: "+DockingDoors.Count());
         }
         public void RemoveDoor(DockingDoor door)
         {
             if (DockingDoors.ContainsKey(door))
             {
+                Debug.Log(door + "<-> " + door.GetMyWorldId());
+                UnDockFromTargetWorld(door.GetConnec().GetMyWorldId());
                 ///Disconecc;
+                //door.DisconnecDoor();
                 DockingDoors.Remove(door);
             }
         }
 
         public bool CanDock()
         {
-            return DockingDoors.Any(k => k.Value == null);
+            return DockingDoors.Any(k => k.Key.GetConnec() == null);
         }
 
         public bool HasDoors()
         {
+            //Debug.Log("HAs Doors: " + DockingDoors.Count);
             return DockingDoors.Count>0;
         }
 
-        public bool IsDockedTo(DockingManager target)
+        public bool IsDockedTo(int WorldID)
         {
-            return DockingDoors.ContainsValue(target);
+            return DockingDoors.ContainsValue(WorldID);
         }
         public void HandleUiDocking(int prevDockingState,int targetWorld)
         {
@@ -109,7 +120,7 @@ namespace Rockets_TinyYetBig.Behaviours
                 Debug.Log("No doors found");
                 return;
             }
-            if(IsDockedTo(target))
+            if(IsDockedTo(targetWorldId))
             {
                 Debug.Log("Already Docked");
                 return;
@@ -118,40 +129,38 @@ namespace Rockets_TinyYetBig.Behaviours
         }
         public static void ConnectTwo(DockingManager door1mng, DockingManager door2mng)
         {
-            var door1 = door1mng.DockingDoors.First(k => k.Value == null).Key;
-            var door2 = door2mng.DockingDoors.First(k => k.Value == null).Key;
+            var door1 = door1mng.DockingDoors.First(k => k.Value == -1).Key;
+            var door2 = door2mng.DockingDoors.First(k => k.Value == -1).Key;
 
-            door1mng.DockingDoors[door1] = door2mng;
-            door2mng.DockingDoors[door2] = door1mng;
+            door1mng.DockingDoors[door1] = door2mng.OwnWorldId;
+            door2mng.DockingDoors[door2] = door1mng.OwnWorldId;
 
-            door1.ConnecDoor(door2);
-            door2.ConnecDoor(door1);
-
-            door1.Teleporter.EnableTwoWayTarget(true);
-
-        }
-
-
-        public void StartupConnect(DockingDoor door1, DockingDoor door2)
-        {
             door1.ConnecDoor(door2);
             door2.ConnecDoor(door1);
             door1.Teleporter.EnableTwoWayTarget(true);
         }
+
+
+        //public void StartupConnect(DockingDoor door1, DockingDoor door2)
+        //{
+        //    door1.ConnecDoor(door2);
+        //    door2.ConnecDoor(door1);
+        //    door1.Teleporter.EnableTwoWayTarget(true);
+        //}
 
         public void UnDockFromTargetWorld(int targetWorldId)
         {
-            var door = DockingDoors.Keys.First(d => d.GetConnec().Manager.OwnWorldId == targetWorldId);
+            Debug.Log("TargetWorldToUndock: " + targetWorldId);
+            var door = DockingDoors.Keys.First(d => d.GetConnec().GetMyWorldId() == targetWorldId);
             if(door == null)
             {
                 Debug.LogWarning("No connection to undock from found");
             }
             door.Teleporter.EnableTwoWayTarget(false);
             var door2 = door.GetConnec();
-            door2.Manager.DockingDoors[door2] = null;
+            door2.dManager.DockingDoors[door2] = -1;
             door2.DisconnecDoor();
-
-            DockingDoors[door] = null;
+            DockingDoors[door] = -1;
             door.DisconnecDoor();
 
         }

@@ -17,7 +17,7 @@ namespace Rockets_TinyYetBig.Patches
         {
             public static void Postfix(List<DetailsScreen.SideScreenRef> ___sideScreens)
             {
-               // UIUtils.AddClonedSideScreen<DockingSidescreen>("DockingSidescreen", "LogicBroadcastChannelSideScreen", typeof(LogicBroadcastChannelSideScreen));
+                UIUtils.AddClonedSideScreen<DockingSidescreen>("DockingSidescreen", "LogicBroadcastChannelSideScreen", typeof(LogicBroadcastChannelSideScreen));
             }
         }
     }

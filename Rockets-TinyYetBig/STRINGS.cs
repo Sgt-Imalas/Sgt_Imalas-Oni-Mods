@@ -159,11 +159,11 @@ namespace Rockets_TinyYetBig
             }
             public class CONSTRAINTS
             {
-                public class ONE_RTG_PER_ROCKET
+                public class ONE_MODULE_PER_ROCKET
                 {
 
                     public static LocString COMPLETE = (LocString)"";
-                    public static LocString FAILED = (LocString)"    • There already is a RTG on this rocket";
+                    public static LocString FAILED = (LocString)"    • There already is a module of this type on this rocket";
                 }
             }
         }

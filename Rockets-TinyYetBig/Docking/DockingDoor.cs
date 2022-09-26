@@ -17,24 +17,26 @@ namespace Rockets_TinyYetBig.Behaviours
         [Serialize]
         Ref<DockingDoor> connected = null;
 
-        public DockingManager Manager;
+        public DockingManager dManager;
 
         public void ConnecDoor(DockingDoor d)
         {
            // Debug.Log("Door: " + d);
             connected = new Ref<DockingDoor>(d);
-            Debug.Log(Manager.GetWorldId() +" conneccted to " + d.Manager.GetWorldId());
+            Debug.Log(dManager.GetWorldId() +" conneccted to " + d.dManager.GetWorldId());
             Teleporter.SetTarget(d.Teleporter);
             ///DoStuffUpdateidk;
         }
         public DockingDoor GetConnec()
         {
-            return connected.Get();
+            if(connected!=null)
+                return connected.Get();
+            return null;
         }
 
         public void DisconnecDoor()
         {
-            Debug.Log(Manager.GetWorldId() + " disconneccted from " + connected.Get().Manager.GetWorldId());
+            Debug.Log(dManager.GetWorldId() + " disconneccted from " + connected.Get().dManager.GetWorldId());
             connected = null;
 
             Teleporter.SetTarget(null);
@@ -45,13 +47,14 @@ namespace Rockets_TinyYetBig.Behaviours
         {
             base.OnSpawn();
             int worldId = ClusterUtil.GetMyWorldId(this.gameObject); 
-            //Manager = ModAssets.Dockables.Items.Find(item => item.GetWorldId() == worldId);//GetRocket().GetComponent<DockingManager>();
-            Manager = GetRocket().AddOrGet<DockingManager>();
-            Manager.AddDoor(this);
+            //dManager = ModAssets.Dockables.Items.Find(item => item.GetWorldId() == worldId);//GetRocket().GetComponent<DockingdManager>();
+            dManager = GetRocket().AddOrGet<DockingManager>();
+            dManager.StartupID(worldId);
+            dManager.AddDoor(this);
         }
         protected override void OnCleanUp()
         {
-            Manager.RemoveDoor(this);
+            dManager.RemoveDoor(this);
             base.OnCleanUp();
         }
 
@@ -59,14 +62,6 @@ namespace Rockets_TinyYetBig.Behaviours
         {
             WorldContainer world = ClusterUtil.GetMyWorld(this.gameObject);
             return (UnityEngine.Object)world == (UnityEngine.Object)null ? (GameObject)null : world.gameObject.GetComponent<Clustercraft>().gameObject;
-        }
-        public void Disconnect()
-        {
-
-        }
-        public void Connect(DockingDoor door)
-        {
-
         }
     }
 }
