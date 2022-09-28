@@ -1,4 +1,5 @@
-﻿using RoboRockets.Buildings;
+﻿using KSerialization;
+using RoboRockets.Buildings;
 using STRINGS;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,10 @@ namespace RadiatorMod.Util
 		[MyCmpReq] private KSelectable selectable;
         [MyCmpGet] private Rotatable rotatable;
 
+		[Serialize]
+		float RocketInteriorSimulatedTemperature = -1;
+		[Serialize]
+		bool RocketInteriorModule= false;
 
 		public static string Category = "BUILDING", InSpaceRadiating = "RadiatorInSpaceRadiating", NotInSpace = "RadiatorNotInSpace", BunkerDown = "RadiatorBunkeredDown";
 
@@ -69,7 +74,7 @@ namespace RadiatorMod.Util
 		/// </summary>
 		public void RadiateIntoSpace()
         {
-			var temperature = gameObject.GetComponent<PrimaryElement>().Temperature;
+			var temperature = RocketInteriorModule ? RocketInteriorSimulatedTemperature : gameObject.GetComponent<PrimaryElement>().Temperature;
 			if (temperature < 5f)
 				return;
 
@@ -77,8 +82,15 @@ namespace RadiatorMod.Util
 			if (cooling > 1f)
 			{
 				CurrentCoolingRadiation = (float)cooling;
-				GameComps.StructureTemperatures.ProduceEnergy(structureTemperature, (float)-cooling / 1000,
-					BUILDING.STATUSITEMS.OPERATINGENERGY.PIPECONTENTS_TRANSFER, (float)-cooling / 1000);
+                if (RocketInteriorModule)
+                {
+
+                }
+                else
+                {
+					GameComps.StructureTemperatures.ProduceEnergy(structureTemperature, (float)-cooling / 1000,
+						BUILDING.STATUSITEMS.OPERATINGENERGY.PIPECONTENTS_TRANSFER, (float)-cooling / 1000);
+				}
 				UpdateRadiation();
 			}
 		}
@@ -187,28 +199,41 @@ namespace RadiatorMod.Util
 			var contents = flowManager.GetContents(inputCell);
 			if (contents.mass <= 0f) return;
 			var panel_mat = gameObject.GetComponent<PrimaryElement>();
+			var panel_mat_temperature = RocketInteriorModule ? RocketInteriorSimulatedTemperature : panel_mat.Temperature;
+
 			var element = ElementLoader.FindElementByHash(contents.element);
-			var deltaheat = conductive_heat(element, contents.temperature, panel_mat.Element, panel_mat.Temperature, RadiatorArea.Count);
+			var deltaheat = 
+				conductive_heat(element,
+				contents.temperature,
+				panel_mat.Element,
+				panel_mat_temperature, 
+				RadiatorArea.Count);
+
 			// heat change = mass * specific heat capacity * temp change        
 			var deltatemp_panel = deltaheat / RadiatorBaseConfig.matCosts[0] / panel_mat.Element.specificHeatCapacity * dt;
 			var deltatemp_liquid = -deltaheat / contents.mass / element.specificHeatCapacity * dt;
-			var panel_newtemp = panel_mat.Temperature + deltatemp_panel;
+			var panel_newtemp = panel_mat_temperature + deltatemp_panel;
 			var liquid_newtemp = contents.temperature + deltatemp_liquid;
 			// In this case, the panel can at most be cooled to the content temperature
-			if (panel_mat.Temperature > contents.temperature)
+			if (panel_mat_temperature > contents.temperature)
 			{
 				panel_newtemp = Math.Max(panel_newtemp, contents.temperature);
-				liquid_newtemp = Math.Min(liquid_newtemp, panel_mat.Temperature);
+				liquid_newtemp = Math.Min(liquid_newtemp, panel_mat_temperature);
 			}
 			else
 			{
 				panel_newtemp = Math.Min(panel_newtemp, contents.temperature);
-				liquid_newtemp = Math.Max(liquid_newtemp, panel_mat.Temperature);
+				liquid_newtemp = Math.Max(liquid_newtemp, panel_mat_temperature);
 			}
 
 			var delta = flowManager.AddElement(outputCell, contents.element, contents.mass, liquid_newtemp,
 				contents.diseaseIdx, contents.diseaseCount);
-			panel_mat.Temperature = panel_newtemp;
+
+			if (!RocketInteriorModule)
+				panel_mat.Temperature = panel_newtemp;
+			else
+				RocketInteriorSimulatedTemperature = panel_newtemp;
+
 			if (delta <= 0f) return;
 			flowManager.RemoveElement(inputCell, delta);
 			Game.Instance.accumulators.Accumulate(accumulator, contents.mass);
