@@ -13,12 +13,6 @@ namespace Rockets_TinyYetBig.Docking
 {
     class DockingSidescreen : SideScreenContent
     {
-        public override bool IsValidForTarget(GameObject target)
-        {
-            var manager = target.GetComponent<DockingManager>();
-            Debug.Log(manager + "is docking manager? "+manager!=null);
-            return manager != null && manager.HasDoors();
-        }
 
         protected override void OnSpawn()
         {
@@ -28,9 +22,8 @@ namespace Rockets_TinyYetBig.Docking
 
         //[SerializeField]
         //private Dictionary<DockingDoor, GameObject> dockingPorts = new Dictionary<DockingDoor, GameObject>();
-        [SerializeField]
-        private Clustercraft targetCraft;
         private DockingManager targetManager;
+        private Clustercraft targetCraft;
 
         [SerializeField]
         private GameObject rowPrefab;
@@ -47,6 +40,25 @@ namespace Rockets_TinyYetBig.Docking
         
 
         public override float GetSortKey() => 21f;
+        public override bool IsValidForTarget(GameObject target)
+        {
+            var manager = target.GetComponent<DockingManager>();
+            if (manager == null)
+            {
+                if(target.TryGetComponent<DockingDoor>(out var door))
+                {
+                    manager = door.dManager;
+                }
+            }
+            if (manager == null)
+                return false;
+
+            var spaceship = manager.GetComponent<Clustercraft>();
+            
+            bool flying = spaceship!=null ? spaceship.Status == Clustercraft.CraftStatus.InFlight : true;
+
+            return manager != null && manager.HasDoors() && manager.GetType != DockableType.Derelict && flying;
+        }
         public override void SetTarget(GameObject target)
         {
             base.SetTarget(target);
@@ -62,14 +74,23 @@ namespace Rockets_TinyYetBig.Docking
 
 
             targetManager = target.GetComponent<DockingManager>();
-            targetCraft = target.GetComponent<Clustercraft>();
-            if (targetCraft == null && target.GetComponent<RocketControlStation>() != null) 
+            target.TryGetComponent<Clustercraft>(out this.targetCraft);
+            if (targetManager == null)
+            {
+                if (target.TryGetComponent<DockingDoor>(out var door))
+                {
+                    targetManager = door.dManager;
+                    targetCraft = targetManager.GetComponent<Clustercraft>();
+                }
+            }
+
+            if (targetManager == null) 
             { 
-                targetCraft = target.GetMyWorld().GetComponent<Clustercraft>();
                 targetManager = targetCraft.GetComponent<DockingManager>();
             }
             ConnectReference();
             Build();
+            refreshHandle.Add(this.targetCraft.gameObject.Subscribe((int)GameHashes.ClusterDestinationChanged, new System.Action<object>(this.RefreshAll)));
             refreshHandle.Add(this.targetCraft.gameObject.Subscribe((int)GameHashes.ClusterLocationChanged, new System.Action<object>(this.RefreshAll)));
         }
 
@@ -91,27 +112,48 @@ namespace Rockets_TinyYetBig.Docking
             {
                 rowPrefab=transform.Find("Content/ContentScrollRect/RowContainer/Rows/RowPrefab").gameObject;
                 listContainer = transform.Find("Content/ContentScrollRect/RowContainer/Rows").gameObject;
+                //var layout = transform.Find("Content/ContentScrollRect/Scrollbar").GetComponent<LayoutElement>();
+                //Debug.Log(String.Format("{0}, {1}, {2}", layout.minHeight, layout.preferredHeight, layout.flexibleHeight));
+                //layout.minHeight = 150f;
+
+                transform.Find("Content/ContentScrollRect").GetComponent<LayoutElement>().minHeight = 150; 
+                transform.Find("Content/ContentScrollRect/Scrollbar").GetComponent<LayoutElement>().minHeight = 120;
+
                 headerLabel = TryFindComponent<LocText>(transform.Find("Content/Header"));
                 noChannelRow = transform.Find("Content/ContentScrollRect/RowContainer/Rows/NoChannelRow").gameObject;
 
-                TryChangeText(noChannelRow.transform, "Labels/Label", "Label");
-                TryChangeText(noChannelRow.transform, "Labels/DescLabel", "No Dockables Found");
+                TryChangeText(noChannelRow.transform, "Labels/Label", "Nothing");
+                TryChangeText(noChannelRow.transform, "Labels/DescLabel", "Nothing to dock to.");
             }
         }
 
         private void Build()
         {
 #if DEBUG
-           // UIUtils.ListAllChildren(this.transform);
+           // Debug.Log("------------------");
+           //UIUtils.ListAllChildren(this.transform);
+           // Debug.Log("------------------");
+           //UIUtils.ListAllChildrenWithComponents(this.transform);
+           // Debug.Log("------------------");
 #endif
-            this.headerLabel.SetText((string)"Docking Ports");
+            this.headerLabel.SetText("Docking Ports: "+ targetManager.GetUiDoorInfo());
             this.ClearRows();
             var AllDockerObjects = ClusterGrid.Instance.GetVisibleEntitiesAtCell(this.targetCraft.Location).FindAll(e => e.TryGetComponent<DockingManager>(out DockingManager manager));
-            var AllDockers = AllDockerObjects.Select(e => e.GetComponent<DockingManager>()).Where(man => man.HasDoors()).ToList();
+            var AllDockers = AllDockerObjects
+                .Select(e => e.GetComponent<DockingManager>())
+                .Where(mng => mng.HasDoors())
+                .ToList();
             AllDockers.Remove(targetManager);
 
             foreach (DockingManager targetManager in AllDockers)
             {
+                if (RocketryUtils.IsRocketInFlight(targetCraft))
+                    continue;
+                targetManager.gameObject.TryGetComponent<Clustercraft>(out var clustercraft);
+                if (clustercraft != null && RocketryUtils.IsRocketInFlight(clustercraft))
+                    continue;
+
+
                 if (!targetManager.IsNullOrDestroyed())
                 {
                     GameObject gameObject = Util.KInstantiateUI(this.rowPrefab, this.listContainer);
@@ -127,11 +169,12 @@ namespace Rockets_TinyYetBig.Docking
 
         private void Refresh()
         {
+            this.headerLabel.SetText("Docking Ports: " + targetManager.GetUiDoorInfo());
             foreach (KeyValuePair<DockingManager, GameObject> broadcasterRow in this.DockingTargets)
             {
                 KeyValuePair<DockingManager, GameObject> kvp = broadcasterRow;
                 kvp.Value.GetComponent<HierarchyReferences>().GetReference<LocText>("Label").SetText(kvp.Key.gameObject.GetProperName());
-                kvp.Value.GetComponent<HierarchyReferences>().GetReference<LocText>("DistanceLabel").SetText("DistanceLabel");
+                kvp.Value.GetComponent<HierarchyReferences>().GetReference<LocText>("DistanceLabel").SetText(kvp.Key.GetUiDoorInfo());
                 kvp.Value.GetComponent<HierarchyReferences>().GetReference<Image>("Icon").gameObject.SetActive(false);
                 //kvp.Value.GetComponent<HierarchyReferences>().GetReference<Image>("Icon").sprite = Def.GetUISprite((object)kvp.Key.gameObject).first;
                 //kvp.Value.GetComponent<HierarchyReferences>().GetReference<Image>("Icon").color = Def.GetUISprite((object)kvp.Key.gameObject).second;
@@ -139,6 +182,7 @@ namespace Rockets_TinyYetBig.Docking
                 kvp.Value.GetComponent<HierarchyReferences>().GetReference<Image>("WorldIcon").sprite = targetManager.GetDockingIcon();
                 //kvp.Value.GetComponent<HierarchyReferences>().GetReference<Image>("WorldIcon").color = Color.black ;
                 var toggle = kvp.Value.GetComponent<HierarchyReferences>().GetReference<MultiToggle>("Toggle");
+                
                 toggle.onClick = (System.Action)(() =>
                 {
                     targetManager.HandleUiDocking(toggle.CurrentState,kvp.Key.GetWorldId());

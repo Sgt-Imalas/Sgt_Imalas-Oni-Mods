@@ -20,5 +20,20 @@ namespace Rockets_TinyYetBig.Patches
                 UIUtils.AddClonedSideScreen<DockingSidescreen>("DockingSidescreen", "LogicBroadcastChannelSideScreen", typeof(LogicBroadcastChannelSideScreen));
             }
         }
+
+        [HarmonyPatch(typeof(Clustercraft), "OnClusterDestinationChanged")]
+        public static class UndockOnFlight
+        {
+            public static void Postfix(Clustercraft __instance)
+            {
+                if (RocketryUtils.IsRocketInFlight(__instance))
+                {
+                    if(__instance.TryGetComponent<DockingManager>(out var mng))
+                    {
+                        mng.UndockAll();
+                    }
+                }
+            }
+        }
     }
 }

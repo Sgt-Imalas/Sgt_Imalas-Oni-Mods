@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Rockets_TinyYetBig.Behaviours
 {
     [SerializationConfig(MemberSerialization.OptIn)]
-    class DockingDoor : KMonoBehaviour
+    class DockingDoor : KMonoBehaviour, ISidescreenButtonControl
     {
         [MyCmpGet]
         public NavTeleporter Teleporter;
@@ -23,9 +23,12 @@ namespace Rockets_TinyYetBig.Behaviours
         {
            // Debug.Log("Door: " + d);
             connected = new Ref<DockingDoor>(d);
-            //Debug.Log(dManager.GetWorldId() +" conneccted to " + d.dManager.GetWorldId());
             Teleporter.SetTarget(d.Teleporter);
-            ///DoStuffUpdateidk;
+            if (!this.gameObject.IsNullOrDestroyed() && gameObject.TryGetComponent<KBatchedAnimController>(out var kanim))
+            {
+                kanim.Play("extending");
+                kanim.Queue("extended");
+            }
         }
         public DockingDoor GetConnec()
         {
@@ -34,13 +37,28 @@ namespace Rockets_TinyYetBig.Behaviours
             return null;
         }
 
-        public void DisconnecDoor()
+        public void DisconnecDoor(bool skipanim = false)
         {
+#if DEBUG
             Debug.Log(dManager.GetWorldId() + " disconneccted from " + connected.Get().dManager.GetWorldId());
+#endif
             connected = null;
 
             Teleporter.SetTarget(null);
-            ///DoStuffUpdateidk;
+            if (gameObject.TryGetComponent<KBatchedAnimController>(out var kanim)&&!skipanim)
+            {
+                kanim.Play("retracting");
+                kanim.Queue("retracted");
+            }
+        }
+
+        private void UnDockOnFlight()
+        {
+            if (connected != null)
+            {
+                Debug.Log("Disconnecting due to flight");
+                dManager.UnDockFromTargetWorld(connected.Get().dManager.GetWorldId());
+            }
         }
 
         protected override void OnSpawn()
@@ -48,24 +66,60 @@ namespace Rockets_TinyYetBig.Behaviours
             base.OnSpawn();
             int worldId = ClusterUtil.GetMyWorldId(this.gameObject); 
             //dManager = ModAssets.Dockables.Items.Find(item => item.GetWorldId() == worldId);//GetRocket().GetComponent<DockingdManager>();
-            dManager = GetRocket().AddOrGet<DockingManager>();
+            dManager = GetWorldObject().AddOrGet<DockingManager>();
             dManager.StartupID(worldId);
             dManager.AddDoor(this);
+            string startKanim = string.Empty;
             if (connected != null && connected.Get() != null && connected.Get().Teleporter != null )
             {
                 Teleporter.SetTarget(connected.Get().Teleporter);
+                startKanim=("extended");
+            }
+            else
+                startKanim = ("retracted");
+            if(gameObject.TryGetComponent<KBatchedAnimController>(out var kanim))
+            {
+                kanim.Play(startKanim);
             }
         }
+
         protected override void OnCleanUp()
         {
             dManager.RemoveDoor(this);
             base.OnCleanUp();
         }
 
-        private GameObject GetRocket()
+        private GameObject GetWorldObject()
         {
             WorldContainer world = ClusterUtil.GetMyWorld(this.gameObject);
-            return (UnityEngine.Object)world == (UnityEngine.Object)null ? (GameObject)null : world.gameObject.GetComponent<Clustercraft>().gameObject;
+            return (UnityEngine.Object)world == (UnityEngine.Object)null ? (GameObject)null : world.gameObject.GetComponent<ClusterGridEntity>().gameObject;
         }
+
+        #region Sidescreen
+
+        public string SidescreenButtonText => STRINGS.UI_MOD.DOCKINGUI.BUTTON;
+
+        public string SidescreenButtonTooltip => STRINGS.UI_MOD.DOCKINGUI.BUTTONINFO;
+
+        public int ButtonSideScreenSortOrder()
+        {
+            return 20;
+        }
+
+        public void OnSidescreenButtonPressed()
+        {
+            ClusterManager.Instance.SetActiveWorld(connected.Get().GetMyWorld().id);
+            ManagementMenu.Instance.CloseAll();
+        }
+
+        public bool SidescreenButtonInteractable()
+
+        => connected != null;
+
+        public bool SidescreenEnabled()
+        {
+            return true;
+        }
+        #endregion
     }
 }

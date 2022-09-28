@@ -152,6 +152,11 @@ namespace Rockets_TinyYetBig
 
         public class UI_MOD
         {
+            public class DOCKINGUI
+            {
+                public static LocString BUTTON = (LocString)"View connected Target";
+                public static LocString BUTTONINFO = (LocString)"View the interior this docking tube is currently connected to.";
+            }
             public class FLUSHURANIUM
             {
                 public static LocString BUTTON = (LocString)"Flush Generator Fuel";

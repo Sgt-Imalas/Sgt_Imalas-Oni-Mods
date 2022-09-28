@@ -55,12 +55,28 @@ namespace Rockets_TinyYetBig.Behaviours
         {
             base.OnSpawn();
             ModAssets.Dockables.Add(this);
+#if DEBUG
             Debug.Log("AddedDockable");
+#endif
         }
         protected override void OnCleanUp()
         {
             ModAssets.Dockables.Remove(this);
             base.OnCleanUp();
+        }
+
+        public string GetUiDoorInfo()
+        {
+            StringBuilder sb = new StringBuilder();
+            int count = AvailableConnections();
+            sb.Append(count);
+            sb.Append(count!=1?" available connections":" available connection");
+            return sb.ToString();
+        }
+        public int AvailableConnections()
+        {
+            int count = DockingDoors.Keys.ToList().FindAll(k => k.GetConnec() == null).Count();
+            return count;
         }
 
         public void AddDoor(DockingDoor door)
@@ -74,14 +90,18 @@ namespace Rockets_TinyYetBig.Behaviours
                     target = door.GetConnec().GetMyWorldId();
                 DockingDoors.Add(door, target);
             }
+#if DEBUG
             Debug.Log("ADDED DOOR!, ID: " + OwnWorldId+", Doorcount: "+DockingDoors.Count());
+#endif
         }
         public void RemoveDoor(DockingDoor door)
         {
             if (DockingDoors.ContainsKey(door))
             {
+#if DEBUG
                 Debug.Log(door + "<-> " + door.GetMyWorldId());
-                UnDockFromTargetWorld(door.GetConnec().GetMyWorldId());
+#endif
+                UnDockFromTargetWorld(door.GetConnec().GetMyWorldId(),true);
                 ///Disconecc;
                 //door.DisconnecDoor();
                 DockingDoors.Remove(door);
@@ -90,7 +110,11 @@ namespace Rockets_TinyYetBig.Behaviours
 
         public bool CanDock()
         {
-            return DockingDoors.Any(k => k.Key.GetConnec() == null);
+            return DockingDoors.Any(k => k.Key.GetConnec() == null)&&HasDoors();
+        }
+        public bool IsDockedToAny()
+        {
+            return DockingDoors.Any(k => k.Key.GetConnec() != null);
         }
 
         public bool HasDoors()
@@ -105,7 +129,9 @@ namespace Rockets_TinyYetBig.Behaviours
         }
         public void HandleUiDocking(int prevDockingState,int targetWorld)
         {
+#if DEBUG
             Debug.Log(prevDockingState == 0 ? "Trying to dock to " + targetWorld : "Trying To Undock from " + targetWorld);
+#endif
             if (prevDockingState == 0)
                 DockToTargetWorld(targetWorld);
             else
@@ -114,8 +140,13 @@ namespace Rockets_TinyYetBig.Behaviours
 
         public void DockToTargetWorld(int targetWorldId)
         {
+            if (!this.CanDock())
+                return;
+
             var target = ModAssets.Dockables.Items.Find(mng => mng.OwnWorldId == targetWorldId);
-            if (target == null || target.DockingDoors.Count == 0 || this.DockingDoors.Count==0)
+
+
+            if (target == null || target.DockingDoors.Count == 0 || this.DockingDoors.Count==0 || !target.CanDock())
             {
                 Debug.Log("No doors found");
                 return;
@@ -127,10 +158,27 @@ namespace Rockets_TinyYetBig.Behaviours
             }
             ConnectTwo(this, target);
         }
+        public void UndockAll()
+        {
+#if DEBUG
+            Debug.Log("Undocking all");
+#endif
+            foreach(int id in DockingDoors.Values.ToList())
+            {
+#if DEBUG
+                Debug.Log("World: " + id);
+#endif
+                UnDockFromTargetWorld(id);
+            }
+        }
+
         public static void ConnectTwo(DockingManager door1mng, DockingManager door2mng)
         {
             var door1 = door1mng.DockingDoors.First(k => k.Value == -1).Key;
             var door2 = door2mng.DockingDoors.First(k => k.Value == -1).Key;
+            if (door1 == null || door2 == null)
+                return;
+
 
             door1mng.DockingDoors[door1] = door2mng.OwnWorldId;
             door2mng.DockingDoors[door2] = door1mng.OwnWorldId;
@@ -148,10 +196,15 @@ namespace Rockets_TinyYetBig.Behaviours
         //    door1.Teleporter.EnableTwoWayTarget(true);
         //}
 
-        public void UnDockFromTargetWorld(int targetWorldId)
+        public void UnDockFromTargetWorld(int targetWorldId,bool cleanup=false)
         {
+#if DEBUG
             Debug.Log("TargetWorldToUndock: " + targetWorldId);
-            var door = DockingDoors.Keys.First(d => d.GetConnec().GetMyWorldId() == targetWorldId);
+#endif
+            if (targetWorldId == -1)
+                return;
+
+            var door = DockingDoors.First(d => d.Value == targetWorldId).Key;
             if(door == null)
             {
                 Debug.LogWarning("No connection to undock from found");
@@ -161,7 +214,7 @@ namespace Rockets_TinyYetBig.Behaviours
             door2.dManager.DockingDoors[door2] = -1;
             door2.DisconnecDoor();
             DockingDoors[door] = -1;
-            door.DisconnecDoor();
+            door.DisconnecDoor(cleanup);
 
         }
 

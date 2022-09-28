@@ -15,7 +15,7 @@ namespace Rockets_TinyYetBig.Buildings
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public override BuildingDef CreateBuildingDef()
         {
-            string tubeKanim = Config.Instance.CompressInteriors ? "batterysm_kanim" : "batterysm_kanim";
+            string tubeKanim = Config.Instance.CompressInteriors ? "rtb_docking_tube_kanim" : "rtb_docking_tube_kanim";
 
 
             float[] materialMass = new float[2]
@@ -43,7 +43,6 @@ namespace Rockets_TinyYetBig.Buildings
                 BuildLocationRule.OnWall,
                 decor: _decor,
                 noise: noiseLevel);
-            BuildingTemplates.CreateRocketBuildingDef(buildingDef);
 
             buildingDef.OverheatTemperature = 2273.15f;
             buildingDef.Floodable = false;
@@ -55,8 +54,8 @@ namespace Rockets_TinyYetBig.Buildings
             //buildingDef.OnePerWorld = true;
 
             buildingDef.RequiresPowerInput = false;
-            SoundEventVolumeCache.instance.AddVolume("door_poi_internal_kanim", "Open_DoorInternal", NOISE_POLLUTION.NOISY.TIER2);
-            SoundEventVolumeCache.instance.AddVolume("door_poi_internal_kanim", "Close_DoorInternal", NOISE_POLLUTION.NOISY.TIER2);
+            //SoundEventVolumeCache.instance.AddVolume("door_poi_internal_kanim", "Open_DoorInternal", NOISE_POLLUTION.NOISY.TIER2);
+            //SoundEventVolumeCache.instance.AddVolume("door_poi_internal_kanim", "Close_DoorInternal", NOISE_POLLUTION.NOISY.TIER2);
             return buildingDef;
         }
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)

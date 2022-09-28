@@ -18,6 +18,13 @@ namespace UtilLibs
         public const string CategoryDataKey = "Sgt_Imalas_RocketModuleSortOrder";
         public const string CategoryInitKey = "Sgt_Imalas_VanillaRocketModulesCategorized";
 
+
+        public static bool IsRocketInFlight(Clustercraft craft)
+        {
+            var LocationCurrent = craft.Location;
+            var LocationTarget = craft.ModuleInterface.GetClusterDestinationSelector().GetDestination();
+            return LocationCurrent != LocationTarget;
+        }
         public enum RocketCategory
         {
             engines = 0,
