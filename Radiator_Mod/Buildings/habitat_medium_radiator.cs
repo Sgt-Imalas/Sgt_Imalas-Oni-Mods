@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 
-namespace RadiatorMod.Buildings
+namespace Radiator_Mod
 {
     class HabitatMediumRadiator : IBuildingConfig
     {
         public static string ID = "HabitatModuleMediumRadiator";
-        public static string NAME = STRINGS.BUILDINGS.PREFABS.HABITATMODULEMEDIUM.NAME + " with 2 Space Radiators.";
-        public static string DESC = STRINGS.BUILDINGS.PREFABS.HABITATMODULEMEDIUM.DESC + "\n\nComes preinstalled with 2 Radiators.";
-        public static string EFFECT = STRINGS.BUILDINGS.PREFABS.HABITATMODULEMEDIUM.EFFECT + "\n\nHas 2 Space Radiators build in the walls.";
+        public static string NAME = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULEMEDIUM.NAME + " with 2 Space Radiators.";
+        public static string DESC = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULEMEDIUM.DESC + "\n\nComes preinstalled with 2 Radiators.";
+        public static string EFFECT = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULEMEDIUM.EFFECT + "\n\nHas 2 Space Radiators build in the walls.";
 
         private ConduitPortInfo gasInputPort = new ConduitPortInfo(ConduitType.Gas, new CellOffset(-2, 0));
         private ConduitPortInfo gasOutputPort = new ConduitPortInfo(ConduitType.Gas, new CellOffset(2, 0));

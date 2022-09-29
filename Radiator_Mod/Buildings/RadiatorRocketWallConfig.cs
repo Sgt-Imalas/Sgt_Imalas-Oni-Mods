@@ -1,4 +1,5 @@
-﻿using RoboRockets.Buildings;
+﻿
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 
-namespace RadiatorMod.Buildings
+namespace Radiator_Mod
 {
     public class RadiatorRocketWallConfig : RadiatorBaseConfig
     {

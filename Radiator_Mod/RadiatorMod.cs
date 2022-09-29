@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RadiatorMod
+namespace Radiator_Mod
 {
     class RadiatorMod: UserMod2
 	{

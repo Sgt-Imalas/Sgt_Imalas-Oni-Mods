@@ -4,7 +4,7 @@
 
 This mod adds a new utility building called “Space Radiator”, that radiates heat off into space.
 [img]https://i.imgur.com/2kLYsza.gif[/img]
-[h1]Current latest Version: 2.0.3[/h1]
+[h1]Current latest Version: 2.1.0[/h1]
 
 [hr][/hr]
 
@@ -20,8 +20,7 @@ New Building: Space Radiator
 [/list]
 
 [h1]DLC Features[/h1]
-[list][*] Adds a separate habitat module that has two preinstalled steel radiators .
-[*] Costs the material for the habitat module (500 raw ore) & the material cost of the two radiators (2x 800 steel).
+[list][*] adds a interior exclusive radiator that has to be placed attached to a side wall.
 [/list]
 
 [h1]Requirements[/h1]

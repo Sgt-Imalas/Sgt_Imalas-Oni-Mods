@@ -222,19 +222,19 @@ namespace Rockets_TinyYetBig
                     {
                         case "interiors/habitat_medium_compressed":
                         //case "interiors/habitat_medium_radiator":
-                            original = new Vector2I(16, 13);
+                            original = new Vector2I(18, 15);
                             break;
                         case "interiors/habitat_small_compressed":
-                            original = new Vector2I(12, 11);
+                            original = new Vector2I(14, 13);
                             break;
                         case "interiors/habitat_small_expanded":
-                            original = new Vector2I(12, 13);
+                            original = new Vector2I(14, 15);
                             break;
                         case "interiors/habitat_medium_expanded":
-                            original = new Vector2I(18, 17);
+                            original = new Vector2I(20, 19);
                             break;
                         case "interiors/habitat_medium_stargazer":
-                            original = new Vector2I(16, 11);
+                            original = new Vector2I(18, 13);
                             break;
                     }
                 }

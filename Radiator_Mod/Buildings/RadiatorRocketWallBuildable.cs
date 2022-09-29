@@ -1,4 +1,4 @@
-﻿using RoboRockets.Buildings;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 
-namespace RadiatorMod.Buildings
+namespace Radiator_Mod
 {
-    public class RadiatorRocketWallBuildable : RadiatorBaseConfig
+    public class RadiatorRocketWallBuildable : IBuildingConfig
     {
-        public new const string ID = "RM_RadiatorRocketWallBuildable";
+        public const string ID = "RM_RadiatorRocketWallBuildable";
 
-        public new static float[] matCosts = BUILDINGS.CONSTRUCTION_MASS_KG.TIER5;
+        public static float[] matCosts = BUILDINGS.CONSTRUCTION_MASS_KG.TIER5;
 
-        public new static string[] construction_materials = MATERIALS.REFINED_METALS;
+        public static string[] construction_materials = MATERIALS.REFINED_METALS;
 
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public override BuildingDef CreateBuildingDef()
@@ -24,7 +24,7 @@ namespace RadiatorMod.Buildings
             EffectorValues tieR2 = NOISE_POLLUTION.NONE;
             EffectorValues none2 = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 2, "heat_radiator_kanim", 100, 120f, matCosts, construction_materials, 1600f, BuildLocationRule.Anywhere, none2, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 2, "heat_radiator_rocket_module_kanim", 100, 120f, matCosts, construction_materials, 1600f, BuildLocationRule.OnWall, none2, noise);
 
             buildingDef.InputConduitType = ConduitType.Liquid;
             buildingDef.OutputConduitType = ConduitType.Liquid;
@@ -32,7 +32,7 @@ namespace RadiatorMod.Buildings
             buildingDef.UtilityOutputOffset = new CellOffset(0, 0);
             buildingDef.DefaultAnimState = "on";
 
-            buildingDef.PermittedRotations = PermittedRotations.R360;
+            buildingDef.PermittedRotations = PermittedRotations.FlipH;
             buildingDef.ViewMode = OverlayModes.LiquidConduits.ID;
             buildingDef.ThermalConductivity = 2f;
             buildingDef.AudioCategory = "HollowMetal";
@@ -50,14 +50,25 @@ namespace RadiatorMod.Buildings
 
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
-            base.ConfigureBuildingTemplate(go, prefab_tag);
+            go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
+            go.AddOrGet<RadiatorBase>().SetRocketInternal();
+
+            go.AddOrGet<LoopingSounds>();
+            KPrefabID component = go.GetComponent<KPrefabID>();
+            component.AddTag(GameTags.RocketInteriorBuilding);
+            component.AddTag(RoomConstraints.ConstraintTags.RocketInterior);
         }
         public override void DoPostConfigureComplete(GameObject go)
         {
-            base.DoPostConfigureComplete(go);
-            KPrefabID component = go.GetComponent<KPrefabID>();
-            component.AddTag(GameTags.RocketEnvelopeTile);
-            go.GetComponent<Deconstructable>().allowDeconstruction = false;
+            UnityEngine.Object.DestroyImmediate(go.GetComponent<RequireInputs>());
+            UnityEngine.Object.DestroyImmediate(go.GetComponent<RequireOutputs>());
+            UnityEngine.Object.DestroyImmediate(go.GetComponent<ConduitConsumer>());
+            UnityEngine.Object.DestroyImmediate(go.GetComponent<ConduitDispenser>());
+
+            go.AddOrGet<LogicOperationalController>();
+
+            go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayBehindConduits);
+            BuildingTemplates.DoPostConfigure(go);
         }
 
     }

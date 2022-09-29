@@ -13,8 +13,8 @@
 	<PropertyGroup>
 		<TargetFramework>net471</TargetFramework>
 		<Configurations>Debug</Configurations>
-		<AssemblyName>RadiatorMod</AssemblyName>
-		<RootNamespace>RadiatorMod</RootNamespace>
+		<AssemblyName>Radiator_Mod</AssemblyName>
+		<RootNamespace>Radiator_Mod</RootNamespace>
 		<IsMod>true</IsMod>
 		<GenerateMetadata>true</GenerateMetadata>
 		<IsPacked>true</IsPacked>
@@ -38,13 +38,15 @@
 		<OutDir>bin</OutDir>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <Compile Remove="ModAssets\anim\assets\RadiatorPanel\**" />
+	  <EmbeddedResource Remove="ModAssets\anim\assets\RadiatorPanel\**" />
+	  <None Remove="ModAssets\anim\assets\RadiatorPanel\**" />
+	</ItemGroup>
+
 
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="ModAssets\anim\assets\RadiatorPanel\" />
 	</ItemGroup>
 
 	<ItemGroup>

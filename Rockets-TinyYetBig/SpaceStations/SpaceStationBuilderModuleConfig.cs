@@ -85,16 +85,13 @@ namespace Rockets_TinyYetBig.SpaceStations
         {
             base.DoPostConfigurePreview(def, go);
             go.AddOrGet<BuildingCellVisualizer>();
-            this.AttachPorts(go);
         }
 
         public override void DoPostConfigureUnderConstruction(GameObject go)
         {
             base.DoPostConfigureUnderConstruction(go);
             go.AddOrGet<BuildingCellVisualizer>();
-            this.AttachPorts(go);
         }
     }
 }
 
-}

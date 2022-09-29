@@ -1,7 +1,4 @@
 ﻿using HarmonyLib;
-using RadiatorMod.Buildings;
-using RadiatorMod.Util;
-using RoboRockets.Buildings;
 using System;
 using UtilLibs;
 
@@ -20,7 +17,7 @@ namespace Radiator_Mod
 
                 if (DlcManager.IsExpansion1Active())
                 {
-                    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.DurableLifeSupport, HabitatMediumRadiator.ID);
+                    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.LiquidTuning, RadiatorRocketWallBuildable.ID);
                 }
                 //Debug.Log("Initialized");
             }
@@ -34,30 +31,31 @@ namespace Radiator_Mod
             public static void Prefix()
             {
                 //add buildings to the game
-                InjectionMethods.AddBuildingStrings(RadiatorBaseConfig.ID, RadiatorBaseConfig.NAME, RadiatorBaseConfig.DESC, RadiatorBaseConfig.EFFECT);
+                //InjectionMethods.AddBuildingStrings(RadiatorBaseConfig.ID, RadiatorBaseConfig.NAME, RadiatorBaseConfig.DESC, RadiatorBaseConfig.EFFECT);
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, RadiatorBaseConfig.ID);
                 if (DlcManager.IsExpansion1Active())
                 {
-                    InjectionMethods.AddBuildingStrings(RadiatorRocketWallConfig.ID, RadiatorRocketWallConfig.NAME, RadiatorRocketWallConfig.DESC, RadiatorRocketWallConfig.EFFECT);
-                    InjectionMethods.AddBuildingStrings(HabitatMediumRadiator.ID, HabitatMediumRadiator.NAME, HabitatMediumRadiator.DESC, HabitatMediumRadiator.EFFECT);
+                    //InjectionMethods.AddBuildingStrings(RadiatorRocketWallConfig.ID, RadiatorRocketWallConfig.NAME, RadiatorRocketWallConfig.DESC, RadiatorRocketWallConfig.EFFECT);
+                    //InjectionMethods.AddBuildingStrings(HabitatMediumRadiator.ID, HabitatMediumRadiator.NAME, HabitatMediumRadiator.DESC, HabitatMediumRadiator.EFFECT);
 
+                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, RadiatorRocketWallBuildable.ID);
                     //add special habitat module
-                    RocketryUtils.AddRocketModuleToBuildList(HabitatMediumRadiator.ID, "HabitatModuleMedium", RocketryUtils.RocketCategory.habitats);
+                    //RocketryUtils.AddRocketModuleToBuildList(HabitatMediumRadiator.ID, "HabitatModuleMedium", RocketryUtils.RocketCategory.habitats);
                 }
 
                 //add buildings to build menu
-                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, RadiatorBaseConfig.ID);
 
 
                 //StatusItemInit.
 
-                InjectionMethods.AddStatusItem(RadiatorBase.InSpaceRadiating,  RadiatorBase.Category, "Radiating {0}",
-                    "This radiator is currently radiating heat at {0}.");
+                InjectionMethods.AddStatusItem(RadiatorBase.InSpaceRadiating,  RadiatorBase.Category, STRINGS.BUILDING.STATUSITEMS.RM_INSPACERADIATING.NAME,
+                    STRINGS.BUILDING.STATUSITEMS.RM_INSPACERADIATING.TOOLTIP);
 
-                InjectionMethods.AddStatusItem(RadiatorBase.NotInSpace,  RadiatorBase.Category, "Not in space",
-                    "This radiators panels are not fully exposed to space, thus it won't radiate any heat into space.");
+                InjectionMethods.AddStatusItem(RadiatorBase.NotInSpace,  RadiatorBase.Category, STRINGS.BUILDING.STATUSITEMS.RM_NOTINSPACE.NAME,
+                    STRINGS.BUILDING.STATUSITEMS.RM_NOTINSPACE.TOOLTIP);
 
-                InjectionMethods.AddStatusItem(RadiatorBase.BunkerDown, RadiatorBase.Category, "Bunkered down",
-                    "This radiator is currently protected from meteor impacts.");
+                InjectionMethods.AddStatusItem(RadiatorBase.BunkerDown, RadiatorBase.Category, STRINGS.BUILDING.STATUSITEMS.RM_BUNKERDOWN.NAME,
+                    STRINGS.BUILDING.STATUSITEMS.RM_BUNKERDOWN.TOOLTIP);
             }
         }
     }

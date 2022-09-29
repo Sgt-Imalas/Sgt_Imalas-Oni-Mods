@@ -18,7 +18,9 @@ namespace UtilLibs
         public static string ModPath => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         public static bool IsCellInSpaceAndVacuum(int _cell)
         {
-            return (Grid.IsCellOpenToSpace(_cell) || IsCellInRocket(_cell)) && Grid.Mass[_cell] == 0;
+            if (Grid.IsValidCell(_cell))
+                return true;
+            return (Grid.IsCellOpenToSpace(_cell) || IsCellInRocket(_cell)) && (Grid.Mass[_cell] == 0 || Grid.Element[_cell].id == SimHashes.Unobtanium);
         }
         private static bool IsCellInRocket(int _cell)
         {

@@ -35,8 +35,8 @@ namespace RoboRockets
                 }
                 public class RR_AICONTROLMODULE
                 {
-                    public const string DisplayName = "AI Control Module";
-                    public const string Description = "A Module that controls your Rocket without any duplicant input.";
+                    public static LocString DisplayName = "AI Control Module";
+                    public static LocString Description = "A Module that controls your Rocket without any duplicant input.";
 
                     public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("AI Control Module", nameof(AIControlModuleConfig));
                     public static LocString DESC = "A Module that controls your Rocket without any duplicant input.";

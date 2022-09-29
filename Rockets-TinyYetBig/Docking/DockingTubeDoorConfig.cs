@@ -62,12 +62,12 @@ namespace Rockets_TinyYetBig.Buildings
         {
             KPrefabID component = go.GetComponent<KPrefabID>();
             component.AddTag(GameTags.RocketInteriorBuilding);
+            component.AddTag(RoomConstraints.ConstraintTags.RocketInterior);
             //component.AddTag(GameTags.UniquePerWorld);
         }
 
         public override void DoPostConfigureComplete(GameObject go)
         {
-            go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.RocketInterior);
             go.AddOrGet<NavTeleporter>();
             go.AddComponent<DockingDoor>();
         }
