@@ -36,7 +36,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SaveGameModLoader", "SaveGa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SetStartDupes", "SetStartDupes\SetStartDupes.csproj", "{6AFD893D-3D81-4A1E-9857-EC99D3F106C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DailyRoutine", "DailyRoutine\DailyRoutine.csproj", "{403DF048-A91F-4BCB-9DB1-AFB712E292D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DailyRoutine", "DailyRoutine\DailyRoutine.csproj", "{403DF048-A91F-4BCB-9DB1-AFB712E292D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DupePodRailgun", "DupePodRailgun\DupePodRailgun.csproj", "{A2386D26-8ED8-49E6-B798-FE58CB9EC155}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -100,6 +102,10 @@ Global
 		{403DF048-A91F-4BCB-9DB1-AFB712E292D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{403DF048-A91F-4BCB-9DB1-AFB712E292D5}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{403DF048-A91F-4BCB-9DB1-AFB712E292D5}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{A2386D26-8ED8-49E6-B798-FE58CB9EC155}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2386D26-8ED8-49E6-B798-FE58CB9EC155}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2386D26-8ED8-49E6-B798-FE58CB9EC155}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2386D26-8ED8-49E6-B798-FE58CB9EC155}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
