@@ -60,7 +60,18 @@ namespace Rockets_TinyYetBig
 
 
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MODERATE);
-            StorageLocker storage = go.AddOrGet<StorageLocker>();
+            StorageLocker storage = go.AddOrGet<StorageLocker>(); 
+            
+            FakeFloorAdder fakeFloorAdder = go.AddOrGet<FakeFloorAdder>();
+            fakeFloorAdder.floorOffsets = new CellOffset[5]
+            {
+      new CellOffset(-2, -1),
+      new CellOffset(-1, -1),
+      new CellOffset(0, -1),
+      new CellOffset(1, -1),
+      new CellOffset(2, -1)
+            };
+            fakeFloorAdder.initiallyActive = false;
         }
 
         public static GameObject ExtendBuildingToDeliverableStorage(GameObject template, float capacity)
