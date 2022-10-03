@@ -43,7 +43,7 @@ namespace Rockets_TinyYetBig
 
             public class PREFABS
             {
-                public static LocString GENERATORLIMIT = "\n\n If there is atleast one battery connected, the generator will stop producing if the battery is above 95% capacity charged.";
+                public static LocString GENERATORLIMIT = "\n\n If there is atleast one battery connected, the generator will stop producing if the battery is above 95% charge.";
                 public class RTB_BUNKERLAUNCHPAD
                 {
                     public static LocString NAME = UI.FormatAsLink("Fortified Rocket Platform", nameof(BunkeredLaunchPadConfig));
@@ -60,7 +60,7 @@ namespace Rockets_TinyYetBig
                 {
                     public static LocString NAME = (LocString)UI.FormatAsLink("Steam Generator Module", nameof(SteamGeneratorModuleConfig));
                     public static LocString DESC = "Useful for converting hot steam into usable power.";
-                    public static LocString EFFECT = "Draws in " + UI.FormatAsLink("Steam", "STEAM") + "from gas storage modules and uses it to generate electrical " + UI.FormatAsLink("Power", "POWER") + ".\n\n If there are liquid storage modules with appropriate filters set, outputs hot " + UI.FormatAsLink("Water", "WATER") + " to them."+ GENERATORLIMIT;
+                    public static LocString EFFECT = "Draws in " + UI.FormatAsLink("Steam", "STEAM") + " from gas storage modules and uses it to generate electrical " + UI.FormatAsLink("Power", "POWER") + ".\n\n If there are liquid storage modules with appropriate filters set, outputs hot " + UI.FormatAsLink("Water", "WATER") + " to them."+ GENERATORLIMIT;
                 }
                 public class RTB_GENERATORCOALMODULE
                 {
