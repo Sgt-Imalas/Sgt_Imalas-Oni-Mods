@@ -172,5 +172,11 @@ namespace Rockets_TinyYetBig
                 }
             }
         }
+
+        public class OPTIONS
+        {
+            public const string TOGGLESINGLE = "Toggle to enable/disable this module in the building menu";
+            public const string TOGGLEMULTI = "Toggle to enable/disable these modules in the building menu";
+        }
     }
 }
