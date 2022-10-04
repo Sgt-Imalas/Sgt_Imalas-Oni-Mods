@@ -21,7 +21,8 @@ namespace Rockets_TinyYetBig.Behaviours
         /// </summary>
         int OwnWorldId=-1;
 
-        public Dictionary<DockingDoor,int> DockingDoors = new Dictionary<DockingDoor, int>();
+        public Dictionary<DockingDoor, int> DockingDoors = new Dictionary<DockingDoor, int>();
+        public Dictionary<DockingPipe, int> DockingPipes = new Dictionary<DockingPipe, int>();
         public int GetWorldId() => OwnWorldId;
 
         DockableType Type = DockableType.Rocket;

@@ -26,6 +26,10 @@
 			<HintPath>$(GameLibsFolder)/0Harmony.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
+		<Reference Include="FMODUnity">
+			<HintPath>$(GameLibsFolder)/FMODUnity.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
 		<Reference Include="UnityEngine">
 			<HintPath>$(GameLibsFolder)/UnityEngine.dll</HintPath>
 			<Private>False</Private>

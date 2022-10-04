@@ -76,10 +76,10 @@ namespace Rockets_TinyYetBig
 
             ManualDeliveryKG manualDeliveryKg = go.AddOrGet<ManualDeliveryKG>();
             manualDeliveryKg.SetStorage(storage);
-            manualDeliveryKg.requestedItemTag = ElementLoader.FindElementByHash(SimHashes.EnrichedUranium).tag;
+            manualDeliveryKg.RequestedItemTag = ElementLoader.FindElementByHash(SimHashes.EnrichedUranium).tag;
             manualDeliveryKg.capacity = storage.capacityKg;
             manualDeliveryKg.refillMass = UraniumCapacity;
-            manualDeliveryKg.minimumMass = UraniumCapacity;
+            manualDeliveryKg.MinimumMass = UraniumCapacity;
             manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
 
 
