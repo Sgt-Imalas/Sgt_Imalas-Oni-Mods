@@ -11,7 +11,7 @@ Mods for Oxygen Not Included and ONI - Spaced Out.
 | CannedFoods | Canned Food |Canned BBQ and Canned Tuna as non spoiling space food|[Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2818855295)|[Direct](https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/tag/v2.2.1_CannedFood)| v2.2.1|
 | Rocketry_Tweaks | Rocketry Expanded (DLC)|New Spacefarer Modules, less Space Usage, More than 16 rockets allowed|[Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2837919908)| v2.2.2 |
 | LogicSatelites | Scan & Relay Satellites (DLC) | Deployable Satellites that function as logic relays and telescopes |[Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2840104621)| v1.0.0 |
-| SaveGameModLoader |Synchronize your mods with those stored in a save-file. Supports per-savefile-mod-syncing|[Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2854869130)| v1.0.0 |
+| SaveGameModLoader |Modlist Manager|Synchronize your mods with those stored in a save-file. Supports per-savefile-mod-syncing|[Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2854869130)| v1.0.0 |
 
 For direct downloads, see [here](https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases)
 ## WiP/on Roadmap
