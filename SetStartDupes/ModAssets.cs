@@ -13,5 +13,7 @@ namespace SetStartDupes
         public static CharacterContainer PrefabToFix;
         public static GameObject StartPrefab;
         public static bool HasShrunkenDown = false;
+
+        public static GameObject NextButtonPrefab;
     }
 }

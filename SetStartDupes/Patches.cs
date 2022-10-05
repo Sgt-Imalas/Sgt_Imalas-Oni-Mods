@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using TUNING;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
@@ -53,6 +54,10 @@ namespace SetStartDupes
                 return code;
             }
 
+            /// <summary>
+            /// Size Adjustment
+            /// </summary>
+            /// <param name="__instance"></param>
             public static void Prefix(CharacterSelectionController __instance)
             {
 
@@ -152,16 +157,37 @@ namespace SetStartDupes
             }
         }
 
+        [HarmonyPatch(typeof(CharacterContainer), "OnCmpDisable")]
+        public static class RestoreOnCLosing
+        {
+            public static void Prefix(CharacterContainer __instance, Transform ___aptitudeLabel)
+            {
+#if DEBUG
+                Debug.Log("Closing start");
+                UIUtils.ListAllChildren(__instance.transform);
+                Debug.Log("Closing Stop");
+#endif
 
 
+                __instance.transform.Find("Details").gameObject.SetActive(true);
+
+                var skillMod = __instance.transform.Find("ModifyDupeStats");
+
+                if (skillMod == null)
+                    return;
+                skillMod.gameObject.SetActive(false);
+            }
+        }
+        
         [HarmonyPatch(typeof(CharacterContainer), "GenerateCharacter")]
         public static class AddChangeButtonToCharacterContainer
         {
             public static void Prefix(CharacterContainer __instance, Transform ___aptitudeLabel)
             {
             }
-            public static void Postfix(CharacterContainer __instance, MinionStartingStats ___stats)
+            public static void Postfix(CharacterContainer __instance, MinionStartingStats ___stats, bool is_starter)
             {
+                
                 var buttonPrefab = __instance.transform.Find("TitleBar/RenameButton").gameObject;
                 var titlebar = __instance.transform.Find("TitleBar").gameObject;
 #if DEBUG
@@ -180,6 +206,10 @@ namespace SetStartDupes
                 var button = changebtn.GetComponent<KButton>();
                 ChangeButton(false, changebtn, __instance, ___stats);
 
+                NextButtonPrefab = Util.KInstantiateUI(changebtn.transform.gameObject);
+                NextButtonPrefab.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("iconRight");
+                NextButtonPrefab.GetComponent<ToolTip>().toolTip = "Cycle to next";
+                NextButtonPrefab.name = "CycleButton";
             }
 
             static void ChangeButton(bool isCurrentlyInEditMode,GameObject buttonGO, CharacterContainer parent, MinionStartingStats referencedStats)
@@ -208,48 +238,140 @@ namespace SetStartDupes
 
             static void InstantiateOrGetDupeModWindow(GameObject parent, MinionStartingStats referencedStats, bool hide )
             {
-                var skillMod = parent.transform.Find("ModifyDupeStats");
-                if (skillMod == null)
+                bool ShouldInit = true;
+                var ParentContainer = parent.transform.Find("ModifyDupeStats");
+                if (ParentContainer == null)
                 {
-                    skillMod = Util.KInstantiateUI(StartPrefab, parent).transform;
+                    Debug.Log("HAD TO MAKE NEW");
+                    ParentContainer = Util.KInstantiateUI(StartPrefab, parent).transform;
+                    ParentContainer.gameObject.name = "ModifyDupeStats";
+                }
+                else
+                {
+                    Debug.Log("FOUND OLD");
+
+                    ShouldInit = false;
                 }
 
-                StringBuilder sb = new();
 
-                skillMod.transform.Find("PortraitContainer").gameObject.SetActive(false);
-                var container = skillMod.transform.Find("DescriptionGroup").gameObject;//.gameObject.SetActive(false);
-                skillMod.transform.Find("DetailsContainer").gameObject.SetActive(false);// .gameObject.SetActive(false);
-                //container.name = "Entry";
+                
+                if(ShouldInit) {
+                    var one = ParentContainer.transform.Find("PortraitContainer");
+                    if (one != null) UnityEngine.Object.Destroy(one.gameObject);
+                    var prefabParentTodo = ParentContainer.transform.Find("DescriptionGroup").gameObject;//.gameObject.SetActive(false);
 
-                //skillMod.transform.Find("DetailsContainer").gameObject.SetActive(false);
+                    var two = ParentContainer.transform.Find("DetailsContainer");
 
-                foreach (var a in referencedStats.skillAptitudes)
-                {
-                    //var entry = Util.KInstantiateUI(container, skillMod.gameObject);
-                    //UIUtils.TryChangeText(entry.transform, "Description", a.Key.Name + ": "+a.Value);
-                    //Debug.Log(a.Key.Name + "<->" + a.Value);
-                    sb.Append("Skillaptitude in "); sb.Append(a.Key.Name); sb.Append(", base Skill: "); sb.AppendLine(a.Value.ToString());
+                    if (two != null) UnityEngine.Object.Destroy(two.gameObject);// .gameObject.SetActive(false);
+                                                                                //container.name = "Entry";
+                    var prefabTodo = ParentContainer.transform.Find("DescriptionGroup/Description").gameObject;
+                    var bt = Util.KInstantiateUI(NextButtonPrefab, prefabParentTodo, true);
+                    bt.transform.SetAsFirstSibling();
+
+                    var prefabParent = Util.KInstantiate(prefabParentTodo);
+                    prefabParentTodo.SetActive(false);
+                    //skillMod.transform.Find("DetailsContainer").gameObject.SetActive(false);
+                    var UsedSkills = ParentContainer.FindOrAddComponent<HoldMyReferences>();
+
+
+
+                    foreach (var a in referencedStats.skillAptitudes)
+                    {
+                        for (int index2 = 0; index2 < a.Key.relevantAttributes.Count; ++index2)
+                        {
+                            UsedSkills.AddOrIncreaseToStat(a.Key.relevantAttributes[index2].Id);
+                        }
+                        var entry = Util.KInstantiateUI(prefabParent, ParentContainer.gameObject, true);
+                        var name = entry.AddComponent<HoldMyString>();
+                        name.Group = a.Key;
+                        UIUtils.TryChangeText(entry.transform, "Description", "              Loves " + name.NAME);
+                    
+                        UIUtils.AddActionToButton(entry.transform, "CycleButton", () =>
+                        {
+
+                        List<SkillGroup> list = new List<SkillGroup>((IEnumerable<SkillGroup>)Db.Get().SkillGroups.resources);
+                        int i = list.FindIndex(item => item == name.Group);
+                        ++i;
+                        if (i == list.Count)
+                            i = 0;
+
+                        int counter = 0;
+                        while (referencedStats.skillAptitudes.ContainsKey(list[i]))
+                        {
+
+                            ++i;
+                            if (i == list.Count)
+                                i = 0;
+                            ++counter;
+
+                            if (counter > 40) break;
+                        }
+
+                        referencedStats.skillAptitudes.Remove(name.Group);
+                        referencedStats.skillAptitudes.Add(list[i], 1);
+                            int statheight = 0;
+
+                            foreach(var relevantStat in name.Group.relevantAttributes)
+                            {
+                                string statId = relevantStat.Id;
+                                bool deleteOldBoost = UsedSkills.DoesRemoveReduceStats(statId, true);
+
+                                statheight =  referencedStats.StartingLevels[statId] > statheight ? referencedStats.StartingLevels[statId] : statheight;
+                                if (deleteOldBoost)
+                                    referencedStats.StartingLevels[statId] = 0;
+                            }
+                            name.Group = list[i];
+
+                            foreach (var relevantStat in name.Group.relevantAttributes)
+                            {
+                                string statId = relevantStat.Id;
+                                referencedStats.StartingLevels[statId] = statheight;
+                                UsedSkills.AddOrIncreaseToStat(relevantStat.Id);
+                            }
+
+
+                            UIUtils.TryChangeText(entry.transform, "Description", "              Loves " + name.NAME);
+
+                    }
+                    );
                 }
+
                 foreach (Trait v in referencedStats.Traits)
                 {
-                    //var entry = Util.KInstantiateUI(container, container.gameObject);
-                    //UIUtils.TryChangeText(entry.transform, "Description", v.Name);
-                    sb.Append("Trait: "); sb.AppendLine(v.Name);
+                        if (v.Name == "Duplicant")
+                            continue;
+                    var entry = Util.KInstantiateUI(prefabParent, ParentContainer.gameObject, true);
+                    //UIUtils.TryChangeText(entry.transform, "Description", a.Key.Name + ": "+a.Value);
+                    //Debug.Log(a.Key.Name + "<->" + a.Value);
+                    UIUtils.TryChangeText(entry.transform, "Description", "              Trait " + v.Name);
+                    UIUtils.AddActionToButton(entry.transform, "CycleButton", () =>
+                    {
+
+                        UIUtils.TryChangeText(entry.transform, "Description", "              Trait " + v.Name);
+                    }
+                    );
                 }
-                
-                sb.Append("JoyTrait: ");sb.AppendLine(referencedStats.joyTrait.Name);
-                sb.Append("StressTrait: ");sb.AppendLine(referencedStats.stressTrait.Name);
+
+                var JoyTrait = Util.KInstantiateUI(prefabParent, ParentContainer.gameObject, true);
+                UIUtils.TryChangeText(JoyTrait.transform, "Description", "              JoyTrait: " + referencedStats.joyTrait.Name);
+                UIUtils.AddActionToButton(JoyTrait.transform, "CycleButton", () =>
+                {
+                    UIUtils.TryChangeText(JoyTrait.transform, "Description", "              JoyTrait: " + referencedStats.joyTrait.Name);
+                }
+                );
+
+                var StressTrait = Util.KInstantiateUI(prefabParent, ParentContainer.gameObject, true);
+                UIUtils.TryChangeText(StressTrait.transform, "Description", "              StressTrait: " + referencedStats.stressTrait.Name);
+                UIUtils.AddActionToButton(StressTrait.transform, "CycleButton", () =>
+                {
+                    UIUtils.TryChangeText(StressTrait.transform, "Description", "              StressTrait: " + referencedStats.stressTrait.Name);
+                }
+                );
+                }
 
 
-                UIUtils.TryChangeText(container.transform, "Description", sb.ToString());
 
-
-
-                Debug.Log("Start PRefab");
-                UIUtils.ListAllChildren(skillMod.transform);
-                Debug.Log("Stop PRefab");
-                //, parent.gameObject);
-                skillMod.gameObject.SetActive(!hide);
+                ParentContainer.gameObject.SetActive(!hide);
             }
         }
 

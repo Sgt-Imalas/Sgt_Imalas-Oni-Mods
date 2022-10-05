@@ -29,7 +29,7 @@ namespace UtilLibs
         /// <param name="action">Action to add to the button click</param>
         /// <param name="clearOnclick">Should the previous OnClick Actions be discarded?</param>
         /// <returns></returns>
-        public static bool AddActionToButton(Transform parent, string subCompName, System.Action action, bool clearOnclick = false)
+        public static bool AddActionToButton(Transform parent, string subCompName, System.Action action, bool clearOnclick = true)
         {
             var comp = parent.Find(subCompName);
             if (comp == null)
