@@ -303,7 +303,6 @@ namespace SetStartDupes
                             if (i == list.Count)
                                 i = 0;
                             ++counter;
-
                             if (counter > 40) break;
                         }
 
