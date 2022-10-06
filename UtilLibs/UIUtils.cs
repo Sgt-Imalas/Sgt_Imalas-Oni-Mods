@@ -21,6 +21,11 @@ namespace UtilLibs
             }
         }
 
+        public static Color rgb(float r, float g, float b)
+        {
+            return new Color(r / 255, g / 255, b / 255);
+        }
+
         /// <summary>
         /// Adds an Action to a click on a button.
         /// </summary>

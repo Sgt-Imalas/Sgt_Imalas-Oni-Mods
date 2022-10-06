@@ -1,4 +1,5 @@
 ﻿using Database;
+using Klei.AI;
 using KSerialization;
 using System;
 using System.Collections.Generic;
@@ -8,11 +9,21 @@ using System.Threading.Tasks;
 
 namespace SetStartDupes
 {
-    class HoldMyString:KMonoBehaviour
+    class HoldMyString : KMonoBehaviour
     {
-        public string NAME => Group == null ? "" : Group.Name;
         [Serialize]
         public SkillGroup Group = null;
+        public string NAME()
+        {
+            if (Group == null)
+                return "";
+            else
+            {
+                return Strings.Get("STRINGS.DUPLICANTS.SKILLGROUPS." + Group.Id.ToUpper() + ".NAME");
+            }
+        }
+        public Trait CurrentTrait = null;
+
 
     }
 }
