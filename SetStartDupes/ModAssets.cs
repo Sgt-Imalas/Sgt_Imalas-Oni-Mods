@@ -20,13 +20,17 @@ namespace SetStartDupes
         public static GameObject ListEntryButtonPrefab;
 
 
+        public static GameObject CycleButtonLeftPrefab;
+        public static GameObject CycleButtonRightPrefab;
+
+
         public static void ApplyDefaultStyle(KImage img)
         {
             var ColorStyle = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
             ColorStyle.inactiveColor = new Color(0.25f, 0.25f, 0.35f);
             ColorStyle.hoverColor = new Color(0.30f, 0.30f, 0.40f);
             ColorStyle.activeColor = new Color(0.35f, 0.35f, 0.45f);
-            ColorStyle.disabledColor = new Color(0.7f, 0.7f, 0.7f);
+            ColorStyle.disabledColor = new Color(0.35f, 0.35f, 0.45f);
             img.colorStyleSetting = ColorStyle;
             img.ApplyColorStyleSetting();
         }
@@ -36,7 +40,7 @@ namespace SetStartDupes
             ColorStyle.inactiveColor = UIUtils.rgb(68, 135, 85);
             ColorStyle.hoverColor = UIUtils.rgb(87, 173, 109);
             ColorStyle.activeColor = UIUtils.rgb(106, 211, 133);
-            ColorStyle.disabledColor = new Color(0.7f, 0.7f, 0.7f);
+            ColorStyle.disabledColor = UIUtils.rgb(106, 211, 133);
             img.colorStyleSetting = ColorStyle;
             img.ApplyColorStyleSetting();
         }
@@ -46,7 +50,7 @@ namespace SetStartDupes
             ColorStyle.inactiveColor = UIUtils.rgb(140, 36, 41);
             ColorStyle.hoverColor = UIUtils.rgb(178, 45, 52);
             ColorStyle.activeColor = UIUtils.rgb(216, 54, 63);
-            ColorStyle.disabledColor = new Color(0.7f, 0.7f, 0.7f);
+            ColorStyle.disabledColor = UIUtils.rgb(216, 54, 63);
             img.colorStyleSetting = ColorStyle;
             img.ApplyColorStyleSetting();
         }

@@ -40,38 +40,53 @@ namespace SetStartDupes
             currentTraitIds.Remove(old);
             currentTraitIds.Add(newS);
         }
-        public string GetNextTraitId(string currentId,NextType nextType)
+        public List<string> CurrentTraitsWithout(string thisTrait)
+        {
+            return currentTraitIds.Where(entry => entry != thisTrait).ToList();
+        }
+
+        public string GetNextTraitId(string currentId,NextType nextType,bool backwards)
         {
             int i = 0;
+            List<DUPLICANTSTATS.TraitVal> currentList = null;
             if (nextType == NextType.posTrait)
             {
-                i = DUPLICANTSTATS.GOODTRAITS.FindIndex(t => t.id == currentId) + 1;
-                if (i == DUPLICANTSTATS.GOODTRAITS.Count)
-                    i = 0;
-                return DUPLICANTSTATS.GOODTRAITS[i].id;
+                ///Compatibility for Akis sussy dupe ink
+                if(DUPLICANTSTATS.GENESHUFFLERTRAITS.FindIndex(t => t.id == currentId) != -1) {
+                    currentList = DUPLICANTSTATS.GENESHUFFLERTRAITS;
+                }
+                else 
+                {
+                    currentList = DUPLICANTSTATS.GOODTRAITS;
+                }
             }
             else if (nextType == NextType.negTrait)
             {
-                i = DUPLICANTSTATS.BADTRAITS.FindIndex(t => t.id == currentId) + 1;
-                if (i == DUPLICANTSTATS.BADTRAITS.Count)
-                    i = 0;
-                return DUPLICANTSTATS.BADTRAITS[i].id;
+                currentList = DUPLICANTSTATS.BADTRAITS;
             }
             else if (nextType == NextType.joy)
             {
-                i = DUPLICANTSTATS.JOYTRAITS.FindIndex(t => t.id == currentId) + 1;
-                if (i == DUPLICANTSTATS.JOYTRAITS.Count)
-                    i = 0;
-                return DUPLICANTSTATS.JOYTRAITS[i].id;
+                currentList = DUPLICANTSTATS.JOYTRAITS;
             }
             else if (nextType == NextType.stress)
             {
-                i = DUPLICANTSTATS.STRESSTRAITS.FindIndex(t => t.id == currentId) + 1;
-                if (i == DUPLICANTSTATS.STRESSTRAITS.Count)
-                    i = 0;
-                return DUPLICANTSTATS.STRESSTRAITS[i].id;
+                currentList = DUPLICANTSTATS.STRESSTRAITS;
             }
-            return string.Empty;
+
+            i = currentList.FindIndex(t => t.id == currentId);
+            if (i != -1) { 
+                do
+                {
+                    i += (backwards ? -1 : 1);
+                    if (i == currentList.Count)
+                        i = 0;
+                    else if (i < 0)
+                        i += currentList.Count;
+                }
+                while (CurrentTraitsWithout(currentId).Contains(currentList[i].id));
+                return currentList[i].id;
+            }
+            return currentId;
         }
 
 
@@ -83,15 +98,6 @@ namespace SetStartDupes
                     return true;
             }
             return false;
-        }
-        public IEnumerable<IListableOption> GiveNewSelections()
-        {
-            List<SkillGroup> list = new List<SkillGroup>((IEnumerable<SkillGroup>)Db.Get().SkillGroups.resources);
-            foreach(var v in CurrentSkills)
-            {
-                list.Remove(v);
-            }
-            return list;
         }
 
         public bool AddOrIncreaseToStat(string stat)

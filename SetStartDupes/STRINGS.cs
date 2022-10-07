@@ -19,9 +19,13 @@ namespace SetStartDupes
             {
                 public static LocString APTITUDEENTRY = "{0}, ({1} +{2})";
                 public static LocString TRAIT = "{0}";
-                public static LocString JOYREACTION = "Overjoyed Response: {0}";
+                public static LocString JOYREACTION = "Overjoyed: {0}";
                 public static LocString STRESSREACTION = "Stress Reaction: {0}";
 
+            }
+            public class BUTTONS
+            {
+                public static LocString CYCLENEXT = "Cycle Next";
             }
         }
     }

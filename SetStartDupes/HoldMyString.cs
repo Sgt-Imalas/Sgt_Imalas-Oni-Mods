@@ -22,6 +22,12 @@ namespace SetStartDupes
                 return Strings.Get("STRINGS.DUPLICANTS.SKILLGROUPS." + Group.Id.ToUpper() + ".NAME");
             }
         }
+        public string RelevantAttribute()
+        {
+            if (Group == null) return "";
+            return Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + Group.relevantAttributes.First().Id.ToUpper() + ".NAME");
+        }
+
         public Trait CurrentTrait = null;
 
 
