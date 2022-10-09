@@ -37,7 +37,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                     AddRocketModuleToBuildList(HabitatModuleStargazerConfig.ID, NoseconeBasicConfig.ID, RocketryUtils.RocketCategory.habitats);
 
                 if (Config.Instance.EnableRadboltStorage)
-                    AddRocketModuleToBuildList(HEPBatteryModuleConfig.ID, BatteryModuleConfig.ID, RocketryUtils.RocketCategory.power);
+                    AddRocketModuleToBuildList(HEPBatteryModuleConfig.ID, BatteryModuleConfig.ID, RocketryUtils.RocketCategory.cargo);
 
                 if (Config.Instance.EnableCritterStorage)
                     AddRocketModuleToBuildList(CritterContainmentModuleConfig.ID, GasCargoBayClusterConfig.ID, RocketryUtils.RocketCategory.cargo);
@@ -55,6 +55,11 @@ namespace RoboRockets.Rockets_TinyYetBig
 
                 if (Config.Instance.EnableBunkerPlatform)
                     ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, BunkeredLaunchPadConfig.ID,null,LaunchPadConfig.ID);
+
+
+                if (Config.Instance.LandingLegs)
+                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, InvisibleLandingPlatformConfig.ID, null, LaunchPadConfig.ID);
+
 
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, DockingTubeDoorConfig.ID,null, LaunchPadConfig.ID); 
                 AddRocketModuleToBuildList(LandingLegConfig.ID, "", RocketCategory.utility); 

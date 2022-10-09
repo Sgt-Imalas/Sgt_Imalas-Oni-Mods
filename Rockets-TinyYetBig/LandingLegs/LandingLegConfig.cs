@@ -16,8 +16,8 @@ namespace Rockets_TinyYetBig.Buildings
         public override BuildingDef CreateBuildingDef()
         {
             float[] MatCosts = {
-                600f,
-                100f
+                800f,
+                200f
             };
             string[] Materials =
             {
@@ -27,7 +27,7 @@ namespace Rockets_TinyYetBig.Buildings
             EffectorValues tieR2 = NOISE_POLLUTION.NONE;
             EffectorValues none = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 1, "landing_gear_module_kanim", 1000, 30f, MatCosts, Materials, 9999f, BuildLocationRule.Anywhere, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 7, 1, "landing_gear_module_kanim", 1000, 30f, MatCosts, Materials, 9999f, BuildLocationRule.Anywhere, none, noise);
             BuildingTemplates.CreateRocketBuildingDef(buildingDef);
             buildingDef.DefaultAnimState = "grounded";
             buildingDef.AttachmentSlotTag = GameTags.Rocket;

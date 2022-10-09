@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Rockets_TinyYetBig.LandingLegs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Rockets_TinyYetBig.Behaviours
+namespace Rockets_TinyYetBig
 {
-    class InvisibleLandingPlatformConfig : IBuildingConfig
+    public class InvisibleLandingPlatformConfig : IBuildingConfig
     {
         public const string ID = "RTB_InvisibleLandingPlatform";
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
@@ -25,7 +26,7 @@ namespace Rockets_TinyYetBig.Behaviours
             EffectorValues tieR2 = TUNING.NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = TUNING.BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 1, "steam_generator_module_kanim", 1000, 180f, buildingCosts, buildingMaterials, 9999f, BuildLocationRule.Anywhere, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 15, 2, "rocket_launchpad_bunker_kanim", 1000, 180f, buildingCosts, buildingMaterials, 9999f, BuildLocationRule.Anywhere, none, noise);
             buildingDef.SceneLayer = Grid.SceneLayer.BuildingBack;
             buildingDef.OverheatTemperature = 2273.15f;
             buildingDef.Floodable = false;
@@ -45,7 +46,7 @@ namespace Rockets_TinyYetBig.Behaviours
             //go.AddOrGet<LoopingSounds>();
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
             go.GetComponent<KPrefabID>().AddTag(GameTags.NotRocketInteriorBuilding);
-            LaunchPad launchPad = go.AddOrGet<LaunchPad>();
+            LaunchPad launchPad = go.AddOrGet<RTB_LaunchPadWithoutLogic>();
 
             go.AddOrGet<LaunchPadConditions>();
         }

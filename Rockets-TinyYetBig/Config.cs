@@ -42,6 +42,13 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool HideRocketCategoryTooltips { get; set; }
 
+        [Option("Land without pad", "Add landing legs to your rocket to land on planets without any installed landing pads", "Features")]
+        [JsonProperty]
+        public bool LandingLegs { get; set; }
+
+
+
+
         [Option("Radioisotope Decay time", "Time in cycles for all the enriched uranium in the RTG to decay into depleted uranium. RTG needs a refill if all enriched uranium has decayed.", "Balancing")]
         [Limit(10f, 2000f)]
         [JsonProperty]
@@ -84,9 +91,12 @@ namespace Rockets_TinyYetBig
             CritterStorageCapacity = 5;
             LaserDrillconeSpeed = 3.75f;
             IsotopeDecayTime = 40;
+
+            ///Features
             CompressInteriors = true; 
             EnableBuildingCategories = true;
             HideRocketCategoryTooltips = false;
+            LandingLegs = true;
 
             ///Modules:
             EnableExtendedHabs = true;
