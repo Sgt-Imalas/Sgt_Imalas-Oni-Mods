@@ -1,18 +1,22 @@
-﻿using System;
+﻿using KSerialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static LogicSatellites.Behaviours.ModAssets;
 
 namespace LogicSatellites.Behaviours
 {
     public class SatelliteGridEntity : ClusterGridEntity
     {
-        [SerializeField]
+        [Serialize]
         public string clusterAnimName;
-        [SerializeField]
+        [Serialize]
         private string m_name;
+        [Serialize]
+        public int satelliteType;
         // private string clusterAnimSymbolSwapTarget;
         // private string clusterAnimSymbolSwapSymbol;
 
@@ -38,11 +42,15 @@ namespace LogicSatellites.Behaviours
             ModAssets.Satellites.Add(this);
             ModAssets.AdjazenzMatrixHolder.AddItemToGraph(this.Location);
         }
-
+        public void SetSatelliteType(SatType type)
+        {
+            satelliteType = (int)type;
+        }
         public void SetSatelliteName(string newName)
         {
             this.m_name = newName;
-            this.name = "Satellite: " + newName;
+
+            this.name = SatelliteConfigurations[satelliteType].NAME + newName;
             CharacterOverlay component = this.GetComponent<CharacterOverlay>();
             KSelectable selectable = this.GetComponent<KSelectable>();
             if (selectable != null)

@@ -10,6 +10,8 @@ namespace LogicSatellites
 {
     public class STRINGS
     {
+
+       
         public class BUILDINGS
         {
             public class PREFABS
@@ -26,8 +28,19 @@ namespace LogicSatellites
         {
             public class SATELLITE
             {
-                public static LocString TITLE = "Deployable Satellite";
-                public static LocString DESC = "Deploy this satellite on the star map to create a logic relay and scout the surrounding hexes";
+                //public static LocString TITLE = "Deployable ";
+                public static LocString TITLE = "Satellite";
+                public static LocString DESC = "Deploy this satellite on the star map to create a logic relay "; 
+                
+                public class SATELLITETYPES
+                {
+                    public static LocString EXPLORATION = "Exploration ";
+                    public static LocString EXPLORATIONDESC = "and slowly reveal the surrounding hexes";
+                    public static LocString SOLAR = "Solar Lens ";
+                    public static LocString SOLARDESC = "and concentrate light towards the planet below.";
+                    //public static LocString DYSONSPHERE = "Solar Collector Satellite";
+                    //public static LocString DYSONSPHEREDESC = "Solar Collector Satellite";
+                }
             }
             public class LS_CLUSTERSATELLITEPART
             {
@@ -50,7 +63,7 @@ namespace LogicSatellites
                 {
                     public static LocString TITLE = "Satellite Carrier";
 
-                    public static LocString TITLELABEL_HASSAT_TRUE = "Satellite stored.";
+                    public static LocString TITLELABEL_HASSAT_TRUE = "{0} stored.";
                     public static LocString TITLELABEL_HASSAT_FALSE = "No Satellite in storage";
                     public static LocString BUTTONLABEL_HASSAT_TRUE = "Deploy Satellite";
                     public static LocString BUTTONLABEL_HASSAT_FALSE = "Retrieve Satellite";

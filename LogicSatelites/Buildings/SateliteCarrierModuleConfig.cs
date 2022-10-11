@@ -57,7 +57,7 @@ namespace LogicSatellites.Buildings
             def1.ConstructionMatID = SatelliteComponentConfig.ID;
             def1.outputIDs = new List<Tag>()
             {
-                SatelliteLogicConfig.ID.ToTag()
+                SatelliteKitConfig.ID.ToTag()
             };
             def1.spawnIntoStorage = true;
             def1.storage = (DefComponent<Storage>)storage;
@@ -70,6 +70,7 @@ namespace LogicSatellites.Buildings
             {
                 new BuildingAttachPoint.HardPoint(new CellOffset(0, 5), GameTags.Rocket, (AttachableBuilding) null)
             };
+            go.AddComponent<SatelliteSelection>();
 
         }
 

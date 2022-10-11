@@ -1,8 +1,11 @@
-﻿using System;
+﻿using LogicSatellites.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UtilLibs;
+using static LogicSatellites.STRINGS.ITEMS;
 
 namespace LogicSatellites.Behaviours
 {
@@ -16,6 +19,18 @@ namespace LogicSatellites.Behaviours
         {
             AdjazenzMatrixHolder.UpdateAdjacencyMatrix();
         }
+
+        public static void AddSatelliteTechItems()
+        {
+            //var frostedResearch = Research.Instance.GetTechInstance(ModAssets.Techs.FrostedDupeResearchID);
+            //if (!frostedResearch.IsComplete() && SuccessPerChance(chanceInPercent))
+            //{
+            //    frostedResearch.Purchased();
+            //    Game.Instance.Trigger((int)GameHashes.ResearchComplete, frostedResearch.tech);
+            //}
+        }
+
+
         public static bool FindConnectionViaAdjacencyMatrix(AxialI a, AxialI b)
         {
             bool HasConnection = false;
@@ -48,6 +63,67 @@ namespace LogicSatellites.Behaviours
         {
            public static Tag LS_Satellite = TagManager.Create("LS_Space_Satellite");
         }
+
+        public enum SatType
+        {
+            Exploration = 0,
+            SolarLens = 1,
+            RadLens = 2,
+            DysonComponent = 3
+        }
+        public static TechItem ExplorationSatellite;
+        public static TechItem SolarSatellite;
+
+
+        public static Dictionary<int, SatelliteConfiguration> SatelliteConfigurations = new Dictionary<int, SatelliteConfiguration>()
+        {
+            {(int)SatType.Exploration,
+                new SatelliteConfiguration(
+                    SATELLITE.SATELLITETYPES.EXPLORATION+SATELLITE.TITLE,
+                    SATELLITE.DESC+SATELLITE.SATELLITETYPES.EXPLORATIONDESC,
+                    SatelliteGridConfig.ID,
+                    DeployLocation.anywhere,
+                    GameStrings.Technology.Computers.SensitiveMicroimaging,
+                    "LS_Exploration_Sat")
+            },
+            {(int)SatType.SolarLens,
+                new SatelliteConfiguration(
+                    SATELLITE.SATELLITETYPES.SOLAR+SATELLITE.TITLE,
+                    SATELLITE.DESC+SATELLITE.SATELLITETYPES.SOLARDESC,
+                    SatelliteGridSolarConfig.ID,
+                    DeployLocation.orbital,
+                    GameStrings.Technology.Power.ImprovedHydrocarbonPropulsion,
+                    "LS_Solar_Sat")
+            }
+        };
+
+        public struct SatelliteConfiguration
+        {
+            public string NAME;
+            public string DESC;
+            public string GridID;
+            public DeployLocation AllowedLocation;
+            public string TechId;
+            public string TechItemId;
+
+            public SatelliteConfiguration(string name, string desc, string id, DeployLocation loc, string tech, string itemId)
+            {
+                NAME = name;
+                DESC = desc;
+                GridID = id;
+                AllowedLocation = loc;
+                TechId = tech;
+                TechItemId = itemId;
+            }
+        }
+        public enum DeployLocation
+        {
+            anywhere = 0,
+            orbital = 1,
+            deepSpace = 2,
+            temporalTear = 3
+        }
+
 
         public class Graph
         {

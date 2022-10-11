@@ -171,6 +171,9 @@ namespace LogicSatellites.Behaviours
                     go.SetActive(true);
                     if (this.def.spawnIntoStorage)
                         this.storage.Store(go);
+
+                    int type = GetComponent<SatelliteSelection>().SatelliteType;
+                    go.GetComponent<SatelliteTypeHolder>().SatelliteType = type;
                 }
             }
 

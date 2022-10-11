@@ -10,9 +10,9 @@ using static LogicSatellites.STRINGS.ITEMS;
 
 namespace LogicSatellites.Entities
 {
-    public class SatelliteGridConfig : IEntityConfig, IListableOption
+    public class SatelliteGridDysonConfig : IEntityConfig, IListableOption
     {
-        public const string ID = "LS_SatelliteGrid";
+        public const string ID = "LS_SatelliteGridDyson";
 
         public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
 
@@ -43,8 +43,7 @@ namespace LogicSatellites.Entities
             var traveler = looseEntity.AddOrGet<ClusterTraveler>();
             traveler.stopAndNotifyWhenPathChanges = false;
             var entity = looseEntity.AddOrGet<SatelliteGridEntity>();
-            looseEntity.AddOrGetDef<SatelliteTelescope.Def>();
-            entity.satelliteType = (int)SatType.Exploration;
+            entity.satelliteType = (int)SatType.DysonComponent;
             entity.clusterAnimName = "space_satellite_kanim";
             entity.enabled = true;
 
@@ -61,7 +60,7 @@ namespace LogicSatellites.Entities
 
         public string GetProperName()
         {
-            return "Logic Satellite";
+            return "Dyson Sphere Component";
         }
     }
 }

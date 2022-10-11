@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using LogicSatellites.Behaviours;
+using System.Collections.Generic;
 using UnityEngine;
 using static LogicSatellites.Behaviours.ModAssets;
 using static LogicSatellites.STRINGS.ITEMS;
 
 namespace LogicSatellites.Entities
 {
-    class SatelliteLogicConfig : IEntityConfig
+    class SatelliteKitConfig : IEntityConfig
     {
         public const string ID = "LS_ClusterSatelliteLogic";
         public const float MASS = 600f;
@@ -31,14 +32,14 @@ namespace LogicSatellites.Entities
                       GameTags.IndustrialIngredient
                    });
 
+            looseEntity.AddOrGet<SatelliteTypeHolder>();
             looseEntity.AddOrGet<EntitySplitter>();
             return looseEntity;
         }
-
-
-    public void OnPrefabInit(GameObject inst)
-    {
-    }
-    public void OnSpawn(GameObject inst) { }
+        
+        public void OnPrefabInit(GameObject inst)   
+        {
+        }
+        public void OnSpawn(GameObject inst) { }
     }
 }

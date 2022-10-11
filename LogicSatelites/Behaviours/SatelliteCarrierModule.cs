@@ -13,7 +13,8 @@ namespace LogicSatellites.Behaviours
     class SatelliteCarrierModule : StateMachineComponent<SatelliteCarrierModule.StatesInstance>, ISaveLoadable
 	{
         [MyCmpReq] private KSelectable selectable;
-        [MyCmpReq] [SerializeField]public Storage storage;
+        [MyCmpReq][Serialize]
+		public Storage storage;
 
 		protected override void OnSpawn()
 		{
@@ -33,10 +34,53 @@ namespace LogicSatellites.Behaviours
             {
 				Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
 				ClusterGridEntity atCurrentLocation = component.GetPOIAtCurrentLocation();
-				return atCurrentLocation==null;
+				if (!this.HoldingSatellite())
+					return false;
+				var locationRule = ModAssets.SatelliteConfigurations[this.SatelliteType()].AllowedLocation;
+
+				if (locationRule == DeployLocation.anywhere)
+				{
+					return atCurrentLocation == null;
+				}
+				else if (locationRule == DeployLocation.orbital)
+				{
+					return atCurrentLocation == null && ClusterGrid.Instance.GetVisibleEntityOfLayerAtAdjacentCell(component.Location, EntityLayer.Asteroid);
+				}
+				else if (locationRule == DeployLocation.deepSpace)
+				{
+					return atCurrentLocation == null && !ClusterGrid.Instance.GetVisibleEntityOfLayerAtAdjacentCell(component.Location, EntityLayer.Asteroid);
+				}
+				else if (locationRule == DeployLocation.temporalTear)
+				{
+					return atCurrentLocation.TryGetComponent<TemporalTear>(out var tear);
+				}
+				else return false;
+
 			}
 
-			public ClusterGridEntity IsEntityAtLocation()
+			public void EjectParts()
+            {
+				//Debug.Log("Holding a Satellite ? "+ HoldingSatellite());
+				if (this.HoldingSatellite())
+                {
+					var satellite = storage.FindFirst(Tags.LS_Satellite);
+
+					Debug.Log("Trying to drop Satellite");
+					storage.Remove(satellite.gameObject);
+					storage.items.Remove(satellite.gameObject);
+					//satellite.gameObject.DeleteObject();
+					GameObject.Destroy(satellite);
+					
+					var constructionPart = GameUtil.KInstantiate(Assets.GetPrefab(SatelliteComponentConfig.ID), gameObject.transform.position, Grid.SceneLayer.Ore);
+					constructionPart.SetActive(true);
+					var constructionPartElement = constructionPart.GetComponent<PrimaryElement>();
+					constructionPartElement.Units = 20;
+					sm.hasSatellite.Set(false, this);
+
+				}
+            }
+
+            public ClusterGridEntity IsEntityAtLocation()
             {
 				Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
 				ClusterGridEntity atCurrentLocation = GetSatelliteAtCurrentLocation(component);
@@ -75,12 +119,17 @@ namespace LogicSatellites.Behaviours
                 if (this.CanRetrieveSatellite()&& !this.HoldingSatellite())
 				{
 					var clusterSat = IsEntityAtLocation().gameObject;
+					
+					Debug.Log("Retrieving Satellite");
+					int type = clusterSat.GetComponent<SatelliteGridEntity>().satelliteType;
+					Debug.Log("SAT TYPE: " + type);
 					clusterSat.DeleteObject();
 					sm.hasSatellite.Set(true, this);
 
-					GameObject sat = Util.KInstantiate(Assets.GetPrefab((Tag)"LS_ClusterSatelliteLogic"), this.transform.position);
+					GameObject sat = Util.KInstantiate(Assets.GetPrefab((Tag)SatelliteKitConfig.ID), this.transform.position);
 					storage.Store(sat.gameObject);
 					sat.GetComponent<Pickupable>().storage = storage;
+					sat.GetComponent<SatelliteTypeHolder>().SatelliteType = type;
 				}
 			}
 
@@ -91,26 +140,38 @@ namespace LogicSatellites.Behaviours
 				{
 					Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
 					var satellite = storage.FindFirst(Tags.LS_Satellite);
+
+					Debug.Log("Trying to deploy Satellite");
+					int type = satellite.GetComponent<SatelliteTypeHolder>().SatelliteType;
+					Debug.Log("SAT TYPE: " + type);
 					//Debug.Log(satellite);
 					storage.Remove(satellite.gameObject);
 					storage.items.Remove(satellite.gameObject);
 					satellite.gameObject.DeleteObject();
 					GameObject.Destroy(satellite);
 					//Debug.Log(satellite.IsNullOrDestroyed() + "SHOULD BE TRUE");
-					SpawnSatellite(component.Location);
+					SpawnSatellite(component.Location,ModAssets.SatelliteConfigurations[type].GridID);
 					sm.hasSatellite.Set(false,this);
 				}
 			}
 
-			private void SpawnSatellite(AxialI location)
+			private void SpawnSatellite(AxialI location, string prefab)
             {
 				Vector3 position = new Vector3(-1f, -1f, 0.0f);
-				GameObject sat = Util.KInstantiate(Assets.GetPrefab((Tag)"LS_SatelliteGrid"), position);
+				GameObject sat = Util.KInstantiate(Assets.GetPrefab((Tag)prefab), position);
 				sat.GetComponent<ClusterDestinationSelector>().SetDestination(location);
 				sat.GetComponent<ClusterGridEntity>().Location = location;
 				sat.SetActive(true);			
 			}
 
+            public int SatelliteType()
+			{
+				if (!HoldingSatellite())
+					return -1;
+				var satellite = storage.FindFirst(Tags.LS_Satellite);
+				int type = satellite.GetComponent<SatelliteTypeHolder>().SatelliteType;
+				return type;
+            }
 
             public bool ModeIsDeployment
 			{ 
@@ -145,7 +206,7 @@ namespace LogicSatellites.Behaviours
 					.PlayAnim("satelite_construction", KAnim.PlayMode.Loop)
 					.Update((smi, dt) =>
 					{
-                        if (smi.storage.Has(SatelliteLogicConfig.ID)&&hasSatellite.Get(smi) ==false)
+                        if (smi.storage.Has(SatelliteKitConfig.ID)&&hasSatellite.Get(smi) ==false)
                         {
 							hasSatellite.Set(true,smi);
                         }
@@ -161,7 +222,7 @@ namespace LogicSatellites.Behaviours
 					.ParamTransition<bool>(this.hasSatellite, this.not_grounded.empty, IsFalse)
 					.Update((smi, dt) =>
 					{
-						if(smi.storage.Has(SatelliteLogicConfig.ID) && hasSatellite.Get(smi) == false)
+						if(smi.storage.Has(SatelliteKitConfig.ID) && hasSatellite.Get(smi) == false)
 						{
 							hasSatellite.Set(true, smi);
 						}
@@ -172,7 +233,7 @@ namespace LogicSatellites.Behaviours
 					.ParamTransition<bool>(this.hasSatellite, this.not_grounded.loaded, IsTrue)
 					.Update((smi, dt) =>
 					{
-						if (smi.storage.Has(SatelliteLogicConfig.ID) && hasSatellite.Get(smi) == false)
+						if (smi.storage.Has(SatelliteKitConfig.ID) && hasSatellite.Get(smi) == false)
 						{
 							hasSatellite.Set(true, smi);
 						}
