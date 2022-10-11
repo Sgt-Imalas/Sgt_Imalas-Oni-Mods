@@ -17,11 +17,30 @@ namespace LogicSatellites.Behaviours
 
         public int NextSat()
         {
-            SatelliteType += 1;
-            if (SatelliteType > 3)
-                SatelliteType = 0;
-            return SatelliteType;
+            var awailables = UpdateUnlockedSatellites();
+            if (awailables.Count <= 1)
+                return SatelliteType;
+            else
+            {
+                ++SatelliteType;
+                SatelliteType %= awailables.Count;
+                return SatelliteType;
+            }    
         }
+
+        List<int> UpdateUnlockedSatellites()
+        {
+            var list = new List<int>();
+
+            if (ExplorationSatellite.ParentTech.IsComplete())
+                list.Add((int)SatType.Exploration);
+            if (SolarSatellite.ParentTech.IsComplete())
+                list.Add((int)SatType.SolarLens);
+
+            return list;
+
+        }
+
         public string SidescreenButtonText => !module.smi.HoldingSatellite() ? ((SatType)SatelliteType).ToString()+ " Satellite" : "Scrap Satellite";
 
         public string SidescreenButtonTooltip => !module.smi.HoldingSatellite() ? "Cycle through the different types of satellites": "Scrap the current satellite to retrieve the parts";

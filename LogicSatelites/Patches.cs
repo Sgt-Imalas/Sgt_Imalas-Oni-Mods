@@ -34,17 +34,13 @@ namespace LogicSatellites
         {
             public static void Postfix(Db __instance)
             {
-                Debug.Log("DO I COME FIRST PLS YES ");
                 //add buildings to technology tree
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Computers.SensitiveMicroimaging, SatelliteCarrierModuleConfig.ID);
 
                 InjectionMethods.AddBuildingToTechnology(ModAssets.SatelliteConfigurations[0].TechId, ModAssets.SatelliteConfigurations[0].TechItemId);
                 InjectionMethods.AddBuildingToTechnology(ModAssets.SatelliteConfigurations[1].TechId, ModAssets.SatelliteConfigurations[1].TechItemId);
 
-                foreach (var v in Db.Get().Techs.Get(GameStrings.Technology.Power.ImprovedHydrocarbonPropulsion).unlockedItemIDs)
-                {
-                    Debug.Log("Item In tech: " + v);
-                }
+
                 ModAssets.ExplorationSatellite = __instance.TechItems.AddTechItem(ModAssets.SatelliteConfigurations[0].TechItemId, (string)ModAssets.SatelliteConfigurations[0].NAME, (string)ModAssets.SatelliteConfigurations[0].DESC, GetSpriteFnBuilder("LS_Exploration_Sat"), DlcManager.AVAILABLE_EXPANSION1_ONLY);
                 ModAssets.SolarSatellite = __instance.TechItems.AddTechItem(ModAssets.SatelliteConfigurations[1].TechItemId, (string)ModAssets.SatelliteConfigurations[1].NAME, (string)ModAssets.SatelliteConfigurations[1].DESC, GetSpriteFnBuilder("LS_Solar_Sat"), DlcManager.AVAILABLE_EXPANSION1_ONLY);
 
