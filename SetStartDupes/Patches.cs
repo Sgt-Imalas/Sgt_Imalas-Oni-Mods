@@ -213,9 +213,9 @@ namespace SetStartDupes
                 var buttonPrefab = __instance.transform.Find("TitleBar/RenameButton").gameObject;
                 var titlebar = __instance.transform.Find("TitleBar").gameObject;
 #if DEBUG
-                //Debug.Log("Start ChildrenList");
-                //UIUtils.ListAllChildren(__instance.transform);
-                //Debug.Log("Stop ChildrenList");
+                Debug.Log("Start ChildrenList");
+                UIUtils.ListAllChildren(__instance.transform);
+                Debug.Log("Stop ChildrenList");
 #endif
 
                 var changebtn = Util.KInstantiateUI(buttonPrefab, titlebar);
@@ -225,8 +225,11 @@ namespace SetStartDupes
 
                 var img = changebtn.transform.Find("Image").GetComponent<KImage>();
                 img.sprite = Assets.GetSprite("icon_gear");
-                var button = changebtn.GetComponent<KButton>();
-                ChangeButton(false, changebtn, __instance, ___stats);
+                var button = __instance.transform.Find("ShuffleDupeButton").GetComponent<KButton>();
+                var button2 = __instance.transform.Find("ArchetypeSelect").GetComponent<KButton>(); 
+
+
+                ChangeButton(false, changebtn, __instance, ___stats, button,button2);
 
                 CycleButtonLeftPrefab = Util.KInstantiateUI(buttonPrefab);
                 CycleButtonLeftPrefab.GetComponent<ToolTip>().enabled = false;
@@ -239,7 +242,7 @@ namespace SetStartDupes
                 CycleButtonRightPrefab.name = "NextButton";
             }
 
-            static void ChangeButton(bool isCurrentlyInEditMode,GameObject buttonGO, CharacterContainer parent, MinionStartingStats referencedStats)
+            static void ChangeButton(bool isCurrentlyInEditMode,GameObject buttonGO, CharacterContainer parent, MinionStartingStats referencedStats, KButton ButtonToDisable, KButton ButtonToDisableAswell)
             {
                 buttonGO.GetComponent<ToolTip>().SetSimpleTooltip(!isCurrentlyInEditMode ? "Adjust dupe stats":"Store Settings");
                 var img = buttonGO.transform.Find("Image").GetComponent<KImage>();
@@ -248,7 +251,7 @@ namespace SetStartDupes
                 button.ClearOnClick();
                 button.onClick += () =>
                 {
-                    ChangeButton(!isCurrentlyInEditMode, buttonGO,parent, referencedStats);
+                    ChangeButton(!isCurrentlyInEditMode, buttonGO,parent, referencedStats, ButtonToDisable,ButtonToDisableAswell);
                     if (isCurrentlyInEditMode)
                     {
                         InstantiateOrGetDupeModWindow(parent.gameObject, referencedStats, true);
@@ -259,11 +262,13 @@ namespace SetStartDupes
                     {
                         InstantiateOrGetDupeModWindow(parent.gameObject, referencedStats, false);
                     }
+                    ButtonToDisable.isInteractable=isCurrentlyInEditMode;
+                    ButtonToDisableAswell.isInteractable= isCurrentlyInEditMode;
                 };
                 parent.transform.Find("Details").gameObject.SetActive(!isCurrentlyInEditMode);
             }
 
-            static void InstantiateOrGetDupeModWindow(GameObject parent, MinionStartingStats referencedStats, bool hide )
+            static void InstantiateOrGetDupeModWindow(GameObject parent, MinionStartingStats referencedStats, bool hide)
             {
                 bool ShouldInit = true;
                 var ParentContainer = parent.transform.Find("ModifyDupeStats");
@@ -285,7 +290,7 @@ namespace SetStartDupes
                 }
 
 
-                
+                ///Building the Button window
                 if(ShouldInit) {
                     var one = ParentContainer.transform.Find("PortraitContainer");
                     if (one != null) UnityEngine.Object.Destroy(one.gameObject); 

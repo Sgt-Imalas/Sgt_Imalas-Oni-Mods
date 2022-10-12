@@ -3,9 +3,10 @@
 [h1]Introduction[/h1]
 
 This mod allows to adjust the amount of Duplicants you start the game with.
+Also features individual selection for trait, interest and reactions of duplicants
 
 
-[h1]Current latest Version: 2.0.0[/h1]
+[h1]Current latest Version: 2.0.1[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
