@@ -1,4 +1,5 @@
 ﻿using LogicSatellites.Behaviours;
+using LogicSatellites.Satellites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace LogicSatellites.Entities
             looseEntity.AddOrGet<CharacterOverlay>().shouldShowName = true;
             ClusterDestinationSelector destinationSelector = looseEntity.AddOrGet<ClusterDestinationSelector>();
             destinationSelector.assignable = false;
-            destinationSelector.shouldPointTowardsPath = false;
+            destinationSelector.shouldPointTowardsPath = true;
             destinationSelector.requireAsteroidDestination = false;
             var traveler = looseEntity.AddOrGet<ClusterTraveler>();
             traveler.stopAndNotifyWhenPathChanges = false;
@@ -50,11 +51,13 @@ namespace LogicSatellites.Entities
             return looseEntity;
         }
 
-        public void OnPrefabInit(GameObject inst)
+        public void OnPrefabInit(GameObject go)
         {
+            var entity = go.AddOrGet<SolarLens>();
+            
         }
 
-        public void OnSpawn(GameObject inst)
+        public void OnSpawn(GameObject go)
         {
         }
     }

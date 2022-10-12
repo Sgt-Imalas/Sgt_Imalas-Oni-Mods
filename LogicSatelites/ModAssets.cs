@@ -1,4 +1,5 @@
-﻿using LogicSatellites.Entities;
+﻿using LogicSatellites.Buildings;
+using LogicSatellites.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace LogicSatellites.Behaviours
     public static class ModAssets
     {
         public static Components.Cmps<SatelliteGridEntity> Satellites = new Components.Cmps<SatelliteGridEntity>();
+        public static Components.Cmps<SolarReciever> SolarRecievers = new Components.Cmps<SolarReciever>();
 
         public static Graph AdjazenzMatrixHolder = new Graph();
 
