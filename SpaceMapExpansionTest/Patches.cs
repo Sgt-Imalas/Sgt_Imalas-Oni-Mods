@@ -21,7 +21,7 @@ namespace SpaceMapExpansionTest
                 //Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"); //Working :D
 
                 Debug.Log("Space Expansion patched"+ rings.ToString());
-                //rings = rings * 2;
+                rings = rings * 2;
             }
             
         }
