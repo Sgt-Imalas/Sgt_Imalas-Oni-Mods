@@ -15,12 +15,21 @@ namespace Robo_Rockets
 {
     public class RoboRocketPatches
     {
+        [HarmonyPatch(typeof(GeneShufflerRechargeConfig))]
+        [HarmonyPatch(nameof(GeneShufflerRechargeConfig.CreatePrefab))]
+        public static class AddTagToItem
+        {
+            public static void Postfix(ref GameObject __result)
+            {
+                var prefab = __result.GetComponent<KPrefabID>();
+                prefab.AddTag(GeneShufflerRechargeConfig.tag);
+            }
+        }
 
         [HarmonyPatch(typeof(LimitOneCommandModule))]
         [HarmonyPatch(nameof(LimitOneCommandModule.EvaluateCondition))]
         public static class LimitOneCommandModule_AI_Patch
         {
-
             public static bool Prefix( bool __result,
                 GameObject existingModule,
                 SelectModuleCondition.SelectionContext selectionContext)

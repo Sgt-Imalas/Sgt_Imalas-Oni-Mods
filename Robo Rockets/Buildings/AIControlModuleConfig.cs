@@ -18,11 +18,11 @@ namespace Robo_Rockets
 
             bool usesAdvRecipe = Config.Instance.UsesNeuralVaccilatorRecharge;
             string[] construction_materials;
-            if (usesAdvRecipe) { 
+            if (usesAdvRecipe) {
                 construction_materials = new string[2]
                 {
                     "RefinedMetal"
-                    ,"GeneShufflerRecharge"
+                    ,GeneShufflerRechargeConfig.tag.ToString()
                 };
             }
             else
