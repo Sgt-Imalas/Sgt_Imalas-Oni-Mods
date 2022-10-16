@@ -34,7 +34,7 @@ namespace SetStartDupes
         {
             public static void Postfix(KButton ___proceedButton)
             {
-                Debug.Log("Creating PREFAB2");
+                //Debug.Log("Creating PREFAB2");
                 NextButtonPrefab = Util.KInstantiateUI(___proceedButton.gameObject);
                 UIUtils.ListAllChildren(NextButtonPrefab.transform);
                 NextButtonPrefab.name = "CycleButtonPrefab";
@@ -66,12 +66,14 @@ namespace SetStartDupes
                 {
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, AdjustNumber));
                 }
-                else
 
 #if DEBUG
-                    foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
+                //else
+                //    foreach (var v in code) 
+                //    { 
+                //        Debug.Log(v.opcode + " -> " + v.operand);
+                //    };
 #endif
-
 
                 return code;
             }
