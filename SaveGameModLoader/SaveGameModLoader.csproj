@@ -40,6 +40,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="SteamItems\**" />
+	  <EmbeddedResource Remove="SteamItems\**" />
+	  <None Remove="SteamItems\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <PackageReference Include="DotNetZip" Version="1.16.0" />
 	</ItemGroup>
 	
