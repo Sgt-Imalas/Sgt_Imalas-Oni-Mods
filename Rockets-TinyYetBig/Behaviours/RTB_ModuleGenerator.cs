@@ -76,7 +76,7 @@ namespace Rockets_TinyYetBig.Behaviours
             Game.Instance.electricalConduitSystem.RemoveFromVirtualNetworks(this.VirtualCircuitKey, (object)this, true);
         }
 
-        public override bool IsProducingPower() => AlwaysActive || this.clustercraft.IsFlightInProgress() && BatteriesNotFull();// || produceWhileLanded && BatteriesNotFull();
+        public override bool IsProducingPower() => AlwaysActive || this.clustercraft.Status != Clustercraft.CraftStatus.Grounded && BatteriesNotFull();// || produceWhileLanded && BatteriesNotFull();
 
 
         public bool BatteriesNotFull()
