@@ -178,5 +178,10 @@ namespace Rockets_TinyYetBig
             public const string TOGGLESINGLE = "Toggle to enable/disable this module in the building menu";
             public const string TOGGLEMULTI = "Toggle to enable/disable these modules in the building menu";
         }
+        public class MODIFIEDVANILLASTRINGS
+        {
+            public static LocString KEROSENEENGINECLUSTERSMALL_EFFECT = (LocString)("Burns either " + UI.FormatAsLink("Petroleum", "PETROLEUM") + " or " + UI.FormatAsLink("Ethanol", "ETHANOL") + " to propel rockets for mid-range space exploration.\n\nSmall Petroleum Engines possess the same speed as a " + UI.FormatAsLink("Petroleum Engines", "KEROSENEENGINE") + " but have smaller height restrictions.\n\nEngine must be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ". \n\nOnce the engine has been built, more rocket modules can be added.");
+            public static LocString KEROSENEENGINECLUSTER_EFFECT = (LocString)("Burns either " + UI.FormatAsLink("Petroleum", "PETROLEUM") + " or " + UI.FormatAsLink("Ethanol", "ETHANOL") + " to propel rockets for mid-range space exploration.\n\nPetroleum Engines have generous height restrictions, ideal for hauling many modules.\n\nEngine must be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ". \n\nOnce the engine has been built, more rocket modules can be added.");
+        }
     }
 }
