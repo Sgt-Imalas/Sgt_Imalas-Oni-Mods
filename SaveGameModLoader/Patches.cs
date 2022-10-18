@@ -124,6 +124,11 @@ namespace SaveGameModLoader
                 modlistButtonGO.FindOrAddUnityComponent<ToolTip>().SetSimpleTooltip(STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTSBUTTONINFO);
                 var modlistButton = modlistButtonGO.GetComponent<KButton>();
                 modlistButton.ClearOnClick();
+
+#if DEBUG
+               // UIUtils.ListAllChildren(__instance.transform);
+#endif
+
                 modlistButton.onClick += () =>
                 {
                 ///Util.KInstantiateUI(ScreenPrefabs.Instance.RailModUploadMenu.gameObject, modScreen.gameObject, true); ///HMMM; great if modified for modpack creation
@@ -133,12 +138,12 @@ namespace SaveGameModLoader
                     UnityEngine.Object.Destroy(window);
                     var newScreen = Util.KInstantiateUI(copy.gameObject, __instance.gameObject, true);
                     newScreen.name = "ModListView";
-#if DEBUG
-                    //UIUtils.ListAllChildren(newScreen.transform);
-#endif
                     newScreen.AddComponent(typeof(ModListScreen));
 
                 }; 
+                var closeButton = __instance.transform.Find("Panel/DetailsView/CloseButton");
+                UIUtils.ListAllChildrenWithComponents(closeButton.transform);
+                closeButton.SetAsLastSibling();
             }
         }
         [HarmonyPatch(typeof(LoadScreen), "OnActivate")]
