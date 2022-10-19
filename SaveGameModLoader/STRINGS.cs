@@ -66,12 +66,15 @@ namespace SaveGameModLoader
                     public static LocString TITLESAVEGAMELIST = "ModLists from SaveGame \"{0}\"";
                     public static LocString MODLISTCOUNT= "Modlist contains {0} mods.";
                     public static LocString LOADLIST= "View Modlist";
-                    public static LocString SYNCLIST= "Apply Modlist";
+                    public static LocString SYNCLIST = "Apply Modlist";
+                    public static LocString SUBTOALL = "Subscribe to all missing Mods";
+                    public static LocString REFRESH = "Refresh View";
                     public static LocString RETURN= "RETURN";
                     public static LocString RETURNTWO= "RETURN TO MODS";
                     public static LocString POPUPSYNCEDTITLE = "Mod List Loaded";
                     public static LocString POPUPSYNCEDTEXT= "The modlist has been applied.";
-                    public static LocString WORKSHOPFINDTOOLTIP= "Click here to visit the Steam Workshop page of this mod.";
+                    //public static LocString WORKSHOPFINDTOOLTIP= "Click here to visit the Steam Workshop page of this mod.";
+                    public static LocString WORKSHOPFINDTOOLTIP= "Click here to subscribe to this mod.";
                     public static LocString NOSTEAMMOD= "Not a Steam Mod!";
                     public static LocString MISSING= "Missing";
 

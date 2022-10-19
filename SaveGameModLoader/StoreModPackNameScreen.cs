@@ -257,6 +257,7 @@ namespace SaveGameModLoader
         {
             KMod.Manager.Dialog(Global.Instance.globalCanvas,
                 title, content);
+
         }
 
         private void QueryUGCDetails(PublishedFileId_t[] mods, CallResult<SteamUGCQueryCompleted_t> onQueryComplete)
@@ -276,7 +277,7 @@ namespace SaveGameModLoader
                 if (constructable.GetProgress() < 2) { }
                 SteamUGC.SetReturnChildren(handle, true);
                 SteamUGC.SetReturnLongDescription(handle, true);
-                
+
                 var apiCall = SteamUGC.SendQueryUGCRequest(handle);
                 
                 if (apiCall != SteamAPICall_t.Invalid)

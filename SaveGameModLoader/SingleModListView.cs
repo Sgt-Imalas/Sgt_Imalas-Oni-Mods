@@ -7,6 +7,7 @@ using UnityEngine;
 using UtilLibs;
 using static UtilLibs.UIUtils;
 using static SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST;
+using Steamworks;
 
 namespace SaveGameModLoader
 {
@@ -25,14 +26,17 @@ namespace SaveGameModLoader
 
         //GameObject ReturnButton;
         GameObject SyncButton;
+        GameObject RefreshViewBtn;
         KModalScreen ParentWindow;
 
         public void SetAdditionalButtons(bool active)
         {
             ViewSingleEntry = active;
 
-            if(SyncButton != null)
+            if (SyncButton != null)
                 SyncButton.SetActive(active);
+            if (RefreshViewBtn != null)
+                RefreshViewBtn.SetActive(active||IsMissingModsOnly);
             //SyncButton.SetActive(active);
             //Debug.Log(IsMissingModsOnly + "<-Missing only  IsActive? " + active);
             if (!active) RebuildList();
@@ -64,15 +68,26 @@ namespace SaveGameModLoader
             var DetailsView = SingleFileModlists.Find("Panel/DetailsView").gameObject;
 
             ///Disable unneeded buttons
-            FindAndDisable(SingleFileModlists, "Panel/DetailsView/ToggleAllButton");
+            //FindAndDisable(SingleFileModlists, "Panel/DetailsView/ToggleAllButton");
             //FindAndDisable(SingleFileModlists, "Panel/DetailsView/WorkshopButton");
 
+            ///SubToAll missing mods
+            TryChangeText(
+                SingleFileModlists,
+                "Panel/DetailsView/ToggleAllButton/Text",
+                REFRESH);
 
 
-            /////WorkshopButton Button for single list view sync
+
+            ///WorkshopButton Button for single list view sync
+
+            RefreshViewBtn = transform.Find("Panel/DetailsView/ToggleAllButton").gameObject;
+            RefreshViewBtn.transform.SetAsFirstSibling();
+            RefreshViewBtn.SetActive(false);
+
             SyncButton = transform.Find("Panel/DetailsView/WorkshopButton").gameObject;
             SyncButton.SetActive(false);
-
+            
             TryChangeText(
                 SingleFileModlists,
                 "Panel/DetailsView/WorkshopButton/Text",
@@ -107,6 +122,28 @@ namespace SaveGameModLoader
         }
 
 
+        //void SubToAllMissing(List<KMod.Label> allMissings)
+        //{
+        //    Debug.Log("SubToAllCalled , missing mods count: "+ allMissings.Count);
+        //    foreach (var mod in allMissings)
+        //    {
+        //        if (mod.distribution_platform == KMod.Label.DistributionPlatform.Steam)
+        //        {
+        //            OpenMissingMod(mod.id);
+        //            Debug.Log(mod.title + "<- Subbed");
+
+        //        }
+        //    }
+        //}
+
+
+
+        void OpenMissingMod(string modId)
+        {
+            SteamUGC.SubscribeItem(new PublishedFileId_t(ulong.Parse(modId)));;
+            //App.OpenWebURL("https://steamcommunity.com/sharedfiles/filedetails/?id=" + mod.id); 
+        }
+
 
         void RebuildList(List<KMod.Label> modsForSingleView = null)
         {
@@ -139,11 +176,17 @@ namespace SaveGameModLoader
 
                     bool isSteamMod = mod.distribution_platform == KMod.Label.DistributionPlatform.Steam;
                     infoBt.FindOrAddUnityComponent<ToolTip>().SetSimpleTooltip(isSteamMod ? WORKSHOPFINDTOOLTIP : NOSTEAMMOD);
+
                     infoBt.isInteractable = isSteamMod;
+
                     AddActionToButton(
                             infoBt.transform,
                             "",
-                            () => { App.OpenWebURL("https://steamcommunity.com/sharedfiles/filedetails/?id=" + mod.id); }, true);
+                            () =>
+                            {
+                                OpenMissingMod(mod.id);
+                            },
+                            true);
 
                         var bgColorImage = infoBt.bgImage;
                         bgColorImage.colorStyleSetting = missingModColorStyle;
@@ -164,7 +207,7 @@ namespace SaveGameModLoader
                 KMod.Manager modManager = Global.Instance.modManager;
 
                 var allMods = modManager.mods.Select(mod => mod.label).ToList();
-                var MissingMods = modsForSingleView.Except(allMods, new ModlistManager.ModDifferencesByIdComparer()).ToList();
+                MissingModsList = modsForSingleView.Except(allMods, new ModlistManager.ModDifferencesByIdComparer()).ToList();
 
 
                 foreach (var mod in modsForSingleView)
@@ -173,7 +216,7 @@ namespace SaveGameModLoader
                     TryChangeText(entry, "Title", mod.title);
                     TryChangeText(entry, "Version", "internal mod Version: " + mod.version.ToString());
 
-                    if (MissingMods.Contains(mod, new ModlistManager.ModDifferencesByIdComparer()))
+                    if (MissingModsList.Contains(mod, new ModlistManager.ModDifferencesByIdComparer()))
                     {
                         var bgColor = TryFindComponent<KImage>(entry,"BG");
                         bgColor.defaultState = KImage.ColorSelector.Disabled;
@@ -186,7 +229,10 @@ namespace SaveGameModLoader
                         AddActionToButton(
                             infoBt.transform, 
                             "",
-                            () => { App.OpenWebURL("https://steamcommunity.com/sharedfiles/filedetails/?id=" + mod.id); }, true);
+                            () =>
+                            {
+                                OpenMissingMod(mod.id);
+                            }, true);
 
                         var bgColorImage = infoBt.bgImage;
                         bgColorImage.colorStyleSetting = missingModColorStyle;
@@ -201,7 +247,7 @@ namespace SaveGameModLoader
                     Entries.Add(entry.gameObject);
 
                 }
-                TryFindComponent<KButton>(SyncButton.transform).isInteractable = modsForSingleView.Count > MissingMods.Count;
+                TryFindComponent<KButton>(SyncButton.transform).isInteractable = modsForSingleView.Count > MissingModsList.Count;
                 AddActionToButton(
                        SyncButton.transform,
                        "",
@@ -212,6 +258,12 @@ namespace SaveGameModLoader
                     transform,
                     "Panel/DetailsView/CloseButton",
                     () => SetAdditionalButtons(false),
+                    true);
+
+                AddActionToButton(
+                    transform,
+                    "Panel/DetailsView/ToggleAllButton",
+                    () =>  RebuildList(modsForSingleView),
                     true);
             }
             else

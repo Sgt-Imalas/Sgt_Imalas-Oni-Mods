@@ -32,13 +32,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaceMapExpansionTest", "Sp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaceStationsAndExploration", "SpaceStationsAndExploration\SpaceStationsAndExploration.csproj", "{B5D47E1B-5F2C-4232-8C97-5B11F8076907}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SaveGameModLoader", "SaveGameModLoader\SaveGameModLoader.csproj", "{ED0AEDB8-8A03-45AE-8E61-71E7CA1EBCC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModListManager", "SaveGameModLoader\ModListManager.csproj", "{ED0AEDB8-8A03-45AE-8E61-71E7CA1EBCC6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SetStartDupes", "SetStartDupes\SetStartDupes.csproj", "{6AFD893D-3D81-4A1E-9857-EC99D3F106C4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DailyRoutine", "DailyRoutine\DailyRoutine.csproj", "{403DF048-A91F-4BCB-9DB1-AFB712E292D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DupePodRailgun", "DupePodRailgun\DupePodRailgun.csproj", "{A2386D26-8ED8-49E6-B798-FE58CB9EC155}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DupePodRailgun", "DupePodRailgun\DupePodRailgun.csproj", "{A2386D26-8ED8-49E6-B798-FE58CB9EC155}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
