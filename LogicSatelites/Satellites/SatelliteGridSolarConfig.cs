@@ -53,8 +53,7 @@ namespace LogicSatellites.Entities
 
         public void OnPrefabInit(GameObject go)
         {
-            var entity = go.AddOrGet<SolarLens>();
-            
+            var entity = go.AddOrGet<SolarLens>();            
         }
 
         public void OnSpawn(GameObject go)

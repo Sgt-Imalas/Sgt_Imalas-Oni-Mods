@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LogicSatellites.Buildings
 {
-    public class SolarReciever : KMonoBehaviour
+    public class SolarReciever : KMonoBehaviour, IListableOption
     {
         protected override void OnSpawn()
         {
@@ -20,6 +20,11 @@ namespace LogicSatellites.Buildings
         {
             ModAssets.SolarRecievers.Remove(this);
             base.OnCleanUp();
+        }
+
+        public string GetProperName()
+        {
+            return gameObject.GetProperName()+" SatReciever";
         }
     }
 }

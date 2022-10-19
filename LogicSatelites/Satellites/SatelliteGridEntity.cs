@@ -50,7 +50,7 @@ namespace LogicSatellites.Behaviours
         {
             this.m_name = newName;
 
-            this.name = SatelliteConfigurations[satelliteType].NAME + newName;
+            this.name = SatelliteConfigurations[satelliteType].NAME+ " " + newName;
             CharacterOverlay component = this.GetComponent<CharacterOverlay>();
             KSelectable selectable = this.GetComponent<KSelectable>();
             if (selectable != null)

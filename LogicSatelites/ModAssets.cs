@@ -22,16 +22,6 @@ namespace LogicSatellites.Behaviours
             AdjazenzMatrixHolder.UpdateAdjacencyMatrix();
         }
 
-        public static void AddSatelliteTechItems()
-        {
-            //var frostedResearch = Research.Instance.GetTechInstance(ModAssets.Techs.FrostedDupeResearchID);
-            //if (!frostedResearch.IsComplete() && SuccessPerChance(chanceInPercent))
-            //{
-            //    frostedResearch.Purchased();
-            //    Game.Instance.Trigger((int)GameHashes.ResearchComplete, frostedResearch.tech);
-            //}
-        }
-
 
         public static bool FindConnectionViaAdjacencyMatrix(AxialI a, AxialI b)
         {
