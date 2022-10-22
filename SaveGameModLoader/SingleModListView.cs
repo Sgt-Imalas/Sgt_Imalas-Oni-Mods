@@ -140,8 +140,8 @@ namespace SaveGameModLoader
 
         void OpenMissingMod(string modId)
         {
-            SteamUGC.SubscribeItem(new PublishedFileId_t(ulong.Parse(modId)));;
-            //App.OpenWebURL("https://steamcommunity.com/sharedfiles/filedetails/?id=" + mod.id); 
+            //SteamUGC.SubscribeItem(new PublishedFileId_t(ulong.Parse(modId)));
+            App.OpenWebURL("https://steamcommunity.com/sharedfiles/filedetails/?id=" + modId); 
         }
 
 

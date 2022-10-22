@@ -73,8 +73,8 @@ namespace SaveGameModLoader
                     public static LocString RETURNTWO= "RETURN TO MODS";
                     public static LocString POPUPSYNCEDTITLE = "Mod List Loaded";
                     public static LocString POPUPSYNCEDTEXT= "The modlist has been applied.";
-                    //public static LocString WORKSHOPFINDTOOLTIP= "Click here to visit the Steam Workshop page of this mod.";
-                    public static LocString WORKSHOPFINDTOOLTIP= "Click here to subscribe to this mod.";
+                    public static LocString WORKSHOPFINDTOOLTIP= "Click here to visit the Steam Workshop page of this mod.";
+                    //public static LocString WORKSHOPFINDTOOLTIP= "Click here to subscribe to this mod.";
                     public static LocString NOSTEAMMOD= "Not a Steam Mod!";
                     public static LocString MISSING= "Missing";
 

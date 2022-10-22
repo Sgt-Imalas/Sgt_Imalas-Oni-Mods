@@ -206,6 +206,11 @@ namespace SaveGameModLoader
 #if DEBUG
                 //UIUtils.ListAllChildren(__instance.transform);
 #endif
+                if(path==null||path == string.Empty)
+                {
+                    return;
+                }
+
                 Transform parentBar;
                 Transform contButton;
 

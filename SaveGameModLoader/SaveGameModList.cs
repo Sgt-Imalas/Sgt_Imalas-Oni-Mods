@@ -73,6 +73,8 @@ namespace SaveGameModLoader
 
         public static string GetModListFileName(string pathOfReference)
         {
+            if (string.IsNullOrEmpty(pathOfReference))
+                return null;
             string FileNameInSpe = Directory.GetParent(pathOfReference).Name;
             if (FileNameInSpe.Contains("auto_save"))
             {
