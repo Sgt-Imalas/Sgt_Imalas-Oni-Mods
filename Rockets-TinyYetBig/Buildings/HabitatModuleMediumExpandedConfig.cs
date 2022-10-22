@@ -51,6 +51,10 @@ namespace Rockets_TinyYetBig
             buildingDef.CanMove = true;
             buildingDef.Cancellable = false;
             buildingDef.ShowInBuildMenu = false;
+
+            if (Config.Instance.HabitatPowerPlug)
+                UtilLibs.RocketryUtils.AddPowerPlugToModule(buildingDef, ModAssets.PLUG_OFFSET_MEDIUM);
+
             return buildingDef;
         }
 
@@ -101,6 +105,13 @@ namespace Rockets_TinyYetBig
 
         public override void DoPostConfigureComplete(GameObject go)
         {
+            if (Config.Instance.HabitatPowerPlug)
+            {
+                WireUtilitySemiVirtualNetworkLink virtualNetworkLink = go.AddOrGet<WireUtilitySemiVirtualNetworkLink>();
+                virtualNetworkLink.link1 = ModAssets.PLUG_OFFSET_MEDIUM;
+                virtualNetworkLink.visualizeOnly = true;
+            }
+
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MEGA);
             Ownable ownable = go.AddOrGet<Ownable>();
             ownable.slotID = Db.Get().AssignableSlots.HabitatModule.Id;

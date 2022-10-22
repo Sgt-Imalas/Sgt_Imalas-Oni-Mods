@@ -154,18 +154,7 @@ namespace Rockets_TinyYetBig
             }
         }
 
-        /// <summary>
-        /// Compact interior template for Medium Habitat
-        /// </summary>
-        [HarmonyPatch(typeof(HabitatModuleMediumConfig))]
-        [HarmonyPatch("ConfigureBuildingTemplate")]
-        public static class SaveSpace_HabitatMedium_Patch
-        {
-            public static void Postfix(GameObject go)
-            {
-                go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_medium_compressed";
-            }
-        }
+        
         /// <summary>
         /// Add launch_pst anim to normal modules
         /// </summary>
@@ -193,18 +182,7 @@ namespace Rockets_TinyYetBig
             }
         }
 
-        /// <summary>
-        /// Compact interior template for Small Habitat
-        /// </summary>
-        [HarmonyPatch(typeof(HabitatModuleSmallConfig))]
-        [HarmonyPatch("ConfigureBuildingTemplate")]
-        public static class SaveSpace_HabitatSmall_Patch
-        {
-            public static void Postfix(GameObject go)
-            {
-                go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_small_compressed";
-            }
-        }
+
 
         /// <summary>
         /// Patch to decrease interior size from 32x32 to dynamic value per habitat template

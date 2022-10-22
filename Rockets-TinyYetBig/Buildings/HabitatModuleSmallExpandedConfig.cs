@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace Rockets_TinyYetBig
 {
@@ -47,6 +48,10 @@ namespace Rockets_TinyYetBig
             buildingDef.CanMove = true;
             buildingDef.Cancellable = false;
             buildingDef.ShowInBuildMenu = false;
+
+            if (Config.Instance.HabitatPowerPlug)
+                RocketryUtils.AddPowerPlugToModule(buildingDef, ModAssets.PLUG_OFFSET_SMALL);
+
             return buildingDef;
         }
 
@@ -81,6 +86,7 @@ namespace Rockets_TinyYetBig
             rocketConduitSender2.conduitStorage = storage2;
             rocketConduitSender2.conduitPortInfo = this.gasInputPort;
             go.AddComponent<RocketConduitReceiver>().conduitPortInfo = this.gasOutputPort;
+
         }
 
         private void AttachPorts(GameObject go)
@@ -93,6 +99,13 @@ namespace Rockets_TinyYetBig
 
         public override void DoPostConfigureComplete(GameObject go)
         {
+            if (Config.Instance.HabitatPowerPlug)
+            {
+                WireUtilitySemiVirtualNetworkLink virtualNetworkLink = go.AddOrGet<WireUtilitySemiVirtualNetworkLink>();
+                virtualNetworkLink.link1 = ModAssets.PLUG_OFFSET_SMALL;
+                virtualNetworkLink.visualizeOnly = true;
+            }
+
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MODERATE);
             Ownable ownable = go.AddOrGet<Ownable>();
             ownable.slotID = Db.Get().AssignableSlots.HabitatModule.Id;

@@ -19,6 +19,20 @@ namespace UtilLibs
         public const string CategoryInitKey = "Sgt_Imalas_VanillaRocketModulesCategorized";
 
 
+
+        public static void AddPowerPlugToModule(BuildingDef def)
+        {
+            AddPowerPlugToModule(def, CellOffset.none);
+        }
+        public static void AddPowerPlugToModule(BuildingDef def,CellOffset offset)
+        {
+
+            def.RequiresPowerOutput = true;
+            def.PowerInputOffset = offset;
+            def.PowerOutputOffset = offset;
+            def.UseWhitePowerOutputConnectorColour = true;
+        }
+
         public static bool IsRocketInFlight(Clustercraft craft)
         {
             var LocationCurrent = craft.Location;

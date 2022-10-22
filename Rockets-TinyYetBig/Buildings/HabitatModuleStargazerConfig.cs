@@ -5,11 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace Rockets_TinyYetBig
 {
     class HabitatModuleStargazerConfig : IBuildingConfig
     {
+
         public const string ID = "RTB_HabitatModuleStargazer";
         private ConduitPortInfo gasInputPort = new ConduitPortInfo(ConduitType.Gas, new CellOffset(-1, 0));
         private ConduitPortInfo gasOutputPort = new ConduitPortInfo(ConduitType.Gas, new CellOffset(1, 0));
@@ -55,6 +57,10 @@ namespace Rockets_TinyYetBig
             buildingDef.CanMove = true;
             buildingDef.Cancellable = false;
             buildingDef.ShowInBuildMenu = false;
+
+            if (Config.Instance.HabitatPowerPlug)
+                RocketryUtils.AddPowerPlugToModule(buildingDef, ModAssets.PLUG_OFFSET_MEDIUM);
+
             return buildingDef;
         }
 
@@ -101,6 +107,15 @@ namespace Rockets_TinyYetBig
 
         public override void DoPostConfigureComplete(GameObject go)
         {
+
+            if (Config.Instance.HabitatPowerPlug)
+            {
+                WireUtilitySemiVirtualNetworkLink virtualNetworkLink = go.AddOrGet<WireUtilitySemiVirtualNetworkLink>();
+                virtualNetworkLink.link1 = ModAssets.PLUG_OFFSET_MEDIUM;
+                virtualNetworkLink.visualizeOnly = true;
+            }
+
+
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MODERATE);
             Ownable ownable = go.AddOrGet<Ownable>();
             ownable.slotID = Db.Get().AssignableSlots.HabitatModule.Id;

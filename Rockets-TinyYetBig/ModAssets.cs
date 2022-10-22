@@ -14,6 +14,8 @@ namespace Rockets_TinyYetBig
         
         public static Dictionary<Tuple<BuildingDef, int>, GameObject> CategorizedButtons = new Dictionary<Tuple<BuildingDef, int>, GameObject>();
 
+        public static readonly CellOffset PLUG_OFFSET_SMALL = new CellOffset(-1, 0);
+        public static readonly CellOffset PLUG_OFFSET_MEDIUM = new CellOffset(-2, 0);
 
         public static int InnerLimit = 0;
         public static int Rings = 0;

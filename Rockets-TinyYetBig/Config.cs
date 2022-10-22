@@ -46,7 +46,9 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool LandingLegs { get; set; }
 
-
+        [Option("Habitat Power Connector", "Add a power connector to the habitat modules.", "Features")]
+        [JsonProperty]
+        public bool HabitatPowerPlug { get; set; }
 
 
         [Option("Radioisotope Decay time", "Time in cycles for all the enriched uranium in the RTG to decay into depleted uranium. RTG needs a refill if all enriched uranium has decayed.", "Balancing")]
@@ -55,7 +57,7 @@ namespace Rockets_TinyYetBig
         public float IsotopeDecayTime { get; set; }
 
 
-
+        #region Modules
         ///MODULES
         [Option("Extended Spacefarer Modules", STRINGS.OPTIONS.TOGGLEMULTI, "Modules")]
         [JsonProperty]
@@ -83,7 +85,9 @@ namespace Rockets_TinyYetBig
 
         [Option("Fortified Rocket Platform", STRINGS.OPTIONS.TOGGLESINGLE, "Modules")]
         [JsonProperty]
+
         public bool EnableBunkerPlatform { get; set; }
+        #endregion
 
         public Config()
         {
@@ -97,6 +101,7 @@ namespace Rockets_TinyYetBig
             EnableBuildingCategories = true;
             HideRocketCategoryTooltips = false;
             LandingLegs = true;
+            HabitatPowerPlug = true;
 
             ///Modules:
             EnableExtendedHabs = true;
