@@ -1,0 +1,13 @@
+﻿Update 2.4:
+
+New Modules:
+- NatGas Engine: new engine that burns natural gas & oxidizer
+- Solar Nosecone: Nosecone + Solar panels, nuff said
+Features:
+- Docking: Dock rockets together while in space to transfer ressources and dupes.
+
+Fixes & Adjustments:
+- Petroleum Rockets (small & big) can now use wethanol as fuel replacement, similar to the ethanol generator
+- Generator Modules now function in space while not moving (was buggy before)
+- Buffed Large Solid Oxidizer tank: Capacity 900 -> 1350, this gives it 3x the capacity of one small tank while taking 2.5x height and weight of one
+- Modules that fit multiple categories (f.e. spacefarer nosecones) now appear under both categories (nosecones and habitats for this example)
