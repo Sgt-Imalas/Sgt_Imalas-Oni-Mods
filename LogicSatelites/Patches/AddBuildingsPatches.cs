@@ -21,7 +21,7 @@ namespace LogicSatellites
             {
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, LightFocussingLensConfig.ID);
 
-                RocketryUtils.AddRocketModuleToBuildList(SatelliteCarrierModuleConfig.ID, "", RocketryUtils.RocketCategory.deployables);
+                RocketryUtils.AddRocketModuleToBuildList(SatelliteCarrierModuleConfig.ID, RocketryUtils.RocketCategory.deployables);
             }
         }
         [HarmonyPatch(typeof(Db))]

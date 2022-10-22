@@ -31,7 +31,7 @@ namespace LogicSatellites.Behaviours
             this.operational.constructionRequired
                 .EventTransition(GameHashes.OnStorageChange, this.operational.constructionHappening, (smi => smi.GetMassForConstruction() != null))
                 .EventTransition(GameHashes.OnStorageChange, this.operational.constructionSatisfied, (smi => smi.HasOutputInStorage()))
-                .ToggleFetch((Func<BuildingInternalConstructorRocket.Instance, FetchList2>)(smi => smi.CreateFetchList()), this.operational.constructionHappening)
+                .ToggleFetch((smi => smi.CreateFetchList()), this.operational.constructionHappening)
                 .ParamTransition<bool>(this.constructionRequested, this.operational.constructionSatisfied, IsFalse)
                 .Enter((smi => smi.ShowConstructionSymbol(true)))
                 .Exit((smi => smi.ShowConstructionSymbol(false)));

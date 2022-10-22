@@ -62,6 +62,8 @@ namespace LogicSatellites.Buildings
             simCellOccupier.notifyOnMelt = true;
             go.AddOrGet<TileTemperature>();
             go.AddOrGet<BuildingHP>().destroyOnDamaged = true;
+
+            go.AddOrGet<UserNameable>().savedName = (string)global::STRINGS.BUILDINGS.PREFABS.LOGICINTERASTEROIDSENDER.DEFAULTNAME;
             go.AddOrGet<SolarReciever>();
         }
 
