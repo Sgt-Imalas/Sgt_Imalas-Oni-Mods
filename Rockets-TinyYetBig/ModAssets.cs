@@ -4,12 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Rockets_TinyYetBig
 {
     class ModAssets
     {
         public static Components.Cmps<DockingManager> Dockables = new Components.Cmps<DockingManager>();
+        
+        public static Dictionary<Tuple<BuildingDef, int>, GameObject> CategorizedButtons = new Dictionary<Tuple<BuildingDef, int>, GameObject>();
+
 
         public static int InnerLimit = 0;
         public static int Rings = 0;

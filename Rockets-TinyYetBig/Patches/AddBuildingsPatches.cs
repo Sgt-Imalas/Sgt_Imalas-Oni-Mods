@@ -24,32 +24,32 @@ namespace RoboRockets.Rockets_TinyYetBig
         public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
         {
 
-            public static void Prefix()
+            public static void Postfix()
             {
-
+                CategorizeVanillaModules();
                 if (Config.Instance.EnableExtendedHabs) 
-                { 
-                    AddRocketModuleToBuildList(HabitatModuleSmallExpandedConfig.ID, HabitatModuleSmallConfig.ID, RocketryUtils.RocketCategory.habitats);
-                    AddRocketModuleToBuildList(HabitatModuleMediumExpandedConfig.ID, HabitatModuleMediumConfig.ID, RocketryUtils.RocketCategory.habitats);
+                {
+                    AddRocketModuleToBuildList(HabitatModuleSmallExpandedConfig.ID, new RocketCategory[] { RocketCategory.habitats,RocketCategory.nosecones}, HabitatModuleSmallConfig.ID);
+                    AddRocketModuleToBuildList(HabitatModuleMediumExpandedConfig.ID, RocketryUtils.RocketCategory.habitats, HabitatModuleMediumConfig.ID);
                 }
 
                 if (Config.Instance.EnableStargazer)
-                    AddRocketModuleToBuildList(HabitatModuleStargazerConfig.ID, NoseconeBasicConfig.ID, RocketryUtils.RocketCategory.habitats);
+                    AddRocketModuleToBuildList(HabitatModuleStargazerConfig.ID, new RocketCategory[] { RocketCategory.habitats, RocketCategory.nosecones }, NoseconeBasicConfig.ID);
 
                 if (Config.Instance.EnableRadboltStorage)
-                    AddRocketModuleToBuildList(HEPBatteryModuleConfig.ID, BatteryModuleConfig.ID, RocketryUtils.RocketCategory.cargo);
+                    AddRocketModuleToBuildList(HEPBatteryModuleConfig.ID, RocketryUtils.RocketCategory.cargo, GasCargoBayClusterConfig.ID);
 
                 if (Config.Instance.EnableCritterStorage)
-                    AddRocketModuleToBuildList(CritterContainmentModuleConfig.ID, GasCargoBayClusterConfig.ID, RocketryUtils.RocketCategory.cargo);
+                    AddRocketModuleToBuildList(CritterContainmentModuleConfig.ID, RocketryUtils.RocketCategory.cargo, GasCargoBayClusterConfig.ID);
 
                 if (Config.Instance.EnableLaserDrill)
-                    AddRocketModuleToBuildList(NoseConeHEPHarvestConfig.ID, NoseconeHarvestConfig.ID, RocketCategory.nosecones);
+                    AddRocketModuleToBuildList(NoseConeHEPHarvestConfig.ID, RocketCategory.nosecones, NoseconeHarvestConfig.ID);
 
                 if (Config.Instance.EnableGenerators)
                 {
-                    AddRocketModuleToBuildList(CoalGeneratorModuleConfig.ID, BatteryModuleConfig.ID, RocketCategory.power);
-                    AddRocketModuleToBuildList(RTGModuleConfig.ID, BatteryModuleConfig.ID, RocketCategory.power);
-                    AddRocketModuleToBuildList(SteamGeneratorModuleConfig.ID, BatteryModuleConfig.ID, RocketCategory.power); 
+                    AddRocketModuleToBuildList(CoalGeneratorModuleConfig.ID, RocketCategory.power, BatteryModuleConfig.ID);
+                    AddRocketModuleToBuildList(RTGModuleConfig.ID, RocketCategory.power, BatteryModuleConfig.ID);
+                    AddRocketModuleToBuildList(SteamGeneratorModuleConfig.ID, RocketCategory.power, BatteryModuleConfig.ID); 
                 }
 
 
@@ -62,7 +62,7 @@ namespace RoboRockets.Rockets_TinyYetBig
 
 
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, DockingTubeDoorConfig.ID,null, LaunchPadConfig.ID); 
-                AddRocketModuleToBuildList(LandingLegConfig.ID, "", RocketCategory.utility); 
+                AddRocketModuleToBuildList(LandingLegConfig.ID, RocketCategory.utility); 
             }
         }
 

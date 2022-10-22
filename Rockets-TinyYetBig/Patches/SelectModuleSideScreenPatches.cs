@@ -99,6 +99,7 @@ namespace Rockets_TinyYetBig
         public static class CategoryPatchTest
         {
 
+
             public static void ToggleCategory(int category, SelectModuleSideScreen reference,bool initializing = false)
             {
                 string categoryName = category.ToString();
@@ -128,18 +129,20 @@ namespace Rockets_TinyYetBig
                         else
                             cat.transform.Find("Grid").gameObject.SetActive(false);
                     }
-
+#if DEBUG
                     Debug.Log(ReferencedCategory.name + " <-category to activate");
+#endif
                 }
             }
             private static void ClearButtons(SelectModuleSideScreen _this)
             {
-                foreach (KeyValuePair<BuildingDef, GameObject> button in _this.buttons)
+                foreach (var button in ModAssets.CategorizedButtons)
                     Util.KDestroyGameObject(button.Value);
                 for (int index = _this.categories.Count - 1; index >= 0; --index)
                     Util.KDestroyGameObject(_this.categories[index]);
                 _this.categories.Clear();
-                _this.buttons.Clear();
+                //_this.buttons.Clear(); 
+                ModAssets.CategorizedButtons.Clear();
             }
 
             public static bool Prefix(SelectModuleSideScreen __instance)
@@ -207,13 +210,12 @@ namespace Rockets_TinyYetBig
 
                             Transform reference = component.GetReference<Transform>("content");
                             List<GameObject> prefabsWithComponent = Assets.GetPrefabsWithComponent<RocketModuleCluster>();
-                            foreach (string str in category.Value)
+                            foreach (string RocketModuleID in category.Value)
                             {
-                                string id = str;
-                                GameObject part = prefabsWithComponent.Find((Predicate<GameObject>)(p => p.PrefabID().Name == id));
+                                GameObject part = prefabsWithComponent.Find((Predicate<GameObject>)(p => p.PrefabID().Name == RocketModuleID));
                                 if ((UnityEngine.Object)part == (UnityEngine.Object)null)
                                 {
-                                    Debug.LogWarning((object)("Found an id [" + id + "] in moduleButtonSortOrder in SelectModuleSideScreen.cs that doesn't have a corresponding rocket part!"));
+                                    Debug.LogWarning((object)("Found an id [" + RocketModuleID + "] in moduleButtonSortOrder in SelectModuleSideScreen.cs that doesn't have a corresponding rocket part!"));
                                 }
                                 else
                                 {
@@ -224,7 +226,7 @@ namespace Rockets_TinyYetBig
                                     componentInChildren.alignment = TextAlignmentOptions.Bottom;
                                     componentInChildren.enableWordWrapping = true;
                                     gameObject2.GetComponent<MultiToggle>().onClick += (System.Action)(() => __instance.SelectModule(part.GetComponent<Building>().Def));
-                                    __instance.buttons.Add(part.GetComponent<Building>().Def, gameObject2);
+                                    ModAssets.CategorizedButtons.Add(new Tuple<BuildingDef, int>(part.GetComponent<Building>().Def, category.Key), gameObject2);
 
                                     BuildingDef selectedModuleReflec = (BuildingDef)typeof(SelectModuleSideScreen).GetField("selectedModuleDef", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
 
@@ -248,5 +250,84 @@ namespace Rockets_TinyYetBig
                 return true;
             }
         }
+        [HarmonyPatch(typeof(SelectModuleSideScreen))]
+        [HarmonyPatch(nameof(SelectModuleSideScreen.SetButtonColors))]
+        public static class ButtonColorPatch
+        {
+
+            public static bool Prefix(SelectModuleSideScreen __instance, ref Dictionary<BuildingDef, bool> ___moduleBuildableState, BuildingDef ___selectedModuleDef)
+            {
+                if (Config.Instance.EnableBuildingCategories)
+                {
+                    foreach (var button in ModAssets.CategorizedButtons)
+                    {
+                        MultiToggle component1 = button.Value.GetComponent<MultiToggle>();
+                        HierarchyReferences component2 = button.Value.GetComponent<HierarchyReferences>();
+                        if (!___moduleBuildableState[button.Key.first])
+                        {
+                            component2.GetReference<Image>("FG").material = PlanScreen.Instance.desaturatedUIMaterial;
+                            if ((UnityEngine.Object)button.Key.first == (UnityEngine.Object)___selectedModuleDef)
+                                component1.ChangeState(1);
+                            else
+                                component1.ChangeState(0);
+                        }
+                        else
+                        {
+                            component2.GetReference<Image>("FG").material = PlanScreen.Instance.defaultUIMaterial;
+                            if ((UnityEngine.Object)button.Key.first == (UnityEngine.Object)___selectedModuleDef)
+                                component1.ChangeState(3);
+                            else
+                                component1.ChangeState(2);
+                        }
+                    }
+                    var updateMethod = typeof(SelectModuleSideScreen).GetMethod("UpdateBuildButton", BindingFlags.NonPublic | BindingFlags.Instance);
+                    updateMethod.Invoke(__instance, null );
+                    //__instance.UpdateBuildButton();
+                    return false;
+                }
+                return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(SelectModuleSideScreen), "UpdateBuildableStates")]
+        public static class BuildableStatesCategoryPatch
+        {
+            public static bool Prefix(SelectModuleSideScreen __instance, ref Dictionary<BuildingDef, bool> ___moduleBuildableState, BuildingDef ___selectedModuleDef)
+            {
+                if (Config.Instance.EnableBuildingCategories)
+                {
+                    foreach (var button in ModAssets.CategorizedButtons)
+                    {
+                        if (!___moduleBuildableState.ContainsKey(button.Key.first))
+                            ___moduleBuildableState.Add(button.Key.first, false);
+                        TechItem techItem = Db.Get().TechItems.TryGet(button.Key.first.PrefabID); 
+                        if (techItem != null)
+                        {
+                            bool flag = DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || techItem.IsComplete();
+                            button.Value.SetActive(flag);
+                        }
+                        else
+                            button.Value.SetActive(true);
+
+                        var TestBuildableMethod = typeof(SelectModuleSideScreen).GetMethod("TestBuildable", BindingFlags.NonPublic | BindingFlags.Instance);
+                        bool canBeBuild = (bool)TestBuildableMethod.Invoke(__instance, new[] { button.Key.first });
+
+                        ___moduleBuildableState[button.Key.first] = canBeBuild;
+
+                    }
+                    if ((UnityEngine.Object)___selectedModuleDef != (UnityEngine.Object)null)
+                    {
+                        var updateMethod = typeof(SelectModuleSideScreen).GetMethod("ConfigureMaterialSelector", BindingFlags.NonPublic | BindingFlags.Instance);
+                        updateMethod.Invoke(__instance, null);
+
+                    }
+                    __instance.SetButtonColors();
+
+                    return false;
+                }
+                return true;
+            }
+        }
+
     }
 }
