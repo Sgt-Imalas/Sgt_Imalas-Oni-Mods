@@ -11,6 +11,16 @@ namespace Rockets_TinyYetBig.Behaviours
     [SerializationConfig(MemberSerialization.OptIn)]
     class DockingDoor : KMonoBehaviour, ISidescreenButtonControl
     {
+        /// <summary>
+        /// Transfer Storages
+        /// </summary>
+
+
+
+        [MyCmpGet]
+        public Assignable assignable;
+
+
         [MyCmpGet]
         public NavTeleporter Teleporter;
 
@@ -29,6 +39,8 @@ namespace Rockets_TinyYetBig.Behaviours
                 kanim.Play("extending");
                 kanim.Queue("extended");
             }
+
+            assignable.enabled = true;
         }
         public DockingDoor GetConnec()
         {
@@ -43,7 +55,7 @@ namespace Rockets_TinyYetBig.Behaviours
             Debug.Log(dManager.GetWorldId() + " disconneccted from " + connected.Get().dManager.GetWorldId());
 #endif
             connected = null;
-
+            assignable.enabled = false;
             Teleporter.SetTarget(null);
             if (gameObject.TryGetComponent<KBatchedAnimController>(out var kanim)&&!skipanim)
             {
@@ -70,13 +82,17 @@ namespace Rockets_TinyYetBig.Behaviours
             dManager.StartupID(worldId);
             dManager.AddDoor(this);
             string startKanim = string.Empty;
-            if (connected != null && connected.Get() != null && connected.Get().Teleporter != null )
+            if (connected != null && connected.Get() != null && connected.Get().Teleporter != null)
             {
                 Teleporter.SetTarget(connected.Get().Teleporter);
-                startKanim=("extended");
+                startKanim = ("extended");
+                assignable.enabled = true;
             }
             else
+            {
                 startKanim = ("retracted");
+                assignable.enabled = false;
+            }
             if(gameObject.TryGetComponent<KBatchedAnimController>(out var kanim))
             {
                 kanim.Play(startKanim);
@@ -109,7 +125,8 @@ namespace Rockets_TinyYetBig.Behaviours
         public void OnSidescreenButtonPressed()
         {
             ClusterManager.Instance.SetActiveWorld(connected.Get().GetMyWorld().id);
-            ManagementMenu.Instance.CloseAll();
+
+            SelectTool.Instance.Activate();
         }
 
         public bool SidescreenButtonInteractable()

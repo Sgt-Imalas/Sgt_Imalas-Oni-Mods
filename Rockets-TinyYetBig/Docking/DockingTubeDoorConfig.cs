@@ -1,4 +1,5 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Docking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,16 @@ namespace Rockets_TinyYetBig.Buildings
     {
         public const string ID = "RTB_DockingTubeDoor";
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+
+
+        private ConduitPortInfo gasInputPort = new ConduitPortInfo(ConduitType.Gas, new CellOffset(0, 0));
+        private ConduitPortInfo liquidInputPort = new ConduitPortInfo(ConduitType.Liquid, new CellOffset(0, 0));
+        private ConduitPortInfo solidInputPort = new ConduitPortInfo(ConduitType.Solid, new CellOffset(0, 0));
+
+        private ConduitPortInfo liquidOutputPort = new ConduitPortInfo(ConduitType.Liquid, new CellOffset(0, 1));
+        private ConduitPortInfo gasOutputPort = new ConduitPortInfo(ConduitType.Gas, new CellOffset(0, 1));
+        private ConduitPortInfo solidOutputPort = new ConduitPortInfo(ConduitType.Solid, new CellOffset(0, 1));
+
         public override BuildingDef CreateBuildingDef()
         {
             string tubeKanim = Config.Instance.CompressInteriors ? "rtb_docking_tube_kanim" : "rtb_docking_tube_kanim";
@@ -64,12 +75,49 @@ namespace Rockets_TinyYetBig.Buildings
             component.AddTag(GameTags.RocketInteriorBuilding);
             component.AddTag(RoomConstraints.ConstraintTags.RocketInterior);
             //component.AddTag(GameTags.UniquePerWorld);
+            IntitializeStorageConnections();
         }
+
+        void IntitializeStorageConnections()
+        {
+
+        }
+
+
 
         public override void DoPostConfigureComplete(GameObject go)
         {
+            var ownable = go.AddOrGet<Ownable>();
+            ownable.tintWhenUnassigned = false;
+            ownable.slotID = Db.Get().AssignableSlots.WarpPortal.Id;
+            go.AddOrGet<MoveToDocked>();
             go.AddOrGet<NavTeleporter>();
             go.AddComponent<DockingDoor>();
+        }
+
+        private void AttachPorts(GameObject go)
+        {
+            go.AddComponent<ConduitSecondaryInput>().portInfo = this.liquidInputPort;
+            go.AddComponent<ConduitSecondaryInput>().portInfo = this.gasInputPort;
+            go.AddComponent<ConduitSecondaryInput>().portInfo = this.solidInputPort;
+
+            go.AddComponent<ConduitSecondaryOutput>().portInfo = this.liquidOutputPort;
+            go.AddComponent<ConduitSecondaryOutput>().portInfo = this.gasOutputPort;
+            go.AddComponent<ConduitSecondaryOutput>().portInfo = this.solidOutputPort;
+        }
+
+        public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
+        {
+            base.DoPostConfigurePreview(def, go);
+            go.AddOrGet<BuildingCellVisualizer>();
+            this.AttachPorts(go);
+        }
+
+        public override void DoPostConfigureUnderConstruction(GameObject go)
+        {
+            base.DoPostConfigureUnderConstruction(go);
+            go.AddOrGet<BuildingCellVisualizer>();
+            this.AttachPorts(go);
         }
     }
 }
