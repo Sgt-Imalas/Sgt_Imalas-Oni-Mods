@@ -61,7 +61,7 @@ namespace ExplosiveMaterials
 
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, PlacableExplosiveConfig.ID);
 
-                RocketryUtils.AddRocketModuleToBuildList(NuclearPulseEngineConfig.ID,"", RocketryUtils.RocketCategory.engines);
+                RocketryUtils.AddRocketModuleToBuildList(NuclearPulseEngineConfig.ID, RocketryUtils.RocketCategory.engines);
             }
         }
 
