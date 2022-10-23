@@ -15,8 +15,10 @@ namespace Rockets_TinyYetBig.Patches
         {
             public static void Postfix(GameObject go)
             {
+                if (Config.Instance.EthanolEngines) { 
                 RocketEngineCluster rocketEngineCluster = go.GetComponent<RocketEngineCluster>();
                 rocketEngineCluster.fuelTag = GameTags.CombustibleLiquid;
+                }
             }
 
         }
@@ -25,8 +27,11 @@ namespace Rockets_TinyYetBig.Patches
         {
             public static void Postfix(GameObject go)
             {
-                RocketEngineCluster rocketEngineCluster = go.GetComponent<RocketEngineCluster>();
-                rocketEngineCluster.fuelTag = GameTags.CombustibleLiquid;
+                if (Config.Instance.EthanolEngines)
+                {
+                    RocketEngineCluster rocketEngineCluster = go.GetComponent<RocketEngineCluster>();
+                    rocketEngineCluster.fuelTag = GameTags.CombustibleLiquid;
+                }
             }
 
         }
@@ -36,8 +41,11 @@ namespace Rockets_TinyYetBig.Patches
         {
             public static void Prefix()
             {
-                global::STRINGS.BUILDINGS.PREFABS.KEROSENEENGINECLUSTER.EFFECT = STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTER_EFFECT;
-                global::STRINGS.BUILDINGS.PREFABS.KEROSENEENGINECLUSTERSMALL.EFFECT = STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTERSMALL_EFFECT;
+                if (Config.Instance.EthanolEngines)
+                {
+                    global::STRINGS.BUILDINGS.PREFABS.KEROSENEENGINECLUSTER.EFFECT = STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTER_EFFECT;
+                    global::STRINGS.BUILDINGS.PREFABS.KEROSENEENGINECLUSTERSMALL.EFFECT = STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTERSMALL_EFFECT;
+                }
             }
 
         }

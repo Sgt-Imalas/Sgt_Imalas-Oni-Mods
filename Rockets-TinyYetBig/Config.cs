@@ -50,6 +50,10 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool HabitatPowerPlug { get; set; }
 
+        [Option("Burn Ethanol as fuel", "Allows Petroleum Engines to also burn Ethanol as fuel.", "Features")]
+        [JsonProperty]
+        public bool EthanolEngines { get; set; }
+
 
         [Option("Radioisotope Decay time", "Time in cycles for all the enriched uranium in the RTG to decay into depleted uranium. RTG needs a refill if all enriched uranium has decayed.", "Balancing")]
         [Limit(10f, 2000f)]
@@ -100,7 +104,8 @@ namespace Rockets_TinyYetBig
             CompressInteriors = true; 
             EnableBuildingCategories = true;
             HideRocketCategoryTooltips = false;
-            LandingLegs = true;
+            //LandingLegs = true;
+            EthanolEngines = true;
             HabitatPowerPlug = true;
 
             ///Modules:
