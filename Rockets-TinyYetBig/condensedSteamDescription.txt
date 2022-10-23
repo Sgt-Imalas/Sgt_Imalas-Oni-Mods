@@ -5,7 +5,7 @@
 
 This mod aims to increase rocket versatility by adding new rocket modules, rocket mechanics and in general adding to the experience of rocketry in Spaced Out.
 
-[h1]Current latest Version: 2.3.4[/h1]
+[h1]Current latest Version: 2.3.5[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
@@ -14,9 +14,11 @@ This mod aims to increase rocket versatility by adding new rocket modules, rocke
 [*] Removal of Rocket cap of 16 (This is possible due to the space saving from the interior shrinking).
 [*] Module Building Categories - no longer an endless scrolling fest (disableable) 
 [*] Generator Modules (produce power while not landed without the need to move the rocket)
+[*]Habitat Power Plug: Connect the internal electric grid to the outside without the need for a battery module
 [*] Tweaks to Vanilla Modules: [list]
 	[*]Cartographic Module Buff: The Cartographic Module will now instantly reveal all Space Hexes in a radius of 1 ( adjustable in mod settings).
 	[*]Petroleum Engines: Can now also be fueled with Ethanol
+	[*]Large Solid Oxidizer Tank Buff: Capacity 900 -> 1350, this gives it 3x the capacity of one small tank while taking 2.5x height and weight of one (and gives a reason to use this module)
 	[*]more wip.
 	[/list]
 [*] each new module and most features can be individually toggled on&off / tweaked in the mod config.
