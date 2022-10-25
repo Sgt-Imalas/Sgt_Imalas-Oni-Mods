@@ -71,6 +71,10 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool EnableStargazer { get; set; }
 
+        [Option("Solar Nosecone", STRINGS.OPTIONS.TOGGLESINGLE, "Modules")]
+        [JsonProperty]
+        public bool EnableSolarNosecone { get; set; }
+
         [Option("Generator Modules", STRINGS.OPTIONS.TOGGLEMULTI, "Modules")]
         [JsonProperty]
         public bool EnableGenerators { get; set; }
@@ -113,6 +117,7 @@ namespace Rockets_TinyYetBig
             EnableStargazer = true;
             EnableGenerators = true;
             EnableLaserDrill = true;
+            EnableSolarNosecone = true;
             EnableRadboltStorage = true;
             EnableCritterStorage = true; 
             EnableBunkerPlatform = true;

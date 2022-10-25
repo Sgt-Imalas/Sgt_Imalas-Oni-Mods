@@ -46,6 +46,9 @@ namespace RoboRockets.Rockets_TinyYetBig
                 if (Config.Instance.EnableLaserDrill)
                     AddRocketModuleToBuildList(NoseConeHEPHarvestConfig.ID, RocketCategory.nosecones, NoseconeHarvestConfig.ID);
 
+                if (Config.Instance.EnableLaserDrill)
+                    AddRocketModuleToBuildList(NoseConeHEPHarvestConfig.ID, RocketCategory.nosecones, NoseconeHarvestConfig.ID);
+
                 if (Config.Instance.EnableGenerators)
                 {
                     AddRocketModuleToBuildList(CoalGeneratorModuleConfig.ID, RocketCategory.power, BatteryModuleConfig.ID);
@@ -54,8 +57,8 @@ namespace RoboRockets.Rockets_TinyYetBig
                 }
 
 
-                if (Config.Instance.EnableBunkerPlatform)
-                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, BunkeredLaunchPadConfig.ID,null,LaunchPadConfig.ID);
+                if (Config.Instance.EnableSolarNosecone)
+                    AddRocketModuleToBuildList(NoseConeSolarConfig.ID, new RocketCategory[] { RocketCategory.nosecones, RocketCategory.power }, NoseconeBasicConfig.ID);
 
 
                 if (Config.Instance.LandingLegs)
@@ -103,6 +106,9 @@ namespace RoboRockets.Rockets_TinyYetBig
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.RenewableEnergy, SteamGeneratorModuleConfig.ID);
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.AdvancedPowerRegulation, CoalGeneratorModuleConfig.ID);
                 }
+
+                if (Config.Instance.EnableSolarNosecone)
+                    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.SpacePower, NoseConeSolarConfig.ID);
             }
         }
     }
