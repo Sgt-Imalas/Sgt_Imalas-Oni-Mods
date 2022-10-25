@@ -10,6 +10,8 @@ namespace Rockets_TinyYetBig
 {
     class ModAssets
     {
+        public static Tag RocketPlatformTag = TagManager.Create("RTB_RocketPlatformTag");
+
         public static Components.Cmps<DockingManager> Dockables = new Components.Cmps<DockingManager>();
         
         public static Dictionary<Tuple<BuildingDef, int>, GameObject> CategorizedButtons = new Dictionary<Tuple<BuildingDef, int>, GameObject>();

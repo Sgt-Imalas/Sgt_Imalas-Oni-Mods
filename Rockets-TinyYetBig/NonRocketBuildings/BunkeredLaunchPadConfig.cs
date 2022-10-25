@@ -65,6 +65,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             go.AddOrGet<LoopingSounds>();
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
             go.GetComponent<KPrefabID>().AddTag(GameTags.NotRocketInteriorBuilding);
+            go.GetComponent<KPrefabID>().AddTag(ModAssets.RocketPlatformTag); 
             go.AddOrGet<Storage>().SetDefaultStoredItemModifiers(new List<Storage.StoredItemModifier>()
             {
                 Storage.StoredItemModifier.Hide,
@@ -83,9 +84,10 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             for (int index = 0; index < 7; ++index)
                 solidBase.solidOffsets[index] = new CellOffset(index - 3, 1);
 
+
             go.AddOrGet<LaunchPadConditions>();
             ChainedBuilding.Def def = go.AddOrGetDef<ChainedBuilding.Def>();
-            def.headBuildingTag = ID.ToTag();
+            def.headBuildingTag = ModAssets.RocketPlatformTag;
             def.linkBuildingTag = BaseModularLaunchpadPortConfig.LinkTag;
             def.objectLayer = ObjectLayer.Building;
             go.AddOrGetDef<LaunchPadMaterialDistributor.Def>();
