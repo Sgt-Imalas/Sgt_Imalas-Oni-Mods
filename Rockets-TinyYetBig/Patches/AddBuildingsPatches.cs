@@ -2,6 +2,7 @@
 using Rockets_TinyYetBig;
 using Rockets_TinyYetBig.Buildings;
 using Rockets_TinyYetBig.NonRocketBuildings;
+using Rockets_TinyYetBig.SpaceStations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,6 +64,7 @@ namespace RoboRockets.Rockets_TinyYetBig
 
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, DockingTubeDoorConfig.ID,null, LaunchPadConfig.ID); 
                 AddRocketModuleToBuildList(LandingLegConfig.ID, RocketCategory.utility); 
+                AddRocketModuleToBuildList(SpaceStationBuilderModuleConfig.ID, RocketCategory.utility);
             }
         }
 

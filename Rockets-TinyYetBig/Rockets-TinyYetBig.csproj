@@ -164,6 +164,9 @@
 	  <None Update="ModAssets\templates\interiors\habitat_small_expanded.yaml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\templates\interiors\OrbitalSpaceStation.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 	<ItemGroup>
