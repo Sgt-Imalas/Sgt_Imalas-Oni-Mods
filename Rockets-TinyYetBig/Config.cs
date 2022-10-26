@@ -34,17 +34,21 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool CompressInteriors { get; set; }
 
-        [Option("Rocket Building Categories","Enable a more modular rocket build menu that sorts the modules into categories.","Features")]
+        [Option("Rocket Building Categories", "Enable a more modular rocket build menu that sorts the modules into categories.", "Features")]
         [JsonProperty]
         public bool EnableBuildingCategories { get; set; }
+
+        [Option("Buff Large Oxidizer Module", "Buff storage capacity of the large Oxidizer Module from 900kg to 1350kg.", "Features")]
+        [JsonProperty]
+        public bool BuffLargeOxidizer { get; set; }
 
         [Option("Hide Tooltips", "Hide category tooltips. Only has an effect if Rocket Building Categories are enabled", "Features")]
         [JsonProperty]
         public bool HideRocketCategoryTooltips { get; set; }
 
-        [Option("Land without pad", "Add landing legs to your rocket to land on planets without any installed landing pads", "Features")]
-        [JsonProperty]
-        public bool LandingLegs { get; set; }
+       // [Option("Land without pad", "Add landing legs to your rocket to land on planets without any installed landing pads", "Features")]
+       // [JsonProperty]
+       // public bool LandingLegs { get; set; }
 
         [Option("Habitat Power Connector", "Add a power connector to the habitat modules.", "Features")]
         [JsonProperty]
@@ -56,7 +60,7 @@ namespace Rockets_TinyYetBig
 
 
         [Option("Radioisotope Decay time", "Time in cycles for all the enriched uranium in the RTG to decay into depleted uranium. RTG needs a refill if all enriched uranium has decayed.", "Balancing")]
-        [Limit(10f, 2000f)]
+        [Limit(10f, 200f)]
         [JsonProperty]
         public float IsotopeDecayTime { get; set; }
 
@@ -111,6 +115,7 @@ namespace Rockets_TinyYetBig
             //LandingLegs = true;
             EthanolEngines = true;
             HabitatPowerPlug = true;
+            BuffLargeOxidizer = true;
 
             ///Modules:
             EnableExtendedHabs = true;

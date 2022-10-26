@@ -40,7 +40,6 @@ namespace Rockets_TinyYetBig
 
         public class BUILDINGS
         {
-
             public class PREFABS
             {
                 public static LocString GENERATORLIMIT = "\n\n If there is atleast one battery connected, the generator will stop producing if the battery is above 95% charge.";
@@ -93,6 +92,14 @@ namespace Rockets_TinyYetBig
                     public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.NOSECONEHARVEST.EFFECT;
                 }
 
+                public class RTB_NOSECONESOLAR
+                {
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Solar Nosecone", nameof(NoseConeSolarConfig));
+                    public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.NOSECONEBASIC.DESC;
+                    public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.NOSECONEBASIC.EFFECT +"\n\n"+
+                        "Converts " + UI.FormatAsLink("Sunlight", "LIGHT") + " into electrical " + UI.FormatAsLink("Power", "POWER") + " for use on rockets.\n\nMust be exposed to space.";
+                }
+
 
                 public class RTB_HEPBATTERYMODULE
                 {
@@ -116,6 +123,11 @@ namespace Rockets_TinyYetBig
                     public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULEMEDIUM.DESC;
                     public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULEMEDIUM.EFFECT;
                 }
+                public class RTB_ROCKETPLATFORMTAG
+                {
+                    public static LocString NAME = "Rocket Platform";
+                }
+                
             }
         }
 

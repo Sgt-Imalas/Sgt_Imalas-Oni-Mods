@@ -15,9 +15,12 @@ namespace Rockets_TinyYetBig.Patches
         {
             public static void Postfix(GameObject go)
             {
-                OxidizerTank oxidizerTank = go.AddOrGet<OxidizerTank>();
-                oxidizerTank.targetFillMass = 1350f;
-                oxidizerTank.maxFillMass = 1350f;
+                if (Config.Instance.BuffLargeOxidizer)
+                {
+                    OxidizerTank oxidizerTank = go.AddOrGet<OxidizerTank>();
+                    oxidizerTank.targetFillMass = 1350f;
+                    oxidizerTank.maxFillMass = 1350f;
+                }
             }
 
         }
