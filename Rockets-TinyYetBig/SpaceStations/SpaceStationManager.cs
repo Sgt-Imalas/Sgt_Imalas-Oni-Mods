@@ -45,10 +45,10 @@ namespace Rockets_TinyYetBig.SpaceStations
                         callback();
                 }));
                 craft_go.AddOrGet<OrbitalMechanics>().CreateOrbitalObject(Db.Get().OrbitalTypeCategories.orbit.Id);
-                this.Trigger(-1280433810, (object)spaceStationInteriorWorld.id);
+                ClusterManager.Instance.Trigger((int)GameHashes.WorldAdded, (object)spaceStationInteriorWorld.id);
                 return spaceStationInteriorWorld;
             }
-            Debug.LogError((object)"Failed to create rocket interior.");
+            Debug.LogError((object)"Failed to create space station interior.");
             return (WorldContainer)null;
         }
 

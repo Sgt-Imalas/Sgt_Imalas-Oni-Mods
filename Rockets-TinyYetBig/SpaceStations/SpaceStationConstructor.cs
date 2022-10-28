@@ -18,7 +18,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             Vector3 position = new Vector3(-1f, -1f, 0.0f);
             GameObject sat = Util.KInstantiate(Assets.GetPrefab((Tag)prefab), position);
 
-            sat.GetComponent<ClusterGridEntity>().Location = location;
+            sat.GetComponent<SpaceStation>().Location = location;
             sat.SetActive(true);
         }
 
@@ -31,7 +31,9 @@ namespace Rockets_TinyYetBig.SpaceStations
         {
 
             Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
-            SpawnStation(component.Location, SmallOrbitalSpaceStationConfig.ID);
+            var location = component.Location;
+            location.q += 2;
+            SpawnStation(location, SmallOrbitalSpaceStationConfig.ID);
         }
 
         public bool SidescreenButtonInteractable()

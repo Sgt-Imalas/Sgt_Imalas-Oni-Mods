@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
-    class SpaceStation : ClusterGridEntity
+    class SpaceStation : Clustercraft
     {
         [Serialize]
-        private string m_name;
-
+        private string m_name = "SpaceStation";
 
         [Serialize]
         public int SpaceStationInteriorId = -1;
@@ -20,8 +20,8 @@ namespace Rockets_TinyYetBig.SpaceStations
         {
             new ClusterGridEntity.AnimConfig()
             {
-                animFile = Assets.GetAnim((HashedString) "rocket01_kanim"),
-                initialAnim = "idle_loop"
+                animFile = Assets.GetAnim((HashedString) "gravitas_space_poi_kanim"),
+                initialAnim =  "station_1"
             }
         };
 
@@ -30,16 +30,27 @@ namespace Rockets_TinyYetBig.SpaceStations
         public override EntityLayer Layer => EntityLayer.Craft;
         public override bool SpaceOutInSameHex() => true;
         public override ClusterRevealLevel IsVisibleInFOW => ClusterRevealLevel.Visible;
-
+        public override Sprite GetUISprite() => Assets.GetSprite("rocket_landing"); //Def.GetUISprite((object)this.gameObject).first;
 
         protected override void OnSpawn()
         {
-            base.OnSpawn();
             if (SpaceStationInteriorId < 0)
             {
-                var interiorWorld = SpaceStationManager.Instance.CreateSpaceStationInteriorWorld(gameObject, "interiors/OrbitalSpaceStation", new Vector2I(40, 40), null);
+                var interiorWorld = SpaceStationManager.Instance.CreateSpaceStationInteriorWorld(gameObject, "interiors/OrbitalSpaceStation", new Vector2I(27, 37), null);
                 SpaceStationInteriorId = interiorWorld.GetMyWorldId();
             }
+            Debug.Log(Location.Q + ","+Location.R + " RASDKANMSDKAO");
+            base.OnSpawn();
+            this.SetCraftStatus(CraftStatus.InFlight);
+            Debug.Log(Location.Q + "," + Location.R + " RASDKANMSDKAO");
+            this.Location = new AxialI(2, 1);
+            Debug.Log(Location.Q + "," + Location.R + " RASDKANMSDKAO");
+            Debug.Log(" viss"+ IsVisible);
+        }
+        public new void Sim4000ms(float dt)
+        {
+
+            Debug.Log(Location.Q + "," + Location.R + " Status: "+ Status);
         }
 
     }

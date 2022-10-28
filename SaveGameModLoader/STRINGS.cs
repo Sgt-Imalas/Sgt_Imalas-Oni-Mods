@@ -9,7 +9,7 @@ namespace SaveGameModLoader
             {
                 public class MODSYNCING
                 {
-                    public static LocString CONTINUEANDSYNC = "SYNCHRONIZE MOD\n AND RESUME GAME";
+                    public static LocString CONTINUEANDSYNC = "SYNC AND RESUME";
 
                     public static LocString SYNCMODSBUTTONBG = "SYNC MODS";
                     public static LocString SYNCALL = "SYNC ALL AND LOAD";

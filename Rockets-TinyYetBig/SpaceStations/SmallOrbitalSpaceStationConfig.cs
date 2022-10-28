@@ -32,18 +32,27 @@ namespace Rockets_TinyYetBig.SpaceStations
                   //    GameTags.IgnoreMaterialCategory,
                    //   GameTags.Experimental
                    //}
-        );
+             );
+            SaveLoadRoot saveLoadRoot = entity.AddOrGet<SaveLoadRoot>();
+            saveLoadRoot.DeclareOptionalComponent<WorldInventory>();
+            saveLoadRoot.DeclareOptionalComponent<WorldContainer>();
+            saveLoadRoot.DeclareOptionalComponent<OrbitalMechanics>();
+
+            var spst=entity.AddOrGet<SpaceStation>();
             entity.AddOrGet<CharacterOverlay>().shouldShowName = true;
             entity.AddOrGetDef<AlertStateManager.Def>();
             entity.AddOrGet<Notifier>();
 
-            ClusterDestinationSelector destinationSelector = entity.AddOrGet<ClusterDestinationSelector>();
+
+            RocketClusterDestinationSelector destinationSelector = entity.AddOrGet<RocketClusterDestinationSelector>();
             destinationSelector.assignable = false;
             destinationSelector.shouldPointTowardsPath = false;
             destinationSelector.requireAsteroidDestination = false;
             var traveler = entity.AddOrGet<ClusterTraveler>();
             traveler.stopAndNotifyWhenPathChanges = false;
-            entity.AddOrGet<SpaceStation>();
+
+            entity.AddOrGet<CraftModuleInterface>();
+            entity.AddOrGet<UserNameable>();
 
             return entity;
         }
