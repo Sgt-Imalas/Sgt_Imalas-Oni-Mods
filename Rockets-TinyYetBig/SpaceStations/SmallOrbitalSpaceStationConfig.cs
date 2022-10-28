@@ -18,20 +18,6 @@ namespace Rockets_TinyYetBig.SpaceStations
             var entity = EntityTemplates.CreateEntity(
                    id: ID,
                    name: "TestSpaceStationOrbitalSmall"
-                   //desc: "its a TestSpaceStationOrbitalSmall",
-                   //mass: 600,
-                   //unitMass: true,
-                   //collisionShape: EntityTemplates.CollisionShape.RECTANGLE,
-                   //isPickupable: false,
-                   //anim: Assets.GetAnim("gravitas_space_poi_kanim"),
-                   //initialAnim: "station_1",
-                   //sceneLayer: Grid.SceneLayer.Creatures,
-                   //element: SimHashes.Steel,
-                  // additionalTags: new List<Tag>()
-                   //{
-                  //    GameTags.IgnoreMaterialCategory,
-                   //   GameTags.Experimental
-                   //}
              );
             SaveLoadRoot saveLoadRoot = entity.AddOrGet<SaveLoadRoot>();
             saveLoadRoot.DeclareOptionalComponent<WorldInventory>();
@@ -67,7 +53,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         public string GetProperName()
         {
-            return "Logic Satellite";
+            return "spacae";
         }
     }
 }

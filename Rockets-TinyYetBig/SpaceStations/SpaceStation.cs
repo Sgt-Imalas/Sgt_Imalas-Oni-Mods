@@ -34,18 +34,22 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         protected override void OnSpawn()
         {
+            Debug.Log("MY WorldID:" + SpaceStationInteriorId);
             if (SpaceStationInteriorId < 0)
             {
                 var interiorWorld = SpaceStationManager.Instance.CreateSpaceStationInteriorWorld(gameObject, "interiors/OrbitalSpaceStation", new Vector2I(27, 37), null);
-                SpaceStationInteriorId = interiorWorld.GetMyWorldId();
+                SpaceStationInteriorId = interiorWorld.id;
+                Debug.Log("new WorldID:" + SpaceStationInteriorId);
+                Debug.Log("ADDED NEW SPACE STATION INTERIOR");
             }
             Debug.Log(Location.Q + ","+Location.R + " RASDKANMSDKAO");
             base.OnSpawn();
             this.SetCraftStatus(CraftStatus.InFlight);
             Debug.Log(Location.Q + "," + Location.R + " RASDKANMSDKAO");
-            this.Location = new AxialI(2, 1);
             Debug.Log(Location.Q + "," + Location.R + " RASDKANMSDKAO");
             Debug.Log(" viss"+ IsVisible);
+            var destination = gameObject.GetComponent<RocketClusterDestinationSelector>();
+            destination.SetDestination(this.Location);
         }
         public new void Sim4000ms(float dt)
         {
