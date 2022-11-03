@@ -33,7 +33,29 @@ namespace Rockets_TinyYetBig
         //    }
         //}
 
-        
+        [HarmonyPatch(typeof(ReorderableBuilding))]
+        [HarmonyPatch("CanChangeModule")]
+        public static class DisableSwapButtonOnHabitats_Patch ///Should be base game, is bugged in base game
+        {
+            public static void Postfix(ReorderableBuilding __instance,ref bool __result)
+            {
+                if (__result)
+                {
+                    string moduleId = !((UnityEngine.Object)__instance.GetComponent<BuildingUnderConstruction>() != (UnityEngine.Object)null) ? __instance.GetComponent<Building>().Def.PrefabID : __instance.GetComponent<BuildingUnderConstruction>().Def.PrefabID;
+                    var Habitats = RocketModuleList.GetRocketModuleList()[(int)RocketCategory.habitats];
+                    if (Habitats.Contains(moduleId))
+                    {
+                        __result = false;
+                    }
+                }
+
+                //Debug.Log("Detailspanel:");
+                //UIUtils.ListAllChildren(detailsPanel.transform);
+                //Debug.Log("LabelTemplate:");
+                //UIUtils.ListAllChildren(__instance.attributesLabelTemplate.transform);
+            }
+        }
+
         [HarmonyPatch(typeof(SelectModuleSideScreen))]
         [HarmonyPatch("UpdateBuildableStates")]
         public static class HideEmptyCategories
