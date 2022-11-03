@@ -56,7 +56,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
         public Sprite GetDockingIcon()
         {
-            Sprite returnVal =null;
+            Sprite returnVal = null;
             switch (Type)
             {
                 case DockableType.Rocket:
@@ -213,6 +213,7 @@ namespace Rockets_TinyYetBig.Behaviours
             door1.ConnecDoor(door2);
             door2.ConnecDoor(door1);
             door1.Teleporter.EnableTwoWayTarget(true);
+            DetailsScreen.Instance.Refresh(door1.gameObject);
         }
 
 
@@ -243,6 +244,7 @@ namespace Rockets_TinyYetBig.Behaviours
             DockingDoors[door] = -1;
             door.DisconnecDoor(cleanup);
 
+            DetailsScreen.Instance.Refresh(door.gameObject);
         }
 
         public string GetProperName() => this.GetComponent<Clustercraft>().name;

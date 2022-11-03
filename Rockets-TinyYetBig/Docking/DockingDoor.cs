@@ -53,7 +53,6 @@ namespace Rockets_TinyYetBig.Behaviours
                 kanim.Play("extending");
                 kanim.Queue("extended");
             }
-
             assignable.enabled = true;
         }
         public DockingDoor GetConnec()

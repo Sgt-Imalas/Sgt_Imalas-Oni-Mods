@@ -73,7 +73,7 @@ namespace Rockets_TinyYetBig.Docking
 
 
 
-            targetManager = target.GetComponent<DockingManager>();
+            targetManager = target.GetComponent<DockingManager>(); ///??? revisit
             target.TryGetComponent<Clustercraft>(out this.targetCraft);
             if (targetManager == null)
             {
@@ -145,6 +145,8 @@ namespace Rockets_TinyYetBig.Docking
                 .ToList();
             AllDockers.Remove(targetManager);
 
+            //Debug.Log("CurrentTargetType: " + targetManager.GetCraftType);
+
             if(targetManager.GetCraftType == DockableType.SpaceStation)
             {
                 AllDockers.RemoveAll(craft => craft.GetCraftType == DockableType.SpaceStation);
@@ -184,7 +186,7 @@ namespace Rockets_TinyYetBig.Docking
                 //kvp.Value.GetComponent<HierarchyReferences>().GetReference<Image>("Icon").sprite = Def.GetUISprite((object)kvp.Key.gameObject).first;
                 //kvp.Value.GetComponent<HierarchyReferences>().GetReference<Image>("Icon").color = Def.GetUISprite((object)kvp.Key.gameObject).second;
                 WorldContainer myWorld = kvp.Key.GetMyWorld();
-                kvp.Value.GetComponent<HierarchyReferences>().GetReference<Image>("WorldIcon").sprite = targetManager.GetDockingIcon();
+                kvp.Value.GetComponent<HierarchyReferences>().GetReference<Image>("WorldIcon").sprite = kvp.Key.GetDockingIcon();
                 //kvp.Value.GetComponent<HierarchyReferences>().GetReference<Image>("WorldIcon").color = Color.black ;
                 var toggle = kvp.Value.GetComponent<HierarchyReferences>().GetReference<MultiToggle>("Toggle");
                 
