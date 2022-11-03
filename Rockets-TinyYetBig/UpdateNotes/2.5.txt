@@ -1,0 +1,13 @@
+﻿Update 2.5:
+
+New Modules:
+- NatGas Engine: new engine that burns natural gas & oxidizer
+- Solar Nosecone: Nosecone + Solar panels
+
+Art for the new modules is made by the wonderful |ScientisT|UA|
+Features:
+- Docking: Dock rockets together while in space to transfer ressources and dupes.
+
+Fixes & Adjustments:
+- the Fortified Rocket Platform now works correctly with loaders / unloaders
+- the "switch module" button is now disabled on habitats to prevent a vanilla crash that happens when you try that

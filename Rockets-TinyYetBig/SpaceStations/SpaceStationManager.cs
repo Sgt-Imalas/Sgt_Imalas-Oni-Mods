@@ -14,6 +14,11 @@ namespace Rockets_TinyYetBig.SpaceStations
         new Lazy<SpaceStationManager>(() => new SpaceStationManager());
 
         public static SpaceStationManager Instance { get { return lazy.Value; } }
+
+
+        public static bool ActiveWorldIsSpaceStationInterior() => ClusterManager.Instance.activeWorld.HasTag(ModAssets.Tags.IsSpaceStation);
+        public static bool ActiveWorldIsRocketInterior() => !ClusterManager.Instance.activeWorld.HasTag(ModAssets.Tags.IsSpaceStation) && ClusterManager.Instance.activeWorld.IsModuleInterior;
+
         public WorldContainer CreateSpaceStationInteriorWorld(
             GameObject craft_go,
             string interiorTemplateName,
@@ -46,6 +51,8 @@ namespace Rockets_TinyYetBig.SpaceStations
                 }));
                 craft_go.AddOrGet<OrbitalMechanics>().CreateOrbitalObject(Db.Get().OrbitalTypeCategories.orbit.Id);
                 ClusterManager.Instance.Trigger((int)GameHashes.WorldAdded, (object)spaceStationInteriorWorld.id);
+                spaceStationInteriorWorld.AddTag(ModAssets.Tags.IsSpaceStation);
+
                 return spaceStationInteriorWorld;
             }
             Debug.LogError((object)"Failed to create space station interior.");

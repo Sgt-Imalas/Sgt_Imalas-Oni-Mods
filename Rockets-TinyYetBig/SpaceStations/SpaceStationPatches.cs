@@ -8,8 +8,37 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
+
     class SpaceStationPatches
     {
+
+        [HarmonyPatch(typeof(PlanScreen), "GetBuildableStateForDef")]
+        public static class AllowCertainBuildingsInSpaceStations
+        {
+            public static void Postfix(BuildingDef def, ref PlanScreen.RequirementsState __result)
+            {
+                if (def.BuildingComplete.HasTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding) && SpaceStationManager.ActiveWorldIsSpaceStationInterior())
+                {
+                    Debug.Log(def.PrefabID + " - Is SpaceStationBuilding; state: " + __result);
+                    
+                    if (
+                        def.BuildingComplete.HasTag(GameTags.NotRocketInteriorBuilding) && def.BuildingComplete.HasTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding))
+                    {
+                        if (!DebugHandler.InstantBuildMode && !Game.Instance.SandboxModeActive && !ProductInfoScreen.MaterialsMet(def.CraftRecipe))
+                            __result = PlanScreen.RequirementsState.Materials;
+                        else
+                            __result = PlanScreen.RequirementsState.Complete;
+                    }
+                }
+                if (def.BuildingComplete.HasTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding) && SpaceStationManager.ActiveWorldIsRocketInterior())
+                {
+                    __result = PlanScreen.RequirementsState.RocketInteriorForbidden;
+                }
+            }
+        }
+
+
+
         [HarmonyPatch(typeof(ClusterManager), "UpdateWorldReverbSnapshot")]
         public static class DisableAudioReverbGetter
         {

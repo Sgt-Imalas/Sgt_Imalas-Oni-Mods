@@ -50,10 +50,10 @@ namespace Rockets_TinyYetBig.Patches
         {
             public static void Postfix(GameObject go)
             {
-                go.GetComponent<KPrefabID>().AddTag(ModAssets.RocketPlatformTag);
+                go.GetComponent<KPrefabID>().AddTag(ModAssets.Tags.RocketPlatformTag);
 
                 ChainedBuilding.Def def = go.AddOrGetDef<ChainedBuilding.Def>();
-                def.headBuildingTag = ModAssets.RocketPlatformTag;
+                def.headBuildingTag = ModAssets.Tags.RocketPlatformTag;
             }
         }
 
@@ -64,7 +64,7 @@ namespace Rockets_TinyYetBig.Patches
             public static void Postfix(GameObject go)
             {
                 ChainedBuilding.Def def = go.AddOrGetDef<ChainedBuilding.Def>();
-                def.headBuildingTag = ModAssets.RocketPlatformTag;
+                def.headBuildingTag = ModAssets.Tags.RocketPlatformTag;
             }
         }
 

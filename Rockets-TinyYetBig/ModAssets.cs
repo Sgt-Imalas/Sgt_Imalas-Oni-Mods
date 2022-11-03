@@ -10,7 +10,24 @@ namespace Rockets_TinyYetBig
 {
     class ModAssets
     {
-        public static Tag RocketPlatformTag = TagManager.Create("RTB_RocketPlatformTag");
+        public static List<string> AllowedBuildingIDsInsideSpaceStation = new List<string>()
+        {
+            ModularLaunchpadPortGasConfig.ID,
+            ModularLaunchpadPortGasUnloaderConfig.ID,
+            ModularLaunchpadPortLiquidConfig.ID,
+            ModularLaunchpadPortLiquidUnloaderConfig.ID,
+            ModularLaunchpadPortSolidConfig.ID,
+            ModularLaunchpadPortSolidUnloaderConfig.ID
+        };
+
+
+        public class Tags
+        {
+            public static Tag IsSpaceStation = TagManager.Create("RTB_isSpaceStationInteriorWorld");
+            public static Tag SpaceStationOnlyInteriorBuilding = TagManager.Create("RTB_SpaceStationInteriorOnly");
+            public static Tag RocketPlatformTag = TagManager.Create("RTB_RocketPlatformTag");
+        }
+
 
         public static Components.Cmps<DockingManager> Dockables = new Components.Cmps<DockingManager>();
         

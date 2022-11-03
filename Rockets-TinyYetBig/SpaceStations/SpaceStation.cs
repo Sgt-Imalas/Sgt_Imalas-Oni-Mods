@@ -42,10 +42,10 @@ namespace Rockets_TinyYetBig.SpaceStations
                 Debug.Log("new WorldID:" + SpaceStationInteriorId);
                 Debug.Log("ADDED NEW SPACE STATION INTERIOR");
             }
+            ClusterManager.Instance.GetWorld(SpaceStationInteriorId).AddTag(ModAssets.Tags.IsSpaceStation);
             Debug.Log(Location.Q + ","+Location.R + " RASDKANMSDKAO");
             base.OnSpawn();
             this.SetCraftStatus(CraftStatus.InFlight);
-            Debug.Log(Location.Q + "," + Location.R + " RASDKANMSDKAO");
             Debug.Log(Location.Q + "," + Location.R + " RASDKANMSDKAO");
             Debug.Log(" viss"+ IsVisible);
             var destination = gameObject.GetComponent<RocketClusterDestinationSelector>();
