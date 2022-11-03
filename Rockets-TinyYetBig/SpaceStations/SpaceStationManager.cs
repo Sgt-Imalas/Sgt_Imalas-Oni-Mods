@@ -18,6 +18,9 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         public static bool ActiveWorldIsSpaceStationInterior() => ClusterManager.Instance.activeWorld.HasTag(ModAssets.Tags.IsSpaceStation);
         public static bool ActiveWorldIsRocketInterior() => !ClusterManager.Instance.activeWorld.HasTag(ModAssets.Tags.IsSpaceStation) && ClusterManager.Instance.activeWorld.IsModuleInterior;
+        public static bool WorldIsRocketInterior(int worldId) => !ClusterManager.Instance.GetWorld(worldId).HasTag(ModAssets.Tags.IsSpaceStation) && ClusterManager.Instance.GetWorld(worldId).IsModuleInterior;
+        public static bool WorldIsSpaceStationInterior(int worldId) => ClusterManager.Instance.GetWorld(worldId).HasTag(ModAssets.Tags.IsSpaceStation) && ClusterManager.Instance.GetWorld(worldId).IsModuleInterior;
+
 
         public WorldContainer CreateSpaceStationInteriorWorld(
             GameObject craft_go,

@@ -11,7 +11,9 @@ namespace Rockets_TinyYetBig.SpaceStations
 
     class SpaceStationPatches
     {
-
+        /// <summary>
+        /// Allows for "Space Station Only Buildings"
+        /// </summary>
         [HarmonyPatch(typeof(PlanScreen), "GetBuildableStateForDef")]
         public static class AllowCertainBuildingsInSpaceStations
         {
@@ -19,7 +21,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             {
                 if (def.BuildingComplete.HasTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding) && SpaceStationManager.ActiveWorldIsSpaceStationInterior())
                 {
-                    Debug.Log(def.PrefabID + " - Is SpaceStationBuilding; state: " + __result);
+                    //Debug.Log(def.PrefabID + " - Is SpaceStationBuilding; state: " + __result);
                     
                     if (
                         def.BuildingComplete.HasTag(GameTags.NotRocketInteriorBuilding) && def.BuildingComplete.HasTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding))
@@ -36,6 +38,20 @@ namespace Rockets_TinyYetBig.SpaceStations
                 }
             }
         }
+
+
+        [HarmonyPatch(typeof(BaseModularLaunchpadPortConfig), "ConfigureBuildingTemplate")]
+        public static class AllowPortLoadersInSpaceStation
+        {
+            public static void Postfix(GameObject go)
+            {
+                KPrefabID component = go.GetComponent<KPrefabID>();
+                component.AddTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding);
+            }
+        }
+
+
+
 
 
 

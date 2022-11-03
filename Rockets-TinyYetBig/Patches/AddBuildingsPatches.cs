@@ -68,6 +68,7 @@ namespace RoboRockets.Rockets_TinyYetBig
 
 
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, DockingTubeDoorConfig.ID,null, LaunchPadConfig.ID); 
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, SpaceStationDockingDoorConfig.ID,null, LaunchPadConfig.ID);
                 AddRocketModuleToBuildList(LandingLegConfig.ID, RocketCategory.utility); 
                 AddRocketModuleToBuildList(SpaceStationBuilderModuleConfig.ID, RocketCategory.utility);
             }

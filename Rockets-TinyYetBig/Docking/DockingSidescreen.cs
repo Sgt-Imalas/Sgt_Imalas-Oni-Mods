@@ -57,7 +57,7 @@ namespace Rockets_TinyYetBig.Docking
             
             bool flying = spaceship!=null ? spaceship.Status == Clustercraft.CraftStatus.InFlight : true;
 
-            return manager != null && manager.HasDoors() && manager.GetType != DockableType.Derelict && flying;
+            return manager != null && manager.HasDoors() && manager.GetCraftType != DockableType.Derelict && flying;
         }
         public override void SetTarget(GameObject target)
         {
@@ -145,6 +145,11 @@ namespace Rockets_TinyYetBig.Docking
                 .ToList();
             AllDockers.Remove(targetManager);
 
+            if(targetManager.GetCraftType == DockableType.SpaceStation)
+            {
+                AllDockers.RemoveAll(craft => craft.GetCraftType == DockableType.SpaceStation);
+            }
+
             foreach (DockingManager targetManager in AllDockers)
             {
                 if (RocketryUtils.IsRocketInFlight(targetCraft))
@@ -185,7 +190,7 @@ namespace Rockets_TinyYetBig.Docking
                 
                 toggle.onClick = (System.Action)(() =>
                 {
-                    targetManager.HandleUiDocking(toggle.CurrentState,kvp.Key.GetWorldId());
+                    targetManager.HandleUiDocking(toggle.CurrentState,kvp.Key.GetWorldId()); 
                     this.Refresh();
                 });
                 kvp.Value.GetComponent<HierarchyReferences>().GetReference<MultiToggle>("Toggle").ChangeState(targetManager.IsDockedTo(kvp.Key.GetWorldId()) ? 1 : 0);

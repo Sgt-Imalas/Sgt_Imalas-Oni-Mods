@@ -29,9 +29,23 @@ namespace Rockets_TinyYetBig.Behaviours
 
         public DockingManager dManager;
 
+        public CraftModuleInterface GetCraftModuleInterface()
+        {
+            return GetWorldObject().GetComponent<CraftModuleInterface>();
+        }
+        public CraftModuleInterface GetDockedCraftModuleInterface()
+        {
+            if (connected == null)
+                return null;
+            else 
+                return connected.Get().GetWorldObject().GetComponent<CraftModuleInterface>();
+        }
+
         public void ConnecDoor(DockingDoor d)
         {
-           // Debug.Log("Door: " + d);
+            // Debug.Log("Door: " + d);
+            this.Trigger((int)GameHashes.RocketLanded);
+            d.Trigger((int)GameHashes.RocketLanded);
             connected = new Ref<DockingDoor>(d);
             Teleporter.SetTarget(d.Teleporter);
             if (!this.gameObject.IsNullOrDestroyed() && gameObject.TryGetComponent<KBatchedAnimController>(out var kanim))
@@ -49,11 +63,20 @@ namespace Rockets_TinyYetBig.Behaviours
             return null;
         }
 
+        public int GetConnectedTargetWorldId()
+        {
+            if (connected != null)
+                return connected.Get().GetMyWorldId();
+            return -1;
+        }
+
         public void DisconnecDoor(bool skipanim = false)
         {
 #if DEBUG
             Debug.Log(dManager.GetWorldId() + " disconneccted from " + connected.Get().dManager.GetWorldId());
 #endif
+
+            this.Trigger((int)GameHashes.RocketLaunched);
             connected = null;
             assignable.enabled = false;
             Teleporter.SetTarget(null);
@@ -68,7 +91,9 @@ namespace Rockets_TinyYetBig.Behaviours
         {
             if (connected != null)
             {
+#if DEBUG
                 Debug.Log("Disconnecting due to flight");
+#endif
                 dManager.UnDockFromTargetWorld(connected.Get().dManager.GetWorldId());
             }
         }
@@ -81,6 +106,7 @@ namespace Rockets_TinyYetBig.Behaviours
             dManager = GetWorldObject().AddOrGet<DockingManager>();
             dManager.StartupID(worldId);
             dManager.AddDoor(this);
+            dManager.SetManagerType();
             string startKanim = string.Empty;
             if (connected != null && connected.Get() != null && connected.Get().Teleporter != null)
             {
@@ -129,9 +155,7 @@ namespace Rockets_TinyYetBig.Behaviours
             SelectTool.Instance.Activate();
         }
 
-        public bool SidescreenButtonInteractable()
-
-        => connected != null;
+        public bool SidescreenButtonInteractable() => assignable.enabled;
 
         public bool SidescreenEnabled()
         {

@@ -1,4 +1,5 @@
 ﻿using KSerialization;
+using Rockets_TinyYetBig.SpaceStations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,32 @@ namespace Rockets_TinyYetBig.Behaviours
 
         DockableType Type = DockableType.Rocket;
 
-        public DockableType GetType => Type;
+        public DockableType GetCraftType => Type;
+
+        public void SetManagerType(int overrideType = -1)
+        {
+            if (OwnWorldId != -1)
+            { 
+            
+            }
+
+            
+            if (OwnWorldId != -1)
+            {
+                if (SpaceStationManager.WorldIsSpaceStationInterior(OwnWorldId))
+                {
+                    Type = DockableType.SpaceStation;
+                }
+                else if(SpaceStationManager.WorldIsRocketInterior(OwnWorldId))
+                {
+                    Type = DockableType.Rocket;
+                }
+            }
+#if DEBUG
+            Debug.Log("CraftType set to: "+ Type);
+#endif
+        }
+
 
         public Sprite GetDockingIcon()
         {
@@ -101,7 +127,7 @@ namespace Rockets_TinyYetBig.Behaviours
 #if DEBUG
                 Debug.Log(door + "<-> " + door.GetMyWorldId());
 #endif
-                UnDockFromTargetWorld(door.GetConnec().GetMyWorldId(),true);
+                UnDockFromTargetWorld(door.GetConnectedTargetWorldId(), true);
                 ///Disconecc;
                 //door.DisconnecDoor();
                 DockingDoors.Remove(door);
@@ -136,6 +162,7 @@ namespace Rockets_TinyYetBig.Behaviours
                 DockToTargetWorld(targetWorld);
             else
                 UnDockFromTargetWorld(targetWorld);
+            //DetailsScreen.Instance.Refresh(gameObject); ///deletes all others
         }
 
         public void DockToTargetWorld(int targetWorldId)
