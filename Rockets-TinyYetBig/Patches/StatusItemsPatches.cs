@@ -11,6 +11,17 @@ namespace Rockets_TinyYetBig.Patches
 {
     class StatusItemsPatches
     {
+        class StatusItemsRegisterPatch
+        {
+            [HarmonyPatch(typeof(Database.BuildingStatusItems), "CreateStatusItems")]
+            public static class Database_BuildingStatusItems_CreateStatusItems_Patch
+            {
+                public static void Postfix()
+                {
+                    ModAssets.StatusItems.Register();
+                }
+            }
+        }
         class ExtendSolarNotification
         {
             [HarmonyPatch(typeof(BuildingStatusItems), "CreateStatusItems")]
