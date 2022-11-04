@@ -91,12 +91,13 @@ namespace Rockets_TinyYetBig.Buildings
 
         public override void DoPostConfigureComplete(GameObject go)
         {
+            AddFakeFloor(go);
             var ownable = go.AddOrGet<Ownable>();
             ownable.tintWhenUnassigned = false;
             ownable.slotID = Db.Get().AssignableSlots.WarpPortal.Id;
             go.AddOrGet<MoveToDocked>();
             go.AddOrGet<NavTeleporter>();
-            go.AddComponent<DockingDoor>(); AddFakeFloor(go);
+            go.AddComponent<DockingDoor>();
         }
 
         //private void AttachPorts(GameObject go)
@@ -131,7 +132,7 @@ namespace Rockets_TinyYetBig.Buildings
                 new CellOffset(0, -1),
                 new CellOffset(1, -1)
             };
-            fakeFloorAdder.initiallyActive = false;
+            fakeFloorAdder.initiallyActive = true;
         }
     }
 }
