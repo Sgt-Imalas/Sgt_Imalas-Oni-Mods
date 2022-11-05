@@ -48,6 +48,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Update="ModAssets\anim\assets\canned_bread\canned_bbq.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\canned_bread\canned_bbq_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\canned_bread\canned_bbq_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\anim\assets\canned_bbq\canned_bbq.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>

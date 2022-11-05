@@ -25,6 +25,7 @@ namespace Rockets_TinyYetBig
         {
             public static Tag IsSpaceStation = TagManager.Create("RTB_isSpaceStationInteriorWorld");
             public static Tag SpaceStationOnlyInteriorBuilding = TagManager.Create("RTB_SpaceStationInteriorOnly");
+            public static Tag RocketInteriorOnlyBuilding = TagManager.Create("RTB_RocketInteriorOnly");
             public static Tag RocketPlatformTag = TagManager.Create("RTB_RocketPlatformTag");
         }
 

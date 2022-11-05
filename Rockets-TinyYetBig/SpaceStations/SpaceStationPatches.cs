@@ -32,7 +32,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                             __result = PlanScreen.RequirementsState.Complete;
                     }
                 }
-                if (def.BuildingComplete.HasTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding) && SpaceStationManager.ActiveWorldIsRocketInterior())
+                if (def.BuildingComplete.HasTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding) && SpaceStationManager.ActiveWorldIsRocketInterior() || def.BuildingComplete.HasTag(ModAssets.Tags.RocketInteriorOnlyBuilding) && SpaceStationManager.ActiveWorldIsSpaceStationInterior())
                 {
                     __result = PlanScreen.RequirementsState.RocketInteriorForbidden;
                 }
@@ -49,10 +49,6 @@ namespace Rockets_TinyYetBig.SpaceStations
                 component.AddTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding);
             }
         }
-
-
-
-
 
 
         [HarmonyPatch(typeof(ClusterManager), "UpdateWorldReverbSnapshot")]
