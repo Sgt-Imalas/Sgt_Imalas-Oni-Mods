@@ -10,18 +10,27 @@ namespace Rockets_TinyYetBig.SpaceStations
 {
     class SpaceStation : Clustercraft
     {
+
         [Serialize]
         private string m_name = "SpaceStation";
 
         [Serialize]
         public int SpaceStationInteriorId = -1;
 
+
+        [Serialize]
+        public bool IsOrbitalSpaceStation = false;
+
+
+        public string InteriorTemplate = "OrbitalSpaceStation";
+        public string IconAnimName = "station_1";
+
         public override List<ClusterGridEntity.AnimConfig> AnimConfigs => new List<ClusterGridEntity.AnimConfig>()
         {
             new ClusterGridEntity.AnimConfig()
             {
                 animFile = Assets.GetAnim((HashedString) "gravitas_space_poi_kanim"),
-                initialAnim =  "station_1"
+                initialAnim =  IconAnimName
             }
         };
 
@@ -37,25 +46,20 @@ namespace Rockets_TinyYetBig.SpaceStations
             Debug.Log("MY WorldID:" + SpaceStationInteriorId);
             if (SpaceStationInteriorId < 0)
             {
-                var interiorWorld = SpaceStationManager.Instance.CreateSpaceStationInteriorWorld(gameObject, "interiors/OrbitalSpaceStation", new Vector2I(27, 37), null);
+                var interiorWorld = SpaceStationManager.Instance.CreateSpaceStationInteriorWorld(gameObject, "interiors/"+InteriorTemplate, new Vector2I(27, 37), null);
                 SpaceStationInteriorId = interiorWorld.id;
                 Debug.Log("new WorldID:" + SpaceStationInteriorId);
                 Debug.Log("ADDED NEW SPACE STATION INTERIOR");
             }
             ClusterManager.Instance.GetWorld(SpaceStationInteriorId).AddTag(ModAssets.Tags.IsSpaceStation);
-            Debug.Log(Location.Q + ","+Location.R + " RASDKANMSDKAO");
+            
             base.OnSpawn();
             this.SetCraftStatus(CraftStatus.InFlight);
-            Debug.Log(Location.Q + "," + Location.R + " RASDKANMSDKAO");
-            Debug.Log(" viss"+ IsVisible);
-            var destination = gameObject.GetComponent<RocketClusterDestinationSelector>();
-            destination.SetDestination(this.Location);
-        }
-        public new void Sim4000ms(float dt)
-        {
 
-            Debug.Log(Location.Q + "," + Location.R + " Status: "+ Status);
-        }
+            var destinationSelector = gameObject.GetComponent<RocketClusterDestinationSelector>();
+            destinationSelector.SetDestination(this.Location);
 
+            IsOrbitalSpaceStation = ClusterGrid.Instance.GetVisibleEntityOfLayerAtAdjacentCell(this.Location, EntityLayer.Asteroid) != null;
+        }
     }
 }

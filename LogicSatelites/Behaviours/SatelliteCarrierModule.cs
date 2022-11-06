@@ -44,11 +44,11 @@ namespace LogicSatellites.Behaviours
 				}
 				else if (locationRule == DeployLocation.orbital)
 				{
-					return atCurrentLocation == null && ClusterGrid.Instance.GetVisibleEntityOfLayerAtAdjacentCell(component.Location, EntityLayer.Asteroid);
+					return atCurrentLocation == null && ClusterGrid.Instance.GetVisibleEntityOfLayerAtAdjacentCell(component.Location, EntityLayer.Asteroid) != null;
 				}
 				else if (locationRule == DeployLocation.deepSpace)
 				{
-					return atCurrentLocation == null && !ClusterGrid.Instance.GetVisibleEntityOfLayerAtAdjacentCell(component.Location, EntityLayer.Asteroid);
+					return atCurrentLocation == null && ClusterGrid.Instance.GetVisibleEntityOfLayerAtAdjacentCell(component.Location, EntityLayer.Asteroid) == null;
 				}
 				else if (locationRule == DeployLocation.temporalTear)
 				{

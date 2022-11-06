@@ -10,16 +10,6 @@ namespace Rockets_TinyYetBig
 {
     class ModAssets
     {
-        public static List<string> AllowedBuildingIDsInsideSpaceStation = new List<string>()
-        {
-            ModularLaunchpadPortGasConfig.ID,
-            ModularLaunchpadPortGasUnloaderConfig.ID,
-            ModularLaunchpadPortLiquidConfig.ID,
-            ModularLaunchpadPortLiquidUnloaderConfig.ID,
-            ModularLaunchpadPortSolidConfig.ID,
-            ModularLaunchpadPortSolidUnloaderConfig.ID
-        };
-
 
         public class Tags
         {

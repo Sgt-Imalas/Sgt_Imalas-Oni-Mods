@@ -62,6 +62,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 if (Config.Instance.EnableSolarNosecone)
                     AddRocketModuleToBuildList(NoseConeSolarConfig.ID, new RocketCategory[] { RocketCategory.nosecones, RocketCategory.power }, NoseconeBasicConfig.ID);
 
+                AddRocketModuleToBuildList(NatGasEngineClusterConfig.ID, RocketCategory.engines, SteamEngineClusterConfig.ID);
 
                 //if (Config.Instance.LandingLegs)
                 //    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, InvisibleLandingPlatformConfig.ID, null, LaunchPadConfig.ID);
