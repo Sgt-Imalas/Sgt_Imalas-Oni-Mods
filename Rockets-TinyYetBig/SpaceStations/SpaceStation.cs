@@ -19,7 +19,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 
 
         [Serialize]
-        public bool IsOrbitalSpaceStation = false;
+        public int IsOrbitalSpaceStationWorldId = -1;
 
 
         public string InteriorTemplate = "OrbitalSpaceStation";
@@ -59,7 +59,13 @@ namespace Rockets_TinyYetBig.SpaceStations
             var destinationSelector = gameObject.GetComponent<RocketClusterDestinationSelector>();
             destinationSelector.SetDestination(this.Location);
 
-            IsOrbitalSpaceStation = ClusterGrid.Instance.GetVisibleEntityOfLayerAtAdjacentCell(this.Location, EntityLayer.Asteroid) != null;
+            var planet = ClusterGrid.Instance.GetVisibleEntityOfLayerAtAdjacentCell(this.Location, EntityLayer.Asteroid);
+            if (planet != null)
+            {
+
+                IsOrbitalSpaceStationWorldId = planet.GetComponent<WorldContainer>().id;
+            }
+
         }
     }
 }
