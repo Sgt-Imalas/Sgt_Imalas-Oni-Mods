@@ -24,7 +24,7 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>Advanced Radbolt Storage</ModName>
-		<ModDescription>This mod adds a new radbolt storage that has an adjustable output direction</ModDescription>
+		<ModDescription>This mod adds an adjustable output direction to the radbolt storage</ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>498381</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
