@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31624.102
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoboRockets", "Robo Rockets\RoboRockets.csproj", "{AAA43DBC-7B67-4027-B615-4289936FB99C}"
 EndProject
@@ -42,7 +42,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DupePodRailgun", "DupePodRa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TemplateToExport", "TemplateToExport\TemplateToExport.csproj", "{A680C402-705D-423A-AF09-D054B3D6424C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreDreamJournals", "StoreDreamJournals\StoreDreamJournals.csproj", "{C969069D-E336-4487-9B01-2BD856246C72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreDreamJournals", "StoreDreamJournals\StoreDreamJournals.csproj", "{C969069D-E336-4487-9B01-2BD856246C72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RotatableRadboltStorage", "RotatableRadboltStorage\RotatableRadboltStorage.csproj", "{1BF5EEA9-D320-4D86-A1CC-CB08486EF2AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -118,6 +120,10 @@ Global
 		{C969069D-E336-4487-9B01-2BD856246C72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C969069D-E336-4487-9B01-2BD856246C72}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{C969069D-E336-4487-9B01-2BD856246C72}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{1BF5EEA9-D320-4D86-A1CC-CB08486EF2AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BF5EEA9-D320-4D86-A1CC-CB08486EF2AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BF5EEA9-D320-4D86-A1CC-CB08486EF2AD}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BF5EEA9-D320-4D86-A1CC-CB08486EF2AD}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,187 @@
+﻿using KSerialization;
+using STRINGS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
+
+namespace Rockets_TinyYetBig.Behaviours
+{
+    class AdvancedHEPBatteryConfig : KMonoBehaviour,
+        IHighEnergyParticleDirection,
+        ISim200ms, ISaveLoadable,
+        //IUserControlledCapacity, 
+        ISingleSliderControl
+    {
+        [MyCmpReq]
+        private KSelectable selectable;
+        [Serialize]
+        private EightDirection _direction;
+        private MeterController directionController;
+
+        private static readonly EventSystem.IntraObjectHandler<AdvancedHEPBatteryConfig> OnStorageChangedDelegate
+            = new EventSystem.IntraObjectHandler<AdvancedHEPBatteryConfig>((component, data) => component.OnStorageChange(data));
+
+        [MyCmpReq]
+        public HighEnergyParticleStorage hepStorage;
+        private MeterController m_meter;
+
+
+
+        public bool AllowSpawnParticles => hasLogicWire && isLogicActive;
+        private bool hasLogicWire;
+        private bool isLogicActive;
+        private float launchTimer = 0;
+        private readonly float minLaunchInterval = 1f;
+        public void Sim200ms(float dt)
+        {
+            launchTimer += dt;
+            if (launchTimer < (double)minLaunchInterval || !AllowSpawnParticles || (double)hepStorage.Particles < particleThreshold)
+                return;
+            launchTimer = 0.0f;
+            Fire();
+        }
+
+        private void OnLogicValueChanged(object data)
+        {
+            LogicValueChanged logicValueChanged = (LogicValueChanged)data;
+            if (!(logicValueChanged.portID == HEPBattery.FIRE_PORT_ID))
+                return;
+            isLogicActive = logicValueChanged.newValue > 0;
+            hasLogicWire = GetNetwork() != null;
+        }
+        private LogicCircuitNetwork GetNetwork() => Game.Instance.logicCircuitManager.GetNetworkForCell(GetComponent<LogicPorts>().GetPortCell(HEPBattery.FIRE_PORT_ID));
+
+        public int GetCircularHEPOutputCell()
+        {
+            int x = 0, y = 0;
+            if (Direction.ToString().Contains("Down"))
+                y -= 1;
+            else if (Direction.ToString().Contains("Up"))
+                y += 1;
+            if (Direction.ToString().Contains("Right"))
+                x += 1;
+            else if (Direction.ToString().Contains("Left"))
+                x -= 1;
+            var build = GetComponent<Building>();
+
+            var offset = build.GetHighEnergyParticleOutputOffset();
+            offset.x += x;
+            offset.y += y;
+
+            int cell = Grid.OffsetCell(GetComponent<Building>().GetCell(), offset);
+            return cell;
+        }
+
+        public void Fire()
+        {
+            int particleOutputCell = GetCircularHEPOutputCell();
+            GameObject gameObject = GameUtil.KInstantiate(Assets.GetPrefab((Tag)"HighEnergyParticle"), Grid.CellToPosCCC(particleOutputCell, Grid.SceneLayer.FXFront2), Grid.SceneLayer.FXFront2);
+            gameObject.SetActive(true);
+            if (!(gameObject != null))
+                return;
+            HighEnergyParticle component = gameObject.GetComponent<HighEnergyParticle>();
+            component.payload = hepStorage.ConsumeAndGet(particleThreshold);
+            component.SetDirection(Direction);
+        }
+
+
+        //public LocString CapacityUnits => UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES;
+
+        public IStorage Storage => hepStorage;
+        public EightDirection Direction
+        {
+            get => _direction;
+            set
+            {
+                _direction = value;
+                if (directionController == null)
+                    return;
+                directionController.SetPositionPercent(45f * EightDirectionUtil.GetDirectionIndex(_direction) / 360f);
+            }
+        }
+
+        #region CapacityChange
+
+        public float physicalFuelCapacity;
+        public float UserMaxCapacity
+        {
+            get => hepStorage.capacity;
+            set
+            {
+                hepStorage.capacity = value;
+                Trigger((int)GameHashes.ParticleStorageCapacityChanged, this);
+            }
+        }
+        public float MinCapacity => 0.0f;
+        public float MaxCapacity => physicalFuelCapacity;
+
+        public float AmountStored => hepStorage.Particles;
+
+        public bool WholeValues => false;
+        #endregion
+
+        protected override void OnSpawn()
+        {
+            base.OnSpawn();
+            //if (infoStatusItem_Logic == null)
+            //{
+            //    infoStatusItem_Logic = new StatusItem("HEPRedirectorLogic", "BUILDING", "", StatusItem.IconType.Info, NotificationType.Neutral, false, OverlayModes.None.ID);
+            //    infoStatusItem_Logic.resolveStringCallback = new Func<string, object, string>(ResolveInfoStatusItem);
+            //    infoStatusItem_Logic.resolveTooltipCallback = new Func<string, object, string>(ResolveInfoStatusItemTooltip);
+            //}
+            //this.selectable.AddStatusItem(infoStatusItem_Logic, (object)this);
+
+
+
+            m_meter = new MeterController(GetComponent<KBatchedAnimController>(), "meter_target", "meter", Meter.Offset.Infront, Grid.SceneLayer.NoLayer, Array.Empty<string>());
+            m_meter.gameObject.GetComponent<KBatchedAnimTracker>().matchParentOffset = true;
+            directionController = new MeterController(GetComponent<KBatchedAnimController>(), "redirector_target", "redirector", Meter.Offset.Infront, Grid.SceneLayer.NoLayer, Array.Empty<string>());
+            directionController.gameObject.GetComponent<KBatchedAnimTracker>().matchParentOffset = true;
+
+            Direction = Direction;
+            OnStorageChange(null);
+            //this.Subscribe<RadiationBatteryOutputHandler>((int)GameHashes.ParticleStorageCapacityChanged, OnStorageChangedDelegate);
+            Subscribe((int)GameHashes.OnParticleStorageChanged, OnStorageChangedDelegate);
+            Subscribe((int)GameHashes.LogicEvent, new Action<object>(OnLogicValueChanged));
+
+        }
+
+
+        private void OnStorageChange(object data) => m_meter.SetPositionPercent(hepStorage.Particles / Mathf.Max(1f, hepStorage.capacity));
+        protected override void OnCleanUp()
+        {
+            base.OnCleanUp();
+        }
+
+        //private bool OnParticleCaptureAllowed(HighEnergyParticle particle) => true;
+
+        #region SidescreenSliderForCapacityThrowout
+
+        [Serialize]
+        public float particleThreshold = 50f;
+
+        public string SliderTitleKey => "STRINGS.UI.UISIDESCREENS.RADBOLTTHRESHOLDSIDESCREEN.TITLE";
+
+        public string SliderUnits => (string)UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES;
+
+
+        public int SliderDecimalPlaces(int index) => 0;
+
+        public float GetSliderMin(int index) => 0;
+
+        public float GetSliderMax(int index) => 100;
+
+        public float GetSliderValue(int index) => particleThreshold;
+
+        public void SetSliderValue(float value, int index) => particleThreshold = value;
+
+        public string GetSliderTooltipKey(int index) => "STRINGS.UI.UISIDESCREENS.RADBOLTTHRESHOLDSIDESCREEN.TOOLTIP";
+
+        string ISliderControl.GetSliderTooltip() => string.Format((string)Strings.Get("STRINGS.UI.UISIDESCREENS.RADBOLTTHRESHOLDSIDESCREEN.TOOLTIP"), particleThreshold);
+
+        #endregion
+    }
+}
