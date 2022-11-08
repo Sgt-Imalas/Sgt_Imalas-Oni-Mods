@@ -22,7 +22,7 @@ namespace SetStartDupes
 
         public StartDupeConfig()
         {
-            DuplicantStartAmount = 1;
+            DuplicantStartAmount = 3;
         }
     }
 }

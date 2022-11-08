@@ -3,21 +3,21 @@
 [h1]Introduction[/h1]
 
 This mod allows to adjust the amount of Duplicants you start the game with.
-Also features individual selection for trait, interest and reactions of duplicants
+Also features individual selection of traits, interests and reactions of duplicants.
 
 
-[h1]Current latest Version: 2.0.1[/h1]
+[h1]Current latest Version: 2.0.3[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
 [list]
-[*] By Default, enabling the mod sets the amount of Duplicants to start with to 1.
-[*] This value is adjustable in mod settings to start with up to 16 duplicants.
+[*] By Default, enabling the mod sets the amount of Duplicants to start with to 3.
+[*] This value is adjustable in mod settings to start with a number of between 1 and 16 duplicants.
 [*] Allows to individually change the different Traits, Interests and Reactions of a Duplicant (similar to DGSM).
 [/list] 
 
 Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2869608898]Bio-Inks[/url] 
-
+Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1717999057]Always 3 Interests[/url] 
 Incompatible with DGSM
 
 [h1]Known Issues[/h1]
