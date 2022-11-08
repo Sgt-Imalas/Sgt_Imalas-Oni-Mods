@@ -1,0 +1,38 @@
+﻿[img]https://i.imgur.com/VgZFBU7.png[/img]
+
+[h1]Introduction[/h1]
+
+This mod allows to change the output direction of the radbolt chamber.
+
+[h1]Current latest Version: 1.0.0[/h1]
+
+[hr][/hr]
+[h1]Features[/h1]
+[list]
+[*] Selectable output direction on the radbolt chamber
+[*] Custom anim for the different directions
+[*] Mod can be safely removed, all radbolt chambers will revert to facing upwards
+
+[hr][/hr]
+[h1]Known Issues[/h1]
+[list]
+[*] the output tile indicator is shiftet to occupy the same tile as the input, this is purely visual
+[/list]
+
+[h1]Bug Reports[/h1]
+Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+
+Where to find the Log:
+[list]
+[*]Windows: 
+    C:\Users\%username%\AppData\LocalLow\Klei\Oxygen Not Included\Player.log
+[*]Mac: 
+    ~/Library/Logs/Klei/Oxygen Not Included/Player.log
+[*] Linux: 
+~/.config/unity3d/Klei/Oxygen Not Included/Player.log
+[/list] 
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
+

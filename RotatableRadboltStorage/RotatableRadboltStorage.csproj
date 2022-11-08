@@ -23,9 +23,9 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>Advanced Radbolt Storage</ModName>
+		<ModName>Rotatable Radbolt Chamber Output</ModName>
 		<ModDescription>This mod adds an adjustable output direction to the radbolt storage</ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
+		<SupportedContent>EXPANSION1_ID</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>498381</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
