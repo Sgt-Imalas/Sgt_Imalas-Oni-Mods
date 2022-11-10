@@ -100,7 +100,7 @@ namespace UtilLibs
 #if DEBUG
                         foreach(var e in events)
                         {
-
+                            Debug.Log("All AnimData: {0}, {1}, {2}, {3}".F(e.name, e.file, e.frame, e.ToString()));
                         }
 
                         Debug.Log("Adding {0:D} audio event(s) to anim {1}.{2}".F(events.
