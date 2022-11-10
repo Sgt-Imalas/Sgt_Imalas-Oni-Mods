@@ -12,7 +12,7 @@ namespace Rockets_TinyYetBig.SpaceStations
     {
 
         [Serialize]
-        private string m_name = "SPACE STATION 101";
+        private string m_name = "SpaceStation";
 
         [Serialize]
         public int SpaceStationInteriorId = -1;
@@ -40,7 +40,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         public override string Name => this.m_name;
         public override bool IsVisible => true;
-        public override EntityLayer Layer => EntityLayer.Asteroid;
+        public override EntityLayer Layer => EntityLayer.Craft;
         public override bool SpaceOutInSameHex() => true;
         public override ClusterRevealLevel IsVisibleInFOW => ClusterRevealLevel.Visible;
         public override Sprite GetUISprite() => Assets.GetSprite("rocket_landing"); //Def.GetUISprite((object)this.gameObject).first;
@@ -56,6 +56,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                 Debug.Log("ADDED NEW SPACE STATION INTERIOR");
             }
             ClusterManager.Instance.GetWorld(SpaceStationInteriorId).AddTag(ModAssets.Tags.IsSpaceStation);
+            
             base.OnSpawn();
             this.SetCraftStatus(CraftStatus.InFlight);
 
