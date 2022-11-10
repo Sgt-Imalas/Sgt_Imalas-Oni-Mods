@@ -17,7 +17,7 @@ namespace Rockets_TinyYetBig.Buildings
 
         public override BuildingDef CreateBuildingDef()
         {
-            string tubeKanim = Config.Instance.CompressInteriors ? "rocket_control_station_kanim" : "rocket_control_station_kanim";
+            string tubeKanim = "space_station_docking_door_kanim";
 
 
             float[] materialMass = new float[]
@@ -49,6 +49,10 @@ namespace Rockets_TinyYetBig.Buildings
             buildingDef.OverheatTemperature = 2273.15f;
             buildingDef.Floodable = true;
             buildingDef.Entombable = true;
+
+            buildingDef.ObjectLayer = ObjectLayer.Building;
+            buildingDef.SceneLayer = Grid.SceneLayer.Background;
+            buildingDef.ForegroundLayer = Grid.SceneLayer.Building;
 
             buildingDef.PermittedRotations = PermittedRotations.Unrotatable;
 

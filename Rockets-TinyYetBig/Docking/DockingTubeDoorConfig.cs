@@ -74,6 +74,7 @@ namespace Rockets_TinyYetBig.Buildings
             KPrefabID component = go.GetComponent<KPrefabID>();
             component.AddTag(GameTags.RocketInteriorBuilding);
             component.AddTag(RoomConstraints.ConstraintTags.RocketInterior);
+            component.AddTag(ModAssets.Tags.RocketInteriorOnlyBuilding);
             //component.AddTag(GameTags.UniquePerWorld);
             IntitializeStorageConnections();
         }
@@ -93,6 +94,13 @@ namespace Rockets_TinyYetBig.Buildings
             go.AddOrGet<MoveToDocked>();
             go.AddOrGet<NavTeleporter>();
             go.AddComponent<DockingDoor>();
+
+            FakeFloorAdder fakeFloorAdder = go.AddOrGet<FakeFloorAdder>();
+            fakeFloorAdder.floorOffsets = new CellOffset[]
+            {
+                new CellOffset(0, -1)
+            };
+            fakeFloorAdder.initiallyActive = true;
         }
 
         private void AttachPorts(GameObject go)
