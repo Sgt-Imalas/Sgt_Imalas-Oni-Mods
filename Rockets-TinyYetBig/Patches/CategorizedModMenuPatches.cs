@@ -103,7 +103,7 @@ namespace Rockets_TinyYetBig
                             }
                         }
                         var categoryToDisable = __instance.categories.Find(categ => categ.name == category.Key.ToString());
-                        if (categoryToDisable != null)
+                        if (!categoryToDisable.IsNullOrDestroyed())
                         {
                             categoryToDisable.SetActive(keepCategory);
                         }
@@ -120,8 +120,6 @@ namespace Rockets_TinyYetBig
         [HarmonyPatch(nameof(SelectModuleSideScreen.SpawnButtons))]
         public static class CategoryPatchTest
         {
-
-
             public static void ToggleCategory(int category, SelectModuleSideScreen reference,bool initializing = false)
             {
                 string categoryName = category.ToString();
@@ -159,11 +157,18 @@ namespace Rockets_TinyYetBig
             private static void ClearButtons(SelectModuleSideScreen _this)
             {
                 foreach (var button in ModAssets.CategorizedButtons)
-                    Util.KDestroyGameObject(button.Value);
+                {
+                    if(!button.IsNullOrDestroyed())
+                        Util.KDestroyGameObject(button.Value);
+                }
                 for (int index = _this.categories.Count - 1; index >= 0; --index)
-                    Util.KDestroyGameObject(_this.categories[index]);
+                {
+
+                    if (!_this.categories[index].IsNullOrDestroyed())
+                        Util.KDestroyGameObject(_this.categories[index]);
+                }
+
                 _this.categories.Clear();
-                //_this.buttons.Clear(); 
                 ModAssets.CategorizedButtons.Clear();
             }
 
