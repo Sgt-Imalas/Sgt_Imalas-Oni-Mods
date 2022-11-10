@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace Rockets_TinyYetBig.Buildings
 {
@@ -21,6 +22,8 @@ namespace Rockets_TinyYetBig.Buildings
 
         public override BuildingDef CreateBuildingDef()
         {
+            UtilMethods.CopyRocketSoundsToAnim("rocket_natgas_engine_kanim", "rocket_petro_engine_small_kanim");
+
             float[] constructionMass = BUILDINGS.ROCKETRY_MASS_KG.ENGINE_MASS_SMALL;
             string[] constructioMaterials = new string[1]
             {
@@ -58,6 +61,8 @@ namespace Rockets_TinyYetBig.Buildings
             buildingDef.ShowInBuildMenu = false;
             buildingDef.UtilityInputOffset = new CellOffset(-1, 3);
             buildingDef.InputConduitType = ConduitType.Gas;
+
+
             return buildingDef;
         }
 

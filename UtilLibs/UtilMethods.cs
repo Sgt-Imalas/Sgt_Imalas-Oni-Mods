@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using PeterHan.PLib.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -36,6 +37,81 @@ namespace UtilLibs
             {
                 Debug.Log(sound);
             }
+        }
+
+        /// <summary>
+        /// Copies the sounds from one animation to another animation.
+        /// </summary>
+        /// <param name="dstAnim">The destination anim file name.</param>
+        /// <param name="srcAnim">The source anim file name.</param>
+        public static void CopySoundsToAnim(string dstAnim, string srcAnim)
+        {
+
+            Debug.Log("Trying to add audio from {0} to {1}".F(srcAnim, dstAnim));
+            if (string.IsNullOrEmpty(dstAnim))
+                throw new ArgumentNullException(nameof(dstAnim));
+            if (string.IsNullOrEmpty(srcAnim))
+                throw new ArgumentNullException(nameof(srcAnim));
+            var anim = Assets.GetAnim(dstAnim);
+            if (anim != null)
+            {
+                var audioSheet = GameAudioSheets.Get();
+                var animData = anim.GetData();
+                // For each anim in the kanim, look for existing sound events under the old
+                // anim's file name
+                for (int i = 0; i < animData.animCount; i++)
+                {
+                    string animName = animData.GetAnim(i)?.name ?? "";
+                    var events = audioSheet.GetEvents(srcAnim + "." + animName);
+                    if (events != null)
+                    {
+#if DEBUG
+                        Debug.Log("Adding {0:D} audio event(s) to anim {1}.{2}".F(events.
+                            Count, dstAnim, animName));
+#endif
+                        audioSheet.events[dstAnim + "." + animName] = events;
+                    }
+                }
+            }
+            else
+                Debug.LogWarning("Destination animation \"{0}\" not found!".F(dstAnim));
+        }
+        public static void CopyRocketSoundsToAnim(string dstAnim, string srcAnim)
+        {
+
+            Debug.Log("Trying to add audio from {0} to {1}".F(srcAnim, dstAnim));
+            if (string.IsNullOrEmpty(dstAnim))
+                throw new ArgumentNullException(nameof(dstAnim));
+            if (string.IsNullOrEmpty(srcAnim))
+                throw new ArgumentNullException(nameof(srcAnim));
+            var anim = Assets.GetAnim(dstAnim);
+            if (anim != null)
+            {
+                var audioSheet = GameAudioSheets.Get();
+                var animData = anim.GetData();
+                // For each anim in the kanim, look for existing sound events under the old
+                // anim's file name
+                for (int i = 0; i < animData.animCount; i++)
+                {
+                    string animName = animData.GetAnim(i)?.name ?? "";
+                    var events = audioSheet.GetEvents(srcAnim + "." + animName);
+                    if (events != null)
+                    {
+#if DEBUG
+                        foreach(var e in events)
+                        {
+
+                        }
+
+                        Debug.Log("Adding {0:D} audio event(s) to anim {1}.{2}".F(events.
+                            Count, dstAnim, animName));
+#endif
+                        audioSheet.events[dstAnim + "." + animName] = events;
+                    }
+                }
+            }
+            else
+                Debug.LogWarning("Destination animation \"{0}\" not found!".F(dstAnim));
         }
     }
 }
