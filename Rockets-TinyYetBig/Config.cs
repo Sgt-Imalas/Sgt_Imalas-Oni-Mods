@@ -10,6 +10,7 @@ namespace Rockets_TinyYetBig
 {
     [Serializable]
     [RestartRequired]
+    [ConfigFile(SharedConfigLocation: true)]
     [ModInfo("https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods", "preview.png")]
     public class Config : SingletonOptions<Config>
     {
