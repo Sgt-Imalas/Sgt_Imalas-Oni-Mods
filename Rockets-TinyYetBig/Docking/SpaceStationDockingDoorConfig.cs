@@ -67,6 +67,7 @@ namespace Rockets_TinyYetBig.Buildings
             component.AddTag(GameTags.RocketInteriorBuilding);
             component.AddTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding);
             component.AddTag(ModAssets.Tags.RocketPlatformTag);
+            go.AddComponent<ZoneTile>();
             //component.AddTag(GameTags.UniquePerWorld);
             //IntitializeStorageConnections();
             go.AddOrGetDef<DockedRocketMaterialDistributor.Def>();
