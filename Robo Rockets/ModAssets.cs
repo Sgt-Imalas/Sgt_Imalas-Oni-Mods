@@ -4,10 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RoboRockets
+namespace Robo_Rockets
 {
-    class ModAssets
+    public class ModAssets
     {
+        public class Tags
+        {
+            public static Tag SpaceBrain = TagManager.Create("RR_SpaceBrainFlyer");
+        }
         public static List<int> ForbiddenInteriorIDs = new List<int>();
     }
 }

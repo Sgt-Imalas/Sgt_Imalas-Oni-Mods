@@ -5,38 +5,29 @@ using TUNING;
 using UnityEngine;
 namespace Robo_Rockets 
 {
-    class AIControlModuleConfig : IBuildingConfig
+    class EarlyGameAIControlModuleConfig : IBuildingConfig
     {
-        public const string ID = "RR_AIControlModule";
+        public const string ID = "RR_EarlyGameAIControlModule";
         
 
 
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public override BuildingDef CreateBuildingDef()
         {
-            float[] matCosts = {300f,1};
-
-            bool usesAdvRecipe = Config.Instance.UsesNeuralVaccilatorRecharge;
-            string[] construction_materials;
-            if (usesAdvRecipe) {
-                construction_materials = new string[2]
-                {
-                    "RefinedMetal"
-                    ,GeneShufflerRechargeConfig.tag.ToString()
-                };
-            }
-            else
+            float[] mass = new float[] {
+                450f,
+                150f
+            }; ;
+            string[] construction_materials_ = new string[]
             {
-                construction_materials = new string[1]
-                {
-                    "RefinedMetal"
-                };
-            }
+                "Steel",
+                "Glass",
+            };
             EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
 
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 3, "rocket_habitat_ai_module_kanim", 1000, 400f, matCosts, construction_materials, 9999f, BuildLocationRule.Anywhere, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 2, "rocket_autopilot_small_kanim", 1000, 400f, mass, construction_materials_, 9999f, BuildLocationRule.Anywhere, none, noise);
             BuildingTemplates.CreateRocketBuildingDef(buildingDef);
             buildingDef.AttachmentSlotTag = GameTags.Rocket;
             buildingDef.SceneLayer = Grid.SceneLayer.Building;
@@ -57,9 +48,7 @@ namespace Robo_Rockets
             go.GetComponent<KPrefabID>().AddTag(GameTags.LaunchButtonRocketModule);
 
             go.AddOrGet<AssignmentGroupController>().generateGroupOnStart = true;
-            var aiConfig = go.AddOrGet<AIPassengerModule>();
-            aiConfig.interiorReverbSnapshot = AudioMixerSnapshots.Get().SmallRocketInteriorReverbSnapshot;
-            aiConfig.AiSpeed = 0.75f;
+            go.AddOrGet<AIPassengerModule>().interiorReverbSnapshot = AudioMixerSnapshots.Get().SmallRocketInteriorReverbSnapshot;
             go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/AIRocketV2";
             go.AddOrGet<NavTeleporter>();
             go.AddOrGet<LaunchableRocketCluster>();
@@ -71,7 +60,7 @@ namespace Robo_Rockets
 
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1] //top module attaches here
             {
-                new BuildingAttachPoint.HardPoint(new CellOffset(0, 3), GameTags.Rocket, (AttachableBuilding) null)
+                new BuildingAttachPoint.HardPoint(new CellOffset(0, 2), GameTags.Rocket, (AttachableBuilding) null)
             };
         }
         public override void DoPostConfigurePreview(BuildingDef def, GameObject go)

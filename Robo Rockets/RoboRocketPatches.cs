@@ -198,13 +198,13 @@ namespace Robo_Rockets
         {
             public static void Postfix(ClustercraftExteriorDoor __instance)
             {
-                if (__instance.gameObject.GetComponent<AIPassengerModule>() != null)
+                if (__instance.gameObject.TryGetComponent<AIPassengerModule>(out var aiModue))
                 {
                     int worldRefID = (int)typeof(ClustercraftExteriorDoor).GetField("targetWorldId", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
                     Clustercraft component = __instance.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
 
-                    Debug.Log("AI Module added; adjusting automated Speed to " + Config.Instance.AiSpeedMultiplier);
-                    component.AutoPilotMultiplier = Config.Instance.AiSpeedMultiplier;
+                    Debug.Log("AI Module added; adjusting automated Speed to " + aiModue.GiveSpeed());
+                    component.AutoPilotMultiplier = aiModue.GiveSpeed();
 
                     Debug.Log("World forbidden to look into: " + worldRefID);
                     ModAssets.ForbiddenInteriorIDs.Add(worldRefID);
@@ -213,7 +213,7 @@ namespace Robo_Rockets
         }
         [HarmonyPatch(typeof(ClustercraftExteriorDoor))]
         [HarmonyPatch("OnCleanUp")]
-        public class RemoveInteriorToForbiddenListIfAI
+        public class RemoveInteriorFromForbiddenListIfAI
         {
             public static void Prefix(ClustercraftExteriorDoor __instance)
             {

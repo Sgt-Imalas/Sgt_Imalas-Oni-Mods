@@ -2,7 +2,7 @@
 using PeterHan.PLib.Options;
 using System;
 
-namespace KnastoronOniMods
+namespace Robo_Rockets
 {
     [Serializable]
     [RestartRequired]
@@ -14,15 +14,15 @@ namespace KnastoronOniMods
         public bool UsesNeuralVaccilatorRecharge { get; set; }
         public Config()
         {
-                AiSpeedMultiplier = 1.0f;
-               UsesNeuralVaccilatorRecharge = true;
+            AiLearnStart = 0.75f;
+            UsesNeuralVaccilatorRecharge = true;
         }
 
 
-        [Option("Ai Speed Multiplier", "adjust the speed multiplier of AI Controlled Rockets; 0.5 is the vanilla autopilot speed, 1.0 is no penalty, 1.75 is the Equivalent of a dupe with maxed piloting")]
+        [Option("Ai Brain Start Speed", "adjust the speed multiplier of AI Controlled Rockets; 0.5 is the vanilla autopilot speed, 1.0 is no penalty, 1.75 is the Equivalent of a dupe with maxed piloting")]
         [JsonProperty]
-        [Limit(0.5f, 1.75f)]
-        public float AiSpeedMultiplier { get; set; }
+        [Limit(0.33f, 1.0f)]
+        public float AiLearnStart { get; set; }
         
     }
 }

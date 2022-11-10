@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UtilLibs;
 
-namespace RoboRockets.Patches
+namespace Robo_Rockets.Patches
 {
     class AddBuildingsPatches
     {
@@ -19,6 +19,8 @@ namespace RoboRockets.Patches
             public static void Prefix()
             {
                 RocketryUtils.AddRocketModuleToBuildList(AIControlModuleConfig.ID, RocketryUtils.RocketCategory.habitats, "HabitatModuleMedium");
+                RocketryUtils.AddRocketModuleToBuildList(AINoseconeConfig.ID, RocketryUtils.RocketCategory.habitats, "HabitatModuleMedium");
+                RocketryUtils.AddRocketModuleToBuildList(EarlyGameAIControlModuleConfig.ID, RocketryUtils.RocketCategory.habitats, "HabitatModuleMedium");
             }
         }
 

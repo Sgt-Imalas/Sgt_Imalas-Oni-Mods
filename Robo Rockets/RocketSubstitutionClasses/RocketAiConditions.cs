@@ -27,7 +27,7 @@ namespace Robo_Rockets
             this.hasNosecone = (ConditionHasNosecone)component.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketPrep, (ProcessCondition)new ConditionHasNosecone(this.GetComponent<LaunchableRocketCluster>()));
             this.onLaunchPad = (ConditionOnLaunchPad)component.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketPrep, (ProcessCondition)new ConditionOnLaunchPad(this.GetComponent<RocketModuleCluster>().CraftInterface));
             this.flightPathIsClear = (ConditionFlightPathIsClear)component.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketFlight, (ProcessCondition)new ConditionFlightPathIsClear(this.gameObject, 1));
-            this.conditionAiHasControl = (ConditionAiHasControl)component.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketBoard, (ProcessCondition)new ConditionAiHasControl());
+            this.conditionAiHasControl = (ConditionAiHasControl)component.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketBoard, (ProcessCondition)new ConditionAiHasControl(this.GetComponent<RocketModuleCluster>()));
             this.reachable = (ConditionDestinationReachable)component.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketPrep, (ProcessCondition)new ConditionDestinationReachable(this.GetComponent<RocketModule>()));
         }
     }

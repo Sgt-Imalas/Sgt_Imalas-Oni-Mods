@@ -6,10 +6,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RoboRockets
+namespace Robo_Rockets
 {
     public class STRINGS
     {
+        public class ITEMS
+        {
+            public class INDUSTRIAL_PRODUCTS
+            {
+                public class RR_BRAINFLYER
+                {
+                    public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("AI Brain", nameof(RoboRocketConfig));
+                    public static LocString DESC = "This brain learned to fly.";
+                    public static LocString EFFECT = "Seated in a brain jar, this brain will fly your rockets\n\nFlying a rocket slowly increases the brains piloting skill, resulting in faster rockets.\n\nSince it does not have anything to learn, it may fly even more efficient than a duplicant.";
+                }
+            }
+        }
         public class UI
         {
             public class STARMAP
