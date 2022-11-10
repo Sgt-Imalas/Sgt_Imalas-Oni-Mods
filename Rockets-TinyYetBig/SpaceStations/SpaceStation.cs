@@ -62,7 +62,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 
             var destinationSelector = gameObject.GetComponent<RocketClusterDestinationSelector>();
             destinationSelector.SetDestination(this.Location);
-
+            
             var planet = ClusterGrid.Instance.GetVisibleEntityOfLayerAtAdjacentCell(this.Location, EntityLayer.Asteroid);
             if (planet != null)
             {

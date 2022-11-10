@@ -2,8 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using TemplateClasses;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.SpaceStations
@@ -121,7 +124,78 @@ namespace Rockets_TinyYetBig.SpaceStations
                 }
             }
         }
-        
+
+        [HarmonyPatch(typeof(ClusterGrid))]
+        [HarmonyPatch("GetPath")]
+        [HarmonyPatch(new Type[] { typeof(AxialI), typeof(AxialI) , typeof(ClusterDestinationSelector),typeof(string)}, new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out })]
+        public static class HeadBuildingTagAdjustmentsInChainMethod
+        {
+
+            static ClusterGridEntity AllowSpaceStation(ClusterGridEntity original, ClusterDestinationSelector selector, AxialI target)
+            {
+                Debug.Log("All params: " + original + ", " + selector + ", " + target);
+                if(original == null&& selector.requireAsteroidDestination)
+                {
+                    var station = ClusterGrid.Instance.GetEntitiesOnCell(target).OfType<SpaceStation>();
+                    if (station != null &&station.Count()>0)
+                    {
+                        return station.First();
+                    }
+                    
+                }
+
+                return original;
+            }
+
+            private static readonly MethodInfo AllowSpaceStationMethod = AccessTools.Method(
+               typeof(HeadBuildingTagAdjustmentsInChainMethod),
+               nameof(HeadBuildingTagAdjustmentsInChainMethod.AllowSpaceStation)
+            );
+
+
+            private static readonly MethodInfo MethodToFind = AccessTools.Method(
+                typeof(ClusterGrid),
+               nameof(ClusterGrid.GetVisibleEntityOfLayerAtCell)
+            );
+
+            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+            {
+                var code = instructions.ToList();
+                var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Stloc_1);
+
+                if (insertionIndex != -1)
+                {
+#if DEBUG
+                    Debug.Log("GetPathMethod found");
+#endif
+                    code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldarg_3));
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldarg_2));
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, AllowSpaceStationMethod));
+
+                    //foreach (var v in code)
+                        //Console.WriteLine("OPcode: " + v.opcode + ", operand: " + v.operand);
+                }
+
+                return code;
+            }
+        }
+
+
+
+
+        [HarmonyPatch(typeof(ClusterDestinationSelector))]
+        [HarmonyPatch(nameof(Strings.Get))]
+        public static class infodump
+        {
+            public static void Prefix(string key, StringTable ___RootTable)
+            {
+                Debug.Log("KEY: " + key);
+                StringKey stringKey = new StringKey(key);
+                StringEntry stringEntry = ___RootTable.Get(stringKey);
+                Debug.Log("Value: " + stringEntry);
+            }
+        }
+
         //[HarmonyPatch(typeof(FloatingRocketDiagnostic), "Evaluate")]
         //public static class DisableRocketEvaluationOnSpaceStation
         //{
