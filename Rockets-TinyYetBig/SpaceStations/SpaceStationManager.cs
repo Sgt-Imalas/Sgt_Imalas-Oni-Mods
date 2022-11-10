@@ -123,5 +123,19 @@ namespace Rockets_TinyYetBig.SpaceStations
             UnityEngine.Object.Destroy((UnityEngine.Object)world);
         }
 
+        public static int GetSpaceStationWorldIdAtLocation(AxialI location)
+        {
+            foreach (ClusterGridEntity clusterGridEntity in ClusterGrid.Instance.cellContents[location])
+            {
+                if (clusterGridEntity is SpaceStation)
+                {
+                    WorldContainer component = clusterGridEntity.GetComponent<WorldContainer>();
+                    if (component != null)
+                        return component.id;
+                }
+            }
+            return -1;
+        }
+
     }
 }

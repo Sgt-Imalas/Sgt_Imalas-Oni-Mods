@@ -128,9 +128,8 @@ namespace Rockets_TinyYetBig.SpaceStations
         [HarmonyPatch(typeof(ClusterGrid))]
         [HarmonyPatch("GetPath")]
         [HarmonyPatch(new Type[] { typeof(AxialI), typeof(AxialI) , typeof(ClusterDestinationSelector),typeof(string)}, new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out })]
-        public static class HeadBuildingTagAdjustmentsInChainMethod
+        public static class tarnspilerforPathSpaceStation
         {
-
             static ClusterGridEntity AllowSpaceStation(ClusterGridEntity original, ClusterDestinationSelector selector, AxialI target)
             {
                 Debug.Log("All params: " + original + ", " + selector + ", " + target);
@@ -148,8 +147,8 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
 
             private static readonly MethodInfo AllowSpaceStationMethod = AccessTools.Method(
-               typeof(HeadBuildingTagAdjustmentsInChainMethod),
-               nameof(HeadBuildingTagAdjustmentsInChainMethod.AllowSpaceStation)
+               typeof(tarnspilerforPathSpaceStation),
+               nameof(tarnspilerforPathSpaceStation.AllowSpaceStation)
             );
 
 
@@ -184,15 +183,48 @@ namespace Rockets_TinyYetBig.SpaceStations
 
 
         [HarmonyPatch(typeof(ClusterDestinationSelector))]
-        [HarmonyPatch(nameof(Strings.Get))]
-        public static class infodump
+        [HarmonyPatch(nameof(ClusterDestinationSelector.SetDestination))]
+        public static class removeAssertInSetDestination
         {
-            public static void Prefix(string key, StringTable ___RootTable)
+            public static bool Prefix(AxialI location, ClusterDestinationSelector __instance, AxialI ___m_destination)
             {
-                Debug.Log("KEY: " + key);
-                StringKey stringKey = new StringKey(key);
-                StringEntry stringEntry = ___RootTable.Get(stringKey);
-                Debug.Log("Value: " + stringEntry);
+                if (__instance.requireAsteroidDestination)
+                    Debug.Assert(ClusterUtil.GetAsteroidWorldIdAtLocation(location) != -1|| SpaceStationManager.GetSpaceStationWorldIdAtLocation(location)!=-1, (object)string.Format("Cannot SetDestination to {0} as there is no world there", (object)location));
+                ___m_destination = location;
+                __instance.Trigger(543433792, (object)location);
+                return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(RailGunPayload.StatesInstance))]
+        [HarmonyPatch(nameof(RailGunPayload.StatesInstance.Launch))]
+        public static class PatchRailgunPayloadLaunch
+        {
+            public static bool Prefix(AxialI source, AxialI destination, RailGunPayload.StatesInstance __instance)
+            {
+                __instance.GetComponent<BallisticClusterGridEntity>().Configure(source, destination);
+                if (ClusterUtil.GetAsteroidWorldIdAtLocation(destination) != -1)
+                    __instance.sm.destinationWorld.Set(ClusterUtil.GetAsteroidWorldIdAtLocation(destination), __instance);
+                else
+                    __instance.sm.destinationWorld.Set(SpaceStationManager.GetSpaceStationWorldIdAtLocation(destination), __instance);
+                __instance.GoTo((StateMachine.BaseState)__instance.sm.takeoff);
+                return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(RailGunPayload.StatesInstance))]
+        [HarmonyPatch(nameof(RailGunPayload.StatesInstance.Travel))]
+        public static class PatchRailgunPayloadTravel
+        {
+            public static bool Prefix(AxialI source, AxialI destination, RailGunPayload.StatesInstance __instance)
+            {
+                __instance.GetComponent<BallisticClusterGridEntity>().Configure(source, destination);
+                if (ClusterUtil.GetAsteroidWorldIdAtLocation(destination) != -1)
+                    __instance.sm.destinationWorld.Set(ClusterUtil.GetAsteroidWorldIdAtLocation(destination), __instance);
+                else
+                    __instance.sm.destinationWorld.Set(SpaceStationManager.GetSpaceStationWorldIdAtLocation(destination), __instance);
+                __instance.GoTo((StateMachine.BaseState)__instance.sm.travel);
+                return false;
             }
         }
 
