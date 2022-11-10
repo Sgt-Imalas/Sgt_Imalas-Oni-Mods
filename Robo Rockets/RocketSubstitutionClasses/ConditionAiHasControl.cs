@@ -14,16 +14,17 @@ namespace Robo_Rockets
         {
             if(module.TryGetComponent<Storage>(out var storage))
             {
-                if (storage.storageFilters.Contains(ModAssets.Tags.SpaceBrain))
+                module.TryGetComponent<KBatchedAnimController>(out var kanim);
+                
+                if (storage.FindFirst(ModAssets.Tags.SpaceBrain))
                 {
-                    if (storage.MassStored() > 5)
-                    {
-                        return ProcessCondition.Status.Ready;
-                    }
-                    else
-                    {
-                        return ProcessCondition.Status.Failure;
-                    }
+                    kanim.Play("grounded");
+                    return ProcessCondition.Status.Ready;
+                }
+                else
+                {
+                    kanim.Play("grounded_empty");
+                    return ProcessCondition.Status.Failure;                    
                 }
             }
             return ProcessCondition.Status.Ready;

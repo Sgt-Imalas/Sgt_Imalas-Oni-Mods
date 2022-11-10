@@ -21,12 +21,12 @@ namespace Robo_Rockets
                 desc: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RR_BRAINFLYER.DESC,
                 mass: 1f,
                 unitMass: false,
-                anim: Assets.GetAnim("Brain_Controller_kanim"),
+                anim: Assets.GetAnim("brain_item_kanim"),
                 initialAnim: "object",
                 sceneLayer: Grid.SceneLayer.Front,
-                collisionShape: EntityTemplates.CollisionShape.RECTANGLE,
-                width: 0.8f,
-                height: 0.6f,
+                collisionShape: EntityTemplates.CollisionShape.CIRCLE,
+                width: 1.7f,
+                height: 1.9f,
                 isPickupable: true,
                 sortOrder: 0,
                 element: SimHashes.Creature,
@@ -50,6 +50,7 @@ namespace Robo_Rockets
 
         public void OnSpawn(GameObject inst)
         {
+            
         }
     }
 }

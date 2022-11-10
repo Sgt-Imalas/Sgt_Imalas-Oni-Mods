@@ -72,7 +72,16 @@
 	  <None Update="ModAssets\anim\assets\Brain_Controller\Brain_Controller_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module.png">
+	  <None Update="ModAssets\anim\assets\brain_item\brain_item_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\brain_item\brain_item_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\brain_item\brain_item_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module_anim.bytes">

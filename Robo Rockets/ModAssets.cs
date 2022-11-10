@@ -8,7 +8,7 @@ namespace Robo_Rockets
 {
     public class ModAssets
     {
-        public class Tags
+        public static class Tags
         {
             public static Tag SpaceBrain = TagManager.Create("RR_SpaceBrainFlyer");
         }

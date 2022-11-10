@@ -13,7 +13,8 @@ namespace Robo_Rockets
 		public override void OnLoad(Harmony harmony)
 		{
 			GameTags.MaterialBuildingElements.Add(GeneShufflerRechargeConfig.tag);
-			PUtil.InitLibrary(false);
+			GameTags.MaterialBuildingElements.Add(ModAssets.Tags.SpaceBrain);
+            PUtil.InitLibrary(false);
 			new POptions().RegisterOptions(this,typeof(Config));
 			base.OnLoad(harmony);
 		}
