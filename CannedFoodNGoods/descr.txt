@@ -4,17 +4,20 @@
 
 This mod adds a canned barbeque and canned tuna, non spoiling food variants that are made at the crafting station.
 
-[h1]Current latest Version: 2.2.1[/h1]
+[h1]Current latest Version: 3.0.0[/h1]
 
 [hr][/hr]
 
 [h1]Features[/h1]
-New Foods: Canned Barbeque & Canned Tuna
-[list][*] made at the crafting station.
-[*] Canned BBQ has 2000kCal/kg, Canned Tuna has 800kCal/kg.
-[*] requires 500g of (refined) Copper / Aluminum / Steel (configurable in Mod Settings, default is Copper.)
+[list][*] 
+New canned Food variants: [list]
+[*]Canned Barbeque (made from Barbeque)
+[*]Canned Tuna (made from Cooked Seafood)
+[*]Canned Bread (made from Pepper Bread)[/list]
+[*] all foods are made at the crafting station.
+[*] canning requires 500g of (refined) Copper / Aluminum / Steel (material is configurable in Mod Settings, default is Copper.) and 500g of the respective food, resulting in half calorie density of the non-canned material when canned
 [*] does not spoil
-[*] designed for space missions!
+[*] designed for space missions
 [*] once eaten, can scraps are dropped, those can be recycled back into the metal used on construction
 [/list]
 
@@ -26,6 +29,7 @@ New Foods: Canned Barbeque & Canned Tuna
 
 [h1]Credits[/h1]
 Can Trash art made by Kraastoron
+Canned Bread art made by Aki
 Options made with PLib.
 
 [hr][/hr]

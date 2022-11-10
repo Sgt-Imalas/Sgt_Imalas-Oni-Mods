@@ -12,7 +12,7 @@ This mod allows to change the output direction of the radbolt chamber.
 [*] Selectable output direction on the radbolt chamber
 [*] Custom anim for the different directions
 [*] Mod can be safely removed, all radbolt chambers will revert to facing upwards
-
+[/list]
 [hr][/hr]
 [h1]Known Issues[/h1]
 [list]

@@ -21,6 +21,7 @@ namespace CannedFoods.Foods
             {
                 AddCannedTunaRecipe();
                 AddCannedBBQRecipe();
+                AddCannedBreadRecipe();
             }
             private static void AddCannedTunaRecipe()
             {
@@ -66,6 +67,30 @@ namespace CannedFoods.Foods
                 {
                     time = FOOD.RECIPES.SMALL_COOK_TIME,
                     description = STRINGS.ITEMS.FOOD.CF_CANNEDBBQ.DESC,
+                    nameDisplay = RecipeNameDisplay.Result,
+                    fabricators = new List<Tag> { CraftingTableConfig.ID }
+                };
+            }
+            private static void AddCannedBreadRecipe()
+            {
+                var metalTag = ElementLoader.FindElementByHash(ExportSettings.GetMaterialHashForCans()).tag;
+                RecipeElement[] input = new RecipeElement[]
+                {
+                    new RecipeElement(metalTag, 0.5f),
+                    new RecipeElement(SpiceBreadConfig.ID, 0.5f)
+                };
+
+                RecipeElement[] output = new RecipeElement[]
+                {
+                    new RecipeElement(CannedBreadConfig.ID, 1f)
+                };
+
+                string recipeID = ComplexRecipeManager.MakeRecipeID(CraftingTableConfig.ID, input, output);
+
+                CannedBBQConfig.recipe = new ComplexRecipe(recipeID, input, output)
+                {
+                    time = FOOD.RECIPES.SMALL_COOK_TIME,
+                    description = STRINGS.ITEMS.FOOD.CF_CANNEDBREAD.DESC,
                     nameDisplay = RecipeNameDisplay.Result,
                     fabricators = new List<Tag> { CraftingTableConfig.ID }
                 };

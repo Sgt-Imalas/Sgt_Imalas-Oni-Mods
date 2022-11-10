@@ -29,7 +29,7 @@ namespace CannedFoods
                 }
                 public class CF_CANNEDBREAD
                 {
-                    public static LocString NAME = global::STRINGS.UI.FormatAsLink("Canned Bread", CannedTunaConfig.ID);
+                    public static LocString NAME = global::STRINGS.UI.FormatAsLink("Canned Bread", CannedBreadConfig.ID);
                     public static LocString DESC = global::STRINGS.UI.FormatAsLink(global::STRINGS.ITEMS.FOOD.SPICEBREAD.NAME, SpiceBreadConfig.ID) + " preserved for the ages.";
                 }
             }
