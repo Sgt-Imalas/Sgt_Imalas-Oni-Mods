@@ -26,6 +26,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             GameObject craft_go,
             string interiorTemplateName,
             Vector2I spaceStationInteriorSize,
+            bool allowBuilding,
             System.Action callback)
         {
             Vector2I offset;

@@ -109,7 +109,19 @@ namespace Rockets_TinyYetBig.SpaceStations
                 return true;
             }
         }
-
+        [HarmonyPatch(typeof(SelfDestructButtonSideScreen))]
+        [HarmonyPatch(nameof(SelfDestructButtonSideScreen.IsValidForTarget))]
+        public static class NoSpaceStationSelfDestruct
+        {
+            public static void Postfix(GameObject target,ref bool __result)
+            {
+                if (target.TryGetComponent<SpaceStation>(out var station))
+                {
+                    __result = false;
+                }
+            }
+        }
+        
         //[HarmonyPatch(typeof(FloatingRocketDiagnostic), "Evaluate")]
         //public static class DisableRocketEvaluationOnSpaceStation
         //{

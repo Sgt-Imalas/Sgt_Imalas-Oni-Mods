@@ -20,6 +20,10 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         [Serialize]
         public int IsOrbitalSpaceStationWorldId = -1;
+        [Serialize]
+        public bool IsDeconstructable = true;
+        [Serialize]
+        public bool BuildableInterior = true;
 
 
         public string InteriorTemplate = "OrbitalSpaceStation";
@@ -46,7 +50,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             Debug.Log("MY WorldID:" + SpaceStationInteriorId);
             if (SpaceStationInteriorId < 0)
             {
-                var interiorWorld = SpaceStationManager.Instance.CreateSpaceStationInteriorWorld(gameObject, "interiors/"+InteriorTemplate, new Vector2I(27, 37), null);
+                var interiorWorld = SpaceStationManager.Instance.CreateSpaceStationInteriorWorld(gameObject, "interiors/"+InteriorTemplate, new Vector2I(27, 37), BuildableInterior, null);
                 SpaceStationInteriorId = interiorWorld.id;
                 Debug.Log("new WorldID:" + SpaceStationInteriorId);
                 Debug.Log("ADDED NEW SPACE STATION INTERIOR");
@@ -67,5 +71,17 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
 
         }
+
+        public void DestroySpaceStation()
+        {
+            SpaceStationManager.Instance.DestroySpaceStationInteriorWorld(this.SpaceStationInteriorId);
+            UnityEngine.Object.Destroy(this.gameObject);
+        }
+
+        protected override void OnCleanUp()
+        {
+            base.OnCleanUp();
+        }
+
     }
 }

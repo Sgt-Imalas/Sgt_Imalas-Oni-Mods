@@ -11,3 +11,4 @@ Features:
 Fixes & Adjustments:
 - the Fortified Rocket Platform now works correctly with loaders / unloaders
 - the "switch module" button is now disabled on habitats to prevent a vanilla crash that happens when you try that
+- mod options wont reset their configuration in upcoming updates now
