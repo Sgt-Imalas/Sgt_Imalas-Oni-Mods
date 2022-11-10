@@ -11,6 +11,7 @@ namespace CannedFoods
 {
     [Serializable]
     [RestartRequired]
+    [ConfigFile(SharedConfigLocation: true)]
     [ModInfo("Canned Food")]
     public class Config : SingletonOptions<Config>
     {
