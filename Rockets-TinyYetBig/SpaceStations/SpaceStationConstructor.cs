@@ -17,7 +17,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         {
             Vector3 position = new Vector3(-1f, -1f, 0.0f);
             GameObject sat = Util.KInstantiate(Assets.GetPrefab((Tag)prefab), position);
-
+            var spaceStation = sat.GetComponent<SpaceStation>();
             sat.GetComponent<SpaceStation>().Location = location;
             sat.SetActive(true);
         }
