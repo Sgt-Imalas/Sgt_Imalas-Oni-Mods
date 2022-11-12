@@ -85,6 +85,12 @@ namespace Rockets_TinyYetBig.Buildings
             conduitPortTiler.manageRightCap = true;
             conduitPortTiler.manageLeftCap = false;
             conduitPortTiler.leftCapDefaultSceneLayerAdjust = 1;
+
+            go.AddOrGet<OccupyArea>().objectLayers = new ObjectLayer[]
+            {
+                //ObjectLayer.Building,
+                ObjectLayer.Backwall
+            };
         }
 
         void IntitializeStorageConnections()
