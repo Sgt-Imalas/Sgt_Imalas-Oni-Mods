@@ -10,6 +10,16 @@ namespace Rockets_TinyYetBig.SpaceStations
 {
     internal class ExcludePortsFromSpaceStationPatches
     {
+        [HarmonyPatch(typeof(RocketControlStationConfig), "ConfigureBuildingTemplate")]
+        public static class RmRocketControlStationFromSpaceStation
+        {
+            public static void Postfix(GameObject go)
+            {
+                KPrefabID component = go.GetComponent<KPrefabID>();
+                component.AddTag(ModAssets.Tags.RocketInteriorOnlyBuilding);
+            }
+        }
+
         [HarmonyPatch(typeof(RocketInteriorGasInputConfig), "ConfigureBuildingTemplate")]
         public static class RmGasInputFromSpaceStation
         {

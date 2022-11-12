@@ -164,6 +164,20 @@ namespace Rockets_TinyYetBig
 
         public class UI_MOD
         {
+
+            public class UISIDESCREENS
+            {
+                public class SPACESTATIONBUILDERSIDESCREEN
+                {
+                    public static LocString TITLE = (LocString)"Space Station Management";
+
+                }
+                public class DOCKINGSIDESCREEN
+                {
+                    public static LocString TITLE = (LocString)"Docking Management";
+
+                }
+            }
             public class DOCKINGUI
             {
                 public static LocString BUTTON = (LocString)"View connected Target";

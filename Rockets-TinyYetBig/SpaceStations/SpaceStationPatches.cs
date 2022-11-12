@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TemplateClasses;
 using UnityEngine;
+using UtilLibs;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
@@ -42,18 +43,22 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
         }
 
-
-        [HarmonyPatch(typeof(BaseModularLaunchpadPortConfig), "ConfigureBuildingTemplate")]
-        public static class AllowPortLoadersInSpaceStation
+        /// <summary>
+        /// Adding custom sidescreen
+        /// </summary>
+        [HarmonyPatch(typeof(DetailsScreen), "OnPrefabInit")]
+        public static class CustomSideScreenPatch_SatelliteCarrier
         {
-            public static void Postfix(GameObject go)
+            public static void Postfix(List<DetailsScreen.SideScreenRef> ___sideScreens)
             {
-                KPrefabID component = go.GetComponent<KPrefabID>();
-                component.AddTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding);
+                UIUtils.AddClonedSideScreen<SpaceStationBuilderModuleSideScreen>("SpaceStationBuilderModuleSideScreen", "MonumentSideScreen", typeof(MonumentSideScreen));
             }
         }
 
 
+        /// <summary>
+        /// Removing that method from space station interiors (to prevent crash)
+        /// </summary>
         [HarmonyPatch(typeof(ClusterManager), "UpdateWorldReverbSnapshot")]
         public static class DisableAudioReverbGetter
         {

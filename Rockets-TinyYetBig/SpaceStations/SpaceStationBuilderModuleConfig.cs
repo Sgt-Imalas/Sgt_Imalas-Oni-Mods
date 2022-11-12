@@ -63,7 +63,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         public override void DoPostConfigureComplete(GameObject go)
         {
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MONUMENTAL);
-            go.AddOrGet<SpaceStationConstructor>();
+            go.AddOrGet<SpaceStationBuilder>();
             go.GetComponent<ReorderableBuilding>().buildConditions.Add((SelectModuleCondition)new OneModulePerRocket(ID));
         }
 

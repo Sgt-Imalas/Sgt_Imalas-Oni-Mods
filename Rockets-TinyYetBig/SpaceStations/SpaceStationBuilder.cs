@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
-    class SpaceStationConstructor : KMonoBehaviour, ISidescreenButtonControl
+    class SpaceStationBuilder : KMonoBehaviour, ISidescreenButtonControl
     {
         public string SidescreenButtonText => "Make Station";
 
@@ -17,9 +17,9 @@ namespace Rockets_TinyYetBig.SpaceStations
         {
             Vector3 position = new Vector3(-1f, -1f, 0.0f);
             GameObject sat = Util.KInstantiate(Assets.GetPrefab((Tag)prefab), position);
-            var spaceStation = sat.GetComponent<SpaceStation>();
-            sat.GetComponent<SpaceStation>().Location = location;
             sat.SetActive(true);
+            var spaceStation = sat.GetComponent<SpaceStation>();
+            spaceStation.Location = location;
         }
 
         public int ButtonSideScreenSortOrder()
@@ -31,9 +31,21 @@ namespace Rockets_TinyYetBig.SpaceStations
         {
 
             Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
-            var location = component.Location;
-            location.q += 2;
-            SpawnStation(location, SmallOrbitalSpaceStationConfig.ID);
+            var locationToCheck = component.Location;
+            //location.q += 2;
+
+            int worldId = SpaceStationManager.GetSpaceStationWorldIdAtLocation(locationToCheck);
+            if (worldId!=-1)
+            {
+                ///other transfering items ?...
+                SpaceStationManager.Instance.DestroySpaceStationInteriorWorld(worldId);
+            }
+            else
+            {
+                ///Add Ressource Check
+                SpawnStation(locationToCheck, SmallOrbitalSpaceStationConfig.ID);
+            }
+
         }
 
         public bool SidescreenButtonInteractable()

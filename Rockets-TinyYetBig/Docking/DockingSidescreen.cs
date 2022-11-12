@@ -104,6 +104,7 @@ namespace Rockets_TinyYetBig.Docking
         protected override void OnPrefabInit()
         {
             base.OnPrefabInit();
+            titleKey = "STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.TITLE";
         }
 
         void ConnectReference()
