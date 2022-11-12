@@ -1,9 +1,10 @@
 ﻿using Database;
 using KnastoronOniMods;
+using RoboRockets;
 using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
-namespace Robo_Rockets 
+namespace RoboRockets.LearningBrain
 {
     class AIControlModuleLearningConfig : IBuildingConfig
     {
@@ -11,7 +12,7 @@ namespace Robo_Rockets
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public override BuildingDef CreateBuildingDef()
         {
-            float[] matCosts = {300f};
+            float[] matCosts = { 300f };
 
             string[] construction_materials = {
                 "Steel"
@@ -55,7 +56,7 @@ namespace Robo_Rockets
 
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1] //top module attaches here
             {
-                new BuildingAttachPoint.HardPoint(new CellOffset(0, 3), GameTags.Rocket, (AttachableBuilding) null)
+                new BuildingAttachPoint.HardPoint(new CellOffset(0, 3), GameTags.Rocket,  null)
             };
 
             Storage storage = go.AddOrGet<Storage>();
@@ -76,13 +77,13 @@ namespace Robo_Rockets
         }
         public override void DoPostConfigureComplete(GameObject go)
         {
-           
-            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MINOR_PLUS);
+
+            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MINOR_PLUS);
 
             go.AddOrGet<BuildingCellVisualizer>();
-            go.GetComponent<ReorderableBuilding>().buildConditions.Add((SelectModuleCondition)new LimitOneCommandModule());
+            go.GetComponent<ReorderableBuilding>().buildConditions.Add(new LimitOneCommandModule());
         }
-        
+
 
         public override void DoPostConfigureUnderConstruction(GameObject go)
         {

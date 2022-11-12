@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 
-namespace Robo_Rockets
+namespace RoboRockets
 {
     class AINoseconeConfig : IBuildingConfig
     {

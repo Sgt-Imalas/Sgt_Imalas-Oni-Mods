@@ -1,4 +1,5 @@
 ﻿using RoboRockets;
+using RoboRockets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Robo_Rockets
+namespace RoboRockets.LearningBrain
 {
     class BrainConfig : IEntityConfig
     {
@@ -50,7 +51,7 @@ namespace Robo_Rockets
 
         public void OnSpawn(GameObject inst)
         {
-            
+
         }
     }
 }

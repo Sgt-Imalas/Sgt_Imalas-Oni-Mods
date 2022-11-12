@@ -1,11 +1,12 @@
 ﻿using KSerialization;
+using RoboRockets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Robo_Rockets
+namespace RoboRockets.LearningBrain
 {
     internal class FlyingBrain : KMonoBehaviour
     {
@@ -14,6 +15,9 @@ namespace Robo_Rockets
         [Serialize]
         bool awakened = false;
 
+        public float GetCurrentSpeed() => learnedSpeed;
+
+        
 
         protected override void OnSpawn()
         {
@@ -23,24 +27,25 @@ namespace Robo_Rockets
                 learnedSpeed = Config.Instance.AiLearnStart;
                 awakened = true;
             }
+            this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.ExperienceLevel, (object)this);
         }
         public void TraveledDistance(int hexes = 1)
         {
             if (learnedSpeed < 2.0f)
             {
-                learnedSpeed+=(float)hexes / 100f;
+                learnedSpeed += hexes / 100f;
             }
-            else if(learnedSpeed < 3.0f)
+            else if (learnedSpeed < 3.0f)
             {
-                learnedSpeed += (float)hexes / 150f;
+                learnedSpeed += hexes / 150f;
             }
-            else if(learnedSpeed < 4.0f)
+            else if (learnedSpeed < 4.0f)
             {
-                learnedSpeed += (float)hexes / 200f;
+                learnedSpeed += hexes / 200f;
             }
             else
             {
-                learnedSpeed += (float)hexes / 1000f;
+                learnedSpeed += hexes / 1000f;
             }
         }
 

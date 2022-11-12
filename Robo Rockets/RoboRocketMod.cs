@@ -6,7 +6,7 @@ using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
 using System;
 
-namespace Robo_Rockets
+namespace RoboRockets
 {
     class RoboRocketMod : UserMod2
     {		

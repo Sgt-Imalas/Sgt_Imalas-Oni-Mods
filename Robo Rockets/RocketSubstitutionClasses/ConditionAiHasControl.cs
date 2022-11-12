@@ -1,9 +1,9 @@
 ﻿
 
 using UnityEngine;
-using static Robo_Rockets.STRINGS;
+using static RoboRockets.STRINGS;
 
-namespace Robo_Rockets
+namespace RoboRockets
 {
     public class ConditionAiHasControl : ProcessCondition
     {

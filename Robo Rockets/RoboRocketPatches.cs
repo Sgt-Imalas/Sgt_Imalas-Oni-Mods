@@ -11,7 +11,7 @@ using System.Linq;
 using GMState = GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State;
 using RoboRockets;
 
-namespace Robo_Rockets
+namespace RoboRockets
 {
     public class RoboRocketPatches
     {

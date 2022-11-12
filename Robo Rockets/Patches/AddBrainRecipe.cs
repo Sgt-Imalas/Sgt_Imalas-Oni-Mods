@@ -1,5 +1,5 @@
 ﻿using HarmonyLib;
-using Robo_Rockets;
+using RoboRockets.LearningBrain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using static ComplexRecipe;
 using static STRINGS.BUILDINGS.PREFABS;
 
-namespace Robo_Rockets.Patches
+namespace RoboRockets.Patches
 {
     internal class AddBrainRecipe
     {

@@ -3,7 +3,7 @@ using KnastoronOniMods;
 using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
-namespace Robo_Rockets 
+namespace RoboRockets 
 {
     class EarlyGameAIControlModuleConfig : IBuildingConfig
     {

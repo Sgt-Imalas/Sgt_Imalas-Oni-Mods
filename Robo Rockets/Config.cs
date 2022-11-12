@@ -2,7 +2,7 @@
 using PeterHan.PLib.Options;
 using System;
 
-namespace Robo_Rockets
+namespace RoboRockets
 {
     [Serializable]
     [RestartRequired]

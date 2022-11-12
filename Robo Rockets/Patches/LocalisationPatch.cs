@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UtilLibs;
 
-namespace Robo_Rockets
+namespace RoboRockets
 {
     class LocalisationPatch
     {

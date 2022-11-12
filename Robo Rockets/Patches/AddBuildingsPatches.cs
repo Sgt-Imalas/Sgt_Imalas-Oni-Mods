@@ -1,5 +1,5 @@
 ﻿using HarmonyLib;
-using Robo_Rockets;
+using RoboRockets.LearningBrain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UtilLibs;
 
-namespace Robo_Rockets.Patches
+namespace RoboRockets.Patches
 {
     class AddBuildingsPatches
     {
