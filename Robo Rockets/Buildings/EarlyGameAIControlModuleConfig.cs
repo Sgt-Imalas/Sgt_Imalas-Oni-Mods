@@ -27,7 +27,7 @@ namespace RoboRockets
             EffectorValues none = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
 
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 2, "rocket_autopilot_small_kanim", 1000, 400f, mass, construction_materials_, 9999f, BuildLocationRule.Anywhere, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 2, "rocket_autopilot_small_kanim", 1000, 400f, mass, construction_materials_, 9999f, BuildLocationRule.Anywhere, none, noise);
             BuildingTemplates.CreateRocketBuildingDef(buildingDef);
             buildingDef.AttachmentSlotTag = GameTags.Rocket;
             buildingDef.SceneLayer = Grid.SceneLayer.Building;

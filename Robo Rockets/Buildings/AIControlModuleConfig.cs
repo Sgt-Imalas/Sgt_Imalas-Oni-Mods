@@ -16,27 +16,16 @@ namespace RoboRockets
         {
             float[] matCosts = {300f,1};
 
-            bool usesAdvRecipe = Config.Instance.UsesNeuralVaccilatorRecharge;
-            string[] construction_materials;
-            if (usesAdvRecipe) {
-                construction_materials = new string[2]
+            string[] construction_materials  = new string[]
                 {
                     "RefinedMetal"
                     ,GeneShufflerRechargeConfig.tag.ToString()
                 };
-            }
-            else
-            {
-                construction_materials = new string[1]
-                {
-                    "RefinedMetal"
-                };
-            }
             EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
 
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 3, "rocket_habitat_ai_module_kanim", 1000, 400f, matCosts, construction_materials, 9999f, BuildLocationRule.Anywhere, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 3, "rocket_habitat_ai_module_kanim", 1000, 400f, matCosts, construction_materials, 9999f, BuildLocationRule.Anywhere, none, noise);
             BuildingTemplates.CreateRocketBuildingDef(buildingDef);
             buildingDef.AttachmentSlotTag = GameTags.Rocket;
             buildingDef.SceneLayer = Grid.SceneLayer.Building;

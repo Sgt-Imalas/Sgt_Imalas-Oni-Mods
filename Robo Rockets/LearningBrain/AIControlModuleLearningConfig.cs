@@ -21,7 +21,7 @@ namespace RoboRockets.LearningBrain
             EffectorValues none = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
 
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 3, "rocket_habitat_ai_module_kanim", 1000, 400f, matCosts, construction_materials, 9999f, BuildLocationRule.Anywhere, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 3, "rocket_habitat_ai_module_kanim", 1000, 400f, matCosts, construction_materials, 9999f, BuildLocationRule.Anywhere, none, noise);
             BuildingTemplates.CreateRocketBuildingDef(buildingDef);
             buildingDef.AttachmentSlotTag = GameTags.Rocket;
             buildingDef.SceneLayer = Grid.SceneLayer.Building;
@@ -60,14 +60,16 @@ namespace RoboRockets.LearningBrain
             };
 
             Storage storage = go.AddOrGet<Storage>();
-            storage.capacityKg = 50f;
-
+            storage.capacityKg = 1f;
+            storage.showInUI = false;
             ManualDeliveryKG manualDeliveryKg = go.AddOrGet<ManualDeliveryKG>();
             manualDeliveryKg.SetStorage(storage);
             manualDeliveryKg.RequestedItemTag = ModAssets.Tags.SpaceBrain;
             manualDeliveryKg.capacity = storage.capacityKg;
             manualDeliveryKg.refillMass = storage.capacityKg;
             manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
+
+            go.AddOrGet<BrainTeacher>().BrainStorage = storage;
 
         }
         public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
@@ -80,6 +82,14 @@ namespace RoboRockets.LearningBrain
 
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MINOR_PLUS);
 
+            FakeFloorAdder fakeFloorAdder = go.AddOrGet<FakeFloorAdder>();
+            fakeFloorAdder.floorOffsets = new CellOffset[3]
+            {
+      new CellOffset(-1, -1),
+      new CellOffset(0, -1),
+      new CellOffset(1, -1)
+            };
+            fakeFloorAdder.initiallyActive = false;
             go.AddOrGet<BuildingCellVisualizer>();
             go.GetComponent<ReorderableBuilding>().buildConditions.Add(new LimitOneCommandModule());
         }

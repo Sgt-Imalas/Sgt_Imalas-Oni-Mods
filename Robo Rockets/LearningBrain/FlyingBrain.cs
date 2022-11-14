@@ -31,15 +31,23 @@ namespace RoboRockets.LearningBrain
         }
         public void TraveledDistance(int hexes = 1)
         {
-            if (learnedSpeed < 2.0f)
+            if (learnedSpeed < 1.0f)
             {
                 learnedSpeed += hexes / 100f;
             }
-            else if (learnedSpeed < 3.0f)
+            else if (learnedSpeed < 1.25f)
+            {
+                learnedSpeed += hexes / 125f;
+            }
+            else if (learnedSpeed < 1.50f)
             {
                 learnedSpeed += hexes / 150f;
             }
-            else if (learnedSpeed < 4.0f)
+            else if (learnedSpeed < 1.75f)
+            {
+                learnedSpeed += hexes / 175f;
+            }
+            else if (learnedSpeed < 2f)
             {
                 learnedSpeed += hexes / 200f;
             }

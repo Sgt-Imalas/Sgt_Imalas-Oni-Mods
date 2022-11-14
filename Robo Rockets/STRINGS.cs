@@ -5,11 +5,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static RoboRockets.STRINGS.MISC.TAGS;
 
 namespace RoboRockets
 {
     public class STRINGS
     {
+        public class MISC
+        {
+            public class TAGS
+            {
+                public class RR_SPACEBRAINFLYER
+                {
+                    public static LocString NAME = "Pilot Brain";
+                }
+            }
+        }
         public class ITEMS
         {
             public class INDUSTRIAL_PRODUCTS
@@ -40,14 +51,31 @@ namespace RoboRockets
             {
                 public class AIMODULE
                 {
-
-                    public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("AI Control Module [DEPRECATED]", nameof(RoboRocketConfig));
+                    public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("AI Control Module [DEPRECATED]", nameof(AIMODULE));
                     public static LocString DESC = "A Module that controls your Rocket without any duplicant input.";
                     public static LocString EFFECT = "Functions as a Command Module.\n\nOne Command Module may be installed per rocket.\n\nWon't allow any duplicants inside"; 
                 }
+                public class RR_AINOSECONE
+                {
+                    public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("AI Nosecone", nameof(RR_AINOSECONE));
+                    public static LocString DESC = "The big camera lens helps its AI with navigation.";
+                    public static LocString EFFECT = "Will pilot a rocket without any duplicant interaction.\n\nFunctions as a Command Module an a Nosecone.\n\nOne Command Module may be installed per rocket.\n\nMust be built at the top of a Rocket\n\nWon't allow any duplicants inside";
+                }
+                public class RR_EARLYGAMEAICONTROLMODULE
+                {
+                    public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("AI Control Module", nameof(RR_EARLYGAMEAICONTROLMODULE));
+                    public static LocString DESC = "Piloting a rocket, now without duplicants.";
+                    public static LocString EFFECT = "Will pilot a rocket without any duplicant interaction.\n\nFunctions as a Command Module.\n\nOne Command Module may be installed per rocket.\n\nWon't allow any duplicants inside";
+                }
+                public class RR_AILEARNINGCONTROLMODULE
+                {
+                    public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("AI Brain Harness Module", nameof(RR_AINOSECONE));
+                    public static LocString DESC = "The big camera lens helps its AI with navigation.";
+                    public static LocString EFFECT = "Requires a "+ RR_SPACEBRAINFLYER.NAME+" to function. A brain will pilot the rocket and slowly gain piloting experience, resulting in faster flight times.\n\nFunctions as a Command Module.\n\nOne Command Module may be installed per rocket.\n\nMust be built at the top of a Rocket\n\nWon't allow any duplicants inside";
+                }
                 public class RR_AICONTROLMODULE
                 {
-                    public static LocString DisplayName = "AI Control Module";
+                    public static LocString DisplayName = "AI Control Module [DEPRECATED]";
                     public static LocString Description = "A Module that controls your Rocket without any duplicant input.";
 
                     public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("AI Control Module", nameof(AIControlModuleConfig));
@@ -71,17 +99,11 @@ namespace RoboRockets
                     public static LocString LVL4 = (LocString)global::STRINGS.UI.FormatAsLink("Proficient Pilot", nameof(LVL4));
                     public static LocString LVL5 = (LocString)global::STRINGS.UI.FormatAsLink("Expert Pilot", nameof(LVL5));
                     public static LocString LVL6 = (LocString)global::STRINGS.UI.FormatAsLink("Master Pilot", nameof(LVL6));
-                    public static LocString LVL0 = "";
                 }
-                public class CRY_DUPLICANTCRYODAMAGE
+                public class RR_NOBRAIN
                 {
-                    public static LocString NAME = "Warning, Duplicant is thawing improperly";
-                    public static LocString TOOLTIP = "When this duplicant thaws fully, it won't have a good time.";
-                }
-                public class CRY_DUPLICANTATTEMPERATURE
-                {
-                    public static LocString NAME = "Energy Saving Mode";
-                    public static LocString TOOLTIP = "Fully cooled down, this buiding has entered energy saving mode.";
+                    public static LocString NAME = "No Brain installed!";
+                    public static LocString TOOLTIP = "This Module is missing a Brain!";
                 }
             }
         }

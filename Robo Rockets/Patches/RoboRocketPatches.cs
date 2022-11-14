@@ -150,7 +150,7 @@ namespace RoboRockets
                 if (pilot.GetComponent<AttributeConverters>().GetConverter(pilotingSpeed.Id) == null)
                 {
                     Debug.Log("skippingNormalSpeedSetter in Legacy AI Rocket");
-                    __instance.pilotSpeedMult = 1f;
+                    __instance.pilotSpeedMult = Config.Instance.NoBrainRockets;
                     return false;
                 }
                 return true;
@@ -202,9 +202,10 @@ namespace RoboRockets
                 {
                     int worldRefID = (int)typeof(ClustercraftExteriorDoor).GetField("targetWorldId", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
                     Clustercraft component = __instance.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
-
-                    Debug.Log("AI Module added; adjusting automated Speed to " + aiModue.GiveSpeed());
-                    component.AutoPilotMultiplier = aiModue.GiveSpeed();
+#if DEBUG
+                    Debug.Log("AI Module added; adjusting automated Speed to " + Config.Instance.NoBrainRockets);
+#endif
+                    component.AutoPilotMultiplier = Config.Instance.NoBrainRockets;
 
                     Debug.Log("World forbidden to look into: " + worldRefID);
                     ModAssets.ForbiddenInteriorIDs.Add(worldRefID);

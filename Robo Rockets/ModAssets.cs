@@ -16,6 +16,7 @@ namespace RoboRockets
         public static List<int> ForbiddenInteriorIDs = new List<int>();
 
         public static StatusItem ExperienceLevel;
+        public static StatusItem NoBrain;
         public static StatusItem ExperienceLevelInsidePod;
         public static void RegisterStatusItems()
         {
@@ -27,6 +28,15 @@ namespace RoboRockets
                    NotificationType.Neutral,
                    false,
                    OverlayModes.None.ID);
+            NoBrain = new StatusItem(
+                   "RR_NOBRAIN",
+                   "BUILDING",
+                   "",
+                   StatusItem.IconType.Exclamation,
+                   NotificationType.Bad,
+                   false,
+                   OverlayModes.None.ID);
+
 
             ExperienceLevel.SetResolveStringCallback((str, obj) =>
             {

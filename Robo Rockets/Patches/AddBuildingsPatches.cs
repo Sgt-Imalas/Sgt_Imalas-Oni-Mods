@@ -19,7 +19,7 @@ namespace RoboRockets.Patches
             public static void Prefix()
             {
                 RocketryUtils.AddRocketModuleToBuildList(AIControlModuleLearningConfig.ID, RocketryUtils.RocketCategory.habitats, "HabitatModuleMedium");
-                RocketryUtils.AddRocketModuleToBuildList(AINoseconeConfig.ID, RocketryUtils.RocketCategory.habitats, "HabitatModuleMedium");
+                RocketryUtils.AddRocketModuleToBuildList(AINoseconeConfig.ID, new[] { RocketryUtils.RocketCategory.habitats, RocketryUtils.RocketCategory.nosecones }, "HabitatModuleMedium");
                 RocketryUtils.AddRocketModuleToBuildList(EarlyGameAIControlModuleConfig.ID, RocketryUtils.RocketCategory.habitats, "HabitatModuleMedium");
             }
         }
@@ -30,7 +30,10 @@ namespace RoboRockets.Patches
         {
             public static void Postfix()
             {
-                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, AIControlModuleConfig.ID);
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityTransport, EarlyGameAIControlModuleConfig.ID);
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityTransport, AINoseconeConfig.ID);
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, AIControlModuleLearningConfig.ID);
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, BrainConfig.ID);
             }
         }
     }
