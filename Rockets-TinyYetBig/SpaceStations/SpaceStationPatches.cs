@@ -150,7 +150,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         {
             static ClusterGridEntity AllowSpaceStation(ClusterGridEntity original, ClusterDestinationSelector selector, AxialI target)
             {
-                Debug.Log("All params: " + original + ", " + selector + ", " + target);
+                //Debug.Log("All params: " + original + ", " + selector + ", " + target);
                 if (original == null && selector.requireAsteroidDestination)
                 {
                     var station = ClusterGrid.Instance.GetEntitiesOnCell(target).OfType<SpaceStation>();

@@ -128,7 +128,7 @@
 	  <None Update="ModAssets\anim\assets\rocket_nosecone_small_extended\rocket_nosecone_small_extended_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_nosecone_solar\rocket_nosecone_solar_0.png">
+	  <None Update="ModAssets\anim\assets\rocket_nosecone_solar\rocket_nosecone_solar.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\anim\assets\rocket_nosecone_solar\rocket_nosecone_solar_anim.bytes">

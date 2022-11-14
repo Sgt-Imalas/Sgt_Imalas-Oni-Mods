@@ -9,9 +9,10 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.Buildings
 {
-    internal class NatGasEngineClusterConfig : IBuildingConfig
+    internal class NatGasEngineClusterConfig : IBuildingConfig, ISaveLoadable
     {
         public const string ID = "RTB_NatGasEngineCluster";
+        public const string kanim = "rocket_natgas_engine_kanim"; //rocket_petro_engine_small_kanim
         public const SimHashes FUEL = SimHashes.Methane;
         public const float Wattage = 480f;
         public const float TankCapacity = 450f;
@@ -22,7 +23,7 @@ namespace Rockets_TinyYetBig.Buildings
 
         public override BuildingDef CreateBuildingDef()
         {
-            UtilMethods.CopyRocketSoundsToAnim("rocket_natgas_engine_kanim", "rocket_petro_engine_small_kanim");
+            UtilMethods.CopyRocketSoundsToAnim(kanim, "rocket_petro_engine_small_kanim");
 
             float[] constructionMass = BUILDINGS.ROCKETRY_MASS_KG.ENGINE_MASS_SMALL;
             string[] constructioMaterials = new string[1]
@@ -35,7 +36,7 @@ namespace Rockets_TinyYetBig.Buildings
                 id: ID,
                 width: 5,
                 height: 5,
-                anim: "rocket_natgas_engine_kanim", 
+                anim: kanim, 
                 hitpoints: 1000,
                 construction_time: 60f, 
                 construction_mass: constructionMass, 
