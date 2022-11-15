@@ -179,6 +179,18 @@ namespace Rockets_TinyYetBig
                     ClearButtons(__instance);
                     foreach (var category in RocketModuleList.GetRocketModuleList())
                     {
+
+#if DEBUG
+                        Debug.Log("{" + (RocketCategory)category.Key + "}");
+
+                            foreach (var module in category.Value)
+                            {
+                                Debug.Log("Module In List: " + module);
+                            }
+#endif
+
+
+
                         if (
                             //category.Key != (int)RocketCategory.uncategorized && 
                             category.Value.Count > 0)

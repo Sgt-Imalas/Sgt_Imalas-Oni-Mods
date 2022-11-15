@@ -17,6 +17,7 @@ namespace UtilLibs
     {
         public const string CategoryDataKey = "Sgt_Imalas_RocketModuleSortOrder";
         public const string CategoryInitKey = "Sgt_Imalas_VanillaRocketModulesCategorized";
+        public const string AddonModsDataKey = "Sgt_Imalas_ModulesToRearrange";
 
 
 
@@ -189,11 +190,20 @@ namespace UtilLibs
         }
 
 
-        public static bool AddIfNotExists<T>(List<T> list, T value)
+        public static bool AddIfNotExists<T>(List<T> list, T value, int index = -1)
         {
+            
+
             if (!list.Contains(value))
             {
-                list.Add(value);
+                if(index == -1)
+                {
+                    list.Add(value);
+                }
+                else
+                {
+                    list.Insert(index, value);
+                }
                 return true;
             }
             return false;
@@ -207,35 +217,53 @@ namespace UtilLibs
             foreach (var module in allModules)
             {
                 CategorizeRocketModule(module, categories);
-            }
+            }            
             Debug.Log("Vanilla rocket parts categorized");
+            var data = GetModuleToReshuffleData();
+            foreach (var ToSortcategory in data)
+            {
+                foreach (var itemToShuffle in ToSortcategory.Value)
+                {
+#if DEBUG
+                    Debug.Log("Removing {0} from List {1}".F(itemToShuffle.first, (RocketCategory)ToSortcategory.Key));
+#endif
+                    categories[ToSortcategory.Key].Remove(itemToShuffle.first);
+                    //int index = categories[ToSortcategory.Key].IndexOf(itemToShuffle.second);
+                    //categories[ToSortcategory.Key].Insert(++index, itemToShuffle.first);
+                }
+                foreach (var itemToShuffle in ToSortcategory.Value)
+                {
+#if DEBUG
+                    Debug.Log("Readding {0} to List {1} behind {2}".F(itemToShuffle.first, (RocketCategory)ToSortcategory.Key, itemToShuffle.second));
+#endif
+                    categories[ToSortcategory.Key].Insert(GetInsertionIndex(categories[ToSortcategory.Key]),itemToShuffle.first);
+                    //int index = categories[ToSortcategory.Key].IndexOf(itemToShuffle.second);
+                    //categories[ToSortcategory.Key].Insert(++index, itemToShuffle.first);
+                }
+            }
+            //foreach(var category in categories)
+            //{
+            //    Debug.Log("{" + (RocketCategory)category.Key + "}");
+                
+            //    foreach (var module in category.Value)
+            //    {
+            //    Debug.Log("Module In List: " + module);
+            //    }
+            //}
+
+
+            Debug.Log("Addon mod reordering done");
+            RocketModuleList.SetRocketModuleList(categories);
         }
+
+
 
         public static void AddRocketModuleToBuildList(
             string moduleId,
             RocketCategory category = RocketCategory.uncategorized,
             string placebehind = "")
         {
-            var sorted = RocketModuleList.GetRocketModuleList();
-
-
-
-            if (!sorted[(int)category].Contains(moduleId))
-            {
-                sorted[(int)category].Insert(
-                GetInsertionIndex(sorted[(int)category], placebehind)
-                , moduleId);
-                RocketModuleList.SetRocketModuleList(sorted);
-            }
-            if (!SelectModuleSideScreen.moduleButtonSortOrder.Contains(moduleId))
-            {
-                SelectModuleSideScreen.moduleButtonSortOrder.Insert(
-                    GetInsertionIndex(SelectModuleSideScreen.moduleButtonSortOrder, placebehind),
-                    moduleId);
-            }
-#if DEBUG
-            Debug.Log("Added " + moduleId + " to category " + category.ToString());
-#endif
+            InsertRocketModuleToCategory(moduleId, category, placebehind);
         }
 
         public static void AddRocketModuleToBuildList(
@@ -243,29 +271,83 @@ namespace UtilLibs
             RocketCategory[] categories,
             string placebehind = "")
         {
-            var sorted = RocketModuleList.GetRocketModuleList();
+            InsertRocketModuleToCategory(moduleId, categories, placebehind);
+        }
 
-
-            foreach(var category in categories)
+        public static void PutModuleToReshuffleData(Dictionary<int, List<Tuple<string,string>>> list)
+        {
+            PRegistry.PutData(AddonModsDataKey, list);
+        }
+        public static Dictionary<int, List<Tuple<string, string>>> GetModuleToReshuffleData()
+        {
+            var ReturnValue = PRegistry.GetData< Dictionary<int, List<Tuple<string, string>>>>(AddonModsDataKey);
+            if(ReturnValue == null)
             {
-                if (!sorted[(int)category].Contains(moduleId))
+                ReturnValue = new Dictionary<int, List<Tuple<string, string>>>()
                 {
-                    sorted[(int)category].Insert(
-                        GetInsertionIndex(sorted[(int)category], placebehind)
-                        , moduleId);
-                    RocketModuleList.SetRocketModuleList(sorted);
+                { (int)RocketCategory.engines,new List<Tuple<string, string>>()},
+                { (int)RocketCategory.habitats,new List<Tuple<string, string>>()},
+                { (int)RocketCategory.nosecones,new List<Tuple<string, string>>()},
+                { (int)RocketCategory.deployables,new List<Tuple<string, string>>()},
+                { (int)RocketCategory.fuel,new List<Tuple<string, string>>()},
+                { (int)RocketCategory.cargo,new List<Tuple<string, string>>()},
+                { (int)RocketCategory.power,new List<Tuple<string, string>>()},
+                { (int)RocketCategory.production,new List<Tuple<string, string>>()},
+                { (int)RocketCategory.utility,new List<Tuple<string, string>>()},
+                { (int)RocketCategory.uncategorized,new List<Tuple<string, string>>()},
+                };
+                PutModuleToReshuffleData(ReturnValue);
+            }
+
+            return ReturnValue;
+        }
+
+        public static void AddModuleToReshuffleData(RocketCategory category, string moduleId, string placeBehind)
+        {
 #if DEBUG
-                    Debug.Log("Added " + moduleId + " to category " + category.ToString());
+            Debug.Log(moduleId + " scheduled for relocation");
 #endif
+
+            var data = GetModuleToReshuffleData();
+            data[(int)category].Add(new Tuple<string, string>(moduleId, placeBehind));
+            PutModuleToReshuffleData(data);
+        }
+
+        public static void InsertRocketModuleToCategory(string moduleId, RocketCategory category = RocketCategory.uncategorized, string placeBehindId = "")
+        {
+            InsertRocketModuleToCategory(moduleId, new RocketCategory[] { category }, placeBehindId);
+        }
+        public static void InsertRocketModuleToCategory(string moduleId, RocketCategory[] categories, string placeBehindId = "")
+        {
+            var ModuleLists = RocketModuleList.GetRocketModuleList();
+            foreach( var category in categories)
+            {
+                if(placeBehindId != "")
+                {
+                    var indexOfPlaceBehind = ModuleLists[(int)category].IndexOf(placeBehindId);
+                    if(indexOfPlaceBehind == -1)
+                    {
+                        AddIfNotExists(ModuleLists[(int)category],(moduleId));
+                        AddModuleToReshuffleData(category, moduleId, placeBehindId);///Add To ReshuffleList
+                    }
+                    else
+                    {
+                        AddIfNotExists(ModuleLists[(int)category], (moduleId), ++indexOfPlaceBehind);
+                        //ModuleLists[(int)category].Insert(++indexOfPlaceBehind, moduleId);
+                    }
+                }
+                else
+                {
+                    AddIfNotExists(ModuleLists[(int)category], (moduleId));
+                    //ModuleLists[(int)category].Insert(ModuleLists[(int)category].Count, moduleId);
                 }
             }
             if (!SelectModuleSideScreen.moduleButtonSortOrder.Contains(moduleId))
             {
                 SelectModuleSideScreen.moduleButtonSortOrder.Insert(
-                    GetInsertionIndex(SelectModuleSideScreen.moduleButtonSortOrder, placebehind),
+                    GetInsertionIndex(SelectModuleSideScreen.moduleButtonSortOrder, placeBehindId),
                     moduleId);
             }
-
         }
 
         public static int GetInsertionIndex(List<string> list, string indexID = "")

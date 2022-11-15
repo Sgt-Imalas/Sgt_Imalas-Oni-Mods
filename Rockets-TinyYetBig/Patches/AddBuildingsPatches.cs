@@ -46,9 +46,6 @@ namespace RoboRockets.Rockets_TinyYetBig
                 if (Config.Instance.EnableLaserDrill)
                     AddRocketModuleToBuildList(NoseConeHEPHarvestConfig.ID, RocketCategory.nosecones, NoseconeHarvestConfig.ID);
 
-                if (Config.Instance.EnableLaserDrill)
-                    AddRocketModuleToBuildList(NoseConeHEPHarvestConfig.ID, RocketCategory.nosecones, NoseconeHarvestConfig.ID);
-
                 if (Config.Instance.EnableGenerators)
                 {
                     AddRocketModuleToBuildList(CoalGeneratorModuleConfig.ID, RocketCategory.power, BatteryModuleConfig.ID);
