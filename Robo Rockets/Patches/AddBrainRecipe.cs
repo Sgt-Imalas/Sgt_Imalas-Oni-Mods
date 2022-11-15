@@ -21,13 +21,7 @@ namespace RoboRockets.Patches
             }
             private static void AddBrainRecipe()
             {
-                RecipeElement[] input = new RecipeElement[]
-                {
-                    new RecipeElement(SimHashes.Glass.CreateTag(),200f),
-                    new RecipeElement(SimHashes.Steel.CreateTag(),100f),
-                    new RecipeElement(SimHashes.Ethanol.CreateTag(), 360f),
-                    new RecipeElement(GeneShufflerRechargeConfig.tag, 1f)
-                };
+                RecipeElement[] input = BrainConfig.ProductionCosts;
 
                 RecipeElement[] output = new RecipeElement[]
                 {

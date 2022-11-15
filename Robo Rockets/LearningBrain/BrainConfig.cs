@@ -1,11 +1,13 @@
 ﻿using RoboRockets;
 using RoboRockets;
+using STRINGS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static ComplexRecipe;
 
 namespace RoboRockets.LearningBrain
 {
@@ -13,6 +15,13 @@ namespace RoboRockets.LearningBrain
     {
         public const string ID = "RR_BrainFlyer";
         public static ComplexRecipe recipe;
+        public static RecipeElement[] ProductionCosts = new RecipeElement[]
+        {
+            new RecipeElement(SimHashes.Glass.CreateTag(),200f),
+            new RecipeElement(SimHashes.Steel.CreateTag(),100f),
+            new RecipeElement(SimHashes.Ethanol.CreateTag(), 360f),
+            new RecipeElement(GeneShufflerRechargeConfig.tag, 1f)
+        };
 
         public GameObject CreatePrefab()
         {
@@ -37,7 +46,9 @@ namespace RoboRockets.LearningBrain
                     ModAssets.Tags.SpaceBrain
                 });
 
-            prefab.AddComponent<FlyingBrain>();
+            prefab.AddComponent<FlyingBrain>(); 
+            prefab.AddOrGet<DemolishableDroppable>();
+            prefab.AddOrGet<OccupyArea>().OccupiedCellsOffsets = EntityTemplates.GenerateOffsets(1, 1);
 
             return prefab;
         }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static RoboRockets.STRINGS.MISC.TAGS;
+using static STRINGS.BUILDINGS.PREFABS;
 
 namespace RoboRockets
 {
@@ -15,10 +16,7 @@ namespace RoboRockets
         {
             public class TAGS
             {
-                public class RR_SPACEBRAINFLYER
-                {
-                    public static LocString NAME = "Pilot Brain";
-                }
+                public static LocString RR_SPACEBRAINFLYER = "Pilot Brain"; 
             }
         }
         public class ITEMS
@@ -69,9 +67,9 @@ namespace RoboRockets
                 }
                 public class RR_AILEARNINGCONTROLMODULE
                 {
-                    public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("AI Brain Harness Module", nameof(RR_AINOSECONE));
+                    public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("AI Brain Module", nameof(RR_AINOSECONE));
                     public static LocString DESC = "The big camera lens helps its AI with navigation.";
-                    public static LocString EFFECT = "Requires a "+ RR_SPACEBRAINFLYER.NAME+" to function. A brain will pilot the rocket and slowly gain piloting experience, resulting in faster flight times.\n\nFunctions as a Command Module.\n\nOne Command Module may be installed per rocket.\n\nMust be built at the top of a Rocket\n\nWon't allow any duplicants inside";
+                    public static LocString EFFECT = "Requires a "+ MISC.TAGS.RR_SPACEBRAINFLYER+" to function.\nBrains can be made at the "+global::STRINGS.BUILDINGS.PREFABS.SUPERMATERIALREFINERY.NAME+"\nA brain will pilot the rocket and slowly gain piloting experience, resulting in faster flight times.\n\nFunctions as a Command Module.\n\nOne Command Module may be installed per rocket.\n\nMust be built at the top of a Rocket\n\nWon't allow any duplicants inside";
                 }
                 public class RR_AICONTROLMODULE
                 {

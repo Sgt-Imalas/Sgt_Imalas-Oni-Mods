@@ -202,11 +202,13 @@ namespace RoboRockets
                 {
                     int worldRefID = (int)typeof(ClustercraftExteriorDoor).GetField("targetWorldId", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
                     Clustercraft component = __instance.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
+                    if(!aiModue.variableSpeed)
+                    { 
 #if DEBUG
                     Debug.Log("AI Module added; adjusting automated Speed to " + Config.Instance.NoBrainRockets);
 #endif
                     component.AutoPilotMultiplier = Config.Instance.NoBrainRockets;
-
+                }
                     Debug.Log("World forbidden to look into: " + worldRefID);
                     ModAssets.ForbiddenInteriorIDs.Add(worldRefID);
                 }

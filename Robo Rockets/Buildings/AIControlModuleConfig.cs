@@ -48,7 +48,6 @@ namespace RoboRockets
             go.AddOrGet<AssignmentGroupController>().generateGroupOnStart = true;
             var aiConfig = go.AddOrGet<AIPassengerModule>();
             aiConfig.interiorReverbSnapshot = AudioMixerSnapshots.Get().SmallRocketInteriorReverbSnapshot;
-            aiConfig.AiSpeed = 0.75f;
             go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/AIRocketV2";
             go.AddOrGet<NavTeleporter>();
             go.AddOrGet<LaunchableRocketCluster>();
