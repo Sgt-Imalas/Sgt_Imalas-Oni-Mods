@@ -26,6 +26,16 @@ namespace UtilLibs
             return new Color(r / 255, g / 255, b / 255);
         }
 
+        public static Color Lighten(Color original, float percentage)
+        {
+            return Color.Lerp(original, Color.white, percentage/100f);// To lighten by 50% 
+        }
+        public static Color Darken(Color original, float percentage)
+        {
+            return Color.Lerp(original, Color.black, percentage / 100f);// To lighten by 50% 
+        }
+
+
         /// <summary>
         /// Adds an Action to a click on a button.
         /// </summary>

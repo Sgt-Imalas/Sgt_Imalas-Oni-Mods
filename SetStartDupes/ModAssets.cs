@@ -1,4 +1,5 @@
-﻿using Klei.AI;using System;
+﻿using Klei.AI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,63 @@ namespace SetStartDupes
         public static GameObject CycleButtonLeftPrefab;
         public static GameObject CycleButtonRightPrefab;
 
+
+        public static class Colors
+        {
+            public static Color gold = UIUtils.Darken(Util.ColorFromHex("ffdb6e"),40);
+            public static Color purple = Util.ColorFromHex("a961f9");
+            public static Color magenta = Util.ColorFromHex("fd43ff");
+            public static Color green = Util.ColorFromHex("367d48");
+            public static Color red = Util.ColorFromHex("802024");
+            public static Color grey = Util.ColorFromHex("404040");
+
+
+
+            ///Color.Lerp(originalColor, Color.black, .5f); To darken by 50%
+            ///Color.Lerp(originalColor, Color.white, .5f); To lighten by 50% 
+        }
+
+
+        public static void ApplyTraitStyleByKey(KImage img, HoldMyReferences.NextType type)
+        {
+            //if(type != HoldMyReferences.NextType.geneShufflerTrait)
+            //{
+            Color colorToPaint;
+            switch (type)
+            {
+                case HoldMyReferences.NextType.joy:
+                case HoldMyReferences.NextType.posTrait:
+                    colorToPaint = Colors.green;
+                    break;
+                case HoldMyReferences.NextType.negTrait:
+                case HoldMyReferences.NextType.stress:
+                    colorToPaint = Colors.red;
+                    break;
+                case HoldMyReferences.NextType.needTrait:
+                    colorToPaint = Colors.gold;
+                    break;
+                case HoldMyReferences.NextType.geneShufflerTrait:
+                    colorToPaint = Colors.purple;
+                    break;
+                default:
+                    colorToPaint = Colors.grey;
+                    break;
+
+            }
+            //}
+            //else
+            //{
+
+            //}
+
+            var ColorStyle = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
+            ColorStyle.inactiveColor = colorToPaint;
+            ColorStyle.hoverColor = UIUtils.Lighten(colorToPaint,10);
+            ColorStyle.activeColor = UIUtils.Lighten(colorToPaint, 25);
+            ColorStyle.disabledColor = colorToPaint;
+            img.colorStyleSetting = ColorStyle;
+            img.ApplyColorStyleSetting();
+        }
 
         public static void ApplyDefaultStyle(KImage img)
         {

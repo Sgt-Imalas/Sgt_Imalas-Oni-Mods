@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace SetStartDupes
 {
-    class HoldMyReferences : KMonoBehaviour
+    public class HoldMyReferences : KMonoBehaviour
     {
         [Serialize]
         public Dictionary<string,int> USEDSTATS= new();
@@ -23,8 +23,11 @@ namespace SetStartDupes
         {
             posTrait,
             negTrait,
+            needTrait,
+            geneShufflerTrait,
             joy,
-            stress
+            stress,
+            undefined
         }
 
         public void AddTrait(string id)
@@ -45,33 +48,48 @@ namespace SetStartDupes
             return currentTraitIds.Where(entry => entry != thisTrait).ToList();
         }
 
+        public static NextType GetTraitListOfTrait(string traitId, out List<DUPLICANTSTATS.TraitVal> TraitList)
+        {
+            if (DUPLICANTSTATS.GENESHUFFLERTRAITS.FindIndex(t => t.id == traitId) != -1)
+            {
+                TraitList = DUPLICANTSTATS.GENESHUFFLERTRAITS;
+                return NextType.geneShufflerTrait;
+            }
+            else if (DUPLICANTSTATS.GOODTRAITS.FindIndex(t => t.id == traitId) != -1)
+            {
+                TraitList = DUPLICANTSTATS.GOODTRAITS;
+                return NextType.posTrait;
+            }
+            else if (DUPLICANTSTATS.BADTRAITS.FindIndex(t => t.id == traitId) != -1)
+            {
+                TraitList = DUPLICANTSTATS.BADTRAITS;
+                return NextType.negTrait;
+            }
+            else if (DUPLICANTSTATS.NEEDTRAITS.FindIndex(t => t.id == traitId) != -1)
+            {
+                TraitList = DUPLICANTSTATS.NEEDTRAITS;
+                return NextType.needTrait;
+            }
+            else if (DUPLICANTSTATS.JOYTRAITS.FindIndex(t => t.id == traitId) != -1)
+            {
+                TraitList = DUPLICANTSTATS.JOYTRAITS;
+                return NextType.joy;
+            }
+            else if (DUPLICANTSTATS.STRESSTRAITS.FindIndex(t => t.id == traitId) != -1)
+            {
+                TraitList = DUPLICANTSTATS.STRESSTRAITS;
+                return NextType.stress;
+            }
+            TraitList = null;
+            return NextType.undefined;
+
+        }
+
+
         public string GetNextTraitId(string currentId,NextType nextType,bool backwards)
         {
+            GetTraitListOfTrait(currentId, out var currentList);
             int i = 0;
-            List<DUPLICANTSTATS.TraitVal> currentList = null;
-            if (nextType == NextType.posTrait)
-            {
-                ///Compatibility for Akis sussy dupe ink
-                if(DUPLICANTSTATS.GENESHUFFLERTRAITS.FindIndex(t => t.id == currentId) != -1) {
-                    currentList = DUPLICANTSTATS.GENESHUFFLERTRAITS;
-                }
-                else 
-                {
-                    currentList = DUPLICANTSTATS.GOODTRAITS;
-                }
-            }
-            else if (nextType == NextType.negTrait)
-            {
-                currentList = DUPLICANTSTATS.BADTRAITS;
-            }
-            else if (nextType == NextType.joy)
-            {
-                currentList = DUPLICANTSTATS.JOYTRAITS;
-            }
-            else if (nextType == NextType.stress)
-            {
-                currentList = DUPLICANTSTATS.STRESSTRAITS;
-            }
 
             i = currentList.FindIndex(t => t.id == currentId);
             if (i != -1) { 

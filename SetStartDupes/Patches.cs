@@ -339,7 +339,7 @@ namespace SetStartDupes
 
                     var spacer2 = Util.KInstantiateUI(spacerParent, ParentContainer.gameObject, true);
                     UIUtils.TryChangeText(spacer2.transform, "", "INTERESTS");
-
+                    ///Aptitudes
                     foreach (var a in referencedStats.skillAptitudes)
                     {
                         for (int index2 = 0; index2 < a.Key.relevantAttributes.Count; ++index2)
@@ -449,6 +449,8 @@ namespace SetStartDupes
                         }
                         );
                     }
+                    ///EndAptitudes
+                    ///
                     var spacer3 = Util.KInstantiateUI(spacerParent, ParentContainer.gameObject, true);
                     UIUtils.TryChangeText(spacer3.transform, "", "TRAITS");
                     //Db.Get().traits.TryGet();
@@ -462,13 +464,13 @@ namespace SetStartDupes
                         var TraitHolder = traitEntry.AddComponent<HoldMyString>();
                         TraitHolder.CurrentTrait = v;
                         UIUtils.AddSimpleTooltipToObject(traitEntry.transform, TraitHolder.CurrentTrait.GetTooltip(),true);
-
+                        var type = HoldMyReferences.GetTraitListOfTrait(v.Id, out var list);
 
                         if (v.PositiveTrait) 
                         {
-                            ApplyGoodTraitStyle(traitEntry.GetComponent<KImage>());
-                            ApplyGoodTraitStyle(traitEntry.transform.Find("PrevButton").GetComponent<KImage>());
-                            ApplyGoodTraitStyle(traitEntry.transform.Find("NextButton").GetComponent<KImage>());
+                            ApplyTraitStyleByKey(traitEntry.GetComponent<KImage>(), type);
+                            ApplyTraitStyleByKey(traitEntry.transform.Find("PrevButton").GetComponent<KImage>(), type);
+                            ApplyTraitStyleByKey(traitEntry.transform.Find("NextButton").GetComponent<KImage>(), type);
                             UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, v.Name));
                             UIUtils.AddActionToButton(traitEntry.transform, "NextButton", () =>
                             {
@@ -499,9 +501,9 @@ namespace SetStartDupes
                         }
                         else
                         {
-                            ApplyBadTraitStyle(traitEntry.GetComponent<KImage>());
-                            ApplyBadTraitStyle(traitEntry.transform.Find("PrevButton").GetComponent<KImage>());
-                            ApplyBadTraitStyle(traitEntry.transform.Find("NextButton").GetComponent<KImage>());
+                            ApplyTraitStyleByKey(traitEntry.GetComponent<KImage>(), type);
+                            ApplyTraitStyleByKey(traitEntry.transform.Find("PrevButton").GetComponent<KImage>(), type);
+                            ApplyTraitStyleByKey(traitEntry.transform.Find("NextButton").GetComponent<KImage>(), type);
                             UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, v.Name));
                             UIUtils.AddActionToButton(traitEntry.transform, "NextButton", () =>
                             {
@@ -536,11 +538,14 @@ namespace SetStartDupes
                     var JoyTrait = Util.KInstantiateUI(prefabParent, ParentContainer.gameObject, true);
                     UsedSkills.AddTrait(referencedStats.joyTrait.Id);
 
+
+                    //var JoyType = HoldMyReferences.GetTraitListOfTrait(referencedStats.joyTrait.Name, out var list);
+
                     var JoyHolder = JoyTrait.AddComponent<HoldMyString>();
                     JoyHolder.CurrentTrait = referencedStats.joyTrait;
-                    ApplyGoodTraitStyle(JoyTrait.GetComponent<KImage>());
-                    ApplyGoodTraitStyle(JoyTrait.transform.Find("PrevButton").GetComponent<KImage>());
-                    ApplyGoodTraitStyle(JoyTrait.transform.Find("NextButton").GetComponent<KImage>());
+                    ApplyTraitStyleByKey(JoyTrait.GetComponent<KImage>(),HoldMyReferences.NextType.joy);
+                    ApplyTraitStyleByKey(JoyTrait.transform.Find("PrevButton").GetComponent<KImage>(), HoldMyReferences.NextType.joy);
+                    ApplyTraitStyleByKey(JoyTrait.transform.Find("NextButton").GetComponent<KImage>(), HoldMyReferences.NextType.joy);
                     UIUtils.TryChangeText(JoyTrait.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.JOYREACTION, referencedStats.joyTrait.Name));
                     UIUtils.AddSimpleTooltipToObject(JoyTrait.transform, JoyHolder.CurrentTrait.GetTooltip(), true);
 
@@ -572,9 +577,9 @@ namespace SetStartDupes
 
                     UsedSkills.AddTrait(referencedStats.stressTrait.Id);
 
-                    ApplyBadTraitStyle(StressTrait.GetComponent<KImage>());
-                    ApplyBadTraitStyle(StressTrait.transform.Find("PrevButton").GetComponent<KImage>());
-                    ApplyBadTraitStyle(StressTrait.transform.Find("NextButton").GetComponent<KImage>());
+                    ApplyTraitStyleByKey(StressTrait.GetComponent<KImage>(), HoldMyReferences.NextType.stress);
+                    ApplyTraitStyleByKey(StressTrait.transform.Find("PrevButton").GetComponent<KImage>(), HoldMyReferences.NextType.stress);
+                    ApplyTraitStyleByKey(StressTrait.transform.Find("NextButton").GetComponent<KImage>(), HoldMyReferences.NextType.stress);
 
                     var StressHolder = JoyTrait.AddComponent<HoldMyString>();
                     StressHolder.CurrentTrait = referencedStats.stressTrait;
