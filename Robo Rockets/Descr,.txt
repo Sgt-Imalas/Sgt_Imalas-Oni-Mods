@@ -6,30 +6,34 @@ Have you ever wanted to [b]truly[/b] automate rockets, just to have been hit wit
 
 [img]https://i.imgur.com/VgZFBU7.png[/img]
 
-[h1]Current latest Version: 2.2.2[/h1]
+[h1]Current latest Version: 3.0.0[/h1]
 
 [hr][/hr]
 
 [h1]Features[/h1]
-This mod adds a new command module to your rocket arsenal, the [b]AI Control Module[/b].
-This module wont allow any duplicants to enter since it's a closed environment for an artifical brain.
-Instead, this small brain is hooked into the rocket and will fly everywhere a normal piloted rocked could.
-The module is mutually exclusive with other command modules.
-With this module, Rockets can fly truly automated now!
+This mod adds 3 new command modules to your rocket arsenal.
+These modules wont allow any duplicants to enter, instead they allow rocket flight without any duplicants inside
+The modules are mutually exclusive with other command modules.
 
 [h1]Requirements[/h1]
 [list]
-    [*]locked behind the research "High Velocity Destruction" (Automated Rockets are pretty high tech)
-    [*]Requires 300 refined metal [b]and[/b] a neural vaccilator recharge (to "grow" the brain, the charge gets recovered on deconstruction).
+    [*]AI Control Module & AI Nosecone are locked behind the research "High Velocity Destruction"
+    [*]AI Brain Module is locked behind a new Tech, "Artificial Learning Capabilities", requiring a lot of space science to unlock.
+    [*]AI Brains:[list] 
+        [*]can be made in the Molecular Forge, requiring a vaccilator recarge amongs some other resources.
+        [*]can be named
+        [*]can be demolished to refund the ressources
+        [*]When loaded into a rocket, the brain will learn while flying, resulting in faster flight speeds at higher piloting levels
+    [/list]
 [/list] 
 
 [h1]Configuration[/h1]
 Mod Options: 
 [list]
-    [*]"Advanced Recipe" - Disable this to to remove the neural vaccilator recharge from the build cost.
-    [*]"Ai Speed Multiplier" - Set the speed-multiplier the module uses in flight: 
+    [*]"Ai Speed Multiplier" - Set the speed-multiplier the normal AI modules use in flight: 
         0.5 = default autopilot speed (when no dupe sits at the controls of a normal module)
         1.75 = rocket is as fast as a piloted rocket with a maxed out piloting skill (30);
+    [*]"Ai Brain Start Multiplier" - Set the speed-multiplier the AI brains start with
 
 [/list]
 [h1]Remarks[/h1]
@@ -38,17 +42,18 @@ Additionally, the framework of the rockets in the DLC is a duct taped mess.
 Therefore, some parts from the normal rockets are still there, but won't have any function, for example; access control.
 
 before uninstalling, remove all existing AI control modules in the save game, otherwise that save will crash on load.
+also demolish all brains if you want to get the vaccilator recharges back.
 
 [hr][/hr]
 
 [h1]Credits[/h1]
-Much thanks to Romen, Aki,  Peter Han & Cairath from the Modding Discord who helped me get a hold in Oni modding
+Much thanks to Romen, Aki, pether.pg, Peter Han & Cairath from the Modding Discord who helped me get a hold in Oni modding
 Also special thanks to Aki who teached me how to create animations and draw more "oni-style"
 
 [hr][/hr]
 
 [h1]Bug Reports[/h1]
-Please post bug reports and issues on my [url=https://github.com/Knastoron/Knastoron-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+Please post crash reports and issues on my [url=https://github.com/Knastoron/Knastoron-Oni-Mods/issues] GitHub[/url] with the crash log.
 
 Where to find the Log:
 [list]
