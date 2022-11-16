@@ -48,7 +48,8 @@ namespace RoboRockets.LearningBrain
 
             prefab.AddComponent<FlyingBrain>(); 
             prefab.AddOrGet<DemolishableDroppable>();
-            prefab.AddOrGet<OccupyArea>().OccupiedCellsOffsets = EntityTemplates.GenerateOffsets(1, 1);
+            prefab.AddOrGet<OccupyArea>().OccupiedCellsOffsets = EntityTemplates.GenerateOffsets(1, 1); 
+            prefab.AddOrGet<UserNameable>();
 
             return prefab;
         }

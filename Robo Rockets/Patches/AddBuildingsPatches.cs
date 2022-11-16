@@ -30,10 +30,10 @@ namespace RoboRockets.Patches
         {
             public static void Postfix()
             {
-                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityTransport, EarlyGameAIControlModuleConfig.ID);
-                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityTransport, AINoseconeConfig.ID);
-                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, AIControlModuleLearningConfig.ID);
-                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, BrainConfig.ID);
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, EarlyGameAIControlModuleConfig.ID);
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, AINoseconeConfig.ID);
+                //InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, AIControlModuleLearningConfig.ID);
+                //InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, BrainConfig.ID);
             }
         }
     }

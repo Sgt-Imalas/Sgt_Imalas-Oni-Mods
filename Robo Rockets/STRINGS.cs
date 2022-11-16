@@ -50,8 +50,8 @@ namespace RoboRockets
                 public class AIMODULE
                 {
                     public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("AI Control Module [DEPRECATED]", nameof(AIMODULE));
-                    public static LocString DESC = "A Module that controls your Rocket without any duplicant input.";
-                    public static LocString EFFECT = "Functions as a Command Module.\n\nOne Command Module may be installed per rocket.\n\nWon't allow any duplicants inside"; 
+                    public static LocString DESC = "[Module Deprecated]\nPlease replace with one of the new Modules";
+                    public static LocString EFFECT = "[Module Deprecated]\nPlease replace with one of the new Modules";
                 }
                 public class RR_AINOSECONE
                 {
@@ -69,20 +69,33 @@ namespace RoboRockets
                 {
                     public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("AI Brain Module", nameof(RR_AINOSECONE));
                     public static LocString DESC = "The big camera lens helps its AI with navigation.";
-                    public static LocString EFFECT = "Requires a "+ MISC.TAGS.RR_SPACEBRAINFLYER+" to function.\nBrains can be made at the "+global::STRINGS.BUILDINGS.PREFABS.SUPERMATERIALREFINERY.NAME+"\nA brain will pilot the rocket and slowly gain piloting experience, resulting in faster flight times.\n\nFunctions as a Command Module.\n\nOne Command Module may be installed per rocket.\n\nMust be built at the top of a Rocket\n\nWon't allow any duplicants inside";
+                    public static LocString EFFECT = "Requires a " + MISC.TAGS.RR_SPACEBRAINFLYER + " to function.\nBrains can be made at the " + global::STRINGS.BUILDINGS.PREFABS.SUPERMATERIALREFINERY.NAME + "\nA brain will pilot the rocket and slowly gain piloting experience, resulting in faster flight times.\n\nFunctions as a Command Module.\n\nOne Command Module may be installed per rocket.\n\nMust be built at the top of a Rocket\n\nWon't allow any duplicants inside";
                 }
                 public class RR_AICONTROLMODULE
                 {
-                    public static LocString DisplayName = "AI Control Module [DEPRECATED]";
-                    public static LocString Description = "A Module that controls your Rocket without any duplicant input.";
+                    //public static LocString DisplayName = "AI Control Module [DEPRECATED]";
+                    //public static LocString Description = "A Module that controls your Rocket without any duplicant input.";
 
-                    public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("AI Control Module", nameof(AIControlModuleConfig));
-                    public static LocString DESC = "A Module that controls your Rocket without any duplicant input.";
-                    public static LocString EFFECT = "Functions as a Command Module.\n\nOne Command Module may be installed per rocket.\n\nWon't allow any duplicants inside"; 
+                    public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("AI Control Module [DEPRECATED]", nameof(AIControlModuleConfig));
+                    public static LocString DESC = "[Module Deprecated]\nPlease replace with one of the new Modules";
+                    public static LocString EFFECT = "[Module Deprecated]\nPlease replace with one of the new Modules";
                 }
             }
         }
 
+        public class RESEARCH
+        {
+
+            public class TECHS
+            {
+                
+                public class RR_BRAINMODULETECH
+                {
+                    public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("Artificial Learning Capabilities", nameof(RR_BRAINMODULETECH));
+                    public static LocString DESC = "Grow a brain and let it reach for the stars";
+                }
+            }
+        }
         public class BUILDING
         {
             public class STATUSITEMS
