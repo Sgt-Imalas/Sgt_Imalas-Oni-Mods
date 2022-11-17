@@ -488,16 +488,15 @@ namespace SetStartDupes
                         UIUtils.AddSimpleTooltipToObject(traitEntry.transform, TraitHolder.CurrentTrait.GetTooltip(),true);
                         var type = DupeTraitManager.GetTraitListOfTrait(v.Id, out var list);
                         TraitsToSort.Add(new Tuple<GameObject, DupeTraitManager.NextType>(traitEntry, type));
-                        if (v.PositiveTrait) 
-                        {
-                            ApplyTraitStyleByKey(traitEntry.GetComponent<KImage>(), type);
+                        
+                        ApplyTraitStyleByKey(traitEntry.GetComponent<KImage>(), type);
                             ApplyTraitStyleByKey(traitEntry.transform.Find("PrevButton").GetComponent<KImage>(), type);
                             ApplyTraitStyleByKey(traitEntry.transform.Find("NextButton").GetComponent<KImage>(), type);
                             UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, v.Name));
                             UIUtils.AddActionToButton(traitEntry.transform, "NextButton", () =>
                             {
 
-                                string nextTraitId = UsedSkills.GetNextTraitId(TraitHolder.CurrentTrait.Id, DupeTraitManager.NextType.posTrait,false);
+                                string nextTraitId = UsedSkills.GetNextTraitId(TraitHolder.CurrentTrait.Id,false);
                                 Trait NextTrait = Db.Get().traits.TryGet(nextTraitId);
                                 UsedSkills.ReplaceTrait(TraitHolder.CurrentTrait.Id, nextTraitId);
                                 referencedStats.Traits.Remove(TraitHolder.CurrentTrait);
@@ -510,7 +509,7 @@ namespace SetStartDupes
                             UIUtils.AddActionToButton(traitEntry.transform, "PrevButton", () =>
                             {
 
-                                string nextTraitId = UsedSkills.GetNextTraitId(TraitHolder.CurrentTrait.Id, DupeTraitManager.NextType.posTrait,true);
+                                string nextTraitId = UsedSkills.GetNextTraitId(TraitHolder.CurrentTrait.Id,true);
                                 Trait NextTrait = Db.Get().traits.TryGet(nextTraitId);
                                 UsedSkills.ReplaceTrait(TraitHolder.CurrentTrait.Id, nextTraitId);
                                 referencedStats.Traits.Remove(TraitHolder.CurrentTrait);
@@ -520,38 +519,6 @@ namespace SetStartDupes
                                 UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, TraitHolder.CurrentTrait.Name));
                                 UIUtils.AddSimpleTooltipToObject(traitEntry.transform, TraitHolder.CurrentTrait.GetTooltip(),true);
                             });
-                        }
-                        else
-                        {
-                            ApplyTraitStyleByKey(traitEntry.GetComponent<KImage>(), type);
-                            ApplyTraitStyleByKey(traitEntry.transform.Find("PrevButton").GetComponent<KImage>(), type);
-                            ApplyTraitStyleByKey(traitEntry.transform.Find("NextButton").GetComponent<KImage>(), type);
-                            UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, v.Name));
-                            UIUtils.AddActionToButton(traitEntry.transform, "NextButton", () =>
-                            {
-                                string nextTraitId = UsedSkills.GetNextTraitId(TraitHolder.CurrentTrait.Id, DupeTraitManager.NextType.negTrait,false);
-                                Trait NextTrait = Db.Get().traits.TryGet(nextTraitId);
-                                UsedSkills.ReplaceTrait(TraitHolder.CurrentTrait.Id, nextTraitId);
-                                referencedStats.Traits.Remove(TraitHolder.CurrentTrait);
-                                referencedStats.Traits.Add(NextTrait);
-                                TraitHolder.CurrentTrait = NextTrait;
-
-                                UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, TraitHolder.CurrentTrait.Name));
-                                UIUtils.AddSimpleTooltipToObject(traitEntry.transform, TraitHolder.CurrentTrait.GetTooltip(),true);
-                            }); 
-                            UIUtils.AddActionToButton(traitEntry.transform, "PrevButton", () =>
-                            {
-                                string nextTraitId = UsedSkills.GetNextTraitId(TraitHolder.CurrentTrait.Id, DupeTraitManager.NextType.negTrait,true);
-                                Trait NextTrait = Db.Get().traits.TryGet(nextTraitId);
-                                UsedSkills.ReplaceTrait(TraitHolder.CurrentTrait.Id, nextTraitId);
-                                referencedStats.Traits.Remove(TraitHolder.CurrentTrait);
-                                referencedStats.Traits.Add(NextTrait);
-                                TraitHolder.CurrentTrait = NextTrait;
-
-                                UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, TraitHolder.CurrentTrait.Name));
-                                UIUtils.AddSimpleTooltipToObject(traitEntry.transform, TraitHolder.CurrentTrait.GetTooltip(), true);
-                            });
-                        }
                     }
 
                     TraitsToSort = TraitsToSort.OrderBy(t => (int)t.second).ToList();
@@ -579,7 +546,7 @@ namespace SetStartDupes
 
                     UIUtils.AddActionToButton(JoyTrait.transform, "NextButton", () =>
                     {
-                        string nextTraitId = UsedSkills.GetNextTraitId(JoyHolder.CurrentTrait.Id, DupeTraitManager.NextType.joy,false);
+                        string nextTraitId = UsedSkills.GetNextTraitId(JoyHolder.CurrentTrait.Id,false);
                         Trait NextTrait = Db.Get().traits.TryGet(nextTraitId);
                         UsedSkills.ReplaceTrait(JoyHolder.CurrentTrait.Id, nextTraitId);
                         referencedStats.joyTrait = NextTrait;
@@ -590,7 +557,7 @@ namespace SetStartDupes
                     });
                     UIUtils.AddActionToButton(JoyTrait.transform, "PrevButton", () =>
                     {
-                        string nextTraitId = UsedSkills.GetNextTraitId(JoyHolder.CurrentTrait.Id, DupeTraitManager.NextType.joy,true);
+                        string nextTraitId = UsedSkills.GetNextTraitId(JoyHolder.CurrentTrait.Id,true);
                         Trait NextTrait = Db.Get().traits.TryGet(nextTraitId);
                         UsedSkills.ReplaceTrait(JoyHolder.CurrentTrait.Id, nextTraitId);
                         referencedStats.joyTrait = NextTrait;
@@ -617,7 +584,7 @@ namespace SetStartDupes
 
                     UIUtils.AddActionToButton(StressTrait.transform, "NextButton", () =>
                     {
-                        string nextTraitId = UsedSkills.GetNextTraitId(StressHolder.CurrentTrait.Id, DupeTraitManager.NextType.stress, false);
+                        string nextTraitId = UsedSkills.GetNextTraitId(StressHolder.CurrentTrait.Id, false);
                         Trait NextTrait = Db.Get().traits.TryGet(nextTraitId);
                         UsedSkills.ReplaceTrait(StressHolder.CurrentTrait.Id, nextTraitId);
                         referencedStats.stressTrait = NextTrait;
@@ -627,7 +594,7 @@ namespace SetStartDupes
                     });
                     UIUtils.AddActionToButton(StressTrait.transform, "PrevButton", () =>
                     {
-                        string nextTraitId = UsedSkills.GetNextTraitId(StressHolder.CurrentTrait.Id, DupeTraitManager.NextType.stress, true);
+                        string nextTraitId = UsedSkills.GetNextTraitId(StressHolder.CurrentTrait.Id, true);
                         Trait NextTrait = Db.Get().traits.TryGet(nextTraitId);
                         UsedSkills.ReplaceTrait(StressHolder.CurrentTrait.Id, nextTraitId);
                         referencedStats.stressTrait = NextTrait;

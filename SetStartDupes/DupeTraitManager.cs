@@ -88,7 +88,7 @@ namespace SetStartDupes
         }
 
 
-        public string GetNextTraitId(string currentId,NextType nextType,bool backwards)
+        public string GetNextTraitId(string currentId,bool backwards)
         {
             GetTraitListOfTrait(currentId, out var currentList);
             int i = 0;
