@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace SetStartDupes
 {
-    public class HoldMyReferences : KMonoBehaviour
+    public class DupeTraitManager : KMonoBehaviour
     {
         [Serialize]
         public Dictionary<string,int> USEDSTATS= new();
@@ -18,13 +18,15 @@ namespace SetStartDupes
         public List<SkillGroup> CurrentSkills = new();
 
         public List<string> currentTraitIds = new();
+        [Serialize]
+        public int strengthSkillHeightHolder = -1;
 
         public enum NextType
         {
-            posTrait,
-            negTrait,
-            needTrait,
             geneShufflerTrait,
+            posTrait,
+            needTrait,
+            negTrait,
             joy,
             stress,
             undefined
@@ -122,7 +124,6 @@ namespace SetStartDupes
         {
             if (!USEDSTATS.ContainsKey(stat))
             {
-
                 USEDSTATS[stat] = 1;
                 return true;
             }
@@ -152,21 +153,6 @@ namespace SetStartDupes
             {
                 return true;
             }
-        }
-
-        public void InstantiateSingleStatView(GameObject parent)
-        {
-            var window = Util.KInstantiateUI(ScreenPrefabs.Instance.modsMenu.gameObject, parent);
-            //window.SetActive(false);
-
-#if DEBUG
-            // Debug.Log("SINGLE LIST:");
-            // UIUtils.ListAllChildren(window.transform);
-#endif
-            var oldComp = window.GetComponent<ModsScreen>();
-            UnityEngine.Object.Destroy(oldComp);
-            var mlv = (StatSelector)window.AddComponent(typeof(StatSelector));
-            mlv.Build(this);
         }
     }
 }

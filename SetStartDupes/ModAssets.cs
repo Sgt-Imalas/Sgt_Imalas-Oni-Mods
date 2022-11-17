@@ -41,25 +41,25 @@ namespace SetStartDupes
         }
 
 
-        public static void ApplyTraitStyleByKey(KImage img, HoldMyReferences.NextType type)
+        public static void ApplyTraitStyleByKey(KImage img, DupeTraitManager.NextType type)
         {
             //if(type != HoldMyReferences.NextType.geneShufflerTrait)
             //{
             Color colorToPaint;
             switch (type)
             {
-                case HoldMyReferences.NextType.joy:
-                case HoldMyReferences.NextType.posTrait:
+                case DupeTraitManager.NextType.joy:
+                case DupeTraitManager.NextType.posTrait:
                     colorToPaint = Colors.green;
                     break;
-                case HoldMyReferences.NextType.negTrait:
-                case HoldMyReferences.NextType.stress:
+                case DupeTraitManager.NextType.negTrait:
+                case DupeTraitManager.NextType.stress:
                     colorToPaint = Colors.red;
                     break;
-                case HoldMyReferences.NextType.needTrait:
+                case DupeTraitManager.NextType.needTrait:
                     colorToPaint = Colors.gold;
                     break;
-                case HoldMyReferences.NextType.geneShufflerTrait:
+                case DupeTraitManager.NextType.geneShufflerTrait:
                     colorToPaint = Colors.purple;
                     break;
                 default:

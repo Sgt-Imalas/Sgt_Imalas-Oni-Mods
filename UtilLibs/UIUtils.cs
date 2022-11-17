@@ -139,6 +139,17 @@ namespace UtilLibs
             toDisable.gameObject.SetActive(false);
             return true;
         }
+        public static bool FindAndDestroy(Transform parent, string name)
+        {
+#if DEBUG
+            //Debug.Log("Disabling " + name);
+#endif
+            var toDisable = parent.Find(name);
+            if (toDisable == null)
+                return false;
+            UnityEngine.Object.Destroy(toDisable.gameObject);
+            return true;
+        }
 
         public static void ListComponents(GameObject instance)
         {

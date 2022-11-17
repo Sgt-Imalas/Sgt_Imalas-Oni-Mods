@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SetStartDupes
 {
-    class HoldMyString : KMonoBehaviour
+    class DupeInterestManager : KMonoBehaviour
     {
         [Serialize]
         public SkillGroup Group = null;
