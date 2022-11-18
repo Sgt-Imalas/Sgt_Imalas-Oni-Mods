@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Rockets_TinyYetBig.Buildings.Update_4_Ideas
+namespace Rockets_TinyYetBig.TODO
 {
     class IonEngineConfig
     {

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Rockets_TinyYetBig.Buildings.Update_2._5_Ideas
+namespace Rockets_TinyYetBig.TODO
 {
-    class LandingPadDeployerModuleConfig
+    class DatabankProductionModuleConfig
     {
     }
 }

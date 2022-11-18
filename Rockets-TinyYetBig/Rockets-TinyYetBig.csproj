@@ -197,6 +197,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Buildings\Update 4 Ideas\" />
 	  <Folder Include="ModAssets\translations\" />
 	</ItemGroup>
 </Project>
