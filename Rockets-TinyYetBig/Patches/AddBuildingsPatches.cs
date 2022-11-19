@@ -2,6 +2,7 @@
 using Rockets_TinyYetBig;
 using Rockets_TinyYetBig.Buildings;
 using Rockets_TinyYetBig.NonRocketBuildings;
+using Rockets_TinyYetBig.RocketFueling;
 using Rockets_TinyYetBig.SpaceStations;
 using System;
 using System.Collections.Generic;
@@ -69,6 +70,13 @@ namespace RoboRockets.Rockets_TinyYetBig
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, SpaceStationDockingDoorConfig.ID,null, LaunchPadConfig.ID);
                 AddRocketModuleToBuildList(LandingLegConfig.ID, RocketCategory.utility); 
                 AddRocketModuleToBuildList(SpaceStationBuilderModuleConfig.ID, RocketCategory.utility);
+
+
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, GasFuelLoaderConfig.ID, null, LaunchPadConfig.ID); 
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LiquidFuelLoaderConfig.ID, null, LaunchPadConfig.ID); 
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LiquidOxidizerLoaderConfig.ID, null, LaunchPadConfig.ID); 
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, SolidOxidizerLoaderConfig.ID, null, LaunchPadConfig.ID); 
+
             }
         }
 
