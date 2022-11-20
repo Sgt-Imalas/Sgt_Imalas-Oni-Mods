@@ -176,6 +176,9 @@
 	  <None Update="ModAssets\preview.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\templates\interiors\emptySpaceStationPrefab.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\templates\interiors\habitat_medium_expanded.yaml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>

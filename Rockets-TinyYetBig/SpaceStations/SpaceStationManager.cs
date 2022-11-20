@@ -21,6 +21,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         public static bool WorldIsRocketInterior(int worldId) => !ClusterManager.Instance.GetWorld(worldId).HasTag(ModAssets.Tags.IsSpaceStation) && ClusterManager.Instance.GetWorld(worldId).IsModuleInterior;
         public static bool WorldIsSpaceStationInterior(int worldId) => ClusterManager.Instance.GetWorld(worldId).HasTag(ModAssets.Tags.IsSpaceStation) && ClusterManager.Instance.GetWorld(worldId).IsModuleInterior;
 
+        public SpaceStation GetSpaceStationFromWorldId(int worldId) => ClusterManager.Instance.GetWorld(worldId).GetComponent<SpaceStation>();
 
         public WorldContainer CreateSpaceStationInteriorWorld(
             GameObject craft_go,
@@ -81,14 +82,17 @@ namespace Rockets_TinyYetBig.SpaceStations
                 OrbitalMechanics component = world.GetComponent<OrbitalMechanics>();
                 if (!component.IsNullOrDestroyed())
                     UnityEngine.Object.Destroy((UnityEngine.Object)component);
-                AxialI clusterLocation = world.GetComponent<SpaceStation>().Location;
+
+                SpaceStation station;
+                world.TryGetComponent<SpaceStation>(out station);
+
+                AxialI clusterLocation = station.Location;
 
                 world.SpacePodAllDupes(clusterLocation, SimHashes.Cuprite);
                 world.CancelChores();
                 HashSet<int> noRefundTiles;
                 world.DestroyWorldBuildings(out noRefundTiles);
                 ClusterManager.Instance.UnregisterWorldContainer(world);
-
                 GameScheduler.Instance.ScheduleNextFrame("ClusterManager.world.TransferResourcesToDebris", (System.Action<object>)(obj => world.TransferResourcesToDebris(clusterLocation, noRefundTiles, SimHashes.Cuprite)));
                 GameScheduler.Instance.ScheduleNextFrame("ClusterManager.DeleteWorldObjects", (System.Action<object>)(obj => DeleteWorldObjects(world)));
             }
@@ -119,6 +123,9 @@ namespace Rockets_TinyYetBig.SpaceStations
                 worldInventory = world.GetComponent<WorldInventory>();
             if ((UnityEngine.Object)worldInventory != (UnityEngine.Object)null)
                 UnityEngine.Object.Destroy((UnityEngine.Object)worldInventory);
+
+
+
             if (!((UnityEngine.Object)world != (UnityEngine.Object)null))
                 return;
             UnityEngine.Object.Destroy((UnityEngine.Object)world);

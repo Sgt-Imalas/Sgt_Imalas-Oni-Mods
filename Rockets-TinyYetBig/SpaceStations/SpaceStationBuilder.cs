@@ -38,7 +38,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             if (worldId!=-1)
             {
                 ///other transfering items ?...
-                SpaceStationManager.Instance.DestroySpaceStationInteriorWorld(worldId);
+                SpaceStationManager.Instance.GetSpaceStationFromWorldId(worldId).DestroySpaceStation();
             }
             else
             {

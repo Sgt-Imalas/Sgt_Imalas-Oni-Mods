@@ -25,8 +25,8 @@ namespace Rockets_TinyYetBig.SpaceStations
         [Serialize]
         public bool BuildableInterior = true;
 
-
-        public string InteriorTemplate = "OrbitalSpaceStation";
+        public Vector2I InteriorSize = new Vector2I(30, 30);
+        public string InteriorTemplate = "emptySpaceStationPrefab";
         public string IconAnimName = "station_1";
 
         public override List<ClusterGridEntity.AnimConfig> AnimConfigs => new List<ClusterGridEntity.AnimConfig>()
@@ -39,7 +39,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         };
 
         public override string Name => this.m_name;
-        public override bool IsVisible => true;
+        //public override bool IsVisible => true;
         public override EntityLayer Layer => EntityLayer.Craft;
         public override bool SpaceOutInSameHex() => true;
         public override ClusterRevealLevel IsVisibleInFOW => ClusterRevealLevel.Visible;
@@ -50,7 +50,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             Debug.Log("MY WorldID:" + SpaceStationInteriorId);
             if (SpaceStationInteriorId < 0)
             {
-                var interiorWorld = SpaceStationManager.Instance.CreateSpaceStationInteriorWorld(gameObject, "interiors/"+InteriorTemplate, new Vector2I(27, 37), BuildableInterior, null);
+                var interiorWorld = SpaceStationManager.Instance.CreateSpaceStationInteriorWorld(gameObject, "interiors/"+InteriorTemplate, InteriorSize, BuildableInterior, null);
                 SpaceStationInteriorId = interiorWorld.id;
                 Debug.Log("new WorldID:" + SpaceStationInteriorId);
                 Debug.Log("ADDED NEW SPACE STATION INTERIOR");
@@ -74,6 +74,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         public void DestroySpaceStation()
         {
+            this.SetExploding();
             SpaceStationManager.Instance.DestroySpaceStationInteriorWorld(this.SpaceStationInteriorId);
             UnityEngine.Object.Destroy(this.gameObject);
         }

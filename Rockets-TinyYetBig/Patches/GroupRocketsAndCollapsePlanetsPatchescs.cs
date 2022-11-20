@@ -49,9 +49,9 @@ namespace Rockets_TinyYetBig.Patches
         { 
             public static void Postfix(WorldSelector __instance)
             {
-                Debug.Log("WorldSelector Start");
-                UIUtils.ListAllChildren(__instance.transform);
-                Debug.Log("WorldSelector End");
+                //Debug.Log("WorldSelector Start");
+                //UIUtils.ListAllChildren(__instance.transform);
+                //Debug.Log("WorldSelector End");
             }
         }
     }

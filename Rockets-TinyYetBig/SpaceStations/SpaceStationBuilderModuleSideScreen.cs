@@ -20,6 +20,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         private readonly List<GameObject> buttons = new List<GameObject>();
 
         private Clustercraft targetCraft;
+        private SpaceStationBuilder targetBuilder;
 
         public override bool IsValidForTarget(GameObject target) => target.GetComponent<Clustercraft>() != null && this.HasConstructor(target.GetComponent<Clustercraft>());
         private bool HasConstructor(Clustercraft craft)
@@ -34,10 +35,13 @@ namespace Rockets_TinyYetBig.SpaceStations
         protected override void OnSpawn()
         {
             base.OnSpawn();
-
+            UIUtils.ListAllChildren(this.transform);
             // the monument screen used here has 2 extra buttons that are not needed, disabling them
-            //flipButton.SetActive(false);
+            flipButton.SetActive(false);
             //debugVictoryButton.SetActive(false);
+            UIUtils.TryChangeText(flipButton.transform, "", "MakeOrBreakSpaceStation");
+
+            UIUtils.AddActionToButton(debugVictoryButton.transform, "", () => targetBuilder.OnSidescreenButtonPressed());
         }
 
         protected override void OnPrefabInit()
@@ -61,7 +65,16 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
             base.SetTarget(target);
 
-            targetCraft = target.GetComponent<Clustercraft>();
+            targetCraft = target.GetComponent<Clustercraft>(); 
+            
+            foreach (Ref<RocketModuleCluster> clusterModule in targetCraft.GetComponent<CraftModuleInterface>().ClusterModules)
+            {
+                if (clusterModule.Get().TryGetComponent<SpaceStationBuilder>(out var targetb))
+                {
+                    targetBuilder = targetb;
+                    break;
+                }
+            }
             //GetPrefabStrings();
             //refreshHandle.Add(this.targetCraft.gameObject.Subscribe(1792516731, new System.Action<object>(this.RefreshAll)));
             //BuildModules();
