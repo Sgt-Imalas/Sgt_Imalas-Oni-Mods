@@ -72,22 +72,23 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
             else
             {
-                
+
                 if (ClusterManager.Instance.activeWorldId == world_id)
                 {
                     ClusterManager.Instance.SetActiveWorld(ClusterManager.Instance.GetStartWorld().id);
                 }
-                OrbitalMechanics component = gameObject.GetComponent<OrbitalMechanics>();
+
+                OrbitalMechanics component = world.GetComponent<OrbitalMechanics>();
                 if (!component.IsNullOrDestroyed())
                     UnityEngine.Object.Destroy((UnityEngine.Object)component);
-                AxialI clusterLocation = world.GetComponent<ClusterGridEntity>().Location;
+                AxialI clusterLocation = world.GetComponent<SpaceStation>().Location;
 
                 world.SpacePodAllDupes(clusterLocation, SimHashes.Cuprite);
                 world.CancelChores();
                 HashSet<int> noRefundTiles;
                 world.DestroyWorldBuildings(out noRefundTiles);
                 ClusterManager.Instance.UnregisterWorldContainer(world);
-                
+
                 GameScheduler.Instance.ScheduleNextFrame("ClusterManager.world.TransferResourcesToDebris", (System.Action<object>)(obj => world.TransferResourcesToDebris(clusterLocation, noRefundTiles, SimHashes.Cuprite)));
                 GameScheduler.Instance.ScheduleNextFrame("ClusterManager.DeleteWorldObjects", (System.Action<object>)(obj => DeleteWorldObjects(world)));
             }
