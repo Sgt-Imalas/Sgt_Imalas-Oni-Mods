@@ -215,9 +215,9 @@ namespace SetStartDupes
                 var buttonPrefab = __instance.transform.Find("TitleBar/RenameButton").gameObject;
                 var titlebar = __instance.transform.Find("TitleBar").gameObject;
 #if DEBUG
-                Debug.Log("Start ChildrenList");
-                UIUtils.ListAllChildren(__instance.transform);
-                Debug.Log("Stop ChildrenList");
+                //Debug.Log("Start ChildrenList");
+                //UIUtils.ListAllChildren(__instance.transform);
+                //Debug.Log("Stop ChildrenList");
 #endif
 
                 var changebtn = Util.KInstantiateUI(buttonPrefab, titlebar);
@@ -298,9 +298,9 @@ namespace SetStartDupes
                 ///Building the Button window
                 if(ShouldInit) {
 
-                    Debug.Log("FindScroll");
-                    UIUtils.ListAllChildren(ParentContainer.transform);
-                    Debug.Log("endFindScroll");
+                    //Debug.Log("FindScroll");
+                    //UIUtils.ListAllChildren(ParentContainer.transform);
+                    //Debug.Log("endFindScroll");
 
                     UIUtils.FindAndDestroy(ParentContainer.transform, "Top");
                     UIUtils.FindAndDestroy(ParentContainer.transform, "AttributeScores");
@@ -316,7 +316,7 @@ namespace SetStartDupes
                     SizeSetter.flexibleHeight = 600;
 
 
-                    UIUtils.ListComponents(overallSize.gameObject);
+                    //UIUtils.ListComponents(overallSize.gameObject);
 
 
                     //overallSize.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, 600);
@@ -349,127 +349,54 @@ namespace SetStartDupes
                     var spacerParent = prefabParent.transform.Find("Label").gameObject;
 
                     //skillMod.transform.Find("DetailsContainer").gameObject.SetActive(false);
-                    var UsedSkills = ParentContainer.FindOrAddComponent<DupeTraitManager>();
+                    var DupeTraitMng = ParentContainer.FindOrAddComponent<DupeTraitManager>();
 
 
 
-                    var spacer2 = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
+                    var Spacer2AndInterestHolder = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
 
-                    UIUtils.TryChangeText(spacer2.transform, "", "INTERESTS");
+                    UIUtils.TryChangeText(Spacer2AndInterestHolder.transform, "", "INTERESTS");
+
+
                     ///Aptitudes
-                    foreach (var a in referencedStats.skillAptitudes)
+
+                    DupeTraitMng.referencedInterests = ref referencedStats.skillAptitudes;
+                    DupeTraitMng.dupeStatPoints = ref referencedStats.StartingLevels;
+                    DupeTraitMng.GetInterestsWithStats();
+                    DupeTraitMng.AddSkillLevels(ref referencedStats.StartingLevels);
+                    int index = 0;
+
+                    foreach (var a in DupeTraitMng.GetInterestsWithStats())
                     {
-
-
-                        for (int index2 = 0; index2 < a.Key.relevantAttributes.Count; ++index2)
-                        {
-                            UsedSkills.AddOrIncreaseToStat(a.Key.relevantAttributes[index2].Id);
-                        }
                         var AptitudeEntry = Util.KInstantiateUI(prefabParent, ContentContainer.gameObject, true);
-
+                        
+                        var name = AptitudeEntry.AddComponent<DupeTraitHolder>();
+                        name.Group = DupeTraitMng.ActiveInterests[index];
                         AptitudeEntry.GetComponent<KButton>().enabled = false;
-                        var name = AptitudeEntry.AddComponent<DupeInterestManager>();
-                        name.Group = a.Key;
-
-                        Klei.AI.Attribute plusAttribute = name.Group.relevantAttributes.First();
-                        int plusstat = referencedStats.StartingLevels[plusAttribute.Id];
-
-
-
                         ApplyDefaultStyle(AptitudeEntry.GetComponent<KImage>());
-                        UIUtils.TryChangeText(AptitudeEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, name.NAME(), name.RelevantAttribute(), plusstat));
+                        UIUtils.TryChangeText(AptitudeEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, name.NAME(), name.RelevantAttribute(), DupeTraitMng.GetBonusValue(index)));
 
 
                         UIUtils.AddActionToButton(AptitudeEntry.transform, "NextButton", () =>
                         {
-                            //UsedSkills.InstantiateSingleStatView(null);
-                            //return;
-                        List<SkillGroup> list = new List<SkillGroup>((IEnumerable<SkillGroup>)Db.Get().SkillGroups.resources);
-                        int i = list.FindIndex(item => item == name.Group);
-                        ++i;
-                        if (i == list.Count)
-                            i = 0;
-
-                        int counter = 0;
-                        while (referencedStats.skillAptitudes.ContainsKey(list[i]))
-                        {
-                            ++i;
-                            if (i == list.Count)
-                                i = 0;
-                            ++counter;
-                            if (counter > 40) break;
-                        }
-
-                        referencedStats.skillAptitudes.Remove(name.Group);
-                        referencedStats.skillAptitudes.Add(list[i], 1);
-                            int statheight = 0;
-
-                            foreach(var relevantStat in name.Group.relevantAttributes)
-                            {
-                                string statId = relevantStat.Id;
-                                bool deleteOldBoost = UsedSkills.DoesRemoveReduceStats(statId, true);
-
-                                statheight =  referencedStats.StartingLevels[statId] > statheight ? referencedStats.StartingLevels[statId] : statheight;
-                                if (deleteOldBoost)
-                                    referencedStats.StartingLevels[statId] = 0;
-                            }
-                            name.Group = list[i];
-
-                            foreach (var relevantStat in name.Group.relevantAttributes)
-                            {
-                                string statId = relevantStat.Id;
-                                referencedStats.StartingLevels[statId] = statheight;
-                                UsedSkills.AddOrIncreaseToStat(relevantStat.Id);
-                            }
-                            UIUtils.TryChangeText(AptitudeEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, name.NAME(), name.RelevantAttribute(), statheight));
+                            int prevInd = DupeTraitMng.GetCurrentIndex(name.Group.Id);
+                            DupeTraitMng.GetNextInterest(prevInd);
+                            name.Group = DupeTraitMng.ActiveInterests[prevInd];
+                            UIUtils.TryChangeText(AptitudeEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, name.NAME(), name.RelevantAttribute(), DupeTraitMng.GetBonusValue(prevInd)));
                         }
                         );
                         UIUtils.AddActionToButton(AptitudeEntry.transform, "PrevButton", () =>
                         {
-                            List<SkillGroup> list = new List<SkillGroup>((IEnumerable<SkillGroup>)Db.Get().SkillGroups.resources);
-                            int i = list.FindIndex(item => item == name.Group);
-                            --i;
-                            if (i < 0)
-                                i += list.Count;
-
-                            int counter = 0;
-                            while (referencedStats.skillAptitudes.ContainsKey(list[i]))
-                            {
-                                ++i;
-                                if (i < 0)
-                                    i += list.Count;
-                                ++counter;
-                                if (counter > 40) break;
-                            }
-
-                            referencedStats.skillAptitudes.Remove(name.Group);
-                            referencedStats.skillAptitudes.Add(list[i], 1);
-                            int statheight = 0;
-
-                            foreach (var relevantStat in name.Group.relevantAttributes)
-                            {
-                                string statId = relevantStat.Id;
-                                bool deleteOldBoost = UsedSkills.DoesRemoveReduceStats(statId, true);
-
-                                statheight = referencedStats.StartingLevels[statId] > statheight ? referencedStats.StartingLevels[statId] : statheight;
-                                if (deleteOldBoost)
-                                    referencedStats.StartingLevels[statId] = 0;
-                            }
-                            name.Group = list[i];
-
-                            foreach (var relevantStat in name.Group.relevantAttributes)
-                            {
-                                string statId = relevantStat.Id;
-                                referencedStats.StartingLevels[statId] = statheight;
-                                UsedSkills.AddOrIncreaseToStat(relevantStat.Id);
-                            }
-
-                            UIUtils.TryChangeText(AptitudeEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, name.NAME(), name.RelevantAttribute(), statheight));
+                            int prevInd = DupeTraitMng.GetCurrentIndex(name.Group.Id);
+                            DupeTraitMng.GetNextInterest(prevInd, true);
+                            name.Group = DupeTraitMng.ActiveInterests[prevInd];
+                            UIUtils.TryChangeText(AptitudeEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, name.NAME(), name.RelevantAttribute(), DupeTraitMng.GetBonusValue(prevInd)));
                         }
                         );
+                        index++;
                     }
                     ///EndAptitudes
-                    ///
+                    
                     var spacer3 = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
                     UIUtils.TryChangeText(spacer3.transform, "", "TRAITS");
                     //Db.Get().traits.TryGet();
@@ -482,8 +409,8 @@ namespace SetStartDupes
                         if (v.Name == "Duplicant")
                             continue;
                         var traitEntry = Util.KInstantiateUI(prefabParent, ContentContainer.gameObject, true);
-                        UsedSkills.AddTrait(v.Id);
-                        var TraitHolder = traitEntry.AddComponent<DupeInterestManager>();
+                        DupeTraitMng.AddTrait(v.Id);
+                        var TraitHolder = traitEntry.AddComponent<DupeTraitHolder>();
                         TraitHolder.CurrentTrait = v;
                         UIUtils.AddSimpleTooltipToObject(traitEntry.transform, TraitHolder.CurrentTrait.GetTooltip(),true);
                         var type = DupeTraitManager.GetTraitListOfTrait(v.Id, out var list);
@@ -496,9 +423,9 @@ namespace SetStartDupes
                             UIUtils.AddActionToButton(traitEntry.transform, "NextButton", () =>
                             {
 
-                                string nextTraitId = UsedSkills.GetNextTraitId(TraitHolder.CurrentTrait.Id,false);
+                                string nextTraitId = DupeTraitMng.GetNextTraitId(TraitHolder.CurrentTrait.Id,false);
                                 Trait NextTrait = Db.Get().traits.TryGet(nextTraitId);
-                                UsedSkills.ReplaceTrait(TraitHolder.CurrentTrait.Id, nextTraitId);
+                                DupeTraitMng.ReplaceTrait(TraitHolder.CurrentTrait.Id, nextTraitId);
                                 referencedStats.Traits.Remove(TraitHolder.CurrentTrait);
                                 referencedStats.Traits.Add(NextTrait);
                                 TraitHolder.CurrentTrait = NextTrait;
@@ -509,9 +436,9 @@ namespace SetStartDupes
                             UIUtils.AddActionToButton(traitEntry.transform, "PrevButton", () =>
                             {
 
-                                string nextTraitId = UsedSkills.GetNextTraitId(TraitHolder.CurrentTrait.Id,true);
+                                string nextTraitId = DupeTraitMng.GetNextTraitId(TraitHolder.CurrentTrait.Id,true);
                                 Trait NextTrait = Db.Get().traits.TryGet(nextTraitId);
-                                UsedSkills.ReplaceTrait(TraitHolder.CurrentTrait.Id, nextTraitId);
+                                DupeTraitMng.ReplaceTrait(TraitHolder.CurrentTrait.Id, nextTraitId);
                                 referencedStats.Traits.Remove(TraitHolder.CurrentTrait);
                                 referencedStats.Traits.Add(NextTrait);
                                 TraitHolder.CurrentTrait = NextTrait;
@@ -531,12 +458,12 @@ namespace SetStartDupes
                     UIUtils.TryChangeText(spacer.transform, "", "REACTIONS");
 
                     var JoyTrait = Util.KInstantiateUI(prefabParent, ContentContainer.gameObject, true);
-                    UsedSkills.AddTrait(referencedStats.joyTrait.Id);
+                    DupeTraitMng.AddTrait(referencedStats.joyTrait.Id);
 
 
                     //var JoyType = HoldMyReferences.GetTraitListOfTrait(referencedStats.joyTrait.Name, out var list);
 
-                    var JoyHolder = JoyTrait.AddComponent<DupeInterestManager>();
+                    var JoyHolder = JoyTrait.AddComponent<DupeTraitHolder>();
                     JoyHolder.CurrentTrait = referencedStats.joyTrait;
                     ApplyTraitStyleByKey(JoyTrait.GetComponent<KImage>(),DupeTraitManager.NextType.joy);
                     ApplyTraitStyleByKey(JoyTrait.transform.Find("PrevButton").GetComponent<KImage>(), DupeTraitManager.NextType.joy);
@@ -546,9 +473,9 @@ namespace SetStartDupes
 
                     UIUtils.AddActionToButton(JoyTrait.transform, "NextButton", () =>
                     {
-                        string nextTraitId = UsedSkills.GetNextTraitId(JoyHolder.CurrentTrait.Id,false);
+                        string nextTraitId = DupeTraitMng.GetNextTraitId(JoyHolder.CurrentTrait.Id,false);
                         Trait NextTrait = Db.Get().traits.TryGet(nextTraitId);
-                        UsedSkills.ReplaceTrait(JoyHolder.CurrentTrait.Id, nextTraitId);
+                        DupeTraitMng.ReplaceTrait(JoyHolder.CurrentTrait.Id, nextTraitId);
                         referencedStats.joyTrait = NextTrait;
                         JoyHolder.CurrentTrait = NextTrait;
 
@@ -557,9 +484,9 @@ namespace SetStartDupes
                     });
                     UIUtils.AddActionToButton(JoyTrait.transform, "PrevButton", () =>
                     {
-                        string nextTraitId = UsedSkills.GetNextTraitId(JoyHolder.CurrentTrait.Id,true);
+                        string nextTraitId = DupeTraitMng.GetNextTraitId(JoyHolder.CurrentTrait.Id,true);
                         Trait NextTrait = Db.Get().traits.TryGet(nextTraitId);
-                        UsedSkills.ReplaceTrait(JoyHolder.CurrentTrait.Id, nextTraitId);
+                        DupeTraitMng.ReplaceTrait(JoyHolder.CurrentTrait.Id, nextTraitId);
                         referencedStats.joyTrait = NextTrait;
                         JoyHolder.CurrentTrait = NextTrait;
 
@@ -570,13 +497,13 @@ namespace SetStartDupes
 
                     var StressTrait = Util.KInstantiateUI(prefabParent, ContentContainer.gameObject, true);
 
-                    UsedSkills.AddTrait(referencedStats.stressTrait.Id);
+                    DupeTraitMng.AddTrait(referencedStats.stressTrait.Id);
 
                     ApplyTraitStyleByKey(StressTrait.GetComponent<KImage>(), DupeTraitManager.NextType.stress);
                     ApplyTraitStyleByKey(StressTrait.transform.Find("PrevButton").GetComponent<KImage>(), DupeTraitManager.NextType.stress);
                     ApplyTraitStyleByKey(StressTrait.transform.Find("NextButton").GetComponent<KImage>(), DupeTraitManager.NextType.stress);
 
-                    var StressHolder = JoyTrait.AddComponent<DupeInterestManager>();
+                    var StressHolder = JoyTrait.AddComponent<DupeTraitHolder>();
                     StressHolder.CurrentTrait = referencedStats.stressTrait;
 
                     UIUtils.AddSimpleTooltipToObject(StressTrait.transform, StressHolder.CurrentTrait.GetTooltip(), true);
@@ -584,9 +511,9 @@ namespace SetStartDupes
 
                     UIUtils.AddActionToButton(StressTrait.transform, "NextButton", () =>
                     {
-                        string nextTraitId = UsedSkills.GetNextTraitId(StressHolder.CurrentTrait.Id, false);
+                        string nextTraitId = DupeTraitMng.GetNextTraitId(StressHolder.CurrentTrait.Id, false);
                         Trait NextTrait = Db.Get().traits.TryGet(nextTraitId);
-                        UsedSkills.ReplaceTrait(StressHolder.CurrentTrait.Id, nextTraitId);
+                        DupeTraitMng.ReplaceTrait(StressHolder.CurrentTrait.Id, nextTraitId);
                         referencedStats.stressTrait = NextTrait;
                         StressHolder.CurrentTrait = NextTrait;
                         UIUtils.TryChangeText(StressTrait.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.STRESSREACTION, referencedStats.stressTrait.Name));
@@ -594,9 +521,9 @@ namespace SetStartDupes
                     });
                     UIUtils.AddActionToButton(StressTrait.transform, "PrevButton", () =>
                     {
-                        string nextTraitId = UsedSkills.GetNextTraitId(StressHolder.CurrentTrait.Id, true);
+                        string nextTraitId = DupeTraitMng.GetNextTraitId(StressHolder.CurrentTrait.Id, true);
                         Trait NextTrait = Db.Get().traits.TryGet(nextTraitId);
-                        UsedSkills.ReplaceTrait(StressHolder.CurrentTrait.Id, nextTraitId);
+                        DupeTraitMng.ReplaceTrait(StressHolder.CurrentTrait.Id, nextTraitId);
                         referencedStats.stressTrait = NextTrait;
                         StressHolder.CurrentTrait = NextTrait;
                         UIUtils.TryChangeText(StressTrait.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.STRESSREACTION, referencedStats.stressTrait.Name));

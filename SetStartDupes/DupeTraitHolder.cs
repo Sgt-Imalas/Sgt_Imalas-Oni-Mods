@@ -4,12 +4,11 @@ using KSerialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SetStartDupes
 {
-    class DupeInterestManager : KMonoBehaviour
+    class DupeTraitHolder : KMonoBehaviour
     {
         [Serialize]
         public SkillGroup Group = null;
@@ -27,9 +26,6 @@ namespace SetStartDupes
             if (Group == null) return "";
             return Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + Group.relevantAttributes.First().Id.ToUpper() + ".NAME");
         }
-
         public Trait CurrentTrait = null;
-
-
     }
 }
