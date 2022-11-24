@@ -43,7 +43,7 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool BuffLargeOxidizer { get; set; }
 
-        [Option("Hide Tooltips", "Hide category tooltips. Only has an effect if Rocket Building Categories are enabled", "Features")]
+        [Option("Hide Category Tooltips", "Hide category tooltips. Only has an effect if Rocket Building Categories are enabled", "Features")]
         [JsonProperty]
         public bool HideRocketCategoryTooltips { get; set; }
 
