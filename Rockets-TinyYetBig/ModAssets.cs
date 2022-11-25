@@ -10,7 +10,12 @@ namespace Rockets_TinyYetBig
 {
     class ModAssets
     {
-
+        public class Techs
+        {
+            public static string FuelLoaderTech = "RTB_FuelLoadersTech";
+            public static string DockingTech = "RTB_DockingTech";
+            public static string SpaceStationTech = "RTB_SpaceStationTech";
+        }
         public class Tags
         {
             public static Tag IsSpaceStation = TagManager.Create("RTB_isSpaceStationInteriorWorld");

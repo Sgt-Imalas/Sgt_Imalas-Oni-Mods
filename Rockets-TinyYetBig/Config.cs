@@ -100,6 +100,11 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
 
         public bool EnableBunkerPlatform { get; set; }
+
+        [Option("Fuel Loaders", STRINGS.OPTIONS.TOGGLEMULTI, "Modules")]
+        [JsonProperty]
+        public bool EnableFuelLoaders { get; set; }
+
         #endregion
 
         public Config()
@@ -127,6 +132,7 @@ namespace Rockets_TinyYetBig
             EnableRadboltStorage = true;
             EnableCritterStorage = true; 
             EnableBunkerPlatform = true;
+            EnableFuelLoaders = true;
         }
     }
 }
