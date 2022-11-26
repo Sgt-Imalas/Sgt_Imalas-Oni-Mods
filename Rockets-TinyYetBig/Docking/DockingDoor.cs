@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Rockets_TinyYetBig.Behaviours
 {
     [SerializationConfig(MemberSerialization.OptIn)]
-    class DockingDoor : KMonoBehaviour, ISidescreenButtonControl
+    public class DockingDoor : KMonoBehaviour, ISidescreenButtonControl
     {
         /// <summary>
         /// Transfer Storages

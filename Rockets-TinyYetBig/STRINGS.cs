@@ -43,6 +43,15 @@ namespace Rockets_TinyYetBig
             public class PREFABS
             {
                 public static LocString GENERATORLIMIT = "\n\n If there is atleast one battery connected, the generator will stop producing if the battery is above 95% charge.";
+
+
+                public class RTB_WALLCONNECTIONADAPTER
+                {
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Insulated Rocket Port Wall Adapter", nameof(RTB_WALLCONNECTIONADAPTER));
+                    public static LocString DESC = (LocString)"Insulated for convenience.\nRockets must be landed to load or unload resources.";
+                    public static LocString EFFECT = (LocString)("An insulated wall adapter to seal of rocket start areas.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
+                }
+
                 public class RTB_BUNKERLAUNCHPAD
                 {
                     public static LocString NAME = UI.FormatAsLink("Fortified Rocket Platform", nameof(BunkeredLaunchPadConfig));

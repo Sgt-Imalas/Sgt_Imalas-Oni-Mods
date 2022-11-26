@@ -71,13 +71,18 @@ namespace RoboRockets.Rockets_TinyYetBig
                 AddRocketModuleToBuildList(LandingLegConfig.ID, RocketCategory.utility); 
                 AddRocketModuleToBuildList(SpaceStationBuilderModuleConfig.ID, RocketCategory.utility);
 
-                if (Config.Instance.EnableFuelLoaders)
+                if (Config.Instance.EnableWallAdapter)
                 {
-                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, SolidOxidizerLoaderConfig.ID, null, LaunchPadConfig.ID);
-                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LiquidOxidizerLoaderConfig.ID, null, LaunchPadConfig.ID);
-                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, GasFuelLoaderConfig.ID, null, LaunchPadConfig.ID);
-                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LiquidFuelLoaderConfig.ID, null, LaunchPadConfig.ID);
-                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, SolidFuelLoaderConfig.ID, null, LaunchPadConfig.ID);
+                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, ConnectorWallAdapterConfig.ID, null, LandingBeaconConfig.ID);
+                }
+
+                if (Config.Instance.EnableFuelLoaders)
+                {                 
+                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, SolidOxidizerLoaderConfig.ID, null, LandingBeaconConfig.ID);
+                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LiquidOxidizerLoaderConfig.ID, null, LandingBeaconConfig.ID);
+                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, GasFuelLoaderConfig.ID, null, LandingBeaconConfig.ID);
+                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LiquidFuelLoaderConfig.ID, null, LandingBeaconConfig.ID);
+                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, SolidFuelLoaderConfig.ID, null, LandingBeaconConfig.ID);
                 }
 
             }
@@ -121,6 +126,11 @@ namespace RoboRockets.Rockets_TinyYetBig
 
                 if (Config.Instance.EnableSolarNosecone)
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.SpacePower, NoseConeSolarConfig.ID);
+
+                if (Config.Instance.EnableWallAdapter)
+                {
+                    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Gases.TemperatureModulation, ConnectorWallAdapterConfig.ID);
+                }
 
                 if (Config.Instance.EnableFuelLoaders)
                 {

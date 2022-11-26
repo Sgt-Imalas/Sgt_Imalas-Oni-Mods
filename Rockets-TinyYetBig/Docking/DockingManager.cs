@@ -10,7 +10,7 @@ using UnityEngine;
 namespace Rockets_TinyYetBig.Behaviours
 {
     [SerializationConfig(MemberSerialization.Invalid)]
-    class DockingManager : KMonoBehaviour, IListableOption
+    public class DockingManager : KMonoBehaviour, IListableOption
     {
         public void StartupID(int world)
         {
@@ -251,7 +251,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
         
     }
-    enum DockableType
+    public enum DockableType
     {
         Rocket = 0,
         SpaceStation = 1,

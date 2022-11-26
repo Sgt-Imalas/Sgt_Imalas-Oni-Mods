@@ -105,6 +105,10 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool EnableFuelLoaders { get; set; }
 
+        [Option("Loader Wall Adapter", STRINGS.OPTIONS.TOGGLESINGLE, "Modules")]
+        [JsonProperty]
+        public bool EnableWallAdapter { get; set; }
+
         #endregion
 
         public Config()
@@ -133,6 +137,7 @@ namespace Rockets_TinyYetBig
             EnableCritterStorage = true; 
             EnableBunkerPlatform = true;
             EnableFuelLoaders = true;
+            EnableWallAdapter = true;
         }
     }
 }

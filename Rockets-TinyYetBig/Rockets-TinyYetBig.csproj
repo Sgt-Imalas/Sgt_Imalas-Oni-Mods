@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>Rocketry_Tweaks</PackageId>
-		<Version>2.3.5</Version>
+		<Version>2.9.9.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022 Sgt_Imalas</Copyright>
 		<RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
@@ -63,6 +63,15 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\anim\assets\landing_gear_module\landing_gear_module_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\loader_wall_adapter_tile\loader_wall_adapter_tile_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\loader_wall_adapter_tile\loader_wall_adapter_tile_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\loader_wall_adapter_tile\loader_wall_adapter_tile_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\anim\assets\radbolt_battery_module\radbolt_battery_module.png">

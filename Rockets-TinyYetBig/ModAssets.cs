@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig
 {
-    class ModAssets
+    public class ModAssets
     {
         public class Techs
         {

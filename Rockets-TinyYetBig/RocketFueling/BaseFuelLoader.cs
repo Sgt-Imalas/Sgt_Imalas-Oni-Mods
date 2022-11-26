@@ -14,6 +14,9 @@ namespace Rockets_TinyYetBig.RocketFueling
         {
             BuildingDef buildingDef = BaseModularLaunchpadPortConfig.CreateBaseLaunchpadPort(id, anim, conduitType, true, width, height);
             buildingDef.PowerInputOffset = new CellOffset(0, 0);
+            buildingDef.EnergyConsumptionWhenActive = 120f;
+            buildingDef.SelfHeatKilowattsWhenActive = 0.5f;
+            buildingDef.ExhaustKilowattsWhenActive = 0.125f;
 
             return buildingDef;
         }

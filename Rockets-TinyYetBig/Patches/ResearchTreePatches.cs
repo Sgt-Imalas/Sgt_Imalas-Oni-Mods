@@ -29,12 +29,15 @@ namespace Rockets_TinyYetBig.Patches
                     GameStrings.Technology.ColonyDevelopment.CelestialDetection
                     );
 
-                TechUtils.AddNode(__instance,
+                if (Config.Instance.EnableFuelLoaders)
+                {
+                    TechUtils.AddNode(__instance,
                     ModAssets.Techs.FuelLoaderTech,
                     ModAssets.Techs.DockingTech,
                     GameStrings.Technology.RadiationTechnologies.RadiationRefinement,
                     GameStrings.Technology.ColonyDevelopment.CelestialDetection
                     );
+                }
 
                 TechUtils.AddNode(__instance,
                     ModAssets.Techs.SpaceStationTech,
