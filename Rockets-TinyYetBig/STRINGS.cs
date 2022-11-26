@@ -176,9 +176,16 @@ namespace Rockets_TinyYetBig
 
             public class UISIDESCREENS
             {
-                public class SPACESTATIONBUILDERSIDESCREEN
+                public class SPACESTATIONSIDESCREEN
                 {
-                    public static LocString TITLE = (LocString)"Space Station Management";
+                    public static LocString VIEW_WORLD_TOOLTIP = (LocString)"View Space Station Interior";
+                    public static LocString TITLE = (LocString)"Space Station";
+
+                    public static LocString VIEW_WORLD_DESC = (LocString)"Oversee Station Interior";
+                }
+                public class SPACESTATIONBUILDERMODULESIDESCREEN
+                {
+                    public static LocString TITLE = (LocString)"Space Station Construction";
 
                 }
                 public class DOCKINGSIDESCREEN

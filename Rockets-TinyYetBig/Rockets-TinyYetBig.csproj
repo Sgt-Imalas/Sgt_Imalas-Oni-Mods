@@ -210,5 +210,6 @@
 
 	<ItemGroup>
 	  <Folder Include="ModAssets\translations\" />
+	  <Folder Include="SpaceStations\OrbitUpkeep\" />
 	</ItemGroup>
 </Project>

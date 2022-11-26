@@ -24,6 +24,33 @@ namespace Rockets_TinyYetBig
             public static Tag RocketPlatformTag = TagManager.Create("RTB_RocketPlatformTag");
         }
 
+        public static List<SpaceStationWithStats> SpaceStationTypes = new List<SpaceStationWithStats>()
+        {
+            new SpaceStationWithStats(
+                "RTB_SpaceStationSmall",
+                "Small Space Station",
+                "a tiny space station",
+                new Vector2I (30,30),
+                new string[] {"RefinedMetal" },
+                new float[] { 300f }),
+
+            new SpaceStationWithStats(
+                "RTB_SpaceStationMedium",
+                "Medium Space Station",
+                "a medium sized space station",
+                new Vector2I (45,45),
+                new string[] {"RefinedMetal" },
+                new float[] { 300f }),
+
+            new SpaceStationWithStats(
+                "RTB_SpaceStationLarge",
+                "Large Space Station",
+                "a large space station",
+                new Vector2I (60,60),
+                new string[] {"RefinedMetal" },
+                new float[] { 300f })
+
+    };
 
 
 
@@ -112,6 +139,26 @@ namespace Rockets_TinyYetBig
                 Debug.Log("Status items initialized");
 
             }
+        }
+
+        public struct SpaceStationWithStats
+        {
+            public string ID;
+            public string Name; 
+            public string Description;
+            public Vector2I InteriorSize;
+            public string[] materials;
+            public float[] materialAmounts;
+            public SpaceStationWithStats(string _id, string _name, string _description, Vector2I _size, string[] _mats, float[] _matCosts)
+            {
+                ID = _id;
+                Name = _name;
+                Description = _description;
+                InteriorSize = _size;
+                materials = _mats;
+                materialAmounts = _matCosts;
+            }
+            
         }
     }
 }
