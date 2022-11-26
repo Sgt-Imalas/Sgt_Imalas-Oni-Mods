@@ -16,11 +16,11 @@ namespace Rockets_TinyYetBig
 
         public override BuildingDef CreateBuildingDef()
         {
-            float[] MatCosts = { 
-                600f, 
-                300f 
+            float[] MatCosts = {
+                600f,
+                300f
             };
-            string[] Materials = 
+            string[] Materials =
             {
                 "RefinedMetal",
                 "Plastic"
@@ -50,33 +50,34 @@ namespace Rockets_TinyYetBig
             {
                 new BuildingAttachPoint.HardPoint(new CellOffset(0, 5), GameTags.Rocket, (AttachableBuilding) null)
             };
-            go = ExtendBuildingToDeliverableStorage(go, (float)Config.Instance.CritterStorageCapacity);
+             go = ExtendBuildingToDeliverableStorage(go, (float)Config.Instance.CritterStorageCapacity);
 
         }
 
         public override void DoPostConfigureComplete(GameObject go)
         {
+            ///NEEDS REWORK
+
             Prioritizable.AddRef(go);
 
 
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MODERATE);
-            StorageLocker storage = go.AddOrGet<StorageLocker>(); 
-            
+
             FakeFloorAdder fakeFloorAdder = go.AddOrGet<FakeFloorAdder>();
             fakeFloorAdder.floorOffsets = new CellOffset[5]
             {
-      new CellOffset(-2, -1),
-      new CellOffset(-1, -1),
-      new CellOffset(0, -1),
-      new CellOffset(1, -1),
-      new CellOffset(2, -1)
+                new CellOffset(-2, -1),
+                new CellOffset(-1, -1),
+                new CellOffset(0, -1),
+                new CellOffset(1, -1),
+            new CellOffset(2, -1)
             };
             fakeFloorAdder.initiallyActive = false;
         }
 
         public static GameObject ExtendBuildingToDeliverableStorage(GameObject template, float capacity)
         {
-            
+
 
             Storage storage = template.AddComponent<Storage>();
             storage.capacityKg = capacity;
@@ -98,5 +99,5 @@ namespace Rockets_TinyYetBig
             return tagList;
         }
 
-    } 
+    }
 }
