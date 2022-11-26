@@ -88,6 +88,8 @@ namespace Rockets_TinyYetBig.Buildings
 
         public override void DoPostConfigureComplete(GameObject go)
         {
+            UnityEngine.Object.DestroyImmediate(go.GetComponent<BuildingEnabledButton>());
+
             var ownable = go.AddOrGet<Ownable>();
             ownable.tintWhenUnassigned = false;
             ownable.slotID = Db.Get().AssignableSlots.WarpPortal.Id;

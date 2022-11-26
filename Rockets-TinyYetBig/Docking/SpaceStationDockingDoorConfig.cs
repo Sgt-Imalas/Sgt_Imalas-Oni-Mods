@@ -93,22 +93,19 @@ namespace Rockets_TinyYetBig.Buildings
             };
         }
 
-        void IntitializeStorageConnections()
-        {
-
-        }
-
-
 
         public override void DoPostConfigureComplete(GameObject go)
         {
+            UnityEngine.Object.DestroyImmediate(go.GetComponent<BuildingEnabledButton>());
+
             AddFakeFloor(go);
             var ownable = go.AddOrGet<Ownable>();
             ownable.tintWhenUnassigned = false;
             ownable.slotID = Db.Get().AssignableSlots.WarpPortal.Id;
             go.AddOrGet<MoveToDocked>();
             go.AddOrGet<NavTeleporter>();
-            go.AddComponent<DockingDoor>();
+            var door = go.AddComponent<DockingDoor>();
+
         }
 
         //private void AttachPorts(GameObject go)

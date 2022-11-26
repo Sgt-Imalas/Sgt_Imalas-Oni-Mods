@@ -119,7 +119,26 @@ namespace Rockets_TinyYetBig.Behaviours
 #if DEBUG
             Debug.Log("ADDED DOOR!, ID: " + OwnWorldId+", Doorcount: "+DockingDoors.Count());
 #endif
+            //UpdateDeconstructionStates();
+
         }
+
+        void UpdateDeconstructionStates()
+        {
+            if (Type == DockableType.SpaceStation)
+            {
+                if (DockingDoors.Count == 1)
+                    DockingDoors.First().Key.gameObject.GetComponent<Deconstructable>().SetAllowDeconstruction(false);
+                else if (DockingDoors.Count > 1)
+                {
+                    foreach (var unlockDoor in DockingDoors.Keys)
+                    {
+                        unlockDoor.gameObject.GetComponent<Deconstructable>().SetAllowDeconstruction(true);
+                    }
+                }
+            }
+        }
+
         public void RemoveDoor(DockingDoor door)
         {
             if (DockingDoors.ContainsKey(door))
@@ -131,6 +150,7 @@ namespace Rockets_TinyYetBig.Behaviours
                 ///Disconecc;
                 //door.DisconnecDoor();
                 DockingDoors.Remove(door);
+                //UpdateDeconstructionStates();
             }
         }
 
