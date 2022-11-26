@@ -13,7 +13,7 @@ cells:
   location_x: -1
 - element: Vacuum
 buildings:
-- id: RTB_SpaceStationDockingDoor
+- id: RTB_SpaceStationDockingDoor_Indestructible
   location_x: -1
   location_y: -1
   element: Copper
