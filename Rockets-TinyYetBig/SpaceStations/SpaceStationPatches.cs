@@ -52,6 +52,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             public static void Postfix(List<DetailsScreen.SideScreenRef> ___sideScreens)
             {
                 UIUtils.AddClonedSideScreen<SpaceStationBuilderModuleSideScreen>("SpaceStationBuilderModuleSideScreen", "MonumentSideScreen", typeof(MonumentSideScreen));
+                UIUtils.AddClonedSideScreen<SpaceStationSideScreen>("SpaceStationSideScreen", "ClusterGridWorldSideScreen", typeof(ClusterGridWorldSideScreen));
             }
         }
 
@@ -93,7 +94,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         [HarmonyPatch(MethodType.Getter)]
         public static class NoBurdenForSpaceStation
         {
-            public static bool Prefix(Clustercraft __instance, float __result)
+            public static bool Prefix(Clustercraft __instance, ref float __result)
             {
                 if (__instance is SpaceStation)
                 {
@@ -107,11 +108,55 @@ namespace Rockets_TinyYetBig.SpaceStations
         [HarmonyPatch(nameof(Clustercraft.CanLandAtAsteroid))]
         public static class NoLandingForSpaceStation
         {
-            public static bool Prefix(Clustercraft __instance, bool __result)
+            public static bool Prefix(Clustercraft __instance, ref bool __result)
             {
                 if (__instance is SpaceStation)
                 {
                     __result = false;
+                    return false;
+                }
+                return true;
+            }
+        }
+        /// <summary>
+        /// No status items
+        /// </summary>
+        [HarmonyPatch(typeof(Clustercraft))]
+        [HarmonyPatch(nameof(Clustercraft.UpdateStatusItem))]
+        public static class NoStatusItemsForSpaceStation
+        {
+            public static bool Prefix(Clustercraft __instance)
+            {
+                if (__instance is SpaceStation)
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
+        //[HarmonyPatch(typeof(RocketSimpleInfoPanel))]
+        //[HarmonyPatch(nameof(RocketSimpleInfoPanel.Refresh))]
+        //public static class NoStatusItemsForSpaceStation2
+        //{
+        //    public static void Prefix(ref GameObject selectedTarget)
+        //    {
+        //        var spaceStation = selectedTarget.GetComponent<SpaceStation>();
+        //        if (spaceStation !=null)
+        //        {
+        //            selectedTarget = null;
+        //        }
+        //    }
+        //}
+
+        [HarmonyPatch(typeof(Clustercraft))]
+        [HarmonyPatch(nameof(Clustercraft.CanLandAtPad))]
+        public static class NoLandingForSpaceStation2
+        {
+            public static bool Prefix(Clustercraft __instance, ref Clustercraft.PadLandingStatus __result)
+            {
+                if (__instance is SpaceStation)
+                {
+                    __result = Clustercraft.PadLandingStatus.CanNeverLand;
                     return false;
                 }
                 return true;

@@ -35,23 +35,25 @@ namespace Rockets_TinyYetBig.SpaceStations
         protected override void OnSpawn()
         {
             base.OnSpawn();
-            UIUtils.ListAllChildren(this.transform);
+            //UIUtils.ListAllChildren(this.transform);
             // the monument screen used here has 2 extra buttons that are not needed, disabling them
-            flipButton.SetActive(false);
+            //flipButton.SetActive(false);
             //debugVictoryButton.SetActive(false);
-            UIUtils.TryChangeText(flipButton.transform, "", "MakeOrBreakSpaceStation");
+            UIUtils.TryChangeText(debugVictoryButton.transform, "Label", "MakeOrBreakSpaceStation");
 
             UIUtils.AddActionToButton(debugVictoryButton.transform, "", () => targetBuilder.OnSidescreenButtonPressed());
         }
 
         protected override void OnPrefabInit()
         {
+            UIUtils.ListAllChildren(this.transform);
             base.OnPrefabInit();
-            titleKey = "STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONBUILDERSIDESCREEN.TITLE";
+            titleKey = "STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONBUILDERMODULESIDESCREEN.TITLE";
             stateButtonPrefab = transform.Find("ButtonPrefab").gameObject;
             buttonContainer = transform.Find("Content/Scroll/Grid").GetComponent<RectTransform>();
             debugVictoryButton = transform.Find("Butttons/Button").gameObject;
             flipButton = transform.Find("Butttons/FlipButton").gameObject;
+            GenerateStateButtons();
         }
 
         private List<int> refreshHandle = new List<int>();
@@ -86,20 +88,20 @@ namespace Rockets_TinyYetBig.SpaceStations
             
         private void GenerateStateButtons()
         {
-            //ClearButtons();
-            //var animFile = SpaceStationInConstruction.GetComponent<KBatchedAnimController>().AnimFiles[0];
+            ClearButtons();
+            //var animFile = targetBuilder.GetComponent<KBatchedAnimController>().AnimFiles[0];
 
             //// random button
             //AddButton(animFile, "random_ui", STRINGS.BUILDINGS.PREFABS.DECORPACKA_MOODLAMP.VARIANT.RANDOM, () => target.SetRandom());
 
-            //foreach (var lamp in ModDb.lampVariants.resources)
-            //{
-            //    AddButton(animFile, lamp.Id + "_ui", lamp.Name, 
-            //        () =>
-            //        Debug.Log("Bt pressed")
-            //        //target.SetVariant(lamp.Id)
-            //        );
-            //}
+            foreach (var stationType in ModAssets.SpaceStationTypes)
+            {
+                    AddButton(null, stationType.ID + "_ui", stationType.Name, 
+                    () =>
+                        Debug.Log("Bt pressed")
+                        //target.SetVariant(lamp.Id)
+                    );
+            }
         }
 
 
@@ -110,7 +112,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             if (gameObject.TryGetComponent(out KButton button))
             {
                 button.onClick += onClick;
-                button.fgImage.sprite = Def.GetUISpriteFromMultiObjectAnim(animFile, animName);
+                //button.fgImage.sprite = Def.GetUISpriteFromMultiObjectAnim(animFile, animName);
             }
 
             UIUtils.AddSimpleTooltipToObject(gameObject.transform, tooltip, true);
