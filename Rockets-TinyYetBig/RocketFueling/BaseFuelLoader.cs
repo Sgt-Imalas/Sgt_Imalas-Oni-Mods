@@ -13,6 +13,7 @@ namespace Rockets_TinyYetBig.RocketFueling
         public static BuildingDef CreateBaseFuelLoaderPort(string id, string anim, ConduitType conduitType, int width = 1, int height = 2)
         {
             BuildingDef buildingDef = BaseModularLaunchpadPortConfig.CreateBaseLaunchpadPort(id, anim, conduitType, true, width, height);
+            buildingDef.UtilityInputOffset = new CellOffset(0, 1);
             buildingDef.PowerInputOffset = new CellOffset(0, 0);
             buildingDef.EnergyConsumptionWhenActive = 120f;
             buildingDef.SelfHeatKilowattsWhenActive = 0.5f;
