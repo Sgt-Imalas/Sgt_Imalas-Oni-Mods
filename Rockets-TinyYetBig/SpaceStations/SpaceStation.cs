@@ -11,6 +11,9 @@ namespace Rockets_TinyYetBig.SpaceStations
     class SpaceStation : Clustercraft
     {
 
+        [MyCmpReq]
+        private ClusterTraveler m_clusterTraveler;
+
         [Serialize]
         private string m_name = "SpaceStation";
 
@@ -70,8 +73,17 @@ namespace Rockets_TinyYetBig.SpaceStations
                 IsOrbitalSpaceStationWorldId = planet.GetComponent<WorldContainer>().id;
             }
 
+
+            m_clusterTraveler.getSpeedCB = new Func<float>(this.GetSpeed);
+            this.m_clusterTraveler.getCanTravelCB = new Func<bool, bool>(this.CanTravel);
+            this.m_clusterTraveler.onTravelCB = (System.Action)null;
+            this.m_clusterTraveler.validateTravelCB = null;
+
+
         }
 
+        private bool CanTravel(bool tryingToLand) => true;
+        private float GetSpeed() => 1f;
         public void DestroySpaceStation()
         {
             this.SetExploding();
