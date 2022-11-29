@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using static StateMachine<StateMachineType, StateMachineInstanceType, MasterType, DefType>;
 using static UnityEngine.UI.CanvasScaler;
 
 namespace Rockets_TinyYetBig.SpaceStations.OrbitUpkeep

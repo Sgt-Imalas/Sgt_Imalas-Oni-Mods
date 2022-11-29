@@ -343,10 +343,14 @@ namespace Rockets_TinyYetBig
                         if (techItem != null)
                         {
                             bool flag = DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || techItem.IsComplete();
-                            button.Value.SetActive(flag);
+                            if(!button.IsNullOrDestroyed())
+                                button.Value.SetActive(flag);
                         }
-                        else
-                            button.Value.SetActive(true);
+                        else 
+                        {
+                            if (!button.IsNullOrDestroyed())
+                                button.Value.SetActive(true);
+                        }
 
                         var TestBuildableMethod = typeof(SelectModuleSideScreen).GetMethod("TestBuildable", BindingFlags.NonPublic | BindingFlags.Instance);
                         bool canBeBuild = (bool)TestBuildableMethod.Invoke(__instance, new[] { button.Key.first });
