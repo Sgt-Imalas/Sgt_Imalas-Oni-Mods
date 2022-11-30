@@ -75,7 +75,7 @@ namespace Rockets_TinyYetBig.Buildings
             component.AddTag(GameTags.RocketInteriorBuilding);
             component.AddTag(RoomConstraints.ConstraintTags.RocketInterior);
             component.AddTag(ModAssets.Tags.RocketInteriorOnlyBuilding);
-            //component.AddTag(GameTags.UniquePerWorld);
+            component.AddTag(GameTags.UniquePerWorld);
             IntitializeStorageConnections();
         }
 
