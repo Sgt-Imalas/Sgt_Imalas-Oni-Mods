@@ -24,16 +24,17 @@ namespace Rockets_TinyYetBig.SpaceStations
             saveLoadRoot.DeclareOptionalComponent<WorldContainer>();
             saveLoadRoot.DeclareOptionalComponent<OrbitalMechanics>();
 
+            RocketClusterDestinationSelector destinationSelector = entity.AddOrGet<RocketClusterDestinationSelector>();
+            destinationSelector.assignable = false;
+            destinationSelector.shouldPointTowardsPath = false;
+            destinationSelector.requireAsteroidDestination = false;
+
             var spst=entity.AddOrGet<SpaceStation>();
             entity.AddOrGet<CharacterOverlay>().shouldShowName = true;
             entity.AddOrGetDef<AlertStateManager.Def>();
             entity.AddOrGet<Notifier>();
 
 
-            RocketClusterDestinationSelector destinationSelector = entity.AddOrGet<RocketClusterDestinationSelector>();
-            destinationSelector.assignable = false;
-            destinationSelector.shouldPointTowardsPath = false;
-            destinationSelector.requireAsteroidDestination = false;
             var traveler = entity.AddOrGet<ClusterTraveler>();
             traveler.stopAndNotifyWhenPathChanges = false;
 

@@ -11,9 +11,6 @@ namespace Rockets_TinyYetBig.SpaceStations
     class SpaceStation : Clustercraft
     {
 
-        [MyCmpReq]
-        private ClusterTraveler m_clusterTraveler;
-
         [Serialize]
         private string m_name = "SpaceStation";
 
@@ -50,6 +47,8 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         protected override void OnSpawn()
         {
+            base.OnSpawn();
+
             Debug.Log("MY WorldID:" + SpaceStationInteriorId);
             if (SpaceStationInteriorId < 0)
             {
@@ -59,13 +58,11 @@ namespace Rockets_TinyYetBig.SpaceStations
                 Debug.Log("ADDED NEW SPACE STATION INTERIOR");
             }
             ClusterManager.Instance.GetWorld(SpaceStationInteriorId).AddTag(ModAssets.Tags.IsSpaceStation);
-            
-            base.OnSpawn();
-            this.SetCraftStatus(CraftStatus.InFlight);
 
+
+            this.SetCraftStatus(CraftStatus.InFlight);
             var destinationSelector = gameObject.GetComponent<RocketClusterDestinationSelector>();
             destinationSelector.SetDestination(this.Location);
-            
             var planet = ClusterGrid.Instance.GetVisibleEntityOfLayerAtAdjacentCell(this.Location, EntityLayer.Asteroid);
             if (planet != null)
             {
@@ -73,11 +70,11 @@ namespace Rockets_TinyYetBig.SpaceStations
                 IsOrbitalSpaceStationWorldId = planet.GetComponent<WorldContainer>().id;
             }
 
-
+            var m_clusterTraveler = gameObject.GetComponent<ClusterTraveler>();
             m_clusterTraveler.getSpeedCB = new Func<float>(this.GetSpeed);
-            this.m_clusterTraveler.getCanTravelCB = new Func<bool, bool>(this.CanTravel);
-            this.m_clusterTraveler.onTravelCB = (System.Action)null;
-            this.m_clusterTraveler.validateTravelCB = null;
+            m_clusterTraveler.getCanTravelCB = new Func<bool, bool>(this.CanTravel);
+            m_clusterTraveler.onTravelCB = (System.Action)null;
+            m_clusterTraveler.validateTravelCB = null;
 
 
         }
