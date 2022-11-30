@@ -86,7 +86,7 @@ namespace Rockets_TinyYetBig
                                                         "Functions as a Command Module and a Nosecone.\n\n" +
                                                         "One Command Module may be installed per rocket.\n\n" +
                                                     "Must be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME +
-                                            ". \n\nMust be built at the top of a rocket.");
+                                            ". \n\nMust be built at the top of a rocket.\n\nGreat for looking at the stars or a nice sunbathing during the flight.");
                 }
                 public class RTB_CRITTERCONTAINMENTMODULE
                 {

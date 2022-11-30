@@ -66,7 +66,6 @@ namespace Rockets_TinyYetBig.SpaceStations
             var planet = ClusterGrid.Instance.GetVisibleEntityOfLayerAtAdjacentCell(this.Location, EntityLayer.Asteroid);
             if (planet != null)
             {
-
                 IsOrbitalSpaceStationWorldId = planet.GetComponent<WorldContainer>().id;
             }
 
