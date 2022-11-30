@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig
 {
-    public class CritterContainmentModuleConfig : IBuildingConfig
+    public class CritterContainmentModuleConfigOLD : IBuildingConfig
     {
         public const string ID = "RTB_CritterContainmentModule";
 

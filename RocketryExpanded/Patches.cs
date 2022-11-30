@@ -75,7 +75,7 @@ namespace ExplosiveMaterials
                );
             public static Pickupable CheckForTag(Pickupable original)
             {
-                Debug.Log(original.KPrefabID);
+                //Debug.Log(original.KPrefabID);
                 if (original.KPrefabID.HasTag(ModAssets.Tags.SplitOnRail))
                 {
                     original = original.Take(1f);
