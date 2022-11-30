@@ -134,7 +134,7 @@ namespace Rockets_TinyYetBig
             EnableLaserDrill = true;
             EnableSolarNosecone = true;
             EnableRadboltStorage = true;
-            EnableCritterStorage = false; 
+            EnableCritterStorage = true; 
             EnableBunkerPlatform = true;
             EnableFuelLoaders = true;
             EnableWallAdapter = true;

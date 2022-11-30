@@ -90,8 +90,14 @@ namespace Rockets_TinyYetBig
                 }
                 public class RTB_CRITTERCONTAINMENTMODULE
                 {
-                    public static LocString NAME = (LocString)UI.FormatAsLink("Critter Containment Module", nameof(CritterContainmentModuleConfig));
+                    public static LocString NAME = (LocString)UI.FormatAsLink("[DEPRECATED] Critter Containment Module", nameof(CritterContainmentModuleConfigOLD));
                     public static LocString EFFECT = "This module allows the safe transport of critters to their new home. ";
+                    public static LocString DESC = "These critters will go where no critter has gone before.";
+                }
+                public class RTB_CRITTERSTASISMODULE
+                {
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Critter Stasis Module", nameof(CritterStasisModuleConfig));
+                    public static LocString EFFECT = "This module allows the safe transport of critters to their new home.\n\nStored Critters wont age.";
                     public static LocString DESC = "These critters will go where no critter has gone before.";
                 }
                 public class RYB_NOSECONEHEPHARVEST

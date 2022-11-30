@@ -83,7 +83,7 @@ namespace Rockets_TinyYetBig
                 if (__instance.storageFilters != null && __instance.storageFilters.Count > 0)
                 {
 
-                    if (__instance.storageFilters.All(CritterContainmentModuleConfig.GetCritterTags().Contains))
+                    if (__instance.storageFilters.All(CritterContainmentModuleConfigOLD.GetCritterTags().Contains))
                     {
                         __result = __instance.UnitsStored();
                         return false;
