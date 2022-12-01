@@ -24,9 +24,12 @@ namespace Rockets_TinyYetBig.Behaviours
         [MyCmpGet] 
         private Storage storage;
 
+
+
         private Clustercraft clustercraft;
         private Guid poweringStatusItemHandle;
         private Guid notPoweringStatusItemHandle;
+        public Guid FuelStatusHandle;
 
         [SerializeField]
         public bool AlwaysActive = false;
@@ -69,7 +72,31 @@ namespace Rockets_TinyYetBig.Behaviours
             Game.Instance.electricalConduitSystem.AddToVirtualNetworks(this.VirtualCircuitKey, (object)this, true);
             base.OnSpawn();
         }
-
+        public Tuple<float,float> GetConsumptionStatusStats()
+        {
+            var returnVals = new Tuple<float, float>(0,0);
+            if (this.PullFromRocketStorageType == CargoBay.CargoType.Entities)
+            {
+                returnVals.second = storage.Capacity();
+                returnVals.first = storage.GetMassAvailable(consumptionElement);
+            }
+            else
+            {
+                foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)clustercraft.ModuleInterface.ClusterModules)
+                {
+                    CargoBayCluster component = clusterModule.Get().GetComponent<CargoBayCluster>();
+                    if (component != null && component.storageType == this.PullFromRocketStorageType)
+                    {
+                        if ((double)component.storage.MassStored() >= consumptionRate)
+                        {
+                            returnVals.first += component.storage.GetMassAvailable(consumptionElement);
+                            returnVals.second += component.storage.Capacity();
+                        }
+                    }
+                }
+            }
+            return returnVals;
+        }
         protected override void OnCleanUp()
         {
             base.OnCleanUp();

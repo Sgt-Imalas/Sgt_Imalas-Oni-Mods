@@ -174,6 +174,11 @@ namespace Rockets_TinyYetBig
                     public static LocString NAME = (LocString)"Power Generation: {ActiveWattage}/{MaxWattage}";
                     public static LocString TOOLTIP = (LocString)("Module generator will generate " + UI.FormatAsPositiveRate("{MaxWattage}") + " of " + UI.PRE_KEYWORD + "Power" + UI.PST_KEYWORD + " once fueled\n\nRight now, it's not doing much of anything");
                 }
+                public class RTB_MODULEGENERATORFUELSTATUS
+                {
+                    public static LocString NAME = (LocString)"{GeneratorType} Fuel Status: {CurrentFuelStorage}/{MaxFuelStorage}";
+                    public static LocString TOOLTIP = (LocString)("This {GeneratorType} has {CurrentFuelStorage} out of {MaxFuelStorage} available.");
+                }
             }
         }
 

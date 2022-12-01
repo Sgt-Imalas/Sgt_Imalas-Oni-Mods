@@ -343,6 +343,7 @@ namespace Rockets_TinyYetBig
                         if (techItem != null)
                         {
                             bool flag = DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || techItem.IsComplete();
+
                             if(!button.IsNullOrDestroyed())
                                 button.Value.SetActive(flag);
                         }

@@ -67,6 +67,7 @@ namespace Rockets_TinyYetBig
         {
             public static StatusItem RTB_ModuleGeneratorNotPowered;
             public static StatusItem RTB_ModuleGeneratorPowered;
+            public static StatusItem RTB_ModuleGeneratorFuelStatus;
             public static StatusItem RTB_AlwaysActiveOn;
             public static StatusItem RTB_AlwaysActiveOff;
 
@@ -105,7 +106,25 @@ namespace Rockets_TinyYetBig
                      NotificationType.Neutral,
                      false,
                      OverlayModes.Power.ID);
+                RTB_ModuleGeneratorFuelStatus = new StatusItem(
+                     "RTB_MODULEGENERATORFUELSTATUS",
+                     "BUILDING",
+                     string.Empty,
+                     StatusItem.IconType.Info,
+                     NotificationType.Neutral,
+                     true,
+                     OverlayModes.Power.ID);
 
+
+                RTB_ModuleGeneratorFuelStatus.resolveStringCallback = (Func<string, object, string>)((str, data) =>
+                {
+                    var generator = (RTB_ModuleGenerator)data;
+                    var stats = generator.GetConsumptionStatusStats();
+                    str = str.Replace("{GeneratorType}", generator.GetProperName());
+                    str = str.Replace("{CurrentFuelStorage}", GameUtil.GetFormattedMass(stats.first));
+                    str = str.Replace("{MaxFuelStorage}", GameUtil.GetFormattedMass(stats.second));
+                    return str;
+                });
 
                 RTB_ModuleGeneratorNotPowered.resolveStringCallback = (Func<string, object, string>)((str, data) =>
                 {
@@ -130,7 +149,7 @@ namespace Rockets_TinyYetBig
                 });
                 RTB_AlwaysActiveOn.resolveStringCallback = (Func<string, object, string>)((str, data) =>
                 {
-                    Generator generator = (RTB_ModuleGenerator)data;
+                    Generator generator = (RTB_ModuleGenerator)data; 
                     str = str.Replace("{ActiveWattage}", GameUtil.GetFormattedWattage(generator.WattageRating));
                     str = str.Replace("{MaxWattage}", GameUtil.GetFormattedWattage(generator.WattageRating));
                     return str;

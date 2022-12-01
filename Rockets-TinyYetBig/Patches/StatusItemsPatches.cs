@@ -22,10 +22,33 @@ namespace Rockets_TinyYetBig.Patches
                 }
             }
         }
+
+
+
+        [HarmonyPatch(typeof(Clustercraft))]
+        [HarmonyPatch(nameof(Clustercraft.UpdateStatusItem))]
+        public static class GeneratorModuleStatusItems
+        {
+            public static void Postfix(Clustercraft __instance)
+            {
+                KSelectable selectable = __instance.GetComponent<KSelectable>();
+                foreach (var module in __instance.ModuleInterface.ClusterModules)
+                {
+                    if(module.Get().gameObject.TryGetComponent<RTB_ModuleGenerator>(out var generator))
+                    {
+                        //generator.FuelStatusHandle =
+                        selectable.GetStatusItemGroup().SetStatusItem(generator.FuelStatusHandle, Db.Get().StatusItemCategories.Main, ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus, (object)generator);
+                    }
+                }
+            }
+
+        }
+
+
         class ExtendSolarNotification
         {
             [HarmonyPatch(typeof(BuildingStatusItems), "CreateStatusItems")]
-            public static class IncreaseCapacityto1350
+            public static class SolarNoseconeStatusItems
             {
                 public static void Postfix(BuildingStatusItems __instance)
                 {
