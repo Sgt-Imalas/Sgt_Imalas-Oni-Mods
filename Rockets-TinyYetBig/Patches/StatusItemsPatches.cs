@@ -44,7 +44,8 @@ namespace Rockets_TinyYetBig.Patches
                         //generator.FuelStatusHandle =
                     }
                 }
-                selectable.SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus, (object)data);
+                if(data.first > 0 || data.second >0)
+                    selectable.SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus, (object)data);
             }
 
         }

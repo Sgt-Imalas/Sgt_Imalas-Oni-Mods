@@ -40,8 +40,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DailyRoutine", "DailyRoutin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DupePodRailgun", "DupePodRailgun\DupePodRailgun.csproj", "{A2386D26-8ED8-49E6-B798-FE58CB9EC155}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TemplateToExport", "TemplateToExport\TemplateToExport.csproj", "{A680C402-705D-423A-AF09-D054B3D6424C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreDreamJournals", "StoreDreamJournals\StoreDreamJournals.csproj", "{C969069D-E336-4487-9B01-2BD856246C72}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RotatableRadboltStorage", "RotatableRadboltStorage\RotatableRadboltStorage.csproj", "{1BF5EEA9-D320-4D86-A1CC-CB08486EF2AD}"
@@ -116,10 +114,6 @@ Global
 		{A2386D26-8ED8-49E6-B798-FE58CB9EC155}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2386D26-8ED8-49E6-B798-FE58CB9EC155}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{A2386D26-8ED8-49E6-B798-FE58CB9EC155}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{A680C402-705D-423A-AF09-D054B3D6424C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A680C402-705D-423A-AF09-D054B3D6424C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A680C402-705D-423A-AF09-D054B3D6424C}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{A680C402-705D-423A-AF09-D054B3D6424C}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{C969069D-E336-4487-9B01-2BD856246C72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C969069D-E336-4487-9B01-2BD856246C72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C969069D-E336-4487-9B01-2BD856246C72}.Release|Any CPU.ActiveCfg = Debug|Any CPU
