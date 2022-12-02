@@ -112,15 +112,15 @@ namespace Rockets_TinyYetBig
                      string.Empty,
                      StatusItem.IconType.Info,
                      NotificationType.Neutral,
-                     true,
+                     false,
                      OverlayModes.Power.ID);
 
 
                 RTB_ModuleGeneratorFuelStatus.resolveStringCallback = (Func<string, object, string>)((str, data) =>
                 {
-                    var generator = (RTB_ModuleGenerator)data;
-                    var stats = generator.GetConsumptionStatusStats();
-                    str = str.Replace("{GeneratorType}", generator.GetProperName());
+                    var stats = (Tuple<float,float>)data;
+                    //var stats = generator.GetConsumptionStatusStats();
+                    //str = str.Replace("{GeneratorType}", generator.GetProperName());
                     str = str.Replace("{CurrentFuelStorage}", GameUtil.GetFormattedMass(stats.first));
                     str = str.Replace("{MaxFuelStorage}", GameUtil.GetFormattedMass(stats.second));
                     return str;

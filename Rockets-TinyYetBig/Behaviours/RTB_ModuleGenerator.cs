@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static STRINGS.BUILDINGS.PREFABS;
 
 namespace Rockets_TinyYetBig.Behaviours
 {
@@ -23,7 +24,6 @@ namespace Rockets_TinyYetBig.Behaviours
 
         [MyCmpGet] 
         private Storage storage;
-
 
 
         private Clustercraft clustercraft;
@@ -99,7 +99,9 @@ namespace Rockets_TinyYetBig.Behaviours
         }
         protected override void OnCleanUp()
         {
+            clustercraft.GetComponent<KSelectable>().RemoveStatusItem(FuelStatusHandle, true);
             base.OnCleanUp();
+
             Game.Instance.electricalConduitSystem.RemoveFromVirtualNetworks(this.VirtualCircuitKey, (object)this, true);
         }
 
@@ -128,7 +130,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
         public override void EnergySim200ms(float dt)
         {
-
+            //selectable.SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus, (object)this);
             RemoveRefillOnSatisfied();
             base.EnergySim200ms(dt);
             var emitter = this.gameObject.GetComponent<RadiationEmitter>();
@@ -167,9 +169,11 @@ namespace Rockets_TinyYetBig.Behaviours
                         this.selectable.ReplaceStatusItem(this.notPoweringStatusItemHandle, ModAssets.StatusItems.RTB_AlwaysActiveOff, (object)this) :
                         this.selectable.ReplaceStatusItem(this.notPoweringStatusItemHandle, ModAssets.StatusItems.RTB_ModuleGeneratorNotPowered, (object)this);
                 this.poweringStatusItemHandle = Guid.Empty;
-                
+
 
             }
+
+            //this.selectable.GetStatusItemGroup().SetStatusItem(FuelStatusHandleGrounded, Db.Get().StatusItemCategories.Main, ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus, (object)this);
             ResetRefillStatus();
         }
 

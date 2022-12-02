@@ -14,7 +14,7 @@ namespace Rockets_TinyYetBig.Patches
     {
         [HarmonyPatch(typeof(WorldSelector))]
         [HarmonyPatch("SortRows")]
-        public static class HeadBuildingTagAdjustmentsInChainMethod
+        public static class WorldSelectorReplacement__WIP
         {
             private static readonly MethodInfo TagCheckReplacer = AccessTools.Method(
                typeof(KPrefabID),

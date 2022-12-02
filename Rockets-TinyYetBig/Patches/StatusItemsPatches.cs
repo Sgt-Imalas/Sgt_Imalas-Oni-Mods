@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static STRINGS.BUILDINGS.PREFABS;
 
 namespace Rockets_TinyYetBig.Patches
 {
@@ -31,15 +32,19 @@ namespace Rockets_TinyYetBig.Patches
         {
             public static void Postfix(Clustercraft __instance)
             {
+                Tuple<float, float> data = new Tuple<float, float>(0, 0);
                 KSelectable selectable = __instance.GetComponent<KSelectable>();
                 foreach (var module in __instance.ModuleInterface.ClusterModules)
                 {
                     if(module.Get().gameObject.TryGetComponent<RTB_ModuleGenerator>(out var generator))
                     {
+                        var genStats = generator.GetConsumptionStatusStats();
+                        data.first += genStats.first;
+                        data.second += genStats.second;
                         //generator.FuelStatusHandle =
-                        selectable.GetStatusItemGroup().SetStatusItem(generator.FuelStatusHandle, Db.Get().StatusItemCategories.Main, ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus, (object)generator);
                     }
                 }
+                selectable.SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus, (object)data);
             }
 
         }

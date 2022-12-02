@@ -176,7 +176,7 @@ namespace Rockets_TinyYetBig
                 }
                 public class RTB_MODULEGENERATORFUELSTATUS
                 {
-                    public static LocString NAME = (LocString)"{GeneratorType} Fuel Status: {CurrentFuelStorage}/{MaxFuelStorage}";
+                    public static LocString NAME = (LocString)"Generator Fuel Capacity: {CurrentFuelStorage}/{MaxFuelStorage}";
                     public static LocString TOOLTIP = (LocString)("This {GeneratorType} has {CurrentFuelStorage} out of {MaxFuelStorage} available.");
                 }
             }
