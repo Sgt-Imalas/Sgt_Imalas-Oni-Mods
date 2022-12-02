@@ -15,10 +15,29 @@ namespace Rockets_TinyYetBig.Behaviours
         [Serialize]
         public List<CritterStorageInfo> storedCritters = new List<CritterStorageInfo>();
         private List<FetchOrder2> fetches;
-        private static StatusItem capacityStatusItem;
+        //private static StatusItem capacityStatusItem;
 
         private static readonly EventSystem.IntraObjectHandler<CritterStasisChamberModule> RefreshCreatureCountDelegate = new EventSystem.IntraObjectHandler<CritterStasisChamberModule>((System.Action<CritterStasisChamberModule, object>)((component, data) => component.RefreshCreatureCount(data)));
         public int CurrentCapacity => storedCritters.Count;
+
+        public string GetStatusItem()
+        {
+            string returnValue = CurrentCapacity <= 0 ?
+                STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.NOCRITTERS :
+                STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.HASCRITTERS;
+            
+            foreach(var critter in storedCritters)
+            {
+                string critInfo = "\n";
+                critInfo += STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.CRITTERINFO;
+                critInfo = critInfo.Replace("{CRITTERNAME}", Assets.GetPrefab(critter.CreatureTag).GetProperName());
+                critInfo = critInfo.Replace("{AGE}", critter.CreatureAge.ToString("0.#"));
+                returnValue += critInfo;
+            }
+            
+            return returnValue;
+
+        }
 
         public void SpawnCrittersFromStorage()
         {
@@ -44,6 +63,8 @@ namespace Rockets_TinyYetBig.Behaviours
             //this.GetComponent<TreeFilterable>().UpdateFilters(null);
             if (!storedCritters.IsNullOrDestroyed())
                 storedCritters.Clear();
+
+            UpdateStatusItem();
         }
         public void AddCritterToStorage(GameObject critter)
         {
@@ -55,8 +76,15 @@ namespace Rockets_TinyYetBig.Behaviours
 #if DEBUG
             Debug.Log("Added {0} to critter stasis chamber, Age: {1}, Wildness: {2}".F(CritterInfoToStore.CreatureTag, CritterInfoToStore.CreatureAge, CritterInfoToStore.WildnessPercentage));
 #endif
+            UpdateStatusItem();
             critter.gameObject.DeleteObject();
         }
+
+        private void UpdateStatusItem()
+        {
+            this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.StatusItems.RTB_CritterModuleContent, (object)this);
+        }
+
         protected override void OnPrefabInit()
         {
             base.OnPrefabInit();
@@ -64,25 +92,26 @@ namespace Rockets_TinyYetBig.Behaviours
             this.GetComponent<TreeFilterable>().OnFilterChanged += new System.Action<HashSet<Tag>>(this.OnFilterChanged);
             //this.GetComponent<Storage>().SetOffsets(this.deliveryOffsets);
             Prioritizable.AddRef(this.gameObject);
-            if (CritterStasisChamberModule.capacityStatusItem == null)
-            {
-                CritterStasisChamberModule.capacityStatusItem = new StatusItem("StorageLocker", "BUILDING", "", StatusItem.IconType.Info, NotificationType.Neutral, false, OverlayModes.None.ID);
-                CritterStasisChamberModule.capacityStatusItem.resolveStringCallback = (Func<string, object, string>)((str, data) =>
-                {
-                    //Debug.Log("TEstsst"+ str + data);
-                    string newValue1 = Util.FormatWholeNumber(this.CurrentCapacity);
-                    string newValue2 = Util.FormatWholeNumber(Config.Instance.CritterStorageCapacity);
-                    str = str.Replace("{Stored}", newValue1).Replace("{Capacity}", newValue2).Replace("{Units}", global::STRINGS.UI.UISIDESCREENS.CAPTURE_POINT_SIDE_SCREEN.UNITS_SUFFIX);
-                    return str;
-                });
-            }
-            this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Main, CritterStasisChamberModule.capacityStatusItem, (object)this);
+            //if (CritterStasisChamberModule.capacityStatusItem == null)
+            //{
+            //    CritterStasisChamberModule.capacityStatusItem = new StatusItem("StorageLocker", "BUILDING", "", StatusItem.IconType.Info, NotificationType.Neutral, false, OverlayModes.None.ID);
+            //    CritterStasisChamberModule.capacityStatusItem.resolveStringCallback = (Func<string, object, string>)((str, data) =>
+            //    {
+            //        //Debug.Log("TEstsst"+ str + data);
+            //        string newValue1 = Util.FormatWholeNumber(this.CurrentCapacity);
+            //        string newValue2 = Util.FormatWholeNumber(Config.Instance.CritterStorageCapacity);
+            //        str = str.Replace("{Stored}", newValue1).Replace("{Capacity}", newValue2).Replace("{Units}", global::STRINGS.UI.UISIDESCREENS.CAPTURE_POINT_SIDE_SCREEN.UNITS_SUFFIX);
+            //        return str;
+            //    });
+            //}
+            //this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Main, CritterStasisChamberModule.capacityStatusItem, (object)this);
         }
         protected override void OnSpawn()
         {
             base.OnSpawn();
             this.Subscribe<CritterStasisChamberModule>(643180843, CritterStasisChamberModule.RefreshCreatureCountDelegate);
-            this.RefreshCreatureCount();
+            this.RefreshCreatureCount(); 
+            UpdateStatusItem();
         }
         private void OnFilterChanged(HashSet<Tag> tags)
         {

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS;
 
 namespace Rockets_TinyYetBig
 {
@@ -70,6 +71,7 @@ namespace Rockets_TinyYetBig
             public static StatusItem RTB_ModuleGeneratorFuelStatus;
             public static StatusItem RTB_AlwaysActiveOn;
             public static StatusItem RTB_AlwaysActiveOff;
+            public static StatusItem RTB_CritterModuleContent;
 
             public static void Register()
             {
@@ -114,6 +116,30 @@ namespace Rockets_TinyYetBig
                      NotificationType.Neutral,
                      false,
                      OverlayModes.Power.ID);
+                RTB_CritterModuleContent = new StatusItem(
+                     "RTB_CRITTERMODULECONTENT",
+                     "BUILDING",
+                     string.Empty,
+                     StatusItem.IconType.Info,
+                     NotificationType.Neutral,
+                false,
+                     OverlayModes.None.ID);
+
+                RTB_CritterModuleContent.resolveStringCallback = (Func<string, object, string>)((str, data) =>
+                {
+                    var CritterStorage = (CritterStasisChamberModule)data;
+                    //var stats = generator.GetConsumptionStatusStats();
+                    //str = str.Replace("{GeneratorType}", generator.GetProperName());
+
+                    string newValue1 = Util.FormatWholeNumber(CritterStorage.CurrentCapacity);
+                    string newValue2 = Util.FormatWholeNumber(Config.Instance.CritterStorageCapacity);
+                    string CritterData = CritterStorage.GetStatusItem();
+
+                    str = str.Replace("{CurrentCritterCount}", newValue1);
+                    str = str.Replace("{MaxCritterCount}", newValue2);
+                    str = str.Replace("{CritterContentStatus}", CritterData);
+                    return str;
+                });
 
 
                 RTB_ModuleGeneratorFuelStatus.resolveStringCallback = (Func<string, object, string>)((str, data) =>
