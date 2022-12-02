@@ -22,8 +22,8 @@ namespace Rockets_TinyYetBig.SpaceStations
             BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(
                 id: ID,
                 width: 5,
-                height: 7,
-                anim: "rocket_nosecone_small_extended_kanim",
+                height: 6,
+                anim: "space_station_deployer_kanim",
                 hitpoints: 1000,
                 construction_time: 40f,
                 construction_mass: denseTieR0,
