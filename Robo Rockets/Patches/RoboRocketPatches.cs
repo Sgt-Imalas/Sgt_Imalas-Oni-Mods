@@ -163,15 +163,12 @@ namespace RoboRockets
         {
             public static void Postfix(PassengerRocketModule module, HabitatModuleSideScreen __instance)
             {
-                if (module.gameObject.GetComponent<AIPassengerModule>() == null)
-                {
-                    return;
-                }
+                bool allowed = module.gameObject.GetComponent<AIPassengerModule>() == null;
 
                 HierarchyReferences component = __instance.GetComponent<HierarchyReferences>();
                 KButton reference = component.GetReference<KButton>("button");
                 reference.ClearOnClick();
-                reference.isInteractable = false;
+                reference.isInteractable = allowed;
             }
         }
 
