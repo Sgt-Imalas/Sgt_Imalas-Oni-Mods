@@ -44,6 +44,12 @@ namespace Rockets_TinyYetBig
             {
                 public static LocString GENERATORLIMIT = "\n\n If there is atleast one battery connected, the generator will stop producing if the battery is above 95% charge.";
 
+                public class RTB_NATGASENGINECLUSTER
+                {
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Natural Gas Engine", nameof(RTB_NATGASENGINECLUSTER));
+                    public static LocString DESC = (LocString)"Rockets can be used to send Duplicants into space and retrieve rare resources.";
+                    public static LocString EFFECT = (LocString)("Burns " + UI.FormatAsLink("Natural Gas", "METHANE") + " to propel rockets for mid-range space exploration.\n\nEngine must be built via " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ". \n\nOnce the engine has been built, more rocket modules can be added.");
+                }
 
                 public class RTB_WALLCONNECTIONADAPTER
                 {
@@ -179,6 +185,16 @@ namespace Rockets_TinyYetBig
                     public static LocString NAME = (LocString)"Generator Fuel Capacity: {CurrentFuelStorage}/{MaxFuelStorage}";
                     public static LocString TOOLTIP = (LocString)("This {GeneratorType} has {CurrentFuelStorage} out of {MaxFuelStorage} available.");
                 }
+                public class RTB_CRITTERMODULECONTENT
+                {
+                    public static LocString NAME = (LocString)"Critter Count: {CurrentCritterCount}/{MaxCritterCount}";
+                    public static LocString TOOLTIP = (LocString)("{CritterContentStatus}");
+                    public static LocString NOCRITTERS = "No Critters stored.";
+                    public static LocString HASCRITTERS = "Module currently holds these Critters:";
+                    public static LocString CRITTERINFO = " • {CRITTERNAME}, {AGE} Cycles old";
+
+                }
+                
             }
         }
 

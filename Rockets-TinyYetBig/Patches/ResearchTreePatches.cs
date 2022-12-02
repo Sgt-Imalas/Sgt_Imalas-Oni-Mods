@@ -59,6 +59,7 @@ namespace Rockets_TinyYetBig.Patches
                 new Tech(ModAssets.Techs.DockingTech, new List<string>
                 {
                     DockingTubeDoorConfig.ID,
+                    SpaceStationDockingDoorConfig.ID
                 },
                 __instance
                 //,new Dictionary<string, float>()

@@ -142,6 +142,8 @@ namespace RoboRockets.Rockets_TinyYetBig
                     //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LiquidFuelLoaderConfig.ID, null, LaunchPadConfig.ID);
                     //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, SolidFuelLoaderConfig.ID, null, LaunchPadConfig.ID);
                 }
+                InjectionMethods.AddBuildingToTechnology("HydrocarbonPropulsion", NatGasEngineClusterConfig.ID);
+
             }
         }
     }

@@ -29,6 +29,11 @@
 		<MinimumSupportedBuild>525812</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
+	<ItemGroup>
+	  <Compile Remove="ModAssets\translations\**" />
+	  <EmbeddedResource Remove="ModAssets\translations\**" />
+	  <None Remove="ModAssets\translations\**" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="PLib" Version="4.8.0">
@@ -164,6 +169,15 @@
 	  <None Update="ModAssets\anim\assets\rtg_module\rtg_module_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\anim\assets\space_station_deployer\space_station_deployer_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\space_station_deployer\space_station_deployer_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\space_station_deployer\space_station_deployer_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\anim\assets\space_station_docking_door\space_station_docking_door_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
@@ -206,9 +220,5 @@
 	  <None Update="ModAssets\templates\interiors\OrbitalSpaceStation.yaml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="ModAssets\translations\" />
 	</ItemGroup>
 </Project>
