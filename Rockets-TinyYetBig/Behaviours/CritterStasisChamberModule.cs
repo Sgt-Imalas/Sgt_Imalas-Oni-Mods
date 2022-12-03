@@ -59,11 +59,11 @@ namespace Rockets_TinyYetBig.Behaviours
                 if ((UnityEngine.Object)component2 != (UnityEngine.Object)null)
                     component2.SetWrangled();
             }
-            // DetailsScreen.Instance.Refresh(gameObject);
-            //this.GetComponent<TreeFilterable>().UpdateFilters(null);
             if (!storedCritters.IsNullOrDestroyed())
                 storedCritters.Clear();
 
+            this.GetComponent<TreeFilterable>().UpdateFilters(new HashSet<Tag>());
+            //DetailsScreen.Instance.Refresh(gameObject);///should refresh screen, Crashes, bad
             UpdateStatusItem();
         }
         public void AddCritterToStorage(GameObject critter)

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
-    class SpaceStationBuilder : KMonoBehaviour, ISidescreenButtonControl
+    class SpaceStationBuilder : KMonoBehaviour//, ISidescreenButtonControl
     {
         public string SidescreenButtonText => "Make Station";
 
