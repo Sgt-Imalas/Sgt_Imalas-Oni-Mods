@@ -91,7 +91,6 @@ namespace RoboRockets
         }
         public void DoPostConfigureOfInternalControlModule(GameObject go)
         {
-
             RocketControlStationLaunchWorkable stationLaunchWorkable = (RocketControlStationLaunchWorkable)null;
             List<RocketControlStation> worldItems = Components.RocketControlStations.GetWorldItems(go.GetComponent<ClustercraftExteriorDoor>().GetTargetWorld().id);
             if (worldItems != null && worldItems.Count > 0) {

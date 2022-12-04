@@ -86,8 +86,11 @@ namespace RoboRockets
         }
         public override void DoPostConfigureComplete(GameObject go)
         {
-
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MINOR_PLUS);
+
+            Ownable ownable = go.AddOrGet<Ownable>();
+            ownable.slotID = Db.Get().AssignableSlots.HabitatModule.Id;
+            ownable.canBePublic = false;
 
             go.AddOrGet<BuildingCellVisualizer>();
 
