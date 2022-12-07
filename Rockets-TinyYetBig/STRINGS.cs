@@ -44,6 +44,13 @@ namespace Rockets_TinyYetBig
             {
                 public static LocString GENERATORLIMIT = "\n\n If there is atleast one battery connected, the generator will stop producing if the battery is above 95% charge.";
 
+                public class RTB_DOCKINGTUBEDOOR
+                {
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Docking Bridge", nameof(RTB_DOCKINGTUBEDOOR));
+                    public static LocString DESC = (LocString)"Flavour text pending";
+                    public static LocString EFFECT = (LocString)("Enables docking with other rockets and space stations\n\nBoth docking participants require a docking component to dock.\n\nAssigning a duplicant forces it to use the docking bridge.");
+                }
+
                 public class RTB_NATGASENGINECLUSTER
                 {
                     public static LocString NAME = (LocString)UI.FormatAsLink("Natural Gas Engine", nameof(RTB_NATGASENGINECLUSTER));
@@ -56,6 +63,24 @@ namespace Rockets_TinyYetBig
                     public static LocString NAME = (LocString)UI.FormatAsLink("Insulated Rocket Port Wall Adapter", nameof(RTB_WALLCONNECTIONADAPTER));
                     public static LocString DESC = (LocString)"Insulated for convenience.\nRockets must be landed to load or unload resources.";
                     public static LocString EFFECT = (LocString)("An insulated wall adapter to seal of rocket start areas.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
+                }
+                public class RTB_HEPFUELLOADER
+                {
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Radbolt Fuel Loader", nameof(RTB_WALLCONNECTIONADAPTER));
+                    public static LocString DESC = (LocString)"Flavour text pending";
+                    public static LocString EFFECT = (LocString)("Refuel Radbolt Engines.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
+                }
+                public class RTB_UNIVERSALFUELLOADER
+                {
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Rocket Fuel Loader", nameof(RTB_WALLCONNECTIONADAPTER));
+                    public static LocString DESC = (LocString)"Flavour text pending";
+                    public static LocString EFFECT = (LocString)("Refuels connected rockets with the appropriate fuel.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
+                }
+                public class RTB_UNIVERSALOXIDIZERLOADER
+                {
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Rocket Oxidizer Loader", nameof(RTB_WALLCONNECTIONADAPTER));
+                    public static LocString DESC = (LocString)"Flavour text pending";
+                    public static LocString EFFECT = (LocString)("Refuels connected rockets with the appropriate oxidizer\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
                 }
 
                 public class RTB_BUNKERLAUNCHPAD
@@ -251,6 +276,24 @@ namespace Rockets_TinyYetBig
         {
             public static LocString KEROSENEENGINECLUSTERSMALL_EFFECT = (LocString)("Burns either " + UI.FormatAsLink("Petroleum", "PETROLEUM") + " or " + UI.FormatAsLink("Ethanol", "ETHANOL") + " to propel rockets for mid-range space exploration.\n\nSmall Petroleum Engines possess the same speed as a " + UI.FormatAsLink("Petroleum Engines", "KEROSENEENGINE") + " but have smaller height restrictions.\n\nEngine must be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ". \n\nOnce the engine has been built, more rocket modules can be added.");
             public static LocString KEROSENEENGINECLUSTER_EFFECT = (LocString)("Burns either " + UI.FormatAsLink("Petroleum", "PETROLEUM") + " or " + UI.FormatAsLink("Ethanol", "ETHANOL") + " to propel rockets for mid-range space exploration.\n\nPetroleum Engines have generous height restrictions, ideal for hauling many modules.\n\nEngine must be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ". \n\nOnce the engine has been built, more rocket modules can be added.");
+        }
+        public class RESEARCH
+        {
+            public class TECHS
+            {
+                public class RTB_FUELLOADERSTECH
+                {
+                    public static LocString NAME = UI.FormatAsLink("Fuel Loaders", nameof(RTB_FUELLOADERSTECH));
+                    public static LocString DESC = "Automatically refuel your rockets with these Loaders.\nCan be placed inside a space station.";
+
+                }
+                public class RTB_DOCKINGTECH
+                {
+                    public static LocString NAME = UI.FormatAsLink("Celestial Connection", nameof(RTB_DOCKINGTECH));
+                    public static LocString DESC = "Dock with other spacecrafts";
+
+                }
+            }
         }
     }
 }

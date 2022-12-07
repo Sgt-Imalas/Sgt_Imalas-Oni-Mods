@@ -73,11 +73,11 @@ namespace Rockets_TinyYetBig.Patches
                 
                 new Tech(ModAssets.Techs.FuelLoaderTech, new List<string>
                 {
-                    GasFuelLoaderConfig.ID,
-                    LiquidFuelLoaderConfig.ID,
-                    SolidFuelLoaderConfig.ID,
-                    SolidOxidizerLoaderConfig.ID,
-                    LiquidOxidizerLoaderConfig.ID,
+                    UniversalFuelLoaderConfig.ID,
+                    UniversalOxidizerLoaderConfig.ID,
+                    HEPFuelLoaderConfig.ID,
+                   // SolidOxidizerLoaderConfig.ID,
+                   // LiquidOxidizerLoaderConfig.ID,
                 },
                 __instance
                 );
