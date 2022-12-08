@@ -32,8 +32,12 @@ namespace Rockets_TinyYetBig.Patches
         {
             public static void Postfix(Clustercraft __instance)
             {
-                Tuple<float, float> data = new Tuple<float, float>(0, 0);
                 KSelectable selectable = __instance.GetComponent<KSelectable>();
+
+                selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_RocketBatteryStatus);
+                selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus);
+
+                Tuple<float, float> data = new Tuple<float, float>(0, 0);
                 foreach (var module in __instance.ModuleInterface.ClusterModules)
                 {
                     if(module.Get().gameObject.TryGetComponent<RTB_ModuleGenerator>(out var generator))
@@ -45,7 +49,25 @@ namespace Rockets_TinyYetBig.Patches
                     }
                 }
                 if(data.first > 0 || data.second >0)
-                    selectable.SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus, (object)data);
+                    selectable.AddStatusItem( ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus, (object)data);
+                else
+                    selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus);
+
+
+                Tuple<float, float> dataBattery = new Tuple<float, float>(0, 0);
+                foreach (var module in __instance.ModuleInterface.ClusterModules)
+                {
+                    if (module.Get().gameObject.TryGetComponent<ModuleBattery>(out var battery))
+                    {
+                        dataBattery.first += battery.JoulesAvailable;
+                        dataBattery.second += battery.capacity;
+                        //generator.FuelStatusHandle =
+                    }
+                }
+                if (dataBattery.first > 0 || dataBattery.second > 0)
+                    selectable.AddStatusItem(ModAssets.StatusItems.RTB_RocketBatteryStatus, (object)dataBattery);
+                else
+                    selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_RocketBatteryStatus);
             }
 
         }

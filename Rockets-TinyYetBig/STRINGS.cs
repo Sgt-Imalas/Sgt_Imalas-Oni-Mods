@@ -62,36 +62,36 @@ namespace Rockets_TinyYetBig
                 {
                     public static LocString NAME = (LocString)UI.FormatAsLink("Insulated Rocket Port Wall Adapter", nameof(RTB_WALLCONNECTIONADAPTER));
                     public static LocString DESC = (LocString)"Insulated for convenience.\nRockets must be landed to load or unload resources.";
-                    public static LocString EFFECT = (LocString)("An insulated wall adapter to seal of rocket start areas.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
+                    public static LocString EFFECT = (LocString)("An insulated wall adapter to seal off rocket start areas.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
                 }
                 public class RTB_HEPFUELLOADER
                 {
-                    public static LocString NAME = (LocString)UI.FormatAsLink("Radbolt Fuel Loader", nameof(RTB_WALLCONNECTIONADAPTER));
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Radbolt Fuel Loader", nameof(RTB_HEPFUELLOADER));
                     public static LocString DESC = (LocString)"Flavour text pending";
                     public static LocString EFFECT = (LocString)("Refuel Radbolt Engines.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
                 }
                 public class RTB_UNIVERSALFUELLOADER
                 {
-                    public static LocString NAME = (LocString)UI.FormatAsLink("Rocket Fuel Loader", nameof(RTB_WALLCONNECTIONADAPTER));
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Rocket Fuel Loader", nameof(RTB_UNIVERSALFUELLOADER));
                     public static LocString DESC = (LocString)"Flavour text pending";
                     public static LocString EFFECT = (LocString)("Refuels connected rockets with the appropriate fuel.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
                 }
                 public class RTB_UNIVERSALOXIDIZERLOADER
                 {
-                    public static LocString NAME = (LocString)UI.FormatAsLink("Rocket Oxidizer Loader", nameof(RTB_WALLCONNECTIONADAPTER));
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Rocket Oxidizer Loader", nameof(RTB_UNIVERSALOXIDIZERLOADER));
                     public static LocString DESC = (LocString)"Flavour text pending";
                     public static LocString EFFECT = (LocString)("Refuels connected rockets with the appropriate oxidizer\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
                 }
 
                 public class RTB_BUNKERLAUNCHPAD
                 {
-                    public static LocString NAME = UI.FormatAsLink("Fortified Rocket Platform", nameof(BunkeredLaunchPadConfig));
+                    public static LocString NAME = UI.FormatAsLink("Fortified Rocket Platform", nameof(RTB_BUNKERLAUNCHPAD));
                     public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.DESC + "\n\nFortified to withstand comets.";
                     public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.EFFECT + "\n\nBlocks comets and is immune to comet damage.";
                 }
                 public class RTB_RTGGENERATORMODULE
                 {
-                    public static LocString NAME = (LocString)UI.FormatAsLink("Radioisotope Thermoelectric Generator", nameof(RTGModuleConfig));
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Radioisotope Thermoelectric Generator", nameof(RTB_RTGGENERATORMODULE));
                     public static LocString DESC = "Through exploitation of the natural decay of enriched Uranium, this elegantly simple power generator can provide consistent, stable power for hundreds of cycles.";
                     public static LocString EFFECT = (string.Format("After adding {0} kg of enriched Uranium, this module will constantly produce {1} W of energy until all of the uranium is depleted.\n\nIt will take {2} Cycles for the uranium to decay.", RTGModuleConfig.UraniumCapacity, RTGModuleConfig.energyProduction, Config.Instance.IsotopeDecayTime));
                 }
@@ -209,6 +209,11 @@ namespace Rockets_TinyYetBig
                 {
                     public static LocString NAME = (LocString)"Generator Fuel Capacity: {CurrentFuelStorage}/{MaxFuelStorage}";
                     public static LocString TOOLTIP = (LocString)("This {GeneratorType} has {CurrentFuelStorage} out of {MaxFuelStorage} available.");
+                }
+                public class RTB_ROCKETBATTERYSTATUS
+                {
+                    public static LocString NAME = (LocString)"Battery Module Charge: {CurrentCharge}/{MaxCharge}";
+                    public static LocString TOOLTIP = (LocString)("This Rocket has {CurrentCharge}/{MaxCharge} stored in battery modules.");
                 }
                 public class RTB_CRITTERMODULECONTENT
                 {

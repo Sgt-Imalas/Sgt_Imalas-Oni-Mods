@@ -69,12 +69,22 @@ namespace Rockets_TinyYetBig
             public static StatusItem RTB_ModuleGeneratorNotPowered;
             public static StatusItem RTB_ModuleGeneratorPowered;
             public static StatusItem RTB_ModuleGeneratorFuelStatus;
+            public static StatusItem RTB_RocketBatteryStatus;
             public static StatusItem RTB_AlwaysActiveOn;
             public static StatusItem RTB_AlwaysActiveOff;
             public static StatusItem RTB_CritterModuleContent;
 
             public static void Register()
             {
+                RTB_RocketBatteryStatus = new StatusItem(
+                      "RTB_ROCKETBATTERYSTATUS",
+                      "BUILDING",
+                      string.Empty,
+                      StatusItem.IconType.Info,
+                      NotificationType.Neutral,
+                      false,
+                      OverlayModes.Power.ID
+                      ); 
                 RTB_ModuleGeneratorNotPowered = new StatusItem(
                       "RTB_MODULEGENERATORNOTPOWERED",
                       "BUILDING",
@@ -141,6 +151,15 @@ namespace Rockets_TinyYetBig
                     return str;
                 });
 
+                RTB_RocketBatteryStatus.resolveStringCallback = (Func<string, object, string>)((str, data) =>
+                {
+                    var stats = (Tuple<float, float>)data;
+                    //var stats = generator.GetConsumptionStatusStats();
+                    //str = str.Replace("{GeneratorType}", generator.GetProperName());
+                    str = str.Replace("{CurrentCharge}", GameUtil.GetFormattedJoules(stats.first));
+                    str = str.Replace("{MaxCharge}", GameUtil.GetFormattedJoules(stats.second));
+                    return str;
+                });
 
                 RTB_ModuleGeneratorFuelStatus.resolveStringCallback = (Func<string, object, string>)((str, data) =>
                 {
