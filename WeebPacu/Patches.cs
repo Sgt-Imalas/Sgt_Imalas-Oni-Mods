@@ -22,7 +22,6 @@ namespace WeebPacu
         [HarmonyPatch(nameof(BasePacuConfig.CreatePrefab))]
         public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
         {
-
             public static void Prefix(ref string anim_file)
             {
                 if (anim_file == "pacu_kanim")
