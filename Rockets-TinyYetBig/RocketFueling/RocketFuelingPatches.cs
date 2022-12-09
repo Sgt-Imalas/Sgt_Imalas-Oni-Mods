@@ -56,8 +56,7 @@ namespace Rockets_TinyYetBig.RocketFueling
                 Clustercraft clustercraft = craftInterface.GetComponent<Clustercraft>();
 
                 List<FuelTank> FuelTanks = new List<FuelTank>();
-                List<OxidizerTank> SolidOxidizerTanks = new List<OxidizerTank>();
-                List<OxidizerTank> LiquidOxidizerTanks = new List<OxidizerTank>();
+                List<OxidizerTank> OxidizerTanks = new List<OxidizerTank>();
                 List<HEPFuelTank> HEPFuelTanks = new List<HEPFuelTank>();
                 Tag FuelTag = SimHashes.Void.CreateTag();
                 bool hasOxidizer;
@@ -83,10 +82,7 @@ namespace Rockets_TinyYetBig.RocketFueling
                     if (oxTank != null)
                     {
                         hasOxidizer = true;
-                        if (oxTank.supportsMultipleOxidizers)
-                            SolidOxidizerTanks.Add(oxTank);
-                        else
-                            LiquidOxidizerTanks.Add(oxTank);
+                        OxidizerTanks.Add(oxTank);
                     }
                 }
                 bool flag = false;
@@ -150,27 +146,14 @@ namespace Rockets_TinyYetBig.RocketFueling
                             for (int index = AllOXItems.Count() - 1; index >= 0; --index)
                             {
                                 GameObject storageItem = AllOXItems[index];
-                                foreach (OxidizerTank oxTank in LiquidOxidizerTanks)
+                                foreach (OxidizerTank oxTank in OxidizerTanks)
                                 {
                                     float remainingCapacity = oxTank.storage.RemainingCapacity();
-                                    float num1 = fuelLoader.solidStorage.MassStored();
-                                    if ((double)remainingCapacity > 0.0 && (double)num1 > 0.0 && storageItem.HasTag(oxTank.GetComponent<ConduitConsumer>().capacityTag))
-                                    {
-                                        isLoading = true;
-                                        flag = true;
-                                        Pickupable pickupable = storageItem.GetComponent<Pickupable>().Take(remainingCapacity);
-                                        if (pickupable != null)
-                                        {
-                                            oxTank.storage.Store(pickupable.gameObject, true);
-                                            //float num2 = remainingCapacity - pickupable.PrimaryElement.Mass;
-                                        }
-                                    }
-                                }
-                                foreach (OxidizerTank oxTank in SolidOxidizerTanks)
-                                {
-                                    float remainingCapacity = oxTank.storage.RemainingCapacity();
-                                    float num1 = fuelLoader.solidStorage.MassStored();
-                                    if ((double)remainingCapacity > 0.0 && (double)num1 > 0.0 && storageItem.GetComponent<KPrefabID>().HasAnyTags(oxTank.GetComponent<FlatTagFilterable>().selectedTags))
+                                    float num1 = oxTank.supportsMultipleOxidizers ? fuelLoader.solidStorage.MassStored() : fuelLoader.liquidStorage.MassStored();
+                                    bool tagAllowed = oxTank.supportsMultipleOxidizers
+                                        ? storageItem.GetComponent<KPrefabID>().HasAnyTags(oxTank.GetComponent<FlatTagFilterable>().selectedTags)
+                                        : storageItem.HasTag(oxTank.GetComponent<ConduitConsumer>().capacityTag);
+                                    if ((double)remainingCapacity > 0.0 && (double)num1 > 0.0 && tagAllowed)
                                     {
                                         isLoading = true;
                                         flag = true;
@@ -183,7 +166,7 @@ namespace Rockets_TinyYetBig.RocketFueling
                                     }
                                 }
                             }
-                        }
+                        }OrbitalObject
                         smi2?.SetLoading(isLoading);
                     }
                 }
