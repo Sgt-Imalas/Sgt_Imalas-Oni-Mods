@@ -26,6 +26,7 @@ namespace WeebPacu
             {
                 if (anim_file == "pacu_kanim")
                     anim_file = "weeb_pacu_kanim";
+                UtilMethods.CopySoundsToAnim("weeb_pacu_kanim", "pacu_kanim");
             }
         }
         /// <summary>
