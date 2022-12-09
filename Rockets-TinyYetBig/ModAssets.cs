@@ -73,6 +73,11 @@ namespace Rockets_TinyYetBig
             public static StatusItem RTB_AlwaysActiveOn;
             public static StatusItem RTB_AlwaysActiveOff;
             public static StatusItem RTB_CritterModuleContent;
+            public static StatusItem RTB_SpaceStation_DeploymentState;
+            public static StatusItem RTB_SpaceStation_FreshlyDeployed;
+            public static StatusItem RTB_SpaceStation_OrbitHealth;
+
+
 
             public static void Register()
             {

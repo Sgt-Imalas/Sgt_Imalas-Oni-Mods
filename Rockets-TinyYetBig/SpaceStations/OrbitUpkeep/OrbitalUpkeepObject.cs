@@ -61,6 +61,7 @@ namespace Rockets_TinyYetBig.SpaceStations.OrbitUpkeep
                         }
                         smi.gracePeriodTimer-=dt;
                     },UpdateRate.SIM_4000ms)
+                    .ToggleStatusItem(ModAssets.StatusItems.RTB_SpaceStation_FreshlyDeployed, smi => smi.master)
                     .ParamTransition<bool>(this.GracePeriodFullfilled, this.activeStates.StableOrbit, IsTrue)
                     .Exit(smi =>
                     {
@@ -68,6 +69,8 @@ namespace Rockets_TinyYetBig.SpaceStations.OrbitUpkeep
                     })
                     ;
                 activeStates
+                    .ToggleStatusItem(ModAssets.StatusItems.RTB_SpaceStation_DeploymentState, smi => smi.master)
+                    .ToggleStatusItem(ModAssets.StatusItems.RTB_SpaceStation_OrbitHealth, smi => smi.master)
                     .Update((smi, dt) =>
                     {
                         var currentStab = OrbitStability.Get(smi);
