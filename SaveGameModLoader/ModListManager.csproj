@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>SaveGameModLoader</PackageId>
-		<Version>4.0.3</Version>
+		<Version>4.1.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022 Sgt_Imalas</Copyright>
 		<RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
@@ -26,7 +26,7 @@
 		<ModName>ModList Manager by SgtImalas</ModName>
 		<ModDescription>Manage your mods in lists and synchronize your active mods with those used in your SaveGames</ModDescription>
 		<SupportedContent>ALL</SupportedContent>
-		<MinimumSupportedBuild>498381</MinimumSupportedBuild>
+		<MinimumSupportedBuild>535211</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 

@@ -213,7 +213,7 @@ namespace YamlTemplateExportFix
 				ILGenerator generator
 			)
 			{
-				//return orig; ///Dev Build crash
+				return orig; ///Dev Build crash
 				var codes = orig.ToList();
 				var logicId = codes.FindIndex(ci => ci.operand is FieldInfo info && info == LogicId);
 				var thisLabel = generator.DefineLabel();

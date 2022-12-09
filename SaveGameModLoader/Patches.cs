@@ -25,6 +25,53 @@ namespace SaveGameModLoader
         [HarmonyPatch(typeof(LoadScreen), "ShowColony")]
         public static class AddModSyncButtonLogic
         {
+            /// <summary>
+            /// 		.locals init (
+			//[0] valuetype LoadScreen/SaveGameFileDetails,
+			//[1] string,
+			//[2] class HierarchyReferences,
+			//[3] class ['Assembly-CSharp-firstpass'] KButton,
+			//[4] class LocText,
+			//[5] class [UnityEngine.CoreModule] UnityEngine.GameObject,
+			//[6] class [UnityEngine.CoreModule] UnityEngine.RectTransform,
+			//[7] bool,
+			//[8] int32,
+			//[9] class [UnityEngine.CoreModule] UnityEngine.GameObject,
+			//[10] bool,
+			//[11] bool,
+			//[12] bool,
+			//[13] bool,
+			//[14] int32,
+			//[15] class LoadScreen/'<>c__DisplayClass67_0',
+			//[16] class [UnityEngine.CoreModule] UnityEngine.RectTransform,
+			//[17] class HierarchyReferences,
+			//[18] class [UnityEngine.CoreModule] UnityEngine.RectTransform,
+			//[19] class LocText,
+			//[20] class LocText,
+			//[21] class [UnityEngine.CoreModule] UnityEngine.RectTransform,
+			//[22] bool,
+			//[23] class ['Assembly-CSharp-firstpass'] KButton,
+			//[24] bool,
+			//[25] bool,
+			//[26] bool,
+			//[27] bool
+                /// AALT:
+		//.locals init(
+  //          [0] string,
+  //          [1] class [UnityEngine.CoreModule] UnityEngine.GameObject,
+		//	[2] class [UnityEngine.CoreModule] UnityEngine.RectTransform,
+		//	[3] int32,
+		//	[4] class [UnityEngine.CoreModule] UnityEngine.GameObject,
+		//	[5] int32,
+		//	[6] class LoadScreen/'<>c__DisplayClass67_0',
+		//	[7] class [UnityEngine.CoreModule] UnityEngine.RectTransform,
+		//	[8] class HierarchyReferences,
+		//	[9] class ['Assembly-CSharp-firstpass'] KButton
+		//)
+
+            /// </summary>
+            /// <param name="entry"></param>
+            /// <param name="FileDetails"></param>
             public static void InsertModButtonCode(RectTransform entry
                 , object FileDetails
                 )
@@ -68,8 +115,8 @@ namespace SaveGameModLoader
                 if (insertionIndex != -1)
                 {
                     insertionIndex += 1;
-                    code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 7));
-                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 6));
+                    code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 16));
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 15));
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, ButtonLogic));
                 }
                 //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
