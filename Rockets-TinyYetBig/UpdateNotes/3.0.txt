@@ -6,6 +6,10 @@ New Modules:
 
 New Buildings:
 - Insulated Loader Adapter
+- Fuel Loader
+- Oxidizer Loader
+- Radbolt Fuel Loader
+- Docking Bridge
 
 Art for the new modules is made by the wonderful |ScientisT|UA|
 Features:
@@ -14,6 +18,7 @@ Features:
 - Fuel Loaders: These buildings allow automatic refueling of rockets (either docked to a space station or when landed)
 - Generators: added a status item to the rocket that displays the fuel state of all generators
 - Rocket gas/liquid input/output wall tiles now allow constructing Fittings connected to it
+- Rocket Batteries now add a status item that displays total charge
 
 
 Fixes & Adjustments:
