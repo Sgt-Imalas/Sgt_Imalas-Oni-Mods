@@ -15,7 +15,7 @@ namespace Rockets_TinyYetBig.Buildings
         public const string kanim = "rocket_natgas_engine_kanim"; //rocket_petro_engine_small_kanim
         public const SimHashes FUEL = SimHashes.Methane;
         public const float Wattage = 480f;
-        public const float TankCapacity = 450f;
+        public const float TankCapacity = 900f;
         public const float RocketRange = 16f;
         public const int RocketHeight = 25;
 

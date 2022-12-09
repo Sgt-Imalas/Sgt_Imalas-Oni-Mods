@@ -166,7 +166,7 @@ namespace Rockets_TinyYetBig.RocketFueling
                                     }
                                 }
                             }
-                        }OrbitalObject
+                        }
                         smi2?.SetLoading(isLoading);
                     }
                 }
