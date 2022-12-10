@@ -353,7 +353,7 @@ namespace SaveGameModLoader
                 //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
                 if (insertionIndex != -1)
                 {
-                     code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldloc_1));
+                     code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldloc_2));
                      code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, ScreenCreator));
                 }
 
