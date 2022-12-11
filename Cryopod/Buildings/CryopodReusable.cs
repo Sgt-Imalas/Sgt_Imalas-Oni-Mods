@@ -159,6 +159,8 @@ namespace Cryopod.Buildings
 		public bool SidescreenButtonInteractable() => this.HoldingDupe() &&
 			!this.smi.IsInsideState(this.smi.sm.HoldingDuplicant.Working.Thawing);
 
+        public void SetButtonTextOverride(ButtonMenuTextOverride text) => throw new NotImplementedException();
+
         public void OnSidescreenButtonPressed()
         {
 			//Debug.Log("DEBUG: CHORE EXISTING: "+WorkableOpen.ChoreExisting());

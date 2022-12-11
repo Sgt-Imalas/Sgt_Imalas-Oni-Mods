@@ -47,6 +47,7 @@ namespace LogicSatellites.Behaviours
 
         public int ButtonSideScreenSortOrder() => 21;
 
+        public void SetButtonTextOverride(ButtonMenuTextOverride text) => throw new NotImplementedException();
         public void OnSidescreenButtonPressed()
         {
             if (!module.smi.HoldingSatellite())

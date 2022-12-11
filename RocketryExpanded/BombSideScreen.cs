@@ -29,5 +29,6 @@ namespace ExplosiveMaterials
         public bool SidescreenButtonInteractable() => true;
 
         public int ButtonSideScreenSortOrder() => 20;
+        public void SetButtonTextOverride(ButtonMenuTextOverride text) => throw new NotImplementedException();
     }
 }

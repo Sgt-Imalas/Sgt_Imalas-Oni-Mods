@@ -203,6 +203,7 @@ namespace LogicSatellites.Behaviours
             public bool SidescreenButtonInteractable() => true;
 
             public int ButtonSideScreenSortOrder() => 20;
+            public void SetButtonTextOverride(ButtonMenuTextOverride text) => throw new NotImplementedException();
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Rockets_TinyYetBig.Behaviours
 {
-    class LandingLegs : KMonoBehaviour, ISidescreenButtonControl
+    class LandingLegs : KMonoBehaviour
     {
         [MyCmpGet]
         Clustercraft clustercraft;

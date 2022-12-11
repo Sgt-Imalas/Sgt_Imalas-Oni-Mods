@@ -196,10 +196,11 @@ namespace Rockets_TinyYetBig.Behaviours
 
         #region button
 
-        public string SidescreenButtonText => "Dröp Critters Bröther";
+        public string SidescreenButtonText => "Drop Critters";
 
         public string SidescreenButtonTooltip => "Drop it like its hot";
 
+        public void SetButtonTextOverride(ButtonMenuTextOverride text) => throw new NotImplementedException();
         public bool SidescreenEnabled() => true;
 
         public bool SidescreenButtonInteractable() => storedCritters.Count > 0;

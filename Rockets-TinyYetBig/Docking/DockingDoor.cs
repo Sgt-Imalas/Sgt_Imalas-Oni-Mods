@@ -154,6 +154,7 @@ namespace Rockets_TinyYetBig.Behaviours
             SelectTool.Instance.Activate();
         }
 
+        public void SetButtonTextOverride(ButtonMenuTextOverride text) => throw new NotImplementedException();
         public bool SidescreenButtonInteractable() => assignable.enabled;
 
         public bool SidescreenEnabled()
