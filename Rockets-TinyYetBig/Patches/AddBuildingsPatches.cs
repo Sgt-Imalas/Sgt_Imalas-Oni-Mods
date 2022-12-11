@@ -65,12 +65,12 @@ namespace RoboRockets.Rockets_TinyYetBig
 
                 //if (Config.Instance.LandingLegs)
                 //    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, InvisibleLandingPlatformConfig.ID, null, LaunchPadConfig.ID);
+                //AddRocketModuleToBuildList(LandingLegConfig.ID, RocketCategory.utility);
 
 
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, DockingTubeDoorConfig.ID,null, LaunchPadConfig.ID); 
-                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, SpaceStationDockingDoorConfig.ID,null, LaunchPadConfig.ID);
-                AddRocketModuleToBuildList(LandingLegConfig.ID, RocketCategory.utility); 
-                AddRocketModuleToBuildList(SpaceStationBuilderModuleConfig.ID, RocketCategory.utility);
+               // ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, SpaceStationDockingDoorConfig.ID,null, LaunchPadConfig.ID);
+               // AddRocketModuleToBuildList(SpaceStationBuilderModuleConfig.ID, RocketCategory.utility);
 
                 if (Config.Instance.EnableWallAdapter)
                 {
@@ -79,11 +79,6 @@ namespace RoboRockets.Rockets_TinyYetBig
 
                 if (Config.Instance.EnableFuelLoaders)
                 {
-                    //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, SolidOxidizerLoaderConfig.ID, null, LandingBeaconConfig.ID);
-                    //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LiquidOxidizerLoaderConfig.ID, null, LandingBeaconConfig.ID);
-                    //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, GasFuelLoaderConfig.ID, null, LandingBeaconConfig.ID);
-                    //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LiquidFuelLoaderConfig.ID, null, LandingBeaconConfig.ID);
-                    //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, SolidFuelLoaderConfig.ID, null, LandingBeaconConfig.ID);
                     ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, UniversalFuelLoaderConfig.ID, null, LandingBeaconConfig.ID);
                     ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, UniversalOxidizerLoaderConfig.ID, null, UniversalFuelLoaderConfig.ID);
                     ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, HEPFuelLoaderConfig.ID, null, UniversalOxidizerLoaderConfig.ID);

@@ -39,12 +39,12 @@ namespace Rockets_TinyYetBig.Patches
                     );
                 }
 
-                TechUtils.AddNode(__instance,
-                    ModAssets.Techs.SpaceStationTech,
-                    new[] { ModAssets.Techs.DockingTech, GameStrings.Technology.ColonyDevelopment.DurableLifeSupport },
-                    GameStrings.Technology.RadiationTechnologies.RadiationRefinement,
-                    GameStrings.Technology.ColonyDevelopment.DurableLifeSupport
-                    );
+                //TechUtils.AddNode(__instance,
+                //    ModAssets.Techs.SpaceStationTech,
+                //    new[] { ModAssets.Techs.DockingTech, GameStrings.Technology.ColonyDevelopment.DurableLifeSupport },
+                //    GameStrings.Technology.RadiationTechnologies.RadiationRefinement,
+                //    GameStrings.Technology.ColonyDevelopment.DurableLifeSupport
+                //    );
             }
         }
 
@@ -59,7 +59,7 @@ namespace Rockets_TinyYetBig.Patches
                 new Tech(ModAssets.Techs.DockingTech, new List<string>
                 {
                     DockingTubeDoorConfig.ID,
-                    SpaceStationDockingDoorConfig.ID
+                    //SpaceStationDockingDoorConfig.ID
                 },
                 __instance
                 //,new Dictionary<string, float>()
@@ -82,12 +82,12 @@ namespace Rockets_TinyYetBig.Patches
                 __instance
                 );
 
-                new Tech(ModAssets.Techs.SpaceStationTech, new List<string>
-                {
-                    SpaceStationBuilderModuleConfig.ID,
-                },
-                __instance
-                );
+                //new Tech(ModAssets.Techs.SpaceStationTech, new List<string>
+                //{
+                //    SpaceStationBuilderModuleConfig.ID,
+                //},
+                //__instance
+                //);
             }
         }
 

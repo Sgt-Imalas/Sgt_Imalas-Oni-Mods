@@ -266,6 +266,16 @@ namespace Rockets_TinyYetBig
                                     componentInChildren.enableWordWrapping = true;
                                     gameObject2.GetComponent<MultiToggle>().onClick += (System.Action)(() => __instance.SelectModule(part.GetComponent<Building>().Def));
                                     ModAssets.CategorizedButtons.Add(new Tuple<BuildingDef, int>(part.GetComponent<Building>().Def, category.Key), gameObject2);
+                                    if (Config.Instance.HideRocketCategoryTooltips == false)
+                                    {
+                                        string Tooltip = part.GetComponent<Building>().GetProperName() + "\n" + part.GetComponent<Building>().Def.Effect;
+                                        var tt = UIUtils.AddSimpleTooltipToObject(gameObject2.transform, Tooltip);
+
+                                        tt.toolTipPosition = ToolTip.TooltipPosition.Custom;
+                                        tt.parentPositionAnchor = new Vector2(0.0f, 0.5f);
+                                        tt.tooltipPivot = new Vector2(1f, 1f);
+                                        tt.tooltipPositionOffset = new Vector2(-24f, 20f);
+                                    }
 
                                     BuildingDef selectedModuleReflec = (BuildingDef)typeof(SelectModuleSideScreen).GetField("selectedModuleDef", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
 
@@ -287,6 +297,12 @@ namespace Rockets_TinyYetBig
                     return false;
                 }
                 return true;
+            }
+            private static void ConfigureToolTip(ToolTip tooltip, BuildingDef def)
+            {
+                tooltip.ClearMultiStringTooltip();
+                tooltip.AddMultiStringTooltip(def.Name, new TextStyleSetting());
+                tooltip.AddMultiStringTooltip(def.Effect, new TextStyleSetting());
             }
         }
         [HarmonyPatch(typeof(SelectModuleSideScreen))]

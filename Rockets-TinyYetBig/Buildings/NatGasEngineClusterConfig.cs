@@ -25,11 +25,8 @@ namespace Rockets_TinyYetBig.Buildings
         {
             UtilMethods.CopyRocketSoundsToAnim(kanim, "rocket_petro_engine_small_kanim");
 
-            float[] constructionMass = BUILDINGS.ROCKETRY_MASS_KG.ENGINE_MASS_SMALL;
-            string[] constructioMaterials = new string[1]
-            {
-                SimHashes.Steel.ToString()
-            };
+            float[] constructionMass = new float[] { 300f };
+            string[] constructioMaterials = MATERIALS.REFINED_METALS;
             EffectorValues noiseval = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues decorval = BUILDINGS.DECOR.NONE;
             BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(

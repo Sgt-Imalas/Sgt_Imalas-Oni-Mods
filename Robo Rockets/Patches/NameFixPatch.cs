@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using static ComplexRecipe;
 
 namespace RoboRockets.Patches
@@ -17,8 +18,12 @@ namespace RoboRockets.Patches
         [HarmonyPatch(new Type[] { typeof(ClustercraftExteriorDoor) })]
         public static class Patch_CraftingTableConfig_ConfigureRecipes
         {
-            public static bool GetTargetWorldNotNull(ClustercraftExteriorDoor clusterCraftDoor) ///int requirement to consume previous "3" on stack
+            public static bool GetTargetWorldNotNull(ClustercraftExteriorDoor clusterCraftDoor)
             {
+                ClustercraftInteriorDoor targetDoor = (ClustercraftInteriorDoor)typeof(ClustercraftExteriorDoor).GetField("targetDoor", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(clusterCraftDoor);
+                if (targetDoor == null)
+                    return false;
+
                 return (clusterCraftDoor.GetTargetWorld() != null);
             }
 
