@@ -137,6 +137,13 @@ namespace Rockets_TinyYetBig
                     public static LocString DESC = (LocString)"Harvests resources from the universe with the power of radbolts and lasers";
                     public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.NOSECONEHARVEST.EFFECT;
                 }
+                public class RTB_CO2FUELTANK
+                {
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Carbon Dioxide Fuel Tank", nameof(RTB_CO2FUELTANK));
+                    public static LocString DESC = (LocString)"Storing additional fuel increases the distance a rocket can travel before returning.";
+                    public static LocString EFFECT = ("Stores pressurized " + UI.FormatAsLink("Carbon Dioxide", "CARBONDIOXIDE") + " for " + UI.FormatAsLink("Carbon Dioxide Engines", CO2EngineConfig.ID));
+                }
+                
 
                 public class RTB_NOSECONESOLAR
                 {

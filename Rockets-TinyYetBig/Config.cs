@@ -96,6 +96,10 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool EnableCritterStorage { get; set; }
 
+        [Option("Early Game Fuel Tanks", STRINGS.OPTIONS.TOGGLEMULTI, "Modules")]
+        [JsonProperty]
+        public bool EnableEarlyGameFuelTanks { get; set; }
+
         [Option("Fortified Rocket Platform", STRINGS.OPTIONS.TOGGLESINGLE, "Modules")]
         [JsonProperty]
 
@@ -137,7 +141,8 @@ namespace Rockets_TinyYetBig
             EnableCritterStorage = true; 
             EnableBunkerPlatform = true;
             EnableFuelLoaders = true;
-            EnableWallAdapter = true;
+            EnableWallAdapter = true; 
+            EnableEarlyGameFuelTanks = true;
         }
     }
 }

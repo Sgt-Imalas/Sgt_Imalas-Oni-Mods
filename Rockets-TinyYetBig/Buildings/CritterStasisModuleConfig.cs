@@ -36,6 +36,7 @@ namespace Rockets_TinyYetBig
             buildingDef.OverheatTemperature = 2273.15f;
             buildingDef.Floodable = false;
             buildingDef.ObjectLayer = ObjectLayer.Building;
+            buildingDef.attachablePosition = new CellOffset(0, 0);
             buildingDef.CanMove = true;
             buildingDef.Cancellable = false;
 

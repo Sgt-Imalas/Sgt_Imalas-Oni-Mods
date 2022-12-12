@@ -75,6 +75,8 @@ namespace Rockets_TinyYetBig.Behaviours
         public Tuple<float,float> GetConsumptionStatusStats()
         {
             var returnVals = new Tuple<float, float>(0,0);
+            if (storage == null)
+                return returnVals;
             if (this.PullFromRocketStorageType == CargoBay.CargoType.Entities)
             {
                 returnVals.second = storage.Capacity();
@@ -82,6 +84,9 @@ namespace Rockets_TinyYetBig.Behaviours
             }
             else
             {
+                if (clustercraft == null)
+                    return returnVals;
+
                 foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)clustercraft.ModuleInterface.ClusterModules)
                 {
                     CargoBayCluster component = clusterModule.Get().GetComponent<CargoBayCluster>();

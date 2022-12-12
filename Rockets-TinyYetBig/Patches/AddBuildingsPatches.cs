@@ -83,6 +83,10 @@ namespace RoboRockets.Rockets_TinyYetBig
                     ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, UniversalOxidizerLoaderConfig.ID, null, UniversalFuelLoaderConfig.ID);
                     ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, HEPFuelLoaderConfig.ID, null, UniversalOxidizerLoaderConfig.ID);
                 }
+                if (Config.Instance.EnableEarlyGameFuelTanks)
+                {
+                    AddRocketModuleToBuildList(CO2FuelTankConfig.ID, RocketryUtils.RocketCategory.fuel, CO2EngineConfig.ID);
+                }
 
             }
         }
@@ -142,6 +146,10 @@ namespace RoboRockets.Rockets_TinyYetBig
                 }
                 InjectionMethods.AddBuildingToTechnology("HydrocarbonPropulsion", NatGasEngineClusterConfig.ID);
 
+                if (Config.Instance.EnableEarlyGameFuelTanks)
+                {
+                    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Gases.GasDistribution, CO2FuelTankConfig.ID);
+                }
             }
         }
     }
