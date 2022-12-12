@@ -26,7 +26,7 @@
 		<ModName>Buildable Cryopod</ModName>
 		<ModDescription>Adds buildable Cryopods to the game</ModDescription>
 		<SupportedContent>EXPANSION1_ID</SupportedContent>
-		<MinimumSupportedBuild>498381</MinimumSupportedBuild>
+		<MinimumSupportedBuild>535211</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 
