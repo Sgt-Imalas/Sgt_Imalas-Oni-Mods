@@ -1,0 +1,32 @@
+﻿[img]https://i.imgur.com/GbFtLZ2.png[/img]
+
+[h1]"Move Here" Command Tile[/h1]
+
+This mod adds a tile that allows to call duplicants to its position via logic signal
+
+[h1]Current latest Version: 1.0.0[/h1]
+
+[hr][/hr]
+
+[h1]New Tile: "Duplicant Caller Tile"[/h1]
+[list]
+	[*]made from 25kg of refined metal and 75kg of raw minerals
+	[*]requires 10W of power.
+	[*]requires logic cable
+	[*]requires duplicant assigned
+	[*]send a green logic signal to continuously call the assigned duplicant to the tiles location (only works if the dupe can reach the tile)
+	[*]cancel ongoing movement calls via red logic signal.
+	[*]move commands override dupes need, life insurance not included
+	[*]Colour indicator: Grey = no power/no dupe assignment, Red = dupe assigned but no commands given, Green = dupe is being called
+[/list]
+
+
+[hr][/hr]
+
+[h1]Bug Reports[/h1]
+Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
+

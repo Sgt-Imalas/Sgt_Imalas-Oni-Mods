@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static MoveDupeHere.ModAssets;
+using static STRINGS.BUILDINGS.PREFABS;
 
 namespace MoveDupeHere
 {
@@ -25,7 +26,7 @@ namespace MoveDupeHere
 
             public static void Prefix()
             {
-                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, GoHereTileConfig.ID);
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Automation, GoHereTileConfig.ID,"", FloorSwitchConfig.ID);
             }
         }
         /// <summary>
@@ -37,6 +38,18 @@ namespace MoveDupeHere
             public static void Postfix()
             {
                 LocalisationUtil.Translate(typeof(STRINGS), true);
+            }
+        }
+
+        [HarmonyPatch(typeof(Db))]
+        [HarmonyPatch("Initialize")]
+        public class Db_Initialize_Patch
+        {
+            public static void Postfix(Db __instance)
+            {
+                //add buildings to technology tree
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Computers.Computing, GoHereTileConfig.ID);
+
             }
         }
     }

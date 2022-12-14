@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static MoveDupeHere.MoveDupeHereSM.States;
 
 namespace MoveDupeHere
 {
@@ -64,7 +65,6 @@ namespace MoveDupeHere
         public class StatesInstance : GameStateMachine<States, StatesInstance, MoveDupeHereSM>.GameInstance
         {
             public Navigator nav;
-            public MoveToLocationMonitor.Instance targetLocationMonitor;
             public StatesInstance(MoveDupeHereSM master) : base(master)
             {
             }
@@ -75,7 +75,12 @@ namespace MoveDupeHere
             public class DupeAssignedStates : State
             {
                 public State RedSignal;
-                public State GreenSignal;
+                public GreenStates GreenSignal;
+            }
+            public class GreenStates : State
+            {
+                public State MovingDupe;
+                public State DupeArrived;
             }
 
             public State Init;
@@ -122,8 +127,6 @@ namespace MoveDupeHere
                     {
                         //Debug.Log("enter assigned");
                         smi.nav = smi.master.GetTargetNavigator();
-                        if (smi.nav != null)
-                            smi.targetLocationMonitor = smi.nav.GetSMI<MoveToLocationMonitor.Instance>();
                     })
                     .Update((smi, dt) =>
                     {
@@ -137,7 +140,6 @@ namespace MoveDupeHere
                     .Exit((smi) =>
                     {
                         smi.nav = null;
-                        smi.targetLocationMonitor = null;
                     });
 
                 dupeAssignedStates.RedSignal
@@ -145,29 +147,25 @@ namespace MoveDupeHere
                     //.Enter(smi => Debug.Log("enter red sig"))
                     .EventTransition(GameHashes.ActiveChanged, dupeAssignedStates.GreenSignal, smi => smi.GetComponent<Operational>().IsActive)
                     ;
+                dupeAssignedStates.GreenSignal.defaultState = dupeAssignedStates.GreenSignal.MovingDupe;
 
                 dupeAssignedStates.GreenSignal
+                    .EventTransition(GameHashes.ActiveChanged, dupeAssignedStates.RedSignal, smi => !smi.GetComponent<Operational>().IsActive)
                     .Enter((smi) =>
                     {
-                        Debug.Log("enter green sig"); 
                         smi.nav = smi.master.GetTargetNavigator();
-                        if (smi.nav != null)
-                            smi.targetLocationMonitor = smi.nav.GetSMI<MoveToLocationMonitor.Instance>();
-                    }).PlayAnim("on")
-                    .Update((smi, dt) =>
-                    {
-                        //Debug.Log("nav: " + smi.nav + ", monitor: " + smi.targetLocationMonitor);
-                        if(smi.nav != null && smi.targetLocationMonitor != null)
-                        {
-                            if (smi.nav.CanReach(smi.master.TargetCellInt)&&smi.targetLocationMonitor.IsInsideState(smi.targetLocationMonitor.sm.satisfied))
-                            {
-                                smi.targetLocationMonitor.MoveToLocation(smi.master.TargetCellInt);
-                            }
-                        }
-                        
-                    }, UpdateRate.RENDER_1000ms)
-                    .EventTransition(GameHashes.ActiveChanged, dupeAssignedStates.RedSignal, smi => !smi.GetComponent<Operational>().IsActive)
+                    }).PlayAnim("on");
+                dupeAssignedStates.GreenSignal.MovingDupe
+                    .ToggleChore(CreateChore, dupeAssignedStates.GreenSignal.DupeArrived);
+                dupeAssignedStates.GreenSignal.DupeArrived
+                    .GoTo(dupeAssignedStates.GreenSignal.MovingDupe);
                     ;
+            }
+            public Chore CreateChore(MoveDupeHereSM.StatesInstance smi)
+            {
+                MoveChore chore = new MoveChore(smi.nav, Db.Get().ChoreTypes.MoveTo, (mover_smi => smi.master.TargetCellInt));
+                chore.AddPrecondition(ChorePreconditions.instance.CanMoveToCell, (object)smi.master.TargetCellInt);
+                return (Chore)chore;
             }
         }
 
