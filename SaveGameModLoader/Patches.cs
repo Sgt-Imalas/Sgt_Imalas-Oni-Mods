@@ -115,8 +115,8 @@ namespace SaveGameModLoader
                 if (insertionIndex != -1)
                 {
                     insertionIndex += 1;
-                    code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 16));
-                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 15));
+                    code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 7));
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 6));
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, ButtonLogic));
                 }
                 //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
@@ -353,7 +353,7 @@ namespace SaveGameModLoader
                 //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
                 if (insertionIndex != -1)
                 {
-                     code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldloc_2));
+                     code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldloc_1));
                      code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, ScreenCreator));
                 }
 

@@ -4,8 +4,9 @@
 [h2]More Rockets - more fun![/h2]
 
 This mod aims to increase rocket versatility by adding new rocket modules, rocket mechanics and in general adding to the experience of rocketry in Spaced Out.
+While including a large number of features, the mod is higly modular so every player can choose for themselves what features they want to use.
 
-[h1]Current latest Version: 2.3.5[/h1]
+[h1]Current latest Version: 2.4.0 (2.3.9 on previous Branch)[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
@@ -13,14 +14,21 @@ This mod aims to increase rocket versatility by adding new rocket modules, rocke
 [*] Interior Shrinking: Rockets no longer take up 32x32 Tiles, instead the interior size gets set dependant on the actual interior space used (disableable, a change only applies to newly constructed modules).
 [*] Removal of Rocket cap of 16 (This is possible due to the space saving from the interior shrinking).
 [*] Module Building Categories - no longer an endless scrolling fest (disableable) 
+[*] Rocket Build Menu Tooltips - similar to the regular build menu, hovering over a module now displays the respective tooltip.
 [*] Generator Modules (produce power while not landed without the need to move the rocket)
-[*]Habitat Power Plug: Connect the internal electric grid to the outside without the need for a battery module
-[*] Tweaks to Vanilla Modules: [list]
+[*] Insulated Wall adapter - seal of your rocket chimney
+[*] Fuel Loaders - no more overheating pipes due to rocket start, just fuel them via these new loader buildings
+[*] Rocket Docking - Exchange dupes during the flight, rescue stranded dupes without blowing up the respective rocket and more to come...
+[*] Habitat Power Plug - Connect the internal electric grid to the outside without the need for a battery module
+[*] Rocket Tooltips (on the space map):[list]
+	[*] Generator Fuel State - displays the current generator fuel and the total generator fuel capacity of all generator modules on this rocket.
+	[*]	Battery Charge State - displays the current/maximum charge of all battery modules of this rocket.[/list]
+[*] Tweaks to Vanilla Modules & Mechanics: [list]
 	[*]Cartographic Module Buff: The Cartographic Module will now instantly reveal all Space Hexes in a radius of 1 ( adjustable in mod settings).
 	[*]Petroleum Engines: Can now also be fueled with Ethanol
 	[*]Large Solid Oxidizer Tank Buff: Capacity 900 -> 1350, this gives it 3x the capacity of one small tank while taking 2.5x height and weight of one (and gives a reason to use this module)
-	[*]more wip.
-	[/list]
+	[*]Rocket gas/liquid input/output wall tiles now count as "Rocket Wall", thus allow the constructing of Fittings connected to it
+	[*]more wip.[/list]
 [*] each new module and most features can be individually toggled on&off / tweaked in the mod config.
 [/list]
 
@@ -36,12 +44,19 @@ This mod aims to increase rocket versatility by adding new rocket modules, rocke
 	[*][h2]Nosecones[/h2][list]
 		[*][h3]Laser Drillcone[/h3]
 			This Nosecone takes in up to 6000 Radbolts, ready to mine space pois with the power of the lazor. By default it mines at half the speed of a regular drillcone (this value can be adjusted in the mod config).
+		[*][h3]Solar Nosecone[/h3]
+			This Nosecone has some solar panels taped to it, doubling as a power generator.
 		[/list]
 	[*][h2]Cargo/Storage[/h2][list]
-		[*][h3]Critter Containment Module[/h3]
-			Allows the transport of critters without the need to store them in the spacefarer module. Base Capacity: 5 Critters (adjustable in mod settings).
+		[*][h3]Critter Stasis Module[/h3]
+			Allows the transport of critters without the need to store them in the spacefarer module. Critters stored in this module wont age. Base Capacity: 5 Critters (adjustable in mod settings).
 		[*][h3]Radbolt Chamber Module[/h3]
 			Transport Radbolts to other planetoids with this module. Has a capacity of 3000 Radbolts with a configurable output direction.
+		[/list]
+		
+	[*][h2]Fuel[/h2][list]
+		[*][h3]CO2 Fuel Tank[/h3]
+			A fuel tank that increases the max range of a CO2 engine by 3.
 		[/list]
 	[*][h2]Power[/h2][list]
 		[*][h3]Coal Generator Module[/h3]
@@ -56,17 +71,29 @@ This mod aims to increase rocket versatility by adding new rocket modules, rocke
 [h1]New Buildings[/h1][list]
 	[*][h3]Fortified Rocket Platform[/h3]
 		A more expensive Rocket Platform that features immunity to comets and adjusted logic port locations for less melting automation cables.
+	[*][h3]Rocket Docking Tube[/h3]
+		Allows Rockets to dock to each other		
+	[*][h3]Insulated Rocket Port Wall Adapter[/h3]
+		Seal off rocket chimneys to no longer overheat your cargo (and fuel) loaders with a rocket start
+	[*][h3]Rocket Fuel Loader[/h3]
+		Fill all connected rockets with the right fuel.
+	[*][h3]Rocket Oxidzer Loader[/h3]
+		Fill all connected rockets with the Oxidizer.
+	[*][h3]Radbolt Fuel Loader[/h3]
+		Fill all connected radbolt engines with radbolts. has a logic output if its internal radbolt storage is full.
+
 	[*]more wip.
 [/list]
+
 [hr][/hr]
 
 [h1]Credits[/h1]
 Options made with PLib.
+Animations for the Solar Nosecone & Natural Gas Engine made by the wonderful 3GuB
 
 [hr][/hr]
 [h1]Known Issues[/h1]
 [list]
-[*] The game crashes on changing one spacefarer module to another. - even to the mod will recieve blame, this is a vanilla crash issue, just don't do that -> deconstruct the module, then construct the new one after.
 [*] Camera glitches out / is black inside of rocket - A camera bug derived from the main game camera, zoom in / out to fix.
 [*] Starfarer landing animation is glitchy - Basegame limitations do not allow extra animation there to fix it.
 [*] Game Crash on construction of an additional rocket - you used up all the grid space with 32x32 rockets, deconstruct some of those and it should work again.
@@ -88,6 +115,17 @@ Where to find the Log:
 
 [hr][/hr]
 
+Also check out these mods for more Rocketry Additions:[list] 
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2765256496]AI controlled Rockets[/url] <= Let your rockets fly without any duplicant inputs
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2840104621]Scan & Relay Satellites[/url] <= Deploy satellites to the space map to increase the range of broadcasters and autonomously scan the space tiles
+[/list] 
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
+
+
+
 [h1]FAQ[/h1]
 [h2]What does "Interior Shrinking" mean for the game?[/h2]
 The Game runs on a grid of cells with a finite size. In Spaced Out, this grid is split between the asteroids, with some space remaining unused, thus staying available as "free grid space".
@@ -104,16 +142,3 @@ For comparison, this is the space taken by 9 normal sized rocket interiors:
 This is the space taken by 16 shrunken (medium) interiors:
 
 [img]https://i.imgur.com/lrbg559.png[/img]
-
-
-[hr][/hr]
-
-Also check out these mods for more Rocketry Additions:[list] 
-[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2765256496]AI controlled Rockets[/url] <= Let your rockets fly without any duplicant inputs
-[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2840104621]Scan & Relay Satellites[/url] <= Deploy satellites to the space map to increase the range of broadcasters and autonomously scan the space tiles
-[/list] 
-
-[hr][/hr]
-
-Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
-
