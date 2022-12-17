@@ -53,7 +53,7 @@ namespace Rockets_TinyYetBig
 
             buildingDef.LogicOutputPorts = new List<LogicPorts.Port>()
             {
-                LogicPorts.Port.OutputPort((HashedString) "HEP_STORAGE", new CellOffset(1, 1),
+                LogicPorts.Port.OutputPort((HashedString) ID, new CellOffset(1, 1),
                 (string) global::STRINGS.BUILDINGS.PREFABS.HEPBATTERY.LOGIC_PORT_STORAGE, 
                 (string) global::STRINGS.BUILDINGS.PREFABS.HEPBATTERY.LOGIC_PORT_STORAGE_ACTIVE,
                 (string) global::STRINGS.BUILDINGS.PREFABS.HEPBATTERY.LOGIC_PORT_STORAGE_INACTIVE)
@@ -84,7 +84,7 @@ namespace Rockets_TinyYetBig
             HighEnergyParticleStorage energyParticleStorage = go.AddOrGet<HighEnergyParticleStorage>();
             energyParticleStorage.capacity = 3000f;
             energyParticleStorage.autoStore = true;
-            energyParticleStorage.PORT_ID = "HEP_STORAGE";
+            energyParticleStorage.PORT_ID = ID;
             energyParticleStorage.showCapacityStatusItem = true;
             energyParticleStorage.showCapacityAsMainStatus = true;
             go.AddOrGet<LoopingSounds>();             

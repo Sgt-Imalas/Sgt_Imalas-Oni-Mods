@@ -82,7 +82,10 @@ namespace Rockets_TinyYetBig.Buildings
                 this.Unsubscribe(-1697596308, new System.Action<object>(this.UpdateMeter));
             }
 
-            public void UpdateMeter(object data = null) => this.meter.SetPositionPercent(this.storage.Particles / this.storage.Capacity());
+            public void UpdateMeter(object data = null)
+            {
+                this.meter.SetPositionPercent(this.storage.Particles / this.storage.Capacity());
+            } 
 
             public void HarvestFromPOI(float dt)
             {
