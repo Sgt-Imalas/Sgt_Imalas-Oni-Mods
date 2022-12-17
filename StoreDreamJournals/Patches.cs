@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TUNING;
 using UnityEngine;
 using UtilLibs;
 
@@ -27,8 +28,23 @@ namespace StoreDreamJournals
                 __result.AddOrGet<KBoxCollider2D>().size = (Vector2)new Vector2f(0.67f, 0.75f);
 
                 KPrefabID kprefabId = __result.AddOrGet<KPrefabID>();                
-                kprefabId.RemoveTag(GameTags.IgnoreMaterialCategory);
+                kprefabId.RemoveTag(GameTags.StoryTraitResource);
                 kprefabId.AddTag(GameTags.IndustrialIngredient);
+            }
+        }
+
+        [HarmonyPatch(typeof(Db))]
+        [HarmonyPatch("Initialize")]
+        public static class AddCategoryToTreeFilterable
+        {
+
+            public static void Prefix()
+            {
+                //STORAGEFILTERS.NOT_EDIBLE_SOLIDS.Add(GameTags.StoryTraitResource);
+
+                //KPrefabID kprefabId = __result.AddOrGet<KPrefabID>();                
+                //kprefabId.RemoveTag(GameTags.StoryTraitResource);
+                //kprefabId.AddTag(GameTags.IndustrialIngredient);
             }
         }
     }
