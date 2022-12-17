@@ -26,5 +26,5 @@ Features:
 Fixes & Adjustments:
 - the Fortified Rocket Platform now works correctly with loaders / unloaders
 - the "switch module" button is now disabled on habitats to prevent a vanilla crash that happens when you try that
-- hopefully fixed a crash that would happen after deconstructing a module
+- fixed a crash that would happen after deconstructing a module
 - Reworked Critter Containment Module ---> Critter Stasis Module to fix the fact critters would sometimes just die; critters in the new stasis module do not age.
