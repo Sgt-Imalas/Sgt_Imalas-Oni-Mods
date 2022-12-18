@@ -22,7 +22,9 @@ namespace MoveDupeHere
 
         public bool HasDupeAssigned()
         {
-            return assignable.IsAssigned();
+            if(assignable != null)
+                return assignable.IsAssigned();
+            return true;
         }
         public Navigator GetTargetNavigator()
         {
@@ -110,14 +112,18 @@ namespace MoveDupeHere
                 Idle
 
                     //.Enter(smi => Debug.Log("enter idle"))
-                    .PlayAnim("no_power")
+                    //.PlayAnim("no_power")
                     .Update((smi, dt) =>
                     {
+                        var animController = smi.sm.masterTarget.Get<KAnimControllerBase>(smi);
+                        if (animController != null)
+                            animController.Play("no_power");
+
                         if (smi.master.HasDupeAssigned()&& smi.GetComponent<Operational>().IsOperational)
                         {
                             smi.GoTo(dupeAssignedStates);
                         }
-                    }, UpdateRate.RENDER_1000ms);
+                    }, UpdateRate.SIM_200ms);
 
 
                 dupeAssignedStates.defaultState = dupeAssignedStates.RedSignal;
@@ -135,7 +141,7 @@ namespace MoveDupeHere
                         {
                             smi.GoTo(Idle);
                         }
-                    }, UpdateRate.RENDER_1000ms)
+                    }, UpdateRate.SIM_200ms)
                     .EventTransition(GameHashes.OperationalChanged, Idle, smi => !smi.GetComponent<Operational>().IsOperational)
                     .Exit((smi) =>
                     {
