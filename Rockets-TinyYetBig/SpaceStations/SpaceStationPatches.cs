@@ -51,7 +51,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         {
             public static void Postfix(List<DetailsScreen.SideScreenRef> ___sideScreens)
             {
-                UIUtils.AddClonedSideScreen<SpaceStationBuilderModuleSideScreen>("SpaceStationBuilderModuleSideScreen", "MonumentSideScreen", typeof(MonumentSideScreen));
+                UIUtils.AddClonedSideScreen<SpaceStationBuilderModuleSideScreen>("SpaceStationBuilderModuleSideScreen", "ArtableSelectionSideScreen", typeof(ArtableSelectionSideScreen));
                 UIUtils.AddClonedSideScreen<SpaceStationSideScreen>("SpaceStationSideScreen", "ClusterGridWorldSideScreen", typeof(ClusterGridWorldSideScreen));
             }
         }

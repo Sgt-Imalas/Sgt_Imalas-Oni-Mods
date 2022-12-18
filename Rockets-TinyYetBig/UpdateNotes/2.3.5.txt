@@ -12,3 +12,4 @@ Fixes & Adjustments:
 - Generator Modules now function in space while not moving (was buggy before)
 - Buffed Large Solid Oxidizer tank: Capacity 900 -> 1350, this gives it 3x the capacity of one small tank while taking 2.5x height and weight of one (and gives a reason to use this module)
 - Modules that fit multiple categories (f.e. spacefarer nosecones) now appear under both categories (nosecones and habitats for this example)
+- Fixed Logic ports on radbolt module and laser drillcone not updating correctly after reordering / flying

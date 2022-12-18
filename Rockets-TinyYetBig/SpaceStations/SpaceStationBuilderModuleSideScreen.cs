@@ -35,6 +35,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         protected override void OnSpawn()
         {
             base.OnSpawn();
+            return;
             //UIUtils.ListAllChildren(this.transform);
             // the monument screen used here has 2 extra buttons that are not needed, disabling them
             //flipButton.SetActive(false);
@@ -46,6 +47,9 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         protected override void OnPrefabInit()
         {
+
+            UIUtils.ListAllChildren(this.transform);
+            return;
             UIUtils.ListAllChildren(this.transform);
             base.OnPrefabInit();
             titleKey = "STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONBUILDERMODULESIDESCREEN.TITLE";
