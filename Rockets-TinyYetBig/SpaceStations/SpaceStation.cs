@@ -27,14 +27,14 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         public Vector2I InteriorSize = new Vector2I(30, 30);
         public string InteriorTemplate = "emptySpaceStationPrefab";
-        public string IconAnimName = "station_1";
+        //public string IconAnimName = "station_3";
 
         public override List<ClusterGridEntity.AnimConfig> AnimConfigs => new List<ClusterGridEntity.AnimConfig>()
         {
             new ClusterGridEntity.AnimConfig()
             {
-                animFile = Assets.GetAnim((HashedString) "gravitas_space_poi_kanim"),
-                initialAnim =  IconAnimName
+                animFile = Assets.GetAnim((HashedString) "space_station_small_kanim"),
+                initialAnim =  "idle_loop"
             }
         };
 
