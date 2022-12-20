@@ -23,9 +23,11 @@ namespace AmogusMorb
 
             public static void Postfix(GameObject __result)
             {
+                string amogusAnimName = Config.Instance.SussyPlus ? "amorbus_sus_kanim" : "amorbus_sus_old_kanim";
+
                 KBatchedAnimController kBatchedAnimController = __result.AddOrGet<KBatchedAnimController>();
-                kBatchedAnimController.AnimFiles = new KAnimFile[1] { Assets.GetAnim("amorbus_sus_kanim") };
-                UtilMethods.CopySoundsToAnim("amorbus_sus_kanim", "glom_kanim");
+                kBatchedAnimController.AnimFiles = new KAnimFile[1] { Assets.GetAnim(amogusAnimName) };
+                UtilMethods.CopySoundsToAnim(amogusAnimName, "glom_kanim");
             }
         }
         /// <summary>
