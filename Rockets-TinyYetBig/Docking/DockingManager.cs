@@ -204,6 +204,10 @@ namespace Rockets_TinyYetBig.Behaviours
                 return;
             }
             ConnectTwo(this, target);
+            if(SpaceStationManager.WorldIsSpaceStationInterior(OwnWorldId))
+                ClusterManager.Instance.GetWorld(targetWorldId).SetParentIdx(OwnWorldId );
+            else if (SpaceStationManager.WorldIsSpaceStationInterior(targetWorldId))
+                ClusterManager.Instance.GetWorld(OwnWorldId).SetParentIdx(targetWorldId);
         }
         public void UndockAll()
         {
@@ -263,6 +267,8 @@ namespace Rockets_TinyYetBig.Behaviours
             door2.DisconnecDoor();
             DockingDoors[door] = -1;
             door.DisconnecDoor(cleanup);
+            ClusterManager.Instance.GetWorld(targetWorldId).SetParentIdx(targetWorldId);
+            ClusterManager.Instance.GetWorld(OwnWorldId).SetParentIdx(OwnWorldId);
 
             DetailsScreen.Instance.Refresh(door.gameObject);
         }
