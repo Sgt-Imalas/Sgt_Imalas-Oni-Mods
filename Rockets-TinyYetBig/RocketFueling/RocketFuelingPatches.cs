@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using PeterHan.PLib.Core;
 using Rockets_TinyYetBig.Buildings;
 using Rockets_TinyYetBig.NonRocketBuildings;
 using System;
@@ -12,6 +13,7 @@ using TemplateClasses;
 using UnityEngine;
 using UtilLibs;
 using static Rockets_TinyYetBig.RocketFueling.FuelLoaderComponent;
+using static StateMachine<LaunchPadMaterialDistributor, LaunchPadMaterialDistributor.Instance, IStateMachineTarget, LaunchPadMaterialDistributor.Def>;
 using static STRINGS.UI.STARMAP;
 
 namespace Rockets_TinyYetBig.RocketFueling
@@ -46,9 +48,9 @@ namespace Rockets_TinyYetBig.RocketFueling
                     foreach (T item in col)
                         yield return item;
             }
-            public static bool Prefix(LaunchPadMaterialDistributor.Instance __instance)
+            public static void Postfix(LaunchPadMaterialDistributor.Instance __instance)
             {
-                bool shouldDoNormal = true;
+                bool HasLoadingProcess = false;
                 var clusterRocketTargetParam = (StateMachine<LaunchPadMaterialDistributor, LaunchPadMaterialDistributor.Instance, IStateMachineTarget, LaunchPadMaterialDistributor.Def>.TargetParameter)
                     typeof(LaunchPadMaterialDistributor).GetField("attachedRocket", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance.sm);
 
@@ -96,7 +98,7 @@ namespace Rockets_TinyYetBig.RocketFueling
                     bool isLoading = false;
                     if (fuelLoader != null && (smi2 == null || smi2.SelectedMode == ModularConduitPortController.Mode.Load))
                     {
-                        shouldDoNormal = false;
+                        //shouldDoNormal = false;
                         smi2.SetRocket(true);
                         if (fuelLoader.loaderType == LoaderType.Fuel)
                         {
@@ -167,12 +169,28 @@ namespace Rockets_TinyYetBig.RocketFueling
                                 }
                             }
                         }
-                        smi2?.SetLoading(isLoading);
+                    }
+
+                    if (smi2?.IsLoading() == false && isLoading == false)
+                    {
+                        HasLoadingProcess = false;
+                        smi2?.SetLoading(false);
+                    }
+                    else if(smi2?.IsLoading() == true || isLoading == true)
+                    {
+                        HasLoadingProcess = true;
+                        smi2?.SetLoading(true);
                     }
                 }
 
+                var FilledComplete = (StateMachine<LaunchPadMaterialDistributor, LaunchPadMaterialDistributor.Instance, IStateMachineTarget, LaunchPadMaterialDistributor.Def>.BoolParameter)
+                   typeof(LaunchPadMaterialDistributor).GetField("fillComplete", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance.sm);
+                FilledComplete.Set(!HasLoadingProcess, __instance);
+
+               // PPatchTools.TryGetFieldValue(__instance.sm, "fillComplete", out StateMachine<LaunchPadMaterialDistributor, LaunchPadMaterialDistributor.Instance, IStateMachineTarget, LaunchPadMaterialDistributor.Def>.BoolParameter fillComplete);
+                //fillComplete.Set(!HasLoadingProcess, __instance);
                 chain.Recycle();
-                return shouldDoNormal;
+                //return shouldDoNormal;
             }
         }
     }
