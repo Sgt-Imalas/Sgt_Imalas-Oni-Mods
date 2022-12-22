@@ -99,27 +99,27 @@ namespace SetStartDupes
                     GridLayoutGroup[] objectsOfType2 = UnityEngine.Object.FindObjectsOfType<GridLayoutGroup>();
                     foreach (var layout in objectsOfType2)
                     {
-                    if (layout.name == "CharacterContainers")
-                    {
-
-                        int countPerRow = StartDupeConfig.Instance.DuplicantStartAmount;
-                        if (countPerRow > 5)
+                        if (layout.name == "CharacterContainers")
                         {
-                            if (countPerRow % 2 != 0)
-                                countPerRow++;
-                            countPerRow = countPerRow / 2;
-                        }
-                        layout.constraintCount = countPerRow;
+
+                            int countPerRow = StartDupeConfig.Instance.DuplicantStartAmount;
+                            if (countPerRow > 5)
+                            {
+                                if (countPerRow % 2 != 0)
+                                    countPerRow++;
+                                countPerRow = countPerRow / 2;
+                            }
+                            layout.constraintCount = countPerRow;
 #if DEBUG
-                        Debug.Log("cellsize: " + layout.cellSize);
-                        Debug.Log("Dupe COunt: " + StartDupeConfig.Instance.DuplicantStartAmount);
-                        Debug.Log("Dupes Per Row " + countPerRow);
+                            Debug.Log("cellsize: " + layout.cellSize);
+                            Debug.Log("Dupe COunt: " + StartDupeConfig.Instance.DuplicantStartAmount);
+                            Debug.Log("Dupes Per Row " + countPerRow);
 
 #endif                        //layout.cellSize = new(300, 400);
+                        }
                     }
-                }
 
-                
+
                     //Debug.Log("PARENT: "+parentToScale.transform.localScale);
                     //prefabToScale.transform.localScale = new(0.8f,0.8f);
                     if (StartDupeConfig.Instance.DuplicantStartAmount > 5 && __instance.IsStarterMinion)
@@ -127,7 +127,7 @@ namespace SetStartDupes
                         parentToScale.transform.parent.transform.localScale = new Vector3(0.6f, 0.6f);
                         //parentToScale.transform.localScale = new Vector3(0.6f, 0.6f);
                         prefabToScale.baseCharacterScale = 0.24f;
-                        Debug.Log("Adjusting Scale to "+ prefabToScale.baseCharacterScale);
+                        Debug.Log("Adjusting Scale to " + prefabToScale.baseCharacterScale);
                         ModAssets.HasShrunkenDown = true;
                         ModAssets.PrefabToFix = prefabToScale;
                     }
@@ -146,7 +146,7 @@ namespace SetStartDupes
                     prefabToScale.baseCharacterScale = 0.4f;
 
 #if DEBUG
-                    Debug.Log("Adjusting Scale to " + prefabToScale.baseCharacterScale); 
+                    Debug.Log("Adjusting Scale to " + prefabToScale.baseCharacterScale);
 #endif
                 }
 
@@ -157,7 +157,8 @@ namespace SetStartDupes
 
             public static void Postfix(CharacterSelectionController __instance, CharacterContainer ___containerPrefab)
             {
-                if (ModAssets.StartPrefab == null) { 
+                if (ModAssets.StartPrefab == null)
+                {
                     StartPrefab = ___containerPrefab.transform.Find("Details").gameObject;
                     //StartPrefab.transform.Find("Top/PortraitContainer/PortraitContent").gameObject.SetActive(false);
                     //StartPrefab.transform.name = "ModifyDupeStats";
@@ -202,7 +203,7 @@ namespace SetStartDupes
                 skillMod.gameObject.SetActive(false);
             }
         }
-        
+
         [HarmonyPatch(typeof(CharacterContainer), "GenerateCharacter")]
         public static class AddChangeButtonToCharacterContainer
         {
@@ -211,7 +212,7 @@ namespace SetStartDupes
             }
             public static void Postfix(CharacterContainer __instance, MinionStartingStats ___stats, bool is_starter)
             {
-                
+
                 var buttonPrefab = __instance.transform.Find("TitleBar/RenameButton").gameObject;
                 var titlebar = __instance.transform.Find("TitleBar").gameObject;
 #if DEBUG
@@ -228,10 +229,10 @@ namespace SetStartDupes
                 var img = changebtn.transform.Find("Image").GetComponent<KImage>();
                 img.sprite = Assets.GetSprite("icon_gear");
                 var button = __instance.transform.Find("ShuffleDupeButton").GetComponent<KButton>();
-                var button2 = __instance.transform.Find("ArchetypeSelect").GetComponent<KButton>(); 
+                var button2 = __instance.transform.Find("ArchetypeSelect").GetComponent<KButton>();
 
 
-                ChangeButton(false, changebtn, __instance, ___stats, button,button2);
+                ChangeButton(false, changebtn, __instance, ___stats, button, button2);
 
                 CycleButtonLeftPrefab = Util.KInstantiateUI(buttonPrefab);
                 CycleButtonLeftPrefab.GetComponent<ToolTip>().enabled = false;
@@ -244,28 +245,28 @@ namespace SetStartDupes
                 CycleButtonRightPrefab.name = "NextButton";
             }
 
-            static void ChangeButton(bool isCurrentlyInEditMode,GameObject buttonGO, CharacterContainer parent, MinionStartingStats referencedStats, KButton ButtonToDisable, KButton ButtonToDisableAswell)
+            static void ChangeButton(bool isCurrentlyInEditMode, GameObject buttonGO, CharacterContainer parent, MinionStartingStats referencedStats, KButton ButtonToDisable, KButton ButtonToDisableAswell)
             {
-                buttonGO.GetComponent<ToolTip>().SetSimpleTooltip(!isCurrentlyInEditMode ? "Adjust dupe stats":"Store Settings");
+                buttonGO.GetComponent<ToolTip>().SetSimpleTooltip(!isCurrentlyInEditMode ? "Adjust dupe stats" : "Store Settings");
                 var img = buttonGO.transform.Find("Image").GetComponent<KImage>();
-                img.sprite = Assets.GetSprite(!isCurrentlyInEditMode ? "icon_gear": "iconSave");
+                img.sprite = Assets.GetSprite(!isCurrentlyInEditMode ? "icon_gear" : "iconSave");
                 var button = buttonGO.GetComponent<KButton>();
                 button.ClearOnClick();
                 button.onClick += () =>
                 {
-                    ChangeButton(!isCurrentlyInEditMode, buttonGO,parent, referencedStats, ButtonToDisable,ButtonToDisableAswell);
+                    ChangeButton(!isCurrentlyInEditMode, buttonGO, parent, referencedStats, ButtonToDisable, ButtonToDisableAswell);
                     if (isCurrentlyInEditMode)
                     {
                         InstantiateOrGetDupeModWindow(parent.gameObject, referencedStats, true);
-                        typeof(CharacterContainer).GetMethod("SetInfoText", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(parent, null );
-                        typeof(CharacterContainer).GetMethod("SetAttributes", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(parent, null );
+                        typeof(CharacterContainer).GetMethod("SetInfoText", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(parent, null);
+                        typeof(CharacterContainer).GetMethod("SetAttributes", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(parent, null);
                     }
                     else
                     {
                         InstantiateOrGetDupeModWindow(parent.gameObject, referencedStats, false);
                     }
-                    ButtonToDisable.isInteractable=isCurrentlyInEditMode;
-                    ButtonToDisableAswell.isInteractable= isCurrentlyInEditMode;
+                    ButtonToDisable.isInteractable = isCurrentlyInEditMode;
+                    ButtonToDisableAswell.isInteractable = isCurrentlyInEditMode;
                 };
                 parent.transform.Find("Details").gameObject.SetActive(!isCurrentlyInEditMode);
             }
@@ -296,7 +297,8 @@ namespace SetStartDupes
 
 
                 ///Building the Button window
-                if(ShouldInit) {
+                if (ShouldInit)
+                {
 
                     //Debug.Log("FindScroll");
                     //UIUtils.ListAllChildren(ParentContainer.transform);
@@ -321,16 +323,17 @@ namespace SetStartDupes
 
                     //overallSize.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, 600);
                     ///Building 3 button prefab for switching traits / interests
-                    var prefabParent = NextButtonPrefab; 
-                    if (prefabParent.transform.Find("NextButton") == null) {
-                        
+                    var prefabParent = NextButtonPrefab;
+                    if (prefabParent.transform.Find("NextButton") == null)
+                    {
+
                         prefabParent.GetComponent<KButton>().enabled = false;
                         var left = Util.KInstantiateUI(CycleButtonLeftPrefab, prefabParent);
                         left.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 30);
-                        UIUtils.TryFindComponent<ToolTip>(left.transform).toolTip= "Cycle to previous";
+                        UIUtils.TryFindComponent<ToolTip>(left.transform).toolTip = "Cycle to previous";
                         //UIUtils.TryFindComponent<ToolTip>(left.transform, "Image").toolTip= "Cycle to previous";
                         var right = Util.KInstantiateUI(CycleButtonRightPrefab, prefabParent);
-                        UIUtils.TryFindComponent<ToolTip>(right.transform).toolTip="Cycle to next";
+                        UIUtils.TryFindComponent<ToolTip>(right.transform).toolTip = "Cycle to next";
                         //UIUtils.TryFindComponent<ToolTip>(right.transform,"Image").toolTip="Cycle to next";
                         right.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, 30);
                     }
@@ -369,7 +372,7 @@ namespace SetStartDupes
                     foreach (var a in DupeTraitMng.GetInterestsWithStats())
                     {
                         var AptitudeEntry = Util.KInstantiateUI(prefabParent, ContentContainer.gameObject, true);
-                        
+
                         var name = AptitudeEntry.AddComponent<DupeTraitHolder>();
                         name.Group = DupeTraitMng.ActiveInterests[index];
                         AptitudeEntry.GetComponent<KButton>().enabled = false;
@@ -396,7 +399,7 @@ namespace SetStartDupes
                         index++;
                     }
                     ///EndAptitudes
-                    
+
                     var spacer3 = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
                     UIUtils.TryChangeText(spacer3.transform, "", "TRAITS");
                     //Db.Get().traits.TryGet();
@@ -412,44 +415,44 @@ namespace SetStartDupes
                         DupeTraitMng.AddTrait(v.Id);
                         var TraitHolder = traitEntry.AddComponent<DupeTraitHolder>();
                         TraitHolder.CurrentTrait = v;
-                        UIUtils.AddSimpleTooltipToObject(traitEntry.transform, TraitHolder.CurrentTrait.GetTooltip(),true);
+                        UIUtils.AddSimpleTooltipToObject(traitEntry.transform, TraitHolder.CurrentTrait.GetTooltip(), true);
                         var type = DupeTraitManager.GetTraitListOfTrait(v.Id, out var list);
                         TraitsToSort.Add(new Tuple<GameObject, DupeTraitManager.NextType>(traitEntry, type));
-                        
+
                         ApplyTraitStyleByKey(traitEntry.GetComponent<KImage>(), type);
-                            ApplyTraitStyleByKey(traitEntry.transform.Find("PrevButton").GetComponent<KImage>(), type);
-                            ApplyTraitStyleByKey(traitEntry.transform.Find("NextButton").GetComponent<KImage>(), type);
-                            UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, v.Name));
-                            UIUtils.AddActionToButton(traitEntry.transform, "NextButton", () =>
-                            {
+                        ApplyTraitStyleByKey(traitEntry.transform.Find("PrevButton").GetComponent<KImage>(), type);
+                        ApplyTraitStyleByKey(traitEntry.transform.Find("NextButton").GetComponent<KImage>(), type);
+                        UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, v.Name));
+                        UIUtils.AddActionToButton(traitEntry.transform, "NextButton", () =>
+                        {
 
-                                string nextTraitId = DupeTraitMng.GetNextTraitId(TraitHolder.CurrentTrait.Id,false);
-                                Trait NextTrait = Db.Get().traits.TryGet(nextTraitId);
-                                DupeTraitMng.ReplaceTrait(TraitHolder.CurrentTrait.Id, nextTraitId);
-                                referencedStats.Traits.Remove(TraitHolder.CurrentTrait);
-                                referencedStats.Traits.Add(NextTrait);
-                                TraitHolder.CurrentTrait = NextTrait;
+                            string nextTraitId = DupeTraitMng.GetNextTraitId(TraitHolder.CurrentTrait.Id, false);
+                            Trait NextTrait = Db.Get().traits.TryGet(nextTraitId);
+                            DupeTraitMng.ReplaceTrait(TraitHolder.CurrentTrait.Id, nextTraitId);
+                            referencedStats.Traits.Remove(TraitHolder.CurrentTrait);
+                            referencedStats.Traits.Add(NextTrait);
+                            TraitHolder.CurrentTrait = NextTrait;
 
-                                UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, TraitHolder.CurrentTrait.Name));
-                                UIUtils.AddSimpleTooltipToObject(traitEntry.transform, TraitHolder.CurrentTrait.GetTooltip(),true);
-                            }); 
-                            UIUtils.AddActionToButton(traitEntry.transform, "PrevButton", () =>
-                            {
+                            UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, TraitHolder.CurrentTrait.Name));
+                            UIUtils.AddSimpleTooltipToObject(traitEntry.transform, TraitHolder.CurrentTrait.GetTooltip(), true);
+                        });
+                        UIUtils.AddActionToButton(traitEntry.transform, "PrevButton", () =>
+                        {
 
-                                string nextTraitId = DupeTraitMng.GetNextTraitId(TraitHolder.CurrentTrait.Id,true);
-                                Trait NextTrait = Db.Get().traits.TryGet(nextTraitId);
-                                DupeTraitMng.ReplaceTrait(TraitHolder.CurrentTrait.Id, nextTraitId);
-                                referencedStats.Traits.Remove(TraitHolder.CurrentTrait);
-                                referencedStats.Traits.Add(NextTrait);
-                                TraitHolder.CurrentTrait = NextTrait;
+                            string nextTraitId = DupeTraitMng.GetNextTraitId(TraitHolder.CurrentTrait.Id, true);
+                            Trait NextTrait = Db.Get().traits.TryGet(nextTraitId);
+                            DupeTraitMng.ReplaceTrait(TraitHolder.CurrentTrait.Id, nextTraitId);
+                            referencedStats.Traits.Remove(TraitHolder.CurrentTrait);
+                            referencedStats.Traits.Add(NextTrait);
+                            TraitHolder.CurrentTrait = NextTrait;
 
-                                UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, TraitHolder.CurrentTrait.Name));
-                                UIUtils.AddSimpleTooltipToObject(traitEntry.transform, TraitHolder.CurrentTrait.GetTooltip(),true);
-                            });
+                            UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, TraitHolder.CurrentTrait.Name));
+                            UIUtils.AddSimpleTooltipToObject(traitEntry.transform, TraitHolder.CurrentTrait.GetTooltip(), true);
+                        });
                     }
 
                     TraitsToSort = TraitsToSort.OrderBy(t => (int)t.second).ToList();
-                    for(int i = 0; i < TraitsToSort.Count; i++)
+                    for (int i = 0; i < TraitsToSort.Count; i++)
                     {
                         TraitsToSort[i].first.transform.SetAsLastSibling();
                     }
@@ -465,7 +468,7 @@ namespace SetStartDupes
 
                     var JoyHolder = JoyTrait.AddComponent<DupeTraitHolder>();
                     JoyHolder.CurrentTrait = referencedStats.joyTrait;
-                    ApplyTraitStyleByKey(JoyTrait.GetComponent<KImage>(),DupeTraitManager.NextType.joy);
+                    ApplyTraitStyleByKey(JoyTrait.GetComponent<KImage>(), DupeTraitManager.NextType.joy);
                     ApplyTraitStyleByKey(JoyTrait.transform.Find("PrevButton").GetComponent<KImage>(), DupeTraitManager.NextType.joy);
                     ApplyTraitStyleByKey(JoyTrait.transform.Find("NextButton").GetComponent<KImage>(), DupeTraitManager.NextType.joy);
                     UIUtils.TryChangeText(JoyTrait.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.JOYREACTION, referencedStats.joyTrait.Name));
@@ -473,7 +476,7 @@ namespace SetStartDupes
 
                     UIUtils.AddActionToButton(JoyTrait.transform, "NextButton", () =>
                     {
-                        string nextTraitId = DupeTraitMng.GetNextTraitId(JoyHolder.CurrentTrait.Id,false);
+                        string nextTraitId = DupeTraitMng.GetNextTraitId(JoyHolder.CurrentTrait.Id, false);
                         Trait NextTrait = Db.Get().traits.TryGet(nextTraitId);
                         DupeTraitMng.ReplaceTrait(JoyHolder.CurrentTrait.Id, nextTraitId);
                         referencedStats.joyTrait = NextTrait;
@@ -484,7 +487,7 @@ namespace SetStartDupes
                     });
                     UIUtils.AddActionToButton(JoyTrait.transform, "PrevButton", () =>
                     {
-                        string nextTraitId = DupeTraitMng.GetNextTraitId(JoyHolder.CurrentTrait.Id,true);
+                        string nextTraitId = DupeTraitMng.GetNextTraitId(JoyHolder.CurrentTrait.Id, true);
                         Trait NextTrait = Db.Get().traits.TryGet(nextTraitId);
                         DupeTraitMng.ReplaceTrait(JoyHolder.CurrentTrait.Id, nextTraitId);
                         referencedStats.joyTrait = NextTrait;
@@ -548,6 +551,6 @@ namespace SetStartDupes
             {
                 LocalisationUtil.Translate(typeof(STRINGS), true);
             }
-        }        
+        }
     }
 }

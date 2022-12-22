@@ -135,7 +135,7 @@ namespace SetStartDupes
 
         internal void AddSkillLevels(ref Dictionary<string, int> startingLevels)
         {
-            Debug.Log("AAAAAAAAAAAAAAAA");
+            //Debug.Log("AAAAAAAAAAAAAAAA");
             dupeStatPoints = startingLevels;
             foreach (var skillGroup in startingLevels)
             {
