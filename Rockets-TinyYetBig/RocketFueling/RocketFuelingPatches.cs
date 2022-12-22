@@ -12,8 +12,10 @@ using System.Threading.Tasks;
 using TemplateClasses;
 using UnityEngine;
 using UtilLibs;
+using static Operational;
 using static Rockets_TinyYetBig.RocketFueling.FuelLoaderComponent;
 using static StateMachine<LaunchPadMaterialDistributor, LaunchPadMaterialDistributor.Instance, IStateMachineTarget, LaunchPadMaterialDistributor.Def>;
+using static STRINGS.UI.DEVELOPMENTBUILDS.ALPHA;
 using static STRINGS.UI.STARMAP;
 
 namespace Rockets_TinyYetBig.RocketFueling
@@ -48,19 +50,33 @@ namespace Rockets_TinyYetBig.RocketFueling
                     foreach (T item in col)
                         yield return item;
             }
-            public static void Postfix(LaunchPadMaterialDistributor.Instance __instance)
+            public static bool Prefix(LaunchPadMaterialDistributor.Instance __instance)
             {
-                bool HasLoadingProcess = false;
                 var clusterRocketTargetParam = (StateMachine<LaunchPadMaterialDistributor, LaunchPadMaterialDistributor.Instance, IStateMachineTarget, LaunchPadMaterialDistributor.Def>.TargetParameter)
                     typeof(LaunchPadMaterialDistributor).GetField("attachedRocket", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance.sm);
+
+
+                var FilledComplete = (StateMachine<LaunchPadMaterialDistributor, LaunchPadMaterialDistributor.Instance, IStateMachineTarget, LaunchPadMaterialDistributor.Def>.BoolParameter)
+                   typeof(LaunchPadMaterialDistributor).GetField("fillComplete", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance.sm);
+
+                bool HasLoadingProcess = false;//!FilledComplete.Get(__instance);
 
                 CraftModuleInterface craftInterface = clusterRocketTargetParam.Get<RocketModuleCluster>(__instance).CraftInterface;
                 Clustercraft clustercraft = craftInterface.GetComponent<Clustercraft>();
 
+                DictionaryPool<CargoBay.CargoType, ListPool<CargoBayCluster, LaunchPadMaterialDistributor>.PooledList, LaunchPadMaterialDistributor>.PooledDictionary pooledDictionary = DictionaryPool<CargoBay.CargoType, ListPool<CargoBayCluster, LaunchPadMaterialDistributor>.PooledList, LaunchPadMaterialDistributor>.Allocate();
+                pooledDictionary[CargoBay.CargoType.Solids] = ListPool<CargoBayCluster, LaunchPadMaterialDistributor>.Allocate();
+                pooledDictionary[CargoBay.CargoType.Liquids] = ListPool<CargoBayCluster, LaunchPadMaterialDistributor>.Allocate();
+                pooledDictionary[CargoBay.CargoType.Gasses] = ListPool<CargoBayCluster, LaunchPadMaterialDistributor>.Allocate();
+
+
+
                 List<FuelTank> FuelTanks = new List<FuelTank>();
                 List<OxidizerTank> OxidizerTanks = new List<OxidizerTank>();
                 List<HEPFuelTank> HEPFuelTanks = new List<HEPFuelTank>();
+
                 Tag FuelTag = SimHashes.Void.CreateTag();
+
                 bool hasOxidizer;
 
                 foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)craftInterface.ClusterModules)
@@ -86,15 +102,22 @@ namespace Rockets_TinyYetBig.RocketFueling
                         hasOxidizer = true;
                         OxidizerTanks.Add(oxTank);
                     }
+
+                    CargoBayCluster component = clusterModule.Get().GetComponent<CargoBayCluster>();
+                    if (component != null && component.storageType != CargoBay.CargoType.Entities && component.RemainingCapacity > 0f)
+                    {
+                        pooledDictionary[component.storageType].Add(component);
+                    }
+
                 }
-                bool flag = false;
+
                 HashSetPool<ChainedBuilding.StatesInstance, ChainedBuilding.StatesInstance>.PooledHashSet chain = HashSetPool<ChainedBuilding.StatesInstance, ChainedBuilding.StatesInstance>.Allocate();
                 __instance.GetSMI<ChainedBuilding.StatesInstance>().GetLinkedBuildings(ref chain);
                 foreach (ChainedBuilding.StatesInstance smi1 in (HashSet<ChainedBuilding.StatesInstance>)chain)
                 {
                     ModularConduitPortController.Instance smi2 = smi1.GetSMI<ModularConduitPortController.Instance>();
-                    //IConduitConsumer conduitConsumer = smi1.GetComponent<IConduitConsumer>();
                     FuelLoaderComponent fuelLoader = smi1.GetComponent<FuelLoaderComponent>();
+                    IConduitConsumer NormalLoaderComponent = smi1.GetComponent<IConduitConsumer>();
                     bool isLoading = false;
                     if (fuelLoader != null && (smi2 == null || smi2.SelectedMode == ModularConduitPortController.Mode.Load))
                     {
@@ -113,7 +136,7 @@ namespace Rockets_TinyYetBig.RocketFueling
                                     if ((double)remainingCapacity > 0.0 && (double)num1 > 0.0 && storageItem.HasTag(FuelTag))
                                     {
                                         isLoading = true;
-                                        flag = true;
+                                        HasLoadingProcess = true;
                                         Pickupable pickupable = storageItem.GetComponent<Pickupable>().Take(remainingCapacity);
                                         if (pickupable != null)
                                         {
@@ -133,7 +156,7 @@ namespace Rockets_TinyYetBig.RocketFueling
                                 if ((double)remainingCapacity > 0.0 && (double)SourceAmount > 0.0 && (FuelTag == GameTags.HighEnergyParticle))
                                 {
                                     isLoading = true;
-                                    flag = true;
+                                    HasLoadingProcess = true;
                                     float ParticlesTaken = fuelLoader.HEPStorage.ConsumeAndGet(remainingCapacity);
                                     if (ParticlesTaken > 0.0f)
                                     {
@@ -158,7 +181,7 @@ namespace Rockets_TinyYetBig.RocketFueling
                                     if ((double)remainingCapacity > 0.0 && (double)num1 > 0.0 && tagAllowed)
                                     {
                                         isLoading = true;
-                                        flag = true;
+                                        HasLoadingProcess = true;
                                         Pickupable pickupable = storageItem.GetComponent<Pickupable>().Take(remainingCapacity);
                                         if (pickupable != null)
                                         {
@@ -170,27 +193,45 @@ namespace Rockets_TinyYetBig.RocketFueling
                             }
                         }
                     }
+                    else if (NormalLoaderComponent != null && (smi2 == null || smi2.SelectedMode == ModularConduitPortController.Mode.Load || smi2.SelectedMode == ModularConduitPortController.Mode.Both))
+                    {
+                        smi2.SetRocket(hasRocket: true);
+                        for (int num = NormalLoaderComponent.Storage.items.Count - 1; num >= 0; num--)
+                        {
+                            GameObject gameObject = NormalLoaderComponent.Storage.items[num];
+                            foreach (CargoBayCluster item2 in pooledDictionary[CargoBayConduit.ElementToCargoMap[NormalLoaderComponent.ConduitType]])
+                            {
+                                float remainingCapacity = item2.RemainingCapacity;
+                                float num2 = NormalLoaderComponent.Storage.MassStored();
+                                if (!(remainingCapacity <= 0f) && !(num2 <= 0f) && item2.GetComponent<TreeFilterable>().AcceptedTags.Contains(gameObject.PrefabID()))
+                                {
+                                    isLoading = true;
+                                    HasLoadingProcess = true;
+                                    Pickupable pickupable = gameObject.GetComponent<Pickupable>().Take(remainingCapacity);
+                                    if (pickupable != null)
+                                    {
+                                        item2.storage.Store(pickupable.gameObject);
+                                        remainingCapacity -= pickupable.PrimaryElement.Mass;
+                                    }
+                                }
+                            }
+                        }
+                    }
 
-                    if (smi2?.IsLoading() == false && isLoading == false)
-                    {
-                        HasLoadingProcess = false;
-                        smi2?.SetLoading(false);
-                    }
-                    else if(smi2?.IsLoading() == true || isLoading == true)
-                    {
-                        HasLoadingProcess = true;
-                        smi2?.SetLoading(true);
-                    }
+                    smi2?.SetLoading(isLoading);
                 }
 
-                var FilledComplete = (StateMachine<LaunchPadMaterialDistributor, LaunchPadMaterialDistributor.Instance, IStateMachineTarget, LaunchPadMaterialDistributor.Def>.BoolParameter)
-                   typeof(LaunchPadMaterialDistributor).GetField("fillComplete", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance.sm);
+                chain.Recycle();
+                pooledDictionary[CargoBay.CargoType.Solids].Recycle();
+                pooledDictionary[CargoBay.CargoType.Liquids].Recycle();
+                pooledDictionary[CargoBay.CargoType.Gasses].Recycle();
+                pooledDictionary.Recycle();
+
                 FilledComplete.Set(!HasLoadingProcess, __instance);
 
-               // PPatchTools.TryGetFieldValue(__instance.sm, "fillComplete", out StateMachine<LaunchPadMaterialDistributor, LaunchPadMaterialDistributor.Instance, IStateMachineTarget, LaunchPadMaterialDistributor.Def>.BoolParameter fillComplete);
+                // PPatchTools.TryGetFieldValue(__instance.sm, "fillComplete", out StateMachine<LaunchPadMaterialDistributor, LaunchPadMaterialDistributor.Instance, IStateMachineTarget, LaunchPadMaterialDistributor.Def>.BoolParameter fillComplete);
                 //fillComplete.Set(!HasLoadingProcess, __instance);
-                chain.Recycle();
-                //return shouldDoNormal;
+                return false;
             }
         }
     }
