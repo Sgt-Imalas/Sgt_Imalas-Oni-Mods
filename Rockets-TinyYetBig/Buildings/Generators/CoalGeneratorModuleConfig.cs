@@ -59,7 +59,7 @@ namespace Rockets_TinyYetBig
 
             ManualDeliveryKG manualDeliveryKg = go.AddOrGet<ManualDeliveryKG>();
             manualDeliveryKg.SetStorage(storage);
-            manualDeliveryKg.RequestedItemTag = new Tag("Coal");
+            manualDeliveryKg.RequestedItemTag = ElementLoader.FindElementByHash(SimHashes.Carbon).tag;
             manualDeliveryKg.capacity = storage.capacityKg;
             manualDeliveryKg.refillMass = storage.capacityKg;
             manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;

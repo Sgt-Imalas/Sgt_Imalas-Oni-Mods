@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 using static STRINGS.CREATURES.STATS;
 using UnityEngine;
 using UtilLibs;
+using static KAnim;
+using UnityEngine.UI;
+using YamlDotNet.Core.Tokens;
+using static Rockets_TinyYetBig.ModAssets;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
@@ -15,9 +19,9 @@ namespace Rockets_TinyYetBig.SpaceStations
         private RectTransform buttonContainer;
 
         private GameObject stateButtonPrefab;
-        private GameObject debugVictoryButton;
+        private GameObject PlaceStationButton;
         private GameObject flipButton;
-        private readonly List<GameObject> buttons = new List<GameObject>();
+        private Dictionary<SpaceStationWithStats, MultiToggle> buttons = new Dictionary<SpaceStationWithStats, MultiToggle>();
 
         private Clustercraft targetCraft;
         private SpaceStationBuilder targetBuilder;
@@ -35,28 +39,24 @@ namespace Rockets_TinyYetBig.SpaceStations
         protected override void OnSpawn()
         {
             base.OnSpawn();
-            return;
-            //UIUtils.ListAllChildren(this.transform);
             // the monument screen used here has 2 extra buttons that are not needed, disabling them
             //flipButton.SetActive(false);
-            //debugVictoryButton.SetActive(false);
-            UIUtils.TryChangeText(debugVictoryButton.transform, "Label", "MakeOrBreakSpaceStation");
+            //PlaceStationButton.SetActive(false);
+            UIUtils.TryChangeText(PlaceStationButton.transform, "Label", "MakeOrBreakSpaceStation");
 
-            UIUtils.AddActionToButton(debugVictoryButton.transform, "", () => targetBuilder.OnSidescreenButtonPressed());
+            UIUtils.AddActionToButton(PlaceStationButton.transform, "", () => targetBuilder.OnSidescreenButtonPressed());
         }
 
         protected override void OnPrefabInit()
         {
 
             UIUtils.ListAllChildren(this.transform);
-            return;
-            UIUtils.ListAllChildren(this.transform);
             base.OnPrefabInit();
             titleKey = "STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONBUILDERMODULESIDESCREEN.TITLE";
             stateButtonPrefab = transform.Find("ButtonPrefab").gameObject;
             buttonContainer = transform.Find("Content/Scroll/Grid").GetComponent<RectTransform>();
-            debugVictoryButton = transform.Find("Butttons/Button").gameObject;
-            flipButton = transform.Find("Butttons/FlipButton").gameObject;
+            PlaceStationButton = transform.Find("Butttons/ApplyButton").gameObject;
+            flipButton = transform.Find("Butttons/ClearStyleButton").gameObject;
             GenerateStateButtons();
         }
 
@@ -71,8 +71,8 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
             base.SetTarget(target);
 
-            targetCraft = target.GetComponent<Clustercraft>(); 
-            
+            targetCraft = target.GetComponent<Clustercraft>();
+
             foreach (Ref<RocketModuleCluster> clusterModule in targetCraft.GetComponent<CraftModuleInterface>().ClusterModules)
             {
                 if (clusterModule.Get().TryGetComponent<SpaceStationBuilder>(out var targetb))
@@ -89,51 +89,81 @@ namespace Rockets_TinyYetBig.SpaceStations
 
 
         // Creates clickable card buttons for all the lamp types + a randomizer button
-            
+
         private void GenerateStateButtons()
         {
             ClearButtons();
-            //var animFile = targetBuilder.GetComponent<KBatchedAnimController>().AnimFiles[0];
-
-            //// random button
-            //AddButton(animFile, "random_ui", STRINGS.BUILDINGS.PREFABS.DECORPACKA_MOODLAMP.VARIANT.RANDOM, () => target.SetRandom());
 
             foreach (var stationType in ModAssets.SpaceStationTypes)
             {
-                    AddButton(null, stationType.ID + "_ui", stationType.Name, 
+
+                AddButton(stationType,
                     () =>
-                        Debug.Log("Bt pressed")
-                        //target.SetVariant(lamp.Id)
+                    {
+                        targetBuilder.CurrentSpaceStationType = stationType;
+                        RefreshButtons();
+                        //Debug.Log("Bt pressed");
+
+                    }
                     );
             }
+            RefreshButtons();
         }
 
 
-        private void AddButton(KAnimFile animFile, string animName, LocString tooltip, System.Action onClick)
+        private void AddButton(SpaceStationWithStats type, System.Action onClick)
         {
             var gameObject = Util.KInstantiateUI(stateButtonPrefab, buttonContainer.gameObject, true);
 
-            if (gameObject.TryGetComponent(out KButton button))
+            //Debug.Log("ButtonPrefab_");
+            //UIUtils.ListAllChildrenWithComponents(stateButtonPrefab.transform);
+
+            if (gameObject.TryGetComponent(out MultiToggle button))
             {
+                //Assets.TryGetAnim((HashedString)animName, out var anim);
                 button.onClick += onClick;
-                //button.fgImage.sprite = Def.GetUISpriteFromMultiObjectAnim(animFile, animName);
+                button.ChangeState(type.ID == targetBuilder.CurrentSpaceStationType.ID ? 1 : 0);
+                Debug.Log(Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(type.Kanim)));
+                Debug.Log("anim");
+                UIUtils.TryFindComponent<Image>(gameObject.transform, "FG").sprite = Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(type.Kanim));
+                UIUtils.AddSimpleTooltipToObject(gameObject.transform, type.Name+"\n"+type.Description, true);
+                buttons.Add(type, button);
             }
 
-            UIUtils.AddSimpleTooltipToObject(gameObject.transform, tooltip, true);
-            buttons.Add(gameObject);
+        }
+
+        void RefreshButtons()
+        {
+            foreach (var button in buttons)
+            {
+                Debug.Log(targetBuilder.CurrentSpaceStationType + " <- current type, Button int -> " + button.Key);
+
+
+                var tech = button.Key.requiredTech;
+                if (tech == null || (tech != null && tech.IsComplete()))
+                {
+                    button.Value.gameObject.SetActive(true);
+                    button.Value.ChangeState(button.Key.ID == targetBuilder.CurrentSpaceStationType.ID ? 1 : 0);
+                }
+                else
+                {
+
+                    button.Value.gameObject.SetActive(false);
+                }
+            }
         }
 
         private void ClearButtons()
         {
             foreach (var button in buttons)
             {
-                Util.KDestroyGameObject(button);
+                Util.KDestroyGameObject(button.Value.gameObject);
             }
 
             buttons.Clear();
 
             //flipButton.SetActive(false);
-            //debugVictoryButton.SetActive(false);
+            //PlaceStationButton.SetActive(false);
         }
     }
 }

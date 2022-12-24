@@ -1,4 +1,5 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.SpaceStations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,9 @@ namespace Rockets_TinyYetBig
                 "a tiny space station",
                 new Vector2I (30,30),
                 new string[] {"RefinedMetal" },
-                new float[] { 300f }),
+                new float[] { 300f },
+                "space_station_small_kanim"
+                ),
 
             new SpaceStationWithStats(
                 "RTB_SpaceStationMedium",
@@ -41,7 +44,9 @@ namespace Rockets_TinyYetBig
                 "a medium sized space station",
                 new Vector2I (45,45),
                 new string[] {"RefinedMetal" },
-                new float[] { 300f }),
+                new float[] { 300f },
+                "space_station_medium_kanim"
+                ),
 
             new SpaceStationWithStats(
                 "RTB_SpaceStationLarge",
@@ -49,7 +54,9 @@ namespace Rockets_TinyYetBig
                 "a large space station",
                 new Vector2I (60,60),
                 new string[] {"RefinedMetal" },
-                new float[] { 300f })
+                new float[] { 300f },
+                "space_station_large_kanim"
+                )
 
     };
 
@@ -218,7 +225,9 @@ namespace Rockets_TinyYetBig
             public Vector2I InteriorSize;
             public string[] materials;
             public float[] materialAmounts;
-            public SpaceStationWithStats(string _id, string _name, string _description, Vector2I _size, string[] _mats, float[] _matCosts)
+            public string Kanim;
+            public Tech requiredTech;
+            public SpaceStationWithStats(string _id, string _name, string _description, Vector2I _size, string[] _mats, float[] _matCosts, string _prefab, Tech _reqTech = null)
             {
                 ID = _id;
                 Name = _name;
@@ -226,6 +235,8 @@ namespace Rockets_TinyYetBig
                 InteriorSize = _size;
                 materials = _mats;
                 materialAmounts = _matCosts;
+                Kanim = _prefab;
+                requiredTech = _reqTech;
             }
             
         }

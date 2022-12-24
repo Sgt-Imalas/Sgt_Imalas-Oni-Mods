@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static Rockets_TinyYetBig.ModAssets;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
@@ -17,6 +18,8 @@ namespace Rockets_TinyYetBig.SpaceStations
         [Serialize]
         public int SpaceStationInteriorId = -1;
 
+        [Serialize]
+        public SpaceStationWithStats CurrentSpaceStationType = ModAssets.SpaceStationTypes[0];
 
         [Serialize]
         public int IsOrbitalSpaceStationWorldId = -1;
@@ -27,14 +30,16 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         public Vector2I InteriorSize = new Vector2I(30, 30);
         public string InteriorTemplate = "emptySpaceStationPrefab";
+
+        public string ClusterAnimName = "space_station_small_kanim";
         //public string IconAnimName = "station_3";
 
-        public override List<ClusterGridEntity.AnimConfig> AnimConfigs => new List<ClusterGridEntity.AnimConfig>()
+        public override List<AnimConfig> AnimConfigs => new List<AnimConfig>
         {
-            new ClusterGridEntity.AnimConfig()
+            new AnimConfig
             {
-                animFile = Assets.GetAnim((HashedString) "space_station_small_kanim"),
-                initialAnim =  "idle_loop"
+                animFile = Assets.GetAnim(CurrentSpaceStationType.Kanim),
+                initialAnim = "idle_loop"
             }
         };
 
@@ -43,16 +48,20 @@ namespace Rockets_TinyYetBig.SpaceStations
         public override EntityLayer Layer => EntityLayer.Craft;
         public override bool SpaceOutInSameHex() => true;
         public override ClusterRevealLevel IsVisibleInFOW => ClusterRevealLevel.Visible;
-        public override Sprite GetUISprite() => Assets.GetSprite("rocket_landing"); //Def.GetUISprite((object)this.gameObject).first;
+        //public override Sprite GetUISprite() => Assets.GetSprite("rocket_landing"); //Def.GetUISprite((object)this.gameObject).first;
+        public override Sprite GetUISprite()
+        {
+            return Def.GetUISpriteFromMultiObjectAnim(AnimConfigs[0].animFile);
+        }
 
+        //public Sprite GetUISpriteAt(int i) => Def.GetUISpriteFromMultiObjectAnim(AnimConfigs[i].animFile);
         protected override void OnSpawn()
         {
             base.OnSpawn();
-
             Debug.Log("MY WorldID:" + SpaceStationInteriorId);
             if (SpaceStationInteriorId < 0)
             {
-                var interiorWorld = SpaceStationManager.Instance.CreateSpaceStationInteriorWorld(gameObject, "interiors/"+InteriorTemplate, InteriorSize, BuildableInterior, null);
+                var interiorWorld = SpaceStationManager.Instance.CreateSpaceStationInteriorWorld(gameObject, "interiors/" + InteriorTemplate, CurrentSpaceStationType.InteriorSize, BuildableInterior, null);
                 SpaceStationInteriorId = interiorWorld.id;
                 Debug.Log("new WorldID:" + SpaceStationInteriorId);
                 Debug.Log("ADDED NEW SPACE STATION INTERIOR");

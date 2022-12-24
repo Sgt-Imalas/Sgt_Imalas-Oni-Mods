@@ -1,17 +1,18 @@
-﻿using System;
+﻿using KSerialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static Rockets_TinyYetBig.ModAssets;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
     class SpaceStationBuilder : KMonoBehaviour//, ISidescreenButtonControl
     {
-        public string SidescreenButtonText => "Make Station";
-
-        public string SidescreenButtonTooltip => "Make Station Tooltip";
+        [Serialize]
+        public SpaceStationWithStats CurrentSpaceStationType = ModAssets.SpaceStationTypes[0];
 
         private void SpawnStation(AxialI location, string prefab)
         {
@@ -20,6 +21,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             sat.SetActive(true);
             var spaceStation = sat.GetComponent<SpaceStation>();
             spaceStation.Location = location;
+            spaceStation.CurrentSpaceStationType = CurrentSpaceStationType;
         }
 
         public int ButtonSideScreenSortOrder()
@@ -48,14 +50,5 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         }
 
-        public bool SidescreenButtonInteractable()
-        {
-            return true;
-        }
-
-        public bool SidescreenEnabled()
-        {
-            return true;
-        }
     }
 }

@@ -29,7 +29,8 @@ namespace Rockets_TinyYetBig.SpaceStations
             destinationSelector.shouldPointTowardsPath = false;
             destinationSelector.requireAsteroidDestination = false;
 
-            var spst=entity.AddOrGet<SpaceStation>();
+            var spst = entity.AddOrGet<SpaceStation>();
+
             entity.AddOrGet<CharacterOverlay>().shouldShowName = true;
             entity.AddOrGetDef<AlertStateManager.Def>();
             entity.AddOrGet<Notifier>();
