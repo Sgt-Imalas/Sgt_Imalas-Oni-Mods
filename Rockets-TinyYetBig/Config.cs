@@ -42,6 +42,10 @@ namespace Rockets_TinyYetBig
         [Option("Buff Large Oxidizer Module", "Buff storage capacity of the large Oxidizer Module from 900kg to 1350kg.", "Features")]
         [JsonProperty]
         public bool BuffLargeOxidizer { get; set; }
+        
+        [Option("Infinite Mining Capacity", "Mining POI become infinite", "Features")]
+        [JsonProperty]
+        public bool InfinitePOI { get; set; }
 
         [Option("Hide Category Tooltips", "Hide category tooltips. Only has an effect if Rocket Building Categories are enabled", "Features")]
         [JsonProperty]
@@ -84,6 +88,10 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool EnableGenerators { get; set; }
 
+        [Option("Large Cargo Modules", STRINGS.OPTIONS.TOGGLEMULTI, "Modules")]
+        [JsonProperty]
+        public bool EnableLargeCargoBays { get; set; }
+
         [Option("Laser Drillcone", STRINGS.OPTIONS.TOGGLESINGLE, "Modules")]
         [JsonProperty]
         public bool EnableLaserDrill { get; set; }
@@ -125,6 +133,7 @@ namespace Rockets_TinyYetBig
             ///Features
             CompressInteriors = true; 
             EnableBuildingCategories = true;
+            InfinitePOI = false;
             HideRocketCategoryTooltips = false;
             //LandingLegs = true;
             EthanolEngines = true;
@@ -142,7 +151,8 @@ namespace Rockets_TinyYetBig
             EnableBunkerPlatform = true;
             EnableFuelLoaders = true;
             EnableWallAdapter = true; 
-            EnableEarlyGameFuelTanks = true;
+            EnableEarlyGameFuelTanks = true; 
+            EnableLargeCargoBays = true;
         }
     }
 }

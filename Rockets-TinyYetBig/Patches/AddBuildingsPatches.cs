@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig;
 using Rockets_TinyYetBig.Buildings;
+using Rockets_TinyYetBig.Buildings.CargoBays;
 using Rockets_TinyYetBig.NonRocketBuildings;
 using Rockets_TinyYetBig.RocketFueling;
 using Rockets_TinyYetBig.SpaceStations;
@@ -87,6 +88,10 @@ namespace RoboRockets.Rockets_TinyYetBig
                 {
                     AddRocketModuleToBuildList(CO2FuelTankConfig.ID, RocketryUtils.RocketCategory.fuel, CO2EngineConfig.ID);
                 }
+                if (Config.Instance.EnableLargeCargoBays)
+                {
+                    AddRocketModuleToBuildList(SolidCargoBayClusterLargeConfig.ID, RocketCategory.cargo, SolidCargoBayClusterConfig.ID);
+                }
 
             }
         }
@@ -126,6 +131,10 @@ namespace RoboRockets.Rockets_TinyYetBig
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.RadiationTechnologies.RadboltPropulsion, RTGModuleConfig.ID);
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.RenewableEnergy, SteamGeneratorModuleConfig.ID);
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.AdvancedPowerRegulation, CoalGeneratorModuleConfig.ID);
+                }
+                if (Config.Instance.EnableLargeCargoBays)
+                {
+                   // InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.AdvancedPowerRegulation, SolidCargoBayClusterLargeConfig.ID);
                 }
 
                 if (Config.Instance.EnableSolarNosecone)

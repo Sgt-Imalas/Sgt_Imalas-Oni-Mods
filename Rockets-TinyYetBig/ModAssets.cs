@@ -26,6 +26,11 @@ namespace Rockets_TinyYetBig
             public static Tag RocketPlatformTag = TagManager.Create("RTB_RocketPlatformTag");
         }
 
+        public static int GetStationIndex(SpaceStationWithStats type)
+        {
+            return ModAssets.SpaceStationTypes.FindIndex(stationType => stationType.ID == type.ID);
+        }
+
         public static List<SpaceStationWithStats> SpaceStationTypes = new List<SpaceStationWithStats>()
         {
             new SpaceStationWithStats(
