@@ -11,8 +11,12 @@ namespace Rockets_TinyYetBig.SpaceStations
 {
     class SpaceStationBuilder : KMonoBehaviour//, ISidescreenButtonControl
     {
+
         [Serialize]
-        public SpaceStationWithStats CurrentSpaceStationType = ModAssets.SpaceStationTypes[0];
+        public int CurrentSpaceStationTypeInt = 0;
+
+        [Serialize]
+        public float ConstructionProgress = -1;
 
         private void SpawnStation(AxialI location, string prefab)
         {
@@ -21,12 +25,28 @@ namespace Rockets_TinyYetBig.SpaceStations
             sat.SetActive(true);
             var spaceStation = sat.GetComponent<SpaceStation>();
             spaceStation.Location = location;
-            spaceStation.CurrentSpaceStationType = CurrentSpaceStationType;
+            spaceStation.CurrentSpaceStationType = ModAssets.SpaceStationTypes[CurrentSpaceStationTypeInt];
+        }
+        protected override void OnSpawn()
+        {
+            base.OnSpawn();
+            this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>().Subscribe((int)GameHashes.ClusterLocationChanged, new System.Action<object>(this.ResetStation));
+        }
+        protected override void OnCleanUp()
+        {
+            this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>().Unsubscribe((int)GameHashes.ClusterLocationChanged, new System.Action<object>(this.ResetStation));
+            base.OnCleanUp();
+        }
+        public void SetStationType(SpaceStationWithStats type)
+        {
+            CurrentSpaceStationTypeInt = ModAssets.GetStationIndex(type);
+            ResetStationBuildProgress();
         }
 
-        public int ButtonSideScreenSortOrder()
+        private void ResetStation(object data = null) => this.ResetStationBuildProgress();
+        public void ResetStationBuildProgress()
         {
-            return 21;
+            ConstructionProgress = -1;
         }
 
         public void OnSidescreenButtonPressed()

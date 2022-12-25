@@ -26,7 +26,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                 if (def.BuildingComplete.HasTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding) && SpaceStationManager.ActiveWorldIsSpaceStationInterior())
                 {
                     //Debug.Log(def.PrefabID + " - Is SpaceStationBuilding; state: " + __result);
-                    
+
                     if (
                         def.BuildingComplete.HasTag(GameTags.NotRocketInteriorBuilding) && def.BuildingComplete.HasTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding))
                     {
@@ -71,7 +71,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                 WorldContainer world = __instance.GetWorld(worldId);
                 if (world.IsModuleInterior && world.TryGetComponent<SpaceStation>(out var station))
                     return false;
-                return true; 
+                return true;
             }
         }
 
@@ -83,8 +83,24 @@ namespace Rockets_TinyYetBig.SpaceStations
         {
             public static bool Prefix(Clustercraft __instance)
             {
-                if(__instance is SpaceStation)
+                if (__instance is SpaceStation)
                     return false;
+                return true;
+            }
+
+        }
+        [HarmonyPatch(typeof(ClusterMapVisualizer))]
+        [HarmonyPatch("OnSpawn")]
+        public static class SwitchOutAnimator
+        {
+            public static bool Prefix(ClusterMapVisualizer __instance, ClusterGridEntity ___entity)
+            {
+                if (___entity is SpaceStation)
+                {
+                    //new ClusterMapFXAnimator.StatesInstance(__instance, ___entity).StartSM();
+                    return false;
+
+                }
                 return true;
             }
 
@@ -166,7 +182,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         [HarmonyPatch(nameof(SelfDestructButtonSideScreen.IsValidForTarget))]
         public static class NoSpaceStationSelfDestruct
         {
-            public static void Postfix(GameObject target,ref bool __result)
+            public static void Postfix(GameObject target, ref bool __result)
             {
                 if (target.TryGetComponent<SpaceStation>(out var station))
                 {
@@ -175,148 +191,138 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
         }
 
-        [HarmonyPatch(typeof(ClusterDestinationSelector))]
-        [HarmonyPatch(nameof(ClusterDestinationSelector.GetDestinationWorld))]
-        public static class FixDescrCrash
+
+        [HarmonyPatch(typeof(RailGunConfig))]
+        [HarmonyPatch(nameof(RailGunConfig.ConfigureBuildingTemplate))]
+        public static class RemoveFromSpaceStations
         {
-            public static void Postfix(AxialI ___m_destination, ref int __result)
+            public static void Postfix(GameObject go)
             {
-                if (__result == -1)
-                {
-                    __result = SpaceStationManager.GetSpaceStationWorldIdAtLocation(___m_destination);
-                }
-            }
-        }
-
-        [HarmonyPatch(typeof(ClusterGrid))]
-        [HarmonyPatch("GetPath")]
-        [HarmonyPatch(new Type[] { typeof(AxialI), typeof(AxialI), typeof(ClusterDestinationSelector), typeof(string) }, new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out })]
-        public static class tarnspilerforPathSpaceStation
-        {
-            static ClusterGridEntity AllowSpaceStation(ClusterGridEntity original, ClusterDestinationSelector selector, AxialI target)
-            {
-                //Debug.Log("All params: " + original + ", " + selector + ", " + target);
-                if (original == null && selector.requireAsteroidDestination)
-                {
-                    var station = ClusterGrid.Instance.GetEntitiesOnCell(target).OfType<SpaceStation>();
-                    if (station != null && station.Count() > 0)
-                    {
-                        return station.First();
-                    }
-
-                }
-
-                return original;
-            }
-
-            private static readonly MethodInfo AllowSpaceStationMethod = AccessTools.Method(
-               typeof(tarnspilerforPathSpaceStation),
-               nameof(tarnspilerforPathSpaceStation.AllowSpaceStation)
-            );
-
-
-            private static readonly MethodInfo MethodToFind = AccessTools.Method(
-                typeof(ClusterGrid),
-               nameof(ClusterGrid.GetVisibleEntityOfLayerAtCell)
-            );
-
-            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
-            {
-                var code = instructions.ToList();
-                var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Stloc_1);
-
-                if (insertionIndex != -1)
-                {
-#if DEBUG
-                    Debug.Log("GetPathMethod found");
-#endif
-                    code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldarg_3));
-                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldarg_2));
-                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, AllowSpaceStationMethod));
-
-                    //foreach (var v in code)
-                    //Console.WriteLine("OPcode: " + v.opcode + ", operand: " + v.operand);
-                }
-
-                return code;
+                go.GetComponent<KPrefabID>().AddTag(GameTags.NotRocketInteriorBuilding);
             }
         }
 
 
+        ///From Here on: Railgun Methods that are way too crashy to be implemented to fire at space stations
 
-
-        [HarmonyPatch(typeof(ClusterDestinationSelector))]
-        [HarmonyPatch(nameof(ClusterDestinationSelector.SetDestination))]
-        public static class removeAssertInSetDestination
-        {
-            public static bool Prefix(AxialI location, ClusterDestinationSelector __instance,ref AxialI ___m_destination)
-            {
-                if (__instance.requireAsteroidDestination)
-                    Debug.Assert(ClusterUtil.GetAsteroidWorldIdAtLocation(location) != -1 || SpaceStationManager.GetSpaceStationWorldIdAtLocation(location) != -1, (object)string.Format("Cannot SetDestination to {0} as there is no world there", (object)location));
-                ___m_destination = location;
-                __instance.Trigger(543433792, (object)location);
-                return false;
-            }
-        }
-
-        [HarmonyPatch(typeof(RailGunPayload.StatesInstance))]
-        [HarmonyPatch(nameof(RailGunPayload.StatesInstance.Launch))]
-        public static class PatchRailgunPayloadLaunch
-        {
-            public static bool Prefix(AxialI source, AxialI destination, RailGunPayload.StatesInstance __instance)
-            {
-                __instance.GetComponent<BallisticClusterGridEntity>().Configure(source, destination);
-                if (ClusterUtil.GetAsteroidWorldIdAtLocation(destination) != -1)
-                    __instance.sm.destinationWorld.Set(ClusterUtil.GetAsteroidWorldIdAtLocation(destination), __instance);
-                else
-                    __instance.sm.destinationWorld.Set(SpaceStationManager.GetSpaceStationWorldIdAtLocation(destination), __instance);
-                __instance.GoTo((StateMachine.BaseState)__instance.sm.takeoff);
-                return false;
-            }
-        }
-
-        [HarmonyPatch(typeof(RailGunPayload.StatesInstance))]
-        [HarmonyPatch(nameof(RailGunPayload.StatesInstance.Travel))]
-        public static class PatchRailgunPayloadTravel
-        {
-            public static bool Prefix(AxialI source, AxialI destination, RailGunPayload.StatesInstance __instance)
-            {
-                __instance.GetComponent<BallisticClusterGridEntity>().Configure(source, destination);
-                if (ClusterUtil.GetAsteroidWorldIdAtLocation(destination) != -1)
-                    __instance.sm.destinationWorld.Set(ClusterUtil.GetAsteroidWorldIdAtLocation(destination), __instance);
-                else
-                    __instance.sm.destinationWorld.Set(SpaceStationManager.GetSpaceStationWorldIdAtLocation(destination), __instance);
-                __instance.GoTo((StateMachine.BaseState)__instance.sm.travel);
-                return false;
-            }
-        }
-
-        //[HarmonyPatch(typeof(FloatingRocketDiagnostic), "Evaluate")]
-        //public static class DisableRocketEvaluationOnSpaceStation
+        //[HarmonyPatch(typeof(ClusterDestinationSelector))]
+        //[HarmonyPatch(nameof(ClusterDestinationSelector.GetDestinationWorld))]
+        //public static class FixDescrCrash
         //{
-        //    public static bool Prefix(FloatingRocketDiagnostic __instance)
+        //    public static void Postfix(AxialI ___m_destination, ref int __result)
         //    {
-
-        //        WorldContainer world = ClusterManager.Instance.GetWorld(__instance.worldID);
-        //        if (world.IsModuleInterior && world.TryGetComponent<SpaceStation>(out var station))
-        //            return false;
-        //        return true;
+        //        if (__result == -1)
+        //        {
+        //            __result = SpaceStationManager.GetSpaceStationWorldIdAtLocation(___m_destination);
+        //        }
         //    }
-
         //}
 
-        //[HarmonyPatch(typeof(RocketFuelDiagnostic), "Evaluate")]
-        //public static class DisableRocketFuelEvaluationOnSpaceStation
-        //{
-        //    public static bool Prefix(FloatingRocketDiagnostic __instance)
-        //    {
-        //        WorldContainer world = ClusterManager.Instance.GetWorld(__instance.worldID);
-        //        if (world.IsModuleInterior && world.TryGetComponent<SpaceStation>(out var station))
-        //            return false;
-        //        return true;
-        //    }
+        //        [HarmonyPatch(typeof(ClusterGrid))]
+        //        [HarmonyPatch("GetPath")]
+        //        [HarmonyPatch(new Type[] { typeof(AxialI), typeof(AxialI), typeof(ClusterDestinationSelector), typeof(string) }, new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out })]
+        //        public static class tarnspilerforPathSpaceStation
+        //        {
+        //            static ClusterGridEntity AllowSpaceStation(ClusterGridEntity original, ClusterDestinationSelector selector, AxialI target)
+        //            {
+        //                //Debug.Log("All params: " + original + ", " + selector + ", " + target);
+        //                if (original == null && selector.requireAsteroidDestination)
+        //                {
+        //                    var station = ClusterGrid.Instance.GetEntitiesOnCell(target).OfType<SpaceStation>();
+        //                    if (station != null && station.Count() > 0)
+        //                    {
+        //                        return station.First();
+        //                    }
 
+        //                }
+
+        //                return original;
+        //            }
+
+        //            private static readonly MethodInfo AllowSpaceStationMethod = AccessTools.Method(
+        //               typeof(tarnspilerforPathSpaceStation),
+        //               nameof(tarnspilerforPathSpaceStation.AllowSpaceStation)
+        //            );
+
+
+        //            private static readonly MethodInfo MethodToFind = AccessTools.Method(
+        //                typeof(ClusterGrid),
+        //               nameof(ClusterGrid.GetVisibleEntityOfLayerAtCell)
+        //            );
+
+        //            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+        //            {
+        //                var code = instructions.ToList();
+        //                var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Stloc_1);
+
+        //                if (insertionIndex != -1)
+        //                {
+        //#if DEBUG
+        //                    Debug.Log("GetPathMethod found");
+        //#endif
+        //                    code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldarg_3));
+        //                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldarg_2));
+        //                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, AllowSpaceStationMethod));
+
+        //                    //foreach (var v in code)
+        //                    //Console.WriteLine("OPcode: " + v.opcode + ", operand: " + v.operand);
+        //                }
+
+        //                return code;
+        //            }
+        //        }
+
+
+
+
+        //[HarmonyPatch(typeof(ClusterDestinationSelector))]
+        //[HarmonyPatch(nameof(ClusterDestinationSelector.SetDestination))]
+        //public static class removeAssertInSetDestination
+        //{
+        //    public static bool Prefix(AxialI location, ClusterDestinationSelector __instance, ref AxialI ___m_destination)
+        //    {
+        //        if (__instance.requireAsteroidDestination)
+        //            Debug.Assert(ClusterUtil.GetAsteroidWorldIdAtLocation(location) != -1 || SpaceStationManager.GetSpaceStationWorldIdAtLocation(location) != -1, (object)string.Format("Cannot SetDestination to {0} as there is no world there", (object)location));
+        //        ___m_destination = location;
+        //        __instance.Trigger(543433792, (object)location);
+        //        return false;
+        //    }
         //}
+
+        //[HarmonyPatch(typeof(RailGunPayload.StatesInstance))]
+        //[HarmonyPatch(nameof(RailGunPayload.StatesInstance.Launch))]
+        //public static class PatchRailgunPayloadLaunch
+        //{
+        //    public static bool Prefix(AxialI source, AxialI destination, RailGunPayload.StatesInstance __instance)
+        //    {
+        //        __instance.GetComponent<BallisticClusterGridEntity>().Configure(source, destination);
+        //        if (ClusterUtil.GetAsteroidWorldIdAtLocation(destination) != -1)
+        //            __instance.sm.destinationWorld.Set(ClusterUtil.GetAsteroidWorldIdAtLocation(destination), __instance);
+        //        else
+        //            __instance.sm.destinationWorld.Set(SpaceStationManager.GetSpaceStationWorldIdAtLocation(destination), __instance);
+        //        __instance.GoTo((StateMachine.BaseState)__instance.sm.takeoff);
+        //        return false;
+        //    }
+        //}
+
+        //[HarmonyPatch(typeof(RailGunPayload.StatesInstance))]
+        //[HarmonyPatch(nameof(RailGunPayload.StatesInstance.Travel))]
+        //public static class PatchRailgunPayloadTravel
+        //{
+        //    public static bool Prefix(AxialI source, AxialI destination, RailGunPayload.StatesInstance __instance)
+        //    {
+        //        __instance.GetComponent<BallisticClusterGridEntity>().Configure(source, destination);
+        //        if (ClusterUtil.GetAsteroidWorldIdAtLocation(destination) != -1)
+        //            __instance.sm.destinationWorld.Set(ClusterUtil.GetAsteroidWorldIdAtLocation(destination), __instance);
+        //        else
+        //            __instance.sm.destinationWorld.Set(SpaceStationManager.GetSpaceStationWorldIdAtLocation(destination), __instance);
+        //        __instance.GoTo((StateMachine.BaseState)__instance.sm.travel);
+        //        return false;
+        //    }
+        //}
+
+
+
         //[HarmonyPatch(typeof(TerrainBG), "LateUpdate")]
         //public static class BackgroundEvalRemoveClustercraft
         //{

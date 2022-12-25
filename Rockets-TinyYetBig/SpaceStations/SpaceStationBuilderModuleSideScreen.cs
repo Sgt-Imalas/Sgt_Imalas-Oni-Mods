@@ -82,10 +82,11 @@ namespace Rockets_TinyYetBig.SpaceStations
                 }
             }
             //GetPrefabStrings();
-            //refreshHandle.Add(this.targetCraft.gameObject.Subscribe(1792516731, new System.Action<object>(this.RefreshAll)));
+            refreshHandle.Add(this.targetCraft.gameObject.Subscribe((int)GameHashes.ClusterLocationChanged, new System.Action<object>(this.RefreshAll)));
             //BuildModules();
         }
 
+        private void RefreshAll(object data = null) => this.RefreshButtons(); 
 
 
         // Creates clickable card buttons for all the lamp types + a randomizer button
@@ -100,7 +101,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                 AddButton(stationType,
                     () =>
                     {
-                        targetBuilder.CurrentSpaceStationType = stationType;
+                        targetBuilder.SetStationType(stationType);
                         RefreshButtons();
                         //Debug.Log("Bt pressed");
 
@@ -122,7 +123,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             {
                 //Assets.TryGetAnim((HashedString)animName, out var anim);
                 button.onClick += onClick;
-                button.ChangeState(type.ID == targetBuilder.CurrentSpaceStationType.ID ? 1 : 0);
+                button.ChangeState(ModAssets.GetStationIndex(type) == targetBuilder.CurrentSpaceStationTypeInt ? 1 : 0);
                 Debug.Log(Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(type.Kanim)));
                 Debug.Log("anim");
                 UIUtils.TryFindComponent<Image>(gameObject.transform, "FG").sprite = Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(type.Kanim));
@@ -136,14 +137,14 @@ namespace Rockets_TinyYetBig.SpaceStations
         {
             foreach (var button in buttons)
             {
-                Debug.Log(targetBuilder.CurrentSpaceStationType + " <- current type, Button int -> " + button.Key);
+                //Debug.Log(targetBuilder.CurrentSpaceStationType + " <- current type, Button int -> " + button.Key);
 
 
                 var tech = button.Key.requiredTech;
                 if (tech == null || (tech != null && tech.IsComplete()))
                 {
                     button.Value.gameObject.SetActive(true);
-                    button.Value.ChangeState(button.Key.ID == targetBuilder.CurrentSpaceStationType.ID ? 1 : 0);
+                    button.Value.ChangeState(ModAssets.GetStationIndex(button.Key) == targetBuilder.CurrentSpaceStationTypeInt ? 1 : 0);
                 }
                 else
                 {
