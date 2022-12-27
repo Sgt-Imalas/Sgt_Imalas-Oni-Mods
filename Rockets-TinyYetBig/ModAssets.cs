@@ -12,6 +12,7 @@ namespace Rockets_TinyYetBig
 {
     public class ModAssets
     {
+        public static string DeepSpaceScienceID = "rtb_deepspace";
         public class Techs
         {
             public static string FuelLoaderTech = "RTB_FuelLoadersTech";

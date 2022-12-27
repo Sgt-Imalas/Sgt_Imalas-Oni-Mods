@@ -5,6 +5,7 @@ using Rockets_TinyYetBig.RocketFueling;
 using Rockets_TinyYetBig.SpaceStations;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,9 +15,42 @@ using UtilLibs;
 namespace Rockets_TinyYetBig.Patches
 {
     internal class ResearchTreePatches
-    {/// <summary>
-     /// add research card to research screen
-     /// </summary>
+    {
+        [HarmonyPatch(typeof(Assets), "OnPrefabInit")]
+        public class Assets_OnPrefabInit_Patch
+        {
+            public static void Prefix(Assets __instance)
+            {
+                InjectionMethods.AddSpriteToAssets(__instance, "research_type_deep_space_icon");
+            }
+        }
+
+        [HarmonyPatch(typeof(ResearchTypes))]
+        [HarmonyPatch(MethodType.Constructor)]
+        [HarmonyPatch(new Type[] { })]
+        public class ResearchTypes_Constructor_Patch
+        {
+            public static void Postfix(ResearchTypes __instance)
+            {
+
+                __instance.Types.Add(new ResearchType(
+                    ModAssets.DeepSpaceScienceID,
+                    STRINGS.DEEPSPACERESEARCH.NAME,
+                    STRINGS.DEEPSPACERESEARCH.DESC,
+                    Assets.GetSprite((HashedString)"research_type_deep_space_icon"),
+                    new Color32(0,0,0,byte.MaxValue),
+                    null,
+                    2400f,
+                    (HashedString)"research_center_kanim",
+                    new string[1] { ApothecaryConfig.ID },
+                    STRINGS.DEEPSPACERESEARCH.RECIPEDESC
+                ));
+            }
+        }
+
+        /// <summary>
+        /// add research card to research screen
+        /// </summary>
         [HarmonyPatch(typeof(ResourceTreeLoader<ResourceTreeNode>), MethodType.Constructor, typeof(TextAsset))]
         public class ResourceTreeLoader_Load_Patch
         {
@@ -69,8 +103,8 @@ namespace Rockets_TinyYetBig.Patches
                 //    {"orbital", 400f},
                 //    {"nuclear", 50f}
                 //}
-                ); 
-                
+                );
+
                 new Tech(ModAssets.Techs.FuelLoaderTech, new List<string>
                 {
                     UniversalFuelLoaderConfig.ID,
@@ -82,12 +116,20 @@ namespace Rockets_TinyYetBig.Patches
                 __instance
                 );
 
-                //new Tech(ModAssets.Techs.SpaceStationTech, new List<string>
-                //{
-                //    SpaceStationBuilderModuleConfig.ID,
-                //},
-                //__instance
-                //);
+                new Tech(ModAssets.Techs.SpaceStationTech, new List<string>
+                {
+                    SpaceStationBuilderModuleConfig.ID,
+                },
+                __instance
+                , new Dictionary<string, float>()
+                {
+                    {"basic", 0f },
+                    {"advanced", 50f},
+                    {"orbital", 50f},
+                    {"nuclear", 50f},
+                    {ModAssets.DeepSpaceScienceID,10f }
+                }
+                );
             }
         }
 

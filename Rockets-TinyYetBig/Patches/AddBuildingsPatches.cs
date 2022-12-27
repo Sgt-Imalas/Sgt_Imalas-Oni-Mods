@@ -91,6 +91,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 if (Config.Instance.EnableLargeCargoBays)
                 {
                     AddRocketModuleToBuildList(SolidCargoBayClusterLargeConfig.ID, RocketCategory.cargo, SolidCargoBayClusterConfig.ID);
+                    AddRocketModuleToBuildList(LiquidCargoBayClusterLargeConfig.ID, RocketCategory.cargo, LiquidCargoBayClusterConfig.ID);
                 }
 
             }

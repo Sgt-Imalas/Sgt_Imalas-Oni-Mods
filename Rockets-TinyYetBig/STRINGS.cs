@@ -11,6 +11,13 @@ namespace Rockets_TinyYetBig
 {
     public class STRINGS
     {
+        public class DEEPSPACERESEARCH
+        {
+            public static LocString NAME = "Deep Space Research";
+            public static LocString DESC = UI.FormatAsLink("Deep Space Research", nameof(DEEPSPACERESEARCH))+" is conducted by careful observing the effects of deep space radiation on certain metals";
+            public static LocString RECIPEDESC = "Unlocks new breakthroughs in space construction";
+
+        }
         public class CATEGORYTOOLTIPS
         {
             public static LocString REQUIRED = "\nA Rocket needs atleast one of these!";
