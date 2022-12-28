@@ -104,6 +104,10 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool EnableCritterStorage { get; set; }
 
+        [Option("Natural Gas Engine Module", STRINGS.OPTIONS.TOGGLESINGLE, "Modules")]
+        [JsonProperty]
+        public bool EnableNatGasEngine { get; set; }
+
         [Option("Early Game Fuel Tanks", STRINGS.OPTIONS.TOGGLEMULTI, "Modules")]
         [JsonProperty]
         public bool EnableEarlyGameFuelTanks { get; set; }
@@ -153,6 +157,7 @@ namespace Rockets_TinyYetBig
             EnableWallAdapter = true; 
             EnableEarlyGameFuelTanks = true; 
             EnableLargeCargoBays = true;
+            EnableNatGasEngine = true;
         }
     }
 }

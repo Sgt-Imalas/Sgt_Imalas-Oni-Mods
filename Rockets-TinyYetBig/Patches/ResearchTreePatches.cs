@@ -38,7 +38,7 @@ namespace Rockets_TinyYetBig.Patches
                     STRINGS.DEEPSPACERESEARCH.NAME,
                     STRINGS.DEEPSPACERESEARCH.DESC,
                     Assets.GetSprite((HashedString)"research_type_deep_space_icon"),
-                    new Color32(0,0,0,byte.MaxValue),
+                    new Color32(100, 100, 100, byte.MaxValue),
                     null,
                     2400f,
                     (HashedString)"research_center_kanim",
@@ -73,12 +73,12 @@ namespace Rockets_TinyYetBig.Patches
                     );
                 }
 
-                //TechUtils.AddNode(__instance,
-                //    ModAssets.Techs.SpaceStationTech,
-                //    new[] { ModAssets.Techs.DockingTech, GameStrings.Technology.ColonyDevelopment.DurableLifeSupport },
-                //    GameStrings.Technology.RadiationTechnologies.RadiationRefinement,
-                //    GameStrings.Technology.ColonyDevelopment.DurableLifeSupport
-                //    );
+                TechUtils.AddNode(__instance,
+                    ModAssets.Techs.SpaceStationTech,
+                    new[] { ModAssets.Techs.DockingTech, GameStrings.Technology.ColonyDevelopment.DurableLifeSupport },
+                    GameStrings.Technology.RadiationTechnologies.RadiationRefinement,
+                    GameStrings.Technology.ColonyDevelopment.DurableLifeSupport
+                    );
             }
         }
 

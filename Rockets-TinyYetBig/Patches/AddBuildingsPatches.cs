@@ -62,6 +62,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 if (Config.Instance.EnableSolarNosecone)
                     AddRocketModuleToBuildList(NoseConeSolarConfig.ID, new RocketCategory[] { RocketCategory.nosecones, RocketCategory.power }, NoseconeBasicConfig.ID);
 
+                if (Config.Instance.EnableNatGasEngine) 
                 AddRocketModuleToBuildList(NatGasEngineClusterConfig.ID, RocketCategory.engines, SteamEngineClusterConfig.ID);
 
                 //if (Config.Instance.LandingLegs)
@@ -90,8 +91,9 @@ namespace RoboRockets.Rockets_TinyYetBig
                 }
                 if (Config.Instance.EnableLargeCargoBays)
                 {
-                    AddRocketModuleToBuildList(SolidCargoBayClusterLargeConfig.ID, RocketCategory.cargo, SolidCargoBayClusterConfig.ID);
-                    AddRocketModuleToBuildList(LiquidCargoBayClusterLargeConfig.ID, RocketCategory.cargo, LiquidCargoBayClusterConfig.ID);
+                    AddRocketModuleToBuildList(SolidCargoBayClusterLargeConfig.ID, RocketCategory.cargo, GasCargoBayClusterConfig.ID);
+                    AddRocketModuleToBuildList(LiquidCargoBayClusterLargeConfig.ID, RocketCategory.cargo, SolidCargoBayClusterLargeConfig.ID);
+                    AddRocketModuleToBuildList(GasCargoBayClusterLargeConfig.ID, RocketCategory.cargo, LiquidCargoBayClusterLargeConfig.ID);
                 }
 
             }
@@ -154,7 +156,10 @@ namespace RoboRockets.Rockets_TinyYetBig
                     //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LiquidFuelLoaderConfig.ID, null, LaunchPadConfig.ID);
                     //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, SolidFuelLoaderConfig.ID, null, LaunchPadConfig.ID);
                 }
-                InjectionMethods.AddBuildingToTechnology("HydrocarbonPropulsion", NatGasEngineClusterConfig.ID);
+                if (Config.Instance.EnableNatGasEngine)
+                {
+                    InjectionMethods.AddBuildingToTechnology("HydrocarbonPropulsion", NatGasEngineClusterConfig.ID);
+                }
 
                 if (Config.Instance.EnableEarlyGameFuelTanks)
                 {
