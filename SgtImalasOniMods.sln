@@ -54,7 +54,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoveDupeHere", "MoveDupeHer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConveyorTiles", "ConveyorTiles\ConveyorTiles.csproj", "{5A0D20B1-1AB0-42D8-AEBA-50F7DC3F2DF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShockWormMob", "ShockWormMob\ShockWormMob.csproj", "{2D1F531D-1F44-4AA7-9FAA-DDCA0668FCDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShockWormMob", "ShockWormMob\ShockWormMob.csproj", "{2D1F531D-1F44-4AA7-9FAA-DDCA0668FCDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrittersShedFurOnBrush", "CrittersShedFurOnBrush\CrittersShedFurOnBrush.csproj", "{CCF03C35-C1E0-4FB8-AC44-A572E915F47B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -154,6 +156,10 @@ Global
 		{2D1F531D-1F44-4AA7-9FAA-DDCA0668FCDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D1F531D-1F44-4AA7-9FAA-DDCA0668FCDD}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{2D1F531D-1F44-4AA7-9FAA-DDCA0668FCDD}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{CCF03C35-C1E0-4FB8-AC44-A572E915F47B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCF03C35-C1E0-4FB8-AC44-A572E915F47B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCF03C35-C1E0-4FB8-AC44-A572E915F47B}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCF03C35-C1E0-4FB8-AC44-A572E915F47B}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
