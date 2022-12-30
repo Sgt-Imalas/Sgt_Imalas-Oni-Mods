@@ -308,17 +308,13 @@ namespace SaveGameModLoader
 
         internal void SyncSingleList(List<KMod.Label> modsInList)
         {
-            ModlistManager.Instance.SyncFromModListWithoutAutoLoad(modsInList);
-            KMod.Manager.Dialog(Global.Instance.globalCanvas,
-               POPUPSYNCEDTITLE,
-               POPUPSYNCEDTEXT,
-               RETURNTWO,
-               ()=> { 
-                   this.Deactivate();
-                   if(ParentWindow!=null)
-                       ParentWindow.Deactivate();
-                    }               
-               );
+            ModlistManager.Instance.SyncFromModListWithoutAutoLoad(modsInList, 
+                (() => {
+                    this.Deactivate();
+                    if (ParentWindow != null)
+                        ParentWindow.Deactivate();
+                    }      
+                ));
         }
         internal void InstantiateParams(KeyValuePair<string, SaveGameModList> exportedList, KModalScreen parent)
         {

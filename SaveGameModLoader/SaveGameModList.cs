@@ -91,12 +91,12 @@ namespace SaveGameModLoader
                 if (!this.IsModPack)
                 {
                     Debug.Log("Writing mod config to " + ModlistPath);
-                    File.WriteAllText(ModAssets.ModPath + ModlistPath + ".json", JsonConvert.SerializeObject(this));
+                    File.WriteAllText(ModAssets.ModPath + ModlistPath + ".json", JsonConvert.SerializeObject(this, Formatting.Indented));
                 }
                 else
                 {
                     Debug.Log("Writing mod pack to " + ModlistPath);
-                    File.WriteAllText(ModAssets.ModPacksPath + ModlistPath + ".json", JsonConvert.SerializeObject(this));
+                    File.WriteAllText(ModAssets.ModPacksPath + ModlistPath + ".json", JsonConvert.SerializeObject(this, Formatting.Indented));
                 }
             }
             catch(Exception e)

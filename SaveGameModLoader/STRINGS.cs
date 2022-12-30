@@ -78,6 +78,11 @@ namespace SaveGameModLoader
                     public static LocString NOSTEAMMOD= "Not a Steam Mod!";
                     public static LocString MISSING= "Missing";
 
+                    public static LocString WARNINGMANYMODS = "Large amount of mod differences detected.";
+                    public static LocString WARNINGMANYMODSQUESTION = "Large amount of mod differences can lead to long game freezes.\nRestart game with this Modlist applied?\n(This is an alternative mod list deployment mode).";
+                    public static LocString USEALTERNATIVEMODE = "Load mod list with a restart\n(Restarts game)";
+                    public static LocString USENORMALMETHOD = "Load mod list using normal method\n(could freeze the game)";
+
                 }
 
                 
