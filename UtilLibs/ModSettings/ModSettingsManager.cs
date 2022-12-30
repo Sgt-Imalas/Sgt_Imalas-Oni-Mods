@@ -44,7 +44,7 @@ namespace UtilLibs.ModSettings
 
         public void SerializeJson()
         {
-            var data = JsonConvert.SerializeObject(Settings);
+            var data = JsonConvert.SerializeObject(Settings, Formatting.Indented);
             File.WriteAllText(ConfigPath, data);
         }
     }
