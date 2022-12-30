@@ -10,6 +10,7 @@ using static KAnim;
 using UnityEngine.UI;
 using YamlDotNet.Core.Tokens;
 using static Rockets_TinyYetBig.ModAssets;
+using static STRINGS.DUPLICANTS.STATUSITEMS;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
@@ -43,8 +44,9 @@ namespace Rockets_TinyYetBig.SpaceStations
             //flipButton.SetActive(false);
             //PlaceStationButton.SetActive(false);
             UIUtils.TryChangeText(PlaceStationButton.transform, "Label", "MakeOrBreakSpaceStation");
-
-            UIUtils.AddActionToButton(PlaceStationButton.transform, "", () => targetBuilder.OnSidescreenButtonPressed());
+            RefreshButtons();
+            UIUtils.AddActionToButton(PlaceStationButton.transform, "", () => { targetBuilder.ConstructButtonPressed(); RefreshButtons(); });
+            UIUtils.AddActionToButton(flipButton.transform, "", () => { targetBuilder.DemolishButtonPressed(); RefreshButtons(); });
         }
 
         protected override void OnPrefabInit()
@@ -124,8 +126,8 @@ namespace Rockets_TinyYetBig.SpaceStations
                 //Assets.TryGetAnim((HashedString)animName, out var anim);
                 button.onClick += onClick;
                 button.ChangeState(ModAssets.GetStationIndex(type) == targetBuilder.CurrentSpaceStationTypeInt ? 1 : 0);
-                Debug.Log(Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(type.Kanim)));
-                Debug.Log("anim");
+                //Debug.Log(Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(type.Kanim)));
+                //Debug.Log("anim");
                 UIUtils.TryFindComponent<Image>(gameObject.transform, "FG").sprite = Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(type.Kanim));
                 UIUtils.AddSimpleTooltipToObject(gameObject.transform, type.Name+"\n"+type.Description, true);
                 buttons.Add(type, button);
@@ -152,6 +154,18 @@ namespace Rockets_TinyYetBig.SpaceStations
                     button.Value.gameObject.SetActive(false);
                 }
             }
+            //UIUtils.ListAllChildren(transform);
+
+            //UIUtils.ListAllChildrenWithComponents(flipButton.transform);
+            //Debug.Log("AAAAAAAAAAAAAAAAAAAAA");
+            var img = flipButton.transform.Find("FG").GetComponent<Image>();
+            img.sprite = Assets.GetSprite(targetBuilder.Constructing() && targetBuilder.Demolishing() ? "action_cancel" : "action_deconstruct");
+            var text = targetBuilder.Constructing() && !targetBuilder.Demolishing() ? "Cancel Construction" : "Start Station Construction";
+            UIUtils.TryChangeText(PlaceStationButton.transform, "Label", text);
+
+            bool canDeconstruct = targetBuilder.IsStationAtCurrentLocation();
+            flipButton.GetComponent<KButton>().isInteractable = canDeconstruct;
+            PlaceStationButton.GetComponent<KButton>().isInteractable = !canDeconstruct;
         }
 
         private void ClearButtons()

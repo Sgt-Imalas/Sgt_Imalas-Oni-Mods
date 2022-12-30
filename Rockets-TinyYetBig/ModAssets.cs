@@ -41,7 +41,8 @@ namespace Rockets_TinyYetBig
                 new Vector2I (30,30),
                 new string[] {"RefinedMetal" },
                 new float[] { 300f },
-                "space_station_small_kanim"
+                "space_station_small_kanim",
+                150f
                 ),
 
             new SpaceStationWithStats(
@@ -51,7 +52,8 @@ namespace Rockets_TinyYetBig
                 new Vector2I (45,45),
                 new string[] {"RefinedMetal" },
                 new float[] { 300f },
-                "space_station_medium_kanim"
+                "space_station_medium_kanim",
+                300f
                 ),
 
             new SpaceStationWithStats(
@@ -61,7 +63,8 @@ namespace Rockets_TinyYetBig
                 new Vector2I (60,60),
                 new string[] {"RefinedMetal" },
                 new float[] { 300f },
-                "space_station_large_kanim"
+                "space_station_large_kanim",
+                600f
                 )
 
     };
@@ -231,9 +234,10 @@ namespace Rockets_TinyYetBig
             public Vector2I InteriorSize;
             public string[] materials;
             public float[] materialAmounts;
+            public float constructionTime;
             public string Kanim;
             public Tech requiredTech;
-            public SpaceStationWithStats(string _id, string _name, string _description, Vector2I _size, string[] _mats, float[] _matCosts, string _prefab, Tech _reqTech = null)
+            public SpaceStationWithStats(string _id, string _name, string _description, Vector2I _size, string[] _mats, float[] _matCosts, string _prefab, float _constructionTime, Tech _reqTech = null)
             {
                 ID = _id;
                 Name = _name;
@@ -243,6 +247,7 @@ namespace Rockets_TinyYetBig
                 materialAmounts = _matCosts;
                 Kanim = _prefab;
                 requiredTech = _reqTech;
+                constructionTime = _constructionTime;   
             }
             
         }

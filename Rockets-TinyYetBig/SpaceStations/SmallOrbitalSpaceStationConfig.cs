@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
-    class SmallOrbitalSpaceStationConfig : IEntityConfig, IListableOption
+    class SpaceStationConfig : IEntityConfig, IListableOption
     {
         public const string ID = "RTB_SpaceStationOrbitalSmall";
 
