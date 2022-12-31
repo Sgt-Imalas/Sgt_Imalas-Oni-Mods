@@ -71,7 +71,13 @@ namespace Rockets_TinyYetBig.Behaviours
             var CritterInfoToStore = new CritterStorageInfo();
             CritterInfoToStore.CreatureTag = critter.GetComponent<KPrefabID>().PrefabTag;
             CritterInfoToStore.CreatureAge = critter.GetSMI<AgeMonitor.Instance>().age.value;
-            CritterInfoToStore.WildnessPercentage = critter.GetSMI<WildnessMonitor.Instance>().wildness.value;
+            var wildnessCheck = critter.GetSMI<WildnessMonitor.Instance>();
+
+            if (wildnessCheck != null)
+            {
+                CritterInfoToStore.WildnessPercentage = wildnessCheck.wildness.value;
+            }
+
             storedCritters.Add(CritterInfoToStore);
 #if DEBUG
             Debug.Log("Added {0} to critter stasis chamber, Age: {1}, Wildness: {2}".F(CritterInfoToStore.CreatureTag, CritterInfoToStore.CreatureAge, CritterInfoToStore.WildnessPercentage));
