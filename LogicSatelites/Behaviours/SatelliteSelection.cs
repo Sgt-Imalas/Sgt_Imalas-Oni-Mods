@@ -51,7 +51,10 @@ namespace LogicSatellites.Behaviours
         public void OnSidescreenButtonPressed()
         {
             if (!module.smi.HoldingSatellite())
-                NextSat();
+            {
+
+                //NextSat();
+            }
             else
             {
                 //Debug.Log("EJECTING?");
