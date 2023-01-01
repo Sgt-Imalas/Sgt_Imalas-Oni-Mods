@@ -44,7 +44,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreDreamJournals", "Store
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RotatableRadboltStorage", "RotatableRadboltStorage\RotatableRadboltStorage.csproj", "{1BF5EEA9-D320-4D86-A1CC-CB08486EF2AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LessAnnoyingPajamas", "LessAnnoyingPajamas\LessAnnoyingPajamas.csproj", "{9FB36856-6C51-4DD5-9313-A8C70117BEFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClothingLockerMod", "LessAnnoyingPajamas\ClothingLockerMod.csproj", "{9FB36856-6C51-4DD5-9313-A8C70117BEFE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeebPacu", "WeebPacu\WeebPacu.csproj", "{2379DE1F-1476-4832-AFC0-57D6AFD79DE1}"
 EndProject
@@ -56,7 +56,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConveyorTiles", "ConveyorTi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShockWormMob", "ShockWormMob\ShockWormMob.csproj", "{2D1F531D-1F44-4AA7-9FAA-DDCA0668FCDD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrittersShedFurOnBrush", "CrittersShedFurOnBrush\CrittersShedFurOnBrush.csproj", "{CCF03C35-C1E0-4FB8-AC44-A572E915F47B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrittersShedFurOnBrush", "CrittersShedFurOnBrush\CrittersShedFurOnBrush.csproj", "{CCF03C35-C1E0-4FB8-AC44-A572E915F47B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
