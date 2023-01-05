@@ -137,7 +137,8 @@ namespace LogicSatellites
         {
             public static void Postfix(List<DetailsScreen.SideScreenRef> ___sideScreens)
             {
-                UIUtils.AddClonedSideScreen<SatelliteCarrierModuleSideScreen>("SatelliteCarrierModuleSideScreen", "ModuleFlightUtilitySideScreen", typeof(ModuleFlightUtilitySideScreen));
+                UIUtils.AddClonedSideScreen<NewSatConstructorModuleSideScreen>("NewSatConstructorModuleSideScreen", "ArtableSelectionSideScreen", typeof(ArtableSelectionSideScreen));
+                //UIUtils.AddClonedSideScreen<SatelliteCarrierModuleSideScreen>("SatelliteCarrierModuleSideScreen", "ModuleFlightUtilitySideScreen", typeof(ModuleFlightUtilitySideScreen));
                 UIUtils.AddClonedSideScreen<SolarLensSideScreen>("SolarLensTargetSelectorSidescreen", "LogicBroadcastChannelSideScreen", typeof(LogicBroadcastChannelSideScreen));
             }
         }

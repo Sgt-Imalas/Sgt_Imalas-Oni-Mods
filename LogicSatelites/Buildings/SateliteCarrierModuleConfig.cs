@@ -52,6 +52,8 @@ namespace LogicSatellites.Buildings
             storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 
 
+            go.AddOrGet<SatelliteCarrierModule>();
+
             BuildingInternalConstructorRocket.Def def1 = go.AddOrGetDef<BuildingInternalConstructorRocket.Def>();
             def1.constructionUnits = 20f;
             def1.ConstructionMatID = SatelliteComponentConfig.ID;
@@ -64,7 +66,6 @@ namespace LogicSatellites.Buildings
             def1.constructionSymbol = "under_construction";
             go.AddOrGet<BuildingInternalConstructorRocketWorkable>().SetWorkTime(30f);
 
-            go.AddOrGet<SatelliteCarrierModule>();
 
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
             {
