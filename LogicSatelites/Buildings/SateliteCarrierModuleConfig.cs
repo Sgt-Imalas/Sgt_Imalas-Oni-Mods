@@ -71,7 +71,7 @@ namespace LogicSatellites.Buildings
             {
                 new BuildingAttachPoint.HardPoint(new CellOffset(0, 5), GameTags.Rocket, (AttachableBuilding) null)
             };
-            go.AddComponent<SatelliteSelection>();
+            //go.AddComponent<SatelliteSelection>();
 
         }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YamlDotNet.Core.Tokens;
 
 namespace LogicSatellites.Behaviours
 {
@@ -18,19 +19,27 @@ namespace LogicSatellites.Behaviours
             }
             set
             {
-                var nameHolder = gameObject.GetComponent<KSelectable>();
-                var descHolder = gameObject.AddOrGet<InfoDescription>();
-                if (nameHolder != null)
-                {
-                    _satelliteType = value;
-                    nameHolder.SetName(ModAssets.SatelliteConfigurations[value].NAME);
-                }
-                if (descHolder != null)
-                {
-                    _satelliteType = value;
-                    descHolder.description=(ModAssets.SatelliteConfigurations[value].DESC);
-                }
+                _satelliteType = value;
+                OverrideSatDescAndName();
             } 
+        }
+        void OverrideSatDescAndName()
+        {
+            var nameHolder = gameObject.GetComponent<KSelectable>();
+            var descHolder = gameObject.AddOrGet<InfoDescription>();
+            if (nameHolder != null)
+            {
+                nameHolder.SetName(ModAssets.SatelliteConfigurations[_satelliteType].NAME);
+            }
+            if (descHolder != null)
+            {
+                descHolder.description = (ModAssets.SatelliteConfigurations[_satelliteType].DESC);
+            }
+        }
+
+        protected override void OnSpawn()
+        {
+            base.OnSpawn(); OverrideSatDescAndName();
         }
 
     }

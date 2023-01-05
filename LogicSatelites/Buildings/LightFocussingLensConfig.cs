@@ -30,7 +30,7 @@ namespace LogicSatellites.Buildings
                 id: ID,
                 width: 1,
                 height: 1,
-                anim: "floor_glass_kanim",
+                anim: "lense_convex_kanim",
                 hitpoints: 100,
                 construction_time: 40f,
                 construction_mass: materialMass,

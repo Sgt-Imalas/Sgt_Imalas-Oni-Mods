@@ -156,8 +156,8 @@ namespace LogicSatellites.Behaviours
         {
             foreach (var v in modulePanels.Keys)
             {
-                titleLabels[v].SetText(v.HoldingSatellite() ? string.Format(STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_TRUE, ModAssets.SatelliteConfigurations[0].NAME) : (string)STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_FALSE);
-                buttons[v].isInteractable = v.HoldingSatellite() ? v.CanDeploySatellite(0) : true;
+                titleLabels[v].SetText(v.HoldingSatellite() ? string.Format(STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_TRUE, ModAssets.SatelliteConfigurations[v.SatelliteType()].NAME) : (string)STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_FALSE);
+                buttons[v].isInteractable = v.HoldingSatellite() ? v.CanDeploySatellite() : true;
                 buttonLabels[v].SetText(v.ModeIsDeployment ? STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONLABEL_HASSAT_TRUE : STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONLABEL_HASSAT_FALSE);
                 buttonTooltips1[v].SetSimpleTooltip(v.ModeIsDeployment ? STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONTOOLTIP_DEPLOY : STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONTOOLTIP_RETRIEVE);
                 //buttonTooltips2[v].SetSimpleTooltip(STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONTOOLTIP_CHANGEMODE);
@@ -165,7 +165,7 @@ namespace LogicSatellites.Behaviours
         }
         private void DeployButtonClicked(ISatelliteCarrier module)
         {
-           // module.OnButtonClicked(0);
+             module.OnButtonClicked();
             module.ModeIsDeployment = module.HoldingSatellite();
             RefreshStrings();
         }

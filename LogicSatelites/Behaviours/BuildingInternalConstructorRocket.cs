@@ -54,7 +54,6 @@ namespace LogicSatellites.Behaviours
             public DefComponent<Storage> storage;
             public float constructionUnits;
             public List<Tag> outputIDs;
-            public ISatelliteCarrier SatelliteCarrierTarget;
             public bool spawnIntoStorage;
             public string constructionSymbol;
             public string ConstructionMatID;
@@ -69,8 +68,8 @@ namespace LogicSatellites.Behaviours
         }
 
         public new class Instance :
-          GameStateMachine<BuildingInternalConstructorRocket, BuildingInternalConstructorRocket.Instance, IStateMachineTarget, BuildingInternalConstructorRocket.Def>.GameInstance,
-          ISidescreenButtonControl
+          GameStateMachine<BuildingInternalConstructorRocket, BuildingInternalConstructorRocket.Instance, IStateMachineTarget, BuildingInternalConstructorRocket.Def>.GameInstance, ISidescreenButtonControl
+
         {
             [Serialize]
             private Storage storage;
@@ -114,7 +113,7 @@ namespace LogicSatellites.Behaviours
                         PrimaryElement component = first.GetComponent<PrimaryElement>();
                         Debug.Assert(element == null || element == component.Element);
                         element = component.Element;
-                        mass += component.Mass;
+                       mass += component.Mass;
                         first.DeleteObject();
                     }
                 }
@@ -157,18 +156,24 @@ namespace LogicSatellites.Behaviours
                 return firstWithUnits;
             }
 
-            //public bool HasOutputInStorage() => (bool)(UnityEngine.Object)this.storage.FindFirst(this.def.outputIDs[0]);
-            public bool HasOutputInStorage()
-            {
-                if ((bool)(UnityEngine.Object)this.storage.FindFirst(this.def.outputIDs[0]))
-                {
-                    return true;
-                }
-                var carrier = gameObject.GetSMI<SatelliteCarrierModule>();
-                if (carrier != null) { return carrier.smi.HoldingSatellite(); }
-               return false;
+            public bool HasOutputInStorage() => (bool)(UnityEngine.Object)this.storage.FindFirst(this.def.outputIDs[0]);
+            //public bool HasOutputInStorage()
+            //{
+            //    if ((bool)(UnityEngine.Object)this.storage.FindFirst(this.def.outputIDs[0]))
+            //    {
+            //        return true;
+            //    }
+            //    var carrierModule = gameObject.GetSMI<ISatelliteCarrier>();
+               
+            //    if (carrierModule != null) { 
+            //        Debug.Log("HasSatellite? " + carrierModule.HoldingSatellite()); 
+            //        return carrierModule.HoldingSatellite(); 
+            //    }
 
-            }
+            //    Debug.Log("HasSatellite? NOPE,not found");
+            //    return false;
+
+            //}
             public bool IsRequestingConstruction()
             {
                 this.sm.constructionRequested.Get(this);
@@ -184,18 +189,22 @@ namespace LogicSatellites.Behaviours
                     double num1 = (double)massForConstruction.Temperature * (double)massForConstruction.Mass;
                     massForConstruction.Units -= this.def.constructionUnits;
                 }
-                //foreach (var outputId in this.def.outputIDs)
-                //{
-                //    GameObject go = GameUtil.KInstantiate(Assets.GetPrefab(outputId), this.transform.GetPosition(), Grid.SceneLayer.Ore);
-                //    go.SetActive(true);
-                //    if (this.def.spawnIntoStorage)
-                //        this.storage.Store(go);
+                foreach (var outputId in this.def.outputIDs)
+                {
+                    GameObject go = GameUtil.KInstantiate(Assets.GetPrefab(outputId), this.transform.GetPosition(), Grid.SceneLayer.Ore);
+                    go.SetActive(true);
+                    if (this.def.spawnIntoStorage)
+                        this.storage.Store(go);
 
-                //    int type = GetComponent<SatelliteSelection>().SatelliteType;
-                //    go.GetComponent<SatelliteTypeHolder>().SatelliteType = type;
-                //}
-                var carrierModule = gameObject.GetSMI<SatelliteCarrierModule>();
-                carrierModule.smi.sm.hasSatellite.Set(true,carrierModule.smi);
+                    int type = gameObject.GetSMI<ISatelliteCarrier>().SatelliteType();
+                    if(type == -1)
+                        type = 0;
+                    go.GetComponent<SatelliteTypeHolder>().SatelliteType = type;
+                }
+                // this.sm.constructionRequested.Set(false,this);
+                //var carrierModule = gameObject.GetSMI<ISatelliteCarrier>();
+                //carrierModule.SatelliteConstructed();
+                //Debug.Log("Type: "+carrierModule.SatelliteType() +", Holding? "+ carrierModule.HoldingSatellite());
             }
 
             public WorkChore<BuildingInternalConstructorRocketWorkable> CreateWorkChore() => new WorkChore<BuildingInternalConstructorRocketWorkable>(Db.Get().ChoreTypes.Build, this.master);
@@ -218,7 +227,6 @@ namespace LogicSatellites.Behaviours
                     return;
                 this.ConstructionComplete(true);
             }
-
             public bool SidescreenEnabled() => true;
 
             public bool SidescreenButtonInteractable() => true;

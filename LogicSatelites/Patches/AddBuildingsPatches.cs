@@ -19,9 +19,9 @@ namespace LogicSatellites
         {
             public static void Prefix()
             {
-                //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, LightFocussingLensConfig.ID);
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, LightFocussingLensConfig.ID);
 
-                RocketryUtils.AddRocketModuleToBuildList(SatelliteCarrierModuleConfig.ID, RocketryUtils.RocketCategory.deployables);
+                RocketryUtils.AddRocketModuleToBuildList(SatelliteCarrierModuleConfig.ID, new RocketryUtils.RocketCategory[] { RocketryUtils.RocketCategory.deployables, RocketryUtils.RocketCategory.utility },ArtifactCargoBayConfig.ID);
             }
         }
         [HarmonyPatch(typeof(Db))]
@@ -34,11 +34,11 @@ namespace LogicSatellites
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Computers.SensitiveMicroimaging, SatelliteCarrierModuleConfig.ID);
 
                 InjectionMethods.AddBuildingToTechnology(ModAssets.SatelliteConfigurations[0].TechId, ModAssets.SatelliteConfigurations[0].TechItemId);
-                //InjectionMethods.AddBuildingToTechnology(ModAssets.SatelliteConfigurations[1].TechId, ModAssets.SatelliteConfigurations[1].TechItemId);
+                InjectionMethods.AddBuildingToTechnology(ModAssets.SatelliteConfigurations[1].TechId, ModAssets.SatelliteConfigurations[1].TechItemId);
 
 
                 ModAssets.ExplorationSatellite = __instance.TechItems.AddTechItem(ModAssets.SatelliteConfigurations[0].TechItemId, (string)ModAssets.SatelliteConfigurations[0].NAME, (string)ModAssets.SatelliteConfigurations[0].DESC, GetSpriteFnBuilder("LS_Exploration_Sat"), DlcManager.AVAILABLE_EXPANSION1_ONLY);
-                //ModAssets.SolarSatellite = __instance.TechItems.AddTechItem(ModAssets.SatelliteConfigurations[1].TechItemId, (string)ModAssets.SatelliteConfigurations[1].NAME, (string)ModAssets.SatelliteConfigurations[1].DESC, GetSpriteFnBuilder("LS_Solar_Sat"), DlcManager.AVAILABLE_EXPANSION1_ONLY);
+                ModAssets.SolarSatellite = __instance.TechItems.AddTechItem(ModAssets.SatelliteConfigurations[1].TechItemId, (string)ModAssets.SatelliteConfigurations[1].NAME, (string)ModAssets.SatelliteConfigurations[1].DESC, GetSpriteFnBuilder("LS_Solar_Sat"), DlcManager.AVAILABLE_EXPANSION1_ONLY);
 
             }
             private static Func<string, bool, Sprite> GetSpriteFnBuilder(string spriteName) => (Func<string, bool, Sprite>)((anim, centered) => Assets.GetSprite((HashedString)spriteName));

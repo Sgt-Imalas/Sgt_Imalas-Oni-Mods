@@ -70,6 +70,10 @@ namespace LogicSatellites
                     public static LocString BUTTONTOOLTIP_DEPLOY = "Deploys a satellite at the current space hex.";
                     public static LocString BUTTONTOOLTIP_RETRIEVE = "Retrieves a satellite from the current space hex";
                     public static LocString BUTTONTOOLTIP_CHANGEMODE = "Change the operation the module should perform";
+
+                    public static LocString SCRAPSATELLITETOOLTIP = "Scrap the satellite to retrieve the parts";
+                    public static LocString CURRENTSATELLITETYPE = "Current Satellite Configuration:\n{0}";
+
                 }
             }
         }
