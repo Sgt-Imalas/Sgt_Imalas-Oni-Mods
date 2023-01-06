@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,9 +9,9 @@ using UnityEngine;
 
 namespace LogicSatellites.Buildings
 {
-    class LightFocussingLensConfig: IBuildingConfig
+    class LightScatteringLensConfig: IBuildingConfig
     {
-        public const string ID = "LS_FocussingLens";
+        public const string ID = "LS_ScatteringLens";
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public override BuildingDef CreateBuildingDef()
         {
@@ -30,7 +31,7 @@ namespace LogicSatellites.Buildings
                 id: ID,
                 width: 1,
                 height: 1,
-                anim: "lense_convex_kanim",
+                anim: "lense_concave_kanim",
                 hitpoints: 100,
                 construction_time: 40f,
                 construction_mass: materialMass,
@@ -49,6 +50,7 @@ namespace LogicSatellites.Buildings
             buildingDef.AudioSize = "small";
             buildingDef.BaseTimeUntilRepair = -1f;
             buildingDef.SceneLayer = Grid.SceneLayer.GlassTile;
+            buildingDef.BlockTileIsTransparent = true;
 
             return buildingDef;
         }
@@ -56,7 +58,7 @@ namespace LogicSatellites.Buildings
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
             SimCellOccupier simCellOccupier = go.AddOrGet<SimCellOccupier>();
-            simCellOccupier.setTransparent = false;
+            simCellOccupier.setTransparent = true;
             simCellOccupier.notifyOnMelt = true;
             go.AddOrGet<TileTemperature>();
             go.AddOrGet<BuildingHP>().destroyOnDamaged = true;
@@ -69,9 +71,22 @@ namespace LogicSatellites.Buildings
         {
             GeneratedBuildings.RemoveLoopingSounds(go);
             go.GetComponent<KPrefabID>().AddTag(GameTags.FloorTiles);
+
+            Light2D light2D = go.AddOrGet<Light2D>();
+            light2D.Lux = 0;
+            light2D.overlayColour = LIGHT2D.SUNLAMP_OVERLAYCOLOR;
+            light2D.Color = LIGHT2D.SUNLAMP_COLOR;
+            light2D.Range = 15f;
+            light2D.Angle = 0f;
+            light2D.Direction = LIGHT2D.SUNLAMP_DIRECTION;
+            light2D.shape = LightShape.Cone;
+            light2D.drawOverlay = true;
+            light2D.Offset = new Vector2(0f,0f);
+    
+            go.AddOrGet<ScatteringLens>().lightSource = light2D;
             go.AddOrGet<SolarReciever>();
 
-            go.AddOrGet<LaserLens>();
+            
         }
 
         public override void DoPostConfigurePreview(BuildingDef def, GameObject go)

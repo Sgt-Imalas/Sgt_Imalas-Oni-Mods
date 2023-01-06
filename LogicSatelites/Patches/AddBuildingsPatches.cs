@@ -20,6 +20,7 @@ namespace LogicSatellites
             public static void Prefix()
             {
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, LightFocussingLensConfig.ID);
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, LightScatteringLensConfig.ID);
 
                 RocketryUtils.AddRocketModuleToBuildList(SatelliteCarrierModuleConfig.ID, new RocketryUtils.RocketCategory[] { RocketryUtils.RocketCategory.deployables, RocketryUtils.RocketCategory.utility },ArtifactCargoBayConfig.ID);
             }
