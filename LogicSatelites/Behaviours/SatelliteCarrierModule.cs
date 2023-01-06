@@ -16,6 +16,8 @@ namespace LogicSatellites.Behaviours
         [MyCmpReq][Serialize]
 		public Storage storage;
 
+
+
 		protected override void OnSpawn()
 		{
 			base.OnSpawn();
@@ -30,13 +32,13 @@ namespace LogicSatellites.Behaviours
 				return sm.hasSatellite.Get(this);
 			}
 
-            public bool CanDeploySatellite()
+            public bool CanDeploySatellite(int type)
             {
 				Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
 				ClusterGridEntity atCurrentLocation = component.GetPOIAtCurrentLocation();
 				if (!this.HoldingSatellite())
 					return false;
-				var locationRule = ModAssets.SatelliteConfigurations[this.SatelliteType()].AllowedLocation;
+				var locationRule = ModAssets.SatelliteConfigurations[type].AllowedLocation;
 
 				if (locationRule == DeployLocation.anywhere)
 				{
@@ -100,19 +102,7 @@ namespace LogicSatellites.Behaviours
 			{
 				return IsEntityAtLocation()?.gameObject.GetComponent<SatelliteGridEntity>() != null;
 			}
-			public void OnButtonClicked()
-			{
-                if (ModeIsDeployment)
-                {
-					TryDeploySatellite();
-					Debug.Log("Deploying Satellite");
-				}
-				else
-                {
-					TryRetrieveSatellite();
-					Debug.Log("Retrieving Satellite");
-				}
-			}
+
 
 			public void TryRetrieveSatellite()
             {
@@ -124,31 +114,30 @@ namespace LogicSatellites.Behaviours
 					int type = clusterSat.GetComponent<SatelliteGridEntity>().satelliteType;
 					Debug.Log("SAT TYPE: " + type);
 					clusterSat.DeleteObject();
-					sm.hasSatellite.Set(true, this);
+                    sm.hasSatellite.Set(true, this);
 
-					GameObject sat = Util.KInstantiate(Assets.GetPrefab((Tag)SatelliteKitConfig.ID), this.transform.position);
-					storage.Store(sat.gameObject);
-					sat.GetComponent<Pickupable>().storage = storage;
-					sat.GetComponent<SatelliteTypeHolder>().SatelliteType = type;
+                    //GameObject sat = Util.KInstantiate(Assets.GetPrefab((Tag)SatelliteKitConfig.ID), this.transform.position);
+					//storage.Store(sat.gameObject);
+					//sat.GetComponent<Pickupable>().storage = storage;
+					//sat.GetComponent<SatelliteTypeHolder>().SatelliteType = type;
 				}
 			}
 
-            public void TryDeploySatellite()
+            public void TryDeploySatellite(int type)
 			{
 				//Debug.Log(this.CanDeploySatellite() +" - " + this.HoldingSatellite());
-				if (this.CanDeploySatellite() && this.HoldingSatellite())
+				if (this.CanDeploySatellite(type) && this.HoldingSatellite())
 				{
 					Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
-					var satellite = storage.FindFirst(Tags.LS_Satellite);
+					//var satellite = storage.FindFirst(Tags.LS_Satellite);
 
 					Debug.Log("Trying to deploy Satellite");
-					int type = satellite.GetComponent<SatelliteTypeHolder>().SatelliteType;
 					Debug.Log("SAT TYPE: " + type);
 					//Debug.Log(satellite);
-					storage.Remove(satellite.gameObject);
-					storage.items.Remove(satellite.gameObject);
-					satellite.gameObject.DeleteObject();
-					GameObject.Destroy(satellite);
+					//storage.Remove(satellite.gameObject);
+					//storage.items.Remove(satellite.gameObject);
+					//satellite.gameObject.DeleteObject();
+					//GameObject.Destroy(satellite);
 					//Debug.Log(satellite.IsNullOrDestroyed() + "SHOULD BE TRUE");
 					SpawnSatellite(component.Location,ModAssets.SatelliteConfigurations[type].GridID);
 					sm.hasSatellite.Set(false,this);
@@ -164,14 +153,6 @@ namespace LogicSatellites.Behaviours
 				sat.SetActive(true);			
 			}
 
-            public int SatelliteType()
-			{
-				if (!HoldingSatellite())
-					return -1;
-				var satellite = storage.FindFirst(Tags.LS_Satellite);
-				int type = satellite.GetComponent<SatelliteTypeHolder>().SatelliteType;
-				return type;
-            }
 
             public bool ModeIsDeployment
 			{ 

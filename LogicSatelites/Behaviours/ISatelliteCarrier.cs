@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 
 namespace LogicSatellites.Behaviours
 {
-    interface ISatelliteCarrier
+    public interface ISatelliteCarrier
     {
         IStateMachineTarget master { get; }
 
         bool ModeIsDeployment { get; set; }
 
         bool HoldingSatellite();
-        int SatelliteType();
         bool CanRetrieveSatellite();
-        bool CanDeploySatellite();
-        void OnButtonClicked();
+        bool CanDeploySatellite(int type);
+
+        void TryDeploySatellite(int type);
+        void TryRetrieveSatellite();
     }
 }
