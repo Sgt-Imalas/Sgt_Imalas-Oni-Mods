@@ -54,7 +54,6 @@ namespace LogicSatellites.Behaviours
             public DefComponent<Storage> storage;
             public float constructionUnits;
             public List<Tag> outputIDs;
-            public ISatelliteCarrier SatelliteCarrierTarget;
             public bool spawnIntoStorage;
             public string constructionSymbol;
             public string ConstructionMatID;
@@ -104,8 +103,6 @@ namespace LogicSatellites.Behaviours
             {
                 Element element = (Element)null;
                 float mass = 0.0f;
-
-                ///Legacy
                 foreach (var outputId in this.def.outputIDs)
                 {
                     GameObject first = this.storage.FindFirst(outputId);
@@ -117,12 +114,6 @@ namespace LogicSatellites.Behaviours
                         mass += component.Mass;
                         first.DeleteObject();
                     }
-                }
-
-                var Constructor = gameObject.GetSMI<SatelliteCarrierModule>();
-                if (Constructor.smi.sm.hasSatellite.Get(Constructor.smi))
-                {
-                    mass += 600f;
                 }
                 DropConstructionUnits((Tag)def.ConstructionMatID, mass);
                 base.OnCleanUp();
@@ -157,18 +148,8 @@ namespace LogicSatellites.Behaviours
                 return firstWithUnits;
             }
 
-            //public bool HasOutputInStorage() => (bool)(UnityEngine.Object)this.storage.FindFirst(this.def.outputIDs[0]);
-            public bool HasOutputInStorage()
-            {
-                if ((bool)(UnityEngine.Object)this.storage.FindFirst(this.def.outputIDs[0]))
-                {
-                    return true;
-                }
-                var carrier = gameObject.GetSMI<SatelliteCarrierModule>();
-                if (carrier != null) { return carrier.smi.HoldingSatellite(); }
-               return false;
+            public bool HasOutputInStorage() => (bool)(UnityEngine.Object)this.storage.FindFirst(this.def.outputIDs[0]);
 
-            }
             public bool IsRequestingConstruction()
             {
                 this.sm.constructionRequested.Get(this);
@@ -184,18 +165,16 @@ namespace LogicSatellites.Behaviours
                     double num1 = (double)massForConstruction.Temperature * (double)massForConstruction.Mass;
                     massForConstruction.Units -= this.def.constructionUnits;
                 }
-                //foreach (var outputId in this.def.outputIDs)
-                //{
-                //    GameObject go = GameUtil.KInstantiate(Assets.GetPrefab(outputId), this.transform.GetPosition(), Grid.SceneLayer.Ore);
-                //    go.SetActive(true);
-                //    if (this.def.spawnIntoStorage)
-                //        this.storage.Store(go);
+                foreach (var outputId in this.def.outputIDs)
+                {
+                    GameObject go = GameUtil.KInstantiate(Assets.GetPrefab(outputId), this.transform.GetPosition(), Grid.SceneLayer.Ore);
+                    go.SetActive(true);
+                    if (this.def.spawnIntoStorage)
+                        this.storage.Store(go);
 
-                //    int type = GetComponent<SatelliteSelection>().SatelliteType;
-                //    go.GetComponent<SatelliteTypeHolder>().SatelliteType = type;
-                //}
-                var carrierModule = gameObject.GetSMI<SatelliteCarrierModule>();
-                carrierModule.smi.sm.hasSatellite.Set(true,carrierModule.smi);
+                    int type = GetComponent<SatelliteSelection>().SatelliteType;
+                    go.GetComponent<SatelliteTypeHolder>().SatelliteType = type;
+                }
             }
 
             public WorkChore<BuildingInternalConstructorRocketWorkable> CreateWorkChore() => new WorkChore<BuildingInternalConstructorRocketWorkable>(Db.Get().ChoreTypes.Build, this.master);
