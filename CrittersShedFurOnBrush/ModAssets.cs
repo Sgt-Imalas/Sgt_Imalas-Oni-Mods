@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace CrittersShedFurOnBrush
 {
@@ -16,20 +17,39 @@ namespace CrittersShedFurOnBrush
         /// <summary>
         /// Creature + Shed amount / cycle
         /// </summary>
-        public static Dictionary<Tag, float> SheddableCritters = new Dictionary<Tag, float>();
+        public static Dictionary<Tag,FloofCarrier> SheddableCritters = new Dictionary<Tag, FloofCarrier>();
         public static void InitSheddables()
         {
             if(Config.Instance.Drecko)
-                SheddableCritters.Add((Tag)DreckoConfig.ID, 1f / 8f );
+                AddFluffyCritter((Tag)DreckoConfig.ID, 1f / 8f );
 
             if (Config.Instance.CuddlePip)
-                SheddableCritters.Add((Tag)SquirrelHugConfig.ID, 1f / 5f);
+                AddFluffyCritter((Tag)SquirrelHugConfig.ID, 1f / 5f, UIUtils.rgb(254, 193, 173));
 
             if (Config.Instance.SageHatch)
-                SheddableCritters.Add((Tag)(Tag)HatchVeggieConfig.ID, 1f/10f);
+                AddFluffyCritter((Tag)(Tag)HatchVeggieConfig.ID, 1f/10f, UIUtils.rgb(76, 129, 103));
 
             if (Config.Instance.OilFloaterFur)
-                SheddableCritters.Add((Tag)OilFloaterDecorConfig.ID, 1f / 6f);
+                AddFluffyCritter((Tag)OilFloaterDecorConfig.ID, 1f / 6f, UIUtils.rgb(86, 102, 208));
+        }
+        public static void AddFluffyCritter(Tag critterId, float floofPerCycle) => AddFluffyCritter(critterId, floofPerCycle, Color.white);
+        public static void AddFluffyCritter(Tag critterId, float floofPerCycle, Color floofColour)
+        {
+            var FloofInfo = new FloofCarrier(critterId, floofPerCycle, floofColour);
+            SheddableCritters.Add(critterId,FloofInfo);
+
+        }
+        public struct FloofCarrier
+        {
+            public Tag ID;
+            public float FloofPerCycle;
+            public Color FloofColour;
+            public FloofCarrier(Tag _id, float _floofPerCycle, Color _floofColor)
+            {
+                ID = _id;  
+                FloofPerCycle = _floofPerCycle;
+                FloofColour = _floofColor;
+            }
         }
     }
 }

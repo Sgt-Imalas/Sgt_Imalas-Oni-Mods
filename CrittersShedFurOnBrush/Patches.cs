@@ -16,6 +16,29 @@ namespace CrittersShedFurOnBrush
 {
     internal class Patches
     {
+        [HarmonyPatch(typeof(BasicFabricConfig), "CreatePrefab")]
+        public static class AddColourInfoToReeds
+        {
+            public static void Postfix(GameObject __result)
+            {
+                __result.AddComponent<FloofColourHolder>();
+            }
+        }
+        //[HarmonyPatch(typeof(BasicFabricConfig), "OnSpawn")]
+        //public static class ApplyFloofInfo
+        //{
+        //    public static void Postfix(GameObject inst)
+        //    {
+        //        if(inst.TryGetComponent<FloofColourHolder>(out var floofy))
+        //        {
+        //            inst.SetActive(false);
+        //            floofy.ApplyStyleChanges();
+        //            inst.SetActive(true);
+        //        }
+        //    }
+        //}
+
+
         [HarmonyPatch(typeof(RanchStationConfig), "DoPostConfigureComplete")]
         public static class AddSheddingToGroomStation
         {
@@ -30,43 +53,44 @@ namespace CrittersShedFurOnBrush
                     float num = (float)(1.0f + RancherSkillEffect);
                     float rancherAmountEffect = 1f + (float)Math.Pow(RancherSkillEffect, 1.25f);
                     creature_go.GetComponent<Effects>().Add("Ranched", true).timeRemaining *= num;
-                    if(IsSheddableCreature(creature_go,out var shedAmount))
+                    if (IsSheddableCreature(creature_go, out var shedAmount, out Tag CreatureTag))
                     {
-                        YeetWool(creature_go, shedAmount* rancherAmountEffect);
+                        YeetWool(creature_go, shedAmount * rancherAmountEffect, CreatureTag);
                     }
                 });
             }
 
-            static void YeetWool(GameObject originGo, float amount)
+            static void YeetWool(GameObject originGo, float amount, Tag CreatureTag)
             {
                 PrimaryElement component1 = originGo.GetComponent<PrimaryElement>();
                 GameObject go = Util.KInstantiate(Assets.GetPrefab(BasicFabricConfig.ID));
+                go.AddOrGet<FloofColourHolder>().SetCritterTag(CreatureTag);
 
-                KBatchedAnimController kBatchedAnimController = go.AddOrGet<KBatchedAnimController>();
-                kBatchedAnimController.AnimFiles = new KAnimFile[1] { Assets.GetAnim((HashedString)"bomblet_nuclear_kanim") };
-                kBatchedAnimController.initialAnim = "object";
 
                 go.transform.SetPosition(Grid.CellToPosCCC(Grid.PosToCell(originGo), Grid.SceneLayer.Ore));
                 PrimaryElement component2 = go.GetComponent<PrimaryElement>();
                 component2.Temperature = component1.Temperature;
                 component2.Units = amount;
-                //component2.AddDisease(component1.DiseaseIdx, component1.DiseaseCount, "Shearing");
                 go.SetActive(true);
+
+
                 Vector2 initial_velocity = new Vector2(UnityEngine.Random.Range(-1f, 1f) * 1f, (float)((double)UnityEngine.Random.value * 2.0 + 4.0));
                 if (GameComps.Fallers.Has((object)go))
                     GameComps.Fallers.Remove(go);
                 GameComps.Fallers.Add(go, initial_velocity);
             }
 
-            static bool IsSheddableCreature(GameObject go, out float shedValue)
+            static bool IsSheddableCreature(GameObject go, out float shedValue, out Tag CreatureTag)
             {
                 shedValue = 0f;
+                CreatureTag = null;
                 if (go.TryGetComponent<KPrefabID>(out var kPrefabID))
                 {
-                    Debug.Log(kPrefabID.PrefabTag);
+                    //Debug.Log(kPrefabID.PrefabTag);
                     if (ModAssets.SheddableCritters.ContainsKey(kPrefabID.PrefabTag))
                     {
-                        shedValue = ModAssets.SheddableCritters[kPrefabID.PrefabTag];
+                        shedValue = ModAssets.SheddableCritters[kPrefabID.PrefabTag].FloofPerCycle;
+                        CreatureTag = kPrefabID.PrefabTag;
                         return true;
                     }
                 }
