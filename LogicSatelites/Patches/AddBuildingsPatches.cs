@@ -35,7 +35,7 @@ namespace LogicSatellites
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Computers.SensitiveMicroimaging, SatelliteCarrierModuleConfig.ID);
 
                 InjectionMethods.AddBuildingToTechnology(ModAssets.SatelliteConfigurations[0].TechId, ModAssets.SatelliteConfigurations[0].TechItemId);
-                InjectionMethods.AddBuildingToTechnology(ModAssets.SatelliteConfigurations[1].TechId, ModAssets.SatelliteConfigurations[1].TechItemId);
+                //InjectionMethods.AddBuildingToTechnology(ModAssets.SatelliteConfigurations[1].TechId, ModAssets.SatelliteConfigurations[1].TechItemId);
 
 
                 ModAssets.ExplorationSatellite = __instance.TechItems.AddTechItem(ModAssets.SatelliteConfigurations[0].TechItemId, (string)ModAssets.SatelliteConfigurations[0].NAME, (string)ModAssets.SatelliteConfigurations[0].DESC, GetSpriteFnBuilder("LS_Exploration_Sat"), DlcManager.AVAILABLE_EXPANSION1_ONLY);

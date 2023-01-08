@@ -10,6 +10,9 @@ namespace LogicSatellites.Buildings
     internal class LaserLens : KMonoBehaviour, ISim200ms
     {
         private WorldContainer world;
+        [MyCmpGet]
+        SolarReciever _solarReciever;
+
         private const float KJ_PER_LUX = 0.0005f;
         protected override void OnSpawn()
         {
@@ -27,6 +30,7 @@ namespace LogicSatellites.Buildings
             //int cell = Grid.PosToCell(this.gameObject);
             //Debug.Log(Grid.LightIntensity[cell]+" Source; "+lightSource.Lux);
             int lux = Grid.LightIntensity[cellAbove];
+            lux += _solarReciever.SimulatedLuxFromConnectedSatellites();
 
             int targetCell = RefocusLens();
             float energy = CalculateHeatEnergy(dt, lux);

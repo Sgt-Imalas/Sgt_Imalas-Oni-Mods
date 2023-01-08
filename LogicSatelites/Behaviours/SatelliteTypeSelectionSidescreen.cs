@@ -109,7 +109,7 @@ namespace LogicSatellites
 
             foreach (var satType in ModAssets.SatelliteConfigurations)
             {
-
+                if(satType.Key==0)
                 AddButton(satType,
                     () =>
                     {

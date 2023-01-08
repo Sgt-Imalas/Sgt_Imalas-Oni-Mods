@@ -78,7 +78,8 @@ namespace LogicSatellites.Behaviours
                     GameStrings.Technology.Computers.SensitiveMicroimaging,
                     "LS_Exploration_Sat")
             },
-            {(int)SatType.SolarLens,
+            {
+                (int)SatType.SolarLens,
                 new SatelliteConfiguration(
                     SATELLITE.SATELLITETYPES.SOLAR+SATELLITE.TITLE,
                     SATELLITE.DESC+SATELLITE.SATELLITETYPES.SOLARDESC,

@@ -13,7 +13,6 @@ namespace LogicSatellites.Buildings
 {
     public class SolarReciever : KMonoBehaviour, IListableOption, ISim1000ms
     {
-        public Light2D laserSource;
         protected override void OnSpawn()
         {
             base.OnSpawn();
@@ -24,26 +23,16 @@ namespace LogicSatellites.Buildings
             float X = GetColumn();
             Debug.Log(X + "; " + Y + "; coorsd");
 
-
-            laserSource = gameObject.AddComponent<Light2D>();
-            laserSource.enabled = true;
-            laserSource.Lux = 2000;
-            laserSource.overlayColour = LIGHT2D.SUNLAMP_OVERLAYCOLOR;
-            laserSource.Color = LIGHT2D.SUNLAMP_COLOR;
-            laserSource.Range = Y- this.transform.position.y;
-            laserSource.Angle = 1f;
-            laserSource.Direction = new Vector2(0f, -1f);
-            laserSource.shape = Mod.LaserBeam.KleiLightShape;
-            laserSource.drawOverlay = false;
-            laserSource.Offset = new Vector3(X, Y) - this.transform.position;
-            laserSource.FullRefresh();
         }
 
+        public int SimulatedLuxFromConnectedSatellites()
+        {
+            return 0;
+        }
 
         protected override void OnCleanUp()
         {
             ModAssets.SolarRecievers.Remove(this);
-            Destroy(laserSource);
             base.OnCleanUp();
         }
 
