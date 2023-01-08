@@ -154,6 +154,8 @@ namespace LogicSatellites.Behaviours
         }
         private void RefreshStrings(ISatelliteCarrier module = null)
         {
+            if (module.IsNullOrDestroyed())
+                return;
             foreach (var v in modulePanels.Keys)
             {
                 titleLabels[v].SetText(v.HoldingSatellite() ? string.Format(STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_TRUE, ModAssets.SatelliteConfigurations[v.SatelliteType()].NAME) : (string)STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_FALSE);

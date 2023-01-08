@@ -104,7 +104,6 @@ namespace LogicSatellites.Behaviours
                 Element element = (Element)null;
                 float mass = 0.0f;
 
-                ///Legacy
                 foreach (var outputId in this.def.outputIDs)
                 {
                     GameObject first = this.storage.FindFirst(outputId);
@@ -118,11 +117,6 @@ namespace LogicSatellites.Behaviours
                     }
                 }
 
-                var Constructor = gameObject.GetSMI<SatelliteCarrierModule>();
-                if (Constructor.smi.sm.hasSatellite.Get(Constructor.smi))
-                {
-                    mass += 600f;
-                }
                 DropConstructionUnits((Tag)def.ConstructionMatID, mass);
                 base.OnCleanUp();
             }
