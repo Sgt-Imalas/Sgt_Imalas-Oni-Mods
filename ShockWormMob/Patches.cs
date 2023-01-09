@@ -144,6 +144,7 @@ namespace ShockWormMob
             public static void Postfix(Dictionary<string, CodexEntry> __result)
             {
                 AddToCodex(ShockwormConfigSpeciesID, "Shock worms", __result);
+                AddToCodex(GroneHogSpeciesID, "Volgus", __result);
             }
         }
 

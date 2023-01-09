@@ -12,5 +12,6 @@ namespace ShockWormMob
     internal class ModAssets
     {
        public  static Tag ShockwormConfigSpeciesID = TagManager.Create("ShockWormSpecies");
+       public  static Tag GroneHogSpeciesID = TagManager.Create("GroneHogSpecies");
     }
 }
