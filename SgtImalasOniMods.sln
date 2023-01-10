@@ -54,7 +54,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoveDupeHere", "MoveDupeHer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConveyorTiles", "ConveyorTiles\ConveyorTiles.csproj", "{5A0D20B1-1AB0-42D8-AEBA-50F7DC3F2DF9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShockWormMob", "ShockWormMob\ShockWormMob.csproj", "{2D1F531D-1F44-4AA7-9FAA-DDCA0668FCDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LostContentTestingGround", "ShockWormMob\LostContentTestingGround.csproj", "{2D1F531D-1F44-4AA7-9FAA-DDCA0668FCDD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrittersShedFurOnBrush", "CrittersShedFurOnBrush\CrittersShedFurOnBrush.csproj", "{CCF03C35-C1E0-4FB8-AC44-A572E915F47B}"
 EndProject

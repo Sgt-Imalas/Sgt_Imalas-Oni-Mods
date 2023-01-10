@@ -64,7 +64,7 @@ namespace CrittersShedFurOnBrush
             {
                 PrimaryElement component1 = originGo.GetComponent<PrimaryElement>();
                 GameObject go = Util.KInstantiate(Assets.GetPrefab(BasicFabricConfig.ID));
-                go.AddOrGet<FloofColourHolder>().SetCritterTag(CreatureTag);
+                go.AddOrGet<FloofColourHolder>().SetCritterTagAndGORef(CreatureTag, originGo);
 
 
                 go.transform.SetPosition(Grid.CellToPosCCC(Grid.PosToCell(originGo), Grid.SceneLayer.Ore));

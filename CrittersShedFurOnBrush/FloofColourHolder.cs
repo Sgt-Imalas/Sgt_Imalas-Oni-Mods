@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using static AmbienceManager;
 
 namespace CrittersShedFurOnBrush
@@ -14,34 +15,41 @@ namespace CrittersShedFurOnBrush
     {
         [Serialize]
         string CritterId;
+        [Serialize]
+        Color32 FurColor;
 
         protected override void OnSpawn()
         {
-            ApplyStyleChanges();
-                //this.StartCoroutine(this.DelayedGeneration());
+            //if(OriginCritter!=null)
+            //    FurColor = GiveFurColourForCritter(OriginCritter);
+            ApplyAnimAndTint();
             base.OnSpawn();
         }
-        public void SetCritterTag(Tag id)
+        public void SetCritterTagAndGORef(Tag id, GameObject _originalCritter)
         {
-            CritterId = id.ToString(); 
-            ApplyStyleChanges();
+            CritterId = id.ToString();
+            FurColor = GiveFurColourForCritter(_originalCritter);
         }
-        public bool ShouldReplaceAnim() => CritterId != null;
-        public void ApplyStyleChanges()
+        public bool ShouldReplaceAnim() => CritterId != null ;
+        void ApplyAnimAndTint()
         {
-            if(gameObject.TryGetComponent<KBatchedAnimController>(out var animController)&& ShouldReplaceAnim())
+            if (gameObject.TryGetComponent<KBatchedAnimController>(out var animController) && ShouldReplaceAnim())
             {
-                animController.SwapAnims ( new KAnimFile[1] { Assets.GetAnim((HashedString)"object_furball_kanim") });
+                animController.SwapAnims(new KAnimFile[1] { Assets.GetAnim((HashedString)"object_furball_kanim") });
                 animController.initialAnim = "object";
-                animController.TintColour = ModAssets.SheddableCritters[(Tag)CritterId].FloofColour;
+                animController.TintColour = FurColor;
                 animController.Play("object");
-                Debug.LogWarning(animController.AnimFiles+ "AAAAAAA "+ animController.AnimFiles.Count());
+
+                gameObject.AddOrGet<KSelectable>().SetName(STRINGS.ITEMS.FURBALL.NAME);
+                //gameObject.AddOrGet<InfoDescription>().description = "Furball Description";
             }
         }
-        private IEnumerator DelayedGeneration()
+
+
+        ///allows overriding the colour for specific, multicoloured critters
+        Color32 GiveFurColourForCritter(GameObject originalCritter)
         {
-            yield return (object)SequenceUtil.WaitForEndOfFrame;
-            this.ApplyStyleChanges();
+            return ModAssets.SheddableCritters[(Tag)CritterId].FloofColour;
         }
     }
 }
