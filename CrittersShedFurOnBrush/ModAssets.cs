@@ -21,16 +21,26 @@ namespace CrittersShedFurOnBrush
         public static void InitSheddables()
         {
             if(Config.Instance.Drecko)
-                AddFluffyCritter((Tag)DreckoConfig.ID, 1f / 8f );
+                AddFluffyCritter((Tag)DreckoConfig.ID, 1f / 7f , UIUtils.rgb(220, 217, 204));
 
             if (Config.Instance.CuddlePip)
-                AddFluffyCritter((Tag)SquirrelHugConfig.ID, 1f / 5f, UIUtils.rgb(254, 193, 173));
+                AddFluffyCritter((Tag)SquirrelHugConfig.ID, 1f / 5f, UIUtils.rgb(255, 192, 174));
 
             if (Config.Instance.SageHatch)
                 AddFluffyCritter((Tag)(Tag)HatchVeggieConfig.ID, 1f/10f, UIUtils.rgb(76, 129, 103));
 
             if (Config.Instance.OilFloaterFur)
                 AddFluffyCritter((Tag)OilFloaterDecorConfig.ID, 1f / 6f, UIUtils.rgb(86, 102, 208));
+
+            if (Config.Instance.Pufts)
+            {
+                AddFluffyCritter((Tag)PuftConfig.ID, 1f / 10f, UIUtils.rgb(255, 203, 100));
+                AddFluffyCritter((Tag)PuftAlphaConfig.ID, 1f / 10f, UIUtils.rgb(225, 225, 109));
+                AddFluffyCritter((Tag)PuftBleachstoneConfig.ID, 1f / 5f, UIUtils.rgb(105, 211, 78));
+            }
+
+            if (Config.Instance.PlugSlug)
+                AddFluffyCritter((Tag)StaterpillarConfig.ID, 1f / 6f, UIUtils.rgb(31, 113, 121));
         }
         public static void AddFluffyCritter(Tag critterId, float floofPerCycle) => AddFluffyCritter(critterId, floofPerCycle, Color.white);
         public static void AddFluffyCritter(Tag critterId, float floofPerCycle, Color floofColour)

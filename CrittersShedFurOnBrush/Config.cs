@@ -31,6 +31,13 @@ namespace CrittersShedFurOnBrush
         [JsonProperty]
         public bool OilFloaterFur { get; set; }
 
+        [Option("STRINGS.CREATURES.SPECIES.STATERPILLAR.NAME")]
+        [JsonProperty]
+        public bool PlugSlug { get; set; }
+
+        [Option("STRINGS.CREATURES.FAMILY_PLURAL.PUFTSPECIES")]
+        [JsonProperty]
+        public bool Pufts { get; set; }
 
         public Config()
         {
@@ -38,6 +45,8 @@ namespace CrittersShedFurOnBrush
             CuddlePip = true;
             Drecko = true;
             OilFloaterFur = true;
+            Pufts = true;
+            PlugSlug = true;
         }
     }
 }

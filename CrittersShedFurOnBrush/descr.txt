@@ -9,10 +9,24 @@ With this mod, fluffy critters will shed some fur when groomed
 [hr][/hr]
 [h1]Features[/h1]
 [list]
-[*] When groomed, fluffy critters will shed some of their fluffy fur, resulting in a small amount of reed fiber being dropped. The amount is dependant on the critter type and the grooming skill of the rancher
-[*] Fluffy critters are: Cuddle Pip, Longhair Slickster, Sage Hatch and normal Drecko. If one of these doesn't seem fluffy to you, you can disable it in the mod options.
-[*] Dropped fur comes with its own texture, the mod can however be safely disabled, these fur balls will revert back to the normal reed fiber texture.
+[*] When groomed, fluffy critters will shed some of their fluffy fur, resulting in a small amount of reed fiber being dropped. The amount is dependent on the critter type and the grooming skill of the rancher
+[*] Fluffy critters are:[list] 
+    [*]Cuddle Pip
+    [*]Longhair Slickster
+    [*]Sage Hatch
+    [*]Drecko
+    [*]Puft, Squeaky Puft and Puft Prince
+    [*]Plug Slug (DLC only)[/list] 
+    If one of these doesn't seem fluffy to you, you can disable it in the mod options.
+[*] Dropped fur comes with its own texture, is however coded as reed fiber. That way, the mod can be safely disabled, these fur balls will revert back to the normal reed fiber texture.
+[*] Fur balls are colored dependent on the critter brushed, due to game limitations they will stack with reed fiber and each other, this can result in overwritten colors/animations.
+[*] Fur ball amount is dependent on critter type and rancher grooming skill
 [/list] 
+
+
+[h1]Credits[/h1]
+Options made with PLib
+Floof animation made by 3GuB
 
 [hr][/hr]
 [h1]Bug Reports[/h1]
@@ -31,4 +45,3 @@ Where to find the Log:
 [hr][/hr]
 
 Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
-
