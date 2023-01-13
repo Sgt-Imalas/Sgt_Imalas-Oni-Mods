@@ -115,14 +115,14 @@ namespace Rockets_TinyYetBig.RocketFueling
                 __instance.GetSMI<ChainedBuilding.StatesInstance>().GetLinkedBuildings(ref chain);
                 foreach (ChainedBuilding.StatesInstance smi1 in (HashSet<ChainedBuilding.StatesInstance>)chain)
                 {
-                    ModularConduitPortController.Instance smi2 = smi1.GetSMI<ModularConduitPortController.Instance>();
+                    ModularConduitPortController.Instance modularConduitPortController = smi1.GetSMI<ModularConduitPortController.Instance>();
                     FuelLoaderComponent fuelLoader = smi1.GetComponent<FuelLoaderComponent>();
                     IConduitConsumer NormalLoaderComponent = smi1.GetComponent<IConduitConsumer>();
                     bool isLoading = false;
-                    if (fuelLoader != null && (smi2 == null || smi2.SelectedMode == ModularConduitPortController.Mode.Load))
+                    if (fuelLoader != null && (modularConduitPortController == null || modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Load))
                     {
                         //shouldDoNormal = false;
-                        smi2.SetRocket(true);
+                        modularConduitPortController.SetRocket(true);
                         if (fuelLoader.loaderType == LoaderType.Fuel)
                         {
                             GameObject[] AllItems = Concat(fuelLoader.solidStorage.items, fuelLoader.liquidStorage.items, fuelLoader.gasStorage.items).ToArray();
@@ -193,32 +193,32 @@ namespace Rockets_TinyYetBig.RocketFueling
                             }
                         }
                     }
-                    else if (NormalLoaderComponent != null && (smi2 == null || smi2.SelectedMode == ModularConduitPortController.Mode.Load || smi2.SelectedMode == ModularConduitPortController.Mode.Both))
+                    else if (NormalLoaderComponent != null && 
+                        (modularConduitPortController == null || modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Load || modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Both))
                     {
-                        smi2.SetRocket(hasRocket: true);
+                        modularConduitPortController.SetRocket(true);
                         for (int num = NormalLoaderComponent.Storage.items.Count - 1; num >= 0; num--)
                         {
                             GameObject gameObject = NormalLoaderComponent.Storage.items[num];
-                            foreach (CargoBayCluster item2 in pooledDictionary[CargoBayConduit.ElementToCargoMap[NormalLoaderComponent.ConduitType]])
+                            foreach (CargoBayCluster cargoBayCluster in pooledDictionary[CargoBayConduit.ElementToCargoMap[NormalLoaderComponent.ConduitType]])
                             {
-                                float remainingCapacity = item2.RemainingCapacity;
+                                float remainingCapacity = cargoBayCluster.RemainingCapacity;
                                 float num2 = NormalLoaderComponent.Storage.MassStored();
-                                if (!(remainingCapacity <= 0f) && !(num2 <= 0f) && item2.GetComponent<TreeFilterable>().AcceptedTags.Contains(gameObject.PrefabID()))
+                                if (remainingCapacity > 0f && (num2 > 0f) && cargoBayCluster.GetComponent<TreeFilterable>().AcceptedTags.Contains(gameObject.PrefabID()))
                                 {
                                     isLoading = true;
                                     HasLoadingProcess = true;
                                     Pickupable pickupable = gameObject.GetComponent<Pickupable>().Take(remainingCapacity);
                                     if (pickupable != null)
                                     {
-                                        item2.storage.Store(pickupable.gameObject);
+                                        cargoBayCluster.storage.Store(pickupable.gameObject);
                                         remainingCapacity -= pickupable.PrimaryElement.Mass;
                                     }
                                 }
                             }
                         }
                     }
-
-                    smi2?.SetLoading(isLoading);
+                    modularConduitPortController?.SetLoading(isLoading);
                 }
 
                 chain.Recycle();

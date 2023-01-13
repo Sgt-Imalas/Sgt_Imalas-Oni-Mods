@@ -332,4 +332,8 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Buildings\Boosters\" />
+	</ItemGroup>
 </Project>

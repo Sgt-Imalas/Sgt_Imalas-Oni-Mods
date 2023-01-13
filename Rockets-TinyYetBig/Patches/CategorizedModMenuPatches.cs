@@ -354,18 +354,20 @@ namespace Rockets_TinyYetBig
                     foreach (var button in ModAssets.CategorizedButtons)
                     {
                         if (!___moduleBuildableState.ContainsKey(button.Key.first))
+                        {
                             ___moduleBuildableState.Add(button.Key.first, false);
+                        }
                         TechItem techItem = Db.Get().TechItems.TryGet(button.Key.first.PrefabID); 
                         if (techItem != null)
                         {
                             bool flag = DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || techItem.IsComplete();
 
-                            if(!button.IsNullOrDestroyed())
+                            if(!button.Value.IsNullOrDestroyed())
                                 button.Value.SetActive(flag);
                         }
                         else 
                         {
-                            if (!button.IsNullOrDestroyed())
+                            if (!button.Value.IsNullOrDestroyed())
                                 button.Value.SetActive(true);
                         }
 
