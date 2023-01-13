@@ -79,6 +79,21 @@ namespace RotatableRadboltStorage
             public static void Postfix(GameObject go)
             {
                 go.AddOrGet<BatteryDirectionAddon>();
+                //go.AddOrGet<HEPStorageThreshold>();
+            }
+        }
+        [HarmonyPatch(typeof(HighEnergyParticleStorage), "UpdateLogicPorts")]
+        
+        public static class ReplaceNormalPortLogic
+        {
+            public static bool Prefix(HighEnergyParticleStorage __instance)
+            {
+                if (__instance.TryGetComponent<HEPStorageThreshold>(out var t))
+                {
+                    return true;
+                   // return false;
+                }
+                return true;
             }
         }
     }
