@@ -74,7 +74,7 @@ namespace LightBridge.Buildings
         public void UpdateBrigdeState()
         {
             int BridgeLength = GetBridgeLength();
-            Debug.Log("BridgeLength: " + BridgeLength);;
+            //Debug.Log("BridgeLength: " + BridgeLength);;
 
             if (BridgeLength == lastLength)
                 return;

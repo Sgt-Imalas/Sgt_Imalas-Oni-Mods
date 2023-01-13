@@ -21,7 +21,7 @@ namespace LogicSatellites.Buildings
             WorldContainer world = this.GetMyWorld();
             float Y = world.WorldOffset.y + world.WorldSize.y ;
             float X = GetColumn();
-            Debug.Log(X + "; " + Y + "; coorsd");
+            //Debug.Log(X + "; " + Y + "; coorsd");
 
         }
 
