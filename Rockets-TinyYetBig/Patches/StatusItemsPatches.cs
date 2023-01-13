@@ -1,12 +1,14 @@
 ﻿using Database;
 using HarmonyLib;
 using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.SpaceStations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 using static STRINGS.BUILDINGS.PREFABS;
 
 namespace Rockets_TinyYetBig.Patches
@@ -37,10 +39,14 @@ namespace Rockets_TinyYetBig.Patches
             {
                 KSelectable selectable = __instance.GetComponent<KSelectable>();
 
-                selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_RocketBatteryStatus);
-                selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus);
+                //selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_RocketBatteryStatus);
+                //selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus);
+                //selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_SpaceStationConstruction_Status);
 
                 Tuple<float, float> data = new Tuple<float, float>(0, 0);
+                Tuple<float, float> dataBattery = new Tuple<float, float>(0, 0);
+                SpaceStationBuilder constructionModule = null;
+
                 foreach (var module in __instance.ModuleInterface.ClusterModules)
                 {
                     if (module.Get().gameObject.TryGetComponent<RTB_ModuleGenerator>(out var generator))
@@ -50,6 +56,16 @@ namespace Rockets_TinyYetBig.Patches
                         data.second += genStats.second;
                         //generator.FuelStatusHandle =
                     }
+                    if (module.Get().gameObject.TryGetComponent<ModuleBattery>(out var battery))
+                    {
+                        dataBattery.first += battery.JoulesAvailable;
+                        dataBattery.second += battery.capacity;
+                        //generator.FuelStatusHandle =
+                    }
+                    if (module.Get().gameObject.TryGetComponent<SpaceStationBuilder>(out var builder))
+                    {
+                        constructionModule = builder;
+                    }
                 }
 
                 if (data.first > 0 || data.second > 0)
@@ -57,62 +73,18 @@ namespace Rockets_TinyYetBig.Patches
                 else
                     selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus);
 
-                //if (data.first > 0 || data.second > 0)
-                //{
-                //    if (!generatorStatusItemGuids.ContainsKey(selectable))
-                //    {
-                //        generatorStatusItemGuids.Add(selectable, selectable.AddStatusItem(ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus, (object)data));
-                //    }
-                //    else
-                //    {
-                //        generatorStatusItemGuids[selectable] = selectable.ReplaceStatusItem(generatorStatusItemGuids[selectable], ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus, (object)data);
-                //    }
-                //}
-                //else
-                //{
-                //    selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus);
-                //    if (generatorStatusItemGuids.ContainsKey(selectable))
-                //    {
-                //        generatorStatusItemGuids.Remove(selectable);
-                //    }
-                //}
 
-
-                Tuple<float, float> dataBattery = new Tuple<float, float>(0, 0);
-                foreach (var module in __instance.ModuleInterface.ClusterModules)
-                {
-                    if (module.Get().gameObject.TryGetComponent<ModuleBattery>(out var battery))
-                    {
-                        dataBattery.first += battery.JoulesAvailable;
-                        dataBattery.second += battery.capacity;
-                        //generator.FuelStatusHandle =
-                    }
-                }
                 if (dataBattery.first > 0 || dataBattery.second > 0)
                     selectable.SetStatusItem(Db.Get().StatusItemCategories.OperatingEnergy, ModAssets.StatusItems.RTB_RocketBatteryStatus, (object)dataBattery);
                 else
                     selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_RocketBatteryStatus);
 
-                //if (dataBattery.first > 0 || dataBattery.second > 0)
-                //{
-                //    if (!batteryStatusItemGuids.ContainsKey(selectable))
-                //    {
-                //        batteryStatusItemGuids.Add(selectable, selectable.AddStatusItem(ModAssets.StatusItems.RTB_RocketBatteryStatus, (object)dataBattery));
-                //    }
-                //    else
-                //    {
-                //        batteryStatusItemGuids[selectable] = selectable.ReplaceStatusItem(batteryStatusItemGuids[selectable], ModAssets.StatusItems.RTB_RocketBatteryStatus, (object)dataBattery);
-                //    }
-                //}
-                //else
-                //{
-                //    selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus);
-                //    if (batteryStatusItemGuids.ContainsKey(selectable))
-                //    {
-                //        batteryStatusItemGuids.Remove(selectable);
-                //    }
-                // }
-
+                if(constructionModule != null)
+                {
+                    selectable.SetStatusItem(Db.Get().StatusItemCategories.AccessControl, ModAssets.StatusItems.RTB_SpaceStationConstruction_Status, (object)constructionModule);
+                }
+                else
+                    selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_SpaceStationConstruction_Status);
 
             }
 

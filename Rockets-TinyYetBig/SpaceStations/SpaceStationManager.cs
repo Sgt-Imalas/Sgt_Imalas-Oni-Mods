@@ -23,6 +23,24 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         public SpaceStation GetSpaceStationFromWorldId(int worldId) => ClusterManager.Instance.GetWorld(worldId).GetComponent<SpaceStation>();
 
+        public List<int> SpaceStationWorlds = new List<int>();
+
+        public SpaceStationManager()
+        {
+            foreach(var World in ClusterManager.Instance.GetWorldIDsSorted())
+            {
+                if (WorldIsSpaceStationInterior(World))
+                {
+                    SpaceStationWorlds.Add(World);
+                }
+            }
+        }
+
+        internal bool CanConstructSpaceStation()
+        {
+            return SpaceStationWorlds.Count < 10;
+        }
+
         public WorldContainer CreateSpaceStationInteriorWorld(
             GameObject craft_go,
             string interiorTemplateName,
@@ -57,8 +75,10 @@ namespace Rockets_TinyYetBig.SpaceStations
                 craft_go.AddOrGet<OrbitalMechanics>().CreateOrbitalObject(Db.Get().OrbitalTypeCategories.orbit.Id);
                 ClusterManager.Instance.Trigger((int)GameHashes.WorldAdded, (object)spaceStationInteriorWorld.id);
                 spaceStationInteriorWorld.AddTag(ModAssets.Tags.IsSpaceStation);
+                SpaceStationWorlds.Add(spaceStationInteriorWorld.id);
 
                 return spaceStationInteriorWorld;
+
             }
             Debug.LogError((object)"Failed to create space station interior.");
             return (WorldContainer)null;
@@ -95,6 +115,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                 ClusterManager.Instance.UnregisterWorldContainer(world);
                 GameScheduler.Instance.ScheduleNextFrame("ClusterManager.world.TransferResourcesToDebris", (System.Action<object>)(obj => world.TransferResourcesToDebris(clusterLocation, noRefundTiles, SimHashes.Cuprite)));
                 GameScheduler.Instance.ScheduleNextFrame("ClusterManager.DeleteWorldObjects", (System.Action<object>)(obj => DeleteWorldObjects(world)));
+                SpaceStationWorlds.Remove(world_id);
             }
         }
 

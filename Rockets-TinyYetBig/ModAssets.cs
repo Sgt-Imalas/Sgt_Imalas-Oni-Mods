@@ -27,14 +27,20 @@ namespace Rockets_TinyYetBig
             public static Tag RocketPlatformTag = TagManager.Create("RTB_RocketPlatformTag");
         }
 
-        public static int GetStationIndex(SpaceStationWithStats type)
+        enum SpaceStationType
         {
-            return ModAssets.SpaceStationTypes.FindIndex(stationType => stationType.ID == type.ID);
+            small = 0,
+            medium = 1,
+            large = 2,
         }
 
-        public static List<SpaceStationWithStats> SpaceStationTypes = new List<SpaceStationWithStats>()
+
+        public static Dictionary<int, SpaceStationWithStats> SpaceStationTypes = new Dictionary<int, SpaceStationWithStats>()
         {
-            new SpaceStationWithStats(
+            {
+                (int)SpaceStationType.small,
+
+                new SpaceStationWithStats(
                 "RTB_SpaceStationSmall",
                 "Small Space Station",
                 "a tiny space station",
@@ -42,19 +48,25 @@ namespace Rockets_TinyYetBig
                 new string[] {"RefinedMetal" },
                 new float[] { 300f },
                 "space_station_small_kanim",
-                150f
-                ),
+                5f//150f
+                )
+            },
+            {
+                (int)SpaceStationType.medium,
 
-            new SpaceStationWithStats(
-                "RTB_SpaceStationMedium",
-                "Medium Space Station",
-                "a medium sized space station",
-                new Vector2I (45,45),
-                new string[] {"RefinedMetal" },
-                new float[] { 300f },
-                "space_station_medium_kanim",
-                300f
-                ),
+                new SpaceStationWithStats(
+                    "RTB_SpaceStationMedium",
+                    "Medium Space Station",
+                    "a medium sized space station",
+                    new Vector2I (45,45),
+                    new string[] {"RefinedMetal" },
+                    new float[] { 300f },
+                    "space_station_medium_kanim",
+                    10f//300f
+                )
+            },
+            {
+                (int)SpaceStationType.large,
 
             new SpaceStationWithStats(
                 "RTB_SpaceStationLarge",
@@ -64,15 +76,13 @@ namespace Rockets_TinyYetBig
                 new string[] {"RefinedMetal" },
                 new float[] { 300f },
                 "space_station_large_kanim",
-                600f
+                15//600f
                 )
-
-    };
-
-
+            }
+        };
 
         public static Components.Cmps<DockingManager> Dockables = new Components.Cmps<DockingManager>();
-        
+
         public static Dictionary<Tuple<BuildingDef, int>, GameObject> CategorizedButtons = new Dictionary<Tuple<BuildingDef, int>, GameObject>();
 
         public static readonly CellOffset PLUG_OFFSET_SMALL = new CellOffset(-1, 0);
@@ -89,6 +99,9 @@ namespace Rockets_TinyYetBig
             public static StatusItem RTB_AlwaysActiveOn;
             public static StatusItem RTB_AlwaysActiveOff;
             public static StatusItem RTB_CritterModuleContent;
+
+            public static StatusItem RTB_SpaceStationConstruction_Status;
+
             public static StatusItem RTB_SpaceStation_DeploymentState;
             public static StatusItem RTB_SpaceStation_FreshlyDeployed;
             public static StatusItem RTB_SpaceStation_OrbitHealth;
@@ -105,7 +118,8 @@ namespace Rockets_TinyYetBig
                       NotificationType.Neutral,
                       false,
                       OverlayModes.Power.ID
-                      ); 
+                      );
+
                 RTB_ModuleGeneratorNotPowered = new StatusItem(
                       "RTB_MODULEGENERATORNOTPOWERED",
                       "BUILDING",
@@ -115,6 +129,7 @@ namespace Rockets_TinyYetBig
                       false,
                       OverlayModes.Power.ID
                       );
+
                 RTB_ModuleGeneratorPowered = new StatusItem(
                    "RTB_MODULEGENERATORPOWERED",
                    "BUILDING",
@@ -123,6 +138,7 @@ namespace Rockets_TinyYetBig
                    NotificationType.Neutral,
                    false,
                    OverlayModes.Power.ID);
+
                 RTB_AlwaysActiveOn = new StatusItem(
                     "RTB_MODULEGENERATORALWAYSACTIVEPOWERED",
                     "BUILDING",
@@ -130,7 +146,8 @@ namespace Rockets_TinyYetBig
                     StatusItem.IconType.Info,
                     NotificationType.Neutral,
                     false,
-                    OverlayModes.Power.ID); 
+                    OverlayModes.Power.ID);
+
                 RTB_AlwaysActiveOff = new StatusItem(
                      "RTB_MODULEGENERATORALWAYSACTIVENOTPOWERED",
                      "BUILDING",
@@ -139,6 +156,7 @@ namespace Rockets_TinyYetBig
                      NotificationType.Neutral,
                      false,
                      OverlayModes.Power.ID);
+
                 RTB_ModuleGeneratorFuelStatus = new StatusItem(
                      "RTB_MODULEGENERATORFUELSTATUS",
                      "BUILDING",
@@ -147,6 +165,7 @@ namespace Rockets_TinyYetBig
                      NotificationType.Neutral,
                      false,
                      OverlayModes.Power.ID);
+
                 RTB_CritterModuleContent = new StatusItem(
                      "RTB_CRITTERMODULECONTENT",
                      "BUILDING",
@@ -155,6 +174,48 @@ namespace Rockets_TinyYetBig
                      NotificationType.Neutral,
                 false,
                      OverlayModes.None.ID);
+
+                RTB_SpaceStationConstruction_Status = new StatusItem(
+                     "RTB_STATIONCONSTRUCTORSTATUS",
+                     "BUILDING",
+                     string.Empty,
+                     StatusItem.IconType.Info,
+                     NotificationType.Neutral,
+                false,
+                     OverlayModes.None.ID);
+
+                RTB_SpaceStationConstruction_Status.resolveStringCallback = ((str, data) =>
+                {
+                    var StationConstructior = (SpaceStationBuilder)data;
+                    float remainingTime = StationConstructior.RemainingTime();
+                    if (remainingTime > 0)
+                    {
+                        str = str.Replace("{TOOLTIP}", RTB_STATIONCONSTRUCTORSTATUS.TIMEREMAINING);
+                        str = str.Replace("{TIME}", GameUtil.GetFormattedTime(remainingTime));
+                    }
+                    else
+                    {
+                        str = str.Replace("{TOOLTIP}", RTB_STATIONCONSTRUCTORSTATUS.NONEQUEUED);
+                    }
+
+                    if (StationConstructior.Constructing())
+                    {
+                        str = str.Replace("{STATUS}", RTB_STATIONCONSTRUCTORSTATUS.CONSTRUCTING);
+                        str = str.Replace("{TIME}", GameUtil.GetFormattedTime(remainingTime));
+
+                    }
+                    else if (StationConstructior.Demolishing())
+                    {
+                        str = str.Replace("{STATUS}", RTB_STATIONCONSTRUCTORSTATUS.DECONSTRUCTING);
+                        str = str.Replace("{TIME}", GameUtil.GetFormattedTime(remainingTime));
+                    }
+                    else
+                    {
+                        str = str.Replace("{STATUS}", RTB_STATIONCONSTRUCTORSTATUS.IDLE);
+                    }
+                    return str;
+                });
+
 
                 RTB_CritterModuleContent.resolveStringCallback = (Func<string, object, string>)((str, data) =>
                 {
@@ -184,7 +245,7 @@ namespace Rockets_TinyYetBig
 
                 RTB_ModuleGeneratorFuelStatus.resolveStringCallback = (Func<string, object, string>)((str, data) =>
                 {
-                    var stats = (Tuple<float,float>)data;
+                    var stats = (Tuple<float, float>)data;
                     //var stats = generator.GetConsumptionStatusStats();
                     //str = str.Replace("{GeneratorType}", generator.GetProperName());
                     str = str.Replace("{CurrentFuelStorage}", GameUtil.GetFormattedMass(stats.first));
@@ -215,7 +276,7 @@ namespace Rockets_TinyYetBig
                 });
                 RTB_AlwaysActiveOn.resolveStringCallback = (Func<string, object, string>)((str, data) =>
                 {
-                    Generator generator = (RTB_ModuleGenerator)data; 
+                    Generator generator = (RTB_ModuleGenerator)data;
                     str = str.Replace("{ActiveWattage}", GameUtil.GetFormattedWattage(generator.WattageRating));
                     str = str.Replace("{MaxWattage}", GameUtil.GetFormattedWattage(generator.WattageRating));
                     return str;
@@ -229,15 +290,16 @@ namespace Rockets_TinyYetBig
         public struct SpaceStationWithStats
         {
             public string ID;
-            public string Name; 
+            public string Name;
             public string Description;
             public Vector2I InteriorSize;
             public string[] materials;
             public float[] materialAmounts;
             public float constructionTime;
+            public float demolishingTime;
             public string Kanim;
-            public Tech requiredTech;
-            public SpaceStationWithStats(string _id, string _name, string _description, Vector2I _size, string[] _mats, float[] _matCosts, string _prefab, float _constructionTime, Tech _reqTech = null)
+            public string requiredTechID;
+            public SpaceStationWithStats(string _id, string _name, string _description, Vector2I _size, string[] _mats, float[] _matCosts, string _prefab, float _constructionTime, string _reqTech = "")
             {
                 ID = _id;
                 Name = _name;
@@ -246,10 +308,11 @@ namespace Rockets_TinyYetBig
                 materials = _mats;
                 materialAmounts = _matCosts;
                 Kanim = _prefab;
-                requiredTech = _reqTech;
-                constructionTime = _constructionTime;   
+                requiredTechID = _reqTech == ""? Techs.SpaceStationTech:_reqTech;
+                constructionTime = _constructionTime;
+                demolishingTime = _constructionTime / 4;
             }
-            
+
         }
     }
 }

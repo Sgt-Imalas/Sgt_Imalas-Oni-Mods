@@ -19,7 +19,9 @@ namespace Rockets_TinyYetBig.SpaceStations
         public int SpaceStationInteriorId = -1;
 
         [Serialize]
-        public SpaceStationWithStats CurrentSpaceStationType = ModAssets.SpaceStationTypes[0];
+        public int _currentSpaceStationType = 0;
+
+        public SpaceStationWithStats CurrentSpaceStationType => ModAssets.SpaceStationTypes[_currentSpaceStationType];
 
         [Serialize]
         public int IsOrbitalSpaceStationWorldId = -1;

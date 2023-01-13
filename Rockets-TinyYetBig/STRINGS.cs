@@ -236,9 +236,19 @@ namespace Rockets_TinyYetBig
                     public static LocString NOCRITTERS = "No Critters stored.";
                     public static LocString HASCRITTERS = "Module currently holds these Critters:";
                     public static LocString CRITTERINFO = " • {CRITTERNAME}, {AGE} Cycles old";
+                }
+                public class RTB_STATIONCONSTRUCTORSTATUS
+                {
+                    public static LocString NAME = (LocString)"Module Status: {STATUS}";
+                    public static LocString IDLE = (LocString)("Nominal");
+                    public static LocString NONEQUEUED = (LocString)("No active process");
+                    public static LocString TIMEREMAINING = (LocString)("Time until current operation is completed: {TIME}");
+                    public static LocString TOOLTIP = (LocString)("{TOOLTIP}");
+                    public static LocString CONSTRUCTING = (LocString)("Constructing: {TIME} left");
+                    public static LocString DECONSTRUCTING = (LocString)("Demolishing: {TIME} left");
 
                 }
-                
+
             }
         }
 
@@ -257,6 +267,9 @@ namespace Rockets_TinyYetBig
                 public class SPACESTATIONBUILDERMODULESIDESCREEN
                 {
                     public static LocString TITLE = (LocString)"Space Station Construction";
+                    public static LocString CONSTRUCTTOOLTIP = (LocString)"Space Station Construction";
+                    public static LocString CANCELCONSTRUCTION = (LocString)"Cancel Construction";
+                    public static LocString STARTCONSTRUCTION = (LocString)"Start Station Construction";
 
                 }
                 public class DOCKINGSIDESCREEN

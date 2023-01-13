@@ -73,7 +73,6 @@ namespace Rockets_TinyYetBig.Patches
                     );
                 }
 
-                return;
                 TechUtils.AddNode(__instance,
                     ModAssets.Techs.SpaceStationTech,
                     new[] { ModAssets.Techs.DockingTech, GameStrings.Technology.ColonyDevelopment.DurableLifeSupport },

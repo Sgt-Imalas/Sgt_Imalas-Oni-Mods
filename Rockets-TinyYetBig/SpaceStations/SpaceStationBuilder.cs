@@ -21,6 +21,33 @@ namespace Rockets_TinyYetBig.SpaceStations
         [Serialize]
         public float DemolishingProgress = -1;
 
+        [Serialize]
+        float CurrentLocationDemolishTime = -1;
+
+        public float GetProgressPercentage()
+        {
+            if (this.Constructing () )
+            {
+                return Math.Min((ConstructionProgress/ ModAssets.SpaceStationTypes[CurrentSpaceStationTypeInt].constructionTime ) *100f,100f);
+            }
+            else if (this.Demolishing())
+            {
+                return Math.Min((DemolishingProgress / CurrentLocationDemolishTime) * 100f,100f);
+            }
+            return -1;
+        }
+        public float RemainingTime()
+        {
+            if (this.Constructing())
+            {
+                return ModAssets.SpaceStationTypes[CurrentSpaceStationTypeInt].constructionTime- ConstructionProgress;
+            }
+            else if (this.Demolishing())
+            {
+                return CurrentLocationDemolishTime - DemolishingProgress;
+            }
+            return 0;
+        }
 
         public void Sim1000ms(float dt)
         {
@@ -35,12 +62,12 @@ namespace Rockets_TinyYetBig.SpaceStations
                     Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
                     var locationToCheck = component.Location;
                     SpawnStation(locationToCheck);
-                    ResetStationProgress();
+                    FinishedProgress();
                 }
             }
             else if (DemolishingProgress > -1)
             {
-                if (DemolishingProgress < ModAssets.SpaceStationTypes[CurrentSpaceStationTypeInt].constructionTime / 4)
+                if (DemolishingProgress < CurrentLocationDemolishTime)
                 {
                     DemolishingProgress += dt;
                 }
@@ -53,6 +80,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                     {
                         SpaceStationManager.Instance.GetSpaceStationFromWorldId(worldId).DestroySpaceStation();
                     }
+                    FinishedProgress();
                 }
             }
         }
@@ -64,7 +92,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             sat.SetActive(true);
             var spaceStation = sat.GetComponent<SpaceStation>();
             spaceStation.Location = location;
-            spaceStation.CurrentSpaceStationType = ModAssets.SpaceStationTypes[CurrentSpaceStationTypeInt];
+            spaceStation._currentSpaceStationType = CurrentSpaceStationTypeInt;
         }
         protected override void OnSpawn()
         {
@@ -76,17 +104,31 @@ namespace Rockets_TinyYetBig.SpaceStations
             this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>().Unsubscribe((int)GameHashes.ClusterLocationChanged, new System.Action<object>(this.ResetStation));
             base.OnCleanUp();
         }
-        public void SetStationType(SpaceStationWithStats type)
+        public void SetStationType(int type)
         {
-            CurrentSpaceStationTypeInt = ModAssets.GetStationIndex(type);
+            CurrentSpaceStationTypeInt = type;
             ResetStationProgress();
         }
 
         private void ResetStation(object data = null) => this.ResetStationProgress();
+
+        void FinishedProgress()
+        {
+            ResetStationProgress(); 
+            GameScheduler.Instance.ScheduleNextFrame("SpaceStationConstructor.UpdateScreen", (System.Action<object>)(obj => TriggerScreen(obj)));
+        }
+        void TriggerScreen(object obj = null)
+        {
+            this.gameObject.Trigger((int)GameHashes.JettisonedLander);
+        }
+
         public void ResetStationProgress()
         {
             ConstructionProgress = -1;
             DemolishingProgress = -1;
+            this.gameObject.Trigger((int)GameHashes.JettisonedLander);
+            //this.gameObject.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>().gameObject.Trigger((int)GameHashes.JettisonedLander);
+            //DetailsScreen.Instance.Refresh(gameObject);
         }
         public void StartStationBuildProgress()
         {
@@ -96,7 +138,12 @@ namespace Rockets_TinyYetBig.SpaceStations
         public void StartStationDemolishProgress()
         {
             if (DemolishingProgress == -1)
+            {
+                Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
+                var locationToCheck = component.Location;
+                CurrentLocationDemolishTime = ((SpaceStation)SpaceStationManager.GetSpaceStationAtLocation(locationToCheck)).CurrentSpaceStationType.demolishingTime;
                 DemolishingProgress = 0;
+            }
         }
 
         public bool Demolishing()

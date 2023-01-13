@@ -22,7 +22,8 @@ namespace Rockets_TinyYetBig.SpaceStations
         private GameObject stateButtonPrefab;
         private GameObject PlaceStationButton;
         private GameObject flipButton;
-        private Dictionary<SpaceStationWithStats, MultiToggle> buttons = new Dictionary<SpaceStationWithStats, MultiToggle>();
+        private Dictionary<KeyValuePair<int, SpaceStationWithStats>, MultiToggle> buttons = new Dictionary<KeyValuePair<int, SpaceStationWithStats>, MultiToggle>();
+        //private Dictionary<SpaceStationWithStats, MultiToggle> buttons = new Dictionary<SpaceStationWithStats, MultiToggle>();
 
         private Clustercraft targetCraft;
         private SpaceStationBuilder targetBuilder;
@@ -60,6 +61,10 @@ namespace Rockets_TinyYetBig.SpaceStations
             PlaceStationButton = transform.Find("Butttons/ApplyButton").gameObject;
             flipButton = transform.Find("Butttons/ClearStyleButton").gameObject;
             GenerateStateButtons();
+
+            PlaceStationButton.GetComponent<ToolTip>().enabled = false;
+            Destroy(flipButton.GetComponent<ToolTip>());
+            UIUtils.AddSimpleTooltipToObject(flipButton.transform.Find("FG"), "", true);
         }
 
         private List<int> refreshHandle = new List<int>();
@@ -84,10 +89,18 @@ namespace Rockets_TinyYetBig.SpaceStations
                 }
             }
             //GetPrefabStrings();
-            refreshHandle.Add(this.targetCraft.gameObject.Subscribe((int)GameHashes.ClusterLocationChanged, new System.Action<object>(this.RefreshAll)));
+            refreshHandle.Add(target.Subscribe((int)GameHashes.ResearchComplete, RefreshAll)); 
+            refreshHandle.Add(targetCraft.gameObject.Subscribe((int)GameHashes.ClusterLocationChanged, new System.Action<object>(this.RefreshAll)));
+            refreshHandle.Add(targetCraft.gameObject.Subscribe((int)GameHashes.JettisonedLander, new System.Action<object>(this.RefreshWithNotice)));
+            refreshHandle.Add(targetBuilder.gameObject.Subscribe((int)GameHashes.JettisonedLander, RefreshWithNotice));
             //BuildModules();
         }
 
+        private void RefreshWithNotice(object data = null)
+        {
+            //Debug.Log("HashEvent Triggered");
+            this.RefreshButtons();
+        }
         private void RefreshAll(object data = null) => this.RefreshButtons(); 
 
 
@@ -96,25 +109,20 @@ namespace Rockets_TinyYetBig.SpaceStations
         private void GenerateStateButtons()
         {
             ClearButtons();
-
             foreach (var stationType in ModAssets.SpaceStationTypes)
             {
-
                 AddButton(stationType,
                     () =>
                     {
-                        targetBuilder.SetStationType(stationType);
+                        targetBuilder.SetStationType(stationType.Key);
                         RefreshButtons();
-                        //Debug.Log("Bt pressed");
-
                     }
                     );
             }
             RefreshButtons();
         }
 
-
-        private void AddButton(SpaceStationWithStats type, System.Action onClick)
+        private void AddButton(KeyValuePair<int, SpaceStationWithStats> type, System.Action onClick)
         {
             var gameObject = Util.KInstantiateUI(stateButtonPrefab, buttonContainer.gameObject, true);
 
@@ -125,48 +133,105 @@ namespace Rockets_TinyYetBig.SpaceStations
             {
                 //Assets.TryGetAnim((HashedString)animName, out var anim);
                 button.onClick += onClick;
-                button.ChangeState(ModAssets.GetStationIndex(type) == targetBuilder.CurrentSpaceStationTypeInt ? 1 : 0);
+                button.ChangeState(type.Key == targetBuilder.CurrentSpaceStationTypeInt ? 1 : 0);
                 //Debug.Log(Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(type.Kanim)));
                 //Debug.Log("anim");
-                UIUtils.TryFindComponent<Image>(gameObject.transform, "FG").sprite = Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(type.Kanim));
-                UIUtils.AddSimpleTooltipToObject(gameObject.transform, type.Name+"\n"+type.Description, true);
+                UIUtils.TryFindComponent<Image>(gameObject.transform, "FG").sprite = Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(type.Value.Kanim));
+                UIUtils.AddSimpleTooltipToObject(gameObject.transform, "<b>" + type.Value.Name + "</b>\n" + type.Value.Description, true);
                 buttons.Add(type, button);
             }
 
         }
+        //private void AddButton(SpaceStationWithStats type, System.Action onClick)
+        //{
+        //    var gameObject = Util.KInstantiateUI(stateButtonPrefab, buttonContainer.gameObject, true);
+
+        //    //Debug.Log("ButtonPrefab_");
+        //    //UIUtils.ListAllChildrenWithComponents(stateButtonPrefab.transform);
+
+        //    if (gameObject.TryGetComponent(out MultiToggle button))
+        //    {
+        //        //Assets.TryGetAnim((HashedString)animName, out var anim);
+        //        button.onClick += onClick;
+        //        button.ChangeState(ModAssets.GetStationIndex(type) == targetBuilder.CurrentSpaceStationTypeInt ? 1 : 0);
+        //        //Debug.Log(Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(type.Kanim)));
+        //        //Debug.Log("anim");
+        //        UIUtils.TryFindComponent<Image>(gameObject.transform, "FG").sprite = Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(type.Kanim));
+        //        UIUtils.AddSimpleTooltipToObject(gameObject.transform, type.Name+"\n"+type.Description, true);
+        //        buttons.Add(type, button);
+        //    }
+
+        //}
 
         void RefreshButtons()
         {
+            int CurrentStationType = 0;
+            CurrentStationType = targetBuilder.CurrentSpaceStationTypeInt;
+
             foreach (var button in buttons)
             {
-                //Debug.Log(targetBuilder.CurrentSpaceStationType + " <- current type, Button int -> " + button.Key);
 
+                var tech = Db.Get().Techs.Get(button.Key.Value.requiredTechID);
 
-                var tech = button.Key.requiredTech;
-                if (tech == null || (tech != null && tech.IsComplete()))
+                if (DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || tech == null || (tech != null && tech.IsComplete()))
                 {
                     button.Value.gameObject.SetActive(true);
-                    button.Value.ChangeState(ModAssets.GetStationIndex(button.Key) == targetBuilder.CurrentSpaceStationTypeInt ? 1 : 0);
+                    button.Value.ChangeState((button.Key.Key) == CurrentStationType ? 1 : 0);
                 }
                 else
                 {
-
                     button.Value.gameObject.SetActive(false);
                 }
             }
-            //UIUtils.ListAllChildren(transform);
+            if (PlaceStationButton != null)
+            {
+                UIUtils.ListAllChildren(flipButton.transform);
+                var img = flipButton.transform.Find("FG").GetComponent<Image>();
+                img.sprite = Assets.GetSprite(targetBuilder.Constructing() && targetBuilder.Demolishing() ? "action_cancel" : "action_deconstruct");
 
-            //UIUtils.ListAllChildrenWithComponents(flipButton.transform);
-            //Debug.Log("AAAAAAAAAAAAAAAAAAAAA");
-            var img = flipButton.transform.Find("FG").GetComponent<Image>();
-            img.sprite = Assets.GetSprite(targetBuilder.Constructing() && targetBuilder.Demolishing() ? "action_cancel" : "action_deconstruct");
-            var text = targetBuilder.Constructing() && !targetBuilder.Demolishing() ? "Cancel Construction" : "Start Station Construction";
-            UIUtils.TryChangeText(PlaceStationButton.transform, "Label", text);
+                UIUtils.TryChangeText(PlaceStationButton.transform, "Label", targetBuilder.Constructing() && !targetBuilder.Demolishing() 
+                    ? STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONBUILDERMODULESIDESCREEN.CANCELCONSTRUCTION
+                    : STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONBUILDERMODULESIDESCREEN.CONSTRUCTTOOLTIP);
+                //UIUtils.AddSimpleTooltipToObject(PlaceStationButton.transform, targetSatelliteCarrier.HoldingSatellite() ? (ModAssets.SatelliteConfigurations[CurrentStationType].DESC) : (string)STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_FALSE, true);
 
-            bool canDeconstruct = targetBuilder.IsStationAtCurrentLocation();
-            flipButton.GetComponent<KButton>().isInteractable = canDeconstruct;
-            PlaceStationButton.GetComponent<KButton>().isInteractable = !canDeconstruct;
+                bool canDeconstruct = targetBuilder.IsStationAtCurrentLocation();
+                flipButton.GetComponent<KButton>().isInteractable = canDeconstruct;
+                PlaceStationButton.GetComponent<KButton>().isInteractable = !canDeconstruct&&SpaceStationManager.Instance.CanConstructSpaceStation();
+            }
         }
+
+        //void RefreshButtons()
+        //{
+        //    foreach (var button in buttons)
+        //    {
+        //        //Debug.Log(targetBuilder.CurrentSpaceStationType + " <- current type, Button int -> " + button.Key);
+
+
+        //        var tech = button.Key.requiredTech;
+        //        if (tech == null || (tech != null && tech.IsComplete()))
+        //        {
+        //            button.Value.gameObject.SetActive(true);
+        //            button.Value.ChangeState(ModAssets.GetStationIndex(button.Key) == targetBuilder.CurrentSpaceStationTypeInt ? 1 : 0);
+        //        }
+        //        else
+        //        {
+
+        //            button.Value.gameObject.SetActive(false);
+        //        }
+        //    }
+        //    //UIUtils.ListAllChildren(transform);
+
+        //    //UIUtils.ListAllChildrenWithComponents(flipButton.transform);
+        //    //Debug.Log("AAAAAAAAAAAAAAAAAAAAA");
+        //    var img = flipButton.transform.Find("FG").GetComponent<Image>();
+        //    img.sprite = Assets.GetSprite(targetBuilder.Constructing() && targetBuilder.Demolishing() ? "action_cancel" : "action_deconstruct");
+        //    var text = targetBuilder.Constructing() && !targetBuilder.Demolishing() ? "Cancel Construction" : "Start Station Construction";
+        //    UIUtils.TryChangeText(PlaceStationButton.transform, "Label", text);
+
+        //    bool canDeconstruct = targetBuilder.IsStationAtCurrentLocation();
+        //    flipButton.GetComponent<KButton>().isInteractable = canDeconstruct;
+        //    PlaceStationButton.GetComponent<KButton>().isInteractable = !canDeconstruct;
+        //}
 
         private void ClearButtons()
         {
