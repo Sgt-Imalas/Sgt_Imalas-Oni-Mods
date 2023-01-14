@@ -208,6 +208,9 @@ namespace Rockets_TinyYetBig.Behaviours
                 ClusterManager.Instance.GetWorld(targetWorldId).SetParentIdx(OwnWorldId );
             else if (SpaceStationManager.WorldIsSpaceStationInterior(targetWorldId))
                 ClusterManager.Instance.GetWorld(OwnWorldId).SetParentIdx(targetWorldId);
+            else
+                ClusterManager.Instance.GetWorld(OwnWorldId).SetParentIdx(targetWorldId);
+
         }
         public void UndockAll()
         {
