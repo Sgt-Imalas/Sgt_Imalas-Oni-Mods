@@ -13,7 +13,7 @@ namespace Rockets_TinyYetBig.SpaceStations
     {
 
         [Serialize]
-        private string m_name = "SpaceStation";
+        private string m_name = "Space Station";
 
         [Serialize]
         public int SpaceStationInteriorId = -1;
@@ -60,7 +60,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         protected override void OnSpawn()
         {
             base.OnSpawn();
-            Debug.Log("MY WorldID:" + SpaceStationInteriorId);
+            //Debug.Log("MY WorldID:" + SpaceStationInteriorId);
             if (SpaceStationInteriorId < 0)
             {
                 var interiorWorld = SpaceStationManager.Instance.CreateSpaceStationInteriorWorld(gameObject, "interiors/" + InteriorTemplate, CurrentSpaceStationType.InteriorSize, BuildableInterior, null);
@@ -87,8 +87,20 @@ namespace Rockets_TinyYetBig.SpaceStations
             m_clusterTraveler.validateTravelCB = null;
 
 
+            this.Subscribe<SpaceStation>(1102426921, NameChangedHandler);
+        }
+        private static EventSystem.IntraObjectHandler<SpaceStation> NameChangedHandler = new EventSystem.IntraObjectHandler<SpaceStation>((System.Action<SpaceStation, object>)((cmp, data) => cmp.SetStationName(data)));
+        public void SetStationName(object newName)
+        {
+            SetStationName((string)newName);
         }
 
+        public void SetStationName(string newName)
+        {
+            m_name = newName;
+            base.name = "Space Station: " + newName;
+            ClusterManager.Instance.Trigger(1943181844, newName);
+        }
         private bool CanTravel(bool tryingToLand) => true;
         private float GetSpeed() => 1f;
         public void DestroySpaceStation()

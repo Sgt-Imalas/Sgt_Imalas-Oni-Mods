@@ -39,7 +39,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 
             base.SetTarget(target);
             this.targetEntity = target.GetComponent<SpaceStation>();
-            this.icon.sprite = Def.GetUISprite((object)this.targetEntity).first;
+            this.icon.sprite = this.targetEntity.GetUISprite();
             if (this.targetEntity == null)
                 return;
             WorldContainer component = ClusterManager.Instance.GetWorld(targetEntity.SpaceStationInteriorId);

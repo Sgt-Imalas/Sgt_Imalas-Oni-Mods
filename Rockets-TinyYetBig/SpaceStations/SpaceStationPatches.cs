@@ -43,6 +43,22 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
         }
 
+
+        /// <summary>
+        /// NameableStations
+        /// </summary>
+        [HarmonyPatch(typeof(UserNameable), "SetName")]
+        public static class NameableStationsPatch
+        {
+            public static void Postfix(string name, UserNameable __instance)
+            {
+                if (__instance.GetComponent<SpaceStation>() != null) { 
+                    ClusterNameDisplayScreen.Instance.UpdateName((ClusterGridEntity)__instance.GetComponent<SpaceStation>());
+                    __instance.Trigger(1102426921, (object)name);
+                }
+            }
+        }
+
         /// <summary>
         /// Adding custom sidescreen
         /// </summary>

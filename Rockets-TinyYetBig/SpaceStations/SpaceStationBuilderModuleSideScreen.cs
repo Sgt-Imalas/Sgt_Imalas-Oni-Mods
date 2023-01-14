@@ -185,15 +185,16 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
             if (PlaceStationButton != null)
             {
-                UIUtils.ListAllChildren(flipButton.transform);
+                //UIUtils.ListAllChildren(flipButton.transform);
                 var img = flipButton.transform.Find("FG").GetComponent<Image>();
                 img.sprite = Assets.GetSprite(targetBuilder.Constructing() && targetBuilder.Demolishing() ? "action_cancel" : "action_deconstruct");
 
                 UIUtils.TryChangeText(PlaceStationButton.transform, "Label", targetBuilder.Constructing() && !targetBuilder.Demolishing() 
                     ? STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONBUILDERMODULESIDESCREEN.CANCELCONSTRUCTION
-                    : STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONBUILDERMODULESIDESCREEN.CONSTRUCTTOOLTIP);
+                    : STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONBUILDERMODULESIDESCREEN.STARTCONSTRUCTION);
                 //UIUtils.AddSimpleTooltipToObject(PlaceStationButton.transform, targetSatelliteCarrier.HoldingSatellite() ? (ModAssets.SatelliteConfigurations[CurrentStationType].DESC) : (string)STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_FALSE, true);
 
+                img.sprite = Assets.GetSprite(targetBuilder.Demolishing() ? "action_cancel" : "action_deconstruct");
                 bool canDeconstruct = targetBuilder.IsStationAtCurrentLocation();
                 flipButton.GetComponent<KButton>().isInteractable = canDeconstruct;
                 PlaceStationButton.GetComponent<KButton>().isInteractable = !canDeconstruct&&SpaceStationManager.Instance.CanConstructSpaceStation();
