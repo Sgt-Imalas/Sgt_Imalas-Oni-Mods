@@ -1,4 +1,17 @@
 ﻿Update 3.0:
 
+Features:
+- Space Stations: Large Space bases that offer new livable areas. Limited to 10 Stations per savegame
+- New Science Type: Deep Space Science - aquirable by researching stuff in a space station
+- Space Station Types: small, medium, large
+- Better World selector - collapsable categories
 
-- Space Stations: Large Space bases that offer new livable areas but require orbital upkeep
+New Modules & Buildings:
+- Space Station Constructor Module - needed to construct + deconstruct space stations
+- 3 new Huge Cargo Bays (1 per type)
+- small liquid fuel tank
+
+Fixes:
+- massivly improved Fuel Loader code performance
+- fixed a rocket build menu crash, this time for good
+- fixed animation of small oxidizer module
