@@ -261,17 +261,17 @@ namespace UtilLibs
         public static void AddRocketModuleToBuildList(
             string moduleId,
             RocketCategory category = RocketCategory.uncategorized,
-            string placebehind = "")
+            string placebehind = "",bool placebefore = false)
         {
-            InsertRocketModuleToCategory(moduleId, category, placebehind);
+            InsertRocketModuleToCategory(moduleId, category, placebehind,placebefore);
         }
 
         public static void AddRocketModuleToBuildList(
             string moduleId,
             RocketCategory[] categories,
-            string placebehind = "")
+            string placebehind = "",bool placebefore = false)
         {
-            InsertRocketModuleToCategory(moduleId, categories, placebehind);
+            InsertRocketModuleToCategory(moduleId, categories, placebehind, placebefore);
         }
 
         public static void PutModuleToReshuffleData(Dictionary<int, List<Tuple<string,string>>> list)
@@ -313,11 +313,11 @@ namespace UtilLibs
             PutModuleToReshuffleData(data);
         }
 
-        public static void InsertRocketModuleToCategory(string moduleId, RocketCategory category = RocketCategory.uncategorized, string placeBehindId = "")
+        public static void InsertRocketModuleToCategory(string moduleId, RocketCategory category = RocketCategory.uncategorized, string placeBehindId = "",bool placebefore = false)
         {
-            InsertRocketModuleToCategory(moduleId, new RocketCategory[] { category }, placeBehindId);
+            InsertRocketModuleToCategory(moduleId, new RocketCategory[] { category }, placeBehindId, placebefore);
         }
-        public static void InsertRocketModuleToCategory(string moduleId, RocketCategory[] categories, string placeBehindId = "")
+        public static void InsertRocketModuleToCategory(string moduleId, RocketCategory[] categories, string placeBehindId = "", bool placebefore = false)
         {
             var ModuleLists = RocketModuleList.GetRocketModuleList();
             foreach( var category in categories)
@@ -332,7 +332,7 @@ namespace UtilLibs
                     }
                     else
                     {
-                        AddIfNotExists(ModuleLists[(int)category], (moduleId), ++indexOfPlaceBehind);
+                        AddIfNotExists(ModuleLists[(int)category], (moduleId), placebefore? indexOfPlaceBehind : ++indexOfPlaceBehind);
                         //ModuleLists[(int)category].Insert(++indexOfPlaceBehind, moduleId);
                     }
                 }
@@ -344,8 +344,8 @@ namespace UtilLibs
             }
             if (!SelectModuleSideScreen.moduleButtonSortOrder.Contains(moduleId))
             {
-                SelectModuleSideScreen.moduleButtonSortOrder.Insert(
-                    GetInsertionIndex(SelectModuleSideScreen.moduleButtonSortOrder, placeBehindId),
+                var index = GetInsertionIndex(SelectModuleSideScreen.moduleButtonSortOrder, placeBehindId);
+                SelectModuleSideScreen.moduleButtonSortOrder.Insert(placebefore? index : ++index,
                     moduleId);
             }
         }

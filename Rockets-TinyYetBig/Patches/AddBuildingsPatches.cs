@@ -2,9 +2,14 @@
 using Rockets_TinyYetBig;
 using Rockets_TinyYetBig.Buildings;
 using Rockets_TinyYetBig.Buildings.CargoBays;
+using Rockets_TinyYetBig.Buildings.Engines;
+using Rockets_TinyYetBig.Buildings.Fuel;
+using Rockets_TinyYetBig.Buildings.Habitats;
+using Rockets_TinyYetBig.Buildings.Nosecones;
 using Rockets_TinyYetBig.NonRocketBuildings;
 using Rockets_TinyYetBig.RocketFueling;
 using Rockets_TinyYetBig.SpaceStations;
+using Rockets_TinyYetBig.TODO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -88,6 +93,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 if (Config.Instance.EnableEarlyGameFuelTanks)
                 {
                     AddRocketModuleToBuildList(CO2FuelTankConfig.ID, RocketryUtils.RocketCategory.fuel, CO2EngineConfig.ID);
+                    AddRocketModuleToBuildList(LiquidFuelTankClusterSmallConfig.ID, RocketryUtils.RocketCategory.fuel, LiquidFuelTankClusterConfig.ID,true);
                 }
                 //if (Config.Instance.EnableLargeCargoBays)
                 //{
@@ -148,22 +154,15 @@ namespace RoboRockets.Rockets_TinyYetBig
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Gases.TemperatureModulation, ConnectorWallAdapterConfig.ID);
                 }
 
-                if (Config.Instance.EnableFuelLoaders)
-                {
-                    //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, SolidOxidizerLoaderConfig.ID, null, LaunchPadConfig.ID);
-                    //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LiquidOxidizerLoaderConfig.ID, null, LaunchPadConfig.ID);
-                    //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, GasFuelLoaderConfig.ID, null, LaunchPadConfig.ID);
-                    //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LiquidFuelLoaderConfig.ID, null, LaunchPadConfig.ID);
-                    //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, SolidFuelLoaderConfig.ID, null, LaunchPadConfig.ID);
-                }
                 if (Config.Instance.EnableNatGasEngine)
                 {
-                    InjectionMethods.AddBuildingToTechnology("HydrocarbonPropulsion", NatGasEngineClusterConfig.ID);
+                    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.HydrocarbonPropulsion, NatGasEngineClusterConfig.ID);
                 }
 
                 if (Config.Instance.EnableEarlyGameFuelTanks)
                 {
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Gases.GasDistribution, CO2FuelTankConfig.ID);
+                    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.HydrocarbonPropulsion, LiquidFuelTankClusterSmallConfig.ID );
                 }
             }
         }
