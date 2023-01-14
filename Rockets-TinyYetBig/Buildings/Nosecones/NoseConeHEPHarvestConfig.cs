@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 
-namespace Rockets_TinyYetBig.Buildings
+namespace Rockets_TinyYetBig.Buildings.Nosecones
 {
     class NoseConeHEPHarvestConfig : IBuildingConfig
     {
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
-        public const string ID = "RYB_NoseConeHEPHarvest"; 
-        
+        public const string ID = "RYB_NoseConeHEPHarvest";
+
         public override BuildingDef CreateBuildingDef()
         {
             float[] hollowTieR2 = BUILDINGS.ROCKETRY_MASS_KG.HOLLOW_TIER3;
@@ -38,8 +38,8 @@ namespace Rockets_TinyYetBig.Buildings
             buildingDef.Cancellable = false;
             buildingDef.ShowInBuildMenu = false;
             buildingDef.UseHighEnergyParticleInputPort = true;
-            buildingDef.HighEnergyParticleInputOffset = new CellOffset(0, 1); 
-            
+            buildingDef.HighEnergyParticleInputOffset = new CellOffset(0, 1);
+
             buildingDef.AddLogicPowerPort = true;
             GeneratedBuildings.RegisterWithOverlay(OverlayScreen.RadiationIDs, ID);
 
@@ -58,8 +58,8 @@ namespace Rockets_TinyYetBig.Buildings
             BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
             go.AddOrGet<LoopingSounds>();
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
-            go.GetComponent<KPrefabID>().AddTag(GameTags.NoseRocketModule); 
-            
+            go.GetComponent<KPrefabID>().AddTag(GameTags.NoseRocketModule);
+
             HighEnergyParticleStorage energyParticleStorage = go.AddOrGet<HighEnergyParticleStorage>();
             energyParticleStorage.capacity = 6000f;
             energyParticleStorage.autoStore = true;
@@ -74,8 +74,8 @@ namespace Rockets_TinyYetBig.Buildings
 
         public override void DoPostConfigureComplete(GameObject go)
         {
-            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MINOR);
-            go.GetComponent<ReorderableBuilding>().buildConditions.Add((SelectModuleCondition)new TopOnly());
+            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MINOR);
+            go.GetComponent<ReorderableBuilding>().buildConditions.Add(new TopOnly());
         }
     }
 }

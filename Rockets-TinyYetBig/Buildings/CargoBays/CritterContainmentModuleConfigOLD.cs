@@ -1,5 +1,4 @@
-﻿using Rockets_TinyYetBig.Behaviours;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,11 +6,11 @@ using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 
-namespace Rockets_TinyYetBig
+namespace Rockets_TinyYetBig.Buildings.CargoBays
 {
-    public class CritterStasisModuleConfig : IBuildingConfig
+    public class CritterContainmentModuleConfigOLD : IBuildingConfig
     {
-        public const string ID = "RTB_CritterStasisModule";
+        public const string ID = "RTB_CritterContainmentModule";
 
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
 
@@ -47,19 +46,22 @@ namespace Rockets_TinyYetBig
         {
             BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
             go.AddOrGet<LoopingSounds>();
-
+            go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
             {
-                new BuildingAttachPoint.HardPoint(new CellOffset(0, 5), GameTags.Rocket, (AttachableBuilding) null)
+                new BuildingAttachPoint.HardPoint(new CellOffset(0, 5), GameTags.Rocket,  null)
             };
-             go = ExtendBuildingToDeliverableStorage(go, (float)Config.Instance.CritterStorageCapacity);
-            go.AddOrGet<CritterStasisChamberModule>();
+            go = ExtendBuildingToDeliverableStorage(go, Config.Instance.CritterStorageCapacity);
 
         }
 
         public override void DoPostConfigureComplete(GameObject go)
         {
+            ///NEEDS REWORK
+
             Prioritizable.AddRef(go);
+
+
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MODERATE);
 
             FakeFloorAdder fakeFloorAdder = go.AddOrGet<FakeFloorAdder>();
@@ -81,19 +83,20 @@ namespace Rockets_TinyYetBig
             Storage storage = template.AddComponent<Storage>();
             storage.capacityKg = capacity;
             storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
-            storage.showCapacityStatusItem = false;
+            storage.showCapacityStatusItem = true;
             storage.storageFilters = GetCritterTags();
             TreeFilterable treeFilterable = template.AddOrGet<TreeFilterable>();
-            treeFilterable.dropIncorrectOnFilterChange = false;
+            treeFilterable.dropIncorrectOnFilterChange = true;
             treeFilterable.autoSelectStoredOnLoad = false;
 
+            template.AddOrGet<StorageLocker>();
             return template;
         }
         public static List<Tag> GetCritterTags()
         {
             List<Tag> tagList = new List<Tag>();
-            tagList.AddRange((IEnumerable<Tag>)STORAGEFILTERS.BAGABLE_CREATURES);
-            tagList.AddRange((IEnumerable<Tag>)STORAGEFILTERS.SWIMMING_CREATURES);
+            tagList.AddRange(STORAGEFILTERS.BAGABLE_CREATURES);
+            tagList.AddRange(STORAGEFILTERS.SWIMMING_CREATURES);
             return tagList;
         }
 

@@ -1,4 +1,6 @@
-﻿using Rockets_TinyYetBig.Buildings;
+﻿using Rockets_TinyYetBig.Buildings.CargoBays;
+using Rockets_TinyYetBig.Buildings.Habitats;
+using Rockets_TinyYetBig.Buildings.Nosecones;
 using Rockets_TinyYetBig.NonRocketBuildings;
 using STRINGS;
 using System;

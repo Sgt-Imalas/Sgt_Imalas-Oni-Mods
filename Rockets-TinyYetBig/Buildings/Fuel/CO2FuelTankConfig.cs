@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 
-namespace Rockets_TinyYetBig.Buildings
+namespace Rockets_TinyYetBig.Buildings.Fuel
 {
     internal class CO2FuelTankConfig : IBuildingConfig
     {
@@ -47,7 +47,7 @@ namespace Rockets_TinyYetBig.Buildings
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
             {
-                new BuildingAttachPoint.HardPoint(new CellOffset(0, 2), GameTags.Rocket, (AttachableBuilding) null)
+                new BuildingAttachPoint.HardPoint(new CellOffset(0, 2), GameTags.Rocket,  null)
             };
 
         }

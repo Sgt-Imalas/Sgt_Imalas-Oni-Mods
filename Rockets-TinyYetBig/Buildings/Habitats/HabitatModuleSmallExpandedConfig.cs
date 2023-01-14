@@ -7,7 +7,7 @@ using TUNING;
 using UnityEngine;
 using UtilLibs;
 
-namespace Rockets_TinyYetBig
+namespace Rockets_TinyYetBig.Buildings.Habitats
 {
     class HabitatModuleSmallExpandedConfig : IBuildingConfig
     {

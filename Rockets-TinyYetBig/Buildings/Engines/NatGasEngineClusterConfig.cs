@@ -7,7 +7,7 @@ using TUNING;
 using UnityEngine;
 using UtilLibs;
 
-namespace Rockets_TinyYetBig.Buildings
+namespace Rockets_TinyYetBig.Buildings.Engines
 {
     internal class NatGasEngineClusterConfig : IBuildingConfig, ISaveLoadable
     {
@@ -33,13 +33,13 @@ namespace Rockets_TinyYetBig.Buildings
                 id: ID,
                 width: 5,
                 height: 5,
-                anim: kanim, 
+                anim: kanim,
                 hitpoints: 1000,
-                construction_time: 60f, 
-                construction_mass: constructionMass, 
+                construction_time: 60f,
+                construction_mass: constructionMass,
                 construction_materials: constructioMaterials,
-                melting_point: 9999f, 
-                BuildLocationRule.Anywhere, 
+                melting_point: 9999f,
+                BuildLocationRule.Anywhere,
                 decor: decorval,
                 noise: noiseval);
 
@@ -71,7 +71,7 @@ namespace Rockets_TinyYetBig.Buildings
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
             {
-                new BuildingAttachPoint.HardPoint(new CellOffset(0, 5), GameTags.Rocket, (AttachableBuilding) null)
+                new BuildingAttachPoint.HardPoint(new CellOffset(0, 5), GameTags.Rocket,  null)
             };
         }
 
@@ -102,8 +102,8 @@ namespace Rockets_TinyYetBig.Buildings
             fuelTank.FuelType = FUEL.CreateTag();
             fuelTank.targetFillMass = storage.capacityKg;
             fuelTank.physicalFuelCapacity = storage.capacityKg;
-            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MODERATE_PLUS, 40f, (TankCapacity / RocketRange) / 600f);
-            go.GetComponent<KPrefabID>().prefabInitFn += (KPrefabID.PrefabFn)(inst => { });
+            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MODERATE_PLUS, 40f, TankCapacity / RocketRange / 600f);
+            go.GetComponent<KPrefabID>().prefabInitFn += inst => { };
         }
     }
 }

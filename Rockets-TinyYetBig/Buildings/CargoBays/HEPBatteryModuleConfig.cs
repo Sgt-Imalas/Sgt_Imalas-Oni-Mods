@@ -7,7 +7,7 @@ using Rockets_TinyYetBig.Behaviours;
 using TUNING;
 using UnityEngine;
 
-namespace Rockets_TinyYetBig
+namespace Rockets_TinyYetBig.Buildings.CargoBays
 {
     public class HEPBatteryModuleConfig : IBuildingConfig
     {
@@ -54,15 +54,15 @@ namespace Rockets_TinyYetBig
             buildingDef.LogicOutputPorts = new List<LogicPorts.Port>()
             {
                 LogicPorts.Port.OutputPort((HashedString) ID, new CellOffset(1, 1),
-                (string) global::STRINGS.BUILDINGS.PREFABS.HEPBATTERY.LOGIC_PORT_STORAGE, 
+                (string) global::STRINGS.BUILDINGS.PREFABS.HEPBATTERY.LOGIC_PORT_STORAGE,
                 (string) global::STRINGS.BUILDINGS.PREFABS.HEPBATTERY.LOGIC_PORT_STORAGE_ACTIVE,
                 (string) global::STRINGS.BUILDINGS.PREFABS.HEPBATTERY.LOGIC_PORT_STORAGE_INACTIVE)
             };
             buildingDef.LogicInputPorts = new List<LogicPorts.Port>()
             {
-                LogicPorts.Port.InputPort(HEPBattery.FIRE_PORT_ID, new CellOffset(0, 2), 
-                (string) global::STRINGS.BUILDINGS.PREFABS.HEPBATTERY.LOGIC_PORT, 
-                (string) global::STRINGS.BUILDINGS.PREFABS.HEPBATTERY.LOGIC_PORT_ACTIVE, 
+                LogicPorts.Port.InputPort(HEPBattery.FIRE_PORT_ID, new CellOffset(0, 2),
+                (string) global::STRINGS.BUILDINGS.PREFABS.HEPBATTERY.LOGIC_PORT,
+                (string) global::STRINGS.BUILDINGS.PREFABS.HEPBATTERY.LOGIC_PORT_ACTIVE,
                 (string) global::STRINGS.BUILDINGS.PREFABS.HEPBATTERY.LOGIC_PORT_INACTIVE)
             };
 
@@ -78,16 +78,16 @@ namespace Rockets_TinyYetBig
             go.AddComponent<RequireInputs>();
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
             {
-                new BuildingAttachPoint.HardPoint(new CellOffset(0, 5), GameTags.Rocket, (AttachableBuilding) null)
-            }; 
-            
+                new BuildingAttachPoint.HardPoint(new CellOffset(0, 5), GameTags.Rocket,  null)
+            };
+
             HighEnergyParticleStorage energyParticleStorage = go.AddOrGet<HighEnergyParticleStorage>();
             energyParticleStorage.capacity = 3000f;
             energyParticleStorage.autoStore = true;
             energyParticleStorage.PORT_ID = ID;
             energyParticleStorage.showCapacityStatusItem = true;
             energyParticleStorage.showCapacityAsMainStatus = true;
-            go.AddOrGet<LoopingSounds>();             
+            go.AddOrGet<LoopingSounds>();
             var HEPBatteryModule = go.AddOrGet<RadiationBatteryOutputHandler>();
             HEPBatteryModule.physicalFuelCapacity = 3000f;
         }
@@ -98,7 +98,7 @@ namespace Rockets_TinyYetBig
 
             //WireUtilitySemiVirtualNetworkLink virtualNetworkLink = go.AddOrGet<WireUtilitySemiVirtualNetworkLink>();
             //virtualNetworkLink.visualizeOnly = true;
-            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MODERATE_PLUS);
+            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MODERATE_PLUS);
         }
     }
 }

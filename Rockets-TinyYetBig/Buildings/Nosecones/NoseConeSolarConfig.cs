@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 
-namespace Rockets_TinyYetBig.Buildings
+namespace Rockets_TinyYetBig.Buildings.Nosecones
 {
     class NoseConeSolarConfig : IBuildingConfig
     {
@@ -84,8 +84,8 @@ namespace Rockets_TinyYetBig.Buildings
 
         public override void DoPostConfigureComplete(GameObject go)
         {
-            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MINOR_PLUS);
-            go.GetComponent<ReorderableBuilding>().buildConditions.Add((SelectModuleCondition)new TopOnly());
+            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MINOR_PLUS);
+            go.GetComponent<ReorderableBuilding>().buildConditions.Add(new TopOnly());
 
             Prioritizable.AddRef(go);
             var solar = go.AddOrGet<ModuleSolarPanelAdjustable>();
