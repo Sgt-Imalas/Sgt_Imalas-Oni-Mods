@@ -70,10 +70,10 @@ namespace Rockets_TinyYetBig.RocketFueling
                 pooledDictionary[CargoBay.CargoType.Gasses] = ListPool<CargoBayCluster, LaunchPadMaterialDistributor>.Allocate();
 
 
+                var FuelTanks = ListPool<FuelTank, LaunchPadMaterialDistributor>.Allocate();
+                var OxidizerTanks = ListPool<OxidizerTank, LaunchPadMaterialDistributor>.Allocate();
+                var HEPFuelTanks = ListPool<HEPFuelTank, LaunchPadMaterialDistributor>.Allocate();
 
-                List<FuelTank> FuelTanks = new List<FuelTank>();
-                List<OxidizerTank> OxidizerTanks = new List<OxidizerTank>();
-                List<HEPFuelTank> HEPFuelTanks = new List<HEPFuelTank>();
 
                 Tag FuelTag = SimHashes.Void.CreateTag();
 
@@ -226,6 +226,10 @@ namespace Rockets_TinyYetBig.RocketFueling
                 pooledDictionary[CargoBay.CargoType.Liquids].Recycle();
                 pooledDictionary[CargoBay.CargoType.Gasses].Recycle();
                 pooledDictionary.Recycle();
+
+                FuelTanks.Recycle();
+                HEPFuelTanks.Recycle();
+                OxidizerTanks.Recycle();
 
                 FilledComplete.Set(!HasLoadingProcess, __instance);
 

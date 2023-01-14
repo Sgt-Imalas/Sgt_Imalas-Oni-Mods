@@ -35,9 +35,17 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool CompressInteriors { get; set; }
 
+        [Option("Advanced World Selector", "Enable a more structured world selector. Required for Space Stations", "Features")]
+        [JsonProperty]
+        public bool EnableAdvWorldSelector { get; set; }
+
         [Option("Rocket Building Categories", "Enable a more modular rocket build menu that sorts the modules into categories.", "Features")]
         [JsonProperty]
         public bool EnableBuildingCategories { get; set; }
+
+        [Option("Hide Category Tooltips", "Hide category and module tooltips. Only has an effect if Rocket Building Categories are enabled", "Features")]
+        [JsonProperty]
+        public bool HideRocketCategoryTooltips { get; set; }
 
         [Option("Buff Large Oxidizer Module", "Buff storage capacity of the large Oxidizer Module from 900kg to 1350kg.", "Features")]
         [JsonProperty]
@@ -47,9 +55,6 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool InfinitePOI { get; set; }
 
-        [Option("Hide Category Tooltips", "Hide category tooltips. Only has an effect if Rocket Building Categories are enabled", "Features")]
-        [JsonProperty]
-        public bool HideRocketCategoryTooltips { get; set; }
 
        // [Option("Land without pad", "Add landing legs to your rocket to land on planets without any installed landing pads", "Features")]
        // [JsonProperty]
@@ -136,9 +141,11 @@ namespace Rockets_TinyYetBig
 
             ///Features
             CompressInteriors = true; 
-            EnableBuildingCategories = true;
-            InfinitePOI = false;
+            EnableBuildingCategories = true; 
+            EnableAdvWorldSelector = true;
+
             HideRocketCategoryTooltips = false;
+            InfinitePOI = false;
             //LandingLegs = true;
             EthanolEngines = true;
             HabitatPowerPlug = true;

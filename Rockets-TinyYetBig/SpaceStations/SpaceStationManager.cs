@@ -21,7 +21,15 @@ namespace Rockets_TinyYetBig.SpaceStations
         public static bool WorldIsRocketInterior(int worldId) => !ClusterManager.Instance.GetWorld(worldId).HasTag(ModAssets.Tags.IsSpaceStation) && ClusterManager.Instance.GetWorld(worldId).IsModuleInterior;
         public static bool WorldIsSpaceStationInterior(int worldId) => ClusterManager.Instance.GetWorld(worldId).HasTag(ModAssets.Tags.IsSpaceStation) && ClusterManager.Instance.GetWorld(worldId).IsModuleInterior;
 
-        public SpaceStation GetSpaceStationFromWorldId(int worldId) => ClusterManager.Instance.GetWorld(worldId).GetComponent<SpaceStation>();
+        public SpaceStation GetSpaceStationFromWorldId(int worldId) 
+        { 
+            if(ClusterManager.Instance.GetWorld(worldId).TryGetComponent<SpaceStation>(out var component))
+            {
+                return component;
+
+            }
+            return null;
+        }
 
         public List<int> SpaceStationWorlds = new List<int>();
 
@@ -99,8 +107,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                     ClusterManager.Instance.SetActiveWorld(ClusterManager.Instance.GetStartWorld().id);
                 }
 
-                OrbitalMechanics component = world.GetComponent<OrbitalMechanics>();
-                if (!component.IsNullOrDestroyed())
+                if (world.TryGetComponent<OrbitalMechanics>(out var component))
                     UnityEngine.Object.Destroy((UnityEngine.Object)component);
 
                 SpaceStation station;
@@ -140,16 +147,13 @@ namespace Rockets_TinyYetBig.SpaceStations
         {
             Grid.FreeGridSpace(world.WorldSize, world.WorldOffset);
             WorldInventory worldInventory = (WorldInventory)null;
-            if ((UnityEngine.Object)world != (UnityEngine.Object)null)
-                worldInventory = world.GetComponent<WorldInventory>();
-            if ((UnityEngine.Object)worldInventory != (UnityEngine.Object)null)
-                UnityEngine.Object.Destroy((UnityEngine.Object)worldInventory);
+            if (world != null)
+            {
+                if (world.TryGetComponent<WorldInventory>(out worldInventory))
+                    Destroy(worldInventory);
 
-
-
-            if (!((UnityEngine.Object)world != (UnityEngine.Object)null))
-                return;
-            UnityEngine.Object.Destroy((UnityEngine.Object)world);
+                Destroy(world);
+            }
         }
 
 
@@ -185,10 +189,12 @@ namespace Rockets_TinyYetBig.SpaceStations
             {
                 if (clusterGridEntity is SpaceStation)
                 {
-                    WorldContainer component = clusterGridEntity.GetComponent<WorldContainer>();
-                    if (component != null)
-                        return component.id;
+                    if (clusterGridEntity.TryGetComponent<WorldContainer>(out var container))
+                    {
+                        return container.id;
+                    }
                 }
+
             }
             return -1;
         }
