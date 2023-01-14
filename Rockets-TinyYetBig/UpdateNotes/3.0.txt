@@ -10,6 +10,7 @@ New Modules & Buildings:
 - Space Station Constructor Module - needed to construct + deconstruct space stations
 - 3 new Huge Cargo Bays (1 per type)
 - small liquid fuel tank
+- Loader Ladder Adapter
 
 Fixes:
 - massivly improved Fuel Loader code performance

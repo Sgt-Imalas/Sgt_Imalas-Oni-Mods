@@ -82,6 +82,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 if (Config.Instance.EnableWallAdapter)
                 {
                     ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, ConnectorWallAdapterConfig.ID, null, LandingBeaconConfig.ID);
+                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LoaderLadderAdapterConfig.ID, null, ConnectorWallAdapterConfig.ID);
                 }
 
                 if (Config.Instance.EnableFuelLoaders)
