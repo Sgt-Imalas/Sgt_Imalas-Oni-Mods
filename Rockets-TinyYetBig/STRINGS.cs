@@ -16,6 +16,8 @@ namespace Rockets_TinyYetBig
         public class DEEPSPACERESEARCH
         {
             public static LocString NAME = "Deep Space Research";
+            public static LocString UNLOCKNAME = (LocString)(UI.PRE_KEYWORD + NAME + UI.PST_KEYWORD + " Capability");
+            public static LocString UNLOCKDESC = (LocString)("Allows " + UI.PRE_KEYWORD + NAME + UI.PST_KEYWORD + " points to be accumulated, unlocking higher technology tiers.");
             public static LocString DESC = UI.FormatAsLink("Deep Space Research", nameof(DEEPSPACERESEARCH))+" is conducted by careful observing the effects of deep space radiation on certain metals";
             public static LocString RECIPEDESC = "Unlocks new breakthroughs in space construction";
 

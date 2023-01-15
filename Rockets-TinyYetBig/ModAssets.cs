@@ -19,6 +19,8 @@ namespace Rockets_TinyYetBig
             public static Tech FuelLoaderTech;
             public static string DockingTechID = "RTB_DockingTech";
             public static Tech DockingTech;
+            public static string LargerRocketLivingSpaceTechID = "RTB_LargerRocketLivingSpaceTech";
+            public static Tech LargerRocketLivingSpaceTech;
             public static string SpaceStationTechID = "RTB_SpaceStationTech";
             public static Tech SpaceStationTech;
         }
@@ -30,11 +32,14 @@ namespace Rockets_TinyYetBig
             public static Tag RocketPlatformTag = TagManager.Create("RTB_RocketPlatformTag");
         }
 
-        enum SpaceStationType
+        public enum SpaceStationType
         {
             small = 0,
             medium = 1,
             large = 2,
+            jumpBeacon = 3,
+            jumpGate = 4,
+
         }
 
 
@@ -285,7 +290,7 @@ namespace Rockets_TinyYetBig
                     return str;
                 });
 
-                Debug.Log("Status items initialized");
+                Debug.Log("[Rocketry Expanden] Status items initialized");
 
             }
         }
@@ -302,7 +307,8 @@ namespace Rockets_TinyYetBig
             public float demolishingTime;
             public string Kanim;
             public string requiredTechID;
-            public SpaceStationWithStats(string _id, string _name, string _description, Vector2I _size, string[] _mats, float[] _matCosts, string _prefab, float _constructionTime, string _reqTech = "")
+            public bool HasInterior;
+            public SpaceStationWithStats(string _id, string _name, string _description, Vector2I _size, string[] _mats, float[] _matCosts, string _prefab, float _constructionTime, string _reqTech = "", bool _hasInterior = true)
             {
                 ID = _id;
                 Name = _name;
@@ -314,6 +320,7 @@ namespace Rockets_TinyYetBig
                 requiredTechID = _reqTech == ""? Techs.SpaceStationTechID:_reqTech;
                 constructionTime = _constructionTime;
                 demolishingTime = _constructionTime / 4;
+                HasInterior = _hasInterior;
             }
 
         }

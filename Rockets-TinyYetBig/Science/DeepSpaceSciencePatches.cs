@@ -35,6 +35,7 @@ namespace Rockets_TinyYetBig.Science
             public static void Prefix(Assets __instance)
             {
                 InjectionMethods.AddSpriteToAssets(__instance, "research_type_deep_space_icon");
+                InjectionMethods.AddSpriteToAssets(__instance, "research_type_deep_space_icon_unlock");
             }
         }
 
@@ -49,7 +50,7 @@ namespace Rockets_TinyYetBig.Science
                 __instance.Types.Add(new ResearchType(
                     ModAssets.DeepSpaceScienceID,
                     STRINGS.DEEPSPACERESEARCH.NAME,
-                    STRINGS.DEEPSPACERESEARCH.DESC,
+                    STRINGS.DEEPSPACERESEARCH.NAME,
                     Assets.GetSprite((HashedString)"research_type_deep_space_icon"),
                     new Color32(100, 100, 100, byte.MaxValue),
                     null,

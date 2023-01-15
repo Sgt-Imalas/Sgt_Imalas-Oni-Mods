@@ -26,13 +26,13 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         public float GetProgressPercentage()
         {
-            if (this.Constructing () )
+            if (this.Constructing())
             {
-                return Math.Min((ConstructionProgress/ ModAssets.SpaceStationTypes[CurrentSpaceStationTypeInt].constructionTime ) *100f,100f);
+                return Math.Min((ConstructionProgress / ModAssets.SpaceStationTypes[CurrentSpaceStationTypeInt].constructionTime) * 100f, 100f);
             }
             else if (this.Demolishing())
             {
-                return Math.Min((DemolishingProgress / CurrentLocationDemolishTime) * 100f,100f);
+                return Math.Min((DemolishingProgress / CurrentLocationDemolishTime) * 100f, 100f);
             }
             return -1;
         }
@@ -40,7 +40,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         {
             if (this.Constructing())
             {
-                return ModAssets.SpaceStationTypes[CurrentSpaceStationTypeInt].constructionTime- ConstructionProgress;
+                return ModAssets.SpaceStationTypes[CurrentSpaceStationTypeInt].constructionTime - ConstructionProgress;
             }
             else if (this.Demolishing())
             {
@@ -76,9 +76,13 @@ namespace Rockets_TinyYetBig.SpaceStations
                     Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
                     var locationToCheck = component.Location;
                     int worldId = SpaceStationManager.GetSpaceStationWorldIdAtLocation(locationToCheck);
-                    if (worldId != -1)
+                    if (worldId > -1)
                     {
                         SpaceStationManager.Instance.GetSpaceStationFromWorldId(worldId).DestroySpaceStation();
+                    }
+                    else if (worldId == -2)
+                    {
+
                     }
                     FinishedProgress();
                 }
@@ -87,12 +91,15 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         private void SpawnStation(AxialI location)
         {
-            Vector3 position = new Vector3(-1f, -1f, 0.0f);
-            GameObject sat = Util.KInstantiate(Assets.GetPrefab((Tag)SpaceStationConfig.ID), position);
-            sat.SetActive(true);
-            var spaceStation = sat.GetComponent<SpaceStation>();
-            spaceStation.Location = location;
-            spaceStation._currentSpaceStationType = CurrentSpaceStationTypeInt;
+            if (ModAssets.SpaceStationTypes[CurrentSpaceStationTypeInt].HasInterior)
+            {
+                Vector3 position = new Vector3(-1f, -1f, 0.0f);
+                GameObject sat = Util.KInstantiate(Assets.GetPrefab((Tag)SpaceStationConfig.ID), position);
+                sat.SetActive(true);
+                var spaceStation = sat.GetComponent<SpaceStation>();
+                spaceStation.Location = location;
+                spaceStation._currentSpaceStationType = CurrentSpaceStationTypeInt;
+            }
         }
         protected override void OnSpawn()
         {
@@ -114,7 +121,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         void FinishedProgress()
         {
-            ResetStationProgress(); 
+            ResetStationProgress();
             GameScheduler.Instance.ScheduleNextFrame("SpaceStationConstructor.UpdateScreen", (System.Action<object>)(obj => TriggerScreen(obj)));
         }
         void TriggerScreen(object obj = null)
@@ -193,7 +200,23 @@ namespace Rockets_TinyYetBig.SpaceStations
             int worldId = SpaceStationManager.GetSpaceStationWorldIdAtLocation(locationToCheck);
             return worldId != -1;
         }
-
+        public bool CanDeconstructAtCurrentLocation()
+        {
+            Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
+            var locationToCheck = component.Location;
+            int worldId = SpaceStationManager.GetSpaceStationWorldIdAtLocation(locationToCheck);
+            if (worldId == -1)
+                return false;
+            if (worldId == -2)
+                return true;
+            ///GetDupesInside==false
+            foreach(MinionIdentity dupe in Components.MinionIdentities)
+            {
+                if (dupe.GetMyWorldId() == worldId)
+                    return false;
+            }
+            return true;
+        }
 
     }
 }

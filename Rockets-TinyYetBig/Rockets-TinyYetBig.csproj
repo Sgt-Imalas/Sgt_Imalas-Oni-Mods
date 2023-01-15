@@ -325,6 +325,9 @@
 	  <None Update="ModAssets\assets\research_type_deep_space_icon.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\assets\research_type_deep_space_icon_unlock.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\preview.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>

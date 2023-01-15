@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.Buildings;
+using Rockets_TinyYetBig.Buildings.Habitats;
 using Rockets_TinyYetBig.RocketFueling;
 using Rockets_TinyYetBig.SpaceStations;
 using System;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 
-namespace Rockets_TinyYetBig.Patches
+namespace Rockets_TinyYetBig.Science
 {
     internal class ResearchTreePatches
     {
@@ -41,14 +42,23 @@ namespace Rockets_TinyYetBig.Patches
                     yDiff: 0
                     );
                 }
-                
 
-
+                if (Config.Instance.EnableExtendedHabs)
+                {
+                    TechUtils.AddNode(__instance,
+                    ModAssets.Techs.LargerRocketLivingSpaceTechID,
+                    GameStrings.Technology.ColonyDevelopment.DurableLifeSupport,
+                    xDiff: 1,
+                    yDiff: 0
+                    );
+                }
 
                 TechUtils.AddNode(__instance,
                     ModAssets.Techs.SpaceStationTechID,
-                    new[] {GameStrings.Technology.ColonyDevelopment.DurableLifeSupport, ModAssets.Techs.DockingTechID },
-                    xDiff: 2,
+                    new[] {
+                        Config.Instance.EnableExtendedHabs ? ModAssets.Techs.LargerRocketLivingSpaceTechID : GameStrings.Technology.ColonyDevelopment.DurableLifeSupport
+                        , ModAssets.Techs.DockingTechID },
+                    xDiff: Config.Instance.EnableExtendedHabs ? 1 : 2,
                     yDiff: 0
                     );
             }
@@ -77,6 +87,16 @@ namespace Rockets_TinyYetBig.Patches
                 //}
                 );
 
+                if (Config.Instance.EnableExtendedHabs)
+                {
+                    ModAssets.Techs.LargerRocketLivingSpaceTech = new Tech(ModAssets.Techs.LargerRocketLivingSpaceTechID, new List<string>
+                    {
+                        HabitatModuleMediumExpandedConfig.ID,
+                    },
+                    __instance
+                    );
+                }
+
                 ModAssets.Techs.FuelLoaderTech = new Tech(ModAssets.Techs.FuelLoaderTechID, new List<string>
                 {
                     UniversalFuelLoaderConfig.ID,
@@ -88,7 +108,8 @@ namespace Rockets_TinyYetBig.Patches
 
                 ModAssets.Techs.SpaceStationTech = new Tech(ModAssets.Techs.SpaceStationTechID, new List<string>
                 {
-                    SpaceStationBuilderModuleConfig.ID,
+                    SpaceStationDockingDoorConfig.ID,
+                    SpaceStationBuilderModuleConfig.ID
                 },
                 __instance
                 , new Dictionary<string, float>()
@@ -103,7 +124,8 @@ namespace Rockets_TinyYetBig.Patches
 
 
                 //Debug.Log("AAAAAAAA: DeepSpaceScience Added");
-                InjectionMethods.AddItemToTechnology(ModAssets.DeepSpaceScienceID, ModAssets.Techs.SpaceStationTechID, STRINGS.DEEPSPACERESEARCH.NAME, STRINGS.DEEPSPACERESEARCH.DESC, "research_type_deep_space_icon");
+                InjectionMethods.AddItemToTechnologyKanim(ModAssets.SpaceStationTypes[0].ID, ModAssets.Techs.SpaceStationTechID, ModAssets.SpaceStationTypes[0].Name, ModAssets.SpaceStationTypes[0].Description, ModAssets.SpaceStationTypes[0].Kanim, DlcManager.AVAILABLE_EXPANSION1_ONLY);
+                InjectionMethods.AddItemToTechnologySprite(ModAssets.DeepSpaceScienceID, ModAssets.Techs.SpaceStationTechID, STRINGS.DEEPSPACERESEARCH.UNLOCKNAME, STRINGS.DEEPSPACERESEARCH.UNLOCKDESC, "research_type_deep_space_icon_unlock", DlcManager.AVAILABLE_EXPANSION1_ONLY);
                 Db.Get().Techs.Get(ModAssets.Techs.SpaceStationTechID).unlockedItemIDs.Reverse();
             }
         }

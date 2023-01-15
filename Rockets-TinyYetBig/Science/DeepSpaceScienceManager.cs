@@ -18,9 +18,20 @@ namespace Rockets_TinyYetBig.Science
                 return manager;
             }
         }
+        List<String> DeepSpaceTechs = new List<String>();
+
 
         [Serialize]
         float CurrentScienceValue = 0;
+
+        void ApplySciencePoints()
+        {
+            if(CurrentScienceValue > 1f)
+            {
+                --CurrentScienceValue;
+                //++deepscienceresearch
+            }
+        }
 
         public void ScienceResearched(string researchType)
         {
@@ -29,16 +40,20 @@ namespace Rockets_TinyYetBig.Science
                 switch (researchType)
                 {
                     case ResearchTypes.ID.BASIC:
+                        CurrentScienceValue += 0.1f;
                         break;
                     case ResearchTypes.ID.ADVANCED:
+                        CurrentScienceValue += 0.2f;
                         break;
                     case ResearchTypes.ID.NUCLEAR:
+                        CurrentScienceValue += 0.4f;
                         break;
                     case ResearchTypes.ID.ORBITAL:
+                        CurrentScienceValue += 0.4f;
                         break;
                 }
+                ApplySciencePoints();
             }
-
         }
         public bool DeepSpaceScienceUnlocked => ModAssets.Techs.DockingTech.IsComplete();
     }

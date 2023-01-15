@@ -195,9 +195,9 @@ namespace Rockets_TinyYetBig.SpaceStations
                 //UIUtils.AddSimpleTooltipToObject(PlaceStationButton.transform, targetSatelliteCarrier.HoldingSatellite() ? (ModAssets.SatelliteConfigurations[CurrentStationType].DESC) : (string)STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_FALSE, true);
 
                 img.sprite = Assets.GetSprite(targetBuilder.Demolishing() ? "action_cancel" : "action_deconstruct");
-                bool canDeconstruct = targetBuilder.IsStationAtCurrentLocation();
-                flipButton.GetComponent<KButton>().isInteractable = canDeconstruct;
-                PlaceStationButton.GetComponent<KButton>().isInteractable = !canDeconstruct&&SpaceStationManager.Instance.CanConstructSpaceStation();
+                bool StationAtLocation = targetBuilder.IsStationAtCurrentLocation();
+                flipButton.GetComponent<KButton>().isInteractable = targetBuilder.CanDeconstructAtCurrentLocation();
+                PlaceStationButton.GetComponent<KButton>().isInteractable = !StationAtLocation && SpaceStationManager.Instance.CanConstructSpaceStation();
             }
         }
 

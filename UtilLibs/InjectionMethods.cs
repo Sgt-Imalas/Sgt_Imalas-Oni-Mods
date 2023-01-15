@@ -34,7 +34,7 @@ namespace UtilLibs
         /// <param name="description"></param>
         /// <param name="spriteName"></param>
         /// <param name="awailableDLCs">DlcManager.</param>
-        public static TechItem AddItemToTechnology(string techItemId, string techId, string name, string description, string spriteName, string[] availableDLCs = null)
+        public static TechItem AddItemToTechnologySprite(string techItemId, string techId, string name, string description, string spriteName, string[] availableDLCs = null)
         {
             if(availableDLCs == null)
             {
@@ -43,6 +43,21 @@ namespace UtilLibs
             AddBuildingToTechnology(techId, techItemId);
             return Db.Get().TechItems.AddTechItem(techItemId, name, description, GetSpriteFnBuilder(spriteName), availableDLCs);
         }
+
+        public static TechItem AddItemToTechnologyKanim(string techItemId, string techId, string name, string description, string kanimName, string[] availableDLCs = null, string uiAnim = "ui")
+        {
+            var sprite = Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(kanimName),uiAnim);
+            if (availableDLCs == null)
+            {
+                availableDLCs = DlcManager.AVAILABLE_ALL_VERSIONS;
+            }
+            AddBuildingToTechnology(techId, techItemId);
+            return Db.Get().TechItems.AddTechItem(techItemId, name, description, (anim, centered) => sprite, availableDLCs);
+        }
+
+
+
+
         private static Func<string, bool, Sprite> GetSpriteFnBuilder(string spriteName) => (Func<string, bool, Sprite>)((anim, centered) => Assets.GetSprite((HashedString)spriteName));
 
         public static void AddBuildingToTechnology(string techId, string buildingId)
