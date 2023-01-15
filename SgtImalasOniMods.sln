@@ -58,7 +58,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LostContentTestingGround", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrittersShedFurOnBrush", "CrittersShedFurOnBrush\CrittersShedFurOnBrush.csproj", "{CCF03C35-C1E0-4FB8-AC44-A572E915F47B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightBridge", "LightBridge\LightBridge.csproj", "{9FED2436-3145-42FD-BC60-3FF855FE1781}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightBridge", "LightBridge\LightBridge.csproj", "{9FED2436-3145-42FD-BC60-3FF855FE1781}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiomeClimates", "BiomeClimates\BiomeClimates.csproj", "{118332F7-D5D0-4F24-968A-491790C48CE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -166,6 +168,10 @@ Global
 		{9FED2436-3145-42FD-BC60-3FF855FE1781}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FED2436-3145-42FD-BC60-3FF855FE1781}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{9FED2436-3145-42FD-BC60-3FF855FE1781}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{118332F7-D5D0-4F24-968A-491790C48CE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{118332F7-D5D0-4F24-968A-491790C48CE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{118332F7-D5D0-4F24-968A-491790C48CE7}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{118332F7-D5D0-4F24-968A-491790C48CE7}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
