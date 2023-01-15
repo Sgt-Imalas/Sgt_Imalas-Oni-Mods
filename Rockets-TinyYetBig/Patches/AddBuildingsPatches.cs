@@ -153,6 +153,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 if (Config.Instance.EnableWallAdapter)
                 {
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Gases.TemperatureModulation, ConnectorWallAdapterConfig.ID);
+                    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.Smelting, LoaderLadderAdapterConfig.ID);
                 }
 
                 if (Config.Instance.EnableNatGasEngine)
@@ -163,7 +164,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 if (Config.Instance.EnableEarlyGameFuelTanks)
                 {
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Gases.GasDistribution, CO2FuelTankConfig.ID);
-                    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.HydrocarbonPropulsion, LiquidFuelTankClusterSmallConfig.ID );
+                    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.LiquidTuning, LiquidFuelTankClusterSmallConfig.ID );
                 }
             }
         }

@@ -59,8 +59,8 @@ namespace Rockets_TinyYetBig.Patches
                 TechUtils.AddNode(__instance,
                     ModAssets.Techs.DockingTech,
                     GameStrings.Technology.ColonyDevelopment.CelestialDetection,
-                    GameStrings.Technology.ColonyDevelopment.DurableLifeSupport,
-                    GameStrings.Technology.ColonyDevelopment.CelestialDetection
+                    xDiff: 2,
+                    yDiff: 0
                     );
 
                 if (Config.Instance.EnableFuelLoaders)
@@ -68,16 +68,19 @@ namespace Rockets_TinyYetBig.Patches
                     TechUtils.AddNode(__instance,
                     ModAssets.Techs.FuelLoaderTech,
                     ModAssets.Techs.DockingTech,
-                    GameStrings.Technology.RadiationTechnologies.RadiationRefinement,
-                    GameStrings.Technology.ColonyDevelopment.CelestialDetection
+                    xDiff: 1,
+                    yDiff: 0
                     );
                 }
+                
+
+
 
                 TechUtils.AddNode(__instance,
                     ModAssets.Techs.SpaceStationTech,
-                    new[] { ModAssets.Techs.DockingTech, GameStrings.Technology.ColonyDevelopment.DurableLifeSupport },
-                    GameStrings.Technology.RadiationTechnologies.RadiationRefinement,
-                    GameStrings.Technology.ColonyDevelopment.DurableLifeSupport
+                    new[] {GameStrings.Technology.ColonyDevelopment.DurableLifeSupport, ModAssets.Techs.DockingTech },
+                    xDiff: 2,
+                    yDiff: 0
                     );
             }
         }
@@ -127,7 +130,7 @@ namespace Rockets_TinyYetBig.Patches
                     {"advanced", 50f},
                     {"orbital", 50f},
                     {"nuclear", 50f},
-                    {ModAssets.DeepSpaceScienceID,10f }
+                    {ModAssets.DeepSpaceScienceID,3f }
                 }
                 );
             }
