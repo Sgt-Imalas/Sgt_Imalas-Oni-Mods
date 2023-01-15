@@ -15,9 +15,12 @@ namespace Rockets_TinyYetBig
         public static string DeepSpaceScienceID = "rtb_deepspace";
         public class Techs
         {
-            public static string FuelLoaderTech = "RTB_FuelLoadersTech";
-            public static string DockingTech = "RTB_DockingTech";
-            public static string SpaceStationTech = "RTB_SpaceStationTech";
+            public static string FuelLoaderTechID = "RTB_FuelLoadersTech";
+            public static Tech FuelLoaderTech;
+            public static string DockingTechID = "RTB_DockingTech";
+            public static Tech DockingTech;
+            public static string SpaceStationTechID = "RTB_SpaceStationTech";
+            public static Tech SpaceStationTech;
         }
         public class Tags
         {
@@ -308,7 +311,7 @@ namespace Rockets_TinyYetBig
                 materials = _mats;
                 materialAmounts = _matCosts;
                 Kanim = _prefab;
-                requiredTechID = _reqTech == ""? Techs.SpaceStationTech:_reqTech;
+                requiredTechID = _reqTech == ""? Techs.SpaceStationTechID:_reqTech;
                 constructionTime = _constructionTime;
                 demolishingTime = _constructionTime / 4;
             }

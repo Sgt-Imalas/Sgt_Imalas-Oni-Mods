@@ -26,6 +26,24 @@ namespace UtilLibs
             Strings.Add("STRINGS." + category + ".STATUSITEMS." + status_id + ".NAME", name);
             Strings.Add("STRINGS." + category + ".STATUSITEMS." + status_id + ".TOOLTIP", desc);
         }
+        /// <summary>
+        /// Add SpriteOnly Item to techs
+        /// </summary>
+        /// <param name="techId"></param>
+        /// <param name="name"></param>
+        /// <param name="description"></param>
+        /// <param name="spriteName"></param>
+        /// <param name="awailableDLCs">DlcManager.</param>
+        public static TechItem AddItemToTechnology(string techItemId, string techId, string name, string description, string spriteName, string[] availableDLCs = null)
+        {
+            if(availableDLCs == null)
+            {
+                availableDLCs = DlcManager.AVAILABLE_ALL_VERSIONS;
+            }
+            AddBuildingToTechnology(techId, techItemId);
+            return Db.Get().TechItems.AddTechItem(techItemId, name, description, GetSpriteFnBuilder(spriteName), availableDLCs);
+        }
+        private static Func<string, bool, Sprite> GetSpriteFnBuilder(string spriteName) => (Func<string, bool, Sprite>)((anim, centered) => Assets.GetSprite((HashedString)spriteName));
 
         public static void AddBuildingToTechnology(string techId, string buildingId)
         {

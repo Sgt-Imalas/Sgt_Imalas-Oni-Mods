@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using TemplateClasses;
 using UnityEngine;
 using UtilLibs;
+using Rockets_TinyYetBig.Science;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {

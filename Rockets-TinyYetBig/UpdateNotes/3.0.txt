@@ -9,7 +9,7 @@ Features:
 New Modules & Buildings:
 - Space Station Constructor Module - needed to construct + deconstruct space stations
 - 3 new Huge Cargo Bays (1 per type)
-- small liquid fuel tank
+- Small liquid fuel tank
 - Loader Ladder Adapter
 
 Fixes:

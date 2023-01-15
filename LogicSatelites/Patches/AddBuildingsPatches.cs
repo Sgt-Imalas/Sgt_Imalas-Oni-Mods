@@ -34,15 +34,14 @@ namespace LogicSatellites
                 //add buildings to technology tree
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Computers.SensitiveMicroimaging, SatelliteCarrierModuleConfig.ID);
 
-                InjectionMethods.AddBuildingToTechnology(ModAssets.SatelliteConfigurations[0].TechId, ModAssets.SatelliteConfigurations[0].TechItemId);
+                //InjectionMethods.AddBuildingToTechnology(ModAssets.SatelliteConfigurations[0].TechId, ModAssets.SatelliteConfigurations[0].TechItemId);
                 //InjectionMethods.AddBuildingToTechnology(ModAssets.SatelliteConfigurations[1].TechId, ModAssets.SatelliteConfigurations[1].TechItemId);
 
 
-                ModAssets.ExplorationSatellite = __instance.TechItems.AddTechItem(ModAssets.SatelliteConfigurations[0].TechItemId, (string)ModAssets.SatelliteConfigurations[0].NAME, (string)ModAssets.SatelliteConfigurations[0].DESC, GetSpriteFnBuilder("LS_Exploration_Sat"), DlcManager.AVAILABLE_EXPANSION1_ONLY);
-                ModAssets.SolarSatellite = __instance.TechItems.AddTechItem(ModAssets.SatelliteConfigurations[1].TechItemId, (string)ModAssets.SatelliteConfigurations[1].NAME, (string)ModAssets.SatelliteConfigurations[1].DESC, GetSpriteFnBuilder("LS_Solar_Sat"), DlcManager.AVAILABLE_EXPANSION1_ONLY);
+                ModAssets.ExplorationSatellite = InjectionMethods.AddItemToTechnology(ModAssets.SatelliteConfigurations[0].TechItemId, ModAssets.SatelliteConfigurations[0].TechId, (string)ModAssets.SatelliteConfigurations[0].NAME, (string)ModAssets.SatelliteConfigurations[0].DESC, "LS_Exploration_Sat", DlcManager.AVAILABLE_EXPANSION1_ONLY);
+                //ModAssets.SolarSatellite = InjectionMethods.AddItemToTechnology(ModAssets.SatelliteConfigurations[1].TechItemId, ModAssets.SatelliteConfigurations[1].TechId, (string)ModAssets.SatelliteConfigurations[1].NAME, (string)ModAssets.SatelliteConfigurations[1].DESC, "LS_Solar_Sat", DlcManager.AVAILABLE_EXPANSION1_ONLY);
 
             }
-            private static Func<string, bool, Sprite> GetSpriteFnBuilder(string spriteName) => (Func<string, bool, Sprite>)((anim, centered) => Assets.GetSprite((HashedString)spriteName));
         }
 
     }

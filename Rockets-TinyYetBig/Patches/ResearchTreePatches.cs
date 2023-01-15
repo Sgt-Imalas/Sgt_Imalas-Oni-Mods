@@ -16,37 +16,6 @@ namespace Rockets_TinyYetBig.Patches
 {
     internal class ResearchTreePatches
     {
-        [HarmonyPatch(typeof(Assets), "OnPrefabInit")]
-        public class Assets_OnPrefabInit_Patch
-        {
-            public static void Prefix(Assets __instance)
-            {
-                InjectionMethods.AddSpriteToAssets(__instance, "research_type_deep_space_icon");
-            }
-        }
-
-        [HarmonyPatch(typeof(ResearchTypes))]
-        [HarmonyPatch(MethodType.Constructor)]
-        [HarmonyPatch(new Type[] { })]
-        public class ResearchTypes_Constructor_Patch
-        {
-            public static void Postfix(ResearchTypes __instance)
-            {
-
-                __instance.Types.Add(new ResearchType(
-                    ModAssets.DeepSpaceScienceID,
-                    STRINGS.DEEPSPACERESEARCH.NAME,
-                    STRINGS.DEEPSPACERESEARCH.DESC,
-                    Assets.GetSprite((HashedString)"research_type_deep_space_icon"),
-                    new Color32(100, 100, 100, byte.MaxValue),
-                    null,
-                    2400f,
-                    (HashedString)"research_center_kanim",
-                    new string[1] { ApothecaryConfig.ID },
-                    STRINGS.DEEPSPACERESEARCH.RECIPEDESC
-                ));
-            }
-        }
 
         /// <summary>
         /// add research card to research screen
@@ -57,7 +26,7 @@ namespace Rockets_TinyYetBig.Patches
             public static void Postfix(ResourceTreeLoader<ResourceTreeNode> __instance, TextAsset file)
             {
                 TechUtils.AddNode(__instance,
-                    ModAssets.Techs.DockingTech,
+                    ModAssets.Techs.DockingTechID,
                     GameStrings.Technology.ColonyDevelopment.CelestialDetection,
                     xDiff: 2,
                     yDiff: 0
@@ -66,8 +35,8 @@ namespace Rockets_TinyYetBig.Patches
                 if (Config.Instance.EnableFuelLoaders)
                 {
                     TechUtils.AddNode(__instance,
-                    ModAssets.Techs.FuelLoaderTech,
-                    ModAssets.Techs.DockingTech,
+                    ModAssets.Techs.FuelLoaderTechID,
+                    ModAssets.Techs.DockingTechID,
                     xDiff: 1,
                     yDiff: 0
                     );
@@ -77,8 +46,8 @@ namespace Rockets_TinyYetBig.Patches
 
 
                 TechUtils.AddNode(__instance,
-                    ModAssets.Techs.SpaceStationTech,
-                    new[] {GameStrings.Technology.ColonyDevelopment.DurableLifeSupport, ModAssets.Techs.DockingTech },
+                    ModAssets.Techs.SpaceStationTechID,
+                    new[] {GameStrings.Technology.ColonyDevelopment.DurableLifeSupport, ModAssets.Techs.DockingTechID },
                     xDiff: 2,
                     yDiff: 0
                     );
@@ -93,7 +62,7 @@ namespace Rockets_TinyYetBig.Patches
         {
             public static void Postfix(Database.Techs __instance)
             {
-                new Tech(ModAssets.Techs.DockingTech, new List<string>
+                ModAssets.Techs.DockingTech = new Tech(ModAssets.Techs.DockingTechID, new List<string>
                 {
                     DockingTubeDoorConfig.ID,
                     //SpaceStationDockingDoorConfig.ID
@@ -108,18 +77,16 @@ namespace Rockets_TinyYetBig.Patches
                 //}
                 );
 
-                new Tech(ModAssets.Techs.FuelLoaderTech, new List<string>
+                ModAssets.Techs.FuelLoaderTech = new Tech(ModAssets.Techs.FuelLoaderTechID, new List<string>
                 {
                     UniversalFuelLoaderConfig.ID,
                     UniversalOxidizerLoaderConfig.ID,
                     HEPFuelLoaderConfig.ID,
-                   // SolidOxidizerLoaderConfig.ID,
-                   // LiquidOxidizerLoaderConfig.ID,
                 },
                 __instance
                 );
 
-                new Tech(ModAssets.Techs.SpaceStationTech, new List<string>
+                ModAssets.Techs.SpaceStationTech = new Tech(ModAssets.Techs.SpaceStationTechID, new List<string>
                 {
                     SpaceStationBuilderModuleConfig.ID,
                 },
@@ -133,6 +100,11 @@ namespace Rockets_TinyYetBig.Patches
                     {ModAssets.DeepSpaceScienceID,3f }
                 }
                 );
+
+
+                //Debug.Log("AAAAAAAA: DeepSpaceScience Added");
+                InjectionMethods.AddItemToTechnology(ModAssets.DeepSpaceScienceID, ModAssets.Techs.SpaceStationTechID, STRINGS.DEEPSPACERESEARCH.NAME, STRINGS.DEEPSPACERESEARCH.DESC, "research_type_deep_space_icon");
+                Db.Get().Techs.Get(ModAssets.Techs.SpaceStationTechID).unlockedItemIDs.Reverse();
             }
         }
 
