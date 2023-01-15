@@ -11,6 +11,7 @@ New Modules & Buildings:
 - 3 new Huge Cargo Bays (1 per type)
 - Small liquid fuel tank
 - Loader Ladder Adapter
+- Advanced Rocket Platform (shifted logic ports + rocket checklist ribbon output)
 
 Fixes:
 - massivly improved Fuel Loader code performance
