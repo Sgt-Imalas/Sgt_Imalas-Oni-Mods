@@ -62,7 +62,10 @@ namespace RoboRockets.Rockets_TinyYetBig
                 }
 
                 if (Config.Instance.EnableBunkerPlatform)
+                {
                     ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, BunkeredLaunchPadConfig.ID, null, LaunchPadConfig.ID);
+                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, AdvancedLaunchPadConfig.ID, null, LaunchPadConfig.ID);
+                }
 
                 if (Config.Instance.EnableSolarNosecone)
                     AddRocketModuleToBuildList(NoseConeSolarConfig.ID, new RocketCategory[] { RocketCategory.nosecones, RocketCategory.power }, NoseconeBasicConfig.ID);
@@ -75,7 +78,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 //AddRocketModuleToBuildList(LandingLegConfig.ID, RocketCategory.utility);
 
 
-                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, DockingTubeDoorConfig.ID,null, LaunchPadConfig.ID); 
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, DockingTubeDoorConfig.ID,null, GantryConfig.ID); 
                // ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, SpaceStationDockingDoorConfig.ID,null, LaunchPadConfig.ID);
                // AddRocketModuleToBuildList(SpaceStationBuilderModuleConfig.ID, RocketCategory.utility);
 
