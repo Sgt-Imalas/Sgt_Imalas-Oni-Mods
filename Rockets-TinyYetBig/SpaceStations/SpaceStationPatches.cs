@@ -44,6 +44,34 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
         }
 
+        /// <summary>
+        /// TODO!!!
+        /// </summary>
+        [HarmonyPatch(typeof(MissionControlCluster.Instance))]
+        [HarmonyPatch(nameof(MissionControlCluster.Instance.UpdateWorkableRocketsInRange))]
+        public static class DisableRocketBoost
+        {
+            public static void Postfix(MissionControlCluster.Instance __instance, List<Clustercraft> ___boostableClustercraft)
+            {
+                for(int i = ___boostableClustercraft.Count-1; i>0; i--)
+                {
+                    if (___boostableClustercraft[i] is SpaceStation)
+                    {
+                        ___boostableClustercraft.RemoveAt(i);
+                    }
+                }
+                if (___boostableClustercraft.Count == 0)
+                {
+
+                    var WorkableRocketsAreInRangeBoolParam = (StateMachine<MissionControlCluster, MissionControlCluster.Instance, IStateMachineTarget, MissionControlCluster.Def>.BoolParameter)
+                       typeof(MissionControlCluster).GetField("WorkableRocketsAreInRange", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance.sm);
+                    WorkableRocketsAreInRangeBoolParam.Set(false, __instance);
+                }
+
+            }
+        }
+
+
 
         /// <summary>
         /// NameableStations
