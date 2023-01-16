@@ -23,6 +23,10 @@ namespace Rockets_TinyYetBig
             public static Tech LargerRocketLivingSpaceTech;
             public static string SpaceStationTechID = "RTB_SpaceStationTech";
             public static Tech SpaceStationTech;
+            public static string SpaceStationTechMediumID = "RTB_MediumSpaceStationTech";
+            public static Tech SpaceStationTechMedium;
+            public static string SpaceStationTechLargeID = "RTB_LargeSpaceStationTech";
+            public static Tech SpaceStationTechLarge;
         }
         public class Tags
         {

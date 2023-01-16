@@ -365,3 +365,4 @@ FodyWeavers.xsd
 /Plib/PLibUI.dll
 /Plib/PLibOptions.dll
 /Plib/PLibCore.dll
+/Directory.Build.props

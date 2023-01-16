@@ -1,9 +1,11 @@
-﻿using KSerialization;
+﻿using Database;
+using KSerialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static UnityEngine.GraphicsBuffer;
 
 namespace Rockets_TinyYetBig.Science
 {
@@ -18,7 +20,6 @@ namespace Rockets_TinyYetBig.Science
                 return manager;
             }
         }
-        List<String> DeepSpaceTechs = new List<String>();
 
 
         [Serialize]
@@ -26,11 +27,48 @@ namespace Rockets_TinyYetBig.Science
 
         void ApplySciencePoints()
         {
-            if(CurrentScienceValue > 1f)
+            if (CurrentScienceValue > 1f)
             {
                 --CurrentScienceValue;
                 //++deepscienceresearch
+                if (GetCurrentDeepSpaceReserach(out var target))
+                {
+                    var techInstance = Research.Instance.Get(target);
+                    if (techInstance != null)
+                    {
+                        techInstance.progressInventory.AddResearchPoints(ModAssets.DeepSpaceScienceID, 1);
+                    }
+                }
             }
+        }
+        List<string> DeepSpaceTechs = new List<string>()
+        {
+            ModAssets.Techs.SpaceStationTechMediumID,
+            ModAssets.Techs.SpaceStationTechLargeID
+        };
+
+        bool GetCurrentDeepSpaceReserach(out Tech Target)
+        {
+            Target = null;
+            if (DeepSpaceScienceUnlocked)
+            {
+                foreach (var Tech in DeepSpaceTechs)
+                {
+                    var potentialDeepSpaceTech = Db.Get().Techs.TryGetTechForTechItem(Tech);
+
+                    if (potentialDeepSpaceTech.IsComplete())
+                        continue;
+
+                    if (potentialDeepSpaceTech.RequiresResearchType(ModAssets.DeepSpaceScienceID) &&
+                        potentialDeepSpaceTech.ArePrerequisitesComplete() &&
+                        Research.Instance.Get(potentialDeepSpaceTech).PercentageCompleteResearchType(ModAssets.DeepSpaceScienceID) < 1f)
+                    {
+                        Target = potentialDeepSpaceTech;
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         public void ScienceResearched(string researchType)
@@ -55,6 +93,6 @@ namespace Rockets_TinyYetBig.Science
                 ApplySciencePoints();
             }
         }
-        public bool DeepSpaceScienceUnlocked => ModAssets.Techs.DockingTech.IsComplete();
+        public bool DeepSpaceScienceUnlocked => ModAssets.Techs.SpaceStationTech.IsComplete();
     }
 }

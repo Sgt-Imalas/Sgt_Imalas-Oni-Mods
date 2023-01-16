@@ -61,6 +61,21 @@ namespace Rockets_TinyYetBig.Science
                     xDiff: Config.Instance.EnableExtendedHabs ? 1 : 2,
                     yDiff: 0
                     );
+
+                TechUtils.AddNode(__instance,
+                ModAssets.Techs.SpaceStationTechMediumID,
+                ModAssets.Techs.SpaceStationTechID,
+                xDiff: 1,
+                yDiff: 0
+                );
+
+                TechUtils.AddNode(__instance,
+                ModAssets.Techs.SpaceStationTechLargeID,
+                ModAssets.Techs.SpaceStationTechMediumID,
+                xDiff: 1,
+                yDiff: 0
+                );
+
             }
         }
 
@@ -121,10 +136,39 @@ namespace Rockets_TinyYetBig.Science
                     {ModAssets.DeepSpaceScienceID,3f }
                 }
                 );
+                ModAssets.Techs.SpaceStationTechMedium = new Tech(ModAssets.Techs.SpaceStationTechMediumID, new List<string>
+                {
+                },
+                __instance
+                , new Dictionary<string, float>()
+                {
+                    {"basic", 0f },
+                    {"advanced", 50f},
+                    {"orbital", 50f},
+                    {"nuclear", 50f},
+                    {ModAssets.DeepSpaceScienceID,200f }
+                }
+                );
+
+                ModAssets.Techs.SpaceStationTechLarge = new Tech(ModAssets.Techs.SpaceStationTechLargeID, new List<string>
+                {
+                },
+                __instance
+                , new Dictionary<string, float>()
+                {
+                    {"basic", 0f },
+                    {"advanced", 50f},
+                    {"orbital", 50f},
+                    {"nuclear", 50f},
+                    {ModAssets.DeepSpaceScienceID,200f }
+                }
+                );
 
 
                 //Debug.Log("AAAAAAAA: DeepSpaceScience Added");
                 InjectionMethods.AddItemToTechnologyKanim(ModAssets.SpaceStationTypes[0].ID, ModAssets.Techs.SpaceStationTechID, ModAssets.SpaceStationTypes[0].Name, ModAssets.SpaceStationTypes[0].Description, ModAssets.SpaceStationTypes[0].Kanim, DlcManager.AVAILABLE_EXPANSION1_ONLY);
+                InjectionMethods.AddItemToTechnologyKanim(ModAssets.SpaceStationTypes[1].ID, ModAssets.Techs.SpaceStationTechMediumID, ModAssets.SpaceStationTypes[1].Name, ModAssets.SpaceStationTypes[1].Description, ModAssets.SpaceStationTypes[1].Kanim, DlcManager.AVAILABLE_EXPANSION1_ONLY);
+                InjectionMethods.AddItemToTechnologyKanim(ModAssets.SpaceStationTypes[2].ID, ModAssets.Techs.SpaceStationTechLargeID, ModAssets.SpaceStationTypes[2].Name, ModAssets.SpaceStationTypes[2].Description, ModAssets.SpaceStationTypes[2].Kanim, DlcManager.AVAILABLE_EXPANSION1_ONLY);
                 InjectionMethods.AddItemToTechnologySprite(ModAssets.DeepSpaceScienceID, ModAssets.Techs.SpaceStationTechID, STRINGS.DEEPSPACERESEARCH.UNLOCKNAME, STRINGS.DEEPSPACERESEARCH.UNLOCKDESC, "research_type_deep_space_icon_unlock", DlcManager.AVAILABLE_EXPANSION1_ONLY);
                 Db.Get().Techs.Get(ModAssets.Techs.SpaceStationTechID).unlockedItemIDs.Reverse();
             }

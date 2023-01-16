@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TUNING;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.NonRocketBuildings
@@ -15,11 +16,8 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
         public override BuildingDef CreateBuildingDef()
         {
-            float[] buildingCosts = TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER6;
-            string[] buildingMaterials =
-            {
-                "Steel"
-            };
+            float[] buildingCosts = { 900f };
+            string[] buildingMaterials = {MATERIALS.REFINED_METAL};
             EffectorValues tieR2 = TUNING.NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = TUNING.BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
@@ -107,7 +105,6 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
         public override void DoPostConfigureComplete(GameObject go)
         {
-            go.GetComponent<KPrefabID>().AddTag(GameTags.Bunker);
         }
     }
 }

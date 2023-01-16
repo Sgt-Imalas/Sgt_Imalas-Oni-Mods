@@ -329,6 +329,12 @@ namespace Rockets_TinyYetBig
                     public static LocString DESC = "Dock with other spacecrafts";
 
                 }
+                public class RTB_LARGERROCKETLIVINGSPACETECH
+                {
+                    public static LocString NAME = UI.FormatAsLink("Luxurious Liv'in Space", nameof(RTB_DOCKINGTECH));
+                    public static LocString DESC = "All the living space a dupe could ask for, now in your rocket.";
+
+                }
             }
         }
     }
