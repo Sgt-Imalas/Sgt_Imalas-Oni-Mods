@@ -40,11 +40,11 @@ namespace Rockets_TinyYetBig.SpaceStations
         {
             if (this.Constructing())
             {
-                return ModAssets.SpaceStationTypes[CurrentSpaceStationTypeInt].constructionTime - ConstructionProgress;
+                return Math.Max(ModAssets.SpaceStationTypes[CurrentSpaceStationTypeInt].constructionTime - ConstructionProgress,0);
             }
             else if (this.Demolishing())
             {
-                return CurrentLocationDemolishTime - DemolishingProgress;
+                return Math.Max(CurrentLocationDemolishTime - DemolishingProgress, 0);
             }
             return 0;
         }
