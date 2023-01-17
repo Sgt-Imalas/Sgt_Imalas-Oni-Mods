@@ -22,7 +22,7 @@ namespace Rockets_TinyYetBig.RocketFueling
             {
                 MATERIALS.REFINED_METAL 
             };
-            float[] MaterialCosts = new float[] { 500 };
+            float[] MaterialCosts = new float[] { 300f };
 
         BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(
                 ID, 

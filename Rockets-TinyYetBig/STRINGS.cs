@@ -75,6 +75,12 @@ namespace Rockets_TinyYetBig
                     public static LocString DESC = (LocString)"Insulated for convenience.\nRockets must be landed to load or unload resources.";
                     public static LocString EFFECT = (LocString)("An insulated wall adapter to seal off rocket start areas.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
                 }
+                public class RTB_LADDERCONNECTIONADAPTER
+                {
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Rocket Port Ladder Adapter", nameof(RTB_WALLCONNECTIONADAPTER));
+                    public static LocString DESC = (LocString)"Connecting rocket platforms, now with verticality";
+                    public static LocString EFFECT = (LocString)("Connects adjacent rocket platforms while doubling as a ladder.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
+                }
                 public class RTB_HEPFUELLOADER
                 {
                     public static LocString NAME = (LocString)UI.FormatAsLink("Radbolt Fuel Loader", nameof(RTB_HEPFUELLOADER));
@@ -99,6 +105,19 @@ namespace Rockets_TinyYetBig
                     public static LocString NAME = UI.FormatAsLink("Fortified Rocket Platform", nameof(RTB_BUNKERLAUNCHPAD));
                     public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.DESC + "\n\nFortified to withstand comets.";
                     public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.EFFECT + "\n\nBlocks comets and is immune to comet damage.";
+                }
+                public class RTB_ADVANCEDLAUNCHPAD
+                {
+                    public static LocString NAME = UI.FormatAsLink("Advanced Rocket Platform", nameof(RTB_BUNKERLAUNCHPAD));
+                    public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.DESC;
+                    public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.EFFECT + "\n\nComes with shifted logic ports and an extra ribbon output that outputs the sub states of the " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.LOGIC_PORT_READY;
+                    public static LocString LOGIC_PORT_CATEGORY_READY_ACTIVE = "Each bit sends a " + UI.FormatAsAutomationState("Green Signal", UI.AutomationState.Active) + " when its respective check list category is fulfilled.\n" +
+                        "\n Bit 1 tracks the category \"Flight Route\"" +
+                        "\n Bit 2 tracks the category \"Rocket Construction\"" +
+                        "\n Bit 3 tracks the category \"Cargo Manifest\"" +
+                        "\n Bit 4 tracks the category \"Crew Manifest\"\n";
+
+                    public static LocString LOGIC_PORT_CATEGORY_READY_INACTIVE = "Otherwise, sends a " + UI.FormatAsAutomationState("Red Signal", UI.AutomationState.Standby)+" to the respective Bit.";
                 }
                 public class RTB_RTGGENERATORMODULE
                 {

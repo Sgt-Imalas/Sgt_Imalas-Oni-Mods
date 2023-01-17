@@ -50,7 +50,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
                 LogicPorts.Port.RibbonOutputPort((HashedString) LAUNCH_CHECKLIST_ID, new CellOffset(3, 1),
                 (string) global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.LOGIC_PORT_READY,
-                (string) global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.LOGIC_PORT_READY_ACTIVE,
+                (string) STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_CATEGORY_READY_ACTIVE,
                 (string) global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.LOGIC_PORT_READY_INACTIVE),
 
                 LogicPorts.Port.OutputPort((HashedString) "LandedRocket", new CellOffset(-3, 1)

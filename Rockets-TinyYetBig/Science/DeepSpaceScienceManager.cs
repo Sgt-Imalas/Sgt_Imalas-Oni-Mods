@@ -27,16 +27,17 @@ namespace Rockets_TinyYetBig.Science
 
         void ApplySciencePoints()
         {
-            if (CurrentScienceValue > 1f)
+            while (CurrentScienceValue >= 1f)
             {
-                --CurrentScienceValue;
                 //++deepscienceresearch
                 if (GetCurrentDeepSpaceReserach(out var target))
                 {
                     var techInstance = Research.Instance.Get(target);
                     if (techInstance != null)
                     {
-                        techInstance.progressInventory.AddResearchPoints(ModAssets.DeepSpaceScienceID, 1);
+                        int pointsToAdd = (int)Math.Min((techInstance.tech.costsByResearchTypeID[ModAssets.DeepSpaceScienceID] - techInstance.progressInventory.PointsByTypeID[ModAssets.DeepSpaceScienceID]), CurrentScienceValue);
+                        techInstance.progressInventory.AddResearchPoints(ModAssets.DeepSpaceScienceID, pointsToAdd);
+                        CurrentScienceValue -= pointsToAdd;
                     }
                 }
             }
@@ -74,9 +75,9 @@ namespace Rockets_TinyYetBig.Science
         public void ArtifactResearched (bool terrestial)
         {
             if (terrestial)
-                CurrentScienceValue += 10;
+                CurrentScienceValue += 2;
             else
-                CurrentScienceValue += 5;
+                CurrentScienceValue += 1;
         }
 
         public void ScienceResearched(string researchType)
