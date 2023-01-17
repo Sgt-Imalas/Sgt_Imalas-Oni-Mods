@@ -149,7 +149,9 @@ namespace RoboRockets
                 AttributeConverter pilotingSpeed = Db.Get().AttributeConverters.PilotingSpeed;
                 if (pilot.GetComponent<AttributeConverters>().GetConverter(pilotingSpeed.Id) == null)
                 {
+#if DEBUG
                     Debug.Log("skippingNormalSpeedSetter in Legacy AI Rocket");
+#endif
                     __instance.pilotSpeedMult = Config.Instance.NoBrainRockets;
                     return false;
                 }
@@ -163,31 +165,50 @@ namespace RoboRockets
         {
             public static void Postfix(PassengerRocketModule module, HabitatModuleSideScreen __instance)
             {
-                bool allowed = module.gameObject.GetComponent<AIPassengerModule>() == null;
+                bool allowed = !module.gameObject.TryGetComponent<AIPassengerModule>(out var n);
 
                 HierarchyReferences component = __instance.GetComponent<HierarchyReferences>();
                 KButton reference = component.GetReference<KButton>("button");
-                reference.ClearOnClick();
+                if(!allowed)
+                    reference.ClearOnClick();
                 reference.isInteractable = allowed;
             }
         }
 
-        [HarmonyPatch(typeof(CameraController))]
-        [HarmonyPatch(nameof(CameraController.ActiveWorldStarWipe))]
-        [HarmonyPatch(new System.Type[] { typeof(int), typeof(System.Action) })]
+        //[HarmonyPatch(typeof(CameraController))]
+        //[HarmonyPatch(nameof(CameraController.ActiveWorldStarWipe))]
+        //[HarmonyPatch(new System.Type[] { typeof(int), typeof(System.Action) })]
+        //public class DisableViewInteriorWorldSelector_Patch
+        //{
+        //    public static bool Prefix(int id)
+        //    {
+        //        if (ModAssets.ForbiddenInteriorIDs.Contains(id))
+        //        {
+
+        //            Debug.Log("WorldID is forbidden to look into: " + id);
+        //            return false;
+        //        }
+        //        return true;
+        //    }
+        //}
+        [HarmonyPatch(typeof(WorldSelector))]
+        [HarmonyPatch(nameof(WorldSelector.OnWorldRowClicked))]
         public class DisableViewInteriorWorldSelector_Patch
         {
             public static bool Prefix(int id)
             {
                 if (ModAssets.ForbiddenInteriorIDs.Contains(id))
                 {
-
+#if DEBUG
                     Debug.Log("WorldID is forbidden to look into: " + id);
+#endif
                     return false;
                 }
                 return true;
             }
         }
+
+
 
         [HarmonyPatch(typeof(ClustercraftExteriorDoor))]
         [HarmonyPatch("OnSpawn")]
@@ -202,10 +223,10 @@ namespace RoboRockets
                     if(!aiModue.variableSpeed)
                     { 
 #if DEBUG
-                    Debug.Log("AI Module added; adjusting automated Speed to " + Config.Instance.NoBrainRockets);
+                        Debug.Log("AI Module added; adjusting automated Speed to " + Config.Instance.NoBrainRockets);
 #endif
                     component.AutoPilotMultiplier = Config.Instance.NoBrainRockets;
-                }
+                    }
                     Debug.Log("World forbidden to look into: " + worldRefID);
                     ModAssets.ForbiddenInteriorIDs.Add(worldRefID);
                 }
