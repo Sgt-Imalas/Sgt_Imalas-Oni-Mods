@@ -24,6 +24,7 @@ namespace Rockets_TinyYetBig.Docking
         //private Dictionary<DockingDoor, GameObject> dockingPorts = new Dictionary<DockingDoor, GameObject>();
         private DockingManager targetManager;
         private Clustercraft targetCraft;
+        private DockingDoor targetDoor;
 
         [SerializeField]
         private GameObject rowPrefab;
@@ -55,7 +56,7 @@ namespace Rockets_TinyYetBig.Docking
 
             var spaceship = manager.GetComponent<Clustercraft>();
             
-            bool flying = spaceship!=null ? spaceship.Status == Clustercraft.CraftStatus.InFlight : true;
+            bool flying = spaceship!=null ? spaceship.Status == Clustercraft.CraftStatus.InFlight : false;
 
             return manager != null && manager.HasDoors() && manager.GetCraftType != DockableType.Derelict && flying;
         }
@@ -77,9 +78,9 @@ namespace Rockets_TinyYetBig.Docking
             target.TryGetComponent<Clustercraft>(out this.targetCraft);
             if (targetManager == null)
             {
-                if (target.TryGetComponent<DockingDoor>(out var door))
+                if (target.TryGetComponent<DockingDoor>(out var targetDoor))
                 {
-                    targetManager = door.dManager;
+                    targetManager = targetDoor.dManager;
                     targetCraft = targetManager.GetComponent<Clustercraft>();
                 }
             }
@@ -193,7 +194,14 @@ namespace Rockets_TinyYetBig.Docking
                 
                 toggle.onClick = (System.Action)(() =>
                 {
-                    targetManager.HandleUiDocking(toggle.CurrentState,kvp.Key.GetWorldId()); 
+                    if (targetDoor != null)
+                    {
+                        targetManager.HandleUiDockingByDoor(toggle.CurrentState, kvp.Key.GetWorldId(), targetDoor);
+                    }
+                    else
+                    {
+                        targetManager.HandleUiDocking(toggle.CurrentState, kvp.Key.GetWorldId());
+                    }
                     this.Refresh();
                 });
                 kvp.Value.GetComponent<HierarchyReferences>().GetReference<MultiToggle>("Toggle").ChangeState(targetManager.IsDockedTo(kvp.Key.GetWorldId()) ? 1 : 0);

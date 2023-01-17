@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static STRINGS.CODEX;
 
 namespace Rockets_TinyYetBig.Behaviours
 {
@@ -182,10 +183,20 @@ namespace Rockets_TinyYetBig.Behaviours
                 DockToTargetWorld(targetWorld);
             else
                 UnDockFromTargetWorld(targetWorld);
+        }
+        public void HandleUiDockingByDoor(int prevDockingState, int targetWorld, DockingDoor door)
+        {
+#if DEBUG
+            Debug.Log(prevDockingState == 0 ? "Trying to dock to " + targetWorld : "Trying To Undock from " + targetWorld);
+#endif
+            if (prevDockingState == 0)
+                DockToTargetWorld(targetWorld, door);
+            else
+                UnDockFromTargetWorld(targetWorld);
             //DetailsScreen.Instance.Refresh(gameObject); ///deletes all others
         }
 
-        public void DockToTargetWorld(int targetWorldId)
+        public void DockToTargetWorld(int targetWorldId, DockingDoor OwnDoor = null)
         {
             if (!this.CanDock())
                 return;
@@ -203,7 +214,8 @@ namespace Rockets_TinyYetBig.Behaviours
                 Debug.Log("Already Docked");
                 return;
             }
-            ConnectTwo(this, target);
+            ConnectTwo(this, target, OwnDoor);
+
             if(SpaceStationManager.WorldIsSpaceStationInterior(OwnWorldId))
                 ClusterManager.Instance.GetWorld(targetWorldId).SetParentIdx(OwnWorldId );
             else if (SpaceStationManager.WorldIsSpaceStationInterior(targetWorldId))
@@ -226,9 +238,10 @@ namespace Rockets_TinyYetBig.Behaviours
             }
         }
 
-        public static void ConnectTwo(DockingManager door1mng, DockingManager door2mng)
+        public static void ConnectTwo(DockingManager door1mng, DockingManager door2mng, DockingDoor OverwriteOwn = null)
         {
-            var door1 = door1mng.DockingDoors.First(k => k.Value == -1).Key;
+
+            var door1 = OverwriteOwn != null? OverwriteOwn : door1mng.DockingDoors.First(k => k.Value == -1).Key;
             var door2 = door2mng.DockingDoors.First(k => k.Value == -1).Key;
             if (door1 == null || door2 == null)
                 return;
@@ -251,6 +264,22 @@ namespace Rockets_TinyYetBig.Behaviours
         //    door1.Teleporter.EnableTwoWayTarget(true);
         //}
 
+        void UndockDoor(DockingDoor door, bool cleanup = false)
+        {
+            door.Teleporter.EnableTwoWayTarget(false);
+            var door2 = door.GetConnec();
+            door2.dManager.DockingDoors[door2] = -1;
+            door2.DisconnecDoor();
+            DockingDoors[door] = -1;
+            door.DisconnecDoor(cleanup);
+            int targetWorldId = door2.GetMyWorldId();
+
+            ClusterManager.Instance.GetWorld(targetWorldId).SetParentIdx(targetWorldId);
+            ClusterManager.Instance.GetWorld(OwnWorldId).SetParentIdx(OwnWorldId);
+
+            DetailsScreen.Instance.Refresh(door.gameObject);
+        }
+
         public void UnDockFromTargetWorld(int targetWorldId,bool cleanup=false)
         {
 #if DEBUG
@@ -263,17 +292,9 @@ namespace Rockets_TinyYetBig.Behaviours
             if(door == null)
             {
                 Debug.LogWarning("No connection to undock from found");
+                return;
             }
-            door.Teleporter.EnableTwoWayTarget(false);
-            var door2 = door.GetConnec();
-            door2.dManager.DockingDoors[door2] = -1;
-            door2.DisconnecDoor();
-            DockingDoors[door] = -1;
-            door.DisconnecDoor(cleanup);
-            ClusterManager.Instance.GetWorld(targetWorldId).SetParentIdx(targetWorldId);
-            ClusterManager.Instance.GetWorld(OwnWorldId).SetParentIdx(OwnWorldId);
-
-            DetailsScreen.Instance.Refresh(door.gameObject);
+            UndockDoor(door, cleanup);
         }
 
         public string GetProperName() => this.GetComponent<Clustercraft>().name;
