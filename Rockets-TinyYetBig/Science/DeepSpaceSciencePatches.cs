@@ -26,6 +26,17 @@ namespace Rockets_TinyYetBig.Science
             {
                 __instance.gameObject.AddOrGet<DeepSpaceScienceManager>();
             }
+        } 
+
+        [HarmonyPatch(typeof(ArtifactAnalysisStationWorkable))]
+        [HarmonyPatch("ConsumeCharm")]
+        public class AddDeepSpaceResearchOnSpaceArtifactResearch
+        {
+            public static void Postfix(ArtifactAnalysisStationWorkable __instance)
+            {
+                GameObject artifactToBeDefrosted = __instance.storage.FindFirst(GameTags.CharmedArtifact);
+                DeepSpaceScienceManager.Instance.ArtifactResearched(artifactToBeDefrosted.HasTag(GameTags.TerrestrialArtifact));
+            }
         }
 
 

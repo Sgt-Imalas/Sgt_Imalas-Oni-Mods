@@ -71,6 +71,14 @@ namespace Rockets_TinyYetBig.Science
             return false;
         }
 
+        public void ArtifactResearched (bool terrestial)
+        {
+            if (terrestial)
+                CurrentScienceValue += 10;
+            else
+                CurrentScienceValue += 5;
+        }
+
         public void ScienceResearched(string researchType)
         {
             if (DeepSpaceScienceUnlocked)
