@@ -43,10 +43,11 @@ namespace Rockets_TinyYetBig.Docking
         public override float GetSortKey() => 21f;
         public override bool IsValidForTarget(GameObject target)
         {
+            DockingDoor door=null;
             var manager = target.GetComponent<DockingManager>();
             if (manager == null)
             {
-                if(target.TryGetComponent<DockingDoor>(out var door))
+                if(target.TryGetComponent<DockingDoor>(out door))
                 {
                     manager = door.dManager;
                 }
@@ -58,12 +59,17 @@ namespace Rockets_TinyYetBig.Docking
             
             bool flying = spaceship!=null ? spaceship.Status == Clustercraft.CraftStatus.InFlight : false;
 
-            return manager != null && manager.HasDoors() && manager.GetCraftType != DockableType.Derelict && flying;
+            return door != null || manager != null && manager.HasDoors() && manager.GetCraftType != DockableType.Derelict && flying;
+        }
+        public override void ClearTarget()
+        {
+            targetManager = null;
+            targetDoor= null;
+            targetCraft = null;
+            base.ClearTarget();
         }
         public override void SetTarget(GameObject target)
         {
-            base.SetTarget(target);
-
             if (target != null)
             {
                 foreach (int id in this.refreshHandle)
@@ -71,24 +77,14 @@ namespace Rockets_TinyYetBig.Docking
                 refreshHandle.Clear();
             }
             base.SetTarget(target);
-
-
-
-            targetManager = target.GetComponent<DockingManager>(); ///??? revisit
-            target.TryGetComponent<Clustercraft>(out this.targetCraft);
+            target.TryGetComponent<DockingManager>(out targetManager); ///??? revisit
+            target.TryGetComponent<Clustercraft>(out targetCraft);
+            target.TryGetComponent<DockingDoor>(out targetDoor);
             if (targetManager == null)
             {
-                if (target.TryGetComponent<DockingDoor>(out var targetDoor))
-                {
-                    targetManager = targetDoor.dManager;
-                    targetCraft = targetManager.GetComponent<Clustercraft>();
-                }
+                targetManager = targetDoor.dManager;
             }
-
-            if (targetManager == null) 
-            { 
-                targetManager = targetCraft.GetComponent<DockingManager>();
-            }
+            targetManager.TryGetComponent<Clustercraft>(out targetCraft);
             ConnectReference();
             Build();
             refreshHandle.Add(this.targetCraft.gameObject.Subscribe((int)GameHashes.ClusterDestinationChanged, new System.Action<object>(this.RefreshAll)));
