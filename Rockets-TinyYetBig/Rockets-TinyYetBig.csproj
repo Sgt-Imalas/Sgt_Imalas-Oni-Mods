@@ -366,4 +366,10 @@
 	<ItemGroup>
 	  <Folder Include="Buildings\Boosters\" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="ONITwitchLib">
+	    <HintPath>..\TwitchLib\ONITwitchLib.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
 </Project>
