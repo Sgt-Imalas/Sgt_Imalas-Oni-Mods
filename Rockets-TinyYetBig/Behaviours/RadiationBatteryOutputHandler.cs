@@ -37,11 +37,79 @@ namespace Rockets_TinyYetBig.Behaviours
         private readonly float minLaunchInterval = 1f;
         public void Sim200ms(float dt)
         {
+            bool hasSky = HasSkyVisibility();
+            if (!hasSky)
+                DoConsumeParticlesWhileDisabled(dt);
+            else
+                m_skipFirstUpdate = 10;
+
+            UpdateDecayStatusItem(hasSky);
             launchTimer += dt;
             if (launchTimer < (double)minLaunchInterval || !AllowSpawnParticles || (double)hepStorage.Particles < particleThreshold)
                 return;
             launchTimer = 0.0f;
             Fire();
+        }
+
+
+        private Guid statusHandle = Guid.Empty;
+        public void UpdateDecayStatusItem(bool decaying)
+        {
+            if (!decaying)
+            {
+                if ((double)this.hepStorage.Particles > 0.0)
+                {
+                    if (!(this.statusHandle == Guid.Empty))
+                        return;
+                    this.statusHandle = this.GetComponent<KSelectable>().AddStatusItem(Db.Get().BuildingStatusItems.LosingRadbolts);
+                }
+                else
+                {
+                    if (!(this.statusHandle != Guid.Empty))
+                        return;
+                    this.GetComponent<KSelectable>().RemoveStatusItem(this.statusHandle);
+                    this.statusHandle = Guid.Empty;
+                }
+            }
+            else
+            {
+                if (!(this.statusHandle != Guid.Empty))
+                    return;
+                this.GetComponent<KSelectable>().RemoveStatusItem(this.statusHandle);
+                this.statusHandle = Guid.Empty;
+            }
+        }
+
+        public bool HasSkyVisibility()
+        {
+            int CellCenter = Grid.PosToCell(this);
+            if (!Grid.IsValidCell(CellCenter))
+            {
+                m_skipFirstUpdate = 10;
+                return true;
+            }
+            bool cellsClear = Grid.ExposedToSunlight[CellCenter-2] >= 1 && Grid.ExposedToSunlight[CellCenter+2] >= 1;
+            return cellsClear;
+        }
+
+        private int m_skipFirstUpdate = 10;
+        public void DoConsumeParticlesWhileDisabled(float dt)
+        {
+            if (this.m_skipFirstUpdate>0)
+            {
+                this.m_skipFirstUpdate--;
+            }
+            else
+            {
+                double num = (double)this.hepStorage.ConsumeAndGet(dt * 0.5f);
+                OnStorageChange(null);
+            }
+        }
+
+        public void RadboltDecay()
+        {
+            if(HasSkyVisibility()) return;
+
         }
 
         private void OnLogicValueChanged(object data)
