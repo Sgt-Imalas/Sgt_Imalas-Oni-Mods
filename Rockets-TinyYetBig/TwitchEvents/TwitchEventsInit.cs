@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static DebugHandler;
+using Rockets_TinyYetBig.TwitchEvents.Events;
 
 namespace Rockets_TinyYetBig.TwitchEvents
 {
@@ -44,7 +45,7 @@ namespace Rockets_TinyYetBig.TwitchEvents
 
             Init();
 
-            RegisterEvent(new MandatoryTesting(WEIGHT_COMMON));
+            RegisterEvent(new RocketBoostEvent());
         }
 
 
