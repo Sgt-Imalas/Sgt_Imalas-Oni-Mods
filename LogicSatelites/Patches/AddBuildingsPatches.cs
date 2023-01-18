@@ -38,7 +38,7 @@ namespace LogicSatellites
                 //InjectionMethods.AddBuildingToTechnology(ModAssets.SatelliteConfigurations[1].TechId, ModAssets.SatelliteConfigurations[1].TechItemId);
 
 
-                ModAssets.ExplorationSatellite = InjectionMethods.AddItemToTechnology(ModAssets.SatelliteConfigurations[0].TechItemId, ModAssets.SatelliteConfigurations[0].TechId, (string)ModAssets.SatelliteConfigurations[0].NAME, (string)ModAssets.SatelliteConfigurations[0].DESC, "LS_Exploration_Sat", DlcManager.AVAILABLE_EXPANSION1_ONLY);
+                ModAssets.ExplorationSatellite = InjectionMethods.AddItemToTechnologySprite(ModAssets.SatelliteConfigurations[0].TechItemId, ModAssets.SatelliteConfigurations[0].TechId, (string)ModAssets.SatelliteConfigurations[0].NAME, (string)ModAssets.SatelliteConfigurations[0].DESC, "LS_Exploration_Sat", DlcManager.AVAILABLE_EXPANSION1_ONLY);
                 //ModAssets.SolarSatellite = InjectionMethods.AddItemToTechnology(ModAssets.SatelliteConfigurations[1].TechItemId, ModAssets.SatelliteConfigurations[1].TechId, (string)ModAssets.SatelliteConfigurations[1].NAME, (string)ModAssets.SatelliteConfigurations[1].DESC, "LS_Solar_Sat", DlcManager.AVAILABLE_EXPANSION1_ONLY);
 
             }
