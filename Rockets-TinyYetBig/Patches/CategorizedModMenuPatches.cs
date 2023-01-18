@@ -258,25 +258,28 @@ namespace Rockets_TinyYetBig
                                 }
                                 else
                                 {
-                                    GameObject gameObject2 = Util.KInstantiateUI(__instance.moduleButtonPrefab, reference.gameObject, true);
-                                    gameObject2.GetComponentsInChildren<Image>()[1].sprite = Def.GetUISprite((object)part).first;
-                                    LocText componentInChildren = gameObject2.GetComponentInChildren<LocText>();
+                                    GameObject ModuleButton = Util.KInstantiateUI(__instance.moduleButtonPrefab, reference.gameObject, true);
+                                    ModuleButton.GetComponentsInChildren<Image>()[1].sprite = Def.GetUISprite((object)part).first;
+                                    LocText componentInChildren = ModuleButton.GetComponentInChildren<LocText>();
                                     componentInChildren.text = part.GetProperName();
                                     componentInChildren.alignment = TextAlignmentOptions.Bottom;
                                     componentInChildren.enableWordWrapping = true;
-                                    gameObject2.GetComponent<MultiToggle>().onClick += (System.Action)(() => __instance.SelectModule(part.GetComponent<Building>().Def));
-                                    ModAssets.CategorizedButtons.Add(new Tuple<BuildingDef, int>(part.GetComponent<Building>().Def, category.Key), gameObject2);
-                                    if (Config.Instance.HideRocketCategoryTooltips == false)
-                                    {
-                                        string Tooltip = part.GetComponent<Building>().GetProperName() + "\n" + part.GetComponent<Building>().Def.Effect;
-                                        var tt = UIUtils.AddSimpleTooltipToObject(gameObject2.transform, Tooltip);
+                                    ModuleButton.GetComponent<MultiToggle>().onClick += (System.Action)(() => __instance.SelectModule(part.GetComponent<Building>().Def));
+                                    ModAssets.CategorizedButtons.Add(new Tuple<BuildingDef, int>(part.GetComponent<Building>().Def, category.Key), ModuleButton);
+                                    //if (Config.Instance.HideRocketCategoryTooltips == false)
+                                    //{
+                                    //    string Tooltip = part.GetComponent<Building>().GetProperName() + "\n" + part.GetComponent<Building>().Def.Effect;
+                                    //    var tt = UIUtils.AddSimpleTooltipToObject(ModuleButton.transform, Tooltip);
 
-                                        tt.toolTipPosition = ToolTip.TooltipPosition.Custom;
-                                        tt.parentPositionAnchor = new Vector2(0.0f, 0.5f);
-                                        tt.tooltipPivot = new Vector2(1f, 1f);
-                                        tt.tooltipPositionOffset = new Vector2(-24f, 20f);
-                                    }
+                                    //    tt.toolTipPosition = ToolTip.TooltipPosition.Custom;
+                                    //    tt.parentPositionAnchor = new Vector2(0.0f, 0.5f);
+                                    //    tt.tooltipPivot = new Vector2(1f, 1f);
+                                    //    tt.tooltipPositionOffset = new Vector2(-24f, 20f);
+                                    //}
 
+                                    var TooltipMethod = typeof(SelectModuleSideScreen).GetMethod("SetupBuildingTooltip", BindingFlags.NonPublic | BindingFlags.Instance);
+
+                                    TooltipMethod.Invoke(__instance, new System.Object[] { ModuleButton.GetComponent<ToolTip>(), part.GetComponent<Building>().Def });
                                     BuildingDef selectedModuleReflec = (BuildingDef)typeof(SelectModuleSideScreen).GetField("selectedModuleDef", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
 
                                     if (selectedModuleReflec != (UnityEngine.Object)null)
