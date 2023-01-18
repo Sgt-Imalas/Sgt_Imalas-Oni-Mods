@@ -240,6 +240,8 @@ namespace Rockets_TinyYetBig.Behaviours
 
         public static void ConnectTwo(DockingManager door1mng, DockingManager door2mng, DockingDoor OverwriteOwn = null)
         {
+            if (OverwriteOwn.GetConnec() != null)
+                OverwriteOwn = null;
 
             var door1 = OverwriteOwn != null? OverwriteOwn : door1mng.DockingDoors.First(k => k.Value == -1).Key;
             var door2 = door2mng.DockingDoors.First(k => k.Value == -1).Key;

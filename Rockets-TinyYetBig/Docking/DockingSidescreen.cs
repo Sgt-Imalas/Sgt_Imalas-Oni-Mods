@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
+using static UnityEngine.GraphicsBuffer;
 using static UtilLibs.UIUtils;
 
 namespace Rockets_TinyYetBig.Docking
@@ -59,10 +60,13 @@ namespace Rockets_TinyYetBig.Docking
             
             bool flying = spaceship!=null ? spaceship.Status == Clustercraft.CraftStatus.InFlight : false;
 
-            return door != null || manager != null && manager.HasDoors() && manager.GetCraftType != DockableType.Derelict && flying;
+            return manager != null && manager.HasDoors() && manager.GetCraftType != DockableType.Derelict && flying;
         }
         public override void ClearTarget()
         {
+            foreach (int id in this.refreshHandle)
+                targetCraft.Unsubscribe(id);
+            refreshHandle.Clear();
             targetManager = null;
             targetDoor= null;
             targetCraft = null;
