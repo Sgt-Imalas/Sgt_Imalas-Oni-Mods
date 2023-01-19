@@ -9,16 +9,17 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.TwitchEvents.Events
 {
-    internal class RocketBoostEvent : ITwitchEventBase
+    internal class RocketBoostEventAll : ITwitchEventBase
     {
-        public string ID => "RTB_TwitchEvent_RocketBoost";
+        public string ID => "RTB_TwitchEvent_RocketBoostAll";
         public string EventName => "Rocket Boost";
 
         public Danger EventDanger => Danger.None;
-        public string EventDescription => "{0} has recieved a boost!";
-        public EventWeight EventWeight => EventWeight.WEIGHT_NORMAL;
-        public Func<object, bool> Condition =>
-                (data) =>
+        public string EventDescription => "All flying rockets have recieved a boost!";
+        public EventWeight EventWeight => EventWeight.WEIGHT_RARE;
+        public Func<object, bool> Condition 
+            =>
+                data =>
                 {
                     if(SpaceStationManager.GetRockets(out var rockets))
                     {
@@ -29,19 +30,17 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
 
                     return false;
                 };
-        public Action<object> EventAction => 
-            (data) =>
+        public Action<object> EventAction => (
+            data =>
             {
                 SpaceStationManager.GetRockets(out var rockets);
-                rockets.ShuffleList();
                 foreach (Clustercraft craft in rockets)
                     if (craft.Status == Clustercraft.CraftStatus.InFlight && craft.controlStationBuffTimeRemaining <= 0)
                     {
                         craft.controlStationBuffTimeRemaining = (float)new System.Random().Next(600,1200);
-
-                        ToastManager.InstantiateToast(EventName, string.Format(EventDescription,craft.Name));
-                        break;
                     }
-            };
+
+                ToastManager.InstantiateToast(EventName, EventDescription);
+            });
     }
 }

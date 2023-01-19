@@ -23,7 +23,7 @@ namespace Rockets_TinyYetBig.TwitchEvents
         public const int WEIGHT_NORMAL = 10;
         public const int WEIGHT_COMMON = 30;
 
-        public static void Init()
+        static void Init()
         {
             if (initalized)
                 return;
@@ -44,19 +44,20 @@ namespace Rockets_TinyYetBig.TwitchEvents
             }
 
             Init();
-
+            
             RegisterEvent(new RocketBoostEvent());
+            RegisterEvent(new RocketBoostEventAll());
         }
 
 
-        public static void RegisterEvent(TwitchEventBase twitchEvent)
+        public static void RegisterEvent(ITwitchEventBase twitchEvent)
         {
-            if (twitchEvent.GetWeight == WEIGHT_NEVER)
+            if ((int)twitchEvent.EventWeight == WEIGHT_NEVER)
                 return;
 
             var deckInst = TwitchDeckManager.Instance;
 
-            var (_event, _eventGroup) = EventGroup.DefaultSingleEventGroup(twitchEvent.ID, twitchEvent.GetWeight, twitchEvent.EventName);
+            var (_event, _eventGroup) = EventGroup.DefaultSingleEventGroup(twitchEvent.ID, (int)twitchEvent.EventWeight, twitchEvent.EventName);
             _event.AddListener(twitchEvent.EventAction);
             _event.AddCondition(twitchEvent.Condition);
             _event.Danger = twitchEvent.EventDanger;
