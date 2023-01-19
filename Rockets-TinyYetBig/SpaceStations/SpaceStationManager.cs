@@ -54,7 +54,8 @@ namespace Rockets_TinyYetBig.SpaceStations
             string interiorTemplateName,
             Vector2I spaceStationInteriorSize,
             bool allowBuilding,
-            System.Action callback)
+            System.Action callback,
+            AxialI Coordinates)
         {
             Vector2I offset;
             if (Grid.GetFreeGridSpace(spaceStationInteriorSize, out offset))
@@ -84,13 +85,11 @@ namespace Rockets_TinyYetBig.SpaceStations
                 ClusterManager.Instance.Trigger((int)GameHashes.WorldAdded, (object)spaceStationInteriorWorld.id);
                 spaceStationInteriorWorld.AddTag(ModAssets.Tags.IsSpaceStation);
                 SpaceStationWorlds.Add(spaceStationInteriorWorld.id);
-                if (gameObject.TryGetComponent<ClusterGridEntity>(out var craftForCoords))
-                {
+
                     int maxRings = ClusterGrid.Instance.numRings;
-                    var distance = GetDistanceFromAxial(craftForCoords.Location);
+                    var distance = GetDistanceFromAxial(Coordinates);
                     spaceStationInteriorWorld.cosmicRadiation = (int)Interpolate(LowEndRads,HighEndRads,3, maxRings,distance);
-                    spaceStationInteriorWorld.sunlight = (int)Interpolate(LowEndLight, LowEndLight, 3, maxRings, distance); 
-                }
+                    spaceStationInteriorWorld.sunlight = (int)Interpolate(LowEndLight, HighEndLight, 3, maxRings, distance); 
 
                 return spaceStationInteriorWorld;
 

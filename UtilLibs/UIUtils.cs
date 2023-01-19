@@ -92,6 +92,7 @@ namespace UtilLibs
             if (go == null)
                 return null;
             var tt = go.gameObject.AddOrGet<ToolTip>();
+            tt.enabled = true;
             tt.tooltipPivot = alignCenter ? new Vector2(0.5f, 0f) : new Vector2(1f, 0f);
             tt.tooltipPositionOffset = new Vector2(0f, 20f);
             tt.parentPositionAnchor = new Vector2(0.5f, 0.5f);
@@ -103,6 +104,14 @@ namespace UtilLibs
             ToolTipScreen.Instance.SetToolTip(tt);
             tt.SetSimpleTooltip(tooltip);
             return tt;
+        }
+
+        public static void RemoveSimpleTooltipOnObject(Transform go)
+        {
+            if (go == null)
+                return;
+            if(go.gameObject.TryGetComponent<ToolTip>(out var tt))
+                GameObject.Destroy(tt);
         }
 
         public static Transform TryInsertNamedCopy(Transform parent, string subCompName = "", string copyName = "copy")

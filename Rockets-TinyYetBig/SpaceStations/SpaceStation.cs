@@ -63,7 +63,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             //Debug.Log("MY WorldID:" + SpaceStationInteriorId);
             if (SpaceStationInteriorId < 0)
             {
-                var interiorWorld = SpaceStationManager.Instance.CreateSpaceStationInteriorWorld(gameObject, "interiors/" + InteriorTemplate, CurrentSpaceStationType.InteriorSize, BuildableInterior, null);
+                var interiorWorld = SpaceStationManager.Instance.CreateSpaceStationInteriorWorld(gameObject, "interiors/" + InteriorTemplate, CurrentSpaceStationType.InteriorSize, BuildableInterior, null, Location);
                 SpaceStationInteriorId = interiorWorld.id;
                 Debug.Log("new WorldID:" + SpaceStationInteriorId);
                 Debug.Log("ADDED NEW SPACE STATION INTERIOR");
