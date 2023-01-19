@@ -46,20 +46,23 @@ namespace Rockets_TinyYetBig.TwitchEvents
 
             Init();
             RegisterAllEvents();
-            return;
-            RegisterEvent(new RocketBoostEvent());
-            RegisterEvent(new RocketBoostEventAll());
         }
 
         static void RegisterAllEvents()
         {
             var nameSpace = "Rockets_TinyYetBig.TwitchEvents.Events";
-
             var asm = Assembly.GetExecutingAssembly();
+
             var events = asm.GetTypes().Where(p =>
                  p.Namespace == nameSpace &&
-                 p.IsInstanceOfType(typeof(ITwitchEventBase))
+                 p.GetInterfaces().Contains(typeof(ITwitchEventBase))
             ).ToList();
+
+            foreach(Type eventType in events)
+            {
+               var Instance = (ITwitchEventBase) Activator.CreateInstance(eventType);
+                RegisterEvent(Instance);
+            }
         }
 
         public static void RegisterEvent(ITwitchEventBase twitchEvent)

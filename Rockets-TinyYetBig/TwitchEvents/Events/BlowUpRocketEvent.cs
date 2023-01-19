@@ -37,7 +37,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
                 foreach (Clustercraft craft in rockets)
                     if (craft.Status == Clustercraft.CraftStatus.InFlight)
                     {
-                        craft.SetExploding();
+                        craft.ModuleInterface.gameObject.Trigger(-1061799784);
                         ToastManager.InstantiateToast(EventName, string.Format(EventDescription,craft.Name));
                         break;
                     }
