@@ -16,10 +16,14 @@ namespace UtilLibs
             {
                 if (!mod.IsEnabledForActiveDlc())
                     continue;
-                if(mod.staticID== modId)
+                if(mod.staticID== modId || mod.staticID.Contains(modId) || mod.staticID == WorkshopModIDs[modId])
                     return true;
             }
             return false;
         }
+        public static Dictionary<string, string> WorkshopModIDs = new Dictionary<string, string>()
+        {
+            { "TrueTiles","2815406414" }
+        };
     }
 }
