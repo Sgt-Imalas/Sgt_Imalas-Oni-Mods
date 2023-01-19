@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static DebugHandler;
 using Rockets_TinyYetBig.TwitchEvents.Events;
+using System.Reflection;
 
 namespace Rockets_TinyYetBig.TwitchEvents
 {
@@ -44,11 +45,22 @@ namespace Rockets_TinyYetBig.TwitchEvents
             }
 
             Init();
-            
+            RegisterAllEvents();
+            return;
             RegisterEvent(new RocketBoostEvent());
             RegisterEvent(new RocketBoostEventAll());
         }
 
+        static void RegisterAllEvents()
+        {
+            var nameSpace = "Rockets_TinyYetBig.TwitchEvents.Events";
+
+            var asm = Assembly.GetExecutingAssembly();
+            var events = asm.GetTypes().Where(p =>
+                 p.Namespace == nameSpace &&
+                 p.IsInstanceOfType(typeof(ITwitchEventBase))
+            ).ToList();
+        }
 
         public static void RegisterEvent(ITwitchEventBase twitchEvent)
         {
