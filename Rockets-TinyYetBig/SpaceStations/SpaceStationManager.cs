@@ -68,7 +68,8 @@ namespace Rockets_TinyYetBig.SpaceStations
             string interiorTemplateName,
             Vector2I spaceStationInteriorSize,
             bool allowBuilding,
-            System.Action callback)
+            System.Action callback,
+            AxialI Coordinates)
         {
             Vector2I offset;
             if (Grid.GetFreeGridSpace(spaceStationInteriorSize, out offset))
@@ -99,12 +100,35 @@ namespace Rockets_TinyYetBig.SpaceStations
                 spaceStationInteriorWorld.AddTag(ModAssets.Tags.IsSpaceStation);
                 SpaceStationWorlds.Add(spaceStationInteriorWorld.id);
 
+                    int maxRings = ClusterGrid.Instance.numRings;
+                    var distance = GetDistanceFromAxial(Coordinates);
+                    spaceStationInteriorWorld.cosmicRadiation = (int)Interpolate(LowEndRads,HighEndRads,3, maxRings,distance);
+                    spaceStationInteriorWorld.sunlight = (int)Interpolate(LowEndLight, HighEndLight, 3, maxRings, distance); 
+
                 return spaceStationInteriorWorld;
 
             }
             Debug.LogError((object)"Failed to create space station interior.");
             return (WorldContainer)null;
         }
+        int GetDistanceFromAxial(AxialI coords)
+        {
+            int a = Math.Abs(coords.Q), b = Math.Abs(coords.R);
+            return a > b ? a : b > a ? b : a;
+        }
+        float Interpolate(float min, float max, float lowEnd, float highEnd, float Value)
+        {
+            float step = (max - min) / (highEnd - lowEnd);
+            step *= Value<lowEnd ? 0 : Value > highEnd ? highEnd - lowEnd : Value - lowEnd;
+            
+            return min + step;
+
+        }
+
+        const float LowEndLight = 30000f;
+        const float HighEndLight = 140000f;
+        const int LowEndRads = 200;
+        const int HighEndRads = 850;
 
         public void DestroySpaceStationInteriorWorld(int world_id)
         {

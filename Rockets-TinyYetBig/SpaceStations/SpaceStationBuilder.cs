@@ -1,11 +1,15 @@
-﻿using KSerialization;
+﻿using Database;
+using Klei.AI;
+using KSerialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static Operational;
 using static Rockets_TinyYetBig.ModAssets;
+using static STRINGS.BUILDINGS.PREFABS;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
@@ -47,6 +51,72 @@ namespace Rockets_TinyYetBig.SpaceStations
                 return Math.Max(CurrentLocationDemolishTime - DemolishingProgress, 0);
             }
             return 0;
+        }
+        public bool HasResources(bool consumeMaterial = false)
+        {
+            if (DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive)
+            {
+                return true;
+            }
+
+            if (this.TryGetComponent<RocketModuleCluster>(out var rocketModuleCluster))
+            {
+                var cmi = rocketModuleCluster.CraftInterface;
+                if(!cmi.HasCargoModule)
+                    return false;
+
+                var CargoBays = ListPool<CargoBayCluster, SpaceStationBuilder>.Allocate();
+                foreach(var clusterModule in cmi.ClusterModules) 
+                { 
+                    if(clusterModule.Get().TryGetComponent<CargoBayCluster>(out var cargoBay)) 
+                    {
+                        CargoBays.Add(cargoBay);
+                    }
+                }
+                var NeededMats = ModAssets.SpaceStationTypes[CurrentSpaceStationTypeInt].materials;
+                bool hasMaterials = false;
+                foreach(CargoBayCluster cargoBayCluster in CargoBays)
+                {
+                    if (cargoBayCluster.storage.Count != 0)
+                    {
+                        for (int index = cargoBayCluster.storage.items.Count - 1; index >= 0; --index)
+                        {
+                            GameObject go = cargoBayCluster.storage.items[index];
+                            foreach (var material in NeededMats)
+                            {
+                                string cargoItemPrefabID = go.PrefabID().ToString();
+                                if (NeededMats.Keys.Contains(cargoItemPrefabID))
+                                {
+                                    if ((double)NeededMats[cargoItemPrefabID] > 0.0)
+                                    {
+                                        go.TryGetComponent<Pickupable>(out var cargoItem);
+
+                                        float itemMass = cargoItem.PrimaryElement.Mass > NeededMats[cargoItemPrefabID] ? NeededMats[cargoItemPrefabID] : cargoItem.PrimaryElement.Mass;
+
+                                        NeededMats[cargoItemPrefabID] -= cargoItem.PrimaryElement.Mass;
+
+                                        if (consumeMaterial)
+                                        {
+                                            go.GetComponent<Pickupable>().Take(itemMass);
+                                        }
+                                    }
+                                    else
+                                        break;
+                                }
+                            }
+
+                        }
+                        if (NeededMats.Values.Any(value => value > 0.0))
+                            continue;
+                        else
+                            return true;
+                    }
+                }
+                CargoBays.Dispose();
+                return false;
+            }
+            Debug.LogError("Space station builder has no rocket module attached");
+            return false;
         }
 
         public void Sim1000ms(float dt)
@@ -218,5 +288,25 @@ namespace Rockets_TinyYetBig.SpaceStations
             return true;
         }
 
+        internal bool CanConstructCurrentSpaceStation(out string reason)
+        {
+            reason = string.Empty;
+            if(this.IsStationAtCurrentLocation())
+            {
+                reason = "Hex Occupied.";
+                return false;
+            }
+            else if (!SpaceStationManager.Instance.CanConstructSpaceStation())
+            {
+                reason = "station limit reached";
+                return false;
+            }
+            else if (!this.HasResources())
+            {
+                reason = "missing resources";
+                return false;
+            }
+            return true;
+        }
     }
 }

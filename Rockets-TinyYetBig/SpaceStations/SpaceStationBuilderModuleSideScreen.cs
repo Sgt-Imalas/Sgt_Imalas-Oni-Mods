@@ -11,6 +11,7 @@ using UnityEngine.UI;
 using YamlDotNet.Core.Tokens;
 using static Rockets_TinyYetBig.ModAssets;
 using static STRINGS.DUPLICANTS.STATUSITEMS;
+using static UnityEngine.GraphicsBuffer;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
@@ -48,6 +49,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             RefreshButtons();
             UIUtils.AddActionToButton(PlaceStationButton.transform, "", () => { targetBuilder.ConstructButtonPressed(); RefreshButtons(); });
             UIUtils.AddActionToButton(flipButton.transform, "", () => { targetBuilder.DemolishButtonPressed(); RefreshButtons(); });
+            Game.Instance.Subscribe((int)GameHashes.ResearchComplete, RefreshAll);
         }
 
         protected override void OnPrefabInit()
@@ -89,7 +91,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                 }
             }
             //GetPrefabStrings();
-            refreshHandle.Add(target.Subscribe((int)GameHashes.ResearchComplete, RefreshAll)); 
+            refreshHandle.Add(targetCraft.gameObject.Subscribe((int)GameHashes.ResearchComplete, RefreshAll)); 
             refreshHandle.Add(targetCraft.gameObject.Subscribe((int)GameHashes.ClusterLocationChanged, new System.Action<object>(this.RefreshAll)));
             refreshHandle.Add(targetCraft.gameObject.Subscribe((int)GameHashes.JettisonedLander, new System.Action<object>(this.RefreshWithNotice)));
             refreshHandle.Add(targetBuilder.gameObject.Subscribe((int)GameHashes.JettisonedLander, RefreshWithNotice));
@@ -197,7 +199,16 @@ namespace Rockets_TinyYetBig.SpaceStations
                 img.sprite = Assets.GetSprite(targetBuilder.Demolishing() ? "action_cancel" : "action_deconstruct");
                 bool StationAtLocation = targetBuilder.IsStationAtCurrentLocation();
                 flipButton.GetComponent<KButton>().isInteractable = targetBuilder.CanDeconstructAtCurrentLocation();
-                PlaceStationButton.GetComponent<KButton>().isInteractable = !StationAtLocation && SpaceStationManager.Instance.CanConstructSpaceStation();
+                if(!targetBuilder.CanConstructCurrentSpaceStation(out var reason))
+                {
+                    PlaceStationButton.GetComponent<KButton>().isInteractable = false;
+                    UIUtils.AddSimpleTooltipToObject(PlaceStationButton.transform, reason);
+                }
+                else
+                {
+                    PlaceStationButton.GetComponent<KButton>().isInteractable = true;
+                    UIUtils.RemoveSimpleTooltipOnObject(PlaceStationButton.transform);
+                }
             }
         }
 

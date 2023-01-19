@@ -50,6 +50,7 @@ namespace LogicSatellites
             RefreshButtons();
             UIUtils.AddActionToButton(PlaceStationButton.transform, "", () => { OnConstructionButtonClicked(); RefreshButtons(); });
             UIUtils.AddActionToButton(flipButton.transform, "", () => { OnDemolishButtonClicked(); RefreshButtons(); });
+            Game.Instance.Subscribe((int)GameHashes.ResearchComplete, RefreshAll);
         }
 
         void OnConstructionButtonClicked()
