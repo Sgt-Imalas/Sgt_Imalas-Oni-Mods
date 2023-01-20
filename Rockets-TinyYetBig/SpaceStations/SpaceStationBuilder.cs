@@ -8,8 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using static Operational;
+using static ProcGen.Mob;
 using static Rockets_TinyYetBig.ModAssets;
 using static STRINGS.BUILDINGS.PREFABS;
+using static STRINGS.UI.STARMAP.LAUNCHCHECKLIST;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
@@ -74,7 +76,6 @@ namespace Rockets_TinyYetBig.SpaceStations
                     }
                 }
                 var NeededMats = ModAssets.SpaceStationTypes[CurrentSpaceStationTypeInt].materials;
-                bool hasMaterials = false;
                 foreach(CargoBayCluster cargoBayCluster in CargoBays)
                 {
                     if (cargoBayCluster.storage.Count != 0)
@@ -82,7 +83,8 @@ namespace Rockets_TinyYetBig.SpaceStations
                         for (int index = cargoBayCluster.storage.items.Count - 1; index >= 0; --index)
                         {
                             GameObject go = cargoBayCluster.storage.items[index];
-                            foreach (var material in NeededMats)
+
+                            foreach (var material in NeededMats.ToArray())
                             {
                                 string cargoItemPrefabID = go.PrefabID().ToString();
                                 if (NeededMats.Keys.Contains(cargoItemPrefabID))
@@ -130,7 +132,8 @@ namespace Rockets_TinyYetBig.SpaceStations
                 else
                 {
                     Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
-                    var locationToCheck = component.Location;
+                    var locationToCheck = component.Location; 
+                    HasResources(true);
                     SpawnStation(locationToCheck);
                     FinishedProgress();
                 }
@@ -260,12 +263,28 @@ namespace Rockets_TinyYetBig.SpaceStations
                 }
             }
         }
+        public bool IsOccupyingPoiAtCurrentLocation()
+        {
+            Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
+            var locationToCheck = component.Location;
+
+            if(ClusterGrid.Instance.GetVisibleEntityOfLayerAtCell(locationToCheck, EntityLayer.Asteroid )!= null || ClusterGrid.Instance.GetVisibleEntityOfLayerAtCell(locationToCheck, EntityLayer.POI) != null)
+                return true;
+
+            return false;
+        }
+
+        public bool SpaceCellOccupied()
+        {
+            if( IsOccupyingPoiAtCurrentLocation() || IsStationAtCurrentLocation())
+                return true;
+            return false;
+        }
 
         public bool IsStationAtCurrentLocation()
         {
             Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
             var locationToCheck = component.Location;
-            //location.q += 2;
 
             int worldId = SpaceStationManager.GetSpaceStationWorldIdAtLocation(locationToCheck);
             return worldId != -1;
@@ -291,7 +310,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         internal bool CanConstructCurrentSpaceStation(out string reason)
         {
             reason = string.Empty;
-            if(this.IsStationAtCurrentLocation())
+            if(this.SpaceCellOccupied())
             {
                 reason = "Hex Occupied.";
                 return false;

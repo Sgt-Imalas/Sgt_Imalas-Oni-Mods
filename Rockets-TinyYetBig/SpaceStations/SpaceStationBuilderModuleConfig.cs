@@ -53,7 +53,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
             {
-                new BuildingAttachPoint.HardPoint(new CellOffset(0, 7), GameTags.Rocket, (AttachableBuilding) null)
+                new BuildingAttachPoint.HardPoint(new CellOffset(0, 6), GameTags.Rocket, (AttachableBuilding) null)
             };
             go.AddOrGet<LoopingSounds>();
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);

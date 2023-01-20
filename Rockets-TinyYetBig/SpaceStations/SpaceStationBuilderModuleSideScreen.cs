@@ -49,7 +49,8 @@ namespace Rockets_TinyYetBig.SpaceStations
             RefreshButtons();
             UIUtils.AddActionToButton(PlaceStationButton.transform, "", () => { targetBuilder.ConstructButtonPressed(); RefreshButtons(); });
             UIUtils.AddActionToButton(flipButton.transform, "", () => { targetBuilder.DemolishButtonPressed(); RefreshButtons(); });
-            Game.Instance.Subscribe((int)GameHashes.ResearchComplete, RefreshAll);
+            Game.Instance.Subscribe((int)GameHashes.ResearchComplete, RefreshAll); 
+            Game.Instance.Subscribe((int)GameHashes.ToggleSandbox, RefreshAll); 
         }
 
         protected override void OnPrefabInit()
@@ -199,6 +200,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                 img.sprite = Assets.GetSprite(targetBuilder.Demolishing() ? "action_cancel" : "action_deconstruct");
                 bool StationAtLocation = targetBuilder.IsStationAtCurrentLocation();
                 flipButton.GetComponent<KButton>().isInteractable = targetBuilder.CanDeconstructAtCurrentLocation();
+
                 if(!targetBuilder.CanConstructCurrentSpaceStation(out var reason))
                 {
                     PlaceStationButton.GetComponent<KButton>().isInteractable = false;
