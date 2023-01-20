@@ -1,0 +1,331 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ONITwitchLib</name>
+    </assembly>
+    <members>
+        <member name="P:ONITwitchLib.Core.CoreTypes.DangerType">
+            <summary>
+            Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.Core.CoreTypes.CommandType">
+            <summary>
+            Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.Core.CoreTypes.CommandExtType">
+            <summary>
+            Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.Core.CoreTypes.PocketDimensionGeneratorType">
+            <summary>
+            Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.Core.CoreTypes.BasePocketDimensionGenerationType">
+            <summary>
+            Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.Core.CoreTypes.TemplatePocketDimensionGenerationType">
+            <summary>
+            Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.Core.CoreTypes.NoisePocketDimensionGenerationType">
+            <summary>
+            Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.Core.CoreTypes.CustomPocketDimensionGenerationType">
+            <summary>
+            Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.Core.CoreTypes.ToastManagerType">
+            <summary>
+            Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="M:ONITwitchLib.Core.CustomPocketDimensionGeneration.#ctor(System.Single,ProcGen.SubWorld.ZoneType,System.Action{WorldContainer},System.String,System.Collections.Generic.List{System.String},System.Boolean)">
+            <summary>
+            Creates an instance of a CustomPocketDimensionGeneration to configure how a pocket dimension can spawn.
+            Calls a passed function that is expected to place things in the newly created world.
+            </summary>
+            <remarks>May only be used if the Twitch mod is active.</remarks>
+            <param name="cyclesLifetime"></param>
+            <param name="zoneType"></param>
+            <param name="generateTilesAction"></param>
+            <param name="requiredSkillId"></param>
+            <param name="prefabIds"></param>
+            <param name="canSpawnSubDimensions"></param>
+        </member>
+        <member name="M:ONITwitchLib.Core.PocketDimensionGenerator.AddGenerationConfig(ONITwitchLib.Core.BasePocketDimensionGeneration)">
+            <summary>
+            Adds the specified generation config to the pool for pocket dimensions
+            </summary>
+            <remarks>May only be used if the Twitch mod is active.</remarks>
+            <param name="config"></param>
+        </member>
+        <member name="M:ONITwitchLib.Core.TwitchDeckManager.GetDeckManager">
+            <summary>
+            Gets the instance of the deck manager from the twitch mod.
+            Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.DataManager.Instance">
+            <summary>
+            Gets the instance of the data manager from the twitch mod.
+            Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="M:ONITwitchLib.DataManager.SetDataForEvent(ONITwitchLib.EventInfo,System.Object)">
+            <summary>
+            Sets the data for an event.
+            </summary>
+            <param name="info">The <see cref="T:ONITwitchLib.EventInfo"/> for the event to modify</param>
+            <param name="data">The new data for the event</param>
+        </member>
+        <member name="M:ONITwitchLib.DataManager.GetDataForEvent(ONITwitchLib.EventInfo)">
+            <summary>
+            Gets the data for an event.
+            </summary>
+            <param name="info">The <see cref="T:ONITwitchLib.EventInfo"/> for the event to get data for</param>
+            <returns>The data for the event, if it exists, or <c>null</c> otherwise.</returns>
+        </member>
+        <member name="T:ONITwitchLib.EventInfo">
+            <summary>
+            Represents an event that is known to the <see cref="T:ONITwitchLib.EventManager"/>.
+            </summary>
+        </member>
+        <member name="M:ONITwitchLib.EventInfo.ToString">
+            <summary>
+            Gets a string representation of the event.
+            </summary>
+            <returns>The friendly name of the event, if it exists, or the ID of the event otherwise.</returns>
+        </member>
+        <member name="T:ONITwitchLib.EventInterface">
+            <summary>
+            The main interface to the Twitch mod.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.EventInterface.EventManagerType">
+            <summary>
+            Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.EventInterface.EventInfoType">
+            <summary>
+            Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.EventInterface.DataManagerType">
+            <summary>
+            Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.EventInterface.TwitchDeckManagerType">
+            <summary>
+            Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.EventInterface.EventGroupType">
+            <summary>
+            Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.EventManager.Instance">
+            <summary>
+            Gets the instance of the event manager from the twitch mod.
+            Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="M:ONITwitchLib.EventManager.GetEventByID(System.String,System.String)">
+            <summary>
+            Gets an <see cref="T:ONITwitchLib.EventInfo"/> for the specified ID, if the ID is registered.
+            </summary>
+            <param name="eventNamespace">The namespace for the ID</param>
+            <param name="id">The ID to look for</param>
+            <returns>An <see cref="T:ONITwitchLib.EventInfo"/> representing the event, if the ID is found, or <c>null</c> otherwise.</returns>
+        </member>
+        <member name="T:ONITwitchLib.ThreadRandom">
+            <summary>
+            A <see cref="T:System.Random"/> that is safe to use from any thread.
+            </summary>
+        </member>
+        <member name="M:ONITwitchLib.ThreadRandom.Next">
+            <summary>Returns a non-negative random integer.</summary>
+            <returns>A 32-bit signed integer that is greater than or equal to 0 and less than <see cref="F:System.Int32.MaxValue" />.</returns>
+        </member>
+        <member name="M:ONITwitchLib.ThreadRandom.Next(System.Int32)">
+            <summary>Returns a non-negative random integer that is less than the specified maximum.</summary>
+            <param name="maxValue">The exclusive upper bound of the random number to be generated. <paramref name="maxValue" /> must be greater than or equal to 0.</param>
+            <returns>A 32-bit signed integer that is greater than or equal to 0, and less than <paramref name="maxValue" />; that is, the range of return values ordinarily includes 0 but not <paramref name="maxValue" />. However, if <paramref name="maxValue" /> equals 0, <paramref name="maxValue" /> is returned.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <paramref name="maxValue" /> is less than 0.</exception>
+        </member>
+        <member name="M:ONITwitchLib.ThreadRandom.Next(System.Int32,System.Int32)">
+            <summary>Returns a random integer that is within a specified range.</summary>
+            <param name="minValue">The inclusive lower bound of the random number returned.</param>
+            <param name="maxValue">The exclusive upper bound of the random number returned. <paramref name="maxValue" /> must be greater than or equal to <paramref name="minValue" />.</param>
+            <returns>A 32-bit signed integer greater than or equal to <paramref name="minValue" /> and less than <paramref name="maxValue" />; that is, the range of return values includes <paramref name="minValue" /> but not <paramref name="maxValue" />. If <paramref name="minValue" /> equals <paramref name="maxValue" />, <paramref name="minValue" /> is returned.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <paramref name="minValue" /> is greater than <paramref name="maxValue" />.</exception>
+        </member>
+        <member name="M:ONITwitchLib.ThreadRandom.NextBytes(System.Byte[])">
+            <summary>Fills the elements of a specified array of bytes with random numbers.</summary>
+            <param name="buffer">An array of bytes to contain random numbers.</param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="buffer" /> is <see langword="null" />.</exception>
+        </member>
+        <member name="M:ONITwitchLib.ThreadRandom.NextDouble">
+            <summary>Returns a random floating-point number that is greater than or equal to 0.0, and less than 1.0.</summary>
+            <returns>A double-precision floating point number that is greater than or equal to 0.0, and less than 1.0.</returns>
+        </member>
+        <member name="M:ONITwitchLib.ToastManager.InstantiateToast(System.String,System.String)">
+            <summary>
+            Creates a toast with a tile and a body.
+            </summary>
+            <param name="title">The title for the toast</param>
+            <param name="body">The body for the toast</param>
+            <returns>The newly created toast's <see cref="T:UnityEngine.GameObject"/>.</returns>
+        </member>
+        <member name="M:ONITwitchLib.ToastManager.InstantiateToastWithPosTarget(System.String,System.String,UnityEngine.Vector3)">
+            <summary>
+            Creates a toast with a tile and a body, that targets a position when clicked.
+            </summary>
+            <param name="title">The title for the toast</param>
+            <param name="body">The body for the toast</param>
+            <param name="pos">The position to target on click</param>
+            <returns>The newly created toast's <see cref="T:UnityEngine.GameObject"/>.</returns>
+        </member>
+        <member name="M:ONITwitchLib.ToastManager.InstantiateToastWithGoTarget(System.String,System.String,UnityEngine.GameObject)">
+            <summary>
+            Creates a toast with a tile and a body, that selects a <see cref="T:UnityEngine.GameObject"/> when clicked.
+            </summary>
+            <param name="title">The title for the toast</param>
+            <param name="body">The body for the toast</param>
+            <param name="target">The <see cref="T:UnityEngine.GameObject"/> to target on click</param>
+            <returns>The newly created toast's <see cref="T:UnityEngine.GameObject"/>.</returns>
+        </member>
+        <member name="T:ONITwitchLib.TwitchModInfo">
+            <summary>
+            Various information about the Twitch mod, primarily for integrations.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.TwitchModInfo.TwitchIsPresent">
+            <summary>
+            True if the Twitch mod has been detected, false otherwise.
+            Safe to access even if the Twitch mod is not installed or active.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.TwitchModInfo.MainTwitchModType">
+            <summary>
+            The Type for the main Twitch mod's UserMod2, if it exists. null if it cannot be found.
+            Safe to access even if the Twitch mod is not installed or active. 
+            </summary>
+        </member>
+        <member name="F:ONITwitchLib.TwitchModInfo.MainModFolder">
+            <summary>
+            The mod folder containing the Twitch mod dll.
+            Only valid if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="F:ONITwitchLib.TwitchModInfo.CredentialsPath">
+            <summary>
+            Only valid if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="F:ONITwitchLib.TwitchModInfo.ConfigPath">
+            <summary>
+            Only valid if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="T:ONITwitchLib.TwitchUserInfo">
+            <summary>
+            Information about a user, from their most recent chat message.  Primary key is the <paramref name="UserId"/>.
+            </summary>
+            <param name="UserId">The Twitch-assigned stable ID for this user</param>
+            <param name="DisplayName">The current display name</param>
+            <param name="NameColor">The current name color, if it exists</param>
+            <param name="IsModerator">Whether this user is a moderator</param>
+            <param name="IsSubscriber">Whether this user is a subscriber</param>
+            <param name="IsVip">Whether this user is a VIP</param>
+        </member>
+        <member name="M:ONITwitchLib.TwitchUserInfo.#ctor(System.String,System.String,System.Nullable{UnityEngine.Color32},System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Information about a user, from their most recent chat message.  Primary key is the <paramref name="UserId"/>.
+            </summary>
+            <param name="UserId">The Twitch-assigned stable ID for this user</param>
+            <param name="DisplayName">The current display name</param>
+            <param name="NameColor">The current name color, if it exists</param>
+            <param name="IsModerator">Whether this user is a moderator</param>
+            <param name="IsSubscriber">Whether this user is a subscriber</param>
+            <param name="IsVip">Whether this user is a VIP</param>
+        </member>
+        <member name="P:ONITwitchLib.TwitchUserInfo.UserId">
+            <summary>The Twitch-assigned stable ID for this user</summary>
+        </member>
+        <member name="P:ONITwitchLib.TwitchUserInfo.DisplayName">
+            <summary>The current display name</summary>
+        </member>
+        <member name="P:ONITwitchLib.TwitchUserInfo.NameColor">
+            <summary>The current name color, if it exists</summary>
+        </member>
+        <member name="P:ONITwitchLib.TwitchUserInfo.IsModerator">
+            <summary>Whether this user is a moderator</summary>
+        </member>
+        <member name="P:ONITwitchLib.TwitchUserInfo.IsSubscriber">
+            <summary>Whether this user is a subscriber</summary>
+        </member>
+        <member name="P:ONITwitchLib.TwitchUserInfo.IsVip">
+            <summary>Whether this user is a VIP</summary>
+        </member>
+        <member name="T:ONITwitchLib.Utils.ElementUtil">
+            <summary>
+            Utilities for finding and working with elements.
+            </summary>
+        </member>
+        <member name="M:ONITwitchLib.Utils.ElementUtil.FindElementByNameFast(System.String)">
+            <summary>
+            Finds an element by its string ID without going through Enum.Parse.
+            </summary>
+            <param name="name">The ID of the element to find</param>
+            <returns>The <see cref="T:Element"/> if it exists, or <c>null</c> otherwise.</returns>
+        </member>
+        <member name="M:ONITwitchLib.Utils.ElementUtil.ElementExistsAndEnabled(System.String)">
+            <summary>
+            Determines whether an element exists and is enabled for the current DLC, if applicable.
+            </summary>
+            <param name="name">The ID of the element to find</param>
+            <returns><c>true</c> if this element does exist and is currently enabled, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ONITwitchLib.Utils.ElementUtil.ElementExistsAndEnabled(SimHashes)">
+            <summary>
+            Determines whether an element exists and is enabled for the current DLC, if applicable.
+            </summary>
+            <param name="hash">The ID of the element to find</param>
+            <returns><c>true</c> if this element does exist and is currently enabled, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ONITwitchLib.Utils.ElementUtil.ElementExistsAndEnabled(Element)">
+            <summary>
+            Determines whether an element exists and is enabled for the current DLC, if applicable.
+            </summary>
+            <param name="element">The element to find</param>
+            <returns><c>true</c> if this element does exist and is currently enabled, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ONITwitchLib.Utils.GridUtil.FloodCollectCells(System.Int32,System.Func{System.Int32,System.Boolean},System.Int32,System.Collections.Generic.HashSet{System.Int32})">
+            <summary>
+            Collects cells by flood fill but does not favor one direction first.
+            Does not clear the set of found cells if too many cells match, it just stops early.
+            </summary>
+            <param name="startCell">The initial cell to start searching from.</param>
+            <param name="cellValid">The function called to determine whether a visited cell is valid.</param>
+            <param name="maxSize">The maximum number of cells to collect.</param>
+            <param name="invalidVisitedCells">All of the cells that were visited that were not considered valid.</param>
+            <returns>A HashSet containing the cells that were valid.</returns>
+        </member>
+    </members>
+</doc>

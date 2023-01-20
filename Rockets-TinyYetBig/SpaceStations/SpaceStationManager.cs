@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ONITwitchLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,6 +43,19 @@ namespace Rockets_TinyYetBig.SpaceStations
                     SpaceStationWorlds.Add(World);
                 }
             }
+        }
+
+        public static bool GetRockets(out List<Clustercraft> rockets)
+        {
+            rockets = new List<Clustercraft>();
+            foreach(Clustercraft potRocket in Components.Clustercrafts)
+            {
+                if(!potRocket.TryGetComponent<SpaceStation>(out var s))
+                {
+                    rockets.Add(potRocket);
+                }
+            }
+            return rockets.Count > 0;
         }
 
         internal bool CanConstructSpaceStation()

@@ -52,6 +52,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Update="ModAssets\anim\assets\twitch_imposter\twitch_imposter_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\twitch_imposter\twitch_imposter_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\twitch_imposter\twitch_imposter_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\anim\assets\coal_generator_module\coal_generator_module.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
@@ -365,5 +374,11 @@
 
 	<ItemGroup>
 	  <Folder Include="Buildings\Boosters\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="ONITwitchLib">
+	    <HintPath>..\TwitchLib\ONITwitchLib.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 </Project>
