@@ -1,5 +1,6 @@
 ﻿using ONITwitchLib;
 using Rockets_TinyYetBig.SpaceStations;
+using Rockets_TinyYetBig.TwitchEvents.TwitchEventAddons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
         public string EventName => "Imposter Among Us";
 
         public Danger EventDanger => Danger.Small;
-        public string EventDescription => "{0} is sus";
+        public string EventDescription => "Emergency Meeting!\nI saw someone vent";
         public EventWeight EventWeight => EventWeight.WEIGHT_COMMON;
         public Func<object, bool> Condition =>
                 (data) =>
@@ -28,20 +29,12 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
         public Action<object> EventAction => 
             (data) =>
             {
-                SpaceStationManager.GetRockets(out var rockets);
-                rockets.ShuffleList();
-                string susName = Components.MinionIdentities.Items.GetRandom().GetProperName();
+                var susName = Components.MinionIdentities.Items.GetRandom();
                 var dupeCoords = Components.MinionIdentities.Items.GetRandom().transform.position;
-
-
-                foreach (Clustercraft craft in Components.MinionIdentities)
-                    if (craft.Status == Clustercraft.CraftStatus.InFlight)
-                    {
-                        GameObject pet = GameUtil.KInstantiate(Assets.GetPrefab(GlomConfig.ID), Components.Telepads[0].gameObject.transform.position, Grid.SceneLayer.Creatures);
-                        pet.SetActive(true);
-                        ToastManager.InstantiateToast(EventName, string.Format(EventDescription,craft.Name));
-                        break;
-                    }
+                
+                GameObject pet = GameUtil.KInstantiate(Assets.GetPrefab(ImposterConfig.ID), dupeCoords, Grid.SceneLayer.Creatures);
+                pet.SetActive(true);
+                ToastManager.InstantiateToast(EventName, string.Format(EventDescription, susName.GetProperName()));
             };
     }
 }
