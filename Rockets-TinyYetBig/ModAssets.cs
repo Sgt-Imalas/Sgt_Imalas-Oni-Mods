@@ -57,9 +57,10 @@ namespace Rockets_TinyYetBig
                 "Small Space Station",
                 "a tiny space station",
                 new Vector2I (30,30),
-                new Dictionary<string,float> { ["RefinedMetal"]= 300f },
+                new Dictionary<string,float> { [SimHashes.Steel.CreateTag().ToString()]= 300f },
                 "space_station_small_kanim",
-                5f//150f
+                5f,//150f,
+                Techs.SpaceStationTechID
                 )
             },
             {
@@ -70,9 +71,11 @@ namespace Rockets_TinyYetBig
                     "Medium Space Station",
                     "a medium sized space station",
                     new Vector2I (45,45),
-                    new Dictionary<string,float> { ["RefinedMetal"]= 300f },
+                    new Dictionary<string,float> { [SimHashes.Steel.CreateTag().ToString()]= 600f,
+                                                [SimHashes.Niobium.CreateTag().ToString()]= 250 },
                     "space_station_medium_kanim",
-                    10f//300f
+                    10f,//300f
+                    Techs.SpaceStationTechMediumID
                 )
             },
             {
@@ -83,9 +86,11 @@ namespace Rockets_TinyYetBig
                 "Large Space Station",
                 "a large space station",
                 new Vector2I (60,60),
-                new Dictionary<string,float> { ["RefinedMetal"]= 300f },
+                new Dictionary<string,float> { [SimHashes.Steel.CreateTag().ToString()]= 1000f,
+                                               [SimHashes.TempConductorSolid.CreateTag().ToString()]= 500f },
                 "space_station_large_kanim",
-                15//600f
+                15,//600f
+                Techs.SpaceStationTechLargeID
                 )
             }
         };
@@ -308,14 +313,14 @@ namespace Rockets_TinyYetBig
             public string Kanim;
             public string requiredTechID;
             public bool HasInterior;
-            public SpaceStationWithStats(string _id, string _name, string _description, Vector2I _size, Dictionary<string,float> _mats, string _prefab, float _constructionTime, string _reqTech = "", bool _hasInterior = true)
+            public SpaceStationWithStats(string _id, string _name, string _description, Vector2I _size, Dictionary<string,float> _mats, string _kanim, float _constructionTime, string _reqTech = "", bool _hasInterior = true)
             {
                 ID = _id;
                 Name = _name;
                 Description = _description;
                 InteriorSize = _size;
                 materials = _mats;
-                Kanim = _prefab;
+                Kanim = _kanim;
                 requiredTechID = _reqTech == ""? Techs.SpaceStationTechID:_reqTech;
                 constructionTime = _constructionTime;
                 demolishingTime = _constructionTime / 4;

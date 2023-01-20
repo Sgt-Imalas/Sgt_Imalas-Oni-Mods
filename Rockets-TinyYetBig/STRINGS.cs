@@ -193,7 +193,12 @@ namespace Rockets_TinyYetBig
                     public static LocString DESC = (LocString)"Storing additional fuel increases the distance a rocket can travel before returning.";
                     public static LocString EFFECT = ("Stores pressurized " + UI.FormatAsLink("Carbon Dioxide", "CARBONDIOXIDE") + " for " + UI.FormatAsLink("Carbon Dioxide Engines", CO2EngineConfig.ID));
                 }
-                
+                public class RTB_LIQUIDFUELTANKCLUSTERSMALL
+                {
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Small Liquid Fuel Tank", nameof(RTB_LIQUIDFUELTANKCLUSTERSMALL));
+                    public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.LIQUIDFUELTANKCLUSTER.DESC;
+                    public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.LIQUIDFUELTANKCLUSTER.EFFECT;
+                }
 
                 public class RTB_NOSECONESOLAR
                 {

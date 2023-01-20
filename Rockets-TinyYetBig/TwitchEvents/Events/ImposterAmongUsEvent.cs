@@ -17,7 +17,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
 
         public Danger EventDanger => Danger.Small;
         public string EventDescription => "Emergency Meeting!\nI saw someone vent";
-        public EventWeight EventWeight => EventWeight.WEIGHT_COMMON;
+        public EventWeight EventWeight => (EventWeight)33;
         public Func<object, bool> Condition =>
                 (data) =>
                 {
@@ -31,7 +31,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
             {
                 var susName = Components.MinionIdentities.Items.GetRandom();
                 var dupeCoords = Components.MinionIdentities.Items.GetRandom().transform.position;
-                
+
                 GameObject pet = GameUtil.KInstantiate(Assets.GetPrefab(ImposterConfig.ID), dupeCoords, Grid.SceneLayer.Creatures);
                 pet.SetActive(true);
                 ToastManager.InstantiateToast(EventName, string.Format(EventDescription, susName.GetProperName()));
