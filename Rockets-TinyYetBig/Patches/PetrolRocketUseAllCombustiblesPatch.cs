@@ -31,6 +31,21 @@ namespace Rockets_TinyYetBig.Patches
                 {
                     RocketEngineCluster rocketEngineCluster = go.GetComponent<RocketEngineCluster>();
                     rocketEngineCluster.fuelTag = GameTags.CombustibleLiquid;
+                    FuelTank tank = go.GetComponent<FuelTank>();
+                    tank.FuelType = GameTags.CombustibleLiquid;
+                }
+            }
+
+        }
+        [HarmonyPatch(typeof(LiquidFuelTankClusterConfig), "DoPostConfigureComplete")]
+        public static class ReplaceFuelTagInBigFuelTankRocket
+        {
+            public static void Postfix(GameObject go)
+            {
+                if (Config.Instance.EthanolEngines)
+                {
+                    FuelTank tank = go.GetComponent<FuelTank>();
+                    tank.FuelType = GameTags.CombustibleLiquid;
                 }
             }
 

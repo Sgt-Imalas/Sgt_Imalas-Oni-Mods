@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace UtilLibs
 {
-    internal class ModListUtils
+    public class ModListUtils
     {
         public static bool ModIsActive(string modId)
         {
@@ -23,7 +23,9 @@ namespace UtilLibs
         }
         public static Dictionary<string, string> WorkshopModIDs = new Dictionary<string, string>()
         {
-            { "TrueTiles","2815406414" }
+            { "TrueTiles","2815406414" },
+            { "Amorbus","2899109675" },
+            
         };
     }
 }
