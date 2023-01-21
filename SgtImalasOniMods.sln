@@ -62,6 +62,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightBridge", "LightBridge\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiomeClimates", "BiomeClimates\BiomeClimates.csproj", "{118332F7-D5D0-4F24-968A-491790C48CE7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpacedOutRocketryClassic", "SpacedOutRocketryClassic\SpacedOutRocketryClassic.csproj", "{6845B659-6385-49E3-A68B-E7A935A8FD7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -172,6 +174,10 @@ Global
 		{118332F7-D5D0-4F24-968A-491790C48CE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{118332F7-D5D0-4F24-968A-491790C48CE7}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{118332F7-D5D0-4F24-968A-491790C48CE7}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{6845B659-6385-49E3-A68B-E7A935A8FD7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6845B659-6385-49E3-A68B-E7A935A8FD7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6845B659-6385-49E3-A68B-E7A935A8FD7A}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{6845B659-6385-49E3-A68B-E7A935A8FD7A}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
