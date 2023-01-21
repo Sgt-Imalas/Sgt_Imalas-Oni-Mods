@@ -6,6 +6,7 @@ using Rockets_TinyYetBig.Buildings.Engines;
 using Rockets_TinyYetBig.Buildings.Fuel;
 using Rockets_TinyYetBig.Buildings.Habitats;
 using Rockets_TinyYetBig.Buildings.Nosecones;
+using Rockets_TinyYetBig.Buildings.Utility;
 using Rockets_TinyYetBig.NonRocketBuildings;
 using Rockets_TinyYetBig.RocketFueling;
 using Rockets_TinyYetBig.SpaceStations;
@@ -52,7 +53,11 @@ namespace RoboRockets.Rockets_TinyYetBig
                     //AddRocketModuleToBuildList(CritterContainmentModuleConfig.ID, RocketryUtils.RocketCategory.cargo, GasCargoBayClusterConfig.ID);
 
                 if (Config.Instance.EnableLaserDrill)
+                {
+
                     AddRocketModuleToBuildList(NoseConeHEPHarvestConfig.ID, RocketCategory.nosecones, NoseconeHarvestConfig.ID);
+                    AddRocketModuleToBuildList(DrillconeStorageModuleConfig.ID, new RocketCategory[] { RocketCategory.cargo, RocketCategory.utility }, NoseconeHarvestConfig.ID);
+                }
 
                 if (Config.Instance.EnableGenerators)
                 {
