@@ -204,7 +204,18 @@ namespace Rockets_TinyYetBig.RocketFueling
                             {
                                 float remainingCapacity = cargoBayCluster.RemainingCapacity;
                                 float num2 = NormalLoaderComponent.Storage.MassStored();
-                                if (remainingCapacity > 0f && (num2 > 0f) && cargoBayCluster.GetComponent<TreeFilterable>().AcceptedTags.Contains(gameObject.PrefabID()))
+                                List<Tag> AcceptedTags;
+
+                                if (!cargoBayCluster.TryGetComponent<TreeFilterable>(out var treeFilterable))
+                                {
+                                    AcceptedTags = cargoBayCluster.storage.storageFilters;
+                                }
+                                else
+                                {
+                                    AcceptedTags = treeFilterable.AcceptedTags.ToList();
+                                }
+
+                                if (remainingCapacity > 0f && (num2 > 0f) && AcceptedTags.Contains(gameObject.PrefabID()))
                                 {
                                     isLoading = true;
                                     HasLoadingProcess = true;
