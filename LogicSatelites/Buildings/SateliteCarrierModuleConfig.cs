@@ -49,6 +49,7 @@ namespace LogicSatellites.Buildings
             Storage storage = go.AddComponent<Storage>();
             storage.showInUI = true; //??
             storage.allowItemRemoval = false;
+            storage.useWideOffsets = true;
             storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 
 

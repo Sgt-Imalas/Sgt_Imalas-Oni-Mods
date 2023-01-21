@@ -34,7 +34,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
 
                 GameObject pet = GameUtil.KInstantiate(Assets.GetPrefab(ImposterConfig.ID), dupeCoords, Grid.SceneLayer.Creatures);
                 pet.SetActive(true);
-                ToastManager.InstantiateToast(EventName, string.Format(EventDescription, susName.GetProperName()));
+                ToastManager.InstantiateToastWithPosTarget(EventName, string.Format(EventDescription, susName.GetProperName()), dupeCoords);
             };
     }
 }
