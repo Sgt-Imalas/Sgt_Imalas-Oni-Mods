@@ -75,7 +75,7 @@ namespace Rockets_TinyYetBig.Patches
 
                 var FuelTanks = ListPool<FuelTank, LaunchPadMaterialDistributor>.Allocate();
                 var OxidizerTanks = ListPool<OxidizerTank, LaunchPadMaterialDistributor>.Allocate();
-                var HEPFuelTanks = ListPool<HighEnergyParticleStorage, LaunchPadMaterialDistributor>.Allocate();
+                var HEPStorages = ListPool<HighEnergyParticleStorage, LaunchPadMaterialDistributor>.Allocate();
                 var DrillConeStorages = ListPool<Storage, LaunchPadMaterialDistributor>.Allocate();
 
 
@@ -95,7 +95,7 @@ namespace Rockets_TinyYetBig.Patches
                         FuelTanks.Add(fueltank);
 
                     if (clusterModule.Get().TryGetComponent<HighEnergyParticleStorage>(out var hepStorage))
-                        HEPFuelTanks.Add(hepStorage);
+                        HEPStorages.Add(hepStorage);
 
                     if (clusterModule.Get().TryGetComponent<OxidizerTank>(out var oxTank))
                     {
@@ -165,11 +165,11 @@ namespace Rockets_TinyYetBig.Patches
                         }
                         else if (fuelLoader.loaderType == LoaderType.HEP)
                         {
-                            foreach (HighEnergyParticleStorage hepTank in HEPFuelTanks)
+                            foreach (HighEnergyParticleStorage hepTank in HEPStorages)
                             {
                                 float remainingCapacity = hepTank.RemainingCapacity();
                                 float SourceAmount = fuelLoader.HEPStorage.Particles;
-                                if ((double)remainingCapacity > 0.0 && (double)SourceAmount > 0.0 && FuelTag == GameTags.HighEnergyParticle)
+                                if ((double)remainingCapacity > 0.0 && (double)SourceAmount > 0.0)
                                 {
                                     isLoading = true;
                                     HasLoadingProcess = true;
@@ -265,7 +265,7 @@ namespace Rockets_TinyYetBig.Patches
 
                 DrillConeStorages.Recycle();
                 FuelTanks.Recycle();
-                HEPFuelTanks.Recycle();
+                HEPStorages.Recycle();
                 OxidizerTanks.Recycle();
 
                 FilledComplete.Set(!HasLoadingProcess, __instance);

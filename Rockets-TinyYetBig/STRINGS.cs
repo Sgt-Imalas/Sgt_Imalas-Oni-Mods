@@ -58,7 +58,7 @@ namespace Rockets_TinyYetBig
                 public class RTB_DOCKINGTUBEDOOR
                 {
                     public static LocString NAME = (LocString)UI.FormatAsLink("Docking Bridge", nameof(RTB_DOCKINGTUBEDOOR));
-                    public static LocString DESC = (LocString)"Flavour text pending";
+                    public static LocString DESC = (LocString)"Connecting with another (rocket) has never been easier.";
                     public static LocString EFFECT = (LocString)("Enables docking with other rockets and space stations\n\nBoth docking participants require a docking component to dock.\n\nAssigning a duplicant forces it to use the docking bridge.");
                 }
 
@@ -83,20 +83,20 @@ namespace Rockets_TinyYetBig
                 }
                 public class RTB_HEPFUELLOADER
                 {
-                    public static LocString NAME = (LocString)UI.FormatAsLink("Radbolt Fuel Loader", nameof(RTB_HEPFUELLOADER));
-                    public static LocString DESC = (LocString)"Flavour text pending";
-                    public static LocString EFFECT = (LocString)("Refuel Radbolt Engines.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Radbolt Loader", nameof(RTB_HEPFUELLOADER));
+                    public static LocString DESC = (LocString)"\"Shoving everything in there\" - now with higly energized particles.";
+                    public static LocString EFFECT = (LocString)("Fills all sorts of Radbolt Storages.\nAllows fueling a Radbolt Engine and the Laser Drillcone\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
                 }
                 public class RTB_UNIVERSALFUELLOADER
                 {
                     public static LocString NAME = (LocString)UI.FormatAsLink("Rocket Fuel Loader", nameof(RTB_UNIVERSALFUELLOADER));
-                    public static LocString DESC = (LocString)"Flavour text pending";
+                    public static LocString DESC = (LocString)"Fueling Rockets has never been easier!";
                     public static LocString EFFECT = (LocString)("Refuels connected rockets with the appropriate fuel.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
                 }
                 public class RTB_UNIVERSALOXIDIZERLOADER
                 {
                     public static LocString NAME = (LocString)UI.FormatAsLink("Rocket Oxidizer Loader", nameof(RTB_UNIVERSALOXIDIZERLOADER));
-                    public static LocString DESC = (LocString)"Flavour text pending";
+                    public static LocString DESC = (LocString)"Fueling Rockets has never been easier!";
                     public static LocString EFFECT = (LocString)("Refuels connected rockets with the appropriate oxidizer\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
                 }
 
