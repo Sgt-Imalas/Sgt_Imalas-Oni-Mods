@@ -17,11 +17,12 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 
         public void Sim4000ms(float dt)
         {
-            if(module.CraftInterface.TryGetComponent<Clustercraft>(out var clustercraft) && clustercraft.Status == Clustercraft.CraftStatus.Grounded)
+            module.CraftInterface.TryGetComponent<Clustercraft>(out var clustercraft);
+            if (clustercraft.Status == Clustercraft.CraftStatus.Grounded)
             {
                 CheckTarget();
             }
-            else if(clustercraft.Status == Clustercraft.CraftStatus.InFlight)
+            if(clustercraft.Status == Clustercraft.CraftStatus.InFlight)
             {
                 if (TargetStorage != null || !TargetStorage.IsNullOrDestroyed())
                 {
@@ -30,14 +31,20 @@ namespace Rockets_TinyYetBig.Buildings.Utility
             }
         }
 
+        protected override void OnSpawn()
+        {
+            base.OnSpawn();
+            CheckTarget();
+        }
+
         private void TransferDiamond()
         {
+                float remainingCapacity = TargetStorage.RemainingCapacity();
+                float currentDiamonds = DiamondStorage.MassStored();
             for (int num = DiamondStorage.items.Count - 1; num >= 0; num--)
             {
                 GameObject gameObject = DiamondStorage.items[num];
 
-                float remainingCapacity = TargetStorage.RemainingCapacity();
-                float currentDiamonds = DiamondStorage.MassStored();
                 bool filterable = TargetStorage.storageFilters != null && TargetStorage.storageFilters.Count > 0;
 
                 if (remainingCapacity > 0f && currentDiamonds > 0f && (filterable ? TargetStorage.storageFilters.Contains(gameObject.PrefabID()) : true))

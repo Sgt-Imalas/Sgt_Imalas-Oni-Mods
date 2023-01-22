@@ -78,6 +78,7 @@ namespace Rockets_TinyYetBig.Science
                 CurrentScienceValue += 2;
             else
                 CurrentScienceValue += 1;
+            ApplySciencePoints();
         }
 
         public void ScienceResearched(string researchType)

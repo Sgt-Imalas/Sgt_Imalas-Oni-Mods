@@ -19,7 +19,7 @@ namespace Rockets_TinyYetBig.RocketFueling
         public override BuildingDef CreateBuildingDef()
         {
             BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 3, "fuel_loader_hep_kanim", 1000, 60f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, MATERIALS.REFINED_METALS, 9999f, BuildLocationRule.OnFloor, noise: NOISE_POLLUTION.NOISY.TIER2, decor: BUILDINGS.DECOR.NONE);
-            buildingDef.SceneLayer = Grid.SceneLayer.BuildingBack;
+            buildingDef.SceneLayer = Grid.SceneLayer.Building;
             buildingDef.OverheatTemperature = 2273.15f;
             buildingDef.Floodable = false;
             buildingDef.ObjectLayer = ObjectLayer.Building;
