@@ -1,4 +1,5 @@
 ﻿using Rockets_TinyYetBig.Buildings.Nosecones;
+using Rockets_TinyYetBig.Buildings.Utility;
 using STRINGS;
 using System;
 using System.Collections.Generic;
@@ -7,14 +8,35 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using static Rockets_TinyYetBig.Patches.DrillConeSupportModulePatches;
 
 namespace Rockets_TinyYetBig.Behaviours
 {
-    class NoseConeHEPHarvestSideScreen : SideScreenContent, ISimEveryTick
+    class NoseConeHEPHarvestSideScreen : SideScreenContent, ISim200ms
     {
-        private Clustercraft targetCraft;
+        private Clustercraft targetCraft = null;
+
         public GameObject moduleContentContainer;
         public GameObject modulePanelPrefab;
+        public void Flush()
+        {
+            targetCraft = null;
+            lastPercentageState = -2f;
+            lastMassStored = -2f;
+            drillerStorage = null;
+            moduleInstance = null;
+        }
+
+        float lastPercentageState = -1f;
+        float lastMassStored = -1f;
+        public HighEnergyParticleStorage drillerStorage = null;
+        public NoseConeHEPHarvest.StatesInstance moduleInstance;
+
+
+        GenericUIProgressBar progressBar;
+        GenericUIProgressBar diamondProgressBar;
+
+        public HierarchyReferences hierarchyReferences = null;
 
         private CraftModuleInterface craftModuleInterface => this.targetCraft.GetComponent<CraftModuleInterface>();
 
@@ -26,19 +48,30 @@ namespace Rockets_TinyYetBig.Behaviours
 
         public override float GetSortKey() => 21f;
 
-        public override bool IsValidForTarget(GameObject target) => target.GetComponent<Clustercraft>() != null && this.GetResourceHarvestModule(target.GetComponent<Clustercraft>()) != null;
+        public override bool IsValidForTarget(GameObject target) => target.TryGetComponent<Clustercraft>(out var clustercraft) && this.GetResourceHarvestModule(clustercraft) != null;
 
+        protected override void OnSpawn()
+        {
+            base.OnSpawn();
+            TryGetComponent(out hierarchyReferences);
+            progressBar = hierarchyReferences.GetReference<GenericUIProgressBar>("progressBar");
+            diamondProgressBar = hierarchyReferences.GetReference<GenericUIProgressBar>("diamondProgressBar");
+        }
         public override void SetTarget(GameObject target)
         {
+            Flush();
             base.SetTarget(target);
-            this.targetCraft = target.GetComponent<Clustercraft>();
-            this.RefreshModulePanel((StateMachine.Instance)this.GetResourceHarvestModule(this.targetCraft));
+            TryGetComponent(out hierarchyReferences);
+            target.TryGetComponent<Clustercraft>(out targetCraft);
+            moduleInstance = GetResourceHarvestModule(targetCraft);
+            moduleInstance.gameObject.TryGetComponent(out drillerStorage);
+            RefreshModulePanel(moduleInstance);
         }
 
         private NoseConeHEPHarvest.StatesInstance GetResourceHarvestModule(
           Clustercraft craft)
         {
-            foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)craft.GetComponent<CraftModuleInterface>().ClusterModules)
+            foreach (Ref<RocketModuleCluster> clusterModule in craft.GetComponent<CraftModuleInterface>().ClusterModules)
             {
                 GameObject gameObject = clusterModule.Get().gameObject;
                 if (gameObject.GetDef<NoseConeHEPHarvest.Def>() != null)
@@ -46,39 +79,32 @@ namespace Rockets_TinyYetBig.Behaviours
             }
             return (NoseConeHEPHarvest.StatesInstance)null;
         }
-
         private void RefreshModulePanel(StateMachine.Instance module)
         {
-            HierarchyReferences component = this.GetComponent<HierarchyReferences>();
-            component.GetReference<Image>("icon").sprite = Def.GetUISprite((object)module.gameObject).first;
-            component.GetReference<LocText>("label").SetText(module.gameObject.GetProperName());
+            hierarchyReferences.GetReference<Image>("icon").sprite = Def.GetUISprite((object)module.gameObject).first;
+            hierarchyReferences.GetReference<LocText>("label").SetText(module.gameObject.GetProperName());
         }
 
-        public void SimEveryTick(float dt)
+        public void Sim200ms(float dt)
         {
-            if (this.targetCraft.IsNullOrDestroyed())
+            if (targetCraft.IsNullOrDestroyed())
                 return;
-            HierarchyReferences component1 = this.GetComponent<HierarchyReferences>();
-            NoseConeHEPHarvest.StatesInstance resourceHarvestModule = this.GetResourceHarvestModule(this.targetCraft);
-            if (resourceHarvestModule == null)
-                return;
-            GenericUIProgressBar reference1 = component1.GetReference<GenericUIProgressBar>("progressBar");
-            float num1 = 4f;
-            float num2 = resourceHarvestModule.timeinstate % num1;
-            if (resourceHarvestModule.sm.canHarvest.Get(resourceHarvestModule))
+
+            float miningProgress = moduleInstance.sm.canHarvest.Get(moduleInstance) ? (moduleInstance.timeinstate % 4f) / 4f : -1f;
+
+            if (!Mathf.Approximately(miningProgress, lastPercentageState))
             {
-                reference1.SetFillPercentage(num2 / num1);
-                reference1.label.SetText((string)global::STRINGS.UI.UISIDESCREENS.HARVESTMODULESIDESCREEN.MINING_IN_PROGRESS);
+                progressBar.SetFillPercentage(miningProgress > -1f ? miningProgress : 0f);
+                progressBar.label.SetText(miningProgress > -1f ? (string)global::STRINGS.UI.UISIDESCREENS.HARVESTMODULESIDESCREEN.MINING_IN_PROGRESS : (string)global::STRINGS.UI.UISIDESCREENS.HARVESTMODULESIDESCREEN.MINING_STOPPED);
+                lastPercentageState = miningProgress;
             }
-            else
+            
+            if (!Mathf.Approximately(drillerStorage.Particles, lastMassStored))
             {
-                reference1.SetFillPercentage(0.0f);
-                reference1.label.SetText((string)global::STRINGS.UI.UISIDESCREENS.HARVESTMODULESIDESCREEN.MINING_STOPPED);
+                diamondProgressBar.SetFillPercentage(drillerStorage.Particles / drillerStorage.Capacity());
+                diamondProgressBar.label.SetText(UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES + ": " + drillerStorage.Particles.ToString("0.#"));
+                lastMassStored = drillerStorage.Particles;
             }
-            GenericUIProgressBar reference2 = component1.GetReference<GenericUIProgressBar>("diamondProgressBar");
-            HighEnergyParticleStorage component2 = resourceHarvestModule.GetComponent<HighEnergyParticleStorage>();
-            reference2.SetFillPercentage(component2.Particles / component2.Capacity());
-            reference2.label.SetText(UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES + ": " + component2.Particles.ToString("0.#"));
         }
     }
 }

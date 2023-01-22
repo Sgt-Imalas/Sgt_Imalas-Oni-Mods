@@ -1,7 +1,9 @@
 ﻿using HarmonyLib;
 using PeterHan.PLib.Core;
 using Rockets_TinyYetBig.Buildings;
+using Rockets_TinyYetBig.Buildings.Utility;
 using Rockets_TinyYetBig.NonRocketBuildings;
+using Rockets_TinyYetBig.RocketFueling;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,12 +17,13 @@ using UtilLibs;
 using static Operational;
 using static Rockets_TinyYetBig.RocketFueling.FuelLoaderComponent;
 using static StateMachine<LaunchPadMaterialDistributor, LaunchPadMaterialDistributor.Instance, IStateMachineTarget, LaunchPadMaterialDistributor.Def>;
+using static STRINGS.BUILDINGS.PREFABS;
 using static STRINGS.UI.DEVELOPMENTBUILDS.ALPHA;
 using static STRINGS.UI.STARMAP;
 
-namespace Rockets_TinyYetBig.RocketFueling
+namespace Rockets_TinyYetBig.Patches
 {
-    internal class RocketFuelingPatches
+    internal class RocketAutoLoadingPatches
     {
         [HarmonyPatch(typeof(LaunchPadMaterialDistributor.Instance))]
         [HarmonyPatch(nameof(LaunchPadMaterialDistributor.Instance.FillRocket))]
@@ -41,7 +44,7 @@ namespace Rockets_TinyYetBig.RocketFueling
                     }
                 }
 
-                return (float)Mathf.RoundToInt(num * 1000f) / 1000f;
+                return Mathf.RoundToInt(num * 1000f) / 1000f;
             }
 
             public static IEnumerable<T> Concat<T>(params IEnumerable<T>[] arr)
@@ -52,14 +55,14 @@ namespace Rockets_TinyYetBig.RocketFueling
             }
             public static bool Prefix(LaunchPadMaterialDistributor.Instance __instance)
             {
-                var clusterRocketTargetParam = (StateMachine<LaunchPadMaterialDistributor, LaunchPadMaterialDistributor.Instance, IStateMachineTarget, LaunchPadMaterialDistributor.Def>.TargetParameter)
+                var clusterRocketTargetParam = (TargetParameter)
                     typeof(LaunchPadMaterialDistributor).GetField("attachedRocket", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance.sm);
 
 
-                var FilledComplete = (StateMachine<LaunchPadMaterialDistributor, LaunchPadMaterialDistributor.Instance, IStateMachineTarget, LaunchPadMaterialDistributor.Def>.BoolParameter)
+                var FilledComplete = (BoolParameter)
                    typeof(LaunchPadMaterialDistributor).GetField("fillComplete", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance.sm);
 
-                bool HasLoadingProcess = false;//!FilledComplete.Get(__instance);
+                bool HasLoadingProcess = false;
 
                 CraftModuleInterface craftInterface = clusterRocketTargetParam.Get<RocketModuleCluster>(__instance).CraftInterface;
                 Clustercraft clustercraft = craftInterface.GetComponent<Clustercraft>();
@@ -72,7 +75,8 @@ namespace Rockets_TinyYetBig.RocketFueling
 
                 var FuelTanks = ListPool<FuelTank, LaunchPadMaterialDistributor>.Allocate();
                 var OxidizerTanks = ListPool<OxidizerTank, LaunchPadMaterialDistributor>.Allocate();
-                var HEPFuelTanks = ListPool<HEPFuelTank, LaunchPadMaterialDistributor>.Allocate();
+                var HEPFuelTanks = ListPool<HighEnergyParticleStorage, LaunchPadMaterialDistributor>.Allocate();
+                var DrillConeStorages = ListPool<Storage, LaunchPadMaterialDistributor>.Allocate();
 
 
                 Tag FuelTag = SimHashes.Void.CreateTag();
@@ -81,33 +85,45 @@ namespace Rockets_TinyYetBig.RocketFueling
 
                 foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)craftInterface.ClusterModules)
                 {
-                    RocketEngineCluster engine = clusterModule.Get().GetComponent<RocketEngineCluster>();
-                    if (engine != null)
+                    if (clusterModule.Get().TryGetComponent<RocketEngineCluster>(out var engine))
                     {
                         FuelTag = engine.fuelTag;
                         hasOxidizer = engine.requireOxidizer;
                     }
 
-                    FuelTank fueltank = clusterModule.Get().GetComponent<FuelTank>();
-                    if (fueltank != null)
+                    if (clusterModule.Get().TryGetComponent<FuelTank>(out var fueltank))
                         FuelTanks.Add(fueltank);
 
-                    HEPFuelTank hepfueltank = clusterModule.Get().GetComponent<HEPFuelTank>();
-                    if (hepfueltank != null)
-                        HEPFuelTanks.Add(hepfueltank);
+                    if (clusterModule.Get().TryGetComponent<HighEnergyParticleStorage>(out var hepStorage))
+                        HEPFuelTanks.Add(hepStorage);
 
-                    OxidizerTank oxTank = clusterModule.Get().GetComponent<OxidizerTank>();
-                    if (oxTank != null)
+                    if (clusterModule.Get().TryGetComponent<OxidizerTank>(out var oxTank))
                     {
                         hasOxidizer = true;
                         OxidizerTanks.Add(oxTank);
                     }
 
-                    CargoBayCluster component = clusterModule.Get().GetComponent<CargoBayCluster>();
-                    if (component != null && component.storageType != CargoBay.CargoType.Entities && component.RemainingCapacity > 0f)
+                    if (clusterModule.Get().TryGetComponent<CargoBayCluster>(out var cargoBay) && cargoBay.storageType != CargoBay.CargoType.Entities && cargoBay.RemainingCapacity > 0f)
                     {
-                        pooledDictionary[component.storageType].Add(component);
+                        pooledDictionary[cargoBay.storageType].Add(cargoBay);
                     }
+
+                    //if (clusterModule.Get().GetSMI<ResourceHarvestModule.StatesInstance>() != null)
+                    //{
+                    //    if (clusterModule.Get().TryGetComponent<Storage>(out var DrillConeStorage))
+                    //        DrillConeStorages.Add(DrillConeStorage);
+                    //}
+                    //if (clusterModule.Get().TryGetComponent<DrillConeAssistentModule>(out var helperModule))
+                    //{
+                    //    DrillConeStorages.Add(helperModule.DiamondStorage);
+                    //}
+
+                    if (clusterModule.Get().TryGetComponent<DrillConeModeHandler>(out var Handler))
+                    {
+                        if(Handler.LoadingAllowed)
+                            DrillConeStorages.Add(Handler.DiamondStorage);
+                    }
+                    
 
                 }
 
@@ -149,18 +165,18 @@ namespace Rockets_TinyYetBig.RocketFueling
                         }
                         else if (fuelLoader.loaderType == LoaderType.HEP)
                         {
-                            foreach (HEPFuelTank hepTank in HEPFuelTanks)
+                            foreach (HighEnergyParticleStorage hepTank in HEPFuelTanks)
                             {
-                                float remainingCapacity = hepTank.Storage.RemainingCapacity();
+                                float remainingCapacity = hepTank.RemainingCapacity();
                                 float SourceAmount = fuelLoader.HEPStorage.Particles;
-                                if ((double)remainingCapacity > 0.0 && (double)SourceAmount > 0.0 && (FuelTag == GameTags.HighEnergyParticle))
+                                if ((double)remainingCapacity > 0.0 && (double)SourceAmount > 0.0 && FuelTag == GameTags.HighEnergyParticle)
                                 {
                                     isLoading = true;
                                     HasLoadingProcess = true;
                                     float ParticlesTaken = fuelLoader.HEPStorage.ConsumeAndGet(remainingCapacity);
                                     if (ParticlesTaken > 0.0f)
                                     {
-                                        hepTank.hepStorage.Store(ParticlesTaken);
+                                        hepTank.Store(ParticlesTaken);
                                     }
                                 }
                             }
@@ -193,29 +209,38 @@ namespace Rockets_TinyYetBig.RocketFueling
                             }
                         }
                     }
-                    else if (NormalLoaderComponent != null && 
+                    else if (NormalLoaderComponent != null &&
                         (modularConduitPortController == null || modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Load || modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Both))
                     {
                         modularConduitPortController.SetRocket(true);
                         for (int num = NormalLoaderComponent.Storage.items.Count - 1; num >= 0; num--)
                         {
                             GameObject gameObject = NormalLoaderComponent.Storage.items[num];
+                            foreach (var diamondStorage in DrillConeStorages)
+                            {
+                                float remainingCapacity = diamondStorage.RemainingCapacity();
+                                float num2 = NormalLoaderComponent.Storage.MassStored();
+                                bool filterable = diamondStorage.storageFilters != null && diamondStorage.storageFilters.Count > 0;
+                                if (remainingCapacity > 0f && num2 > 0f && (filterable ? diamondStorage.storageFilters.Contains(gameObject.PrefabID()) : true))
+                                {
+                                    Debug.Log(DrillConeStorages.Count() + "x items, " + diamondStorage.storageFilters.First() + " Fildersssss, " + diamondStorage.RemainingCapacity());
+                                    isLoading = true;
+                                    HasLoadingProcess = true;
+                                    Pickupable pickupable = gameObject.GetComponent<Pickupable>().Take(remainingCapacity);
+                                    if (pickupable != null)
+                                    {
+                                        diamondStorage.Store(pickupable.gameObject);
+                                        remainingCapacity -= pickupable.PrimaryElement.Mass;
+                                    }
+                                }
+                            }
+
                             foreach (CargoBayCluster cargoBayCluster in pooledDictionary[CargoBayConduit.ElementToCargoMap[NormalLoaderComponent.ConduitType]])
                             {
                                 float remainingCapacity = cargoBayCluster.RemainingCapacity;
                                 float num2 = NormalLoaderComponent.Storage.MassStored();
-                                List<Tag> AcceptedTags;
 
-                                if (!cargoBayCluster.TryGetComponent<TreeFilterable>(out var treeFilterable))
-                                {
-                                    AcceptedTags = cargoBayCluster.storage.storageFilters;
-                                }
-                                else
-                                {
-                                    AcceptedTags = treeFilterable.AcceptedTags.ToList();
-                                }
-
-                                if (remainingCapacity > 0f && (num2 > 0f) && AcceptedTags.Contains(gameObject.PrefabID()))
+                                if (remainingCapacity > 0f && num2 > 0f && cargoBayCluster.GetComponent<TreeFilterable>().AcceptedTags.Contains(gameObject.PrefabID()))
                                 {
                                     isLoading = true;
                                     HasLoadingProcess = true;
@@ -238,6 +263,7 @@ namespace Rockets_TinyYetBig.RocketFueling
                 pooledDictionary[CargoBay.CargoType.Gasses].Recycle();
                 pooledDictionary.Recycle();
 
+                DrillConeStorages.Recycle();
                 FuelTanks.Recycle();
                 HEPFuelTanks.Recycle();
                 OxidizerTanks.Recycle();

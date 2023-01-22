@@ -1,4 +1,5 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Patches;
 using Rockets_TinyYetBig.RocketFueling;
 using System;
 using System.Collections;
@@ -286,7 +287,7 @@ namespace Rockets_TinyYetBig
                                 foreach (FuelTank fueltank in FuelTanks)
                                 {
                                     float remainingCapacity = fueltank.Storage.RemainingCapacity();
-                                    float num1 = RocketFuelingPatches.AddFuelingLogic.TotalMassStoredOfItems(AllItems);
+                                    float num1 = RocketAutoLoadingPatches.AddFuelingLogic.TotalMassStoredOfItems(AllItems);
                                     if ((double)remainingCapacity > 0.0 && (double)num1 > 0.0 && storageItem.HasTag(FuelTag))
                                     {
                                         isLoading = true;

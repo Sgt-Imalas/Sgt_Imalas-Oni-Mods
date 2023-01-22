@@ -112,7 +112,7 @@ namespace Rockets_TinyYetBig.Patches
                 drillerStorage = null;
                 moduleInstance=null;
             }
-            public static List<DrillConeAssistentModule> helperModules= new List<DrillConeAssistentModule>();
+            public static readonly List<DrillConeAssistentModule> helperModules= new List<DrillConeAssistentModule>();
             static float globalDT = 0f;
             const float dtGate = 1 / 5f;
             static float lastPercentageState = -1f;
@@ -125,7 +125,6 @@ namespace Rockets_TinyYetBig.Patches
                 if (globalDT < dtGate)
                 {
                     globalDT += dt;
-                    return false;
                 }
                 else
                 {
@@ -155,8 +154,6 @@ namespace Rockets_TinyYetBig.Patches
                         reference1.SetFillPercentage(miningProgress > -1f ? miningProgress : 0f);
                         reference1.label.SetText(miningProgress > -1f ? (string)global::STRINGS.UI.UISIDESCREENS.HARVESTMODULESIDESCREEN.MINING_IN_PROGRESS : (string)global::STRINGS.UI.UISIDESCREENS.HARVESTMODULESIDESCREEN.MINING_STOPPED);
                         lastPercentageState = miningProgress;
-
-                        
                     }
                     if (!Mathf.Approximately(MassStored,lastMassStored))
                     {
@@ -165,9 +162,8 @@ namespace Rockets_TinyYetBig.Patches
                         reference2.label.SetText(ElementLoader.GetElement(SimHashes.Diamond.CreateTag()).name + ": " + GameUtil.GetFormattedMass(MassStored));
                         lastMassStored = MassStored;
                     }
-                    return false;
-
                 }
+                return false;
             }
         }
     }

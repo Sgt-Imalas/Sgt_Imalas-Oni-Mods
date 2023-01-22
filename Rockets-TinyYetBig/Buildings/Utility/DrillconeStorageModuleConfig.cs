@@ -58,10 +58,16 @@ namespace Rockets_TinyYetBig.Buildings.Utility
             storage.showCapacityStatusItem = true;
             storage.storageFilters = new List<Tag>() { SimHashes.Diamond.CreateTag() };
             storage.allowSettingOnlyFetchMarkedItems = false;
-
-            CargoBayCluster cargoBayCluster = go.AddOrGet<CargoBayCluster>();
-            cargoBayCluster.storage = storage;
-            cargoBayCluster.storageType = CargoBay.CargoType.Solids;
+            storage.useWideOffsets = true;
+            ManualDeliveryKG manualDeliveryKg = go.AddOrGet<ManualDeliveryKG>();
+            manualDeliveryKg.SetStorage(storage);
+            manualDeliveryKg.RequestedItemTag = SimHashes.Diamond.CreateTag();
+            manualDeliveryKg.MinimumMass = storage.capacityKg;
+            manualDeliveryKg.capacity = storage.capacityKg;
+            manualDeliveryKg.refillMass = storage.capacityKg;
+            manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
+            go.AddOrGet<DrillConeAssistentModule>(); 
+            go.AddOrGet<DrillConeModeHandler>(); 
 
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MODERATE);
         }

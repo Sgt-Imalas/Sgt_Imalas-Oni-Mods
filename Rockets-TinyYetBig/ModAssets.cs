@@ -57,9 +57,9 @@ namespace Rockets_TinyYetBig
                 "Small Space Station",
                 "a tiny space station",
                 new Vector2I (30,30),
-                new Dictionary<string,float> { [SimHashes.Steel.CreateTag().ToString()]= 300f },
+                new Dictionary<string,float> { [SimHashes.Steel.CreateTag().ToString()]= 500f },
                 "space_station_small_kanim",
-                5f,//150f,
+                20f,//150f,
                 Techs.SpaceStationTechID
                 )
             },
@@ -71,10 +71,10 @@ namespace Rockets_TinyYetBig
                     "Medium Space Station",
                     "a medium sized space station",
                     new Vector2I (45,45),
-                    new Dictionary<string,float> { [SimHashes.Steel.CreateTag().ToString()]= 600f,
-                                                [SimHashes.Niobium.CreateTag().ToString()]= 250 },
+                    new Dictionary<string,float> { [SimHashes.Steel.CreateTag().ToString()]= 750f,
+                                                   [SimHashes.Niobium.CreateTag().ToString()]= 500f },
                     "space_station_medium_kanim",
-                    10f,//300f
+                    20f,//300f
                     Techs.SpaceStationTechMediumID
                 )
             },
@@ -87,9 +87,11 @@ namespace Rockets_TinyYetBig
                 "a large space station",
                 new Vector2I (60,60),
                 new Dictionary<string,float> { [SimHashes.Steel.CreateTag().ToString()]= 1000f,
-                                               [SimHashes.TempConductorSolid.CreateTag().ToString()]= 500f },
+                                               [SimHashes.TempConductorSolid.CreateTag().ToString()]= 500f,
+                                               [SimHashes.Isoresin.CreateTag().ToString()]= 300f ,
+                                               [SimHashes.Graphite.CreateTag().ToString()]= 200f },
                 "space_station_large_kanim",
-                15,//600f
+                20f,//600f
                 Techs.SpaceStationTechLargeID
                 )
             }

@@ -146,7 +146,7 @@ namespace Rockets_TinyYetBig.Science
                     {"advanced", 50f},
                     {"orbital", 50f},
                     {"nuclear", 50f},
-                    {ModAssets.DeepSpaceScienceID,200f }
+                    {ModAssets.DeepSpaceScienceID,20f }
                 }
                 );
 
@@ -160,7 +160,7 @@ namespace Rockets_TinyYetBig.Science
                     {"advanced", 50f},
                     {"orbital", 50f},
                     {"nuclear", 50f},
-                    {ModAssets.DeepSpaceScienceID,200f }
+                    {ModAssets.DeepSpaceScienceID,30f }
                 }
                 );
 

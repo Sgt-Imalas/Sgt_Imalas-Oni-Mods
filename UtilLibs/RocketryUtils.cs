@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using YamlDotNet.Core.Tokens;
 
 namespace UtilLibs
 {
@@ -192,7 +193,6 @@ namespace UtilLibs
 
         public static bool AddIfNotExists<T>(List<T> list, T value, int index = -1)
         {
-            
 
             if (!list.Contains(value))
             {
@@ -320,7 +320,9 @@ namespace UtilLibs
         public static void InsertRocketModuleToCategory(string moduleId, RocketCategory[] categories, string placeBehindId = "", bool placebefore = false)
         {
             var ModuleLists = RocketModuleList.GetRocketModuleList();
-            foreach( var category in categories)
+
+
+            foreach ( var category in categories)
             {
                 if(placeBehindId != "")
                 {
@@ -342,18 +344,18 @@ namespace UtilLibs
                     //ModuleLists[(int)category].Insert(ModuleLists[(int)category].Count, moduleId);
                 }
             }
+            
             if (!SelectModuleSideScreen.moduleButtonSortOrder.Contains(moduleId))
             {
-                var index = GetInsertionIndex(SelectModuleSideScreen.moduleButtonSortOrder, placeBehindId);
-                SelectModuleSideScreen.moduleButtonSortOrder.Insert(placebefore? index : ++index,
-                    moduleId);
+                var index = GetInsertionIndex(SelectModuleSideScreen.moduleButtonSortOrder, placeBehindId, placebefore);
+                SelectModuleSideScreen.moduleButtonSortOrder.Insert(index, moduleId);
             }
         }
 
-        public static int GetInsertionIndex(List<string> list, string indexID = "")
+        public static int GetInsertionIndex(List<string> list, string indexID = "", bool placebefore = false)
         {
             int startIndex = indexID != "" ? list.IndexOf(indexID) : -1;
-            int insertionIndex = (startIndex == -1) ? list.Count : ++startIndex;
+            int insertionIndex = (startIndex == -1) ? list.Count :  placebefore ? startIndex : ++startIndex;
             return insertionIndex;
         }
 
