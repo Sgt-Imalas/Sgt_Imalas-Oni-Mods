@@ -27,5 +27,12 @@ namespace SetStartDupes
             return Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + Group.relevantAttributes.First().Id.ToUpper() + ".NAME");
         }
         public Trait CurrentTrait = null;
+
+        public string GetTraitTooltip()
+        {
+            if (CurrentTrait == null) return "";
+
+            return CurrentTrait.GetTooltip();
+        }
     }
 }

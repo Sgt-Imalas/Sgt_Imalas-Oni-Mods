@@ -50,10 +50,14 @@
 			<HintPath>$(GameLibsFolder)/UnityEngine.AssetBundleModule.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
-		<Reference Include="UnityEngine.ImageConversionModule">
-			<HintPath>$(GameLibsFolder)/UnityEngine.ImageConversionModule.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>$(GameLibsFolder)/UnityEngine.ImageConversionModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>$(GameLibsFolder)/UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
 		<Reference Include="UnityEngine.UI">
 			<HintPath>$(GameLibsFolder)/UnityEngine.UI.dll</HintPath>
 			<Private>false</Private>

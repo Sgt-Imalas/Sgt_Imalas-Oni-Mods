@@ -13,6 +13,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
 using static SetStartDupes.ModAssets;
+using static STRINGS.CODEX.MYLOG.BODY;
+using static UnityEngine.UI.Image;
 
 namespace SetStartDupes
 {
@@ -41,6 +43,110 @@ namespace SetStartDupes
             }
         }
 
+
+        [HarmonyPatch(typeof(WattsonMessage), "OnActivate")]
+        public class DupeSpawnAdjustmentNo2BecauseKleiIsKlei
+        {
+            /// <summary>
+            /// cell 	 == loc7
+            /// tempCalculated X = loc6
+            /// index 	 == loc5
+            /// baseright== loc4
+            /// baseleft == loc3
+            /// y 	 == loc2
+            /// x 	 == loc1
+            /// </summary>
+            /// <param name="x"></param>
+            /// <param name="y"></param>
+            /// <returns></returns>
+            public static float AdjustCellX(float OldX,GameObject printingPod, int index) ///int requirement to consume previous "3" on stack
+            {
+                int newCell = Grid.PosToCell(printingPod) + ((index + 2) % 5 - 2);
+                Debug.Log("Old CellPosX: " + OldX + ", New CellPos: " + Grid.CellToXY(newCell));
+                return (float)Grid.CellToXY(newCell).x;
+            }
+
+            public static readonly MethodInfo NewCellX = AccessTools.Method(
+               typeof(DupeSpawnAdjustmentNo2BecauseKleiIsKlei),
+               nameof(DupeSpawnAdjustmentNo2BecauseKleiIsKlei.AdjustCellX));
+
+
+            [HarmonyPriority(Priority.Last)]
+            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+            {
+                var code = instructions.ToList();
+                var insertionIndex = code.FindLastIndex(ci => ci.opcode == OpCodes.Sub);
+
+                //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
+                if (insertionIndex != -1)
+                {
+                    //code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 7));
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_0));
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_2));
+                    code.Insert(++insertionIndex,  new CodeInstruction(OpCodes.Call, NewCellX));
+                    //code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Stloc_S,  7));
+                    //code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 7));
+                }
+                foreach (var v in code) { Console.WriteLine(v.opcode + (v.operand!=null ? ": " + v.operand: "")); };
+                return code;
+            }
+        }
+
+        [HarmonyPatch(typeof(NewBaseScreen), "SpawnMinions")]
+        public class DupeSpawnAdjustment
+        {
+            /// <summary>
+            /// cell 	 == loc7
+            /// tempCalculated X = loc6
+            /// index 	 == loc5
+            /// baseright== loc4
+            /// baseleft == loc3
+            /// y 	 == loc2
+            /// x 	 == loc1
+            /// </summary>
+            /// <param name="x"></param>
+            /// <param name="y"></param>
+            /// <returns></returns>
+            public static System.Int32 AdjustCell(int oldCellToConsume, int CellOfPrintingPod, int index) ///int requirement to consume previous "3" on stack
+            {
+                int newCell = CellOfPrintingPod + ((index + 2) % 5 - 2);
+                //Debug.Log("Old CellPos: " + Grid.CellToXY(oldCellToConsume) + ", New CellPos: " + Grid.CellToXY(newCell));
+                return newCell;
+            }
+
+            public static readonly MethodInfo NewCellXY = AccessTools.Method(
+               typeof(DupeSpawnAdjustment),
+               nameof(DupeSpawnAdjustment.AdjustCell));
+
+            public static readonly MethodInfo PreviousCellXY = AccessTools.Method(
+               typeof(Grid),
+               nameof(Grid.XYToCell));
+
+            [HarmonyPriority(Priority.Last)]
+            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+            {
+                var code = instructions.ToList();
+                var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Call && ci.operand is MethodInfo f && f == PreviousCellXY);
+
+                //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
+                if (insertionIndex != -1)
+                {
+                    //++insertionIndex;
+                    //code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 7));
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldarg_1));
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 5));
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, NewCellXY));
+                    //code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Stloc_S,  7));
+                    //code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 7));
+                }
+                //foreach (var v in code) { Console.WriteLine(v.opcode + (v.operand != null ? ": " + v.operand : "")); };
+                return code;
+            }
+        }
+
+
+
+
         [HarmonyPatch(typeof(CharacterSelectionController), "InitializeContainers")]
         public class CharacterSelectionController_Patch
         {
@@ -66,15 +172,6 @@ namespace SetStartDupes
                 {
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, AdjustNumber));
                 }
-
-#if DEBUG
-                //else
-                //    foreach (var v in code) 
-                //    { 
-                //        Debug.Log(v.opcode + " -> " + v.operand);
-                //    };
-#endif
-
                 return code;
             }
 
@@ -88,12 +185,15 @@ namespace SetStartDupes
                 Debug.Log(__instance.GetType());
                 GameObject parentToScale = (GameObject)typeof(CharacterSelectionController).GetField("containerParent", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
                 CharacterContainer prefabToScale = (CharacterContainer)typeof(CharacterSelectionController).GetField("containerPrefab", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
-                Debug.Log("Original Scale " + prefabToScale.baseCharacterScale);
 
                 if (__instance.GetType() == typeof(MinionSelectScreen))
                 {
 #if DEBUG
                     Debug.Log("Manipulating Instance: " + __instance.GetType());
+
+                    //UIUtils.ListAllChildren(__instance.transform);
+                   // UIUtils.ListAllChildrenWithComponents(__instance.transform);
+
 #endif   
 
                     GridLayoutGroup[] objectsOfType2 = UnityEngine.Object.FindObjectsOfType<GridLayoutGroup>();
@@ -101,53 +201,27 @@ namespace SetStartDupes
                     {
                         if (layout.name == "CharacterContainers")
                         {
+                            ///adding scroll
+                            var scroll = layout.transform.parent.parent.FindOrAddComponent<ScrollRect>();
+                            scroll.content = layout.transform.parent.rectTransform();
+                            scroll.horizontal = false;
+                            scroll.scrollSensitivity = 100;
+                            scroll.movementType = ScrollRect.MovementType.Clamped;
+                            scroll.inertia = false;
+                            ///setting start pos
+                            layout.transform.parent.rectTransform().pivot = new Vector2(0.5f,0.9f);
 
+                            ///top & bottom padding
+                            layout.transform.parent.TryGetComponent<VerticalLayoutGroup>(out var verticalLayoutGroup);
+                            verticalLayoutGroup.padding = new RectOffset(00,00,50,50);
+                            layout.childAlignment = TextAnchor.UpperCenter;
                             int countPerRow = StartDupeConfig.Instance.DuplicantStartAmount;
-                            if (countPerRow > 5)
-                            {
-                                if (countPerRow % 2 != 0)
-                                    countPerRow++;
-                                countPerRow = countPerRow / 2;
-                            }
-                            layout.constraintCount = countPerRow;
-#if DEBUG
-                            Debug.Log("cellsize: " + layout.cellSize);
-                            Debug.Log("Dupe COunt: " + StartDupeConfig.Instance.DuplicantStartAmount);
-                            Debug.Log("Dupes Per Row " + countPerRow);
 
-#endif                        //layout.cellSize = new(300, 400);
+                            layout.constraintCount = 5;
                         }
                     }
-
-
-                    //Debug.Log("PARENT: "+parentToScale.transform.localScale);
-                    //prefabToScale.transform.localScale = new(0.8f,0.8f);
-                    if (StartDupeConfig.Instance.DuplicantStartAmount > 5 && __instance.IsStarterMinion)
-                    {
-                        parentToScale.transform.parent.transform.localScale = new Vector3(0.6f, 0.6f);
-                        //parentToScale.transform.localScale = new Vector3(0.6f, 0.6f);
-                        prefabToScale.baseCharacterScale = 0.24f;
-                        Debug.Log("Adjusting Scale to " + prefabToScale.baseCharacterScale);
-                        ModAssets.HasShrunkenDown = true;
-                        ModAssets.PrefabToFix = prefabToScale;
-                    }
-                    //else
-                    //{
-                    //    //parentToScale.transform.parent.transform.localScale = new Vector3(0.6f, 0.6f);
-                    //    if (HasShrunkenDown) 
-                    //    {
-                    //        parentToScale.transform.parent.transform.localScale = new Vector3(1f, 1f);
-                    //        prefabToScale.baseCharacterScale = prefabToScale.baseCharacterScale * (0.6f/1f); HasShrunkenDown = false;
-                    //    }
-                    //}
-                }
-                else
-                {
-                    prefabToScale.baseCharacterScale = 0.4f;
-
-#if DEBUG
-                    Debug.Log("Adjusting Scale to " + prefabToScale.baseCharacterScale);
-#endif
+                    __instance.transform.Find("Content/BottomContent").TryGetComponent<VerticalLayoutGroup>(out var buttonGroup);
+                    buttonGroup.childAlignment = TextAnchor.LowerCenter;
                 }
 
 #if DEBUG
@@ -207,20 +281,16 @@ namespace SetStartDupes
         [HarmonyPatch(typeof(CharacterContainer), "GenerateCharacter")]
         public static class AddChangeButtonToCharacterContainer
         {
-            public static void Prefix(CharacterContainer __instance, Transform ___aptitudeLabel)
-            {
-            }
             public static void Postfix(CharacterContainer __instance, MinionStartingStats ___stats, bool is_starter)
             {
+                ///Only during startup when config is disabled
+                if (!is_starter && !StartDupeConfig.Instance.ModifyDuringGame)
+                    return;
 
                 var buttonPrefab = __instance.transform.Find("TitleBar/RenameButton").gameObject;
                 var titlebar = __instance.transform.Find("TitleBar").gameObject;
-#if DEBUG
-                //Debug.Log("Start ChildrenList");
-                //UIUtils.ListAllChildren(__instance.transform);
-                //Debug.Log("Stop ChildrenList");
-#endif
 
+                ///Make modify button
                 var changebtn = Util.KInstantiateUI(buttonPrefab, titlebar);
                 changebtn.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 40f, changebtn.rectTransform().sizeDelta.x);
                 changebtn.name = "ChangeDupeStatButton";
@@ -415,7 +485,7 @@ namespace SetStartDupes
                         DupeTraitMng.AddTrait(v.Id);
                         var TraitHolder = traitEntry.AddComponent<DupeTraitHolder>();
                         TraitHolder.CurrentTrait = v;
-                        UIUtils.AddSimpleTooltipToObject(traitEntry.transform, TraitHolder.CurrentTrait.GetTooltip(), true);
+                        UIUtils.AddSimpleTooltipToObject(traitEntry.transform, TraitHolder.GetTraitTooltip(), true);
                         var type = DupeTraitManager.GetTraitListOfTrait(v.Id, out var list);
                         TraitsToSort.Add(new Tuple<GameObject, DupeTraitManager.NextType>(traitEntry, type));
 
@@ -434,7 +504,7 @@ namespace SetStartDupes
                             TraitHolder.CurrentTrait = NextTrait;
 
                             UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, TraitHolder.CurrentTrait.Name));
-                            UIUtils.AddSimpleTooltipToObject(traitEntry.transform, TraitHolder.CurrentTrait.GetTooltip(), true);
+                            UIUtils.AddSimpleTooltipToObject(traitEntry.transform, TraitHolder.GetTraitTooltip(), true);
                         });
                         UIUtils.AddActionToButton(traitEntry.transform, "PrevButton", () =>
                         {
@@ -447,7 +517,7 @@ namespace SetStartDupes
                             TraitHolder.CurrentTrait = NextTrait;
 
                             UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, TraitHolder.CurrentTrait.Name));
-                            UIUtils.AddSimpleTooltipToObject(traitEntry.transform, TraitHolder.CurrentTrait.GetTooltip(), true);
+                            UIUtils.AddSimpleTooltipToObject(traitEntry.transform, TraitHolder.GetTraitTooltip(), true);
                         });
                     }
 
@@ -472,7 +542,7 @@ namespace SetStartDupes
                     ApplyTraitStyleByKey(JoyTrait.transform.Find("PrevButton").GetComponent<KImage>(), DupeTraitManager.NextType.joy);
                     ApplyTraitStyleByKey(JoyTrait.transform.Find("NextButton").GetComponent<KImage>(), DupeTraitManager.NextType.joy);
                     UIUtils.TryChangeText(JoyTrait.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.JOYREACTION, referencedStats.joyTrait.Name));
-                    UIUtils.AddSimpleTooltipToObject(JoyTrait.transform, JoyHolder.CurrentTrait.GetTooltip(), true);
+                    UIUtils.AddSimpleTooltipToObject(JoyTrait.transform, JoyHolder.GetTraitTooltip(), true);
 
                     UIUtils.AddActionToButton(JoyTrait.transform, "NextButton", () =>
                     {
@@ -483,7 +553,7 @@ namespace SetStartDupes
                         JoyHolder.CurrentTrait = NextTrait;
 
                         UIUtils.TryChangeText(JoyTrait.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.JOYREACTION, referencedStats.joyTrait.Name));
-                        UIUtils.AddSimpleTooltipToObject(JoyTrait.transform, JoyHolder.CurrentTrait.GetTooltip(), true);
+                        UIUtils.AddSimpleTooltipToObject(JoyTrait.transform, JoyHolder.GetTraitTooltip(), true);
                     });
                     UIUtils.AddActionToButton(JoyTrait.transform, "PrevButton", () =>
                     {
@@ -494,7 +564,7 @@ namespace SetStartDupes
                         JoyHolder.CurrentTrait = NextTrait;
 
                         UIUtils.TryChangeText(JoyTrait.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.JOYREACTION, referencedStats.joyTrait.Name));
-                        UIUtils.AddSimpleTooltipToObject(JoyTrait.transform, JoyHolder.CurrentTrait.GetTooltip(), true);
+                        UIUtils.AddSimpleTooltipToObject(JoyTrait.transform, JoyHolder.GetTraitTooltip(), true);
                     }
                      );
 
@@ -509,7 +579,7 @@ namespace SetStartDupes
                     var StressHolder = JoyTrait.AddComponent<DupeTraitHolder>();
                     StressHolder.CurrentTrait = referencedStats.stressTrait;
 
-                    UIUtils.AddSimpleTooltipToObject(StressTrait.transform, StressHolder.CurrentTrait.GetTooltip(), true);
+                    UIUtils.AddSimpleTooltipToObject(StressTrait.transform, StressHolder.GetTraitTooltip(), true);
                     UIUtils.TryChangeText(StressTrait.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.STRESSREACTION, referencedStats.stressTrait.Name));
 
                     UIUtils.AddActionToButton(StressTrait.transform, "NextButton", () =>
@@ -520,7 +590,7 @@ namespace SetStartDupes
                         referencedStats.stressTrait = NextTrait;
                         StressHolder.CurrentTrait = NextTrait;
                         UIUtils.TryChangeText(StressTrait.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.STRESSREACTION, referencedStats.stressTrait.Name));
-                        UIUtils.AddSimpleTooltipToObject(StressTrait.transform, StressHolder.CurrentTrait.GetTooltip(), true);
+                        UIUtils.AddSimpleTooltipToObject(StressTrait.transform, StressHolder.GetTraitTooltip(), true);
                     });
                     UIUtils.AddActionToButton(StressTrait.transform, "PrevButton", () =>
                     {
@@ -530,7 +600,7 @@ namespace SetStartDupes
                         referencedStats.stressTrait = NextTrait;
                         StressHolder.CurrentTrait = NextTrait;
                         UIUtils.TryChangeText(StressTrait.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.STRESSREACTION, referencedStats.stressTrait.Name));
-                        UIUtils.AddSimpleTooltipToObject(StressTrait.transform, StressHolder.CurrentTrait.GetTooltip(), true);
+                        UIUtils.AddSimpleTooltipToObject(StressTrait.transform, StressHolder.GetTraitTooltip(), true);
                     });
                 }
 
