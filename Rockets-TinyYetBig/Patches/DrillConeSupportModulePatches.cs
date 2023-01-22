@@ -69,15 +69,59 @@ namespace Rockets_TinyYetBig.Patches
             }
         }
 
-        [HarmonyPatch(typeof(HarvestModuleSideScreen), "SimEveryTick")]
-        public static class CorrectInfoScreen
+
+        [HarmonyPatch(typeof(HarvestModuleSideScreen), "SetTarget")]
+        public static class TargetSetterPatch
         {
+
+            public static void Postfix(GameObject target)
+            {
+                CorrectInfoScreenForSupportModules.Flush();
+                var craft = target.GetComponent<Clustercraft>();
+
+                foreach (var otherModule in craft.ModuleInterface.ClusterModules)
+                {
+                    GameObject gameObject = otherModule.Get().gameObject;
+                    if (gameObject.GetDef<ResourceHarvestModule.Def>() != null)
+                    {
+                        var instance = gameObject.GetSMI<ResourceHarvestModule.StatesInstance>();
+                        CorrectInfoScreenForSupportModules.moduleInstance = instance;
+                        if (instance.gameObject.TryGetComponent<Storage>(out var storageOnTarget))
+                        {
+                            CorrectInfoScreenForSupportModules.drillerStorage = storageOnTarget;
+                        }
+                    }
+
+                    if (otherModule.Get().TryGetComponent<DrillConeAssistentModule>(out var assistantModule))
+                    {
+                        CorrectInfoScreenForSupportModules.helperModules.Add(assistantModule);
+                    }
+                }
+            }
+        }
+
+
+        [HarmonyPatch(typeof(HarvestModuleSideScreen), "SimEveryTick")]
+        public static class CorrectInfoScreenForSupportModules
+        {
+            public static void Flush()
+            {
+                lastPercentageState = -2f;
+                lastMassStored = -2f;
+                helperModules.Clear();
+                drillerStorage = null;
+                moduleInstance=null;
+            }
+            public static List<DrillConeAssistentModule> helperModules= new List<DrillConeAssistentModule>();
             static float globalDT = 0f;
             const float dtGate = 1 / 5f;
+            static float lastPercentageState = -1f;
+            static float lastMassStored = -1f;
+            public static Storage drillerStorage = null;
+            public static ResourceHarvestModule.StatesInstance moduleInstance;
 
             public static bool Prefix(float dt, HarvestModuleSideScreen __instance, Clustercraft ___targetCraft)
             {
-                Debug.Log(dt+", global dt == "+globalDT);
                 if (globalDT < dtGate)
                 {
                     globalDT += dt;
@@ -91,57 +135,38 @@ namespace Rockets_TinyYetBig.Patches
                         return false;
 
                     float Capacity = 0, MassStored = 0;
-                    ResourceHarvestModule.StatesInstance instance = null;
-                    if (___targetCraft.TryGetComponent<CraftModuleInterface>(out var @interface))
+                    if (drillerStorage!=null)
                     {
-                        foreach (Ref<RocketModuleCluster> clusterModule in @interface.ClusterModules)
-                        {
-                            GameObject gameObject = clusterModule.Get().gameObject;
-                            if (gameObject.GetDef<ResourceHarvestModule.Def>() != null)
-                            {
-                                instance = gameObject.GetSMI<ResourceHarvestModule.StatesInstance>();
-                                
-                                if(instance.gameObject.TryGetComponent<Storage>(out var storageOnTarget))
-                                {
-                                    Capacity += storageOnTarget.Capacity();
-                                    MassStored += storageOnTarget.MassStored();
-                                }
-                            }
-                            if (gameObject.TryGetComponent<DrillConeAssistentModule>(out var module))
-                            {
-
-                                Capacity += module.DiamondStorage.Capacity();
-                                MassStored += module.DiamondStorage.MassStored();
-                            }
-                        }
-                        if (instance == null)
-                            return false;
+                        Capacity += drillerStorage.Capacity();
+                        MassStored += drillerStorage.MassStored();
                     }
-                    else
+                    foreach(var module in helperModules)
                     {
-                        return false;
+                        Capacity += module.DiamondStorage.Capacity();
+                        MassStored += module.DiamondStorage.MassStored();
                     }
 
                     __instance.TryGetComponent<HierarchyReferences>(out HierarchyReferences component1);
+                    float miningProgress = moduleInstance.sm.canHarvest.Get(moduleInstance) ? (moduleInstance.timeinstate % 4f)/4f : -1f;
 
-                    GenericUIProgressBar reference1 = component1.GetReference<GenericUIProgressBar>("progressBar");
-                    float miningProgress = instance.timeinstate % 4f;
-                    if (instance.sm.canHarvest.Get(instance))
+                    if (!Mathf.Approximately(miningProgress,lastPercentageState))
                     {
-                        reference1.SetFillPercentage(miningProgress / 4f);
-                        reference1.label.SetText((string)global::STRINGS.UI.UISIDESCREENS.HARVESTMODULESIDESCREEN.MINING_IN_PROGRESS);
+                        GenericUIProgressBar reference1 = component1.GetReference<GenericUIProgressBar>("progressBar");
+                        reference1.SetFillPercentage(miningProgress > -1f ? miningProgress : 0f);
+                        reference1.label.SetText(miningProgress > -1f ? (string)global::STRINGS.UI.UISIDESCREENS.HARVESTMODULESIDESCREEN.MINING_IN_PROGRESS : (string)global::STRINGS.UI.UISIDESCREENS.HARVESTMODULESIDESCREEN.MINING_STOPPED);
+                        lastPercentageState = miningProgress;
+
+                        
                     }
-                    else
+                    if (!Mathf.Approximately(MassStored,lastMassStored))
                     {
-                        reference1.SetFillPercentage(0.0f);
-                        reference1.label.SetText((string)global::STRINGS.UI.UISIDESCREENS.HARVESTMODULESIDESCREEN.MINING_STOPPED);
+                        GenericUIProgressBar reference2 = component1.GetReference<GenericUIProgressBar>("diamondProgressBar");
+                        reference2.SetFillPercentage(MassStored / Capacity);
+                        reference2.label.SetText(ElementLoader.GetElement(SimHashes.Diamond.CreateTag()).name + ": " + GameUtil.GetFormattedMass(MassStored));
+                        lastMassStored = MassStored;
                     }
-
-                    GenericUIProgressBar reference2 = component1.GetReference<GenericUIProgressBar>("diamondProgressBar");
-
-                    reference2.SetFillPercentage(MassStored / Capacity);
-                    reference2.label.SetText(ElementLoader.GetElement(SimHashes.Diamond.CreateTag()).name + ": " + GameUtil.GetFormattedMass(MassStored));
                     return false;
+
                 }
             }
         }
