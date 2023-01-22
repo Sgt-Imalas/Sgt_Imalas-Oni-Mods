@@ -10,8 +10,10 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UnityEngine.Diagnostics;
 using UnityEngine.UI;
 using UtilLibs;
+using static Database.MonumentPartResource;
 using static SetStartDupes.ModAssets;
 using static STRINGS.CODEX.MYLOG.BODY;
 using static UnityEngine.UI.Image;
@@ -20,17 +22,81 @@ namespace SetStartDupes
 {
     class Patches
     {
-        //[HarmonyPatch(typeof(ImmigrantScreen), "OnPrefabInit")]
-        //public class GrabButtpnPrefab
-        //{
-        //    public static void Postfix(KButton ___rejectButton)
-        //    {
-        //        Debug.Log("Creating PREFAB");
-        //        NextButtonPrefab = Util.KInstantiateUI(___rejectButton.gameObject);
-        //        UIUtils.ListAllChildren(NextButtonPrefab.transform);
-        //        NextButtonPrefab.name = "CycleButtonPrefab";
-        //    }
-        //}
+        [HarmonyPatch(typeof(CryoTank), "DropContents")]
+        public class AddToCryoTank
+        {
+            public static bool Prefix()
+            {
+                ImmigrantScreen.InitializeImmigrantScreen(null);
+                return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(ImmigrantScreen), "Initialize")]
+        public class CustomSingleForNoTelepad
+        {
+            public static bool Prefix(Telepad telepad,ref ImmigrantScreen __instance, CharacterContainer ___containerPrefab, GameObject ___containerParent)
+            {
+                if (telepad == null)
+                {
+                    var containerField = AccessTools.Field(typeof(CharacterSelectionController), "containers");
+                    var deliverablesField = AccessTools.Field(typeof(CharacterSelectionController), "selectedDeliverables");
+
+
+                    typeof(CharacterSelectionController).GetMethod("DisableProceedButton", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(__instance, null);
+                    var __containers = (List<ITelepadDeliverableContainer>)containerField.GetValue(__instance);
+                    if (__containers != null && __containers.Count > 0)
+                        return false;
+
+                    __containers = new List<ITelepadDeliverableContainer>();
+
+
+                    CharacterContainer characterContainerZZZ = Util.KInstantiateUI<CharacterContainer>(___containerPrefab.gameObject, ___containerParent);
+                    characterContainerZZZ.SetController(__instance);
+
+                    __containers.Add((ITelepadDeliverableContainer)characterContainerZZZ);
+                    deliverablesField.SetValue(__instance, new List<ITelepadDeliverable>());
+
+                    foreach (ITelepadDeliverableContainer container in __containers)
+                    {
+                        CharacterContainer characterContainer = container as CharacterContainer;
+                        if ((UnityEngine.Object)characterContainer != (UnityEngine.Object)null)
+                            characterContainer.SetReshufflingState(false);
+                    }
+                    containerField.SetValue(__instance, __containers);
+                    return false;
+                }
+                return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(ImmigrantScreen), "OnProceed")]
+        public class SkipTelepadStuff
+        {
+            public static bool Prefix(Telepad ___telepad, ImmigrantScreen __instance)
+            {
+                if (___telepad == null)
+                {
+                    var containerField = AccessTools.Field(typeof(CharacterSelectionController), "containers");
+                    var __containers = (List<ITelepadDeliverableContainer>)containerField.GetValue(__instance);
+
+                    __instance.Show(false);
+                    if (__containers != null)
+                    {
+                        __containers.ForEach((System.Action<ITelepadDeliverableContainer>)(cc => UnityEngine.Object.Destroy((UnityEngine.Object)cc.GetGameObject())));
+                        __containers.Clear();
+                    }
+                    AudioMixer.instance.Stop(AudioMixerSnapshots.Get().MENUNewDuplicantSnapshot);
+                    AudioMixer.instance.Stop(AudioMixerSnapshots.Get().PortalLPDimmedSnapshot);
+                    MusicManager.instance.PlaySong("Stinger_NewDuplicant");
+                    return false;
+                }
+                return true;
+            }
+        }
+        
+
+
         [HarmonyPatch(typeof(CharacterSelectionController), "InitializeContainers")]
         public class GrabButtpnPrefab2
         {
@@ -47,22 +113,56 @@ namespace SetStartDupes
         [HarmonyPatch(typeof(WattsonMessage), "OnActivate")]
         public class DupeSpawnAdjustmentNo2BecauseKleiIsKlei
         {
-            /// <summary>
-            /// cell 	 == loc7
-            /// tempCalculated X = loc6
-            /// index 	 == loc5
-            /// baseright== loc4
-            /// baseleft == loc3
-            /// y 	 == loc2
-            /// x 	 == loc1
-            /// </summary>
-            /// <param name="x"></param>
-            /// <param name="y"></param>
-            /// <returns></returns>
-            public static float AdjustCellX(float OldX,GameObject printingPod, int index) ///int requirement to consume previous "3" on stack
+            const float OxilitePerDupePerDay = 0.1f * 600f; //in KG
+            const float FoodBarsPerDupePerDay = 1000 / 800f; //in Units
+            static void Postfix()
+            {
+                if (StartDupeConfig.Instance.StartupResources&& StartDupeConfig.Instance.DuplicantStartAmount>3)
+                {
+                    GameObject telepad = GameUtil.GetTelepad(ClusterManager.Instance.GetStartWorld().id);
+                    float dupeCount = StartDupeConfig.Instance.DuplicantStartAmount;
+
+                    float OxiliteNeeded = OxilitePerDupePerDay* StartDupeConfig.Instance.SupportedDays * (dupeCount-3);
+                    float FoodeNeeded = FoodBarsPerDupePerDay * StartDupeConfig.Instance.SupportedDays * (dupeCount-3);
+                    Vector3 SpawnPos = telepad.transform.position;
+
+                    while (OxiliteNeeded > 0)
+                    {
+                        var SpawnAmount = Math.Min(OxiliteNeeded, 25000f);
+                        OxiliteNeeded -= SpawnAmount;
+                        ElementLoader.FindElementByHash(SimHashes.OxyRock).substance.SpawnResource(SpawnPos, SpawnAmount, UtilLibs.UtilMethods.GetKelvinFromC(20f), byte.MaxValue, 0,false);
+                    } 
+                    
+                    GameObject go = Util.KInstantiate(Assets.GetPrefab(FieldRationConfig.ID));
+                    go.transform.SetPosition(SpawnPos);
+                    PrimaryElement component2 = go.GetComponent<PrimaryElement>();
+                    component2.Units = FoodeNeeded;
+                    go.SetActive(true);
+                }
+            }
+
+            static void YeetOxilite(GameObject originGo, float amount)
+            {
+
+                GameObject go = Util.KInstantiate(Assets.GetPrefab(FieldRationConfig.ID));
+                go.transform.SetPosition(Grid.CellToPosCCC(Grid.PosToCell(originGo), Grid.SceneLayer.Ore));
+                PrimaryElement component2 = go.GetComponent<PrimaryElement>();
+                component2.Units = amount;
+                go.SetActive(true);
+
+
+                Vector2 initial_velocity = new Vector2(UnityEngine.Random.Range(-2f, 2f) * 1f, (float)((double)UnityEngine.Random.value * 2.0 + 4.0));
+                if (GameComps.Fallers.Has((object)go))
+                    GameComps.Fallers.Remove(go);
+                GameComps.Fallers.Add(go, initial_velocity);
+            }
+
+
+            public static float AdjustCellX(float OldX, GameObject printingPod, int index) ///int requirement to consume previous "3" on stack
             {
                 int newCell = Grid.PosToCell(printingPod) + ((index + 2) % 5 - 2);
                 Debug.Log("Old CellPosX: " + OldX + ", New CellPos: " + Grid.CellToXY(newCell));
+                //YeetOxilite(printingPod, 150f);
                 return (float)Grid.CellToXY(newCell).x;
             }
 
@@ -83,11 +183,11 @@ namespace SetStartDupes
                     //code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 7));
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_0));
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_2));
-                    code.Insert(++insertionIndex,  new CodeInstruction(OpCodes.Call, NewCellX));
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, NewCellX));
                     //code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Stloc_S,  7));
                     //code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 7));
                 }
-                foreach (var v in code) { Console.WriteLine(v.opcode + (v.operand!=null ? ": " + v.operand: "")); };
+                foreach (var v in code) { Console.WriteLine(v.opcode + (v.operand != null ? ": " + v.operand : "")); };
                 return code;
             }
         }
@@ -192,9 +292,9 @@ namespace SetStartDupes
                     Debug.Log("Manipulating Instance: " + __instance.GetType());
 
                     //UIUtils.ListAllChildren(__instance.transform);
-                   // UIUtils.ListAllChildrenWithComponents(__instance.transform);
+                    // UIUtils.ListAllChildrenWithComponents(__instance.transform);
 
-#endif   
+#endif
 
                     GridLayoutGroup[] objectsOfType2 = UnityEngine.Object.FindObjectsOfType<GridLayoutGroup>();
                     foreach (var layout in objectsOfType2)
@@ -209,11 +309,11 @@ namespace SetStartDupes
                             scroll.movementType = ScrollRect.MovementType.Clamped;
                             scroll.inertia = false;
                             ///setting start pos
-                            layout.transform.parent.rectTransform().pivot = new Vector2(0.5f,0.9f);
+                            layout.transform.parent.rectTransform().pivot = new Vector2(0.5f, 0.99f);
 
                             ///top & bottom padding
                             layout.transform.parent.TryGetComponent<VerticalLayoutGroup>(out var verticalLayoutGroup);
-                            verticalLayoutGroup.padding = new RectOffset(00,00,50,50);
+                            verticalLayoutGroup.padding = new RectOffset(00, 00, 50, 50);
                             layout.childAlignment = TextAnchor.UpperCenter;
                             int countPerRow = StartDupeConfig.Instance.DuplicantStartAmount;
 
