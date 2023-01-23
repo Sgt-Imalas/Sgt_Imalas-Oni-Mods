@@ -23,7 +23,7 @@ namespace Rockets_TinyYetBig.Buildings.Engines
 
         public override BuildingDef CreateBuildingDef()
         {
-            UtilMethods.CopyRocketSoundsToAnim(kanim, "rocket_petro_engine_small_kanim");
+            UtilMethods.CopySoundsToAnim(kanim, "rocket_petro_engine_small_kanim");
 
             float[] constructionMass = new float[] { 300f };
             string[] constructioMaterials = MATERIALS.REFINED_METALS;
