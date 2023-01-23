@@ -11,7 +11,7 @@
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net471</TargetFramework>
+		<TargetFramework>net48</TargetFramework>
 		<Configurations>Debug</Configurations>
 		<AssemblyName>BiomeClimates</AssemblyName>
 		<RootNamespace>BiomeClimates</RootNamespace>
