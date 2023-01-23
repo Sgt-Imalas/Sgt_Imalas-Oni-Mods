@@ -38,7 +38,7 @@ namespace SetStartDupes
             DuplicantStartAmount = 3;
             ModifyDuringGame = false;
             StartupResources = false;
-            SupportedDays = 4;
+            SupportedDays = 5;
         }
     }
 }

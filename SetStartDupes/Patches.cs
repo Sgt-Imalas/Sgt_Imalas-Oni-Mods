@@ -16,85 +16,119 @@ using UtilLibs;
 using static Database.MonumentPartResource;
 using static SetStartDupes.ModAssets;
 using static STRINGS.CODEX.MYLOG.BODY;
+using static STRINGS.DUPLICANTS.TRAITS;
 using static UnityEngine.UI.Image;
 
 namespace SetStartDupes
 {
     class Patches
     {
-        [HarmonyPatch(typeof(CryoTank), "DropContents")]
-        public class AddToCryoTank
-        {
-            public static bool Prefix()
-            {
-                ImmigrantScreen.InitializeImmigrantScreen(null);
-                return false;
-            }
-        }
 
-        [HarmonyPatch(typeof(ImmigrantScreen), "Initialize")]
-        public class CustomSingleForNoTelepad
-        {
-            public static bool Prefix(Telepad telepad,ref ImmigrantScreen __instance, CharacterContainer ___containerPrefab, GameObject ___containerParent)
-            {
-                if (telepad == null)
-                {
-                    var containerField = AccessTools.Field(typeof(CharacterSelectionController), "containers");
-                    var deliverablesField = AccessTools.Field(typeof(CharacterSelectionController), "selectedDeliverables");
+        //[HarmonyPatch(typeof(CryoTank), "DropContents")]
+        //public class AddToCryoTank
+        //{
+        //    public static void Prefix()
+        //    {
+        //        ModAssets.EditingSingleDupe = true;
+        //        ImmigrantScreen.InitializeImmigrantScreen(null);
+
+        //    }
+        //}
+        //[HarmonyPatch(typeof(CharacterContainer), "GenerateCharacter")]
+        //public class OverwriteRngGeneration
+        //{
+        //    public static bool Prefix(CharacterContainer __instance, KButton ___selectButton)
+        //    {
+        //        if (ModAssets.EditingSingleDupe)
+        //        {
+        //            AccessTools.Method(typeof(CharacterContainer), "SetAnimator").Invoke(__instance, null);
+        //            AccessTools.Method(typeof(CharacterContainer), "SetInfoText").Invoke(__instance, null);
+        //            AccessTools.Method(typeof(CharacterContainer), "SetAttributes").Invoke(__instance, null);
+        //            //__instance.SetAnimator();
+        //            //__instance.SetInfoText();
+        //            //__instance.StartCoroutine(__instance.SetAttributes());
+        //            ___selectButton.ClearOnClick();
+        //            ___selectButton.enabled = true;
+        //            ___selectButton.onClick += delegate
+        //            {
+        //                __instance.SelectDeliverable();
+
+        //            };
+        //            return false;
+        //        }
+        //        return true;
+        //    }
+        //}
+
+        //[HarmonyPatch(typeof(ImmigrantScreen), "Initialize")]
+        //public class CustomSingleForNoTelepad
+        //{
+        //    public static bool Prefix(Telepad telepad, ref ImmigrantScreen __instance, CharacterContainer ___containerPrefab, GameObject ___containerParent)
+        //    {
+        //        if (telepad == null && EditingSingleDupe)
+        //        {
+        //            var containerField = AccessTools.Field(typeof(CharacterSelectionController), "containers");
+        //            var deliverablesField = AccessTools.Field(typeof(CharacterSelectionController), "selectedDeliverables");
 
 
-                    typeof(CharacterSelectionController).GetMethod("DisableProceedButton", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(__instance, null);
-                    var __containers = (List<ITelepadDeliverableContainer>)containerField.GetValue(__instance);
-                    if (__containers != null && __containers.Count > 0)
-                        return false;
+        //            typeof(CharacterSelectionController).GetMethod("DisableProceedButton", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(__instance, null);
+        //            var __containers = (List<ITelepadDeliverableContainer>)containerField.GetValue(__instance);
+        //            if (__containers != null && __containers.Count > 0)
+        //                return false;
 
-                    __containers = new List<ITelepadDeliverableContainer>();
+        //            __containers = new List<ITelepadDeliverableContainer>();
 
 
-                    CharacterContainer characterContainerZZZ = Util.KInstantiateUI<CharacterContainer>(___containerPrefab.gameObject, ___containerParent);
-                    characterContainerZZZ.SetController(__instance);
+        //            CharacterContainer characterContainerZZZ = Util.KInstantiateUI<CharacterContainer>(___containerPrefab.gameObject, ___containerParent);
+        //            characterContainerZZZ.SetController(__instance);
+        //            var StatsField = AccessTools.Field(typeof(CharacterContainer), "stats");//MinionStartingStats
+        //            StatsField.SetValue(characterContainerZZZ, ModAssets._TargetStats);
+        //            //AccessTools.Method(typeof(CharacterContainer), "GenerateCharacter", new[] { typeof(bool), typeof(string), typeof(string), typeof(bool) }).Invoke(characterContainerZZZ, new object[] { false,null, "AncientKnowledge",false });
+        //            __containers.Add((ITelepadDeliverableContainer)characterContainerZZZ);
+        //            deliverablesField.SetValue(__instance, new List<ITelepadDeliverable>());
 
-                    __containers.Add((ITelepadDeliverableContainer)characterContainerZZZ);
-                    deliverablesField.SetValue(__instance, new List<ITelepadDeliverable>());
+        //            foreach (ITelepadDeliverableContainer container in __containers)
+        //            {
+        //                CharacterContainer characterContainer = container as CharacterContainer;
+        //                if ((UnityEngine.Object)characterContainer != (UnityEngine.Object)null)
+        //                    characterContainer.SetReshufflingState(false);
+        //            }
+        //            containerField.SetValue(__instance, __containers);
+        //            return false;
+        //        }
+        //        return true;
+        //    }
+        //}
 
-                    foreach (ITelepadDeliverableContainer container in __containers)
-                    {
-                        CharacterContainer characterContainer = container as CharacterContainer;
-                        if ((UnityEngine.Object)characterContainer != (UnityEngine.Object)null)
-                            characterContainer.SetReshufflingState(false);
-                    }
-                    containerField.SetValue(__instance, __containers);
-                    return false;
-                }
-                return true;
-            }
-        }
+        //[HarmonyPatch(typeof(ImmigrantScreen), "OnProceed")]
+        //public class SkipTelepadStuff
+        //{
+        //    public static bool Prefix(Telepad ___telepad, ImmigrantScreen __instance)
+        //    {
+        //        if (___telepad == null && EditingSingleDupe)
+        //        {
+        //            var containerField = AccessTools.Field(typeof(CharacterSelectionController), "containers");
+        //            var __containers = (List<ITelepadDeliverableContainer>)containerField.GetValue(__instance);
+        //            var deliverablesField = AccessTools.Field(typeof(CharacterSelectionController), "selectedDeliverables");
 
-        [HarmonyPatch(typeof(ImmigrantScreen), "OnProceed")]
-        public class SkipTelepadStuff
-        {
-            public static bool Prefix(Telepad ___telepad, ImmigrantScreen __instance)
-            {
-                if (___telepad == null)
-                {
-                    var containerField = AccessTools.Field(typeof(CharacterSelectionController), "containers");
-                    var __containers = (List<ITelepadDeliverableContainer>)containerField.GetValue(__instance);
+        //            var DupeToDeliver = (MinionStartingStats)((List<ITelepadDeliverable>)deliverablesField.GetValue(__instance)).First();
 
-                    __instance.Show(false);
-                    if (__containers != null)
-                    {
-                        __containers.ForEach((System.Action<ITelepadDeliverableContainer>)(cc => UnityEngine.Object.Destroy((UnityEngine.Object)cc.GetGameObject())));
-                        __containers.Clear();
-                    }
-                    AudioMixer.instance.Stop(AudioMixerSnapshots.Get().MENUNewDuplicantSnapshot);
-                    AudioMixer.instance.Stop(AudioMixerSnapshots.Get().PortalLPDimmedSnapshot);
-                    MusicManager.instance.PlaySong("Stinger_NewDuplicant");
-                    return false;
-                }
-                return true;
-            }
-        }
-        
+        //            __instance.Show(false);
+        //            if (__containers != null)
+        //            {
+        //                __containers.ForEach((System.Action<ITelepadDeliverableContainer>)(cc => UnityEngine.Object.Destroy((UnityEngine.Object)cc.GetGameObject())));
+        //                __containers.Clear();
+        //            }
+        //            AudioMixer.instance.Stop(AudioMixerSnapshots.Get().MENUNewDuplicantSnapshot);
+        //            AudioMixer.instance.Stop(AudioMixerSnapshots.Get().PortalLPDimmedSnapshot);
+        //            MusicManager.instance.PlaySong("Stinger_NewDuplicant");
+        //            EditingSingleDupe = false;
+        //            return false;
+        //        }
+        //        return true;
+        //    }
+        //}
+
 
 
         [HarmonyPatch(typeof(CharacterSelectionController), "InitializeContainers")]
@@ -117,22 +151,22 @@ namespace SetStartDupes
             const float FoodBarsPerDupePerDay = 1000 / 800f; //in Units
             static void Postfix()
             {
-                if (StartDupeConfig.Instance.StartupResources&& StartDupeConfig.Instance.DuplicantStartAmount>3)
+                if (StartDupeConfig.Instance.StartupResources && StartDupeConfig.Instance.DuplicantStartAmount > 3)
                 {
                     GameObject telepad = GameUtil.GetTelepad(ClusterManager.Instance.GetStartWorld().id);
                     float dupeCount = StartDupeConfig.Instance.DuplicantStartAmount;
 
-                    float OxiliteNeeded = OxilitePerDupePerDay* StartDupeConfig.Instance.SupportedDays * (dupeCount-3);
-                    float FoodeNeeded = FoodBarsPerDupePerDay * StartDupeConfig.Instance.SupportedDays * (dupeCount-3);
+                    float OxiliteNeeded = OxilitePerDupePerDay * StartDupeConfig.Instance.SupportedDays * (dupeCount - 3);
+                    float FoodeNeeded = FoodBarsPerDupePerDay * StartDupeConfig.Instance.SupportedDays * (dupeCount - 3);
                     Vector3 SpawnPos = telepad.transform.position;
 
                     while (OxiliteNeeded > 0)
                     {
                         var SpawnAmount = Math.Min(OxiliteNeeded, 25000f);
                         OxiliteNeeded -= SpawnAmount;
-                        ElementLoader.FindElementByHash(SimHashes.OxyRock).substance.SpawnResource(SpawnPos, SpawnAmount, UtilLibs.UtilMethods.GetKelvinFromC(20f), byte.MaxValue, 0,false);
-                    } 
-                    
+                        ElementLoader.FindElementByHash(SimHashes.OxyRock).substance.SpawnResource(SpawnPos, SpawnAmount, UtilLibs.UtilMethods.GetKelvinFromC(20f), byte.MaxValue, 0, false);
+                    }
+
                     GameObject go = Util.KInstantiate(Assets.GetPrefab(FieldRationConfig.ID));
                     go.transform.SetPosition(SpawnPos);
                     PrimaryElement component2 = go.GetComponent<PrimaryElement>();
@@ -533,8 +567,8 @@ namespace SetStartDupes
 
                     ///Aptitudes
 
-                    DupeTraitMng.referencedInterests = ref referencedStats.skillAptitudes;
-                    DupeTraitMng.dupeStatPoints = ref referencedStats.StartingLevels;
+                    DupeTraitMng.referencedInterests = referencedStats.skillAptitudes;
+                    DupeTraitMng.dupeStatPoints = referencedStats.StartingLevels;
                     DupeTraitMng.GetInterestsWithStats();
                     DupeTraitMng.AddSkillLevels(ref referencedStats.StartingLevels);
                     int index = 0;

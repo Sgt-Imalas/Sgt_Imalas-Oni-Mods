@@ -23,8 +23,8 @@ namespace SetStartDupes
         [Serialize]
         public List<SkillGroup> ActiveInterests = new();
 
-        public ref Dictionary<SkillGroup, float> referencedInterests;
-        public ref Dictionary<string, int> dupeStatPoints;
+        public Dictionary<SkillGroup, float> referencedInterests;
+        public Dictionary<string, int> dupeStatPoints;
         int FallBack = -1;
 
         public enum NextType
@@ -159,6 +159,7 @@ namespace SetStartDupes
         }
         public void ReplaceTrait(string old, string newS)
         {
+            if(old == newS) return;
             if (!currentTraitIds.Contains(old) || currentTraitIds.Contains(newS))
                 return;
 
@@ -213,6 +214,8 @@ namespace SetStartDupes
         public string GetNextTraitId(string currentId, bool backwards)
         {
             GetTraitListOfTrait(currentId, out var currentList);
+            if (currentList == null)
+                return currentId;
             int i = 0;
 
             i = currentList.FindIndex(t => t.id == currentId);

@@ -12,6 +12,9 @@ namespace SetStartDupes
 {
     public class ModAssets
     {
+        public static bool EditingSingleDupe = false;
+        public static MinionStartingStats _TargetStats;
+
         public static CharacterContainer PrefabToFix;
         public static GameObject StartPrefab;
         public static bool HasShrunkenDown = false;
