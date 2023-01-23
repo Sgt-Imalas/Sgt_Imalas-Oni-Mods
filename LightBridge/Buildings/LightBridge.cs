@@ -78,7 +78,6 @@ namespace LightBridge.Buildings
 
             if (BridgeLength == lastLength)
                 return;
-
             fakeFloor.UpdateFloorCells(LightBridgeArea.Take(BridgeLength).ToArray());
             LightBridgeMeter.SetPositionPercent(((float)BridgeLength / (float)MaxLength));
             lastLength = BridgeLength;
