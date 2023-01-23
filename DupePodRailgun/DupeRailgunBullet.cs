@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DupePodRailgun
 {
-    class RailgunPod
+    internal class DupeRailgunBullet
     {
     }
 }
