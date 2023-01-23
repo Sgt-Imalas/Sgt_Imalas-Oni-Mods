@@ -34,7 +34,7 @@ namespace MoveDupeHere
             return assignable.assignee.GetSoleOwner().GetComponent<MinionAssignablesProxy>().GetTargetGameObject().GetComponent<Navigator>();
         }
 
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             assignable.OnAssign += new System.Action<IAssignableIdentity>(this.RedoAssignment);
             base.OnSpawn();
@@ -58,7 +58,7 @@ namespace MoveDupeHere
             smi.GoTo(smi.sm.Idle);
         }
 
-        protected override void OnCleanUp()
+        public override void OnCleanUp()
         {
             base.OnCleanUp();
         }

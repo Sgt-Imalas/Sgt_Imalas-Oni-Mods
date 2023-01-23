@@ -76,7 +76,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
                 UpdateMeter();
             }
 
-            protected override void OnCleanUp()
+            public override void OnCleanUp()
             {
                 base.OnCleanUp();
                 Unsubscribe(-1697596308, new Action<object>(UpdateMeter));

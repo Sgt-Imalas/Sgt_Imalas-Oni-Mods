@@ -56,5 +56,18 @@
 		<Message Text="Copied build files" Importance="High" />
 		
 	</Target>
+  
+  <Target Name="Publicise" AfterTargets="CopyModsToDevFolder">
+    <ItemGroup>
+      <PubliciseInputAssemblies
+			   Include="
+				$(GameLibsFolder)/Assembly-CSharp.dll;
+				$(GameLibsFolder)/Assembly-CSharp-firstpass.dll"/>
+    </ItemGroup>
 
+    <Publicise
+		   InputAssemblies="@(PubliciseInputAssemblies)"
+		   OutputPath="$(SolutionDir)\PublicisedAssembly"
+		   PubliciseCompilerGenerated="false"/>
+  </Target>
 </Project>

@@ -39,7 +39,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
             return false;
         }
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
             // the monument screen used here has 2 extra buttons that are not needed, disabling them
@@ -53,7 +53,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             Game.Instance.Subscribe((int)GameHashes.ToggleSandbox, RefreshAll); 
         }
 
-        protected override void OnPrefabInit()
+        public override void OnPrefabInit()
         {
 
             UIUtils.ListAllChildren(this.transform);

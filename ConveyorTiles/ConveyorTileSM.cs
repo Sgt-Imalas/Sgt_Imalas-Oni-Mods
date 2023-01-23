@@ -26,7 +26,7 @@ namespace MoveDupeHere
 
 
 
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
             this.smi.StartSM();
@@ -77,7 +77,7 @@ namespace MoveDupeHere
         }
 
 
-        protected override void OnCleanUp()
+        public override void OnCleanUp()
         {
             //GameScenePartitioner.Instance.Free(ref this.solidChangedEntry);
             GameScenePartitioner.Instance.Free(ref this.pickupablesChangedEntry);

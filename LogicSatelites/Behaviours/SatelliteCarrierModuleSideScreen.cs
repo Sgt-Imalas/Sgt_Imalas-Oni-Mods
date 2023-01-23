@@ -100,7 +100,7 @@ namespace LogicSatellites.Behaviours
             }
         }
 
-        protected override void OnShow(bool show)
+        public override void OnShow(bool show)
         {
             base.OnShow(show);
             this.ConsumeMouseScroll = true;
@@ -114,7 +114,7 @@ namespace LogicSatellites.Behaviours
 
         }
 
-        protected override void OnPrefabInit()
+        public override void OnPrefabInit()
         {
             base.OnPrefabInit();
             this.titleKey = "STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLE";
@@ -177,7 +177,7 @@ namespace LogicSatellites.Behaviours
             module.ModeIsDeployment = !module.ModeIsDeployment;
             RefreshStrings();
         }
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
             Title.SetText(STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLE); 

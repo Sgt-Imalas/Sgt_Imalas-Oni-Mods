@@ -53,7 +53,7 @@ namespace SetStartDupes
             }
             containerField.SetValue(this, __containers);
         }
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             this.activateOnSpawn = false;
             this.ConsumeMouseScroll = false;
@@ -68,7 +68,7 @@ namespace SetStartDupes
             //this.closeButton.onClick += (System.Action)(() => this.Show(false));
             this.Show(false);
         }
-        protected override void OnShow(bool show)
+        public override void OnShow(bool show)
         {
             if (show)
             {
@@ -87,7 +87,7 @@ namespace SetStartDupes
             }
             base.OnShow(show);
         }
-        protected override void OnProceed()
+        public override void OnProceed()
         {
             this.Show(false);
             this.containers.ForEach((Action<ITelepadDeliverableContainer>)(cc => UnityEngine.Object.Destroy((UnityEngine.Object)cc.GetGameObject())));

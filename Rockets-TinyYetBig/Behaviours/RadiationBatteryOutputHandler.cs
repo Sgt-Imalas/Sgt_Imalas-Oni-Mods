@@ -191,7 +191,7 @@ namespace Rockets_TinyYetBig.Behaviours
         public bool WholeValues => false;
         #endregion
 
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
             //if (infoStatusItem_Logic == null)
@@ -219,7 +219,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
 
         private void OnStorageChange(object data) => m_meter.SetPositionPercent(hepStorage.Particles / Mathf.Max(1f, hepStorage.capacity));
-        protected override void OnCleanUp()
+        public override void OnCleanUp()
         {
             base.OnCleanUp();
         }

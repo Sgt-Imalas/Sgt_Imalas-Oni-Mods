@@ -91,7 +91,7 @@ namespace Rockets_TinyYetBig.Behaviours
             this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.StatusItems.RTB_CritterModuleContent, (object)this);
         }
 
-        protected override void OnPrefabInit()
+        public override void OnPrefabInit()
         {
             base.OnPrefabInit();
             this.fetches = new List<FetchOrder2>();
@@ -112,7 +112,7 @@ namespace Rockets_TinyYetBig.Behaviours
             //}
             //this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Main, CritterStasisChamberModule.capacityStatusItem, (object)this);
         }
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
             this.Subscribe<CritterStasisChamberModule>(643180843, CritterStasisChamberModule.RefreshCreatureCountDelegate);

@@ -16,11 +16,11 @@ namespace SaveGameModLoader
         private GameObject ContentParentSaveGame;
         List<GameObject> buttonRefs = new();
 
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
         }
-        protected override void OnActivate()
+        public override void OnActivate()
         {
 #if DEBUG
             //UIUtils.ListAllChildren(this.transform);
@@ -218,7 +218,7 @@ namespace SaveGameModLoader
 
 
 
-        protected override void OnDeactivate()
+        public override void OnDeactivate()
         {
             
         }

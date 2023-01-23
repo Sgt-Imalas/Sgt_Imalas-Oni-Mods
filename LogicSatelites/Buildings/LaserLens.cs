@@ -14,7 +14,7 @@ namespace LogicSatellites.Buildings
         SolarReciever _solarReciever;
 
         private const float KJ_PER_LUX = 0.0005f;
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
             world = this.GetMyWorld();

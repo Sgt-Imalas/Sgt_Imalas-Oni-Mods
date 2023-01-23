@@ -81,7 +81,7 @@ namespace LogicSatellites.Behaviours
             {
                 m_fowManager = SaveGame.Instance.GetSMI<ClusterFogOfWarManager.Instance>();
             }
-            protected override void OnCleanUp()
+            public override void OnCleanUp()
             {
                 DestroyTelescope();
                 base.OnCleanUp();

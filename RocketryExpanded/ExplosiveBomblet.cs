@@ -28,7 +28,7 @@ namespace ExplosiveMaterials
         private float KJAtExplosion = 40000f;
         private List<Vector2I> bunkerTilesHit = new List<Vector2I>();
 
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
         }

@@ -137,7 +137,7 @@
 
 //	private Dictionary<string, int> HatchPossibilities = new Dictionary<string, int>();
 
-//	protected override void OnSpawn()
+//	public override void OnSpawn()
 //	{
 //		HatchPossibilities.Add("Hatch", 2);
 //		HatchPossibilities.Add("Glom", 1);

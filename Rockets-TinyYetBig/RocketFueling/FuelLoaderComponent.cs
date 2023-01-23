@@ -55,7 +55,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 
         bool ISecondaryInput.HasSecondaryConduitType(ConduitType type) => this.liquidPortInfo != null && this.liquidPortInfo.conduitType == type || this.gasPortInfo != null && this.gasPortInfo.conduitType == type && this.loaderType == LoaderType.Fuel || this.solidPortInfo != null&& this.solidPortInfo.conduitType == type;
 
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
             //this.particleStorage = this.GetComponent<HighEnergyParticleStorage>();
@@ -103,7 +103,7 @@ namespace Rockets_TinyYetBig.RocketFueling
             return solidConduitConsumer;
         }
 
-        protected override void OnCleanUp()
+        public override void OnCleanUp()
         {
             Conduit.GetNetworkManager(this.liquidPortInfo.conduitType).RemoveFromNetworks(this.liquidInputCell, (object)this.liquidNetworkItem, true);
             Conduit.GetNetworkManager(this.gasPortInfo.conduitType).RemoveFromNetworks(this.gasInputCell, (object)this.gasNetworkItem, true);

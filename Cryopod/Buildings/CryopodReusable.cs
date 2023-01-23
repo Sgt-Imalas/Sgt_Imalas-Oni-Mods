@@ -106,14 +106,14 @@ namespace Cryopod.Buildings
 		}
 
         #region Spawn&Cleanup
-        protected override void OnSpawn()
+        public override void OnSpawn()
 		{
 			base.OnSpawn();
 			this.smi.StartSM();
 			ModAssets.CryoPods.Add(this); 
 		}
 
-		protected override void OnCleanUp()
+		public override void OnCleanUp()
 		{
 			ModAssets.CryoPods.Remove(this);
 			if (this.HoldingDupe())

@@ -56,11 +56,11 @@ namespace Rockets_TinyYetBig.SpaceStations.OrbitUpkeep
             throw new NotImplementedException();
         }
 
-        protected override void OnCleanUp()
+        public override void OnCleanUp()
         {
             base.OnCleanUp();
         }
-        protected override void OnPrefabInit()
+        public override void OnPrefabInit()
         {
             base.OnPrefabInit();
             var worldUpkeepMng = ClusterManager.Instance.GetMyWorld().GetSMI<OrbitalUpkeepObject>();

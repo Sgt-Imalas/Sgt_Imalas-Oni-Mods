@@ -15,7 +15,7 @@ namespace Cryopod
         {
             return openChore != null;
         }
-        protected override void OnPrefabInit()
+        public override void OnPrefabInit()
         {
             
             base.OnPrefabInit();
@@ -48,16 +48,16 @@ namespace Cryopod
             this.requireMinionToWork = true;
             return openChore;
         }   
-        protected override void OnStartWork(Worker worker) => base.OnStartWork(worker);
+        public override void OnStartWork(Worker worker) => base.OnStartWork(worker);
 
-        protected override bool OnWorkTick(Worker worker, float dt)
+        public override bool OnWorkTick(Worker worker, float dt)
         {
             base.OnWorkTick(worker, dt);
             return false;
         }
-        protected override void OnStopWork(Worker worker) => base.OnStopWork(worker);
+        public override void OnStopWork(Worker worker) => base.OnStopWork(worker);
 
-        protected override void OnCompleteWork(Worker worker)
+        public override void OnCompleteWork(Worker worker)
         {
             
             CompleteOpenChore();

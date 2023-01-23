@@ -13,7 +13,7 @@ namespace LogicSatellites.Buildings
 {
     public class SolarReciever : KMonoBehaviour, IListableOption, ISim1000ms
     {
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
             ModAssets.SolarRecievers.Add(this);
@@ -30,7 +30,7 @@ namespace LogicSatellites.Buildings
             return 0;
         }
 
-        protected override void OnCleanUp()
+        public override void OnCleanUp()
         {
             ModAssets.SolarRecievers.Remove(this);
             base.OnCleanUp();

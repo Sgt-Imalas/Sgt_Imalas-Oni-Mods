@@ -20,7 +20,7 @@ namespace Cryopod.Buildings
         public MeterController meter_liquid { get; private set; }
 
 
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
             this.meter_liquid = new MeterController(this.GetComponent<KBatchedAnimController>(), "liquid_meter_target", nameof(meter_liquid), Meter.Offset.Infront, Grid.SceneLayer.NoLayer, Array.Empty<string>());
@@ -32,12 +32,12 @@ namespace Cryopod.Buildings
 
             Conduit.GetFlowManager(type).AddConduitUpdater(ConduitUpdate);
         }
-        protected override void OnPrefabInit()
+        public override void OnPrefabInit()
         {
             base.OnPrefabInit();
             accumulator = Game.Instance.accumulators.Add("Flow", this);
         }
-        protected override void OnCleanUp()
+        public override void OnCleanUp()
         {
             Conduit.GetFlowManager(type).RemoveConduitUpdater(ConduitUpdate);
             Game.Instance.accumulators.Remove(accumulator);

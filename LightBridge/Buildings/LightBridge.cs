@@ -51,7 +51,7 @@ namespace LightBridge.Buildings
         int lastLength = 0;
 
         #region Spawn&Cleanup
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             SetupLightBridgeArea();
             this.LightBridgeMeter = new MeterController(this.GetComponent<KBatchedAnimController>(), "meter_target", "meter", Meter.Offset.Behind, Grid.SceneLayer.NoLayer, Array.Empty<string>());

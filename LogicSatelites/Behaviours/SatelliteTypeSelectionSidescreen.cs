@@ -40,7 +40,7 @@ namespace LogicSatellites
             return false;
         }
         public override int GetSideScreenSortOrder() => 21;
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
             // the monument screen used here has 2 extra buttons that are not needed, disabling them
@@ -64,7 +64,7 @@ namespace LogicSatellites
             RefreshButtons();
         }
 
-        protected override void OnPrefabInit()
+        public override void OnPrefabInit()
         {
             base.OnPrefabInit();
             titleKey = "STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLE";
