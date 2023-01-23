@@ -9,6 +9,9 @@ namespace LightBridge.Buildings
 {
     internal class LessUpdatedFakeFloor : KMonoBehaviour
     {
+        [MyCmpAdd]
+        SimCellOccupier simCellOccupier;
+
         public CellOffset[] floorOffsets;
 
         public bool initiallyActive = true;
@@ -18,6 +21,7 @@ namespace LightBridge.Buildings
         public override void OnSpawn()
         {
             base.OnSpawn();
+            simCellOccupier.doReplaceElement = false;
             if (initiallyActive)
             {
                 SetFloor(active: true);
@@ -45,13 +49,13 @@ namespace LightBridge.Buildings
             CellOffset[] OldCells = floorOffsets;
             CellOffset[] ToActivate = NewCells.Except(OldCells).ToArray();
             CellOffset[]  ToDeactivate = OldCells.Except(NewCells).ToArray();
-
+            ///add mesh tile logic
             foreach (CellOffset offset in ToDeactivate)
             {
                 CellOffset rotatedOffset = component.GetRotatedOffset(offset);
                 int num = Grid.OffsetCell(cell, rotatedOffset);
                 Grid.FakeFloor.Remove(num);
-                Pathfinding.Instance.AddDirtyNavGridCell(num);
+                Pathfinding.Instance.AddDirtyNavGridCell(num); 
             }
             foreach (CellOffset offset in ToActivate)
             {
@@ -60,6 +64,7 @@ namespace LightBridge.Buildings
                 Grid.FakeFloor.Add(num);
                 Pathfinding.Instance.AddDirtyNavGridCell(num);
             }
+            simCellOccupier.
             floorOffsets = NewCells;
 
         }
