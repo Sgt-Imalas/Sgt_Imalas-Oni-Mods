@@ -16,7 +16,7 @@ namespace Rockets_TinyYetBig.Docking
         public DockingDoor door;
 
         private Chore MoveChore;
-            protected override void OnPrefabInit()
+            public override void OnPrefabInit()
             {
                 base.OnPrefabInit();
                 this.assignable.OnAssign += new System.Action<IAssignableIdentity>(this.Assign);
@@ -53,9 +53,9 @@ namespace Rockets_TinyYetBig.Docking
                 MoveChore.AddPrecondition(ChorePreconditions.instance.IsAssignedtoMe, (object)this.assignable);
                 return MoveChore;
             }
-            protected override void OnStartWork(Worker worker) => base.OnStartWork(worker);
+            public override void OnStartWork(Worker worker) => base.OnStartWork(worker);
 
-            protected override bool OnWorkTick(Worker worker, float dt)
+            public override bool OnWorkTick(Worker worker, float dt)
             {
             var connectedDoor = door.GetConnec();
             
@@ -84,9 +84,9 @@ namespace Rockets_TinyYetBig.Docking
             CompleteFreezeChore();
             return true;
         }
-        protected override void OnStopWork(Worker worker) => base.OnStopWork(worker);
+        public override void OnStopWork(Worker worker) => base.OnStopWork(worker);
 
-            protected override void OnCompleteWork(Worker worker)
+            public override void OnCompleteWork(Worker worker)
             {
             }
     }

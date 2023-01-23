@@ -97,7 +97,7 @@ namespace Rockets_TinyYetBig.Behaviours
             }
         }
 
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
             int worldId = ClusterUtil.GetMyWorldId(this.gameObject); 
@@ -124,7 +124,7 @@ namespace Rockets_TinyYetBig.Behaviours
             }
         }
 
-        protected override void OnCleanUp()
+        public override void OnCleanUp()
         {
             dManager.RemoveDoor(this);
             base.OnCleanUp();

@@ -57,14 +57,14 @@ namespace Rockets_TinyYetBig.Behaviours
         public float outputProductionTemperature = 293.15f;
 
 
-        protected override void OnPrefabInit()
+        public override void OnPrefabInit()
         {
             base.OnPrefabInit();
             this.connectedTags = new Tag[0];
             this.IsVirtual = true;
         }
 
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             CraftModuleInterface craftInterface = this.GetComponent<RocketModuleCluster>().CraftInterface;
             this.VirtualCircuitKey = (object)craftInterface;
@@ -102,7 +102,7 @@ namespace Rockets_TinyYetBig.Behaviours
             }
             return returnVals;
         }
-        protected override void OnCleanUp()
+        public override void OnCleanUp()
         {
             clustercraft.GetComponent<KSelectable>().RemoveStatusItem(FuelStatusHandle, true);
             base.OnCleanUp();

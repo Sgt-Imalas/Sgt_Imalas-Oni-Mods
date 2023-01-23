@@ -34,31 +34,32 @@ namespace SetStartDupes
 
         //    }
         //}
-        //[HarmonyPatch(typeof(CharacterContainer), "GenerateCharacter")]
-        //public class OverwriteRngGeneration
-        //{
-        //    public static bool Prefix(CharacterContainer __instance, KButton ___selectButton)
-        //    {
-        //        if (ModAssets.EditingSingleDupe)
-        //        {
-        //            AccessTools.Method(typeof(CharacterContainer), "SetAnimator").Invoke(__instance, null);
-        //            AccessTools.Method(typeof(CharacterContainer), "SetInfoText").Invoke(__instance, null);
-        //            AccessTools.Method(typeof(CharacterContainer), "SetAttributes").Invoke(__instance, null);
-        //            //__instance.SetAnimator();
-        //            //__instance.SetInfoText();
-        //            //__instance.StartCoroutine(__instance.SetAttributes());
-        //            ___selectButton.ClearOnClick();
-        //            ___selectButton.enabled = true;
-        //            ___selectButton.onClick += delegate
-        //            {
-        //                __instance.SelectDeliverable();
+        [HarmonyPatch(typeof(CharacterContainer), "GenerateCharacter")]
+        public class OverwriteRngGeneration
+        {
+            public static bool Prefix(CharacterContainer __instance, KButton ___selectButton)
+            {
+                if (ModAssets.EditingSingleDupe)
+                {
+                    __instance.SetAnimator();
+                    AccessTools.Method(typeof(CharacterContainer), "SetAnimator").Invoke(__instance, null);
+                    AccessTools.Method(typeof(CharacterContainer), "SetInfoText").Invoke(__instance, null);
+                    AccessTools.Method(typeof(CharacterContainer), "SetAttributes").Invoke(__instance, null);
+                    //__instance.SetAnimator();
+                    //__instance.SetInfoText();
+                    //__instance.StartCoroutine(__instance.SetAttributes());
+                    ___selectButton.ClearOnClick();
+                    ___selectButton.enabled = true;
+                    ___selectButton.onClick += delegate
+                    {
+                        __instance.SelectDeliverable();
 
-        //            };
-        //            return false;
-        //        }
-        //        return true;
-        //    }
-        //}
+                    };
+                    return false;
+                }
+                return true;
+            }
+        }
 
         //[HarmonyPatch(typeof(ImmigrantScreen), "Initialize")]
         //public class CustomSingleForNoTelepad

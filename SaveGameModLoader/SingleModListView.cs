@@ -42,7 +42,7 @@ namespace SaveGameModLoader
             if (!active) RebuildList();
         }
 
-        protected override void OnActivate()
+        public override void OnActivate()
         {
 
             var SingleFileModlists = this.transform;

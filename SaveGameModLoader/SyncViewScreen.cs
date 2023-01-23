@@ -12,13 +12,13 @@ namespace SaveGameModLoader
     class SyncViewScreen : KModalScreen
     {
         public bool LoadOnClose = false;
-        protected override void OnDeactivate()
+        public override void OnDeactivate()
         {
             base.OnDeactivate();
             UnityEngine.Object.Destroy(this);
         }
 
-        protected override void OnActivate()
+        public override void OnActivate()
         {
             var modScreen = this.transform;
             ///Set Title of Mod Sync Screen.

@@ -18,7 +18,7 @@ namespace LogicSatellites.Behaviours
         public Storage storage;
 
 
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
             this.smi.StartSM();

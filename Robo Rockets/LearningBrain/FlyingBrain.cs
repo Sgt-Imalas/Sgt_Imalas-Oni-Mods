@@ -19,7 +19,7 @@ namespace RoboRockets.LearningBrain
 
         
 
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
             if (!awakened)

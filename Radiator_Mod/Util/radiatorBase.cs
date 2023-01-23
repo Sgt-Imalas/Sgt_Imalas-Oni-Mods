@@ -137,7 +137,7 @@ namespace Radiator_Mod
         }
 
         #region Spawn&Cleanup
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
             SetRadiatorArea();
@@ -187,12 +187,12 @@ namespace Radiator_Mod
             }
 
         }
-        protected override void OnPrefabInit()
+        public override void OnPrefabInit()
         {
             base.OnPrefabInit();
             accumulator = Game.Instance.accumulators.Add("Flow", this);
         }
-        protected override void OnCleanUp()
+        public override void OnCleanUp()
         {
             Conduit.GetFlowManager(type).RemoveConduitUpdater(ConduitUpdate);
             Game.Instance.accumulators.Remove(accumulator);

@@ -11,7 +11,7 @@
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net471</TargetFramework>
+		<TargetFramework>net48</TargetFramework>
 		<Configurations>Debug</Configurations>
 		<AssemblyName>SetStartDupes</AssemblyName>
 		<RootNamespace>SetStartDupes</RootNamespace>
@@ -31,6 +31,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Aze.Publicise.MSBuild.Task" Version="1.1.0">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="PLib" Version="4.8.0">
 			<Private>false</Private>
 		</PackageReference>

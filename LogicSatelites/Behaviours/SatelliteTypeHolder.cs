@@ -37,7 +37,7 @@ namespace LogicSatellites.Behaviours
             }
         }
 
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn(); OverrideSatDescAndName();
         }

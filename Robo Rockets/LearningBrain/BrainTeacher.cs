@@ -20,7 +20,7 @@ namespace RoboRockets.LearningBrain
         //[Serialize]
         //AxialI oldLocation;
 
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
             this.craft = this.module.CraftInterface.GetComponent<Clustercraft>();
@@ -68,7 +68,7 @@ namespace RoboRockets.LearningBrain
 
         }
 
-        protected override void OnCleanUp()
+        public override void OnCleanUp()
         {
 
             craft.Unsubscribe((int)GameHashes.ClusterDestinationChanged, new System.Action<object>(this.OnClusterLocationChanged));

@@ -14,7 +14,7 @@ namespace RoboRockets.LearningBrain
 {
     internal class DemolishableDroppable: Demolishable
     {
-        protected override void OnCompleteWork(Worker worker) => this.DropOnDestroy();
+        public override void OnCompleteWork(Worker worker) => this.DropOnDestroy();
 
         private void DropOnDestroy()
         {

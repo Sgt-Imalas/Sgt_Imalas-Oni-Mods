@@ -15,7 +15,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         public KButton viewButton;
         private SpaceStation targetEntity;
 
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             this.viewButton.onClick += new System.Action(this.OnClickView);
         }
@@ -24,7 +24,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         public override float GetSortKey() => 21f;
 
         public override bool IsValidForTarget(GameObject target) => (UnityEngine.Object)target.GetComponent<SpaceStation>() != (UnityEngine.Object)null;
-        protected override void OnPrefabInit()
+        public override void OnPrefabInit()
         {
             base.OnPrefabInit();
             titleKey = "STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.TITLE";

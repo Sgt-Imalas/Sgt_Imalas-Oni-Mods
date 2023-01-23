@@ -16,7 +16,7 @@ namespace Cryopod
         private Chore freezeChore;
 
 
-        protected override void OnPrefabInit()
+        public override void OnPrefabInit()
         {
             base.OnPrefabInit();
             this.assignable.OnAssign += new System.Action<IAssignableIdentity>(this.Assign);
@@ -54,9 +54,9 @@ namespace Cryopod
             freezeChore.AddPrecondition(ChorePreconditions.instance.IsAssignedtoMe, (object)this.assignable);
             return freezeChore;
         }
-        protected override void OnStartWork(Worker worker) => base.OnStartWork(worker);
+        public override void OnStartWork(Worker worker) => base.OnStartWork(worker);
 
-        protected override bool OnWorkTick(Worker worker, float dt)
+        public override bool OnWorkTick(Worker worker, float dt)
         {
             if (!(worker != null))
                 return base.OnWorkTick(worker, dt);
@@ -76,9 +76,9 @@ namespace Cryopod
             CompleteFreezeChore();
             return true;
         }
-        protected override void OnStopWork(Worker worker) => base.OnStopWork(worker);
+        public override void OnStopWork(Worker worker) => base.OnStopWork(worker);
 
-        protected override void OnCompleteWork(Worker worker)
+        public override void OnCompleteWork(Worker worker)
         {    
         }
     }

@@ -15,11 +15,11 @@
 
 	<ItemGroup>
 		<Reference Include="Assembly-CSharp">
-			<HintPath>$(GameLibsFolder)/Assembly-CSharp.dll</HintPath>
+			<HintPath>$(SolutionDir)/PublicisedAssembly/Assembly-CSharp_public.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
 		<Reference Include="Assembly-CSharp-firstpass">
-			<HintPath>$(GameLibsFolder)/Assembly-CSharp-firstpass.dll</HintPath>
+			<HintPath>$(SolutionDir)/PublicisedAssembly/Assembly-CSharp-firstpass_public.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
 		<Reference Include="0Harmony">

@@ -40,7 +40,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
         private CraftModuleInterface craftModuleInterface => this.targetCraft.GetComponent<CraftModuleInterface>();
 
-        protected override void OnShow(bool show)
+        public override void OnShow(bool show)
         {
             base.OnShow(show);
             this.ConsumeMouseScroll = true;
@@ -50,7 +50,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
         public override bool IsValidForTarget(GameObject target) => target.TryGetComponent<Clustercraft>(out var clustercraft) && this.GetResourceHarvestModule(clustercraft) != null;
 
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
             TryGetComponent(out hierarchyReferences);

@@ -9,13 +9,13 @@ namespace Rockets_TinyYetBig.Behaviours
     class RTB_PowerConsumerModule : EnergyConsumer
     {
         private Clustercraft clustercraft;
-        protected override void OnPrefabInit()
+        public override void OnPrefabInit()
         {
             base.OnPrefabInit();
             var isVirtualSetter = typeof(RTB_PowerConsumerModule).GetProperty("IsVirtual");
             isVirtualSetter.SetValue(this, true);
         }
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             CraftModuleInterface craftInterface = this.GetComponent<RocketModuleCluster>().CraftInterface;
 
@@ -26,7 +26,7 @@ namespace Rockets_TinyYetBig.Behaviours
             base.OnSpawn();
         }
 
-        protected override void OnCleanUp()
+        public override void OnCleanUp()
         {
             base.OnCleanUp();
             Game.Instance.electricalConduitSystem.RemoveFromVirtualNetworks(this.VirtualCircuitKey, (object)this, true);

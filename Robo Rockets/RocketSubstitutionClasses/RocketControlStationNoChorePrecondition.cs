@@ -36,12 +36,12 @@ namespace KnastoronOniMods
 
         }
 
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
             MakeNewPilotBot(); //smi.enableConsoleLogging = true;
         }
-        protected override void OnCleanUp()
+        public override void OnCleanUp()
         {
             base.OnCleanUp();
             KillRobo();

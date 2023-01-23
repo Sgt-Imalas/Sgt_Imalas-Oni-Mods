@@ -15,7 +15,7 @@ namespace LightBridge.Buildings
 
         private bool isActive;
 
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
             if (initiallyActive)
@@ -93,7 +93,7 @@ namespace LightBridge.Buildings
             isActive = active;
         }
 
-        protected override void OnCleanUp()
+        public override void OnCleanUp()
         {
             SetFloor(active: false);
             base.OnCleanUp();

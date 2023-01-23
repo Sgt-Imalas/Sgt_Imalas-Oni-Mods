@@ -17,7 +17,7 @@ namespace RoboRockets
         public ConditionFlightPathIsClear flightPathIsClear;
         public ConditionAiHasControl conditionAiHasControl;
 
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
             RocketModule component = this.GetComponent<RocketModule>();
