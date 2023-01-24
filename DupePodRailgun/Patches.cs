@@ -1,5 +1,5 @@
 ﻿using Database;
-
+using DupePodRailgun.Buildings;
 using HarmonyLib;
 using Klei.AI;
 using System;
@@ -26,6 +26,8 @@ namespace DupePodRailgun
             public static void Prefix()
             {
                 //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Shipping, PodRailgunBaseConfig.ID);
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Shipping, PodRailgunRailPieceConfig.ID);
             }
         }
         /// <summary>

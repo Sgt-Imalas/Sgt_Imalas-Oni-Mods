@@ -39,5 +39,44 @@ namespace LightBridge
                 LocalisationUtil.Translate(typeof(STRINGS), true);
             }
         }
+        /// <summary>
+        /// Init. auto translation
+        /// </summary>
+        [HarmonyPatch(typeof(FallerComponents))]
+        [HarmonyPatch(nameof(FallerComponents.OnSolidChanged))]
+        public static class LightBridgeCatchesFallers
+        {
+            public static bool Prefix(HandleVector<int>.Handle handle)
+            {
+                FallerComponent fallerComponent = GameComps.Fallers.GetData(handle);
+                if (fallerComponent.transform == null)
+                {
+                    return false;
+                }
+
+                Vector3 position = fallerComponent.transform.GetPosition();
+                position.y = position.y - fallerComponent.offset - 0.1f;
+                int num = Grid.PosToCell(position);
+                if (!Grid.IsValidCell(num))
+                {
+                    return false;
+                }
+
+                bool flag = !Grid.Solid[num] && !Grid.FakeFloor[num]; ///dis one as transpiler
+                if (flag != fallerComponent.isFalling)
+                {
+                    fallerComponent.isFalling = flag;
+                    if (flag)
+                    {
+                        FallerComponents.AddGravity(fallerComponent.transform, Vector2.zero);
+                    }
+                    else
+                    {
+                        FallerComponents.RemoveGravity(fallerComponent.transform);
+                    }
+                }
+                return false;
+            }
+        }
     }
 }

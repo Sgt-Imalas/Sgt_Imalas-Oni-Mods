@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,10 +8,13 @@ using TUNING;
 using UnityEngine;
 
 namespace DupePodRailgun.Buildings
-{
-    class PodRailgunBaseConfig : IBuildingConfig
+{/// <summary>
+/// Building template: 
+   // BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof (RequiresFoundation), prefab_tag);
+/// </summary>
+    class PodRailgunRailPieceConfig : IBuildingConfig
     {
-        public const string ID = "DPR_RailgunBase";
+        public const string ID = "DPR_RailgunPiece";
         public Tag RailgunAttachment = TagManager.Create(nameof(RailgunAttachment));
 
         public override BuildingDef CreateBuildingDef()
@@ -30,13 +34,15 @@ namespace DupePodRailgun.Buildings
             EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues incomplete = BUILDINGS.DECOR.BONUS.MONUMENT.INCOMPLETE;
             EffectorValues noise = tieR2;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 4, "rail_gun_kanim", 1000, 60f, construction_mass, construction_materials, 9999f, BuildLocationRule.OnFloor, incomplete, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 3, "radbolt_battery_kanim", 1000, 30f, construction_mass, construction_materials, 9999f, BuildLocationRule.BuildingAttachPoint, incomplete, noise);
             BuildingTemplates.CreateMonumentBuildingDef(buildingDef);
             buildingDef.SceneLayer = Grid.SceneLayer.Building;
             buildingDef.OverheatTemperature = 2273.15f;
             buildingDef.Floodable = false;
+            buildingDef.AttachmentSlotTag = RailgunAttachment;
             buildingDef.ObjectLayer = ObjectLayer.Building;
             buildingDef.PermittedRotations = PermittedRotations.Unrotatable;
+            buildingDef.attachablePosition = new CellOffset(0, 0);
             buildingDef.RequiresPowerInput = true;
             buildingDef.CanMove = false;
             return buildingDef;
@@ -48,7 +54,7 @@ namespace DupePodRailgun.Buildings
             go.AddOrGet<LoopingSounds>();
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
             {
-                new BuildingAttachPoint.HardPoint(new CellOffset(1, 4), RailgunAttachment, (AttachableBuilding) null)
+      new BuildingAttachPoint.HardPoint(new CellOffset(0, 3), RailgunAttachment, (AttachableBuilding) null)
             };
         }
 
@@ -64,8 +70,6 @@ namespace DupePodRailgun.Buildings
         {
             go.AddOrGet<KBatchedAnimController>().initialAnim = "option_a";
             go.GetComponent<KPrefabID>();
-            go.AddOrGet<Assignable>();
-            go.AddOrGet<DupeRailgunStateMachine>();
         }
     }
 }

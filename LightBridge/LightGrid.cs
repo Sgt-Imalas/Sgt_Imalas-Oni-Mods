@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DupePodRailgun.Buildings
+namespace LightBridge
 {
-    class PodRailgunRailPieceConfigcs
+    public static class LightGrid
     {
+        public static List<int> LightTile = new List<int>();
     }
 }
