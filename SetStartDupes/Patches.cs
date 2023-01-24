@@ -24,16 +24,16 @@ namespace SetStartDupes
     class Patches
     {
 
-        //[HarmonyPatch(typeof(CryoTank), "DropContents")]
-        //public class AddToCryoTank
-        //{
-        //    public static void Prefix()
-        //    {
-        //        ModAssets.EditingSingleDupe = true;
-        //        ImmigrantScreen.InitializeImmigrantScreen(null);
-
-        //    }
-        //}
+        [HarmonyPatch(typeof(CryoTank), "DropContents")]
+        public class AddToCryoTank
+        {
+            public static void Prefix()
+            {
+                ModAssets.EditingSingleDupe = true;
+                ImmigrantScreen.InitializeImmigrantScreen(null);
+                //SingleDupeImmigrandScreen.InitializeSingleImmigrantScreen();
+            }
+        }
         [HarmonyPatch(typeof(CharacterContainer), "GenerateCharacter")]
         public class OverwriteRngGeneration
         {
@@ -41,13 +41,12 @@ namespace SetStartDupes
             {
                 if (ModAssets.EditingSingleDupe)
                 {
+                    //AccessTools.Method(typeof(CharacterContainer), "SetAnimator").Invoke(__instance, null);
+                    //AccessTools.Method(typeof(CharacterContainer), "SetInfoText").Invoke(__instance, null);
+                    //AccessTools.Method(typeof(CharacterContainer), "SetAttributes").Invoke(__instance, null);
                     __instance.SetAnimator();
-                    AccessTools.Method(typeof(CharacterContainer), "SetAnimator").Invoke(__instance, null);
-                    AccessTools.Method(typeof(CharacterContainer), "SetInfoText").Invoke(__instance, null);
-                    AccessTools.Method(typeof(CharacterContainer), "SetAttributes").Invoke(__instance, null);
-                    //__instance.SetAnimator();
-                    //__instance.SetInfoText();
-                    //__instance.StartCoroutine(__instance.SetAttributes());
+                    __instance.SetInfoText();
+                    __instance.StartCoroutine(__instance.SetAttributes());
                     ___selectButton.ClearOnClick();
                     ___selectButton.enabled = true;
                     ___selectButton.onClick += delegate

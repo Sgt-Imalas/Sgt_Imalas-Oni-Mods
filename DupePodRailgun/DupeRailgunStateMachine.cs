@@ -148,48 +148,7 @@ namespace DupePodRailgun
                             smi.GoTo(NonFunctioning.NoTargetSelected);
                         }
                     }, UpdateRate.RENDER_1000ms);
-
-
-                dupeAssignedStates.defaultState = dupeAssignedStates.RedSignal;
-
-                dupeAssignedStates
-                    .Enter((smi) =>
-                    {
-                        //Debug.Log("enter assigned");
-                        smi.nav = smi.master.GetTargetNavigator();
-                    })
-                    .Update((smi, dt) =>
-                    {
-                        //Debug.Log("Operational: " + smi.GetComponent<Operational>().IsOperational + ", isActive: " + smi.GetComponent<Operational>().IsActive);
-                        if (!smi.master.HasDupeAssigned())
-                        {
-                            smi.GoTo(Idle);
-                        }
-                    }, UpdateRate.SIM_200ms)
-                    .EventTransition(GameHashes.OperationalChanged, Idle, smi => !smi.GetComponent<Operational>().IsOperational)
-                    .Exit((smi) =>
-                    {
-                        smi.nav = null;
-                    });
-
-                dupeAssignedStates.RedSignal
-                    .PlayAnim("off")
-                    //.Enter(smi => Debug.Log("enter red sig"))
-                    .EventTransition(GameHashes.ActiveChanged, dupeAssignedStates.GreenSignal, smi => smi.GetComponent<Operational>().IsActive)
-                    ;
-                dupeAssignedStates.GreenSignal.defaultState = dupeAssignedStates.GreenSignal.MovingDupe;
-
-                dupeAssignedStates.GreenSignal
-                    .EventTransition(GameHashes.ActiveChanged, dupeAssignedStates.RedSignal, smi => !smi.GetComponent<Operational>().IsActive)
-                    .Enter((smi) =>
-                    {
-                        smi.nav = smi.master.GetTargetNavigator();
-                    }).PlayAnim("on");
-                dupeAssignedStates.GreenSignal.MovingDupe
-                    .ToggleChore(CreateChore, dupeAssignedStates.GreenSignal.DupeArrived);
-                dupeAssignedStates.GreenSignal.DupeArrived
-                    .GoTo(dupeAssignedStates.GreenSignal.MovingDupe);
-                
+                ;
             }
         }
 

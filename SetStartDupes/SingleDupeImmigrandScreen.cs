@@ -6,10 +6,11 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace SetStartDupes
 {
-    internal class SingleDupeImmigrandScreen : ImmigrantScreen
+    internal class SingleDupeImmigrandScreen : CharacterSelectionController
     {
         public static SingleDupeImmigrandScreen instance2;
         public static void DestroyInstance() => instance2 = null;
@@ -18,40 +19,60 @@ namespace SetStartDupes
 
         public static void InitializeSingleImmigrantScreen(Personality overrideDupePersonality)
         {
+            var window = Util.KInstantiateUI(ImmigrantScreen.instance.transform.gameObject);
+            window.SetActive(true);
+            window.name = "SingleDoopScreen";
+            instance2 = (SingleDupeImmigrandScreen)window.AddComponent(typeof(SingleDupeImmigrandScreen));
+
+            UIUtils.ListAllChildren(instance2.transform);
+            instance2.proceedButton = UIUtils.TryFindComponent<KButton>(window.transform, "Layout/BottomButtons/ProceedButton");
+            //instance2.containerParent = UIUtils.TryFindComponent<GameObject>(window.transform, "Layout/BottomButtons/ProceedButton");
             instance2.Initialize(overrideDupePersonality);
             instance2.Show();
         }
         void Initialize(Personality targetPersonality)
         {
-            var containerField = AccessTools.Field(typeof(CharacterSelectionController), "containers");
+            Debug.Log("AAAAAAAAAAAAAAAAAAAAAA");
+            var containerField =  AccessTools.Field(typeof(CharacterSelectionController), "containers");
             var deliverablesField = AccessTools.Field(typeof(CharacterSelectionController), "selectedDeliverables");
             var containerPrefabField = AccessTools.Field(typeof(CharacterSelectionController), "containerPrefab");
             var containerParentField = AccessTools.Field(typeof(CharacterSelectionController), "containerParent");
 
+            Debug.Log("AAAAAAAAAAAAAAAAAAAAAA");
             var ___containerParent = (GameObject)containerPrefabField.GetValue(this);
             var ___containerPrefab = (CharacterContainer)containerParentField.GetValue(this);
-
-            typeof(CharacterSelectionController).GetMethod("DisableProceedButton", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(this, null);
+            Debug.Log("AAAAAAAAAAAAAAAAAAAAAA");
+            DisableProceedButton();
+           // typeof(CharacterSelectionController).GetMethod("DisableProceedButton", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(this, null);
             var __containers = (List<ITelepadDeliverableContainer>)containerField.GetValue(this);
             if (__containers != null && __containers.Count > 0)
                 return;
 
+            Debug.Log("AAAAAAAAAAAAAAAAAAAAAA");
             __containers = new List<ITelepadDeliverableContainer>();
 
+            Debug.Log("AAAAAAAAAAAAAAAAAAAAAA");
 
-            CharacterContainer characterContainerZZZ = Util.KInstantiateUI<CharacterContainer>(___containerPrefab.gameObject, ___containerParent);
+            CharacterContainer characterContainerZZZ = Util.KInstantiateUI<CharacterContainer>(___containerPrefab.gameObject,transform.Find("Layout/Content").gameObject);
             characterContainerZZZ.SetController(this);
 
+            Debug.Log("AAAAAAAAAAAAAAAAAAAAAA");
             __containers.Add((ITelepadDeliverableContainer)characterContainerZZZ);
             deliverablesField.SetValue(this, new List<ITelepadDeliverable>());
 
+            Debug.Log("AAAAAAAAAAAAAAAAAAAAAA");
             foreach (ITelepadDeliverableContainer container in __containers)
             {
                 CharacterContainer characterContainer = container as CharacterContainer;
                 if ((UnityEngine.Object)characterContainer != (UnityEngine.Object)null)
                     characterContainer.SetReshufflingState(false);
             }
+            Debug.Log("AAAAAAAAAAAAAAAAAAAAAA");
             containerField.SetValue(this, __containers);
+        }
+        public override void InitializeContainers()
+        {
+            //base.InitializeContainers();
         }
         public override void OnSpawn()
         {

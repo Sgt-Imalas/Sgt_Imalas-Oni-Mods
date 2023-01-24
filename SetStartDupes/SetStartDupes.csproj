@@ -46,7 +46,7 @@
 
 	<PropertyGroup>
 		<LangVersion>preview</LangVersion>
-		<AutoGenerateBindingRedirects>False</AutoGenerateBindingRedirects>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 	
 	<ItemGroup>
