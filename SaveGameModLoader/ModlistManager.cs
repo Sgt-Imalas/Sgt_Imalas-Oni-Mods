@@ -148,7 +148,7 @@ namespace SaveGameModLoader
             public List<file_Mod> mods;
         }
 
-        static string ModsFolder { get { return Directory.GetParent(Directory.GetParent(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)).FullName).ToString() + "\\"; } }
+        static string ModsFolder { get { return System.IO.Directory.GetParent(System.IO.Directory.GetParent(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)).FullName).ToString() + "\\"; } }
         public static modsJSON ReadGameMods()
         {
             //Debug.LogWarning("AAAAAAAAAAAAAAAAAA: " + ModsFolder + "mods.json");
@@ -363,7 +363,7 @@ namespace SaveGameModLoader
         {
             Modlists.Clear();
             MissingMods.Clear();
-            var files = Directory.GetFiles(ModAssets.ModPath);
+            var files = System.IO.Directory.GetFiles(ModAssets.ModPath);
             foreach (var modlist in files)
             {
                 try
@@ -383,7 +383,7 @@ namespace SaveGameModLoader
         {
             ModPacks.Clear();
             MissingMods.Clear();
-            var files = Directory.GetFiles(ModAssets.ModPacksPath);
+            var files = System.IO.Directory.GetFiles(ModAssets.ModPacksPath);
             foreach (var modlist in files)
             {
                 try
