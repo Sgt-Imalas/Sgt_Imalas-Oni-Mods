@@ -20,7 +20,7 @@
 		<ItemGroup>
 			<InputAssemblies
 			  Include="$(TargetDir)\*.dll"
-			  Exclude="**/0Harmony.dll ;**Newtonsoft.Json;**/System.*; **/Microsoft.*" />
+			  Exclude="**/0Harmony.dll; **_public.dll ;**Newtonsoft.Json;**/System.*; **/Microsoft.*" />
 		</ItemGroup>
 
 		<ILRepack
@@ -57,7 +57,7 @@
 		
 	</Target>
   
-  <Target Name="Publicise" AfterTargets="CopyModsToDevFolder">
+  <Target Name="Publicise" BeforeTargets="BeforeBuild">
     <ItemGroup>
       <PubliciseInputAssemblies
 			   Include="
