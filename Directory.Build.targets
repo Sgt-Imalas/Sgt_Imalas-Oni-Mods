@@ -57,7 +57,7 @@
 		
 	</Target>
   
-  <Target Name="Publicise" AfterTargets="CopyModsToDevFolder">
+  <Target Name="Publicise" BeforeTargets="BeforeBuild">
     <ItemGroup>
       <PubliciseInputAssemblies
 			   Include="

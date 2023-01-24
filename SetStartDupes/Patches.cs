@@ -13,18 +13,15 @@ using UnityEngine;
 using UnityEngine.Diagnostics;
 using UnityEngine.UI;
 using UtilLibs;
-using static Database.MonumentPartResource;
 using static SetStartDupes.ModAssets;
-using static STRINGS.CODEX.MYLOG.BODY;
-using static STRINGS.DUPLICANTS.TRAITS;
-using static UnityEngine.UI.Image;
 
 namespace SetStartDupes
 {
     class Patches
     {
 
-        [HarmonyPatch(typeof(CryoTank), "DropContents")]
+        [HarmonyPatch(typeof(CryoTank))]
+        [HarmonyPatch(nameof(CryoTank.DropContents))]
         public class AddToCryoTank
         {
             public static void Prefix()
@@ -41,6 +38,8 @@ namespace SetStartDupes
             {
                 if (ModAssets.EditingSingleDupe)
                 {
+                    Debug.Log("Private Scroll rect"+__instance.scroll_rect);
+
                     //AccessTools.Method(typeof(CharacterContainer), "SetAnimator").Invoke(__instance, null);
                     //AccessTools.Method(typeof(CharacterContainer), "SetInfoText").Invoke(__instance, null);
                     //AccessTools.Method(typeof(CharacterContainer), "SetAttributes").Invoke(__instance, null);
