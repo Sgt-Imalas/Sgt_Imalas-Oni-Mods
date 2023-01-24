@@ -18,7 +18,7 @@ namespace Rockets_TinyYetBig
             public static LocString NAME = "Deep Space Research";
             public static LocString UNLOCKNAME = (LocString)(UI.PRE_KEYWORD + NAME + UI.PST_KEYWORD + " Capability");
             public static LocString UNLOCKDESC = (LocString)("Allows " + UI.PRE_KEYWORD + NAME + UI.PST_KEYWORD + " points to be accumulated, unlocking higher technology tiers.");
-            public static LocString DESC = UI.FormatAsLink("Deep Space Research", nameof(DEEPSPACERESEARCH))+" is conducted by careful observing the effects of deep space radiation on certain metals";
+            public static LocString DESC = UI.FormatAsLink("Deep Space Research", nameof(DEEPSPACERESEARCH))+ " is conducted by analyizing the deeper meanings behind mysterious artefacts found in the vastness of deep space.";
             public static LocString RECIPEDESC = "Unlocks new breakthroughs in space construction";
 
         }
@@ -165,20 +165,20 @@ namespace Rockets_TinyYetBig
                 public class CARGOBAYCLUSTERLARGE
                 {
                     public static LocString NAME = (LocString)UI.FormatAsLink("Colossal Cargo Bay", "CARGOBAY");
-                    public static LocString DESC = (LocString)"Holds more than a large cargo bay.";
+                    public static LocString DESC = (LocString)"Holds even more than a large cargo bay!";
                     public static LocString EFFECT = (LocString)("Allows Duplicants to store most of the " + UI.FormatAsLink("Solid Materials", "ELEMENTS_SOLID") + " found during space missions.\n\nStored resources become available to the colony upon the rocket's return. \n\nMust be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ".");
                 }
 
                 public class LIQUIDCARGOBAYCLUSTERLARGE
                 {
                     public static LocString NAME = (LocString)UI.FormatAsLink("Colossal Liquid Cargo Tank", "LIQUIDCARGOBAY");
-                    public static LocString DESC = (LocString)"Holds more than a large cargo tank.";
+                    public static LocString DESC = (LocString)"Holds even more than a large cargo tank!";
                     public static LocString EFFECT = (LocString)("Allows Duplicants to store most of the " + UI.FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " resources found during space missions.\n\nStored resources become available to the colony upon the rocket's return.\n\nMust be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ".");
                 }
                 public class GASCARGOBAYCLUSTERLARGE
                 {
                     public static LocString NAME = (LocString)UI.FormatAsLink("Colossal Gas Cargo Canister", "GASCARGOBAY");
-                    public static LocString DESC = (LocString)"Holds more than a large gas cargo canister.";
+                    public static LocString DESC = (LocString)"Holds even more than a large gas cargo canister!";
                     public static LocString EFFECT = (LocString)("Allows Duplicants to store most of the " + UI.FormatAsLink("Gas", "ELEMENTS_GAS") + " resources found during space missions.\n\nStored resources become available to the colony upon the rocket's return.\n\nMust be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ".");
                 }
                 public class RYB_NOSECONEHEPHARVEST
