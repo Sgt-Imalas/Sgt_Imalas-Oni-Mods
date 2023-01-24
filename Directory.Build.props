@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
 	<PropertyGroup>
-		<GameLibsFolder>C:\Program Files (x86)\Steam\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed</GameLibsFolder>
+		<GameLibsFolder>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed</GameLibsFolder>
 		<!--<ModFolder>$(UserProfile)\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>-->
-		<ModFolder>C:\Users\Admin\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>
+		<ModFolder>E:\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>
 		<Optimize>true</Optimize>
 	</PropertyGroup>
 
