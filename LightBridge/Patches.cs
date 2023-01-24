@@ -61,8 +61,13 @@ namespace LightBridge
                 {
                     return false;
                 }
-                Debug.Log("I Get Called");
-                bool flag = !Grid.Solid[num] && !Grid.FakeFloor[num]; ///dis one as transpiler
+                bool flag = !Grid.Solid[num]; 
+                if (LightGrid.LightTile.Contains(num))
+                {
+                    fallerComponent.isFalling = false;
+                    FallerComponents.RemoveGravity(fallerComponent.transform);
+                    return false;
+                }
                 if (flag != fallerComponent.isFalling)
                 {
                     fallerComponent.isFalling = flag;
