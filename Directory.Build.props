@@ -14,12 +14,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Reference Include="Assembly-CSharp">
+		<Reference Include="Assembly-CSharp_public">
 			<HintPath>$(SolutionDir)/PublicisedAssembly/Assembly-CSharp_public.dll</HintPath>
       <!--<HintPath>$(GameLibsFolder)/Assembly-CSharp.dll</HintPath>-->
 			<Private>False</Private>
 		</Reference>
-		<Reference Include="Assembly-CSharp-firstpass">
+		<Reference Include="Assembly-CSharp-firstpass_public">
 			<HintPath>$(SolutionDir)/PublicisedAssembly/Assembly-CSharp-firstpass_public.dll</HintPath>
       <!--<HintPath>$(GameLibsFolder)/Assembly-CSharp-firstpass.dll</HintPath>-->
 			<Private>False</Private>

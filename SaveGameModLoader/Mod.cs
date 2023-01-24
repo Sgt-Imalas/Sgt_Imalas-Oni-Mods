@@ -8,7 +8,7 @@ namespace SaveGameModLoader
     {
         public override void OnLoad(Harmony harmony)
         {
-            ModAssets.ModPath = Directory.GetParent(Directory.GetParent(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)).FullName) + "\\[ModSync]StoredModConfigs\\";
+            ModAssets.ModPath = System.IO.Directory.GetParent(System.IO.Directory.GetParent(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)).FullName) + "\\[ModSync]StoredModConfigs\\";
             ModAssets.ModPacksPath = ModAssets.ModPath + "\\[StandAloneModLists]\\";
             System.IO.Directory.CreateDirectory(ModAssets.ModPath);
             System.IO.Directory.CreateDirectory(ModAssets.ModPacksPath);
