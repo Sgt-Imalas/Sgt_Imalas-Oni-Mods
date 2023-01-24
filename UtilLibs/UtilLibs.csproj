@@ -1,9 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net471</TargetFramework>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 	<ItemGroup>
-	  <Folder Include="Properties\" />
+	  <Compile Remove="Properties\**" />
+	  <EmbeddedResource Remove="Properties\**" />
+	  <None Remove="Properties\**" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Aze.Publicise.MSBuild.Task" Version="1.1.0">

@@ -18,6 +18,7 @@
 
 	<Target Name="ILRepack" AfterTargets="Build" Condition="'$(IsPacked)' == 'true'">
 		<ItemGroup>
+      <InputAssemblies Include="$(TargetPath)" />
       <InputAssemblies
 			  Include="$(TargetDir)\*.dll"
 			  Exclude="**/0Harmony.dll; **_public.dll ;**Newtonsoft.Json;**/System.*; **/Microsoft.*" />
@@ -57,7 +58,7 @@
 		
 	</Target>
   
-  <Target Name="Publicise" BeforeTargets="BeforeBuild">
+  <Target Name="Publicise" AfterTargets="Clean">
     <ItemGroup>
       <PubliciseInputAssemblies
 			   Include="
