@@ -11,7 +11,7 @@
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net48</TargetFramework>
+		<TargetFramework>net471</TargetFramework>
 		<Configurations>Debug</Configurations>
 		<AssemblyName>ShockWormMob</AssemblyName>
 		<RootNamespace>ShockWormMob</RootNamespace>

@@ -11,8 +11,9 @@
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net48</TargetFramework>
+		<TargetFramework>net471</TargetFramework>
 		<Configurations>Debug</Configurations>
+    <LangVersion>preview</LangVersion>
 		<AssemblyName>_1LineCrasher</AssemblyName>
 		<RootNamespace>_1LineCrasher</RootNamespace>
 		<IsMod>true</IsMod>
@@ -28,6 +29,7 @@
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>535211</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 
@@ -35,10 +37,6 @@
 		<OutDir>bin</OutDir>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<LangVersion>preview</LangVersion>
-		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-	</PropertyGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="Aze.Publicise.MSBuild.Task" Version="1.1.0">
