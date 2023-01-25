@@ -61,11 +61,12 @@ namespace LightBridge
                 {
                     return false;
                 }
-                bool flag = !Grid.Solid[num]; 
-                if (LightGrid.LightTile.Contains(num))
+                bool flag = !Grid.Solid[num];
+                if (Grid.FakeFloor[num])
                 {
                     fallerComponent.isFalling = false;
                     FallerComponents.RemoveGravity(fallerComponent.transform);
+                    Debug.Log("LightBridgeBelow");
                     return false;
                 }
                 if (flag != fallerComponent.isFalling)
