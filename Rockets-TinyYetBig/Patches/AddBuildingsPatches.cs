@@ -40,6 +40,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 {
                     AddRocketModuleToBuildList(HabitatModuleSmallExpandedConfig.ID, new RocketCategory[] { RocketCategory.habitats, RocketCategory.nosecones }, HabitatModuleSmallConfig.ID);
                     AddRocketModuleToBuildList(HabitatModuleMediumExpandedConfig.ID, RocketryUtils.RocketCategory.habitats, HabitatModuleMediumConfig.ID);
+                    AddRocketModuleToBuildList(HabitatModulePlatedNoseconeLargeConfig.ID, RocketryUtils.RocketCategory.habitats, HabitatModuleSmallExpandedConfig.ID);
                 }
 
                 if (Config.Instance.EnableStargazer)

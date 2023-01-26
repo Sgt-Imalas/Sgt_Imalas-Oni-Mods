@@ -5,15 +5,20 @@ Features:
 - New Science Type: Deep Space Science - aquirable by researching stuff in a space station
 - Space Station Types: small, medium, large
 - Better World selector - collapsable categories
+- Drillcone Loading with Cargo Loader
 
 New Modules & Buildings:
 - Space Station Constructor Module - needed to construct + deconstruct space stations
+- Drillcone Service Module - More diamond capacity & 20% increased drilling speed
 - 3 new Huge Cargo Bays (1 per type)
 - Small liquid fuel tank
 - Loader Ladder Adapter
 - Advanced Rocket Platform (shifted logic ports + rocket checklist ribbon output)
+- 3 sizes of space stations
 
 Fixes:
 - massivly improved Fuel Loader code performance
 - fixed a rocket build menu crash, this time for good
 - fixed animation of small oxidizer module
+- massive drillcone sidescreen performance boost (both drillcones)
+- Reworked Mod Config towards a "content pack" approach
