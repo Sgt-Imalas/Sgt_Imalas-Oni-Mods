@@ -27,7 +27,7 @@ namespace Rockets_TinyYetBig.Science
 
         void ApplySciencePoints()
         {
-            while (CurrentScienceValue >= 1f)
+            for (float i = CurrentScienceValue;  i > 0; i--)
             {
                 //++deepscienceresearch
                 if (GetCurrentDeepSpaceReserach(out var target))
@@ -35,12 +35,10 @@ namespace Rockets_TinyYetBig.Science
                     var techInstance = Research.Instance.Get(target);
                     if (techInstance != null)
                     {
-                        int pointsToAdd = (int)Math.Min((techInstance.tech.costsByResearchTypeID[ModAssets.DeepSpaceScienceID] - techInstance.progressInventory.PointsByTypeID[ModAssets.DeepSpaceScienceID]), CurrentScienceValue);
+                        int pointsToAdd = (int)Math.Min((techInstance.tech.costsByResearchTypeID[ModAssets.DeepSpaceScienceID] - techInstance.progressInventory.PointsByTypeID[ModAssets.DeepSpaceScienceID]), i);
                         techInstance.progressInventory.AddResearchPoints(ModAssets.DeepSpaceScienceID, pointsToAdd);
                         CurrentScienceValue -= pointsToAdd;
                     }
-                }
-            }
         }
         List<string> DeepSpaceTechs = new List<string>()
         {

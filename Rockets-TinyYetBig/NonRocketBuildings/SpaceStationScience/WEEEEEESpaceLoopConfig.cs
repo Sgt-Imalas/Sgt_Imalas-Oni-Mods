@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LightBridge
+namespace Rockets_TinyYetBig.NonRocketBuildings.SpaceStationScience
 {
-    public static class LightGrid
+    internal class WEEEEEESpaceLoopConfig
     {
-        public static List<int> LightTile = new List<int>();
     }
 }

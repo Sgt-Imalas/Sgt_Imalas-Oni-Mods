@@ -56,7 +56,6 @@ namespace LightBridge.Buildings
                 int num = Grid.OffsetCell(cell, rotatedOffset);
                 Grid.FakeFloor.Remove(num);
                 Pathfinding.Instance.AddDirtyNavGridCell(num);
-                LightGrid.LightTile.Remove(num);
             }
             foreach (CellOffset offset in ToActivate)
             {
@@ -64,7 +63,6 @@ namespace LightBridge.Buildings
                 int num = Grid.OffsetCell(cell, rotatedOffset);
                 Grid.FakeFloor.Add(num);
                 Pathfinding.Instance.AddDirtyNavGridCell(num);
-                LightGrid.LightTile.Add(num);
             }
             //simCellOccupier.
             // floorOffsets = NewCells;
