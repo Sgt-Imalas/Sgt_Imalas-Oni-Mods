@@ -22,7 +22,7 @@ namespace Rockets_TinyYetBig.Buildings.Habitats
         public override BuildingDef CreateBuildingDef()
         {
             float[] denseTieR1 = new float[] { 800f };
-            string[] rawMetals = MATERIALS.REFINED_METALS;
+            string[] rawMetals = MATERIALS.RAW_METALS;
             EffectorValues noiseLevel = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;
 
