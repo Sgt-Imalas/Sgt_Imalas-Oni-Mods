@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
 	<PropertyGroup>
-		<GameLibsFolder>C:\Program Files (x86)\Steam\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed</GameLibsFolder>
+		<GameLibsFolder>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed</GameLibsFolder>
 		<!--<ModFolder>$(UserProfile)\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>-->
-		<ModFolder>C:\Users\Admin\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>
+		<ModFolder>E:\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>
 		<Optimize>true</Optimize>
 	</PropertyGroup>
 
@@ -16,12 +16,12 @@
 	<ItemGroup>
 		<Reference Include="Assembly-CSharp">
 			<HintPath>$(SolutionDir)/PublicisedAssembly/Assembly-CSharp_public.dll</HintPath>
-      <!--<HintPath>$(GameLibsFolder)/Assembly-CSharp.dll</HintPath>-->
+			<!--<HintPath>$(GameLibsFolder)/Assembly-CSharp.dll</HintPath>-->
 			<Private>False</Private>
 		</Reference>
 		<Reference Include="Assembly-CSharp-firstpass">
 			<HintPath>$(SolutionDir)/PublicisedAssembly/Assembly-CSharp-firstpass_public.dll</HintPath>
-      <!--<HintPath>$(GameLibsFolder)/Assembly-CSharp-firstpass.dll</HintPath>-->
+			<!--<HintPath>$(GameLibsFolder)/Assembly-CSharp-firstpass.dll</HintPath>-->
 			<Private>False</Private>
 		</Reference>
 		<Reference Include="0Harmony">
@@ -52,14 +52,14 @@
 			<HintPath>$(GameLibsFolder)/UnityEngine.AssetBundleModule.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
-    <Reference Include="UnityEngine.ImageConversionModule">
-      <HintPath>$(GameLibsFolder)/UnityEngine.ImageConversionModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>$(GameLibsFolder)/UnityEngine.TextRenderingModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
+		<Reference Include="UnityEngine.ImageConversionModule">
+			<HintPath>$(GameLibsFolder)/UnityEngine.ImageConversionModule.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="UnityEngine.TextRenderingModule">
+			<HintPath>$(GameLibsFolder)/UnityEngine.TextRenderingModule.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
 		<Reference Include="UnityEngine.UI">
 			<HintPath>$(GameLibsFolder)/UnityEngine.UI.dll</HintPath>
 			<Private>false</Private>
