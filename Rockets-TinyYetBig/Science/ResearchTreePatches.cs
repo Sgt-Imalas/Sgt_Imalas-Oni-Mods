@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.Buildings;
+using Rockets_TinyYetBig.Buildings.CargoBays;
 using Rockets_TinyYetBig.Buildings.Habitats;
 using Rockets_TinyYetBig.RocketFueling;
 using Rockets_TinyYetBig.SpaceStations;
@@ -29,7 +30,7 @@ namespace Rockets_TinyYetBig.Science
                 TechUtils.AddNode(__instance,
                     ModAssets.Techs.DockingTechID,
                     GameStrings.Technology.ColonyDevelopment.CelestialDetection,
-                    xDiff: 2,
+                    xDiff: 1,
                     yDiff: 0
                     );
 
@@ -38,7 +39,7 @@ namespace Rockets_TinyYetBig.Science
                     TechUtils.AddNode(__instance,
                     ModAssets.Techs.FuelLoaderTechID,
                     ModAssets.Techs.DockingTechID,
-                    xDiff: 1,
+                    xDiff: 2,
                     yDiff: 0
                     );
                 }
@@ -61,11 +62,19 @@ namespace Rockets_TinyYetBig.Science
                     xDiff: Config.Instance.EnableExtendedHabs ? 1 : 2,
                     yDiff: 0
                     );
+                if (Config.Instance.EnableLargeCargoBays)
+                {
+                    TechUtils.AddNode(__instance,
+                        ModAssets.Techs.HugeCargoBayTechID,
+                        ModAssets.Techs.SpaceStationTechID,
+                        xDiff: 2,
+                        yDiff: -1);
+                }
 
                 TechUtils.AddNode(__instance,
                 ModAssets.Techs.SpaceStationTechMediumID,
                 ModAssets.Techs.SpaceStationTechID,
-                xDiff: 1,
+                xDiff: 2,
                 yDiff: 0
                 );
 
@@ -143,10 +152,10 @@ namespace Rockets_TinyYetBig.Science
                 , new Dictionary<string, float>()
                 {
                     {"basic", 0f },
-                    {"advanced", 50f},
-                    {"orbital", 50f},
-                    {"nuclear", 50f},
-                    {ModAssets.DeepSpaceScienceID,20f }
+                    {"advanced", 150f},
+                    {"orbital", 150f},
+                    {"nuclear", 100f},
+                    {ModAssets.DeepSpaceScienceID,50f }
                 }
                 );
 
@@ -157,12 +166,30 @@ namespace Rockets_TinyYetBig.Science
                 , new Dictionary<string, float>()
                 {
                     {"basic", 0f },
-                    {"advanced", 50f},
-                    {"orbital", 50f},
-                    {"nuclear", 50f},
-                    {ModAssets.DeepSpaceScienceID,30f }
+                    {"advanced", 150f},
+                    {"orbital", 150f},
+                    {"nuclear", 100f},
+                    {ModAssets.DeepSpaceScienceID,100f }
                 }
                 );
+                if (Config.Instance.EnableLargeCargoBays)
+                {
+                    ModAssets.Techs.HugeCargoBayTech = new Tech(ModAssets.Techs.HugeCargoBayTechID, new List<string>
+                    {
+                        SolidCargoBayClusterLargeConfig.ID,
+                        LiquidCargoBayClusterLargeConfig.ID,
+                        GasCargoBayClusterLargeConfig.ID
+                    },
+                    __instance
+                    , new Dictionary<string, float>()
+                    {
+                        {"basic", 100f },
+                        {"advanced", 150f},
+                        {"orbital", 250f},
+                        {"nuclear", 150f},
+                    }
+                    );
+                }
 
 
                 //Debug.Log("AAAAAAAA: DeepSpaceScience Added");

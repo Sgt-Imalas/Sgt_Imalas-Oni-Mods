@@ -17,8 +17,8 @@ namespace Rockets_TinyYetBig
         {
             public static LocString NAME = "Deep Space Research";
             public static LocString UNLOCKNAME = (LocString)(UI.PRE_KEYWORD + NAME + UI.PST_KEYWORD + " Capability");
-            public static LocString UNLOCKDESC = (LocString)("Allows " + UI.PRE_KEYWORD + NAME + UI.PST_KEYWORD + " points to be accumulated, unlocking higher technology tiers.");
-            public static LocString DESC = UI.FormatAsLink("Deep Space Research", nameof(DEEPSPACERESEARCH))+ " is conducted by analyizing the deeper meanings behind mysterious artefacts found in the vastness of deep space.";
+            public static LocString UNLOCKDESC = (LocString)("Allows " + UI.PRE_KEYWORD + NAME + UI.PST_KEYWORD + " points to be accumulated, unlocking higher technology tiers.\nCan be accumulated before research completion via artifact analysis.");
+            public static LocString DESC = UI.FormatAsLink("Deep Space Research", nameof(DEEPSPACERESEARCH))+ " is conducted by analyzing the deeper meanings behind mysterious artefacts found in the vastness of deep space and by conducting various experiments in the low artifical gravity of a space station.";
             public static LocString RECIPEDESC = "Unlocks new breakthroughs in space construction";
 
         }
@@ -54,6 +54,13 @@ namespace Rockets_TinyYetBig
             public class PREFABS
             {
                 public static LocString GENERATORLIMIT = "\n\n If there is atleast one battery connected, the generator will stop producing if the battery is above 95% charge.";
+
+                public class RTB_DRILLCONEDIAMONDSTORAGE
+                {
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Drillcone Service Module", nameof(RTB_DRILLCONEDIAMONDSTORAGE));
+                    public static LocString DESC = (LocString)"Bringing home those minerals - for Rock and Stone!";
+                    public static LocString EFFECT = (LocString)("Acts as a support module for a normal Drillcone.\n\nProvides additional 1500kg of diamond capacity for the drillcone.\n\nGives a 20% mining speed boost to the drillcone.\n\nCan be toggled between manual loading and automated loading via cargo loader.");
+                }
 
                 public class RTB_DOCKINGTUBEDOOR
                 {
@@ -162,22 +169,22 @@ namespace Rockets_TinyYetBig
                     public static LocString DESC = "These critters will go where no critter has gone before.";
                 }
 
-                public class CARGOBAYCLUSTERLARGE
+                public class RTB_CARGOBAYCLUSTERLARGE
                 {
-                    public static LocString NAME = (LocString)UI.FormatAsLink("Colossal Cargo Bay", "CARGOBAY");
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Colossal Cargo Bay", nameof(RTB_CARGOBAYCLUSTERLARGE));
                     public static LocString DESC = (LocString)"Holds even more than a large cargo bay!";
                     public static LocString EFFECT = (LocString)("Allows Duplicants to store most of the " + UI.FormatAsLink("Solid Materials", "ELEMENTS_SOLID") + " found during space missions.\n\nStored resources become available to the colony upon the rocket's return. \n\nMust be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ".");
                 }
 
-                public class LIQUIDCARGOBAYCLUSTERLARGE
+                public class RTB_LIQUIDCARGOBAYCLUSTERLARGE
                 {
-                    public static LocString NAME = (LocString)UI.FormatAsLink("Colossal Liquid Cargo Tank", "LIQUIDCARGOBAY");
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Colossal Liquid Cargo Tank", nameof(RTB_LIQUIDCARGOBAYCLUSTERLARGE));
                     public static LocString DESC = (LocString)"Holds even more than a large cargo tank!";
                     public static LocString EFFECT = (LocString)("Allows Duplicants to store most of the " + UI.FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " resources found during space missions.\n\nStored resources become available to the colony upon the rocket's return.\n\nMust be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ".");
                 }
-                public class GASCARGOBAYCLUSTERLARGE
+                public class RTB_GASCARGOBAYCLUSTERLARGE
                 {
-                    public static LocString NAME = (LocString)UI.FormatAsLink("Colossal Gas Cargo Canister", "GASCARGOBAY");
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Colossal Gas Cargo Canister", nameof(RTB_GASCARGOBAYCLUSTERLARGE));
                     public static LocString DESC = (LocString)"Holds even more than a large gas cargo canister!";
                     public static LocString EFFECT = (LocString)("Allows Duplicants to store most of the " + UI.FormatAsLink("Gas", "ELEMENTS_GAS") + " resources found during space missions.\n\nStored resources become available to the colony upon the rocket's return.\n\nMust be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ".");
                 }
@@ -375,9 +382,29 @@ namespace Rockets_TinyYetBig
                 }
                 public class RTB_LARGERROCKETLIVINGSPACETECH
                 {
-                    public static LocString NAME = UI.FormatAsLink("Luxurious Liv'in Space", nameof(RTB_DOCKINGTECH));
+                    public static LocString NAME = UI.FormatAsLink("Luxurious Liv'in Space", nameof(RTB_LARGERROCKETLIVINGSPACETECH));
                     public static LocString DESC = "All the living space a dupe could ask for, now in your rocket.";
 
+                }
+                public class RTB_SPACESTATIONTECH
+                {
+                    public static LocString NAME = UI.FormatAsLink("Deep Space Exploration", nameof(RTB_SPACESTATIONTECH));
+                    public static LocString DESC = "Mysterious Artifacts have shown new perspectives on living in the vast emptyness";
+                }
+                public class RTB_MEDIUMSPACESTATIONTECH
+                {
+                    public static LocString NAME = UI.FormatAsLink("Deep Space Colonization", nameof(RTB_MEDIUMSPACESTATIONTECH));
+                    public static LocString DESC = "Extending the perspective";
+                }
+                public class RTB_LARGESPACESTATIONTECH
+                {
+                    public static LocString NAME = UI.FormatAsLink("Deep Space Expansion", nameof(RTB_LARGESPACESTATIONTECH));
+                    public static LocString DESC = "Conquering the depths of space";
+                }
+                public class RTB_HUGECARGOBAYTECH
+                {
+                    public static LocString NAME = UI.FormatAsLink("Thinking larger", nameof(RTB_LARGESPACESTATIONTECH));
+                    public static LocString DESC = "Lets bring home ALL those minerals.";
                 }
             }
         }

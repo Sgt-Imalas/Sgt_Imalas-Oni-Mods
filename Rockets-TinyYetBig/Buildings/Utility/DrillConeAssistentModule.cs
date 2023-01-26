@@ -12,8 +12,12 @@ namespace Rockets_TinyYetBig.Buildings.Utility
     {
         [MyCmpGet] public Storage DiamondStorage;
         [MyCmpGet] RocketModuleCluster module;
+        private MeterController meter;
 
         Storage TargetStorage = null;
+
+        private void OnStorageChange(object data) => this.meter.SetPositionPercent(this.DiamondStorage.MassStored() / this.DiamondStorage.Capacity());
+        private static readonly EventSystem.IntraObjectHandler<DrillConeAssistentModule> OnStorageChangeDelegate = new EventSystem.IntraObjectHandler<DrillConeAssistentModule>(((component, data) => component.OnStorageChange(data)));
 
         public void Sim4000ms(float dt)
         {
@@ -35,6 +39,13 @@ namespace Rockets_TinyYetBig.Buildings.Utility
         {
             base.OnSpawn();
             CheckTarget();
+
+
+
+            this.meter = new MeterController((KAnimControllerBase)this.GetComponent<KBatchedAnimController>(), "meter_target", "meter", Meter.Offset.Infront, Grid.SceneLayer.NoLayer, null);
+            this.meter.gameObject.GetComponent<KBatchedAnimTracker>().matchParentOffset = true;
+
+            this.Subscribe<DrillConeAssistentModule>(-1697596308, OnStorageChangeDelegate);
         }
 
         private void TransferDiamond()

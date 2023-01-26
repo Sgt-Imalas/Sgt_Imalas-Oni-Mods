@@ -27,6 +27,8 @@ namespace Rockets_TinyYetBig
             public static Tech SpaceStationTechMedium;
             public static string SpaceStationTechLargeID = "RTB_LargeSpaceStationTech";
             public static Tech SpaceStationTechLarge;
+            public static string HugeCargoBayTechID = "RTB_HugeCargoBayTech";
+            public static Tech HugeCargoBayTech;
         }
         public class Tags
         {
