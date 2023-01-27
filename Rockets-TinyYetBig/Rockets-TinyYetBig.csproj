@@ -28,6 +28,7 @@
 		<SupportedContent>EXPANSION1_ID</SupportedContent>
 		<MinimumSupportedBuild>535211</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 	<ItemGroup>
 	  <Compile Remove="ModAssets\translations\**" />

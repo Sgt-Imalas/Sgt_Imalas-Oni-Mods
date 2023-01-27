@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PeterHan.PLib.Options;
+using Rockets_TinyYetBig.Patches;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +22,8 @@ namespace Rockets_TinyYetBig
             ;
 
 
-        [Option("test2", ".")]
-        public Action<object> clickButton2 { get { return i => Debug.Log("test"); }  }
+        //[Option("test2", ".")]
+        //public Action<object> clickButton2 { get { return i => Debug.Log("test"); }  }
 
 
         #region vanillaplus
@@ -50,6 +51,11 @@ namespace Rockets_TinyYetBig
         [Option("Habitat Power Connector", "Add a power connector to the habitat modules.", "(1) Rocketry Vanilla+")]
         [JsonProperty]
         public bool HabitatPowerPlug { get; set; }
+
+        [Option("Habitat Radiation", "Rocket interior radiation reflects the radiation outside when landed.", "(1) Rocketry Vanilla+")]
+        [JsonProperty]
+        public bool HabitatInteriorRadiation { get; set; }
+
 
         #endregion
         #region mining&shipping
@@ -103,6 +109,11 @@ namespace Rockets_TinyYetBig
         [Option("Natural Gas Engine Module", STRINGS.OPTIONS.TOGGLESINGLE, "(3) Fuel & Logistics")]
         [JsonProperty]
         public bool EnableNatGasEngine { get; set; }
+
+        [Option("Natural Gas Engine Range", "Set the max range of a natural gas engine.", "(3) Fuel & Logistics")]
+        [JsonProperty]
+        [Limit(8, 18)]
+        public int EnableNatGasEngineRange { get; set; }
 
         [Option("Early Game Fuel Tanks", STRINGS.OPTIONS.TOGGLEMULTI, "(3) Fuel & Logistics")]
         [JsonProperty]
@@ -159,6 +170,7 @@ namespace Rockets_TinyYetBig
             ScannerModuleRange = 1;
             HabitatPowerPlug = true;
             EnableExtendedHabs = true;
+            HabitatInteriorRadiation = true;
 
             ///Drilling&Shipping
             EnableCritterStorage = true;
@@ -174,6 +186,7 @@ namespace Rockets_TinyYetBig
             BuffLargeOxidizer = true;
             EthanolEngines = true;
             EnableNatGasEngine = true;
+            EnableNatGasEngineRange = 15;
             EnableEarlyGameFuelTanks = true;
             EnableFuelLoaders = true;
             EnableWallAdapter = true;
