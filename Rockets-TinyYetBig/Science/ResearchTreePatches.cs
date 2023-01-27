@@ -27,13 +27,15 @@ namespace Rockets_TinyYetBig.Science
         {
             public static void Postfix(ResourceTreeLoader<ResourceTreeNode> __instance, TextAsset file)
             {
-                TechUtils.AddNode(__instance,
+                if (Config.Instance.RocketDocking)
+                {
+                    TechUtils.AddNode(__instance,
                     ModAssets.Techs.DockingTechID,
                     GameStrings.Technology.ColonyDevelopment.CelestialDetection,
                     xDiff: 1,
                     yDiff: 0
                     );
-
+                }
                 if (Config.Instance.EnableFuelLoaders)
                 {
                     TechUtils.AddNode(__instance,
@@ -53,8 +55,9 @@ namespace Rockets_TinyYetBig.Science
                     yDiff: 0
                     );
                 }
-
-                TechUtils.AddNode(__instance,
+                if (Config.SpaceStationsPossible)
+                {
+                    TechUtils.AddNode(__instance,
                     ModAssets.Techs.SpaceStationTechID,
                     new[] {
                         Config.Instance.EnableExtendedHabs ? ModAssets.Techs.LargerRocketLivingSpaceTechID : GameStrings.Technology.ColonyDevelopment.DurableLifeSupport
@@ -62,28 +65,45 @@ namespace Rockets_TinyYetBig.Science
                     xDiff: Config.Instance.EnableExtendedHabs ? 1 : 2,
                     yDiff: 0
                     );
+
+                    TechUtils.AddNode(__instance,
+                    ModAssets.Techs.SpaceStationTechMediumID,
+                    ModAssets.Techs.SpaceStationTechID,
+                    xDiff: 2,
+                    yDiff: 0
+                    );
+
+                    TechUtils.AddNode(__instance,
+                    ModAssets.Techs.SpaceStationTechLargeID,
+                    ModAssets.Techs.SpaceStationTechMediumID,
+                    xDiff: 1,
+                    yDiff: 0
+                    );
+                }
+                    
+
+
                 if (Config.Instance.EnableLargeCargoBays)
                 {
-                    TechUtils.AddNode(__instance,
-                        ModAssets.Techs.HugeCargoBayTechID,
-                        ModAssets.Techs.SpaceStationTechID,
-                        xDiff: 2,
-                        yDiff: -1);
+                    if (Config.SpaceStationsPossible)
+                    {
+                        TechUtils.AddNode(__instance,
+                            ModAssets.Techs.HugeCargoBayTechID,
+                            ModAssets.Techs.SpaceStationTechID,
+                            xDiff: 2,
+                            yDiff: -1);
+                    }
+                    else
+                    {
+                        TechUtils.AddNode(__instance,
+                            ModAssets.Techs.HugeCargoBayTechID,
+                            GameStrings.Technology.SolidMaterial.SolidManagement,
+                            xDiff: 1,
+                            yDiff: 0);
+                    }
                 }
 
-                TechUtils.AddNode(__instance,
-                ModAssets.Techs.SpaceStationTechMediumID,
-                ModAssets.Techs.SpaceStationTechID,
-                xDiff: 2,
-                yDiff: 0
-                );
 
-                TechUtils.AddNode(__instance,
-                ModAssets.Techs.SpaceStationTechLargeID,
-                ModAssets.Techs.SpaceStationTechMediumID,
-                xDiff: 1,
-                yDiff: 0
-                );
 
             }
         }
@@ -96,7 +116,9 @@ namespace Rockets_TinyYetBig.Science
         {
             public static void Postfix(Database.Techs __instance)
             {
-                ModAssets.Techs.DockingTech = new Tech(ModAssets.Techs.DockingTechID, new List<string>
+                if (Config.Instance.RocketDocking)
+                {
+                    ModAssets.Techs.DockingTech = new Tech(ModAssets.Techs.DockingTechID, new List<string>
                 {
                     DockingTubeDoorConfig.ID,
                     //SpaceStationDockingDoorConfig.ID
@@ -110,6 +132,7 @@ namespace Rockets_TinyYetBig.Science
                 //    {"nuclear", 50f}
                 //}
                 );
+                }
 
                 if (Config.Instance.EnableExtendedHabs)
                 {
@@ -130,48 +153,52 @@ namespace Rockets_TinyYetBig.Science
                 __instance
                 );
 
-                ModAssets.Techs.SpaceStationTech = new Tech(ModAssets.Techs.SpaceStationTechID, new List<string>
+                if (Config.SpaceStationsPossible)
                 {
-                    SpaceStationDockingDoorConfig.ID,
-                    SpaceStationBuilderModuleConfig.ID
-                },
-                __instance
-                , new Dictionary<string, float>()
-                {
-                    {"basic", 0f },
-                    {"advanced", 50f},
-                    {"orbital", 50f},
-                    {"nuclear", 50f},
-                    {ModAssets.DeepSpaceScienceID,3f }
-                }
-                );
-                ModAssets.Techs.SpaceStationTechMedium = new Tech(ModAssets.Techs.SpaceStationTechMediumID, new List<string>
-                {
-                },
-                __instance
-                , new Dictionary<string, float>()
-                {
-                    {"basic", 0f },
-                    {"advanced", 150f},
-                    {"orbital", 150f},
-                    {"nuclear", 100f},
-                    {ModAssets.DeepSpaceScienceID,50f }
-                }
-                );
+                    ModAssets.Techs.SpaceStationTech = new Tech(ModAssets.Techs.SpaceStationTechID, new List<string>
+                    {
+                        SpaceStationDockingDoorConfig.ID,
+                        SpaceStationBuilderModuleConfig.ID
+                    },
+                    __instance
+                    , new Dictionary<string, float>()
+                    {
+                        {"basic", 0f },
+                        {"advanced", 50f},
+                        {"orbital", 50f},
+                        {"nuclear", 50f},
+                        {ModAssets.DeepSpaceScienceID,3f }
+                    }
+                    );
+                    ModAssets.Techs.SpaceStationTechMedium = new Tech(ModAssets.Techs.SpaceStationTechMediumID, new List<string>
+                    {
+                    },
+                    __instance
+                    , new Dictionary<string, float>()
+                    {
+                        {"basic", 0f },
+                        {"advanced", 150f},
+                        {"orbital", 150f},
+                        {"nuclear", 100f},
+                        {ModAssets.DeepSpaceScienceID,50f }
+                    }
+                    );
 
-                ModAssets.Techs.SpaceStationTechLarge = new Tech(ModAssets.Techs.SpaceStationTechLargeID, new List<string>
-                {
-                },
-                __instance
-                , new Dictionary<string, float>()
-                {
-                    {"basic", 0f },
-                    {"advanced", 150f},
-                    {"orbital", 150f},
-                    {"nuclear", 100f},
-                    {ModAssets.DeepSpaceScienceID,100f }
+                    ModAssets.Techs.SpaceStationTechLarge = new Tech(ModAssets.Techs.SpaceStationTechLargeID, new List<string>
+                    {
+                    },
+                    __instance
+                    , new Dictionary<string, float>()
+                    {
+                        {"basic", 0f },
+                        {"advanced", 150f},
+                        {"orbital", 150f},
+                        {"nuclear", 100f},
+                        {ModAssets.DeepSpaceScienceID,100f
+                        }
+                    }
+                    );
                 }
-                );
                 if (Config.Instance.EnableLargeCargoBays)
                 {
                     ModAssets.Techs.HugeCargoBayTech = new Tech(ModAssets.Techs.HugeCargoBayTechID, new List<string>
@@ -191,13 +218,15 @@ namespace Rockets_TinyYetBig.Science
                     );
                 }
 
+                if (Config.SpaceStationsPossible)
+                {
 
-                //Debug.Log("AAAAAAAA: DeepSpaceScience Added");
-                InjectionMethods.AddItemToTechnologyKanim(ModAssets.SpaceStationTypes[0].ID, ModAssets.Techs.SpaceStationTechID, ModAssets.SpaceStationTypes[0].Name, ModAssets.SpaceStationTypes[0].Description, ModAssets.SpaceStationTypes[0].Kanim, DlcManager.AVAILABLE_EXPANSION1_ONLY);
-                InjectionMethods.AddItemToTechnologyKanim(ModAssets.SpaceStationTypes[1].ID, ModAssets.Techs.SpaceStationTechMediumID, ModAssets.SpaceStationTypes[1].Name, ModAssets.SpaceStationTypes[1].Description, ModAssets.SpaceStationTypes[1].Kanim, DlcManager.AVAILABLE_EXPANSION1_ONLY);
-                InjectionMethods.AddItemToTechnologyKanim(ModAssets.SpaceStationTypes[2].ID, ModAssets.Techs.SpaceStationTechLargeID, ModAssets.SpaceStationTypes[2].Name, ModAssets.SpaceStationTypes[2].Description, ModAssets.SpaceStationTypes[2].Kanim, DlcManager.AVAILABLE_EXPANSION1_ONLY);
-                InjectionMethods.AddItemToTechnologySprite(ModAssets.DeepSpaceScienceID, ModAssets.Techs.SpaceStationTechID, STRINGS.DEEPSPACERESEARCH.UNLOCKNAME, STRINGS.DEEPSPACERESEARCH.UNLOCKDESC, "research_type_deep_space_icon_unlock", DlcManager.AVAILABLE_EXPANSION1_ONLY);
-                Db.Get().Techs.Get(ModAssets.Techs.SpaceStationTechID).unlockedItemIDs.Reverse();
+                    InjectionMethods.AddItemToTechnologyKanim(ModAssets.SpaceStationTypes[0].ID, ModAssets.Techs.SpaceStationTechID, ModAssets.SpaceStationTypes[0].Name, ModAssets.SpaceStationTypes[0].Description, ModAssets.SpaceStationTypes[0].Kanim, DlcManager.AVAILABLE_EXPANSION1_ONLY);
+                    InjectionMethods.AddItemToTechnologyKanim(ModAssets.SpaceStationTypes[1].ID, ModAssets.Techs.SpaceStationTechMediumID, ModAssets.SpaceStationTypes[1].Name, ModAssets.SpaceStationTypes[1].Description, ModAssets.SpaceStationTypes[1].Kanim, DlcManager.AVAILABLE_EXPANSION1_ONLY);
+                    InjectionMethods.AddItemToTechnologyKanim(ModAssets.SpaceStationTypes[2].ID, ModAssets.Techs.SpaceStationTechLargeID, ModAssets.SpaceStationTypes[2].Name, ModAssets.SpaceStationTypes[2].Description, ModAssets.SpaceStationTypes[2].Kanim, DlcManager.AVAILABLE_EXPANSION1_ONLY);
+                    InjectionMethods.AddItemToTechnologySprite(ModAssets.DeepSpaceScienceID, ModAssets.Techs.SpaceStationTechID, STRINGS.DEEPSPACERESEARCH.UNLOCKNAME, STRINGS.DEEPSPACERESEARCH.UNLOCKDESC, "research_type_deep_space_icon_unlock", DlcManager.AVAILABLE_EXPANSION1_ONLY);
+                    Db.Get().Techs.Get(ModAssets.Techs.SpaceStationTechID).unlockedItemIDs.Reverse();
+                }
             }
         }
 

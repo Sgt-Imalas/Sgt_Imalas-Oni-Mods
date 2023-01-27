@@ -27,7 +27,7 @@ namespace Rockets_TinyYetBig.Science
 
         void ApplySciencePoints()
         {
-            for (float i = CurrentScienceValue;  i > 0; i--)
+            for (float i = CurrentScienceValue; i > 0; i--)
             {
                 //++deepscienceresearch
                 if (GetCurrentDeepSpaceReserach(out var target))
@@ -39,6 +39,8 @@ namespace Rockets_TinyYetBig.Science
                         techInstance.progressInventory.AddResearchPoints(ModAssets.DeepSpaceScienceID, pointsToAdd);
                         CurrentScienceValue -= pointsToAdd;
                     }
+                }
+            }
         }
         List<string> DeepSpaceTechs = new List<string>()
         {

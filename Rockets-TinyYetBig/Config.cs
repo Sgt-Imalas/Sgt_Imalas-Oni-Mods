@@ -14,157 +14,180 @@ namespace Rockets_TinyYetBig
     [ModInfo("https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods", "preview.png")]
     public class Config : SingletonOptions<Config>
     {
-        
-        [Option("Cartographic Module Scan Range", "Cartographic Modules will instantly reveal hexes in this radius.", "Balancing")]
+        public static bool SpaceStationsPossible =>
+            Instance.CompressInteriors
+            && Instance.EnableAdvWorldSelector
+            && Instance.SpaceStationsAndTech
+            ;
+
+
+        [Option("test2", ".")]
+        public Action<object> clickButton2 { get { return i => Debug.Log("test"); }  }
+
+
+        #region vanillaplus
+        [Option("Advanced World Selector", "Enable a more structured world selector.", "(1) Rocketry Vanilla+")]
+        [JsonProperty]
+        public bool EnableAdvWorldSelector { get; set; }
+
+        [Option("Compress Interiors & Remove Rocket Limit", "Disable this Option to use the default 32x32 size rocket interiors. This will also reenable the Rocket Limit of 16 (changing this option only affects new Rockets)", "(1) Rocketry Vanilla+")]
+        [JsonProperty]
+        public bool CompressInteriors { get; set; }
+
+        [Option("Extended Spacefarer Modules", STRINGS.OPTIONS.TOGGLEMULTI, "(1) Rocketry Vanilla+")]
+        [JsonProperty]
+        public bool EnableExtendedHabs { get; set; }
+
+        [Option("Rocket Building Categories", "Enable a more modular rocket build menu that sorts the modules into categories.", "(1) Rocketry Vanilla+")]
+        [JsonProperty]
+        public bool EnableBuildingCategories { get; set; }
+
+        [Option("Cartographic Module Scan Range", "Cartographic Modules will instantly reveal hexes in this radius.", "(1) Rocketry Vanilla+")]
         [Limit(0, 3)]
         [JsonProperty]
         public int ScannerModuleRange { get; set; }
 
-        [Option("Critter Containment Module Capacity", "Amount of critters the module can hold at once", "Balancing")]
-        [Limit(1, 15)]
+        [Option("Habitat Power Connector", "Add a power connector to the habitat modules.", "(1) Rocketry Vanilla+")]
         [JsonProperty]
-        public int CritterStorageCapacity { get; set; }
+        public bool HabitatPowerPlug { get; set; }
 
-        [Option("Laser Drillcone Speed", "Mining speed in Kg/s for the Laser Drillcone. (The Basic Drillcone mines at 7.5kg/s).", "Balancing")]
+        #endregion
+        #region mining&shipping
+
+        [Option("Laser Drillcone", STRINGS.OPTIONS.TOGGLESINGLE, "(2) Mining & Shipping")]
+        [JsonProperty]
+        public bool EnableLaserDrill { get; set; }
+
+        [Option("Laser Drillcone Speed", "Mining speed in Kg/s for the Laser Drillcone. (The Basic Drillcone mines at 7.5kg/s).", "(2) Mining & Shipping")]
         [Limit(1f, 15f)]
         [JsonProperty]
         public float LaserDrillconeSpeed { get; set; }
 
 
-        [Option("Compress Interiors & Remove Rocket Limit", "Disable this Option to use the default 32x32 size rocket interiors. This will also reenable the Rocket Limit of 16 (changing this option only affects new Rockets)", "Features")]
+        [Option("Drillcone Service Module", STRINGS.OPTIONS.TOGGLESINGLE, "(2) Mining & Shipping")]
         [JsonProperty]
-        public bool CompressInteriors { get; set; }
+        public bool EnableDrillSupport { get; set; }
 
-        [Option("Advanced World Selector", "Enable a more structured world selector. Required for Space Stations", "Features")]
-        [JsonProperty]
-        public bool EnableAdvWorldSelector { get; set; }
-
-        [Option("Rocket Building Categories", "Enable a more modular rocket build menu that sorts the modules into categories.", "Features")]
-        [JsonProperty]
-        public bool EnableBuildingCategories { get; set; }
-
-        [Option("Hide Category Tooltips", "Hide category and module tooltips. Only has an effect if Rocket Building Categories are enabled", "Features")]
-        [JsonProperty]
-        public bool HideRocketCategoryTooltips { get; set; }
-
-        [Option("Buff Large Oxidizer Module", "Buff storage capacity of the large Oxidizer Module from 900kg to 1350kg.", "Features")]
-        [JsonProperty]
-        public bool BuffLargeOxidizer { get; set; }
-        
-        [Option("Infinite Mining Capacity", "Mining POI become infinite", "Features")]
+        [Option("Infinite Mining Capacity", "Mining POI become infinite. Does not affect artifacts.", "(2) Mining & Shipping")]
         [JsonProperty]
         public bool InfinitePOI { get; set; }
 
-
-       // [Option("Land without pad", "Add landing legs to your rocket to land on planets without any installed landing pads", "Features")]
-       // [JsonProperty]
-       // public bool LandingLegs { get; set; }
-
-        [Option("Habitat Power Connector", "Add a power connector to the habitat modules.", "Features")]
-        [JsonProperty]
-        public bool HabitatPowerPlug { get; set; }
-
-        [Option("Burn Ethanol as fuel", "Allows Petroleum Engines to also burn Ethanol as fuel.", "Features")]
-        [JsonProperty]
-        public bool EthanolEngines { get; set; }
-
-
-        [Option("Radioisotope Decay time", "Time in cycles for all the enriched uranium in the RTG to decay into depleted uranium. RTG needs a refill if all enriched uranium has decayed.", "Balancing")]
-        [Limit(10f, 200f)]
-        [JsonProperty]
-        public float IsotopeDecayTime { get; set; }
-
-
-        #region Modules
-        ///MODULES
-        [Option("Extended Spacefarer Modules", STRINGS.OPTIONS.TOGGLEMULTI, "Modules")]
-        [JsonProperty]
-        public bool EnableExtendedHabs { get; set; }
-
-        [Option("Stargazer Module", STRINGS.OPTIONS.TOGGLESINGLE, "Modules")]
-        [JsonProperty]
-        public bool EnableStargazer { get; set; }
-
-        [Option("Solar Nosecone", STRINGS.OPTIONS.TOGGLESINGLE, "Modules")]
-        [JsonProperty]
-        public bool EnableSolarNosecone { get; set; }
-
-        [Option("Generator Modules", STRINGS.OPTIONS.TOGGLEMULTI, "Modules")]
-        [JsonProperty]
-        public bool EnableGenerators { get; set; }
-
-        [Option("Large Cargo Modules", STRINGS.OPTIONS.TOGGLEMULTI, "Modules")]
+        [Option("Large Cargo Modules", STRINGS.OPTIONS.TOGGLEMULTI, "(2) Mining & Shipping")]
         [JsonProperty]
         public bool EnableLargeCargoBays { get; set; }
 
-        [Option("Laser Drillcone", STRINGS.OPTIONS.TOGGLESINGLE, "Modules")]
-        [JsonProperty]
-        public bool EnableLaserDrill { get; set; }
-
-        [Option("Radbolt Storage Module", STRINGS.OPTIONS.TOGGLESINGLE, "Modules")]
+        [Option("Radbolt Storage Module", STRINGS.OPTIONS.TOGGLESINGLE, "(2) Mining & Shipping")]
         [JsonProperty]
         public bool EnableRadboltStorage { get; set; }
 
-        [Option("Critter Containment Module", STRINGS.OPTIONS.TOGGLESINGLE, "Modules")]
+        [Option("Critter Containment Module", STRINGS.OPTIONS.TOGGLESINGLE, "(2) Mining & Shipping")]
         [JsonProperty]
         public bool EnableCritterStorage { get; set; }
 
-        [Option("Natural Gas Engine Module", STRINGS.OPTIONS.TOGGLESINGLE, "Modules")]
+        [Option("Critter Containment Module Capacity", "Amount of critters the module can hold at once", "(2) Mining & Shipping")]
+        [Limit(1, 15)]
+        [JsonProperty]
+        public int CritterStorageCapacity { get; set; }
+
+        #endregion
+        #region Fuel&Logistics
+
+        [Option("Buff Large Oxidizer Module", "Buff storage capacity of the large Oxidizer Module from 900kg to 1350kg.", "(3) Fuel & Logistics")]
+        [JsonProperty]
+        public bool BuffLargeOxidizer { get; set; }
+
+        [Option("Burn Ethanol as fuel", "Allows Petroleum Engines to also burn Ethanol as fuel.", "(3) Fuel & Logistics")]
+        [JsonProperty]
+        public bool EthanolEngines { get; set; }
+
+        [Option("Natural Gas Engine Module", STRINGS.OPTIONS.TOGGLESINGLE, "(3) Fuel & Logistics")]
         [JsonProperty]
         public bool EnableNatGasEngine { get; set; }
 
-        [Option("Early Game Fuel Tanks", STRINGS.OPTIONS.TOGGLEMULTI, "Modules")]
+        [Option("Early Game Fuel Tanks", STRINGS.OPTIONS.TOGGLEMULTI, "(3) Fuel & Logistics")]
         [JsonProperty]
         public bool EnableEarlyGameFuelTanks { get; set; }
 
-        [Option("Fortified Rocket Platform", STRINGS.OPTIONS.TOGGLESINGLE, "Modules")]
-        [JsonProperty]
-
-        public bool EnableBunkerPlatform { get; set; }
-
-        [Option("Fuel Loaders", STRINGS.OPTIONS.TOGGLEMULTI, "Modules")]
+        [Option("Fuel Loaders", STRINGS.OPTIONS.TOGGLEMULTI, "(3) Fuel & Logistics")]
         [JsonProperty]
         public bool EnableFuelLoaders { get; set; }
 
-        [Option("Loader Wall Adapter", STRINGS.OPTIONS.TOGGLESINGLE, "Modules")]
+
+        [Option("Loader Adapter", STRINGS.OPTIONS.TOGGLESINGLE, "(3) Fuel & Logistics")]
         [JsonProperty]
         public bool EnableWallAdapter { get; set; }
 
+        [Option("Fortified & Advanced Rocket Platform", STRINGS.OPTIONS.TOGGLEMULTI, "(3) Fuel & Logistics")]
+        [JsonProperty]
+        public bool EnableBunkerPlatform { get; set; }
         #endregion
+
+        #region Power&Utility
+
+        [Option("Solar Nosecone", STRINGS.OPTIONS.TOGGLESINGLE, "(4) Power & Utility")]
+        [JsonProperty]
+        public bool EnableSolarNosecone { get; set; }
+
+        [Option("Generator Modules", STRINGS.OPTIONS.TOGGLEMULTI, "(4) Power & Utility")]
+        [JsonProperty]
+        public bool EnableGenerators { get; set; }
+
+        [Option("Radioisotope Decay time", "Time in cycles for all the enriched uranium in the RTG to decay into depleted uranium. RTG needs a refill if all enriched uranium has decayed.", "(4) Power & Utility")]
+        [Limit(10f, 200f)]
+        [JsonProperty]
+        public float IsotopeDecayTime { get; set; }
+        #endregion
+        #region SpaceStations
+
+        [Option("Space Stations & Deep Space Science", "", "(5) Space Stations")]
+        [JsonProperty]
+        protected bool SpaceStationsAndTech { get; set; }
+
+        [Option("Docking", "Dock rockets in space to transfer dupes and contents of the interiors", "(5) Space Connections")]
+        [JsonProperty]
+        public bool RocketDocking { get; set; }
+
+        #endregion
+
 
         public Config()
         {
+            ///Vanilla+
+            EnableAdvWorldSelector = true;
+            CompressInteriors = true;
+            EnableBuildingCategories = true;
             ScannerModuleRange = 1;
+            HabitatPowerPlug = true;
+            EnableExtendedHabs = true;
+
+            ///Drilling&Shipping
+            EnableCritterStorage = true;
             CritterStorageCapacity = 5;
+            EnableLaserDrill = true;
             LaserDrillconeSpeed = 3.75f;
+            InfinitePOI = false;
+            EnableLargeCargoBays = true;
+            EnableRadboltStorage = true; 
+            EnableDrillSupport = true;
+
+            /// Fuel&Logistics
+            BuffLargeOxidizer = true;
+            EthanolEngines = true;
+            EnableNatGasEngine = true;
+            EnableEarlyGameFuelTanks = true;
+            EnableFuelLoaders = true;
+            EnableWallAdapter = true;
+            EnableBunkerPlatform = true;
+
+            // Power&Utility
+            EnableSolarNosecone = true;
+            EnableGenerators = true;
             IsotopeDecayTime = 40;
 
-            ///Features
-            CompressInteriors = true; 
-            EnableBuildingCategories = true; 
-            EnableAdvWorldSelector = true;
+            // SpaceStations
+            SpaceStationsAndTech = false;
+            RocketDocking = true;
 
-            HideRocketCategoryTooltips = false;
-            InfinitePOI = false;
-            //LandingLegs = true;
-            EthanolEngines = true;
-            HabitatPowerPlug = true;
-            BuffLargeOxidizer = true;
-
-            ///Modules:
-            EnableExtendedHabs = true;
-            EnableStargazer = true;
-            EnableGenerators = true;
-            EnableLaserDrill = true;
-            EnableSolarNosecone = true;
-            EnableRadboltStorage = true;
-            EnableCritterStorage = true; 
-            EnableBunkerPlatform = true;
-            EnableFuelLoaders = true;
-            EnableWallAdapter = true; 
-            EnableEarlyGameFuelTanks = true; 
-            EnableLargeCargoBays = true;
-            EnableNatGasEngine = true;
         }
     }
 }

@@ -168,7 +168,11 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         void RefreshButtons()
         {
+            if (!Config.SpaceStationsPossible)
+                return;
             int CurrentStationType = 0;
+            if (targetBuilder == null)
+                return;
             CurrentStationType = targetBuilder.CurrentSpaceStationTypeInt;
 
             foreach (var button in buttons)

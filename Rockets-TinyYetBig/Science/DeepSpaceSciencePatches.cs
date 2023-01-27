@@ -34,8 +34,10 @@ namespace Rockets_TinyYetBig.Science
         {
             public static void Prefix(ArtifactAnalysisStationWorkable __instance)
             {
-                GameObject artifactToBeDefrosted = __instance.storage.FindFirst(GameTags.CharmedArtifact);
-                DeepSpaceScienceManager.Instance.ArtifactResearched(artifactToBeDefrosted != null ? artifactToBeDefrosted.HasTag(GameTags.TerrestrialArtifact):false);
+                if (Config.SpaceStationsPossible) { 
+                    GameObject artifactToBeDefrosted = __instance.storage.FindFirst(GameTags.CharmedArtifact);
+                    DeepSpaceScienceManager.Instance.ArtifactResearched(artifactToBeDefrosted != null ? artifactToBeDefrosted.HasTag(GameTags.TerrestrialArtifact):false);
+                }
             }
         }
 
