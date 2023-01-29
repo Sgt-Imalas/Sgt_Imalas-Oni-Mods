@@ -195,19 +195,20 @@ namespace Rockets_TinyYetBig.SpaceStations
                 return true;
             }
         }
-        //[HarmonyPatch(typeof(RocketSimpleInfoPanel))]
-        //[HarmonyPatch(nameof(RocketSimpleInfoPanel.Refresh))]
-        //public static class NoStatusItemsForSpaceStation2
-        //{
-        //    public static void Prefix(ref GameObject selectedTarget)
-        //    {
-        //        var spaceStation = selectedTarget.GetComponent<SpaceStation>();
-        //        if (spaceStation !=null)
-        //        {
-        //            selectedTarget = null;
-        //        }
-        //    }
-        //}
+        [HarmonyPatch(typeof(RocketSimpleInfoPanel))]
+        [HarmonyPatch(nameof(RocketSimpleInfoPanel.Refresh))]
+        public static class NoStatusItemsForSpaceStation2
+        {
+            public static void Prefix(ref CollapsibleDetailContentPanel rocketStatusContainer,ref GameObject selectedTarget)
+            {
+                if (selectedTarget.TryGetComponent<SpaceStation>(out var Station))
+                {
+                    selectedTarget = null;
+                    rocketStatusContainer.gameObject.SetActive(false);
+                    rocketStatusContainer.Commit();
+                }
+            }
+        }
 
         [HarmonyPatch(typeof(Clustercraft))]
         [HarmonyPatch(nameof(Clustercraft.CanLandAtPad))]
