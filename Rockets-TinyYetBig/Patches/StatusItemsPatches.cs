@@ -183,7 +183,7 @@ namespace Rockets_TinyYetBig.Patches
 
             public static bool Prefix(RocketSimpleInfoPanel __instance, CollapsibleDetailContentPanel rocketStatusContainer, GameObject selectedTarget)
             {
-                return true;
+
                 if (TargetPREVIOUS == selectedTarget && counter > 0)
                 {
                     counter--;
