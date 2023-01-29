@@ -380,7 +380,8 @@ namespace Rockets_TinyYetBig.Patches
                     }
                     else
                     {
-                        rocketStatusContainer.labels.Remove("RangeRemaining");
+                        rocketStatusContainer.SetLabel("RangeRemaining", string.Empty, string.Empty);
+                        //rocketStatusContainer.labels.Remove("RangeRemaining");
                     }
 
                     ///Rocket burden
@@ -420,7 +421,7 @@ namespace Rockets_TinyYetBig.Patches
                     }
                     else
                     {
-                        //rocketStatusContainer.labels.Remove("MaxHeight");
+                        rocketStatusContainer.SetLabel("MaxHeight", string.Empty, string.Empty);
                     }
 
                     ///ModuleOrder
@@ -430,23 +431,6 @@ namespace Rockets_TinyYetBig.Patches
                         ModuleOrderTOOLTIPPREVIOUS = ModuleOrderTOOLTIP;
                     }
                     rocketStatusContainer.SetLabel("ModuleOrder", ModuleOrderSTRING, ModuleOrderTOOLTIP);
-
-                    ///PowerStorage
-                    if (PowerStorageMax > 0f)
-                    {
-                        if (!Mathf.Approximately(PowerStorage, PowerStoragePREVIOUS))
-                        {
-
-                            PowerStorageSTRING = string.Format(UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETBATTERYSTATUS.NAME, GameUtil.GetFormattedJoules(PowerStorage), GameUtil.GetFormattedJoules(PowerStorageMax));
-                            PowerStoragePREVIOUS = PowerStorage;
-                            PowerStorageMaxPREVIOUS = PowerStorageMax;
-                        }
-                        rocketStatusContainer.SetLabel("PowerStorage", PowerStorageSTRING, PowerStorageTOOLTIP);
-                    }
-                    else
-                    {
-                        //rocketStatusContainer.labels.Remove("PowerStorage");
-                    }
 
                     ///PowerGeneration
                     if (PowerGenerationMax > 0f)
@@ -461,12 +445,27 @@ namespace Rockets_TinyYetBig.Patches
                     }
                     else
                     {
-                        //rocketStatusContainer.labels.Remove("PowerGeneration");
+                        rocketStatusContainer.SetLabel("PowerGeneration", string.Empty, string.Empty);
+                    }
+                    ///PowerStorage
+                    
+                    if (PowerStorageMax > 0f)
+                    {
+                        if (!Mathf.Approximately(PowerStorage, PowerStoragePREVIOUS))
+                        {
+
+                            PowerStorageSTRING = string.Format(UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETBATTERYSTATUS.NAME, GameUtil.GetFormattedJoules(PowerStorage), GameUtil.GetFormattedJoules(PowerStorageMax));
+                            PowerStoragePREVIOUS = PowerStorage;
+                            PowerStorageMaxPREVIOUS = PowerStorageMax;
+                        }
+                        rocketStatusContainer.SetLabel("PowerStorage", PowerStorageSTRING, PowerStorageTOOLTIP);
+                    }
+                    else
+                    {
+                        rocketStatusContainer.SetLabel("PowerStorage", string.Empty, string.Empty);
                     }
 
-
                     rocketStatusContainer.SetLabel("RocketSpacer2", "", "");
-
 
                     ///Cargos
                     if (clusterCraft != null)
@@ -578,13 +577,14 @@ namespace Rockets_TinyYetBig.Patches
                     float enginePower = rocketModuleCluster.performanceStats.EnginePower;
                     if (burden != 0f)
                     {
-                        rocketStatusContainer.SetLabel("LocalBurden", string.Concat("    • ", global::STRINGS.UI.CLUSTERMAP.ROCKETS.BURDEN_MODULE.NAME, burden.ToString()), string.Format(global::STRINGS.UI.CLUSTERMAP.ROCKETS.BURDEN_MODULE.TOOLTIP, burden));
+                        rocketStatusContainer.SetLabel("LocalBurden", string.Concat(Constants.TABBULLETSTRING, global::STRINGS.UI.CLUSTERMAP.ROCKETS.BURDEN_MODULE.NAME, burden.ToString()), string.Format(global::STRINGS.UI.CLUSTERMAP.ROCKETS.BURDEN_MODULE.TOOLTIP, burden));
                     }
 
                     if (enginePower != 0f)
                     {
-                        rocketStatusContainer.SetLabel("LocalPower", string.Concat("    • ", global::STRINGS.UI.CLUSTERMAP.ROCKETS.POWER_MODULE.NAME, enginePower.ToString()), string.Format(global::STRINGS.UI.CLUSTERMAP.ROCKETS.POWER_MODULE.TOOLTIP, enginePower));
+                        rocketStatusContainer.SetLabel("LocalPower", string.Concat(Constants.TABBULLETSTRING, global::STRINGS.UI.CLUSTERMAP.ROCKETS.POWER_MODULE.NAME, enginePower.ToString()), string.Format(global::STRINGS.UI.CLUSTERMAP.ROCKETS.POWER_MODULE.TOOLTIP, enginePower));
                     }
+                    
                 }
 
                 rocketStatusContainer.Commit();
