@@ -194,13 +194,15 @@ namespace Rockets_TinyYetBig.Patches
                 {
                     foreach (KeyValuePair<string, GameObject> cargoBayLabel in __instance.cargoBayLabels)
                     {
-                        UnityEngine.Object.Destroy(cargoBayLabel.Value);
+                        //  UnityEngine.Object.Destroy(cargoBayLabel.Value);
+                        cargoBayLabel.Value.SetActive(false);
                     }
                     __instance.cargoBayLabels.Clear();
 
                     foreach (KeyValuePair<string, GameObject> artifactLabel in __instance.artifactModuleLabels)
                     {
-                        UnityEngine.Object.Destroy(artifactLabel.Value);
+                        //UnityEngine.Object.Destroy(artifactLabel.Value);
+                        artifactLabel.Value.SetActive(false);
                     }
                     __instance.artifactModuleLabels.Clear();
                     TargetPREVIOUS = selectedTarget;
@@ -315,15 +317,15 @@ namespace Rockets_TinyYetBig.Patches
                         }
                         else if (moduleGet.TryGetComponent<ModuleSolarPanel>(out var solarPanel))
                         {
-                            PowerGeneration += solarPanel.IsProducingPower() ? solarPanel.WattageRating : 0;
+                            PowerGeneration += solarPanel.IsProducingPower() ? solarPanel.CurrentWattage : 0;
                             PowerGenerationMax += solarPanel.WattageRating;
-                            PowerGenerationTOOLTIP = string.Concat("• ", solarPanel.GetProperName(), ": ", GameUtil.GetFormattedWattage(solarPanel.IsProducingPower() ? solarPanel.WattageRating : 0), "/", GameUtil.GetFormattedWattage(solarPanel.WattageRating), "\n", PowerGenerationTOOLTIP);
+                            PowerGenerationTOOLTIP = string.Concat("• ", solarPanel.GetProperName(), ": ", GameUtil.GetFormattedWattage(solarPanel.IsProducingPower() ? solarPanel.CurrentWattage : 0), "/", GameUtil.GetFormattedWattage(solarPanel.WattageRating), "\n", PowerGenerationTOOLTIP);
                         }
                         else if (moduleGet.TryGetComponent<ModuleSolarPanelAdjustable>(out var solarPanela))
                         {
-                            PowerGeneration += solarPanela.IsProducingPower() ? solarPanela.WattageRating : 0;
+                            PowerGeneration += solarPanela.IsProducingPower() ? solarPanela.CurrentWattage : 0;
                             PowerGenerationMax += solarPanela.WattageRating;
-                            PowerGenerationTOOLTIP = string.Concat("• ", solarPanela.GetProperName(), ": ", GameUtil.GetFormattedWattage(solarPanela.IsProducingPower() ? solarPanela.WattageRating : 0), "/", GameUtil.GetFormattedWattage(solarPanela.WattageRating), "\n", PowerGenerationTOOLTIP);
+                            PowerGenerationTOOLTIP = string.Concat("• ", solarPanela.GetProperName(), ": ", GameUtil.GetFormattedWattage(solarPanela.IsProducingPower() ? solarPanela.CurrentWattage : 0), "/", GameUtil.GetFormattedWattage(solarPanela.WattageRating), "\n", PowerGenerationTOOLTIP);
                         }
                         else if (moduleGet.TryGetComponent<RTB_ModuleGenerator>(out var generatorModule2))
                         {
@@ -399,7 +401,6 @@ namespace Rockets_TinyYetBig.Patches
                     else
                     {
                         rocketStatusContainer.SetLabel("RangeRemaining", string.Empty, string.Empty);
-                        //rocketStatusContainer.labels.Remove("RangeRemaining");
                     }
 
                     ///Rocket burden
@@ -463,7 +464,7 @@ namespace Rockets_TinyYetBig.Patches
                     }
                     else
                     {
-                        rocketStatusContainer.SetLabel("PowerGeneration", string.Empty, string.Empty);
+                       rocketStatusContainer.SetLabel("PowerGeneration", string.Empty, string.Empty);
                     }
                     ///PowerStorage
 
@@ -483,7 +484,24 @@ namespace Rockets_TinyYetBig.Patches
                         rocketStatusContainer.SetLabel("PowerStorage", string.Empty, string.Empty);
                     }
 
-                    rocketStatusContainer.SetLabel("RocketSpacer2", "", "");
+                    rocketStatusContainer.SetLabel("RocketSpacer2", string.Empty, string.Empty);
+
+                    if (rocketModuleCluster != null)
+                    {
+                        rocketStatusContainer.SetLabel("zModuleStats", string.Concat(global::STRINGS.UI.CLUSTERMAP.ROCKETS.MODULE_STATS.NAME, selectedTarget.GetProperName()), global::STRINGS.UI.CLUSTERMAP.ROCKETS.MODULE_STATS.TOOLTIP);
+                        float burden = rocketModuleCluster.performanceStats.Burden;
+                        float enginePower = rocketModuleCluster.performanceStats.EnginePower;
+                        if (burden != 0f)
+                        {
+                            rocketStatusContainer.SetLabel("LocalBurden", string.Concat(Constants.TABBULLETSTRING, global::STRINGS.UI.CLUSTERMAP.ROCKETS.BURDEN_MODULE.NAME, burden.ToString()), string.Format(global::STRINGS.UI.CLUSTERMAP.ROCKETS.BURDEN_MODULE.TOOLTIP, burden));
+                        }
+
+                        if (enginePower != 0f)
+                        {
+                            rocketStatusContainer.SetLabel("LocalPower", string.Concat(Constants.TABBULLETSTRING, global::STRINGS.UI.CLUSTERMAP.ROCKETS.POWER_MODULE.NAME, enginePower.ToString()), string.Format(global::STRINGS.UI.CLUSTERMAP.ROCKETS.POWER_MODULE.TOOLTIP, enginePower));
+                        }
+
+                    }
 
                     ///Cargos
                     if (clusterCraft != null)
@@ -613,25 +631,6 @@ namespace Rockets_TinyYetBig.Patches
                 }
                 ArtifactModules.Recycle();
                 CargoBays.Recycle();
-
-                if (rocketModuleCluster != null)
-                {
-                    rocketStatusContainer.SetLabel("RocketSpacer3", "", ""); 
-
-                    rocketStatusContainer.SetLabel("ModuleStats", string.Concat(global::STRINGS.UI.CLUSTERMAP.ROCKETS.MODULE_STATS.NAME, selectedTarget.GetProperName()), global::STRINGS.UI.CLUSTERMAP.ROCKETS.MODULE_STATS.TOOLTIP);
-                    float burden = rocketModuleCluster.performanceStats.Burden;
-                    float enginePower = rocketModuleCluster.performanceStats.EnginePower;
-                    if (burden != 0f)
-                    {
-                        rocketStatusContainer.SetLabel("LocalBurden", string.Concat(Constants.TABBULLETSTRING, global::STRINGS.UI.CLUSTERMAP.ROCKETS.BURDEN_MODULE.NAME, burden.ToString()), string.Format(global::STRINGS.UI.CLUSTERMAP.ROCKETS.BURDEN_MODULE.TOOLTIP, burden));
-                    }
-
-                    if (enginePower != 0f)
-                    {
-                        rocketStatusContainer.SetLabel("LocalPower", string.Concat(Constants.TABBULLETSTRING, global::STRINGS.UI.CLUSTERMAP.ROCKETS.POWER_MODULE.NAME, enginePower.ToString()), string.Format(global::STRINGS.UI.CLUSTERMAP.ROCKETS.POWER_MODULE.TOOLTIP, enginePower));
-                    }
-
-                }
 
                 rocketStatusContainer.Commit();
                 return false;
