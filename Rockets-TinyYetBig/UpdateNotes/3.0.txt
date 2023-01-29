@@ -1,24 +1,23 @@
-﻿Update 3.0:
+﻿Update 2.5:
 
 Features:
-- Space Stations: Large Space bases that offer new livable areas. Limited to 10 Stations per savegame
-- New Science Type: Deep Space Science - aquirable by researching stuff in a space station
-- Space Station Types: small, medium, large
 - Better World selector - collapsable categories
 - Drillcone Loading with Cargo Loader
+- Outdoor Radiation shielding affecting (landed) rocket interiors
+- Twitch event integration
 
 New Modules & Buildings:
-- Space Station Constructor Module - needed to construct + deconstruct space stations
 - Drillcone Service Module - More diamond capacity & 20% increased drilling speed
 - 3 new Huge Cargo Bays (1 per type)
 - Small liquid fuel tank
 - Loader Ladder Adapter
 - Advanced Rocket Platform (shifted logic ports + rocket checklist ribbon output)
-- 3 sizes of space stations
 
-Fixes:
+Fixes & adjustments:
 - massivly improved Fuel Loader code performance
 - fixed a rocket build menu crash, this time for good
 - fixed animation of small oxidizer module
-- massive drillcone sidescreen performance boost (both drillcones)
-- Reworked Mod Config towards a "content pack" approach
+- massive drillcone sidescreen performance boost (both drillcones, might look a bit low framerate tho.)
+- reordered mod config with theme-grouped categories
+- fixed sound of nat gas engine
+- nerfed natgas engine range in default config a bit, added config option to change the range.

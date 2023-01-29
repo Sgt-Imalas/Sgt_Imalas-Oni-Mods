@@ -36,6 +36,8 @@ namespace Rockets_TinyYetBig
             public static Tag SpaceStationOnlyInteriorBuilding = TagManager.Create("RTB_SpaceStationInteriorOnly");
             public static Tag RocketInteriorOnlyBuilding = TagManager.Create("RTB_RocketInteriorOnly");
             public static Tag RocketPlatformTag = TagManager.Create("RTB_RocketPlatformTag");
+            public static Tag RadiationShielding = TagManager.Create("RadiationShieldingMaterial");
+            public static Tag NeutroniumDust = TagManager.Create("RTB_NeutroniumDustMaterial");
         }
 
         public enum SpaceStationType

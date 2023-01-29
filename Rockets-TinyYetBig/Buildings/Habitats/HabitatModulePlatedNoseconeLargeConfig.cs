@@ -19,15 +19,19 @@ namespace Rockets_TinyYetBig.Buildings.Habitats
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public override BuildingDef CreateBuildingDef()
         {
-            float[] denseTieR1 = new float[] { 700f };
-            string[] rawMetals = MATERIALS.REFINED_METALS;
+            float[] denseTieR1 = new float[] { 300f,300,10 };
+            string[] rawMetals = new[] 
+            { 
+                MATERIALS.REFINED_METAL ,
+                ModAssets.Tags.RadiationShielding.ToString()
+            };
             EffectorValues noiseLevel = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;
             BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(
                 id: ID,
                 width: 5,
                 height: 5,
-                anim: "rocket_nosecone_small_extended_kanim",
+                anim: "rocket_habitat_plated_nosecone_kanim",
                 hitpoints: 1000,
                 construction_time: 40f,
                 construction_mass: denseTieR1,
@@ -64,7 +68,7 @@ namespace Rockets_TinyYetBig.Buildings.Habitats
             go.GetComponent<KPrefabID>().AddTag(GameTags.LaunchButtonRocketModule);
             go.AddOrGet<AssignmentGroupController>().generateGroupOnStart = true;
             go.AddOrGet<PassengerRocketModule>().interiorReverbSnapshot = AudioMixerSnapshots.Get().MediumRocketInteriorReverbSnapshot;
-            go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_small_expanded";
+            go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_nosecone_plated";
             go.AddOrGetDef<SimpleDoorController.Def>();
             go.AddOrGet<NavTeleporter>();
             go.AddOrGet<AccessControl>();

@@ -150,6 +150,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
 
         }
+        
         [HarmonyPatch(typeof(Clustercraft))]
         [HarmonyPatch(nameof(Clustercraft.TotalBurden))]
         [HarmonyPatch(MethodType.Getter)]
@@ -165,6 +166,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                 return true;
             }
         }
+        
         [HarmonyPatch(typeof(Clustercraft))]
         [HarmonyPatch(nameof(Clustercraft.CanLandAtAsteroid))]
         public static class NoLandingForSpaceStation

@@ -19,6 +19,7 @@ namespace Rockets_TinyYetBig
             Instance.CompressInteriors
             && Instance.EnableAdvWorldSelector
             && Instance.SpaceStationsAndTech
+            && Instance.NeutroniumSplinters
             ;
 
 
@@ -158,6 +159,10 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool RocketDocking { get; set; }
 
+        [Option("Neutronium Splinters", "Gather Neutronium Splinters by analyzing artifacts. Neutronium Splinters are required in the construction of certain structures", "(5) Space Connections")]
+        [JsonProperty]
+        public bool NeutroniumSplinters { get; set; }
+
         #endregion
 
 
@@ -200,6 +205,7 @@ namespace Rockets_TinyYetBig
             // SpaceStations
             SpaceStationsAndTech = false;
             RocketDocking = true;
+            NeutroniumSplinters = true;
 
         }
     }

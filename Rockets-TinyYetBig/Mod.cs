@@ -21,6 +21,10 @@ namespace Rockets_TinyYetBig
             new POptions().RegisterOptions(this, typeof(Config));
             base.OnLoad(harmony);
             CreateTooltipDictionary();
+            
+            //GameTags.MaterialBuildingElements.Add(ModAssets.Tags.RadiationShielding);
+            //GameTags.MaterialBuildingElements.Add(ModAssets.Tags.NeutroniumDust);
+
             Debug.Log("Rocketry Expanded - Initialized");
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)

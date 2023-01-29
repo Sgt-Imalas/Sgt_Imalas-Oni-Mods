@@ -215,7 +215,7 @@ namespace Rockets_TinyYetBig
                         case "interiors/habitat_medium_stargazer":
                             original = new Vector2I(18, 13);
                             break;
-                        case "interiors/habitat_medium_plated_nosecone":
+                        case "interiors/habitat_nosecone_plated":
                             original = new Vector2I(18, 17);
                             break;
                     }

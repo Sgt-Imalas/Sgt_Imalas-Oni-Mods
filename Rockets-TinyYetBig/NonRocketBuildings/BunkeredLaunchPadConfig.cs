@@ -15,8 +15,10 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
         public override BuildingDef CreateBuildingDef()
         {
-            float[] buildingCosts = TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER6;
-            string[] buildingMaterials = 
+            float[] buildingCosts = {
+            1200f 
+            };
+            string[] buildingMaterials =
             {
                 "Steel"
             };
