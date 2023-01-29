@@ -64,7 +64,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiomeClimates", "BiomeClima
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpacedOutRocketryClassic", "SpacedOutRocketryClassic\SpacedOutRocketryClassic.csproj", "{6845B659-6385-49E3-A68B-E7A935A8FD7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1LineCrasher", "1LineCrasher\1LineCrasher.csproj", "{1F037F3F-1961-48BD-9A89-BAC700BBB414}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1LineCrasher", "1LineCrasher\1LineCrasher.csproj", "{1F037F3F-1961-48BD-9A89-BAC700BBB414}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MooMilk", "MooMilk\MooMilk.csproj", "{CACC39A6-AF54-491F-874D-9B3DF7F50AD1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -184,6 +186,10 @@ Global
 		{1F037F3F-1961-48BD-9A89-BAC700BBB414}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F037F3F-1961-48BD-9A89-BAC700BBB414}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{1F037F3F-1961-48BD-9A89-BAC700BBB414}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{CACC39A6-AF54-491F-874D-9B3DF7F50AD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CACC39A6-AF54-491F-874D-9B3DF7F50AD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CACC39A6-AF54-491F-874D-9B3DF7F50AD1}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{CACC39A6-AF54-491F-874D-9B3DF7F50AD1}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
