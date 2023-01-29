@@ -26,7 +26,7 @@ namespace SetStartDupes
 
         public static GameObject CycleButtonLeftPrefab;
         public static GameObject CycleButtonRightPrefab;
-
+        public static List<ITelepadDeliverableContainer> ContainerReplacement;
 
         public static class Colors
         {

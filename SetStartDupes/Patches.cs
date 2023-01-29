@@ -28,21 +28,48 @@ namespace SetStartDupes
             {
                 ModAssets.EditingSingleDupe = true;
                 ImmigrantScreen.InitializeImmigrantScreen(null);
-                //SingleDupeImmigrandScreen.InitializeSingleImmigrantScreen();
+                //SingleDupeImmigrandScreen.InitializeSingleImmigrantScreen(null);
+            }
+            public static void Postfix(CryoTank.StatesInstance __instance)
+            {
+                Debug.Log("asssaaaaaaats " + _TargetStats);
+                if (ModAssets._TargetStats != null)
+                {
+                    var dupe = __instance.sm.defrostedDuplicant.Get(__instance);
+                    ModAssets._TargetStats.Apply(dupe);
+                    Debug.Log("Dupee " + dupe);
+
+                    dupe.GetComponent<MinionIdentity>().arrivalTime = UnityEngine.Random.Range(-2000, -1000);
+                    MinionResume component = dupe.GetComponent<MinionResume>();
+                    int num = 3;
+                    for (int i = 0; i < num; i++)
+                    {
+                        component.ForceAddSkillPoint();
+                    }
+
+
+                    ModAssets._TargetStats = null;
+                }
             }
         }
-        [HarmonyPatch(typeof(CharacterContainer), "GenerateCharacter")]
+        [HarmonyPatch(typeof(CharacterContainer))]
+        [HarmonyPatch(nameof(CharacterContainer.GenerateCharacter))]
         public class OverwriteRngGeneration
         {
             public static bool Prefix(CharacterContainer __instance, KButton ___selectButton)
             {
                 if (ModAssets.EditingSingleDupe)
                 {
-                    Debug.Log("Private Scroll rect"+__instance.scroll_rect);
 
-                    //AccessTools.Method(typeof(CharacterContainer), "SetAnimator").Invoke(__instance, null);
-                    //AccessTools.Method(typeof(CharacterContainer), "SetInfoText").Invoke(__instance, null);
-                    //AccessTools.Method(typeof(CharacterContainer), "SetAttributes").Invoke(__instance, null);
+                    if (ModAssets._TargetStats != null)
+                    {
+                        __instance.stats = ModAssets._TargetStats;
+                    }
+                    else
+                    {
+                        __instance.stats = new MinionStartingStats(is_starter_minion: false, null, "AncientKnowledge");
+                    }
+
                     __instance.SetAnimator();
                     __instance.SetInfoText();
                     __instance.StartCoroutine(__instance.SetAttributes());
@@ -51,82 +78,88 @@ namespace SetStartDupes
                     ___selectButton.onClick += delegate
                     {
                         __instance.SelectDeliverable();
-
                     };
+
+
+
+                    ModAssets._TargetStats = __instance.stats;
                     return false;
                 }
                 return true;
             }
         }
 
-        //[HarmonyPatch(typeof(ImmigrantScreen), "Initialize")]
-        //public class CustomSingleForNoTelepad
-        //{
-        //    public static bool Prefix(Telepad telepad, ref ImmigrantScreen __instance, CharacterContainer ___containerPrefab, GameObject ___containerParent)
-        //    {
-        //        if (telepad == null && EditingSingleDupe)
-        //        {
-        //            var containerField = AccessTools.Field(typeof(CharacterSelectionController), "containers");
-        //            var deliverablesField = AccessTools.Field(typeof(CharacterSelectionController), "selectedDeliverables");
+        [HarmonyPatch(typeof(ImmigrantScreen))]
+        [HarmonyPatch(nameof(ImmigrantScreen.Initialize))]
+        public class CustomSingleForNoTelepad
+        {
+            public static bool Prefix(Telepad telepad, ImmigrantScreen __instance)
+            {
+                if (telepad == null && EditingSingleDupe)
+                {
+                    __instance.DisableProceedButton();
 
+                    if (__instance.containers != null && __instance.containers.Count > 1)
+                    {
+                        foreach(var container in __instance.containers)
+                        {
+                            UnityEngine.Object.Destroy(container.GetGameObject());
+                        }
+                        __instance.containers.Clear();
+                    }
 
-        //            typeof(CharacterSelectionController).GetMethod("DisableProceedButton", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(__instance, null);
-        //            var __containers = (List<ITelepadDeliverableContainer>)containerField.GetValue(__instance);
-        //            if (__containers != null && __containers.Count > 0)
-        //                return false;
+                    __instance.containers = new List<ITelepadDeliverableContainer>();
 
-        //            __containers = new List<ITelepadDeliverableContainer>();
+                    CharacterContainer characterContainerZZZ = Util.KInstantiateUI<CharacterContainer>(__instance.containerPrefab.gameObject, __instance.containerParent);
+                    characterContainerZZZ.SetController(__instance);
 
+                    __instance.containers.Add(characterContainerZZZ);
+                    __instance.selectedDeliverables = new List<ITelepadDeliverable>();
+                    __instance.AddDeliverable(characterContainerZZZ.stats);
 
-        //            CharacterContainer characterContainerZZZ = Util.KInstantiateUI<CharacterContainer>(___containerPrefab.gameObject, ___containerParent);
-        //            characterContainerZZZ.SetController(__instance);
-        //            var StatsField = AccessTools.Field(typeof(CharacterContainer), "stats");//MinionStartingStats
-        //            StatsField.SetValue(characterContainerZZZ, ModAssets._TargetStats);
-        //            //AccessTools.Method(typeof(CharacterContainer), "GenerateCharacter", new[] { typeof(bool), typeof(string), typeof(string), typeof(bool) }).Invoke(characterContainerZZZ, new object[] { false,null, "AncientKnowledge",false });
-        //            __containers.Add((ITelepadDeliverableContainer)characterContainerZZZ);
-        //            deliverablesField.SetValue(__instance, new List<ITelepadDeliverable>());
+                    foreach (ITelepadDeliverableContainer container in __instance.containers)
+                    {
+                        CharacterContainer characterContainer = container as CharacterContainer;
+                        if ((UnityEngine.Object)characterContainer != (UnityEngine.Object)null)
+                            characterContainer.SetReshufflingState(false);
+                    }
+                    __instance.EnableProceedButton();
+                    return false;
+                }
+                return true;
+            }
+        }
 
-        //            foreach (ITelepadDeliverableContainer container in __containers)
-        //            {
-        //                CharacterContainer characterContainer = container as CharacterContainer;
-        //                if ((UnityEngine.Object)characterContainer != (UnityEngine.Object)null)
-        //                    characterContainer.SetReshufflingState(false);
-        //            }
-        //            containerField.SetValue(__instance, __containers);
-        //            return false;
-        //        }
-        //        return true;
-        //    }
-        //}
+        [HarmonyPatch(typeof(ImmigrantScreen), "OnProceed")]
+        public class SkipTelepadStuff
+        {
+            public static bool Prefix(Telepad ___telepad, ImmigrantScreen __instance)
+            {
+                if (___telepad == null && EditingSingleDupe)
+                {
+                    var containerField = AccessTools.Field(typeof(CharacterSelectionController), "containers");
+                    var __containers = (List<ITelepadDeliverableContainer>)containerField.GetValue(__instance);
+                    var deliverablesField = AccessTools.Field(typeof(CharacterSelectionController), "selectedDeliverables");
 
-        //[HarmonyPatch(typeof(ImmigrantScreen), "OnProceed")]
-        //public class SkipTelepadStuff
-        //{
-        //    public static bool Prefix(Telepad ___telepad, ImmigrantScreen __instance)
-        //    {
-        //        if (___telepad == null && EditingSingleDupe)
-        //        {
-        //            var containerField = AccessTools.Field(typeof(CharacterSelectionController), "containers");
-        //            var __containers = (List<ITelepadDeliverableContainer>)containerField.GetValue(__instance);
-        //            var deliverablesField = AccessTools.Field(typeof(CharacterSelectionController), "selectedDeliverables");
+                    var DupeToDeliver = (MinionStartingStats)((List<ITelepadDeliverable>)deliverablesField.GetValue(__instance)).First();
+                    Debug.Log("AAAAAASSSSSSS " + DupeToDeliver);
+                    ModAssets._TargetStats = DupeToDeliver;
 
-        //            var DupeToDeliver = (MinionStartingStats)((List<ITelepadDeliverable>)deliverablesField.GetValue(__instance)).First();
-
-        //            __instance.Show(false);
-        //            if (__containers != null)
-        //            {
-        //                __containers.ForEach((System.Action<ITelepadDeliverableContainer>)(cc => UnityEngine.Object.Destroy((UnityEngine.Object)cc.GetGameObject())));
-        //                __containers.Clear();
-        //            }
-        //            AudioMixer.instance.Stop(AudioMixerSnapshots.Get().MENUNewDuplicantSnapshot);
-        //            AudioMixer.instance.Stop(AudioMixerSnapshots.Get().PortalLPDimmedSnapshot);
-        //            MusicManager.instance.PlaySong("Stinger_NewDuplicant");
-        //            EditingSingleDupe = false;
-        //            return false;
-        //        }
-        //        return true;
-        //    }
-        //}
+                    __instance.Show(false);
+                    if (__containers != null)
+                    {
+                        __containers.ForEach((System.Action<ITelepadDeliverableContainer>)(cc => UnityEngine.Object.Destroy((UnityEngine.Object)cc.GetGameObject())));
+                        __containers.Clear();
+                    }
+                    AudioMixer.instance.Stop(AudioMixerSnapshots.Get().MENUNewDuplicantSnapshot);
+                    AudioMixer.instance.Stop(AudioMixerSnapshots.Get().PortalLPDimmedSnapshot);
+                    MusicManager.instance.PlaySong("Stinger_NewDuplicant");
+                    EditingSingleDupe = false;
+                    return false;
+                }
+                return true;
+            }
+        }
 
 
 

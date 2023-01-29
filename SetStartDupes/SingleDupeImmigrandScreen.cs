@@ -22,57 +22,41 @@ namespace SetStartDupes
             var window = Util.KInstantiateUI(ImmigrantScreen.instance.transform.gameObject);
             window.SetActive(true);
             window.name = "SingleDoopScreen";
+            Destroy(window.GetComponent<ImmigrantScreen>());
             instance2 = (SingleDupeImmigrandScreen)window.AddComponent(typeof(SingleDupeImmigrandScreen));
 
             UIUtils.ListAllChildren(instance2.transform);
             instance2.proceedButton = UIUtils.TryFindComponent<KButton>(window.transform, "Layout/BottomButtons/ProceedButton");
-            //instance2.containerParent = UIUtils.TryFindComponent<GameObject>(window.transform, "Layout/BottomButtons/ProceedButton");
+            instance2.containerParent = instance2.transform.Find("Layout/Content").gameObject;
             instance2.Initialize(overrideDupePersonality);
             instance2.Show();
         }
         void Initialize(Personality targetPersonality)
         {
-            Debug.Log("AAAAAAAAAAAAAAAAAAAAAA");
-            var containerField =  AccessTools.Field(typeof(CharacterSelectionController), "containers");
-            var deliverablesField = AccessTools.Field(typeof(CharacterSelectionController), "selectedDeliverables");
-            var containerPrefabField = AccessTools.Field(typeof(CharacterSelectionController), "containerPrefab");
-            var containerParentField = AccessTools.Field(typeof(CharacterSelectionController), "containerParent");
-
-            Debug.Log("AAAAAAAAAAAAAAAAAAAAAA");
-            var ___containerParent = (GameObject)containerPrefabField.GetValue(this);
-            var ___containerPrefab = (CharacterContainer)containerParentField.GetValue(this);
-            Debug.Log("AAAAAAAAAAAAAAAAAAAAAA");
             DisableProceedButton();
-           // typeof(CharacterSelectionController).GetMethod("DisableProceedButton", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(this, null);
-            var __containers = (List<ITelepadDeliverableContainer>)containerField.GetValue(this);
-            if (__containers != null && __containers.Count > 0)
+
+            if (containers != null && containers.Count > 0)
                 return;
 
-            Debug.Log("AAAAAAAAAAAAAAAAAAAAAA");
-            __containers = new List<ITelepadDeliverableContainer>();
+            containers = new List<ITelepadDeliverableContainer>();
 
-            Debug.Log("AAAAAAAAAAAAAAAAAAAAAA");
-
-            CharacterContainer characterContainerZZZ = Util.KInstantiateUI<CharacterContainer>(___containerPrefab.gameObject,transform.Find("Layout/Content").gameObject);
+            CharacterContainer characterContainerZZZ = Util.KInstantiateUI<CharacterContainer>(ImmigrantScreen.instance.containerPrefab.gameObject, containerParent);
             characterContainerZZZ.SetController(this);
 
-            Debug.Log("AAAAAAAAAAAAAAAAAAAAAA");
-            __containers.Add((ITelepadDeliverableContainer)characterContainerZZZ);
-            deliverablesField.SetValue(this, new List<ITelepadDeliverable>());
+            containers.Add((ITelepadDeliverableContainer)characterContainerZZZ);
+            selectedDeliverables =  new List<ITelepadDeliverable>();
 
-            Debug.Log("AAAAAAAAAAAAAAAAAAAAAA");
-            foreach (ITelepadDeliverableContainer container in __containers)
+            foreach (ITelepadDeliverableContainer container in containers)
             {
                 CharacterContainer characterContainer = container as CharacterContainer;
                 if ((UnityEngine.Object)characterContainer != (UnityEngine.Object)null)
                     characterContainer.SetReshufflingState(false);
             }
-            Debug.Log("AAAAAAAAAAAAAAAAAAAAAA");
-            containerField.SetValue(this, __containers);
         }
         public override void InitializeContainers()
         {
             //base.InitializeContainers();
+            Initialize(null);
         }
         public override void OnSpawn()
         {

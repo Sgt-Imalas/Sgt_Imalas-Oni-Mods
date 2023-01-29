@@ -41,10 +41,8 @@ namespace RoboRockets.Rockets_TinyYetBig
                     AddRocketModuleToBuildList(HabitatModuleSmallExpandedConfig.ID, new RocketCategory[] { RocketCategory.habitats, RocketCategory.nosecones }, HabitatModuleSmallConfig.ID);
                     AddRocketModuleToBuildList(HabitatModuleMediumExpandedConfig.ID, RocketryUtils.RocketCategory.habitats, HabitatModuleMediumConfig.ID);
                     AddRocketModuleToBuildList(HabitatModulePlatedNoseconeLargeConfig.ID, RocketryUtils.RocketCategory.habitats, HabitatModuleSmallExpandedConfig.ID);
-                }
-
-                if (Config.Instance.EnableStargazer)
                     AddRocketModuleToBuildList(HabitatModuleStargazerConfig.ID, new RocketCategory[] { RocketCategory.habitats, RocketCategory.nosecones }, NoseconeBasicConfig.ID);
+                }
 
                 if (Config.Instance.EnableRadboltStorage)
                     AddRocketModuleToBuildList(HEPBatteryModuleConfig.ID, RocketryUtils.RocketCategory.cargo, GasCargoBayClusterConfig.ID);
@@ -57,8 +55,12 @@ namespace RoboRockets.Rockets_TinyYetBig
                 {
 
                     AddRocketModuleToBuildList(NoseConeHEPHarvestConfig.ID, RocketCategory.nosecones, NoseconeHarvestConfig.ID);
+                }
+                if (Config.Instance.EnableDrillSupport)
+                {
                     AddRocketModuleToBuildList(DrillconeStorageModuleConfig.ID, new RocketCategory[] { RocketCategory.cargo, RocketCategory.utility }, NoseconeHarvestConfig.ID);
                 }
+                
 
                 if (Config.Instance.EnableGenerators)
                 {
@@ -83,10 +85,14 @@ namespace RoboRockets.Rockets_TinyYetBig
                 //    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, InvisibleLandingPlatformConfig.ID, null, LaunchPadConfig.ID);
                 //AddRocketModuleToBuildList(LandingLegConfig.ID, RocketCategory.utility);
 
-
-                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, DockingTubeDoorConfig.ID, null, GantryConfig.ID);
-                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, SpaceStationDockingDoorConfig.ID, null, DockingTubeDoorConfig.ID);
-                AddRocketModuleToBuildList(SpaceStationBuilderModuleConfig.ID, RocketCategory.utility, OrbitalCargoModuleConfig.ID);
+                if (Config.Instance.RocketDocking)
+                { 
+                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, DockingTubeDoorConfig.ID, null, GantryConfig.ID);
+                }
+                if(Config.SpaceStationsPossible) { 
+                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, SpaceStationDockingDoorConfig.ID, null, DockingTubeDoorConfig.ID);
+                    AddRocketModuleToBuildList(SpaceStationBuilderModuleConfig.ID, RocketCategory.utility, OrbitalCargoModuleConfig.ID);
+                }
 
                 if (Config.Instance.EnableWallAdapter)
                 {
@@ -128,9 +134,8 @@ namespace RoboRockets.Rockets_TinyYetBig
                 {
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CrashPlan, HabitatModuleSmallExpandedConfig.ID);
                     //InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.DurableLifeSupport, HabitatModuleMediumExpandedConfig.ID);
-                }
-                if (Config.Instance.EnableStargazer)
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CelestialDetection, HabitatModuleStargazerConfig.ID);
+                }
 
                 if (Config.Instance.EnableRadboltStorage)
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.RadiationTechnologies.RadboltContainment, HEPBatteryModuleConfig.ID);
@@ -141,7 +146,11 @@ namespace RoboRockets.Rockets_TinyYetBig
 
                 if (Config.Instance.EnableLaserDrill)
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, NoseConeHEPHarvestConfig.ID);
+
+                if (Config.Instance.EnableDrillSupport)
+                {
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, DrillconeStorageModuleConfig.ID);
+                }
 
                 if (Config.Instance.EnableBunkerPlatform)
                 {
