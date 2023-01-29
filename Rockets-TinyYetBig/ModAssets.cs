@@ -247,8 +247,8 @@ namespace Rockets_TinyYetBig
                     string newValue2 = Util.FormatWholeNumber(Config.Instance.CritterStorageCapacity);
                     string CritterData = CritterStorage.GetStatusItem();
 
-                    str = str.Replace("{CurrentCritterCount}", newValue1);
-                    str = str.Replace("{MaxCritterCount}", newValue2);
+                    str = str.Replace("{0}", newValue1);
+                    str = str.Replace("{1}", newValue2);
                     str = str.Replace("{CritterContentStatus}", CritterData);
                     return str;
                 });

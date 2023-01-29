@@ -84,21 +84,25 @@ namespace Rockets_TinyYetBig.Behaviours
             }
             else
             {
-                if (clustercraft == null)
-                    return returnVals;
+                returnVals.second = -1;
+                returnVals.first = -1;
 
-                foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)clustercraft.ModuleInterface.ClusterModules)
-                {
-                    CargoBayCluster component = clusterModule.Get().GetComponent<CargoBayCluster>();
-                    if (component != null && component.storageType == this.PullFromRocketStorageType)
-                    {
-                        if ((double)component.storage.MassStored() >= consumptionRate)
-                        {
-                            returnVals.first += component.storage.GetMassAvailable(consumptionElement);
-                            returnVals.second += component.storage.Capacity();
-                        }
-                    }
-                }
+                return returnVals;
+                ///Too expensive
+                //if (clustercraft == null)
+                //    return returnVals;
+
+                //foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)clustercraft.ModuleInterface.ClusterModules)
+                //{
+                //    if (clusterModule.Get().TryGetComponent<CargoBayCluster>(out var component) && component.storageType == this.PullFromRocketStorageType)
+                //    {
+                //        if ((double)component.storage.MassStored() >= consumptionRate)
+                //        {
+                //            returnVals.first += component.storage.GetMassAvailable(consumptionElement);
+                //            returnVals.second += component.storage.Capacity();
+                //        }
+                //    }
+                //}
             }
             return returnVals;
         }
@@ -110,7 +114,8 @@ namespace Rockets_TinyYetBig.Behaviours
             Game.Instance.electricalConduitSystem.RemoveFromVirtualNetworks(this.VirtualCircuitKey, (object)this, true);
         }
 
-        public override bool IsProducingPower() => AlwaysActive || this.clustercraft.Status != Clustercraft.CraftStatus.Grounded && BatteriesNotFull();// || produceWhileLanded && BatteriesNotFull();
+        public override bool IsProducingPower() => AlwaysActive && ConsumptionSatisfied()|| this.clustercraft.Status != Clustercraft.CraftStatus.Grounded && BatteriesNotFull() && ConsumptionSatisfied();// || produceWhileLanded && BatteriesNotFull();
+        public bool ShouldProduciePower() => AlwaysActive || this.clustercraft.Status != Clustercraft.CraftStatus.Grounded && BatteriesNotFull();// || produceWhileLanded && BatteriesNotFull();
 
 
         public bool BatteriesNotFull()
@@ -140,7 +145,7 @@ namespace Rockets_TinyYetBig.Behaviours
             base.EnergySim200ms(dt);
             var emitter = this.gameObject.GetComponent<RadiationEmitter>();
 
-            if (this.IsProducingPower())
+            if (this.ShouldProduciePower())
             {
                 if (ConsumptionSatisfied(dt))
                 {
@@ -182,7 +187,7 @@ namespace Rockets_TinyYetBig.Behaviours
             ResetRefillStatus();
         }
 
-        public bool ConsumptionSatisfied(float dt)
+        public bool ConsumptionSatisfied(float dt = 1)
         {
             if (consumptionElement == SimHashes.Void.CreateTag())
                 return true;

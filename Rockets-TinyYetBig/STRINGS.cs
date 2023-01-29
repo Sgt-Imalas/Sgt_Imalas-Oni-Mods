@@ -18,7 +18,7 @@ namespace Rockets_TinyYetBig
             public static LocString NAME = "Deep Space Research";
             public static LocString UNLOCKNAME = (LocString)(UI.PRE_KEYWORD + NAME + UI.PST_KEYWORD + " Capability");
             public static LocString UNLOCKDESC = (LocString)("Allows " + UI.PRE_KEYWORD + NAME + UI.PST_KEYWORD + " points to be accumulated, unlocking higher technology tiers.\nCan be accumulated before research completion via artifact analysis.");
-            public static LocString DESC = UI.FormatAsLink("Deep Space Research", nameof(DEEPSPACERESEARCH))+ " is conducted by analyzing the deeper meanings behind mysterious artefacts found in the vastness of deep space and by conducting various experiments in the low artifical gravity of a space station.";
+            public static LocString DESC = UI.FormatAsLink("Deep Space Research", nameof(DEEPSPACERESEARCH)) + " is conducted by analyzing the deeper meanings behind mysterious artefacts found in the vastness of deep space and by conducting various experiments in the low artifical gravity of a space station.";
             public static LocString RECIPEDESC = "Unlocks new breakthroughs in space construction";
 
         }
@@ -124,7 +124,7 @@ namespace Rockets_TinyYetBig
                         "\n Bit 3 tracks the category \"Cargo Manifest\"" +
                         "\n Bit 4 tracks the category \"Crew Manifest\"\n";
 
-                    public static LocString LOGIC_PORT_CATEGORY_READY_INACTIVE = "Otherwise, sends a " + UI.FormatAsAutomationState("Red Signal", UI.AutomationState.Standby)+" to the respective Bit.";
+                    public static LocString LOGIC_PORT_CATEGORY_READY_INACTIVE = "Otherwise, sends a " + UI.FormatAsAutomationState("Red Signal", UI.AutomationState.Standby) + " to the respective Bit.";
                 }
                 public class RTB_RTGGENERATORMODULE
                 {
@@ -136,12 +136,12 @@ namespace Rockets_TinyYetBig
                 {
                     public static LocString NAME = (LocString)UI.FormatAsLink("Steam Generator Module", nameof(SteamGeneratorModuleConfig));
                     public static LocString DESC = "Useful for converting hot steam into usable power.";
-                    public static LocString EFFECT = "Draws in " + UI.FormatAsLink("Steam", "STEAM") + " from gas storage modules and uses it to generate electrical " + UI.FormatAsLink("Power", "POWER") + ".\n\n If there are liquid storage modules with appropriate filters set, outputs hot " + UI.FormatAsLink("Water", "WATER") + " to them."+ GENERATORLIMIT;
+                    public static LocString EFFECT = "Draws in " + UI.FormatAsLink("Steam", "STEAM") + " from gas storage modules and uses it to generate electrical " + UI.FormatAsLink("Power", "POWER") + ".\n\n If there are liquid storage modules with appropriate filters set, outputs hot " + UI.FormatAsLink("Water", "WATER") + " to them." + GENERATORLIMIT;
                 }
                 public class RTB_GENERATORCOALMODULE
                 {
                     public static LocString NAME = (LocString)UI.FormatAsLink("Coal Generator Module", nameof(CoalGeneratorModuleConfig));
-                    public static LocString DESC = ("Converts " + UI.FormatAsLink("Coal", "CARBON") + " into electrical " + UI.FormatAsLink("Power", "POWER") +".");
+                    public static LocString DESC = ("Converts " + UI.FormatAsLink("Coal", "CARBON") + " into electrical " + UI.FormatAsLink("Power", "POWER") + ".");
                     public static LocString EFFECT = "Burning coal produces more energy than manual power, who could have thought this also works in space." + GENERATORLIMIT;
                 }
 
@@ -211,7 +211,7 @@ namespace Rockets_TinyYetBig
                 {
                     public static LocString NAME = (LocString)UI.FormatAsLink("Solar Nosecone", nameof(NoseConeSolarConfig));
                     public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.NOSECONEBASIC.DESC;
-                    public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.NOSECONEBASIC.EFFECT +"\n\n"+
+                    public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.NOSECONEBASIC.EFFECT + "\n\n" +
                         "Converts " + UI.FormatAsLink("Sunlight", "LIGHT") + " into electrical " + UI.FormatAsLink("Power", "POWER") + " for use on rockets.\n\nMust be exposed to space.";
                 }
 
@@ -224,7 +224,7 @@ namespace Rockets_TinyYetBig
                         "Requires a " + UI.FormatAsAutomationState("Green Signal", UI.AutomationState.Active) + " to release radbolts from storage when the Radbolt threshold is reached.\n\n" +
                         "Radbolts in storage won't decay as long as the modules solar panels can function.");
                 }
-                
+
 
                 public class RTB_HABITATMODULESMALLEXPANDED
                 {
@@ -242,7 +242,7 @@ namespace Rockets_TinyYetBig
                 {
                     public static LocString NAME = "Rocket Platform";
                 }
-                
+
             }
         }
 
@@ -286,7 +286,7 @@ namespace Rockets_TinyYetBig
                 }
                 public class RTB_CRITTERMODULECONTENT
                 {
-                    public static LocString NAME = (LocString)"Critter Count: {CurrentCritterCount}/{MaxCritterCount}";
+                    public static LocString NAME = (LocString)"Critter Count: {0}/{1}";
                     public static LocString TOOLTIP = (LocString)("{CritterContentStatus}");
                     public static LocString NOCRITTERS = "No Critters stored.";
                     public static LocString HASCRITTERS = "Module currently holds these Critters:";
@@ -309,7 +309,33 @@ namespace Rockets_TinyYetBig
 
         public class UI_MOD
         {
+            public class CLUSTERMAPROCKETSIDESCREEN
+            {
 
+                public class ROCKETDIMENSIONS
+                {
+
+                    public static LocString NAME = "Height: {0}/{1}, max. Width: {2} ";
+
+                    public static LocString NAME_RAW = "Height: ";
+
+                    public static LocString NAME_MAX_SUPPORTED = "Maximum supported rocket height: ";
+                    public static LocString MODULECOUNT = "Number of Modules: ";
+                    public static LocString MODULEORDER = "Rocket Modules:\n";
+
+                    public static LocString TOOLTIP = "The {0} can support a total rocket height {1}\nThe maximum width of the rocket is {2} tiles.";
+                }
+                public class ROCKETBATTERYSTATUS
+                {
+                    public static LocString NAME = (LocString)"Battery Module Charge: {0}/{1}";
+                }
+                public class ROCKETGENERATORSTATS
+                {
+                    public static LocString NAME = (LocString)"Power Generation: {0}/{1}";
+                    public static LocString TOOLTIP = "\n({0}/{1} fuel remaining)";
+                    public static LocString TOOLTIP2 = "\n(Check cargo bays for fuel type: {0})";
+                }
+            }
             public class UISIDESCREENS
             {
                 public class SPACESTATIONSIDESCREEN
