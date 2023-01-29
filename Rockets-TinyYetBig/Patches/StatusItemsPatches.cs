@@ -262,17 +262,17 @@ namespace Rockets_TinyYetBig.Patches
                         var moduleGet = module.Get();
                         if (moduleGet.TryGetComponent<RocketEngineCluster>(out var engine))
                         {
-                                targetEngine = engine;
-                                FuelPerHexEngine = moduleGet.performanceStats.fuelKilogramPerDistance;
-                                FuelTag = targetEngine.fuelTag;
-                                RequiresOxidizer = targetEngine.requireOxidizer;
-                                RocketEnginePower = moduleGet.performanceStats.EnginePower;
+                            targetEngine = engine;
+                            FuelPerHexEngine = moduleGet.performanceStats.fuelKilogramPerDistance;
+                            FuelTag = targetEngine.fuelTag;
+                            RequiresOxidizer = targetEngine.requireOxidizer;
+                            RocketEnginePower = moduleGet.performanceStats.EnginePower;
 
-                                if (moduleGet.TryGetComponent<HEPFuelTank>(out var fueltank))
-                                {
-                                    FuelSorted = true;
-                                    FuelRemaining = Mathf.CeilToInt(fueltank.hepStorage.Particles);
-                                }
+                            if (moduleGet.TryGetComponent<HEPFuelTank>(out var fueltank))
+                            {
+                                FuelSorted = true;
+                                FuelRemaining = Mathf.CeilToInt(fueltank.hepStorage.Particles);
+                            }
                         }
                         RocketBurden += moduleGet.performanceStats.Burden;
                         if (moduleGet.TryGetComponent<Building>(out var building))
@@ -280,7 +280,7 @@ namespace Rockets_TinyYetBig.Patches
                             RocketHeight += building.Def.HeightInCells;
                             RocketWidth = building.Def.WidthInCells > RocketWidth ? building.Def.WidthInCells : RocketWidth;
 
-                            ModuleOrderTOOLTIP = string.Concat((NumberOfModules-moduleCounter).ToString(),") ", building.GetProperName(), ": ", building.Def.WidthInCells, "x", building.Def.HeightInCells, "\n", ModuleOrderTOOLTIP);
+                            ModuleOrderTOOLTIP = string.Concat((NumberOfModules - moduleCounter).ToString(), ") ", building.GetProperName(), ": ", building.Def.WidthInCells, "x", building.Def.HeightInCells, "\n", ModuleOrderTOOLTIP);
 
                             ++moduleCounter;
                         }
@@ -292,7 +292,7 @@ namespace Rockets_TinyYetBig.Patches
                         {
                             CargoBays.Add(new CargoBayAndFriends(ref stasisChamberModule));
                         }
-                        if(moduleGet.TryGetComponent<ArtifactModule>(out var artifactModule))
+                        if (moduleGet.TryGetComponent<ArtifactModule>(out var artifactModule))
                         {
                             ArtifactModules.Add(artifactModule);
                         }
@@ -300,7 +300,7 @@ namespace Rockets_TinyYetBig.Patches
                         {
                             PowerStorageMax += batteryModule.capacity;
                             PowerStorage += batteryModule.joulesAvailable;
-                            PowerStorageTOOLTIP = string.Concat("• ", batteryModule.GetProperName(), ": ", GameUtil.GetFormattedJoules(batteryModule.joulesAvailable), "/", GameUtil.GetFormattedJoules(batteryModule.capacity),"\n", PowerStorageTOOLTIP);
+                            PowerStorageTOOLTIP = string.Concat("• ", batteryModule.GetProperName(), ": ", GameUtil.GetFormattedJoules(batteryModule.joulesAvailable), "/", GameUtil.GetFormattedJoules(batteryModule.capacity), "\n", PowerStorageTOOLTIP);
                         }
                         if (moduleGet.TryGetComponent<ModuleGenerator>(out var generatorModule))
                         {
@@ -308,7 +308,7 @@ namespace Rockets_TinyYetBig.Patches
                             PowerGenerationMax += generatorModule.WattageRating;
                             PowerGenerationTOOLTIP = string.Concat("• ", generatorModule.GetProperName(), ": ", GameUtil.GetFormattedWattage(generatorModule.IsProducingPower() ? generatorModule.WattageRating : 0), "/", GameUtil.GetFormattedWattage(generatorModule.WattageRating), "\n", PowerGenerationTOOLTIP);
                         }
-                        else if(moduleGet.TryGetComponent<ModuleSolarPanel>(out var solarPanel))
+                        else if (moduleGet.TryGetComponent<ModuleSolarPanel>(out var solarPanel))
                         {
                             PowerGeneration += solarPanel.IsProducingPower() ? solarPanel.WattageRating : 0;
                             PowerGenerationMax += solarPanel.WattageRating;
@@ -320,7 +320,7 @@ namespace Rockets_TinyYetBig.Patches
                             PowerGenerationMax += solarPanela.WattageRating;
                             PowerGenerationTOOLTIP = string.Concat("• ", solarPanela.GetProperName(), ": ", GameUtil.GetFormattedWattage(solarPanela.IsProducingPower() ? solarPanela.WattageRating : 0), "/", GameUtil.GetFormattedWattage(solarPanela.WattageRating), "\n", PowerGenerationTOOLTIP);
                         }
-                        else if(moduleGet.TryGetComponent<RTB_ModuleGenerator>(out var generatorModule2))
+                        else if (moduleGet.TryGetComponent<RTB_ModuleGenerator>(out var generatorModule2))
                         {
                             var ConsumptionStats = generatorModule2.GetConsumptionStatusStats();
                             PowerGeneration += generatorModule2.IsProducingPower() ? generatorModule2.WattageRating : 0;
@@ -328,11 +328,11 @@ namespace Rockets_TinyYetBig.Patches
                             PowerGenerationTOOLTIP = string.Concat("• ", generatorModule2.GetProperName(), ": ", GameUtil.GetFormattedWattage(generatorModule2.IsProducingPower() ? generatorModule2.WattageRating : 0), "/", GameUtil.GetFormattedWattage(generatorModule2.WattageRating),
                                ConsumptionStats.second >= 0 ? string.Format(ROCKETGENERATORSTATS.TOOLTIP, GameUtil.GetFormattedMass(ConsumptionStats.first), GameUtil.GetFormattedMass(ConsumptionStats.second)) :
                                string.Format(ROCKETGENERATORSTATS.TOOLTIP2, ElementLoader.GetElement(generatorModule2.consumptionElement).name)
-                               , "\n",PowerGenerationTOOLTIP) ;
+                               , "\n", PowerGenerationTOOLTIP);
                         }
                     }
-                    ModuleOrderTOOLTIP = UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.MODULEORDER+ ModuleOrderTOOLTIP;
-                    
+                    ModuleOrderTOOLTIP = UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.MODULEORDER + ModuleOrderTOOLTIP;
+
                     ///get fuel if not radbolt engine
                     if (!FuelSorted)
                     {
@@ -461,7 +461,7 @@ namespace Rockets_TinyYetBig.Patches
                         rocketStatusContainer.SetLabel("PowerGeneration", string.Empty, string.Empty);
                     }
                     ///PowerStorage
-                    
+
                     if (PowerStorageMax > 0f)
                     {
                         if (!Mathf.Approximately(PowerStorage, PowerStoragePREVIOUS))
@@ -496,12 +496,12 @@ namespace Rockets_TinyYetBig.Patches
                         for (int j = 0; j < ArtifactModules.Count; ++j)
                         {
                             var aModule = ArtifactModules[j];
-                                GameObject gameObject = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.artifactModuleLabels, rocketStatusContainer.gameObject, "artifactModule_" + j);
+                            GameObject gameObject = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.artifactModuleLabels, rocketStatusContainer.gameObject, "artifactModule_" + j);
 
-                                string text2 = string.Empty;
-                                text2 = ((!(aModule.Occupant != null)) ? $"{aModule.GetProperName()}: {(global::STRINGS.UI.CLUSTERMAP.ROCKETS.ARTIFACT_MODULE.EMPTY)}" : (aModule.GetProperName() + ": " + aModule.Occupant.GetProperName()));
-                                gameObject.GetComponentInChildren<LocText>().text = text2;
-                                gameObject.SetActive(value: true);
+                            string text2 = string.Empty;
+                            text2 = ((!(aModule.Occupant != null)) ? $"{aModule.GetProperName()}: {(global::STRINGS.UI.CLUSTERMAP.ROCKETS.ARTIFACT_MODULE.EMPTY)}" : (aModule.GetProperName() + ": " + aModule.Occupant.GetProperName()));
+                            gameObject.GetComponentInChildren<LocText>().text = text2;
+                            gameObject.SetActive(value: true);
                         }
 
                         ///Cargo Bays
@@ -574,6 +574,24 @@ namespace Rockets_TinyYetBig.Patches
                                 RowEntry.GetComponentInChildren<LocText>().text = CargobayText;
                                 RowEntry.GetComponentInChildren<ToolTip>().SetSimpleTooltip(ToolTip);
                             }
+                            else if (currentModule.HepBatteryModule != null)
+                            {
+                                GameObject RowEntry = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.cargoBayLabels, rocketStatusContainer.gameObject, "cargoBay_" + j);
+                                string CargobayText = $"{currentModule.HepBatteryModule.GetComponent<KPrefabID>().GetProperName()}: {Util.FormatWholeNumber(currentModule.HepBatteryModule.hepStorage.Particles)}/{Util.FormatWholeNumber(currentModule.HepBatteryModule.hepStorage.capacity)}";
+                                string ToolTip = string.Empty;
+
+                                Transform transform = RowEntry.transform.Find("removeAttributeButton");
+                                if (transform != null)
+                                {
+                                    KButton kButton = transform.FindComponent<KButton>();
+                                    kButton.enabled = false;
+                                    kButton.gameObject.SetActive(value: false);
+                                    kButton.ClearOnClick();
+                                }
+
+                                RowEntry.GetComponentInChildren<LocText>().text = CargobayText;
+                                RowEntry.GetComponentInChildren<ToolTip>().SetSimpleTooltip(ToolTip);
+                            }
                         }
 
                     }
@@ -596,7 +614,7 @@ namespace Rockets_TinyYetBig.Patches
                     {
                         rocketStatusContainer.SetLabel("LocalPower", string.Concat(Constants.TABBULLETSTRING, global::STRINGS.UI.CLUSTERMAP.ROCKETS.POWER_MODULE.NAME, enginePower.ToString()), string.Format(global::STRINGS.UI.CLUSTERMAP.ROCKETS.POWER_MODULE.TOOLTIP, enginePower));
                     }
-                    
+
                 }
 
                 rocketStatusContainer.Commit();
