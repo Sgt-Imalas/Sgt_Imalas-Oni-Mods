@@ -12,10 +12,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using static Rockets_TinyYetBig.STRINGS;
 using static Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN;
-using static STRINGS.BUILDING.STATUSITEMS;
-using static STRINGS.BUILDINGS.PREFABS;
-using static System.Net.Mime.MediaTypeNames;
-using static Wire;
 
 namespace Rockets_TinyYetBig.Patches
 {
@@ -55,20 +51,20 @@ namespace Rockets_TinyYetBig.Patches
 
                 foreach (var module in __instance.ModuleInterface.ClusterModules)
                 {
-                    //if (module.Get().gameObject.TryGetComponent<RTB_ModuleGenerator>(out var generator))
+                    //if (moduleGet.gameObject.TryGetComponent<RTB_ModuleGenerator>(out var generator))
                     //{
                     //    var genStats = generator.GetConsumptionStatusStats();
                     //    data.first += genStats.first;
                     //    data.second += genStats.second;
                     //    //generator.FuelStatusHandle =
                     //}
-                    //if (module.Get().gameObject.TryGetComponent<ModuleBattery>(out var battery))
+                    //if (moduleGet.gameObject.TryGetComponent<ModuleBattery>(out var battery))
                     //{
                     //    dataBattery.first += battery.JoulesAvailable;
                     //    dataBattery.second += battery.capacity;
                     //    //generator.FuelStatusHandle =
                     //}
-                    if (module.Get().gameObject.TryGetComponent<SpaceStationBuilder>(out var builder))
+                    if (moduleGet.gameObject.TryGetComponent<SpaceStationBuilder>(out var builder))
                     {
                         constructionModule = builder;
                     }
@@ -165,6 +161,25 @@ namespace Rockets_TinyYetBig.Patches
             static string ModuleOrderTOOLTIPPREVIOUS = string.Empty;
             static int moduleCounter = 0;
 
+            public struct CargoBayAndFriends
+            {
+                public CargoBayCluster CargoBay;
+                public CritterStasisChamberModule CritterModule;
+                public RadiationBatteryOutputHandler HepBatteryModule;
+                public CargoBayAndFriends(ref CargoBayCluster cluster)
+                {
+                    CargoBay = cluster; CritterModule = null; HepBatteryModule = null;
+                }
+                public CargoBayAndFriends(ref CritterStasisChamberModule cluster)
+                {
+                    CargoBay = null; CritterModule = cluster; HepBatteryModule = null;
+                }
+                public CargoBayAndFriends(ref RadiationBatteryOutputHandler cluster)
+                {
+                    CargoBay = null; CritterModule = null; HepBatteryModule = cluster;
+                }
+            }
+
             public static bool Prefix(RocketSimpleInfoPanel __instance, CollapsibleDetailContentPanel rocketStatusContainer, GameObject selectedTarget)
             {
 
@@ -210,8 +225,8 @@ namespace Rockets_TinyYetBig.Patches
                 FuelTag = null;
                 RequiresOxidizer = false;
                 targetEngine = null;
-                ListPool<GameObject, SimpleInfoScreen>.PooledList CargoBays = ListPool<GameObject, SimpleInfoScreen>.Allocate();
-                ListPool<GameObject, SimpleInfoScreen>.PooledList ArtifactModules = ListPool<GameObject, SimpleInfoScreen>.Allocate();
+                ListPool<CargoBayAndFriends, SimpleInfoScreen>.PooledList CargoBays = ListPool<CargoBayAndFriends, SimpleInfoScreen>.Allocate();
+                ListPool<ArtifactModule, SimpleInfoScreen>.PooledList ArtifactModules = ListPool<ArtifactModule, SimpleInfoScreen>.Allocate();
                 PowerGeneration = 0;
                 PowerGenerationMax = 0;
                 PowerStorage = 0;
@@ -244,26 +259,23 @@ namespace Rockets_TinyYetBig.Patches
                     int NumberOfModules = craftModuleInterface.clusterModules.Count;
                     foreach (var module in craftModuleInterface.clusterModules)
                     {
-                        if (module.Get().TryGetComponent<RocketEngineCluster>(out var engine))
+                        var moduleGet = module.Get();
+                        if (moduleGet.TryGetComponent<RocketEngineCluster>(out var engine))
                         {
-                            if (engine != null)
-                            {
                                 targetEngine = engine;
-
-                                FuelPerHexEngine = module.Get().performanceStats.fuelKilogramPerDistance;
+                                FuelPerHexEngine = moduleGet.performanceStats.fuelKilogramPerDistance;
                                 FuelTag = targetEngine.fuelTag;
                                 RequiresOxidizer = targetEngine.requireOxidizer;
-                                RocketEnginePower = module.Get().performanceStats.EnginePower;
+                                RocketEnginePower = moduleGet.performanceStats.EnginePower;
 
-                                if (module.Get().TryGetComponent<HEPFuelTank>(out var fueltank))
+                                if (moduleGet.TryGetComponent<HEPFuelTank>(out var fueltank))
                                 {
                                     FuelSorted = true;
                                     FuelRemaining = Mathf.CeilToInt(fueltank.hepStorage.Particles);
                                 }
-                            }
                         }
-                        RocketBurden += module.Get().performanceStats.Burden;
-                        if (module.Get().TryGetComponent<Building>(out var building))
+                        RocketBurden += moduleGet.performanceStats.Burden;
+                        if (moduleGet.TryGetComponent<Building>(out var building))
                         {
                             RocketHeight += building.Def.HeightInCells;
                             RocketWidth = building.Def.WidthInCells > RocketWidth ? building.Def.WidthInCells : RocketWidth;
@@ -272,43 +284,43 @@ namespace Rockets_TinyYetBig.Patches
 
                             ++moduleCounter;
                         }
-                        if (module.Get().TryGetComponent<CargoBayCluster>(out var cargoBay))
+                        if (moduleGet.TryGetComponent<CargoBayCluster>(out var cargoBay))
                         {
-                            CargoBays.Add(cargoBay.gameObject);
+                            CargoBays.Add(new CargoBayAndFriends(ref cargoBay));
                         }
-                        if (module.Get().TryGetComponent<CritterStasisChamberModule>(out var stasisChamberModule))
+                        else if (moduleGet.TryGetComponent<CritterStasisChamberModule>(out var stasisChamberModule))
                         {
-                            CargoBays.Add(stasisChamberModule.gameObject);
+                            CargoBays.Add(new CargoBayAndFriends(ref stasisChamberModule));
                         }
-                        if (module.Get().TryGetComponent<ArtifactModule>(out var artifactModule))
+                        if(moduleGet.TryGetComponent<ArtifactModule>(out var artifactModule))
                         {
-                            ArtifactModules.Add(artifactModule.gameObject);
+                            ArtifactModules.Add(artifactModule);
                         }
-                        if (module.Get().TryGetComponent<ModuleBattery>(out var batteryModule))
+                        if (moduleGet.TryGetComponent<ModuleBattery>(out var batteryModule))
                         {
                             PowerStorageMax += batteryModule.capacity;
                             PowerStorage += batteryModule.joulesAvailable;
                             PowerStorageTOOLTIP = string.Concat("• ", batteryModule.GetProperName(), ": ", GameUtil.GetFormattedJoules(batteryModule.joulesAvailable), "/", GameUtil.GetFormattedJoules(batteryModule.capacity),"\n", PowerStorageTOOLTIP);
                         }
-                        if (module.Get().TryGetComponent<ModuleGenerator>(out var generatorModule))
+                        if (moduleGet.TryGetComponent<ModuleGenerator>(out var generatorModule))
                         {
                             PowerGeneration += generatorModule.IsProducingPower() ? generatorModule.WattageRating : 0;
                             PowerGenerationMax += generatorModule.WattageRating;
                             PowerGenerationTOOLTIP = string.Concat("• ", generatorModule.GetProperName(), ": ", GameUtil.GetFormattedWattage(generatorModule.IsProducingPower() ? generatorModule.WattageRating : 0), "/", GameUtil.GetFormattedWattage(generatorModule.WattageRating), "\n", PowerGenerationTOOLTIP);
                         }
-                        else if(module.Get().TryGetComponent<ModuleSolarPanel>(out var solarPanel))
+                        else if(moduleGet.TryGetComponent<ModuleSolarPanel>(out var solarPanel))
                         {
                             PowerGeneration += solarPanel.IsProducingPower() ? solarPanel.WattageRating : 0;
                             PowerGenerationMax += solarPanel.WattageRating;
                             PowerGenerationTOOLTIP = string.Concat("• ", solarPanel.GetProperName(), ": ", GameUtil.GetFormattedWattage(solarPanel.IsProducingPower() ? solarPanel.WattageRating : 0), "/", GameUtil.GetFormattedWattage(solarPanel.WattageRating), "\n", PowerGenerationTOOLTIP);
                         }
-                        else if (module.Get().TryGetComponent<ModuleSolarPanelAdjustable>(out var solarPanela))
+                        else if (moduleGet.TryGetComponent<ModuleSolarPanelAdjustable>(out var solarPanela))
                         {
                             PowerGeneration += solarPanela.IsProducingPower() ? solarPanela.WattageRating : 0;
                             PowerGenerationMax += solarPanela.WattageRating;
                             PowerGenerationTOOLTIP = string.Concat("• ", solarPanela.GetProperName(), ": ", GameUtil.GetFormattedWattage(solarPanela.IsProducingPower() ? solarPanela.WattageRating : 0), "/", GameUtil.GetFormattedWattage(solarPanela.WattageRating), "\n", PowerGenerationTOOLTIP);
                         }
-                        else if(module.Get().TryGetComponent<RTB_ModuleGenerator>(out var generatorModule2))
+                        else if(moduleGet.TryGetComponent<RTB_ModuleGenerator>(out var generatorModule2))
                         {
                             var ConsumptionStats = generatorModule2.GetConsumptionStatusStats();
                             PowerGeneration += generatorModule2.IsProducingPower() ? generatorModule2.WattageRating : 0;
@@ -326,12 +338,13 @@ namespace Rockets_TinyYetBig.Patches
                     {
                         foreach (var module in craftModuleInterface.clusterModules)
                         {
-                            //Debug.Log(module.Get().GetProperName());
-                            if (module.Get().TryGetComponent<IFuelTank>(out var fueltank))
+                            var moduleGet = module.Get();
+                            //Debug.Log(moduleGet.GetProperName());
+                            if (moduleGet.TryGetComponent<IFuelTank>(out var fueltank))
                             {
                                 FuelRemaining += fueltank.Storage.GetAmountAvailable(FuelTag);
                             }
-                            if (RequiresOxidizer && module.Get().TryGetComponent<OxidizerTank>(out var oxTanktank))
+                            if (RequiresOxidizer && moduleGet.TryGetComponent<OxidizerTank>(out var oxTanktank))
                             {
                                 OxidizerRemaining += oxTanktank.TotalOxidizerPower;
                             }
@@ -507,7 +520,8 @@ namespace Rockets_TinyYetBig.Patches
 
                         for (int j = 0; j < CargoBays.Count; ++j)
                         {
-                            if (CargoBays[j].TryGetComponent<CargoBayCluster>(out var aModule))
+                            CargoBayAndFriends currentModule = CargoBays[j];
+                            if (currentModule.CargoBay != null)
                             {
                                 ListPool<Tuple<string, TextStyleSetting>, SimpleInfoScreen>.PooledList pooledList = ListPool<Tuple<string, TextStyleSetting>, SimpleInfoScreen>.Allocate();
 
@@ -522,9 +536,9 @@ namespace Rockets_TinyYetBig.Patches
                                     kButton.ClearOnClick();
                                 }
 
-                                string CargobayText = $"{aModule.storage.GetComponent<KPrefabID>().GetProperName()}: {GameUtil.GetFormattedMass(aModule.storage.MassStored())}/{GameUtil.GetFormattedMass(aModule.storage.capacityKg)}";
+                                string CargobayText = $"{currentModule.CargoBay.storage.GetComponent<KPrefabID>().GetProperName()}: {GameUtil.GetFormattedMass(currentModule.CargoBay.storage.MassStored())}/{GameUtil.GetFormattedMass(currentModule.CargoBay.storage.capacityKg)}";
 
-                                foreach (GameObject item2 in aModule.storage.GetItems())
+                                foreach (GameObject item2 in currentModule.CargoBay.storage.GetItems())
                                 {
                                     item2.TryGetComponent<KPrefabID>(out KPrefabID component2);
                                     item2.TryGetComponent<PrimaryElement>(out PrimaryElement component3);
@@ -544,11 +558,11 @@ namespace Rockets_TinyYetBig.Patches
                                 RowEntry.GetComponentInChildren<ToolTip>().SetSimpleTooltip(CarboBayTooltip);
                                 pooledList.Recycle();
                             }
-                            if (CargoBays[j].TryGetComponent<CritterStasisChamberModule>(out var critterModule))
+                            else if (currentModule.CritterModule != null)
                             {
                                 GameObject RowEntry = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.cargoBayLabels, rocketStatusContainer.gameObject, "cargoBay_" + j);
-                                string CargobayText = $"{critterModule.GetComponent<KPrefabID>().GetProperName()}: {Util.FormatWholeNumber(critterModule.CurrentCapacity)}/{Util.FormatWholeNumber(Config.Instance.CritterStorageCapacity)}";
-                                string ToolTip = critterModule.GetStatusItem();
+                                string CargobayText = $"{currentModule.CritterModule.GetComponent<KPrefabID>().GetProperName()}: {Util.FormatWholeNumber(currentModule.CritterModule.CurrentCapacity)}/{Util.FormatWholeNumber(Config.Instance.CritterStorageCapacity)}";
+                                string ToolTip = currentModule.CritterModule.GetStatusItem();
 
                                 Transform transform = RowEntry.transform.Find("removeAttributeButton");
                                 if (transform != null)
