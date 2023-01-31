@@ -80,12 +80,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
         {
             public static void Prefix()
             {
-                foreach (SpiceRestorer restore in Mod.spiceRestorers)
-                {
-                    restore.OnSaveGame();
-                }
-
-                foreach (FacePaint facePaint in Mod.facePaints)
+                foreach (SpiceEyes facePaint in AllSpicyEyes)
                 {
                     facePaint.OnSaveGame();
                 }
@@ -93,12 +88,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
 
             public static void Postfix()
             {
-                foreach (SpiceRestorer restore in Mod.spiceRestorers)
-                {
-                    restore.OnLoadGame();
-                }
-
-                foreach (FacePaint facePaint in Mod.facePaints)
+                foreach (SpiceEyes facePaint in AllSpicyEyes)
                 {
                     facePaint.OnLoadGame();
                 }
