@@ -34,22 +34,24 @@ namespace RoboRockets.LearningBrain
                 anim: Assets.GetAnim("brain_item_kanim"),
                 initialAnim: "object",
                 sceneLayer: Grid.SceneLayer.Front,
-                collisionShape: EntityTemplates.CollisionShape.CIRCLE,
-                width: 0.9f,
-                height: 0.9f,
+                collisionShape: EntityTemplates.CollisionShape.RECTANGLE,
+                width: 1.9f,
+                height: 1.9f,
                 isPickupable: true,
                 sortOrder: 0,
                 element: SimHashes.Creature,
                 additionalTags: new List<Tag>()
                 {
                     GameTags.IndustrialIngredient,
-                    ModAssets.Tags.SpaceBrain
+                    ModAssets.Tags.SpaceBrain,
+                    GameTags.PedestalDisplayable
                 });
 
             prefab.AddComponent<FlyingBrain>(); 
             prefab.AddOrGet<DemolishableDroppable>();
             prefab.AddOrGet<OccupyArea>().OccupiedCellsOffsets = EntityTemplates.GenerateOffsets(1, 1); 
             prefab.AddOrGet<UserNameable>();
+            prefab.AddOrGet<CharacterOverlay>().shouldShowName = true;
 
             return prefab;
         }
@@ -58,7 +60,6 @@ namespace RoboRockets.LearningBrain
 
         public void OnPrefabInit(GameObject inst)
         {
-            //inst.AddOrGet<CanRecycler>();
         }
 
         public void OnSpawn(GameObject inst)

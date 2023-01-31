@@ -22,6 +22,13 @@ namespace RoboRockets.LearningBrain
         public override void OnSpawn()
         {
             base.OnSpawn();
+            if(gameObject.TryGetComponent<KPrefabID>(out var prefab))
+            {
+                if (!prefab.HasTag(GameTags.PedestalDisplayable))
+                {
+                    prefab.AddTag(GameTags.PedestalDisplayable);
+                }
+            }
             if (!awakened)
             {
                 learnedSpeed = Config.Instance.AiLearnStart;
