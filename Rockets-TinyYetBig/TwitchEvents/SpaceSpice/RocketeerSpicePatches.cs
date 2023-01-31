@@ -70,7 +70,38 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
         {
             public static void Postfix(ref GameObject __result)
             {
-                __result.AddComponent<SpiceEyes>();
+                AllSpicyEyes.Add(__result.AddOrGet<SpiceEyes>());
+            }
+        }
+        static List<SpiceEyes> AllSpicyEyes = new List<SpiceEyes>();
+
+        [HarmonyPatch(typeof(SaveLoader), "Save", new Type[] { typeof(string), typeof(bool), typeof(bool) })]
+        public class SaveLoader_Save_Patch
+        {
+            public static void Prefix()
+            {
+                foreach (SpiceRestorer restore in Mod.spiceRestorers)
+                {
+                    restore.OnSaveGame();
+                }
+
+                foreach (FacePaint facePaint in Mod.facePaints)
+                {
+                    facePaint.OnSaveGame();
+                }
+            }
+
+            public static void Postfix()
+            {
+                foreach (SpiceRestorer restore in Mod.spiceRestorers)
+                {
+                    restore.OnLoadGame();
+                }
+
+                foreach (FacePaint facePaint in Mod.facePaints)
+                {
+                    facePaint.OnLoadGame();
+                }
             }
         }
     }
