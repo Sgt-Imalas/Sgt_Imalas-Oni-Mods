@@ -4,6 +4,7 @@ using Rockets_TinyYetBig.Buildings;
 using Rockets_TinyYetBig.Buildings.CargoBays;
 using Rockets_TinyYetBig.Buildings.Engines;
 using Rockets_TinyYetBig.Buildings.Fuel;
+using Rockets_TinyYetBig.Buildings.Generators;
 using Rockets_TinyYetBig.Buildings.Habitats;
 using Rockets_TinyYetBig.Buildings.Nosecones;
 using Rockets_TinyYetBig.Buildings.Utility;
@@ -77,6 +78,9 @@ namespace RoboRockets.Rockets_TinyYetBig
 
                 if (Config.Instance.EnableSolarNosecone)
                     AddRocketModuleToBuildList(NoseConeSolarConfig.ID, new RocketCategory[] { RocketCategory.nosecones, RocketCategory.power }, NoseconeBasicConfig.ID);
+
+                if (Config.Instance.EnableSmolBattery)
+                    AddRocketModuleToBuildList(SmolBatteryModuleConfig.ID,  RocketCategory.power , BatteryModuleConfig.ID,true);
 
                 if (Config.Instance.EnableNatGasEngine)
                     AddRocketModuleToBuildList(NatGasEngineClusterConfig.ID, RocketCategory.engines, SteamEngineClusterConfig.ID);
@@ -171,6 +175,9 @@ namespace RoboRockets.Rockets_TinyYetBig
 
                 if (Config.Instance.EnableSolarNosecone)
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.SpacePower, NoseConeSolarConfig.ID);
+
+                if (Config.Instance.EnableSmolBattery)
+                    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.AdvancedPowerRegulation, SmolBatteryModuleConfig.ID);
 
                 if (Config.Instance.EnableWallAdapter)
                 {

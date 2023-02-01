@@ -143,7 +143,12 @@ namespace Rockets_TinyYetBig
         [Option("Generator Modules", STRINGS.OPTIONS.TOGGLEMULTI, "(4) Power & Utility")]
         [JsonProperty]
         public bool EnableGenerators { get; set; }
+        
 
+        [Option("Small Battery Module", STRINGS.OPTIONS.TOGGLESINGLE, "(4) Power & Utility")]
+        [JsonProperty]
+        public bool EnableSmolBattery { get; set; }
+        
         [Option("Radioisotope Decay time", "Time in cycles for all the enriched uranium in the RTG to decay into depleted uranium. RTG needs a refill if all enriched uranium has decayed.", "(4) Power & Utility")]
         [Limit(10f, 200f)]
         [JsonProperty]
@@ -197,12 +202,13 @@ namespace Rockets_TinyYetBig
             EnableWallAdapter = true;
             EnableBunkerPlatform = true;
 
-            // Power&Utility
+            /// Power&Utility
             EnableSolarNosecone = true;
             EnableGenerators = true;
+            EnableSmolBattery = true;
             IsotopeDecayTime = 40;
 
-            // SpaceStations
+            /// SpaceStations
             SpaceStationsAndTech = false;
             RocketDocking = true;
             NeutroniumSplinters = true;

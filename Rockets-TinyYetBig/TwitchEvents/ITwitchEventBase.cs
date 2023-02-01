@@ -21,8 +21,8 @@ namespace Rockets_TinyYetBig.TwitchEvents
     {
         WEIGHT_NEVER = 0,
         WEIGHT_ALMOST_NEVER = 1,
-        WEIGHT_RARE = 3,
-        WEIGHT_NORMAL = 8,
-        WEIGHT_COMMON = 24
+        WEIGHT_RARE = 5,
+        WEIGHT_NORMAL = 10,
+        WEIGHT_COMMON = 30
     }
 }

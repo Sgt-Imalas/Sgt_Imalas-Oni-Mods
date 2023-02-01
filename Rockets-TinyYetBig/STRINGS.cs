@@ -75,7 +75,12 @@ namespace Rockets_TinyYetBig
                     public static LocString DESC = (LocString)"Rockets can be used to send Duplicants into space and retrieve rare resources.";
                     public static LocString EFFECT = (LocString)("Burns " + UI.FormatAsLink("Natural Gas", "METHANE") + " to propel rockets for mid-range space exploration.\n\nEngine must be built via " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ". \n\nOnce the engine has been built, more rocket modules can be added.");
                 }
-
+                public class RTB_SMOLBATTERYMODULE
+                {
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Small Battery Module", nameof(RTB_SMOLBATTERYMODULE));
+                    public static LocString DESC = (LocString)"Smol Battery Module Desc";
+                    public static LocString EFFECT = (LocString)("Smol Battery Module Effect");
+                }
                 public class RTB_WALLCONNECTIONADAPTER
                 {
                     public static LocString NAME = (LocString)UI.FormatAsLink("Insulated Rocket Port Wall Adapter", nameof(RTB_WALLCONNECTIONADAPTER));
