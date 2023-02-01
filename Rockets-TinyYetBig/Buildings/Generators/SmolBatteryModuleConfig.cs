@@ -22,7 +22,7 @@ namespace Rockets_TinyYetBig.Buildings.Generators
             EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "rocket_battery_pack_kanim", 1000, 30f, hollowTieR2, rawMetals, 9999f, BuildLocationRule.Anywhere, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "rocket_battery_pack_small_kanim", 1000, 30f, hollowTieR2, rawMetals, 9999f, BuildLocationRule.Anywhere, none, noise);
             BuildingTemplates.CreateRocketBuildingDef(buildingDef);
             buildingDef.DefaultAnimState = "grounded";
             buildingDef.AttachmentSlotTag = GameTags.Rocket;
@@ -56,12 +56,12 @@ namespace Rockets_TinyYetBig.Buildings.Generators
         {
             Prioritizable.AddRef(go);
             ModuleBattery moduleBattery = go.AddOrGet<ModuleBattery>();
-            moduleBattery.capacity = 35000f;
+            moduleBattery.capacity = 40000f;
             moduleBattery.joulesLostPerSecond = 1f;
             WireUtilitySemiVirtualNetworkLink virtualNetworkLink = go.AddOrGet<WireUtilitySemiVirtualNetworkLink>();
             virtualNetworkLink.link1 = PLUG_OFFSET;
             virtualNetworkLink.visualizeOnly = true;
-            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MINOR);
+            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.INSIGNIFICANT);
         }
     }
 
