@@ -34,13 +34,17 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
             data =>
             {
                 SpaceStationManager.GetRockets(out var rockets);
+                int counter = 0;
                 foreach (Clustercraft craft in rockets)
                     if (craft.Status == Clustercraft.CraftStatus.InFlight && craft.controlStationBuffTimeRemaining <= 0)
                     {
+                        counter++;
                         craft.controlStationBuffTimeRemaining = (float)new System.Random().Next(600,1200);
                     }
-
-                ToastManager.InstantiateToast(EventName, EventDescription);
+                if(counter > 0)
+                {
+                    ToastManager.InstantiateToast(EventName, EventDescription);
+                }
             });
     }
 }
