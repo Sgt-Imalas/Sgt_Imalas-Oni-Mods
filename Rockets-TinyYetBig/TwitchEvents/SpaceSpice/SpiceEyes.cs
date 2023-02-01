@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UtilLibs;
 
 namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
 {
@@ -20,10 +21,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
         private KBatchedAnimController kbac;
 
         [Serialize]
-        public string currentEyes;
-
-        [Serialize]
-        public string originalEyes;
+        public string originalEyes = string.Empty;
 
         [Serialize]
         public float SpiceEyesDuration = -100;
@@ -32,13 +30,13 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
             base.OnSpawn();
 
             originalEyes = Db.Get().Accessories.Get(accessorizer.bodyData.eyes).Id;
-            Debug.Log("ORIGINAL EYE SYMBOL IS " + originalEyes);
+            SgtLogger.debuglog("original eyes of "+identity.name+": " + originalEyes);
 
             OnLoadGame();
 
             if (SpiceEyesDuration>0)
             {
-                Apply(currentEyes);
+                Apply(originalEyes + "_glow");
             }
         }
         public void Remove()
@@ -46,7 +44,6 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
             if (accessorizer != null)
             {
                 ReplaceAccessory(originalEyes);
-                currentEyes = null;
             }
 
             SpiceEyesDuration = -100f;
@@ -56,15 +53,15 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
         {
             if (SpiceEyesDuration>0)
             {
-                ChangeAccessorySlot(currentEyes);
+                ChangeAccessorySlot(originalEyes +"_glow");
             }
         }
         public void Apply(string accessory)
         {
             if (accessorizer != null)
             {
+                SgtLogger.debuglog(accessory + "; "+originalEyes);
                 ReplaceAccessory(accessory);
-                currentEyes = accessory;
             }
         }
 
@@ -105,10 +102,10 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
             Debug.Log("Changing accessory slot to " + HashCache.Get().Get(value));
 
             var bodyData = accessorizer.bodyData;
-            bodyData.mouth = value;
+            bodyData.eyes = value;
 
             var items = accessorizer.accessories;
-            var slot = Db.Get().AccessorySlots.Mouth;
+            var slot = Db.Get().AccessorySlots.Eyes;
             var accessories = Db.Get().Accessories;
 
             for (var i = 0; i < items.Count; i++)
@@ -154,8 +151,8 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
 
         internal void AddEyeDuration(float duration)
         {
+            Apply(originalEyes + "_glow");
             SpiceEyesDuration = duration;
-            Apply(originalEyes+"_glow");
         }
     }
 }

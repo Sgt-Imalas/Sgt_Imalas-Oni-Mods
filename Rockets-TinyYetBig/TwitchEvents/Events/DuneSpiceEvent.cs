@@ -23,7 +23,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
         public string EventName => "The Spice must flow!";
 
         public Danger EventDanger => Danger.None;
-        public string EventDescription => "\"With best regards from the Spacing Guild\"\nAll (rocket)nNavigators have recieved an extra portion of Melange.";
+        public string EventDescription => "\"With best regards from the Spacing Guild\"\nAll (rocket) Navigators have recieved an extra portion of Melange.";
         public EventWeight EventWeight => (EventWeight)(40);
         public Func<object, bool> Condition =>
                 (data) =>
@@ -49,10 +49,6 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
                 {
                     if (dupe.TryGetComponent<MinionResume>(out var resume))
                     {
-                        foreach(var perk in resume.GrantedSkillIDs)
-                        {
-                            DebugLog(perk);
-                        }
                         if (resume.HasPerk(RocketryPerk))
                         {
                             Pilots.Add(resume);
@@ -61,7 +57,8 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
                     var DuneSpice = Db.Get().effects.Get("PILOTING_SPICE");
                     DuneSpice.duration = EventDuration;
                     DuneSpice.Name = "Melange Spice";
-                    int counter = 0;
+                    DuneSpice.description= global::STRINGS.ITEMS.SPICES.PILOTING_SPICE.DESC;
+
                     foreach (var pilot in Pilots)
                     {
                         if(pilot.TryGetComponent<Effects>(out var effect)) 
@@ -70,10 +67,9 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
                             effect.Add(DuneSpice, true);
                             if (pilot.TryGetComponent<SpiceEyes>(out var spiceEyes))
                                 spiceEyes.AddEyeDuration(EventDuration);
-                            ++counter;
                         }
+                        SgtLogger.debuglog(pilot.name +" got the spice eyes");
                     }
-                    SgtLogger.DebugLog("TestMsg");
                     ToastManager.InstantiateToast(EventName, EventDescription);
                 }
             };
