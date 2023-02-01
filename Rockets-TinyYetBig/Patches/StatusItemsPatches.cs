@@ -215,7 +215,6 @@ namespace Rockets_TinyYetBig.Patches
                     return false;
                 }
 
-
                 bool FuelSorted = false;
                 RocketBurden = 0;
                 RocketEnginePower = 0;
@@ -256,6 +255,13 @@ namespace Rockets_TinyYetBig.Patches
                 }
 
                 rocketStatusContainer.gameObject.SetActive(craftModuleInterface != null || rocketModuleCluster != null);
+
+
+                if (craftModuleInterface ==null)
+                {
+                    TargetPREVIOUS = null;
+                    return false;
+                }
 
                 if (craftModuleInterface != null)
                 {
