@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UtilLibs;
 using YamlDotNet.Core.Tokens;
 using static Rockets_TinyYetBig.STRINGS;
 using static Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN;
@@ -183,7 +184,11 @@ namespace Rockets_TinyYetBig.Patches
 
             public static bool Prefix(RocketSimpleInfoPanel __instance, CollapsibleDetailContentPanel rocketStatusContainer, GameObject selectedTarget)
             {
-
+                if(TargetPREVIOUS == null || selectedTarget == null)
+                {
+                    TargetPREVIOUS = selectedTarget;
+                    return false;
+                }
                 if (TargetPREVIOUS == selectedTarget && counter > 0)
                 {
                     counter--;
@@ -216,6 +221,7 @@ namespace Rockets_TinyYetBig.Patches
                 }
 
                 bool FuelSorted = false;
+
                 RocketBurden = 0;
                 RocketEnginePower = 0;
                 RocketHeight = 0;
@@ -254,13 +260,16 @@ namespace Rockets_TinyYetBig.Patches
                     }
                 }
 
-                rocketStatusContainer.gameObject.SetActive(craftModuleInterface != null || rocketModuleCluster != null);
 
-
-                if (craftModuleInterface ==null)
+                if (clusterCraft == null)
                 {
-                    TargetPREVIOUS = null;
+                    rocketStatusContainer.gameObject.SetActive(false);
+                    rocketStatusContainer.Commit();
                     return false;
+                }
+                else
+                {
+                    rocketStatusContainer.gameObject.SetActive(true);
                 }
 
                 if (craftModuleInterface != null)

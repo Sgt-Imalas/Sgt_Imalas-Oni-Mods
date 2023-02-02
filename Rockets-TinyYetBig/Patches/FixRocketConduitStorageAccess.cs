@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TUNING;
 using UnityEngine;
 using static Operational;
 using static STRINGS.BUILDINGS.PREFABS;
@@ -51,9 +52,8 @@ namespace Rockets_TinyYetBig.Patches
 
                 foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)___craftModuleInterface.ClusterModules)
                 {
-                    CargoBayCluster cargoBay = clusterModule.Get().GetComponent<CargoBayCluster>();
 
-                    if (cargoBay != null && cargoBay.storageType == __instance.cargoType)
+                    if (clusterModule.Get().TryGetComponent<CargoBayCluster>(out var cargoBay) && cargoBay.storageType == __instance.cargoType)
                     {
                         if ((double)amount > 0.0 && (double)cargoBay.storage.MassStored() > 0.0 )
                         {
@@ -106,5 +106,27 @@ namespace Rockets_TinyYetBig.Patches
             }
 
         }
+
+
+        [HarmonyPatch(typeof(BaseModularLaunchpadPortConfig))] 
+        [HarmonyPatch(nameof(BaseModularLaunchpadPortConfig.ConfigureBuildingTemplate))]
+        public static class FoodLoading
+        {
+            public static void Postfix (GameObject go, ConduitType conduitType)
+            {
+                if(conduitType == ConduitType.Solid)
+                {
+                    if(go.TryGetComponent<Storage>(out var storage))
+                    {
+                        List<Tag> tagList = new List<Tag>();
+                        tagList.AddRange((IEnumerable<Tag>)STORAGEFILTERS.NOT_EDIBLE_SOLIDS);
+                        tagList.AddRange((IEnumerable<Tag>)STORAGEFILTERS.GASES);
+                        tagList.AddRange((IEnumerable<Tag>)STORAGEFILTERS.FOOD);
+                        storage.storageFilters = tagList;                        
+                    }
+                }
+            }
+        }
+
     }
 }

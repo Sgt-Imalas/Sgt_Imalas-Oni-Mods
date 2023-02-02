@@ -41,17 +41,21 @@ namespace RoboRockets.Rockets_TinyYetBig
                 {
                     AddRocketModuleToBuildList(HabitatModuleSmallExpandedConfig.ID, new RocketCategory[] { RocketCategory.habitats, RocketCategory.nosecones }, HabitatModuleSmallConfig.ID);
                     AddRocketModuleToBuildList(HabitatModuleMediumExpandedConfig.ID, RocketryUtils.RocketCategory.habitats, HabitatModuleMediumConfig.ID);
-                    AddRocketModuleToBuildList(HabitatModulePlatedNoseconeLargeConfig.ID, RocketryUtils.RocketCategory.habitats, HabitatModuleSmallExpandedConfig.ID);
                     AddRocketModuleToBuildList(HabitatModuleStargazerConfig.ID, new RocketCategory[] { RocketCategory.habitats, RocketCategory.nosecones }, NoseconeBasicConfig.ID);
+                    AddRocketModuleToBuildList(HabitatModulePlatedNoseconeLargeConfig.ID, RocketryUtils.RocketCategory.habitats, HabitatModuleSmallExpandedConfig.ID);
                 }
 
                 if (Config.Instance.EnableRadboltStorage)
                     AddRocketModuleToBuildList(HEPBatteryModuleConfig.ID, RocketryUtils.RocketCategory.cargo, GasCargoBayClusterConfig.ID);
 
-                if (Config.Instance.EnableCritterStorage)
+                if (Config.Instance.EnableCritterStorage) 
                     AddRocketModuleToBuildList(CritterStasisModuleConfig.ID, RocketryUtils.RocketCategory.cargo, GasCargoBayClusterConfig.ID);
-                //AddRocketModuleToBuildList(CritterContainmentModuleConfig.ID, RocketryUtils.RocketCategory.cargo, GasCargoBayClusterConfig.ID);
 
+
+                if (Config.Instance.EnableFridge) 
+                    AddRocketModuleToBuildList(FridgeModuleConfig.ID, new RocketCategory[] { RocketCategory.cargo, RocketCategory.utility }, ArtifactCargoBayConfig.ID, true);
+
+              
                 if (Config.Instance.EnableLaserDrill)
                 {
 
@@ -147,6 +151,10 @@ namespace RoboRockets.Rockets_TinyYetBig
                 if (Config.Instance.EnableCritterStorage)
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.AnimalControl, CritterStasisModuleConfig.ID);
                 //InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.AnimalControl, CritterContainmentModuleConfig.ID);
+               
+                if (Config.Instance.EnableFridge)
+                    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.FoodRepurposing, FridgeModuleConfig.ID);
+                
 
                 if (Config.Instance.EnableLaserDrill)
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, NoseConeHEPHarvestConfig.ID);
