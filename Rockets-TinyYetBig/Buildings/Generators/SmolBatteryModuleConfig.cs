@@ -17,7 +17,7 @@ namespace Rockets_TinyYetBig.Buildings.Generators
 
         public override BuildingDef CreateBuildingDef()
         {
-            float[] hollowTieR2 = BUILDINGS.ROCKETRY_MASS_KG.HOLLOW_TIER2;
+            float[] hollowTieR2 = { 250f };
             string[] rawMetals = MATERIALS.RAW_METALS;
             EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;
