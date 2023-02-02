@@ -9,11 +9,10 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.TwitchEvents.TwitchEventAddons
 {
-    internal class ImposterConfig : IEntityConfig
+    internal class CrewMateConfig : IEntityConfig
     {
-        public const string ID = "RTB_Twitch_Imposter";
-        public static string imposta_trait = "RTB_Twitch_ImposterBaseTrait";
-        public const int MAXIMUM_TECH_CONSTRUCTION_TIER = 2;
+        public const string ID = "RTB_Twitch_Crewmate";
+        public static string imposta_trait = "RTB_Twitch_Crewmate";
         public const float MASS = 100f;
         private const float WIDTH = 1f;
         private const float HEIGHT = 1f;
@@ -23,9 +22,9 @@ namespace Rockets_TinyYetBig.TwitchEvents.TwitchEventAddons
 
         public GameObject CreatePrefab()
         {
-            string name1 = (string)"Imposter";
+            string name1 = (string)"Crewmate";
             string name2 = name1;
-            string desc = (string)"sussy baka";
+            string desc = (string)"best fwiend";
             EffectorValues tieR0 = TUNING.DECOR.PENALTY.TIER2;
             string anim = "twitch_imposter_kanim";
             EffectorValues decor = tieR0;
@@ -37,7 +36,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.TwitchEventAddons
             component.AddTag(GameTags.OriginalCreature);
             component.AddTag(GameTags.Amphibious);
             component.prefabInitFn += (KPrefabID.PrefabFn)(inst => inst.GetAttributes().Add(Db.Get().Attributes.MaxUnderwaterTravelCost));
-            EntityTemplates.ExtendEntityToBasicCreature(placedEntity, FactionManager.FactionID.Hostile, imposta_trait, "RobotNavGrid", onDeathDropCount: 6, warningLowTemperature: 250.15f, warningHighTemperature: 2393.15f, lethalLowTemperature: 200.15f, lethalHighTemperature: 2623.15f);
+            EntityTemplates.ExtendEntityToBasicCreature(placedEntity, FactionManager.FactionID.Friendly, imposta_trait, "RobotNavGrid", onDeathDropCount: 0, warningLowTemperature: 250.15f, warningHighTemperature: 2393.15f, lethalLowTemperature: 200.15f, lethalHighTemperature: 2623.15f);
             placedEntity.AddWeapon(1f, 3f).AddEffect();
             placedEntity.AddOrGetDef<ThreatMonitor.Def>();
             placedEntity.AddOrGetDef<CreatureFallMonitor.Def>();
@@ -74,13 +73,14 @@ namespace Rockets_TinyYetBig.TwitchEvents.TwitchEventAddons
 
         public void OnPrefabInit(GameObject inst)
         {
-           
+
         }
 
         public void OnSpawn(GameObject inst)
         {
+
             inst.AddOrGet<CrewColoursSetter>();
-            Navigator component2 = inst.AddOrGet<Navigator>(); 
+            Navigator component2 = inst.AddOrGet<Navigator>();
             component2.transitionDriver.overrideLayers.Add((TransitionDriver.OverrideLayer)new BipedTransitionLayer(component2, 3.325f, 2.5f));
             component2.transitionDriver.overrideLayers.Add((TransitionDriver.OverrideLayer)new DoorTransitionLayer(component2));
             component2.transitionDriver.overrideLayers.Add((TransitionDriver.OverrideLayer)new LadderDiseaseTransitionLayer(component2));

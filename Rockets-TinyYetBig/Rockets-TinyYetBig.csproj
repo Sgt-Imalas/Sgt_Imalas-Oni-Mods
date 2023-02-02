@@ -66,6 +66,15 @@
 	  <None Update="ModAssets\anim\assets\eye_spice_effect\eye_spice_effect_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\anim\assets\rocket_battery_pack\rocket_battery_pack_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\rocket_battery_pack\rocket_battery_pack_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\rocket_battery_pack\rocket_battery_pack_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\anim\assets\rocket_battery_pack_small\rocket_battery_pack_small_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
@@ -418,6 +427,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Buildings\Boosters\" />
+	  <Folder Include="ModAssets\elements\" />
 	</ItemGroup>
 
 	<ItemGroup>

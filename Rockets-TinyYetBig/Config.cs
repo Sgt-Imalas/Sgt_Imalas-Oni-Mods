@@ -59,6 +59,7 @@ namespace Rockets_TinyYetBig
 
 
         #endregion
+     
         #region mining&shipping
 
         [Option("Laser Drillcone", STRINGS.OPTIONS.TOGGLESINGLE, "(2) Mining & Shipping")]
@@ -79,6 +80,12 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool InfinitePOI { get; set; }
 
+
+        [Option("Enable Fridge Module", STRINGS.OPTIONS.TOGGLESINGLE, "(2) Mining & Shipping")]
+        [JsonProperty]
+        public bool EnableFridge { get; set; }
+        
+
         [Option("Large Cargo Modules", STRINGS.OPTIONS.TOGGLEMULTI, "(2) Mining & Shipping")]
         [JsonProperty]
         public bool EnableLargeCargoBays { get; set; }
@@ -97,6 +104,7 @@ namespace Rockets_TinyYetBig
         public int CritterStorageCapacity { get; set; }
 
         #endregion
+       
         #region Fuel&Logistics
 
         [Option("Buff Large Oxidizer Module", "Buff storage capacity of the large Oxidizer Module from 900kg to 1350kg.", "(3) Fuel & Logistics")]
@@ -187,6 +195,7 @@ namespace Rockets_TinyYetBig
             CritterStorageCapacity = 5;
             EnableLaserDrill = true;
             LaserDrillconeSpeed = 3.75f;
+            EnableFridge = true;
             InfinitePOI = false;
             EnableLargeCargoBays = true;
             EnableRadboltStorage = true; 
