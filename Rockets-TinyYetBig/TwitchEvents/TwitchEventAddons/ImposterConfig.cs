@@ -31,14 +31,14 @@ namespace Rockets_TinyYetBig.TwitchEvents.TwitchEventAddons
             EffectorValues decor = tieR0;
             EffectorValues noise = new EffectorValues();
             GameObject placedEntity = EntityTemplates.CreatePlacedEntity(ID, name2, desc, 25f, Assets.GetAnim((HashedString)anim), "idle_loop", Grid.SceneLayer.Creatures, 1, 1, decor, noise);
-            Db.Get().CreateTrait(imposta_trait, name1, name1, (string)null, false, (ChoreGroup[])null, true, true).Add(new AttributeModifier(Db.Get().Amounts.HitPoints.maxAttribute.Id, 200f, name1));
+            Db.Get().CreateTrait(imposta_trait, name1, name1, (string)null, false, (ChoreGroup[])null, true, true).Add(new AttributeModifier(Db.Get().Amounts.HitPoints.maxAttribute.Id, 80f, name1));
             KPrefabID component = placedEntity.GetComponent<KPrefabID>();
             component.AddTag(GameTags.Creatures.Walker);
             component.AddTag(GameTags.OriginalCreature);
             component.AddTag(GameTags.Amphibious);
             component.prefabInitFn += (KPrefabID.PrefabFn)(inst => inst.GetAttributes().Add(Db.Get().Attributes.MaxUnderwaterTravelCost));
             EntityTemplates.ExtendEntityToBasicCreature(placedEntity, FactionManager.FactionID.Hostile, imposta_trait, "RobotNavGrid", onDeathDropCount: 6, warningLowTemperature: 250.15f, warningHighTemperature: 2393.15f, lethalLowTemperature: 200.15f, lethalHighTemperature: 2623.15f);
-            placedEntity.AddWeapon(1f, 3f).AddEffect();
+            placedEntity.AddWeapon(5f, 10f).AddEffect();
             placedEntity.AddOrGetDef<ThreatMonitor.Def>();
             placedEntity.AddOrGetDef<CreatureFallMonitor.Def>();
 
@@ -58,7 +58,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.TwitchEventAddons
                 .Add((StateMachine.BaseDef)new DrowningStates.Def())
                 .Add((StateMachine.BaseDef)new DebugGoToStates.Def())
                 .Add((StateMachine.BaseDef)new DropElementStates.Def())
-                .Add((StateMachine.BaseDef)new AttackStates.Def("eat_pre", "eat_pst", new CellOffset[] { new CellOffset(0, 0), new CellOffset(1, 0), new CellOffset(-1, 0) }))
+                .Add((StateMachine.BaseDef)new AttackStates.Def("eat_pre", "eat_pst"))
                 .Add(new FleeStates.Def())
                 .Add((StateMachine.BaseDef)new IdleStates.Def()), GameTags.Creatures.Species.GlomSpecies, (string)null);
 

@@ -185,7 +185,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.SpacePower, NoseConeSolarConfig.ID);
 
                 if (Config.Instance.EnableSmolBattery)
-                    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.AdvancedPowerRegulation, SmolBatteryModuleConfig.ID);
+                    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.SoundAmplifiers, SmolBatteryModuleConfig.ID);
 
                 if (Config.Instance.EnableWallAdapter)
                 {

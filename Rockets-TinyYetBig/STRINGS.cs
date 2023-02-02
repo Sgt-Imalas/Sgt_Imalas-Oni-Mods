@@ -78,8 +78,14 @@ namespace Rockets_TinyYetBig
                 public class RTB_SMOLBATTERYMODULE
                 {
                     public static LocString NAME = (LocString)UI.FormatAsLink("Small Battery Module", nameof(RTB_SMOLBATTERYMODULE));
-                    public static LocString DESC = (LocString)"Smol Battery Module Desc";
-                    public static LocString EFFECT = (LocString)("Smol Battery Module Effect");
+                    public static LocString DESC = (LocString)global::STRINGS.BUILDINGS.PREFABS.BATTERYMODULE.DESC;
+                    public static LocString EFFECT = (LocString)global::STRINGS.BUILDINGS.PREFABS.BATTERYMODULE.EFFECT;
+                }
+                public class RTB_FRIDGECARGOBAY
+                {
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Freezer Module", nameof(RTB_FRIDGECARGOBAY));
+                    public static LocString DESC = (LocString)"Space food for days";
+                    public static LocString EFFECT = (LocString)"While powered, keeps food preserved to prevent spoilage";
                 }
                 public class RTB_WALLCONNECTIONADAPTER
                 {
