@@ -16,7 +16,7 @@ namespace Rockets_TinyYetBig.Buildings.Engines
         public const SimHashes FUEL = SimHashes.Methane;
         public const float Wattage = 480f;
         public const float TankCapacity = 900f;
-        public const int RocketHeight = 25;
+        public const int RocketHeight = 23;
 
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
 

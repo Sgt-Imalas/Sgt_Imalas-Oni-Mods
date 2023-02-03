@@ -75,7 +75,7 @@ namespace Rockets_TinyYetBig
             var generator = go.AddOrGet<RTB_ModuleGenerator>();
 
             generator.consumptionElement = SimHashes.Steam.CreateTag();
-            generator.consumptionRate = 1f;
+            generator.consumptionRate = (1f/2f);
             generator.PullFromRocketStorageType = CargoBay.CargoType.Gasses;
 
             generator.outputElement = SimHashes.Water;

@@ -67,8 +67,8 @@ namespace Rockets_TinyYetBig
             var generator = go.AddOrGet<RTB_ModuleGenerator>();
 
             generator.consumptionElement = SimHashes.Carbon.CreateTag();
-            generator.consumptionRate = 0.3f;
-            generator.consumptionMaxStoredMass = 200f;
+            generator.consumptionRate = 0.15f;
+            generator.consumptionMaxStoredMass = storage.capacityKg;
 
             generator.outputElement = SimHashes.CarbonDioxide;
             generator.outputProductionTemperature = 383.15f;
