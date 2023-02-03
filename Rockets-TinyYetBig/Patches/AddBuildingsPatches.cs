@@ -195,7 +195,7 @@ namespace RoboRockets.Rockets_TinyYetBig
 
                 if (Config.Instance.EnableNatGasEngine)
                 {
-                    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.HydrocarbonPropulsion, NatGasEngineClusterConfig.ID);
+                    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.GourmetMealPreparation, NatGasEngineClusterConfig.ID);
                 }
 
                 if (Config.Instance.EnableEarlyGameFuelTanks)

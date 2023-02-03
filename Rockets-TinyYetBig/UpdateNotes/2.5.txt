@@ -1,26 +1,32 @@
 ﻿Update 2.5:
 
 Features:
-- Better World selector - collapsable categories
+- Better World selector - collapsable categories (wip)
 - Drillcone Loading with Cargo Loader
 - Outdoor Radiation shielding affecting (landed) rocket interiors
-- Twitch event integration
+- Twitch Event integration
+- More infos in the rocket status screen
 
 New Modules & Buildings:
 - Drillcone Service Module - More diamond capacity & 20% increased drilling speed
 - 3 new Huge Cargo Bays (1 per type)
-- Small liquid fuel tank
+- Small liquid Fuel Tank
 - Loader Ladder Adapter
 - Advanced Rocket Platform (shifted logic ports + rocket checklist ribbon output)
 - Small Battery Module
+- Fridge Module
+- Plated Nosecone
 
-Fixes & adjustments:
+Fixes & Adjustments:
 - Radbolt loader can now fill laser drillcones and radbolt storages
 - massivly improved Fuel Loader code performance
-- fixed a rocket build menu crash, this time for good
+- fixed a rocket build menu crash, this time hopefully for good
 - fixed animation of small oxidizer module
 - massive drillcone sidescreen performance boost (both drillcones, might look a bit low framerate tho.)
 - reordered mod config with theme-grouped categories
 - fixed sound of nat gas engine
-- nerfed natgas engine range in default config a bit, added config option to change the range.
+- nerfed natgas engine height by 2, range in default config by 1, added config option to change the range.
 - fixed animation of vanilla modules: small oxidizer, battery, liquid oxidizer
+- small adjustments to nat gas engine anim
+- buffed steam generator & coal generator consumtion rate
+
