@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rockets_TinyYetBig.Behaviours;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,6 +46,8 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
         {
             BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
             go.AddOrGet<LoopingSounds>();
+            go.AddOrGet<RTB_PowerConsumerModule>();
+            go.AddOrGet<FridgeModule>();
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
             {

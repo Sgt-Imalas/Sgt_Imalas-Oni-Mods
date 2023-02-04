@@ -21,7 +21,8 @@ namespace Rockets_TinyYetBig.Behaviours
 
             var virtualCircuitKeySetter = typeof(RTB_PowerConsumerModule).GetProperty("VirtualCircuitKey");
             virtualCircuitKeySetter.SetValue(this, (object)craftInterface);
-            this.clustercraft = craftInterface.GetComponent<Clustercraft>();
+            this.VirtualCircuitKey = craftInterface;
+            this.clustercraft = craftInterface.m_clustercraft;
             Game.Instance.electricalConduitSystem.AddToVirtualNetworks(this.VirtualCircuitKey, (object)this, true);
             base.OnSpawn();
         }

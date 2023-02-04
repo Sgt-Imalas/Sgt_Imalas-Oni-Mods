@@ -62,10 +62,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                 }
                 if (___boostableClustercraft.Count == 0)
                 {
-
-                    var WorkableRocketsAreInRangeBoolParam = (StateMachine<MissionControlCluster, MissionControlCluster.Instance, IStateMachineTarget, MissionControlCluster.Def>.BoolParameter)
-                       typeof(MissionControlCluster).GetField("WorkableRocketsAreInRange", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance.sm);
-                    WorkableRocketsAreInRangeBoolParam.Set(false, __instance);
+                    __instance.sm.WorkableRocketsAreInRange.Set(false, __instance);
                 }
 
             }
