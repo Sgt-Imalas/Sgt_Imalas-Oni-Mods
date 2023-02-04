@@ -12,17 +12,13 @@ namespace Rockets_TinyYetBig.Behaviours
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
-            var isVirtualSetter = typeof(RTB_PowerConsumerModule).GetProperty("IsVirtual");
-            isVirtualSetter.SetValue(this, true);
+            this.IsVirtual = true;
         }
         public override void OnSpawn()
         {
             CraftModuleInterface craftInterface = this.GetComponent<RocketModuleCluster>().CraftInterface;
-
-            var virtualCircuitKeySetter = typeof(RTB_PowerConsumerModule).GetProperty("VirtualCircuitKey");
-            virtualCircuitKeySetter.SetValue(this, (object)craftInterface);
-            this.VirtualCircuitKey = craftInterface;
-            this.clustercraft = craftInterface.m_clustercraft;
+            this.VirtualCircuitKey = (object)craftInterface;
+            this.clustercraft = craftInterface.GetComponent<Clustercraft>();
             Game.Instance.electricalConduitSystem.AddToVirtualNetworks(this.VirtualCircuitKey, (object)this, true);
             base.OnSpawn();
         }
