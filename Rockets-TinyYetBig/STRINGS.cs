@@ -85,7 +85,7 @@ namespace Rockets_TinyYetBig
                 {
                     public static LocString NAME = (LocString)UI.FormatAsLink("Freezer Module", nameof(RTB_FRIDGECARGOBAY));
                     public static LocString DESC = (LocString)"Space food for days";
-                    public static LocString EFFECT = (LocString)"While powered, keeps food preserved to prevent spoilage";
+                    public static LocString EFFECT = (LocString)"Keeps food preserved, prevent spoilage.\nCan only be filled with a cargo loader.";
                 }
                 public class RTB_WALLCONNECTIONADAPTER
                 {
