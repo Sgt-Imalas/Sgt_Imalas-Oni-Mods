@@ -253,7 +253,7 @@ namespace SetStartDupes
                     //code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Stloc_S,  7));
                     //code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 7));
                 }
-                foreach (var v in code) { Console.WriteLine(v.opcode + (v.operand != null ? ": " + v.operand : "")); };
+                //foreach (var v in code) { Console.WriteLine(v.opcode + (v.operand != null ? ": " + v.operand : "")); };
                 return code;
             }
         }
