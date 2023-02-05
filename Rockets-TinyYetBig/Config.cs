@@ -28,7 +28,7 @@ namespace Rockets_TinyYetBig
 
 
         #region vanillaplus
-        [Option("Advanced World Selector", "Enable a more structured world selector.", "(1) Rocketry Vanilla+")]
+        [Option("Advanced World Selector", "Enable a better world selector.", "(1) Rocketry Vanilla+")]
         [JsonProperty]
         public bool EnableAdvWorldSelector { get; set; }
 
@@ -133,7 +133,7 @@ namespace Rockets_TinyYetBig
         public bool EnableFuelLoaders { get; set; }
 
 
-        [Option("Loader Adapter", STRINGS.OPTIONS.TOGGLESINGLE, "(3) Fuel & Logistics")]
+        [Option("Loader Adapters", STRINGS.OPTIONS.TOGGLEMULTI, "(3) Fuel & Logistics")]
         [JsonProperty]
         public bool EnableWallAdapter { get; set; }
 

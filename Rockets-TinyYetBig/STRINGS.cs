@@ -85,7 +85,7 @@ namespace Rockets_TinyYetBig
                 {
                     public static LocString NAME = (LocString)UI.FormatAsLink("Freezer Module", nameof(RTB_FRIDGECARGOBAY));
                     public static LocString DESC = (LocString)"Space food for days";
-                    public static LocString EFFECT = (LocString)"Keeps food preserved, prevent spoilage.\nCan only be filled with a cargo loader.";
+                    public static LocString EFFECT = (LocString)"Keeps food preserved, prevent spoilage.\nCan only be filled with a cargo loader.\nContents can be accessed during the flight via wall loader";
                 }
                 public class RTB_WALLCONNECTIONADAPTER
                 {
@@ -388,6 +388,11 @@ namespace Rockets_TinyYetBig
                     public static LocString COMPLETE = (LocString)"";
                     public static LocString FAILED = (LocString)"    • There already is a module of this type on this rocket";
                 }
+            }
+            public class COLLAPSIBLEWORLDSELECTOR
+            {
+                public static LocString SPACESTATIONS = (LocString)"Space Stations";
+                public static LocString ROCKETS = (LocString)"Rockets";
             }
         }
 
