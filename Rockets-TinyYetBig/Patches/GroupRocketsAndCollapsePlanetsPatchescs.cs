@@ -119,8 +119,17 @@ namespace Rockets_TinyYetBig.Patches
                             InitHeader(SpaceStationHeaderId, SpaceStationHeader);
                         }
                         OutputList.Add(new KeyValuePair<int, MultiToggle>(SpaceStationHeaderId, SpaceStationHeader));
+                        SpaceStationHeader.gameObject.SetActive(true);
 
                         OutputList.AddRange(spaceStations);
+
+                    }
+                    else
+                    {
+                        if (SpaceStationHeader != null)
+                        {
+                            SpaceStationHeader.gameObject.SetActive(false);
+                        }
                     }
 
                     if (rockets.Count > 0)
@@ -132,6 +141,10 @@ namespace Rockets_TinyYetBig.Patches
                             InitHeader(RocketHeaderId, RocketHeader);
                         }
                         OutputList.Add(new KeyValuePair<int, MultiToggle>(RocketHeaderId, RocketHeader));
+                    }
+                    if(RocketHeader!= null)
+                    {
+                        RocketHeader.gameObject.SetActive(false);
                     }
 
                     foreach (var keyValuePair1 in spaceStations)
@@ -162,6 +175,7 @@ namespace Rockets_TinyYetBig.Patches
                             OutputList.Add(rocket);
                             Collapse = ShouldCollapseDic[RocketHeaderId];
                             SetAnchors(rocket.Value, false);
+                            RocketHeader.gameObject.SetActive(true);
                         }
                         rocket.Value.gameObject.SetActive(value: !Collapse);
                     }
