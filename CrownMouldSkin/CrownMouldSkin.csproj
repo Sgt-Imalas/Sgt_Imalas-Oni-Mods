@@ -4,8 +4,8 @@
 	<PropertyGroup>
 		<PackageId>CrownMouldSkin</PackageId>
 		<Version>1.0.0</Version>
-		<Authors>Sgt_Imalas</Authors>
-		<Copyright>2022-2023 Sgt_Imalas</Copyright>
+		<Authors>3GuB</Authors>
+		<Copyright>2023 3GuB</Copyright>
 		<RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
 	</PropertyGroup>
 
@@ -98,5 +98,12 @@
 	  <None Update="ModAssets\anim\assets\corner_tile_g\corner_tile_g_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\translations\de.po">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="ModAssets\translations\" />
 	</ItemGroup>
 </Project>
