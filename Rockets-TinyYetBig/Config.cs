@@ -57,9 +57,13 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool HabitatInteriorRadiation { get; set; }
 
+        [Option("Habitat Interior Port Improvements", "Rocket  Connectors count as Rocket Wall for buildings that can only be attached to it.\nRocket Ports block the same amount of radiation as rocket wall", "(1) Rocketry Vanilla+")]
+        [JsonProperty]
+        public bool HabitatInteriorPortImprovements { get; set; }
+
 
         #endregion
-     
+
         #region mining&shipping
 
         [Option("Laser Drillcone", STRINGS.OPTIONS.TOGGLESINGLE, "(2) Mining & Shipping")]
@@ -189,6 +193,7 @@ namespace Rockets_TinyYetBig
             HabitatPowerPlug = true;
             EnableExtendedHabs = true;
             HabitatInteriorRadiation = true;
+            HabitatInteriorPortImprovements = true;
 
             ///Drilling&Shipping
             EnableCritterStorage = true;

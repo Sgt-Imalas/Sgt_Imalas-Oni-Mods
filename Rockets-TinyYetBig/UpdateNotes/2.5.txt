@@ -6,6 +6,8 @@ Features:
 - Outdoor Radiation shielding affecting (landed) rocket interiors
 - Twitch Event integration
 - More infos in the rocket status screen
+- Radiation absorption of habitat liquid ports fixed
+- Habitat interior radiation and light is now dependant on exterior radiation, unchanged in open space
 
 New Modules & Buildings:
 - Drillcone Service Module - More diamond capacity & 20% increased drilling speed

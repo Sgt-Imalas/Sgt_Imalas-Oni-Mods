@@ -16,7 +16,8 @@ namespace Rockets_TinyYetBig.Patches
             public static void Postfix(GameObject go)
             {
                 KPrefabID component = go.GetComponent<KPrefabID>();
-                component.AddTag(GameTags.RocketEnvelopeTile);
+                if (Config.Instance.HabitatInteriorPortImprovements)
+                    component.AddTag(GameTags.RocketEnvelopeTile);
             }
         }
         [HarmonyPatch(typeof(RocketInteriorLiquidOutputPortConfig), "DoPostConfigureComplete")]
@@ -25,7 +26,8 @@ namespace Rockets_TinyYetBig.Patches
             public static void Postfix(GameObject go)
             {
                 KPrefabID component = go.GetComponent<KPrefabID>();
-                component.AddTag(GameTags.RocketEnvelopeTile);
+                if (Config.Instance.HabitatInteriorPortImprovements)
+                    component.AddTag(GameTags.RocketEnvelopeTile);
             }
         }
         [HarmonyPatch(typeof(RocketInteriorGasInputPortConfig), "DoPostConfigureComplete")]
@@ -34,7 +36,8 @@ namespace Rockets_TinyYetBig.Patches
             public static void Postfix(GameObject go)
             {
                 KPrefabID component = go.GetComponent<KPrefabID>();
-                component.AddTag(GameTags.RocketEnvelopeTile);
+                if (Config.Instance.HabitatInteriorPortImprovements)
+                    component.AddTag(GameTags.RocketEnvelopeTile);
             }
         }
         [HarmonyPatch(typeof(RocketInteriorGasOutputPortConfig), "DoPostConfigureComplete")]
@@ -43,7 +46,8 @@ namespace Rockets_TinyYetBig.Patches
             public static void Postfix(GameObject go)
             {
                 KPrefabID component = go.GetComponent<KPrefabID>();
-                component.AddTag(GameTags.RocketEnvelopeTile);
+                if (Config.Instance.HabitatInteriorPortImprovements)
+                    component.AddTag(GameTags.RocketEnvelopeTile);
             }
         }
     }

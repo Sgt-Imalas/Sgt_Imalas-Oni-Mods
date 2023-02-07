@@ -16,24 +16,30 @@ namespace Rockets_TinyYetBig.Patches
     internal class HabitatInteriorRadiation
     {
 
-        //[HarmonyPatch(typeof(GameUtil))]
-        //[HarmonyPatch(nameof(GameUtil.GetRadiationAbsorptionPercentage))]
-        //[HarmonyPatch(new Type[] { typeof(int)})]
-        //public static class LeadTilesInRocketNoRads
-        //{
-        //    static bool Prefix(int cell, ref float __result)
-        //    {
-        //        if (Grid.IsValidCell(cell)
-        //            && SpaceStationManager.WorldIsRocketInterior(Grid.WorldIdx[cell]) 
-        //            && Grid.Element[cell].radiationAbsorptionFactor>0.7f)
-        //        {
-        //            __result = 1f;
-        //            return false;
-        //        }
-        //        return true;
-        //    }
-        //}
-
+        [HarmonyPatch(typeof(RocketInteriorLiquidInputPortConfig))]
+        [HarmonyPatch(nameof(RocketInteriorLiquidInputPortConfig.CreateBuildingDef))]
+        public static class InputPortIsFoundation
+        {
+            static void Postfix(ref BuildingDef __result)
+            {
+                if (Config.Instance.HabitatInteriorPortImprovements)
+                {
+                    BuildingTemplates.CreateFoundationTileDef(__result);
+                }
+            }
+        }
+        [HarmonyPatch(typeof(RocketInteriorLiquidOutputPortConfig))]
+        [HarmonyPatch(nameof(RocketInteriorLiquidOutputPortConfig.CreateBuildingDef))]
+        public static class OutputPortIsFoundation
+        {
+            static void Postfix(ref BuildingDef __result)
+            {
+                if (Config.Instance.HabitatInteriorPortImprovements)
+                {
+                    BuildingTemplates.CreateFoundationTileDef(__result);
+                }
+            }
+        }
 
         [HarmonyPatch(typeof(Clustercraft))]
         [HarmonyPatch(nameof(Clustercraft.Sim4000ms))]
@@ -81,7 +87,7 @@ namespace Rockets_TinyYetBig.Patches
 
                         if (Grid.Radiation[cell] > 0)
                         {
-                            interiorWorld.cosmicRadiation = (int)Grid.Radiation[cell]; 
+                            interiorWorld.cosmicRadiation = (int)Grid.Radiation[cell];
                         }
                         else
                         {
