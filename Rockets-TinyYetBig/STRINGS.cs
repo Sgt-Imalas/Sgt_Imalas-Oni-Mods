@@ -13,6 +13,19 @@ namespace Rockets_TinyYetBig
 {
     public class STRINGS
     {
+        public class ELEMENTS
+        {
+            public class UNOBTANIUMALLOY
+            {
+                public static LocString NAME = "Neutronium Alloy";
+                public static LocString DESC = "An insanely durable and heat resistant alloy.\nRequired in the construction of large space structures.";
+            }
+            public class UNOBTANIUMDUST
+            {
+                public static LocString NAME = "Neutronium Dust";
+                public static LocString DESC = "Harvested from artifact research, this dust might have some useful properties";
+            }
+        }
         public class DEEPSPACERESEARCH
         {
             public static LocString NAME = "Deep Space Research";
