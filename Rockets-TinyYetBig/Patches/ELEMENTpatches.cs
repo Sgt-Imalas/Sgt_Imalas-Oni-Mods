@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using ElementUtilNamespace;
+using HarmonyLib;
 using ONITwitchLib.Utils;
 using STRINGS;
 using System;
@@ -6,25 +7,54 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UtilLibs;
-using static LegacyModMain;
 
 namespace Rockets_TinyYetBig.Patches
 {
     internal class ELEMENTpatches
     {
-        //[HarmonyPatch(typeof(ElementLoader), "Load")]
-        //public class ElementLoader_Load_Patch
-        //{
-        //    public static void Prefix(Dictionary<string, SubstanceTable> substanceTablesByDlc)
-        //    {
-        //        // Add my new elements
-        //        var list = substanceTablesByDlc[DlcManager.EXPANSION1_ID].GetList();
-        //        var alloy = ElementInfo.Solid("ZincOre", ModAssets.Colors.zinc)
-        //        Elements.RegisterSubstances(list);
-        //    }
 
-        //}
+        public static ElementInfo
+            UnobtaniumDust,
+            UnobtaniumAlloy;
+        public static void RegisterSubstances(List<Substance> list)
+        {
+            var refined = list.Find(e => e.elementID == SimHashes.Copper).material;
+
+            UnobtaniumDust = ElementInfo.Solid("UnobtaniumDust", Color.black);
+            UnobtaniumAlloy = ElementInfo.Solid("UnobtaniumAlloy", Color.green);
+            SgtLogger.debuglog("1,"+list + ", "+list.Count);
+            var newElements = new HashSet<Substance>()
+            {
+                UnobtaniumDust.CreateSubstance(),
+                UnobtaniumAlloy.CreateSubstance(true, refined)
+            };
+            list.AddRange(newElements);
+            SgtLogger.debuglog("2," + list + ", "+list.Count);
+
+        }
+
+        /// <summary>
+        /// akis beached 
+        /// </summary>
+        [HarmonyPatch(typeof(ElementLoader))]
+        [HarmonyPatch(nameof(ElementLoader.Load))]
+        public class ElementLoader_Load_Patch
+        {
+            public static void Prefix(Dictionary<string, SubstanceTable> substanceTablesByDlc)
+            {
+                // Add my new elements
+                var list = substanceTablesByDlc[DlcManager.VANILLA_ID].GetList();
+                RegisterSubstances(list);
+
+                SgtLogger.l("ElementList length after that method; " + substanceTablesByDlc[DlcManager.VANILLA_ID].GetList().Count);
+            }
+            public static void Postfix()
+            {
+                SgtElementUtil.FixTags();
+            }
+        }
 
 
         [HarmonyPatch(typeof(ElementLoader), "CollectElementsFromYAML")]
@@ -38,6 +68,38 @@ namespace Rockets_TinyYetBig.Patches
                     {
                         elem.radiationAbsorptionFactor= 1.26f;
                     }
+                }
+            }
+        }
+
+        // Credit: Heinermann (Blood mod)
+        public static class EnumPatch
+        {
+            [HarmonyPatch(typeof(Enum), "ToString", new Type[] { })]
+            private class SimHashes_ToString_Patch
+            {
+                private static bool Prefix(ref Enum __instance, ref string __result)
+                {
+                    if (__instance is SimHashes hashes)
+                    {
+                        return !SgtElementUtil.SimHashNameLookup.TryGetValue(hashes, out __result);
+                    }
+
+                    return true;
+                }
+            }
+
+            [HarmonyPatch(typeof(Enum), nameof(Enum.Parse), new Type[] { typeof(Type), typeof(string), typeof(bool) })]
+            private class SimHashes_Parse_Patch
+            {
+                private static bool Prefix(Type enumType, string value, ref object __result)
+                {
+                    if (enumType.Equals(typeof(SimHashes)))
+                    {
+                        return !SgtElementUtil.ReverseSimHashNameLookup.TryGetValue(value, out __result);
+                    }
+
+                    return true;
                 }
             }
         }

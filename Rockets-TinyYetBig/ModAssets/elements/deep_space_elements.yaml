@@ -1,0 +1,56 @@
+---
+elements:
+  - elementId: UnobtaniumAlloy
+    specificHeatCapacity: 0.5
+    thermalConductivity: 1.0e-05
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 2
+    highTemp: 5000
+    highTempTransitionTarget: SteelGas
+    highTempTransitionOreId: UnobtaniumDust
+    highTempTransitionOreMassConversion: 0.1
+    defaultTemperature: 1
+    defaultMass: 100
+    maxMass: 2000
+    hardness: 251
+    molarMass: 180
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 1.26
+    radiationPer1000Mass: 0
+    materialCategory: ManufacturedMaterial
+    tags:
+    - Metal
+    - RefinedMetal
+    - BuildableAny
+    - Insulator
+    buildMenuSort: 1
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.UNOBTANIUMALLOY.NAME
+    dlcId: ""
+
+  - elementId: UnobtaniumDust
+    specificHeatCapacity: 0
+    thermalConductivity: 0
+    solidSurfaceAreaMultiplier: 0
+    liquidSurfaceAreaMultiplier: 0
+    gasSurfaceAreaMultiplier: 0
+    strength: 0
+    highTemp: 9000
+    highTempTransitionTarget: Unobtanium
+    defaultTemperature: 1
+    defaultMass: 10
+    maxMass: 1000
+    hardness: 251
+    molarMass: 200
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 1.26
+    radiationPer1000Mass: 0
+    materialCategory: Special
+    buildMenuSort: 1
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.UNOBTANIUMDUST.NAME
+    dlcId: ""
