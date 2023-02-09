@@ -71,7 +71,7 @@ namespace Rockets_TinyYetBig.TwitchEvents
                 return;
 
             var deckInst = TwitchDeckManager.Instance;
-
+            
             var (_event, _eventGroup) = EventGroup.DefaultSingleEventGroup(twitchEvent.ID, (int)twitchEvent.EventWeight, twitchEvent.EventName);
             _event.AddListener(twitchEvent.EventAction);
             _event.AddCondition(twitchEvent.Condition);

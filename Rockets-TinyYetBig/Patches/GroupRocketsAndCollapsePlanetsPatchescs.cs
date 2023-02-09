@@ -54,7 +54,7 @@ namespace Rockets_TinyYetBig.Patches
                         HeaderText.key = "STRINGS.UI_MOD.COLLAPSIBLEWORLDSELECTOR.SPACESTATIONS";
                         headerImg.sprite = Assets.GetSprite("icon_category_ventilation");
                         break;
-                    
+
                     case RocketHeaderId:
                         HeaderText.key = "STRINGS.UI_MOD.COLLAPSIBLEWORLDSELECTOR.ROCKETS";
                         headerImg.sprite = Assets.GetSprite("icon_category_rocketry");
@@ -91,7 +91,8 @@ namespace Rockets_TinyYetBig.Patches
 
                     foreach (var worldKV in __instance.worldRows)
                     {
-                        if (SpaceStationManager.WorldIsRocketInterior(worldKV.Key))
+                        //SgtLogger.l(worldKV.Key + ", " + ClusterManager.Instance.GetWorld(worldKV.Key));
+                        if (SpaceStationManager.WorldIsRocketInterior(worldKV.Key) || edgeCases.Contains(worldKV.Key))
                         {
                             rockets.Add(worldKV);
                         }
@@ -101,7 +102,8 @@ namespace Rockets_TinyYetBig.Patches
                         }
                         else
                         {
-                            collapseButtons[worldKV.Key].SetActive(false);
+                            if (collapseButtons.ContainsKey(worldKV.Key))
+                                collapseButtons[worldKV.Key].SetActive(false);
                             asteroids.Add(worldKV);
                         }
                     }
@@ -142,7 +144,7 @@ namespace Rockets_TinyYetBig.Patches
                         }
                         OutputList.Add(new KeyValuePair<int, MultiToggle>(RocketHeaderId, RocketHeader));
                     }
-                    if(RocketHeader!= null)
+                    if (RocketHeader != null)
                     {
                         RocketHeader.gameObject.SetActive(false);
                     }
@@ -163,7 +165,8 @@ namespace Rockets_TinyYetBig.Patches
                         bool Collapse = false;
                         if (rocketWorld.ParentWorldId != rocketWorld.id && rocketWorld.ParentWorldId != (int)ClusterManager.INVALID_WORLD_IDX)
                         {
-                            collapseButtons[rocketWorld.ParentWorldId].SetActive(true);
+                            if (collapseButtons.ContainsKey(rocketWorld.ParentWorldId))
+                                collapseButtons[rocketWorld.ParentWorldId].SetActive(true);
 
                             int insertionIndex = OutputList.FindIndex(kvp => kvp.Key == rocketWorld.ParentWorldId);
                             OutputList.Insert(insertionIndex + 1, rocket);
@@ -211,18 +214,50 @@ namespace Rockets_TinyYetBig.Patches
             {
                 RocketHeader = null;
                 SpaceStationHeader = null;
+                edgeCases.Clear();
             }
         }
+        static List<int> edgeCases = new List<int>();
         [HarmonyPatch(typeof(WorldSelector))]
         [HarmonyPatch(nameof(WorldSelector.AddWorld))]
         public static class AddButtonToWorld
         {
             public static void Postfix(object data)
             {
-                int num = (int)data;
-                AttachCollapseButton(WorldSelector.Instance.worldRows.Last());
+                if (Config.Instance.EnableAdvWorldSelector)
+                {
+                    int num = (int)data;
+                    //SgtLogger.l("Adding world with id: " + num);
+                    AttachCollapseButton(new KeyValuePair<int, MultiToggle>(num, WorldSelector.Instance.worldRows[num]));
+                }
             }
         }
+
+        [HarmonyPatch(typeof(WorldSelector))]
+        [HarmonyPatch(nameof(WorldSelector.RemoveWorld))]
+        public static class RemoveWorldFromRegisters
+        {
+            public static void Postfix(object data)
+            {
+                if (Config.Instance.EnableAdvWorldSelector)
+                {
+                    int num = (int)data;
+                    if (edgeCases.Contains(num))
+                    {
+                        edgeCases.Remove(num);
+                    }
+                    if(ShouldCollapseDic.ContainsKey(num))
+                    {
+                        ShouldCollapseDic.Remove(num);
+                    }
+                    if (collapseButtons.ContainsKey(num))
+                    {
+                        collapseButtons.Remove(num);
+                    }
+                }
+            }
+        }
+
 
         public static void AttachCollapseButtons()
         {
@@ -238,12 +273,23 @@ namespace Rockets_TinyYetBig.Patches
                 AttachCollapseButton(worldKV);
             }
         }
-        public static void AttachCollapseButton(KeyValuePair<int,MultiToggle> worldKV)
+        public static void AttachCollapseButton(KeyValuePair<int, MultiToggle> worldKV)
         {
-            if (!ClusterManager.Instance.GetWorld(worldKV.Key).IsModuleInterior)
+            //SgtLogger.l("Adding world with id: " + worldKV.Key);
+            var worldContainer = ClusterManager.Instance.GetWorld(worldKV.Key);
+            if (!worldContainer.IsModuleInterior)
             {
-                ShouldCollapseDic[worldKV.Key] = false;
-                AddCollapsible(worldKV.Key, worldKV.Value.gameObject);
+                if (worldContainer.gameObject.TryGetComponent<AsteroidGridEntity>(out var e))
+                {
+                    ShouldCollapseDic[worldKV.Key] = false;
+                    AddCollapsible(worldKV.Key, worldKV.Value.gameObject);
+                    //SgtLogger.l("planet: " + worldKV.Key);
+                }
+                else
+                {
+                    edgeCases.Add(worldKV.Key);
+                    //SgtLogger.l("abnormal: " + worldKV.Key);
+                }
             }
         }
 
@@ -254,13 +300,12 @@ namespace Rockets_TinyYetBig.Patches
         {
             public static void Postfix()
             {
-                SgtLogger.debuglog("SPAWNEDTOGGLES");
                 if (Config.Instance.EnableAdvWorldSelector)
                 {
                     AttachCollapseButtons();
                 }
             }
-            
+
         }
         public static Image AddCollapsible(int Key, GameObject Value)
         {
@@ -270,7 +315,7 @@ namespace Rockets_TinyYetBig.Patches
             var newIcon = Util.KInstantiateUI(img.gameObject, insertLocation.gameObject);
             newIcon.gameObject.SetActive(true);
 
-            collapseButtons[Key] =newIcon;
+            collapseButtons[Key] = newIcon;
 
             var icon = UIUtils.TryFindComponent<Image>(newIcon.transform, "Image");
             icon.transform.SetAsLastSibling();
