@@ -47,7 +47,7 @@ namespace Rockets_TinyYetBig.Patches
 
                 var headerImg = UIUtils.TryFindComponent<Image>(Header.transform, "Content/ManualLayout/Icon/Image");
                 var HeaderText = UIUtils.TryFindComponent<LocText>(Header.transform, "Content/ManualLayout/Label");
-                SgtLogger.debuglog(headerImg + ", " + HeaderText);
+                //SgtLogger.debuglog(headerImg + ", " + HeaderText);
                 switch (HeaderId)
                 {
                     case SpaceStationHeaderId:
