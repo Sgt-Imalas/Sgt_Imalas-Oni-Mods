@@ -6,16 +6,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 using static ResearchTypes;
 
 namespace Rockets_TinyYetBig.Behaviours
 {
-    public class CritterStasisChamberModule : KMonoBehaviour, ISidescreenButtonControl ,ISim1000ms
+    public class CritterStasisChamberModule : KMonoBehaviour, ISidescreenButtonControl, ISim1000ms, IUserControlledCapacity
     {
         [Serialize]
         public List<CritterStorageInfo> storedCritters = new List<CritterStorageInfo>();
         private List<FetchOrder2> fetches;
         //private static StatusItem capacityStatusItem;
+        [Serialize]
+        public int CurrentMaxCapacity = Config.Instance.CritterStorageCapacity;
 
         private static readonly EventSystem.IntraObjectHandler<CritterStasisChamberModule> RefreshCreatureCountDelegate = new EventSystem.IntraObjectHandler<CritterStasisChamberModule>((System.Action<CritterStasisChamberModule, object>)((component, data) => component.RefreshCreatureCount(data)));
         public int CurrentCapacity => storedCritters.Count;
@@ -25,8 +28,8 @@ namespace Rockets_TinyYetBig.Behaviours
             string returnValue = CurrentCapacity <= 0 ?
                 STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.NOCRITTERS :
                 STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.HASCRITTERS;
-            
-            foreach(var critter in storedCritters)
+
+            foreach (var critter in storedCritters)
             {
                 string critInfo = "\n";
                 critInfo += STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.CRITTERINFO;
@@ -34,30 +37,38 @@ namespace Rockets_TinyYetBig.Behaviours
                 critInfo = critInfo.Replace("{AGE}", critter.CreatureAge.ToString("0.#"));
                 returnValue += critInfo;
             }
-            
+
             return returnValue;
 
         }
 
-        public void SpawnCrittersFromStorage()
+        void SpawnCritterFromStorage(CritterStorageInfo critterInfo)
         {
             Vector3 position = this.transform.GetPosition();
             position.z = Grid.GetLayerZ(Grid.SceneLayer.Creatures);
-            foreach (var critterInfo in storedCritters)
-            {
-                GameObject spawnedCritter = Util.KInstantiate(Assets.GetPrefab(critterInfo.CreatureTag), position);
-                spawnedCritter.SetActive(true);
-                spawnedCritter.GetSMI<AnimInterruptMonitor.Instance>().PlayAnim((HashedString)"growup_pst");
-                spawnedCritter.GetSMI<AgeMonitor.Instance>().age.SetValue(critterInfo.CreatureAge);
-                var wild = spawnedCritter.GetSMI<WildnessMonitor.Instance>();
-                if (wild != null)
-                {
-                    wild.wildness.SetValue(critterInfo.WildnessPercentage);
-                }
 
-                Baggable component2 = spawnedCritter.GetComponent<Baggable>();
-                if ((UnityEngine.Object)component2 != (UnityEngine.Object)null)
-                    component2.SetWrangled();
+            GameObject spawnedCritter = Util.KInstantiate(Assets.GetPrefab(critterInfo.CreatureTag), position);
+            spawnedCritter.SetActive(true);
+            spawnedCritter.GetSMI<AnimInterruptMonitor.Instance>().PlayAnim((HashedString)"growup_pst");
+            spawnedCritter.GetSMI<AgeMonitor.Instance>().age.SetValue(critterInfo.CreatureAge);
+            var wild = spawnedCritter.GetSMI<WildnessMonitor.Instance>();
+            if (wild != null)
+            {
+                wild.wildness.SetValue(critterInfo.WildnessPercentage);
+            }
+
+            Baggable component2 = spawnedCritter.GetComponent<Baggable>();
+            if ((UnityEngine.Object)component2 != (UnityEngine.Object)null)
+                component2.SetWrangled();
+            storedCritters.Remove(critterInfo); 
+        } 
+
+        public void SpawnCrittersFromStorage()
+        {
+            int count = storedCritters.Count - 1;
+            for (int i = count; i >= 0; --i)
+            {
+                SpawnCritterFromStorage(storedCritters[(i)]);
             }
             if (!storedCritters.IsNullOrDestroyed())
                 storedCritters.Clear();
@@ -116,7 +127,7 @@ namespace Rockets_TinyYetBig.Behaviours
         {
             base.OnSpawn();
             this.Subscribe<CritterStasisChamberModule>(643180843, CritterStasisChamberModule.RefreshCreatureCountDelegate);
-            this.RefreshCreatureCount(); 
+            this.RefreshCreatureCount();
             UpdateStatusItem();
         }
         private void OnFilterChanged(HashSet<Tag> tags)
@@ -128,7 +139,7 @@ namespace Rockets_TinyYetBig.Behaviours
         private void RefreshCreatureCount(object data = null)
         {
             int storedCreatureCount = storedCritters.Count;
-            if (Config.Instance.CritterStorageCapacity == storedCreatureCount)
+            if (CurrentMaxCapacity == storedCreatureCount)
                 return;
             this.RebalanceFetches();
         }
@@ -144,7 +155,7 @@ namespace Rockets_TinyYetBig.Behaviours
             HashSet<Tag> tags = this.GetComponent<TreeFilterable>().GetTags();
             ChoreType creatureFetch = Db.Get().ChoreTypes.CreatureFetch;
             Storage component = this.GetComponent<Storage>();
-            int num1 = Config.Instance.CritterStorageCapacity - this.storedCritters.Count;
+            int num1 = CurrentMaxCapacity - this.storedCritters.Count;
             int count = this.fetches.Count;
             int num2 = 0;
             int num3 = 0;
@@ -202,9 +213,41 @@ namespace Rockets_TinyYetBig.Behaviours
 
         #region button
 
-        public string SidescreenButtonText => "Drop Critters";
+        public string SidescreenButtonText => STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.DROPITBUTTON;
 
-        public string SidescreenButtonTooltip => "Drop it like its hot";
+        public string SidescreenButtonTooltip => STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.DROPITBUTTONTOOLTIP;
+        public LocString CapacityUnits => STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.UNITS;
+
+        public float UserMaxCapacity
+        {
+            get => CurrentMaxCapacity;
+            set
+            {
+                CurrentMaxCapacity = (int)value;
+
+                int excess =  CurrentCapacity - CurrentMaxCapacity;
+                SgtLogger.l("excess: " + excess);
+                if(excess>0)
+                {
+                    int count = storedCritters.Count - 1;
+                    for (int i = count; i > count- excess; --i)
+                    {
+                        SpawnCritterFromStorage(storedCritters[(i)]);
+                    }
+                }
+                RebalanceFetches();
+            }
+        }
+
+        public float AmountStored => CurrentCapacity;
+
+        public float MinCapacity => 1;
+
+        float IUserControlledCapacity.MaxCapacity => Config.Instance.CritterStorageCapacity;
+
+        public bool WholeValues => true;
+
+
 
         public void SetButtonTextOverride(ButtonMenuTextOverride text) => throw new NotImplementedException();
         public bool SidescreenEnabled() => true;
@@ -239,7 +282,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
             public CritterStorageInfo(Tag _tag, float _age, float _wildPerc)//, float _egg)
             {
-                CreatureTag = _tag;    
+                CreatureTag = _tag;
                 CreatureAge = _age;
                 WildnessPercentage = _wildPerc;
                 //EggPercentage = _egg;   

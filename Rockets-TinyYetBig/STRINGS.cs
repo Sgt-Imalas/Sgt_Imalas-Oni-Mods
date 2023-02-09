@@ -315,6 +315,9 @@ namespace Rockets_TinyYetBig
                     public static LocString NOCRITTERS = "No Critters stored.";
                     public static LocString HASCRITTERS = "Module currently holds these Critters:";
                     public static LocString CRITTERINFO = " • {CRITTERNAME}, {AGE} Cycles old";
+                    public static LocString DROPITBUTTON = "Drop all Critters";
+                    public static LocString DROPITBUTTONTOOLTIP = "Drop it like its hot";
+                    public static LocString UNITS = " Critters";
                 }
                 public class RTB_STATIONCONSTRUCTORSTATUS
                 {

@@ -244,7 +244,7 @@ namespace Rockets_TinyYetBig
                     //str = str.Replace("{GeneratorType}", generator.GetProperName());
 
                     string newValue1 = Util.FormatWholeNumber(CritterStorage.CurrentCapacity);
-                    string newValue2 = Util.FormatWholeNumber(Config.Instance.CritterStorageCapacity);
+                    string newValue2 = Util.FormatWholeNumber(CritterStorage.CurrentMaxCapacity);
                     string CritterData = CritterStorage.GetStatusItem();
 
                     str = str.Replace("{0}", newValue1);

@@ -111,6 +111,15 @@ namespace Rockets_TinyYetBig.SpaceStations
             Debug.LogError((object)"Failed to create space station interior.");
             return (WorldContainer)null;
         }
+
+        public static int SpaceRadiationRocket(AxialI location) => Instance.SpaceRadiation(location);
+        public int SpaceRadiation(AxialI Location)
+        {
+            int maxRings = ClusterGrid.Instance.numRings;
+            var distance = GetDistanceFromAxial(Location);
+            return (int)Interpolate(240, 400, 1, maxRings, distance);
+        }
+
         int GetDistanceFromAxial(AxialI coords)
         {
             int a = Math.Abs(coords.Q), b = Math.Abs(coords.R);

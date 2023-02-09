@@ -1,7 +1,7 @@
 ﻿Update 2.5:
 
 Features:
-- Better World selector - collapsable categories (wip)
+- Better World selector - collapsible categories
 - Drillcone Loading with Cargo Loader
 - Outdoor Radiation shielding affecting (landed) rocket interiors
 - Twitch Event integration
@@ -17,7 +17,7 @@ New Modules & Buildings:
 - Advanced Rocket Platform (shifted logic ports + rocket checklist ribbon output)
 - Small Battery Module
 - Fridge Module
-- Plated Nosecone
+- Plated Nosecone Habitat
 
 Fixes & Adjustments:
 - Radbolt loader can now fill laser drillcones and radbolt storages
@@ -30,5 +30,6 @@ Fixes & Adjustments:
 - nerfed natgas engine height by 2, range in default config by 1, added config option to change the range.
 - fixed animation of vanilla modules: small oxidizer, battery, liquid oxidizer
 - small adjustments to nat gas engine anim
-- buffed steam generator & coal generator consumtion rate
+- buffed steam generator & coal generator consumption rate
+- readded player set capacity to critter module
 

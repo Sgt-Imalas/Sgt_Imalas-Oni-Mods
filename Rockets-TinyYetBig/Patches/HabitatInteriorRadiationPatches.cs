@@ -13,7 +13,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Patches
 {
-    internal class HabitatInteriorRadiation
+    internal class HabitatInteriorRadiationPatches
     {
 
         [HarmonyPatch(typeof(RocketInteriorLiquidInputPortConfig))]
@@ -97,7 +97,7 @@ namespace Rockets_TinyYetBig.Patches
                     else
                     {
                         interiorWorld.sunlight = FIXEDTRAITS.SUNLIGHT.DEFAULT_VALUE;
-                        interiorWorld.cosmicRadiation = FIXEDTRAITS.COSMICRADIATION.BASELINE;
+                        interiorWorld.cosmicRadiation = SpaceStationManager.SpaceRadiationRocket(__instance.Location);
                     }
 
                 }
