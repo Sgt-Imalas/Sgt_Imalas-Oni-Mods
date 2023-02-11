@@ -20,7 +20,7 @@ New Modules & Buildings:
 - Advanced Rocket Platform (shifted logic ports + rocket checklist ribbon output)
 - Small Battery Module
 - Fridge Module
-- Plated Nosecone Habitat
+- Plated Habitat Nosecone 
 
 Fixes & Adjustments:
 - Radbolt loader can now fill laser drillcones and radbolt storages
