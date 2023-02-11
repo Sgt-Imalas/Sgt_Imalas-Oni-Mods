@@ -118,7 +118,7 @@ namespace Rockets_TinyYetBig
             {
                 foreach (var button in ModAssets.CategorizedButtons)
                 {
-                    if (!button.IsNullOrDestroyed())
+                    if (!button.IsNullOrDestroyed()&& !button.Value.IsNullOrDestroyed())
                         Util.KDestroyGameObject(button.Value);
                 }
                 for (int index = _this.categories.Count - 1; index >= 0; --index)
