@@ -6,86 +6,31 @@
 This mod aims to increase rocket versatility by adding new rocket modules, rocket mechanics and in general adding to the experience of rocketry in Spaced Out.
 While including a large number of features, the mod is higly modular so every player can choose for themselves what features they want to use.
 
-[h1]Current latest Version: 2.4.0 (2.3.9 on previous Branch)[/h1]
+[h1]Current latest Version: 2.5.0.4[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
 [list]
 [*] Interior Shrinking: Rockets no longer take up 32x32 Tiles, instead the interior size gets set dependant on the actual interior space used (disableable, a change only applies to newly constructed modules).
 [*] Removal of Rocket cap of 16 (This is possible due to the space saving from the interior shrinking).
-[*] Module Building Categories - no longer an endless scrolling fest (disableable) 
-[*] Rocket Build Menu Tooltips - similar to the regular build menu, hovering over a module now displays the respective tooltip.
+[*] Huge amount of new Rocket Modules -> look through the steam images for a list
+[*] Module Building Categories - no longer an endless scrolling fest 
 [*] Generator Modules (produce power while not landed without the need to move the rocket)
 [*] Insulated Wall adapter - seal of your rocket chimney
 [*] Fuel Loaders - no more overheating pipes due to rocket start, just fuel them via these new loader buildings
 [*] Rocket Docking - Exchange dupes during the flight, rescue stranded dupes without blowing up the respective rocket and more to come...
 [*] Habitat Power Plug - Connect the internal electric grid to the outside without the need for a battery module
-[*] Rocket Tooltips (on the space map):[list]
-	[*] Generator Fuel State - displays the current generator fuel and the total generator fuel capacity of all generator modules on this rocket.
-	[*]	Battery Charge State - displays the current/maximum charge of all battery modules of this rocket.[/list]
+[*] Extended Rocket Stats in the rocket sidescreen
+[*] Better World Selector with collapsible categories
 [*] Tweaks to Vanilla Modules & Mechanics: [list]
 	[*]Cartographic Module Buff: The Cartographic Module will now instantly reveal all Space Hexes in a radius of 1 ( adjustable in mod settings).
 	[*]Petroleum Engines: Can now also be fueled with Ethanol
 	[*]Large Solid Oxidizer Tank Buff: Capacity 900 -> 1350, this gives it 3x the capacity of one small tank while taking 2.5x height and weight of one (and gives a reason to use this module)
-	[*]Rocket gas/liquid input/output wall tiles now count as "Rocket Wall", thus allow the constructing of Fittings connected to it
+	[*]Rocket gas/liquid input/output wall tiles have their radiation absorption fixed and count as "Rocket Wall", thus allow the constructing of Fittings connected to it
 	[*]more wip.[/list]
 [*] each new module and most features can be individually toggled on&off / tweaked in the mod config.
 [/list]
 
-[h1]New Rocket Modules[/h1][list]
-	[*][h2]Habitat Modules[/h2][list]
-		[*][h3]Extended Solo Spacefarer Nosecone[/h3]
-			A slightly larger variant of the Spacefarer Nosecone that features a larger interior.
-		[*][h3]Extended Spacefarer Module[/h3]
-			A larger variant of the Spacefarer Module that features a larger interior and some fancy windows.
-		[*][h3]Stargazer Nosecone[/h3]
-			This Habitat module functions as a nosecone while featuring a transparent interior roof. Great for looking at the stars or a nice sunbathing during the flight.
-		[/list]
-	[*][h2]Nosecones[/h2][list]
-		[*][h3]Laser Drillcone[/h3]
-			This Nosecone takes in up to 6000 Radbolts, ready to mine space pois with the power of the lazor. By default it mines at half the speed of a regular drillcone (this value can be adjusted in the mod config).
-		[*][h3]Solar Nosecone[/h3]
-			This Nosecone has some solar panels taped to it, doubling as a power generator.
-		[/list]
-	[*][h2]Cargo/Storage[/h2][list]
-		[*][h3]Critter Stasis Module[/h3]
-			Allows the transport of critters without the need to store them in the spacefarer module. Critters stored in this module wont age. Base Capacity: 5 Critters (adjustable in mod settings).
-		[*][h3]Radbolt Chamber Module[/h3]
-			Transport Radbolts to other planetoids with this module. Has a capacity of 3000 Radbolts with a configurable output direction.
-		[/list]
-		
-	[*][h2]Fuel[/h2][list]
-		[*][h3]CO2 Fuel Tank[/h3]
-			A fuel tank that increases the max range of a CO2 engine by 3.
-		[/list]
-	[*][h2]Power[/h2][list]
-		[*][h3]Coal Generator Module[/h3]
-			A generator module unlocked in the early game that uses coal to produce 200W of power. 
-		[*][h3]Steam Generator Module[/h3]
-			A generator module unlocked in the mid game that draws steam from gas storage to produce 400W of power.
-		[*][h3]Radioisotope Thermoelectric Generator (RTG)[/h3]
-			A generator module unlocked in the late game that draws energy from the slow decay of radioactive isotopes to produce 120W of power.
-		[/list]
-[/list]
-
-[h1]New Buildings[/h1][list]
-	[*][h3]Fortified Rocket Platform[/h3]
-		A more expensive Rocket Platform that features immunity to comets and adjusted logic port locations for less melting automation cables.
-	[*][h3]Rocket Docking Tube[/h3]
-		Allows Rockets to dock to each other		
-	[*][h3]Insulated Rocket Port Wall Adapter[/h3]
-		Seal off rocket chimneys to no longer overheat your cargo (and fuel) loaders with a rocket start
-	[*][h3]Rocket Fuel Loader[/h3]
-		Fill all connected rockets with the right fuel.
-	[*][h3]Rocket Oxidzer Loader[/h3]
-		Fill all connected rockets with the Oxidizer.
-	[*][h3]Radbolt Fuel Loader[/h3]
-		Fill all connected radbolt engines with radbolts. has a logic output if its internal radbolt storage is full.
-
-	[*]more wip.
-[/list]
-
-[hr][/hr]
 
 [h1]Credits[/h1]
 Options made with PLib.

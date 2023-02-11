@@ -68,7 +68,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1LineCrasher", "1LineCrashe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MooMilk", "MooMilk\MooMilk.csproj", "{CACC39A6-AF54-491F-874D-9B3DF7F50AD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrownMouldSkin", "CrownMouldSkin\CrownMouldSkin.csproj", "{C30B56BB-8F06-4BCB-BE39-766383904E21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrownMouldSkin", "CrownMouldSkin\CrownMouldSkin.csproj", "{C30B56BB-8F06-4BCB-BE39-766383904E21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BawoonFwiend", "BawoonFwiend\BawoonFwiend.csproj", "{ED80EDF1-7F8B-41F1-9960-382006C8069D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -196,6 +198,10 @@ Global
 		{C30B56BB-8F06-4BCB-BE39-766383904E21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C30B56BB-8F06-4BCB-BE39-766383904E21}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{C30B56BB-8F06-4BCB-BE39-766383904E21}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{ED80EDF1-7F8B-41F1-9960-382006C8069D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED80EDF1-7F8B-41F1-9960-382006C8069D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED80EDF1-7F8B-41F1-9960-382006C8069D}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED80EDF1-7F8B-41F1-9960-382006C8069D}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
