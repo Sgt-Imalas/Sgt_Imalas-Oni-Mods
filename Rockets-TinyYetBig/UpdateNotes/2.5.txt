@@ -8,6 +8,9 @@ Features:
 - More infos in the rocket status screen
 - Radiation absorption of habitat liquid ports fixed
 - Habitat interior radiation and light is now dependant on exterior radiation, unchanged in open space
+- Neutronium Alloy & Neutronium Dust: 
+	- Neutronium Dust is harvested from artifact research, can be refined into Neutronium Alloy
+	- Neutronium Alloy is a new, highly insulated metal, required in the construction of large space structures
 
 New Modules & Buildings:
 - Drillcone Service Module - More diamond capacity & 20% increased drilling speed
