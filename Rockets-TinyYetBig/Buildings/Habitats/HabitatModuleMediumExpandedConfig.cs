@@ -21,8 +21,12 @@ namespace Rockets_TinyYetBig.Buildings.Habitats
 
         public override BuildingDef CreateBuildingDef()
         {
-            float[] denseTieR1 = new float[] { 800f };
-            string[] rawMetals = MATERIALS.REFINED_METALS;
+            float[] denseTieR1 = new float[] { 800f, 200f };
+            string[] rawMetals =
+            {
+                MATERIALS.REFINED_METAL,
+                ModAssets.Tags.NeutroniumAlloy.ToString()
+            };
             EffectorValues noiseLevel = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;
 
@@ -85,7 +89,7 @@ namespace Rockets_TinyYetBig.Buildings.Habitats
             rocketConduitSender1.conduitStorage = storage1;
             rocketConduitSender1.conduitPortInfo = this.liquidInputPort;
             go.AddComponent<RocketConduitReceiver>().conduitPortInfo = this.liquidOutputPort;
-            
+
             Storage storage2 = go.AddComponent<Storage>();
             storage2.showInUI = false;
             storage2.capacityKg = 1f;

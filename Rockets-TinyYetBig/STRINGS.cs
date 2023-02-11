@@ -8,22 +8,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS;
+using static STRINGS.BUILDINGS.PREFABS;
 
 namespace Rockets_TinyYetBig
 {
     public class STRINGS
     {
+        public class MISC
+        {
+            public class TAGS
+            {
+                    public static LocString RTB_NEUTRONIUMALLOYMATERIAL = "Neutronium Alloy";
+                    public static LocString RADIATIONSHIELDINGMATERIAL = "Radiation Shielding";
+            }
+            
+        }
+
         public class ELEMENTS
         {
             public class UNOBTANIUMALLOY
             {
-                public static LocString NAME = "Neutronium Alloy";
+                public static LocString NAME = (LocString) UI.FormatAsLink("Neutronium Alloy", nameof(UNOBTANIUMALLOY));
                 public static LocString DESC = "An insanely durable and heat resistant alloy.\nRequired in the construction of large space structures.";
+                public static LocString RECIPE_DESCRIPTION = "Neutronium Alloy is a " + UI.FormatAsLink("Solid Material", "ELEMENTS_SOLID") + " used in the construction of large space structures.";
             }
             public class UNOBTANIUMDUST
             {
-                public static LocString NAME = "Neutronium Dust";
-                public static LocString DESC = "Harvested from artifact research, this dust might have some useful properties";
+                public static LocString NAME = (LocString) UI.FormatAsLink("Neutronium Dust", nameof(UNOBTANIUMDUST));
+                public static LocString DESC = "Harvested from artifact research, this dust might have some useful properties.\nCan be forged into "+
+                    UI.FormatAsLink("Neutronium Alloy", nameof(UNOBTANIUMALLOY))+" at the "+ (LocString)UI.FormatAsLink("Molecular Forge", nameof(SUPERMATERIALREFINERY));
             }
         }
         public class DEEPSPACERESEARCH
@@ -249,6 +263,12 @@ namespace Rockets_TinyYetBig
                         "Radbolts in storage won't decay as long as the modules solar panels can function.");
                 }
 
+                public class RTB_HABITATMODULEPLATEDLARGE
+                {
+                    public static LocString NAME = (LocString)UI.FormatAsLink("Plated Spacefarer Nosecone", nameof(HabitatModuleSmallExpandedConfig));
+                    public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULESMALL.DESC+"\n\nInterior is fully shielded from radiation.";
+                    public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULESMALL.EFFECT;
+                }
 
                 public class RTB_HABITATMODULESMALLEXPANDED
                 {

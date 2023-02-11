@@ -59,9 +59,13 @@ namespace Rockets_TinyYetBig.Patches
                             break;
                         }
                     }
-                    if (door == null) return;
+                    if (door == null)
+                        return;
 
                     var world = door.GetMyWorld();
+                    var target = door.targetDoor;
+                    if (target == null)
+                        return;
                     var interiorWorld = door.targetDoor.GetMyWorld();
                     //if(prefab!= null)
                     //{

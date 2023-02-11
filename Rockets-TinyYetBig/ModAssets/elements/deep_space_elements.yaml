@@ -12,17 +12,18 @@ elements:
     highTempTransitionOreId: UnobtaniumDust
     highTempTransitionOreMassConversion: 0.1
     defaultTemperature: 1
-    defaultMass: 100
+    defaultMass: 1000
     maxMass: 2000
     hardness: 251
     molarMass: 180
     lightAbsorptionFactor: 1
     radiationAbsorptionFactor: 1.26
     radiationPer1000Mass: 0
-    materialCategory: ManufacturedMaterial
+    materialCategory: RareMaterials
     tags:
-    - Metal
     - RefinedMetal
+    - RadiationShieldingMaterial
+    - RTB_NeutroniumAlloyMaterial
     - BuildableAny
     - Insulator
     buildMenuSort: 1
@@ -37,18 +38,18 @@ elements:
     solidSurfaceAreaMultiplier: 0
     liquidSurfaceAreaMultiplier: 0
     gasSurfaceAreaMultiplier: 0
-    strength: 0
+    strength: 1.8
     highTemp: 9000
     highTempTransitionTarget: Unobtanium
     defaultTemperature: 1
-    defaultMass: 10
+    defaultMass: 10000
     maxMass: 1000
     hardness: 251
     molarMass: 200
     lightAbsorptionFactor: 1
     radiationAbsorptionFactor: 1.26
     radiationPer1000Mass: 0
-    materialCategory: Special
+    materialCategory: RareMaterials
     buildMenuSort: 1
     isDisabled: false
     state: Solid

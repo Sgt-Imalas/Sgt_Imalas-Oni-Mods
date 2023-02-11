@@ -28,7 +28,7 @@ namespace Rockets_TinyYetBig.Patches
             var newElements = new HashSet<Substance>()
             {
                 UnobtaniumDust.CreateSubstance(),
-                UnobtaniumAlloy.CreateSubstance(true, refined)
+                UnobtaniumAlloy.CreateSubstance(true, refined,null,null,Color.white)
             };
             list.AddRange(newElements);
             SgtLogger.debuglog("2," + list + ", "+list.Count);
