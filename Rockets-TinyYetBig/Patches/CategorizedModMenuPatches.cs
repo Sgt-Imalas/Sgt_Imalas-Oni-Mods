@@ -67,7 +67,7 @@ namespace Rockets_TinyYetBig
         //    {
         //        if (Config.Instance.EnableBuildingCategories)
         //        {
-                    
+
         //        }
         //    }
         //}
@@ -139,21 +139,7 @@ namespace Rockets_TinyYetBig
                     ClearButtons(__instance);
                     foreach (var category in RocketModuleList.GetRocketModuleList())
                     {
-
-#if DEBUG
-                        //Debug.Log("{" + (RocketCategory)category.Key + "}");
-
-                        //foreach (var module in category.Value)
-                        //{
-                        //    Debug.Log("Module In List: " + module);
-                        //}
-#endif
-
-
-
-                        if (
-                            //category.Key != (int)RocketCategory.uncategorized && 
-                            category.Value.Count > 0)
+                        if (category.Value.Count > 0)
                         {
                             GameObject categoryGO = Util.KInstantiateUI(__instance.categoryPrefab, __instance.categoryContent, true);
                             categoryGO.name = category.Key.ToString();
@@ -267,24 +253,28 @@ namespace Rockets_TinyYetBig
                 {
                     foreach (var button in ModAssets.CategorizedButtons)
                     {
-                        if (button.Value.TryGetComponent<MultiToggle>(out var component1) && button.Value.TryGetComponent<HierarchyReferences>(out var component2))
+                        if (!button.IsNullOrDestroyed() && !button.Value.IsNullOrDestroyed())
                         {
-                            if (!___moduleBuildableState[button.Key.first])
+                            if (button.Value.TryGetComponent<MultiToggle>(out var component1) && button.Value.TryGetComponent<HierarchyReferences>(out var component2))
                             {
-                                component2.GetReference<Image>("FG").material = PlanScreen.Instance.desaturatedUIMaterial;
-                                if (button.Key.first == ___selectedModuleDef)
-                                    component1.ChangeState(1);
+                                if (!___moduleBuildableState[button.Key.first])
+                                {
+                                    component2.GetReference<Image>("FG").material = PlanScreen.Instance.desaturatedUIMaterial;
+                                    if (button.Key.first == ___selectedModuleDef)
+                                        component1.ChangeState(1);
+                                    else
+                                        component1.ChangeState(0);
+                                }
                                 else
-                                    component1.ChangeState(0);
+                                {
+                                    component2.GetReference<Image>("FG").material = PlanScreen.Instance.defaultUIMaterial;
+                                    if (button.Key.first == ___selectedModuleDef)
+                                        component1.ChangeState(3);
+                                    else
+                                        component1.ChangeState(2);
+                                }
                             }
-                            else
-                            {
-                                component2.GetReference<Image>("FG").material = PlanScreen.Instance.defaultUIMaterial;
-                                if (button.Key.first == ___selectedModuleDef)
-                                    component1.ChangeState(3);
-                                else
-                                    component1.ChangeState(2);
-                            }
+
                         }
                     }
                     __instance.UpdateBuildButton();
@@ -305,24 +295,28 @@ namespace Rockets_TinyYetBig
                 {
                     foreach (var button in ModAssets.CategorizedButtons)
                     {
-                        if (!___moduleBuildableState.ContainsKey(button.Key.first))
+                        if (!button.IsNullOrDestroyed()&& !button.Value.IsNullOrDestroyed())
                         {
-                            ___moduleBuildableState.Add(button.Key.first, false);
-                        }
-                        TechItem techItem = Db.Get().TechItems.TryGet(button.Key.first.PrefabID);
-                        if (techItem != null)
-                        {
-                            bool flag = DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || techItem.IsComplete();
+                            if (!___moduleBuildableState.ContainsKey(button.Key.first))
+                            {
+                                ___moduleBuildableState.Add(button.Key.first, false);
+                            }
+                            TechItem techItem = Db.Get().TechItems.TryGet(button.Key.first.PrefabID);
+                            if (techItem != null)
+                            {
+                                bool flag = DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || techItem.IsComplete();
 
-                            if (!button.Value.IsNullOrDestroyed())
-                                button.Value.SetActive(flag);
+                                if (!button.Value.IsNullOrDestroyed())
+                                    button.Value.SetActive(flag);
+                            }
+                            else
+                            {
+                                if (!button.Value.IsNullOrDestroyed())
+                                    button.Value.SetActive(true);
+                            }
+                            ___moduleBuildableState[button.Key.first] = __instance.TestBuildable(button.Key.first);
+
                         }
-                        else
-                        {
-                            if (!button.Value.IsNullOrDestroyed())
-                                button.Value.SetActive(true);
-                        }
-                        ___moduleBuildableState[button.Key.first] = __instance.TestBuildable(button.Key.first);
 
                     }
                     if (___selectedModuleDef != null)

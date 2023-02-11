@@ -42,7 +42,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                     AddRocketModuleToBuildList(HabitatModuleSmallExpandedConfig.ID, new RocketCategory[] { RocketCategory.habitats, RocketCategory.nosecones }, HabitatModuleSmallConfig.ID);
                     AddRocketModuleToBuildList(HabitatModuleMediumExpandedConfig.ID, RocketryUtils.RocketCategory.habitats, HabitatModuleMediumConfig.ID);
                     AddRocketModuleToBuildList(HabitatModuleStargazerConfig.ID, new RocketCategory[] { RocketCategory.habitats, RocketCategory.nosecones }, NoseconeBasicConfig.ID);
-                    AddRocketModuleToBuildList(HabitatModulePlatedNoseconeLargeConfig.ID, RocketryUtils.RocketCategory.habitats, HabitatModuleSmallExpandedConfig.ID);
+                    AddRocketModuleToBuildList(HabitatModulePlatedNoseconeLargeConfig.ID, new RocketCategory[] { RocketCategory.habitats, RocketCategory.nosecones }, HabitatModuleSmallExpandedConfig.ID);
                 }
 
                 if (Config.Instance.EnableRadboltStorage)
