@@ -21,12 +21,26 @@ namespace Rockets_TinyYetBig.Buildings.Habitats
 
         public override BuildingDef CreateBuildingDef()
         {
-            float[] denseTieR1 = new float[] { 800f, 200f };
-            string[] rawMetals =
+            float[] denseTieR1;
+            string[] rawMetals;
+
+            if (Config.Instance.NeutroniumMaterial)
             {
+                denseTieR1 = new float[] { 700f, 150f };
+                rawMetals = new[]
+                {
                 MATERIALS.REFINED_METAL,
                 ModAssets.Tags.NeutroniumAlloy.ToString()
-            };
+                };
+            }
+            else
+            {
+                denseTieR1 = new float[] { 950f };
+                rawMetals = new[]
+                {
+                 SimHashes.Steel.ToString()
+                };
+            }
             EffectorValues noiseLevel = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;
 

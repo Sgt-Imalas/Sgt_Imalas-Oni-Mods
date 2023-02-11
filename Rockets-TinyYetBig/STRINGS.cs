@@ -266,8 +266,8 @@ namespace Rockets_TinyYetBig
                 public class RTB_HABITATMODULEPLATEDLARGE
                 {
                     public static LocString NAME = (LocString)UI.FormatAsLink("Plated Spacefarer Nosecone", nameof(HabitatModuleSmallExpandedConfig));
-                    public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULESMALL.DESC+"\n\nInterior is fully shielded from radiation.";
-                    public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULESMALL.EFFECT;
+                    public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULESMALL.DESC;
+                    public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULESMALL.EFFECT + "\n\nInterior is fully shielded from radiation.";
                 }
 
                 public class RTB_HABITATMODULESMALLEXPANDED

@@ -139,6 +139,7 @@ namespace Rockets_TinyYetBig.Science
                     ModAssets.Techs.LargerRocketLivingSpaceTech = new Tech(ModAssets.Techs.LargerRocketLivingSpaceTechID, new List<string>
                     {
                         HabitatModuleMediumExpandedConfig.ID,
+                        HabitatModulePlatedNoseconeLargeConfig.ID,
                     },
                     __instance
                     );

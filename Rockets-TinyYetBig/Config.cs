@@ -19,7 +19,7 @@ namespace Rockets_TinyYetBig
             Instance.CompressInteriors
             && Instance.EnableAdvWorldSelector
             && Instance.SpaceStationsAndTech
-            && Instance.NeutroniumSplinters
+            && Instance.NeutroniumMaterial
             ;
 
 
@@ -168,17 +168,17 @@ namespace Rockets_TinyYetBig
         #endregion
         #region SpaceStations
 
-        [Option("Space Stations & Deep Space Science", "", "(5) Space Stations")]
+        [Option("Space Stations & Deep Space Science", "", "(5) Space Expansion")]
         [JsonProperty]
         protected bool SpaceStationsAndTech { get; set; }
 
-        [Option("Docking", "Dock rockets in space to transfer dupes and contents of the interiors", "(5) Space Connections")]
+        [Option("Docking", "Dock rockets in space to transfer dupes and contents of the interiors", "(5) Space Expansion")]
         [JsonProperty]
         public bool RocketDocking { get; set; }
 
-        [Option("Neutronium Splinters", "Gather Neutronium Splinters by analyzing artifacts. Neutronium Splinters are required in the construction of certain structures", "(5) Space Connections")]
+        [Option("Neutronium Alloy", "Gather Neutronium Dust by analyzing artifacts and refine it into Neutronium Alloy.\nNeutronium Alloys are required in the construction of large space structures", "(5) Space Expansion")]
         [JsonProperty]
-        public bool NeutroniumSplinters { get; set; }
+        public bool NeutroniumMaterial { get; set; }
 
         #endregion
 
@@ -225,7 +225,7 @@ namespace Rockets_TinyYetBig
             /// SpaceStations
             SpaceStationsAndTech = false;
             RocketDocking = true;
-            NeutroniumSplinters = true;
+            NeutroniumMaterial = true;
 
         }
     }

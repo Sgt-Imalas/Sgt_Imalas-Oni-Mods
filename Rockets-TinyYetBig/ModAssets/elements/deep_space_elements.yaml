@@ -11,7 +11,7 @@ elements:
     highTempTransitionTarget: SteelGas
     highTempTransitionOreId: UnobtaniumDust
     highTempTransitionOreMassConversion: 0.1
-    defaultTemperature: 1
+    defaultTemperature: 300
     defaultMass: 1000
     maxMass: 2000
     hardness: 251
@@ -19,9 +19,11 @@ elements:
     lightAbsorptionFactor: 1
     radiationAbsorptionFactor: 1.26
     radiationPer1000Mass: 0
-    materialCategory: RareMaterials
+    materialCategory: ManufacturedMaterial
     tags:
+    - Metal
     - RefinedMetal
+    - Noncrushable
     - RadiationShieldingMaterial
     - RTB_NeutroniumAlloyMaterial
     - BuildableAny
@@ -41,7 +43,7 @@ elements:
     strength: 1.8
     highTemp: 9000
     highTempTransitionTarget: Unobtanium
-    defaultTemperature: 1
+    defaultTemperature: 300
     defaultMass: 10000
     maxMass: 1000
     hardness: 251

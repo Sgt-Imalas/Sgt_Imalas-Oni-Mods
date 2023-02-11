@@ -15,8 +15,17 @@ namespace Rockets_TinyYetBig.SpaceStations
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public override BuildingDef CreateBuildingDef()
         {
-            float[] denseTieR0 = new float[] { 1350f }; 
-            string[] rawMetals = MATERIALS.REFINED_METALS;
+            float[] cargoMass =
+            {
+                1250f,
+                150f,
+            };
+            string[] constructionmaterials = new string[]
+            {
+                MATERIALS.REFINED_METAL,
+                ModAssets.Tags.NeutroniumAlloy.ToString(),
+            };
+
             EffectorValues noiseLevel = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;
             BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(
@@ -25,9 +34,9 @@ namespace Rockets_TinyYetBig.SpaceStations
                 height: 6,
                 anim: "space_station_deployer_kanim",
                 hitpoints: 1000,
-                construction_time: 40f,
-                construction_mass: denseTieR0,
-                construction_materials: rawMetals,
+                construction_time: 60f,
+                construction_mass: cargoMass,
+                construction_materials: constructionmaterials,
                 melting_point: 9999f,
                 BuildLocationRule.Anywhere,
                 decor: none,

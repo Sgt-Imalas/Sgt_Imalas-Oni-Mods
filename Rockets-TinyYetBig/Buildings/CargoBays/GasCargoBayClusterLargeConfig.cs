@@ -17,11 +17,32 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 
         public override BuildingDef CreateBuildingDef()
         {
-            float[] cargoMass = { 1500f };
-            string[] construction_materials = new string[1]
+            float[] cargoMass;
+            string[] construction_materials;
+            if (Config.Instance.NeutroniumMaterial)
             {
-                SimHashes.Steel.ToString()
-            };
+                cargoMass = new[]
+                 {
+                    950f,
+                    50f,
+                };
+                construction_materials = new string[]
+                {
+                MATERIALS.REFINED_METAL,
+                ModAssets.Tags.NeutroniumAlloy.ToString(),
+                };
+            }
+            else
+            {
+                cargoMass = new[]
+                 {
+                    1200f
+                };
+                construction_materials = new string[]
+                {
+                    SimHashes.Steel.ToString()
+                };
+            }
             EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;

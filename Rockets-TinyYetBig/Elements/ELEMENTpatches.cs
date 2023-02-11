@@ -10,30 +10,13 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 
-namespace Rockets_TinyYetBig.Patches
+namespace Rockets_TinyYetBig.Elements
 {
+
     internal class ELEMENTpatches
     {
 
-        public static ElementInfo
-            UnobtaniumDust,
-            UnobtaniumAlloy;
-        public static void RegisterSubstances(List<Substance> list)
-        {
-            var refined = list.Find(e => e.elementID == SimHashes.Copper).material;
 
-            UnobtaniumDust = ElementInfo.Solid("UnobtaniumDust", Color.black);
-            UnobtaniumAlloy = ElementInfo.Solid("UnobtaniumAlloy", Color.green);
-            SgtLogger.debuglog("1,"+list + ", "+list.Count);
-            var newElements = new HashSet<Substance>()
-            {
-                UnobtaniumDust.CreateSubstance(),
-                UnobtaniumAlloy.CreateSubstance(true, refined,null,null,Color.white)
-            };
-            list.AddRange(newElements);
-            SgtLogger.debuglog("2," + list + ", "+list.Count);
-
-        }
 
         /// <summary>
         /// akis beached 
@@ -46,14 +29,14 @@ namespace Rockets_TinyYetBig.Patches
             {
                 // Add my new elements
                 var list = substanceTablesByDlc[DlcManager.VANILLA_ID].GetList();
-                RegisterSubstances(list);
+                ModElements.RegisterSubstances(list);
 
-                SgtLogger.l("ElementList length after that method; " + substanceTablesByDlc[DlcManager.VANILLA_ID].GetList().Count);
-                SgtLogger.l("ElementList SO length; " + substanceTablesByDlc[DlcManager.EXPANSION1_ID].GetList().Count);
+                //SgtLogger.l("ElementList length after that method; " + substanceTablesByDlc[DlcManager.VANILLA_ID].GetList().Count);
+                //SgtLogger.l("ElementList SO length; " + substanceTablesByDlc[DlcManager.EXPANSION1_ID].GetList().Count);
             }
             public static void Postfix(ElementLoader __instance)
             {
-                SgtLogger.l("ElementList length in postfix; " + ElementLoader.elementTable.Count);
+                //SgtLogger.l("ElementList length in postfix; " + ElementLoader.elementTable.Count);
                 SgtElementUtil.FixTags();
             }
         }

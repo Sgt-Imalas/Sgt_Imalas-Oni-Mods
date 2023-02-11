@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Rockets_TinyYetBig.Elements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,13 +23,13 @@ namespace Rockets_TinyYetBig.Patches
             {
                 RecipeElement[] input = new RecipeElement[]
                 {
-                    new ComplexRecipe.RecipeElement(ELEMENTpatches.UnobtaniumDust.Tag, 10f),
+                    new ComplexRecipe.RecipeElement(ModElements.UnobtaniumDust.Tag, 10f),
                     new ComplexRecipe.RecipeElement(SimHashes.Steel.CreateTag(), 90f),
                 };
 
                 RecipeElement[] output = new RecipeElement[]
                 {
-                    new ComplexRecipe.RecipeElement(ELEMENTpatches.UnobtaniumAlloy.Tag, 100f)
+                    new ComplexRecipe.RecipeElement(ModElements.UnobtaniumAlloy.Tag, 100f)
                 };
 
                 string recipeID = ComplexRecipeManager.MakeRecipeID(SupermaterialRefineryConfig.ID, input, output);

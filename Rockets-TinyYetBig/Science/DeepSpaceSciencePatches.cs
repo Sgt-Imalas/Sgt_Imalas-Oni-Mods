@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Rockets_TinyYetBig.Elements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace Rockets_TinyYetBig.Science
             {
                 __instance.gameObject.AddOrGet<DeepSpaceScienceManager>();
             }
-        } 
+        }
 
         [HarmonyPatch(typeof(ArtifactAnalysisStationWorkable))]
         [HarmonyPatch("ConsumeCharm")]
@@ -34,10 +35,29 @@ namespace Rockets_TinyYetBig.Science
         {
             public static void Prefix(ArtifactAnalysisStationWorkable __instance)
             {
-                if (Config.SpaceStationsPossible) { 
-                    GameObject artifactToBeDefrosted = __instance.storage.FindFirst(GameTags.CharmedArtifact);
-                    DeepSpaceScienceManager.Instance.ArtifactResearched(artifactToBeDefrosted != null ? artifactToBeDefrosted.HasTag(GameTags.TerrestrialArtifact):false);
+                GameObject artifactToBeDefrosted = __instance.storage.FindFirst(GameTags.CharmedArtifact);
+                if(artifactToBeDefrosted != null)
+                {
+                    if (Config.SpaceStationsPossible)
+                    {
+                        DeepSpaceScienceManager.Instance.ArtifactResearched(artifactToBeDefrosted.HasTag(GameTags.TerrestrialArtifact));
+                    }
+                    if(Config.Instance.NeutroniumMaterial)
+                        YeetDust(__instance.gameObject, artifactToBeDefrosted.HasTag(GameTags.TerrestrialArtifact) ? 20f : 10f);
                 }
+            }
+            static void YeetDust(GameObject originGo, float amount)
+            {
+
+                GameObject go = ElementLoader.FindElementByHash(ModElements.UnobtaniumDust.SimHash).substance.SpawnResource(originGo.transform.position, amount, UtilLibs.UtilMethods.GetKelvinFromC(20f), byte.MaxValue, 0, false);
+                go.transform.SetPosition(Grid.CellToPosCCC(Grid.PosToCell(originGo), Grid.SceneLayer.Ore));
+                go.SetActive(true);
+
+
+                Vector2 initial_velocity = new Vector2(UnityEngine.Random.Range(-2f, 2f) * 1f, (float)((double)UnityEngine.Random.value * 2.5 + 3.0));
+                if (GameComps.Fallers.Has((object)go))
+                    GameComps.Fallers.Remove(go);
+                GameComps.Fallers.Add(go, initial_velocity);
             }
         }
 
@@ -69,7 +89,7 @@ namespace Rockets_TinyYetBig.Science
                     null,
                     2400f,
                     (HashedString)"research_center_kanim",
-                    new string[] {},
+                    new string[] { },
                     STRINGS.DEEPSPACERESEARCH.RECIPEDESC
                 ));
             }
