@@ -55,13 +55,16 @@ namespace LightBridge.Buildings
                 CellOffset rotatedOffset = component.GetRotatedOffset(offset);
                 int num = Grid.OffsetCell(cell, rotatedOffset);
                 Grid.FakeFloor.Remove(num);
+                //Grid.SetSolid(num, false, CellEventLogger.Instance.SimCellOccupierDestroy);
                 Pathfinding.Instance.AddDirtyNavGridCell(num);
             }
             foreach (CellOffset offset in ToActivate)
             {
                 CellOffset rotatedOffset = component.GetRotatedOffset(offset);
                 int num = Grid.OffsetCell(cell, rotatedOffset);
+                Grid.SetSolid(num, true, CellEventLogger.Instance.SimCellOccupierForceSolid);
                 Grid.FakeFloor.Add(num);
+                //SimMessages.SetCellProperties(num, (byte)4);
                 Pathfinding.Instance.AddDirtyNavGridCell(num);
             }
             //simCellOccupier.

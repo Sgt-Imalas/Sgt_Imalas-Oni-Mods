@@ -26,7 +26,7 @@ namespace Rockets_TinyYetBig.Buildings.Habitats
 
             if (Config.Instance.NeutroniumMaterial)
             {
-                denseTieR1 = new float[] { 700f, 150f };
+                denseTieR1 = new float[] { 750f, 100f };
                 rawMetals = new[]
                 {
                 MATERIALS.REFINED_METAL,
