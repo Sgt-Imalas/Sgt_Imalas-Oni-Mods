@@ -169,7 +169,7 @@ namespace Rockets_TinyYetBig.Patches
                                 collapseButtons[rocketWorld.ParentWorldId].SetActive(true);
 
                             int insertionIndex = OutputList.FindIndex(kvp => kvp.Key == rocketWorld.ParentWorldId);
-                            if (insertionIndex > 0)
+                            if (insertionIndex >= 0)
                             {
                                 OutputList.Insert(insertionIndex + 1, rocket);
                             }

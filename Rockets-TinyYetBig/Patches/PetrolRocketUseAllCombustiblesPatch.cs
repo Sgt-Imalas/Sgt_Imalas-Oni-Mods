@@ -46,7 +46,7 @@ namespace Rockets_TinyYetBig.Patches
                 {
                     FuelTank tank = go.GetComponent<FuelTank>();
                     tank.FuelType = GameTags.CombustibleLiquid;
-                    go.GetComponent<ManualDeliveryKG>().enabled= false;
+                    UnityEngine.Object.Destroy(go.GetComponent<ManualDeliveryKG>());
                 }
             }
 
@@ -62,6 +62,7 @@ namespace Rockets_TinyYetBig.Patches
                     global::STRINGS.BUILDINGS.PREFABS.KEROSENEENGINECLUSTER.EFFECT = STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTER_EFFECT;
                     global::STRINGS.BUILDINGS.PREFABS.KEROSENEENGINECLUSTERSMALL.EFFECT = STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTERSMALL_EFFECT;
                 }
+                
             }
 
         }

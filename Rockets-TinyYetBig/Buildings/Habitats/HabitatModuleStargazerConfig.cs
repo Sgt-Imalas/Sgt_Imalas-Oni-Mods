@@ -7,7 +7,7 @@ using TUNING;
 using UnityEngine;
 using UtilLibs;
 
-namespace Rockets_TinyYetBig.Buildings.Habitats
+namespace Rockets_TinyYetBig
 {
     class HabitatModuleStargazerConfig : IBuildingConfig
     {

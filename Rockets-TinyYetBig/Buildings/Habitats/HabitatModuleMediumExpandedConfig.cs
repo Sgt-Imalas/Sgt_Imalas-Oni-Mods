@@ -7,7 +7,7 @@ using TUNING;
 using UnityEngine;
 using FMODUnity;
 
-namespace Rockets_TinyYetBig.Buildings.Habitats
+namespace Rockets_TinyYetBig
 {
     class HabitatModuleMediumExpandedConfig : IBuildingConfig
     {
