@@ -169,9 +169,18 @@ namespace Rockets_TinyYetBig.Patches
                                 collapseButtons[rocketWorld.ParentWorldId].SetActive(true);
 
                             int insertionIndex = OutputList.FindIndex(kvp => kvp.Key == rocketWorld.ParentWorldId);
-                            OutputList.Insert(insertionIndex + 1, rocket);
+                            if (insertionIndex > 0)
+                            {
+                                OutputList.Insert(insertionIndex + 1, rocket);
+                            }
+                            else
+                            {
+                                OutputList.Add(rocket);
+                            }
                             SetAnchors(rocket.Value, !SpaceStationManager.WorldIsRocketInterior(rocketWorld.ParentWorldId));
-                            Collapse = ShouldCollapseDic[rocketWorld.ParentWorldId];
+
+                            if (collapseButtons.ContainsKey(rocketWorld.ParentWorldId))
+                                Collapse = ShouldCollapseDic[rocketWorld.ParentWorldId];
                         }
                         else
                         {
