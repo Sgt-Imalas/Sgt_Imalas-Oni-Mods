@@ -16,8 +16,7 @@ While including a large number of features, the mod is higly modular so every pl
 [*] Huge amount of new Rocket Modules -> look through the steam images for a list
 [*] Module Building Categories - no longer an endless scrolling fest 
 [*] Generator Modules (produce power while not landed without the need to move the rocket)
-[*] Insulated Wall adapter - seal of your rocket chimney
-[*] Ladder adapter - add a ladder between launchpads without interrupting loader connections
+[*] Loader adapters - add ladders or insulated walls between launchpads without preventing loader access
 [*] Fuel Loaders - no more overheating pipes due to rocket start, just fuel them via these new loader buildings
 [*] Rocket Docking - Exchange dupes during the flight, rescue stranded dupes without blowing up the respective rocket and more to come...
 [*] Habitat Power Plug - Connect the internal electric grid to the outside without the need for a battery module
@@ -57,7 +56,9 @@ While including a large number of features, the mod is higly modular so every pl
 		[*][h3]Drillcone Service Module[/h3]
 			Holds additional diamonds for the drillcone and increases its mining speed by 20%
 		[*][h3]Fridge Module[/h3]
-			Holds Food fresh indefinitely. Can only be loaded via cargo loader. can be accessed via wall port during flight.
+			Holds Food fresh indefinitely. Can only be loaded via cargo loader. can be accessed via wall port during flight.			
+		[*][h3]Colossal Cargo Bays (1/element state)[/h3]
+			These huge cargo bays feature an insanely large amount of storage
 		[/list]
 		
 	[*][h2]Fuel[/h2][list]
