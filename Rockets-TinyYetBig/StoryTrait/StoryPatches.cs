@@ -19,9 +19,9 @@ namespace Rockets_TinyYetBig.StoryTrait
         {
             static void Postfix()
             {
-                CrashedUfoStory = new Story(CrashedUFOStoryTrait.CrashedUFOStoryTraitKey, "storytraits/RTB_CrashedUFOStoryTrait", 5, 6, 44).SetKeepsake("keepsake_test");
-                Db.Get().Stories.Add(CrashedUfoStory);
-                Db.Get().Stories.resources.Sort();
+                //CrashedUfoStory = new Story(CrashedUFOStoryTrait.CrashedUFOStoryTraitKey, "storytraits/RTB_CrashedUFOStoryTrait", 5, 6, 44).SetKeepsake("keepsake_test");
+                //Db.Get().Stories.Add(CrashedUfoStory);
+                //Db.Get().Stories.resources.Sort();
             }
         }
     }

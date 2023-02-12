@@ -14,12 +14,12 @@ namespace Rockets_TinyYetBig.Buildings.Habitats
         public const string ID = "RTB_HabitatModulePlatedLarge";
         private ConduitPortInfo gasInputPort = new ConduitPortInfo(ConduitType.Gas, new CellOffset(-2, 0));
         private ConduitPortInfo gasOutputPort = new ConduitPortInfo(ConduitType.Gas, new CellOffset(2, 0));
-        private ConduitPortInfo liquidInputPort = new ConduitPortInfo(ConduitType.Liquid, new CellOffset(-2, 2));
-        private ConduitPortInfo liquidOutputPort = new ConduitPortInfo(ConduitType.Liquid, new CellOffset(2, 2));
+        private ConduitPortInfo liquidInputPort = new ConduitPortInfo(ConduitType.Liquid, new CellOffset(-2, 1));
+        private ConduitPortInfo liquidOutputPort = new ConduitPortInfo(ConduitType.Liquid, new CellOffset(2, 1));
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public override BuildingDef CreateBuildingDef()
         {
-            float[] denseTieR1 = new float[] { 300f,300,10 };
+            float[] denseTieR1 = new float[] { 300f,300 };
             string[] rawMetals = new[] 
             { 
                 MATERIALS.REFINED_METAL ,
