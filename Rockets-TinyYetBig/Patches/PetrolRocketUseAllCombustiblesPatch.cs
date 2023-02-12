@@ -46,6 +46,7 @@ namespace Rockets_TinyYetBig.Patches
                 {
                     FuelTank tank = go.GetComponent<FuelTank>();
                     tank.FuelType = GameTags.CombustibleLiquid;
+                    go.GetComponent<ManualDeliveryKG>().enabled= false;
                 }
             }
 
