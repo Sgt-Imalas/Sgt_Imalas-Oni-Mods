@@ -15,6 +15,19 @@ namespace Rockets_TinyYetBig
 {
     public class STRINGS
     {
+        public class CODEX
+        {
+            public class STORY_TRAITS
+            {
+                public class RTB_CRASHEDUFOSTORYTRAIT
+                {
+                    public static LocString NAME = "Crashed Starship";
+                    public static LocString DESCRIPTION = "tba";
+                }
+            }
+
+        }
+
         public class MISC
         {
             public class TAGS

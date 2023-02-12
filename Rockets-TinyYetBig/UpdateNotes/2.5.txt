@@ -35,4 +35,6 @@ Fixes & Adjustments:
 - small adjustments to nat gas engine anim
 - buffed steam generator & coal generator consumption rate
 - readded player set capacity to critter module
+- Fixed a lot of race condition crashes
+- fixed docking door overwriting hatch teleporters
 

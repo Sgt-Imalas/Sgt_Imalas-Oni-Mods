@@ -69,6 +69,8 @@ namespace Rockets_TinyYetBig.Science
             {
                 InjectionMethods.AddSpriteToAssets(__instance, "research_type_deep_space_icon");
                 InjectionMethods.AddSpriteToAssets(__instance, "research_type_deep_space_icon_unlock");
+                InjectionMethods.AddSpriteToAssets(__instance, "RTB_CrashedUFOStoryTrait_icon");
+                InjectionMethods.AddSpriteToAssets(__instance, "RTB_CrashedUFOStoryTrait_image");
             }
         }
 
