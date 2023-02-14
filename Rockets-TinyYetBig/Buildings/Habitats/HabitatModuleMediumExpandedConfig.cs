@@ -94,7 +94,7 @@ namespace Rockets_TinyYetBig
             go.AddOrGet<CharacterOverlay>().shouldShowName = true;
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
             {
-      new BuildingAttachPoint.HardPoint(new CellOffset(0, 6), GameTags.Rocket, (AttachableBuilding) null)
+                new BuildingAttachPoint.HardPoint(new CellOffset(0, 6), GameTags.Rocket, (AttachableBuilding) null)
             };
             Storage storage1 = go.AddComponent<Storage>();
             storage1.showInUI = false;

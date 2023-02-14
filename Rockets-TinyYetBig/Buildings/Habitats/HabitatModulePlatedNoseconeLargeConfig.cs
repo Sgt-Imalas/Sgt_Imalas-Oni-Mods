@@ -106,7 +106,7 @@ namespace Rockets_TinyYetBig.Buildings.Habitats
             if (Config.Instance.HabitatPowerPlug)
             {
                 WireUtilitySemiVirtualNetworkLink virtualNetworkLink = go.AddOrGet<WireUtilitySemiVirtualNetworkLink>();
-                virtualNetworkLink.link1 = ModAssets.PLUG_OFFSET_SMALL;
+                virtualNetworkLink.link1 = ModAssets.PLUG_OFFSET_MEDIUM;
                 virtualNetworkLink.visualizeOnly = true;
             }
 
