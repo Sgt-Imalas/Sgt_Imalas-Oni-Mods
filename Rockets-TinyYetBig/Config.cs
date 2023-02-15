@@ -24,7 +24,7 @@ namespace Rockets_TinyYetBig
 
 
         //[Option("test2", ".")]
-        //public Action<object> clickButton2 { get { return i => Debug.Log("test"); }  }
+        //public Action<object> clickButton2 { get { return i => SgtLogger.debuglog("test"); }  }
 
 
         #region vanillaplus

@@ -21,7 +21,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
         public void OnSidescreenButtonPressed()
         {
-            Debug.Log("LAND");
+            SgtLogger.debuglog("LAND");
         }
 
         public bool SidescreenButtonInteractable()

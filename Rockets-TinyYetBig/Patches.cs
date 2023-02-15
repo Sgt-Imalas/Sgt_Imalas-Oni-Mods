@@ -52,7 +52,7 @@ namespace Rockets_TinyYetBig
                 //InjectionMethods.PrintInstructions(code);
                 if (insertionIndex != -1)
                 {
-                    //Debug.Log("FOUNDDDDDDDDDDD");
+                    //SgtLogger.debuglog("FOUNDDDDDDDDDDD");
                     code[insertionIndex] = new CodeInstruction(OpCodes.Call, BackgroundHelper);
                 }
 
@@ -129,7 +129,7 @@ namespace Rockets_TinyYetBig
             public static bool Prefix(GameObject target, ref bool __result)
             {
                 var targetComponent = target.GetComponent<RadiationBatteryOutputHandler>();
-                //Debug.Log((target != null) + " ATLEAST ONCE TRUE");
+                //SgtLogger.debuglog((target != null) + " ATLEAST ONCE TRUE");
                 if (targetComponent != null)
                 {
                     __result = true;

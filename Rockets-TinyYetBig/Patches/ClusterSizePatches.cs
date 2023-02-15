@@ -15,10 +15,10 @@ namespace Rockets_TinyYetBig.Patches
             public static void Prefix(ref int ___m_numRings)
             {
                 return; ///till l8er
-                Debug.Log("Rings On Spawn: "+ ___m_numRings);
+                SgtLogger.debuglog("Rings On Spawn: "+ ___m_numRings);
                 ModAssets.InnerLimit = ___m_numRings;
                 ___m_numRings +=15;
-                Debug.Log("Rings extended: " + ___m_numRings);
+                SgtLogger.debuglog("Rings extended: " + ___m_numRings);
                 ModAssets.Rings = ___m_numRings;
             }
 

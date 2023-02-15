@@ -244,7 +244,7 @@ namespace Rockets_TinyYetBig.Patches
                 ModuleOrderTOOLTIP = string.Empty;
                 moduleCounter = 0;
 
-                //Debug.Log(System.DateTime.Now);
+                //SgtLogger.debuglog(System.DateTime.Now);
                 CraftModuleInterface craftModuleInterface = null;
                 if (selectedTarget.TryGetComponent(out Clustercraft clusterCraft))
                 {
@@ -361,7 +361,7 @@ namespace Rockets_TinyYetBig.Patches
                         foreach (var module in craftModuleInterface.clusterModules)
                         {
                             var moduleGet = module.Get();
-                            //Debug.Log(moduleGet.GetProperName());
+                            //SgtLogger.debuglog(moduleGet.GetProperName());
                             if (moduleGet.TryGetComponent<IFuelTank>(out var fueltank))
                             {
                                 FuelRemaining += fueltank.Storage.GetAmountAvailable(FuelTag);
@@ -442,7 +442,7 @@ namespace Rockets_TinyYetBig.Patches
                     ///Rocket dimensions, defined by engine
                     if (targetEngine != null)
                     {
-                        //Debug.Log("dims " + RocketDimensionsSTRING);
+                        //SgtLogger.debuglog("dims " + RocketDimensionsSTRING);
                         if (RocketHeight != RocketHeightPREVIOUS || RocketWidth != RocketWidthPREVIOUS)
                         {
                             RocketDimensionsTooltipSTRING = string.Format(UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.TOOLTIP, targetEngine.GetProperName(), RocketHeight.ToString(), RocketWidth.ToString());

@@ -60,13 +60,13 @@ namespace Rockets_TinyYetBig.SpaceStations
         public override void OnSpawn()
         {
             base.OnSpawn();
-            //Debug.Log("MY WorldID:" + SpaceStationInteriorId);
+            //SgtLogger.debuglog("MY WorldID:" + SpaceStationInteriorId);
             if (SpaceStationInteriorId < 0)
             {
                 var interiorWorld = SpaceStationManager.Instance.CreateSpaceStationInteriorWorld(gameObject, "interiors/" + InteriorTemplate, CurrentSpaceStationType.InteriorSize, BuildableInterior, null, Location);
                 SpaceStationInteriorId = interiorWorld.id;
-                Debug.Log("new WorldID:" + SpaceStationInteriorId);
-                Debug.Log("ADDED NEW SPACE STATION INTERIOR");
+                SgtLogger.debuglog("new WorldID:" + SpaceStationInteriorId);
+                SgtLogger.debuglog("ADDED NEW SPACE STATION INTERIOR");
             }
             ClusterManager.Instance.GetWorld(SpaceStationInteriorId).AddTag(ModAssets.Tags.IsSpaceStation);
 

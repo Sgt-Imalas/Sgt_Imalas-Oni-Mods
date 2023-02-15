@@ -251,7 +251,7 @@ namespace UtilLibs
             var result = screens.Find(s => s.name == name).screenPrefab;
 
             if (result == null)
-                Debug.LogWarning("Could not find a sidescreen with the name " + name);
+                SgtLogger.logwarning("Could not find a sidescreen with the name " + name);
 
             return result;
         }

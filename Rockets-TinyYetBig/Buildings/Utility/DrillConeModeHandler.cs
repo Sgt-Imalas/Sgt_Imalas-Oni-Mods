@@ -52,7 +52,7 @@ namespace Rockets_TinyYetBig.Buildings.Utility
                 }
 
             }
-            Debug.Log("DeliveryEnabled? : "+ !IsAutoLoader+", Capacity of Manual: "+deliveryKG.capacity+", Original:"+ManualDeliveryOriginalCapacity);
+            SgtLogger.debuglog("DeliveryEnabled? : "+ !IsAutoLoader+", Capacity of Manual: "+deliveryKG.capacity+", Original:"+ManualDeliveryOriginalCapacity);
         }
 
         public void SetButtonTextOverride(ButtonMenuTextOverride textOverride)

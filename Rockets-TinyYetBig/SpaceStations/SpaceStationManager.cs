@@ -88,7 +88,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                         Pathfinding.Instance.AddDirtyNavGridCell(cell);
                     }
                 }
-                Debug.Log((object)string.Format("Created new space station interior, id: {0}, at {1} with size {2}", (object)nextWorldId, (object)offset, (object)spaceStationInteriorSize ));
+                SgtLogger.debuglog((object)string.Format("Created new space station interior, id: {0}, at {1} with size {2}", (object)nextWorldId, (object)offset, (object)spaceStationInteriorSize ));
                 spaceStationInteriorWorld.PlaceInteriorTemplate(interiorTemplateName, (System.Action)(() =>
                 {
                     ///On StationCompleteAction idk

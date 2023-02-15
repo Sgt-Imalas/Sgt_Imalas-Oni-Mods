@@ -223,7 +223,7 @@ namespace Rockets_TinyYetBig.Patches
                                 bool filterable = diamondStorage.storageFilters != null && diamondStorage.storageFilters.Count > 0;
                                 if (remainingCapacity > 0f && num2 > 0f && (filterable ? diamondStorage.storageFilters.Contains(gameObject.PrefabID()) : true))
                                 {
-                                    Debug.Log(DrillConeStorages.Count() + "x items, " + diamondStorage.storageFilters.First() + " Fildersssss, " + diamondStorage.RemainingCapacity());
+                                    SgtLogger.debuglog(DrillConeStorages.Count() + "x items, " + diamondStorage.storageFilters.First() + " Fildersssss, " + diamondStorage.RemainingCapacity());
                                     isLoading = true;
                                     HasLoadingProcess = true;
                                     Pickupable pickupable = gameObject.GetComponent<Pickupable>().Take(remainingCapacity);

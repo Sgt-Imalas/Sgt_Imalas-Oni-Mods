@@ -101,7 +101,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         private void RefreshWithNotice(object data = null)
         {
-            //Debug.Log("HashEvent Triggered");
+            //SgtLogger.debuglog("HashEvent Triggered");
             this.RefreshButtons();
         }
         private void RefreshAll(object data = null) => this.RefreshButtons(); 
@@ -129,7 +129,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         {
             var gameObject = Util.KInstantiateUI(stateButtonPrefab, buttonContainer.gameObject, true);
 
-            //Debug.Log("ButtonPrefab_");
+            //SgtLogger.debuglog("ButtonPrefab_");
             //UIUtils.ListAllChildrenWithComponents(stateButtonPrefab.transform);
 
             if (gameObject.TryGetComponent(out MultiToggle button))
@@ -137,8 +137,8 @@ namespace Rockets_TinyYetBig.SpaceStations
                 //Assets.TryGetAnim((HashedString)animName, out var anim);
                 button.onClick += onClick;
                 button.ChangeState(type.Key == targetBuilder.CurrentSpaceStationTypeInt ? 1 : 0);
-                //Debug.Log(Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(type.Kanim)));
-                //Debug.Log("anim");
+                //SgtLogger.debuglog(Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(type.Kanim)));
+                //SgtLogger.debuglog("anim");
                 UIUtils.TryFindComponent<Image>(gameObject.transform, "FG").sprite = Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(type.Value.Kanim));
                 UIUtils.AddSimpleTooltipToObject(gameObject.transform, "<b>" + type.Value.Name + "</b>\n" + type.Value.Description, true);
                 buttons.Add(type, button);
@@ -149,7 +149,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         //{
         //    var gameObject = Util.KInstantiateUI(stateButtonPrefab, buttonContainer.gameObject, true);
 
-        //    //Debug.Log("ButtonPrefab_");
+        //    //SgtLogger.debuglog("ButtonPrefab_");
         //    //UIUtils.ListAllChildrenWithComponents(stateButtonPrefab.transform);
 
         //    if (gameObject.TryGetComponent(out MultiToggle button))
@@ -157,8 +157,8 @@ namespace Rockets_TinyYetBig.SpaceStations
         //        //Assets.TryGetAnim((HashedString)animName, out var anim);
         //        button.onClick += onClick;
         //        button.ChangeState(ModAssets.GetStationIndex(type) == targetBuilder.CurrentSpaceStationTypeInt ? 1 : 0);
-        //        //Debug.Log(Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(type.Kanim)));
-        //        //Debug.Log("anim");
+        //        //SgtLogger.debuglog(Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(type.Kanim)));
+        //        //SgtLogger.debuglog("anim");
         //        UIUtils.TryFindComponent<Image>(gameObject.transform, "FG").sprite = Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(type.Kanim));
         //        UIUtils.AddSimpleTooltipToObject(gameObject.transform, type.Name+"\n"+type.Description, true);
         //        buttons.Add(type, button);
@@ -222,7 +222,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         //{
         //    foreach (var button in buttons)
         //    {
-        //        //Debug.Log(targetBuilder.CurrentSpaceStationType + " <- current type, Button int -> " + button.Key);
+        //        //SgtLogger.debuglog(targetBuilder.CurrentSpaceStationType + " <- current type, Button int -> " + button.Key);
 
 
         //        var tech = button.Key.requiredTech;
@@ -240,7 +240,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         //    //UIUtils.ListAllChildren(transform);
 
         //    //UIUtils.ListAllChildrenWithComponents(flipButton.transform);
-        //    //Debug.Log("AAAAAAAAAAAAAAAAAAAAA");
+        //    //SgtLogger.debuglog("AAAAAAAAAAAAAAAAAAAAA");
         //    var img = flipButton.transform.Find("FG").GetComponent<Image>();
         //    img.sprite = Assets.GetSprite(targetBuilder.Constructing() && targetBuilder.Demolishing() ? "action_cancel" : "action_deconstruct");
         //    var text = targetBuilder.Constructing() && !targetBuilder.Demolishing() ? "Cancel Construction" : "Start Station Construction";

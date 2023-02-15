@@ -42,7 +42,7 @@ namespace Rockets_TinyYetBig.Patches
                         ++SupportModuleCount;
                     }
                 }
-                //Debug.Log(__instance + ", BooserCount: " + SupportModuleCount);
+                //SgtLogger.debuglog(__instance + ", BooserCount: " + SupportModuleCount);
                 harvestRate = (1f + SupportModuleCount * 0.2f) * AddSpeedBuff.defaultMiningSpeed;
             }
         }
@@ -63,7 +63,7 @@ namespace Rockets_TinyYetBig.Patches
                             ++SupportModuleCount;
                         }
                     }
-                    //Debug.Log(__instance + ", BooserCount: " + SupportModuleCount);
+                    //SgtLogger.debuglog(__instance + ", BooserCount: " + SupportModuleCount);
                     __instance.def.harvestSpeed = (1f + SupportModuleCount * 0.2f) * defaultMiningSpeed;
                 }
             }

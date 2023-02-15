@@ -302,7 +302,7 @@ namespace Rockets_TinyYetBig
                     return str;
                 });
 
-                Debug.Log("[Rocketry Expanden] Status items initialized");
+                SgtLogger.debuglog("[Rocketry Expanden] Status items initialized");
 
             }
         }

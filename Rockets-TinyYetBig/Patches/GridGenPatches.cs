@@ -20,7 +20,7 @@ namespace Rockets_TinyYetBig.Patches
                 {
                     __result.x += 272;
                     __result.y = Math.Max(__result.y, 272);
-                    Debug.Log("RocketryExpanded: Increased free grid space allocation");
+                    SgtLogger.debuglog("RocketryExpanded: Increased free grid space allocation");
                 }
             }
         }

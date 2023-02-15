@@ -60,7 +60,7 @@ namespace Rockets_TinyYetBig.Docking
             
             bool flying = spaceship!=null ? spaceship.Status == Clustercraft.CraftStatus.InFlight : false;
 
-            return manager != null && manager.HasDoors() && manager.GetCraftType != DockableType.Derelict && flying;
+            return manager != null && manager.HasDoors() && manager.GetCraftType != DockableType.Derelict && flying &&(!RocketryUtils.IsRocketInFlight(spaceship)) ;
         }
         public override void ClearTarget()
         {
@@ -115,7 +115,7 @@ namespace Rockets_TinyYetBig.Docking
                 rowPrefab=transform.Find("Content/ContentScrollRect/RowContainer/Rows/RowPrefab").gameObject;
                 listContainer = transform.Find("Content/ContentScrollRect/RowContainer/Rows").gameObject;
                 //var layout = transform.Find("Content/ContentScrollRect/Scrollbar").GetComponent<LayoutElement>();
-                //Debug.Log(String.Format("{0}, {1}, {2}", layout.minHeight, layout.preferredHeight, layout.flexibleHeight));
+                //SgtLogger.debuglog(String.Format("{0}, {1}, {2}", layout.minHeight, layout.preferredHeight, layout.flexibleHeight));
                 //layout.minHeight = 150f;
 
                 transform.Find("Content/ContentScrollRect").GetComponent<LayoutElement>().minHeight = 150; 
@@ -132,14 +132,19 @@ namespace Rockets_TinyYetBig.Docking
         private void Build()
         {
 #if DEBUG
-           // Debug.Log("------------------");
-           //UIUtils.ListAllChildren(this.transform);
-           // Debug.Log("------------------");
-           //UIUtils.ListAllChildrenWithComponents(this.transform);
-           // Debug.Log("------------------");
+            // SgtLogger.debuglog("------------------");
+            //UIUtils.ListAllChildren(this.transform);
+            // SgtLogger.debuglog("------------------");
+            //UIUtils.ListAllChildrenWithComponents(this.transform);
+            // SgtLogger.debuglog("------------------");
 #endif
+            SgtLogger.l("AAAA");
+            if (targetManager == null || headerLabel == null)
+                return;
             this.headerLabel.SetText("Docking Ports: "+ targetManager.GetUiDoorInfo());
+            SgtLogger.l("BBBB");
             this.ClearRows();
+            SgtLogger.l("CCCC");
             var AllDockerObjects = ClusterGrid.Instance.GetVisibleEntitiesAtCell(this.targetCraft.Location).FindAll(e => e.TryGetComponent<DockingManager>(out DockingManager manager));
             var AllDockers = AllDockerObjects
                 .Select(e => e.GetComponent<DockingManager>())
@@ -147,9 +152,10 @@ namespace Rockets_TinyYetBig.Docking
                 .ToList();
             AllDockers.Remove(targetManager);
 
-            //Debug.Log("CurrentTargetType: " + targetManager.GetCraftType);
+            SgtLogger.l("DDDD");
+            //SgtLogger.debuglog("CurrentTargetType: " + targetManager.GetCraftType);
 
-            if(targetManager.GetCraftType == DockableType.SpaceStation)
+            if (targetManager.GetCraftType == DockableType.SpaceStation)
             {
                 AllDockers.RemoveAll(craft => craft.GetCraftType == DockableType.SpaceStation);
             }

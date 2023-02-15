@@ -45,7 +45,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
         public void ConnecDoor(DockingDoor d)
         {
-            // Debug.Log("Door: " + d);
+            // SgtLogger.debuglog("Door: " + d);
             this.Trigger((int)GameHashes.RocketLanded);
             d.Trigger((int)GameHashes.RocketLanded);
             connected = new Ref<DockingDoor>(d);
@@ -74,7 +74,7 @@ namespace Rockets_TinyYetBig.Behaviours
         public void DisconnecDoor(bool skipanim = false)
         {
 #if DEBUG
-            Debug.Log(dManager.GetWorldId() + " disconneccted from " + connected.Get().dManager.GetWorldId());
+            SgtLogger.debuglog(dManager.GetWorldId() + " disconneccted from " + connected.Get().dManager.GetWorldId());
 #endif
 
             this.Trigger((int)GameHashes.RocketLaunched);
@@ -93,7 +93,7 @@ namespace Rockets_TinyYetBig.Behaviours
             if (connected != null)
             {
 #if DEBUG
-                Debug.Log("Disconnecting due to flight");
+                SgtLogger.debuglog("Disconnecting due to flight");
 #endif
                 dManager.UnDockFromTargetWorld(connected.Get().dManager.GetWorldId());
             }

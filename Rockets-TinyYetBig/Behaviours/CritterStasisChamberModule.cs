@@ -91,7 +91,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
             storedCritters.Add(CritterInfoToStore);
 #if DEBUG
-            Debug.Log("Added {0} to critter stasis chamber, Age: {1}, Wildness: {2}".F(CritterInfoToStore.CreatureTag, CritterInfoToStore.CreatureAge, CritterInfoToStore.WildnessPercentage));
+            SgtLogger.debuglog("Added {0} to critter stasis chamber, Age: {1}, Wildness: {2}".F(CritterInfoToStore.CreatureTag, CritterInfoToStore.CreatureAge, CritterInfoToStore.WildnessPercentage));
 #endif
             UpdateStatusItem();
             critter.gameObject.DeleteObject();
@@ -114,7 +114,7 @@ namespace Rockets_TinyYetBig.Behaviours
             //    CritterStasisChamberModule.capacityStatusItem = new StatusItem("StorageLocker", "BUILDING", "", StatusItem.IconType.Info, NotificationType.Neutral, false, OverlayModes.None.ID);
             //    CritterStasisChamberModule.capacityStatusItem.resolveStringCallback = (Func<string, object, string>)((str, data) =>
             //    {
-            //        //Debug.Log("TEstsst"+ str + data);
+            //        //SgtLogger.debuglog("TEstsst"+ str + data);
             //        string newValue1 = Util.FormatWholeNumber(this.CurrentCapacity);
             //        string newValue2 = Util.FormatWholeNumber(Config.Instance.CritterStorageCapacity);
             //        str = str.Replace("{Stored}", newValue1).Replace("{Capacity}", newValue2).Replace("{Units}", global::STRINGS.UI.UISIDESCREENS.CAPTURE_POINT_SIDE_SCREEN.UNITS_SUFFIX);

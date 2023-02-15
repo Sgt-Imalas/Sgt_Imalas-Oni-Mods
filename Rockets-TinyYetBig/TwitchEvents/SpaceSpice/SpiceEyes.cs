@@ -78,7 +78,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
             var eyeSlot = Db.Get().AccessorySlots.Eyes;
             var newAccessory = eyeSlot.Lookup(accessory);
             var currentAccessory = accessorizer.GetAccessory(eyeSlot);
-            //Debug.Log($"replacing accessory from {currentAccessory.Id} to {accessory}");
+            //SgtLogger.debuglog($"replacing accessory from {currentAccessory.Id} to {accessory}");
 
             if (newAccessory == null)
             {
@@ -95,11 +95,11 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
         {
             if (!value.IsValid)
             {
-                Debug.Log("not valid value");
+                SgtLogger.debuglog("not valid value");
                 return;
             }
 
-            //Debug.Log("Changing accessory slot to " + HashCache.Get().Get(value));
+            //SgtLogger.debuglog("Changing accessory slot to " + HashCache.Get().Get(value));
 
             var bodyData = accessorizer.bodyData;
             bodyData.eyes = value;
@@ -114,7 +114,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
                 var accessory = item.Get();
                 if (accessory.slot == slot)
                 {
-                    //Debug.Log("changing slot");
+                    //SgtLogger.debuglog("changing slot");
                     items[i] = new ResourceRef<Accessory>(accessories.Get(value));
 
                     // force refresh the symbol
@@ -144,7 +144,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
             //foreach (var effect in effects.effects)
             //{
 
-            //    Debug.Log("E: " + effect.effect.Id + "; " + effect.statusItem.Id + "; " + effect.modifier.Id + "; " + effect.timeRemaining);
+            //    SgtLogger.debuglog("E: " + effect.effect.Id + "; " + effect.statusItem.Id + "; " + effect.modifier.Id + "; " + effect.timeRemaining);
             //}
                 
         }

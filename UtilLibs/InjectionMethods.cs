@@ -98,7 +98,7 @@ namespace UtilLibs
             }
             else if (warnIfFailed)
             {
-                Debug.LogWarning($"Could not load texture at path {path}.");
+                SgtLogger.logwarning($"Could not load texture at path {path}.");
             }
 
             return texture;
@@ -111,7 +111,7 @@ namespace UtilLibs
             }
             catch (Exception e)
             {
-                Debug.LogWarning("Could not read file: " + e);
+                SgtLogger.logwarning("Could not read file: " + e);
                 return null;
             }
         }

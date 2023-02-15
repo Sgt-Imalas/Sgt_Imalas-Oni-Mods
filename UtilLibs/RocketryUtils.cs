@@ -185,7 +185,7 @@ namespace UtilLibs
             }
             if (!categoryFound)
             {
-                Debug.LogWarning("No Category found for " + module);
+                SgtLogger.logwarning("No Category found for " + module);
                 AddIfNotExists(sortedModules[(int)RocketCategory.uncategorized], module);
             }
         }

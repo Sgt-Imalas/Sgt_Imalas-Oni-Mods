@@ -14,13 +14,22 @@ namespace UtilLibs
         {
             debuglog(message);
         }
-        public static void debuglog(string message) 
+        public static void debuglog(string message, string assemblyOverride = "") 
         {
-            string messageToLog = string.Concat("["+ TimeZoneInfo.ConvertTimeToUtc(System.DateTime.Now).ToString("HH:mm:ss") + "] [INFO] [" + Assembly.GetExecutingAssembly().GetName().Name+"]: ",message);
+            if(assemblyOverride == "")
+                assemblyOverride= Assembly.GetExecutingAssembly().GetName().Name;
+            string messageToLog = string.Concat("["+ TimeZoneInfo.ConvertTimeToUtc(System.DateTime.Now).ToString("HH:mm:ss") + "] [INFO] [" + assemblyOverride+"]: ",message);
 #if DEBUG
             Console.WriteLine(messageToLog);
 #endif
         }
+
+        public static void logwarning(string message)
+        {
+            dlogwarn(message);
+        }
+
+
         public static void dlogwarn(string message)
         {
             string messageToLog = string.Concat("[" + TimeZoneInfo.ConvertTimeToUtc(System.DateTime.Now).ToString("HH:mm:ss") + "] [WARNING] [" + Assembly.GetExecutingAssembly().GetName().Name + "]: ", message);

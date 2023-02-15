@@ -26,7 +26,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             {
                 if (def.BuildingComplete.HasTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding) && SpaceStationManager.ActiveWorldIsSpaceStationInterior())
                 {
-                    //Debug.Log(def.PrefabID + " - Is SpaceStationBuilding; state: " + __result);
+                    //SgtLogger.debuglog(def.PrefabID + " - Is SpaceStationBuilding; state: " + __result);
 
                     if (
                         def.BuildingComplete.HasTag(GameTags.NotRocketInteriorBuilding) && def.BuildingComplete.HasTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding))
@@ -270,7 +270,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         //        {
         //            static ClusterGridEntity AllowSpaceStation(ClusterGridEntity original, ClusterDestinationSelector selector, AxialI target)
         //            {
-        //                //Debug.Log("All params: " + original + ", " + selector + ", " + target);
+        //                //SgtLogger.debuglog("All params: " + original + ", " + selector + ", " + target);
         //                if (original == null && selector.requireAsteroidDestination)
         //                {
         //                    var station = ClusterGrid.Instance.GetEntitiesOnCell(target).OfType<SpaceStation>();
@@ -303,7 +303,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         //                if (insertionIndex != -1)
         //                {
         //#if DEBUG
-        //                    Debug.Log("GetPathMethod found");
+        //                    SgtLogger.debuglog("GetPathMethod found");
         //#endif
         //                    code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldarg_3));
         //                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldarg_2));

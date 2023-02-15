@@ -35,7 +35,7 @@ namespace Rockets_TinyYetBig.Patches
                 if (insertionIndex != -1)
                 {
 #if DEBUG
-                    Debug.Log("Replacing Default Method in ChainedBuilding");
+                    SgtLogger.debuglog("Replacing Default Method in ChainedBuilding");
 #endif
                     code[insertionIndex] = new CodeInstruction(OpCodes.Callvirt, TagCheckReplacer);
                 }

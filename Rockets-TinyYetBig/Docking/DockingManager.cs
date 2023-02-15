@@ -13,6 +13,9 @@ namespace Rockets_TinyYetBig.Behaviours
     [SerializationConfig(MemberSerialization.Invalid)]
     public class DockingManager : KMonoBehaviour, IListableOption
     {
+        [MyCmpGet]
+        Clustercraft clustercraft;
+
         public void StartupID(int world)
         {
             OwnWorldId = world;
@@ -50,7 +53,7 @@ namespace Rockets_TinyYetBig.Behaviours
                 }
             }
 #if DEBUG
-            Debug.Log("CraftType set to: "+ Type);
+            SgtLogger.debuglog("CraftType set to: "+ Type);
 #endif
         }
 
@@ -83,7 +86,7 @@ namespace Rockets_TinyYetBig.Behaviours
             base.OnSpawn();
             ModAssets.Dockables.Add(this);
 #if DEBUG
-            Debug.Log("AddedDockable");
+            SgtLogger.debuglog("AddedDockable");
 #endif
         }
         public override void OnCleanUp()
@@ -118,7 +121,7 @@ namespace Rockets_TinyYetBig.Behaviours
                 DockingDoors.Add(door, target);
             }
 #if DEBUG
-            Debug.Log("ADDED DOOR!, ID: " + OwnWorldId+", Doorcount: "+DockingDoors.Count());
+            SgtLogger.debuglog("ADDED DOOR!, ID: " + OwnWorldId+", Doorcount: "+DockingDoors.Count());
 #endif
             //UpdateDeconstructionStates();
 
@@ -145,7 +148,7 @@ namespace Rockets_TinyYetBig.Behaviours
             if (DockingDoors.ContainsKey(door))
             {
 #if DEBUG
-                Debug.Log(door + "<-> " + door.GetMyWorldId());
+                SgtLogger.debuglog(door + "<-> " + door.GetMyWorldId());
 #endif
                 UnDockFromTargetWorld(door.GetConnectedTargetWorldId(), true);
                 ///Disconecc;
@@ -157,7 +160,10 @@ namespace Rockets_TinyYetBig.Behaviours
 
         public bool CanDock()
         {
-            return DockingDoors.Any(k => k.Key.GetConnec() == null)&&HasDoors();
+            bool cando = DockingDoors.Any(k => k.Key.GetConnec() == null)
+                && HasDoors()
+                && clustercraft.status == Clustercraft.CraftStatus.InFlight;
+            return cando;
         }
         public bool IsDockedToAny()
         {
@@ -166,7 +172,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
         public bool HasDoors()
         {
-            //Debug.Log("HAs Doors: " + DockingDoors.Count);
+            //SgtLogger.debuglog("HAs Doors: " + DockingDoors.Count);
             return DockingDoors.Count>0;
         }
 
@@ -177,7 +183,7 @@ namespace Rockets_TinyYetBig.Behaviours
         public void HandleUiDocking(int prevDockingState,int targetWorld)
         {
 #if DEBUG
-            Debug.Log(prevDockingState == 0 ? "Trying to dock to " + targetWorld : "Trying To Undock from " + targetWorld);
+            SgtLogger.debuglog(prevDockingState == 0 ? "Trying to dock to " + targetWorld : "Trying To Undock from " + targetWorld);
 #endif
             if (prevDockingState == 0)
                 DockToTargetWorld(targetWorld);
@@ -187,7 +193,7 @@ namespace Rockets_TinyYetBig.Behaviours
         public void HandleUiDockingByDoor(int prevDockingState, int targetWorld, DockingDoor door)
         {
 #if DEBUG
-            Debug.Log(prevDockingState == 0 ? "Trying to dock to " + targetWorld : "Trying To Undock from " + targetWorld);
+            SgtLogger.debuglog(prevDockingState == 0 ? "Trying to dock to " + targetWorld : "Trying To Undock from " + targetWorld);
 #endif
             if (prevDockingState == 0)
                 DockToTargetWorld(targetWorld, door);
@@ -206,12 +212,12 @@ namespace Rockets_TinyYetBig.Behaviours
 
             if (target == null || target.DockingDoors.Count == 0 || this.DockingDoors.Count==0 || !target.CanDock())
             {
-                Debug.Log("No doors found");
+                SgtLogger.debuglog("No doors found");
                 return;
             }
             if(IsDockedTo(targetWorldId))
             {
-                Debug.Log("Already Docked");
+                SgtLogger.debuglog("Already Docked");
                 return;
             }
             ConnectTwo(this, target, OwnDoor);
@@ -228,12 +234,12 @@ namespace Rockets_TinyYetBig.Behaviours
         public void UndockAll()
         {
 #if DEBUG
-            Debug.Log("Undocking all");
+            SgtLogger.debuglog("Undocking all");
 #endif
             foreach(int id in DockingDoors.Values.ToList())
             {
 #if DEBUG
-                Debug.Log("World: " + id);
+                SgtLogger.debuglog("World: " + id);
 #endif
                 UnDockFromTargetWorld(id);
             }
@@ -286,7 +292,7 @@ namespace Rockets_TinyYetBig.Behaviours
         public void UnDockFromTargetWorld(int targetWorldId,bool cleanup=false)
         {
 #if DEBUG
-            Debug.Log("TargetWorldToUndock: " + targetWorldId);
+            SgtLogger.debuglog("TargetWorldToUndock: " + targetWorldId);
 #endif
             if (targetWorldId == -1)
                 return;

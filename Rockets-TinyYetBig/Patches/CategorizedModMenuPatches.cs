@@ -26,9 +26,9 @@ namespace Rockets_TinyYetBig
         //    {
         //        var detailsPanel = (GameObject)typeof(AdditionalDetailsPanel).GetField("detailsPanel", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
 
-        //        //Debug.Log("Detailspanel:");
+        //        //SgtLogger.debuglog("Detailspanel:");
         //        //UIUtils.ListAllChildren(detailsPanel.transform);
-        //        //Debug.Log("LabelTemplate:");
+        //        //SgtLogger.debuglog("LabelTemplate:");
         //        //UIUtils.ListAllChildren(__instance.attributesLabelTemplate.transform);
         //    }
         //}
@@ -52,9 +52,9 @@ namespace Rockets_TinyYetBig
         //            }
         //        }
 
-        //        //Debug.Log("Detailspanel:");
+        //        //SgtLogger.debuglog("Detailspanel:");
         //        //UIUtils.ListAllChildren(detailsPanel.transform);
-        //        //Debug.Log("LabelTemplate:");
+        //        //SgtLogger.debuglog("LabelTemplate:");
         //        //UIUtils.ListAllChildren(__instance.attributesLabelTemplate.transform);
         //    }
         //}
@@ -110,7 +110,7 @@ namespace Rockets_TinyYetBig
                             cat.transform.Find("Grid").gameObject.SetActive(false);
                     }
 #if DEBUG
-                    //Debug.Log(ReferencedCategory.name + " <-category to activate");
+                    //SgtLogger.debuglog(ReferencedCategory.name + " <-category to activate");
 #endif
                 }
             }
@@ -228,7 +228,7 @@ namespace Rockets_TinyYetBig
                                 }
                             }
 #if DEBUG
-                            //Debug.Log("Category:");
+                            //SgtLogger.debuglog("Category:");
                             //UIUtils.ListAllChildren(categoryGO.transform);
 
 #endif
