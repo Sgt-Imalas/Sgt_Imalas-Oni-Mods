@@ -27,6 +27,8 @@ namespace Rockets_TinyYetBig.Behaviours
         [Serialize]
         Ref<DockingDoor> connected = null;
 
+        public CellOffset porterOffset = new CellOffset(0,0);
+
         public DockingManager dManager;
 
         public CraftModuleInterface GetCraftModuleInterface()
@@ -103,6 +105,10 @@ namespace Rockets_TinyYetBig.Behaviours
             int worldId = ClusterUtil.GetMyWorldId(this.gameObject); 
             //dManager = ModAssets.Dockables.Items.Find(item => item.GetWorldId() == worldId);//GetRocket().GetComponent<DockingdManager>();
             dManager = GetWorldObject().AddOrGet<DockingManager>();
+            TryGetComponent<Rotatable>(out var rotatable);
+            Teleporter.offset = rotatable.GetRotatedCellOffset(porterOffset);
+            Teleporter.OnCellChanged();
+
             dManager.StartupID(worldId);
             dManager.AddDoor(this);
             dManager.SetManagerType();

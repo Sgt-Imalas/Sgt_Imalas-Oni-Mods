@@ -14,6 +14,8 @@ namespace Rockets_TinyYetBig.Docking
         public Assignable assignable;
         [MyCmpReq]
         public DockingDoor door;
+        [MyCmpReq]
+        public NavTeleporter port;
 
         private Chore MoveChore;
             public override void OnPrefabInit()
