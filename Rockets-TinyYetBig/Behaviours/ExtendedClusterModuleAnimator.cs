@@ -118,7 +118,7 @@ namespace Rockets_TinyYetBig.Behaviours
                     .OnAnimQueueComplete(this.burning);
                 this.burning
                     .EventTransition(GameHashes.RocketLanded, this.burnComplete)
-                    .PlayAnim("launch_loop", KAnim.PlayMode.Loop)
+                    .PlayAnim("launch", KAnim.PlayMode.Loop)
                     .Enter(smi => smi.BeginBurn())
                     .Update((smi, dt) => smi.DoBurn(dt))
                     .Exit((smi => smi.EndBurn()))
