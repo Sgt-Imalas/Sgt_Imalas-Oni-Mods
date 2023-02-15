@@ -1,0 +1,7 @@
+﻿Update 2.6:
+
+Features:
+- new Story Trait: Crashed Starship
+- Landing Legs
+
+

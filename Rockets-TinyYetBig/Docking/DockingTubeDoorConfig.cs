@@ -90,7 +90,7 @@ namespace Rockets_TinyYetBig.Buildings
             ownable.slotID = Db.Get().AssignableSlots.WarpPortal.Id;
             go.AddOrGet<MoveToDocked>();
             go.AddComponent<DockingDoor>().porterOffset = new CellOffset(1, 0);
-            go.AddOrGet<NavTeleporter>();
+            go.AddOrGet<NavTeleporter>().offset = new CellOffset(1, 0);
             FakeFloorAdder fakeFloorAdder = go.AddOrGet<FakeFloorAdder>();
             fakeFloorAdder.floorOffsets =  new CellOffset[]
             {
