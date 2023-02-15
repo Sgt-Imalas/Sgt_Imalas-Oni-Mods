@@ -39,5 +39,27 @@ namespace BawoonFwiend
                 LocalisationUtil.Translate(typeof(STRINGS), true);
             }
         }
+        [HarmonyPatch(typeof(ElementLoader))]
+        [HarmonyPatch(nameof(ElementLoader.Load))]
+        public static class Patch_ElementLoader_Load
+        {
+            public static void Postfix()
+            {
+                var uran = ElementLoader.GetElement(SimHashes.Hydrogen.CreateTag());
+                if (uran.oreTags is null)
+                {
+                    uran.oreTags = new Tag[] { };
+                }
+                uran.oreTags = uran.oreTags.AddToArray(ModAssets.Tags.BalloonGas);
+
+                var lead = ElementLoader.GetElement(SimHashes.Helium.CreateTag());
+                if (lead.oreTags is null)
+                {
+                    lead.oreTags = new Tag[] { };
+                }
+                lead.oreTags = lead.oreTags.AddToArray(ModAssets.Tags.BalloonGas);
+            }
+        }
+
     }
 }

@@ -21,25 +21,6 @@ namespace BawoonFwiend
 
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
 
-        public GameObject CreatePrefab()
-        {
-            GameObject entity = EntityTemplates.CreateEntity(BalloonStandConfig.ID, BalloonStandConfig.ID, false);
-            KAnimFile[] kanimFileArray = new KAnimFile[1]
-            {
-                Assets.GetAnim((HashedString) "anim_interacts_balloon_receiver_kanim")
-            };
-            GetBalloonWorkable getBalloonWorkable = entity.AddOrGet<GetBalloonWorkable>();
-            getBalloonWorkable.workTime = 2f;
-            getBalloonWorkable.workLayer = Grid.SceneLayer.BuildingFront;
-            getBalloonWorkable.overrideAnims = kanimFileArray;
-            getBalloonWorkable.synchronizeAnims = false;
-            return entity;
-        }
-
-        public void OnPrefabInit(GameObject inst)
-        {
-        }
-
 
         private void MakeNewBalloonChore(Chore chore)
         {
@@ -53,11 +34,11 @@ namespace BawoonFwiend
         {
             float[] materialMass = new float[]
             {
-                120f
+                150f
             };
             string[] materialType = new string[]
             {
-                MATERIALS.METAL
+                MATERIALS.REFINED_METAL
             };
             EffectorValues noiseLevel = NOISE_POLLUTION.NONE;
             EffectorValues decorValue = BUILDINGS.DECOR.PENALTY.TIER0;
@@ -66,7 +47,7 @@ namespace BawoonFwiend
                 width: 1,
                 height: 2,
                 anim: "storagelocker_kanim",
-                hitpoints: 15,
+                hitpoints: 30,
                 construction_time: 20f,
                 construction_mass: materialMass,
                 construction_materials: materialType,
@@ -76,25 +57,39 @@ namespace BawoonFwiend
                 noise: noiseLevel);
 
             buildingDef.AudioCategory = "Metal";
+            buildingDef.UtilityInputOffset = new CellOffset(0, 1);
+            buildingDef.InputConduitType = ConduitType.Gas;
+
+            buildingDef.RequiresPowerInput = true;
+            buildingDef.EnergyConsumptionWhenActive = 480f;
+            buildingDef.ExhaustKilowattsWhenActive = 0.0f;
+            buildingDef.SelfHeatKilowattsWhenActive = 1.0f;
 
             return buildingDef;
         }
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
-            GetBalloonWorkable component = go.AddOrGet<GetBalloonWorkable>(); WorkChore<GetBalloonWorkable> data = new WorkChore<GetBalloonWorkable>(
-                Db.Get().ChoreTypes.JoyReaction,
-                component,
-                on_complete: new System.Action<Chore>(this.MakeNewBalloonChore),
-                schedule_block: Db.Get().ScheduleBlockTypes.Recreation,
-                priority_class: PriorityScreen.PriorityClass.high, ignore_building_assignment: true);
-            data.AddPrecondition(this.HasNoBalloon, (object)data);
-            data.AddPrecondition(ChorePreconditions.instance.IsNotARobot, (object)data);
+            Storage storage = go.AddOrGet<Storage>();
+            storage.SetDefaultStoredItemModifiers(Storage.StandardFabricatorStorage);
+            ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
+            conduitConsumer.conduitType = ConduitType.Gas;
+            conduitConsumer.capacityTag = ModAssets.Tags.BalloonGas;
+            conduitConsumer.capacityKG = 20f;
+            conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+
+            go.AddOrGet<LogicOperationalController>();
+            go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.RecBuilding);
+            go.AddOrGet<Bawoongiver>();
+            go.AddOrGet<BawoongiverWorkable>();
+            go.AddOrGet<EnergyConsumer>();
+
+            RoomTracker roomTracker = go.AddOrGet<RoomTracker>();
+            roomTracker.requiredRoomType = Db.Get().RoomTypes.RecRoom.Id;
+            roomTracker.requirement = RoomTracker.Requirement.Recommended;
         }
         public override void DoPostConfigureComplete(GameObject go)
         {
-            go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.RecBuilding);
 
-            
         }
     }
 }

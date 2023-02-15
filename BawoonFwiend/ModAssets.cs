@@ -11,6 +11,9 @@ namespace BawoonFwiend
 {
     internal class ModAssets
     {
-
+        public class Tags
+        {
+            public static Tag BalloonGas = TagManager.Create(nameof(BalloonGas));
+        }
     }
 }
