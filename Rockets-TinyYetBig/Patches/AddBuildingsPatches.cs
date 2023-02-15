@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig;
 using Rockets_TinyYetBig.Buildings;
+using Rockets_TinyYetBig.Buildings.Boosters;
 using Rockets_TinyYetBig.Buildings.CargoBays;
 using Rockets_TinyYetBig.Buildings.Engines;
 using Rockets_TinyYetBig.Buildings.Fuel;
@@ -44,6 +45,10 @@ namespace RoboRockets.Rockets_TinyYetBig
                     AddRocketModuleToBuildList(HabitatModuleStargazerConfig.ID, new RocketCategory[] { RocketCategory.habitats, RocketCategory.nosecones }, NoseconeBasicConfig.ID);
                     AddRocketModuleToBuildList(HabitatModulePlatedNoseconeLargeConfig.ID, new RocketCategory[] { RocketCategory.habitats, RocketCategory.nosecones }, HabitatModuleSmallExpandedConfig.ID);
                 }
+
+
+                AddRocketModuleToBuildList(IonEngineBoosterClusterConfig.ID, RocketryUtils.RocketCategory.fuel, HydrogenEngineClusterConfig.ID);
+
 
                 if (Config.Instance.EnableRadboltStorage)
                     AddRocketModuleToBuildList(HEPBatteryModuleConfig.ID, RocketryUtils.RocketCategory.cargo, GasCargoBayClusterConfig.ID);

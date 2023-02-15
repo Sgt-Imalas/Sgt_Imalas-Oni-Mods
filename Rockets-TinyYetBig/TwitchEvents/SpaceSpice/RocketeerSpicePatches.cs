@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
 {
@@ -19,7 +20,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
             {
                 foreach (var spice in __instance.spices)
                 {
-                    SgtLogger.debuglog(spice);
+                    SgtLogger.debuglog(spice.ToString());
                 }
                 var rocketSpice = __instance.spices.Find((s) => s.Id == "PILOTING_SPICE");
                 if (!rocketSpice.Equals(default(SpiceInstance)))

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rockets_TinyYetBig.Behaviours;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -133,6 +134,7 @@ namespace Rockets_TinyYetBig
             go.AddOrGet<BuildingCellVisualizer>();
             go.GetComponent<ReorderableBuilding>().buildConditions.Add((SelectModuleCondition)new LimitOneCommandModule());
             go.GetComponent<ReorderableBuilding>().buildConditions.Add((SelectModuleCondition)new TopOnly());
+            go.AddOrGet<ExtendedClusterModuleAnimator>();
         }
 
         public override void DoPostConfigurePreview(BuildingDef def, GameObject go)

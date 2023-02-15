@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rockets_TinyYetBig.Behaviours;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -76,6 +77,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
         {
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MINOR);
             go.GetComponent<ReorderableBuilding>().buildConditions.Add(new TopOnly());
+            go.AddOrGet<ExtendedClusterModuleAnimator>();
         }
     }
 }

@@ -165,17 +165,8 @@ namespace Rockets_TinyYetBig
         {
             public static bool Prefix(RocketModuleCluster __instance)
             {
-                KBatchedAnimController component = __instance.GetComponent<KBatchedAnimController>();
-                Clustercraft clustercraft = (UnityEngine.Object)__instance.CraftInterface == (UnityEngine.Object)null ? (Clustercraft)null : __instance.CraftInterface.GetComponent<Clustercraft>();
-                if (clustercraft == null)
-                    return true;
-                if (clustercraft.Status == Clustercraft.CraftStatus.Landing && component.HasAnimation((HashedString)"launch") && component.HasAnimation((HashedString)"launch_pst"))
+                if(__instance.TryGetComponent<ExtendedClusterModuleAnimator>(out var extendedClusterModuleAnimator))
                 {
-                    component.ClearQueue();
-                    component.initialAnim = "grounded";
-                    if (component.HasAnimation((HashedString)"launch_pst"))
-                        component.Play((HashedString)"launch_pst");
-                    component.Queue((HashedString)"grounded", KAnim.PlayMode.Loop);
                     return false;
                 }
                 return true;
