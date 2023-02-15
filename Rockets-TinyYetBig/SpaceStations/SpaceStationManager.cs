@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
@@ -88,7 +89,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                         Pathfinding.Instance.AddDirtyNavGridCell(cell);
                     }
                 }
-                SgtLogger.debuglog((object)string.Format("Created new space station interior, id: {0}, at {1} with size {2}", (object)nextWorldId, (object)offset, (object)spaceStationInteriorSize ));
+                SgtLogger.debuglog(string.Format("Created new space station interior, id: {0}, at {1} with size {2}", (object)nextWorldId, (object)offset, (object)spaceStationInteriorSize ));
                 spaceStationInteriorWorld.PlaceInteriorTemplate(interiorTemplateName, (System.Action)(() =>
                 {
                     ///On StationCompleteAction idk
