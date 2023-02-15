@@ -1,4 +1,5 @@
-﻿using Klei.AI;
+﻿using HarmonyLib;
+using Klei.AI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace BawoonFwiend
 {
@@ -41,12 +43,12 @@ namespace BawoonFwiend
                 MATERIALS.REFINED_METAL
             };
             EffectorValues noiseLevel = NOISE_POLLUTION.NONE;
-            EffectorValues decorValue = BUILDINGS.DECOR.PENALTY.TIER0;
+            EffectorValues decorValue = BUILDINGS.DECOR.BONUS.TIER1;
             BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(
                 id: ID,
                 width: 1,
                 height: 2,
-                anim: "storagelocker_kanim",
+                anim: "bloon_dispenser_kanim",
                 hitpoints: 30,
                 construction_time: 20f,
                 construction_mass: materialMass,
@@ -57,7 +59,7 @@ namespace BawoonFwiend
                 noise: noiseLevel);
 
             buildingDef.AudioCategory = "Metal";
-            buildingDef.UtilityInputOffset = new CellOffset(0, 1);
+            buildingDef.UtilityInputOffset = new CellOffset(0, 0);
             buildingDef.InputConduitType = ConduitType.Gas;
 
             buildingDef.RequiresPowerInput = true;
@@ -86,9 +88,22 @@ namespace BawoonFwiend
             RoomTracker roomTracker = go.AddOrGet<RoomTracker>();
             roomTracker.requiredRoomType = Db.Get().RoomTypes.RecRoom.Id;
             roomTracker.requirement = RoomTracker.Requirement.Recommended;
+            ColorIntegration(go);
         }
         public override void DoPostConfigureComplete(GameObject go)
         {
+            SymbolOverrideControllerUtil.AddToPrefab(go);
+        }
+        static void ColorIntegration(GameObject go)
+        {
+            var VaricolouredBalloonsHelperType = Type.GetType("VaricolouredBalloons.VaricolouredBalloonsHelper, VaricolouredBalloons", false, false);
+
+            if (VaricolouredBalloonsHelperType != null)
+            {
+                SgtLogger.debuglog("Varicoloured Balloons Integration applied");
+                go.AddComponent(VaricolouredBalloonsHelperType);
+                return;
+            }
 
         }
     }

@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
+using HarmonyLib;
+using System.Reflection;
 
 namespace BawoonFwiend
 {
@@ -15,8 +18,8 @@ namespace BawoonFwiend
         [MyCmpReq]
         public Operational operational;
         public int basePriority = RELAXATION.PRIORITY.TIER5;
-        public static string trackingEffect = "RecentlyRecDrink";
 
+        public static Type VaricolouredBalloonsHelperType = Type.GetType("VaricolouredBalloons.VaricolouredBalloonsHelper, VaricolouredBalloons", false, false);
 
 
         public BawoongiverWorkable() => this.SetReportType(ReportManager.ReportType.PersonalTime);
@@ -31,7 +34,10 @@ namespace BawoonFwiend
             this.showProgressBar = true;
             this.resetProgressOnStop = true;
             this.synchronizeAnims = false;
-            this.SetWorkTime(4f);
+            this.SetWorkTime(2f);
+            ColorIntegration(this.gameObject);
+            //foreach (var cmp in this.gameObject.GetComponents<UnityEngine.Object>())
+            //    SgtLogger.l(cmp.GetType().ToString(),"DEBUGG");
         }
 
         public override void OnStartWork(Worker worker) => this.operational.SetActive(true);
@@ -47,9 +53,10 @@ namespace BawoonFwiend
             gameObject.SetActive(true);
             //var bloon = gameObject.GetSMI<EquippableBalloon>();
             //bloon.smi.transitionTime = GameClock.Instance.GetTime() + 300;
+            SetSymbolOverrideIdx(worker.gameObject, GetSymbolOverrideIdx(this.gameObject));
 
+            ColorIntegration(this.gameObject);
             base.OnCompleteWork(worker);
-
             //Effects component2 = worker.GetComponent<Effects>();
             //if (!string.IsNullOrEmpty(BawoongiverWorkable.specificEffect))
             //    component2.Add(BawoongiverWorkable.specificEffect, true);
@@ -57,7 +64,43 @@ namespace BawoonFwiend
             //    return;
             //component2.Add(BawoongiverWorkable.trackingEffect, true);
         }
+        static uint GetSymbolOverrideIdx(GameObject go)
+        {
+            var obj = go.gameObject.GetComponent(VaricolouredBalloonsHelperType);
+            //foreach (var cmp in VaricolouredBalloonsHelperType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic)) 
+            //   SgtLogger.l(cmp.Name.ToString(),"GET Field");
+            //foreach (var cmp in VaricolouredBalloonsHelperType.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic))
+            //    SgtLogger.l(cmp.Name.ToString(), "GET method");
 
+            var component = go.GetComponent(VaricolouredBalloonsHelperType);
+            var fieldInfo = (uint)Traverse.Create(component).Method("get_ArtistBalloonSymbolIdx").GetValue();
+            return fieldInfo;
+        }
+        static void SetSymbolOverrideIdx(GameObject go, uint val)
+        {
+            //foreach (var cmp in go.gameObject.GetComponents<UnityEngine.Object>())
+            //    SgtLogger.l(cmp.GetType().ToString(), "SET DEBUG");
+            var component = go.GetComponent(VaricolouredBalloonsHelperType);
+            Traverse.Create(component).Field("receiverballoonsymbolidx").SetValue(val);
+        }
+
+        static void ColorIntegration(GameObject go)
+        {
+            if (VaricolouredBalloonsHelperType == null)
+            {
+                return;
+            }
+            var RandomizeMethod = VaricolouredBalloonsHelperType.GetMethod("RandomizeArtistBalloonSymbolIdx", BindingFlags.Instance | BindingFlags.NonPublic); 
+            if (RandomizeMethod == null)
+            {
+                SgtLogger.logwarning("Method Not Found");
+                return;
+            }
+            var component = go.GetComponent(VaricolouredBalloonsHelperType);
+            Traverse.Create(component).Method("RandomizeArtistBalloonSymbolIdx").GetValue();
+           // SgtLogger.l("integration called");
+
+        }
         public override void OnStopWork(Worker worker) => this.operational.SetActive(false);
 
         public bool GetWorkerPriority(Worker worker, out int priority)
