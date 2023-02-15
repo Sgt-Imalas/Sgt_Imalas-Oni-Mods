@@ -98,7 +98,7 @@ namespace UtilLibs
             }
             else if (warnIfFailed)
             {
-                SgtLogger.logwarning($"Could not load texture at path {path}.");
+                SgtLogger.logwarning($"Could not load texture at path {path}.","SgtImalasUtils");
             }
 
             return texture;
@@ -111,7 +111,7 @@ namespace UtilLibs
             }
             catch (Exception e)
             {
-                SgtLogger.logwarning("Could not read file: " + e);
+                SgtLogger.logwarning("Could not read file: " + e, "SgtImalasUtils");
                 return null;
             }
         }
