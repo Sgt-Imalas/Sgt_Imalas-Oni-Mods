@@ -19,9 +19,9 @@ namespace UtilLibs
             if(assemblyOverride == "")
                 assemblyOverride= Assembly.GetExecutingAssembly().GetName().Name;
             string messageToLog = string.Concat("["+ TimeZoneInfo.ConvertTimeToUtc(System.DateTime.Now).ToString("HH:mm:ss") + "] [INFO] [" + assemblyOverride+"]: ",message);
-#if DEBUG
+
             Console.WriteLine(messageToLog);
-#endif
+
         }
 
         public static void logwarning(string message, string assemblyOverride = "")
@@ -35,9 +35,9 @@ namespace UtilLibs
             if (assemblyOverride == "")
                 assemblyOverride = Assembly.GetExecutingAssembly().GetName().Name;
             string messageToLog = string.Concat("[" + TimeZoneInfo.ConvertTimeToUtc(System.DateTime.Now).ToString("HH:mm:ss") + "] [WARNING] [" + assemblyOverride + "]: ", message);
-#if DEBUG
+
             Console.WriteLine(messageToLog, assemblyOverride);
-#endif
+
         }
     }
 }
