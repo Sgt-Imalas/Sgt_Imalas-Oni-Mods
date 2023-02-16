@@ -48,6 +48,8 @@ namespace BawoonFwiend
         }
         private void OverwriteSymbol()
         {
+            if (VaricolouredBalloonsHelperType == null)
+                return;
             var artist = GetComponent(BawoongiverWorkable.VaricolouredBalloonsHelperType);
             if (artist != null)
             {
@@ -86,7 +88,7 @@ namespace BawoonFwiend
                 this.ready.TagTransition(GameTags.Operational, this.unoperational, true).DefaultState(this.ready.idle).ToggleChore(new Func<Bawoongiver.StatesInstance, Chore>(this.CreateChore), this.operational);
                 this.ready.idle
                     .Enter((smi) => smi.master.OverwriteSymbol())
-                    .PlayAnim("on", KAnim.PlayMode.Loop)
+                    .PlayAnim("on", KAnim.PlayMode.Once)
                     .WorkableStartTransition((Func<Bawoongiver.StatesInstance, Workable>)
                     (smi => (Workable)smi.master.GetComponent<BawoongiverWorkable>()), this.ready.working)
                     .Transition(this.operational, GameStateMachine<Bawoongiver.States, Bawoongiver.StatesInstance, Bawoongiver, object>

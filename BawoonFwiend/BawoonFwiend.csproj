@@ -45,13 +45,13 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <None Update="ModAssets\anim\anim\bloon_dispenser\bloon_dispenser_0.png">
+	  <None Update="ModAssets\anim\anim\bloon_maker\bloon_maker_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\anim\bloon_dispenser\bloon_dispenser_anim.bytes">
+	  <None Update="ModAssets\anim\anim\bloon_maker\bloon_maker_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\anim\bloon_dispenser\bloon_dispenser_build.bytes">
+	  <None Update="ModAssets\anim\anim\bloon_maker\bloon_maker_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>

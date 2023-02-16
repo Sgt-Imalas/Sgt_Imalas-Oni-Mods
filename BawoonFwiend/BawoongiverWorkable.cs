@@ -34,7 +34,7 @@ namespace BawoonFwiend
             this.showProgressBar = true;
             this.resetProgressOnStop = true;
             this.synchronizeAnims = false;
-            this.SetWorkTime(2f);
+            this.SetWorkTime(4.55f);
             ColorIntegration(this.gameObject);
             //foreach (var cmp in this.gameObject.GetComponents<UnityEngine.Object>())
             //    SgtLogger.l(cmp.GetType().ToString(),"DEBUGG");
@@ -66,6 +66,8 @@ namespace BawoonFwiend
         }
         static uint GetSymbolOverrideIdx(GameObject go)
         {
+            if (VaricolouredBalloonsHelperType == null)
+                return 0;
             var obj = go.gameObject.GetComponent(VaricolouredBalloonsHelperType);
             //foreach (var cmp in VaricolouredBalloonsHelperType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic)) 
             //   SgtLogger.l(cmp.Name.ToString(),"GET Field");
@@ -78,6 +80,8 @@ namespace BawoonFwiend
         }
         static void SetSymbolOverrideIdx(GameObject go, uint val)
         {
+            if (VaricolouredBalloonsHelperType == null)
+                return;
             //foreach (var cmp in go.gameObject.GetComponents<UnityEngine.Object>())
             //    SgtLogger.l(cmp.GetType().ToString(), "SET DEBUG");
             var component = go.GetComponent(VaricolouredBalloonsHelperType);

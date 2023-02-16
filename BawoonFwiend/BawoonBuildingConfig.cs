@@ -48,7 +48,7 @@ namespace BawoonFwiend
                 id: ID,
                 width: 1,
                 height: 2,
-                anim: "bloon_dispenser_kanim",
+                anim: "bloon_maker_kanim",
                 hitpoints: 30,
                 construction_time: 20f,
                 construction_mass: materialMass,
