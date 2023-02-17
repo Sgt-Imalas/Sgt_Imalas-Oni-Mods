@@ -81,8 +81,8 @@ namespace RoboRockets.Rockets_TinyYetBig
 
                 if (Config.Instance.EnableBunkerPlatform)
                 {
-                    InjectionMethods.AddBuildingToPlanScreenBehindNextBehindNext(GameStrings.PlanMenuCategory.Rocketry, BunkeredLaunchPadConfig.ID, LaunchPadConfig.ID);
-                    InjectionMethods.AddBuildingToPlanScreenBehindNextBehindNext(GameStrings.PlanMenuCategory.Rocketry, AdvancedLaunchPadConfig.ID,  LaunchPadConfig.ID);
+                    InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, BunkeredLaunchPadConfig.ID, LaunchPadConfig.ID);
+                    InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, AdvancedLaunchPadConfig.ID,  LaunchPadConfig.ID);
                 }
 
                 if (Config.Instance.EnableSolarNosecone)
@@ -95,15 +95,15 @@ namespace RoboRockets.Rockets_TinyYetBig
                     AddRocketModuleToBuildList(NatGasEngineClusterConfig.ID, RocketCategory.engines, SteamEngineClusterConfig.ID);
 
                 //if (Config.Instance.LandingLegs)
-                //    InjectionMethods.AddBuildingToPlanScreenBehindNextBehindNext(GameStrings.PlanMenuCategory.Rocketry, InvisibleLandingPlatformConfig.ID, null, LaunchPadConfig.ID);
+                //    InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, InvisibleLandingPlatformConfig.ID, null, LaunchPadConfig.ID);
                 //AddRocketModuleToBuildList(LandingLegConfig.ID, RocketCategory.utility);
 
                 if (Config.Instance.RocketDocking)
                 { 
-                    InjectionMethods.AddBuildingToPlanScreenBehindNextBehindNext(GameStrings.PlanMenuCategory.Rocketry, DockingTubeDoorConfig.ID, GantryConfig.ID);
+                    InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, DockingTubeDoorConfig.ID, GantryConfig.ID);
                 }
                 if(Config.SpaceStationsPossible) { 
-                    InjectionMethods.AddBuildingToPlanScreenBehindNextBehindNext(GameStrings.PlanMenuCategory.Rocketry, SpaceStationDockingDoorConfig.ID, DockingTubeDoorConfig.ID);
+                    InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, SpaceStationDockingDoorConfig.ID, DockingTubeDoorConfig.ID);
                     AddRocketModuleToBuildList(SpaceStationBuilderModuleConfig.ID, RocketCategory.utility, OrbitalCargoModuleConfig.ID);
                 }
 
