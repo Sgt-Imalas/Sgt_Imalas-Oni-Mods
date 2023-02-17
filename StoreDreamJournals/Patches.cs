@@ -25,13 +25,26 @@ namespace StoreDreamJournals
             public static void Postfix(GameObject __result)
             {
 
-                __result.AddOrGet<KBoxCollider2D>().size = (Vector2)new Vector2f(0.67f, 0.75f);
+                //__result.AddOrGet<KBoxCollider2D>().size = (Vector2)new Vector2f(0.67f, 0.75f);
 
-                KPrefabID kprefabId = __result.AddOrGet<KPrefabID>();                
-                kprefabId.RemoveTag(GameTags.StoryTraitResource);
-                kprefabId.AddTag(GameTags.IndustrialIngredient);
+                //KPrefabID kprefabId = __result.AddOrGet<KPrefabID>();                
+                //kprefabId.RemoveTag(GameTags.StoryTraitResource);
+                //kprefabId.AddTag(GameTags.IndustrialIngredient);
             }
         }
+        [HarmonyPatch(typeof(DreamJournalConfig))]
+        [HarmonyPatch(nameof(DreamJournalConfig.OnPrefabInit))]
+        public static class fixForUpdateGame
+        {
+
+            public static void Postfix(GameObject inst)
+            {
+                KPrefabID kprefabId = inst.AddOrGet<KPrefabID>();
+                kprefabId.RemoveTag(GameTags.IndustrialIngredient);
+                kprefabId.AddTag(GameTags.StoryTraitResource);
+            }
+        }
+        
 
         [HarmonyPatch(typeof(Db))]
         [HarmonyPatch("Initialize")]
