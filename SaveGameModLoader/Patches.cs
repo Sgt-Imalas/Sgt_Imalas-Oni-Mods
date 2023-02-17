@@ -18,6 +18,8 @@ using static SaveGameModLoader.ModAssets;
 using Ionic.Zlib;
 using Klei;
 using static UnityEngine.UI.Image;
+using YamlDotNet;
+using static TextureAtlas.AtlasData;
 
 namespace SaveGameModLoader
 {
@@ -62,14 +64,30 @@ namespace SaveGameModLoader
                     typeof(System.IO.Path),
                     nameof(System.IO.Path.GetFileNameWithoutExtension));
 
-            private static readonly MethodInfo TransformIndexFinder = AccessTools.Method(
-                typeof(UnityEngine.Object),
-                nameof(UnityEngine.Object.Instantiate),
-                new System.Type[] { typeof(UnityEngine.Object), typeof(UnityEngine.Transform)}); 
+            //private static MethodInfo TransformIndexFinder =
+            //    AccessTools.Method(
+            //    typeof(UnityEngine.Object),
+            //    nameof(UnityEngine.Object.Instantiate),
+            //    new System.Type[] { typeof(UnityEngine.Object), typeof(UnityEngine.Transform)}); 
 
 
             static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
             {
+                ///
+                var Methods = typeof(UnityEngine.Object).GetPublicStaticMethods();
+
+                var GenericMethodInfo = Methods.FirstOrDefault(meth =>
+                meth.Name.Contains("Instantiate")
+                && meth.GetParameters().Length == 2
+                && meth.GetParameters().Last().ParameterType == typeof(UnityEngine.Transform)
+                && meth.GetParameters().First().ParameterType.IsGenericParameter
+                ).MakeGenericMethod(typeof(RectTransform));
+                
+                
+                //SgtLogger.l(GenericMethodInfo.Name + "::" + GenericMethodInfo, "postselect");
+                ///
+
+
                 var code = instructions.ToList();
                 var insertionIndex = code.FindLastIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo f && f == SuitableMethodInfo);
 
@@ -77,11 +95,11 @@ namespace SaveGameModLoader
                 var SaveGameFileIndexFinderStart = code.FindIndex(ci => ci.opcode == OpCodes.Call && ci.operand is MethodInfo f && f == SaveGameFileIndexFinder);
                 var saveFileRootIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, SaveGameFileIndexFinderStart);
 
-                var TransformIndexFinderStart = code.FindIndex(ci => ci.opcode == OpCodes.Call && ci.operand.ToString().Contains("Instantiate"));
-                SgtLogger.l(TransformIndexFinderStart + "", "STARTINDEX");
-                
+                var TransformIndexFinderStart = code.FindIndex(ci => ci.opcode == OpCodes.Call && ci.operand is MethodInfo f && f == GenericMethodInfo);// code.FindIndex(ci => ci.opcode == OpCodes.Call && ci.operand.ToString().Contains("Instantiate"));
+
+
                 var TransformIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, TransformIndexFinderStart, false);
-                SgtLogger.l(TransformIndex + "", "TRANSFORMINDEX");
+                //SgtLogger.l(TransformIndex + "", "TRANSFORMINDEX");
 
                 //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
                 if (insertionIndex != -1)
@@ -91,7 +109,7 @@ namespace SaveGameModLoader
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, saveFileRootIndex));//6
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, ButtonLogic)); 
 
-                    TranspilerHelper.PrintInstructions(code,true);
+                    //TranspilerHelper.PrintInstructions(code,true);
                 }
                 //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
 

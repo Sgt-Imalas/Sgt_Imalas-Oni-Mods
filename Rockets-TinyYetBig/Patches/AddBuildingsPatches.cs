@@ -47,7 +47,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 }
 
 
-                AddRocketModuleToBuildList(IonEngineBoosterClusterConfig.ID, RocketryUtils.RocketCategory.fuel, HydrogenEngineClusterConfig.ID);
+                //AddRocketModuleToBuildList(IonEngineBoosterClusterConfig.ID, RocketryUtils.RocketCategory.fuel, HydrogenEngineClusterConfig.ID);
 
 
                 if (Config.Instance.EnableRadboltStorage)
