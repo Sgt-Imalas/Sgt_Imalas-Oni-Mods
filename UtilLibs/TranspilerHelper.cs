@@ -92,13 +92,26 @@ namespace UtilLibs
 
 
 
-        public static void PrintInstructions(List<HarmonyLib.CodeInstruction> codes)
+        public static void PrintInstructions(List<HarmonyLib.CodeInstruction> codes, bool extendedInfo = false)
         {
 #if DEBUG
             SgtLogger.l("\n", "IL-Dump Start:");
             for (int i = 0; i < codes.Count; i++)
             {
-                Debug.Log(i + ": " + codes[i]);
+                var code = codes[i];
+                //Debug.Log(code);
+                //Debug.Log(code.opcode);
+                //Debug.Log(code.operand);
+
+                if (extendedInfo)
+                {
+                    if (code.operand != null)
+                        SgtLogger.l(i + "=> OpCode: " + code.opcode + "::" + code.operand + "<> typeof (" + (code.operand.GetType()) + ")","IL");
+                    else
+                        SgtLogger.l(i + "=> OpCode: " + code.opcode, "IL");
+                }
+                else
+                    SgtLogger.l(i + ": " + code, "IL");
             }
             SgtLogger.l("\n", "IL-Dump Finished");
 #endif

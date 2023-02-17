@@ -263,7 +263,7 @@ namespace SetStartDupes
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, printingPodIndex));
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, IDXIndex));
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, NewCellX));
-                    TranspilerHelper.PrintInstructions(code);
+                   // TranspilerHelper.PrintInstructions(code);
                 }
                 //foreach (var v in code) { Console.WriteLine(v.opcode + (v.operand != null ? ": " + v.operand : "")); };
                 return code;
