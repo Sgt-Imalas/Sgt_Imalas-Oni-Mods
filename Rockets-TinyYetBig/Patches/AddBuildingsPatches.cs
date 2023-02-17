@@ -81,8 +81,8 @@ namespace RoboRockets.Rockets_TinyYetBig
 
                 if (Config.Instance.EnableBunkerPlatform)
                 {
-                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, BunkeredLaunchPadConfig.ID, "uncategorized", LaunchPadConfig.ID);
-                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, AdvancedLaunchPadConfig.ID, "uncategorized", LaunchPadConfig.ID);
+                    InjectionMethods.AddBuildingToPlanScreenBehindNextBehindNext(GameStrings.PlanMenuCategory.Rocketry, BunkeredLaunchPadConfig.ID, LaunchPadConfig.ID);
+                    InjectionMethods.AddBuildingToPlanScreenBehindNextBehindNext(GameStrings.PlanMenuCategory.Rocketry, AdvancedLaunchPadConfig.ID,  LaunchPadConfig.ID);
                 }
 
                 if (Config.Instance.EnableSolarNosecone)
@@ -95,29 +95,29 @@ namespace RoboRockets.Rockets_TinyYetBig
                     AddRocketModuleToBuildList(NatGasEngineClusterConfig.ID, RocketCategory.engines, SteamEngineClusterConfig.ID);
 
                 //if (Config.Instance.LandingLegs)
-                //    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, InvisibleLandingPlatformConfig.ID, null, LaunchPadConfig.ID);
+                //    InjectionMethods.AddBuildingToPlanScreenBehindNextBehindNext(GameStrings.PlanMenuCategory.Rocketry, InvisibleLandingPlatformConfig.ID, null, LaunchPadConfig.ID);
                 //AddRocketModuleToBuildList(LandingLegConfig.ID, RocketCategory.utility);
 
                 if (Config.Instance.RocketDocking)
                 { 
-                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, DockingTubeDoorConfig.ID, "uncategorized", GantryConfig.ID);
+                    InjectionMethods.AddBuildingToPlanScreenBehindNextBehindNext(GameStrings.PlanMenuCategory.Rocketry, DockingTubeDoorConfig.ID, GantryConfig.ID);
                 }
                 if(Config.SpaceStationsPossible) { 
-                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, SpaceStationDockingDoorConfig.ID, "uncategorized", DockingTubeDoorConfig.ID);
+                    InjectionMethods.AddBuildingToPlanScreenBehindNextBehindNext(GameStrings.PlanMenuCategory.Rocketry, SpaceStationDockingDoorConfig.ID, DockingTubeDoorConfig.ID);
                     AddRocketModuleToBuildList(SpaceStationBuilderModuleConfig.ID, RocketCategory.utility, OrbitalCargoModuleConfig.ID);
                 }
 
                 if (Config.Instance.EnableWallAdapter)
                 {
-                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, ConnectorWallAdapterConfig.ID, "uncategorized", LandingBeaconConfig.ID);
-                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LoaderLadderAdapterConfig.ID, "uncategorized", ConnectorWallAdapterConfig.ID);
+                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, ConnectorWallAdapterConfig.ID, "rocketfueling");
+                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LoaderLadderAdapterConfig.ID, "rocketfueling");
                 }
 
                 if (Config.Instance.EnableFuelLoaders)
                 {
-                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, UniversalFuelLoaderConfig.ID, "uncategorized", LandingBeaconConfig.ID);
-                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, UniversalOxidizerLoaderConfig.ID, "uncategorized", UniversalFuelLoaderConfig.ID);
-                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, HEPFuelLoaderConfig.ID, "uncategorized", UniversalOxidizerLoaderConfig.ID);
+                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, UniversalFuelLoaderConfig.ID, "rocketfueling");
+                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, UniversalOxidizerLoaderConfig.ID, "rocketfueling");
+                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, HEPFuelLoaderConfig.ID, "rocketfueling");
                 }
                 if (Config.Instance.EnableEarlyGameFuelTanks)
                 {

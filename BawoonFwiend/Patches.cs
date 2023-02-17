@@ -24,8 +24,8 @@ namespace BawoonFwiend
 
             public static void Prefix()
             {
-                //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
-                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Furniture, BawoonBuildingConfig.ID);
+                //InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
+                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, BawoonBuildingConfig.ID);
             }
         }
         /// <summary>

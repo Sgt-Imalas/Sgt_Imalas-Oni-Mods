@@ -11,7 +11,7 @@ using UnityEngine;
 namespace UtilLibs
 {
     public static class InjectionMethods
-	{
+    {
 
 
         public static void PrintInstructions(List<HarmonyLib.CodeInstruction> codes)
@@ -22,10 +22,10 @@ namespace UtilLibs
                 Debug.Log(i + ": " + codes[i]);
             }
         }
-        public static void AddStatusItem(string status_id, string category , string name, string desc)
+        public static void AddStatusItem(string status_id, string category, string name, string desc)
         {
             status_id = status_id.ToUpperInvariant();
-             category = category.ToUpperInvariant();
+            category = category.ToUpperInvariant();
             Strings.Add("STRINGS." + category + ".STATUSITEMS." + status_id + ".NAME", name);
             Strings.Add("STRINGS." + category + ".STATUSITEMS." + status_id + ".TOOLTIP", desc);
         }
@@ -39,7 +39,7 @@ namespace UtilLibs
         /// <param name="awailableDLCs">DlcManager.</param>
         public static TechItem AddItemToTechnologySprite(string techItemId, string techId, string name, string description, string spriteName, string[] availableDLCs = null)
         {
-            if(availableDLCs == null)
+            if (availableDLCs == null)
             {
                 availableDLCs = DlcManager.AVAILABLE_ALL_VERSIONS;
             }
@@ -49,7 +49,7 @@ namespace UtilLibs
 
         public static TechItem AddItemToTechnologyKanim(string techItemId, string techId, string name, string description, string kanimName, string[] availableDLCs = null, string uiAnim = "ui")
         {
-            var sprite = Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(kanimName),uiAnim);
+            var sprite = Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(kanimName), uiAnim);
             if (availableDLCs == null)
             {
                 availableDLCs = DlcManager.AVAILABLE_ALL_VERSIONS;
@@ -57,7 +57,7 @@ namespace UtilLibs
             AddBuildingToTechnology(techId, techItemId);
             return Db.Get().TechItems.AddTechItem(techItemId, name, description, (anim, centered) => sprite, availableDLCs);
         }
-        public static void AddBuildingToPlanScreen(
+        public static void AddBuildingToPlanScreenBehindNext(
             HashedString category,
             string building_id,
             string relativeBuildingId = "",
@@ -65,18 +65,26 @@ namespace UtilLibs
             ModUtil.BuildingOrdering ordering = ModUtil.BuildingOrdering.After
             )
         {
-            if(relativeBuildingId != string.Empty)
+            if (relativeBuildingId != string.Empty)
             {
-                if(subcategoryID == string.Empty && TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.ContainsKey(relativeBuildingId))
+                if (subcategoryID == "uncategorized" && TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.ContainsKey(relativeBuildingId))
                 {
                     subcategoryID = TUNING.BUILDINGS.PLANSUBCATEGORYSORTING[relativeBuildingId];
                 }
-                TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.Add(building_id, subcategoryID);
-                ModUtil.AddBuildingToPlanScreen(category,building_id,subcategoryID,relativeBuildingId,ordering);
+                if (TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.ContainsKey(building_id))
+                    TUNING.BUILDINGS.PLANSUBCATEGORYSORTING[building_id] = subcategoryID;
+                else
+                    TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.Add(building_id, subcategoryID);
+
+                ModUtil.AddBuildingToPlanScreen(category, building_id, subcategoryID, relativeBuildingId, ordering);
             }
-            else if( relativeBuildingId == string.Empty && subcategoryID != "uncategorized")
+            else if (relativeBuildingId == string.Empty && subcategoryID != "uncategorized")
             {
-                TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.Add(building_id, subcategoryID);
+                if (TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.ContainsKey(building_id))
+                    TUNING.BUILDINGS.PLANSUBCATEGORYSORTING[building_id] = subcategoryID;
+                else
+                    TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.Add(building_id, subcategoryID);
+
                 ModUtil.AddBuildingToPlanScreen(category, building_id, subcategoryID);
             }
             else
@@ -84,7 +92,7 @@ namespace UtilLibs
                 ModUtil.AddBuildingToPlanScreen(category, building_id, subcategoryID);
             }
         }
-        
+
 
 
         private static Func<string, bool, Sprite> GetSpriteFnBuilder(string spriteName) => (Func<string, bool, Sprite>)((anim, centered) => Assets.GetSprite((HashedString)spriteName));
@@ -127,7 +135,7 @@ namespace UtilLibs
             }
             else if (warnIfFailed)
             {
-                SgtLogger.logwarning($"Could not load texture at path {path}.","SgtImalasUtils");
+                SgtLogger.logwarning($"Could not load texture at path {path}.", "SgtImalasUtils");
             }
 
             return texture;
@@ -146,7 +154,7 @@ namespace UtilLibs
         }
 
 
-        public static void AddBuildingStrings(string buildingId, string name, string description = "", string effect= "")
+        public static void AddBuildingStrings(string buildingId, string name, string description = "", string effect = "")
         {
             Strings.Add($"STRINGS.BUILDINGS.PREFABS.{buildingId.ToUpperInvariant()}.NAME", UI.FormatAsLink(name, buildingId));
             Strings.Add($"STRINGS.BUILDINGS.PREFABS.{buildingId.ToUpperInvariant()}.DESC", description);
@@ -156,10 +164,10 @@ namespace UtilLibs
         //[HarmonyPatch(typeof(CodexEntryGenerator), "GenerateCreatureEntries")]
         //CodexEntryGenerator_GenerateCreatureEntries_Patch
         public static void AddCreatureStrings(string creatureId, string name)
-		{
-			Strings.Add($"STRINGS.CREATURES.FAMILY.{creatureId.ToUpperInvariant()}", UI.FormatAsLink(name, creatureId));
-			Strings.Add($"STRINGS.CREATURES.FAMILY_PLURAL.{creatureId.ToUpperInvariant()}", UI.FormatAsLink(name+"s", creatureId));
-		}
+        {
+            Strings.Add($"STRINGS.CREATURES.FAMILY.{creatureId.ToUpperInvariant()}", UI.FormatAsLink(name, creatureId));
+            Strings.Add($"STRINGS.CREATURES.FAMILY_PLURAL.{creatureId.ToUpperInvariant()}", UI.FormatAsLink(name + "s", creatureId));
+        }
         public static void AddPlantStrings(string plantId, string name, string description, string domesticatedDescription)
         {
             Strings.Add($"STRINGS.CREATURES.SPECIES.{plantId.ToUpperInvariant()}.NAME", UI.FormatAsLink(name, plantId));

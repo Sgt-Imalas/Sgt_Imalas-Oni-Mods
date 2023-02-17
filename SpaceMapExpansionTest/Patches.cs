@@ -49,7 +49,7 @@ namespace SpaceMapExpansionTest
 
             public static void Prefix()
             {
-                //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
+                //InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
             }
         }
         /// <summary>

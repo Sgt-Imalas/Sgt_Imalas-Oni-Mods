@@ -57,9 +57,9 @@ namespace ExplosiveMaterials
 
             public static void Prefix()
             {
-                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Radiation, BombBuildingStationConfig.ID);
+                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Radiation, BombBuildingStationConfig.ID);
 
-                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, PlacableExplosiveConfig.ID);
+                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Utilities, PlacableExplosiveConfig.ID);
 
                 RocketryUtils.AddRocketModuleToBuildList(NuclearPulseEngineConfig.ID, RocketryUtils.RocketCategory.engines);
             }

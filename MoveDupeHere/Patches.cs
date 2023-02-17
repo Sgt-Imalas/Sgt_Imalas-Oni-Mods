@@ -26,7 +26,7 @@ namespace MoveDupeHere
 
             public static void Prefix()
             {
-                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Automation, GoHereTileConfig.ID,"uncategorized",relativeBuildingId : FloorSwitchConfig.ID);
+                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Automation, GoHereTileConfig.ID,FloorSwitchConfig.ID);
             }
         }
         /// <summary>

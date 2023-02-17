@@ -231,8 +231,8 @@ namespace Cryopod
 
             public static void Prefix()
             {
-                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Medicine, BuildableCryopodConfig.ID);
-                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Medicine, BuildableCryopodLiquidConfig.ID);
+                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Medicine, BuildableCryopodConfig.ID);
+                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Medicine, BuildableCryopodLiquidConfig.ID);
             }
         }
 

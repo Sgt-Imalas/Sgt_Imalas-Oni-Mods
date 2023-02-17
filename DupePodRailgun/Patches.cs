@@ -25,9 +25,9 @@ namespace DupePodRailgun
 
             public static void Prefix()
             {
-                //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
-                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Shipping, PodRailgunBaseConfig.ID);
-                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Shipping, PodRailgunRailPieceConfig.ID);
+                //InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
+                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Shipping, PodRailgunBaseConfig.ID);
+                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Shipping, PodRailgunRailPieceConfig.ID);
             }
         }
         /// <summary>

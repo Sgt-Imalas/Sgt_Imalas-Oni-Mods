@@ -25,8 +25,8 @@ namespace ConveyorTiles
 
             public static void Prefix()
             {
-                //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
-                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Shipping, ConveyorTile.ID);
+                //InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
+                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Shipping, ConveyorTile.ID);
             }
         }
         /// <summary>

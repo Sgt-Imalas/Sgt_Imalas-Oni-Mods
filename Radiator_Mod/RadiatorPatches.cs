@@ -32,13 +32,13 @@ namespace Radiator_Mod
             {
                 //add buildings to the game
                 //InjectionMethods.AddBuildingStrings(RadiatorBaseConfig.ID, RadiatorBaseConfig.NAME, RadiatorBaseConfig.DESC, RadiatorBaseConfig.EFFECT);
-                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, RadiatorBaseConfig.ID);
+                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Utilities, RadiatorBaseConfig.ID);
                 if (DlcManager.IsExpansion1Active())
                 {
                     //InjectionMethods.AddBuildingStrings(RadiatorRocketWallConfig.ID, RadiatorRocketWallConfig.NAME, RadiatorRocketWallConfig.DESC, RadiatorRocketWallConfig.EFFECT);
                     //InjectionMethods.AddBuildingStrings(HabitatMediumRadiator.ID, HabitatMediumRadiator.NAME, HabitatMediumRadiator.DESC, HabitatMediumRadiator.EFFECT);
 
-                    ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, RadiatorRocketWallBuildable.ID);
+                    InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Utilities, RadiatorRocketWallBuildable.ID);
                     //add special habitat module
                     //RocketryUtils.AddRocketModuleToBuildList(HabitatMediumRadiator.ID, "HabitatModuleMedium", RocketryUtils.RocketCategory.habitats);
                 }

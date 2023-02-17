@@ -25,7 +25,7 @@ namespace LightBridge
 
             public static void Prefix()
             {
-                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, LightBridgeConfig.ID);
+                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Utilities, LightBridgeConfig.ID);
             }
         }
         /// <summary>
