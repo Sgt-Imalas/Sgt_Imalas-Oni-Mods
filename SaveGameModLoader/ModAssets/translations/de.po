@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Application: Oxygen Not IncludedPOT Version: 2.0\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.EXPORTMODLISTBUTTON
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.EXPORTMODLISTBUTTON"
@@ -130,10 +130,10 @@ msgstr "ALLE MODS SYNCHRONISIERT, SCHLIESSEN"
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.CONTINUEANDSYNC
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.CONTINUEANDSYNC"
-msgid ""
-"SYNCHRONIZE MOD\n"
-" AND RESUME GAME"
-msgstr "MODS SYNCHRONISIEREN UND SPIEL FORTSETZEN"
+msgid "SYNC AND RESUME"
+msgstr ""
+"SYNCHRONISIEREN UND\n"
+"SPIEL FORTSETZEN"
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.EXPORTMODLISTCONFIRMSCREEN
 msgctxt ""
@@ -207,6 +207,11 @@ msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.POPUPSYNCEDTITLE"
 msgid "Mod List Loaded"
 msgstr "Modliste geladen"
 
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.REFRESH
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.REFRESH"
+msgid "Refresh View"
+msgstr "Aktualisieren"
+
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.RETURN
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.RETURN"
 msgid "RETURN"
@@ -216,6 +221,11 @@ msgstr "Zurück"
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.RETURNTWO"
 msgid "RETURN TO MODS"
 msgstr "Zurück zu Mods"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.SUBTOALL
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.SUBTOALL"
+msgid "Subscribe to all missing Mods"
+msgstr "Alle fehlenden Mods abonieren"
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.SYNCLIST
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.SYNCLIST"
@@ -231,6 +241,42 @@ msgstr "Modlisten gespeichert in  {0}"
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.TITLESAVEGAMELIST"
 msgid "ModLists from SaveGame \"{0}\""
 msgstr "Modlisten aus Spielstand {0}"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.USEALTERNATIVEMODE
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.USEALTERNATIVEMODE"
+msgid ""
+"Load mod list with a restart\n"
+"(Restarts game)"
+msgstr ""
+"Läd Modliste mit einem Neustart\n"
+"(Startet das Spiel neu)"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.USENORMALMETHOD
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.USENORMALMETHOD"
+msgid ""
+"Load mod list using normal method\n"
+"(could freeze the game)"
+msgstr ""
+"Läd Modliste mit normaler methode\n"
+"(könnte das Spiel einfrieren)"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WARNINGMANYMODS
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WARNINGMANYMODS"
+msgid "Large amount of mod differences detected."
+msgstr "Große Unterschiede bei den Mods festgestellt."
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WARNINGMANYMODSQUESTION
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WARNINGMANYMODSQUESTION"
+msgid ""
+"Large amount of mod differences can lead to long game freezes.\n"
+"Restart game with this Modlist applied?\n"
+"(This is an alternative mod list deployment mode)."
+msgstr ""
+"Große Mengen an zu verarbeitenden Modunterschieden können.\n"
+"das Spiel einfrieren. Soll diese Liste mittels Neustart geladen werden?\n"
+"(Diese alternative Methode umgeht das Einfrieren durch Neustart)."
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WORKSHOPFINDTOOLTIP
 msgctxt ""
