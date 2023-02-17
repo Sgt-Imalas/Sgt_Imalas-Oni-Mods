@@ -176,7 +176,8 @@ namespace SetStartDupes
         }
 
 
-        [HarmonyPatch(typeof(WattsonMessage), "OnActivate")]
+        [HarmonyPatch(typeof(WattsonMessage))]
+        [HarmonyPatch(nameof(WattsonMessage.OnActivate))]
         public class DupeSpawnAdjustmentNo2BecauseKleiIsKlei
         {
             const float OxilitePerDupePerDay = 0.1f * 600f; //in KG
@@ -226,15 +227,23 @@ namespace SetStartDupes
 
             public static float AdjustCellX(float OldX, GameObject printingPod, int index) ///int requirement to consume previous "3" on stack
             {
-                int newCell = Grid.PosToCell(printingPod) + ((index + 2) % 5 - 2);
-                Debug.Log("Old CellPosX: " + OldX + ", New CellPos: " + Grid.CellToXY(newCell));
+                int newCell = Grid.PosToCell(printingPod) + ((index + 1) % 4 - 1);
+                //Debug.Log("Old CellPosX: " + OldX + ", New CellPos: " + Grid.CellToXY(newCell));
                 //YeetOxilite(printingPod, 150f);
-                return (float)Grid.CellToXY(newCell).x;
+                return (float)Grid.CellToXY(newCell).x+0.5f;
             }
 
             public static readonly MethodInfo NewCellX = AccessTools.Method(
                typeof(DupeSpawnAdjustmentNo2BecauseKleiIsKlei),
                nameof(DupeSpawnAdjustmentNo2BecauseKleiIsKlei.AdjustCellX));
+
+            public static readonly MethodInfo GetPrintingPodInfo = AccessTools.Method(
+               typeof(GameUtil),
+               nameof(GameUtil.GetTelepad));
+
+            public static readonly MethodInfo GetDupeFromComponentInfo = AccessTools.Method(
+               typeof(Components.Cmps<MinionIdentity>),
+               ("get_Item"));
 
 
             [HarmonyPriority(Priority.Last)]
@@ -242,16 +251,19 @@ namespace SetStartDupes
             {
                 var code = instructions.ToList();
                 var insertionIndex = code.FindLastIndex(ci => ci.opcode == OpCodes.Sub);
+                var insertionIndexPrintingPodInfo = code.FindIndex(ci => ci.opcode == OpCodes.Call && ci.operand is MethodInfo f && f == GetPrintingPodInfo);
+                var minionGetterIndexInfo = code.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo f && f == GetDupeFromComponentInfo);
 
                 //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
                 if (insertionIndex != -1)
                 {
-                    //code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 7));
-                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_0));
-                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_2));
+                    int printingPodIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, insertionIndexPrintingPodInfo,false);
+                    int IDXIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, minionGetterIndexInfo);
+
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, printingPodIndex));
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, IDXIndex));
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, NewCellX));
-                    //code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Stloc_S,  7));
-                    //code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 7));
+                    TranspilerHelper.PrintInstructions(code);
                 }
                 //foreach (var v in code) { Console.WriteLine(v.opcode + (v.operand != null ? ": " + v.operand : "")); };
                 return code;

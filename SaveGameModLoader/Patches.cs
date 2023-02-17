@@ -17,6 +17,7 @@ using UtilLibs;
 using static SaveGameModLoader.ModAssets;
 using Ionic.Zlib;
 using Klei;
+using static UnityEngine.UI.Image;
 
 namespace SaveGameModLoader
 {
@@ -27,47 +28,47 @@ namespace SaveGameModLoader
         {
             /// <summary>
             /// 		.locals init (
-			//[0] valuetype LoadScreen/SaveGameFileDetails,
-			//[1] string,
-			//[2] class HierarchyReferences,
-			//[3] class ['Assembly-CSharp-firstpass'] KButton,
-			//[4] class LocText,
-			//[5] class [UnityEngine.CoreModule] UnityEngine.GameObject,
-			//[6] class [UnityEngine.CoreModule] UnityEngine.RectTransform,
-			//[7] bool,
-			//[8] int32,
-			//[9] class [UnityEngine.CoreModule] UnityEngine.GameObject,
-			//[10] bool,
-			//[11] bool,
-			//[12] bool,
-			//[13] bool,
-			//[14] int32,
-			//[15] class LoadScreen/'<>c__DisplayClass67_0',
-			//[16] class [UnityEngine.CoreModule] UnityEngine.RectTransform,
-			//[17] class HierarchyReferences,
-			//[18] class [UnityEngine.CoreModule] UnityEngine.RectTransform,
-			//[19] class LocText,
-			//[20] class LocText,
-			//[21] class [UnityEngine.CoreModule] UnityEngine.RectTransform,
-			//[22] bool,
-			//[23] class ['Assembly-CSharp-firstpass'] KButton,
-			//[24] bool,
-			//[25] bool,
-			//[26] bool,
-			//[27] bool
-                /// AALT:
-		//.locals init(
-  //          [0] string,
-  //          [1] class [UnityEngine.CoreModule] UnityEngine.GameObject,
-		//	[2] class [UnityEngine.CoreModule] UnityEngine.RectTransform,
-		//	[3] int32,
-		//	[4] class [UnityEngine.CoreModule] UnityEngine.GameObject,
-		//	[5] int32,
-		//	[6] class LoadScreen/'<>c__DisplayClass67_0',
-		//	[7] class [UnityEngine.CoreModule] UnityEngine.RectTransform,
-		//	[8] class HierarchyReferences,
-		//	[9] class ['Assembly-CSharp-firstpass'] KButton
-		//)
+            //[0] valuetype LoadScreen/SaveGameFileDetails,
+            //[1] string,
+            //[2] class HierarchyReferences,
+            //[3] class ['Assembly-CSharp-firstpass'] KButton,
+            //[4] class LocText,
+            //[5] class [UnityEngine.CoreModule] UnityEngine.GameObject,
+            //[6] class [UnityEngine.CoreModule] UnityEngine.RectTransform,
+            //[7] bool,
+            //[8] int32,
+            //[9] class [UnityEngine.CoreModule] UnityEngine.GameObject,
+            //[10] bool,
+            //[11] bool,
+            //[12] bool,
+            //[13] bool,
+            //[14] int32,
+            //[15] class LoadScreen/'<>c__DisplayClass67_0',
+            //[16] class [UnityEngine.CoreModule] UnityEngine.RectTransform,
+            //[17] class HierarchyReferences,
+            //[18] class [UnityEngine.CoreModule] UnityEngine.RectTransform,
+            //[19] class LocText,
+            //[20] class LocText,
+            //[21] class [UnityEngine.CoreModule] UnityEngine.RectTransform,
+            //[22] bool,
+            //[23] class ['Assembly-CSharp-firstpass'] KButton,
+            //[24] bool,
+            //[25] bool,
+            //[26] bool,
+            //[27] bool
+            /// AALT:
+            //.locals init(
+            //          [0] string,
+            //          [1] class [UnityEngine.CoreModule] UnityEngine.GameObject,
+            //	[2] class [UnityEngine.CoreModule] UnityEngine.RectTransform,
+            //	[3] int32,
+            //	[4] class [UnityEngine.CoreModule] UnityEngine.GameObject,
+            //	[5] int32,
+            //	[6] class LoadScreen/'<>c__DisplayClass67_0',
+            //	[7] class [UnityEngine.CoreModule] UnityEngine.RectTransform,
+            //	[8] class HierarchyReferences,
+            //	[9] class ['Assembly-CSharp-firstpass'] KButton
+            //)
 
             /// </summary>
             /// <param name="entry"></param>
@@ -103,21 +104,35 @@ namespace SaveGameModLoader
                     typeof(KButton),
                     nameof(KButton.ClearOnClick));
 
+            private static readonly MethodInfo SaveGameFileIndexFinder = AccessTools.Method(
+                    typeof(System.IO.Path),
+                    nameof(System.IO.Path.GetFileNameWithoutExtension));
+
+            private static readonly MethodInfo TransformIndexFinder = AccessTools.Method(
+                typeof(UnityEngine.Object),
+                nameof(UnityEngine.Object.Instantiate),
+                new System.Type[] { typeof(UnityEngine.Object), typeof(Vector3), typeof(Quaternion)});
+
+
             static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
             {
                 var code = instructions.ToList();
-                //return code;///Dev Build crash
                 var insertionIndex = code.FindLastIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo f && f == SuitableMethodInfo);
 
 
+                var SaveGameFileIndexFinderStart = code.FindIndex(ci => ci.opcode == OpCodes.Call && ci.operand is MethodInfo f && f == SaveGameFileIndexFinder);
+                var saveFileRootIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, SaveGameFileIndexFinderStart);
+
+                var TransformIndexFinderStart = code.FindIndex(ci => ci.opcode == OpCodes.Call && ci.operand is MethodInfo f && f == TransformIndexFinder);
+                var TransformIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, SaveGameFileIndexFinderStart,false);
 
                 //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
                 if (insertionIndex != -1)
                 {
                     insertionIndex += 1;
-                    code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 7));
-                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 6));
-                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, ButtonLogic));
+                    code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, TransformIndex));//7
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, saveFileRootIndex));//6
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, ButtonLogic)); 
                 }
                 //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
 
@@ -305,7 +320,7 @@ namespace SaveGameModLoader
         /// On loading a savegame, store the mod config in the modlist.
         /// </summary>
         [HarmonyPatch(typeof(SaveLoader), "Load")]
-        [HarmonyPatch(new Type[] { typeof(IReader) })]
+        [HarmonyPatch(new System.Type[] { typeof(IReader) })]
         public static class LoadModConfigPatch
         {
             internal class SaveFileRoot
@@ -341,6 +356,12 @@ namespace SaveGameModLoader
                typeof(LoadModConfigPatch),
                nameof(WriteModlistPatch));
 
+
+            public static readonly MethodInfo SaveFileRootCallLocation = AccessTools.Method(
+               typeof(Deserializer),
+               nameof(Deserializer.Deserialize),
+                new System.Type[] { typeof(object) });
+
             private static readonly MethodInfo SuitableMethodInfo = AccessTools.Method(
                     typeof(KMod.Manager),
                     "MatchFootprint");
@@ -349,11 +370,14 @@ namespace SaveGameModLoader
             {
                 var code = instructions.ToList();
                 var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo f && f == SuitableMethodInfo);
+                var deserializerSearchIndex = code.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo f && f == SaveFileRootCallLocation);
+
+                var saveFileRootIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, deserializerSearchIndex);
 
                 //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
-                if (insertionIndex != -1)
+                if (insertionIndex != -1&& saveFileRootIndex!=-1)
                 {
-                     code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldloc_1));
+                     code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, saveFileRootIndex));
                      code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, ScreenCreator));
                 }
 
@@ -366,7 +390,7 @@ namespace SaveGameModLoader
         /// </summary>
         [HarmonyPatch(typeof(SaveLoader))]
         [HarmonyPatch(nameof(SaveLoader.Save))]
-        [HarmonyPatch(new Type[] { typeof(string), typeof(bool), typeof(bool) })]
+        [HarmonyPatch(new System.Type[] { typeof(string), typeof(bool), typeof(bool) })]
         public static class SaveModConfigOnSave
         {
             public static void Postfix(string filename, bool isAutoSave = false, bool updateSavePointer = true)

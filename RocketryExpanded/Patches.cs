@@ -94,14 +94,17 @@ namespace ExplosiveMaterials
 
                 var insertionIndex = code.FindIndex(ci => ci.operand is MethodInfo f && f == SuitableMethodInfo);
 
+
                 if (insertionIndex != -1)
                 {
+                    int primaryElementIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, insertionIndex);
+
                     code.Insert(insertionIndex, new CodeInstruction(OpCodes.Call, PacketSizeHelper));
-                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Stloc_2));
-                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_2));
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Stloc_S, primaryElementIndex));
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, primaryElementIndex));
                 }
-               // Debug.Log("DEBUGMETHOD: " + new CodeInstruction(OpCodes.Call, PacketSizeHelper));
-                //InjectionMethods.PrintInstructions(code);
+                // Debug.Log("DEBUGMETHOD: " + new CodeInstruction(OpCodes.Call, PacketSizeHelper));
+                //TranspilerHelper.PrintInstructions(code);
                 return code;
             }
         }
