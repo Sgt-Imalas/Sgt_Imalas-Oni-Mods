@@ -66,7 +66,7 @@ namespace ExplosiveMaterials
         }
 
         [HarmonyPatch(typeof(SolidConduitDispenser))]
-        [HarmonyPatch("ConduitUpdate")]
+        [HarmonyPatch(nameof(SolidConduitDispenser.ConduitUpdate))]
         public class ConduitDispenserImplementOneElementTag
         {
             private static readonly MethodInfo SuitableMethodInfo = AccessTools.Method(

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using STRINGS;
@@ -11,6 +12,8 @@ namespace UtilLibs
 {
     public static class InjectionMethods
 	{
+
+
         public static void PrintInstructions(List<HarmonyLib.CodeInstruction> codes)
         {
             Debug.Log("\n");
@@ -54,8 +57,34 @@ namespace UtilLibs
             AddBuildingToTechnology(techId, techItemId);
             return Db.Get().TechItems.AddTechItem(techItemId, name, description, (anim, centered) => sprite, availableDLCs);
         }
-
-
+        public static void AddBuildingToPlanScreen(
+            HashedString category,
+            string building_id,
+            string relativeBuildingId = "",
+            string subcategoryID = "uncategorized",
+            ModUtil.BuildingOrdering ordering = ModUtil.BuildingOrdering.After
+            )
+        {
+            if(relativeBuildingId != string.Empty)
+            {
+                if(subcategoryID == string.Empty && TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.ContainsKey(relativeBuildingId))
+                {
+                    subcategoryID = TUNING.BUILDINGS.PLANSUBCATEGORYSORTING[relativeBuildingId];
+                }
+                TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.Add(building_id, subcategoryID);
+                ModUtil.AddBuildingToPlanScreen(category,building_id,subcategoryID,relativeBuildingId,ordering);
+            }
+            else if( relativeBuildingId == string.Empty && subcategoryID != "uncategorized")
+            {
+                TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.Add(building_id, subcategoryID);
+                ModUtil.AddBuildingToPlanScreen(category, building_id, subcategoryID);
+            }
+            else
+            {
+                ModUtil.AddBuildingToPlanScreen(category, building_id, subcategoryID);
+            }
+        }
+        
 
 
         private static Func<string, bool, Sprite> GetSpriteFnBuilder(string spriteName) => (Func<string, bool, Sprite>)((anim, centered) => Assets.GetSprite((HashedString)spriteName));
