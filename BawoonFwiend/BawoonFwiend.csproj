@@ -54,5 +54,8 @@
 	  <None Update="ModAssets\anim\anim\bloon_maker\bloon_maker_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\assets\icon_balloon_toggle_random_icon.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 </Project>

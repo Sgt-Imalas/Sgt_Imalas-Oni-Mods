@@ -39,6 +39,8 @@ namespace BawoonFwiend
                 LocalisationUtil.Translate(typeof(STRINGS), true);
             }
         }
+
+
         [HarmonyPatch(typeof(ElementLoader))]
         [HarmonyPatch(nameof(ElementLoader.Load))]
         public static class Patch_ElementLoader_Load
@@ -58,6 +60,24 @@ namespace BawoonFwiend
                     lead.oreTags = new Tag[] { };
                 }
                 lead.oreTags = lead.oreTags.AddToArray(ModAssets.Tags.BalloonGas);
+            }
+        }
+
+        [HarmonyPatch(typeof(Assets), "OnPrefabInit")]
+        public class Assets_OnPrefabInit_Patch
+        {
+            public static void Prefix(Assets __instance)
+            {
+                InjectionMethods.AddSpriteToAssets(__instance, "icon_balloon_toggle_random_icon");
+            }
+        }
+
+        [HarmonyPatch(typeof(DetailsScreen), "OnPrefabInit")]
+        public static class CustomSideScreenPatch_SatelliteCarrier
+        {
+            public static void Postfix(List<DetailsScreen.SideScreenRef> ___sideScreens)
+            {
+                UIUtils.AddClonedSideScreen<BalloonStationSkinSelectorSidescreen>("BalloonStationSkinSelectorSidescreen", "ArtableSelectionSideScreen", typeof(ArtableSelectionSideScreen));
             }
         }
 

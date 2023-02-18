@@ -88,23 +88,23 @@ namespace BawoonFwiend
             RoomTracker roomTracker = go.AddOrGet<RoomTracker>();
             roomTracker.requiredRoomType = Db.Get().RoomTypes.RecRoom.Id;
             roomTracker.requirement = RoomTracker.Requirement.Recommended;
-            ColorIntegration(go);
+            //ColorIntegration(go);
         }
         public override void DoPostConfigureComplete(GameObject go)
         {
             SymbolOverrideControllerUtil.AddToPrefab(go);
         }
-        static void ColorIntegration(GameObject go)
-        {
-            var VaricolouredBalloonsHelperType = Type.GetType("VaricolouredBalloons.VaricolouredBalloonsHelper, VaricolouredBalloons", false, false);
+        //static void ColorIntegration(GameObject go)
+        //{
+        //    var VaricolouredBalloonsHelperType = Type.GetType("VaricolouredBalloons.VaricolouredBalloonsHelper, VaricolouredBalloons", false, false);
 
-            if (VaricolouredBalloonsHelperType != null)
-            {
-                SgtLogger.debuglog("Varicoloured Balloons Integration applied");
-                go.AddComponent(VaricolouredBalloonsHelperType);
-                return;
-            }
+        //    if (VaricolouredBalloonsHelperType != null)
+        //    {
+        //        SgtLogger.debuglog("Varicoloured Balloons Integration applied");
+        //        go.AddComponent(VaricolouredBalloonsHelperType);
+        //        return;
+        //    }
 
-        }
+        //}
     }
 }
