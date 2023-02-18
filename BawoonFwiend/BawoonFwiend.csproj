@@ -23,10 +23,10 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>BawoonFwiend</ModName>
-		<ModDescription></ModDescription>
+		<ModName>Balloon Dispenser</ModName>
+		<ModDescription>Adds a Rec. Building that hands out balloons.</ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
-		<MinimumSupportedBuild>535211</MinimumSupportedBuild>
+		<MinimumSupportedBuild>543530</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 

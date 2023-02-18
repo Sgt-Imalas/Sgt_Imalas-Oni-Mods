@@ -161,7 +161,7 @@ namespace BawoonFwiend
             {
                 var SkinAllowed = db.Permits.BalloonArtistFacades.Get(skin.id);
                 var symbolOverrides = SkinAllowed.GetBalloonOverrideSymbolIDs();
-                if (true) //SkinAllowed.IsUnlocked()
+                if (SkinAllowed.IsUnlocked()) //SkinAllowed.IsUnlocked()
                 {
                     for (int i = 0; i < symbolOverrides.Count(); ++i)
                     {
