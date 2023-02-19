@@ -24,6 +24,7 @@ namespace BawoonFwiend
         //private Dictionary<SpaceStationWithStats, MultiToggle> buttons = new Dictionary<SpaceStationWithStats, MultiToggle>();
 
         public Bawoongiver TargetBalloonStand;
+        Image RandomButtonImage;
 
 
         public override bool IsValidForTarget(GameObject target) => target.GetComponent<Bawoongiver>() != null;
@@ -35,10 +36,8 @@ namespace BawoonFwiend
             //flipButton.SetActive(false);
             //PlaceStationButton.SetActive(false);
             //UIUtils.TryChangeText(PlaceStationButton.transform, "Label", "MakeOrBreakSpaceStation");
-            RefreshButtons(); 
-            
-            var img = flipButton.transform.Find("FG").GetComponent<Image>();
-            img.sprite = Assets.GetSprite("icon_balloon_toggle_random_icon");
+            RandomButtonImage = flipButton.transform.Find("FG").GetComponent<Image>();
+
 
             if(PlaceStationButton.TryGetComponent<KImage>(out var sourceBtn) && flipButton.TryGetComponent<KImage>(out var targetButton))
             {
@@ -47,9 +46,10 @@ namespace BawoonFwiend
             }
 
             UIUtils.AddActionToButton(PlaceStationButton.transform, "", () => { TargetBalloonStand.ToggleAll(); RefreshButtons(); });
-            UIUtils.AddActionToButton(flipButton.transform, "", () => { TargetBalloonStand.ToggleRandoms(); RefreshButtons(); });
+            UIUtils.AddActionToButton(flipButton.transform, "", () => { TargetBalloonStand.ToggleFullyRandom(); RefreshButtons(); });
             //Game.Instance.Subscribe((int)GameHashes.ResearchComplete, RefreshAll);
             //Game.Instance.Subscribe((int)GameHashes.ToggleSandbox, RefreshAll);
+            RefreshButtons();
         }
 
         public override void OnPrefabInit()
@@ -117,6 +117,15 @@ namespace BawoonFwiend
             UIUtils.TryChangeText(PlaceStationButton.transform, "Label", TargetBalloonStand.ToggleAllBtnOn
                 ? STRINGS.UI.UISIDESCREENS.BF_BALLOONSTAND.TOGGLEALLOFF
                 : STRINGS.UI.UISIDESCREENS.BF_BALLOONSTAND.TOGGLEALLON);
+
+            RandomButtonImage.sprite = TargetBalloonStand.AllRandom 
+                ? Assets.GetSprite("icon_balloon_toggle_random_icon")
+                :Assets.GetSprite("icon_archetype_random");
+
+            
+            UIUtils.AddSimpleTooltipToObject(flipButton.transform.Find("FG"), TargetBalloonStand.AllRandom
+                ? STRINGS.UI.UISIDESCREENS.BF_BALLOONSTAND.ALLRANDOMYES
+                : STRINGS.UI.UISIDESCREENS.BF_BALLOONSTAND.ALLRANDOMNO, true);
         }
 
         private void AddButton(BalloonOverrideSymbol BallonSkin, bool enabled,System.Action onClick)

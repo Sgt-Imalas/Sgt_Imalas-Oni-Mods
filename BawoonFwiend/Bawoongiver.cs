@@ -25,9 +25,13 @@ namespace BawoonFwiend
         //public bool UseDefaultRedSkin = true;
         [Serialize]
         public bool ToggleAllBtnOn = false;
+        [Serialize]
+        public bool AllRandom = false;
 
         [Serialize]
-        int currentIndex = 0;
+        int currentIndex = -1;
+        [Serialize]
+        int nextIndex = -1;
 
         [MyCmpGet]
         Storage storage;
@@ -39,6 +43,7 @@ namespace BawoonFwiend
 
         void UpdateActives()
         {
+            var currentSkin = ActiveSkinOverrides.Count == 0 || currentIndex == -1 ? default(BalloonOverrideSymbol) :  ActiveSkinOverrides[currentIndex];
             ActiveSkinOverrides.Clear();
 
             foreach (var skin in EnabledBalloonSkins)
@@ -48,21 +53,27 @@ namespace BawoonFwiend
                     ActiveSkinOverrides.Add(skin.Key);
                 }
             }
-            ActiveSkinOverrides.Shuffle();
-            currentIndex = ActiveSkinOverrides.Count <2 ? -1 : 0;
+            currentIndex = ActiveSkinOverrides.Count == 0 ? -1 : currentIndex;
+            nextIndex = ActiveSkinOverrides.Count == 0 ? -1 : NextOverrideSymbolInt();
+            var current = ActiveSkinOverrides.Count == 0 ? -1 : ActiveSkinOverrides.FindIndex(skin => skin.animFileID == currentSkin.animFileID && skin.animFileSymbolID == currentSkin.animFileSymbolID);
+            if (current != -1)
+            {
+                currentIndex = current;
+            }
+            SetBalloonSymbolOverride();
         }
 
-        bool GetNextOverrideSymbol(out int value)
+        bool GetNextOverrideSymbol()
         {
             if (ActiveSkinOverrides.Count == 0)
             {
-                value = -1;
-                currentIndex = value;
+                currentIndex = -1;
+                nextIndex = -1;
                 return false;
             }
 
-            value = NextOverrideSymbolInt();
-            currentIndex = value;
+            currentIndex = nextIndex;
+            nextIndex = NextOverrideSymbolInt();
             return true;
         }
 
@@ -71,21 +82,21 @@ namespace BawoonFwiend
             if(ActiveSkinOverrides.Count == 0)
                 return -1;
 
+            if (AllRandom) 
+            {
+                return UnityEngine.Random.Range(0, ActiveSkinOverrides.Count - 1);
+            }
+
             return (currentIndex + 1) % (ActiveSkinOverrides.Count);                 
         }
 
         public BalloonOverrideSymbol CurrentSkin => currentIndex == -1? default(BalloonOverrideSymbol) : ActiveSkinOverrides[currentIndex];
+        public BalloonOverrideSymbol NextSkin => nextIndex == -1? default(BalloonOverrideSymbol) : ActiveSkinOverrides[nextIndex];
 
         public void ApplyNextSkin()
         {
-            if(GetNextOverrideSymbol(out var iconID))
-            {
-                SetBalloonSymbolOverride(CurrentSkin);
-            }
-            else
-            {
-                SetBalloonSymbolOverride(default(BalloonOverrideSymbol));
-            }
+            GetNextOverrideSymbol();
+            SetBalloonSymbolOverride();
         }
 
         public void ToggleSkin(BalloonOverrideSymbol balloonSkinID)
@@ -105,6 +116,8 @@ namespace BawoonFwiend
             }
             UpdateActives();
         }
+
+        public void ToggleFullyRandom() => AllRandom= !AllRandom;
 
         public void ToggleRandoms()
         {
@@ -136,20 +149,27 @@ namespace BawoonFwiend
 
 
 
-        static Type VaricolouredBalloonsHelperType = Type.GetType("VaricolouredBalloons.VaricolouredBalloonsHelper, VaricolouredBalloons", false, false);
+        //static Type VaricolouredBalloonsHelperType = Type.GetType("VaricolouredBalloons.VaricolouredBalloonsHelper, VaricolouredBalloons", false, false);
 
 
-        public void SetBalloonSymbolOverride(BalloonOverrideSymbol balloonOverrideSymbol)
+        public void SetBalloonSymbolOverride()
         {
-            Debug.Log(symbolOverrideController);
-            Debug.Log(balloonOverrideSymbol);
-            if (balloonOverrideSymbol.animFile.IsNone())
+            if (CurrentSkin.animFile.IsNone())
             {
                 symbolOverrideController.AddSymbolOverride((HashedString)"bloon", Assets.GetAnim((HashedString)"balloon_anim_kanim").GetData().build.GetSymbol((KAnimHashedString)"body"));
             }
             else
             {
-                symbolOverrideController.AddSymbolOverride((HashedString)"bloon", balloonOverrideSymbol.symbol.Unwrap());
+                symbolOverrideController.AddSymbolOverride((HashedString)"bloon", CurrentSkin.symbol.Unwrap());
+            }
+
+            if (NextSkin.animFile.IsNone())
+            {
+                symbolOverrideController.AddSymbolOverride((HashedString)"next_bloon", Assets.GetAnim((HashedString)"balloon_anim_kanim").GetData().build.GetSymbol((KAnimHashedString)"body"));
+            }
+            else
+            {
+                symbolOverrideController.AddSymbolOverride((HashedString)"next_bloon", NextSkin.symbol.Unwrap());
             }
         }
 
@@ -160,9 +180,9 @@ namespace BawoonFwiend
             foreach (var skin in BalloonArtistFacades.Infos_All)
             {
                 var SkinAllowed = db.Permits.BalloonArtistFacades.Get(skin.id);
-                var symbolOverrides = SkinAllowed.GetBalloonOverrideSymbolIDs();
                 if (SkinAllowed.IsUnlocked()) //SkinAllowed.IsUnlocked()
                 {
+                    var symbolOverrides = SkinAllowed.GetBalloonOverrideSymbolIDs();
                     for (int i = 0; i < symbolOverrides.Count(); ++i)
                     {
                         var BalloonSkin = SkinAllowed.GetOverrideAt(i);

@@ -38,6 +38,9 @@ namespace BawoonFwiend
                     public static LocString TITLE = (LocString)"Balloon Skins";
                     public static LocString TOGGLEALLON = (LocString)"Activate All";
                     public static LocString TOGGLEALLOFF = (LocString)"Deactivate All";
+
+                    public static LocString ALLRANDOMYES = (LocString)"Each balloon skin is chosen fully random.\nResults in random amounts of each chosen skin to appear.\nToggle to change it to a queue based system";
+                    public static LocString ALLRANDOMNO = (LocString)"Each active balloon skin is picked atleast\nonce before duplicates can appear.\nResults in an even distribution of each chosen skin.\nToggle to change it to a fully random system";
                 }
             }
         }
