@@ -24,10 +24,19 @@ namespace BawoonFwiend
 
             public static void Prefix()
             {
-                //InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
-                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, BawoonBuildingConfig.ID);
+                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, BawoonBuildingConfig.ID, EspressoMachineConfig.ID);
             }
         }
+        [HarmonyPatch(typeof(Db))]
+        [HarmonyPatch(nameof(Db.Initialize))]
+        public class Db_Initialize_Patch
+        {
+            public static void Postfix()
+            {
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Decor.HomeLuxuries, BawoonBuildingConfig.ID);
+            }
+        }
+
         /// <summary>
         /// Init. auto translation
         /// </summary>
