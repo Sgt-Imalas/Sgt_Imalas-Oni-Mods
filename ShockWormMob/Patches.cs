@@ -27,6 +27,8 @@ namespace ShockWormMob
             public static void Prefix()
             {
                 //InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
+                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Utilities, EventDebugTileConfig.ID);
+                ModAssets.InitEventTest();
             }
         }
         /// <summary>
