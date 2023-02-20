@@ -52,6 +52,10 @@ namespace BawoonFwiend
                 this.animationIndex = animationIndex;
                 this.slotIndex = slotIndex;
             }
+            public override string ToString()
+            {
+                return animationIndex.ToString() + "-"+slotIndex.ToString();
+            }
         }
 
         void UpdateActives()
@@ -63,14 +67,21 @@ namespace BawoonFwiend
             var AllSkins = BalloonArtistFacades.Infos_All;
             foreach (var skin in EnabledBalloonSkins)
             {
-                if(skin.Value)
+                if (skin.Value)
                 {
-                    var Skin = db.Permits.BalloonArtistFacades.Get(AllSkins[skin.Key.animationIndex].id).GetOverrideAt(skin.Key.slotIndex);
+                    SgtLogger.l(skin.ToString(),"ENABLED");
+                    var Skin = GetOverrideViaIndex(skin.Key);
                     ActiveSkinOverrides.Add(Skin);
                 }
+                else
+
+                    SgtLogger.l(skin.ToString(), "DISABLED");
             }
             currentIndex = ActiveSkinOverrides.Count == 0 ? -1 : currentIndex;
             nextIndex = ActiveSkinOverrides.Count == 0 ? -1 : NextOverrideSymbolInt();
+            if(currentIndex>= ActiveSkinOverrides.Count)
+                currentIndex= ActiveSkinOverrides.Count-1;
+
             var current = ActiveSkinOverrides.Count == 0 ? -1 : ActiveSkinOverrides.FindIndex(skin => skin.animFileID == currentSkin.animFileID && skin.animFileSymbolID == currentSkin.animFileSymbolID);
             if (current != -1)
             {
@@ -81,7 +92,14 @@ namespace BawoonFwiend
 
         public BalloonOverrideSymbol GetOverrideViaIndex(BalloonSkinByIndex skin)
         {
-            return Db.Get().Permits.BalloonArtistFacades.Get(BalloonArtistFacades.Infos_All[skin.animationIndex].id).GetOverrideAt(skin.slotIndex);
+            if(skin.animationIndex>= BalloonArtistFacades.Infos_All.Length)
+                return default(BalloonOverrideSymbol);
+            var Anim = Db.Get().Permits.BalloonArtistFacades.Get(BalloonArtistFacades.Infos_All[skin.animationIndex].id);
+            if(Anim == null)
+                return default(BalloonOverrideSymbol);
+            if(skin.slotIndex >= Anim.balloonOverrideSymbolIDs.Length)
+                return Anim.GetOverrideAt(0);
+            return Anim.GetOverrideAt(skin.slotIndex);
         }
 
         bool GetNextOverrideSymbol()
