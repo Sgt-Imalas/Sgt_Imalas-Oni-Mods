@@ -12,6 +12,7 @@ namespace BawoonFwiend
     public class ModAssets
     {
         public static Effect JustAMachine;
+        public static string JustAMachineId = "NotATrueFriend";
         public class Tags
         {
             public static Tag BalloonGas = TagManager.Create(nameof(BalloonGas));

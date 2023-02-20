@@ -9,13 +9,29 @@ namespace BawoonFwiend
 {
     internal class STRINGS
     {
+        public class MODCONFIG
+        {
+            public class STATBOOST
+            {
+                public static LocString NAME = "Balloon Machine Stat Boost";
+                public static LocString TOOLTIP = "Set the attribute height Duplicants recieve when getting a balloon from the Balloon Dispenser.\nBalloon Buddy gives +8 by default";
+            }
+        }
+        public class EFFECTS
+        {
+            public class NOTATRUEFRIEND
+            {
+                public static LocString NAME = "Machine made Balloon";
+                public static LocString DESC = "It's just not the same coming from a machine";
+            }
+        }
+
         public class MISC
         {
             public class TAGS
             {
                 public static LocString BALLOONGAS = "Balloon Gas";
             }
-
         }
         public class BUILDINGS
         {

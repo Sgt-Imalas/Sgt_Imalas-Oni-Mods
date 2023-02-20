@@ -36,11 +36,11 @@ namespace BawoonFwiend
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Decor.HomeLuxuries, BawoonBuildingConfig.ID);
 
                 Effect BalloonBuddyEffect = Db.Get().effects.Get("HasBalloon");
-                ModAssets.JustAMachine = new Effect("NotATrueFriend", "Machine made Balloon", "Its just not the same", BalloonBuddyEffect.duration, true, false, false);
+                ModAssets.JustAMachine = new Effect(ModAssets.JustAMachineId, STRINGS.EFFECTS.NOTATRUEFRIEND.NAME, STRINGS.EFFECTS.NOTATRUEFRIEND.DESC, BalloonBuddyEffect.duration, true, false, false);
                 foreach (AttributeModifier attributeModifier in BalloonBuddyEffect.SelfModifiers)
                 {
                     var newOne = attributeModifier.Clone();
-                    newOne.Value = -5;
+                    newOne.Value = (-8 + Config.Instance.MachineGivenBalloonBuff);
                     newOne.Description = "Machine made Balloon";
                     JustAMachine.Add(newOne);
                 }
@@ -95,14 +95,6 @@ namespace BawoonFwiend
             public static void Postfix()
             {
                 LocalisationUtil.Translate(typeof(STRINGS), true);
-            }
-        }
-
-        [HarmonyPatch(typeof(Db), "Initialize")]
-        public static class Test
-        {
-            public static void Postfix(TextAsset ___modifiersFile)
-            {
             }
         }
 
