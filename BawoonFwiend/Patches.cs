@@ -34,8 +34,57 @@ namespace BawoonFwiend
             public static void Postfix()
             {
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Decor.HomeLuxuries, BawoonBuildingConfig.ID);
+
+                Effect BalloonBuddyEffect = Db.Get().effects.Get("HasBalloon");
+                ModAssets.JustAMachine = new Effect("NotATrueFriend", "Machine made Balloon", "Its just not the same", BalloonBuddyEffect.duration, true, false, false);
+                foreach (AttributeModifier attributeModifier in BalloonBuddyEffect.SelfModifiers)
+                {
+                    var newOne = attributeModifier.Clone();
+                    newOne.Value = -5;
+                    newOne.Description = "Machine made Balloon";
+                    JustAMachine.Add(newOne);
+                }
+                Db.Get().effects.Add(ModAssets.JustAMachine);
             }
         }
+
+
+        //[HarmonyPatch(typeof(EquippableBalloonConfig))]
+        //[HarmonyPatch(nameof(EquippableBalloonConfig.OnEquipBalloon))]
+        //public class AddNotTrueFriendEffect
+        //{
+        //    public static void Postfix(Equippable eq)
+        //    {
+        //        Ownables soleOwner = eq.assignee.GetSoleOwner();
+        //        if (soleOwner.IsNullOrDestroyed())
+        //            return;
+        //        KMonoBehaviour target = (KMonoBehaviour)soleOwner.GetComponent<MinionAssignablesProxy>().target;
+        //        if (target.TryGetComponent<Effects>(out var component))
+        //        {
+        //            component.Add(JustAMachine, false);
+        //        }
+        //    }
+        //}
+        [HarmonyPatch(typeof(EquippableBalloonConfig))]
+        [HarmonyPatch(nameof(EquippableBalloonConfig.OnUnequipBalloon))]
+        public class RemoveNotTrueFriendEffect
+        {
+            public static void Prefix(Equippable eq)
+            {
+                if (!eq.IsNullOrDestroyed() && !eq.assignee.IsNullOrDestroyed())
+                {
+                    Ownables soleOwner = eq.assignee.GetSoleOwner();
+                    if (soleOwner.IsNullOrDestroyed())
+                        return;
+                    KMonoBehaviour target = (KMonoBehaviour)soleOwner.GetComponent<MinionAssignablesProxy>().target;
+                    if (target.TryGetComponent<Effects>(out var component) && component.HasEffect(JustAMachine))
+                    {
+                        component.Remove(JustAMachine);
+                    }
+                }
+            }
+        }
+
 
         /// <summary>
         /// Init. auto translation
@@ -49,6 +98,13 @@ namespace BawoonFwiend
             }
         }
 
+        [HarmonyPatch(typeof(Db), "Initialize")]
+        public static class Test
+        {
+            public static void Postfix(TextAsset ___modifiersFile)
+            {
+            }
+        }
 
         [HarmonyPatch(typeof(ElementLoader))]
         [HarmonyPatch(nameof(ElementLoader.Load))]

@@ -47,7 +47,7 @@ namespace BawoonFwiend
             Storage component1 = this.GetComponent<Storage>();
             component1.ConsumeIgnoringDisease(ModAssets.Tags.BalloonGas, Bawoongiver.BloongasUsage);
 
-            GameObject gameObject = Util.KInstantiate(Assets.GetPrefab((Tag)"EquippableBalloon"), worker.transform.GetPosition());
+            GameObject gameObject = Util.KInstantiate(Assets.GetPrefab((Tag)EquippableBalloonConfig.ID), worker.transform.GetPosition());
             gameObject.GetComponent<Equippable>().Assign((IAssignableIdentity)worker.GetComponent<MinionIdentity>());
             gameObject.GetComponent<Equippable>().isEquipped = true;
             gameObject.SetActive(true);
@@ -55,6 +55,11 @@ namespace BawoonFwiend
             
             gameObject.GetComponent<EquippableBalloon>().SetBalloonOverride(bawoongiver.CurrentSkin);
 
+
+            if (worker.TryGetComponent<Effects>(out var component))
+            {
+                component.Add(ModAssets.JustAMachine, true);
+            }
 
             //Effects component2 = worker.GetComponent<Effects>();
             //if (!string.IsNullOrEmpty(BawoongiverWorkable.specificEffect))

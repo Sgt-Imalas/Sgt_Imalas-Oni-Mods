@@ -9,8 +9,9 @@ using UnityEngine;
 
 namespace BawoonFwiend
 {
-    internal class ModAssets
+    public class ModAssets
     {
+        public static Effect JustAMachine;
         public class Tags
         {
             public static Tag BalloonGas = TagManager.Create(nameof(BalloonGas));

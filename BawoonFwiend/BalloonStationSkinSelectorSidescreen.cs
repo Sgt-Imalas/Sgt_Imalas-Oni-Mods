@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
+using static BawoonFwiend.Bawoongiver;
 using static HoverTextDrawer;
 using static KAnim.Anim;
 
@@ -20,7 +21,7 @@ namespace BawoonFwiend
         private GameObject stateButtonPrefab;
         private GameObject PlaceStationButton;
         private GameObject flipButton;
-        private Dictionary<BalloonOverrideSymbol,MultiToggle> buttons = new Dictionary<BalloonOverrideSymbol,MultiToggle>();
+        private Dictionary<BalloonSkinByIndex, MultiToggle> buttons = new Dictionary<BalloonSkinByIndex, MultiToggle>();
         //private Dictionary<SpaceStationWithStats, MultiToggle> buttons = new Dictionary<SpaceStationWithStats, MultiToggle>();
 
         public Bawoongiver TargetBalloonStand;
@@ -128,7 +129,7 @@ namespace BawoonFwiend
                 : STRINGS.UI.UISIDESCREENS.BF_BALLOONSTAND.ALLRANDOMNO, true);
         }
 
-        private void AddButton(BalloonOverrideSymbol BallonSkin, bool enabled,System.Action onClick)
+        private void AddButton(BalloonSkinByIndex BallonSkin, bool enabled,System.Action onClick)
         {
             var gameObject = Util.KInstantiateUI(stateButtonPrefab, buttonContainer.gameObject, true);
 
@@ -138,7 +139,8 @@ namespace BawoonFwiend
                 //Assets.TryGetAnim((HashedString)animName, out var anim);
                 button.onClick += onClick;
                 button.ChangeState(enabled ? 1 : 0);
-                var BallonSprite = GetSpriteFrom(BallonSkin.animFile.Unwrap(), BallonSkin.symbol.Unwrap());
+                var SkinOverride = TargetBalloonStand.GetOverrideViaIndex(BallonSkin);
+                var BallonSprite = GetSpriteFrom(SkinOverride.animFile.Unwrap(), SkinOverride.symbol.Unwrap());
                 UIUtils.TryFindComponent<Image>(gameObject.transform, "FG").sprite = BallonSprite;
                 buttons.Add(BallonSkin, button);
             }

@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static HoverTextDrawer;
 using static ResearchTypes;
 
 namespace BawoonFwiend
@@ -20,7 +21,7 @@ namespace BawoonFwiend
 
     {
         [Serialize]
-        public Dictionary<BalloonOverrideSymbol, bool> EnabledBalloonSkins = new Dictionary<BalloonOverrideSymbol, bool>();
+        public Dictionary<BalloonSkinByIndex, bool> EnabledBalloonSkins = new Dictionary<BalloonSkinByIndex, bool>();
         //[Serialize]
         //public bool UseDefaultRedSkin = true;
         [Serialize]
@@ -39,18 +40,33 @@ namespace BawoonFwiend
         [MyCmpGet]
         SymbolOverrideController symbolOverrideController;
 
+        [Serialize]
         List<BalloonOverrideSymbol> ActiveSkinOverrides = new List<BalloonOverrideSymbol>();
+
+        public struct BalloonSkinByIndex
+        {
+            public int animationIndex;
+            public int slotIndex;
+            public BalloonSkinByIndex(int animationIndex, int slotIndex)
+            {
+                this.animationIndex = animationIndex;
+                this.slotIndex = slotIndex;
+            }
+        }
 
         void UpdateActives()
         {
             var currentSkin = ActiveSkinOverrides.Count == 0 || currentIndex == -1 ? default(BalloonOverrideSymbol) :  ActiveSkinOverrides[currentIndex];
             ActiveSkinOverrides.Clear();
 
+            var db = Db.Get();
+            var AllSkins = BalloonArtistFacades.Infos_All;
             foreach (var skin in EnabledBalloonSkins)
             {
                 if(skin.Value)
                 {
-                    ActiveSkinOverrides.Add(skin.Key);
+                    var Skin = db.Permits.BalloonArtistFacades.Get(AllSkins[skin.Key.animationIndex].id).GetOverrideAt(skin.Key.slotIndex);
+                    ActiveSkinOverrides.Add(Skin);
                 }
             }
             currentIndex = ActiveSkinOverrides.Count == 0 ? -1 : currentIndex;
@@ -61,6 +77,11 @@ namespace BawoonFwiend
                 currentIndex = current;
             }
             SetBalloonSymbolOverride();
+        }
+
+        public BalloonOverrideSymbol GetOverrideViaIndex(BalloonSkinByIndex skin)
+        {
+            return Db.Get().Permits.BalloonArtistFacades.Get(BalloonArtistFacades.Infos_All[skin.animationIndex].id).GetOverrideAt(skin.slotIndex);
         }
 
         bool GetNextOverrideSymbol()
@@ -99,7 +120,7 @@ namespace BawoonFwiend
             SetBalloonSymbolOverride();
         }
 
-        public void ToggleSkin(BalloonOverrideSymbol balloonSkinID)
+        public void ToggleSkin(BalloonSkinByIndex balloonSkinID)
         {
             ToggleAllBtnOn = false;
             EnabledBalloonSkins[balloonSkinID] = !EnabledBalloonSkins[balloonSkinID];
@@ -109,7 +130,7 @@ namespace BawoonFwiend
         {
             //UseDefaultRedSkin = true;
             ToggleAllBtnOn = !ToggleAllBtnOn;
-            var keys = new List<BalloonOverrideSymbol>(EnabledBalloonSkins.Keys);
+            var keys = new List<BalloonSkinByIndex>(EnabledBalloonSkins.Keys);
             foreach (var bloon in keys)
             {
                 EnabledBalloonSkins[bloon] = ToggleAllBtnOn;
@@ -119,35 +140,33 @@ namespace BawoonFwiend
 
         public void ToggleFullyRandom() => AllRandom= !AllRandom;
 
-        public void ToggleRandoms()
-        {
-            ToggleAllBtnOn = false;
-            var numberOfOptions = (int)UnityEngine.Random.Range(3, Mathf.Min(8, EnabledBalloonSkins.Count/2));
-            numberOfOptions = Mathf.Min(numberOfOptions, EnabledBalloonSkins.Count);
+        //public void ToggleRandoms()
+        //{
+        //    ToggleAllBtnOn = false;
+        //    var numberOfOptions = (int)UnityEngine.Random.Range(3, Mathf.Min(8, EnabledBalloonSkins.Count/2));
+        //    numberOfOptions = Mathf.Min(numberOfOptions, EnabledBalloonSkins.Count);
 
-            var keys = new List<BalloonOverrideSymbol>(EnabledBalloonSkins.Keys);
-            foreach (var bloon in keys)
-            {
-                EnabledBalloonSkins[bloon] = false;
-            }
+        //    var keys = new List<BalloonOverrideSymbol>(EnabledBalloonSkins.Keys);
+        //    foreach (var bloon in keys)
+        //    {
+        //        EnabledBalloonSkins[bloon] = false;
+        //    }
 
-            List<BalloonOverrideSymbol> RandomOrder = EnabledBalloonSkins.Keys.ToList();
-            RandomOrder.Shuffle();
+        //    List<BalloonOverrideSymbol> RandomOrder = EnabledBalloonSkins.Keys.ToList();
+        //    RandomOrder.Shuffle();
 
-            List<BalloonOverrideSymbol> RandomSelected = new List<BalloonOverrideSymbol>();
-            for (int i = 0; i < numberOfOptions;i++)
-            {
-                RandomSelected.Add(RandomOrder[i]);
-            }
+        //    List<BalloonOverrideSymbol> RandomSelected = new List<BalloonOverrideSymbol>();
+        //    for (int i = 0; i < numberOfOptions;i++)
+        //    {
+        //        RandomSelected.Add(RandomOrder[i]);
+        //    }
             
-            foreach (var bloon in RandomSelected)
-            {
-                EnabledBalloonSkins[bloon] = true;
-            }
-            UpdateActives();
-        }
-
-
+        //    foreach (var bloon in RandomSelected)
+        //    {
+        //        EnabledBalloonSkins[bloon] = true;
+        //    }
+        //    UpdateActives();
+        //}
 
         //static Type VaricolouredBalloonsHelperType = Type.GetType("VaricolouredBalloons.VaricolouredBalloonsHelper, VaricolouredBalloons", false, false);
 
@@ -176,20 +195,23 @@ namespace BawoonFwiend
 
         public void UpdatePossibleBalloonSkins()
         {
-            var db = Db.Get();
-            foreach (var skin in BalloonArtistFacades.Infos_All)
+            var db = Db.Get(); 
+
+            var AllSkins = BalloonArtistFacades.Infos_All;
+            for (int animIndex = 0; animIndex< AllSkins.Count(); ++animIndex)
             {
-                var SkinAllowed = db.Permits.BalloonArtistFacades.Get(skin.id);
+                var SkinAllowed = db.Permits.BalloonArtistFacades.Get(AllSkins[animIndex].id);
                 if (SkinAllowed.IsUnlocked()) //SkinAllowed.IsUnlocked()
                 {
                     var symbolOverrides = SkinAllowed.GetBalloonOverrideSymbolIDs();
-                    for (int i = 0; i < symbolOverrides.Count(); ++i)
+                    for (int subSkinIndex = 0; subSkinIndex < symbolOverrides.Count(); ++subSkinIndex)
                     {
-                        var BalloonSkin = SkinAllowed.GetOverrideAt(i);
+                        var IdentifierKey = new BalloonSkinByIndex(animIndex, subSkinIndex);
+                        //var BalloonSkin = SkinAllowed.GetOverrideAt(subSkinIndex);
 
-                        if (!EnabledBalloonSkins.ContainsKey(BalloonSkin))
+                        if (!EnabledBalloonSkins.ContainsKey(IdentifierKey))
                         {
-                            EnabledBalloonSkins.Add(BalloonSkin, false);
+                            EnabledBalloonSkins.Add(IdentifierKey, false);
                         }
                     }
                 }
