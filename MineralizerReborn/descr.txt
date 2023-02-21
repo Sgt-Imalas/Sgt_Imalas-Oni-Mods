@@ -1,0 +1,34 @@
+﻿[img]https://i.imgur.com/GbFtLZ2.png[/img]
+
+[h1]Mineralizer Reborn[/h1]
+
+This is an updated version of Test447's Mineralizer. 
+I added a functioning salt indicator, an updated animation and support for translations.
+
+[h1]Current latest Version: 1.0.0[/h1]
+[hr][/hr]
+Adds a new building to the Refinement tab called the Mineralizer, built with 200kg of metal. It acts as the opposite to the Desalinator. Instead of producing water and salt from salt water, it produces salt water from water and salt. It is unlocked with the Liquid-Based Refinement Processes technology.
+
+4.65kg/s of Water + 350g/s of Salt = 5kg/s of Salt Water at the cost of 360w. Does not require duplicant operation but does require duplicants to deliver salt to it. The temperature of the output will be the same as the input.
+
+The Mineralizer is a simple way to grow Waterweed using only water and salt that you've excavated. Or it is a great way to make bulk Salt Water if you need its thermal properties instead of normal Water.
+
+[hr][/hr]
+[h1]Credits[/h1]
+- [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1952120897] Original Mod by Test447[/url]
+- Updated Animation made by 3GuB
+
+
+[h1]Bug Reports[/h1]
+Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+
+Where to find the Log:
+[list]
+[*]Windows: 
+    C:\Users\%username%\AppData\LocalLow\Klei\Oxygen Not Included\Player.log
+[*]Mac: 
+    ~/Library/Logs/Klei/Oxygen Not Included/Player.log
+[*] Linux: 
+~/.config/unity3d/Klei/Oxygen Not Included/Player.log
+[/list] 
+

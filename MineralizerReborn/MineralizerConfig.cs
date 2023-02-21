@@ -44,6 +44,7 @@ namespace MineralizerReborn
             buildingDef.ViewMode = OverlayModes.LiquidConduits.ID;
             buildingDef.AudioCategory = "Metal";
             buildingDef.UtilityInputOffset = new CellOffset(-1, 0);
+            buildingDef.PowerInputOffset = new CellOffset(1, 0);
             buildingDef.UtilityOutputOffset = new CellOffset(0, 0);
             buildingDef.PermittedRotations = PermittedRotations.FlipH;
             return buildingDef;
