@@ -26,7 +26,7 @@ namespace Rockets_TinyYetBig
             EffectorValues tieR2 = TUNING.NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = TUNING.BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 15, 2, "rocket_launchpad_bunker_kanim", 1000, 180f, buildingCosts, buildingMaterials, 9999f, BuildLocationRule.Anywhere, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "rocket_launchpad_bunker_kanim", 1000, 180f, buildingCosts, buildingMaterials, 9999f, BuildLocationRule.Anywhere, none, noise);
             buildingDef.SceneLayer = Grid.SceneLayer.BuildingBack;
             buildingDef.OverheatTemperature = 2273.15f;
             buildingDef.Floodable = false;
