@@ -41,9 +41,10 @@ namespace BawoonFwiend
                 {
                     var newOne = attributeModifier.Clone();
                     newOne.Value = (-8 + Config.Instance.MachineGivenBalloonBuff);
-                    newOne.Description = "Machine made Balloon";
+                    newOne.Description = STRINGS.EFFECTS.NOTATRUEFRIEND.NAME;
                     JustAMachine.Add(newOne);
                 }
+                BalloonBuddyEffect.showInUI= false;
                 Db.Get().effects.Add(ModAssets.JustAMachine);
             }
         }

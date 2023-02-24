@@ -36,7 +36,7 @@ namespace BawoonFwiend
         {
             float[] materialMass = new float[]
             {
-                150f
+                250f
             };
             string[] materialType = new string[]
             {

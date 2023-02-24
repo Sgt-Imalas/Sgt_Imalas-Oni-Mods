@@ -56,7 +56,7 @@ namespace BawoonFwiend
             gameObject.GetComponent<EquippableBalloon>().SetBalloonOverride(bawoongiver.CurrentSkin);
 
 
-            if (worker.TryGetComponent<Effects>(out var component))
+            if (worker.TryGetComponent<Effects>(out var component)&& Config.Instance.MachineGivenBalloonBuff<8)
             {
                 component.Add(ModAssets.JustAMachine, true);
             }

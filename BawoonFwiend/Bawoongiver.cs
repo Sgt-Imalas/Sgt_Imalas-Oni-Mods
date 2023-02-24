@@ -300,7 +300,9 @@ namespace BawoonFwiend
             public override void InitializeStates(out BaseState default_state)
             {
                 default_state = unoperational;
-                this.unoperational.PlayAnim("off").TagTransition(GameTags.Operational, this.operational);
+                this.unoperational
+                    .PlayAnim("off")
+                    .TagTransition(GameTags.Operational, this.operational);
                 this.operational.defaultState = operational.notEnoughGas;
                 this.operational.notEnoughGas
                     .PlayAnim("off")
@@ -310,7 +312,8 @@ namespace BawoonFwiend
                 this.operational.pumpingBloon
                     .PlayAnim("working", KAnim.PlayMode.Once)
                     .OnAnimQueueComplete(ready);
-                this.ready.TagTransition(GameTags.Operational, this.unoperational, true)
+                this.ready
+                    .TagTransition(GameTags.Operational, this.unoperational, true)
                     .DefaultState(this.ready.idle)
                     .ToggleChore(new Func<StatesInstance, Chore>(this.CreateChore), this.operational);
                 this.ready.idle
