@@ -102,6 +102,11 @@ namespace Rockets_TinyYetBig
                     public static LocString DESC = (LocString)"Bringing home those minerals - for Rock and Stone!";
                     public static LocString EFFECT = (LocString)("Acts as a support module for a normal Drillcone.\n\nProvides additional 1500kg of diamond capacity for the drillcone.\n\nGives a 20% mining speed boost to the drillcone.\n\nCan be toggled between manual loading and automated loading via cargo loader.");
                 }
+                public class RTB_LANDINGLEGPLATFORM
+                {
+                    public static LocString NAME = (LocString)FormatAsLink("Rocket Exhaust Protection", nameof(RTB_LANDINGLEGPLATFORM));
+                    public static LocString DESC = (LocString)"TBA";
+                }
 
                 public class RTB_DOCKINGTUBEDOOR
                 {

@@ -26,7 +26,7 @@ namespace Rockets_TinyYetBig
             EffectorValues tieR2 = TUNING.NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = TUNING.BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "rocket_launchpad_bunker_kanim", 1000, 180f, buildingCosts, buildingMaterials, 9999f, BuildLocationRule.Anywhere, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "rocket_launchpad_kanim", 1000, 180f, buildingCosts, buildingMaterials, 9999f, BuildLocationRule.Anywhere, none, noise);
             buildingDef.SceneLayer = Grid.SceneLayer.BuildingBack;
             buildingDef.OverheatTemperature = 2273.15f;
             buildingDef.Floodable = false;
@@ -49,11 +49,17 @@ namespace Rockets_TinyYetBig
             LaunchPad launchPad = go.AddOrGet<RTB_LaunchPadWithoutLogic>();
 
             go.AddOrGet<LaunchPadConditions>();
+            go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
+            {
+                new BuildingAttachPoint.HardPoint(new CellOffset(0, 1), GameTags.Rocket, (AttachableBuilding) null)
+            };
         }
 
         public override void DoPostConfigureComplete(GameObject go)
         {
             go.GetComponent<KPrefabID>().AddTag(GameTags.Bunker);
+            UnityEngine.Object.DestroyImmediate((UnityEngine.Object)go.GetComponent<BuildingEnabledButton>());
+            UnityEngine.Object.DestroyImmediate((UnityEngine.Object)go.GetComponent<Deconstructable>());
         }
     }
 }
