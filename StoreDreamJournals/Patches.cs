@@ -25,7 +25,7 @@ namespace StoreDreamJournals
             public static void Postfix(GameObject __result)
             {
 
-                //__result.AddOrGet<KBoxCollider2D>().size = (Vector2)new Vector2f(0.67f, 0.75f);
+                __result.AddOrGet<KBoxCollider2D>().size = (Vector2)new Vector2f(0.67f, 0.75f);
 
                 //KPrefabID kprefabId = __result.AddOrGet<KPrefabID>();                
                 //kprefabId.RemoveTag(GameTags.StoryTraitResource);
