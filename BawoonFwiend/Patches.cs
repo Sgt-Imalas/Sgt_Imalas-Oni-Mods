@@ -78,6 +78,8 @@ namespace BawoonFwiend
                     if (soleOwner.IsNullOrDestroyed())
                         return;
                     KMonoBehaviour target = (KMonoBehaviour)soleOwner.GetComponent<MinionAssignablesProxy>().target;
+                    if (target.IsNullOrDestroyed())
+                        return;
                     if (target.TryGetComponent<Effects>(out var component) && component.HasEffect(JustAMachine))
                     {
                         component.Remove(JustAMachine);

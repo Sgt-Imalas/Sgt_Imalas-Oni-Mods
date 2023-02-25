@@ -12,6 +12,7 @@ using UnityEngine;
 using UtilLibs;
 using static HoverTextDrawer;
 using static ResearchTypes;
+using static STRINGS.DUPLICANTS.ROLES;
 
 namespace BawoonFwiend
 {
@@ -22,6 +23,8 @@ namespace BawoonFwiend
     {
         [Serialize]
         public Dictionary<BalloonSkinByIndex, bool> EnabledBalloonSkins = new Dictionary<BalloonSkinByIndex, bool>();
+
+
         //[Serialize]
         //public bool UseDefaultRedSkin = true;
         [Serialize]
@@ -37,69 +40,102 @@ namespace BawoonFwiend
         [MyCmpGet]
         Storage storage;
 
-        [MyCmpGet]
-        SymbolOverrideController symbolOverrideController;
-
         [Serialize]
         List<BalloonOverrideSymbol> ActiveSkinOverrides = new List<BalloonOverrideSymbol>();
+        public BalloonOverrideSymbol CurrentSkin => currentIndex == -1 ? default(BalloonOverrideSymbol) : ActiveSkinOverrides[currentIndex];
+        public BalloonOverrideSymbol NextSkin => nextIndex == -1 ? default(BalloonOverrideSymbol) : ActiveSkinOverrides[nextIndex];
+
+        public Dictionary<string, List<BalloonArtistFacadeResource>> ModdedSkinOverrideResources = new Dictionary<string, List<BalloonArtistFacadeResource>>();
+
+        public static Type VaricolouredBalloonsHelperType = Type.GetType("VaricolouredBalloons.VaricolouredBalloonsPatches, VaricolouredBalloons", false, false);
 
         public struct BalloonSkinByIndex
         {
             public int animationIndex;
             public int slotIndex;
+            public string modID = string.Empty;
             public BalloonSkinByIndex(int animationIndex, int slotIndex)
             {
                 this.animationIndex = animationIndex;
                 this.slotIndex = slotIndex;
             }
+            public BalloonSkinByIndex(int animationIndex, int slotIndex, string modID)
+            {
+                this.animationIndex = animationIndex;
+                this.slotIndex = slotIndex;
+                this.modID = modID;
+            }
             public override string ToString()
             {
-                return animationIndex.ToString() + "-"+slotIndex.ToString();
+                return modID == string.Empty
+                 ? animationIndex.ToString() + " - " + slotIndex.ToString()
+                 : modID + ": "+ animationIndex.ToString() + " - " + slotIndex.ToString();
             }
         }
 
-        void UpdateActives()
+        public void UpdateActives()
         {
-            var currentSkin = ActiveSkinOverrides.Count == 0 || currentIndex == -1 ? default(BalloonOverrideSymbol) :  ActiveSkinOverrides[currentIndex];
+            var currentSkin = ActiveSkinOverrides.Count == 0 || currentIndex == -1 ? default(BalloonOverrideSymbol) : ActiveSkinOverrides[currentIndex];
             ActiveSkinOverrides.Clear();
 
-            var db = Db.Get();
-            var AllSkins = BalloonArtistFacades.Infos_All;
             foreach (var skin in EnabledBalloonSkins)
             {
                 if (skin.Value)
                 {
-                    SgtLogger.l(skin.ToString(),"ENABLED");
-                    var Skin = GetOverrideViaIndex(skin.Key);
-                    ActiveSkinOverrides.Add(Skin);
+                    //if (skin.Key.modID == string.Empty)
+                    //{
+                        var Skin = GetOverrideViaIndex(skin.Key);
+                        ActiveSkinOverrides.Add(Skin);
+                    //SgtLogger.l(skin.ToString(), "ENABLED");
+                    //}
                 }
                 else
-
-                    SgtLogger.l(skin.ToString(), "DISABLED");
+                {
+                    //SgtLogger.l(skin.ToString(), "DISABLED");
+                }
             }
+            //SgtLogger.l(ActiveSkinOverrides.Count.ToString(), "DISABLED");
+
             currentIndex = ActiveSkinOverrides.Count == 0 ? -1 : currentIndex;
             nextIndex = ActiveSkinOverrides.Count == 0 ? -1 : NextOverrideSymbolInt();
-            if(currentIndex>= ActiveSkinOverrides.Count)
-                currentIndex= ActiveSkinOverrides.Count-1;
+            if (currentIndex >= ActiveSkinOverrides.Count)
+                currentIndex = ActiveSkinOverrides.Count - 1;
 
             var current = ActiveSkinOverrides.Count == 0 ? -1 : ActiveSkinOverrides.FindIndex(skin => skin.animFileID == currentSkin.animFileID && skin.animFileSymbolID == currentSkin.animFileSymbolID);
             if (current != -1)
             {
                 currentIndex = current;
             }
+            //SgtLogger.l(ActiveSkinOverrides.Count.ToString(), "POST");
             SetBalloonSymbolOverride();
         }
 
         public BalloonOverrideSymbol GetOverrideViaIndex(BalloonSkinByIndex skin)
         {
-            if(skin.animationIndex>= BalloonArtistFacades.Infos_All.Length)
-                return default(BalloonOverrideSymbol);
-            var Anim = Db.Get().Permits.BalloonArtistFacades.Get(BalloonArtistFacades.Infos_All[skin.animationIndex].id);
-            if(Anim == null)
-                return default(BalloonOverrideSymbol);
-            if(skin.slotIndex >= Anim.balloonOverrideSymbolIDs.Length)
-                return Anim.GetOverrideAt(0);
-            return Anim.GetOverrideAt(skin.slotIndex);
+            if(skin.modID == string.Empty || skin.modID == null)
+            {
+                if (skin.animationIndex >= BalloonArtistFacades.Infos_All.Length)
+                    return default(BalloonOverrideSymbol);
+                var Anim = Db.Get().Permits.BalloonArtistFacades.Get(BalloonArtistFacades.Infos_All[skin.animationIndex].id);
+                if (Anim == null)
+                    return default(BalloonOverrideSymbol);
+                if (skin.slotIndex >= Anim.balloonOverrideSymbolIDs.Length)
+                    return Anim.GetOverrideAt(0);
+                return Anim.GetOverrideAt(skin.slotIndex);
+            }
+            else
+            {
+                var id = skin.modID;
+                if (skin.animationIndex >= ModdedSkinOverrideResources[id].Count)
+                    return default(BalloonOverrideSymbol);
+                var Anim = ModdedSkinOverrideResources[id][skin.animationIndex];
+                if (Anim == null)
+                    return default(BalloonOverrideSymbol);
+                if (skin.slotIndex >= Anim.balloonOverrideSymbolIDs.Length)
+                    return Anim.GetOverrideAt(0);
+                return Anim.GetOverrideAt(skin.slotIndex);
+            }
+
         }
 
         bool GetNextOverrideSymbol()
@@ -113,24 +149,25 @@ namespace BawoonFwiend
 
             currentIndex = nextIndex;
             nextIndex = NextOverrideSymbolInt();
+
+
             return true;
         }
 
         int NextOverrideSymbolInt()
         {
-            if(ActiveSkinOverrides.Count == 0)
+
+            if (ActiveSkinOverrides.Count == 0)
                 return -1;
 
-            if (AllRandom) 
+            if (AllRandom)
             {
                 return UnityEngine.Random.Range(0, ActiveSkinOverrides.Count - 1);
             }
 
-            return (currentIndex + 1) % (ActiveSkinOverrides.Count);                 
+            return (currentIndex + 1) % (ActiveSkinOverrides.Count);
         }
 
-        public BalloonOverrideSymbol CurrentSkin => currentIndex == -1? default(BalloonOverrideSymbol) : ActiveSkinOverrides[currentIndex];
-        public BalloonOverrideSymbol NextSkin => nextIndex == -1? default(BalloonOverrideSymbol) : ActiveSkinOverrides[nextIndex];
 
         public void ApplyNextSkin()
         {
@@ -156,44 +193,20 @@ namespace BawoonFwiend
             UpdateActives();
         }
 
-        public void ToggleFullyRandom() => AllRandom= !AllRandom;
-
-        //public void ToggleRandoms()
-        //{
-        //    ToggleAllBtnOn = false;
-        //    var numberOfOptions = (int)UnityEngine.Random.Range(3, Mathf.Min(8, EnabledBalloonSkins.Count/2));
-        //    numberOfOptions = Mathf.Min(numberOfOptions, EnabledBalloonSkins.Count);
-
-        //    var keys = new List<BalloonOverrideSymbol>(EnabledBalloonSkins.Keys);
-        //    foreach (var bloon in keys)
-        //    {
-        //        EnabledBalloonSkins[bloon] = false;
-        //    }
-
-        //    List<BalloonOverrideSymbol> RandomOrder = EnabledBalloonSkins.Keys.ToList();
-        //    RandomOrder.Shuffle();
-
-        //    List<BalloonOverrideSymbol> RandomSelected = new List<BalloonOverrideSymbol>();
-        //    for (int i = 0; i < numberOfOptions;i++)
-        //    {
-        //        RandomSelected.Add(RandomOrder[i]);
-        //    }
-            
-        //    foreach (var bloon in RandomSelected)
-        //    {
-        //        EnabledBalloonSkins[bloon] = true;
-        //    }
-        //    UpdateActives();
-        //}
-
-        //static Type VaricolouredBalloonsHelperType = Type.GetType("VaricolouredBalloons.VaricolouredBalloonsHelper, VaricolouredBalloons", false, false);
-
+        public void ToggleFullyRandom() => AllRandom = !AllRandom;
 
         public void SetBalloonSymbolOverride()
         {
+            gameObject.TryGetComponent<SymbolOverrideController>(out var symbolOverrideController);
+
+
+            symbolOverrideController.TryRemoveSymbolOverride((HashedString)"bloon");
+            symbolOverrideController.TryRemoveSymbolOverride((HashedString)"next_bloon");
+
             if (CurrentSkin.animFile.IsNone())
             {
-                symbolOverrideController.AddSymbolOverride((HashedString)"bloon", Assets.GetAnim((HashedString)"balloon_anim_kanim").GetData().build.GetSymbol((KAnimHashedString)"body"));
+                symbolOverrideController.TryRemoveSymbolOverride((HashedString)"bloon");
+                //symbolOverrideController.AddSymbolOverride((HashedString)"bloon", Assets.GetAnim((HashedString)"balloon_anim_kanim").GetData().build.GetSymbol((KAnimHashedString)"body"),10);
             }
             else
             {
@@ -202,21 +215,38 @@ namespace BawoonFwiend
 
             if (NextSkin.animFile.IsNone())
             {
-                symbolOverrideController.AddSymbolOverride((HashedString)"next_bloon", Assets.GetAnim((HashedString)"balloon_anim_kanim").GetData().build.GetSymbol((KAnimHashedString)"body"));
+                symbolOverrideController.TryRemoveSymbolOverride((HashedString)"bloon");
+                //symbolOverrideController.AddSymbolOverride((HashedString)"next_bloon", Assets.GetAnim((HashedString)"balloon_anim_kanim").GetData().build.GetSymbol((KAnimHashedString)"body"), 10);
+                UpdateStumpTint(new Color(159f / 255f, 54f / 255f, 54f / 255f));
             }
             else
             {
                 symbolOverrideController.AddSymbolOverride((HashedString)"next_bloon", NextSkin.symbol.Unwrap());
+                UpdateStumpTintAnim(NextSkin);
+            }
+        }
+
+        void UpdateStumpTintAnim(BalloonOverrideSymbol SkinOverride)
+        {
+            var finalColor = ModAssets.GetColourFrom(SkinOverride);
+            UpdateStumpTint(finalColor);
+        }
+        void UpdateStumpTint(Color color)
+        {
+            if (gameObject.TryGetComponent<KBatchedAnimController>(out var kbac))
+            {
+                kbac.SetSymbolTint("bloon_stump", color);
             }
         }
 
 
+
         public void UpdatePossibleBalloonSkins()
         {
-            var db = Db.Get(); 
+            var db = Db.Get();
 
             var AllSkins = BalloonArtistFacades.Infos_All;
-            for (int animIndex = 0; animIndex< AllSkins.Count(); ++animIndex)
+            for (int animIndex = 0; animIndex < AllSkins.Count(); ++animIndex)
             {
                 var SkinAllowed = db.Permits.BalloonArtistFacades.Get(AllSkins[animIndex].id);
                 if (SkinAllowed.IsUnlocked()) //SkinAllowed.IsUnlocked()
@@ -234,8 +264,72 @@ namespace BawoonFwiend
                     }
                 }
             }
+            VaricolourBloonIntegration();
             UpdateActives();
         }
+
+
+        void VaricolourBloonIntegration()
+        {
+            string modID = "VaricolouredBalloons";
+            bool ModEnabled = VaricolouredBalloonsHelperType != null;
+
+            if(ModEnabled== false)
+            {
+                var allskins = EnabledBalloonSkins.Keys.ToList();
+                for (int i = EnabledBalloonSkins.Count-1; i>0; --i)
+                {
+                    var skin = allskins[i];
+                    if (skin.modID == modID)
+                    {
+                        EnabledBalloonSkins.Remove(skin);
+                    }
+                }
+            }
+            else
+            {
+                var Resources = (IReadOnlyCollection<BalloonArtistFacadeResource>) Traverse.Create(VaricolouredBalloonsHelperType).Method("get_MyBalloons").GetValue();
+                ModdedSkinOverrideResources[modID] = Resources.ToList();
+                var AllSkins = ModdedSkinOverrideResources[modID];
+
+                var unlocked = Db.Get().Permits.BalloonArtistFacades.resources.Where(facade => facade.IsUnlocked()).ToList();
+
+                for (int animIndex = 0; animIndex < AllSkins.Count(); ++animIndex)
+                {
+                    var SkinToAdd = AllSkins[animIndex];
+                    if (unlocked.Contains(SkinToAdd))
+                        continue;
+
+                    var symbolOverrides = SkinToAdd.GetBalloonOverrideSymbolIDs();
+                    for (int subSkinIndex = 0; subSkinIndex < symbolOverrides.Count(); ++subSkinIndex)
+                    {
+                        var IdentifierKey = new BalloonSkinByIndex(animIndex, subSkinIndex, modID);
+                        //var BalloonSkin = SkinAllowed.GetOverrideAt(subSkinIndex);
+
+                        if (!EnabledBalloonSkins.ContainsKey(IdentifierKey))
+                        {
+                            EnabledBalloonSkins.Add(IdentifierKey, false);
+                        }
+                    }
+                }
+            }
+        }
+
+        //private void OverwriteSymbol()
+        //{
+        //    if (VaricolouredBalloonsHelperType == null)
+        //        return;
+        //    var artist = GetComponent(BawoongiverWorkable.VaricolouredBalloonsHelperType);
+        //    if (artist != null)
+        //    {
+        //        var symbolidx = Traverse.Create(artist).Method("get_MyBalloons ").GetValue();
+        //        SgtLogger.debuglog("id: " + symbolidx);
+        //        Traverse.Create(artist).Method("ApplySymbolOverrideByIdx", new[] { symbolidx }).GetValue();
+        //        //Traverse.Create(artist).Method("ApplySymbolOverrideByIdx").GetValue(symbolidx);
+        //    }
+        //}
+
+
 
         private Chore.Precondition HasNoBalloon = new Chore.Precondition()
         {
@@ -328,7 +422,7 @@ namespace BawoonFwiend
                 this.ready.working.PlayAnim("giving_bloon").QueueAnim("on", true).WorkableStopTransition(
                     smi => smi.master.GetComponent<BawoongiverWorkable>(), this.ready.post);
                 this.ready.post
-                    .Enter( (smi) => smi.master.ApplyNextSkin())
+                    .Enter((smi) => smi.master.ApplyNextSkin())
                     .PlayAnim("working_pst")
                     .OnAnimQueueComplete(operational);
             }

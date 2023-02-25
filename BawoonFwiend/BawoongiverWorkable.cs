@@ -10,6 +10,7 @@ using UnityEngine;
 using UtilLibs;
 using HarmonyLib;
 using System.Reflection;
+using Database;
 
 namespace BawoonFwiend
 {
@@ -40,7 +41,21 @@ namespace BawoonFwiend
             ///ColorIntegration(this.gameObject);
         }
 
-        public override void OnStartWork(Worker worker) => this.operational.SetActive(true);
+        public override void OnStartWork(Worker worker)
+        {
+            this.operational.SetActive(true);
+
+            BalloonOverrideSymbol balloonOverride = this.bawoongiver.CurrentSkin;
+            if (balloonOverride.animFile.IsNone())
+            {
+                //worker.gameObject.GetComponent<SymbolOverrideController>().TryRemoveSymbolOverride((HashedString)"body");
+                //worker.gameObject.GetComponent<SymbolOverrideController>().AddSymbolOverride((HashedString)"body", Assets.GetAnim((HashedString)"balloon_anim_kanim").GetData().build.GetSymbol((KAnimHashedString)"body"));
+            }
+            else
+            {
+                worker.gameObject.GetComponent<SymbolOverrideController>().AddSymbolOverride((HashedString)"body", balloonOverride.symbol.Unwrap());
+            }
+        }
 
         public override void OnCompleteWork(Worker worker)
         {
