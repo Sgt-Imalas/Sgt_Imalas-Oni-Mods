@@ -44,7 +44,7 @@ namespace BawoonFwiend
                     newOne.Description = STRINGS.EFFECTS.NOTATRUEFRIEND.NAME;
                     JustAMachine.Add(newOne);
                 }
-                BalloonBuddyEffect.showInUI= false;
+                JustAMachine.showInUI= false;
                 Db.Get().effects.Add(ModAssets.JustAMachine);
             }
         }
