@@ -4,7 +4,7 @@
 
 This mod adds a ballon dispenser rec building that hands out balloons to dupes in their downtime
 
-[h1]Current latest Version: 1.0.0[/h1]
+[h1]Current latest Version: 1.1.0[/h1]
 
 [hr][/hr]
 
@@ -18,6 +18,11 @@ This mod adds a ballon dispenser rec building that hands out balloons to dupes i
 [/list]
 
 [hr][/hr]
+[h1]Integration[/h1]
+This mod has integration with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2293939893] Varicoloured Balloons[/url].
+When Varicoloured Balloons is installed, it's skins become available for selection in the balloon dispenser.
+
+[hr][/hr]
 [h1]Credits[/h1]
 Balloon Dispenser Animation made by 3GuB
 Options made with PLib.
@@ -27,6 +32,7 @@ Options made with PLib.
 Current Languages:
 - English
 - German
+- Ukrainian (by 3GuB)
 
 This mod is fully translatable! 
 You can find the translation template under ~\Documents\Klei\OxygenNotIncluded\mods\strings_templates
