@@ -9,8 +9,7 @@ This mod adds a ballon dispenser rec building that hands out balloons to dupes i
 [hr][/hr]
 
 [h1]Features[/h1]
-[list][*]
-[*] New Building: Balloon Dispenser, found under Furniture/Recreation.
+[list][*] New Building: Balloon Dispenser, found under Furniture/Recreation.
 [*] Requires 250KG of refined metal.
 [*] Unlocked with the research "Home Luxuries".
 [*] Gives out a balloon at the cost of 5kg of ballon gas; either hydrogen or helium (found in other mods, f.e. Baator).
