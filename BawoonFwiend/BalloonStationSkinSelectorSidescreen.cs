@@ -95,7 +95,7 @@ namespace BawoonFwiend
                     TargetBalloonStand = bloon;
                     InitLinks();
                     //GenerateStateButtons();
-                    RefreshStrings();
+                    GenerateStateButtons();
                 }
             }
         }

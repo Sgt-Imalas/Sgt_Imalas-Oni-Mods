@@ -4,7 +4,7 @@
 
 This mod adds a ballon dispenser rec building that hands out balloons to dupes in their downtime
 
-[h1]Current latest Version: 1.1.0[/h1]
+[h1]Current latest Version: 1.1.1[/h1]
 
 [hr][/hr]
 
@@ -24,7 +24,7 @@ When Varicoloured Balloons is installed, it's skins become available for selecti
 
 [hr][/hr]
 [h1]Credits[/h1]
-Balloon Dispenser Animation made by 3GuB
+Balloon Dispenser Animation and ukrainian translation made by 3GuB
 Options made with PLib.
 
 [hr][/hr]
