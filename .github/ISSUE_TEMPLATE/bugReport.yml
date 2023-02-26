@@ -1,8 +1,12 @@
 name: Bug/Crash Report
 description: Open an issue here
-title: ""
+title: "[BUG]: "
 labels: ["bug"]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report
   - type: textarea
     id: bug-description
     attributes:
