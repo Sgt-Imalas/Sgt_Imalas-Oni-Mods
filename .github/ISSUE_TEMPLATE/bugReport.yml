@@ -1,0 +1,35 @@
+name: Bug/Crash Report
+description: Open an issue here
+title: "[BUG]: "
+labels: ["bug"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Description of the bug/crash
+      description: Tell me what bug you encountered and what should have happened
+    validations:
+      required: true
+
+        - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps To Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: Please write the steps in a list form
+    validations:
+      required: true
+
+  - type: input
+    id: player-log
+    attributes:
+      label: Player.log
+      description: Add the file "Player.log" that contains the crash/bug
+    validations:
+      required: true
