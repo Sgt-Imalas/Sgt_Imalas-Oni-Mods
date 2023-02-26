@@ -2,13 +2,11 @@ name: Bug/Crash Report
 description: Open an issue here
 title: "[BUG]: "
 labels: ["bug"]
-
 body:
   - type: markdown
     attributes:
       value: |
         Thanks for taking the time to fill out this bug report
-
   - type: textarea
     id: bug-description
     attributes:
@@ -16,8 +14,7 @@ body:
       description: Tell me what bug you encountered and what should have happened
     validations:
       required: true
-
-        - type: textarea
+  - type: textarea
     id: steps-to-reproduce
     attributes:
       label: Steps To Reproduce
@@ -25,7 +22,6 @@ body:
       placeholder: Please write the steps in a list form
     validations:
       required: true
-
   - type: input
     id: player-log
     attributes:
