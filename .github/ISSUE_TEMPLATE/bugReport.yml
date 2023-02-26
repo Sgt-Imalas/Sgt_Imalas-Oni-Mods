@@ -1,12 +1,8 @@
 name: Bug/Crash Report
 description: Open an issue here
-title: "[BUG]: "
+title: ""
 labels: ["bug"]
 body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report
   - type: textarea
     id: bug-description
     attributes:
@@ -22,7 +18,7 @@ body:
       placeholder: Please write the steps in a list form
     validations:
       required: true
-  - type: input
+  - type: textarea
     id: player-log
     attributes:
       label: Player.log
