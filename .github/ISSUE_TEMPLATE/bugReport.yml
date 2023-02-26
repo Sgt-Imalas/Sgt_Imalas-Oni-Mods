@@ -26,6 +26,6 @@ body:
     id: player-log
     attributes:
       label: Player.log
-      description: Add the file "Player.log" that contains the crash/bug
+      description: Add the file "Player.log" that contains the crash/bug by dragging it into this input field
     validations:
       required: true
