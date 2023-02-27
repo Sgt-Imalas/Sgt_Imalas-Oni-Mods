@@ -12,9 +12,14 @@ namespace MineralizerReborn
     {
         public const string ID = "Mineralizer";
 
-        private const float SALT_INPUT_RATE = 0.35f;
-        private const float WATER_WITH_SALT_INPUT_RATE = 4.65f;
-        private const float OUTPUT_RATE = 5.0f;
+        private const float SALT_INPUT_RATE = 0.35f;  
+        private const float WATER_TO_SALTWATER_INPUT_RATE = 4.65f; //0% Salt
+        private const float OUTPUT_RATE = 5.0f; //7% Salt
+
+
+        private const float SALT_INPUT_RATE_BRINE = 1.23655914f;
+        private const float SALTWATER_TO_BRINE_INPUT_RATE = 3.76344086f; //7% Salt
+        private const float OUTPUT_RATE_BRINE = 5.0f; //30% Salt
 
         public override BuildingDef CreateBuildingDef()
         {
@@ -59,16 +64,30 @@ namespace MineralizerReborn
             SaltStorage.capacityKg = 600 * SALT_INPUT_RATE+20f;
 
             go.AddOrGet<LoopingSounds>();
-            ElementConverter elementConverter1 = go.AddComponent<ElementConverter>();
-            elementConverter1.consumedElements = new ElementConverter.ConsumedElement[2]
+
+            ElementConverter ToSaltWaterConverter = go.AddComponent<ElementConverter>();
+            ToSaltWaterConverter.consumedElements = new ElementConverter.ConsumedElement[2]
             {
-                new ElementConverter.ConsumedElement("Salt", SALT_INPUT_RATE),
-                new ElementConverter.ConsumedElement("Water", WATER_WITH_SALT_INPUT_RATE)
+                new ElementConverter.ConsumedElement(SimHashes.Salt.CreateTag(), SALT_INPUT_RATE),
+                new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), WATER_TO_SALTWATER_INPUT_RATE)
             };
-            elementConverter1.outputElements = new ElementConverter.OutputElement[1]
+            ToSaltWaterConverter.outputElements = new ElementConverter.OutputElement[1]
             {
               new ElementConverter.OutputElement(OUTPUT_RATE, SimHashes.SaltWater, 0.0f, false, true, 0.0f, 0.5f, 0.75f, byte.MaxValue, 0),
             };
+
+            //ElementConverter ToBrineWaterConverter = go.AddComponent<ElementConverter>();
+            //ToBrineWaterConverter.consumedElements = new ElementConverter.ConsumedElement[2]
+            //{
+            //    new ElementConverter.ConsumedElement(SimHashes.Salt.CreateTag(), SALT_INPUT_RATE_BRINE),
+            //    new ElementConverter.ConsumedElement(SimHashes.SaltWater.CreateTag(), SALTWATER_TO_BRINE_INPUT_RATE)
+            //};
+            //ToBrineWaterConverter.outputElements = new ElementConverter.OutputElement[1]
+            //{
+            //  new ElementConverter.OutputElement(OUTPUT_RATE_BRINE, SimHashes.Brine, 0.0f, false, true, 0.0f, 0.5f, 0.75f, byte.MaxValue, 0),
+            //};
+            
+
 
             ManualDeliveryKG manualDeliveryKg = go.AddOrGet<ManualDeliveryKG>();
             manualDeliveryKg.SetStorage(SaltStorage);
@@ -88,7 +107,7 @@ namespace MineralizerReborn
 
             ConduitDispenser conduitDispenser = go.AddOrGet<ConduitDispenser>();
             conduitDispenser.conduitType = ConduitType.Liquid;
-            conduitDispenser.elementFilter = new SimHashes[1] { SimHashes.SaltWater };
+            conduitDispenser.elementFilter = new SimHashes[] { SimHashes.SaltWater, SimHashes.Brine };
             conduitDispenser.storage = SaltStorage;
             Prioritizable.AddRef(go);
             go.AddOrGet<Mineralizer>().saltStorage = SaltStorage;
