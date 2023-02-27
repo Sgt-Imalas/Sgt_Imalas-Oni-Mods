@@ -489,8 +489,4 @@
 	    <HintPath>..\TwitchLib\ONITwitchLib.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="RocketSkin\" />
-	</ItemGroup>
 </Project>
