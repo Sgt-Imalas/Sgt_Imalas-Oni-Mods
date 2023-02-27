@@ -25,7 +25,7 @@ namespace Rockets_TinyYetBig
             //GameTags.MaterialBuildingElements.Add(ModAssets.Tags.RadiationShielding);
             //GameTags.MaterialBuildingElements.Add(ModAssets.Tags.NeutroniumDust);
 
-            SgtLogger.debuglog("Rocketry Expanded - Initialized");
+            SgtLogger.debuglog("Initialized");
             SgtLogger.debuglog("Mod Version: " + this.mod.packagedModInfo.version);
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)

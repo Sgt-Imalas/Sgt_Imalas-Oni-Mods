@@ -21,7 +21,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
             float[] mass = new float[] {
                 350f,
                 250f
-            }; ;
+            }; 
             string[] construction_materials_ = new string[2]
             {
                 "RefinedMetal",

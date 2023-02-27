@@ -2,7 +2,7 @@
 
 	<!-- General Package Properties -->
 	<PropertyGroup>
-		<PackageId>Rocketry_Tweaks</PackageId>
+		<PackageId>Rocketry_Expanded</PackageId>
 		<Version>2.5.1.3</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022 Sgt_Imalas</Copyright>
