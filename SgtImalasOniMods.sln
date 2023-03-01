@@ -74,7 +74,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BawoonFwiend", "BawoonFwien
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MineralizerReborn", "MineralizerReborn\MineralizerReborn.csproj", "{74656A3F-06D3-409F-89D3-E662CA9166C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CritterTraitsReborn", "CritterTraitsReborn\CritterTraitsReborn.csproj", "{EA6B415D-0663-447B-A967-8DA5AEA331A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CritterTraitsReborn", "CritterTraitsReborn\CritterTraitsReborn.csproj", "{EA6B415D-0663-447B-A967-8DA5AEA331A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
