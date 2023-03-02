@@ -37,8 +37,8 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                 LogicPorts.Port.RibbonInputPort((HashedString) "TriggerLaunch",
                 new CellOffset(-3, 0),
                 (string) global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.LOGIC_PORT_LAUNCH,
-                (string) global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.LOGIC_PORT_LAUNCH_ACTIVE,
-                (string) global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.LOGIC_PORT_LAUNCH_INACTIVE)
+                (string) STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_LAUNCH_ACTIVE_RIBBON,
+                (string) STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_LAUNCH_INACTIVE_RIBBON)
             };
             buildingDef.LogicOutputPorts = new List<LogicPorts.Port>()
             {

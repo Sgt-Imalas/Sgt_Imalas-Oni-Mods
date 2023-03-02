@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KSerialization;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,28 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
         [MyCmpGet] LogicPorts logicPorts;
         public HashedString rocketStateOutput;
         public HashedString ignoreWarningInput;
-        const int RocketPath = 1, RocketConstruction = 2, RocketStorage = 4, RocketCrew = 8; 
+        const int RocketPath = 1, RocketConstruction = 2, RocketStorage = 4, RocketCrew = 8;
+
+        [Serialize]
+        int LaunchSignalValue = 0;
+        [Serialize]
+        bool[] LaunchSignalBits = null;
+
+
+        public override void OnSpawn()
+        {
+            base.OnSpawn();
+
+            this.Subscribe((int)GameHashes.LogicEvent, new System.Action<object>(this.OnLogicValueChanged));
+        }
+
+        private void OnLogicValueChanged(object data)
+        {
+            LogicValueChanged logicValueChanged = (LogicValueChanged)data;
+            if (logicValueChanged.portID !=ignoreWarningInput)
+                return;
+            this.UpdateSignalBitmap();
+        }
 
         public void Sim1000ms(float dt)
         {
@@ -35,32 +57,21 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
         public void ConvertWarnings(ProcessConditionType processConditionType, ref ProcessCondition.Status status)
         {
-            SgtLogger.l(processConditionType.ToString(), "Type");
-            SgtLogger.l(status.ToString(), "PRE");
-            if (ShouldIgnoreWarningOn(processConditionType) && status == Status.Warning)
+            if (status == Status.Warning 
+                && LaunchSignalBits[0]
+                && processConditionType == ProcessConditionType.RocketStorage 
+                && LaunchSignalBits[1]
+                )
             {
                 status = Status.Ready;
             }
-            SgtLogger.l(status.ToString(), "POST");
         }
-
-        bool ShouldIgnoreWarningOn(ProcessConditionType processConditionType)
+        void UpdateSignalBitmap()
         {
             var inputBitsInt = logicPorts.GetInputValue(ignoreWarningInput);
             BitArray inputs = new BitArray(new int[] { inputBitsInt });
-            bool[] BitBool = new bool[inputs.Count];
-            inputs.CopyTo(BitBool, 0);
-            SgtLogger.l(BitBool[0].ToString(), "Bitbool1");
-            SgtLogger.l(BitBool[1].ToString(), "Bitbool2");
-            if (BitBool[0])
-            {
-                if (processConditionType == ProcessConditionType.RocketStorage && BitBool[1])
-                {
-                    return true;
-                }
-            }
-            return false;
-
+            LaunchSignalBits = new bool[inputs.Count];
+            inputs.CopyTo(LaunchSignalBits, 0);
         }
 
         int GetRocketProcessCondition(CraftModuleInterface rocket)

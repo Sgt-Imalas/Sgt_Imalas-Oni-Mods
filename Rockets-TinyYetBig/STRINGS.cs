@@ -177,6 +177,13 @@ namespace Rockets_TinyYetBig
                         "\n Bit 4 tracks the category \"Crew Manifest\"\n";
 
                     public static LocString LOGIC_PORT_CATEGORY_READY_INACTIVE = "Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby) + " to the respective Bit.";
+
+
+                    public static LocString LOGIC_PORT_LAUNCH_ACTIVE_RIBBON = FormatAsAutomationState("Green Signal on the first Bit", AutomationState.Active) + ": Launch rocket" +
+                        "\n"+FormatAsAutomationState("Bit 2", AutomationState.Active) + " allows to overrride cargo warnings that otherwise prevent automated launches. This allows rockets to fly one-way-trips to another launchpad"+
+                        "\nBit 3 and 4 are currently unused.";
+
+                    public static LocString LOGIC_PORT_LAUNCH_INACTIVE_RIBBON = FormatAsAutomationState("Red Signal on the first Bit", AutomationState.Standby) + ": Cancel launch";
                 }
                 public class RTB_RTGGENERATORMODULE
                 {
