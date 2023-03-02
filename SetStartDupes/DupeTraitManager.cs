@@ -25,6 +25,7 @@ namespace SetStartDupes
 
         public Dictionary<SkillGroup, float> referencedInterests;
         public Dictionary<string, int> dupeStatPoints;
+
         int FallBack = -1;
 
         public enum NextType
