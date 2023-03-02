@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UtilLibs;
 using static ProcessCondition;
+using static Rendering.BlockTileRenderer;
 using static STRINGS.UI.STARMAP;
 
 namespace Rockets_TinyYetBig.NonRocketBuildings
@@ -13,6 +16,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
         [MyCmpGet] LaunchPad launchPad;
         [MyCmpGet] LogicPorts logicPorts;
         public HashedString rocketStateOutput;
+        public HashedString ignoreWarningInput;
         const int RocketPath = 1, RocketConstruction = 2, RocketStorage = 4, RocketCrew = 8; 
 
         public void Sim1000ms(float dt)
@@ -28,6 +32,37 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                 logicPorts.SendSignal(this.rocketStateOutput, 0);
             }
         }
+
+        public void ConvertWarnings(ProcessConditionType processConditionType, ref ProcessCondition.Status status)
+        {
+            SgtLogger.l(processConditionType.ToString(), "Type");
+            SgtLogger.l(status.ToString(), "PRE");
+            if (ShouldIgnoreWarningOn(processConditionType) && status == Status.Warning)
+            {
+                status = Status.Ready;
+            }
+            SgtLogger.l(status.ToString(), "POST");
+        }
+
+        bool ShouldIgnoreWarningOn(ProcessConditionType processConditionType)
+        {
+            var inputBitsInt = logicPorts.GetInputValue(ignoreWarningInput);
+            BitArray inputs = new BitArray(new int[] { inputBitsInt });
+            bool[] BitBool = new bool[inputs.Count];
+            inputs.CopyTo(BitBool, 0);
+            SgtLogger.l(BitBool[0].ToString(), "Bitbool1");
+            SgtLogger.l(BitBool[1].ToString(), "Bitbool2");
+            if (BitBool[0])
+            {
+                if (processConditionType == ProcessConditionType.RocketStorage && BitBool[1])
+                {
+                    return true;
+                }
+            }
+            return false;
+
+        }
+
         int GetRocketProcessCondition(CraftModuleInterface rocket)
         {
             int value = 0;

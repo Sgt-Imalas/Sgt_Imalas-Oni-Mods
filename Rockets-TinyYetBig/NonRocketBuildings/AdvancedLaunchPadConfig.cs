@@ -34,10 +34,9 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             buildingDef.CanMove = false;
             buildingDef.LogicInputPorts = new List<LogicPorts.Port>()
             {
-                LogicPorts.Port.InputPort((HashedString) "TriggerLaunch",
+                LogicPorts.Port.RibbonInputPort((HashedString) "TriggerLaunch",
                 new CellOffset(-3, 0),
-                (string)
-                global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.LOGIC_PORT_LAUNCH,
+                (string) global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.LOGIC_PORT_LAUNCH,
                 (string) global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.LOGIC_PORT_LAUNCH_ACTIVE,
                 (string) global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.LOGIC_PORT_LAUNCH_INACTIVE)
             };
@@ -51,7 +50,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                 LogicPorts.Port.RibbonOutputPort((HashedString) LAUNCH_CHECKLIST_ID, new CellOffset(3, 1),
                 (string) global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.LOGIC_PORT_READY,
                 (string) STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_CATEGORY_READY_ACTIVE,
-                (string) global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.LOGIC_PORT_READY_INACTIVE),
+                (string) STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_CATEGORY_READY_INACTIVE),
 
                 LogicPorts.Port.OutputPort((HashedString) "LandedRocket", new CellOffset(-3, 1)
                 ,
@@ -82,6 +81,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             launchPad.landedRocketPort = (HashedString)"LandedRocket";
             AdvancedRocketStatusProvider advStatus = go.AddOrGet<AdvancedRocketStatusProvider>();
             advStatus.rocketStateOutput = (HashedString)LAUNCH_CHECKLIST_ID;
+            advStatus.ignoreWarningInput = (HashedString)"TriggerLaunch";
 
             FakeFloorAdder fakeFloorAdder = go.AddOrGet<FakeFloorAdder>();
             fakeFloorAdder.floorOffsets = new CellOffset[7];
