@@ -180,7 +180,7 @@ namespace Rockets_TinyYetBig
 
 
                     public static LocString LOGIC_PORT_LAUNCH_ACTIVE_RIBBON = FormatAsAutomationState("Green Signal on the first Bit", AutomationState.Active) + ": Launch rocket" +
-                        "\n"+FormatAsAutomationState("Bit 2", AutomationState.Active) + " allows to overrride cargo warnings that otherwise prevent automated launches. This allows rockets to fly one-way-trips to another launchpad"+
+                        "\n"+FormatAsAutomationState("Bit 2", AutomationState.Active) + " allows to overrride Cargo Manifest (Fuel&Cargo) warnings that otherwise prevent automated launches. This allows rockets to fly one-way-trips to another launchpad"+
                         "\nBit 3 and 4 are currently unused.";
 
                     public static LocString LOGIC_PORT_LAUNCH_INACTIVE_RIBBON = FormatAsAutomationState("Red Signal on the first Bit", AutomationState.Standby) + ": Cancel launch";
