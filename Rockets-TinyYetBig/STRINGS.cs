@@ -169,7 +169,7 @@ namespace Rockets_TinyYetBig
                 {
                     public static LocString NAME = FormatAsLink("Advanced Rocket Platform", nameof(RTB_BUNKERLAUNCHPAD));
                     public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.DESC;
-                    public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.EFFECT + "\n\nComes with shifted logic ports and an extra ribbon output that outputs the sub states of the " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.LOGIC_PORT_READY;
+                    public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.EFFECT + "\n\nComes with shifted logic ports and extra ribbon ports for more control over the rocket.";
                     public static LocString LOGIC_PORT_CATEGORY_READY_ACTIVE = "Each bit sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when its respective check list category is fulfilled.\n" +
                         "\n Bit 1 tracks the category \"Flight Route\"" +
                         "\n Bit 2 tracks the category \"Rocket Construction\"" +
@@ -180,8 +180,9 @@ namespace Rockets_TinyYetBig
 
 
                     public static LocString LOGIC_PORT_LAUNCH_ACTIVE_RIBBON = FormatAsAutomationState("Green Signal on the first Bit", AutomationState.Active) + ": Launch rocket" +
-                        "\n"+FormatAsAutomationState("Bit 2", AutomationState.Active) + " allows to overrride Cargo Manifest (Fuel&Cargo) warnings that otherwise prevent automated launches. This allows rockets to fly one-way-trips to another launchpad"+
-                        "\nBit 3 and 4 are currently unused.";
+                        "\n" + FormatAsAutomationState("Bit 2", AutomationState.Active) + " allows to overrride the \"Fueled\" Warning under Cargo Manifest that otherwise prevent automated launches. This allows rockets to fly one-way-trips to another launchpad" +
+                        "\n" + FormatAsAutomationState("Bit 3", AutomationState.Active) + " allows to overrride all Cargo Warnings (that aren't Fuel) under Cargo Manifest that otherwise prevent automated launches." +
+                        "\n" + FormatAsAutomationState("Bit 4", AutomationState.Active) + " makes the Overrides of Bit 2 and 3 affect the logic output of the launch pad. ";
 
                     public static LocString LOGIC_PORT_LAUNCH_INACTIVE_RIBBON = FormatAsAutomationState("Red Signal on the first Bit", AutomationState.Standby) + ": Cancel launch";
                 }

@@ -55,8 +55,18 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             }
         }
 
+        public bool GetBitMaskValAtIndex(int index)
+        {
+            if (LaunchSignalBits == null)
+                UpdateSignalBitmap();
+            return LaunchSignalBits[index];
+        }
+
         public void ConvertWarnings(ProcessConditionType processConditionType, ref ProcessCondition.Status status)
         {
+            if (LaunchSignalBits == null) 
+                UpdateSignalBitmap();
+
             if (status == Status.Warning 
                 && LaunchSignalBits[0]
                 && processConditionType == ProcessConditionType.RocketStorage 
@@ -77,29 +87,15 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
         int GetRocketProcessCondition(CraftModuleInterface rocket)
         {
             int value = 0;
-            if (EvaluateConditionSet(rocket, ProcessConditionType.RocketPrep) == ProcessCondition.Status.Ready)
+            if (rocket.EvaluateConditionSet(ProcessConditionType.RocketPrep) == ProcessCondition.Status.Ready)
                 value += RocketConstruction;
-            if (EvaluateConditionSet(rocket, ProcessConditionType.RocketStorage) == ProcessCondition.Status.Ready)
+            if (rocket.EvaluateConditionSet(ProcessConditionType.RocketStorage) == ProcessCondition.Status.Ready)
                 value += RocketStorage;
-            if (EvaluateConditionSet(rocket, ProcessConditionType.RocketBoard) == ProcessCondition.Status.Ready)
+            if (rocket.EvaluateConditionSet(ProcessConditionType.RocketBoard) == ProcessCondition.Status.Ready)
                 value += RocketCrew;
-            if (EvaluateConditionSet(rocket, ProcessConditionType.RocketFlight) == ProcessCondition.Status.Ready)
+            if (rocket.EvaluateConditionSet(ProcessConditionType.RocketFlight) == ProcessCondition.Status.Ready)
                 value += RocketPath;
             return value;
         }
-        private ProcessCondition.Status EvaluateConditionSet(CraftModuleInterface rocket, ProcessCondition.ProcessConditionType conditionType)
-        {
-            ProcessCondition.Status conditionSet = ProcessCondition.Status.Ready;
-            foreach (ProcessCondition condition1 in rocket.GetConditionSet(conditionType))
-            {
-                ProcessCondition.Status condition2 = condition1.EvaluateCondition();
-                if (condition2 < conditionSet)
-                    conditionSet = condition2;
-                if (conditionSet == ProcessCondition.Status.Failure)
-                    break;
-            }
-            return conditionSet;
-        }
-    }
-    
+    }    
 }
