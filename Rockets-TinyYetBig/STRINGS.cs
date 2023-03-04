@@ -96,6 +96,15 @@ namespace Rockets_TinyYetBig
             {
                 public static LocString GENERATORLIMIT = "\n\n If there is atleast one battery connected, the generator will stop producing if the battery is above 95% charge.";
 
+                public class RTB_FRIDGEMODULEACCESSHATCH
+                {
+                    public static LocString NAME = (LocString)FormatAsLink("Fridge Module Access Hatch", nameof(RTB_FRIDGEMODULEACCESSHATCH));
+                    public static LocString DESC = (LocString)"Food spoilage can be slowed by ambient conditions as well as by refrigerators.";
+                    public static LocString EFFECT = (LocString)("Has to be attached to the rocket wall.\n\nStores a small amount of" + FormatAsLink("Food", "FOOD") + " at an ideal " + FormatAsLink("Temperature", "HEAT") + " to prevent spoilage.\n\nWill pull food from a connected "+RTB_FRIDGECARGOBAY.NAME+" when low on food.");
+                    public static LocString LOGIC_PORT = (LocString)"Full/Not Full";
+                    public static LocString LOGIC_PORT_ACTIVE = (LocString)("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when full");
+                    public static LocString LOGIC_PORT_INACTIVE = (LocString)("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
+                }
                 public class RTB_DRILLCONEDIAMONDSTORAGE
                 {
                     public static LocString NAME = (LocString)FormatAsLink("Drillcone Service Module", nameof(RTB_DRILLCONEDIAMONDSTORAGE));
