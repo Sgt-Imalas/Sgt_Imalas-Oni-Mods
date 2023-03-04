@@ -12,7 +12,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
     internal class FridgeModule : KMonoBehaviour, ISim200ms
     {
         [MyCmpGet]
-        Storage fridgeStorage;
+        public Storage fridgeStorage;
         [MyCmpGet]
         Operational operational;
         [Serialize]
