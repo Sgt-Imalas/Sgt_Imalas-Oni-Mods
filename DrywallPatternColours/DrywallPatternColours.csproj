@@ -23,7 +23,7 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>DrywallPatternColours</ModName>
+		<ModName>Drywall Pattern Colours</ModName>
 		<ModDescription></ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>535211</MinimumSupportedBuild>
@@ -44,12 +44,68 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <Folder Include="ModAssets\anim\assets\walls_grey_charcoal\" />
-	  <Folder Include="ModAssets\anim\assets\walls_pink_flamingo\" />
-	  <Folder Include="ModAssets\anim\assets\walls_blue_cobalt\" />
-	  <Folder Include="ModAssets\anim\assets\walls_green_kelly\" />
-	  <Folder Include="ModAssets\anim\assets\walls_yellow_lemon\" />
-	  <Folder Include="ModAssets\anim\assets\walls_orange_satsuma\" />
-	  <Folder Include="ModAssets\anim\assets\walls_red_deep\" />
+	  <None Update="ModAssets\anim\assets\walls_blue_cobalt\walls_blue_cobalt_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\walls_blue_cobalt\walls_blue_cobalt_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\walls_blue_cobalt\walls_blue_cobalt_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\walls_green_kelly\walls_green_kelly_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\walls_green_kelly\walls_green_kelly_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\walls_green_kelly\walls_green_kelly_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\walls_grey_charcoal\walls_grey_charcoal_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\walls_grey_charcoal\walls_grey_charcoal_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\walls_grey_charcoal\walls_grey_charcoal_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\walls_orange_satsuma\walls_orange_satsuma_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\walls_orange_satsuma\walls_orange_satsuma_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\walls_orange_satsuma\walls_orange_satsuma_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\walls_pink_flamingo\walls_pink_flamingo_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\walls_pink_flamingo\walls_pink_flamingo_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\walls_pink_flamingo\walls_pink_flamingo_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\walls_red_deep\walls_red_deep_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\walls_red_deep\walls_red_deep_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\walls_red_deep\walls_red_deep_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\walls_yellow_lemon\walls_yellow_lemon_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\walls_yellow_lemon\walls_yellow_lemon_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\walls_yellow_lemon\walls_yellow_lemon_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 </Project>
