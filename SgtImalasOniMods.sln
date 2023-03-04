@@ -76,6 +76,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MineralizerReborn", "Minera
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CritterTraitsReborn", "CritterTraitsReborn\CritterTraitsReborn.csproj", "{EA6B415D-0663-447B-A967-8DA5AEA331A2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrywallPatternColours", "DrywallPatternColours\DrywallPatternColours.csproj", "{6208D3D8-C9AE-4824-A4F9-2B8108187B6B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -214,6 +216,10 @@ Global
 		{EA6B415D-0663-447B-A967-8DA5AEA331A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA6B415D-0663-447B-A967-8DA5AEA331A2}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{EA6B415D-0663-447B-A967-8DA5AEA331A2}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{6208D3D8-C9AE-4824-A4F9-2B8108187B6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6208D3D8-C9AE-4824-A4F9-2B8108187B6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6208D3D8-C9AE-4824-A4F9-2B8108187B6B}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{6208D3D8-C9AE-4824-A4F9-2B8108187B6B}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
