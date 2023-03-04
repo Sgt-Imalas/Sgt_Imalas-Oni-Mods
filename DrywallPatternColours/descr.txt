@@ -1,0 +1,17 @@
+﻿[img]https://i.imgur.com/GbFtLZ2.png[/img]
+
+[h1]Drywall Colours[/h1]
+
+This mod adds mono-coloured Drywall skins that allow creating larger drywall patterns in combination with Klei's pattern skins.
+
+[h1]Current latest Version: 1.0.0[/h1]
+
+[hr][/hr]
+
+[h1]Bug Reports[/h1]
+Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
+
