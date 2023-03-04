@@ -17,6 +17,19 @@ namespace ShockWormMob
     internal class Patches
     {
         /// <summary>
+     /// Test of old Decomposer component
+     /// </summary>
+        [HarmonyPatch(typeof(MinionConfig))]
+        [HarmonyPatch(nameof(MinionConfig.CreatePrefab))]
+        public static class AddRot
+        {
+
+            public static void Postfix(GameObject __result)
+            {
+                __result.AddOrGet<Decomposer>();
+            }
+        }
+        /// <summary>
         /// add buildings to plan screen
         /// </summary>
         [HarmonyPatch(typeof(GeneratedBuildings))]
@@ -28,7 +41,7 @@ namespace ShockWormMob
             {
                 //InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
                 InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Utilities, EventDebugTileConfig.ID);
-                ModAssets.InitEventTest();
+                ModAssets.InitEventTest(); 
             }
         }
         /// <summary>
