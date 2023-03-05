@@ -61,8 +61,9 @@ namespace SaveGameModLoader
         /// Create a modified Modview for syncing
         /// </summary>
         /// <param name="mods"></param>
-        public void InstantiateModView(List<KMod.Label> mods, GameObject parent = null, bool LoadOnCLose = true)
+        public void InstantiateModView(List<KMod.Label> mods,string activeSaveToLoad = "", GameObject parent = null, bool LoadOnCLose = true)
         {
+            ActiveSave = referencedPath;
             IsSyncing = true;
             AssignModDifferences(mods);
             var ParentGO = parent == null ? ParentObjectRef : parent;
@@ -370,9 +371,8 @@ namespace SaveGameModLoader
 
         }
 
-        async void AutoLoadOnRestart()
+        void AutoLoadOnRestart()
         {
-            await Task.Delay(1000);
 
             if (ActiveSave != string.Empty)
                 KPlayerPrefs.SetString("AutoResumeSaveFile", ActiveSave);
@@ -383,7 +383,6 @@ namespace SaveGameModLoader
 
         public void InstantiateModViewForPathOnly(string referencedPath)
         {
-            ActiveSave = referencedPath;
             var mods = TryGetColonyModlist(SaveGameModList.GetModListFileName(referencedPath));
             if (mods == null)
             {
@@ -397,7 +396,7 @@ namespace SaveGameModLoader
                 SgtLogger.logError("No ModConfig found for " + referencedPath);
                 return;
             }
-            InstantiateModView(list);
+            InstantiateModView(list, referencedPath);
         }
 
         public void GetAllStoredModlists()
