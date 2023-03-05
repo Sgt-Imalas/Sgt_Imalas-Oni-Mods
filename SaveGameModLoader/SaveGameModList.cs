@@ -37,7 +37,7 @@ namespace SaveGameModLoader
         {
             if (!File.Exists(filePath))
             {
-                SgtLogger.log("No stored ModList found.");
+                SgtLogger.logwarning("No stored ModList found.");
                 return null;
             }
             else
@@ -89,7 +89,7 @@ namespace SaveGameModLoader
         {
             try 
             {
-                if (!this.IsModPack)
+                if (!IsModPack)
                 {
                     SgtLogger.log("Writing mod config to " + ModlistPath);
                     File.WriteAllText(ModAssets.ModPath + ModlistPath + ".json", JsonConvert.SerializeObject(this, Formatting.Indented));

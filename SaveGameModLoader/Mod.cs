@@ -26,10 +26,12 @@ namespace SaveGameModLoader
             {
                 SgtLogger.error("Could not create folders, Exception:\n" + e);
             }
+            SgtLogger.log("Folders succesfully initialized");
 
             ModAssets.ModID = this.mod.label.id;
-            //SgtLogger.log(ModAssets.ModID+"");
+            SgtLogger.log("Retrieving Modlists");
             ModlistManager.Instance.GetAllStoredModlists();
+            ModlistManager.Instance.GetAllModPacks();
             base.OnLoad(harmony);
         }
     }

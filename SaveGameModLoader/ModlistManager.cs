@@ -363,41 +363,41 @@ namespace SaveGameModLoader
         {
             Modlists.Clear();
             MissingMods.Clear();
-            var files = System.IO.Directory.GetFiles(ModAssets.ModPath);
+            var files = new DirectoryInfo(ModAssets.ModPath).GetFiles();
             foreach (var modlist in files)
             {
                 try
                 {
                     //SgtLogger.log("Trying to load: " + modlist);
-                    var list = SaveGameModList.ReadModlistListFromFile(modlist);
+                    var list = SaveGameModList.ReadModlistListFromFile(modlist.FullName);
                     Modlists.Add(list.ReferencedColonySaveName, list);
                 }
                 catch (Exception e)
                 {
-                    SgtLogger.logError("Couln't load savegamemod list from: " + modlist + ", Error: " + e);
+                    SgtLogger.logError("Couln't load savegamemod list from: " + modlist.FullName + ", Error: " + e);
                 }
             }
-            //SgtLogger.log("Found Mod Configs for " + files.Count() + " Colonies");
+            SgtLogger.log("Found Mod Configs for " + files.Count() + " Colonies");
         }
         public void GetAllModPacks()
         {
             ModPacks.Clear();
             MissingMods.Clear();
-            var files = System.IO.Directory.GetFiles(ModAssets.ModPacksPath);
+            var files = new DirectoryInfo(ModAssets.ModPacksPath).GetFiles();
             foreach (var modlist in files)
             {
                 try
                 {
                     //SgtLogger.log("Trying to load: " + modlist);
-                    var list = SaveGameModList.ReadModlistListFromFile(modlist);
+                    var list = SaveGameModList.ReadModlistListFromFile(modlist.FullName);
                     ModPacks.Add(list.ReferencedColonySaveName, list);
                 }
                 catch (Exception e)
                 {
-                    SgtLogger.logError("Couln't load Mod list from: " + modlist + ", Error: " + e);
+                    SgtLogger.logError("Couln't load Mod list from: " + modlist.FullName + ", Error: " + e);
                 }
             }
-            //SgtLogger.log("Found Mod Configs for " + files.Count() + " Colonies");
+            SgtLogger.log("Found " + files.Count() + " custom profiles");
         }
 
         public bool CreateOrAddToModLists(string savePath, List<KMod.Label> list)
