@@ -27,13 +27,18 @@ body:
     attributes:
       label: Player.log
       description: |
-        Add the file "Player.log" that contains the crash/bug by dragging it into this input field.
-        The Message shown during a crash is NOT a log and not helpful. Where to find the Log:
-        Windows:
+        Add the file "Player.log" that contains the crash/bug.
+        The Message shown during a crash is NOT a log and not very helpful. 
+        Add the log file by either dragging it into the text field below or attach it 
+        via the file selector that opens when you click the prompt at the bottom of the text field.
+
+        You find your log file under the following path:
+        on Windows:
           C:\Users%username%\AppData\LocalLow\Klei\Oxygen Not Included\Player.log
-        Mac:
+        on Mac:
           ~/Library/Logs/Klei/Oxygen Not Included/Player.log
-        Linux:
-        ~/.config/unity3d/Klei/Oxygen Not Included/Player.log      
+        on Linux:
+        ~/.config/unity3d/Klei/Oxygen Not Included/Player.log        
+      placeholder: Drag and drop your log file here
     validations:
       required: true
