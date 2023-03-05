@@ -54,7 +54,7 @@ namespace SaveGameModLoader
 
         public void InstantiateSyncViewWithoutRestart(List<KMod.Label> mods, GameObject parent)
         {
-            InstantiateModView(mods, parent, false);
+            InstantiateModView(mods, "",parent, false);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace SaveGameModLoader
         /// <param name="mods"></param>
         public void InstantiateModView(List<KMod.Label> mods,string activeSaveToLoad = "", GameObject parent = null, bool LoadOnCLose = true)
         {
-            ActiveSave = referencedPath;
+            ActiveSave = activeSaveToLoad;
             IsSyncing = true;
             AssignModDifferences(mods);
             var ParentGO = parent == null ? ParentObjectRef : parent;
