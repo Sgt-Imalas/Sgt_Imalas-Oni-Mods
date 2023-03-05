@@ -90,7 +90,7 @@ namespace SaveGameModLoader
 
             OpenModPackFolderButtonGO.Find("Label").GetComponent<LocText>().text = STRINGS.UI.FRONTEND.MODLISTVIEW.OPENMODLISTFOLDERBUTTON;
             OpenModPackFolderButtonGO.FindOrAddUnityComponent<ToolTip>().SetSimpleTooltip(STRINGS.UI.FRONTEND.MODLISTVIEW.OPENMODLISTFOLDERBUTTONINFO);
-            OpenModPackFolderButtonGO.GetComponent<KButton>().onClick += () => App.OpenWebURL("file://" + ModAssets.ModPacksPath);
+            OpenModPackFolderButtonGO.GetComponent<KButton>().onClick += () => System.Diagnostics.Process.Start(System.IO.Path.Combine("file://", ModAssets.ModPacksPath));
 
             RefreshModlistView();
         }
