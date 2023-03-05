@@ -27,7 +27,6 @@ namespace SaveGameModLoader
                 SgtLogger.error("Could not create folders, Exception:\n" + e);
             }
 
-            System.IO.Directory.CreateDirectory(ModAssets.ModPacksPath);
             ModAssets.ModID = this.mod.label.id;
             //SgtLogger.log(ModAssets.ModID+"");
             ModlistManager.Instance.GetAllStoredModlists();
