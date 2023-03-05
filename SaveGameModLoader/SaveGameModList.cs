@@ -50,6 +50,36 @@ namespace SaveGameModLoader
             }
         }
 
+        public void WriteModlistToFile()
+        {
+            try
+            {
+                var path = !IsModPack ? Path.Combine(ModAssets.ModPath, ModlistPath + ".json") : Path.Combine(ModAssets.ModPacksPath, ModlistPath + ".json");
+
+                var fileInfo = new FileInfo(path);
+
+                FileStream fcreate = fileInfo.Open(FileMode.Create);//(path, FileMode.Create);
+
+                var JsonString = JsonConvert.SerializeObject(this, Formatting.Indented);
+                using (var streamWriter = new StreamWriter(fcreate))
+                {
+                    if (!IsModPack)
+                    {
+                        SgtLogger.log("Writing save game profile to " + ModlistPath);
+                    }
+                    else
+                    {
+                        SgtLogger.log("Writing custom profile to " + ModlistPath);
+                    }
+                    streamWriter.Write(JsonString);
+                }
+            }
+            catch (Exception e)
+            {
+                SgtLogger.logError("Could not write file, Exception: " + e);
+            }
+        }
+
         /// <summary>
         /// When Modlist is created by Deserializing
         /// </summary>
@@ -88,38 +118,6 @@ namespace SaveGameModLoader
             return FileNameInSpe;
         }
 
-
-        public void WriteModlistToFile()
-        {
-            try
-            {
-                int index = 0;
-                var path = !IsModPack ? Path.Combine(ModAssets.ModPath, ModlistPath + ".json") : Path.Combine(ModAssets.ModPacksPath, ModlistPath + ".json") ;
-                SgtLogger.l(path , "PATS");
-
-                var fileInfo = new FileInfo(path);
-
-                FileStream fcreate = fileInfo.OpenWrite();//(path, FileMode.Create);
-
-                var JsonString = JsonConvert.SerializeObject(this, Formatting.Indented);
-                using (var streamWriter = new StreamWriter(fcreate))
-                {
-                    if (!IsModPack)
-                    {
-                        SgtLogger.log("Writing save game profile to " + ModlistPath);
-                    }
-                    else
-                    {
-                        SgtLogger.log("Writing custom profile to " + ModlistPath);
-                    }
-                    streamWriter.Write(JsonString);
-                }
-            }
-            catch (Exception e)
-            {
-                SgtLogger.logError("Could not write file, Exception: " + e);
-            }
-        }
 
         public List<KMod.Label> TryGetModListEntry(string path)
         {

@@ -149,34 +149,53 @@ namespace SaveGameModLoader
         }
 
         static string ModsFolder { get { return System.IO.Directory.GetParent(System.IO.Directory.GetParent(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)).FullName).ToString() + "\\"; } }
+
         public static modsJSON ReadGameMods()
         {
-            //SgtLogger.warning("AAAAAAAAAAAAAAAAAA: " + ModsFolder + "mods.json");
-            if (!File.Exists(ModsFolder + "mods.json"))
+            var path = Path.Combine(ModsFolder, "mods.json");
+            SgtLogger.l(path);
+            var fileInfo = new FileInfo(path);
+
+            if (!fileInfo.Exists || fileInfo.Extension != ".json")
             {
-                SgtLogger.warning("mods.json not found.");
+                SgtLogger.logwarning("no valid file found.");
                 return null;
             }
             else
             {
-                string jsonString = File.ReadAllText(ModsFolder + "mods.json");
-                return JsonConvert.DeserializeObject<modsJSON>(jsonString);
+                FileStream filestream = fileInfo.OpenRead();
+                using (var sr = new StreamReader(filestream))
+                {
+                    string jsonString = sr.ReadToEnd();
+                    modsJSON modlist = JsonConvert.DeserializeObject<modsJSON>(jsonString);
+                    return modlist;
+                }
             }
         }
+
         public void OverwriteGameMods(modsJSON modlist)
         {
             try
             {
-                SgtLogger.log("Overwriting mods.json");
-                File.WriteAllText(ModsFolder + "mods.json", JsonConvert.SerializeObject(modlist, Formatting.Indented));
+                var path = Path.Combine(ModsFolder, "mods.json");
+                SgtLogger.l("WRITING TO: " + path);
+                var fileInfo = new FileInfo(path);
+
+                FileStream fcreate = fileInfo.Open(FileMode.Create);//(path, FileMode.Create);
+
+                var JsonString = JsonConvert.SerializeObject(modlist, Formatting.Indented);
+                SgtLogger.l(JsonString);   
+                using (var streamWriter = new StreamWriter(fcreate))
+                {
+                    SgtLogger.log("Overwriting mods.json");
+                    streamWriter.Write(JsonString);
+                }
             }
             catch (Exception e)
             {
-                SgtLogger.logError("Could not write file, Exception:\n" + e);
+                SgtLogger.logError("Could not write file, Exception: " + e);
             }
         }
-
-        //DlcManager.GetHighestActiveDlcId()
 
         public void SyncFromModListWithoutAutoLoad(List<KMod.Label> modList, System.Action OnFinishAction = null)
         {
@@ -226,6 +245,14 @@ namespace SaveGameModLoader
             var ModFileDeserialized = ReadGameMods();
             if (ModFileDeserialized == null)
                 return;
+
+
+            foreach (var mod in ModFileDeserialized.mods)
+                SgtLogger.l(mod.enabledForDlc.FirstOrDefault());
+
+
+            string dlcId = DlcManager.IsExpansion1Active() ? DlcManager.EXPANSION1_ID : DlcManager.VANILLA_ID;
+
             foreach (var mod in ModListDifferences.Keys)
             {
                 var TargetModIndex = ModFileDeserialized.mods.FindIndex(tmod => tmod.label.id == mod.id || tmod.label.title == mod.title);
@@ -233,21 +260,33 @@ namespace SaveGameModLoader
                 {
                     bool enabled = enableAll == null ? ModListDifferences[mod] : (bool)enableAll;
 
-                    string dlcId = DlcManager.IsExpansion1Active() ? DlcManager.EXPANSION1_ID : DlcManager.VANILLA_ID;
 
 
                     if (ModFileDeserialized.mods[TargetModIndex].enabledForDlc == null)
+                    {
                         ModFileDeserialized.mods[TargetModIndex].enabledForDlc = new List<string>();
+                    }
 
                     if (enabled)
-                        ModFileDeserialized.mods[TargetModIndex].enabledForDlc.Add(dlcId);  //new List<string> { DlcManager.EXPANSION1_ID }; VANILLA_ID
+                    {
+                        SgtLogger.l("ENABLE: " + ModFileDeserialized.mods[TargetModIndex].label);
+                        ModFileDeserialized.mods[TargetModIndex].enabledForDlc.Add(dlcId);
+                    }  //new List<string> { DlcManager.EXPANSION1_ID }; VANILLA_ID
                     else
+                    {
+                        SgtLogger.l("DISABLE: " + ModFileDeserialized.mods[TargetModIndex].label);
                         ModFileDeserialized.mods[TargetModIndex].enabledForDlc.Remove(dlcId);
+                    }
                 }
+                else SgtLogger.error(mod.id);
             }
+
+
+            foreach (var mod in ModFileDeserialized.mods)
+                SgtLogger.l(mod.enabledForDlc.FirstOrDefault());
+
             OverwriteGameMods(ModFileDeserialized);
-            //Global.Instance.modManager.LoadModDBAndInitialize();
-            //if (restartAfter)            
+            
             AutoLoadOnRestart();
         }
 
@@ -331,8 +370,10 @@ namespace SaveGameModLoader
 
         }
 
-        void AutoLoadOnRestart()
+        async void AutoLoadOnRestart()
         {
+            await Task.Delay(1000);
+
             if (ActiveSave != string.Empty)
                 KPlayerPrefs.SetString("AutoResumeSaveFile", ActiveSave);
             ActiveSave = string.Empty;
@@ -361,19 +402,13 @@ namespace SaveGameModLoader
 
         public void GetAllStoredModlists()
         {
-            int count = 0;
             Modlists.Clear();
             MissingMods.Clear();
             var files = new DirectoryInfo(ModAssets.ModPath).GetFiles();
 
-            foreach (FileInfo modlist in files)
-            {
-                SgtLogger.l(modlist.ToString(),"FilePathModProfile");
-            }
             
             foreach (FileInfo modlist in files)
             {
-                SgtLogger.l(++count + " stage (inside loop)");
                 try
                 {
                     SgtLogger.log("Trying to load: " + modlist);
@@ -388,7 +423,6 @@ namespace SaveGameModLoader
                     SgtLogger.logError("Couln't load savegamemod list from: " + modlist.FullName + ", Error: " + e);
                 }
             }
-            SgtLogger.l(++count + " stage");
             SgtLogger.log("Found Mod Configs for " + files.Count() + " Colonies");
         }
         public void GetAllModPacks()
