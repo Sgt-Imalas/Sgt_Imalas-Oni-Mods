@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,22 +29,24 @@ namespace SaveGameModLoader
 
         public Dictionary<string, List<KMod.Label>> SavePoints = new();
 
-        public static bool ModListFileExists(string filePath)
+        public static SaveGameModList ReadModlistListFromFile(FileInfo filePath)
         {
-            bool exist = File.Exists(filePath);
-            return exist;
-        }
-        public static SaveGameModList ReadModlistListFromFile(string filePath)
-        {
-            if (!File.Exists(filePath))
+
+            SgtLogger.l("filepath "+ filePath);
+            if (!filePath.Exists || filePath.Extension != ".json")
             {
-                SgtLogger.logwarning("No stored ModList found.");
+                SgtLogger.logwarning("Not a valid ModList.");
                 return null;
             }
             else
             {
-                string jsonString = File.ReadAllText(filePath);
-                return JsonConvert.DeserializeObject<SaveGameModList>(jsonString);
+                FileStream filestream = filePath.OpenRead();
+                using (var sr = new StreamReader(filestream))
+                {
+                    string jsonString = sr.ReadToEnd();
+                    SaveGameModList modlist = JsonConvert.DeserializeObject<SaveGameModList>(jsonString);
+                    return modlist;
+                }
             }
         }
 
@@ -57,9 +60,10 @@ namespace SaveGameModLoader
         /// </summary>
         /// <param name="referencedColonySave"></param>
         /// <param name="guid"></param>
-        public SaveGameModList(string referencedColonySave, bool _isModPack=false)
+        public SaveGameModList(string referencedColonySave, bool _isModPack = false)
         {
-            if (!_isModPack) { 
+            if (!_isModPack)
+            {
                 ReferencedColonySaveName = GetModListFileName(referencedColonySave);
                 ModlistPath = GetModListFileName(referencedColonySave);
                 Type = DlcManager.IsExpansion1Active() ? DLCType.spacedOut : DLCType.baseGame;
@@ -68,7 +72,7 @@ namespace SaveGameModLoader
             {
                 ReferencedColonySaveName = referencedColonySave;
                 ModlistPath = referencedColonySave;
-                Type = DLCType.modPack ;
+                Type = DLCType.modPack;
             }
         }
 
@@ -87,20 +91,31 @@ namespace SaveGameModLoader
 
         public void WriteModlistToFile()
         {
-            try 
+            try
             {
-                if (!IsModPack)
+                int index = 0;
+                var path = !IsModPack ? Path.Combine(ModAssets.ModPath, ModlistPath + ".json") : Path.Combine(ModAssets.ModPacksPath, ModlistPath + ".json") ;
+                SgtLogger.l(path , "PATS");
+
+                var fileInfo = new FileInfo(path);
+
+                FileStream fcreate = fileInfo.OpenWrite();//(path, FileMode.Create);
+
+                var JsonString = JsonConvert.SerializeObject(this, Formatting.Indented);
+                using (var streamWriter = new StreamWriter(fcreate))
                 {
-                    SgtLogger.log("Writing mod config to " + ModlistPath);
-                    File.WriteAllText(ModAssets.ModPath + ModlistPath + ".json", JsonConvert.SerializeObject(this, Formatting.Indented));
-                }
-                else
-                {
-                    SgtLogger.log("Writing mod pack to " + ModlistPath);
-                    File.WriteAllText(ModAssets.ModPacksPath + ModlistPath + ".json", JsonConvert.SerializeObject(this, Formatting.Indented));
+                    if (!IsModPack)
+                    {
+                        SgtLogger.log("Writing save game profile to " + ModlistPath);
+                    }
+                    else
+                    {
+                        SgtLogger.log("Writing custom profile to " + ModlistPath);
+                    }
+                    streamWriter.Write(JsonString);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 SgtLogger.logError("Could not write file, Exception: " + e);
             }

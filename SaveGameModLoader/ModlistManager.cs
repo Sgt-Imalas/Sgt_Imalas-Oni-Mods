@@ -361,22 +361,34 @@ namespace SaveGameModLoader
 
         public void GetAllStoredModlists()
         {
+            int count = 0;
             Modlists.Clear();
             MissingMods.Clear();
             var files = new DirectoryInfo(ModAssets.ModPath).GetFiles();
-            foreach (var modlist in files)
+
+            foreach (FileInfo modlist in files)
             {
+                SgtLogger.l(modlist.ToString(),"FilePathModProfile");
+            }
+            
+            foreach (FileInfo modlist in files)
+            {
+                SgtLogger.l(++count + " stage (inside loop)");
                 try
                 {
-                    //SgtLogger.log("Trying to load: " + modlist);
-                    var list = SaveGameModList.ReadModlistListFromFile(modlist.FullName);
-                    Modlists.Add(list.ReferencedColonySaveName, list);
+                    SgtLogger.log("Trying to load: " + modlist);
+                    var list = SaveGameModList.ReadModlistListFromFile(modlist);
+                    if(list != null)
+                    {
+                        Modlists.Add(list.ReferencedColonySaveName, list);
+                    }
                 }
                 catch (Exception e)
                 {
                     SgtLogger.logError("Couln't load savegamemod list from: " + modlist.FullName + ", Error: " + e);
                 }
             }
+            SgtLogger.l(++count + " stage");
             SgtLogger.log("Found Mod Configs for " + files.Count() + " Colonies");
         }
         public void GetAllModPacks()
@@ -384,13 +396,20 @@ namespace SaveGameModLoader
             ModPacks.Clear();
             MissingMods.Clear();
             var files = new DirectoryInfo(ModAssets.ModPacksPath).GetFiles();
-            foreach (var modlist in files)
+            foreach (FileInfo modlist in files)
+            {
+                SgtLogger.l(modlist.ToString(), "FilePathModProfile");
+            }
+            foreach (FileInfo modlist in files)
             {
                 try
                 {
                     //SgtLogger.log("Trying to load: " + modlist);
-                    var list = SaveGameModList.ReadModlistListFromFile(modlist.FullName);
-                    ModPacks.Add(list.ReferencedColonySaveName, list);
+                    var list = SaveGameModList.ReadModlistListFromFile(modlist);
+                    if (list != null)
+                    {
+                        ModPacks.Add(list.ReferencedColonySaveName, list);
+                    }
                 }
                 catch (Exception e)
                 {

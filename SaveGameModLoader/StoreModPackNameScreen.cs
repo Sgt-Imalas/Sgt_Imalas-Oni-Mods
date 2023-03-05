@@ -213,10 +213,23 @@ namespace SaveGameModLoader
             }
         }
 
-        void ThrowErrorPopup()
+        void ThrowErrorPopup(int errornr = 0)
         {
+            string errormsg = string.Empty;
+            switch (errornr)
+            {
+                case 0:
+                    errormsg = STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.WRONGFORMAT;
+                    break;
+                case 1:
+                    errormsg = STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.PARSINGERROR;
+                    break;
+                case 2:
+                    errormsg = STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.STEAMINFOERROR;
+                    break;
 
-            CreatePopup(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ERRORTITLE, STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.WRONGFORMAT);
+            }
+            CreatePopup(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ERRORTITLE, errormsg);
             textField.text = string.Empty;
         }
 
@@ -229,9 +242,11 @@ namespace SaveGameModLoader
                 string cut = textField.text;
                 cut = cut.Replace("https://steamcommunity.com/sharedfiles/filedetails/?id=", string.Empty);
 
+                SgtLogger.log("Try Parse ID: " + cut);
+
                 if (cut.Length<10 || !cut.All(Char.IsDigit)) 
                 {
-                    ThrowErrorPopup();
+                    ThrowErrorPopup(0);
                     return;
                 }
 
@@ -240,11 +255,11 @@ namespace SaveGameModLoader
                 ulong CollectionID = 0;
                 CollectionID = ulong.Parse(cut);
 
-                //SgtLogger.log("TRY Parse ID: " + CollectionID);
+                SgtLogger.log("Try Parse ID: " + CollectionID);
 
                 if(CollectionID == 0)
                 {
-                    ThrowErrorPopup();
+                    ThrowErrorPopup(1);
                     return;
                 }
 
@@ -341,19 +356,24 @@ namespace SaveGameModLoader
             SgtLogger.log(ioError + " <- Error?");
             SgtLogger.log(EResult.k_EResultOK + " <- Result?");
 #endif
+            if(ioError)
+            {
+                ThrowErrorPopup(2);
+                return;
+            }
+
             if (!ioError && result == EResult.k_EResultOK)
             {
                 for (uint i = 0U; i < callback.m_unNumResultsReturned; i++)
                 {
                     if (SteamUGC.GetQueryUGCResult(handle, i, out SteamUGCDetails_t details))
                     {
-                        if (details.m_rgchTitle == string.Empty && details.m_unNumChildren == 0) { 
-                            ThrowErrorPopup();
-                            return;
+                        if (details.m_rgchTitle == string.Empty && details.m_unNumChildren == 0) {
+                            SgtLogger.logwarning("could not parse mod data (mod is hidden).");
+                            continue;
                         }
+
 #if DEBUG
-
-
                         SgtLogger.log("Title: " + details.m_rgchTitle);
                         if(details.m_unNumChildren>0)
                             SgtLogger.log("ChildrenCount: " + details.m_unNumChildren);

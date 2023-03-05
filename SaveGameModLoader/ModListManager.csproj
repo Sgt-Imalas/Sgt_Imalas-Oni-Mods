@@ -23,8 +23,8 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>ModList Manager by SgtImalas</ModName>
-		<ModDescription>Manage your mods in lists and synchronize your active mods with those used in your SaveGames</ModDescription>
+		<ModName>Mod Profile Manager</ModName>
+		<ModDescription>Manage your mods in profiles and synchronize your active mods with those used in your SaveGames</ModDescription>
 		<SupportedContent>ALL</SupportedContent>
 		<MinimumSupportedBuild>535211</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>

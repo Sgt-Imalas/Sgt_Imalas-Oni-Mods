@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
-		README.md = README.md
+		UpdatedOniTemplate.zip = UpdatedOniTemplate.zip
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Radiator_Mod", "Radiator_Mod\Radiator_Mod.csproj", "{27578E2C-D7D3-4A01-94C1-58F72668471C}"
@@ -76,7 +76,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MineralizerReborn", "Minera
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CritterTraitsReborn", "CritterTraitsReborn\CritterTraitsReborn.csproj", "{EA6B415D-0663-447B-A967-8DA5AEA331A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrywallPatternColours", "DrywallPatternColours\DrywallPatternColours.csproj", "{6208D3D8-C9AE-4824-A4F9-2B8108187B6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrywallPatternColours", "DrywallPatternColours\DrywallPatternColours.csproj", "{6208D3D8-C9AE-4824-A4F9-2B8108187B6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
