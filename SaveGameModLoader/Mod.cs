@@ -1,6 +1,9 @@
 ﻿using HarmonyLib;
+using Klei;
 using KMod;
+using System;
 using System.IO;
+using UtilLibs;
 
 namespace SaveGameModLoader
 {
@@ -8,13 +11,25 @@ namespace SaveGameModLoader
     {
         public override void OnLoad(Harmony harmony)
         {
-            ModAssets.ModPath = System.IO.Directory.GetParent(System.IO.Directory.GetParent(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)).FullName) + "\\[ModSync]StoredModConfigs\\";
-            ModAssets.ModPacksPath = ModAssets.ModPath + "\\[StandAloneModLists]\\";
-            System.IO.Directory.CreateDirectory(ModAssets.ModPath);
+            SgtLogger.debuglog("Initializing file paths..");
+            ModAssets.ModPath = FileSystem.Normalize(Path.Combine(Manager.GetDirectory(), "[ModSync]StoredModConfigs/"));
+            ModAssets.ModPacksPath = FileSystem.Normalize(Path.Combine(ModAssets.ModPath ,"[StandAloneModLists]/"));
+            SgtLogger.debuglog(ModAssets.ModPath);
+            SgtLogger.debuglog(ModAssets.ModPacksPath);
+            SgtLogger.debuglog("Initializing folders..");
+            try 
+            {
+                System.IO.Directory.CreateDirectory(ModAssets.ModPath);
+                System.IO.Directory.CreateDirectory(ModAssets.ModPacksPath);
+            }
+            catch (Exception e)
+            {
+                SgtLogger.error("Could not create folders, Exception:\n" + e);
+            }
+
             System.IO.Directory.CreateDirectory(ModAssets.ModPacksPath);
             ModAssets.ModID = this.mod.label.id;
-            //Debug.Log(ModAssets.ModID+"");
-            Debug.Log("[Synchronize Mods]: Initialized file paths.");
+            //SgtLogger.log(ModAssets.ModID+"");
             ModlistManager.Instance.GetAllStoredModlists();
             base.OnLoad(harmony);
         }

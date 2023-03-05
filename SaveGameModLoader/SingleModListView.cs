@@ -38,7 +38,7 @@ namespace SaveGameModLoader
             if (RefreshViewBtn != null)
                 RefreshViewBtn.SetActive(active||IsMissingModsOnly);
             //SyncButton.SetActive(active);
-            //Debug.Log(IsMissingModsOnly + "<-Missing only  IsActive? " + active);
+            //SgtLogger.log(IsMissingModsOnly + "<-Missing only  IsActive? " + active);
             if (!active) RebuildList();
         }
 
@@ -124,13 +124,13 @@ namespace SaveGameModLoader
 
         //void SubToAllMissing(List<KMod.Label> allMissings)
         //{
-        //    Debug.Log("SubToAllCalled , missing mods count: "+ allMissings.Count);
+        //    SgtLogger.log("SubToAllCalled , missing mods count: "+ allMissings.Count);
         //    foreach (var mod in allMissings)
         //    {
         //        if (mod.distribution_platform == KMod.Label.DistributionPlatform.Steam)
         //        {
         //            OpenMissingMod(mod.id);
-        //            Debug.Log(mod.title + "<- Subbed");
+        //            SgtLogger.log(mod.title + "<- Subbed");
 
         //        }
         //    }
@@ -162,7 +162,7 @@ namespace SaveGameModLoader
 
             if (IsMissingModsOnly)
             {
-                //Debug.Log("AddedMissingToView");
+                //SgtLogger.log("AddedMissingToView");
                 foreach (var mod in MissingModsList)
                 {
                     var entry = Util.KInstantiateUI(EntryPrefab.gameObject, InsertLocation.gameObject, true).transform;
@@ -268,7 +268,7 @@ namespace SaveGameModLoader
             }
             else
             {
-                //Debug.Log("All View");
+                //SgtLogger.log("All View");
                 if (Mods == null) return;
                 foreach (var mod in Mods.SavePoints.Reverse())
                 {

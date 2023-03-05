@@ -45,7 +45,7 @@ namespace SaveGameModLoader
 #if DEBUG
             foreach (var v in ContentParentStandalone.transform.parent.gameObject.GetComponents(typeof(Component)))
             {
-                //Debug.Log(v.GetType() + " <- Type, name ->" + v.name);
+                //SgtLogger.log(v.GetType() + " <- Type, name ->" + v.name);
             }
 #endif
             var SpacerParent = ContentParentStandalone.transform.parent.gameObject;
@@ -103,7 +103,7 @@ namespace SaveGameModLoader
 
             window.name = "SingleList";
 #if DEBUG
-           // Debug.Log("SINGLE LIST:");
+           // SgtLogger.log("SINGLE LIST:");
            // UIUtils.ListAllChildren(window.transform);
 #endif
             var oldComp = window.GetComponent<ModsScreen>();
@@ -118,7 +118,7 @@ namespace SaveGameModLoader
 
             window.name = "SingleList";
 #if DEBUG
-            // Debug.Log("SINGLE LIST:");
+            // SgtLogger.log("SINGLE LIST:");
             // UIUtils.ListAllChildren(window.transform);
 #endif
             var oldComp = window.GetComponent<ModsScreen>();
@@ -137,12 +137,12 @@ namespace SaveGameModLoader
                 UnityEngine.Object.Destroy(btnToRemove);
             }
 #if DEBUG 
-            //Debug.Log("LAYOUT:");
+            //SgtLogger.log("LAYOUT:");
             //foreach (var v in ContentParentStandalone.GetComponents(typeof (Component)))
             //{
-            //    Debug.Log(v.GetType() + " <- Type, name ->" + v.name);
+            //    SgtLogger.log(v.GetType() + " <- Type, name ->" + v.name);
             //}
-            //Debug.Log("Exported Lists:");
+            //SgtLogger.log("Exported Lists:");
 #endif
 
             ///Layout Exported
@@ -167,7 +167,7 @@ namespace SaveGameModLoader
             foreach (var exportedList in ModlistManager.Instance.ModPacks)
             {
 #if DEBUG
-               // Debug.Log(exportedList.Key);
+               // SgtLogger.log(exportedList.Key);
 #endif
                 var contentbutton = Util.KInstantiateUI(ButtonPrefab, ContentParentStandalone, true);
                 
@@ -179,12 +179,12 @@ namespace SaveGameModLoader
                 contentbutton.GetComponent<KButton>().isInteractable = DlcManager.IsExpansion1Active() ? exportedList.Value.Type != SaveGameModList.DLCType.baseGame : exportedList.Value.Type != SaveGameModList.DLCType.spacedOut;
             }
 #if DEBUG
-            //Debug.Log("Savegames:");
+            //SgtLogger.log("Savegames:");
 #endif
             foreach (var saveGameList in ModlistManager.Instance.Modlists)
             {
 #if DEBUG
-                //Debug.Log(saveGameList.Key);
+                //SgtLogger.log(saveGameList.Key);
 #endif
                 var contentbutton = Util.KInstantiateUI(ButtonPrefab, ContentParentSaveGame, true);
                 contentbutton.transform.Find("Label").GetComponent<LocText>().text = ModListInfoBuilder(saveGameList.Key, saveGameList.Value.SavePoints);

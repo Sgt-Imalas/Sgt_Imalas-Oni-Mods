@@ -48,7 +48,7 @@ namespace SaveGameModLoader
         {
             //GetAllStoredModlists();
             Modlists.TryGetValue(colonyName, out SaveGameModList result);
-            //Debug.Log("ModList found for this savegame");
+            //SgtLogger.log("ModList found for this savegame");
             return result;
         }
 
@@ -151,10 +151,10 @@ namespace SaveGameModLoader
         static string ModsFolder { get { return System.IO.Directory.GetParent(System.IO.Directory.GetParent(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)).FullName).ToString() + "\\"; } }
         public static modsJSON ReadGameMods()
         {
-            //Debug.LogWarning("AAAAAAAAAAAAAAAAAA: " + ModsFolder + "mods.json");
+            //SgtLogger.warning("AAAAAAAAAAAAAAAAAA: " + ModsFolder + "mods.json");
             if (!File.Exists(ModsFolder + "mods.json"))
             {
-                Debug.LogWarning("mods.json not found.");
+                SgtLogger.warning("mods.json not found.");
                 return null;
             }
             else
@@ -167,12 +167,12 @@ namespace SaveGameModLoader
         {
             try
             {
-                Debug.Log("Overwriting mods.json");
+                SgtLogger.log("Overwriting mods.json");
                 File.WriteAllText(ModsFolder + "mods.json", JsonConvert.SerializeObject(modlist, Formatting.Indented));
             }
             catch (Exception e)
             {
-                Debug.LogError("Could not write file, Exception:\n" + e);
+                SgtLogger.logError("Could not write file, Exception:\n" + e);
             }
         }
 
@@ -259,7 +259,7 @@ namespace SaveGameModLoader
             {
                 if (modManager.FindMod(mod) == null)
                 {
-                    Debug.LogWarning("Mod not found: " + mod.title);
+                    SgtLogger.warning("Mod not found: " + mod.title);
                     continue;
                 }
 
@@ -290,9 +290,9 @@ namespace SaveGameModLoader
 
             MissingMods = modList.Except(allMods, comparer).ToList();
 #if DEBUG
-            Debug.Log("MissingMods start");
-            foreach (var m in MissingMods) Debug.Log(m.id + ": " + m.title);
-            Debug.Log("MissingMods end");
+            SgtLogger.log("MissingMods start");
+            foreach (var m in MissingMods) SgtLogger.log(m.id + ": " + m.title);
+            SgtLogger.log("MissingMods end");
 #endif
             ModListDifferences.Clear();
             foreach (var toDisable in enabledButNotSavedMods)
@@ -306,11 +306,11 @@ namespace SaveGameModLoader
             ModListDifferences.Remove(thisMod);
 
 #if DEBUG
-            Debug.Log("The Following mods deviate from the config:");
+            SgtLogger.log("The Following mods deviate from the config:");
             foreach (var modDif in ModListDifferences)
             {
                 string status = modDif.Value ? "enabled" : "disabled";
-                Debug.Log(modDif.Key.id + ": " + modDif.Key + " -> should be " + status);
+                SgtLogger.log(modDif.Key.id + ": " + modDif.Key + " -> should be " + status);
             }
 #endif
 
@@ -325,7 +325,7 @@ namespace SaveGameModLoader
 
             public int GetHashCode(Label obj)
             {
-                //Debug.Log(obj.id + ": "+obj.title);
+                //SgtLogger.log(obj.id + ": "+obj.title);
                 return obj.id.GetHashCode();
             }
 
@@ -346,14 +346,14 @@ namespace SaveGameModLoader
             var mods = TryGetColonyModlist(SaveGameModList.GetModListFileName(referencedPath));
             if (mods == null)
             {
-                Debug.LogError("No Modlist found for " + SaveGameModList.GetModListFileName(referencedPath));
+                SgtLogger.logError("No Modlist found for " + SaveGameModList.GetModListFileName(referencedPath));
                 return;
             }
             var list = mods.TryGetModListEntry(referencedPath);
 
             if (list == null)
             {
-                Debug.LogError("No ModConfig found for " + referencedPath);
+                SgtLogger.logError("No ModConfig found for " + referencedPath);
                 return;
             }
             InstantiateModView(list);
@@ -368,16 +368,16 @@ namespace SaveGameModLoader
             {
                 try
                 {
-                    //Debug.Log("Trying to load: " + modlist);
+                    //SgtLogger.log("Trying to load: " + modlist);
                     var list = SaveGameModList.ReadModlistListFromFile(modlist);
                     Modlists.Add(list.ReferencedColonySaveName, list);
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError("Couln't load savegamemod list from: " + modlist + ", Error: " + e);
+                    SgtLogger.logError("Couln't load savegamemod list from: " + modlist + ", Error: " + e);
                 }
             }
-            //Debug.Log("Found Mod Configs for " + files.Count() + " Colonies");
+            //SgtLogger.log("Found Mod Configs for " + files.Count() + " Colonies");
         }
         public void GetAllModPacks()
         {
@@ -388,16 +388,16 @@ namespace SaveGameModLoader
             {
                 try
                 {
-                    //Debug.Log("Trying to load: " + modlist);
+                    //SgtLogger.log("Trying to load: " + modlist);
                     var list = SaveGameModList.ReadModlistListFromFile(modlist);
                     ModPacks.Add(list.ReferencedColonySaveName, list);
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError("Couln't load Mod list from: " + modlist + ", Error: " + e);
+                    SgtLogger.logError("Couln't load Mod list from: " + modlist + ", Error: " + e);
                 }
             }
-            //Debug.Log("Found Mod Configs for " + files.Count() + " Colonies");
+            //SgtLogger.log("Found Mod Configs for " + files.Count() + " Colonies");
         }
 
         public bool CreateOrAddToModLists(string savePath, List<KMod.Label> list)
@@ -417,11 +417,11 @@ namespace SaveGameModLoader
             bool subListInitialized = colonyModSave.AddOrUpdateEntryToModList(savePath, list);
             Modlists[SaveGameModList.GetModListFileName(savePath)] = colonyModSave;
             if (hasBeenInitialized)
-                Debug.Log("New mod config file created for: " + SaveGameModList.GetModListFileName(savePath));
+                SgtLogger.log("New mod config file created for: " + SaveGameModList.GetModListFileName(savePath));
             if (subListInitialized)
-                Debug.Log("New mod list added for: " + savePath);
+                SgtLogger.log("New mod list added for: " + savePath);
             else
-                Debug.Log("mod list overwritten for: " + savePath);
+                SgtLogger.log("mod list overwritten for: " + savePath);
 
             return hasBeenInitialized | subListInitialized;
 
@@ -446,14 +446,14 @@ namespace SaveGameModLoader
 
             bool subListInitialized = ModPackFile.AddOrUpdateEntryToModList(VersionString, list, true);
 #if DEBUG
-            Debug.Log(savePath + "<>" + VersionString);
+            SgtLogger.log(savePath + "<>" + VersionString);
 #endif
 
             ModPacks[(savePath)] = ModPackFile;
             if (hasBeenInitialized)
-                Debug.Log("New mod pack file created: " + savePath);
+                SgtLogger.log("New mod pack file created: " + savePath);
             if (subListInitialized)
-                Debug.Log("New mod pack added for: " + savePath);
+                SgtLogger.log("New mod pack added for: " + savePath);
 
             return hasBeenInitialized | subListInitialized;
 

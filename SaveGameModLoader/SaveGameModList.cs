@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UtilLibs;
 using static SaveGame;
 
 namespace SaveGameModLoader
@@ -36,7 +37,7 @@ namespace SaveGameModLoader
         {
             if (!File.Exists(filePath))
             {
-                Debug.Log("No stored ModList found.");
+                SgtLogger.log("No stored ModList found.");
                 return null;
             }
             else
@@ -90,18 +91,18 @@ namespace SaveGameModLoader
             {
                 if (!this.IsModPack)
                 {
-                    Debug.Log("Writing mod config to " + ModlistPath);
+                    SgtLogger.log("Writing mod config to " + ModlistPath);
                     File.WriteAllText(ModAssets.ModPath + ModlistPath + ".json", JsonConvert.SerializeObject(this, Formatting.Indented));
                 }
                 else
                 {
-                    Debug.Log("Writing mod pack to " + ModlistPath);
+                    SgtLogger.log("Writing mod pack to " + ModlistPath);
                     File.WriteAllText(ModAssets.ModPacksPath + ModlistPath + ".json", JsonConvert.SerializeObject(this, Formatting.Indented));
                 }
             }
             catch(Exception e)
             {
-                Debug.LogError("Could not write file, Exception: " + e);
+                SgtLogger.logError("Could not write file, Exception: " + e);
             }
         }
 

@@ -28,7 +28,7 @@ namespace SaveGameModLoader
             var workShopButton = modScreen.Find("Panel/DetailsView/WorkshopButton");
             if (workShopButton == null)
             {
-                Debug.LogError("Couldnt add buttons to Sync Menu");
+                SgtLogger.logError("Couldnt add buttons to Sync Menu");
                 return;
             }
             ModlistManager manager = ModlistManager.Instance;

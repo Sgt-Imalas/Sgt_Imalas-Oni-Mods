@@ -101,7 +101,7 @@ namespace SaveGameModLoader
                 var TransformIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, TransformIndexFinderStart, false);
                 //SgtLogger.l(TransformIndex + "", "TRANSFORMINDEX");
 
-                //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
+                //foreach (var v in code) { SgtLogger.log(v.opcode + " -> " + v.operand); };
                 if (insertionIndex != -1)
                 {
                     insertionIndex += 1;
@@ -111,7 +111,7 @@ namespace SaveGameModLoader
 
                     //TranspilerHelper.PrintInstructions(code,true);
                 }
-                //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
+                //foreach (var v in code) { SgtLogger.log(v.opcode + " -> " + v.operand); };
 
                 return code;
             }
@@ -351,7 +351,7 @@ namespace SaveGameModLoader
 
                 var saveFileRootIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, deserializerSearchIndex);
 
-                //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
+                //foreach (var v in code) { SgtLogger.log(v.opcode + " -> " + v.operand); };
                 if (insertionIndex != -1&& saveFileRootIndex!=-1)
                 {
                      code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, saveFileRootIndex));
@@ -372,7 +372,7 @@ namespace SaveGameModLoader
         {
             public static void Postfix(string filename, bool isAutoSave = false, bool updateSavePointer = true)
             {
-                //Debug.Log(filename + isAutoSave + updateSavePointer);
+                //SgtLogger.log(filename + isAutoSave + updateSavePointer);
                 KMod.Manager modManager = Global.Instance.modManager;
 
                 var enabledModLabels = modManager.mods.FindAll(mod => mod.IsActive() == true).Select(mod => mod.label).ToList();

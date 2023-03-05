@@ -23,7 +23,7 @@ namespace SaveGameModLoader
         public override void OnActivate()
         {
 #if DEBUG
-            //Debug.Log("StoreModPackScreen:");
+            //SgtLogger.log("StoreModPackScreen:");
             //UIUtils.ListAllChildren(this.transform);
 #endif
             var TitleBar = transform.Find("Panel/Title_BG");
@@ -120,7 +120,7 @@ namespace SaveGameModLoader
             {
                 if (Progress == 1)
                 {
-                    Debug.Log("adding Author: " +name);
+                    SgtLogger.log("adding Author: " +name);
                     authorName = name;
                     ++Progress;
                     InitModStats();
@@ -130,7 +130,7 @@ namespace SaveGameModLoader
             {
                 if(Progress == 2) { 
                     var allMods = Global.Instance.modManager.mods.Select(mod => mod.label).ToList();
-                    Debug.Log("adding known mods");
+                    SgtLogger.log("adding known mods");
                     foreach (var id in modIDs)
                     {
                         KMod.Label mod = new();
@@ -148,11 +148,11 @@ namespace SaveGameModLoader
                             continue;
                         }
                         mods.Add(mod);
-                        Debug.Log(mod.title + "; " + mod.id);
+                        SgtLogger.log(mod.title + "; " + mod.id);
                     }
-                    Debug.Log("all known mods added");
+                    SgtLogger.log("all known mods added");
                     ++Progress;
-                    Debug.Log("MissingCOunt: " + missingMods.Count);
+                    SgtLogger.log("MissingCOunt: " + missingMods.Count);
                     if(missingMods.Count>0)
                         parentTwo.FindMissingModsQuery(missingMods);
                     else
@@ -169,7 +169,7 @@ namespace SaveGameModLoader
             {
                 if (Progress == 3)
                 {
-                    Debug.Log("adding unknown mods");
+                    SgtLogger.log("adding unknown mods");
                     foreach (var id in missingMods)
                     {
                         KMod.Label mod = new();
@@ -179,9 +179,9 @@ namespace SaveGameModLoader
                         mod.title = id.second.ToString();
                         mod.version = 404;
                         mods.Add(mod);
-                        Debug.Log(mod.title + ": " + mod.id);
+                        SgtLogger.log(mod.title + ": " + mod.id);
                     }
-                    Debug.Log("all unknown mods added");
+                    SgtLogger.log("all unknown mods added");
                     ++Progress; 
                     FinalizeConstructedList();
                 }
@@ -203,7 +203,7 @@ namespace SaveGameModLoader
         {
             if (SteamManager.Initialized)
             {
-                Debug.Log("TryFetchingMissingMods, " + IDs.Count);
+                SgtLogger.log("TryFetchingMissingMods, " + IDs.Count);
                 var list = new List<PublishedFileId_t>();
                 foreach(var id in IDs)
                 {
@@ -240,7 +240,7 @@ namespace SaveGameModLoader
                 ulong CollectionID = 0;
                 CollectionID = ulong.Parse(cut);
 
-                //Debug.Log("TRY Parse ID: " + CollectionID);
+                //SgtLogger.log("TRY Parse ID: " + CollectionID);
 
                 if(CollectionID == 0)
                 {
@@ -265,15 +265,15 @@ namespace SaveGameModLoader
 
             if (mods == null)
             {
-                Debug.LogError("Invalid Collection ID");
+                SgtLogger.logError("Invalid Collection ID");
                 return; 
             }
 
-            Debug.Log(mods.Length + "< - count");
+            SgtLogger.log(mods.Length + "< - count");
             var handle = SteamUGC.CreateQueryUGCDetailsRequest(mods, (uint)mods.Length);
             if (handle != UGCQueryHandle_t.Invalid)
             {
-                Debug.Log("HandleValid");
+                SgtLogger.log("HandleValid");
                 if (constructable.GetProgress() < 2) { }
                 SteamUGC.SetReturnChildren(handle, true);
                 SteamUGC.SetReturnLongDescription(handle, true);
@@ -282,7 +282,7 @@ namespace SaveGameModLoader
                 
                 if (apiCall != SteamAPICall_t.Invalid)
                 {
-                    //Debug.Log("Apicall: " + apiCall);
+                    //SgtLogger.log("Apicall: " + apiCall);
                     onQueryComplete?.Dispose();
                     onQueryComplete = new CallResult<SteamUGCQueryCompleted_t>(
                         OnUGCDetailsComplete);
@@ -290,7 +290,7 @@ namespace SaveGameModLoader
                 }
                 else
                 {
-                    Debug.LogWarning("Invalid API Call "+handle);
+                    SgtLogger.warning("Invalid API Call "+handle);
                     SteamUGC.ReleaseQueryUGCRequest(handle);
 
                 }
@@ -302,7 +302,7 @@ namespace SaveGameModLoader
         void LoadName(CSteamID id)
         {
             string CollectionAuthor = SteamFriends.GetFriendPersonaName(id);
-            Debug.Log(CollectionAuthor + " AUTOR");
+            SgtLogger.log(CollectionAuthor + " AUTOR");
             if (CollectionAuthor == "" || CollectionAuthor == "[unknown]")
                 personaState = Callback<PersonaStateChange_t>.Create((cb) =>
                 {
@@ -310,7 +310,7 @@ namespace SaveGameModLoader
                     {
                         string CollectionAuthor = SteamFriends.GetFriendPersonaName(id);
 #if DEBUG
-                        Debug.Log(CollectionAuthor + " AUTOR");
+                        SgtLogger.log(CollectionAuthor + " AUTOR");
 #endif
                         if (CollectionAuthor == "" || CollectionAuthor == "[unknown]")
                             LoadName(id);
@@ -337,9 +337,9 @@ namespace SaveGameModLoader
             List<ulong> ModList = new();
 
 #if DEBUG
-            Debug.Log("QUERY CALL " + constructable.GetProgress() + " DONE");
-            Debug.Log(ioError + " <- Error?");
-            Debug.Log(EResult.k_EResultOK + " <- Result?");
+            SgtLogger.log("QUERY CALL " + constructable.GetProgress() + " DONE");
+            SgtLogger.log(ioError + " <- Error?");
+            SgtLogger.log(EResult.k_EResultOK + " <- Result?");
 #endif
             if (!ioError && result == EResult.k_EResultOK)
             {
@@ -354,9 +354,9 @@ namespace SaveGameModLoader
 #if DEBUG
 
 
-                        Debug.Log("Title: " + details.m_rgchTitle);
+                        SgtLogger.log("Title: " + details.m_rgchTitle);
                         if(details.m_unNumChildren>0)
-                            Debug.Log("ChildrenCount: " + details.m_unNumChildren);
+                            SgtLogger.log("ChildrenCount: " + details.m_unNumChildren);
 #endif
 
                         if (details.m_eFileType == EWorkshopFileType.k_EWorkshopFileTypeCollection && constructable.GetProgress() == 0)
@@ -389,12 +389,12 @@ namespace SaveGameModLoader
             onInitialQueryComplete = null;
             onMissingQueryComplete = null;
 #if DEBUG
-            Debug.Log("PRog: " + constructable.GetProgress());
+            SgtLogger.log("PRog: " + constructable.GetProgress());
 #endif
             if (missingIds.Count > 0&&constructable.GetProgress()==3)
             {
 #if DEBUG
-                Debug.Log("Inserting missing IDs");
+                SgtLogger.log("Inserting missing IDs");
 #endif
                 constructable.InsertMissingIDs(missingIds);
 
