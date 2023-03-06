@@ -137,11 +137,11 @@ namespace SaveGameModLoader
         }
 
 
-        void SubToAllMissing(List<KMod.Label> allMissings)
+        void SubActionToAllMissing(List<KMod.Label> allMissings)
         {
             if (allMissings.Count == 0)
                 return;
-            int msInterval = 500;
+            int msInterval = 1000;
 
             SgtLogger.log("SubToAllCalled , missing mods count: " + allMissings.Count);
             for (int i = 0; i < allMissings.Count; ++i)
@@ -198,7 +198,7 @@ namespace SaveGameModLoader
                 WORKSHOPACTIONS.SUBLIST,
                 () =>
                 {
-                    SubToAllMissing(missingMods);
+                    SubActionToAllMissing(missingMods);
                 },
                 global::STRINGS.UI.FRONTEND.NEWGAMESETTINGS.BUTTONS.CANCEL,
                 () => { });

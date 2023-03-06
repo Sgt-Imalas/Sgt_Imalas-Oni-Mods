@@ -92,7 +92,7 @@ namespace SaveGameModLoader
                         public static LocString INFOLIST = "This config is currently missing {0} mods from the game.\nThe following actions are available:";
 
                         public static LocString SUB= "Subscribe to this mod";
-                        public static LocString SUBLIST = "Subscribe to all missing mods.";
+                        public static LocString SUBLIST = "Subscribe to all missing mods";
                         public static LocString VISIT = "Visit Workshop";
                     }
 
