@@ -58,7 +58,7 @@
 		
 	</Target>
   
-  <Target Name="Publicise" AfterTargets="Clean">
+  <Target Name="Publicise" AfterTargets="ILRepack">
     <ItemGroup>
       <PubliciseInputAssemblies
 			   Include="
