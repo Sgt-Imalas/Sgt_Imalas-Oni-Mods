@@ -19,11 +19,12 @@ namespace _1LineCrasher
         [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
         public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
         {
-
+            /// <summary>
+            /// "CLEAN" this project once to generate publicizer files
+            /// </summary>
             public static void Postfix()
             {
-                Debug.Log("And now: Crash!");
-                Debug.Log("This should Crash:"+LogicWattageSensorConfig.kanim);
+                Debug.Log("weeeeeeeeeeeee");
             }
         }
     }

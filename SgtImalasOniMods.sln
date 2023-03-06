@@ -64,7 +64,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiomeClimates", "BiomeClima
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpacedOutRocketryClassic", "SpacedOutRocketryClassic\SpacedOutRocketryClassic.csproj", "{6845B659-6385-49E3-A68B-E7A935A8FD7A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1LineCrasher", "1LineCrasher\1LineCrasher.csproj", "{1F037F3F-1961-48BD-9A89-BAC700BBB414}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1PublicizerInit", "1LineCrasher\1PublicizerInit.csproj", "{1F037F3F-1961-48BD-9A89-BAC700BBB414}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MooMilk", "MooMilk\MooMilk.csproj", "{CACC39A6-AF54-491F-874D-9B3DF7F50AD1}"
 EndProject
