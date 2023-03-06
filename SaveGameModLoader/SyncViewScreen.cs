@@ -11,6 +11,7 @@ namespace SaveGameModLoader
 {
     class SyncViewScreen : KModalScreen
     {
+        public System.Action RefreshAction;
         public bool LoadOnClose = false;
         public override void OnDeactivate()
         {
@@ -76,14 +77,28 @@ namespace SaveGameModLoader
 
             var EntryPos2 = modScreen.Find("Panel").gameObject;
 
-            var missingModListEntry = Util.KInstantiateUI<RectTransform>(workShopButton.gameObject, EntryPos2, true);
+            missingModListEntry = Util.KInstantiateUI<RectTransform>(workShopButton.gameObject, EntryPos2, true);
             missingModListEntry.name = "infoButton";
+
+
+            workShopButton.gameObject.SetActive(false);
+            ReevaluateInfoState();
+
+        }
+
+        RectTransform missingModListEntry;
+        public void ReevaluateInfoState()
+        {
+            RefreshAction+= ()=> ReevaluateInfoState();
+            ModlistManager manager = ModlistManager.Instance;
+            int DiffCount = ModlistManager.ModListDifferencesPublic.Count;
+            int MissingCount = ModlistManager.MissingModsPublic.Count;
             var BtnText = missingModListEntry.Find("Text").GetComponent<LocText>();
             var bgColorImage = missingModListEntry.GetComponent<KImage>();
             var Btn = missingModListEntry.GetComponent<KButton>();
 
+            var CloseModScreenMethod = typeof(ModsScreen).GetMethod("Exit", BindingFlags.NonPublic | BindingFlags.Instance);
 
-            workShopButton.gameObject.SetActive(false);
             if (MissingCount == 0 && DiffCount == 0)
             {
                 BtnText.text = STRINGS.UI.FRONTEND.MODSYNCING.ALLSYNCED;
@@ -95,7 +110,7 @@ namespace SaveGameModLoader
                 Btn.ClearOnClick();
                 Btn.onClick += () =>
                 {
-                    CloseModScreenMethod.Invoke(modScreen.GetComponent<ModsScreen>(), null);
+                    CloseModScreenMethod.Invoke(this.GetComponent<ModsScreen>(), null);
                 };
             }
             else if (MissingCount > 0)
@@ -109,12 +124,12 @@ namespace SaveGameModLoader
                 Btn.ClearOnClick();
                 Btn.onClick += () =>
                 {
-                    ModListScreen.InstantiateMissingModsView(this.gameObject,ModlistManager.MissingModsPublic);
+                    ModListScreen.InstantiateMissingModsView(this.gameObject, ModlistManager.MissingModsPublic, RefreshAction);
+                    ReevaluateInfoState();
                 };
             }
             else
                 UnityEngine.Object.Destroy(missingModListEntry.gameObject);
-
         }
 
     }

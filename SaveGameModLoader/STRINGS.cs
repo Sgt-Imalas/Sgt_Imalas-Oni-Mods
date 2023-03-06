@@ -45,7 +45,7 @@ namespace SaveGameModLoader
 
                     public class SINGLEENTRY
                     {
-                        public static LocString ONESTOREDLIST = " stored Profiles";
+                        public static LocString ONESTOREDLIST = " stored Profile";
                         public static LocString MORESTOREDLISTS = " stored Profiles";
                         public static LocString LATESTCOUNT = "Latest Version contains {0} Mods.";
                     }
@@ -93,7 +93,7 @@ namespace SaveGameModLoader
 
                         public static LocString SUB= "Subscribe to this mod";
                         public static LocString SUBLIST = "Subscribe to all missing mods";
-                        public static LocString VISIT = "Visit Workshop";
+                        public static LocString VISIT = "Visit Workshop page";
                     }
 
                 }

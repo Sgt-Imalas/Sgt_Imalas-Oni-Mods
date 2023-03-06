@@ -111,7 +111,7 @@ namespace SaveGameModLoader
             var mlv = (SingleModListView)window.AddComponent(typeof(SingleModListView));
             mlv.InstantiateParams(exportedList, sis);
         }
-        public static void InstantiateMissingModsView(GameObject parent, List<KMod.Label> mossing)
+        public static void InstantiateMissingModsView(GameObject parent, List<KMod.Label> mossing, System.Action onClose = null)
         {
             var window = Util.KInstantiateUI(ScreenPrefabs.Instance.modsMenu.gameObject, parent);
             //window.SetActive(false);
@@ -124,7 +124,7 @@ namespace SaveGameModLoader
             var oldComp = window.GetComponent<ModsScreen>();
             UnityEngine.Object.Destroy(oldComp);
             var mlv = (SingleModListView)window.AddComponent(typeof(SingleModListView));
-            mlv.InstantiateMissing(mossing);
+            mlv.InstantiateMissing(mossing, onClose);
         }
 
 

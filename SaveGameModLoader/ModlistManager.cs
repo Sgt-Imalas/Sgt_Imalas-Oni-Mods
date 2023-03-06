@@ -65,7 +65,9 @@ namespace SaveGameModLoader
         {
             ActiveSave = activeSaveToLoad;
             IsSyncing = true;
-            AssignModDifferences(mods);
+
+            var assignAction = () => { AssignModDifferences(mods); };
+            assignAction.Invoke();
             var ParentGO = parent == null ? ParentObjectRef : parent;
 
             var modScreen = Util.KInstantiateUI(ScreenPrefabs.Instance.modsMenu.gameObject, ParentGO);
@@ -76,7 +78,7 @@ namespace SaveGameModLoader
 
             var screen = (SyncViewScreen)modScreen.AddComponent(typeof(SyncViewScreen));
             screen.LoadOnClose = LoadOnCLose;
-
+            screen.RefreshAction= assignAction;
         }
         //public void ShowMissingMods()
         //{

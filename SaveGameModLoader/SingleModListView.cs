@@ -9,6 +9,7 @@ using static UtilLibs.UIUtils;
 using static SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST;
 using Steamworks;
 using static SaveGameModLoader.STRINGS.UI.FRONTEND;
+using static STRINGS.BUILDINGS.PREFABS.DOOR.CONTROL_STATE;
 
 namespace SaveGameModLoader
 {
@@ -38,7 +39,7 @@ namespace SaveGameModLoader
             if (SyncButton != null)
                 SyncButton.SetActive(active);
             if (RefreshViewBtn != null)
-                RefreshViewBtn.SetActive(active || IsMissingModsOnly);
+                RefreshViewBtn.SetActive(active);
             if (WorkShopSubBtn != null)
                 WorkShopSubBtn.SetActive(active || IsMissingModsOnly);
             //SyncButton.SetActive(active);
@@ -171,7 +172,8 @@ namespace SaveGameModLoader
             {
                 button.SignalClick(KKeyCode.None);
             }
-
+            if(onClose!=null)
+                onClose.Invoke(); 
         }
 
         async Task SubActionWithDelay(string modID, int ms, bool unsubscribe = false)
@@ -415,13 +417,16 @@ namespace SaveGameModLoader
             Title = exportedList.Key;
             Mods = exportedList.Value;
             ParentWindow = parent;
+            onClose = null;
         }
-        public void InstantiateMissing(List<KMod.Label> missingMods)
+        public void InstantiateMissing(List<KMod.Label> missingMods, System.Action onclose =null)
         {
             Title = STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSTITLE;
             IsMissingModsOnly = true;
             MissingModsList.Clear();
             MissingModsList.AddRange(missingMods);
+            onClose = onclose;
         }
+        System.Action onClose = null;
     }
 }
