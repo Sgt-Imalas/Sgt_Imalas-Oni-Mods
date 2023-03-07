@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static Database.MonumentPartResource;
 using static DetailsScreen;
 
 namespace UtilLibs
@@ -113,13 +114,28 @@ namespace UtilLibs
             if(go.gameObject.TryGetComponent<ToolTip>(out var tt))
                 GameObject.Destroy(tt);
         }
+        public static Transform GetShellWithoutFunction(Transform origin, string subCompName = "", string copyName = "copy")
+        {
+
+            var toCopy = origin.Find(subCompName);
+            if (toCopy == null)
+                return null;
+            var window = Util.KInstantiateUI(toCopy.gameObject);
+            window.SetActive(false);
+            var copy = window.transform;
+            UnityEngine.Object.Destroy(window);
+            var newScreen = Util.KInstantiateUI(copy.gameObject, origin.gameObject, true);
+            newScreen.name = copyName;
+
+            return newScreen.transform;
+        }
 
         public static Transform TryInsertNamedCopy(Transform parent, string subCompName = "", string copyName = "copy")
         {
             var toCopy = parent.Find(subCompName);
             if (toCopy == null)
                 return null;
-            var copy = Util.KInstantiateUI(toCopy.gameObject, parent.gameObject,true);
+            var copy = Util.KInstantiateUI(toCopy.transform.gameObject, parent.gameObject,true);
             copy.name = copyName;
             return copy.transform;
         }
