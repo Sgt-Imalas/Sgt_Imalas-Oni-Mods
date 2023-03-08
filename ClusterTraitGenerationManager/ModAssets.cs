@@ -11,6 +11,6 @@ namespace ClusterTraitGenerationManager
 {
     internal class ModAssets
     {
-
+        Transform Screen;
     }
 }

@@ -31,6 +31,8 @@ namespace ClusterTraitGenerationManager
                 //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
             }
         }
+
+
         /// <summary>
         /// Init. auto translation
         /// </summary>
