@@ -194,6 +194,20 @@ namespace UtilLibs
                 ListAllChildren(child, level + 1);
             }
         }
+        public static void ListAllChildrenPath(Transform parent,string path = "/" ,int level = 0, int maxDepth = 10)
+        {
+            if (level >= maxDepth) return;
+
+            foreach (Transform child in parent)
+            {
+                var newpath = string.Concat(path + child.name + "/");
+                Console.WriteLine(newpath);
+                ListAllChildrenPath(child, newpath, level + 1);
+            }
+        }
+
+
+
 
         public static void ListAllChildrenWithComponents(Transform parent, int level = 0, int maxDepth = 10)
         {
