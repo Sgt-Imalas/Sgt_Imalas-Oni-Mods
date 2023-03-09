@@ -58,7 +58,7 @@ namespace ClusterTraitGenerationManager
 
                 UIUtils.ListAllChildrenWithComponents(copyButton.transform); 
                 UIUtils.TryFindComponent<Image>(copyButton.transform, "FG").sprite = Assets.GetSprite("icon_gear");
-                UIUtils.TryFindComponent<ToolTip>(copyButton.transform, "").toolTip = "OPEN CGSM";
+                UIUtils.TryFindComponent<ToolTip>(copyButton.transform, "").toolTip = "Customize Cluster";
                 UIUtils.TryFindComponent<KButton>(copyButton.transform, "").onClick += () => CGSMClusterManager.InstantiateClusterSelectionView();
                 //ColonyDestinationSelectScreen s;
                 //ProcGen.ClusterLayouts;

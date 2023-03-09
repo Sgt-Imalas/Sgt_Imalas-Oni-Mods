@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static STRINGS.UI.CLUSTERMAP;
 
 namespace ClusterTraitGenerationManager
 {
@@ -73,14 +74,13 @@ namespace ClusterTraitGenerationManager
                 foreach (var World in SettingsCache.worlds.worldCache)
                 {
                     PlanetCategory category = PlanetCategory.Outer;
-                    SgtLogger.l(World.Key + "; " + World.Value.ToString());
+                    //SgtLogger.l(World.Key + "; " + World.Value.ToString());
                     ProcGen.World world = World.Value;
 
                     if ((int)world.skip >= 99)
                         continue;
 
-                    SgtLogger.l(
-                    world.startingBaseTemplate, "START TEMPLATE");
+                    //SgtLogger.l(                   world.startingBaseTemplate, "START TEMPLATE");
                     if (World.Key.Contains("expansion1"))
                     {
                         if (world.startingBaseTemplate != null)
@@ -112,7 +112,43 @@ namespace ClusterTraitGenerationManager
                     }
 
                 }
+
+                foreach(var ClusterLayout in SettingsCache.clusterLayouts.clusterCache)
+                {
+                    SgtLogger.l(ClusterLayout.Key + ":");
+                    foreach(var planet in ClusterLayout.Value.worldPlacements)
+                    {
+                        SgtLogger.l("", "PLANET:");
+                        SgtLogger.l(planet.world,"FilePath"); //Path , aka id
+                        //SgtLogger.l(planet.x.ToString()); //muda
+                        //SgtLogger.l(planet.y.ToString());//muda
+                        //SgtLogger.l(planet.width.ToString());//muda
+                        //SgtLogger.l(planet.height.ToString());//muda
+                        SgtLogger.l(planet.locationType.ToString(),"LocationType"); //startWorld / inner cluster / cluster
+                        SgtLogger.l(planet.startWorld.ToString(),"IsStartWorld"); //isStartWorld?
+                        SgtLogger.l(planet.buffer.ToString(),"min distance to others"); //min distance to other planets
+                        SgtLogger.l(planet.allowedRings.ToString(),"allowed rings to spawn");//Allowed spawn ring (center is ring 0)
+
+                    }
+                    if (ClusterLayout.Value.poiPlacements == null)
+                        continue;
+
+                    foreach (var poi in ClusterLayout.Value.poiPlacements)
+                    {
+                        SgtLogger.l("", "POI:");
+                        foreach (var poi2 in poi.pois)
+                        {
+                            SgtLogger.l(poi2, "Poi in list:");
+                        }
+                        SgtLogger.l(poi.avoidClumping.ToString(),"avoid clumping");
+                        SgtLogger.l(poi.canSpawnDuplicates.ToString(),"Allow Duplicates");
+                        SgtLogger.l(poi.allowedRings.ToString(),"Allowed Rings");
+                        SgtLogger.l(poi.numToSpawn.ToString(),"Number to spawn");
+
+                    }
+                }
             }
+
             return PlanetsAndPOIs;
         }
     }

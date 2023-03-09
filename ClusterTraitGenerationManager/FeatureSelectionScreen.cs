@@ -48,13 +48,15 @@ namespace ClusterTraitGenerationManager
             categoryListContent = transform.Find("Panel/Content/ColumnCategorySelection/LayoutBreaker/Content/Categories/ScrollRect/ContentContainer/Content").rectTransform();
             galleryHeaderLabel = transform.Find("Panel/Content/ColumnItemGallery/LayoutBreaker/Header/Label").GetComponent<LocText>();
 
-            foreach (Transform child in galleryHeaderLabel.transform)
+            foreach (Transform child in galleryGridContent.transform)
             {
+                //SgtLogger.log("ToDelete1: " + child.ToString());
                 GameObject.Destroy(child.gameObject);
             }
-            foreach (Transform child in categoryListContent.transform)
+            foreach (Transform child2 in categoryListContent.transform)
             {
-                GameObject.Destroy(child.gameObject);
+                //SgtLogger.log("ToDelet2e: "+child2.ToString());
+                GameObject.Destroy(child2.gameObject);
             }
 
             ///Details
