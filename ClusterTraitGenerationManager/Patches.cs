@@ -99,7 +99,7 @@ namespace ClusterTraitGenerationManager
                 //CustomLayout
                 if(CGSMClusterManager.CustomCluster != null)
                 {
-                    name = CGSMClusterManager.ClusterID;
+                    name = CGSMClusterManager.CustomClusterID;
                 }
             }
         }

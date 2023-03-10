@@ -128,13 +128,13 @@ namespace ClusterTraitGenerationManager
         }
 
 
-        public const string ClusterID = "CMGM";
+        public const string CustomClusterID = "CMGM";
         public static ClusterLayout GeneratedLayout => GenerateClusterLayoutFromCustomData(CustomCluster);
         public static CustomClusterData CustomCluster;
 
         public static void AddCustomCluster()
         {
-            SettingsCache.clusterLayouts.clusterCache[ClusterID] = GeneratedLayout;
+            SettingsCache.clusterLayouts.clusterCache[CustomClusterID] = GeneratedLayout;
             foreach (var key in SettingsCache.clusterLayouts.clusterCache.Keys)
             {
                 SgtLogger.l(key);
@@ -142,7 +142,7 @@ namespace ClusterTraitGenerationManager
 
             // selectScreen.destinationMapPanel.UpdateDisplayedClusters();
 
-            selectScreen.newGameSettings.SetSetting((SettingConfig)CustomGameSettingConfigs.ClusterLayout, ClusterID);
+            selectScreen.newGameSettings.SetSetting((SettingConfig)CustomGameSettingConfigs.ClusterLayout, CustomClusterID);
             selectScreen.newGameSettings.Refresh();
             foreach (var key in selectScreen.newGameSettings.settings.CurrentQualityLevelsBySetting)
             {
@@ -162,8 +162,8 @@ namespace ClusterTraitGenerationManager
 
             //var Reference = SettingsCache.clusterLayouts.GetClusterData(ClusterID);
             //SgtLogger.log(Reference.ToString());
-            GeneratedLayout.filePath = ClusterID;
-            GeneratedLayout.name = ClusterID;
+            GeneratedLayout.filePath = CustomClusterID;
+            GeneratedLayout.name = CustomClusterID;
             GeneratedLayout.description = "Custom";
             GeneratedLayout.worldPlacements = new List<WorldPlacement>();
 
@@ -203,13 +203,14 @@ namespace ClusterTraitGenerationManager
             CustomCluster = new CustomClusterData();
 
             SgtLogger.l(clusterID, "ClusterID");
-            SgtLogger.l("Contains key: "+SettingsCache.clusterLayouts.clusterCache.Keys.Contains(clusterID), "ClusterID");
+            SgtLogger.l("Contains key: "+SettingsCache.clusterLayouts.clusterCache.ContainsKey(clusterID), "ClusterID");
 
             foreach (var key in SettingsCache.clusterLayouts.clusterCache)
             {
                SgtLogger.l($"{key.Key}: {key.Value}, isEqual=>{key.Key ==clusterID}","Item in dict");
+                    
             };
-            ClusterLayout Reference = SettingsCache.clusterLayouts.clusterCache[ClusterID];
+            ClusterLayout Reference = SettingsCache.clusterLayouts.GetClusterData(clusterID);
             if (true)
             {
                 foreach (WorldPlacement planetPlacement in Reference.worldPlacements)
