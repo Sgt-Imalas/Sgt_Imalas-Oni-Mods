@@ -9,11 +9,20 @@ namespace ClusterTraitGenerationManager
 {
     internal class STRINGS
     {
-        public class BUILDINGS
+        public class WORLDS
         {
-            public class PREFABS
+            public class RANDOMFILLER
             {
-
+                public static LocString NAME = "Random Planet";
+                public static LocString DESCRIPTION = "Random Planet Desc";
+            }
+        }
+        public class CLUSTER_NAMES
+        {
+            public class CGSM
+            {
+                public static LocString NAME = "CGSM Cluster";
+                public static LocString DESCRIPTION = "CGSM Cluster";
             }
         }
     }

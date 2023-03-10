@@ -1,0 +1,295 @@
+name: STRINGS.WORLDS.RANDOMFILLER.NAME
+description: STRINGS.WORLDS.RANDOMFILLER.DESCRIPTION
+asteroidIcon: asteroid_random_start_kanim
+iconScale: 0.6
+
+worldTraitScale: 0.44 # Adjust with worldSize. Traits are tuned to base game world sizes.
+worldsize:
+  X: 120
+  Y: 360
+layoutMethod: PowerTree
+
+fixedTraits:
+  - sunlightMed
+  - cosmicRadiationVeryLow
+
+defaultsOverrides:
+  data:
+    OverworldDensityMin: 20
+    OverworldDensityMax: 20
+    OverworldSampleBehaviour: PoissonDisk
+    
+worldTraitRules:
+  - min: 2
+    max: 4
+    forbiddenTags:
+      - Surface # due to classic worlds having a different surface location
+      - NonStartWorld
+      
+# List all the subworld files to load
+subworldFiles:
+  - name: subworlds/sandstone/SandstoneStart
+  - name: subworlds/sandstone/SandstoneMiniMetal
+    minCount: 1
+  - name: subworlds/sandstone/SandstoneMiniWater
+    minCount: 2
+  - name: subworlds/sandstone/SandstoneMiniAlgae
+    minCount: 2
+  - name: subworlds/marsh/HotMarsh
+    minCount: 5
+  - name: subworlds/jungle/Jungle
+    minCount: 5
+  - name: subworlds/frozen/Frozen
+    minCount: 5
+  - name: subworlds/ocean/Ocean
+    minCount: 5
+  - name: subworlds/magma/Bottom
+  - name: subworlds/oil/OilPockets
+  - name: expansion1::subworlds/space/SpaceWithNoBorder
+  - name: expansion1::subworlds/space/HospitableClassicSurface
+  # Spaced Out biomes
+  - name: expansion1::subworlds/wasteland/WastelandBeetle
+    minCount: 3
+  - name: expansion1::subworlds/wasteland/WastelandWorm
+    minCount: 1
+  - name: expansion1::subworlds/radioactive/UraniumSprinkles
+    minCount: 2
+    maxCount: 4
+
+startSubworldName: subworlds/sandstone/SandstoneStart
+startingBaseTemplate: bases/sandstoneBase
+startingBasePositionHorizontal:
+  min: 0.5
+  max: 0.5
+startingBasePositionVertical:
+  min: 0.55
+  max: 0.55
+
+# Specify where subworlds can spawn. These rules are processed in order and their effects are cumulative.
+unknownCellsAllowedSubworlds: 
+  - tagcommand: Default
+    command: Replace
+    subworldNames:
+      - subworlds/sandstone/SandstoneStart
+  - tagcommand: DistanceFromTag
+    tag: AtStart
+    minDistance: 1
+    maxDistance: 1
+    command: Replace
+    subworldNames:
+      - subworlds/sandstone/SandstoneMiniMetal
+      - subworlds/sandstone/SandstoneMiniWater
+      - subworlds/sandstone/SandstoneMiniAlgae
+  # Ring-1
+  - tagcommand: DistanceFromTag
+    tag: AtStart
+    minDistance: 2
+    maxDistance: 2
+    command: Replace
+    subworldNames:
+      - subworlds/marsh/HotMarsh
+      - subworlds/jungle/Jungle
+      - expansion1::subworlds/wasteland/WastelandBeetle
+  # Ring-2
+  - tagcommand: DistanceFromTag
+    tag: AtStart
+    minDistance: 3
+    maxDistance: 3
+    command: Replace
+    subworldNames:
+      - subworlds/marsh/HotMarsh
+      - subworlds/jungle/Jungle
+      - subworlds/ocean/Ocean
+      - subworlds/frozen/Frozen
+      - expansion1::subworlds/wasteland/WastelandBeetle
+  # Ring-3
+  - tagcommand: DistanceFromTag
+    tag: AtStart
+    minDistance: 4
+    maxDistance: 4
+    command: Replace
+    subworldNames:
+      - subworlds/marsh/HotMarsh
+      - subworlds/jungle/Jungle
+      - subworlds/ocean/Ocean
+      - subworlds/frozen/Frozen
+      - expansion1::subworlds/radioactive/UraniumSprinkles
+      - expansion1::subworlds/wasteland/WastelandWorm
+  # Ring-4
+  - tagcommand: DistanceFromTag
+    tag: AtStart
+    minDistance: 5
+    maxDistance: 999
+    command: Replace
+    subworldNames:
+      - subworlds/marsh/HotMarsh
+      - subworlds/jungle/Jungle
+      - subworlds/ocean/Ocean
+      - subworlds/frozen/Frozen
+      - expansion1::subworlds/radioactive/UraniumSprinkles
+  # Core
+  - tagcommand: AtTag
+    tag: AtDepths
+    command: Replace
+    subworldNames:
+      - subworlds/magma/Bottom
+  # Above Core
+  - tagcommand: DistanceFromTag
+    tag: AtDepths
+    minDistance: 1
+    maxDistance: 1
+    command: Replace
+    subworldNames:
+      - subworlds/oil/OilPockets
+  # Space
+  - tagcommand: DistanceFromTag
+    tag: AtSurface
+    minDistance: 0
+    maxDistance: 1
+    command: Replace
+    subworldNames:
+      - expansion1::subworlds/space/SpaceWithNoBorder
+  # Surface
+  - tagcommand: DistanceFromTag
+    tag: AtSurface
+    minDistance: 2
+    maxDistance: 2
+    command: Replace
+    subworldNames:
+      - expansion1::subworlds/space/HospitableClassicSurface
+
+worldTemplateRules:  
+  # Jungle
+  - names:
+      - poi/jungle/geyser_steam
+    listRule: GuaranteeOne
+    priority: 100
+    allowedCellsFilter:
+      - command: Replace
+        zoneTypes: [ToxicJungle]
+  - names:
+      - poi/jungle/geyser_methane
+      - poi/jungle/geyser_chlorine
+    listRule: GuaranteeOne
+    priority: 100
+    allowedCellsFilter:
+      - command: Replace
+        zoneTypes: [ToxicJungle]
+  # Marsh
+  - names:
+      - poi/hotmarsh/geyser_steam
+    listRule: GuaranteeOne
+    priority: 100
+    allowedCellsFilter:
+      - command: Replace
+        zoneTypes: [BoggyMarsh]
+  - names:
+      - poi/hotmarsh/geyser_methane
+    listRule: GuaranteeOne
+    priority: 100
+    allowedCellsFilter:
+      - command: Replace
+        zoneTypes: [BoggyMarsh]
+  # Frozen
+  - names:
+      - poi/frozen/heatsink_a
+      - poi/frozen/heatsink_b
+      - poi/frozen/heatsink_c
+      - poi/frozen/heatsink_d
+    listRule: GuaranteeSomeTryMore
+    someCount: 1
+    moreCount: 2
+    priority: 100 
+    allowedCellsFilter:
+      - command: Replace
+        zoneTypes: [FrozenWastes]
+  # Ocean
+  - names:
+      - poi/poi_ocean_geyser_saltwater
+    listRule: GuaranteeOne
+    priority: 100 
+    allowedCellsFilter:
+      - command: Replace
+        zoneTypes: [Ocean]
+  # Oil
+  - names:
+    - poi/oil/small_oilpockets_geyser_a
+    - poi/oil/small_oilpockets_geyser_b
+    - poi/oil/small_oilpockets_geyser_c
+    - poi/oil/small_oilpockets_geyser_d
+    - poi/oil/small_oilpockets_geyser_e
+    - poi/oil/small_oilpockets_geyser_f
+    - poi/oil/small_oilpockets_geyser_g
+    - poi/oil/small_oilpockets_geyser_h
+    listRule: GuaranteeOne
+    times: 3
+    allowDuplicates: true # be more flexible due to high temperature borders
+    priority: 100
+    allowedCellsFilter:
+      - command: Replace
+        zoneTypes: [OilField]
+  # Gravitas
+  - names:
+    - expansion1::poi/warp/sender
+    - expansion1::poi/warp/receiver
+    - expansion1::poi/warp/teleporter_no_oil
+    listRule: GuaranteeAll
+    priority: 90
+    allowedCellsFilter:
+      - command: Replace
+        tagcommand: DistanceFromTag
+        tag: AtStart
+        minDistance: 3
+        maxDistance: 4
+      - command: IntersectWith
+        zoneTypes: [ Ocean, BoggyMarsh, ToxicJungle, Wasteland ]
+      - command: ExceptWith
+        tagcommand: AtTag
+        tag: NoGravitasFeatures
+  - names:
+      - expansion1::poi/genericGravitas/poi_office
+    listRule: GuaranteeAll
+    priority: 90
+    allowedCellsFilter:
+      - command: Replace
+        tagcommand: DistanceFromTag
+        tag: AtStart
+        minDistance: 2
+        maxDistance: 99
+      - command: ExceptWith
+        tagcommand: AtTag
+        tag: NoGravitasFeatures
+      - command: ExceptWith
+        tagcommand: DistanceFromTag
+        tag: AtDepths
+        minDistance: 0
+        maxDistance: 2
+      - command: ExceptWith
+        tagcommand: DistanceFromTag
+        tag: AtSurface
+        minDistance: 0
+        maxDistance: 2
+  # Generic Geysers
+  - names:
+    - geysers/generic
+    listRule: TryOne
+    times: 12
+    ruleId: GenericGeysers
+    allowDuplicates: true
+    allowedCellsFilter:
+      - command: Replace
+        tagcommand: NotAtTag
+        tag: NoGlobalFeatureSpawning
+  # Uranium Geode
+  - names:
+    - expansion1::poi/radioactive/uranium_geode1
+    listRule: GuaranteeOne
+    useRelaxedFiltering: true
+    allowExtremeTemperatureOverlap: true # has Abyssalite border
+    priority: 200
+    allowedCellsFilter:
+      - command: Replace
+        tagcommand: DistanceFromTag
+        tag: AtStart
+        minDistance: 1
+        maxDistance: 1

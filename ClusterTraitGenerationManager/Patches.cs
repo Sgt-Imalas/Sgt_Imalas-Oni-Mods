@@ -56,10 +56,11 @@ namespace ClusterTraitGenerationManager
                 var InsertLocation = __instance.shuffleButton.transform.parent; //__instance.transform.Find("Layout/DestinationInfo/Content/InfoColumn/Horiz/Section - Destination/DestinationDetailsHeader/");
                 var copyButton = Util.KInstantiateUI(__instance.shuffleButton.gameObject, InsertLocation.gameObject, true); //UIUtils.GetShellWithoutFunction(InsertLocation, "CoordinateContainer", "cgsm");
 
-                UIUtils.ListAllChildrenWithComponents(copyButton.transform); 
+                UIUtils.ListAllChildrenPath(__instance.transform); 
+
                 UIUtils.TryFindComponent<Image>(copyButton.transform, "FG").sprite = Assets.GetSprite("icon_gear");
                 UIUtils.TryFindComponent<ToolTip>(copyButton.transform, "").toolTip = "Customize Cluster";
-                UIUtils.TryFindComponent<KButton>(copyButton.transform, "").onClick += () => CGSMClusterManager.InstantiateClusterSelectionView();
+                UIUtils.TryFindComponent<KButton>(copyButton.transform, "").onClick += () => CGSMClusterManager.InstantiateClusterSelectionView(__instance);
                 
                 CGSMClusterManager.selectScreen = __instance;
 
@@ -73,10 +74,22 @@ namespace ClusterTraitGenerationManager
             {
                 CGSMClusterManager.PrefabTemplate = cluster.beltPath;
                 CGSMClusterManager.CreateCustomClusterFrom(cluster.beltPath);
-                SgtLogger.l("GOT CALLED TO: "+cluster.beltPath,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                SgtLogger.l("GOT CALLED TO: "+cluster.beltPath,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            }
+        }
+        [HarmonyPatch(typeof(NewGameFlowScreen))]
+        [HarmonyPatch(nameof(NewGameFlowScreen.OnKeyDown))]
+        public static class CatchGoingBack
+        {
+            public static bool Prefix(KButtonEvent e)
+            {
+                if(CGSMClusterManager.Screen != null && CGSMClusterManager.Screen.activeSelf)
+                    return false;
+                return true;
             }
         }
         
+
         [HarmonyPatch(typeof(Cluster))]
         [HarmonyPatch(typeof(Cluster), MethodType.Constructor)]
         [HarmonyPatch(new Type[] { typeof(string), typeof(int ), typeof(List<string> ), typeof(bool ), typeof(bool ) })]

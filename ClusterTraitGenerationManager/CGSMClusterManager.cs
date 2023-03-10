@@ -15,15 +15,15 @@ namespace ClusterTraitGenerationManager
 {
     internal class CGSMClusterManager
     {
-        static GameObject Screen = null;
+        public static GameObject Screen = null;
 
         public static ColonyDestinationSelectScreen selectScreen;
 
         public static string PrefabTemplate = string.Empty;
 
-        public static void InstantiateClusterSelectionView(System.Action onClose = null)
+        public static void InstantiateClusterSelectionView(ColonyDestinationSelectScreen parent, System.Action onClose = null)
         {
-            if (Screen == null)
+            if (true)//Screen == null)
             {
                 var defaultCluster = PrefabTemplate != string.Empty ? PrefabTemplate : "expansion1::clusters/SandstoneStartCluster";
                 CreateCustomClusterFrom(defaultCluster);
@@ -35,29 +35,56 @@ namespace ClusterTraitGenerationManager
                 window.SetActive(false);
                 var copy = window.transform;
                 UnityEngine.Object.Destroy(window);
-                var newScreen = Util.KInstantiateUI(copy.gameObject, Global.Instance.globalCanvas);
+                var newScreen = Util.KInstantiateUI(copy.gameObject, parent.transform.parent.gameObject, true);
+                selectScreen = parent;
                 newScreen.name = "ClusterSelectionView";
-                newScreen.AddComponent(typeof(FeatureSelectionScreen));
+                var cmp = newScreen.AddComponent(typeof(FeatureSelectionScreen));
+
                 Screen = newScreen;
-                onClose += ()=>AddCustomCluster();
-                LockerNavigator.Instance.PushScreen(newScreen, onClose);
+                //onClose += ()=>AddCustomCluster();
+
+                //UIUtils.ListAllChildren(Screen.transform);
+
+                //LockerNavigator.Instance.PushScreen(newScreen, onClose);
             }
             else
             {
                 SgtLogger.l("not new", "SCREEN");
-                LockerNavigator.Instance.PushScreen(Screen, onClose);
+                //LockerNavigator.Instance.PushScreen(Screen, onClose);
             }
+
+            Screen.gameObject.SetActive(true);
             Screen.GetComponent<FeatureSelectionScreen>().RefreshView();
 
+        }
+
+        enum SpawnChance
+        {
+            None,
+            Perhaps,
+            Guaranteed
         }
 
         public struct PlanetoidGridItem
         {
             public string id;
             public PlanetCategory category;
+
             public Sprite planetSprite;
             public ProcGen.World world;
+
             public int maxAllowed = 1;
+            public int minRing = 0;
+            public int maxRing = 0;
+
+            public PlanetoidGridItem(string id, PlanetCategory category, Sprite sprite, int allowed)
+            {
+                this.id = id;
+                this.category = category;
+                this.planetSprite = sprite;
+                this.maxAllowed = allowed;
+            }
+
             public PlanetoidGridItem(string id, PlanetCategory category, Sprite sprite = null, ProcGen.World world = null, int allowed = 1)
             {
                 this.id = id;
@@ -72,8 +99,7 @@ namespace ClusterTraitGenerationManager
             Starter,
             Teleport,
             Outer,
-            POI,
-            Derelict
+            POI
         }
 
         public const string ClusterID = "CMGM";
@@ -82,34 +108,44 @@ namespace ClusterTraitGenerationManager
         public static void AddCustomCluster()
         {
             SettingsCache.clusterLayouts.clusterCache[ClusterID] = CustomLayout;
-            foreach(var key in SettingsCache.clusterLayouts.clusterCache.Keys)
+            foreach (var key in SettingsCache.clusterLayouts.clusterCache.Keys)
             {
                 SgtLogger.l(key);
             }
+
+            // selectScreen.destinationMapPanel.UpdateDisplayedClusters();
 
             selectScreen.newGameSettings.SetSetting((SettingConfig)CustomGameSettingConfigs.ClusterLayout, ClusterID);
             selectScreen.newGameSettings.Refresh();
             foreach (var key in selectScreen.newGameSettings.settings.CurrentQualityLevelsBySetting)
             {
-                SgtLogger.l(key.Key +"; "+key.Value) ;
+                SgtLogger.l(key.Key + "; " + key.Value);
             }
+            int seed = int.Parse(selectScreen.newGameSettings.GetSetting(CustomGameSettingConfigs.WorldgenSeed));
+
+            //selectScreen.destinationMapPanel.UpdateDisplayedClusters();
+            //selectScreen.destinationMapPanel.clusterKeys.Add(ClusterID);
+            //selectScreen.destinationMapPanel.SelectCluster(ClusterID, seed);
         }
 
+        public static List<PlanetoidGridItem> CurrentPlanets = new List<PlanetoidGridItem>();
 
         public static void CreateCustomClusterFrom(string clusterID)
         {
             SgtLogger.log(clusterID);
             CustomLayout = new ClusterLayout();
+            PopulateClusterDict();
 
             var Reference = SettingsCache.clusterLayouts.GetClusterData(clusterID);
             SgtLogger.log(Reference.ToString());
-            CustomLayout.filePath = "";
+            CustomLayout.filePath = clusterID;
             CustomLayout.name = clusterID;
             CustomLayout.description = "Custom";
             CustomLayout.worldPlacements = new List<WorldPlacement>();
             foreach (var world in Reference.worldPlacements)
             {
                 CustomLayout.worldPlacements.Add(world);
+                CurrentPlanets.Add(PopulatePlanetoidDict().Find(planet => planet.id == world.world));
             }
             CustomLayout.poiPlacements = new List<SpaceMapPOIPlacement>();
             foreach (var poi in Reference.poiPlacements)
@@ -118,45 +154,96 @@ namespace ClusterTraitGenerationManager
             }
             CustomLayout.numRings = Reference.numRings;
             CustomLayout.difficulty = Reference.difficulty;
-            CustomLayout.requiredDlcId= Reference.requiredDlcId;
-            CustomLayout.forbiddenDlcId= Reference.forbiddenDlcId;
+            CustomLayout.requiredDlcId = Reference.requiredDlcId;
+            CustomLayout.forbiddenDlcId = Reference.forbiddenDlcId;
             CustomLayout.startWorldIndex = Reference.startWorldIndex;
+            CustomLayout.clusterCategory = Reference.clusterCategory;
         }
 
         public static void TogglePlanetoid(PlanetoidGridItem item)
         {
-            var existing = CustomLayout.worldPlacements.Find(planet => planet.world == item.world.filePath);
-            if(existing != null)
+            SgtLogger.l(CurrentPlanets.Count + ", " + CurrentPlanets);
+            List<PlanetoidGridItem> ToRemoves = new List<PlanetoidGridItem>();
+            if (item.category == PlanetCategory.Starter)
             {
-                CustomLayout.worldPlacements.Remove(existing);
+                foreach (var planet in CurrentPlanets)
+                {
+                    if (planet.category == PlanetCategory.Starter)
+                    {
+                        ToRemoves.Add(planet);
+                    }
+                }
             }
-            else
+            else if (item.category == PlanetCategory.Teleport)
+            {
+                foreach (var planet in CurrentPlanets)
+                {
+                    if (planet.category == PlanetCategory.Teleport)
+                    {
+                        ToRemoves.Add(planet);
+                    }
+                }
+            }
+
+            var ExistingCustom = CurrentPlanets.Find(item2 => item.Equals(item2));
+
+            if (!CurrentPlanets.Contains(item))
+                CurrentPlanets.Add(item);
+
+
+            foreach (var planetToRemoveFromList in ToRemoves)
+            {
+                var existing = CustomLayout.worldPlacements.Find(planet => planet.world == planetToRemoveFromList.world.filePath);
+                if (existing != null)
+                {
+                    CustomLayout.worldPlacements.Remove(existing);
+                }
+                CurrentPlanets.Remove(planetToRemoveFromList);
+            }
+
+
+
+            //var existing = CustomLayout.worldPlacements.Find(planet => planet.world == item.world.filePath);
+
+
+
+
+
             {
                 var newItem = new WorldPlacement();
                 newItem.world = item.world.filePath;
                 newItem.startWorld = item.category == PlanetCategory.Starter ? true : false;
                 newItem.locationType = item.category == PlanetCategory.Starter ? LocationType.Startworld : LocationType.Cluster;
-                CustomLayout.worldPlacements.Add(newItem);
+                if (item.category == PlanetCategory.Starter)
+                {
+
+                    CustomLayout.worldPlacements.Insert(0, newItem);
+                }
+                else
+                {
+                    CustomLayout.worldPlacements.Add(newItem);
+                }
+
             }
         }
 
 
         static List<PlanetoidGridItem> PlanetsAndPOIs = null;
 
-        static Dictionary<string,List<string>> PredefinedClusters = null;
+        static Dictionary<string, List<string>> PredefinedClusters = null;
 
 
         public static List<string> GetActivePlanetsCluster()
         {
             PopulateClusterDict();
             var planetPaths = new List<string>();
-            foreach(var planet in CustomLayout.worldPlacements)
+            foreach (var planet in CustomLayout.worldPlacements)
             {
                 planetPaths.Add(planet.world);
             }
             return planetPaths;
 
-            if (PrefabTemplate==null)
+            if (PrefabTemplate == null)
                 return PredefinedClusters.FirstOrDefault().Value;
             else
             {
@@ -180,7 +267,7 @@ namespace ClusterTraitGenerationManager
                     {
                         continue;
                     }
-                        SgtLogger.l(ClusterLayout.Key + ":");
+                    SgtLogger.l(ClusterLayout.Key + ":");
                     var planetList = new List<string>();
 
                     foreach (var planet in ClusterLayout.Value.worldPlacements)

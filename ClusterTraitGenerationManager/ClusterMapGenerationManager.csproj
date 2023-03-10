@@ -43,4 +43,31 @@
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <None Update="ModAssets\anim\worldgen\asteroid_random_start_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\worldgen\asteroid_random_start_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\worldgen\asteroid_random_start_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\dlc\expansion1\worldgen\clusters\CustomClusterVanilla.yaml">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\dlc\expansion1\worldgen\clusters\CustomCluster.yaml">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\dlc\expansion1\worldgen\worlds\RandomFillerWarp.yaml">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\dlc\expansion1\worldgen\worlds\RandomFillerStart.yaml">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\dlc\expansion1\worldgen\worlds\RandomFiller.yaml">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
 </Project>

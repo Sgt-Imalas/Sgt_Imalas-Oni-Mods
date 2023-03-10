@@ -1,4 +1,5 @@
-﻿using ClusterTraitGenerationManager.TemplateComponents;
+﻿using ClusterTraitGenerationManager.SettinPrefabComps;
+using ClusterTraitGenerationManager.TemplateComponents;
 using Database;
 using System;
 using System.Collections.Generic;
@@ -36,7 +37,8 @@ namespace ClusterTraitGenerationManager
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
-
+            this.canBackoutWithRightClick= true;
+            this.SetHasFocus( true);
             if (LockerNavigator.Instance.kleiInventoryScreen.TryGetComponent<KleiInventoryScreen>(out var cmp))
             {
                 PlanetoidCategoryPrefab = cmp.categoryRowPrefab;
@@ -61,12 +63,68 @@ namespace ClusterTraitGenerationManager
 
             ///Details
             selectionHeaderLabel = transform.Find("Panel/Content/ColumnSelectedDetails/LayoutBreaker/Header/Label").GetComponent<LocText>();
-            permitVis = transform.Find("Panel/Content/ColumnSelectedDetails/LayoutBreaker/Content/Content/KleiPermitDioramaVis").GetComponent<KleiPermitDioramaVis>();
-            selectionNameLabel = transform.Find("Panel/Content/ColumnSelectedDetails/LayoutBreaker/Content/Content/DescriptionSection/ScrollRect/Content/NameLabel").GetComponent<LocText>();
-            selectionDescriptionLabel = transform.Find("Panel/Content/ColumnSelectedDetails/LayoutBreaker/Content/Content/DescriptionSection/ScrollRect/Content/DescriptionLabel").GetComponent<LocText>();
-            selectionFacadeForLabel = transform.Find("Panel/Content/ColumnSelectedDetails/LayoutBreaker/Content/Content/DescriptionSection/ScrollRect/Content/FacadeForLabel").GetComponent<LocText>();
-            selectionRarityDetailsLabel = transform.Find("Panel/Content/ColumnSelectedDetails/LayoutBreaker/Content/Content/DescriptionSection/ScrollRect/Content/RarityDetailsLabel").GetComponent<LocText>();
-            selectionOwnedCount = transform.Find("Panel/Content/ColumnSelectedDetails/LayoutBreaker/Content/Content/DescriptionSection/ScrollRect/Content/OwnedCountLabel").GetComponent<LocText>();
+            UIUtils.FindAndDestroy(transform, "Panel/Content/ColumnSelectedDetails/LayoutBreaker/Content/Content/KleiPermitDioramaVis"); 
+            UIUtils.FindAndDestroy(transform, "Panel/Content/ColumnSelectedDetails/LayoutBreaker/Content/Content/DescriptionSection");
+
+
+
+            //selectionNameLabel = transform.Find("Panel/Content/ColumnSelectedDetails/LayoutBreaker/Content/Content/DescriptionSection/ScrollRect/Content/NameLabel").GetComponent<LocText>();
+            //selectionDescriptionLabel = transform.Find("Panel/Content/ColumnSelectedDetails/LayoutBreaker/Content/Content/DescriptionSection/ScrollRect/Content/DescriptionLabel").GetComponent<LocText>();
+            //selectionFacadeForLabel = transform.Find("Panel/Content/ColumnSelectedDetails/LayoutBreaker/Content/Content/DescriptionSection/ScrollRect/Content/FacadeForLabel").GetComponent<LocText>();
+            //selectionRarityDetailsLabel = transform.Find("Panel/Content/ColumnSelectedDetails/LayoutBreaker/Content/Content/DescriptionSection/ScrollRect/Content/RarityDetailsLabel").GetComponent<LocText>();
+            //selectionOwnedCount = transform.Find("Panel/Content/ColumnSelectedDetails/LayoutBreaker/Content/Content/DescriptionSection/ScrollRect/Content/OwnedCountLabel").GetComponent<LocText>();
+
+
+            //var info = selectScreen.transform.Find("Layout/DestinationInfo/Content/InfoColumn/Horiz/Section - SelectedAsteroidDetails"); 
+            var SliderPrefab = selectScreen.customSettings.transform.Find("Customization/Content/ScrollRect/ScrollContent/Columns/Prefab_SliderSetting");
+            var CyclePrefab = selectScreen.customSettings.transform.Find("Customization/Content/ScrollRect/ScrollContent/Columns/Prefab_CycleSetting");
+            var SeedPrefab = selectScreen.customSettings.transform.Find("Customization/Content/ScrollRect/ScrollContent/Columns/Prefab_SeedSetting");
+            var CheckboxPrefab = selectScreen.customSettings.transform.Find("Customization/Content/ScrollRect/ScrollContent/Columns/Prefab_Checkbox");
+
+            var infoInsert = transform.Find("Panel/Content/ColumnSelectedDetails/LayoutBreaker/Content/Content");
+
+            //var PerPlanetSettings = Util.KInstantiateUI(infoInsert.gameObject, infoInsert.gameObject, true);
+            //var NormalSettings = Util.KInstantiateUI(infoInsert.gameObject, infoInsert.gameObject, true);
+
+
+            SgtLogger.l("CYCLEPREFAB");
+            UIUtils.ListAllChildrenWithComponents(CyclePrefab);
+            SgtLogger.l("SLIDER");
+            UIUtils.ListAllChildrenWithComponents(SliderPrefab);
+            SgtLogger.l("SEED");
+            UIUtils.ListAllChildrenWithComponents(SeedPrefab);
+            SgtLogger.l("CHECK");
+            UIUtils.ListAllChildrenWithComponents(CheckboxPrefab);
+
+           // var Slider = Util.KInstantiateUI(SliderPrefab.gameObject, infoInsert.gameObject, true);
+           // var Cycle = Util.KInstantiateUI(CyclePrefab.gameObject, infoInsert.gameObject, true);
+           // var Seed = Util.KInstantiateUI(SeedPrefab.gameObject, infoInsert.gameObject, true);
+
+            var Check = Util.KInstantiateUI(CheckboxPrefab.gameObject, infoInsert.gameObject, true);
+            UIUtils.TryChangeText(Check.transform, "Label", "Enabled");
+            var PlanetEnabled = Check.AddComponent<CheckBoxHandler>();
+            PlanetEnabled.SetAction(() => ToggleCurrentSelected());
+
+            // UIUtils.FindAndRemove<NewGameSettingList>(Cycle.transform);
+            // UIUtils.FindAndRemove<NewGameSettingSeed>(Seed.transform);
+
+
+
+            var Buttons = Util.KInstantiateUI(selectScreen.transform.Find("Layout/Buttons").gameObject, infoInsert.gameObject, true);
+
+            //UIUtils.ListAllChildren(Buttons.transform);
+            
+            UIUtils.AddActionToButton(Buttons.transform, "BackButton", () => Show(false));
+            UIUtils.AddActionToButton(Buttons.transform, "LaunchButton", () => {
+                AddCustomCluster();
+                CGSMClusterManager.selectScreen.LaunchClicked(); 
+            }
+            );
+
+            UIUtils.FindAndDisable(Buttons.transform, "CustomizeButton");
+            //UIUtils.AddActionToButton(Buttons.transform, "CustomizeButton", () => OpenCustomSettingsAbove());
+
+            
 
             //closeButton.onClick += delegate
             //{
@@ -79,6 +137,15 @@ namespace ClusterTraitGenerationManager
                 maxCellSize = 96f,
                 targetGridLayout = galleryGridContent.GetComponent<GridLayoutGroup>()
             };
+            UIUtils.FindAndDestroy(infoInsert, "KleiPermitDioramaVis"); 
+            UIUtils.ListAllChildren(infoInsert);
+        }
+
+        public void ToggleCurrentSelected()
+        {
+            CGSMClusterManager.TogglePlanetoid(SelectedPlanet);
+            this.RefreshGallery();
+            this.RefreshDetails();
         }
 
         public override float GetSortKey() => 20f;
@@ -119,18 +186,20 @@ namespace ClusterTraitGenerationManager
                 //SgtLogger.log(SelectedCategory.ToString()+" == ? "+ key.category, "CATEGORY");
                 ///Is in category?
                 multiToggle1.gameObject.SetActive(key.category == this.SelectedCategory);
+                bool PlanetIsInList = activePlanets.Contains(key.id);
 
                 ///Enabled?
-                multiToggle1.ChangeState(activePlanets.Contains(key.id) ? 1 : 0);
+                multiToggle1.ChangeState(key.Equals(SelectedPlanet) ? 1 : 0);
+
                 HierarchyReferences component = multiToggle1.gameObject.GetComponent<HierarchyReferences>();
                 LocText reference1 = component.GetReference<LocText>("OwnedCountLabel");
                 Image reference2 = component.GetReference<Image>("IsUnownedOverlay");
-
+                reference2.gameObject.SetActive(!PlanetIsInList);
                 galleryGridButton.Value.gameObject.SetActive(galleryGridButton.Key.category == this.SelectedCategory);
 
                 int ownedCount = 1;
                 reference1.text = global::STRINGS.UI.KLEI_INVENTORY_SCREEN.ITEM_PLAYER_OWNED_AMOUNT_ICON.Replace("{OwnedCount}", ownedCount.ToString());
-                //reference1.gameObject.SetActive(ownedCount > 0);
+                reference1.gameObject.SetActive(PlanetIsInList);
             }
         }
 
@@ -167,7 +236,6 @@ namespace ClusterTraitGenerationManager
         /// Details
         /// </summary>
         private LocText selectionHeaderLabel;
-        private KleiPermitDioramaVis permitVis;
         private LocText selectionNameLabel;
         private LocText selectionDescriptionLabel;
         private LocText selectionFacadeForLabel;
@@ -183,7 +251,6 @@ namespace ClusterTraitGenerationManager
             if (selectedPermit.world == null)
             {
                 name = new StringEntry("Random Planet");
-                description = new StringEntry("Let RNGsus decide.");
             }
             else
             {
@@ -193,10 +260,10 @@ namespace ClusterTraitGenerationManager
 
 
             this.selectionHeaderLabel.SetText(name);
-            this.selectionNameLabel.SetText(name);
-            this.selectionDescriptionLabel.gameObject.SetActive(!string.IsNullOrWhiteSpace(description));
-            this.selectionDescriptionLabel.SetText(description);
-            selectionDescriptionLabel.staticLayout = true;
+            //this.selectionNameLabel.SetText(name);
+            //this.selectionDescriptionLabel.gameObject.SetActive(!string.IsNullOrWhiteSpace(description));
+            //this.selectionDescriptionLabel.SetText(description);
+            //selectionDescriptionLabel.staticLayout = true;
             //this.selectionFacadeForLabel.gameObject.SetActive(selectedPermit.planetSprite !=null));
             //this.selectionFacadeForLabel.SetText(presentationInfo.facadeFor);
             string text = global::STRINGS.UI.KLEI_INVENTORY_SCREEN.ITEM_RARITY_DETAILS.Replace("{RarityName}", selectedPermit.category.ToString());
@@ -204,12 +271,12 @@ namespace ClusterTraitGenerationManager
             //this.selectionRarityDetailsLabel.gameObject.SetActive(!string.IsNullOrWhiteSpace(text));            
             //this.selectionRarityDetailsLabel.SetText(text);
 
-            this.selectionOwnedCount.gameObject.SetActive(true);
+            //this.selectionOwnedCount.gameObject.SetActive(true);
             int ownedCount = 1;
-            if (ownedCount > 0)
-                this.selectionOwnedCount.SetText(global::STRINGS.UI.KLEI_INVENTORY_SCREEN.ITEM_PLAYER_OWNED_AMOUNT.Replace("{OwnedCount}", ownedCount.ToString()));
-            else
-                this.selectionOwnedCount.SetText(KleiItemsUI.WrapWithColor((string)global::STRINGS.UI.KLEI_INVENTORY_SCREEN.ITEM_PLAYER_OWN_NONE, KleiItemsUI.TEXT_COLOR__PERMIT_NOT_OWNED));
+            //if (ownedCount > 0)
+            //    this.selectionOwnedCount.SetText(global::STRINGS.UI.KLEI_INVENTORY_SCREEN.ITEM_PLAYER_OWNED_AMOUNT.Replace("{OwnedCount}", ownedCount.ToString()));
+            //else
+            //    this.selectionOwnedCount.SetText(KleiItemsUI.WrapWithColor((string)global::STRINGS.UI.KLEI_INVENTORY_SCREEN.ITEM_PLAYER_OWN_NONE, KleiItemsUI.TEXT_COLOR__PERMIT_NOT_OWNED));
         }
 
         #region buttonRecycling
@@ -240,6 +307,12 @@ namespace ClusterTraitGenerationManager
             this.galleryGridLayouter.ImmediateSizeGridToScreenResolution();
 
 
+           
+
+            foreach (var Planet in PopulatePlanetoidDict())
+            {
+                this.AddItemToGallery(Planet);
+            }
             foreach (PlanetCategory category in (PlanetCategory[])Enum.GetValues(typeof(PlanetCategory)))
             {
                 AddPermitCategory(category);
@@ -249,11 +322,6 @@ namespace ClusterTraitGenerationManager
                 AddItemToGallery(RandomPlanet);
             }
             ;
-
-            foreach (var Planet in PopulatePlanetoidDict())
-            {
-                this.AddItemToGallery(Planet);
-            }
         }
 
         List<PlanetoidGridItem> Planets = new List<PlanetoidGridItem>();
@@ -284,7 +352,6 @@ namespace ClusterTraitGenerationManager
             component2.onClick = (System.Action)(() => this.SelectItem(planet));
 
             planetoidGridButtons[planet] = component2;
-            SgtLogger.l("added: " + planet.ToString()+"count: "+planetoidGridButtons.Count);
             //this.SetItemClickUISound(planet, component2);
             KleiItemsUI.ConfigureTooltipOn(availableGridButton, default(Option<string>));
             availableGridButton.SetActive(true);
@@ -292,11 +359,11 @@ namespace ClusterTraitGenerationManager
         public void SelectItem(PlanetoidGridItem planet)
         {
             SelectedPlanet = planet;
-            CGSMClusterManager.TogglePlanetoid(planet);
+            //CGSMClusterManager.TogglePlanetoid(planet);
             ///Select Planet
             this.RefreshGallery();
             this.RefreshDetails();
-            AddCustomCluster();
+            //AddCustomCluster();
         }
 
         PlanetoidGridItem SelectedPlanet;
@@ -313,7 +380,7 @@ namespace ClusterTraitGenerationManager
         {
             this.SelectedCategory = category;
             this.galleryHeaderLabel.SetText("Planet"); //TODO: set Planet Type header 
-            //this.SelectDefaultCategoryItem();
+            this.SelectDefaultCategoryItem();
             this.RefreshView();
         }
         private void SelectDefaultCategoryItem()
@@ -334,7 +401,6 @@ namespace ClusterTraitGenerationManager
             foreach (KeyValuePair<PlanetCategory, MultiToggle> categoryToggle in this.categoryToggles)
                 UnityEngine.Object.Destroy((UnityEngine.Object)categoryToggle.Value.gameObject);
             this.categoryToggles.Clear();
-
         }
         private void AddPermitCategory(PlanetCategory planetCategory)
         {
