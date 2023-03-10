@@ -118,6 +118,7 @@ namespace ClusterTraitGenerationManager
                 this.placementPOI = placement2;
                 return this;
             }
+            #region EqualityComparer
 
             public StarmapItem(string id, StarmapItemCategory category, Sprite sprite = null)
             {
@@ -125,25 +126,40 @@ namespace ClusterTraitGenerationManager
                 this.category = category;
                 this.planetSprite = sprite;
             }
+            public override bool Equals(System.Object obj)
+            {
+                return obj is StarmapItem c && this == c;
+            }
+            public override int GetHashCode()
+            {
+                return id.GetHashCode() ^ category.GetHashCode();
+            }
+            public static bool operator ==(StarmapItem x, StarmapItem y)
+            {
+                return x.id == y.id && x.category == y.category;
+            }
+            public static bool operator !=(StarmapItem x, StarmapItem y)
+            {
+                return !(x == y);
+            }
+#endregion
+
         }
 
 
         public const string CustomClusterID = "CMGM";
-        public static ClusterLayout GeneratedLayout => GenerateClusterLayoutFromCustomData(CustomCluster);
+        public static ClusterLayout GeneratedLayout => GenerateClusterLayoutFromCustomData();
         public static CustomClusterData CustomCluster;
 
         public static void AddCustomCluster()
         {
-            SettingsCache.clusterLayouts.clusterCache[CustomClusterID] = GeneratedLayout;
-            foreach (var key in SettingsCache.clusterLayouts.clusterCache.Keys)
-            {
-                SgtLogger.l(key);
-            }
+            SettingsCache.clusterLayouts.clusterCache[CustomClusterID] = GenerateClusterLayoutFromCustomData();
 
             // selectScreen.destinationMapPanel.UpdateDisplayedClusters();
 
             selectScreen.newGameSettings.SetSetting((SettingConfig)CustomGameSettingConfigs.ClusterLayout, CustomClusterID);
             selectScreen.newGameSettings.Refresh();
+
             foreach (var key in selectScreen.newGameSettings.settings.CurrentQualityLevelsBySetting)
             {
                 SgtLogger.l(key.Key + "; " + key.Value);
@@ -155,43 +171,44 @@ namespace ClusterTraitGenerationManager
             //selectScreen.destinationMapPanel.SelectCluster(ClusterID, seed);
         }
 
-        public static ClusterLayout GenerateClusterLayoutFromCustomData(CustomClusterData data)
+        public static ClusterLayout GenerateClusterLayoutFromCustomData()
         {
+            SgtLogger.l("Started generating custom cluster");
             var layout = new ClusterLayout();
-            GetPredefinedClusters();
 
             //var Reference = SettingsCache.clusterLayouts.GetClusterData(ClusterID);
             //SgtLogger.log(Reference.ToString());
-            GeneratedLayout.filePath = CustomClusterID;
-            GeneratedLayout.name = CustomClusterID;
-            GeneratedLayout.description = "Custom";
-            GeneratedLayout.worldPlacements = new List<WorldPlacement>();
+
+            layout.filePath = CustomClusterID;
+            layout.name = CustomClusterID;
+            layout.description = CustomClusterID;
+            layout.worldPlacements = new List<WorldPlacement>();
 
 
-            layout.worldPlacements.Add(data.StarterPlanet.placement);
+            layout.worldPlacements.Add(CustomCluster.StarterPlanet.placement);
 
-            layout.worldPlacements.Add(data.WarpPlanet.placement);
+            layout.worldPlacements.Add(CustomCluster.WarpPlanet.placement);
 
-
-
-            foreach (var world in data.OuterPlanets)
+            foreach (var world in CustomCluster.OuterPlanets)
             {
                 layout.worldPlacements.Add(world.placement);
             }
 
             layout.poiPlacements = new List<SpaceMapPOIPlacement>();
 
-            foreach (var poi in data.POIs)
+            foreach (var poi in CustomCluster.POIs)
             {
                 layout.poiPlacements.Add(poi.placementPOI);
             }
 
-            layout.numRings = data.Rings;
+            layout.numRings = CustomCluster.Rings;
             //layout.difficulty = Reference.difficulty;
             //layout.requiredDlcId = Reference.requiredDlcId;
             //layout.forbiddenDlcId = Reference.forbiddenDlcId;
             layout.startWorldIndex = 0;// Reference.startWorldIndex;
-            //CustomLayout.clusterCategory = Reference.clusterCategory;
+                                       //CustomLayout.clusterCategory = Reference.clusterCategory;
+
+            SgtLogger.l("Finished generating custom cluster");
             return layout;
         }
 
@@ -202,14 +219,6 @@ namespace ClusterTraitGenerationManager
            // clusterID = clusterID.Trim();
             CustomCluster = new CustomClusterData();
 
-            SgtLogger.l(clusterID, "ClusterID");
-            SgtLogger.l("Contains key: "+SettingsCache.clusterLayouts.clusterCache.ContainsKey(clusterID), "ClusterID");
-
-            foreach (var key in SettingsCache.clusterLayouts.clusterCache)
-            {
-               SgtLogger.l($"{key.Key}: {key.Value}, isEqual=>{key.Key ==clusterID}","Item in dict");
-                    
-            };
             ClusterLayout Reference = SettingsCache.clusterLayouts.GetClusterData(clusterID);
             if (true)
             {
@@ -235,7 +244,7 @@ namespace ClusterTraitGenerationManager
                     }
                 }
             }
-            SgtLogger.l(Reference == null ? "REF NULL" : Reference.ToString(), "CLUSTERLAYOUT");
+            //SgtLogger.l(Reference == null ? "REF NULL" : Reference.ToString(), "CLUSTERLAYOUT");
         }
 
         public static void TogglePlanetoid(StarmapItem item)
@@ -262,6 +271,13 @@ namespace ClusterTraitGenerationManager
                     return;
                 }
             }
+            SgtLogger.l(item.id+"; has it: "+ CustomCluster.OuterPlanets.Contains(item), "THIS");
+
+            foreach (var outerPlanet in CustomCluster.OuterPlanets)
+            {
+                SgtLogger.l(outerPlanet.id,"OTHERS");
+            }
+            
 
             if (!CustomCluster.OuterPlanets.Contains(item))
                 CustomCluster.OuterPlanets.Add(item);
@@ -286,6 +302,7 @@ namespace ClusterTraitGenerationManager
             public StarmapItem WarpPlanet { get; set; }
             public List<StarmapItem> OuterPlanets = new List<StarmapItem>();
             public List<StarmapItem> POIs = new List<StarmapItem>();
+
         }
 
         static Dictionary<string, StarmapItem> PlanetsAndPOIs = null;
