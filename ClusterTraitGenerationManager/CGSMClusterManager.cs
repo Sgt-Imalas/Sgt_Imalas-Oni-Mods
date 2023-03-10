@@ -191,8 +191,6 @@ namespace ClusterTraitGenerationManager
 
             foreach (var world in CustomCluster.OuterPlanets)
             {
-                world.placement.width = 100;
-                world.placement.height = 100;
                 layout.worldPlacements.Add(world.placement);
             }
 
