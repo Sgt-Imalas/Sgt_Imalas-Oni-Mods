@@ -60,34 +60,36 @@ namespace ClusterTraitGenerationManager
                 UIUtils.TryFindComponent<Image>(copyButton.transform, "FG").sprite = Assets.GetSprite("icon_gear");
                 UIUtils.TryFindComponent<ToolTip>(copyButton.transform, "").toolTip = "Customize Cluster";
                 UIUtils.TryFindComponent<KButton>(copyButton.transform, "").onClick += () => CGSMClusterManager.InstantiateClusterSelectionView();
-                //ColonyDestinationSelectScreen s;
-                //ProcGen.ClusterLayouts;
-                //ProcGen.ClusterLayout;
-                //  UIUtils.ListAllChildren(copyButton);
+                
+                CGSMClusterManager.selectScreen = __instance;
 
-                //SelectionFrame
-                //BG
-                //Header
-                //Label
-                //Anim
-                //Border
-                //- BG(1)
-                //- Image
-                //- Anim
-
-                // UIUtils.FindAndDisable(copyButton, "Anim");
-                //  UIUtils.FindAndDisable(copyButton, "Border/Anim");
-
-                //vanillaButtonHeader = component.GetReference<RectTransform>("HeaderBackground").GetComponent<Image>();
-                //vanillalButtonSelectionFrame = component.GetReference<RectTransform>("SelectionFrame").GetComponent<Image>();
-                //MultiToggle multiToggle = vanillaButton;
-                //multiToggle.onEnter = (System.Action)Delegate.Combine(multiToggle.onEnter, new System.Action(OnHoverEnterVanilla));
-                //MultiToggle multiToggle2 = vanillaButton;
-                //multiToggle2.onExit = (System.Action)Delegate.Combine(multiToggle2.onExit, new System.Action(OnHoverExitVanilla));
-                //MultiToggle multiToggle3 = vanillaButton;
-                //multiToggle3.onClick = (System.Action)Delegate.Combine(multiToggle3.onClick, new System.Action(OnClickVanilla));
+            }
+        }
+        [HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
+        [HarmonyPatch(nameof(ColonyDestinationSelectScreen.OnAsteroidClicked))]
+        public static class OnAsteroidClickedHandler
+        {
+            public static void Postfix(ColonyDestinationAsteroidBeltData cluster)
+            {
+                CGSMClusterManager.PrefabTemplate = cluster.beltPath;
+                CGSMClusterManager.CreateCustomClusterFrom(cluster.beltPath);
+                SgtLogger.l("GOT CALLED TO: "+cluster.beltPath,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
             }
         }
         
+        [HarmonyPatch(typeof(Cluster))]
+        [HarmonyPatch(typeof(Cluster), MethodType.Constructor)]
+        [HarmonyPatch(new Type[] { typeof(string), typeof(int ), typeof(List<string> ), typeof(bool ), typeof(bool ) })]
+        public static class ApplyCustomGen
+        {
+            public static void Prefix(ref string name)
+            {
+                //CustomLayout
+                if(CGSMClusterManager.CustomLayout != null)
+                {
+                    name = CGSMClusterManager.ClusterID;
+                }
+            }
+        }
     }
 }

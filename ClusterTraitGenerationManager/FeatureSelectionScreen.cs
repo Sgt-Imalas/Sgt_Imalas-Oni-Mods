@@ -94,6 +94,8 @@ namespace ClusterTraitGenerationManager
             base.OnKeyDown(e);
         }
 
+
+
         public override void OnSpawn()
         {
             base.OnSpawn();
@@ -101,7 +103,13 @@ namespace ClusterTraitGenerationManager
 
         private void RefreshGallery()
         {
-            SgtLogger.warning(planetoidGridButtons.Count.ToString(),"CUND");
+            //SgtLogger.warning(planetoidGridButtons.Count.ToString(),"CUND");
+            var activePlanets = CGSMClusterManager.GetActivePlanetsCluster();
+            //Debug.Log(activePlanets.Count + "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            //foreach(var planet in activePlanets )
+            //{
+            //    SgtLogger.l(planet, "PLANET");
+            //}
 
             foreach (KeyValuePair<PlanetoidGridItem, MultiToggle> galleryGridButton in planetoidGridButtons)
             {
@@ -113,7 +121,7 @@ namespace ClusterTraitGenerationManager
                 multiToggle1.gameObject.SetActive(key.category == this.SelectedCategory);
 
                 ///Enabled?
-                multiToggle1.ChangeState(true ? 1 : 0);
+                multiToggle1.ChangeState(activePlanets.Contains(key.id) ? 1 : 0);
                 HierarchyReferences component = multiToggle1.gameObject.GetComponent<HierarchyReferences>();
                 LocText reference1 = component.GetReference<LocText>("OwnedCountLabel");
                 Image reference2 = component.GetReference<Image>("IsUnownedOverlay");
@@ -147,7 +155,7 @@ namespace ClusterTraitGenerationManager
                 this.RefreshDetails();
             }));
         }
-        void RefreshView()
+        public void RefreshView()
         {
             this.RefreshCategories();
             this.RefreshGallery();
@@ -284,9 +292,11 @@ namespace ClusterTraitGenerationManager
         public void SelectItem(PlanetoidGridItem planet)
         {
             SelectedPlanet = planet;
+            CGSMClusterManager.TogglePlanetoid(planet);
             ///Select Planet
             this.RefreshGallery();
             this.RefreshDetails();
+            AddCustomCluster();
         }
 
         PlanetoidGridItem SelectedPlanet;
@@ -303,7 +313,7 @@ namespace ClusterTraitGenerationManager
         {
             this.SelectedCategory = category;
             this.galleryHeaderLabel.SetText("Planet"); //TODO: set Planet Type header 
-            this.SelectDefaultCategoryItem();
+            //this.SelectDefaultCategoryItem();
             this.RefreshView();
         }
         private void SelectDefaultCategoryItem()
