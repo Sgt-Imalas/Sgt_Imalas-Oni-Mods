@@ -88,26 +88,25 @@ namespace ClusterTraitGenerationManager
 
 
             SgtLogger.l("CYCLEPREFAB");
-            //UIUtils.ListAllChildrenWithComponents(CyclePrefab);
+            UIUtils.ListAllChildrenWithComponents(CyclePrefab);
             SgtLogger.l("SLIDER");
-            //UIUtils.ListAllChildrenWithComponents(SliderPrefab);
+            UIUtils.ListAllChildrenWithComponents(SliderPrefab);
             SgtLogger.l("SEED");
-            //UIUtils.ListAllChildrenWithComponents(SeedPrefab);
+            UIUtils.ListAllChildrenWithComponents(SeedPrefab);
             SgtLogger.l("CHECK");
-            //UIUtils.ListAllChildrenWithComponents(CheckboxPrefab);
+            UIUtils.ListAllChildrenWithComponents(CheckboxPrefab);
 
-           // var Slider = Util.KInstantiateUI(SliderPrefab.gameObject, infoInsert.gameObject, true);
-           // var Cycle = Util.KInstantiateUI(CyclePrefab.gameObject, infoInsert.gameObject, true);
-           // var Seed = Util.KInstantiateUI(SeedPrefab.gameObject, infoInsert.gameObject, true);
+            // var Slider = Util.KInstantiateUI(SliderPrefab.gameObject, infoInsert.gameObject, true);
+            // var Cycle = Util.KInstantiateUI(CyclePrefab.gameObject, infoInsert.gameObject, true);
+            // var Seed = Util.KInstantiateUI(SeedPrefab.gameObject, infoInsert.gameObject, true);
 
+
+            ///PlanetEnabledCheckbox
             var Check = Util.KInstantiateUI(CheckboxPrefab.gameObject, infoInsert.gameObject, true);
             UIUtils.TryChangeText(Check.transform, "Label", "Enabled");
             var PlanetEnabled = Check.AddComponent<CheckBoxHandler>();
             PlanetEnabled.SetAction(() => ToggleCurrentSelected());
-
-            // UIUtils.FindAndRemove<NewGameSettingList>(Cycle.transform);
-            // UIUtils.FindAndRemove<NewGameSettingSeed>(Seed.transform);
-
+            customPlanetoidSettings.Add(PlanetEnabled);
 
 
             var Buttons = Util.KInstantiateUI(selectScreen.transform.Find("Layout/Buttons").gameObject, infoInsert.gameObject, true);
@@ -140,6 +139,7 @@ namespace ClusterTraitGenerationManager
             UIUtils.FindAndDestroy(infoInsert, "KleiPermitDioramaVis"); 
             //UIUtils.ListAllChildren(infoInsert);
         }
+        List<ICustomPlanetoidSetting> customPlanetoidSettings = new List<ICustomPlanetoidSetting>();
 
         public void ToggleCurrentSelected()
         {
@@ -257,8 +257,6 @@ namespace ClusterTraitGenerationManager
                 Strings.TryGet(selectedPermit.world.name, out name);
                 Strings.TryGet(selectedPermit.world.description, out description);
             }
-
-
             this.selectionHeaderLabel.SetText(name);
             //this.selectionNameLabel.SetText(name);
             //this.selectionDescriptionLabel.gameObject.SetActive(!string.IsNullOrWhiteSpace(description));
@@ -277,6 +275,10 @@ namespace ClusterTraitGenerationManager
             //    this.selectionOwnedCount.SetText(global::STRINGS.UI.KLEI_INVENTORY_SCREEN.ITEM_PLAYER_OWNED_AMOUNT.Replace("{OwnedCount}", ownedCount.ToString()));
             //else
             //    this.selectionOwnedCount.SetText(KleiItemsUI.WrapWithColor((string)global::STRINGS.UI.KLEI_INVENTORY_SCREEN.ITEM_PLAYER_OWN_NONE, KleiItemsUI.TEXT_COLOR__PERMIT_NOT_OWNED));
+
+            customPlanetoidSettings[0].HandleData(CustomCluster.HasPlanet(selectedPermit));
+            
+        
         }
 
         #region buttonRecycling

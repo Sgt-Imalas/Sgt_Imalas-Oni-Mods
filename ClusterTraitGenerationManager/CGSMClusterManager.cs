@@ -191,6 +191,8 @@ namespace ClusterTraitGenerationManager
 
             foreach (var world in CustomCluster.OuterPlanets)
             {
+                world.placement.width = 100;
+                world.placement.height = 100;
                 layout.worldPlacements.Add(world.placement);
             }
 
@@ -303,6 +305,11 @@ namespace ClusterTraitGenerationManager
             public List<StarmapItem> OuterPlanets = new List<StarmapItem>();
             public List<StarmapItem> POIs = new List<StarmapItem>();
 
+            public bool HasPlanet(StarmapItem item)
+            {
+                return StarterPlanet == item ||WarpPlanet == item || OuterPlanets.Contains(item);
+            }
+
         }
 
         static Dictionary<string, StarmapItem> PlanetsAndPOIs = null;
@@ -331,13 +338,13 @@ namespace ClusterTraitGenerationManager
                 PlanetoidDict();
                 PredefinedClusters = new Dictionary<string, List<string>>();
 
-                foreach (var ClusterLayout in SettingsCache.clusterLayouts.clusterCache)
+                foreach (var ClusterLayout in SettingsCache.clusterLayouts.clusterCache.ToList())
                 {
                     if (!ClusterLayout.Key.Contains("expansion1"))
                     {
                         continue;
                     }
-                    SgtLogger.l(ClusterLayout.Key,"PREDEFINEDCLUSTER");
+                    //SgtLogger.l(ClusterLayout.Key,"PREDEFINEDCLUSTER");
                     var planetList = new List<string>();
 
                     foreach (var planetPlacement in ClusterLayout.Value.worldPlacements)
