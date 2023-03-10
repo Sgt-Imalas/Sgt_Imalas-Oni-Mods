@@ -56,7 +56,7 @@ namespace ClusterTraitGenerationManager
                 var InsertLocation = __instance.shuffleButton.transform.parent; //__instance.transform.Find("Layout/DestinationInfo/Content/InfoColumn/Horiz/Section - Destination/DestinationDetailsHeader/");
                 var copyButton = Util.KInstantiateUI(__instance.shuffleButton.gameObject, InsertLocation.gameObject, true); //UIUtils.GetShellWithoutFunction(InsertLocation, "CoordinateContainer", "cgsm");
 
-                UIUtils.ListAllChildrenPath(__instance.transform); 
+               // UIUtils.ListAllChildrenPath(__instance.transform); 
 
                 UIUtils.TryFindComponent<Image>(copyButton.transform, "FG").sprite = Assets.GetSprite("icon_gear");
                 UIUtils.TryFindComponent<ToolTip>(copyButton.transform, "").toolTip = "Customize Cluster";
@@ -72,7 +72,6 @@ namespace ClusterTraitGenerationManager
         {
             public static void Postfix(ColonyDestinationAsteroidBeltData cluster)
             {
-                CGSMClusterManager.PrefabTemplate = cluster.beltPath;
                 CGSMClusterManager.CreateCustomClusterFrom(cluster.beltPath);
                 SgtLogger.l("GOT CALLED TO: "+cluster.beltPath,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
             }
@@ -98,7 +97,7 @@ namespace ClusterTraitGenerationManager
             public static void Prefix(ref string name)
             {
                 //CustomLayout
-                if(CGSMClusterManager.CustomLayout != null)
+                if(CGSMClusterManager.CustomCluster != null)
                 {
                     name = CGSMClusterManager.ClusterID;
                 }

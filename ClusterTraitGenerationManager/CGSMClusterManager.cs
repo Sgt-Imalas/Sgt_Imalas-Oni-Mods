@@ -1,5 +1,6 @@
 ﻿using Klei.CustomSettings;
 using ProcGen;
+using ProcGenGame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static ClusterTraitGenerationManager.CGSMClusterManager;
 using static ProcGen.WorldPlacement;
+using static STRINGS.CLUSTER_NAMES;
 using static STRINGS.UI.CLUSTERMAP;
 using static STRINGS.UI.FRONTEND;
 
@@ -19,14 +22,17 @@ namespace ClusterTraitGenerationManager
 
         public static ColonyDestinationSelectScreen selectScreen;
 
-        public static string PrefabTemplate = string.Empty;
 
         public static void InstantiateClusterSelectionView(ColonyDestinationSelectScreen parent, System.Action onClose = null)
         {
             if (true)//Screen == null)
             {
-                var defaultCluster = PrefabTemplate != string.Empty ? PrefabTemplate : "expansion1::clusters/SandstoneStartCluster";
-                CreateCustomClusterFrom(defaultCluster);
+                if(CustomCluster == null)
+                {
+                    ///Change to check for moonlet/vanilla start
+                    var defaultCluster = CustomCluster == null ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster"; 
+                    CreateCustomClusterFrom(defaultCluster);
+                }
 
                 LockerNavigator.Instance.PushScreen(LockerNavigator.Instance.kleiInventoryScreen);
                 LockerNavigator.Instance.PopScreen();
@@ -58,56 +64,77 @@ namespace ClusterTraitGenerationManager
 
         }
 
-        enum SpawnChance
+        public enum SpawnChance
         {
-            None,
-            Perhaps,
-            Guaranteed
+            None = 0,
+            Perhaps = 50,
+            Guaranteed = 100,
         }
-
-        public struct PlanetoidGridItem
-        {
-            public string id;
-            public PlanetCategory category;
-
-            public Sprite planetSprite;
-            public ProcGen.World world;
-
-            public int maxAllowed = 1;
-            public int minRing = 0;
-            public int maxRing = 0;
-
-            public PlanetoidGridItem(string id, PlanetCategory category, Sprite sprite, int allowed)
-            {
-                this.id = id;
-                this.category = category;
-                this.planetSprite = sprite;
-                this.maxAllowed = allowed;
-            }
-
-            public PlanetoidGridItem(string id, PlanetCategory category, Sprite sprite = null, ProcGen.World world = null, int allowed = 1)
-            {
-                this.id = id;
-                this.category = category;
-                this.world = world;
-                this.planetSprite = sprite;
-                this.maxAllowed = allowed;
-            }
-        }
-        public enum PlanetCategory
+        public enum StarmapItemCategory
         {
             Starter,
-            Teleport,
+            Warp,
             Outer,
             POI
         }
 
+        public struct StarmapItem
+        {
+            public string id;
+            public StarmapItemCategory category;
+
+            public Sprite planetSprite;
+            public ProcGen.World world;
+            public WorldPlacement placement;
+            public SpaceMapPOIPlacement placementPOI;
+
+
+            public int maxAllowed = 1;
+            public int minRing = 0;
+            public int maxRing = 0;
+            public SpawnChance SpawnChance = SpawnChance.Guaranteed;
+
+            public StarmapItem(string id, StarmapItemCategory category, Sprite sprite, int allowed, SpawnChance _SpawnChance)
+            {
+                this.id = id;
+                this.category = category;
+                this.planetSprite = sprite;
+                this.maxAllowed = allowed;
+                SpawnChance = _SpawnChance;
+            }
+            public StarmapItem MakeItemPlanet(ProcGen.World world, WorldPlacement placement = null)
+            {
+                this.placement = placement;
+                this.world = world;
+                return this;
+            }
+            public StarmapItem AddItemWorldPlacement(WorldPlacement placement)
+            {
+                this.placement = placement;
+                return this;
+            }
+            public StarmapItem MakeItemPOI(SpaceMapPOIPlacement placement2)
+            {
+                this.placementPOI = placement2;
+                return this;
+            }
+
+            public StarmapItem(string id, StarmapItemCategory category, Sprite sprite = null)
+            {
+                this.id = id;
+                this.category = category;
+                this.planetSprite = sprite;
+            }
+        }
+
+
         public const string ClusterID = "CMGM";
-        public static ClusterLayout CustomLayout;
+        public static ClusterLayout GeneratedLayout => GenerateClusterLayoutFromCustomData(CustomCluster);
+        public static CustomClusterData CustomCluster;
 
         public static void AddCustomCluster()
         {
-            SettingsCache.clusterLayouts.clusterCache[ClusterID] = CustomLayout;
+            SettingsCache.clusterLayouts.clusterCache[ClusterID] = GeneratedLayout;
             foreach (var key in SettingsCache.clusterLayouts.clusterCache.Keys)
             {
                 SgtLogger.l(key);
@@ -128,137 +155,162 @@ namespace ClusterTraitGenerationManager
             //selectScreen.destinationMapPanel.SelectCluster(ClusterID, seed);
         }
 
-        public static List<PlanetoidGridItem> CurrentPlanets = new List<PlanetoidGridItem>();
+        public static ClusterLayout GenerateClusterLayoutFromCustomData(CustomClusterData data)
+        {
+            var layout = new ClusterLayout();
+            GetPredefinedClusters();
+
+            //var Reference = SettingsCache.clusterLayouts.GetClusterData(ClusterID);
+            //SgtLogger.log(Reference.ToString());
+            GeneratedLayout.filePath = ClusterID;
+            GeneratedLayout.name = ClusterID;
+            GeneratedLayout.description = "Custom";
+            GeneratedLayout.worldPlacements = new List<WorldPlacement>();
+
+
+            layout.worldPlacements.Add(data.StarterPlanet.placement);
+
+            layout.worldPlacements.Add(data.WarpPlanet.placement);
+
+
+
+            foreach (var world in data.OuterPlanets)
+            {
+                layout.worldPlacements.Add(world.placement);
+            }
+
+            layout.poiPlacements = new List<SpaceMapPOIPlacement>();
+
+            foreach (var poi in data.POIs)
+            {
+                layout.poiPlacements.Add(poi.placementPOI);
+            }
+
+            layout.numRings = data.Rings;
+            //layout.difficulty = Reference.difficulty;
+            //layout.requiredDlcId = Reference.requiredDlcId;
+            //layout.forbiddenDlcId = Reference.forbiddenDlcId;
+            layout.startWorldIndex = 0;// Reference.startWorldIndex;
+            //CustomLayout.clusterCategory = Reference.clusterCategory;
+            return layout;
+        }
 
         public static void CreateCustomClusterFrom(string clusterID)
         {
-            SgtLogger.log(clusterID);
-            CustomLayout = new ClusterLayout();
-            PopulateClusterDict();
+            GetPredefinedClusters();
 
-            var Reference = SettingsCache.clusterLayouts.GetClusterData(clusterID);
-            SgtLogger.log(Reference.ToString());
-            CustomLayout.filePath = clusterID;
-            CustomLayout.name = clusterID;
-            CustomLayout.description = "Custom";
-            CustomLayout.worldPlacements = new List<WorldPlacement>();
-            foreach (var world in Reference.worldPlacements)
+           // clusterID = clusterID.Trim();
+            CustomCluster = new CustomClusterData();
+
+            SgtLogger.l(clusterID, "ClusterID");
+            SgtLogger.l("Contains key: "+SettingsCache.clusterLayouts.clusterCache.Keys.Contains(clusterID), "ClusterID");
+
+            foreach (var key in SettingsCache.clusterLayouts.clusterCache)
             {
-                CustomLayout.worldPlacements.Add(world);
-                CurrentPlanets.Add(PopulatePlanetoidDict().Find(planet => planet.id == world.world));
-            }
-            CustomLayout.poiPlacements = new List<SpaceMapPOIPlacement>();
-            foreach (var poi in Reference.poiPlacements)
+               SgtLogger.l($"{key.Key}: {key.Value}, isEqual=>{key.Key ==clusterID}","Item in dict");
+            };
+            ClusterLayout Reference = SettingsCache.clusterLayouts.clusterCache[ClusterID];
+            if (true)
             {
-                CustomLayout.poiPlacements.Add(poi);
+                foreach (WorldPlacement planetPlacement in Reference.worldPlacements)
+                {
+                    string planetpath = planetPlacement.world;
+                    SgtLogger.l(planetpath, "PlanetPath");
+                    if (PlanetoidDict().TryGetValue(planetpath, out var FoundPlanet))
+                    {
+                        FoundPlanet.AddItemWorldPlacement(planetPlacement);
+                        switch (FoundPlanet.category)
+                        {
+                            case StarmapItemCategory.Starter:
+                                CustomCluster.StarterPlanet = FoundPlanet;
+                                break;
+                            case StarmapItemCategory.Warp:
+                                CustomCluster.WarpPlanet = FoundPlanet;
+                                break;
+                            case StarmapItemCategory.Outer:
+                                CustomCluster.OuterPlanets.Add(FoundPlanet);
+                                break;
+                        }
+                    }
+                }
             }
-            CustomLayout.numRings = Reference.numRings;
-            CustomLayout.difficulty = Reference.difficulty;
-            CustomLayout.requiredDlcId = Reference.requiredDlcId;
-            CustomLayout.forbiddenDlcId = Reference.forbiddenDlcId;
-            CustomLayout.startWorldIndex = Reference.startWorldIndex;
-            CustomLayout.clusterCategory = Reference.clusterCategory;
+            SgtLogger.l(Reference == null ? "REF NULL" : Reference.ToString(), "CLUSTERLAYOUT");
         }
 
-        public static void TogglePlanetoid(PlanetoidGridItem item)
+        public static void TogglePlanetoid(StarmapItem item)
         {
-            SgtLogger.l(CurrentPlanets.Count + ", " + CurrentPlanets);
-            List<PlanetoidGridItem> ToRemoves = new List<PlanetoidGridItem>();
-            if (item.category == PlanetCategory.Starter)
+            //only one starter at a time
+            if (item.category == StarmapItemCategory.Starter)
             {
-                foreach (var planet in CurrentPlanets)
+                if (item.Equals(CustomCluster.StarterPlanet))
+                    return;
+                else
                 {
-                    if (planet.category == PlanetCategory.Starter)
-                    {
-                        ToRemoves.Add(planet);
-                    }
+                    CustomCluster.StarterPlanet = item;
+                    return;
                 }
             }
-            else if (item.category == PlanetCategory.Teleport)
+            ///only one teleport asteroid at a time (TODO; change that maybe)
+            else if (item.category == StarmapItemCategory.Warp)
             {
-                foreach (var planet in CurrentPlanets)
+                if (item.Equals(CustomCluster.WarpPlanet))
+                    return;
+                else
                 {
-                    if (planet.category == PlanetCategory.Teleport)
-                    {
-                        ToRemoves.Add(planet);
-                    }
+                    CustomCluster.WarpPlanet = item;
+                    return;
                 }
             }
 
-            var ExistingCustom = CurrentPlanets.Find(item2 => item.Equals(item2));
+            if (!CustomCluster.OuterPlanets.Contains(item))
+                CustomCluster.OuterPlanets.Add(item);
+            else
+                CustomCluster.OuterPlanets.Remove(item);
 
-            if (!CurrentPlanets.Contains(item))
-                CurrentPlanets.Add(item);
-
-
-            foreach (var planetToRemoveFromList in ToRemoves)
-            {
-                var existing = CustomLayout.worldPlacements.Find(planet => planet.world == planetToRemoveFromList.world.filePath);
-                if (existing != null)
-                {
-                    CustomLayout.worldPlacements.Remove(existing);
-                }
-                CurrentPlanets.Remove(planetToRemoveFromList);
-            }
-
-
+            return;
 
             //var existing = CustomLayout.worldPlacements.Find(planet => planet.world == item.world.filePath);
 
-
-
-
-
-            {
-                var newItem = new WorldPlacement();
-                newItem.world = item.world.filePath;
-                newItem.startWorld = item.category == PlanetCategory.Starter ? true : false;
-                newItem.locationType = item.category == PlanetCategory.Starter ? LocationType.Startworld : LocationType.Cluster;
-                if (item.category == PlanetCategory.Starter)
-                {
-
-                    CustomLayout.worldPlacements.Insert(0, newItem);
-                }
-                else
-                {
-                    CustomLayout.worldPlacements.Add(newItem);
-                }
-
-            }
+            var newItem = new WorldPlacement();
+            newItem.world = item.world.filePath;
+            newItem.startWorld = item.category == StarmapItemCategory.Starter ? true : false;
+            newItem.locationType = item.category == StarmapItemCategory.Starter ? LocationType.Startworld : LocationType.Cluster;
+            newItem.allowedRings = new MinMaxI(2, 4);
         }
 
+        public class CustomClusterData
+        {
+            public int Rings { get; set; }
+            public StarmapItem StarterPlanet { get; set; }
+            public StarmapItem WarpPlanet { get; set; }
+            public List<StarmapItem> OuterPlanets = new List<StarmapItem>();
+            public List<StarmapItem> POIs = new List<StarmapItem>();
+        }
 
-        static List<PlanetoidGridItem> PlanetsAndPOIs = null;
+        static Dictionary<string, StarmapItem> PlanetsAndPOIs = null;
 
         static Dictionary<string, List<string>> PredefinedClusters = null;
 
 
         public static List<string> GetActivePlanetsCluster()
         {
-            PopulateClusterDict();
+            GetPredefinedClusters();
             var planetPaths = new List<string>();
-            foreach (var planet in CustomLayout.worldPlacements)
+            planetPaths.Add(CustomCluster.StarterPlanet.id);
+            planetPaths.Add(CustomCluster.WarpPlanet.id);
+
+            foreach (var planet in CustomCluster.OuterPlanets)
             {
-                planetPaths.Add(planet.world);
+                planetPaths.Add(planet.id);
             }
             return planetPaths;
-
-            if (PrefabTemplate == null)
-                return PredefinedClusters.FirstOrDefault().Value;
-            else
-            {
-                if (PredefinedClusters.TryGetValue(PrefabTemplate, out var list))
-                {
-                    return list;
-                }
-                else return PredefinedClusters.FirstOrDefault().Value;
-            }
         }
 
-        public static void PopulateClusterDict()
+        public static Dictionary<string, List<string>> GetPredefinedClusters()
         {
             if (PredefinedClusters == null)
             {
+                PlanetoidDict();
                 PredefinedClusters = new Dictionary<string, List<string>>();
 
                 foreach (var ClusterLayout in SettingsCache.clusterLayouts.clusterCache)
@@ -267,23 +319,30 @@ namespace ClusterTraitGenerationManager
                     {
                         continue;
                     }
-                    SgtLogger.l(ClusterLayout.Key + ":");
+                    SgtLogger.l(ClusterLayout.Key,"PREDEFINEDCLUSTER");
                     var planetList = new List<string>();
 
-                    foreach (var planet in ClusterLayout.Value.worldPlacements)
+                    foreach (var planetPlacement in ClusterLayout.Value.worldPlacements)
                     {
-                        SgtLogger.l("", "PLANET:");
-                        SgtLogger.l(planet.world, "FilePath"); //Path , aka id
+                        //SgtLogger.l("", "PLANET:");
+                        //SgtLogger.l(planetPlacement.world, "FilePath");
+
+                        //Path , aka id
                         //SgtLogger.l(planet.x.ToString()); //muda
                         //SgtLogger.l(planet.y.ToString());//muda
                         //SgtLogger.l(planet.width.ToString());//muda
                         //SgtLogger.l(planet.height.ToString());//muda
-                        SgtLogger.l(planet.locationType.ToString(), "LocationType"); //startWorld / inner cluster / cluster
-                        SgtLogger.l(planet.startWorld.ToString(), "IsStartWorld"); //isStartWorld?
-                        SgtLogger.l(planet.buffer.ToString(), "min distance to others"); //min distance to other planets
-                        SgtLogger.l(planet.allowedRings.ToString(), "allowed rings to spawn");//Allowed spawn ring (center is ring 0)
+                        if (PlanetoidDict().ContainsKey(planetPlacement.world))
+                        {
+                            PlanetoidDict()[planetPlacement.world].AddItemWorldPlacement(planetPlacement);
+                        }
 
-                        planetList.Add(planet.world);
+                        //SgtLogger.l(planetPlacement.locationType.ToString(), "LocationType"); //startWorld / inner cluster / cluster
+                        //SgtLogger.l(planetPlacement.startWorld.ToString(), "IsStartWorld"); //isStartWorld?
+                        //SgtLogger.l(planetPlacement.buffer.ToString(), "min distance to others"); //min distance to other planets
+                        //SgtLogger.l(planetPlacement.allowedRings.ToString(), "allowed rings to spawn");//Allowed spawn ring (center is ring 0)
+
+                        planetList.Add(planetPlacement.world);
                     }
                     PredefinedClusters[ClusterLayout.Key] = planetList;
 
@@ -292,31 +351,30 @@ namespace ClusterTraitGenerationManager
 
                     foreach (var poi in ClusterLayout.Value.poiPlacements)
                     {
-                        SgtLogger.l("", "POI:");
+                        //SgtLogger.l("", "POI:");
                         foreach (var poi2 in poi.pois)
                         {
-                            SgtLogger.l(poi2, "Poi in list:");
+                            //SgtLogger.l(poi2, "Poi in list:");
                         }
-                        SgtLogger.l(poi.avoidClumping.ToString(), "avoid clumping");
-                        SgtLogger.l(poi.canSpawnDuplicates.ToString(), "Allow Duplicates");
-                        SgtLogger.l(poi.allowedRings.ToString(), "Allowed Rings");
-                        SgtLogger.l(poi.numToSpawn.ToString(), "Number to spawn");
-
+                        //SgtLogger.l(poi.avoidClumping.ToString(), "avoid clumping");
+                        //SgtLogger.l(poi.canSpawnDuplicates.ToString(), "Allow Duplicates");
+                        //SgtLogger.l(poi.allowedRings.ToString(), "Allowed Rings");
+                        //SgtLogger.l(poi.numToSpawn.ToString(), "Number to spawn");
                     }
                 }
             }
-
+            return PredefinedClusters;
         }
 
-        public static List<PlanetoidGridItem> PopulatePlanetoidDict()
+        public static Dictionary<string, StarmapItem> PlanetoidDict()
         {
             if (PlanetsAndPOIs == null)
             {
-                PlanetsAndPOIs = new List<PlanetoidGridItem>();
+                PlanetsAndPOIs = new Dictionary<string, StarmapItem>();
 
                 foreach (var World in SettingsCache.worlds.worldCache)
                 {
-                    PlanetCategory category = PlanetCategory.Outer;
+                    StarmapItemCategory category = StarmapItemCategory.Outer;
                     //SgtLogger.l(World.Key + "; " + World.Value.ToString());
                     ProcGen.World world = World.Value;
 
@@ -332,26 +390,25 @@ namespace ClusterTraitGenerationManager
                                 && world.startingBaseTemplate.Contains("Base")
                                 || world.startingBaseTemplate.Contains("onewayteleport")) //baator naming
                             {
-                                category = PlanetCategory.Teleport;
+                                category = StarmapItemCategory.Warp;
                             }
                             else if (world.startingBaseTemplate.Contains("Base"))
                             {
-                                category = PlanetCategory.Starter;
+                                category = StarmapItemCategory.Starter;
                             }
-
 
 
                         }
 
                         Sprite sprite = ColonyDestinationAsteroidBeltData.GetUISprite(World.Value.asteroidIcon);
 
-                        PlanetsAndPOIs.Add(new PlanetoidGridItem
+                        PlanetsAndPOIs[World.Key] = (new StarmapItem
                         (
                         World.Key,
                         category,
-                        sprite,
-                        World.Value
-                        ));
+                        sprite
+                        ).MakeItemPlanet(world));
+
                     }
 
                 }

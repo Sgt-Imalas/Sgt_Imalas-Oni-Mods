@@ -22,8 +22,8 @@ namespace ClusterTraitGenerationManager
         GameObject PlanetoidCategoryPrefab;
         GameObject PlanetoidEntryPrefab;
 
-        private Dictionary<PlanetCategory, MultiToggle> categoryToggles = new Dictionary<PlanetCategory, MultiToggle>();
-        Dictionary<PlanetoidGridItem, MultiToggle> planetoidGridButtons = new Dictionary<PlanetoidGridItem, MultiToggle>();
+        private Dictionary<StarmapItemCategory, MultiToggle> categoryToggles = new Dictionary<StarmapItemCategory, MultiToggle>();
+        Dictionary<StarmapItem, MultiToggle> planetoidGridButtons = new Dictionary<StarmapItem, MultiToggle>();
 
         GameObject RandomPlanetoidEntryPrefab;
 
@@ -44,7 +44,7 @@ namespace ClusterTraitGenerationManager
                 PlanetoidCategoryPrefab = cmp.categoryRowPrefab;
                 PlanetoidEntryPrefab = cmp.gridItemPrefab;
             }
-            UIUtils.ListAllChildrenPath(this.transform);
+            //UIUtils.ListAllChildrenPath(this.transform);
 
             galleryGridContent = transform.Find("Panel/Content/ColumnItemGallery/LayoutBreaker/Content/Categories/ScrollRect/GridContent").rectTransform();
             categoryListContent = transform.Find("Panel/Content/ColumnCategorySelection/LayoutBreaker/Content/Categories/ScrollRect/ContentContainer/Content").rectTransform();
@@ -88,13 +88,13 @@ namespace ClusterTraitGenerationManager
 
 
             SgtLogger.l("CYCLEPREFAB");
-            UIUtils.ListAllChildrenWithComponents(CyclePrefab);
+            //UIUtils.ListAllChildrenWithComponents(CyclePrefab);
             SgtLogger.l("SLIDER");
-            UIUtils.ListAllChildrenWithComponents(SliderPrefab);
+            //UIUtils.ListAllChildrenWithComponents(SliderPrefab);
             SgtLogger.l("SEED");
-            UIUtils.ListAllChildrenWithComponents(SeedPrefab);
+            //UIUtils.ListAllChildrenWithComponents(SeedPrefab);
             SgtLogger.l("CHECK");
-            UIUtils.ListAllChildrenWithComponents(CheckboxPrefab);
+            //UIUtils.ListAllChildrenWithComponents(CheckboxPrefab);
 
            // var Slider = Util.KInstantiateUI(SliderPrefab.gameObject, infoInsert.gameObject, true);
            // var Cycle = Util.KInstantiateUI(CyclePrefab.gameObject, infoInsert.gameObject, true);
@@ -138,7 +138,7 @@ namespace ClusterTraitGenerationManager
                 targetGridLayout = galleryGridContent.GetComponent<GridLayoutGroup>()
             };
             UIUtils.FindAndDestroy(infoInsert, "KleiPermitDioramaVis"); 
-            UIUtils.ListAllChildren(infoInsert);
+            //UIUtils.ListAllChildren(infoInsert);
         }
 
         public void ToggleCurrentSelected()
@@ -178,9 +178,9 @@ namespace ClusterTraitGenerationManager
             //    SgtLogger.l(planet, "PLANET");
             //}
 
-            foreach (KeyValuePair<PlanetoidGridItem, MultiToggle> galleryGridButton in planetoidGridButtons)
+            foreach (KeyValuePair<StarmapItem, MultiToggle> galleryGridButton in planetoidGridButtons)
             {
-                PlanetoidGridItem key = galleryGridButton.Key;
+                StarmapItem key = galleryGridButton.Key;
                 MultiToggle multiToggle1 = galleryGridButton.Value;
 
                 //SgtLogger.log(SelectedCategory.ToString()+" == ? "+ key.category, "CATEGORY");
@@ -211,7 +211,7 @@ namespace ClusterTraitGenerationManager
             this.galleryGridLayouter.RequestGridResize();
             this.PopulateCategories();
             this.PopulateGallery();
-            this.SelectCategory(PlanetCategory.Starter);
+            this.SelectCategory(StarmapItemCategory.Starter);
         }
 
         public override void OnCmpEnable()
@@ -243,7 +243,7 @@ namespace ClusterTraitGenerationManager
         private LocText selectionOwnedCount;
         private void RefreshDetails()
         {
-            PlanetoidGridItem selectedPermit = this.SelectedPlanet;
+            StarmapItem selectedPermit = this.SelectedPlanet;
             
             StringEntry name;
             StringEntry description;
@@ -300,33 +300,28 @@ namespace ClusterTraitGenerationManager
 
         public void PopulateGallery()
         {
-            foreach (KeyValuePair<PlanetoidGridItem, MultiToggle> galleryGridButton in this.planetoidGridButtons)
+            foreach (KeyValuePair<StarmapItem, MultiToggle> galleryGridButton in this.planetoidGridButtons)
                 this.RecycleGalleryGridButton(galleryGridButton.Value.gameObject);
             this.planetoidGridButtons.Clear();
 
             this.galleryGridLayouter.ImmediateSizeGridToScreenResolution();
 
-
-           
-
-            foreach (var Planet in PopulatePlanetoidDict())
+            foreach (var Planet in PlanetoidDict())
             {
-                this.AddItemToGallery(Planet);
+                this.AddItemToGallery(Planet.Value);
             }
-            foreach (PlanetCategory category in (PlanetCategory[])Enum.GetValues(typeof(PlanetCategory)))
+            foreach (StarmapItemCategory category in (StarmapItemCategory[])Enum.GetValues(typeof(StarmapItemCategory)))
             {
                 AddPermitCategory(category);
 
-                var RandomPlanet = new PlanetoidGridItem("Random", category, Assets.GetSprite("unknown"));
+                //var RandomPlanet = new StarmapItem("Random", category, Assets.GetSprite("unknown"));
 
-                AddItemToGallery(RandomPlanet);
+                //AddItemToGallery(RandomPlanet);
             }
             ;
         }
 
-        List<PlanetoidGridItem> Planets = new List<PlanetoidGridItem>();
-
-        private void AddItemToGallery(PlanetoidGridItem planet)
+        private void AddItemToGallery(StarmapItem planet)
         {
             if (planetoidGridButtons.ContainsKey(planet))
             {
@@ -356,7 +351,7 @@ namespace ClusterTraitGenerationManager
             KleiItemsUI.ConfigureTooltipOn(availableGridButton, default(Option<string>));
             availableGridButton.SetActive(true);
         }
-        public void SelectItem(PlanetoidGridItem planet)
+        public void SelectItem(StarmapItem planet)
         {
             SelectedPlanet = planet;
             //CGSMClusterManager.TogglePlanetoid(planet);
@@ -366,17 +361,17 @@ namespace ClusterTraitGenerationManager
             //AddCustomCluster();
         }
 
-        PlanetoidGridItem SelectedPlanet;
-        PlanetCategory SelectedCategory = PlanetCategory.Starter;
+        StarmapItem SelectedPlanet;
+        StarmapItemCategory SelectedCategory = StarmapItemCategory.Starter;
         private void RefreshCategories()
         {
             SgtLogger.log(SelectedCategory.ToString(), "CATEGORY");
-            foreach (KeyValuePair<PlanetCategory, MultiToggle> categoryToggle in this.categoryToggles)
+            foreach (KeyValuePair<StarmapItemCategory, MultiToggle> categoryToggle in this.categoryToggles)
             {
                 categoryToggle.Value.ChangeState(categoryToggle.Key == this.SelectedCategory ? 1 : 0);
             }
         }
-        public void SelectCategory(PlanetCategory category)
+        public void SelectCategory(StarmapItemCategory category)
         {
             this.SelectedCategory = category;
             this.galleryHeaderLabel.SetText("Planet"); //TODO: set Planet Type header 
@@ -398,25 +393,25 @@ namespace ClusterTraitGenerationManager
 
         public void PopulateCategories()
         {
-            foreach (KeyValuePair<PlanetCategory, MultiToggle> categoryToggle in this.categoryToggles)
+            foreach (KeyValuePair<StarmapItemCategory, MultiToggle> categoryToggle in this.categoryToggles)
                 UnityEngine.Object.Destroy((UnityEngine.Object)categoryToggle.Value.gameObject);
             this.categoryToggles.Clear();
         }
-        private void AddPermitCategory(PlanetCategory planetCategory)
+        private void AddPermitCategory(StarmapItemCategory StarmapItemCategory)
         {
             GameObject gameObject = Util.KInstantiateUI(this.PlanetoidCategoryPrefab, this.categoryListContent.gameObject, true);
             HierarchyReferences component1 = gameObject.GetComponent<HierarchyReferences>();
-            component1.GetReference<LocText>("Label").SetText(planetCategory.ToString());
+            component1.GetReference<LocText>("Label").SetText(StarmapItemCategory.ToString());
             component1.GetReference<Image>("Icon").sprite = Assets.GetSprite("unknown"); /// better icons
             MultiToggle component2 = gameObject.GetComponent<MultiToggle>();
             component2.onEnter += new System.Action(this.OnMouseOverToggle);
-            component2.onClick = (System.Action)(() => this.SelectCategory(planetCategory));
-            this.categoryToggles.Add(planetCategory, component2);
-            this.SetCatogoryClickUISound(planetCategory, component2);
+            component2.onClick = (System.Action)(() => this.SelectCategory(StarmapItemCategory));
+            this.categoryToggles.Add(StarmapItemCategory, component2);
+            this.SetCatogoryClickUISound(StarmapItemCategory, component2);
         }
 
         private void OnMouseOverToggle() => KFMOD.PlayUISound(GlobalAssets.GetSound("HUD_Mouseover"));
-        private void SetCatogoryClickUISound(PlanetCategory category, MultiToggle toggle)
+        private void SetCatogoryClickUISound(StarmapItemCategory category, MultiToggle toggle)
         {
             if (!this.categoryToggles.ContainsKey(category))
             {
