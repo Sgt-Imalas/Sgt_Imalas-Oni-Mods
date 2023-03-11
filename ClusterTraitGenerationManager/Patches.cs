@@ -73,7 +73,7 @@ namespace ClusterTraitGenerationManager
             public static void Postfix(ColonyDestinationAsteroidBeltData cluster)
             {
                 CGSMClusterManager.CreateCustomClusterFrom(cluster.beltPath);
-                SgtLogger.l("GOT CALLED TO: "+cluster.beltPath,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                //SgtLogger.l("GOT CALLED TO: "+cluster.beltPath,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
             }
         }
         [HarmonyPatch(typeof(NewGameFlowScreen))]

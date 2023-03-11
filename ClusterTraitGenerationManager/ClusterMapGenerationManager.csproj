@@ -23,9 +23,9 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>Cluster Trait Generation Manager</ModName>
+		<ModName>Cluster Generation Manager</ModName>
 		<ModDescription></ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
+		<SupportedContent>EXPANSION1_ID</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>535211</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

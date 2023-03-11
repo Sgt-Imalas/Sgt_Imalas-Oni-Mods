@@ -39,5 +39,11 @@ namespace ClusterTraitGenerationManager.SettinPrefabComps
         {
             label.text= data.ToString();
         }
+
+        public void ToggleInteractable(bool interactable)
+        {
+            next.interactable= interactable;
+            prev.interactable= interactable;
+        }
     }
 }

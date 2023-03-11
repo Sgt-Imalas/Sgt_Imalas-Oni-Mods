@@ -14,6 +14,8 @@ namespace ClusterTraitGenerationManager.SettinPrefabComps
         Slider slider;
         LocText infoLabel;
         LocText percentLabel;
+        string LabelInfoText;
+        bool usesMapSize = false;
 
         public override void OnPrefabInit()
         {
@@ -24,7 +26,7 @@ namespace ClusterTraitGenerationManager.SettinPrefabComps
             percentLabel.gameObject.SetActive(true);
         }
 
-        public void SetupSlider(float min,float current, float max, bool fullNumbers, System.Action<float> handleOutput)
+        public void SetupSlider(float min,float current, float max, bool fullNumbers, string infoText, System.Action<float> handleOutput, bool usesMap = false)
         {
             SgtLogger.l(min+", "+ current+", "+ max+", "+ fullNumbers);
             slider.minValue = min;
@@ -34,17 +36,31 @@ namespace ClusterTraitGenerationManager.SettinPrefabComps
             slider.onValueChanged.AddListener(new UnityAction<float>((value)=>HandleData(value)));
 
             slider.value = (current);
+            LabelInfoText = infoText;
+            usesMapSize = usesMap;
+
             HandleData(current);
         }
         public override void OnCleanUp()
         {
-
             base.OnCleanUp();
         }
 
         public void HandleData(object data)
         {
-            infoLabel.text = "Map Size: "+data.ToString();
+            infoLabel.text = LabelInfoText + data.ToString(); 
+            slider.value = (float)data;
+            if(usesMapSize)
+            {
+                slider.maxValue = CGSMClusterManager.CustomCluster.Rings;
+                if(slider.value>slider.maxValue) 
+                    slider.value = slider.maxValue;
+            }
+        }
+
+        public void ToggleInteractable(bool interactable)
+        {
+            slider.interactable= interactable;
         }
     }
 }

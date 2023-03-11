@@ -34,5 +34,10 @@ namespace ClusterTraitGenerationManager.SettinPrefabComps
             bool value = (bool)data;
             CheckBox.ChangeState(value ? 1 : 0);
         }
+
+        public void ToggleInteractable(bool interactable)
+        {
+            CheckBox.enabled = interactable; 
+        }
     }
 }

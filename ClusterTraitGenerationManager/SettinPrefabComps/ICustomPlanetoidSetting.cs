@@ -9,5 +9,7 @@ namespace ClusterTraitGenerationManager.SettinPrefabComps
     internal interface ICustomPlanetoidSetting
     {
         void HandleData(object data);
+        void ToggleInteractable(bool interactable);
+
     }
 }
