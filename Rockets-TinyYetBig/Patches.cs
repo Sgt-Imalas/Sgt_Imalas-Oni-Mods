@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using PeterHan.PLib.PatchManager;
 using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.Buildings;
 using Rockets_TinyYetBig.Buildings.CargoBays;
@@ -60,6 +61,49 @@ namespace Rockets_TinyYetBig
             }
         }
 
+        /// <summary>
+        /// This fixes the missing carbon field anim
+        /// </summary>
+       // [HarmonyPatch(typeof(HarvestablePOIConfig))]
+       // [HarmonyPatch(nameof(HarvestablePOIConfig.CreatePrefabs))]
+        public static class FixForMissingCarbonFieldAnim
+        {
+            [PLibPatch(RunAt.AfterDbInit, nameof(HarvestablePOIConfig.GenerateConfigs), RequireType = "HarvestablePOIConfig")]
+            public static void Postfix(ref List<GameObject> __result)
+            {
+                foreach(var obj in __result)
+                {
+                    if(obj.TryGetComponent<HarvestablePOIClusterGridEntity>(out var poi))
+                    {
+                        if(poi.m_Anim == "cloud")
+                        {
+                            poi.m_Anim = "carbon_asteroid_field";
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        //[HarmonyPatch(typeof(HarvestablePOIConfig))]
+        //[HarmonyPatch("GenerateConfigs")]
+        //[HarmonyPatch(new Type[] { typeof(List<HarvestablePOIConfig.HarvestablePOIParams>) })]
+        //public static class FixForMissingCarbonFieldAnim
+        //{
+        //    public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+        //    {
+        //        var code = instructions.ToList();
+        //        var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Ldstr && (string)ci.operand == "cloud");
+
+        //        if (insertionIndex != -1)
+        //        {
+        //            code[insertionIndex].operand = "carbon_asteroid_field";
+        //        }
+        //        return code;
+        //    }
+        //}
+
+
+
 
         [HarmonyPatch(typeof(WorldSelector), "OnPrefabInit")]
         public static class CustomSideScreenPatch_Gibinfo
@@ -69,7 +113,6 @@ namespace Rockets_TinyYetBig
                 // UIUtils.ListAllChildren(__instance.transform);
             }
         }
-
 
 
 
@@ -155,7 +198,7 @@ namespace Rockets_TinyYetBig
             }
         }
 
-        
+
         /// <summary>
         /// Add launch_pst anim to normal modules
         /// </summary>
@@ -165,7 +208,7 @@ namespace Rockets_TinyYetBig
         {
             public static bool Prefix(RocketModuleCluster __instance)
             {
-                if(__instance.TryGetComponent<ExtendedClusterModuleAnimator>(out var extendedClusterModuleAnimator))
+                if (__instance.TryGetComponent<ExtendedClusterModuleAnimator>(out var extendedClusterModuleAnimator))
                 {
                     return false;
                 }
@@ -191,7 +234,7 @@ namespace Rockets_TinyYetBig
                     switch (templateString)
                     {
                         case "interiors/habitat_medium_compressed":
-                        //case "interiors/habitat_medium_radiator":
+                            //case "interiors/habitat_medium_radiator":
                             original = new Vector2I(18, 15);
                             break;
                         case "interiors/habitat_small_compressed":

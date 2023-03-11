@@ -1,0 +1,7 @@
+﻿New Modules:
+- Ion Booster
+
+Features:
+
+Fixes & Adjustments:
+- Fixed the carbon cloud not using the right animation
