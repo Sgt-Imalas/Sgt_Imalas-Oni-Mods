@@ -11,6 +11,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
 using static ClusterTraitGenerationManager.CGSMClusterManager;
+using static SandboxSettings;
 
 namespace ClusterTraitGenerationManager
 {
@@ -96,39 +97,51 @@ namespace ClusterTraitGenerationManager
             SgtLogger.l("CHECK");
             UIUtils.ListAllChildrenWithComponents(CheckboxPrefab);
 
-            // var Slider = Util.KInstantiateUI(SliderPrefab.gameObject, infoInsert.gameObject, true);
-            // var Cycle = Util.KInstantiateUI(CyclePrefab.gameObject, infoInsert.gameObject, true);
-            // var Seed = Util.KInstantiateUI(SeedPrefab.gameObject, infoInsert.gameObject, true);
+            var Slider = Util.KInstantiateUI(SliderPrefab.gameObject, infoInsert.gameObject, true);
+            var Seed = Util.KInstantiateUI(SeedPrefab.gameObject, infoInsert.gameObject, true);
 
 
-            ///PlanetEnabledCheckbox
+
+            #region individualConfig
+            ///PlanetEnabledCheckbox, ListItem 0
             var Check = Util.KInstantiateUI(CheckboxPrefab.gameObject, infoInsert.gameObject, true);
             UIUtils.TryChangeText(Check.transform, "Label", "Enabled");
             var PlanetEnabled = Check.AddComponent<CheckBoxHandler>();
-            PlanetEnabled.SetAction(() => ToggleCurrentSelected());
-            customPlanetoidSettings.Add(PlanetEnabled);
+            PlanetEnabled.SetAction(() => DoAndRefreshView(()=>CGSMClusterManager.TogglePlanetoid(SelectedPlanet)));
+            customPlanetoidSettings.Add(new KeyValuePair<GameObject, ICustomPlanetoidSetting>( Check,PlanetEnabled));
+
+            #endregion
+
+            #region globalClusterConfig
+            ///Global Rings
+
+            var GlobalRingSlider = Util.KInstantiateUI(SliderPrefab.gameObject, infoInsert.gameObject, true);
+            var globalRingHandler = GlobalRingSlider.AddComponent<SliderHandler>();
+            globalRingHandler.SetupSlider(ringMin, CustomCluster.Rings, ringMax, true, (value) => CustomCluster.SetRings((int)value));
+
+            GlobalClusterSettings.Add(new KeyValuePair<GameObject, ICustomPlanetoidSetting>(GlobalRingSlider, globalRingHandler));
+
 
 
             var Buttons = Util.KInstantiateUI(selectScreen.transform.Find("Layout/Buttons").gameObject, infoInsert.gameObject, true);
 
-            //UIUtils.ListAllChildren(Buttons.transform);
+            UIUtils.ListAllChildren(Buttons.transform);
             
             UIUtils.AddActionToButton(Buttons.transform, "BackButton", () => Show(false));
-            UIUtils.AddActionToButton(Buttons.transform, "LaunchButton", () => {
+            UIUtils.AddActionToButton(Buttons.transform, "LaunchButton", 
+                () => {
                 AddCustomCluster();
                 CGSMClusterManager.selectScreen.LaunchClicked(); 
-            }
+                }
             );
-
-            UIUtils.FindAndDisable(Buttons.transform, "CustomizeButton");
-            //UIUtils.AddActionToButton(Buttons.transform, "CustomizeButton", () => OpenCustomSettingsAbove());
+            ///Global Config
+            SettingsButtonText = UIUtils.TryFindComponent<LocText>(Buttons.transform, "CustomizeButton/Label");
+            UIUtils.AddActionToButton(Buttons.transform, "CustomizeButton", () => ToggleGameSettings());
+            ToggleGameSettings();
 
             
+            #endregion
 
-            //closeButton.onClick += delegate
-            //{
-            //    Show(show: false);
-            //};
             base.ConsumeMouseScroll = true;
             galleryGridLayouter = new GridLayouter
             {
@@ -139,11 +152,28 @@ namespace ClusterTraitGenerationManager
             UIUtils.FindAndDestroy(infoInsert, "KleiPermitDioramaVis"); 
             //UIUtils.ListAllChildren(infoInsert);
         }
-        List<ICustomPlanetoidSetting> customPlanetoidSettings = new List<ICustomPlanetoidSetting>();
+        bool showGameSettings = true;
 
-        public void ToggleCurrentSelected()
+        LocText SettingsButtonText = null;
+        void ToggleGameSettings()
         {
-            CGSMClusterManager.TogglePlanetoid(SelectedPlanet);
+            showGameSettings = !showGameSettings;
+            foreach(var setting in GlobalClusterSettings)
+            {
+                setting.Key.SetActive(showGameSettings);
+            }
+            foreach(var planetConfig in customPlanetoidSettings)
+            {
+                planetConfig.Key.SetActive(!showGameSettings);
+            }
+            SettingsButtonText.text = showGameSettings ? "Hide Cluster Config" : "Show Cluster Config";
+        }
+
+        List<KeyValuePair<GameObject,ICustomPlanetoidSetting>> GlobalClusterSettings = new List<KeyValuePair<GameObject, ICustomPlanetoidSetting>>();
+        List<KeyValuePair<GameObject, ICustomPlanetoidSetting>> customPlanetoidSettings = new List<KeyValuePair<GameObject, ICustomPlanetoidSetting>>();
+        public void DoAndRefreshView(System.Action action)
+        {
+            action.Invoke();
             this.RefreshGallery();
             this.RefreshDetails();
         }
@@ -236,11 +266,6 @@ namespace ClusterTraitGenerationManager
         /// Details
         /// </summary>
         private LocText selectionHeaderLabel;
-        private LocText selectionNameLabel;
-        private LocText selectionDescriptionLabel;
-        private LocText selectionFacadeForLabel;
-        private LocText selectionRarityDetailsLabel;
-        private LocText selectionOwnedCount;
         private void RefreshDetails()
         {
             StarmapItem selectedPermit = this.SelectedPlanet;
@@ -264,7 +289,7 @@ namespace ClusterTraitGenerationManager
             //selectionDescriptionLabel.staticLayout = true;
             //this.selectionFacadeForLabel.gameObject.SetActive(selectedPermit.planetSprite !=null));
             //this.selectionFacadeForLabel.SetText(presentationInfo.facadeFor);
-            string text = global::STRINGS.UI.KLEI_INVENTORY_SCREEN.ITEM_RARITY_DETAILS.Replace("{RarityName}", selectedPermit.category.ToString());
+            //string text = global::STRINGS.UI.KLEI_INVENTORY_SCREEN.ITEM_RARITY_DETAILS.Replace("{RarityName}", selectedPermit.category.ToString());
 
             //this.selectionRarityDetailsLabel.gameObject.SetActive(!string.IsNullOrWhiteSpace(text));            
             //this.selectionRarityDetailsLabel.SetText(text);
@@ -276,7 +301,7 @@ namespace ClusterTraitGenerationManager
             //else
             //    this.selectionOwnedCount.SetText(KleiItemsUI.WrapWithColor((string)global::STRINGS.UI.KLEI_INVENTORY_SCREEN.ITEM_PLAYER_OWN_NONE, KleiItemsUI.TEXT_COLOR__PERMIT_NOT_OWNED));
 
-            customPlanetoidSettings[0].HandleData(CustomCluster.HasPlanet(selectedPermit));
+            customPlanetoidSettings[0].Value.HandleData(CustomCluster.HasPlanet(selectedPermit));
             
         
         }

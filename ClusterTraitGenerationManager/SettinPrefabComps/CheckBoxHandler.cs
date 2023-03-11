@@ -21,6 +21,7 @@ namespace ClusterTraitGenerationManager.SettinPrefabComps
         public void SetAction(System.Action action)
         {
             CheckBox.onClick = action;
+
         }
 
         public override void OnCleanUp()

@@ -77,7 +77,49 @@ namespace ClusterTraitGenerationManager
             Outer,
             POI
         }
+        
+        public const int ringMax =25, ringMin =8;
+        public class CustomClusterData
+        {
+            public int Rings { get; private set; }
+            public StarmapItem StarterPlanet { get; set; }
+            public StarmapItem WarpPlanet { get; set; }
+            public List<StarmapItem> OuterPlanets = new List<StarmapItem>();
+            public List<StarmapItem> POIs = new List<StarmapItem>();
 
+            public bool HasPlanet(StarmapItem item)
+            {
+                return StarterPlanet == item || WarpPlanet == item || OuterPlanets.Contains(item);
+            }
+
+
+            public void SetRings(int rings)
+            {
+                SgtLogger.l(rings.ToString(),"GLOBAL RINGS:");
+                Rings= rings;
+                foreach(var planet in OuterPlanets)
+                {
+                    if (planet.placement != null)
+                    {
+                        if(planet.placement.allowedRings.max>=rings)
+                        {
+                            planet.SetOuterRing(rings-1);
+                        }
+                    }
+                }
+                foreach (var planet in POIs)
+                {
+                    if (planet.placementPOI != null)
+                    {
+                        if (planet.placementPOI.allowedRings.max >= rings)
+                        {
+                            planet.SetOuterRing(rings - 1);
+                        }
+                    }
+                }
+            }
+
+        }
         public struct StarmapItem
         {
             public string id;
@@ -94,6 +136,64 @@ namespace ClusterTraitGenerationManager
             public int maxRing = 0;
             public SpawnChance SpawnChance = SpawnChance.Guaranteed;
 
+            #region SetterMethods
+
+            public void SetInnerRing(int newRing)
+            {
+                if(newRing >= 0 && newRing < CustomCluster.Rings)
+                {
+                    if (placement != null)
+                    {
+                        var rings = placement.allowedRings;
+                        rings.min = newRing;
+                        if (newRing > rings.max)
+                        {
+                            rings.max = newRing;
+                        }
+                        placement.allowedRings = rings;
+                    }
+                    else if (placementPOI != null)
+                    {
+                        var rings = placementPOI.allowedRings;
+                        rings.min = newRing;
+                        if (newRing > rings.max)
+                        {
+                            rings.max= newRing;
+                        }
+                        placementPOI.allowedRings = rings;
+                    }
+                }
+            }
+            public void SetOuterRing(int newRing)
+            {
+                if (newRing >= 0 && newRing < CustomCluster.Rings)
+                {
+                    if (placement != null)
+                    {
+                        var rings = placement.allowedRings;
+                        rings.max = newRing;
+                        if (newRing < rings.min)
+                        {
+                            rings.min = newRing;
+                        }
+                        placement.allowedRings = rings;
+                    }
+                    else if (placementPOI != null)
+                    {
+                        var rings = placementPOI.allowedRings;
+                        rings.max = newRing;
+                        if (newRing < rings.min)
+                        {
+                            rings.min = newRing;
+                        }
+                        placementPOI.allowedRings = rings;
+                    }
+                }
+            }
+
+            #endregion
+
+
             public StarmapItem(string id, StarmapItemCategory category, Sprite sprite, int allowed, SpawnChance _SpawnChance)
             {
                 this.id = id;
@@ -102,9 +202,8 @@ namespace ClusterTraitGenerationManager
                 this.maxAllowed = allowed;
                 SpawnChance = _SpawnChance;
             }
-            public StarmapItem MakeItemPlanet(ProcGen.World world, WorldPlacement placement = null)
+            public StarmapItem MakeItemPlanet(ProcGen.World world)
             {
-                this.placement = placement;
                 this.world = world;
                 return this;
             }
@@ -222,6 +321,10 @@ namespace ClusterTraitGenerationManager
             ClusterLayout Reference = SettingsCache.clusterLayouts.GetClusterData(clusterID);
             if (true)
             {
+                CustomCluster.SetRings(Reference.numRings);
+                
+
+
                 foreach (WorldPlacement planetPlacement in Reference.worldPlacements)
                 {
                     string planetpath = planetPlacement.world;
@@ -295,20 +398,7 @@ namespace ClusterTraitGenerationManager
             newItem.allowedRings = new MinMaxI(2, 4);
         }
 
-        public class CustomClusterData
-        {
-            public int Rings { get; set; }
-            public StarmapItem StarterPlanet { get; set; }
-            public StarmapItem WarpPlanet { get; set; }
-            public List<StarmapItem> OuterPlanets = new List<StarmapItem>();
-            public List<StarmapItem> POIs = new List<StarmapItem>();
-
-            public bool HasPlanet(StarmapItem item)
-            {
-                return StarterPlanet == item ||WarpPlanet == item || OuterPlanets.Contains(item);
-            }
-
-        }
+       
 
         static Dictionary<string, StarmapItem> PlanetsAndPOIs = null;
 
