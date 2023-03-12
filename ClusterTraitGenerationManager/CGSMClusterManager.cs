@@ -521,7 +521,6 @@ namespace ClusterTraitGenerationManager
                             ClusterPOI.SetInnerRing(Math.Min(ClusterPOI.minRing, pOIPlacement.allowedRings.min));
                             ClusterPOI.SetOuterRing(Math.Min(ClusterPOI.maxRing, pOIPlacement.allowedRings.max));
                             ClusterPOI.IncreaseSpawnNumber(percentagePerItem);
-                            SgtLogger.l(ClusterPOI.InstancesToSpawn.ToString(), "New MaxPOI");
                             CustomCluster.POIs[ClusterPOI.id] = ClusterPOI;
                         }
                         else
@@ -696,7 +695,7 @@ namespace ClusterTraitGenerationManager
 
                         SpaceMapPOIPlacement placement = new SpaceMapPOIPlacement();
                         placement.pois = new List<string> { lonePOI };
-                        placement.numToSpawn = 0;
+                        placement.numToSpawn = 1;
                         placement.allowedRings = poi_tab.allowedRings;
                         placement.avoidClumping = poi_tab.avoidClumping;
                         poi = poi.MakeItemPOI(id, placement, moreThanOne);
