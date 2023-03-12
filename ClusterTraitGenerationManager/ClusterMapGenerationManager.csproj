@@ -45,13 +45,13 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <None Update="ModAssets\anim\worldgen\asteroid_random_start_0.png">
+	  <None Update="ModAssets\anim\assets\asteroid_random_start\asteroid_random_start_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\worldgen\asteroid_random_start_anim.bytes">
+	  <None Update="ModAssets\anim\assets\asteroid_random_start\asteroid_random_start_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\worldgen\asteroid_random_start_build.bytes">
+	  <None Update="ModAssets\anim\assets\asteroid_random_start\asteroid_random_start_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\dlc\expansion1\worldgen\clusters\CustomClusterVanilla.yaml">

@@ -9,12 +9,18 @@ namespace ClusterTraitGenerationManager
 {
     internal class STRINGS
     {
-        public class WORLDS
+        public class UI
         {
-            public class RANDOMFILLER
+            public class SPACEDESTINATIONS
             {
-                public static LocString NAME = "Random Planet";
-                public static LocString DESCRIPTION = "Random Planet Desc";
+                public class HARVESTABLE_POI
+                {
+                    public class CGM_POIS
+                    {
+                        public static LocString NAME = "Random POI";
+                        public static LocString DESCRIPTION = "Chooses amount of POIs at random.";
+                    }
+                }
             }
         }
         public class CLUSTER_NAMES

@@ -408,7 +408,11 @@ namespace ClusterTraitGenerationManager
 
             planetoidGridButtons[planet] = component2;
             //this.SetItemClickUISound(planet, component2);
-            KleiItemsUI.ConfigureTooltipOn(availableGridButton, default(Option<string>));
+            var tooltip = new Option<string>(planet.DisplayDescription);
+
+            UIUtils.AddSimpleTooltipToObject(availableGridButton.transform, planet.DisplayName + "\n\n" + planet.DisplayDescription, true, 300);
+
+
             availableGridButton.SetActive(true);
         }
         public void SelectItem(StarmapItem planet)
@@ -445,6 +449,14 @@ namespace ClusterTraitGenerationManager
         }
         private void SelectDefaultCategoryItem()
         {
+            foreach (var galleryGridButton in this.planetoidGridButtons)
+            {
+                if (galleryGridButton.Key.category == this.SelectedCategory && CustomCluster.HasStarmapItem(galleryGridButton.Key,out var i))
+                {
+                    this.SelectItem(galleryGridButton.Key);
+                    return;
+                }
+            }
             foreach (var galleryGridButton in this.planetoidGridButtons)
             {
                 if (galleryGridButton.Key.category == this.SelectedCategory)

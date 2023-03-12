@@ -261,6 +261,10 @@ namespace ClusterTraitGenerationManager
             {
                 InstancesToSpawn += newNumber;
             }
+            public void SubtractOneSpawn()
+            {
+                InstancesToSpawn -= 1;
+            }
 
             public void SetInnerRing(int newRing)
             {
@@ -350,8 +354,9 @@ namespace ClusterTraitGenerationManager
                 this.world = world;
                 return this;
             }
-            public StarmapItem AddItemWorldPlacement(WorldPlacement placement)
+            public StarmapItem AddItemWorldPlacement(WorldPlacement placement, bool morethanone=false)
             {
+                this.moreThanOneAllowed = morethanone;
                 this.placement = placement;
                 return this;
             }
@@ -420,6 +425,7 @@ namespace ClusterTraitGenerationManager
             SgtLogger.l("Started generating custom cluster");
             var layout = new ClusterLayout();
 
+
             //var Reference = SettingsCache.clusterLayouts.GetClusterData(ClusterID);
             //SgtLogger.log(Reference.ToString());
 
@@ -428,21 +434,91 @@ namespace ClusterTraitGenerationManager
             layout.description = CustomClusterID;
             layout.worldPlacements = new List<WorldPlacement>();
 
+            if (CustomCluster.StarterPlanet.id.Contains(RandomKey))
+            {
+                var randomItem = GetRandomItemOfType(StarmapItemCategory.Starter);
+                var placement = CustomCluster.StarterPlanet.placement;
+                placement.world = randomItem.id;
 
-            layout.worldPlacements.Add(CustomCluster.StarterPlanet.placement);
+                layout.worldPlacements.Add(placement);
+            }
+            else
+            {
+                layout.worldPlacements.Add(CustomCluster.StarterPlanet.placement);
+            }
 
-            layout.worldPlacements.Add(CustomCluster.WarpPlanet.placement);
+            if (CustomCluster.WarpPlanet.id.Contains(RandomKey))
+            {
+                var randomItem = GetRandomItemOfType(StarmapItemCategory.Warp);
+                var placement = CustomCluster.WarpPlanet.placement;
+                placement.world = randomItem.id;
+
+                layout.worldPlacements.Add(placement);
+            }
+            else
+            {
+                layout.worldPlacements.Add(CustomCluster.WarpPlanet.placement);
+            }
+
 
             foreach (var world in CustomCluster.OuterPlanets)
             {
-                layout.worldPlacements.Add(world.Value.placement);
+
+                if (world.Value.id.Contains(RandomKey))
+                {
+                    var randomItem = GetRandomItemOfType(StarmapItemCategory.Outer);
+                    var placement = world.Value.placement;
+                    placement.world = randomItem.id;
+
+                    layout.worldPlacements.Add(placement);
+                }
+                else
+                {
+                    layout.worldPlacements.Add(world.Value.placement);
+                }
             }
 
             layout.poiPlacements = new List<SpaceMapPOIPlacement>();
+            float pity = 0f;
 
             foreach (var poi in CustomCluster.POIs)
             {
-                layout.poiPlacements.Add(poi.Value.placementPOI);
+                ///random handler
+                if (poi.Key.Contains(RandomKey))
+                {
+                    float randomInstancesToSpawn = poi.Value.InstancesToSpawn;
+
+                    for (int i = 0; i < randomInstancesToSpawn;i++)
+                    {
+                        var randomItem = GetRandomItemOfType(StarmapItemCategory.POI);
+                        randomItem.SetInnerRing(poi.Value.minRing);
+                        randomItem.SetOuterRing(poi.Value.maxRing);
+
+                        layout.poiPlacements.Add(randomItem.placementPOI);
+                    }
+                }
+
+
+                float instancesToSpawn = poi.Value.InstancesToSpawn;
+                while (instancesToSpawn >= 1)
+                {
+                    layout.poiPlacements.Add(poi.Value.placementPOI);
+                    --instancesToSpawn;
+                }
+                if(instancesToSpawn < 1 && instancesToSpawn > 0.01)
+                {
+                    float chance = UnityEngine.Random.Range(0f, 1f);
+                    if(chance <= instancesToSpawn +pity)
+                    {
+                        layout.poiPlacements.Add(poi.Value.placementPOI);
+                        pity = 0;
+                    }
+                    else
+                    {
+                        pity += instancesToSpawn;
+                    }
+
+                }
             }
 
             layout.numRings = CustomCluster.Rings;
@@ -663,7 +739,7 @@ namespace ClusterTraitGenerationManager
                         string name = string.Empty;
                         string id = string.Empty;
 
-                        SgtLogger.l(lonePOI, "LonePOI");
+                        //SgtLogger.l(lonePOI, "LonePOI");
                         GameObject gameObject = Util.KInstantiate(Assets.GetPrefab((Tag)lonePOI));
 
                         ClusterGridEntity component1 = gameObject.GetComponent<ClusterGridEntity>();
@@ -729,13 +805,58 @@ namespace ClusterTraitGenerationManager
 
         }
 
-
+        public const string RandomKey = "CGM_RANDOM_";
         static Dictionary<string, StarmapItem> PlanetsAndPOIs = null;
+
+        public static  StarmapItem GetRandomItemOfType(StarmapItemCategory starmapItemCategory)
+        {
+            StarmapItem item = new StarmapItem("filler", (starmapItemCategory) -1);
+            while(item.category != starmapItemCategory || item.id.Contains("TemporalTear"))
+            {
+                item = PlanetoidDict().Values.GetRandom();
+            }
+            return item;
+        }
+
         public static Dictionary<string, StarmapItem> PlanetoidDict()
         {
             if (PlanetsAndPOIs == null)
             {
                 PlanetsAndPOIs = new Dictionary<string, StarmapItem>();
+
+                var randomSprite = Assets.GetSprite("unknown");//Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim((HashedString)"asteroid_random_start_kanim"));
+                foreach (StarmapItemCategory category in (StarmapItemCategory[])Enum.GetValues(typeof(StarmapItemCategory)))
+                { 
+                    var key = RandomKey + category.ToString();
+                    var randomItem = new StarmapItem
+                        (
+                        key,
+                        category,
+                        randomSprite
+                        );
+                    randomItem.SetSpawnNumber(0);
+
+                    if(category == StarmapItemCategory.POI)
+                    {
+                        var placement = new SpaceMapPOIPlacement();
+                        placement.allowedRings = new MinMaxI(0, CustomCluster.Rings);
+                        placement.canSpawnDuplicates = true;
+                        placement.numToSpawn = 1;
+                        randomItem = randomItem.MakeItemPOI(key, placement, true);
+                        PlanetsAndPOIs[key] = randomItem;
+                    }
+                    else
+                    {
+                        var placement = new WorldPlacement();
+                        placement.allowedRings = new MinMaxI(0, CustomCluster.Rings);
+                        placement.startWorld = category == StarmapItemCategory.Starter;
+                        placement.locationType = category == StarmapItemCategory.Starter ? LocationType.Startworld : LocationType.Cluster;
+
+                        randomItem = randomItem.AddItemWorldPlacement(placement, true);
+                        PlanetsAndPOIs[key] = randomItem;
+                    }
+
+                }
 
                 foreach (var World in SettingsCache.worlds.worldCache)
                 {
