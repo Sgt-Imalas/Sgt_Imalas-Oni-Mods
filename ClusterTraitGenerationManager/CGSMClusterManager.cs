@@ -439,12 +439,16 @@ namespace ClusterTraitGenerationManager
                 var randomItem = GetRandomItemOfType(StarmapItemCategory.Starter);
                 var placement = CustomCluster.StarterPlanet.placement;
                 placement.world = randomItem.id;
+                placement.startWorld = true;
 
                 layout.worldPlacements.Add(placement);
+                SgtLogger.l(randomItem.id, "Random Start Planet");
+
             }
             else
             {
                 layout.worldPlacements.Add(CustomCluster.StarterPlanet.placement);
+                SgtLogger.l(CustomCluster.StarterPlanet.id, "Start Planet");
             }
 
             if (CustomCluster.WarpPlanet.id.Contains(RandomKey))
@@ -454,10 +458,12 @@ namespace ClusterTraitGenerationManager
                 placement.world = randomItem.id;
 
                 layout.worldPlacements.Add(placement);
+                SgtLogger.l(randomItem.id, "Random Warp Planet");
             }
             else
             {
                 layout.worldPlacements.Add(CustomCluster.WarpPlanet.placement);
+                SgtLogger.l(CustomCluster.WarpPlanet.id, "Warp Planet");
             }
 
 
@@ -469,12 +475,14 @@ namespace ClusterTraitGenerationManager
                     var randomItem = GetRandomItemOfType(StarmapItemCategory.Outer);
                     var placement = world.Value.placement;
                     placement.world = randomItem.id;
-
                     layout.worldPlacements.Add(placement);
+
+                    SgtLogger.l(randomItem.id, "Random Outer Planet");
                 }
                 else
                 {
                     layout.worldPlacements.Add(world.Value.placement);
+                    SgtLogger.l(world.Value.id, "Outer Planet");
                 }
             }
 
@@ -495,7 +503,11 @@ namespace ClusterTraitGenerationManager
                         randomItem.SetOuterRing(poi.Value.maxRing);
 
                         layout.poiPlacements.Add(randomItem.placementPOI);
+
+                        SgtLogger.l(randomItem.id, "Random POI");
+                        
                     }
+                    continue;
                 }
 
 
@@ -503,6 +515,7 @@ namespace ClusterTraitGenerationManager
                 while (instancesToSpawn >= 1)
                 {
                     layout.poiPlacements.Add(poi.Value.placementPOI);
+                    SgtLogger.l(poi.Value.id, "POI");
                     --instancesToSpawn;
                 }
                 if(instancesToSpawn < 1 && instancesToSpawn > 0.01)
@@ -511,13 +524,13 @@ namespace ClusterTraitGenerationManager
                     if(chance <= instancesToSpawn +pity)
                     {
                         layout.poiPlacements.Add(poi.Value.placementPOI);
+                        SgtLogger.l(poi.Value.id, "POI (chance)");
                         pity = 0;
                     }
                     else
                     {
                         pity += instancesToSpawn;
                     }
-
                 }
             }
 
@@ -811,7 +824,7 @@ namespace ClusterTraitGenerationManager
         public static  StarmapItem GetRandomItemOfType(StarmapItemCategory starmapItemCategory)
         {
             StarmapItem item = new StarmapItem("filler", (starmapItemCategory) -1);
-            while(item.category != starmapItemCategory || item.id.Contains("TemporalTear"))
+            while(item.category != starmapItemCategory || item.id.Contains("TemporalTear") || item.id == null || item.id == string.Empty)
             {
                 item = PlanetoidDict().Values.GetRandom();
             }
@@ -834,7 +847,7 @@ namespace ClusterTraitGenerationManager
                         category,
                         randomSprite
                         );
-                    randomItem.SetSpawnNumber(0);
+                    randomItem.SetSpawnNumber(1);
 
                     if(category == StarmapItemCategory.POI)
                     {
