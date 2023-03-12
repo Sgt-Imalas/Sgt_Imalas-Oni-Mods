@@ -255,7 +255,6 @@ namespace ClusterTraitGenerationManager
                 reference2.gameObject.SetActive(!PlanetIsInList);
                 galleryGridButton.Value.gameObject.SetActive(galleryGridButton.Key.category == this.SelectedCategory);
 
-                SgtLogger.l(key.InstancesToSpawn.ToString(), "COUNT");
                 reference1.text = global::STRINGS.UI.KLEI_INVENTORY_SCREEN.ITEM_PLAYER_OWNED_AMOUNT_ICON.Replace("{OwnedCount}", key.InstancesToSpawn.ToString("0.0"));
                 reference1.gameObject.SetActive(PlanetIsInList);
             }
@@ -321,7 +320,7 @@ namespace ClusterTraitGenerationManager
             bool isPoi = SelectedPlanet.category == StarmapItemCategory.POI;
 
             StarmapItem current;
-            bool IsPartOfCluster = isPoi ? CustomCluster.HasPOI(SelectedPlanet, out current) : CustomCluster.HasPlanet(SelectedPlanet, out current);
+            bool IsPartOfCluster = CustomCluster.HasStarmapItem(SelectedPlanet, out current);
 
 
             customPlanetoidSettings[0].Value.HandleData(IsPartOfCluster); ///PlanetToggle
