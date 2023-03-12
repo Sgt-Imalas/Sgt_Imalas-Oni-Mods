@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using UtilLibs;
@@ -23,6 +25,17 @@ namespace ClusterTraitGenerationManager.SettinPrefabComps
             slider = UIUtils.TryFindComponent<Slider>(transform, "Slider");
             infoLabel = UIUtils.TryFindComponent<LocText>(transform, "Label");
             percentLabel = UIUtils.TryFindComponent<LocText>(transform, "PercentLabel");
+
+            var s = GetComponent<HorizontalLayoutGroup>();
+            foreach (var p in s.GetType().GetProperties().Where(p => !p.GetGetMethod().GetParameters().Any()))
+                {
+                    Console.WriteLine(p+": " +p.GetValue(s, null));
+                }
+
+            //this.GetComponent<HorizontalLayoutGroup>().childForceExpandWidth = 500;
+            //infoLabel.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 800);
+            //slider.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 800);
+
             percentLabel.gameObject.SetActive(true);
         }
 
