@@ -26,10 +26,8 @@ namespace Rockets_TinyYetBig.TwitchEvents.TwitchEventAddons
     {
         public static void Prefix(Deconstructable __instance)
         {
-            SgtLogger.debuglog("Destroying: " + __instance);
             if (__instance.gameObject.TryGetComponent<Vent>(out var vent))
             {
-                SgtLogger.debuglog("Destroying VENT:  " + __instance);
                 VentComponents.Vents.Remove(vent);
             }
         }
