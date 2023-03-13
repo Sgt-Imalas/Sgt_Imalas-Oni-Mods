@@ -15,9 +15,15 @@ namespace ClusterTraitGenerationManager
             {
                 public static LocString NAMECATEGORIES = (LocString)"Starmap Item Category";
                 public static LocString NAMEITEMS = (LocString)"Starmap Items of this category";
+                public static class CATEGORYENUM
+                {
+                    public static LocString START = (LocString)"Start Asteroid";
+                    public static LocString WARP = (LocString)"Teleport Asteroid";
+                    public static LocString OUTER = (LocString)"Other Asteroids";
+                    public static LocString POI = (LocString)"Points of Interest";
+                }
 
-               
-                
+
                 public static class CUSTOMCLUSTERCONFIG
                 {
                     public static LocString SHOW = (LocString)"Show Cluster Config";
@@ -31,7 +37,7 @@ namespace ClusterTraitGenerationManager
                 public static class NUMBERS
                 {
                     public static LocString NAME = (LocString)"Amount: ";
-                    public static LocString DESC = (LocString)"How many of these should be spawned.\nValues that arent full numbers represent a chance to spawn for POIs.\n(0.8 = 80% chance to spawn this POI)";
+                    public static LocString DESC = (LocString)"How many of these should be spawned.\nValues that arent full numbers represent a chance to spawn for POIs.\n(f.e. 0.8 = 80% chance to spawn this POI)";
                 }
                 public static class MINRINGS
                 {

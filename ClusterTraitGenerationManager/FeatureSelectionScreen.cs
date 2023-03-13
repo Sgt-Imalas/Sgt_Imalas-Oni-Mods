@@ -47,8 +47,9 @@ namespace ClusterTraitGenerationManager
                 PlanetoidCategoryPrefab = cmp.categoryRowPrefab;
                 PlanetoidEntryPrefab = cmp.gridItemPrefab;
             }
+#if DEBUG
             UIUtils.ListAllChildrenPath(this.transform);
-
+#endif
             galleryGridContent = transform.Find("Panel/Content/ColumnItemGallery/LayoutBreaker/Content/Categories/ScrollRect/GridContent").rectTransform();
             categoryListContent = transform.Find("Panel/Content/ColumnCategorySelection/LayoutBreaker/Content/Categories/ScrollRect/ContentContainer/Content").rectTransform();
             galleryHeaderLabel = transform.Find("Panel/Content/ColumnItemGallery/LayoutBreaker/Header/Label").GetComponent<LocText>();
@@ -312,9 +313,9 @@ namespace ClusterTraitGenerationManager
 
 
             var Buttons = Util.KInstantiateUI(selectScreen.transform.Find("Layout/Buttons").gameObject, infoInsert.gameObject, true);
-
+#if DEBUG
             UIUtils.ListAllChildren(Buttons.transform);
-
+#endif
             UIUtils.AddActionToButton(Buttons.transform, "BackButton", () => Show(false));
             UIUtils.AddActionToButton(Buttons.transform, "LaunchButton",
                 () =>
@@ -560,7 +561,25 @@ namespace ClusterTraitGenerationManager
         {
             GameObject gameObject = Util.KInstantiateUI(this.PlanetoidCategoryPrefab, this.categoryListContent.gameObject, true);
             HierarchyReferences component1 = gameObject.GetComponent<HierarchyReferences>();
-            component1.GetReference<LocText>("Label").SetText(StarmapItemCategory.ToString());
+            string categoryName = string.Empty; //CATEGORYENUM
+
+            switch (StarmapItemCategory)
+            {
+                case StarmapItemCategory.Starter:
+                    categoryName = STRINGS.UI.CUSTOMCLUSTERUI.CATEGORYENUM.START;
+                    break;
+                case StarmapItemCategory.Warp:
+                    categoryName = STRINGS.UI.CUSTOMCLUSTERUI.CATEGORYENUM.WARP;
+                    break;
+                case StarmapItemCategory.Outer:
+                    categoryName = STRINGS.UI.CUSTOMCLUSTERUI.CATEGORYENUM.OUTER;
+                    break;
+                case StarmapItemCategory.POI:
+                    categoryName = STRINGS.UI.CUSTOMCLUSTERUI.CATEGORYENUM.POI;
+                    break;
+            }
+
+            component1.GetReference<LocText>("Label").SetText(categoryName);
             
             component1.GetReference<Image>("Icon").sprite = Assets.GetSprite("unknown"); /// better icons
             MultiToggle component2 = gameObject.GetComponent<MultiToggle>();

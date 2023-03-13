@@ -1,0 +1,49 @@
+﻿[img]https://i.imgur.com/VgZFBU7.png[/img]
+
+[h1]Scan & Relay Satellites(DLC)[/h1]
+
+This mod adds the opportunity to deploy satellites on the starmap that function as logic relays and scan the surrounding space tiles.
+
+[h1]Current latest Version: 1.0.0[/h1]
+
+[hr][/hr]
+[h1]Features[/h1]
+[list]
+[*] New Rocket Module: Satellite Carrier Module - Deploy and retrieve satellites with this module
+[*] New crafting item: Satellite Parts - Construct these at the workbench. One satellite takes 20 satellite parts to make.
+[*] New Mechanic: Satellites - When deployed on the space map, these satellites provide 2 functions:[list]
+    [*] Scanner: Will slowly reveal the space around it, similar to a telescope
+    [*] Logic Relay: Will relay logic signals to increase the range of logic broadcasters. See the images for visual explanation.
+    [/list]
+[/list]
+
+[hr][/hr]
+[h1]Mod Config[/h1]
+[list]
+[*] Satellite Scan Range: Radius of the max. satellite scan distance. Higher value == more of the space map gets revealed.
+[*] Satellite Scan Speed: Time the satellites scanner need to reveal one space tile (value in cycles). 
+[*] Satellite Logic Repeater Range: The range the satellites connect logic broadcasts.
+[/list]
+
+[hr][/hr]
+[h1]Credits[/h1]
+Options made with PLib.
+
+
+[h1]Bug Reports[/h1]
+Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+
+Where to find the Log:
+[list]
+[*]Windows: 
+    C:\Users\%username%\AppData\LocalLow\Klei\Oxygen Not Included\Player.log
+[*]Mac: 
+    ~/Library/Logs/Klei/Oxygen Not Included/Player.log
+[*] Linux: 
+~/.config/unity3d/Klei/Oxygen Not Included/Player.log
+[/list] 
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
+

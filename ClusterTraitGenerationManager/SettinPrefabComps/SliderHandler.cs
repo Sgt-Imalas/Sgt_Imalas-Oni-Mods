@@ -55,7 +55,7 @@ namespace ClusterTraitGenerationManager.SettinPrefabComps
 
             slider.value = (current);
             LabelInfoText = infoText;
-            UIUtils.AddSimpleTooltipToObject(infoLabel.transform, desc,true, 200);
+            UIUtils.AddSimpleTooltipToObject(infoLabel.transform, desc,true);
             usesMapSize = usesMap;
 
             HandleData(current);

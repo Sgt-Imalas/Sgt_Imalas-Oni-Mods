@@ -48,6 +48,8 @@ namespace ClusterTraitGenerationManager
                 UnityEngine.Object.Destroy(window);
                 var newScreen = Util.KInstantiateUI(copy.gameObject, parent.transform.parent.gameObject, true);
                 selectScreen = parent;
+                newScreen.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, UnityEngine.Screen.currentResolution.height);
+                newScreen.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, UnityEngine.Screen.currentResolution.width);
                 newScreen.name = "ClusterSelectionView";
                 var cmp = newScreen.AddComponent(typeof(FeatureSelectionScreen));
 
