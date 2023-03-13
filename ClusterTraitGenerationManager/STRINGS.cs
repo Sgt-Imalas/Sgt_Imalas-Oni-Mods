@@ -13,13 +13,25 @@ namespace ClusterTraitGenerationManager
         {
             public class SPACEDESTINATIONS
             {
-                public class HARVESTABLE_POI
+                public static class CGM_RANDOM_STARTER
                 {
-                    public class CGM_POIS
-                    {
-                        public static LocString NAME = "Random POI";
-                        public static LocString DESCRIPTION = "Chooses amount of POIs at random.";
-                    }
+                    public static LocString NAME = (LocString)"Random Start Asteroid";
+                    public static LocString DESCRIPTION = (LocString)"The starting asteroid will be picked at random";
+                }
+                public static class CGM_RANDOM_WARP
+                {
+                    public static LocString NAME = (LocString)"Random Teleporter Asteroid";
+                    public static LocString DESCRIPTION = (LocString)"The teleporter asteroid will be picked at random";
+                }
+                public static class CGM_RANDOM_OUTER
+                {
+                    public static LocString NAME = (LocString)"Random Outer Asteroid(s)";
+                    public static LocString DESCRIPTION = (LocString)"Choose an amount of random outer asteroids.\n\nEach asteroid can only spawn once";
+                }
+                public class CGM_RANDOM_POI
+                {
+                    public static LocString NAME = "Random POI";
+                    public static LocString DESCRIPTION = "Choose an amount of POIs at random.";
                 }
             }
         }
