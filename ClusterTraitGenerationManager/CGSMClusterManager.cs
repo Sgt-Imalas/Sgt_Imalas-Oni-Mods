@@ -245,7 +245,7 @@ namespace ClusterTraitGenerationManager
             public string _poiID { get; private set; }
 
             public float InstancesToSpawn = 1;
-            public bool moreThanOneAllowed = false;
+            public float MaxNumberOfInstances = 1;
             public int minRing => placement != null ? placement.allowedRings.min : placementPOI != null ? placementPOI.allowedRings.min : -1;
             public int maxRing => placement != null ? placement.allowedRings.max : placementPOI != null ? placementPOI.allowedRings.max : -1;
             public int buffer => placement != null ? placement.buffer : -1;
@@ -255,7 +255,10 @@ namespace ClusterTraitGenerationManager
             #region SetterMethods
             public void SetSpawnNumber(float newNumber)
             {
-                InstancesToSpawn = newNumber;
+                if(newNumber<= MaxNumberOfInstances)
+                {
+                    InstancesToSpawn = newNumber;
+                }
             }
             public void IncreaseSpawnNumber(float newNumber)
             {
@@ -354,17 +357,17 @@ namespace ClusterTraitGenerationManager
                 this.world = world;
                 return this;
             }
-            public StarmapItem AddItemWorldPlacement(WorldPlacement placement, bool morethanone=false)
+            public StarmapItem AddItemWorldPlacement(WorldPlacement placement, float morethanone = 1)
             {
-                this.moreThanOneAllowed = morethanone;
+                this.MaxNumberOfInstances = morethanone;
                 this.placement = placement;
                 return this;
             }
-            public StarmapItem MakeItemPOI(string _displayName, SpaceMapPOIPlacement placement2, bool moreThanOneAllowed)
+            public StarmapItem MakeItemPOI(string _displayName, SpaceMapPOIPlacement placement2, float MaxNumberOfInstances)
             {
                 this._poiID = _displayName;
                 this.placementPOI = placement2;
-                this.moreThanOneAllowed = moreThanOneAllowed;
+                this.MaxNumberOfInstances = MaxNumberOfInstances;
                 return this;
             }
             #region EqualityComparer
@@ -381,11 +384,11 @@ namespace ClusterTraitGenerationManager
             }
             public override int GetHashCode()
             {
-                return id.GetHashCode() ^ category.GetHashCode();
+                return id.GetHashCode();
             }
             public static bool operator ==(StarmapItem x, StarmapItem y)
             {
-                return x.id == y.id && x.category == y.category;
+                return x.id == y.id;
             }
             public static bool operator !=(StarmapItem x, StarmapItem y)
             {
@@ -642,7 +645,7 @@ namespace ClusterTraitGenerationManager
         public static void TogglePlanetoid(StarmapItem ToAdd)
         {
             var item = GivePrefilledItem(ToAdd); ///Prefilled
-            //only one starter at a time
+            ///only one starter at a time
             if (item.category == StarmapItemCategory.Starter)
             {
                 if (item.Equals(CustomCluster.StarterPlanet))
@@ -657,7 +660,10 @@ namespace ClusterTraitGenerationManager
             else if (item.category == StarmapItemCategory.Warp)
             {
                 if (item.Equals(CustomCluster.WarpPlanet))
+                {
+                    CustomCluster.WarpPlanet = default;
                     return;
+                }
                 else
                 {
                     CustomCluster.WarpPlanet = item;
@@ -701,7 +707,9 @@ namespace ClusterTraitGenerationManager
         {
             var planetPaths = new List<string>();
             planetPaths.Add(CustomCluster.StarterPlanet.id);
-            planetPaths.Add(CustomCluster.WarpPlanet.id);
+
+            if(CustomCluster.WarpPlanet != default)
+                planetPaths.Add(CustomCluster.WarpPlanet.id);
 
             foreach (var planet in CustomCluster.OuterPlanets)
             {
@@ -774,7 +782,7 @@ namespace ClusterTraitGenerationManager
                             animName = "ui";
 
 
-                        bool moreThanOne = lonePOI != "ArtifactSpacePOI_RussellsTeapot" && lonePOI != "TemporalTear";
+                        float moreThanOne = lonePOI != "ArtifactSpacePOI_RussellsTeapot" && lonePOI != "TemporalTear" ? MaxAmountPOI : 1;
 
                         Sprite POIsprite = Def.GetUISpriteFromMultiObjectAnim(animFile, animName, true);
 
@@ -818,6 +826,9 @@ namespace ClusterTraitGenerationManager
 
         }
 
+        public const float MaxAmountPOI = 5f;
+        public const float MaxAmountRandomPOI = 12f;
+        public const float MaxAmountRandomPlanet = 6f;
         public const string RandomKey = "CGM_RANDOM_";
         static Dictionary<string, StarmapItem> PlanetsAndPOIs = null;
 
@@ -855,7 +866,7 @@ namespace ClusterTraitGenerationManager
                         placement.allowedRings = new MinMaxI(0, CustomCluster.Rings);
                         placement.canSpawnDuplicates = true;
                         placement.numToSpawn = 1;
-                        randomItem = randomItem.MakeItemPOI(key, placement, true);
+                        randomItem = randomItem.MakeItemPOI(key, placement, MaxAmountRandomPOI);
                         PlanetsAndPOIs[key] = randomItem;
                     }
                     else
@@ -865,7 +876,7 @@ namespace ClusterTraitGenerationManager
                         placement.startWorld = category == StarmapItemCategory.Starter;
                         placement.locationType = category == StarmapItemCategory.Starter ? LocationType.Startworld : LocationType.Cluster;
 
-                        randomItem = randomItem.AddItemWorldPlacement(placement, true);
+                        randomItem = randomItem.AddItemWorldPlacement(placement, category == StarmapItemCategory.Outer ? MaxAmountRandomPlanet : 1);
                         PlanetsAndPOIs[key] = randomItem;
                     }
 

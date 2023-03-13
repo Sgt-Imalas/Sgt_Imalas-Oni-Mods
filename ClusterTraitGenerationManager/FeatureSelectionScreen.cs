@@ -115,26 +115,59 @@ namespace ClusterTraitGenerationManager
                 }
                 )
             );
-            customPlanetoidSettings.Add(new KeyValuePair<GameObject, ICustomPlanetoidSetting>(Check, PlanetEnabled));
+            customPlanetoidSettings.Add(new KeyValuePair<GameObject, ICustomPlanetoidSetting>(Check, PlanetEnabled)); ///custom index 0, enabled
+
+            var NumberCounter = Util.KInstantiateUI(SliderPrefab.gameObject, infoInsert.gameObject, true);
+            var NumberCounterHandler = NumberCounter.AddComponent<SliderHandler>();
+            NumberCounterHandler.SetupSlider(0, SelectedPlanet.InstancesToSpawn, SelectedPlanet.MaxNumberOfInstances, false, "Amount: ",
+                (value) => {
+                    if (CustomCluster.HasStarmapItem(SelectedPlanet, out var current))
+                        current.SetSpawnNumber(value);
+                    else
+                        SelectedPlanet.SetSpawnNumber(value);
+                    RefreshGallery();
+                });
+            customPlanetoidSettings.Add(new KeyValuePair<GameObject, ICustomPlanetoidSetting>(NumberCounter, NumberCounterHandler)); /// custom index 1, number
 
             ///Sliders for inner and outer ring
 
             var planetMinRing = Util.KInstantiateUI(SliderPrefab.gameObject, infoInsert.gameObject, true);
             var planetMinRingHandler = planetMinRing.AddComponent<SliderHandler>();
-            planetMinRingHandler.SetupSlider(0, SelectedPlanet.minRing, CustomCluster.Rings, true, "Minimum Ring: ", (value) => { SelectedPlanet.SetInnerRing((int)value); this.RefreshDetails(); }, true);
-            customPlanetoidSettings.Add(new KeyValuePair<GameObject, ICustomPlanetoidSetting>(planetMinRing, planetMinRingHandler));
+            planetMinRingHandler.SetupSlider(0, SelectedPlanet.minRing, CustomCluster.Rings, true, "Minimum Ring: ",
+                (value) => {
+                    if (CustomCluster.HasStarmapItem(SelectedPlanet, out var current))
+                        current.SetInnerRing((int)value);
+                    else
+                        SelectedPlanet.SetInnerRing((int)value);
+                    //this.RefreshDetails(); 
+                }, true);
+            customPlanetoidSettings.Add(new KeyValuePair<GameObject, ICustomPlanetoidSetting>(planetMinRing, planetMinRingHandler)); ///custom index 2, min
 
             var planetMaxRing = Util.KInstantiateUI(SliderPrefab.gameObject, infoInsert.gameObject, true);
             var planetMaxRingHandler = planetMaxRing.AddComponent<SliderHandler>();
-            planetMaxRingHandler.SetupSlider(0, SelectedPlanet.maxRing, CustomCluster.Rings, true, "Maximum Ring: ", (value) => { SelectedPlanet.SetOuterRing((int)value); this.RefreshDetails(); }, true);
-            customPlanetoidSettings.Add(new KeyValuePair<GameObject, ICustomPlanetoidSetting>(planetMaxRing, planetMaxRingHandler));
+            planetMaxRingHandler.SetupSlider(0, SelectedPlanet.maxRing, CustomCluster.Rings, true, "Maximum Ring: ", (value) =>
+            {
+                if (CustomCluster.HasStarmapItem(SelectedPlanet, out var current))
+                    current.SetOuterRing((int)value);
+                else
+                    SelectedPlanet.SetOuterRing((int)value);
+                //    this.RefreshDetails(); 
+            }, true);
+            customPlanetoidSettings.Add(new KeyValuePair<GameObject, ICustomPlanetoidSetting>(planetMaxRing, planetMaxRingHandler)); ///Custom index 3, max
 
             ///Slider for buffer
             ///
             var planetBuffer = Util.KInstantiateUI(SliderPrefab.gameObject, infoInsert.gameObject, true);
             var planetBufferHandler = planetBuffer.AddComponent<SliderHandler>();
-            planetBufferHandler.SetupSlider(0, SelectedPlanet.buffer, CustomCluster.Rings, true, "Buffer Distance: ", (value) => { SelectedPlanet.SetBuffer((int)value); this.RefreshDetails(); }, true);
-            customPlanetoidSettings.Add(new KeyValuePair<GameObject, ICustomPlanetoidSetting>(planetBuffer, planetBufferHandler));
+            planetBufferHandler.SetupSlider(0, SelectedPlanet.buffer, CustomCluster.Rings, true, "Buffer Distance: ", (value) => {
+                
+                if(CustomCluster.HasStarmapItem(SelectedPlanet, out var current))
+                    current.SetBuffer((int)value);
+                else
+                    SelectedPlanet.SetBuffer((int)value);
+                // this.RefreshDetails();
+            }, true);
+            customPlanetoidSettings.Add(new KeyValuePair<GameObject, ICustomPlanetoidSetting>(planetBuffer, planetBufferHandler)); ///custom index 4, buffer
 
 
             #endregion
@@ -179,7 +212,9 @@ namespace ClusterTraitGenerationManager
             };
             UIUtils.FindAndDestroy(infoInsert, "KleiPermitDioramaVis");
             //UIUtils.ListAllChildren(infoInsert);
+            init = true;
         }
+        bool init=false;
         bool showGameSettings = true;
 
         LocText SettingsButtonText = null;
@@ -295,6 +330,8 @@ namespace ClusterTraitGenerationManager
         private LocText selectionHeaderLabel;
         private void RefreshDetails()
         {
+            if (!init || SelectedPlanet == default)
+                return;
 
             string name = SelectedPlanet.DisplayName;
             string description = SelectedPlanet.DisplayDescription;
@@ -320,23 +357,30 @@ namespace ClusterTraitGenerationManager
             bool isPoi = SelectedPlanet.category == StarmapItemCategory.POI;
 
             StarmapItem current;
-            bool IsPartOfCluster = CustomCluster.HasStarmapItem(SelectedPlanet, out current);
-
-
+            bool IsPartOfCluster = CustomCluster.HasStarmapItem(SelectedPlanet, out current);      
+     
             customPlanetoidSettings[0].Value.HandleData(IsPartOfCluster); ///PlanetToggle
-            customPlanetoidSettings[1].Value.HandleData((float)current.minRing); ///inner ring
-            customPlanetoidSettings[1].Value.ToggleInteractable(IsPartOfCluster);
-            customPlanetoidSettings[2].Value.HandleData((float)current.maxRing); ///outer ring
-            customPlanetoidSettings[2].Value.ToggleInteractable(IsPartOfCluster);
 
-            customPlanetoidSettings[3].Key.SetActive(!isPoi && !showGameSettings);///buffer ring, only on planets
-            if (!isPoi)
+            customPlanetoidSettings[1].Key.SetActive(current.MaxNumberOfInstances > 1 && !showGameSettings);///Amount, only on poi / random planets
+            if (current.MaxNumberOfInstances > 1)
             {
-                customPlanetoidSettings[3].Value.HandleData((float)current.buffer);
-                customPlanetoidSettings[3].Value.ToggleInteractable(IsPartOfCluster);
+                customPlanetoidSettings[1].Value.HandleData(new float[] { (float)current.InstancesToSpawn, current.MaxNumberOfInstances });
+                customPlanetoidSettings[1].Value.ToggleInteractable(IsPartOfCluster);
             }
 
 
+            customPlanetoidSettings[2].Value.HandleData((float)current.minRing); ///inner ring
+            customPlanetoidSettings[2].Value.ToggleInteractable(IsPartOfCluster);
+
+            customPlanetoidSettings[3].Value.HandleData((float)current.maxRing); ///outer ring
+            customPlanetoidSettings[3].Value.ToggleInteractable(IsPartOfCluster);
+
+            customPlanetoidSettings[4].Key.SetActive(!isPoi && !showGameSettings);///buffer ring, only on planets
+            if (!isPoi)
+            {
+                customPlanetoidSettings[4].Value.HandleData((float)current.buffer);
+                customPlanetoidSettings[4].Value.ToggleInteractable(IsPartOfCluster);
+            }
         }
 
         #region buttonRecycling

@@ -61,8 +61,23 @@ namespace ClusterTraitGenerationManager.SettinPrefabComps
 
         public void HandleData(object data)
         {
-            infoLabel.text = LabelInfoText + data.ToString(); 
-            slider.value = (float)data;
+            float first=0,second=-1;
+            if(data is float[])
+            {
+                var casted = (float[])data;
+                first = casted[0];
+                second = casted[1];
+            }
+            if(data is float) {
+                first = (float)data;
+            }
+            if (second > 0)
+            {
+                slider.maxValue = second;
+            }
+
+            infoLabel.text = LabelInfoText + first.ToString(); 
+            slider.value = first;
             if(usesMapSize)
             {
                 slider.maxValue = CGSMClusterManager.CustomCluster.Rings;
