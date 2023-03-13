@@ -103,6 +103,7 @@ namespace ClusterTraitGenerationManager
                 planetConfig.Key.SetActive(!showGameSettings);
             }
             SettingsButtonText.text = showGameSettings ? "Hide Cluster Config" : "Show Cluster Config";
+            RefreshDetails();
         }
 
         List<KeyValuePair<GameObject, ICustomPlanetoidSetting>> GlobalClusterSettings = new List<KeyValuePair<GameObject, ICustomPlanetoidSetting>>();
