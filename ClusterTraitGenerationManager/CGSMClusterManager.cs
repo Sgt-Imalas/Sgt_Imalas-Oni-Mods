@@ -26,16 +26,17 @@ namespace ClusterTraitGenerationManager
 
         public static ColonyDestinationSelectScreen selectScreen;
 
+        public static bool LoadCustomCluster = false;
 
         public static void InstantiateClusterSelectionView(ColonyDestinationSelectScreen parent, System.Action onClose = null)
         {
             if (true)//Screen == null)
             {
-                if (CustomCluster == null)
+                ///Change to check for moonlet/vanilla start
+                if(CustomCluster==null)
                 {
-                    ///Change to check for moonlet/vanilla start
-                    var defaultCluster = CustomCluster == null ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
-                    CreateCustomClusterFrom(defaultCluster);
+                    var defaultCluster = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
+                    CGSMClusterManager.CreateCustomClusterFrom(defaultCluster);
                 }
 
                 LockerNavigator.Instance.PushScreen(LockerNavigator.Instance.kleiInventoryScreen);
@@ -872,7 +873,7 @@ namespace ClusterTraitGenerationManager
         public const float MaxAmountRandomPlanet = 6f;
         public const string RandomKey = "CGM_RANDOM_";
         static Dictionary<string, StarmapItem> PlanetsAndPOIs = null;
-        static List<string> RandomOuterPlanets= new List<string>();
+        static List<string> RandomOuterPlanets = new List<string>();
 
         public static StarmapItem GetRandomItemOfType(StarmapItemCategory starmapItemCategory)
         {
@@ -889,15 +890,15 @@ namespace ClusterTraitGenerationManager
                 else
                     break;
             }
-            if(starmapItemCategory == StarmapItemCategory.Outer)
+            if (starmapItemCategory == StarmapItemCategory.Outer)
             {
                 RandomOuterPlanets.Add(item.id);
-                if(i==20)
+                if (i == 20)
                 {
                     item = null;
                 }
             }
-            
+
             //while (item.category != starmapItemCategory || item.id.Contains("TemporalTear") || item.id == null || item.id == string.Empty)
             //{
             //    item = PlanetoidDict().Values.GetRandom();

@@ -19,6 +19,7 @@ namespace ClusterTraitGenerationManager.SettinPrefabComps
         string LabelInfoText;
         bool usesMapSize = false;
 
+
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
@@ -26,11 +27,15 @@ namespace ClusterTraitGenerationManager.SettinPrefabComps
             infoLabel = UIUtils.TryFindComponent<LocText>(transform, "Label");
             percentLabel = UIUtils.TryFindComponent<LocText>(transform, "PercentLabel");
 
+
             var s = GetComponent<HorizontalLayoutGroup>();
-            foreach (var p in s.GetType().GetProperties().Where(p => !p.GetGetMethod().GetParameters().Any()))
-                {
-                    Console.WriteLine(p+": " +p.GetValue(s, null));
-                }
+            s.childForceExpandWidth= true;
+            s.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 800);
+            slider.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, 700);
+            //foreach (var p in s.GetType().GetProperties().Where(p => !p.GetGetMethod().GetParameters().Any()))
+            //    {
+            //        //Console.WriteLine(p+": " +p.GetValue(s, null));
+            //    }
 
             //this.GetComponent<HorizontalLayoutGroup>().childForceExpandWidth = 500;
             //infoLabel.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 800);
@@ -39,9 +44,9 @@ namespace ClusterTraitGenerationManager.SettinPrefabComps
             percentLabel.gameObject.SetActive(true);
         }
 
-        public void SetupSlider(float min,float current, float max, bool fullNumbers, string infoText, System.Action<float> handleOutput, bool usesMap = false)
+        public void SetupSlider(float min,float current, float max, bool fullNumbers, string infoText,string desc, System.Action<float> handleOutput, bool usesMap = false)
         {
-            SgtLogger.l(min+", "+ current+", "+ max+", "+ fullNumbers);
+            //SgtLogger.l(min+", "+ current+", "+ max+", "+ fullNumbers);
             slider.minValue = min;
             slider.maxValue = max;
             slider.wholeNumbers = fullNumbers;
@@ -50,6 +55,7 @@ namespace ClusterTraitGenerationManager.SettinPrefabComps
 
             slider.value = (current);
             LabelInfoText = infoText;
+            UIUtils.AddSimpleTooltipToObject(infoLabel.transform, desc,true, 200);
             usesMapSize = usesMap;
 
             HandleData(current);
@@ -88,7 +94,7 @@ namespace ClusterTraitGenerationManager.SettinPrefabComps
 
         public void ToggleInteractable(bool interactable)
         {
-            slider.interactable= interactable;
+            slider.interactable= interactable;            
         }
     }
 }

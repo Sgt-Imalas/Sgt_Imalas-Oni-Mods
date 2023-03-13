@@ -75,10 +75,32 @@ namespace ClusterTraitGenerationManager
         {
             public static void Postfix(ColonyDestinationAsteroidBeltData cluster)
             {
-                CGSMClusterManager.CreateCustomClusterFrom(cluster.beltPath);
+
+                if(cluster==null || cluster.beltPath==null|| cluster.beltPath.Length == 0)
+                {
+                    var defaultCluster = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
+                    CGSMClusterManager.CreateCustomClusterFrom(defaultCluster);
+                }
+                else
+                {
+                    CGSMClusterManager.CreateCustomClusterFrom(cluster.beltPath);
+                }
+                CGSMClusterManager.LoadCustomCluster = false;
                 //SgtLogger.l("GOT CALLED TO: "+cluster.beltPath,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
             }
         }
+
+        [HarmonyPatch(typeof(NewGameFlowScreen))]
+        [HarmonyPatch(nameof(NewGameFlowScreen.NavigateBackward))]
+        public static class DeleteCustomOnBackingOut
+        {
+            public static void Prefix()
+            {
+                SgtLogger.l("Deleted Custom Cluster Preset");
+                CGSMClusterManager.CustomCluster = null;
+            }
+        }
+
         [HarmonyPatch(typeof(NewGameFlowScreen))]
         [HarmonyPatch(nameof(NewGameFlowScreen.OnKeyDown))]
         public static class CatchGoingBack
@@ -100,13 +122,13 @@ namespace ClusterTraitGenerationManager
             public static void Prefix(ref string name)
             {
                 //CustomLayout
-                if(CGSMClusterManager.CustomCluster != null)
+                if(CGSMClusterManager.CustomCluster != null&& CGSMClusterManager.LoadCustomCluster)
                 {
-                    //name = CGSMClusterManager.CustomClusterID;
-                    foreach(var planet in SettingsCache.worlds.worldCache)
-                    {
-                        planet.Value.worldsize = new Vector2I(200, 200);  
-                    }
+                    name = CGSMClusterManager.CustomClusterID;
+                    //foreach(var planet in SettingsCache.worlds.worldCache)
+                    //{
+                    //    planet.Value.worldsize = new Vector2I(200, 200);  
+                    //}
                 }
             }
 
@@ -134,7 +156,7 @@ namespace ClusterTraitGenerationManager
                 //placement.SetWorldSize(200, 200);
                 //}
                 placement.SetWorldSize(x, y);
-                SgtLogger.l(x + ", " + y + "<- by file : by config->" + placement1.width + ", " + placement1.height, "WorldGen");
+                //SgtLogger.l(x + ", " + y + "<- by file : by config->" + placement1.width + ", " + placement1.height, "WorldGen");
             }
 
             private static readonly MethodInfo FixForWorldGen = AccessTools.Method(

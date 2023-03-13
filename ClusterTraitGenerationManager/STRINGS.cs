@@ -11,6 +11,51 @@ namespace ClusterTraitGenerationManager
     {
         public class UI
         {
+            public class CUSTOMCLUSTERUI
+            {
+                public static LocString NAMECATEGORIES = (LocString)"Starmap Item Category";
+                public static LocString NAMEITEMS = (LocString)"Starmap Items of this category";
+
+               
+                
+                public static class CUSTOMCLUSTERCONFIG
+                {
+                    public static LocString SHOW = (LocString)"Show Cluster Config";
+                    public static LocString HIDE = (LocString)"Hide Cluster Config";
+                }
+                public static class ENABLED
+                {
+                    public static LocString NAME = (LocString)"Enabled: ";
+                    public static LocString DESC = (LocString)"Should this planet/POI be spawned at all";
+                }
+                public static class NUMBERS
+                {
+                    public static LocString NAME = (LocString)"Amount: ";
+                    public static LocString DESC = (LocString)"How many of these should be spawned.\nValues that arent full numbers represent a chance to spawn for POIs.\n(0.8 = 80% chance to spawn this POI)";
+                }
+                public static class MINRINGS
+                {
+                    public static LocString NAME = (LocString)"Minimum Distance: ";
+                    public static LocString DESC = (LocString)"The minimum distance this planet has to the center of the starmap.";
+                }
+                public static class MAXRINGS
+                {
+                    public static LocString NAME = (LocString)"Maximum Distance: ";
+                    public static LocString DESC = (LocString)"The maximum distance this planet has to the center of the starmap.";
+                }
+                public static class BUFFER
+                {
+                    public static LocString NAME = (LocString)"Buffer Distance: ";
+                    public static LocString DESC = (LocString)"The minimum distance this planet has to other planets.";
+                }
+                public static class MAPSIZE
+                {
+                    public static LocString NAME = (LocString)"Starmap Size: ";
+                    public static LocString DESC = (LocString)"The radius of the starmap.";
+                }
+
+            }
+
             public class SPACEDESTINATIONS
             {
                 public static class CGM_RANDOM_STARTER
