@@ -943,13 +943,30 @@ namespace ClusterTraitGenerationManager
             return item;
         }
 
+
+
+        static Sprite GetRandomSprite(StarmapItemCategory category)
+        {
+            switch (category)
+            {
+                case StarmapItemCategory.Starter:
+                    return Assets.GetSprite("random_starter");
+                case StarmapItemCategory.Warp:
+                    return Assets.GetSprite("random_warp");
+                case StarmapItemCategory.Outer:
+                    return Assets.GetSprite("random_outer");
+                case StarmapItemCategory.POI:
+                    return Assets.GetSprite("radnom_poi");
+                default:
+                    return Assets.GetSprite("unknown");
+            }
+        }
         public static Dictionary<string, StarmapItem> PlanetoidDict()
         {
             if (PlanetsAndPOIs == null)
             {
                 PlanetsAndPOIs = new Dictionary<string, StarmapItem>();
 
-                var randomSprite = Assets.GetSprite("unknown");//Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim((HashedString)"asteroid_random_start_kanim"));
                 foreach (StarmapItemCategory category in (StarmapItemCategory[])Enum.GetValues(typeof(StarmapItemCategory)))
                 {
                     var key = RandomKey + category.ToString();
@@ -957,7 +974,7 @@ namespace ClusterTraitGenerationManager
                         (
                         key,
                         category,
-                        randomSprite
+                        GetRandomSprite(category)
                         );
                     randomItem.SetSpawnNumber(1);
 

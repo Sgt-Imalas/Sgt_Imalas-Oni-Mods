@@ -29,9 +29,14 @@ Once everything is configured, hit the "Start Game" button to generate the clust
     [*] (only random planets & pois): Number of instances that should be spawned
     [/list]
 [/list]
+Systems that are still work in progress:[list]
+[*] Changeable planet sizes
+[*] per-planet trait selector
+[/list]
 
 
-[h2]Warnings[/h2]
+
+[h2]Causes for generation failure[/h2]
 [list]
 [*]Extreme configurations can let the worldgen fail more easily. 
 [*]When a seed fails however, the config is kept, so you can retry with a different seed.
@@ -39,10 +44,19 @@ Once everything is configured, hit the "Start Game" button to generate the clust
 [/list]
 
 [h1]Compatible custom planet mods (examples):[/h1][list]
-[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2582905897] Baator[/url]
-[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2860569135] Roller Snakes[/url]
-[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2879715930] Other Cluster[/url]
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2582905897]Baator[/url]
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2860569135]Roller Snakes[/url]
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2879715930]Other Cluster[/url]
 [/list]
+
+[h1]Credits[/h1]
+Random-Selection Art made by 3GuB
+
+[hr][/hr]
+[h1]Translations[/h1]
+Current Languages:
+- English
+- German
 
 [h1]Bug Reports[/h1]
 Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
