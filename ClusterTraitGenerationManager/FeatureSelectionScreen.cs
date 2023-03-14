@@ -299,6 +299,11 @@ namespace ClusterTraitGenerationManager
             customPlanetoidSettings.Add(new KeyValuePair<GameObject, ICustomPlanetoidSetting>(planetBuffer, planetBufferHandler)); ///custom index 4, buffer
 
 
+            var planetDimensionTmp = Util.KInstantiateUI(SliderPrefab.gameObject, infoInsert.gameObject, true);
+            var planetDimensionTmpHandler = planetDimensionTmp.AddComponent<SliderReusedAsInfo>();
+            planetDimensionTmpHandler.SetupInfo(STRINGS.UI.CUSTOMCLUSTERUI.PLANETSIZE.NAME, STRINGS.UI.CUSTOMCLUSTERUI.PLANETSIZE.DESC, SelectedPlanet.PlanetDimensions);
+            customPlanetoidSettings.Add(new KeyValuePair<GameObject, ICustomPlanetoidSetting>(planetDimensionTmp, planetDimensionTmpHandler)); ///custom index 5, Size
+
             #endregion
 
             #region globalClusterConfig
@@ -430,10 +435,13 @@ namespace ClusterTraitGenerationManager
             customPlanetoidSettings[3].Value.ToggleInteractable(IsPartOfCluster);
 
             customPlanetoidSettings[4].Key.SetActive(!isPoi && !showGameSettings);///buffer ring, only on planets
+            customPlanetoidSettings[5].Key.SetActive(!isPoi && !showGameSettings);///size, only on planets
             if (!isPoi)
             {
                 customPlanetoidSettings[4].Value.HandleData((float)current.buffer);
                 customPlanetoidSettings[4].Value.ToggleInteractable(IsPartOfCluster);
+                SgtLogger.l(current.PlanetDimensions.ToString(),"WHYYYYYYYYYYYyy");
+                customPlanetoidSettings[5].Value.HandleData(current.PlanetDimensions);
             }
         }
 

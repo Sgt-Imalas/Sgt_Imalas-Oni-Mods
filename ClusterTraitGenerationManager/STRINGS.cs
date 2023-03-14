@@ -66,6 +66,11 @@ namespace ClusterTraitGenerationManager
                     public static LocString NAME = (LocString)"Starmap Size: ";
                     public static LocString DESC = (LocString)"The radius of the starmap.";
                 }
+                public static class PLANETSIZE
+                {
+                    public static LocString NAME = (LocString)"Planet Size: {0} x {1}";
+                    public static LocString DESC = (LocString)"The dimension of this planet.\nEditing is still wip."; 
+                }
 
             }
 

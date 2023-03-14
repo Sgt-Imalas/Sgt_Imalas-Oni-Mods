@@ -28,10 +28,12 @@ namespace ClusterTraitGenerationManager.SettinPrefabComps
             percentLabel = UIUtils.TryFindComponent<LocText>(transform, "PercentLabel");
 
 
-            var s = GetComponent<HorizontalLayoutGroup>();
-            s.childForceExpandWidth= true;
-            s.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 800);
-            slider.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, 700);
+            var l = infoLabel.GetComponent<LayoutElement>();
+            l.preferredWidth = 250;
+            l.minWidth = 200;
+            var s = slider.GetComponent<LayoutElement>();
+            s.minWidth = 500;
+            s.preferredWidth = 700;
             //foreach (var p in s.GetType().GetProperties().Where(p => !p.GetGetMethod().GetParameters().Any()))
             //    {
             //        //Console.WriteLine(p+": " +p.GetValue(s, null));
@@ -41,7 +43,7 @@ namespace ClusterTraitGenerationManager.SettinPrefabComps
             //infoLabel.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 800);
             //slider.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 800);
 
-            percentLabel.gameObject.SetActive(true);
+            //percentLabel.gameObject.SetActive(true);
         }
 
         public void SetupSlider(float min,float current, float max, bool fullNumbers, string infoText,string desc, System.Action<float> handleOutput, bool usesMap = false)

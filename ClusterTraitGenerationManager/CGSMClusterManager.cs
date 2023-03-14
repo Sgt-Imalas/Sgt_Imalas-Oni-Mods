@@ -275,6 +275,19 @@ namespace ClusterTraitGenerationManager
                 }
             }
             public string _poiID { get; private set; }
+            public Vector2I PlanetDimensions
+            {
+                get
+                {
+                    var dim = new Vector2I(0,0);
+                    if(world != null)
+                    {
+                        dim.X = world.worldsize.X;
+                        dim.Y = world.worldsize.Y;
+                    }
+                    return dim;
+                }
+            }
 
             public float InstancesToSpawn = 1;
             public float MaxNumberOfInstances = 1;

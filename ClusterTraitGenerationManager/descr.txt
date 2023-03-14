@@ -33,20 +33,16 @@ Once everything is configured, hit the "Start Game" button to generate the clust
 
 [h2]Warnings[/h2]
 [list]
-[*]Extreme configuration can let the worldgen fail more easily. 
+[*]Extreme configurations can let the worldgen fail more easily. 
 [*]When a seed fails however, the config is kept, so you can retry with a different seed.
 [*]Do not set multiple planets to (min. 0, max 0), this guarantees a failure since multiple planets cannot exist on the same tile (the center in this case).
 [/list]
 
-[h1]Other Custom Planet Mods:[/h1][list]
+[h1]Compatible custom planet mods (examples):[/h1][list]
 [*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2582905897] Baator[/url]
 [*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2860569135] Roller Snakes[/url]
 [*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2879715930] Other Cluster[/url]
 [/list]
-
-
-[h1]What about that other mod with the similar name[/h1]
-I have been working on this mod for a few months now. When that other guy came forth on the discord a few weeks ago with his mod, I tried doing a collaboration. He refused.
 
 [h1]Bug Reports[/h1]
 Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
