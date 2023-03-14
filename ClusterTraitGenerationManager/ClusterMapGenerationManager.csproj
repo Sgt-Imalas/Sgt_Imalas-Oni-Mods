@@ -54,6 +54,21 @@
 	  <None Update="ModAssets\anim\assets\asteroid_random_start\asteroid_random_start_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\assets\CGM_none_selected.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\assets\CGM_random_outer.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\assets\CGM_random_poi.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\assets\CGM_random_starter.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\assets\CGM_random_warp.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\dlc\expansion1\worldgen\clusters\CustomClusterVanilla.yaml">
 	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </None>
@@ -69,9 +84,12 @@
 	  <None Update="ModAssets\dlc\expansion1\worldgen\worlds\RandomFiller.yaml">
 	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\translations\de.po">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <Folder Include="ModAssets\assets\" />
+	  <Folder Include="ModAssets\translations\" />
 	</ItemGroup>
 </Project>

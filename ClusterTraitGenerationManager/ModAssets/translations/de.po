@@ -1,0 +1,240 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.2.2\n"
+
+#. ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGSM.DESCRIPTION
+msgctxt "ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGSM.DESCRIPTION"
+msgid "CGSM Cluster"
+msgstr ""
+
+#. ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGSM.NAME
+msgctxt "ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGSM.NAME"
+msgid "CGSM Cluster"
+msgstr ""
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGMBUTTON.DESC
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CGMBUTTON.DESC"
+msgid "Start customizing the currently selected cluster."
+msgstr "Beginne mit der Individualisierung des ausgewählten Clusters."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.BUFFER.DESC
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.BUFFER.DESC"
+msgid "The minimum distance this asteroid has to other asteroids."
+msgstr "Minimale Distanz welche zu anderen Asteroiden bestehen muss."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.BUFFER.NAME
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.BUFFER.NAME"
+msgid "Buffer Distance: "
+msgstr "Pufferdistanz: "
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.CATEGORYENUM.OUTER
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.CATEGORYENUM.OUTER"
+msgid "Outer Asteroids"
+msgstr "Äußere Asteroiden"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.CATEGORYENUM.POI
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.CATEGORYENUM.POI"
+msgid "Points of Interest"
+msgstr "Sehenswürdigkeiten"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.CATEGORYENUM.START
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.CATEGORYENUM.START"
+msgid "Start Asteroid"
+msgstr "Startasteroid"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.CATEGORYENUM.WARP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.CATEGORYENUM.WARP"
+msgid "Teleport Asteroid"
+msgstr "Teleporterasteroid"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.CUSTOMCLUSTERCONFIG.HIDE
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.CUSTOMCLUSTERCONFIG."
+"HIDE"
+msgid "Hide Cluster Config"
+msgstr "Cluster-Einstellungen verstecken"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.CUSTOMCLUSTERCONFIG.SHOW
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.CUSTOMCLUSTERCONFIG."
+"SHOW"
+msgid "Show Cluster Config"
+msgstr "Cluster-Einstellungen anzeigen"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.ENABLED.DESC
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.ENABLED.DESC"
+msgid "Should this asteroid/POI be generated at all?"
+msgstr "Soll dieser Asteroid / diese Sehenswürdigkeit generiert werden?"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.ENABLED.NAME
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.ENABLED.NAME"
+msgid "Enabled: "
+msgstr "Aktiviert: "
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.MAPSIZE.DESC
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.MAPSIZE.DESC"
+msgid "The radius of the starmap."
+msgstr "Der Radius der Sternenkarte."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.MAPSIZE.NAME
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.MAPSIZE.NAME"
+msgid "Starmap Radius: "
+msgstr "Sternenkartenradius: "
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.MAXRINGS.DESC
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.MAXRINGS.DESC"
+msgid "The maximum distance this asteroid has to the center of the starmap."
+msgstr "Maximale Distanz dieses Asteroiden zur Mitte der Sternenkarte."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.MAXRINGS.NAME
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.MAXRINGS.NAME"
+msgid "Maximum Distance: "
+msgstr "Maximale Distanz: "
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.MINRINGS.DESC
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.MINRINGS.DESC"
+msgid "The minimum distance this asteroid has to the center of the starmap."
+msgstr "Minimale Distanz dieses Asteroiden zur Mitte der Sternenkarte."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.MINRINGS.NAME
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.MINRINGS.NAME"
+msgid "Minimum Distance: "
+msgstr "Minimale Distanz: "
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.NAMECATEGORIES
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.NAMECATEGORIES"
+msgid "Starmap Item Category"
+msgstr "Sternkartengegenstandskategorie"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.NAMEITEMS
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.NAMEITEMS"
+msgid "Starmap Items of this category"
+msgstr "Sternkartengegenstände dieser Kategorie"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.NUMBERS.DESC
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.NUMBERS.DESC"
+msgid ""
+"How many instances of these should be generated.\n"
+"Values that arent full numbers represent a chance to generate for POIs.\n"
+"(f.e. 0.8 = 80% chance to generate this POI)"
+msgstr ""
+"Wie viele Instanzen dieses Gegenstandes generiert werden.\n"
+"Gleitkommazahlen entsprechen einer prozentualen Generierungschance.\n"
+"(0.8 entspricht beispielsweise einer 80% Generierungschance)"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.NUMBERS.NAME
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.NUMBERS.NAME"
+msgid "Amount: "
+msgstr "Anzahl: "
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.PLANETSIZE.DESC
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.PLANETSIZE.DESC"
+msgid "The dimensions of this asteroid."
+msgstr "Die Dimension dieses Asteroiden."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.PLANETSIZE.NAME
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.PLANETSIZE.NAME"
+msgid "Asteroid Size: {0} x {1}"
+msgstr "Asteroidengröße: {0} x {1}"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.RESET.DESC
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.RESET.DESC"
+msgid "Undo all changes you have made by reloading the cluster preset."
+msgstr "Setze alle am Cluster vorgenommenen Änderungen zurück."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.RESET.NAME
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.RESET.NAME"
+msgid "Reset all"
+msgstr "Alles zurücksetzen"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_OUTER.DESCRIPTION
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_OUTER."
+"DESCRIPTION"
+msgid ""
+"Choose an amount of random outer asteroids.\n"
+"\n"
+"Each asteroid can only generate once"
+msgstr ""
+"Wähle eine Anzahl zufällig ausgewählter Asteroiden.\n"
+"\n"
+"Jeder Asteroid kann nur einmal auftauchen"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_OUTER.NAME
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_OUTER."
+"NAME"
+msgid "Random Outer Asteroid(s)"
+msgstr "Zufällige Asteroiden"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_POI.DESCRIPTION
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_POI."
+"DESCRIPTION"
+msgid ""
+"Choose an amount of POIs at random.\n"
+"\n"
+"Does not roll unique POIs\n"
+"(Temporal Tear, Russel's Teapot)"
+msgstr ""
+"Wähle eine Anzahl zufällig ausgewählter Sehenswürdigkeiten.\n"
+"\n"
+"Kann keine einmaligen Sehenswürdigkeiten generieren\n"
+"(Zeitriss, Russells Teekanne)"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_POI.NAME
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_POI."
+"NAME"
+msgid "Random POI"
+msgstr "Zufällige Sehenswürdigkeiten"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_STARTER.DESCRIPTION
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS."
+"CGM_RANDOM_STARTER.DESCRIPTION"
+msgid "The starting asteroid will be picked at random"
+msgstr "Der Startasteroid wird zufällig gewählt"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_STARTER.NAME
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS."
+"CGM_RANDOM_STARTER.NAME"
+msgid "Random Start Asteroid"
+msgstr "Zufälliger Startasteroid"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_WARP.DESCRIPTION
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_WARP."
+"DESCRIPTION"
+msgid "The teleporter asteroid will be picked at random"
+msgstr "Der Teleporterasteroid wird zufällig gewählt"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_WARP.NAME
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_WARP."
+"NAME"
+msgid "Random Teleporter Asteroid"
+msgstr "Zufälliger Teleporterasteroid"

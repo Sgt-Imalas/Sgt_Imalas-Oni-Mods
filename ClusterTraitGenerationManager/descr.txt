@@ -38,7 +38,7 @@ Systems that are still work in progress:[list]
 
 [h2]Causes for generation failure[/h2]
 [list]
-[*]Extreme configurations can let the worldgen fail more easily. 
+[*]Extreme configurations can let the worldgen fail more easily (e.g. selecting a large amount of asteroids, but don't adjust their position rules and/or the map size).
 [*]When a seed fails however, the config is kept, so you can retry with a different seed.
 [*]Do not set multiple planets to (min. 0, max 0), this guarantees a failure since multiple planets cannot exist on the same tile (the center in this case).
 [/list]

@@ -48,14 +48,18 @@ namespace ClusterTraitGenerationManager
                 PlanetoidEntryPrefab = cmp.gridItemPrefab;
             }
 #if DEBUG
-            UIUtils.ListAllChildrenPath(this.transform);
+            //UIUtils.ListAllChildrenPath(this.transform);
 #endif
             galleryGridContent = transform.Find("Panel/Content/ColumnItemGallery/LayoutBreaker/Content/Categories/ScrollRect/GridContent").rectTransform();
             categoryListContent = transform.Find("Panel/Content/ColumnCategorySelection/LayoutBreaker/Content/Categories/ScrollRect/ContentContainer/Content").rectTransform();
             galleryHeaderLabel = transform.Find("Panel/Content/ColumnItemGallery/LayoutBreaker/Header/Label").GetComponent<LocText>();
             categoryHeaderLabel = transform.Find("Panel/Content/ColumnCategorySelection/LayoutBreaker/Header/Label").GetComponent<LocText>();
 
-
+            //var lb = transform.Find("Panel/Content").GetComponent<HorizontalLayoutGroup>();
+            //lb.childControlWidth = true ; 
+            transform.Find("Panel/Content").rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 900);
+            //UtilMethods.ListAllPropertyValues(lb);
+            //UIUtils.ListAllChildrenWithComponents(transform);
 
             foreach (Transform child in galleryGridContent.transform)
             {
@@ -70,7 +74,7 @@ namespace ClusterTraitGenerationManager
 
             ///Details
             selectionHeaderLabel = transform.Find("Panel/Content/ColumnSelectedDetails/LayoutBreaker/Header/Label").GetComponent<LocText>();
-            UIUtils.FindAndDestroy(transform, "Panel/Content/ColumnSelectedDetails/LayoutBreaker/Content/Content/KleiPermitDioramaVis");
+            //UIUtils.FindAndDestroy(transform, "Panel/Content/ColumnSelectedDetails/LayoutBreaker/Content/Content/KleiPermitDioramaVis");
             UIUtils.FindAndDestroy(transform, "Panel/Content/ColumnSelectedDetails/LayoutBreaker/Content/Content/DescriptionSection");
 
 
@@ -180,11 +184,12 @@ namespace ClusterTraitGenerationManager
             base.OnShow(show);
             if (!show)
                 return;
-            this.galleryGridLayouter.RequestGridResize();
             this.PopulateCategories();
             this.PopulateGallery();
             this.SelectCategory(StarmapItemCategory.Starter);
             this.CreateUI();
+
+            this.galleryGridLayouter.RequestGridResize();
         }
 
         private void CreateUI()
@@ -202,14 +207,14 @@ namespace ClusterTraitGenerationManager
             //var NormalSettings = Util.KInstantiateUI(infoInsert.gameObject, infoInsert.gameObject, true);
 
 #if DEBUG
-            SgtLogger.l("CYCLEPREFAB");
-            UIUtils.ListAllChildrenWithComponents(CyclePrefab);
-            SgtLogger.l("SLIDER");
-            UIUtils.ListAllChildrenWithComponents(SliderPrefab);
-            SgtLogger.l("SEED");
-            UIUtils.ListAllChildrenWithComponents(SeedPrefab);
-            SgtLogger.l("CHECK");
-            UIUtils.ListAllChildrenWithComponents(CheckboxPrefab);
+            //SgtLogger.l("CYCLEPREFAB");
+            //UIUtils.ListAllChildrenWithComponents(CyclePrefab);
+            //SgtLogger.l("SLIDER");
+            //UIUtils.ListAllChildrenWithComponents(SliderPrefab);
+            //SgtLogger.l("SEED");
+            //UIUtils.ListAllChildrenWithComponents(SeedPrefab);
+            //SgtLogger.l("CHECK");
+            //UIUtils.ListAllChildrenWithComponents(CheckboxPrefab);
 #endif
             //var Slider = Util.KInstantiateUI(SliderPrefab.gameObject, infoInsert.gameObject, true);
             //var Seed = Util.KInstantiateUI(SeedPrefab.gameObject, infoInsert.gameObject, true);
@@ -440,7 +445,6 @@ namespace ClusterTraitGenerationManager
             {
                 customPlanetoidSettings[4].Value.HandleData((float)current.buffer);
                 customPlanetoidSettings[4].Value.ToggleInteractable(IsPartOfCluster);
-                SgtLogger.l(current.PlanetDimensions.ToString(),"WHYYYYYYYYYYYyy");
                 customPlanetoidSettings[5].Value.HandleData(current.PlanetDimensions);
             }
         }
@@ -483,15 +487,16 @@ namespace ClusterTraitGenerationManager
                 //var RandomPlanet = new StarmapItem("Random", category, Assets.GetSprite("unknown"));
 
                 //AddItemToGallery(RandomPlanet);
-            }
-            ;
+            };
         }
+
+        private void Update() => this.galleryGridLayouter.CheckIfShouldResizeGrid();
 
         private void AddItemToGallery(StarmapItem planet)
         {
             if (planetoidGridButtons.ContainsKey(planet))
             {
-                //SgtLogger.l("wasthereallready");
+                SgtLogger.warning(planet.id + " was already in the gallery");
                 return;
             }
 
@@ -501,6 +506,15 @@ namespace ClusterTraitGenerationManager
             Image reference1 = component1.GetReference<Image>("Icon");
             LocText reference2 = component1.GetReference<LocText>("OwnedCountLabel");
             Image reference3 = component1.GetReference<Image>("IsUnownedOverlay");
+            
+            //UIUtils.ListAllChildren(reference3.transform);
+
+            reference3.color = new Color(0.066f, 0.066f, 0.066f, 0.4f);
+            Image lockImage= reference3.transform.Find("IsUnownedOverlayIcon").GetComponent<Image>();
+            lockImage.sprite = Assets.GetSprite(SpritePatch.noneSelected);
+            lockImage.rectTransform().sizeDelta = new Vector2(70,70);
+            //UtilMethods.ListAllPropertyValues(reference3);
+
             MultiToggle component2 = availableGridButton.GetComponent<MultiToggle>();
 
             reference1.sprite = planet.planetSprite;

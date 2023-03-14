@@ -15,6 +15,16 @@ namespace UtilLibs
 {
     public static class UtilMethods
     {
+
+        public static void ListAllPropertyValues(object s)
+        {
+            SgtLogger.l("Listing all properties of: " + s.ToString());
+
+            foreach (var p in s.GetType().GetProperties().Where(p => !p.GetGetMethod().GetParameters().Any()))
+            {
+                Console.WriteLine(p + ": " + p.GetValue(s, null));
+            }
+        }
         public static float GetKelvinFromC(float degreeC)
         {
             return degreeC + 273.15f;

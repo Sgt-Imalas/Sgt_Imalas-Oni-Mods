@@ -1,4 +1,5 @@
-﻿using Klei.CustomSettings;
+﻿using HarmonyLib;
+using Klei.CustomSettings;
 using ProcGen;
 using ProcGenGame;
 using System;
@@ -9,6 +10,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 using UtilLibs;
 using static ClusterTraitGenerationManager.CGSMClusterManager;
 using static KAnim;
@@ -30,7 +32,16 @@ namespace ClusterTraitGenerationManager
 
         public static bool LoadCustomCluster = false;
 
-        public static void InstantiateClusterSelectionView(ColonyDestinationSelectScreen parent, System.Action onClose = null)
+
+
+            static async Task DoWithDelay(int ms)
+            {
+                await Task.Delay(ms);
+                LockerNavigator.Instance.PopScreen();
+            }
+
+
+        public static async void InstantiateClusterSelectionView(ColonyDestinationSelectScreen parent, System.Action onClose = null)
         {
             if (true)//Screen == null)
             {
@@ -41,14 +52,15 @@ namespace ClusterTraitGenerationManager
                     CGSMClusterManager.CreateCustomClusterFrom(defaultCluster);
                 }
 
-                LockerNavigator.Instance.PushScreen(LockerNavigator.Instance.kleiInventoryScreen);
-                LockerNavigator.Instance.PopScreen();
+                //LockerNavigator.Instance.PushScreen(LockerNavigator.Instance.kleiInventoryScreen);
+               // await DoWithDelay(150);
 
                 var window = Util.KInstantiateUI(LockerNavigator.Instance.kleiInventoryScreen.gameObject);
                 window.SetActive(false);
                 var copy = window.transform;
                 UnityEngine.Object.Destroy(window);
-                var newScreen = Util.KInstantiateUI(copy.gameObject, parent.transform.parent.gameObject, true);
+                var canvas = FrontEndManager.Instance.MakeKleiCanvas("ClusterSelectionView");
+                var newScreen = Util.KInstantiateUI(copy.gameObject, canvas, true);
                 selectScreen = parent;
                 newScreen.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, UnityEngine.Screen.currentResolution.height);
                 newScreen.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, UnityEngine.Screen.currentResolution.width);
@@ -57,9 +69,11 @@ namespace ClusterTraitGenerationManager
 
                 Screen = newScreen;
                 //onClose += ()=>AddCustomCluster();
-
-                //UIUtils.ListAllChildren(Screen.transform);
-
+                //Debug.Log(LockerNavigator.Instance.kleiInventoryScreen.transform.parent.parent.parent.parent.parent.gameObject);
+                //UIUtils.ListAllChildren(LockerNavigator.Instance.kleiInventoryScreen.transform.parent.parent.parent.parent.parent);
+                //UIUtils.ListAllChildrenWithComponents(ScreenPrefabs.Instance.LockerNavigator.transform);
+                //newScreen.AddComponent<CanvasScaler>();
+                //newScreen.AddComponent<KCanvasScaler>();
                 //LockerNavigator.Instance.PushScreen(newScreen, onClose);
             }
             else
@@ -920,7 +934,7 @@ namespace ClusterTraitGenerationManager
             int i;
             for (i = 0; i < 50; ++i)
             {
-                if (item.id.Contains("TemporalTear") || item.id == null || item.id == string.Empty || CustomCluster.OuterPlanets.ContainsKey(item.id) || RandomOuterPlanets.Contains(item.id))
+                if (item.id.Contains("TemporalTear") || item.id == null || item.id == string.Empty || CustomCluster.OuterPlanets.ContainsKey(item.id) || RandomOuterPlanets.Contains(item.id) || item.id.Contains(RandomKey))
                 {
                     item = items.GetRandom(new SeededRandom(i * 42));
                 }
@@ -950,13 +964,13 @@ namespace ClusterTraitGenerationManager
             switch (category)
             {
                 case StarmapItemCategory.Starter:
-                    return Assets.GetSprite("random_starter");
+                    return Assets.GetSprite(SpritePatch.randomStarter);
                 case StarmapItemCategory.Warp:
-                    return Assets.GetSprite("random_warp");
+                    return Assets.GetSprite(SpritePatch.randomWarp);
                 case StarmapItemCategory.Outer:
-                    return Assets.GetSprite("random_outer");
+                    return Assets.GetSprite(SpritePatch.randomOuter);
                 case StarmapItemCategory.POI:
-                    return Assets.GetSprite("radnom_poi");
+                    return Assets.GetSprite(SpritePatch.randomPOI);
                 default:
                     return Assets.GetSprite("unknown");
             }
@@ -1009,21 +1023,26 @@ namespace ClusterTraitGenerationManager
                     if ((int)world.skip >= 99)
                         continue;
 
-                    //SgtLogger.l(                   world.startingBaseTemplate, "START TEMPLATE");
+                    //SgtLogger.l(world.name+": "+world.startingBaseTemplate, "START TEMPLATE");
                     if (!World.Key.Contains("worlds/SandstoneDefault"))
                     {
                         if (world.startingBaseTemplate != null)
                         {
-                            if (world.startingBaseTemplate.ToUpperInvariant().Contains("WARPWORLD"))
+                            string stripped = world.startingBaseTemplate.Replace("bases/",string.Empty);
+                            if (stripped.ToUpperInvariant().Contains("WARPWORLD"))
                             {
                                 category = StarmapItemCategory.Warp;
                             }
-                            else if (world.startingBaseTemplate.ToUpperInvariant().Contains("BASE"))
+                            else if (stripped.ToUpperInvariant().Contains("BASE"))
                             {
                                 category = StarmapItemCategory.Starter;
                             }
 
 
+                        }
+                        else
+                        {
+                            category = StarmapItemCategory.Outer;
                         }
 
                         Sprite sprite = ColonyDestinationAsteroidBeltData.GetUISprite(World.Value.asteroidIcon);

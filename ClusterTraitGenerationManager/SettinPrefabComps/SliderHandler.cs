@@ -32,8 +32,8 @@ namespace ClusterTraitGenerationManager.SettinPrefabComps
             l.preferredWidth = 250;
             l.minWidth = 200;
             var s = slider.GetComponent<LayoutElement>();
-            s.minWidth = 500;
-            s.preferredWidth = 700;
+            s.minWidth = 250;
+            s.preferredWidth = 300;
             //foreach (var p in s.GetType().GetProperties().Where(p => !p.GetGetMethod().GetParameters().Any()))
             //    {
             //        //Console.WriteLine(p+": " +p.GetValue(s, null));
