@@ -29,6 +29,13 @@ namespace ClusterTraitGenerationManager
                     public static LocString SHOW = (LocString)"Show Cluster Config";
                     public static LocString HIDE = (LocString)"Hide Cluster Config";
                 }
+                public static class RESET
+                {
+                    public static LocString NAME = (LocString)"Reset all.";
+                    public static LocString DESC = (LocString)"Undo all changes you have made by reloading the cluster preset.";
+                }
+
+
                 public static class ENABLED
                 {
                     public static LocString NAME = (LocString)"Enabled: ";

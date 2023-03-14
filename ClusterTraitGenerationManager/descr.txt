@@ -1,34 +1,52 @@
 ﻿[img]https://i.imgur.com/VgZFBU7.png[/img]
 
-[h1]Scan & Relay Satellites(DLC)[/h1]
+[h1]Cluster Generation Manager [DLC][/h1]
 
-This mod adds the opportunity to deploy satellites on the starmap that function as logic relays and scan the surrounding space tiles.
+Gain nearly full control over each tiny detail of your cluster generation - manipulate each item on the star map individually!
 
 [h1]Current latest Version: 1.0.0[/h1]
 
 [hr][/hr]
+
+[h1]How to start[/h1]
+When loading into the cluster selection, you will find a new "Gear"-Button next to the seed.
+Preselect the cluster you want to have as base preset for your custom cluster, then click that button.
+Now the configuration window will appear, allowing you to fully manipulate each starmap item individually.
+You can Activate/Deactivate a planet by double clicking or setting the checkmark on the right panel.
+Once everything is configured, hit the "Start Game" button to generate the cluster.
+
 [h1]Features[/h1]
 [list]
-[*] New Rocket Module: Satellite Carrier Module - Deploy and retrieve satellites with this module
-[*] New crafting item: Satellite Parts - Construct these at the workbench. One satellite takes 20 satellite parts to make.
-[*] New Mechanic: Satellites - When deployed on the space map, these satellites provide 2 functions:[list]
-    [*] Scanner: Will slowly reveal the space around it, similar to a telescope
-    [*] Logic Relay: Will relay logic signals to increase the range of logic broadcasters. See the images for visual explanation.
+[*] Preset Generation from ALL clusters
+[*] Support for modded planets (e.g. Baator, Roller Snakes, Other Cluster,...)
+[*] Configurable star map radius
+[*] Random planets and pois for each category
+[*] Random teleporter planet
+[*] Set spawning sarameters for each planet and poi individually, these include:[list]
+    [*] should the planet/poi appear at all
+    [*] spawn distance to star map center (min & max distance)
+    [*] minimum distance to other planetoids
+    [*] (only random planets & pois): Number of instances that should be spawned
     [/list]
 [/list]
 
-[hr][/hr]
-[h1]Mod Config[/h1]
+
+[h2]Warnings[/h2]
 [list]
-[*] Satellite Scan Range: Radius of the max. satellite scan distance. Higher value == more of the space map gets revealed.
-[*] Satellite Scan Speed: Time the satellites scanner need to reveal one space tile (value in cycles). 
-[*] Satellite Logic Repeater Range: The range the satellites connect logic broadcasts.
+[*]Extreme configuration can let the worldgen fail more easily. 
+[*]When a seed fails however, the config is kept, so you can retry with a different seed.
+[*]Do not set multiple planets to (min. 0, max 0), this guarantees a failure since multiple planets cannot exist on the same tile (the center in this case).
 [/list]
 
-[hr][/hr]
-[h1]Credits[/h1]
-Options made with PLib.
+[h1]Other Custom Planet Mods:[/h1][list]
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2582905897] Baator[/url]
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2860569135] Roller Snakes[/url]
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2879715930] Other Cluster[/url]
+[/list]
 
+
+[h1]What about that other mod with the similar name[/h1]
+I have been working on this mod for a few months now. When that other guy came forth on the discord a few weeks ago with his mod, I tried doing a collaboration. He refused.
 
 [h1]Bug Reports[/h1]
 Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.

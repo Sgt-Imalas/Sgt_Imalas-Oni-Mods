@@ -314,7 +314,8 @@ namespace ClusterTraitGenerationManager
 
             var Buttons = Util.KInstantiateUI(selectScreen.transform.Find("Layout/Buttons").gameObject, infoInsert.gameObject, true);
 #if DEBUG
-            UIUtils.ListAllChildren(Buttons.transform);
+           // SgtLogger.l("BUTTONS");
+           // UIUtils.ListAllChildrenWithComponents(Buttons.transform);
 #endif
             UIUtils.AddActionToButton(Buttons.transform, "BackButton", () => Show(false));
             UIUtils.AddActionToButton(Buttons.transform, "LaunchButton",
@@ -326,6 +327,45 @@ namespace ClusterTraitGenerationManager
                 }
             );
             ///Global Config
+
+            var resetButton = UIUtils.TryInsertNamedCopy(Buttons.transform, "BackButton", "ResetButton");
+            resetButton.SetSiblingIndex(1);
+            UIUtils.TryChangeText(resetButton, "Label", STRINGS.UI.CUSTOMCLUSTERUI.RESET.NAME);
+            UIUtils.AddSimpleTooltipToObject(resetButton, STRINGS.UI.CUSTOMCLUSTERUI.RESET.DESC, true);
+            UIUtils.AddActionToButton(resetButton, "", () => { CGSMClusterManager.ResetToLastPreset(); RefreshView(); });
+
+            var BackButtonLE = UIUtils.TryFindComponent<LayoutElement>(Buttons.transform, "BackButton");
+            var LaunchButtonLE = UIUtils.TryFindComponent<LayoutElement>(Buttons.transform, "LaunchButton");
+            var ResetButtonLE = UIUtils.TryFindComponent<LayoutElement>(Buttons.transform, "ResetButton");
+            var CustomizeButtonLE = UIUtils.TryFindComponent<LayoutElement>(Buttons.transform, "CustomizeButton");
+
+            BackButtonLE.preferredWidth = 150;
+            BackButtonLE.minWidth = 50;
+
+            LaunchButtonLE.preferredWidth = 150;
+            LaunchButtonLE.minWidth = 50;
+
+            ResetButtonLE.preferredWidth = 150;
+            ResetButtonLE.minWidth = 50;
+
+            CustomizeButtonLE.preferredWidth = 150;
+            CustomizeButtonLE.minWidth = 50;
+
+            Buttons.GetComponent<LayoutElement>().preferredWidth = 500;
+            Buttons.GetComponent<LayoutElement>().minWidth = 100;
+
+            //var v = resetButton.GetComponent<LayoutElement>();
+            //foreach (var p in v.GetType().GetProperties().Where(p => !p.GetGetMethod().GetParameters().Any()))
+            //{
+            //    Console.WriteLine(p+": " +p.GetValue(v, null));
+            //}
+            //var s = Buttons.GetComponent<LayoutElement>();
+            //foreach (var p in s.GetType().GetProperties().Where(p => !p.GetGetMethod().GetParameters().Any()))
+            //{
+            //    Console.WriteLine(p + ": " + p.GetValue(s, null));
+            //}
+
+
             SettingsButtonText = UIUtils.TryFindComponent<LocText>(Buttons.transform, "CustomizeButton/Label");
             UIUtils.AddActionToButton(Buttons.transform, "CustomizeButton", () => ToggleGameSettings());
             ToggleGameSettings();
@@ -463,7 +503,19 @@ namespace ClusterTraitGenerationManager
             reference3.gameObject.SetActive(ownedCount <= 0);
             component2.onEnter += new System.Action(this.OnMouseOverToggle);
             component2.onClick = (System.Action)(() => this.SelectItem(planet));
-
+            component2.onDoubleClick = (Func<bool>)(() =>
+            {
+                this.SelectItem(planet);
+                if(SelectedPlanet!= null)
+                {
+                    CGSMClusterManager.TogglePlanetoid(SelectedPlanet);
+                    this.RefreshView();
+                    return true;
+                }
+                else
+                    return false;
+            }
+            );
             planetoidGridButtons[planet] = component2;
             //this.SetItemClickUISound(planet, component2);
             var tooltip = new Option<string>(planet.DisplayDescription);

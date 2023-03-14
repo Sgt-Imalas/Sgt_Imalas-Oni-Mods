@@ -70,4 +70,8 @@
 	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="ModAssets\assets\" />
+	</ItemGroup>
 </Project>

@@ -3,7 +3,9 @@ using ProcGen;
 using ProcGenGame;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -219,11 +221,11 @@ namespace ClusterTraitGenerationManager
                     }
                     else if (_poiID != null)
                     {
-                        if (Strings.TryGet(new StringKey("STRINGS.UI.SPACEDESTINATIONS.HARVESTABLE_POI." + _poiID.ToUpper() + ".NAME"), out var name))
+                        if (Strings.TryGet(new StringKey("STRINGS.UI.SPACEDESTINATIONS.HARVESTABLE_POI." + _poiID.ToUpperInvariant() + ".NAME"), out var name))
                             return name;
-                        else if (Strings.TryGet(new StringKey("STRINGS.UI.SPACEDESTINATIONS.ARTIFACT_POI." + _poiID.ToUpper() + ".NAME"), out var name2))
+                        else if (Strings.TryGet(new StringKey("STRINGS.UI.SPACEDESTINATIONS.ARTIFACT_POI." + _poiID.ToUpperInvariant() + ".NAME"), out var name2))
                             return name2;
-                        else if (_poiID.ToUpper() == "TEMPORALTEAR")
+                        else if (_poiID.ToUpperInvariant() == "TEMPORALTEAR")
                         {
                             if (Strings.TryGet(new StringKey("STRINGS.UI.SPACEDESTINATIONS.WORMHOLE.NAME"), out var name3))
                                 return name3;
@@ -259,11 +261,11 @@ namespace ClusterTraitGenerationManager
                     }
                     else if (_poiID != null)
                     {
-                        if (Strings.TryGet(new StringKey("STRINGS.UI.SPACEDESTINATIONS.HARVESTABLE_POI." + _poiID.ToUpper() + ".DESC"), out var name))
+                        if (Strings.TryGet(new StringKey("STRINGS.UI.SPACEDESTINATIONS.HARVESTABLE_POI." + _poiID.ToUpperInvariant() + ".DESC"), out var name))
                             return name;
-                        else if (Strings.TryGet(new StringKey("STRINGS.UI.SPACEDESTINATIONS.ARTIFACT_POI." + _poiID.ToUpper() + ".DESC"), out var name2))
+                        else if (Strings.TryGet(new StringKey("STRINGS.UI.SPACEDESTINATIONS.ARTIFACT_POI." + _poiID.ToUpperInvariant() + ".DESC"), out var name2))
                             return name2;
-                        else if (_poiID.ToUpper() == "TEMPORALTEAR")
+                        else if (_poiID.ToUpperInvariant() == "TEMPORALTEAR")
                         {
                             if (Strings.TryGet(new StringKey("STRINGS.UI.SPACEDESTINATIONS.WORMHOLE.DESCRIPTION"), out var name3))
                                 return name3;
@@ -386,16 +388,32 @@ namespace ClusterTraitGenerationManager
                 this.world = world;
                 return this;
             }
-            public StarmapItem AddItemWorldPlacement(WorldPlacement placement, float morethanone = 1)
+            public StarmapItem AddItemWorldPlacement(WorldPlacement placement2, float morethanone = 1)
             {
                 this.MaxNumberOfInstances = morethanone;
-                this.placement = placement;
+
+                this.placement = new WorldPlacement();
+                placement.startWorld = placement2.startWorld;
+                placement.world = placement2.world;
+                placement.y = placement2.y; 
+                placement.x = placement2.x;
+                placement.height = placement2.height;
+                placement.width = placement2.width;
+                placement.allowedRings = new(placement2.allowedRings.min, placement2.allowedRings.max);
+                placement.buffer = placement2.buffer;
+                placement.locationType = placement2.locationType;
                 return this;
             }
             public StarmapItem MakeItemPOI(string _displayName, SpaceMapPOIPlacement placement2, float MaxNumberOfInstances)
             {
                 this._poiID = _displayName;
-                this.placementPOI = placement2;
+                this.placementPOI = new SpaceMapPOIPlacement();
+                placementPOI.pois = placement2.pois;
+                placementPOI.canSpawnDuplicates = placement2.canSpawnDuplicates;
+                placementPOI.avoidClumping = placement2.avoidClumping;
+                placementPOI.numToSpawn = placement2.numToSpawn;
+                placementPOI.allowedRings = new(placement2.allowedRings.min, placement2.allowedRings.max);
+
                 this.MaxNumberOfInstances = MaxNumberOfInstances;
                 return this;
             }
@@ -426,7 +444,6 @@ namespace ClusterTraitGenerationManager
             #endregion
 
         }
-
 
         public const string CustomClusterID = "CMGM";
         public static ClusterLayout GeneratedLayout => GenerateClusterLayoutFromCustomData();
@@ -591,23 +608,16 @@ namespace ClusterTraitGenerationManager
             return layout;
         }
 
-        struct Triple
+
+        static string LastPresetGenerated = string.Empty;
+        public static void ResetToLastPreset()
         {
-            float num = 0;
-            int min, max;
-            public Triple(float num, int min, int max)
+            if (LastPresetGenerated != string.Empty)
             {
-                this.num = num;
-                this.min = min;
-                this.max = max;
-            }
-            public void AdjustForNew(float newnum, int min, int max)
-            {
-                this.num += newnum;
-                this.min += Math.Min(this.min, min);
-                this.max += Math.Max(this.max, max);
+                CreateCustomClusterFrom(LastPresetGenerated);
             }
         }
+
         public static void CreateCustomClusterFrom(string clusterID)
         {
 
@@ -618,6 +628,7 @@ namespace ClusterTraitGenerationManager
             if (Reference == null)
                 return;
             CustomCluster.SetRings(Reference.numRings);
+
             foreach (WorldPlacement planetPlacement in Reference.worldPlacements)
             {
                 string planetpath = planetPlacement.world;
@@ -641,17 +652,26 @@ namespace ClusterTraitGenerationManager
                     }
                 }
             }
-
             CustomCluster.POIs.Clear();
+
+            if (Reference.poiPlacements == null)
+                return;
 
             foreach (SpaceMapPOIPlacement pOIPlacement in Reference.poiPlacements)
             {
+                //SgtLogger.l("AAAAAAAAAA");
+                if (pOIPlacement.numToSpawn < 1 || pOIPlacement.pois == null)
+                    continue;
+
+                //SgtLogger.l("AAAAAAAAAA");
                 float percentagePerItem = (float)pOIPlacement.numToSpawn / (float)pOIPlacement.pois.Count;
 
                 foreach (var lonePOI in pOIPlacement.pois)
                 {
+                    //SgtLogger.l("BBBBBB");
                     if (PlanetoidDict().TryGetValue(lonePOI, out var ClusterPOI))
                     {
+                        //SgtLogger.l("CCCC");
                         if (CustomCluster.POIs.ContainsKey(ClusterPOI.id))
                         {
                             ClusterPOI.SetInnerRing(Math.Min(ClusterPOI.minRing, pOIPlacement.allowedRings.min));
@@ -671,6 +691,7 @@ namespace ClusterTraitGenerationManager
             //{
             //    SgtLogger.l("count: " + pOIPlacement.Value.InstancesToSpawn, pOIPlacement.Key);
             //}
+            LastPresetGenerated = clusterID;
         }
 
         public static StarmapItem GivePrefilledItem(StarmapItem ToAdd)
@@ -780,7 +801,8 @@ namespace ClusterTraitGenerationManager
 
             foreach (var ClusterLayout in SettingsCache.clusterLayouts.clusterCache.ToList())
             {
-                if (!ClusterLayout.Key.Contains("expansion1"))
+               // SgtLogger.debuglog(ClusterLayout.Key,"HALP");
+                if (ClusterLayout.Key.Contains("clusters/SandstoneDefault"))
                 {
                     continue;
                 }
@@ -883,7 +905,7 @@ namespace ClusterTraitGenerationManager
 
             StarmapItem item = items.GetRandom();
             int i;
-            for (i = 0; i < 20; ++i)
+            for (i = 0; i < 50; ++i)
             {
                 if (item.id.Contains("TemporalTear") || item.id == null || item.id == string.Empty || CustomCluster.OuterPlanets.ContainsKey(item.id) || RandomOuterPlanets.Contains(item.id))
                 {
@@ -895,7 +917,7 @@ namespace ClusterTraitGenerationManager
             if (starmapItemCategory == StarmapItemCategory.Outer)
             {
                 RandomOuterPlanets.Add(item.id);
-                if (i == 20)
+                if (i > 45)
                 {
                     item = null;
                 }
@@ -958,15 +980,15 @@ namespace ClusterTraitGenerationManager
                         continue;
 
                     //SgtLogger.l(                   world.startingBaseTemplate, "START TEMPLATE");
-                    if (World.Key.Contains("expansion1"))
+                    if (!World.Key.Contains("worlds/SandstoneDefault"))
                     {
                         if (world.startingBaseTemplate != null)
                         {
-                            if (world.startingBaseTemplate.Contains("warpworld"))
+                            if (world.startingBaseTemplate.ToUpperInvariant().Contains("WARPWORLD"))
                             {
                                 category = StarmapItemCategory.Warp;
                             }
-                            else if (world.startingBaseTemplate.Contains("Base"))
+                            else if (world.startingBaseTemplate.ToUpperInvariant().Contains("BASE"))
                             {
                                 category = StarmapItemCategory.Starter;
                             }
