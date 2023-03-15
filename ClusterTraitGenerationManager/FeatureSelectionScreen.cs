@@ -516,13 +516,13 @@ namespace ClusterTraitGenerationManager
 
         public void OnResize()
         {
-            //var rectMain = this.rectTransform();
-            //rectMain.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, UnityEngine.Screen.width * (1f / (UnityEngine.Screen.fullScreen ? 1.6f : rectMain.lossyScale.x)));
-            //rectMain.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, UnityEngine.Screen.height * (1f / (UnityEngine.Screen.fullScreen ? 1.6f : rectMain.lossyScale.y)));
+            var rectMain = this.rectTransform();
+            rectMain.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, UnityEngine.Screen.width * (1f / (rectMain.lossyScale.x)));
+            rectMain.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, UnityEngine.Screen.height * (1f / (rectMain.lossyScale.y)));
 
-            //var rect = this.transform.Find("Panel/Content").rectTransform();
-            //rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, UnityEngine.Screen.width * (1f / (UnityEngine.Screen.fullScreen ? 1.6f : rectMain.lossyScale.x)));
-            //rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, UnityEngine.Screen.height * (1f / (UnityEngine.Screen.fullScreen ? 1.6f : rectMain.lossyScale.y)));
+            var rect = this.transform.Find("Panel/Content").rectTransform();
+            rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, UnityEngine.Screen.width * (1f / ( rectMain.lossyScale.x)));
+            rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, UnityEngine.Screen.height * (1f / (rectMain.lossyScale.y)));
         }
         static async Task RefreshWithDelay(System.Action task,int ms)
         {

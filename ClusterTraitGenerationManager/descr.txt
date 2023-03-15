@@ -18,10 +18,9 @@ Once everything is configured, hit the "Start Game" button to generate the clust
 [h1]Features[/h1]
 [list]
 [*] Preset Generation from ALL clusters
-[*] Support for modded planets (e.g. Baator, Roller Snakes, Other Cluster,...)
+[*] Support for all modded planets (e.g. Baator, Roller Snakes, Other Cluster,...)
 [*] Configurable star map radius
-[*] Random planets and pois for each category
-[*] Random teleporter planet
+[*] Randomly selected planets pois in each category
 [*] Set spawning sarameters for each planet and poi individually, these include:[list]
     [*] should the planet/poi appear at all
     [*] spawn distance to star map center (min & max distance)
@@ -29,18 +28,21 @@ Once everything is configured, hit the "Start Game" button to generate the clust
     [*] (only random planets & pois): Number of instances that should be spawned
     [/list]
 [/list]
-Systems that are still work in progress:[list]
-[*] Changeable planet sizes
-[*] per-planet trait selector
+Still WIP:[list]
+[*] Per-Planet Trait Selection
+[*] Planet Sizes
 [/list]
 
 
-
-[h2]Causes for generation failure[/h2]
+[h2]Some notes on customized Generation[/h2]
+Extreme configurations can let the worldgen fail more easily (e.g. selecting a large amount of asteroids, but don't adjust their position rules and/or the map size).
+When a seed fails however, the config is kept, so you can retry with a different seed.
 [list]
-[*]Extreme configurations can let the worldgen fail more easily (e.g. selecting a large amount of asteroids, but don't adjust their position rules and/or the map size).
-[*]When a seed fails however, the config is kept, so you can retry with a different seed.
+[*]when using large amount of planets, don't forget to increase their allowed spawn area and the starmap size
+[*]when choosing to play with a small amounts of small planets, story traits have a higher chance to let the worldgen fail, consider disabling those in such cases. 
 [*]Do not set multiple planets to (min. 0, max 0), this guarantees a failure since multiple planets cannot exist on the same tile (the center in this case).
+[*]when choosing to play with a single planet, deselect the teleporters in the normal cluster settings before going into the cluster configuration. (otherwise the teleporter buildings still spawn, but cannot connect, leading to a crash when you click them)
+[*]When custom planets are installed it can lead to there existing copies of planets if that mod implements their own variant of that planet, these can generate safely together
 [/list]
 
 [h1]Compatible custom planet mods (examples):[/h1][list]

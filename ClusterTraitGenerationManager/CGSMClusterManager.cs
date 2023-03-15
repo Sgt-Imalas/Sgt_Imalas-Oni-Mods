@@ -74,6 +74,11 @@ namespace ClusterTraitGenerationManager
                 //    UtilMethods.ListAllPropertyValues(sceneroot);
 
                 //}
+                //var TransformHolder = Util.KInstantiateUI(new GameObject(), GlobalScreen.gameObject, true);
+                //var rth = TransformHolder.rectTransform();
+                //rth.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, UnityEngine.Screen.currentResolution.width);
+                //rth.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, UnityEngine.Screen.currentResolution.height);
+
 
                 var newScreen = Util.KInstantiateUI(copy.gameObject, GlobalScreen.gameObject, true);
                 selectScreen = parent;
@@ -83,11 +88,11 @@ namespace ClusterTraitGenerationManager
                 //// UtilMethods.ListAllPropertyValues(GlobalScreen.rectTransform());
 
                 //newScreen.AddOrGet<ContentSizeFitter>().
-                float aspect = UnityEngine.Screen.width / UnityEngine.Screen.height;
-                //ScreenRect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, -100, 900);
-                var fitter = newScreen.AddOrGet<AspectRatioFitter>();
-                fitter.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
-                fitter.aspectRatio = aspect;
+                //float aspect = UnityEngine.Screen.currentResolution.width / UnityEngine.Screen.currentResolution.height;
+                ////ScreenRect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, -100, 900);
+                //var fitter = newScreen.AddOrGet<AspectRatioFitter>();
+                //fitter.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
+                //fitter.aspectRatio = aspect;
 
                 //ScreenRect.anchorMin = new Vector2(0,0.5f);
                 //ScreenRect.anchorMax = new Vector2(1, 0.5f);
@@ -127,20 +132,20 @@ namespace ClusterTraitGenerationManager
                 //ScreenRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, GlobalScreen.rectTransform().sizeDelta.x );
                 //ScreenRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, GlobalScreen.rectTransform().sizeDelta.y );
 
-                var ScreenRect2 = newScreen.transform.Find("Panel").rectTransform();
+                //var ScreenRect2 = newScreen.transform.Find("Panel").rectTransform();
 
-                var fitter2 = ScreenRect2.gameObject.AddOrGet<AspectRatioFitter>();
-                fitter2.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
-                fitter2.aspectRatio = aspect;
-                //ScreenRect2.anchorMin = new Vector2(0.0f, 0.5f);
-                //ScreenRect2.anchorMax = new Vector2(1f, 0.5f);
-                //ScreenRect2.pivot = new Vector2(0f, 0f);
-                //ScreenRect2.anchoredPosition = new Vector2(0.0f, 0.0f);
+                //var fitter2 = ScreenRect2.gameObject.AddOrGet<AspectRatioFitter>();
+                //fitter2.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
+                ////fitter2.aspectRatio = aspect;
+                ////ScreenRect2.anchorMin = new Vector2(0.0f, 0.5f);
+                ////ScreenRect2.anchorMax = new Vector2(1f, 0.5f);
+                ////ScreenRect2.pivot = new Vector2(0f, 0f);
+                ////ScreenRect2.anchoredPosition = new Vector2(0.0f, 0.0f);
 
-                var ScreenRect3 = newScreen.transform.Find("Panel/Content").rectTransform();
-                var fitter3 = ScreenRect3.gameObject.AddOrGet<AspectRatioFitter>()
-                 ;fitter3.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
-                fitter3.aspectRatio = aspect;
+                //var ScreenRect3 = newScreen.transform.Find("Panel/Content").rectTransform();
+                //var fitter3 = ScreenRect3.gameObject.AddOrGet<AspectRatioFitter>();
+                //fitter3.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
+                //fitter3.aspectRatio = aspect;
 
                 //ScreenRect3.anchorMin = new Vector2(0.0f, 0.5f);
                 //ScreenRect3.anchorMax = new Vector2(1f, 0.5f);
