@@ -56,14 +56,44 @@ namespace ClusterTraitGenerationManager
                // await DoWithDelay(150);
 
                 var window = Util.KInstantiateUI(LockerNavigator.Instance.kleiInventoryScreen.gameObject);
+                UtilMethods.ListAllPropertyValues(LockerNavigator.Instance.kleiInventoryScreen.rectTransform());
+
+
                 window.SetActive(false);
                 var copy = window.transform;
                 UnityEngine.Object.Destroy(window);
                 var canvas = FrontEndManager.Instance.MakeKleiCanvas("ClusterSelectionView");
-                var newScreen = Util.KInstantiateUI(copy.gameObject, canvas, true);
+                var newScreen = Util.KInstantiateUI(copy.gameObject, parent.transform.parent.gameObject, true);
                 selectScreen = parent;
-                newScreen.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, UnityEngine.Screen.currentResolution.height);
-                newScreen.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, UnityEngine.Screen.currentResolution.width);
+                var ScreenRect = newScreen.rectTransform();
+
+
+                ScreenRect.anchorMin = new Vector2(0f, 0f);
+                ScreenRect.anchorMax = new Vector2(1f, 1f);
+                ScreenRect.pivot = new Vector2(0f, 0.5f);
+                ScreenRect.offsetMin = new Vector2 (0, ScreenRect.offsetMin.y);
+                // ScreenRect.anchoredPosition = new Vector2(0f, 0.5f);
+                //ScreenRect.sizeDelta = parent.transform.rectTransform().rect.size;
+
+
+                var ScreenRect2 = newScreen.transform.Find("Panel").rectTransform();
+                //ScreenRect2.anchorMin = new Vector2(0.0f, 0.5f);
+                //ScreenRect2.anchorMax = new Vector2(1f, 0.5f);
+                //ScreenRect2.pivot = new Vector2(0f, 0f);
+                //ScreenRect2.anchoredPosition = new Vector2(0.0f, 0.0f);
+
+                var ScreenRect3 = newScreen.transform.Find("Panel/Content").rectTransform();
+                //ScreenRect3.anchorMin = new Vector2(0.0f, 0.5f);
+                //ScreenRect3.anchorMax = new Vector2(1f, 0.5f);
+                //ScreenRect3.pivot = new Vector2(0f, 0f);
+                //ScreenRect3.anchoredPosition = new Vector2(0.0f, 0.0f);
+                //SetAndStretchToParentSize(ScreenRect2, ScreenRect);
+                //SetAndStretchToParentSize(ScreenRect3, ScreenRect2);
+                
+
+
+                //newScreen.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, UnityEngine.Screen.currentResolution.height);
+                //newScreen.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, UnityEngine.Screen.currentResolution.width);
                 newScreen.name = "ClusterSelectionView";
                 var cmp = newScreen.AddComponent(typeof(FeatureSelectionScreen));
 
@@ -85,6 +115,16 @@ namespace ClusterTraitGenerationManager
             Screen.gameObject.SetActive(true);
             Screen.GetComponent<FeatureSelectionScreen>().RefreshView();
 
+        }
+
+        public static void SetAndStretchToParentSize(RectTransform _mRect, RectTransform _parent)
+        {
+            _mRect.anchoredPosition = _parent.position;
+            _mRect.anchorMin = new Vector2(1, 0);
+            _mRect.anchorMax = new Vector2(0, 1);
+            _mRect.pivot = new Vector2(0.5f, 0.5f);
+            _mRect.sizeDelta = _parent.rect.size;
+            _mRect.transform.SetParent(_parent);
         }
 
         public enum StarmapItemCategory

@@ -9,8 +9,10 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UtilLibs;
+using static BestFit;
 using static ClusterTraitGenerationManager.CGSMClusterManager;
 using static SandboxSettings;
 
@@ -36,7 +38,6 @@ namespace ClusterTraitGenerationManager
         private LocText categoryHeaderLabel;
 
 
-
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
@@ -50,14 +51,25 @@ namespace ClusterTraitGenerationManager
 #if DEBUG
             //UIUtils.ListAllChildrenPath(this.transform);
 #endif
+
+            OnResize();
             galleryGridContent = transform.Find("Panel/Content/ColumnItemGallery/LayoutBreaker/Content/Categories/ScrollRect/GridContent").rectTransform();
             categoryListContent = transform.Find("Panel/Content/ColumnCategorySelection/LayoutBreaker/Content/Categories/ScrollRect/ContentContainer/Content").rectTransform();
             galleryHeaderLabel = transform.Find("Panel/Content/ColumnItemGallery/LayoutBreaker/Header/Label").GetComponent<LocText>();
             categoryHeaderLabel = transform.Find("Panel/Content/ColumnCategorySelection/LayoutBreaker/Header/Label").GetComponent<LocText>();
+            
+
+
+            //var r = transform.Find("Panel/Content").rectTransform();
+            //var LE = gameObject.AddOrGet<LayoutElement>();
+            //LE.preferredHeight= UnityEngine.Screen.currentResolution.height;
+            //LE.minHeight = 300f;
+            //LE.preferredWidth= UnityEngine.Screen.currentResolution.width;
+            //LE.minWidth = 600f;
 
             //var lb = transform.Find("Panel/Content").GetComponent<HorizontalLayoutGroup>();
             //lb.childControlWidth = true ; 
-            transform.Find("Panel/Content").rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 900);
+            //transform.Find("Panel/Content").rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 900);
             //UtilMethods.ListAllPropertyValues(lb);
             //UIUtils.ListAllChildrenWithComponents(transform);
 
@@ -190,6 +202,10 @@ namespace ClusterTraitGenerationManager
             this.CreateUI();
 
             this.galleryGridLayouter.RequestGridResize();
+
+            OnResize();
+            //RefreshWithDelay(() => OnResize(true),300);
+            ScreenResize.Instance.OnResize += ()=>OnResize();
         }
 
         private void CreateUI()
@@ -361,7 +377,7 @@ namespace ClusterTraitGenerationManager
             CustomizeButtonLE.preferredWidth = 150;
             CustomizeButtonLE.minWidth = 50;
 
-            Buttons.GetComponent<LayoutElement>().preferredWidth = 500;
+            Buttons.GetComponent<LayoutElement>().preferredWidth = 300;
             Buttons.GetComponent<LayoutElement>().minWidth = 100;
 
             //var v = resetButton.GetComponent<LayoutElement>();
@@ -490,7 +506,29 @@ namespace ClusterTraitGenerationManager
             };
         }
 
-        private void Update() => this.galleryGridLayouter.CheckIfShouldResizeGrid();
+        private void Update()
+        { 
+            this.galleryGridLayouter.CheckIfShouldResizeGrid();
+            //var r = transform.Find("Panel/Content").rectTransform();
+            //this.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, UnityEngine.Screen.height*0.9f);v
+            //OnResize();
+        }
+
+        public void OnResize()
+        {
+            //var rectMain = this.rectTransform();
+            //rectMain.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, UnityEngine.Screen.width * (1f / (UnityEngine.Screen.fullScreen ? 1.6f : rectMain.lossyScale.x)));
+            //rectMain.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, UnityEngine.Screen.height * (1f / (UnityEngine.Screen.fullScreen ? 1.6f : rectMain.lossyScale.y)));
+
+            //var rect = this.transform.Find("Panel/Content").rectTransform();
+            //rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, UnityEngine.Screen.width * (1f / (UnityEngine.Screen.fullScreen ? 1.6f : rectMain.lossyScale.x)));
+            //rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, UnityEngine.Screen.height * (1f / (UnityEngine.Screen.fullScreen ? 1.6f : rectMain.lossyScale.y)));
+        }
+        static async Task RefreshWithDelay(System.Action task,int ms)
+        {
+            await Task.Delay(ms);
+            task.Invoke();
+        }
 
         private void AddItemToGallery(StarmapItem planet)
         {
