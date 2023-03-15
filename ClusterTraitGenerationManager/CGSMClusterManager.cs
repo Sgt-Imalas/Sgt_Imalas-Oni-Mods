@@ -2,6 +2,7 @@
 using Klei.CustomSettings;
 using ProcGen;
 using ProcGenGame;
+using STRINGS;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -897,24 +898,23 @@ namespace ClusterTraitGenerationManager
             public string id;
             public string name;
             public string description;
+            public Color stringColour;
             public List<string> MutualExclusives;
             public List<string> MutualExclusiveTags;
-            public WorldTraitInfo(string id, string name, string description, List<string> exclusives, List<string> exclusiveTags)
+            public WorldTraitInfo(string id, string name, string description, string colorHex, List<string> exclusives, List<string> exclusiveTags)
             {
                 this.id = id;
-                this.name = name;
-                this.description = description;
+                this.name = string.Format("<color=#{1}>{0}</color>", Strings.Get(name), colorHex);
+                this.description = Strings.Get(description);
+                stringColour = Util.ColorFromHex(colorHex);
                 MutualExclusives = exclusives;
                 MutualExclusiveTags = exclusiveTags;
             }
         }
-
         static Dictionary<string, WorldPlacement> PredefinedPlacementData = null;
 
         ///Requires different handling
         static Dictionary<string, SpaceMapPOIPlacement> PredefinedPlacementDataPOI = null;
-
-
         public static List<string> GetActivePlanetsCluster()
         {
             var planetPaths = new List<string>();
@@ -947,8 +947,8 @@ namespace ClusterTraitGenerationManager
 
                     foreach(var trait in SettingsCache.worldTraits)
                     {
-                        SgtLogger.l(trait.Key);
-                        UtilMethods.ListAllPropertyValues(trait.Value);
+                        //SgtLogger.l(trait.Key);
+                        //UtilMethods.ListAllPropertyValues(trait.Value);
                         if (trait.Value.forbiddenDLCIds.Contains(DlcManager.GetHighestActiveDlcId()))
                             continue;
                         _allTraits.Add(
@@ -956,6 +956,7 @@ namespace ClusterTraitGenerationManager
                             trait.Key,
                             trait.Value.name, 
                             trait.Value.description,
+                            trait.Value.colorHex,
                             trait.Value.exclusiveWith,
                             trait.Value.exclusiveWithTags
                             ));
