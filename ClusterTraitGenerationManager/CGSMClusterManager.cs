@@ -36,11 +36,11 @@ namespace ClusterTraitGenerationManager
 
 
 
-            static async Task DoWithDelay(int ms)
-            {
-                await Task.Delay(ms);
-                LockerNavigator.Instance.PopScreen();
-            }
+        static async Task DoWithDelay(int ms)
+        {
+            await Task.Delay(ms);
+            LockerNavigator.Instance.PopScreen();
+        }
 
 
         public static async void InstantiateClusterSelectionView(ColonyDestinationSelectScreen parent, System.Action onClose = null)
@@ -48,14 +48,14 @@ namespace ClusterTraitGenerationManager
             if (true)//Screen == null)
             {
                 ///Change to check for moonlet/vanilla start
-                if(CustomCluster==null)
+                if (CustomCluster == null)
                 {
                     var defaultCluster = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
                     CGSMClusterManager.CreateCustomClusterFrom(defaultCluster);
                 }
 
                 //LockerNavigator.Instance.PushScreen(LockerNavigator.Instance.kleiInventoryScreen);
-               // await DoWithDelay(150);
+                // await DoWithDelay(150);
 
                 var window = Util.KInstantiateUI(LockerNavigator.Instance.kleiInventoryScreen.gameObject);
                 //UtilMethods.ListAllPropertyValues(LockerNavigator.Instance.kleiInventoryScreen.rectTransform());
@@ -397,8 +397,8 @@ namespace ClusterTraitGenerationManager
             {
                 get
                 {
-                    var dim = new Vector2I(0,0);
-                    if(world != null)
+                    var dim = new Vector2I(0, 0);
+                    if (world != null)
                     {
                         dim.X = world.worldsize.X;
                         dim.Y = world.worldsize.Y;
@@ -526,7 +526,7 @@ namespace ClusterTraitGenerationManager
                 this.placement = new WorldPlacement();
                 placement.startWorld = placement2.startWorld;
                 placement.world = placement2.world;
-                placement.y = placement2.y; 
+                placement.y = placement2.y;
                 placement.x = placement2.x;
                 placement.height = placement2.height;
                 placement.width = placement2.width;
@@ -579,6 +579,7 @@ namespace ClusterTraitGenerationManager
         public const string CustomClusterID = "CMGM";
         public static ClusterLayout GeneratedLayout => GenerateClusterLayoutFromCustomData();
         public static CustomClusterData CustomCluster;
+
 
         public static void AddCustomCluster()
         {
@@ -891,7 +892,22 @@ namespace ClusterTraitGenerationManager
             return;
         }
 
-
+        public struct WorldTraitInfo
+        {
+            public string id;
+            public string name;
+            public string description;
+            public List<string> MutualExclusives;
+            public List<string> MutualExclusiveTags;
+            public WorldTraitInfo(string id, string name, string description, List<string> exclusives, List<string> exclusiveTags)
+            {
+                this.id = id;
+                this.name = name;
+                this.description = description;
+                MutualExclusives = exclusives;
+                MutualExclusiveTags = exclusiveTags;
+            }
+        }
 
         static Dictionary<string, WorldPlacement> PredefinedPlacementData = null;
 
@@ -920,11 +936,39 @@ namespace ClusterTraitGenerationManager
             return planetPaths;
         }
 
+        private static List<WorldTraitInfo> _allTraits;
+        public static List<WorldTraitInfo> AllWorldTraits
+        {
+            get
+            {
+                if(_allTraits == null)
+                {
+                    _allTraits = new List<WorldTraitInfo>();
 
+                    foreach(var trait in SettingsCache.worldTraits)
+                    {
+                        SgtLogger.l(trait.Key);
+                        UtilMethods.ListAllPropertyValues(trait.Value);
+                        if (trait.Value.forbiddenDLCIds.Contains(DlcManager.GetHighestActiveDlcId()))
+                            continue;
+                        _allTraits.Add(
+                            new WorldTraitInfo(
+                            trait.Key,
+                            trait.Value.name, 
+                            trait.Value.description,
+                            trait.Value.exclusiveWith,
+                            trait.Value.exclusiveWithTags
+                            ));
+                    }
+
+                }
+                return _allTraits;
+            }
+        }
 
         public static void PopulatePredefinedClusterPlacements()
         {
-
+            var s = AllWorldTraits;
             if (PredefinedPlacementData != null) { return; }
 
             PredefinedPlacementData = new Dictionary<string, WorldPlacement>();
@@ -932,7 +976,7 @@ namespace ClusterTraitGenerationManager
 
             foreach (var ClusterLayout in SettingsCache.clusterLayouts.clusterCache.ToList())
             {
-               // SgtLogger.debuglog(ClusterLayout.Key,"HALP");
+                // SgtLogger.debuglog(ClusterLayout.Key,"HALP");
                 if (ClusterLayout.Key.Contains("clusters/SandstoneDefault"))
                 {
                     continue;
@@ -1132,7 +1176,7 @@ namespace ClusterTraitGenerationManager
                     {
                         if (world.startingBaseTemplate != null)
                         {
-                            string stripped = world.startingBaseTemplate.Replace("bases/",string.Empty);
+                            string stripped = world.startingBaseTemplate.Replace("bases/", string.Empty);
                             if (stripped.ToUpperInvariant().Contains("WARPWORLD"))
                             {
                                 category = StarmapItemCategory.Warp;
