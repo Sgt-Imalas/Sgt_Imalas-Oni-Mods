@@ -22,6 +22,7 @@ using static ProcGen.WorldPlacement;
 using static STRINGS.CLUSTER_NAMES;
 using static STRINGS.UI.CLUSTERMAP;
 using static STRINGS.UI.FRONTEND;
+using static UnityEngine.UI.AspectRatioFitter;
 
 namespace ClusterTraitGenerationManager
 {
@@ -78,16 +79,45 @@ namespace ClusterTraitGenerationManager
                 selectScreen = parent;
                 var ScreenRect = newScreen.rectTransform();
 
-               // UtilMethods.ListAllPropertyValues(GlobalScreen);
-               //// UtilMethods.ListAllPropertyValues(GlobalScreen.rectTransform());
+                // UtilMethods.ListAllPropertyValues(GlobalScreen);
+                //// UtilMethods.ListAllPropertyValues(GlobalScreen.rectTransform());
 
                 //newScreen.AddOrGet<ContentSizeFitter>().
-                newScreen.AddOrGet<AspectRatioFitter>().aspectMode = AspectRatioFitter.AspectMode.FitInParent;
+                float aspect = UnityEngine.Screen.width / UnityEngine.Screen.height;
+                //ScreenRect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, -100, 900);
+                var fitter = newScreen.AddOrGet<AspectRatioFitter>();
+                fitter.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
+                fitter.aspectRatio = aspect;
+
+                //ScreenRect.anchorMin = new Vector2(0,0.5f);
+                //ScreenRect.anchorMax = new Vector2(1, 0.5f);
+                //ScreenRect.anchoredPosition = new Vector2(0.5f, 0.5f);
+                //Vector2 zero = Vector2.zero;
+                //Vector2 parentSize = ScreenRect.transform.parent.rectTransform().rect.size;
+                //zero.x = parentSize.x * 2f;
+                //zero.y = parentSize.y;
+                //if ((parentSize.y * aspectRatio < parentSize.x) ^ (m_AspectMode == AspectMode.FitInParent))
+                //{
+                //    zero.y = GetSizeDeltaToProduceSize(parentSize.x, 1);
+                //}
+                //else
+                //{
+                //    zero.x = GetSizeDeltaToProduceSize(parentSize.y * , 0);
+                //}
+
+                //ScreenRect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, -100, 700);
+
+
+
+                //newScreen.AddOrGet<Canvas>();
+                //var scaler = newScreen.AddOrGet<CanvasScaler>();
+                //scaler.referenceResolution = new Vector2(1920,1080);
+                //scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
 
                 //ScreenRect.anchorMin = new Vector2(0f, 0f);
                 //ScreenRect.anchorMax = new Vector2(1f, 1f);
                 //ScreenRect.pivot = new Vector2(0.0f, 0.0f);
-                 ScreenRect.offsetMin = new Vector2 (110, ScreenRect.offsetMin.y);
+                // ScreenRect.offsetMin = new Vector2 (110, ScreenRect.offsetMin.y);
                 // ScreenRect.offsetMax = new Vector2 (10, ScreenRect.offsetMax.y);
                 ////ScreenRect.sizeDelta = new Vector2(500, 500);
                 /// ScreenRect.anchoredPosition = new Vector2(0f, 0.5f);
@@ -99,14 +129,19 @@ namespace ClusterTraitGenerationManager
 
                 var ScreenRect2 = newScreen.transform.Find("Panel").rectTransform();
 
-                ScreenRect2.gameObject.AddOrGet<AspectRatioFitter>().aspectMode = AspectRatioFitter.AspectMode.FitInParent;
+                var fitter2 = ScreenRect2.gameObject.AddOrGet<AspectRatioFitter>();
+                fitter2.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
+                fitter2.aspectRatio = aspect;
                 //ScreenRect2.anchorMin = new Vector2(0.0f, 0.5f);
                 //ScreenRect2.anchorMax = new Vector2(1f, 0.5f);
                 //ScreenRect2.pivot = new Vector2(0f, 0f);
                 //ScreenRect2.anchoredPosition = new Vector2(0.0f, 0.0f);
 
                 var ScreenRect3 = newScreen.transform.Find("Panel/Content").rectTransform();
-                ScreenRect3.gameObject.AddOrGet<AspectRatioFitter>().aspectMode = AspectRatioFitter.AspectMode.FitInParent;
+                var fitter3 = ScreenRect3.gameObject.AddOrGet<AspectRatioFitter>()
+                 ;fitter3.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
+                fitter3.aspectRatio = aspect;
+
                 //ScreenRect3.anchorMin = new Vector2(0.0f, 0.5f);
                 //ScreenRect3.anchorMax = new Vector2(1f, 0.5f);
                 //ScreenRect3.pivot = new Vector2(0f, 0f);
