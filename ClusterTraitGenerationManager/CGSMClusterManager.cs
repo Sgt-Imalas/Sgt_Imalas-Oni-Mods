@@ -10,6 +10,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UtilLibs;
 using static ClusterTraitGenerationManager.CGSMClusterManager;
@@ -63,33 +64,56 @@ namespace ClusterTraitGenerationManager
                 var copy = window.transform;
                 UnityEngine.Object.Destroy(window);
                 var canvas = FrontEndManager.Instance.MakeKleiCanvas("ClusterSelectionView");
-                var newScreen = Util.KInstantiateUI(copy.gameObject, parent.transform.parent.gameObject, true);
+                var GlobalScreen = FrontEndManager.Instance.transform; // Global.Instance.globalCanvas;
+                var GlobalScreen2 = Global.Instance.globalCanvas; // Global.Instance.globalCanvas;
+
+                //var Rpoots = SceneManager.GetActiveScene().GetRootGameObjects();
+                //foreach(var sceneroot in Rpoots)
+                //{
+                //    UtilMethods.ListAllPropertyValues(sceneroot);
+
+                //}
+
+                var newScreen = Util.KInstantiateUI(copy.gameObject, GlobalScreen.gameObject, true);
                 selectScreen = parent;
                 var ScreenRect = newScreen.rectTransform();
 
+               // UtilMethods.ListAllPropertyValues(GlobalScreen);
+               //// UtilMethods.ListAllPropertyValues(GlobalScreen.rectTransform());
 
-                ScreenRect.anchorMin = new Vector2(0f, 0f);
-                ScreenRect.anchorMax = new Vector2(1f, 1f);
-                ScreenRect.pivot = new Vector2(0f, 0.5f);
-                ScreenRect.offsetMin = new Vector2 (0, ScreenRect.offsetMin.y);
-                // ScreenRect.anchoredPosition = new Vector2(0f, 0.5f);
-                //ScreenRect.sizeDelta = parent.transform.rectTransform().rect.size;
+                //newScreen.AddOrGet<ContentSizeFitter>().
+                newScreen.AddOrGet<AspectRatioFitter>().aspectMode = AspectRatioFitter.AspectMode.FitInParent;
 
+                //ScreenRect.anchorMin = new Vector2(0f, 0f);
+                //ScreenRect.anchorMax = new Vector2(1f, 1f);
+                //ScreenRect.pivot = new Vector2(0.0f, 0.0f);
+                 ScreenRect.offsetMin = new Vector2 (110, ScreenRect.offsetMin.y);
+                // ScreenRect.offsetMax = new Vector2 (10, ScreenRect.offsetMax.y);
+                ////ScreenRect.sizeDelta = new Vector2(500, 500);
+                /// ScreenRect.anchoredPosition = new Vector2(0f, 0.5f);
+                //ScreenRect.localScale = new Vector2(2f, 1f);
+                //ScreenRect.localScale = new Vector2(2f, 1f);
+                //ScreenRect.sizeDelta = new (ScreenRect.sizeDelta.x*2, ScreenRect.sizeDelta.y);
+                //ScreenRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, GlobalScreen.rectTransform().sizeDelta.x );
+                //ScreenRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, GlobalScreen.rectTransform().sizeDelta.y );
 
                 var ScreenRect2 = newScreen.transform.Find("Panel").rectTransform();
+
+                ScreenRect2.gameObject.AddOrGet<AspectRatioFitter>().aspectMode = AspectRatioFitter.AspectMode.FitInParent;
                 //ScreenRect2.anchorMin = new Vector2(0.0f, 0.5f);
                 //ScreenRect2.anchorMax = new Vector2(1f, 0.5f);
                 //ScreenRect2.pivot = new Vector2(0f, 0f);
                 //ScreenRect2.anchoredPosition = new Vector2(0.0f, 0.0f);
 
                 var ScreenRect3 = newScreen.transform.Find("Panel/Content").rectTransform();
+                ScreenRect3.gameObject.AddOrGet<AspectRatioFitter>().aspectMode = AspectRatioFitter.AspectMode.FitInParent;
                 //ScreenRect3.anchorMin = new Vector2(0.0f, 0.5f);
                 //ScreenRect3.anchorMax = new Vector2(1f, 0.5f);
                 //ScreenRect3.pivot = new Vector2(0f, 0f);
                 //ScreenRect3.anchoredPosition = new Vector2(0.0f, 0.0f);
                 //SetAndStretchToParentSize(ScreenRect2, ScreenRect);
                 //SetAndStretchToParentSize(ScreenRect3, ScreenRect2);
-                
+
 
 
                 //newScreen.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, UnityEngine.Screen.currentResolution.height);
