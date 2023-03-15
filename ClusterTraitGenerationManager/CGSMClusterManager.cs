@@ -56,13 +56,13 @@ namespace ClusterTraitGenerationManager
                // await DoWithDelay(150);
 
                 var window = Util.KInstantiateUI(LockerNavigator.Instance.kleiInventoryScreen.gameObject);
-                UtilMethods.ListAllPropertyValues(LockerNavigator.Instance.kleiInventoryScreen.rectTransform());
+                //UtilMethods.ListAllPropertyValues(LockerNavigator.Instance.kleiInventoryScreen.rectTransform());
 
 
                 window.SetActive(false);
                 var copy = window.transform;
                 UnityEngine.Object.Destroy(window);
-                var canvas = FrontEndManager.Instance.MakeKleiCanvas("ClusterSelectionView");
+                
                 var newScreen = Util.KInstantiateUI(copy.gameObject, parent.transform.parent.gameObject, true);
                 selectScreen = parent;
                 var ScreenRect = newScreen.rectTransform();
