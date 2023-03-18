@@ -9,6 +9,7 @@ namespace ClusterTraitGenerationManager
         public override void OnLoad(Harmony harmony)
         {
             base.OnLoad(harmony);
+            ModAssets.LoadAssets();
         }
     }
 }

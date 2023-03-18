@@ -235,7 +235,12 @@ namespace ClusterTraitGenerationManager
             //var Slider = Util.KInstantiateUI(SliderPrefab.gameObject, infoInsert.gameObject, true);
             //var Seed = Util.KInstantiateUI(SeedPrefab.gameObject, infoInsert.gameObject, true);
 
+            var unityScreen = Util.KInstantiateUI(ModAssets.CustomPlanetSideScreen, infoInsert.gameObject, true);
+            UIUtils.ListAllChildren(unityScreen.transform);
+            UIUtils.ListAllChildrenPath(unityScreen.transform);
+            //UIUtils.ListAllChildrenWithComponents(unityScreen.transform);
 
+            return;
 
             #region individualConfig
             ///PlanetEnabledCheckbox, ListItem 0

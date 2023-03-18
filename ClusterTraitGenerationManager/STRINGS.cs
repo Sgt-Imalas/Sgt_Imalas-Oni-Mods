@@ -1,9 +1,11 @@
-﻿using STRINGS;
+﻿using ProcGenGame;
+using STRINGS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static STRINGS.BUILDINGS.PREFABS;
 
 namespace ClusterTraitGenerationManager
 {
@@ -11,6 +13,139 @@ namespace ClusterTraitGenerationManager
     {
         public class UI
         {
+            public class CGM
+            {
+                public class INDIVIDUALSETTINGS
+                {
+                    public class STARMAPITEMENABLED
+                    {
+                        public static LocString LABEL = (LocString)"Generate Item:";
+                        public static LocString TOOLTIP = (LocString)"Should this asteroid/POI be generated at all?";
+                    }
+                    public class AMOUNTSLIDER
+                    {
+                        public class DESCRIPTOR
+                        {
+                            public static LocString LABEL = (LocString)"Number to generate:";
+                            public class INPUT
+                            {
+                                public static LocString TEXT = (LocString)"";
+
+                            }
+                        }
+                    }
+                    public class MINDISTANCESLIDER
+                    {
+                        public class DESCRIPTOR
+                        {
+                            public static LocString LABEL = (LocString)"Minimum Distance:";
+                            public class INPUT
+                            {
+                                public static LocString TEXT = (LocString)"";
+
+                            }
+                        }
+                    }
+                    public class MAXDISTANCESLIDER
+                    {
+                        public class DESCRIPTOR
+                        {
+                            public static LocString LABEL = (LocString)"Maximum Distance:";
+                            public class INPUT
+                            {
+                                public static LocString TEXT = (LocString)"";
+
+                            }
+                        }
+                    }
+                    public class BUFFERSLIDER
+                    {
+                        public class DESCRIPTOR
+                        {
+                            public static LocString LABEL = (LocString)"Buffer Distance:";
+                            public class INPUT
+                            {
+                                public static LocString TEXT = (LocString)"";
+
+                            }
+                        }
+                    }
+                    public class ASTEROIDSIZEINFO
+                    {
+                        public static LocString LABEL = (LocString)"Asteroid Size:";
+                        public static LocString INFO = (LocString)"{0}x{1}";
+                        public class INPUT
+                        {
+                            public static LocString TEXT = (LocString)"";
+
+                        }
+                    }
+                    public class CLUSTERSIZE
+                    {
+                        public class DESCRIPTOR
+                        {
+                            public static LocString LABEL = (LocString)"Cluster Size:";
+                            public class INPUT
+                            {
+                                public static LocString TEXT = (LocString)"";
+
+                            }
+                        }
+                    }
+                    public class ASTEROIDTRAITS
+                    {
+                        public static LocString LABEL = (LocString)"Asteroid Traits:";
+                        public class LISTVIEW
+                        {
+                            public class NOTRAITSELECTEDINFO
+                            {
+                                public static LocString LABEL = (LocString)"Select Traits";
+                                public class DROPDOWN
+                                {
+                                    public class VIEWPORT
+                                    {
+                                        public class CONTENT
+                                        {
+                                            public class ITEM
+                                            {
+                                                public static LocString LABEL = (LocString)"Option N";
+
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                            public class LISTVIEWENTRYPREFAB
+                            {
+                                public static LocString LABEL = (LocString)"Trait";
+
+                            }
+                        }
+                    }
+                    public class BUTTONS
+                    {
+                        public class GITHUBBUTTON
+                        {
+                            public static LocString TEXT = (LocString)"Reset Cluster";
+                        }
+                        public class CANCELBUTTON
+                        {
+                            public static LocString TEXT = (LocString)"Reset Current Selection";
+                        }
+                        public class STEAMBUTTON
+                        {
+                            public static LocString TEXT = (LocString)"Return";
+                        }
+                        public class OK
+                        {
+                            public static LocString TEXT = (LocString)"Generate Cluster";
+                        }
+                    }
+                }
+            }
+
+
             public class CGMBUTTON
             {
                 public static LocString DESC = (LocString)"Start customizing the currently selected cluster.";
@@ -73,7 +208,7 @@ namespace ClusterTraitGenerationManager
                 public static class PLANETSIZE
                 {
                     public static LocString NAME = (LocString)"Asteroid Size: {0} x {1}";
-                    public static LocString DESC = (LocString)"The dimensions of this asteroid."; 
+                    public static LocString DESC = (LocString)"The dimensions of this asteroid.";
                 }
 
             }
@@ -112,3 +247,4 @@ namespace ClusterTraitGenerationManager
         }
     }
 }
+

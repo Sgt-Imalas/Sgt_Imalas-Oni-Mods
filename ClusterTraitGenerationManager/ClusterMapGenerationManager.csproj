@@ -69,6 +69,9 @@
 	  <None Update="ModAssets\assets\CGM_random_warp.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\assets\clustergenerationsettingsmanager_menuassets">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\dlc\expansion1\worldgen\clusters\CustomClusterVanilla.yaml">
 	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </None>
