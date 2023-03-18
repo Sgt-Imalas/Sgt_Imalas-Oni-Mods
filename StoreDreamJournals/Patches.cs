@@ -46,29 +46,29 @@ namespace StoreDreamJournals
             }
         }
 
-        [HarmonyPatch(typeof(MainMenu))]
-        [HarmonyPatch(nameof(MainMenu.OnSpawn))]
-        public static class ObsoleteMessage
-        {
-            public static void Postfix()
-            {
-                System.Action UnsubscribeAction = new System.Action(
-                () => {
-                    SteamUGC.UnsubscribeItem(new PublishedFileId_t(ulong.Parse("2882203528")));
-                });
+        //[HarmonyPatch(typeof(MainMenu))]
+        //[HarmonyPatch(nameof(MainMenu.OnSpawn))]
+        //public static class ObsoleteMessage
+        //{
+        //    public static void Postfix()
+        //    {
+        //        System.Action UnsubscribeAction = new System.Action(
+        //        () => {
+        //            SteamUGC.UnsubscribeItem(new PublishedFileId_t(ulong.Parse("2882203528")));
+        //        });
 
-                KMod.Manager.Dialog(Global.Instance.globalCanvas,
-                "Obsolete Mod!",
-                "The Mod \"Store Dream Journals/Fix Dream Journal Hitbox\" has become obsolete and will soon be removed from the Workshop.\nDo you want to unsubscribe now?",
-                "Yes (Unsubscribe)",
-                UnsubscribeAction,
-                "No",
-                () =>
-                {
+        //        KMod.Manager.Dialog(Global.Instance.globalCanvas,
+        //        "Obsolete Mod!",
+        //        "The Mod \"Store Dream Journals/Fix Dream Journal Hitbox\" has become obsolete and will soon be removed from the Workshop.\nDo you want to unsubscribe now?",
+        //        "Yes (Unsubscribe)",
+        //        UnsubscribeAction,
+        //        "No",
+        //        () =>
+        //        {
 
-                });
-            }
-        }
+        //        });
+        //    }
+        //}
 
 
 
