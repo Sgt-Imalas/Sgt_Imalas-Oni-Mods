@@ -17,6 +17,7 @@ using static ClusterTraitGenerationManager.ModAssets;
 using static KAnim;
 using ProcGen;
 using static STRINGS.BUILDINGS.PREFABS.DOOR.CONTROL_STATE;
+using static ClusterTraitGenerationManager.STRINGS.UI;
 
 namespace ClusterTraitGenerationManager
 {
@@ -78,6 +79,7 @@ namespace ClusterTraitGenerationManager
         {
             public static void Postfix(ColonyDestinationAsteroidBeltData cluster)
             {
+                CGSMClusterManager.LoadCustomCluster = false;
                 CGSMClusterManager.CreateCustomClusterFrom(cluster.beltPath);
                 //SgtLogger.l("GOT CALLED TO: "+cluster.beltPath,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
             }
@@ -113,8 +115,12 @@ namespace ClusterTraitGenerationManager
             public static void Prefix(ref string name)
             {
                 //CustomLayout
-                if(CGSMClusterManager.CustomCluster != null)
+                if(CGSMClusterManager.CustomCluster != null || CGSMClusterManager.LoadCustomCluster)
                 {
+                    if (CGSMClusterManager.CustomCluster == null)
+                    {
+                        CGSMClusterManager.AddCustomCluster();
+                    }
                     name = CGSMClusterManager.CustomClusterID;
                 }
             }
