@@ -85,7 +85,7 @@ namespace ClusterTraitGenerationManager
                 var newScreen = Util.KInstantiateUI(copy.gameObject, GlobalScreen.gameObject, true);
                 selectScreen = parent;
                 var ScreenRect = newScreen.rectTransform();
-
+                LoadCustomCluster = false;
                 // UtilMethods.ListAllPropertyValues(GlobalScreen);
                 //// UtilMethods.ListAllPropertyValues(GlobalScreen.rectTransform());
 

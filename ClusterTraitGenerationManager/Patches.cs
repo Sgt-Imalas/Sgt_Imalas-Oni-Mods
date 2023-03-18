@@ -115,7 +115,7 @@ namespace ClusterTraitGenerationManager
             public static void Prefix(ref string name)
             {
                 //CustomLayout
-                if(CGSMClusterManager.CustomCluster != null || CGSMClusterManager.LoadCustomCluster)
+                if(CGSMClusterManager.LoadCustomCluster)
                 {
                     if (CGSMClusterManager.CustomCluster == null)
                     {
