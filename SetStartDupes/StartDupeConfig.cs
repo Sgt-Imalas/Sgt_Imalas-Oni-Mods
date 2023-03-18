@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace SetStartDupes
 {
     [Serializable]
-    [RestartRequired]
+   // [RestartRequired]
     [ModInfo("Adjust Start Dupe Count")]
     class StartDupeConfig : SingletonOptions<StartDupeConfig>
     {

@@ -4,16 +4,19 @@
 
 This mod allows to adjust the amount of Duplicants you start the game with.
 Also features individual selection of traits, interests and reactions of duplicants.
+Allows to override the look of dupes independent of its stats.
 
 
-[h1]Current latest Version: 2.0.3[/h1]
+[h1]Current latest Version: 3.0.0[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
 [list]
 [*] By Default, enabling the mod sets the amount of Duplicants to start with to 3.
-[*] This value is adjustable in mod settings to start with a number of between 1 and 16 duplicants.
+[*] This value is adjustable in mod settings to start with a number of between 1 and 100 duplicants.
 [*] Allows to individually change the different Traits, Interests and Reactions of a Duplicant (similar to DGSM).
+[*] Has option to spawn with additional food and oxylite for every additional start dupe 
+[*] Allows customize the looks of a dupe independent of its skills. (doesn't work for sussy dupes from bio inks)
 [/list] 
 
 Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2869608898]Bio-Inks[/url] 
