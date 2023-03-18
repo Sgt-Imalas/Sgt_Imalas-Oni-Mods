@@ -533,6 +533,11 @@ namespace Cryopod.Buildings
 			}
         }
 
+        public int HorizontalGroupID()
+        {
+			return -1;
+        }
+
         #endregion
     }
 }

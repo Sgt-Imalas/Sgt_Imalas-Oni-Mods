@@ -249,7 +249,7 @@ namespace BawoonFwiend
             for (int animIndex = 0; animIndex < AllSkins.Count(); ++animIndex)
             {
                 var SkinAllowed = db.Permits.BalloonArtistFacades.Get(AllSkins[animIndex].id);
-                if (SkinAllowed.IsUnlocked()) //SkinAllowed.IsUnlocked()
+                if (SkinAllowed.IsUnlocked()) ///yes that check is required
                 {
                     var symbolOverrides = SkinAllowed.GetBalloonOverrideSymbolIDs();
                     for (int subSkinIndex = 0; subSkinIndex < symbolOverrides.Count(); ++subSkinIndex)

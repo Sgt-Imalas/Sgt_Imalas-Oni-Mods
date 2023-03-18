@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using MonoMod.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -180,9 +181,14 @@ namespace UtilLibs
 
         public static void ListComponents(GameObject instance)
         {
-            foreach (var comp in instance.GetComponents(typeof(Component)))
+            int count = instance.GetComponents(typeof(Component)).Count();
+            Console.WriteLine(count + " objects found");
+            foreach (var comp in instance.GetComponents(typeof(UnityEngine.Object)))
             {
-                Console.WriteLine("Type: "+comp.GetType() + ", Name ->" + comp.name);
+                if (comp != null)
+                {
+                    Console.WriteLine("Type: " + comp.GetType() + comp.name != null ? ", Name ->" + comp.name : "");
+                }
             }
         }
 

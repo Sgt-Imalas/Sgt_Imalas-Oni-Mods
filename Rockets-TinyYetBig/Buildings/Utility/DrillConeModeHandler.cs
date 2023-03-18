@@ -72,5 +72,10 @@ namespace Rockets_TinyYetBig.Buildings.Utility
         }
 
         public int ButtonSideScreenSortOrder() => 21;
+
+        public int HorizontalGroupID()
+        {
+            return -1;
+        }
     }
 }

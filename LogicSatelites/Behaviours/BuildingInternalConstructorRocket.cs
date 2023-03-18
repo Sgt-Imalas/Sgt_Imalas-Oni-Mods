@@ -227,6 +227,11 @@ namespace LogicSatellites.Behaviours
 
             public int ButtonSideScreenSortOrder() => 20;
             public void SetButtonTextOverride(ButtonMenuTextOverride text) => throw new NotImplementedException();
+
+            public int HorizontalGroupID()
+            {
+                return -1;
+            }
         }
     }
 }

@@ -271,6 +271,11 @@ namespace Rockets_TinyYetBig.Behaviours
             }
         }
 
+        public int HorizontalGroupID()
+        {
+            return -1;
+        }
+
         #endregion
 
         public struct CritterStorageInfo

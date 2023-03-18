@@ -78,7 +78,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CritterTraitsReborn", "Crit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrywallPatternColours", "DrywallPatternColours\DrywallPatternColours.csproj", "{6208D3D8-C9AE-4824-A4F9-2B8108187B6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClusterMapGenerationManager", "ClusterTraitGenerationManager\ClusterMapGenerationManager.csproj", "{B23066FA-9664-4349-B246-46FBE774C680}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClusterMapGenerationManager", "ClusterTraitGenerationManager\ClusterMapGenerationManager.csproj", "{B23066FA-9664-4349-B246-46FBE774C680}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClaimNotification", "ClaimNotification\ClaimNotification.csproj", "{2C7B059A-3E4A-44E5-BDEF-A6B13C8F9E11}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -226,6 +228,10 @@ Global
 		{B23066FA-9664-4349-B246-46FBE774C680}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B23066FA-9664-4349-B246-46FBE774C680}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{B23066FA-9664-4349-B246-46FBE774C680}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{2C7B059A-3E4A-44E5-BDEF-A6B13C8F9E11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C7B059A-3E4A-44E5-BDEF-A6B13C8F9E11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C7B059A-3E4A-44E5-BDEF-A6B13C8F9E11}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C7B059A-3E4A-44E5-BDEF-A6B13C8F9E11}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

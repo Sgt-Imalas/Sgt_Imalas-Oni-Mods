@@ -32,5 +32,10 @@ namespace Rockets_TinyYetBig.Behaviours
             return true;
         }
         public void SetButtonTextOverride(ButtonMenuTextOverride text) => throw new NotImplementedException();
+
+        public int HorizontalGroupID()
+        {
+            return -1;
+        }
     }
 }

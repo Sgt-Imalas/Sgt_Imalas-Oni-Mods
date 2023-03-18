@@ -168,6 +168,11 @@ namespace Rockets_TinyYetBig.Behaviours
         {
             return true;
         }
+
+        public int HorizontalGroupID()
+        {
+            return -1;
+        }
         #endregion
     }
 }
