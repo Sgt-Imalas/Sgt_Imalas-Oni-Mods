@@ -4,7 +4,7 @@
 
 This mod allows to adjust the amount of Duplicants you start the game with.
 Also features individual selection of traits, interests and reactions of duplicants.
-Allows to override the look of dupes independent of its stats.
+Allows to customize the look of a dupe independent of its stats.
 
 
 [h1]Current latest Version: 3.0.0[/h1]
