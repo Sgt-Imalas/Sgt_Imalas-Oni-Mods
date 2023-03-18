@@ -15,6 +15,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UtilLibs;
 using static ClusterTraitGenerationManager.CGSMClusterManager;
+using static ClusterTraitGenerationManager.STRINGS.UI;
 using static KAnim;
 using static Klei.ClusterLayoutSave;
 using static LogicGate.LogicGateDescriptions;
@@ -203,6 +204,18 @@ namespace ClusterTraitGenerationManager
         public const int ringMax = 25, ringMin = 6;
         public class CustomClusterData
         {
+
+            int GetAdjustedOuterExpansion()
+            {
+                int planetDiff = (CustomCluster.OuterPlanets.Count - CustomCluster.defaultOuterPlanets );
+
+
+                return planetDiff;
+            }
+            public int AdjustedOuterExpansion => GetAdjustedOuterExpansion();
+
+            public int defaultRings = 12;
+            public int defaultOuterPlanets = 6;
             public int Rings { get; private set; }
             public StarmapItem StarterPlanet { get; set; }
             public StarmapItem WarpPlanet { get; set; }
@@ -245,9 +258,16 @@ namespace ClusterTraitGenerationManager
                 return false;
             }
 
-            public void SetRings(int rings)
+
+
+            public void SetRings(int rings, bool defaultRing = false)
             {
+                rings = Math.Min(rings, ringMax);
+                rings = Math.Max(rings, ringMin);
+
                 Rings = rings;
+                if (defaultRing)
+                    defaultRings = rings;
 
                 if (StarterPlanet != null && StarterPlanet.placement != null)
                 {
@@ -602,6 +622,36 @@ namespace ClusterTraitGenerationManager
             //selectScreen.destinationMapPanel.SelectCluster(ClusterID, seed);
         }
 
+        static void ApplySizeMultiplier(WorldPlacement placement, float multiplier)
+        {
+            float min = placement.allowedRings.min, max = placement.allowedRings.max;
+            //min*= multiplier;
+
+            if (max < 4)
+                max = 4;
+
+            max *= multiplier;
+
+
+            int max2 = Math.Min(placement.allowedRings.max + CustomCluster.AdjustedOuterExpansion, CustomCluster.Rings);
+            int newMax = Math.Max((int)Math.Round(max), max2);
+            placement.allowedRings = new MinMaxI((int)min, newMax);
+
+            SgtLogger.l("Set inner and outer limits to "+placement.allowedRings.ToString(), placement.world);
+        }
+        static void ApplySizeMultiplier(SpaceMapPOIPlacement placement, float multiplier)
+        {
+            float min = placement.allowedRings.min, max = placement.allowedRings.max;
+            //min*= multiplier;x
+            max *= multiplier;
+
+            int max2 = placement.allowedRings.max + CustomCluster.AdjustedOuterExpansion;
+            int newMax = Math.Max((int)Math.Round(max), max2);
+            placement.allowedRings = new MinMaxI((int)min, newMax);
+        }
+
+
+
         public static ClusterLayout GenerateClusterLayoutFromCustomData()
         {
             SgtLogger.l("Started generating custom cluster");
@@ -615,11 +665,23 @@ namespace ClusterTraitGenerationManager
             layout.name = CustomClusterID;
             layout.description = CustomClusterID;
             layout.worldPlacements = new List<WorldPlacement>();
+            float multiplier = 1f;
+            if (CustomCluster.Rings > CustomCluster.defaultRings)
+            {
+                multiplier = (float)CustomCluster.Rings / (float)CustomCluster.defaultRings;
+            }
+            SgtLogger.l("Cluster Size: " + CustomCluster.Rings);
+            SgtLogger.l("Placement Multiplier: " + multiplier);
+
 
             if (CustomCluster.StarterPlanet.id.Contains(RandomKey))
             {
                 var randomItem = GetRandomItemOfType(StarmapItemCategory.Starter);
                 var placement = CustomCluster.StarterPlanet.placement;
+
+                //ApplySizeMultiplier(placement, multiplier);
+
+
                 placement.world = randomItem.id;
                 placement.startWorld = true;
 
@@ -640,6 +702,7 @@ namespace ClusterTraitGenerationManager
                     var randomItem = GetRandomItemOfType(StarmapItemCategory.Warp);
                     var placement = CustomCluster.WarpPlanet.placement;
                     placement.world = randomItem.id;
+                    //ApplySizeMultiplier(placement, multiplier);
 
                     layout.worldPlacements.Add(placement);
                     SgtLogger.l(randomItem.id, "Random Warp Planet");
@@ -652,12 +715,15 @@ namespace ClusterTraitGenerationManager
             }
 
             RandomOuterPlanets.Clear();
-            foreach (var world in CustomCluster.OuterPlanets)
+            List<StarmapItem> OuterPlanets = CustomCluster.OuterPlanets.Values.ToList();
+            OuterPlanets = OuterPlanets.OrderBy(item => item.placement.allowedRings.max).ToList();
+
+            foreach (var world in OuterPlanets)
             {
 
-                if (world.Value.id.Contains(RandomKey))
+                if (world.id.Contains(RandomKey))
                 {
-                    for (int i = 1; i < (int)world.Value.InstancesToSpawn; i++)
+                    for (int i = 1; i < (int)world.InstancesToSpawn; i++)
                     {
                         var randomItem = GetRandomItemOfType(StarmapItemCategory.Outer);
                         if (randomItem == null)
@@ -667,8 +733,9 @@ namespace ClusterTraitGenerationManager
                             break;
                         }
 
-                        var placement = world.Value.placement;
+                        var placement = world.placement;
                         placement.world = randomItem.id;
+                        ApplySizeMultiplier(placement, multiplier);
                         layout.worldPlacements.Add(placement);
 
                         SgtLogger.l(randomItem.id, "Random Outer Planet");
@@ -676,13 +743,14 @@ namespace ClusterTraitGenerationManager
                 }
                 else
                 {
-                    layout.worldPlacements.Add(world.Value.placement);
-                    SgtLogger.l(world.Value.id, "Outer Planet");
+                    var placement = world.placement;
+                    ApplySizeMultiplier(placement, multiplier);
+                    layout.worldPlacements.Add(placement);
+                    SgtLogger.l(world.id, "Outer Planet");
                 }
             }
 
             layout.poiPlacements = new List<SpaceMapPOIPlacement>();
-            float pity = 0f;
 
             foreach (var poi in CustomCluster.POIs)
             {
@@ -694,8 +762,11 @@ namespace ClusterTraitGenerationManager
                     for (int i = 0; i < randomInstancesToSpawn; i++)
                     {
                         var randomItem = GetRandomItemOfType(StarmapItemCategory.POI);
+                        if (randomItem == null)
+                            break;
                         randomItem.SetInnerRing(poi.Value.minRing);
                         randomItem.SetOuterRing(poi.Value.maxRing);
+                        ApplySizeMultiplier(randomItem.placementPOI, multiplier);
 
                         layout.poiPlacements.Add(randomItem.placementPOI);
 
@@ -709,7 +780,11 @@ namespace ClusterTraitGenerationManager
                 float instancesToSpawn = poi.Value.InstancesToSpawn;
                 while (instancesToSpawn >= 1)
                 {
-                    layout.poiPlacements.Add(poi.Value.placementPOI);
+
+                    var poiPlacement = poi.Value.placementPOI;
+                    ApplySizeMultiplier(poiPlacement, multiplier);
+                    layout.poiPlacements.Add(poiPlacement);
+
                     SgtLogger.l(poi.Value.id, "POI");
                     --instancesToSpawn;
                 }
@@ -718,7 +793,9 @@ namespace ClusterTraitGenerationManager
                     float chance = UnityEngine.Random.Range(0.01f, 1.01f);
                     if (chance <= instancesToSpawn)
                     {
-                        layout.poiPlacements.Add(poi.Value.placementPOI);
+                        var poiPlacement = poi.Value.placementPOI;
+                        ApplySizeMultiplier(poiPlacement, multiplier);
+                        layout.poiPlacements.Add(poiPlacement);
                         SgtLogger.l(poi.Value.id + ", succeeded: " + chance * 100f, "POI Chance" + instancesToSpawn.ToString("P"));
                         // pity = 0;
                     }
@@ -760,7 +837,7 @@ namespace ClusterTraitGenerationManager
             ClusterLayout Reference = SettingsCache.clusterLayouts.GetClusterData(clusterID);
             if (Reference == null)
                 return;
-            CustomCluster.SetRings(Reference.numRings);
+            CustomCluster.SetRings(Reference.numRings, true);
 
             foreach (WorldPlacement planetPlacement in Reference.worldPlacements)
             {
@@ -785,6 +862,7 @@ namespace ClusterTraitGenerationManager
                     }
                 }
             }
+            CustomCluster.defaultOuterPlanets = Reference.worldPlacements.Count;
             CustomCluster.POIs.Clear();
 
             if (Reference.poiPlacements == null)
@@ -941,11 +1019,11 @@ namespace ClusterTraitGenerationManager
         {
             get
             {
-                if(_allTraits == null)
+                if (_allTraits == null)
                 {
                     _allTraits = new List<WorldTraitInfo>();
 
-                    foreach(var trait in SettingsCache.worldTraits)
+                    foreach (var trait in SettingsCache.worldTraits)
                     {
                         //SgtLogger.l(trait.Key);
                         //UtilMethods.ListAllPropertyValues(trait.Value);
@@ -954,7 +1032,7 @@ namespace ClusterTraitGenerationManager
                         _allTraits.Add(
                             new WorldTraitInfo(
                             trait.Key,
-                            trait.Value.name, 
+                            trait.Value.name,
                             trait.Value.description,
                             trait.Value.colorHex,
                             trait.Value.exclusiveWith,
@@ -1083,12 +1161,15 @@ namespace ClusterTraitGenerationManager
             int i;
             for (i = 0; i < 50; ++i)
             {
-                if (item.id.Contains("TemporalTear") || item.id == null || item.id == string.Empty || CustomCluster.OuterPlanets.ContainsKey(item.id) || RandomOuterPlanets.Contains(item.id) || item.id.Contains(RandomKey))
+                if ((item.id.Contains("TemporalTear") || item.id == null || item.id == string.Empty || CustomCluster.OuterPlanets.ContainsKey(item.id) || RandomOuterPlanets.Contains(item.id) || item.id.Contains(RandomKey)) && i < 45)
                 {
                     item = items.GetRandom(new SeededRandom(i * 42));
                 }
                 else
-                    break;
+                {
+                    item = null;
+                    return item;
+                }
             }
             if (starmapItemCategory == StarmapItemCategory.Outer)
             {
@@ -1210,6 +1291,45 @@ namespace ClusterTraitGenerationManager
                 PopulatePredefinedClusterPlacements();
             }
             return PlanetsAndPOIs;
+        }
+
+        static int AdjustedClusterSize => CustomCluster.defaultRings + Mathf.Max(0, (CustomCluster.AdjustedOuterExpansion/4));
+
+        internal static void InitializeGeneration()
+        {
+            if (CustomCluster.OuterPlanets.Count > 6 && CustomCluster.Rings < AdjustedClusterSize)
+            {
+                System.Action AjustSize = () =>
+                {
+                    int ringAmount = AdjustedClusterSize;
+                    SgtLogger.l("Adjusted Ring Amount to " + ringAmount);
+                    CustomCluster.SetRings(ringAmount);
+                    InitializeGeneration();
+                };
+                System.Action nothing = () =>
+                {
+                    //int ringAmount = AdjustedClusterSize;
+                    //CustomCluster.SetRings(ringAmount);
+                    //InitializeGeneration();
+                };
+
+
+
+                KMod.Manager.Dialog(Global.Instance.globalCanvas,
+               "Potential Generation Errors detected!",
+               "You have selected more than 6 outer planets, which can lead to placement failures.\n Automatically adjust cluster size and placements?",
+               "Yes",
+               AjustSize,
+               "No, let me do it manually"
+               , nothing
+               );
+            }
+            else
+            {
+                AddCustomCluster();
+                LoadCustomCluster = true;
+                CGSMClusterManager.selectScreen.LaunchClicked();
+            }
         }
     }
 }

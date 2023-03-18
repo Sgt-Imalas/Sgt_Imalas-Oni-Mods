@@ -82,6 +82,7 @@ namespace ClusterTraitGenerationManager
                 //SgtLogger.l("GOT CALLED TO: "+cluster.beltPath,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
             }
         }
+
         [HarmonyPatch(typeof(NewGameFlowScreen))]
         [HarmonyPatch(nameof(NewGameFlowScreen.OnKeyDown))]
         public static class CatchGoingBack
@@ -93,7 +94,16 @@ namespace ClusterTraitGenerationManager
                 return true;
             }
         }
-        
+
+        [HarmonyPatch(typeof(WorldGen))]
+        [HarmonyPatch(nameof(WorldGen.ReportWorldGenError))]
+        public static class betterError
+        {
+            public static void Prefix(Exception e, ref string errorMessage)
+            {
+                errorMessage = e.Message;
+            }
+        }
 
         [HarmonyPatch(typeof(Cluster))]
         [HarmonyPatch(typeof(Cluster), MethodType.Constructor)]
