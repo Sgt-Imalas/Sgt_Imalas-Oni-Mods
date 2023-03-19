@@ -1092,14 +1092,6 @@ namespace ClusterTraitGenerationManager
                     item = null;
                 }
             }
-            if (starmapItemCategory == StarmapItemCategory.Outer)
-            {
-                RandomOuterPlanets.Add(item.id);
-                if (i >= items.Count-1)
-                {
-                    item = null;
-                }
-            }
 
             //while (item.category != starmapItemCategory || item.id.Contains("TemporalTear") || item.id == null || item.id == string.Empty)
             //{
