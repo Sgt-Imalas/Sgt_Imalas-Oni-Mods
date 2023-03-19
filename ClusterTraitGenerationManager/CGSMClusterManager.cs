@@ -86,91 +86,11 @@ namespace ClusterTraitGenerationManager
                 selectScreen = parent;
                 var ScreenRect = newScreen.rectTransform();
                 LoadCustomCluster = false;
-                // UtilMethods.ListAllPropertyValues(GlobalScreen);
-                //// UtilMethods.ListAllPropertyValues(GlobalScreen.rectTransform());
-
-                //newScreen.AddOrGet<ContentSizeFitter>().
-                //float aspect = UnityEngine.Screen.currentResolution.width / UnityEngine.Screen.currentResolution.height;
-                ////ScreenRect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, -100, 900);
-                //var fitter = newScreen.AddOrGet<AspectRatioFitter>();
-                //fitter.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
-                //fitter.aspectRatio = aspect;
-
-                //ScreenRect.anchorMin = new Vector2(0,0.5f);
-                //ScreenRect.anchorMax = new Vector2(1, 0.5f);
-                //ScreenRect.anchoredPosition = new Vector2(0.5f, 0.5f);
-                //Vector2 zero = Vector2.zero;
-                //Vector2 parentSize = ScreenRect.transform.parent.rectTransform().rect.size;
-                //zero.x = parentSize.x * 2f;
-                //zero.y = parentSize.y;
-                //if ((parentSize.y * aspectRatio < parentSize.x) ^ (m_AspectMode == AspectMode.FitInParent))
-                //{
-                //    zero.y = GetSizeDeltaToProduceSize(parentSize.x, 1);
-                //}
-                //else
-                //{
-                //    zero.x = GetSizeDeltaToProduceSize(parentSize.y * , 0);
-                //}
-
-                //ScreenRect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, -100, 700);
-
-
-
-                //newScreen.AddOrGet<Canvas>();
-                //var scaler = newScreen.AddOrGet<CanvasScaler>();
-                //scaler.referenceResolution = new Vector2(1920,1080);
-                //scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
-
-                //ScreenRect.anchorMin = new Vector2(0f, 0f);
-                //ScreenRect.anchorMax = new Vector2(1f, 1f);
-                //ScreenRect.pivot = new Vector2(0.0f, 0.0f);
-                // ScreenRect.offsetMin = new Vector2 (110, ScreenRect.offsetMin.y);
-                // ScreenRect.offsetMax = new Vector2 (10, ScreenRect.offsetMax.y);
-                ////ScreenRect.sizeDelta = new Vector2(500, 500);
-                /// ScreenRect.anchoredPosition = new Vector2(0f, 0.5f);
-                //ScreenRect.localScale = new Vector2(2f, 1f);
-                //ScreenRect.localScale = new Vector2(2f, 1f);
-                //ScreenRect.sizeDelta = new (ScreenRect.sizeDelta.x*2, ScreenRect.sizeDelta.y);
-                //ScreenRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, GlobalScreen.rectTransform().sizeDelta.x );
-                //ScreenRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, GlobalScreen.rectTransform().sizeDelta.y );
-
-                //var ScreenRect2 = newScreen.transform.Find("Panel").rectTransform();
-
-                //var fitter2 = ScreenRect2.gameObject.AddOrGet<AspectRatioFitter>();
-                //fitter2.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
-                ////fitter2.aspectRatio = aspect;
-                ////ScreenRect2.anchorMin = new Vector2(0.0f, 0.5f);
-                ////ScreenRect2.anchorMax = new Vector2(1f, 0.5f);
-                ////ScreenRect2.pivot = new Vector2(0f, 0f);
-                ////ScreenRect2.anchoredPosition = new Vector2(0.0f, 0.0f);
-
-                //var ScreenRect3 = newScreen.transform.Find("Panel/Content").rectTransform();
-                //var fitter3 = ScreenRect3.gameObject.AddOrGet<AspectRatioFitter>();
-                //fitter3.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
-                //fitter3.aspectRatio = aspect;
-
-                //ScreenRect3.anchorMin = new Vector2(0.0f, 0.5f);
-                //ScreenRect3.anchorMax = new Vector2(1f, 0.5f);
-                //ScreenRect3.pivot = new Vector2(0f, 0f);
-                //ScreenRect3.anchoredPosition = new Vector2(0.0f, 0.0f);
-                //SetAndStretchToParentSize(ScreenRect2, ScreenRect);
-                //SetAndStretchToParentSize(ScreenRect3, ScreenRect2);
-
-
-
-                //newScreen.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, UnityEngine.Screen.currentResolution.height);
-                //newScreen.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, UnityEngine.Screen.currentResolution.width);
+                
                 newScreen.name = "ClusterSelectionView";
                 var cmp = newScreen.AddComponent(typeof(FeatureSelectionScreen));
 
                 Screen = newScreen;
-                //onClose += ()=>AddCustomCluster();
-                //Debug.Log(LockerNavigator.Instance.kleiInventoryScreen.transform.parent.parent.parent.parent.parent.gameObject);
-                //UIUtils.ListAllChildren(LockerNavigator.Instance.kleiInventoryScreen.transform.parent.parent.parent.parent.parent);
-                //UIUtils.ListAllChildrenWithComponents(ScreenPrefabs.Instance.LockerNavigator.transform);
-                //newScreen.AddComponent<CanvasScaler>();
-                //newScreen.AddComponent<KCanvasScaler>();
-                //LockerNavigator.Instance.PushScreen(newScreen, onClose);
             }
             else
             {
@@ -180,7 +100,6 @@ namespace ClusterTraitGenerationManager
 
             Screen.gameObject.SetActive(true);
             Screen.GetComponent<FeatureSelectionScreen>().RefreshView();
-
         }
 
         public static void SetAndStretchToParentSize(RectTransform _mRect, RectTransform _parent)
@@ -1156,25 +1075,22 @@ namespace ClusterTraitGenerationManager
         public static StarmapItem GetRandomItemOfType(StarmapItemCategory starmapItemCategory)
         {
             List<StarmapItem> items = PlanetoidDict().Values.ToList().FindAll(item => item.category == starmapItemCategory);
+            items.Shuffle();
 
-            StarmapItem item = items.GetRandom();
+            StarmapItem item= null;
             int i;
-            for (i = 0; i < 50; ++i)
+            for (i = 0; i < items.Count; ++i)
             {
-                if ((item.id.Contains("TemporalTear") || item.id == null || item.id == string.Empty || CustomCluster.OuterPlanets.ContainsKey(item.id) || RandomOuterPlanets.Contains(item.id) || item.id.Contains(RandomKey)) && i < 45)
+                item = items[i];
+                if (!(item.id.Contains("TemporalTear") || item.id == null || item.id == string.Empty || CustomCluster.OuterPlanets.ContainsKey(item.id) || RandomOuterPlanets.Contains(item.id) || item.id.Contains(RandomKey)))
                 {
-                    item = items.GetRandom(new SeededRandom(i * 42));
-                }
-                else
-                {
-                    item = null;
-                    return item;
+                    break;
                 }
             }
             if (starmapItemCategory == StarmapItemCategory.Outer)
             {
                 RandomOuterPlanets.Add(item.id);
-                if (i > 45)
+                if (i >= items.Count-1)
                 {
                     item = null;
                 }
