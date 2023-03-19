@@ -444,7 +444,21 @@ namespace SetStartDupes
             public static void Postfix(CharacterContainer __instance, MinionStartingStats ___stats, bool is_starter)
             {
                 ///Only during startup when config is disabled
-               
+
+                //bool IsWhackyDupe = false;
+                //Type BioInksCustomDupeType = Type.GetType("PrintingPodRecharge.Cmps.CustomDupe, PrintingPodRecharge", false, false);
+                //if(BioInksCustomDupeType != null)
+                //{
+
+                //    //var obj = go.gameObject.GetComponent(VaricolouredBalloonsHelperType);
+                //    ////foreach (var cmp in VaricolouredBalloonsHelperType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic)) 
+                //    ////   SgtLogger.l(cmp.Name.ToString(),"GET Field");
+                //    ////foreach (var cmp in VaricolouredBalloonsHelperType.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic))
+                //    ////    SgtLogger.l(cmp.Name.ToString(), "GET method");
+
+                //    //var component = go.GetComponent(VaricolouredBalloonsHelperType);
+                //    //var fieldInfo = (uint)Traverse.Create(component).Method("get_ArtistBalloonSymbolIdx").GetValue();
+                //}
 
                 var buttonPrefab = __instance.transform.Find("TitleBar/RenameButton").gameObject;
                 var titlebar = __instance.transform.Find("TitleBar").gameObject;
