@@ -4,6 +4,7 @@ using ProcGen;
 using ProcGenGame;
 using STRINGS;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -1085,6 +1086,10 @@ namespace ClusterTraitGenerationManager
                 if (!(item.id.Contains("TemporalTear") || item.id == null || item.id == string.Empty || CustomCluster.OuterPlanets.ContainsKey(item.id) || RandomOuterPlanets.Contains(item.id) || item.id.Contains(RandomKey)))
                 {
                     break;
+                }
+                if (i == items.Count - 1&& starmapItemCategory == StarmapItemCategory.Outer)
+                {
+                    item = null;
                 }
             }
             if (starmapItemCategory == StarmapItemCategory.Outer)
