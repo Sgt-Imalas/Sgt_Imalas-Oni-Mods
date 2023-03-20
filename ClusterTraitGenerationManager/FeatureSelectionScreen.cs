@@ -352,9 +352,8 @@ namespace ClusterTraitGenerationManager
             UIUtils.AddActionToButton(Buttons.transform, "LaunchButton",
                 () =>
                 {
-                    AddCustomCluster();
-                    LoadCustomCluster = true;
-                    CGSMClusterManager.selectScreen.LaunchClicked();
+                    //AddCustomCluster();
+                    CGSMClusterManager.InitializeGeneration();
                 }
             );
             ///Global Config

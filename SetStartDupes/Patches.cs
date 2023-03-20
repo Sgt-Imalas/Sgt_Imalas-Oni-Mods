@@ -19,7 +19,7 @@ namespace SetStartDupes
 {
     class Patches
     {
-        
+
         //[HarmonyPatch(typeof(CryoTank))]
         //[HarmonyPatch(nameof(CryoTank.DropContents))]
         //public class AddToCryoTank
@@ -230,7 +230,7 @@ namespace SetStartDupes
                 int newCell = Grid.PosToCell(printingPod) + ((index + 1) % 4 - 1);
                 //Debug.Log("Old CellPosX: " + OldX + ", New CellPos: " + Grid.CellToXY(newCell));
                 //YeetOxilite(printingPod, 150f);
-                return (float)Grid.CellToXY(newCell).x+0.5f;
+                return (float)Grid.CellToXY(newCell).x + 0.5f;
             }
 
             public static readonly MethodInfo NewCellX = AccessTools.Method(
@@ -257,44 +257,31 @@ namespace SetStartDupes
                 //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
                 if (insertionIndex != -1)
                 {
-                    int printingPodIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, insertionIndexPrintingPodInfo,false);
+                    int printingPodIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, insertionIndexPrintingPodInfo, false);
                     int IDXIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, minionGetterIndexInfo);
 
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, printingPodIndex));
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, IDXIndex));
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, NewCellX));
-                   // TranspilerHelper.PrintInstructions(code);
+                    // TranspilerHelper.PrintInstructions(code);
                 }
                 //foreach (var v in code) { Console.WriteLine(v.opcode + (v.operand != null ? ": " + v.operand : "")); };
                 return code;
             }
         }
 
-        [HarmonyPatch(typeof(NewBaseScreen), "SpawnMinions")]
-        public class DupeSpawnAdjustment
+        [HarmonyPatch(typeof(MinionStartingStats), "GenerateTraits")]
+        [HarmonyPatch(nameof(MinionStartingStats.GenerateTraits))]
+        public class AllowCustomTraitAllignment
         {
-            /// <summary>
-            /// cell 	 == loc7
-            /// tempCalculated X = loc6
-            /// index 	 == loc5
-            /// baseright== loc4
-            /// baseleft == loc3
-            /// y 	 == loc2
-            /// x 	 == loc1
-            /// </summary>
-            /// <param name="x"></param>
-            /// <param name="y"></param>
-            /// <returns></returns>
-            public static System.Int32 AdjustCell(int oldCellToConsume, int CellOfPrintingPod, int index) ///int requirement to consume previous "3" on stack
+            public static bool VariableTraits(bool isStarterMinion) ///int requirement to consume previous "3" on stack
             {
-                int newCell = CellOfPrintingPod + ((index + 2) % 5 - 2);
-                //Debug.Log("Old CellPos: " + Grid.CellToXY(oldCellToConsume) + ", New CellPos: " + Grid.CellToXY(newCell));
-                return newCell;
+                return false;
             }
 
-            public static readonly MethodInfo NewCellXY = AccessTools.Method(
-               typeof(DupeSpawnAdjustment),
-               nameof(DupeSpawnAdjustment.AdjustCell));
+            public static readonly MethodInfo overrideStarterGeneration = AccessTools.Method(
+               typeof(AllowCustomTraitAllignment),
+               nameof(AllowCustomTraitAllignment.VariableTraits));
 
             public static readonly MethodInfo PreviousCellXY = AccessTools.Method(
                typeof(Grid),
@@ -304,16 +291,14 @@ namespace SetStartDupes
             static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
             {
                 var code = instructions.ToList();
-                var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Call && ci.operand is MethodInfo f && f == PreviousCellXY);
+                var insertionIndex = code.FindLastIndex(ci => ci.opcode == OpCodes.Ldfld && ci.operand.ToString().Contains("is_starter_minion"));
 
                 //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
                 if (insertionIndex != -1)
                 {
                     //++insertionIndex;
                     //code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 7));
-                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldarg_1));
-                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 5));
-                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, NewCellXY));
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, overrideStarterGeneration));
                     //code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Stloc_S,  7));
                     //code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 7));
                 }
@@ -321,9 +306,6 @@ namespace SetStartDupes
                 return code;
             }
         }
-
-
-
 
         [HarmonyPatch(typeof(CharacterSelectionController), "InitializeContainers")]
         public class CharacterSelectionController_Patch
@@ -462,20 +444,48 @@ namespace SetStartDupes
             public static void Postfix(CharacterContainer __instance, MinionStartingStats ___stats, bool is_starter)
             {
                 ///Only during startup when config is disabled
-                if (!is_starter && !StartDupeConfig.Instance.ModifyDuringGame)
-                    return;
+
+                //bool IsWhackyDupe = false;
+                //Type BioInksCustomDupeType = Type.GetType("PrintingPodRecharge.Cmps.CustomDupe, PrintingPodRecharge", false, false);
+                //if(BioInksCustomDupeType != null)
+                //{
+
+                //    //var obj = go.gameObject.GetComponent(VaricolouredBalloonsHelperType);
+                //    ////foreach (var cmp in VaricolouredBalloonsHelperType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic)) 
+                //    ////   SgtLogger.l(cmp.Name.ToString(),"GET Field");
+                //    ////foreach (var cmp in VaricolouredBalloonsHelperType.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic))
+                //    ////    SgtLogger.l(cmp.Name.ToString(), "GET method");
+
+                //    //var component = go.GetComponent(VaricolouredBalloonsHelperType);
+                //    //var fieldInfo = (uint)Traverse.Create(component).Method("get_ArtistBalloonSymbolIdx").GetValue();
+                //}
 
                 var buttonPrefab = __instance.transform.Find("TitleBar/RenameButton").gameObject;
                 var titlebar = __instance.transform.Find("TitleBar").gameObject;
 
+                float insetDistance = (!is_starter && !StartDupeConfig.Instance.ModifyDuringGame) ? 40 : 75;
+                ///Make skin button
+                var skinBtn = Util.KInstantiateUI(buttonPrefab, titlebar);
+                skinBtn.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, insetDistance, skinBtn.rectTransform().sizeDelta.x);
+                skinBtn.name = "ChangeDupeStatButton";
+                skinBtn.GetComponent<ToolTip>().toolTip = "Select dupe skin"; ///STRINGLOC!
+
+                skinBtn.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("ic_dupe");
+                //var currentlySelectedIdentity = __instance.GetComponent<MinionIdentity>();
+
+                UIUtils.AddActionToButton(skinBtn.transform, "", () => DupeSkinScreenAddon.ShowSkinScreen(__instance,___stats));
+
+                if (!is_starter && !StartDupeConfig.Instance.ModifyDuringGame)
+                    return;
                 ///Make modify button
                 var changebtn = Util.KInstantiateUI(buttonPrefab, titlebar);
                 changebtn.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 40f, changebtn.rectTransform().sizeDelta.x);
                 changebtn.name = "ChangeDupeStatButton";
-                changebtn.GetComponent<ToolTip>().toolTip = "Adjust dupe stats";
+                changebtn.GetComponent<ToolTip>().toolTip = "Adjust dupe stats";///STRINGLOC!
 
                 var img = changebtn.transform.Find("Image").GetComponent<KImage>();
                 img.sprite = Assets.GetSprite("icon_gear");
+
                 var button = __instance.transform.Find("ShuffleDupeButton").GetComponent<KButton>();
                 var button2 = __instance.transform.Find("ArchetypeSelect").GetComponent<KButton>();
 

@@ -20,6 +20,7 @@ namespace SetStartDupes
         [JsonProperty]
         public int DuplicantStartAmount { get; set; }
 
+
         [Option("Modify Printing Pod Dupes", "Enable this option to add the modify button to printing pod dupes\nWhen disabled, the option only appears on the starter dupe selection.")]
         [JsonProperty]
         public bool ModifyDuringGame { get; set; }
@@ -27,7 +28,7 @@ namespace SetStartDupes
         [Option("Extra Starting Resources", "Add some extra startup resources for your additional duplicants.\nOnly goes in effect with more than 3 dupes.\nOnly accounts for extra dupes above 3.")]
         [JsonProperty]
         public bool StartupResources { get; set; }
-
+        
         [Option("Supported Days", "Amount of days the extra starting resources should last.\nNo effect if \"Starting Resources\" is disabled.")]
         [JsonProperty]
         [Limit(0, 10)]
