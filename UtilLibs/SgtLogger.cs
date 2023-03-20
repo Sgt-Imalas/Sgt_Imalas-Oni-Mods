@@ -15,6 +15,26 @@ namespace UtilLibs
         {
             debuglog(message, assemblyOverride);
         }
+        public static void Assert(string name, object arg)
+        {
+            if (arg == null)
+            {
+                warning($"Assert failed, {name} is null");
+            }
+        }
+
+        public static void debuglog(object a,object b = null, object c = null, object d = null)
+        {
+            var message = a.ToString() + b !=null? " "+b.ToString() : string.Empty + c != null ? " " + c.ToString() : string.Empty + d != null ? " " + d.ToString() : string.Empty;
+
+
+              string assemblyOverride = Assembly.GetExecutingAssembly().GetName().Name;
+            string messageToLog = string.Concat("[" + TimeZoneInfo.ConvertTimeToUtc(System.DateTime.Now).ToString("HH:mm:ss.fff") + "] [INFO] [" + assemblyOverride + "]: ", message);
+
+            Console.WriteLine(messageToLog);
+
+        }
+
         public static void debuglog(string message, string assemblyOverride = "") 
         {
             if(assemblyOverride == "")

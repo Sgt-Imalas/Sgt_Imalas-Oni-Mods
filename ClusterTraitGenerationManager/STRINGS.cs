@@ -122,22 +122,26 @@ namespace ClusterTraitGenerationManager
 
                             }
                         }
+                        public class ADDTRAITBUTTON
+                        {
+                            public static LocString TEXT = (LocString)"Add Trait";
+                        }
                     }
                     public class BUTTONS
                     {
-                        public class GITHUBBUTTON
+                        public class RESETCLUSTERBUTTON
                         {
                             public static LocString TEXT = (LocString)"Reset Cluster";
                         }
-                        public class CANCELBUTTON
+                        public class RESETSELECTIONBUTTON
                         {
                             public static LocString TEXT = (LocString)"Reset Current Selection";
                         }
-                        public class STEAMBUTTON
+                        public class RETURNBUTTON
                         {
                             public static LocString TEXT = (LocString)"Return";
                         }
-                        public class OK
+                        public class GENERATECLUSTERBUTTON
                         {
                             public static LocString TEXT = (LocString)"Generate Cluster";
                         }
