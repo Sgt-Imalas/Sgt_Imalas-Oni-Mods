@@ -240,8 +240,8 @@ namespace ClusterTraitGenerationManager
             //customPlanetoidSettings.Add(new KeyValuePair<GameObject, ICustomPlanetoidSetting>(Check, PlanetEnabled)); ///custom index 0, enabled
 
             var NumberCounter = unityScreen.transform.Find("AmountSlider").gameObject;
-            UIUtils.TryChangeText(NumberCounter.transform, "Descriptor/Label", STRINGS.UI.CUSTOMCLUSTERUI.ENABLED.NAME);
-            UIUtils.AddSimpleTooltipToObject(NumberCounter.transform.Find("Descriptor/Label"), STRINGS.UI.CUSTOMCLUSTERUI.ENABLED.DESC, true);
+            UIUtils.TryChangeText(NumberCounter.transform, "Descriptor/Label", STRINGS.UI.CUSTOMCLUSTERUI.NUMBERS.NAME);
+            UIUtils.AddSimpleTooltipToObject(NumberCounter.transform.Find("Descriptor/Label"), STRINGS.UI.CUSTOMCLUSTERUI.NUMBERS.DESC, true);
             //var NumberCounterHandler = NumberCounter.AddComponent<SliderHandler>();
             //NumberCounterHandler.SetupSlider(0, SelectedPlanet.InstancesToSpawn, SelectedPlanet.MaxNumberOfInstances, false, STRINGS.UI.CUSTOMCLUSTERUI.NUMBERS.NAME, STRINGS.UI.CUSTOMCLUSTERUI.NUMBERS.DESC,
             //    (value) => {
