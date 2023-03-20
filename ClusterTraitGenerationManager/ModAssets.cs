@@ -15,13 +15,19 @@ namespace ClusterTraitGenerationManager
     {
         Transform Screen;
         public static GameObject CustomPlanetSideScreen;
+        public static GameObject TraitPopup;
         public static void LoadAssets()
         {
             var bundle = AssetUtils.LoadAssetBundle("clustergenerationsettingsmanager_menuassets");
-            CustomPlanetSideScreen = bundle.LoadAsset<GameObject>("Assets/Controls/Layout/CGMExpor.prefab");
+            var Assets = bundle.LoadAsset<GameObject>("Assets/CGMExport.prefab"); 
+
+            UIUtils.ListAllChildren(Assets.transform);
 
             var TMPConverter = new TMPConverter();
-            TMPConverter.ReplaceAllText(CustomPlanetSideScreen);
+            TMPConverter.ReplaceAllText(Assets);
+
+            CustomPlanetSideScreen = Assets.transform.Find("IndividualSettings").gameObject;
+            TraitPopup = Assets.transform.Find("TraitPopup").gameObject;
             //var TMPConverter = new TMPConverter();
             //TMPConverter.ReplaceAllText(wallSidescreenPrefab);
             //TMPConverter.ReplaceAllText(settingsDialogPrefab);
