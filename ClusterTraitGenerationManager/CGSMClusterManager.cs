@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Klei.AI;
 using Klei.CustomSettings;
 using ProcGen;
 using ProcGenGame;
@@ -23,6 +24,7 @@ using static LogicGate.LogicGateDescriptions;
 using static ProcGen.Mob;
 using static ProcGen.WorldPlacement;
 using static STRINGS.CLUSTER_NAMES;
+using static STRINGS.NAMEGEN;
 using static STRINGS.UI.CLUSTERMAP;
 using static STRINGS.UI.FRONTEND;
 using static UnityEngine.UI.AspectRatioFitter;
@@ -87,7 +89,7 @@ namespace ClusterTraitGenerationManager
                 selectScreen = parent;
                 var ScreenRect = newScreen.rectTransform();
                 LoadCustomCluster = false;
-                
+
                 newScreen.name = "ClusterSelectionView";
                 var cmp = newScreen.AddComponent(typeof(FeatureSelectionScreen));
 
@@ -101,6 +103,7 @@ namespace ClusterTraitGenerationManager
 
             Screen.gameObject.SetActive(true);
             Screen.GetComponent<FeatureSelectionScreen>().RefreshView();
+            ReApplyWorldTraits();
         }
 
         public static void SetAndStretchToParentSize(RectTransform _mRect, RectTransform _parent)
@@ -127,7 +130,7 @@ namespace ClusterTraitGenerationManager
 
             int GetAdjustedOuterExpansion()
             {
-                int planetDiff = (CustomCluster.OuterPlanets.Count - CustomCluster.defaultOuterPlanets );
+                int planetDiff = (CustomCluster.OuterPlanets.Count - CustomCluster.defaultOuterPlanets);
 
 
                 return planetDiff;
@@ -178,7 +181,33 @@ namespace ClusterTraitGenerationManager
                 return false;
             }
 
+            public List<StarmapItem> GetAllPlanets()
+            {
+                var list = new List<StarmapItem>();
+                if (StarterPlanet != null)
+                    list.Add(StarterPlanet);
+                if (WarpPlanet != null) list.Add(WarpPlanet);
+                list.AddRange(OuterPlanets.Values);
+                return list;
+            }
 
+            public List<string> GiveWorldTraits(ProcGen.World world)
+            {
+                foreach (var kvp in SettingsCache.worldTraits)
+                {
+                    //SgtLogger.l(kvp.Value.ToString(), kvp.Key);
+                }
+
+
+                List<string> list = new List<string>();
+
+                if (HasStarmapItem(world.filePath, out var starmapItem))
+                {
+                    list = starmapItem.GetWorldTraits();
+                }
+
+                return list;
+            }
 
             public void SetRings(int rings, bool defaultRing = false)
             {
@@ -489,6 +518,67 @@ namespace ClusterTraitGenerationManager
                 this.MaxNumberOfInstances = MaxNumberOfInstances;
                 return this;
             }
+
+            #region PlanetTraits
+
+            private List<string> currentPlanetTraits = new List<string>();
+
+            public List<WorldTrait> AllowedPlanetTraits
+            {
+                get
+                {
+                    List<WorldTrait> AllTraits = new List<WorldTrait>(SettingsCache.worldTraits.Values);
+
+                    if (world == null)
+                    {
+                        return new List<WorldTrait>();
+                    }
+
+                    foreach (ProcGen.World.TraitRule rule in world.worldTraitRules)
+                    {
+
+                        TagSet requiredTags = ((rule.requiredTags != null) ? new TagSet(rule.requiredTags) : null);
+                        TagSet forbiddenTags = ((rule.forbiddenTags != null) ? new TagSet(rule.forbiddenTags) : null);
+                        AllTraits.RemoveAll((WorldTrait trait) =>
+                        (requiredTags != null && !trait.traitTagsSet.ContainsAll(requiredTags)) ||
+                        (forbiddenTags != null && trait.traitTagsSet.ContainsOne(forbiddenTags))
+                        || (rule.forbiddenTraits != null && rule.forbiddenTraits.Contains(trait.filePath)));
+                    }
+                    AllTraits.RemoveAll((WorldTrait trait) =>
+                         !trait.IsValid(world, logErrors: true)
+                        || currentPlanetTraits.Contains(trait.filePath)
+                        || trait.exclusiveWith.Any(x => currentPlanetTraits.Any(y => y == x)));
+                    return AllTraits;
+                }
+            }
+
+            public bool RemoveWorldTrait(WorldTrait trait)
+            {
+                string traitID = trait.filePath;
+                bool allowed = currentPlanetTraits.Contains(traitID);
+                if (allowed)
+                    currentPlanetTraits.Remove(traitID);
+                return allowed;
+            }
+
+            public bool AddWorldTrait(WorldTrait trait)
+            {
+                string traitID = trait.filePath;
+                bool allowed = !currentPlanetTraits.Contains(traitID);
+                if (allowed)
+                    currentPlanetTraits.Add(traitID);
+                return allowed;
+            }
+            public void ClearWorldTraits()
+            {
+                currentPlanetTraits.Clear();
+            }
+            internal List<string> GetWorldTraits()
+            {
+                return currentPlanetTraits;
+            }
+            #endregion
+
             #region EqualityComparer
 
             //public StarmapItem(string id, StarmapItemCategory category, Sprite sprite = null)
@@ -557,7 +647,7 @@ namespace ClusterTraitGenerationManager
             int newMax = Math.Max((int)Math.Round(max), max2);
             placement.allowedRings = new MinMaxI((int)min, newMax);
 
-            SgtLogger.l("Set inner and outer limits to "+placement.allowedRings.ToString(), placement.world);
+            SgtLogger.l("Set inner and outer limits to " + placement.allowedRings.ToString(), placement.world);
         }
         static void ApplySizeMultiplier(SpaceMapPOIPlacement placement, float multiplier)
         {
@@ -748,19 +838,36 @@ namespace ClusterTraitGenerationManager
             }
         }
 
-        public static void CreateCustomClusterFrom(string clusterID)
+        public static void ReApplyWorldTraits()
         {
 
+        }
+
+        public static void CreateCustomClusterFrom(string clusterID)
+        {
             // clusterID = clusterID.Trim();
             CustomCluster = new CustomClusterData();
 
             ClusterLayout Reference = SettingsCache.clusterLayouts.GetClusterData(clusterID);
+
             if (Reference == null)
                 return;
+            SgtLogger.l(Reference.ToString());
             CustomCluster.SetRings(Reference.numRings, true);
 
-            foreach (WorldPlacement planetPlacement in Reference.worldPlacements)
+            string setting = selectScreen.newGameSettings.GetSetting(CustomGameSettingConfigs.WorldgenSeed);
+            if(setting == null || setting.Length == 0)
+                return;
+
+            SgtLogger.l(setting);
+
+            int seed = int.Parse(setting);
+
+
+            for (int i = 0; i < Reference.worldPlacements.Count; i++)
             {
+                WorldPlacement planetPlacement = Reference.worldPlacements[i];
+
                 string planetpath = planetPlacement.world;
                 //SgtLogger.l(planetpath, "PlanetPath");
                 //SgtLogger.l(planetPlacement.buffer + "<-buffer", "otherData");
@@ -780,8 +887,17 @@ namespace ClusterTraitGenerationManager
                             CustomCluster.OuterPlanets[FoundPlanet.id] = FoundPlanet;
                             break;
                     }
+
+                    FoundPlanet.ClearWorldTraits();
+                    foreach (var planetTrait in SettingsCache.GetRandomTraits(seed + i, FoundPlanet.world))
+                    {
+                        WorldTrait cachedWorldTrait = SettingsCache.GetCachedWorldTrait(planetTrait, true);
+                        FoundPlanet.AddWorldTrait(cachedWorldTrait);
+                        SgtLogger.l(planetTrait, FoundPlanet.DisplayName);
+                    }
                 }
             }
+
             CustomCluster.defaultOuterPlanets = Reference.worldPlacements.Count;
             CustomCluster.POIs.Clear();
 
@@ -818,6 +934,7 @@ namespace ClusterTraitGenerationManager
                     }
                 }
             }
+
             //foreach (var pOIPlacement in CustomCluster.POIs)
             //{
             //    SgtLogger.l("count: " + pOIPlacement.Value.InstancesToSpawn, pOIPlacement.Key);
@@ -934,40 +1051,39 @@ namespace ClusterTraitGenerationManager
             return planetPaths;
         }
 
-        private static List<WorldTraitInfo> _allTraits;
-        public static List<WorldTraitInfo> AllWorldTraits
-        {
-            get
-            {
-                if (_allTraits == null)
-                {
-                    _allTraits = new List<WorldTraitInfo>();
+        //private static List<WorldTraitInfo> _allTraits;
+        //public static List<WorldTraitInfo> AllWorldTraits
+        //{
+        //    get
+        //    {
+        //        if (_allTraits == null)
+        //        {
+        //            _allTraits = new List<WorldTraitInfo>();
 
-                    foreach (var trait in SettingsCache.worldTraits)
-                    {
-                        //SgtLogger.l(trait.Key);
-                        //UtilMethods.ListAllPropertyValues(trait.Value);
-                        if (trait.Value.forbiddenDLCIds.Contains(DlcManager.GetHighestActiveDlcId()))
-                            continue;
-                        _allTraits.Add(
-                            new WorldTraitInfo(
-                            trait.Key,
-                            trait.Value.name,
-                            trait.Value.description,
-                            trait.Value.colorHex,
-                            trait.Value.exclusiveWith,
-                            trait.Value.exclusiveWithTags
-                            ));
-                    }
+        //            foreach (var trait in SettingsCache.worldTraits)
+        //            {
+        //                //SgtLogger.l(trait.Key);
+        //                //UtilMethods.ListAllPropertyValues(trait.Value);
+        //                if (trait.Value.forbiddenDLCIds.Contains(DlcManager.GetHighestActiveDlcId()))
+        //                    continue;
+        //                _allTraits.Add(
+        //                    new WorldTraitInfo(
+        //                    trait.Key,
+        //                    trait.Value.name,
+        //                    trait.Value.description,
+        //                    trait.Value.colorHex,
+        //                    trait.Value.exclusiveWith,
+        //                    trait.Value.exclusiveWithTags
+        //                    ));
+        //            }
 
-                }
-                return _allTraits;
-            }
-        }
+        //        }
+        //        return _allTraits;
+        //    }
+        //}
 
         public static void PopulatePredefinedClusterPlacements()
         {
-            var s = AllWorldTraits;
             if (PredefinedPlacementData != null) { return; }
 
             PredefinedPlacementData = new Dictionary<string, WorldPlacement>();
@@ -1078,7 +1194,7 @@ namespace ClusterTraitGenerationManager
             List<StarmapItem> items = PlanetoidDict().Values.ToList().FindAll(item => item.category == starmapItemCategory);
             items.Shuffle();
 
-            StarmapItem item= null;
+            StarmapItem item = null;
             int i;
             for (i = 0; i < items.Count; ++i)
             {
@@ -1087,7 +1203,7 @@ namespace ClusterTraitGenerationManager
                 {
                     break;
                 }
-                if (i == items.Count - 1&& starmapItemCategory == StarmapItemCategory.Outer)
+                if (i == items.Count - 1 && starmapItemCategory == StarmapItemCategory.Outer)
                 {
                     item = null;
                 }
@@ -1154,20 +1270,19 @@ namespace ClusterTraitGenerationManager
                         randomItem = randomItem.AddItemWorldPlacement(placement, category == StarmapItemCategory.Outer ? MaxAmountRandomPlanet : 1);
                         PlanetsAndPOIs[key] = randomItem;
                     }
-
                 }
 
-                foreach (var World in SettingsCache.worlds.worldCache)
+                foreach (var WorldFromCache in SettingsCache.worlds.worldCache)
                 {
                     StarmapItemCategory category = StarmapItemCategory.Outer;
                     //SgtLogger.l(World.Key + "; " + World.Value.ToString());
-                    ProcGen.World world = World.Value;
+                    ProcGen.World world = WorldFromCache.Value;
 
                     if ((int)world.skip >= 99)
                         continue;
 
                     //SgtLogger.l(world.name+": "+world.startingBaseTemplate, "START TEMPLATE");
-                    if (!World.Key.Contains("worlds/SandstoneDefault"))
+                    if (!WorldFromCache.Key.Contains("worlds/SandstoneDefault"))
                     {
                         if (world.startingBaseTemplate != null)
                         {
@@ -1180,23 +1295,20 @@ namespace ClusterTraitGenerationManager
                             {
                                 category = StarmapItemCategory.Starter;
                             }
-
-
                         }
                         else
                         {
                             category = StarmapItemCategory.Outer;
                         }
 
-                        Sprite sprite = ColonyDestinationAsteroidBeltData.GetUISprite(World.Value.asteroidIcon);
+                        Sprite sprite = ColonyDestinationAsteroidBeltData.GetUISprite(WorldFromCache.Value.asteroidIcon);
 
-                        PlanetsAndPOIs[World.Key] = (new StarmapItem
+                        PlanetsAndPOIs[WorldFromCache.Key] = (new StarmapItem
                         (
-                        World.Key,
+                        WorldFromCache.Key,
                         category,
                         sprite
                         ).MakeItemPlanet(world));
-
                     }
 
                 }
@@ -1206,7 +1318,7 @@ namespace ClusterTraitGenerationManager
             return PlanetsAndPOIs;
         }
 
-        static int AdjustedClusterSize => CustomCluster.defaultRings + Mathf.Max(0, (CustomCluster.AdjustedOuterExpansion/4));
+        static int AdjustedClusterSize => CustomCluster.defaultRings + Mathf.Max(0, (CustomCluster.AdjustedOuterExpansion / 4));
 
         internal static void InitializeGeneration()
         {

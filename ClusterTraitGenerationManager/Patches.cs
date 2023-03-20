@@ -18,25 +18,14 @@ using static KAnim;
 using ProcGen;
 using static STRINGS.BUILDINGS.PREFABS.DOOR.CONTROL_STATE;
 using static ClusterTraitGenerationManager.STRINGS.UI;
+using STRINGS;
+using Klei.CustomSettings;
+using static STRINGS.UI.FRONTEND;
 
 namespace ClusterTraitGenerationManager
 {
     internal class Patches
     {
-        /// <summary>
-        /// add buildings to plan screen
-        /// </summary>
-        [HarmonyPatch(typeof(GeneratedBuildings))]
-        [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
-        public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
-        {
-
-            public static void Prefix()
-            {
-                //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
-            }
-        }
-
 
         /// <summary>
         /// Init. auto translation
@@ -49,8 +38,7 @@ namespace ClusterTraitGenerationManager
                 LocalisationUtil.Translate(typeof(STRINGS), true);
             }
         }
-        
-        //[HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
+
 
         [HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
         [HarmonyPatch(nameof(ColonyDestinationSelectScreen.OnSpawn))]
@@ -61,7 +49,7 @@ namespace ClusterTraitGenerationManager
                 var InsertLocation = __instance.shuffleButton.transform.parent; //__instance.transform.Find("Layout/DestinationInfo/Content/InfoColumn/Horiz/Section - Destination/DestinationDetailsHeader/");
                 var copyButton = Util.KInstantiateUI(__instance.shuffleButton.gameObject, InsertLocation.gameObject, true); //UIUtils.GetShellWithoutFunction(InsertLocation, "CoordinateContainer", "cgsm");
 
-               // UIUtils.ListAllChildrenPath(__instance.transform); 
+                // UIUtils.ListAllChildrenPath(__instance.transform); 
 
                 UIUtils.TryFindComponent<Image>(copyButton.transform, "FG").sprite = Assets.GetSprite("icon_gear");
                 UIUtils.TryFindComponent<ToolTip>(copyButton.transform, "").toolTip = STRINGS.UI.CGMBUTTON.DESC;
@@ -72,6 +60,27 @@ namespace ClusterTraitGenerationManager
             }
         }
 
+        
+
+        [HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
+        [HarmonyPatch(nameof(ColonyDestinationSelectScreen.ShuffleClicked))]
+        public static class TraitShuffler
+        {
+            public static void Postfix(ColonyDestinationSelectScreen __instance)
+            {
+                CGSMClusterManager.selectScreen = __instance;
+                if (__instance.newGameSettings == null)
+                    return;
+
+                string clusterPath = __instance.newGameSettings.GetSetting(CustomGameSettingConfigs.ClusterLayout);
+                if (clusterPath == null || clusterPath.Count() == 0)
+                {
+                    clusterPath = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
+                }
+                CGSMClusterManager.LoadCustomCluster = false;
+                CGSMClusterManager.CreateCustomClusterFrom(clusterPath);
+            }
+        }
 
         [HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
         [HarmonyPatch(nameof(ColonyDestinationSelectScreen.OnAsteroidClicked))]
@@ -81,7 +90,6 @@ namespace ClusterTraitGenerationManager
             {
                 CGSMClusterManager.LoadCustomCluster = false;
                 CGSMClusterManager.CreateCustomClusterFrom(cluster.beltPath);
-                //SgtLogger.l("GOT CALLED TO: "+cluster.beltPath,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
             }
         }
 
@@ -91,7 +99,7 @@ namespace ClusterTraitGenerationManager
         {
             public static bool Prefix(KButtonEvent e)
             {
-                if(CGSMClusterManager.Screen != null && CGSMClusterManager.Screen.activeSelf)
+                if (CGSMClusterManager.Screen != null && CGSMClusterManager.Screen.activeSelf)
                     return false;
                 return true;
             }
@@ -107,15 +115,50 @@ namespace ClusterTraitGenerationManager
             }
         }
 
+        [HarmonyPatch(typeof(SettingsCache))]
+        [HarmonyPatch(nameof(SettingsCache.GetRandomTraits))]
+        public static class OverrideWorldTraits
+        {
+            /// <summary>
+            /// Inserting Custom Traits
+            /// </summary>
+            public static bool Prefix(int seed, ProcGen.World world,ref List<string> __result)
+            {
+
+                if (CGSMClusterManager.LoadCustomCluster&& CGSMClusterManager.CustomCluster !=null)
+                {
+                    var traitIDs = CGSMClusterManager.CustomCluster.GiveWorldTraits(world);
+                    List<WorldTrait> list = new List<WorldTrait>(SettingsCache.worldTraits.Values);
+
+                    __result = new List<string>();
+                    foreach(var trait in traitIDs)
+                    {
+                        //WorldTrait gatheredTrait = SettingsCache.GetCachedWorldTrait(trait, true);
+                        __result.Add(trait);
+                    }
+                    //__result.Add(SettingsCache.worldTraits.Values.First().filePath);
+                   // __result.Add(SettingsCache.worldTraits.Values.Last().filePath);
+//
+                    //SgtLogger.l("Should have overridden Traits for " + SettingsCache.worldTraits.Values.First().filePath);
+                    //SgtLogger.l("Should have overridden Traits for " + SettingsCache.worldTraits.Values.Last().filePath);
+
+                    return false;
+                }
+                return true;
+            }
+        }
+
+
+
         [HarmonyPatch(typeof(Cluster))]
         [HarmonyPatch(typeof(Cluster), MethodType.Constructor)]
-        [HarmonyPatch(new Type[] { typeof(string), typeof(int ), typeof(List<string> ), typeof(bool ), typeof(bool ) })]
+        [HarmonyPatch(new Type[] { typeof(string), typeof(int), typeof(List<string>), typeof(bool), typeof(bool) })]
         public static class ApplyCustomGen
         {
             public static void Prefix(ref string name)
             {
                 //CustomLayout
-                if(CGSMClusterManager.LoadCustomCluster)
+                if (CGSMClusterManager.LoadCustomCluster)
                 {
                     if (CGSMClusterManager.CustomCluster == null)
                     {
