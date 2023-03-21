@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Klei.AI;
+using KMod;
+using ProcGen;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,6 +36,8 @@ namespace ClusterTraitGenerationManager
         private GameObject AsteroidSize;
         private LocText AsteroidSizeLabel;
         private GameObject AsteroidTraits;
+        private GameObject ActiveTraitsContainer;
+        private GameObject TraitPrefab;
 
 
         public FButton AddTraitButton;
@@ -85,13 +90,25 @@ namespace ClusterTraitGenerationManager
             AsteroidSize.SetActive(!isPoi);
             AsteroidTraits.SetActive(!isPoi);
             AsteroidSizeLabel.text = string.Format(ASTEROIDSIZEINFO.INFO, current.PlanetDimensions.x, current.PlanetDimensions.y);
-
+           
+            foreach (var traitContainer in Traits.Values)
+            {
+                traitContainer.SetActive(false);
+            }
+            foreach (var activeTrait in lastSelected.CurrentTraits)
+            {
+                Traits[activeTrait].SetActive(true);
+            }
 
         }
         public void UpdateUI()
         {
-            if(lastSelected!=null)
-                UpdateForSelected(lastSelected);
+            
+
+            if (lastSelected != null)
+            {
+                UpdateForSelected(lastSelected);                
+            }
 
             UiRefresh.Invoke();
         }
@@ -176,13 +193,22 @@ namespace ClusterTraitGenerationManager
                 UpdateUI();
             };
 
-
-
+            
             AsteroidSize = transform.Find("AsteroidSizeInfo").gameObject;
             AsteroidSizeLabel = transform.Find("AsteroidSizeInfo/Info").GetComponent<LocText>();
+
             AsteroidTraits = transform.Find("AsteroidTraits").gameObject;
+            ActiveTraitsContainer = transform.Find("AsteroidTraits/ListView/Content").gameObject;
+            TraitPrefab = transform.Find("AsteroidTraits/ListView/Content/ListViewEntryPrefab").gameObject;
 
             AddTraitButton = transform.Find("AsteroidTraits/AddTraitButton").FindOrAddComponent<FButton>();
+
+            AddTraitButton.OnClick += () =>
+            {
+                TraitSelectorScreen.InitializeView(lastSelected, ()=>UpdateUI());
+            };
+
+
 
             ReturnButton = transform.Find("Buttons/ReturnButton").FindOrAddComponent<FButton>();
             ReturnButton.OnClick += OnClose;
@@ -202,13 +228,55 @@ namespace ClusterTraitGenerationManager
             {
                 CGSMClusterManager.ResetToLastPreset();
                 UpdateUI();
-            }; 
+            };
 
             UIUtils.AddSimpleTooltipToObject(ResetAllButton.transform, STRINGS.UI.CUSTOMCLUSTERUI.RESET.DESC, true);
+            SgtLogger.Assert("AsteroidSize", AsteroidSize);
+            SgtLogger.Assert("AsteroidSizeLabel", AsteroidSizeLabel);
+            SgtLogger.Assert("AsteroidTraits", AsteroidTraits);
+            SgtLogger.Assert("ActiveTraitsContainer", ActiveTraitsContainer);
+            SgtLogger.Assert("TraitPrefab", TraitPrefab);
 
+            InitializeTraitContainer();
 
             init = true;
         }
+
+        Dictionary<string, GameObject> Traits = new Dictionary<string, GameObject>();
+        void InitializeTraitContainer()
+        {
+            foreach (var kvp in SettingsCache.worldTraits)
+            {
+                var TraitHolder = Util.KInstantiateUI(TraitPrefab, ActiveTraitsContainer, true);
+                //UIUtils.ListAllChildrenWithComponents(TraitHolder.transform);
+                var RemoveButton = TraitHolder.transform.Find("DeleteButton").gameObject.FindOrAddComponent<FButton>();
+                Strings.TryGet(kvp.Value.name, out var name);
+                Strings.TryGet(kvp.Value.description, out var description);
+                var combined = "<color=#" + kvp.Value.colorHex + ">" + name.ToString() + "</color>";
+
+                string associatedIcon = kvp.Value.filePath.Substring(kvp.Value.filePath.LastIndexOf("/") + 1);
+
+                var icon = TraitHolder.transform.Find("Label/TraitImage").GetComponent<Image>();
+                icon.sprite = Assets.GetSprite(associatedIcon);
+                icon.color = Util.ColorFromHex(kvp.Value.colorHex);
+
+                UIUtils.TryChangeText(TraitHolder.transform, "Label", combined);
+                UIUtils.AddSimpleTooltipToObject(TraitHolder.transform, description);
+                //
+                RemoveButton.OnClick += () =>
+                {
+                    if(CustomCluster.HasStarmapItem(lastSelected.id, out var item))
+                    {
+                        item.RemoveWorldTrait(kvp.Value);
+                    }
+                    UpdateUI();
+                };
+                Traits[kvp.Value.filePath] = TraitHolder;
+            }
+            UpdateUI();
+        }
+
+
         public override void OnShow(bool show)
         {
             base.OnShow(show);

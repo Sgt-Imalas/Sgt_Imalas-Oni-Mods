@@ -100,7 +100,7 @@ namespace ClusterTraitGenerationManager
                         {
                             public class NOTRAITSELECTEDINFO
                             {
-                                public static LocString LABEL = (LocString)"No Traits";                                
+                                public static LocString LABEL = (LocString)"  No Traits";                                
                             }
                         }
                         public class ADDTRAITBUTTON
@@ -126,6 +126,36 @@ namespace ClusterTraitGenerationManager
                         {
                             public static LocString TEXT = (LocString)"Generate Cluster";
                         }
+                    }
+                }
+
+                public class TRAITPOPUP
+                {
+                    public static LocString TEXT = (LocString)"available Traits:";
+                    public class SCROLLAREA
+                    {
+                        public class CONTENT
+                        {
+                            public class NOTRAITAVAILABLE
+                            {
+                                public static LocString LABEL = (LocString)"No Traits available";
+
+                            }
+                            public class LISTVIEWENTRYPREFAB
+                            {
+                                public static LocString LABEL = (LocString)"trait label";
+                                public class ADDTHISTRAITBUTTON
+                                {
+                                    public static LocString TEXT = (LocString)"Add this trait";
+
+                                }
+                            }
+                        }
+                    }
+                    public class CANCELBUTTON
+                    {
+                        public static LocString TEXT = (LocString)"Cancel";
+
                     }
                 }
             }

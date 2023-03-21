@@ -103,7 +103,6 @@ namespace ClusterTraitGenerationManager
 
             Screen.gameObject.SetActive(true);
             Screen.GetComponent<FeatureSelectionScreen>().RefreshView();
-            ReApplyWorldTraits();
         }
 
         public static void SetAndStretchToParentSize(RectTransform _mRect, RectTransform _parent)
@@ -193,11 +192,6 @@ namespace ClusterTraitGenerationManager
 
             public List<string> GiveWorldTraits(ProcGen.World world)
             {
-                foreach (var kvp in SettingsCache.worldTraits)
-                {
-                    //SgtLogger.l(kvp.Value.ToString(), kvp.Key);
-                }
-
 
                 List<string> list = new List<string>();
 
@@ -543,6 +537,7 @@ namespace ClusterTraitGenerationManager
             #region PlanetTraits
 
             private List<string> currentPlanetTraits = new List<string>();
+            public List<string> CurrentTraits => currentPlanetTraits;
 
             public List<WorldTrait> AllowedPlanetTraits
             {
@@ -554,19 +549,36 @@ namespace ClusterTraitGenerationManager
                     {
                         return new List<WorldTrait>();
                     }
+                    List<string> ExclusiveWithTags
+                        = new List<string>();
+
+                    foreach(var trait in currentPlanetTraits)
+                    {
+                        ExclusiveWithTags.AddRange(SettingsCache.worldTraits[trait].exclusiveWithTags);
+                    }
 
                     foreach (ProcGen.World.TraitRule rule in world.worldTraitRules)
                     {
 
                         TagSet requiredTags = ((rule.requiredTags != null) ? new TagSet(rule.requiredTags) : null);
                         TagSet forbiddenTags = ((rule.forbiddenTags != null) ? new TagSet(rule.forbiddenTags) : null);
+
+                        AllTraits.RemoveAll((WorldTrait trait) => 
+                            (requiredTags != null && !trait.traitTagsSet.ContainsAll(requiredTags)) 
+                            || (forbiddenTags != null && trait.traitTagsSet.ContainsOne(forbiddenTags)) 
+                            || (rule.forbiddenTraits != null && rule.forbiddenTraits.Contains(trait.filePath)) 
+                            || !trait.IsValid(world, logErrors: true));
+                        
                         AllTraits.RemoveAll((WorldTrait trait) =>
                         (requiredTags != null && !trait.traitTagsSet.ContainsAll(requiredTags)) ||
                         (forbiddenTags != null && trait.traitTagsSet.ContainsOne(forbiddenTags))
                         || (rule.forbiddenTraits != null && rule.forbiddenTraits.Contains(trait.filePath)));
                     }
+
+
                     AllTraits.RemoveAll((WorldTrait trait) =>
                          !trait.IsValid(world, logErrors: true)
+                         || trait.exclusiveWithTags.Any(x => ExclusiveWithTags.Any(y => y == x))
                         || currentPlanetTraits.Contains(trait.filePath)
                         || trait.exclusiveWith.Any(x => currentPlanetTraits.Any(y => y == x)));
                     return AllTraits;
@@ -575,6 +587,8 @@ namespace ClusterTraitGenerationManager
 
             public bool RemoveWorldTrait(WorldTrait trait)
             {
+                SgtLogger.l(trait.filePath, "TryingToRemove");
+
                 string traitID = trait.filePath;
                 bool allowed = currentPlanetTraits.Contains(traitID);
                 if (allowed)
@@ -867,11 +881,6 @@ namespace ClusterTraitGenerationManager
         }
 
 
-        public static void ReApplyWorldTraits()
-        {
-
-        }
-
         public static void CreateCustomClusterFrom(string clusterID, string singleItemId = "")
         {
             
@@ -1061,24 +1070,7 @@ namespace ClusterTraitGenerationManager
             return;
         }
 
-        public struct WorldTraitInfo
-        {
-            public string id;
-            public string name;
-            public string description;
-            public Color stringColour;
-            public List<string> MutualExclusives;
-            public List<string> MutualExclusiveTags;
-            public WorldTraitInfo(string id, string name, string description, string colorHex, List<string> exclusives, List<string> exclusiveTags)
-            {
-                this.id = id;
-                this.name = string.Format("<color=#{1}>{0}</color>", Strings.Get(name), colorHex);
-                this.description = Strings.Get(description);
-                stringColour = Util.ColorFromHex(colorHex);
-                MutualExclusives = exclusives;
-                MutualExclusiveTags = exclusiveTags;
-            }
-        }
+        
         static Dictionary<string, WorldPlacement> PredefinedPlacementData = null;
 
         ///Requires different handling
@@ -1103,37 +1095,6 @@ namespace ClusterTraitGenerationManager
 
             return planetPaths;
         }
-
-        //private static List<WorldTraitInfo> _allTraits;
-        //public static List<WorldTraitInfo> AllWorldTraits
-        //{
-        //    get
-        //    {
-        //        if (_allTraits == null)
-        //        {
-        //            _allTraits = new List<WorldTraitInfo>();
-
-        //            foreach (var trait in SettingsCache.worldTraits)
-        //            {
-        //                //SgtLogger.l(trait.Key);
-        //                //UtilMethods.ListAllPropertyValues(trait.Value);
-        //                if (trait.Value.forbiddenDLCIds.Contains(DlcManager.GetHighestActiveDlcId()))
-        //                    continue;
-        //                _allTraits.Add(
-        //                    new WorldTraitInfo(
-        //                    trait.Key,
-        //                    trait.Value.name,
-        //                    trait.Value.description,
-        //                    trait.Value.colorHex,
-        //                    trait.Value.exclusiveWith,
-        //                    trait.Value.exclusiveWithTags
-        //                    ));
-        //            }
-
-        //        }
-        //        return _allTraits;
-        //    }
-        //}
 
         public static void PopulatePredefinedClusterPlacements()
         {
