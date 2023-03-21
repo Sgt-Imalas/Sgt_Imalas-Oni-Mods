@@ -15,7 +15,7 @@ using STRINGS;
 
 namespace ClusterTraitGenerationManager
 {
-    internal class TraitSelectorScreen: FScreen
+    internal class TraitSelectorScreen: KModalScreen
     {
         public static TraitSelectorScreen Instance { get; private set; }
 
@@ -69,7 +69,14 @@ namespace ClusterTraitGenerationManager
 
             InitializeTraitContainer();
         }
-
+        public override void OnPrefabInit()
+        {
+            base.OnPrefabInit();
+            this.ConsumeMouseScroll = true;
+            this.canBackoutWithRightClick = true;
+            
+            Init();
+        }
 
         void InitializeTraitContainer()
         {

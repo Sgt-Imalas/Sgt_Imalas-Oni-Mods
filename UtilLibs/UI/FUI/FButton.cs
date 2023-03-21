@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using EventSystem2Syntax;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -26,6 +27,7 @@ namespace UtilLibs.UIcmp //Source: Aki
         [SerializeField]
         public Color hoverColor = new Color(0.345f, 0.373f, 0.702f);
 
+        private bool allowRightClick = false;
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
@@ -58,6 +60,9 @@ namespace UtilLibs.UIcmp //Source: Aki
             {
                 return;
             }
+            SgtLogger.l(eventData.button.ToString(), "BUTTTTTTTTT");
+            if (!allowRightClick && eventData.button != PointerEventData.InputButton.Left)
+                return;
 
             if (KInputManager.isFocused)
             {

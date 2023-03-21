@@ -145,7 +145,8 @@ namespace ClusterTraitGenerationManager
         {
             if (e.TryConsume(Action.Escape) || e.TryConsume(Action.MouseRight))
             {
-                Show(show: false);
+                if(TraitSelectorScreen.Instance != null ? !TraitSelectorScreen.Instance.shown : true)
+                    Show(show: false);
             }
 
             base.OnKeyDown(e);
