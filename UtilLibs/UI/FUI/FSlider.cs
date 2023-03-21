@@ -7,7 +7,7 @@ namespace UtilLibs.UIcmp //Source: Aki
 {
     public class FSlider : KMonoBehaviour, IEventSystemHandler, IDragHandler, IPointerDownHandler
     {
-        public event System.Action OnChange;
+        public event System.Action<float> OnChange;
         public event System.Action OnMaxReached;
 
         public Slider slider;
@@ -20,12 +20,74 @@ namespace UtilLibs.UIcmp //Source: Aki
 
         public delegate float MapValue(float val);
         MapValue mapValue;
+        LocText outputTarget;
+        bool wholeNumbers;
 
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
             slider = gameObject.GetComponent<Slider>();
         }
+        public void AttachOutputField(LocText targetText)
+        {
+            outputTarget = targetText;
+            UpdateSlider();
+        }
+        public void SetWholeNumbers(bool wholeNumbers)
+        {
+            if (slider != null)
+            {
+                slider.wholeNumbers = wholeNumbers;
+                this.wholeNumbers = wholeNumbers;
+            }
+        }
+
+        public void SetCurrent(float current)
+        {
+            if (slider != null)
+            {
+                slider.value = current;
+            }
+        }
+        public void SetMax(float value)
+        {
+            if (slider != null)
+            {
+                if (slider.value > value)
+                {
+                    slider.value = value;
+                }
+                slider.maxValue = value;
+            }
+        }
+        public void SetMin(float value)
+        {
+            if (slider != null)
+            {
+                if(slider.value<value)
+                {
+                    slider.value = value;
+                }
+                slider.minValue = value;
+
+            }
+        }
+
+        public void SetMinMaxCurrent(float min, float max, float current = -1)
+        {
+            SetMin(min);
+            SetMax(max);
+            SetCurrent(current);
+            SetOutputText();
+        }
+        public void SetInteractable(bool interactable)
+        {
+            if (slider != null)
+            {
+                slider.interactable = interactable;
+            }
+        }
+
 
         public void AttachInputField(FNumberInputField field, MapValue map = null)
         {
@@ -42,15 +104,24 @@ namespace UtilLibs.UIcmp //Source: Aki
                 val = mapValue(val);
 
             slider.value = val;
+
+
             UpdateSlider();
         }
 
         private void UpdateSlider()
         {
-            OnChange?.Invoke();
+            OnChange?.Invoke(slider.value);
 
             if (slider.value == slider.maxValue)
                 OnMaxReached?.Invoke();
+            SetOutputText();
+        }
+
+        private void SetOutputText()
+        {
+            if (outputTarget != null)
+                outputTarget.text = slider.value.ToString(!wholeNumbers ? "0.00" : "0");
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -70,7 +141,7 @@ namespace UtilLibs.UIcmp //Source: Aki
             {
                 KInputManager.SetUserActive();
                 PlaySound(UISoundHelper.SliderStart);
-                OnChange?.Invoke();
+                OnChange?.Invoke(slider.value);
             }
         }
 
@@ -89,7 +160,8 @@ namespace UtilLibs.UIcmp //Source: Aki
 
         // Minor bug: the pitch is a little too high
         public void PlayMoveSound()
-        {/*
+        {
+            ///*
             if (KInputManager.isFocused)
             {
                 float timeSinceLast = Time.unscaledTime - lastMoveTime;
@@ -126,12 +198,12 @@ namespace UtilLibs.UIcmp //Source: Aki
                         lastMoveTime = Time.unscaledTime;
                         lastMoveValue = inverseLerpValue;
                         FMOD.Studio.EventInstance ev = KFMOD.BeginOneShot(sound_path, Vector3.zero, 1f);
-                        ev.setParameterValue("sliderValue", inverseLerpValue);
-                        ev.setParameterValue("timeSinceLast", timeSinceLast);
+                        ev.setParameterByName("sliderValue", inverseLerpValue);
+                        ev.setParameterByName("timeSinceLast", timeSinceLast);
                         KFMOD.EndOneShot(ev);
                     }
                 }
-            }*/
+            }//*/
         }
     }
 }

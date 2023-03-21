@@ -27,6 +27,7 @@ namespace ClusterTraitGenerationManager
                         public class DESCRIPTOR
                         {
                             public static LocString LABEL = (LocString)"Number to generate:";
+                            public static LocString OUTPUT = (LocString)"REPLAC";
                             public class INPUT
                             {
                                 public static LocString TEXT = (LocString)"";
@@ -99,27 +100,7 @@ namespace ClusterTraitGenerationManager
                         {
                             public class NOTRAITSELECTEDINFO
                             {
-                                public static LocString LABEL = (LocString)"Select Traits";
-                                public class DROPDOWN
-                                {
-                                    public class VIEWPORT
-                                    {
-                                        public class CONTENT
-                                        {
-                                            public class ITEM
-                                            {
-                                                public static LocString LABEL = (LocString)"Option N";
-
-                                            }
-
-                                        }
-                                    }
-                                }
-                            }
-                            public class LISTVIEWENTRYPREFAB
-                            {
-                                public static LocString LABEL = (LocString)"Trait";
-
+                                public static LocString LABEL = (LocString)"No Traits";                                
                             }
                         }
                         public class ADDTRAITBUTTON

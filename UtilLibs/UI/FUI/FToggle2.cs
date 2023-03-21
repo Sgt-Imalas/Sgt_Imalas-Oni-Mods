@@ -47,6 +47,7 @@ namespace UtilLibs.UIcmp //Source: Aki
         }
 
         public void Toggle() => On = !On;
+        public void SetOn(bool toggleOn) => On = toggleOn;
 
         public void OnPointerDown(PointerEventData eventData)
         {

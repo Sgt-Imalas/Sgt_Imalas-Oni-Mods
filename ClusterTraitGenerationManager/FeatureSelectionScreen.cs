@@ -219,131 +219,15 @@ namespace ClusterTraitGenerationManager
             //UIUtils.ListAllChildrenWithComponents(unityScreen.transform);
             selectedItemSettings = unityScreen.AddOrGet<SelectedItemSettings>();
             selectedItemSettings.OnClose += ()=>this.Show(false);
-            
-            #region individualConfig
-            ///PlanetEnabledCheckbox, ListItem 0
-            var Check = unityScreen.transform.Find("StarmapItemEnabled").gameObject;
-            UIUtils.TryChangeText(Check.transform, "Label", STRINGS.UI.CUSTOMCLUSTERUI.ENABLED.NAME);
-            UIUtils.AddSimpleTooltipToObject(Check.transform.Find("Label"), STRINGS.UI.CUSTOMCLUSTERUI.ENABLED.DESC, true);
-            //var PlanetEnabled = Check.AddComponent<CheckBoxHandler>();
-            //PlanetEnabled.SetAction(() => DoAndRefreshView(
-            //    () =>
-            //    {
-            //        if (SelectedPlanet != null)
-            //        {
-            //            CGSMClusterManager.TogglePlanetoid(SelectedPlanet);
-            //            this.RefreshView();
-            //        }
-            //    }
-            //    )
-            //);
-            //customPlanetoidSettings.Add(new KeyValuePair<GameObject, ICustomPlanetoidSetting>(Check, PlanetEnabled)); ///custom index 0, enabled
-
-            var NumberCounter = unityScreen.transform.Find("AmountSlider").gameObject;
-            UIUtils.TryChangeText(NumberCounter.transform, "Descriptor/Label", STRINGS.UI.CUSTOMCLUSTERUI.NUMBERS.NAME);
-            UIUtils.AddSimpleTooltipToObject(NumberCounter.transform.Find("Descriptor/Label"), STRINGS.UI.CUSTOMCLUSTERUI.NUMBERS.DESC, true);
-            //var NumberCounterHandler = NumberCounter.AddComponent<SliderHandler>();
-            //NumberCounterHandler.SetupSlider(0, SelectedPlanet.InstancesToSpawn, SelectedPlanet.MaxNumberOfInstances, false, STRINGS.UI.CUSTOMCLUSTERUI.NUMBERS.NAME, STRINGS.UI.CUSTOMCLUSTERUI.NUMBERS.DESC,
-            //    (value) => {
-            //        if (SelectedPlanet != null)
-            //        {
-            //            if (CustomCluster.HasStarmapItem(SelectedPlanet.id, out var current))
-            //                current.SetSpawnNumber(value);
-            //            else
-            //                SelectedPlanet.SetSpawnNumber(value);
-            //            RefreshGallery();
-            //        }
-            //    });
-            //customPlanetoidSettings.Add(new KeyValuePair<GameObject, ICustomPlanetoidSetting>(NumberCounter, NumberCounterHandler)); /// custom index 1, number
-
-            ///Sliders for inner and outer ring
-
-            var planetMinRing = unityScreen.transform.Find("MinDistanceSlider").gameObject;
-            UIUtils.TryChangeText(planetMinRing.transform, "Descriptor/Label", STRINGS.UI.CUSTOMCLUSTERUI.MINRINGS.NAME);
-            UIUtils.AddSimpleTooltipToObject(planetMinRing.transform.Find("Descriptor/Label"), STRINGS.UI.CUSTOMCLUSTERUI.MINRINGS.DESC, true);
-            //var planetMinRingHandler = planetMinRing.AddComponent<SliderHandler>();
-            //planetMinRingHandler.SetupSlider(0, SelectedPlanet.minRing, CustomCluster.Rings, true, STRINGS.UI.CUSTOMCLUSTERUI.MINRINGS.NAME, STRINGS.UI.CUSTOMCLUSTERUI.MINRINGS.DESC,
-            //    (value) => {
-            //        if (SelectedPlanet != null)
-            //        {
-            //            if (CustomCluster.HasStarmapItem(SelectedPlanet.id, out var current))
-            //                current.SetInnerRing((int)value);
-            //            else
-            //                SelectedPlanet.SetInnerRing((int)value);
-            //            //this.RefreshDetails();
-            //        }
-            //    }, true);
-            //customPlanetoidSettings.Add(new KeyValuePair<GameObject, ICustomPlanetoidSetting>(planetMinRing, planetMinRingHandler)); ///custom index 2, min
-
-            var planetMaxRing = unityScreen.transform.Find("MaxDistanceSlider").gameObject;
-            UIUtils.TryChangeText(planetMinRing.transform, "Descriptor/Label", STRINGS.UI.CUSTOMCLUSTERUI.MINRINGS.NAME);
-            UIUtils.AddSimpleTooltipToObject(planetMinRing.transform.Find("Descriptor/Label"), STRINGS.UI.CUSTOMCLUSTERUI.MINRINGS.DESC, true);
-
-            //var planetMaxRingHandler = planetMaxRing.AddComponent<SliderHandler>();
-            //planetMaxRingHandler.SetupSlider(0, SelectedPlanet.maxRing, CustomCluster.Rings, true, STRINGS.UI.CUSTOMCLUSTERUI.MAXRINGS.NAME, STRINGS.UI.CUSTOMCLUSTERUI.MAXRINGS.DESC, (value) =>
-            //{
-            //    if (SelectedPlanet != null)
-            //    {
-            //        if (CustomCluster.HasStarmapItem(SelectedPlanet.id, out var current))
-            //            current.SetOuterRing((int)value);
-            //        else
-            //            SelectedPlanet.SetOuterRing((int)value);
-            //        //    this.RefreshDetails(); 
-            //    }
-            //}, true);
-            //customPlanetoidSettings.Add(new KeyValuePair<GameObject, ICustomPlanetoidSetting>(planetMaxRing, planetMaxRingHandler)); ///Custom index 3, max
-
-            ///Slider for buffer
-            ///
-            var planetBuffer = unityScreen.transform.Find("BufferSlider").gameObject;
-            UIUtils.TryChangeText(planetMinRing.transform, "Descriptor/Label", STRINGS.UI.CUSTOMCLUSTERUI.MINRINGS.NAME);
-            UIUtils.AddSimpleTooltipToObject(planetMinRing.transform.Find("Descriptor/Label"), STRINGS.UI.CUSTOMCLUSTERUI.MINRINGS.DESC, true);
-
-            //var planetBufferHandler = planetBuffer.AddComponent<SliderHandler>();
-            //planetBufferHandler.SetupSlider(0, SelectedPlanet.buffer, CustomCluster.Rings, true, STRINGS.UI.CUSTOMCLUSTERUI.BUFFER.NAME, STRINGS.UI.CUSTOMCLUSTERUI.BUFFER.DESC, (value) => {
-            //    if (SelectedPlanet != null)
-            //    {
-            //        if (CustomCluster.HasStarmapItem(SelectedPlanet.id, out var current))
-            //            current.SetBuffer((int)value);
-            //        else
-            //            SelectedPlanet.SetBuffer((int)value);
-            //        // this.RefreshDetails();
-            //    }
-            //}, true);
-            //customPlanetoidSettings.Add(new KeyValuePair<GameObject, ICustomPlanetoidSetting>(planetBuffer, planetBufferHandler)); ///custom index 4, buffer
-
-
-            var planetDimensionTmp = unityScreen.transform.Find("AsteroidSizeInfo").gameObject;
-            //var planetDimensionTmpHandler = planetDimensionTmp.AddComponent<SliderReusedAsInfo>();
-            //planetDimensionTmpHandler.SetupInfo(STRINGS.UI.CUSTOMCLUSTERUI.PLANETSIZE.NAME, STRINGS.UI.CUSTOMCLUSTERUI.PLANETSIZE.DESC, SelectedPlanet.PlanetDimensions);
-            //customPlanetoidSettings.Add(new KeyValuePair<GameObject, ICustomPlanetoidSetting>(planetDimensionTmp, planetDimensionTmpHandler)); ///custom index 5, Size
-
-            #endregion
-
-            #region globalClusterConfig
-            ///Global Rings
-
-            var GlobalRingSlider = unityScreen.transform.Find("ClusterSize").gameObject;
-            UIUtils.TryChangeText(planetMinRing.transform, "Descriptor/Label", STRINGS.UI.CUSTOMCLUSTERUI.MAPSIZE.NAME);
-            UIUtils.AddSimpleTooltipToObject(planetMinRing.transform.Find("Descriptor/Label"), STRINGS.UI.CUSTOMCLUSTERUI.MAPSIZE.DESC, true);
-            //var globalRingHandler = GlobalRingSlider.AddComponent<SliderHandler>();
-            //globalRingHandler.SetupSlider(ringMin, CustomCluster.Rings, ringMax, true, STRINGS.UI.CUSTOMCLUSTERUI.MAPSIZE.NAME, STRINGS.UI.CUSTOMCLUSTERUI.MAPSIZE.DESC, (value) => { CustomCluster.SetRings((int)value); this.RefreshDetails(); });
-
-            //GlobalClusterSettings.Add(new KeyValuePair<GameObject, ICustomPlanetoidSetting>(GlobalRingSlider, globalRingHandler));
-
-
-;//Util.KInstantiateUI(selectScreen.transform.Find("Layout/Buttons").gameObject, infoInsert.gameObject, true);
-#if DEBUG
-            // SgtLogger.l("BUTTONS");
-            // UIUtils.ListAllChildrenWithComponents(Buttons.transform);
-#endif
-
-            ///Global Config
-
-            #endregion
+            selectedItemSettings.UiRefresh = new System.Action(() =>
+            {
+                RefreshGallery();
+                RefreshCategories();
+            });
 
             init = true;
-            RefreshView();
+            this.SelectCategory(StarmapItemCategory.Starter);
+            return;
         }
 
         public override void OnCmpEnable()
@@ -361,6 +245,7 @@ namespace ClusterTraitGenerationManager
             this.RefreshCategories();
             this.RefreshGallery();
             this.RefreshDetails();
+           
         }
 
 
@@ -370,7 +255,7 @@ namespace ClusterTraitGenerationManager
         private LocText selectionHeaderLabel;
         private void RefreshDetails()
         {
-            if (!init || SelectedPlanet == null)
+            if (!init || SelectedPlanet == null || selectedItemSettings == null)
                 return;
 
             string name = SelectedPlanet.DisplayName;
@@ -378,33 +263,15 @@ namespace ClusterTraitGenerationManager
 
             this.selectionHeaderLabel.SetText(name);
             bool isPoi = SelectedPlanet.category == StarmapItemCategory.POI;
+            UpdateForSelected();
 
-            StarmapItem current;
-            bool IsPartOfCluster = CustomCluster.HasStarmapItem(SelectedPlanet.id, out current);
-            return;
-            customPlanetoidSettings[0].Value.HandleData(IsPartOfCluster); ///PlanetToggle
+        }
 
-            customPlanetoidSettings[1].Key.SetActive(current.MaxNumberOfInstances > 1 && !showGameSettings);///Amount, only on poi / random planets
-            if (current.MaxNumberOfInstances > 1)
+        public void UpdateForSelected()
+        {
+            if(selectedItemSettings != null && SelectedPlanet != null)
             {
-                customPlanetoidSettings[1].Value.HandleData(new float[] { (float)current.InstancesToSpawn, current.MaxNumberOfInstances });
-                customPlanetoidSettings[1].Value.ToggleInteractable(IsPartOfCluster);
-            }
-
-
-            customPlanetoidSettings[2].Value.HandleData((float)current.minRing); ///inner ring
-            customPlanetoidSettings[2].Value.ToggleInteractable(IsPartOfCluster);
-
-            customPlanetoidSettings[3].Value.HandleData((float)current.maxRing); ///outer ring
-            customPlanetoidSettings[3].Value.ToggleInteractable(IsPartOfCluster);
-
-            customPlanetoidSettings[4].Key.SetActive(!isPoi && !showGameSettings);///buffer ring, only on planets
-            customPlanetoidSettings[5].Key.SetActive(!isPoi && !showGameSettings);///size, only on planets
-            if (!isPoi)
-            {
-                customPlanetoidSettings[4].Value.HandleData((float)current.buffer);
-                customPlanetoidSettings[4].Value.ToggleInteractable(IsPartOfCluster);
-                customPlanetoidSettings[5].Value.HandleData(current.PlanetDimensions);
+                selectedItemSettings.UpdateForSelected(SelectedPlanet);
             }
         }
 
@@ -513,6 +380,7 @@ namespace ClusterTraitGenerationManager
                 {
                     CGSMClusterManager.TogglePlanetoid(SelectedPlanet);
                     this.RefreshView();
+                     UpdateForSelected();
                     return true;
                 }
                 else
@@ -535,6 +403,10 @@ namespace ClusterTraitGenerationManager
             ///Select Planet
             this.RefreshGallery();
             this.RefreshDetails();
+            if(selectedItemSettings!= null)
+            {
+                selectedItemSettings.UpdateForSelected(planet);
+            }
             //AddCustomCluster();
         }
 

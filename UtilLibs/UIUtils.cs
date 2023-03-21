@@ -187,7 +187,7 @@ namespace UtilLibs
             {
                 if (comp != null)
                 {
-                    Console.WriteLine("Type: " + comp.GetType() + comp.name != null ? ", Name ->" + comp.name : "");
+                    Console.WriteLine("Type: " +comp.GetType().ToString() + ", Name ->" + comp.name);
                 }
             }
         }
