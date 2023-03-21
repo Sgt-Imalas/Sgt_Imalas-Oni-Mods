@@ -21,7 +21,7 @@ namespace ClusterTraitGenerationManager
             var bundle = AssetUtils.LoadAssetBundle("clustergenerationsettingsmanager_menuassets");
             var Assets = bundle.LoadAsset<GameObject>("Assets/CGMExport.prefab"); 
 
-            UIUtils.ListAllChildren(Assets.transform);
+            //UIUtils.ListAllChildren(Assets.transform);
 
             var TMPConverter = new TMPConverter();
             TMPConverter.ReplaceAllText(Assets);

@@ -87,6 +87,8 @@ namespace ClusterTraitGenerationManager
 
             ClusterSize.SetMinMaxCurrent(ringMin, ringMax, CustomCluster.Rings);
 
+            AddTraitButton.SetInteractable(IsPartOfCluster);
+
             AsteroidSize.SetActive(!isPoi);
             AsteroidTraits.SetActive(!isPoi);
             AsteroidSizeLabel.text = string.Format(ASTEROIDSIZEINFO.INFO, current.PlanetDimensions.x, current.PlanetDimensions.y);

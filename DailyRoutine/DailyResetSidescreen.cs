@@ -70,7 +70,7 @@ namespace DailyRoutine
         {
             Debug.Log("Initiating Sidescreen Prefab");
 #if DEBUG
-            UIUtils.ListAllChildren(gameObject.transform);
+            //UIUtils.ListAllChildren(gameObject.transform);
 #endif   
             base.OnPrefabInit();
 

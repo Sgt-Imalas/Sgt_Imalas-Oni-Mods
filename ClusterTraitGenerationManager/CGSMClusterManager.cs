@@ -1296,8 +1296,17 @@ namespace ClusterTraitGenerationManager
                     if ((int)world.skip >= 99)
                         continue;
 
-                    //SgtLogger.l(world.name+": "+world.startingBaseTemplate, "START TEMPLATE");
-                    if (!WorldFromCache.Key.Contains("worlds/SandstoneDefault"))
+                    //SgtLogger.l(WorldFromCache.Key.ToUpperInvariant(), "PLANETKEY");
+
+                    ///Hardcoded checks due to others not having the correct folder structure
+                    string KeyUpper = WorldFromCache.Key.ToUpperInvariant();
+                    bool SkipModdedWorld =
+                        KeyUpper.Contains("EMPTERA") && !KeyUpper.ToUpperInvariant().Contains("DLC")
+                        || KeyUpper.Contains("ISLANDS") && !KeyUpper.Contains("DLC")
+                        || KeyUpper.Contains("FULERIA") && !KeyUpper.Contains("DLC");
+
+
+                    if (!WorldFromCache.Key.Contains("worlds/SandstoneDefault") && !SkipModdedWorld)
                     {
                         if (world.startingBaseTemplate != null)
                         {
