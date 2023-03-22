@@ -39,7 +39,6 @@ namespace ClusterTraitGenerationManager
             }
         }
 
-
         [HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
         [HarmonyPatch(nameof(ColonyDestinationSelectScreen.OnSpawn))]
         public static class InsertCustomClusterOption
@@ -54,7 +53,6 @@ namespace ClusterTraitGenerationManager
                 UIUtils.TryFindComponent<Image>(copyButton.transform, "FG").sprite = Assets.GetSprite("icon_gear");
                 UIUtils.TryFindComponent<ToolTip>(copyButton.transform, "").toolTip = STRINGS.UI.CGMBUTTON.DESC;
                 UIUtils.TryFindComponent<KButton>(copyButton.transform, "").onClick += () => CGSMClusterManager.InstantiateClusterSelectionView(__instance);
-                
                 CGSMClusterManager.selectScreen = __instance;
 
             }
@@ -94,7 +92,7 @@ namespace ClusterTraitGenerationManager
         }
 
         [HarmonyPatch(typeof(NewGameFlowScreen))]
-        [HarmonyPatch(nameof(NewGameFlowScreen.OnKeyDown))]
+        [HarmonyPatch(nameof(NewGameFlowScreen.OnKeyDown))] 
         public static class CatchGoingBack
         {
             public static bool Prefix(KButtonEvent e)
@@ -104,6 +102,40 @@ namespace ClusterTraitGenerationManager
                 return true;
             }
         }
+
+        [HarmonyPatch(typeof(Worlds))]
+        [HarmonyPatch(nameof(Worlds.UpdateWorldCache))]
+        public static class AllowUnusedWorldTemplatesToLoadIntoCache
+        {
+            public static bool ContainsOrIsPredefined(ISet<string> referencedWorlds,string toContain)
+            {
+                return referencedWorlds.Contains(toContain) || toContain.Contains("CGSM") || toContain.Contains("CGM");
+            }
+
+            private static readonly MethodInfo AllowTemplates = AccessTools.Method(
+               typeof(AllowUnusedWorldTemplatesToLoadIntoCache),
+               nameof(ContainsOrIsPredefined)
+            );
+
+            private static readonly MethodInfo TargetMethod = AccessTools.Method(
+                    typeof(System.Collections.Generic.ICollection<string>),
+                    nameof(System.Collections.Generic.ICollection<string>.Contains));
+
+            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+            {
+                var code = instructions.ToList();
+
+                var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo f && f == TargetMethod);
+
+                if (insertionIndex != -1 )
+                {
+                    code[insertionIndex] = new CodeInstruction(OpCodes.Call, AllowTemplates);
+                }
+
+                return code;
+            }
+        }
+
 
         [HarmonyPatch(typeof(WorldGen))]
         [HarmonyPatch(nameof(WorldGen.ReportWorldGenError))]

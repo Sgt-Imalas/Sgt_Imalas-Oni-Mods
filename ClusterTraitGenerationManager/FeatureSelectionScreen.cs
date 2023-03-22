@@ -113,22 +113,7 @@ namespace ClusterTraitGenerationManager
         bool init=false;
         bool showGameSettings = true;
 
-        LocText SettingsButtonText = null;
-        void ToggleGameSettings()
-        {
-            showGameSettings = !showGameSettings;
-            foreach (var setting in GlobalClusterSettings)
-            {
-                setting.Key.SetActive(showGameSettings);
-            }
-            foreach (var planetConfig in customPlanetoidSettings)
-            {
-                planetConfig.Key.SetActive(!showGameSettings);
-            }
-            SettingsButtonText.text = showGameSettings ? STRINGS.UI.CUSTOMCLUSTERUI.CUSTOMCLUSTERCONFIG.HIDE : STRINGS.UI.CUSTOMCLUSTERUI.CUSTOMCLUSTERCONFIG.SHOW;
-            RefreshDetails();
-        }
-
+       
         List<KeyValuePair<GameObject, ICustomPlanetoidSetting>> GlobalClusterSettings = new List<KeyValuePair<GameObject, ICustomPlanetoidSetting>>();
         List<KeyValuePair<GameObject, ICustomPlanetoidSetting>> customPlanetoidSettings = new List<KeyValuePair<GameObject, ICustomPlanetoidSetting>>();
         public void DoAndRefreshView(System.Action action)
@@ -392,7 +377,7 @@ namespace ClusterTraitGenerationManager
             //this.SetItemClickUISound(planet, component2);
             var tooltip = new Option<string>(planet.DisplayDescription);
 
-            UIUtils.AddSimpleTooltipToObject(availableGridButton.transform, planet.DisplayName + "\n\n" + planet.DisplayDescription, true, 300);
+            UIUtils.AddSimpleTooltipToObject(availableGridButton.transform, planet.DisplayName + "\n\n" + planet.DisplayDescription, true, 300, true);
 
 
             availableGridButton.SetActive(true);

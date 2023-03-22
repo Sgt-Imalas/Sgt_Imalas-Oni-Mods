@@ -1293,10 +1293,10 @@ namespace ClusterTraitGenerationManager
                     //SgtLogger.l(World.Key + "; " + World.Value.ToString());
                     ProcGen.World world = WorldFromCache.Value;
 
+                    //SgtLogger.l(WorldFromCache.Key.ToUpperInvariant(), "PLANETKEY");
                     if ((int)world.skip >= 99)
                         continue;
 
-                    //SgtLogger.l(WorldFromCache.Key.ToUpperInvariant(), "PLANETKEY");
 
                     ///Hardcoded checks due to others not having the correct folder structure
                     string KeyUpper = WorldFromCache.Key.ToUpperInvariant();
@@ -1311,11 +1311,17 @@ namespace ClusterTraitGenerationManager
                         if (world.startingBaseTemplate != null)
                         {
                             string stripped = world.startingBaseTemplate.Replace("bases/", string.Empty);
-                            if (stripped.ToUpperInvariant().Contains("WARPWORLD"))
+                            if (stripped.ToUpperInvariant().Contains("WARPWORLD")
+                                //|| KeyUpper.ToUpperInvariant().Contains("CGSM")&&
+                                //stripped.ToUpperInvariant().Contains("WARPBASE")
+                                )
                             {
                                 category = StarmapItemCategory.Warp;
                             }
-                            else if (stripped.ToUpperInvariant().Contains("BASE"))
+                            else if (stripped.ToUpperInvariant().Contains("BASE")
+                                //||KeyUpper.ToUpperInvariant().Contains("CGSM") && 
+                                //stripped.ToUpperInvariant().Contains("BASE")
+                                )
                             {
                                 category = StarmapItemCategory.Starter;
                             }

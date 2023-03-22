@@ -97,7 +97,7 @@ namespace ClusterTraitGenerationManager
                 icon.color = Util.ColorFromHex(kvp.Value.colorHex);
 
                 UIUtils.TryChangeText(TraitHolder.transform, "Label", combined);
-                UIUtils.AddSimpleTooltipToObject(TraitHolder.transform, description);
+                //UIUtils.AddSimpleTooltipToObject(TraitHolder.transform, description);
                 
 
                 AddTraitButton.OnClick += () =>

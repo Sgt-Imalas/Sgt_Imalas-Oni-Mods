@@ -131,6 +131,8 @@ namespace ClusterTraitGenerationManager
                     }
                 };
 
+            UIUtils.AddSimpleTooltipToObject(StarmapItemEnabled.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.STARMAPITEMENABLED.TOOLTIP);
+
             NumberToGenerate = transform.Find("AmountSlider/Slider").FindOrAddComponent<FSlider>();
             //UIUtils.FindAndDisable(NumberToGenerate.transform, "Descriptor/Input");
             //UIUtils.ListAllChildrenWithComponents(NumberToGenerate.transform);
@@ -144,6 +146,7 @@ namespace ClusterTraitGenerationManager
                     UpdateUI();
                 }
             };
+            UIUtils.AddSimpleTooltipToObject(NumberToGenerate.transform.parent.Find("Descriptor"), STRINGS.UI.CGM.INDIVIDUALSETTINGS.AMOUNTSLIDER.DESCRIPTOR.TOOLTIP);
 
             MinimumDistance = transform.Find("MinDistanceSlider/Slider").FindOrAddComponent<FSlider>();
             //UIUtils.FindAndDisable(MinimumDistance.transform, "Descriptor/Input");
@@ -157,6 +160,7 @@ namespace ClusterTraitGenerationManager
                     UpdateUI();
                 }
             };
+            UIUtils.AddSimpleTooltipToObject(MinimumDistance.transform.parent.Find("Descriptor"), STRINGS.UI.CGM.INDIVIDUALSETTINGS.MINDISTANCESLIDER.DESCRIPTOR.TOOLTIP);
 
 
             MaximumDistance = transform.Find("MaxDistanceSlider/Slider").FindOrAddComponent<FSlider>();
@@ -171,6 +175,7 @@ namespace ClusterTraitGenerationManager
                     UpdateUI();
                 }
             };
+            UIUtils.AddSimpleTooltipToObject(MaximumDistance.transform.parent.Find("Descriptor"), STRINGS.UI.CGM.INDIVIDUALSETTINGS.MAXDISTANCESLIDER.DESCRIPTOR.TOOLTIP);
 
 
             BufferDistance = transform.Find("BufferSlider/Slider").FindOrAddComponent<FSlider>();
@@ -184,6 +189,7 @@ namespace ClusterTraitGenerationManager
                         current.SetBuffer((int)value);
                 }
             };
+            UIUtils.AddSimpleTooltipToObject(BufferDistance.transform.parent.Find("Descriptor"), STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUFFERSLIDER.DESCRIPTOR.TOOLTIP);
 
             ClusterSize = transform.Find("ClusterSize/Slider").FindOrAddComponent<FSlider>();
             //UIUtils.FindAndDisable(ClusterSize.transform, "Descriptor/Input");
@@ -194,10 +200,12 @@ namespace ClusterTraitGenerationManager
                 CustomCluster.SetRings((int)value);
                 UpdateUI();
             };
+            UIUtils.AddSimpleTooltipToObject(ClusterSize.transform.parent.Find("Descriptor"), STRINGS.UI.CGM.INDIVIDUALSETTINGS.CLUSTERSIZE.DESCRIPTOR.TOOLTIP);
 
-            
+
             AsteroidSize = transform.Find("AsteroidSizeInfo").gameObject;
             AsteroidSizeLabel = transform.Find("AsteroidSizeInfo/Info").GetComponent<LocText>();
+            UIUtils.AddSimpleTooltipToObject(AsteroidSizeLabel.transform.parent, STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.TOOLTIP);
 
             AsteroidTraits = transform.Find("AsteroidTraits").gameObject;
             ActiveTraitsContainer = transform.Find("AsteroidTraits/ListView/Content").gameObject;
@@ -232,7 +240,9 @@ namespace ClusterTraitGenerationManager
                 UpdateUI();
             };
 
-            UIUtils.AddSimpleTooltipToObject(ResetAllButton.transform, STRINGS.UI.CUSTOMCLUSTERUI.RESET.DESC, true);
+            UIUtils.AddSimpleTooltipToObject(ResetAllButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.RESETCLUSTERBUTTON.TOOLTIP, true);
+            UIUtils.AddSimpleTooltipToObject(ResetButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.RESETSELECTIONBUTTON.TOOLTIP, true);
+
             SgtLogger.Assert("AsteroidSize", AsteroidSize);
             SgtLogger.Assert("AsteroidSizeLabel", AsteroidSizeLabel);
             SgtLogger.Assert("AsteroidTraits", AsteroidTraits);
