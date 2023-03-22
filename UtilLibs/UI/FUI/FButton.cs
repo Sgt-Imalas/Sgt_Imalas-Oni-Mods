@@ -60,7 +60,7 @@ namespace UtilLibs.UIcmp //Source: Aki
             {
                 return;
             }
-            SgtLogger.l(eventData.button.ToString(), "BUTTTTTTTTT");
+
             if (!allowRightClick && eventData.button != PointerEventData.InputButton.Left)
                 return;
 
