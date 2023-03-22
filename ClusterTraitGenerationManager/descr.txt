@@ -4,7 +4,7 @@
 
 Gain nearly full control over each tiny detail of your cluster generation - manipulate each item on the star map individually!
 
-[h1]Current latest Version: 1.0.0[/h1]
+[h1]Current latest Version: 1.2.0[/h1]
 
 [hr][/hr]
 
@@ -14,6 +14,7 @@ Preselect the cluster you want to have as base preset for your custom cluster, t
 Now the configuration window will appear, allowing you to fully manipulate each starmap item individually.
 You can Activate/Deactivate a planet by double clicking or setting the checkmark on the right panel.
 Once everything is configured, hit the "Start Game" button to generate the cluster.
+If you forgot some settings (stuff like difficulty, story traits) on the normal screen, you can safely back out from the custom cluster screen, change those settings and go back in. The customized settings only reset if you select a different cluster (since it then loads that as new preset). 
 
 [h1]Features[/h1]
 [list]
@@ -21,15 +22,15 @@ Once everything is configured, hit the "Start Game" button to generate the clust
 [*] Support for all modded planets (e.g. Baator, Roller Snakes, Other Cluster,...)
 [*] Configurable star map radius
 [*] Randomly selected planets pois in each category
-[*] Set spawning sarameters for each planet and poi individually, these include:[list]
+[*] Set spawning parameters for each planet and poi individually, these include:[list]
     [*] should the planet/poi appear at all
     [*] spawn distance to star map center (min & max distance)
     [*] minimum distance to other planetoids
+    [*] Asteroid Traits (support for modded traits like f.e. "Holes")
     [*] (only random planets & pois): Number of instances that should be spawned
     [/list]
 [/list]
 Still WIP:[list]
-[*] Per-Planet Trait Selection
 [*] Planet Sizes
 [/list]
 
