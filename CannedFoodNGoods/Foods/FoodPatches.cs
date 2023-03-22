@@ -100,19 +100,36 @@ namespace CannedFoods.Foods
         /// <summary>
         /// Carnivore Achievment: add canned meat
         /// </summary>
-        [HarmonyPatch(typeof(EatXCaloriesFromY), MethodType.Constructor)]
-        [HarmonyPatch(new Type[] { typeof(int), typeof(List<string>) })]
+        //[HarmonyPatch(typeof(EatXCaloriesFromY), MethodType.Constructor)]
+        //[HarmonyPatch(new Type[] { typeof(int), typeof(List<string>) })]
+
+        [HarmonyPatch(typeof(Db))]
+        [HarmonyPatch(nameof(Db.Initialize))]
         public static class PatchCarnivoreAchievment
         {
-            public static void Postfix(List<string> fromFoodType)
+            //public static void Postfix(List<string> fromFoodType)
+            //{
+            //    if (!fromFoodType.Contains(CannedBBQConfig.ID))
+            //    {
+            //        fromFoodType.Add(CannedBBQConfig.ID);
+            //        fromFoodType.Add(CannedTunaConfig.ID);
+            //    }
+            //}
+            public static void Postfix(Db __instance)
             {
-                if (!fromFoodType.Contains(CannedBBQConfig.ID))
+                var items = __instance.ColonyAchievements.EatkCalFromMeatByCycle100.requirementChecklist;
+                foreach (var requirement in items)
                 {
-                    fromFoodType.Add(CannedBBQConfig.ID);
-                    fromFoodType.Add(CannedTunaConfig.ID);
+                    if (requirement is EatXCaloriesFromY foodRequirement)
+                    {
+                        foodRequirement.fromFoodType.Add(CannedBBQConfig.ID);
+                        foodRequirement.fromFoodType.Add(CannedTunaConfig.ID);
+                        break;
+                    }
                 }
             }
         }
+
 
         [HarmonyPatch(typeof(RockCrusherConfig), "ConfigureBuildingTemplate")]
         public static class PatchRecyclingRockCrusher
