@@ -569,10 +569,6 @@ namespace ClusterTraitGenerationManager
                             || (rule.forbiddenTraits != null && rule.forbiddenTraits.Contains(trait.filePath)) 
                             || !trait.IsValid(world, logErrors: true));
                         
-                        AllTraits.RemoveAll((WorldTrait trait) =>
-                        (requiredTags != null && !trait.traitTagsSet.ContainsAll(requiredTags)) ||
-                        (forbiddenTags != null && trait.traitTagsSet.ContainsOne(forbiddenTags))
-                        || (rule.forbiddenTraits != null && rule.forbiddenTraits.Contains(trait.filePath)));
                     }
 
 
