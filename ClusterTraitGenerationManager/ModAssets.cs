@@ -19,7 +19,7 @@ namespace ClusterTraitGenerationManager
         public static GameObject TraitPopup;
         public static void LoadAssets()
         {
-            var bundle = AssetUtils.LoadAssetBundle("clustergenerationsettingsmanager_menuassets");
+            var bundle = AssetUtils.LoadAssetBundle("clustergenerationsettingsmanager_menuassets", platformSpecific: true);
             var Assets = bundle.LoadAsset<GameObject>("Assets/CGMExport.prefab"); 
 
             //UIUtils.ListAllChildren(Assets.transform);
