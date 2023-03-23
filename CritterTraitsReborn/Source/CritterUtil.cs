@@ -27,7 +27,7 @@ namespace CritterTraitsReborn
 
             // Collision
             var boxCollider = go.GetComponent<KBoxCollider2D>();
-            if (boxCollider != null)
+            if (boxCollider != null&&scale>1)
             {
                 boxCollider.size *= scale;
             }

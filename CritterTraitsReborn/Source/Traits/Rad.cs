@@ -16,7 +16,7 @@ namespace CritterTraitsReborn.Traits
               {
                   float range = Random.Range(3, 6);
                   CritterUtil.AddObjectLight(go, UIUtils.rgba(50, 255, 50, 0.9), 2, 100);
-                  CritterUtil.AddObjectRadEmitter(go, Random.Range(90,181), range);
+                  CritterUtil.AddObjectRadEmitter(go, Random.Range(100,301), range);
               },
               positiveTrait: true
             );
