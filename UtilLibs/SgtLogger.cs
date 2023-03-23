@@ -73,7 +73,11 @@ namespace UtilLibs
 
         public static void logError(string v)
         {
-            throw new NotImplementedException();
+            
+              var  assemblyOverride = Assembly.GetExecutingAssembly().GetName().Name;
+            string messageToLog = string.Concat("[" + TimeZoneInfo.ConvertTimeToUtc(System.DateTime.Now).ToString("HH:mm:ss.fff") + "] [ERROR] [" + assemblyOverride + "]: ", v);
+
+            Console.WriteLine(messageToLog, assemblyOverride);
         }
     }
 }

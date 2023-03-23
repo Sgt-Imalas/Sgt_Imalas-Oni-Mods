@@ -4,6 +4,66 @@
         <name>ONITwitchLib</name>
     </assembly>
     <members>
+        <member name="T:ONITwitchLib.Core.CommandBase">
+            <summary>
+            Methods for accessing the core Twitch mod's commands.
+            </summary>
+        </member>
+        <member name="M:ONITwitchLib.Core.CommandBase.#ctor(System.Type,System.Object[])">
+            <summary>
+            Instantiates a <see cref="T:ONITwitchLib.Core.CommandBase"/> using a type and its arguments.
+            </summary>
+            <param name="commandType">A type deriving from the core mod's <c>CommandBase</c> type.</param>
+            <param name="args">The arguments for that type's constructor.</param>
+        </member>
+        <member name="M:ONITwitchLib.Core.CommandBase.#ctor(System.Object)">
+            <summary>
+            Instantiates a <see cref="T:ONITwitchLib.Core.CommandBase"/> using an instance of the core mod's <c>CommandBase</c>.
+            </summary>
+            <param name="inst">The instance to use.</param>
+        </member>
+        <member name="M:ONITwitchLib.Core.CommandBase.GetRunAction">
+            <summary>
+            Gets the action that this command will run.
+            </summary>
+            <returns>An <see cref="T:System.Action`1"/> that will call the command.</returns>
+        </member>
+        <member name="M:ONITwitchLib.Core.CommandBase.GetConditionFunc">
+            <summary>
+            Gets the action that this command will run to determine if it may run.
+            </summary>
+            <returns>An <see cref="T:System.Action`1"/> that will call the command's condition.</returns>
+        </member>
+        <member name="T:ONITwitchLib.Core.CoreTypes">
+            <summary>
+            Contains <see cref="T:System.Type"/>s of many types in the main Twitch mod.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.Core.CoreTypes.EventManagerType">
+            <summary>
+            Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.Core.CoreTypes.EventInfoType">
+            <summary>
+            Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.Core.CoreTypes.DataManagerType">
+            <summary>
+            Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.Core.CoreTypes.TwitchDeckManagerType">
+            <summary>
+            Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.Core.CoreTypes.EventGroupType">
+            <summary>
+            Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
         <member name="P:ONITwitchLib.Core.CoreTypes.DangerType">
             <summary>
             Only safe to access if the Twitch mod is active.
@@ -49,35 +109,96 @@
             Only safe to access if the Twitch mod is active.
             </summary>
         </member>
-        <member name="M:ONITwitchLib.Core.CustomPocketDimensionGeneration.#ctor(System.Single,ProcGen.SubWorld.ZoneType,System.Action{WorldContainer},System.String,System.Collections.Generic.List{System.String},System.Boolean)">
+        <member name="T:ONITwitchLib.Core.PocketDimensionGenerator">
             <summary>
-            Creates an instance of a CustomPocketDimensionGeneration to configure how a pocket dimension can spawn.
-            Calls a passed function that is expected to place things in the newly created world.
+            Provides methods for adding new pocket dimensions to the generation pool and to generate pocket dimensions.
+            TODO: implement this
             </summary>
-            <remarks>May only be used if the Twitch mod is active.</remarks>
-            <param name="cyclesLifetime"></param>
-            <param name="zoneType"></param>
-            <param name="generateTilesAction"></param>
-            <param name="requiredSkillId"></param>
-            <param name="prefabIds"></param>
-            <param name="canSpawnSubDimensions"></param>
         </member>
-        <member name="M:ONITwitchLib.Core.PocketDimensionGenerator.AddGenerationConfig(ONITwitchLib.Core.BasePocketDimensionGeneration)">
+        <member name="T:ONITwitchLib.Core.TwitchDeckManager">
             <summary>
-            Adds the specified generation config to the pool for pocket dimensions
+            Provides methods to manipulate the deck of events 
             </summary>
-            <remarks>May only be used if the Twitch mod is active.</remarks>
-            <param name="config"></param>
         </member>
-        <member name="M:ONITwitchLib.Core.TwitchDeckManager.GetDeckManager">
+        <member name="P:ONITwitchLib.Core.TwitchDeckManager.Instance">
             <summary>
-            Gets the instance of the deck manager from the twitch mod.
+            The instance of the deck manager.
             Only safe to access if the Twitch mod is active.
+            </summary>
+        </member>
+        <member name="M:ONITwitchLib.Core.TwitchDeckManager.AddGroup(ONITwitchLib.EventGroup)">
+            <summary>
+            Adds an <see cref="T:ONITwitchLib.EventGroup"/> of actions to the deck
+            </summary>
+            <param name="group"></param>
+        </member>
+        <member name="M:ONITwitchLib.Core.TwitchDeckManager.GetGroup(System.String)">
+            <summary>
+            Gets the <see cref="T:ONITwitchLib.EventGroup"/> with the name specified by <paramref name="name"/>, if it exists in the deck.
+            </summary>
+            <param name="name">The name of the group to retrieve.</param>
+            <returns>The group, if it exists, otherwise <see langword="null"/>.</returns>
+        </member>
+        <member name="M:ONITwitchLib.Core.TwitchDeckManager.GetGroups">
+            <summary>
+            Gets all <see cref="T:ONITwitchLib.EventGroup"/>s registered in the deck.
+            </summary>
+            <returns>An enumerable containing the groups in the deck.</returns>
+        </member>
+        <member name="M:ONITwitchLib.Core.TwitchDeckManager.Draw">
+            <summary>
+            Draws an <see cref="T:ONITwitchLib.EventInfo"/> from the deck, shuffling if necessary.
+            </summary>
+            <returns>The drawn event.</returns>
+        </member>
+        <member name="T:ONITwitchLib.Danger">
+            <summary>
+            Represents how much harm an <see cref="T:ONITwitchLib.EventInfo"/> can do.
+            This estimate should be a reasonable maximum and should take into account both short-term and long-term consequences.
+            </summary>
+        </member>
+        <member name="F:ONITwitchLib.Danger.None">
+            <summary>
+            The event does not cause any damage. 
+            </summary>
+        </member>
+        <member name="F:ONITwitchLib.Danger.Small">
+            <summary>
+            The event causes only minor damage that can be easily resolved.
+            </summary>
+        </member>
+        <member name="F:ONITwitchLib.Danger.Medium">
+            <summary>
+            The event causes moderate damage, with possible long-term effects, but does not pose a significant threat to survival.
+            </summary>
+        </member>
+        <member name="F:ONITwitchLib.Danger.High">
+            <summary>
+            The event causes significant damage, often with significant long-term effects. Recovery is possible, but requires planning and knowledge.
+            </summary>
+        </member>
+        <member name="F:ONITwitchLib.Danger.Extreme">
+            <summary>
+            The event is extremely dangerous. In some cases dupes may directly die. Long-term effects can alter the course of the colony. 
+            </summary>
+        </member>
+        <member name="F:ONITwitchLib.Danger.Deadly">
+            <summary>
+            This event will cause deaths and have significant long-term effects. Preventing or repairing damage done may not be possible.
+            </summary>
+            <remarks>
+            Examples of <see cref="F:ONITwitchLib.Danger.Deadly"/> events are directly killing a duplicant or spawning large quantities of magma.
+            This danger level is not enabled by default and players are warned that it is exceptionally dangerous before selecting it.
+            </remarks>
+        </member>
+        <member name="T:ONITwitchLib.DataManager">
+            <summary>
+            Provides methods to manipulate data of <see cref="T:ONITwitchLib.EventInfo"/>s
             </summary>
         </member>
         <member name="P:ONITwitchLib.DataManager.Instance">
             <summary>
-            Gets the instance of the data manager from the twitch mod.
+            The instance of the data manager.
             Only safe to access if the Twitch mod is active.
             </summary>
         </member>
@@ -85,55 +206,182 @@
             <summary>
             Sets the data for an event.
             </summary>
-            <param name="info">The <see cref="T:ONITwitchLib.EventInfo"/> for the event to modify</param>
-            <param name="data">The new data for the event</param>
+            <param name="info">The <see cref="T:ONITwitchLib.EventInfo"/> for the event to modify.</param>
+            <param name="data">The new data for the event.</param>
         </member>
         <member name="M:ONITwitchLib.DataManager.GetDataForEvent(ONITwitchLib.EventInfo)">
             <summary>
             Gets the data for an event.
             </summary>
-            <param name="info">The <see cref="T:ONITwitchLib.EventInfo"/> for the event to get data for</param>
-            <returns>The data for the event, if it exists, or <c>null</c> otherwise.</returns>
+            <param name="info">The <see cref="T:ONITwitchLib.EventInfo"/> for the event to get data for.</param>
+            <returns>The data for the event, if it exists, otherwise <see langword="null"/></returns>
+        </member>
+        <member name="T:ONITwitchLib.EventGroup">
+            <summary>
+            A group of associated <see cref="T:ONITwitchLib.EventInfo"/>s with relative weights.
+            <see cref="T:ONITwitchLib.EventInfo"/>s in an <see cref="T:ONITwitchLib.EventGroup"/> will attempt to be spread out for variety.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.EventGroup.Name">
+            <summary>
+            The name of the group.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.EventGroup.TotalWeight">
+            <summary>
+            The total weight of the group.
+            </summary>
+        </member>
+        <member name="E:ONITwitchLib.EventGroup.OnGroupChanged">
+            <summary>
+            An event that fires when the group is changed, called with the group that changed.
+            </summary>
+        </member>
+        <member name="M:ONITwitchLib.EventGroup.GetOrCreateGroup(System.String)">
+            <summary>
+            Gets an existing <see cref="T:ONITwitchLib.EventGroup"/> with a specified name, or creates it if it does not exist.
+            </summary>
+            <param name="name">The name of the <see cref="T:ONITwitchLib.EventGroup"/> to get or create.</param>
+            <returns>The group that was found or created.</returns>
+        </member>
+        <member name="M:ONITwitchLib.EventGroup.DefaultSingleEventGroup(System.String,System.Int32,System.String)">
+            <summary>
+            Creates an <see cref="T:ONITwitchLib.EventInfo"/> with a unique <see cref="T:ONITwitchLib.EventGroup"/> that has a default name and no other <see cref="T:ONITwitchLib.EventInfo"/>s.
+            </summary>
+            <param name="id">The id of the <see cref="T:ONITwitchLib.EventInfo"/> to create.</param>
+            <param name="weight">The weight of the <see cref="T:ONITwitchLib.EventInfo"/> to create.</param>
+            <param name="friendlyName">The friendly name of the <see cref="T:ONITwitchLib.EventInfo"/> to create.</param>
+            <returns>The newly created <see cref="T:ONITwitchLib.EventInfo"/> and its unique <see cref="T:ONITwitchLib.EventGroup"/>.</returns>
+        </member>
+        <member name="M:ONITwitchLib.EventGroup.AddEvent(System.String,System.Int32,System.String)">
+            <summary>
+            Creates a new <see cref="T:ONITwitchLib.EventInfo"/> in this <see cref="T:ONITwitchLib.EventGroup"/>.
+            </summary>
+            <param name="id">The id of the <see cref="T:ONITwitchLib.EventInfo"/> to create.</param>
+            <param name="weight">The weight of the <see cref="T:ONITwitchLib.EventInfo"/> to create.</param>
+            <param name="friendlyName">The friendly name of the <see cref="T:ONITwitchLib.EventInfo"/> to create.</param>
+            <returns>The newly created <see cref="T:ONITwitchLib.EventInfo"/>.</returns>
+        </member>
+        <member name="M:ONITwitchLib.EventGroup.SetWeight(ONITwitchLib.EventInfo,System.Int32)">
+            <summary>
+            Sets the weight of a specified <see cref="T:ONITwitchLib.EventInfo"/> in the group.
+            </summary>
+            <param name="eventInfo">The <see cref="T:ONITwitchLib.EventInfo"/> to change the weight for.</param>
+            <param name="weight">The new weight.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="weight"/> is less than 0.</exception>
+        </member>
+        <member name="M:ONITwitchLib.EventGroup.RemoveEvent(ONITwitchLib.EventInfo)">
+            <summary>
+            Removes the specified <see cref="T:ONITwitchLib.EventInfo"/> from the group.
+            </summary>
+            <param name="item">The <see cref="T:ONITwitchLib.EventInfo"/> to remove.</param>
+        </member>
+        <member name="M:ONITwitchLib.EventGroup.GetWeights">
+            <summary>
+            Gets a the weight of each <see cref="T:ONITwitchLib.EventInfo"/> in the group.
+            </summary>
+            <returns>A read-only dictionary of each <see cref="T:ONITwitchLib.EventInfo"/> and its corresponding weight.</returns>
+        </member>
+        <member name="M:ONITwitchLib.EventGroup.ToString">
+            <summary>
+            Displays a string representation of a group using its name.
+            </summary>
+            <returns>A string representation of the object.</returns>
         </member>
         <member name="T:ONITwitchLib.EventInfo">
             <summary>
             Represents an event that is known to the <see cref="T:ONITwitchLib.EventManager"/>.
             </summary>
         </member>
+        <member name="P:ONITwitchLib.EventInfo.Id">
+            <summary>
+            The full namespaced ID of the <see cref="T:ONITwitchLib.EventInfo"/>.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.EventInfo.FriendlyName">
+            <summary>
+            The friendly name of the <see cref="T:ONITwitchLib.EventInfo"/>.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.EventInfo.EventNamespace">
+            <summary>
+            The namespace of the <see cref="T:ONITwitchLib.EventInfo"/>.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.EventInfo.EventId">
+            <summary>
+            The ID of the <see cref="T:ONITwitchLib.EventInfo"/>, without the <see cref="P:ONITwitchLib.EventInfo.EventNamespace"/>.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.EventInfo.Group">
+            <summary>
+            The <see cref="T:ONITwitchLib.EventGroup"/> of the <see cref="T:ONITwitchLib.EventInfo"/>.
+            </summary>
+        </member>
+        <member name="P:ONITwitchLib.EventInfo.Danger">
+            <summary>
+            The <see cref="T:ONITwitchLib.Danger"/> of the <see cref="T:ONITwitchLib.EventInfo"/>. 
+            </summary>
+        </member>
+        <member name="M:ONITwitchLib.EventInfo.AddListener(System.Action{System.Object})">
+            <summary>
+            Adds an <see cref="T:System.Action`1"/> that is invoked with the event's data when the event is triggered.
+            </summary>
+            <param name="listener">The action to invoke when the event is triggered.</param>
+            <seealso cref="T:ONITwitchLib.DataManager"/>
+            <seealso cref="M:ONITwitchLib.EventInfo.Trigger(System.Object)"/>
+        </member>
+        <member name="M:ONITwitchLib.EventInfo.RemoveListener(System.Action{System.Object})">
+            <summary>
+            Removes an <see cref="T:System.Action`1"/> from the list of actions that are run when an event is triggered, if it exists. 
+            </summary>
+            <param name="listener">The action to remove.</param>
+            <seealso cref="M:ONITwitchLib.EventInfo.Trigger(System.Object)"/>
+        </member>
+        <member name="M:ONITwitchLib.EventInfo.Trigger(System.Object)">
+            <summary>
+            Triggers the event with the specified data by calling each registered listener.
+            Callers are expected to provide the correct type and values of data for this <see cref="T:ONITwitchLib.EventInfo"/>.
+            The correct data can typically be found in the <see cref="T:ONITwitchLib.DataManager"/>.
+            </summary>
+            <param name="data">The data to call each listener with.</param>
+            <seealso cref="M:ONITwitchLib.EventInfo.AddListener(System.Action{System.Object})"/>
+        </member>
+        <member name="M:ONITwitchLib.EventInfo.AddCondition(System.Func{System.Object,System.Boolean})">
+            <summary>
+            Adds a condition to the event that should be run to determine if the event should run.
+            </summary>
+            <param name="condition">
+            A function that takes an object parameter to be called with the event's data,
+            and returns <see langword="true"/> if the event should be run and <see langword="false"/> if it should not. 
+            </param>
+            <seealso cref="M:ONITwitchLib.EventInfo.Trigger(System.Object)"/>
+            <seealso cref="T:ONITwitchLib.DataManager"/>
+            <seealso cref="M:ONITwitchLib.EventInfo.CheckCondition(System.Object)"/>
+        </member>
+        <member name="M:ONITwitchLib.EventInfo.CheckCondition(System.Object)">
+            <summary>
+            Checks whether an event should be run by invoking each of its conditions and returning <see langword="false"/>
+            if any of the conditions return <see langword="false"/>.
+            </summary>
+            <param name="data">The data to be passed to each condition.</param>
+            <returns><see langword="false"/> if any of the conditions return false, otherwise <see langword="true"/>.</returns>
+            <seealso cref="M:ONITwitchLib.EventInfo.AddCondition(System.Func{System.Object,System.Boolean})"/>
+            <seealso cref="M:ONITwitchLib.EventInfo.Trigger(System.Object)"/>
+        </member>
         <member name="M:ONITwitchLib.EventInfo.ToString">
             <summary>
             Gets a string representation of the event.
             </summary>
             <returns>The friendly name of the event, if it exists, or the ID of the event otherwise.</returns>
+            <seealso cref="P:ONITwitchLib.EventInfo.FriendlyName"/>
+            <seealso cref="P:ONITwitchLib.EventInfo.Id"/>
+            <seealso cref="P:ONITwitchLib.EventInfo.EventNamespace"/>
+            <seealso cref="P:ONITwitchLib.EventInfo.EventId"/>
         </member>
-        <member name="T:ONITwitchLib.EventInterface">
+        <member name="T:ONITwitchLib.EventManager">
             <summary>
-            The main interface to the Twitch mod.
-            </summary>
-        </member>
-        <member name="P:ONITwitchLib.EventInterface.EventManagerType">
-            <summary>
-            Only safe to access if the Twitch mod is active.
-            </summary>
-        </member>
-        <member name="P:ONITwitchLib.EventInterface.EventInfoType">
-            <summary>
-            Only safe to access if the Twitch mod is active.
-            </summary>
-        </member>
-        <member name="P:ONITwitchLib.EventInterface.DataManagerType">
-            <summary>
-            Only safe to access if the Twitch mod is active.
-            </summary>
-        </member>
-        <member name="P:ONITwitchLib.EventInterface.TwitchDeckManagerType">
-            <summary>
-            Only safe to access if the Twitch mod is active.
-            </summary>
-        </member>
-        <member name="P:ONITwitchLib.EventInterface.EventGroupType">
-            <summary>
-            Only safe to access if the Twitch mod is active.
+            Provides a way to obtain a method by its id.
             </summary>
         </member>
         <member name="P:ONITwitchLib.EventManager.Instance">
@@ -149,6 +397,112 @@
             <param name="eventNamespace">The namespace for the ID</param>
             <param name="id">The ID to look for</param>
             <returns>An <see cref="T:ONITwitchLib.EventInfo"/> representing the event, if the ID is found, or <c>null</c> otherwise.</returns>
+        </member>
+        <member name="T:ONITwitchLib.ExtraTags">
+            <summary>
+            Additional tags that the Twitch mod uses
+            </summary>
+        </member>
+        <member name="F:ONITwitchLib.ExtraTags.SurpriseBoxForceEnabled">
+            <summary>
+            A tag that explicitly enables prefabs to be spawned by the Surprise Box, even if it would not by default.
+            </summary>
+        </member>
+        <member name="F:ONITwitchLib.ExtraTags.SurpriseBoxForceDisabled">
+            <summary>
+            A tag that explicitly stops prefabs from being spawned by the Surprise Box, even if the prefab could by default.
+            </summary>
+        </member>
+        <member name="T:ONITwitchLib.IRC.TwitchUserInfo">
+            <summary>
+            Information about a user, from their most recent chat message.  Primary key is the <paramref name="UserId"/>.
+            </summary>
+            <param name="UserId">The Twitch-assigned stable ID for this user.</param>
+            <param name="DisplayName">The current display name.</param>
+            <param name="NameColor">The current name color, if it exists.</param>
+            <param name="IsModerator">Whether this user is a moderator.</param>
+            <param name="IsSubscriber">Whether this user is a subscriber.</param>
+            <param name="IsVip">Whether this user is a VIP.</param>
+        </member>
+        <member name="M:ONITwitchLib.IRC.TwitchUserInfo.#ctor(System.String,System.String,System.Nullable{UnityEngine.Color32},System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Information about a user, from their most recent chat message.  Primary key is the <paramref name="UserId"/>.
+            </summary>
+            <param name="UserId">The Twitch-assigned stable ID for this user.</param>
+            <param name="DisplayName">The current display name.</param>
+            <param name="NameColor">The current name color, if it exists.</param>
+            <param name="IsModerator">Whether this user is a moderator.</param>
+            <param name="IsSubscriber">Whether this user is a subscriber.</param>
+            <param name="IsVip">Whether this user is a VIP.</param>
+        </member>
+        <member name="P:ONITwitchLib.IRC.TwitchUserInfo.UserId">
+            <summary>The Twitch-assigned stable ID for this user.</summary>
+        </member>
+        <member name="P:ONITwitchLib.IRC.TwitchUserInfo.DisplayName">
+            <summary>The current display name.</summary>
+        </member>
+        <member name="P:ONITwitchLib.IRC.TwitchUserInfo.NameColor">
+            <summary>The current name color, if it exists.</summary>
+        </member>
+        <member name="P:ONITwitchLib.IRC.TwitchUserInfo.IsModerator">
+            <summary>Whether this user is a moderator.</summary>
+        </member>
+        <member name="P:ONITwitchLib.IRC.TwitchUserInfo.IsSubscriber">
+            <summary>Whether this user is a subscriber.</summary>
+        </member>
+        <member name="P:ONITwitchLib.IRC.TwitchUserInfo.IsVip">
+            <summary>Whether this user is a VIP.</summary>
+        </member>
+        <member name="M:ONITwitchLib.IRC.TwitchUserInfo.Equals(ONITwitchLib.IRC.TwitchUserInfo)">
+            <summary>
+            Compares this <see cref="T:ONITwitchLib.IRC.TwitchUserInfo"/> with another by their underlying <see cref="P:ONITwitchLib.IRC.TwitchUserInfo.UserId"/>.
+            </summary>
+            <param name="other">The other <see cref="T:ONITwitchLib.IRC.TwitchUserInfo"/> to compare.</param>
+            <returns>Whether the <see cref="P:ONITwitchLib.IRC.TwitchUserInfo.UserId"/> of two <see cref="T:ONITwitchLib.IRC.TwitchUserInfo"/> are equal.</returns>
+        </member>
+        <member name="M:ONITwitchLib.IRC.TwitchUserInfo.GetHashCode">
+            <summary>
+            Gets a hash code for this <see cref="T:ONITwitchLib.IRC.TwitchUserInfo"/> by its <see cref="P:ONITwitchLib.IRC.TwitchUserInfo.UserId"/>.
+            </summary>
+            <returns>A hash code for the object.</returns>
+        </member>
+        <member name="T:ONITwitchLib.ListExt">
+            <summary>
+            Provides additional utilities for working with lists.
+            </summary>
+        </member>
+        <member name="M:ONITwitchLib.ListExt.ShuffleList``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Shuffles a list in-place using the Fisher-Yates algorithm.
+            </summary>
+            <param name="list">The list to shuffle.</param>
+            <remarks>
+            This may be called from any thread.
+            This operation is O(n).
+            </remarks>
+        </member>
+        <member name="T:ONITwitchLib.Logger.Log">
+            <summary>
+            Provides methods for emitting log messages from the Twitch mod.
+            </summary>
+        </member>
+        <member name="M:ONITwitchLib.Logger.Log.Debug(System.Object)">
+            <summary>
+            Prints a debug message to the log if the DEBUG symbol is set.
+            </summary>
+            <param name="msg">The object to print.</param>
+        </member>
+        <member name="M:ONITwitchLib.Logger.Log.Info(System.Object)">
+            <summary>
+            Prints a message at the INFO level
+            </summary>
+            <param name="msg">The object to print.</param>
+        </member>
+        <member name="M:ONITwitchLib.Logger.Log.Warn(System.Object)">
+            <summary>
+            Prints a message at the WARN level
+            </summary>
+            <param name="msg">The object to print.</param>
         </member>
         <member name="T:ONITwitchLib.ThreadRandom">
             <summary>
@@ -184,20 +538,25 @@
             <summary>Returns a random floating-point number that is greater than or equal to 0.0, and less than 1.0.</summary>
             <returns>A double-precision floating point number that is greater than or equal to 0.0, and less than 1.0.</returns>
         </member>
+        <member name="T:ONITwitchLib.ToastManager">
+            <summary>
+            Provides methods for creating toasts.
+            </summary>
+        </member>
         <member name="M:ONITwitchLib.ToastManager.InstantiateToast(System.String,System.String)">
             <summary>
             Creates a toast with a tile and a body.
             </summary>
-            <param name="title">The title for the toast</param>
-            <param name="body">The body for the toast</param>
+            <param name="title">The title text for the toast.</param>
+            <param name="body">The body text for the toast.</param>
             <returns>The newly created toast's <see cref="T:UnityEngine.GameObject"/>.</returns>
         </member>
         <member name="M:ONITwitchLib.ToastManager.InstantiateToastWithPosTarget(System.String,System.String,UnityEngine.Vector3)">
             <summary>
             Creates a toast with a tile and a body, that targets a position when clicked.
             </summary>
-            <param name="title">The title for the toast</param>
-            <param name="body">The body for the toast</param>
+            <param name="title">The title text for the toast.</param>
+            <param name="body">The body text for the toast.</param>
             <param name="pos">The position to target on click</param>
             <returns>The newly created toast's <see cref="T:UnityEngine.GameObject"/>.</returns>
         </member>
@@ -205,14 +564,24 @@
             <summary>
             Creates a toast with a tile and a body, that selects a <see cref="T:UnityEngine.GameObject"/> when clicked.
             </summary>
-            <param name="title">The title for the toast</param>
-            <param name="body">The body for the toast</param>
+            <param name="title">The title text for the toast.</param>
+            <param name="body">The body text for the toast.</param>
             <param name="target">The <see cref="T:UnityEngine.GameObject"/> to target on click</param>
             <returns>The newly created toast's <see cref="T:UnityEngine.GameObject"/>.</returns>
         </member>
         <member name="T:ONITwitchLib.TwitchModInfo">
             <summary>
             Various information about the Twitch mod, primarily for integrations.
+            </summary>
+        </member>
+        <member name="F:ONITwitchLib.TwitchModInfo.ModPrefix">
+            <summary>
+            The prefix that the twitch mod uses for IDs, with a few exceptions
+            </summary>
+        </member>
+        <member name="F:ONITwitchLib.TwitchModInfo.StaticID">
+            <summary>
+            The static ID of the Twitch mod.
             </summary>
         </member>
         <member name="P:ONITwitchLib.TwitchModInfo.TwitchIsPresent">
@@ -233,55 +602,259 @@
             Only valid if the Twitch mod is active.
             </summary>
         </member>
-        <member name="F:ONITwitchLib.TwitchModInfo.CredentialsPath">
+        <member name="F:ONITwitchLib.TwitchModInfo.ConfigName">
             <summary>
-            Only valid if the Twitch mod is active.
+            The filename of the config file containing the main Twitch mod config.
             </summary>
         </member>
         <member name="F:ONITwitchLib.TwitchModInfo.ConfigPath">
             <summary>
+            The path to the config file containing the main Twitch mod config.
             Only valid if the Twitch mod is active.
             </summary>
         </member>
-        <member name="T:ONITwitchLib.TwitchUserInfo">
+        <member name="T:ONITwitchLib.Utils.ColorUtil">
             <summary>
-            Information about a user, from their most recent chat message.  Primary key is the <paramref name="UserId"/>.
+            Methods and values related to common colors or operations.
             </summary>
-            <param name="UserId">The Twitch-assigned stable ID for this user</param>
-            <param name="DisplayName">The current display name</param>
-            <param name="NameColor">The current name color, if it exists</param>
-            <param name="IsModerator">Whether this user is a moderator</param>
-            <param name="IsSubscriber">Whether this user is a subscriber</param>
-            <param name="IsVip">Whether this user is a VIP</param>
         </member>
-        <member name="M:ONITwitchLib.TwitchUserInfo.#ctor(System.String,System.String,System.Nullable{UnityEngine.Color32},System.Boolean,System.Boolean,System.Boolean)">
+        <member name="F:ONITwitchLib.Utils.ColorUtil.RedWarningColor">
             <summary>
-            Information about a user, from their most recent chat message.  Primary key is the <paramref name="UserId"/>.
+            The color used to signal a warning.
             </summary>
-            <param name="UserId">The Twitch-assigned stable ID for this user</param>
-            <param name="DisplayName">The current display name</param>
-            <param name="NameColor">The current name color, if it exists</param>
-            <param name="IsModerator">Whether this user is a moderator</param>
-            <param name="IsSubscriber">Whether this user is a subscriber</param>
-            <param name="IsVip">Whether this user is a VIP</param>
         </member>
-        <member name="P:ONITwitchLib.TwitchUserInfo.UserId">
-            <summary>The Twitch-assigned stable ID for this user</summary>
+        <member name="F:ONITwitchLib.Utils.ColorUtil.GreenSuccessColor">
+            <summary>
+            The color used to signal a success.
+            </summary>
         </member>
-        <member name="P:ONITwitchLib.TwitchUserInfo.DisplayName">
-            <summary>The current display name</summary>
+        <member name="M:ONITwitchLib.Utils.ColorUtil.TryParseHexString(System.String,UnityEngine.Color@)">
+            <summary>
+            Parses a string with a hex color into a <see cref="T:UnityEngine.Color"/>.
+            </summary>
+            <param name="colorString">The string containing a color value in hex.</param>
+            <param name="color">The output <see cref="T:UnityEngine.Color"/> if the color was successfully parsed.</param>
+            <returns><see langword="true"/> if the color was parsed, otherwise <see langword="false"/></returns>
         </member>
-        <member name="P:ONITwitchLib.TwitchUserInfo.NameColor">
-            <summary>The current name color, if it exists</summary>
+        <member name="T:ONITwitchLib.Utils.DelegateUtil">
+            <summary>
+            Utilities for creating delegates.
+            Incorrect types are not enforced at compile time, and will turn into a cast exception at runtime.
+            </summary>
         </member>
-        <member name="P:ONITwitchLib.TwitchUserInfo.IsModerator">
-            <summary>Whether this user is a moderator</summary>
+        <member name="M:ONITwitchLib.Utils.DelegateUtil.CreateDelegate``1(System.Reflection.MethodInfo,System.Object)">
+            <summary>
+            Creates a delegate from a <see cref="T:System.Reflection.MethodInfo"/> and an optional <see langword ="this"/> object.
+            </summary>
+            <param name="methodInfo">The method to create a delegate for.</param>
+            <param name="arg0">
+            The <see langword ="this"/> object for the delegate, or <see langword="null"/> if
+            it is a <see langword="static"/> method.
+            </param>
+            <typeparam name="T">The type of the returned delegate.</typeparam>
+            <returns>A delegate that will call the specified method.</returns>
         </member>
-        <member name="P:ONITwitchLib.TwitchUserInfo.IsSubscriber">
-            <summary>Whether this user is a subscriber</summary>
+        <member name="M:ONITwitchLib.Utils.DelegateUtil.CreateRuntimeTypeActionDelegate(System.Reflection.MethodInfo,System.Object,System.Type)">
+            <summary>
+            Creates a <see cref="T:System.Action`1"/> delegate for a method with its generic types replaced
+            with <see langword="object"/>, with the real type determined at runtime. 
+            </summary>
+            <param name="methodInfo">The method to call.</param>
+            <param name="arg0">The optional <see langword ="this"/> object for the delegate.</param>
+            <param name="arg1Type">The <see cref="T:System.Type"/> of the first argument to the method.</param>
+            <returns>A delegate that calls the specified method, but accepts any type at compile time.</returns>
+            <remarks>
+            This is relatively expensive as a one-time cost, but still significantly faster than
+            <see cref="M:System.Reflection.MethodBase.Invoke(System.Object,System.Object[])"/> if used several times.
+            </remarks>
+            <remarks>
+            This method can create unbound delegates so that the instance passed can vary, by using no
+            <see langword ="this"/> object and using it as the first argument instead.
+            </remarks>
         </member>
-        <member name="P:ONITwitchLib.TwitchUserInfo.IsVip">
-            <summary>Whether this user is a VIP</summary>
+        <member name="M:ONITwitchLib.Utils.DelegateUtil.CreateRuntimeTypeActionDelegate(System.Reflection.MethodInfo,System.Object,System.Type,System.Type)">
+            <summary>
+            Creates a <see cref="T:System.Action`2"/> delegate for a method with its generic types replaced
+            with <see langword="object"/>, with the real type determined at runtime. 
+            </summary>
+            <param name="methodInfo">The method to call.</param>
+            <param name="arg0">The optional <see langword ="this"/> object for the delegate.</param>
+            <param name="arg1Type">The <see cref="T:System.Type"/> of the first argument to the method.</param>
+            <param name="arg2Type">The <see cref="T:System.Type"/> of the second argument to the method.</param>
+            <returns>A delegate that calls the specified method, but accepts any type at compile time.</returns>
+            <remarks>
+            This is relatively expensive as a one-time cost, but still significantly faster than
+            <see cref="M:System.Reflection.MethodBase.Invoke(System.Object,System.Object[])"/> if used several times.
+            </remarks>
+            <remarks>
+            This method can create unbound delegates so that the instance passed can vary, by using no
+            <see langword ="this"/> object and using it as the first argument instead.
+            </remarks>
+        </member>
+        <member name="M:ONITwitchLib.Utils.DelegateUtil.CreateRuntimeTypeActionDelegate(System.Reflection.MethodInfo,System.Object,System.Type,System.Type,System.Type)">
+            <summary>
+            Creates a <see cref="T:System.Action`3"/> delegate for a method with its generic types replaced
+            with <see langword="object"/>, with the real type determined at runtime. 
+            </summary>
+            <param name="methodInfo">The method to call.</param>
+            <param name="arg0">The optional <see langword ="this"/> object for the delegate.</param>
+            <param name="arg1Type">The <see cref="T:System.Type"/> of the first argument to the method.</param>
+            <param name="arg2Type">The <see cref="T:System.Type"/> of the second argument to the method.</param>
+            <param name="arg3Type">The <see cref="T:System.Type"/> of the third argument to the method.</param>
+            <returns>A delegate that calls the specified method, but accepts any type at compile time.</returns>
+            <remarks>
+            This is relatively expensive as a one-time cost, but still significantly faster than
+            <see cref="M:System.Reflection.MethodBase.Invoke(System.Object,System.Object[])"/> if used several times.
+            </remarks>
+            <remarks>
+            This method can create unbound delegates so that the instance passed can vary, by using no
+            <see langword ="this"/> object and using it as the first argument instead.
+            </remarks>
+        </member>
+        <member name="M:ONITwitchLib.Utils.DelegateUtil.CreateRuntimeTypeActionDelegate(System.Reflection.MethodInfo,System.Object,System.Type,System.Type,System.Type,System.Type)">
+            <summary>
+            Creates a <see cref="T:System.Action`4"/> delegate for a method with its generic types replaced
+            with <see langword="object"/>, with the real type determined at runtime. 
+            </summary>
+            <param name="methodInfo">The method to call.</param>
+            <param name="arg0">The optional <see langword ="this"/> object for the delegate.</param>
+            <param name="arg1Type">The <see cref="T:System.Type"/> of the first argument to the method.</param>
+            <param name="arg2Type">The <see cref="T:System.Type"/> of the second argument to the method.</param>
+            <param name="arg3Type">The <see cref="T:System.Type"/> of the third argument to the method.</param>
+            <param name="arg4Type">The <see cref="T:System.Type"/> of the fourth argument to the method.</param>
+            <returns>A delegate that calls the specified method, but accepts any type at compile time.</returns>
+            <remarks>
+            This is relatively expensive as a one-time cost, but still significantly faster than
+            <see cref="M:System.Reflection.MethodBase.Invoke(System.Object,System.Object[])"/> if used several times.
+            </remarks>
+            <remarks>
+            This method can create unbound delegates so that the instance passed can vary, by using no
+            <see langword ="this"/> object and using it as the first argument instead.
+            </remarks>
+        </member>
+        <member name="M:ONITwitchLib.Utils.DelegateUtil.CreateRuntimeTypeFuncDelegate(System.Reflection.MethodInfo,System.Object,System.Type)">
+            <summary>
+            Creates a <see cref="T:System.Func`1"/> delegate for a method with its generic types replaced
+            with <see langword="object"/>, with the real type determined at runtime. 
+            </summary>
+            <param name="methodInfo">The method to call.</param>
+            <param name="arg0">The optional <see langword ="this"/> object for the delegate.</param>
+            <param name="retType">The return <see cref="T:System.Type"/> of the method.</param>
+            <returns>A delegate that calls the specified method, but accepts any type at compile time.</returns>
+            <remarks>
+            This is relatively expensive as a one-time cost, but still significantly faster than
+            <see cref="M:System.Reflection.MethodBase.Invoke(System.Object,System.Object[])"/> if used several times.
+            </remarks>
+            <remarks>
+            This method can create unbound delegates so that the instance passed can vary, by using no
+            <see langword ="this"/> object and using it as the first argument instead.
+            </remarks>
+        </member>
+        <member name="M:ONITwitchLib.Utils.DelegateUtil.CreateRuntimeTypeFuncDelegate(System.Reflection.MethodInfo,System.Object,System.Type,System.Type)">
+            <summary>
+            Creates a <see cref="T:System.Func`2"/> delegate for a method with its generic types replaced
+            with <see langword="object"/>, with the real type determined at runtime. 
+            </summary>
+            <param name="methodInfo">The method to call.</param>
+            <param name="arg0">The optional <see langword ="this"/> object for the delegate.</param>
+            <param name="arg1Type">The <see cref="T:System.Type"/> of the first argument to the method.</param>
+            <param name="retType">The return <see cref="T:System.Type"/> of the method.</param>
+            <returns>A delegate that calls the specified method, but accepts any type at compile time.</returns>
+            <remarks>
+            This is relatively expensive as a one-time cost, but still significantly faster than
+            <see cref="M:System.Reflection.MethodBase.Invoke(System.Object,System.Object[])"/> if used several times.
+            </remarks>
+            <remarks>
+            This method can create unbound delegates so that the instance passed can vary, by using no
+            <see langword ="this"/> object and using it as the first argument instead.
+            </remarks>
+        </member>
+        <member name="M:ONITwitchLib.Utils.DelegateUtil.CreateRuntimeTypeFuncDelegate(System.Reflection.MethodInfo,System.Object,System.Type,System.Type,System.Type)">
+            <summary>
+            Creates a <see cref="T:System.Func`3"/> delegate for a method with its generic types replaced
+            with <see langword="object"/>, with the real type determined at runtime. 
+            </summary>
+            <param name="methodInfo">The method to call.</param>
+            <param name="arg0">The optional <see langword ="this"/> object for the delegate.</param>
+            <param name="arg1Type">The <see cref="T:System.Type"/> of the first argument to the method.</param>
+            <param name="arg2Type">The <see cref="T:System.Type"/> of the second argument to the method.</param>
+            <param name="retType">The return <see cref="T:System.Type"/> of the method.</param>
+            <returns>A delegate that calls the specified method, but accepts any type at compile time.</returns>
+            <remarks>
+            This is relatively expensive as a one-time cost, but still significantly faster than
+            <see cref="M:System.Reflection.MethodBase.Invoke(System.Object,System.Object[])"/> if used several times.
+            </remarks>
+            <remarks>
+            This method can create unbound delegates so that the instance passed can vary, by using no
+            <see langword ="this"/> object and using it as the first argument instead.
+            </remarks>
+        </member>
+        <member name="M:ONITwitchLib.Utils.DelegateUtil.CreateRuntimeTypeFuncDelegate(System.Reflection.MethodInfo,System.Object,System.Type,System.Type,System.Type,System.Type)">
+            <summary>
+            Creates a <see cref="T:System.Func`4"/> delegate for a method with its generic types replaced
+            with <see langword="object"/>, with the real type determined at runtime. 
+            </summary>
+            <param name="methodInfo">The method to call.</param>
+            <param name="arg0">The optional <see langword ="this"/> object for the delegate.</param>
+            <param name="arg1Type">The <see cref="T:System.Type"/> of the first argument to the method.</param>
+            <param name="arg2Type">The <see cref="T:System.Type"/> of the second argument to the method.</param>
+            <param name="arg3Type">The <see cref="T:System.Type"/> of the third argument to the method.</param>
+            <param name="retType">The return <see cref="T:System.Type"/> of the method.</param>
+            <returns>A delegate that calls the specified method, but accepts any type at compile time.</returns>
+            <remarks>
+            This is relatively expensive as a one-time cost, but still significantly faster than
+            <see cref="M:System.Reflection.MethodBase.Invoke(System.Object,System.Object[])"/> if used several times.
+            </remarks>
+            <remarks>
+            This method can create unbound delegates so that the instance passed can vary, by using no
+            <see langword ="this"/> object and using it as the first argument instead.
+            </remarks>
+        </member>
+        <member name="M:ONITwitchLib.Utils.DelegateUtil.CreateRuntimeTypeConstructorDelegate(System.Reflection.ConstructorInfo,System.Type)">
+            <summary>
+            Creates a <see cref="T:System.Func`2"/> delegate for a constructor with its generic types replaced
+            with <see langword="object"/>, with the real type determined at runtime. 
+            </summary>
+            <param name="constructorInfo">The constructor to call.</param>
+            <param name="arg1Ty">The <see cref="T:System.Type"/> of the first argument to the constructor.</param>
+            <returns>A delegate that calls the specified method, but accepts any type at compile time.</returns>
+            <remarks>
+            This is relatively expensive as a one-time cost, but still significantly faster than
+            <see cref="M:System.Reflection.MethodBase.Invoke(System.Object,System.Object[])"/> if used several times.
+            </remarks>
+            <remarks>
+            This method can create unbound delegates so that the instance passed can vary, by using no
+            <see langword ="this"/> object and using it as the first argument instead.
+            </remarks>
+        </member>
+        <member name="T:ONITwitchLib.Utils.DialogUtil">
+            <summary>
+            Methods to create pop up dialogs.
+            </summary>
+        </member>
+        <member name="M:ONITwitchLib.Utils.DialogUtil.MakeDialog(System.String,System.String,System.String,System.Action)">
+            <summary>
+            Creates a dialog with only a confirm action.
+            </summary>
+            <param name="title">The title of the dialog.</param>
+            <param name="text">The message in the body of the dialog.</param>
+            <param name="confirmText">The text on the confirm button.</param>
+            <param name="onConfirm">If not <see langword="null"/>, the action to call when the confirm button is pressed.</param>
+            <returns>The newly created dialog.</returns>
+        </member>
+        <member name="M:ONITwitchLib.Utils.DialogUtil.MakeDialog(System.String,System.String,System.String,System.Action,System.String,System.Action,System.String,System.Action)">
+            <summary>
+            Creates a dialog with confirm, cancel, and optionally a third button.
+            </summary>
+            <param name="title">The title of the dialog.</param>
+            <param name="text">The message in the body of the dialog.</param>
+            <param name="confirmText">The text on the confirm button.</param>
+            <param name="onConfirm">If not <see langword="null"/>, the action to call when the confirm button is pressed.</param>
+            <param name="cancelText">The text on the cancel button.</param>
+            <param name="onCancel">If not <see langword="null"/>, the action to call when the cancel button is pressed.</param>
+            <param name="thirdText">The text on the third button.</param>
+            <param name="thirdAction">If not <see langword="null"/>, the action to call when the third button is pressed.</param>
+            <returns>The newly created dialog.</returns>
         </member>
         <member name="T:ONITwitchLib.Utils.ElementUtil">
             <summary>
@@ -316,6 +889,126 @@
             <param name="element">The element to find</param>
             <returns><c>true</c> if this element does exist and is currently enabled, <c>false</c> otherwise.</returns>
         </member>
+        <member name="T:ONITwitchLib.Utils.StringExtensions">
+            <summary>
+            Extensions to strings
+            </summary>
+        </member>
+        <member name="M:ONITwitchLib.Utils.StringExtensions.Colored(System.String,UnityEngine.Color)">
+            <summary>
+            Creates a string that has a color when displayed by TextMesh Pro.
+            </summary>
+            <param name="str">The string to color.</param>
+            <param name="color">The color of the string.</param>
+            <returns>A new string that has the specified color.</returns>
+        </member>
+        <member name="T:ONITwitchLib.Utils.GridUtil">
+            <summary>
+            Provides utilities for searching the <see cref="T:Grid"/>.
+            </summary>
+        </member>
+        <member name="F:ONITwitchLib.Utils.GridUtil.CellNeighbors">
+            <summary>
+            The directions that are neighbors to any cell.
+            </summary>
+        </member>
+        <member name="M:ONITwitchLib.Utils.GridUtil.GetNeighborsInBounds(System.Int32)">
+            <summary>
+            Gets all neighbors of a cell that are valid and in the same world.
+            </summary>
+            <param name="cell">The base cell.</param>
+            <returns>An enumerable of all cells that are in bounds neighbors of <paramref name="cell"/>.</returns>
+            <seealso cref="F:ONITwitchLib.Utils.GridUtil.CellNeighbors"/>
+            <seealso cref="M:Grid.IsValidCell(System.Int32)"/>
+            <seealso cref="M:Grid.AreCellsInSameWorld(System.Int32,System.Int32)"/>
+        </member>
+        <member name="M:ONITwitchLib.Utils.GridUtil.GetNeighborsWithFoundationClearance(System.Int32)">
+            <summary>
+            Gets the neighbors of a cell that do not have foundation.
+            </summary>
+            <param name="cell">The base cell.</param>
+            <returns>An enumerable of cells that are neighbors of <paramref name="cell"/> and that are clear for foundation.</returns>
+            <seealso cref="F:ONITwitchLib.Utils.GridUtil.CellNeighbors"/>
+            <seealso cref="M:ONITwitchLib.Utils.GridUtil.IsCellFoundationEmpty(System.Int32)"/>
+        </member>
+        <member name="M:ONITwitchLib.Utils.GridUtil.IsCellEmpty(System.Int32)">
+            <summary>
+            Gets whether a cell is empty of solids and foundation.
+            </summary>
+            <param name="cell">The cell to check.</param>
+            <returns>
+            <see langword="true"/> if <paramref name="cell"/> is not a foundation, is a valid cell for building,
+            and is not solid, otherwise <see langword="false"/>.
+            </returns>
+            <seealso cref="F:Grid.Foundation"/>
+            <seealso cref="M:Grid.IsValidBuildingCell(System.Int32)"/>
+            <seealso cref="M:Grid.IsSolidCell(System.Int32)"/>
+            <seealso cref="M:ONITwitchLib.Utils.GridUtil.IsCellFoundationEmpty(System.Int32)"/>
+        </member>
+        <member name="M:ONITwitchLib.Utils.GridUtil.IsCellFoundationEmpty(System.Int32)">
+            <summary>
+            Gets whether a cell is empty for the purposes of foundation and if it is not maximum hardness.
+            </summary>
+            <param name="cell">The cell to check.</param>
+            <returns>
+            <see langword="true"/> if <paramref name="cell"/> is not a foundation, is a valid cell for building,
+            and is diggable, otherwise <see langword="false"/>.
+            </returns>
+            <seealso cref="F:Grid.Foundation"/>
+            <seealso cref="M:Grid.IsValidBuildingCell(System.Int32)"/>
+            <seealso cref="F:Grid.Element"/>
+            <seealso cref="M:ONITwitchLib.Utils.GridUtil.IsCellEmpty(System.Int32)"/>
+        </member>
+        <member name="M:ONITwitchLib.Utils.GridUtil.NearestEmptyCell(System.Int32)">
+            <summary>
+            Finds the nearest empty cell within <inheritdoc cref="F:ONITwitchLib.Utils.GridUtil.NearestEmptyCellDepth"/> cells of <paramref name="baseCell"/>.
+            </summary>
+            <param name="baseCell">The cell to begin searching from.</param>
+            <returns>
+            The nearest cell that is not solid, within the same world as <paramref name="baseCell"/>,
+            or <see cref="F:Grid.InvalidCell"/> (-1) if one cannot be found in range.
+            </returns>
+            <remarks>
+            This search is based on <c>GameUtil.FloodFillFind</c>, which does a breadth first search,
+            moving out approximately equally in all directions
+            </remarks>
+            <seealso cref="M:GameUtil.FloodFillFind``1(System.Func{System.Int32,``0,System.Boolean},``0,System.Int32,System.Int32,System.Boolean,System.Boolean)"/>
+            <seealso cref="M:ONITwitchLib.Utils.GridUtil.IsCellEmpty(System.Int32)"/>
+        </member>
+        <member name="M:ONITwitchLib.Utils.GridUtil.FindCellWithCavityClearance(System.Int32)">
+            <summary>
+            Finds the nearest empty cell within <inheritdoc cref="F:ONITwitchLib.Utils.GridUtil.NearestEmptyCellDepth"/> cells of <paramref name="baseCell"/>
+            that also has all neighbors empty. 
+            </summary>
+            <param name="baseCell">The cell to begin searching from.</param>
+            <returns>
+            The nearest cell within the same world as <paramref name="baseCell"/> that is not solid and has all neighbors
+            empty, or <see cref="F:Grid.InvalidCell"/> (-1) if one cannot be found in range.
+            </returns>
+            <remarks>
+            This search is based on <c>GameUtil.FloodFillFind</c>, which does a breadth first search,
+            moving out approximately equally in all directions
+            </remarks>
+            <seealso cref="M:GameUtil.FloodFillFind``1(System.Func{System.Int32,``0,System.Boolean},``0,System.Int32,System.Int32,System.Boolean,System.Boolean)"/>
+            <seealso cref="M:ONITwitchLib.Utils.GridUtil.IsCellEmpty(System.Int32)"/>
+        </member>
+        <member name="M:ONITwitchLib.Utils.GridUtil.FindCellWithFoundationClearance(System.Int32)">
+            <summary>
+            Finds the nearest cell that does not have a foundation within <inheritdoc cref="F:ONITwitchLib.Utils.GridUtil.NearestEmptyCellDepth"/> cells
+            of <paramref name="baseCell"/> where its neighbors also all have no foundation. 
+            </summary>
+            <param name="baseCell">The cell to begin searching from.</param>
+            <returns>
+            The nearest cell within the same world as <paramref name="baseCell"/> that is not foundation and where all
+            neighbors do not have foundation, or <see cref="F:Grid.InvalidCell"/> (-1) if one cannot be found in range.
+            </returns>
+            <remarks>
+            This search is based on <c>GameUtil.FloodFillFind</c>, which does a breadth first search,
+            moving out approximately equally in all directions
+            </remarks>
+            <seealso cref="M:GameUtil.FloodFillFind``1(System.Func{System.Int32,``0,System.Boolean},``0,System.Int32,System.Int32,System.Boolean,System.Boolean)"/>
+            <seealso cref="M:ONITwitchLib.Utils.GridUtil.IsCellFoundationEmpty(System.Int32)"/>
+        </member>
         <member name="M:ONITwitchLib.Utils.GridUtil.FloodCollectCells(System.Int32,System.Func{System.Int32,System.Boolean},System.Int32,System.Collections.Generic.HashSet{System.Int32})">
             <summary>
             Collects cells by flood fill but does not favor one direction first.
@@ -326,6 +1019,185 @@
             <param name="maxSize">The maximum number of cells to collect.</param>
             <param name="invalidVisitedCells">All of the cells that were visited that were not considered valid.</param>
             <returns>A HashSet containing the cells that were valid.</returns>
+        </member>
+        <member name="M:ONITwitchLib.Utils.GridUtil.IterateCellRegion(Game.SimActiveRegion)">
+            <summary>
+            Iterates over a region of cells defined by a <see cref="T:Game.SimActiveRegion"/>.
+            </summary>
+            <param name="region">The region of cells to iterate.</param>
+            <returns>An enumerable containing every cell within the region.</returns>
+        </member>
+        <member name="M:ONITwitchLib.Utils.GridUtil.IterateCellRegion(Vector2I,Vector2I)">
+            <summary>
+            Iterates over a region of cells defined by a minimum and a maximum.
+            </summary>
+            <param name="min">The minimum bounds of the region.</param>
+            <param name="max">The maximum bounds of the region.</param>
+            <returns>An enumerable containing every cell within the region.</returns>
+        </member>
+        <member name="M:ONITwitchLib.Utils.GridUtil.ActiveSimCells">
+            <summary>
+            Iterates over all cells that the game considers currently active.
+            </summary>
+            <returns>An enumerable containing all active cells.</returns>
+            <remarks>As of Mergedown, the game activates whole planets at a time, based on whether they are discovered.</remarks>
+        </member>
+        <member name="M:ONITwitchLib.Utils.GridUtil.FindCellOpenToBuilding(System.Int32,BuildingDef,Orientation)">
+            <summary>
+            Finds the nearest cell that can have the passed <see cref="T:BuildingDef"/> built,
+            or <see cref="F:Grid.InvalidCell"/> (-1) if a cell cannot be found.
+            </summary>
+            <param name="cell">The cell to begin searching.</param>
+            <param name="building">The building to check placement for.</param>
+            <param name="orientation">The orientation of the building.</param>
+            <returns>
+            The nearest cell to <paramref name="cell"/> that can support building <paramref name="building"/> with
+            <paramref name="orientation"/> orientation.
+            </returns>
+        </member>
+        <member name="F:ONITwitchLib.Utils.GridUtil.NearestEmptyCellDepth">
+            <summary>40</summary>
+        </member>
+        <member name="T:ONITwitchLib.Utils.MathUtil">
+            <summary>
+            Utilities for math things.
+            </summary>
+        </member>
+        <member name="M:ONITwitchLib.Utils.MathUtil.ShortestDistanceModuloOne(System.Single,System.Single)">
+            <summary>
+            Gets the distance between two numbers in range [0,1), if numbers wrapped at 1.0.
+            </summary>
+            <param name="a">The first number.</param>
+            <param name="b">The second number.</param>
+            <returns>The smallest distance between the two numbers.</returns>
+            <remarks>This can be useful to determine the difference in phase between two periodic functions.</remarks>
+        </member>
+        <member name="T:ONITwitchLib.Utils.PosUtil">
+            <summary>
+            Utilities for getting relevant positions for events to use.
+            </summary>
+        </member>
+        <member name="M:ONITwitchLib.Utils.PosUtil.ClampedMouseWorldPos">
+            <summary>
+            Gets the world position of the mouse within the bounds of a world and the screen.
+            </summary>
+            <returns>The world position of the mouse, within the current active world and clamped to the screen boundaries.</returns>
+        </member>
+        <member name="M:ONITwitchLib.Utils.PosUtil.ClampedMouseCell">
+            <summary>
+            Gets the <see cref="T:Grid"/> cell that the mouse is on, within the current world and the screen.
+            </summary>
+            <returns>The cell position of the mouse, within the current active world and clamped to the screen boundaries.</returns>
+        </member>
+        <member name="M:ONITwitchLib.Utils.PosUtil.ClampedMousePosWithRange(System.Int32)">
+            <summary>
+            Gets the world position of the mouse with a range randomly applied.
+            </summary>
+            <param name="range">The radius to randomly apply to the mouse position, in world space units (1 unit = 1 cell).</param>
+            <returns>
+            A random position within <paramref name="range"/> units of the world position of the mouse,
+            within the current active world and clamped to the screen boundaries.
+            </returns>
+        </member>
+        <member name="M:ONITwitchLib.Utils.PosUtil.ClampedMouseCellWithRange(System.Int32)">
+            <summary>
+            Gets the <see cref="T:Grid"/> cell of the mouse with a range randomly applied.
+            </summary>
+            <param name="range">The radius to randomly apply to the mouse position, in world space units (1 unit = 1 cell).</param>
+            <returns>
+            A random <see cref="T:Grid"/> cell within <paramref name="range"/> units of the world position of the mouse,
+            within the current active world and clamped to the screen boundaries.
+            </returns>
+        </member>
+        <member name="M:ONITwitchLib.Utils.PosUtil.RandomCellNearMouse">
+            <summary>
+            Gets a random <see cref="T:Grid"/> cell near the current mouse position.
+            </summary>
+            <returns>A random <see cref="T:Grid"/> cell in the current world that is near the mouse.</returns>
+        </member>
+        <member name="M:ONITwitchLib.Utils.PosUtil.ClampedMouseCellWorldPos">
+            <summary>
+            Gets the world position of the <see cref="T:Grid"/> cell that the mouse is on, within the current world and the screen.
+            </summary>
+            <returns>The world position of the cell that the mouse is in, within the current active world and clamped to the screen boundaries.</returns>
+        </member>
+        <member name="M:ONITwitchLib.Utils.PosUtil.CameraMinWorldPos">
+            <summary>
+            Gets the world position of the bottom left of the area shown by the camera.
+            </summary>
+            <returns>The world position of the bottom left of the area shown by the camera.</returns>
+        </member>
+        <member name="M:ONITwitchLib.Utils.PosUtil.CameraMaxWorldPos">
+            <summary>
+            Gets the world position of the top right of the area shown by the camera.
+            </summary>
+            <returns>The world position of the top right of the area shown by the camera.</returns>
+        </member>
+        <member name="M:ONITwitchLib.Utils.PosUtil.EaseOutLerp(UnityEngine.Vector3,UnityEngine.Vector3,System.Single)">
+            <summary>
+            Interpolates between two vectors with a function that slows down as it approaches 1, but overshoots slightly and bounces back.
+            </summary>
+            <param name="a">The first vector.</param>
+            <param name="b">The second vector.</param>
+            <param name="x">The fraction of the transition to apply.</param>
+            <returns>A vector that is interpolated following the bounce back function.</returns>
+        </member>
+        <member name="M:ONITwitchLib.Utils.PosUtil.EaseOutBack(System.Single)">
+            <summary>
+            A function that on the range [0,1], moves quickly towards 1, starts to slow down, but overshoots, and then comes back to 1.
+            </summary>
+            <param name="x">The input value to the function.</param>
+            <returns>The output of the function.</returns>
+        </member>
+        <member name="T:ONITwitchLib.Utils.WorldUtil">
+            <summary>
+            Utilities for working with worlds.
+            </summary>
+        </member>
+        <member name="M:ONITwitchLib.Utils.WorldUtil.CreateWorldWithTemplate(UnityEngine.GameObject,Vector2I,System.String,System.Action{WorldContainer})">
+            <summary>
+            Allocates <see cref="T:Grid"/> space for a world and creates the world with a template, calling the callback once the template is placed.
+            </summary>
+            <param name="worldGo">The object that is an instance of a <see cref="T:ClusterGridEntity"/> to set up as the world.</param>
+            <param name="size">The size of the world to create, in cells.</param>
+            <param name="template">The template to place in the world.</param>
+            <param name="callback">If present, the callback to call after placing the template.</param>
+            <returns>The <see cref="T:WorldContainer"/> for the newly created world.</returns>
+        </member>
+        <member name="M:ONITwitchLib.Utils.WorldUtil.RefreshWorldSelector(System.Nullable{System.Int32})">
+            <summary>
+            Refreshes the specified world index in the world selector, or refreshes the entire selector if no index is provided. 
+            </summary>
+            <param name="worldIndex">The index of the world to refresh.</param>
+        </member>
+        <member name="M:ONITwitchLib.Utils.WorldUtil.AddDiagnostic(System.Int32,ColonyDiagnostic,ColonyDiagnosticUtility.DisplaySetting)">
+            <summary>
+            Adds a diagnostic to a world.
+            </summary>
+            <param name="worldIdx">The index of the world to add to.</param>
+            <param name="diagnostic">The diagnostic to add.</param>
+            <param name="displaySetting">When to display the diagnostic in the world selector.</param>
+        </member>
+        <member name="T:ONITwitchLib.WaitTimeOrSignal">
+            <summary>
+            A class for use in Unity coroutines that continues execution after a duration has elapsed, or a function signals
+            to continue, whichever comes first.
+            </summary>
+        </member>
+        <member name="M:ONITwitchLib.WaitTimeOrSignal.#ctor(System.Single,System.Func{System.Boolean})">
+            <summary>
+            Initializes the time and signal. 
+            </summary>
+            <param name="time">The amount of time, in unscaled real-time seconds to wait.</param>
+            <param name="signal">
+            A function that returns <see langword="true"/> if the wait should end early,
+            or <see langword="false"/> otherwise.
+            </param>
+        </member>
+        <member name="P:ONITwitchLib.WaitTimeOrSignal.keepWaiting">
+            <summary>
+            Whether this delay should continue to wait.
+            </summary>
         </member>
     </members>
 </doc>
