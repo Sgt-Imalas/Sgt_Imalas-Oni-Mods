@@ -12,6 +12,8 @@ namespace SetStartDupes
 {
     public class ModAssets
     {
+        public static string DupeTemplatePath;
+        public static string DupeTemplateName = "DuplicantPreset";
         public static bool EditingSingleDupe = false;
         public static MinionStartingStats _TargetStats;
 

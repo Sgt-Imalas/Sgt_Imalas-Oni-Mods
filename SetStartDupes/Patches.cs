@@ -498,6 +498,24 @@ namespace SetStartDupes
 
                 UIUtils.AddActionToButton(skinBtn.transform, "", () => DupeSkinScreenAddon.ShowSkinScreen(__instance, ___stats));
 
+                if(!(!is_starter && !StartDupeConfig.Instance.ModifyDuringGame))
+                {
+
+                    float insetDistancePresetButton =  110;
+                    ///Make skin button
+                    var PresetButton = Util.KInstantiateUI(buttonPrefab, titlebar);
+                    PresetButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, insetDistancePresetButton, PresetButton.rectTransform().sizeDelta.x);
+                    PresetButton.name = "ChangeDupeStatButton";
+                    PresetButton.GetComponent<ToolTip>().toolTip = "Load stat preset"; ///STRINGLOC!
+
+                    PresetButton.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("iconPaste");
+                    //var currentlySelectedIdentity = __instance.GetComponent<MinionIdentity>();
+
+                    UIUtils.AddActionToButton(PresetButton.transform, "", () => DupePresetScreenAddon.ShowPresetScreen(__instance, ___stats));
+                }
+
+
+
                 if (!is_starter && !StartDupeConfig.Instance.ModifyDuringGame)
                     return;
                 ///Make modify button
