@@ -27,7 +27,7 @@ namespace ClusterTraitGenerationManager
                         public class DESCRIPTOR
                         {
                             public static LocString LABEL = (LocString)"Number to generate:";
-                            public static LocString TOOLTIP = (LocString)"How many instances of these should be generated.\nValues that arent full numbers represent a chance to generate for POIs.\n(f.e. 0.8 = 80% chance to generate this POI)";
+                            public static LocString TOOLTIP = (LocString)"How many instances of these should be generated.\nValues that aren't full numbers represent a chance to generate for POIs.\n(f.e. 0.8 = 80% chance to generate this POI)";
                             public static LocString OUTPUT = (LocString)"REPLAC";
                             public class INPUT
                             {
