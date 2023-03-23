@@ -2,7 +2,7 @@
 using Klei.AI;
 using UnityEngine;
 
-namespace Heinermann.CritterTraits.Patches
+namespace CritterTraitsReborn.Patches
 {
   [HarmonyPatch(typeof(SimpleInfoScreen), "OnSelectTarget")]
   static class SimpleInfoScreen_OnSelectTarget

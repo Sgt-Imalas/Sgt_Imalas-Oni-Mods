@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using UnityEngine;
 
-namespace Heinermann.CritterTraits.Patches
+namespace CritterTraitsReborn.Patches
 {
   [HarmonyPatch(typeof(EntityTemplates), "ExtendEntityToBasicCreature")]
   class EntityTemplates_ExtendEntityToBasicCreature {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Heinermann.CritterTraits.Traits
+namespace CritterTraitsReborn.Traits
 {
   public static class AllTraits
   {
@@ -12,6 +12,7 @@ namespace Heinermann.CritterTraits.Traits
       new Fast(),
       new Fertile(),
       new Glowing(),
+      DlcManager.IsContentActive("EXPANSION1_ID") ? new Rad() : null,
       new Huge(),
       new Large(),
       new Noisy(),

@@ -1,4 +1,4 @@
-﻿namespace Heinermann.CritterTraits.Components
+﻿namespace CritterTraitsReborn.Components
 {
   class Noisy : KMonoBehaviour, ISaveLoadable, ISim4000ms
   {

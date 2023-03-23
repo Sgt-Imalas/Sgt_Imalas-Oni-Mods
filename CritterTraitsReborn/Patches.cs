@@ -12,21 +12,8 @@ using static CritterTraitsReborn.ModAssets;
 
 namespace CritterTraitsReborn
 {
-    internal class Patches
+    internal class Patches2
     {
-        /// <summary>
-        /// add buildings to plan screen
-        /// </summary>
-        [HarmonyPatch(typeof(GeneratedBuildings))]
-        [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
-        public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
-        {
-
-            public static void Prefix()
-            {
-                //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
-            }
-        }
         /// <summary>
         /// Init. auto translation
         /// </summary>

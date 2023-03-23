@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using static Klei.SimUtil;
 
-namespace Heinermann.CritterTraits.Components
+namespace CritterTraitsReborn.Components
 {
     // NOTE: Copy of the original Stinky, modified
     [SkipSaveFileSerialization]

@@ -1,29 +1,28 @@
 ﻿using Klei.AI;
 using UnityEngine;
 
-namespace Heinermann.CritterTraits.Traits
+namespace CritterTraitsReborn.Traits
 {
-  class ShortLived : TraitBuilder
-  {
-    public override string ID => "CritterShortLived";
-    public override string Name => "Short-lived";
-    public override string Description => "Has a 20% shorter lifespan.";
-
-    public override Group Group => Group.LifespanGroup;
-
-    protected override void Init()
+    class ShortLived : TraitBuilder
     {
-      TraitHelpers.CreateTrait(ID, Name, Description,
-        on_add: delegate (GameObject go)
+        public override string ID => "CritterShortLived";
+
+        public override Group Group => Group.GetGroup(Group.LifespanGroupId);
+
+        protected override void Init()
         {
-          var modifiers = go.GetComponent<Modifiers>();
-          if (modifiers != null)
-          {
-            modifiers.attributes.Add(new AttributeModifier(Db.Get().Amounts.Age.maxAttribute.Id, -0.20f, Description, is_multiplier: true));
-          }
-        },
-        positiveTrait: false
-      );
+            TraitHelpers.GetCritterTraitDesc(ID, out var Description);
+            TraitHelpers.CreateTrait(ID,
+              on_add: delegate (GameObject go)
+              {
+                  var modifiers = go.GetComponent<Modifiers>();
+                  if (modifiers != null)
+                  {
+                      modifiers.attributes.Add(new AttributeModifier(Db.Get().Amounts.Age.maxAttribute.Id, -0.20f, Description, is_multiplier: true));
+                  }
+              },
+              positiveTrait: false
+            );
+        }
     }
-  }
 }

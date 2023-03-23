@@ -27,6 +27,10 @@ namespace UtilLibs
         {
             return new Color(r / 255, g / 255, b / 255);
         }
+        public static Color rgba(float r, float g, float b,double a)
+        {
+            return new Color(r / 255, g / 255, b / 255,(float) a);
+        }
 
         public static Color Lighten(Color original, float percentage)
         {

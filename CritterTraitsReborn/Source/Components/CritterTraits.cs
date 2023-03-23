@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace Heinermann.CritterTraits.Components
+namespace CritterTraitsReborn.Components
 {
   /**
    * This class applies the necessary traits on object spawn, only if they haven't

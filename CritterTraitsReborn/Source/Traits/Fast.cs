@@ -1,18 +1,15 @@
 ﻿using UnityEngine;
 
-namespace Heinermann.CritterTraits.Traits
+namespace CritterTraitsReborn.Traits
 {
   class Fast : TraitBuilder
   {
     public override string ID => "CritterFast";
-    public override string Name => "Fast";
-    public override string Description => "Is twice as fast as its peers.";
-
-    public override Group Group => Group.SpeedGroup;
+    public override Group Group => Group.GetGroup(Group.SpeedGroupId); 
 
     protected override void Init()
     {
-      TraitHelpers.CreateTrait(ID, Name, Description,
+      TraitHelpers.CreateTrait(ID,
         on_add: delegate (GameObject go)
         {
           var navigator = go.GetComponent<Navigator>();

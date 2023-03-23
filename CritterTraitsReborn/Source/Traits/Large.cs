@@ -1,16 +1,14 @@
-﻿namespace Heinermann.CritterTraits.Traits
+﻿namespace CritterTraitsReborn.Traits
 {
   class Large : TraitBuilder
   {
     public override string ID => "CritterLarge";
-    public override string Name => "Large";
-    public override string Description => "Is 25% larger than average.";
 
-    public override Group Group => Group.SizeGroup;
+    public override Group Group => Group.GetGroup(Group.SizeGroupId);
 
     protected override void Init()
     {
-      TraitHelpers.CreateScaleTrait(ID, Name, Description, 1.25f);
+      TraitHelpers.CreateScaleTrait(ID, 1.25f);
     }
   }
 }

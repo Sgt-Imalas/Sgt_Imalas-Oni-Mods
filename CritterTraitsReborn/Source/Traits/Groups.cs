@@ -1,33 +1,59 @@
 ﻿using Klei.AI;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace Heinermann.CritterTraits.Traits
+namespace CritterTraitsReborn.Traits
 {
-  public sealed class Group
-  {
-    public static readonly Group SizeGroup = new Group("SizeGroup", 0.3f);
-    public static readonly Group NoiseGroup = new Group("NoiseGroup", 0.05f);
-    public static readonly Group SmellGroup = new Group("SmellGroup", 0.05f, inst => !inst.HasTag(GameTags.Creatures.Swimmer));
-    public static readonly Group GlowGroup = new Group("GlowGroup", 0.08f, inst => inst.GetComponent<Light2D>() == null);
-    public static readonly Group SpeedGroup = new Group("SpeedGroup", 0.2f, inst => inst.GetComponent<Navigator>() != null);
-    public static readonly Group LifespanGroup = new Group("LifespanGroup", 0.15f, inst => HasAmount(inst, Db.Get().Amounts.Age));
-    public static readonly Group FertilityGroup = new Group("FertilityGroup", 0.1f, inst => HasAmount(inst, Db.Get().Amounts.Fertility));
-
-    public Group(string id, float probability, Predicate<GameObject> requirement = null)
+    public sealed class Group
     {
-      Id = id;
-      Probability = probability;
-      HasRequirements = requirement ?? (_ => true);
+
+        public const string SizeGroupId = "SizeGroup";
+        public const string NoiseGroupId = "NoiseGroup";
+        public const string SmellGroupId = "SmellGroup";
+        public const string GlowGroupId = "GlowGroup";
+        public const string SpeedGroupId = "SpeedGroup";
+        public const string LifespanGroupId = "LifespanGroup";
+        public const string FertilityGroupId = "FertilityGroup";
+
+        public Group(string id, float probability, Predicate<GameObject> requirement = null)
+        {
+            Id = id;
+            Probability = probability;
+            HasRequirements = requirement ?? (_ => true);
+        }
+
+
+        public static Dictionary<string, Group> Groups;
+
+        public static Group GetGroup(string id)
+        {
+            if (Groups == null)
+                Init();
+            if(Groups.TryGetValue(id, out Group group)) 
+                return group;
+            return null;
+        }
+        private static void Init()
+        {
+            Groups = new Dictionary<string, Group>();
+            Groups[SizeGroupId] = new Group(SizeGroupId, 0.3f);
+            Groups[NoiseGroupId] = new Group(NoiseGroupId, 0.05f);
+            Groups[SmellGroupId] = new Group(SmellGroupId, 0.05f, inst => !inst.HasTag(GameTags.Creatures.Swimmer));
+            Groups[GlowGroupId] = new Group(GlowGroupId, DlcManager.IsContentActive("EXPANSION1_ID") ? 0.16f : 0.08f, inst => inst.GetComponent<Light2D>() == null);
+            Groups[SpeedGroupId] = new Group(SpeedGroupId, 0.2f, inst => inst.GetComponent<Navigator>() != null);
+            Groups[LifespanGroupId] = new Group(LifespanGroupId, 0.15f, inst => HasAmount(inst, Db.Get().Amounts.Age));
+            Groups[FertilityGroupId] = new Group(FertilityGroupId, 0.1f, inst => HasAmount(inst, Db.Get().Amounts.Fertility));
     }
 
-    public string Id { get; private set; }
-    public float Probability { get; private set; }
-    public Predicate<GameObject> HasRequirements { get; private set; }
+        public string Id { get; private set; }
+        public float Probability { get; private set; }
+        public Predicate<GameObject> HasRequirements { get; private set; }
 
-    private static bool HasAmount(GameObject go, Amount amount)
-    {
-      return go.GetComponent<Modifiers>()?.amounts.Has(amount) ?? false;
+
+        private static bool HasAmount(GameObject go, Amount amount)
+        {
+            return go.GetComponent<Modifiers>()?.amounts.Has(amount) ?? false;
+        }
     }
-  }
 }
