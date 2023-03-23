@@ -1,6 +1,7 @@
 ﻿using Klei.AI;
 using System;
 using UnityEngine;
+using UtilLibs;
 
 namespace CritterTraitsReborn
 {

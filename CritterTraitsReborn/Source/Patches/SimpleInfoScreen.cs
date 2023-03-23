@@ -39,7 +39,7 @@ namespace CritterTraitsReborn.Patches
           if (!Traits.AllTraits.IsSupportedTrait(trait.Id)) continue;
 
           var color = trait.PositiveTrait ? Constants.POSITIVE_COLOR : Constants.NEGATIVE_COLOR;
-          TraitsDrawer.NewLabel($"<color=#{color.ToHexString()}>{trait.Name}</color>").Tooltip(trait.GetTooltip());
+          TraitsDrawer.NewLabel($"<color=#{color.ToHexString()}>{(trait.Name)}</color>").Tooltip(trait.GetTooltip());
         }
         TraitsDrawer.EndDrawing();
       }

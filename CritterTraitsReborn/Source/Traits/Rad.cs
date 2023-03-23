@@ -14,7 +14,7 @@ namespace CritterTraitsReborn.Traits
             TraitHelpers.CreateTrait(ID,
               on_add: delegate (GameObject go)
               {
-                  float range = Random.Range(2, 6);
+                  float range = Random.Range(3, 6);
                   CritterUtil.AddObjectLight(go, UIUtils.rgba(50, 255, 50, 0.9), 2, 100);
                   CritterUtil.AddObjectRadEmitter(go, Random.Range(90,181), range);
               },
