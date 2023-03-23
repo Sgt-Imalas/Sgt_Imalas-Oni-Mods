@@ -21,38 +21,38 @@ namespace Rockets_TinyYetBig
             }
         }
 
-        [HarmonyPatch(typeof(Localization))]
-        [HarmonyPatch(nameof(Localization.WriteStringsTemplate))]
-        internal class FIX_KLEI_TEMPLATE_BUG
-        {
+        //[HarmonyPatch(typeof(Localization))]
+        //[HarmonyPatch(nameof(Localization.WriteStringsTemplate))]
+        //internal class FIX_KLEI_TEMPLATE_BUG
+        //{
 
-            private static readonly MethodInfo ConverterMethod = AccessTools.Method(
-               typeof(UnityEngine.Debug),
-               nameof(UnityEngine.Debug.LogWarning),
-               new[] {typeof(object)}
-            );
-
-
-            private static readonly MethodInfo SuitableMethodInfo = AccessTools.Method(
-                    typeof(UnityEngine.Debug),
-                    nameof(UnityEngine.Debug.LogError),
-                    new[] { typeof(object) }
-               );
-
-            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
-            {
-                var code = instructions.ToList();
-                var insertionIndex = code.FindIndex(ci => ci.operand is MethodInfo f && f == SuitableMethodInfo);
+        //    private static readonly MethodInfo ConverterMethod = AccessTools.Method(
+        //       typeof(UnityEngine.Debug),
+        //       nameof(UnityEngine.Debug.LogWarning),
+        //       new[] {typeof(object)}
+        //    );
 
 
-                if (insertionIndex != -1)
-                {
-                    //Debug.LogWarning("FOOOOOUUUUUUUNNNNNNN;");
-                    code[insertionIndex] = new CodeInstruction(OpCodes.Call, ConverterMethod);
-                }
+        //    private static readonly MethodInfo SuitableMethodInfo = AccessTools.Method(
+        //            typeof(UnityEngine.Debug),
+        //            nameof(UnityEngine.Debug.LogError),
+        //            new[] { typeof(object) }
+        //       );
 
-                return code;
-            }
-        }
+        //    static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+        //    {
+        //        var code = instructions.ToList();
+        //        var insertionIndex = code.FindIndex(ci => ci.operand is MethodInfo f && f == SuitableMethodInfo);
+
+
+        //        if (insertionIndex != -1)
+        //        {
+        //            //Debug.LogWarning("FOOOOOUUUUUUUNNNNNNN;");
+        //            code[insertionIndex] = new CodeInstruction(OpCodes.Call, ConverterMethod);
+        //        }
+
+        //        return code;
+        //    }
+        //}
     }
 }
