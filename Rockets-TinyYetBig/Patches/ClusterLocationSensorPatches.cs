@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using UtilLibs;
 
 namespace Rockets_TinyYetBig.Patches
 {
@@ -13,49 +14,39 @@ namespace Rockets_TinyYetBig.Patches
     {
         static AxialI DisabledLocation = new AxialI(999, 999);
 
-        [HarmonyPatch(typeof(ClusterLocationFilterSideScreen))]
-        [HarmonyPatch(nameof(ClusterLocationFilterSideScreen.Build))]
-        public static class AddSpecificLocation
-        {
-
-            static GameObject SpecificLocationSpaceRow;
-            public static void Postfix(ClusterLocationFilterSideScreen __instance)
-            {
-                return;
-                var locationDummy = new AxialI(2, 2); 
-                Util.KDestroyGameObject(SpecificLocationSpaceRow);
-                
-                SpecificLocationSpaceRow = Util.KInstantiateUI(__instance.rowPrefab, __instance.listContainer,true);
-
-                SpecificLocationSpaceRow.GetComponent<HierarchyReferences>().GetReference<LocText>("Label").SetText((string)"Dedicated Location: "+ locationDummy.ToString());//STRINGS.UI.UISIDESCREENS.CLUSTERLOCATIONFILTERSIDESCREEN.EMPTY_SPACE_ROW);
-                SpecificLocationSpaceRow.GetComponent<HierarchyReferences>().GetReference<Image>("Icon").sprite = Def.GetUISprite((object)"hex").first;
-                SpecificLocationSpaceRow.GetComponent<HierarchyReferences>().GetReference<Image>("Icon").color = Color.black;
-                SpecificLocationSpaceRow.GetComponent<HierarchyReferences>().GetReference<MultiToggle>("Toggle").onClick = (System.Action)(() => {
-                    __instance.sensor.SetLocationEnabled(locationDummy, !__instance.sensor.CheckLocationSelected(locationDummy));
-                    __instance.Refresh();
-                });
-            }
-        }
         [HarmonyPatch(typeof(LogicClusterLocationSensorConfig))]
         [HarmonyPatch(nameof(LogicClusterLocationSensorConfig.DoPostConfigureComplete))]
         public static class AddClusterSelector
         {
-
-            static GameObject SpecificLocationSpaceRow;
             public static void Postfix(GameObject go)
             {
                 ClusterDestinationSelector destinationSelector = go.AddOrGet<ClusterDestinationSelector>();
                 destinationSelector.assignable = true;
+
                 destinationSelector.requireAsteroidDestination = false;
                 destinationSelector.m_destination = (DisabledLocation);
+
             }
         }
+
+        [HarmonyPatch(typeof(ClusterDestinationSelector))]
+        [HarmonyPatch(nameof(ClusterDestinationSelector.OnPrefabInit))]
+        public static class DefaultDisabled
+        {
+            public static void Postfix(ClusterDestinationSelector __instance)
+            {
+                if (__instance.TryGetComponent<LogicClusterLocationSensor>(out var sensor))
+                {
+                    if (__instance.m_destination == new AxialI(0, 0))
+                        __instance.SetDestination(DisabledLocation);
+                }
+            }
+        }
+
         [HarmonyPatch(typeof(LogicClusterLocationSensor))]
         [HarmonyPatch(nameof(LogicClusterLocationSensor.CheckCurrentLocationSelected))]
         public static class AdditionalCheck
         {
-
-            static GameObject SpecificLocationSpaceRow;
             public static bool Prefix(LogicClusterLocationSensor __instance, ref bool __result)
             {
                 if(__instance.TryGetComponent<ClusterDestinationSelector>(out var selector))
@@ -69,6 +60,7 @@ namespace Rockets_TinyYetBig.Patches
                 return true;
             }
         }
+
         [HarmonyPatch(typeof(ClusterDestinationSideScreen))]
         [HarmonyPatch(nameof(ClusterDestinationSideScreen.OnClickClearDestination))]
         public static class ProperClear
