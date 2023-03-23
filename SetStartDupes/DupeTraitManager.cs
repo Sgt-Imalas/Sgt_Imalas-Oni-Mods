@@ -46,7 +46,7 @@ namespace SetStartDupes
             foreach (var skillGroup in referencedInterests)
             {
                 ActiveInterests.Add(skillGroup.Key);
-                Debug.Log(skillGroup.Key.Name + ", " + skillGroup.Value);
+                //Debug.Log(skillGroup.Key.Name + ", " + skillGroup.Value);
             }
             
             return ActiveInterests;
@@ -105,7 +105,7 @@ namespace SetStartDupes
             referencedInterests.Remove(OldSkill);
 
             
-            Debug.Log("end");
+            //Debug.Log("end");
             ///adding new boni
             foreach (var relevantAttribute in newSkill.relevantAttributes)
             {
@@ -120,11 +120,11 @@ namespace SetStartDupes
                     FallBack = dupeStatValue;
                 }
             }
-            Debug.Log("stats:: (dupestatval:" + dupeStatValue + ")");
-            foreach (var v in dupeStatPoints)
-            {
-                Debug.Log(v.Key + ", " + v.Value);
-            }
+            //Debug.Log("stats:: (dupestatval:" + dupeStatValue + ")");
+            //foreach (var v in dupeStatPoints)
+            //{
+            //    Debug.Log(v.Key + ", " + v.Value);
+            //}
             referencedInterests.Add(newSkill, 1);
             ActiveInterests[GetCurrentIndex(OldSkill.Id)] = newSkill;
         }
@@ -140,7 +140,7 @@ namespace SetStartDupes
             dupeStatPoints = startingLevels;
             foreach (var skillGroup in startingLevels)
             {
-                Debug.Log(skillGroup.Key + ", " + skillGroup.Value);
+                //Debug.Log(skillGroup.Key + ", " + skillGroup.Value);
                 if (skillGroup.Value > 0)
                 {
                     if (!IsThisANewSkill(skillGroup.Key))
@@ -282,9 +282,9 @@ namespace SetStartDupes
 
         public int GetBonusValue(int index)
         {
-            Debug.Log("Index: " + index);
+            //Debug.Log("Index: " + index);
             var relevantAttribute = ActiveInterests[index].relevantAttributes.First().Id;
-            Debug.Log(relevantAttribute);
+            //Debug.Log(relevantAttribute);
             return dupeStatPoints[relevantAttribute];
         }
     }

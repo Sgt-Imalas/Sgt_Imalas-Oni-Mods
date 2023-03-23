@@ -161,6 +161,28 @@ namespace SetStartDupes
         //    }
         //}
 
+        [HarmonyPatch(typeof(ImmigrantScreen))]
+        [HarmonyPatch(nameof(ImmigrantScreen.Initialize))]
+        public class AddRerollButtonIfEnabled
+        {
+            public static void Postfix(Telepad telepad, ImmigrantScreen __instance)
+            {
+                if (StartDupeConfig.Instance.RerollDuringGame)
+                {
+                    foreach (ITelepadDeliverableContainer container in __instance.containers)
+                    {
+                        CharacterContainer characterContainer = container as CharacterContainer;
+                        if (characterContainer != null)
+                        {
+                            characterContainer.SetReshufflingState(true);
+                        }
+                    }
+                }
+            }
+        }
+
+
+
 
 
         [HarmonyPatch(typeof(CharacterSelectionController), "InitializeContainers")]
@@ -174,6 +196,7 @@ namespace SetStartDupes
                 NextButtonPrefab.name = "CycleButtonPrefab";
             }
         }
+
 
 
         [HarmonyPatch(typeof(WattsonMessage))]
@@ -473,7 +496,7 @@ namespace SetStartDupes
                 skinBtn.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("ic_dupe");
                 //var currentlySelectedIdentity = __instance.GetComponent<MinionIdentity>();
 
-                UIUtils.AddActionToButton(skinBtn.transform, "", () => DupeSkinScreenAddon.ShowSkinScreen(__instance,___stats));
+                UIUtils.AddActionToButton(skinBtn.transform, "", () => DupeSkinScreenAddon.ShowSkinScreen(__instance, ___stats));
 
                 if (!is_starter && !StartDupeConfig.Instance.ModifyDuringGame)
                     return;

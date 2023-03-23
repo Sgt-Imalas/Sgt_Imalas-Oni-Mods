@@ -45,7 +45,7 @@ namespace CritterTraitsReborn
             public class CRITTERRAD
             {
                 public static LocString NAME = "Radioactive";
-                public static LocString DESC = "Gives off a faint, steady glow.";
+                public static LocString DESC = "This critter emitts highly dangerous radiation";
             }
 
             public class CRITTERHUGE

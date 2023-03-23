@@ -34,9 +34,24 @@ namespace SetStartDupes
             var ConfirmButton = Util.KInstantiateUI(transform.Find("PreviewColumn/LayoutBreaker/Content/ButtonsContainer/Buttons/EditOutfitButton").gameObject, transform.Find("PreviewColumn/LayoutBreaker/Content/ButtonsContainer/Buttons").gameObject, true);
             UIUtils.TryChangeText(ConfirmButton.transform, "Label", "Confirm Selection"); ///STRINGSLOC!
             UIUtils.AddActionToButton(ConfirmButton.transform, "", () => SetSelectedDupe());
-            UIUtils.AddActionToButton(ConfirmButton.transform, "", () => LockerNavigator.Instance.PopAllScreens(), false);
             StuffToActivate.Add(ConfirmButton.transform);
         }
+        public override void OnKeyDown(KButtonEvent e)
+        {
+            if (e.TryConsume(Action.Escape) || e.TryConsume(Action.MouseRight))
+            {
+                ToggleCustomScreenOff();
+            }
+
+            base.OnKeyDown(e);
+        }
+        void ToggleCustomScreenOff()
+        {
+            IsCustomActive = false;
+            ToggleUICmps();
+            LockerNavigator.Instance.PopScreen();
+        }
+
 
         public void SetSelectedDupe()
         {
@@ -44,12 +59,11 @@ namespace SetStartDupes
             MinionBrowserScreen.GridItem Selected = minionSelectionScreen.selectedGridItem;
             //EditableIdentity;
             //CurrentContainer.OnNameChanged(Selected.GetName());
-            CurrentContainer.characterNameTitle.OnEndEdit(Selected.GetName());
-            EditableIdentity.personality = Selected.GetPersonality();
             ApplySkinFromPersonality(Selected.GetPersonality(), EditableIdentity);
+            EditableIdentity.personality = Selected.GetPersonality();
+            CurrentContainer.characterNameTitle.OnEndEdit(Selected.GetName());
             CurrentContainer.SetAnimator();
-            IsCustomActive = false;
-            ToggleUICmps();
+            ToggleCustomScreenOff();
         }
 
         void ApplySkinFromPersonality(Personality personality, MinionStartingStats stats)

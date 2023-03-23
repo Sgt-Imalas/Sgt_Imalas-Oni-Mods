@@ -25,6 +25,10 @@ namespace SetStartDupes
         [JsonProperty]
         public bool ModifyDuringGame { get; set; }
 
+        [Option("Reroll Printing Pod Dupes", "Enable this option to add the reroll button to printing pod dupes.")]
+        [JsonProperty]
+        public bool RerollDuringGame { get; set; }
+
         [Option("Extra Starting Resources", "Add some extra startup resources for your additional duplicants.\nOnly goes in effect with more than 3 dupes.\nOnly accounts for extra dupes above 3.")]
         [JsonProperty]
         public bool StartupResources { get; set; }
@@ -38,6 +42,7 @@ namespace SetStartDupes
         {
             DuplicantStartAmount = 3;
             ModifyDuringGame = false;
+            RerollDuringGame = false;
             StartupResources = false;
             SupportedDays = 5;
         }
