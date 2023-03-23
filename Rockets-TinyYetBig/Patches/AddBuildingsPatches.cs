@@ -57,8 +57,11 @@ namespace RoboRockets.Rockets_TinyYetBig
                     AddRocketModuleToBuildList(CritterStasisModuleConfig.ID, RocketryUtils.RocketCategory.cargo, GasCargoBayClusterConfig.ID);
 
 
-                if (Config.Instance.EnableFridge) 
+                if (Config.Instance.EnableFridge)
+                {
                     AddRocketModuleToBuildList(FridgeModuleConfig.ID, new RocketCategory[] { RocketCategory.cargo, RocketCategory.utility }, ArtifactCargoBayConfig.ID, true);
+                    InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Food, FridgeModuleAccessHatchConfig.ID, RefrigeratorConfig.ID);
+                }
 
               
                 if (Config.Instance.EnableLaserDrill)
@@ -82,7 +85,6 @@ namespace RoboRockets.Rockets_TinyYetBig
                 if (Config.Instance.EnableBunkerPlatform)
                 {
                     InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, BunkeredLaunchPadConfig.ID, LaunchPadConfig.ID);
-                    InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, AdvancedLaunchPadConfig.ID,  LaunchPadConfig.ID);
                 }
 
                 if (Config.Instance.EnableSolarNosecone)
@@ -158,7 +160,10 @@ namespace RoboRockets.Rockets_TinyYetBig
                 //InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.AnimalControl, CritterContainmentModuleConfig.ID);
                
                 if (Config.Instance.EnableFridge)
+                {
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.FoodRepurposing, FridgeModuleConfig.ID);
+                    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.FoodRepurposing, FridgeModuleAccessHatchConfig.ID);
+                }
                 
 
                 if (Config.Instance.EnableLaserDrill)

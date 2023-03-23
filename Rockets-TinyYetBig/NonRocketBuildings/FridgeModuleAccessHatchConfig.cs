@@ -24,7 +24,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                 id: ID,
                 width: 1,
                 height: 1,
-                anim: "fridge_kanim",
+                anim: "fridge_interface_kanim",
                 hitpoints: 15,
                 construction_time: 10f,
                 construction_mass: materialMass,
@@ -39,7 +39,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             buildingDef.RequiresPowerInput = true;
             buildingDef.AddLogicPowerPort = false;
             buildingDef.EnergyConsumptionWhenActive = 60f;
-            buildingDef.SelfHeatKilowattsWhenActive = 0.125f;
+            buildingDef.SelfHeatKilowattsWhenActive = 0.0f;
             buildingDef.ExhaustKilowattsWhenActive = 0.0f;
             buildingDef.AudioCategory = "Metal";
             buildingDef.AudioSize = "small";
@@ -67,14 +67,21 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             storage.showDescriptor = true;
             storage.storageFilters = STORAGEFILTERS.FOOD;
             storage.allowItemRemoval = true;
-            storage.capacityKg = 0.5f;
+            storage.fetchCategory = Storage.FetchCategory.GeneralStorage;
+            storage.capacityKg = 1f;
             storage.showCapacityStatusItem = true;
-            go.AddComponent<RequireInputs>();
-            go.AddOrGet<TreeFilterable>();
+            go.AddOrGet<TreeFilterable>(); 
+            go.AddOrGet<FridgeModuleHatchGrabber>();
+
+            RefrigeratorController.Def def = go.AddOrGetDef<RefrigeratorController.Def>();
+            def.powerSaverEnergyUsage = 10f;
+            def.coolingHeatKW = 0.375f;
+            def.steadyHeatKW = 0.0f;
+
             go.AddOrGetDef<RocketUsageRestriction.Def>().restrictOperational = false;
+            go.AddOrGet<FoodStorage>();
             go.AddOrGetDef<StorageController.Def>();
             go.AddOrGetDef<OperationalController.Def>();
-            //go.AddOrGet<WireUtilitySemiVirtualNetworkLink>().link1 = new CellOffset(0, 0);
         }
     }
 }
