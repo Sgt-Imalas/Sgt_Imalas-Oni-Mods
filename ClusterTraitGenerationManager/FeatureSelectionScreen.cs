@@ -130,7 +130,7 @@ namespace ClusterTraitGenerationManager
         {
             if (e.TryConsume(Action.Escape) || e.TryConsume(Action.MouseRight))
             {
-                if(TraitSelectorScreen.Instance != null ? !TraitSelectorScreen.Instance.shown : true)
+                if(TraitSelectorScreen.Instance != null ? !TraitSelectorScreen.Instance.IsCurrentlyActive : true)
                     Show(show: false);
             }
 

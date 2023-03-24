@@ -118,6 +118,20 @@ namespace ClusterTraitGenerationManager
 
 
         private bool init;
+
+
+        public override void OnKeyDown(KButtonEvent e)
+        {
+            if (e.TryConsume(Action.Escape) || e.TryConsume(Action.MouseRight))
+            {
+                SgtLogger.l("CONSUMING1");
+                if (TraitSelectorScreen.Instance != null ? !TraitSelectorScreen.Instance.IsCurrentlyActive : true)
+                    OnClose.Invoke();
+            }
+
+            base.OnKeyDown(e);
+        }
+
         private void Init()
         {
             StarmapItemEnabled = transform.Find("StarmapItemEnabled").FindOrAddComponent<FToggle2>();

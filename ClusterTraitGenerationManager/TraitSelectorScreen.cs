@@ -12,16 +12,19 @@ using static ClusterTraitGenerationManager.CGSMClusterManager;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDTRAITS;
 using UnityEngine.UI;
 using STRINGS;
+using static STRINGS.BUILDINGS.PREFABS.DOOR.CONTROL_STATE;
 
 namespace ClusterTraitGenerationManager
 {
-    internal class TraitSelectorScreen: KModalScreen
+    internal class TraitSelectorScreen : FScreen
     {
         public static TraitSelectorScreen Instance { get; private set; }
 
         Dictionary<string, GameObject> Traits = new Dictionary<string, GameObject>();
         public StarmapItem SelectedPlanet;
         public static System.Action OnCloseAction;
+
+        public bool IsCurrentlyActive = false;
 
         public static void InitializeView(StarmapItem _planet, System.Action onclose)
         {
@@ -35,6 +38,8 @@ namespace ClusterTraitGenerationManager
 
             Instance.Show(true);
             Instance.SelectedPlanet = _planet;
+            Instance.ConsumeMouseScroll = true;
+            
 
             if (CustomCluster.HasStarmapItem(_planet.id, out var item))
             {
@@ -73,7 +78,6 @@ namespace ClusterTraitGenerationManager
         {
             base.OnPrefabInit();
             this.ConsumeMouseScroll = true;
-            this.canBackoutWithRightClick = true;
             
             Init();
         }
@@ -106,11 +110,33 @@ namespace ClusterTraitGenerationManager
                     {
                         item.AddWorldTrait(kvp.Value);
                     }
-                    OnCloseAction.Invoke();
-                    Show(false);
+                    CloseThis();
                 };
                 Traits[kvp.Value.filePath] = TraitHolder;
             }
+        }
+
+
+        public override void Show(bool show = true)
+        {
+            base.Show(show);
+            this.IsCurrentlyActive = show;
+        }
+        void CloseThis()
+        {
+            OnCloseAction.Invoke();
+            Show(false);
+        }
+
+        public override void OnKeyDown(KButtonEvent e)
+        {
+            if (e.TryConsume(Action.Escape) || e.TryConsume(Action.MouseRight))
+            {
+                SgtLogger.l("CONSUMING 3");
+                CloseThis();
+            }
+
+            base.OnKeyDown(e);
         }
     }
 }
