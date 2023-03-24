@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using UtilLibs;
@@ -16,7 +17,6 @@ namespace SetStartDupes
     {
         public string FileName;
         public string ConfigName;
-
         public List<string> Traits = new List<string>();
         public string stressTrait;
         public string joyTrait;
@@ -24,24 +24,7 @@ namespace SetStartDupes
         public List<KeyValuePair<string, float>> skillAptitudes = new List<KeyValuePair<string, float>>();
 
 
-        public static MinionStatConfig ReadFromFile(FileInfo filePath)
-        {
-            if (!filePath.Exists || filePath.Extension != ".json")
-            {
-                SgtLogger.logwarning("Not a valid dupe preset.");
-                return null;
-            }
-            else
-            {
-                FileStream filestream = filePath.OpenRead();
-                using (var sr = new StreamReader(filestream))
-                {
-                    string jsonString = sr.ReadToEnd();
-                    MinionStatConfig modlist = JsonConvert.DeserializeObject<MinionStatConfig>(jsonString);
-                    return modlist;
-                }
-            }
-        }
+        
 
         public void ChangenName(string newName)
         {
@@ -60,6 +43,28 @@ namespace SetStartDupes
             this.skillAptitudes = skillAptitudes.Select(kvp => new KeyValuePair<string, float> (kvp.Key.Id, kvp.Value)).ToList();
             WriteToFile();
         }
+        public MinionStatConfig() { }
+        public MinionStatConfig(string fileName, string configName, List<string> traits, string stressTrait, string joyTrait, List<KeyValuePair<string, int>> startingLevels, List<KeyValuePair<string, float>> skillAptitudes)
+        {
+            FileName = fileName;
+            ConfigName = configName;
+            Traits = traits;
+            this.stressTrait = stressTrait;
+            this.joyTrait = joyTrait;
+            StartingLevels = startingLevels;
+            this.skillAptitudes = skillAptitudes;
+            //WriteToFile();
+        }
+
+        public static string GenerateHash(string str)
+        {
+            using (var md5Hasher = MD5.Create())
+            {
+                var data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(str));
+                return BitConverter.ToString(data).Replace("-", "").Substring(0, 16);
+            }
+        }
+
 
         public static MinionStatConfig CreateFromStartingStats(MinionStartingStats startingStats,string fileName)
         {
@@ -71,13 +76,31 @@ namespace SetStartDupes
 
             List<Trait> traits = startingStats.Traits;
             var config = new MinionStatConfig(
-                fileName, fileName, 
+                fileName + GenerateHash(System.DateTime.Now.ToString()), fileName, 
                 startingStats.Traits,
                 startingStats.stressTrait,
                 startingStats.joyTrait,
                 startingStats.StartingLevels.ToList(),
                 startingStats.skillAptitudes.ToList());
             return config;
+        }
+        public static MinionStatConfig ReadFromFile(FileInfo filePath)
+        {
+            if (!filePath.Exists || filePath.Extension != ".json")
+            {
+                SgtLogger.logwarning("Not a valid dupe preset.");
+                return null;
+            }
+            else
+            {
+                FileStream filestream = filePath.OpenRead();
+                using (var sr = new StreamReader(filestream))
+                {
+                    string jsonString = sr.ReadToEnd();
+                    MinionStatConfig modlist = JsonConvert.DeserializeObject<MinionStatConfig>(jsonString);
+                    return modlist;
+                }
+            }
         }
 
         public void WriteToFile()

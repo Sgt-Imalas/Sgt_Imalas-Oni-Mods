@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 using UtilLibs;
 using static MinionBrowserScreen;
 using static STRINGS.BUILDINGS.PREFABS.DOOR.CONTROL_STATE;
@@ -21,14 +22,33 @@ namespace SetStartDupes
         public static bool IsCustomActive = false;
         List<Transform> StuffToDeactivate = new List<Transform>();
         List<Transform> StuffToActivate = new List<Transform>();
-        Dictionary<MinionStatConfig, GameObject> Presets = new Dictionary<MinionStatConfig, GameObject>();
+        Dictionary<MinionStatConfig, MultiToggle> Presets = new Dictionary<MinionStatConfig, MultiToggle>();
 
 
         GameObject AddNewButton;
+        LocText TopBarLabel;
+
+        MinionStartingStats EditableIdentity;
+        CharacterContainer CurrentContainer;
+        MinionStatConfig CurrentlySelected;
+
+        KButton Select;
+        KButton Rename;
+        KButton Delete;
+
 
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
+            Init();
+        }
+
+        private bool init =false;
+        private void Init()
+        {
+            if (init)
+                return;
+            init = true;
 
             StuffToActivate.Clear();
             StuffToActivate.Clear();
@@ -41,18 +61,42 @@ namespace SetStartDupes
             StuffToDeactivate.Add(transform.Find("PreviewColumn/LayoutBreaker/Content/SelectedItemInfo/ScrollArea/ScrollRect/Content/OutfitDescriptionContainer"));
             StuffToDeactivate.Add(transform.Find("PreviewColumn/LayoutBreaker/Content/ButtonsContainer/PickOutfitButton"));
             StuffToDeactivate.Add(transform.Find("PreviewColumn/LayoutBreaker/Content/ButtonsContainer/EditOutfitButton"));
+            StuffToDeactivate.Add(transform.Find("PreviewColumn/LayoutBreaker/Content/ButtonsContainer/RenameOutfitButton"));
+            StuffToDeactivate.Add(transform.Find("PreviewColumn/LayoutBreaker/Content/ButtonsContainer/DeleteOutfitButton"));
 
             AddNewButton = Util.KInstantiateUI(addNewButton.gameObject, transform.Find("GalleryColumn/LayoutBreaker/Content/ScrollArea/ScrollRect/Content").gameObject, true);
             UIUtils.TryChangeText(AddNewButton.transform, "Padding/Label", "Add new Preset"); ///STRINGSLOC!
             AddNewButton.GetComponent<MultiToggle>().onClick += () => CreateNewFromCurrent();
             StuffToActivate.Add(AddNewButton.transform);
 
+            TopBarLabel = transform.Find("PreviewColumn/LayoutBreaker/Header/Label").GetComponent<LocText>();
+
             var SelectPresetButton = Util.KInstantiateUI(transform.Find("PreviewColumn/LayoutBreaker/Content/ButtonsContainer/PickOutfitButton").gameObject, transform.Find("PreviewColumn/LayoutBreaker/Content/ButtonsContainer").gameObject, true);
             UIUtils.TryChangeText(SelectPresetButton.transform, "Label", "Load selected preset"); ///STRINGSLOC!
-            //UIUtils.AddActionToButton(ConfirmButton.transform, "", () => SetSelectedDupe());
+            SelectPresetButton.name = "SelectPreset";
             SelectPresetButton.transform.SetAsFirstSibling();
             StuffToActivate.Add(SelectPresetButton.transform);
+            Select = SelectPresetButton.GetComponent<KButton>();
+
+            var RenamePresetButton = Util.KInstantiateUI(transform.Find("PreviewColumn/LayoutBreaker/Content/ButtonsContainer/RenameOutfitButton").gameObject, transform.Find("PreviewColumn/LayoutBreaker/Content/ButtonsContainer").gameObject, true);
+            RenamePresetButton.name = "RenamePreset";
+            StuffToActivate.Add(RenamePresetButton.transform);
+            Rename = RenamePresetButton.GetComponent<KButton>();
+
+            var DeletePresetButton = Util.KInstantiateUI(transform.Find("PreviewColumn/LayoutBreaker/Content/ButtonsContainer/DeleteOutfitButton").gameObject, transform.Find("PreviewColumn/LayoutBreaker/Content/ButtonsContainer").gameObject, true);
+            DeletePresetButton.name = "DeletePreset";
+            //UIUtils.AddActionToButton(ConfirmButton.transform, "", () => SetSelectedDupe());
+            StuffToActivate.Add(DeletePresetButton.transform);
+            Delete = DeletePresetButton.GetComponent<KButton>();
+            Delete.onClick += () => DeleteCurrentlySelected();
+
+            Select.interactable = false;
+            Rename.interactable = false;
+            Delete.interactable = false;
+            ReloadPresets();
         }
+
+
         public override void OnKeyDown(KButtonEvent e)
         {
             if (e.TryConsume(Action.Escape) || e.TryConsume(Action.MouseRight))
@@ -72,9 +116,39 @@ namespace SetStartDupes
         void CreateNewFromCurrent()
         {
             MinionStatConfig.CreateFromStartingStats(EditableIdentity, ModAssets.DupeTemplateName + Presets.Count);
-            ToggleCustomScreenOff();
+            //ToggleCustomScreenOff();
+            ReloadPresets();
         }
 
+        void DeleteCurrentlySelected()
+        {
+            if(CurrentlySelected != null)
+            {
+                DeletePreset(CurrentlySelected);
+                CurrentlySelected= null; 
+                ReloadPresets();
+            }
+        }
+        void DeletePreset(MinionStatConfig config)
+        {
+            var files = new DirectoryInfo(ModAssets.DupeTemplatePath).GetFiles();
+            for (int i = 0; i < files.Count(); i++)
+            {
+                var File = files[i];
+                if (!File.Name.Contains(config.FileName))
+                    continue;
+
+                try
+                {
+                    File.Delete();
+                }
+                catch (Exception e)
+                {
+                    SgtLogger.logError("Couln't load minion preset from: " + File.FullName + ", Error: " + e);
+                }
+                break;
+            }
+        }
 
         List<MinionStatConfig> LoadPresets()
         {
@@ -95,12 +169,38 @@ namespace SetStartDupes
                 }
                 catch (Exception e)
                 {
-                    SgtLogger.logError("Couln't load savegamemod list from: " + File.FullName + ", Error: " + e);
+                    SgtLogger.logError("Couln't load minion preset from: " + File.FullName + ", Error: " + e);
                 }
             }
             return minionStatConfigs;
         }
 
+        void ReloadPresets()
+        {
+            Init();
+            foreach (var existing in Presets.Values)
+            {
+                Destroy(existing.gameObject);
+            }
+            Presets.Clear();
+            foreach(var loadedPreset in LoadPresets())
+            {
+                var PresetButton = Util.KInstantiateUI(AddNewButton, transform.Find("GalleryColumn/LayoutBreaker/Content/ScrollArea/ScrollRect/Content").gameObject, true);
+                UIUtils.TryChangeText(PresetButton.transform, "Padding/Label", loadedPreset.ConfigName);
+                UIUtils.ListAllChildrenWithComponents(PresetButton.transform);
+                PresetButton.transform.Find("Padding/Icon/1:1 Ratio/Icon").GetComponent<Image>().sprite = Assets.GetSprite("easy_livin");
+                var multitoggle = PresetButton.GetComponent<MultiToggle>();
+                multitoggle.onClick += () => SetAsCurrent(loadedPreset);
+                Presets[loadedPreset] = multitoggle;
+                multitoggle.ChangeState(loadedPreset == CurrentlySelected ? 1 : 0);
+            }
+        }
+
+        void SetAsCurrent (MinionStatConfig config)
+        {
+            CurrentlySelected= config;
+            TopBarLabel.text = config.ConfigName;
+        }
 
 
         public void SetSelectedDupe()
@@ -253,14 +353,14 @@ namespace SetStartDupes
         {
             foreach (Transform child in transform.Find("GalleryColumn/LayoutBreaker/Content/ScrollArea/ScrollRect/Content").transform)
             {
-                var go = child.gameObject;
-                if (Presets.Contains(go))
+                //var go = child.gameObject;
+                //if (Presets.Values.Contains(go))
+                //{
+                //    go.SetActive(IsCustomActive);
+                //}
+                //else
                 {
-                    go.SetActive(IsCustomActive);
-                }
-                else
-                {
-                    go.SetActive(!IsCustomActive);
+                    child.gameObject.SetActive(!IsCustomActive);
                 }
             }
             foreach (Transform t in StuffToDeactivate)
@@ -273,6 +373,11 @@ namespace SetStartDupes
                 SgtLogger.Assert(t.name, t);
                 t.gameObject.SetActive(IsCustomActive);
             }
+            foreach (var t in Presets.Values)
+            {
+                SgtLogger.Assert(t.name, t);
+                t.gameObject.SetActive(IsCustomActive);
+            }
         }
 
         public void InitUI(CharacterContainer container, MinionStartingStats identity)
@@ -281,8 +386,6 @@ namespace SetStartDupes
             CurrentContainer = container;
             ToggleUICmps();
         }
-        MinionStartingStats EditableIdentity;
-        CharacterContainer CurrentContainer;
 
         internal static void ShowPresetScreen(CharacterContainer container,MinionStartingStats startingStats)
         {
@@ -291,7 +394,7 @@ namespace SetStartDupes
             LockerNavigator.Instance.PushScreen(LockerNavigator.Instance.outfitBrowserScreen);
 
             instance.InitUI(container, startingStats);
-
+            //instance.ReloadPresets();
         }
         public override void OnShow(bool show)
         {

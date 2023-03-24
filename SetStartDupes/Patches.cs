@@ -708,7 +708,7 @@ namespace SetStartDupes
 
                     foreach (Trait v in referencedStats.Traits)
                     {
-                        if (v.Name == "Duplicant")
+                        if (v.Id == MinionConfig.MINION_BASE_TRAIT_ID)
                             continue;
                         var traitEntry = Util.KInstantiateUI(prefabParent, ContentContainer.gameObject, true);
                         DupeTraitMng.AddTrait(v.Id);
