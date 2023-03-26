@@ -85,7 +85,7 @@ namespace LogicSatellites.Buildings
         {
             var ownable = go.AddOrGet<Ownable>();
             ownable.tintWhenUnassigned = false;
-            ownable.slotID = Db.Get().AssignableSlots.RocketCommandModule.Id;
+            ownable.slotID = Db.Get().AssignableSlots.WarpPortal.Id;
             var mdh =go.AddOrGet<MoveDupeHereSM>();
             mdh.targetCellOffset = new CellOffset(0, 1);
         }
