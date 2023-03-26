@@ -39,6 +39,9 @@ namespace ClusterTraitGenerationManager
             }
         }
 
+        /// <summary>
+        /// adds gear button to cluster view
+        /// </summary>
         [HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
         [HarmonyPatch(nameof(ColonyDestinationSelectScreen.OnSpawn))]
         public static class InsertCustomClusterOption
@@ -58,8 +61,9 @@ namespace ClusterTraitGenerationManager
             }
         }
 
-        
-
+        /// <summary>
+        /// Regenerates Custom cluster with newly created traits on seed shuffle
+        /// </summary>
         [HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
         [HarmonyPatch(nameof(ColonyDestinationSelectScreen.ShuffleClicked))]
         public static class TraitShuffler
@@ -80,6 +84,9 @@ namespace ClusterTraitGenerationManager
             }
         }
 
+        /// <summary>
+        /// Resets Custom cluster with newly generated preset
+        /// </summary>
         [HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
         [HarmonyPatch(nameof(ColonyDestinationSelectScreen.OnAsteroidClicked))]
         public static class OnAsteroidClickedHandler
@@ -91,6 +98,10 @@ namespace ClusterTraitGenerationManager
             }
         }
 
+
+        /// <summary>
+        /// Prevents the normal cluster menu from closing when the custom cluster menu is open
+        /// </summary>
         [HarmonyPatch(typeof(NewGameFlowScreen))]
         [HarmonyPatch(nameof(NewGameFlowScreen.OnKeyDown))] 
         public static class CatchGoingBack
@@ -103,6 +114,11 @@ namespace ClusterTraitGenerationManager
             }
         }
 
+        /// <summary>
+        /// Allow planets to load into the world cache if 
+        /// - they are in a cluster (default condition)
+        /// - have "CGM"/"CGSM" in their Name (added)
+        /// </summary>
         [HarmonyPatch(typeof(Worlds))]
         [HarmonyPatch(nameof(Worlds.UpdateWorldCache))]
         public static class AllowUnusedWorldTemplatesToLoadIntoCache
@@ -136,7 +152,9 @@ namespace ClusterTraitGenerationManager
             }
         }
 
-
+        /// <summary>
+        /// Makes error msg display the actual error instead of "couldn't germinate"
+        /// </summary>
         [HarmonyPatch(typeof(WorldGen))]
         [HarmonyPatch(nameof(WorldGen.ReportWorldGenError))]
         public static class betterError
@@ -147,6 +165,9 @@ namespace ClusterTraitGenerationManager
             }
         }
 
+        /// <summary>
+        /// During Cluster generation, load traits from custom cluster instead of randomized
+        /// </summary>
         [HarmonyPatch(typeof(SettingsCache))]
         [HarmonyPatch(nameof(SettingsCache.GetRandomTraits))]
         public static class OverrideWorldTraits
@@ -156,7 +177,6 @@ namespace ClusterTraitGenerationManager
             /// </summary>
             public static bool Prefix(int seed, ProcGen.World world,ref List<string> __result)
             {
-
                 if (CGSMClusterManager.LoadCustomCluster&& CGSMClusterManager.CustomCluster !=null)
                 {
                     var traitIDs = CGSMClusterManager.CustomCluster.GiveWorldTraits(world);
@@ -180,6 +200,32 @@ namespace ClusterTraitGenerationManager
             }
         }
 
+        [HarmonyPatch(typeof(Worlds))]
+        [HarmonyPatch(nameof(Worlds.GetWorldData))]
+        public static class OverrideWorldSizeOnDataGetting
+        {
+            /// <summary>
+            /// Inserting Custom Traits
+            /// </summary>
+            public static bool Prefix(Worlds __instance, string name, ref ProcGen.World __result)
+            {
+                if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null )
+                {
+                    if (!name.IsNullOrWhiteSpace() && __instance.worldCache.TryGetValue(name, out var value))
+                    {
+                        if(CGSMClusterManager.CustomCluster.HasStarmapItem(name, out var item) && value.worldsize != item.CustomPlanetDimensions)
+                        {
+                            value.worldsize = item.CustomPlanetDimensions;
+                            SgtLogger.l("Applied custom planet size to " + item.DisplayName + ", new size: " + item.CustomPlanetDimensions.X + "x" + item.CustomPlanetDimensions.Y);
+                        }
+                        __result = value;
+                    }
+                    return false;
+                }
+                return true;
+            }
+        }
+
 
 
         [HarmonyPatch(typeof(Cluster))]
@@ -187,6 +233,10 @@ namespace ClusterTraitGenerationManager
         [HarmonyPatch(new Type[] { typeof(string), typeof(int), typeof(List<string>), typeof(bool), typeof(bool) })]
         public static class ApplyCustomGen
         {
+            /// <summary>
+            /// Setting ClusterID to custom cluster if it should load
+            /// 
+            /// </summary>
             public static void Prefix(ref string name)
             {
                 //CustomLayout
@@ -194,6 +244,7 @@ namespace ClusterTraitGenerationManager
                 {
                     if (CGSMClusterManager.CustomCluster == null)
                     {
+                        ///Generating custom cluster if null
                         CGSMClusterManager.AddCustomCluster();
                     }
                     name = CGSMClusterManager.CustomClusterID;

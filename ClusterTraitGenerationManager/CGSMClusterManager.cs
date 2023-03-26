@@ -357,7 +357,7 @@ namespace ClusterTraitGenerationManager
                 }
             }
             public string _poiID { get; private set; }
-            public Vector2I PlanetDimensions
+            public Vector2I CustomPlanetDimensions
             {
                 get
                 {
@@ -367,16 +367,25 @@ namespace ClusterTraitGenerationManager
                         dim.X = world.worldsize.X;
                         dim.Y = world.worldsize.Y;
                     }
+                    if(CustomWorldSizeX > -1)
+                    {
+                        dim.X = CustomWorldSizeX;
+                    }
+                    if (CustomWorldSizeY > -1)
+                    {
+                        dim.Y = CustomWorldSizeY;
+                    }
                     return dim;
                 }
             }
+
+            int CustomWorldSizeX = -1, CustomWorldSizeY = -1;
 
             public float InstancesToSpawn = 1;
             public float MaxNumberOfInstances = 1;
             public int minRing => placement != null ? placement.allowedRings.min : placementPOI != null ? placementPOI.allowedRings.min : -1;
             public int maxRing => placement != null ? placement.allowedRings.max : placementPOI != null ? placementPOI.allowedRings.max : -1;
             public int buffer => placement != null ? placement.buffer : -1;
-
 
 
             #region SetterMethods
