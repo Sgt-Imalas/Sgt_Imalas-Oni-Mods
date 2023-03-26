@@ -39,6 +39,6 @@ body:
           ~/Library/Logs/Klei/Oxygen Not Included/Player.log
         on Linux:
         ~/.config/unity3d/Klei/Oxygen Not Included/Player.log        
-      placeholder: Drag and drop your log file here
+      placeholder: Click in here to enable drag and drop or to either use that or the built in file selector by clicking the bottom bar afterwards. Then add your log file here
     validations:
       required: true
