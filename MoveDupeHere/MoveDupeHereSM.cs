@@ -23,15 +23,19 @@ namespace MoveDupeHere
         public bool HasDupeAssigned()
         {
             if(assignable != null)
-                return assignable.IsAssigned();
+                return assignable.IsAssigned()&& GetAssignableProxy() !=null;
             return true;
         }
-        public Navigator GetTargetNavigator()
+        public MinionAssignablesProxy GetAssignableProxy()
         {
             if (!assignable.IsAssigned())
                 return null;
             //Debug.Log("Ass: " + assignable.assignee.GetSoleOwner().GetComponent<MinionAssignablesProxy>().GetTargetGameObject());
-            return assignable.assignee.GetSoleOwner().GetComponent<MinionAssignablesProxy>().GetTargetGameObject().GetComponent<Navigator>();
+            assignable.assignee.GetSoleOwner().TryGetComponent<MinionAssignablesProxy>(out var proxy);
+            if (proxy.target is StoredMinionIdentity)
+                proxy = null;
+
+            return proxy;
         }
 
         public override void OnSpawn()
@@ -66,7 +70,7 @@ namespace MoveDupeHere
 
         public class StatesInstance : GameStateMachine<States, StatesInstance, MoveDupeHereSM>.GameInstance
         {
-            public Navigator nav;
+            public MinionAssignablesProxy minionProxy;
             public StatesInstance(MoveDupeHereSM master) : base(master)
             {
             }
@@ -132,7 +136,7 @@ namespace MoveDupeHere
                     .Enter((smi) =>
                     {
                         //Debug.Log("enter assigned");
-                        smi.nav = smi.master.GetTargetNavigator();
+                        smi.minionProxy = smi.master.GetAssignableProxy();//.GetTargetGameObject().GetComponent<Navigator>(); ;
                     })
                     .Update((smi, dt) =>
                     {
@@ -145,7 +149,7 @@ namespace MoveDupeHere
                     .EventTransition(GameHashes.OperationalChanged, Idle, smi => !smi.GetComponent<Operational>().IsOperational)
                     .Exit((smi) =>
                     {
-                        smi.nav = null;
+                        smi.minionProxy = null;
                     });
 
                 dupeAssignedStates.RedSignal
@@ -159,7 +163,10 @@ namespace MoveDupeHere
                     .EventTransition(GameHashes.ActiveChanged, dupeAssignedStates.RedSignal, smi => !smi.GetComponent<Operational>().IsActive)
                     .Enter((smi) =>
                     {
-                        smi.nav = smi.master.GetTargetNavigator();
+                        smi.minionProxy = smi.master.GetAssignableProxy();
+
+                        if (smi.minionProxy.target is StoredMinionIdentity)
+                            smi.minionProxy = null;
                     }).PlayAnim("on");
                 dupeAssignedStates.GreenSignal.MovingDupe
                     .ToggleChore(CreateChore, dupeAssignedStates.GreenSignal.DupeArrived);
@@ -169,9 +176,16 @@ namespace MoveDupeHere
             }
             public Chore CreateChore(MoveDupeHereSM.StatesInstance smi)
             {
-                MoveChore chore = new MoveChore(smi.nav, Db.Get().ChoreTypes.MoveTo, (mover_smi => smi.master.TargetCellInt));
-                chore.AddPrecondition(ChorePreconditions.instance.CanMoveToCell, (object)smi.master.TargetCellInt);
-                return (Chore)chore;
+                if(smi == null|| smi.minionProxy == null || smi.minionProxy.target is StoredMinionIdentity|| smi.master.TargetCellInt==-1) return null;
+                
+                if(smi.minionProxy.GetTargetGameObject().TryGetComponent<Navigator>(out var nav))
+                {
+                    MoveChore chore = new MoveChore(nav, Db.Get().ChoreTypes.MoveTo, (mover_smi => smi.master.TargetCellInt));
+                    chore.AddPrecondition(ChorePreconditions.instance.CanMoveToCell, (object)smi.master.TargetCellInt);
+                    return (Chore)chore;
+                }
+                return null;
+
             }
         }
 
