@@ -204,6 +204,7 @@ namespace ClusterTraitGenerationManager
         [HarmonyPatch(nameof(Worlds.GetWorldData))]
         public static class OverrideWorldSizeOnDataGetting
         {
+            static Dictionary<string, Vector2I> OriginalPlanetSizes= new Dictionary<string, Vector2I>();
             /// <summary>
             /// Inserting Custom Traits
             /// </summary>
@@ -213,11 +214,26 @@ namespace ClusterTraitGenerationManager
                 {
                     if (!name.IsNullOrWhiteSpace() && __instance.worldCache.TryGetValue(name, out var value))
                     {
-                        if(CGSMClusterManager.CustomCluster.HasStarmapItem(name, out var item) && value.worldsize != item.CustomPlanetDimensions)
+                        if (CGSMClusterManager.CustomCluster.HasStarmapItem(name, out var item) && value.worldsize != item.CustomPlanetDimensions)
                         {
-                            value.worldsize = item.CustomPlanetDimensions;
-                            SgtLogger.l("Applied custom planet size to " + item.DisplayName + ", new size: " + item.CustomPlanetDimensions.X + "x" + item.CustomPlanetDimensions.Y);
+
+                            if (!OriginalPlanetSizes.ContainsKey(name))
+                            {
+                                Vector2I newDimensions = item.CustomPlanetDimensions;
+                                SgtLogger.l(value.worldsize.ToString(), "Original World Size");
+                                OriginalPlanetSizes[name] = value.worldsize;
+                                value.worldsize = newDimensions;
+                                SgtLogger.l("Applied custom planet size to " + item.DisplayName + ", new size: " + newDimensions.X + "x" + newDimensions.Y);
+                            }
                         }
+                        else if (OriginalPlanetSizes.ContainsKey(name))
+                        {
+                            value.worldsize = OriginalPlanetSizes[name];
+                            OriginalPlanetSizes.Remove(name); 
+                        }
+                        //value.worldsize = new((int)(value.worldsize.x*0.8f), (int)(value.worldsize.y*0.8));
+                        //SgtLogger.l("Applied custom planet size to " + name);
+                        
                         __result = value;
                     }
                     return false;

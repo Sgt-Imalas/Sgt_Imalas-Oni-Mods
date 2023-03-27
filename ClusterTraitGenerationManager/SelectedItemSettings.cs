@@ -35,6 +35,7 @@ namespace ClusterTraitGenerationManager
 
         private GameObject AsteroidSize;
         private LocText AsteroidSizeLabel;
+        private FCycle PlanetSizeCycle;
         private GameObject AsteroidTraits;
         private GameObject ActiveTraitsContainer;
         private GameObject TraitPrefab;
@@ -91,8 +92,10 @@ namespace ClusterTraitGenerationManager
 
             AsteroidSize.SetActive(!isPoi);
             AsteroidTraits.SetActive(!isPoi);
-            AsteroidSizeLabel.text = string.Format(ASTEROIDSIZEINFO.INFO, current.PlanetDimensions.x, current.PlanetDimensions.y);
-           
+            AsteroidSizeLabel.text = string.Format(ASTEROIDSIZEINFO.INFO, current.CustomPlanetDimensions.x, current.CustomPlanetDimensions.y);
+            PlanetSizeCycle.Value = current.CurrentSizePreset.ToString();
+
+
             foreach (var traitContainer in Traits.Values)
             {
                 traitContainer.SetActive(false);
@@ -217,9 +220,40 @@ namespace ClusterTraitGenerationManager
             UIUtils.AddSimpleTooltipToObject(ClusterSize.transform.parent.Find("Descriptor"), STRINGS.UI.CGM.INDIVIDUALSETTINGS.CLUSTERSIZE.DESCRIPTOR.TOOLTIP);
 
 
-            AsteroidSize = transform.Find("AsteroidSizeInfo").gameObject;
-            AsteroidSizeLabel = transform.Find("AsteroidSizeInfo/Info").GetComponent<LocText>();
-            UIUtils.AddSimpleTooltipToObject(AsteroidSizeLabel.transform.parent, STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.TOOLTIP);
+            AsteroidSize = transform.Find("AsteroidSizeCycle").gameObject;
+            AsteroidSizeLabel = transform.Find("AsteroidSizeCycle/Info").GetComponent<LocText>();
+            UIUtils.AddSimpleTooltipToObject(AsteroidSizeLabel.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.TOOLTIP);
+
+
+            PlanetSizeCycle = transform.Find("AsteroidSizeCycle").gameObject.AddOrGet<FCycle>();
+            PlanetSizeCycle.Initialize(
+                PlanetSizeCycle.transform.Find("Left").gameObject.AddOrGet<FButton>(),
+                PlanetSizeCycle.transform.Find("Right").gameObject.AddOrGet<FButton>(),
+                PlanetSizeCycle.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
+                PlanetSizeCycle.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
+
+            PlanetSizeCycle.Options = new List<FCycle.Option>()
+            {
+                new FCycle.Option(WorldSizePresets.Normal.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.SIZE0, ASTEROIDSIZEINFO.SIZESELECTOR.SIZE0TOOLTIP),
+                new FCycle.Option(WorldSizePresets.SlightlyLarger.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.SIZE1, ASTEROIDSIZEINFO.SIZESELECTOR.SIZE1TOOLTIP),
+                new FCycle.Option(WorldSizePresets.Large.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.SIZE2, ASTEROIDSIZEINFO.SIZESELECTOR.SIZE2TOOLTIP),
+                new FCycle.Option(WorldSizePresets.Huge.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.SIZE3, ASTEROIDSIZEINFO.SIZESELECTOR.SIZE3TOOLTIP),
+                new FCycle.Option(WorldSizePresets.Massive.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.SIZE4, ASTEROIDSIZEINFO.SIZESELECTOR.SIZE4TOOLTIP),
+                new FCycle.Option(WorldSizePresets.Enormous.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.SIZE5, ASTEROIDSIZEINFO.SIZESELECTOR.SIZE5TOOLTIP),
+            };
+
+            PlanetSizeCycle.OnChange += () =>
+            {
+                if (lastSelected != null)
+                {
+                    if (CustomCluster.HasStarmapItem(lastSelected.id, out var current))
+                    {
+                        WorldSizePresets setTo = Enum.TryParse<WorldSizePresets>(PlanetSizeCycle.Value, out var result) ? result : WorldSizePresets.Normal;
+                        current.SetPlanetSizeToPreset(setTo);
+                        AsteroidSizeLabel.text = string.Format(ASTEROIDSIZEINFO.INFO, current.CustomPlanetDimensions.x, current.CustomPlanetDimensions.y);
+                    }
+                }
+            };
 
             AsteroidTraits = transform.Find("AsteroidTraits").gameObject;
             ActiveTraitsContainer = transform.Find("AsteroidTraits/ListView/Content").gameObject;

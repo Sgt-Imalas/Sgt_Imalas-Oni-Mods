@@ -267,6 +267,15 @@ namespace ClusterTraitGenerationManager
 
         }
 
+        public enum WorldSizePresets
+        {
+            Normal = 100,
+            SlightlyLarger = 125,
+            Large = 150,
+            Huge = 200,
+            Massive = 300,
+            Enormous=400
+        }
 
         public class StarmapItem
         {
@@ -364,22 +373,29 @@ namespace ClusterTraitGenerationManager
                     var dim = new Vector2I(0, 0);
                     if (world != null)
                     {
-                        dim.X = world.worldsize.X;
-                        dim.Y = world.worldsize.Y;
+                        dim.X = world.worldsize.X + Mathf.RoundToInt(world.worldsize.X * ((float)SizePreset - 100)/100f);
+
+                        dim.Y = world.worldsize.Y + Mathf.RoundToInt(world.worldsize.Y * ((float)SizePreset - 100) / 100f);
                     }
-                    if(CustomWorldSizeX > -1)
-                    {
-                        dim.X = CustomWorldSizeX;
-                    }
-                    if (CustomWorldSizeY > -1)
-                    {
-                        dim.Y = CustomWorldSizeY;
-                    }
+                    //if(CustomWorldSizeX > -1)
+                    //{
+                    //    dim.X = CustomWorldSizeX;
+                    //}
+                    //if (CustomWorldSizeY > -1)
+                    //{
+                    //    dim.Y = CustomWorldSizeY;
+                    //}
                     return dim;
                 }
             }
 
-            int CustomWorldSizeX = -1, CustomWorldSizeY = -1;
+            //int CustomWorldSizeX = -1, CustomWorldSizeY = -1;
+            WorldSizePresets SizePreset = WorldSizePresets.Normal;
+            public WorldSizePresets CurrentSizePreset => SizePreset;
+            public void SetPlanetSizeToPreset(WorldSizePresets preset)
+            {
+                SizePreset = preset;
+            }
 
             public float InstancesToSpawn = 1;
             public float MaxNumberOfInstances = 1;
