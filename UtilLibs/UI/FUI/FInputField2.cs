@@ -16,6 +16,16 @@ namespace UtilLibs.UIcmp //Source: Aki
 
         private bool initialized;
 
+        private bool DataTextUpdate = false;
+        public void EditTextFromData(string newText)
+        {
+            DataTextUpdate = true;
+            Text = newText;
+            //inputField.ForceLabelUpdate();
+
+            DataTextUpdate = false;
+        }
+
         public bool IsEditing()
         {
             return isEditing;
@@ -36,7 +46,7 @@ namespace UtilLibs.UIcmp //Source: Aki
                     initialized = true;
                 }
 
-             SgtLogger.debuglog("setting text " + value);
+             //SgtLogger.debuglog("setting text " + value);
              SgtLogger.Assert("inputField", inputField);
              SgtLogger.Assert("textViewport", inputField.textViewport);
              SgtLogger.Assert("textcomponent", inputField.textComponent);

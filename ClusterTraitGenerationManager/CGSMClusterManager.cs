@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using Database;
+using HarmonyLib;
 using Klei.AI;
 using Klei.CustomSettings;
 using ProcGen;
@@ -28,6 +29,7 @@ using static STRINGS.NAMEGEN;
 using static STRINGS.UI.CLUSTERMAP;
 using static STRINGS.UI.FRONTEND;
 using static UnityEngine.UI.AspectRatioFitter;
+using static WoundMonitor;
 
 namespace ClusterTraitGenerationManager
 {
@@ -269,13 +271,31 @@ namespace ClusterTraitGenerationManager
 
         public enum WorldSizePresets
         {
+            //Tiny = 25,
+            //Smaller = 40,
+            //Small = 55,
+            //SlightlySmaller = 75,
+
+            Custom = -1,
             Normal = 100,
             SlightlyLarger = 125,
             Large = 150,
             Huge = 200,
             Massive = 300,
-            Enormous=400
+            Enormous = 400
         }
+        public enum WorldRatioPresets
+        {
+            Custom = -1,
+            LotWider = 70,
+            Wider = 80,
+            SlightlyWider = 90,
+            Normal = 100,
+            SlightlyTaller = 110,
+            Taller = 120,
+            LotTaller = 130
+        }
+
 
         public class StarmapItem
         {
@@ -366,16 +386,64 @@ namespace ClusterTraitGenerationManager
                 }
             }
             public string _poiID { get; private set; }
+
+            //private float XYratio = -1f;
             public Vector2I CustomPlanetDimensions
             {
+
                 get
                 {
+                    if (UsingCustomDimensions)
+                    {
+                        return new(CustomX, CustomY);
+                    }
+
+
                     var dim = new Vector2I(0, 0);
+                    
                     if (world != null)
                     {
-                        dim.X = world.worldsize.X + Mathf.RoundToInt(world.worldsize.X * ((float)SizePreset - 100)/100f);
+                        float sizePercentage = (float)SizePreset / 100f;
+                        float ratioModifier = 0;
 
-                        dim.Y = world.worldsize.Y + Mathf.RoundToInt(world.worldsize.Y * ((float)SizePreset - 100) / 100f);
+                        bool? ChooseHeight = null;
+
+                        int intRatio = (int)RatioPreset;
+                        if (intRatio != 100)
+                        {
+                            if (intRatio < 100)
+                            {
+                                ratioModifier = 1f - ((float)RatioPreset / 100f);
+                                ChooseHeight = false;
+                            }
+                            else if (intRatio > 100)
+                            {
+                                ratioModifier = ((float)RatioPreset / 100f) - 1;
+                                ChooseHeight = true;
+                            }
+                        }
+                        float sizeIncreaseMultiplier = Mathf.Sqrt(sizePercentage);
+
+                        dim.X = Mathf.RoundToInt(world.worldsize.X * sizeIncreaseMultiplier);
+                        dim.Y = Mathf.RoundToInt(world.worldsize.Y * sizeIncreaseMultiplier);
+
+                        if (ChooseHeight == true)
+                        {
+                            dim.Y = dim.Y + Mathf.RoundToInt(dim.Y * ratioModifier);
+                        }
+                        if (ChooseHeight == false)
+                        {
+                            dim.X = dim.X + Mathf.RoundToInt(dim.X * ratioModifier);
+                        }
+
+
+                        //if (XYratio != -1)
+                        //{
+                        //    dim.Y = Mathf.RoundToInt((float)dim.X / XYratio);
+                        //}
+                        //else
+                        //{
+                        //}
                     }
                     //if(CustomWorldSizeX > -1)
                     //{
@@ -391,11 +459,56 @@ namespace ClusterTraitGenerationManager
 
             //int CustomWorldSizeX = -1, CustomWorldSizeY = -1;
             WorldSizePresets SizePreset = WorldSizePresets.Normal;
+            WorldRatioPresets RatioPreset = WorldRatioPresets.Normal;
             public WorldSizePresets CurrentSizePreset => SizePreset;
             public void SetPlanetSizeToPreset(WorldSizePresets preset)
             {
+                CustomX = -1;
+                CustomY = -1;
+                UsingCustomDimensions = false;
                 SizePreset = preset;
             }
+            public void SetPlanetRatioToPreset(WorldRatioPresets preset)
+            {
+                CustomX = -1;
+                CustomY = -1;
+                UsingCustomDimensions = false;
+                RatioPreset = preset;
+            }
+            int CustomX = -1, CustomY = -1;
+            private bool UsingCustomDimensions = false;
+            public void ApplyCustomDimension(int value, bool heightTrueWidthFalse)
+            {
+
+                var currentDims = CustomPlanetDimensions;
+                UsingCustomDimensions = true;
+                if (CustomX == -1)
+                {
+                    CustomX = currentDims.X;
+                }
+                if (CustomY == -1)
+                {
+                    CustomY = currentDims.Y;
+                }
+
+                if (world != null)
+                {
+                    if (heightTrueWidthFalse)
+                    {
+                        var rounded = Mathf.RoundToInt(Mathf.Max(Mathf.Min(value, world.worldsize.Y * 2.6f), world.worldsize.Y));
+                        if (rounded != CustomY)
+                            CustomY = rounded;
+                    }
+                    else
+                    {
+                        var rounded = Mathf.RoundToInt(Mathf.Max(Mathf.Min(value, world.worldsize.X * 2.6f), world.worldsize.X));
+
+                        if (rounded != CustomX) 
+                            CustomX = rounded;
+                    }
+                }
+            }
+
 
             public float InstancesToSpawn = 1;
             public float MaxNumberOfInstances = 1;
@@ -527,6 +640,7 @@ namespace ClusterTraitGenerationManager
             public StarmapItem MakeItemPlanet(ProcGen.World world)
             {
                 this.world = world;
+                //XYratio = (float)world.worldsize.X / (float)world.worldsize.Y;
                 return this;
             }
             public StarmapItem AddItemWorldPlacement(WorldPlacement placement2, float morethanone = 1)
@@ -577,7 +691,7 @@ namespace ClusterTraitGenerationManager
                     List<string> ExclusiveWithTags
                         = new List<string>();
 
-                    foreach(var trait in currentPlanetTraits)
+                    foreach (var trait in currentPlanetTraits)
                     {
                         ExclusiveWithTags.AddRange(SettingsCache.worldTraits[trait].exclusiveWithTags);
                     }
@@ -588,12 +702,12 @@ namespace ClusterTraitGenerationManager
                         TagSet requiredTags = ((rule.requiredTags != null) ? new TagSet(rule.requiredTags) : null);
                         TagSet forbiddenTags = ((rule.forbiddenTags != null) ? new TagSet(rule.forbiddenTags) : null);
 
-                        AllTraits.RemoveAll((WorldTrait trait) => 
-                            (requiredTags != null && !trait.traitTagsSet.ContainsAll(requiredTags)) 
-                            || (forbiddenTags != null && trait.traitTagsSet.ContainsOne(forbiddenTags)) 
-                            || (rule.forbiddenTraits != null && rule.forbiddenTraits.Contains(trait.filePath)) 
+                        AllTraits.RemoveAll((WorldTrait trait) =>
+                            (requiredTags != null && !trait.traitTagsSet.ContainsAll(requiredTags))
+                            || (forbiddenTags != null && trait.traitTagsSet.ContainsOne(forbiddenTags))
+                            || (rule.forbiddenTraits != null && rule.forbiddenTraits.Contains(trait.filePath))
                             || !trait.IsValid(world, logErrors: true));
-                        
+
                     }
 
 
@@ -904,14 +1018,14 @@ namespace ClusterTraitGenerationManager
 
         public static void CreateCustomClusterFrom(string clusterID, string singleItemId = "")
         {
-            
+
 
             ClusterLayout Reference = SettingsCache.clusterLayouts.GetClusterData(clusterID);
 
             if (Reference == null)
                 return;
 
-            
+
 
             string setting = selectScreen.newGameSettings.GetSetting(CustomGameSettingConfigs.WorldgenSeed);
             int seed = int.Parse(setting);
@@ -972,8 +1086,9 @@ namespace ClusterTraitGenerationManager
                 CustomCluster.defaultOuterPlanets = Reference.worldPlacements.Count;
                 CustomCluster.POIs.Clear();
             }
-            else{ 
-                if(CustomCluster.POIs.ContainsKey(singleItemId))
+            else
+            {
+                if (CustomCluster.POIs.ContainsKey(singleItemId))
                 {
                     CustomCluster.POIs.Remove(singleItemId);
                 }
@@ -1091,7 +1206,7 @@ namespace ClusterTraitGenerationManager
             return;
         }
 
-        
+
         static Dictionary<string, WorldPlacement> PredefinedPlacementData = null;
 
         ///Requires different handling

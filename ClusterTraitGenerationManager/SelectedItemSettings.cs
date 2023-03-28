@@ -34,8 +34,15 @@ namespace ClusterTraitGenerationManager
         private FSlider ClusterSize;
 
         private GameObject AsteroidSize;
-        private LocText AsteroidSizeLabel;
+
+        //private LocText AsteroidSizeLabel;
+
+        private FInputField2 PlanetSizeWidth;
+        private FInputField2 PlanetSizeHeight;
+
         private FCycle PlanetSizeCycle;
+        private FCycle PlanetRazioCycle;
+
         private GameObject AsteroidTraits;
         private GameObject ActiveTraitsContainer;
         private GameObject TraitPrefab;
@@ -59,7 +66,7 @@ namespace ClusterTraitGenerationManager
                 Init();
             }
 
-            if (SelectedPlanet==null) return;
+            if (SelectedPlanet == null) return;
             lastSelected = SelectedPlanet;
             bool isPoi = SelectedPlanet.category == StarmapItemCategory.POI;
 
@@ -92,7 +99,9 @@ namespace ClusterTraitGenerationManager
 
             AsteroidSize.SetActive(!isPoi);
             AsteroidTraits.SetActive(!isPoi);
-            AsteroidSizeLabel.text = string.Format(ASTEROIDSIZEINFO.INFO, current.CustomPlanetDimensions.x, current.CustomPlanetDimensions.y);
+
+            UpdateSizeLabels(current);
+            //AsteroidSizeLabel.text = string.Format(ASTEROIDSIZEINFO.INFO, current.CustomPlanetDimensions.x, current.CustomPlanetDimensions.y);
             PlanetSizeCycle.Value = current.CurrentSizePreset.ToString();
 
 
@@ -106,13 +115,21 @@ namespace ClusterTraitGenerationManager
             }
 
         }
+
+        public void UpdateSizeLabels(StarmapItem current)
+        {
+
+            PlanetSizeWidth.EditTextFromData(current.CustomPlanetDimensions.X.ToString());
+            PlanetSizeHeight.EditTextFromData(current.CustomPlanetDimensions.Y.ToString());
+        }
+
         public void UpdateUI()
         {
-            
+
 
             if (lastSelected != null)
             {
-                UpdateForSelected(lastSelected);                
+                UpdateForSelected(lastSelected);
             }
 
             UiRefresh.Invoke();
@@ -155,7 +172,8 @@ namespace ClusterTraitGenerationManager
             //UIUtils.ListAllChildrenWithComponents(NumberToGenerate.transform);
             NumberToGenerate.SetWholeNumbers(true);
             NumberToGenerate.AttachOutputField(transform.Find("AmountSlider/Descriptor/Output").GetComponent<LocText>());
-            NumberToGenerate.OnChange += (value) =>{
+            NumberToGenerate.OnChange += (value) =>
+            {
                 if (lastSelected != null)
                 {
                     if (CustomCluster.HasStarmapItem(lastSelected.id, out var current))
@@ -169,7 +187,8 @@ namespace ClusterTraitGenerationManager
             //UIUtils.FindAndDisable(MinimumDistance.transform, "Descriptor/Input");
             MinimumDistance.SetWholeNumbers(true);
             MinimumDistance.AttachOutputField(transform.Find("MinDistanceSlider/Descriptor/Output").GetComponent<LocText>());
-            MinimumDistance.OnChange += (value) => {
+            MinimumDistance.OnChange += (value) =>
+            {
                 if (lastSelected != null)
                 {
                     if (CustomCluster.HasStarmapItem(lastSelected.id, out var current))
@@ -184,7 +203,8 @@ namespace ClusterTraitGenerationManager
             //UIUtils.FindAndDisable(MaximumDistance.transform, "Descriptor/Input");
             MaximumDistance.SetWholeNumbers(true);
             MaximumDistance.AttachOutputField(transform.Find("MaxDistanceSlider/Descriptor/Output").GetComponent<LocText>());
-            MaximumDistance.OnChange += (value) => {
+            MaximumDistance.OnChange += (value) =>
+            {
                 if (lastSelected != null)
                 {
                     if (CustomCluster.HasStarmapItem(lastSelected.id, out var current))
@@ -199,7 +219,8 @@ namespace ClusterTraitGenerationManager
             //UIUtils.FindAndDisable(BufferDistance.transform, "Descriptor/Input");
             BufferDistance.SetWholeNumbers(true);
             BufferDistance.AttachOutputField(transform.Find("BufferSlider/Descriptor/Output").GetComponent<LocText>());
-            BufferDistance.OnChange += (value) => {
+            BufferDistance.OnChange += (value) =>
+            {
                 if (lastSelected != null)
                 {
                     if (CustomCluster.HasStarmapItem(lastSelected.id, out var current))
@@ -221,19 +242,33 @@ namespace ClusterTraitGenerationManager
 
 
             AsteroidSize = transform.Find("AsteroidSizeCycle").gameObject;
-            AsteroidSizeLabel = transform.Find("AsteroidSizeCycle/Info").GetComponent<LocText>();
-            UIUtils.AddSimpleTooltipToObject(AsteroidSizeLabel.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.TOOLTIP);
+            //AsteroidSizeLabel = transform.Find("AsteroidSizeCycle/Info").GetComponent<LocText>();
+            UIUtils.AddSimpleTooltipToObject(AsteroidSize.transform.Find("Label"), STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.TOOLTIP);
+            UIUtils.TryChangeText(AsteroidSize.transform, "Info/WidthLabel/Label", ASTEROIDSIZEINFO.WIDTH);
+            UIUtils.TryChangeText(AsteroidSize.transform, "Info/HeightLabel/Label", ASTEROIDSIZEINFO.HEIGHT);
 
+            PlanetSizeWidth = AsteroidSize.transform.Find("Info/WidthLabel/Input").FindOrAddComponent<FInputField2>();
+            PlanetSizeWidth.inputField.onEndEdit.AddListener((string sizestring) => TryApplyingCoordinates(sizestring, false));
 
-            PlanetSizeCycle = transform.Find("AsteroidSizeCycle").gameObject.AddOrGet<FCycle>();
+            PlanetSizeHeight = AsteroidSize.transform.Find("Info/HeightLabel/Input").FindOrAddComponent<FInputField2>();
+            PlanetSizeHeight.inputField.onEndEdit.AddListener((string sizestring) => TryApplyingCoordinates(sizestring, true));
+
+            PlanetSizeCycle = transform.Find("AsteroidSizeCycle/SizeCycle").gameObject.AddOrGet<FCycle>();
             PlanetSizeCycle.Initialize(
                 PlanetSizeCycle.transform.Find("Left").gameObject.AddOrGet<FButton>(),
                 PlanetSizeCycle.transform.Find("Right").gameObject.AddOrGet<FButton>(),
                 PlanetSizeCycle.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
                 PlanetSizeCycle.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
 
+
+
             PlanetSizeCycle.Options = new List<FCycle.Option>()
             {
+                //new FCycle.Option(WorldSizePresets.Tiny.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE0, ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE0TOOLTIP),
+                //new FCycle.Option(WorldSizePresets.Smaller.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE1, ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE1TOOLTIP),
+                //new FCycle.Option(WorldSizePresets.Small.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE2, ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE2TOOLTIP),
+                //new FCycle.Option(WorldSizePresets.SlightlySmaller.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE3, ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE3TOOLTIP),
+
                 new FCycle.Option(WorldSizePresets.Normal.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.SIZE0, ASTEROIDSIZEINFO.SIZESELECTOR.SIZE0TOOLTIP),
                 new FCycle.Option(WorldSizePresets.SlightlyLarger.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.SIZE1, ASTEROIDSIZEINFO.SIZESELECTOR.SIZE1TOOLTIP),
                 new FCycle.Option(WorldSizePresets.Large.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.SIZE2, ASTEROIDSIZEINFO.SIZESELECTOR.SIZE2TOOLTIP),
@@ -250,7 +285,46 @@ namespace ClusterTraitGenerationManager
                     {
                         WorldSizePresets setTo = Enum.TryParse<WorldSizePresets>(PlanetSizeCycle.Value, out var result) ? result : WorldSizePresets.Normal;
                         current.SetPlanetSizeToPreset(setTo);
-                        AsteroidSizeLabel.text = string.Format(ASTEROIDSIZEINFO.INFO, current.CustomPlanetDimensions.x, current.CustomPlanetDimensions.y);
+                        UpdateSizeLabels(current);
+                        //AsteroidSizeLabel.text = string.Format(ASTEROIDSIZEINFO.INFO, current.CustomPlanetDimensions.x, current.CustomPlanetDimensions.y);
+                    }
+                }
+            };
+
+            PlanetRazioCycle = transform.Find("AsteroidSizeCycle/RazioCycle").gameObject.AddOrGet<FCycle>();
+            PlanetRazioCycle.Initialize(
+                PlanetRazioCycle.transform.Find("Left").gameObject.AddOrGet<FButton>(),
+                PlanetRazioCycle.transform.Find("Right").gameObject.AddOrGet<FButton>(),
+                PlanetRazioCycle.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
+                PlanetRazioCycle.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
+
+            PlanetRazioCycle.Options = new List<FCycle.Option>()
+            {
+                //new FCycle.Option(WorldSizePresets.Tiny.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE0, ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE0TOOLTIP),
+                //new FCycle.Option(WorldSizePresets.Smaller.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE1, ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE1TOOLTIP),
+                //new FCycle.Option(WorldSizePresets.Small.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE2, ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE2TOOLTIP),
+                //new FCycle.Option(WorldSizePresets.SlightlySmaller.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE3, ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE3TOOLTIP),
+                
+                new FCycle.Option(WorldRatioPresets.LotWider.ToString(), ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE3, ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE3TOOLTIP),
+                new FCycle.Option(WorldRatioPresets.Wider.ToString(), ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE2, ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE2TOOLTIP),
+                new FCycle.Option(WorldRatioPresets.SlightlyWider.ToString(), ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE1, ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE1TOOLTIP),
+                new FCycle.Option(WorldRatioPresets.Normal.ToString(), ASTEROIDSIZEINFO.RATIOSELECTOR.NORMAL, ASTEROIDSIZEINFO.RATIOSELECTOR.NORMALTOOLTIP),
+                new FCycle.Option(WorldRatioPresets.SlightlyTaller.ToString(), ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT1, ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT1TOOLTIP),
+                new FCycle.Option(WorldRatioPresets.Taller.ToString(), ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT2, ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT2TOOLTIP),
+                new FCycle.Option(WorldRatioPresets.LotTaller.ToString(), ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT3, ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT3TOOLTIP),
+            };
+            PlanetRazioCycle.Value = WorldRatioPresets.Normal.ToString();
+
+            PlanetRazioCycle.OnChange += () =>
+            {
+                if (lastSelected != null)
+                {
+                    if (CustomCluster.HasStarmapItem(lastSelected.id, out var current))
+                    {
+                        WorldRatioPresets setTo = Enum.TryParse<WorldRatioPresets>(PlanetRazioCycle.Value, out var result) ? result : WorldRatioPresets.Normal;
+                        current.SetPlanetRatioToPreset(setTo);
+                        UpdateSizeLabels(current);
+                        //AsteroidSizeLabel.text = string.Format(ASTEROIDSIZEINFO.INFO, current.CustomPlanetDimensions.x, current.CustomPlanetDimensions.y);
                     }
                 }
             };
@@ -263,7 +337,7 @@ namespace ClusterTraitGenerationManager
 
             AddTraitButton.OnClick += () =>
             {
-                TraitSelectorScreen.InitializeView(lastSelected, ()=>UpdateUI());
+                TraitSelectorScreen.InitializeView(lastSelected, () => UpdateUI());
             };
 
 
@@ -279,7 +353,7 @@ namespace ClusterTraitGenerationManager
             {
                 CGSMClusterManager.ResetPlanetFromPreset(lastSelected.id);
                 UpdateUI();
-            }; 
+            };
 
             ResetAllButton = transform.Find("Buttons/ResetClusterButton").FindOrAddComponent<FButton>();
             ResetAllButton.OnClick += () =>
@@ -292,7 +366,7 @@ namespace ClusterTraitGenerationManager
             UIUtils.AddSimpleTooltipToObject(ResetButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.RESETSELECTIONBUTTON.TOOLTIP, true);
 
             SgtLogger.Assert("AsteroidSize", AsteroidSize);
-            SgtLogger.Assert("AsteroidSizeLabel", AsteroidSizeLabel);
+            //SgtLogger.Assert("AsteroidSizeLabel", AsteroidSizeLabel);
             SgtLogger.Assert("AsteroidTraits", AsteroidTraits);
             SgtLogger.Assert("ActiveTraitsContainer", ActiveTraitsContainer);
             SgtLogger.Assert("TraitPrefab", TraitPrefab);
@@ -300,6 +374,23 @@ namespace ClusterTraitGenerationManager
             InitializeTraitContainer();
 
             init = true;
+        }
+
+        void TryApplyingCoordinates(string msg, bool Height)
+        {
+            if (int.TryParse(msg, out var size))
+            {
+                if (CustomCluster.HasStarmapItem(lastSelected.id, out var current))
+                {
+                    if (size == (Height ? current.CustomPlanetDimensions.Y : current.CustomPlanetDimensions.X))
+                        return;
+
+                    current.ApplyCustomDimension(size, Height);
+                    UpdateSizeLabels(current);
+                    //AsteroidSizeLabel.text = string.Format(ASTEROIDSIZEINFO.INFO, current.CustomPlanetDimensions.x, current.CustomPlanetDimensions.y);
+                }
+            }
+
         }
 
         Dictionary<string, GameObject> Traits = new Dictionary<string, GameObject>();
@@ -325,7 +416,7 @@ namespace ClusterTraitGenerationManager
                 //
                 RemoveButton.OnClick += () =>
                 {
-                    if(CustomCluster.HasStarmapItem(lastSelected.id, out var item))
+                    if (CustomCluster.HasStarmapItem(lastSelected.id, out var item))
                     {
                         item.RemoveWorldTrait(kvp.Value);
                     }
