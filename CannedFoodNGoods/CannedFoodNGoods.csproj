@@ -28,6 +28,7 @@
 		<SupportedContent>ALL</SupportedContent>
 		<MinimumSupportedBuild>509629</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 

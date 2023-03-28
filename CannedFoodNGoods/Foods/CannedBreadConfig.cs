@@ -40,8 +40,8 @@ namespace CannedFoods.Foods
             FoodInfo foodInfo = new FoodInfo(
                 id: ID,
                 dlcId: DlcManager.VANILLA_ID,
-                caloriesPerUnit: 2000f * 1000f,
-                quality: TUNING.FOOD.FOOD_QUALITY_WONDERFUL,
+                caloriesPerUnit: TUNING.FOOD.FOOD_TYPES.SPICEBREAD.CaloriesPerUnit / 2f,
+                quality: TUNING.FOOD.FOOD_TYPES.SPICEBREAD.Quality,
                 preserveTemperatue: TUNING.FOOD.DEFAULT_PRESERVE_TEMPERATURE,
                 rotTemperature: TUNING.FOOD.DEFAULT_ROT_TEMPERATURE,
                 spoilTime: TUNING.FOOD.SPOIL_TIME.VERYSLOW,
