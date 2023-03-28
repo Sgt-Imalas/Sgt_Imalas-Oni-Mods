@@ -85,6 +85,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 if (Config.Instance.EnableBunkerPlatform)
                 {
                     InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, BunkeredLaunchPadConfig.ID, LaunchPadConfig.ID);
+                    InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, AdvancedLaunchPadConfig.ID, LaunchPadConfig.ID);
                 }
 
                 if (Config.Instance.EnableSolarNosecone)
