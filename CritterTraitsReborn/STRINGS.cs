@@ -35,7 +35,7 @@ namespace CritterTraitsReborn
             public class CRITTERFERTILE
             {
                 public static LocString NAME = "Fertile";
-                public static LocString DESC = "Is very fertile, fertility is improved by 25%.";
+                public static LocString DESC = "Fertility is improved by 25%.";
             }
             public class CRITTERGLOWING
             {
@@ -45,7 +45,7 @@ namespace CritterTraitsReborn
             public class CRITTERRAD
             {
                 public static LocString NAME = "Radioactive";
-                public static LocString DESC = "This critter emitts highly dangerous radiation";
+                public static LocString DESC = "This critter emitts highly dangerous radiation.";
             }
 
             public class CRITTERHUGE

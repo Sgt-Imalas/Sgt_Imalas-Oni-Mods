@@ -1,0 +1,57 @@
+﻿[img]https://i.imgur.com/GbFtLZ2.png[/img]
+
+[h1]Critter Traits Reborn[/h1]
+
+This mod adds traits to critters.
+original mod made by Heinermann
+
+[h1]Current latest Version: 1.0.0[/h1]
+
+[hr][/hr]
+Compatible with all modded critters.
+Retroactively adds traits to existing critters
+
+[h1]Traits[/h1]
+[list]
+[*]Enduring
+[*]Short-lived
+[*]Fast
+[*]Slow
+[*]Fertile
+[*]Bioluminescent
+[*]Radioactive (DLC only)
+[*]Tiny
+[*]Small
+[*]Large
+[*]Huge
+[*]Noisy
+[*]Stinky
+[/list]
+
+[hr][/hr]
+
+[h1]Localisations[/h1]
+[list]
+[*]English
+[*]German
+[/list] 
+
+This mod is fully translatable! 
+You can find the translation template under ~\Documents\Klei\OxygenNotIncluded\mods\strings_templates
+The template for this mod is called "crittertraitsreborn_template.pot".
+If you want to have a specific translation added, you can create a translation file with that template and send it to me via GitHub.
+
+
+
+[h1]Credits[/h1]
+Original mod made by Heinermann
+
+[hr][/hr]
+
+[h1]Bug Reports[/h1]
+Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
+
