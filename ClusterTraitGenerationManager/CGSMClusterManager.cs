@@ -435,24 +435,7 @@ namespace ClusterTraitGenerationManager
                         {
                             dim.X = dim.X + Mathf.RoundToInt(dim.X * ratioModifier);
                         }
-
-
-                        //if (XYratio != -1)
-                        //{
-                        //    dim.Y = Mathf.RoundToInt((float)dim.X / XYratio);
-                        //}
-                        //else
-                        //{
-                        //}
                     }
-                    //if(CustomWorldSizeX > -1)
-                    //{
-                    //    dim.X = CustomWorldSizeX;
-                    //}
-                    //if (CustomWorldSizeY > -1)
-                    //{
-                    //    dim.Y = CustomWorldSizeY;
-                    //}
                     return dim;
                 }
             }
@@ -461,6 +444,9 @@ namespace ClusterTraitGenerationManager
             WorldSizePresets SizePreset = WorldSizePresets.Normal;
             WorldRatioPresets RatioPreset = WorldRatioPresets.Normal;
             public WorldSizePresets CurrentSizePreset => SizePreset;
+
+            public float CurrentSizeMultiplier => UsingCustomDimensions ? CustomSizeIncrease : (float)SizePreset / 100f;
+
             public void SetPlanetSizeToPreset(WorldSizePresets preset)
             {
                 CustomX = -1;
@@ -506,9 +492,10 @@ namespace ClusterTraitGenerationManager
                         if (rounded != CustomX) 
                             CustomX = rounded;
                     }
+                    CustomSizeIncrease = (float)(CustomX * CustomY) / (float)(world.worldsize.X* world.worldsize.Y);
                 }
             }
-
+            float CustomSizeIncrease = -1f;
 
             public float InstancesToSpawn = 1;
             public float MaxNumberOfInstances = 1;

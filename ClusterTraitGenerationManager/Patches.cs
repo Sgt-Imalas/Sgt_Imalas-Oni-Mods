@@ -21,6 +21,7 @@ using static ClusterTraitGenerationManager.STRINGS.UI;
 using STRINGS;
 using Klei.CustomSettings;
 using static STRINGS.UI.FRONTEND;
+using static ClusterTraitGenerationManager.CGSMClusterManager;
 
 namespace ClusterTraitGenerationManager
 {
@@ -103,7 +104,7 @@ namespace ClusterTraitGenerationManager
         /// Prevents the normal cluster menu from closing when the custom cluster menu is open
         /// </summary>
         [HarmonyPatch(typeof(NewGameFlowScreen))]
-        [HarmonyPatch(nameof(NewGameFlowScreen.OnKeyDown))] 
+        [HarmonyPatch(nameof(NewGameFlowScreen.OnKeyDown))]
         public static class CatchGoingBack
         {
             public static bool Prefix(KButtonEvent e)
@@ -123,7 +124,7 @@ namespace ClusterTraitGenerationManager
         [HarmonyPatch(nameof(Worlds.UpdateWorldCache))]
         public static class AllowUnusedWorldTemplatesToLoadIntoCache
         {
-            public static bool ContainsOrIsPredefined(ISet<string> referencedWorlds,string toContain)
+            public static bool ContainsOrIsPredefined(ISet<string> referencedWorlds, string toContain)
             {
                 return referencedWorlds.Contains(toContain) || toContain.Contains("CGSM") || toContain.Contains("CGM");
             }
@@ -143,7 +144,7 @@ namespace ClusterTraitGenerationManager
 
                 var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo f && f == TargetMethod);
 
-                if (insertionIndex != -1 )
+                if (insertionIndex != -1)
                 {
                     code[insertionIndex] = new CodeInstruction(OpCodes.Call, AllowTemplates);
                 }
@@ -175,22 +176,22 @@ namespace ClusterTraitGenerationManager
             /// <summary>
             /// Inserting Custom Traits
             /// </summary>
-            public static bool Prefix(int seed, ProcGen.World world,ref List<string> __result)
+            public static bool Prefix(int seed, ProcGen.World world, ref List<string> __result)
             {
-                if (CGSMClusterManager.LoadCustomCluster&& CGSMClusterManager.CustomCluster !=null)
+                if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null)
                 {
                     var traitIDs = CGSMClusterManager.CustomCluster.GiveWorldTraits(world);
                     List<WorldTrait> list = new List<WorldTrait>(SettingsCache.worldTraits.Values);
 
                     __result = new List<string>();
-                    foreach(var trait in traitIDs)
+                    foreach (var trait in traitIDs)
                     {
                         //WorldTrait gatheredTrait = SettingsCache.GetCachedWorldTrait(trait, true);
                         __result.Add(trait);
                     }
                     //__result.Add(SettingsCache.worldTraits.Values.First().filePath);
-                   // __result.Add(SettingsCache.worldTraits.Values.Last().filePath);
-//
+                    // __result.Add(SettingsCache.worldTraits.Values.Last().filePath);
+                    //
                     //SgtLogger.l("Should have overridden Traits for " + SettingsCache.worldTraits.Values.First().filePath);
                     //SgtLogger.l("Should have overridden Traits for " + SettingsCache.worldTraits.Values.Last().filePath);
 
@@ -204,13 +205,13 @@ namespace ClusterTraitGenerationManager
         [HarmonyPatch(nameof(Worlds.GetWorldData))]
         public static class OverrideWorldSizeOnDataGetting
         {
-            static Dictionary<string, Vector2I> OriginalPlanetSizes= new Dictionary<string, Vector2I>();
+            static Dictionary<string, Vector2I> OriginalPlanetSizes = new Dictionary<string, Vector2I>();
             /// <summary>
             /// Inserting Custom Traits
             /// </summary>
             public static bool Prefix(Worlds __instance, string name, ref ProcGen.World __result)
             {
-                if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null )
+                if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null)
                 {
                     if (!name.IsNullOrWhiteSpace() && __instance.worldCache.TryGetValue(name, out var value))
                     {
@@ -229,11 +230,11 @@ namespace ClusterTraitGenerationManager
                         else if (OriginalPlanetSizes.ContainsKey(name))
                         {
                             value.worldsize = OriginalPlanetSizes[name];
-                            OriginalPlanetSizes.Remove(name); 
+                            OriginalPlanetSizes.Remove(name);
                         }
                         //value.worldsize = new((int)(value.worldsize.x*0.8f), (int)(value.worldsize.y*0.8));
                         //SgtLogger.l("Applied custom planet size to " + name);
-                        
+
                         __result = value;
                     }
                     return false;
@@ -241,8 +242,46 @@ namespace ClusterTraitGenerationManager
                 return true;
             }
         }
+        [HarmonyPatch(typeof(TemplateSpawning))]
+        [HarmonyPatch(nameof(TemplateSpawning.SpawnTemplatesFromTemplateRules))]
+        public static class AddSomeGeysers
+        {
+            static Dictionary<string, Dictionary<List<string>, int>> OriginalGeyserAmounts = new Dictionary<string, Dictionary<List<string>, int>>();
+            /// <summary>
+            /// Inserting Custom Traits
+            /// </summary>
+            public static void Prefix(WorldGenSettings settings)
+            {
+                if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null)
+                {
+                    if (!OriginalGeyserAmounts.ContainsKey(settings.world.filePath))
+                        OriginalGeyserAmounts[settings.world.filePath] = new Dictionary<List<string>, int>();
 
+                    if (CGSMClusterManager.CustomCluster.HasStarmapItem(settings.world.filePath, out var item) && item.CurrentSizePreset != WorldSizePresets.Normal)
+                    {
+                        foreach (var WorldTemplateRule in settings.world.worldTemplateRules)
+                        {
+                            if (!OriginalGeyserAmounts[settings.world.filePath].ContainsKey(WorldTemplateRule.names))
+                            {
+                                OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names] = WorldTemplateRule.times;
+                            }
 
+                            WorldTemplateRule.times = Mathf.RoundToInt(((float)OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]) * (float)item.CurrentSizePreset / 100f);
+                        }
+                    }
+
+                }
+                else if (OriginalGeyserAmounts.ContainsKey(settings.world.filePath))
+                {
+                    foreach (var WorldTemplateRule in settings.world.worldTemplateRules)
+                    {
+                        if (OriginalGeyserAmounts[settings.world.filePath].ContainsKey(WorldTemplateRule.names))
+                            WorldTemplateRule.times = OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names];
+                    }
+                    //OriginalGeyserAmounts.Remove(settings.world.filePath);
+                }
+            }
+        }
 
         [HarmonyPatch(typeof(Cluster))]
         [HarmonyPatch(typeof(Cluster), MethodType.Constructor)]
