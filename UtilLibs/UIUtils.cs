@@ -319,5 +319,15 @@ namespace UtilLibs
                 screenPrefab = prefab
             };
         }
+
+        public static string ColorText(string text, string hex)
+        {
+            hex = hex.Replace("#", string.Empty);
+            return "<color=#" + hex + ">" + text + "</color>";
+        }
+        public static string ColorText(string text, Color color)
+        {
+            return ColorText(text, Util.ToHexString(color));
+        }
     }
 }

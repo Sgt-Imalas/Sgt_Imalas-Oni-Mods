@@ -39,7 +39,7 @@ namespace UtilLibs.UIcmp //Source: Aki
                 if (!initialized)
                 {
                     // rehook references, these were lost on LocText conversion
-                    SgtLogger.debuglog("SET INPUT PARTS");
+                    SgtLogger.debuglog("rehooking text input references");
                     inputField.textComponent = inputField.textViewport.transform.Find(textPath).gameObject.AddOrGet<LocText>();
                     inputField.placeholder = inputField.textViewport.transform.Find(placeHolderPath).gameObject.AddOrGet<LocText>();
 
