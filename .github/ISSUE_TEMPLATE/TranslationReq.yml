@@ -1,0 +1,45 @@
+name: Mod Translation
+description: Hand in translation files for mods.
+title: "[ModTranslation]"
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing to this mod
+  - type: dropdown
+    id: mod
+    attributes:
+      label: What mod is that translation for?
+      multiple: false
+      options:
+        - Cluster Generation Manager
+        - Critter Traits Reborn
+        - Drywall Colours
+        - Balloon Dispenser
+        - Mineralizer Reborn
+        - Critter Shedding
+        - MoveHere Command Tile
+        - Mod Profile Manager
+        - Canned Food
+        - AI controlled Rockets
+        - Space Radiator
+        - Satellites
+        - Rocketry Expanded
+        - Not listed (use textfield below)
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional Comments
+      placeholder: If you want to add any comments
+  - type: textarea
+    id: translationFile
+    attributes:
+      label: translation file
+      description: |
+        Add your translation file here.     
+      placeholder: Click in here to enable drag and drop and to either use that or the built in file selector by clicking the bottom bar afterwards. Then add your log file here
+    validations:
+      required: true
