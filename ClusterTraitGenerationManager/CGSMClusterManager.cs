@@ -201,6 +201,18 @@ namespace ClusterTraitGenerationManager
                 {
                     list = starmapItem.GetWorldTraits();
                 }
+                ///RNG planet
+                else 
+                {
+                    int count = 0;
+                    int random = UnityEngine.Random.Range(1, 101);
+                    if (random >= 85)
+                        count = 2;
+                    else if (random >= 45)
+                        count = 1;
+                    List<string> randomSelectedTraits = new List<string>();
+                    return AddRandomTraitsForWorld(randomSelectedTraits, world, count);
+                }
 
                 if (list.Any(id => id.Contains("CGMRandomTraits")))
                 {
