@@ -17,6 +17,8 @@ namespace ClusterTraitGenerationManager
         public static string randomPOI = "CGM_random_poi";
         public static string noneSelected = "CGM_none_selected";
         public static string missingHoleTexture = "SpaceHole";
+        public static string missingMoltenCoreTexture = "IronCore";
+        public static string randomTraitsTraitIcon = "CGMRandomTraits";
         [HarmonyPatch(typeof(Assets), "OnPrefabInit")]
         public class Assets_OnPrefabInit_Patch
         {
@@ -28,6 +30,8 @@ namespace ClusterTraitGenerationManager
                 InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.randomPOI);
                 InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.noneSelected);
                 InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.missingHoleTexture);
+                InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.missingMoltenCoreTexture);
+                InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.randomTraitsTraitIcon);
             }
         }
     }

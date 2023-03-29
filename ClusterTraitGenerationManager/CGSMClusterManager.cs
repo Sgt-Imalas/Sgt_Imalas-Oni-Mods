@@ -60,14 +60,7 @@ namespace ClusterTraitGenerationManager
                     var defaultCluster = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
                     CGSMClusterManager.CreateCustomClusterFrom(defaultCluster);
                 }
-
-                //LockerNavigator.Instance.PushScreen(LockerNavigator.Instance.kleiInventoryScreen);
-                // await DoWithDelay(150);
-
                 var window = Util.KInstantiateUI(LockerNavigator.Instance.kleiInventoryScreen.gameObject);
-                //UtilMethods.ListAllPropertyValues(LockerNavigator.Instance.kleiInventoryScreen.rectTransform());
-
-
                 window.SetActive(false);
                 var copy = window.transform;
                 UnityEngine.Object.Destroy(window);
@@ -75,16 +68,6 @@ namespace ClusterTraitGenerationManager
                 var GlobalScreen = FrontEndManager.Instance.transform; // Global.Instance.globalCanvas;
                 var GlobalScreen2 = Global.Instance.globalCanvas; // Global.Instance.globalCanvas;
 
-                //var Rpoots = SceneManager.GetActiveScene().GetRootGameObjects();
-                //foreach(var sceneroot in Rpoots)
-                //{
-                //    UtilMethods.ListAllPropertyValues(sceneroot);
-
-                //}
-                //var TransformHolder = Util.KInstantiateUI(new GameObject(), GlobalScreen.gameObject, true);
-                //var rth = TransformHolder.rectTransform();
-                //rth.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, UnityEngine.Screen.currentResolution.width);
-                //rth.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, UnityEngine.Screen.currentResolution.height);
 
 
                 var newScreen = Util.KInstantiateUI(copy.gameObject, GlobalScreen.gameObject, true);
@@ -202,7 +185,7 @@ namespace ClusterTraitGenerationManager
                     list = starmapItem.GetWorldTraits();
                 }
                 ///RNG planet
-                else 
+                else
                 {
                     int count = 0;
                     int random = UnityEngine.Random.Range(1, 101);
@@ -220,13 +203,13 @@ namespace ClusterTraitGenerationManager
 
                     int random = UnityEngine.Random.Range(1, 101);
 
-                    if(random>=85)
-                        count= 3;
-                    else if(random>=50)
-                        count= 2;
+                    if (random >= 85)
+                        count = 3;
+                    else if (random >= 50)
+                        count = 2;
 
                     List<string> randomSelectedTraits = new List<string>();
-                    return AddRandomTraitsForWorld(randomSelectedTraits, world,count);
+                    return AddRandomTraitsForWorld(randomSelectedTraits, world, count);
                 }
 
 
@@ -242,8 +225,7 @@ namespace ClusterTraitGenerationManager
                     else
                     {
                         possibleTraits.Shuffle();
-                        string randTrait = possibleTraits.First().filePath;
-                        SgtLogger.l("Picked random world trait: "+randTrait);
+                        string randTrait = possibleTraits.First().filePath.Contains("CGMRandomTraits")? possibleTraits.Last().filePath : possibleTraits.First().filePath;
                         existing.Add(randTrait);
                     }
                 }
@@ -445,7 +427,7 @@ namespace ClusterTraitGenerationManager
 
 
                     var dim = new Vector2I(0, 0);
-                    
+
                     if (world != null)
                     {
                         float sizePercentage = (float)SizePreset / 100f;
@@ -534,10 +516,10 @@ namespace ClusterTraitGenerationManager
                     {
                         var rounded = Mathf.RoundToInt(Mathf.Max(Mathf.Min(value, world.worldsize.X * 2.6f), world.worldsize.X));
 
-                        if (rounded != CustomX) 
+                        if (rounded != CustomX)
                             CustomX = rounded;
                     }
-                    CustomSizeIncrease = (float)(CustomX * CustomY) / (float)(world.worldsize.X* world.worldsize.Y);
+                    CustomSizeIncrease = (float)(CustomX * CustomY) / (float)(world.worldsize.X * world.worldsize.Y);
                 }
             }
             float CustomSizeIncrease = -1f;
@@ -721,7 +703,7 @@ namespace ClusterTraitGenerationManager
                 List<string> ExclusiveWithTags
                     = new List<string>();
 
-                if(currentTraits.Count > 0)
+                if (currentTraits.Count > 0)
                 {
                     AllTraits.RemoveAll((WorldTrait trait) => trait.filePath.Contains("CGMRandomTraits"));
                 }
@@ -895,12 +877,11 @@ namespace ClusterTraitGenerationManager
             if (CustomCluster.StarterPlanet.id.Contains(RandomKey))
             {
                 var randomItem = GetRandomItemOfType(StarmapItemCategory.Starter);
-                var placement = CustomCluster.StarterPlanet.placement;
+                var placement = GivePrefilledItem(randomItem).placement;
 
-                //ApplySizeMultiplier(placement, multiplier);
+                placement.allowedRings = CustomCluster.StarterPlanet.placement.allowedRings;
+                placement.buffer = CustomCluster.StarterPlanet.placement.buffer;
 
-
-                placement.world = randomItem.id;
                 placement.startWorld = true;
 
                 layout.worldPlacements.Add(placement);
@@ -918,9 +899,10 @@ namespace ClusterTraitGenerationManager
                 if (CustomCluster.WarpPlanet.id.Contains(RandomKey))
                 {
                     var randomItem = GetRandomItemOfType(StarmapItemCategory.Warp);
-                    var placement = CustomCluster.WarpPlanet.placement;
-                    placement.world = randomItem.id;
-                    //ApplySizeMultiplier(placement, multiplier);
+                    var placement = GivePrefilledItem(randomItem).placement;
+
+                    placement.allowedRings = CustomCluster.WarpPlanet.placement.allowedRings;
+                    placement.buffer = CustomCluster.WarpPlanet.placement.buffer;
 
                     layout.worldPlacements.Add(placement);
                     SgtLogger.l(randomItem.id, "Random Warp Planet");
@@ -938,10 +920,10 @@ namespace ClusterTraitGenerationManager
 
             foreach (var world in OuterPlanets)
             {
-
                 if (world.id.Contains(RandomKey))
                 {
-                    for (int i = 1; i < (int)world.InstancesToSpawn; i++)
+                    SgtLogger.l(world.InstancesToSpawn.ToString(), "Random Planets to select");
+                    for (int i = 1; i <= (int)world.InstancesToSpawn; i++)
                     {
                         var randomItem = GetRandomItemOfType(StarmapItemCategory.Outer);
                         if (randomItem == null)
@@ -951,12 +933,14 @@ namespace ClusterTraitGenerationManager
                             break;
                         }
 
-                        var placement = world.placement;
-                        placement.world = randomItem.id;
+                        var placement = GivePrefilledItem(randomItem).placement;
+                        placement.allowedRings = world.placement.allowedRings;
+                        placement.buffer = world.placement.buffer;
+
                         ApplySizeMultiplier(placement, multiplier);
                         layout.worldPlacements.Add(placement);
 
-                        SgtLogger.l(randomItem.id, "Random Outer Planet");
+                        SgtLogger.l(randomItem.id, "selected random outer Planet");
                     }
                 }
                 else
@@ -1033,6 +1017,8 @@ namespace ClusterTraitGenerationManager
                                        //CustomLayout.clusterCategory = Reference.clusterCategory;
 
             SgtLogger.l("Finished generating custom cluster");
+
+            lastWorldGenFailed = false;
             return layout;
         }
 
@@ -1056,15 +1042,13 @@ namespace ClusterTraitGenerationManager
 
         public static void CreateCustomClusterFrom(string clusterID, string singleItemId = "")
         {
-
+            if (lastWorldGenFailed)
+                return;
 
             ClusterLayout Reference = SettingsCache.clusterLayouts.GetClusterData(clusterID);
 
             if (Reference == null)
                 return;
-
-
-
             string setting = selectScreen.newGameSettings.GetSetting(CustomGameSettingConfigs.WorldgenSeed);
             int seed = int.Parse(setting);
 
@@ -1366,6 +1350,8 @@ namespace ClusterTraitGenerationManager
         public const float MaxAmountRandomPlanet = 6f;
         public const string RandomKey = "CGM_RANDOM_";
         static Dictionary<string, StarmapItem> PlanetsAndPOIs = null;
+
+
         static List<string> RandomOuterPlanets = new List<string>();
 
         public static StarmapItem GetRandomItemOfType(StarmapItemCategory starmapItemCategory)
@@ -1378,7 +1364,14 @@ namespace ClusterTraitGenerationManager
             for (i = 0; i < items.Count; ++i)
             {
                 item = items[i];
-                if (!(item.id.Contains("TemporalTear") || item.id == null || item.id == string.Empty || CustomCluster.OuterPlanets.ContainsKey(item.id) || RandomOuterPlanets.Contains(item.id) || item.id.Contains(RandomKey)))
+                //SgtLogger.l(item.id, "Random");
+                if (!(item.id.Contains("TemporalTear")
+                    || item.id == null
+                    || item.id == string.Empty
+                    || CustomCluster.OuterPlanets.ContainsKey(item.id)
+                    || RandomOuterPlanets.Contains(item.id)
+                    || item.id.Contains(RandomKey))
+                    )
                 {
                     break;
                 }
@@ -1387,6 +1380,9 @@ namespace ClusterTraitGenerationManager
                     item = null;
                 }
             }
+
+            if (item!= null && starmapItemCategory == StarmapItemCategory.Outer)
+                RandomOuterPlanets.Add(item.id);
 
             //while (item.category != starmapItemCategory || item.id.Contains("TemporalTear") || item.id == null || item.id == string.Empty)
             //{
@@ -1436,13 +1432,14 @@ namespace ClusterTraitGenerationManager
                         placement.allowedRings = new MinMaxI(0, CustomCluster.Rings);
                         placement.canSpawnDuplicates = true;
                         placement.numToSpawn = 1;
+                        placement.avoidClumping = false;
                         randomItem = randomItem.MakeItemPOI(key, placement, MaxAmountRandomPOI);
                         PlanetsAndPOIs[key] = randomItem;
                     }
                     else
                     {
                         var placement = new WorldPlacement();
-                        placement.allowedRings = new MinMaxI(0, CustomCluster.Rings);
+                        placement.allowedRings = category == StarmapItemCategory.Starter ? new MinMaxI(0, 0) : new MinMaxI(0, CustomCluster.Rings);
                         placement.startWorld = category == StarmapItemCategory.Starter;
                         placement.locationType = category == StarmapItemCategory.Starter ? LocationType.Startworld : LocationType.Cluster;
 
@@ -1516,7 +1513,15 @@ namespace ClusterTraitGenerationManager
 
         internal static void InitializeGeneration()
         {
-            if (CustomCluster.OuterPlanets.Count > 6 && CustomCluster.Rings < AdjustedClusterSize)
+            int randoPlanets = 0;
+            if (CustomCluster.HasStarmapItem(RandomKey + StarmapItemCategory.Outer.ToString(), out var item))
+            {
+                randoPlanets = -1;
+                randoPlanets += (int)item.InstancesToSpawn;
+
+            }
+
+            if (CustomCluster.OuterPlanets.Count+ randoPlanets > 6 && CustomCluster.Rings < AdjustedClusterSize)
             {
                 System.Action AjustSize = () =>
                 {
@@ -1531,7 +1536,12 @@ namespace ClusterTraitGenerationManager
                     //CustomCluster.SetRings(ringAmount);
                     //InitializeGeneration();
                 };
-
+                System.Action aaanyways = () =>
+                {
+                    AddCustomCluster();
+                    LoadCustomCluster = true;
+                    CGSMClusterManager.selectScreen.LaunchClicked();
+                };
 
 
                 KMod.Manager.Dialog(Global.Instance.globalCanvas,
@@ -1540,7 +1550,9 @@ namespace ClusterTraitGenerationManager
                GENERATIONWARNING.YES,
                AjustSize,
                GENERATIONWARNING.NOMANUAL
-               , nothing
+               ,  nothing
+               , (DebugHandler.enabled) ? UIUtils.ColorText("[Debug only] Generate anyway",Color.red) : null
+               , (DebugHandler.enabled) ? aaanyways : null
                );
             }
             else
@@ -1549,6 +1561,12 @@ namespace ClusterTraitGenerationManager
                 LoadCustomCluster = true;
                 CGSMClusterManager.selectScreen.LaunchClicked();
             }
+        }
+
+        static bool lastWorldGenFailed = false;
+        internal static void LastWorldGenFailed()
+        {
+            lastWorldGenFailed = true;
         }
     }
 }

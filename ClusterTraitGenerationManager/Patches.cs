@@ -23,6 +23,7 @@ using Klei.CustomSettings;
 using static STRINGS.UI.FRONTEND;
 using static ClusterTraitGenerationManager.CGSMClusterManager;
 using System.Threading;
+using static ClusterTraitGenerationManager.STRINGS;
 
 namespace ClusterTraitGenerationManager
 {
@@ -100,6 +101,46 @@ namespace ClusterTraitGenerationManager
             }
         }
 
+        /// <summary>
+        /// CoreTraitFix_SolarSystemWorlds
+        /// </summary>
+        [HarmonyPatch(typeof(SettingsCache))]
+        [HarmonyPatch(nameof(SettingsCache.LoadWorldTraits))]
+        public static class TraitInitPostfix_ExclusionFix
+        {
+            public static void Postfix()
+            {
+                string coreKey = string.Empty;
+                string holesKey = string.Empty;
+                foreach (var trait in SettingsCache.GetCachedWorldTraitNames())
+                {
+                    if (trait.Contains(SpritePatch.missingMoltenCoreTexture))
+                        coreKey = trait;
+
+                    if (trait.Contains(SpritePatch.missingHoleTexture))
+                        holesKey = trait;
+                }
+
+                var IronCoreTrait = SettingsCache.GetCachedWorldTrait(coreKey, false);
+                if (IronCoreTrait != null)
+                {
+                    IronCoreTrait.colorHex = "B7410E"; /// BA5C3F  or B7410E
+                    if (IronCoreTrait.exclusiveWithTags == null)
+                        IronCoreTrait.exclusiveWithTags = new List<string>();
+                    if (!IronCoreTrait.exclusiveWithTags.Contains("CoreTrait"))
+                        IronCoreTrait.exclusiveWithTags.Add("CoreTrait");
+                }
+                var HolesTrait = SettingsCache.GetCachedWorldTrait(holesKey, false);
+                if (HolesTrait != null)
+                {
+                    ///Light purple
+                    HolesTrait.colorHex = "9696e2";
+                    ///black
+                    //HolesTrait.colorHex = "000000"; 
+                }
+            }
+        }
+
 
         /// <summary>
         /// Prevents the normal cluster menu from closing when the custom cluster menu is open
@@ -163,6 +204,7 @@ namespace ClusterTraitGenerationManager
         {
             public static void Prefix(Exception e, ref string errorMessage)
             {
+                CGSMClusterManager.LastWorldGenFailed();
                 errorMessage = e.Message;
             }
         }
@@ -206,17 +248,27 @@ namespace ClusterTraitGenerationManager
                 }
                 return true;
             }
-            public static void Postfix(ref List<string> __result)
+            public static void Postfix(ProcGen.World world, ref List<string> __result)
             {
                 if (__result.Count > 0)
-                    for (int i = __result.Count-1; i > 0; i--)
+                {
+                    var list = new List<string>();
+                    int replaceCount = 0;
+                    foreach (var trait in __result)
                     {
-                        SgtLogger.l(__result[i]);
-                        if (__result[i].Contains("CGMRandomTraits"))
-                            __result.RemoveAt(i);
+                        if (!trait.Contains("CGMRandomTraits"))
+                        {
+                            list.Add(trait);
+                        }
+                        else
+                            ++replaceCount;
                     }
+                    if(replaceCount > 0)
+                    {
+                        __result = CGSMClusterManager.CustomClusterData.AddRandomTraitsForWorld(list, world,replaceCount);
+                    }
+                }
             }
-
         }
 
         [HarmonyPatch(typeof(Worlds))]
