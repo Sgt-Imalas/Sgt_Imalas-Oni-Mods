@@ -1,6 +1,6 @@
 name: STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT.NAME
 description: STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT.DESCRIPTION
-colorHex: FF2EFF
+colorHex: FFFFFF
 exclusiveWith:
   - traits/any
 

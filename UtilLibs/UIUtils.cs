@@ -320,6 +320,28 @@ namespace UtilLibs
             };
         }
 
+        public static readonly List<Color> RainbowColors = new List<Color> {
+                Color.HSVToRGB(0,1,1 ),
+                Color.HSVToRGB(45f/360f,1,1 ),
+                Color.HSVToRGB(90f/360f,1,1 ),
+                Color.HSVToRGB(135f/360f,1,1 ),
+                Color.HSVToRGB(180f/360f,1,1 ),
+                Color.HSVToRGB(225f/360f,1,1 ),
+                Color.HSVToRGB(270f/360f,1,1 ),
+                Color.HSVToRGB(315f/360f,1,1 )
+            };
+        public static readonly List<Color> RainbowColorsDesaturated = new List<Color> {
+                Color.HSVToRGB(0,0.65f,1 ),
+                Color.HSVToRGB(45f/360f,0.65f,1 ),
+                Color.HSVToRGB(90f/360f,0.65f,1 ),
+                Color.HSVToRGB(135f/360f,0.65f,1 ),
+                Color.HSVToRGB(180f/360f,0.65f,1 ),
+                Color.HSVToRGB(225f/360f,0.65f,1 ),
+                Color.HSVToRGB(270f/360f,0.65f,1 ),
+                Color.HSVToRGB(315f/360f,0.65f,1 )
+            };
+
+
         public static string ColorText(string text, string hex)
         {
             hex = hex.Replace("#", string.Empty);
@@ -328,6 +350,17 @@ namespace UtilLibs
         public static string ColorText(string text, Color color)
         {
             return ColorText(text, Util.ToHexString(color));
+        }
+        public static string RainbowColorText(string text, bool useTrueColors = false)
+        {
+            var CharArray = text.ToCharArray();
+            StringBuilder sb = new StringBuilder();
+            for(int i = 0; i < CharArray.Length; i++)
+            {
+                sb.Append(ColorText(CharArray[i].ToString(), useTrueColors ? RainbowColors[i % RainbowColors.Count]: RainbowColorsDesaturated[i % RainbowColorsDesaturated.Count]));
+            }
+            return sb.ToString();
+            
         }
     }
 }

@@ -86,7 +86,7 @@ namespace ClusterTraitGenerationManager
         {
             foreach (var kvp in SettingsCache.worldTraits)
             {
-                SgtLogger.l(kvp.Key, "INIT");
+                //SgtLogger.l(kvp.Key, "INIT");
 
                 var TraitHolder = Util.KInstantiateUI(TraitPrefab, PossibleTraitsContainer, true);
                 //UIUtils.ListAllChildrenWithComponents(TraitHolder.transform);
@@ -101,6 +101,11 @@ namespace ClusterTraitGenerationManager
                 var icon = TraitHolder.transform.Find("Label/TraitImage").GetComponent<Image>();
                 icon.sprite = Assets.GetSprite(associatedIcon);
                 icon.color = Util.ColorFromHex(kvp.Value.colorHex);
+
+                if (kvp.Key.Contains(SpritePatch.randomTraitsTraitIcon))
+                {
+                    combined = UIUtils.RainbowColorText(name.ToString());
+                }
 
                 UIUtils.TryChangeText(TraitHolder.transform, "Label", combined);
                 //UIUtils.AddSimpleTooltipToObject(TraitHolder.transform, description);

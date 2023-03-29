@@ -446,6 +446,11 @@ namespace ClusterTraitGenerationManager
                 icon.sprite = Assets.GetSprite(associatedIcon);
                 icon.color = Util.ColorFromHex(kvp.Value.colorHex);
 
+                if (kvp.Key.Contains(SpritePatch.randomTraitsTraitIcon))
+                {
+                    combined = UIUtils.RainbowColorText(name.ToString());
+                }
+
                 UIUtils.TryChangeText(TraitHolder.transform, "Label", combined);
                 UIUtils.AddSimpleTooltipToObject(TraitHolder.transform, description);
                 //
