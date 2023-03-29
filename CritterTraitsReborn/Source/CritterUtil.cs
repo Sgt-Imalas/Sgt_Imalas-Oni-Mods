@@ -27,6 +27,7 @@ namespace CritterTraitsReborn
 
             // Collision
             var boxCollider = go.GetComponent<KBoxCollider2D>();
+            ///only apply collider change to larger critters to prevent them glitching into the floor
             if (boxCollider != null&&scale>1)
             {
                 boxCollider.size *= scale;
