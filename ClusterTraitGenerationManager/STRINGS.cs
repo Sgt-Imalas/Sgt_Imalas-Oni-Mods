@@ -11,6 +11,14 @@ namespace ClusterTraitGenerationManager
 {
     internal class STRINGS
     {
+        public class WORLD_TRAITS
+        {
+            public class CGM_RANDOMTRAIT
+            {
+                public static LocString NAME = (LocString)"Randomized Traits";
+                public static LocString DESCRIPTION = (LocString)"Chooses between 1 and 3 Traits at random.\nMutually exclusive with other selectable Traits";
+            }
+        }
         public class UI
         {
             public class GENERATIONWARNING

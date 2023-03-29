@@ -181,25 +181,42 @@ namespace ClusterTraitGenerationManager
             {
                 if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null)
                 {
-                    var traitIDs = CGSMClusterManager.CustomCluster.GiveWorldTraits(world);
-                    List<WorldTrait> list = new List<WorldTrait>(SettingsCache.worldTraits.Values);
+                    var traitIDs = CGSMClusterManager.CustomCluster.GiveWorldTraitsForWorldGen(world);
 
-                    __result = new List<string>();
-                    foreach (var trait in traitIDs)
+                    if (traitIDs.Count > 0)
                     {
-                        //WorldTrait gatheredTrait = SettingsCache.GetCachedWorldTrait(trait, true);
-                        __result.Add(trait);
+                        List<WorldTrait> list = new List<WorldTrait>(SettingsCache.worldTraits.Values);
+
+                        __result = new List<string>();
+                        foreach (var trait in traitIDs)
+                        {
+                            //WorldTrait gatheredTrait = SettingsCache.GetCachedWorldTrait(trait, true);
+                            __result.Add(trait);
+                        }
+                        return false;
                     }
+
+
                     //__result.Add(SettingsCache.worldTraits.Values.First().filePath);
                     // __result.Add(SettingsCache.worldTraits.Values.Last().filePath);
                     //
                     //SgtLogger.l("Should have overridden Traits for " + SettingsCache.worldTraits.Values.First().filePath);
                     //SgtLogger.l("Should have overridden Traits for " + SettingsCache.worldTraits.Values.Last().filePath);
 
-                    return false;
                 }
                 return true;
             }
+            public static void Postfix(ref List<string> __result)
+            {
+                if (__result.Count > 0)
+                    for (int i = __result.Count-1; i > 0; i--)
+                    {
+                        SgtLogger.l(__result[i]);
+                        if (__result[i].Contains("CGMRandomTraits"))
+                            __result.RemoveAt(i);
+                    }
+            }
+
         }
 
         [HarmonyPatch(typeof(Worlds))]
@@ -253,6 +270,7 @@ namespace ClusterTraitGenerationManager
             /// </summary>
             public static void Prefix(WorldGenSettings settings)
             {
+                const string geyserKey = "GEYSER";
                 if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null)
                 {
                     if (!OriginalGeyserAmounts.ContainsKey(settings.world.filePath))
@@ -262,12 +280,16 @@ namespace ClusterTraitGenerationManager
                     {
                         foreach (var WorldTemplateRule in settings.world.worldTemplateRules)
                         {
-                            if (!OriginalGeyserAmounts[settings.world.filePath].ContainsKey(WorldTemplateRule.names))
+                            if (WorldTemplateRule.names.Any(name => name.ToUpperInvariant().Contains(geyserKey)))
                             {
-                                OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names] = WorldTemplateRule.times;
-                            }
+                                if (!OriginalGeyserAmounts[settings.world.filePath].ContainsKey(WorldTemplateRule.names))
+                                {
+                                    OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names] = WorldTemplateRule.times;
+                                }
 
-                            WorldTemplateRule.times = Mathf.RoundToInt(((float)OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]) * (float)item.CurrentSizePreset / 100f);
+                                WorldTemplateRule.times = Mathf.RoundToInt(((float)OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]) * (float)item.CurrentSizePreset / 100f);
+                                SgtLogger.l(string.Format("Adjusting geyser roll amount to worldsize for {0}; {1} -> {2}", WorldTemplateRule.names.FirstOrDefault(), OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names], WorldTemplateRule.times), item.id);
+                            }
                         }
                     }
 

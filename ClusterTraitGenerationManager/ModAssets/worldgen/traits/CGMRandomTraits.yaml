@@ -1,0 +1,8 @@
+name: STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT.NAME
+description: STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT.DESCRIPTION
+colorHex: FF2EFF
+exclusiveWith:
+  - traits/any
+
+traitTags:
+  - Randomizer

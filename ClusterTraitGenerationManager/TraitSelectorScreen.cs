@@ -47,7 +47,7 @@ namespace ClusterTraitGenerationManager
                 {
                     traitContainer.SetActive(false);
                 }
-                foreach (var activeTrait in _planet.AllowedPlanetTraits)
+                foreach (var activeTrait in item.AllowedPlanetTraits)
                 {
                     Instance.Traits[activeTrait.filePath].SetActive(true);
                 }
@@ -86,6 +86,8 @@ namespace ClusterTraitGenerationManager
         {
             foreach (var kvp in SettingsCache.worldTraits)
             {
+                SgtLogger.l(kvp.Key, "INIT");
+
                 var TraitHolder = Util.KInstantiateUI(TraitPrefab, PossibleTraitsContainer, true);
                 //UIUtils.ListAllChildrenWithComponents(TraitHolder.transform);
                 var AddTraitButton = TraitHolder.transform.Find("AddThisTraitButton").gameObject.FindOrAddComponent<FButton>();

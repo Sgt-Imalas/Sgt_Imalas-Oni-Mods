@@ -1,17 +1,17 @@
 msgid ""
 msgstr ""
-"Application: Oxygen Not IncludedPOT Version: 2.0\n"
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
+"Last-Translator: \n"
 "Language-Team: \n"
+"Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1\n"
-"Last-Translator: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Language: zh\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #. ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGSM.DESCRIPTION
 msgctxt "ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGSM.DESCRIPTION"
@@ -24,41 +24,30 @@ msgid "CGSM Cluster"
 msgstr "CGSM星球特性"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.AMOUNTSLIDER.DESCRIPTOR.INPUT.TEXT
-#, fuzzy
-#| msgid ""
 msgctxt ""
-"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
-"AMOUNTSLIDER.DESCRIPTOR.INPUT.TEXT"
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.AMOUNTSLIDER."
+"DESCRIPTOR.INPUT.TEXT"
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1\n"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.AMOUNTSLIDER.DESCRIPTOR.LABEL
 msgctxt ""
-"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
-"AMOUNTSLIDER.DESCRIPTOR.LABEL"
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.AMOUNTSLIDER."
+"DESCRIPTOR.LABEL"
 msgid "Number to generate:"
 msgstr "所生成的数量："
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.AMOUNTSLIDER.DESCRIPTOR.OUTPUT
 msgctxt ""
-"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
-"AMOUNTSLIDER.DESCRIPTOR.OUTPUT"
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.AMOUNTSLIDER."
+"DESCRIPTOR.OUTPUT"
 msgid "REPLAC"
 msgstr "更换"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.AMOUNTSLIDER.DESCRIPTOR.TOOLTIP
 msgctxt ""
-"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
-"AMOUNTSLIDER.DESCRIPTOR.TOOLTIP"
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.AMOUNTSLIDER."
+"DESCRIPTOR.TOOLTIP"
 msgid ""
 "How many instances of these should be generated.\n"
 "Values that aren't full numbers represent a chance to generate for POIs.\n"
@@ -68,30 +57,19 @@ msgstr ""
 "不是完整数字的值表示为 POI 生成的机会。\n"
 "（注意 0.8 = 80% 的几率生成）"
 
-#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.INFO
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.HEIGHT
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
-"ASTEROIDSIZEINFO.INFO"
-msgid "{0}x{1}"
-msgstr ""
+"ASTEROIDSIZEINFO.HEIGHT"
+msgid "Height:"
+msgstr "高度："
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.INPUT.TEXT
-#, fuzzy
-#| msgid ""
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
 "ASTEROIDSIZEINFO.INPUT.TEXT"
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1\n"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.LABEL
 msgctxt ""
@@ -100,12 +78,217 @@ msgctxt ""
 msgid "Asteroid Size:"
 msgstr "小行星大小："
 
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT1
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT1"
+msgid "Slightly Taller"
+msgstr "稍微长一点的"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT1TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT1TOOLTIP"
+msgid "The asteroid is a bit taller than normal."
+msgstr "这颗小行星高度稍长于默认尺寸。"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT2
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT2"
+msgid "Taller"
+msgstr "更长"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT2TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT2TOOLTIP"
+msgid "The asteroid is taller than normal."
+msgstr "这颗小行星高度长于默认尺寸。"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT3
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT3"
+msgid "Much Taller"
+msgstr "长了许多"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT3TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT3TOOLTIP"
+msgid "The asteroid is a lot taller than normal."
+msgstr "这颗小行星高度长于默认尺寸许多。"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.NORMAL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.NORMAL"
+msgid "Normal Shape"
+msgstr "正常尺寸"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.NORMALTOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.NORMALTOOLTIP"
+msgid "The asteroid has its usual shape."
+msgstr "这颗小行星大小默认。"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE1
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE1"
+msgid "Slightly Wider"
+msgstr "稍微宽一点"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE1TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE1TOOLTIP"
+msgid "The asteroid is a bit wider than normal."
+msgstr "这颗小行星宽度稍宽于默认尺寸。"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE2
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE2"
+msgid "Wider"
+msgstr "更宽"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE2TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE2TOOLTIP"
+msgid "The asteroid is wider than normal."
+msgstr "这颗小行星宽度宽于默认尺寸。"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE3
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE3"
+msgid "Much Wider"
+msgstr "宽了许多"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE3TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE3TOOLTIP"
+msgid "The asteroid is a lot wider than normal."
+msgstr "这颗小行星高度宽于默认尺寸许多。"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE0
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE0"
+msgid "Normal"
+msgstr "默认尺寸"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE0TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE0TOOLTIP"
+msgid "The asteroid is at its usual size."
+msgstr "这颗小行星大小默认。"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE1
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE1"
+msgid "Slightly Larger"
+msgstr "稍微大一点"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE1TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE1TOOLTIP"
+msgid "The asteroid is 25% larger than normal."
+msgstr "这颗小行星比默认尺寸大25%。"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE2
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE2"
+msgid "Large"
+msgstr "大型"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE2TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE2TOOLTIP"
+msgid "The asteroid is 50% larger than normal."
+msgstr "这颗小行星比默认尺寸大50%。"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE3
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE3"
+msgid "Huge"
+msgstr "巨大"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE3TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE3TOOLTIP"
+msgid "The asteroid has twice its usual size."
+msgstr "这颗小行星的体积是默认尺寸的两倍。"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE4
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE4"
+msgid "Massive"
+msgstr "巨大的"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE4TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE4TOOLTIP"
+msgid "The asteroid has three times its usual size."
+msgstr "这颗小行星的体积是默认尺寸的三倍。"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE5
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE5"
+msgid "Enormous"
+msgstr "更加巨大的"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE5TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE5TOOLTIP"
+msgid "The asteroid has four times its usual size."
+msgstr "这颗小行星的体积是默认尺寸的四倍。"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZEWARNING
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZEWARNING"
+msgid ""
+"Warning!\n"
+"The planet size you have selected has {0}% more area than a normal vanilla "
+"size asteroid.\n"
+"This might lead to a low game performance!"
+msgstr ""
+"警告!\n"
+"\n"
+"你所选择的行星大小比小行星默认尺寸多{0}%的面积。\n"
+"\n"
+"这可能会导致游戏性能降低!"
+
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.TOOLTIP
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
 "ASTEROIDSIZEINFO.TOOLTIP"
 msgid "The dimensions of this asteroid."
 msgstr "这颗小行星的尺寸。"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.WIDTH
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.WIDTH"
+msgid "Width:"
+msgstr "宽度："
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDTRAITS.ADDTRAITBUTTON.TEXT
 msgctxt ""
@@ -129,34 +312,23 @@ msgid "  No Traits"
 msgstr "无特征"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUFFERSLIDER.DESCRIPTOR.INPUT.TEXT
-#, fuzzy
-#| msgid ""
 msgctxt ""
-"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
-"BUFFERSLIDER.DESCRIPTOR.INPUT.TEXT"
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUFFERSLIDER."
+"DESCRIPTOR.INPUT.TEXT"
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1\n"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUFFERSLIDER.DESCRIPTOR.LABEL
 msgctxt ""
-"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
-"BUFFERSLIDER.DESCRIPTOR.LABEL"
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUFFERSLIDER."
+"DESCRIPTOR.LABEL"
 msgid "Buffer Distance:"
 msgstr "缓冲距离："
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUFFERSLIDER.DESCRIPTOR.TOOLTIP
 msgctxt ""
-"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
-"BUFFERSLIDER.DESCRIPTOR.TOOLTIP"
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUFFERSLIDER."
+"DESCRIPTOR.TOOLTIP"
 msgid "The minimum distance this asteroid has to other asteroids."
 msgstr "这颗小行星与其他小行星的最小距离。"
 
@@ -203,22 +375,11 @@ msgid "Return"
 msgstr "返回"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.CLUSTERSIZE.DESCRIPTOR.INPUT.TEXT
-#, fuzzy
-#| msgid ""
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.CLUSTERSIZE."
 "DESCRIPTOR.INPUT.TEXT"
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1\n"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.CLUSTERSIZE.DESCRIPTOR.LABEL
 msgctxt ""
@@ -235,22 +396,11 @@ msgid "The radius of the starmap."
 msgstr "星图的半径。"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.MAXDISTANCESLIDER.DESCRIPTOR.INPUT.TEXT
-#, fuzzy
-#| msgid ""
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
 "MAXDISTANCESLIDER.DESCRIPTOR.INPUT.TEXT"
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1\n"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.MAXDISTANCESLIDER.DESCRIPTOR.LABEL
 msgctxt ""
@@ -267,22 +417,11 @@ msgid "The maximum distance this asteroid has to the center of the starmap."
 msgstr "这颗小行星到星图中心的最大距离。"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.MINDISTANCESLIDER.DESCRIPTOR.INPUT.TEXT
-#, fuzzy
-#| msgid ""
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
 "MINDISTANCESLIDER.DESCRIPTOR.INPUT.TEXT"
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1\n"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.MINDISTANCESLIDER.DESCRIPTOR.LABEL
 msgctxt ""
@@ -384,6 +523,33 @@ msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.NAMEITEMS"
 msgid "Starmap Items of this category"
 msgstr "此类别的星图展示"
 
+#. ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.DESCRIPTION
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.DESCRIPTION"
+msgid ""
+"You have selected more than 6 outer planets, which can lead to placement "
+"failures.\n"
+" Automatically adjust cluster size and placements?"
+msgstr ""
+"你选择了6个以上的外行星，这可能导致放置失败。\n"
+"\n"
+" 自动调整集群大小和安置？"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.NOMANUAL
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.NOMANUAL"
+msgid "No, let me do it manually."
+msgstr "不，让我手动来做。"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.WINDOWNAME
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.WINDOWNAME"
+msgid "Potential Generation Errors detected!"
+msgstr "检测到潜在的生成错误!"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.YES
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.YES"
+msgid "Yes"
+msgstr "是"
+
 #. ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_OUTER.DESCRIPTION
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_OUTER."
@@ -453,3 +619,20 @@ msgctxt ""
 "NAME"
 msgid "Random Teleporter Asteroid"
 msgstr "随机传送小行星"
+
+#. ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT.DESCRIPTION
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT."
+"DESCRIPTION"
+msgid ""
+"Chooses between 1 and 3 Traits at random.\n"
+"Mutually exclusive with other selectable Traits"
+msgstr ""
+"随机选择1至3个星球特性。\n"
+"与其他可选择的星球特性冲突。"
+
+#. ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT.NAME
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT.NAME"
+msgid "Randomized Traits"
+msgstr "随机小行星特性"

@@ -4,7 +4,7 @@
 
 Gain nearly full control over each tiny detail of your cluster generation - manipulate each item on the star map individually!
 
-[h1]Current latest Version: 1.2.0[/h1]
+[h1]Current latest Version: 1.3.0[/h1]
 
 [hr][/hr]
 
@@ -27,11 +27,12 @@ If you forgot some settings (stuff like difficulty, story traits) on the normal 
     [*] spawn distance to star map center (min & max distance)
     [*] minimum distance to other planetoids
     [*] Asteroid Traits (support for modded traits like f.e. "Holes")
+    [*] Asteroid Size (currently only allows to create larger asteroids as trying to make them smaller ones breaks world generation)
     [*] (only random planets & pois): Number of instances that should be spawned
     [/list]
 [/list]
-Still WIP:[list]
-[*] Planet Sizes
+Planned/Work in Progress:[list]
+[*] Planet Meteor Shower types
 [/list]
 
 
@@ -60,6 +61,7 @@ Random-Selection Art made by 3GuB
 Current Languages:
 - English
 - German
+- Chinese by 去码头整点薯条
 
 [h1]Bug Reports[/h1]
 Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.

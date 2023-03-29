@@ -192,7 +192,7 @@ namespace ClusterTraitGenerationManager
                 return list;
             }
 
-            public List<string> GiveWorldTraits(ProcGen.World world)
+            public List<string> GiveWorldTraitsForWorldGen(ProcGen.World world)
             {
 
                 List<string> list = new List<string>();
@@ -202,7 +202,40 @@ namespace ClusterTraitGenerationManager
                     list = starmapItem.GetWorldTraits();
                 }
 
+                if (list.Any(id => id.Contains("CGMRandomTraits")))
+                {
+                    int count = 1;
+
+                    int random = UnityEngine.Random.Range(1, 101);
+
+                    if(random>=85)
+                        count= 3;
+                    else if(random>=50)
+                        count= 2;
+
+                    List<string> randomSelectedTraits = new List<string>();
+                    return AddRandomTraitsForWorld(randomSelectedTraits, world,count);
+                }
+
+
                 return list;
+            }
+            public static List<string> AddRandomTraitsForWorld(List<string> existing, ProcGen.World world, int count)
+            {
+                for (int i = 0; i < count; ++i)
+                {
+                    var possibleTraits = StarmapItem.AllowedWorldTraitsFor(existing, world);
+                    if (possibleTraits.Count == 0)
+                        break;
+                    else
+                    {
+                        possibleTraits.Shuffle();
+                        string randTrait = possibleTraits.First().filePath;
+                        SgtLogger.l("Picked random world trait: "+randTrait);
+                        existing.Add(randTrait);
+                    }
+                }
+                return existing;
             }
 
             public void SetRings(int rings, bool defaultRing = false)
@@ -665,47 +698,53 @@ namespace ClusterTraitGenerationManager
             private List<string> currentPlanetTraits = new List<string>();
             public List<string> CurrentTraits => currentPlanetTraits;
 
-            public List<WorldTrait> AllowedPlanetTraits
+            public static List<WorldTrait> AllowedWorldTraitsFor(List<string> currentTraits, ProcGen.World world)
             {
-                get
+                List<WorldTrait> AllTraits = new List<WorldTrait>(SettingsCache.worldTraits.Values);
+
+                if (world == null)
                 {
-                    List<WorldTrait> AllTraits = new List<WorldTrait>(SettingsCache.worldTraits.Values);
+                    return new List<WorldTrait>();
+                }
+                List<string> ExclusiveWithTags
+                    = new List<string>();
 
-                    if (world == null)
-                    {
+                if(currentTraits.Count > 0)
+                {
+                    AllTraits.RemoveAll((WorldTrait trait) => trait.filePath.Contains("CGMRandomTraits"));
+                }
+
+
+                foreach (var trait in currentTraits)
+                {
+                    ExclusiveWithTags.AddRange(SettingsCache.worldTraits[trait].exclusiveWithTags);
+                    if (trait.Contains("CGMRandomTraits"))
                         return new List<WorldTrait>();
-                    }
-                    List<string> ExclusiveWithTags
-                        = new List<string>();
+                }
 
-                    foreach (var trait in currentPlanetTraits)
-                    {
-                        ExclusiveWithTags.AddRange(SettingsCache.worldTraits[trait].exclusiveWithTags);
-                    }
+                foreach (ProcGen.World.TraitRule rule in world.worldTraitRules)
+                {
 
-                    foreach (ProcGen.World.TraitRule rule in world.worldTraitRules)
-                    {
-
-                        TagSet requiredTags = ((rule.requiredTags != null) ? new TagSet(rule.requiredTags) : null);
-                        TagSet forbiddenTags = ((rule.forbiddenTags != null) ? new TagSet(rule.forbiddenTags) : null);
-
-                        AllTraits.RemoveAll((WorldTrait trait) =>
-                            (requiredTags != null && !trait.traitTagsSet.ContainsAll(requiredTags))
-                            || (forbiddenTags != null && trait.traitTagsSet.ContainsOne(forbiddenTags))
-                            || (rule.forbiddenTraits != null && rule.forbiddenTraits.Contains(trait.filePath))
-                            || !trait.IsValid(world, logErrors: true));
-
-                    }
-
+                    TagSet requiredTags = ((rule.requiredTags != null) ? new TagSet(rule.requiredTags) : null);
+                    TagSet forbiddenTags = ((rule.forbiddenTags != null) ? new TagSet(rule.forbiddenTags) : null);
 
                     AllTraits.RemoveAll((WorldTrait trait) =>
-                         !trait.IsValid(world, logErrors: true)
-                         || trait.exclusiveWithTags.Any(x => ExclusiveWithTags.Any(y => y == x))
-                        || currentPlanetTraits.Contains(trait.filePath)
-                        || trait.exclusiveWith.Any(x => currentPlanetTraits.Any(y => y == x)));
-                    return AllTraits;
+                        (requiredTags != null && !trait.traitTagsSet.ContainsAll(requiredTags))
+                        || (forbiddenTags != null && trait.traitTagsSet.ContainsOne(forbiddenTags))
+                        || (rule.forbiddenTraits != null && rule.forbiddenTraits.Contains(trait.filePath))
+                        || !trait.IsValid(world, logErrors: true));
+
                 }
+                AllTraits.RemoveAll((WorldTrait trait) =>
+                     !trait.IsValid(world, logErrors: true)
+                    || trait.exclusiveWithTags.Any(x => ExclusiveWithTags.Any(y => y == x))
+                    || currentTraits.Contains(trait.filePath)
+                    || trait.exclusiveWith.Any(x => currentTraits.Any(y => y == x))
+                    );
+                return AllTraits;
+
             }
+            public List<WorldTrait> AllowedPlanetTraits => AllowedWorldTraitsFor(currentPlanetTraits, world);
 
             public bool RemoveWorldTrait(WorldTrait trait)
             {
@@ -963,12 +1002,12 @@ namespace ClusterTraitGenerationManager
                         var poiPlacement = poi.Value.placementPOI;
                         ApplySizeMultiplier(poiPlacement, multiplier);
                         layout.poiPlacements.Add(poiPlacement);
-                        SgtLogger.l(poi.Value.id + ", succeeded: " + chance * 100f, "POI Chance" + instancesToSpawn.ToString("P"));
+                        SgtLogger.l(poi.Value.id + ", succeeded: " + chance * 100f, "POI Chance: " + instancesToSpawn.ToString("P"));
                         // pity = 0;
                     }
                     else
                     {
-                        SgtLogger.l(poi.Value.id + ", failed: " + chance * 100f, "POI Chance" + instancesToSpawn.ToString("P"));
+                        SgtLogger.l(poi.Value.id + ", failed: " + chance * 100f, "POI Chance: " + instancesToSpawn.ToString("P"));
                         //pity += 1-instancesToSpawn;
                     }
                 }
