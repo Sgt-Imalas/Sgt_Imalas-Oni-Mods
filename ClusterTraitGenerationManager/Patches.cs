@@ -22,6 +22,7 @@ using STRINGS;
 using Klei.CustomSettings;
 using static STRINGS.UI.FRONTEND;
 using static ClusterTraitGenerationManager.CGSMClusterManager;
+using System.Threading;
 
 namespace ClusterTraitGenerationManager
 {

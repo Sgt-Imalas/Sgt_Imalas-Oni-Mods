@@ -15,6 +15,7 @@ using static ClusterTraitGenerationManager.CGSMClusterManager;
 using static ClusterTraitGenerationManager.STRINGS.UI;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDTRAITS;
+using static STRINGS.UI.BUILDCATEGORIES;
 using static STRINGS.UI.UISIDESCREENS.AUTOPLUMBERSIDESCREEN;
 
 namespace ClusterTraitGenerationManager
@@ -34,8 +35,9 @@ namespace ClusterTraitGenerationManager
         private FSlider ClusterSize;
 
         private GameObject AsteroidSize;
+        private LocText AsteroidSizeLabel;
+        private ToolTip AsteroidSizeTooltip;
 
-        //private LocText AsteroidSizeLabel;
 
         private FInputField2 PlanetSizeWidth;
         private FInputField2 PlanetSizeHeight;
@@ -116,11 +118,43 @@ namespace ClusterTraitGenerationManager
 
         }
 
+        string Warning3 = "EC1802";
+        string Warning2 = ("ff8102");
+        string Warning1 = ("F6D42A");
+         
         public void UpdateSizeLabels(StarmapItem current)
         {
-
             PlanetSizeWidth.EditTextFromData(current.CustomPlanetDimensions.X.ToString());
             PlanetSizeHeight.EditTextFromData(current.CustomPlanetDimensions.Y.ToString());
+            PercentageLargerThanTerra(current, out var Percentage);
+            if (Percentage > 200)
+            {
+                AsteroidSizeLabel.text = UIUtils.ColorText(ASTEROIDSIZEINFO.LABEL,Warning3);
+                AsteroidSizeTooltip.SetSimpleTooltip(UIUtils.ColorText(string.Format(ASTEROIDSIZEINFO.SIZEWARNING,Percentage), Warning3));
+            }
+            else if (Percentage > 100)
+            {
+                AsteroidSizeLabel.text = UIUtils.ColorText(ASTEROIDSIZEINFO.LABEL, Warning2);
+                AsteroidSizeTooltip.SetSimpleTooltip(UIUtils.ColorText(string.Format(ASTEROIDSIZEINFO.SIZEWARNING, Percentage), Warning2));
+            }
+            else if (Percentage > 33)
+            {
+                AsteroidSizeLabel.text = UIUtils.ColorText(ASTEROIDSIZEINFO.LABEL, Warning1);
+                AsteroidSizeTooltip.SetSimpleTooltip(UIUtils.ColorText(string.Format(ASTEROIDSIZEINFO.SIZEWARNING, Percentage), Warning1));
+            }
+            else
+            {
+                AsteroidSizeLabel.text = ASTEROIDSIZEINFO.LABEL;
+                AsteroidSizeTooltip.SetSimpleTooltip(ASTEROIDSIZEINFO.TOOLTIP);
+            }
+        }
+        void PercentageLargerThanTerra(StarmapItem current, out int dimensions)
+        {
+            float TerraArea = 240 * 380;
+            float CustomSize = current.CustomPlanetDimensions.X * current.CustomPlanetDimensions.Y;
+
+            dimensions = Mathf.RoundToInt((CustomSize / TerraArea) * 100f);
+            dimensions -= 100;
         }
 
         public void UpdateUI()
@@ -242,8 +276,8 @@ namespace ClusterTraitGenerationManager
 
 
             AsteroidSize = transform.Find("AsteroidSizeCycle").gameObject;
-            //AsteroidSizeLabel = transform.Find("AsteroidSizeCycle/Info").GetComponent<LocText>();
-            UIUtils.AddSimpleTooltipToObject(AsteroidSize.transform.Find("Label"), STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.TOOLTIP);
+            AsteroidSizeLabel = AsteroidSize.transform.Find("Label").GetComponent<LocText>();
+            AsteroidSizeTooltip = UIUtils.AddSimpleTooltipToObject(AsteroidSize.transform.Find("Label"), STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.TOOLTIP);
             UIUtils.TryChangeText(AsteroidSize.transform, "Info/WidthLabel/Label", ASTEROIDSIZEINFO.WIDTH);
             UIUtils.TryChangeText(AsteroidSize.transform, "Info/HeightLabel/Label", ASTEROIDSIZEINFO.HEIGHT);
 
@@ -393,6 +427,7 @@ namespace ClusterTraitGenerationManager
 
         }
 
+
         Dictionary<string, GameObject> Traits = new Dictionary<string, GameObject>();
         void InitializeTraitContainer()
         {
@@ -403,7 +438,7 @@ namespace ClusterTraitGenerationManager
                 var RemoveButton = TraitHolder.transform.Find("DeleteButton").gameObject.FindOrAddComponent<FButton>();
                 Strings.TryGet(kvp.Value.name, out var name);
                 Strings.TryGet(kvp.Value.description, out var description);
-                var combined = "<color=#" + kvp.Value.colorHex + ">" + name.ToString() + "</color>";
+                var combined = UIUtils.ColorText(name.ToString(), kvp.Value.colorHex);
 
                 string associatedIcon = kvp.Value.filePath.Substring(kvp.Value.filePath.LastIndexOf("/") + 1);
 

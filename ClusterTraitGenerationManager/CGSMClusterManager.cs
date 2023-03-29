@@ -1089,12 +1089,10 @@ namespace ClusterTraitGenerationManager
                 if (pOIPlacement.numToSpawn < 1 || pOIPlacement.pois == null)
                     continue;
 
-                //SgtLogger.l("AAAAAAAAAA");
                 float percentagePerItem = (float)pOIPlacement.numToSpawn / (float)pOIPlacement.pois.Count;
 
                 foreach (var lonePOI in pOIPlacement.pois)
                 {
-                    //SgtLogger.l("BBBBBB");
                     if (PlanetoidDict().TryGetValue(lonePOI, out var ClusterPOI))
                     {
                         if (singleItemId != string.Empty && ClusterPOI.id != singleItemId)
@@ -1154,7 +1152,7 @@ namespace ClusterTraitGenerationManager
                     return;
                 }
             }
-            ///only one teleport asteroid at a time (TODO; change that maybe)
+            ///only one teleport asteroid at a time 
             else if (item.category == StarmapItemCategory.Warp)
             {
                 if (item.Equals(CustomCluster.WarpPlanet))
@@ -1168,14 +1166,6 @@ namespace ClusterTraitGenerationManager
                     return;
                 }
             }
-            //SgtLogger.l(item.id + "; has it: " + CustomCluster.OuterPlanets.Contains(item), "THIS");
-
-            //foreach (var outerPlanet in CustomCluster.OuterPlanets)
-            //{
-            //    SgtLogger.l(outerPlanet.id, "OTHERS");
-            //}
-
-
             if (ToAdd.category != StarmapItemCategory.POI)
             {
                 if (!CustomCluster.OuterPlanets.ContainsKey(item.id))
@@ -1254,7 +1244,7 @@ namespace ClusterTraitGenerationManager
                         string id = string.Empty;
 
                         //SgtLogger.l(lonePOI, "LonePOI");
-                        GameObject gameObject = Util.KInstantiate(Assets.GetPrefab((Tag)lonePOI));
+                        GameObject gameObject = Util.KInstantiateUI(Assets.GetPrefab((Tag)lonePOI));
 
                         ClusterGridEntity component1 = gameObject.GetComponent<ClusterGridEntity>();
                         if ((UnityEngine.Object)component1 != (UnityEngine.Object)null)
@@ -1494,11 +1484,11 @@ namespace ClusterTraitGenerationManager
 
 
                 KMod.Manager.Dialog(Global.Instance.globalCanvas,
-               "Potential Generation Errors detected!",
-               "You have selected more than 6 outer planets, which can lead to placement failures.\n Automatically adjust cluster size and placements?",
-               "Yes",
+               GENERATIONWARNING.WINDOWNAME,
+               GENERATIONWARNING.DESCRIPTION,
+               GENERATIONWARNING.YES,
                AjustSize,
-               "No, let me do it manually"
+               GENERATIONWARNING.NOMANUAL
                , nothing
                );
             }

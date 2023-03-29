@@ -13,6 +13,13 @@ namespace ClusterTraitGenerationManager
     {
         public class UI
         {
+            public class GENERATIONWARNING
+            {
+                public static LocString WINDOWNAME = (LocString)"Potential Generation Errors detected!";
+                public static LocString DESCRIPTION = (LocString)"You have selected more than 6 outer planets, which can lead to placement failures.\n Automatically adjust cluster size and placements?";
+                public static LocString YES = (LocString)"Yes";
+                public static LocString NOMANUAL = (LocString)"No, let me do it manually.";
+            }
             public class CGM
             {
                 public class INDIVIDUALSETTINGS
@@ -80,6 +87,9 @@ namespace ClusterTraitGenerationManager
                         public static LocString WIDTH = (LocString)"Width:";
                         public static LocString HEIGHT = (LocString)"Height:";
                         public static LocString TOOLTIP = (LocString)"The dimensions of this asteroid.";
+                        public static LocString SIZEWARNING = (LocString)"Warning!\nThe planet size you have selected has {0}% more area than a normal vanilla size asteroid.\nThis might lead to a low game performance!";
+                        
+
                         public class SIZESELECTOR
                         {
 
@@ -108,23 +118,23 @@ namespace ClusterTraitGenerationManager
                         public class RATIOSELECTOR
                         {
 
-                            public static LocString NORMAL = (LocString)"Default Ratio";
-                            public static LocString NORMALTOOLTIP = (LocString)"Width and height of this asteroid are at their normal size ratio.";
+                            public static LocString NORMAL = (LocString)"Normal Shape";
+                            public static LocString NORMALTOOLTIP = (LocString)"The asteroid has its usual shape.";
                             public static LocString WIDE1 = (LocString)"Slightly Wider";
-                            public static LocString WIDE1TOOLTIP = (LocString)"The asteroid is a bit wider than normal";
+                            public static LocString WIDE1TOOLTIP = (LocString)"The asteroid is a bit wider than normal.";
                             public static LocString WIDE2 = (LocString)"Wider";
-                            public static LocString WIDE2TOOLTIP = (LocString)"The asteroid is wider than normal";
+                            public static LocString WIDE2TOOLTIP = (LocString)"The asteroid is wider than normal.";
                             public static LocString WIDE3 = (LocString)"Much Wider";
-                            public static LocString WIDE3TOOLTIP = (LocString)"The asteroid is a lot wider than normal";
+                            public static LocString WIDE3TOOLTIP = (LocString)"The asteroid is a lot wider than normal.";
 
                             public static LocString HEIGHT1 = (LocString)"Slightly Taller";
-                            public static LocString HEIGHT1TOOLTIP = (LocString)"The asteroid is a bit taller than normal";
+                            public static LocString HEIGHT1TOOLTIP = (LocString)"The asteroid is a bit taller than normal.";
 
                             public static LocString HEIGHT2 = (LocString)"Taller";
-                            public static LocString HEIGHT2TOOLTIP = (LocString)"The asteroid is taller than normal";
+                            public static LocString HEIGHT2TOOLTIP = (LocString)"The asteroid is taller than normal.";
 
                             public static LocString HEIGHT3 = (LocString)"Much Taller";
-                            public static LocString HEIGHT3TOOLTIP = (LocString)"The asteroid is a lot taller than normal";
+                            public static LocString HEIGHT3TOOLTIP = (LocString)"The asteroid is a lot taller than normal.";
 
                         }
 

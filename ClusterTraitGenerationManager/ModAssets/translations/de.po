@@ -16,12 +16,12 @@ msgstr ""
 #. ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGSM.DESCRIPTION
 msgctxt "ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGSM.DESCRIPTION"
 msgid "CGSM Cluster"
-msgstr ""
+msgstr "CGSM Cluster"
 
 #. ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGSM.NAME
 msgctxt "ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGSM.NAME"
 msgid "CGSM Cluster"
-msgstr ""
+msgstr "CGSM Cluster"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.AMOUNTSLIDER.DESCRIPTOR.INPUT.TEXT
 msgctxt ""
@@ -50,19 +50,19 @@ msgctxt ""
 "DESCRIPTOR.TOOLTIP"
 msgid ""
 "How many instances of these should be generated.\n"
-"Values that arent full numbers represent a chance to generate for POIs.\n"
+"Values that aren't full numbers represent a chance to generate for POIs.\n"
 "(f.e. 0.8 = 80% chance to generate this POI)"
 msgstr ""
-"Wie viele Instanzen dieses Gegenstandes generiert warden sollen.\n"
+"Wie viele Instanzen dieses Gegenstandes sollen generieren.\n"
 "Gleitkommazahlen entsprechen einer prozentualen Generierungschance.\n"
 "(0.8 entspricht beispielsweise einer 80% Generierungschance)"
 
-#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.INFO
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.HEIGHT
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
-"ASTEROIDSIZEINFO.INFO"
-msgid "{0}x{1}"
-msgstr "{0}x{1}"
+"ASTEROIDSIZEINFO.HEIGHT"
+msgid "Height:"
+msgstr "Höhe:"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.INPUT.TEXT
 msgctxt ""
@@ -78,12 +78,212 @@ msgctxt ""
 msgid "Asteroid Size:"
 msgstr "Asteroidengröße:"
 
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT1
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT1"
+msgid "Slightly Taller"
+msgstr "Etwas Höher"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT1TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT1TOOLTIP"
+msgid "The asteroid is a bit taller than normal."
+msgstr "Der Asteroid ist ein wenig höher als normal."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT2
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT2"
+msgid "Taller"
+msgstr "Höher"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT2TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT2TOOLTIP"
+msgid "The asteroid is taller than normal."
+msgstr "Der Asteroid ist höher als normal."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT3
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT3"
+msgid "Much Taller"
+msgstr "Ordentlich Höher"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT3TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT3TOOLTIP"
+msgid "The asteroid is a lot taller than normal."
+msgstr "Der Asteroid ist um einiges höher als normal."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.NORMAL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.NORMAL"
+msgid "Normal Shape"
+msgstr "Normale Form"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.NORMALTOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.NORMALTOOLTIP"
+msgid "The asteroid has its usual shape."
+msgstr "Der Asteroid hat seine übliche Form"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE1
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE1"
+msgid "Slightly Wider"
+msgstr "Etwas Breiter"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE1TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE1TOOLTIP"
+msgid "The asteroid is a bit wider than normal."
+msgstr "Der Asteroid ist ein wenig breiter als normal."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE2
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE2"
+msgid "Wider"
+msgstr "Breiter"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE2TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE2TOOLTIP"
+msgid "The asteroid is wider than normal."
+msgstr "Der Asteroid ist breiter als normal."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE3
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE3"
+msgid "Much Wider"
+msgstr "Ordentlich Breiter"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE3TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE3TOOLTIP"
+msgid "The asteroid is a lot wider than normal."
+msgstr "Der Asteroid ist um einiges breiter als normal."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE0
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE0"
+msgid "Normal"
+msgstr "Normal"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE0TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE0TOOLTIP"
+msgid "The asteroid is at its usual size."
+msgstr "Der Asteroid hat seine normale Größe."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE1
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE1"
+msgid "Slightly Larger"
+msgstr "Minimal Größer"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE1TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE1TOOLTIP"
+msgid "The asteroid is 25% larger than normal."
+msgstr "Der Asteroid ist 25 % größer als normal."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE2
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE2"
+msgid "Large"
+msgstr "Groß"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE2TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE2TOOLTIP"
+msgid "The asteroid is 50% larger than normal."
+msgstr "Der Asteroid ist 50 % größer als normal."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE3
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE3"
+msgid "Huge"
+msgstr "Sehr Groß"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE3TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE3TOOLTIP"
+msgid "The asteroid has twice its usual size."
+msgstr "Der Asteroid ist doppelt so groß wie normal."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE4
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE4"
+msgid "Massive"
+msgstr "Extrem Groß"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE4TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE4TOOLTIP"
+msgid "The asteroid has three times its usual size."
+msgstr "Der Asteroid ist dreimal so groß wie normal."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE5
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE5"
+msgid "Enormous"
+msgstr "Riesig"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE5TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.SIZE5TOOLTIP"
+msgid "The asteroid has four times its usual size."
+msgstr "Der Asteroid ist viermal so groß wie normal."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZEWARNING
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZEWARNING"
+msgid ""
+"Warning!\n"
+"The planet size you have selected has {0}% more area than a normal vanilla "
+"size asteroid.\n"
+"This might lead to a low game performance!"
+msgstr ""
+
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.TOOLTIP
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
 "ASTEROIDSIZEINFO.TOOLTIP"
 msgid "The dimensions of this asteroid."
 msgstr "Die Dimension dieses Asteroiden."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.WIDTH
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.WIDTH"
+msgid "Width:"
+msgstr ""
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDTRAITS.ADDTRAITBUTTON.TEXT
 msgctxt ""
@@ -218,7 +418,7 @@ msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
 "MINDISTANCESLIDER.DESCRIPTOR.INPUT.TEXT"
 msgid ""
-msgstr "P\n"
+msgstr ""
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.MINDISTANCESLIDER.DESCRIPTOR.LABEL
 msgctxt ""
@@ -239,7 +439,7 @@ msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
 "STARMAPITEMENABLED.LABEL"
 msgid "Generate Item:"
-msgstr "Generiere Sternenobjekt"
+msgstr "Generiere Sternenobjekt:"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.STARMAPITEMENABLED.TOOLTIP
 msgctxt ""
@@ -320,6 +520,33 @@ msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI.NAMEITEMS"
 msgid "Starmap Items of this category"
 msgstr "Sternkartengegenstände dieser Kategorie"
 
+#. ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.DESCRIPTION
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.DESCRIPTION"
+msgid ""
+"You have selected more than 6 outer planets, which can lead to placement "
+"failures.\n"
+" Automatically adjust cluster size and placements?"
+msgstr ""
+"Es wurden mehr als 6 äußere Planeten ausgewählt, was zu Platzierungsfehlern "
+"führen kann.\n"
+" Clustergröße und Platzierungen automatisch anpassen?"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.NOMANUAL
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.NOMANUAL"
+msgid "No, let me do it manually."
+msgstr "Nein, lass mich das manuell anpassen."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.WINDOWNAME
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.WINDOWNAME"
+msgid "Potential Generation Errors detected!"
+msgstr "Potenzielle Generierungsfehler entdeckt!"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.YES
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.YES"
+msgid "Yes"
+msgstr "Ja"
+
 #. ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_OUTER.DESCRIPTION
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_OUTER."
@@ -389,6 +616,12 @@ msgctxt ""
 "NAME"
 msgid "Random Teleporter Asteroid"
 msgstr "Zufälliger Teleporterasteroid"
+
+#~ msgctxt ""
+#~ "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+#~ "ASTEROIDSIZEINFO.INFO"
+#~ msgid "{0}x{1}"
+#~ msgstr "{0}x{1}"
 
 #~ msgctxt ""
 #~ "ClusterTraitGenerationManager.STRINGS.UI.CUSTOMCLUSTERUI."
