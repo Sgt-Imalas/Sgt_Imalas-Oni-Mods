@@ -1,7 +1,7 @@
 name: Mod Translation
 description: Hand in translation files for mods.
-title: "[ModTranslation]"
-labels: ["bug"]
+title: "[ModTranslation]: "
+labels: ["enhancement"]
 body:
   - type: markdown
     attributes:
@@ -39,7 +39,7 @@ body:
     attributes:
       label: translation file
       description: |
-        Add your translation file here.     
+        Add your translation file here (***.po file), you probably need to zip it.  
       placeholder: Click in here to enable drag and drop and to either use that or the built in file selector by clicking the bottom bar afterwards. Then add your log file here
     validations:
       required: true
