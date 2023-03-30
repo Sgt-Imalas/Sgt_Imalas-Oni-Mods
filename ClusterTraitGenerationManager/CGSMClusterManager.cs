@@ -1293,7 +1293,7 @@ namespace ClusterTraitGenerationManager
                         id = id.Replace("ArtifactSpacePOI_", string.Empty);
                         id = id.Replace("HarvestableSpacePOI_", string.Empty);
 
-                        if (animName == "cloud")
+                        if (lonePOI.Contains(HarvestablePOIConfig.CarbonAsteroidField))
                             animName = "carbon_asteroid_field";
 
                         if (animName == "closed_loop")

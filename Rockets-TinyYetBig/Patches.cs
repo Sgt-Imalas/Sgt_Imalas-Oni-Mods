@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static STRINGS.UI.SPACEDESTINATIONS.HARVESTABLE_POI;
 
 namespace Rockets_TinyYetBig
 {
@@ -68,16 +69,15 @@ namespace Rockets_TinyYetBig
         //[HarmonyPatch(nameof(HarvestablePOIConfig.CreatePrefabs))]
         public static class FixForMissingCarbonFieldAnim
         {
-            [PLibPatch(RunAt.AfterDbInit, nameof(HarvestablePOIConfig.CreatePrefabs), RequireType = "HarvestablePOIConfig")]
+            //[PLibPatch(RunAt.AfterDbInit, nameof(HarvestablePOIConfig.CreatePrefabs), RequireType = "HarvestablePOIConfig")]
             public static void Postfix(ref List<GameObject> __result)
             {
                 foreach(var obj in __result)
                 {
-                    SgtLogger.l(obj.ToString(),"PATCHSS");
+                    //SgtLogger.l(obj.ToString(),"PATCHSS");
                     if(obj.TryGetComponent<HarvestablePOIClusterGridEntity>(out var poi))
                     {
-                        SgtLogger.l(poi.m_Anim);
-                        if(poi.m_Anim == "cloud")
+                        if (poi.PrefabID().ToString().Contains(HarvestablePOIConfig.CarbonAsteroidField))
                         {
                             poi.m_Anim = "carbon_asteroid_field";
                             SgtLogger.l("Fixed Carbon POI sprite");
@@ -87,6 +87,37 @@ namespace Rockets_TinyYetBig
                 }
             }
         }
+        [HarmonyPatch(typeof(Db))]
+        [HarmonyPatch("Initialize")]
+        public static class Db_Init_Patch
+        {
+            // using System; will allow using Type insted of System.Type
+            // using System.Reflection; will allow using MethodInfo instead of System.Reflection.MethodInfo
+            static System.Reflection.MethodInfo GetMethodInfo(System.Type classType, string methodName)
+            {
+                System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.Public
+                                                    | System.Reflection.BindingFlags.NonPublic
+                                                    | System.Reflection.BindingFlags.Static
+                                                    | System.Reflection.BindingFlags.Instance;
+
+                System.Reflection.MethodInfo method = classType.GetMethod(methodName, flags);
+                if (method == null)
+                    Debug.Log($"Error - {methodName} method is null...");
+
+                return method;
+            }
+
+            public static void Postfix()
+            {
+                System.Reflection.MethodInfo patched = GetMethodInfo(typeof(HarvestablePOIConfig), "CreatePrefabs");
+                System.Reflection.MethodInfo postfix = GetMethodInfo(typeof(FixForMissingCarbonFieldAnim), "Postfix");
+                // TODO: Update line below
+                Harmony harmony = new Harmony("Rocketry Expanded");
+                harmony.Patch(patched, null, new HarmonyMethod(postfix));
+            }
+        }
+
+
         //[HarmonyPatch(typeof(HarvestablePOIConfig))]
         //[HarmonyPatch("GenerateConfigs")]
         //[HarmonyPatch(new Type[] { typeof(List<HarvestablePOIConfig.HarvestablePOIParams>) })]
