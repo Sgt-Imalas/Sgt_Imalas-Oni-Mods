@@ -26,7 +26,7 @@
 		<ModName>Scan &amp; Relay Satellites</ModName>
 		<ModDescription>Deployable Satellites to relay logic signals and reveal the space around them</ModDescription>
 		<SupportedContent>EXPANSION1_ID</SupportedContent>
-		<MinimumSupportedBuild>535211</MinimumSupportedBuild>
+		<MinimumSupportedBuild>550377</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 
