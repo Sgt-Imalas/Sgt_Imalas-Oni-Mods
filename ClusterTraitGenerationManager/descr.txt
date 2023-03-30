@@ -4,7 +4,7 @@
 
 Gain nearly full control over each tiny detail of your cluster generation - manipulate each item on the star map individually!
 
-[h1]Current latest Version: 1.3.1[/h1]
+[h1]Current latest Version: 1.3.1.1[/h1]
 
 [hr][/hr]
 
