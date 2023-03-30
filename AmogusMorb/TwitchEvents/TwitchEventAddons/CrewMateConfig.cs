@@ -11,8 +11,8 @@ namespace AmogusMorb.TwitchEvents.TwitchEventAddons
 {
     internal class CrewMateConfig : IEntityConfig
     {
-        public const string ID = "RTB_Twitch_Crewmate";
-        public static string imposta_trait = "RTB_Twitch_Crewmate";
+        public const string ID = "AMOGUS_Twitch_Crewmate";
+        public static string imposta_trait = "AMOGUS_Twitch_Crewmate";
         public const float MASS = 100f;
         private const float WIDTH = 1f;
         private const float HEIGHT = 1f;

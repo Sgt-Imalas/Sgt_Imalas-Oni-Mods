@@ -41,7 +41,7 @@ namespace AmogusMorb.TwitchEvents
         {
             if (!TwitchModInfo.TwitchIsPresent)
             {
-                Debug.LogWarning("Twitch not enabled!");
+                SgtLogger.logwarning("Twitch not enabled!");
                 return;
             }
 

@@ -112,7 +112,6 @@ Options made with PLib.
 [list]
 [*] The game crashes on changing one spacefarer module to another. - even to the mod will recieve blame, this is a vanilla crash issue, just don't do that -> deconstruct the module, then construct the new one after.
 [*] Camera glitches out / is black inside of rocket - A camera bug derived from the main game camera, zoom in / out to fix.
-[*] Starfarer landing animation is glitchy - Basegame limitations do not allow extra animation there to fix it.
 [*] Game Crash on construction of an additional rocket - you used up all the grid space with 32x32 rockets, deconstruct some of those and it should work again.
 [*] Cannot place something in the rocket / space blocked / invisible mining tiles - game hiccup for not removing invisible world border neutronium, reloading fixes this.
 [/list]

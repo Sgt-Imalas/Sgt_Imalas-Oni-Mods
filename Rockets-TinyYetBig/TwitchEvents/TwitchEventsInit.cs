@@ -35,13 +35,13 @@ namespace Rockets_TinyYetBig.TwitchEvents
             deckInst = TwitchDeckManager.Instance;
 
             initalized = true;
-            SgtLogger.debuglog("Rocketry Expanded: Initalized Twitch integration");
+            SgtLogger.debuglog("Initalized Twitch integration");
         }
         public static void RegisterAll()
         {
             if (!TwitchModInfo.TwitchIsPresent)
             {
-                Debug.LogWarning($"Rocketry Expanded: Twitch not enabled!");
+                SgtLogger.logwarning("Twitch not enabled!");
                 return;
             }
 

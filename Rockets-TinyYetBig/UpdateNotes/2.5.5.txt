@@ -1,0 +1,15 @@
+﻿2.5.5:
+- Updated for WhattaBlast
+
+new Features:
+- Starmap location sensor now has a location selector, allowing to select ONE SPECIFIC tile. this can be any tile, a planet, poi or just one specific empty space tile
+- Carbon Asteroid POI now uses its proper animation instead of the generic "cloud" animation
+
+
+Fixes:
+- fixed various issues with the critter stasis module 
+	- crash on trying to store an undying critter
+	- animation freeze on unloading unwranglable critters
+	- Critter Traits - Integration: critters dont reroll their traits on getting stored
+- Removed Amogus, Imposter, Crewmate from Twitch Integration
+- some animation fixes

@@ -11,8 +11,8 @@ namespace AmogusMorb.TwitchEvents.TwitchEventAddons
 {
     internal class ImposterConfig : IEntityConfig
     {
-        public const string ID = "RTB_Twitch_Imposter";
-        public static string imposta_trait = "RTB_Twitch_ImposterBaseTrait";
+        public const string ID = "AMOGUS_Twitch_Imposter";
+        public static string imposta_trait = "AMOGUS_Twitch_ImposterBaseTrait";
         public const int MAXIMUM_TECH_CONSTRUCTION_TIER = 2;
         public const float MASS = 100f;
         private const float WIDTH = 1f;

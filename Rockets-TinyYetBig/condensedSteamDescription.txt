@@ -6,7 +6,7 @@
 This mod aims to increase rocket versatility by adding new rocket modules, rocket mechanics and in general adding to the experience of rocketry in Spaced Out.
 While including a large number of features, the mod is higly modular so every player can choose for themselves what features they want to use.
 
-[h1]Current latest Version: 2.5.0.7[/h1]
+[h1]Current latest Version: 2.5.5[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
@@ -111,7 +111,6 @@ Animations for the Solar Nosecone & Natural Gas Engine made by the wonderful 3Gu
 [h1]Known Issues[/h1]
 [list]
 [*] Camera glitches out / is black inside of rocket - A camera bug derived from the main game camera, zoom in / out to fix.
-[*] Starfarer landing animation is glitchy - Basegame limitations do not allow extra animation there to fix it.
 [*] Game Crash on construction of an additional rocket - you used up all the grid space with 32x32 rockets, deconstruct some of those and it should work again.
 [*] Cannot place something in the rocket / space blocked / invisible mining tiles - game hiccup for not removing invisible world border neutronium, reloading fixes this.
 [/list]
