@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
 "Application: Oxygen Not IncludedPOT Version: 2.0\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 2.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #. ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGSM.DESCRIPTION
 msgctxt "ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGSM.DESCRIPTION"
@@ -24,11 +24,22 @@ msgid "CGSM Cluster"
 msgstr "CGSM星球特性"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.AMOUNTSLIDER.DESCRIPTOR.INPUT.TEXT
+#, fuzzy
+#| msgid ""
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.AMOUNTSLIDER."
 "DESCRIPTOR.INPUT.TEXT"
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.1\n"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.AMOUNTSLIDER.DESCRIPTOR.LABEL
 msgctxt ""
@@ -65,11 +76,22 @@ msgid "Height:"
 msgstr "高度："
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.INPUT.TEXT
+#, fuzzy
+#| msgid ""
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
 "ASTEROIDSIZEINFO.INPUT.TEXT"
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.1\n"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.LABEL
 msgctxt ""
@@ -312,11 +334,22 @@ msgid "  No Traits"
 msgstr "无特征"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUFFERSLIDER.DESCRIPTOR.INPUT.TEXT
+#, fuzzy
+#| msgid ""
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUFFERSLIDER."
 "DESCRIPTOR.INPUT.TEXT"
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.1\n"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUFFERSLIDER.DESCRIPTOR.LABEL
 msgctxt ""
@@ -375,11 +408,22 @@ msgid "Return"
 msgstr "返回"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.CLUSTERSIZE.DESCRIPTOR.INPUT.TEXT
+#, fuzzy
+#| msgid ""
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.CLUSTERSIZE."
 "DESCRIPTOR.INPUT.TEXT"
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.1\n"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.CLUSTERSIZE.DESCRIPTOR.LABEL
 msgctxt ""
@@ -396,11 +440,22 @@ msgid "The radius of the starmap."
 msgstr "星图的半径。"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.MAXDISTANCESLIDER.DESCRIPTOR.INPUT.TEXT
+#, fuzzy
+#| msgid ""
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
 "MAXDISTANCESLIDER.DESCRIPTOR.INPUT.TEXT"
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.1\n"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.MAXDISTANCESLIDER.DESCRIPTOR.LABEL
 msgctxt ""
@@ -417,11 +472,22 @@ msgid "The maximum distance this asteroid has to the center of the starmap."
 msgstr "这颗小行星到星图中心的最大距离。"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.MINDISTANCESLIDER.DESCRIPTOR.INPUT.TEXT
+#, fuzzy
+#| msgid ""
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
 "MINDISTANCESLIDER.DESCRIPTOR.INPUT.TEXT"
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.1\n"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.MINDISTANCESLIDER.DESCRIPTOR.LABEL
 msgctxt ""
@@ -531,24 +597,24 @@ msgid ""
 "failures.\n"
 " Automatically adjust cluster size and placements?"
 msgstr ""
-"你选择了6个以上的外行星，这可能导致放置失败。\n"
+"你选择了6个以上的外行星，这可能导致初始化失败。\n"
 "\n"
-" 自动调整集群大小和安置？"
+"是否自动调整星群大小和设置？"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.NOMANUAL
 msgctxt "ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.NOMANUAL"
 msgid "No, let me do it manually."
-msgstr "不，让我手动来做。"
+msgstr "否，让我手动操作。"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.WINDOWNAME
 msgctxt "ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.WINDOWNAME"
 msgid "Potential Generation Errors detected!"
-msgstr "检测到潜在的生成错误!"
+msgstr "检测到未知的生成错误!"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.YES
 msgctxt "ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.YES"
 msgid "Yes"
-msgstr "是"
+msgstr "确认"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_OUTER.DESCRIPTION
 msgctxt ""
@@ -561,7 +627,7 @@ msgid ""
 msgstr ""
 "选择一定数量的随机外层小行星。\n"
 "\n"
-"每个小行星只能生成一次"
+"每个小行星只能生成一次。"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_OUTER.NAME
 msgctxt ""
@@ -597,21 +663,21 @@ msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS."
 "CGM_RANDOM_STARTER.DESCRIPTION"
 msgid "The starting asteroid will be picked at random"
-msgstr "起始小行星将随机选取"
+msgstr "初始小行星将随机选取"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_STARTER.NAME
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS."
 "CGM_RANDOM_STARTER.NAME"
 msgid "Random Start Asteroid"
-msgstr "随机启动小行星"
+msgstr "随机初始小行星"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_WARP.DESCRIPTION
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_WARP."
 "DESCRIPTION"
 msgid "The teleporter asteroid will be picked at random"
-msgstr "传送小行星将随机挑选"
+msgstr "传送小行星将随机选取"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_WARP.NAME
 msgctxt ""
@@ -619,20 +685,3 @@ msgctxt ""
 "NAME"
 msgid "Random Teleporter Asteroid"
 msgstr "随机传送小行星"
-
-#. ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT.DESCRIPTION
-msgctxt ""
-"ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT."
-"DESCRIPTION"
-msgid ""
-"Chooses between 1 and 3 Traits at random.\n"
-"Mutually exclusive with other selectable Traits"
-msgstr ""
-"随机选择1至3个星球特性。\n"
-"与其他可选择的星球特性冲突。"
-
-#. ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT.NAME
-msgctxt ""
-"ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT.NAME"
-msgid "Randomized Traits"
-msgstr "随机小行星特性"

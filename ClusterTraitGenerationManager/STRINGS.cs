@@ -16,7 +16,7 @@ namespace ClusterTraitGenerationManager
             public class CGM_RANDOMTRAIT
             {
                 public static LocString NAME = (LocString)"Randomized Traits";
-                public static LocString DESCRIPTION = (LocString)"Chooses between 1 and 3 Traits at random.\nMutually exclusive with other selectable Traits";
+                public static LocString DESCRIPTION = (LocString)"Chooses between 1 and 3 Traits at random.\nMutually exclusive with other selectable Traits.";
             }
         }
         public class UI
@@ -196,10 +196,12 @@ namespace ClusterTraitGenerationManager
                         public class RETURNBUTTON
                         {
                             public static LocString TEXT = (LocString)"Return";
+                            public static LocString TOOLTIP = (LocString)"Return to the previous screen.";
                         }
                         public class GENERATECLUSTERBUTTON
                         {
-                            public static LocString TEXT = (LocString)"Generate Cluster";
+                            public static LocString TEXT = (LocString)"Start modified Game";
+                            public static LocString TOOLTIP = (LocString)"Start generating a modified Cluster based on selected parameters.\nModified Cluster Generation is only activated if this button here is used.";
                         }
                     }
                 }

@@ -398,6 +398,8 @@ namespace ClusterTraitGenerationManager
 
             UIUtils.AddSimpleTooltipToObject(ResetAllButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.RESETCLUSTERBUTTON.TOOLTIP, true);
             UIUtils.AddSimpleTooltipToObject(ResetButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.RESETSELECTIONBUTTON.TOOLTIP, true);
+            UIUtils.AddSimpleTooltipToObject(GenerateClusterButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.GENERATECLUSTERBUTTON.TOOLTIP, true);
+            UIUtils.AddSimpleTooltipToObject(ReturnButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.RETURNBUTTON.TOOLTIP, true);
 
             SgtLogger.Assert("AsteroidSize", AsteroidSize);
             //SgtLogger.Assert("AsteroidSizeLabel", AsteroidSizeLabel);

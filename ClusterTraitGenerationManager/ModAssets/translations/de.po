@@ -132,7 +132,7 @@ msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
 "ASTEROIDSIZEINFO.RATIOSELECTOR.NORMALTOOLTIP"
 msgid "The asteroid has its usual shape."
-msgstr "Der Asteroid hat seine übliche Form"
+msgstr "Der Asteroid hat seine übliche Form."
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE1
 msgctxt ""
@@ -331,8 +331,21 @@ msgstr "Minimale Distanz welche zu anderen Asteroiden bestehen muss."
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS."
 "GENERATECLUSTERBUTTON.TEXT"
-msgid "Generate Cluster"
-msgstr "Generiere Cluster"
+msgid "Start modified Game"
+msgstr "Modifiziertes Spiel Starten"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.GENERATECLUSTERBUTTON.TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS."
+"GENERATECLUSTERBUTTON.TOOLTIP"
+msgid ""
+"Start generating a modified Cluster based on selected parameters.\n"
+"Modified Cluster Generation is only activated if this button here is used."
+msgstr ""
+"Startet die Generierung eines modifizierten Clusters basierend auf den "
+"ausgewählten Parametern.\n"
+"Die Generierung modifizierter Cluster wird nur aktiviert, wenn dieser Knopf "
+"hier verwendet wird."
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.RESETCLUSTERBUTTON.TEXT
 msgctxt ""
@@ -370,6 +383,13 @@ msgctxt ""
 "RETURNBUTTON.TEXT"
 msgid "Return"
 msgstr "Zurück"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.RETURNBUTTON.TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS."
+"RETURNBUTTON.TOOLTIP"
+msgid "Return to the previous screen."
+msgstr ""
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.CLUSTERSIZE.DESCRIPTOR.INPUT.TEXT
 msgctxt ""
@@ -616,6 +636,36 @@ msgctxt ""
 "NAME"
 msgid "Random Teleporter Asteroid"
 msgstr "Zufälliger Teleporterasteroid"
+
+#. ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT.DESCRIPTION
+#, fuzzy
+#| msgctxt ""
+#| "ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT."
+#| "DESCRIPTION"
+#| msgid ""
+#| "Chooses between 1 and 3 Traits at random.\n"
+#| "Mutually exclusive with other selectable Traits"
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT."
+"DESCRIPTION"
+msgid ""
+"Chooses between 1 and 3 Traits at random.\n"
+"Mutually exclusive with other selectable Traits."
+msgstr ""
+"Wählt 1 bis 3 zufällige Welt-Eigenschaften zufällig.\n"
+"Gegenseitig exklusiv mit anderen auswählbaren Eigenschaften."
+
+#. ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT.NAME
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT.NAME"
+msgid "Randomized Traits"
+msgstr "Zufällige Welt-Eigenschaften"
+
+#~ msgctxt ""
+#~ "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS."
+#~ "GENERATECLUSTERBUTTON.TEXT"
+#~ msgid "Generate Cluster"
+#~ msgstr "Generiere Cluster"
 
 #~ msgctxt ""
 #~ "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."

@@ -16,6 +16,8 @@ You can Activate/Deactivate a planet by double clicking or setting the checkmark
 Once everything is configured, hit the "Start Game" button to generate the cluster.
 If you forgot some settings (stuff like difficulty, story traits) on the normal screen, you can safely back out from the custom cluster screen, change those settings and go back in. The customized settings only reset if you select a different cluster (since it then loads that as new preset). 
 
+[h3]Use the "Start modified Game"-button in the CGM menu to trigger custom generation, using the regular button does not apply your custom settings![/h3]
+
 [h1]Features[/h1]
 [list]
 [*] Preset Generation from ALL clusters
