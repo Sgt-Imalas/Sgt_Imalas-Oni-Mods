@@ -163,7 +163,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 if (Config.Instance.EnableFridge)
                 {
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.FoodRepurposing, FridgeModuleConfig.ID);
-                    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.FoodRepurposing, FridgeModuleAccessHatchConfig.ID);
+                    //InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.FoodRepurposing, FridgeModuleAccessHatchConfig.ID);
                 }
                 
 
