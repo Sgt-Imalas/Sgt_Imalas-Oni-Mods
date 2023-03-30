@@ -1,7 +1,5 @@
 ﻿using ONITwitchLib;
-using Rockets_TinyYetBig.Behaviours;
-using Rockets_TinyYetBig.SpaceStations;
-using Rockets_TinyYetBig.TwitchEvents.TwitchEventAddons;
+using AmogusMorb.TwitchEvents.TwitchEventAddons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Rockets_TinyYetBig.TwitchEvents.Events
+namespace AmogusMorb.TwitchEvents.Events
 {
     internal class ImposterAmongUsVentEvent : ITwitchEventBase
     {
@@ -23,7 +21,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
                 (data) =>
                 {
 
-                    if (GameClock.Instance.GetCycle() < 25 || Components.MinionIdentities.Count < 5 || VentComponents.Vents.Count<1 ||UtilLibs.ModListUtils.ModIsActive("Amorbus"))
+                    if (GameClock.Instance.GetCycle() < 25 || Components.MinionIdentities.Count < 5 || VentComponents.Vents.Count<1)
                         return false;
                     return true;
                 };

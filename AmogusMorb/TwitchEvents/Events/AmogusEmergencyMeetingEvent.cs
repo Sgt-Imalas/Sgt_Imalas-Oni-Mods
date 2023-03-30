@@ -1,7 +1,6 @@
 ﻿using Klei.AI;
 using ONITwitchLib;
-using Rockets_TinyYetBig.SpaceStations;
-using Rockets_TinyYetBig.TwitchEvents.TwitchEventAddons;
+using AmogusMorb.TwitchEvents.TwitchEventAddons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using static UnityEngine.UI.Image;
 
-namespace Rockets_TinyYetBig.TwitchEvents.Events
+namespace AmogusMorb.TwitchEvents.Events
 {
     internal class AmogusEmergencyMeetingEvent : ITwitchEventBase
     {

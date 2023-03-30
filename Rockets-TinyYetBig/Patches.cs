@@ -64,20 +64,23 @@ namespace Rockets_TinyYetBig
         /// <summary>
         /// This fixes the missing carbon field anim
         /// </summary>
-       // [HarmonyPatch(typeof(HarvestablePOIConfig))]
-       // [HarmonyPatch(nameof(HarvestablePOIConfig.CreatePrefabs))]
+        //[HarmonyPatch(typeof(HarvestablePOIConfig))]
+        //[HarmonyPatch(nameof(HarvestablePOIConfig.CreatePrefabs))]
         public static class FixForMissingCarbonFieldAnim
         {
-            [PLibPatch(RunAt.AfterDbInit, nameof(HarvestablePOIConfig.GenerateConfigs), RequireType = "HarvestablePOIConfig")]
+            [PLibPatch(RunAt.AfterDbInit, nameof(HarvestablePOIConfig.CreatePrefabs), RequireType = "HarvestablePOIConfig")]
             public static void Postfix(ref List<GameObject> __result)
             {
                 foreach(var obj in __result)
                 {
+                    SgtLogger.l(obj.ToString(),"PATCHSS");
                     if(obj.TryGetComponent<HarvestablePOIClusterGridEntity>(out var poi))
                     {
+                        SgtLogger.l(poi.m_Anim);
                         if(poi.m_Anim == "cloud")
                         {
                             poi.m_Anim = "carbon_asteroid_field";
+                            SgtLogger.l("Fixed Carbon POI sprite");
                             break;
                         }
                     }

@@ -51,6 +51,12 @@
 	</ItemGroup>
 	
 	<ItemGroup>
+	  <Reference Include="ONITwitchLib">
+	    <HintPath>..\TwitchLib\ONITwitchLib.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+	
+	<ItemGroup>
 	  <None Update="ModAssets\anim\assets\amorbus_sus\amorbus_sus_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>

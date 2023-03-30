@@ -1,6 +1,5 @@
 ﻿using ONITwitchLib;
-using Rockets_TinyYetBig.SpaceStations;
-using Rockets_TinyYetBig.TwitchEvents.TwitchEventAddons;
+using AmogusMorb.TwitchEvents.TwitchEventAddons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Rockets_TinyYetBig.TwitchEvents.Events
+namespace AmogusMorb.TwitchEvents.Events
 {
     internal class ImposterAmongUsEven : ITwitchEventBase
     {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 
-namespace Rockets_TinyYetBig.TwitchEvents.TwitchEventAddons
+namespace AmogusMorb.TwitchEvents.TwitchEventAddons
 {
     internal class ImposterConfig : IEntityConfig
     {

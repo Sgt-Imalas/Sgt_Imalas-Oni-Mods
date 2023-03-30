@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Rockets_TinyYetBig.TwitchEvents.TwitchEventAddons
+namespace AmogusMorb.TwitchEvents.TwitchEventAddons
 {
     internal class CrewColoursSetter:KMonoBehaviour
     {
@@ -23,14 +23,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.TwitchEventAddons
 
         Color GetBrightColor()
         {
-            float r = 0, g = 0, b = 0; 
-            while (r + g + b < 1f) 
-            {
-                r = Random.value; 
-                g = Random.value;
-                b = Random.value;
-            }
-            return new Color(r, g, b);
+            return Random.ColorHSV(0,1,1,1,1,1);
         }
     }
 }

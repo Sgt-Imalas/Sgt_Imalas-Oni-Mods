@@ -131,15 +131,6 @@
 	  <None Update="ModAssets\anim\assets\rocket_natgas_engine\rocket_natgas_engine_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\twitch_imposter\twitch_imposter_0.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\twitch_imposter\twitch_imposter_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\twitch_imposter\twitch_imposter_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
 	  <None Update="ModAssets\anim\assets\coal_generator_module\coal_generator_module.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
@@ -497,5 +488,9 @@
 	  <Reference Include="ONITwitchLib">
 	    <HintPath>..\TwitchLib\ONITwitchLib.dll</HintPath>
 	  </Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="TwitchEvents\TwitchEventAddons\" />
 	</ItemGroup>
 </Project>

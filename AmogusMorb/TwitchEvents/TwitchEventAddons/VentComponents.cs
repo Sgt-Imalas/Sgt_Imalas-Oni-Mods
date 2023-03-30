@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using Rockets_TinyYetBig.Buildings.CargoBays;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 using UtilLibs;
 using static Components;
 
-namespace Rockets_TinyYetBig.TwitchEvents.TwitchEventAddons
+namespace AmogusMorb.TwitchEvents.TwitchEventAddons
 {
     [HarmonyPatch(typeof(Vent), "OnSpawn")]
     public static class VentComponents
