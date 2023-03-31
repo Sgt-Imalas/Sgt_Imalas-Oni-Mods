@@ -1,0 +1,31 @@
+﻿[img]https://i.imgur.com/VgZFBU7.png[/img]
+
+[h1]Meteor Migration [DLC][/h1]
+
+If you want to keep playing your Pre-WhattaBlast saves but also don't want to miss out on the new meteor showers
+
+[h1]Current latest Version: 1.0.0[/h1]
+
+[hr][/hr]
+
+[h1]How does this work?[/h1]
+Activate the mod and load the old savegame. All asteroids in the cluster will get their Meteor showers updated. Save your game afterwards.
+
+Mod can be safely removed after migration.
+
+[h1]Bug Reports[/h1]
+Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+
+Where to find the Log:
+[list]
+[*]Windows: 
+    C:\Users\%username%\AppData\LocalLow\Klei\Oxygen Not Included\Player.log
+[*]Mac: 
+    ~/Library/Logs/Klei/Oxygen Not Included/Player.log
+[*] Linux: 
+~/.config/unity3d/Klei/Oxygen Not Included/Player.log
+[/list] 
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
