@@ -27,6 +27,7 @@ While including a large number of features, the mod is higly modular so every pl
 	[*]Petroleum Engines: Can now also be fueled with Ethanol
 	[*]Large Solid Oxidizer Tank Buff: Capacity 900 -> 1350, this gives it 3x the capacity of one small tank while taking 2.5x height and weight of one (and gives a reason to use this module)
 	[*]Rocket gas/liquid input/output wall tiles have their radiation absorption fixed and count as "Rocket Wall", thus allow the constructing of Fittings connected to it
+	[*]Starmap sensor has an option to
 	[*]more wip.[/list]
 [*] each new module and most features can be individually toggled on&off / tweaked in the mod config.
 [/list]

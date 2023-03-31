@@ -1,0 +1,11 @@
+﻿[img]https://i.imgur.com/GbFtLZ2.png[/img]
+
+[h1]Claim Notification[/h1]
+
+If you think adding a blue glow to the small button in the top left is not noticeable enough, this mod is for you.
+
+This mod will create a popup if there is a new Blueprint (skin) for you to claim.
+
+Does not affect the unlocking process in any way (that stuff is done by the Klei server)
+
+[h1]Current latest Version: 1.0[/h1]

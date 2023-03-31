@@ -35,17 +35,22 @@ namespace ClaimNotification
                 else
                 {
 
-                    if(!HasShownInfo && KleiItemDropScreen.HasItemsToShow())
+                    if(
+                        !HasShownInfo 
+                        && KleiItemDropScreen.HasItemsToShow()
+                        )
                     {
                         //SgtLogger.l("item found!");
                         System.Action ShowScreen = () => UnityEngine.Object.FindObjectOfType<KleiItemDropScreen>(true).Show(true);
+                        System.Action close = () => { };
 
                         KMod.Manager.Dialog(Global.Instance.globalCanvas,
                        "New Item Unlocked",
                        "You can claim a new Blueprint!",
-                       "Open",
+                       "Claim Blueprint now",
                        ShowScreen
-                       );
+                       , "Close",
+                       close);
                         HasShownInfo = true;
                     }
                 }
@@ -59,7 +64,7 @@ namespace ClaimNotification
         {
             public static void Postfix()
             {
-                LocalisationUtil.Translate(typeof(STRINGS), true);
+                //LocalisationUtil.Translate(typeof(STRINGS), true);
             }
         }
     }
