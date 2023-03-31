@@ -84,7 +84,7 @@ namespace ClusterTraitGenerationManager
 
         void InitializeTraitContainer()
         {
-            foreach (var kvp in SettingsCache.worldTraits)
+            foreach (var kvp in ModAssets.AllTraitsWithRandom)
             {
                 //SgtLogger.l(kvp.Key, "INIT");
 

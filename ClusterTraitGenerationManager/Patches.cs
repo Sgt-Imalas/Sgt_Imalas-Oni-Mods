@@ -86,6 +86,28 @@ namespace ClusterTraitGenerationManager
                 CGSMClusterManager.CreateCustomClusterFrom(clusterPath);
             }
         }
+        [HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
+        [HarmonyPatch(nameof(ColonyDestinationSelectScreen.CoordinateChanged))]
+        public static class SeedInserted
+        {
+            public static void Postfix(ColonyDestinationSelectScreen __instance)
+            {
+                CGSMClusterManager.selectScreen = __instance;
+                if (__instance.newGameSettings == null)
+                    return;
+
+                string clusterPath = __instance.newGameSettings.GetSetting(CustomGameSettingConfigs.ClusterLayout);
+                if (clusterPath == null || clusterPath.Count() == 0)
+                {
+                    clusterPath = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
+                }
+                CGSMClusterManager.LoadCustomCluster = false;
+                CGSMClusterManager.CreateCustomClusterFrom(clusterPath);
+            }
+        }
+
+
+        
 
         /// <summary>
         /// Resets Custom cluster with newly generated preset
@@ -237,13 +259,6 @@ namespace ClusterTraitGenerationManager
                         }
                         return false;
                     }
-
-
-                    //__result.Add(SettingsCache.worldTraits.Values.First().filePath);
-                    // __result.Add(SettingsCache.worldTraits.Values.Last().filePath);
-                    //
-                    //SgtLogger.l("Should have overridden Traits for " + SettingsCache.worldTraits.Values.First().filePath);
-                    //SgtLogger.l("Should have overridden Traits for " + SettingsCache.worldTraits.Values.Last().filePath);
 
                 }
                 return true;

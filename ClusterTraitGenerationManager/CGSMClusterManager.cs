@@ -694,7 +694,7 @@ namespace ClusterTraitGenerationManager
 
             public static List<WorldTrait> AllowedWorldTraitsFor(List<string> currentTraits, ProcGen.World world)
             {
-                List<WorldTrait> AllTraits = new List<WorldTrait>(SettingsCache.worldTraits.Values);
+                List<WorldTrait> AllTraits = ModAssets.AllTraitsWithRandomValuesOnly;
 
                 if (world == null)
                 {
@@ -711,7 +711,10 @@ namespace ClusterTraitGenerationManager
 
                 foreach (var trait in currentTraits)
                 {
-                    ExclusiveWithTags.AddRange(SettingsCache.worldTraits[trait].exclusiveWithTags);
+                    if (SettingsCache.worldTraits.ContainsKey(trait))
+                    {
+                        ExclusiveWithTags.AddRange(SettingsCache.worldTraits[trait].exclusiveWithTags);
+                    }
                     if (trait.Contains("CGMRandomTraits"))
                         return new List<WorldTrait>();
                 }
@@ -1094,6 +1097,7 @@ namespace ClusterTraitGenerationManager
                     }
 
                     FoundPlanet.ClearWorldTraits();
+                    SgtLogger.l("Grabbing Traits");
                     foreach (var planetTrait in SettingsCache.GetRandomTraits(seed + i, FoundPlanet.world))
                     {
                         WorldTrait cachedWorldTrait = SettingsCache.GetCachedWorldTrait(planetTrait, true);

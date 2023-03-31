@@ -1,0 +1,11 @@
+﻿World Traits:
+- more world traits
+- integrate "Improved World Traits" and "More World Traits" code if possible
+
+
+Geysers:
+- dedicated geyser selector
+
+Meteors:
+- Season type selector
+- tooltip shows meteors inside

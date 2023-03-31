@@ -433,7 +433,7 @@ namespace ClusterTraitGenerationManager
         Dictionary<string, GameObject> Traits = new Dictionary<string, GameObject>();
         void InitializeTraitContainer()
         {
-            foreach (var kvp in SettingsCache.worldTraits)
+            foreach (var kvp in ModAssets.AllTraitsWithRandom)
             {
                 var TraitHolder = Util.KInstantiateUI(TraitPrefab, ActiveTraitsContainer, true);
                 //UIUtils.ListAllChildrenWithComponents(TraitHolder.transform);
