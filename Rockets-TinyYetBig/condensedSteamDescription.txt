@@ -31,78 +31,6 @@ While including a large number of features, the mod is higly modular so every pl
 [*] each new module and most features can be individually toggled on&off / tweaked in the mod config.
 [/list]
 
-[h1]New Rocket Modules[/h1][list]
-	[*][h2]Habitat Modules[/h2][list]
-		[*][h3]Extended Solo Spacefarer Nosecone[/h3]
-			A slightly larger variant of the Spacefarer Nosecone that features a larger interior.
-		[*][h3]Extended Spacefarer Module[/h3]
-			A larger variant of the Spacefarer Module that features a larger interior and some fancy windows.
-		[*][h3]Stargazer Nosecone[/h3]
-			This Habitat module functions as a nosecone while featuring a transparent interior roof. Great for looking at the stars or a nice sunbathing during the flight.
-		[*][h3]Plated Habitat Nosecone[/h3]
-			This large Habitat Nosecone has its interior fully shielded from radiation
-		[/list]
-	[*][h2]Nosecones[/h2][list]
-		[*][h3]Laser Drillcone[/h3]
-			This Nosecone takes in up to 6000 Radbolts, ready to mine space pois with the power of the lazor. By default it mines at half the speed of a regular drillcone (this value can be adjusted in the mod config).
-		[*][h3]Solar Nosecone[/h3]
-			This Nosecone has some solar panels taped to it, doubling as a power generator.
-		[/list]
-	[*][h2]Cargo/Storage[/h2][list]
-		[*][h3]Critter Stasis Module[/h3]
-			Allows the transport of critters without the need to store them in the spacefarer module. Critters stored in this module wont age. Base Capacity: 5 Critters (adjustable in mod settings).
-		[*][h3]Radbolt Chamber Module[/h3]
-			Transport Radbolts to other planetoids with this module. Has a capacity of 3000 Radbolts with a configurable output direction.
-		[*][h3]Drillcone Service Module[/h3]
-			Holds additional diamonds for the drillcone and increases its mining speed by 20%
-		[*][h3]Fridge Module[/h3]
-			Holds Food fresh indefinitely. Can only be loaded via cargo loader. can be accessed via wall port during flight.			
-		[*][h3]Colossal Cargo Bays (1/element state)[/h3]
-			These huge cargo bays feature an insanely large amount of storage
-		[/list]
-		
-	[*][h2]Fuel[/h2][list]
-		[*][h3]CO2 Fuel Tank[/h3]
-			A fuel tank that increases the max range of a CO2 engine by 3.
-		[/list]
-		[*][h3]Small Liquid Fuel Tank[/h3]
-			A small fuel tank with 450kg fuel capacity and 3 height.
-		[/list]
-	[*][h2]Power[/h2][list]
-		[*][h3]Small Battery Module[/h3]
-			A smaller, slightly less efficient battery module with 1 height 
-		[*][h3]Coal Generator Module[/h3]
-			A generator module unlocked in the early game that uses coal to produce 200W of power. 
-		[*][h3]Steam Generator Module[/h3]
-			A generator module unlocked in the mid game that draws steam from gas storage to produce 400W of power.
-		[*][h3]Radioisotope Thermoelectric Generator (RTG)[/h3]
-			A generator module unlocked in the late game that draws energy from the slow decay of radioactive isotopes to produce 120W of power.
-		[/list]
-[/list]
-
-[h1]New Buildings[/h1][list]
-	[*][h3]Fortified Rocket Platform[/h3]
-		A more expensive Rocket Platform that features immunity to comets and adjusted logic port locations for less melting automation cables.
-	[*][h3]Advanced Rocket Platform[/h3]
-		A new Rocket Platform with adjusted logic port locations and an extra ribbon output that outputs the rocket start condition categories
-	[*][h3]Rocket Docking Tube[/h3]
-		Allows Rockets to dock to each other		
-	[*][h3]Insulated Rocket Port Wall Adapter[/h3]
-		Seal off rocket chimneys to no longer overheat your cargo (and fuel) loaders with a rocket start
-	[*][h3]Rocket Port Ladder Adapter[/h3]
-		allows a ladder between rocket platforms without interrupting loader connections
-	[*][h3]Rocket Fuel Loader[/h3]
-		Fill all connected rockets with the right fuel.
-	[*][h3]Rocket Oxidzer Loader[/h3]
-		Fill all connected rockets with the Oxidizer.
-	[*][h3]Radbolt Loader[/h3]
-		Fill all connected radbolt storages with radbolts. Loads Radbolt Engine, Radbolt chamber and Laser Drillcone. has a logic output if its internal radbolt storage is full.
-
-	[*]more wip.
-[/list]
-[hr][/hr]
-
-
 [h1]Credits[/h1]
 Options made with PLib.
 Animations for the Solar Nosecone & Natural Gas Engine made by the wonderful 3GuB
@@ -111,6 +39,7 @@ Animations for the Solar Nosecone & Natural Gas Engine made by the wonderful 3Gu
 [h1]Known Issues[/h1]
 [list]
 [*] Camera glitches out / is black inside of rocket - A camera bug derived from the main game camera, zoom in / out to fix.
+[*] Starfarer landing animation is glitchy - Basegame limitations do not allow extra animation there to fix it.
 [*] Game Crash on construction of an additional rocket - you used up all the grid space with 32x32 rockets, deconstruct some of those and it should work again.
 [*] Cannot place something in the rocket / space blocked / invisible mining tiles - game hiccup for not removing invisible world border neutronium, reloading fixes this.
 [/list]
@@ -138,7 +67,6 @@ Also check out these mods for more Rocketry Additions:[list]
 [hr][/hr]
 
 Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
-
 
 
 [h1]FAQ[/h1]
