@@ -412,7 +412,7 @@ namespace SaveGameModLoader
             {
                 try
                 {
-                    SgtLogger.log("Trying to load: " + modlist);
+                    //SgtLogger.log("Trying to load: " + modlist);
                     var list = SaveGameModList.ReadModlistListFromFile(modlist);
                     if(list != null)
                     {

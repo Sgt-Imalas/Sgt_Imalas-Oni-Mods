@@ -32,7 +32,7 @@ namespace SaveGameModLoader
         public static SaveGameModList ReadModlistListFromFile(FileInfo filePath)
         {
 
-            SgtLogger.l("filepath "+ filePath);
+            //SgtLogger.l("filepath "+ filePath);
             if (!filePath.Exists || filePath.Extension != ".json")
             {
                 SgtLogger.logwarning("Not a valid ModList.");
