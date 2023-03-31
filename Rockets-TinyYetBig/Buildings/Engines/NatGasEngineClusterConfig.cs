@@ -79,7 +79,7 @@ namespace Rockets_TinyYetBig.Buildings.Engines
             RocketEngineCluster rocketEngineCluster = go.AddOrGet<RocketEngineCluster>();
             rocketEngineCluster.maxModules = 7;
             rocketEngineCluster.maxHeight = RocketHeight;
-            rocketEngineCluster.fuelTag = FUEL.CreateTag();
+            rocketEngineCluster.fuelTag = GameTags.CombustibleGas;// FUEL.CreateTag();
             rocketEngineCluster.efficiency = ROCKETRY.ENGINE_EFFICIENCY.MEDIUM;
             rocketEngineCluster.requireOxidizer = true;
             rocketEngineCluster.explosionEffectHash = SpawnFXHashes.MeteorImpactDust;
@@ -98,7 +98,7 @@ namespace Rockets_TinyYetBig.Buildings.Engines
             FuelTank fuelTank = go.AddOrGet<FuelTank>();
             fuelTank.consumeFuelOnLand = false;
             fuelTank.storage = storage;
-            fuelTank.FuelType = FUEL.CreateTag();
+            fuelTank.FuelType = GameTags.CombustibleGas;// FUEL.CreateTag();
             fuelTank.targetFillMass = storage.capacityKg;
             fuelTank.physicalFuelCapacity = storage.capacityKg;
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MODERATE_PLUS, 40f, TankCapacity / Config.Instance.EnableNatGasEngineRange / 600f);

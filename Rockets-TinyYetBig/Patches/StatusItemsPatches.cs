@@ -182,6 +182,13 @@ namespace Rockets_TinyYetBig.Patches
                 }
             }
 
+            /// <summary>
+            /// Replaces StatusiteminfoPanel with a much more efficient version
+            /// </summary>
+            /// <param name="__instance"></param>
+            /// <param name="rocketStatusContainer"></param>
+            /// <param name="selectedTarget"></param>
+            /// <returns></returns>
             public static bool Prefix(RocketSimpleInfoPanel __instance, CollapsibleDetailContentPanel rocketStatusContainer, GameObject selectedTarget)
             {
                 if(TargetPREVIOUS == null || selectedTarget == null)
@@ -281,7 +288,7 @@ namespace Rockets_TinyYetBig.Patches
                         if (moduleGet.TryGetComponent<RocketEngineCluster>(out var engine))
                         {
                             targetEngine = engine;
-                            FuelPerHexEngine = moduleGet.performanceStats.fuelKilogramPerDistance;
+                            FuelPerHexEngine = moduleGet.performanceStats.fuelKilogramPerDistance * 600f;
                             FuelTag = targetEngine.fuelTag;
                             RequiresOxidizer = targetEngine.requireOxidizer;
                             RocketEnginePower = moduleGet.performanceStats.EnginePower;
@@ -392,7 +399,7 @@ namespace Rockets_TinyYetBig.Patches
                             else
                             {
 
-                                FuelPerHexEngineSTRING = GameUtil.GetFormattedMass(FuelPerHexEngine);
+                                FuelPerHexEngineSTRING = GameUtil.GetFormattedMass(FuelPerHexEngine );
                                 FuelRemainingSTRING = GameUtil.GetFormattedMass(FuelRemaining);
                             }
 
