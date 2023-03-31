@@ -10,6 +10,9 @@ namespace ClusterTraitGenerationManager
         {
             base.OnLoad(harmony);
             ModAssets.LoadAssets();
+#if DEBUG
+            Debug.LogError("Error THIS IS NOT RELEASE");
+#endif
         }
     }
 }

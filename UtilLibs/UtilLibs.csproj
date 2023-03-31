@@ -2,6 +2,7 @@
 	<PropertyGroup>
 		<TargetFramework>net471</TargetFramework>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+		<Configurations>Debug;Release;Release2</Configurations>
 	</PropertyGroup>
 	<ItemGroup>
 	  <Compile Remove="Properties\**" />

@@ -12,7 +12,7 @@
 	<!-- Build Properties -->
 	<PropertyGroup>
 		<TargetFramework>net471</TargetFramework>
-		<Configurations>Debug</Configurations>
+		<Configurations>Debug;Release2;Release</Configurations>
 		<AssemblyName>YamlTemplateExportFix</AssemblyName>
 		<RootNamespace>YamlTemplateExportFix</RootNamespace>
 		<IsMod>true</IsMod>

@@ -12,7 +12,7 @@
 	<!-- Build Properties -->
 	<PropertyGroup>
 		<TargetFramework>net471</TargetFramework>
-		<Configurations>Debug</Configurations>
+		<Configurations>Debug;Release2;Release</Configurations>
 		<AssemblyName>RoboRockets</AssemblyName>
 		<RootNamespace>RoboRockets</RootNamespace>
 		<IsMod>true</IsMod>
@@ -34,6 +34,18 @@
 		<OutDir>bin</OutDir>
 		<OutputPath></OutputPath>
 		<DocumentationFile></DocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <OutDir>bin</OutDir>
+	  <OutputPath />
+	  <DocumentationFile />
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2|AnyCPU'">
+	  <OutDir>bin</OutDir>
+	  <OutputPath />
+	  <DocumentationFile />
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
