@@ -107,7 +107,7 @@ namespace ClusterTraitGenerationManager
         }
 
 
-        
+
 
         /// <summary>
         /// Resets Custom cluster with newly generated preset

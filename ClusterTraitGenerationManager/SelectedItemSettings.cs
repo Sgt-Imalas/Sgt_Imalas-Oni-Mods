@@ -1,4 +1,5 @@
-﻿using Klei.AI;
+﻿using Database;
+using Klei.AI;
 using KMod;
 using ProcGen;
 using System;
@@ -38,12 +39,17 @@ namespace ClusterTraitGenerationManager
         private LocText AsteroidSizeLabel;
         private ToolTip AsteroidSizeTooltip;
 
-
         private FInputField2 PlanetSizeWidth;
         private FInputField2 PlanetSizeHeight;
 
         private FCycle PlanetSizeCycle;
         private FCycle PlanetRazioCycle;
+
+        private GameObject MeteorSelector;
+        private FCycle PlanetMeteorTypes;
+        private GameObject ActiveMeteorsContainer;
+        private GameObject MeteorPrefab;
+
 
         private GameObject AsteroidTraits;
         private GameObject ActiveTraitsContainer;
@@ -76,6 +82,8 @@ namespace ClusterTraitGenerationManager
 
             StarmapItemEnabled.SetOn(IsPartOfCluster);
 
+            bool isRandom = current.id.Contains(CGSMClusterManager.RandomKey);
+
             bool canGenerateMultiple = current.MaxNumberOfInstances > 1;
             NumberToGenerate.transform.parent.gameObject.SetActive(canGenerateMultiple);///Amount, only on poi / random planets
             if (canGenerateMultiple)
@@ -97,10 +105,11 @@ namespace ClusterTraitGenerationManager
 
             ClusterSize.SetMinMaxCurrent(ringMin, ringMax, CustomCluster.Rings);
 
-            AddTraitButton.SetInteractable(IsPartOfCluster);
+            AddTraitButton.SetInteractable(IsPartOfCluster && !isRandom);
 
-            AsteroidSize.SetActive(!isPoi);
-            AsteroidTraits.SetActive(!isPoi);
+            AsteroidSize.SetActive(!isPoi && !isRandom);
+            MeteorSelector.SetActive(!isPoi && !isRandom);
+            AsteroidTraits.SetActive(!isPoi && !isRandom);
 
             UpdateSizeLabels(current);
             //AsteroidSizeLabel.text = string.Format(ASTEROIDSIZEINFO.INFO, current.CustomPlanetDimensions.x, current.CustomPlanetDimensions.y);
@@ -121,7 +130,7 @@ namespace ClusterTraitGenerationManager
         string Warning3 = "EC1802";
         string Warning2 = ("ff8102");
         string Warning1 = ("F6D42A");
-         
+
         public void UpdateSizeLabels(StarmapItem current)
         {
             PlanetSizeWidth.EditTextFromData(current.CustomPlanetDimensions.X.ToString());
@@ -129,8 +138,8 @@ namespace ClusterTraitGenerationManager
             PercentageLargerThanTerra(current, out var Percentage);
             if (Percentage > 200)
             {
-                AsteroidSizeLabel.text = UIUtils.ColorText(ASTEROIDSIZEINFO.LABEL,Warning3);
-                AsteroidSizeTooltip.SetSimpleTooltip(UIUtils.ColorText(string.Format(ASTEROIDSIZEINFO.SIZEWARNING,Percentage), Warning3));
+                AsteroidSizeLabel.text = UIUtils.ColorText(ASTEROIDSIZEINFO.LABEL, Warning3);
+                AsteroidSizeTooltip.SetSimpleTooltip(UIUtils.ColorText(string.Format(ASTEROIDSIZEINFO.SIZEWARNING, Percentage), Warning3));
             }
             else if (Percentage > 100)
             {
@@ -363,6 +372,78 @@ namespace ClusterTraitGenerationManager
                 }
             };
 
+            MeteorSelector = transform.Find("MeteorSeasonCycle").gameObject;
+            ActiveMeteorsContainer = transform.Find("MeteorSeasonCycle/ScrollArea/Content").gameObject;
+            MeteorPrefab = transform.Find("MeteorSeasonCycle/ScrollArea/Content/ListViewEntryPrefab").gameObject;
+            UIUtils.AddSimpleTooltipToObject(MeteorSelector.transform.Find("Label"), STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.TOOLTIP);
+
+            PlanetMeteorTypes = transform.Find("MeteorSeasonCycle/SeasonCycle").gameObject.AddOrGet<FCycle>();
+            PlanetMeteorTypes.Initialize(
+                PlanetMeteorTypes.transform.Find("Left").gameObject.AddOrGet<FButton>(),
+                PlanetMeteorTypes.transform.Find("Right").gameObject.AddOrGet<FButton>(),
+                PlanetMeteorTypes.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
+                PlanetMeteorTypes.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
+            PlanetMeteorTypes.Options = new List<FCycle.Option>();
+
+            foreach (GameplaySeason meteorSeason in Db.Get().GameplaySeasons.resources)
+            {
+                if (!meteorSeason.startActive)
+                    continue;
+
+                string showerInfo = string.Empty;
+                Debug.Log(meteorSeason);
+
+                foreach (GameplayEvent gameplayEvent in meteorSeason.events)
+                {
+                    Debug.Log(gameplayEvent);
+                    //if (gameplayEvent.tags.Contains(GameTags.SpaceDanger) && gameplayEvent is MeteorShowerEvent)
+                    if (gameplayEvent is MeteorShowerEvent)
+                    {
+                        MeteorShowerEvent meteorShowerEvent = gameplayEvent as MeteorShowerEvent; 
+                        string meteorName = string.Empty;
+                        if (Assets.GetPrefab((Tag)meteorShowerEvent.GetClusterMapMeteorShowerID()) != null)
+                            meteorName = Assets.GetPrefab((Tag)meteorShowerEvent.GetClusterMapMeteorShowerID()).GetProperName();
+                        else
+                            meteorName = meteorShowerEvent.Id;
+
+                        string meteorlist = string.Empty;
+
+                        var meteortypes = meteorShowerEvent.GetMeteorsInfo();
+                        for(int i = 0; i<meteortypes.Count; i++)
+                        {
+                            meteorlist += Assets.GetPrefab((Tag)meteortypes[i].prefab).GetProperName();
+                            if (i != meteortypes.Count - 1)
+                                meteorlist += ", ";
+                        }
+                        
+
+                        showerInfo += "\n";
+                        showerInfo += meteorName;
+                        showerInfo += meteorlist;
+                    }
+                }
+                if (showerInfo == string.Empty)
+                    showerInfo = "no meteor showers";
+
+                PlanetMeteorTypes.Options.Add(new FCycle.Option(meteorSeason.Id, meteorSeason.Id, showerInfo));
+            }
+
+
+            PlanetMeteorTypes.OnChange += () =>
+            {
+                if (lastSelected != null)
+                {
+                    if (CustomCluster.HasStarmapItem(lastSelected.id, out var current))
+                    {
+                        //WorldRatioPresets setTo = Enum.TryParse<WorldRatioPresets>(PlanetRazioCycle.Value, out var result) ? result : WorldRatioPresets.Normal;
+                        //current.SetPlanetRatioToPreset(setTo);
+                        //UpdateSizeLabels(current);
+                        ////AsteroidSizeLabel.text = string.Format(ASTEROIDSIZEINFO.INFO, current.CustomPlanetDimensions.x, current.CustomPlanetDimensions.y);
+                    }
+                }
+            };
+
+
             AsteroidTraits = transform.Find("AsteroidTraits").gameObject;
             ActiveTraitsContainer = transform.Find("AsteroidTraits/ListView/Content").gameObject;
             TraitPrefab = transform.Find("AsteroidTraits/ListView/Content/ListViewEntryPrefab").gameObject;
@@ -408,7 +489,7 @@ namespace ClusterTraitGenerationManager
             SgtLogger.Assert("TraitPrefab", TraitPrefab);
 
             InitializeTraitContainer();
-
+            InitializeMeteorShowerContainer();
             init = true;
         }
 
@@ -429,6 +510,54 @@ namespace ClusterTraitGenerationManager
 
         }
 
+        void InitializeMeteorShowerContainer()
+        {
+            foreach (var gameplayEvent in Db.Get().GameplayEvents.resources)
+            {
+                if (!(gameplayEvent is MeteorShowerEvent)||gameplayEvent.Id.Contains("Fullerene"))
+                    continue;
+                var meteorEvent = gameplayEvent as MeteorShowerEvent;
+                string ClusterEventID = meteorEvent.clusterMapMeteorShowerID;
+
+                ///for those pesky vanilla meteors without starmap entity
+                if (ClusterEventID == null|| ClusterEventID == string.Empty)
+                {
+                    string TypeOfEvent = meteorEvent.Id.Replace("MeteorShower", string.Empty).Replace("Event", string.Empty);
+                    //SgtLogger.l(TypeOfEvent);
+                    ClusterEventID = ClusterMapMeteorShowerConfig.GetFullID(TypeOfEvent);
+                    //SgtLogger.l(ClusterEventID);
+                }
+
+                var ClusterMapShower = Assets.GetPrefab(ClusterEventID);
+                var showerInstanceHolder = Util.KInstantiateUI(MeteorPrefab, ActiveMeteorsContainer, true);
+                
+
+                string name = ClusterMapShower.GetProperName();
+                string description = METEORSEASON.SHOWERTOOLTIP;
+                var icon = showerInstanceHolder.transform.Find("Label/TraitImage").GetComponent<Image>();
+                icon.sprite = Def.GetUISprite(Assets.GetPrefab(ClusterEventID)).first;
+
+                var meteortypes = meteorEvent.GetMeteorsInfo();
+                foreach (var meteor in meteortypes)
+                {
+                    description += "\n • ";
+                    description +=  Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
+                }
+                //icon.color = Util.ColorFromHex(kvp.Value.colorHex);
+
+                //if (kvp.Key.Contains(SpritePatch.randomTraitsTraitIcon))
+                //{
+                //    name = UIUtils.RainbowColorText(name.ToString());
+                //}
+
+                UIUtils.TryChangeText(showerInstanceHolder.transform, "Label", name);
+                UIUtils.AddSimpleTooltipToObject(showerInstanceHolder.transform, description);
+                ShowerTypes[gameplayEvent.Id] = showerInstanceHolder;
+            }
+            UpdateUI();
+        }
+
+        Dictionary<string, GameObject> ShowerTypes = new Dictionary<string, GameObject>();
 
         Dictionary<string, GameObject> Traits = new Dictionary<string, GameObject>();
         void InitializeTraitContainer()

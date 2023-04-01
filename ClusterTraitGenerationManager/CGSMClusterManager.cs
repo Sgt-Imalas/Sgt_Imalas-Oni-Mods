@@ -17,19 +17,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UtilLibs;
-using static ClusterTraitGenerationManager.CGSMClusterManager;
 using static ClusterTraitGenerationManager.STRINGS.UI;
-using static KAnim;
-using static Klei.ClusterLayoutSave;
-using static LogicGate.LogicGateDescriptions;
-using static ProcGen.Mob;
 using static ProcGen.WorldPlacement;
-using static STRINGS.CLUSTER_NAMES;
-using static STRINGS.NAMEGEN;
-using static STRINGS.UI.CLUSTERMAP;
-using static STRINGS.UI.FRONTEND;
-using static UnityEngine.UI.AspectRatioFitter;
-using static WoundMonitor;
 
 namespace ClusterTraitGenerationManager
 {
@@ -225,7 +214,7 @@ namespace ClusterTraitGenerationManager
                     else
                     {
                         possibleTraits.Shuffle();
-                        string randTrait = possibleTraits.First().filePath.Contains("CGMRandomTraits")? possibleTraits.Last().filePath : possibleTraits.First().filePath;
+                        string randTrait = possibleTraits.First().filePath.Contains("CGMRandomTraits") ? possibleTraits.Last().filePath : possibleTraits.First().filePath;
                         existing.Add(randTrait);
                     }
                 }
@@ -687,6 +676,28 @@ namespace ClusterTraitGenerationManager
                 return this;
             }
 
+            #region PlanetMeteors
+
+            public List<MeteorShowerSeason> CurrentMeteors
+            {
+                get
+                {
+                    var seasons =  new List<MeteorShowerSeason>();                    
+                    if (world != null)
+                    {
+                        var db = Db.Get();
+                        foreach(var season in world.seasons)
+                        {
+                            var seasonData = (db.GameplaySeasons.TryGet(season) as MeteorShowerSeason);
+                            if (seasonData != null)
+                                seasons.Add(seasonData);
+                        }
+                    }
+                    return seasons;
+                }
+            }
+
+            #endregion
             #region PlanetTraits
 
             private List<string> currentPlanetTraits = new List<string>();
@@ -1385,7 +1396,7 @@ namespace ClusterTraitGenerationManager
                 }
             }
 
-            if (item!= null && starmapItemCategory == StarmapItemCategory.Outer)
+            if (item != null && starmapItemCategory == StarmapItemCategory.Outer)
                 RandomOuterPlanets.Add(item.id);
 
             //while (item.category != starmapItemCategory || item.id.Contains("TemporalTear") || item.id == null || item.id == string.Empty)
@@ -1525,7 +1536,7 @@ namespace ClusterTraitGenerationManager
 
             }
 
-            if (CustomCluster.OuterPlanets.Count+ randoPlanets > 6 && CustomCluster.Rings < AdjustedClusterSize)
+            if (CustomCluster.OuterPlanets.Count + randoPlanets > 6 && CustomCluster.Rings < AdjustedClusterSize)
             {
                 System.Action AjustSize = () =>
                 {
@@ -1554,8 +1565,8 @@ namespace ClusterTraitGenerationManager
                GENERATIONWARNING.YES,
                AjustSize,
                GENERATIONWARNING.NOMANUAL
-               ,  nothing
-               , (DebugHandler.enabled) ? UIUtils.ColorText("[Debug only] Generate anyway",Color.red) : null
+               , nothing
+               , (DebugHandler.enabled) ? UIUtils.ColorText("[Debug only] Generate anyway", Color.red) : null
                , (DebugHandler.enabled) ? aaanyways : null
                );
             }

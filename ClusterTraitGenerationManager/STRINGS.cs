@@ -89,6 +89,17 @@ namespace ClusterTraitGenerationManager
                             }
                         }
                     }
+
+                    public class METEORSEASON
+                    {
+                        public static LocString LABEL = (LocString)"Meteor Seasons:";
+                        public static LocString TOOLTIP = (LocString)"What kind of meteors should come down on this asteroid?";                        
+                        public static LocString SELECTIONLABEL = (LocString)"TODO: Meteor Season selected";
+                        public static LocString SELECTIONINFO = (LocString)"TODO: listing all types of meteor showers that happen here";
+                        public static LocString NOMETEORSHOWERS = (LocString)"No Meteor Showers";
+                        public static LocString SHOWERTOOLTIP = (LocString)"Meteors in this shower type:";
+                    }
+
                     public class ASTEROIDSIZEINFO
                     {
                         public static LocString LABEL = (LocString)"Asteroid Size:";
