@@ -84,6 +84,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClaimNotification", "ClaimN
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeteorMigration", "MeteorMigration\MeteorMigration.csproj", "{C7D48C8F-D004-4C60-B8A2-9611892A07F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeutroniumTrashCan", "NeutroniumTrashCan\NeutroniumTrashCan.csproj", "{56852580-6340-45FF-A918-1A4A1DDADA85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -306,6 +308,12 @@ Global
 		{C7D48C8F-D004-4C60-B8A2-9611892A07F2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C7D48C8F-D004-4C60-B8A2-9611892A07F2}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
 		{C7D48C8F-D004-4C60-B8A2-9611892A07F2}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
+		{56852580-6340-45FF-A918-1A4A1DDADA85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56852580-6340-45FF-A918-1A4A1DDADA85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56852580-6340-45FF-A918-1A4A1DDADA85}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{56852580-6340-45FF-A918-1A4A1DDADA85}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{56852580-6340-45FF-A918-1A4A1DDADA85}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
+		{56852580-6340-45FF-A918-1A4A1DDADA85}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
