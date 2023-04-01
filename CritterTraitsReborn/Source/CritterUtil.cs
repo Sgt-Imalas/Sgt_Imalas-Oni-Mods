@@ -2,6 +2,8 @@
 using UnityEngine;
 using System.Linq;
 using System;
+using UtilLibs;
+using static KAnim;
 
 namespace CritterTraitsReborn
 {
@@ -136,5 +138,19 @@ namespace CritterTraitsReborn
             }
         }
 
+        internal static void BLOOOOM(GameObject go)
+        {
+            if (go.TryGetComponent<KBatchedAnimController>(out var kbac))
+            {
+                //kbac.SetSymbolTint("bloon_stump", color);
+                foreach (var symbo in KAnimBatchManager.Instance().GetBatchGroupData(kbac.GetBatchGroupID()).frameElementSymbols)
+                {
+                    SgtLogger.l(symbo.path.ToString(), "PATH");
+                    SgtLogger.l(symbo.flags.ToString(), "FLAGS");
+                    if (symbo.flags == 0) symbo.flags += (int)SymbolFlags.Bloom;
+                    SgtLogger.l(symbo.flags.ToString(), "FLAGS2");
+                }
+            }
+        }
     }
 }

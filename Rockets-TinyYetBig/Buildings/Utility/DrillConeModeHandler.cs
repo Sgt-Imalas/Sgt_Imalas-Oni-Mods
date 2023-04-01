@@ -8,7 +8,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.Buildings.Utility
 {
-    internal class DrillConeModeHandler : KMonoBehaviour, ISidescreenButtonControl
+    internal class  DrillConeModeHandler : KMonoBehaviour, ISidescreenButtonControl
     {
         [MyCmpGet] public Storage DiamondStorage;
         [Serialize] bool IsAutoLoader = false;
@@ -17,9 +17,9 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 
         public bool LoadingAllowed => IsAutoLoader;
 
-        public string SidescreenButtonText => IsAutoLoader ? "Switch to manual loading" : "Switch to automated loading";
+        public string SidescreenButtonText => IsAutoLoader ? "Switch to manual loading" : "Switch to automated loading"; //TODO LOC
 
-        public string SidescreenButtonTooltip => "toggle between automatic and manual loading";
+        public string SidescreenButtonTooltip => "toggle between automatic and manual loading";//TODO LOC
 
         public override void OnSpawn()
         {

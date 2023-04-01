@@ -29,7 +29,7 @@ namespace ElementUtilNamespace
             SgtElementUtil.elements.Add(this);
 
             Tag = id;
-            SgtLogger.l("The elementinfo should have this simhash: "+(SimHashes)SimHash + ", ToString returns: "+SimHash.ToString());
+            //SgtLogger.l("The elementinfo should have this simhash: "+(SimHashes)SimHash + ", ToString returns: "+SimHash.ToString());
         }
 
         // be able to reference this class without havng to cast to (SimHashes)
