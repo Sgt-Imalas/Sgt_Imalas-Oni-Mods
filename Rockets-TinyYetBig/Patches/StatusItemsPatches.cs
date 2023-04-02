@@ -411,8 +411,7 @@ namespace Rockets_TinyYetBig.Patches
                             RequiresOxidizer ? GameUtil.GetFormattedMass(OxidizerRemaining) : string.Empty);
 
                             float RangeRemaining = targetEngine != null ? (RequiresOxidizer ? Mathf.Min(FuelRemaining, OxidizerRemaining) : FuelRemaining) / FuelPerHexEngine : 0;
-
-                            RangeRemainingTextSTRING = string.Concat(global::STRINGS.UI.CLUSTERMAP.ROCKETS.RANGE.NAME, GameUtil.GetFormattedRocketRange(RangeRemaining, GameUtil.TimeSlice.None));
+                            RangeRemainingTextSTRING = string.Concat(global::STRINGS.UI.CLUSTERMAP.ROCKETS.RANGE.NAME, GameUtil.GetFormattedRocketRange(RangeRemaining*600f, GameUtil.TimeSlice.None));
 
                             FuelRemainingPREVIOUS = FuelRemaining;
                             OxidizerRemainingPREVIOUS = OxidizerRemaining;
