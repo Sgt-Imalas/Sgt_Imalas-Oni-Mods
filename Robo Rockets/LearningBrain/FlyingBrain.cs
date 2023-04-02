@@ -14,6 +14,8 @@ namespace RoboRockets.LearningBrain
         float learnedSpeed = 0.75f;
         [Serialize]
         bool awakened = false;
+        [MyCmpGet]
+        public UserNameable nameable;
 
         public float GetCurrentSpeed() => learnedSpeed;
 

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UtilLibs;
+using static RoboRockets.STRINGS.BUILDINGS.PREFABS;
+using static RoboRockets.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS;
 
 namespace RoboRockets
 {
@@ -49,6 +52,7 @@ namespace RoboRockets
                 {
                     float learnedSpeed = brain.GetCurrentSpeed();
                     string ExpDesc;
+                    string brainName = brain.nameable.savedName == RR_BRAINFLYER.NAME ? (string)STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.UNNAMEDBRAIN : brain.nameable.savedName;
 
                     if (learnedSpeed < 1.0f)
                     {
@@ -74,6 +78,7 @@ namespace RoboRockets
                     {
                         ExpDesc = STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL6;
                     }
+                    str = str.Replace("{BRAINNAME}", brainName);
                     return str.Replace("{BRAINXPSTATE}", ExpDesc);
                 }
                 return str;
