@@ -92,11 +92,14 @@ namespace ClusterTraitGenerationManager
 
                     public class METEORSEASON
                     {
-                        public static LocString LABEL = (LocString)"Meteor Seasons:";
+                        public static LocString LABEL = (LocString)"Meteors:";
                         public static LocString TOOLTIP = (LocString)"What kind of meteors should come down on this asteroid?";
                         public static LocString NOSEASONSSELECTED = "No season types selected";
                         public static LocString ADDNEWSEASON = (LocString)"Add additional meteor season";
                         public static LocString ADDNEWSEASONTOOLTIP = (LocString)"Add another type of meteor season type to this asteroid.\nWarning: Meteor season types are all active at the same time,\nleading to a high volume of meteors at the same time if multiple are added.\nNormal asteroids have usually 1 season type";
+                        public static LocString ACTIVESEASONSELECTORLABEL = (LocString)"Active Meteor Seasons:";
+                        public static LocString ACTIVEMETEORSLABEL = (LocString)"Active Meteor Showers:";
+
                         public class SEASONSELECTOR
                         {
                             public static LocString TITEL = (LocString)"Available Meteor Season Types:";

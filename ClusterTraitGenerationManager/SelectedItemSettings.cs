@@ -401,13 +401,13 @@ namespace ClusterTraitGenerationManager
             };
 
             MeteorSelector = transform.Find("MeteorSeasonCycle").gameObject;
-            ActiveMeteorsContainer = transform.Find("MeteorSeasonCycle/ScrollArea/Content").gameObject;
-            MeteorPrefab = transform.Find("MeteorSeasonCycle/ScrollArea/Content/ListViewEntryPrefab").gameObject;
+            ActiveMeteorsContainer = transform.Find("MeteorSeasonCycle/Asteroids/ScrollArea/Content").gameObject;
+            MeteorPrefab = transform.Find("MeteorSeasonCycle/Asteroids/ScrollArea/Content/ListViewEntryPrefab").gameObject;
 
-            ActiveSeasonsContainer = transform.Find("MeteorSeasonCycle/SeasonScrollArea/Content").gameObject;
-            SeasonPrefab = transform.Find("MeteorSeasonCycle/SeasonScrollArea/Content/ListViewEntryPrefab").gameObject;
+            ActiveSeasonsContainer = transform.Find("MeteorSeasonCycle/Seasons/SeasonScrollArea/Content").gameObject;
+            SeasonPrefab = transform.Find("MeteorSeasonCycle/Seasons/SeasonScrollArea/Content/ListViewEntryPrefab").gameObject;
 
-            AddSeasonButton = transform.Find("MeteorSeasonCycle/SeasonScrollArea/Content/AddSeasonButton").FindOrAddComponent<FButton>();
+            AddSeasonButton = transform.Find("MeteorSeasonCycle/Seasons/SeasonScrollArea/Content/AddSeasonButton").FindOrAddComponent<FButton>();
 
             AddSeasonButton.OnClick += () =>
             {
@@ -421,7 +421,7 @@ namespace ClusterTraitGenerationManager
                 TraitSelectorScreen.InitializeView(lastSelected, () => UpdateUI());
             };
 
-            UIUtils.AddSimpleTooltipToObject(MeteorSelector.transform.Find("Label"), STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.TOOLTIP);
+            UIUtils.AddSimpleTooltipToObject(MeteorSelector.transform.Find("Title"), STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.TOOLTIP);
 
             //PlanetMeteorTypes = transform.Find("MeteorSeasonCycle/SeasonCycle").gameObject.AddOrGet<FCycle>();
             //PlanetMeteorTypes.Initialize(
