@@ -28,8 +28,22 @@ namespace ClusterTraitGenerationManager
 
         public static ColonyDestinationSelectScreen selectScreen;
 
-        public static bool LoadCustomCluster = false;
-
+        public static bool LoadCustomCluster
+        {
+            get
+            {
+                return _loadCustomCluster;
+            }
+            set
+            {
+                _loadCustomCluster = value;
+                if (value == false)
+                {
+                    ResetMeteorSeasons();
+                }
+            }
+        }
+        private static bool _loadCustomCluster = false;
 
 
         static async Task DoWithDelay(int ms)
@@ -37,11 +51,29 @@ namespace ClusterTraitGenerationManager
             await Task.Delay(ms);
             LockerNavigator.Instance.PopScreen();
         }
-
+        public static void ResetMeteorSeasons(ProcGen.World singleItem = null)
+        {
+            if (singleItem == null)
+            {
+                foreach (var planet in ModAssets.ChangedMeteorSeasons)
+                {
+                    planet.Key.seasons = new List<string>(planet.Value);
+                }
+                ModAssets.ChangedMeteorSeasons.Clear();
+            }
+            else
+            {
+                if (singleItem != null && ModAssets.ChangedMeteorSeasons.ContainsKey(singleItem))
+                {
+                    singleItem.seasons = new List<string>(ModAssets.ChangedMeteorSeasons[singleItem]);
+                    ModAssets.ChangedMeteorSeasons.Remove(singleItem);
+                }
+            }
+        }
 
         public static async void InstantiateClusterSelectionView(ColonyDestinationSelectScreen parent, System.Action onClose = null)
         {
-            if (true)//Screen == null)
+            if (Screen == null)
             {
                 ///Change to check for moonlet/vanilla start
                 if (CustomCluster == null)
@@ -71,12 +103,19 @@ namespace ClusterTraitGenerationManager
             }
             else
             {
-                SgtLogger.l("not new", "SCREEN");
-                //LockerNavigator.Instance.PushScreen(Screen, onClose);
-            }
+                //SgtLogger.l("not new", "SCREEN");
+                if (CustomCluster == null)
+                {
+                    var defaultCluster = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
+                    CGSMClusterManager.CreateCustomClusterFrom(defaultCluster);
+                }
 
+            }
+            Screen.transform.SetAsLastSibling();
             Screen.gameObject.SetActive(true);
-            Screen.GetComponent<FeatureSelectionScreen>().RefreshView();
+            var FeatureScreen = Screen.GetComponent<FeatureSelectionScreen>();
+            FeatureScreen.SelectCategory(StarmapItemCategory.Starter);
+            FeatureScreen.RefreshView();
         }
 
         public static void SetAndStretchToParentSize(RectTransform _mRect, RectTransform _parent)
@@ -460,6 +499,7 @@ namespace ClusterTraitGenerationManager
             WorldSizePresets SizePreset = WorldSizePresets.Normal;
             WorldRatioPresets RatioPreset = WorldRatioPresets.Normal;
             public WorldSizePresets CurrentSizePreset => SizePreset;
+            public WorldRatioPresets CurrentRatioPreset => RatioPreset;
 
             public float CurrentSizeMultiplier => UsingCustomDimensions ? CustomSizeIncrease : (float)SizePreset / 100f;
 
@@ -678,15 +718,15 @@ namespace ClusterTraitGenerationManager
 
             #region PlanetMeteors
 
-            public List<MeteorShowerSeason> CurrentMeteors
+            public List<MeteorShowerSeason> CurrentMeteorSeasons
             {
                 get
                 {
-                    var seasons =  new List<MeteorShowerSeason>();                    
+                    var seasons = new List<MeteorShowerSeason>();
                     if (world != null)
                     {
                         var db = Db.Get();
-                        foreach(var season in world.seasons)
+                        foreach (var season in world.seasons)
                         {
                             var seasonData = (db.GameplaySeasons.TryGet(season) as MeteorShowerSeason);
                             if (seasonData != null)
@@ -696,6 +736,71 @@ namespace ClusterTraitGenerationManager
                     return seasons;
                 }
             }
+
+            public List<MeteorShowerEvent> CurrentMeteorShowerTypes
+            {
+                get
+                {
+                    var showers = new List<MeteorShowerEvent>();
+                    if (world != null)
+                    {
+                        var db = Db.Get();
+                        foreach (var season in world.seasons)
+                        {
+                            var seasonData = (db.GameplaySeasons.TryGet(season) as MeteorShowerSeason);
+                            if (seasonData != null)
+                            {
+                                foreach (var shower in seasonData.events)
+                                {
+                                    var showerEvent = shower as MeteorShowerEvent;
+                                    if (!showers.Contains(showerEvent))
+                                        showers.Add(showerEvent);
+
+                                }
+
+                            }
+                        }
+                    }
+                    return showers;
+                }
+            }
+
+
+
+            private void BackupOriginalWorldTraits()
+            {
+                if (world != null)
+                {
+                    if (!ModAssets.ChangedMeteorSeasons.ContainsKey(world))
+                    {
+                        ModAssets.ChangedMeteorSeasons[world] = new List<string>(world.seasons);
+                    }
+                }
+            }
+
+            internal void AddMeteorSeason(string id)
+            {
+                BackupOriginalWorldTraits();
+                if (world != null)
+                {
+                    world.seasons.Add(id);
+                }
+            }
+
+            internal void RemoveMeteorSeason(string id)
+            {
+                BackupOriginalWorldTraits();
+                if (world != null)
+                {
+                    if (world.seasons.Contains(id))
+                    {
+                        world.seasons.Remove(id);
+                    }
+                }
+            }
+
+
+
 
             #endregion
             #region PlanetTraits
@@ -781,6 +886,8 @@ namespace ClusterTraitGenerationManager
             {
                 return currentPlanetTraits;
             }
+
+
             #endregion
 
             #region EqualityComparer
@@ -1074,17 +1181,46 @@ namespace ClusterTraitGenerationManager
                 CustomCluster = new CustomClusterData();
                 CustomCluster.SetRings(Reference.numRings, true);
             }
+            else
+            {
+                ///when planet not normally in cluster, but selected rn and to reset - reload from data
+                if(!Reference.worldPlacements.Any( placement => placement.world == singleItemId))
+                {
+                    if (PlanetoidDict().TryGetValue(singleItemId, out var FoundPlanet))
+                    {
+                        FoundPlanet = GivePrefilledItem(FoundPlanet);
+                        switch (FoundPlanet.category)
+                        {
+                            case StarmapItemCategory.Starter:
+                                CustomCluster.StarterPlanet = FoundPlanet;
+                                break;
+                            case StarmapItemCategory.Warp:
+                                CustomCluster.WarpPlanet = FoundPlanet;
+                                break;
+                            case StarmapItemCategory.Outer:
+                                CustomCluster.OuterPlanets[FoundPlanet.id] = FoundPlanet;
+                                break;
+                        }
 
+                        ResetMeteorSeasons(FoundPlanet.world);
+                        FoundPlanet.ClearWorldTraits();
+                        //SgtLogger.l("Grabbing Traits");
+                        //foreach (var planetTrait in SettingsCache.GetRandomTraits(seed, FoundPlanet.world))
+                        //{
+                        //    WorldTrait cachedWorldTrait = SettingsCache.GetCachedWorldTrait(planetTrait, true);
+                        //    FoundPlanet.AddWorldTrait(cachedWorldTrait);
+                        //    SgtLogger.l(planetTrait, FoundPlanet.DisplayName);
+                        //}
+                        FoundPlanet.SetPlanetSizeToPreset(WorldSizePresets.Normal);
+                        FoundPlanet.SetPlanetRatioToPreset(WorldRatioPresets.Normal);
+                    }
+                }
+            }
             for (int i = 0; i < Reference.worldPlacements.Count; i++)
             {
                 WorldPlacement planetPlacement = Reference.worldPlacements[i];
 
                 string planetpath = planetPlacement.world;
-
-                //SgtLogger.l(planetpath, "PlanetPath");
-                //SgtLogger.l(planetPlacement.buffer + "<-buffer", "otherData");
-                //SgtLogger.l(planetPlacement.allowedRings + "<-rings", "otherData");
-
 
                 if (PlanetoidDict().TryGetValue(planetpath, out var FoundPlanet))
                 {
@@ -1107,16 +1243,20 @@ namespace ClusterTraitGenerationManager
                             break;
                     }
 
+                    ResetMeteorSeasons(FoundPlanet.world);
                     FoundPlanet.ClearWorldTraits();
-                    SgtLogger.l("Grabbing Traits");
+                    //SgtLogger.l("Grabbing Traits");
                     foreach (var planetTrait in SettingsCache.GetRandomTraits(seed + i, FoundPlanet.world))
                     {
                         WorldTrait cachedWorldTrait = SettingsCache.GetCachedWorldTrait(planetTrait, true);
                         FoundPlanet.AddWorldTrait(cachedWorldTrait);
-                        SgtLogger.l(planetTrait, FoundPlanet.DisplayName);
+                        //SgtLogger.l(planetTrait, FoundPlanet.DisplayName);
                     }
+                    FoundPlanet.SetPlanetSizeToPreset(WorldSizePresets.Normal);
+                    FoundPlanet.SetPlanetRatioToPreset(WorldRatioPresets.Normal);
                 }
             }
+
 
             if (singleItemId == string.Empty)
             {
@@ -1166,11 +1306,6 @@ namespace ClusterTraitGenerationManager
                     }
                 }
             }
-
-            //foreach (var pOIPlacement in CustomCluster.POIs)
-            //{
-            //    SgtLogger.l("count: " + pOIPlacement.Value.InstancesToSpawn, pOIPlacement.Key);
-            //}
             LastPresetGenerated = clusterID;
         }
 

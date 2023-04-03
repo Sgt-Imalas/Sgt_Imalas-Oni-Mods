@@ -93,9 +93,22 @@ namespace ClusterTraitGenerationManager
                     public class METEORSEASON
                     {
                         public static LocString LABEL = (LocString)"Meteor Seasons:";
-                        public static LocString TOOLTIP = (LocString)"What kind of meteors should come down on this asteroid?";                        
-                        public static LocString SELECTIONLABEL = (LocString)"TODO: Meteor Season selected";
-                        public static LocString SELECTIONINFO = (LocString)"TODO: listing all types of meteor showers that happen here";
+                        public static LocString TOOLTIP = (LocString)"What kind of meteors should come down on this asteroid?";
+                        public static LocString NOSEASONSSELECTED = "No season types selected";
+                        public static LocString ADDNEWSEASON = (LocString)"Add additional meteor season";
+                        public static LocString ADDNEWSEASONTOOLTIP = (LocString)"Add another type of meteor season type to this asteroid.\nWarning: Meteor season types are all active at the same time,\nleading to a high volume of meteors at the same time if multiple are added.\nNormal asteroids have usually 1 season type";
+                        public class SEASONSELECTOR
+                        {
+                            public static LocString TITEL = (LocString)"Available Meteor Season Types:";
+                            public static LocString ADDSEASONTYPEBUTTONLABEL = (LocString)"Add season type";
+                            public static LocString NOSEASONTYPESAVAILABLE = (LocString)"No more available Season Types";
+                            public static LocString SEASONTYPETOOLTIP = (LocString)"This season type contains the following shower types:";
+                            public static LocString SEASONTYPENOMETEORSTOOLTIP = (LocString)"This season type does not contain any meteor shower types.\nThis might change in the future if Klei decides to add some showers to this season type.\nFor this reason the season type is still listed here.";
+                        }
+
+                        public static LocString SWITCHTOOTHERSEASONTOOLTIP = (LocString)"Change this season to a different type";
+                        public static LocString REMOVESEASONTOOLTIP = (LocString)"Remove this Season Type";
+
                         public static LocString NOMETEORSHOWERS = (LocString)"No Meteor Showers";
                         public static LocString SHOWERTOOLTIP = (LocString)"Meteors in this shower type:";
                     }

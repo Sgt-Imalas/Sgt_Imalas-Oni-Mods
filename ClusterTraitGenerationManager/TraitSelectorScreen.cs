@@ -30,7 +30,7 @@ namespace ClusterTraitGenerationManager
         {
             if(Instance == null)
             {
-                var screen = Util.KInstantiateUI(ModAssets.TraitPopup, Global.Instance.globalCanvas, true);
+                var screen = Util.KInstantiateUI(ModAssets.TraitPopup, FrontEndManager.Instance.gameObject, true);
                 Instance = screen.AddOrGet<TraitSelectorScreen>();
                 Instance.Init();
             }
@@ -39,7 +39,8 @@ namespace ClusterTraitGenerationManager
             Instance.Show(true);
             Instance.SelectedPlanet = _planet;
             Instance.ConsumeMouseScroll = true;
-            
+            Instance.transform.SetAsLastSibling();
+
 
             if (CustomCluster.HasStarmapItem(_planet.id, out var item))
             {
@@ -108,7 +109,7 @@ namespace ClusterTraitGenerationManager
                 }
 
                 UIUtils.TryChangeText(TraitHolder.transform, "Label", combined);
-                //UIUtils.AddSimpleTooltipToObject(TraitHolder.transform, description);
+                UIUtils.AddSimpleTooltipToObject(TraitHolder.transform, description);
                 
 
                 AddTraitButton.OnClick += () =>

@@ -1,4 +1,5 @@
 ﻿using Database;
+using Epic.OnlineServices.Sessions;
 using Klei.AI;
 using KMod;
 using ProcGen;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TMPro;
+using TUNING;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
@@ -46,16 +48,17 @@ namespace ClusterTraitGenerationManager
         private FCycle PlanetRazioCycle;
 
         private GameObject MeteorSelector;
-        private FCycle PlanetMeteorTypes;
+        //private FCycle PlanetMeteorTypes;
         private GameObject ActiveMeteorsContainer;
         private GameObject MeteorPrefab;
+        private GameObject ActiveSeasonsContainer;
+        private GameObject SeasonPrefab;
+        public FButton AddSeasonButton;
 
 
         private GameObject AsteroidTraits;
         private GameObject ActiveTraitsContainer;
         private GameObject TraitPrefab;
-
-
         public FButton AddTraitButton;
 
 
@@ -67,6 +70,9 @@ namespace ClusterTraitGenerationManager
         public System.Action OnClose;
 
         private StarmapItem lastSelected;
+
+
+
         public void UpdateForSelected(StarmapItem SelectedPlanet)
         {
             if (!init)
@@ -106,14 +112,15 @@ namespace ClusterTraitGenerationManager
             ClusterSize.SetMinMaxCurrent(ringMin, ringMax, CustomCluster.Rings);
 
             AddTraitButton.SetInteractable(IsPartOfCluster && !isRandom);
+            AddSeasonButton.SetInteractable(IsPartOfCluster && !isRandom);
 
             AsteroidSize.SetActive(!isPoi && !isRandom);
             MeteorSelector.SetActive(!isPoi && !isRandom);
             AsteroidTraits.SetActive(!isPoi && !isRandom);
 
             UpdateSizeLabels(current);
-            //AsteroidSizeLabel.text = string.Format(ASTEROIDSIZEINFO.INFO, current.CustomPlanetDimensions.x, current.CustomPlanetDimensions.y);
             PlanetSizeCycle.Value = current.CurrentSizePreset.ToString();
+            PlanetRazioCycle.Value = current.CurrentRatioPreset.ToString();
 
 
             foreach (var traitContainer in Traits.Values)
@@ -124,6 +131,27 @@ namespace ClusterTraitGenerationManager
             {
                 Traits[activeTrait].SetActive(true);
             }
+
+            foreach (var showerHolder in ShowerTypes.Values)
+            {
+                showerHolder.SetActive(false);
+            }
+            foreach (var activeShower in lastSelected.CurrentMeteorShowerTypes)
+            {
+                if(ShowerTypes.ContainsKey(activeShower.Id))
+                    ShowerTypes[activeShower.Id].SetActive(true);
+            }
+
+            foreach (var seasonHolder in SeasonTypes.Values)
+            {
+                seasonHolder.SetActive(false);
+            }
+            foreach (var activeSeason in lastSelected.CurrentMeteorSeasons)
+            {
+                if (SeasonTypes.ContainsKey(activeSeason.Id))
+                    SeasonTypes[activeSeason.Id].SetActive(true);
+            }
+
 
         }
 
@@ -187,8 +215,8 @@ namespace ClusterTraitGenerationManager
         {
             if (e.TryConsume(Action.Escape) || e.TryConsume(Action.MouseRight))
             {
-                SgtLogger.l("CONSUMING1");
-                if (TraitSelectorScreen.Instance != null ? !TraitSelectorScreen.Instance.IsCurrentlyActive : true)
+                //SgtLogger.l("CONSUMING1");
+                if (TraitSelectorScreen.Instance != null ? !TraitSelectorScreen.Instance.IsCurrentlyActive : true && SeasonSelectorScreen.Instance != null ? !SeasonSelectorScreen.Instance.IsCurrentlyActive : true)
                     OnClose.Invoke();
             }
 
@@ -375,78 +403,16 @@ namespace ClusterTraitGenerationManager
             MeteorSelector = transform.Find("MeteorSeasonCycle").gameObject;
             ActiveMeteorsContainer = transform.Find("MeteorSeasonCycle/ScrollArea/Content").gameObject;
             MeteorPrefab = transform.Find("MeteorSeasonCycle/ScrollArea/Content/ListViewEntryPrefab").gameObject;
-            UIUtils.AddSimpleTooltipToObject(MeteorSelector.transform.Find("Label"), STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.TOOLTIP);
 
-            PlanetMeteorTypes = transform.Find("MeteorSeasonCycle/SeasonCycle").gameObject.AddOrGet<FCycle>();
-            PlanetMeteorTypes.Initialize(
-                PlanetMeteorTypes.transform.Find("Left").gameObject.AddOrGet<FButton>(),
-                PlanetMeteorTypes.transform.Find("Right").gameObject.AddOrGet<FButton>(),
-                PlanetMeteorTypes.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
-                PlanetMeteorTypes.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
-            PlanetMeteorTypes.Options = new List<FCycle.Option>();
+            ActiveSeasonsContainer = transform.Find("MeteorSeasonCycle/SeasonScrollArea/Content").gameObject;
+            SeasonPrefab = transform.Find("MeteorSeasonCycle/SeasonScrollArea/Content/ListViewEntryPrefab").gameObject;
 
-            foreach (GameplaySeason meteorSeason in Db.Get().GameplaySeasons.resources)
+            AddSeasonButton = transform.Find("MeteorSeasonCycle/SeasonScrollArea/Content/AddSeasonButton").FindOrAddComponent<FButton>();
+
+            AddSeasonButton.OnClick += () =>
             {
-                if (!meteorSeason.startActive)
-                    continue;
-
-                string showerInfo = string.Empty;
-                Debug.Log(meteorSeason);
-
-                foreach (GameplayEvent gameplayEvent in meteorSeason.events)
-                {
-                    Debug.Log(gameplayEvent);
-                    //if (gameplayEvent.tags.Contains(GameTags.SpaceDanger) && gameplayEvent is MeteorShowerEvent)
-                    if (gameplayEvent is MeteorShowerEvent)
-                    {
-                        MeteorShowerEvent meteorShowerEvent = gameplayEvent as MeteorShowerEvent; 
-                        string meteorName = string.Empty;
-                        if (Assets.GetPrefab((Tag)meteorShowerEvent.GetClusterMapMeteorShowerID()) != null)
-                            meteorName = Assets.GetPrefab((Tag)meteorShowerEvent.GetClusterMapMeteorShowerID()).GetProperName();
-                        else
-                            meteorName = meteorShowerEvent.Id;
-
-                        string meteorlist = string.Empty;
-
-                        var meteortypes = meteorShowerEvent.GetMeteorsInfo();
-                        for(int i = 0; i<meteortypes.Count; i++)
-                        {
-                            meteorlist += Assets.GetPrefab((Tag)meteortypes[i].prefab).GetProperName();
-                            if (i != meteortypes.Count - 1)
-                                meteorlist += ", ";
-                        }
-                        
-
-                        showerInfo += "\n";
-                        showerInfo += meteorName;
-                        showerInfo += meteorlist;
-                    }
-                }
-                if (showerInfo == string.Empty)
-                    showerInfo = "no meteor showers";
-
-                PlanetMeteorTypes.Options.Add(new FCycle.Option(meteorSeason.Id, meteorSeason.Id, showerInfo));
-            }
-
-
-            PlanetMeteorTypes.OnChange += () =>
-            {
-                if (lastSelected != null)
-                {
-                    if (CustomCluster.HasStarmapItem(lastSelected.id, out var current))
-                    {
-                        //WorldRatioPresets setTo = Enum.TryParse<WorldRatioPresets>(PlanetRazioCycle.Value, out var result) ? result : WorldRatioPresets.Normal;
-                        //current.SetPlanetRatioToPreset(setTo);
-                        //UpdateSizeLabels(current);
-                        ////AsteroidSizeLabel.text = string.Format(ASTEROIDSIZEINFO.INFO, current.CustomPlanetDimensions.x, current.CustomPlanetDimensions.y);
-                    }
-                }
+                SeasonSelectorScreen.InitializeView(lastSelected, () => UpdateUI());
             };
-
-
-            AsteroidTraits = transform.Find("AsteroidTraits").gameObject;
-            ActiveTraitsContainer = transform.Find("AsteroidTraits/ListView/Content").gameObject;
-            TraitPrefab = transform.Find("AsteroidTraits/ListView/Content/ListViewEntryPrefab").gameObject;
 
             AddTraitButton = transform.Find("AsteroidTraits/AddTraitButton").FindOrAddComponent<FButton>();
 
@@ -454,6 +420,81 @@ namespace ClusterTraitGenerationManager
             {
                 TraitSelectorScreen.InitializeView(lastSelected, () => UpdateUI());
             };
+
+            UIUtils.AddSimpleTooltipToObject(MeteorSelector.transform.Find("Label"), STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.TOOLTIP);
+
+            //PlanetMeteorTypes = transform.Find("MeteorSeasonCycle/SeasonCycle").gameObject.AddOrGet<FCycle>();
+            //PlanetMeteorTypes.Initialize(
+            //    PlanetMeteorTypes.transform.Find("Left").gameObject.AddOrGet<FButton>(),
+            //    PlanetMeteorTypes.transform.Find("Right").gameObject.AddOrGet<FButton>(),
+            //    PlanetMeteorTypes.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
+            //    PlanetMeteorTypes.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
+            //PlanetMeteorTypes.Options = new List<FCycle.Option>();
+
+            //foreach (GameplaySeason meteorSeason in Db.Get().GameplaySeasons.resources)
+            //{
+            //    if (!meteorSeason.startActive)
+            //        continue;
+
+            //    string showerInfo = string.Empty;
+            //    Debug.Log(meteorSeason);
+
+            //    foreach (GameplayEvent gameplayEvent in meteorSeason.events)
+            //    {
+            //        Debug.Log(gameplayEvent);
+            //        //if (gameplayEvent.tags.Contains(GameTags.SpaceDanger) && gameplayEvent is MeteorShowerEvent)
+            //        if (gameplayEvent is MeteorShowerEvent)
+            //        {
+            //            MeteorShowerEvent meteorShowerEvent = gameplayEvent as MeteorShowerEvent; 
+            //            string meteorName = string.Empty;
+            //            if (Assets.GetPrefab((Tag)meteorShowerEvent.GetClusterMapMeteorShowerID()) != null)
+            //                meteorName = Assets.GetPrefab((Tag)meteorShowerEvent.GetClusterMapMeteorShowerID()).GetProperName();
+            //            else
+            //                meteorName = meteorShowerEvent.Id;
+
+            //            string meteorlist = string.Empty;
+
+            //            var meteortypes = meteorShowerEvent.GetMeteorsInfo();
+            //            for(int i = 0; i<meteortypes.Count; i++)
+            //            {
+            //                meteorlist += Assets.GetPrefab((Tag)meteortypes[i].prefab).GetProperName();
+            //                if (i != meteortypes.Count - 1)
+            //                    meteorlist += ", ";
+            //            }
+
+
+            //            showerInfo += "\n";
+            //            showerInfo += meteorName;
+            //            showerInfo += meteorlist;
+            //        }
+            //    }
+            //    if (showerInfo == string.Empty)
+            //        showerInfo = "no meteor showers";
+
+            //    PlanetMeteorTypes.Options.Add(new FCycle.Option(meteorSeason.Id, meteorSeason.Id, showerInfo));
+            //}
+
+
+            //PlanetMeteorTypes.OnChange += () =>
+            //{
+            //    if (lastSelected != null)
+            //    {
+            //        if (CustomCluster.HasStarmapItem(lastSelected.id, out var current))
+            //        {
+            //            //WorldRatioPresets setTo = Enum.TryParse<WorldRatioPresets>(PlanetRazioCycle.Value, out var result) ? result : WorldRatioPresets.Normal;
+            //            //current.SetPlanetRatioToPreset(setTo);
+            //            //UpdateSizeLabels(current);
+            //            ////AsteroidSizeLabel.text = string.Format(ASTEROIDSIZEINFO.INFO, current.CustomPlanetDimensions.x, current.CustomPlanetDimensions.y);
+            //        }
+            //    }
+            //};
+
+
+            AsteroidTraits = transform.Find("AsteroidTraits").gameObject;
+            ActiveTraitsContainer = transform.Find("AsteroidTraits/ListView/Content").gameObject;
+            TraitPrefab = transform.Find("AsteroidTraits/ListView/Content/ListViewEntryPrefab").gameObject;
+
+
 
 
 
@@ -489,7 +530,7 @@ namespace ClusterTraitGenerationManager
             SgtLogger.Assert("TraitPrefab", TraitPrefab);
 
             InitializeTraitContainer();
-            InitializeMeteorShowerContainer();
+            InitializeMeteorShowerContainers();
             init = true;
         }
 
@@ -510,27 +551,85 @@ namespace ClusterTraitGenerationManager
 
         }
 
-        void InitializeMeteorShowerContainer()
+        void InitializeMeteorShowerContainers()
         {
+            //foreach(var planet in SettingsCache.worlds.worldCache)
+            //{
+            //    SgtLogger.l("", "-");
+            //    foreach (var season in planet.Value.seasons)
+            //    {
+            //        SgtLogger.l(season, planet.Key);
+            //    }
+            //}
+
+            ///SeasonContainer
+            foreach (var gameplaySeason in Db.Get().GameplaySeasons.resources)
+            {
+                if (!(gameplaySeason is MeteorShowerSeason) || gameplaySeason.Id.Contains("Fullerene") || gameplaySeason.Id.Contains("TemporalTear") || gameplaySeason.dlcId != DlcManager.EXPANSION1_ID)
+                    continue;
+                var meteorSeason = gameplaySeason as MeteorShowerSeason;
+
+                var seasonInstanceHolder = Util.KInstantiateUI(SeasonPrefab, ActiveSeasonsContainer, true);
+
+
+                string name = meteorSeason.Name.Replace("MeteorShowers", string.Empty);
+                string description = meteorSeason.events.Count == 0 ? METEORSEASON.SEASONSELECTOR.SEASONTYPENOMETEORSTOOLTIP : METEORSEASON.SEASONSELECTOR.SEASONTYPETOOLTIP;
+                // var icon = showerInstanceHolder.transform.Find("Label/TraitImage").GetComponent<Image>();
+                // icon.sprite = Def.GetUISprite(Assets.GetPrefab(ClusterEventID)).first;
+
+                foreach (var meteorShower in meteorSeason.events)
+                {
+                    description += "\n • ";
+                    description += Assets.GetPrefab((meteorShower as MeteorShowerEvent).clusterMapMeteorShowerID).GetProperName();// Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
+                }
+                UIUtils.AddSimpleTooltipToObject(seasonInstanceHolder.transform, description);
+
+                UIUtils.TryChangeText(seasonInstanceHolder.transform, "Label", name);
+                UIUtils.AddSimpleTooltipToObject(seasonInstanceHolder.transform.Find("Label"), description);
+
+
+                var RemoveButton = seasonInstanceHolder.transform.Find("DeleteButton").gameObject.FindOrAddComponent<FButton>();
+                var SwitchButton = seasonInstanceHolder.transform.Find("SwitchButton").gameObject.FindOrAddComponent<FButton>();
+                UIUtils.AddSimpleTooltipToObject(SwitchButton.transform, METEORSEASON.SWITCHTOOTHERSEASONTOOLTIP);
+                UIUtils.AddSimpleTooltipToObject(RemoveButton.transform, METEORSEASON.REMOVESEASONTOOLTIP);
+
+
+                RemoveButton.OnClick += () =>
+                {
+                    if (CustomCluster.HasStarmapItem(lastSelected.id, out var item))
+                    {
+                        item.RemoveMeteorSeason(meteorSeason.Id); //SeasonSelectorScreen.InitializeView(lastSelected, () => UpdateUI());
+                    }
+                    UpdateUI();
+                };
+                SwitchButton.OnClick += () =>
+                {
+                    if (CustomCluster.HasStarmapItem(lastSelected.id, out var item))
+                    {
+                        SeasonSelectorScreen.InitializeView(lastSelected, () => UpdateUI(), meteorSeason.Id);
+                    }
+                };
+                SeasonTypes[gameplaySeason.Id] = seasonInstanceHolder;
+            }
+
+            ///Shower Container
             foreach (var gameplayEvent in Db.Get().GameplayEvents.resources)
             {
-                if (!(gameplayEvent is MeteorShowerEvent)||gameplayEvent.Id.Contains("Fullerene"))
+                if (!(gameplayEvent is MeteorShowerEvent) || gameplayEvent.Id.Contains("Fullerene"))
                     continue;
                 var meteorEvent = gameplayEvent as MeteorShowerEvent;
                 string ClusterEventID = meteorEvent.clusterMapMeteorShowerID;
 
                 ///for those pesky vanilla meteors without starmap entity
-                if (ClusterEventID == null|| ClusterEventID == string.Empty)
+                if (ClusterEventID == null || ClusterEventID == string.Empty)
                 {
                     string TypeOfEvent = meteorEvent.Id.Replace("MeteorShower", string.Empty).Replace("Event", string.Empty);
-                    //SgtLogger.l(TypeOfEvent);
                     ClusterEventID = ClusterMapMeteorShowerConfig.GetFullID(TypeOfEvent);
-                    //SgtLogger.l(ClusterEventID);
                 }
 
                 var ClusterMapShower = Assets.GetPrefab(ClusterEventID);
                 var showerInstanceHolder = Util.KInstantiateUI(MeteorPrefab, ActiveMeteorsContainer, true);
-                
+
 
                 string name = ClusterMapShower.GetProperName();
                 string description = METEORSEASON.SHOWERTOOLTIP;
@@ -541,7 +640,7 @@ namespace ClusterTraitGenerationManager
                 foreach (var meteor in meteortypes)
                 {
                     description += "\n • ";
-                    description +=  Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
+                    description += Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
                 }
                 //icon.color = Util.ColorFromHex(kvp.Value.colorHex);
 
@@ -549,13 +648,15 @@ namespace ClusterTraitGenerationManager
                 //{
                 //    name = UIUtils.RainbowColorText(name.ToString());
                 //}
-
                 UIUtils.TryChangeText(showerInstanceHolder.transform, "Label", name);
                 UIUtils.AddSimpleTooltipToObject(showerInstanceHolder.transform, description);
+
+
                 ShowerTypes[gameplayEvent.Id] = showerInstanceHolder;
             }
             UpdateUI();
         }
+        Dictionary<string, GameObject> SeasonTypes = new Dictionary<string, GameObject>();
 
         Dictionary<string, GameObject> ShowerTypes = new Dictionary<string, GameObject>();
 

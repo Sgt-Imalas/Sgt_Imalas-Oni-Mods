@@ -106,7 +106,34 @@ namespace ClusterTraitGenerationManager
             }
         }
 
-
+        /// <summary>
+        /// custom meteor example code
+        /// </summary>
+        //[HarmonyPatch(typeof(Db), "Initialize")]
+        //public static class Db_addSeason
+        //{
+        //    public static void Postfix(Db __instance)
+        //    {
+        //        __instance.GameplayEvents.Add(
+        //            new MeteorShowerSeason(
+        //                "AllShowersInOnceID",
+        //                GameplaySeason.Type.World,
+        //                "EXPANSION1_ID",
+        //                20f,
+        //                false,
+        //                startActive: true,
+        //                clusterTravelDuration: 6000f)
+        //            .AddEvent(Db.Get().GameplayEvents.MeteorShowerDustEvent)
+        //            .AddEvent(Db.Get().GameplayEvents.ClusterCopperShower)
+        //            .AddEvent(Db.Get().GameplayEvents.ClusterGoldShower)
+        //            .AddEvent(Db.Get().GameplayEvents.ClusterIronShower)
+        //            .AddEvent(Db.Get().GameplayEvents.ClusterIceShower)
+        //            .AddEvent(Db.Get().GameplayEvents.ClusterBiologicalShower)
+        //            .AddEvent(Db.Get().GameplayEvents.ClusterBleachStoneShower)
+        //            .AddEvent(Db.Get().GameplayEvents.ClusterUraniumShower));
+        //        ///obv. not all events
+        //    }
+        //}
 
 
         /// <summary>
@@ -395,69 +422,6 @@ namespace ClusterTraitGenerationManager
                     name = CGSMClusterManager.CustomClusterID;
                 }
             }
-
-            /// Start Comment
-            /// 
-            /// 
-            ///worldGen.SetWorldSize(worldsize.x, worldsize.y);
-            ///
-
-            //private static readonly MethodInfo TargetMethod = AccessTools.Method(
-            //        typeof(WorldGen)
-            //       ,nameof(WorldGen.SetWorldSize)
-            //   );
-            //public static void CheckForTag(WorldGen placement ,int x, int y, WorldPlacement placement1)
-            //{
-            //    //Debug.LogWarning(CGSMClusterManager.CustomCluster);
-            //    //if(CGSMClusterManager.CustomCluster!=null 
-            //    //    && CGSMClusterManager.CustomCluster.HasStarmapItem(placement1.world, out var planet)
-            //    //    && planet.placement != null
-            //    //    && planet.placement.width >0 
-            //    //    && planet.placement.height > 0)
-            //    //{
-            //    //    placement.SetWorldSize(planet.placement.width,planet.placement.height);
-            //    //    SgtLogger.l("Replaced WorldSize: " + planet.placement.width +", " + planet.placement.height);
-            //    //}
-            //    //else
-            //    //{
-            //    //placement.SetWorldSize(200, 200);
-            //    //}
-            //    placement.SetWorldSize(x, y);
-            //    //SgtLogger.l(x + ", " + y + "<- by file : by config->" + placement1.width + ", " + placement1.height, "WorldGen");
-            //}
-
-            //private static readonly MethodInfo FixForWorldGen = AccessTools.Method(
-            //   typeof(ApplyCustomGen),
-            //   nameof(CheckForTag)
-
-            //);
-
-            //private static readonly MethodInfo GetWorld = AccessTools.Method(
-            //        typeof(ProcGen.WorldPlacement),
-            //        "get_world");
-
-            //static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
-            //{
-            //    var code = instructions.ToList();
-
-            //    var insertionIndex = code.FindIndex(ci => ci.operand is MethodInfo f && f == TargetMethod);
-
-            //    var deserializerSearchIndex = code.FindLastIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo f && f == GetWorld);
-            //    var WorldPlacementIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, deserializerSearchIndex);
-
-            //    if (insertionIndex != -1 && WorldPlacementIndex != -1)
-            //    {
-            //        //int primaryElementIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, insertionIndex);
-
-            //        code[insertionIndex]= new CodeInstruction(OpCodes.Call, FixForWorldGen);
-            //        code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, WorldPlacementIndex));
-            //    }
-            //    // Debug.Log("DEBUGMETHOD: " + new CodeInstruction(OpCodes.Call, PacketSizeHelper));
-            //    TranspilerHelper.PrintInstructions(code);
-            //    return code;
-            //}
-
-            ///EndComment
         }
     }
 }
