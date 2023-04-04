@@ -1,17 +1,17 @@
 msgid ""
 msgstr ""
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: \n"
 "Language-Team: \n"
-"Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Application: Oxygen Not IncludedPOT Version: 2.0\n"
-"X-Generator: Poedit 2.1\n"
+"X-Generator: Poedit 3.0\n"
+"Last-Translator: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh\n"
 
 #. ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGSM.DESCRIPTION
 msgctxt "ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGSM.DESCRIPTION"
@@ -24,22 +24,11 @@ msgid "CGSM Cluster"
 msgstr "CGSM星球特性"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.AMOUNTSLIDER.DESCRIPTOR.INPUT.TEXT
-#, fuzzy
-#| msgid ""
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.AMOUNTSLIDER."
 "DESCRIPTOR.INPUT.TEXT"
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1\n"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.AMOUNTSLIDER.DESCRIPTOR.LABEL
 msgctxt ""
@@ -76,22 +65,11 @@ msgid "Height:"
 msgstr "高度："
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.INPUT.TEXT
-#, fuzzy
-#| msgid ""
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
 "ASTEROIDSIZEINFO.INPUT.TEXT"
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1\n"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.LABEL
 msgctxt ""
@@ -147,7 +125,7 @@ msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
 "ASTEROIDSIZEINFO.RATIOSELECTOR.NORMAL"
 msgid "Normal Shape"
-msgstr "正常尺寸"
+msgstr "默认尺寸"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.RATIOSELECTOR.NORMALTOOLTIP
 msgctxt ""
@@ -331,25 +309,14 @@ msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
 "ASTEROIDTRAITS.LISTVIEW.NOTRAITSELECTEDINFO.LABEL"
 msgid "  No Traits"
-msgstr "无特征"
+msgstr " 无特征"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUFFERSLIDER.DESCRIPTOR.INPUT.TEXT
-#, fuzzy
-#| msgid ""
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUFFERSLIDER."
 "DESCRIPTOR.INPUT.TEXT"
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1\n"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUFFERSLIDER.DESCRIPTOR.LABEL
 msgctxt ""
@@ -369,8 +336,19 @@ msgstr "这颗小行星与其他小行星的最小距离。"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS."
 "GENERATECLUSTERBUTTON.TEXT"
-msgid "Generate Cluster"
-msgstr "生成星群"
+msgid "Start modified Game"
+msgstr "开始游戏"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.GENERATECLUSTERBUTTON.TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS."
+"GENERATECLUSTERBUTTON.TOOLTIP"
+msgid ""
+"Start generating a modified Cluster based on selected parameters.\n"
+"Modified Cluster Generation is only activated if this button here is used."
+msgstr ""
+"开始游戏以所选参数生成修改后的星群。\n"
+"仅当使用此处的此按钮开始游戏才会生成修改星群数据后的星群。"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.RESETCLUSTERBUTTON.TEXT
 msgctxt ""
@@ -407,23 +385,19 @@ msgctxt ""
 msgid "Return"
 msgstr "返回"
 
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.RETURNBUTTON.TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS."
+"RETURNBUTTON.TOOLTIP"
+msgid "Return to the previous screen."
+msgstr "返回上一级。"
+
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.CLUSTERSIZE.DESCRIPTOR.INPUT.TEXT
-#, fuzzy
-#| msgid ""
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.CLUSTERSIZE."
 "DESCRIPTOR.INPUT.TEXT"
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1\n"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.CLUSTERSIZE.DESCRIPTOR.LABEL
 msgctxt ""
@@ -440,22 +414,11 @@ msgid "The radius of the starmap."
 msgstr "星图的半径。"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.MAXDISTANCESLIDER.DESCRIPTOR.INPUT.TEXT
-#, fuzzy
-#| msgid ""
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
 "MAXDISTANCESLIDER.DESCRIPTOR.INPUT.TEXT"
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1\n"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.MAXDISTANCESLIDER.DESCRIPTOR.LABEL
 msgctxt ""
@@ -471,23 +434,139 @@ msgctxt ""
 msgid "The maximum distance this asteroid has to the center of the starmap."
 msgstr "这颗小行星到星图中心的最大距离。"
 
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.ACTIVEMETEORSLABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"ACTIVEMETEORSLABEL"
+msgid "Active Meteor Showers:"
+msgstr "活跃的流星雨："
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.ACTIVESEASONSELECTORLABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"ACTIVESEASONSELECTORLABEL"
+msgid "Active Meteor Seasons:"
+msgstr "活跃的流星时期："
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.ADDNEWSEASON
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"ADDNEWSEASON"
+msgid "Add additional meteor season"
+msgstr "添加额外的流星时期"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.ADDNEWSEASONTOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"ADDNEWSEASONTOOLTIP"
+msgid ""
+"Add another type of meteor season type to this asteroid.\n"
+"Warning: Meteor season types are all active at the same time,\n"
+"leading to a high volume of meteors at the same time if multiple are added.\n"
+"Normal asteroids have usually 1 season type"
+msgstr ""
+"在这颗小行星上添加另一种类型的流星季节类型。\n"
+"警告：流星季节类型同时处于活动状态，\n"
+"如果添加多颗流星，则会导致同时出现大量流星。\n"
+"正常的小行星通常有1个流星季节"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"LABEL"
+msgid "Meteors:"
+msgstr "流星："
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.NOMETEORSHOWERS
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"NOMETEORSHOWERS"
+msgid "No Meteor Showers"
+msgstr "无流星雨"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.NOSEASONSSELECTED
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"NOSEASONSSELECTED"
+msgid "No season types selected"
+msgstr "没有选择季节类型"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.REMOVESEASONTOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"REMOVESEASONTOOLTIP"
+msgid "Remove this season type"
+msgstr "删除此季节类型"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.SEASONSELECTOR.ADDSEASONTYPEBUTTONLABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"SEASONSELECTOR.ADDSEASONTYPEBUTTONLABEL"
+msgid "Add season type"
+msgstr "添加季节类型"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.SEASONSELECTOR.NOSEASONTYPESAVAILABLE
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"SEASONSELECTOR.NOSEASONTYPESAVAILABLE"
+msgid "No more available Season Types"
+msgstr "没有更多可用的季节类型"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.SEASONSELECTOR.SEASONTYPENOMETEORSTOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"SEASONSELECTOR.SEASONTYPENOMETEORSTOOLTIP"
+msgid ""
+"This season type does not contain any meteor shower types.\n"
+"This might change in the future if Klei decides to add some showers to this "
+"season type.\n"
+"For this reason the season type is listed here."
+msgstr ""
+"这个季节类型不包含任何流星雨类型。\n"
+"如果KLei决定在这个季节增加流星雨，这种情况在未来可能会改变。\n"
+"因此，此处列出了季节类型。"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.SEASONSELECTOR.SEASONTYPETOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"SEASONSELECTOR.SEASONTYPETOOLTIP"
+msgid "This season type contains the following shower types:"
+msgstr "此季节类型包含以下流星雨类型："
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.SEASONSELECTOR.TITEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"SEASONSELECTOR.TITEL"
+msgid "Available Meteor Season Types:"
+msgstr "可用的流星季节类型："
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.SHOWERTOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"SHOWERTOOLTIP"
+msgid "Meteors in this shower type:"
+msgstr "这种类型的流星："
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.SWITCHTOOTHERSEASONTOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"SWITCHTOOTHERSEASONTOOLTIP"
+msgid "Swap this season to a different type"
+msgstr "将本季换成其他类型"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"TOOLTIP"
+msgid "What kind of meteors should come down on this asteroid?"
+msgstr "什么样的流星应该落在这颗小行星上？"
+
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.MINDISTANCESLIDER.DESCRIPTOR.INPUT.TEXT
-#, fuzzy
-#| msgid ""
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
 "MINDISTANCESLIDER.DESCRIPTOR.INPUT.TEXT"
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1\n"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.MINDISTANCESLIDER.DESCRIPTOR.LABEL
 msgctxt ""
@@ -627,7 +706,7 @@ msgid ""
 msgstr ""
 "选择一定数量的随机外层小行星。\n"
 "\n"
-"每个小行星只能生成一次。"
+"每个小行星只能生成一次"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_OUTER.NAME
 msgctxt ""
@@ -685,3 +764,20 @@ msgctxt ""
 "NAME"
 msgid "Random Teleporter Asteroid"
 msgstr "随机传送小行星"
+
+#. ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT.DESCRIPTION
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT."
+"DESCRIPTION"
+msgid ""
+"Chooses between 1 and 3 Traits at random.\n"
+"Mutually exclusive with other selectable Traits."
+msgstr ""
+"随机选择1个和3个特征。\n"
+"与其他可选特征互斥。"
+
+#. ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT.NAME
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT.NAME"
+msgid "Randomized Traits"
+msgstr "随机特征"
