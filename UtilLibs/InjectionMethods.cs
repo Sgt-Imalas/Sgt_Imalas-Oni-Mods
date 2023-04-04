@@ -48,6 +48,14 @@ namespace UtilLibs
             AddBuildingToTechnology(techId, techItemId);
             return Db.Get().TechItems.AddTechItem(techItemId, name, description, (anim, centered) => sprite, availableDLCs);
         }
+
+        public static void AddBuildingToPlanScreen(
+            HashedString category,
+            string building_id,
+            string subcategoryID = "uncategorized",
+            ModUtil.BuildingOrdering ordering = ModUtil.BuildingOrdering.After) 
+            => AddBuildingToPlanScreenBehindNext(category,building_id,string.Empty,subcategoryID,ordering);
+
         public static void AddBuildingToPlanScreenBehindNext(
             HashedString category,
             string building_id,
@@ -80,6 +88,7 @@ namespace UtilLibs
             }
             else
             {
+                TUNING.BUILDINGS.PLANSUBCATEGORYSORTING[building_id] = subcategoryID;
                 ModUtil.AddBuildingToPlanScreen(category, building_id, subcategoryID);
             }
         }
