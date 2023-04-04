@@ -270,6 +270,10 @@ msgid ""
 "size asteroid.\n"
 "This might lead to a low game performance!"
 msgstr ""
+"Warnung!\n"
+"Die von gewählte Planetengröße hat {0}% mehr Fläche als ein normaler "
+"Asteroid in Vanilla-Größe.\n"
+"Dies kann zu FPS-Problemen führen!"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.TOOLTIP
 msgctxt ""
@@ -283,7 +287,7 @@ msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
 "ASTEROIDSIZEINFO.WIDTH"
 msgid "Width:"
-msgstr ""
+msgstr "Breite:"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDTRAITS.ADDTRAITBUTTON.TEXT
 msgctxt ""
@@ -389,7 +393,7 @@ msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS."
 "RETURNBUTTON.TOOLTIP"
 msgid "Return to the previous screen."
-msgstr ""
+msgstr "Zum vorherigen Fenster zurückkehren."
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.CLUSTERSIZE.DESCRIPTOR.INPUT.TEXT
 msgctxt ""
@@ -432,6 +436,135 @@ msgctxt ""
 "MAXDISTANCESLIDER.DESCRIPTOR.TOOLTIP"
 msgid "The maximum distance this asteroid has to the center of the starmap."
 msgstr "Maximale Distanz dieses Asteroiden zur Mitte der Sternenkarte."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.ACTIVEMETEORSLABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"ACTIVEMETEORSLABEL"
+msgid "Active Meteor Showers:"
+msgstr "Aktive Meteorschauer:"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.ACTIVESEASONSELECTORLABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"ACTIVESEASONSELECTORLABEL"
+msgid "Active Meteor Seasons:"
+msgstr "Aktive Meteor-Saisons:"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.ADDNEWSEASON
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"ADDNEWSEASON"
+msgid "Add additional meteor season"
+msgstr "Zusätzliche Saison hinzufügen"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.ADDNEWSEASONTOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"ADDNEWSEASONTOOLTIP"
+msgid ""
+"Add another type of meteor season type to this asteroid.\n"
+"Warning: Meteor season types are all active at the same time,\n"
+"leading to a high volume of meteors at the same time if multiple are added.\n"
+"Normal asteroids have usually 1 season type"
+msgstr ""
+"Diesem Asteroiden einen weiteren Meteorsaison-Typ hinzufügen.\n"
+"Achtung: Alle Meteorsaisons sind alle gleichzeitig aktiv,\n"
+"Dies führt zu einer hohen Anzahl von Meteoren zur gleichen Zeit, wenn "
+"mehrere Saisons hinzugefügt wurden.\n"
+"Normale Asteroiden haben normalerweise einen Saisontyp"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"LABEL"
+msgid "Meteors:"
+msgstr "Meteore:"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.NOMETEORSHOWERS
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"NOMETEORSHOWERS"
+msgid "No Meteor Showers"
+msgstr "Keine Meteore"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.NOSEASONSSELECTED
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"NOSEASONSSELECTED"
+msgid "No season types selected"
+msgstr "Keine Meteorsaison ausgewählt"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.REMOVESEASONTOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"REMOVESEASONTOOLTIP"
+msgid "Remove this Season Type"
+msgstr "Diesen Saison-Typ entfernen"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.SEASONSELECTOR.ADDSEASONTYPEBUTTONLABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"SEASONSELECTOR.ADDSEASONTYPEBUTTONLABEL"
+msgid "Add season type"
+msgstr "Saison-Typ hinzufügen"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.SEASONSELECTOR.NOSEASONTYPESAVAILABLE
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"SEASONSELECTOR.NOSEASONTYPESAVAILABLE"
+msgid "No more available Season Types"
+msgstr "Keine weiteren Saison-Typen verfügbar"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.SEASONSELECTOR.SEASONTYPENOMETEORSTOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"SEASONSELECTOR.SEASONTYPENOMETEORSTOOLTIP"
+msgid ""
+"This season type does not contain any meteor shower types.\n"
+"This might change in the future if Klei decides to add some showers to this "
+"season type.\n"
+"For this reason the season type is still listed here."
+msgstr ""
+"Dieser Saisontyp enthält keine Meteorschauertypen.\n"
+"Dies könnte sich in Zukunft ändern, wenn Klei beschließt, diesen Typ um "
+"einige Schauer zu erweitern.\n"
+"Aus diesem Grund ist der Typ hier aufgeführt."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.SEASONSELECTOR.SEASONTYPETOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"SEASONSELECTOR.SEASONTYPETOOLTIP"
+msgid "This season type contains the following shower types:"
+msgstr "Dieser Saisontyp enthält die folgenden Meteorschauer:"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.SEASONSELECTOR.TITEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"SEASONSELECTOR.TITEL"
+msgid "Available Meteor Season Types:"
+msgstr "Verfügbare Meteorschauer-Typen:"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.SHOWERTOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"SHOWERTOOLTIP"
+msgid "Meteors in this shower type:"
+msgstr "Meteore in diesem Schauer-Typ:"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.SWITCHTOOTHERSEASONTOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"SWITCHTOOTHERSEASONTOOLTIP"
+msgid "Change this season to a different type"
+msgstr "Diese Saison durch eine Andere ersetzen"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
+"TOOLTIP"
+msgid "What kind of meteors should come down on this asteroid?"
+msgstr "Welche Arten von Meteoriten sollen auf diesem Asteroiden niedergehen?"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.MINDISTANCESLIDER.DESCRIPTOR.INPUT.TEXT
 msgctxt ""
@@ -638,13 +771,6 @@ msgid "Random Teleporter Asteroid"
 msgstr "Zufälliger Teleporterasteroid"
 
 #. ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT.DESCRIPTION
-#, fuzzy
-#| msgctxt ""
-#| "ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT."
-#| "DESCRIPTION"
-#| msgid ""
-#| "Chooses between 1 and 3 Traits at random.\n"
-#| "Mutually exclusive with other selectable Traits"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT."
 "DESCRIPTION"

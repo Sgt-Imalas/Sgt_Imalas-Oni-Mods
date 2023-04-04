@@ -106,11 +106,11 @@ namespace ClusterTraitGenerationManager
                             public static LocString ADDSEASONTYPEBUTTONLABEL = (LocString)"Add season type";
                             public static LocString NOSEASONTYPESAVAILABLE = (LocString)"No more available Season Types";
                             public static LocString SEASONTYPETOOLTIP = (LocString)"This season type contains the following shower types:";
-                            public static LocString SEASONTYPENOMETEORSTOOLTIP = (LocString)"This season type does not contain any meteor shower types.\nThis might change in the future if Klei decides to add some showers to this season type.\nFor this reason the season type is still listed here.";
+                            public static LocString SEASONTYPENOMETEORSTOOLTIP = (LocString)"This season type does not contain any meteor shower types.\nThis might change in the future if Klei decides to add some showers to this season type.\nFor this reason the season type is listed here.";
                         }
 
-                        public static LocString SWITCHTOOTHERSEASONTOOLTIP = (LocString)"Change this season to a different type";
-                        public static LocString REMOVESEASONTOOLTIP = (LocString)"Remove this Season Type";
+                        public static LocString SWITCHTOOTHERSEASONTOOLTIP = (LocString)"Swap this season to a different type";
+                        public static LocString REMOVESEASONTOOLTIP = (LocString)"Remove this season type";
 
                         public static LocString NOMETEORSHOWERS = (LocString)"No Meteor Showers";
                         public static LocString SHOWERTOOLTIP = (LocString)"Meteors in this shower type:";
