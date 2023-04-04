@@ -27,7 +27,7 @@ namespace MeteorMigration
             {
                 if (!__instance.IsModuleInterior)
                 {
-                    if (__instance.GetSeasonIds().Count == 0)
+                    if (__instance.GetSeasonIds().Count == 0|| __instance.GetSeasonIds().Contains("MeteorShowers"))
                     {
 
                         if (SettingsCache.worlds.HasWorld(__instance.worldName))
