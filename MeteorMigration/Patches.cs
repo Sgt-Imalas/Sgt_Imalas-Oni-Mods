@@ -5,6 +5,7 @@ using ProcGen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -60,5 +61,38 @@ namespace MeteorMigration
                 }
             }
         }
+
+        /// <summary>
+        /// The following method can be copy-pasted by other mods that had seasons previously and now are broken as a fix for existing worlds
+        /// </summary>
+        //[HarmonyPatch(typeof(WorldContainer))]
+        //[HarmonyPatch(nameof(WorldContainer.RefreshFixedTraits))]
+        //public static class Baator_CrashFix
+        //{
+        //    public static void Postfix(WorldContainer __instance)
+        //    {
+        //        if (!__instance.IsModuleInterior)
+        //        {
+        //            if (__instance.GetSeasonIds().Contains("MeteorShowers"))
+        //            {
+        //                typeof(WorldContainer).GetField("m_seasonIds", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(__instance, new List<string>());
+
+        //                if (SettingsCache.worlds.HasWorld(__instance.worldName))
+        //                {
+        //                    var Data = SettingsCache.worlds.GetWorldData(__instance.worldName);
+        //                    if (Data.seasons.Count > 0)
+        //                    {
+
+        //                        typeof(WorldContainer).GetField("m_seasonIds", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(__instance,new List<string>(Data.seasons));
+
+        //                        Debug.Log("Baator: Fixed Meteor Showers for " + __instance.worldName + ".");
+        //                    }
+        //                }
+        //                else
+        //                    Debug.LogWarning("Planet not found in world data");
+        //            }
+        //        }
+        //    }
+        //}
     }
 }
