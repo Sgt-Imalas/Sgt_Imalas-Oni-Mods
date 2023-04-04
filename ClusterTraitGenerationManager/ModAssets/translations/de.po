@@ -472,7 +472,7 @@ msgstr ""
 "Achtung: Alle Meteorsaisons sind alle gleichzeitig aktiv,\n"
 "Dies führt zu einer hohen Anzahl von Meteoren zur gleichen Zeit, wenn "
 "mehrere Saisons hinzugefügt wurden.\n"
-"Normale Asteroiden haben normalerweise einen Saisontyp"
+"Normale Asteroiden haben meist nur einen Saisontyp."
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.LABEL
 msgctxt ""

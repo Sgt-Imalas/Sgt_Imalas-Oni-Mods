@@ -408,6 +408,7 @@ namespace ClusterTraitGenerationManager
             SeasonPrefab = transform.Find("MeteorSeasonCycle/Seasons/SeasonScrollArea/Content/ListViewEntryPrefab").gameObject;
 
             AddSeasonButton = transform.Find("MeteorSeasonCycle/Seasons/SeasonScrollArea/Content/AddSeasonButton").FindOrAddComponent<FButton>();
+            UIUtils.AddSimpleTooltipToObject(AddSeasonButton.transform, METEORSEASON.ADDNEWSEASONTOOLTIP);
 
             AddSeasonButton.OnClick += () =>
             {
