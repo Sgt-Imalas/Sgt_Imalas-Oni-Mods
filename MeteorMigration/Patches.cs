@@ -27,15 +27,15 @@ namespace MeteorMigration
             {
                 if (!__instance.IsModuleInterior)
                 {
-                    if (__instance.GetSeasonIds().Count == 0|| __instance.GetSeasonIds().Contains("MeteorShowers"))
+                    if (__instance.GetSeasonIds().Count == 0 || __instance.GetSeasonIds().Contains("MeteorShowers"))
                     {
+                        __instance.m_seasonIds.Clear();
 
                         if (SettingsCache.worlds.HasWorld(__instance.worldName))
                         {
                             var Data = SettingsCache.worlds.GetWorldData(__instance.worldName);
                             if (Data.seasons.Count > 0)
                             {
-                                __instance.m_seasonIds.Clear();
                                 __instance.m_seasonIds.AddRange(Data.seasons);
                                 SgtLogger.l("Migrated Meteor Showers for " + __instance.worldName + ".");
 
