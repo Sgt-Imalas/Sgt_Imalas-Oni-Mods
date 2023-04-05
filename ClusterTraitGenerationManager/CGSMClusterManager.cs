@@ -861,7 +861,7 @@ namespace ClusterTraitGenerationManager
 
             public bool RemoveWorldTrait(WorldTrait trait)
             {
-                SgtLogger.l(trait.filePath, "TryingToRemove");
+                //SgtLogger.l(trait.filePath, "TryingToRemove");
 
                 string traitID = trait.filePath;
                 bool allowed = currentPlanetTraits.Contains(traitID);

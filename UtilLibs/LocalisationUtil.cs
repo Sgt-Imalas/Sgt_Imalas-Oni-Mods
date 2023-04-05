@@ -13,7 +13,7 @@ namespace UtilLibs
         public static void Translate(Type root, bool generateTemplate = false)
         {
             Localization.RegisterForTranslation(root);
-            LoadStrings();
+            OverLoadStrings();
             LocString.CreateLocStringKeys(root, null);
 
             if (generateTemplate)
@@ -23,7 +23,7 @@ namespace UtilLibs
         }
 
         // Loads user created translations
-        private static void LoadStrings()
+        private static void OverLoadStrings()
         {
             string code = Localization.GetLocale()?.Code;
 
