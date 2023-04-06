@@ -1,0 +1,3 @@
+﻿- move power plug into on tech earlier next to the smol battery tech
+- antenna nosecone for moar booster building range
+- concept for boosters
