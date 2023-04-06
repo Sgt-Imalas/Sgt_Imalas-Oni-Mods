@@ -40,8 +40,8 @@ namespace MineralizerReborn
                 0.2f
                 );
             buildingDef.RequiresPowerInput = true;
-            buildingDef.EnergyConsumptionWhenActive = 360f;
-            buildingDef.ExhaustKilowattsWhenActive = 8f;
+            buildingDef.EnergyConsumptionWhenActive = Config.Instance.WattsUsed;
+            buildingDef.ExhaustKilowattsWhenActive = ((float)Config.Instance.WattsUsed)/120f;
             buildingDef.SelfHeatKilowattsWhenActive = 0f;
             buildingDef.InputConduitType = ConduitType.Liquid;
             buildingDef.OutputConduitType = ConduitType.Liquid;
