@@ -65,8 +65,7 @@ namespace MeteorMigration
         /// <summary>
         /// The following method can be copy-pasted by other mods that had seasons previously and now are broken as a fix for existing worlds
         /// </summary>
-        //[HarmonyPatch(typeof(WorldContainer))]
-        //[HarmonyPatch(nameof(WorldContainer.RefreshFixedTraits))]
+        //[HarmonyPatch(typeof(WorldContainer), "RefreshFixedTraits")]
         //public static class Baator_CrashFix
         //{
         //    public static void Postfix(WorldContainer __instance)
