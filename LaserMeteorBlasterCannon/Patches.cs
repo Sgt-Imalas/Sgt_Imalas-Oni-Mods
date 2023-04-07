@@ -46,8 +46,8 @@ namespace LaserMeteorBlasterCannon
         /// <summary>
         /// Init. auto translation
         /// </summary>
-        [HarmonyPatch(typeof(MissileProjectile.StatesInstance))]
-        [HarmonyPatch(nameof(MissileProjectile.StatesInstance.TriggerExplosion))]
+        [HarmonyPatch(typeof(Comet))]
+        [HarmonyPatch(nameof(Comet.OnCleanUp))]
         public static class Yeet_Materials
         {
             public static Vector3 GetPointOnUnitSphereCap(Quaternion targetDirection, float angle)
@@ -62,11 +62,11 @@ namespace LaserMeteorBlasterCannon
                 return GetPointOnUnitSphereCap(Quaternion.LookRotation(targetDirection), angle);
             }
 
-            public static void Prefix(MissileProjectile.StatesInstance __instance)
+            public static void Prefix(Comet __instance)
             {
-                if (!__instance.smi.sm.meteorTarget.IsNullOrDestroyed())
+                if (true)
                 {
-                    Comet CometToDropMats = __instance.smi.sm.meteorTarget.Get(__instance.smi);
+                    Comet CometToDropMats = __instance;
 
                     if (CometToDropMats.TryGetComponent<PrimaryElement>(out var primElement))
                     {
