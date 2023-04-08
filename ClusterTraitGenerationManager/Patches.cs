@@ -49,6 +49,10 @@ namespace ClusterTraitGenerationManager
         [HarmonyPatch(nameof(ColonyDestinationSelectScreen.OnSpawn))]
         public static class InsertCustomClusterOption
         {
+            public static void Prefix(ColonyDestinationSelectScreen __instance)
+            {
+                CGSMClusterManager.selectScreen = __instance;
+            }
             public static void Postfix(ColonyDestinationSelectScreen __instance)
             {
                 var InsertLocation = __instance.shuffleButton.transform.parent; //__instance.transform.Find("Layout/DestinationInfo/Content/InfoColumn/Horiz/Section - Destination/DestinationDetailsHeader/");
@@ -59,7 +63,6 @@ namespace ClusterTraitGenerationManager
                 UIUtils.TryFindComponent<Image>(copyButton.transform, "FG").sprite = Assets.GetSprite("icon_gear");
                 UIUtils.TryFindComponent<ToolTip>(copyButton.transform, "").toolTip = STRINGS.UI.CGMBUTTON.DESC;
                 UIUtils.TryFindComponent<KButton>(copyButton.transform, "").onClick += () => CGSMClusterManager.InstantiateClusterSelectionView(__instance);
-                CGSMClusterManager.selectScreen = __instance;
 
             }
         }
@@ -67,44 +70,46 @@ namespace ClusterTraitGenerationManager
         /// <summary>
         /// Regenerates Custom cluster with newly created traits on seed shuffle
         /// </summary>
-        [HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
-        [HarmonyPatch(nameof(ColonyDestinationSelectScreen.ShuffleClicked))]
+        [HarmonyPatch(typeof(CustomGameSettings))]
+        [HarmonyPatch(nameof(CustomGameSettings.SetQualitySetting))]
         public static class TraitShuffler
         {
-            public static void Postfix(ColonyDestinationSelectScreen __instance)
+            public static void Postfix(CustomGameSettings __instance, SettingConfig config)
             {
-                CGSMClusterManager.selectScreen = __instance;
-                if (__instance.newGameSettings == null)
+                if (__instance == null)
+                    return;
+                if (config.id != "WorldgenSeed" && config.id != "ClusterLayout")
                     return;
 
-                string clusterPath = __instance.newGameSettings.GetSetting(CustomGameSettingConfigs.ClusterLayout);
+                string clusterPath = __instance.GetCurrentQualitySetting(CustomGameSettingConfigs.ClusterLayout).id;
                 if (clusterPath == null || clusterPath.Count() == 0)
                 {
                     clusterPath = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
                 }
                 CGSMClusterManager.LoadCustomCluster = false;
-                CGSMClusterManager.CreateCustomClusterFrom(clusterPath);
+                SgtLogger.l("Regenerating Cluster. Reason: " + config.id + " changed.");
+                CGSMClusterManager.CreateCustomClusterFrom(clusterPath, ForceRegen: true);
             }
         }
-        [HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
-        [HarmonyPatch(nameof(ColonyDestinationSelectScreen.CoordinateChanged))]
-        public static class SeedInserted
-        {
-            public static void Postfix(ColonyDestinationSelectScreen __instance)
-            {
-                CGSMClusterManager.selectScreen = __instance;
-                if (__instance.newGameSettings == null)
-                    return;
+        //[HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
+        //[HarmonyPatch(nameof(ColonyDestinationSelectScreen.CoordinateChanged))]
+        //public static class SeedInserted
+        //{
+        //    public static void Postfix(ColonyDestinationSelectScreen __instance)
+        //    {
+        //        CGSMClusterManager.selectScreen = __instance;
+        //        if (__instance.newGameSettings == null)
+        //            return;
 
-                string clusterPath = __instance.newGameSettings.GetSetting(CustomGameSettingConfigs.ClusterLayout);
-                if (clusterPath == null || clusterPath.Count() == 0)
-                {
-                    clusterPath = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
-                }
-                CGSMClusterManager.LoadCustomCluster = false;
-                CGSMClusterManager.CreateCustomClusterFrom(clusterPath);
-            }
-        }
+        //        string clusterPath = __instance.newGameSettings.GetSetting(CustomGameSettingConfigs.ClusterLayout);
+        //        if (clusterPath == null || clusterPath.Count() == 0)
+        //        {
+        //            clusterPath = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
+        //        }
+        //        CGSMClusterManager.LoadCustomCluster = false;
+        //        CGSMClusterManager.CreateCustomClusterFrom(clusterPath);
+        //    }
+        //}
 
         /// <summary>
         /// custom meteor example code
@@ -139,16 +144,16 @@ namespace ClusterTraitGenerationManager
         /// <summary>
         /// Resets Custom cluster with newly generated preset
         /// </summary>
-        [HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
-        [HarmonyPatch(nameof(ColonyDestinationSelectScreen.OnAsteroidClicked))]
-        public static class OnAsteroidClickedHandler
-        {
-            public static void Postfix(ColonyDestinationAsteroidBeltData cluster)
-            {
-                CGSMClusterManager.LoadCustomCluster = false;
-                CGSMClusterManager.CreateCustomClusterFrom(cluster.beltPath);
-            }
-        }
+        //[HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
+        //[HarmonyPatch(nameof(ColonyDestinationSelectScreen.OnAsteroidClicked))]
+        //public static class OnAsteroidClickedHandler
+        //{
+        //    public static void Postfix(ColonyDestinationAsteroidBeltData cluster)
+        //    {
+        //        CGSMClusterManager.LoadCustomCluster = false;
+        //        CGSMClusterManager.CreateCustomClusterFrom(cluster.beltPath,ForceRegen: true);
+        //    }
+        //}
 
         /// <summary>
         /// CoreTraitFix_SolarSystemWorlds

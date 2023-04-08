@@ -1171,20 +1171,20 @@ namespace ClusterTraitGenerationManager
         }
 
 
-        public static void CreateCustomClusterFrom(string clusterID, string singleItemId = "")
+        public static void CreateCustomClusterFrom(string clusterID, string singleItemId = "", bool ForceRegen= false)
         {
-            if (lastWorldGenFailed)
+            if (lastWorldGenFailed && !ForceRegen)
                 return;
-
             ClusterLayout Reference = SettingsCache.clusterLayouts.GetClusterData(clusterID);
 
-            if (Reference == null)
+            if (Reference == null || selectScreen == null || selectScreen.newGameSettings == null)
                 return;
             string setting = selectScreen.newGameSettings.GetSetting(CustomGameSettingConfigs.WorldgenSeed);
-            int seed = int.Parse(setting);
 
             if (setting == null || setting.Length == 0)
                 return;
+
+            int seed = int.Parse(setting);
 
             if (singleItemId == string.Empty)
             {
