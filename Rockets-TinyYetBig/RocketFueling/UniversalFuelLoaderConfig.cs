@@ -56,18 +56,18 @@ namespace Rockets_TinyYetBig.RocketFueling
             LoaderComp.solidPortInfo = this.solidInputPort;
             LoaderComp.gasStorage = go.AddComponent<Storage>();
             LoaderComp.gasStorage.showInUI = true; //dev
-            LoaderComp.gasStorage.capacityKg = 1f;
+            LoaderComp.gasStorage.capacityKg = 10f;
             LoaderComp.gasStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
             LoaderComp.gasStorage.storageFilters = STORAGEFILTERS.GASES;
 
             LoaderComp.liquidStorage = go.AddComponent<Storage>();
             LoaderComp.liquidStorage.showInUI = true;//dev
-            LoaderComp.liquidStorage.capacityKg = 10f;
+            LoaderComp.liquidStorage.capacityKg = 40f;
             LoaderComp.liquidStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
             LoaderComp.liquidStorage.storageFilters = STORAGEFILTERS.LIQUIDS;
 
             LoaderComp.solidStorage = go.AddComponent<Storage>();
-            LoaderComp.solidStorage.showInUI = true;//dev
+            LoaderComp.solidStorage.showInUI = true; //dev
             LoaderComp.solidStorage.capacityKg = 20f;
             LoaderComp.solidStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
             LoaderComp.solidStorage.storageFilters = STORAGEFILTERS.NOT_EDIBLE_SOLIDS;
