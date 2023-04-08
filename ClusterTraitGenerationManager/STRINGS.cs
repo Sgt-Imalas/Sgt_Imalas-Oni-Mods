@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS;
 using static STRINGS.BUILDINGS.PREFABS;
 
 namespace ClusterTraitGenerationManager
@@ -123,7 +124,7 @@ namespace ClusterTraitGenerationManager
                         public static LocString HEIGHT = (LocString)"Height:";
                         public static LocString TOOLTIP = (LocString)"The dimensions of this asteroid.";
                         public static LocString SIZEWARNING = (LocString)"Warning!\nThe planet size you have selected has {0}% more area than a normal vanilla size asteroid.\nThis might lead to a low game performance!";
-                        
+
 
                         public class SIZESELECTOR
                         {
@@ -200,7 +201,7 @@ namespace ClusterTraitGenerationManager
                         {
                             public class NOTRAITSELECTEDINFO
                             {
-                                public static LocString LABEL = (LocString)"  No Traits";                                
+                                public static LocString LABEL = (LocString)"  No Traits";
                             }
                         }
                         public class ADDTRAITBUTTON
@@ -313,6 +314,10 @@ namespace ClusterTraitGenerationManager
                 public static LocString NAME = "CGSM Cluster";
                 public static LocString DESCRIPTION = "CGSM Cluster";
             }
+        }
+        public class ERRORMESSAGES
+        {
+            public static LocString PLANETPLACEMENTERROR = "Starmap Generation Error!\n{0} could not be placed on the star map. Increase the maximum distance of of this asteroid to fix this issue.";
         }
     }
 }

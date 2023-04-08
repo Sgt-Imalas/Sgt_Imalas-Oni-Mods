@@ -109,7 +109,6 @@ namespace ClusterTraitGenerationManager
                     var defaultCluster = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
                     CGSMClusterManager.CreateCustomClusterFrom(defaultCluster);
                 }
-
             }
             Screen.transform.SetAsLastSibling();
             Screen.gameObject.SetActive(true);
@@ -948,8 +947,8 @@ namespace ClusterTraitGenerationManager
             float min = placement.allowedRings.min, max = placement.allowedRings.max;
             //min*= multiplier;
 
-            if (max < 4)
-                max = 4;
+            if (max < 3)
+                max = 3;
 
             max *= multiplier;
 
@@ -1011,12 +1010,19 @@ namespace ClusterTraitGenerationManager
             }
             else
             {
+                CustomCluster.StarterPlanet.placement.startWorld = true;
                 layout.worldPlacements.Add(CustomCluster.StarterPlanet.placement);
                 SgtLogger.l(CustomCluster.StarterPlanet.id, "Start Planet");
             }
 
             if (CustomCluster.WarpPlanet != null)
             {
+                if (CustomCluster.StarterPlanet.placement.allowedRings.max == 0
+                    && CustomCluster.WarpPlanet.placement.allowedRings.max < CustomCluster.StarterPlanet.placement.buffer)
+                {
+                    var vector = CustomCluster.WarpPlanet.placement.allowedRings;
+                    CustomCluster.WarpPlanet.placement.allowedRings = new MinMaxI(vector.min, CustomCluster.StarterPlanet.placement.buffer+1);
+                }
                 if (CustomCluster.WarpPlanet.id.Contains(RandomKey))
                 {
                     var randomItem = GetRandomItemOfType(StarmapItemCategory.Warp);
@@ -1034,11 +1040,11 @@ namespace ClusterTraitGenerationManager
                     SgtLogger.l(CustomCluster.WarpPlanet.id, "Warp Planet");
                 }
             }
+            ///STRINGS.NAMEGEN.WORLD.ROOTS
 
             RandomOuterPlanets.Clear();
             List<StarmapItem> OuterPlanets = CustomCluster.OuterPlanets.Values.ToList();
-            OuterPlanets = OuterPlanets.OrderBy(item => item.placement.allowedRings.max).ToList();
-
+            OuterPlanets = OuterPlanets.OrderBy(item => item.placement.allowedRings.max).ThenBy(item => item.placement.allowedRings.min).ToList();
             foreach (var world in OuterPlanets)
             {
                 if (world.id.Contains(RandomKey))
@@ -1072,6 +1078,10 @@ namespace ClusterTraitGenerationManager
                     SgtLogger.l(world.id, "Outer Planet");
                 }
             }
+
+
+            //layout.worldPlacements = layout.worldPlacements.OrderBy(item => item.allowedRings.max).ThenBy(item => item.allowedRings.min).ToList();
+            //layout.startWorldIndex = layout.worldPlacements.FindIndex(placement => placement.startWorld == true);
 
             layout.poiPlacements = new List<SpaceMapPOIPlacement>();
 
@@ -1130,7 +1140,7 @@ namespace ClusterTraitGenerationManager
                 }
             }
 
-            layout.numRings = CustomCluster.Rings;
+            layout.numRings = CustomCluster.Rings+1;
             //layout.difficulty = Reference.difficulty;
             //layout.requiredDlcId = Reference.requiredDlcId;
             //layout.forbiddenDlcId = Reference.forbiddenDlcId;
@@ -1179,7 +1189,7 @@ namespace ClusterTraitGenerationManager
             if (singleItemId == string.Empty)
             {
                 CustomCluster = new CustomClusterData();
-                CustomCluster.SetRings(Reference.numRings, true);
+                CustomCluster.SetRings(Reference.numRings-1, true);
             }
             else
             {

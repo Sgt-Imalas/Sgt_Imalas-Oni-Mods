@@ -254,9 +254,45 @@ namespace ClusterTraitGenerationManager
             public static void Prefix(Exception e, ref string errorMessage)
             {
                 CGSMClusterManager.LastWorldGenFailed();
-                errorMessage = e.Message;
+                if (e.Message.Contains("Could not find a spot in the cluster for"))
+                {
+                    string planetName = e.Message.Replace("Could not find a spot in the cluster for ", string.Empty).Split()[0];
+                    SgtLogger.l(planetName);
+                    var planetData = SettingsCache.worlds.GetWorldData(planetName);
+                    if (planetData != null)
+                    {
+                        if (Strings.TryGet(planetData.name, out var name))
+                        {
+                            SgtLogger.error(name + " could not be placed.");
+                            errorMessage = string.Format(STRINGS.ERRORMESSAGES.PLANETPLACEMENTERROR, name);
+                            return;
+                        }
+
+                    }
+                }
+                if (e is TemplateSpawningException)
+                {
+                    errorMessage = e.Message;
+                }
+
             }
         }
+
+        //[HarmonyPatch(typeof(GameUtil))]
+        //[HarmonyPatch(nameof(GameUtil.GenerateRandomWorldName))]
+
+        //public static class names
+        //{
+        //    //global::STRINGS.NAMEGEN.WORLD.ROOTS
+        //    public static void Postfix(string[] nameTables, ref string __result)
+        //    {
+        //        foreach(var nameTable in nameTables )
+        //        {
+        //           // SgtLogger.l(nameTable, "NAMETABLE");
+        //        }
+        //           // SgtLogger.l(__result, "NAME CHOSEN");
+        //    }
+        //}
 
         /// <summary>
         /// During Cluster generation, load traits from custom cluster instead of randomized
@@ -305,9 +341,9 @@ namespace ClusterTraitGenerationManager
                         else
                             ++replaceCount;
                     }
-                    if(replaceCount > 0)
+                    if (replaceCount > 0)
                     {
-                        __result = CGSMClusterManager.CustomClusterData.AddRandomTraitsForWorld(list, world,replaceCount);
+                        __result = CGSMClusterManager.CustomClusterData.AddRandomTraitsForWorld(list, world, replaceCount);
                     }
                 }
             }
