@@ -24,6 +24,7 @@ using static STRINGS.UI.FRONTEND;
 using static ClusterTraitGenerationManager.CGSMClusterManager;
 using System.Threading;
 using static ClusterTraitGenerationManager.STRINGS;
+using System.Text.RegularExpressions;
 
 namespace ClusterTraitGenerationManager
 {
@@ -51,6 +52,7 @@ namespace ClusterTraitGenerationManager
         {
             public static void Prefix(ColonyDestinationSelectScreen __instance)
             {
+                if (SettingsCache.clusterLayouts.clusterCache.ContainsKey(CustomClusterID)) { SettingsCache.clusterLayouts.clusterCache.Remove(CustomClusterID); }
                 CGSMClusterManager.selectScreen = __instance;
             }
             public static void Postfix(ColonyDestinationSelectScreen __instance)
@@ -63,7 +65,7 @@ namespace ClusterTraitGenerationManager
                 UIUtils.TryFindComponent<Image>(copyButton.transform, "FG").sprite = Assets.GetSprite("icon_gear");
                 UIUtils.TryFindComponent<ToolTip>(copyButton.transform, "").toolTip = STRINGS.UI.CGMBUTTON.DESC;
                 UIUtils.TryFindComponent<KButton>(copyButton.transform, "").onClick += () => CGSMClusterManager.InstantiateClusterSelectionView(__instance);
-
+                LoadCustomCluster = false;
             }
         }
 
@@ -74,9 +76,9 @@ namespace ClusterTraitGenerationManager
         [HarmonyPatch(nameof(CustomGameSettings.SetQualitySetting))]
         public static class TraitShuffler
         {
-            public static void Postfix(CustomGameSettings __instance, SettingConfig config)
+            public static void Postfix(CustomGameSettings __instance, SettingConfig config, string value)
             {
-                if (__instance == null)
+                if (__instance == null || LoadCustomCluster)
                     return;
                 if (config.id != "WorldgenSeed" && config.id != "ClusterLayout")
                     return;
@@ -86,8 +88,8 @@ namespace ClusterTraitGenerationManager
                 {
                     clusterPath = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
                 }
-                CGSMClusterManager.LoadCustomCluster = false;
-                SgtLogger.l("Regenerating Cluster. Reason: " + config.id + " changed.");
+                SgtLogger.l("Regenerating Cluster to "+ clusterPath + ". Reason: " + config.id + " changed.");
+                SgtLogger.l("Data: "+ value);
                 CGSMClusterManager.CreateCustomClusterFrom(clusterPath, ForceRegen: true);
             }
         }
@@ -111,6 +113,28 @@ namespace ClusterTraitGenerationManager
         //    }
         //}
 
+        //public static class ReplaceDefaultName_3
+        //{
+        //    public static void Postfix(ref string __result)
+        //    {
+        //        if (LoadCustomCluster)
+        //        {
+        //            var regex = new Regex(Regex.Escape("-"));
+        //            __result = regex.Replace(__result, @"^[^\s-]+", CustomClusterIDCoordinate);
+        //        }
+        //    }
+        //}
+
+        [HarmonyPatch(typeof(NewGameSettingsPanel))]
+        [HarmonyPatch(nameof(NewGameSettingsPanel.SetSetting))]
+        public static class ReplaceDefaultName
+        {
+            public static bool Prefix(SettingConfig setting, string level)
+            {
+                if(LoadCustomCluster)return false;
+                return true;
+            }
+        }
         /// <summary>
         /// custom meteor example code
         /// </summary>
@@ -282,23 +306,7 @@ namespace ClusterTraitGenerationManager
 
             }
         }
-
-        //[HarmonyPatch(typeof(GameUtil))]
-        //[HarmonyPatch(nameof(GameUtil.GenerateRandomWorldName))]
-
-        //public static class names
-        //{
-        //    //global::STRINGS.NAMEGEN.WORLD.ROOTS
-        //    public static void Postfix(string[] nameTables, ref string __result)
-        //    {
-        //        foreach(var nameTable in nameTables )
-        //        {
-        //           // SgtLogger.l(nameTable, "NAMETABLE");
-        //        }
-        //           // SgtLogger.l(__result, "NAME CHOSEN");
-        //    }
-        //}
-
+       
         /// <summary>
         /// During Cluster generation, load traits from custom cluster instead of randomized
         /// </summary>
@@ -455,11 +463,11 @@ namespace ClusterTraitGenerationManager
                 //CustomLayout
                 if (CGSMClusterManager.LoadCustomCluster)
                 {
-                    if (CGSMClusterManager.CustomCluster == null)
-                    {
-                        ///Generating custom cluster if null
-                        CGSMClusterManager.AddCustomCluster();
-                    }
+                    //if (CGSMClusterManager.CustomCluster == null)
+                    //{
+                    //    ///Generating custom cluster if null
+                    //    CGSMClusterManager.AddCustomClusterAndInitializeClusterGen();
+                    //}
                     name = CGSMClusterManager.CustomClusterID;
                 }
             }
