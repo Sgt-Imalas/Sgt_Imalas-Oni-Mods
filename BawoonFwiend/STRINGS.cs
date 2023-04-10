@@ -11,6 +11,11 @@ namespace BawoonFwiend
     {
         public class MODCONFIG
         {
+            public class GASMASS
+            {
+                public static LocString NAME = "Gas Mass";
+                public static LocString TOOLTIP = "Amount of gas (in kg) it takes to make one balloon.";
+            }
             public class STATBOOST
             {
                 public static LocString NAME = "Balloon Machine Stat Boost";

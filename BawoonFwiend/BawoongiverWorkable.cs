@@ -60,7 +60,7 @@ namespace BawoonFwiend
         public override void OnCompleteWork(Worker worker)
         {
             Storage component1 = this.GetComponent<Storage>();
-            component1.ConsumeIgnoringDisease(ModAssets.Tags.BalloonGas, Bawoongiver.BloongasUsage);
+            component1.ConsumeIgnoringDisease(ModAssets.Tags.BalloonGas, Config.Instance.GasMass);
 
             GameObject gameObject = Util.KInstantiate(Assets.GetPrefab((Tag)EquippableBalloonConfig.ID), worker.transform.GetPosition());
             gameObject.GetComponent<Equippable>().Assign((IAssignableIdentity)worker.GetComponent<MinionIdentity>());

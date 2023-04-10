@@ -56,7 +56,8 @@ namespace BawoonFwiend
         {
             base.OnPrefabInit();
             InitLinks();
-            //UIUtils.ListAllChildren(this.transform);
+            //UIUtils.ListAllChildren(this.transform)
+            RefreshStrings();
 
         }
 

@@ -337,7 +337,6 @@ namespace BawoonFwiend
             description = "Duplicant doesn't have a balloon already",
             fn = (ref Chore.Precondition.Context context, object data) => !(context.consumerState.consumer == null) && !context.consumerState.gameObject.GetComponent<Effects>().HasEffect("HasBalloon")
         };
-        public static float BloongasUsage = 5f;
 
         public override void OnSpawn()
         {
@@ -380,7 +379,7 @@ namespace BawoonFwiend
             descriptor.SetupDescriptor((string)global::STRINGS.UI.BUILDINGEFFECTS.RECREATION, (string)global::STRINGS.UI.BUILDINGEFFECTS.TOOLTIPS.RECREATION);
             descs.Add(descriptor);
             //Effect.AddModifierDescriptions(this.gameObject, descs, "Balloonfriend", true);
-            this.AddRequirementDesc(descs, ModAssets.Tags.BalloonGas, BloongasUsage);
+            this.AddRequirementDesc(descs, ModAssets.Tags.BalloonGas, Config.Instance.GasMass);
             return descs;
         }
 
@@ -444,7 +443,7 @@ namespace BawoonFwiend
                 {
                     if (item.HasTag(ModAssets.Tags.BalloonGas) && item.TryGetComponent<PrimaryElement>(out var targetElement))
                     {
-                        if (targetElement.Mass >= BloongasUsage)
+                        if (targetElement.Mass >= Config.Instance.GasMass)
                             return true;
                     }
                 }
