@@ -44,10 +44,14 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool EnableBuildingCategories { get; set; }
 
-        [Option("Cartographic Module Scan Range", "Cartographic Modules will instantly reveal hexes in this radius.", "(1) Rocketry Vanilla+")]
-        [Limit(0, 3)]
+        [Option("Cartographic Module Scan Range", "Cartographic Modules will scan hexes in this radius.", "(1) Rocketry Vanilla+")]
+        [Limit(1, 6)]
         [JsonProperty]
-        public int ScannerModuleRange { get; set; }
+        public int ScannerModuleRangeRadius { get; set; }
+        [Option("Cartographic Module Scan Speed", "Time it takes for the module to reveal one hex in cycles.", "(1) Rocketry Vanilla+")]
+        [Limit(0.1f, 1f)]
+        [JsonProperty]
+        public float ScannerModuleScanSpeed { get; set; }
 
         [Option("Habitat Power Connector", "Add a power connector to the habitat modules.", "(1) Rocketry Vanilla+")]
         [JsonProperty]
@@ -189,7 +193,8 @@ namespace Rockets_TinyYetBig
             EnableAdvWorldSelector = true;
             CompressInteriors = true;
             EnableBuildingCategories = true;
-            ScannerModuleRange = 1;
+            ScannerModuleRangeRadius = 3;
+            ScannerModuleScanSpeed = 0.33f;
             HabitatPowerPlug = true;
             EnableExtendedHabs = true;
             HabitatInteriorRadiation = true;

@@ -175,12 +175,12 @@ namespace Rockets_TinyYetBig
         /// <summary>
         /// Adjust Scanner Module range
         /// </summary>
-        [HarmonyPatch(typeof(ScannerModule.Instance), "Scan")]
+        [HarmonyPatch(typeof(ScannerModuleConfig), "DoPostConfigureComplete")]
         public static class BuffScannerModule
         {
-            public static void Prefix(ScannerModule.Instance __instance)
+            public static void Postfix(GameObject go)
             {
-                __instance.def.scanRadius = Config.Instance.ScannerModuleRange;
+                go.AddOrGetDef<ExplorerModuleTelescope.Def>();
             }
         }
 
