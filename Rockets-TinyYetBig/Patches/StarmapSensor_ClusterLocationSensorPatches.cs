@@ -10,7 +10,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.Patches
 {
-    internal class ClusterLocationSensorPatches
+    internal class StarmapSensor_ClusterLocationSensorPatches
     {
         static AxialI DisabledLocation = new AxialI(999, 999);
 
@@ -22,7 +22,6 @@ namespace Rockets_TinyYetBig.Patches
             {
                 ClusterDestinationSelector destinationSelector = go.AddOrGet<ClusterDestinationSelector>();
                 destinationSelector.assignable = true;
-
                 destinationSelector.requireAsteroidDestination = false;
                 destinationSelector.m_destination = (DisabledLocation);
 
@@ -81,8 +80,12 @@ namespace Rockets_TinyYetBig.Patches
         {
             public static void GetLocationDescriptionWithPOIs(AxialI location, out Sprite sprite, out string label)
             {
+                ClusterGridEntity clusterGridEntity = null;
                 List<ClusterGridEntity> visibleEntitiesAtCell = ClusterGrid.Instance.GetVisibleEntitiesAtCell(location);
-                ClusterGridEntity clusterGridEntity = visibleEntitiesAtCell.Find((ClusterGridEntity x) => x.Layer == EntityLayer.Asteroid || x.Layer == EntityLayer.POI);
+
+                if (visibleEntitiesAtCell.Count>0)
+                    clusterGridEntity = visibleEntitiesAtCell.Find((ClusterGridEntity x) => x.Layer == EntityLayer.Asteroid || x.Layer == EntityLayer.POI);
+
                 ClusterGridEntity visibleEntityOfLayerAtAdjacentCell = ClusterGrid.Instance.GetVisibleEntityOfLayerAtAdjacentCell(location, EntityLayer.Asteroid);
                 if (clusterGridEntity != null)
                 {
@@ -127,8 +130,6 @@ namespace Rockets_TinyYetBig.Patches
                         __instance.destinationLabel.text = (string)global::STRINGS.UI.UISIDESCREENS.CLUSTERDESTINATIONSIDESCREEN.TITLE + ": " + (string)global::STRINGS.UI.SPACEDESTINATIONS.NONE.NAME;
                         __instance.clearDestinationButton.isInteractable = false;
                     }
-
-
                     __instance.launchPadDropDown.gameObject.SetActive(false);
                     __instance.repeatButton.gameObject.SetActive(false);
                     return false;

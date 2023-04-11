@@ -15,7 +15,7 @@ namespace Rockets_TinyYetBig
 {
 
 
-    class CategorizedModMenuPatches
+    class CategorizedRocketBuildMenuPatches
     {
 
         //[HarmonyPatch(typeof(AdditionalDetailsPanel))]
