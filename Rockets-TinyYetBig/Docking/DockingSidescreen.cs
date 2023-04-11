@@ -138,13 +138,10 @@ namespace Rockets_TinyYetBig.Docking
             //UIUtils.ListAllChildrenWithComponents(this.transform);
             // SgtLogger.debuglog("------------------");
 #endif
-            SgtLogger.l("AAAA");
             if (targetManager == null || headerLabel == null)
                 return;
             this.headerLabel.SetText("Docking Ports: "+ targetManager.GetUiDoorInfo());
-            SgtLogger.l("BBBB");
             this.ClearRows();
-            SgtLogger.l("CCCC");
             var AllDockerObjects = ClusterGrid.Instance.GetVisibleEntitiesAtCell(this.targetCraft.Location).FindAll(e => e.TryGetComponent<DockingManager>(out DockingManager manager));
             var AllDockers = AllDockerObjects
                 .Select(e => e.GetComponent<DockingManager>())
@@ -152,7 +149,6 @@ namespace Rockets_TinyYetBig.Docking
                 .ToList();
             AllDockers.Remove(targetManager);
 
-            SgtLogger.l("DDDD");
             //SgtLogger.debuglog("CurrentTargetType: " + targetManager.GetCraftType);
 
             if (targetManager.GetCraftType == DockableType.SpaceStation)
