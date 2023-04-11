@@ -584,7 +584,10 @@ namespace ClusterTraitGenerationManager
                     description += Assets.GetPrefab((meteorShower as MeteorShowerEvent).clusterMapMeteorShowerID).GetProperName();// Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
                 }
                 UIUtils.AddSimpleTooltipToObject(seasonInstanceHolder.transform, description);
-
+                var LocTextName = seasonInstanceHolder.transform.Find("Label").GetComponent<LocText>();
+                LocTextName.fontSizeMax = LocTextName.fontSize;
+                LocTextName.fontSizeMin = LocTextName.fontSize-6f;
+                LocTextName.enableAutoSizing= true;
                 UIUtils.TryChangeText(seasonInstanceHolder.transform, "Label", name);
                 UIUtils.AddSimpleTooltipToObject(seasonInstanceHolder.transform.Find("Label"), description);
 
