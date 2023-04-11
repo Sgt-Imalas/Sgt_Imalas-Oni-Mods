@@ -106,13 +106,19 @@ namespace Rockets_TinyYetBig.Behaviours
             int worldId = ClusterUtil.GetMyWorldId(this.gameObject); 
             //dManager = ModAssets.Dockables.Items.Find(item => item.GetWorldId() == worldId);//GetRocket().GetComponent<DockingdManager>();
             dManager = GetWorldObject().AddOrGet<DockingManager>();
-            TryGetComponent<Rotatable>(out var rotatable);
-            Teleporter.offset = rotatable.GetRotatedCellOffset(porterOffset);
+            if(TryGetComponent<Rotatable>(out var rotatable))
+            {
+                Teleporter.offset = rotatable.GetRotatedCellOffset(porterOffset);
+            }
             Teleporter.OnCellChanged();
 
+            SgtLogger.l("AAAAAAAAAAAAAAA");
             dManager.StartupID(worldId);
+            SgtLogger.l("AAAAAAAAAAAAAAA");
             dManager.AddDoor(this);
+            SgtLogger.l("AAAAAAAAAAAAAAA");
             dManager.SetManagerType();
+            SgtLogger.l("AAAAAAAAAAAAAAA");
             string startKanim = string.Empty;
             if (connected != null && connected.Get() != null && connected.Get().Teleporter != null)
             {
