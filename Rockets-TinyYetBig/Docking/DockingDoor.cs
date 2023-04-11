@@ -112,13 +112,9 @@ namespace Rockets_TinyYetBig.Behaviours
             }
             Teleporter.OnCellChanged();
 
-            SgtLogger.l("AAAAAAAAAAAAAAA");
             dManager.StartupID(worldId);
-            SgtLogger.l("AAAAAAAAAAAAAAA");
             dManager.AddDoor(this);
-            SgtLogger.l("AAAAAAAAAAAAAAA");
             dManager.SetManagerType();
-            SgtLogger.l("AAAAAAAAAAAAAAA");
             string startKanim = string.Empty;
             if (connected != null && connected.Get() != null && connected.Get().Teleporter != null)
             {
