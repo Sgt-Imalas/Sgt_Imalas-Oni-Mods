@@ -1,0 +1,37 @@
+﻿[img]https://i.imgur.com/GbFtLZ2.png[/img]
+
+[h1]Meteor Drops[/h1]
+
+Meteors now drop 50% of their mass when shot down with the meteor blaster.
+
+[h1]Current latest Version: 1.0.0[/h1]
+
+[hr][/hr]
+
+[h1]Features[/h1]
+[list][*] Meteors now drop 50% of their total mass when shot down by the meteor blaster (or other modded methods).
+[*] Mooteors drop meat instead (these poor cows).
+[*] Percentage of mass dropped is adjustable in the mod configs
+[/list]
+
+[hr][/hr]
+[h1]Credits[/h1]
+Options made with PLib.
+
+
+[h1]Bug Reports[/h1]
+Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+The Log is NOT the crash message displayed, it is the file found under: 
+[list]
+[*]Windows: 
+    C:\Users\%username%\AppData\LocalLow\Klei\Oxygen Not Included\Player.log
+[*]Mac: 
+    ~/Library/Logs/Klei/Oxygen Not Included/Player.log
+[*] Linux: 
+~/.config/unity3d/Klei/Oxygen Not Included/Player.log
+[/list] 
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
+

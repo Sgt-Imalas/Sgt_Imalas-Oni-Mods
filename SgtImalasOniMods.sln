@@ -90,6 +90,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DupeTransportViaNetwork", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaserMeteorBlasterCannon", "LaserMeteorBlasterCannon\LaserMeteorBlasterCannon.csproj", "{FC48D983-3405-408D-AFDA-E77F6B8F4A5A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeteorDrops", "MeteorDrops\MeteorDrops.csproj", "{1F243FD7-C879-45F0-8214-F470346F7BC5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -330,6 +332,12 @@ Global
 		{FC48D983-3405-408D-AFDA-E77F6B8F4A5A}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{FC48D983-3405-408D-AFDA-E77F6B8F4A5A}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
 		{FC48D983-3405-408D-AFDA-E77F6B8F4A5A}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
+		{1F243FD7-C879-45F0-8214-F470346F7BC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F243FD7-C879-45F0-8214-F470346F7BC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F243FD7-C879-45F0-8214-F470346F7BC5}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F243FD7-C879-45F0-8214-F470346F7BC5}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{1F243FD7-C879-45F0-8214-F470346F7BC5}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F243FD7-C879-45F0-8214-F470346F7BC5}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

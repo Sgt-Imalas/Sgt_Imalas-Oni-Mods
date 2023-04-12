@@ -1,5 +1,4 @@
 ﻿using Database;
-using FMOD;
 using HarmonyLib;
 using Klei.AI;
 using System;
@@ -9,11 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
-using static LaserMeteorBlasterCannon.ModAssets;
-using static STRINGS.UI.CLUSTERMAP;
-using static UnityEngine.UI.Image;
+using static MeteorDrops.ModAssets;
 
-namespace LaserMeteorBlasterCannon
+namespace MeteorDrops
 {
     internal class Patches
     {
@@ -41,7 +38,6 @@ namespace LaserMeteorBlasterCannon
                 LocalisationUtil.Translate(typeof(STRINGS), true);
             }
         }
-
 
         /// <summary>
         /// Init. auto translation
@@ -71,10 +67,10 @@ namespace LaserMeteorBlasterCannon
                     if (CometToDropMats.TryGetComponent<PrimaryElement>(out var primElement))
                     {
 
-                        SgtLogger.l(primElement.Element.ToString() + ", " + primElement.ElementID.ToString());
+                        //SgtLogger.l(primElement.Element.ToString() + ", " + primElement.ElementID.ToString());
 
-                        SgtLogger.l(primElement.Mass.ToString() + ", " + primElement.Temperature.ToString());
-                        SgtLogger.l(CometToDropMats.explosionMass.ToString() + "<- expl. mass, tile mass ->" + CometToDropMats.addTileMass.ToString());
+                        //SgtLogger.l(primElement.Mass.ToString() + ", " + primElement.Temperature.ToString());
+                        //SgtLogger.l(CometToDropMats.explosionMass.ToString() + "<- expl. mass, tile mass ->" + CometToDropMats.addTileMass.ToString());
 
 
                         int numberOfSplinters = UnityEngine.Random.Range(CometToDropMats.explosionOreCount.x, CometToDropMats.explosionOreCount.y + 1) * 2;
@@ -82,7 +78,7 @@ namespace LaserMeteorBlasterCannon
                         float temperature = UnityEngine.Random.Range(CometToDropMats.explosionTemperatureRange.x, CometToDropMats.explosionTemperatureRange.y);
                         bool isMooComet = false;
 
-                        if(CometToDropMats is GassyMooComet)
+                        if (CometToDropMats is GassyMooComet)
                         {
                             TotalMeteorMass = 10f;
                             numberOfSplinters = UnityEngine.Random.Range(7, 16);
@@ -93,29 +89,29 @@ namespace LaserMeteorBlasterCannon
                         if (numberOfSplinters == 0)
                             numberOfSplinters = Mathf.Min(Mathf.RoundToInt(TotalMeteorMass / 0.2f), 14);
 
-                        
-                        TotalMeteorMass *= 0.5f;
 
-                        float SplinterMass = TotalMeteorMass / numberOfSplinters ;
+                        TotalMeteorMass *= ((float)Config.Instance.MassPercentage/100f);
+
+                        float SplinterMass = TotalMeteorMass / numberOfSplinters;
 
 
                         for (int splinterIndex = 0; splinterIndex < numberOfSplinters; splinterIndex++)
                         {
                             float speed = CometToDropMats.velocity.magnitude;
-                            Vector3 randomizedDirection = GetPointOnUnitSphereCap((Vector3)CometToDropMats.velocity, 45f)* speed;
+                            Vector3 randomizedDirection = GetPointOnUnitSphereCap((Vector3)CometToDropMats.velocity, 45f) * speed;
                             GameObject splinter = null;
 
-                            if(primElement.ElementID != SimHashes.Creature)
+                            if (primElement.ElementID != SimHashes.Creature)
                             {
                                 splinter = primElement.Element.substance.SpawnResource(CometToDropMats.previousPosition, SplinterMass, temperature, primElement.DiseaseIdx, disease_count: Mathf.RoundToInt(primElement.DiseaseCount / SplinterMass));
                             }
-                            else if(isMooComet)
+                            else if (isMooComet)
                             {
                                 splinter = Util.KInstantiate(Assets.GetPrefab(MeatConfig.ID), CometToDropMats.previousPosition);
                                 splinter.SetActive(true);
                                 //splinter.transform.SetPosition();
 
-                                SgtLogger.l(splinter.transform.position.ToString());
+                                //SgtLogger.l(splinter.transform.position.ToString());
 
                                 if (splinter.TryGetComponent<PrimaryElement>(out var meat))
                                 {
@@ -139,5 +135,6 @@ namespace LaserMeteorBlasterCannon
                 }
             }
         }
-        }
+
+    }
 }
