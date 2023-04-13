@@ -1,5 +1,4 @@
-﻿[img]https://i.imgur.com/GbFtLZ2.png[/img]
-
+﻿
 [h1]Balloon Dispenser[/h1]
 
 This mod adds a ballon dispenser rec building that hands out balloons to dupes in their downtime

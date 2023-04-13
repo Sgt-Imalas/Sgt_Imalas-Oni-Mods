@@ -62,11 +62,11 @@ namespace LaserMeteorBlasterCannon
                 return GetPointOnUnitSphereCap(Quaternion.LookRotation(targetDirection), angle);
             }
 
-            public static void Prefix(Comet __instance)
+            public static void Prefix(MissileProjectile.StatesInstance __instance)
             {
-                if (true)
+                if (!__instance.smi.sm.meteorTarget.IsNullOrDestroyed())
                 {
-                    Comet CometToDropMats = __instance;
+                    Comet CometToDropMats = __instance.smi.sm.meteorTarget.Get(__instance.smi);
 
                     if (CometToDropMats.TryGetComponent<PrimaryElement>(out var primElement))
                     {
