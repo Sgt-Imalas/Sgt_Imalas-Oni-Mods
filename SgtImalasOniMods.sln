@@ -92,6 +92,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaserMeteorBlasterCannon", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeteorDrops", "MeteorDrops\MeteorDrops.csproj", "{1F243FD7-C879-45F0-8214-F470346F7BC5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterCritterMorpher", "BetterCritterMorpher\BetterCritterMorpher.csproj", "{09E612AF-330D-4D82-B121-7A5D8238B593}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -338,6 +340,12 @@ Global
 		{1F243FD7-C879-45F0-8214-F470346F7BC5}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{1F243FD7-C879-45F0-8214-F470346F7BC5}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
 		{1F243FD7-C879-45F0-8214-F470346F7BC5}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
+		{09E612AF-330D-4D82-B121-7A5D8238B593}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09E612AF-330D-4D82-B121-7A5D8238B593}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09E612AF-330D-4D82-B121-7A5D8238B593}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{09E612AF-330D-4D82-B121-7A5D8238B593}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{09E612AF-330D-4D82-B121-7A5D8238B593}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
+		{09E612AF-330D-4D82-B121-7A5D8238B593}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -94,7 +94,6 @@ namespace UtilLibs
 
         public static void PrintInstructions(List<HarmonyLib.CodeInstruction> codes, bool extendedInfo = false)
         {
-#if DEBUG
             SgtLogger.l("\n", "IL-Dump Start:");
             for (int i = 0; i < codes.Count; i++)
             {
@@ -114,7 +113,6 @@ namespace UtilLibs
                     SgtLogger.l(i + ": " + code, "IL");
             }
             SgtLogger.l("\n", "IL-Dump Finished");
-#endif
         }
     }
 }
