@@ -33,8 +33,11 @@ namespace CritterTraitsReborn.Traits
         public static void InitAllTraits()
         {
             if (traitsInitialized == true) return;
-
-            Array.ForEach(traits, trait => trait.CreateTrait());
+            foreach(var trait in traits)
+            {
+                if(trait!=null)
+                    trait.CreateTrait();
+            }
             traitsInitialized = true;
         }
 
