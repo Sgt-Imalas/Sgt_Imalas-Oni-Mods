@@ -1,0 +1,29 @@
+﻿using Klei.AI;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
+using UtilLibs;
+
+namespace CustomGameSettingsModifier
+{
+    internal class ModAssets
+    {
+
+        public static GameObject CustomGameSettings;
+        public static void LoadAssets()
+        {
+            AssetBundle bundle = AssetUtils.LoadAssetBundle("customgamesettings_assets", platformSpecific: true);
+            CustomGameSettings = bundle.LoadAsset<GameObject>("Assets/CustomGameSettingsChangerPrefab.prefab");
+
+            //UIUtils.ListAllChildren(CustomGameSettings.transform);
+
+            var TMPConverter = new TMPConverter();
+            TMPConverter.ReplaceAllText(CustomGameSettings);
+
+        }
+    }
+}

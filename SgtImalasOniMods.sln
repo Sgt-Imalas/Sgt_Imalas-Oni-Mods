@@ -94,6 +94,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeteorDrops", "MeteorDrops\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterCritterMorpher", "BetterCritterMorpher\BetterCritterMorpher.csproj", "{09E612AF-330D-4D82-B121-7A5D8238B593}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomGameSettingsModifier", "CustomGameSettingsModifier\CustomGameSettingsModifier.csproj", "{B566130E-4FB9-4550-A2DB-00A1FE2A0525}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -346,6 +348,12 @@ Global
 		{09E612AF-330D-4D82-B121-7A5D8238B593}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{09E612AF-330D-4D82-B121-7A5D8238B593}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
 		{09E612AF-330D-4D82-B121-7A5D8238B593}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
+		{B566130E-4FB9-4550-A2DB-00A1FE2A0525}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B566130E-4FB9-4550-A2DB-00A1FE2A0525}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B566130E-4FB9-4550-A2DB-00A1FE2A0525}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{B566130E-4FB9-4550-A2DB-00A1FE2A0525}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{B566130E-4FB9-4550-A2DB-00A1FE2A0525}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
+		{B566130E-4FB9-4550-A2DB-00A1FE2A0525}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
