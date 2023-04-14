@@ -215,8 +215,6 @@ namespace Rockets_TinyYetBig.Patches
                     return false;
                 }
                 counter += perSecond;
-
-
                 bool redrawPanel = false;
 
                 if (TargetPREVIOUS != selectedTarget)
@@ -287,8 +285,6 @@ namespace Rockets_TinyYetBig.Patches
                     }
                 }
 
-                //Debug.Log(selectedTarget);
-                //SgtLogger.l(clusterCraft == null? "NULL":clusterCraft.ToString(), "CLUSTERCRAFT");
 
                 if (clusterCraft == null)
                 {
@@ -736,7 +732,6 @@ namespace Rockets_TinyYetBig.Patches
                                         RowEntry.GetComponentInChildren<ToolTip>().SetSimpleTooltip(ToolTip);
                                 }
                             }
-
                         }
 
                     }
