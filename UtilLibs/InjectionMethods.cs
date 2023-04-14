@@ -97,6 +97,16 @@ namespace UtilLibs
 
         private static Func<string, bool, Sprite> GetSpriteFnBuilder(string spriteName) => (Func<string, bool, Sprite>)((anim, centered) => Assets.GetSprite((HashedString)spriteName));
 
+        public static void MoveItemToNewTech(string buildingId, string oldTechId, string newTechId)
+        {
+            var techs = Db.Get().Techs;
+            if(techs.Exists(oldTechId) && techs.Exists(newTechId) && techs.Get(oldTechId).unlockedItemIDs.Contains(buildingId))
+            {
+                techs.Get(oldTechId).unlockedItemIDs.Remove(buildingId);
+                techs.Get(newTechId).unlockedItemIDs.Add(buildingId);
+            }
+        }
+
         public static void AddBuildingToTechnology(string techId, string buildingId)
         {
             Db.Get().Techs.Get(techId).unlockedItemIDs.Add(buildingId);

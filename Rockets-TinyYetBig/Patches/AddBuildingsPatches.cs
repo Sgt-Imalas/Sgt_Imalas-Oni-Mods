@@ -19,6 +19,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UtilLibs;
+using static STRINGS.BUILDINGS.PREFABS;
 using static UtilLibs.RocketryUtils;
 
 namespace RoboRockets.Rockets_TinyYetBig
@@ -196,7 +197,14 @@ namespace RoboRockets.Rockets_TinyYetBig
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.SpacePower, NoseConeSolarConfig.ID);
 
                 if (Config.Instance.EnableSmolBattery)
+                {
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.SoundAmplifiers, SmolBatteryModuleConfig.ID);
+
+                }
+                if (Config.Instance.EnableSmolBattery || Config.Instance.HabitatPowerPlug)
+                {
+                    InjectionMethods.MoveItemToNewTech(RocketInteriorPowerPlugConfig.ID, GameStrings.Technology.Power.SpacePower, GameStrings.Technology.Power.AdvancedPowerRegulation);
+                }
 
                 if (Config.Instance.EnableWallAdapter)
                 {
