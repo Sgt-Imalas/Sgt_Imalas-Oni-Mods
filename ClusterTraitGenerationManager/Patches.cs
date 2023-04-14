@@ -166,20 +166,6 @@ namespace ClusterTraitGenerationManager
 
 
         /// <summary>
-        /// Resets Custom cluster with newly generated preset
-        /// </summary>
-        //[HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
-        //[HarmonyPatch(nameof(ColonyDestinationSelectScreen.OnAsteroidClicked))]
-        //public static class OnAsteroidClickedHandler
-        //{
-        //    public static void Postfix(ColonyDestinationAsteroidBeltData cluster)
-        //    {
-        //        CGSMClusterManager.LoadCustomCluster = false;
-        //        CGSMClusterManager.CreateCustomClusterFrom(cluster.beltPath,ForceRegen: true);
-        //    }
-        //}
-
-        /// <summary>
         /// CoreTraitFix_SolarSystemWorlds
         /// </summary>
         [HarmonyPatch(typeof(SettingsCache))]
