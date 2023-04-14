@@ -4,6 +4,11 @@
         <name>ONITwitchLib</name>
     </assembly>
     <members>
+        <member name="T:ONITwitchLib.Attributes.NotPublicAPIAttribute">
+            <summary>
+            Used to mark things as not part of the public API.
+            </summary>
+        </member>
         <member name="T:ONITwitchLib.Core.CommandBase">
             <summary>
             Methods for accessing the core Twitch mod's commands.
@@ -36,83 +41,60 @@
         </member>
         <member name="T:ONITwitchLib.Core.CoreTypes">
             <summary>
-            Contains <see cref="T:System.Type"/>s of many types in the main Twitch mod.
+            Contains <see cref="T:System.Type"/>s of many types in the main Twitch Integration mod.
             </summary>
+            <remarks>
+            These types are only present if the Twitch Integration mod is active. 
+            </remarks>
         </member>
         <member name="P:ONITwitchLib.Core.CoreTypes.EventManagerType">
             <summary>
-            Only safe to access if the Twitch mod is active.
+            The type of the <see cref="T:ONITwitchLib.EventManager"/> from the core Twitch Integration mod.
             </summary>
         </member>
         <member name="P:ONITwitchLib.Core.CoreTypes.EventInfoType">
             <summary>
-            Only safe to access if the Twitch mod is active.
+            The type of <see cref="T:ONITwitchLib.EventInfo"/> from the core Twitch Integration mod.
             </summary>
         </member>
         <member name="P:ONITwitchLib.Core.CoreTypes.DataManagerType">
             <summary>
-            Only safe to access if the Twitch mod is active.
+            The type of the <see cref="T:ONITwitchLib.DataManager"/> from the core Twitch Integration mod.
             </summary>
         </member>
         <member name="P:ONITwitchLib.Core.CoreTypes.TwitchDeckManagerType">
             <summary>
-            Only safe to access if the Twitch mod is active.
+            The type of the <see cref="T:ONITwitchLib.Core.TwitchDeckManager"/> from the core Twitch Integration mod.
             </summary>
         </member>
         <member name="P:ONITwitchLib.Core.CoreTypes.EventGroupType">
             <summary>
-            Only safe to access if the Twitch mod is active.
+            The type of <see cref="T:ONITwitchLib.EventGroup"/> from the core Twitch Integration mod.
             </summary>
         </member>
         <member name="P:ONITwitchLib.Core.CoreTypes.DangerType">
             <summary>
-            Only safe to access if the Twitch mod is active.
+            The type of <see cref="T:ONITwitchLib.Danger"/> from the core Twitch Integration mod.
             </summary>
         </member>
         <member name="P:ONITwitchLib.Core.CoreTypes.CommandType">
             <summary>
-            Only safe to access if the Twitch mod is active.
+            The type of <see cref="T:ONITwitchLib.Core.CommandBase"/> from the core Twitch Integration mod.
             </summary>
         </member>
         <member name="P:ONITwitchLib.Core.CoreTypes.CommandExtType">
             <summary>
-            Only safe to access if the Twitch mod is active.
-            </summary>
-        </member>
-        <member name="P:ONITwitchLib.Core.CoreTypes.PocketDimensionGeneratorType">
-            <summary>
-            Only safe to access if the Twitch mod is active.
-            </summary>
-        </member>
-        <member name="P:ONITwitchLib.Core.CoreTypes.BasePocketDimensionGenerationType">
-            <summary>
-            Only safe to access if the Twitch mod is active.
-            </summary>
-        </member>
-        <member name="P:ONITwitchLib.Core.CoreTypes.TemplatePocketDimensionGenerationType">
-            <summary>
-            Only safe to access if the Twitch mod is active.
-            </summary>
-        </member>
-        <member name="P:ONITwitchLib.Core.CoreTypes.NoisePocketDimensionGenerationType">
-            <summary>
-            Only safe to access if the Twitch mod is active.
-            </summary>
-        </member>
-        <member name="P:ONITwitchLib.Core.CoreTypes.CustomPocketDimensionGenerationType">
-            <summary>
-            Only safe to access if the Twitch mod is active.
+            The type of CommandBaseExt from the core Twitch Integration mod.
             </summary>
         </member>
         <member name="P:ONITwitchLib.Core.CoreTypes.ToastManagerType">
             <summary>
-            Only safe to access if the Twitch mod is active.
+            The type of the <see cref="T:ONITwitchLib.ToastManager"/> from the core Twitch Integration mod.
             </summary>
         </member>
         <member name="T:ONITwitchLib.Core.PocketDimensionGenerator">
             <summary>
             Provides methods for adding new pocket dimensions to the generation pool and to generate pocket dimensions.
-            TODO: implement this
             </summary>
         </member>
         <member name="T:ONITwitchLib.Core.TwitchDeckManager">
@@ -123,7 +105,6 @@
         <member name="P:ONITwitchLib.Core.TwitchDeckManager.Instance">
             <summary>
             The instance of the deck manager.
-            Only safe to access if the Twitch mod is active.
             </summary>
         </member>
         <member name="M:ONITwitchLib.Core.TwitchDeckManager.AddGroup(ONITwitchLib.EventGroup)">
@@ -403,14 +384,19 @@
             Additional tags that the Twitch mod uses
             </summary>
         </member>
-        <member name="F:ONITwitchLib.ExtraTags.SurpriseBoxForceEnabled">
+        <member name="F:ONITwitchLib.ExtraTags.OniTwitchSurpriseBoxForceEnabled">
             <summary>
             A tag that explicitly enables prefabs to be spawned by the Surprise Box, even if it would not by default.
             </summary>
         </member>
-        <member name="F:ONITwitchLib.ExtraTags.SurpriseBoxForceDisabled">
+        <member name="F:ONITwitchLib.ExtraTags.OniTwitchSurpriseBoxForceDisabled">
             <summary>
             A tag that explicitly stops prefabs from being spawned by the Surprise Box, even if the prefab could by default.
+            </summary>
+        </member>
+        <member name="M:ONITwitchLib.IRC.IrcMessage.GetIrcString">
+            <summary>
+            BE CAREFUL EXPOSING THIS TO ANYTHING!!! IT MAY CONTAIN SECRETS!!!
             </summary>
         </member>
         <member name="T:ONITwitchLib.IRC.TwitchUserInfo">
@@ -484,6 +470,7 @@
         <member name="T:ONITwitchLib.Logger.Log">
             <summary>
             Provides methods for emitting log messages from the Twitch mod.
+            This uses a hard coded [Twitch Integration] string, which you likely do not want.
             </summary>
         </member>
         <member name="M:ONITwitchLib.Logger.Log.Debug(System.Object)">
@@ -494,13 +481,13 @@
         </member>
         <member name="M:ONITwitchLib.Logger.Log.Info(System.Object)">
             <summary>
-            Prints a message at the INFO level
+            Prints a message at the INFO level.
             </summary>
             <param name="msg">The object to print.</param>
         </member>
         <member name="M:ONITwitchLib.Logger.Log.Warn(System.Object)">
             <summary>
-            Prints a message at the WARN level
+            Prints a message at the WARN level.
             </summary>
             <param name="msg">The object to print.</param>
         </member>
