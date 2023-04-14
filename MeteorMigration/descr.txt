@@ -4,14 +4,17 @@
 
 If you want to keep playing your Pre-WhattaBlast saves but also don't want to miss out on the new meteor showers
 
-[h1]Current latest Version: 1.0.0[/h1]
+[h1]Current latest Version: 1.1.0[/h1]
 
 [hr][/hr]
 
 [h1]How does this work?[/h1]
 Activate the mod and load the old savegame. All asteroids in the cluster will get their Meteor showers updated. Save your game afterwards.
+Now also repairs modded planets with invalid seasons
 
 Mod can be safely removed after migration.
+
+If you want to change the meteor frequency, check out[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2962220957] Modify Difficulty Settings[/url]
 
 [h1]Bug Reports[/h1]
 Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.

@@ -113,6 +113,8 @@ namespace CustomGameSettingsModifier
             CloseButton.OnClick += () => this.Show(false);
             CloseButton2.OnClick += () => this.Show(false);
 
+            UIUtils.AddSimpleTooltipToObject(transform.Find("Content/Warning"), STRINGS.UI.CUSTOMGAMESETTINGSCHANGER.CHANGEWARNINGTOOLTIP);
+
             StressBreaks = transform.Find("Content/StressReactions").FindOrAddComponent<FToggle2>();
 
             var StressBreaksLabel = StressBreaks.transform.Find("Label").gameObject.AddOrGet<LocText>();

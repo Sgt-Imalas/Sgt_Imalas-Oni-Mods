@@ -1,0 +1,40 @@
+﻿[img]https://i.imgur.com/GbFtLZ2.png[/img]
+
+[h1]Modify Difficulty Settings[/h1]
+
+This mod allows you to adjust the game difficulty settings of an existing game without needing to use a savegame editor.
+
+[h1]Current latest Version: 1.0.0[/h1]
+[hr][/hr]
+
+[h1]Modifiable Settings[/h1][list]
+[*] Disease Resistence
+[*] Hunger
+[*] Morale
+[*] Suit Durability
+[*] Meteor Shower Intensity
+[*] Radiation Resistence (DLC only)
+[*] Stress
+[*] Stress Reactions
+[*] Care Packages
+[*] Fast Workers Mode
+[/list]
+
+[h1]Process:[/h1]
+1. Go to the pause menu and click the new button ("Change Difficulty Settings") to open the modify
+2. Make your modifications and close the window.
+3. Save the game(!)
+4. Load the save created in step 3(!).
+5. Success - the settings are now active
+
+(settings that do not require a reload: Care Packages & Fast Workers Mode)
+
+[hr][/hr]
+
+[h1]Bug Reports[/h1]
+Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
+
