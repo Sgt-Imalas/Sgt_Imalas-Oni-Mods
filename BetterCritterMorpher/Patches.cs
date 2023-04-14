@@ -168,7 +168,7 @@ namespace BetterCritterMorpher
                     code[insertionIndex2] = new CodeInstruction(OpCodes.Call, RollEgg);
                     //code.Insert(insertionIndex2, new CodeInstruction(OpCodes.Ldarg_1));
                 }
-                TranspilerHelper.PrintInstructions(code);
+                //TranspilerHelper.PrintInstructions(code);
 
                 return code;
             }
