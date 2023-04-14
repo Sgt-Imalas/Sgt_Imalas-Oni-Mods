@@ -239,7 +239,7 @@ namespace Rockets_TinyYetBig.Behaviours
                 CurrentMaxCapacity = (int)value;
 
                 int excess = CurrentCapacity - CurrentMaxCapacity;
-                SgtLogger.l("excess: " + excess);
+                //SgtLogger.l("excess: " + excess);
                 if (excess > 0)
                 {
                     int count = storedCritters.Count - 1;

@@ -163,6 +163,20 @@ namespace Rockets_TinyYetBig.Patches
             static string ModuleOrderTOOLTIPPREVIOUS = string.Empty;
             static int moduleCounter = 0;
 
+            static RocketModuleCluster selectedModulePREV = null;
+            static string SelectedModuleNAME = string.Empty;
+            static string SelectedModuleTOOLTIP = string.Empty;
+
+            static string SelectedModuleLocalBurdenNAME = string.Empty;
+            static string SelectedModuleLocalBurdenTOOLTIP = string.Empty;
+
+            static string SelectedModuleLocalPowerNAME = string.Empty;
+            static string SelectedModuleLocalPowerTOOLTIP = string.Empty;
+
+
+            static float CargoStoragePREV = 0f;
+            static float CargoStorageMaxPREV = 0f;
+
             public struct CargoBayAndFriends
             {
                 public CargoBayCluster CargoBay;
@@ -191,7 +205,7 @@ namespace Rockets_TinyYetBig.Patches
             /// <returns></returns>
             public static bool Prefix(RocketSimpleInfoPanel __instance, CollapsibleDetailContentPanel rocketStatusContainer, GameObject selectedTarget)
             {
-                if(TargetPREVIOUS == null || selectedTarget == null)
+                if (TargetPREVIOUS == null || selectedTarget == null)
                 {
                     TargetPREVIOUS = selectedTarget;
                     return false;
@@ -250,6 +264,10 @@ namespace Rockets_TinyYetBig.Patches
                 PowerGenerationTOOLTIP = string.Empty;
                 ModuleOrderTOOLTIP = string.Empty;
                 moduleCounter = 0;
+                float cargoStorage = 0;
+                float cargoStorageMax = 0;
+
+                bool redrawPanel = false;
 
                 //SgtLogger.debuglog(System.DateTime.Now);
                 CraftModuleInterface craftModuleInterface = null;
@@ -312,18 +330,26 @@ namespace Rockets_TinyYetBig.Patches
                         if (moduleGet.TryGetComponent<CargoBayCluster>(out var cargoBay))
                         {
                             CargoBays.Add(new CargoBayAndFriends(ref cargoBay));
+                            cargoStorage += cargoBay.AmountStored;
+                            cargoStorageMax += cargoBay.UserMaxCapacity;
                         }
                         else if (moduleGet.TryGetComponent<CritterStasisChamberModule>(out var stasisChamberModule))
                         {
                             CargoBays.Add(new CargoBayAndFriends(ref stasisChamberModule));
+                            cargoStorage += stasisChamberModule.AmountStored;
+                            cargoStorageMax += stasisChamberModule.UserMaxCapacity;
                         }
                         else if (moduleGet.TryGetComponent<RadiationBatteryOutputHandler>(out var hepChamberModule))
                         {
                             CargoBays.Add(new CargoBayAndFriends(ref hepChamberModule));
+                            cargoStorage += hepChamberModule.AmountStored;
+                            cargoStorageMax += hepChamberModule.UserMaxCapacity;
                         }
                         if (moduleGet.TryGetComponent<ArtifactModule>(out var artifactModule))
                         {
                             ArtifactModules.Add(artifactModule);
+                            cargoStorage += artifactModule.Occupant == null ? 0 : 1;
+                            cargoStorageMax += 1;
                         }
                         if (moduleGet.TryGetComponent<ModuleBattery>(out var batteryModule))
                         {
@@ -386,9 +412,11 @@ namespace Rockets_TinyYetBig.Patches
                     }
 
                     ///Range based on engine
-                    if (targetEngine != null)
+
+                    if ((!Mathf.Approximately(FuelRemaining, FuelRemainingPREVIOUS)) || (RequiresOxidizer ? (!Mathf.Approximately(OxidizerRemaining, OxidizerRemainingPREVIOUS)) : false) || (!Mathf.Approximately(FuelPerHexEngine, FuelPerHexEnginePREVIOUS)))
                     {
-                        if ((!Mathf.Approximately(FuelRemaining, FuelRemainingPREVIOUS)) || (RequiresOxidizer ? (!Mathf.Approximately(OxidizerRemaining, OxidizerRemainingPREVIOUS)) : false) || (!Mathf.Approximately(FuelPerHexEngine, FuelPerHexEnginePREVIOUS)))
+                        redrawPanel = true;
+                        if (targetEngine != null)
                         {
 
                             if (FuelTag == GameTags.HighEnergyParticle)
@@ -399,7 +427,7 @@ namespace Rockets_TinyYetBig.Patches
                             else
                             {
 
-                                FuelPerHexEngineSTRING = GameUtil.GetFormattedMass(FuelPerHexEngine );
+                                FuelPerHexEngineSTRING = GameUtil.GetFormattedMass(FuelPerHexEngine);
                                 FuelRemainingSTRING = GameUtil.GetFormattedMass(FuelRemaining);
                             }
 
@@ -411,22 +439,25 @@ namespace Rockets_TinyYetBig.Patches
                             RequiresOxidizer ? GameUtil.GetFormattedMass(OxidizerRemaining) : string.Empty);
 
                             float RangeRemaining = targetEngine != null ? (RequiresOxidizer ? Mathf.Min(FuelRemaining, OxidizerRemaining) : FuelRemaining) / FuelPerHexEngine : 0;
-                            RangeRemainingTextSTRING = string.Concat(global::STRINGS.UI.CLUSTERMAP.ROCKETS.RANGE.NAME, GameUtil.GetFormattedRocketRange(RangeRemaining*600f, GameUtil.TimeSlice.None));
+                            RangeRemainingTextSTRING = string.Concat(global::STRINGS.UI.CLUSTERMAP.ROCKETS.RANGE.NAME, GameUtil.GetFormattedRocketRange(RangeRemaining * 600f, GameUtil.TimeSlice.None));
 
-                            FuelRemainingPREVIOUS = FuelRemaining;
-                            OxidizerRemainingPREVIOUS = OxidizerRemaining;
-                            FuelPerHexEnginePREVIOUS = FuelPerHexEngine;
                         }
-                        rocketStatusContainer.SetLabel("RangeRemaining", RangeRemainingTextSTRING, RangeRemainingToolTipSTRING);
-                    }
-                    else
-                    {
-                        rocketStatusContainer.SetLabel("RangeRemaining", string.Empty, string.Empty);
+                        else
+                        {
+                            RangeRemainingTextSTRING = string.Empty;
+                            RangeRemainingToolTipSTRING = string.Empty;
+                        }
+
+                        FuelRemainingPREVIOUS = FuelRemaining;
+                        OxidizerRemainingPREVIOUS = OxidizerRemaining;
+                        FuelPerHexEnginePREVIOUS = FuelPerHexEngine;
                     }
 
                     ///Rocket burden
                     if ((!Mathf.Approximately(RocketBurden, RocketBurdenPREVIOUS)) || (!Mathf.Approximately(RocketEnginePower, RocketEnginePowerPREVIOUS)))
                     {
+                        redrawPanel = true;
+
                         Speed = RocketEnginePower / RocketBurden * clusterCraft.AutoPilotMultiplier * clusterCraft.PilotSkillMultiplier;
                         if (clusterCraft.controlStationBuffTimeRemaining > 0)
                         {
@@ -443,138 +474,159 @@ namespace Rockets_TinyYetBig.Patches
                         RocketEnginePowerPREVIOUS = RocketEnginePower;
                         SpeedPREVIOUS = Speed;
                     }
-                    rocketStatusContainer.SetLabel("Speed", SpeedTextSTRING, SpeedToolTipSTRING);
 
                     ///Rocket dimensions, defined by engine
-                    if (targetEngine != null)
+                    //SgtLogger.debuglog("dims " + RocketDimensionsSTRING);
+                    if (RocketHeight != RocketHeightPREVIOUS || RocketWidth != RocketWidthPREVIOUS)
                     {
-                        //SgtLogger.debuglog("dims " + RocketDimensionsSTRING);
-                        if (RocketHeight != RocketHeightPREVIOUS || RocketWidth != RocketWidthPREVIOUS)
+                        redrawPanel = true;
+                        if (targetEngine != null)
                         {
                             RocketDimensionsTooltipSTRING = string.Format(UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.TOOLTIP, targetEngine.GetProperName(), RocketHeight.ToString(), RocketWidth.ToString());
                             RocketDimensionsSTRING = string.Format(UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.NAME, RocketHeight.ToString(), targetEngine.maxHeight.ToString(), RocketWidth.ToString());
 
-                            RocketWidthPREVIOUS = RocketWidth;
-                            RocketHeightPREVIOUS = RocketHeight;
                         }
-                        rocketStatusContainer.SetLabel("MaxHeight", RocketDimensionsSTRING, RocketDimensionsTooltipSTRING);
-                    }
-                    else
-                    {
-                        rocketStatusContainer.SetLabel("MaxHeight", string.Empty, string.Empty);
+                        else
+                        {
+                            RocketDimensionsSTRING = string.Empty;
+                            RocketDimensionsTooltipSTRING = string.Empty;
+                        }
+                        RocketWidthPREVIOUS = RocketWidth;
+                        RocketHeightPREVIOUS = RocketHeight;
                     }
 
                     ///ModuleOrder
                     if (ModuleOrderTOOLTIP != ModuleOrderTOOLTIPPREVIOUS)
                     {
+                        redrawPanel = true;
                         ModuleOrderSTRING = string.Concat(UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.MODULECOUNT, moduleCounter.ToString());
                         ModuleOrderTOOLTIPPREVIOUS = ModuleOrderTOOLTIP;
                     }
-                    rocketStatusContainer.SetLabel("ModuleOrder", ModuleOrderSTRING, ModuleOrderTOOLTIP);
 
                     ///PowerGeneration
-                    if (PowerGenerationMax > 0f)
+
+                    if (!Mathf.Approximately(PowerGeneration, PowerGenerationPREVIOUS))
                     {
-                        if (!Mathf.Approximately(PowerGeneration, PowerGenerationPREVIOUS))
+                        redrawPanel = true;
+                        if (PowerGenerationMax > 0f)
                         {
                             PowerGenerationSTRING = string.Format(UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETGENERATORSTATS.NAME, GameUtil.GetFormattedWattage(PowerGeneration), GameUtil.GetFormattedWattage(PowerGenerationMax));
-                            PowerGenerationPREVIOUS = PowerGeneration;
-                            PowerGenerationMaxPREVIOUS = PowerGenerationMax;
+
                         }
-                        rocketStatusContainer.SetLabel("PowerGeneration", PowerGenerationSTRING, PowerGenerationTOOLTIP);
+                        else
+                        {
+                            PowerGenerationSTRING = string.Empty;
+                            PowerGenerationTOOLTIP = string.Empty;
+                        }
+                        PowerGenerationPREVIOUS = PowerGeneration;
+                        PowerGenerationMaxPREVIOUS = PowerGenerationMax;
                     }
-                    else
-                    {
-                       rocketStatusContainer.SetLabel("PowerGeneration", string.Empty, string.Empty);
-                    }
+
                     ///PowerStorage
 
-                    if (PowerStorageMax > 0f)
+                    if (!Mathf.Approximately(PowerStorage, PowerStoragePREVIOUS) || !Mathf.Approximately(PowerStorageMax, PowerStorageMaxPREVIOUS))
                     {
-                        if (!Mathf.Approximately(PowerStorage, PowerStoragePREVIOUS))
+                        redrawPanel = true;
+                        if (PowerStorageMax > 0f)
                         {
 
                             PowerStorageSTRING = string.Format(UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETBATTERYSTATUS.NAME, GameUtil.GetFormattedJoules(PowerStorage), GameUtil.GetFormattedJoules(PowerStorageMax));
-                            PowerStoragePREVIOUS = PowerStorage;
-                            PowerStorageMaxPREVIOUS = PowerStorageMax;
+
                         }
+                        else
+                        {
+                            PowerStorageSTRING = string.Empty;
+                            PowerStorageTOOLTIP = string.Empty;
+                        }
+                        PowerStoragePREVIOUS = PowerStorage;
+                        PowerStorageMaxPREVIOUS = PowerStorageMax;
+                    }
+
+
+                    if (selectedModulePREV != rocketModuleCluster)
+                    {
+                        redrawPanel = true;
+                        if (rocketModuleCluster != null)
+                        {
+                            SelectedModuleNAME = string.Concat(global::STRINGS.UI.CLUSTERMAP.ROCKETS.MODULE_STATS.NAME, selectedTarget.GetProperName());
+                            SelectedModuleTOOLTIP = global::STRINGS.UI.CLUSTERMAP.ROCKETS.MODULE_STATS.TOOLTIP;
+                            float burden = rocketModuleCluster.performanceStats.Burden;
+                            float enginePower = rocketModuleCluster.performanceStats.EnginePower;
+                            if (burden != 0f)
+                            {
+                                SelectedModuleLocalBurdenNAME = string.Concat(Constants.TABBULLETSTRING, global::STRINGS.UI.CLUSTERMAP.ROCKETS.BURDEN_MODULE.NAME, burden.ToString());
+                                SelectedModuleLocalBurdenTOOLTIP = string.Format(global::STRINGS.UI.CLUSTERMAP.ROCKETS.BURDEN_MODULE.TOOLTIP, burden);
+                            }
+                            else
+                            {
+                                SelectedModuleLocalBurdenNAME = string.Empty;
+                                SelectedModuleLocalBurdenTOOLTIP = string.Empty;
+                            }
+
+                            if (enginePower != 0f)
+                            {
+                                SelectedModuleLocalPowerNAME = string.Concat(Constants.TABBULLETSTRING, global::STRINGS.UI.CLUSTERMAP.ROCKETS.POWER_MODULE.NAME, enginePower.ToString());
+                                SelectedModuleLocalPowerTOOLTIP = string.Format(global::STRINGS.UI.CLUSTERMAP.ROCKETS.POWER_MODULE.TOOLTIP, enginePower);
+                            }
+                            else
+                            {
+                                SelectedModuleLocalPowerNAME = string.Empty;
+                                SelectedModuleLocalPowerTOOLTIP = string.Empty;
+                            }
+                        }
+                        else
+                        {
+                            SelectedModuleNAME = string.Empty;
+                            SelectedModuleTOOLTIP = string.Empty;
+                        }
+                    }
+
+                    if (redrawPanel)
+                    {
+                        rocketStatusContainer.SetLabel("RangeRemaining", RangeRemainingTextSTRING, RangeRemainingToolTipSTRING);
+                        rocketStatusContainer.SetLabel("Speed", SpeedTextSTRING, SpeedToolTipSTRING);
+                        rocketStatusContainer.SetLabel("MaxHeight", RocketDimensionsSTRING, RocketDimensionsTooltipSTRING);
+                        rocketStatusContainer.SetLabel("ModuleOrder", ModuleOrderSTRING, ModuleOrderTOOLTIP);
+                        rocketStatusContainer.SetLabel("PowerGeneration", PowerGenerationSTRING, PowerGenerationTOOLTIP);
                         rocketStatusContainer.SetLabel("PowerStorage", PowerStorageSTRING, PowerStorageTOOLTIP);
-                    }
-                    else
-                    {
-                        rocketStatusContainer.SetLabel("PowerStorage", string.Empty, string.Empty);
-                    }
-
-                    rocketStatusContainer.SetLabel("RocketSpacer2", string.Empty, string.Empty);
-
-                    if (rocketModuleCluster != null)
-                    {
-                        rocketStatusContainer.SetLabel("zModuleStats", string.Concat(global::STRINGS.UI.CLUSTERMAP.ROCKETS.MODULE_STATS.NAME, selectedTarget.GetProperName()), global::STRINGS.UI.CLUSTERMAP.ROCKETS.MODULE_STATS.TOOLTIP);
-                        float burden = rocketModuleCluster.performanceStats.Burden;
-                        float enginePower = rocketModuleCluster.performanceStats.EnginePower;
-                        if (burden != 0f)
+                        rocketStatusContainer.SetLabel("RocketSpacer2", string.Empty, string.Empty);
+                        if (SelectedModuleNAME != string.Empty)
                         {
-                            rocketStatusContainer.SetLabel("LocalBurden", string.Concat(Constants.TABBULLETSTRING, global::STRINGS.UI.CLUSTERMAP.ROCKETS.BURDEN_MODULE.NAME, burden.ToString()), string.Format(global::STRINGS.UI.CLUSTERMAP.ROCKETS.BURDEN_MODULE.TOOLTIP, burden));
-                        }
-
-                        if (enginePower != 0f)
-                        {
-                            rocketStatusContainer.SetLabel("LocalPower", string.Concat(Constants.TABBULLETSTRING, global::STRINGS.UI.CLUSTERMAP.ROCKETS.POWER_MODULE.NAME, enginePower.ToString()), string.Format(global::STRINGS.UI.CLUSTERMAP.ROCKETS.POWER_MODULE.TOOLTIP, enginePower));
-                        }
-
-                    }
-
-                    ///Cargos
-                    if (clusterCraft != null)
-                    {
-                        ///Artifact modules
-
-                        foreach (KeyValuePair<string, GameObject> artifactModuleLabel in __instance.artifactModuleLabels)
-                        {
-                            //UnityEngine.Object.Destroy(artifactModuleLabel.Value);
-                            artifactModuleLabel.Value.SetActive(value: false);
-                        }
-                        for (int j = 0; j < ArtifactModules.Count; ++j)
-                        {
-                            var aModule = ArtifactModules[j];
-                            GameObject gameObject = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.artifactModuleLabels, rocketStatusContainer.gameObject, "artifactModule_" + j);
-
-                            string text2 = string.Empty;
-                            text2 = ((!(aModule.Occupant != null)) ? $"{aModule.GetProperName()}: {(global::STRINGS.UI.CLUSTERMAP.ROCKETS.ARTIFACT_MODULE.EMPTY)}" : (aModule.GetProperName() + ": " + aModule.Occupant.GetProperName()));
-
-                            Transform transform = gameObject.transform.Find("removeAttributeButton");
-                            if (transform != null)
+                            rocketStatusContainer.SetLabel("zModuleStats", SelectedModuleNAME, SelectedModuleTOOLTIP);
+                            if (SelectedModuleLocalBurdenNAME != string.Empty)
                             {
-                                KButton kButton = transform.FindComponent<KButton>();
-                                kButton.enabled = false;
-                                kButton.gameObject.SetActive(value: false);
-                                kButton.ClearOnClick();
+                                rocketStatusContainer.SetLabel("LocalBurden", SelectedModuleLocalBurdenNAME, SelectedModuleLocalBurdenTOOLTIP);
                             }
-
-                            gameObject.GetComponentInChildren<LocText>().text = text2;
-                            gameObject.SetActive(value: true);
-                        }
-
-                        ///Cargo Bays
-
-                        ///Resetting Container 
-                        foreach (KeyValuePair<string, GameObject> cargoBayLabel in __instance.cargoBayLabels)
-                        {
-                            //UnityEngine.Object.Destroy(cargoBayLabel.Value);
-                            cargoBayLabel.Value.SetActive(value: false);
-                        }
-
-                        for (int j = 0; j < CargoBays.Count; ++j)
-                        {
-                            CargoBayAndFriends currentModule = CargoBays[j];
-                            if (currentModule.CargoBay != null)
+                            if (SelectedModuleLocalPowerNAME != string.Empty)
                             {
-                                var currentCargoBay = currentModule.CargoBay;
-                                ListPool<Tuple<string, TextStyleSetting>, SimpleInfoScreen>.PooledList pooledList = ListPool<Tuple<string, TextStyleSetting>, SimpleInfoScreen>.Allocate();
+                                rocketStatusContainer.SetLabel("LocalPower", SelectedModuleLocalPowerNAME, SelectedModuleLocalPowerTOOLTIP);
+                            }
+                        }
+                    }
+                    if ((!Mathf.Approximately(cargoStorage, CargoStoragePREV)) || (!Mathf.Approximately(cargoStorageMax, CargoStorageMaxPREV)))
+                    {
+                        CargoStoragePREV = cargoStorage;
+                        CargoStorageMaxPREV= cargoStorage;
 
-                                GameObject RowEntry = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.cargoBayLabels, rocketStatusContainer.gameObject, "cargoBay_" + j);
+                        ///Cargos
+                        if (clusterCraft != null)
+                        {
+                            ///Artifact modules
 
-                                Transform transform = RowEntry.transform.Find("removeAttributeButton");
+                            foreach (KeyValuePair<string, GameObject> artifactModuleLabel in __instance.artifactModuleLabels)
+                            {
+                                //UnityEngine.Object.Destroy(artifactModuleLabel.Value);
+                                artifactModuleLabel.Value.SetActive(value: false);
+                            }
+                            for (int j = 0; j < ArtifactModules.Count; ++j)
+                            {
+                                var aModule = ArtifactModules[j];
+                                GameObject gameObject = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.artifactModuleLabels, rocketStatusContainer.gameObject, "artifactModule_" + j);
+
+                                string text2 = string.Empty;
+                                text2 = ((!(aModule.Occupant != null)) ? $"{aModule.GetProperName()}: {(global::STRINGS.UI.CLUSTERMAP.ROCKETS.ARTIFACT_MODULE.EMPTY)}" : (aModule.GetProperName() + ": " + aModule.Occupant.GetProperName()));
+
+                                Transform transform = gameObject.transform.Find("removeAttributeButton");
                                 if (transform != null)
                                 {
                                     KButton kButton = transform.FindComponent<KButton>();
@@ -583,77 +635,111 @@ namespace Rockets_TinyYetBig.Patches
                                     kButton.ClearOnClick();
                                 }
 
-                                string CargobayText = $"{currentCargoBay.storage.GetComponent<KPrefabID>().GetProperName()}: {GameUtil.GetFormattedMass(currentCargoBay.storage.MassStored())}/{GameUtil.GetFormattedMass(currentCargoBay.storage.capacityKg)}";
+                                gameObject.GetComponentInChildren<LocText>().text = text2;
+                                gameObject.SetActive(value: true);
+                            }
 
-                                foreach (GameObject item2 in currentCargoBay.storage.GetItems())
+
+
+                            ///Cargo Bays
+
+                            ///Resetting Container 
+                            foreach (KeyValuePair<string, GameObject> cargoBayLabel in __instance.cargoBayLabels)
+                            {
+                                //UnityEngine.Object.Destroy(cargoBayLabel.Value);
+                                cargoBayLabel.Value.SetActive(value: false);
+                            }
+
+                            for (int j = 0; j < CargoBays.Count; ++j)
+                            {
+                                CargoBayAndFriends currentModule = CargoBays[j];
+                                if (currentModule.CargoBay != null)
                                 {
-                                    item2.TryGetComponent<KPrefabID>(out KPrefabID component2);
-                                    item2.TryGetComponent<PrimaryElement>(out PrimaryElement component3);
-                                    string a = $"{component2.GetProperName()} : {GameUtil.GetFormattedMass(component3.Mass)}";
-                                    pooledList.Add(new Tuple<string, TextStyleSetting>(a, PluginAssets.Instance.defaultTextStyleSetting));
-                                }
-                                string CarboBayTooltip = string.Empty;
-                                for (int i = 0; i < pooledList.Count; i++)
-                                {
-                                    CarboBayTooltip += pooledList[i].first;
-                                    if (i != pooledList.Count - 1)
+                                    var currentCargoBay = currentModule.CargoBay;
+                                    ListPool<Tuple<string, TextStyleSetting>, SimpleInfoScreen>.PooledList pooledList = ListPool<Tuple<string, TextStyleSetting>, SimpleInfoScreen>.Allocate();
+
+                                    GameObject RowEntry = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.cargoBayLabels, rocketStatusContainer.gameObject, "cargoBay_" + j);
+
+                                    Transform transform = RowEntry.transform.Find("removeAttributeButton");
+                                    if (transform != null)
                                     {
-                                        CarboBayTooltip += "\n";
+                                        KButton kButton = transform.FindComponent<KButton>();
+                                        kButton.enabled = false;
+                                        kButton.gameObject.SetActive(value: false);
+                                        kButton.ClearOnClick();
                                     }
-                                }
-                                RowEntry.GetComponentInChildren<LocText>().text = CargobayText;
-                                RowEntry.GetComponentInChildren<ToolTip>().SetSimpleTooltip(CarboBayTooltip);
-                                pooledList.Recycle();
-                            }
-                            else if (currentModule.CritterModule != null)
-                            {
-                                var critterHolder = currentModule.CritterModule;
-                                GameObject RowEntry = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.cargoBayLabels, rocketStatusContainer.gameObject, "cargoBay_" + j);
-                                string CargobayText = $"{critterHolder.GetComponent<KPrefabID>().GetProperName()}: {Util.FormatWholeNumber(critterHolder.CurrentCapacity)}/{Util.FormatWholeNumber(Config.Instance.CritterStorageCapacity)}";
-                                string ToolTip = critterHolder.GetStatusItem();
 
-                                Transform transform = RowEntry.transform.Find("removeAttributeButton");
-                                if (transform != null)
+                                    string CargobayText = $"{currentCargoBay.storage.GetComponent<KPrefabID>().GetProperName()}: {GameUtil.GetFormattedMass(currentCargoBay.storage.MassStored())}/{GameUtil.GetFormattedMass(currentCargoBay.storage.capacityKg)}";
+
+                                    foreach (GameObject item2 in currentCargoBay.storage.GetItems())
+                                    {
+                                        item2.TryGetComponent<KPrefabID>(out KPrefabID component2);
+                                        item2.TryGetComponent<PrimaryElement>(out PrimaryElement component3);
+                                        string a = $"{component2.GetProperName()} : {GameUtil.GetFormattedMass(component3.Mass)}";
+                                        pooledList.Add(new Tuple<string, TextStyleSetting>(a, PluginAssets.Instance.defaultTextStyleSetting));
+                                    }
+                                    string CarboBayTooltip = string.Empty;
+                                    for (int i = 0; i < pooledList.Count; i++)
+                                    {
+                                        CarboBayTooltip += pooledList[i].first;
+                                        if (i != pooledList.Count - 1)
+                                        {
+                                            CarboBayTooltip += "\n";
+                                        }
+                                    }
+                                    RowEntry.GetComponentInChildren<LocText>().text = CargobayText;
+                                    RowEntry.GetComponentInChildren<ToolTip>().SetSimpleTooltip(CarboBayTooltip);
+                                    pooledList.Recycle();
+                                }
+                                else if (currentModule.CritterModule != null)
                                 {
-                                    KButton kButton = transform.FindComponent<KButton>();
-                                    kButton.enabled = false;
-                                    kButton.gameObject.SetActive(value: false);
-                                    kButton.ClearOnClick();
+                                    var critterHolder = currentModule.CritterModule;
+                                    GameObject RowEntry = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.cargoBayLabels, rocketStatusContainer.gameObject, "cargoBay_" + j);
+                                    string CargobayText = $"{critterHolder.GetComponent<KPrefabID>().GetProperName()}: {Util.FormatWholeNumber(critterHolder.CurrentCapacity)}/{Util.FormatWholeNumber(Config.Instance.CritterStorageCapacity)}";
+                                    string ToolTip = critterHolder.GetStatusItem();
+
+                                    Transform transform = RowEntry.transform.Find("removeAttributeButton");
+                                    if (transform != null)
+                                    {
+                                        KButton kButton = transform.FindComponent<KButton>();
+                                        kButton.enabled = false;
+                                        kButton.gameObject.SetActive(value: false);
+                                        kButton.ClearOnClick();
+                                    }
+
+                                    RowEntry.GetComponentInChildren<LocText>().text = CargobayText;
+                                    if (ToolTip != string.Empty)
+                                        RowEntry.GetComponentInChildren<ToolTip>().SetSimpleTooltip(ToolTip);
                                 }
-
-                                RowEntry.GetComponentInChildren<LocText>().text = CargobayText;
-                                if(ToolTip!=string.Empty)
-                                    RowEntry.GetComponentInChildren<ToolTip>().SetSimpleTooltip(ToolTip);
-                            }
-                            else if (currentModule.HepBatteryModule != null)
-                            {
-                                var HepBattery = currentModule.HepBatteryModule;
-                                GameObject RowEntry = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.cargoBayLabels, rocketStatusContainer.gameObject, "cargoBay_" + j);
-                                string CargobayText = $"{HepBattery.GetComponent<KPrefabID>().GetProperName()}: {Util.FormatWholeNumber(HepBattery.hepStorage.Particles)}/{Util.FormatWholeNumber(HepBattery.hepStorage.capacity)}";
-                                string ToolTip = string.Empty;
-
-                                Transform transform = RowEntry.transform.Find("removeAttributeButton");
-                                if (transform != null)
+                                else if (currentModule.HepBatteryModule != null)
                                 {
-                                    KButton kButton = transform.FindComponent<KButton>();
-                                    kButton.enabled = false;
-                                    kButton.gameObject.SetActive(value: false);
-                                    kButton.ClearOnClick();
-                                }
+                                    var HepBattery = currentModule.HepBatteryModule;
+                                    GameObject RowEntry = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.cargoBayLabels, rocketStatusContainer.gameObject, "cargoBay_" + j);
+                                    string CargobayText = $"{HepBattery.GetComponent<KPrefabID>().GetProperName()}: {Util.FormatWholeNumber(HepBattery.hepStorage.Particles)}/{Util.FormatWholeNumber(HepBattery.hepStorage.capacity)}";
+                                    string ToolTip = string.Empty;
 
-                                RowEntry.GetComponentInChildren<LocText>().text = CargobayText;
-                                if (ToolTip != string.Empty)
-                                    RowEntry.GetComponentInChildren<ToolTip>().SetSimpleTooltip(ToolTip);
+                                    Transform transform = RowEntry.transform.Find("removeAttributeButton");
+                                    if (transform != null)
+                                    {
+                                        KButton kButton = transform.FindComponent<KButton>();
+                                        kButton.enabled = false;
+                                        kButton.gameObject.SetActive(value: false);
+                                        kButton.ClearOnClick();
+                                    }
+
+                                    RowEntry.GetComponentInChildren<LocText>().text = CargobayText;
+                                    if (ToolTip != string.Empty)
+                                        RowEntry.GetComponentInChildren<ToolTip>().SetSimpleTooltip(ToolTip);
+                                }
                             }
+
                         }
 
                     }
-
+                    ArtifactModules.Recycle();
+                    CargoBays.Recycle();
+                    rocketStatusContainer.Commit();
                 }
-                ArtifactModules.Recycle();
-                CargoBays.Recycle();
-
-                rocketStatusContainer.Commit();
                 return false;
             }
         }
