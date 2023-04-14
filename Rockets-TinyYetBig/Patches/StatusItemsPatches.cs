@@ -502,13 +502,12 @@ namespace Rockets_TinyYetBig.Patches
 
                     ///PowerGeneration
 
-                    if (!Mathf.Approximately(PowerGeneration, PowerGenerationPREVIOUS))
+                    if (!Mathf.Approximately(PowerGeneration, PowerGenerationPREVIOUS) || PowerGenerationMax != PowerGenerationMaxPREVIOUS)
                     {
                         redrawPanel = true;
                         if (PowerGenerationMax > 0f)
                         {
                             PowerGenerationSTRING = string.Format(UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETGENERATORSTATS.NAME, GameUtil.GetFormattedWattage(PowerGeneration), GameUtil.GetFormattedWattage(PowerGenerationMax));
-
                         }
                         else
                         {
