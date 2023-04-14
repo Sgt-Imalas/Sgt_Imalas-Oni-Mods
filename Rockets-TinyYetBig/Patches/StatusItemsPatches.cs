@@ -97,9 +97,8 @@ namespace Rockets_TinyYetBig.Patches
 
         [HarmonyPatch(typeof(RocketSimpleInfoPanel))]
         [HarmonyPatch(nameof(RocketSimpleInfoPanel.Refresh))]
-        public static class NoStatusItemsForSpaceStation2
+        public static class OptimizedRewriteForInfoPanel
         {
-            static Clustercraft clustercraftPREVIOUS = null;
             static GameObject TargetPREVIOUS = null;
             const int perSecond = 50;
             static int counter = 0;
@@ -216,8 +215,13 @@ namespace Rockets_TinyYetBig.Patches
                     return false;
                 }
                 counter += perSecond;
+
+
+                bool redrawPanel = false;
+
                 if (TargetPREVIOUS != selectedTarget)
                 {
+                    redrawPanel = true;
                     foreach (KeyValuePair<string, GameObject> cargoBayLabel in __instance.cargoBayLabels)
                     {
                         //  UnityEngine.Object.Destroy(cargoBayLabel.Value);
@@ -237,7 +241,7 @@ namespace Rockets_TinyYetBig.Patches
                 if (selectedTarget.TryGetComponent<SpaceStation>(out var testS))
                 {
                     rocketStatusContainer.gameObject.SetActive(false);
-                    rocketStatusContainer.Commit();
+                    //rocketStatusContainer.Commit();
                     return false;
                 }
 
@@ -267,15 +271,13 @@ namespace Rockets_TinyYetBig.Patches
                 float cargoStorage = 0;
                 float cargoStorageMax = 0;
 
-                bool redrawPanel = false;
-
-                //SgtLogger.debuglog(System.DateTime.Now);
                 CraftModuleInterface craftModuleInterface = null;
-                if (selectedTarget.TryGetComponent(out Clustercraft clusterCraft))
+                Clustercraft clusterCraft = null;
+
+                if (selectedTarget.TryGetComponent(out clusterCraft))
                 {
                     craftModuleInterface = clusterCraft.ModuleInterface;
                 }
-
                 if (selectedTarget.TryGetComponent<RocketModuleCluster>(out var rocketModuleCluster))
                 {
                     craftModuleInterface = rocketModuleCluster.CraftInterface;
@@ -285,18 +287,17 @@ namespace Rockets_TinyYetBig.Patches
                     }
                 }
 
+                //Debug.Log(selectedTarget);
+                //SgtLogger.l(clusterCraft == null? "NULL":clusterCraft.ToString(), "CLUSTERCRAFT");
 
                 if (clusterCraft == null)
                 {
                     rocketStatusContainer.gameObject.SetActive(false);
-                    rocketStatusContainer.Commit();
+                    //rocketStatusContainer.Commit();
                     return false;
                 }
-                else
-                {
-                    rocketStatusContainer.gameObject.SetActive(true);
-                }
-
+                rocketStatusContainer.gameObject.SetActive(true);
+                
                 if (craftModuleInterface != null)
                 {
                     int NumberOfModules = craftModuleInterface.clusterModules.Count;
@@ -545,6 +546,7 @@ namespace Rockets_TinyYetBig.Patches
 
                     if (selectedModulePREV != rocketModuleCluster)
                     {
+                        selectedModulePREV = rocketModuleCluster;
                         redrawPanel = true;
                         if (rocketModuleCluster != null)
                         {
@@ -602,7 +604,9 @@ namespace Rockets_TinyYetBig.Patches
                                 rocketStatusContainer.SetLabel("LocalPower", SelectedModuleLocalPowerNAME, SelectedModuleLocalPowerTOOLTIP);
                             }
                         }
+                        rocketStatusContainer.Commit();
                     }
+                    
                     if ((!Mathf.Approximately(cargoStorage, CargoStoragePREV)) || (!Mathf.Approximately(cargoStorageMax, CargoStorageMaxPREV)))
                     {
                         CargoStoragePREV = cargoStorage;
@@ -736,10 +740,12 @@ namespace Rockets_TinyYetBig.Patches
                         }
 
                     }
-                    ArtifactModules.Recycle();
-                    CargoBays.Recycle();
-                    rocketStatusContainer.Commit();
+
                 }
+
+                ArtifactModules.Recycle();
+                CargoBays.Recycle();
+
                 return false;
             }
         }
