@@ -9,7 +9,7 @@ using static Storage;
 
 namespace Rockets_TinyYetBig.Buildings.CargoBays
 {
-    internal class FridgeModule : KMonoBehaviour, ISim200ms
+    public class FridgeModule : KMonoBehaviour, ISim200ms
     {
         [MyCmpGet]
         public Storage fridgeStorage;

@@ -11,7 +11,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
 {
-    internal class RocketeerSpicePatches
+    public class RocketeerSpicePatches
     {
         [HarmonyPatch(typeof(Edible), "StopConsuming")]
         public static class PatchDroppingOfTincans

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Rockets_TinyYetBig.TwitchEvents
 {
-    internal class TwitchIntegrationPatch
+    public class TwitchIntegrationPatch
     {
         [HarmonyPatch(typeof(Db), "Initialize")]
         public static class Db_Initialize_Patch

@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Patches
 {
-    internal class DrillConeSupportModulePatches
+    public class DrillConeSupportModulePatches
     {
         [HarmonyPatch(typeof(NoseconeHarvestConfig), "ConfigureBuildingTemplate")]
         public static class AddFilterForLoaders

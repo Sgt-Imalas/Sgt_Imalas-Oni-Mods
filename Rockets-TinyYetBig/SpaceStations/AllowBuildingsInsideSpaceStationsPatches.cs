@@ -9,7 +9,7 @@ using static STRINGS.BUILDINGS.PREFABS;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
-    internal class AllowBuildingsInsideSpaceStationsPatches
+    public class AllowBuildingsInsideSpaceStationsPatches
     {
         [HarmonyPatch(typeof(BaseModularLaunchpadPortConfig), "ConfigureBuildingTemplate")]
         public static class AllowPortLoadersInSpaceStation

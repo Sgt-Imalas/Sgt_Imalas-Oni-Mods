@@ -13,7 +13,7 @@ using UtilLibs;
 namespace Rockets_TinyYetBig.Elements
 {
 
-    internal class ELEMENTpatches
+    public class ELEMENTpatches
     {
 
 

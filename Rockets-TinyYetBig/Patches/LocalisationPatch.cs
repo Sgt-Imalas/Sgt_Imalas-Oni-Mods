@@ -23,7 +23,7 @@ namespace Rockets_TinyYetBig
 
         //[HarmonyPatch(typeof(Localization))]
         //[HarmonyPatch(nameof(Localization.WriteStringsTemplate))]
-        //internal class FIX_KLEI_TEMPLATE_BUG
+        //public class FIX_KLEI_TEMPLATE_BUG
         //{
 
         //    private static readonly MethodInfo ConverterMethod = AccessTools.Method(

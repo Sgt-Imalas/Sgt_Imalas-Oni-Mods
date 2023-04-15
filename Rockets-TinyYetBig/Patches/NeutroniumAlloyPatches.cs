@@ -9,7 +9,7 @@ using static ComplexRecipe;
 
 namespace Rockets_TinyYetBig.Patches
 {
-    internal class NeutroniumAlloyPatches
+    public class NeutroniumAlloyPatches
     {
         [HarmonyPatch(typeof(SupermaterialRefineryConfig))]
         [HarmonyPatch(nameof(SupermaterialRefineryConfig.ConfigureBuildingTemplate))]

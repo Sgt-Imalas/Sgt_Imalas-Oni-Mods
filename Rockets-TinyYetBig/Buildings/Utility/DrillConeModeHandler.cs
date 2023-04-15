@@ -8,7 +8,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.Buildings.Utility
 {
-    internal class  DrillConeModeHandler : KMonoBehaviour, ISidescreenButtonControl
+    public class  DrillConeModeHandler : KMonoBehaviour, ISidescreenButtonControl
     {
         [MyCmpGet] public Storage DiamondStorage;
         [Serialize] bool IsAutoLoader = false;

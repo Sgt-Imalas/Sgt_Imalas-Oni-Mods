@@ -8,11 +8,12 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Buildings.CargoBays
 {
-    internal class SolidCargoBayClusterLargeConfig : IBuildingConfig
+    public class SolidCargoBayClusterLargeConfig : IBuildingConfig
     {
         public const string ID = "RTB_CargoBayClusterLarge";
-        public float CAPACITY = 50000f;
-
+        public static float CAPACITY = !Config.Instance.RebalancedCargoCapacity ? CAPACITY_OFF : CAPACITY_ON;
+        public static float CAPACITY_OFF = 50000f;
+        public static float CAPACITY_ON = Config.Instance.SolidCargoBayUnits * ModAssets.CollossalCargoBayUnits;
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
 
         public override BuildingDef CreateBuildingDef()
@@ -75,7 +76,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 
         public override void DoPostConfigureComplete(GameObject go)
         {
-            go = BuildingTemplates.ExtendBuildingToClusterCargoBay(go, this.CAPACITY, STORAGEFILTERS.NOT_EDIBLE_SOLIDS, CargoBay.CargoType.Solids);
+            go = BuildingTemplates.ExtendBuildingToClusterCargoBay(go, CAPACITY, STORAGEFILTERS.NOT_EDIBLE_SOLIDS, CargoBay.CargoType.Solids);
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MEGA);
         }
     }

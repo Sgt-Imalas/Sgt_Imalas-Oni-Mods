@@ -11,7 +11,7 @@ using TUNING;
 
 namespace Rockets_TinyYetBig.RocketFueling
 {
-    internal class ConnectorWallAdapterConfig : IBuildingConfig
+    public class ConnectorWallAdapterConfig : IBuildingConfig
     {
         public const string ID = "RTB_WallConnectionAdapter";
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;

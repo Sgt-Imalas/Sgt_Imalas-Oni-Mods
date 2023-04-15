@@ -11,7 +11,7 @@ using TUNING;
 
 namespace Rockets_TinyYetBig.RocketFueling
 {
-    internal class LoaderLadderAdapterConfig : IBuildingConfig
+    public class LoaderLadderAdapterConfig : IBuildingConfig
     {
         public const string ID = "RTB_LadderConnectionAdapter";
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;

@@ -10,7 +10,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.Patches
 {
-    internal class StarmapSensor_ClusterLocationSensorPatches
+    public class StarmapSensor_ClusterLocationSensorPatches
     {
         static AxialI DisabledLocation = new AxialI(999, 999);
 

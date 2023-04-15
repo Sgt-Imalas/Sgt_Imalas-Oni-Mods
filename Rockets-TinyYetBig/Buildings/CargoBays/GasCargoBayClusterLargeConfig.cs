@@ -8,10 +8,12 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Buildings.CargoBays
 {
-    internal class GasCargoBayClusterLargeConfig : IBuildingConfig
+    public class GasCargoBayClusterLargeConfig : IBuildingConfig
     {
         public const string ID = "RTB_GasCargoBayClusterLarge";
-        public float CAPACITY = 30000f;
+        public static float CAPACITY = !Config.Instance.RebalancedCargoCapacity ? CAPACITY_OFF : CAPACITY_ON;
+        public static float CAPACITY_OFF = 30000f;
+        public static float CAPACITY_ON = Config.Instance.GasCargoBayUnits * ModAssets.CollossalCargoBayUnits;
 
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
 
@@ -69,13 +71,13 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
             {
-      new BuildingAttachPoint.HardPoint(new CellOffset(0, 8), GameTags.Rocket, (AttachableBuilding) null)
+                new BuildingAttachPoint.HardPoint(new CellOffset(0, 8), GameTags.Rocket, (AttachableBuilding) null)
             };
         }
 
         public override void DoPostConfigureComplete(GameObject go)
         {
-            go = BuildingTemplates.ExtendBuildingToClusterCargoBay(go, this.CAPACITY, STORAGEFILTERS.GASES, CargoBay.CargoType.Gasses);
+            go = BuildingTemplates.ExtendBuildingToClusterCargoBay(go, CAPACITY, STORAGEFILTERS.GASES, CargoBay.CargoType.Gasses);
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MEGA);
         }
     }

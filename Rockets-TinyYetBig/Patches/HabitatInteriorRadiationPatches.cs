@@ -13,7 +13,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Patches
 {
-    internal class HabitatInteriorRadiationPatches
+    public class HabitatInteriorRadiationPatches
     {
 
         [HarmonyPatch(typeof(RocketInteriorLiquidInputPortConfig))]

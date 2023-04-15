@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.TwitchEvents.Events
 {
-    internal class StraySatelliteEvent : ITwitchEventBase
+    public class StraySatelliteEvent : ITwitchEventBase
     {
         public string ID => "RTB_TwitchEvent_SatelliteCrash";
         public string EventName => "Stray Satellite";

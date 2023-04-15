@@ -16,7 +16,7 @@ using static STRINGS.CREATURES.SPECIES;
 
 namespace Rockets_TinyYetBig.TwitchEvents.Events
 {
-    internal class DuneSpicetEvent : ITwitchEventBase
+    public class DuneSpicetEvent : ITwitchEventBase
     {
         float EventDuration = 600f * 5;
         public string ID => "RTB_TwitchEvent_DuneSpice";

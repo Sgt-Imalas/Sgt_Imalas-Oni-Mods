@@ -9,7 +9,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
-    internal class SpaceStationLoaderPatches
+    public class SpaceStationLoaderPatches
     {
         [HarmonyPatch(typeof(LaunchPadMaterialDistributor.Instance), "GetLandedRocketFromPad")]
         public static class CustomSideScreenPatch_SatelliteCarrier

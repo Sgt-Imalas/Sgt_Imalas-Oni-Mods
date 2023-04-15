@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Rockets_TinyYetBig.StoryTrait
 {
-    internal class StoryPatches
+    public class StoryPatches
     {
         public static Story CrashedUfoStory;
 

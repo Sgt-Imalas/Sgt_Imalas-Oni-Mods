@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Rockets_TinyYetBig.StoryTrait
 {
-    internal class CrashedUFOStoryTrait
+    public class CrashedUFOStoryTrait
     {
         public const string CrashedUFOStoryTraitKey = "RTB_CrashedUFOStoryTrait";
     }

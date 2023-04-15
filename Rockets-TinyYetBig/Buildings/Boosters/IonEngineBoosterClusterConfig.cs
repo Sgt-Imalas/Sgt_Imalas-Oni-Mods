@@ -10,7 +10,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.Buildings.Boosters
 {
-    internal class IonEngineBoosterClusterConfig : IBuildingConfig, ISaveLoadable
+    public class IonEngineBoosterClusterConfig : IBuildingConfig, ISaveLoadable
     {
         public const string ID = "RTB_IonBooster";
         public const string kanim = "ion_thrus_module_kanim"; //rocket_petro_engine_small_kanim

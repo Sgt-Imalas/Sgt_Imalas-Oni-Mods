@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Buildings.Generators
 {
-    internal class SmolBatteryModuleConfig : IBuildingConfig
+    public class SmolBatteryModuleConfig : IBuildingConfig
     {
         public const string ID = "RTB_SmolBatteryModule";
         private static readonly CellOffset PLUG_OFFSET = new CellOffset(-1, 0);

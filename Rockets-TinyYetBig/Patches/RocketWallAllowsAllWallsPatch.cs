@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Patches
 {
-    internal class RocketWallAllowsAllWallsPatch
+    public class RocketWallAllowsAllWallsPatch
     {
         [HarmonyPatch(typeof(RocketInteriorLiquidInputPortConfig), "DoPostConfigureComplete")]
         public static class AddRocketWallTagToTilesThatShouldBeWall

@@ -16,7 +16,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.Science
 {
-    internal class ResearchTreePatches
+    public class ResearchTreePatches
     {
 
         /// <summary>

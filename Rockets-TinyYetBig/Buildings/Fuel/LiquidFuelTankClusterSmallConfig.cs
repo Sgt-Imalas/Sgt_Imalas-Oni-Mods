@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Buildings.Fuel
 {
-    internal class LiquidFuelTankClusterSmallConfig : IBuildingConfig
+    public class LiquidFuelTankClusterSmallConfig : IBuildingConfig
     {
         public const string ID = "RTB_LiquidFuelTankClusterSmall";
 

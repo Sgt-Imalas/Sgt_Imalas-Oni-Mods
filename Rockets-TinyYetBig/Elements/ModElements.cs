@@ -9,7 +9,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.Elements
 {
-    internal class ModElements
+    public class ModElements
     {
         public static ElementInfo
             UnobtaniumDust,

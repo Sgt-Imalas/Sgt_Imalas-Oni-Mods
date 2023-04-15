@@ -22,7 +22,7 @@ namespace Rockets_TinyYetBig.Elements
             __instance.gameObject.AddOrGet<RainbowSpec>();
         }
     }
-    internal class RainbowSpec : KMonoBehaviour
+    public class RainbowSpec : KMonoBehaviour
     {
         public static RainbowSpec Instance;
 

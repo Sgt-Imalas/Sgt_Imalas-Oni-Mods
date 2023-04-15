@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
-    internal class ExcludePortsFromSpaceStationPatches
+    public class ExcludePortsFromSpaceStationPatches
     {
         [HarmonyPatch(typeof(RocketControlStationConfig), "ConfigureBuildingTemplate")]
         public static class RmRocketControlStationFromSpaceStation

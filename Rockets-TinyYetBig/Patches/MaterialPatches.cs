@@ -9,7 +9,7 @@ using TUNING;
 
 namespace Rockets_TinyYetBig.Patches
 {
-    internal class MaterialPatches
+    public class MaterialPatches
     {
         [HarmonyPatch(typeof(ElementLoader))]
         [HarmonyPatch(nameof(ElementLoader.Load))]

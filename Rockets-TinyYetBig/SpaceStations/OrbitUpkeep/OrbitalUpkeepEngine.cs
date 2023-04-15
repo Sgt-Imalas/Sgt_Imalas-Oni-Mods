@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Rockets_TinyYetBig.SpaceStations.OrbitUpkeep
 {
-    internal class OrbitalUpkeepEngine : KMonoBehaviour, ISim1000ms
+    public class OrbitalUpkeepEngine : KMonoBehaviour, ISim1000ms
     {
         [Serialize]
         Ref<OrbitalUpkeepObject> worldUpkeepMng;

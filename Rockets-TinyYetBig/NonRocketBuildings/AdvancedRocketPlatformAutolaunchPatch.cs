@@ -14,7 +14,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 {
     [HarmonyPatch(typeof(CraftModuleInterface))]
     [HarmonyPatch(nameof(CraftModuleInterface.EvaluateConditionSet))]
-    internal class AdvancedRocketPlatformAutolaunchPatch
+    public class AdvancedRocketPlatformAutolaunchPatch
     {
         //public static void Postfix(CraftModuleInterface __instance, ProcessCondition.ProcessConditionType conditionType, ref ProcessCondition.Status __result)
         //{
@@ -83,7 +83,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
     }
     //[HarmonyPatch(typeof(HEPEngineConfig))]
     //[HarmonyPatch(nameof(HEPEngineConfig.DoPostConfigureComplete))]
-    //internal class radboltcheat
+    //public class radboltcheat
     //{
     //    public static void Postfix(GameObject go)
     //    {
@@ -96,7 +96,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
     [HarmonyPatch(typeof(LaunchPad))]
     [HarmonyPatch(nameof(LaunchPad.Sim1000ms))]
-    internal class AdjustForRibbonInput
+    public class AdjustForRibbonInput
     {
         public static int ConvertInputValue(int original)
         {

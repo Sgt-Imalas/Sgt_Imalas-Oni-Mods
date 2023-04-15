@@ -98,6 +98,7 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool EnableLargeCargoBays { get; set; }
 
+
         [Option("Radbolt Storage Module", STRINGS.OPTIONS.TOGGLESINGLE, "(2) Mining & Shipping")]
         [JsonProperty]
         public bool EnableRadboltStorage { get; set; }
@@ -111,8 +112,24 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public int CritterStorageCapacity { get; set; }
 
+        [Option("Rebalanced Cargobay Capacity", "Cargo Bays have increased and rebalanced Cargo Capacity", "(2) Mining & Shipping")]
+        [JsonProperty]
+        public bool RebalancedCargoCapacity { get; set; }
+
+        [Option("Gas Cargobay KG/Unit", STRINGS.OPTIONS.UNITDESCRIPTION, "(2) Mining & Shipping")]
+        [Limit(200, 1500)]
+        [JsonProperty]
+        public int GasCargoBayUnits { get; set; }
+        [Option("Liquid Cargobay KG/Unit", STRINGS.OPTIONS.UNITDESCRIPTION, "(2) Mining & Shipping")]
+        [Limit(500, 2000)]
+        [JsonProperty]
+        public int LiquidCargoBayUnits { get; set; }
+        [Option("Solid Cargobay KG/Unit", STRINGS.OPTIONS.UNITDESCRIPTION, "(2) Mining & Shipping")]
+        [Limit(800, 6000)]
+        [JsonProperty]
+        public int SolidCargoBayUnits { get; set; }
         #endregion
-       
+
         #region Fuel&Logistics
 
         [Option("Buff Large Oxidizer Module", "Buff storage capacity of the large Oxidizer Module from 900kg to 1350kg.", "(3) Fuel & Logistics")]
@@ -207,9 +224,14 @@ namespace Rockets_TinyYetBig
             LaserDrillconeSpeed = 3.75f;
             EnableFridge = true;
             InfinitePOI = false;
-            EnableLargeCargoBays = true;
+            EnableLargeCargoBays = true; 
             EnableRadboltStorage = true; 
             EnableDrillSupport = true;
+            RebalancedCargoCapacity = true;
+            GasCargoBayUnits = 500;
+            LiquidCargoBayUnits = 1250;
+            SolidCargoBayUnits = 2000;
+
 
             /// Fuel&Logistics
             BuffLargeOxidizer = true;

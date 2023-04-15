@@ -9,7 +9,7 @@ using static UnityEngine.UI.CanvasScaler;
 
 namespace Rockets_TinyYetBig.SpaceStations.OrbitUpkeep
 {
-    internal class OrbitalUpkeepObject : StateMachineComponent<OrbitalUpkeepObject.StatesInstance>, ISaveLoadable
+    public class OrbitalUpkeepObject : StateMachineComponent<OrbitalUpkeepObject.StatesInstance>, ISaveLoadable
     {
         
 

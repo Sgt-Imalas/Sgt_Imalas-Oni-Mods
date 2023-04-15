@@ -10,7 +10,7 @@ using static TUNING.BUILDINGS.UPGRADES;
 
 namespace Rockets_TinyYetBig.NonRocketBuildings
 {
-    internal class FridgeModuleAccessHatchConfig : IBuildingConfig
+    public class FridgeModuleAccessHatchConfig : IBuildingConfig
     {
         public const string ID = "RTB_FridgeModuleAccessHatch";
 

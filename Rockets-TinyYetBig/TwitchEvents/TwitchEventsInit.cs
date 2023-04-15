@@ -12,7 +12,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.TwitchEvents
 {
-    internal class TwitchEventsInit
+    public class TwitchEventsInit
     {
         static bool initalized = false;
         static EventManager eventInst;

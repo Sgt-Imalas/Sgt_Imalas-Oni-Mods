@@ -82,6 +82,17 @@ namespace Rockets_TinyYetBig.Behaviours
             
         }
 
+        public void AssignDupeToWorld(MinionIdentity minion)
+        {
+           // if(clustercraft.ModuleInterface.)
+
+        }
+        public void UnassignDupeFromWorld(MinionIdentity minion)
+        {
+
+        }
+
+
         public override void OnSpawn()
         {
             base.OnSpawn();
@@ -223,10 +234,14 @@ namespace Rockets_TinyYetBig.Behaviours
             }
             ConnectTwo(this, target, OwnDoor);
 
-            if(SpaceStationManager.WorldIsSpaceStationInterior(OwnWorldId))
+            if (SpaceStationManager.WorldIsSpaceStationInterior(OwnWorldId))
+            {
                 ClusterManager.Instance.GetWorld(targetWorldId).SetParentIdx(OwnWorldId);
+            }
             else if (SpaceStationManager.WorldIsSpaceStationInterior(targetWorldId))
+            {
                 ClusterManager.Instance.GetWorld(OwnWorldId).SetParentIdx(targetWorldId);
+            }
             
             else
                 ClusterManager.Instance.GetWorld(OwnWorldId).SetParentIdx(targetWorldId);

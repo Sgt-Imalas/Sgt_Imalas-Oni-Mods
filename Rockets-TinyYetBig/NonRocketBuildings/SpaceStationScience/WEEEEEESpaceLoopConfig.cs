@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Rockets_TinyYetBig.NonRocketBuildings.SpaceStationScience
 {
-    internal class WEEEEEESpaceLoopConfig
+    public class WEEEEEESpaceLoopConfig
     {
     }
 }

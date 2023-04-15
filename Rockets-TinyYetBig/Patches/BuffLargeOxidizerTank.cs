@@ -13,20 +13,19 @@ namespace Rockets_TinyYetBig.Patches
         [HarmonyPatch(typeof(OxidizerTank), "OnSpawn")]
         public static class IncreaseCapacityto1350Oxidizers
         {
-            public static void Postfix(OxidizerTank __instance)
+            public static void Prefix(OxidizerTank __instance)
             {
-                if (Config.Instance.BuffLargeOxidizer && __instance.maxFillMass == 900f)
+                if (Config.Instance.BuffLargeOxidizer && __instance.maxFillMass == OxidizerTankClusterConfig.FuelCapacity)
                 {
                     __instance.maxFillMass = 1350f;
                 }
                 else if (!Config.Instance.BuffLargeOxidizer && __instance.maxFillMass == 1350f)
                 {
-                    if (__instance.targetFillMass > 900f)
-                        __instance.targetFillMass = 900f;
+                    if (__instance.targetFillMass > OxidizerTankClusterConfig.FuelCapacity)
+                        __instance.targetFillMass = OxidizerTankClusterConfig.FuelCapacity;
                     __instance.maxFillMass = 900f;
                 }
             }
-
         }
         //[HarmonyPatch(typeof(FuelTank), "OnSpawn")]
         //public static class IncreaseCapacityto1350FuelTanks

@@ -9,7 +9,7 @@ using static UnityEngine.GraphicsBuffer;
 
 namespace Rockets_TinyYetBig.Science
 {
-    internal class DeepSpaceScienceManager : KMonoBehaviour, ISaveLoadable
+    public class DeepSpaceScienceManager : KMonoBehaviour, ISaveLoadable
     {
         public static DeepSpaceScienceManager Instance
         {

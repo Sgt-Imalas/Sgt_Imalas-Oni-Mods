@@ -9,7 +9,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
 {
-    internal class SpiceEyes : KMonoBehaviour, ISim1000ms
+    public class SpiceEyes : KMonoBehaviour, ISim1000ms
     {
         [MyCmpReq]
         private MinionIdentity identity;

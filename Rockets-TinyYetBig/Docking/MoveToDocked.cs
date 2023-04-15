@@ -18,49 +18,49 @@ namespace Rockets_TinyYetBig.Docking
         public NavTeleporter port;
 
         private Chore MoveChore;
-            public override void OnPrefabInit()
+        public override void OnPrefabInit()
+        {
+            base.OnPrefabInit();
+            this.assignable.OnAssign += new System.Action<IAssignableIdentity>(this.Assign);
+            this.synchronizeAnims = false;
+            this.overrideAnims = new KAnimFile[1]
             {
-                base.OnPrefabInit();
-                this.assignable.OnAssign += new System.Action<IAssignableIdentity>(this.Assign);
-                this.synchronizeAnims = false;
-                this.overrideAnims = new KAnimFile[1]
-                {
             Assets.GetAnim((HashedString) "anim_sleep_bed_kanim")
-                };
-                this.SetWorkTime(float.PositiveInfinity);
-                this.showProgressBar = false;
-            }
-            private void Assign(IAssignableIdentity new_assignee)
-            {
-                this.CancelFreezeChore();
-                if (new_assignee == null)
-                    return;
-                this.CreateFreezeChore();
-            }
-            public void CancelFreezeChore(object param = null)
-            {
-                if (this.MoveChore == null)
-                    return;
-                this.MoveChore.Cancel("User cancelled");
-                this.MoveChore = (Chore)null;
-            }
-            private void CompleteFreezeChore()
-            {
-                this.MoveChore = (Chore)null;
-                Game.Instance.userMenu.Refresh(this.gameObject);
-            }
-            public Chore CreateFreezeChore()
-            {
-                MoveChore = (Chore)new WorkChore<MoveToDocked>(Db.Get().ChoreTypes.Migrate, (IStateMachineTarget)this, on_complete: ((System.Action<Chore>)(o => this.CompleteFreezeChore())), priority_class: PriorityScreen.PriorityClass.high);
-                MoveChore.AddPrecondition(ChorePreconditions.instance.IsAssignedtoMe, (object)this.assignable);
-                return MoveChore;
-            }
-            public override void OnStartWork(Worker worker) => base.OnStartWork(worker);
+            };
+            this.SetWorkTime(float.PositiveInfinity);
+            this.showProgressBar = false;
+        }
+        private void Assign(IAssignableIdentity new_assignee)
+        {
+            this.CancelFreezeChore();
+            if (new_assignee == null)
+                return;
+            this.CreateFreezeChore();
+        }
+        public void CancelFreezeChore(object param = null)
+        {
+            if (this.MoveChore == null)
+                return;
+            this.MoveChore.Cancel("User cancelled");
+            this.MoveChore = (Chore)null;
+        }
+        private void CompleteFreezeChore()
+        {
+            this.MoveChore = (Chore)null;
+            Game.Instance.userMenu.Refresh(this.gameObject);
+        }
+        public Chore CreateFreezeChore()
+        {
+            MoveChore = (Chore)new WorkChore<MoveToDocked>(Db.Get().ChoreTypes.Migrate, (IStateMachineTarget)this, on_complete: ((System.Action<Chore>)(o => this.CompleteFreezeChore())), priority_class: PriorityScreen.PriorityClass.high);
+            MoveChore.AddPrecondition(ChorePreconditions.instance.IsAssignedtoMe, (object)this.assignable);
+            return MoveChore;
+        }
+        public override void OnStartWork(Worker worker) => base.OnStartWork(worker);
 
-            public override bool OnWorkTick(Worker worker, float dt)
-            {
+        public override bool OnWorkTick(Worker worker, float dt)
+        {
             var connectedDoor = door.GetConnec();
-            
+
             if (connectedDoor != null)
             {
                 var nav = worker.GetComponent<Navigator>();
@@ -78,18 +78,21 @@ namespace Rockets_TinyYetBig.Docking
                     KMonoBehaviour.PlaySound(GlobalAssets.GetSound("Negative"));
 
             }
-            
+
             if (!(worker != null))
                 return base.OnWorkTick(worker, dt);
-            
+
             this.CompleteWork(worker);
             CompleteFreezeChore();
             return true;
         }
         public override void OnStopWork(Worker worker) => base.OnStopWork(worker);
 
-            public override void OnCompleteWork(Worker worker)
-            {
-            }
+        public override void OnCompleteWork(Worker worker)
+        {
+            if(door.dManager!= null) { }
+
+            base.OnCompleteWork(worker);
+        }
     }
 }

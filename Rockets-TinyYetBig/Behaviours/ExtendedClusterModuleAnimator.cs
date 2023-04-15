@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Behaviours
 {
-    internal class ExtendedClusterModuleAnimator : StateMachineComponent<ExtendedClusterModuleAnimator.StatesInstance>
+    public class ExtendedClusterModuleAnimator : StateMachineComponent<ExtendedClusterModuleAnimator.StatesInstance>
     {
         [MyCmpReq]
         public KBatchedAnimController animController;

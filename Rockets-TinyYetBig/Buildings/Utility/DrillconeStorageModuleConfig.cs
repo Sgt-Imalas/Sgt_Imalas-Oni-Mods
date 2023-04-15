@@ -9,7 +9,7 @@ using static CargoBay;
 
 namespace Rockets_TinyYetBig.Buildings.Utility
 {
-    internal class DrillconeStorageModuleConfig : IBuildingConfig
+    public class DrillconeStorageModuleConfig : IBuildingConfig
     {
         public const string ID = "RTB_DrillConeDiamondStorage";
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;

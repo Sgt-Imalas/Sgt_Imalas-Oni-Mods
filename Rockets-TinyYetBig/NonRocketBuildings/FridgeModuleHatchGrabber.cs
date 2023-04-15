@@ -8,7 +8,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.NonRocketBuildings
 {
-    internal class FridgeModuleHatchGrabber : KMonoBehaviour, ISim1000ms
+    public class FridgeModuleHatchGrabber : KMonoBehaviour, ISim1000ms
     {
         [MyCmpGet]
         Storage offlineStorage;

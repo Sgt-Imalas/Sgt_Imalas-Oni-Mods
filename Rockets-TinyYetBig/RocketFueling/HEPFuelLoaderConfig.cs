@@ -12,7 +12,7 @@ using static STRINGS.DUPLICANTS.ATTRIBUTES;
 
 namespace Rockets_TinyYetBig.RocketFueling
 {
-    internal class HEPFuelLoaderConfig : IBuildingConfig
+    public class HEPFuelLoaderConfig : IBuildingConfig
     {
         public const string ID = "RTB_HEPFuelLoader";
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;

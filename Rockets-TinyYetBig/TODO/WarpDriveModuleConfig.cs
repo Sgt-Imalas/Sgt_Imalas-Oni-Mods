@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Rockets_TinyYetBig.TODO
 {
-    internal class WarpDriveModuleConfig
+    public class WarpDriveModuleConfig
     {
     }
 }

@@ -10,7 +10,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.Science
 {
-    internal class DeepSpaceSciencePatches
+    public class DeepSpaceSciencePatches
     {
         /// <summary>
         /// Attach DeepSpaceManager to Savegame

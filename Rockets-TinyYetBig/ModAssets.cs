@@ -1,10 +1,12 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Buildings.CargoBays;
 using Rockets_TinyYetBig.SpaceStations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TUNING;
 using UnityEngine;
 using UtilLibs;
 using static Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS;
@@ -13,6 +15,72 @@ namespace Rockets_TinyYetBig
 {
     public class ModAssets
     {
+        public const float SmallCargoBayUnits = 9;
+        public const float MediumCargoBayUnits = 28;
+        public const float CollossalCargoBayUnits = 64;
+
+        /// <summary>
+        /// Second value is when rebalance is on, first is when off
+        /// </summary>
+        public static Dictionary<string, Tuple<float, float>> CargoBaySizes = new Dictionary<string, Tuple<float, float>>()
+        {
+            {
+                SolidCargoBaySmallConfig.ID,
+                new Tuple<float, float>(1200f * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.SolidCargoBayUnits * SmallCargoBayUnits)
+            },
+            {
+                SolidCargoBayClusterConfig.ID,
+                new Tuple<float, float>(ROCKETRY.SOLID_CARGO_BAY_CLUSTER_CAPACITY * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.SolidCargoBayUnits * MediumCargoBayUnits)
+            },
+            {
+                SolidCargoBayClusterLargeConfig.ID,
+                new Tuple<float, float>(SolidCargoBayClusterLargeConfig.CAPACITY_OFF,SolidCargoBayClusterLargeConfig.CAPACITY_ON)
+            },
+
+            {
+                LiquidCargoBaySmallConfig.ID,
+                new Tuple<float, float>(900f * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.LiquidCargoBayUnits * SmallCargoBayUnits)
+            },
+            {
+                LiquidCargoBayClusterConfig.ID,
+                new Tuple<float, float>(ROCKETRY.LIQUID_CARGO_BAY_CLUSTER_CAPACITY * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.LiquidCargoBayUnits * MediumCargoBayUnits)
+            },
+            {
+                LiquidCargoBayClusterLargeConfig.ID,
+                new Tuple<float, float>(LiquidCargoBayClusterLargeConfig.CAPACITY_OFF,LiquidCargoBayClusterLargeConfig.CAPACITY_ON)
+            },
+
+            {
+                GasCargoBaySmallConfig.ID,
+                new Tuple<float, float>(360f * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.GasCargoBayUnits * SmallCargoBayUnits)
+            },
+            {
+                GasCargoBayClusterConfig.ID,
+                new Tuple<float, float>(ROCKETRY.GAS_CARGO_BAY_CLUSTER_CAPACITY * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.GasCargoBayUnits * MediumCargoBayUnits)
+            },
+            {
+                GasCargoBayClusterLargeConfig.ID,
+                new Tuple<float, float>(GasCargoBayClusterLargeConfig.CAPACITY_OFF,GasCargoBayClusterLargeConfig.CAPACITY_ON)
+            },
+
+        };
+
+        public static bool GetCargoBayCapacity(string id, out float cargoCapacity)
+        {
+            cargoCapacity = 0;
+            if (!CargoBaySizes.ContainsKey(id))
+            {
+                return false;
+            }
+            else
+            {
+                cargoCapacity = Config.Instance.RebalancedCargoCapacity ? CargoBaySizes[id].second : CargoBaySizes[id].first;
+                return true;
+            }
+        }
+
+
+
         public static string DeepSpaceScienceID = "rtb_deepspace";
         public class Techs
         {
@@ -320,7 +388,7 @@ namespace Rockets_TinyYetBig
             public string Kanim;
             public string requiredTechID;
             public bool HasInterior;
-            public SpaceStationWithStats(string _id, string _name, string _description, Vector2I _size, Dictionary<string,float> _mats, string _kanim, float _constructionTime, string _reqTech = "", bool _hasInterior = true)
+            public SpaceStationWithStats(string _id, string _name, string _description, Vector2I _size, Dictionary<string, float> _mats, string _kanim, float _constructionTime, string _reqTech = "", bool _hasInterior = true)
             {
                 ID = _id;
                 Name = _name;
@@ -328,7 +396,7 @@ namespace Rockets_TinyYetBig
                 InteriorSize = _size;
                 materials = _mats;
                 Kanim = _kanim;
-                requiredTechID = _reqTech == ""? Techs.SpaceStationTechID:_reqTech;
+                requiredTechID = _reqTech == "" ? Techs.SpaceStationTechID : _reqTech;
                 constructionTime = _constructionTime;
                 demolishingTime = _constructionTime / 4;
                 HasInterior = _hasInterior;

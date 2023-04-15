@@ -15,7 +15,7 @@ using static UnityEngine.GraphicsBuffer;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
-    internal class SpaceStationBuilderModuleSideScreen : SideScreenContent
+    public class SpaceStationBuilderModuleSideScreen : SideScreenContent
     {
         [SerializeField]
         private RectTransform buttonContainer;

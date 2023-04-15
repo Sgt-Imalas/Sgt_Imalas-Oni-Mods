@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Patches
 {
-    internal class InfinitePOIPatches
+    public class InfinitePOIPatches
     {
         [HarmonyPatch(typeof(HarvestablePOIStates.Instance))]
         [HarmonyPatch(nameof(HarvestablePOIStates.Instance.DeltaPOICapacity))]

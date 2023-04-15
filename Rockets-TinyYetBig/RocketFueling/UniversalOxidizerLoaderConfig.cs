@@ -12,7 +12,7 @@ using static STRINGS.DUPLICANTS.ATTRIBUTES;
 
 namespace Rockets_TinyYetBig.RocketFueling
 {
-    internal class UniversalOxidizerLoaderConfig : IBuildingConfig
+    public class UniversalOxidizerLoaderConfig : IBuildingConfig
     {
         public const string ID = "RTB_UniversalOxidizerLoader";
         private ConduitPortInfo liquidInputPort = new ConduitPortInfo(ConduitType.Liquid, new CellOffset(0, 0));

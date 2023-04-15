@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.TwitchEvents.Events
 {
-    internal class BlowUpRocketEvent : ITwitchEventBase
+    public class BlowUpRocketEvent : ITwitchEventBase
     {
         public string ID => "RTB_TwitchEvent_RocketSelfDestruct";
         public string EventName => "Unplanned Rocket Disassembly";

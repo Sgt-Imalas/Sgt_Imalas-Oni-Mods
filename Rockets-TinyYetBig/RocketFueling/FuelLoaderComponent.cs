@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.RocketFueling
 {
-    internal class FuelLoaderComponent : KMonoBehaviour, ISecondaryInput
+    public class FuelLoaderComponent : KMonoBehaviour, ISecondaryInput
     {
         [Serialize]
         public LoaderType loaderType;

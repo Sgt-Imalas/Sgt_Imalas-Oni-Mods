@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.TwitchEvents.Events
 {
-    internal class RocketBoostEventAll : ITwitchEventBase
+    public class RocketBoostEventAll : ITwitchEventBase
     {
         public string ID => "RTB_TwitchEvent_RocketBoostAll";
         public string EventName => "Rocket Boost";

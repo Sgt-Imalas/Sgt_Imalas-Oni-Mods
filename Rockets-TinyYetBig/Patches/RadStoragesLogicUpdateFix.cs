@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Patches
 {
-    internal class RadStoragesLogicUpdateFix
+    public class RadStoragesLogicUpdateFix
     {
         [HarmonyPatch(typeof(ReorderableBuilding), "ApplyAnimOffset")]
         public static class ForceUpdateLogicOnReorder

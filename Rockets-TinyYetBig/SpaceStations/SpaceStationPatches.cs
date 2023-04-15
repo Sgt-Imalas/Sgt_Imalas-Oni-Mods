@@ -272,7 +272,6 @@ namespace Rockets_TinyYetBig.SpaceStations
                         if (clusterGridEntity is SpaceStation)
                         {
                             __result = (clusterGridEntity as SpaceStation).SpaceStationInteriorId;
-                            SgtLogger.l("StationTargeted");
                         }
                     }
                 }
@@ -301,22 +300,9 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
         }
 
-
-        ///From Here on: Railgun Methods that are way too crashy to be implemented to fire at space stations
-
-        //[HarmonyPatch(typeof(ClusterDestinationSelector))]
-        //[HarmonyPatch(nameof(ClusterDestinationSelector.GetDestinationWorld))]
-        //public static class FixDescrCrash
-        //{
-        //    public static void Postfix(AxialI ___m_destination, ref int __result)
-        //    {
-        //        if (__result == -1)
-        //        {
-        //            __result = SpaceStationManager.GetSpaceStationWorldIdAtLocation(___m_destination);
-        //        }
-        //    }
-        //}
-
+        /// <summary>
+        /// Patch for Railguns inside spacestation
+        /// </summary>
         [HarmonyPatch(typeof(ClusterGrid))]
         [HarmonyPatch(nameof(ClusterGrid.GetPath))]
         [HarmonyPatch(new Type[] { typeof(AxialI), typeof(AxialI), typeof(ClusterDestinationSelector), typeof(string),typeof(bool) }, new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out, ArgumentType.Normal })]

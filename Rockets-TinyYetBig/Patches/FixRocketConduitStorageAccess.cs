@@ -11,7 +11,7 @@ using static STRINGS.BUILDINGS.PREFABS;
 
 namespace Rockets_TinyYetBig.Patches
 {
-    internal class FixRocketConduitStorageAccess
+    public class FixRocketConduitStorageAccess
     {
         /// <summary>
         /// This throws out food that is not allowed in cargo bays

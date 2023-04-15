@@ -9,7 +9,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.Buildings.Habitats
 {
-    internal class HabitatModulePlatedNoseconeLargeConfig : IBuildingConfig
+    public class HabitatModulePlatedNoseconeLargeConfig : IBuildingConfig
     {
         public const string ID = "RTB_HabitatModulePlatedLarge";
         private ConduitPortInfo gasInputPort = new ConduitPortInfo(ConduitType.Gas, new CellOffset(-2, 0));

@@ -23,7 +23,7 @@ using static STRINGS.UI.STARMAP;
 
 namespace Rockets_TinyYetBig.Patches
 {
-    internal class RocketAutoLoadingPatches
+    public class RocketAutoLoadingPatches
     {
         [HarmonyPatch(typeof(LaunchPadMaterialDistributor.Instance))]
         [HarmonyPatch(nameof(LaunchPadMaterialDistributor.Instance.FillRocket))]

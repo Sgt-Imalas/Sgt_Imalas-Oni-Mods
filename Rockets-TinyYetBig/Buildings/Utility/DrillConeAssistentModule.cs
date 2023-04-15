@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Buildings.Utility
 {
-    internal class DrillConeAssistentModule : KMonoBehaviour, ISim4000ms
+    public class DrillConeAssistentModule : KMonoBehaviour, ISim4000ms
     {
         [MyCmpGet] public Storage DiamondStorage;
         [MyCmpGet] RocketModuleCluster module;

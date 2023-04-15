@@ -9,7 +9,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
-    internal class SpaceStationSideScreen : SideScreenContent
+    public class SpaceStationSideScreen : SideScreenContent
     {
         public Image icon;
         public KButton viewButton;

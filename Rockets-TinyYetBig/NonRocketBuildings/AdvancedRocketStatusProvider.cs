@@ -12,7 +12,7 @@ using static STRINGS.UI.STARMAP;
 
 namespace Rockets_TinyYetBig.NonRocketBuildings
 {
-    internal class AdvancedRocketStatusProvider : KMonoBehaviour, ISim1000ms
+    public class AdvancedRocketStatusProvider : KMonoBehaviour, ISim1000ms
     {
         [MyCmpGet] LaunchPad launchPad;
         [MyCmpGet] LogicPorts logicPorts;

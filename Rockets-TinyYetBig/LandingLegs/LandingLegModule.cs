@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Rockets_TinyYetBig.LandingLegs
 {
-    internal class LandingLegModule : KMonoBehaviour
+    public class LandingLegModule : KMonoBehaviour
     {
     }
 }
