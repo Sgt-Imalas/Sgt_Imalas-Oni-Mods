@@ -60,7 +60,6 @@ namespace Rockets_TinyYetBig.SpaceStations
         //public Sprite GetUISpriteAt(int i) => Def.GetUISpriteFromMultiObjectAnim(AnimConfigs[i].animFile);
         public override void OnSpawn()
         {
-            base.OnSpawn();
             //SgtLogger.debuglog("MY WorldID:" + SpaceStationInteriorId);
             if (SpaceStationInteriorId < 0)
             {
@@ -69,6 +68,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                 SgtLogger.debuglog("new WorldID:" + SpaceStationInteriorId);
                 SgtLogger.debuglog("ADDED NEW SPACE STATION INTERIOR");
             }
+            base.OnSpawn();
             ClusterManager.Instance.GetWorld(SpaceStationInteriorId).AddTag(ModAssets.Tags.IsSpaceStation);
 
 

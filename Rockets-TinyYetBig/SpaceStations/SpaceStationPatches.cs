@@ -45,41 +45,57 @@ namespace Rockets_TinyYetBig.SpaceStations
         }
 
         /// <summary>
-        /// TODO!!!
+        /// No Boosting
         /// </summary>
         [HarmonyPatch(typeof(MissionControlCluster.Instance))]
-        [HarmonyPatch(nameof(MissionControlCluster.Instance.UpdateWorkableRocketsInRange))]
+        [HarmonyPatch(nameof(MissionControlCluster.Instance.CanBeBoosted))]
         public static class DisableRocketBoost
         {
-            public static void Postfix(MissionControlCluster.Instance __instance, List<Clustercraft> ___boostableClustercraft)
+            public static bool Prefix(Clustercraft clustercraft, ref bool __result)
             {
-                for(int i = ___boostableClustercraft.Count-1; i>0; i--)
+                if (clustercraft is SpaceStation)
                 {
-                    if (___boostableClustercraft[i] is SpaceStation)
+                    __result = false;
+                    return false;
+                }
+                return true;
+
+            }
+        }
+        /// <summary>
+        /// Removes Station from launchpad
+        /// </summary>
+        [HarmonyPatch(typeof(ClusterGrid))]
+        [HarmonyPatch(nameof(ClusterGrid.GetEntitiesInRange))]
+        public static class HideStationsFromLandingPads
+        {
+            public static void Postfix(ref List<ClusterGridEntity> __result)
+            {
+                List<ClusterGridEntity> AdjustedList = new List<ClusterGridEntity>();
+                foreach(var entity in __result)
+                {
+                    if (!(entity is SpaceStation))
                     {
-                        ___boostableClustercraft.RemoveAt(i);
+                        AdjustedList.Add(entity);
                     }
                 }
-                if (___boostableClustercraft.Count == 0)
-                {
-                    __instance.sm.WorkableRocketsAreInRange.Set(false, __instance);
-                }
+                __result = AdjustedList;
 
             }
         }
 
 
-
         /// <summary>
-        /// NameableStations
+        /// Nameable Stations
         /// </summary>
         [HarmonyPatch(typeof(UserNameable), "SetName")]
         public static class NameableStationsPatch
         {
             public static void Postfix(string name, UserNameable __instance)
             {
-                if (__instance.GetComponent<SpaceStation>() != null) { 
-                    ClusterNameDisplayScreen.Instance.UpdateName((ClusterGridEntity)__instance.GetComponent<SpaceStation>());
+                if (__instance.TryGetComponent<SpaceStation>(out var station) )
+                {
+                    ClusterNameDisplayScreen.Instance.UpdateName(station);
                     __instance.Trigger(1102426921, (object)name);
                 }
             }
@@ -147,7 +163,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
 
         }
-        
+
         [HarmonyPatch(typeof(Clustercraft))]
         [HarmonyPatch(nameof(Clustercraft.TotalBurden))]
         [HarmonyPatch(MethodType.Getter)]
@@ -163,7 +179,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                 return true;
             }
         }
-        
+
         [HarmonyPatch(typeof(Clustercraft))]
         [HarmonyPatch(nameof(Clustercraft.CanLandAtAsteroid))]
         public static class NoLandingForSpaceStation
@@ -209,6 +225,10 @@ namespace Rockets_TinyYetBig.SpaceStations
         //    }
         //}
 
+        /// <summary>
+        /// prob. not needed anymore. 
+        /// removes ability to land for stations
+        /// </summary>
         [HarmonyPatch(typeof(Clustercraft))]
         [HarmonyPatch(nameof(Clustercraft.CanLandAtPad))]
         public static class NoLandingForSpaceStation2
@@ -223,6 +243,9 @@ namespace Rockets_TinyYetBig.SpaceStations
                 return true;
             }
         }
+        /// <summary>
+        /// No Self Destruct button.. for now
+        /// </summary>
         [HarmonyPatch(typeof(SelfDestructButtonSideScreen))]
         [HarmonyPatch(nameof(SelfDestructButtonSideScreen.IsValidForTarget))]
         public static class NoSpaceStationSelfDestruct
@@ -236,16 +259,36 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
         }
 
-
-        [HarmonyPatch(typeof(RailGunConfig))]
-        [HarmonyPatch(nameof(RailGunConfig.ConfigureBuildingTemplate))]
-        public static class RemoveFromSpaceStations
+        [HarmonyPatch(typeof(ClusterUtil))]
+        [HarmonyPatch(nameof(ClusterUtil.GetAsteroidWorldIdAtLocation))]
+        public static class WorldTargetForSpaceStation
         {
-            public static void Postfix(GameObject go)
+            public static void Postfix(AxialI location, ref int __result)
             {
-                go.GetComponent<KPrefabID>().AddTag(GameTags.NotRocketInteriorBuilding);
+                if (__result == -1)
+                {
+                    foreach (ClusterGridEntity clusterGridEntity in ClusterGrid.Instance.cellContents[location])
+                    {
+                        if (clusterGridEntity is SpaceStation)
+                        {
+                            __result = (clusterGridEntity as SpaceStation).SpaceStationInteriorId;
+                            SgtLogger.l("StationTargeted");
+                        }
+                    }
+                }
             }
         }
+
+
+        //[HarmonyPatch(typeof(RailGunConfig))]
+        //[HarmonyPatch(nameof(RailGunConfig.ConfigureBuildingTemplate))]
+        //public static class RemoveFromSpaceStations
+        //{
+        //    public static void Postfix(GameObject go)
+        //    {
+        //        go.GetComponent<KPrefabID>().AddTag(GameTags.NotRocketInteriorBuilding);
+        //    }
+        //}
 
 
         ///From Here on: Railgun Methods that are way too crashy to be implemented to fire at space stations
@@ -263,59 +306,59 @@ namespace Rockets_TinyYetBig.SpaceStations
         //    }
         //}
 
-        //        [HarmonyPatch(typeof(ClusterGrid))]
-        //        [HarmonyPatch("GetPath")]
-        //        [HarmonyPatch(new Type[] { typeof(AxialI), typeof(AxialI), typeof(ClusterDestinationSelector), typeof(string) }, new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out })]
-        //        public static class tarnspilerforPathSpaceStation
-        //        {
-        //            static ClusterGridEntity AllowSpaceStation(ClusterGridEntity original, ClusterDestinationSelector selector, AxialI target)
-        //            {
-        //                //SgtLogger.debuglog("All params: " + original + ", " + selector + ", " + target);
-        //                if (original == null && selector.requireAsteroidDestination)
-        //                {
-        //                    var station = ClusterGrid.Instance.GetEntitiesOnCell(target).OfType<SpaceStation>();
-        //                    if (station != null && station.Count() > 0)
-        //                    {
-        //                        return station.First();
-        //                    }
+        [HarmonyPatch(typeof(ClusterGrid))]
+        [HarmonyPatch(nameof(ClusterGrid.GetPath))]
+        [HarmonyPatch(new Type[] { typeof(AxialI), typeof(AxialI), typeof(ClusterDestinationSelector), typeof(string),typeof(bool) }, new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out, ArgumentType.Normal })]
+        public static class tarnspilerforPathSpaceStation
+        {
+            static ClusterGridEntity AllowSpaceStation(ClusterGridEntity original, ClusterDestinationSelector selector, AxialI target)
+            {
+                //SgtLogger.debuglog("All params: " + original + ", " + selector + ", " + target);
+                if (original == null && selector.requireAsteroidDestination)
+                {
+                    var station = ClusterGrid.Instance.GetEntitiesOnCell(target).OfType<SpaceStation>();
+                    if (station != null && station.Count() > 0)
+                    {
+                        return station.First();
+                    }
 
-        //                }
+                }
 
-        //                return original;
-        //            }
+                return original;
+            }
 
-        //            private static readonly MethodInfo AllowSpaceStationMethod = AccessTools.Method(
-        //               typeof(tarnspilerforPathSpaceStation),
-        //               nameof(tarnspilerforPathSpaceStation.AllowSpaceStation)
-        //            );
+            private static readonly MethodInfo AllowSpaceStationMethod = AccessTools.Method(
+               typeof(tarnspilerforPathSpaceStation),
+               nameof(tarnspilerforPathSpaceStation.AllowSpaceStation)
+            );
 
 
-        //            private static readonly MethodInfo MethodToFind = AccessTools.Method(
-        //                typeof(ClusterGrid),
-        //               nameof(ClusterGrid.GetVisibleEntityOfLayerAtCell)
-        //            );
+            private static readonly MethodInfo MethodToFind = AccessTools.Method(
+                typeof(ClusterGrid),
+               nameof(ClusterGrid.GetVisibleEntityOfLayerAtCell)
+            );
 
-        //            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
-        //            {
-        //                var code = instructions.ToList();
-        //                var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Stloc_1);
+            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+            {
+                var code = instructions.ToList();
+                var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Stloc_1);
 
-        //                if (insertionIndex != -1)
-        //                {
-        //#if DEBUG
-        //                    SgtLogger.debuglog("GetPathMethod found");
-        //#endif
-        //                    code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldarg_3));
-        //                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldarg_2));
-        //                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, AllowSpaceStationMethod));
+                if (insertionIndex != -1)
+                {
+#if DEBUG
+                            SgtLogger.debuglog("GetPathMethod found");
+#endif
+                    code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldarg_3));
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldarg_2));
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, AllowSpaceStationMethod));
 
-        //                    //foreach (var v in code)
-        //                    //Console.WriteLine("OPcode: " + v.opcode + ", operand: " + v.operand);
-        //                }
+                    //foreach (var v in code)
+                    //Console.WriteLine("OPcode: " + v.opcode + ", operand: " + v.operand);
+                }
 
-        //                return code;
-        //            }
-        //        }
+                return code;
+            }
+        }
 
 
 
