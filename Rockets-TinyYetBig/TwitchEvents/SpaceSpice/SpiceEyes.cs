@@ -151,8 +151,11 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
 
         internal void AddEyeDuration(float duration)
         {
-            Apply(originalEyes + "_glow");
-            SpiceEyesDuration = duration;
+            if (Config.Instance.SpiceEyes)
+            {
+                Apply(originalEyes + "_glow");
+                SpiceEyesDuration = duration;
+            }
         }
     }
 }

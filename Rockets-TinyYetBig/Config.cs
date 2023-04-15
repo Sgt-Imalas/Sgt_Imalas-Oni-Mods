@@ -203,6 +203,13 @@ namespace Rockets_TinyYetBig
 
         #endregion
 
+        #region EasterEggs
+
+        [Option("Dune Spice", "When consuming Rocketeer Spice, Dupes will gain the spice eyes from Dune.", "(6) Easter Eggs")]
+        [JsonProperty]
+        public bool SpiceEyes { get; set; }
+
+        #endregion
 
         public Config()
         {
@@ -254,6 +261,8 @@ namespace Rockets_TinyYetBig
             RocketDocking = true;
             NeutroniumMaterial = true;
 
+            /// EasterEggs
+            SpiceEyes = true;
         }
     }
 }
