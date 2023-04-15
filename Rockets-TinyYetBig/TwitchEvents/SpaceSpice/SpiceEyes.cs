@@ -30,7 +30,6 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
             base.OnSpawn();
 
             originalEyes = Db.Get().Accessories.Get(accessorizer.bodyData.eyes).Id;
-            //SgtLogger.debuglog("original eyes of "+identity.name+": " + originalEyes);
 
             OnLoadGame();
 
@@ -78,11 +77,9 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
             var eyeSlot = Db.Get().AccessorySlots.Eyes;
             var newAccessory = eyeSlot.Lookup(accessory);
             var currentAccessory = accessorizer.GetAccessory(eyeSlot);
-            //SgtLogger.debuglog($"replacing accessory from {currentAccessory.Id} to {accessory}");
 
             if (newAccessory == null)
             {
-               // Debug.LogWarning($"Could not add accessory {accessory}, it was not found in the database.");
                 return;
             }
 
@@ -135,24 +132,14 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
             if(SpiceEyesDuration <= 0 && SpiceEyesDuration > -50) 
             {
                 Remove();
-            }
-
-            //if(effects.effects.First(ef => ef.effect.Id == "PILOTING_SPICE") != null)
-            //{
-
-            //}
-            //foreach (var effect in effects.effects)
-            //{
-
-            //    SgtLogger.debuglog("E: " + effect.effect.Id + "; " + effect.statusItem.Id + "; " + effect.modifier.Id + "; " + effect.timeRemaining);
-            //}
-                
+            }                
         }
 
         internal void AddEyeDuration(float duration)
         {
             if (Config.Instance.SpiceEyes)
             {
+
                 Apply(originalEyes + "_glow");
                 SpiceEyesDuration = duration;
             }
