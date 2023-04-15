@@ -280,15 +280,26 @@ namespace Rockets_TinyYetBig.SpaceStations
         }
 
 
-        //[HarmonyPatch(typeof(RailGunConfig))]
-        //[HarmonyPatch(nameof(RailGunConfig.ConfigureBuildingTemplate))]
-        //public static class RemoveFromSpaceStations
-        //{
-        //    public static void Postfix(GameObject go)
-        //    {
-        //        go.GetComponent<KPrefabID>().AddTag(GameTags.NotRocketInteriorBuilding);
-        //    }
-        //}
+        [HarmonyPatch(typeof(ClusterMapScreen))]
+        [HarmonyPatch(nameof(ClusterMapScreen.GetSelectorGridEntity))]
+        public static class FixInteriorRailguns
+        {
+            public static bool Prefix( ClusterDestinationSelector selector, ref ClusterGridEntity __result)
+            {
+                ClusterGridEntity component = selector.GetComponent<ClusterGridEntity>();
+                if ((UnityEngine.Object)component != (UnityEngine.Object)null && ClusterGrid.Instance.IsVisible(component))
+                    return component;
+                ClusterGridEntity entityOfLayerAtCell = ClusterGrid.Instance.GetVisibleEntityOfLayerAtCell(selector.GetMyWorldLocation(), EntityLayer.Asteroid);
+                if (entityOfLayerAtCell == null)
+                {
+                    entityOfLayerAtCell = SpaceStationManager.GetSpaceStationAtLocation(selector.GetMyWorldLocation());
+                }
+
+                Debug.Assert((UnityEngine.Object)component != (UnityEngine.Object)null || (UnityEngine.Object)entityOfLayerAtCell != (UnityEngine.Object)null, (object)string.Format("{0} has no grid entity and isn't located at a visible asteroid at {1}", (object)selector, (object)selector.GetMyWorldLocation()));
+                __result = (bool)entityOfLayerAtCell ? entityOfLayerAtCell : component;
+                return false;
+            }
+        }
 
 
         ///From Here on: Railgun Methods that are way too crashy to be implemented to fire at space stations
