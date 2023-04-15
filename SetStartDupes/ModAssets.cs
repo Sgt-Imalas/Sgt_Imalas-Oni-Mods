@@ -30,6 +30,22 @@ namespace SetStartDupes
         public static GameObject CycleButtonRightPrefab;
         public static List<ITelepadDeliverableContainer> ContainerReplacement;
 
+
+
+        public static GameObject PresetWindowPrefab;
+        public static void LoadAssets()
+        {
+            AssetBundle bundle = AssetUtils.LoadAssetBundle("dcs_presetwindow", platformSpecific: true);
+            PresetWindowPrefab = bundle.LoadAsset<GameObject>("Assets/PresetWindow_Prefab.prefab");
+
+            UIUtils.ListAllChildren(PresetWindowPrefab.transform);
+
+            var TMPConverter = new TMPConverter();
+            TMPConverter.ReplaceAllText(PresetWindowPrefab);
+
+        }
+
+
         public static class Colors
         {
             public static Color gold = UIUtils.Darken(Util.ColorFromHex("ffdb6e"),40);

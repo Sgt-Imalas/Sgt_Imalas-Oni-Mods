@@ -53,4 +53,22 @@
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
 	
+	<ItemGroup>
+	  <Folder Include="ModAssets\assets\linux\" />
+	  <Folder Include="ModAssets\assets\mac\" />
+	  <Folder Include="ModAssets\assets\windows\" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <None Update="ModAssets\assets\linux\dcs_presetwindow">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\assets\mac\dcs_presetwindow">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\assets\windows\dcs_presetwindow">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+	
 </Project>

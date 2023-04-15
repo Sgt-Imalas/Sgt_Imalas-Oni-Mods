@@ -175,26 +175,6 @@ namespace SetStartDupes
             return minionStatConfigs;
         }
 
-        void ReloadPresets()
-        {
-            Init();
-            foreach (var existing in Presets.Values)
-            {
-                Destroy(existing.gameObject);
-            }
-            Presets.Clear();
-            foreach(var loadedPreset in LoadPresets())
-            {
-                var PresetButton = Util.KInstantiateUI(AddNewButton, transform.Find("GalleryColumn/LayoutBreaker/Content/ScrollArea/ScrollRect/Content").gameObject, true);
-                UIUtils.TryChangeText(PresetButton.transform, "Padding/Label", loadedPreset.ConfigName);
-                UIUtils.ListAllChildrenWithComponents(PresetButton.transform);
-                PresetButton.transform.Find("Padding/Icon/1:1 Ratio/Icon").GetComponent<Image>().sprite = Assets.GetSprite("easy_livin");
-                var multitoggle = PresetButton.GetComponent<MultiToggle>();
-                multitoggle.onClick += () => SetAsCurrent(loadedPreset);
-                Presets[loadedPreset] = multitoggle;
-                multitoggle.ChangeState(loadedPreset == CurrentlySelected ? 1 : 0);
-            }
-        }
 
         void SetAsCurrent (MinionStatConfig config)
         {
