@@ -25,7 +25,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
                 var rocketSpice = __instance.spices.Find((s) => s.Id == "PILOTING_SPICE");
                 if (!rocketSpice.Equals(default(SpiceInstance)))
                 {
-                    if(worker.TryGetComponent<SpiceEyes>(out var eyes)&&Config.Instance.SpiceEyes)
+                    if(worker.TryGetComponent<SpiceEyes>(out var eyes) )
                     {
                         eyes.AddEyeDuration(rocketSpice.StatBonus.duration);
                     }

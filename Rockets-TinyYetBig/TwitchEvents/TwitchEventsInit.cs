@@ -25,7 +25,7 @@ namespace Rockets_TinyYetBig.TwitchEvents
         public const int WEIGHT_NORMAL = 10;
         public const int WEIGHT_COMMON = 30;
 
-        static void Init()
+        public static void Init()
         {
             if (initalized)
                 return;
@@ -49,7 +49,7 @@ namespace Rockets_TinyYetBig.TwitchEvents
             RegisterAllEvents();
         }
 
-        static void RegisterAllEvents()
+        public static void RegisterAllEvents()
         {
             var nameSpace = "Rockets_TinyYetBig.TwitchEvents.Events";
             var asm = Assembly.GetExecutingAssembly();
