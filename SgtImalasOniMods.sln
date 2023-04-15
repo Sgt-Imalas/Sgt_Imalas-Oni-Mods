@@ -88,13 +88,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeutroniumTrashCan", "Neutr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DupeTransportViaNetwork", "DupeTransportViaNetwork\DupeTransportViaNetwork.csproj", "{A8EA023F-ACB1-4BD7-97CE-4CD22D779BEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaserMeteorBlasterCannon", "LaserMeteorBlasterCannon\LaserMeteorBlasterCannon.csproj", "{FC48D983-3405-408D-AFDA-E77F6B8F4A5A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaserMeteorBlasterCannon", "LaserMeteorBlasterCannon\LaserMeteorBlasterCannon.csproj", "{FC48D983-3405-408D-AFDA-E77F6B8F4A5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeteorDrops", "MeteorDrops\MeteorDrops.csproj", "{1F243FD7-C879-45F0-8214-F470346F7BC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeteorDrops", "MeteorDrops\MeteorDrops.csproj", "{1F243FD7-C879-45F0-8214-F470346F7BC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterCritterMorpher", "BetterCritterMorpher\BetterCritterMorpher.csproj", "{09E612AF-330D-4D82-B121-7A5D8238B593}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetterCritterMorpher", "BetterCritterMorpher\BetterCritterMorpher.csproj", "{09E612AF-330D-4D82-B121-7A5D8238B593}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomGameSettingsModifier", "CustomGameSettingsModifier\CustomGameSettingsModifier.csproj", "{B566130E-4FB9-4550-A2DB-00A1FE2A0525}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomGameSettingsModifier", "CustomGameSettingsModifier\CustomGameSettingsModifier.csproj", "{B566130E-4FB9-4550-A2DB-00A1FE2A0525}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirtyBrine", "DirtyBrine\DirtyBrine.csproj", "{3B9174A5-647B-400D-A996-82EC3FD98F91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -354,6 +356,12 @@ Global
 		{B566130E-4FB9-4550-A2DB-00A1FE2A0525}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{B566130E-4FB9-4550-A2DB-00A1FE2A0525}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
 		{B566130E-4FB9-4550-A2DB-00A1FE2A0525}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
+		{3B9174A5-647B-400D-A996-82EC3FD98F91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B9174A5-647B-400D-A996-82EC3FD98F91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B9174A5-647B-400D-A996-82EC3FD98F91}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B9174A5-647B-400D-A996-82EC3FD98F91}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{3B9174A5-647B-400D-A996-82EC3FD98F91}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B9174A5-647B-400D-A996-82EC3FD98F91}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
