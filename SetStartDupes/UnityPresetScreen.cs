@@ -7,6 +7,7 @@ using KMod;
 using ProcGen;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -17,8 +18,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
+using static ResearchTypes;
 using static SandboxSettings;
 using static SetStartDupes.STRINGS.UI.PRESETWINDOW;
+using static STRINGS.DUPLICANTS;
+using static STRINGS.DUPLICANTS.CHORES;
+using static STRINGS.UI.DETAILTABS.PERSONALITY.RESUME;
 
 namespace SetStartDupes
 {
@@ -35,6 +40,7 @@ namespace SetStartDupes
 
         public GameObject InfoHeaderPrefab;
         public GameObject InfoRowPrefab;
+        public GameObject InfoSpacer;
         public GameObject InfoScreenContainer;
 
         public GameObject PresetListContainer;
@@ -45,28 +51,40 @@ namespace SetStartDupes
 
         public bool CurrentlyActive;
 
+        ///Preset
         MinionStatConfig CurrentlySelected;
-
+        ///Referenced Stats to apply presets to.
+        MinionStartingStats ReferencedStats = null;
 
 
         Dictionary<MinionStatConfig, GameObject> Presets = new Dictionary<MinionStatConfig, GameObject>();
+        List<GameObject> InformationObjects = new List<GameObject>();
 
-        public static void ShowWindow()
+        public static void ShowWindow(MinionStartingStats startingStats, System.Action onClose)
         {
             if (Instance == null)
             {
                 var screen = Util.KInstantiateUI(ModAssets.PresetWindowPrefab, PauseScreen.Instance.transform.parent.gameObject, true);
-                Instance = screen.AddOrGet<UnityPresetScreen>(); 
+                Instance = screen.AddOrGet<UnityPresetScreen>();
                 Instance.Init();
             }
             Instance.Show(true);
             Instance.ConsumeMouseScroll = true;
-            Instance.transform.SetAsLastSibling(); 
-            Instance.LoadAllPresets(); 
+            Instance.transform.SetAsLastSibling();
+            Instance.LoadAllPresets();
+            Instance.LoadTemporalPreset(startingStats);
+            Instance.ReferencedStats = startingStats;
+            Instance.OnCloseAction = onClose;
         }
 
         private bool init;
+        private System.Action OnCloseAction;
 
+        public void LoadTemporalPreset(MinionStartingStats toGenerateFrom)
+        {
+            MinionStatConfig tempStats = MinionStatConfig.CreateFromStartingStats(toGenerateFrom, ModAssets.DupeTemplateName);
+            SetAsCurrent(tempStats);
+        }
 
         public override void OnKeyDown(KButtonEvent e)
         {
@@ -122,7 +140,14 @@ namespace SetStartDupes
             {
                 var PresetHolder = Util.KInstantiateUI(PresetListPrefab, PresetListContainer, true);
                 UIUtils.TryChangeText(PresetHolder.transform, "Label", config.ConfigName);
-                PresetHolder.transform.Find("RenameButton").FindOrAddComponent<FButton>().OnClick += () => config.OpenPopUpToChangeName( ()=> UIUtils.TryChangeText(PresetHolder.transform, "Label", config.ConfigName));
+                PresetHolder.transform.Find("RenameButton").FindOrAddComponent<FButton>().OnClick +=
+                    () => config.OpenPopUpToChangeName(
+                        () =>
+                            {
+                                UIUtils.TryChangeText(PresetHolder.transform, "Label", config.ConfigName);
+                                RebuildInformationPanel();
+                            }
+                        );
                 PresetHolder.transform.Find("AddThisTraitButton").FindOrAddComponent<FButton>().OnClick += () => SetAsCurrent(config);
                 PresetHolder.transform.Find("DeleteButton").FindOrAddComponent<FButton>().OnClick += () => DeletePreset(config);
                 Presets[config] = PresetHolder;
@@ -141,7 +166,7 @@ namespace SetStartDupes
                 }
             };
             System.Action nothing = () =>
-            {};
+            { };
 
             KMod.Manager.Dialog(Global.Instance.globalCanvas,
            string.Format(DELETEWINDOW.TITLE, config.ConfigName),
@@ -156,42 +181,157 @@ namespace SetStartDupes
         void SetAsCurrent(MinionStatConfig config)
         {
             CurrentlySelected = config;
-            //TopBarLabel.text = config.ConfigName;
+            RebuildInformationPanel();
+        }
+        void RebuildInformationPanel()
+        {
+            for (int i = InformationObjects.Count - 1; i >= 0; i--)
+            {
+                Destroy(InformationObjects[i]);
+            }
+            if (CurrentlySelected == null)
+                return;
+
+            var Name = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
+            UIUtils.TryChangeText(Name.transform, "Label", "\"" + CurrentlySelected.ConfigName + "\"");
+            InformationObjects.Add(Name);
+
+            var spacer4 = Util.KInstantiateUI(InfoSpacer, InfoScreenContainer, true);
+            InformationObjects.Add(spacer4);
+
+            var aptitudeHeader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
+            UIUtils.TryChangeText(aptitudeHeader.transform, "Label", "Interests:"); //TODO LOC
+            InformationObjects.Add(aptitudeHeader);
+
+            foreach (var skill in CurrentlySelected.skillAptitudes)
+            {
+                //if (skill.Value < 1)
+                //    continue;
+
+                var aptitude = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
+                UIUtils.TryChangeText(aptitude.transform, "Label", SkillGroupName(skill.Key));
+                InformationObjects.Add(aptitude);
+
+            }
+
+            var spacer3 = Util.KInstantiateUI(InfoSpacer, InfoScreenContainer, true);
+            InformationObjects.Add(spacer3);
+
+            var traitHeader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
+            UIUtils.TryChangeText(traitHeader.transform, "Label", "Traits:");//TODO LOC
+            InformationObjects.Add(traitHeader);
+
+
+            var traits = Db.Get().traits;
+            foreach (var trait in CurrentlySelected.Traits)
+            {
+                if (trait == MinionConfig.MINION_BASE_TRAIT_ID)
+                    continue;
+
+                var traitcon = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
+                UIUtils.TryChangeText(traitcon.transform, "Label", traits.TryGet(trait).Name);
+                UIUtils.AddSimpleTooltipToObject(traitcon.transform, traits.TryGet(trait).GetTooltip(), true);
+                InformationObjects.Add(traitcon);
+                ApplyColorToTraitContainer(traitcon, trait);
+            }
+
+            var spacer2 = Util.KInstantiateUI(InfoSpacer, InfoScreenContainer, true);
+            InformationObjects.Add(spacer2);
+
+            var joyheader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
+            UIUtils.TryChangeText(joyheader.transform, "Label", "Overjoyed Response:");//TODO LOC
+            InformationObjects.Add(joyheader);
+
+
+            var joy = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
+            UIUtils.TryChangeText(joy.transform, "Label", traits.TryGet(CurrentlySelected.joyTrait).Name);
+            UIUtils.AddSimpleTooltipToObject(joy.transform, traits.TryGet(CurrentlySelected.joyTrait).GetTooltip(), true);
+            InformationObjects.Add(joy);
+            ApplyColorToTraitContainer(joy, CurrentlySelected.joyTrait);
+
+            var stressheader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
+            UIUtils.TryChangeText(stressheader.transform, "Label", "Stress Trait:");//TODO LOC
+            InformationObjects.Add(stressheader);
+
+            var stress = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
+            UIUtils.TryChangeText(stress.transform, "Label", traits.TryGet(CurrentlySelected.stressTrait).Name);
+            InformationObjects.Add(stress);
+            UIUtils.AddSimpleTooltipToObject(stress.transform, traits.TryGet(CurrentlySelected.stressTrait).GetTooltip(), true);
+            ApplyColorToTraitContainer(stress, CurrentlySelected.stressTrait);
+
+
+            GeneratePresetButton.SetInteractable(!Presets.ContainsKey(CurrentlySelected));
+        }
+        public string SkillGroupName(string groupID)
+        {
+            if (groupID == null)
+                return "";
+            else
+            {
+                Strings.TryGet("STRINGS.DUPLICANTS.SKILLGROUPS." + groupID.ToUpperInvariant() + ".NAME", out var attribute);
+
+                var skillGroup = Db.Get().SkillGroups.TryGet(groupID);
+                string relevantSkillID = skillGroup.relevantAttributes.First().Id;
+
+                return string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, attribute, SkillGroup(skillGroup), SkillLevel(relevantSkillID));
+            }
+        }
+        void ApplyColorToTraitContainer(GameObject container, string traitID)
+        {
+
+            var type = DupeTraitManager.GetTraitListOfTrait(traitID, out var list);
+            container.FindOrAddComponent<Image>().color = ModAssets.GetColourFromType(type);
         }
 
-        private void SetCustomGameSettings(SettingConfig ConfigToSet, object valueId)
+        public string SkillGroup(SkillGroup group)
         {
-            string valueToSet = valueId.ToString();
-            if (valueId is bool)
-            {
-                var toggle = ConfigToSet as ToggleSettingConfig;
-                valueToSet = ((bool)valueId) ? toggle.on_level.id : toggle.off_level.id;
-            }
-            SgtLogger.l("changing " + ConfigToSet.id.ToString() + " from " + CustomGameSettings.Instance.GetCurrentQualitySetting(ConfigToSet).id + " to " + valueToSet.ToString());
-            CustomGameSettings.Instance.SetQualitySetting(ConfigToSet, valueToSet);
+            return Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME");
         }
+        string SkillLevel(string skillID)
+        {
+            return CurrentlySelected.StartingLevels.Find((skill) => skill.Key == skillID).Value.ToString();
+        }
+
+
+
 
         private void Init()
         {
             GeneratePresetButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/GenerateFromCurrentButton").FindOrAddComponent<FButton>();
             CloseButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/CloseButton").FindOrAddComponent<FButton>();
-            ApplyButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/ApplyPresetButton").FindOrAddComponent<FButton>() ;
+            ApplyButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/ApplyPresetButton").FindOrAddComponent<FButton>();
 
             OpenPresetFolder = transform.Find("HorizontalLayout/ObjectList/SearchBar/FolderButton").FindOrAddComponent<FButton>();
             ClearSearchBar = transform.Find("HorizontalLayout/ObjectList/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
 
-            CloseButton.OnClick += () => this.Show(false);
-            
-            InfoHeaderPrefab = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/HeaderPrefab").gameObject; ;
-            InfoRowPrefab = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/ItemPrefab").gameObject; ;
+            ApplyButton.OnClick += () =>
+            {
+                CurrentlySelected.ApplyPreset(ReferencedStats);
+                this.OnCloseAction.Invoke();
+                this.Show(false);
+            };
+            ///OpenFolder
+            OpenPresetFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.DupeTemplatePath) { UseShellExecute = true });
 
-            InfoScreenContainer = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content").gameObject; 
+            CloseButton.OnClick += () => this.Show(false);
+            GeneratePresetButton.OnClick += () =>
+            {
+                AddUiElementForPreset(CurrentlySelected);
+                CurrentlySelected.WriteToFile();
+                RebuildInformationPanel();
+            };
+
+            InfoHeaderPrefab = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/HeaderPrefab").gameObject; ;
+            InfoRowPrefab = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/ItemPrefab").gameObject;
+            InfoSpacer = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/Spacer").gameObject;
+
+            InfoScreenContainer = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content").gameObject;
 
             PresetListContainer = transform.Find("HorizontalLayout/ObjectList/ScrollArea/Content").gameObject;
             PresetListPrefab = transform.Find("HorizontalLayout/ObjectList/ScrollArea/Content/PresetEntryPrefab").gameObject;
 
 
-        init = true;
+            init = true;
         }
 
         public override void OnShow(bool show)

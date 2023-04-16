@@ -18,13 +18,13 @@ namespace SetStartDupes
                 return "";
             else
             {
-                return Strings.Get("STRINGS.DUPLICANTS.SKILLGROUPS." + Group.Id.ToUpper() + ".NAME");
+                return Strings.Get("STRINGS.DUPLICANTS.SKILLGROUPS." + Group.Id.ToUpperInvariant() + ".NAME");
             }
         }
         public string RelevantAttribute()
         {
             if (Group == null) return "";
-            return Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + Group.relevantAttributes.First().Id.ToUpper() + ".NAME");
+            return Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + Group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME");
         }
         public Trait CurrentTrait = null;
 

@@ -496,23 +496,32 @@ namespace SetStartDupes
                 skinBtn.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("ic_dupe");
                 //var currentlySelectedIdentity = __instance.GetComponent<MinionIdentity>();
 
+                System.Action RebuildDupePanel = () =>
+                {
+                    __instance.SetInfoText();
+                    __instance.SetAttributes();
+                    __instance.SetAnimator();
+                };
+
                 UIUtils.AddActionToButton(skinBtn.transform, "", () => DupeSkinScreenAddon.ShowSkinScreen(__instance, ___stats));
+
+                
 
                 if(!(!is_starter && !StartDupeConfig.Instance.ModifyDuringGame))
                 {
 
                     float insetDistancePresetButton =  110;
-                    ///Make skin button
+                    ///Make Preset button
                     var PresetButton = Util.KInstantiateUI(buttonPrefab, titlebar);
                     PresetButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, insetDistancePresetButton, PresetButton.rectTransform().sizeDelta.x);
-                    PresetButton.name = "ChangeDupeStatButton";
+                    PresetButton.name = "DupePresetButton";
                     PresetButton.GetComponent<ToolTip>().toolTip = "Load stat preset"; ///STRINGLOC!
 
                     PresetButton.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("iconPaste");
                     //var currentlySelectedIdentity = __instance.GetComponent<MinionIdentity>();
 
                     //UIUtils.AddActionToButton(PresetButton.transform, "", () => DupePresetScreenAddon.ShowPresetScreen(__instance, ___stats)); 
-                    UIUtils.AddActionToButton(PresetButton.transform, "", () => UnityPresetScreen.ShowWindow());
+                    UIUtils.AddActionToButton(PresetButton.transform, "", () => UnityPresetScreen.ShowWindow(___stats, RebuildDupePanel));
                 }
 
 
@@ -523,7 +532,7 @@ namespace SetStartDupes
                 var changebtn = Util.KInstantiateUI(buttonPrefab, titlebar);
                 changebtn.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 40f, changebtn.rectTransform().sizeDelta.x);
                 changebtn.name = "ChangeDupeStatButton";
-                changebtn.GetComponent<ToolTip>().toolTip = "Adjust dupe stats";///STRINGLOC!
+                changebtn.GetComponent<ToolTip>().toolTip = "Adjust dupe stats";///STRINGLOC! TODO
 
                 var img = changebtn.transform.Find("Image").GetComponent<KImage>();
                 img.sprite = Assets.GetSprite("icon_gear");
@@ -532,7 +541,7 @@ namespace SetStartDupes
                 var button2 = __instance.transform.Find("ArchetypeSelect").GetComponent<KButton>();
 
 
-                ChangeButton(false, changebtn, __instance, ___stats, button, button2);
+                ChangeButton(false, changebtn, __instance, ___stats, button, button2, RebuildDupePanel);
 
                 CycleButtonLeftPrefab = Util.KInstantiateUI(buttonPrefab);
                 CycleButtonLeftPrefab.GetComponent<ToolTip>().enabled = false;
@@ -545,7 +554,7 @@ namespace SetStartDupes
                 CycleButtonRightPrefab.name = "NextButton";
             }
 
-            static void ChangeButton(bool isCurrentlyInEditMode, GameObject buttonGO, CharacterContainer parent, MinionStartingStats referencedStats, KButton ButtonToDisable, KButton ButtonToDisableAswell)
+            static void ChangeButton(bool isCurrentlyInEditMode, GameObject buttonGO, CharacterContainer parent, MinionStartingStats referencedStats, KButton ButtonToDisable, KButton ButtonToDisableAswell, System.Action OnClose)
             {
                 buttonGO.GetComponent<ToolTip>().SetSimpleTooltip(!isCurrentlyInEditMode ? "Adjust dupe stats" : "Store Settings");
                 var img = buttonGO.transform.Find("Image").GetComponent<KImage>();
@@ -554,12 +563,11 @@ namespace SetStartDupes
                 button.ClearOnClick();
                 button.onClick += () =>
                 {
-                    ChangeButton(!isCurrentlyInEditMode, buttonGO, parent, referencedStats, ButtonToDisable, ButtonToDisableAswell);
+                    ChangeButton(!isCurrentlyInEditMode, buttonGO, parent, referencedStats, ButtonToDisable, ButtonToDisableAswell, OnClose);
                     if (isCurrentlyInEditMode)
                     {
                         InstantiateOrGetDupeModWindow(parent.gameObject, referencedStats, true);
-                        typeof(CharacterContainer).GetMethod("SetInfoText", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(parent, null);
-                        typeof(CharacterContainer).GetMethod("SetAttributes", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(parent, null);
+                        OnClose.Invoke();
                     }
                     else
                     {

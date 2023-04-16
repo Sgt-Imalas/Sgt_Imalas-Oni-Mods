@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 using UtilLibs;
 
 namespace SetStartDupes
@@ -13,7 +14,7 @@ namespace SetStartDupes
     public class ModAssets
     {
         public static string DupeTemplatePath;
-        public static string DupeTemplateName = "DuplicantPreset";
+        public static string DupeTemplateName = "UnnamedDuplicantPreset";
         public static bool EditingSingleDupe = false;
         public static MinionStartingStats _TargetStats;
 
@@ -61,11 +62,8 @@ namespace SetStartDupes
             ///Color.Lerp(originalColor, Color.white, .5f); To lighten by 50% 
         }
 
-
-        public static void ApplyTraitStyleByKey(KImage img, DupeTraitManager.NextType type)
+        public static Color GetColourFromType(DupeTraitManager.NextType type)
         {
-            //if(type != HoldMyReferences.NextType.geneShufflerTrait)
-            //{
             Color colorToPaint;
             switch (type)
             {
@@ -88,11 +86,12 @@ namespace SetStartDupes
                     break;
 
             }
-            //}
-            //else
-            //{
+            return colorToPaint;
+        }
 
-            //}
+        public static void ApplyTraitStyleByKey(KImage img, DupeTraitManager.NextType type)
+        {
+            var colorToPaint = GetColourFromType(type);
 
             var ColorStyle = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
             ColorStyle.inactiveColor = colorToPaint;

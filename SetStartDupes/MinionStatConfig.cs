@@ -48,8 +48,15 @@ namespace SetStartDupes
 
         public void ChangenName(string newName)
         {
-            ConfigName = newName;
+            DeleteFile();
+            ConfigName = newName; 
+            FileName =  FileNameWithHash(newName);
             WriteToFile();
+        }
+
+        static string FileNameWithHash(string filename)
+        {
+            return filename + "_" + GenerateHash(System.DateTime.Now.ToString());
         }
 
         public MinionStatConfig(string fileName, string configName, List<Trait> traits, Trait stressTrait, Trait joyTrait, List<KeyValuePair<string, int>> startingLevels, List<KeyValuePair<SkillGroup, float>> skillAptitudes)
@@ -80,7 +87,7 @@ namespace SetStartDupes
             using (var md5Hasher = MD5.Create())
             {
                 var data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(str));
-                return BitConverter.ToString(data).Replace("-", "").Substring(0, 16);
+                return BitConverter.ToString(data).Replace("-", "").Substring(0, 6);
             }
         }
 
@@ -95,7 +102,8 @@ namespace SetStartDupes
 
             List<Trait> traits = startingStats.Traits;
             var config = new MinionStatConfig(
-                fileName + GenerateHash(System.DateTime.Now.ToString()), fileName,
+                FileNameWithHash(fileName),
+                fileName,
                 startingStats.Traits,
                 startingStats.stressTrait,
                 startingStats.joyTrait,
@@ -121,6 +129,37 @@ namespace SetStartDupes
                 }
             }
         }
+        internal void ApplyPreset(MinionStartingStats referencedStats)
+        {
+            referencedStats.Traits.Clear();
+            var traitRef = Db.Get().traits;
+            foreach(var traitID in this.Traits)
+            {
+                var Trait = traitRef.TryGet(traitID);
+                if (Trait != null)
+                {
+                    referencedStats.Traits.Add(Trait);
+                }
+            }
+            referencedStats.StartingLevels.Clear();
+            foreach(var startLevel in this.StartingLevels)
+            {
+                referencedStats.StartingLevels[startLevel.Key] = startLevel.Value; 
+            }
+            referencedStats.stressTrait = traitRef.Get(this.stressTrait);
+            referencedStats.joyTrait = traitRef.Get(this.joyTrait);
+
+
+            var AptitudeRef = Db.Get().SkillGroups;
+            referencedStats.skillAptitudes.Clear();
+
+            foreach(var skillAptitude in this.skillAptitudes)
+            {
+                SkillGroup targetGroup = AptitudeRef.TryGet(skillAptitude.Key);
+                referencedStats.skillAptitudes[targetGroup] = skillAptitude.Value;
+            }
+        }
+
 
         public void WriteToFile()
         {
@@ -156,5 +195,7 @@ namespace SetStartDupes
                 SgtLogger.logError("Could not write file, Exception: " + e);
             }
         }
+
+        
     }
 }
