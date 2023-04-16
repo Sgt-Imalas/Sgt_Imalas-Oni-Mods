@@ -9,7 +9,65 @@ namespace SetStartDupes
 {
     public class STRINGS
     {
-        public class UI {
+        public class UI
+        {
+            public class PRESETWINDOW
+            {
+                public static LocString TITLE = "Presets";
+                public class HORIZONTALLAYOUT
+                {
+                    public class OBJECTLIST
+                    {
+                        public class SCROLLAREA
+                        {
+                            public class CONTENT
+                            {
+                                public class NOPRESETSAVAILABLE
+                                {
+                                    public static LocString LABEL = "No presets available.";
+                                }
+                                public class PRESETENTRYPREFAB
+                                {
+                                    public class ADDTHISTRAITBUTTON
+                                    {
+                                        public static LocString TEXT = "Load Preset";
+                                    }
+                                }
+                            }
+                        }
+
+                        internal class SEARCHBAR
+                        {
+                            internal class INPUT
+                            {
+                                public class TEXTAREA
+                                {
+                                    public static LocString PLACEHOLDER = "Enter text to filter presets...";
+                                    public static LocString TEXT = "";
+                                }
+                            }
+                        }
+                    }
+                    public class ITEMINFO
+                    {
+                        public class BUTTONS
+                        {
+                            public class CLOSEBUTTON
+                            {
+                                public static LocString TEXT = "Return";
+                            }
+                            public class GENERATEFROMCURRENT
+                            {
+                                public static LocString TEXT = "Generate Preset";
+                            }
+                            public class APPLYPRESETBUTTON
+                            {
+                                public static LocString TEXT = "Apply Preset";
+                            }
+                        }
+                    }
+                }
+            }
             public class MODDEDIMMIGRANTSCREEN
             {
                 public static LocString SELECTYOURLONECREWMAN = "CHOOSE YOUR LONE DUPLICANT TO BEGIN";

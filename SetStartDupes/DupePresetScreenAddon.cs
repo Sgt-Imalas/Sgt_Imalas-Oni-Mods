@@ -96,16 +96,8 @@ namespace SetStartDupes
             ReloadPresets();
         }
 
-
-        public override void OnKeyDown(KButtonEvent e)
-        {
-            if (e.TryConsume(Action.Escape) || e.TryConsume(Action.MouseRight))
-            {
-                ToggleCustomScreenOff();
-            }
-
-            base.OnKeyDown(e);
-        }
+        void ReloadPresets() { }
+        
         void ToggleCustomScreenOff()
         {
             IsCustomActive = false;
@@ -150,30 +142,7 @@ namespace SetStartDupes
             }
         }
 
-        List<MinionStatConfig> LoadPresets()
-        {
-            List<MinionStatConfig> minionStatConfigs= new List<MinionStatConfig>();
-            var files = new DirectoryInfo(ModAssets.DupeTemplatePath).GetFiles();
-
-
-            for (int i = 0; i< files.Count(); i++)
-            {
-                var File = files[i];
-                try
-                {
-                    var preset = MinionStatConfig.ReadFromFile(File);
-                    if (preset != null)
-                    {
-                        minionStatConfigs.Add(preset);
-                    }
-                }
-                catch (Exception e)
-                {
-                    SgtLogger.logError("Couln't load minion preset from: " + File.FullName + ", Error: " + e);
-                }
-            }
-            return minionStatConfigs;
-        }
+        
 
 
         void SetAsCurrent (MinionStatConfig config)

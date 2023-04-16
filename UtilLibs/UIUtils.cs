@@ -71,7 +71,7 @@ namespace UtilLibs
                 BtTransform = parent;
             if (BtTransform == null)
                 return default(T);
-            var button = BtTransform.GetComponent<T>();
+            BtTransform.TryGetComponent<T>(out var button);
             return button;
         }
 

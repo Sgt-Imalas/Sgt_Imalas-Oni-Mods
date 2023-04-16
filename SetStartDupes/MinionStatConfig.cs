@@ -9,7 +9,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using UtilLibs;
+using static ModInfo;
 using static ResearchTypes;
+using static STRINGS.UI.TOOLS;
 
 namespace SetStartDupes
 {
@@ -24,11 +26,29 @@ namespace SetStartDupes
         public List<KeyValuePair<string, float>> skillAptitudes = new List<KeyValuePair<string, float>>();
 
 
-        
+        public void OpenPopUpToChangeName(System.Action callBackAction = null)
+        {
+            FileNameDialog fileNameDialog = (FileNameDialog)KScreenManager.Instance.StartScreen(ScreenPrefabs.Instance.FileNameDialog.gameObject, PauseScreen.Instance.transform.parent.gameObject);
+            fileNameDialog.SetTextAndSelect(ConfigName);
+            fileNameDialog.onConfirm = (System.Action<string>)(newName =>
+            {
+                if (newName.EndsWith(".sav"))
+                {
+                    int place = newName.LastIndexOf(".sav");
+
+                    if (place != -1)
+                        newName = newName.Remove(place, 4);
+                }
+                this.ChangenName(newName);
+
+                if(callBackAction!=null) 
+                    callBackAction.Invoke();
+            });
+        }
 
         public void ChangenName(string newName)
         {
-            ConfigName= newName;
+            ConfigName = newName;
             WriteToFile();
         }
 
@@ -40,8 +60,7 @@ namespace SetStartDupes
             this.stressTrait = stressTrait.Id;
             this.joyTrait = joyTrait.Id;
             StartingLevels = startingLevels;
-            this.skillAptitudes = skillAptitudes.Select(kvp => new KeyValuePair<string, float> (kvp.Key.Id, kvp.Value)).ToList();
-            WriteToFile();
+            this.skillAptitudes = skillAptitudes.Select(kvp => new KeyValuePair<string, float>(kvp.Key.Id, kvp.Value)).ToList();
         }
         public MinionStatConfig() { }
         public MinionStatConfig(string fileName, string configName, List<string> traits, string stressTrait, string joyTrait, List<KeyValuePair<string, int>> startingLevels, List<KeyValuePair<string, float>> skillAptitudes)
@@ -66,17 +85,17 @@ namespace SetStartDupes
         }
 
 
-        public static MinionStatConfig CreateFromStartingStats(MinionStartingStats startingStats,string fileName)
+        public static MinionStatConfig CreateFromStartingStats(MinionStartingStats startingStats, string fileName)
         {
             List<KeyValuePair<string, float>> skillAptitudes = new List<KeyValuePair<string, float>>();
-            foreach(var kvp in startingStats.skillAptitudes)
+            foreach (var kvp in startingStats.skillAptitudes)
             {
                 skillAptitudes.Add(new KeyValuePair<string, float>(kvp.Key.Id, kvp.Value));
             }
 
             List<Trait> traits = startingStats.Traits;
             var config = new MinionStatConfig(
-                fileName + GenerateHash(System.DateTime.Now.ToString()), fileName, 
+                fileName + GenerateHash(System.DateTime.Now.ToString()), fileName,
                 startingStats.Traits,
                 startingStats.stressTrait,
                 startingStats.joyTrait,
@@ -117,6 +136,20 @@ namespace SetStartDupes
                 {
                     streamWriter.Write(JsonString);
                 }
+            }
+            catch (Exception e)
+            {
+                SgtLogger.logError("Could not write file, Exception: " + e);
+            }
+        }
+        public void DeleteFile()
+        {
+            try
+            {
+                var path = Path.Combine(ModAssets.DupeTemplatePath, FileName + ".json");
+
+                var fileInfo = new FileInfo(path);
+                fileInfo.Delete();
             }
             catch (Exception e)
             {
