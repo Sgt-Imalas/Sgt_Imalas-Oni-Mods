@@ -181,6 +181,20 @@ namespace SetStartDupes
             }
         }
 
+        [HarmonyPatch(typeof(Immigration))]
+        [HarmonyPatch(nameof(Immigration.EndImmigration))]
+        public class AdjustTImeOfReprint
+        {
+            public static void Prefix(Immigration __instance)
+            {
+                __instance.spawnInterval[__instance.spawnInterval.Length - 1] = Mathf.RoundToInt(ModConfig.Instance.PrintingPodRechargeTime * 600f);
+                SgtLogger.l(__instance.timeBeforeSpawn.ToString());
+                for(int i = 0; i < __instance.spawnInterval.Length; i++)
+                {
+                    SgtLogger.l(__instance.spawnInterval[i].ToString(), i.ToString());
+                }
+            }
+        }
 
 
 
