@@ -66,7 +66,6 @@ namespace UtilLibs.UIcmp //Source: Aki
         public override void OnSpawn()
         {
             base.OnSpawn();
-
             inputField.onFocus += OnEditStart;
             inputField.onEndEdit.AddListener(OnEditEnd);
 

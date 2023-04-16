@@ -10,8 +10,8 @@ namespace SetStartDupes
 {
     [Serializable]
     [RestartRequired]
-    [ModInfo("Adjust Start Dupe Count")]
-    class StartDupeConfig : SingletonOptions<StartDupeConfig>
+    [ModInfo("Duplicant Stat Selector")]
+    class ModConfig : SingletonOptions<ModConfig>
     {
 
 
@@ -21,7 +21,7 @@ namespace SetStartDupes
         public int DuplicantStartAmount { get; set; }
 
 
-        [Option("Modify Printing Pod Dupes", "Enable this option to add the modify button to printing pod dupes\nWhen disabled, the option only appears on the starter dupe selection.")]
+        [Option("Modification of Printing Pod Dupes", "Enable this option to add the modify button to printing pod dupes\nWhen disabled, the option only appears on the starter dupe selection.\nOption also enables the use of presets.")]
         [JsonProperty]
         public bool ModifyDuringGame { get; set; }
 
@@ -33,12 +33,12 @@ namespace SetStartDupes
         [JsonProperty]
         public bool StartupResources { get; set; }
         
-        [Option("Supported Days", "Amount of days the extra starting resources should last.\nNo effect if \"Starting Resources\" is disabled.")]
+        [Option("Supported Days", "Amount of days the extra starting resources should last.\nNo effect if \"Extra Starting Resources\" is disabled.")]
         [JsonProperty]
         [Limit(0, 10)]
         public int SupportedDays { get; set; }
 
-        public StartDupeConfig()
+        public ModConfig()
         {
             DuplicantStartAmount = 3;
             ModifyDuringGame = false;

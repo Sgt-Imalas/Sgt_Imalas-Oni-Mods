@@ -15,7 +15,7 @@ namespace SetStartDupes
         {
             ModAssets.LoadAssets();
             PUtil.InitLibrary(false);
-            new POptions().RegisterOptions(this, typeof(StartDupeConfig));
+            new POptions().RegisterOptions(this, typeof(ModConfig));
 
             SgtLogger.debuglog("Initializing file paths..");
             ModAssets.DupeTemplatePath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config/"),"DuplicantStatPresets/"));

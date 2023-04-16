@@ -167,7 +167,7 @@ namespace SetStartDupes
         {
             public static void Postfix(Telepad telepad, ImmigrantScreen __instance)
             {
-                if (StartDupeConfig.Instance.RerollDuringGame)
+                if (ModConfig.Instance.RerollDuringGame)
                 {
                     foreach (ITelepadDeliverableContainer container in __instance.containers)
                     {
@@ -207,13 +207,13 @@ namespace SetStartDupes
             const float FoodBarsPerDupePerDay = 1000 / 800f; //in Units
             static void Postfix()
             {
-                if (StartDupeConfig.Instance.StartupResources && StartDupeConfig.Instance.DuplicantStartAmount > 3)
+                if (ModConfig.Instance.StartupResources && ModConfig.Instance.DuplicantStartAmount > 3)
                 {
                     GameObject telepad = GameUtil.GetTelepad(ClusterManager.Instance.GetStartWorld().id);
-                    float dupeCount = StartDupeConfig.Instance.DuplicantStartAmount;
+                    float dupeCount = ModConfig.Instance.DuplicantStartAmount;
 
-                    float OxiliteNeeded = OxilitePerDupePerDay * StartDupeConfig.Instance.SupportedDays * (dupeCount - 3);
-                    float FoodeNeeded = FoodBarsPerDupePerDay * StartDupeConfig.Instance.SupportedDays * (dupeCount - 3);
+                    float OxiliteNeeded = OxilitePerDupePerDay * ModConfig.Instance.SupportedDays * (dupeCount - 3);
+                    float FoodeNeeded = FoodBarsPerDupePerDay * ModConfig.Instance.SupportedDays * (dupeCount - 3);
                     Vector3 SpawnPos = telepad.transform.position;
 
                     while (OxiliteNeeded > 0)
@@ -336,7 +336,7 @@ namespace SetStartDupes
             public static int CustomStartingDupeCount(int dupeCount) ///int requirement to consume previous "3" on stack
             {
                 if (dupeCount == 3)
-                    return StartDupeConfig.Instance.DuplicantStartAmount; ///push new value to the stack
+                    return ModConfig.Instance.DuplicantStartAmount; ///push new value to the stack
                 else return dupeCount;
             }
 
@@ -398,15 +398,22 @@ namespace SetStartDupes
                             layout.transform.parent.TryGetComponent<VerticalLayoutGroup>(out var verticalLayoutGroup);
                             verticalLayoutGroup.padding = new RectOffset(00, 00, 50, 50);
                             layout.childAlignment = TextAnchor.UpperCenter;
-                            int countPerRow = StartDupeConfig.Instance.DuplicantStartAmount;
+                            int countPerRow = ModConfig.Instance.DuplicantStartAmount;
 
                             layout.constraintCount = 5;
                         }
                     }
                     __instance.transform.Find("Content/BottomContent").TryGetComponent<VerticalLayoutGroup>(out var buttonGroup);
                     buttonGroup.childAlignment = TextAnchor.LowerCenter;
+
+                    UnityPresetScreen.parentScreen = __instance.transform.parent.gameObject;
                 }
 
+                else
+                {
+                    UnityPresetScreen.parentScreen = PauseScreen.Instance.transform.parent.gameObject;
+                }
+                SgtLogger.l(UnityPresetScreen.parentScreen.ToString(), "PRESET");
 #if DEBUG
                 //Debug.Log("PREFAB: " + size);
 #endif
@@ -431,7 +438,7 @@ namespace SetStartDupes
                     {
                         if (locText.key == "STRINGS.UI.IMMIGRANTSCREEN.SELECTYOURCREW")
                         {
-                            locText.key = StartDupeConfig.Instance.DuplicantStartAmount == 1 ? "STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURLONECREWMAN" : "STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURCREW";
+                            locText.key = ModConfig.Instance.DuplicantStartAmount == 1 ? "STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURLONECREWMAN" : "STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURCREW";
                             break;
                         }
                     }
@@ -486,7 +493,7 @@ namespace SetStartDupes
                 var buttonPrefab = __instance.transform.Find("TitleBar/RenameButton").gameObject;
                 var titlebar = __instance.transform.Find("TitleBar").gameObject;
 
-                float insetDistance = (!is_starter && !StartDupeConfig.Instance.ModifyDuringGame) ? 40 : 75;
+                float insetDistance = (!is_starter && !ModConfig.Instance.ModifyDuringGame) ? 35 : 95;
                 ///Make skin button
                 var skinBtn = Util.KInstantiateUI(buttonPrefab, titlebar);
                 skinBtn.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, insetDistance, skinBtn.rectTransform().sizeDelta.x);
@@ -507,15 +514,15 @@ namespace SetStartDupes
 
                 
 
-                if(!(!is_starter && !StartDupeConfig.Instance.ModifyDuringGame))
+                if(!(!is_starter && !ModConfig.Instance.ModifyDuringGame))
                 {
 
-                    float insetDistancePresetButton =  110;
+                    float insetDistancePresetButton = 65;
                     ///Make Preset button
                     var PresetButton = Util.KInstantiateUI(buttonPrefab, titlebar);
                     PresetButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, insetDistancePresetButton, PresetButton.rectTransform().sizeDelta.x);
                     PresetButton.name = "DupePresetButton";
-                    PresetButton.GetComponent<ToolTip>().toolTip = "Load stat preset"; ///STRINGLOC!
+                    PresetButton.GetComponent<ToolTip>().toolTip = "Open Duplicant Presets Window"; ///STRINGLOC!
 
                     PresetButton.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("iconPaste");
                     //var currentlySelectedIdentity = __instance.GetComponent<MinionIdentity>();
@@ -526,11 +533,11 @@ namespace SetStartDupes
 
 
 
-                if (!is_starter && !StartDupeConfig.Instance.ModifyDuringGame)
+                if (!is_starter && !ModConfig.Instance.ModifyDuringGame)
                     return;
                 ///Make modify button
                 var changebtn = Util.KInstantiateUI(buttonPrefab, titlebar);
-                changebtn.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 40f, changebtn.rectTransform().sizeDelta.x);
+                changebtn.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 35f, changebtn.rectTransform().sizeDelta.x);
                 changebtn.name = "ChangeDupeStatButton";
                 changebtn.GetComponent<ToolTip>().toolTip = "Adjust dupe stats";///STRINGLOC! TODO
 

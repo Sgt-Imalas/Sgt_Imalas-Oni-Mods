@@ -21,6 +21,7 @@ using UtilLibs.UIcmp;
 using static ResearchTypes;
 using static SandboxSettings;
 using static SetStartDupes.STRINGS.UI.PRESETWINDOW;
+using static SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST;
 using static STRINGS.DUPLICANTS;
 using static STRINGS.DUPLICANTS.CHORES;
 using static STRINGS.UI.DETAILTABS.PERSONALITY.RESUME;
@@ -33,6 +34,7 @@ namespace SetStartDupes
         new bool ConsumeMouseScroll = true; // do not remove!!!!
 #pragma warning restore IDE0051 // Remove unused private members
         public static UnityPresetScreen Instance = null;
+
 
         public FButton GeneratePresetButton;
         public FButton CloseButton;
@@ -48,6 +50,7 @@ namespace SetStartDupes
 
         public FButton OpenPresetFolder;
         public FButton ClearSearchBar;
+        public FInputField2 Searchbar;
 
         public bool CurrentlyActive;
 
@@ -60,11 +63,13 @@ namespace SetStartDupes
         Dictionary<MinionStatConfig, GameObject> Presets = new Dictionary<MinionStatConfig, GameObject>();
         List<GameObject> InformationObjects = new List<GameObject>();
 
-        public static void ShowWindow(MinionStartingStats startingStats, System.Action onClose)
+        public static GameObject parentScreen = null;
+
+        public static void ShowWindow(MinionStartingStats startingStats,System.Action onClose)
         {
             if (Instance == null)
             {
-                var screen = Util.KInstantiateUI(ModAssets.PresetWindowPrefab, PauseScreen.Instance.transform.parent.gameObject, true);
+                var screen = Util.KInstantiateUI(ModAssets.PresetWindowPrefab, parentScreen, true);
                 Instance = screen.AddOrGet<UnityPresetScreen>();
                 Instance.Init();
             }
@@ -75,6 +80,7 @@ namespace SetStartDupes
             Instance.LoadTemporalPreset(startingStats);
             Instance.ReferencedStats = startingStats;
             Instance.OnCloseAction = onClose;
+            Instance.Searchbar.Text = string.Empty;
         }
 
         private bool init;
@@ -139,6 +145,8 @@ namespace SetStartDupes
             if (!Presets.ContainsKey(config))
             {
                 var PresetHolder = Util.KInstantiateUI(PresetListPrefab, PresetListContainer, true);
+                PresetHolder.transform.Find("TraitImage").gameObject.SetActive(false);
+
                 UIUtils.TryChangeText(PresetHolder.transform, "Label", config.ConfigName);
                 PresetHolder.transform.Find("RenameButton").FindOrAddComponent<FButton>().OnClick +=
                     () => config.OpenPopUpToChangeName(
@@ -297,12 +305,22 @@ namespace SetStartDupes
 
         private void Init()
         {
+            SgtLogger.l("Initializing PresetWindow");
             GeneratePresetButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/GenerateFromCurrentButton").FindOrAddComponent<FButton>();
             CloseButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/CloseButton").FindOrAddComponent<FButton>();
             ApplyButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/ApplyPresetButton").FindOrAddComponent<FButton>();
 
             OpenPresetFolder = transform.Find("HorizontalLayout/ObjectList/SearchBar/FolderButton").FindOrAddComponent<FButton>();
+            OpenPresetFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.DupeTemplatePath) { UseShellExecute = true });
+
+
+            Searchbar = transform.Find("HorizontalLayout/ObjectList/SearchBar/Input").FindOrAddComponent<FInputField2>();
+            Searchbar.OnValueChanged.AddListener(ApplyFilter);
+            Searchbar.Text = string.Empty;
+
+
             ClearSearchBar = transform.Find("HorizontalLayout/ObjectList/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
+            ClearSearchBar.OnClick += () => Searchbar.Text = string.Empty;
 
             ApplyButton.OnClick += () =>
             {
@@ -311,7 +329,6 @@ namespace SetStartDupes
                 this.Show(false);
             };
             ///OpenFolder
-            OpenPresetFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.DupeTemplatePath) { UseShellExecute = true });
 
             CloseButton.OnClick += () => this.Show(false);
             GeneratePresetButton.OnClick += () =>
@@ -332,6 +349,14 @@ namespace SetStartDupes
 
 
             init = true;
+        }
+
+        public void ApplyFilter(string filterstring = "")
+        {
+            foreach (var go in Presets)
+            {
+                go.Value.SetActive(filterstring == string.Empty ? true : go.Key.ConfigName.ToLowerInvariant().Contains(filterstring.ToLowerInvariant()));
+            }
         }
 
         public override void OnShow(bool show)

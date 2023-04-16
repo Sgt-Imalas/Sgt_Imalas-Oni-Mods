@@ -28,7 +28,7 @@ namespace SetStartDupes
 
         public void OpenPopUpToChangeName(System.Action callBackAction = null)
         {
-            FileNameDialog fileNameDialog = (FileNameDialog)KScreenManager.Instance.StartScreen(ScreenPrefabs.Instance.FileNameDialog.gameObject, PauseScreen.Instance.transform.parent.gameObject);
+            FileNameDialog fileNameDialog = (FileNameDialog)KScreenManager.Instance.StartScreen(ScreenPrefabs.Instance.FileNameDialog.gameObject, UnityPresetScreen.parentScreen);
             fileNameDialog.SetTextAndSelect(ConfigName);
             fileNameDialog.onConfirm = (System.Action<string>)(newName =>
             {
@@ -56,7 +56,7 @@ namespace SetStartDupes
 
         static string FileNameWithHash(string filename)
         {
-            return filename + "_" + GenerateHash(System.DateTime.Now.ToString());
+            return filename.Replace(" ", "_") + "_" + GenerateHash(System.DateTime.Now.ToString());
         }
 
         public MinionStatConfig(string fileName, string configName, List<Trait> traits, Trait stressTrait, Trait joyTrait, List<KeyValuePair<string, int>> startingLevels, List<KeyValuePair<SkillGroup, float>> skillAptitudes)
