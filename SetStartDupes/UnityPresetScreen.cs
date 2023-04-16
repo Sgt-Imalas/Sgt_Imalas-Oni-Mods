@@ -18,6 +18,7 @@ using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
 using static SandboxSettings;
+using static SetStartDupes.STRINGS.UI.PRESETWINDOW;
 
 namespace SetStartDupes
 {
@@ -130,12 +131,26 @@ namespace SetStartDupes
 
         void DeletePreset(MinionStatConfig config)
         {
-            if (Presets.ContainsKey(config))
+            System.Action Delete = () =>
             {
-                Destroy(Presets[config]);
-                Presets.Remove(config);
-                config.DeleteFile();
-            }
+                if (Presets.ContainsKey(config))
+                {
+                    Destroy(Presets[config]);
+                    Presets.Remove(config);
+                    config.DeleteFile();
+                }
+            };
+            System.Action nothing = () =>
+            {};
+
+            KMod.Manager.Dialog(Global.Instance.globalCanvas,
+           string.Format(DELETEWINDOW.TITLE, config.ConfigName),
+           string.Format(DELETEWINDOW.DESC, config.ConfigName),
+           DELETEWINDOW.YES,
+           Delete,
+           DELETEWINDOW.CANCEL
+           , nothing
+           );
         }
 
         void SetAsCurrent(MinionStatConfig config)

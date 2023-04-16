@@ -13,6 +13,16 @@ namespace SetStartDupes
         {
             public class PRESETWINDOW
             {
+                public class DELETEWINDOW
+                {
+                    public static LocString TITLE = "Delete {0}";
+                    public static LocString DESC = "You are about to delete the dupe preset \"{0}\".\nDo you want to continue?";
+                    public static LocString YES = "Confirm Deletion";
+                    public static LocString CANCEL = "Cancel";
+
+                }
+
+
                 public static LocString TITLE = "Presets";
                 public class HORIZONTALLAYOUT
                 {
