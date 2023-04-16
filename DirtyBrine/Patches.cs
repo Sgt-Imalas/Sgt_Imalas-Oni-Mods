@@ -16,7 +16,7 @@ namespace DirtyBrine
     internal class Patches
     {
         /// <summary>
-        /// akis beached 
+        /// only code needed 
         /// </summary>
         [HarmonyPatch(typeof(ElementLoader))]
         [HarmonyPatch(nameof(ElementLoader.Load))]
