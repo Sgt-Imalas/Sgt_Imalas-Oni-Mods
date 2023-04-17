@@ -1,3 +1,7 @@
 ﻿- move power plug into on tech earlier next to the smol battery tech
 - antenna nosecone for moar booster building range
 - concept for boosters
+- sugar tank
+- nerf solar nosecone weight if not already done
+- fix vacuum for insulated adapter
+- travel tube adapter
