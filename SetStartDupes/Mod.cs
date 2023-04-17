@@ -19,7 +19,7 @@ namespace SetStartDupes
 
             SgtLogger.debuglog("Initializing file paths..");
             ModAssets.DupeTemplatePath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config/"),"DuplicantStatPresets/"));
-            SgtLogger.debuglog(ModAssets.DupeTemplatePath,"(DCSS) Dupe Template Folder");
+            SgtLogger.debuglog(ModAssets.DupeTemplatePath,"Stat Preset Folder");
             SgtLogger.debuglog("Initializing folders..");
             try
             {
@@ -31,6 +31,7 @@ namespace SetStartDupes
             }
             SgtLogger.log("Folders succesfully initialized");
 
+            SgtLogger.debuglog("Mod Version: " + this.mod.packagedModInfo.version);
             base.OnLoad(harmony);
         }
     }

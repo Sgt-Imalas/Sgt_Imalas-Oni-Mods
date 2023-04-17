@@ -12,7 +12,7 @@ namespace SetStartDupes
 {
     public class STRINGS
     {
-        public static LocString UNNAMEDPRESET = "(Unnamed)";
+        public static LocString UNNAMEDPRESET = "(Unnamed Preset)";
         public class UI
         {
             public class DSS_OPTIONS
@@ -117,7 +117,7 @@ namespace SetStartDupes
 
                         internal class SEARCHBAR
                         {
-                            public static LocString CLEARTOOLTIP = "Clear searchbar";
+                            public static LocString CLEARTOOLTIP = "Clear search bar";
                             public static LocString OPENFOLDERTOOLTIP = "Open the folder where the presets are stored.";
                             internal class INPUT
                             {
