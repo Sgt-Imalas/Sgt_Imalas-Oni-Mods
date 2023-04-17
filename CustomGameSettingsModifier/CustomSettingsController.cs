@@ -84,7 +84,12 @@ namespace CustomGameSettingsModifier
             Morale.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Morale).id;
             Durability.Value= instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Durability).id;
             MeteorShowers.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.MeteorShowers).id;
-            Radiation.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Radiation).id;
+
+            if (DlcManager.IsExpansion1Active())
+            {
+                Radiation.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Radiation).id;
+            }
+
             Stress.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Stress).id;
             StressBreaks.On = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.StressBreaks).id == (CustomGameSettingConfigs.StressBreaks as ToggleSettingConfig).on_level.id;
             CarePackages.On = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.CarePackages).id == (CustomGameSettingConfigs.CarePackages as ToggleSettingConfig).on_level.id;
