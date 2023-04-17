@@ -141,7 +141,7 @@ namespace SetStartDupes
                             public class GENERATEFROMCURRENT
                             {
                                 public static LocString TEXT = "Generate Preset";
-                                public static LocString TOOLTIP = "Generate a new preset from the currenly displayed stats.\nOnly has an effect if the preset doesn't exist yet";
+                                public static LocString TOOLTIP = "Generate and store a new preset from the currenly displayed stats.\nOnly has an effect if the preset doesn't exist yet";
                             }
                             public class APPLYPRESETBUTTON
                             {

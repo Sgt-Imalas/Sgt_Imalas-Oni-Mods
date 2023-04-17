@@ -1,0 +1,324 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.2.2\n"
+
+#. SetStartDupes.STRINGS.UI.BUTTONS.CYCLENEXT
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.CYCLENEXT"
+msgid "Cycle to next"
+msgstr "Zum Nächsten wechseln"
+
+#. SetStartDupes.STRINGS.UI.BUTTONS.CYCLEPREV
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.CYCLEPREV"
+msgid "Cycle to previous"
+msgstr "Zum Vorherigen wechseln"
+
+#. SetStartDupes.STRINGS.UI.BUTTONS.DUPESKINBUTTONTOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.DUPESKINBUTTONTOOLTIP"
+msgid "Select Duplicant skin"
+msgstr "Duplikanten-Aussehen auswählen"
+
+#. SetStartDupes.STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP"
+msgid "Modify Duplicant Stats"
+msgstr "Duplikanten-Attribute verändern"
+
+#. SetStartDupes.STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP2
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP2"
+msgid "Apply Stat Changes"
+msgstr "Attributänderungen anwenden"
+
+#. SetStartDupes.STRINGS.UI.BUTTONS.PRESETWINDOWBUTTONTOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.PRESETWINDOWBUTTONTOOLTIP"
+msgid ""
+"Open Duplicant Preset Window\n"
+"To create a preset from this duplicants stats,\n"
+"click the \"Generate Preset\" button in the preset window."
+msgstr ""
+"Fenster für Attributvorlagen öffnen\n"
+"Um eine Voreinstellung aus den Attributen des ausgewählten Duplikantens zu "
+"erstellen,\n"
+"klick die Schaltfläche \"Voreinstellung generieren\" im "
+"Attributvorlagenfenster."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NAME"
+msgid "Print Care Packages only"
+msgstr "Nur Hilfspakete drucken"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.TOOLTIP"
+msgid ""
+"When enabled, the printing pod will only give care packages when more than "
+"the the configured number of duplicants are alive.\n"
+"Overrides the care package configuration of a save game."
+msgstr ""
+"Wenn diese Option aktiviert ist, produziert der Biodrucker nur noch "
+"Hilfspakete, wenn mehr als die konfigurierte Anzahl von Duplikanten am Leben "
+"sind.\n"
+"Setzt die Hilfspaket-Konfiguration eines Spielstands außer Kraft."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYDUPECAP.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYDUPECAP.NAME"
+msgid "Duplicant Threshold for care packages only"
+msgstr "Duplikantenzahl-Schwellenwert für \"Nur Hilfspakete drucken\""
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYDUPECAP.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYDUPECAP.TOOLTIP"
+msgid ""
+"Only has an effect if \"Print Care Packages only\" is enabled.\n"
+"While above this number of duplicants, the printer will only give care "
+"packages."
+msgstr ""
+"Hat nur einen Effekt, wenn \"Nur Hilfspakete drucken\" aktiviert ist.\n"
+"Ab dieser Anzahl von Duplikaten gibt der Drucker nur noch Hilfspakete aus."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYPACKAGECAP.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYPACKAGECAP.NAME"
+msgid "Number of care packages for care packages only"
+msgstr "Anzahl der Hilfspakete"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYPACKAGECAP.TOOLTIP
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYPACKAGECAP.TOOLTIP"
+msgid ""
+"Only has an effect if \"Print Care Packages only\" is enabled.\n"
+"Set the number of care packages that generate when the cap is in effect"
+msgstr ""
+"Hat nur einen Effekt, wenn \"Nur Hilfspakete drucken\" aktiviert ist.\n"
+"Legen Sie die Anzahl der Hilfspakete fest, die generiert werden, wenn die "
+"Obergrenze überschritten wurde"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.GAMESTART
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.GAMESTART"
+msgid "Options for Game Start"
+msgstr "Optionen für den Spielstart"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.PRINTINGPOD
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.PRINTINGPOD"
+msgid "Options for Printing Pod"
+msgstr "Optionen für den Biodrucker"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.NAME"
+msgid "Amount of Starting Duplicants"
+msgstr "Anzahl der Start-Duplikanten"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.TOOLTIP"
+msgid "Choose the amount of duplicants you want to start with."
+msgstr ""
+"Wähle die Anzahl der Duplikanten, mit denen ein Spielstand starten soll."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.NAME"
+msgid "Modification of printing pod Duplicants"
+msgstr "Modifikation von Biodrucker-Duplikanten"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.TOOLTIP"
+msgid ""
+"Enable this option to add the modify button to printing pod dupes\n"
+"When disabled, the feature only appears on the starter dupe selection.\n"
+"This also enables the use of presets."
+msgstr ""
+"Wenn die Option aktiv ist, können Biodrucker-Duplikanten ebenfalls "
+"modifiziert warden.\n"
+"Wenn diese Option deaktiviert ist, erscheint die Funktion nur bei den Start-"
+"Duplikanten bei neuen Spielständen.\n"
+"Dies aktiviert auch die Verwendung von Attributvorlagen."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIME.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIME.NAME"
+msgid "Printing pod cooldown time"
+msgstr "Biodrucker-Abklingzeit"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIME.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIME.TOOLTIP"
+msgid ""
+"Time it takes for the printing pod to recharge for the next print in "
+"cycles.\n"
+"Default is 3 cycles."
+msgstr ""
+"Zeit, in Zyklen, die der Biodrucker zum nächsten Druck benötigt.\n"
+"Der Standardwert ist 3 Zyklen."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.NAME"
+msgid "Reroll printing pod Duplicants"
+msgstr "Neuwürfeln von Biodrucker-Duplikanten"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.TOOLTIP"
+msgid "Enable this option to add the reroll button to printing pod Duplicants."
+msgstr "Diese Option aktiviert den Würfel-Knopf bei Biodrucker-Duplikanten."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.STARTUPRESOURCES.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.STARTUPRESOURCES.NAME"
+msgid "Extra Starting Resources"
+msgstr "Extra Startressourcen"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.STARTUPRESOURCES.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.STARTUPRESOURCES.TOOLTIP"
+msgid ""
+"Add some extra startup resources for your additional duplicants.\n"
+"Only goes in effect with more than 3 dupes.\n"
+"Only accounts for extra dupes above 3."
+msgstr ""
+"Generiert zusätzliche Startressourcen für alle Startduplikanten, welche die "
+"normale Anzahl von 3 überschreiten."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.SUPPORTEDDAYS.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.SUPPORTEDDAYS.NAME"
+msgid "Supported Days"
+msgstr "Zusatzunterstützung-Taganzahl"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.SUPPORTEDDAYS.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.SUPPORTEDDAYS.TOOLTIP"
+msgid ""
+"Amount of days the extra starting resources should last.\n"
+"No effect if \"Extra Starting Resources\" is disabled."
+msgstr ""
+"Anzahl der Tage, für welche die Zusatzressourcen reichen.}n\n"
+"Hat keinen Effekt, wenn \"Extra Startressourcen\" deaktiviert ist."
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY"
+msgid "{0}, ({1} +{2})"
+msgstr "{0}, ({1} +{2})"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT"
+msgid "{0}"
+msgstr "{0}"
+
+#. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURCREW
+msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURCREW"
+msgid "CHOOSE YOUR DUPLICANTS TO BEGIN"
+msgstr "WÄHLE DEINE DUPLIKANTEN UM ZU STARTEN"
+
+#. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURLONECREWMAN
+msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURLONECREWMAN"
+msgid "CHOOSE YOUR LONE DUPLICANT TO BEGIN"
+msgstr "WÄHLE DEINEN ALLEINIGEN DUPLIKANTEN UM ZU STARTEN"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.CANCEL
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.CANCEL"
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.DESC
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.DESC"
+msgid ""
+"You are about to delete the stat preset \"{0}\".\n"
+"Do you want to continue?"
+msgstr "Soll die Attributvorlage \"{0}\" wirklich gelöscht warden?"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.TITLE
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.TITLE"
+msgid "Delete {0}"
+msgstr "{0} löschen"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.YES
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.YES"
+msgid "Confirm Deletion"
+msgstr "Löschen bestätigen"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TEXT
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS."
+"APPLYPRESETBUTTON.TEXT"
+msgid "Apply Preset"
+msgstr "Attributvorlage anwenden"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TOOLTIP
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS."
+"APPLYPRESETBUTTON.TOOLTIP"
+msgid ""
+"Apply the currenly displayed stats to the Duplicant this window was opened "
+"from."
+msgstr ""
+"Schreibt die momentan angezeigten Attribute auf den Duplikanten, von dem "
+"dieses Fenster geöffnet wurde."
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TEXT
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS."
+"CLOSEBUTTON.TEXT"
+msgid "Return"
+msgstr "Zurück"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TOOLTIP
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS."
+"CLOSEBUTTON.TOOLTIP"
+msgid "close preset window"
+msgstr "Fenster schließen"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TEXT
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS."
+"GENERATEFROMCURRENT.TEXT"
+msgid "Generate Preset"
+msgstr "Attributvorlage generieren"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS."
+"GENERATEFROMCURRENT.TOOLTIP"
+msgid ""
+"Generate a new preset from the currenly displayed stats.\n"
+"Only has an effect if the preset doesn't exist yet"
+msgstr ""
+"Generiere und speichere eine neue Attributvorlage aus den momentan "
+"angezeigten Attributen.\n"
+"Funktioniert nur, wenn die Vorlage noch nicht existiert"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.NOPRESETSAVAILABLE.LABEL
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA."
+"CONTENT.NOPRESETSAVAILABLE.LABEL"
+msgid "No presets available."
+msgstr "Keine Vorlagen verfügbar."
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.ADDTHISTRAITBUTTON.TEXT
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA."
+"CONTENT.PRESETENTRYPREFAB.ADDTHISTRAITBUTTON.TEXT"
+msgid "Load Preset"
+msgstr "Vorlage laden"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA."
+"CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP"
+msgid "Delete Preset"
+msgstr "Vorlage löschen"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA."
+"CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP"
+msgid "Rename Preset"
+msgstr "Vorlage umbenennen"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.TITLE
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.TITLE"
+msgid "Stat Presets"
+msgstr "Attributvorlagen"
+
+#. SetStartDupes.STRINGS.UNNAMEDPRESET
+msgctxt "SetStartDupes.STRINGS.UNNAMEDPRESET"
+msgid "(Unnamed)"
+msgstr "(Unbenannte Vorlage)"

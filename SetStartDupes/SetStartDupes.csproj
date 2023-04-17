@@ -57,6 +57,7 @@
 	  <Folder Include="ModAssets\assets\linux\" />
 	  <Folder Include="ModAssets\assets\mac\" />
 	  <Folder Include="ModAssets\assets\windows\" />
+	  <Folder Include="ModAssets\translations\" />
 	</ItemGroup>
 	
 	<ItemGroup>
@@ -67,6 +68,9 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\assets\windows\dcs_presetwindow">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\translations\de.po">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>
