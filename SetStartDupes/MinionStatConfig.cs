@@ -92,18 +92,19 @@ namespace SetStartDupes
         }
 
 
-        public static MinionStatConfig CreateFromStartingStats(MinionStartingStats startingStats, string fileName)
+        public static MinionStatConfig CreateFromStartingStats(MinionStartingStats startingStats)
         {
             List<KeyValuePair<string, float>> skillAptitudes = new List<KeyValuePair<string, float>>();
             foreach (var kvp in startingStats.skillAptitudes)
             {
                 skillAptitudes.Add(new KeyValuePair<string, float>(kvp.Key.Id, kvp.Value));
             }
+            string dupeName = startingStats.Name+ " "+STRINGS.UNNAMEDPRESET;
 
             List<Trait> traits = startingStats.Traits;
             var config = new MinionStatConfig(
-                FileNameWithHash(fileName),
-                fileName,
+                FileNameWithHash(dupeName),
+                dupeName,
                 startingStats.Traits,
                 startingStats.stressTrait,
                 startingStats.joyTrait,

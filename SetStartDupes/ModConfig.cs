@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static STRINGS.CODEX.MYLOG.BODY;
 
 namespace SetStartDupes
 {
@@ -16,33 +17,46 @@ namespace SetStartDupes
     {
 
 
-        [Option("Starting Duplicants", "Choose the amount of duplicants you want to start with")]
+        [Option("STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.NAME", "STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.GAMESTART")]
         [Limit(1, 100)]
         [JsonProperty]
         public int DuplicantStartAmount { get; set; }
 
-        [Option("Modification of Printing Pod Dupes", "Enable this option to add the modify button to printing pod dupes\nWhen disabled, the option only appears on the starter dupe selection.\nOption also enables the use of presets.")]
+        [Option("STRINGS.UI.DSS_OPTIONS.STARTUPRESOURCES.NAME", "STRINGS.UI.DSS_OPTIONS.STARTUPRESOURCES.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.GAMESTART")]
+        [JsonProperty]
+        public bool StartupResources { get; set; }
+
+        [Option("STRINGS.UI.DSS_OPTIONS.SUPPORTEDDAYS.NAME", "STRINGS.UI.DSS_OPTIONS.SUPPORTEDDAYS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.GAMESTART")]
+        [JsonProperty]
+        [Limit(0, 10)]
+        public int SupportedDays { get; set; }
+
+        [Option("STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.NAME", "STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.PRINTINGPOD")]
         [JsonProperty]
         public bool ModifyDuringGame { get; set; }
 
-        [Option("Reroll Printing Pod Dupes", "Enable this option to add the reroll button to printing pod dupes.")]
+        [Option("STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.NAME", "STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.PRINTINGPOD")]
         [JsonProperty]
         public bool RerollDuringGame { get; set; }
 
-        [Option("Printing Pod Cooldown", "Time it takes for the printing pod to provide another print in cycles.\nDefault is 3")]
+        [Option("STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIME.NAME", "STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIME.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.PRINTINGPOD")]
         [JsonProperty]
         [Limit(0.1, 10)]
         public float PrintingPodRechargeTime { get; set; }
 
+        [Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.PRINTINGPOD")]
+        [JsonProperty]
+        public bool CarePackagesOnly { get; set; }
 
-        [Option("Extra Starting Resources", "Add some extra startup resources for your additional duplicants.\nOnly goes in effect with more than 3 dupes.\nOnly accounts for extra dupes above 3.")]
+        [Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYDUPECAP.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYDUPECAP.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.PRINTINGPOD")]
         [JsonProperty]
-        public bool StartupResources { get; set; }
-        
-        [Option("Supported Days", "Amount of days the extra starting resources should last.\nNo effect if \"Extra Starting Resources\" is disabled.")]
+        [Limit(1, 200)]
+        public int CarePackagesOnlyDupeCap { get; set; }
+
+        [Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYPACKAGECAP.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYPACKAGECAP.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.PRINTINGPOD")]
         [JsonProperty]
-        [Limit(0, 10)]
-        public int SupportedDays { get; set; }
+        [Limit(1, 5)]
+        public int CarePackagesOnlyPackageCap { get; set; }
 
         public ModConfig()
         {
@@ -52,6 +66,11 @@ namespace SetStartDupes
             RerollDuringGame = false;
             StartupResources = false;
             SupportedDays = 5;
+
+            CarePackagesOnly = false;
+            CarePackagesOnlyDupeCap = 16;
+            CarePackagesOnlyPackageCap = 3;
+
         }
     }
 }

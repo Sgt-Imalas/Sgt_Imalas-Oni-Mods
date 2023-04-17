@@ -88,7 +88,7 @@ namespace SetStartDupes
 
         public void LoadTemporalPreset(MinionStartingStats toGenerateFrom)
         {
-            MinionStatConfig tempStats = MinionStatConfig.CreateFromStartingStats(toGenerateFrom, ModAssets.DupeTemplateName);
+            MinionStatConfig tempStats = MinionStatConfig.CreateFromStartingStats(toGenerateFrom);
             SetAsCurrent(tempStats);
         }
 
@@ -156,8 +156,12 @@ namespace SetStartDupes
                                 RebuildInformationPanel();
                             }
                         );
+
                 PresetHolder.transform.Find("AddThisTraitButton").FindOrAddComponent<FButton>().OnClick += () => SetAsCurrent(config);
                 PresetHolder.transform.Find("DeleteButton").FindOrAddComponent<FButton>().OnClick += () => DeletePreset(config);
+
+                UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("RenameButton"), SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP);
+                UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("DeleteButton"), SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP);
                 Presets[config] = PresetHolder;
             }
         }
@@ -208,7 +212,7 @@ namespace SetStartDupes
             InformationObjects.Add(spacer4);
 
             var aptitudeHeader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-            UIUtils.TryChangeText(aptitudeHeader.transform, "Label", "Interests:"); //TODO LOC
+            UIUtils.TryChangeText(aptitudeHeader.transform, "Label", global::STRINGS.UI.CHARACTERCONTAINER_APTITUDES_TITLE + ":"); 
             InformationObjects.Add(aptitudeHeader);
 
             foreach (var skill in CurrentlySelected.skillAptitudes)
@@ -226,7 +230,7 @@ namespace SetStartDupes
             InformationObjects.Add(spacer3);
 
             var traitHeader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-            UIUtils.TryChangeText(traitHeader.transform, "Label", "Traits:");//TODO LOC
+            UIUtils.TryChangeText(traitHeader.transform, "Label", global::STRINGS.UI.CHARACTERCONTAINER_TRAITS_TITLE+":");
             InformationObjects.Add(traitHeader);
 
 
@@ -247,7 +251,7 @@ namespace SetStartDupes
             InformationObjects.Add(spacer2);
 
             var joyheader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-            UIUtils.TryChangeText(joyheader.transform, "Label", "Overjoyed Response:");//TODO LOC
+            UIUtils.TryChangeText(joyheader.transform, "Label", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_JOYTRAIT, string.Empty));
             InformationObjects.Add(joyheader);
 
 
@@ -258,7 +262,7 @@ namespace SetStartDupes
             ApplyColorToTraitContainer(joy, CurrentlySelected.joyTrait);
 
             var stressheader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-            UIUtils.TryChangeText(stressheader.transform, "Label", "Stress Trait:");//TODO LOC
+            UIUtils.TryChangeText(stressheader.transform, "Label", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_STRESSTRAIT, string.Empty));
             InformationObjects.Add(stressheader);
 
             var stress = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
@@ -337,6 +341,14 @@ namespace SetStartDupes
                 CurrentlySelected.WriteToFile();
                 RebuildInformationPanel();
             };
+
+
+            UIUtils.AddSimpleTooltipToObject(GeneratePresetButton.transform, HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP);
+            UIUtils.AddSimpleTooltipToObject(CloseButton.transform, HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TOOLTIP);
+            UIUtils.AddSimpleTooltipToObject(ApplyButton.transform, HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TOOLTIP);
+
+            UIUtils.AddSimpleTooltipToObject(ClearSearchBar.transform, HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.CLEARTOOLTIP);
+            UIUtils.AddSimpleTooltipToObject(OpenPresetFolder.transform, HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.OPENFOLDERTOOLTIP);
 
             InfoHeaderPrefab = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/HeaderPrefab").gameObject; ;
             InfoRowPrefab = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/ItemPrefab").gameObject;
