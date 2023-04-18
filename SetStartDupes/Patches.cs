@@ -359,7 +359,8 @@ namespace SetStartDupes
         [HarmonyPatch(nameof(MinionStartingStats.GenerateTraits))]
         public class AllowCustomTraitAllignment
         {
-            public static bool VariableTraits(bool isStarterMinion) ///int requirement to consume previous "3" on stack
+            ///Rework
+            public static bool VariableTraits(bool isStarterMinion) 
             {
                 return false;
             }
