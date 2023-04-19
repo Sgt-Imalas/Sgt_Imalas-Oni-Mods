@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using KMod;
 using System;
+using UtilLibs;
 
 namespace CustomGameSettingsModifier
 {
@@ -10,6 +11,7 @@ namespace CustomGameSettingsModifier
         {
             ModAssets.LoadAssets();
             base.OnLoad(harmony);
+            SgtLogger.LogVersion(this);
         }
     }
 }

@@ -92,7 +92,7 @@ namespace CustomGameSettingsModifier
             else
             {
                 AddMissingCustomGameSetting(CustomGameSettingConfigs.ImmuneSystem);
-                ImmuneSystem.Value = isNoSweat ? CustomGameSettingConfigs.ImmuneSystem.nosweat_default_level_id : CustomGameSettingConfigs.ImmuneSystem.default_level_id;
+                ImmuneSystem.Value = isNoSweat ? CustomGameSettingConfigs.ImmuneSystem.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.ImmuneSystem.GetDefaultLevelId();
             }
 
             ///CalorieBurn
@@ -103,7 +103,7 @@ namespace CustomGameSettingsModifier
             else
             {
                 AddMissingCustomGameSetting(CustomGameSettingConfigs.CalorieBurn);
-                CalorieBurn.Value = isNoSweat ? CustomGameSettingConfigs.CalorieBurn.nosweat_default_level_id : CustomGameSettingConfigs.CalorieBurn.default_level_id;
+                CalorieBurn.Value = isNoSweat ? CustomGameSettingConfigs.CalorieBurn.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.CalorieBurn.GetDefaultLevelId();
             }
 
             ///Morale
@@ -114,7 +114,7 @@ namespace CustomGameSettingsModifier
             else
             {
                 AddMissingCustomGameSetting(CustomGameSettingConfigs.Morale);
-                Morale.Value = isNoSweat ? CustomGameSettingConfigs.Morale.nosweat_default_level_id : CustomGameSettingConfigs.Morale.default_level_id;
+                Morale.Value = isNoSweat ? CustomGameSettingConfigs.Morale.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.Morale.GetDefaultLevelId();
             }
 
             ///Durability (suits)
@@ -125,7 +125,7 @@ namespace CustomGameSettingsModifier
             else
             {
                 AddMissingCustomGameSetting(CustomGameSettingConfigs.Durability);
-                Durability.Value = isNoSweat ? CustomGameSettingConfigs.Durability.nosweat_default_level_id : CustomGameSettingConfigs.Durability.default_level_id;
+                Durability.Value = isNoSweat ? CustomGameSettingConfigs.Durability.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.Durability.GetDefaultLevelId();
             }
 
             ///MeteorShowers
@@ -136,7 +136,7 @@ namespace CustomGameSettingsModifier
             else
             {
                 AddMissingCustomGameSetting(CustomGameSettingConfigs.MeteorShowers);
-                MeteorShowers.Value = isNoSweat ? CustomGameSettingConfigs.MeteorShowers.nosweat_default_level_id : CustomGameSettingConfigs.MeteorShowers.default_level_id;
+                MeteorShowers.Value = isNoSweat ? CustomGameSettingConfigs.MeteorShowers.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.MeteorShowers.GetDefaultLevelId();
             }
 
             ///Radiation
@@ -149,7 +149,7 @@ namespace CustomGameSettingsModifier
                 else
                 {
                     AddMissingCustomGameSetting(CustomGameSettingConfigs.Radiation);
-                    Radiation.Value = isNoSweat ? CustomGameSettingConfigs.Radiation.nosweat_default_level_id : CustomGameSettingConfigs.Radiation.default_level_id;
+                    Radiation.Value = isNoSweat ? CustomGameSettingConfigs.Radiation.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.Radiation.GetDefaultLevelId();
                 }
             }
 
@@ -161,7 +161,7 @@ namespace CustomGameSettingsModifier
             else
             {
                 AddMissingCustomGameSetting(CustomGameSettingConfigs.Stress);
-                Stress.Value = isNoSweat ? CustomGameSettingConfigs.Stress.nosweat_default_level_id : CustomGameSettingConfigs.Stress.default_level_id;
+                Stress.Value = isNoSweat ? CustomGameSettingConfigs.Stress.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.Stress.GetDefaultLevelId();
             }
 
             ///StressBreaks
@@ -173,8 +173,8 @@ namespace CustomGameSettingsModifier
             {
                 AddMissingCustomGameSetting(CustomGameSettingConfigs.StressBreaks);
                 StressBreaks.On = isNoSweat 
-                    ? CustomGameSettingConfigs.StressBreaks.nosweat_default_level_id == (CustomGameSettingConfigs.StressBreaks as ToggleSettingConfig).on_level.id 
-                    : CustomGameSettingConfigs.StressBreaks.default_level_id == (CustomGameSettingConfigs.StressBreaks as ToggleSettingConfig).on_level.id;
+                    ? CustomGameSettingConfigs.StressBreaks.GetNoSweatDefaultLevelId() == (CustomGameSettingConfigs.StressBreaks as ToggleSettingConfig).on_level.id 
+                    : CustomGameSettingConfigs.StressBreaks.GetDefaultLevelId() == (CustomGameSettingConfigs.StressBreaks as ToggleSettingConfig).on_level.id;
             }
 
             ///CarePackages
@@ -186,8 +186,8 @@ namespace CustomGameSettingsModifier
             {
                 AddMissingCustomGameSetting(CustomGameSettingConfigs.CarePackages);
                 CarePackages.On = isNoSweat
-                    ? CustomGameSettingConfigs.CarePackages.nosweat_default_level_id == (CustomGameSettingConfigs.CarePackages as ToggleSettingConfig).on_level.id
-                    : CustomGameSettingConfigs.CarePackages.default_level_id == (CustomGameSettingConfigs.CarePackages as ToggleSettingConfig).on_level.id;
+                    ? CustomGameSettingConfigs.CarePackages.GetNoSweatDefaultLevelId() == (CustomGameSettingConfigs.CarePackages as ToggleSettingConfig).on_level.id
+                    : CustomGameSettingConfigs.CarePackages.GetDefaultLevelId() == (CustomGameSettingConfigs.CarePackages as ToggleSettingConfig).on_level.id;
             }
 
             ///Fast Workers
@@ -199,8 +199,8 @@ namespace CustomGameSettingsModifier
             {
                 AddMissingCustomGameSetting(CustomGameSettingConfigs.FastWorkersMode);
                 FastWorkersMode.On = isNoSweat
-                    ? CustomGameSettingConfigs.FastWorkersMode.nosweat_default_level_id == (CustomGameSettingConfigs.FastWorkersMode as ToggleSettingConfig).on_level.id
-                    : CustomGameSettingConfigs.FastWorkersMode.default_level_id == (CustomGameSettingConfigs.FastWorkersMode as ToggleSettingConfig).on_level.id;
+                    ? CustomGameSettingConfigs.FastWorkersMode.GetNoSweatDefaultLevelId() == (CustomGameSettingConfigs.FastWorkersMode as ToggleSettingConfig).on_level.id
+                    : CustomGameSettingConfigs.FastWorkersMode.GetDefaultLevelId() == (CustomGameSettingConfigs.FastWorkersMode as ToggleSettingConfig).on_level.id;
             }
 
         }
