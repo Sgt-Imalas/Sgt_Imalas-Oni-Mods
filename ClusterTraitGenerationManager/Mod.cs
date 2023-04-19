@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using KMod;
 using System;
+using UtilLibs;
 
 namespace ClusterTraitGenerationManager
 {
@@ -10,6 +11,7 @@ namespace ClusterTraitGenerationManager
         {
             base.OnLoad(harmony);
             ModAssets.LoadAssets();
+            SgtLogger.LogVersion(this);
 #if DEBUG
             Debug.LogError("Error THIS IS NOT RELEASE");
 #endif

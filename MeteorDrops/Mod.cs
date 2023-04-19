@@ -3,6 +3,7 @@ using KMod;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
 using System;
+using UtilLibs;
 
 namespace MeteorDrops
 {
@@ -13,6 +14,7 @@ namespace MeteorDrops
             PUtil.InitLibrary(false);
             new POptions().RegisterOptions(this, typeof(Config));
             base.OnLoad(harmony);
+            SgtLogger.LogVersion(this);
         }
     }
 }

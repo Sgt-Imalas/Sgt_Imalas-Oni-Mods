@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UtilLibs;
 
 namespace Radiator_Mod
 {
@@ -13,6 +14,7 @@ namespace Radiator_Mod
 		public override void OnLoad(Harmony harmony)
 		{
 			base.OnLoad(harmony);
-		}
+            SgtLogger.LogVersion(this);
+        }
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using KMod;
 using System;
+using UtilLibs;
 
 namespace CritterTraitsReborn
 {
@@ -9,6 +10,7 @@ namespace CritterTraitsReborn
         public override void OnLoad(Harmony harmony)
         {
             base.OnLoad(harmony);
+            SgtLogger.LogVersion(this);
         }
     }
 }

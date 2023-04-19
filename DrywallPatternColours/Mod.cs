@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using KMod;
 using System;
+using UtilLibs;
 
 namespace DrywallPatternColours
 {
@@ -9,6 +10,7 @@ namespace DrywallPatternColours
         public override void OnLoad(Harmony harmony)
         {
             base.OnLoad(harmony);
+            SgtLogger.LogVersion(this);
         }
     }
 }

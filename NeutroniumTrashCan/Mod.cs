@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using KMod;
 using System;
+using UtilLibs;
 
 namespace NeutroniumTrashCan
 {
@@ -9,6 +10,7 @@ namespace NeutroniumTrashCan
         public override void OnLoad(Harmony harmony)
         {
             base.OnLoad(harmony);
+            SgtLogger.LogVersion(this);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using KMod;
 using System;
+using UtilLibs;
 
 namespace YamlTemplateExportFix
 {
@@ -9,6 +10,7 @@ namespace YamlTemplateExportFix
         public override void OnLoad(Harmony harmony)
         {
             base.OnLoad(harmony);
+            SgtLogger.LogVersion(this);
         }
     }
 }

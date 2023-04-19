@@ -7,6 +7,7 @@ using PeterHan.PLib.Options;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UtilLibs;
 
 namespace LogicSatellites
 {
@@ -20,6 +21,7 @@ namespace LogicSatellites
             base.OnLoad(harmony);
             var lightManager = new PLightManager();
             LaserBeam = lightManager.Register("LS_SolarSatelliteBeam", LaserBeamHandler);
+            SgtLogger.LogVersion(this);
         }
         public static void LaserBeamHandler(LightingArgs arg)
         {

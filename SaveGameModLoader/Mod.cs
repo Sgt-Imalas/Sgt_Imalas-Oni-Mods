@@ -33,6 +33,7 @@ namespace SaveGameModLoader
             ModlistManager.Instance.GetAllStoredModlists();
             ModlistManager.Instance.GetAllModPacks();
             base.OnLoad(harmony);
+            SgtLogger.LogVersion(this);
         }
     }
 }

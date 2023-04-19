@@ -31,7 +31,7 @@ namespace SetStartDupes
             }
             SgtLogger.log("Folders succesfully initialized");
 
-            SgtLogger.debuglog("Mod Version: " + this.mod.packagedModInfo.version);
+            SgtLogger.LogVersion(this);
             base.OnLoad(harmony);
         }
     }

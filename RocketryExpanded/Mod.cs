@@ -2,6 +2,7 @@
 using KMod;
 using ExplosiveMaterials.entities;
 using System;
+using UtilLibs;
 
 namespace ExplosiveMaterials
 {
@@ -12,6 +13,7 @@ namespace ExplosiveMaterials
 			GameTags.MaterialBuildingElements.Add(ModAssets.Tags.BuildableExplosive);
 			//GameTags.Other.Add("x");
 			base.OnLoad(harmony);
-		}
+            SgtLogger.LogVersion(this);
+        }
 	}
 }
