@@ -15,6 +15,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
+using static CustomGameSettings;
 using static SandboxSettings;
 
 namespace CustomGameSettingsModifier
@@ -71,30 +72,136 @@ namespace CustomGameSettingsModifier
             base.OnKeyDown(e);
         }
 
+        private void AddMissingCustomGameSetting(SettingConfig type)
+        {
+
+            SgtLogger.warning(type.GetType().ToString() + " value not found, defaulting");
+            CustomGameSettings.Instance.QualitySettings[type.id] = type;
+        }
+
         private void LoadGameSettings()
         {
             var instance = CustomGameSettings.Instance;
-            //foreach(var setting in instance.QualitySettings)
-            //{
-            //    SgtLogger.l( instance.GetCurrentQualitySetting(setting.Value).id, setting.Key);
-            //}
-            //StressBreaks.SetOn((bool)instance.GetCurrentQualitySetting(CustomGameSettingConfigs.StressBreaks).userdata);
-            ImmuneSystem.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.ImmuneSystem).id;
-            CalorieBurn.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.CalorieBurn).id;
-            Morale.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Morale).id;
-            Durability.Value= instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Durability).id;
-            MeteorShowers.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.MeteorShowers).id;
+            bool isNoSweat = instance.customGameMode == CustomGameMode.Nosweat;
 
-            if (DlcManager.IsExpansion1Active())
+            ///ImmuneSystem
+            if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.ImmuneSystem.id))
             {
-                Radiation.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Radiation).id;
+                ImmuneSystem.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.ImmuneSystem).id;
+            }
+            else
+            {
+                AddMissingCustomGameSetting(CustomGameSettingConfigs.ImmuneSystem);
+                ImmuneSystem.Value = isNoSweat ? CustomGameSettingConfigs.ImmuneSystem.nosweat_default_level_id : CustomGameSettingConfigs.ImmuneSystem.default_level_id;
             }
 
-            Stress.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Stress).id;
-            StressBreaks.On = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.StressBreaks).id == (CustomGameSettingConfigs.StressBreaks as ToggleSettingConfig).on_level.id;
-            CarePackages.On = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.CarePackages).id == (CustomGameSettingConfigs.CarePackages as ToggleSettingConfig).on_level.id;
-            //SandboxMode.On = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.SandboxMode).id == (CustomGameSettingConfigs.SandboxMode as ToggleSettingConfig).on_level.id;
-            FastWorkersMode.On = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.FastWorkersMode).id == (CustomGameSettingConfigs.FastWorkersMode as ToggleSettingConfig).on_level.id;
+            ///CalorieBurn
+            if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.CalorieBurn.id))
+            {
+                CalorieBurn.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.CalorieBurn).id;
+            }
+            else
+            {
+                AddMissingCustomGameSetting(CustomGameSettingConfigs.CalorieBurn);
+                CalorieBurn.Value = isNoSweat ? CustomGameSettingConfigs.CalorieBurn.nosweat_default_level_id : CustomGameSettingConfigs.CalorieBurn.default_level_id;
+            }
+
+            ///Morale
+            if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.Morale.id))
+            {
+                Morale.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Morale).id;
+            }
+            else
+            {
+                AddMissingCustomGameSetting(CustomGameSettingConfigs.Morale);
+                Morale.Value = isNoSweat ? CustomGameSettingConfigs.Morale.nosweat_default_level_id : CustomGameSettingConfigs.Morale.default_level_id;
+            }
+
+            ///Durability (suits)
+            if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.Durability.id))
+            {
+                Durability.Value= instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Durability).id;
+            }
+            else
+            {
+                AddMissingCustomGameSetting(CustomGameSettingConfigs.Durability);
+                Durability.Value = isNoSweat ? CustomGameSettingConfigs.Durability.nosweat_default_level_id : CustomGameSettingConfigs.Durability.default_level_id;
+            }
+
+            ///MeteorShowers
+            if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.MeteorShowers.id))
+            {
+                MeteorShowers.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.MeteorShowers).id;
+            }
+            else
+            {
+                AddMissingCustomGameSetting(CustomGameSettingConfigs.MeteorShowers);
+                MeteorShowers.Value = isNoSweat ? CustomGameSettingConfigs.MeteorShowers.nosweat_default_level_id : CustomGameSettingConfigs.MeteorShowers.default_level_id;
+            }
+
+            ///Radiation
+            if (DlcManager.IsExpansion1Active())
+            {
+                if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.Radiation.id))
+                {
+                    Radiation.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Radiation).id;
+                }
+                else
+                {
+                    AddMissingCustomGameSetting(CustomGameSettingConfigs.Radiation);
+                    Radiation.Value = isNoSweat ? CustomGameSettingConfigs.Radiation.nosweat_default_level_id : CustomGameSettingConfigs.Radiation.default_level_id;
+                }
+            }
+
+            ///Stress
+            if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.Stress.id))
+            {
+                Stress.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Stress).id;
+            }
+            else
+            {
+                AddMissingCustomGameSetting(CustomGameSettingConfigs.Stress);
+                Stress.Value = isNoSweat ? CustomGameSettingConfigs.Stress.nosweat_default_level_id : CustomGameSettingConfigs.Stress.default_level_id;
+            }
+
+            ///StressBreaks
+            if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.StressBreaks.id))
+            {
+                StressBreaks.On = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.StressBreaks).id == (CustomGameSettingConfigs.StressBreaks as ToggleSettingConfig).on_level.id;
+            }
+            else
+            {
+                AddMissingCustomGameSetting(CustomGameSettingConfigs.StressBreaks);
+                StressBreaks.On = isNoSweat 
+                    ? CustomGameSettingConfigs.StressBreaks.nosweat_default_level_id == (CustomGameSettingConfigs.StressBreaks as ToggleSettingConfig).on_level.id 
+                    : CustomGameSettingConfigs.StressBreaks.default_level_id == (CustomGameSettingConfigs.StressBreaks as ToggleSettingConfig).on_level.id;
+            }
+
+            ///CarePackages
+            if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.CarePackages.id))
+            {
+                CarePackages.On = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.CarePackages).id == (CustomGameSettingConfigs.CarePackages as ToggleSettingConfig).on_level.id;
+            }
+            else
+            {
+                AddMissingCustomGameSetting(CustomGameSettingConfigs.CarePackages);
+                CarePackages.On = isNoSweat
+                    ? CustomGameSettingConfigs.CarePackages.nosweat_default_level_id == (CustomGameSettingConfigs.CarePackages as ToggleSettingConfig).on_level.id
+                    : CustomGameSettingConfigs.CarePackages.default_level_id == (CustomGameSettingConfigs.CarePackages as ToggleSettingConfig).on_level.id;
+            }
+
+            ///Fast Workers
+            if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.FastWorkersMode.id))
+            {
+                FastWorkersMode.On = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.FastWorkersMode).id == (CustomGameSettingConfigs.FastWorkersMode as ToggleSettingConfig).on_level.id;
+            }
+            else
+            {
+                AddMissingCustomGameSetting(CustomGameSettingConfigs.FastWorkersMode);
+                FastWorkersMode.On = isNoSweat
+                    ? CustomGameSettingConfigs.FastWorkersMode.nosweat_default_level_id == (CustomGameSettingConfigs.FastWorkersMode as ToggleSettingConfig).on_level.id
+                    : CustomGameSettingConfigs.FastWorkersMode.default_level_id == (CustomGameSettingConfigs.FastWorkersMode as ToggleSettingConfig).on_level.id;
+            }
 
         }
 
