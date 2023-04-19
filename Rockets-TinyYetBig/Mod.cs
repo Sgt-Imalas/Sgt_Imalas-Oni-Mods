@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using UtilLibs;
 using static UtilLibs.RocketryUtils;
 using static Rockets_TinyYetBig.STRINGS;
+using static PeterHan.PLib.AVC.JsonURLVersionChecker;
 
 namespace Rockets_TinyYetBig
 {
@@ -26,7 +27,7 @@ namespace Rockets_TinyYetBig
             //GameTags.MaterialBuildingElements.Add(ModAssets.Tags.NeutroniumDust);
 
             SgtLogger.debuglog("Initialized");
-            SgtLogger.debuglog("Mod Version: " + this.mod.packagedModInfo.version);
+            SgtLogger.LogVersion(this);
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {

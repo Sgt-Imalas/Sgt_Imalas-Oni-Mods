@@ -1,4 +1,5 @@
-﻿using KSerialization;
+﻿using KMod;
+using KSerialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,10 @@ namespace UtilLibs
 {
     public static class SgtLogger
     {
+        public static void LogVersion(UserMod2 usermod)
+        {
+            debuglog("Mod Version: " + usermod.mod.packagedModInfo.version);
+        }
 
         public static void l(string message, string assemblyOverride = "")
         {
