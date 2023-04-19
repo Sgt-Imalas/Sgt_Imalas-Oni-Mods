@@ -15,19 +15,6 @@ namespace SGTIM_NotificationManager
     internal class Patches
     {
         /// <summary>
-        /// add buildings to plan screen
-        /// </summary>
-        [HarmonyPatch(typeof(GeneratedBuildings))]
-        [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
-        public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
-        {
-
-            public static void Prefix()
-            {
-                //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
-            }
-        }
-        /// <summary>
         /// Init. auto translation
         /// </summary>
         [HarmonyPatch(typeof(Localization), "Initialize")]
@@ -48,9 +35,8 @@ namespace SGTIM_NotificationManager
         {
             public static bool Prefix(CalorieMonitor.Instance __instance, ref bool __result)
             {
-                float CalorieWarning = 600f;
-                float percentage = CalorieWarning / __instance.calories.GetMax();
-                __result = __instance.GetCalories0to1() <  percentage;
+                float percentage = ((float)Config.Instance.STARVATION_THRESHOLD) / __instance.calories.GetMax();
+                __result = __instance.GetCalories0to1() < percentage;
                 return false;
             }
         }
@@ -61,9 +47,12 @@ namespace SGTIM_NotificationManager
         {
             public static bool Prefix(SuffocationMonitor.Instance __instance, ref bool __result)
             {
-                float timeToSuffocation = 50f;
-                float breathValuePercentage =  timeToSuffocation/110f;
-                __result = (double)__instance.breath.deltaAttribute.GetTotalValue() <= 0.0 && (double)__instance.breath.value <= breathValuePercentage;
+                float breathValuePercentage = ((float)Config.Instance.SUFFOCATION_THRESHOLD) * 100f / 110f;
+                if (__instance.breath.deltaAttribute.GetTotalValue() <= 0f)
+                {
+                    return __instance.breath.value <= breathValuePercentage;
+                }
+                __result = false;
                 return false;
             }
         }
@@ -73,35 +62,111 @@ namespace SGTIM_NotificationManager
         {
             public static bool Prefix(SuffocationMonitor.Instance __instance, ref bool __result)
             {
-                float timeToSuffocation = 50f;
-                float breathValuePercentage = timeToSuffocation / 110f;
-                __result = (double)__instance.breath.deltaAttribute.GetTotalValue() <= 0.0 && (double)__instance.breath.value <= breathValuePercentage;
+                float breathValuePercentage = ((float)Config.Instance.SUFFOCATION_THRESHOLD) * 100f / 110f;
+                __result = (double)__instance.breath.value <= breathValuePercentage;
                 return false;
             }
         }
+        [HarmonyPatch(typeof(NotificationScreen))]
+        [HarmonyPatch(nameof(NotificationScreen.PlayDingSound))]
+        public static class MuteDingSound
+        {
+            public static void Prefix(Notification notification)
+            {
+                if (notification == null)
+                    return;
 
+                SgtLogger.l(notification.NotifierName + ", " + notification.titleText);
+                bool skipAudio = false;
+                if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.STARVING.NOTIFICATION_NAME)
+                    skipAudio = Config.Instance.MUTE_STARVATION_SOUND;
+                else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.SUFFOCATING.NOTIFICATION_NAME)
+                    skipAudio = Config.Instance.MUTE_SUFFOCATION_SOUND;
+                else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.FIGHTING.NOTIFICATION_NAME)
+                    skipAudio = Config.Instance.MUTE_ATTACK_SOUND;
+                else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.FLEEING.NOTIFICATION_NAME)
+                    skipAudio = Config.Instance.MUTE_FLEE_SOUND;
+                else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.STRESSFULLYEMPTYINGBLADDER.NOTIFICATION_NAME)
+                    skipAudio = Config.Instance.MUTE_PEE_SOUND;
+                else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.STRESSED.NOTIFICATION_NAME)
+                    skipAudio = Config.Instance.MUTE_STRESS_SOUND;
+                else if (notification.titleText == global::STRINGS.CREATURES.STATUSITEMS.SCALDING.NOTIFICATION_NAME)
+                    skipAudio = Config.Instance.MUTE_SCALDING_SOUND;
+                else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.INCAPACITATED.NOTIFICATION_NAME)
+                    skipAudio = Config.Instance.MUTE_INCAPACITATED_SOUND;
+                else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.ENTOMBEDCHORE.NOTIFICATION_NAME)
+                    skipAudio = Config.Instance.MUTE_ENTOMBED_SOUND;
 
-        //[HarmonyPatch(typeof(SweepBotStationConfig))]
-        //[HarmonyPatch(nameof(SweepBotStationConfig.CreateBuildingDef))]
-        //public class AddUtilityPort
-        //{
-        //    public static void Postfix(BuildingDef __result)
-        //    {
-        //        __result.OutputConduitType = ConduitType.Liquid;
-        //        __result.UtilityOutputOffset = new CellOffset(0, 0);
-        //    }
-        //}
-        //[HarmonyPatch(typeof(SweepBotStationConfig))]
-        //[HarmonyPatch(nameof(SweepBotStationConfig.DoPostConfigureComplete))]
-        //public class AddConsumer
-        //{
-        //    public static void Postfix(GameObject go)
-        //    {
-        //        var dispenser = go.AddOrGet<ConduitDispenser>();
-        //        dispenser.conduitType = ConduitType.Liquid;
-        //        dispenser.elementFilter = (SimHashes[]) null;
-        //        dispenser.storage = go.GetComponents<Storage>().First( x => x.fetchCategory == Storage.FetchCategory.StorageSweepOnly);
-        //    }
-        //}
+                notification.playSound = !skipAudio;
+            }
+        }
+        [HarmonyPatch(typeof(NotificationScreen.Entry))]
+        [HarmonyPatch(nameof(NotificationScreen.Entry.Add))]
+        public static class PauseAndZoom
+        {
+            public static void Postfix(Notification notification)
+            {
+                if (notification == null)
+                    return;
+                bool pause = false;
+                bool moveCam = false;
+
+                if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.STARVING.NOTIFICATION_NAME)
+                {
+                    pause = Config.Instance.PAUSE_ON_STARVATION;
+                    moveCam = Config.Instance.PAN_TO_STARVATION;
+                }
+                else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.SUFFOCATING.NOTIFICATION_NAME)
+                {
+                    pause = Config.Instance.PAUSE_ON_SUFFOCATION;
+                    moveCam = Config.Instance.PAN_TO_SUFFOCATION;
+                }
+                else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.FIGHTING.NOTIFICATION_NAME)
+                {
+                    pause = Config.Instance.PAUSE_ON_ATTACK;
+                    moveCam = Config.Instance.PAN_TO_ATTACK;
+                }
+                else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.FLEEING.NOTIFICATION_NAME)
+                {
+                    pause = Config.Instance.PAUSE_ON_FLEE;
+                    moveCam = Config.Instance.PAN_TO_FLEE;
+                }
+                else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.STRESSFULLYEMPTYINGBLADDER.NOTIFICATION_NAME)
+                {
+                    pause = Config.Instance.PAUSE_ON_PEE;
+                    moveCam = Config.Instance.PAN_TO_PEE;
+                }
+                else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.STRESSED.NOTIFICATION_NAME)
+                {
+                    pause = Config.Instance.PAUSE_ON_STRESS;
+                    moveCam = Config.Instance.PAN_TO_STRESS;
+                }
+                else if (notification.titleText == global::STRINGS.CREATURES.STATUSITEMS.SCALDING.NOTIFICATION_NAME)
+                {
+                    pause = Config.Instance.PAUSE_ON_SCALDING;
+                    moveCam = Config.Instance.PAN_TO_SCALDING;
+                }
+                else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.INCAPACITATED.NOTIFICATION_NAME)
+                {
+                    pause = Config.Instance.PAUSE_ON_INCAPACITATED;
+                    moveCam = Config.Instance.PAN_TO_INCAPACITATED;
+                }
+                else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.ENTOMBEDCHORE.NOTIFICATION_NAME)
+                {
+                    pause = Config.Instance.PAUSE_ON_ENTOMBED;
+                    moveCam = Config.Instance.PAN_TO_ENTOMBED;
+                }
+
+                if (notification.Notifier != null && moveCam)
+                {
+                    CameraController.Instance.ActiveWorldStarWipe(notification.Notifier.gameObject.GetMyWorldId(), notification.Notifier.transform.GetPosition(), 8f);
+                }
+                if (pause)
+                {
+                    SpeedControlScreen.Instance.Pause(false);
+                }
+
+            }
+        }
     }
 }

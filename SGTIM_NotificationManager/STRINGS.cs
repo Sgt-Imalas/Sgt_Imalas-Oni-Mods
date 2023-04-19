@@ -9,11 +9,68 @@ namespace SGTIM_NotificationManager
 {
     internal class STRINGS
     {
-        public class BUILDINGS
+        public class NOTIFICATION_CONFIG
         {
-            public class PREFABS
-            {
 
+            public static LocString MUTE_PING = "Mute notification ping";
+            public static LocString MUTE_PING_TOOLTIP = "Enable this option to remove the ping-sound from the warning.";
+            public static LocString PAUSE_ON_NOTIFICATION = "Pause game on trigger";
+            public static LocString PAUSE_ON_NOTIFICATION_TOOLTIP = "Pauses the game when the notification triggers.";
+            public static LocString ZOOM_ON_NOTIFICATION = "Pan to origin";
+            public static LocString ZOOM_ON_NOTIFICATION_TOOLTIP = "Zooms to the origin of the notification when it triggers.";
+
+
+            public class STARVATION
+            {
+                public static LocString CATEGORY = "Starvation Notification";
+                public static LocString THRESHOLD = "Starvation Calorie Treshold";
+                public static LocString THRESHOLD_TOOLTIP = "Calorie threshold for the starvation notification.\nDefault is 1000";
+            }
+            public class ATTACK
+            {
+                public static LocString CATEGORY = "Attack Notification";
+            }
+            public class PEE
+            {
+                public static LocString CATEGORY = "Made-a-mess Notification";
+            }
+            public class FLEE
+            {
+                public static LocString CATEGORY = "Fleeing Notification";
+            }
+            public class SUFFOCATION
+            {
+                public static LocString CATEGORY = "Suffocation Notification";
+                public static LocString THRESHOLD = "Suffocation Time Treshold";
+                public static LocString THRESHOLD_TOOLTIP = "Time from notification start to death by suffocation in seconds.\nDefault is 50 seconds";
+            }
+            public class STRESS
+            {
+                public static LocString CATEGORY = "Stress Notification";
+                public static LocString THRESHOLD = "Stress Treshold";
+                public static LocString THRESHOLD_TOOLTIP = "Stress level where the notification triggers in percent.\nDefault is 80%";
+            }
+            public class RADIATION
+            {
+                public static LocString CATEGORY = "Radiation Notification";
+                //public static LocString THRESHOLD = "Ra Treshold";
+                //public static LocString THRESHOLD_TOOLTIP = "Stress level where the notification triggers in percent.\nDefault is 80%";
+            }
+            public class SCALDING
+            {
+                public static LocString CATEGORY = "Scalding Notification";
+            }
+            public class ENTOMBED
+            {
+                public static LocString CATEGORY = "Entombed Notification";
+            }
+            public class INCAPACITATED
+            {
+                public static LocString CATEGORY = "Incapacitated Notification";
+            }
+            public class CEILINGCOLLAPSE
+            {
+                public static LocString CATEGORY = "Ceiling-Collapse Notification";
             }
         }
     }
