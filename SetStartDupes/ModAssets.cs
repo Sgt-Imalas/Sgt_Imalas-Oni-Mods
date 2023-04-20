@@ -20,7 +20,6 @@ namespace SetStartDupes
 
         public static CharacterContainer PrefabToFix;
         public static GameObject StartPrefab;
-        public static bool HasShrunkenDown = false;
 
         public static GameObject NextButtonPrefab;
 
@@ -34,18 +33,35 @@ namespace SetStartDupes
 
 
         public static GameObject PresetWindowPrefab;
+        public static GameObject TraitsWindowPrefab;
         public static void LoadAssets()
         {
             AssetBundle bundle = AssetUtils.LoadAssetBundle("dcs_presetwindow", platformSpecific: true);
             PresetWindowPrefab = bundle.LoadAsset<GameObject>("Assets/PresetWindow_Prefab.prefab");
+            TraitsWindowPrefab = bundle.LoadAsset<GameObject>("Assets/DupeSkillsPopUp.prefab");
 
-            UIUtils.ListAllChildren(PresetWindowPrefab.transform);
+            //UIUtils.ListAllChildren(PresetWindowPrefab.transform);
 
             var TMPConverter = new TMPConverter();
             TMPConverter.ReplaceAllText(PresetWindowPrefab);
+            TMPConverter.ReplaceAllText(TraitsWindowPrefab);
 
         }
 
+        public static int PointsPerInterests(int numberOfInterests)
+        {
+            int pointsPer = 0;
+            if (numberOfInterests > 0)
+            {
+                if (numberOfInterests == 1)
+                    pointsPer = 7;
+                else if (numberOfInterests == 2)
+                    pointsPer = 3;
+                else
+                    pointsPer = 1;
+            }
+            return pointsPer;
+        }
 
         public static class Colors
         {
