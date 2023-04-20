@@ -291,7 +291,7 @@ namespace SetStartDupes
         void ApplyColorToTraitContainer(GameObject container, string traitID)
         {
 
-            var type = DupeTraitManager.GetTraitListOfTrait(traitID, out var list);
+            var type = ModAssets.GetTraitListOfTrait(traitID, out var list);
             container.FindOrAddComponent<Image>().color = ModAssets.GetColourFromType(type);
         }
 

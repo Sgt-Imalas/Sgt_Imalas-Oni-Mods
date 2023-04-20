@@ -174,47 +174,12 @@ namespace SetStartDupes
 
 
 
-        public static NextType GetTraitListOfTrait(string traitId, out List<DUPLICANTSTATS.TraitVal> TraitList)
-        {
-            if (DUPLICANTSTATS.GENESHUFFLERTRAITS.FindIndex(t => t.id == traitId) != -1)
-            {
-                TraitList = DUPLICANTSTATS.GENESHUFFLERTRAITS;
-                return NextType.geneShufflerTrait;
-            }
-            else if (DUPLICANTSTATS.GOODTRAITS.FindIndex(t => t.id == traitId) != -1)
-            {
-                TraitList = DUPLICANTSTATS.GOODTRAITS;
-                return NextType.posTrait;
-            }
-            else if (DUPLICANTSTATS.BADTRAITS.FindIndex(t => t.id == traitId) != -1)
-            {
-                TraitList = DUPLICANTSTATS.BADTRAITS;
-                return NextType.negTrait;
-            }
-            else if (DUPLICANTSTATS.NEEDTRAITS.FindIndex(t => t.id == traitId) != -1)
-            {
-                TraitList = DUPLICANTSTATS.NEEDTRAITS;
-                return NextType.needTrait;
-            }
-            else if (DUPLICANTSTATS.JOYTRAITS.FindIndex(t => t.id == traitId) != -1)
-            {
-                TraitList = DUPLICANTSTATS.JOYTRAITS;
-                return NextType.joy;
-            }
-            else if (DUPLICANTSTATS.STRESSTRAITS.FindIndex(t => t.id == traitId) != -1)
-            {
-                TraitList = DUPLICANTSTATS.STRESSTRAITS;
-                return NextType.stress;
-            }
-            TraitList = null;
-            return NextType.undefined;
 
-        }
 
 
         public string GetNextTraitId(string currentId, bool backwards)
         {
-            GetTraitListOfTrait(currentId, out var currentList);
+            ModAssets.GetTraitListOfTrait(currentId, out var currentList);
             if (currentList == null)
                 return currentId;
             int i = 0;

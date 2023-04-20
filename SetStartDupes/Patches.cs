@@ -203,9 +203,9 @@ namespace SetStartDupes
         /// Gets a prefab and applies "Care Packages Only"-Mode
         /// </summary>
         [HarmonyPatch(typeof(CharacterSelectionController), nameof(CharacterSelectionController.InitializeContainers))]
-        public class CharacterSelectionController_InitializeContainers_Patches
+        public class controller2_patch
         {
-            static CharacterSelectionController instance;
+            public static CharacterSelectionController instance;
             public static void Prefix(CharacterSelectionController __instance)
             {
                 instance = __instance;
@@ -236,8 +236,8 @@ namespace SetStartDupes
                 "numberOfCarePackageOptions");
 
             public static readonly MethodInfo AdjustNumbers = AccessTools.Method(
-               typeof(CharacterSelectionController_InitializeContainers_Patches),
-               nameof(CharacterSelectionController_InitializeContainers_Patches.CarePackagesOnly));
+               typeof(controller2_patch),
+               nameof(controller2_patch.CarePackagesOnly));
 
             static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
             {
@@ -392,13 +392,13 @@ namespace SetStartDupes
                 return code;
             }
         }
-
-        [HarmonyPatch(typeof(CharacterSelectionController), "InitializeContainers")]
+        
+        [HarmonyPatch(typeof(CharacterSelectionController), nameof(CharacterSelectionController.InitializeContainers))]
         public class CharacterSelectionController_Patch
         {
             public static int CustomStartingDupeCount(int dupeCount) ///int requirement to consume previous "3" on stack
             {
-                if (dupeCount == 3)
+                if (dupeCount == 3&& controller2_patch.instance  is MinionSelectScreen)
                     return ModConfig.Instance.DuplicantStartAmount; ///push new value to the stack
                 else return dupeCount;
             }
@@ -559,7 +559,6 @@ namespace SetStartDupes
                 var buttonPrefab = __instance.transform.Find("TitleBar/RenameButton").gameObject;
                 var titlebar = __instance.transform.Find("TitleBar").gameObject;
 
-                UIUtils.ListAllChildrenWithComponents(titlebar.transform);
                 //28
                 int insetBase =4, insetA = 28, insetB = insetA * 2, insetC = insetA * 3;
                 float insetDistance = (!is_starter && !ModConfig.Instance.ModifyDuringGame) ? insetBase+ insetA : insetBase + insetC;
@@ -572,7 +571,7 @@ namespace SetStartDupes
                 ///Make skin button
                 var skinBtn = Util.KInstantiateUI(buttonPrefab, titlebar);
                 skinBtn.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, insetDistance, skinBtn.rectTransform().sizeDelta.x);
-                SgtLogger.l(skinBtn.rectTransform().sizeDelta.x.ToString(), "XWITHD");
+               
                 skinBtn.name = "DupeSkinButton";
                 skinBtn.GetComponent<ToolTip>().toolTip = STRINGS.UI.BUTTONS.DUPESKINBUTTONTOOLTIP;
 
@@ -641,7 +640,6 @@ namespace SetStartDupes
                 CycleButtonRightPrefab.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("iconRight");
                 CycleButtonRightPrefab.name = "NextButton";
 
-                UIUtils.ListAllChildren(titlebar.transform);
             }
 
             static void ChangeButton(bool isCurrentlyInEditMode, GameObject buttonGO, CharacterContainer parent, MinionStartingStats referencedStats, List<KButton> ButtonsToDisable, System.Action OnClose)
@@ -727,7 +725,7 @@ namespace SetStartDupes
                     if (prefabParent.transform.Find("NextButton") == null)
                     {
 
-                        prefabParent.GetComponent<KButton>().enabled = false;
+                        prefabParent.GetComponent<KButton>().enabled = true;
                         var left = Util.KInstantiateUI(CycleButtonLeftPrefab, prefabParent);
                         left.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 30);
                         UIUtils.TryFindComponent<ToolTip>(left.transform).toolTip = STRINGS.UI.BUTTONS.CYCLEPREV;
@@ -775,7 +773,7 @@ namespace SetStartDupes
 
                         var name = AptitudeEntry.AddComponent<DupeTraitHolder>();
                         name.Group = DupeTraitMng.ActiveInterests[index];
-                        AptitudeEntry.GetComponent<KButton>().enabled = false;
+                        AptitudeEntry.GetComponent<KButton>().enabled = true;
                         ApplyDefaultStyle(AptitudeEntry.GetComponent<KImage>());
                         UIUtils.TryChangeText(AptitudeEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, name.NAME(), name.RelevantAttribute(), DupeTraitMng.GetBonusValue(index)));
 
@@ -816,13 +814,21 @@ namespace SetStartDupes
                         var TraitHolder = traitEntry.AddComponent<DupeTraitHolder>();
                         TraitHolder.CurrentTrait = v;
                         UIUtils.AddSimpleTooltipToObject(traitEntry.transform, TraitHolder.GetTraitTooltip(), true);
-                        var type = DupeTraitManager.GetTraitListOfTrait(v.Id, out var list);
+                        var type = ModAssets.GetTraitListOfTrait(v.Id, out var list);
                         TraitsToSort.Add(new Tuple<GameObject, DupeTraitManager.NextType>(traitEntry, type));
 
                         ApplyTraitStyleByKey(traitEntry.GetComponent<KImage>(), type);
                         ApplyTraitStyleByKey(traitEntry.transform.Find("PrevButton").GetComponent<KImage>(), type);
                         ApplyTraitStyleByKey(traitEntry.transform.Find("NextButton").GetComponent<KImage>(), type);
-                        UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, v.Name));
+
+                        traitEntry.GetComponent<KButton>().enabled = true;
+                        UIUtils.AddActionToButton(traitEntry.transform, "", () =>
+                        {
+                            UnityTraitScreen.ShowWindow(referencedStats, ()=>InstantiateOrGetDupeModWindow(parent,referencedStats,hide), currentTrait: v);
+                        });
+
+
+                            UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, v.Name));
                         UIUtils.AddActionToButton(traitEntry.transform, "NextButton", () =>
                         {
 

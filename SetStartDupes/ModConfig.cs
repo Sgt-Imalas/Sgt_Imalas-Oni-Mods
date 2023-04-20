@@ -58,6 +58,10 @@ namespace SetStartDupes
         [Limit(1, 5)]
         public int CarePackagesOnlyPackageCap { get; set; }
 
+        [Option("STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.NAME", "STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.EXTRAS")]
+        [JsonProperty]
+        public bool SkinsDoReactions { get; set; }
+
         public ModConfig()
         {
             DuplicantStartAmount = 3;
@@ -70,6 +74,8 @@ namespace SetStartDupes
             CarePackagesOnly = false;
             CarePackagesOnlyDupeCap = 16;
             CarePackagesOnlyPackageCap = 3;
+
+            SkinsDoReactions = false;
 
         }
     }

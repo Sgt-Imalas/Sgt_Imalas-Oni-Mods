@@ -63,6 +63,8 @@ namespace SetStartDupes
             EditableIdentity.personality = Selected.GetPersonality();
             CurrentContainer.characterNameTitle.OnEndEdit(Selected.GetName());
             CurrentContainer.SetAnimator();
+            CurrentContainer.SetAttributes();
+            CurrentContainer.SetInfoText();
             ToggleCustomScreenOff();
         }
 
@@ -196,6 +198,12 @@ namespace SetStartDupes
                 }
 
                 stats.accessories.Add(accessory);
+            }
+
+            if (ModConfig.Instance.SkinsDoReactions)
+            {
+                stats.stressTrait = Db.Get().traits.TryGet(personality.stresstrait);
+                stats.joyTrait = Db.Get().traits.TryGet(personality.joyTrait);
             }
         }
 

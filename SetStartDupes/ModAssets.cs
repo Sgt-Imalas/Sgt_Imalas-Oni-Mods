@@ -5,9 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TUNING;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
+using static SetStartDupes.DupeTraitManager;
 
 namespace SetStartDupes
 {
@@ -76,6 +78,81 @@ namespace SetStartDupes
 
             ///Color.Lerp(originalColor, Color.black, .5f); To darken by 50%
             ///Color.Lerp(originalColor, Color.white, .5f); To lighten by 50% 
+        }
+
+        private static Dictionary<NextType, List<DUPLICANTSTATS.TraitVal>> TraitsByType = new Dictionary<NextType, List<DUPLICANTSTATS.TraitVal>>()
+        {
+            {
+                NextType.geneShufflerTrait,
+                DUPLICANTSTATS.GENESHUFFLERTRAITS
+            },
+            {
+                NextType.posTrait,
+                DUPLICANTSTATS.GOODTRAITS
+            },
+            {
+                NextType.negTrait,
+                DUPLICANTSTATS.BADTRAITS
+            },
+            {
+                NextType.needTrait,
+                DUPLICANTSTATS.NEEDTRAITS
+            },
+            {
+                NextType.joy,
+                DUPLICANTSTATS.JOYTRAITS
+            },
+            {
+                NextType.stress,
+                DUPLICANTSTATS.STRESSTRAITS
+            },
+        };
+
+        public static List<DUPLICANTSTATS.TraitVal> TryGetTraitsOfCategory(NextType type)
+        {
+            if(!TraitsByType.ContainsKey(type))
+                return new List<DUPLICANTSTATS.TraitVal>();
+            else
+                return TraitsByType[type];
+
+        }
+
+
+        public static NextType GetTraitListOfTrait(string traitId, out List<DUPLICANTSTATS.TraitVal> TraitList)
+        {
+            if (DUPLICANTSTATS.GENESHUFFLERTRAITS.FindIndex(t => t.id == traitId) != -1)
+            {
+                TraitList = DUPLICANTSTATS.GENESHUFFLERTRAITS;
+                return NextType.geneShufflerTrait;
+            }
+            else if (DUPLICANTSTATS.GOODTRAITS.FindIndex(t => t.id == traitId) != -1)
+            {
+                TraitList = DUPLICANTSTATS.GOODTRAITS;
+                return NextType.posTrait;
+            }
+            else if (DUPLICANTSTATS.BADTRAITS.FindIndex(t => t.id == traitId) != -1)
+            {
+                TraitList = DUPLICANTSTATS.BADTRAITS;
+                return NextType.negTrait;
+            }
+            else if (DUPLICANTSTATS.NEEDTRAITS.FindIndex(t => t.id == traitId) != -1)
+            {
+                TraitList = DUPLICANTSTATS.NEEDTRAITS;
+                return NextType.needTrait;
+            }
+            else if (DUPLICANTSTATS.JOYTRAITS.FindIndex(t => t.id == traitId) != -1)
+            {
+                TraitList = DUPLICANTSTATS.JOYTRAITS;
+                return NextType.joy;
+            }
+            else if (DUPLICANTSTATS.STRESSTRAITS.FindIndex(t => t.id == traitId) != -1)
+            {
+                TraitList = DUPLICANTSTATS.STRESSTRAITS;
+                return NextType.stress;
+            }
+            TraitList = null;
+            return NextType.undefined;
+
         }
 
         public static Color GetColourFromType(DupeTraitManager.NextType type)

@@ -5,8 +5,10 @@ using Klei.AI;
 using Klei.CustomSettings;
 using KMod;
 using ProcGen;
+using rail;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -20,6 +22,7 @@ using UtilLibs;
 using UtilLibs.UIcmp;
 using static ResearchTypes;
 using static SandboxSettings;
+using static SetStartDupes.DupeTraitManager;
 using static SetStartDupes.STRINGS.UI.PRESETWINDOW;
 using static SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST;
 using static STRINGS.DUPLICANTS;
@@ -36,6 +39,7 @@ namespace SetStartDupes
         public static UnityTraitScreen Instance = null;
 
         public LocText ToReplaceName;
+        public Image ToReplaceColour;
 
         public GameObject PresetListContainer;
         public GameObject PresetListPrefab;
@@ -48,50 +52,36 @@ namespace SetStartDupes
         ///Referenced Stats to apply stuff to.
         MinionStartingStats ReferencedStats = null;
         OpenedFrom openedFrom;
+        NextType TraitCategory;
 
 
-        Dictionary<Trait, GameObject> Presets = new Dictionary<Trait, GameObject>();
-        List<GameObject> InformationObjects = new List<GameObject>();
+        Dictionary<Trait, GameObject> TraitContainers = new Dictionary<Trait, GameObject>();
+        Dictionary<SkillGroup, GameObject> DupeInterestContainers = new Dictionary<SkillGroup, GameObject>();
 
-        public static GameObject parentScreen = null;
+        SkillGroup CurrentGroup = null;
+        Trait CurrentTrait = null;
 
         public enum OpenedFrom
         {
             Interest,
-            Trait
-        }
-       
-
-        public int PointsPerInterests(int numberOfInterests)
-        {
-            int pointsPer = 0;
-            if(numberOfInterests > 0)
-            {
-                if(numberOfInterests==1)
-                    pointsPer = 7;
-                else if (numberOfInterests == 2)
-                    pointsPer = 3;
-                else
-                    pointsPer = 1;
-            }
-            return pointsPer;
+            Trait,
+            undefined
         }
 
 
-
-        public static void ShowWindow(MinionStartingStats startingStats, OpenedFrom from, System.Action onClose)
+        public static void ShowWindow(MinionStartingStats startingStats, System.Action onClose, SkillGroup currentGroup = null, Trait currentTrait = null)
         {
             if (Instance == null)
             {
-                var screen = Util.KInstantiateUI(ModAssets.TraitsWindowPrefab, parentScreen, true);
+                var screen = Util.KInstantiateUI(ModAssets.TraitsWindowPrefab, UnityPresetScreen.parentScreen, true);
                 Instance = screen.AddOrGet<UnityTraitScreen>();
                 Instance.Init();
             }
-            Instance.openedFrom = from;
+            Instance.ReferencedStats = startingStats;
+            Instance.SetOpenedType(currentGroup, currentTrait);
             Instance.Show(true);
             Instance.ConsumeMouseScroll = true;
             Instance.transform.SetAsLastSibling();
-            Instance.ReferencedStats = startingStats;
             Instance.OnCloseAction = onClose;
             Instance.Searchbar.Text = string.Empty;
         }
@@ -109,79 +99,133 @@ namespace SetStartDupes
 
             base.OnKeyDown(e);
         }
-
-
-        List<MinionStatConfig> LoadPresets()
+        private void SetOpenedType(SkillGroup currentGroup = null, Trait currentTrait = null)
         {
-            List<MinionStatConfig> minionStatConfigs = new List<MinionStatConfig>();
-            var files = new DirectoryInfo(ModAssets.DupeTemplatePath).GetFiles();
+            var type = currentTrait != null ? OpenedFrom.Trait : currentGroup != null ? OpenedFrom.Interest : OpenedFrom.undefined;
 
+            CurrentGroup = currentGroup;
+            CurrentTrait = currentTrait;
 
-            for (int i = 0; i < files.Count(); i++)
+            List<string> allowedTraits = new List<string>();
+
+            if (currentGroup != null)
             {
-                var File = files[i];
-                try
-                {
-                    var preset = MinionStatConfig.ReadFromFile(File);
-                    if (preset != null)
-                    {
-                        minionStatConfigs.Add(preset);
-                    }
-                }
-                catch (Exception e)
-                {
-                    SgtLogger.logError("Couln't load minion preset from: " + File.FullName + ", Error: " + e);
-                }
+                ToReplaceName.text = GetSkillgroupName(currentGroup);
+                ToReplaceColour.color = ModAssets.Colors.grey;
             }
-            return minionStatConfigs;
+            if (currentTrait != null)
+            {
+                var next = ModAssets.GetTraitListOfTrait(currentTrait.Id, out var list);
+                TraitCategory = next;
+                ToReplaceName.text = GetTraitName(currentTrait);
+                ToReplaceColour.color = ModAssets.GetColourFromType(next);
+                allowedTraits = GetAllowedTraits();
+            }
+
+
+            foreach (var go in TraitContainers)
+            {
+                go.Value.SetActive(type == OpenedFrom.Trait && allowedTraits.Contains(go.Key.Id));
+            }
+            foreach (var go in DupeInterestContainers.Values)
+            {
+                go.SetActive(type == OpenedFrom.Interest);
+            }
+            openedFrom = type;
         }
 
-        private void AddUiElementForPreset(MinionStatConfig config)
+        string GetSkillgroupName(SkillGroup group)
         {
-            if (!Presets.ContainsKey(config))
+            return Strings.Get("STRINGS.DUPLICANTS.SKILLGROUPS." + group.Id.ToUpperInvariant() + ".NAME");
+        }
+        string GetTraitName(Trait trait)
+        {
+            return trait.Name;
+        }
+
+        private void AddUIContainer(SkillGroup group)
+        {
+            if (group != null)
+                AddUiContainer(
+                GetSkillgroupName(group)
+                + " (" + Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME") + ")",
+                Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + group.relevantAttributes.First().Id.ToUpperInvariant() + ".DESC"),
+                skillGroup: group);
+        }
+        private void AddUIContainer(Trait trait2, NextType next)
+        {
+            if (trait2 != null)
+                AddUiContainer(
+                GetTraitName(trait2),
+                trait2.GetTooltip(),
+                trait: trait2,
+                traitType: next);
+
+        }
+
+        private void AddUiContainer(string name, string description, Trait trait = null, NextType traitType = default, SkillGroup skillGroup = null)
+        {
+            UIUtils.ListAllChildren(PresetListPrefab.transform);
+            if (trait != null && !TraitContainers.ContainsKey(trait) || skillGroup != null && !DupeInterestContainers.ContainsKey(skillGroup))
             {
                 var PresetHolder = Util.KInstantiateUI(PresetListPrefab, PresetListContainer, true);
-                PresetHolder.transform.Find("TraitImage").gameObject.SetActive(false);
 
-                UIUtils.TryChangeText(PresetHolder.transform, "Label", config.ConfigName);
-                PresetHolder.transform.Find("RenameButton").FindOrAddComponent<FButton>().OnClick +=
-                    () => config.OpenPopUpToChangeName(
-                        () =>
-                            {
-                                UIUtils.TryChangeText(PresetHolder.transform, "Label", config.ConfigName);
-                                RebuildInformationPanel();
-                            }
-                        );
+                UIUtils.TryChangeText(PresetHolder.transform, "Label", name);
+                if (description != null && description.Length > 0)
+                {
+                    UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("Label"), description);
+                }
 
-                PresetHolder.transform.Find("AddThisTraitButton").FindOrAddComponent<FButton>().OnClick += () => SetAsCurrent(config);
-                PresetHolder.transform.Find("DeleteButton").FindOrAddComponent<FButton>().OnClick += () => DeletePreset(config);
-
-                UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("RenameButton"), SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP);
-                UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("DeleteButton"), SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP);
-                Presets[config] = PresetHolder;
+                if (trait != null)
+                {
+                    PresetHolder.transform.Find("SwitchIn").FindOrAddComponent<FButton>().OnClick += () => ChoseThis(trait);
+                    PresetHolder.transform.Find("Background").FindOrAddComponent<Image>().color = ModAssets.GetColourFromType(traitType);
+                    TraitContainers[trait] = PresetHolder;
+                }
+                else if (skillGroup != null)
+                {
+                    PresetHolder.transform.Find("SwitchIn").FindOrAddComponent<FButton>().OnClick += () => ChoseThis(skillGroup);
+                    DupeInterestContainers[skillGroup] = PresetHolder;
+                }
             }
         }
 
-
-       
-        public string SkillGroupName(string groupID)
+        private void ChoseThis(Trait trait)
         {
-            if (groupID == null)
-                return "";
-            else
+            switch (TraitCategory)
             {
-                Strings.TryGet("STRINGS.DUPLICANTS.SKILLGROUPS." + groupID.ToUpperInvariant() + ".NAME", out var attribute);
+                case NextType.geneShufflerTrait:
+                case NextType.posTrait:
+                case NextType.negTrait:
+                case NextType.needTrait:
+                    if (ReferencedStats.Traits.Contains(CurrentTrait))
+                        ReferencedStats.Traits.Remove(CurrentTrait);
+                    ReferencedStats.Traits.Add(trait);
+                    break;
+                case NextType.stress:
+                    ReferencedStats.stressTrait = trait;
+                    break;
+                case NextType.joy:
+                    ReferencedStats.joyTrait = trait;
+                    break;
 
-                var skillGroup = Db.Get().SkillGroups.TryGet(groupID);
-                string relevantSkillID = skillGroup.relevantAttributes.First().Id;
-
-                return string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, attribute, SkillGroup(skillGroup), SkillLevel(relevantSkillID));
             }
+
+            if (OnCloseAction != null)
+                this.OnCloseAction.Invoke();
+            this.Show(false);
         }
+        private void ChoseThis(SkillGroup group)
+        {
+            //TODO
+            if (OnCloseAction != null)
+                this.OnCloseAction.Invoke();
+            this.Show(false);
+        }
+
         void ApplyColorToTraitContainer(GameObject container, string traitID)
         {
-
-            var type = DupeTraitManager.GetTraitListOfTrait(traitID, out var list);
+            var type = ModAssets.GetTraitListOfTrait(traitID, out var list);
             container.FindOrAddComponent<Image>().color = ModAssets.GetColourFromType(type);
         }
 
@@ -189,71 +233,88 @@ namespace SetStartDupes
         {
             return Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME");
         }
-        string SkillLevel(string skillID)
-        {
-            return CurrentlySelected.StartingLevels.Find((skill) => skill.Key == skillID).Value.ToString();
-        }
-
-
-
 
         private void Init()
         {
-            SgtLogger.l("Initializing PresetWindow");
-            UIUtils.ListAllChildren(this.transform);
+            if (init) { return; }
+            SgtLogger.l("Initializing TraitWindow");
+            //UIUtils.ListAllChildren(this.transform);
 
 
-            Searchbar = transform.Find("HorizontalLayout/ObjectList/SearchBar/Input").FindOrAddComponent<FInputField2>();
+            ToReplaceName = transform.Find("ToReplace/CurrentlyActive/Label").FindComponent<LocText>();
+            ToReplaceColour = transform.Find("ToReplace/CurrentlyActive/Background").FindComponent<Image>();
+
+            Searchbar = transform.Find("SearchBar/Input").FindOrAddComponent<FInputField2>();
             Searchbar.OnValueChanged.AddListener(ApplyFilter);
             Searchbar.Text = string.Empty;
 
 
-            ClearSearchBar = transform.Find("HorizontalLayout/ObjectList/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
+            ClearSearchBar = transform.Find("SearchBar/DeleteButton").FindOrAddComponent<FButton>();
             ClearSearchBar.OnClick += () => Searchbar.Text = string.Empty;
 
-            ApplyButton.OnClick += () =>
-            {
-                CurrentlySelected.ApplyPreset(ReferencedStats);
-                this.OnCloseAction.Invoke();
-                this.Show(false);
-            };
-            ///OpenFolder
-
-            CloseButton.OnClick += () => this.Show(false);
-            GeneratePresetButton.OnClick += () =>
-            {
-                AddUiElementForPreset(CurrentlySelected);
-                CurrentlySelected.WriteToFile();
-                RebuildInformationPanel();
-            };
-
-
-            UIUtils.AddSimpleTooltipToObject(GeneratePresetButton.transform, HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP);
-            UIUtils.AddSimpleTooltipToObject(CloseButton.transform, HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TOOLTIP);
-            UIUtils.AddSimpleTooltipToObject(ApplyButton.transform, HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TOOLTIP);
-
             UIUtils.AddSimpleTooltipToObject(ClearSearchBar.transform, HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.CLEARTOOLTIP);
-            UIUtils.AddSimpleTooltipToObject(OpenPresetFolder.transform, HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.OPENFOLDERTOOLTIP);
 
-            InfoHeaderPrefab = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/HeaderPrefab").gameObject; ;
-            InfoRowPrefab = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/ItemPrefab").gameObject;
-            InfoSpacer = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/Spacer").gameObject;
-
-            InfoScreenContainer = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content").gameObject;
-
-            PresetListContainer = transform.Find("HorizontalLayout/ObjectList/ScrollArea/Content").gameObject;
-            PresetListPrefab = transform.Find("HorizontalLayout/ObjectList/ScrollArea/Content/PresetEntryPrefab").gameObject;
-
+            PresetListContainer = transform.Find("ScrollArea/Content").gameObject;
+            PresetListPrefab = transform.Find("ScrollArea/Content/PresetEntryPrefab").gameObject;
+            InitAllContainers();
 
             init = true;
         }
 
+        private void InitAllContainers()
+        {
+            var traitsDb = Db.Get().traits;
+            var interests = Db.Get().SkillGroups.resources;
+            foreach (var type in (NextType[])Enum.GetValues(typeof(NextType)))
+            {
+                var TraitsOfCategory = ModAssets.TryGetTraitsOfCategory(type);
+                foreach (var item in TraitsOfCategory)
+                {
+                    AddUIContainer(traitsDb.TryGet(item.id), type);
+                }
+            }
+            foreach (var item in interests)
+            {
+                AddUIContainer(item);
+            }
+        }
+
+
         public void ApplyFilter(string filterstring = "")
         {
-            foreach (var go in Presets)
+            if (openedFrom == OpenedFrom.Interest)
             {
-                go.Value.SetActive(filterstring == string.Empty ? true : go.Key.ConfigName.ToLowerInvariant().Contains(filterstring.ToLowerInvariant()));
+                foreach (var go in DupeInterestContainers)
+                {
+                    go.Value.SetActive(filterstring == string.Empty ? true : go.Key.Name.ToLowerInvariant().Contains(filterstring.ToLowerInvariant()));
+                }
             }
+            else
+            {
+                var allowedTraits = GetAllowedTraits();
+                foreach (var go in TraitContainers)
+                {
+                    bool Contained = allowedTraits.Contains(go.Key.Id);
+                    go.Value.SetActive(filterstring == string.Empty ? Contained : Contained && go.Key.Name.ToLowerInvariant().Contains(filterstring.ToLowerInvariant()));
+                }
+            }
+
+        }
+
+        List<string> GetAllowedTraits()
+        {
+            var allowedTraits = ModAssets.TryGetTraitsOfCategory(TraitCategory).Select(t => t.id).ToList();
+            var finalTraits = new List<string>();
+            var forbiddenTraits = ReferencedStats.Traits.Count>0 ? ReferencedStats.Traits.Select(allowedTraits => allowedTraits.Id).ToList() : new List<string>();
+
+            foreach (string existing in allowedTraits)
+            {
+                if (!forbiddenTraits.Contains(existing))
+                {
+                    finalTraits.Add(existing);
+                }
+            }
+            return finalTraits;
         }
 
         public override void OnShow(bool show)

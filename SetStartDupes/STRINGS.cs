@@ -21,6 +21,7 @@ namespace SetStartDupes
                 {
                     public static LocString GAMESTART = "Options for Game Start";
                     public static LocString PRINTINGPOD = "Options for Printing Pod";
+                    public static LocString EXTRAS = "Extra Behaviours";
                 }
 
                 public class DUPLICANTSTARTAMOUNT
@@ -75,8 +76,50 @@ namespace SetStartDupes
                     public static LocString NAME = "Number of care packages for care packages only";
                     public static LocString TOOLTIP = "Only has an effect if \"" + CAREPACKAGESONLY.NAME + "\" is enabled.\nSet the number of care packages that generate when the cap is in effect";
                 }
-            }
+                public class SKINSDOREACTS
+                {
+                    public static LocString NAME = "Skins apply reactions";
+                    public static LocString TOOLTIP = "When applying a skin, the inherited overjoyed response and stress reaction get applied in addition to the skin";
+                }
 
+            }
+            public class DUPESKILLSPOPUP
+            {
+                public class TOREPLACE 
+                {
+                    public static LocString LABEL = "Skill to replace:";
+                }
+                public class SCROLLAREA
+                {
+                    public class CONTENT
+                    {
+                        public class NOSKILLSAVAILABLE
+                        {
+                            public static LocString LABEL = "No items available.";
+                        }
+                        public class PRESETENTRYPREFAB
+                        {
+                            public class SWITCHIN
+                            {
+                                public static LocString TEXT = "Select this";
+                            }
+
+                        }
+                    }
+                }
+
+                public class SEARCHBAR
+                {
+                    internal class INPUT
+                    {
+                        public class TEXTAREA
+                        {
+                            public static LocString PLACEHOLDER = "Enter text to filter items...";
+                            public static LocString TEXT = "";
+                        }
+                    }
+                }
+            }
             public class PRESETWINDOW
             {
                 public class DELETEWINDOW
