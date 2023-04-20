@@ -35,7 +35,7 @@ namespace SGTIM_NotificationManager
         {
             public static bool Prefix(CalorieMonitor.Instance __instance, ref bool __result)
             {
-                float percentage = ((float)Config.Instance.STARVATION_THRESHOLD) / __instance.calories.GetMax();
+                float percentage = ((float)Config.Instance.STARVATION_THRESHOLD*1000) / __instance.calories.GetMax();
                 __result = __instance.GetCalories0to1() < percentage;
                 return false;
             }
@@ -96,6 +96,8 @@ namespace SGTIM_NotificationManager
                     skipAudio = Config.Instance.MUTE_INCAPACITATED_SOUND;
                 else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.ENTOMBEDCHORE.NOTIFICATION_NAME)
                     skipAudio = Config.Instance.MUTE_ENTOMBED_SOUND;
+                else if (notification.titleText == global::STRINGS.CREATURES.STATUSITEMS.PLANTDEATH.NOTIFICATION)
+                    skipAudio = Config.Instance.MUTE_PLANTDEATH_SOUND;
 
                 notification.playSound = !skipAudio;
             }
@@ -155,6 +157,11 @@ namespace SGTIM_NotificationManager
                 {
                     pause = Config.Instance.PAUSE_ON_ENTOMBED;
                     moveCam = Config.Instance.PAN_TO_ENTOMBED;
+                }
+                else if (notification.titleText == global::STRINGS.CREATURES.STATUSITEMS.PLANTDEATH.NOTIFICATION)
+                {
+                    pause = Config.Instance.PAUSE_ON_PLANTDEATH;
+                    moveCam = Config.Instance.PAN_TO_PLANTDEATH;
                 }
 
                 if (notification.Notifier != null && moveCam)
