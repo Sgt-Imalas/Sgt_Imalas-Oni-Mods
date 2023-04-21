@@ -272,7 +272,10 @@ namespace SetStartDupes
             PresetListContainer = transform.Find("ScrollArea/Content").gameObject;
             PresetListPrefab = transform.Find("ScrollArea/Content/PresetEntryPrefab").gameObject;
 
-            UIUtils.AddActionToButton(transform, "CloseButton", () => this.Show(false));
+
+            var CloserButton = transform.Find("CloseButton").gameObject;
+            UIUtils.ListAllChildren(CloserButton.transform);
+            CloserButton.FindOrAddComponent<FButton>().OnClick += () => this.Show(false);
             InitAllContainers();
 
             init = true;
