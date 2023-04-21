@@ -60,7 +60,7 @@ namespace SetStartDupes
 
         SkillGroup CurrentGroup = null;
         Trait CurrentTrait = null;
-
+        DupeTraitManager currentStatManager;
         public enum OpenedFrom
         {
             Interest,
@@ -69,7 +69,7 @@ namespace SetStartDupes
         }
 
 
-        public static void ShowWindow(MinionStartingStats startingStats, System.Action onClose, SkillGroup currentGroup = null, Trait currentTrait = null)
+        public static void ShowWindow(MinionStartingStats startingStats, System.Action onClose, SkillGroup currentGroup = null, DupeTraitManager DupeTraitManager = null, Trait currentTrait = null, OpenedFrom openedFrom = default)
         {
             if (Instance == null)
             {
@@ -78,7 +78,7 @@ namespace SetStartDupes
                 Instance.Init();
             }
             Instance.ReferencedStats = startingStats;
-            Instance.SetOpenedType(currentGroup, currentTrait);
+            Instance.SetOpenedType(currentGroup, currentTrait, DupeTraitManager, openedFrom);
             Instance.Show(true);
             Instance.ConsumeMouseScroll = true;
             Instance.transform.SetAsLastSibling();
@@ -99,21 +99,26 @@ namespace SetStartDupes
 
             base.OnKeyDown(e);
         }
-        private void SetOpenedType(SkillGroup currentGroup = null, Trait currentTrait = null)
+        private void SetOpenedType(SkillGroup currentGroup = null, Trait currentTrait = null, DupeTraitManager dupeTraitManager = null, OpenedFrom from = OpenedFrom.undefined)
         {
-            var type = currentTrait != null ? OpenedFrom.Trait : currentGroup != null ? OpenedFrom.Interest : OpenedFrom.undefined;
+            var type = currentTrait != null ? OpenedFrom.Trait : currentGroup != null ? OpenedFrom.Interest : from;
+
+            if (from == OpenedFrom.Trait)
+                TraitCategory = NextType.allTraits;
+
 
             CurrentGroup = currentGroup;
             CurrentTrait = currentTrait;
+            currentStatManager = dupeTraitManager;
 
             List<string> allowedTraits = new List<string>();
 
             if (currentGroup != null)
             {
                 ToReplaceName.text = GetSkillgroupName(currentGroup);
-                ToReplaceColour.color = ModAssets.Colors.grey;
+                ToReplaceColour.color = UIUtils.Darken(ModAssets.Colors.grey,40);
             }
-            if (currentTrait != null)
+            else if (currentTrait != null)
             {
                 var next = ModAssets.GetTraitListOfTrait(currentTrait.Id, out var list);
                 TraitCategory = next;
@@ -121,17 +126,24 @@ namespace SetStartDupes
                 ToReplaceColour.color = ModAssets.GetColourFromType(next);
                 allowedTraits = GetAllowedTraits();
             }
+            else
+            {
+                ToReplaceName.text = "None";
+                ToReplaceColour.color = ModAssets.Colors.grey;
+            }
+            List<SkillGroup> forbidden = ReferencedStats.skillAptitudes.Keys.ToList();
 
 
             foreach (var go in TraitContainers)
             {
                 go.Value.SetActive(type == OpenedFrom.Trait && allowedTraits.Contains(go.Key.Id));
             }
-            foreach (var go in DupeInterestContainers.Values)
+            foreach (var go in DupeInterestContainers)
             {
-                go.SetActive(type == OpenedFrom.Interest);
+                go.Value.SetActive(type == OpenedFrom.Interest && !forbidden.Contains(go.Key));
             }
             openedFrom = type;
+            ApplyFilter();
         }
 
         string GetSkillgroupName(SkillGroup group)
@@ -165,7 +177,6 @@ namespace SetStartDupes
 
         private void AddUiContainer(string name, string description, Trait trait = null, NextType traitType = default, SkillGroup skillGroup = null)
         {
-            UIUtils.ListAllChildren(PresetListPrefab.transform);
             if (trait != null && !TraitContainers.ContainsKey(trait) || skillGroup != null && !DupeInterestContainers.ContainsKey(skillGroup))
             {
                 var PresetHolder = Util.KInstantiateUI(PresetListPrefab, PresetListContainer, true);
@@ -173,7 +184,7 @@ namespace SetStartDupes
                 UIUtils.TryChangeText(PresetHolder.transform, "Label", name);
                 if (description != null && description.Length > 0)
                 {
-                    UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("Label"), description);
+                    UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("Label"), description,true, onBottom:true);
                 }
 
                 if (trait != null)
@@ -198,6 +209,7 @@ namespace SetStartDupes
                 case NextType.posTrait:
                 case NextType.negTrait:
                 case NextType.needTrait:
+                case NextType.allTraits:
                     if (ReferencedStats.Traits.Contains(CurrentTrait))
                         ReferencedStats.Traits.Remove(CurrentTrait);
                     ReferencedStats.Traits.Add(trait);
@@ -217,7 +229,13 @@ namespace SetStartDupes
         }
         private void ChoseThis(SkillGroup group)
         {
-            //TODO
+
+            if (CurrentGroup == null)
+            {
+                currentStatManager.AddInterest(group);
+            }
+            currentStatManager.ReplaceInterest(CurrentGroup, group);
+
             if (OnCloseAction != null)
                 this.OnCloseAction.Invoke();
             this.Show(false);
@@ -284,9 +302,11 @@ namespace SetStartDupes
         {
             if (openedFrom == OpenedFrom.Interest)
             {
+                List<SkillGroup> forbidden = ReferencedStats.skillAptitudes.Keys.ToList();
                 foreach (var go in DupeInterestContainers)
                 {
-                    go.Value.SetActive(filterstring == string.Empty ? true : go.Key.Name.ToLowerInvariant().Contains(filterstring.ToLowerInvariant()));
+                    bool isForbidden = !forbidden.Contains(go.Key);
+                    go.Value.SetActive(filterstring == string.Empty ? isForbidden : isForbidden && ShowInFilter(filterstring, go.Key.Name));
                 }
             }
             else
@@ -295,17 +315,39 @@ namespace SetStartDupes
                 foreach (var go in TraitContainers)
                 {
                     bool Contained = allowedTraits.Contains(go.Key.Id);
-                    go.Value.SetActive(filterstring == string.Empty ? Contained : Contained && go.Key.Name.ToLowerInvariant().Contains(filterstring.ToLowerInvariant()));
+                    go.Value.SetActive(filterstring == string.Empty ? Contained : Contained && ShowInFilter(filterstring, new string[] { go.Key.Name, go.Key.description }));
                 }
             }
 
         }
 
+        bool ShowInFilter(string filtertext, string stringsToInclude)
+        {
+            return ShowInFilter(filtertext, new string[] { stringsToInclude });
+        }
+
+        bool ShowInFilter(string filtertext, string[] stringsToInclude)
+        {
+            bool show = false;
+            filtertext = filtertext.ToLowerInvariant();
+
+            foreach (var text in stringsToInclude)
+            {
+                if (text.Length > 0 && text.ToLowerInvariant().Contains(filtertext))
+                {
+                    show = true;
+                    break;
+                }
+            }
+            return show;
+        }
+
+
         List<string> GetAllowedTraits()
         {
             var allowedTraits = ModAssets.TryGetTraitsOfCategory(TraitCategory).Select(t => t.id).ToList();
             var finalTraits = new List<string>();
-            var forbiddenTraits = ReferencedStats.Traits.Count>0 ? ReferencedStats.Traits.Select(allowedTraits => allowedTraits.Id).ToList() : new List<string>();
+            var forbiddenTraits = ReferencedStats.Traits.Count > 0 ? ReferencedStats.Traits.Select(allowedTraits => allowedTraits.Id).ToList() : new List<string>();
 
             foreach (string existing in allowedTraits)
             {

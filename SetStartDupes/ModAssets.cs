@@ -28,8 +28,8 @@ namespace SetStartDupes
         public static GameObject ListEntryButtonPrefab;
 
 
-        public static GameObject CycleButtonLeftPrefab;
-        public static GameObject CycleButtonRightPrefab;
+        public static GameObject AddNewToTraitsButtonPrefab;
+        public static GameObject RemoveFromTraitsButtonPrefab;
         public static List<ITelepadDeliverableContainer> ContainerReplacement;
 
 
@@ -49,6 +49,9 @@ namespace SetStartDupes
             TMPConverter.ReplaceAllText(TraitsWindowPrefab);
 
         }
+
+
+        public static Dictionary<MinionStartingStats, DupeTraitManager> DupeTraitManagers = new Dictionary<MinionStartingStats, DupeTraitManager>();
 
         public static int PointsPerInterests(int numberOfInterests)
         {
@@ -105,6 +108,14 @@ namespace SetStartDupes
             {
                 NextType.stress,
                 DUPLICANTSTATS.STRESSTRAITS
+            },
+            {
+                NextType.allTraits,
+                DUPLICANTSTATS.GENESHUFFLERTRAITS.Concat(
+                DUPLICANTSTATS.GOODTRAITS).Concat(
+                DUPLICANTSTATS.NEEDTRAITS).Concat(
+                DUPLICANTSTATS.BADTRAITS).ToList()
+
             },
         };
 

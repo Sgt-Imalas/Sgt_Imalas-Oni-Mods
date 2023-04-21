@@ -62,12 +62,19 @@ namespace SetStartDupes
         [JsonProperty]
         public bool SkinsDoReactions { get; set; }
 
+        [Option("STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.NAME", "STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.EXTRAS")]
+        [JsonProperty]
+        public bool AddAndRemoveTraitsAndInterests { get; set; }
+
+
+
         public ModConfig()
         {
             DuplicantStartAmount = 3;
             PrintingPodRechargeTime = 3;
-            ModifyDuringGame = false;
+            ModifyDuringGame = true;
             RerollDuringGame = false;
+
             StartupResources = false;
             SupportedDays = 5;
 
@@ -75,7 +82,7 @@ namespace SetStartDupes
             CarePackagesOnlyDupeCap = 16;
             CarePackagesOnlyPackageCap = 3;
 
-            SkinsDoReactions = false;
+            SkinsDoReactions = true;
 
         }
     }

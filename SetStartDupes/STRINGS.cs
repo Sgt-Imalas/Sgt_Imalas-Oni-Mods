@@ -15,13 +15,14 @@ namespace SetStartDupes
         public static LocString UNNAMEDPRESET = "(Unnamed Preset)";
         public class UI
         {
+
             public class DSS_OPTIONS
             {
                 public class CATEGORIES
                 {
-                    public static LocString GAMESTART = "Options for Game Start";
-                    public static LocString PRINTINGPOD = "Options for Printing Pod";
-                    public static LocString EXTRAS = "Extra Behaviours";
+                    public static LocString GAMESTART = "(1) Options for Game Start";
+                    public static LocString PRINTINGPOD = "(2) Options for Printing Pod";
+                    public static LocString EXTRAS = "(3) Extra Behaviours";
                 }
 
                 public class DUPLICANTSTARTAMOUNT
@@ -49,8 +50,8 @@ namespace SetStartDupes
                 }
                 public class REROLLDURINGGAME
                 {
-                    public static LocString NAME = "Reroll printing pod Duplicants";
-                    public static LocString TOOLTIP = "Enable this option to add the reroll button to printing pod Duplicants.";
+                    public static LocString NAME = "Reroll printing pod";
+                    public static LocString TOOLTIP = "Enable this option to add the reroll button to printing pod Duplicants and care packages.";
                 }
 
                 public class PRINTINGPODRECHARGETIME
@@ -78,14 +79,19 @@ namespace SetStartDupes
                 }
                 public class SKINSDOREACTS
                 {
-                    public static LocString NAME = "Skins apply reactions";
-                    public static LocString TOOLTIP = "When applying a skin, the inherited overjoyed response and stress reaction get applied in addition to the skin";
+                    public static LocString NAME = "Skins include reactions";
+                    public static LocString TOOLTIP = "When applying a skin, the inherited overjoyed response and stress reaction get applied in addition to the skin.";
+                }
+                public class ADDANDREMOVE
+                {
+                    public static LocString NAME = "Add/Remove Interests/Traits";
+                    public static LocString TOOLTIP = "Allows to remove";
                 }
 
             }
             public class DUPESKILLSPOPUP
             {
-                public class TOREPLACE 
+                public class TOREPLACE
                 {
                     public static LocString LABEL = "Skill to replace:";
                 }
@@ -208,12 +214,17 @@ namespace SetStartDupes
             }
             public class BUTTONS
             {
+                public static LocString REROLLCAREPACKAGE = "Reroll for a different Care Package";
                 public static LocString CYCLENEXT = "Cycle to next";
                 public static LocString CYCLEPREV = "Cycle to previous";
+                public static LocString REMOVEFROMSTATS = "Remove";
+                public static LocString ADDTOSTATS = "Add new";
                 public static LocString MODIFYBUTTONTOOLTIP = "Modify Duplicant Stats";
                 public static LocString MODIFYBUTTONTOOLTIP2 = "Apply Stat Changes";
-                public static LocString PRESETWINDOWBUTTONTOOLTIP = "Open Duplicant Preset Window\nTo create a preset from this duplicants stats,\nclick the \"" + GENERATEFROMCURRENT.TEXT+"\" button in the preset window.";
-                public static LocString DUPESKINBUTTONTOOLTIP = "Select Duplicant skin";
+                public static LocString PRESETWINDOWBUTTONTOOLTIP = "Open Duplicant Preset Window\nTo create a preset from this duplicants stats,\nclick the \"" + GENERATEFROMCURRENT.TEXT + "\" button in the preset window.";
+                public static LocString DUPESKINBUTTONTOOLTIP = "Select Duplicant Personality (Skin)";
+
+                public static LocString APPLYSKIN = "Apply this Personality";
 
             }
         }

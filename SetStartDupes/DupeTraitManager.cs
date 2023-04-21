@@ -1,16 +1,19 @@
 ﻿using Database;
+using Klei.AI;
 using KSerialization;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace SetStartDupes
 {
-    public class DupeTraitManager : KMonoBehaviour
+    public class DupeTraitManager
     {
         [Serialize]
         public Dictionary<string, int> USEDSTATS = new();
@@ -23,10 +26,11 @@ namespace SetStartDupes
         [Serialize]
         public List<SkillGroup> ActiveInterests = new();
 
-        public Dictionary<SkillGroup, float> referencedInterests;
-        public Dictionary<string, int> dupeStatPoints;
+        MinionStartingStats ToEditMinionStats = null;
 
         int FallBack = -1;
+
+        int additionalSkillPoints = 0;
 
         public enum NextType
         {
@@ -36,36 +40,215 @@ namespace SetStartDupes
             negTrait,
             joy,
             stress,
-            undefined
+            undefined,
+            allTraits
+        }
+        internal void SetReferenceStats(MinionStartingStats referencedStats)
+        {
+            if (ToEditMinionStats != referencedStats)
+            {
+                SgtLogger.l("Redoing Reference");
+                ToEditMinionStats = referencedStats;
+                CalculateAdditionalSkillPoints();
+            }
         }
 
+        void CalculateAdditionalSkillPoints()
+        {
+            additionalSkillPoints = 0;
+            int SkillAmount = 0;
+            foreach (var s in ToEditMinionStats.StartingLevels)
+            {
+                if (s.Value > 0)
+                    SkillAmount++;
+            }
+
+            SgtLogger.l(SkillAmount.ToString(), "Interest count");
+
+            int PointsPerInterest = ModAssets.PointsPerInterests(SkillAmount);
+            SgtLogger.l(PointsPerInterest.ToString(), "points per interest");
+
+            foreach (var startingLevel in ToEditMinionStats.StartingLevels)
+            {
+                additionalSkillPoints += Math.Max(0, (startingLevel.Value - PointsPerInterest));
+            }
+            SgtLogger.l(additionalSkillPoints.ToString(), "bonus points");
+        }
+
+
+        public void ReplaceInterest(SkillGroup interestOld, SkillGroup interestNew)
+        {
+            int oldPoints = RemoveInterest(interestOld, false);
+            AddInterest(interestNew, false, oldPoints);
+        }
+
+        public int RemoveInterest(SkillGroup interest, bool rebalanceAfter = true)
+        {
+            if(interest == null) return 0;
+
+            int removedPoints = 0;
+
+            SgtLogger.l(interest.Name, "Removing Interest");
+
+            if (ToEditMinionStats.skillAptitudes.ContainsKey(interest))
+                ToEditMinionStats.skillAptitudes.Remove(interest);
+
+            var LevelsToRemove = new List<Klei.AI.Attribute>(interest.relevantAttributes);
+
+            SgtLogger.l(LevelsToRemove.Count().ToString());
+
+            foreach (var aptitude in ToEditMinionStats.skillAptitudes.Keys)
+            {
+                var overlapping = aptitude.relevantAttributes.Intersect(LevelsToRemove);
+                foreach (var lap in overlapping)
+                {
+                    SgtLogger.l(lap.Id, "not removing skillpoints for");
+                    LevelsToRemove.Remove(lap);
+                }
+            }
+            foreach (var levelToRemove in LevelsToRemove)
+            {
+                SgtLogger.l(levelToRemove.Name, "Removing stats for");
+                if (ToEditMinionStats.StartingLevels.ContainsKey(levelToRemove.Id))
+                {
+                    removedPoints += ToEditMinionStats.StartingLevels[levelToRemove.Id];
+                    ToEditMinionStats.StartingLevels[levelToRemove.Id] = 0;
+                }
+            }
+            if (rebalanceAfter)
+                RecalculateSkillPoints();
+
+            if (removedPoints == 0)
+                removedPoints++;
+
+            return removedPoints;
+        }
+        public void AddInterest(SkillGroup interest, bool rebalanceAfter = true, int newPoints = 1)
+        {
+            if (interest == null) return;
+            SgtLogger.l(interest.Name, "Adding Interest");
+
+
+            var LevelsToAdd = new List<Klei.AI.Attribute>(interest.relevantAttributes);
+
+            SgtLogger.l(LevelsToAdd.Count().ToString());
+
+            foreach (var aptitude in ToEditMinionStats.skillAptitudes.Keys)
+            {
+                var overlapping = aptitude.relevantAttributes.Intersect(LevelsToAdd);
+                foreach (var lap in overlapping)
+                {
+                    SgtLogger.l(lap.Name, "Overlapping");
+
+                    if (LevelsToAdd.Contains(lap))
+                    {
+                        SgtLogger.l(lap.Id, "not adding skillpoints for");
+                        LevelsToAdd.Remove(lap);
+                    }
+                }
+            }
+
+            if (!ToEditMinionStats.skillAptitudes.ContainsKey(interest))
+                ToEditMinionStats.skillAptitudes.Add(interest, 1.0f);
+
+            foreach (var LevelToAdd in LevelsToAdd)
+            {
+                SgtLogger.l(LevelToAdd.Name, "adding stats for");
+                if (ToEditMinionStats.StartingLevels.ContainsKey(LevelToAdd.Id))
+                {
+                    ToEditMinionStats.StartingLevels[LevelToAdd.Id] = newPoints;
+                }
+            }
+            if(rebalanceAfter)
+                RecalculateSkillPoints();
+        }
+
+        int pointsPerInterest()
+        {
+            int SkillAmount = 0;
+            foreach (var s in ToEditMinionStats.StartingLevels)
+            {
+                if (s.Value > 0)
+                {
+                    SkillAmount++;
+                }
+            }
+
+            return ModAssets.PointsPerInterests(SkillAmount);
+        }
+
+        void RecalculateSkillPoints()
+        {
+            int amountToShip = additionalSkillPoints;
+
+            Dictionary<string, int> newVals = new Dictionary<string, int>();
+
+            bool reroll = false;
+            do
+            {
+                foreach (var level in ToEditMinionStats.StartingLevels)
+                {
+                    if (level.Value > 0)
+                    {
+                        reroll = true;
+                        int randomPoints = UnityEngine.Random.Range(0, amountToShip + 1);
+                        amountToShip -= randomPoints;
+
+                        if (!newVals.ContainsKey(level.Key))
+                            newVals.Add(level.Key, pointsPerInterest() + randomPoints);
+                        else
+                            newVals[level.Key] += randomPoints;
+                    }
+                }
+            }
+            while (amountToShip > 0 && reroll);
+            
+            foreach (var newv in newVals)
+            {
+                ToEditMinionStats.StartingLevels[newv.Key] = newv.Value;
+            }
+        }
+
+
+        /// <summary>
+        /// no longer in use
+        /// </summary>
+        /// <returns></returns>
         public List<SkillGroup> GetInterestsWithStats()
         {
-            //Debug.Log("EEEEEEEEEEEEEEEE");
             ActiveInterests.Clear();
-            foreach (var skillGroup in referencedInterests)
+            foreach (var skillGroup in ToEditMinionStats.skillAptitudes)
             {
                 ActiveInterests.Add(skillGroup.Key);
-                //Debug.Log(skillGroup.Key.Name + ", " + skillGroup.Value);
             }
-            
+
             return ActiveInterests;
         }
+
+        /// <summary>
+        /// no longer in use
+        /// </summary>
+        /// <returns></returns>
         public void GetNextInterest(int index, bool backwards = false)
         {
             //Debug.Log(index+ ", count "+ ActiveInterests.Count());
-            if (index>= ActiveInterests.Count())
+            if (index >= ActiveInterests.Count())
                 return;
             GetNextInterest(ActiveInterests[index].Id, backwards);
         }
 
+        /// <summary>
+        /// no longer in use
+        /// </summary>
+        /// <returns></returns>
         public void GetNextInterest(string id, bool backwards = false)
         {
             var allSkills = Db.Get().SkillGroups.resources;
             SkillGroup OldSkill = allSkills.Find(skill => skill.Id == id);
             SkillGroup newSkill = OldSkill;
             int indexInAllSkills = allSkills.FindIndex(skill => skill == OldSkill);
-            var availableSkills = allSkills.Except(referencedInterests.Keys);
+            var availableSkills = allSkills.Except(ToEditMinionStats.skillAptitudes.Keys);
+            var dupeStatPoints = ToEditMinionStats.StartingLevels;
 
             if (availableSkills.Count() == 0)
                 return;
@@ -91,7 +274,7 @@ namespace SetStartDupes
                 //dupeStatPoints
                 string statId = relevantAttribute.Id;
                 dupeStatValue = dupeStatPoints[statId] > dupeStatValue
-                    ? dupeStatPoints[statId] 
+                    ? dupeStatPoints[statId]
                     : dupeStatValue;
                 if (DoesRemoveReduceStats(statId))
                 {
@@ -102,9 +285,9 @@ namespace SetStartDupes
                     dupeStatValue = FallBack;
                 }
             }
-            referencedInterests.Remove(OldSkill);
+            ToEditMinionStats.skillAptitudes.Remove(OldSkill);
 
-            
+
             //Debug.Log("end");
             ///adding new boni
             foreach (var relevantAttribute in newSkill.relevantAttributes)
@@ -120,12 +303,8 @@ namespace SetStartDupes
                     FallBack = dupeStatValue;
                 }
             }
-            //Debug.Log("stats:: (dupestatval:" + dupeStatValue + ")");
-            //foreach (var v in dupeStatPoints)
-            //{
-            //    Debug.Log(v.Key + ", " + v.Value);
-            //}
-            referencedInterests.Add(newSkill, 1);
+
+            ToEditMinionStats.skillAptitudes.Add(newSkill, 1);
             ActiveInterests[GetCurrentIndex(OldSkill.Id)] = newSkill;
         }
 
@@ -134,10 +313,14 @@ namespace SetStartDupes
             return ActiveInterests.FindIndex(old => old.Id == id);
         }
 
+        /// <summary>
+        /// deprecated
+        /// </summary>
+        /// <param name="startingLevels"></param>
         internal void AddSkillLevels(ref Dictionary<string, int> startingLevels)
         {
             //Debug.Log("AAAAAAAAAAAAAAAA");
-            dupeStatPoints = startingLevels;
+            ToEditMinionStats.StartingLevels = startingLevels;
             foreach (var skillGroup in startingLevels)
             {
                 //Debug.Log(skillGroup.Key + ", " + skillGroup.Value);
@@ -145,7 +328,7 @@ namespace SetStartDupes
                 {
                     if (!IsThisANewSkill(skillGroup.Key))
                     {
-                        FallBack = new KRandom().Next(1, skillGroup.Value+1);
+                        FallBack = new KRandom().Next(1, skillGroup.Value + 1);
                     }
                 }
             }
@@ -160,7 +343,7 @@ namespace SetStartDupes
         }
         public void ReplaceTrait(string old, string newS)
         {
-            if(old == newS) return;
+            if (old == newS) return;
             if (!currentTraitIds.Contains(old) || currentTraitIds.Contains(newS))
                 return;
 
@@ -171,11 +354,6 @@ namespace SetStartDupes
         {
             return currentTraitIds.Where(entry => entry != thisTrait).ToList();
         }
-
-
-
-
-
 
         public string GetNextTraitId(string currentId, bool backwards)
         {
@@ -245,12 +423,13 @@ namespace SetStartDupes
         //    return dupeStatPoints[relevantAttribute];
         //}
 
-        public int GetBonusValue(int index)
+        public int GetBonusValue(SkillGroup group)
         {
             //Debug.Log("Index: " + index);
-            var relevantAttribute = ActiveInterests[index].relevantAttributes.First().Id;
+            var relevantAttribute = group.relevantAttributes.First().Id;
             //Debug.Log(relevantAttribute);
-            return dupeStatPoints[relevantAttribute];
+            return ToEditMinionStats.StartingLevels[relevantAttribute];
         }
+
     }
 }

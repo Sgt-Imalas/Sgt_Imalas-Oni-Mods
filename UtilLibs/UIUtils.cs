@@ -98,9 +98,10 @@ namespace UtilLibs
             if (go == null)
                 return null;
             var tt = go.gameObject.AddOrGet<ToolTip>();
+            tt.UseFixedStringKey = false;
             tt.enabled = true;
             tt.tooltipPivot = alignCenter ? new Vector2(0.5f, onBottom? 1f : 0f) : new Vector2(1f, onBottom ? 1f : 0f);
-            tt.tooltipPositionOffset = new Vector2(0f, 20f);
+            tt.tooltipPositionOffset = onBottom ? new Vector2(0f, -20f) : new Vector2(0f, 20f);
             tt.parentPositionAnchor = new Vector2(0.5f, 0.5f);
             if (wrapWidth > 0)
             {

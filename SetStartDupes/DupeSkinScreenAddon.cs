@@ -32,7 +32,7 @@ namespace SetStartDupes
             StuffToDeactivate.Add(transform.Find("PreviewColumn/LayoutBreaker/Content/ButtonsContainer/Buttons/ChangeOutfitButton"));
 
             var ConfirmButton = Util.KInstantiateUI(transform.Find("PreviewColumn/LayoutBreaker/Content/ButtonsContainer/Buttons/EditOutfitButton").gameObject, transform.Find("PreviewColumn/LayoutBreaker/Content/ButtonsContainer/Buttons").gameObject, true);
-            UIUtils.TryChangeText(ConfirmButton.transform, "Label", "Confirm Selection"); ///STRINGSLOC!
+            UIUtils.TryChangeText(ConfirmButton.transform, "Label", STRINGS.UI.BUTTONS.APPLYSKIN); ///STRINGSLOC!
             UIUtils.AddActionToButton(ConfirmButton.transform, "", () => SetSelectedDupe());
             StuffToActivate.Add(ConfirmButton.transform);
         }
