@@ -13,6 +13,16 @@ msgstr ""
 "Application: Oxygen Not IncludedPOT Version: 2.0\n"
 "X-Generator: Poedit 3.2.2\n"
 
+#. SetStartDupes.STRINGS.UI.BUTTONS.ADDTOSTATS
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.ADDTOSTATS"
+msgid "Add new"
+msgstr "Hinzufügen"
+
+#. SetStartDupes.STRINGS.UI.BUTTONS.APPLYSKIN
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.APPLYSKIN"
+msgid "Apply this Personality"
+msgstr "Diese Persönlichkeit laden"
+
 #. SetStartDupes.STRINGS.UI.BUTTONS.CYCLENEXT
 msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.CYCLENEXT"
 msgid "Cycle to next"
@@ -25,8 +35,8 @@ msgstr "Zum Vorherigen wechseln"
 
 #. SetStartDupes.STRINGS.UI.BUTTONS.DUPESKINBUTTONTOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.DUPESKINBUTTONTOOLTIP"
-msgid "Select Duplicant skin"
-msgstr "Duplikanten-Aussehen auswählen"
+msgid "Select Duplicant Personality (Skin)"
+msgstr "Duplikanten-Persönlichkeit auswählen (Aussehen)"
 
 #. SetStartDupes.STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP"
@@ -50,6 +60,45 @@ msgstr ""
 "erstellen,\n"
 "klick die Schaltfläche \"Voreinstellung generieren\" im "
 "Attributvorlagenfenster."
+
+#. SetStartDupes.STRINGS.UI.BUTTONS.REMOVEFROMSTATS
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.REMOVEFROMSTATS"
+msgid "Remove"
+msgstr "Entfernen"
+
+#. SetStartDupes.STRINGS.UI.BUTTONS.REROLLCAREPACKAGE
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.REROLLCAREPACKAGE"
+msgid "Reroll for a different Care Package"
+msgstr "Ein neues Hilfspaket würfeln"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.NAME"
+msgid "Add/Remove Interests and Traits"
+msgstr "Interessen und Eigenschaften entfernen/hinzufügen"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.TOOLTIP"
+msgid ""
+"Allows to add new or remove existing Traits and Interests on Duplicants.\n"
+"Can be overpowered if used excessively."
+msgstr ""
+"Erlaubt das Hinzufügen neuer und das Entfernen existierender Interessen und "
+"Eigenschaften.\n"
+"Bei exzessiver Nutzung kann das OP sein."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.BALANCEADDANDREMOVE.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.BALANCEADDANDREMOVE.NAME"
+msgid "Basic balancing for Add/Remove"
+msgstr ""
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.BALANCEADDANDREMOVE.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.BALANCEADDANDREMOVE.TOOLTIP"
+msgid ""
+"Applies some basic balancing to the adding/removal of traits and interests.\n"
+"this limits the interest count to 3 and adds a \"negative trait\" - cost to "
+"positive traits\n"
+"Option is recommended to avoid overpowered duplicants."
+msgstr ""
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NAME"
@@ -99,15 +148,20 @@ msgstr ""
 "Legen Sie die Anzahl der Hilfspakete fest, die generiert werden, wenn die "
 "Obergrenze überschritten wurde"
 
-#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.GAMESTART
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.GAMESTART"
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.A_GAMESTART
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.A_GAMESTART"
 msgid "Options for Game Start"
 msgstr "Optionen für den Spielstart"
 
-#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.PRINTINGPOD
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.PRINTINGPOD"
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD"
 msgid "Options for Printing Pod"
 msgstr "Optionen für den Biodrucker"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS"
+msgid "Options for Extra Behaviours"
+msgstr "Optionen für weitere Dupe-Manipulation"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.NAME"
@@ -155,13 +209,31 @@ msgstr ""
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.NAME"
-msgid "Reroll printing pod Duplicants"
-msgstr "Neuwürfeln von Biodrucker-Duplikanten"
+msgid "Reroll printing pod"
+msgstr "Neuwürfeln des Biodruckers"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.TOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.TOOLTIP"
-msgid "Enable this option to add the reroll button to printing pod Duplicants."
-msgstr "Diese Option aktiviert den Würfel-Knopf bei Biodrucker-Duplikanten."
+msgid ""
+"Enable this option to add the reroll button to printing pod Duplicants and "
+"care packages."
+msgstr ""
+"Diese Option aktiviert den Würfel-Knopf bei Biodrucker-Duplikanten und "
+"Hilfspaketen."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.NAME"
+msgid "Skins include reactions"
+msgstr "Aussehen beinhalten Reaktionen"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.TOOLTIP"
+msgid ""
+"When applying a skin, the inherited overjoyed response and stress reaction "
+"get applied in addition to the skin."
+msgstr ""
+"Wenn das Aussehen eines Duplikanten angepasst wird, werden Stress- und "
+"Begeisterungsreaktion des neuen Aussehens mitübernommen."
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.STARTUPRESOURCES.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.STARTUPRESOURCES.NAME"
@@ -201,6 +273,25 @@ msgstr "{0}, ({1} +{2})"
 msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT"
 msgid "{0}"
 msgstr "{0}"
+
+#. SetStartDupes.STRINGS.UI.DUPESKILLSPOPUP.SCROLLAREA.CONTENT.NOSKILLSAVAILABLE.LABEL
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPESKILLSPOPUP.SCROLLAREA.CONTENT."
+"NOSKILLSAVAILABLE.LABEL"
+msgid "No items available."
+msgstr "Nichts verfügbar."
+
+#. SetStartDupes.STRINGS.UI.DUPESKILLSPOPUP.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.SWITCHIN.TEXT
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPESKILLSPOPUP.SCROLLAREA.CONTENT."
+"PRESETENTRYPREFAB.SWITCHIN.TEXT"
+msgid "Select this"
+msgstr "Auswählen"
+
+#. SetStartDupes.STRINGS.UI.DUPESKILLSPOPUP.TOREPLACE.LABEL
+msgctxt "SetStartDupes.STRINGS.UI.DUPESKILLSPOPUP.TOREPLACE.LABEL"
+msgid "To replace:"
+msgstr "Es wird ersetzt:"
 
 #. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURCREW
 msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURCREW"
@@ -278,7 +369,7 @@ msgctxt ""
 "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS."
 "GENERATEFROMCURRENT.TOOLTIP"
 msgid ""
-"Generate a new preset from the currenly displayed stats.\n"
+"Generate and store a new preset from the currenly displayed stats.\n"
 "Only has an effect if the preset doesn't exist yet"
 msgstr ""
 "Generiere und speichere eine neue Attributvorlage aus den momentan "
@@ -320,5 +411,16 @@ msgstr "Attributvorlagen"
 
 #. SetStartDupes.STRINGS.UNNAMEDPRESET
 msgctxt "SetStartDupes.STRINGS.UNNAMEDPRESET"
-msgid "(Unnamed)"
-msgstr "(Unbenannte Vorlage)"
+msgid "(Unnamed Preset)"
+msgstr "(unbenannt)"
+
+#~ msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.TOOLTIP"
+#~ msgid "Allows to remove"
+#~ msgstr ""
+#~ "Ermöglicht das Hinzufügen neuer oder das Entfernen bestehender "
+#~ "Eigenschaften und Interessen bei Duplikanten.\n"
+#~ "Kann bei übermäßigem Gebrauch zu stark sein."
+
+#~ msgctxt "SetStartDupes.STRINGS.UNNAMEDPRESET"
+#~ msgid "(Unnamed)"
+#~ msgstr "(Unbenannte Vorlage)"

@@ -648,7 +648,7 @@ namespace SetStartDupes
 
                 RemoveFromTraitsButtonPrefab = Util.KInstantiateUI(buttonPrefab);
                 RemoveFromTraitsButtonPrefab.GetComponent<ToolTip>().enabled = false;
-                RemoveFromTraitsButtonPrefab.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("action_deconstruct");
+                RemoveFromTraitsButtonPrefab.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("icon_negative");
                 RemoveFromTraitsButtonPrefab.name = "RemoveButton";
 
             }
@@ -755,7 +755,7 @@ namespace SetStartDupes
                     var AddOnSpacer = Util.KInstantiateUI(AddNewToTraitsButtonPrefab, spacerParent);
                     UIUtils.TryFindComponent<ToolTip>(AddOnSpacer.transform).toolTip = STRINGS.UI.BUTTONS.ADDTOSTATS;
                     //UIUtils.TryFindComponent<ToolTip>(right.transform,"Image").toolTip="Cycle to next";
-                    AddOnSpacer.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, 25);
+                    AddOnSpacer.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 2.5f, 25);
                     AddOnSpacer.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, -5, 25);
                     AddOnSpacer.SetActive(false);
 
@@ -790,6 +790,7 @@ namespace SetStartDupes
                         {
                             UnityTraitScreen.ShowWindow(referencedStats, () => InstantiateOrGetDupeModWindow(parent, referencedStats, hide), currentGroup: a, DupeTraitManager: DupeTraitMng);
                         });
+                        UIUtils.AddSimpleTooltipToObject(AptitudeEntry.transform, ModAssets.GetSkillgroupDescription(a), true, onBottom: true);
                         AptitudeEntry.GetComponent<KButton>().enabled = true;
                         ApplyDefaultStyle(AptitudeEntry.GetComponent<KImage>());
                         UIUtils.TryChangeText(AptitudeEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, GetSkillGroupName(a), FirstSkillGroupStat(a), DupeTraitMng.GetBonusValue(a)));

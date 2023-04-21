@@ -1,4 +1,5 @@
-﻿using Klei.AI;
+﻿using Database;
+using Klei.AI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -70,7 +71,7 @@ namespace SetStartDupes
 
         public static class Colors
         {
-            public static Color gold = UIUtils.Darken(Util.ColorFromHex("ffdb6e"),40);
+            public static Color gold = UIUtils.Darken(Util.ColorFromHex("ffdb6e"), 40);
             public static Color purple = Util.ColorFromHex("a961f9");
             public static Color magenta = Util.ColorFromHex("fd43ff");
             public static Color green = Util.ColorFromHex("367d48");
@@ -108,26 +109,81 @@ namespace SetStartDupes
             {
                 NextType.stress,
                 DUPLICANTSTATS.STRESSTRAITS
-            },
-            {
-                NextType.allTraits,
-                DUPLICANTSTATS.GENESHUFFLERTRAITS.Concat(
-                DUPLICANTSTATS.GOODTRAITS).Concat(
-                DUPLICANTSTATS.NEEDTRAITS).Concat(
-                DUPLICANTSTATS.BADTRAITS).ToList()
-
-            },
+            }
         };
 
-        public static List<DUPLICANTSTATS.TraitVal> TryGetTraitsOfCategory(NextType type)
+        public static List<DUPLICANTSTATS.TraitVal> TryGetTraitsOfCategory(NextType type, List<Trait> traitsForCost = null)
         {
-            if(!TraitsByType.ContainsKey(type))
-                return new List<DUPLICANTSTATS.TraitVal>();
+            if (type != NextType.allTraits)
+            {
+                if (!TraitsByType.ContainsKey(type))
+                    return new List<DUPLICANTSTATS.TraitVal>();
+                else
+                    return TraitsByType[type];
+
+            }
             else
-                return TraitsByType[type];
+            {
+                //if (traitsForCost == null || !ModConfig.Instance.BalanceAddRemove)
+                if (true)
+                {
+                    return TraitsByType[NextType.posTrait].Concat(TraitsByType[NextType.needTrait]).Concat(TraitsByType[NextType.negTrait]).ToList();
+                }
+                else
+                {
+                    float negative = 0, positive = 0;
+                    foreach (var trait in traitsForCost)
+                    {
+                        switch (GetTraitListOfTrait(trait.Id, out var traitVals))
+                        {
+
+                            case NextType.posTrait:
+                                positive += 1;
+                                break;
+                            case NextType.negTrait:
+                                negative += 1;
+                                break;
+                            case NextType.needTrait:
+                                negative += 1f / 3f;
+                                break;
+                            case NextType.geneShufflerTrait:
+                                positive += 2.5f;
+                                break;
+                        }
+                    }
+                    var Allowed = new List<DUPLICANTSTATS.TraitVal>();
+
+                    if (positive - negative < -3.2f)
+                    {
+                        Allowed.AddRange(TraitsByType[NextType.geneShufflerTrait]);
+                    }
+
+                    if (positive - negative < 2f)
+                    {
+                        Allowed.AddRange(TraitsByType[NextType.posTrait]);
+                    }
+                    if (positive - negative > -3f)
+                    {
+                        Allowed.AddRange(TraitsByType[NextType.needTrait]);
+                    }
+                    if (positive - negative > -5f)
+                    {
+                        Allowed.AddRange(TraitsByType[NextType.negTrait]);
+                    }
+                    return Allowed;
+                }
+
+            }
 
         }
-
+        public static string GetSkillgroupName(SkillGroup group)
+        {
+            return Strings.Get("STRINGS.DUPLICANTS.SKILLGROUPS." + group.Id.ToUpperInvariant() + ".NAME") + " (" + Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME") + ")";
+        }
+        public static string GetSkillgroupDescription(SkillGroup group)
+        {
+            return Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + group.relevantAttributes.First().Id.ToUpperInvariant() + ".DESC");
+        }
 
         public static NextType GetTraitListOfTrait(string traitId, out List<DUPLICANTSTATS.TraitVal> TraitList)
         {
@@ -199,7 +255,7 @@ namespace SetStartDupes
 
             var ColorStyle = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
             ColorStyle.inactiveColor = colorToPaint;
-            ColorStyle.hoverColor = UIUtils.Lighten(colorToPaint,10);
+            ColorStyle.hoverColor = UIUtils.Lighten(colorToPaint, 10);
             ColorStyle.activeColor = UIUtils.Lighten(colorToPaint, 25);
             ColorStyle.disabledColor = colorToPaint;
             img.colorStyleSetting = ColorStyle;

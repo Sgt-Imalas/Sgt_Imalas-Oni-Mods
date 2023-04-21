@@ -115,8 +115,8 @@ namespace SetStartDupes
 
             if (currentGroup != null)
             {
-                ToReplaceName.text = GetSkillgroupName(currentGroup);
-                ToReplaceColour.color = UIUtils.Darken(ModAssets.Colors.grey,40);
+                ToReplaceName.text = ModAssets.GetSkillgroupName(currentGroup);
+                ToReplaceColour.color = UIUtils.Darken(ModAssets.Colors.grey, 40);
             }
             else if (currentTrait != null)
             {
@@ -128,7 +128,7 @@ namespace SetStartDupes
             }
             else
             {
-                ToReplaceName.text = "None";
+                ToReplaceName.text = "-";
                 ToReplaceColour.color = ModAssets.Colors.grey;
             }
             List<SkillGroup> forbidden = ReferencedStats.skillAptitudes.Keys.ToList();
@@ -146,10 +146,7 @@ namespace SetStartDupes
             ApplyFilter();
         }
 
-        string GetSkillgroupName(SkillGroup group)
-        {
-            return Strings.Get("STRINGS.DUPLICANTS.SKILLGROUPS." + group.Id.ToUpperInvariant() + ".NAME");
-        }
+
         string GetTraitName(Trait trait)
         {
             return trait.Name;
@@ -159,11 +156,11 @@ namespace SetStartDupes
         {
             if (group != null)
                 AddUiContainer(
-                GetSkillgroupName(group)
-                + " (" + Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME") + ")",
-                Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + group.relevantAttributes.First().Id.ToUpperInvariant() + ".DESC"),
+                ModAssets.GetSkillgroupName(group),
+                ModAssets.GetSkillgroupDescription(group),
                 skillGroup: group);
         }
+
         private void AddUIContainer(Trait trait2, NextType next)
         {
             if (trait2 != null)
@@ -184,7 +181,7 @@ namespace SetStartDupes
                 UIUtils.TryChangeText(PresetHolder.transform, "Label", name);
                 if (description != null && description.Length > 0)
                 {
-                    UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("Label"), description,true, onBottom:true);
+                    UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("Label"), description, true, onBottom: true);
                 }
 
                 if (trait != null)
@@ -274,6 +271,8 @@ namespace SetStartDupes
 
             PresetListContainer = transform.Find("ScrollArea/Content").gameObject;
             PresetListPrefab = transform.Find("ScrollArea/Content/PresetEntryPrefab").gameObject;
+
+            UIUtils.AddActionToButton(transform, "CloseButton", () => this.Show(false));
             InitAllContainers();
 
             init = true;
@@ -345,7 +344,7 @@ namespace SetStartDupes
 
         List<string> GetAllowedTraits()
         {
-            var allowedTraits = ModAssets.TryGetTraitsOfCategory(TraitCategory).Select(t => t.id).ToList();
+            var allowedTraits = ModAssets.TryGetTraitsOfCategory(TraitCategory,ReferencedStats.Traits).Select(t => t.id).ToList();
             var finalTraits = new List<string>();
             var forbiddenTraits = ReferencedStats.Traits.Count > 0 ? ReferencedStats.Traits.Select(allowedTraits => allowedTraits.Id).ToList() : new List<string>();
 

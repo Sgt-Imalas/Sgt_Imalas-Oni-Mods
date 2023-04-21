@@ -222,6 +222,7 @@ namespace SetStartDupes
 
                 var aptitude = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
                 UIUtils.TryChangeText(aptitude.transform, "Label", SkillGroupName(skill.Key));
+                UIUtils.AddSimpleTooltipToObject(aptitude.transform, SkillGroupDesc(skill.Key), true); 
                 InformationObjects.Add(aptitude);
 
             }
@@ -286,6 +287,16 @@ namespace SetStartDupes
                 string relevantSkillID = skillGroup.relevantAttributes.First().Id;
 
                 return string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, attribute, SkillGroup(skillGroup), SkillLevel(relevantSkillID));
+            }
+        }
+        public string SkillGroupDesc(string groupID)
+        {
+            if (groupID == null)
+                return "";
+            else
+            {
+                var skillGroup = Db.Get().SkillGroups.TryGet(groupID);
+                return ModAssets.GetSkillgroupDescription(skillGroup);
             }
         }
         void ApplyColorToTraitContainer(GameObject container, string traitID)

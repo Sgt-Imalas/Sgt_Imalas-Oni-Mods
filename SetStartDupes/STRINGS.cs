@@ -20,9 +20,9 @@ namespace SetStartDupes
             {
                 public class CATEGORIES
                 {
-                    public static LocString GAMESTART = "(1) Options for Game Start";
-                    public static LocString PRINTINGPOD = "(2) Options for Printing Pod";
-                    public static LocString EXTRAS = "(3) Extra Behaviours";
+                    public static LocString A_GAMESTART = "Options for Game Start";
+                    public static LocString B_PRINTINGPOD = "Options for Printing Pod";
+                    public static LocString C_EXTRAS = "Options for Extra Behaviours";
                 }
 
                 public class DUPLICANTSTARTAMOUNT
@@ -84,8 +84,13 @@ namespace SetStartDupes
                 }
                 public class ADDANDREMOVE
                 {
-                    public static LocString NAME = "Add/Remove Interests/Traits";
-                    public static LocString TOOLTIP = "Allows to remove";
+                    public static LocString NAME = "Add/Remove Interests and Traits";
+                    public static LocString TOOLTIP = "Allows to add new or remove existing Traits and Interests on Duplicants.\nCan be overpowered if used excessively.";
+                }
+                public class BALANCEADDANDREMOVE
+                {
+                    public static LocString NAME = "Basic balancing for Add/Remove";
+                    public static LocString TOOLTIP = "Applies some basic balancing to the adding/removal of traits and interests.\nthis limits the interest count to 3 and adds a \"negative trait\" - cost to positive traits\nOption is recommended to avoid overpowered duplicants.";
                 }
 
             }
@@ -93,7 +98,7 @@ namespace SetStartDupes
             {
                 public class TOREPLACE
                 {
-                    public static LocString LABEL = "Skill to replace:";
+                    public static LocString LABEL = "To replace:";
                 }
                 public class SCROLLAREA
                 {
