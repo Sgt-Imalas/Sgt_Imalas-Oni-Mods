@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static SetStartDupes.STRINGS.UI.DSS_OPTIONS;
 using static STRINGS.CODEX.MYLOG.BODY;
 
 namespace SetStartDupes
@@ -44,6 +45,10 @@ namespace SetStartDupes
         [Limit(0.1, 10)]
         public float PrintingPodRechargeTime { get; set; }
 
+        [Option("STRINGS.UI.DSS_OPTIONS.PAUSEONREADYTOPRING.NAME", "STRINGS.UI.DSS_OPTIONS.PAUSEONREADYTOPRING.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
+        [JsonProperty]
+        public bool PauseOnReadyToPrint { get; set; }
+
         [Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
         [JsonProperty]
         public bool CarePackagesOnly { get; set; }
@@ -52,6 +57,7 @@ namespace SetStartDupes
         [JsonProperty]
         [Limit(1, 200)]
         public int CarePackagesOnlyDupeCap { get; set; }
+
 
         [Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYPACKAGECAP.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYPACKAGECAP.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
         [JsonProperty]
@@ -78,6 +84,7 @@ namespace SetStartDupes
             PrintingPodRechargeTime = 3;
             ModifyDuringGame = true;
             RerollDuringGame = false;
+            PauseOnReadyToPrint = true;
 
             StartupResources = false;
             SupportedDays = 5;

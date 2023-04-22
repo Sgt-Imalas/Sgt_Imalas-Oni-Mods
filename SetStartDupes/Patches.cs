@@ -193,6 +193,29 @@ namespace SetStartDupes
         }
 
         /// <summary>
+        /// Pauses Printing Pod
+        /// </summary>
+        [HarmonyPatch(typeof(Immigration))]
+        [HarmonyPatch(nameof(Immigration.Sim200ms))]
+        public class Add
+        {
+            static async Task DoWithDelay(System.Action task, int ms)
+            {
+                await Task.Delay(ms);
+                task.Invoke();
+            }
+            public static void Prefix(Immigration __instance, float dt)
+            {
+                if(__instance.bImmigrantAvailable == false && Mathf.Approximately(Math.Max(__instance.timeBeforeSpawn-dt, 0.0f),0.0f))
+                {
+                    SgtLogger.l("Paused the game - new printables available");
+                    DoWithDelay(() => SpeedControlScreen.Instance.Pause(true), (3-SpeedControlScreen.Instance.speed) * 500);
+                }
+            }
+        }
+
+
+        /// <summary>
         /// Applies custom printing pod cooldown
         /// </summary>
         [HarmonyPatch(typeof(Immigration))]
@@ -202,11 +225,10 @@ namespace SetStartDupes
             public static void Prefix(Immigration __instance)
             {
                 __instance.spawnInterval[__instance.spawnInterval.Length - 1] = Mathf.RoundToInt(ModConfig.Instance.PrintingPodRechargeTime * 600f);
-                SgtLogger.l(__instance.timeBeforeSpawn.ToString());
-                for(int i = 0; i < __instance.spawnInterval.Length; i++)
-                {
-                    SgtLogger.l(__instance.spawnInterval[i].ToString(), i.ToString());
-                }
+                //for(int i = 0; i < __instance.spawnInterval.Length; i++)
+                //{
+                //    SgtLogger.l(__instance.spawnInterval[i].ToString(), i.ToString());
+                //}
             }
         }
 

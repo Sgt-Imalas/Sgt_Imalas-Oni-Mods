@@ -78,6 +78,12 @@ namespace SetStartDupes
                         Destroy(Instance); 
                         Instance = null;
                     }
+                    if (UnityTraitScreen.Instance != null)
+                    {
+                        Destroy(UnityTraitScreen.Instance);
+                        UnityTraitScreen.Instance = null;
+                    }
+
                     parentScreen = value;
                 }
             }

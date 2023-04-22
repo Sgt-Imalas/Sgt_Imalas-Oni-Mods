@@ -60,6 +60,12 @@ namespace SetStartDupes
                     public static LocString TOOLTIP = "Time it takes for the printing pod to recharge for the next print in cycles.\nDefault is 3 cycles.";
                 }
 
+                public class PAUSEONREADYTOPRING
+                {
+                    public static LocString NAME = "Pause on \"ready to print\"";
+                    public static LocString TOOLTIP = "Pause the game when the printing pod has recharged for a new print";
+                }
+
                 public class CAREPACKAGESONLY
                 {
                     public static LocString NAME = "Print Care Packages only";
