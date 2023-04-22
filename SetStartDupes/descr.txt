@@ -2,27 +2,42 @@
 
 [h1]Introduction[/h1]
 
-This mod allows to adjust the amount of Duplicants you start the game with.
-Also features individual selection of traits, interests and reactions of duplicants.
-Allows to customize the look of a dupe independent of its stats.
+When you start up a new game, there are a lot of dangers for your dupes so you want to prepare carefully.
+This mod allows you to adjust the amount of duplicants you start your game with and what Traits and Interests they should have.
+Furtermore you can store your favourite Stat-Loadouts as Preset-Templates that you can then load and apply to any dupes created after.
+The mod also allows to customize the Personality (Skin) of a dupe without changing any of its stats (for when you want a Pei-Only Colony, but there is no Meep-Mod equivalent).
 
 
-[h1]Current latest Version: 3.1.0[/h1]
+[h1]Current latest Version: 4.0.0[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
 [list]
-[*] By Default, enabling the mod sets the amount of Duplicants to start with to 3.
-[*] This value is adjustable in mod settings to start with a number of between 1 and 100 duplicants.
-[*] Allows to individually change the different Traits, Interests and Reactions of a Duplicant (similar to DGSM).
-[*] Has option to spawn with additional food and oxylite for every additional start dupe
-[*] Option to reenable rerolling for printing pod dupes
-[*] Allows customize the looks of a dupe independent of its skills. (doesn't work for sussy dupes from bio inks)
+[*] Between 1 and 100 starting duplicants (default: 3)
+[*] Individually change the different Traits, Interests and Reactions of a Duplicant (similar to DGSM) but via searchable list -> no longer a need for endless "click to next":
+[/list][img]https://i.imgur.com/zJcOWLS.gif[/img][list]
+[*] Option to store and load stat presets:
+[/list][img]https://i.imgur.com/uRNo2Ji.gif[/img][list]
+[*] Changing dupe stats during the game can be disabled in the config (this also disables the preset function)
+[*] Option to start the game with additional food and oxylite for every additional start dupe above 3.
+[*] Option to reenable rerolling for printing pod dupes AND Care Packages
+[*] Ability to apply personalities (= skins) to dupes without changing its interests and traits (stress and overjoyed reaction get applied by default, this can be disabled to be ONLY visual) (see the steam image how this works)
+[*] Ability to add new Traits & Interests (need to be enabled in the config)
+[*] Ability to remove existing Traits & Interests (need to be enabled in the config)
+[*] Change the printing pod interval (default is every 3 cycles)
+[*] "Care packages only above DupeCount" - Option 
 [/list] 
 
 Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2869608898]Bio-Inks[/url] 
 Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1717999057]Always 3 Interests[/url] 
 Incompatible with DGSM
+
+[h1]Localisation[/h1]
+- English
+- German
+
+[h1]Credits[/h1]
+Mod Config made with PLib by PeterHan/Stephen
 
 [h1]Known Issues[/h1]
 [list]
@@ -31,7 +46,7 @@ Incompatible with DGSM
 
 [hr][/hr]
 [h1]Bug Reports[/h1]
-Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or my[url=https://discord.gg/5n7peBCnWZ] Discord[/url]. Always include the full player.log in a report
 
 Where to find the Log:
 [list]
@@ -47,3 +62,13 @@ Where to find the Log:
 
 Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
 
+
+
+Update 4.0:
+- traits and interest are now in a searchable list and are no longer selected by cycling throught their respective lists
+- added dupe presets, these can also be shared with other players
+- made mod translatable + added german translation
+- applying personalities (skins) now includes their stress and joy reaction (can be disabled)
+- added option that allows adding/removing traits & interests (this also grants access to "needs"-traits)
+- added option to modify printing pod recharge time
+- added option to only print care packages above a certain number of duplicants

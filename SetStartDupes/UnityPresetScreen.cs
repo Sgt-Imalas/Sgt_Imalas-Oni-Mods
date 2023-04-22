@@ -63,7 +63,26 @@ namespace SetStartDupes
         Dictionary<MinionStatConfig, GameObject> Presets = new Dictionary<MinionStatConfig, GameObject>();
         List<GameObject> InformationObjects = new List<GameObject>();
 
-        public static GameObject parentScreen = null;
+        public static GameObject ParentScreen
+        {
+            get
+            {
+                return parentScreen;
+            }
+            set
+            { 
+                if(parentScreen != value)
+                {
+                    if(Instance != null)
+                    {
+                        Destroy(Instance); 
+                        Instance = null;
+                    }
+                    parentScreen = value;
+                }
+            }
+        }
+        private static GameObject parentScreen = null;
 
         public static void ShowWindow(MinionStartingStats startingStats,System.Action onClose)
         {

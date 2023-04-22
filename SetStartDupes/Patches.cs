@@ -480,12 +480,12 @@ namespace SetStartDupes
                     __instance.transform.Find("Content/BottomContent").TryGetComponent<VerticalLayoutGroup>(out var buttonGroup);
                     buttonGroup.childAlignment = TextAnchor.LowerCenter;
 
-                    UnityPresetScreen.parentScreen = __instance.transform.parent.gameObject;
+                    UnityPresetScreen.ParentScreen = __instance.transform.parent.gameObject;
                 }
 
                 else
                 {
-                    UnityPresetScreen.parentScreen = PauseScreen.Instance.transform.parent.gameObject;
+                    UnityPresetScreen.ParentScreen = PauseScreen.Instance.transform.parent.gameObject;
                 }
                 //SgtLogger.l(UnityPresetScreen.parentScreen.ToString(), "PRESET");
 #if DEBUG
