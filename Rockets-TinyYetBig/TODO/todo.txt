@@ -5,3 +5,4 @@
 - nerf solar nosecone weight if not already done
 - fix vacuum for insulated adapter
 - travel tube adapter
+- remove replacement on ladder adapter
