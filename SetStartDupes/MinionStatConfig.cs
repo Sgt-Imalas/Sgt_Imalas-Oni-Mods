@@ -28,7 +28,7 @@ namespace SetStartDupes
 
         public void OpenPopUpToChangeName(System.Action callBackAction = null)
         {
-            FileNameDialog fileNameDialog = (FileNameDialog)KScreenManager.Instance.StartScreen(ScreenPrefabs.Instance.FileNameDialog.gameObject, UnityPresetScreen.ParentScreen);
+            FileNameDialog fileNameDialog = (FileNameDialog)KScreenManager.Instance.StartScreen(ScreenPrefabs.Instance.FileNameDialog.gameObject, ModAssets.ParentScreen);
             fileNameDialog.SetTextAndSelect(ConfigName);
             fileNameDialog.onConfirm = (System.Action<string>)(newName =>
             {

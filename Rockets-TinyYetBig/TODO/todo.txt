@@ -6,3 +6,4 @@
 - fix vacuum for insulated adapter
 - travel tube adapter
 - remove replacement on ladder adapter
+- check if laser drill is counted by "Mine the gap"

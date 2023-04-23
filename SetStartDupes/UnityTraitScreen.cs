@@ -73,7 +73,7 @@ namespace SetStartDupes
         {
             if (Instance == null)
             {
-                var screen = Util.KInstantiateUI(ModAssets.TraitsWindowPrefab, UnityPresetScreen.ParentScreen, true);
+                var screen = Util.KInstantiateUI(ModAssets.TraitsWindowPrefab, ModAssets.ParentScreen, true);
                 Instance = screen.AddOrGet<UnityTraitScreen>();
                 Instance.Init();
             }

@@ -37,6 +37,34 @@ namespace SetStartDupes
 
         public static GameObject PresetWindowPrefab;
         public static GameObject TraitsWindowPrefab;
+
+        public static GameObject ParentScreen
+        {
+            get
+            {
+                return parentScreen;
+            }
+            set
+            {
+
+                if (UnityPresetScreen.Instance != null)
+                {
+                    //UnityPresetScreen.Instance.transform.SetParent(parentScreen.transform, false);
+                    UnityEngine.Object.Destroy(UnityPresetScreen.Instance);
+                    UnityPresetScreen.Instance = null;
+                }
+                if (UnityTraitScreen.Instance != null)
+                {
+                   // UnityTraitScreen.Instance.transform.SetParent(parentScreen.transform, false);
+                     UnityEngine.Object.Destroy(UnityTraitScreen.Instance);
+                     UnityTraitScreen.Instance = null;
+                }
+                parentScreen = value;
+            }
+        }
+        private static GameObject parentScreen = null;
+
+
         public static void LoadAssets()
         {
             AssetBundle bundle = AssetUtils.LoadAssetBundle("dcs_presetwindow", platformSpecific: true);

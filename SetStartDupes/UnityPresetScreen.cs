@@ -63,38 +63,13 @@ namespace SetStartDupes
         Dictionary<MinionStatConfig, GameObject> Presets = new Dictionary<MinionStatConfig, GameObject>();
         List<GameObject> InformationObjects = new List<GameObject>();
 
-        public static GameObject ParentScreen
-        {
-            get
-            {
-                return parentScreen;
-            }
-            set
-            { 
-                if(parentScreen != value)
-                {
-                    if(Instance != null)
-                    {
-                        Destroy(Instance); 
-                        Instance = null;
-                    }
-                    if (UnityTraitScreen.Instance != null)
-                    {
-                        Destroy(UnityTraitScreen.Instance);
-                        UnityTraitScreen.Instance = null;
-                    }
 
-                    parentScreen = value;
-                }
-            }
-        }
-        private static GameObject parentScreen = null;
 
-        public static void ShowWindow(MinionStartingStats startingStats,System.Action onClose)
+        public static void ShowWindow(MinionStartingStats startingStats, System.Action onClose)
         {
             if (Instance == null)
             {
-                var screen = Util.KInstantiateUI(ModAssets.PresetWindowPrefab, parentScreen, true);
+                var screen = Util.KInstantiateUI(ModAssets.PresetWindowPrefab, ModAssets.ParentScreen, true);
                 Instance = screen.AddOrGet<UnityPresetScreen>();
                 Instance.Init();
             }
@@ -237,7 +212,7 @@ namespace SetStartDupes
             InformationObjects.Add(spacer4);
 
             var aptitudeHeader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-            UIUtils.TryChangeText(aptitudeHeader.transform, "Label", global::STRINGS.UI.CHARACTERCONTAINER_APTITUDES_TITLE + ":"); 
+            UIUtils.TryChangeText(aptitudeHeader.transform, "Label", global::STRINGS.UI.CHARACTERCONTAINER_APTITUDES_TITLE + ":");
             InformationObjects.Add(aptitudeHeader);
 
             foreach (var skill in CurrentlySelected.skillAptitudes)
@@ -247,7 +222,7 @@ namespace SetStartDupes
 
                 var aptitude = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
                 UIUtils.TryChangeText(aptitude.transform, "Label", SkillGroupName(skill.Key));
-                UIUtils.AddSimpleTooltipToObject(aptitude.transform, SkillGroupDesc(skill.Key), true); 
+                UIUtils.AddSimpleTooltipToObject(aptitude.transform, SkillGroupDesc(skill.Key), true);
                 InformationObjects.Add(aptitude);
 
             }
@@ -256,7 +231,7 @@ namespace SetStartDupes
             InformationObjects.Add(spacer3);
 
             var traitHeader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-            UIUtils.TryChangeText(traitHeader.transform, "Label", global::STRINGS.UI.CHARACTERCONTAINER_TRAITS_TITLE+":");
+            UIUtils.TryChangeText(traitHeader.transform, "Label", global::STRINGS.UI.CHARACTERCONTAINER_TRAITS_TITLE + ":");
             InformationObjects.Add(traitHeader);
 
 
