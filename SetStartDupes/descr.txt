@@ -8,7 +8,7 @@ Furtermore you can store your favourite Stat-Loadouts as Preset-Templates that y
 The mod also allows to customize the Personality (Skin) of a dupe without changing any of its stats (for when you want a Pei-Only Colony, but there is no Meep-Mod equivalent).
 
 
-[h1]Current latest Version: 4.0.0[/h1]
+[h1]Current latest Version: 4.1.0[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
@@ -25,6 +25,7 @@ The mod also allows to customize the Personality (Skin) of a dupe without changi
 [*] Ability to add new Traits & Interests (need to be enabled in the config)
 [*] Ability to remove existing Traits & Interests (need to be enabled in the config)
 [*] Change the printing pod interval (default is every 3 cycles)
+[*] Pause game on "New Print available" (can be disabled in config)
 [*] "Care packages only above DupeCount" - Option 
 [/list] 
 
@@ -35,9 +36,11 @@ Incompatible with DGSM
 [h1]Localisation[/h1]
 - English
 - German
+- Chinese 
 
 [h1]Credits[/h1]
 Mod Config made with PLib by PeterHan/Stephen
+Chinese translation provided by [url=https://steamcommunity.com/profiles/76561198037403104/myworkshopfiles/?appid=457140] tyriankid[/url]
 
 [h1]Known Issues[/h1]
 [list]
