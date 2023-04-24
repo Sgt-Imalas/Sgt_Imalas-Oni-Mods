@@ -132,6 +132,8 @@ namespace SetStartDupes
         }
         internal void ApplyPreset(MinionStartingStats referencedStats)
         {
+            referencedStats.Name = this.ConfigName;
+
             referencedStats.Traits.Clear();
             var traitRef = Db.Get().traits;
             foreach(var traitID in this.Traits)

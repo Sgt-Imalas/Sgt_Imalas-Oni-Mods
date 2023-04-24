@@ -27,7 +27,7 @@ namespace SetStartDupes
 
                 public class DUPLICANTSTARTAMOUNT
                 {
-                    public static LocString NAME = "Amount of Starting Duplicants";
+                    public static LocString NAME = "Number of Starting Duplicants";
                     public static LocString TOOLTIP = "Choose the amount of duplicants you want to start with.";
                 }
 
