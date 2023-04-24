@@ -40,7 +40,7 @@ namespace Rockets_TinyYetBig.RocketFueling
                 decor: BUILDINGS.DECOR.PENALTY.TIER0);
 
             BuildingTemplates.CreateFoundationTileDef(buildingDef);
-            buildingDef.SceneLayer = Grid.SceneLayer.Building;
+            buildingDef.SceneLayer = Grid.SceneLayer.TileMain;
             //buildingDef.ForegroundLayer = Grid.SceneLayer.FXFront;
             buildingDef.ThermalConductivity = 0.01f;
             //buildingDef.OverheatTemperature = 2273.15f;
@@ -48,6 +48,10 @@ namespace Rockets_TinyYetBig.RocketFueling
             buildingDef.DefaultAnimState = "on";
             buildingDef.ObjectLayer = ObjectLayer.Building;
             buildingDef.CanMove = false;
+            buildingDef.Floodable = false;
+            buildingDef.Overheatable = false;
+            buildingDef.Entombable = false;
+            buildingDef.UseStructureTemperature = false;
             return buildingDef;
         }
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
@@ -55,19 +59,19 @@ namespace Rockets_TinyYetBig.RocketFueling
             GeneratedBuildings.MakeBuildingAlwaysOperational(go);
             BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
 
-            //SimCellOccupier simCellOccupier = go.AddOrGet<SimCellOccupier>();
-            //simCellOccupier.doReplaceElement = true;
-            //simCellOccupier.notifyOnMelt = true;
+            SimCellOccupier simCellOccupier = go.AddOrGet<SimCellOccupier>();
+            simCellOccupier.doReplaceElement = true;
+            simCellOccupier.notifyOnMelt = true;
 
-            MakeBaseSolid.Def solidBase = go.AddOrGetDef<MakeBaseSolid.Def>();
-            solidBase.occupyFoundationLayer = false;
-            solidBase.solidOffsets = new CellOffset[]
-            {
-                new CellOffset(0, 0),
-                new CellOffset(0, 1)
-            };
+            //MakeBaseSolid.Def solidBase = go.AddOrGetDef<MakeBaseSolid.Def>();
+            //solidBase.solidOffsets = new CellOffset[]
+            //{
+            //    new CellOffset(0, 0),
+            //    new CellOffset(0, 1)
+            //};
 
             go.AddOrGet<Insulator>();
+            go.AddComponent<Insulator>().offset= new CellOffset(0,1);
             go.AddOrGet<TileTemperature>();
             go.AddOrGet<BuildingHP>().destroyOnDamaged = true;
 
@@ -82,8 +86,6 @@ namespace Rockets_TinyYetBig.RocketFueling
             def.objectLayer = ObjectLayer.Building;
             go.AddOrGet<AnimTileable>();
         }
-        public override void DoPostConfigureComplete(GameObject go)
-        {
-        }
+        public override void DoPostConfigureComplete(GameObject go) => go.GetComponent<KPrefabID>().AddTag(GameTags.FloorTiles);
     }
 }
