@@ -84,7 +84,7 @@ namespace SetStartDupes
             PrintingPodRechargeTime = 3;
             ModifyDuringGame = true;
             RerollDuringGame = false;
-            PauseOnReadyToPrint = true;
+            PauseOnReadyToPrint = false;
 
             StartupResources = false;
             SupportedDays = 5;
