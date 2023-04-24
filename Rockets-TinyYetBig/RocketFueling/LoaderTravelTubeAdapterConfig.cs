@@ -107,8 +107,6 @@ namespace Rockets_TinyYetBig.RocketFueling
             utilityNetworkLink.link1 = new CellOffset(0, -1);
             utilityNetworkLink.link2 = new CellOffset(0, 2);
 
-            SgtLogger.l("adding tubeLink to "+  utilityNetworkLink.link1.ToString());
-            SgtLogger.l("adding tubeLink to " + utilityNetworkLink.link2.ToString());
             return utilityNetworkLink;
         }
     }
