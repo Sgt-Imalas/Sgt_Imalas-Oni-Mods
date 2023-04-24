@@ -183,6 +183,7 @@ namespace SetStartDupes
                             carePackContainer.reshuffleButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 120f);
                             carePackContainer.reshuffleButton.onClick += () =>
                             {
+                                carePackContainer.controller.RemoveLast();
                                 carePackContainer.Reshuffle(false);
                             };
                             UIUtils.AddSimpleTooltipToObject(carePackContainer.reshuffleButton.transform, STRINGS.UI.BUTTONS.REROLLCAREPACKAGE,true, onBottom:true);
