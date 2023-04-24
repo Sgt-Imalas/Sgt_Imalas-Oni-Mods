@@ -140,7 +140,7 @@ namespace SetStartDupes
             return minionStatConfigs;
         }
 
-        private void AddUiElementForPreset(MinionStatConfig config)
+        private bool AddUiElementForPreset(MinionStatConfig config)
         {
             if (!Presets.ContainsKey(config))
             {
@@ -163,7 +163,9 @@ namespace SetStartDupes
                 UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("RenameButton"), SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP);
                 UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("DeleteButton"), SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP);
                 Presets[config] = PresetHolder;
+                return true;
             }
+            return false;
         }
 
         void DeletePreset(MinionStatConfig config)
@@ -348,9 +350,19 @@ namespace SetStartDupes
             CloseButton.OnClick += () => this.Show(false);
             GeneratePresetButton.OnClick += () =>
             {
-                AddUiElementForPreset(CurrentlySelected);
-                CurrentlySelected.WriteToFile();
-                RebuildInformationPanel();
+                bool added = AddUiElementForPreset(CurrentlySelected);
+                if (added)
+                {
+                    CurrentlySelected.WriteToFile();
+                    CurrentlySelected.OpenPopUpToChangeName(
+                            () =>
+                                {
+                                    UIUtils.TryChangeText(Presets[CurrentlySelected].transform, "Label", CurrentlySelected.ConfigName);
+                                    RebuildInformationPanel();
+                                }
+                            );
+                    RebuildInformationPanel();
+                }
             };
 
 

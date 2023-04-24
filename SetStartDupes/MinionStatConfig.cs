@@ -132,7 +132,7 @@ namespace SetStartDupes
         }
         internal void ApplyPreset(MinionStartingStats referencedStats)
         {
-            referencedStats.Name = this.ConfigName;
+            referencedStats.Name = this.ConfigName.Replace(STRINGS.UNNAMEDPRESET,string.Empty);
 
             referencedStats.Traits.Clear();
             var traitRef = Db.Get().traits;
