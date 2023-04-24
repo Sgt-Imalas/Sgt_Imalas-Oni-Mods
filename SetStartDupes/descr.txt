@@ -1,6 +1,6 @@
 ﻿[img]https://i.imgur.com/GbFtLZ2.png[/img]
 
-[h1]Introduction[/h1]
+[h1]Duplicant Stat Selector - DSS [/h1]
 
 When you start up a new game, there are a lot of dangers for your dupes so you want to prepare carefully.
 This mod allows you to adjust the amount of duplicants you start your game with and what Traits and Interests they should have.
@@ -8,7 +8,7 @@ Furtermore you can store your favourite Stat-Loadouts as Preset-Templates that y
 The mod also allows to customize the Personality (Skin) of a dupe without changing any of its stats (for when you want a Pei-Only Colony, but there is no Meep-Mod equivalent).
 
 
-[h1]Current latest Version: 4.1.0[/h1]
+[h1]Current latest Version: 4.1.3[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
@@ -20,18 +20,19 @@ The mod also allows to customize the Personality (Skin) of a dupe without changi
 [/list][img]https://i.imgur.com/uRNo2Ji.gif[/img][list]
 [*] Changing dupe stats during the game can be disabled in the config (this also disables the preset function)
 [*] Option to start the game with additional food and oxylite for every additional start dupe above 3.
-[*] Option to reenable rerolling for printing pod dupes AND Care Packages
+[*] Option to reroll the printing pod dupes AND Care Packages
 [*] Ability to apply personalities (= skins) to dupes without changing its interests and traits (stress and overjoyed reaction get applied by default, this can be disabled to be ONLY visual) (see the steam image how this works)
 [*] Ability to add new Traits & Interests (need to be enabled in the config)
 [*] Ability to remove existing Traits & Interests (need to be enabled in the config)
 [*] Change the printing pod interval (default is every 3 cycles)
-[*] Pause game on "New Print available" (can be disabled in config)
-[*] "Care packages only above DupeCount" - Option 
+[*] Pause game on "New Print available" (requires activation in config)
+[*] Option to only print care packages if you have over a certain amount of duplicants.
 [/list] 
 
 Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2869608898]Bio-Inks[/url] 
 Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1717999057]Always 3 Interests[/url] 
 Incompatible with DGSM
+Incompatible with RePrint (Function integrated, requires enabling in the config)
 
 [h1]Localisation[/h1]
 - English
@@ -63,15 +64,4 @@ Where to find the Log:
 
 [hr][/hr]
 
-Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
-
-
-
-Update 4.0:
-- traits and interest are now in a searchable list and are no longer selected by cycling throught their respective lists
-- added dupe presets, these can also be shared with other players
-- made mod translatable + added german translation
-- applying personalities (skins) now includes their stress and joy reaction (can be disabled)
-- added option that allows adding/removing traits & interests (this also grants access to "needs"-traits)
-- added option to modify printing pod recharge time
-- added option to only print care packages above a certain number of duplicants
+Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D
