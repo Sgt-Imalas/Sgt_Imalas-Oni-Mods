@@ -206,7 +206,7 @@ namespace SetStartDupes
             }
             public static void Prefix(Immigration __instance, float dt)
             {
-                if(__instance.bImmigrantAvailable == false && Mathf.Approximately(Math.Max(__instance.timeBeforeSpawn-dt, 0.0f),0.0f))
+                if(__instance.bImmigrantAvailable == false && Mathf.Approximately(Math.Max(__instance.timeBeforeSpawn-dt, 0.0f),0.0f) && ModConfig.Instance.PauseOnReadyToPrint)
                 {
                     SgtLogger.l("Paused the game - new printables available");
                     DoWithDelay(() => SpeedControlScreen.Instance.Pause(true), (3-SpeedControlScreen.Instance.speed) * 500);
