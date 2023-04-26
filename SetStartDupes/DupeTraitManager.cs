@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
+using static KInputController;
 
 namespace SetStartDupes
 {
@@ -53,7 +54,7 @@ namespace SetStartDupes
             }
         }
 
-        void CalculateAdditionalSkillPoints()
+        public void CalculateAdditionalSkillPoints()
         {
             additionalSkillPoints = 0;
             int SkillAmount = 0;
@@ -74,6 +75,8 @@ namespace SetStartDupes
             }
             SgtLogger.l(additionalSkillPoints.ToString(), "bonus points");
         }
+
+        
 
 
         public void ReplaceInterest(SkillGroup interestOld, SkillGroup interestNew)
@@ -115,6 +118,7 @@ namespace SetStartDupes
                     ToEditMinionStats.StartingLevels[levelToRemove.Id] = 0;
                 }
             }
+
             if (rebalanceAfter)
                 RecalculateSkillPoints();
 

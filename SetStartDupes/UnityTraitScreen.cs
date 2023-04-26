@@ -166,11 +166,13 @@ namespace SetStartDupes
             if (trait2 != null)
                 AddUiContainer(
                 GetTraitName(trait2),
-                trait2.GetTooltip(),
+                ModAssets.GetTraitTooltip(trait2),
                 trait: trait2,
                 traitType: next);
 
         }
+
+
 
         private void AddUiContainer(string name, string description, Trait trait = null, NextType traitType = default, SkillGroup skillGroup = null)
         {
@@ -197,6 +199,7 @@ namespace SetStartDupes
                 }
             }
         }
+        
 
         private void ChoseThis(Trait trait)
         {
@@ -207,9 +210,8 @@ namespace SetStartDupes
                 case NextType.negTrait:
                 case NextType.needTrait:
                 case NextType.allTraits:
-                    if (ReferencedStats.Traits.Contains(CurrentTrait))
-                        ReferencedStats.Traits.Remove(CurrentTrait);
-                    ReferencedStats.Traits.Add(trait);
+                    ModAssets.RemoveTrait(ReferencedStats,CurrentTrait);
+                    ModAssets.AddTrait(ReferencedStats, trait);
                     break;
                 case NextType.stress:
                     ReferencedStats.stressTrait = trait;

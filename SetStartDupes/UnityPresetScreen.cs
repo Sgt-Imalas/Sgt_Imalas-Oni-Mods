@@ -245,7 +245,7 @@ namespace SetStartDupes
 
                 var traitcon = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
                 UIUtils.TryChangeText(traitcon.transform, "Label", traits.TryGet(trait).Name);
-                UIUtils.AddSimpleTooltipToObject(traitcon.transform, traits.TryGet(trait).GetTooltip(), true);
+                UIUtils.AddSimpleTooltipToObject(traitcon.transform, ModAssets.GetTraitTooltip(traits.TryGet(trait)), true);
                 InformationObjects.Add(traitcon);
                 ApplyColorToTraitContainer(traitcon, trait);
             }
@@ -260,7 +260,7 @@ namespace SetStartDupes
 
             var joy = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
             UIUtils.TryChangeText(joy.transform, "Label", traits.TryGet(CurrentlySelected.joyTrait).Name);
-            UIUtils.AddSimpleTooltipToObject(joy.transform, traits.TryGet(CurrentlySelected.joyTrait).GetTooltip(), true);
+            UIUtils.AddSimpleTooltipToObject(joy.transform, ModAssets.GetTraitTooltip(traits.TryGet(CurrentlySelected.joyTrait)), true);
             InformationObjects.Add(joy);
             ApplyColorToTraitContainer(joy, CurrentlySelected.joyTrait);
 
@@ -271,7 +271,7 @@ namespace SetStartDupes
             var stress = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
             UIUtils.TryChangeText(stress.transform, "Label", traits.TryGet(CurrentlySelected.stressTrait).Name);
             InformationObjects.Add(stress);
-            UIUtils.AddSimpleTooltipToObject(stress.transform, traits.TryGet(CurrentlySelected.stressTrait).GetTooltip(), true);
+            UIUtils.AddSimpleTooltipToObject(stress.transform, ModAssets.GetTraitTooltip(traits.TryGet(CurrentlySelected.stressTrait)), true);
             ApplyColorToTraitContainer(stress, CurrentlySelected.stressTrait);
 
 

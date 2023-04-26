@@ -97,6 +97,77 @@ namespace SetStartDupes
             return pointsPer;
         }
 
+        public static void RedoStatpointBonus(MinionStartingStats stats, Trait trait, bool isAdding = false)
+        {
+            int statBonus = 0;
+            ModAssets.GetTraitListOfTrait(trait.Id, out var list);
+            var traitBonusHolder = list.Find(traitTo => traitTo.id == trait.Id);
+
+            statBonus = traitBonusHolder.statBonus;
+
+            Dictionary<string, int> newVals = new Dictionary<string, int>();
+            while (statBonus > 0)
+            {
+                foreach (var level in stats.StartingLevels)
+                {
+                    if (level.Value > 0 && isAdding || !isAdding && level.Value > 1)
+                    {
+                        statBonus--;
+
+                        if (!newVals.ContainsKey(level.Key))
+                        {
+                            newVals.Add(level.Key, stats.StartingLevels[level.Key] + (isAdding ? 1 : -1));
+                        }
+                        else
+                            newVals[level.Key] += (isAdding ? 1 : -1);
+
+                    }
+                }
+            }
+            foreach (var newv in newVals)
+            {
+                stats.StartingLevels[newv.Key] = newv.Value;
+            }
+
+            if (DupeTraitManagers.ContainsKey(stats))
+            {
+                DupeTraitManagers[stats].CalculateAdditionalSkillPoints();
+            }
+        }
+
+        public static string GetTraitTooltip(Trait trait)
+        {
+            string tooltip = trait.GetTooltip();
+
+            ModAssets.GetTraitListOfTrait(trait.Id, out var list);
+            var traitBonusHolder = list.Find(traitTo => traitTo.id == trait.Id);
+
+            if(traitBonusHolder.statBonus> 0)
+            {
+                tooltip += "\n" + STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOINTS; //STRING TODO
+            }
+
+            return tooltip;
+        }
+
+
+        public static void RemoveTrait(MinionStartingStats stats, Trait trait)
+        {
+            if (stats.Traits.Contains(trait))
+            {
+                stats.Traits.Remove(trait);
+                RedoStatpointBonus(stats, trait,false);
+            }
+
+        }
+        public static void AddTrait(MinionStartingStats stats, Trait trait)
+        {
+            stats.Traits.Add(trait);
+            RedoStatpointBonus(stats, trait, true);
+        }
+
+
+
         public static class Colors
         {
             public static Color gold = UIUtils.Darken(Util.ColorFromHex("ffdb6e"), 40);

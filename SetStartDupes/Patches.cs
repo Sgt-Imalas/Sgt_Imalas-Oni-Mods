@@ -847,7 +847,7 @@ namespace SetStartDupes
                             continue;
                         var traitEntry = Util.KInstantiateUI(prefabParent, ContentContainer.gameObject, true);
 
-                        UIUtils.AddSimpleTooltipToObject(traitEntry.transform, v.GetTooltip(), true,onBottom: true);
+                        UIUtils.AddSimpleTooltipToObject(traitEntry.transform, ModAssets.GetTraitTooltip(v), true,onBottom: true);
                         var type = ModAssets.GetTraitListOfTrait(v.Id, out var list);
 
                         TraitsToSort.Add(new Tuple<GameObject, DupeTraitManager.NextType>(traitEntry, type));
@@ -866,8 +866,7 @@ namespace SetStartDupes
 
                         UIUtils.AddActionToButton(traitEntry.transform, "RemoveButton", () =>
                         {
-                            if(referencedStats.Traits.Contains(v))
-                                referencedStats.Traits.Remove(v);
+                            ModAssets.RemoveTrait(referencedStats, v);
                             InstantiateOrGetDupeModWindow(parent, referencedStats, hide);
                         }
                         );
@@ -892,7 +891,7 @@ namespace SetStartDupes
 
                     ApplyTraitStyleByKey(JoyTrait.GetComponent<KImage>(), DupeTraitManager.NextType.joy);
                     UIUtils.TryChangeText(JoyTrait.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, referencedStats.joyTrait.Name));
-                    UIUtils.AddSimpleTooltipToObject(JoyTrait.transform, referencedStats.joyTrait.GetTooltip(), true);
+                    UIUtils.AddSimpleTooltipToObject(JoyTrait.transform, ModAssets.GetTraitTooltip(referencedStats.joyTrait), true);
 
                     var spacerStress = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
                     UIUtils.TryChangeText(spacerStress.transform, "", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_STRESSTRAIT,string.Empty))
@@ -906,7 +905,7 @@ namespace SetStartDupes
 
                     ApplyTraitStyleByKey(StressTrait.GetComponent<KImage>(), DupeTraitManager.NextType.stress);
 
-                    UIUtils.AddSimpleTooltipToObject(StressTrait.transform, referencedStats.stressTrait.GetTooltip(), true);
+                    UIUtils.AddSimpleTooltipToObject(StressTrait.transform, ModAssets.GetTraitTooltip(referencedStats.stressTrait), true);
                     UIUtils.TryChangeText(StressTrait.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, referencedStats.stressTrait.Name));                   
                 }
 
