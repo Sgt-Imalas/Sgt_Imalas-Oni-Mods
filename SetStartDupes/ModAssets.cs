@@ -106,8 +106,10 @@ namespace SetStartDupes
             statBonus = traitBonusHolder.statBonus;
 
             Dictionary<string, int> newVals = new Dictionary<string, int>();
-            while (statBonus > 0)
+            int loopCount = 0;
+            while (statBonus > 0 && loopCount<30)
             {
+                loopCount++;
                 foreach (var level in stats.StartingLevels)
                 {
                     if (level.Value > 0 && isAdding || !isAdding && level.Value > 1)
@@ -144,7 +146,7 @@ namespace SetStartDupes
 
             if(traitBonusHolder.statBonus> 0)
             {
-                tooltip += "\n" + STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOINTS; //STRING TODO
+                tooltip += "\n" + STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOINTS + traitBonusHolder.statBonus; //STRING TODO
             }
 
             return tooltip;
