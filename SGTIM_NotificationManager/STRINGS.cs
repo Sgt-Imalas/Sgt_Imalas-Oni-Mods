@@ -17,13 +17,13 @@ namespace SGTIM_NotificationManager
             public static LocString PAUSE_ON_NOTIFICATION = "Pause game on trigger";
             public static LocString PAUSE_ON_NOTIFICATION_TOOLTIP = "Pauses the game when the notification triggers.";
             public static LocString ZOOM_ON_NOTIFICATION = "Pan to origin";
-            public static LocString ZOOM_ON_NOTIFICATION_TOOLTIP = "Zooms to the origin of the notification when it triggers.";
+            public static LocString ZOOM_ON_NOTIFICATION_TOOLTIP = "Moves the camera to the origin of the notification when it triggers.";
 
 
             public class STARVATION
             {
                 public static LocString CATEGORY = global::STRINGS.DUPLICANTS.STATUSITEMS.STARVING.NOTIFICATION_NAME + "-" + global::STRINGS.BUILDINGS.PREFABS.LOGICALARM.LOGIC_PORT;
-                public static LocString THRESHOLD = "Starvation Calorie Treshold";
+                public static LocString THRESHOLD = "Starvation Calorie Threshold";
                 public static LocString THRESHOLD_TOOLTIP = "Calorie threshold for the starvation notification.\nDefault is 1000";
             }
             public class ATTACK
@@ -41,19 +41,19 @@ namespace SGTIM_NotificationManager
             public class SUFFOCATION
             {
                 public static LocString CATEGORY = global::STRINGS.DUPLICANTS.STATUSITEMS.SUFFOCATING.NOTIFICATION_NAME + "-" + global::STRINGS.BUILDINGS.PREFABS.LOGICALARM.LOGIC_PORT;
-                public static LocString THRESHOLD = "Suffocation Time Treshold";
-                public static LocString THRESHOLD_TOOLTIP = "Time from notification start to death by suffocation in seconds.\nDefault is 50 seconds";
+                public static LocString THRESHOLD = "Suffocation Time Threshold";
+                public static LocString THRESHOLD_TOOLTIP = "Time from notification start to death by suffocation in seconds.\nDefault is 50 seconds, higher values warn earlier";
             }
             public class STRESS
             {
                 public static LocString CATEGORY = global::STRINGS.DUPLICANTS.STATUSITEMS.STRESSED.NOTIFICATION_NAME + "-" + global::STRINGS.BUILDINGS.PREFABS.LOGICALARM.LOGIC_PORT;
-                public static LocString THRESHOLD = "Stress Treshold";
+                public static LocString THRESHOLD = "Stress Threshold";
                 public static LocString THRESHOLD_TOOLTIP = "Stress level where the notification triggers in percent.\nDefault is 80%";
             }
             public class RADIATION
             {
                 public static LocString CATEGORY = global::STRINGS.DUPLICANTS.STATUSITEMS.RADIATIONVOMITING.NOTIFICATION_NAME + "-" + global::STRINGS.BUILDINGS.PREFABS.LOGICALARM.LOGIC_PORT;
-                //public static LocString THRESHOLD = "Ra Treshold";
+                //public static LocString THRESHOLD = "Ra Threshold";
                 //public static LocString THRESHOLD_TOOLTIP = "Stress level where the notification triggers in percent.\nDefault is 80%";
             }
             public class SCALDING

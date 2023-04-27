@@ -1,0 +1,49 @@
+﻿[img]https://i.imgur.com/GbFtLZ2.png[/img]
+
+[h1]Warning Notification Manager[/h1]
+
+This mod allows to individually configure the warning notifications
+
+[h1]Current latest Version: 1.0.0[/h1]
+
+[hr][/hr]
+
+For each of the following Notifications there are 3 settings:
+[list][*] Mute Sound -> Removes the sound played when the notification triggers
+[*]Pause Game -> will automatically pause the game when the notification triggers
+[*]Pan Camera -> will move the camera to the trigger origin of the notification
+[/list]
+
+[h1]Configurable Notifications[/h1]
+[list][*]Attack
+[*]Starvation
+[*]Made a mess
+[*]Fleeing
+[*]Suffocation
+[*]High Stress
+[*]Radiation Vomiting (DLC only)
+[*]Scalding
+[*]Entombed
+[*]Incapacitated
+[*]Plant has died
+[/list]
+
+[h2]Additional Settings[/h2]
+[list][*]Suffocation Time Threshold: Define, how many seconds before death by suffocation the notification should trigger. Base value is 50s of breath remaining,
+[*]Starvation Calorie Threshold: Amount of Calories at which the starvation notification triggers. Default is 1000kCal.
+[/list]
+
+
+[hr][/hr]
+
+[h1]Credits[/h1]
+Options made with PLib.
+
+[hr][/hr]
+
+[h1]Bug Reports[/h1]
+Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or my[url=https://discord.gg/5n7peBCnWZ] Discord[/url]. Always include the full player.log in a report
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.

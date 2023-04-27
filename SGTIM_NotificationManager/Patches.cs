@@ -79,25 +79,54 @@ namespace SGTIM_NotificationManager
                 SgtLogger.l(notification.NotifierName + ", " + notification.titleText);
                 bool skipAudio = false;
                 if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.STARVING.NOTIFICATION_NAME)
+                {
                     skipAudio = Config.Instance.MUTE_STARVATION_SOUND;
+                }
                 else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.SUFFOCATING.NOTIFICATION_NAME)
+                {
+
                     skipAudio = Config.Instance.MUTE_SUFFOCATION_SOUND;
+                }
                 else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.FIGHTING.NOTIFICATION_NAME)
+                {
                     skipAudio = Config.Instance.MUTE_ATTACK_SOUND;
+
+                }
                 else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.FLEEING.NOTIFICATION_NAME)
+                {
                     skipAudio = Config.Instance.MUTE_FLEE_SOUND;
+
+                }
                 else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.STRESSFULLYEMPTYINGBLADDER.NOTIFICATION_NAME)
+                {
                     skipAudio = Config.Instance.MUTE_PEE_SOUND;
+
+                }
                 else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.STRESSED.NOTIFICATION_NAME)
+                {
                     skipAudio = Config.Instance.MUTE_STRESS_SOUND;
+
+                }
                 else if (notification.titleText == global::STRINGS.CREATURES.STATUSITEMS.SCALDING.NOTIFICATION_NAME)
+                {
                     skipAudio = Config.Instance.MUTE_SCALDING_SOUND;
+
+                }
                 else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.INCAPACITATED.NOTIFICATION_NAME)
+                {
                     skipAudio = Config.Instance.MUTE_INCAPACITATED_SOUND;
+
+                }
                 else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.ENTOMBEDCHORE.NOTIFICATION_NAME)
+                {
                     skipAudio = Config.Instance.MUTE_ENTOMBED_SOUND;
+
+                }
                 else if (notification.titleText == global::STRINGS.CREATURES.STATUSITEMS.PLANTDEATH.NOTIFICATION)
+                {
                     skipAudio = Config.Instance.MUTE_PLANTDEATH_SOUND;
+
+                }
 
                 notification.playSound = !skipAudio;
             }
