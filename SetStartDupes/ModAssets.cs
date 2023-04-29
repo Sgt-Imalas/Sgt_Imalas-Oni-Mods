@@ -128,9 +128,11 @@ namespace SetStartDupes
                 var active = allTraitStats.Find(match => match.id == activeTrait.Id);
                 if(active.statBonus != 0)
                 {
+                    //SgtLogger.l(active.statBonus.ToString(), active.id);
                     targetPoints += active.statBonus;
                 }
             }
+            //SgtLogger.l(targetPoints.ToString(), "ActiveStatBonus");
 
             foreach (var level in stats.StartingLevels.Values)
             {
@@ -138,11 +140,14 @@ namespace SetStartDupes
             }
             int difference = targetPoints - currentPoints;
 
+
+
             bool subtracting = difference < 0;
             if (subtracting)
                 difference *= -1;
 
 
+            //SgtLogger.l(difference.ToString(), subtracting?"Removing":"Adding");
 
             Dictionary<string, int> newVals = new Dictionary<string, int>();
             int i = 40;
@@ -156,7 +161,7 @@ namespace SetStartDupes
 
                     if (level.Value > 0 && !subtracting || subtracting && level.Value > minimumPoints)
                     {
-                        int randPoints = UnityEngine.Random.Range(0, difference+1);
+                        int randPoints = 1;
                         difference-= randPoints;
 
 

@@ -70,16 +70,16 @@ namespace SetStartDupes
                     SkillAmount++;
             }
 
-            SgtLogger.l(SkillAmount.ToString(), "Interest count");
+            //SgtLogger.l(SkillAmount.ToString(), "Interest count");
 
             int PointsPerInterest = ModAssets.PointsPerInterests(SkillAmount);
-            SgtLogger.l(PointsPerInterest.ToString(), "points per interest");
+            //SgtLogger.l(PointsPerInterest.ToString(), "points per interest");
 
             foreach (var startingLevel in ToEditMinionStats.StartingLevels)
             {
                 additionalSkillPoints += Math.Max(0, (startingLevel.Value - PointsPerInterest));
             }
-            SgtLogger.l(additionalSkillPoints.ToString(), "bonus points");
+            //SgtLogger.l(additionalSkillPoints.ToString(), "bonus points");
         }
 
         
@@ -104,7 +104,7 @@ namespace SetStartDupes
 
             var LevelsToRemove = new List<Klei.AI.Attribute>(interest.relevantAttributes);
 
-            SgtLogger.l(LevelsToRemove.Count().ToString());
+            //SgtLogger.l(LevelsToRemove.Count().ToString());
 
             foreach (var aptitude in ToEditMinionStats.skillAptitudes.Keys)
             {
