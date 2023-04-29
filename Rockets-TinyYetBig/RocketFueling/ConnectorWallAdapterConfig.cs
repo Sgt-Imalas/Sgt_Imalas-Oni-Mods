@@ -39,8 +39,12 @@ namespace Rockets_TinyYetBig.RocketFueling
                 noise: NOISE_POLLUTION.NONE, 
                 decor: BUILDINGS.DECOR.PENALTY.TIER0);
 
-            BuildingTemplates.CreateFoundationTileDef(buildingDef);
+            //BuildingTemplates.CreateFoundationTileDef(buildingDef);
+
+            buildingDef.TileLayer = ObjectLayer.FoundationTile;
             buildingDef.SceneLayer = Grid.SceneLayer.TileMain;
+            buildingDef.IsFoundation = true;
+
             //buildingDef.ForegroundLayer = Grid.SceneLayer.FXFront;
             buildingDef.ThermalConductivity = 0.01f;
             //buildingDef.OverheatTemperature = 2273.15f;

@@ -36,6 +36,8 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             UpdateModules(null);
         }
         private List<int> refreshHandle = new List<int>();
+        public float maxPullCapacityKG=1f;
+
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
@@ -49,8 +51,8 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
         public void Sim1000ms(float dt)
         {
-            float neededStorage = offlineStorage.RemainingCapacity();
-            if (neededStorage < 0.001|| !operational.IsOperational) return;
+            float neededStorage = maxPullCapacityKG - offlineStorage.MassStored();
+            if (neededStorage < 0.001 || !operational.IsOperational) return;
             var filterArray = filter.acceptedTagSet.ToArray();
 
             //SgtLogger.l("needed: "+ neededStorage.ToString());
@@ -71,7 +73,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                                     //SgtLogger.l("item2: " + pickupable.ToString());
                                     var TakenPickup = pickupable.Take(neededStorage);
                                     neededStorage -= TakenPickup.TotalAmount;
-                                    offlineStorage.Store(TakenPickup.gameObject);
+                                    offlineStorage.Store(TakenPickup.gameObject,true, true);
                                 }
                                 if (neededStorage < 0.001f)
                                     break;

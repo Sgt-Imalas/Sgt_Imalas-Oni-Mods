@@ -29,7 +29,7 @@ namespace Rockets_TinyYetBig.RocketFueling
                 ID, 
                 1, 
                 2,
-                "loader_ladder_adapter_tile_kanim", 
+                "loader_wall_adapter_tile_kanim", 
                 200, 
                 40f, 
                 MaterialCosts,
@@ -39,12 +39,12 @@ namespace Rockets_TinyYetBig.RocketFueling
                 noise: NOISE_POLLUTION.NONE, 
                 decor: BUILDINGS.DECOR.PENALTY.TIER0);
 
-            //BuildingTemplates.CreateLadderDef(buildingDef);
-            buildingDef.TileLayer = ObjectLayer.TravelTubeTile;
-            buildingDef.SceneLayer = Grid.SceneLayer.BuildingFront;
+            buildingDef.ObjectLayer = ObjectLayer.Building;
+            buildingDef.TileLayer = ObjectLayer.FoundationTile;
+
+            buildingDef.IsFoundation = true;
+
             buildingDef.AudioCategory = "Plastic";
-            //buildingDef.ForegroundLayer = Grid.SceneLayer.FXFront;
-            //buildingDef.OverheatTemperature = 2273.15f;
             buildingDef.Floodable = false;
             buildingDef.Overheatable = false;
             buildingDef.Entombable = false;
@@ -53,7 +53,9 @@ namespace Rockets_TinyYetBig.RocketFueling
             buildingDef.AudioSize = "small";
             buildingDef.BaseTimeUntilRepair = -1f;
 
-            buildingDef.ObjectLayer = ObjectLayer.Building;
+            buildingDef.SceneLayer = Grid.SceneLayer.BuildingFront;
+            buildingDef.ForegroundLayer = Grid.SceneLayer.TileMain;
+
             buildingDef.CanMove = false;
             return buildingDef;
         }
@@ -62,9 +64,12 @@ namespace Rockets_TinyYetBig.RocketFueling
             GeneratedBuildings.MakeBuildingAlwaysOperational(go);
             BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
 
-            //SimCellOccupier simCellOccupier = go.AddOrGet<SimCellOccupier>();
-            //simCellOccupier.doReplaceElement = true;
-            //simCellOccupier.notifyOnMelt = true;
+
+            SimCellOccupier simCellOccupier = go.AddOrGet<SimCellOccupier>();
+            simCellOccupier.doReplaceElement = true;
+            simCellOccupier.notifyOnMelt = true; 
+            go.AddOrGet<TileTemperature>();
+            go.AddOrGet<BuildingHP>().destroyOnDamaged = true;
 
 
             KPrefabID component = go.GetComponent<KPrefabID>();
@@ -96,16 +101,17 @@ namespace Rockets_TinyYetBig.RocketFueling
 
         public override void DoPostConfigureComplete(GameObject go)
         {
-            AddNetworkLink(go).visualizeOnly = false;
             go.AddOrGet<BuildingCellVisualizer>();
+            AddNetworkLink(go).visualizeOnly = false;
             go.AddOrGet<KPrefabID>().AddTag(GameTags.TravelTubeBridges);
         }
 
-        protected virtual TravelTubeUtilityNetworkLink AddNetworkLink(GameObject go)
+        protected TravelTubeUtilityNetworkLink AddNetworkLink(GameObject go)
         {
             TravelTubeUtilityNetworkLink utilityNetworkLink = go.AddOrGet<TravelTubeUtilityNetworkLink>();
             utilityNetworkLink.link1 = new CellOffset(0, -1);
             utilityNetworkLink.link2 = new CellOffset(0, 2);
+
 
             return utilityNetworkLink;
         }

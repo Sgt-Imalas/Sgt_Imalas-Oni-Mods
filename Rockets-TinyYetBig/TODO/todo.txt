@@ -1,9 +1,9 @@
-﻿- move power plug into on tech earlier next to the smol battery tech
+﻿- move power plug into on tech earlier next to the smol battery tech - DONE
 - antenna nosecone for moar booster building range
 - concept for boosters
 - sugar tank
-- nerf solar nosecone weight if not already done
-- fix vacuum for insulated adapter
+- nerf solar nosecone weight if not already done - DONE
+- fix vacuum for insulated adapter - DONE
 - travel tube adapter
-- remove replacement on ladder adapter
-- check if laser drill is counted by "Mine the gap"
+- remove replacement on ladder adapter - DONE
+- PDC-Module

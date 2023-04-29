@@ -68,10 +68,10 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             storage.storageFilters = STORAGEFILTERS.FOOD;
             storage.allowItemRemoval = true;
             storage.fetchCategory = Storage.FetchCategory.GeneralStorage;
-            storage.capacityKg = 1f;
+            storage.capacityKg = 2f;
             storage.showCapacityStatusItem = true;
             go.AddOrGet<TreeFilterable>(); 
-            go.AddOrGet<FridgeModuleHatchGrabber>();
+            go.AddOrGet<FridgeModuleHatchGrabber>().maxPullCapacityKG = 1f;
 
             RefrigeratorController.Def def = go.AddOrGetDef<RefrigeratorController.Def>();
             def.powerSaverEnergyUsage = 10f;

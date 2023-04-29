@@ -84,7 +84,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 
         public override void DoPostConfigureComplete(GameObject go)
         {
-            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MINOR_PLUS);
+            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MODERATE);
             go.GetComponent<ReorderableBuilding>().buildConditions.Add(new TopOnly());
 
             Prioritizable.AddRef(go);

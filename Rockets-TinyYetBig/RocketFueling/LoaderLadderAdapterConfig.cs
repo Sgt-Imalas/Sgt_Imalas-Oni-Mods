@@ -33,14 +33,14 @@ namespace Rockets_TinyYetBig.RocketFueling
                 40f, 
                 MaterialCosts,
                 Materials,
-                800f, 
+                1600f, 
                 BuildLocationRule.Tile, 
                 noise: NOISE_POLLUTION.NONE, 
                 decor: BUILDINGS.DECOR.PENALTY.TIER0);
 
             //BuildingTemplates.CreateLadderDef(buildingDef);
-            buildingDef.TileLayer = ObjectLayer.LadderTile;
-            buildingDef.SceneLayer = Grid.SceneLayer.Building;
+            buildingDef.SceneLayer = Grid.SceneLayer.BuildingFront;
+            buildingDef.ForegroundLayer = Grid.SceneLayer.TileMain;
             //buildingDef.ForegroundLayer = Grid.SceneLayer.FXFront;
             //buildingDef.OverheatTemperature = 2273.15f;
             buildingDef.Floodable = false;

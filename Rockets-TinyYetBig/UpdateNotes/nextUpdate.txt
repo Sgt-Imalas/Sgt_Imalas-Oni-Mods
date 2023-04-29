@@ -1,6 +1,4 @@
-﻿New Modules:
-- Ion Booster
-
+﻿
 New Buildings:
 - Fridge Module Access Hatch: access food of fridge module(s) during the flight
 
@@ -11,3 +9,4 @@ new Features:
 Fixes & Adjustments:
 - Cartographer Module no longer instantly reveals tiles around it (see above for new rework)
 - internal classes are now public
+- ladder and insulated adapter can no longer accidentaly be replaced/replace single tiles
