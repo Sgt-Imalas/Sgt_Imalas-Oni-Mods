@@ -54,8 +54,14 @@ namespace SetStartDupes
             }
         }
 
-        public void CalculateAdditionalSkillPoints()
+        public void CalculateAdditionalSkillPoints(int overridePoints = 0)
         {
+            if(overridePoints > 0)
+            {
+                additionalSkillPoints = overridePoints;
+                return;
+            }
+
             additionalSkillPoints = 0;
             int SkillAmount = 0;
             foreach (var s in ToEditMinionStats.StartingLevels)

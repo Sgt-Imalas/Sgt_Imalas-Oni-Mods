@@ -221,7 +221,7 @@ namespace SetStartDupes
             {
                 public static LocString APTITUDEENTRY = "{0}, ({1} +{2})";
                 public static LocString TRAIT = "{0}";
-                public static LocString TRAITBONUSPOINTS = "Interest Bonus: ";
+                public static LocString TRAITBONUSPOINTS = "Interest Bonus:";
 
             }
             public class BUTTONS

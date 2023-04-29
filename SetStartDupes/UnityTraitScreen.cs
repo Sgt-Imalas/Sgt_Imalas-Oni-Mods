@@ -292,7 +292,8 @@ namespace SetStartDupes
                 var TraitsOfCategory = ModAssets.TryGetTraitsOfCategory(type);
                 foreach (var item in TraitsOfCategory)
                 {
-                    AddUIContainer(traitsDb.TryGet(item.id), type);
+                    if(item.dlcId == ""|| item.dlcId == DlcManager.GetHighestActiveDlcId())
+                        AddUIContainer(traitsDb.TryGet(item.id), type);
                 }
             }
             foreach (var item in interests)

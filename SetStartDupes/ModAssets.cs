@@ -82,6 +82,19 @@ namespace SetStartDupes
 
         public static Dictionary<MinionStartingStats, DupeTraitManager> DupeTraitManagers = new Dictionary<MinionStartingStats, DupeTraitManager>();
 
+
+        public static int MinimumPointsPerInterest(MinionStartingStats stats)
+        {
+            int SkillAmount = 0;
+            foreach (var s in stats.StartingLevels)
+            {
+                if (s.Value > 0)
+                    SkillAmount++;
+            }
+
+            return PointsPerInterests(SkillAmount);
+        }
+
         public static int PointsPerInterests(int numberOfInterests)
         {
             int pointsPer = 0;
@@ -99,41 +112,72 @@ namespace SetStartDupes
 
         public static void RedoStatpointBonus(MinionStartingStats stats, Trait trait, bool isAdding = false)
         {
-            int statBonus = 0;
             ModAssets.GetTraitListOfTrait(trait.Id, out var list);
             var traitBonusHolder = list.Find(traitTo => traitTo.id == trait.Id);
+            
+            if (traitBonusHolder.statBonus == 0)
+                return;
 
-            statBonus = traitBonusHolder.statBonus;
+            int targetPoints = 0;
+            int minimumPoints = MinimumPointsPerInterest(stats);
+            int currentPoints = 0;
+
+            var allTraitStats = TryGetTraitsOfCategory(NextType.allTraits);
+            foreach (var activeTrait in stats.Traits)
+            {
+                var active = allTraitStats.Find(match => match.id == activeTrait.Id);
+                if(active.statBonus != 0)
+                {
+                    targetPoints += active.statBonus;
+                }
+            }
+
+            foreach (var level in stats.StartingLevels.Values)
+            {
+                currentPoints += Math.Max(0, level - minimumPoints);
+            }
+            int difference = targetPoints - currentPoints;
+
+            bool subtracting = difference < 0;
+            if (subtracting)
+                difference *= -1;
+
+
 
             Dictionary<string, int> newVals = new Dictionary<string, int>();
-            int loopCount = 0;
-            while (statBonus > 0 && loopCount< statBonus * 3)
+            int i = 40;
+            while (difference > 0 && i>0)
             {
-                loopCount++;
-                foreach (var level in stats.StartingLevels)
+                --i;
+                foreach (var level in stats.StartingLevels.Shuffle())
                 {
-                    if (level.Value > 0 && isAdding || !isAdding && level.Value > 1)
+                    if (difference <= 0)
+                        continue;
+
+                    if (level.Value > 0 && !subtracting || subtracting && level.Value > minimumPoints)
                     {
-                        statBonus--;
+                        int randPoints = UnityEngine.Random.Range(0, difference+1);
+                        difference-= randPoints;
+
 
                         if (!newVals.ContainsKey(level.Key))
                         {
-                            newVals.Add(level.Key, stats.StartingLevels[level.Key] + (isAdding ? 1 : -1));
+                            newVals.Add(level.Key, stats.StartingLevels[level.Key] + (!subtracting ? randPoints : -randPoints));
                         }
                         else
-                            newVals[level.Key] += (isAdding ? 1 : -1);
+                            newVals[level.Key] += (!subtracting ? randPoints : -randPoints);
 
                     }
                 }
             }
             foreach (var newv in newVals)
             {
-                stats.StartingLevels[newv.Key] = newv.Value;
+                stats.StartingLevels[newv.Key] = Math.Max(minimumPoints,newv.Value);
             }
 
             if (DupeTraitManagers.ContainsKey(stats))
             {
-                DupeTraitManagers[stats].CalculateAdditionalSkillPoints();
+                DupeTraitManagers[stats].CalculateAdditionalSkillPoints(targetPoints);
             }
         }
 
@@ -144,9 +188,9 @@ namespace SetStartDupes
             ModAssets.GetTraitListOfTrait(trait.Id, out var list);
             var traitBonusHolder = list.Find(traitTo => traitTo.id == trait.Id);
 
-            if(traitBonusHolder.statBonus> 0)
+            if(traitBonusHolder.statBonus != 0)
             {
-                tooltip += "\n" + STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOINTS + traitBonusHolder.statBonus; //STRING TODO
+                tooltip += "\n\n" + STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOINTS +" "+ traitBonusHolder.statBonus;
             }
 
             return tooltip;
