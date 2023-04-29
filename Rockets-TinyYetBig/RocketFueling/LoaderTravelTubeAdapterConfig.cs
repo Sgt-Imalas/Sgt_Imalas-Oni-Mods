@@ -28,7 +28,7 @@ namespace Rockets_TinyYetBig.RocketFueling
         BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(
                 ID, 
                 1, 
-                2,
+                1,
                 "loader_wall_adapter_tile_kanim", 
                 200, 
                 40f, 
@@ -39,7 +39,7 @@ namespace Rockets_TinyYetBig.RocketFueling
                 noise: NOISE_POLLUTION.NONE, 
                 decor: BUILDINGS.DECOR.PENALTY.TIER0);
 
-            buildingDef.ObjectLayer = ObjectLayer.Building;
+            buildingDef.ObjectLayer = ObjectLayer.FoundationTile;
             buildingDef.TileLayer = ObjectLayer.FoundationTile;
 
             buildingDef.IsFoundation = true;
@@ -88,30 +88,35 @@ namespace Rockets_TinyYetBig.RocketFueling
         public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
         {
             base.DoPostConfigurePreview(def, go);
-            AddNetworkLink(go).visualizeOnly = true;
+            AddNetworkLink(go, true);
             go.AddOrGet<BuildingCellVisualizer>();
         }
 
         public override void DoPostConfigureUnderConstruction(GameObject go)
         {
             base.DoPostConfigureUnderConstruction(go);
-            AddNetworkLink(go).visualizeOnly = true;
+            AddNetworkLink(go, true);
             go.AddOrGet<BuildingCellVisualizer>();
         }
 
         public override void DoPostConfigureComplete(GameObject go)
         {
             go.AddOrGet<BuildingCellVisualizer>();
-            AddNetworkLink(go).visualizeOnly = false;
+            AddNetworkLink(go, false);
             go.AddOrGet<KPrefabID>().AddTag(GameTags.TravelTubeBridges);
         }
 
-        protected TravelTubeUtilityNetworkLink AddNetworkLink(GameObject go)
+        protected TravelTubeUtilityNetworkLink AddNetworkLink(GameObject go, bool visualOnly)
         {
             TravelTubeUtilityNetworkLink utilityNetworkLink = go.AddOrGet<TravelTubeUtilityNetworkLink>();
             utilityNetworkLink.link1 = new CellOffset(0, -1);
-            utilityNetworkLink.link2 = new CellOffset(0, 2);
+            utilityNetworkLink.link2 = new CellOffset(0, 1);
+            utilityNetworkLink.visualizeOnly = visualOnly;
 
+            //TravelTubeUtilityNetworkLink utilityNetworkLink2 = go.AddOrGet<TravelTubeUtilityNetworkLink>();
+            //utilityNetworkLink2.link1 = new CellOffset(0, 0);
+            //utilityNetworkLink2.link2 = new CellOffset(0, 1);
+            //utilityNetworkLink2.visualizeOnly = visualOnly;
 
             return utilityNetworkLink;
         }
