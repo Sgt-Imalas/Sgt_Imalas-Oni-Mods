@@ -107,7 +107,7 @@ namespace SetStartDupes
 
             Dictionary<string, int> newVals = new Dictionary<string, int>();
             int loopCount = 0;
-            while (statBonus > 0 && loopCount<30)
+            while (statBonus > 0 && loopCount< statBonus * 3)
             {
                 loopCount++;
                 foreach (var level in stats.StartingLevels)

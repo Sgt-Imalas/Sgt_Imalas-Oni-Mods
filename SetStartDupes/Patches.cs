@@ -365,7 +365,7 @@ namespace SetStartDupes
                ("get_Item"));
 
 
-            [HarmonyPriority(Priority.Last)]
+            [HarmonyPriority(Priority.VeryLow)]
             static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
             {
                 var code = instructions.ToList();
@@ -407,7 +407,7 @@ namespace SetStartDupes
                typeof(Grid),
                nameof(Grid.XYToCell));
 
-            [HarmonyPriority(Priority.Last)]
+            [HarmonyPriority(Priority.VeryLow)]
             static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
             {
                 var code = instructions.ToList();
@@ -441,8 +441,8 @@ namespace SetStartDupes
                typeof(CharacterSelectionController_Patch),
                nameof(CustomStartingDupeCount));
 
-            [HarmonyPriority(Priority.Last)]
-            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+            [HarmonyPriority(Priority.VeryLow)]
+            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)   
             {
                 var code = instructions.ToList();
                 var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Ldc_I4_3);
