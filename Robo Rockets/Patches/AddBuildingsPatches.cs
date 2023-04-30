@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UtilLibs;
 
 namespace RoboRockets.Patches
@@ -34,6 +35,25 @@ namespace RoboRockets.Patches
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, AINoseconeConfig.ID);
                 //InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, AIControlModuleLearningConfig.ID);
                 //InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, BrainConfig.ID);
+            }
+        }
+
+        [HarmonyPatch(typeof(PropGravitasJar1Config))]
+        [HarmonyPatch(nameof(PropGravitasJar1Config.CreatePrefab))]
+        public class AddBrainDropperNo1
+        {
+            public static void Postfix(GameObject __result)
+            {
+                __result.AddOrGet<BrainDropperAddon>();
+            }
+        }
+        [HarmonyPatch(typeof(GeneShufflerConfig))]
+        [HarmonyPatch(nameof(GeneShufflerConfig.CreatePrefab))]
+        public class AddBrainDropperNo2
+        {
+            public static void Postfix(GameObject __result)
+            {
+                __result.AddOrGet<BrainDropperAddon>();
             }
         }
     }
