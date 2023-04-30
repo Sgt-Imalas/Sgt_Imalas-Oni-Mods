@@ -25,6 +25,19 @@ namespace UtilLibs
                 Console.WriteLine(p + ": " + p.GetValue(s, null));
             }
         }
+        public static void ListAllComponents(GameObject s)
+        {
+            SgtLogger.l("Listing all Components of: " + s.ToString());
+
+            foreach (var comp in s.GetComponents(typeof(UnityEngine.Object)))
+            {
+                if (comp != null)
+                {
+                    Console.WriteLine("Type: " + comp.GetType().ToString() + ", Name ->" + comp.name);
+                }
+            }
+        }
+        
         public static float GetKelvinFromC(float degreeC)
         {
             return degreeC + 273.15f;

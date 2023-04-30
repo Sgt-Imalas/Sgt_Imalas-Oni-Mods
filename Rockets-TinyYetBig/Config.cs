@@ -217,7 +217,7 @@ namespace Rockets_TinyYetBig
             EnableAdvWorldSelector = true;
             CompressInteriors = true;
             EnableBuildingCategories = true;
-            ScannerModuleRangeRadius = 3;
+            ScannerModuleRangeRadius = 4;
             ScannerModuleScanSpeed = 0.33f;
             HabitatPowerPlug = true;
             EnableExtendedHabs = true;

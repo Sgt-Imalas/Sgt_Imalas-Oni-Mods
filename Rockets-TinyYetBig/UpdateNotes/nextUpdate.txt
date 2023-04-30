@@ -4,7 +4,7 @@ New Buildings:
 
 new Features:
 - Rebalanced Cargo Bay Capacity (can be configured/disabled in config)
-- Cartographer Module Reworked (again): now scans tiles like a telescope in addition to its normal functions with a range of 3 (can be configured in config)
+- Cartographer Module Reworked (again): now scans tiles like a telescope in addition to its normal functions with a range of 4 (can be configured in config)
 
 Fixes & Adjustments:
 - Cartographer Module no longer instantly reveals tiles around it (see above for new rework)

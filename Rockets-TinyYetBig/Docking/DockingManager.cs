@@ -305,6 +305,38 @@ namespace Rockets_TinyYetBig.Behaviours
             DetailsScreen.Instance.Refresh(door.gameObject);
         }
 
+        //private void RefreshOrders()
+        //{
+        //    int cell = this.GetComponent<NavTeleporter>().GetCell();
+        //    int index = this.GetComponent<ClustercraftExteriorDoor>().TargetCell();
+        //    bool restrict = this.ShouldCrewGetIn();
+        //    if (restrict)
+        //    {
+        //        foreach (MinionIdentity minionIdentity in Components.LiveMinionIdentities.Items)
+        //        {
+        //            bool flag1 = Game.Instance.assignmentManager.assignment_groups[this.GetComponent<AssignmentGroupController>().AssignmentGroupID].HasMember((IAssignableIdentity)minionIdentity.assignableProxy.Get());
+        //            bool flag2 = minionIdentity.GetMyWorldId() == (int)Grid.WorldIdx[index];
+        //            if (!flag2 & flag1)
+        //                minionIdentity.GetSMI<RocketPassengerMonitor.Instance>().SetMoveTarget(index);
+        //            else if (flag2 && !flag1)
+        //                minionIdentity.GetSMI<RocketPassengerMonitor.Instance>().SetMoveTarget(cell);
+        //            else
+        //                minionIdentity.GetSMI<RocketPassengerMonitor.Instance>().ClearMoveTarget(index);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        foreach (MinionIdentity cmp in Components.LiveMinionIdentities.Items)
+        //        {
+        //            cmp.GetSMI<RocketPassengerMonitor.Instance>().ClearMoveTarget(cell);
+        //            cmp.GetSMI<RocketPassengerMonitor.Instance>().ClearMoveTarget(index);
+        //        }
+        //    }
+        //    for (int idx = 0; idx < Components.LiveMinionIdentities.Count; ++idx)
+        //        this.RefreshAccessStatus(Components.LiveMinionIdentities[idx], restrict);
+        //}
+
+
         public void UnDockFromTargetWorld(int targetWorldId,bool cleanup=false)
         {
 #if DEBUG

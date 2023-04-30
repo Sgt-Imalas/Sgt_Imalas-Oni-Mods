@@ -5,6 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
+using static STRINGS.CODEX;
+using static STRINGS.UI.UISIDESCREENS.AUTOPLUMBERSIDESCREEN.BUTTONS;
 
 namespace Rockets_TinyYetBig.Docking
 {
@@ -63,16 +66,46 @@ namespace Rockets_TinyYetBig.Docking
 
             if (connectedDoor != null)
             {
+
+
                 var nav = worker.GetComponent<Navigator>();
-                int targetCell = Grid.PosToCell(connectedDoor);
+                int targetCell = connectedDoor.GetPorterCell();
 
                 MoveToLocationMonitor.Instance smi = nav.GetSMI<MoveToLocationMonitor.Instance>();
                 if (nav.CanReach(targetCell) && smi != null)
                 {
+                    var minion = (IAssignableIdentity)worker.resume.identity.assignableProxy.Get();
+
+                    if (door.GetMyWorld().GetComponent<CraftModuleInterface>().GetPassengerModule().TryGetComponent<AssignmentGroupController>(out var controllerRM))
+                    {
+                        SgtLogger.l("Removing DOOP");
+                        if (Game.Instance.assignmentManager.assignment_groups[controllerRM.AssignmentGroupID].HasMember(minion))
+                        {
+                            Game.Instance.assignmentManager.assignment_groups[controllerRM.AssignmentGroupID].RemoveMember(minion);
+                            //Game.Instance.assignmentManager.RemoveFromWorld(minion, door.dManager.GetWorldId());
+                        }
+
+                    }
+
+                    if (connectedDoor.GetMyWorld().GetComponent<CraftModuleInterface>().GetPassengerModule().TryGetComponent<AssignmentGroupController>(out var controllerADD))
+                    {
+                        SgtLogger.l("Adding DOOP");
+                        if (!Game.Instance.assignmentManager.assignment_groups[controllerADD.AssignmentGroupID].HasMember(minion))
+                        {
+                            Game.Instance.assignmentManager.assignment_groups[controllerADD.AssignmentGroupID].AddMember(minion);
+                        }
+                    }
+
+
+
+
                     KMonoBehaviour.PlaySound(GlobalAssets.GetSound("HUD_Click"));
                     smi.MoveToLocation(targetCell);
                     SelectTool.Instance.Activate();
                     assignable.Unassign();
+
+                    this.CompleteWork(worker);
+                    CompleteFreezeChore();
                 }
                 else
                     KMonoBehaviour.PlaySound(GlobalAssets.GetSound("Negative"));
@@ -82,15 +115,13 @@ namespace Rockets_TinyYetBig.Docking
             if (!(worker != null))
                 return base.OnWorkTick(worker, dt);
 
-            this.CompleteWork(worker);
-            CompleteFreezeChore();
             return true;
         }
         public override void OnStopWork(Worker worker) => base.OnStopWork(worker);
 
         public override void OnCompleteWork(Worker worker)
         {
-            if(door.dManager!= null) { }
+            if (door.dManager != null) { }
 
             base.OnCompleteWork(worker);
         }

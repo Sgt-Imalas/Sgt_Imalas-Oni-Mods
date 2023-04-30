@@ -100,16 +100,28 @@ namespace Rockets_TinyYetBig.Behaviours
             }
         }
 
+        public CellOffset GetRotatedOffset()
+        {
+            var offset = porterOffset;
+            if (TryGetComponent<Rotatable>(out var rotatable))
+            {
+                offset = rotatable.GetRotatedCellOffset(porterOffset);
+            }
+            return offset;
+        }
+        public int GetPorterCell()
+        {
+            return Grid.OffsetCell(Grid.PosToCell(this), GetRotatedOffset());
+        }
+
         public override void OnSpawn()
         {
             base.OnSpawn();
             int worldId = ClusterUtil.GetMyWorldId(this.gameObject); 
             //dManager = ModAssets.Dockables.Items.Find(item => item.GetWorldId() == worldId);//GetRocket().GetComponent<DockingdManager>();
             dManager = GetWorldObject().AddOrGet<DockingManager>();
-            if(TryGetComponent<Rotatable>(out var rotatable))
-            {
-                Teleporter.offset = rotatable.GetRotatedCellOffset(porterOffset);
-            }
+
+            Teleporter.offset = GetRotatedOffset();
             Teleporter.OnCellChanged();
 
             dManager.StartupID(worldId);
