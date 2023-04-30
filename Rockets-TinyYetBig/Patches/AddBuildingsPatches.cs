@@ -114,7 +114,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 {
                     InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, ConnectorWallAdapterConfig.ID, "rocketfueling");
                     InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LoaderLadderAdapterConfig.ID, "rocketfueling");
-                    InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LoaderTravelTubeAdapterConfig.ID, "rocketfueling");
+                    //InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LoaderTravelTubeAdapterConfig.ID, "rocketfueling"); ///Too Buggy atm
                 }
 
                 if (Config.Instance.EnableFuelLoaders)

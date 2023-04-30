@@ -29,7 +29,7 @@ namespace Rockets_TinyYetBig.RocketFueling
                 ID, 
                 1, 
                 1,
-                "loader_wall_adapter_tile_kanim", 
+                "loader_tube_adapter_kanim", 
                 200, 
                 40f, 
                 MaterialCosts,
@@ -39,7 +39,7 @@ namespace Rockets_TinyYetBig.RocketFueling
                 noise: NOISE_POLLUTION.NONE, 
                 decor: BUILDINGS.DECOR.PENALTY.TIER0);
 
-            buildingDef.ObjectLayer = ObjectLayer.FoundationTile;
+            buildingDef.ObjectLayer = ObjectLayer.Building;
             buildingDef.TileLayer = ObjectLayer.FoundationTile;
 
             buildingDef.IsFoundation = true;
@@ -53,7 +53,7 @@ namespace Rockets_TinyYetBig.RocketFueling
             buildingDef.AudioSize = "small";
             buildingDef.BaseTimeUntilRepair = -1f;
 
-            buildingDef.SceneLayer = Grid.SceneLayer.BuildingFront;
+            buildingDef.SceneLayer = Grid.SceneLayer.BuildingBack;
             buildingDef.ForegroundLayer = Grid.SceneLayer.TileMain;
 
             buildingDef.CanMove = false;
@@ -65,11 +65,11 @@ namespace Rockets_TinyYetBig.RocketFueling
             BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
 
 
-            SimCellOccupier simCellOccupier = go.AddOrGet<SimCellOccupier>();
-            simCellOccupier.doReplaceElement = true;
-            simCellOccupier.notifyOnMelt = true; 
-            go.AddOrGet<TileTemperature>();
-            go.AddOrGet<BuildingHP>().destroyOnDamaged = true;
+            //SimCellOccupier simCellOccupier = go.AddOrGet<SimCellOccupier>();
+            //simCellOccupier.doReplaceElement = true;
+            //simCellOccupier.notifyOnMelt = true; 
+            //go.AddOrGet<TileTemperature>();
+            //go.AddOrGet<BuildingHP>().destroyOnDamaged = true;
 
 
             KPrefabID component = go.GetComponent<KPrefabID>();

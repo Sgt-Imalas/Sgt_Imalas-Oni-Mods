@@ -83,6 +83,15 @@
 	  <None Update="ModAssets\anim\assets\ion_thrus_module\ion_thrus_module_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\anim\assets\loader_tube_adapter\loader_tube_adapter_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\loader_tube_adapter\loader_tube_adapter_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\loader_tube_adapter\loader_tube_adapter_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\anim\assets\rocket_battery_pack\rocket_battery_pack_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
