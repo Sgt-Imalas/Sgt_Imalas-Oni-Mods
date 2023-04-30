@@ -11,7 +11,7 @@ using TUNING;
 
 namespace KnastoronOniMods
 {
-    class AIPassengerModule : PassengerRocketModule
+    public class AIPassengerModule : PassengerRocketModule
     {
         [Serialize]
         public bool variableSpeed = false;

@@ -1,4 +1,5 @@
-﻿using RoboRockets.LearningBrain;
+﻿using KnastoronOniMods;
+using RoboRockets.LearningBrain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace RoboRockets
         {
             public static Tag SpaceBrain = TagManager.Create("RR_SpaceBrainFlyer");
         }
-        public static List<int> ForbiddenInteriorIDs = new List<int>();
+        public static Dictionary<int, AIPassengerModule> ForbiddenInteriorIDs = new Dictionary<int, AIPassengerModule>();
 
         public static StatusItem ExperienceLevel;
         public static StatusItem NoBrain;
@@ -78,7 +79,10 @@ namespace RoboRockets
                     {
                         ExpDesc = STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL6;
                     }
+                    var speedString = (learnedSpeed - 1f) * 100f;
+
                     str = str.Replace("{BRAINNAME}", brainName);
+                    str = str.Replace("{BRAINBOOST}", speedString.ToString());
                     return str.Replace("{BRAINXPSTATE}", ExpDesc);
                 }
                 return str;

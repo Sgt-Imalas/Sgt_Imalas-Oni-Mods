@@ -103,9 +103,9 @@ namespace RoboRockets
                 public class RR_BRAINEXPERIENCE
                 {
                     public static LocString NAME = "{BRAINXPSTATE}";
-                    public static LocString TOOLTIP = "{BRAINNAME} is a {BRAINXPSTATE}";
+                    public static LocString TOOLTIP = "{BRAINNAME} is a {BRAINXPSTATE} ({BRAINBOOST}% total rocket speed)";
                     public static LocString UNNAMEDBRAIN = "This Brain";
-                    public static LocString LVL1 = (LocString) global::STRINGS.UI.FormatAsLink("Novice Pilot", nameof(LVL1));
+                    public static LocString LVL1 = (LocString)global::STRINGS.UI.FormatAsLink("Novice Pilot", nameof(LVL1));
                     public static LocString LVL2 = (LocString)global::STRINGS.UI.FormatAsLink("Advanced Beginner Pilot",nameof(LVL2));
                     public static LocString LVL3 = (LocString)global::STRINGS.UI.FormatAsLink("Competent Pilot", nameof(LVL3));
                     public static LocString LVL4 = (LocString)global::STRINGS.UI.FormatAsLink("Proficient Pilot", nameof(LVL4));
@@ -114,8 +114,8 @@ namespace RoboRockets
                 }
                 public class RR_NOBRAIN
                 {
-                    public static LocString NAME = "No Brain installed!";
-                    public static LocString TOOLTIP = "This Module is missing a Brain!";
+                    public static LocString NAME = "No brain installed!";
+                    public static LocString TOOLTIP = "This Module is missing a brain!";
                 }
             }
         }

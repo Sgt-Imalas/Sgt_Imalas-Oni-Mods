@@ -10,6 +10,8 @@ using UtilLibs;
 using System.Linq;
 using GMState = GameStateMachine<RocketControlStation.States, RocketControlStation.StatesInstance, RocketControlStation, object>.State;
 using RoboRockets;
+using System;
+using UnityEngine.Playables;
 
 namespace RoboRockets
 {
@@ -35,7 +37,7 @@ namespace RoboRockets
                 SelectModuleCondition.SelectionContext selectionContext)
             {
 
-                if ((Object)existingModule == (Object)null)
+                if (existingModule == null)
                 {
                     __result = true;
                     return false;
@@ -45,12 +47,12 @@ namespace RoboRockets
                 foreach (GameObject gameObject in AttachableBuilding.GetAttachedNetwork(existingModule.GetComponent<AttachableBuilding>()))
                 {
                     if (
-                        (selectionContext != SelectModuleCondition.SelectionContext.ReplaceModule ||  !((Object)gameObject == (Object)existingModule.gameObject))
+                        (selectionContext != SelectModuleCondition.SelectionContext.ReplaceModule ||  !(gameObject == existingModule.gameObject))
                         && (
-                        (Object)gameObject.GetComponent<RocketCommandConditions>() != (Object)null ||
-                        (Object)gameObject.GetComponent<RocketAiConditions>() != (Object)null ||
-                        (Object)gameObject.GetComponent<BuildingUnderConstruction>() != (Object)null && (Object)gameObject.GetComponent<BuildingUnderConstruction>().Def.BuildingComplete.GetComponent<RocketCommandConditions>() != (Object)null ||
-                        (Object)gameObject.GetComponent<BuildingUnderConstruction>() != (Object)null && (Object)gameObject.GetComponent<BuildingUnderConstruction>().Def.BuildingComplete.GetComponent<RocketAiConditions>() != (Object)null
+                        gameObject.GetComponent<RocketCommandConditions>() != null ||
+                        gameObject.GetComponent<RocketAiConditions>() != null ||
+                        gameObject.GetComponent<BuildingUnderConstruction>() != null && gameObject.GetComponent<BuildingUnderConstruction>().Def.BuildingComplete.GetComponent<RocketCommandConditions>() != null ||
+                        gameObject.GetComponent<BuildingUnderConstruction>() != null && gameObject.GetComponent<BuildingUnderConstruction>().Def.BuildingComplete.GetComponent<RocketAiConditions>() != null
                         )
                      )
                     {
@@ -150,7 +152,7 @@ namespace RoboRockets
                 if (pilot.GetComponent<AttributeConverters>().GetConverter(pilotingSpeed.Id) == null)
                 {
 #if DEBUG
-                    Debug.Log("skippingNormalSpeedSetter in Legacy AI Rocket");
+                    SgtLogger.l("skippingNormalSpeedSetter in Legacy AI Rocket");
 #endif
                     __instance.pilotSpeedMult = Config.Instance.NoBrainRockets;
                     return false;
@@ -185,7 +187,7 @@ namespace RoboRockets
         //        if (ModAssets.ForbiddenInteriorIDs.Contains(id))
         //        {
 
-        //            Debug.Log("WorldID is forbidden to look into: " + id);
+        //            SgtLogger.l("WorldID is forbidden to look into: " + id);
         //            return false;
         //        }
         //        return true;
@@ -197,11 +199,34 @@ namespace RoboRockets
         {
             public static bool Prefix(int id)
             {
-                if (ModAssets.ForbiddenInteriorIDs.Contains(id))
+
+                if (ModAssets.ForbiddenInteriorIDs.ContainsKey(id))
                 {
 #if DEBUG
-                    Debug.Log("WorldID is forbidden to look into: " + id);
+                    SgtLogger.l("WorldID is forbidden to look into: " + id);
 #endif
+                    AIPassengerModule Module = ModAssets.ForbiddenInteriorIDs[id];
+                    UtilMethods.ListAllComponents(Module.gameObject);
+
+                    if (!Module.HasTag(GameTags.RocketOnGround))
+                    {
+                        if(!ClusterMapScreen.Instance.gameObject.activeSelf)
+                            ManagementMenu.Instance.ToggleClusterMap();
+                        ClusterMapScreen.Instance.SelectEntity(Module.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<ClusterGridEntity>(), true);
+                    }
+                    else
+                    {
+
+                        if (Module.TryGetComponent<RocketModuleCluster>(out var door))
+                        {
+
+                            if (ClusterMapScreen.Instance.gameObject.activeSelf)
+                                ManagementMenu.Instance.ToggleClusterMap();
+
+                            CameraController.Instance.ActiveWorldStarWipe(ClusterManager.Instance.GetWorld(id).ParentWorldId,true, door.transform.position, 10f , null);
+                        }
+                    }
+                    
                     return false;
                 }
                 return true;
@@ -223,12 +248,14 @@ namespace RoboRockets
                     if(!aiModue.variableSpeed)
                     { 
 #if DEBUG
-                        Debug.Log("AI Module added; adjusting automated Speed to " + Config.Instance.NoBrainRockets);
+                        SgtLogger.l("AI Module added; adjusting automated Speed to " + Config.Instance.NoBrainRockets);
 #endif
-                    component.AutoPilotMultiplier = Config.Instance.NoBrainRockets;
+                        component.AutoPilotMultiplier = Config.Instance.NoBrainRockets;
                     }
-                    Debug.Log("World forbidden to look into: " + worldRefID);
-                    ModAssets.ForbiddenInteriorIDs.Add(worldRefID);
+#if DEBUG
+                    SgtLogger.l("World forbidden to look into: " + worldRefID);
+#endif
+                    ModAssets.ForbiddenInteriorIDs.Add(worldRefID,aiModue);
                 }
             }
         }
