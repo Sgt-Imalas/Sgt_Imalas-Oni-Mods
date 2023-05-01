@@ -186,7 +186,7 @@ namespace SetStartDupes
                                 carePackContainer.controller.RemoveLast();
                                 carePackContainer.Reshuffle(false);
                             };
-                            UIUtils.AddSimpleTooltipToObject(carePackContainer.reshuffleButton.transform, STRINGS.UI.BUTTONS.REROLLCAREPACKAGE,true, onBottom:true);
+                            UIUtils.AddSimpleTooltipToObject(carePackContainer.reshuffleButton.transform, STRINGS.UI.BUTTONS.REROLLCAREPACKAGE, true, onBottom: true);
                         }
                     }
                 }
@@ -207,10 +207,10 @@ namespace SetStartDupes
             }
             public static void Prefix(Immigration __instance, float dt)
             {
-                if(__instance.bImmigrantAvailable == false && Mathf.Approximately(Math.Max(__instance.timeBeforeSpawn-dt, 0.0f),0.0f) && ModConfig.Instance.PauseOnReadyToPrint)
+                if (__instance.bImmigrantAvailable == false && Mathf.Approximately(Math.Max(__instance.timeBeforeSpawn - dt, 0.0f), 0.0f) && ModConfig.Instance.PauseOnReadyToPrint)
                 {
                     SgtLogger.l("Paused the game - new printables available");
-                    DoWithDelay(() => SpeedControlScreen.Instance.Pause(true), (3-SpeedControlScreen.Instance.speed) * 500);
+                    DoWithDelay(() => SpeedControlScreen.Instance.Pause(true), (3 - SpeedControlScreen.Instance.speed) * 500);
                 }
             }
         }
@@ -395,18 +395,19 @@ namespace SetStartDupes
         {
             public static void Postfix(MinionStartingStats __instance)
             {
-                if (true)
+                if (ModConfig.Instance.NoJoyReactions)
                 {
                     __instance.joyTrait = Db.Get().traits.Get("None");
                 }
-                if (true)
+                if (ModConfig.Instance.NoStressReactions)
                 {
                     __instance.stressTrait = Db.Get().traits.Get("None");
                 }
             }
 
-            public static bool VariableTraits(bool isStarterMinion) 
+            public static bool VariableTraits(bool isStarterMinion)
             {
+
                 return false;
             }
 
@@ -433,13 +434,13 @@ namespace SetStartDupes
                 return code;
             }
         }
-        
+
         [HarmonyPatch(typeof(CharacterSelectionController), nameof(CharacterSelectionController.InitializeContainers))]
         public class CharacterSelectionController_Patch
         {
             public static int CustomStartingDupeCount(int dupeCount) ///int requirement to consume previous "3" on stack
             {
-                if (dupeCount == 3&& controller2_patch.instance  is MinionSelectScreen)
+                if (dupeCount == 3 && controller2_patch.instance is MinionSelectScreen)
                     return ModConfig.Instance.DuplicantStartAmount; ///push new value to the stack
                 else return dupeCount;
             }
@@ -449,7 +450,7 @@ namespace SetStartDupes
                nameof(CustomStartingDupeCount));
 
             [HarmonyPriority(Priority.VeryLow)]
-            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)   
+            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
             {
                 var code = instructions.ToList();
                 var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Ldc_I4_3);
@@ -602,7 +603,7 @@ namespace SetStartDupes
 
                 //28
                 int insetBase = 4, insetA = 28, insetB = insetA * 2, insetC = insetA * 3;
-                float insetDistance = (!is_starter && !ModConfig.Instance.ModifyDuringGame) ? insetBase+ insetA : insetBase + insetC;
+                float insetDistance = (!is_starter && !ModConfig.Instance.ModifyDuringGame) ? insetBase + insetA : insetBase + insetC;
 
                 //var TextInput = titlebar.transform.Find("LabelGroup/");
                 //TextInput.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 3, 60);
@@ -612,7 +613,7 @@ namespace SetStartDupes
                 ///Make skin button
                 var skinBtn = Util.KInstantiateUI(buttonPrefab, titlebar);
                 skinBtn.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, insetDistance, skinBtn.rectTransform().sizeDelta.x);
-               
+
                 skinBtn.name = "DupeSkinButton";
                 skinBtn.GetComponent<ToolTip>().toolTip = STRINGS.UI.BUTTONS.DUPESKINBUTTONTOOLTIP;
 
@@ -632,9 +633,9 @@ namespace SetStartDupes
 
                 UIUtils.AddActionToButton(skinBtn.transform, "", () => DupeSkinScreenAddon.ShowSkinScreen(__instance, ___stats));
 
-                
 
-                if(!(!is_starter && !ModConfig.Instance.ModifyDuringGame))
+
+                if (!(!is_starter && !ModConfig.Instance.ModifyDuringGame))
                 {
 
                     float insetDistancePresetButton = insetBase + insetB;
@@ -702,7 +703,7 @@ namespace SetStartDupes
                     {
                         InstantiateOrGetDupeModWindow(parent.gameObject, referencedStats, false);
                     }
-                    foreach(var button in ButtonsToDisable)
+                    foreach (var button in ButtonsToDisable)
                     {
                         button.isInteractable = isCurrentlyInEditMode;
                     }
@@ -727,7 +728,7 @@ namespace SetStartDupes
                 {
                     //Debug.Log("FOUND OLD");
                     var refOld = ParentContainer.gameObject;
-;
+                    ;
                     refOld.transform.SetAsLastSibling();
                     UnityEngine.Object.Destroy(refOld);
                     ParentContainer = Util.KInstantiateUI(StartPrefab, parent).transform;
@@ -855,7 +856,7 @@ namespace SetStartDupes
                         {
                             UnityTraitScreen.ShowWindow(referencedStats, () => InstantiateOrGetDupeModWindow(parent, referencedStats, hide), currentGroup: a, DupeTraitManager: DupeTraitMng);
                         });
-                        UIUtils.AddSimpleTooltipToObject(AptitudeEntry.transform, ModAssets.GetSkillgroupDescription(a,referencedStats), true, onBottom: true);
+                        UIUtils.AddSimpleTooltipToObject(AptitudeEntry.transform, ModAssets.GetSkillgroupDescription(a, referencedStats), true, onBottom: true);
                         AptitudeEntry.GetComponent<KButton>().enabled = true;
                         ApplyDefaultStyle(AptitudeEntry.GetComponent<KImage>());
                         UIUtils.TryChangeText(AptitudeEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, GetSkillGroupName(a), FirstSkillGroupStat(a), DupeTraitMng.GetBonusValue(a)));
@@ -903,7 +904,7 @@ namespace SetStartDupes
                             continue;
                         var traitEntry = Util.KInstantiateUI(prefabParent, ContentContainer.gameObject, true);
 
-                        UIUtils.AddSimpleTooltipToObject(traitEntry.transform, ModAssets.GetTraitTooltip(v), true,onBottom: true);
+                        UIUtils.AddSimpleTooltipToObject(traitEntry.transform, ModAssets.GetTraitTooltip(v), true, onBottom: true);
                         var type = ModAssets.GetTraitListOfTrait(v.Id, out var list);
 
                         TraitsToSort.Add(new Tuple<GameObject, DupeTraitManager.NextType>(traitEntry, type));
@@ -912,15 +913,15 @@ namespace SetStartDupes
                         var thisOnesInterest = GetTraitStatBonusTooltip(v, false);
                         if (thisOnesInterest != string.Empty)
                         {
-                            InterestBonusTooltip += "\n" +string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE,v.Name, thisOnesInterest);
+                            InterestBonusTooltip += "\n" + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, v.Name, thisOnesInterest);
                         }
 
                         traitEntry.GetComponent<KButton>().enabled = true;
                         UIUtils.AddActionToButton(traitEntry.transform, "", () =>
                         {
-                            UnityTraitScreen.ShowWindow(referencedStats, ()=>InstantiateOrGetDupeModWindow(parent,referencedStats,hide), currentTrait: v);
+                            UnityTraitScreen.ShowWindow(referencedStats, () => InstantiateOrGetDupeModWindow(parent, referencedStats, hide), currentTrait: v);
                         });
-                        
+
                         UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, v.Name));
                         traitEntry.transform.Find("RemoveButton").gameObject.SetActive(ModConfig.Instance.AddAndRemoveTraitsAndInterests);
 
@@ -933,50 +934,55 @@ namespace SetStartDupes
                         }
                         );
                     }
-                    UIUtils.AddSimpleTooltipToObject(InterestPointBonus.transform, InterestBonusTooltip, true, onBottom:true);
+                    UIUtils.AddSimpleTooltipToObject(InterestPointBonus.transform, InterestBonusTooltip, true, onBottom: true);
 
                     TraitsToSort = TraitsToSort.OrderBy(t => (int)t.second).ToList();
                     for (int i = 0; i < TraitsToSort.Count; i++)
                     {
                         TraitsToSort[i].first.transform.SetAsLastSibling();
                     }
-
-                    var spacer = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
-                    UIUtils.TryChangeText(spacer.transform, "", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_JOYTRAIT, string.Empty));
-
-                    var JoyTrait = Util.KInstantiateUI(prefabParent, ContentContainer.gameObject, true);
-
-                    JoyTrait.GetComponent<KButton>().enabled = true;
-                    UIUtils.AddActionToButton(JoyTrait.transform, "", () =>
+                    if (!ModConfig.Instance.NoJoyReactions && referencedStats.joyTrait.Id != "None")
                     {
-                        UnityTraitScreen.ShowWindow(referencedStats, () => InstantiateOrGetDupeModWindow(parent, referencedStats, hide), currentTrait: referencedStats.joyTrait);
-                    });
+                        var spacer = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
+                        UIUtils.TryChangeText(spacer.transform, "", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_JOYTRAIT, string.Empty));
 
-                    ApplyTraitStyleByKey(JoyTrait.GetComponent<KImage>(), DupeTraitManager.NextType.joy);
-                    UIUtils.TryChangeText(JoyTrait.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, referencedStats.joyTrait.Name));
-                    UIUtils.AddSimpleTooltipToObject(JoyTrait.transform, ModAssets.GetTraitTooltip(referencedStats.joyTrait), true,onBottom:true);
+                        var JoyTrait = Util.KInstantiateUI(prefabParent, ContentContainer.gameObject, true);
 
-                    var spacerStress = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
-                    UIUtils.TryChangeText(spacerStress.transform, "", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_STRESSTRAIT,string.Empty))
-                        ;
-                    var StressTrait = Util.KInstantiateUI(prefabParent, ContentContainer.gameObject, true);
-                    StressTrait.GetComponent<KButton>().enabled = true;
-                    UIUtils.AddActionToButton(StressTrait.transform, "", () =>
+                        JoyTrait.GetComponent<KButton>().enabled = true;
+                        UIUtils.AddActionToButton(JoyTrait.transform, "", () =>
+                        {
+                            UnityTraitScreen.ShowWindow(referencedStats, () => InstantiateOrGetDupeModWindow(parent, referencedStats, hide), currentTrait: referencedStats.joyTrait);
+                        });
+
+                        ApplyTraitStyleByKey(JoyTrait.GetComponent<KImage>(), DupeTraitManager.NextType.joy);
+                        UIUtils.TryChangeText(JoyTrait.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, referencedStats.joyTrait.Name));
+                        UIUtils.AddSimpleTooltipToObject(JoyTrait.transform, ModAssets.GetTraitTooltip(referencedStats.joyTrait), true, onBottom: true);
+                    }
+
+                    if (!ModConfig.Instance.NoStressReactions && referencedStats.stressTrait.Id != "None")
                     {
-                        UnityTraitScreen.ShowWindow(referencedStats, () => InstantiateOrGetDupeModWindow(parent, referencedStats, hide), currentTrait: referencedStats.stressTrait);
-                    });
+                        var spacerStress = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
+                        UIUtils.TryChangeText(spacerStress.transform, "", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_STRESSTRAIT, string.Empty))
+                            ;
+                        var StressTrait = Util.KInstantiateUI(prefabParent, ContentContainer.gameObject, true);
+                        StressTrait.GetComponent<KButton>().enabled = true;
+                        UIUtils.AddActionToButton(StressTrait.transform, "", () =>
+                        {
+                            UnityTraitScreen.ShowWindow(referencedStats, () => InstantiateOrGetDupeModWindow(parent, referencedStats, hide), currentTrait: referencedStats.stressTrait);
+                        });
 
-                    ApplyTraitStyleByKey(StressTrait.GetComponent<KImage>(), DupeTraitManager.NextType.stress);
+                        ApplyTraitStyleByKey(StressTrait.GetComponent<KImage>(), DupeTraitManager.NextType.stress);
 
-                    UIUtils.AddSimpleTooltipToObject(StressTrait.transform, ModAssets.GetTraitTooltip(referencedStats.stressTrait), true, onBottom: true);
-                    UIUtils.TryChangeText(StressTrait.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, referencedStats.stressTrait.Name));                   
+                        UIUtils.AddSimpleTooltipToObject(StressTrait.transform, ModAssets.GetTraitTooltip(referencedStats.stressTrait), true, onBottom: true);
+                        UIUtils.TryChangeText(StressTrait.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, referencedStats.stressTrait.Name));
+                    }
                 }
 
 
 
                 ParentContainer.gameObject.SetActive(!hide);
             }
-            static  string GetSkillGroupName(SkillGroup Group) =>  Strings.Get("STRINGS.DUPLICANTS.SKILLGROUPS." + Group.Id.ToUpperInvariant() + ".NAME");
+            static string GetSkillGroupName(SkillGroup Group) => Strings.Get("STRINGS.DUPLICANTS.SKILLGROUPS." + Group.Id.ToUpperInvariant() + ".NAME");
             static string FirstSkillGroupStat(SkillGroup Group) => Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + Group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME");
         }
 

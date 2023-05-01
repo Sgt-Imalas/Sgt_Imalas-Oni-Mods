@@ -149,8 +149,14 @@ namespace SetStartDupes
             {
                 referencedStats.StartingLevels[startLevel.Key] = startLevel.Value; 
             }
-            referencedStats.stressTrait = traitRef.Get(this.stressTrait);
-            referencedStats.joyTrait = traitRef.Get(this.joyTrait);
+            if(!ModConfig.Instance.NoJoyReactions)
+            {
+                referencedStats.stressTrait = traitRef.Get(this.stressTrait);
+            }
+            if(!ModConfig.Instance.NoStressReactions)
+            {
+                referencedStats.joyTrait = traitRef.Get(this.joyTrait);
+            }
 
 
             var AptitudeRef = Db.Get().SkillGroups;

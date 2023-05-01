@@ -76,6 +76,13 @@ namespace SetStartDupes
         [JsonProperty]
         public bool BalanceAddRemove { get; set; }
 
+        [Option("STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.NAME", "STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
+        [JsonProperty]
+        public bool NoJoyReactions { get; set; }
+
+        [Option("STRINGS.UI.DSS_OPTIONS.NOSTRESSREACTION.NAME", "STRINGS.UI.DSS_OPTIONS.NOSTRESSREACTION.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
+        [JsonProperty]
+        public bool NoStressReactions { get; set; }
 
 
         public ModConfig()
@@ -96,6 +103,8 @@ namespace SetStartDupes
             SkinsDoReactions = true;
             AddAndRemoveTraitsAndInterests = false;
             BalanceAddRemove = true;
+            NoJoyReactions = false;
+            NoStressReactions = false;
         }
     }
 }

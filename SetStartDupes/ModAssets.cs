@@ -197,9 +197,15 @@ namespace SetStartDupes
 
         public static string GetTraitTooltip(Trait trait)
         {
+            if(trait == null)
+                return string.Empty;
             string tooltip = trait.GetTooltip();
+            
 
             ModAssets.GetTraitListOfTrait(trait.Id, out var list);
+            if(list== null)
+                return tooltip; 
+
             var traitBonusHolder = list.Find(traitTo => traitTo.id == trait.Id);
 
             if(traitBonusHolder.statBonus != 0)
@@ -280,7 +286,7 @@ namespace SetStartDupes
             },
             {
                 NextType.stress,
-                DUPLICANTSTATS.STRESSTRAITS
+                DUPLICANTSTATS.STRESSTRAITS  
             }
         };
 

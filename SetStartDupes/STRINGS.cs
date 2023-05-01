@@ -22,7 +22,7 @@ namespace SetStartDupes
                 {
                     public static LocString A_GAMESTART = "Options for Game Start";
                     public static LocString B_PRINTINGPOD = "Options for Printing Pod";
-                    public static LocString C_EXTRAS = "Options for Extra Behaviours";
+                    public static LocString C_EXTRAS = "Options for Traits and Interests";
                 }
 
                 public class DUPLICANTSTARTAMOUNT
@@ -97,6 +97,16 @@ namespace SetStartDupes
                 {
                     public static LocString NAME = "Interest Point Balancing";
                     public static LocString TOOLTIP = "Use the vanilla interest point bonus for active interests determined by active traits.\nDeactivate to override this point limit.";
+                }
+                public class NOJOYREACTION
+                {
+                    public static LocString NAME = "Disable Overjoyed Responses";
+                    public static LocString TOOLTIP = "Deactivates Overjoyed Responses on newly generated duplicants";
+                }
+                public class NOSTRESSREACTION
+                {
+                    public static LocString NAME = "Disable Stress Reactions";
+                    public static LocString TOOLTIP = "Deactivates Stress Reactions on newly generated duplicants";
                 }
 
             }

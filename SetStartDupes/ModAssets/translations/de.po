@@ -100,21 +100,6 @@ msgstr ""
 "Eigenschaften.\n"
 "Bei exzessiver Nutzung kann das OP sein."
 
-#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.BALANCEADDANDREMOVE.NAME
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.BALANCEADDANDREMOVE.NAME"
-msgid "Interest Point Balancing"
-msgstr "Interessen-Punkte-Balancing"
-
-#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.BALANCEADDANDREMOVE.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.BALANCEADDANDREMOVE.TOOLTIP"
-msgid ""
-"Use the vanilla interest point bonus for active interests determined by "
-"active traits.\n"
-"Deactivate to override this point limit."
-msgstr ""
-"Nutze den durch Eigenschaften defininierten Interessen-Punkte-Bonus.\n"
-"Deaktivieren um das Punktelimit zu überschreiben."
-
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NAME"
 msgid "Print Care Packages only"
@@ -175,8 +160,8 @@ msgstr "Optionen für den Biodrucker"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS"
-msgid "Options for Extra Behaviours"
-msgstr "Optionen für weitere Dupe-Manipulation"
+msgid "Options for Traits and Interests"
+msgstr "Optionen für Interessen und Eigenschaften"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.NAME"
@@ -188,6 +173,21 @@ msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.TOOLTIP"
 msgid "Choose the amount of duplicants you want to start with."
 msgstr ""
 "Wähle die Anzahl der Duplikanten, mit denen ein Spielstand starten soll."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.NAME"
+msgid "Interest Point Balancing"
+msgstr "Interessen-Punkte-Balancing"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.TOOLTIP"
+msgid ""
+"Use the vanilla interest point bonus for active interests determined by "
+"active traits.\n"
+"Deactivate to override this point limit."
+msgstr ""
+"Nutze den durch Eigenschaften defininierten Interessen-Punkte-Bonus.\n"
+"Deaktivieren um das Punktelimit zu überschreiben."
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.NAME"
@@ -206,6 +206,26 @@ msgstr ""
 "Wenn diese Option deaktiviert ist, erscheint die Funktion nur bei den Start-"
 "Duplikanten bei neuen Spielständen.\n"
 "Dies aktiviert auch die Verwendung von Attributvorlagen."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.NAME"
+msgid "Disable Overjoyed Responses"
+msgstr "Deaktiviere Begeisterungsreaktionen"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.TOOLTIP"
+msgid "Deactivates Overjoyed Responses on newly generated duplicants"
+msgstr "Neue Duplikanten generieren ohne Begeisterungsreaktion"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOSTRESSREACTION.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOSTRESSREACTION.NAME"
+msgid "Disable Stress Reactions"
+msgstr "Deaktiviere Stressreaktionen"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOSTRESSREACTION.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOSTRESSREACTION.TOOLTIP"
+msgid "Deactivates Stress Reactions on newly generated duplicants"
+msgstr "Neue Duplikanten generieren ohne Stressreaktion"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.PAUSEONREADYTOPRING.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.PAUSEONREADYTOPRING.NAME"
@@ -443,6 +463,10 @@ msgstr "Attributvorlagen"
 msgctxt "SetStartDupes.STRINGS.UNNAMEDPRESET"
 msgid "(Unnamed Preset)"
 msgstr "(unbenannt)"
+
+#~ msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS"
+#~ msgid "Options for Extra Behaviours"
+#~ msgstr "Optionen für weitere Dupe-Manipulation"
 
 #~ msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.TOOLTIP"
 #~ msgid "Allows to remove"

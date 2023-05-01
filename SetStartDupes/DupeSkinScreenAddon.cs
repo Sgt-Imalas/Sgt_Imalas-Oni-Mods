@@ -202,8 +202,14 @@ namespace SetStartDupes
 
             if (ModConfig.Instance.SkinsDoReactions)
             {
-                stats.stressTrait = Db.Get().traits.TryGet(personality.stresstrait);
-                stats.joyTrait = Db.Get().traits.TryGet(personality.joyTrait);
+                if (!ModConfig.Instance.NoJoyReactions)
+                {
+                    stats.stressTrait = Db.Get().traits.TryGet(personality.stresstrait);
+                }
+                if (!ModConfig.Instance.NoStressReactions)
+                {
+                    stats.joyTrait = Db.Get().traits.TryGet(personality.joyTrait);
+                }
             }
         }
 
