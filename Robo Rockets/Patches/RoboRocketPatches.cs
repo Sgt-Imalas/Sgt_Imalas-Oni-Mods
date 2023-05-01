@@ -255,7 +255,8 @@ namespace RoboRockets
 #if DEBUG
                     SgtLogger.l("World forbidden to look into: " + worldRefID);
 #endif
-                    ModAssets.ForbiddenInteriorIDs.Add(worldRefID,aiModue);
+                    if(!ModAssets.ForbiddenInteriorIDs.ContainsKey(worldRefID))
+                        ModAssets.ForbiddenInteriorIDs.Add(worldRefID,aiModue);
                 }
             }
         }
@@ -269,8 +270,20 @@ namespace RoboRockets
                 {
                     int worldRefID = (int)typeof(ClustercraftExteriorDoor).GetField("targetWorldId", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
 
-                    ModAssets.ForbiddenInteriorIDs.Remove(worldRefID);
+                    if (ModAssets.ForbiddenInteriorIDs.ContainsKey(worldRefID))
+                        ModAssets.ForbiddenInteriorIDs.Remove(worldRefID);
                 }
+            }
+        }
+
+        [HarmonyPatch(typeof(PauseScreen))]
+        [HarmonyPatch(nameof(PauseScreen.TriggerQuitGame))]
+        public class Clear_ForbiddenList
+        {
+            public static void Prefix()
+            {
+                ModAssets.ForbiddenInteriorIDs.Clear();
+
             }
         }
 
