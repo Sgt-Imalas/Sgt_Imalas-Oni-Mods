@@ -8,7 +8,7 @@ Furtermore you can store your favourite Stat-Loadouts as Preset-Templates that y
 The mod also allows to customize the Personality (Skin) of a dupe without changing any of its stats (for when you want a Pei-Only Colony, but there is no Meep-Mod equivalent).
 
 
-[h1]Current latest Version: 4.1.3[/h1]
+[h1]Current latest Version: 4.3.0[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
@@ -18,9 +18,12 @@ The mod also allows to customize the Personality (Skin) of a dupe without changi
 [/list][img]https://i.imgur.com/zJcOWLS.gif[/img][list]
 [*] Option to store and load stat presets:
 [/list][img]https://i.imgur.com/uRNo2Ji.gif[/img][list]
+[*] Redistribute Interest Points (this resets each time the interest bonus changes, so do it after you have selected traits and interest types):
+[/list][img]https://i.imgur.com/WfNtqid.gif[/img][list]
+[*] Option to override interest bonus point limit (for those experimental super dupes)
 [*] Changing dupe stats during the game can be disabled in the config (this also disables the preset function)
 [*] Option to start the game with additional food and oxylite for every additional start dupe above 3.
-[*] Option to reroll the printing pod dupes AND Care Packages
+[*] Option to enable rerolling the printing pod dupes AND Care Packages
 [*] Ability to apply personalities (= skins) to dupes without changing its interests and traits (stress and overjoyed reaction get applied by default, this can be disabled to be ONLY visual) (see the steam image how this works)
 [*] Ability to add new Traits & Interests (need to be enabled in the config)
 [*] Ability to remove existing Traits & Interests (need to be enabled in the config)

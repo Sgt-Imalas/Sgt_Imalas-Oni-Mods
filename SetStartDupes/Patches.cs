@@ -755,8 +755,11 @@ namespace SetStartDupes
                     scrollerCmp.inertia = false;
                     //scrollerCmp.decelerationRate = 100;
                     //UtilMethods.ListAllComponents(overallSize.gameObject);
-                    //UtilMethods.ListAllComponents(ParentContainer.Find("Scroll/Content").gameObject);
-
+                    UtilMethods.ListAllComponents(ContentContainer.gameObject);
+                    var vlg = ContentContainer.GetComponent<VerticalLayoutGroup>();
+                    //SgtLogger.l(vlg.padding.ToString() + ", " + vlg.spacing);
+                    vlg.spacing = 1;
+                    vlg.padding = new RectOffset(3, 1, 0, 0);
                     //UIUtils.ListComponents(overallSize.gameObject);
 
 
@@ -845,7 +848,7 @@ namespace SetStartDupes
                         {
                             UnityTraitScreen.ShowWindow(referencedStats, () => InstantiateOrGetDupeModWindow(parent, referencedStats, hide), currentGroup: a, DupeTraitManager: DupeTraitMng);
                         });
-                        UIUtils.AddSimpleTooltipToObject(AptitudeEntry.transform, ModAssets.GetSkillgroupDescription(a), true, onBottom: true);
+                        UIUtils.AddSimpleTooltipToObject(AptitudeEntry.transform, ModAssets.GetSkillgroupDescription(a,referencedStats), true, onBottom: true);
                         AptitudeEntry.GetComponent<KButton>().enabled = true;
                         ApplyDefaultStyle(AptitudeEntry.GetComponent<KImage>());
                         UIUtils.TryChangeText(AptitudeEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, GetSkillGroupName(a), FirstSkillGroupStat(a), DupeTraitMng.GetBonusValue(a)));

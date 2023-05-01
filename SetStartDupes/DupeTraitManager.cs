@@ -111,7 +111,7 @@ namespace SetStartDupes
         public void ReplaceInterest(SkillGroup interestOld, SkillGroup interestNew)
         {
             int oldPoints = RemoveInterest(interestOld, false);
-            AddInterest(interestNew, false, oldPoints);
+            AddInterest(interestNew, true, oldPoints);
         }
 
         public int RemoveInterest(SkillGroup interest, bool rebalanceAfter = true)

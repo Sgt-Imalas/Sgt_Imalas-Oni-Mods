@@ -343,8 +343,8 @@ namespace UtilLibs
             };
 
 
-        public static Color number_green = Util.ColorFromHex("367d48");
-        public static Color number_red = Util.ColorFromHex("802024");
+        public static Color number_green = Lighten(Util.ColorFromHex("367d48"),20);
+        public static Color number_red = Lighten(Util.ColorFromHex("802024"),20);
 
 
         public static string ColorNumber(float number, bool invert = false)

@@ -1,5 +1,6 @@
 ﻿using Database;
 using Klei.AI;
+using STRINGS;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
 using static SetStartDupes.DupeTraitManager;
+using static STRINGS.DUPLICANTS;
 
 namespace SetStartDupes
 {
@@ -350,9 +352,27 @@ namespace SetStartDupes
         {
             return Strings.Get("STRINGS.DUPLICANTS.SKILLGROUPS." + group.Id.ToUpperInvariant() + ".NAME") + " (" + Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME") + ")";
         }
-        public static string GetSkillgroupDescription(SkillGroup group)
+        public static string GetSkillgroupDescription(SkillGroup group, MinionStartingStats stats = null)
         {
-            return Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + group.relevantAttributes.First().Id.ToUpperInvariant() + ".DESC");
+            string description;
+            if (group.choreGroupID != "")
+            {
+                ChoreGroup choreGroup = Db.Get().ChoreGroups.Get(group.choreGroupID);
+                description = string.Format(DUPLICANTS.ROLES.GROUPS.APTITUDE_DESCRIPTION_CHOREGROUP, group.Name, DUPLICANTSTATS.APTITUDE_BONUS, choreGroup.description);
+            }
+            else
+                description = string.Format((string)DUPLICANTS.ROLES.GROUPS.APTITUDE_DESCRIPTION, group.Name, DUPLICANTSTATS.APTITUDE_BONUS);
+
+            if(stats == null)
+                return description;
+
+            float startingLevel = (float)stats.StartingLevels[group.relevantAttributes[0].Id];
+            string attributes = group.relevantAttributes[0].Name + ": +" + startingLevel.ToString() ;
+            List<AttributeConverter> convertersForAttribute = Db.Get().AttributeConverters.GetConvertersForAttribute(group.relevantAttributes[0]);
+            for (int index = 0; index < convertersForAttribute.Count; ++index)
+                attributes = attributes + "\n    • " + convertersForAttribute[index].DescriptionFromAttribute(convertersForAttribute[index].multiplier * startingLevel, (GameObject)null);
+
+            return description + "\n\n" + attributes ;
         }
 
         public static NextType GetTraitListOfTrait(string traitId, out List<DUPLICANTSTATS.TraitVal> TraitList)
