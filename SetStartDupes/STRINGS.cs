@@ -93,10 +93,10 @@ namespace SetStartDupes
                     public static LocString NAME = "Add/Remove Interests and Traits";
                     public static LocString TOOLTIP = "Allows to add new or remove existing Traits and Interests on Duplicants.\nCan be overpowered if used excessively.";
                 }
-                public class BALANCEADDANDREMOVE
+                public class INTERESTPOINTSBALANCING
                 {
-                    public static LocString NAME = "Basic balancing for Add/Remove";
-                    public static LocString TOOLTIP = "Applies some basic balancing to the adding/removal of traits and interests.\nthis limits the interest count to 3 and adds a \"negative trait\" - cost to positive traits\nOption is recommended to avoid overpowered duplicants.";
+                    public static LocString NAME = "Interest Point Balancing";
+                    public static LocString TOOLTIP = "Use the vanilla interest point bonus for active interests determined by active traits.\nDeactivate to override this point limit.";
                 }
 
             }
@@ -238,6 +238,8 @@ namespace SetStartDupes
 
                 public static LocString APPLYSKIN = "Apply this Personality";
 
+                public static LocString TRAITBONUSPOOL = "Interest points to spend:";
+                public static LocString TRAITBONUSPOOLTOOLTIP = "This Duplicant has {0} total interest bonus points\nThese come from the following traits:";
             }
         }
     }

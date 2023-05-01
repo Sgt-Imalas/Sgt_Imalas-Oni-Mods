@@ -72,9 +72,9 @@ namespace SetStartDupes
         [JsonProperty]
         public bool AddAndRemoveTraitsAndInterests { get; set; }
 
-        [Option("STRINGS.UI.DSS_OPTIONS.BALANCEADDANDREMOVE.NAME", "STRINGS.UI.DSS_OPTIONS.BALANCEADDANDREMOVE.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
+        [Option("STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.NAME", "STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
         [JsonProperty]
-        private bool BalanceAddRemove { get; set; }
+        public bool BalanceAddRemove { get; set; }
 
 
 

@@ -31,7 +31,9 @@ namespace SetStartDupes
     internal class UnityPresetScreen : FScreen
     {
 #pragma warning disable IDE0051 // Remove unused private members
+#pragma warning disable CS0414 // Remove unused private members
         new bool ConsumeMouseScroll = true; // do not remove!!!!
+#pragma warning restore CS0414 // Remove unused private members
 #pragma warning restore IDE0051 // Remove unused private members
         public static UnityPresetScreen Instance = null;
 

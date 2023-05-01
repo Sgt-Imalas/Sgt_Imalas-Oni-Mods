@@ -32,6 +32,11 @@ namespace SetStartDupes
         int FallBack = -1;
 
         int additionalSkillPoints = 0;
+        int skillPointPool = 0;
+        public int SkillPointPool => skillPointPool;
+        public int AdditionalSkillPoints => additionalSkillPoints;
+
+        public string PointPool => UIUtils.ColorNumber(skillPointPool);
 
         public enum NextType
         {
@@ -56,33 +61,51 @@ namespace SetStartDupes
 
         public void CalculateAdditionalSkillPoints(int overridePoints = 0)
         {
-            if(overridePoints > 0)
+            if (overridePoints > 0)
             {
                 additionalSkillPoints = overridePoints;
                 return;
             }
-
-            additionalSkillPoints = 0;
-            int SkillAmount = 0;
-            foreach (var s in ToEditMinionStats.StartingLevels)
-            {
-                if (s.Value > 0)
-                    SkillAmount++;
-            }
-
-            //SgtLogger.l(SkillAmount.ToString(), "Interest count");
-
-            int PointsPerInterest = ModAssets.PointsPerInterests(SkillAmount);
-            //SgtLogger.l(PointsPerInterest.ToString(), "points per interest");
-
-            foreach (var startingLevel in ToEditMinionStats.StartingLevels)
-            {
-                additionalSkillPoints += Math.Max(0, (startingLevel.Value - PointsPerInterest));
-            }
-            //SgtLogger.l(additionalSkillPoints.ToString(), "bonus points");
+            additionalSkillPoints = ModAssets.GetTraitBonus(ToEditMinionStats);
         }
 
-        
+        public void DeltaPointPool(int delta)
+        {
+            skillPointPool += delta;
+        }
+        public void ResetPool()
+
+        { skillPointPool = 0; }
+
+        public void IncreaseInterest(SkillGroup interest)
+        {
+            if (skillPointPool > 0 || !ModConfig.Instance.BalanceAddRemove)
+            {
+                foreach (var attribute in interest.relevantAttributes)
+                {
+                    if (ToEditMinionStats.StartingLevels.ContainsKey(attribute.Id))
+                    {
+                        ToEditMinionStats.StartingLevels[attribute.Id]++;
+                    }
+                }
+                skillPointPool--;
+            }
+        }
+        public void ReduceInterest(SkillGroup interest)
+        {
+            int minimumPoints = ModAssets.MinimumPointsPerInterest(ToEditMinionStats);
+            foreach (var attribute in interest.relevantAttributes)
+            {
+                if (ToEditMinionStats.StartingLevels.ContainsKey(attribute.Id))
+                {
+                    if (ToEditMinionStats.StartingLevels[attribute.Id] <= minimumPoints)
+                        return;
+
+                    ToEditMinionStats.StartingLevels[attribute.Id]--;
+                }
+            }
+            skillPointPool++;
+        }
 
 
         public void ReplaceInterest(SkillGroup interestOld, SkillGroup interestNew)
@@ -93,7 +116,7 @@ namespace SetStartDupes
 
         public int RemoveInterest(SkillGroup interest, bool rebalanceAfter = true)
         {
-            if(interest == null) return 0;
+            if (interest == null) return 0;
 
             int removedPoints = 0;
 
@@ -130,6 +153,8 @@ namespace SetStartDupes
 
             if (removedPoints == 0)
                 removedPoints++;
+
+            ResetPool();
 
             return removedPoints;
         }
@@ -169,8 +194,9 @@ namespace SetStartDupes
                     ToEditMinionStats.StartingLevels[LevelToAdd.Id] = newPoints;
                 }
             }
-            if(rebalanceAfter)
+            if (rebalanceAfter)
                 RecalculateSkillPoints();
+            ResetPool();
         }
 
         int pointsPerInterest()
@@ -212,7 +238,7 @@ namespace SetStartDupes
                 }
             }
             while (amountToShip > 0 && reroll);
-            
+
             foreach (var newv in newVals)
             {
                 ToEditMinionStats.StartingLevels[newv.Key] = newv.Value;

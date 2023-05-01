@@ -719,9 +719,10 @@ namespace SetStartDupes
                 else
                 {
                     //Debug.Log("FOUND OLD");
-                    ParentContainer.name = "oldd";
-                    ParentContainer.gameObject.SetActive(false);
-
+                    var refOld = ParentContainer.gameObject;
+;
+                    refOld.transform.SetAsLastSibling();
+                    UnityEngine.Object.Destroy(refOld);
                     ParentContainer = Util.KInstantiateUI(StartPrefab, parent).transform;
                     ParentContainer.gameObject.name = "ModifyDupeStats";
                     //ShouldInit = false;
@@ -748,7 +749,13 @@ namespace SetStartDupes
                     var overallSize = ParentContainer.Find("Scroll");
                     var SizeSetter = ParentContainer.Find("Scroll").GetComponent<LayoutElement>();
                     SizeSetter.flexibleHeight = 600;
+                    var scrollerCmp = overallSize.GetComponent<KScrollRect>();
 
+                    scrollerCmp.elasticity = 0;
+                    scrollerCmp.inertia = false;
+                    //scrollerCmp.decelerationRate = 100;
+                    //UtilMethods.ListAllComponents(overallSize.gameObject);
+                    //UtilMethods.ListAllComponents(ParentContainer.Find("Scroll/Content").gameObject);
 
                     //UIUtils.ListComponents(overallSize.gameObject);
 
@@ -763,6 +770,26 @@ namespace SetStartDupes
                         right.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 2.5f, 25);
                         right.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 2.5f, 25);
                         right.SetActive(false);
+
+                        var AddOnSpacerInterestUP = Util.KInstantiateUI(RemoveFromTraitsButtonPrefab, prefabParent);
+                        //UIUtils.TryFindComponent<ToolTip>(prefabParent.transform).toolTip = STRINGS.UI.BUTTONS.ADDTOSTATS;
+                        //UIUtils.TryFindComponent<ToolTip>(right.transform,"Image").toolTip="Cycle to next";
+                        AddOnSpacerInterestUP.name = "InterestUP";
+                        AddOnSpacerInterestUP.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 27.5f, 25);
+                        AddOnSpacerInterestUP.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 2.5f, 25);
+                        AddOnSpacerInterestUP.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("iconDown");
+                        AddOnSpacerInterestUP.transform.Find("Image").rectTransform().Rotate(new Vector3(0, 0, 180));
+                        AddOnSpacerInterestUP.SetActive(false);
+
+                        var AddOnSpacerInterestDown = Util.KInstantiateUI(RemoveFromTraitsButtonPrefab, prefabParent);
+                        //UIUtils.TryFindComponent<ToolTip>(prefabParent.transform).toolTip = STRINGS.UI.BUTTONS.ADDTOSTATS;
+                        //UIUtils.TryFindComponent<ToolTip>(right.transform,"Image").toolTip="Cycle to next";
+                        AddOnSpacerInterestDown.name = "InterestDOWN";
+                        AddOnSpacerInterestDown.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 2.5f, 25);
+                        AddOnSpacerInterestDown.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 2.5f, 25);
+                        AddOnSpacerInterestDown.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("iconDown");
+                        AddOnSpacerInterestDown.SetActive(false);
+
                     }
 
 
@@ -772,17 +799,17 @@ namespace SetStartDupes
                         renameLabel.name = "Label";
                     }
 
-                    prefabParent.GetComponent<LayoutElement>().minHeight = 25;
+                    prefabParent.GetComponent<LayoutElement>().minHeight = 30;
                     prefabParent.GetComponent<LayoutElement>().preferredHeight = 30;
                     var spacerParent = Util.KInstantiateUI(prefabParent.transform.Find("Label").gameObject);
+                    spacerParent.AddOrGet<LayoutElement>().minHeight = 25;
+
                     var AddOnSpacer = Util.KInstantiateUI(AddNewToTraitsButtonPrefab, spacerParent);
                     UIUtils.TryFindComponent<ToolTip>(AddOnSpacer.transform).toolTip = STRINGS.UI.BUTTONS.ADDTOSTATS;
                     //UIUtils.TryFindComponent<ToolTip>(right.transform,"Image").toolTip="Cycle to next";
                     AddOnSpacer.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 2.5f, 25);
-                    AddOnSpacer.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, -5, 25);
+                    AddOnSpacer.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0f, 25);
                     AddOnSpacer.SetActive(false);
-
-
 
                     //skillMod.transform.Find("DetailsContainer").gameObject.SetActive(false);
 
@@ -796,14 +823,19 @@ namespace SetStartDupes
 
 
                     var Spacer2AndInterestHolder = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
+                    UIUtils.AddSimpleTooltipToObject(Spacer2AndInterestHolder.transform, global::STRINGS.UI.CHARACTERCONTAINER_APTITUDES_TITLE_TOOLTIP, alignCenter: true, onBottom: true);
 
-                    UIUtils.TryChangeText(Spacer2AndInterestHolder.transform, "", global::STRINGS.UI.CHARACTERCONTAINER_APTITUDES_TITLE);
+                    var InterestPointBonus = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
+                    UIUtils.TryChangeText(InterestPointBonus.transform, "", STRINGS.UI.BUTTONS.TRAITBONUSPOOL + " " + DupeTraitMng.PointPool);
+                    string InterestBonusTooltip = string.Format(STRINGS.UI.BUTTONS.TRAITBONUSPOOLTOOLTIP, DupeTraitMng.AdditionalSkillPoints);
+
+
+                    UIUtils.TryChangeText(Spacer2AndInterestHolder.transform, "", global::STRINGS.UI.CHARACTERCONTAINER_APTITUDES_TITLE); //
                     Spacer2AndInterestHolder.transform.Find("AddButton").gameObject.SetActive(ModConfig.Instance.AddAndRemoveTraitsAndInterests);
                     UIUtils.AddActionToButton(Spacer2AndInterestHolder.transform, "AddButton", () =>
                     {
                         UnityTraitScreen.ShowWindow(referencedStats, () => InstantiateOrGetDupeModWindow(parent, referencedStats, hide), DupeTraitManager: DupeTraitMng, openedFrom: UnityTraitScreen.OpenedFrom.Interest);
                     });
-
 
 
                     foreach (var a in DupeTraitMng.GetInterestsWithStats())
@@ -825,6 +857,20 @@ namespace SetStartDupes
                             InstantiateOrGetDupeModWindow(parent, referencedStats, hide);
                         }
                         );
+
+                        AptitudeEntry.transform.Find("InterestDOWN").gameObject.SetActive(true);
+                        UIUtils.AddActionToButton(AptitudeEntry.transform, "InterestDOWN", () =>
+                        {
+                            DupeTraitMng.ReduceInterest(a);
+                            InstantiateOrGetDupeModWindow(parent, referencedStats, hide);
+                        });
+                        AptitudeEntry.transform.Find("InterestUP").gameObject.SetActive(true);
+                        UIUtils.AddActionToButton(AptitudeEntry.transform, "InterestUP", () =>
+                        {
+                            DupeTraitMng.IncreaseInterest(a);
+                            InstantiateOrGetDupeModWindow(parent, referencedStats, hide);
+                        });
+
                     }
                     ///EndAptitudes
 
@@ -853,6 +899,12 @@ namespace SetStartDupes
                         TraitsToSort.Add(new Tuple<GameObject, DupeTraitManager.NextType>(traitEntry, type));
 
                         ApplyTraitStyleByKey(traitEntry.GetComponent<KImage>(), type);
+                        var thisOnesInterest = GetTraitStatBonusTooltip(v, false);
+                        if (thisOnesInterest != string.Empty)
+                        {
+                            InterestBonusTooltip += "\n" +string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE,v.Name, thisOnesInterest);
+                        }
+
                         traitEntry.GetComponent<KButton>().enabled = true;
                         UIUtils.AddActionToButton(traitEntry.transform, "", () =>
                         {
@@ -871,6 +923,7 @@ namespace SetStartDupes
                         }
                         );
                     }
+                    UIUtils.AddSimpleTooltipToObject(InterestPointBonus.transform, InterestBonusTooltip, true, onBottom:true);
 
                     TraitsToSort = TraitsToSort.OrderBy(t => (int)t.second).ToList();
                     for (int i = 0; i < TraitsToSort.Count; i++)
@@ -891,7 +944,7 @@ namespace SetStartDupes
 
                     ApplyTraitStyleByKey(JoyTrait.GetComponent<KImage>(), DupeTraitManager.NextType.joy);
                     UIUtils.TryChangeText(JoyTrait.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, referencedStats.joyTrait.Name));
-                    UIUtils.AddSimpleTooltipToObject(JoyTrait.transform, ModAssets.GetTraitTooltip(referencedStats.joyTrait), true);
+                    UIUtils.AddSimpleTooltipToObject(JoyTrait.transform, ModAssets.GetTraitTooltip(referencedStats.joyTrait), true,onBottom:true);
 
                     var spacerStress = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
                     UIUtils.TryChangeText(spacerStress.transform, "", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_STRESSTRAIT,string.Empty))
@@ -905,7 +958,7 @@ namespace SetStartDupes
 
                     ApplyTraitStyleByKey(StressTrait.GetComponent<KImage>(), DupeTraitManager.NextType.stress);
 
-                    UIUtils.AddSimpleTooltipToObject(StressTrait.transform, ModAssets.GetTraitTooltip(referencedStats.stressTrait), true);
+                    UIUtils.AddSimpleTooltipToObject(StressTrait.transform, ModAssets.GetTraitTooltip(referencedStats.stressTrait), true, onBottom: true);
                     UIUtils.TryChangeText(StressTrait.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, referencedStats.stressTrait.Name));                   
                 }
 

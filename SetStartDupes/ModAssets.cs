@@ -86,7 +86,7 @@ namespace SetStartDupes
         public static int MinimumPointsPerInterest(MinionStartingStats stats)
         {
             int SkillAmount = 0;
-            foreach (var s in stats.StartingLevels)
+            foreach (var s in stats.skillAptitudes)
             {
                 if (s.Value > 0)
                     SkillAmount++;
@@ -110,6 +110,22 @@ namespace SetStartDupes
             return pointsPer;
         }
 
+        public static int GetTraitBonus(MinionStartingStats stats)
+        {
+            int targetPoints = 0;
+            var allTraitStats = TryGetTraitsOfCategory(NextType.allTraits);
+            foreach (var activeTrait in stats.Traits)
+            {
+                var active = allTraitStats.Find(match => match.id == activeTrait.Id);
+                if (active.statBonus != 0)
+                {
+                    //SgtLogger.l(active.statBonus.ToString(), active.id);
+                    targetPoints += active.statBonus;
+                }
+            }
+            return targetPoints;
+        }
+
         public static void RedoStatpointBonus(MinionStartingStats stats, Trait trait, bool isAdding = false)
         {
             ModAssets.GetTraitListOfTrait(trait.Id, out var list);
@@ -118,20 +134,10 @@ namespace SetStartDupes
             if (traitBonusHolder.statBonus == 0)
                 return;
 
-            int targetPoints = 0;
+            int targetPoints = GetTraitBonus(stats);
             int minimumPoints = MinimumPointsPerInterest(stats);
             int currentPoints = 0;
 
-            var allTraitStats = TryGetTraitsOfCategory(NextType.allTraits);
-            foreach (var activeTrait in stats.Traits)
-            {
-                var active = allTraitStats.Find(match => match.id == activeTrait.Id);
-                if(active.statBonus != 0)
-                {
-                    //SgtLogger.l(active.statBonus.ToString(), active.id);
-                    targetPoints += active.statBonus;
-                }
-            }
             //SgtLogger.l(targetPoints.ToString(), "ActiveStatBonus");
 
             foreach (var level in stats.StartingLevels.Values)
@@ -139,7 +145,7 @@ namespace SetStartDupes
                 currentPoints += Math.Max(0, level - minimumPoints);
             }
             int difference = targetPoints - currentPoints;
-
+            
 
 
             bool subtracting = difference < 0;
@@ -183,6 +189,7 @@ namespace SetStartDupes
             if (DupeTraitManagers.ContainsKey(stats))
             {
                 DupeTraitManagers[stats].CalculateAdditionalSkillPoints(targetPoints);
+                DupeTraitManagers[stats].ResetPool() ;
             }
         }
 
@@ -195,10 +202,23 @@ namespace SetStartDupes
 
             if(traitBonusHolder.statBonus != 0)
             {
-                tooltip += "\n\n" + STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOINTS +" "+ traitBonusHolder.statBonus;
+                tooltip += "\n\n" + GetTraitStatBonusTooltip(trait);
             }
 
             return tooltip;
+        }
+        public static string GetTraitStatBonusTooltip(Trait trait, bool withDescriptor = true)
+        {
+            string tooltip = string.Empty;
+            ModAssets.GetTraitListOfTrait(trait.Id, out var list);
+            var traitBonusHolder = list.Find(traitTo => traitTo.id == trait.Id);   
+            if(traitBonusHolder.statBonus==0)
+                return tooltip;
+
+            if(withDescriptor)
+                tooltip += STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOINTS + " ";
+            tooltip += UIUtils.ColorNumber(traitBonusHolder.statBonus);
+            return  tooltip;
         }
 
 

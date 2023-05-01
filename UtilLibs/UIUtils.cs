@@ -343,6 +343,20 @@ namespace UtilLibs
             };
 
 
+        public static Color number_green = Util.ColorFromHex("367d48");
+        public static Color number_red = Util.ColorFromHex("802024");
+
+
+        public static string ColorNumber(float number, bool invert = false)
+        {
+            if (number > 0)
+                return ColorText(number.ToString(), invert ? number_red : number_green);
+            else if (number < 0)
+                return ColorText(number.ToString(), !invert ? number_red : number_green);
+
+            return number.ToString();
+        }
+
         public static string ColorText(string text, string hex)
         {
             hex = hex.Replace("#", string.Empty);
