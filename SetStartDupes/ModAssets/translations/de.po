@@ -71,6 +71,20 @@ msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.REROLLCAREPACKAGE"
 msgid "Reroll for a different Care Package"
 msgstr "Ein neues Hilfspaket würfeln"
 
+#. SetStartDupes.STRINGS.UI.BUTTONS.TRAITBONUSPOOL
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.TRAITBONUSPOOL"
+msgid "Interest points to spend:"
+msgstr "Verfügbare Interessenpunkte:"
+
+#. SetStartDupes.STRINGS.UI.BUTTONS.TRAITBONUSPOOLTOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.TRAITBONUSPOOLTOOLTIP"
+msgid ""
+"This Duplicant has {0} total interest bonus points\n"
+"These come from the following traits:"
+msgstr ""
+"Dieser Duplikant hat insgesamt {0} Interessenbonuspunkte\n"
+"Diese kommen von den folgenden Eigenschaften:"
+
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.NAME"
 msgid "Add/Remove Interests and Traits"
@@ -88,17 +102,18 @@ msgstr ""
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.BALANCEADDANDREMOVE.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.BALANCEADDANDREMOVE.NAME"
-msgid "Basic balancing for Add/Remove"
-msgstr ""
+msgid "Interest Point Balancing"
+msgstr "Interessen-Punkte-Balancing"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.BALANCEADDANDREMOVE.TOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.BALANCEADDANDREMOVE.TOOLTIP"
 msgid ""
-"Applies some basic balancing to the adding/removal of traits and interests.\n"
-"this limits the interest count to 3 and adds a \"negative trait\" - cost to "
-"positive traits\n"
-"Option is recommended to avoid overpowered duplicants."
+"Use the vanilla interest point bonus for active interests determined by "
+"active traits.\n"
+"Deactivate to override this point limit."
 msgstr ""
+"Nutze den durch Eigenschaften defininierten Interessen-Punkte-Bonus.\n"
+"Deaktivieren um das Punktelimit zu überschreiben."
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NAME"
@@ -165,7 +180,7 @@ msgstr "Optionen für weitere Dupe-Manipulation"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.NAME"
-msgid "Amount of Starting Duplicants"
+msgid "Number of Starting Duplicants"
 msgstr "Anzahl der Start-Duplikanten"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.TOOLTIP
@@ -283,6 +298,11 @@ msgstr "{0}, ({1} +{2})"
 msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT"
 msgid "{0}"
 msgstr "{0}"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOINTS
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOINTS"
+msgid "Interest Bonus:"
+msgstr "Interessenbonus:"
 
 #. SetStartDupes.STRINGS.UI.DUPESKILLSPOPUP.SCROLLAREA.CONTENT.NOSKILLSAVAILABLE.LABEL
 msgctxt ""
