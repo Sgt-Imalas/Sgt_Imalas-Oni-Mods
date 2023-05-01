@@ -393,7 +393,18 @@ namespace SetStartDupes
         [HarmonyPatch(nameof(MinionStartingStats.GenerateTraits))]
         public class AllowCustomTraitAllignment
         {
-            ///Rework
+            public static void Postfix(MinionStartingStats __instance)
+            {
+                if (true)
+                {
+                    __instance.joyTrait = Db.Get().traits.Get("None");
+                }
+                if (true)
+                {
+                    __instance.stressTrait = Db.Get().traits.Get("None");
+                }
+            }
+
             public static bool VariableTraits(bool isStarterMinion) 
             {
                 return false;
@@ -402,10 +413,6 @@ namespace SetStartDupes
             public static readonly MethodInfo overrideStarterGeneration = AccessTools.Method(
                typeof(AllowCustomTraitAllignment),
                nameof(AllowCustomTraitAllignment.VariableTraits));
-
-            public static readonly MethodInfo PreviousCellXY = AccessTools.Method(
-               typeof(Grid),
-               nameof(Grid.XYToCell));
 
             [HarmonyPriority(Priority.VeryLow)]
             static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
