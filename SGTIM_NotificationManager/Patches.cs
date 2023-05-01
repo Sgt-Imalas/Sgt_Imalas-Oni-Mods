@@ -127,6 +127,11 @@ namespace SGTIM_NotificationManager
                     skipAudio = Config.Instance.MUTE_PLANTDEATH_SOUND;
 
                 }
+                else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.RADIATIONVOMITING.NOTIFICATION_NAME)
+                {
+                    skipAudio = Config.Instance.MUTE_RADIATIONVOMITING_SOUND;
+
+                }
 
                 notification.playSound = !skipAudio;
             }
@@ -191,6 +196,11 @@ namespace SGTIM_NotificationManager
                 {
                     pause = Config.Instance.PAUSE_ON_PLANTDEATH;
                     moveCam = Config.Instance.PAN_TO_PLANTDEATH;
+                }
+                else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.RADIATIONVOMITING.NOTIFICATION_NAME)
+                {
+                    pause = Config.Instance.PAUSE_ON_RADIATIONVOMITING;
+                    moveCam = Config.Instance.PAN_TO_RADIATIONVOMITING;
                 }
 
                 if (notification.Notifier != null && moveCam)
