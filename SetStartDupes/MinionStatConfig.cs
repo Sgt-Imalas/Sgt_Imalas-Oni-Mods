@@ -157,7 +157,10 @@ namespace SetStartDupes
             {
                 referencedStats.joyTrait = traitRef.Get(this.joyTrait);
             }
-
+            if (ModAssets.DupeTraitManagers.ContainsKey(referencedStats))
+            {
+                ModAssets.DupeTraitManagers[referencedStats].ResetPool();
+            }
 
             var AptitudeRef = Db.Get().SkillGroups;
             referencedStats.skillAptitudes.Clear();
