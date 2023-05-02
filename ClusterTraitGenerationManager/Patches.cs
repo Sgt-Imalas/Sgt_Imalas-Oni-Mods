@@ -349,10 +349,11 @@ namespace ClusterTraitGenerationManager
             }
         }
 
-        [HarmonyPatch(typeof(WorldGenSettings), "GetFloatSetting")]
+        [HarmonyPatch(typeof(WorldGenSettings))]
+        [HarmonyPatch(nameof(WorldGenSettings.GetFloatSetting))]
         public static class WorldGenSettings_GetFloatSetting_Patch
         {
-            private static void Postfix(string target, ref float __result)
+            private static void Postfix(WorldGenSettings __instance, string target, ref float __result)
             {
                 float densityCapped = 4f;
                 if (!(target == "OverworldDensityMin") && !(target == "OverworldDensityMax") && !(target == "OverworldAvoidRadius") && !(target == "OverworldMinNodes") && !(target == "OverworldMaxNodes"))
@@ -360,10 +361,11 @@ namespace ClusterTraitGenerationManager
                 __result /= densityCapped;
             }
         }
-        [HarmonyPatch(typeof(WorldGenSettings), "GetIntSetting")]
+        [HarmonyPatch(typeof(WorldGenSettings))]
+        [HarmonyPatch(nameof(WorldGenSettings.GetIntSetting))]
         public static class WorldGenSettings_GetIntSetting_Patch
         {
-            private static void Postfix(string target, ref int __result)
+            private static void Postfix(WorldGenSettings __instance, string target, ref int __result)
             {
                 float densityCapped = 4f;
                 if (!(target == "OverworldDensityMin") && !(target == "OverworldDensityMax") && !(target == "OverworldAvoidRadius") && !(target == "OverworldMinNodes") && !(target == "OverworldMaxNodes"))
@@ -371,7 +373,22 @@ namespace ClusterTraitGenerationManager
                 __result = Mathf.RoundToInt(((int)__result)/densityCapped);
             }
         }
-        [HarmonyPatch(typeof(Border), "ConvertToMap")]
+        [HarmonyPatch(typeof(WorldGen))]
+        [HarmonyPatch(nameof(WorldGen.ProcessByTerrainCell))]
+        public static class ThinerBorder
+        {
+            private static void Postfix(WorldGenSettings __instance, string target, ref int __result)
+            {
+                float densityCapped = 4f;
+                if (!(target == "OverworldDensityMin") && !(target == "OverworldDensityMax") && !(target == "OverworldAvoidRadius") && !(target == "OverworldMinNodes") && !(target == "OverworldMaxNodes"))
+                    return;
+                __result = Mathf.RoundToInt(((int)__result) / densityCapped);
+            }
+        }
+
+
+        [HarmonyPatch(typeof(Border))]
+        [HarmonyPatch(nameof(Border.ConvertToMap))]
         public static class Border_ConvertToMap_Patch
         {
             private static void Prefix(Border __instance)
