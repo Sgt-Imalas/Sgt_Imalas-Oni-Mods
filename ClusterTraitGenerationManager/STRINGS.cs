@@ -129,14 +129,14 @@ namespace ClusterTraitGenerationManager
                         public class SIZESELECTOR
                         {
 
-                            //public static LocString NEGSIZE0 = (LocString)"Tiny";
-                            //public static LocString NEGSIZE0TOOLTIP = (LocString)"The asteroid is at 25% of its usual size.";
-                            //public static LocString NEGSIZE1 = (LocString)"Smaller";
-                            //public static LocString NEGSIZE1TOOLTIP = (LocString)"The asteroid is at 40% of its usual size.";
-                            //public static LocString NEGSIZE2 = (LocString)"Small";
-                            //public static LocString NEGSIZE2TOOLTIP = (LocString)"The asteroid is at 55% of its usual size.";
-                            //public static LocString NEGSIZE3 = (LocString)"Slightly Smaller";
-                            //public static LocString NEGSIZE3TOOLTIP = (LocString)"The asteroid is at 75% of its usual size.";
+                            public static LocString NEGSIZE0 = (LocString)"Tiny";
+                            public static LocString NEGSIZE0TOOLTIP = (LocString)"The asteroid is at 25% of its usual size.";
+                            public static LocString NEGSIZE1 = (LocString)"Smaller";
+                            public static LocString NEGSIZE1TOOLTIP = (LocString)"The asteroid is at 40% of its usual size.";
+                            public static LocString NEGSIZE2 = (LocString)"Small";
+                            public static LocString NEGSIZE2TOOLTIP = (LocString)"The asteroid is at 55% of its usual size.";
+                            public static LocString NEGSIZE3 = (LocString)"Slightly Smaller";
+                            public static LocString NEGSIZE3TOOLTIP = (LocString)"The asteroid is at 75% of its usual size.";
 
                             public static LocString SIZE0 = (LocString)"Normal";
                             public static LocString SIZE0TOOLTIP = (LocString)"The asteroid is at its usual size.";

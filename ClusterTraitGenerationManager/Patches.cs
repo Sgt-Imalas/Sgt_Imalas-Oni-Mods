@@ -25,6 +25,7 @@ using static ClusterTraitGenerationManager.CGSMClusterManager;
 using System.Threading;
 using static ClusterTraitGenerationManager.STRINGS;
 using System.Text.RegularExpressions;
+using PeterHan.PLib.Options;
 
 namespace ClusterTraitGenerationManager
 {
@@ -348,6 +349,42 @@ namespace ClusterTraitGenerationManager
             }
         }
 
+        [HarmonyPatch(typeof(WorldGenSettings), "GetFloatSetting")]
+        public static class WorldGenSettings_GetFloatSetting_Patch
+        {
+            private static void Postfix(string target, ref float __result)
+            {
+                float densityCapped = 4f;
+                if (!(target == "OverworldDensityMin") && !(target == "OverworldDensityMax") && !(target == "OverworldAvoidRadius") && !(target == "OverworldMinNodes") && !(target == "OverworldMaxNodes"))
+                    return;
+                __result /= densityCapped;
+            }
+        }
+        [HarmonyPatch(typeof(WorldGenSettings), "GetIntSetting")]
+        public static class WorldGenSettings_GetIntSetting_Patch
+        {
+            private static void Postfix(string target, ref int __result)
+            {
+                float densityCapped = 4f;
+                if (!(target == "OverworldDensityMin") && !(target == "OverworldDensityMax") && !(target == "OverworldAvoidRadius") && !(target == "OverworldMinNodes") && !(target == "OverworldMaxNodes"))
+                    return;
+                __result = Mathf.RoundToInt(((int)__result)/densityCapped);
+            }
+        }
+        [HarmonyPatch(typeof(Border), "ConvertToMap")]
+        public static class Border_ConvertToMap_Patch
+        {
+            private static void Prefix(Border __instance)
+            {
+                if (__instance.element == SettingsCache.borders["impenetrable"])
+                    __instance.width = 1.1f;
+                else
+                    __instance.width = 1.1f;
+            }
+        }
+
+
+
         [HarmonyPatch(typeof(Worlds))]
         [HarmonyPatch(nameof(Worlds.GetWorldData))]
         public static class OverrideWorldSizeOnDataGetting
@@ -371,6 +408,15 @@ namespace ClusterTraitGenerationManager
                                 SgtLogger.l(value.worldsize.ToString(), "Original World Size");
                                 OriginalPlanetSizes[name] = value.worldsize;
                                 value.worldsize = newDimensions;
+                                UtilMethods.ListAllPropertyValues(value.defaultsOverrides);
+                                foreach(var d in value.defaultsOverrides.data)
+                                {
+                                    SgtLogger.l(d.Value.ToString()+ d.Value.GetType(), d.Key);
+                                }
+
+                                //value.defaultsOverrides.data["OverworldDensityMin"] = (int)item.ApplySizeMultiplierToValue(int.Parse(value.defaultsOverrides.data["OverworldDensityMin"].ToString()));
+                                //value.defaultsOverrides.data["OverworldDensityMax"] = (int)item.ApplySizeMultiplierToValue(int.Parse(value.defaultsOverrides.data["OverworldDensityMax"].ToString()));
+
                                 SgtLogger.l("Applied custom planet size to " + item.DisplayName + ", new size: " + newDimensions.X + "x" + newDimensions.Y);
                             }
                         }

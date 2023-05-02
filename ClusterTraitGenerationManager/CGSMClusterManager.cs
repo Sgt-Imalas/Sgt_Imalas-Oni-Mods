@@ -326,10 +326,10 @@ namespace ClusterTraitGenerationManager
 
         public enum WorldSizePresets
         {
-            //Tiny = 25,
-            //Smaller = 40,
-            //Small = 55,
-            //SlightlySmaller = 75,
+            Tiny = 25,
+            Smaller = 40,
+            Small = 55,
+            SlightlySmaller = 75,
 
             Custom = -1,
             Normal = 100,
@@ -430,6 +430,11 @@ namespace ClusterTraitGenerationManager
             public string _poiDesc { get; private set; }
 
             //private float XYratio = -1f;
+            public float ApplySizeMultiplierToValue(float inputValue)
+            {
+                float sizePercentage = (float)SizePreset / 100f;
+                return Mathf.RoundToInt(sizePercentage * inputValue);
+            }
             public Vector2I CustomPlanetDimensions
             {
 
@@ -439,8 +444,6 @@ namespace ClusterTraitGenerationManager
                     {
                         return new(CustomX, CustomY);
                     }
-
-
                     var dim = new Vector2I(0, 0);
 
                     if (world != null)
