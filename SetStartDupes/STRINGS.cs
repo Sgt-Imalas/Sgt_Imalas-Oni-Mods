@@ -233,6 +233,10 @@ namespace SetStartDupes
                 public static LocString TRAIT = "{0}";
                 public static LocString TRAITBONUSPOINTS = "Interest Bonus:";
 
+                public static LocString TRAITBONUSPOOL = "Interest points to spend:";
+                public static LocString OTHERMODORIGINNAME = "Mysterious Origin (other mods)";
+                public static LocString TRAITBONUSPOOLTOOLTIP = "This Duplicant has {0} total interest bonus points\nThese come from the following trait boni:";
+
             }
             public class BUTTONS
             {
@@ -248,8 +252,6 @@ namespace SetStartDupes
 
                 public static LocString APPLYSKIN = "Apply this Personality";
 
-                public static LocString TRAITBONUSPOOL = "Interest points to spend:";
-                public static LocString TRAITBONUSPOOLTOOLTIP = "This Duplicant has {0} total interest bonus points\nThese come from the following traits:";
             }
         }
     }

@@ -112,6 +112,8 @@ namespace SetStartDupes
             return pointsPer;
         }
 
+        public static Dictionary<MinionStartingStats,int> OtherModBonusPoints = new Dictionary<MinionStartingStats,int>();
+
         public static int GetTraitBonus(MinionStartingStats stats)
         {
             int targetPoints = 0;
@@ -125,6 +127,11 @@ namespace SetStartDupes
                     targetPoints += active.statBonus;
                 }
             }
+            if (OtherModBonusPoints.ContainsKey(stats))
+            {
+                targetPoints += OtherModBonusPoints[stats];
+            }
+
             return targetPoints;
         }
 

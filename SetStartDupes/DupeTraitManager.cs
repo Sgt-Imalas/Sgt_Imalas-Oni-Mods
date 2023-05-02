@@ -36,6 +36,9 @@ namespace SetStartDupes
         public int SkillPointPool => skillPointPool;
         public int AdditionalSkillPoints => additionalSkillPoints;
 
+        public int ExternalModPoints => _externalModPoints;
+        int _externalModPoints = 0;
+
         public string PointPool => UIUtils.ColorNumber(skillPointPool);
 
         public enum NextType
@@ -55,18 +58,50 @@ namespace SetStartDupes
             {
                 SgtLogger.l("Redoing Reference");
                 ToEditMinionStats = referencedStats;
-                CalculateAdditionalSkillPoints();
+                RecalculateAll();
+
             }
+        }
+
+        public void RecalculateAll()
+        {
+            ExternalModBonusPointCalculation();
+            CalculateAdditionalSkillPoints();
         }
 
         public void CalculateAdditionalSkillPoints(int overridePoints = 0)
         {
-            if (overridePoints > 0)
-            {
-                additionalSkillPoints = overridePoints;
-                return;
-            }
+            //if (overridePoints > 0)
+            //{
+            //    additionalSkillPoints = overridePoints;
+            //    return;
+            //}
             additionalSkillPoints = ModAssets.GetTraitBonus(ToEditMinionStats);
+        }
+        public void ExternalModBonusPointCalculation()
+        {
+            _externalModPoints = 0;
+            int PointsPerInterest = ModAssets.MinimumPointsPerInterest(ToEditMinionStats);
+
+            List<string> Names = new List<string>();
+            foreach (var interest in ToEditMinionStats.skillAptitudes)
+            {
+                if (interest.Value > 0)
+                {
+                    foreach (var attr in interest.Key.relevantAttributes)
+                        Names.Add(attr.Id);
+                }
+            }
+
+            foreach (var startingLevel in ToEditMinionStats.StartingLevels)
+            {
+                if (Names.Contains(startingLevel.Key))
+                    _externalModPoints += Math.Max(0, (startingLevel.Value - PointsPerInterest));
+            }
+            _externalModPoints -= ModAssets.GetTraitBonus(ToEditMinionStats);
+
+            if (_externalModPoints != 0)
+                ModAssets.OtherModBonusPoints.Add(ToEditMinionStats, _externalModPoints);
         }
 
         public void DeltaPointPool(int delta)
@@ -74,8 +109,9 @@ namespace SetStartDupes
             skillPointPool += delta;
         }
         public void ResetPool()
-
-        { skillPointPool = 0; }
+        {
+            skillPointPool = 0;
+        }
 
         public void IncreaseInterest(SkillGroup interest)
         {
@@ -215,7 +251,7 @@ namespace SetStartDupes
 
         void RecalculateSkillPoints()
         {
-            int amountToShip = additionalSkillPoints;
+            int amountToShip = AdditionalSkillPoints;
 
             Dictionary<string, int> newVals = new Dictionary<string, int>();
 

@@ -71,20 +71,6 @@ msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.REROLLCAREPACKAGE"
 msgid "Reroll for a different Care Package"
 msgstr "Ein neues Hilfspaket würfeln"
 
-#. SetStartDupes.STRINGS.UI.BUTTONS.TRAITBONUSPOOL
-msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.TRAITBONUSPOOL"
-msgid "Interest points to spend:"
-msgstr "Verfügbare Interessenpunkte:"
-
-#. SetStartDupes.STRINGS.UI.BUTTONS.TRAITBONUSPOOLTOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.TRAITBONUSPOOLTOOLTIP"
-msgid ""
-"This Duplicant has {0} total interest bonus points\n"
-"These come from the following traits:"
-msgstr ""
-"Dieser Duplikant hat insgesamt {0} Interessenbonuspunkte\n"
-"Diese kommen von den folgenden Eigenschaften:"
-
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.NAME"
 msgid "Add/Remove Interests and Traits"
@@ -314,6 +300,11 @@ msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY"
 msgid "{0}, ({1} +{2})"
 msgstr "{0}, ({1} +{2})"
 
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.OTHERMODORIGINNAME
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.OTHERMODORIGINNAME"
+msgid "Mysterious Origin (other mods)"
+msgstr ""
+
 #. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT
 msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT"
 msgid "{0}"
@@ -323,6 +314,20 @@ msgstr "{0}"
 msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOINTS"
 msgid "Interest Bonus:"
 msgstr "Interessenbonus:"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOL
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOL"
+msgid "Interest points to spend:"
+msgstr "Verteilbare Interessenpunkte:"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOLTOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOLTOOLTIP"
+msgid ""
+"This Duplicant has {0} total interest bonus points\n"
+"These come from the following trait boni:"
+msgstr ""
+"Dieser Duplikant hat insgesamt {0} Interessenbonuspunkte\n"
+"Diese kommen von den folgenden Eigenschaftsboni:"
 
 #. SetStartDupes.STRINGS.UI.DUPESKILLSPOPUP.SCROLLAREA.CONTENT.NOSKILLSAVAILABLE.LABEL
 msgctxt ""

@@ -151,11 +151,11 @@ namespace SetStartDupes
             }
             if(!ModConfig.Instance.NoJoyReactions)
             {
-                referencedStats.stressTrait = traitRef.Get(this.stressTrait);
+                referencedStats.joyTrait = traitRef.Get(this.joyTrait);
             }
             if(!ModConfig.Instance.NoStressReactions)
             {
-                referencedStats.joyTrait = traitRef.Get(this.joyTrait);
+                referencedStats.stressTrait = traitRef.Get(this.stressTrait);
             }
             if (ModAssets.DupeTraitManagers.ContainsKey(referencedStats))
             {
@@ -169,6 +169,14 @@ namespace SetStartDupes
             {
                 SkillGroup targetGroup = AptitudeRef.TryGet(skillAptitude.Key);
                 referencedStats.skillAptitudes[targetGroup] = skillAptitude.Value;
+            }
+            if (ModAssets.OtherModBonusPoints.ContainsKey(referencedStats))
+            {
+                ModAssets.OtherModBonusPoints.Remove(referencedStats);
+            }
+            if (ModAssets.DupeTraitManagers.ContainsKey(referencedStats))
+            {
+                ModAssets.DupeTraitManagers[referencedStats].RecalculateAll();
             }
         }
 

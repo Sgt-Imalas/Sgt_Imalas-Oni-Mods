@@ -837,8 +837,8 @@ namespace SetStartDupes
                     UIUtils.AddSimpleTooltipToObject(Spacer2AndInterestHolder.transform, global::STRINGS.UI.CHARACTERCONTAINER_APTITUDES_TITLE_TOOLTIP, alignCenter: true, onBottom: true);
 
                     var InterestPointBonus = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
-                    UIUtils.TryChangeText(InterestPointBonus.transform, "", STRINGS.UI.BUTTONS.TRAITBONUSPOOL + " " + DupeTraitMng.PointPool);
-                    string InterestBonusTooltip = string.Format(STRINGS.UI.BUTTONS.TRAITBONUSPOOLTOOLTIP, DupeTraitMng.AdditionalSkillPoints);
+                    UIUtils.TryChangeText(InterestPointBonus.transform, "", STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOL + " " + DupeTraitMng.PointPool);
+                    string InterestBonusTooltip = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOLTOOLTIP, DupeTraitMng.AdditionalSkillPoints);
 
 
                     UIUtils.TryChangeText(Spacer2AndInterestHolder.transform, "", global::STRINGS.UI.CHARACTERCONTAINER_APTITUDES_TITLE); //
@@ -934,6 +934,9 @@ namespace SetStartDupes
                         }
                         );
                     }
+                    if(DupeTraitMng.ExternalModPoints!=0)
+                        InterestBonusTooltip += "\n" + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, STRINGS.UI.DUPESETTINGSSCREEN.OTHERMODORIGINNAME, UIUtils.ColorNumber(DupeTraitMng.ExternalModPoints));
+
                     UIUtils.AddSimpleTooltipToObject(InterestPointBonus.transform, InterestBonusTooltip, true, onBottom: true);
 
                     TraitsToSort = TraitsToSort.OrderBy(t => (int)t.second).ToList();
