@@ -75,7 +75,7 @@ namespace RoboRockets.Patches
             {
                 var tech = new Tech(ModAssets.Techs.AiBrainsTech, new List<string>
                 {
-                    AIControlModuleLearningConfig.ID,
+                    AIControlModuleLearningV2Config.ID,
                     BrainConfig.ID,
                 },
                 __instance, 

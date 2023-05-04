@@ -37,6 +37,7 @@ namespace RoboRockets.Patches
                     nameDisplay = RecipeNameDisplay.Result,
                     fabricators = new List<Tag> { SupermaterialRefineryConfig.ID }
                 };
+                BrainConfig.recipe.requiredTech = ModAssets.Techs.AiBrainsTech;
             }
         }
 

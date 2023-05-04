@@ -111,6 +111,15 @@
 	  <None Update="ModAssets\anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\anim\assets\rocket_habitat_ai_module_v2\rocket_habitat_ai_module_v2_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\rocket_habitat_ai_module_v2\rocket_habitat_ai_module_v2_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\rocket_habitat_ai_module_v2\rocket_habitat_ai_module_v2_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\templates\interiors\AIRocketV2.yaml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>

@@ -15,8 +15,12 @@ namespace RoboRockets.LearningBrain
 
         [MyCmpReq]
         private RocketModuleCluster module;
+        [MyCmpGet]
+        private KBatchedAnimController controller;
+
         private Clustercraft craft;
-        public MeterController brain_content { get; private set; }
+        //public MeterController brain_content { get; private set; }
+        public KAnimHashedString BrainSymbol = new KAnimHashedString("brain_insert");
         //[Serialize]
         //AxialI oldLocation;
 
@@ -24,9 +28,9 @@ namespace RoboRockets.LearningBrain
         {
             base.OnSpawn();
             this.craft = this.module.CraftInterface.GetComponent<Clustercraft>();
-            brain_content = new MeterController(GetComponent<KBatchedAnimController>(), "bowl_target", "brain_status", Meter.Offset.Infront, Grid.SceneLayer.NoLayer, Array.Empty<string>());
-            brain_content.gameObject.GetComponent<KBatchedAnimTracker>().matchParentOffset = true;
-
+            //brain_content = new MeterController(GetComponent<KBatchedAnimController>(), "bowl_target", "brain_status", Meter.Offset.Infront, Grid.SceneLayer.NoLayer, Array.Empty<string>());
+            //brain_content.gameObject.GetComponent<KBatchedAnimTracker>().matchParentOffset = true;
+            //GetComponent<KBatchedAnimController>().SetSymbolVisiblity
 
             craft.Subscribe((int)GameHashes.ClusterLocationChanged, new System.Action<object>(this.OnClusterLocationChanged));
 
@@ -38,7 +42,9 @@ namespace RoboRockets.LearningBrain
         private void OnStorageChange(object data) 
         {
             var loadedBrain = BrainStorage.FindFirst(ModAssets.Tags.SpaceBrain);
-            brain_content.SetPositionPercent(loadedBrain != null ? 1f : 0f);
+            controller.SetSymbolVisiblity(BrainSymbol, loadedBrain != null);
+
+            //brain_content.SetPositionPercent(loadedBrain != null ? 1f : 0f);
 
             if(loadedBrain != null) { 
                 if(loadedBrain.TryGetComponent<FlyingBrain>(out var flyer))
@@ -48,7 +54,7 @@ namespace RoboRockets.LearningBrain
             }
             else
             {
-               // this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.NoBrain, (object)null);
+                this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.NoBrain, (object)null);
             }
 
         }
@@ -75,9 +81,5 @@ namespace RoboRockets.LearningBrain
             base.OnCleanUp();
         }
 
-        public void Sim4000ms(float dt)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

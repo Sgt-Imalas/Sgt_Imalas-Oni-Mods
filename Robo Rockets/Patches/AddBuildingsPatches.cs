@@ -19,14 +19,14 @@ namespace RoboRockets.Patches
 
             public static void Prefix()
             {
-                RocketryUtils.AddRocketModuleToBuildList(AIControlModuleLearningConfig.ID, RocketryUtils.RocketCategory.habitats, "HabitatModuleMedium");
+                RocketryUtils.AddRocketModuleToBuildList(AIControlModuleLearningV2Config.ID, RocketryUtils.RocketCategory.habitats, "HabitatModuleMedium");
                 RocketryUtils.AddRocketModuleToBuildList(AINoseconeConfig.ID, new[] { RocketryUtils.RocketCategory.habitats, RocketryUtils.RocketCategory.nosecones }, "HabitatModuleMedium");
                 RocketryUtils.AddRocketModuleToBuildList(EarlyGameAIControlModuleConfig.ID, RocketryUtils.RocketCategory.habitats, "HabitatModuleMedium");
             }
         }
 
         [HarmonyPatch(typeof(Db))]
-        [HarmonyPatch("Initialize")]
+        [HarmonyPatch("Initialize")] 
         public class Db_Initialize_Patch
         {
             public static void Postfix()
