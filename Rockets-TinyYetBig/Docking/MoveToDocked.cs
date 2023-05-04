@@ -78,7 +78,7 @@ namespace Rockets_TinyYetBig.Docking
 
                     if (door.GetMyWorld().GetComponent<CraftModuleInterface>().GetPassengerModule().TryGetComponent<AssignmentGroupController>(out var controllerRM))
                     {
-                        SgtLogger.l("Removing DOOP");
+                        //SgtLogger.l("Removing DOOP");
                         if (Game.Instance.assignmentManager.assignment_groups[controllerRM.AssignmentGroupID].HasMember(minion))
                         {
                             Game.Instance.assignmentManager.assignment_groups[controllerRM.AssignmentGroupID].RemoveMember(minion);
@@ -89,7 +89,7 @@ namespace Rockets_TinyYetBig.Docking
 
                     if (connectedDoor.GetMyWorld().GetComponent<CraftModuleInterface>().GetPassengerModule().TryGetComponent<AssignmentGroupController>(out var controllerADD))
                     {
-                        SgtLogger.l("Adding DOOP");
+                        //SgtLogger.l("Adding DOOP");
                         if (!Game.Instance.assignmentManager.assignment_groups[controllerADD.AssignmentGroupID].HasMember(minion))
                         {
                             Game.Instance.assignmentManager.assignment_groups[controllerADD.AssignmentGroupID].AddMember(minion);

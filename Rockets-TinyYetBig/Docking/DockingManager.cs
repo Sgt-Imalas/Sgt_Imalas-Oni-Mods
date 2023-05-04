@@ -58,6 +58,15 @@ namespace Rockets_TinyYetBig.Behaviours
 #endif
         }
 
+        public bool AllUndocked()
+        {
+            foreach(DockingDoor door in DockingDoors.Keys)
+            {
+                if (door.IsConnected)
+                    return true;
+            }
+            return false;
+        }
 
         public Sprite GetDockingIcon()
         {
@@ -65,7 +74,7 @@ namespace Rockets_TinyYetBig.Behaviours
             switch (Type)
             {
                 case DockableType.Rocket:
-                    returnVal = Assets.GetSprite("rocket_landing");
+                    returnVal = Assets.GetSprite("rocket_landing"); ///change to habitat icon TODO
                     break;
                 case DockableType.SpaceStation:
                     returnVal = Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim((HashedString)"gravitas_space_poi_kanim"), "station_1", true);
@@ -80,16 +89,6 @@ namespace Rockets_TinyYetBig.Behaviours
             }
             return returnVal;
             
-        }
-
-        public void AssignDupeToWorld(MinionIdentity minion)
-        {
-           // if(clustercraft.ModuleInterface.)
-
-        }
-        public void UnassignDupeFromWorld(MinionIdentity minion)
-        {
-
         }
 
 

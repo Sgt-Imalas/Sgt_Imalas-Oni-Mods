@@ -18,10 +18,6 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
         {
             public static void Prefix(Worker worker, Edible __instance)
             {
-                foreach (var spice in __instance.spices)
-                {
-                    SgtLogger.debuglog(spice.ToString());
-                }
                 var rocketSpice = __instance.spices.Find((s) => s.Id == "PILOTING_SPICE");
                 if (!rocketSpice.Equals(default(SpiceInstance)))
                 {

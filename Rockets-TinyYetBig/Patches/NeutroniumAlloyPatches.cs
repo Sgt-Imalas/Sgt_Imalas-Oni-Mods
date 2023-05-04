@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UtilLibs;
 using static ComplexRecipe;
 
 namespace Rockets_TinyYetBig.Patches
@@ -39,7 +40,7 @@ namespace Rockets_TinyYetBig.Patches
                     description = STRINGS.ELEMENTS.UNOBTANIUMALLOY.RECIPE_DESCRIPTION,
                     nameDisplay = RecipeNameDisplay.Result,
                     fabricators = new List<Tag> { SupermaterialRefineryConfig.ID }
-                };
+                }.requiredTech = GameStrings.Technology.ColonyDevelopment.DurableLifeSupport;
             }
         }
     }

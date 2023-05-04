@@ -58,6 +58,9 @@ namespace Rockets_TinyYetBig.Behaviours
             }
             assignable.enabled = true;
         }
+
+        public bool IsConnected => GetConnec() != null;
+
         public DockingDoor GetConnec()
         {
             if(connected!=null)

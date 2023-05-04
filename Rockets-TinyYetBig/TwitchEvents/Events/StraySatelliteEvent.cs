@@ -22,7 +22,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
         public Func<object, bool> Condition =>
                 (data) =>
                 {
-                    return (GameClock.Instance.GetCycle() > 200 && Game.Instance.savedInfo.discoveredSurface) ;
+                    return (GameClock.Instance.GetCycle() > 200 && Game.Instance.savedInfo.discoveredSurface);
                 };
         public Action<object> EventAction => 
             (data) =>

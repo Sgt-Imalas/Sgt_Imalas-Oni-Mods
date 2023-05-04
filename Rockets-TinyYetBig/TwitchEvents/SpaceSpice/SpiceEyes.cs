@@ -92,7 +92,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
         {
             if (!value.IsValid)
             {
-                SgtLogger.debuglog("not valid value");
+                SgtLogger.debuglog("slot id is not valid value");
                 return;
             }
 
