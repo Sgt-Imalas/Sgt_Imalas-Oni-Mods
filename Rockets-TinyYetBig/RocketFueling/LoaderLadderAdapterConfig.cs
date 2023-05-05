@@ -39,8 +39,8 @@ namespace Rockets_TinyYetBig.RocketFueling
                 decor: BUILDINGS.DECOR.PENALTY.TIER0);
 
             //BuildingTemplates.CreateLadderDef(buildingDef);
-            buildingDef.SceneLayer = Grid.SceneLayer.BuildingFront;
-            buildingDef.ForegroundLayer = Grid.SceneLayer.TileMain;
+            buildingDef.SceneLayer = Grid.SceneLayer.Building;
+            //buildingDef.ForegroundLayer = Grid.SceneLayer.TileMain;
             //buildingDef.ForegroundLayer = Grid.SceneLayer.FXFront;
             //buildingDef.OverheatTemperature = 2273.15f;
             buildingDef.Floodable = false;
