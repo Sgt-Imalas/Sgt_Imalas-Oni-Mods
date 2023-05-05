@@ -35,5 +35,39 @@ namespace Rockets_TinyYetBig.Patches
                 }
             }
         }
+
+        [HarmonyPatch(typeof(RocketClusterDestinationSelector), nameof(RocketClusterDestinationSelector.OnClusterLocationChanged))]
+        public static class AutoDockToSpaceStation
+        {
+            public static bool Prefix(RocketClusterDestinationSelector __instance, object data)
+            {
+                if (__instance.TryGetComponent<DockingManager>(out var mng))
+                {
+                    ClusterLocationChangedEvent locationChangedEvent = (ClusterLocationChangedEvent)data;
+                    if (locationChangedEvent.newLocation != __instance.m_destination)
+                        return true;
+
+                    var AllDockerObjects = ClusterGrid.Instance.GetVisibleEntitiesAtCell(mng.clustercraft.Location).FindAll(e => e.TryGetComponent(out DockingManager manager));
+                    var AllDockers = AllDockerObjects
+                        .Select(e => e.GetComponent<DockingManager>())
+                        .Where(t_mng => t_mng.HasDoors() && t_mng.GetCraftType == DockableType.SpaceStation || t_mng.GetCraftType == DockableType.Derelict)                        
+                        .ToList();
+                    SgtLogger.l(AllDockers.Count +"", "dockers");
+                    if(AllDockers.Count()==0) 
+                        return true;
+
+                    SgtLogger.l(AllDockers.First().GetWorldId() + "", "firstworld");
+                    SgtLogger.l(mng.GetWorldId() + "", "ownWorld");
+                    mng.AddPendingDock(AllDockers.First().GetWorldId());
+
+                    if(!__instance.m_repeat)
+                        return false;
+
+
+                    return false;
+                }
+                return true;
+            }
+        }
     }
 }

@@ -25,11 +25,11 @@ namespace Rockets_TinyYetBig.Patches
                 if (__instance.TryGetComponent<KPrefabID>(out var def))
                 {
 
-                    SgtLogger.l(def.PrefabID().ToString());
+                   // SgtLogger.l(def.PrefabID().ToString());
                     ModAssets.GetCargoBayCapacity(def.PrefabID().ToString(), out targetCapacity);
 
-                    SgtLogger.l(targetCapacity.ToString(), def.PrefabID().ToString());
-                    SgtLogger.l(__instance.storage.capacityKg.ToString(), def.PrefabID().ToString());
+                    //SgtLogger.l(targetCapacity.ToString(), def.PrefabID().ToString());
+                    //SgtLogger.l(__instance.storage.capacityKg.ToString(), def.PrefabID().ToString());
 
                     if (targetCapacity == 0) return;
 

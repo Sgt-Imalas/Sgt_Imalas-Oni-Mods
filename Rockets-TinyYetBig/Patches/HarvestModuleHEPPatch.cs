@@ -59,7 +59,6 @@ namespace Rockets_TinyYetBig//.Patches
                 {
                     if ((bool)(UnityEngine.Object)clusterModule.Get().GetComponent<HighEnergyParticleStorage>())
                     {
-                        // SgtLogger.debuglog("HEP FOUND; SUBSCRIBING");
                         __instance.Subscribe(clusterModule.Get().gameObject, (int)GameHashes.OnParticleStorageChanged, OnHEPHandler(__instance));
                     }
                 }

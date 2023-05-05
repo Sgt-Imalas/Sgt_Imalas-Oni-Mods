@@ -73,7 +73,6 @@ namespace Rockets_TinyYetBig.Patches
         [HarmonyPatch(typeof(HarvestModuleSideScreen), "SetTarget")]
         public static class TargetSetterPatch
         {
-
             public static void Postfix(GameObject target)
             {
                 CorrectInfoScreenForSupportModules.Flush();
