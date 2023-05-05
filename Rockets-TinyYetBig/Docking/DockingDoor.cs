@@ -52,6 +52,7 @@ namespace Rockets_TinyYetBig.Behaviours
             // SgtLogger.debuglog("Door: " + d);
             this.Trigger((int)GameHashes.RocketLanded);
             d.Trigger((int)GameHashes.RocketLanded);
+            this.Trigger((int)GameHashes.ChainedNetworkChanged);
             connected = new Ref<DockingDoor>(d);
             Teleporter.SetTarget(d.Teleporter);
             if (!this.gameObject.IsNullOrDestroyed() && gameObject.TryGetComponent<KBatchedAnimController>(out var kanim))
@@ -85,7 +86,8 @@ namespace Rockets_TinyYetBig.Behaviours
             SgtLogger.debuglog(dManager.GetWorldId() + " disconneccted from " + connected.Get().dManager.GetWorldId());
 #endif
 
-            this.Trigger((int)GameHashes.RocketLaunched);   
+            this.Trigger((int)GameHashes.RocketLaunched);
+            this.Trigger((int)GameHashes.ChainedNetworkChanged); 
             connected = null;
             assignable.Unassign();
             assignable.canBeAssigned = false;

@@ -374,21 +374,29 @@ namespace Rockets_TinyYetBig.SpaceStations
         //    }
         //}
 
-        //[HarmonyPatch(typeof(RailGunPayload.StatesInstance))]
-        //[HarmonyPatch(nameof(RailGunPayload.StatesInstance.Launch))]
-        //public static class PatchRailgunPayloadLaunch
-        //{
-        //    public static bool Prefix(AxialI source, AxialI destination, RailGunPayload.StatesInstance __instance)
-        //    {
-        //        __instance.GetComponent<BallisticClusterGridEntity>().Configure(source, destination);
-        //        if (ClusterUtil.GetAsteroidWorldIdAtLocation(destination) != -1)
-        //            __instance.sm.destinationWorld.Set(ClusterUtil.GetAsteroidWorldIdAtLocation(destination), __instance);
-        //        else
-        //            __instance.sm.destinationWorld.Set(SpaceStationManager.GetSpaceStationWorldIdAtLocation(destination), __instance);
-        //        __instance.GoTo((StateMachine.BaseState)__instance.sm.takeoff);
-        //        return false;
-        //    }
-        //}
+        /// <summary>
+        /// Edge case situation
+        /// </summary>
+        [HarmonyPatch(typeof(RailGunPayload.StatesInstance))]
+        [HarmonyPatch(nameof(RailGunPayload.StatesInstance.UpdateLanding))]
+        public static class PatchRailgunPayload_InsideStation
+        {
+            public static void Postfix(RailGunPayload.StatesInstance __instance)
+            {
+                int worldID = __instance.gameObject.GetMyWorldId();
+                if (worldID != -1 && ClusterManager.Instance.GetWorld(worldID).TryGetComponent<SpaceStation>(out var component))
+                {
+                    Vector3 position = __instance.transform.GetPosition();
+                    position.y -= 1f;
+                    int cell = Grid.PosToCell(position);
+                    if (!Grid.IsValidCellInWorld(cell, worldID))
+                    {
+                        position.y += ClusterManager.Instance.GetWorld(worldID).Height;
+                        __instance.transform.position = position;
+                    }
+                }
+            }
+        }
 
         //[HarmonyPatch(typeof(RailGunPayload.StatesInstance))]
         //[HarmonyPatch(nameof(RailGunPayload.StatesInstance.Travel))]

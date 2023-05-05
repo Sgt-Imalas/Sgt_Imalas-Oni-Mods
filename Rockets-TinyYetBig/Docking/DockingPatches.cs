@@ -52,21 +52,35 @@ namespace Rockets_TinyYetBig.Patches
                         .Select(e => e.GetComponent<DockingManager>())
                         .Where(t_mng => t_mng.HasDoors() && t_mng.GetCraftType == DockableType.SpaceStation || t_mng.GetCraftType == DockableType.Derelict)                        
                         .ToList();
-                    SgtLogger.l(AllDockers.Count +"", "dockers");
+                    //SgtLogger.l(AllDockers.Count +"", "dockers");
                     if(AllDockers.Count()==0) 
                         return true;
 
-                    SgtLogger.l(AllDockers.First().GetWorldId() + "", "firstworld");
-                    SgtLogger.l(mng.GetWorldId() + "", "ownWorld");
-                    mng.AddPendingDock(AllDockers.First().GetWorldId());
+                    //SgtLogger.l(AllDockers.First().GetWorldId() + "", "firstworld");
+                    //SgtLogger.l(mng.GetWorldId() + "", "ownWorld");
+                    int targetWorldID = AllDockers.First().GetWorldId();
+                    mng.AddPendingDock(targetWorldID);
 
                     if(!__instance.m_repeat)
                         return false;
 
+                    SetupAwaitRocketLoading(__instance, mng, targetWorldID);
 
                     return false;
                 }
                 return true;
+            }
+            static void SetupAwaitRocketLoading(RocketClusterDestinationSelector selector, DockingManager manager, int targetWorld)
+            {
+                manager.OnFinishedLoading += new System.Action(() => 
+                {
+                    manager.UnDockFromTargetWorld(targetWorld, OnFinishedUndock: () => InitReturn(selector, manager));                   
+                });
+            }
+            static void InitReturn(RocketClusterDestinationSelector selector, DockingManager manager)
+            {
+                selector.SetUpReturnTrip();
+                manager.OnFinishedLoading = null;
             }
         }
     }

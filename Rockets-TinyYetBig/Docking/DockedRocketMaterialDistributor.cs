@@ -29,19 +29,20 @@ namespace Rockets_TinyYetBig
             this.serializable = StateMachine.SerializeType.ParamsOnly;
 
             this.inoperational
-                .EventTransition(GameHashes.OperationalChanged, (State)this.operational,  (smi => smi.GetComponent<Operational>().IsOperational));
+                .EventTransition(GameHashes.OperationalChanged, (State)this.operational, (smi => smi.GetComponent<Operational>().IsOperational));
 
             this.operational
                 .DefaultState(this.operational.noRocket)
-                .EventTransition(GameHashes.OperationalChanged, this.inoperational,  (smi => !smi.GetComponent<Operational>().IsOperational))
-                .EventHandler(GameHashes.ChainedNetworkChanged, ((smi, data) => this.SetAttachedRocket(smi.GetDockedRocket(), smi)));
+                .EventTransition(GameHashes.OperationalChanged, this.inoperational, (smi => !smi.GetComponent<Operational>().IsOperational))
+                .EventHandler(GameHashes.ChainedNetworkChanged, ((smi, data) => this.SetAttachedRocket(smi.GetDockedRocket(), smi)))
+                .EventHandler(GameHashes.RocketLanded, ((smi, data) => this.SetAttachedRocket(smi.GetDockedRocket(), smi)));
 
             this.operational
                 .noRocket
-                    .Enter((smi => this.SetAttachedRocket(smi.GetDockedRocket(), smi)))
+                    .Update(((smi, dt) => this.SetAttachedRocket(smi.GetDockedRocket(), smi)), UpdateRate.RENDER_1000ms)
                     .EventHandler(GameHashes.RocketLanded, (smi, data) => this.SetAttachedRocket(smi.GetDockedRocket(), smi))
                     //.EventHandler(GameHashes.RocketCreated, (smi, data) => this.SetAttachedRocket(smi.GetDockedRocket(), smi))
-                    .ParamTransition<GameObject>(this.attachedRocket, this.operational.hasRocket, ((smi, p) => (UnityEngine.Object)p != (UnityEngine.Object)null));
+                    .ParamTransition<GameObject>(this.attachedRocket, this.operational.hasRocket, ((smi, p) => p != null));
 
             //this.operational
             //    .rocketLanding
@@ -60,7 +61,8 @@ namespace Rockets_TinyYetBig
                     .OnTargetLost(this.attachedRocket, this.operational.rocketLost)
                     .Target(this.attachedRocket)
                     .Target(this.masterTarget)
-                    ;
+                    .Enter((smi) => smi.SetConnectedRocketStatusLoading(true))
+            ;
 
             this.operational
                 .hasRocket
@@ -73,41 +75,55 @@ namespace Rockets_TinyYetBig
                 .hasRocket
                     .transferring
                         .actual
-                        .ParamTransition<bool>( this.emptyComplete, this.operational.hasRocket.transferring.delay, ((smi, p) => this.emptyComplete.Get(smi) && this.fillComplete.Get(smi)))
-                        .ParamTransition<bool>( this.fillComplete, this.operational.hasRocket.transferring.delay, ((smi, p) => this.emptyComplete.Get(smi) && this.fillComplete.Get(smi)));
+                        .ParamTransition<bool>(this.emptyComplete, this.operational.hasRocket.transferring.delay, ((smi, p) => this.emptyComplete.Get(smi) && this.fillComplete.Get(smi)))
+                        .ParamTransition<bool>(this.fillComplete, this.operational.hasRocket.transferring.delay, ((smi, p) => this.emptyComplete.Get(smi) && this.fillComplete.Get(smi)));
 
             this.operational
                 .hasRocket
                     .transferring
                         .delay
-                        .ParamTransition<bool>( this.fillComplete, this.operational.hasRocket.transferring.actual, IsFalse)
-                        .ParamTransition<bool>( this.emptyComplete, this.operational.hasRocket.transferring.actual, IsFalse)
+                        .ParamTransition<bool>(this.fillComplete, this.operational.hasRocket.transferring.actual, IsFalse)
+                        .ParamTransition<bool>(this.emptyComplete, this.operational.hasRocket.transferring.actual, IsFalse)
                         .ScheduleGoTo(4f, this.operational.hasRocket.transferComplete);
 
-            this.operational.hasRocket.transferComplete
+            this.operational
+                .hasRocket
+                    .transferComplete
                 .ToggleStatusItem(Db.Get().BuildingStatusItems.RocketCargoFull)
                 .ToggleTag(GameTags.TransferringCargoComplete)
-                .ParamTransition<bool>( this.fillComplete, (State)this.operational.hasRocket.transferring, IsFalse)
-                .ParamTransition<bool>( this.emptyComplete, (State)this.operational.hasRocket.transferring, IsFalse);
+                .ParamTransition<bool>(this.fillComplete, (State)this.operational.hasRocket.transferring, IsFalse)
+                .ParamTransition<bool>(this.emptyComplete, (State)this.operational.hasRocket.transferring, IsFalse)
+                .Enter((smi) => 
+                { 
+                    smi.SetConnectedRocketStatusLoading(false);
+                    this.SetAttachedRocket(null, smi);
+                });
 
-            this.operational.rocketLost.Enter( (smi =>
-            {
-                this.emptyComplete.Set(false, smi);
-                this.fillComplete.Set(false, smi);
-                this.SetAttachedRocket(null, smi);
-            })).GoTo(this.operational.noRocket);
+            this.operational
+                .rocketLost
+                .Enter((smi =>
+                {
+                    this.emptyComplete.Set(false, smi);
+                    this.fillComplete.Set(false, smi);
+                    this.SetAttachedRocket(null, smi);
+                }))
+                .GoTo(this.operational.noRocket);
         }
 
         private void SetAttachedRocket(
           CraftModuleInterface attached,
           DockedRocketMaterialDistributor.Instance smi)
         {
+            if(attached == this.attachedRocket.Get(smi))
+                return;
+
             HashSetPool<ChainedBuilding.StatesInstance, ChainedBuilding.StatesInstance>.PooledHashSet chain = HashSetPool<ChainedBuilding.StatesInstance, ChainedBuilding.StatesInstance>.Allocate();
             smi.GetSMI<ChainedBuilding.StatesInstance>().GetLinkedBuildings(ref chain);
             foreach (StateMachine.Instance smi1 in (HashSet<ChainedBuilding.StatesInstance>)chain)
                 smi1.GetSMI<ModularConduitPortController.Instance>()?.SetRocket((UnityEngine.Object)attached != (UnityEngine.Object)null);
             this.attachedRocket.Set((KMonoBehaviour)attached, smi);
             chain.Recycle();
+
         }
 
         public class Def : StateMachine.BaseDef
@@ -131,8 +147,7 @@ namespace Rockets_TinyYetBig
         public class OperationalStates :
           State
         {
-            public State noRocket; 
-            //public State rocketLanding; 
+            public State noRocket;
             public State rocketLost;
             public HasRocketStates hasRocket;
         }
@@ -146,6 +161,15 @@ namespace Rockets_TinyYetBig
             }
 
             public CraftModuleInterface GetDockedRocket() => this.GetComponent<DockingDoor>().GetDockedCraftModuleInterface();
+
+            public void SetConnectedRocketStatusLoading(bool isLoadingOrUnloading)
+            {
+                var door = this.GetComponent<DockingDoor>();
+                if (door.IsConnected)
+                {
+                    door.GetConnec().dManager.SetCurrentlyLoadingStuff(isLoadingOrUnloading);
+                }
+            }
 
             public void EmptyRocket(float dt)
             {
