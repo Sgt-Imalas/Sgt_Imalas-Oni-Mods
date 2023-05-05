@@ -59,8 +59,6 @@ namespace RoboRockets.LearningBrain
 
         }
         public void OnClusterLocationChanged(object o)
-
-
         {
             var brain = BrainStorage.FindFirst(ModAssets.Tags.SpaceBrain);
             if(brain != null)

@@ -46,25 +46,24 @@ namespace RoboRockets.LearningBrain
             }
             else if (learnedSpeed < 1.25f)
             {
-                learnedSpeed += hexes / 125f;
+                learnedSpeed += hexes / 150f;
             }
             else if (learnedSpeed < 1.50f)
             {
-                learnedSpeed += hexes / 150f;
+                learnedSpeed += hexes / 200f;
             }
             else if (learnedSpeed < 1.75f)
             {
-                learnedSpeed += hexes / 175f;
+                learnedSpeed += hexes / 250f;
             }
             else if (learnedSpeed < 2f)
             {
-                learnedSpeed += hexes / 200f;
+                learnedSpeed += hexes / 300f;
             }
-            else
+            else if (learnedSpeed < 3f)
             {
                 learnedSpeed += hexes / 1000f;
             }
         }
-
     }
 }

@@ -206,7 +206,6 @@ namespace RoboRockets
                     SgtLogger.l("WorldID is forbidden to look into: " + id);
 #endif
                     AIPassengerModule Module = ModAssets.ForbiddenInteriorIDs[id];
-                    UtilMethods.ListAllComponents(Module.gameObject);
 
                     if (!Module.HasTag(GameTags.RocketOnGround))
                     {
