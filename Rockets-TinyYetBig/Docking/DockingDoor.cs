@@ -98,17 +98,6 @@ namespace Rockets_TinyYetBig.Behaviours
             DetailsScreen.Instance.Refresh(gameObject);
         }
 
-        private void UnDockOnFlight()
-        {
-            if (connected != null)
-            {
-#if DEBUG
-                SgtLogger.debuglog("Disconnecting due to flight");
-#endif
-                dManager.UnDockFromTargetWorld(connected.Get().dManager.GetWorldId());
-            }
-        }
-
         public CellOffset GetRotatedOffset()
         {
             var offset = porterOffset;

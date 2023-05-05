@@ -39,12 +39,6 @@ namespace Rockets_TinyYetBig.Behaviours
         public void SetManagerType(int overrideType = -1)
         {
             if (OwnWorldId != -1)
-            { 
-            
-            }
-
-            
-            if (OwnWorldId != -1)
             {
                 if (SpaceStationManager.WorldIsSpaceStationInterior(OwnWorldId))
                 {
@@ -86,30 +80,33 @@ namespace Rockets_TinyYetBig.Behaviours
                 {
                     PassengerRocketModule passengerOwn = undockingProcess.GetCraftModuleInterface().GetPassengerModule();
                     PassengerRocketModule passengerDock = undockingProcess.GetDockedCraftModuleInterface().GetPassengerModule();
+                    AssignmentGroupController assignmentGroupControllerOWN = null;
+                    AssignmentGroupController assignmentGroupControllerDOCKED = null;
 
-
-                    passengerOwn.TryGetComponent<AssignmentGroupController>(out var assignmentGroupControllerOWN);
-                    passengerDock.TryGetComponent<AssignmentGroupController>(out var assignmentGroupControllerDOCKED);
+                    if(passengerOwn != null)
+                        passengerOwn.TryGetComponent<AssignmentGroupController>(out assignmentGroupControllerOWN);
+                    if(passengerDock!= null)
+                        passengerDock.TryGetComponent<AssignmentGroupController>(out assignmentGroupControllerDOCKED);
 
 
                     if (assignmentGroupControllerOWN != null)
                     {
                         foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(undockingProcess.dManager.OwnWorldId))
                         {
-                            SgtLogger.l(minion.name, "minion");
+                            //SgtLogger.l(minion.name, "minion");
 
                             if (!Game.Instance.assignmentManager.assignment_groups[assignmentGroupControllerOWN.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
                             {
-                                SgtLogger.l(minion.name, "wrong here;");
+                                //SgtLogger.l(minion.name, "wrong here");
                                 WrongWorldDupesHERE.Add(minion);
                             }
                         }
                         foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(undockingProcess.GetConnec().dManager.OwnWorldId))
                         {
-                            SgtLogger.l(minion.name, "minion there");
+                            //SgtLogger.l(minion.name, "minion there");
                             if (Game.Instance.assignmentManager.assignment_groups[assignmentGroupControllerOWN.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
                             {
-                                SgtLogger.l(minion.name, "wrong there;");
+                                //SgtLogger.l(minion.name, "wrong there;");
                                 WrongWorldDupesTHERE.Add(minion);
                             }
                         }
@@ -118,20 +115,20 @@ namespace Rockets_TinyYetBig.Behaviours
                     {
                         foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(undockingProcess.dManager.OwnWorldId))
                         {
-                            SgtLogger.l(minion.name, "minion");
+                            //SgtLogger.l(minion.name, "minion 2");
 
-                            if (!Game.Instance.assignmentManager.assignment_groups[assignmentGroupControllerDOCKED.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
+                            if (Game.Instance.assignmentManager.assignment_groups[assignmentGroupControllerDOCKED.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
                             {
-                                SgtLogger.l(minion.name, "wrong here;");
+                                //SgtLogger.l(minion.name, "wrong here 2");
                                 WrongWorldDupesHERE.Add(minion);
                             }
                         }
                         foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(undockingProcess.GetConnec().dManager.OwnWorldId))
                         {
-                            SgtLogger.l(minion.name, "minion there");
-                            if (Game.Instance.assignmentManager.assignment_groups[assignmentGroupControllerDOCKED.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
+                            //SgtLogger.l(minion.name, "minion there 2");
+                            if (!Game.Instance.assignmentManager.assignment_groups[assignmentGroupControllerDOCKED.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
                             {
-                                SgtLogger.l(minion.name, "wrong there;");
+                                //SgtLogger.l(minion.name, "wrong there 2");
                                 WrongWorldDupesTHERE.Add(minion);
                             }
                         }
@@ -168,10 +165,8 @@ namespace Rockets_TinyYetBig.Behaviours
             switch (Type)
             {
                 case DockableType.Rocket:
-                    returnVal = Assets.GetSprite("rocket_landing"); ///change to habitat icon TODO
-                    break;
                 case DockableType.SpaceStation:
-                    returnVal = Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim((HashedString)"gravitas_space_poi_kanim"), "station_1", true);
+                    returnVal = clustercraft.GetUISprite();
                     break;
                 case DockableType.Derelict:
                     break;
@@ -299,7 +294,6 @@ namespace Rockets_TinyYetBig.Behaviours
                 DockToTargetWorld(targetWorld, door);
             else
                 UnDockFromTargetWorld(targetWorld);
-            //DetailsScreen.Instance.Refresh(gameObject); ///deletes all others
         }
 
         public void DockToTargetWorld(int targetWorldId, DockingDoor OwnDoor = null)
@@ -365,7 +359,6 @@ namespace Rockets_TinyYetBig.Behaviours
             door2.ConnecDoor(door1);
             door1.Teleporter.EnableTwoWayTarget(true);
             DetailsScreen.Instance.Refresh(door1.gameObject);
-            DetailsScreen.Instance.Refresh(door2.gameObject);
         }
 
 
@@ -413,7 +406,6 @@ namespace Rockets_TinyYetBig.Behaviours
             ClusterManager.Instance.GetWorld(OwnWorldId).SetParentIdx(OwnWorldId);
 
             DetailsScreen.Instance.Refresh(door.gameObject);
-            DetailsScreen.Instance.Refresh(door2.gameObject);
         }
 
         public void UnDockFromTargetWorld(int targetWorldId,bool cleanup=false)

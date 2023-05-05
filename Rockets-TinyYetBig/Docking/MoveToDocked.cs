@@ -58,6 +58,9 @@ namespace Rockets_TinyYetBig.Docking
             MoveChore.AddPrecondition(ChorePreconditions.instance.IsAssignedtoMe, (object)this.assignable);
             return MoveChore;
         }
+
+        public override Vector3 GetWorkOffset() => door.GetRotatedOffset().ToVector3();
+
         public override void OnStartWork(Worker worker) => base.OnStartWork(worker);
 
         public override bool OnWorkTick(Worker worker, float dt)
@@ -74,7 +77,10 @@ namespace Rockets_TinyYetBig.Docking
                 {
                     var minion = (IAssignableIdentity)worker.resume.identity.assignableProxy.Get();
 
-                    if (door.GetMyWorld().GetComponent<CraftModuleInterface>().GetPassengerModule().TryGetComponent<AssignmentGroupController>(out var controllerRM))
+                    var OwnPassengerModule = door.GetMyWorld().GetComponent<CraftModuleInterface>().GetPassengerModule();
+                    var ConnectedPassengerModule = connectedDoor.GetMyWorld().GetComponent<CraftModuleInterface>().GetPassengerModule();
+
+                    if (OwnPassengerModule != null && OwnPassengerModule.TryGetComponent<AssignmentGroupController>(out var controllerRM))
                     {
                         SgtLogger.l("Removing DOOP");
                         if (Game.Instance.assignmentManager.assignment_groups[controllerRM.AssignmentGroupID].HasMember(minion))
@@ -84,7 +90,7 @@ namespace Rockets_TinyYetBig.Docking
                         }
 
                     }
-                    if (connectedDoor.GetMyWorld().GetComponent<CraftModuleInterface>().GetPassengerModule().TryGetComponent<AssignmentGroupController>(out var controllerADD))
+                    if (ConnectedPassengerModule != null && ConnectedPassengerModule.TryGetComponent<AssignmentGroupController>(out var controllerADD))
                     {
                         SgtLogger.l("Adding DOOP");
                         if (!Game.Instance.assignmentManager.assignment_groups[controllerADD.AssignmentGroupID].HasMember(minion))
