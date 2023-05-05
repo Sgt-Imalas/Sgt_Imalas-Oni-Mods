@@ -59,7 +59,8 @@ namespace Rockets_TinyYetBig.Behaviours
                 kanim.Play("extending");
                 kanim.Queue("extended");
             }
-            assignable.enabled = true;
+            assignable.canBeAssigned = true;
+            DetailsScreen.Instance.Refresh(gameObject);
         }
 
         public bool IsConnected => GetConnec() != null;
@@ -84,15 +85,17 @@ namespace Rockets_TinyYetBig.Behaviours
             SgtLogger.debuglog(dManager.GetWorldId() + " disconneccted from " + connected.Get().dManager.GetWorldId());
 #endif
 
-            this.Trigger((int)GameHashes.RocketLaunched);
+            this.Trigger((int)GameHashes.RocketLaunched);   
             connected = null;
-            assignable.enabled = false;
+            assignable.Unassign();
+            assignable.canBeAssigned = false;
             Teleporter.SetTarget(null);
             if (gameObject.TryGetComponent<KBatchedAnimController>(out var kanim)&&!skipanim)
             {
                 kanim.Play("retracting");
                 kanim.Queue("retracted");
             }
+            DetailsScreen.Instance.Refresh(gameObject);
         }
 
         private void UnDockOnFlight()
@@ -138,12 +141,13 @@ namespace Rockets_TinyYetBig.Behaviours
             {
                 Teleporter.SetTarget(connected.Get().Teleporter);
                 startKanim = ("extended");
-                assignable.enabled = true;
+                assignable.canBeAssigned = true;
             }
             else
             {
                 startKanim = ("retracted");
-                assignable.enabled = false;
+                assignable.Unassign();
+                assignable.canBeAssigned = false;
             }
             if(gameObject.TryGetComponent<KBatchedAnimController>(out var kanim))
             {
@@ -182,7 +186,7 @@ namespace Rockets_TinyYetBig.Behaviours
         }
 
         public void SetButtonTextOverride(ButtonMenuTextOverride text) => throw new NotImplementedException();
-        public bool SidescreenButtonInteractable() => assignable.enabled;
+        public bool SidescreenButtonInteractable() => assignable.canBeAssigned;
 
         public bool SidescreenEnabled()
         {
