@@ -11,7 +11,7 @@ using static STRINGS.UI.UISIDESCREENS.AUTOPLUMBERSIDESCREEN.BUTTONS;
 
 namespace Rockets_TinyYetBig.Docking
 {
-    class MoveToDocked : Workable
+    public class MoveToDocked : Workable
     {
         [MyCmpReq]
         public Assignable assignable;
@@ -66,8 +66,6 @@ namespace Rockets_TinyYetBig.Docking
 
             if (connectedDoor != null)
             {
-
-
                 var nav = worker.GetComponent<Navigator>();
                 int targetCell = connectedDoor.GetPorterCell();
 
@@ -78,7 +76,7 @@ namespace Rockets_TinyYetBig.Docking
 
                     if (door.GetMyWorld().GetComponent<CraftModuleInterface>().GetPassengerModule().TryGetComponent<AssignmentGroupController>(out var controllerRM))
                     {
-                        //SgtLogger.l("Removing DOOP");
+                        SgtLogger.l("Removing DOOP");
                         if (Game.Instance.assignmentManager.assignment_groups[controllerRM.AssignmentGroupID].HasMember(minion))
                         {
                             Game.Instance.assignmentManager.assignment_groups[controllerRM.AssignmentGroupID].RemoveMember(minion);
@@ -86,18 +84,14 @@ namespace Rockets_TinyYetBig.Docking
                         }
 
                     }
-
                     if (connectedDoor.GetMyWorld().GetComponent<CraftModuleInterface>().GetPassengerModule().TryGetComponent<AssignmentGroupController>(out var controllerADD))
                     {
-                        //SgtLogger.l("Adding DOOP");
+                        SgtLogger.l("Adding DOOP");
                         if (!Game.Instance.assignmentManager.assignment_groups[controllerADD.AssignmentGroupID].HasMember(minion))
                         {
                             Game.Instance.assignmentManager.assignment_groups[controllerADD.AssignmentGroupID].AddMember(minion);
                         }
                     }
-
-
-
 
                     KMonoBehaviour.PlaySound(GlobalAssets.GetSound("HUD_Click"));
                     smi.MoveToLocation(targetCell);

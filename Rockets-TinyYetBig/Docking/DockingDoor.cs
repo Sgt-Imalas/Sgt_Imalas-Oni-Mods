@@ -1,4 +1,5 @@
 ﻿using KSerialization;
+using Rockets_TinyYetBig.Docking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,8 @@ namespace Rockets_TinyYetBig.Behaviours
 
         [MyCmpGet]
         public NavTeleporter Teleporter;
+        [MyCmpGet]
+        public MoveToDocked MoveTo; 
 
         [Serialize]
         Ref<DockingDoor> connected = null;

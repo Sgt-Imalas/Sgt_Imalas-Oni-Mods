@@ -181,9 +181,8 @@ namespace Rockets_TinyYetBig.Docking
         private void Refresh()
         {
             this.headerLabel.SetText("Docking Ports: " + targetManager.GetUiDoorInfo());
-            foreach (KeyValuePair<DockingManager, GameObject> broadcasterRow in this.DockingTargets)
+            foreach (KeyValuePair<DockingManager, GameObject> kvp in this.DockingTargets)
             {
-                KeyValuePair<DockingManager, GameObject> kvp = broadcasterRow;
                 kvp.Value.GetComponent<HierarchyReferences>().GetReference<LocText>("Label").SetText(kvp.Key.gameObject.GetProperName());
                 kvp.Value.GetComponent<HierarchyReferences>().GetReference<LocText>("DistanceLabel").SetText(kvp.Key.GetUiDoorInfo());
                 kvp.Value.GetComponent<HierarchyReferences>().GetReference<Image>("Icon").gameObject.SetActive(false);
@@ -206,7 +205,8 @@ namespace Rockets_TinyYetBig.Docking
                     }
                     this.Refresh();
                 });
-                kvp.Value.GetComponent<HierarchyReferences>().GetReference<MultiToggle>("Toggle").ChangeState(targetManager.IsDockedTo(kvp.Key.GetWorldId()) ? 1 : 0);
+                kvp.Value.GetComponent<HierarchyReferences>().GetReference<MultiToggle>("Toggle")
+                    .ChangeState(targetManager.IsDockedTo(kvp.Key.GetWorldId()) ? 1 : 0);
             }
         }
     }
