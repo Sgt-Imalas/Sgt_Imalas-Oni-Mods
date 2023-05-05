@@ -2,7 +2,7 @@
 
 	<!-- General Package Properties -->
 	<PropertyGroup>
-		<PackageId>_1LineCrasher</PackageId>
+		<PackageId>CycleComma</PackageId>
 		<Version>1.0.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022-2023 Sgt_Imalas</Copyright>
@@ -14,7 +14,7 @@
 		<TargetFramework>net471</TargetFramework>
 		<Configurations>Debug;Release2;Release</Configurations>
     <LangVersion>preview</LangVersion>
-		<AssemblyName>_1LineCrasher</AssemblyName>
+		<AssemblyName>CycleComma</AssemblyName>
 		<RootNamespace>_1LineCrasher</RootNamespace>
 		<IsMod>true</IsMod>
 		<GenerateMetadata>true</GenerateMetadata>
@@ -24,7 +24,7 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>_1LineCrasher</ModName>
+		<ModName>CycleComma</ModName>
 		<ModDescription></ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>535211</MinimumSupportedBuild>
