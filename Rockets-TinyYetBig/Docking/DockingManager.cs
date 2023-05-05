@@ -312,12 +312,12 @@ namespace Rockets_TinyYetBig.Behaviours
 
             if (target == null || target.DockingDoors.Count == 0 || this.DockingDoors.Count==0 || !target.CanDock())
             {
-                SgtLogger.debuglog("No doors found");
+                SgtLogger.warning("No doors found");
                 return;
             }
             if(IsDockedTo(targetWorldId))
             {
-                SgtLogger.debuglog("Already Docked");
+                SgtLogger.warning("Already Docked");
                 return;
             }
             ConnectTwo(this, target, OwnDoor);
