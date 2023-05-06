@@ -1,6 +1,7 @@
 ﻿using Database;
 using HarmonyLib;
 using Klei.AI;
+using PeterHan.PLib.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +41,66 @@ namespace SGTIM_NotificationManager
                 return false;
             }
         }
+
+        //[HarmonyPatch(typeof(StressMonitor.Instance))]
+        //[HarmonyPatch(nameof(StressMonitor.Instance.IsStressed))]
+        //public static class IsStressed
+        //{
+        //    public static bool Prefix(StressMonitor.Instance __instance, ref bool __result)
+        //    {
+        //        __result = __instance.GetCurrentState().GetType() == typeof(ExtendedStressMonitor.Stressed);
+        //        return false;
+        //    }
+        //}
+
+
+        //[HarmonyPatch(typeof(StressMonitor))]
+        //[HarmonyPatch(nameof(StressMonitor.InitializeStates))]
+        //public static class ExtendedStressMonitor
+        //{
+        //    public class Stressed : GameStateMachine<StressMonitor, StressMonitor.Instance, IStateMachineTarget, object>.State
+        //    {
+        //        public GameStateMachine<StressMonitor, StressMonitor.Instance, IStateMachineTarget, object>.State tier1 = new GameStateMachine<StressMonitor, StressMonitor.Instance, IStateMachineTarget, object>.State();
+        //        public GameStateMachine<StressMonitor, StressMonitor.Instance, IStateMachineTarget, object>.State tier2 = new GameStateMachine<StressMonitor, StressMonitor.Instance, IStateMachineTarget, object>.State();
+        //        public GameStateMachine<StressMonitor, StressMonitor.Instance, IStateMachineTarget, object>.State tier3 = new GameStateMachine<StressMonitor, StressMonitor.Instance, IStateMachineTarget, object>.State();
+        //    }
+        //    public static void Postfix(StressMonitor __instance)
+        //    {
+        //        //for(int i = __instance.states.Count- 1; i >= 0;i--)
+        //        //{
+        //        //    var state = __instance.states[i];
+        //        //    if (state.name.Contains("stressed"))
+        //        //    {
+        //        //        __instance.states.RemoveAt(i);
+        //        //    }
+        //        //}
+        //        Stressed stressed2 = new Stressed();
+
+
+        //        stressed2
+        //            .ToggleStatusItem(Db.Get().DuplicantStatusItems.Stressed)
+        //            .Transition(__instance.satisfied, (smi => (double)smi.stress.value < 60.0))
+        //            .ToggleReactable((smi => smi.CreateConcernReactable())).TriggerOnEnter(GameHashes.Stressed);
+
+        //        stressed2.tier1
+        //            //.Transition(__instance.satisfied, (smi => (double)smi.stress.value < 60.0))
+        //            .Transition(stressed2.tier2, (smi => (double)smi.stress.value >= 90.0));
+        //        stressed2.tier2
+        //            .Transition(stressed2.tier1, (smi => (double)smi.stress.value < 90.0))
+        //            .Transition(stressed2.tier3, (smi => smi.HasHadEnough()));
+        //        stressed2.tier3
+        //                .TriggerOnEnter(GameHashes.StressedHadEnough)
+        //                .Transition(stressed2.tier2, (smi => !smi.HasHadEnough()));
+
+        //        __instance.satisfied.transitions.Clear();
+        //        __instance.satisfied.Transition(stressed2.tier1, (smi => (double)smi.stress.value >= 60.0));
+
+        //        __instance.states.Add(stressed2);
+        //        __instance.stressed.GoTo(stressed2);
+        //    }
+        //}
+
+
 
         [HarmonyPatch(typeof(SuffocationMonitor.Instance))]
         [HarmonyPatch(nameof(SuffocationMonitor.Instance.IsSuffocating))]
