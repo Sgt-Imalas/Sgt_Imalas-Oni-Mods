@@ -71,7 +71,7 @@ namespace Rockets_TinyYetBig.Behaviours
             SgtLogger.l("IsNowLoading? " + IsLoading);
             isLoading = IsLoading;
 
-            if (!IsLoading)
+            if (!IsLoading&&OnFinishedLoading!=null)
                 OnFinishedLoading.Invoke();
         }
         bool isLoading=false;

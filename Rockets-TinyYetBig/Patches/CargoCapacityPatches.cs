@@ -14,6 +14,7 @@ namespace Rockets_TinyYetBig.Patches
     public class CargoCapacityPatches
     {
         [HarmonyPatch(typeof(CargoBayCluster), nameof(CargoBayCluster.OnSpawn))]
+        [HarmonyPriority(Priority.LowerThanNormal)]
         public static class CargoBayRebalance
         {
             public static void Postfix(CargoBayCluster __instance)
@@ -33,11 +34,13 @@ namespace Rockets_TinyYetBig.Patches
 
                     if (targetCapacity == 0) return;
 
-
+                    SgtLogger.l(__instance.storage.capacityKg + " old -> new " + targetCapacity);
                     if (__instance.storage.capacityKg != targetCapacity)
                     {
+                        if (__instance.userMaxCapacity == __instance.storage.capacityKg)
+                            __instance.userMaxCapacity = targetCapacity;
+
                         __instance.storage.capacityKg = targetCapacity;
-                        __instance.userMaxCapacity = targetCapacity;
                     }
 
                     if (!Config.Instance.RebalancedCargoCapacity)

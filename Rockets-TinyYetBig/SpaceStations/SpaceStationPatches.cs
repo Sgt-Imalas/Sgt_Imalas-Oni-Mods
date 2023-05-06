@@ -281,10 +281,20 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         [HarmonyPatch(typeof(ClusterMapScreen))]
         [HarmonyPatch(nameof(ClusterMapScreen.GetSelectorGridEntity))]
-        public static class FixInteriorRailguns
+        public static class FixInteriorRailgunsAndSensor
         {
             public static bool Prefix( ClusterDestinationSelector selector, ref ClusterGridEntity __result)
             {
+                if (selector.TryGetComponent<LogicClusterLocationSensor>(out var logicSensor))
+                {
+                    var world = logicSensor.GetMyWorld();
+                    if(world != null && world.TryGetComponent<ClusterGridEntity>(out var clusterGridEntity))
+                    {
+                        __result = clusterGridEntity;
+                        return false;
+                    }
+                }
+
                 ClusterGridEntity component = selector.GetComponent<ClusterGridEntity>();
                 if ((UnityEngine.Object)component != (UnityEngine.Object)null && ClusterGrid.Instance.IsVisible(component))
                     return component;
