@@ -39,6 +39,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
             buildingDef.attachablePosition = new CellOffset(0, 0);
             buildingDef.CanMove = true;
             buildingDef.Cancellable = false;
+            buildingDef.EnergyConsumptionWhenActive = 120f;
             return buildingDef;
         }
 
@@ -46,7 +47,6 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
         {
             BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
             go.AddOrGet<LoopingSounds>();
-            go.AddOrGet<RTB_PowerConsumerModule>();
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
             {
@@ -56,6 +56,9 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 
         public override void DoPostConfigureComplete(GameObject go)
         {
+            go.AddOrGet<BuildingCellVisualizer>();
+            go.AddOrGet<Operational>();
+            go.AddOrGet<RTB_PowerConsumerModule>();
             go = BuildingTemplates.ExtendBuildingToClusterCargoBay(go, this.CAPACITY, STORAGEFILTERS.FOOD, CargoBay.CargoType.Solids);
             go.TryGetComponent<Storage>(out var freezerStorage);
             go.AddOrGet<FoodStorage>();
