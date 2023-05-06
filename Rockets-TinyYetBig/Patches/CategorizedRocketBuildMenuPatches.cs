@@ -114,6 +114,7 @@ namespace Rockets_TinyYetBig
 #endif
                 }
             }
+            
             private static void ClearButtons(SelectModuleSideScreen _this)
             {
                 foreach (var button in ModAssets.CategorizedButtons)

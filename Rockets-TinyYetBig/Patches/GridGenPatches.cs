@@ -25,5 +25,35 @@ namespace Rockets_TinyYetBig.Patches
                 }
             }
         }
+        //[HarmonyPatch(typeof(Cluster))]
+        //[HarmonyPatch(nameof(Cluster.Save))]
+        //public static class IncreaseFreeGridSpaceOnSaving
+        //{
+        //    public static void Postfix()
+        //    {
+        //        if (DlcManager.FeatureClusterSpaceEnabled())
+        //        {
+        //            BestFit.GetGridOffset(ClusterManager.Instance.WorldContainers, size, out offset);
+        //        }
+        //    }
+        //}
+
+        /// <summary>
+        /// fixes a crash that can happen here
+        /// </summary>
+        [HarmonyPatch(typeof(ClusterMapMeteorShower.Def))]
+        [HarmonyPatch(nameof(ClusterMapMeteorShower.Def.GetDescriptors))]
+        public static class IncreaseFreeGridSpaceOnSaving
+        {
+            public static bool Prefix(ClusterMapMeteorShower.Def __instance, ref List<Descriptor> __result)
+            {
+                if(__instance.eventID==string.Empty|| __instance.eventID == null) 
+                {
+                    __result = new List<Descriptor>();
+                    return false;
+                }
+                return true;
+            }
+        }
     }
 }

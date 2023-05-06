@@ -109,7 +109,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                 return spaceStationInteriorWorld;
 
             }
-            Debug.LogError((object)"Failed to create space station interior.");
+            SgtLogger.error("Failed to create space station interior, no more grid space left");
             return (WorldContainer)null;
         }
 

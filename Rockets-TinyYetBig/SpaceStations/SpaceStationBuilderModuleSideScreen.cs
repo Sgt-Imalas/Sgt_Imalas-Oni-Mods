@@ -20,6 +20,8 @@ namespace Rockets_TinyYetBig.SpaceStations
         [SerializeField]
         private RectTransform buttonContainer;
 
+        MaterialSelectionPanel materialSelectionPanel = null;
+
         private GameObject stateButtonPrefab;
         private GameObject PlaceStationButton;
         private GameObject flipButton;
@@ -46,11 +48,19 @@ namespace Rockets_TinyYetBig.SpaceStations
             //flipButton.SetActive(false);
             //PlaceStationButton.SetActive(false);
             UIUtils.TryChangeText(PlaceStationButton.transform, "Label", "MakeOrBreakSpaceStation");
-            RefreshButtons();
             UIUtils.AddActionToButton(PlaceStationButton.transform, "", () => { targetBuilder.ConstructButtonPressed(); RefreshButtons(); });
             UIUtils.AddActionToButton(flipButton.transform, "", () => { targetBuilder.DemolishButtonPressed(); RefreshButtons(); });
             Game.Instance.Subscribe((int)GameHashes.ResearchComplete, RefreshAll); 
-            Game.Instance.Subscribe((int)GameHashes.ToggleSandbox, RefreshAll); 
+            Game.Instance.Subscribe((int)GameHashes.ToggleSandbox, RefreshAll);
+            RefreshButtons();
+        }
+        bool IsDefBuildable(BuildingDef def)
+        {
+            return true;
+        }
+        private string GetErrorTooltips(BuildingDef def)
+        {
+            return "ble";
         }
 
         public override void OnPrefabInit()
@@ -216,6 +226,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                     UIUtils.RemoveSimpleTooltipOnObject(PlaceStationButton.transform);
                 }
             }
+
         }
 
         //void RefreshButtons()

@@ -327,5 +327,16 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
             return true;
         }
+
+        public Recipe GetCurrentCraftRecipe()
+        {
+            var station = ModAssets.SpaceStationTypes[CurrentSpaceStationTypeInt];
+            var recipe = new Recipe(station.ID, nameOverride: station.Name);
+            foreach(var ing in station.materials)
+            {
+                recipe.Ingredients.Add(new Recipe.Ingredient(ing.Key, ing.Value));
+            }
+            return recipe;// ModAssets.SpaceStationTypes[CurrentSpaceStationTypeInt]
+        }
     }
 }
