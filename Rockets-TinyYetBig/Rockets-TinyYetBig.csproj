@@ -500,6 +500,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="SpaceStations\Construction\ModuleBuildings\" />
+	  <Folder Include="SpaceStations\Construction\ModuleItems\" />
 	  <Folder Include="TwitchEvents\TwitchEventAddons\" />
 	</ItemGroup>
 </Project>
