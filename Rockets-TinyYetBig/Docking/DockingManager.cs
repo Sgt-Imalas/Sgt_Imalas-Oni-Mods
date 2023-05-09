@@ -231,11 +231,16 @@ namespace Rockets_TinyYetBig.Behaviours
 
         public string GetUiDoorInfo()
         {
-            StringBuilder sb = new StringBuilder();
+            if (PendingUndocks.Count > 0)
+                return STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.UNDOCKINGPENDING;
+            else if (PendingDocks.Count > 0)
+                return STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.DOCKINGPENDING;
+
             int count = AvailableConnections();
-            sb.Append(count);
-            sb.Append(count!=1?" available connections":" available connection"); //TODO
-            return sb.ToString();
+            if (count == 1)
+                return STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.ONECONNECTION;
+            else
+                return string.Format(STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.MORECONNECTIONS, count);
         }
         public int AvailableConnections()
         {
@@ -295,24 +300,15 @@ namespace Rockets_TinyYetBig.Behaviours
         {
             return DockingDoors.ContainsValue(WorldID);
         }
-        public void HandleUiDocking(int prevDockingState,int targetWorld)
-        {
-            SgtLogger.debuglog(prevDockingState == 0 ? "Trying to dock " + MyWorldId + " to " + targetWorld : "Trying To Undock  " + MyWorldId + "  from " + targetWorld);
 
-            if (prevDockingState == 0)
-                DockToTargetWorld(targetWorld);
-            else
-                UnDockFromTargetWorld(targetWorld);
-        }
-
-        public void HandleUiDockingByDoor(int prevDockingState, int targetWorld, DockingDoor door)
+        public void HandleUiDocking(int prevDockingState, int targetWorld, DockingDoor door = null, System.Action onFinished = null)
         {
-            SgtLogger.debuglog(prevDockingState == 0 ? "Trying to dock " + MyWorldId + " with dedicated door to " + targetWorld : "Trying To Undock " + MyWorldId + " from " + targetWorld);
+            //SgtLogger.debuglog(prevDockingState == 0 ? "Trying to dock " + MyWorldId + " with dedicated door to " + targetWorld : "Trying To Undock " + MyWorldId + " from " + targetWorld);
 
             if (prevDockingState == 0)
                 DockToTargetWorld(targetWorld, door);
             else
-                UnDockFromTargetWorld(targetWorld);
+                UnDockFromTargetWorld(targetWorld,OnFinishedUndock: onFinished);
         }
 
         public void DockToTargetWorld(int targetWorldId, DockingDoor OwnDoor = null)

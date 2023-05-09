@@ -180,32 +180,26 @@ namespace Rockets_TinyYetBig.Docking
 
         private void Refresh()
         {
-            this.headerLabel.SetText("Docking Ports: " + targetManager.GetUiDoorInfo());
+            this.headerLabel.SetText(string.Format(STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.MORECONNECTIONS, targetManager.GetUiDoorInfo()));
             foreach (KeyValuePair<DockingManager, GameObject> kvp in this.DockingTargets)
             {
-                kvp.Value.GetComponent<HierarchyReferences>().GetReference<LocText>("Label").SetText(kvp.Key.gameObject.GetProperName());
-                kvp.Value.GetComponent<HierarchyReferences>().GetReference<LocText>("DistanceLabel").SetText(kvp.Key.GetUiDoorInfo());
-                kvp.Value.GetComponent<HierarchyReferences>().GetReference<Image>("Icon").gameObject.SetActive(false);
-                //kvp.Value.GetComponent<HierarchyReferences>().GetReference<Image>("Icon").sprite = Def.GetUISprite((object)kvp.Key.gameObject).first;
-                //kvp.Value.GetComponent<HierarchyReferences>().GetReference<Image>("Icon").color = Def.GetUISprite((object)kvp.Key.gameObject).second;
+                kvp.Value.TryGetComponent<HierarchyReferences>(out var hr);
+                hr.GetReference<LocText>("Label").SetText(kvp.Key.gameObject.GetProperName());
+                hr.GetReference<LocText>("DistanceLabel").SetText(kvp.Key.GetUiDoorInfo());
+                hr.GetReference<Image>("Icon").gameObject.SetActive(false);
+                //hr.GetReference<Image>("Icon").sprite = Def.GetUISprite((object)kvp.Key.gameObject).first;
+                //hr.GetReference<Image>("Icon").color = Def.GetUISprite((object)kvp.Key.gameObject).second;
                 WorldContainer myWorld = kvp.Key.GetMyWorld();
-                kvp.Value.GetComponent<HierarchyReferences>().GetReference<Image>("WorldIcon").sprite = kvp.Key.GetDockingIcon();
-                //kvp.Value.GetComponent<HierarchyReferences>().GetReference<Image>("WorldIcon").color = Color.black ;
-                var toggle = kvp.Value.GetComponent<HierarchyReferences>().GetReference<MultiToggle>("Toggle");
+                hr.GetReference<Image>("WorldIcon").sprite = kvp.Key.GetDockingIcon();
+                //hr.GetReference<Image>("WorldIcon").color = Color.black ;
+                var toggle = hr.GetReference<MultiToggle>("Toggle");
                 
-                toggle.onClick = (System.Action)(() =>
+                toggle.onClick = (() =>
                 {
-                    if (targetDoor != null)
-                    {
-                        targetManager.HandleUiDockingByDoor(toggle.CurrentState, kvp.Key.GetWorldId(), targetDoor);
-                    }
-                    else
-                    {
-                        targetManager.HandleUiDocking(toggle.CurrentState, kvp.Key.GetWorldId());
-                    }
+                    targetManager.HandleUiDocking(toggle.CurrentState, kvp.Key.GetWorldId(), targetDoor, ()=> this.Refresh());                    
                     this.Refresh();
                 });
-                kvp.Value.GetComponent<HierarchyReferences>().GetReference<MultiToggle>("Toggle")
+                hr.GetReference<MultiToggle>("Toggle")
                     .ChangeState(targetManager.IsDockedTo(kvp.Key.GetWorldId()) ? 1 : 0);
             }
         }

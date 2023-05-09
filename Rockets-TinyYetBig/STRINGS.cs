@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS;
 using static STRINGS.BUILDINGS.PREFABS;
+using static STRINGS.MISC.NOTIFICATIONS;
 using static STRINGS.UI;
 
 namespace Rockets_TinyYetBig
@@ -446,12 +447,17 @@ namespace Rockets_TinyYetBig
                 {
                     public static LocString TITLE = (LocString)"Docking Management";
 
+                    public static LocString DOCKINGINFO = "Docking Ports: {0}";
+                    public static LocString UNDOCKINGPENDING = "Undocking pending";
+                    public static LocString DOCKINGPENDING = "Docking pending";
+                    public static LocString ONECONNECTION = "1 available connection";
+                    public static LocString MORECONNECTIONS = "{0} available connections";
+                    
+
+                    public static LocString BUTTON = (LocString)"View connected Target";
+                    public static LocString BUTTONINFO = (LocString)"View the interior this docking tube is currently connected to.";
+
                 }
-            }
-            public class DOCKINGUI
-            {
-                public static LocString BUTTON = (LocString)"View connected Target";
-                public static LocString BUTTONINFO = (LocString)"View the interior this docking tube is currently connected to.";
             }
             public class FLUSHURANIUM
             {
