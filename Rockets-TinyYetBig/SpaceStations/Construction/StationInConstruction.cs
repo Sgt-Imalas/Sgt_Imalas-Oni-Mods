@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Rockets_TinyYetBig.SpaceStations.Construction
 {
-    internal class StationInConstruction
+    public class StationInConstruction : KMonoBehaviour
     {
+
     }
 }

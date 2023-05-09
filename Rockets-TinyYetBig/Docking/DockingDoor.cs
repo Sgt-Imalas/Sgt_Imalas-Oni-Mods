@@ -160,9 +160,9 @@ namespace Rockets_TinyYetBig.Behaviours
 
         #region Sidescreen
 
-        public string SidescreenButtonText => STRINGS.UI_MOD.DOCKINGUI.BUTTON;
+        public string SidescreenButtonText => STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.BUTTON;
 
-        public string SidescreenButtonTooltip => STRINGS.UI_MOD.DOCKINGUI.BUTTONINFO;
+        public string SidescreenButtonTooltip => STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.BUTTONINFO;
 
         public int ButtonSideScreenSortOrder()
         {
