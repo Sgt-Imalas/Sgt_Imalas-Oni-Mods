@@ -1,4 +1,5 @@
 ﻿using Database;
+using FMOD;
 using HarmonyLib;
 using Klei.AI;
 using Klei.CustomSettings;
@@ -139,7 +140,6 @@ namespace ClusterTraitGenerationManager
         public const int ringMax = 25, ringMin = 6;
         public class CustomClusterData
         {
-
             int GetAdjustedOuterExpansion()
             {
                 int planetDiff = (CustomCluster.OuterPlanets.Count - CustomCluster.defaultOuterPlanets);
@@ -326,10 +326,10 @@ namespace ClusterTraitGenerationManager
 
         public enum WorldSizePresets
         {
-            Tiny = 25,
-            Smaller = 40,
-            Small = 55,
-            SlightlySmaller = 75,
+           // Tiny = 25,
+           // Smaller = 40,
+           // Small = 55,
+            //SlightlySmaller = 75,
 
             Custom = -1,
             Normal = 100,
@@ -356,6 +356,7 @@ namespace ClusterTraitGenerationManager
         {
             public string id;
             public StarmapItemCategory category;
+            public bool DisablesStoryTraits = false;
 
             public Sprite planetSprite;
             public ProcGen.World world;
@@ -437,7 +438,6 @@ namespace ClusterTraitGenerationManager
             }
             public Vector2I CustomPlanetDimensions
             {
-
                 get
                 {
                     if (UsingCustomDimensions)
@@ -982,6 +982,11 @@ namespace ClusterTraitGenerationManager
 
             if (CustomCluster.StarterPlanet != null)
             {
+                ///Disabling Story Traits if MiniBase worlds are active
+                if (CustomCluster.StarterPlanet.DisablesStoryTraits)
+                    layout.disableStoryTraits = true;
+
+
                 if (CustomCluster.StarterPlanet.id.Contains(RandomKey))
                 {
                     var randomItem = GetRandomItemOfType(StarmapItemCategory.Starter);
@@ -1004,9 +1009,15 @@ namespace ClusterTraitGenerationManager
                 }
 
             }
+            else
+                SgtLogger.warning("No start planet selected");
 
             if (CustomCluster.WarpPlanet != null)
             {
+                ///Disabling Story Traits if MiniBase worlds are active
+                if (CustomCluster.WarpPlanet.DisablesStoryTraits)
+                    layout.disableStoryTraits = true;
+
                 if (CustomCluster.StarterPlanet.placement.allowedRings.max == 0
                     && CustomCluster.WarpPlanet.placement.allowedRings.max < CustomCluster.StarterPlanet.placement.buffer)
                 {
@@ -1030,13 +1041,22 @@ namespace ClusterTraitGenerationManager
                     SgtLogger.l(CustomCluster.WarpPlanet.id, "Warp Planet");
                 }
             }
+            else
+                SgtLogger.log("No warp planet selected");
             ///STRINGS.NAMEGEN.WORLD.ROOTS
 
             RandomOuterPlanets.Clear();
             List<StarmapItem> OuterPlanets = CustomCluster.OuterPlanets.Values.ToList();
-            OuterPlanets = OuterPlanets.OrderBy(item => item.placement.allowedRings.max).ThenBy(item => item.placement.allowedRings.min).ToList();
-            foreach (var world in OuterPlanets)
+            if(OuterPlanets.Count > 0)
             {
+                SgtLogger.l(OuterPlanets.Count + " outer planets selected");
+                OuterPlanets = OuterPlanets.OrderBy(item => item.placement.allowedRings.max).ThenBy(item => item.placement.allowedRings.min).ToList();
+                foreach (var world in OuterPlanets)
+            {
+                ///Disabling Story Traits if MiniBase worlds are active
+                if (world.DisablesStoryTraits)
+                    layout.disableStoryTraits = true;
+
                 if (world.id.Contains(RandomKey))
                 {
                     SgtLogger.l(world.InstancesToSpawn.ToString(), "Random Planets to select");
@@ -1069,10 +1089,12 @@ namespace ClusterTraitGenerationManager
                 }
             }
 
+            }
 
             //layout.worldPlacements = layout.worldPlacements.OrderBy(item => item.allowedRings.max).ThenBy(item => item.allowedRings.min).ToList();
             //layout.startWorldIndex = layout.worldPlacements.FindIndex(placement => placement.startWorld == true);
 
+            SgtLogger.l("Planet Placements done");
             layout.poiPlacements = new List<SpaceMapPOIPlacement>();
 
             foreach (var poi in CustomCluster.POIs)
@@ -1130,6 +1152,7 @@ namespace ClusterTraitGenerationManager
                 }
             }
 
+            SgtLogger.l("POI Placements done");
             layout.numRings = CustomCluster.Rings + 1;
             //layout.difficulty = Reference.difficulty;
             //layout.requiredDlcId = Reference.requiredDlcId;
@@ -1319,6 +1342,12 @@ namespace ClusterTraitGenerationManager
 
             if (PredefinedPlacementData.ContainsKey(ToAdd.id))
                 ToAdd.AddItemWorldPlacement(PredefinedPlacementData[ToAdd.id]);
+            else
+            {
+                var item = new WorldPlacement();
+                item.world = ToAdd.id;
+                ToAdd.AddItemWorldPlacement(item);
+            }
 
             return ToAdd;
         }
@@ -1371,8 +1400,6 @@ namespace ClusterTraitGenerationManager
 
         static Dictionary<string, WorldPlacement> PredefinedPlacementData = null;
 
-        ///Requires different handling
-        static Dictionary<string, SpaceMapPOIPlacement> PredefinedPlacementDataPOI = null;
         public static List<string> GetActivePlanetsCluster()
         {
             var planetPaths = new List<string>();
@@ -1408,6 +1435,21 @@ namespace ClusterTraitGenerationManager
                 {
                     continue;
                 }
+
+                if(ClusterLayout.Value.disableStoryTraits)
+                {
+                    foreach(var planet in ClusterLayout.Value.worldPlacements)
+                    {
+                        if (PlanetsAndPOIs.ContainsKey(planet.world))
+                        {
+                            SgtLogger.l(planet.world + " will disable story traits");
+                            PlanetsAndPOIs[planet.world].DisablesStoryTraits = true;
+                        }
+                        else
+                            SgtLogger.warning("Tried to add disabling story traits to a planet that does not exist: " + planet.world);
+                    }
+                }
+
 
                 foreach (var planetPlacement in ClusterLayout.Value.worldPlacements)
                 {
@@ -1632,6 +1674,8 @@ namespace ClusterTraitGenerationManager
                         || KeyUpper.Contains("ISLANDS") && !KeyUpper.Contains("DLC")
                         || KeyUpper.Contains("FULERIA") && !KeyUpper.Contains("DLC");
 
+                   
+
 
                     if (!WorldFromCache.Key.Contains("worlds/SandstoneDefault") && !SkipModdedWorld)
                     {
@@ -1666,6 +1710,12 @@ namespace ClusterTraitGenerationManager
                         category,
                         sprite
                         ).MakeItemPlanet(world));
+
+                        if (KeyUpper.Contains("BABY"))
+                        {
+                            SgtLogger.l(WorldFromCache.Key + " will disable story traits due to Baby size");
+                            PlanetsAndPOIs[WorldFromCache.Key].DisablesStoryTraits = true;
+                        }
                     }
 
                 }

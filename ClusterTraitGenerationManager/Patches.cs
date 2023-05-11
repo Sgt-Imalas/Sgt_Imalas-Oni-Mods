@@ -53,6 +53,8 @@ namespace ClusterTraitGenerationManager
         {
             public static void Prefix(ColonyDestinationSelectScreen __instance)
             {
+                OverrideWorldSizeOnDataGetting.ResetCustomSizes();
+
                 if (SettingsCache.clusterLayouts.clusterCache.ContainsKey(CustomClusterID)) { SettingsCache.clusterLayouts.clusterCache.Remove(CustomClusterID); }
                 CGSMClusterManager.selectScreen = __instance;
             }
@@ -275,6 +277,7 @@ namespace ClusterTraitGenerationManager
                     string planetName = e.Message.Replace("Could not find a spot in the cluster for ", string.Empty).Split()[0];
                     SgtLogger.l(planetName);
                     var planetData = SettingsCache.worlds.GetWorldData(planetName);
+                    OverrideWorldSizeOnDataGetting.ResetCustomSizes();
                     if (planetData != null)
                     {
                         if (Strings.TryGet(planetData.name, out var name))
@@ -290,7 +293,7 @@ namespace ClusterTraitGenerationManager
                 {
                     errorMessage = e.Message;
                 }
-
+                OverrideWorldSizeOnDataGetting.ResetCustomSizes();
             }
         }
        
@@ -349,56 +352,56 @@ namespace ClusterTraitGenerationManager
             }
         }
 
-        [HarmonyPatch(typeof(WorldGenSettings))]
-        [HarmonyPatch(nameof(WorldGenSettings.GetFloatSetting))]
-        public static class WorldGenSettings_GetFloatSetting_Patch
-        {
-            private static void Postfix(WorldGenSettings __instance, string target, ref float __result)
-            {
-                float densityCapped = 4f;
-                if (!(target == "OverworldDensityMin") && !(target == "OverworldDensityMax") && !(target == "OverworldAvoidRadius") && !(target == "OverworldMinNodes") && !(target == "OverworldMaxNodes"))
-                    return;
-                __result /= densityCapped;
-            }
-        }
-        [HarmonyPatch(typeof(WorldGenSettings))]
-        [HarmonyPatch(nameof(WorldGenSettings.GetIntSetting))]
-        public static class WorldGenSettings_GetIntSetting_Patch
-        {
-            private static void Postfix(WorldGenSettings __instance, string target, ref int __result)
-            {
-                float densityCapped = 4f;
-                if (!(target == "OverworldDensityMin") && !(target == "OverworldDensityMax") && !(target == "OverworldAvoidRadius") && !(target == "OverworldMinNodes") && !(target == "OverworldMaxNodes"))
-                    return;
-                __result = Mathf.RoundToInt(((int)__result)/densityCapped);
-            }
-        }
-        [HarmonyPatch(typeof(WorldGen))]
-        [HarmonyPatch(nameof(WorldGen.ProcessByTerrainCell))]
-        public static class ThinerBorder
-        {
-            private static void Postfix(WorldGenSettings __instance, string target, ref int __result)
-            {
-                float densityCapped = 4f;
-                if (!(target == "OverworldDensityMin") && !(target == "OverworldDensityMax") && !(target == "OverworldAvoidRadius") && !(target == "OverworldMinNodes") && !(target == "OverworldMaxNodes"))
-                    return;
-                __result = Mathf.RoundToInt(((int)__result) / densityCapped);
-            }
-        }
+        //[HarmonyPatch(typeof(WorldGenSettings))]
+        //[HarmonyPatch(nameof(WorldGenSettings.GetFloatSetting))]
+        //public static class WorldGenSettings_GetFloatSetting_Patch
+        //{
+        //    private static void Postfix(WorldGenSettings __instance, string target, ref float __result)
+        //    {
+        //        float densityCapped = 4f;
+        //        if (!(target == "OverworldDensityMin") && !(target == "OverworldDensityMax") && !(target == "OverworldAvoidRadius") && !(target == "OverworldMinNodes") && !(target == "OverworldMaxNodes"))
+        //            return;
+        //        __result /= densityCapped;
+        //    }
+        //}
+        //[HarmonyPatch(typeof(WorldGenSettings))]
+        //[HarmonyPatch(nameof(WorldGenSettings.GetIntSetting))]
+        //public static class WorldGenSettings_GetIntSetting_Patch
+        //{
+        //    private static void Postfix(WorldGenSettings __instance, string target, ref int __result)
+        //    {
+        //        float densityCapped = 4f;
+        //        if (!(target == "OverworldDensityMin") && !(target == "OverworldDensityMax") && !(target == "OverworldAvoidRadius") && !(target == "OverworldMinNodes") && !(target == "OverworldMaxNodes"))
+        //            return;
+        //        __result = Mathf.RoundToInt(((int)__result)/densityCapped);
+        //    }
+        //}
+        //[HarmonyPatch(typeof(WorldGen))]
+        //[HarmonyPatch(nameof(WorldGen.ProcessByTerrainCell))]
+        //public static class ThinerBorder
+        //{
+        //    private static void Postfix(WorldGenSettings __instance, string target, ref int __result)
+        //    {
+        //        float densityCapped = 4f;
+        //        if (!(target == "OverworldDensityMin") && !(target == "OverworldDensityMax") && !(target == "OverworldAvoidRadius") && !(target == "OverworldMinNodes") && !(target == "OverworldMaxNodes"))
+        //            return;
+        //        __result = Mathf.RoundToInt(((int)__result) / densityCapped);
+        //    }
+        //}
 
 
-        [HarmonyPatch(typeof(Border))]
-        [HarmonyPatch(nameof(Border.ConvertToMap))]
-        public static class Border_ConvertToMap_Patch
-        {
-            private static void Prefix(Border __instance)
-            {
-                if (__instance.element == SettingsCache.borders["impenetrable"])
-                    __instance.width = 1.1f;
-                else
-                    __instance.width = 1.1f;
-            }
-        }
+        //[HarmonyPatch(typeof(Border))]
+        //[HarmonyPatch(nameof(Border.ConvertToMap))]
+        //public static class Border_ConvertToMap_Patch
+        //{
+        //    private static void Prefix(Border __instance)
+        //    {
+        //        if (__instance.element == SettingsCache.borders["impenetrable"])
+        //            __instance.width = 1.1f;
+        //        else
+        //            __instance.width = 1.1f;
+        //    }
+        //}
 
 
 
@@ -406,13 +409,29 @@ namespace ClusterTraitGenerationManager
         [HarmonyPatch(nameof(Worlds.GetWorldData))]
         public static class OverrideWorldSizeOnDataGetting
         {
-            static Dictionary<string, Vector2I> OriginalPlanetSizes = new Dictionary<string, Vector2I>();
+            public static Dictionary<string, Vector2I> OriginalPlanetSizes = new Dictionary<string, Vector2I>();
             /// <summary>
             /// Inserting Custom Traits
             /// </summary>
+            /// 
+
+
+            public static void ResetCustomSizes()
+            {
+                foreach(var world in SettingsCache.worlds.worldCache)
+                {
+                    if (OriginalPlanetSizes.ContainsKey(world.Key))
+                    {
+                        SgtLogger.l("Resetting custom planet size to " + world.Key + ", new size: " + OriginalPlanetSizes[world.Key].X + "x" + OriginalPlanetSizes[world.Key].Y);
+                        world.Value.worldsize = OriginalPlanetSizes[world.Key];
+                    }
+                }
+                OriginalPlanetSizes.Clear();
+            }
+
             public static bool Prefix(Worlds __instance, string name, ref ProcGen.World __result)
             {
-                if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null)
+                if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null && ApplyCustomGen.IsGenerating)
                 {
                     if (!name.IsNullOrWhiteSpace() && __instance.worldCache.TryGetValue(name, out var value))
                     {
@@ -425,11 +444,11 @@ namespace ClusterTraitGenerationManager
                                 SgtLogger.l(value.worldsize.ToString(), "Original World Size");
                                 OriginalPlanetSizes[name] = value.worldsize;
                                 value.worldsize = newDimensions;
-                                UtilMethods.ListAllPropertyValues(value.defaultsOverrides);
-                                foreach(var d in value.defaultsOverrides.data)
-                                {
-                                    SgtLogger.l(d.Value.ToString()+ d.Value.GetType(), d.Key);
-                                }
+                                //UtilMethods.ListAllPropertyValues(value.defaultsOverrides);
+                                //foreach(var d in value.defaultsOverrides.data)
+                                //{
+                                //    SgtLogger.l(d.Value.ToString() + d.Value.GetType(), d.Key);
+                                //}
 
                                 //value.defaultsOverrides.data["OverworldDensityMin"] = (int)item.ApplySizeMultiplierToValue(int.Parse(value.defaultsOverrides.data["OverworldDensityMin"].ToString()));
                                 //value.defaultsOverrides.data["OverworldDensityMax"] = (int)item.ApplySizeMultiplierToValue(int.Parse(value.defaultsOverrides.data["OverworldDensityMax"].ToString()));
@@ -448,6 +467,11 @@ namespace ClusterTraitGenerationManager
                         __result = value;
                     }
                     return false;
+                }
+                else if (OriginalPlanetSizes.ContainsKey(name)&& __instance.worldCache.TryGetValue(name, out var value))
+                {
+                    value.worldsize = OriginalPlanetSizes[name];
+                    OriginalPlanetSizes.Remove(name);
                 }
                 return true;
             }
@@ -486,12 +510,18 @@ namespace ClusterTraitGenerationManager
                     }
 
                 }
-                else if (OriginalGeyserAmounts.ContainsKey(settings.world.filePath))
+            }
+            public static void Postfix(WorldGenSettings settings)
+            {
+                if (OriginalGeyserAmounts.ContainsKey(settings.world.filePath))
                 {
                     foreach (var WorldTemplateRule in settings.world.worldTemplateRules)
                     {
                         if (OriginalGeyserAmounts[settings.world.filePath].ContainsKey(WorldTemplateRule.names))
+                        {
+                            SgtLogger.l(string.Format("Resetting Geyser rules back for {0}; {1} -> {2}", WorldTemplateRule.names.FirstOrDefault(), WorldTemplateRule.times, OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]), WorldTemplateRule.ruleId);
                             WorldTemplateRule.times = OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names];
+                        }
                     }
                     //OriginalGeyserAmounts.Remove(settings.world.filePath);
                 }
@@ -503,6 +533,7 @@ namespace ClusterTraitGenerationManager
         [HarmonyPatch(new Type[] { typeof(string), typeof(int), typeof(List<string>), typeof(bool), typeof(bool) })]
         public static class ApplyCustomGen
         {
+            public static bool IsGenerating = false;
             /// <summary>
             /// Setting ClusterID to custom cluster if it should load
             /// 
@@ -518,7 +549,12 @@ namespace ClusterTraitGenerationManager
                     //    CGSMClusterManager.AddCustomClusterAndInitializeClusterGen();
                     //}
                     name = CGSMClusterManager.CustomClusterID;
+                    IsGenerating = true;    
                 }
+            }
+            public static void Postfix()
+            {
+                IsGenerating= false;
             }
         }
     }

@@ -6,6 +6,8 @@
 Geysers:
 - dedicated geyser selector
 
-Meteors:
-- Season type selector
-- tooltip shows meteors inside
+Size:
+- smaller planets
+
+Presets
+- storable starter presets
