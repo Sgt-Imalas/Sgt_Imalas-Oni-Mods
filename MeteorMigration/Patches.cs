@@ -26,6 +26,7 @@ namespace MeteorMigration
 
             public static void Postfix(WorldContainer __instance)
             {
+                SgtLogger.l(__instance.worldName.ToString(),"DEBUG");
                 if (!__instance.IsModuleInterior)
                 {
                     if (__instance.GetSeasonIds().Count == 0 || __instance.GetSeasonIds().Contains("MeteorShowers"))
@@ -48,13 +49,14 @@ namespace MeteorMigration
                                     seasonstring.Replace(",", string.Empty);
 
                                 SgtLogger.l("Previous meteor season type for this planet: none.");
-
                                 SgtLogger.l("New meteor season type for this planet: " + seasonstring + ".");
 
                             }
+                            else
+                                SgtLogger.l("meteor season type for this planet: none.");
                         }
                         else
-                            SgtLogger.logwarning("Planet not found in world data");
+                            SgtLogger.logwarning("Planet\"" + __instance.worldName+"\" not found in world data");
                     }
                     else
                         SgtLogger.l("no migration required for " + __instance.worldName);
