@@ -26,7 +26,6 @@ namespace MeteorMigration
 
             public static void Postfix(WorldContainer __instance)
             {
-                SgtLogger.l(__instance.worldName.ToString(),"DEBUG");
                 if (!__instance.IsModuleInterior)
                 {
                     if (__instance.GetSeasonIds().Count == 0 || __instance.GetSeasonIds().Contains("MeteorShowers"))
