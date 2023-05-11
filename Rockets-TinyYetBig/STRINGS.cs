@@ -357,6 +357,12 @@ namespace Rockets_TinyYetBig
                     public static LocString NAME = (LocString)"Battery Module Charge: {CurrentCharge}/{MaxCharge}";
                     public static LocString TOOLTIP = (LocString)("This Rocket has {CurrentCharge}/{MaxCharge} stored in battery modules.");
                 }
+                public class RTB_FOODSTORAGESTATUS
+                {
+                    public static LocString NAME = (LocString)"Total Food: {REMAININGMASS}";
+                    public static LocString TOOLTIP = (LocString)("The connected Fridge Modules still contain {REMAININGMASS}KCal of Food.{FOODLIST}");
+                    public static LocString FOODINFO = "\n • {0}: {1}KCal";
+                }
                 public class RTB_CRITTERMODULECONTENT
                 {
                     public static LocString NAME = (LocString)"Critter Count: {0}/{1}";

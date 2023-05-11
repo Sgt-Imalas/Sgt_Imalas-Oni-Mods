@@ -13,7 +13,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
     class FridgeModuleConfig : IBuildingConfig
     {
         public const string ID = "RTB_FridgeCargoBay";
-        public float CAPACITY = 300f;
+        public float CAPACITY = 550f;
 
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
 

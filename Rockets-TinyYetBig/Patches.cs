@@ -118,6 +118,16 @@ namespace Rockets_TinyYetBig
         }
 
 
+        //[HarmonyPatch(typeof(RationTracker))]
+        //[HarmonyPatch(nameof(RationTracker.CountRations))]
+        //public static class CalorieCounterForRocketModules
+        //{
+        //    public static void Postfix(WorldSelector __instance)
+        //    {
+        //        // UIUtils.ListAllChildren(__instance.transform);
+        //    }
+        //}
+
         //[HarmonyPatch(typeof(HarvestablePOIConfig))]
         //[HarmonyPatch("GenerateConfigs")]
         //[HarmonyPatch(new Type[] { typeof(List<HarvestablePOIConfig.HarvestablePOIParams>) })]
@@ -135,8 +145,6 @@ namespace Rockets_TinyYetBig
         //        return code;
         //    }
         //}
-
-
 
 
         [HarmonyPatch(typeof(WorldSelector), "OnPrefabInit")]

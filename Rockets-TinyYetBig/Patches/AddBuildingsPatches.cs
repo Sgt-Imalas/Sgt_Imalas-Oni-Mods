@@ -61,7 +61,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 if (Config.Instance.EnableFridge)
                 {
                     AddRocketModuleToBuildList(FridgeModuleConfig.ID, new RocketCategory[] { RocketCategory.cargo, RocketCategory.utility }, ArtifactCargoBayConfig.ID, true);
-                    //InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Food, FridgeModuleAccessHatchConfig.ID, RefrigeratorConfig.ID);
+                    InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Food, FridgeModuleAccessHatchConfig.ID, RefrigeratorConfig.ID);
                 }
 
               
@@ -164,7 +164,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 if (Config.Instance.EnableFridge)
                 {
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.FoodRepurposing, FridgeModuleConfig.ID);
-                    //InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.FoodRepurposing, FridgeModuleAccessHatchConfig.ID);
+                    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.FoodRepurposing, FridgeModuleAccessHatchConfig.ID);
                 }
                 
 

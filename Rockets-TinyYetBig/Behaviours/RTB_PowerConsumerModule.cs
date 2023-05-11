@@ -13,12 +13,13 @@ namespace Rockets_TinyYetBig.Behaviours
         private Clustercraft clustercraft;
         public override void OnPrefabInit()
         {
+            return;
             this.IsVirtual= true;
             base.OnPrefabInit();
         }
         public override void OnSpawn()
         {
-
+            return;
             CraftModuleInterface craftInterface = this.GetComponent<RocketModuleCluster>().CraftInterface;
             this.VirtualCircuitKey = (object)craftInterface;
             this.clustercraft = craftInterface.GetComponent<Clustercraft>();
@@ -36,6 +37,7 @@ namespace Rockets_TinyYetBig.Behaviours
         }
         public override void EnergySim200ms(float dt)
         {
+            return;
             CircuitID = Game.Instance.circuitManager.GetVirtualCircuitID(this);
             
             if (!IsConnected)
@@ -53,6 +55,7 @@ namespace Rockets_TinyYetBig.Behaviours
         //}
         public override void OnCleanUp()
         {
+            return;
             Game.Instance.energySim.RemoveEnergyConsumer(this);
 
             Game.Instance.circuitManager.Disconnect(this, isDestroy: true);

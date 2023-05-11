@@ -1,6 +1,7 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.Buildings.CargoBays;
 using Rockets_TinyYetBig.Buildings.Utility;
+using Rockets_TinyYetBig.NonRocketBuildings;
 using Rockets_TinyYetBig.RocketFueling;
 using Rockets_TinyYetBig.SpaceStations;
 using System;
@@ -419,6 +420,8 @@ namespace Rockets_TinyYetBig
             public static StatusItem RTB_AlwaysActiveOn;
             public static StatusItem RTB_AlwaysActiveOff;
             public static StatusItem RTB_CritterModuleContent;
+            public static StatusItem RTB_AccessHatchStorage;
+
 
             public static StatusItem RTB_SpaceStationConstruction_Status;
 
@@ -488,6 +491,15 @@ namespace Rockets_TinyYetBig
 
                 RTB_CritterModuleContent = new StatusItem(
                      "RTB_CRITTERMODULECONTENT",
+                     "BUILDING",
+                     string.Empty,
+                     StatusItem.IconType.Info,
+                     NotificationType.Neutral,
+                false,
+                     OverlayModes.None.ID);
+
+                RTB_AccessHatchStorage = new StatusItem(
+                     "RTB_FOODSTORAGESTATUS",
                      "BUILDING",
                      string.Empty,
                      StatusItem.IconType.Info,
@@ -601,7 +613,14 @@ namespace Rockets_TinyYetBig
                     str = str.Replace("{MaxWattage}", GameUtil.GetFormattedWattage(generator.WattageRating));
                     return str;
                 });
-
+                RTB_AccessHatchStorage.resolveStringCallback = (Func<string, object, string>)((str, data) =>
+                {
+                    FridgeModuleHatchGrabber hatch = (FridgeModuleHatchGrabber)data;
+                    str = str.Replace("{FOODLIST}", hatch.GetAllMassDesc());
+                    str = str.Replace("{REMAININGMASS}", hatch.TotalKCAL.ToString());
+                    return str;
+                });
+                
                 SgtLogger.debuglog("[Rocketry Expanden] Status items initialized");
 
             }

@@ -234,6 +234,7 @@ namespace Rockets_TinyYetBig
             EnableLargeCargoBays = true; 
             EnableRadboltStorage = true; 
             EnableDrillSupport = true;
+
             RebalancedCargoCapacity = true;
             GasCargoBayUnits = 500;
             LiquidCargoBayUnits = 1250;
@@ -254,7 +255,7 @@ namespace Rockets_TinyYetBig
             EnableSolarNosecone = true;
             EnableGenerators = true;
             EnableSmolBattery = true;
-            IsotopeDecayTime = 40;
+            IsotopeDecayTime = 50;
 
             /// SpaceStations
             SpaceStationsAndTech = false;
