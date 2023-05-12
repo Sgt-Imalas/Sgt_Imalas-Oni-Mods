@@ -9,8 +9,10 @@ namespace CritterTraitsReborn.Traits
 
         public override Group Group => Group.GetGroup(Group.GlowGroupId);
 
+        
         protected override void Init()
         {
+            this.RequiresDLC = true;
             TraitHelpers.CreateTrait(ID,
               on_add: delegate (GameObject go)
               {

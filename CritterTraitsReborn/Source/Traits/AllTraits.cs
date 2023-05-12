@@ -12,7 +12,7 @@ namespace CritterTraitsReborn.Traits
       new Fast(),
       new Fertile(),
       new Glowing(),
-      DlcManager.IsContentActive("EXPANSION1_ID") ? new Rad() : null,
+      new Rad(),
       new Huge(),
       new Large(),
       new Noisy(),
@@ -35,7 +35,10 @@ namespace CritterTraitsReborn.Traits
             if (traitsInitialized == true) return;
             foreach(var trait in traits)
             {
-                if(trait!=null)
+                if (trait.RequiresDLC && !DlcManager.IsContentActive("EXPANSION1_ID"))
+                    continue;
+
+                if(trait!=null )
                     trait.CreateTrait();
             }
             traitsInitialized = true;
