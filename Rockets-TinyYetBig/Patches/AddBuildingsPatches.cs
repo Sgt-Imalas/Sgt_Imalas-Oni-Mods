@@ -12,6 +12,7 @@ using Rockets_TinyYetBig.Buildings.Utility;
 using Rockets_TinyYetBig.NonRocketBuildings;
 using Rockets_TinyYetBig.RocketFueling;
 using Rockets_TinyYetBig.SpaceStations;
+using Rockets_TinyYetBig.SpaceStations.Construction.ModuleBuildings;
 using Rockets_TinyYetBig.TODO;
 using System;
 using System.Collections.Generic;
@@ -134,7 +135,11 @@ namespace RoboRockets.Rockets_TinyYetBig
                     AddRocketModuleToBuildList(LiquidCargoBayClusterLargeConfig.ID, RocketCategory.cargo, SolidCargoBayClusterLargeConfig.ID);
                     AddRocketModuleToBuildList(GasCargoBayClusterLargeConfig.ID, RocketCategory.cargo, LiquidCargoBayClusterLargeConfig.ID);
                 }
-
+                //return;
+                InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, PartWorkshopConfig.ID, "stationParts");
+                InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, Part_A_1_Config.ID, "stationParts");
+                InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, Part_A_2_Config.ID, "stationParts");
+                InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, Part_A_3_Config.ID, "stationParts");
             }
         }
 

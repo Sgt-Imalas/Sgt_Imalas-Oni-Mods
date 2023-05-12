@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Rockets_TinyYetBig.NonRocketBuildings.SpaceStationScience
+namespace Rockets_TinyYetBig.SpaceStations.SpaceStationScience
 {
-    public class GlassHousePlantAnalysisPotConfig
+    public class WEEEEEESpaceLoopConfig
     {
     }
 }

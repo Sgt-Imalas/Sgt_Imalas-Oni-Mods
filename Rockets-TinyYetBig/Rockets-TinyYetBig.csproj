@@ -344,6 +344,24 @@
 	  <None Update="ModAssets\anim\assets\rtb_docking_tube\rtb_docking_tube_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\anim\assets\RTB_Part_A\RTB_Part_A_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\RTB_Part_A\RTB_Part_A_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\RTB_Part_A\RTB_Part_A_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\rtb_station_part_manufacturer\Part_Manufacturer_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\rtb_station_part_manufacturer\Part_Manufacturer_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\rtb_station_part_manufacturer\Part_Manufacturer_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\anim\assets\rtg_module\rtg_module.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
@@ -500,7 +518,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="SpaceStations\Construction\ModuleBuildings\" />
 	  <Folder Include="SpaceStations\Construction\ModuleItems\" />
 	  <Folder Include="TwitchEvents\TwitchEventAddons\" />
 	</ItemGroup>
