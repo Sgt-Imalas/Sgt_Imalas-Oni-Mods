@@ -55,7 +55,8 @@ Using a ToolsNotIncluded Seed as a Base will generate all planets that are norma
 [h1]Compatible custom planet mods (examples):[/h1][list]
 [*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2582905897]Baator[/url]
 [*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2860569135]Roller Snakes[/url]
-[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2879715930]Other Cluster[/url]
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2879715930]Other Cluster[/url] 
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2973000407]Minibase SO Edition[/url] (also adds 2 new POIs)
 [*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1930918856]Solar System Worlds[/url] (also adds a new Trait, Planets of this mod dont seem to generate well with added world traits)
 [*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1825146346]Empty Worlds[/url] (also adds a new Trait)
 [/list]
@@ -77,7 +78,7 @@ Current Languages:
 - Chinese by 去码头整点薯条
 
 [h1]Bug Reports[/h1]
-Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or my[url=https://discord.gg/5n7peBCnWZ] Discord[/url]. Always include the full player.log in a report
 
 Where to find the Log:
 [list]
