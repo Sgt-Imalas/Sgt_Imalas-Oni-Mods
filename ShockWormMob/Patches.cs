@@ -24,11 +24,75 @@ namespace ShockWormMob
         public static class AddRot
         {
 
+            [HarmonyPriority(Priority.VeryLow)]
             public static void Postfix(GameObject __result)
             {
                 __result.AddOrGet<Decomposer>();
             }
         }
+
+
+        [HarmonyPatch(typeof(RoleStation))]
+        [HarmonyPatch(nameof(RoleStation.OnStopWork))]
+        public static class FixCrash
+        {
+
+            public static bool Prefix(RoleStation __instance)
+            {
+                Telepad.StatesInstance sMI = __instance.GetSMI<Telepad.StatesInstance>();
+                return sMI != null;
+            }
+        }
+
+
+        [HarmonyPatch(typeof(MainMenu))]
+        [HarmonyPatch(nameof(MainMenu.OnSpawn))]
+        public static class patch1
+        {
+
+            [HarmonyPriority(Priority.Low)]
+            public static void Prefix(RoleStation __instance)
+            {
+                SgtLogger.l("I have Prio Low");
+            }
+        }
+        [HarmonyPatch(typeof(MainMenu))]
+        [HarmonyPatch(nameof(MainMenu.OnSpawn))]
+        public static class patch4
+        {
+
+            [HarmonyPriority(Priority.High)]
+            public static void Prefix(RoleStation __instance)
+            {
+                SgtLogger.l("I have Prio high");
+            }
+        }
+        [HarmonyPatch(typeof(MainMenu))]
+        [HarmonyPatch(nameof(MainMenu.OnSpawn))]
+        public static class patch2
+        {
+
+            [HarmonyPriority(Priority.Last)]
+            public static void Prefix(RoleStation __instance)
+            {
+                SgtLogger.l("I have Prio Last");
+            }
+        }
+        [HarmonyPatch(typeof(MainMenu))]
+        [HarmonyPatch(nameof(MainMenu.OnSpawn))]
+        public static class patch3
+        {
+
+            [HarmonyPriority(Priority.First)]
+            public static void Prefix(RoleStation __instance)
+            {
+                SgtLogger.l("I have Prio First");
+            }
+        }
+
+
+
+
         /// <summary>
         /// add buildings to plan screen
         /// </summary>
@@ -41,6 +105,7 @@ namespace ShockWormMob
             {
                 //InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
                 InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Utilities, EventDebugTileConfig.ID);
+                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Base, JobBoardConfig.ID, ExobaseHeadquartersConfig.ID);
                 ModAssets.InitEventTest(); 
             }
         }

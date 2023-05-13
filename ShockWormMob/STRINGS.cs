@@ -23,7 +23,12 @@ namespace ShockWormMob
         {
             public class PREFABS
             {
-
+                public class LCTG_JOBSTATION
+                {
+                    public static LocString NAME = "Job Station";
+                    public static LocString EFFECT = "Job Station effect";
+                    public static LocString DESC = "Job Station desc";
+                }
             }
         }
     }

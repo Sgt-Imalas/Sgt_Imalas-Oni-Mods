@@ -79,9 +79,6 @@ namespace ShockWormMob
             return string.Empty;
         }
 
-        public int HorizontalGroupID()
-        {
-            throw new NotImplementedException();
-        }
+        public int HorizontalGroupID() => -1;
     }
 }
