@@ -359,7 +359,7 @@ namespace Rockets_TinyYetBig
                 }
                 public class RTB_FOODSTORAGESTATUS
                 {
-                    public static LocString NAME = (LocString)"Total Food: {REMAININGMASS}";
+                    public static LocString NAME = (LocString)"Total Food: {REMAININGMASS}KCal";
                     public static LocString TOOLTIP = (LocString)("The connected Fridge Modules still contain {REMAININGMASS}KCal of Food.{FOODLIST}");
                     public static LocString FOODINFO = "\n • {0}: {1}KCal";
                 }

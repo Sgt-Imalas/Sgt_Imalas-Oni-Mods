@@ -14,9 +14,9 @@ namespace Rockets_TinyYetBig.Patches
     public class CargoCapacityPatches
     {
         [HarmonyPatch(typeof(CargoBayCluster), nameof(CargoBayCluster.OnSpawn))]
-        [HarmonyPriority(Priority.LowerThanNormal)]
         public static class CargoBayRebalance
         {
+            [HarmonyPriority(Priority.VeryLow)]
             public static void Postfix(CargoBayCluster __instance)
             {
                 float targetCapacity = 0f;

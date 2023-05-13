@@ -117,14 +117,20 @@ namespace Rockets_TinyYetBig
             }
         }
 
-
+        ///// <summary>
+        ///// Fridge Access Hatch accessible food should count towards tracker
+        ///// </summary>
         //[HarmonyPatch(typeof(RationTracker))]
         //[HarmonyPatch(nameof(RationTracker.CountRations))]
         //public static class CalorieCounterForRocketModules
         //{
-        //    public static void Postfix(WorldSelector __instance)
+        //    public static void Postfix(WorldInventory inventory,ref float __result)
         //    {
-        //        // UIUtils.ListAllChildren(__instance.transform);
+        //        var modules = ModAssets.FridgeModuleGrabbers.GetWorldItems(inventory.worldId);
+        //        if(modules.Count> 0)
+        //        {
+        //            __result += modules.First().TotalKCAL;
+        //        }
         //    }
         //}
 

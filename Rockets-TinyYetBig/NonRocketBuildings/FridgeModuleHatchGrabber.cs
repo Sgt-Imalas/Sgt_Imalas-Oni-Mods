@@ -44,6 +44,8 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             craftModuleInterface.gameObject.Subscribe((int)GameHashes.RocketModuleChanged, UpdateModules);
             UpdateModules(null);
             StatusItemHandle = selectable.AddStatusItem( ModAssets.StatusItems.RTB_AccessHatchStorage, (object)this);
+            ModAssets.FridgeModuleGrabbers.Add(this); 
+            GetAllMassDesc();
         }
         private List<int> refreshHandle = new List<int>();
         public float maxPullCapacityKG = 1f;
@@ -55,6 +57,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
         }
         public override void OnCleanUp()
         {
+            ModAssets.FridgeModuleGrabbers.Remove(this);
             craftModuleInterface.gameObject.Unsubscribe((int)GameHashes.RocketModuleChanged, UpdateModules);
             base.OnCleanUp();
         }
@@ -114,7 +117,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
         public float TotalKCAL => _totalKCal;
         float _totalKCal = 0;
-        internal string GetAllMassDesc()
+        public string GetAllMassDesc()
         {
             var totalKCalNew = 0f;
             string infoText = string.Empty;

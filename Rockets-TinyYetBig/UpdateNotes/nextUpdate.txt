@@ -17,3 +17,4 @@ Fixes & Adjustments:
 - increased fridge module capacity to 550kg;
 - further optimized rocket info sidescreen performance
 - increased default duration of RTG generator module
+- fixed the vanilla bug of scrolling outside of the module selection window after building a module
