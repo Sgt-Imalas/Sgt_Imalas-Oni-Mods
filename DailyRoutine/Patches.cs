@@ -74,9 +74,9 @@ namespace DailyRoutine
 
         [HarmonyPatch(typeof(GeneratedBuildings))]
         [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
-        [HarmonyPriority(Priority.LowerThanNormal)]
         public static class AddNewCmpToComplexFabricators
         {
+            [HarmonyPriority(Priority.LowerThanNormal)]
             public static void Postfix()
             {
                 foreach(var building in Assets.BuildingDefs)
