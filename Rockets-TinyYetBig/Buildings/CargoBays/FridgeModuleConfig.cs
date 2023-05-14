@@ -61,7 +61,6 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
             go.AddOrGet<RTB_PowerConsumerModule>();
             go = BuildingTemplates.ExtendBuildingToClusterCargoBay(go, this.CAPACITY, STORAGEFILTERS.FOOD, CargoBay.CargoType.Solids);
             go.TryGetComponent<Storage>(out var freezerStorage);
-            go.AddOrGet<FoodStorage>();
             freezerStorage.SetDefaultStoredItemModifiers(new List<StoredItemModifier>
             {
                 StoredItemModifier.Hide,

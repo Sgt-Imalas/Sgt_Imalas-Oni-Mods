@@ -23,7 +23,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
                    unitMass: true,
                    collisionShape: EntityTemplates.CollisionShape.RECTANGLE,
                    isPickupable: false,
-                   anim: Assets.GetAnim("space_satellite_kanim"),
+                   anim: Assets.GetAnim("space_station_small_kanim"),
                    initialAnim: "idle_loop",
                    sceneLayer: Grid.SceneLayer.Creatures,
                    element: SimHashes.Steel,

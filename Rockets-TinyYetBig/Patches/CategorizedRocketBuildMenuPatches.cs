@@ -149,31 +149,40 @@ namespace Rockets_TinyYetBig
             {
                 foreach (var item in HeaderButtons.Values)
                 {
-                    item.gameObject.SetActive(!searchActive);
+                    if(item!=null&& item.gameObject!=null && !item.IsNullOrDestroyed())
+                        item.gameObject.SetActive(!searchActive);
                 }
                 foreach (var item in Grids)
                 {
                     if (searchActive)
-                        item.Value.SetActive(false);
+                    {
+                        if (item.Value != null && !item.Value.IsNullOrDestroyed())
+                            item.Value.SetActive(false);
+
+                    }
                     else
                     {
-                        item.Value.SetActive(HeaderButtonsActiveStatus[item.Key]);
+                        if (item.Value != null && !item.Value.IsNullOrDestroyed())
+                            item.Value.SetActive(HeaderButtonsActiveStatus[item.Key]);
                     }
                 }
                 if (!searchActive)
                 {
                     foreach (var item in SearchableButtons.Values)
                     {
-                        item.gameObject.SetActive(false);
+                        if (item != null && !item.IsNullOrDestroyed())
+                            item.SetActive(false);
                     }
                 }
             }
 
             public static void ClearSearchBar()
             {
-                if(SearchBar!=null)
+                if (SearchBar != null)
+                {
                     SearchBar.text = string.Empty;
-                ToggleCategoriesSearch(false);
+                    ToggleCategoriesSearch(false);
+                }
             }
 
             public static void ApplySearchText(string searchText)
@@ -239,7 +248,12 @@ namespace Rockets_TinyYetBig
                     if (!_this.categories[index].IsNullOrDestroyed())
                         Util.KDestroyGameObject(_this.categories[index]);
                 }
-
+                foreach (var item in SearchableButtons.Values)
+                {
+                    if (item != null && !item.IsNullOrDestroyed())
+                        item.SetActive(false);
+                }
+                SearchableButtons.Clear();
                 _this.categories.Clear();
                 ModAssets.CategorizedButtons.Clear();
             }
