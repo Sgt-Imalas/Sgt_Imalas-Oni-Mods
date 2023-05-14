@@ -6,6 +6,7 @@ new Features:
 - Rebalanced Cargo Bay Capacity (can be configured/disabled in config),
 - Cartographer Module Reworked (again): now scans tiles like a telescope in addition to its normal functions with a range of 4 (can be configured in config)
 - Rocket Module Searchbar: The module build menu has been updated visually & a seach bar has been added
+- Insulated Cargo Bays: materials stored in cargo bays dont exchange heat with their surroundings
 
 Fixes & Adjustments:
 - Cartographer Module no longer instantly reveals tiles around it (see above for new rework)
@@ -18,3 +19,4 @@ Fixes & Adjustments:
 - further optimized rocket info sidescreen performance
 - increased default duration of RTG generator module
 - fixed the vanilla bug of scrolling outside of the module selection window after building a module
+- fixed some minor animation errors

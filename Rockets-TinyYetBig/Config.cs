@@ -98,6 +98,9 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool EnableLargeCargoBays { get; set; }
 
+        [Option("Insulated Cargo Bays", "Contents of Cargo Bay modules are insulated from their surroundings", "(2) Mining & Shipping")]
+        [JsonProperty]
+        public bool InsulatedCargoBays { get; set; }
 
         [Option("Radbolt Storage Module", STRINGS.OPTIONS.TOGGLESINGLE, "(2) Mining & Shipping")]
         [JsonProperty]
@@ -231,7 +234,8 @@ namespace Rockets_TinyYetBig
             LaserDrillconeSpeed = 3.75f;
             EnableFridge = true;
             InfinitePOI = false;
-            EnableLargeCargoBays = true; 
+            EnableLargeCargoBays = true;
+            InsulatedCargoBays = true;
             EnableRadboltStorage = true; 
             EnableDrillSupport = true;
 

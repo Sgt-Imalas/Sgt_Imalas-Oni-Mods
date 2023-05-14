@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUNING;
+using UnityEngine;
 using UtilLibs;
 using static STRINGS.BUILDINGS.PREFABS;
 
@@ -26,7 +27,7 @@ namespace Rockets_TinyYetBig.Patches
                 if (__instance.TryGetComponent<KPrefabID>(out var def))
                 {
 
-                   // SgtLogger.l(def.PrefabID().ToString());
+                    // SgtLogger.l(def.PrefabID().ToString());
                     ModAssets.GetCargoBayCapacity(def.PrefabID().ToString(), out targetCapacity);
 
                     //SgtLogger.l(targetCapacity.ToString(), def.PrefabID().ToString());
@@ -47,6 +48,43 @@ namespace Rockets_TinyYetBig.Patches
                     {
                         if (__instance.userMaxCapacity > targetCapacity)
                             __instance.userMaxCapacity = targetCapacity;
+                    }
+                }
+            }
+        }
+        [HarmonyPatch(typeof(CargoBayCluster), nameof(CargoBayCluster.OnSpawn))]
+        public static class CargoBayInsulation
+        {
+            public static void Prefix(CargoBayCluster __instance)
+            {
+                if (Config.Instance.InsulatedCargoBays)
+                {
+                    if (__instance.storage.defaultStoredItemModifers.SequenceEqual(Storage.StandardSealedStorage))
+                    {
+                        __instance.storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+                        ApplyModifiedModifiers(__instance.storage);
+                        SgtLogger.l(__instance.name, "Adding Insulation to");
+                    }
+                }
+                else
+                {
+                    if (__instance.storage.defaultStoredItemModifers.SequenceEqual(Storage.StandardInsulatedStorage))
+                    {
+                        __instance.storage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
+                        ApplyModifiedModifiers(__instance.storage);
+                        SgtLogger.l(__instance.name, "Removing Insulation from");
+                    }
+                }
+
+            }
+            static void ApplyModifiedModifiers(Storage storage)
+            {
+                foreach (GameObject item in storage.items)
+                {
+                    storage.ApplyStoredItemModifiers(item, is_stored: true, is_initializing: true);
+                    if (storage.sendOnStoreOnSpawn)
+                    {
+                        item.Trigger(856640610, storage);
                     }
                 }
             }
