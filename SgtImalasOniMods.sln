@@ -100,6 +100,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DirtyBrine", "DirtyBrine\Di
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGTIM_NotificationManager", "SGTIM_NotificationManager\SGTIM_NotificationManager.csproj", "{015F3844-DD84-46E4-90BF-1C1948229C2D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DupePrioPresetManager", "DupePrioPresetManager\DupePrioPresetManager.csproj", "{C3614197-712C-462F-AD31-6930BE5627C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -370,6 +372,12 @@ Global
 		{015F3844-DD84-46E4-90BF-1C1948229C2D}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{015F3844-DD84-46E4-90BF-1C1948229C2D}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
 		{015F3844-DD84-46E4-90BF-1C1948229C2D}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
+		{C3614197-712C-462F-AD31-6930BE5627C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3614197-712C-462F-AD31-6930BE5627C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3614197-712C-462F-AD31-6930BE5627C3}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3614197-712C-462F-AD31-6930BE5627C3}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{C3614197-712C-462F-AD31-6930BE5627C3}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3614197-712C-462F-AD31-6930BE5627C3}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,6 +8,11 @@ namespace UtilLibs.UIcmp //Source: Aki
     public class FButton : KMonoBehaviour, IEventSystemHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
     {
         public event System.Action OnClick;
+        public event System.Action OnRightClick;
+
+
+        public event System.Action OnPointerEnterAction;
+        public event System.Action OnPointerExitAction;
 
         private bool interactable;
         private Material material;
@@ -27,7 +32,7 @@ namespace UtilLibs.UIcmp //Source: Aki
         [SerializeField]
         public Color hoverColor = new Color(0.345f, 0.373f, 0.702f);
 
-        private bool allowRightClick = false;
+        public bool allowRightClick = false;
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
@@ -68,12 +73,23 @@ namespace UtilLibs.UIcmp //Source: Aki
             {
                 KInputManager.SetUserActive();
                 PlaySound(UISoundHelper.ClickOpen);
-                OnClick?.Invoke();
+                if(OnClick != null && OnRightClick != null)
+                {
+                    if(eventData.button == PointerEventData.InputButton.Right)
+                    {
+                        OnRightClick.Invoke();
+                        return;
+                    }
+                }
+                OnClick?.Invoke();                
             }
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            if (OnPointerEnterAction != null)
+                OnPointerEnterAction.Invoke();
+
             if (!interactable)
             {
                 return;
@@ -93,7 +109,9 @@ namespace UtilLibs.UIcmp //Source: Aki
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            if(button == null)
+            if (OnPointerExitAction != null)
+                OnPointerExitAction.Invoke();
+            if (button == null)
             {
                 image.color = normalColor;
             }

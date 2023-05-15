@@ -48,7 +48,7 @@ namespace UtilLibs
                     LT.autoSizeTextContainer = data.AutoSizeTextContainer;
                     LT.text = "";
                     LT.color = new Color(data.Color[0], data.Color[1], data.Color[2]);
-                    LT.key = data.Content;
+                    LT.key = data.Content.Replace(" ",string.Empty);
                     // alignment isn't carried over instantiation, so it's applied later
                     if (realign)
                     {
