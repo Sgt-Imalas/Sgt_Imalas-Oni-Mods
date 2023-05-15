@@ -197,6 +197,17 @@ namespace Rockets_TinyYetBig
                 go.AddOrGetDef<ExplorerModuleTelescope.Def>();
             }
         }
+        [HarmonyPatch(typeof(ClusterGridEntity), "OnSpawn")]
+        public static class DestroyFinishedTelescopeTargets
+        {
+            public static void Postfix(ClusterGridEntity __instance)
+            {
+                if(__instance is TelescopeTarget)
+                {
+                    __instance.gameObject.AddOrGet<TelescopeSelfDestruct>();
+                }
+            }
+        }
 
         /// <summary>
         /// Add Custom Sidescreen for Nosecone

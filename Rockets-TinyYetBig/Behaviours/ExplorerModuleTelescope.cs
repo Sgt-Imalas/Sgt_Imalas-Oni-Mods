@@ -55,17 +55,18 @@ namespace Rockets_TinyYetBig.Behaviours
                     //if (smi.currentPercentage == 0.01f)
                     //{
                     currentTarget = smi.m_analyzeTarget;
-                    if (!(bool)(UnityEngine.Object)ClusterGrid.Instance.GetEntityOfLayerAtCell(currentTarget, EntityLayer.Telescope))
+                    if (!ClusterGrid.Instance.GetEntityOfLayerAtCell(currentTarget, EntityLayer.Telescope))
                     {
                         this.telescopeTargetMarker = GameUtil.KInstantiate(Assets.GetPrefab((Tag)"TelescopeTarget"), Grid.SceneLayer.Background);
                         this.telescopeTargetMarker.SetActive(true);
                         this.telescopeTargetMarker.GetComponent<TelescopeTarget>().Init(this.currentTarget);
 
                     }
-                    smi.currentPercentage = smi.m_fowManager.GetRevealCompleteFraction(smi.m_analyzeTarget) * 100;
+                    smi.currentPercentage = smi.m_fowManager.GetRevealCompleteFraction(smi.m_analyzeTarget) * 100f;
                     //}
-                    if (smi.currentPercentage + detectionIncrease >= 100f)
+                    if (smi.currentPercentage + detectionIncrease >= 99.9f)
                     {
+                        smi.m_fowManager.RevealCellIfValid(this.currentTarget);
                         smi.DestroyTelescope();
                     }
                     smi.m_fowManager.EarnRevealPointsForLocation(this.currentTarget, detectionIncrease);
@@ -73,11 +74,8 @@ namespace Rockets_TinyYetBig.Behaviours
             this.workingStates.all_work_complete
                 //.Enter((smi) => SgtLogger.l("ENTERED STATE: all_work_complete", "ExplorerSMI"))
 
-                .Enter((smi) => smi.DestroyTelescope()).
-                EventTransition(GameHashes.ClusterLocationChanged,
-                (smi => Game.Instance),
-                this.workingStates,
-                (smi => smi.CheckHasAnalyzeTarget())).
+                .Enter((smi) => smi.DestroyTelescope())
+                .EventTransition(GameHashes.ClusterLocationChanged,(smi => Game.Instance),this.workingStates,(smi => smi.CheckHasAnalyzeTarget())).
                 EventTransition(GameHashes.ClusterFogOfWarRevealed,
                 (smi => Game.Instance),
                 this.workingStates,
