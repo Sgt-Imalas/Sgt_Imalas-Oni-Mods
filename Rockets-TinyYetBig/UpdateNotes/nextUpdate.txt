@@ -20,3 +20,4 @@ Fixes & Adjustments:
 - increased default duration of RTG generator module
 - fixed the vanilla bug of scrolling outside of the module selection window after building a module
 - fixed some minor animation errors
+- fixed the broken meter anim of the lOx module
