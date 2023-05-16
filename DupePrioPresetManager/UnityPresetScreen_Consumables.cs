@@ -247,11 +247,13 @@ namespace DupePrioPresetManager
                             UnityEngine.Rect rect = fromMultiObjectAnim.rect;
                             if (rect.width > rect.height)
                             {
-                                image.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, (rect.height / rect.width) * 40f);
+                                var size = (rect.height / rect.width) * 40f;
+                                image.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size);
                             }
                             else
                             {
-                                image.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (rect.width / rect.height) * 40f);
+                                var size = (rect.width / rect.height) * 40f;
+                                image.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left,(-45 + (40 - size)/2), size);
                             }
 
                             image.sprite = fromMultiObjectAnim;
