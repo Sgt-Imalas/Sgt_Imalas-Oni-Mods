@@ -9,6 +9,9 @@ namespace DupePrioPresetManager
 {
     internal class STRINGS
     {
+        /// <summary>
+        /// Integration help for "Engineer Build Priority" since that mod doesnt properly register its strings
+        /// </summary>
         public class DUPLICANTS
         {
             public class CHOREGROUPS
