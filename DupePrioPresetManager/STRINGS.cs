@@ -9,6 +9,17 @@ namespace DupePrioPresetManager
 {
     internal class STRINGS
     {
+        public class DUPLICANTS
+        {
+            public class CHOREGROUPS
+            {
+                public class ENGBUILD
+                {
+                    public static LocString NAME = (LocString)"Engineer Building";
+                    public static LocString DESC = (LocString)"Construct buildings requiring engineering";
+                }
+            }
+        }
         public static LocString UNNAMEDPRESET = "Unnamed Preset";
         public class UI
         {

@@ -81,7 +81,7 @@ namespace DupePrioPresetManager
                                 __instance.MarkRowsDirty();
                             });
                         };
-                        UIUtils.AddActionToButton(row.transform, "MinionPortrait", openPresetMenu, true);
+                        UIUtils.AddActionToButton(row.transform, "MinionPortrait", openPresetMenu);
                         //UIUtils.AddActionToButton(row.transform, "LabelHeader/SortToggle(Clone)", openPresetMenu, false);
                     }
                 }
@@ -102,6 +102,7 @@ namespace DupePrioPresetManager
                     {
 
                         IPersonalPriorityManager priorityManager = (IPersonalPriorityManager)null;
+                        IAssignableIdentity assignableIdentity = null;
 
                         switch (row.rowType)
                         {
@@ -112,12 +113,14 @@ namespace DupePrioPresetManager
                                 MinionIdentity identity = row.GetIdentity() as MinionIdentity;
                                 if (identity != null)
                                 {
+                                    assignableIdentity = identity;
                                     priorityManager = (IPersonalPriorityManager)identity.GetComponent<ChoreConsumer>();
                                     break;
                                 }
                                 break;
                             case TableRow.RowType.StoredMinon:
                                 priorityManager = (row.GetIdentity() as StoredMinionIdentity);
+                                assignableIdentity = row.GetIdentity();
                                 break;
                         }
 
@@ -125,12 +128,26 @@ namespace DupePrioPresetManager
                         {
                             UnityPresetScreen_Priorities.ShowWindow(priorityManager, () =>
                             {
-                                __instance.MarkRowsDirty();
-                                //__instance.RefreshRows();
+                                foreach (KeyValuePair<string, TableColumn> column in __instance.columns)
+                                {
+                                    if (column.Value == null || column.Value.on_load_action == null)
+                                    {
+                                        continue;
+                                    }
+
+                                    if (column.Value.widgets_by_row.ContainsKey(row))
+                                    {
+                                        if (column.Value.widgets_by_row[row] != null)
+                                        {
+                                            column.Value.on_load_action(assignableIdentity, column.Value.widgets_by_row[row]);
+                                        }
+                                    }
+                                    column.Value.on_load_action(null, __instance.rows[0].GetWidget(column.Value));
+                                }
                             }
                         );
                         };
-                        UIUtils.AddActionToButton(row.transform, "MinionPortrait", openPresetMenu, false);
+                        UIUtils.AddActionToButton(row.transform, "MinionPortrait", openPresetMenu);
                         //UIUtils.AddActionToButton(row.transform, "LabelHeader/SortToggle(Clone)", openPresetMenu, false);
                     }
                     // UIUtils.ListAllChildrenWithComponents(row.transform);
