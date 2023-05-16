@@ -26,6 +26,7 @@ using static STRINGS.UI.DETAILTABS.PERSONALITY.RESUME;
 using static DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS;
 using Satsuma;
 using static Operational;
+using static DupePrioPresetManager.STRINGS.DUPLICANTS;
 
 namespace DupePrioPresetManager
 {
@@ -55,7 +56,7 @@ namespace DupePrioPresetManager
         public FButton ClearSearchBar;
         public FInputField2 Searchbar;
 
-        public bool CurrentlyActive=false;
+        public bool CurrentlyActive = false;
         private bool HoveringPrio = false;
 
         ///Preset
@@ -65,7 +66,10 @@ namespace DupePrioPresetManager
 
 
         Dictionary<MinionPrioPreset, GameObject> Presets = new Dictionary<MinionPrioPreset, GameObject>();
-        List<GameObject> InformationObjects = new List<GameObject>();
+        //List<GameObject> InformationObjects = new List<GameObject>();
+        LocText NameHolder;
+        Dictionary<string, Tuple<FButton,Image>> ChoreGroups = new Dictionary<string, Tuple<FButton, Image>>();
+
 
         string RefName;
 
@@ -208,53 +212,82 @@ namespace DupePrioPresetManager
             CurrentlySelected = config;
             RebuildInformationPanel();
         }
+        bool containerInit = false;
+
+        void ChangeValue(ChoreGroup choreGroup, bool decrease = false)
+        {
+            CurrentlySelected.ChangeValue(choreGroup, decrease ? -1:1); 
+            RebuildInformationPanel();
+        }
+
         void RebuildInformationPanel()
         {
-            SgtLogger.l("rebuilding UI start");
-            for (int i = InformationObjects.Count - 1; i >= 0; i--)
-            {
-                Destroy(InformationObjects[i]);
-            }
+
+            //SgtLogger.l("rebuilding UI start");
+            //for (int i = InformationObjects.Count - 1; i >= 0; i--)
+            //{
+            //    Destroy(InformationObjects[i]);
+            //}
             if (CurrentlySelected == null)
                 return;
+            if (!containerInit)
+            {
+                var Name = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
+                UIUtils.TryChangeText(Name.transform, "Label", "\"" + CurrentlySelected.ConfigName + "\"");
+                NameHolder = Name.transform.Find("Label").GetComponent<LocText>();
 
-            var Name = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-            UIUtils.TryChangeText(Name.transform, "Label", "\"" + CurrentlySelected.ConfigName + "\"");
-            InformationObjects.Add(Name);
+                //InformationObjects.Add(Name);
 
+                foreach (var choreGroup in Db.Get().ChoreGroups.resources)
+                {
+                    if (choreGroup.userPrioritizable)
+                    {
+                        var choreGroupPriorityItem = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
+                        UIUtils.TryChangeText(choreGroupPriorityItem.transform, "Label", ChoreGroupName(choreGroup));
+                        UIUtils.AddSimpleTooltipToObject(choreGroupPriorityItem.transform.Find("Label"), choreGroup.description, true, onBottom: true);
+                        if (choreGroupPriorityItem.transform.Find("Label/TraitImage").TryGetComponent<Image>(out var image))
+                        {
+                            image.sprite = Assets.GetSprite(choreGroup.sprite);
+                        }
+
+                        var PrioChangeBtn = choreGroupPriorityItem.transform.Find("AddThisTraitButton").FindOrAddComponent<FButton>();
+                        PrioChangeBtn.allowRightClick = true;
+                        PrioChangeBtn.OnClick += () => ChangeValue(choreGroup, true);
+                        PrioChangeBtn.OnRightClick += () => ChangeValue(choreGroup, false);
+                        PrioChangeBtn.OnPointerEnterAction += () => this.HoveringPrio = true;
+                        PrioChangeBtn.OnPointerExitAction += () => this.HoveringPrio = false;
+                        
+                        if (PrioChangeBtn.transform.Find("image").TryGetComponent<Image>(out var prioimage))
+                        {
+                            prioimage.color = new Color(0.25f, 0.25f, 0.25f, 1f);
+                        }
+
+                        ChoreGroups[choreGroup.Id] = new Tuple<FButton, Image>(PrioChangeBtn,prioimage);
+                    }
+                }
+                containerInit = true;
+            }
             var dbChoreGroups = Db.Get().ChoreGroups;
+
+            NameHolder.text = CurrentlySelected.ConfigName;
             foreach (var priority in CurrentlySelected.ChoreGroupPriorities)
             {
-                if (dbChoreGroups.TryGet(priority.Key) != null)
+                ChoreGroup choreGroup = dbChoreGroups.TryGet(priority.Key);
+                if(choreGroup == null) { continue; }
+
+                if(!ChoreGroups.ContainsKey(choreGroup.Id))
                 {
-                    ChoreGroup choreGroup = dbChoreGroups.TryGet(priority.Key);
-
-                    var choreGroupPriorityItem = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
-                    UIUtils.TryChangeText(choreGroupPriorityItem.transform, "Label", ChoreGroupName(choreGroup));
-                    UIUtils.AddSimpleTooltipToObject(choreGroupPriorityItem.transform.Find("Label"), choreGroup.description, true);
-                    if(choreGroupPriorityItem.transform.Find("Label/TraitImage").TryGetComponent<Image>(out var image))
-                    {
-                        image.sprite = Assets.GetSprite(choreGroup.sprite);
-                    }
-
-                    if (choreGroupPriorityItem.transform.Find("AddThisTraitButton/image").TryGetComponent<Image>(out var prioimage))
-                    {
-                        prioimage.sprite = GetPriorityInfo(priority.Value).sprite;
-                        prioimage.color = new Color(0.25f, 0.25f, 0.25f, 1f);
-                    }
-                    UIUtils.AddSimpleTooltipToObject(choreGroupPriorityItem.transform.Find("AddThisTraitButton"), GetPriorityStr(priority.Value), true);
-
-                    var PrioChangeBtn = choreGroupPriorityItem.transform.Find("AddThisTraitButton").FindOrAddComponent<FButton>();
-                    PrioChangeBtn.allowRightClick = true;
-                    PrioChangeBtn.OnClick += () => { CurrentlySelected.ChangeValue(choreGroup, 1); RebuildInformationPanel(); };
-                    PrioChangeBtn.OnRightClick += () => { CurrentlySelected.ChangeValue(choreGroup, -1); RebuildInformationPanel(); };
-                    PrioChangeBtn.OnPointerEnterAction += () => this.HoveringPrio = true;
-                    PrioChangeBtn.OnPointerExitAction += () => this.HoveringPrio = false;
-                    PrioChangeBtn.SetInteractable(Presets.ContainsKey(CurrentlySelected));
-
-                    InformationObjects.Add(choreGroupPriorityItem);
+                    continue;
                 }
+
+                var uiElement = ChoreGroups[choreGroup.Id];
+                uiElement.first.SetInteractable(Presets.ContainsKey(CurrentlySelected));
+                uiElement.second.sprite = GetPriorityInfo(priority.Value).sprite;
+                UIUtils.AddSimpleTooltipToObject(uiElement.first.transform, GetPriorityStr(priority.Value), true, onBottom: true);
+
+                //InformationObjects.Add(choreGroupPriorityItem);
             }
+
             GeneratePresetButton.SetInteractable(!Presets.ContainsKey(CurrentlySelected));
         }
 
@@ -332,7 +365,7 @@ namespace DupePrioPresetManager
                     CurrentlySelected.OpenPopUpToChangeName(
                             () =>
                                 {
-                                    if(this.CurrentlyActive && Presets[CurrentlySelected] != null)
+                                    if (this.CurrentlyActive && Presets[CurrentlySelected] != null)
                                     {
                                         UIUtils.TryChangeText(Presets[CurrentlySelected].transform, "Label", CurrentlySelected.ConfigName);
                                         RebuildInformationPanel();

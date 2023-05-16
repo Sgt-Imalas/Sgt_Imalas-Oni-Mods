@@ -66,7 +66,10 @@ namespace DupePrioPresetManager
         Action<HashSet<Tag>> ApplyingAction = null;
 
         Dictionary<MinionConsumableSettingsPreset, GameObject> Presets = new Dictionary<MinionConsumableSettingsPreset, GameObject>();
-        List<GameObject> InformationObjects = new List<GameObject>();
+        //List<GameObject> InformationObjects = new List<GameObject>();
+
+        Dictionary<string, Tuple<FButton, Image>> Consumables = new Dictionary<string, Tuple<FButton, Image>>();
+        LocText TitleHolder = null;
 
         string RefName;
 
@@ -211,79 +214,90 @@ namespace DupePrioPresetManager
             CurrentlySelected = config;
             RebuildInformationPanel();
         }
+
+        bool containerInit = false;
         void RebuildInformationPanel()
         {
-            for (int i = InformationObjects.Count - 1; i >= 0; i--)
-            {
-                Destroy(InformationObjects[i]);
-            }
+            //for (int i = InformationObjects.Count - 1; i >= 0; i--)
+            //{
+            //    Destroy(InformationObjects[i]);
+            //}
             if (CurrentlySelected == null)
                 return;
 
-            var Name = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-            UIUtils.TryChangeText(Name.transform, "Label", "\"" + CurrentlySelected.ConfigName + "\"");
-            InformationObjects.Add(Name);
-
-            SgtLogger.l(MinionConsumableSettingsPreset.ConsumableUIItems.Count+",","total count");
-            foreach (IConsumableUIItem ConsumableItem in MinionConsumableSettingsPreset.ConsumableUIItems)
+            if (!containerInit)
             {
-                SgtLogger.l(ConsumableItem.ConsumableName, "initializing");
 
-                var ConsumableAllowedItem = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
-                GameObject prefab = Assets.GetPrefab(ConsumableItem.ConsumableId.ToTag());
-                prefab.TryGetComponent<KBatchedAnimController>(out var animationController);
-                if (animationController.AnimFiles.Length > 0)
+                var Name = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
+                UIUtils.TryChangeText(Name.transform, "Label", "\"" + CurrentlySelected.ConfigName + "\"");
+                TitleHolder = Name.transform.Find("Label").GetComponent<LocText>();
+
+                //InformationObjects.Add(Name);
+
+                foreach (IConsumableUIItem ConsumableItem in MinionConsumableSettingsPreset.ConsumableUIItems)
                 {
-                    Sprite fromMultiObjectAnim = Def.GetUISpriteFromMultiObjectAnim(animationController.AnimFiles[0]);
-                    if (ConsumableAllowedItem.transform.Find("Label/TraitImage").TryGetComponent<Image>(out var image))
+                    var ConsumableAllowedItem = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
+                    GameObject prefab = Assets.GetPrefab(ConsumableItem.ConsumableId.ToTag());
+                    prefab.TryGetComponent<KBatchedAnimController>(out var animationController);
+                    if (animationController.AnimFiles.Length > 0)
                     {
-                        UnityEngine.Rect rect = fromMultiObjectAnim.rect;
-                        if(rect.width > rect.height)
+                        Sprite fromMultiObjectAnim = Def.GetUISpriteFromMultiObjectAnim(animationController.AnimFiles[0]);
+                        if (ConsumableAllowedItem.transform.Find("Label/TraitImage").TryGetComponent<Image>(out var image))
                         {
-                            image.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, (rect.height / rect.width) * 40f);
-                        }
-                        else
-                        {
-                            image.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (rect.width / rect.height ) * 40f);
-                        }
+                            UnityEngine.Rect rect = fromMultiObjectAnim.rect;
+                            if (rect.width > rect.height)
+                            {
+                                image.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, (rect.height / rect.width) * 40f);
+                            }
+                            else
+                            {
+                                image.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (rect.width / rect.height) * 40f);
+                            }
 
-                        image.sprite = fromMultiObjectAnim;
+                            image.sprite = fromMultiObjectAnim;
+                        }
                     }
+                    UIUtils.TryChangeText(ConsumableAllowedItem.transform, "Label", ConsumableItem.ConsumableName);
+
+                    if (prefab.TryGetComponent<InfoDescription>(out var descHolder))
+                    {
+                        UIUtils.AddSimpleTooltipToObject(ConsumableAllowedItem.transform.Find("Label"), descHolder.description, true);
+                    }
+
+
+                    if (ConsumableAllowedItem.transform.Find("AddThisTraitButton/image").TryGetComponent<Image>(out var prioimage))
+                    {
+                        prioimage.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25);
+                        prioimage.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 20);
+                        prioimage.sprite = Assets.GetSprite("overview_jobs_icon_checkmark");
+                        prioimage.color = new Color(0.25f, 0.25f, 0.25f, 1f);
+                    }
+
+                    var PrioChangeBtn = ConsumableAllowedItem.transform.Find("AddThisTraitButton").FindOrAddComponent<FButton>();
+                    PrioChangeBtn.OnClick += () => ChangeValue(ConsumableItem.ConsumableId,prioimage);
+                    PrioChangeBtn.OnPointerEnterAction += () => this.HoveringPrio = true;
+                    PrioChangeBtn.OnPointerExitAction += () => this.HoveringPrio = false;
+
+                    Consumables[ConsumableItem.ConsumableId] = new Tuple<FButton, Image>(PrioChangeBtn, prioimage);
+
+                    //InformationObjects.Add(ConsumableAllowedItem);
+
                 }
-                UIUtils.TryChangeText(ConsumableAllowedItem.transform, "Label", ConsumableItem.ConsumableName);
-                prefab.TryGetComponent<KPrefabID>(out var prefabID);
-
-                if (prefab.TryGetComponent<InfoDescription>(out var descHolder))
-                {
-                    UIUtils.AddSimpleTooltipToObject(ConsumableAllowedItem.transform.Find("Label"), descHolder.description, true);
-                }
-
-
-                if (ConsumableAllowedItem.transform.Find("AddThisTraitButton/image").TryGetComponent<Image>(out var prioimage))
-                {
-                    prioimage.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25);
-                    prioimage.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 20);
-                    prioimage.sprite = Assets.GetSprite("overview_jobs_icon_checkmark");
-                    prioimage.color = new Color(0.25f, 0.25f, 0.25f, 1f);
-                    SetAllowedSprite(!CurrentlySelected.ForbiddenTags.Contains(ConsumableItem.ConsumableId.ToTag()), prioimage);
-                }
-                //UIUtils.AddSimpleTooltipToObject(choreGroupPriorityItem.transform.Find("AddThisTraitButton"), GetPriorityStr(priority.Value), true);
-
-                var PrioChangeBtn = ConsumableAllowedItem.transform.Find("AddThisTraitButton").FindOrAddComponent<FButton>();
-                PrioChangeBtn.OnClick += 
-                    () => 
-                    { 
-                        CurrentlySelected.ChangeValue(ConsumableItem.ConsumableId);
-                        SetAllowedSprite(!CurrentlySelected.ForbiddenTags.Contains(ConsumableItem.ConsumableId.ToTag()), prioimage);
-                    };
-                PrioChangeBtn.OnPointerEnterAction += () => this.HoveringPrio = true;
-                PrioChangeBtn.OnPointerExitAction += () => this.HoveringPrio = false;
-                PrioChangeBtn.SetInteractable(Presets.ContainsKey(CurrentlySelected));
-
-                InformationObjects.Add(ConsumableAllowedItem);
-
+                containerInit = true;
+            }
+            TitleHolder.text = CurrentlySelected.ConfigName;
+            foreach (var consumable in Consumables)
+            {
+                SetAllowedSprite(!CurrentlySelected.ForbiddenTags.Contains(consumable.Key.ToTag()), consumable.Value.second);
+                consumable.Value.first.SetInteractable(Presets.ContainsKey(CurrentlySelected));
             }
             GeneratePresetButton.SetInteractable(!Presets.ContainsKey(CurrentlySelected));
+        }
+
+        void ChangeValue(string id, Image image)
+        {
+            CurrentlySelected.ChangeValue(id);
+            SetAllowedSprite(!CurrentlySelected.ForbiddenTags.Contains(id.ToTag()), image);
         }
 
         private void SetAllowedSprite(bool allowed, Image image)
@@ -305,7 +319,7 @@ namespace DupePrioPresetManager
         {
 
             UIUtils.TryChangeText(transform, "Title", TITLECONSUMABLES);
-            
+
 
             GeneratePresetButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/GenerateFromCurrent").FindOrAddComponent<FButton>();
             CloseButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/CloseButton").FindOrAddComponent<FButton>();
@@ -325,7 +339,7 @@ namespace DupePrioPresetManager
 
             ApplyButton.OnClick += () =>
             {
-                ApplyingAction.Invoke( CurrentlySelected.ForbiddenTags );
+                ApplyingAction.Invoke(CurrentlySelected.ForbiddenTags);
                 this.OnCloseAction.Invoke();
                 this.Show(false);
             };
