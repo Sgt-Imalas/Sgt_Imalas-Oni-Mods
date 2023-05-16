@@ -105,10 +105,10 @@ namespace DupePrioPresetManager
         {
             if (e.TryConsume(Action.MouseRight))
             {
-                if (!HoveringPrio)
-                {
-                    this.Show(false);
-                }
+                //if (!HoveringPrio)
+                //{
+                //    this.Show(false);
+                //}
             }
             if (e.TryConsume(Action.Escape))
             {
@@ -216,7 +216,7 @@ namespace DupePrioPresetManager
 
         void ChangeValue(ChoreGroup choreGroup, bool decrease = false)
         {
-            CurrentlySelected.ChangeValue(choreGroup, decrease ? -1:1); 
+            CurrentlySelected.ChangeValue(choreGroup, decrease ? -1 : 1); 
             RebuildInformationPanel();
         }
 
@@ -252,8 +252,8 @@ namespace DupePrioPresetManager
 
                         var PrioChangeBtn = choreGroupPriorityItem.transform.Find("AddThisTraitButton").FindOrAddComponent<FButton>();
                         PrioChangeBtn.allowRightClick = true;
-                        PrioChangeBtn.OnClick += () => ChangeValue(choreGroup, true);
-                        PrioChangeBtn.OnRightClick += () => ChangeValue(choreGroup, false);
+                        PrioChangeBtn.OnClick += () => ChangeValue(choreGroup, false);
+                        PrioChangeBtn.OnRightClick += () => ChangeValue(choreGroup, true);
                         PrioChangeBtn.OnPointerEnterAction += () => this.HoveringPrio = true;
                         PrioChangeBtn.OnPointerExitAction += () => this.HoveringPrio = false;
                         
@@ -283,7 +283,7 @@ namespace DupePrioPresetManager
                 var uiElement = ChoreGroups[choreGroup.Id];
                 uiElement.first.SetInteractable(Presets.ContainsKey(CurrentlySelected));
                 uiElement.second.sprite = GetPriorityInfo(priority.Value).sprite;
-                UIUtils.AddSimpleTooltipToObject(uiElement.first.transform, GetPriorityStr(priority.Value), true, onBottom: true);
+                //UIUtils.AddSimpleTooltipToObject(uiElement.first.transform, GetPriorityStr(priority.Value), true, onBottom: true);
 
                 //InformationObjects.Add(choreGroupPriorityItem);
             }

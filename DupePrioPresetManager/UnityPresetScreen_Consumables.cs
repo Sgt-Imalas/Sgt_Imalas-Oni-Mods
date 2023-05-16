@@ -107,10 +107,10 @@ namespace DupePrioPresetManager
         {
             if (e.TryConsume(Action.MouseRight))
             {
-                if (!HoveringPrio)
-                {
-                    this.Show(false);
-                }
+                //if (!HoveringPrio)
+                //{
+                //    this.Show(false);
+                //}
             }
             if (e.TryConsume(Action.Escape))
             {
