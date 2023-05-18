@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 using UtilLibs;
 using static DupePrioPresetManager.ModAssets;
 using static ResearchTypes;
@@ -172,6 +173,82 @@ namespace DupePrioPresetManager
             }
         }
 
+        [HarmonyPatch(typeof(ScheduleScreen))]
+        [HarmonyPatch(nameof(ScheduleScreen.AddScheduleEntry))]
+        public static class SchedulePresetTest
+        {
+
+            public static void Prefix(Schedule schedule)
+            {
+                
+            }
+        }
+
+        [HarmonyPatch(typeof(ScheduleScreen), "OnPrefabInit")]
+        public static class ScheduleScreen_OnPrefabInit_Patch
+        {
+            /// <summary>
+            /// Grab them Colours
+            /// </summary>
+            
+            [HarmonyPriority(Priority.LowerThanNormal)]
+            internal static void Postfix(Dictionary<string, ColorStyleSetting> ___paintStyles)
+            {
+                if (___paintStyles != null)
+                {
+                    ModAssets.ColoursForBlocks = new Dictionary<string, ColorStyleSetting>();
+                    foreach (var Kvp in ___paintStyles)
+                    {
+                        ModAssets.ColoursForBlocks[Kvp.Key] = Kvp.Value;
+                    }
+                }
+            }
+        }
+        [HarmonyPatch(typeof(ScheduleScreenEntry), nameof(ScheduleScreenEntry.Setup))]
+        public static class AddPresetButtonToScheduleEntry
+        {
+            /// <summary>
+            /// Grab them Colours
+            /// </summary>
+
+            internal static void Postfix(ScheduleScreenEntry __instance,Schedule schedule)
+            {
+                //UIUtils.ListAllChildrenPath(__instance.transform);
+                //UIUtils.ListAllChildrenWithComponents(__instance.transform);
+                var btn = __instance.transform.Find("Header/OptionsButton");
+                var Button = Util.KInstantiateUI(btn.gameObject, btn.transform.parent.gameObject).GetComponent<KButton>();
+                Button.transform.SetSiblingIndex(2);
+                Button.name = "PresetButton";
+                Button.transform.Find("GameObject").TryGetComponent<Image>(out var image);
+                UIUtils.AddSimpleTooltipToObject(Button.transform, STRINGS.UI.PRESETWINDOWDUPEPRIOS.OPENPRESETWINDOW, true, onBottom: true); 
+
+                image.sprite = Assets.GetSprite("iconPaste");
+                Button.onClick += () => UnityPresetScreen_Schedule.ShowWindow(schedule, 
+                    ()=>
+                    {
+                        __instance.OnScheduleChanged(schedule);
+                        __instance.title.SetTitle(schedule.name);
+                    }, schedule.name);
+
+            }
+        }
+
+        [HarmonyPatch(typeof(ScheduleScreen), "OnSpawn")]
+        public static class ScheduleScreen_OnSpawn_Patch
+        {
+            internal static void Postfix(ScheduleScreen __instance)
+            {
+                ModAssets.ParentScreen = __instance.transform.parent.gameObject;
+
+                var Button = Util.KInstantiateUI(__instance.addScheduleButton.gameObject, __instance.addScheduleButton.transform.parent.gameObject).GetComponent<KButton>();
+                //Button.transform.SetSiblingIndex(2);
+                UIUtils.TryChangeText(Button.transform, "Label", STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.GENERATEALL);
+                UIUtils.AddSimpleTooltipToObject(Button.transform, STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.GENERATEALLTOOLTIP, true, onBottom: true);                
+                Button.name = "AddAllPresetSchedules";
+                Button.onClick += ()=>UnityPresetScreen_Schedule.GenerateAllDefaultPresets();
+               
+            }
+        }
 
         /// <summary>
         /// Init. auto translation

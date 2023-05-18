@@ -37,8 +37,28 @@ namespace DupePrioPresetManager
 
                 }
 
+                public static LocString OPENPRESETWINDOW = "Open Preset Window";
                 public static LocString TITLE = "Priority Presets";
                 public static LocString TITLECONSUMABLES = "Consumable Presets";
+                public static LocString TITLESCHEDULES = "Schedule Presets";
+                public class SCHEDULESTRINGS
+                {
+                    public static LocString TITLE = "Delete {0}";
+                    public static LocString DESC = "You are about to delete the stat preset \"{0}\".\nDo you want to continue?";
+                    public static LocString YES = "Confirm Deletion";
+
+
+                    public static LocString MARKEDASDEFAULT = "Marked as default?";
+                    public static LocString MARKEDASDEFAULTTOOLTIP = "Schedules marked as default get generated when the respective button on the schedule screen is clicked.";
+                    public static LocString GENERATEALL = "Generate all default schedules";
+                    public static LocString GENERATEALLTOOLTIP = "Generate all schedules from presets that are marked as default.\nSchedules that already exist by name wont be generated.";
+
+
+                    public static LocString GENERATEALLCONFIRM = "Generate {0} new schedules based on your preset settings?";
+                    public static LocString ALLGENERATED = "All preset schedules already exist by name";
+                }
+
+
                 public class HORIZONTALLAYOUT
                 {
                     public class OBJECTLIST

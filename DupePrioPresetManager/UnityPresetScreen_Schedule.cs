@@ -28,17 +28,19 @@ using Satsuma;
 using static Operational;
 using System.Security.Policy;
 using static BestFit;
+using YamlDotNet.Serialization;
+using static STRINGS.UI.FRONTEND;
 
 namespace DupePrioPresetManager
 {
-    internal class UnityPresetScreen_Consumables : FScreen
+    internal class UnityPresetScreen_Schedule : FScreen
     {
 #pragma warning disable IDE0051 // Remove unused private members
 #pragma warning disable CS0414 // Remove unused private members
         new bool ConsumeMouseScroll = true; // do not remove!!!!
 #pragma warning restore CS0414 // Remove unused private members
 #pragma warning restore IDE0051 // Remove unused private members
-        public static UnityPresetScreen_Consumables Instance = null;
+        public static UnityPresetScreen_Schedule Instance = null;
 
 
         public FButton GeneratePresetButton;
@@ -61,24 +63,26 @@ namespace DupePrioPresetManager
         private bool HoveringPrio = false;
 
         ///Preset
-        MinionConsumableSettingsPreset CurrentlySelected;
+        ScheduleSettingsPreset CurrentlySelected;
         ///Referenced Stats to apply presets to.
-        Action<HashSet<Tag>> ApplyingAction = null;
 
-        Dictionary<MinionConsumableSettingsPreset, GameObject> Presets = new Dictionary<MinionConsumableSettingsPreset, GameObject>();
+        Dictionary<ScheduleSettingsPreset, GameObject> Presets = new Dictionary<ScheduleSettingsPreset, GameObject>();
         //List<GameObject> InformationObjects = new List<GameObject>();
 
-        Dictionary<string, Tuple<FButton, Image>> Consumables = new Dictionary<string, Tuple<FButton, Image>>();
+        Dictionary<int, Tuple<FButton, LocText, Image>> ScheduleBlocks = new Dictionary<int, Tuple<FButton, LocText, Image>>();
         LocText TitleHolder = null;
+        Image IsActiveAsDefaultSchedule  = null;
+        FButton IsActiveAsDefaultScheduleBtn = null;
+        Image IsActiveAsDefaultScheduleBG  = null;
 
         string RefName;
 
-        public static void ShowWindow(HashSet<Tag> currentlyForbidden, Action<HashSet<Tag>> ApplyingAction, System.Action onClose, string refName = "")
+        public static void ShowWindow(Schedule toLoadFrom, System.Action onClose, string refName = "")
         {
             if (Instance == null)
             {
                 var screen = Util.KInstantiateUI(ModAssets.PresetWindowPrefab, ModAssets.ParentScreen, true);
-                Instance = screen.AddOrGet<UnityPresetScreen_Consumables>();
+                Instance = screen.AddOrGet<UnityPresetScreen_Schedule>();
                 Instance.Init();
             }
             Instance.Show(true);
@@ -86,19 +90,20 @@ namespace DupePrioPresetManager
             Instance.transform.SetAsLastSibling();
             Instance.LoadAllPresets();
             Instance.RefName = refName;
-            Instance.LoadTemporalPreset(currentlyForbidden);
-            Instance.ApplyingAction = ApplyingAction;
+            Instance.LoadTemporalPreset(toLoadFrom);
             Instance.OnCloseAction = onClose;
             Instance.Searchbar.Text = string.Empty;
         }
 
         private bool init;
         private System.Action OnCloseAction;
+        private Schedule referencedSchedule;
 
-        public void LoadTemporalPreset(HashSet<Tag> toGenerateFrom)
+        public void LoadTemporalPreset(Schedule toGenerateFrom)
         {
-            MinionConsumableSettingsPreset tempStats = MinionConsumableSettingsPreset.CreateFromPriorityManager(toGenerateFrom, RefName);
-            SetAsCurrent(tempStats);
+           referencedSchedule= toGenerateFrom;
+           ScheduleSettingsPreset tempStats = ScheduleSettingsPreset.CreateFromSchedule(toGenerateFrom, RefName);
+           SetAsCurrent(tempStats);
         }
 
         public override void OnKeyDown(KButtonEvent e)
@@ -130,10 +135,50 @@ namespace DupePrioPresetManager
             }
         }
 
-        List<MinionConsumableSettingsPreset> LoadPresets()
+        public static void GenerateAllDefaultPresets()
         {
-            List<MinionConsumableSettingsPreset> minionStatConfigs = new List<MinionConsumableSettingsPreset>();
-            var files = new DirectoryInfo(ModAssets.FoodTemplatePath).GetFiles();
+            List<string> ExistingSchedules = ScheduleManager.Instance.GetSchedules().Select(s => s.name).ToList();
+            var dbAllGroups = Db.Get().ScheduleGroups.allGroups;
+            var ToGenerates = new List<ScheduleSettingsPreset>();
+            foreach (var Preset in LoadPresets())
+            {
+                if (!Preset.InDefaultList)
+                    continue;
+                if (ExistingSchedules.Contains(Preset.ConfigName))
+                    continue;
+                ToGenerates.Add(Preset);
+            }
+            if (ToGenerates.Count == 0) 
+            {
+                KMod.Manager.Dialog(Global.Instance.globalCanvas,
+               SCHEDULESTRINGS.GENERATEALL,
+               SCHEDULESTRINGS.ALLGENERATED,
+               SAVESCREEN.CANCELNAME,
+                () => { });
+                return;
+            }
+
+            var generateAction = () =>
+            {
+                foreach (var Preset in ToGenerates)
+                {
+                    Preset.ApplyPreset(ScheduleManager.Instance.AddSchedule(dbAllGroups, Preset.ConfigName, false));
+                }
+            }; 
+
+            KMod.Manager.Dialog(Global.Instance.globalCanvas,
+               SCHEDULESTRINGS.GENERATEALL,
+               string.Format(SCHEDULESTRINGS.GENERATEALLCONFIRM, ToGenerates.Count),
+               SAVESCREEN.CONFIRMNAME,
+               generateAction,
+               SAVESCREEN.CANCELNAME
+               , () => { }
+               );
+        }
+        public static List<ScheduleSettingsPreset> LoadPresets()
+        {
+            List<ScheduleSettingsPreset> minionStatConfigs = new List<ScheduleSettingsPreset>();
+            var files = new DirectoryInfo(ModAssets.ScheduleTemplatePath).GetFiles();
 
 
             for (int i = 0; i < files.Count(); i++)
@@ -141,7 +186,7 @@ namespace DupePrioPresetManager
                 var File = files[i];
                 try
                 {
-                    var preset = MinionConsumableSettingsPreset.ReadFromFile(File);
+                    var preset = ScheduleSettingsPreset.ReadFromFile(File);
                     if (preset != null)
                     {
                         minionStatConfigs.Add(preset);
@@ -152,15 +197,19 @@ namespace DupePrioPresetManager
                     SgtLogger.logError("Couln't load priority preset from: " + File.FullName + ",\nError: " + e);
                 }
             }
+            minionStatConfigs= minionStatConfigs.OrderBy(entry => entry.ConfigName).ToList();
             return minionStatConfigs;
         }
 
-        private bool AddUiElementForPreset(MinionConsumableSettingsPreset config)
+        private bool AddUiElementForPreset(ScheduleSettingsPreset config)
         {
             if (!Presets.ContainsKey(config))
             {
                 var PresetHolder = Util.KInstantiateUI(PresetListPrefab, PresetListContainer, true);
-                PresetHolder.transform.Find("TraitImage").gameObject.SetActive(false);
+                //PresetHolder.transform.Find("TraitImage").gameObject.SetActive(false);
+                var img = PresetHolder.transform.Find("TraitImage").GetComponent<Image>();
+                img.sprite = Assets.GetSprite(config.InDefaultList ? "circle_hard" : "circle_hard");
+                img.color = config.InDefaultList ? Color.green : Color.red;
 
                 UIUtils.TryChangeText(PresetHolder.transform, "Label", config.ConfigName);
                 PresetHolder.transform.Find("RenameButton").FindOrAddComponent<FButton>().OnClick +=
@@ -175,6 +224,7 @@ namespace DupePrioPresetManager
                 PresetHolder.transform.Find("AddThisTraitButton").FindOrAddComponent<FButton>().OnClick += () => SetAsCurrent(config);
                 PresetHolder.transform.Find("DeleteButton").FindOrAddComponent<FButton>().OnClick += () => DeletePreset(config);
 
+
                 UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("RenameButton"), STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP);
                 UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("DeleteButton"), STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP);
                 Presets[config] = PresetHolder;
@@ -183,7 +233,7 @@ namespace DupePrioPresetManager
             return false;
         }
 
-        void DeletePreset(MinionConsumableSettingsPreset config)
+        void DeletePreset(ScheduleSettingsPreset config)
         {
             System.Action Delete = () =>
             {
@@ -207,54 +257,65 @@ namespace DupePrioPresetManager
            );
         }
 
-        void SetAsCurrent(MinionConsumableSettingsPreset config)
+        void SetAsCurrent(ScheduleSettingsPreset config)
         {
             CurrentlySelected = config;
             RebuildInformationPanel();
         }
+
         void RebuildInformationPanel()
         {
-            //for (int i = InformationObjects.Count - 1; i >= 0; i--)
-            //{
-            //    Destroy(InformationObjects[i]);
-            //}
             if (CurrentlySelected == null)
                 return;
+            for (int i = 0; i<CurrentlySelected.ScheduleGroups.Count; ++i)
+            {
+                FButton bt = ScheduleBlocks[i].first;
+                var setting = ModAssets.GimmeColorForPreset(CurrentlySelected.ScheduleGroups[i]);
+
+                bt.disabledColor = setting.disabledColor;
+                bt.hoverColor = setting.hoverColor;
+                bt.normalColor = setting.inactiveColor;
+                bt.SetInteractable(Presets.ContainsKey(CurrentlySelected));
+
+                ScheduleBlocks[i].second.text = 1+i + ". " + CurrentlySelected.ScheduleGroups[i];
+                ScheduleBlocks[i].third.color = setting.inactiveColor;
+            }
 
             TitleHolder.text = CurrentlySelected.ConfigName;
-            foreach (var consumable in Consumables)
-            {
-                SetAllowedSprite(!CurrentlySelected.ForbiddenTags.Contains(consumable.Key.ToTag()), consumable.Value.second);
-                consumable.Value.first.SetInteractable(Presets.ContainsKey(CurrentlySelected));
-            }
+            IsActiveAsDefaultScheduleBtn.SetInteractable(Presets.ContainsKey(CurrentlySelected));
             GeneratePresetButton.SetInteractable(!Presets.ContainsKey(CurrentlySelected));
+
+            ToggleActiveInDefaults(false);
         }
 
-        void ChangeValue(string id, Image image)
+        void ToggleActiveInDefaults(bool DoToggle = true)
         {
-            CurrentlySelected.ChangeValue(id);
-            SetAllowedSprite(!CurrentlySelected.ForbiddenTags.Contains(id.ToTag()), image);
+            if(DoToggle)
+                CurrentlySelected.ToggleActiveInDefault();
+
+            if (Presets.ContainsKey(CurrentlySelected))
+            {
+                var img = Presets[CurrentlySelected].transform.Find("TraitImage").GetComponent<Image>();
+                img.sprite = Assets.GetSprite(CurrentlySelected.InDefaultList ? "circle_hard" : "circle_hard");
+                img.color = CurrentlySelected.InDefaultList ? Color.green : Color.red;
+            }
+            IsActiveAsDefaultSchedule.gameObject.SetActive(CurrentlySelected.InDefaultList);
+            IsActiveAsDefaultScheduleBG.color = CurrentlySelected.InDefaultList ? Color.green : Color.red;
+            //SetAllowedSprite(!CurrentlySelected.ForbiddenTags.Contains(id.ToTag()), image);
         }
 
-        private void SetAllowedSprite(bool allowed, Image image)
-        {
-            image.gameObject.SetActive(allowed);
-        }
 
-
-        public string ChoreGroupName(ChoreGroup group)
+        void ChangeValue(int index, Image image, bool increase)
         {
-            return Strings.Get("STRINGS.DUPLICANTS.CHOREGROUPS." + group.Id.ToUpperInvariant() + ".NAME");
-        }
-        public string ChoreGroupTooltip(ChoreGroup group)
-        {
-            return Strings.Get("STRINGS.DUPLICANTS.CHOREGROUPS." + group.Id.ToUpperInvariant() + ".DESC");
+            CurrentlySelected.DeltaBlock(index,increase); 
+            RebuildInformationPanel();
+            //SetAllowedSprite(!CurrentlySelected.ForbiddenTags.Contains(id.ToTag()), image);
         }
 
         private void Init()
         {
-
-            UIUtils.TryChangeText(transform, "Title", TITLECONSUMABLES);
+            UIUtils.ListAllChildrenPath(this.transform);
+            UIUtils.TryChangeText(transform, "Title", TITLESCHEDULES);
 
 
             GeneratePresetButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/GenerateFromCurrent").FindOrAddComponent<FButton>();
@@ -262,8 +323,7 @@ namespace DupePrioPresetManager
             ApplyButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/ApplyPresetButton").FindOrAddComponent<FButton>();
 
             OpenPresetFolder = transform.Find("HorizontalLayout/ObjectList/SearchBar/FolderButton").FindOrAddComponent<FButton>();
-            OpenPresetFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.FoodTemplatePath) { UseShellExecute = true });
-
+            OpenPresetFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.ScheduleTemplatePath) { UseShellExecute = true });
 
             Searchbar = transform.Find("HorizontalLayout/ObjectList/SearchBar/Input").FindOrAddComponent<FInputField2>();
             Searchbar.OnValueChanged.AddListener(ApplyFilter);
@@ -275,7 +335,7 @@ namespace DupePrioPresetManager
 
             ApplyButton.OnClick += () =>
             {
-                ApplyingAction.Invoke(CurrentlySelected.ForbiddenTags);
+                CurrentlySelected.ApplyPreset(referencedSchedule);
                 this.OnCloseAction.Invoke();
                 this.Show(false);
             };
@@ -317,64 +377,83 @@ namespace DupePrioPresetManager
             InfoScreenContainer = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content").gameObject;
             PresetListContainer = transform.Find("HorizontalLayout/ObjectList/ScrollArea/Content").gameObject;
             PresetListPrefab = transform.Find("HorizontalLayout/ObjectList/ScrollArea/Content/PresetEntryPrefab").gameObject;
-            ///Filling the items
+
+
             var Name = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
             //UIUtils.TryChangeText(Name.transform, "Label", "\"" + CurrentlySelected.ConfigName + "\"");
             TitleHolder = Name.transform.Find("Label").GetComponent<LocText>();
 
-            //InformationObjects.Add(Name);
-
-            foreach (IConsumableUIItem ConsumableItem in MinionConsumableSettingsPreset.ConsumableUIItems)
+            var IsEnabledHolder = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
+            if (IsEnabledHolder.transform.Find("AddThisTraitButton/image").TryGetComponent<Image>(out var fg))
             {
-                var ConsumableAllowedItem = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
-                GameObject prefab = Assets.GetPrefab(ConsumableItem.ConsumableId.ToTag());
-                prefab.TryGetComponent<KBatchedAnimController>(out var animationController);
-                if (animationController.AnimFiles.Length > 0)
-                {
-                    Sprite fromMultiObjectAnim = Def.GetUISpriteFromMultiObjectAnim(animationController.AnimFiles[0]);
-                    if (ConsumableAllowedItem.transform.Find("Label/TraitImage").TryGetComponent<Image>(out var image))
-                    {
-                        UnityEngine.Rect rect = fromMultiObjectAnim.rect;
-                        if (rect.width > rect.height)
-                        {
-                            var size = (rect.height / rect.width) * 40f;
-                            image.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size);
-                        }
-                        else
-                        {
-                            var size = (rect.width / rect.height) * 40f;
-                            image.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (-45 + (40 - size) / 2), size);
-                        }
-
-                        image.sprite = fromMultiObjectAnim;
-                    }
-                }
-                UIUtils.TryChangeText(ConsumableAllowedItem.transform, "Label", ConsumableItem.ConsumableName);
-
-                if (prefab.TryGetComponent<InfoDescription>(out var descHolder))
-                {
-                    UIUtils.AddSimpleTooltipToObject(ConsumableAllowedItem.transform.Find("Label"), descHolder.description, true);
-                }
-
-
-                if (ConsumableAllowedItem.transform.Find("AddThisTraitButton/image").TryGetComponent<Image>(out var prioimage))
-                {
-                    prioimage.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25);
-                    prioimage.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 20);
-                    prioimage.sprite = Assets.GetSprite("overview_jobs_icon_checkmark");
-                    prioimage.color = new Color(0.25f, 0.25f, 0.25f, 1f);
-                }
-
-                var PrioChangeBtn = ConsumableAllowedItem.transform.Find("AddThisTraitButton").FindOrAddComponent<FButton>();
-                PrioChangeBtn.OnClick += () => ChangeValue(ConsumableItem.ConsumableId, prioimage);
-                PrioChangeBtn.OnPointerEnterAction += () => this.HoveringPrio = true;
-                PrioChangeBtn.OnPointerExitAction += () => this.HoveringPrio = false;
-
-                Consumables[ConsumableItem.ConsumableId] = new Tuple<FButton, Image>(PrioChangeBtn, prioimage);
-
-                //InformationObjects.Add(ConsumableAllowedItem);
-
+                fg.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25);
+                fg.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 20);
+                fg.sprite = Assets.GetSprite("overview_jobs_icon_checkmark");
+                fg.color = new Color(0.15f, 0.15f, 0.15f, 1f);
+                IsActiveAsDefaultSchedule = fg; 
             }
+            if (IsEnabledHolder.transform.Find("Label/TraitImage").TryGetComponent<Image>(out var image))
+            {
+                image.gameObject.SetActive(false);
+            }
+            UIUtils.TryChangeText(IsEnabledHolder.transform, "Label", SCHEDULESTRINGS.MARKEDASDEFAULT); 
+            UIUtils.AddSimpleTooltipToObject(IsEnabledHolder.transform.Find("Label"), SCHEDULESTRINGS.MARKEDASDEFAULTTOOLTIP, true,onBottom:true);
+
+            if (IsEnabledHolder.transform.Find("AddThisTraitButton").TryGetComponent<Image>(out var bg))
+            {
+                IsActiveAsDefaultScheduleBG = bg; 
+            }
+            var bt = IsEnabledHolder.transform.Find("AddThisTraitButton").FindOrAddComponent<FButton>();
+            bt.OnClick += () => ToggleActiveInDefaults();
+            IsActiveAsDefaultScheduleBtn = bt;
+
+            var spacer = Util.KInstantiateUI(InfoSpacer, InfoScreenContainer, true);
+
+
+
+
+            for (int i = 0; i<24; ++i)
+            {
+                var ScheduleBlockHolder = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
+                if (ScheduleBlockHolder.transform.Find("Label/TraitImage").TryGetComponent<Image>(out var traitimg))
+                {
+                    traitimg.gameObject.SetActive(false);
+                }
+
+                UIUtils.TryChangeText(ScheduleBlockHolder.transform, "Label", "1");
+                //UIUtils.AddSimpleTooltipToObject(ConsumableAllowedItem.transform.Find("Label"), descHolder.description, true);
+
+                ScheduleBlockHolder.transform.Find("AddThisTraitButton/image").TryGetComponent<Image>(out var SunMoonImg);
+                if (i < 5)
+                {
+                    SunMoonImg.sprite = Assets.GetSprite("schedule_early");
+                    SunMoonImg.color = Color.white;
+                }
+                else if (i > 20)
+                {
+                    SunMoonImg.color = Color.white;
+                    SunMoonImg.sprite = Assets.GetSprite("schedule_night");
+                }
+                else
+                {
+                    SunMoonImg.gameObject.SetActive(false);
+                }
+
+                ScheduleBlockHolder.transform.Find("AddThisTraitButton").TryGetComponent<Image>(out var prioimage);
+                ScheduleBlockHolder.transform.Find("Label").TryGetComponent<LocText>(out var Description);
+
+                var BlockChangeBTN = ScheduleBlockHolder.transform.Find("AddThisTraitButton").FindOrAddComponent<FButton>();
+                BlockChangeBTN.allowRightClick = true;
+                int index = i;
+                BlockChangeBTN.OnClick += () => ChangeValue(index, prioimage, true);
+                BlockChangeBTN.OnRightClick += () => ChangeValue(index, prioimage, false);
+                BlockChangeBTN.OnPointerEnterAction += () => this.HoveringPrio = true;
+                BlockChangeBTN.OnPointerExitAction += () => this.HoveringPrio = false;
+
+                ScheduleBlocks[index] = new Tuple<FButton,LocText, Image>(BlockChangeBTN, Description, prioimage);
+            }
+
+
 
             init = true;
         }

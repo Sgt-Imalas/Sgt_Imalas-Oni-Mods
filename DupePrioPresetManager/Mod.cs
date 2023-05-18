@@ -19,8 +19,9 @@ namespace DupePrioPresetManager
 
             SgtLogger.debuglog("Initializing file paths..");
             ModAssets.DupeTemplatePath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config/"), "DuplicantPriorityPresets/"));
-            SgtLogger.debuglog(ModAssets.DupeTemplatePath, "Priority Preset Folder");
+            //SgtLogger.debuglog(ModAssets.DupeTemplatePath, "Priority Preset Folder");
             ModAssets.FoodTemplatePath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config/"), "DuplicantConsumablePresets/"));
+            ModAssets.ScheduleTemplatePath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config/"), "DuplicantSchedulePresets/"));
 
 
             SgtLogger.debuglog("Initializing folders..");
@@ -28,6 +29,7 @@ namespace DupePrioPresetManager
             {
                 System.IO.Directory.CreateDirectory(ModAssets.DupeTemplatePath);
                 System.IO.Directory.CreateDirectory(ModAssets.FoodTemplatePath);
+                System.IO.Directory.CreateDirectory(ModAssets.ScheduleTemplatePath);
             }
             catch (Exception e)
             {

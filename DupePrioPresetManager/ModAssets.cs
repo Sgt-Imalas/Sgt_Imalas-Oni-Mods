@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using UnityEngine;
 using UtilLibs;
 
@@ -8,7 +9,22 @@ namespace DupePrioPresetManager
     {
         public static string DupeTemplatePath;
         public static string FoodTemplatePath;
+        public static string ScheduleTemplatePath;
         public static GameObject PresetWindowPrefab;
+
+
+
+        public static Dictionary<string, ColorStyleSetting> ColoursForBlocks = null;
+        public static ColorStyleSetting GimmeColorForPreset(string presetID)
+        {
+            if (ColoursForBlocks != null)
+            {
+                ColoursForBlocks.TryGetValue(presetID, out var color);
+                return color;
+            }
+            return null;
+        }
+
         public static void LoadAssets()
         {
             AssetBundle bundle = AssetUtils.LoadAssetBundle("dupe_prio_preset_window", platformSpecific: true);

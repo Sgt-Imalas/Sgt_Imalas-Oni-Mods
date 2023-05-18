@@ -189,7 +189,7 @@ namespace DupePrioPresetManager
             }
             catch (Exception e)
             {
-                SgtLogger.logError("Could not write file, Exception: " + e);
+                SgtLogger.logError("Could not delete file, Exception: " + e);
             }
         }
     }
