@@ -1,0 +1,42 @@
+﻿[img]https://i.imgur.com/GbFtLZ2.png[/img]
+
+[h1]Preset Manager[/h1]
+
+This mod adds presets to consumables, priorities and schedules.
+
+[h1]Current latest Version: 1.0.0[/h1]
+
+[hr][/hr]
+
+[h1]Features[/h1]
+[list][*] Consumable Presets: store and load presets about what duplicants are allowed or forbidden to consume
+[/list][img]https://i.imgur.com/suuJyFf.gif[/img][list]
+[*]Priority Presets: store and load presets for duplicant task priorities
+[/list][img]https://i.imgur.com/ucFq0Hc.gif[/img][list]
+[*]Schedule Presets: store and load presets for schedules
+[/list][img]https://i.imgur.com/R0LCYEx.gif[/img][list]
+[*]Default Schedules: Mark schedule presets as "default" - you then can automatically create schedules for each preset marked like that with one click (ideal for new games)
+[/list][img]https://i.imgur.com/ltnWF4V.gif[/img]
+
+[h1]More Presets:[/h1]
+[list][*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2856555858]DSS - Duplicant Presets:[/url] store and load attribute & stat presets for printing pod dupes and their skins
+[/list]
+
+[hr][/hr]
+[h1]Bug Reports[/h1]
+Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or my[url=https://discord.gg/5n7peBCnWZ] Discord[/url]. Always include the full player.log in a report
+
+Where to find the Log:
+[list]
+[*]Windows: 
+    C:\Users\%username%\AppData\LocalLow\Klei\Oxygen Not Included\Player.log
+[*]Mac: 
+    ~/Library/Logs/Klei/Oxygen Not Included/Player.log
+[*] Linux: 
+    ~/.config/unity3d/Klei/Oxygen Not Included/Player.log
+[/list] 
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
+
