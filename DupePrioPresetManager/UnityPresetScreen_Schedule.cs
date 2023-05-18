@@ -208,8 +208,7 @@ namespace DupePrioPresetManager
                 var PresetHolder = Util.KInstantiateUI(PresetListPrefab, PresetListContainer, true);
                 //PresetHolder.transform.Find("TraitImage").gameObject.SetActive(false);
                 var img = PresetHolder.transform.Find("TraitImage").GetComponent<Image>();
-                img.sprite = Assets.GetSprite(config.InDefaultList ? "circle_hard" : "circle_hard");
-                img.color = config.InDefaultList ? Color.green : Color.red;
+                InDefaultListImage(img, config.InDefaultList);
 
                 UIUtils.TryChangeText(PresetHolder.transform, "Label", config.ConfigName);
                 PresetHolder.transform.Find("RenameButton").FindOrAddComponent<FButton>().OnClick +=
@@ -296,14 +295,19 @@ namespace DupePrioPresetManager
             if (Presets.ContainsKey(CurrentlySelected))
             {
                 var img = Presets[CurrentlySelected].transform.Find("TraitImage").GetComponent<Image>();
-                img.sprite = Assets.GetSprite(CurrentlySelected.InDefaultList ? "circle_hard" : "circle_hard");
-                img.color = CurrentlySelected.InDefaultList ? Color.green : Color.red;
+                InDefaultListImage(img,CurrentlySelected.InDefaultList);
             }
             IsActiveAsDefaultSchedule.gameObject.SetActive(CurrentlySelected.InDefaultList);
             IsActiveAsDefaultScheduleBG.color = CurrentlySelected.InDefaultList ? Color.green : Color.red;
             //SetAllowedSprite(!CurrentlySelected.ForbiddenTags.Contains(id.ToTag()), image);
         }
+        void InDefaultListImage(Image img, bool defaultList)
+        {
+            img.sprite = Assets.GetSprite(defaultList ? "check" : "cancel");
+            img.color = defaultList ? Color.green : Color.red;
+            UIUtils.AddSimpleTooltipToObject(img.transform, defaultList ? SCHEDULESTRINGS.DEFAULTYES : SCHEDULESTRINGS.DEFAULTNO, true, onBottom:true);
 
+        }
 
         void ChangeValue(int index, Image image, bool increase)
         {

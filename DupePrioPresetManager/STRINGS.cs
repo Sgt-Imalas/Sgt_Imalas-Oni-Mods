@@ -47,6 +47,8 @@ namespace DupePrioPresetManager
                     public static LocString DESC = "You are about to delete the stat preset \"{0}\".\nDo you want to continue?";
                     public static LocString YES = "Confirm Deletion";
 
+                    public static LocString DEFAULTYES = "Enabled as default.";
+                    public static LocString DEFAULTNO = "Not enabled as default.";
 
                     public static LocString MARKEDASDEFAULT = "Marked as default?";
                     public static LocString MARKEDASDEFAULTTOOLTIP = "Schedules marked as default get generated when the respective button on the schedule screen is clicked.";

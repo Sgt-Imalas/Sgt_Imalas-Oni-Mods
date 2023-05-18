@@ -82,7 +82,31 @@ namespace DupePrioPresetManager
                                 __instance.MarkRowsDirty();
                             });
                         };
-                        UIUtils.AddActionToButton(row.transform, "MinionPortrait", openPresetMenu);
+
+                        var btnTransform = row.transform.Find("PresetButton");
+                        if (btnTransform == null)
+                        {
+                            btnTransform = Util.KInstantiateUI(__instance.transform.Find("Title/CloseButton").gameObject, row.transform.Find("").gameObject, true).transform; //.GetComponent<KButton>();
+                            btnTransform.name = "PresetButton";
+                            btnTransform.SetSiblingIndex(2);
+                            btnTransform.TryGetComponent<LayoutElement>(out var ele);
+
+                            ele.flexibleHeight = -1;
+                            ele.preferredHeight = 40;
+                            ele.preferredWidth = 20;
+                            ele.minWidth = 20;
+                            UIUtils.AddSimpleTooltipToObject(btnTransform, STRINGS.UI.PRESETWINDOWDUPEPRIOS.OPENPRESETWINDOW, true, onBottom: true);
+
+                            row.transform.Find("MinionPortrait").TryGetComponent<LayoutElement>(out var minionPortrait);
+                            minionPortrait.minWidth = 30;
+
+                            btnTransform.TryGetComponent<KButton>(out var button);
+                            button.onClick += openPresetMenu;
+                            btnTransform.Find("GameObject").TryGetComponent<Image>(out var image);
+                            image.sprite = Assets.GetSprite("iconPaste");
+                        }
+
+                        //UIUtils.AddActionToButton(row.transform, "MinionPortrait", openPresetMenu);
                         //UIUtils.AddActionToButton(row.transform, "LabelHeader/SortToggle(Clone)", openPresetMenu, false);
                     }
                 }
@@ -148,7 +172,32 @@ namespace DupePrioPresetManager
                             }
                         );
                         };
-                        UIUtils.AddActionToButton(row.transform, "MinionPortrait", openPresetMenu);
+
+                        var btnTransform = row.transform.Find("PresetButton");
+                        if (btnTransform == null)
+                        {
+                            btnTransform = Util.KInstantiateUI(__instance.transform.Find("Title/CloseButton").gameObject, row.transform.Find("").gameObject, true).transform; //.GetComponent<KButton>();
+                            btnTransform.name = "PresetButton";
+                            btnTransform.SetSiblingIndex(2);
+                            btnTransform.TryGetComponent<LayoutElement>(out var ele);
+                            ele.flexibleHeight = -1;
+                            ele.preferredHeight = 48;
+                            ele.preferredWidth = 20;
+                            ele.minWidth = 20;
+
+                            UIUtils.AddSimpleTooltipToObject(btnTransform, STRINGS.UI.PRESETWINDOWDUPEPRIOS.OPENPRESETWINDOW, true, onBottom: true);
+
+                            row.transform.Find("MinionPortrait").TryGetComponent<LayoutElement>(out var minionPortrait);
+                            minionPortrait.minWidth = 30;
+
+
+
+                            btnTransform.TryGetComponent<KButton>(out var button);
+                            button.onClick += openPresetMenu; 
+                            btnTransform.Find("GameObject").TryGetComponent<Image>(out var image);
+                            image.sprite = Assets.GetSprite("iconPaste");
+                        }
+
                         //UIUtils.AddActionToButton(row.transform, "LabelHeader/SortToggle(Clone)", openPresetMenu, false);
                     }
                     // UIUtils.ListAllChildrenWithComponents(row.transform);
@@ -170,17 +219,6 @@ namespace DupePrioPresetManager
                     return false;
                 }
                 return true;
-            }
-        }
-
-        [HarmonyPatch(typeof(ScheduleScreen))]
-        [HarmonyPatch(nameof(ScheduleScreen.AddScheduleEntry))]
-        public static class SchedulePresetTest
-        {
-
-            public static void Prefix(Schedule schedule)
-            {
-                
             }
         }
 
