@@ -135,6 +135,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                     AddRocketModuleToBuildList(LiquidCargoBayClusterLargeConfig.ID, RocketCategory.cargo, SolidCargoBayClusterLargeConfig.ID);
                     AddRocketModuleToBuildList(GasCargoBayClusterLargeConfig.ID, RocketCategory.cargo, LiquidCargoBayClusterLargeConfig.ID);
                 }
+                InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Automation, POICapacitySensorConfig.ID);
                 return;
                 //InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, PartWorkshopConfig.ID, "stationParts");
                 //InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, Part_A_1_Config.ID, "stationParts");

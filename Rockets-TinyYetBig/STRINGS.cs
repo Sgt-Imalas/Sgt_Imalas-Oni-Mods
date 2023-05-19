@@ -97,9 +97,23 @@ namespace Rockets_TinyYetBig
             {
                 public static LocString GENERATORLIMIT = "\n\n If there is atleast one battery connected, the generator will stop producing if the battery is above 95% charge.";
 
+                public class RTB_POICAPACITYSENSOR
+                {
+                    public static LocString NAME = (LocString)FormatAsLink("Starmap POI Capacity Sensor", nameof(RTB_POICAPACITYSENSOR));
+                    public static LocString DESC = (LocString)"How much stuff is out there?";
+                    public static LocString EFFECT = (LocString)("After pointing the building at a space poi, the building will output logic signals based on the poi artifact existing and the mass remaining in the poi.");
+                    public static LocString LOGIC_PORT_CAPACITY = (LocString)"POI mass above set threshold.";
+                    public static LocString LOGIC_PORT_CAPACITY_ACTIVE = (LocString)("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when the targeted POI has more than the configured mass remaining");
+                    public static LocString LOGIC_PORT_CAPACITY_INACTIVE = (LocString)("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby)); 
+
+                    public static LocString LOGIC_PORT_ARTIFACT = (LocString)"POI has Artifact";
+                    public static LocString LOGIC_PORT_ARTIFACT_ACTIVE = (LocString)("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when the targeted POI has an artifact");
+                    public static LocString LOGIC_PORT_ARTIFACT_INACTIVE = (LocString)("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
+                }
+
                 public class RTB_FRIDGEMODULEACCESSHATCH
                 {
-                    public static LocString NAME = (LocString)FormatAsLink("Fridge Module Access Hatch", nameof(RTB_FRIDGEMODULEACCESSHATCH));
+                    public static LocString NAME = (LocString)FormatAsLink("Freezer Access Hatch", nameof(RTB_FRIDGEMODULEACCESSHATCH));
                     public static LocString DESC = (LocString)"Food spoilage can be slowed by ambient conditions as well as by refrigerators.";
                     public static LocString EFFECT = (LocString)("Has to be attached to the rocket wall.\n\nStores a small amount of" + FormatAsLink("Food", "FOOD") + " at an ideal " + FormatAsLink("Temperature", "HEAT") + " to prevent spoilage.\n\nWill pull food from a connected "+RTB_FRIDGECARGOBAY.NAME+" when low on food.");
                     public static LocString LOGIC_PORT = (LocString)"Full/Not Full";

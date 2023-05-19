@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Rockets_TinyYetBig.NonRocketBuildings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,7 +51,7 @@ namespace Rockets_TinyYetBig.Patches
             {
                 if(__instance.TryGetComponent<ClusterDestinationSelector>(out var selector))
                 {
-                    if(selector.GetDestination() == selector.gameObject.GetMyWorldLocation()&& selector.GetDestination() != DisabledLocation)
+                    if(selector.GetDestination() == selector.gameObject.GetMyWorldLocation() && selector.GetDestination() != DisabledLocation)
                     {
                         __result = true;
                         return false;
@@ -114,8 +115,9 @@ namespace Rockets_TinyYetBig.Patches
 
             public static bool Prefix(ClusterDestinationSideScreen __instance)
             {
-                if (__instance.targetSelector.TryGetComponent<LogicClusterLocationSensor>(out var logicSensor))
+                if (__instance.targetSelector.TryGetComponent<LogicClusterLocationSensor>(out _) || __instance.targetSelector.TryGetComponent<POICapacitySensorSM>(out _))
                 {
+                    //SgtLogger.l("replacing Icon");
                     var selector = __instance.targetSelector;
                     if(!(selector.GetDestination() == DisabledLocation))
                     {

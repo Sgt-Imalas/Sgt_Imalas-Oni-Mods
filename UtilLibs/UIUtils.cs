@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using static Database.MonumentPartResource;
 using static DetailsScreen;
+using static KAnim.Build;
 
 namespace UtilLibs
 {
@@ -376,6 +377,71 @@ namespace UtilLibs
             }
             return sb.ToString();
             
+        }
+        private static Dictionary<Tuple<KAnimFile, string>, Symbol> knownSymbols = new Dictionary<Tuple<KAnimFile, string>, Symbol>();
+        public static Symbol GetSymbolFromMultiObjectAnim(KAnimFile animFile, string animName = "ui", string symbolName = "")
+        {
+            Tuple<KAnimFile, string> key = new Tuple<KAnimFile, string>(animFile, animName);
+            if (knownSymbols.ContainsKey(key))
+            {
+                return knownSymbols[key];
+            }
+
+            if (animFile == null)
+            {
+                DebugUtil.LogWarningArgs(animName, "missing Anim File");
+                return null;
+            }
+
+            KAnimFileData data = animFile.GetData();
+            if (data == null)
+            {
+                DebugUtil.LogWarningArgs(animName, "KAnimFileData is null");
+                return null;
+            }
+
+            if (data.build == null)
+            {
+                return null;
+            }
+
+            KAnim.Anim.Frame frame = KAnim.Anim.Frame.InvalidFrame;
+            for (int i = 0; i < data.animCount; i++)
+            {
+                KAnim.Anim anim = data.GetAnim(i);
+                if (anim.name == animName)
+                {
+                    frame = anim.GetFrame(data.batchTag, 0);
+                }
+            }
+
+            if (!frame.IsValid())
+            {
+                DebugUtil.LogWarningArgs($"missing '{animName}' anim in '{animFile}'");
+                return null;
+            }
+
+            if (data.elementCount == 0)
+            {
+                return null;
+            }
+
+            KAnim.Anim.FrameElement frameElement = default(KAnim.Anim.FrameElement);
+            if (string.IsNullOrEmpty(symbolName))
+            {
+                symbolName = animName;
+            }
+
+            KAnimHashedString symbol_name = new KAnimHashedString(symbolName);
+            KAnim.Build.Symbol symbol = data.build.GetSymbol(symbol_name);
+            if (symbol == null)
+            {
+                DebugUtil.LogWarningArgs(animFile.name, animName, "placeSymbol [", frameElement.symbol, "] is missing");
+                return null;
+            }
+
+            knownSymbols[key] = symbol;
+            return symbol;
         }
     }
 }
