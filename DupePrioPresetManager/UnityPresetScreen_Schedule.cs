@@ -140,12 +140,16 @@ namespace DupePrioPresetManager
             List<string> ExistingSchedules = ScheduleManager.Instance.GetSchedules().Select(s => s.name).ToList();
             var dbAllGroups = Db.Get().ScheduleGroups.allGroups;
             var ToGenerates = new List<ScheduleSettingsPreset>();
+            int omitCounter = 0;
             foreach (var Preset in LoadPresets())
             {
                 if (!Preset.InDefaultList)
                     continue;
                 if (ExistingSchedules.Contains(Preset.ConfigName))
+                {
+                    omitCounter++;
                     continue;
+                }
                 ToGenerates.Add(Preset);
             }
             if (ToGenerates.Count == 0) 
@@ -164,11 +168,17 @@ namespace DupePrioPresetManager
                 {
                     Preset.ApplyPreset(ScheduleManager.Instance.AddSchedule(dbAllGroups, Preset.ConfigName, false));
                 }
-            }; 
+            };
+
+            string Text = string.Format(SCHEDULESTRINGS.GENERATEALLCONFIRM, ToGenerates.Count);
+            if (omitCounter > 0)
+            {
+                Text += string.Format(SCHEDULESTRINGS.OMITNUMBER, omitCounter);
+            }
 
             KMod.Manager.Dialog(Global.Instance.globalCanvas,
                SCHEDULESTRINGS.GENERATEALL,
-               string.Format(SCHEDULESTRINGS.GENERATEALLCONFIRM, ToGenerates.Count),
+                Text,
                SAVESCREEN.CONFIRMNAME,
                generateAction,
                SAVESCREEN.CANCELNAME
@@ -266,17 +276,27 @@ namespace DupePrioPresetManager
         {
             if (CurrentlySelected == null)
                 return;
+
+            var dbGetter = Db.Get().ScheduleGroups;
+
             for (int i = 0; i<CurrentlySelected.ScheduleGroups.Count; ++i)
             {
+                var schedule = dbGetter.TryGet(CurrentlySelected.ScheduleGroups[i]);
+                if (dbGetter.TryGet(CurrentlySelected.ScheduleGroups[i]) == null)
+                {
+                    SgtLogger.warning("unknown schedule type found, defaulting to worktime");
+                    schedule = dbGetter.Worktime;
+                }
+
                 FButton bt = ScheduleBlocks[i].first;
-                var setting = ModAssets.GimmeColorForPreset(CurrentlySelected.ScheduleGroups[i]);
+                var setting = ModAssets.GimmeColorForPreset(schedule.Id);
 
                 bt.disabledColor = setting.disabledColor;
                 bt.hoverColor = setting.hoverColor;
                 bt.normalColor = setting.inactiveColor;
                 bt.SetInteractable(Presets.ContainsKey(CurrentlySelected));
 
-                ScheduleBlocks[i].second.text = 1+i + ". " + CurrentlySelected.ScheduleGroups[i];
+                ScheduleBlocks[i].second.text = 1+i + ". " + schedule.Name;
                 ScheduleBlocks[i].third.color = setting.inactiveColor;
             }
 
@@ -318,7 +338,7 @@ namespace DupePrioPresetManager
 
         private void Init()
         {
-            UIUtils.ListAllChildrenPath(this.transform);
+            //UIUtils.ListAllChildrenPath(this.transform);
             UIUtils.TryChangeText(transform, "Title", TITLESCHEDULES);
 
 

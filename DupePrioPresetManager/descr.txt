@@ -18,8 +18,15 @@ This mod adds presets to consumables, priorities and schedules.
 [*]Default Schedules: Mark schedule presets as "default" - you then can automatically create schedules for each preset marked like that with one click (ideal for new games)
 [/list][img]https://i.imgur.com/ltnWF4V.gif[/img]
 
-[h1]More Presets:[/h1]
-[list][*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2856555858]DSS - Duplicant Presets:[/url] store and load attribute & stat presets for printing pod dupes and their skins
+[h1]Want more Presets?[/h1]
+[list][*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2856555858]DSS - Duplicant Presets:[/url] store and load attribute & trait presets for printing pod and starter duplicants. skins are separatly selectable.
+[/list]
+
+[h1]Compatibility[/h1]
+The presets should be inherently compatible with other mods that add new consumables, priorities, schedule blocks, 
+Tested compatibilities:
+[list][*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2786087434]Engineer Build Priority[/url]
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2373109589]Rest for the Weary[/url]
 [/list]
 
 [hr][/hr]

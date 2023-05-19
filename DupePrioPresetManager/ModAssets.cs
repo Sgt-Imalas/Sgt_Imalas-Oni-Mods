@@ -20,6 +20,10 @@ namespace DupePrioPresetManager
             if (ColoursForBlocks != null)
             {
                 ColoursForBlocks.TryGetValue(presetID, out var color);
+                if (color == null)
+                {
+
+                }
                 return color;
             }
             return null;

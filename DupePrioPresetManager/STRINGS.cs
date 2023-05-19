@@ -56,8 +56,9 @@ namespace DupePrioPresetManager
                     public static LocString GENERATEALLTOOLTIP = "Generate all schedules from presets that are marked as default.\nSchedules that already exist by name wont be generated.";
 
 
-                    public static LocString GENERATEALLCONFIRM = "Generate {0} new schedules based on your preset settings?";
-                    public static LocString ALLGENERATED = "All preset schedules already exist by name";
+                    public static LocString GENERATEALLCONFIRM = "Generate {0} new schedules based on your configured default-presets?";
+                    public static LocString OMITNUMBER = "\n({0} of your configured default-presets already exist by name and will thus be omitted)";
+                    public static LocString ALLGENERATED = "All schedules marked as default-presets already exist by name";
                 }
 
 
