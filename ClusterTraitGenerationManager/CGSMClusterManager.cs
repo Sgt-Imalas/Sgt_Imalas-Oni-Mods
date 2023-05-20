@@ -1337,6 +1337,9 @@ namespace ClusterTraitGenerationManager
         {
             PopulatePredefinedClusterPlacements();
 
+            if(ToAdd.id.Contains(CGSMClusterManager.RandomKey))
+                return ToAdd;
+
             if (ToAdd.id == null)
                 return ToAdd;
 
@@ -1632,6 +1635,7 @@ namespace ClusterTraitGenerationManager
                         category,
                         GetRandomSprite(category)
                         );
+
                     randomItem.SetSpawnNumber(1);
 
                     if (category == StarmapItemCategory.POI)
