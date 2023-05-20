@@ -1,6 +1,7 @@
 ﻿
 New Buildings:
-- Fridge Module Access Hatch: access food of fridge module(s) during the flight
+- Freezer Access Hatch: access food of fridge module(s) during the flight
+- POI Mass Sensor: allows to get logic signal status from remaining space POI mass
 
 new Features:
 - Rebalanced Cargo Bay Capacity (can be configured/disabled in config),
