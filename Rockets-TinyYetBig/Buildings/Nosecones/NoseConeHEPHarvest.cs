@@ -97,12 +97,11 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
                     return;
                 HarvestablePOIStates.Instance smi = atCurrentLocation.GetSMI<HarvestablePOIStates.Instance>();
                 Dictionary<SimHashes, float> elementsWithWeights = smi.configuration.GetElementsWithWeights();
-                float num1 = 0.0f;
+                float percentageSum = 0.0f;
                 foreach (KeyValuePair<SimHashes, float> keyValuePair in elementsWithWeights)
-                    num1 += keyValuePair.Value;
-                foreach (KeyValuePair<SimHashes, float> keyValuePair in elementsWithWeights)
-                {
-                    Element elementByHash = ElementLoader.FindElementByHash(keyValuePair.Key);
+                    {
+                        percentageSum += keyValuePair.Value;
+                        Element elementByHash = ElementLoader.FindElementByHash(keyValuePair.Key);
                     if (!DiscoveredResources.Instance.IsDiscovered(elementByHash.tag))
                         DiscoveredResources.Instance.Discover(elementByHash.tag, elementByHash.GetMaterialCategoryTag());
                 }
@@ -115,13 +114,13 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
                     if ((double)consumptionMass < (double)harvestSpeedDT)
                     {
                         SimHashes key = keyValuePair.Key;
-                        float num6 = keyValuePair.Value / num1;
-                        float num7 = def.harvestSpeed * dt * num6;
-                        consumptionMass += num7;
+                        float elementDropPercentage = keyValuePair.Value / percentageSum;
+                        float elementMassPerTick = def.harvestSpeed * dt * elementDropPercentage;
+                        consumptionMass += elementMassPerTick;
                         Element elementByHash = ElementLoader.FindElementByHash(key);
                         CargoBay.CargoType stateToCargoType = CargoBay.ElementStateToCargoTypes[elementByHash.state & Element.State.Solid];
                         List<CargoBayCluster> cargoBaysOfType = component.GetCargoBaysOfType(stateToCargoType);
-                        float mineMassPerTick = num7;
+                        float mineMassPerTick = elementMassPerTick;
                         foreach (CargoBayCluster cargoBayCluster in cargoBaysOfType)
                         {
                             float mass = Mathf.Min(cargoBayCluster.RemainingCapacity, mineMassPerTick);

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static ElementConsumer;
 
 namespace Rockets_TinyYetBig.Patches
 {
@@ -14,15 +15,16 @@ namespace Rockets_TinyYetBig.Patches
         [HarmonyPatch(nameof(HarvestablePOIStates.Instance.DeltaPOICapacity))]
         public static class InstaRecharge
         {
-            public static void Postfix(HarvestablePOIStates.Instance __instance)
+            public static void Postfix(HarvestablePOIStates.Instance __instance, ref float delta)
             {
                 if (Config.Instance.InfinitePOI)
                 {
                     __instance.poiCapacity = __instance.configuration.GetMaxCapacity();
                 }
+                delta = Mathf.Max(0f, delta);
             }
-
         }
+        
 
         [HarmonyPatch(typeof(SpacePOISimpleInfoPanel), "RefreshMassHeader")]
         public static class InstaRechargeStatusItem

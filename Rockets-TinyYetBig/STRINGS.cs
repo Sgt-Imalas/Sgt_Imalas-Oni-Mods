@@ -104,11 +104,19 @@ namespace Rockets_TinyYetBig
                     public static LocString EFFECT = (LocString)("After pointing the building at a space poi, the building will output logic signals based on the poi artifact existing and the mass remaining in the poi.");
                     public static LocString LOGIC_PORT_CAPACITY = (LocString)"POI mass above set threshold.";
                     public static LocString LOGIC_PORT_CAPACITY_ACTIVE = (LocString)("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when the targeted POI has more than the configured mass remaining");
-                    public static LocString LOGIC_PORT_CAPACITY_INACTIVE = (LocString)("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby)); 
+                    public static LocString LOGIC_PORT_CAPACITY_INACTIVE = (LocString)("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
+
+                    public static LocString SIDESCREENTITLE = (LocString)"Remaining Mass";
+                    public static LocString REMAININGMASS = (LocString)"Remaining Mass in POI";
+                    public static LocString REMAININGMASS_TOOLTIP_ABOVE = (LocString)("Will send a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " if the " + PRE_KEYWORD + "remaining Mass in the POI" + PST_KEYWORD + " is above <b>{0}</b>");
+                    public static LocString REMAININGMASS_TOOLTIP_BELOW = (LocString)("Will send a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " if the " + PRE_KEYWORD + "remaining Mass in the POI" + PST_KEYWORD + " is below <b>{0}</b>");
+
 
                     public static LocString LOGIC_PORT_ARTIFACT = (LocString)"POI has Artifact";
                     public static LocString LOGIC_PORT_ARTIFACT_ACTIVE = (LocString)("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when the targeted POI has an artifact");
                     public static LocString LOGIC_PORT_ARTIFACT_INACTIVE = (LocString)("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
+
+
                 }
 
                 public class RTB_FRIDGEMODULEACCESSHATCH

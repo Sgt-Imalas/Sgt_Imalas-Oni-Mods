@@ -1,4 +1,5 @@
-﻿using RoboRockets.Rockets_TinyYetBig;
+﻿using KSerialization;
+using RoboRockets.Rockets_TinyYetBig;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using static KAnim.Build;
 
 namespace Rockets_TinyYetBig.NonRocketBuildings
 {
-    internal class POICapacitySensorSM : StateMachineComponent<POICapacitySensorSM.StatesInstance>, ISaveLoadable, ISim200ms
+    internal class POICapacitySensorSM : StateMachineComponent<POICapacitySensorSM.StatesInstance>, ISaveLoadable, ISim200ms, IThresholdSwitch
     //, IGameObjectEffectDescriptor
     {
         [MyCmpGet]
@@ -54,7 +55,6 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
         bool ArtifactOnly = false;
         ArtifactPOIStates.Instance artifactpoistatus = null;
         HarvestablePOIStates.Instance harvestpoistatus = null;
-        float threshold = 1000f;
 
         bool LastArtifactState = false;
         bool LastThresholdState = false;
@@ -77,7 +77,11 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             lastWasNonOperationa = false;
 
             bool artifactIsAvailable = artifactpoistatus != null ? artifactpoistatus.CanHarvestArtifact() : false;
-            bool aboveMassThreshold = harvestpoistatus != null ? harvestpoistatus.poiCapacity >= threshold : false;
+            bool aboveMassThreshold = harvestpoistatus != null ?
+                activateAboveThreshold 
+                    ? harvestpoistatus.poiCapacity >= threshold  
+                    : harvestpoistatus.poiCapacity < threshold
+                : false;
 
             if (LastArtifactState!=artifactIsAvailable || force)
             {
@@ -95,6 +99,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             UpdateVisualState(ShouldBeGreen, force);
         }
         bool lastVisualState = false;
+
         void UpdateVisualState(bool newState, bool force = false)
         {
             if(lastVisualState == newState && !force) return;
@@ -117,7 +122,10 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                 var artifactcmp = entity.GetSMI<ArtifactPOIStates.Instance>();
                 var harvestablecmp = entity.GetSMI<HarvestablePOIStates.Instance>();
 
-
+                if(harvestablecmp != null)
+                {
+                    rangeMax = harvestablecmp.configuration.GetMaxCapacity();
+                }
                 var newSprite = Def.GetUISpriteFromMultiObjectAnim(entity.AnimConfigs.First().animFile, entity.AnimConfigs.First().initialAnim);
 
                 if (entity.TryGetComponent<ArtifactPOIClusterGridEntity>(out _))
@@ -136,6 +144,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             {
                 artifactpoistatus = null;
                 harvestpoistatus = null;
+                rangeMax = 1;
             }
 
             if(symbol!=null)
@@ -151,7 +160,6 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             UpdateLogicState();
         }
 
-
         public override void OnCleanUp()
         {
             base.OnCleanUp();
@@ -161,6 +169,56 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
         {
             operational.SetFlag(LogicBroadcaster.spaceVisible, HasLineOfSight());
         }
+
+        #region sidescreen
+        public float Threshold
+        {
+            get => this.threshold;
+            set => this.threshold = value;
+        }
+        public bool ActivateAboveThreshold
+        {
+            get => this.activateAboveThreshold;
+            set => this.activateAboveThreshold = value;
+        }
+
+        public float CurrentValue => harvestpoistatus != null ? harvestpoistatus.poiCapacity : 0;
+
+        private float rangeMin = 0f;
+        private float rangeMax = 1f;
+
+        [Serialize]
+        private float threshold;
+        [Serialize]
+        private bool activateAboveThreshold = true;
+        public float RangeMin => this.rangeMin;
+
+        public float RangeMax => this.rangeMax;
+
+        public LocString Title => STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.SIDESCREENTITLE;
+
+        public LocString ThresholdValueName => STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS;
+
+        public string AboveToolTip => STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS_TOOLTIP_ABOVE;
+
+        public string BelowToolTip => STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS_TOOLTIP_BELOW;
+
+        public ThresholdScreenLayoutType LayoutType => ThresholdScreenLayoutType.SliderBar;
+
+        public int IncrementScale => 1;
+
+        public NonLinearSlider.Range[] GetRanges => NonLinearSlider.GetDefaultRange(this.RangeMax);
+
+        public float GetRangeMinInputField() => RangeMin;
+
+        public float GetRangeMaxInputField() => RangeMax;
+
+        public LocString ThresholdValueUnits() => GameUtil.GetCurrentMassUnit();
+        public string Format(float value, bool units) => GameUtil.GetFormattedMass(value, massFormat: GameUtil.MetricMassFormat.Kilogram, includeSuffix: units);      
+        public float ProcessedSliderValue(float input) => input;
+        public float ProcessedInputValue(float input) => input;
+
+        #endregion
         #region StateMachine
 
         public class StatesInstance : GameStateMachine<States, StatesInstance, POICapacitySensorSM>.GameInstance
