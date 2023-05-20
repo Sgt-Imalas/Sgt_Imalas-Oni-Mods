@@ -68,7 +68,11 @@ namespace ClusterTraitGenerationManager
                 UIUtils.TryFindComponent<Image>(copyButton.transform, "FG").sprite = Assets.GetSprite("icon_gear");
                 UIUtils.TryFindComponent<ToolTip>(copyButton.transform, "").toolTip = STRINGS.UI.CGMBUTTON.DESC;
                 UIUtils.TryFindComponent<KButton>(copyButton.transform, "").onClick += () => CGSMClusterManager.InstantiateClusterSelectionView(__instance);
+
                 LoadCustomCluster = false;
+
+                if (CGSMClusterManager.LastGenFailed)
+                    CGSMClusterManager.InstantiateClusterSelectionView(__instance);
             }
         }
 
@@ -351,6 +355,38 @@ namespace ClusterTraitGenerationManager
                 }
             }
         }
+
+        [HarmonyPatch(typeof(FileNameDialog))]
+        [HarmonyPatch(nameof(FileNameDialog.OnActivate))]
+        public static class FixCrashOnActivate
+        {
+            private static bool Prefix(FileNameDialog __instance)
+            {
+                if(CameraController.Instance == null)
+                {
+                    __instance.OnShow(show: true);
+                    __instance.inputField.Select();
+                    __instance.inputField.ActivateInputField();
+                    return false;
+                }
+                return true;
+            }
+        }
+        [HarmonyPatch(typeof(FileNameDialog))]
+        [HarmonyPatch(nameof(FileNameDialog.OnDeactivate))]
+        public static class FixCrashOnDeactivate
+        {
+            private static bool Prefix(FileNameDialog __instance)
+            {
+                if (CameraController.Instance == null)
+                {
+                    __instance.OnShow(show: false);
+                    return false;
+                }
+                return true;
+            }
+        }
+
 
         //[HarmonyPatch(typeof(WorldGenSettings))]
         //[HarmonyPatch(nameof(WorldGenSettings.GetFloatSetting))]

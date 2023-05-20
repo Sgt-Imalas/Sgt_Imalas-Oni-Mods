@@ -1,6 +1,4 @@
-﻿using ClusterTraitGenerationManager.SettinPrefabComps;
-using ClusterTraitGenerationManager.TemplateComponents;
-using Database;
+﻿using Database;
 using KMod;
 using System;
 using System.Collections.Generic;
@@ -113,9 +111,6 @@ namespace ClusterTraitGenerationManager
         bool init=false;
         bool showGameSettings = true;
 
-       
-        List<KeyValuePair<GameObject, ICustomPlanetoidSetting>> GlobalClusterSettings = new List<KeyValuePair<GameObject, ICustomPlanetoidSetting>>();
-        List<KeyValuePair<GameObject, ICustomPlanetoidSetting>> customPlanetoidSettings = new List<KeyValuePair<GameObject, ICustomPlanetoidSetting>>();
         public void DoAndRefreshView(System.Action action)
         {
             action.Invoke();

@@ -18,6 +18,7 @@ using static ClusterTraitGenerationManager.CGSMClusterManager;
 using static ClusterTraitGenerationManager.STRINGS.UI;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDTRAITS;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS;
 using static STRINGS.UI.BUILDCATEGORIES;
 using static STRINGS.UI.UISIDESCREENS.AUTOPLUMBERSIDESCREEN;
 
@@ -65,6 +66,8 @@ namespace ClusterTraitGenerationManager
         public FButton ResetButton;
         public FButton ResetAllButton;
         public FButton ReturnButton;
+        public FButton PresetsButton;
+        public FButton SettingsButton;
         public FButton GenerateClusterButton;
 
         public System.Action OnClose;
@@ -79,10 +82,10 @@ namespace ClusterTraitGenerationManager
             {
                 Init();
             }
-
             if (SelectedPlanet == null) return;
             lastSelected = SelectedPlanet;
             bool isPoi = SelectedPlanet.category == StarmapItemCategory.POI;
+
 
             bool IsPartOfCluster = CustomCluster.HasStarmapItem(SelectedPlanet.id, out var current);
 
@@ -122,6 +125,7 @@ namespace ClusterTraitGenerationManager
             PlanetSizeCycle.Value = current.CurrentSizePreset.ToString();
             PlanetRazioCycle.Value = current.CurrentRatioPreset.ToString();
 
+            if (isPoi) return;
 
             foreach (var traitContainer in Traits.Values)
             {
@@ -151,8 +155,6 @@ namespace ClusterTraitGenerationManager
                 if (SeasonTypes.ContainsKey(activeSeason.Id))
                     SeasonTypes[activeSeason.Id].SetActive(true);
             }
-
-
         }
 
         string Warning3 = "EC1802";
@@ -518,6 +520,22 @@ namespace ClusterTraitGenerationManager
                 CGSMClusterManager.ResetToLastPreset();
                 UpdateUI();
             };
+
+            PresetsButton = transform.Find("Buttons/PresetButton").FindOrAddComponent<FButton>();
+            PresetsButton.OnClick += () =>
+            {
+                CGSMClusterManager.OpenPresetWindow(()=> UpdateUI());
+            };
+
+            SettingsButton = transform.Find("Buttons/SettingsButton").FindOrAddComponent<FButton>();
+            SettingsButton.OnClick += () =>
+            {
+                CustomSettingsController.ShowWindow();
+            };
+
+
+
+
 
             UIUtils.AddSimpleTooltipToObject(ResetAllButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.RESETCLUSTERBUTTON.TOOLTIP, true);
             UIUtils.AddSimpleTooltipToObject(ResetButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.RESETSELECTIONBUTTON.TOOLTIP, true);

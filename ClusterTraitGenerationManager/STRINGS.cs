@@ -226,6 +226,16 @@ namespace ClusterTraitGenerationManager
                             public static LocString TEXT = (LocString)"Return";
                             public static LocString TOOLTIP = (LocString)"Return to the previous screen.";
                         }
+                        public class PRESETBUTTON
+                        {
+                            public static LocString TEXT = (LocString)"Saved Presets";
+                            public static LocString TOOLTIP = (LocString)"Create or load your saved cluster presets";
+                        }
+                        public class SETTINGSBUTTON
+                        {
+                            public static LocString TEXT = global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.CUSTOMIZE;
+                            public static LocString TOOLTIP = (LocString)"Open the game settings screen.";
+                        }
                         public class GENERATECLUSTERBUTTON
                         {
                             public static LocString TEXT = (LocString)"Start modified Game";

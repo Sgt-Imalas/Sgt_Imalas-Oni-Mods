@@ -3,6 +3,7 @@ using FMOD;
 using HarmonyLib;
 using Klei.AI;
 using Klei.CustomSettings;
+using Newtonsoft.Json;
 using ProcGen;
 using ProcGenGame;
 using STRINGS;
@@ -147,7 +148,7 @@ namespace ClusterTraitGenerationManager
 
                 return planetDiff;
             }
-            public int AdjustedOuterExpansion => GetAdjustedOuterExpansion();
+            [JsonIgnore] public int AdjustedOuterExpansion => GetAdjustedOuterExpansion();
 
             public int defaultRings = 12;
             public int defaultOuterPlanets = 6;
@@ -321,7 +322,6 @@ namespace ClusterTraitGenerationManager
                     }
                 }
             }
-
         }
 
         public enum WorldSizePresets
@@ -358,10 +358,14 @@ namespace ClusterTraitGenerationManager
             public StarmapItemCategory category;
             public bool DisablesStoryTraits = false;
 
-            public Sprite planetSprite;
-            public ProcGen.World world;
+            [JsonIgnore] public Sprite planetSprite;
+
+            [JsonIgnore] public ProcGen.World world;
+
             public WorldPlacement placement;
+
             public SpaceMapPOIPlacement placementPOI;
+
             public string DisplayName
             {
                 get
@@ -436,7 +440,8 @@ namespace ClusterTraitGenerationManager
                 float sizePercentage = (float)SizePreset / 100f;
                 return Mathf.RoundToInt(sizePercentage * inputValue);
             }
-            public Vector2I CustomPlanetDimensions
+
+            [JsonIgnore] public Vector2I CustomPlanetDimensions
             {
                 get
                 {
@@ -488,10 +493,11 @@ namespace ClusterTraitGenerationManager
             //int CustomWorldSizeX = -1, CustomWorldSizeY = -1;
             WorldSizePresets SizePreset = WorldSizePresets.Normal;
             WorldRatioPresets RatioPreset = WorldRatioPresets.Normal;
-            public WorldSizePresets CurrentSizePreset => SizePreset;
-            public WorldRatioPresets CurrentRatioPreset => RatioPreset;
 
-            public float CurrentSizeMultiplier => UsingCustomDimensions ? CustomSizeIncrease : (float)SizePreset / 100f;
+            [JsonIgnore] public WorldSizePresets CurrentSizePreset => SizePreset;
+            [JsonIgnore] public WorldRatioPresets CurrentRatioPreset => RatioPreset;
+
+            [JsonIgnore] public float CurrentSizeMultiplier => UsingCustomDimensions ? CustomSizeIncrease : (float)SizePreset / 100f;
 
             public void SetPlanetSizeToPreset(WorldSizePresets preset)
             {
@@ -507,7 +513,7 @@ namespace ClusterTraitGenerationManager
                 UsingCustomDimensions = false;
                 RatioPreset = preset;
             }
-            int CustomX = -1, CustomY = -1;
+            public int CustomX = -1, CustomY = -1;
             private bool UsingCustomDimensions = false;
             public void ApplyCustomDimension(int value, bool heightTrueWidthFalse)
             {
@@ -545,9 +551,9 @@ namespace ClusterTraitGenerationManager
 
             public float InstancesToSpawn = 1;
             public float MaxNumberOfInstances = 1;
-            public int minRing => placement != null ? placement.allowedRings.min : placementPOI != null ? placementPOI.allowedRings.min : -1;
-            public int maxRing => placement != null ? placement.allowedRings.max : placementPOI != null ? placementPOI.allowedRings.max : -1;
-            public int buffer => placement != null ? placement.buffer : -1;
+            [JsonIgnore] public int minRing => placement != null ? placement.allowedRings.min : placementPOI != null ? placementPOI.allowedRings.min : -1;
+            [JsonIgnore] public int maxRing => placement != null ? placement.allowedRings.max : placementPOI != null ? placementPOI.allowedRings.max : -1;
+            [JsonIgnore] public int buffer => placement != null ? placement.buffer : -1;
 
 
             #region SetterMethods
@@ -582,7 +588,7 @@ namespace ClusterTraitGenerationManager
                 }
             }
 
-            public int? originalMinPOI = null, originalMaxPOI = null;
+            [JsonIgnore] public int? originalMinPOI = null, originalMaxPOI = null;
             public void SetInnerRing(int newRing, bool original = false)
             {
                 if (original)
@@ -642,7 +648,7 @@ namespace ClusterTraitGenerationManager
                     }
                 }
             }
-
+            
             public void SetBuffer(int newBuffer)
             {
                 newBuffer = Math.Min(newBuffer, CustomCluster.Rings);
@@ -662,7 +668,6 @@ namespace ClusterTraitGenerationManager
             }
 
             #endregion
-
 
             public StarmapItem(string id, StarmapItemCategory category, Sprite sprite)
             {
@@ -757,8 +762,6 @@ namespace ClusterTraitGenerationManager
                 }
             }
 
-
-
             private void BackupOriginalWorldTraits()
             {
                 if (world != null)
@@ -798,7 +801,9 @@ namespace ClusterTraitGenerationManager
             #region PlanetTraits
 
             private List<string> currentPlanetTraits = new List<string>();
-            public List<string> CurrentTraits => currentPlanetTraits;
+            [JsonIgnore] public List<string> CurrentTraits => currentPlanetTraits;
+            public void SetWorldTraits (List<string> NEWs) => currentPlanetTraits = NEWs;
+
 
             public static List<WorldTrait> AllowedWorldTraitsFor(List<string> currentTraits, ProcGen.World world)
             {
@@ -849,7 +854,7 @@ namespace ClusterTraitGenerationManager
                 return AllTraits;
 
             }
-            public List<WorldTrait> AllowedPlanetTraits => AllowedWorldTraitsFor(currentPlanetTraits, world);
+            [JsonIgnore] public List<WorldTrait> AllowedPlanetTraits => AllowedWorldTraitsFor(currentPlanetTraits, world);
 
             public bool RemoveWorldTrait(WorldTrait trait)
             {
@@ -878,36 +883,7 @@ namespace ClusterTraitGenerationManager
             {
                 return currentPlanetTraits;
             }
-
-
             #endregion
-
-            #region EqualityComparer
-
-            //public StarmapItem(string id, StarmapItemCategory category, Sprite sprite = null)
-            //{
-            //    this.id = id;
-            //    this.category = category;
-            //    this.planetSprite = sprite;
-            //}
-            //public override bool Equals(System.Object obj)
-            //{
-            //    return obj is StarmapItem c && this == c;
-            //}
-            //public override int GetHashCode()
-            //{
-            //    return id.GetHashCode();
-            //}
-            //public static bool operator ==(StarmapItem x, StarmapItem y)
-            //{
-            //    return x!=null && y != null && x.id == y.id;
-            //}
-            //public static bool operator !=(StarmapItem x, StarmapItem y)
-            //{
-            //    return !(x == y);
-            //}
-            #endregion
-
         }
 
         public const string CustomClusterIDCoordinate= "CGM";
@@ -1778,10 +1754,17 @@ namespace ClusterTraitGenerationManager
             }
         }
 
+        public static bool LastGenFailed => lastWorldGenFailed;
+
         static bool lastWorldGenFailed = false;
         internal static void LastWorldGenFailed()
         {
             lastWorldGenFailed = true;
+        }
+
+        internal static void OpenPresetWindow(System.Action onclose = null)
+        {
+            UnityPresetScreen.ShowWindow(CustomCluster, onclose);
         }
     }
 }
