@@ -14,21 +14,22 @@ namespace BuildingToken.Tokens
         public List<GameObject> CreatePrefabs()
         {
             var list = new List<GameObject>();
-            foreach (var buildingTokenID in ModAssets.BuildingTokenTags.Values)
+            foreach (var buildingTokenID in ModAssets.BuildingTokenTags)
             {
-                list.Add(CreateToken(buildingTokenID));
+                list.Add(CreateToken(buildingTokenID.Key,buildingTokenID.Value));
             }
             return list;
         }
 
         public static GameObject CreateToken(
+            string referencedBuilding,
             Tag tag
             )
         {
-
+            string id = "buildingToken_" + tag.ToString().ToLower();
             GameObject looseEntity =
                 EntityTemplates.CreateLooseEntity
-                ("buildingToken_" + tag.ToString().ToLower(),
+                (id,
                 tag.ProperName(),
                 string.Format(BT_BUILDINGTOKEN.DESC, tag.ProperName().Replace("-Token","")),
                 1f,
@@ -52,6 +53,9 @@ namespace BuildingToken.Tokens
             looseEntity.GetComponent<KPrefabID>().AddTag(GameTags.PedestalDisplayable);
             var SeededRandom = new SeededRandom(tag.hash);
             looseEntity.AddOrGet<coinPainter>().Tint = Color.HSVToRGB(SeededRandom.RandomRange(0f, 1f), SeededRandom.RandomRange(0.4f, 1f), SeededRandom.RandomRange(0.6f, 1f));
+
+            ModAssets.BuildingTokens[referencedBuilding] = id;
+
             return looseEntity;
         }
 

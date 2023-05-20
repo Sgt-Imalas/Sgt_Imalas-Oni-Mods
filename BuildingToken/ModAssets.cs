@@ -14,6 +14,7 @@ namespace BuildingToken
     internal class ModAssets
     {
         public static Dictionary<string,Tag> BuildingTokenTags = new Dictionary<string,Tag>();
+        public static Dictionary<string,string> BuildingTokens = new Dictionary<string, string>();
         public static Tag AddTokenForBuilding(string id)
         {
             Tag ToAddTag = TagManager.Create("BT_" + id, string.Format(STRINGS.BT_BUILDINGTOKEN.NAME,Strings.Get("STRINGS.BUILDINGS.PREFABS."+ id.ToUpperInvariant() + ".NAME")));

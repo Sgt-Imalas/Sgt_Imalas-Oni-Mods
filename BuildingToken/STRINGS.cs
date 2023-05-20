@@ -12,7 +12,7 @@ namespace BuildingToken
         public class BT_BUILDINGTOKEN
         {
             public static LocString NAME = "{0}-Token";
-            public static LocString DESC = "Token required to build {0}";
+            public static LocString DESC = "A Token required to build {0}";
         }
     }
 }
