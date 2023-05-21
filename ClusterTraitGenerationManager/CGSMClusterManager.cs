@@ -1642,7 +1642,7 @@ namespace ClusterTraitGenerationManager
                     //SgtLogger.l(World.Key + "; " + World.Value.ToString());
                     ProcGen.World world = WorldFromCache.Value;
 
-                    //SgtLogger.l(WorldFromCache.Key.ToUpperInvariant(), "PLANETKEY");
+                   // SgtLogger.l(WorldFromCache.Key.ToUpperInvariant(), "PLANETKEY");
                     if ((int)world.skip >= 99)
                         continue;
 
@@ -1650,9 +1650,10 @@ namespace ClusterTraitGenerationManager
                     ///Hardcoded checks due to others not having the correct folder structure
                     string KeyUpper = WorldFromCache.Key.ToUpperInvariant();
                     bool SkipModdedWorld =
-                        KeyUpper.Contains("EMPTERA") && !KeyUpper.ToUpperInvariant().Contains("DLC")
+                        KeyUpper.Contains("EMPTERA") && !KeyUpper.Contains("DLC")
                         || KeyUpper.Contains("ISLANDS") && !KeyUpper.Contains("DLC")
-                        || KeyUpper.Contains("FULERIA") && !KeyUpper.Contains("DLC");
+                        || KeyUpper.Contains("FULERIA") && !KeyUpper.Contains("DLC")
+                        ;
 
                    
 
@@ -1662,6 +1663,9 @@ namespace ClusterTraitGenerationManager
                         if (world.startingBaseTemplate != null)
                         {
                             string stripped = world.startingBaseTemplate.Replace("bases/", string.Empty);
+
+                           // SgtLogger.l(stripped.ToUpperInvariant(),"KEY");
+
                             if (stripped.ToUpperInvariant().Contains("WARPWORLD")
                                 //|| KeyUpper.ToUpperInvariant().Contains("CGSM")&&
                                 //stripped.ToUpperInvariant().Contains("WARPBASE")
@@ -1670,6 +1674,7 @@ namespace ClusterTraitGenerationManager
                                 category = StarmapItemCategory.Warp;
                             }
                             else if (stripped.ToUpperInvariant().Contains("BASE")
+                                || stripped.ToUpperInvariant().Contains("ALLIN1")
                                 //||KeyUpper.ToUpperInvariant().Contains("CGSM") && 
                                 //stripped.ToUpperInvariant().Contains("BASE")
                                 )

@@ -269,12 +269,12 @@ namespace ClusterTraitGenerationManager
             seed = Mathf.Min(seed, int.MaxValue);
             SeedInput.Text = seedString;
 
-            if(onCloseAction != null)
+            CustomGameSettings.Instance.SetQualitySetting(CustomGameSettingConfigs.WorldgenSeed, seed.ToString());
+
+            if (onCloseAction != null)
             {
                 onCloseAction.Invoke();
             }
-
-            CustomGameSettings.Instance.SetQualitySetting(CustomGameSettingConfigs.WorldgenSeed, seed.ToString());
         }
 
 
