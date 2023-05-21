@@ -1674,7 +1674,7 @@ namespace ClusterTraitGenerationManager
                                 category = StarmapItemCategory.Warp;
                             }
                             else if (stripped.ToUpperInvariant().Contains("BASE")
-                                || stripped.ToUpperInvariant().Contains("ALLIN1")
+                                || stripped.ToUpperInvariant().Contains("ALLIN1") ///Vortex base name.
                                 //||KeyUpper.ToUpperInvariant().Contains("CGSM") && 
                                 //stripped.ToUpperInvariant().Contains("BASE")
                                 )

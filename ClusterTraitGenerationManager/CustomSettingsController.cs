@@ -280,7 +280,7 @@ namespace ClusterTraitGenerationManager
 
         private void Init()
         {
-            UIUtils.ListAllChildrenPath(transform);
+            //UIUtils.ListAllChildrenPath(transform);
 
             var TitleText = transform.Find("Title/TitleText").gameObject.AddOrGet<LocText>();
             TitleText.text = global::STRINGS.UI.FRONTEND.NEWGAMESETTINGS.HEADER;

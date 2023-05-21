@@ -31,6 +31,11 @@ using static BestFit;
 using YamlDotNet.Serialization;
 using static STRINGS.UI.FRONTEND;
 using static ClusterTraitGenerationManager.CGSMClusterManager;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS;
+using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS;
+using static STRINGS.DUPLICANTS.TRAITS;
+using static ClusterTraitGenerationManager.CustomClusterSettingsPreset;
+using System.Net;
 
 namespace ClusterTraitGenerationManager
 {
@@ -50,6 +55,7 @@ namespace ClusterTraitGenerationManager
 
         public GameObject InfoHeaderPrefab;
         public GameObject InfoRowPrefab;
+        public GameObject InfoRowSimple;
         public GameObject InfoSpacer;
         public GameObject InfoScreenContainer;
 
@@ -72,9 +78,9 @@ namespace ClusterTraitGenerationManager
 
         Dictionary<int, Tuple<FButton, LocText, Image>> ScheduleBlocks = new Dictionary<int, Tuple<FButton, LocText, Image>>();
         LocText TitleHolder = null;
-        Image IsActiveAsDefaultSchedule  = null;
+        Image IsActiveAsDefaultSchedule = null;
         FButton IsActiveAsDefaultScheduleBtn = null;
-        Image IsActiveAsDefaultScheduleBG  = null;
+        Image IsActiveAsDefaultScheduleBG = null;
 
         string RefName;
 
@@ -104,7 +110,7 @@ namespace ClusterTraitGenerationManager
         {
             referencedCluster = toGenerateFrom;
             CustomClusterSettingsPreset tempStats = CustomClusterSettingsPreset.CreateFromCluster(toGenerateFrom, RefName);
-           SetAsCurrent(tempStats);
+            SetAsCurrent(tempStats);
         }
 
         public override void OnKeyDown(KButtonEvent e)
@@ -136,7 +142,7 @@ namespace ClusterTraitGenerationManager
             }
         }
 
-                
+
         public static List<CustomClusterSettingsPreset> LoadPresets()
         {
             List<CustomClusterSettingsPreset> minionStatConfigs = new List<CustomClusterSettingsPreset>();
@@ -158,7 +164,7 @@ namespace ClusterTraitGenerationManager
                     SgtLogger.logError("Couln't load priority preset from: " + File.FullName + ",\nError: " + e.ToString());
                 }
             }
-            minionStatConfigs= minionStatConfigs.OrderBy(entry => entry.ConfigName).ToList();
+            minionStatConfigs = minionStatConfigs.OrderBy(entry => entry.ConfigName).ToList();
             return minionStatConfigs;
         }
 
@@ -207,14 +213,14 @@ namespace ClusterTraitGenerationManager
             System.Action nothing = () =>
             { };
 
-           // KMod.Manager.Dialog(Global.Instance.globalCanvas,
-           //string.Format(STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.TITLE, config.ConfigName),
-           //string.Format(STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.DESC, config.ConfigName),
-           //STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.YES,
-           //Delete,
-           //STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.CANCEL
-           //, nothing
-           //);
+            // KMod.Manager.Dialog(Global.Instance.globalCanvas,
+            //string.Format(STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.TITLE, config.ConfigName),
+            //string.Format(STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.DESC, config.ConfigName),
+            //STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.YES,
+            //Delete,
+            //STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.CANCEL
+            //, nothing
+            //);
         }
 
         void SetAsCurrent(CustomClusterSettingsPreset config)
@@ -228,42 +234,111 @@ namespace ClusterTraitGenerationManager
             if (CurrentlySelected == null)
                 return;
 
-            var dbGetter = Db.Get().ScheduleGroups;
-
-            //for (int i = 0; i<CurrentlySelected.ScheduleGroups.Count; ++i)
-            //{
-            //    var schedule = dbGetter.TryGet(CurrentlySelected.ScheduleGroups[i]);
-            //    if (dbGetter.TryGet(CurrentlySelected.ScheduleGroups[i]) == null)
-            //    {
-            //        SgtLogger.warning("unknown schedule type found, defaulting to worktime");
-            //        schedule = dbGetter.Worktime;
-            //    }
-
-            //    FButton bt = ScheduleBlocks[i].first;
-            //    var setting = ModAssets.GimmeColorForPreset(schedule.Id);
-
-            //    bt.disabledColor = setting.disabledColor;
-            //    bt.hoverColor = setting.hoverColor;
-            //    bt.normalColor = setting.inactiveColor;
-            //    bt.SetInteractable(Presets.ContainsKey(CurrentlySelected));
-
-            //    ScheduleBlocks[i].second.text = 1+i + ". " + schedule.Name;
-            //    ScheduleBlocks[i].third.color = setting.inactiveColor;
-            //}
+            var settingsInstance = CustomGameSettings.Instance;
+            foreach (var kvp in GameSettingsTexts)
+            {
+                kvp.Value.text = kvp.Key.label + ": " + settingsInstance.GetCurrentQualitySetting(kvp.Key).id;
+            }
 
             TitleHolder.text = CurrentlySelected.ConfigName;
             GeneratePresetButton.SetInteractable(!Presets.ContainsKey(CurrentlySelected));
 
+            foreach (var item in StarmapItemContainers)
+                UnityEngine.Object.Destroy(item);
+            StarmapItemContainers.Clear();
+
+            var planetTitle = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
+            planetTitle.transform.Find("Label").GetComponent<LocText>().text = "Asteroids:"; //TODO
+            StarmapItemContainers.Add(planetTitle);
+
+            CreateUIItemForStarmapItem(CurrentlySelected.StarterPlanet);
+            CreateUIItemForStarmapItem(CurrentlySelected.WarpPlanet);
+
+            var combined = new List<SerializableStarmapItem>();
+            combined.AddRange(CurrentlySelected.OuterPlanets.Values);
+            combined.AddRange(CurrentlySelected.POIs.Values);
+            bool reachedPOI = false;
+
+
+
+            for (int i = 0; i < combined.Count; i++)
+            {
+                var item = combined[i];
+
+                if (item.category == StarmapItemCategory.POI && reachedPOI == false)
+                {
+                    var poi = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
+                    poi.transform.Find("Label").GetComponent<LocText>().text = "POIs:"; //TODO
+                    StarmapItemContainers.Add(poi);
+                    reachedPOI = true;
+                }
+
+                CreateUIItemForStarmapItem(item);
+            }
         }
 
-        void InDefaultListImage(Image img, bool defaultList)
+        static async Task ExecuteWithDelay(int ms, System.Action action)
         {
-            img.sprite = Assets.GetSprite(defaultList ? "check" : "cancel");
-            img.color = defaultList ? Color.green : Color.red;
-            //UIUtils.AddSimpleTooltipToObject(img.transform, defaultList ? SCHEDULESTRINGS.DEFAULTYES : SCHEDULESTRINGS.DEFAULTNO, true, onBottom:true);
-
+            await Task.Delay(ms);
+            action.Invoke();
         }
 
+        Dictionary<SettingConfig, LocText> GameSettingsTexts = new Dictionary<SettingConfig, LocText>();
+
+        List<GameObject> StarmapItemContainers = new List<GameObject>();
+
+        GameObject CreateUIItemForStarmapItem(SerializableStarmapItem item)
+        {
+            if (item == null)
+                return null;
+
+            if (!PlanetoidDict().ContainsKey(item.itemID))
+            {
+                SgtLogger.warning(item.itemID + " not found!");
+                return null;
+            }
+
+            var starmapItem = PlanetoidDict()[item.itemID];
+
+            var planetObject = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
+
+            var infoText = starmapItem.DisplayName;
+            if (item.maxNumberToSpawn != 1 || item.category == StarmapItemCategory.POI)
+                infoText += ": x" + item.numberToSpawn ;
+
+            UIUtils.TryChangeText(planetObject.transform, "Label", infoText);
+
+            planetObject.transform.Find("Label/TraitImage").TryGetComponent<Image>(out var image);
+            image.sprite = starmapItem.planetSprite;
+
+            var imageContainer = planetObject.transform.Find("IconContainer").gameObject;
+            if (item.category != StarmapItemCategory.POI)
+            {
+                var traitImagePrefab = planetObject.transform.Find("IconContainer/TraitImage").gameObject;
+                if (item.planetTraits == null)
+                {
+                    imageContainer.gameObject.SetActive(false);
+                }
+                else
+                {
+                    foreach (var trait in item.planetTraits)
+                    {
+                        if (ModAssets.AllTraitsWithRandomDict.ContainsKey(trait))
+                        {
+                            var worldTrait = ModAssets.AllTraitsWithRandomDict[trait];
+                            Util.KInstantiateUI(traitImagePrefab, imageContainer, true).TryGetComponent<Image>(out var traitImage);
+                            traitImage.color = Util.ColorFromHex(worldTrait.colorHex);
+                            traitImage.sprite = Assets.GetSprite(worldTrait.filePath.Substring(worldTrait.filePath.LastIndexOf("/") + 1));
+                        }
+                    }
+                }
+            }
+            else
+            {
+            }
+            StarmapItemContainers.Add(planetObject);
+            return planetObject;
+        }
 
         private void Init()
         {
@@ -324,22 +399,99 @@ namespace ClusterTraitGenerationManager
 
             InfoHeaderPrefab = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/HeaderPrefab").gameObject;
             InfoRowPrefab = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/ListViewEntryPrefab").gameObject;
-            InfoSpacer = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/ItemPrefab").gameObject;
+            InfoRowSimple = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/ItemPrefab").gameObject;
+            InfoSpacer = Util.KInstantiateUI(transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/ItemPrefab").gameObject);
             UIUtils.FindAndDestroy(InfoSpacer.transform, "Label");
+            InfoSpacer.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 20);
+
             InfoScreenContainer = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content").gameObject;
             PresetListContainer = transform.Find("HorizontalLayout/ObjectList/ScrollArea/Content").gameObject;
             PresetListPrefab = transform.Find("HorizontalLayout/ObjectList/ScrollArea/Content/PresetEntryPrefab").gameObject;
-
 
             var Name = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
             //UIUtils.TryChangeText(Name.transform, "Label", "\"" + CurrentlySelected.ConfigName + "\"");
             TitleHolder = Name.transform.Find("Label").GetComponent<LocText>();
 
-
-            //UIUtils.TryChangeText(IsEnabledHolder.transform, "Label", SCHEDULESTRINGS.MARKEDASDEFAULT); 
-            //UIUtils.AddSimpleTooltipToObject(IsEnabledHolder.transform.Find("Label"), SCHEDULESTRINGS.MARKEDASDEFAULTTOOLTIP, true,onBottom:true);
             var spacer = Util.KInstantiateUI(InfoSpacer, InfoScreenContainer, true);
 
+
+            var GameSettingTitle = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
+            var GameSettingTitleText = GameSettingTitle.transform.Find("Label").GetComponent<LocText>();
+            GameSettingTitleText.text = global::STRINGS.UI.FRONTEND.NEWGAMESETTINGS.HEADER;
+
+            var WorldgenSeed = Util.KInstantiateUI(InfoRowSimple, InfoScreenContainer, true).transform.Find("Label").gameObject.AddOrGet<LocText>();
+            WorldgenSeed.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.WORLDGEN_SEED.NAME;
+            UIUtils.AddSimpleTooltipToObject(WorldgenSeed.transform.parent, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.WORLDGEN_SEED.TOOLTIP, alignCenter: true, onBottom: true);
+            GameSettingsTexts[CustomGameSettingConfigs.WorldgenSeed] = WorldgenSeed;
+
+            // UIUtils.AddSimpleTooltipToObject(transform.Find("Content/Warning"), STRINGS.UI.CUSTOMGAMESETTINGSCHANGER.CHANGEWARNINGTOOLTIP);
+
+            var ImmuneSystem = Util.KInstantiateUI(InfoRowSimple, InfoScreenContainer, true).transform.Find("Label").gameObject.AddOrGet<LocText>();
+            ImmuneSystem.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.IMMUNESYSTEM.NAME;
+            UIUtils.AddSimpleTooltipToObject(ImmuneSystem.transform.parent, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.IMMUNESYSTEM.TOOLTIP, alignCenter: true, onBottom: true);
+            GameSettingsTexts[CustomGameSettingConfigs.ImmuneSystem] = ImmuneSystem;
+
+            var CalorieBurn = Util.KInstantiateUI(InfoRowSimple, InfoScreenContainer, true).transform.Find("Label").gameObject.AddOrGet<LocText>();
+            CalorieBurn.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.CALORIE_BURN.NAME;
+            UIUtils.AddSimpleTooltipToObject(CalorieBurn.transform.parent, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.CALORIE_BURN.TOOLTIP, alignCenter: true, onBottom: true);
+            GameSettingsTexts[CustomGameSettingConfigs.CalorieBurn] = CalorieBurn;
+
+            var Morale = Util.KInstantiateUI(InfoRowSimple, InfoScreenContainer, true).transform.Find("Label").gameObject.AddOrGet<LocText>();
+            Morale.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.MORALE.NAME;
+            UIUtils.AddSimpleTooltipToObject(Morale.transform.parent, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.MORALE.TOOLTIP, alignCenter: true, onBottom: true);
+            GameSettingsTexts[CustomGameSettingConfigs.Morale] = Morale;
+
+            var Durability = Util.KInstantiateUI(InfoRowSimple, InfoScreenContainer, true).transform.Find("Label").gameObject.AddOrGet<LocText>();
+            Durability.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.DURABILITY.NAME;
+            UIUtils.AddSimpleTooltipToObject(Durability.transform.parent, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.DURABILITY.TOOLTIP, alignCenter: true, onBottom: true);
+            GameSettingsTexts[CustomGameSettingConfigs.Durability] = Durability;
+
+            var MeteorShowers = Util.KInstantiateUI(InfoRowSimple, InfoScreenContainer, true).transform.Find("Label").gameObject.AddOrGet<LocText>();
+            MeteorShowers.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.METEORSHOWERS.NAME;
+            UIUtils.AddSimpleTooltipToObject(MeteorShowers.transform.parent, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.METEORSHOWERS.TOOLTIP, alignCenter: true, onBottom: true);
+            GameSettingsTexts[CustomGameSettingConfigs.MeteorShowers] = MeteorShowers;
+
+            var Radiation = Util.KInstantiateUI(InfoRowSimple, InfoScreenContainer, true).transform.Find("Label").gameObject.AddOrGet<LocText>();
+            Radiation.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.RADIATION.NAME;
+            UIUtils.AddSimpleTooltipToObject(Radiation.transform.parent, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.RADIATION.TOOLTIP, alignCenter: true, onBottom: true);
+            GameSettingsTexts[CustomGameSettingConfigs.Radiation] = Radiation;
+
+            var Stress = Util.KInstantiateUI(InfoRowSimple, InfoScreenContainer, true).transform.Find("Label").gameObject.AddOrGet<LocText>();
+            Stress.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.STRESS.NAME;
+            UIUtils.AddSimpleTooltipToObject(Stress.transform.parent, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.STRESS.TOOLTIP, alignCenter: true, onBottom: true);
+            GameSettingsTexts[CustomGameSettingConfigs.Stress] = Stress;
+
+
+
+            var StressBreaks = Util.KInstantiateUI(InfoRowSimple, InfoScreenContainer, true).transform.Find("Label").gameObject.AddOrGet<LocText>();
+            StressBreaks.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.STRESS_BREAKS.NAME;
+            UIUtils.AddSimpleTooltipToObject(StressBreaks.transform.parent, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.STRESS_BREAKS.TOOLTIP, alignCenter: true, onBottom: true);
+            GameSettingsTexts[CustomGameSettingConfigs.StressBreaks] = StressBreaks;
+
+            var CarePackages = Util.KInstantiateUI(InfoRowSimple, InfoScreenContainer, true).transform.Find("Label").gameObject.AddOrGet<LocText>();
+            CarePackages.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.CAREPACKAGES.NAME;
+            UIUtils.AddSimpleTooltipToObject(CarePackages.transform.parent, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.CAREPACKAGES.TOOLTIP, alignCenter: true, onBottom: true);
+            GameSettingsTexts[CustomGameSettingConfigs.CarePackages] = CarePackages;
+
+            var SandboxMode = Util.KInstantiateUI(InfoRowSimple, InfoScreenContainer, true).transform.Find("Label").gameObject.AddOrGet<LocText>();
+            SandboxMode.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.SANDBOXMODE.NAME;
+            UIUtils.AddSimpleTooltipToObject(SandboxMode.transform.parent, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.SANDBOXMODE.TOOLTIP, alignCenter: true, onBottom: true);
+            GameSettingsTexts[CustomGameSettingConfigs.SandboxMode] = SandboxMode;
+
+            var FastWorkersMode = Util.KInstantiateUI(InfoRowSimple, InfoScreenContainer, true).transform.Find("Label").gameObject.AddOrGet<LocText>();
+            FastWorkersMode.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.FASTWORKERSMODE.NAME;
+            UIUtils.AddSimpleTooltipToObject(FastWorkersMode.transform.parent, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.FASTWORKERSMODE.TOOLTIP, alignCenter: true, onBottom: true);
+            GameSettingsTexts[CustomGameSettingConfigs.FastWorkersMode] = FastWorkersMode;
+
+            var SaveToCloud = Util.KInstantiateUI(InfoRowSimple, InfoScreenContainer, true).transform.Find("Label").gameObject.AddOrGet<LocText>();
+            SaveToCloud.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.SAVETOCLOUD.NAME;
+            UIUtils.AddSimpleTooltipToObject(SaveToCloud.transform.parent, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.SAVETOCLOUD.TOOLTIP, alignCenter: true, onBottom: true);
+            GameSettingsTexts[CustomGameSettingConfigs.SaveToCloud] = SaveToCloud;
+
+            var Teleporters = Util.KInstantiateUI(InfoRowSimple, InfoScreenContainer, true).transform.Find("Label").gameObject.AddOrGet<LocText>();
+            Teleporters.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.TELEPORTERS.NAME;
+            UIUtils.AddSimpleTooltipToObject(Teleporters.transform.parent, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.TELEPORTERS.TOOLTIP, alignCenter: true, onBottom: true);
+            GameSettingsTexts[CustomGameSettingConfigs.Teleporters] = Teleporters;
 
             init = true;
         }
