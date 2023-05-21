@@ -50,6 +50,8 @@ namespace ClusterTraitGenerationManager
         public FButton CloseButton2;
 
         public bool CurrentlyActive;
+        public System.Action onCloseAction=null;
+
         public static void ShowWindow(System.Action onCloseAction = null)
         {
             if (Instance == null)
@@ -59,6 +61,7 @@ namespace ClusterTraitGenerationManager
                 Instance.Init();
             }
 
+            Instance.onCloseAction = onCloseAction;
             Instance.Show(true);
             Instance.ConsumeMouseScroll = true;
             Instance.transform.SetAsLastSibling();
@@ -265,6 +268,12 @@ namespace ClusterTraitGenerationManager
             int seed = int.Parse(seedString);
             seed = Mathf.Min(seed, int.MaxValue);
             SeedInput.Text = seedString;
+
+            if(onCloseAction != null)
+            {
+                onCloseAction.Invoke();
+            }
+
             CustomGameSettings.Instance.SetQualitySetting(CustomGameSettingConfigs.WorldgenSeed, seed.ToString());
         }
 

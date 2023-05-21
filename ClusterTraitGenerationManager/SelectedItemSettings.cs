@@ -530,7 +530,7 @@ namespace ClusterTraitGenerationManager
             SettingsButton = transform.Find("Buttons/SettingsButton").FindOrAddComponent<FButton>();
             SettingsButton.OnClick += () =>
             {
-                CustomSettingsController.ShowWindow();
+                CustomSettingsController.ShowWindow(() => UpdateUI());
             };
 
 
