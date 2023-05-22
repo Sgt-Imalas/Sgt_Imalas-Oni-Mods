@@ -187,6 +187,19 @@ namespace ClusterTraitGenerationManager
                     : CustomGameSettingConfigs.StressBreaks.GetDefaultLevelId() == (CustomGameSettingConfigs.StressBreaks as ToggleSettingConfig).on_level.id;
             }
 
+            ///Sandbox
+            if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.SandboxMode.id))
+            {
+                SandboxMode.On = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.SandboxMode).id == (CustomGameSettingConfigs.SandboxMode as ToggleSettingConfig).on_level.id;
+            }
+            else
+            {
+                AddMissingCustomGameSetting(CustomGameSettingConfigs.SandboxMode);
+                SandboxMode.On = isNoSweat
+                    ? CustomGameSettingConfigs.SandboxMode.GetNoSweatDefaultLevelId() == (CustomGameSettingConfigs.SandboxMode as ToggleSettingConfig).on_level.id
+                    : CustomGameSettingConfigs.SandboxMode.GetDefaultLevelId() == (CustomGameSettingConfigs.SandboxMode as ToggleSettingConfig).on_level.id;
+            }
+
             ///CarePackages
             if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.CarePackages.id))
             {

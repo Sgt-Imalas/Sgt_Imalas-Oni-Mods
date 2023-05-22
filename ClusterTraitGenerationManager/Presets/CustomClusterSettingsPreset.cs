@@ -54,9 +54,7 @@ namespace ClusterTraitGenerationManager
             }
         }
 
-        public string ImmuneSystem, CalorieBurn, Morale, Durability, MeteorShowers, Radiation, Stress, Seed;
-        public bool StressBreaks, CarePackages, FastWorkersMode, SaveToCloud, Teleporters;
-
+        public string ImmuneSystem, CalorieBurn, Morale, Durability, MeteorShowers, Radiation, Stress, Seed, SandboxMode, StressBreaks, CarePackages, FastWorkersMode, SaveToCloud, Teleporters;
         private void LoadCurrentGameSettings()
         {
             var instance = CustomGameSettings.Instance;
@@ -138,62 +136,73 @@ namespace ClusterTraitGenerationManager
             ///StressBreaks
             if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.StressBreaks.id))
             {
-                StressBreaks = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.StressBreaks).id == (CustomGameSettingConfigs.StressBreaks as ToggleSettingConfig).on_level.id;
+                StressBreaks = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.StressBreaks).id;
             }
             else
             {
-                StressBreaks = isNoSweat
-                    ? CustomGameSettingConfigs.StressBreaks.GetNoSweatDefaultLevelId() == (CustomGameSettingConfigs.StressBreaks as ToggleSettingConfig).on_level.id
-                    : CustomGameSettingConfigs.StressBreaks.GetDefaultLevelId() == (CustomGameSettingConfigs.StressBreaks as ToggleSettingConfig).on_level.id;
+                StressBreaks = isNoSweat ? CustomGameSettingConfigs.StressBreaks.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.StressBreaks.GetDefaultLevelId(); 
             }
 
             ///CarePackages
             if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.CarePackages.id))
             {
-                CarePackages = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.CarePackages).id == (CustomGameSettingConfigs.CarePackages as ToggleSettingConfig).on_level.id;
+                CarePackages = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.CarePackages).id;
             }
             else
             {
                 CarePackages = isNoSweat
-                    ? CustomGameSettingConfigs.CarePackages.GetNoSweatDefaultLevelId() == (CustomGameSettingConfigs.CarePackages as ToggleSettingConfig).on_level.id
-                    : CustomGameSettingConfigs.CarePackages.GetDefaultLevelId() == (CustomGameSettingConfigs.CarePackages as ToggleSettingConfig).on_level.id;
+                    ? CustomGameSettingConfigs.CarePackages.GetNoSweatDefaultLevelId()
+                    : CustomGameSettingConfigs.CarePackages.GetDefaultLevelId();
             }
 
             ///Fast Workers
             if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.FastWorkersMode.id))
             {
-                FastWorkersMode = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.FastWorkersMode).id == (CustomGameSettingConfigs.FastWorkersMode as ToggleSettingConfig).on_level.id;
+                FastWorkersMode = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.FastWorkersMode).id;
             }
             else
             {
                 FastWorkersMode = isNoSweat
-                    ? CustomGameSettingConfigs.FastWorkersMode.GetNoSweatDefaultLevelId() == (CustomGameSettingConfigs.FastWorkersMode as ToggleSettingConfig).on_level.id
-                    : CustomGameSettingConfigs.FastWorkersMode.GetDefaultLevelId() == (CustomGameSettingConfigs.FastWorkersMode as ToggleSettingConfig).on_level.id;
+                    ? CustomGameSettingConfigs.FastWorkersMode.GetNoSweatDefaultLevelId()
+                    : CustomGameSettingConfigs.FastWorkersMode.GetDefaultLevelId();
             }
 
             ///Save to Cloud
             if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.SaveToCloud.id))
             {
-                SaveToCloud = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.SaveToCloud).id == (CustomGameSettingConfigs.SaveToCloud as ToggleSettingConfig).on_level.id;
+                SaveToCloud = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.SaveToCloud).id;
             }
             else
             {
                 SaveToCloud = isNoSweat
-                    ? CustomGameSettingConfigs.SaveToCloud.GetNoSweatDefaultLevelId() == (CustomGameSettingConfigs.SaveToCloud as ToggleSettingConfig).on_level.id
-                    : CustomGameSettingConfigs.SaveToCloud.GetDefaultLevelId() == (CustomGameSettingConfigs.SaveToCloud as ToggleSettingConfig).on_level.id;
+                    ? CustomGameSettingConfigs.SaveToCloud.GetNoSweatDefaultLevelId()
+                    : CustomGameSettingConfigs.SaveToCloud.GetDefaultLevelId();
             }
 
             ///Teleporters
             if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.Teleporters.id))
             {
-                Teleporters = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Teleporters).id == (CustomGameSettingConfigs.Teleporters as ToggleSettingConfig).on_level.id;
+                Teleporters = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Teleporters).id;
             }
             else
             {
                 Teleporters = isNoSweat
-                    ? CustomGameSettingConfigs.Teleporters.GetNoSweatDefaultLevelId() == (CustomGameSettingConfigs.Teleporters as ToggleSettingConfig).on_level.id
-                    : CustomGameSettingConfigs.Teleporters.GetDefaultLevelId() == (CustomGameSettingConfigs.Teleporters as ToggleSettingConfig).on_level.id;
+                    ? CustomGameSettingConfigs.Teleporters.GetNoSweatDefaultLevelId()
+                    : CustomGameSettingConfigs.Teleporters.GetDefaultLevelId();
             }
+
+            ///Sandbox
+            if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.SandboxMode.id))
+            {
+                SandboxMode = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.SandboxMode).id;
+            }
+            else
+            {
+                SandboxMode = isNoSweat
+                    ? CustomGameSettingConfigs.SandboxMode.GetNoSweatDefaultLevelId()
+                    : CustomGameSettingConfigs.SandboxMode.GetDefaultLevelId();
+            }
+
 
             Seed = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id;
         }
