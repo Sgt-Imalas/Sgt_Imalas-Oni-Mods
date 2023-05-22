@@ -175,6 +175,8 @@ namespace ClusterTraitGenerationManager
 
         public override void OnShow(bool show)
         {
+            //SgtLogger.l("SHOWING: " + show);
+            //this.isActive = show;
             base.OnShow(show);
             if (!show)
                 return;

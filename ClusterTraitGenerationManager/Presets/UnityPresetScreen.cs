@@ -117,10 +117,7 @@ namespace ClusterTraitGenerationManager
         {
             if (e.TryConsume(Action.MouseRight))
             {
-                //if (!HoveringPrio)
-                //{
-                //    this.Show(false);
-                //}
+                this.Show(false);
             }
             if (e.TryConsume(Action.Escape))
             {
@@ -247,12 +244,32 @@ namespace ClusterTraitGenerationManager
                 UnityEngine.Object.Destroy(item);
             StarmapItemContainers.Clear();
 
-            var planetTitle = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-            planetTitle.transform.Find("Label").GetComponent<LocText>().text = "Asteroids:"; //TODO
-            StarmapItemContainers.Add(planetTitle);
+            StarmapItemContainers.Add(Util.KInstantiateUI(InfoSpacer, InfoScreenContainer, true));
 
-            CreateUIItemForStarmapItem(CurrentlySelected.StarterPlanet);
-            CreateUIItemForStarmapItem(CurrentlySelected.WarpPlanet);
+            if (CurrentlySelected.StarterPlanet != null)
+            {
+                var starterHeader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
+                starterHeader.transform.Find("Label").GetComponent<LocText>().text = CUSTOMCLUSTERUI.CATEGORYENUM.START + ":"; //TODO
+                StarmapItemContainers.Add(starterHeader);
+
+                CreateUIItemForStarmapItem(CurrentlySelected.StarterPlanet);
+            }
+
+            if (CurrentlySelected.WarpPlanet != null)
+            {
+                var warpHeader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
+                warpHeader.transform.Find("Label").GetComponent<LocText>().text = CUSTOMCLUSTERUI.CATEGORYENUM.WARP + ":"; //TODO
+                StarmapItemContainers.Add(warpHeader);
+
+                CreateUIItemForStarmapItem(CurrentlySelected.WarpPlanet);
+            }
+
+            if (CurrentlySelected.OuterPlanets.Count > 0)
+            {
+                var outerHeader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
+                outerHeader.transform.Find("Label").GetComponent<LocText>().text = CUSTOMCLUSTERUI.CATEGORYENUM.OUTER + ":"; //TODO
+                StarmapItemContainers.Add(outerHeader);
+            }
 
             var combined = new List<SerializableStarmapItem>();
             combined.AddRange(CurrentlySelected.OuterPlanets.Values);
@@ -268,7 +285,7 @@ namespace ClusterTraitGenerationManager
                 if (item.category == StarmapItemCategory.POI && reachedPOI == false)
                 {
                     var poi = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-                    poi.transform.Find("Label").GetComponent<LocText>().text = "POIs:"; //TODO
+                    poi.transform.Find("Label").GetComponent<LocText>().text = CUSTOMCLUSTERUI.CATEGORYENUM.POI+":"; //TODO
                     StarmapItemContainers.Add(poi);
                     reachedPOI = true;
                 }

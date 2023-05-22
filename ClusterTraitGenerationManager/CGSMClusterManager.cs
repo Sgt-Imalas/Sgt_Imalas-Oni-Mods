@@ -73,6 +73,7 @@ namespace ClusterTraitGenerationManager
                 }
             }
         }
+        public static FeatureSelectionScreen CGM_Screen = null;
 
         public static async void InstantiateClusterSelectionView(ColonyDestinationSelectScreen parent, System.Action onClose = null)
         {
@@ -100,7 +101,7 @@ namespace ClusterTraitGenerationManager
                 LoadCustomCluster = false;
 
                 newScreen.name = "ClusterSelectionView";
-                var cmp = newScreen.AddComponent(typeof(FeatureSelectionScreen));
+                CGM_Screen = newScreen.AddComponent<FeatureSelectionScreen>();
 
                 Screen = newScreen;
             }
@@ -1256,7 +1257,6 @@ namespace ClusterTraitGenerationManager
                 }
             }
 
-
             if (singleItemId == string.Empty)
             {
                 CustomCluster.defaultOuterPlanets = Reference.worldPlacements.Count;
@@ -1308,6 +1308,27 @@ namespace ClusterTraitGenerationManager
             LastPresetGenerated = clusterID;
         }
 
+        public static void RerollTraits()
+        {
+            int seed = int.Parse(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id);
+
+            if (CustomCluster == null)
+                return;
+
+            var planets = CustomCluster.GetAllPlanets();
+            for (int i = 0; i < planets.Count; i++)
+            {
+                var FoundPlanet = planets[i];
+                if(FoundPlanet.world==null) continue;
+
+                FoundPlanet.ClearWorldTraits();
+                foreach (var planetTrait in SettingsCache.GetRandomTraits(seed + i, FoundPlanet.world))
+                {
+                    WorldTrait cachedWorldTrait = SettingsCache.GetCachedWorldTrait(planetTrait, true);
+                    FoundPlanet.AddWorldTrait(cachedWorldTrait);
+                }
+            }
+        }
 
         public static StarmapItem GivePrefilledItem(StarmapItem ToAdd)
         {

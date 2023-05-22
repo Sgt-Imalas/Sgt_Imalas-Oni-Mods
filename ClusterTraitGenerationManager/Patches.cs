@@ -96,8 +96,17 @@ namespace ClusterTraitGenerationManager
                     clusterPath = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
                 }
                 SgtLogger.l("Regenerating Cluster to "+ clusterPath + ". Reason: " + config.id + " changed.");
-                SgtLogger.l("Data: "+ value);
-                CGSMClusterManager.CreateCustomClusterFrom(clusterPath, ForceRegen: true);
+
+                if(CGM_Screen != null)
+                    SgtLogger.l(CGM_Screen.isActiveAndEnabled + "", "ISACTIVE");
+                if(CGM_Screen == null || !CGM_Screen.isActiveAndEnabled)
+                {
+                    CGSMClusterManager.CreateCustomClusterFrom(clusterPath, ForceRegen: true);
+                }
+                else
+                {
+                    CGSMClusterManager.RerollTraits();
+                }
             }
         }
         //[HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
