@@ -53,13 +53,15 @@ namespace ClusterTraitGenerationManager
                             {
                                 public class NOPRESETSAVAILABLE
                                 {
-                                    public static LocString LABEL = "No presets available.";
+                                    public static LocString LABEL = "No presets available";
                                 }
                                 public class PRESETENTRYPREFAB
                                 {
                                     public class ADDTHISTRAITBUTTON
                                     {
                                         public static LocString TEXT = "Load Preset";
+                                        public static LocString TOOLTIP = "Load this preset to the preview";
+
                                     }
 
                                     public static LocString RENAMEPRESETTOOLTIP = "Rename Preset";
@@ -90,17 +92,17 @@ namespace ClusterTraitGenerationManager
                             public class CLOSEBUTTON
                             {
                                 public static LocString TEXT = "Return";
-                                public static LocString TOOLTIP = "Close this preset window.";
+                                public static LocString TOOLTIP = "Close this preset window";
                             }
                             public class GENERATEFROMCURRENT
                             {
                                 public static LocString TEXT = "Generate Preset";
-                                public static LocString TOOLTIP = "Generate and store a new preset from the currenly displayed priorities.\nOnly has an effect if the preset doesn't exist yet";
+                                public static LocString TOOLTIP = "Save the currently loaded cluster configuration to a new preset.";
                             }
                             public class APPLYPRESETBUTTON
                             {
                                 public static LocString TEXT = "Apply Preset";
-                                public static LocString TOOLTIP = "Apply the currenly displayed priorities to the Duplicant this window was opened from.";
+                                public static LocString TOOLTIP = "Apply the preset thats currently displayed in the preview to the custom cluster.";
                             }
                         }
                     }
@@ -176,7 +178,7 @@ namespace ClusterTraitGenerationManager
                         public static LocString TOOLTIP = (LocString)"What kind of meteors should come down on this asteroid?";
                         public static LocString NOSEASONSSELECTED = "No season types selected";
                         public static LocString ADDNEWSEASON = (LocString)"Add additional meteor season";
-                        public static LocString ADDNEWSEASONTOOLTIP = (LocString)"Add another type of meteor season type to this asteroid.\nWarning: Meteor season types are all active at the same time,\nleading to a high volume of meteors at the same time if multiple are added.\nNormal asteroids have usually 1 season type";
+                        public static LocString ADDNEWSEASONTOOLTIP = (LocString)"Add another type of meteor season type to this asteroid.\nWarning: Meteor season types are all active at the same time,\nleading to a high volume of meteors at the same time if multiple are added.\nNormal asteroids have usually one season type,";
                         public static LocString ACTIVESEASONSELECTORLABEL = (LocString)"Active Meteor Seasons:";
                         public static LocString ACTIVEMETEORSLABEL = (LocString)"Active Meteor Showers:";
 
@@ -280,7 +282,7 @@ namespace ClusterTraitGenerationManager
                         {
                             public class NOTRAITSELECTEDINFO
                             {
-                                public static LocString LABEL = (LocString)"  No Traits";
+                                public static LocString LABEL = (LocString)"No Traits";
                             }
                         }
                         public class ADDTRAITBUTTON
@@ -307,8 +309,8 @@ namespace ClusterTraitGenerationManager
                         }
                         public class PRESETBUTTON
                         {
-                            public static LocString TEXT = (LocString)"Saved Presets";
-                            public static LocString TOOLTIP = (LocString)"Create or load your saved cluster presets";
+                            public static LocString TEXT = (LocString)"Cluster Presets";
+                            public static LocString TOOLTIP = (LocString)"Create new or load your existing cluster presets";
                         }
                         public class SETTINGSBUTTON
                         {
@@ -400,8 +402,8 @@ namespace ClusterTraitGenerationManager
         {
             public class CGSM
             {
-                public static LocString NAME = "CGSM Cluster";
-                public static LocString DESCRIPTION = "CGSM Cluster";
+                public static LocString NAME = "CGM Cluster";
+                public static LocString DESCRIPTION = "CGM Cluster";
             }
         }
         public class ERRORMESSAGES

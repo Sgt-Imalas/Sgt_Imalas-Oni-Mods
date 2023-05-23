@@ -23,6 +23,18 @@ msgctxt "ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGSM.NAME"
 msgid "CGSM Cluster"
 msgstr "CGSM Cluster"
 
+#. ClusterTraitGenerationManager.STRINGS.ERRORMESSAGES.PLANETPLACEMENTERROR
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.ERRORMESSAGES.PLANETPLACEMENTERROR"
+msgid ""
+"Starmap Generation Error!\n"
+"{0} could not be placed on the star map. Increase the maximum distance of of "
+"this asteroid to fix this issue."
+msgstr ""
+"Fehler bei Sternenkartengenerierung!\n"
+"{0} konnte nicht auf der Sternenkarte platziert werden. Erhöhe die maximale "
+"Distanz dieses Asteroiden um das Problem zu beheben."
+
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.AMOUNTSLIDER.DESCRIPTOR.INPUT.TEXT
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.AMOUNTSLIDER."
@@ -176,6 +188,62 @@ msgctxt ""
 msgid "The asteroid is a lot wider than normal."
 msgstr "Der Asteroid ist um einiges breiter als normal."
 
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE0
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE0"
+msgid "Tiny"
+msgstr "Mini"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE0TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE0TOOLTIP"
+msgid "The asteroid is at 25% of its usual size."
+msgstr "Der Asteroid hat 25% seiner normalen Größe."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE1
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE1"
+msgid "Smaller"
+msgstr "Kleiner"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE1TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE1TOOLTIP"
+msgid "The asteroid is at 40% of its usual size."
+msgstr "Der Asteroid hat 40% seiner normalen Größe."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE2
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE2"
+msgid "Small"
+msgstr "Klein"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE2TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE2TOOLTIP"
+msgid "The asteroid is at 55% of its usual size."
+msgstr "Der Asteroid hat 55% seiner normalen Größe."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE3
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE3"
+msgid "Slightly Smaller"
+msgstr "Etwas Kleiner"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE3TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
+"ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE3TOOLTIP"
+msgid "The asteroid is at 75% of its usual size."
+msgstr "Der Asteroid hat 75% seiner normalen Größe."
+
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.SIZESELECTOR.SIZE0
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
@@ -307,7 +375,7 @@ msgstr "Welt-Eigenschaften:"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."
 "ASTEROIDTRAITS.LISTVIEW.NOTRAITSELECTEDINFO.LABEL"
-msgid "  No Traits"
+msgid "No Traits"
 msgstr " Keine Eigenschaften"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUFFERSLIDER.DESCRIPTOR.INPUT.TEXT
@@ -350,6 +418,20 @@ msgstr ""
 "ausgewählten Parametern.\n"
 "Die Generierung modifizierter Cluster wird nur aktiviert, wenn dieser Knopf "
 "hier verwendet wird."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.PRESETBUTTON.TEXT
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS."
+"PRESETBUTTON.TEXT"
+msgid "Cluster Presets"
+msgstr "Cluster Presets"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.PRESETBUTTON.TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS."
+"PRESETBUTTON.TOOLTIP"
+msgid "Create new or load your existing cluster presets"
+msgstr "Erstelle neue oder lade gespeicherte Cluster-Presets"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.RESETCLUSTERBUTTON.TEXT
 msgctxt ""
@@ -394,6 +476,20 @@ msgctxt ""
 "RETURNBUTTON.TOOLTIP"
 msgid "Return to the previous screen."
 msgstr "Zum vorherigen Fenster zurückkehren."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.SETTINGSBUTTON.TEXT
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS."
+"SETTINGSBUTTON.TEXT"
+msgid "Game Settings"
+msgstr "Spieleinstellungen"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.SETTINGSBUTTON.TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS."
+"SETTINGSBUTTON.TOOLTIP"
+msgid "Open the game settings screen."
+msgstr "Öffne Spieleinstellungen."
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.CLUSTERSIZE.DESCRIPTOR.INPUT.TEXT
 msgctxt ""
@@ -499,7 +595,7 @@ msgstr "Keine Meteorsaison ausgewählt"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
 "REMOVESEASONTOOLTIP"
-msgid "Remove this Season Type"
+msgid "Remove this season type"
 msgstr "Diesen Saison-Typ entfernen"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.SEASONSELECTOR.ADDSEASONTYPEBUTTONLABEL
@@ -524,7 +620,7 @@ msgid ""
 "This season type does not contain any meteor shower types.\n"
 "This might change in the future if Klei decides to add some showers to this "
 "season type.\n"
-"For this reason the season type is still listed here."
+"For this reason the season type is listed here."
 msgstr ""
 "Dieser Saisontyp enthält keine Meteorschauertypen.\n"
 "Dies könnte sich in Zukunft ändern, wenn Klei beschließt, diesen Typ um "
@@ -556,8 +652,8 @@ msgstr "Meteore in diesem Schauer-Typ:"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON."
 "SWITCHTOOTHERSEASONTOOLTIP"
-msgid "Change this season to a different type"
-msgstr "Diese Saison durch eine Andere ersetzen"
+msgid "Swap this season to a different type"
+msgstr "Diese Saison durch eine andere ersetzen"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.TOOLTIP
 msgctxt ""
@@ -700,6 +796,126 @@ msgctxt "ClusterTraitGenerationManager.STRINGS.UI.GENERATIONWARNING.YES"
 msgid "Yes"
 msgstr "Ja"
 
+#. ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.DELETEWINDOW.CANCEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS."
+"DELETEWINDOW.CANCEL"
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.DELETEWINDOW.DESC
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS."
+"DELETEWINDOW.DESC"
+msgid ""
+"You are about to delete the preset \"{0}\".\n"
+"Do you want to continue?"
+msgstr "Soll das Preset \"{0}\" wirklich gelöscht werden?"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.DELETEWINDOW.TITLE
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS."
+"DELETEWINDOW.TITLE"
+msgid "Delete {0}"
+msgstr "{0} löschen"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.DELETEWINDOW.YES
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS."
+"DELETEWINDOW.YES"
+msgid "Confirm Deletion"
+msgstr "Löschung bestätigen"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TEXT
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS."
+"HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TEXT"
+msgid "Apply Preset"
+msgstr "Preset anwenden"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS."
+"HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TOOLTIP"
+msgid ""
+"Apply the preset thats currently displayed in the preview to the custom "
+"cluster."
+msgstr "Wende das in der Vorschau geladene Preset auf das Custom-Cluster an."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TEXT
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS."
+"HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TEXT"
+msgid "Return"
+msgstr "Zurück"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS."
+"HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TOOLTIP"
+msgid "Close this preset window."
+msgstr "Preset-Fenster schließen"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TEXT
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS."
+"HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TEXT"
+msgid "Generate Preset"
+msgstr "Generiere Preset"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS."
+"HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP"
+msgid "Save the currently loaded cluster configuration to a new preset."
+msgstr ""
+"Speichere die momentan geladene Cluster-Konfiguration als neues Preset."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.NOPRESETSAVAILABLE.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS."
+"HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.NOPRESETSAVAILABLE.LABEL"
+msgid "No presets available."
+msgstr "Keine Presets vorhanden"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.ADDTHISTRAITBUTTON.TEXT
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS."
+"HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB."
+"ADDTHISTRAITBUTTON.TEXT"
+msgid "Load Preset"
+msgstr "Preset laden"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.ADDTHISTRAITBUTTON.TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS."
+"HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB."
+"ADDTHISTRAITBUTTON.TOOLTIP"
+msgid "Load this preset to the preview"
+msgstr "Lade dieses Preset in die Vorschau"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS."
+"HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB."
+"DELETEPRESETTOOLTIP"
+msgid "Delete Preset"
+msgstr "Preset löschen"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS."
+"HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB."
+"RENAMEPRESETTOOLTIP"
+msgid "Rename Preset"
+msgstr "Preset umbenennen"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.TITLE
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.TITLE"
+msgid "Cluster Presets"
+msgstr "Cluster-Preset"
+
 #. ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_OUTER.DESCRIPTION
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_OUTER."
@@ -789,9 +1005,27 @@ msgstr "Zufällige Welt-Eigenschaften"
 
 #~ msgctxt ""
 #~ "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS."
-#~ "GENERATECLUSTERBUTTON.TEXT"
-#~ msgid "Generate Cluster"
-#~ msgstr "Generiere Cluster"
+#~ "PRESETBUTTON.TEXT"
+#~ msgid "Saved Presets"
+#~ msgstr "Gespeicherte Cluster"
+
+#~ msgctxt ""
+#~ "ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS."
+#~ "HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TOOLTIP"
+#~ msgid ""
+#~ "Apply the currenly displayed priorities to the Duplicant this window was "
+#~ "opened from."
+#~ msgstr "Wende das geladene Preset auf das Custom-Cluster an"
+
+#~ msgctxt ""
+#~ "ClusterTraitGenerationManager.STRINGS.UI.PRESETWINDOWCLUSTERPRESETS."
+#~ "HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP"
+#~ msgid ""
+#~ "Generate and store a new preset from the currenly displayed priorities.\n"
+#~ "Only has an effect if the preset doesn't exist yet"
+#~ msgstr ""
+#~ "Speichere die momentan dargestellte Cluster-Konfiguration als neues "
+#~ "Preset."
 
 #~ msgctxt ""
 #~ "ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS."

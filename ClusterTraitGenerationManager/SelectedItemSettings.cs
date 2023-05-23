@@ -537,10 +537,12 @@ namespace ClusterTraitGenerationManager
 
 
 
-            UIUtils.AddSimpleTooltipToObject(ResetAllButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.RESETCLUSTERBUTTON.TOOLTIP, true);
-            UIUtils.AddSimpleTooltipToObject(ResetButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.RESETSELECTIONBUTTON.TOOLTIP, true);
-            UIUtils.AddSimpleTooltipToObject(GenerateClusterButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.GENERATECLUSTERBUTTON.TOOLTIP, true);
-            UIUtils.AddSimpleTooltipToObject(ReturnButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.RETURNBUTTON.TOOLTIP, true);
+            UIUtils.AddSimpleTooltipToObject(ResetAllButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.RESETCLUSTERBUTTON.TOOLTIP, true, onBottom:true);
+            UIUtils.AddSimpleTooltipToObject(ResetButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.RESETSELECTIONBUTTON.TOOLTIP, true, onBottom: true);
+            UIUtils.AddSimpleTooltipToObject(GenerateClusterButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.GENERATECLUSTERBUTTON.TOOLTIP, true, onBottom: true);
+            UIUtils.AddSimpleTooltipToObject(ReturnButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.RETURNBUTTON.TOOLTIP, true, onBottom: true);
+            UIUtils.AddSimpleTooltipToObject(SettingsButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.SETTINGSBUTTON.TOOLTIP, true, onBottom: true);
+            UIUtils.AddSimpleTooltipToObject(PresetsButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.PRESETBUTTON.TOOLTIP, true, onBottom: true);
 
             SgtLogger.Assert("AsteroidSize", AsteroidSize);
             //SgtLogger.Assert("AsteroidSizeLabel", AsteroidSizeLabel);

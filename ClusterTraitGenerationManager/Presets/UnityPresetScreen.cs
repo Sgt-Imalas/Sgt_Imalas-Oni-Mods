@@ -37,6 +37,7 @@ using static STRINGS.DUPLICANTS.TRAITS;
 using static ClusterTraitGenerationManager.CustomClusterSettingsPreset;
 using System.Net;
 using static STRINGS.CODEX;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGM.TRAITPOPUP.SCROLLAREA.CONTENT;
 
 namespace ClusterTraitGenerationManager
 {
@@ -174,6 +175,7 @@ namespace ClusterTraitGenerationManager
                 //PresetHolder.transform.Find("TraitImage").gameObject.SetActive(false);
                 var img = PresetHolder.transform.Find("TraitImage").GetComponent<Image>();
                 //InDefaultListImage(img, config.InDefaultList);
+                GetPlanetImageAndApply(config, img);    
 
                 UIUtils.TryChangeText(PresetHolder.transform, "Label", config.ConfigName);
                 PresetHolder.transform.Find("RenameButton").FindOrAddComponent<FButton>().OnClick +=
@@ -186,11 +188,14 @@ namespace ClusterTraitGenerationManager
                         );
 
                 PresetHolder.transform.Find("AddThisTraitButton").FindOrAddComponent<FButton>().OnClick += () => SetAsCurrent(config);
+
+
+                UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("AddThisTraitButton"), PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.ADDTHISTRAITBUTTON.TOOLTIP, true, onBottom: true);
                 PresetHolder.transform.Find("DeleteButton").FindOrAddComponent<FButton>().OnClick += () => DeletePreset(config);
 
 
-                //UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("RenameButton"), STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP);
-                //UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("DeleteButton"), STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP);
+                UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("RenameButton"), STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP, true, onBottom: true);
+                UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("DeleteButton"), STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP, true, onBottom: true);
                 Presets[config] = PresetHolder;
                 return true;
             }
@@ -265,7 +270,7 @@ namespace ClusterTraitGenerationManager
             if (CurrentlySelected.StarterPlanet != null)
             {
                 var starterHeader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-                starterHeader.transform.Find("Label").GetComponent<LocText>().text = CUSTOMCLUSTERUI.CATEGORYENUM.START + ":"; //TODO
+                starterHeader.transform.Find("Label").GetComponent<LocText>().text = CUSTOMCLUSTERUI.CATEGORYENUM.START + ":"; 
                 StarmapItemContainers.Add(starterHeader);
 
                 CreateUIItemForStarmapItem(CurrentlySelected.StarterPlanet);
@@ -274,7 +279,7 @@ namespace ClusterTraitGenerationManager
             if (CurrentlySelected.WarpPlanet != null)
             {
                 var warpHeader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-                warpHeader.transform.Find("Label").GetComponent<LocText>().text = CUSTOMCLUSTERUI.CATEGORYENUM.WARP + ":"; //TODO
+                warpHeader.transform.Find("Label").GetComponent<LocText>().text = CUSTOMCLUSTERUI.CATEGORYENUM.WARP + ":";
                 StarmapItemContainers.Add(warpHeader);
 
                 CreateUIItemForStarmapItem(CurrentlySelected.WarpPlanet);
@@ -283,7 +288,7 @@ namespace ClusterTraitGenerationManager
             if (CurrentlySelected.OuterPlanets.Count > 0)
             {
                 var outerHeader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-                outerHeader.transform.Find("Label").GetComponent<LocText>().text = CUSTOMCLUSTERUI.CATEGORYENUM.OUTER + ":"; //TODO
+                outerHeader.transform.Find("Label").GetComponent<LocText>().text = CUSTOMCLUSTERUI.CATEGORYENUM.OUTER + ":"; 
                 StarmapItemContainers.Add(outerHeader);
             }
 
@@ -301,7 +306,7 @@ namespace ClusterTraitGenerationManager
                 if (item.category == StarmapItemCategory.POI && reachedPOI == false)
                 {
                     var poi = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-                    poi.transform.Find("Label").GetComponent<LocText>().text = CUSTOMCLUSTERUI.CATEGORYENUM.POI+":"; //TODO
+                    poi.transform.Find("Label").GetComponent<LocText>().text = CUSTOMCLUSTERUI.CATEGORYENUM.POI+":"; 
                     StarmapItemContainers.Add(poi);
                     reachedPOI = true;
                 }
@@ -319,6 +324,38 @@ namespace ClusterTraitGenerationManager
         Dictionary<SettingConfig, LocText> GameSettingsTexts = new Dictionary<SettingConfig, LocText>();
 
         List<GameObject> StarmapItemContainers = new List<GameObject>();
+
+        void GetPlanetImageAndApply(CustomClusterSettingsPreset preset,Image image)
+        {
+            if (preset.StarterPlanet != null)
+            {
+                ApplyPlanetImage(preset.StarterPlanet, image);
+                return;
+            }
+
+            if (preset.WarpPlanet != null)
+            {
+                ApplyPlanetImage(preset.WarpPlanet, image);
+                return;
+            }
+
+            if (preset.OuterPlanets.Count > 0)
+            {
+                ApplyPlanetImage(preset.OuterPlanets.Values.First(), image);
+                return;
+            }
+        }
+
+        void ApplyPlanetImage(SerializableStarmapItem item, Image image)
+        {
+            if (!PlanetoidDict().ContainsKey(item.itemID))
+            {
+                SgtLogger.warning(item.itemID + " not found!");
+                return;
+            }
+            var starmapItem = PlanetoidDict()[item.itemID];
+            image.sprite = starmapItem.planetSprite;
+        }
 
         GameObject CreateUIItemForStarmapItem(SerializableStarmapItem item)
         {
@@ -362,6 +399,7 @@ namespace ClusterTraitGenerationManager
                             Util.KInstantiateUI(traitImagePrefab, imageContainer, true).TryGetComponent<Image>(out var traitImage);
                             traitImage.color = Util.ColorFromHex(worldTrait.colorHex);
                             traitImage.sprite = Assets.GetSprite(worldTrait.filePath.Substring(worldTrait.filePath.LastIndexOf("/") + 1));
+                            UIUtils.AddSimpleTooltipToObject(traitImage.transform, Strings.Get(worldTrait.name), true, onBottom: true);
                         }
                     }
                 }
@@ -423,12 +461,12 @@ namespace ClusterTraitGenerationManager
             };
 
 
-            //UIUtils.AddSimpleTooltipToObject(GeneratePresetButton.transform, HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP);
-            //UIUtils.AddSimpleTooltipToObject(CloseButton.transform, HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TOOLTIP);
-            //UIUtils.AddSimpleTooltipToObject(ApplyButton.transform, HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TOOLTIP);
+            UIUtils.AddSimpleTooltipToObject(GeneratePresetButton.transform, STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP, true, onBottom:true);
+            UIUtils.AddSimpleTooltipToObject(CloseButton.transform, STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TOOLTIP, true, onBottom: true);
+            UIUtils.AddSimpleTooltipToObject(ApplyButton.transform, STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TOOLTIP, true, onBottom: true);
 
-            //UIUtils.AddSimpleTooltipToObject(ClearSearchBar.transform, HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.CLEARTOOLTIP);
-            //UIUtils.AddSimpleTooltipToObject(OpenPresetFolder.transform, HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.OPENFOLDERTOOLTIP);
+            UIUtils.AddSimpleTooltipToObject(ClearSearchBar.transform, STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.CLEARTOOLTIP, true, onBottom: true);
+            UIUtils.AddSimpleTooltipToObject(OpenPresetFolder.transform, STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.OPENFOLDERTOOLTIP, true, onBottom: true);
 
             InfoHeaderPrefab = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/HeaderPrefab").gameObject;
             InfoRowPrefab = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/ListViewEntryPrefab").gameObject;
