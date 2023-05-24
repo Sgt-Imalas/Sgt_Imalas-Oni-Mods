@@ -63,8 +63,8 @@ namespace ClusterTraitGenerationManager
         public FButton AddTraitButton;
 
 
-        public FButton ResetButton;
-        public FButton ResetAllButton;
+        public static FButton ResetButton;
+        public static FButton ResetAllButton;
         public FButton ReturnButton;
         public FButton PresetsButton;
         public FButton SettingsButton;
@@ -198,8 +198,6 @@ namespace ClusterTraitGenerationManager
 
         public void UpdateUI()
         {
-
-
             if (lastSelected != null)
             {
                 UpdateForSelected(lastSelected);
@@ -207,6 +205,29 @@ namespace ClusterTraitGenerationManager
 
             UiRefresh.Invoke();
         }
+
+        public static void SetResetButtonStates()
+        {
+            if(ResetButton!=null)
+                ResetButton.SetInteractable(!PresetApplied);
+            if(ResetAllButton != null)
+                ResetAllButton.SetInteractable(!PresetApplied);
+        }
+
+        private static bool _presetApplied =false;
+        public static bool PresetApplied 
+        {
+            get 
+            {
+                return _presetApplied;
+            }
+            set
+            {
+                _presetApplied = value;
+                SetResetButtonStates();
+            }
+        }
+
         public System.Action UiRefresh;
 
 
@@ -425,73 +446,6 @@ namespace ClusterTraitGenerationManager
             };
 
             UIUtils.AddSimpleTooltipToObject(MeteorSelector.transform.Find("Title"), STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.TOOLTIP);
-
-            //PlanetMeteorTypes = transform.Find("MeteorSeasonCycle/SeasonCycle").gameObject.AddOrGet<FCycle>();
-            //PlanetMeteorTypes.Initialize(
-            //    PlanetMeteorTypes.transform.Find("Left").gameObject.AddOrGet<FButton>(),
-            //    PlanetMeteorTypes.transform.Find("Right").gameObject.AddOrGet<FButton>(),
-            //    PlanetMeteorTypes.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
-            //    PlanetMeteorTypes.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
-            //PlanetMeteorTypes.Options = new List<FCycle.Option>();
-
-            //foreach (GameplaySeason meteorSeason in Db.Get().GameplaySeasons.resources)
-            //{
-            //    if (!meteorSeason.startActive)
-            //        continue;
-
-            //    string showerInfo = string.Empty;
-            //    Debug.Log(meteorSeason);
-
-            //    foreach (GameplayEvent gameplayEvent in meteorSeason.events)
-            //    {
-            //        Debug.Log(gameplayEvent);
-            //        //if (gameplayEvent.tags.Contains(GameTags.SpaceDanger) && gameplayEvent is MeteorShowerEvent)
-            //        if (gameplayEvent is MeteorShowerEvent)
-            //        {
-            //            MeteorShowerEvent meteorShowerEvent = gameplayEvent as MeteorShowerEvent; 
-            //            string meteorName = string.Empty;
-            //            if (Assets.GetPrefab((Tag)meteorShowerEvent.GetClusterMapMeteorShowerID()) != null)
-            //                meteorName = Assets.GetPrefab((Tag)meteorShowerEvent.GetClusterMapMeteorShowerID()).GetProperName();
-            //            else
-            //                meteorName = meteorShowerEvent.Id;
-
-            //            string meteorlist = string.Empty;
-
-            //            var meteortypes = meteorShowerEvent.GetMeteorsInfo();
-            //            for(int i = 0; i<meteortypes.Count; i++)
-            //            {
-            //                meteorlist += Assets.GetPrefab((Tag)meteortypes[i].prefab).GetProperName();
-            //                if (i != meteortypes.Count - 1)
-            //                    meteorlist += ", ";
-            //            }
-
-
-            //            showerInfo += "\n";
-            //            showerInfo += meteorName;
-            //            showerInfo += meteorlist;
-            //        }
-            //    }
-            //    if (showerInfo == string.Empty)
-            //        showerInfo = "no meteor showers";
-
-            //    PlanetMeteorTypes.Options.Add(new FCycle.Option(meteorSeason.Id, meteorSeason.Id, showerInfo));
-            //}
-
-
-            //PlanetMeteorTypes.OnChange += () =>
-            //{
-            //    if (lastSelected != null)
-            //    {
-            //        if (CustomCluster.HasStarmapItem(lastSelected.id, out var current))
-            //        {
-            //            //WorldRatioPresets setTo = Enum.TryParse<WorldRatioPresets>(PlanetRazioCycle.Value, out var result) ? result : WorldRatioPresets.Normal;
-            //            //current.SetPlanetRatioToPreset(setTo);
-            //            //UpdateSizeLabels(current);
-            //            ////AsteroidSizeLabel.text = string.Format(ASTEROIDSIZEINFO.INFO, current.CustomPlanetDimensions.x, current.CustomPlanetDimensions.y);
-            //        }
-            //    }
-            //};
-
 
             AsteroidTraits = transform.Find("AsteroidTraits").gameObject;
             ActiveTraitsContainer = transform.Find("AsteroidTraits/ListView/Content").gameObject;

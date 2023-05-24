@@ -434,6 +434,7 @@ namespace ClusterTraitGenerationManager
             ApplyButton.OnClick += () =>
             {
                 CurrentlySelected.ApplyPreset();
+                SelectedItemSettings.PresetApplied = true;
                 this.OnCloseAction.Invoke();
                 this.Show(false);
             };

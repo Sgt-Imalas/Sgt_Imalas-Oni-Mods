@@ -184,6 +184,7 @@ namespace ClusterTraitGenerationManager
             this.PopulateGallery();
             this.SelectCategory(StarmapItemCategory.Starter);
             this.CreateUI();
+            
 
             this.galleryGridLayouter.RequestGridResize();
 
@@ -207,7 +208,6 @@ namespace ClusterTraitGenerationManager
                 RefreshGallery();
                 RefreshCategories();
             });
-
             init = true;
             this.SelectCategory(StarmapItemCategory.Starter);
             return;
@@ -228,6 +228,10 @@ namespace ClusterTraitGenerationManager
             this.RefreshCategories();
             this.RefreshGallery();
             this.RefreshDetails();
+            if(selectedItemSettings != null)
+            {
+                SelectedItemSettings.SetResetButtonStates();
+            }
            
         }
 
