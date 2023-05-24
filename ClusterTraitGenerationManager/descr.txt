@@ -4,7 +4,7 @@
 
 Gain nearly full control over each tiny detail of your cluster generation - manipulate each item on the star map individually!
 
-[h1]Current latest Version: 1.4.2[/h1]
+[h1]Current latest Version: 1.5.0[/h1]
 
 [hr][/hr]
 
@@ -32,8 +32,8 @@ If you forgot some settings (stuff like difficulty, story traits) on the normal 
     [*] "Random Traits"-Trait
     [*] Asteroid Size (currently only allows to create larger asteroids as trying to make them smaller ones breaks world generation)
     [*] Asteroid Meteor Seasons
-    [*] (only random planets & pois): Number of instances that should be spawned
-    [/list]
+    [*] (only random planets & pois): Number of instances that should be spawned[/list]
+[*] Save your favourite custom cluster to share them with friends or to replay them later
 [/list]
 
 

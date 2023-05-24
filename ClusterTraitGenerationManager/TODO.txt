@@ -8,6 +8,3 @@ Geysers:
 
 Size:
 - smaller planets
-
-Presets
-- storable starter presets
