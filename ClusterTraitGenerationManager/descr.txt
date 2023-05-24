@@ -59,6 +59,7 @@ Using a ToolsNotIncluded Seed as a Base will generate all planets that are norma
 [*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2973000407]Minibase SO Edition[/url] (also adds 2 new POIs)
 [*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1930918856]Solar System Worlds[/url] (also adds a new Trait, Planets of this mod dont seem to generate well with added world traits)
 [*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1825146346]Empty Worlds[/url] (also adds a new Trait)
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2977857632]A new hope[/url]
 [/list]
 
 [h1]Incompatible Mods:[/h1][list]
