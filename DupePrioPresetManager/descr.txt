@@ -20,8 +20,8 @@ This mod adds presets to consumables, priorities and schedules.
 
 [h1]Want more Presets?[/h1]
 [list][*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2856555858]DSS - Duplicant Presets:[/url] store and load attribute & trait presets for printing pod and starter duplicants. skins are separatly selectable.
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2947429297]CGM - Custom Cluster Presets:[/url] Create your own clusters and save them as presets to either do a new playthrough later or to share the custom cluster with friends.
 [/list]
-
 [h1]Compatibility[/h1]
 The presets should be inherently compatible with other mods that add new consumables, priorities, schedule blocks, 
 Tested compatibilities:
