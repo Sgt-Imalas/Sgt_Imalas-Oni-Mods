@@ -58,7 +58,7 @@ namespace Rockets_TinyYetBig.Docking
 
             var spaceship = manager.GetComponent<Clustercraft>();
             
-            bool flying = spaceship!=null ? spaceship.Status == Clustercraft.CraftStatus.InFlight : false;
+            bool flying = spaceship!= null ? spaceship.Status == Clustercraft.CraftStatus.InFlight : false;
 
             return manager != null && manager.HasDoors() && manager.GetCraftType != DockableType.Derelict && flying &&(!RocketryUtils.IsRocketInFlight(spaceship)) ;
         }

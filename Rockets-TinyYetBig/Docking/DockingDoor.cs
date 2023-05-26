@@ -92,10 +92,17 @@ namespace Rockets_TinyYetBig.Behaviours
             assignable.Unassign();
             assignable.canBeAssigned = false;
             Teleporter.SetTarget(null);
-            if (gameObject.TryGetComponent<KBatchedAnimController>(out var kanim)&&!skipanim)
+            if (gameObject.TryGetComponent<KBatchedAnimController>(out var kanim))
             {
-                kanim.Play("retracting");
-                kanim.Queue("retracted");
+                if (!skipanim)
+                {
+                    kanim.Play("retracting");
+                    kanim.Queue("retracted");
+                }
+                else
+                {
+                    kanim.Play("retracted");
+                }
             }
             DetailsScreen.Instance.Refresh(gameObject);
         }

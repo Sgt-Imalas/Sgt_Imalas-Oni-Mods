@@ -15,6 +15,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
     {
         public const string ID = "RTB_FridgeModuleAccessHatch";
 
+        public static readonly HashedString PULL_MORE_ID = "RTB_PULL_MORE";
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
 
         public override BuildingDef CreateBuildingDef()
@@ -44,13 +45,13 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             buildingDef.PermittedRotations = PermittedRotations.R360;
             buildingDef.Floodable = false;
 
-            buildingDef.LogicOutputPorts = new List<LogicPorts.Port>()
-            {//TODO
-                LogicPorts.Port.OutputPort(FilteredStorage.FULL_PORT_ID, new CellOffset(0, 1), (string) STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT, (string) STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_ACTIVE, (string) STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_INACTIVE)
-            };
+            //buildingDef.LogicOutputPorts = new List<LogicPorts.Port>()
+            //{//TODO
+            //    LogicPorts.Port.OutputPort(FilteredStorage.FULL_PORT_ID, new CellOffset(1, 0), (string) STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT, (string) STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_ACTIVE, (string) STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_INACTIVE)
+            //};
             buildingDef.LogicInputPorts = new List<LogicPorts.Port>()
             {//TODO
-                LogicPorts.Port.InputPort(FilteredStorage.FULL_PORT_ID, new CellOffset(0, 0), (string) STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT, (string) STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_ACTIVE, (string) STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_INACTIVE)
+                LogicPorts.Port.InputPort(LogicOperationalController.PORT_ID, new CellOffset(0, 0), (string) STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_PULL, (string) STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_ACTIVE_PULL , (string) STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_INACTIVE_PULL)
             };
             //GeneratedBuildings.RegisterWithOverlay(OverlayScreen.WireIDs, ID);
             return buildingDef;
@@ -64,13 +65,14 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
         public override void DoPostConfigureComplete(GameObject go)
         {
+            go.AddOrGet<LogicOperationalController>();
             Storage storage = go.AddOrGet<Storage>();
             storage.showInUI = true;
             storage.showDescriptor = true;
-            storage.storageFilters = STORAGEFILTERS.FOOD;
+            storage.storageFilters = new List<Tag>() { GameTags.Edible };
             storage.allowItemRemoval = true;
             storage.fetchCategory = Storage.FetchCategory.GeneralStorage;
-            storage.capacityKg = 2.5f;
+            storage.capacityKg = 2.0f;
             storage.showCapacityStatusItem = true;
 
             storage.SetDefaultStoredItemModifiers(new List<StoredItemModifier>
@@ -80,11 +82,12 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                 StoredItemModifier.Preserve,
                 StoredItemModifier.Insulate
             });
+            Prioritizable.AddRef(go);
 
             go.AddOrGet<TreeFilterable>(); 
             go.AddOrGet<FridgeModuleHatchGrabber>().maxPullCapacityKG = 1f;
 
-            go.AddOrGetDef<RocketUsageRestriction.Def>().restrictOperational = true;
+            go.AddOrGetDef<RocketUsageRestriction.Def>().restrictOperational = false;
             go.AddOrGet<FoodStorage>();
             go.AddOrGetDef<StorageController.Def>();
             go.AddOrGetDef<OperationalController.Def>();

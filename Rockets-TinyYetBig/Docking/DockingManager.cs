@@ -38,6 +38,31 @@ namespace Rockets_TinyYetBig.Behaviours
 
         public DockableType GetCraftType => Type;
 
+        public List<int> GetConnectedWorlds()
+        {
+            var list = new List<int>();
+            foreach(var door in DockingDoors)
+            {
+                if (door.Value != -1)
+                    list.Add(door.Value);
+
+            }
+            return list;
+        }
+        public List<int> GetConnectedRockets()
+        {
+            var list = new List<int>();
+            foreach (var door in DockingDoors)
+            {
+                if (door.Value != -1&& SpaceStationManager.WorldIsRocketInterior(door.Value))
+                    list.Add(door.Value);
+
+            }
+            return list;
+        }
+
+
+
         public void SetManagerType(int overrideType = -1)
         {
             if (MyWorldId != -1)
@@ -56,15 +81,6 @@ namespace Rockets_TinyYetBig.Behaviours
 #endif
         }
 
-        public bool AllUndocked()
-        {
-            foreach(DockingDoor door in DockingDoors.Keys)
-            {
-                if (door.IsConnected)
-                    return true;
-            }
-            return false;
-        }
 
         public void SetCurrentlyLoadingStuff(bool IsLoading)
         {
@@ -347,15 +363,15 @@ namespace Rockets_TinyYetBig.Behaviours
             if(PendingDocks.Contains(targetWorldId))
                 PendingDocks.Remove(targetWorldId);
         }
-        public void UndockAll()
+        public void UndockAll(bool force = false)
         {
 
             SgtLogger.debuglog("Undocking all");
 
-            foreach(int id in DockingDoors.Values.ToList())
+            foreach(int id in GetConnectedWorlds())
             {
                 SgtLogger.debuglog("from World: " + id);
-                UnDockFromTargetWorld(id);
+                UnDockFromTargetWorld(id, force);
             }
         }
 

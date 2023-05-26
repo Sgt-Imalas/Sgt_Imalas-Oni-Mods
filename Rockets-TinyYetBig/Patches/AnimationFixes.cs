@@ -26,6 +26,7 @@ namespace Rockets_TinyYetBig.Patches
                             "meter_OL"
                     });
                     __instance.meter.gameObject.GetComponent<KBatchedAnimTracker>().matchParentOffset = true;
+                    __instance.RefreshMeter();
                 }
                 //this.meter.SetPositionPercent(this.storage.MassStored() / this.storage.capacityKg);
             }

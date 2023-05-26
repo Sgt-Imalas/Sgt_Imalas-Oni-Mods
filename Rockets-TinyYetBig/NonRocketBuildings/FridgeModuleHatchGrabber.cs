@@ -34,7 +34,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
         private static readonly EventSystem.IntraObjectHandler<FridgeModuleHatchGrabber> OnRocketModulesChangend = new EventSystem.IntraObjectHandler<FridgeModuleHatchGrabber>((System.Action<FridgeModuleHatchGrabber, object>)((component, data) => component.UpdateModules(data)));
 
 
-        List<Storage> ConnectedFridgeModules = new List<Storage>();
+        List<CargoBayCluster> ConnectedFridgeModules = new List<CargoBayCluster>();
 
         public override void OnSpawn()
         {
@@ -62,10 +62,8 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
         public void UpdateMeter()
         {
             float positionPercent = Mathf.Clamp01(currentCapacity / totalCapacity);
-            SgtLogger.l("current: " + positionPercent);
             if (storage_meter != null)
             {
-                SgtLogger.l("meter: " + positionPercent);
                 storage_meter.SetPositionPercent(positionPercent);
             }
         }
@@ -89,20 +87,25 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
         public void Sim1000ms(float dt)
         {
-
             float neededStorage = maxPullCapacityKG - offlineStorage.MassStored();
-            if (neededStorage < 0.001 || !operational.IsOperational) return;
+            if (neededStorage < 0.001 || !operational.IsOperational || operational.Flags.ContainsKey(RocketUsageRestriction.rocketUsageAllowed) && operational.GetFlag(RocketUsageRestriction.rocketUsageAllowed) == false) return;
             var filterArray = filter.acceptedTagSet.ToArray();
+
+            currentCapacity = 0;
+            totalCapacity = 0;
 
             //SgtLogger.l("needed: "+ neededStorage.ToString());
             if (ConnectedFridgeModules.Count > 0)
             {
                 foreach (var module in ConnectedFridgeModules)
                 {
+                    currentCapacity += module.storage.MassStored();
+                    totalCapacity += module.userMaxCapacity;
+
                     //SgtLogger.l("modul: " + module.ToString());
-                    if (module.MassStored() > 0.01)
+                    if (module.storage.MassStored() > 0.01)
                     {
-                        foreach (var item in module.items)
+                        foreach (var item in module.storage.items)
                         {
                             //SgtLogger.l("item: " + item.ToString());
                             if (item.HasAnyTags(filterArray))
@@ -132,12 +135,13 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
             foreach (var module in craftModuleInterface.ClusterModules)
             {
-                if (module.Get().TryGetComponent<FridgeModule>(out var fridgeModule))
+                if (module.Get().TryGetComponent<FridgeModule>(out var fridgeModule)&&module.Get().TryGetComponent<CargoBayCluster>(out var clusterbay))
                 {
                     //SgtLogger.l("found fridge");
-                    ConnectedFridgeModules.Add(fridgeModule.fridgeStorage);
+                    ConnectedFridgeModules.Add(clusterbay);
                 }
             }
+            GetAllMassDesc();
             UpdateMeter();
         }
 
@@ -156,13 +160,13 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             {
                 foreach (var module in ConnectedFridgeModules)
                 {
-                    currentCapacity += module.MassStored();
-                    totalCapacity += module.capacityKg;
+                    currentCapacity += module.storage.MassStored();
+                    totalCapacity += module.storage.capacityKg;
 
                     //SgtLogger.l("modul: " + module.ToString());
-                    if (module.MassStored() > 0.01)
+                    if (module.storage.MassStored() > 0.01)
                     {
-                        foreach (var item in module.items)
+                        foreach (var item in module.storage.items)
                         {
                             //SgtLogger.l("item: " + item.ToString());
                             if (item.TryGetComponent<Pickupable>(out var pickupable) && item.TryGetComponent<Edible>(out var edible))
