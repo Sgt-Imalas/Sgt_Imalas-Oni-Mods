@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Rockets_TinyYetBig.Behaviours;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace Rockets_TinyYetBig.Elements
         public static void Postfix(SaveGame __instance)
         {
             __instance.gameObject.AddOrGet<RainbowSpec>();
+            RTB_SavegameStoredSettings.Instance = __instance.gameObject.AddOrGet<RTB_SavegameStoredSettings>();
         }
     }
     public class RainbowSpec : KMonoBehaviour

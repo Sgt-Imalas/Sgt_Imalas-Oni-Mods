@@ -18,7 +18,7 @@ using static STRINGS.UI.CLUSTERMAP;
 
 namespace Rockets_TinyYetBig.Patches
 {
-    class GroupRocketsAndCollapsePlanetsPatchescs
+    class WorldSelector_Patches
     {
         static List<GameObject> worldEntries = new List<GameObject>();
         public static Dictionary<int, GameObject> collapseButtons = new Dictionary<int, GameObject>();

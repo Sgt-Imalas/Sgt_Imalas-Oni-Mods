@@ -71,10 +71,9 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             storage.showDescriptor = true;
             storage.storageFilters = new List<Tag>() { GameTags.Edible };
             storage.allowItemRemoval = true;
-            storage.fetchCategory = Storage.FetchCategory.GeneralStorage;
+            //storage.fetchCategory = Storage.FetchCategory.GeneralStorage;
             storage.capacityKg = 2.0f;
             storage.showCapacityStatusItem = true;
-
             storage.SetDefaultStoredItemModifiers(new List<StoredItemModifier>
             {
                 StoredItemModifier.Hide,
@@ -86,9 +85,8 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
             go.AddOrGet<TreeFilterable>(); 
             go.AddOrGet<FridgeModuleHatchGrabber>().maxPullCapacityKG = 1f;
-
             go.AddOrGetDef<RocketUsageRestriction.Def>().restrictOperational = false;
-            go.AddOrGet<FoodStorage>();
+
             go.AddOrGetDef<StorageController.Def>();
             go.AddOrGetDef<OperationalController.Def>();
         }

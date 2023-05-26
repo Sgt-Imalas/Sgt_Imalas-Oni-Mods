@@ -59,7 +59,6 @@ namespace Rockets_TinyYetBig.Patches
         //    public static void Postfix(CraftModuleInterface __instance)
         //    {
         //        SgtLogger.l("statusssy: " + __instance.m_clustercraft.status);
-
         //        foreach (var module in __instance.ClusterModules)
         //        {
         //            SgtLogger.l(module.Get().name);
@@ -70,7 +69,6 @@ namespace Rockets_TinyYetBig.Patches
         //                tiler.UpdateEndCaps();
         //            }
         //        }
-
         //    }
         //}
     }

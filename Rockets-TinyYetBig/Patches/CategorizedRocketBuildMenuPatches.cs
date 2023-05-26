@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Rockets_TinyYetBig.Behaviours;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -147,14 +148,16 @@ namespace Rockets_TinyYetBig
 
             public static void ToggleCategoriesSearch(bool searchActive)
             {
+                var items = Db.Get().TechItems;
+
                 foreach (var item in HeaderButtons.Values)
                 {
-                    if(item!=null&& item.gameObject!=null && !item.IsNullOrDestroyed())
-                        item.gameObject.SetActive(!searchActive);
+                    if (item != null && item.gameObject != null && !item.IsNullOrDestroyed())
+                        item.gameObject.SetActive(CategoriesActive && !searchActive);
                 }
                 foreach (var item in Grids)
                 {
-                    if (searchActive)
+                    if (!CategoriesActive || searchActive)
                     {
                         if (item.Value != null && !item.Value.IsNullOrDestroyed())
                             item.Value.SetActive(false);
@@ -166,13 +169,16 @@ namespace Rockets_TinyYetBig
                             item.Value.SetActive(HeaderButtonsActiveStatus[item.Key]);
                     }
                 }
-                if (!searchActive)
+                foreach (var item in SearchableButtons)
                 {
-                    foreach (var item in SearchableButtons.Values)
+                    TechItem techItem = items.TryGet(item.Key.PrefabID);
+                    bool active = true;
+                    if (techItem != null)
                     {
-                        if (item != null && !item.IsNullOrDestroyed())
-                            item.SetActive(false);
+                        active = DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || techItem.IsComplete();
                     }
+                    if (item.Value != null && !item.Value.IsNullOrDestroyed())
+                        item.Value.SetActive(!CategoriesActive && !searchActive && active);
                 }
             }
 
@@ -185,13 +191,24 @@ namespace Rockets_TinyYetBig
                 }
             }
 
+            static void SetCategoryVisibility(bool showCategories)
+            {
+                if (showCategories != CategoriesActive)
+                {
+                    CategoriesActive = showCategories;
+                    RTB_SavegameStoredSettings.Instance.useModuleCategories = showCategories;
+                    ToggleCategoriesSearch(false);
+                }
+            }
+            static bool CategoriesActive = false;
+
             public static void ApplySearchText(string searchText)
             {
                 ToggleCategoriesSearch(searchText.Length > 0);
                 var items = Db.Get().TechItems;
                 foreach (var ModuleButton in SearchableButtons)
                 {
-                    bool withinParams = searchText.Length > 0 ? ModuleButton.Key.Name.ToLowerInvariant().Contains(searchText.ToLowerInvariant()) || ModuleButton.Key.Effect.ToLowerInvariant().Contains(searchText.ToLowerInvariant()) : false;
+                    bool withinParams = searchText.Length > 0 ? ModuleButton.Key.Name.ToLowerInvariant().Contains(searchText.ToLowerInvariant()) || ModuleButton.Key.PrefabID.ToLowerInvariant().Contains(searchText.ToLowerInvariant()) : false;
 
                     TechItem techItem = items.TryGet(ModuleButton.Key.PrefabID);
                     if (techItem != null)
@@ -263,118 +280,118 @@ namespace Rockets_TinyYetBig
 
             public static bool Prefix(SelectModuleSideScreen __instance)
             {
-                if (Config.Instance.EnableBuildingCategories)
+                ClearButtons(__instance);
+
+                GameObject gameObject = Util.KInstantiateUI(__instance.categoryPrefab, __instance.categoryContent, force_active: true);
+                Transform searchButtonsContainer = gameObject.GetComponent<HierarchyReferences>().GetReference<Transform>("content");
+
+                var searchbarPreset = PlanScreen.Instance.recipeInfoScreenParent.transform.Find("BuildingGroups/Searchbar").gameObject;
+                PlanScreen.Instance.recipeInfoScreenParent.transform.Find("BuildingGroups").TryGetComponent<BuildingGroupScreen>(out var screen);
+
+                GameObject searchbar = Util.KInstantiateUI(searchbarPreset, __instance.gameObject, true);
+                searchbar.transform.SetAsFirstSibling();
+                SearchBar = searchbar.transform.Find("FilterInputField").GetComponent<KInputTextField>();
+                SearchBar.text = string.Empty;
+                SearchBar.onValueChanged.AddListener(ApplySearchText);
+                SearchBar.onSelect.AddListener(StartEditing);
+                SearchBar.onEndEdit.AddListener(StopEditing);
+                SearchBar.placeholder.TryGetComponent<TMPro.TextMeshProUGUI>(out var textMesh);
+                textMesh.text = STRINGS.ROCKETBUILDMENUCATEGORIES.SEARCHBARFILLER;
+
+                ///TODO: PLACEHOLDER TEXT
+
+                UIUtils.AddActionToButton(searchbar.transform, "ClearSearchButton", () => ClearSearchBar());
+                UIUtils.AddActionToButton(searchbar.transform, "ListViewButton", () => SetCategoryVisibility(true));
+                UIUtils.AddActionToButton(searchbar.transform, "GridViewButton", () => SetCategoryVisibility(false));
+                //UIUtils.FindAndDestroy(searchbar.transform, "GridViewButton");
+                //UIUtils.FindAndDestroy(searchbar.transform, "ListViewButton");
+
+
+
+                foreach (var category in RocketModuleList.GetRocketModuleList())
                 {
-                    ClearButtons(__instance);
-
-                    GameObject gameObject = Util.KInstantiateUI(__instance.categoryPrefab, __instance.categoryContent, force_active: true);
-                    Transform searchButtonsContainer = gameObject.GetComponent<HierarchyReferences>().GetReference<Transform>("content");
-
-                    var searchbarPreset = PlanScreen.Instance.recipeInfoScreenParent.transform.Find("BuildingGroups/Searchbar").gameObject;
-                    PlanScreen.Instance.recipeInfoScreenParent.transform.Find("BuildingGroups").TryGetComponent<BuildingGroupScreen>(out var screen);
-
-                    GameObject searchbar = Util.KInstantiateUI(searchbarPreset, __instance.gameObject, true);
-                    searchbar.transform.SetAsFirstSibling();
-                    SearchBar = searchbar.transform.Find("FilterInputField").GetComponent<KInputTextField>();
-                    SearchBar.text = string.Empty;
-                    SearchBar.onValueChanged.AddListener(ApplySearchText);
-                    SearchBar.onSelect.AddListener(StartEditing);
-                    SearchBar.onEndEdit.AddListener(StopEditing);
-                    
-
-                    ///TODO: PLACEHOLDER TEXT
-
-                    UIUtils.AddActionToButton(searchbar.transform, "ClearSearchButton", () => ClearSearchBar());
-                    UIUtils.FindAndDestroy(searchbar.transform, "GridViewButton");
-                    UIUtils.FindAndDestroy(searchbar.transform, "ListViewButton");
-
-
-
-                    foreach (var category in RocketModuleList.GetRocketModuleList())
+                    if (category.Value.Count > 0)
                     {
-                        if (category.Value.Count > 0)
+                        GameObject categoryGO = Util.KInstantiateUI(__instance.categoryPrefab, __instance.categoryContent, true);
+                        categoryGO.name = category.Key.ToString();
+                        HierarchyReferences component = categoryGO.GetComponent<HierarchyReferences>();
+                        //categoryGO.name = ((RocketCategory)category.Key).ToString().ToUpperInvariant();
+
+                        __instance.categories.Add(categoryGO);
+
+                        var headergo = categoryGO.transform.Find("Header").gameObject;
+                        UnityEngine.Object.Destroy(headergo);
+
+                        string CategoryName = ((RocketCategory)category.Key).ToString().ToUpperInvariant();
+
+                        categoryGO.TryGetComponent<VerticalLayoutGroup>(out var L);
+                        L.padding = new RectOffset(2, 17, 0, 0);
+
+                        var foldButtonGO = Util.KInstantiateUI(PlanScreen.Instance.subgroupPrefab.transform.Find("Header").gameObject, categoryGO.gameObject, true);
+                        foldButtonGO.transform.SetAsFirstSibling();
+                        if (foldButtonGO.TryGetComponent<PlanSubCategoryToggle>(out var cmp))
                         {
-                            GameObject categoryGO = Util.KInstantiateUI(__instance.categoryPrefab, __instance.categoryContent, true);
-                            categoryGO.name = category.Key.ToString();
-                            HierarchyReferences component = categoryGO.GetComponent<HierarchyReferences>();
-                            //categoryGO.name = ((RocketCategory)category.Key).ToString().ToUpperInvariant();
+                            UnityEngine.Object.Destroy(cmp);
+                        }
 
-                            __instance.categories.Add(categoryGO);
+                        var ToggleBtn = foldButtonGO.GetComponent<MultiToggle>();
+                        ToggleBtn.onClick += () =>
+                        {
+                            ToggleCategory(category.Key, __instance);
+                        };
 
-                            var headergo = categoryGO.transform.Find("Header").gameObject;
-                            UnityEngine.Object.Destroy(headergo);
+                        HeaderButtons[category.Key] = ToggleBtn;
 
-                            string CategoryName = ((RocketCategory)category.Key).ToString().ToUpperInvariant();
 
-                            categoryGO.TryGetComponent<VerticalLayoutGroup>(out var L);
-                            L.padding = new RectOffset(2, 17, 0, 0);
+                        //var buttonText = references.GetReference<LocText>("HeaderLabel");
+                        var buttonText = foldButtonGO.transform.Find("Label").GetComponent<LocText>();
+                        buttonText.text = Strings.Get("STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES." + CategoryName);
+                        var tooltip = UIUtils.AddSimpleTooltipToObject(foldButtonGO.transform, Mod.Tooltips[category.Key], onBottom: true);
 
-                            var foldButtonGO = Util.KInstantiateUI(PlanScreen.Instance.subgroupPrefab.transform.Find("Header").gameObject, categoryGO.gameObject, true);
-                            foldButtonGO.transform.SetAsFirstSibling();
-                            if (foldButtonGO.TryGetComponent<PlanSubCategoryToggle>(out var cmp))
+                        Transform CategoryGrid = component.transform.Find("Grid");
+                        Grids[category.Key] = CategoryGrid.gameObject;
+
+                        List<GameObject> prefabsWithComponent = Assets.GetPrefabsWithComponent<RocketModuleCluster>();
+                        foreach (string RocketModuleID in category.Value)
+                        {
+                            GameObject part = prefabsWithComponent.Find((Predicate<GameObject>)(p => p.PrefabID().Name == RocketModuleID));
+                            if ((UnityEngine.Object)part == (UnityEngine.Object)null)
                             {
-                                UnityEngine.Object.Destroy(cmp);
+                                SgtLogger.warning(("Found an id [" + RocketModuleID + "] in moduleButtonSortOrder in SelectModuleSideScreen.cs that doesn't have a corresponding rocket part!"));
                             }
-
-                            var ToggleBtn = foldButtonGO.GetComponent<MultiToggle>();
-                            ToggleBtn.onClick += () =>
+                            else
                             {
-                                ToggleCategory(category.Key, __instance);
-                            };
+                                GameObject ModuleButton = Util.KInstantiateUI(__instance.moduleButtonPrefab, CategoryGrid.gameObject, true);
+                                ModuleButton.GetComponentsInChildren<Image>()[1].sprite = Def.GetUISprite((object)part).first;
+                                LocText componentInChildren = ModuleButton.GetComponentInChildren<LocText>();
+                                componentInChildren.text = part.GetProperName();
+                                componentInChildren.alignment = TextAlignmentOptions.Bottom;
+                                componentInChildren.enableWordWrapping = true;
+                                ModuleButton.GetComponent<MultiToggle>().onClick += (() => __instance.SelectModule(part.GetComponent<Building>().Def));
+                                ModAssets.CategorizedButtons.Add(new Tuple<BuildingDef, int>(part.GetComponent<Building>().Def, category.Key), ModuleButton);
 
-                            HeaderButtons[category.Key] = ToggleBtn;
+                                __instance.SetupBuildingTooltip(ModuleButton.GetComponent<ToolTip>(), part.GetComponent<Building>().Def);
 
+                                if (__instance.selectedModuleDef != (UnityEngine.Object)null)
+                                    __instance.SelectModule(__instance.selectedModuleDef);
 
-                            //var buttonText = references.GetReference<LocText>("HeaderLabel");
-                            var buttonText = foldButtonGO.transform.Find("Label").GetComponent<LocText>();
-                            buttonText.text = CategoryName;
-                            var tooltip = UIUtils.AddSimpleTooltipToObject(foldButtonGO.transform, Mod.Tooltips[category.Key], onBottom: true);
-
-                            Transform CategoryGrid = component.transform.Find("Grid");
-                            Grids[category.Key] = CategoryGrid.gameObject;
-
-                            List<GameObject> prefabsWithComponent = Assets.GetPrefabsWithComponent<RocketModuleCluster>();
-                            foreach (string RocketModuleID in category.Value)
-                            {
-                                GameObject part = prefabsWithComponent.Find((Predicate<GameObject>)(p => p.PrefabID().Name == RocketModuleID));
-                                if ((UnityEngine.Object)part == (UnityEngine.Object)null)
+                                if (!SearchableButtons.ContainsKey(part.GetComponent<Building>().Def))
                                 {
-                                    SgtLogger.warning(("Found an id [" + RocketModuleID + "] in moduleButtonSortOrder in SelectModuleSideScreen.cs that doesn't have a corresponding rocket part!"));
-                                }
-                                else
-                                {
-                                    GameObject ModuleButton = Util.KInstantiateUI(__instance.moduleButtonPrefab, CategoryGrid.gameObject, true);
-                                    ModuleButton.GetComponentsInChildren<Image>()[1].sprite = Def.GetUISprite((object)part).first;
-                                    LocText componentInChildren = ModuleButton.GetComponentInChildren<LocText>();
-                                    componentInChildren.text = part.GetProperName();
-                                    componentInChildren.alignment = TextAlignmentOptions.Bottom;
-                                    componentInChildren.enableWordWrapping = true;
-                                    ModuleButton.GetComponent<MultiToggle>().onClick += (() => __instance.SelectModule(part.GetComponent<Building>().Def));
-                                    ModAssets.CategorizedButtons.Add(new Tuple<BuildingDef, int>(part.GetComponent<Building>().Def, category.Key), ModuleButton);
-
-                                    __instance.SetupBuildingTooltip(ModuleButton.GetComponent<ToolTip>(), part.GetComponent<Building>().Def);
-
-                                    if (__instance.selectedModuleDef != (UnityEngine.Object)null)
-                                        __instance.SelectModule(__instance.selectedModuleDef);
-
-                                    if (!SearchableButtons.ContainsKey(part.GetComponent<Building>().Def))
-                                    {
-                                        var Copy = Util.KInstantiateUI(ModuleButton, searchButtonsContainer.gameObject);
-                                        Copy.GetComponent<MultiToggle>().onClick += (() => __instance.SelectModule(part.GetComponent<Building>().Def));
-                                        __instance.SetupBuildingTooltip(Copy.GetComponent<ToolTip>(), part.GetComponent<Building>().Def);
-                                        Copy.SetActive(false);
-                                        SearchableButtons.Add(part.GetComponent<Building>().Def, Copy);
-                                    }
+                                    var Copy = Util.KInstantiateUI(ModuleButton, searchButtonsContainer.gameObject);
+                                    Copy.GetComponent<MultiToggle>().onClick += (() => __instance.SelectModule(part.GetComponent<Building>().Def));
+                                    __instance.SetupBuildingTooltip(Copy.GetComponent<ToolTip>(), part.GetComponent<Building>().Def);
+                                    Copy.SetActive(false);
+                                    SearchableButtons.Add(part.GetComponent<Building>().Def, Copy);
                                 }
                             }
                         }
                     }
-                    __instance.UpdateBuildableStates();
-                    ToggleCategory(0, __instance, true);
-                    ClearSearchBar();
-                    return false;
                 }
-                return true;
+                __instance.UpdateBuildableStates();
+                ToggleCategory(0, __instance, true);
+                ClearSearchBar();
+                SetCategoryVisibility(RTB_SavegameStoredSettings.Instance.useModuleCategories);
+                return false;
             }
         }
         [HarmonyPatch(typeof(SelectModuleSideScreen))]
@@ -383,64 +400,60 @@ namespace Rockets_TinyYetBig
         {
             public static bool Prefix(SelectModuleSideScreen __instance, ref Dictionary<BuildingDef, bool> ___moduleBuildableState, BuildingDef ___selectedModuleDef)
             {
-                if (Config.Instance.EnableBuildingCategories)
+                foreach (var button in ModAssets.CategorizedButtons)
                 {
-                    foreach (var button in ModAssets.CategorizedButtons)
+                    if (!button.IsNullOrDestroyed() && !button.Value.IsNullOrDestroyed())
                     {
-                        if (!button.IsNullOrDestroyed() && !button.Value.IsNullOrDestroyed())
+                        if (button.Value.TryGetComponent<MultiToggle>(out var component1) && button.Value.TryGetComponent<HierarchyReferences>(out var component2))
                         {
-                            if (button.Value.TryGetComponent<MultiToggle>(out var component1) && button.Value.TryGetComponent<HierarchyReferences>(out var component2))
+                            if (!___moduleBuildableState[button.Key.first])
                             {
-                                if (!___moduleBuildableState[button.Key.first])
-                                {
-                                    component2.GetReference<Image>("FG").material = PlanScreen.Instance.desaturatedUIMaterial;
-                                    if (button.Key.first == ___selectedModuleDef)
-                                        component1.ChangeState(1);
-                                    else
-                                        component1.ChangeState(0);
-                                }
+                                component2.GetReference<Image>("FG").material = PlanScreen.Instance.desaturatedUIMaterial;
+                                if (button.Key.first == ___selectedModuleDef)
+                                    component1.ChangeState(1);
                                 else
-                                {
-                                    component2.GetReference<Image>("FG").material = PlanScreen.Instance.defaultUIMaterial;
-                                    if (button.Key.first == ___selectedModuleDef)
-                                        component1.ChangeState(3);
-                                    else
-                                        component1.ChangeState(2);
-                                }
+                                    component1.ChangeState(0);
                             }
-
-                        }
-                    }
-                    foreach (var button in CategoryPatchTest.SearchableButtons)
-                    {
-                        if (!button.IsNullOrDestroyed() && !button.Value.IsNullOrDestroyed())
-                        {
-                            if (button.Value.TryGetComponent<MultiToggle>(out var component1) && button.Value.TryGetComponent<HierarchyReferences>(out var component2))
+                            else
                             {
-                                if (!___moduleBuildableState[button.Key])
-                                {
-                                    component2.GetReference<Image>("FG").material = PlanScreen.Instance.desaturatedUIMaterial;
-                                    if (button.Key == ___selectedModuleDef)
-                                        component1.ChangeState(1);
-                                    else
-                                        component1.ChangeState(0);
-                                }
+                                component2.GetReference<Image>("FG").material = PlanScreen.Instance.defaultUIMaterial;
+                                if (button.Key.first == ___selectedModuleDef)
+                                    component1.ChangeState(3);
                                 else
-                                {
-                                    component2.GetReference<Image>("FG").material = PlanScreen.Instance.defaultUIMaterial;
-                                    if (button.Key == ___selectedModuleDef)
-                                        component1.ChangeState(3);
-                                    else
-                                        component1.ChangeState(2);
-                                }
+                                    component1.ChangeState(2);
                             }
-
                         }
+
                     }
-                    __instance.UpdateBuildButton();
-                    return false;
                 }
-                return true;
+                foreach (var button in CategoryPatchTest.SearchableButtons)
+                {
+                    if (!button.IsNullOrDestroyed() && !button.Value.IsNullOrDestroyed())
+                    {
+                        if (button.Value.TryGetComponent<MultiToggle>(out var component1) && button.Value.TryGetComponent<HierarchyReferences>(out var component2))
+                        {
+                            if (!___moduleBuildableState[button.Key])
+                            {
+                                component2.GetReference<Image>("FG").material = PlanScreen.Instance.desaturatedUIMaterial;
+                                if (button.Key == ___selectedModuleDef)
+                                    component1.ChangeState(1);
+                                else
+                                    component1.ChangeState(0);
+                            }
+                            else
+                            {
+                                component2.GetReference<Image>("FG").material = PlanScreen.Instance.defaultUIMaterial;
+                                if (button.Key == ___selectedModuleDef)
+                                    component1.ChangeState(3);
+                                else
+                                    component1.ChangeState(2);
+                            }
+                        }
+
+                    }
+                }
+                __instance.UpdateBuildButton();
+                return false;
 
             }
         }
@@ -451,70 +464,93 @@ namespace Rockets_TinyYetBig
         {
             public static bool Prefix(SelectModuleSideScreen __instance, ref Dictionary<BuildingDef, bool> ___moduleBuildableState, BuildingDef ___selectedModuleDef)
             {
-                if (Config.Instance.EnableBuildingCategories)
+                foreach (var button in ModAssets.CategorizedButtons)
                 {
-                    foreach (var button in ModAssets.CategorizedButtons)
+                    if (!button.IsNullOrDestroyed() && !button.Value.IsNullOrDestroyed())
                     {
-                        if (!button.IsNullOrDestroyed() && !button.Value.IsNullOrDestroyed())
+                        if (!___moduleBuildableState.ContainsKey(button.Key.first))
                         {
-                            if (!___moduleBuildableState.ContainsKey(button.Key.first))
-                            {
-                                ___moduleBuildableState.Add(button.Key.first, false);
-                            }
-                            TechItem techItem = Db.Get().TechItems.TryGet(button.Key.first.PrefabID);
-                            if (techItem != null)
-                            {
-                                bool flag = DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || techItem.IsComplete();
-
-                                if (!button.Value.IsNullOrDestroyed())
-                                    button.Value.SetActive(flag);
-                            }
-                            else
-                            {
-                                if (!button.Value.IsNullOrDestroyed())
-                                    button.Value.SetActive(true);
-                            }
-                            ___moduleBuildableState[button.Key.first] = __instance.TestBuildable(button.Key.first);
+                            ___moduleBuildableState.Add(button.Key.first, false);
                         }
-                    }
-                    
-
-                    if (___selectedModuleDef != null)
-                    {
-                        __instance.ConfigureMaterialSelector();
-                    }
-                    __instance.SetButtonColors();
-
-                    foreach (var category in RocketModuleList.GetRocketModuleList())
-                    {
-                        bool keepCategory = false;
-                        foreach (var item in category.Value)
+                        TechItem techItem = Db.Get().TechItems.TryGet(button.Key.first.PrefabID);
+                        if (techItem != null)
                         {
-                            TechItem techItem = Db.Get().TechItems.TryGet(item);
+                            bool flag = DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || techItem.IsComplete();
 
-                            if (techItem != null)
-                            {
-                                if (DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || techItem.IsComplete())
-                                {
-                                    keepCategory = true;
-                                    break;
-                                }
-                            }
-                            else
+                            if (!button.Value.IsNullOrDestroyed())
+                                button.Value.SetActive(flag);
+                        }
+                        else
+                        {
+                            if (!button.Value.IsNullOrDestroyed())
+                                button.Value.SetActive(true);
+                        }
+                        ___moduleBuildableState[button.Key.first] = __instance.TestBuildable(button.Key.first);
+                    }
+                }
+                CategoryPatchTest.ToggleCategoriesSearch(false);
+                //foreach (var button in CategoryPatchTest.SearchableButtons)
+                //{
+                //    if (!button.IsNullOrDestroyed() && !button.Value.IsNullOrDestroyed())
+                //    {
+                //        if (!___moduleBuildableState.ContainsKey(button.Key))
+                //        {
+                //            ___moduleBuildableState.Add(button.Key, false);
+                //        }
+                //        TechItem techItem = Db.Get().TechItems.TryGet(button.Key.PrefabID);
+                //        if (techItem != null)
+                //        {
+                //            bool flag = DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || techItem.IsComplete();
+
+                //            if (!button.Value.IsNullOrDestroyed())
+                //                button.Value.SetActive(flag);
+                //        }
+                //        else
+                //        {
+                //            if (!button.Value.IsNullOrDestroyed())
+                //                button.Value.SetActive(true);
+                //        }
+                //        ___moduleBuildableState[button.Key] = __instance.TestBuildable(button.Key);
+                //    }
+                //}
+
+
+
+                if (___selectedModuleDef != null)
+                {
+                    __instance.ConfigureMaterialSelector();
+                }
+                __instance.SetButtonColors();
+
+                foreach (var category in RocketModuleList.GetRocketModuleList())
+                {
+                    bool keepCategory = false;
+                    foreach (var item in category.Value)
+                    {
+                        TechItem techItem = Db.Get().TechItems.TryGet(item);
+
+                        if (techItem != null)
+                        {
+                            if (DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || techItem.IsComplete())
                             {
                                 keepCategory = true;
                                 break;
                             }
                         }
-                        var categoryToDisable = __instance.categories.Find(categ => categ.name == category.Key.ToString());
-                        if (!categoryToDisable.IsNullOrDestroyed())
+                        else
                         {
-                            categoryToDisable.SetActive(keepCategory);
+                            keepCategory = true;
+                            break;
                         }
                     }
-                    return false;
+                    var categoryToDisable = __instance.categories.Find(categ => categ.name == category.Key.ToString());
+                    if (!categoryToDisable.IsNullOrDestroyed())
+                    {
+                        categoryToDisable.SetActive(keepCategory);
+                    }
                 }
-                return true;
+                return false;
+
             }
         }
 

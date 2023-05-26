@@ -31,20 +31,25 @@ namespace Rockets_TinyYetBig.Behaviours
         private Guid notPoweringStatusItemHandle;
         public Guid FuelStatusHandle;
 
-        [SerializeField]
+        [Serialize]
         public bool AlwaysActive = false;
         //[SerializeField]
         //public bool produceWhileLanded = false;
-        [SerializeField]
+        [Serialize]
         public bool AllowRefill = true;
-        [SerializeField]
+
+
+        [Serialize]
+        public bool RefillingPaused = false;
+
+        [Serialize]
         public bool OutputToOwnStorage = false;
-        [SerializeField]
+        [Serialize]
         public Vector3 ElementOutputCellOffset = new Vector3(0,0);
 
-        [SerializeField]
+        [Serialize]
         public CargoBay.CargoType PullFromRocketStorageType = CargoBay.CargoType.Entities;
-        [SerializeField]
+        [Serialize]
         public CargoBay.CargoType PushToRocketStorageType = CargoBay.CargoType.Entities;
 
 
@@ -142,6 +147,10 @@ namespace Rockets_TinyYetBig.Behaviours
         {
             //selectable.SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus, (object)this);
             RemoveRefillOnSatisfied();
+            if (!AllowRefill)
+            {
+                ToggleFill(RefillingPaused);
+            }
             base.EnergySim200ms(dt);
             var emitter = this.gameObject.GetComponent<RadiationEmitter>();
 
@@ -260,13 +269,16 @@ namespace Rockets_TinyYetBig.Behaviours
 
         private void ResetRefillStatus()
         {
-            if (!AllowRefill &&storage.GetAmountAvailable(consumptionElement) == 0)
+            if (!AllowRefill && storage.GetAmountAvailable(consumptionElement) == 0)
             {
                 if(clustercraft.Status == Clustercraft.CraftStatus.Grounded)
                 {
-                    var delivery = this.GetComponent<ManualDeliveryKG>();
-                    if(delivery.IsPaused)
+                    this.TryGetComponent<ManualDeliveryKG>(out var delivery);
+                    if (delivery.IsPaused)
+                    {
                         delivery.Pause(false, "one Refill allowed.");
+                        RefillingPaused = false;
+                    }
                     if (outputElement != SimHashes.Void && storage.GetAmountAvailable(outputElement.CreateTag())>0f)
                         storage.DropAll(this.transform.position, true, true); 
 
@@ -274,12 +286,18 @@ namespace Rockets_TinyYetBig.Behaviours
             }
         }
 
+        void ToggleFill(bool shouldPause)
+        {
+            if(this.TryGetComponent<ManualDeliveryKG>(out var delivery) && !AllowRefill)
+            {
+                delivery.Pause(shouldPause, "no Refill allowed.");
+            }
+        }
+
         private void RemoveRefillOnSatisfied()
         {
+            this.TryGetComponent<ManualDeliveryKG>(out var delivery);
             
-
-            var delivery = this.GetComponent<ManualDeliveryKG>();
-
             if (delivery == null || AllowRefill || consumptionElement == SimHashes.Void.CreateTag())
                 return;
             
@@ -287,6 +305,7 @@ namespace Rockets_TinyYetBig.Behaviours
                 return;
 
             delivery.Pause(true, "no Refill allowed.");
+            RefillingPaused = true;
         }
 
         private float ConsumeRessources(float dt)

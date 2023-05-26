@@ -40,10 +40,6 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool EnableExtendedHabs { get; set; }
 
-        [Option("Rocket Building Categories", "Enable a more modular rocket build menu that sorts the modules into categories.", "(1) Rocketry Vanilla+")]
-        [JsonProperty]
-        public bool EnableBuildingCategories { get; set; }
-
         [Option("Cartographic Module Scan Range", "Cartographic Modules will scan hexes in this radius.", "(1) Rocketry Vanilla+")]
         [Limit(1, 6)]
         [JsonProperty]
@@ -223,7 +219,6 @@ namespace Rockets_TinyYetBig
             ///Vanilla+
             EnableAdvWorldSelector = true;
             CompressInteriors = true;
-            EnableBuildingCategories = true;
             ScannerModuleRangeRadius = 4;
             ScannerModuleScanSpeed = 0.33f;
             HabitatPowerPlug = true;

@@ -101,7 +101,7 @@ namespace Rockets_TinyYetBig.Behaviours
             }
             else
             {
-                double num = (double)this.hepStorage.ConsumeAndGet(dt * 0.5f);
+                double num = (double)this.hepStorage.ConsumeAndGet(dt * 5f);
                 OnStorageChange(null);
             }
         }

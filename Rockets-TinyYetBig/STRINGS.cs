@@ -64,32 +64,62 @@ namespace Rockets_TinyYetBig
             public static LocString RECIPEDESC = "Unlocks new breakthroughs in space construction";
 
         }
-        public class CATEGORYTOOLTIPS
+
+        public class ROCKETBUILDMENUCATEGORIES
         {
-            public static LocString REQUIRED = "\nA Rocket needs atleast one of these!";
+            public static LocString SEARCHBARFILLER = "Search all modules...";
+            public class CATEGORYTOOLTIPS
+            {
+                public static LocString REQUIRED = "\nA Rocket needs atleast one of these!";
 
-            public static LocString ENGINES = "Every rocket has to fly somehow.\nOne of these can provide the thrust." + REQUIRED;
-            public static LocString HABITATS = "Strapped to the side a pilot won't survive long.\nBuild them a nice home to live in one of these." + REQUIRED;
-            public static LocString NOSECONES = "When not using a habitat nosecone,\nthe rocket needs one of these\nto keep it's tip nicely shaped.";
-            public static LocString DEPLOYABLES = "Colonizing new worlds needs some perimeter establishment.\nThese modules help with deployment.";
-            public static LocString FUEL = "A rocket without fuel or oxidizer won't fly far.\nThese modules help you with that.";
-            public static LocString CARGO = "All those resources, but where to put them?\nStore them within these modules.";
-            public static LocString POWER = "Without power the lights inside of the rocket won't turn on\nThese modules help you store electricity, some even generate it.";
-            public static LocString PRODUCTION = "Just bring the production with you!\nThese modules can produce something.";
-            public static LocString UTILITY = "These modules add some nice utility functions to your rocket.";
-            public static LocString UNCATEGORIZED = "What do these do?\n(not properly categorized)";
+                public static LocString ENGINES = "Every rocket has to fly somehow.\nA rocket engine provides the necessary thrust." + REQUIRED;
+                public static LocString HABITATS = "Strapped to the side, a pilot wouldn't survive long.\nBuild them a nice home to live in a Spacefarer." + REQUIRED;
+                public static LocString NOSECONES = "When not using a habitat nosecone,\nthe rocket needs one of these\nto keep it's tip nicely shaped.";
+                public static LocString DEPLOYABLES = "Colonizing new worlds needs some perimeter establishment.\nThese modules help with deployment.";
+                public static LocString FUEL = "A rocket without fuel or oxidizer won't fly far.\nThese modules help you with that.";
+                public static LocString CARGO = "All those resources, but where to put them?\nStore them within these modules.";
+                public static LocString POWER = "Without power the lights inside of the rocket won't turn on\nThese modules help you store electricity, some even generate it.";
+                public static LocString PRODUCTION = "Just bring the production with you!\nThese modules can produce something.";
+                public static LocString UTILITY = "These modules add some nice utility functions to your rocket.";
+                public static LocString UNCATEGORIZED = "What do these do?\n(not properly categorized, contact the author of that mod)";
 
-            //engines = 0,
-            //habitats = 1,
-            //nosecones = 2,
-            //deployables = 3,
-            //fuel = 4,
-            //cargo = 5,
-            //power = 6,
-            //production = 7,
-            //utility = 8,
-            //uncategorized = -1
+                //engines = 0,
+                //habitats = 1,
+                //nosecones = 2,
+                //deployables = 3,
+                //fuel = 4,
+                //cargo = 5,
+                //power = 6,
+                //production = 7,
+                //utility = 8,
+                //uncategorized = -1
+            }
+            public class CATEGORYTITLES
+            {
+                public static LocString ENGINES = "Rocket Engines";
+                public static LocString HABITATS = "Spacefarer Modules";
+                public static LocString NOSECONES = "Nosecones";
+                public static LocString DEPLOYABLES = "Deployables";
+                public static LocString FUEL = "Fuel & Oxidizer Tanks";
+                public static LocString CARGO = "Cargo & Storage";
+                public static LocString POWER = "Power Storage & Production";
+                public static LocString PRODUCTION = "Production";
+                public static LocString UTILITY = "Utility";
+                public static LocString UNCATEGORIZED = "Uncategorized";
+
+                //engines = 0,
+                //habitats = 1,
+                //nosecones = 2,
+                //deployables = 3,
+                //fuel = 4,
+                //cargo = 5,
+                //power = 6,
+                //production = 7,
+                //utility = 8,
+                //uncategorized = -1
+            }
         }
+        
 
         public class BUILDINGS
         {
@@ -123,7 +153,7 @@ namespace Rockets_TinyYetBig
                 {
                     public static LocString NAME = (LocString)FormatAsLink("Freezer Access Hatch", nameof(RTB_FRIDGEMODULEACCESSHATCH));
                     public static LocString DESC = (LocString)"Food spoilage can be slowed by ambient conditions as well as by refrigerators.";
-                    public static LocString EFFECT = (LocString)("Has to be attached to the rocket wall.\n\nStores a small amount of" + FormatAsLink("Food", "FOOD") + " at an ideal " + FormatAsLink("Temperature", "HEAT") + " to prevent spoilage.\n\nWill pull food from a connected "+RTB_FRIDGECARGOBAY.NAME+" when low on food.");
+                    public static LocString EFFECT = (LocString)("Has to be attached to the rocket wall.\n\nStores a small amount of " + FormatAsLink("Food", "FOOD") + " at an ideal " + FormatAsLink("Temperature", "HEAT") + " to prevent spoilage.\n\nWill pull food from a connected "+RTB_FRIDGECARGOBAY.NAME+" when low on food.");
                     public static LocString LOGIC_PORT = (LocString)"Full/Not Full";
                     public static LocString LOGIC_PORT_ACTIVE = (LocString)("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when full");
                     public static LocString LOGIC_PORT_INACTIVE = (LocString)("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
