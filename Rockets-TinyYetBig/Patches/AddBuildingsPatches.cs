@@ -135,7 +135,9 @@ namespace RoboRockets.Rockets_TinyYetBig
                     AddRocketModuleToBuildList(LiquidCargoBayClusterLargeConfig.ID, RocketCategory.cargo, SolidCargoBayClusterLargeConfig.ID);
                     AddRocketModuleToBuildList(GasCargoBayClusterLargeConfig.ID, RocketCategory.cargo, LiquidCargoBayClusterLargeConfig.ID);
                 }
-                InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Automation, POICapacitySensorConfig.ID);
+                
+                if (Config.Instance.EnablePOISensor)
+                    InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Automation, POICapacitySensorConfig.ID);
                 return;
                 //InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, PartWorkshopConfig.ID, "stationParts");
                 //InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, Part_A_1_Config.ID, "stationParts");
@@ -228,6 +230,8 @@ namespace RoboRockets.Rockets_TinyYetBig
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Gases.GasDistribution, CO2FuelTankConfig.ID);
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.LiquidTuning, LiquidFuelTankClusterSmallConfig.ID);
                 }
+                if (Config.Instance.EnablePOISensor)
+                    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Computers.SensitiveMicroimaging, POICapacitySensorConfig.ID);
             }
         }
     }

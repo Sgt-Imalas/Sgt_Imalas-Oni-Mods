@@ -110,6 +110,10 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool EnableCritterStorage { get; set; }
 
+        [Option("POI Capacity Sensor", STRINGS.OPTIONS.TOGGLESINGLE, "(2) Mining & Shipping")]
+        [JsonProperty]
+        public bool EnablePOISensor { get; set; }
+
         [Option("Critter Containment Module Capacity", "Amount of critters the module can hold at once", "(2) Mining & Shipping")]
         [Limit(1, 15)]
         [JsonProperty]
@@ -238,6 +242,7 @@ namespace Rockets_TinyYetBig
             InsulatedCargoBays = true;
             EnableRadboltStorage = true; 
             EnableDrillSupport = true;
+            EnablePOISensor = true;
 
             RebalancedCargoCapacity = true;
             GasCargoBayUnits = 500;

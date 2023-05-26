@@ -127,6 +127,10 @@ namespace Rockets_TinyYetBig
                     public static LocString LOGIC_PORT = (LocString)"Full/Not Full";
                     public static LocString LOGIC_PORT_ACTIVE = (LocString)("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when full");
                     public static LocString LOGIC_PORT_INACTIVE = (LocString)("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
+
+                    public static LocString LOGIC_PORT_PULL = (LocString)"Pull food from Freezer Module";
+                    public static LocString LOGIC_PORT_ACTIVE_PULL = (LocString)(FormatAsAutomationState("Green Signal", AutomationState.Active) + ": Building will pull more food from the Freezer Module when below 1kg of food.");
+                    public static LocString LOGIC_PORT_INACTIVE_PULL = (LocString)(FormatAsAutomationState("Red Signal", AutomationState.Standby) + ": Building wont pull any more food even when below 1kg.");
                 }
                 public class RTB_DRILLCONEDIAMONDSTORAGE
                 {
@@ -382,7 +386,7 @@ namespace Rockets_TinyYetBig
                 public class RTB_FOODSTORAGESTATUS
                 {
                     public static LocString NAME = (LocString)"Total Food: {REMAININGMASS}KCal";
-                    public static LocString TOOLTIP = (LocString)("The connected Fridge Modules still contain {REMAININGMASS}KCal of Food.{FOODLIST}");
+                    public static LocString TOOLTIP = (LocString)("The connected Fridge Modules still contain {REMAININGMASS} KCal of Food.{FOODLIST}");
                     public static LocString FOODINFO = "\n • {0}: {1}KCal";
                 }
                 public class RTB_CRITTERMODULECONTENT
