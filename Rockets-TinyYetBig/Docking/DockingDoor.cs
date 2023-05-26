@@ -61,7 +61,7 @@ namespace Rockets_TinyYetBig.Behaviours
                 kanim.Queue("extended");
             }
             assignable.canBeAssigned = true;
-            DetailsScreen.Instance.Refresh(gameObject);
+            //DetailsScreen.Instance.Refresh(gameObject);
         }
 
         public bool IsConnected => GetConnec() != null;
@@ -104,7 +104,7 @@ namespace Rockets_TinyYetBig.Behaviours
                     kanim.Play("retracted");
                 }
             }
-            DetailsScreen.Instance.Refresh(gameObject);
+            //DetailsScreen.Instance.Refresh(gameObject);
         }
 
         public CellOffset GetRotatedOffset()

@@ -392,7 +392,7 @@ namespace Rockets_TinyYetBig.Behaviours
             door1.ConnecDoor(door2);
             door2.ConnecDoor(door1);
             door1.Teleporter.EnableTwoWayTarget(true);
-            DetailsScreen.Instance.Refresh(door1.gameObject);
+            //DetailsScreen.Instance.Refresh(door1.gameObject);
         }
 
 
@@ -438,7 +438,7 @@ namespace Rockets_TinyYetBig.Behaviours
             ClusterManager.Instance.GetWorld(targetWorldId).SetParentIdx(targetWorldId);
             ClusterManager.Instance.GetWorld(MyWorldId).SetParentIdx(MyWorldId);
 
-            DetailsScreen.Instance.Refresh(door.gameObject);
+            //DetailsScreen.Instance.Refresh(door.gameObject);
         }
 
         public void UnDockFromTargetWorld(int targetWorldId,bool cleanup=false, System.Action OnFinishedUndock = null)

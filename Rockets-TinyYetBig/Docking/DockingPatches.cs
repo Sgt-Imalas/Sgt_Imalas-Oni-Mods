@@ -83,12 +83,20 @@ namespace Rockets_TinyYetBig.Patches
                             foreach (var docked in manager.GetConnectedRockets())
                             {
                                 if (ClusterManager.Instance.GetWorld(docked).TryGetComponent<Clustercraft>(out var craft) 
-                                && Mathf.RoundToInt(craft.ModuleInterface.Range) == 0 
-                                && craft.Location != __instance.Location 
-                                && ClusterGrid.Instance.GetVisibleEntityOfLayerAtCell(__instance.Location,EntityLayer.Asteroid)==null)
+                                && (Mathf.RoundToInt(craft.ModuleInterface.Range) == 0 || manager.GetCraftType != DockableType.Rocket)
+                                && craft.Location != __instance.Location)
                                 {
-                                    SgtLogger.l("Pulled stranded rocket "+craft.Name+" to new tile with "+__instance.Name);
-                                    craft.Location = __instance.Location; 
+                                    if((ClusterGrid.Instance.GetVisibleEntityOfLayerAtCell(__instance.Location, EntityLayer.Asteroid) == null))
+                                    {
+                                        SgtLogger.l("Pulled stranded rocket " + craft.Name + " to new tile with " + __instance.Name);
+                                        craft.Location = __instance.Location;
+                                    }
+                                    else
+                                    {
+                                        SgtLogger.l("Disconnected " + craft.Name + " as stranded in orbit");
+                                        craft.m_clusterTraveler.m_destinationSelector.SetDestination(craft.Location);
+                                        //craft.m_clusterTraveler.m_destinationSelector.SetDestination(__instance.Location);
+                                    }
                                 }
                             }
                         }

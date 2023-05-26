@@ -21,7 +21,7 @@ namespace Rockets_TinyYetBig.Patches
                     __instance.meter = new MeterController(__instance.GetComponent<KBatchedAnimController>(), "meter_target", "meter", Meter.Offset.Infront, Grid.SceneLayer.NoLayer, new string[4]
                         {
                             "meter_target",
-                            "meter_fill",      
+                            "meter_fill",
                             "meter_frame",
                             "meter_OL"
                     });
@@ -41,11 +41,37 @@ namespace Rockets_TinyYetBig.Patches
             /// <param name="__instance"></param>
             public static void Postfix(OxidizerTank __instance)
             {
-                if (!__instance.supportsMultipleOxidizers && __instance.meter!=null)
+                if (!__instance.supportsMultipleOxidizers && __instance.meter != null)
                 {
                     __instance.meter.SetPositionPercent(__instance.storage.MassStored() / __instance.storage.capacityKg);
                 }
             }
         }
+
+        //[HarmonyPatch(typeof(CraftModuleInterface), nameof(CraftModuleInterface.DoLand))]
+        ////[HarmonyPatch(new Type[] { typeof(LaunchPad), typeof(bool) })]
+        //public static class Fix_SmallRocketModulesLosetheirAttachmentsOnLand
+        //{
+        //    /// <summary>
+        //    /// Apply Meter changes on LOX module
+        //    /// </summary>
+        //    /// <param name="__instance"></param>
+        //    public static void Postfix(CraftModuleInterface __instance)
+        //    {
+        //        SgtLogger.l("statusssy: " + __instance.m_clustercraft.status);
+
+        //        foreach (var module in __instance.ClusterModules)
+        //        {
+        //            SgtLogger.l(module.Get().name);
+        //            if (module.Get().TryGetComponent<VerticalModuleTiler>(out var tiler))
+        //            {
+        //                SgtLogger.l("fixing tilers on " + tiler.name);
+
+        //                tiler.UpdateEndCaps();
+        //            }
+        //        }
+
+        //    }
+        //}
     }
 }
