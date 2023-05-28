@@ -442,7 +442,13 @@ namespace Rockets_TinyYetBig
                     public static LocString DECONSTRUCTING = (LocString)("Demolishing: {TIME} left");
 
                 }
-
+                public class RTB_DOCKEDSTATUS
+                {
+                    public static LocString NAME = (LocString)"Docked to {SINGLEDOCKED}.";
+                    public static LocString TOOLTIP = (LocString)("Currently docked to: {DOCKINGLIST}");
+                    public static LocString DOCKEDINFO = "\n • {0}";
+                    public static LocString MULTIPLES = "multiple crafts";
+                }
             }
         }
 

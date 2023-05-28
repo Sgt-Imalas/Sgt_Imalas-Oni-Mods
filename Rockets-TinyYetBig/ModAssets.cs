@@ -429,6 +429,7 @@ namespace Rockets_TinyYetBig
             public static StatusItem RTB_SpaceStation_DeploymentState;
             public static StatusItem RTB_SpaceStation_FreshlyDeployed;
             public static StatusItem RTB_SpaceStation_OrbitHealth;
+            public static StatusItem RTB_DockingActive;
 
 
 
@@ -517,6 +518,17 @@ namespace Rockets_TinyYetBig
                 false,
                      OverlayModes.None.ID);
 
+                RTB_DockingActive = new StatusItem(
+                     "RTB_DOCKEDSTATUS",
+                     "BUILDING",
+                     string.Empty,
+                     StatusItem.IconType.Info,
+                     NotificationType.Neutral,
+                false,
+                     OverlayModes.None.ID);
+
+
+
                 RTB_SpaceStationConstruction_Status.resolveStringCallback = ((str, data) =>
                 {
                     var StationConstructior = (SpaceStationBuilder)data;
@@ -573,6 +585,32 @@ namespace Rockets_TinyYetBig
                     //str = str.Replace("{GeneratorType}", generator.GetProperName());
                     str = str.Replace("{CurrentCharge}", GameUtil.GetFormattedJoules(stats.first));
                     str = str.Replace("{MaxCharge}", GameUtil.GetFormattedJoules(stats.second));
+                    return str;
+                });
+
+                RTB_DockingActive.resolveStringCallback = (Func<string, object, string>)((str, data) =>
+                {
+                    var worldIDs = (List<int>)data;
+
+                    string worldsList=string.Empty;
+
+                    foreach(var id in worldIDs)
+                    {
+                        var world = ClusterManager.Instance.GetWorld(id);
+                        if (world != null)
+                        {
+                            worldsList += string.Format(RTB_DOCKEDSTATUS.DOCKEDINFO, world.GetProperName());
+                        }
+                        if(worldIDs.Count  == 1)
+                        {
+                            str = str.Replace("{SINGLEDOCKED}", world.GetProperName());
+                        }
+                        else
+                        {
+                            str = str.Replace("{SINGLEDOCKED}", RTB_DOCKEDSTATUS.MULTIPLES);
+                        }
+                    }
+                    str = str.Replace("{DOCKINGLIST}", worldsList);
                     return str;
                 });
 
