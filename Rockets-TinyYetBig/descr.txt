@@ -4,120 +4,49 @@
 [h2]More Rockets - more fun![/h2]
 
 This mod aims to increase rocket versatility by adding new rocket modules, rocket mechanics and in general adding to the experience of rocketry in Spaced Out.
+While including a large number of features, the mod is higly modular so every player can choose for themselves what features they want to use.
 
-This mod introduces various new additions and tweaks to the spaced out rocketry system.
-
-[h1]Current latest Version: 2.3[/h1]
+[h1]Current latest Version: 2.6.0[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
 [list]
 [*] Interior Shrinking: Rockets no longer take up 32x32 Tiles, instead the interior size gets set dependant on the actual interior space used (disableable, a change only applies to newly constructed modules).
 [*] Removal of Rocket cap of 16 (This is possible due to the space saving from the interior shrinking).
-[*] Module Building Categories - no longer an endless scrolling fest (disableable) 
-[*]Tweaks: [list]
-	[*]Cartographic Module Buff: The Cartographic Module will now instantly reveal all Space Hexes in a radius of 1 ( adjustable in mod settings).
-	[*]tba..
-	[/list]
+[*] Huge amount of new Rocket Modules -> look through the steam images for a list
+[*] Module Building Categories - no longer an endless scrolling fest 
+[*] Generator Modules (produce power while not landed without the need to move the rocket)
+[*] Loader adapters - add ladders or insulated walls between launchpads without preventing loader access
+[*] Fuel Loaders - no more overheating pipes due to rocket start, just fuel them via these new loader buildings
+[*] Rocket Docking - Exchange dupes during the flight, rescue stranded dupes without blowing up the respective rocket, tow stranded rockets and more to come...
+[*] Habitat Power Plug - Connect the internal electric grid to the outside without the need for a battery module
+[*] Extended Rocket Stats in the rocket sidescreen
+[*] Better World Selector with collapsible categories
+[*] Tweaks to Vanilla Modules & Mechanics: [list]
+	[*]Cartographic Module Buff: The Cartographic Module will now functions as an automated telescope.
+	[*]Petroleum Engines: Can now also be fueled with Ethanol
+	[*]Large Solid Oxidizer Tank Buff: Capacity 900 -> 1350, this gives it 3x the capacity of one small tank while taking 2.5x height and weight of one (and gives a reason to use this module)
+	[*]Rocket gas/liquid input/output wall tiles have their radiation absorption fixed and count as "Rocket Wall", thus allow the constructing of Fittings connected to it
+	[*]Cargo bays insulate their contents and have their capacity buffed based on type
+	[*]more wip.[/list]
+[*] each new module and most features can be individually toggled on&off / tweaked in the mod config.
 [/list]
-
-[h1]New Rocket modules[/h1]
-(sorted by category under which they appear)
-[h2]Habitat Modules[/h2]
-[hr][/hr]
-[h3]Extended Solo Spacefarer Nosecone[/h3]
-[img]https://i.imgur.com/ZBTtaFT.png[/img]
-A slightly larger variant of the Spacefarer Nosecone that features a larger interior.
-Cost: 350kg of raw metal
-Research: Space Program
-[hr][/hr]
-[h3]Extended Spacefarer Module[/h3]
-[img]https://i.imgur.com/DJ6n1Bl.png[/img]
-A larger variant of the Spacefarer Module that features a larger interior and some fancy windows.
-Cost: 800kg of raw metal
-Research: Durable Life Support
-[hr][/hr]
-[h3]Stargazer Nosecone[/h3]
-[img]https://i.imgur.com/4Em4TG3.png[/img]
-This Habitat module functions as a nosecone while featuring a transparent interior roof. Great for looking at the stars or a nice sunbathing during the flight.
-Cost: 250kg of refined metal , 200kg of any transparent material (glass/diamond)
-Research: Celestial Detection
-[hr][/hr]
-[h2]Nosecones[/h2]
-[hr][/hr]
-[h3]Laser Drillcone[/h3]
-[img]https://i.imgur.com/IzgEs2e.png[/img]
-This Nosecone takes in up to 6000 Radbolts, ready to mine space pois with the power of the lazor. By default it mines at half the speed of a regular drillcone (this value can be adjusted in the mod config).
-6000 radbolts allow mining of 24 tons.
-Cost: 800kg of steel, 400kg of plastic
-Research: High Velocity Destruction
-[hr][/hr]
-[h2]Storage[/h2]
-[hr][/hr]
-[h3]Critter Containment Module[/h3]
-[img]https://i.imgur.com/kDplczy.png[/img]
-Allows the transport of critters without the need to store them in the spacefarer module. Base Capacity: 5 Critters (adjustable in mod settings).
-Cost: 600kg of refined metal, 300kg of plastic
-Research: Animal Control
-[hr][/hr]
-[h2]Energy[/h2]
-[hr][/hr]
-[h3]Radbolt Chamber Module[/h3]
-[img]https://i.imgur.com/sfwryt7.png[/img]
-Transport Radbolts to other planetoids with this module. Has a capacity of 3000 Radbolts with a configurable output direction.
-Cost: 1200kg of steel, 400kg of glass.
-Research: Radbolt Containment
-[hr][/hr]
-[h3]Coal Generator Module[/h3]
-[img]https://i.imgur.com/PHzV0iX.png[/img]
-A generator module unlocked in the early game that uses coal to produce 200W of power. 
-Only active during flight.
-When used with a battery either in module form or in the interior, it will stop producing power while the battery is >95% charged.
-Cost: 500kg of any raw metal
-Research: Advanced Power Regulation
-[hr][/hr]
-[h3]Steam Generator Module[/h3]
-[img]https://i.imgur.com/B3uxCNk.png[/img]
-A generator module unlocked in the mid game that draws steam from gas storage to produce 400W of power.
-when used with a liquid storage module present it will output the hot water to that module (IF it has water set in its filter!).
-Only active during flight.
-When used with a battery either in module form or in the interior, it will stop producing power while the battery is >95% charged.
-Cost: 600kg of any refined metal, 100kg of plastic.
-Research: Renewable Energy
-[hr][/hr]
-[h3]Radioisotope Thermoelectric Generator (RTG)[/h3]
-[img]https://i.imgur.com/eBZ3Wiy.png[/img]
-A generator module unlocked in the late game that draws energy from the slow decay of radioactive isotopes to produce 120W of power.
-Takes in 50kg of enriched uranium that slowly decays into depleted uranium.
-Always Active.
-To reset the decay state of the fuel, flush the generator fuel via button and deliver a fresh batch of 50kg of enriched uranium to it.
-Cost: 400kg of steel.
-Research: Radbolt Propulsion
-[hr][/hr]
-[h1]New Buildings[/h1]
-[hr][/hr]
-[h3]Fortified Rocket Platform[/h3]
-[img]https://i.imgur.com/VLg3Act.png[/img]
-A more expensive Rocket Platform that features immunity to comets and adjusted logic port locations for less melting automation cables.
-Cost: 1200kg of steel
-Research: Superheated Forging
-
-[hr][/hr]
 
 [h1]Credits[/h1]
 Options made with PLib.
+Animations for the a lot of modules were made by the wonderful 3GuB
 
 [hr][/hr]
 [h1]Known Issues[/h1]
 [list]
-[*] The game crashes on changing one spacefarer module to another. - even to the mod will recieve blame, this is a vanilla crash issue, just don't do that -> deconstruct the module, then construct the new one after.
 [*] Camera glitches out / is black inside of rocket - A camera bug derived from the main game camera, zoom in / out to fix.
+[*] Starfarer landing animation is glitchy - Basegame limitations do not allow extra animation there to fix it.
 [*] Game Crash on construction of an additional rocket - you used up all the grid space with 32x32 rockets, deconstruct some of those and it should work again.
 [*] Cannot place something in the rocket / space blocked / invisible mining tiles - game hiccup for not removing invisible world border neutronium, reloading fixes this.
 [/list]
 
 [h1]Bug Reports[/h1]
-Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or my[url=https://discord.gg/5n7peBCnWZ] Discord[/url]. Always include the full player.log in a report
 
 Where to find the Log:
 [list]
@@ -130,6 +59,16 @@ Where to find the Log:
 [/list] 
 
 [hr][/hr]
+
+Also check out these mods for more Rocketry Additions:[list] 
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2765256496]AI controlled Rockets[/url] <= Let your rockets fly without any duplicant inputs
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2840104621]Scan & Relay Satellites[/url] <= Deploy satellites to the space map to increase the range of broadcasters and autonomously scan the space tiles
+[/list] 
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
+
 
 [h1]FAQ[/h1]
 [h2]What does "Interior Shrinking" mean for the game?[/h2]
@@ -147,16 +86,3 @@ For comparison, this is the space taken by 9 normal sized rocket interiors:
 This is the space taken by 16 shrunken (medium) interiors:
 
 [img]https://i.imgur.com/lrbg559.png[/img]
-
-
-[hr][/hr]
-
-Also check out these mods for more Rocketry Additions:[list] 
-[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2765256496]AI controlled Rockets[/url] <= Let your rockets fly without any duplicant inputs
-[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2840104621]Scan & Relay Satellites[/url] <= Deploy satellites to the space map to increase the range of broadcasters and autonomously scan the space tiles
-[/list] 
-
-[hr][/hr]
-
-Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
-

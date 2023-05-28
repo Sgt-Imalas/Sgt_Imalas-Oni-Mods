@@ -37,8 +37,8 @@ namespace Rockets_TinyYetBig.Patches
         [HarmonyPatch(nameof(Clustercraft.UpdateStatusItem))]
         public static class GeneratorModuleStatusItems
         {
-            static Dictionary<KSelectable, Guid> batteryStatusItemGuids = new Dictionary<KSelectable, Guid>();
-            static Dictionary<KSelectable, Guid> generatorStatusItemGuids = new Dictionary<KSelectable, Guid>();
+            //static Dictionary<KSelectable, Guid> batteryStatusItemGuids = new Dictionary<KSelectable, Guid>();
+            //static Dictionary<KSelectable, Guid> generatorStatusItemGuids = new Dictionary<KSelectable, Guid>();
             public static void Postfix(Clustercraft __instance)
             {
                 KSelectable selectable = __instance.GetComponent<KSelectable>();
