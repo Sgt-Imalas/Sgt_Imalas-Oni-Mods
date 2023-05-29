@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static ProcGen.Mob;
 
 namespace Rockets_TinyYetBig.Behaviours
 {
@@ -39,8 +40,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
             this.workingStates.working
                 //.Enter((smi) => SgtLogger.l("ENTERED STATE: workingStates.working", "ExplorerSMI"))
-                .
-                EventTransition(GameHashes.ClusterFogOfWarRevealed,
+                .EventTransition(GameHashes.ClusterFogOfWarRevealed,
                 (smi => Game.Instance),
                 this.workingStates.all_work_complete,
                 (smi => !smi.CheckHasAnalyzeTarget()))
@@ -62,21 +62,25 @@ namespace Rockets_TinyYetBig.Behaviours
                         this.telescopeTargetMarker.GetComponent<TelescopeTarget>().Init(this.currentTarget);
 
                     }
-                    smi.currentPercentage = smi.m_fowManager.GetRevealCompleteFraction(smi.m_analyzeTarget) * 100f;
                     //}
+                    smi.m_fowManager.EarnRevealPointsForLocation(this.currentTarget, detectionIncrease);
                     if (smi.currentPercentage + detectionIncrease >= 99.9f)
                     {
                         smi.m_fowManager.RevealCellIfValid(this.currentTarget);
+                        Game.Instance.Trigger((int)GameHashes.ClusterFogOfWarRevealed, this.currentTarget);
                         smi.DestroyTelescope();
                     }
-                    smi.m_fowManager.EarnRevealPointsForLocation(this.currentTarget, detectionIncrease);
+                    smi.currentPercentage = smi.m_fowManager.GetRevealCompleteFraction(smi.m_analyzeTarget) * 100f;
                 });
             this.workingStates.all_work_complete
                 //.Enter((smi) => SgtLogger.l("ENTERED STATE: all_work_complete", "ExplorerSMI"))
 
                 .Enter((smi) => smi.DestroyTelescope())
-                .EventTransition(GameHashes.ClusterLocationChanged,(smi => Game.Instance),this.workingStates,(smi => smi.CheckHasAnalyzeTarget())).
-                EventTransition(GameHashes.ClusterFogOfWarRevealed,
+                .UpdateTransition(workingStates.working, (smi, dt) => smi.CheckHasAnalyzeTarget(),update_rate: UpdateRate.SIM_1000ms)
+                //.Enter((smi) => smi.CheckHasAnalyzeTarget())
+
+                .EventTransition(GameHashes.ClusterLocationChanged,(smi => Game.Instance),this.workingStates,(smi => smi.CheckHasAnalyzeTarget()))
+                .EventTransition(GameHashes.ClusterFogOfWarRevealed,
                 (smi => Game.Instance),
                 this.workingStates,
                 (smi => smi.CheckHasAnalyzeTarget()));
@@ -145,7 +149,8 @@ namespace Rockets_TinyYetBig.Behaviours
             }
             public AxialI GetAxialLocation()
             {
-                return this.GetComponent<RocketModuleCluster>().CraftInterface.m_clustercraft.Location;
+                this.gameObject.TryGetComponent<RocketModuleCluster>(out var module);
+                return module.CraftInterface.m_clustercraft.Location;
             }
             public AxialI GetAnalyzeTarget()
             {

@@ -80,6 +80,18 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool EnableDrillSupport { get; set; }
 
+
+        [Option("Service Module Speed boost", "Determines the speed boost the drillcone service module provides to the drillcone in percent", "(2) Mining & Shipping")]
+        [JsonProperty]
+        [Limit(10, 200)]
+        public int DrillconeSupportBoost { get; set; }
+
+        [Option("Service Module Diamond Capacity", "Determines the diamond capacity of the drillcone service module in KG", "(2) Mining & Shipping")]
+        [JsonProperty]
+        [Limit(1000, 10000)]
+        public int DrillconeSupportDiamondMass { get; set; }
+
+
         [Option("Infinite Mining Capacity", "Mining POI become infinite. Does not affect artifacts.", "(2) Mining & Shipping")]
         [JsonProperty]
         public bool InfinitePOI { get; set; }
@@ -237,6 +249,8 @@ namespace Rockets_TinyYetBig
             InsulatedCargoBays = true;
             EnableRadboltStorage = true; 
             EnableDrillSupport = true;
+            LaserDrillconeSpeed = 25;
+            DrillconeSupportDiamondMass = 1500;
             EnablePOISensor = true;
 
             RebalancedCargoCapacity = true;

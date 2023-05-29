@@ -43,7 +43,7 @@ namespace Rockets_TinyYetBig.Patches
                     }
                 }
                 //SgtLogger.debuglog(__instance + ", BooserCount: " + SupportModuleCount);
-                harvestRate = (1f + SupportModuleCount * 0.2f) * AddSpeedBuff.defaultMiningSpeed;
+                harvestRate = (1f + SupportModuleCount * ((float)Config.Instance.DrillconeSupportBoost)/100f) * AddSpeedBuff.defaultMiningSpeed;
             }
         }
 
@@ -64,7 +64,7 @@ namespace Rockets_TinyYetBig.Patches
                         }
                     }
                     //SgtLogger.debuglog(__instance + ", BooserCount: " + SupportModuleCount);
-                    __instance.def.harvestSpeed = (1f + SupportModuleCount * 0.2f) * defaultMiningSpeed;
+                    __instance.def.harvestSpeed = (1f + SupportModuleCount * ((float)Config.Instance.DrillconeSupportBoost) / 100f) * defaultMiningSpeed;
                 }
             }
         }

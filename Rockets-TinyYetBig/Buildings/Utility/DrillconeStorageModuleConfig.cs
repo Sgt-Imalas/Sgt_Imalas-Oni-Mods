@@ -53,7 +53,7 @@ namespace Rockets_TinyYetBig.Buildings.Utility
         public override void DoPostConfigureComplete(GameObject go)
         {
             Storage storage = go.AddOrGet<Storage>();
-            storage.capacityKg = 1500f;
+            storage.capacityKg = (float)Config.Instance.DrillconeSupportDiamondMass;
             storage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
             storage.showCapacityStatusItem = true;
             storage.storageFilters = new List<Tag>() { SimHashes.Diamond.CreateTag() };
