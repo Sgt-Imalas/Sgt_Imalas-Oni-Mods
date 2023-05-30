@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Rockets_TinyYetBig.Buildings.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 using static Operational;
 using static STRINGS.BUILDINGS.PREFABS;
 
@@ -25,6 +27,7 @@ namespace Rockets_TinyYetBig.Patches
                 bool flag = false;
                 foreach (Tag storageFilter in storage.storageFilters)
                 {
+
                     if (DiscoveredResources.Instance.GetDiscoveredResourcesFromTag(storageFilter).Contains(tagAllowed))
                     {
                         flag = true;
@@ -33,9 +36,9 @@ namespace Rockets_TinyYetBig.Patches
                 }
                 return flag;
             }
-            public static bool Prefix(float dt, 
-                RocketConduitStorageAccess __instance, 
-                Operational ___operational, 
+            public static bool Prefix(float dt,
+                RocketConduitStorageAccess __instance,
+                Operational ___operational,
                 CraftModuleInterface ___craftModuleInterface,
                 Filterable ___filterable)
             {
@@ -48,14 +51,43 @@ namespace Rockets_TinyYetBig.Patches
                     ___operational.SetActive(true);
                 float amount = __instance.targetLevel - currentMassStored;
 
-                bool NoFittingStorageForTags = false;
-
                 foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)___craftModuleInterface.ClusterModules)
                 {
+                    var module = clusterModule.Get();
 
-                    if (clusterModule.Get().TryGetComponent<CargoBayCluster>(out var cargoBay) && cargoBay.storageType == __instance.cargoType)
+                    if (Config.Instance.RefillDrillSupport
+                        && __instance.cargoType == CargoBay.CargoType.Solids
+                        && module.TryGetComponent<DrillConeAssistentModule>(out var drillConeAssistentModule)
+                        && amount < 0.0
+                        && drillConeAssistentModule.DiamondStorage.RemainingCapacity() > 0.0)
                     {
-                        if ((double)amount > 0.0 && (double)cargoBay.storage.MassStored() > 0.0 )
+                        double transferAmount = (double)Mathf.Min(-amount, drillConeAssistentModule.DiamondStorage.RemainingCapacity());
+
+                        for (int index = __instance.storage.items.Count - 1; index >= 0; --index)
+                        {
+                            if (
+                                __instance.storage.items[index] == null || 
+                                __instance.storage.items[index].PrefabID()!= SimHashes.Diamond.CreateTag())
+                            {
+                                SgtLogger.l(__instance.storage.items[index].PrefabID() + " " + SimHashes.Diamond.ToString());
+                                continue;
+                            }
+                            Pickupable pickupable = __instance.storage.items[index].GetComponent<Pickupable>().Take(-amount);
+
+                            if (pickupable != null)
+                            {
+                                amount += pickupable.PrimaryElement.Mass;
+                                drillConeAssistentModule.DiamondStorage.Store(pickupable.gameObject, true);
+                            }
+                            if ((double)amount >= 0.0)
+                                break;
+                        }
+
+                    }
+
+                    if (module.TryGetComponent<CargoBayCluster>(out var cargoBay) && cargoBay.storageType == __instance.cargoType)
+                    {
+                        if ((double)amount > 0.0 && (double)cargoBay.storage.MassStored() > 0.0)
                         {
                             for (int index = cargoBay.storage.items.Count - 1; index >= 0; --index)
                             {
@@ -76,6 +108,8 @@ namespace Rockets_TinyYetBig.Patches
                             if ((double)amount <= 0.0)
                                 break;
                         }
+
+
                         if ((double)amount < 0.0 && (double)cargoBay.storage.RemainingCapacity() > 0.0)
                         {
                             double num2 = (double)Mathf.Min(-amount, cargoBay.storage.RemainingCapacity());
@@ -85,14 +119,14 @@ namespace Rockets_TinyYetBig.Patches
                                     __instance.cargoType == CargoBay.CargoType.Solids &&
                                     !CouldStorageAllowThisTag(__instance.storage.items[index].PrefabID(), cargoBay.storage))
                                 {
-                                    break;
+                                    continue;
                                 }
                                 Pickupable pickupable = __instance.storage.items[index].GetComponent<Pickupable>().Take(-amount);
 
                                 if (pickupable != null)
                                 {
-                                        amount += pickupable.PrimaryElement.Mass;
-                                        cargoBay.storage.Store(pickupable.gameObject, true);
+                                    amount += pickupable.PrimaryElement.Mass;
+                                    cargoBay.storage.Store(pickupable.gameObject, true);
                                 }
                                 if ((double)amount >= 0.0)
                                     break;
@@ -101,6 +135,8 @@ namespace Rockets_TinyYetBig.Patches
                                 break;
                         }
                     }
+
+
                 }
                 return false;
             }
@@ -108,21 +144,21 @@ namespace Rockets_TinyYetBig.Patches
         }
 
 
-        [HarmonyPatch(typeof(BaseModularLaunchpadPortConfig))] 
+        [HarmonyPatch(typeof(BaseModularLaunchpadPortConfig))]
         [HarmonyPatch(nameof(BaseModularLaunchpadPortConfig.ConfigureBuildingTemplate))]
         public static class FoodLoading
         {
-            public static void Postfix (GameObject go, ConduitType conduitType)
+            public static void Postfix(GameObject go, ConduitType conduitType)
             {
-                if(conduitType == ConduitType.Solid)
+                if (conduitType == ConduitType.Solid)
                 {
-                    if(go.TryGetComponent<Storage>(out var storage))
+                    if (go.TryGetComponent<Storage>(out var storage))
                     {
                         List<Tag> tagList = new List<Tag>();
                         tagList.AddRange((IEnumerable<Tag>)STORAGEFILTERS.NOT_EDIBLE_SOLIDS);
                         tagList.AddRange((IEnumerable<Tag>)STORAGEFILTERS.GASES);
                         tagList.AddRange((IEnumerable<Tag>)STORAGEFILTERS.FOOD);
-                        storage.storageFilters = tagList;                        
+                        storage.storageFilters = tagList;
                     }
                 }
             }

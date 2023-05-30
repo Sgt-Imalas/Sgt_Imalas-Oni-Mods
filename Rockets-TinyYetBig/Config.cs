@@ -91,6 +91,10 @@ namespace Rockets_TinyYetBig
         [Limit(1000, 10000)]
         public int DrillconeSupportDiamondMass { get; set; }
 
+        [Option("Refill Service Module via Conveyor", "Refill the module during flight", "(2) Mining & Shipping")]
+        [JsonProperty]
+        public bool RefillDrillSupport { get; set; }
+
 
         [Option("Infinite Mining Capacity", "Mining POI become infinite. Does not affect artifacts.", "(2) Mining & Shipping")]
         [JsonProperty]
@@ -251,6 +255,7 @@ namespace Rockets_TinyYetBig
             EnableDrillSupport = true;
             LaserDrillconeSpeed = 25;
             DrillconeSupportDiamondMass = 1500;
+            RefillDrillSupport = false;
             EnablePOISensor = true;
 
             RebalancedCargoCapacity = true;
