@@ -17,6 +17,7 @@ namespace Rockets_TinyYetBig.Patches
     {
         /// <summary>
         /// This throws out food that is not allowed in cargo bays
+        /// Also allows feeding the drillcone support module
         /// </summary>
         [HarmonyPatch(typeof(RocketConduitStorageAccess), "Sim200ms")]
         public static class OnlyAllowStorageFilterItemsInStorage
@@ -69,7 +70,6 @@ namespace Rockets_TinyYetBig.Patches
                                 __instance.storage.items[index] == null || 
                                 __instance.storage.items[index].PrefabID()!= SimHashes.Diamond.CreateTag())
                             {
-                                SgtLogger.l(__instance.storage.items[index].PrefabID() + " " + SimHashes.Diamond.ToString());
                                 continue;
                             }
                             Pickupable pickupable = __instance.storage.items[index].GetComponent<Pickupable>().Take(-amount);
