@@ -9,7 +9,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.Buildings.Engines
 {
-    public class NatGasEngineClusterConfig : IBuildingConfig, ISaveLoadable
+    public class NatGasEngineClusterConfig : IBuildingConfig
     {
         public const string ID = "RTB_NatGasEngineCluster";
         public const string kanim = "rocket_natgas_engine_kanim"; //rocket_petro_engine_small_kanim
