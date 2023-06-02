@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using static STRINGS.CREATURES.STATS;
 using UnityEngine;
 using UtilLibs;
-using static KAnim;
 using UnityEngine.UI;
 using YamlDotNet.Core.Tokens;
 using static STRINGS.DUPLICANTS.STATUSITEMS;

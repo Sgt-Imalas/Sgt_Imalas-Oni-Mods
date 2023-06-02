@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static AmogusMorb.ModAssets;
-using static KAnim;
+
 
 namespace AmogusMorb
 {

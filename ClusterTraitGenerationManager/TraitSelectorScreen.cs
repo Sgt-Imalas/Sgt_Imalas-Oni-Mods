@@ -140,7 +140,6 @@ namespace ClusterTraitGenerationManager
         {
             if (e.TryConsume(Action.Escape) || e.TryConsume(Action.MouseRight))
             {
-                SgtLogger.l("CONSUMING 3");
                 CloseThis();
             }
 

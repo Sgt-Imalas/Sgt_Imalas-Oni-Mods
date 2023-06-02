@@ -13,7 +13,7 @@ namespace UtilLibs.UIcmp //Source: Aki
         public Slider slider;
         public FNumberInputField inputField;
 
-        private readonly float movePlayRate = 0.05f;
+        private readonly float movePlayRate = 0.01f;
         private float lastMoveTime;
         private float lastMoveValue;
         private bool playedBoundaryBump;
@@ -22,6 +22,8 @@ namespace UtilLibs.UIcmp //Source: Aki
         MapValue mapValue;
         LocText outputTarget;
         bool wholeNumbers;
+        public int TrailingOutputNumbers = 3;
+        public bool WholeNumbers => wholeNumbers;
 
         public override void OnPrefabInit()
         {
@@ -121,7 +123,7 @@ namespace UtilLibs.UIcmp //Source: Aki
         private void SetOutputText()
         {
             if (outputTarget != null)
-                outputTarget.text = slider.value.ToString(!wholeNumbers ? "0.00" : "0");
+                outputTarget.text = slider.value.ToString(!wholeNumbers ? "0."+new string('0', TrailingOutputNumbers) : "0");
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -134,6 +136,7 @@ namespace UtilLibs.UIcmp //Source: Aki
                 UpdateSlider();
             }
         }
+
 
         public void OnPointerDown(PointerEventData eventData)
         {

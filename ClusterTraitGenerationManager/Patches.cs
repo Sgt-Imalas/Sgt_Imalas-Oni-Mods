@@ -14,7 +14,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
 using static ClusterTraitGenerationManager.ModAssets;
-using static KAnim;
+
 using ProcGen;
 using static STRINGS.BUILDINGS.PREFABS.DOOR.CONTROL_STATE;
 using static ClusterTraitGenerationManager.STRINGS.UI;
@@ -81,6 +81,7 @@ namespace ClusterTraitGenerationManager
         /// </summary>
         [HarmonyPatch(typeof(CustomGameSettings))]
         [HarmonyPatch(nameof(CustomGameSettings.SetQualitySetting))]
+        [HarmonyPatch(new Type[] { typeof(SettingConfig), typeof(string)})]
         public static class TraitShuffler
         {
             public static void Postfix(CustomGameSettings __instance, SettingConfig config, string value)

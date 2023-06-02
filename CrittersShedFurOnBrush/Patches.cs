@@ -10,7 +10,7 @@ using UnityEngine;
 using UtilLibs;
 using static CrittersShedFurOnBrush.ModAssets;
 using static Grid;
-using static KAnim;
+
 
 namespace CrittersShedFurOnBrush
 {

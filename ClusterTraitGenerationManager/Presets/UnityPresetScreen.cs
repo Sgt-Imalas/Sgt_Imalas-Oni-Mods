@@ -351,6 +351,7 @@ namespace ClusterTraitGenerationManager
             if (!PlanetoidDict().ContainsKey(item.itemID))
             {
                 SgtLogger.warning(item.itemID + " not found!");
+                image.sprite = Assets.GetSprite(SpritePatch.randomTraitsTraitIcon);
                 return;
             }
             var starmapItem = PlanetoidDict()[item.itemID];
@@ -413,7 +414,6 @@ namespace ClusterTraitGenerationManager
 
         private void Init()
         {
-            UIUtils.ListAllChildrenPath(this.transform);
             //UIUtils.TryChangeText(transform, "Title", TITLESCHEDULES);
             int i = 1;
             GeneratePresetButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/GenerateFromCurrent").FindOrAddComponent<FButton>();

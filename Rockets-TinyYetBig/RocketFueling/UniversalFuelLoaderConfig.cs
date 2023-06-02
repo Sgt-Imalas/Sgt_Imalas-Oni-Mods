@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
-using static KAnim;
+
 using static ResearchTypes;
 using static STRINGS.BUILDINGS.PREFABS;
 using static STRINGS.DUPLICANTS.ATTRIBUTES;

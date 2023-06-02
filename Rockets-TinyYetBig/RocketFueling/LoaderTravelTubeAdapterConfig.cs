@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static ResearchTypes;
 using UnityEngine;
-using static KAnim;
+
 using static STRINGS.DUPLICANTS.ATTRIBUTES;
 using TUNING;
 using UtilLibs;

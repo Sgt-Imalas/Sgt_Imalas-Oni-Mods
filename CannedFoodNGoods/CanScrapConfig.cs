@@ -41,7 +41,7 @@ namespace CannedFoods
             looseEntity.AddOrGet<EntitySplitter>();
 
 
-            looseEntity.AddOrGet<OccupyArea>().OccupiedCellsOffsets = EntityTemplates.GenerateOffsets(0, 0);
+            looseEntity.AddOrGet<OccupyArea>();
 
             DecorProvider decorProvider = looseEntity.AddOrGet<DecorProvider>();
             decorProvider.SetValues(TUNING.DECOR.PENALTY.TIER5);

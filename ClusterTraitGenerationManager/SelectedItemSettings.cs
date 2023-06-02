@@ -83,6 +83,12 @@ namespace ClusterTraitGenerationManager
                 Init();
             }
             if (SelectedPlanet == null) return;
+            if(lastSelected!=SelectedPlanet)
+            {
+                overrideWholeNumbers = false; 
+            }
+
+
             lastSelected = SelectedPlanet;
             bool isPoi = SelectedPlanet.category == StarmapItemCategory.POI;
 
@@ -97,9 +103,10 @@ namespace ClusterTraitGenerationManager
             NumberToGenerate.transform.parent.gameObject.SetActive(canGenerateMultiple);///Amount, only on poi / random planets
             if (canGenerateMultiple)
             {
-                NumberToGenerate.SetWholeNumbers(!isPoi);
+                NumberToGenerate.SetWholeNumbers(!isPoi || overrideWholeNumbers);
                 NumberToGenerate.SetMinMaxCurrent(0, current.MaxNumberOfInstances, current.InstancesToSpawn);
-                NumberToGenerate.SetInteractable(IsPartOfCluster);
+                NumberToGenerate.SetInteractable(IsPartOfCluster);     
+                current.SetSpawnNumber(NumberToGenerate.Value);
             }
 
             MinimumDistance.SetMinMaxCurrent(0, CustomCluster.Rings, current.minRing);
@@ -236,15 +243,27 @@ namespace ClusterTraitGenerationManager
 
         public override void OnKeyDown(KButtonEvent e)
         {
+
             if (e.TryConsume(Action.Escape) || e.TryConsume(Action.MouseRight))
             {
                 //SgtLogger.l("CONSUMING1");
                 if (TraitSelectorScreen.Instance != null ? !TraitSelectorScreen.Instance.IsCurrentlyActive : true && SeasonSelectorScreen.Instance != null ? !SeasonSelectorScreen.Instance.IsCurrentlyActive : true)
                     OnClose.Invoke();
             }
+            if (e.TryConsume(Action.DragStraight))
+            {
+                if(lastSelected!=null)
+                {
+                    overrideWholeNumbers = !overrideWholeNumbers;
+                    UpdateUI();
+                }
+            }
+
 
             base.OnKeyDown(e);
         }
+        bool overrideWholeNumbers = false;
+
 
         private void Init()
         {
