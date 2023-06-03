@@ -36,6 +36,16 @@ namespace DupePrioPresetManager
                 {
                     public class CLONEOFFSET
                     {
+                        public class OFFSET
+                        {
+                            public class INPUT
+                            {
+                                public class TEXTAREA
+                                {
+                                    public static LocString PLACEHOLDER = "";
+                                }
+                            }
+                        }
                         public static LocString LABEL = "Schedule Offset:";
                     }
                     public class CLONEBUTTON
@@ -87,7 +97,6 @@ namespace DupePrioPresetManager
                     public static LocString OMITNUMBER = "\n({0} of your configured default-presets already exist by name and will thus be omitted)";
                     public static LocString ALLGENERATED = "All schedules marked as default-presets already exist by name";
                 }
-
 
                 public class HORIZONTALLAYOUT
                 {
