@@ -158,10 +158,30 @@ namespace Rockets_TinyYetBig
         {
             public static void Postfix(WorldSelector __instance)
             {
+                
                 // UIUtils.ListAllChildren(__instance.transform);
             }
         }
 
+
+        [HarmonyPatch(typeof(BuildingTemplates), nameof(BuildingTemplates.CreateRocketBuildingDef))]
+        public static class RocketEngineWidthIsReduced
+        {
+            public static void Postfix(BuildingDef def)
+            {
+                  
+                if (
+                    //Config.Instance.SlimLargeEngines
+                    //&& 
+                    def.WidthInCells>5
+                    )
+                {
+                    SgtLogger.l(def.name, "SQUISH");
+                    def.WidthInCells = 5;
+                    def.GenerateOffsets();
+                }
+            }
+        }
 
 
         /// <summary>
