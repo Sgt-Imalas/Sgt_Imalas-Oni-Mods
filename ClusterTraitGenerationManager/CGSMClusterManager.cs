@@ -89,9 +89,9 @@ namespace ClusterTraitGenerationManager
                 window.SetActive(false);
                 var copy = window.transform;
                 UnityEngine.Object.Destroy(window);
-                var canvas = FrontEndManager.Instance.MakeKleiCanvas("ClusterSelectionView");
+                //var canvas = FrontEndManager.Instance.MakeKleiCanvas("ClusterSelectionView");
                 var GlobalScreen = FrontEndManager.Instance.transform; // Global.Instance.globalCanvas;
-                var GlobalScreen2 = Global.Instance.globalCanvas; // Global.Instance.globalCanvas;
+                //var GlobalScreen2 = Global.Instance.globalCanvas; // Global.Instance.globalCanvas;
 
 
 
@@ -1783,9 +1783,9 @@ namespace ClusterTraitGenerationManager
         public static bool LastGenFailed => lastWorldGenFailed;
 
         static bool lastWorldGenFailed = false;
-        internal static void LastWorldGenFailed()
+        internal static void LastWorldGenDidFail(bool fail = true)
         {
-            lastWorldGenFailed = true;
+            lastWorldGenFailed = fail;
         }
 
         internal static void OpenPresetWindow(System.Action onclose = null)

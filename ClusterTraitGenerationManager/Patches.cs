@@ -55,7 +55,10 @@ namespace ClusterTraitGenerationManager
             {
                 OverrideWorldSizeOnDataGetting.ResetCustomSizes();
 
-                if (SettingsCache.clusterLayouts.clusterCache.ContainsKey(CustomClusterID)) { SettingsCache.clusterLayouts.clusterCache.Remove(CustomClusterID); }
+                if (SettingsCache.clusterLayouts.clusterCache.ContainsKey(CustomClusterID)) 
+                { 
+                    SettingsCache.clusterLayouts.clusterCache.Remove(CustomClusterID); 
+                }
                 CGSMClusterManager.selectScreen = __instance;
             }
             public static void Postfix(ColonyDestinationSelectScreen __instance)
@@ -72,7 +75,10 @@ namespace ClusterTraitGenerationManager
                 LoadCustomCluster = false;
 
                 if (CGSMClusterManager.LastGenFailed)
+                {
                     CGSMClusterManager.InstantiateClusterSelectionView(__instance);
+                    LastWorldGenDidFail(false);
+                }
             }
         }
 
@@ -90,45 +96,51 @@ namespace ClusterTraitGenerationManager
                     return;
                 if (config.id != "WorldgenSeed" && config.id != "ClusterLayout")
                     return;
-
-                string clusterPath = __instance.GetCurrentQualitySetting(CustomGameSettingConfigs.ClusterLayout).id;
-                if (clusterPath == null || clusterPath.Count() == 0)
-                {
-                    clusterPath = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
-                }
-
-                if(CGM_Screen == null || !CGM_Screen.isActiveAndEnabled)
-                {
-                    SelectedItemSettings.PresetApplied = false;
-                    CGSMClusterManager.CreateCustomClusterFrom(clusterPath, ForceRegen: true);
-                    SgtLogger.l("Regenerating Cluster to " + clusterPath + ". Reason: " + config.id + " changed.");
-                }
-                else
-                {
-                    CGSMClusterManager.RerollTraits();
-                    SgtLogger.l("Regenerating Traits for " + clusterPath + ". Reason: " + config.id + " changed.");
-                }
+                RegenerateCGM(__instance, config.id);
             }
         }
-        //[HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
-        //[HarmonyPatch(nameof(ColonyDestinationSelectScreen.CoordinateChanged))]
-        //public static class SeedInserted
-        //{
-        //    public static void Postfix(ColonyDestinationSelectScreen __instance)
-        //    {
-        //        CGSMClusterManager.selectScreen = __instance;
-        //        if (__instance.newGameSettings == null)
-        //            return;
+        public static void RegenerateCGM(CustomGameSettings __instance, string changedConfigID)
+        {
+            if (CGSMClusterManager.LastGenFailed)
+            {
+                SgtLogger.l("Skipping regenerating due to failed previous worldgen.");
 
-        //        string clusterPath = __instance.newGameSettings.GetSetting(CustomGameSettingConfigs.ClusterLayout);
-        //        if (clusterPath == null || clusterPath.Count() == 0)
-        //        {
-        //            clusterPath = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
-        //        }
-        //        CGSMClusterManager.LoadCustomCluster = false;
-        //        CGSMClusterManager.CreateCustomClusterFrom(clusterPath);
-        //    }
-        //}
+                return;
+            }
+
+            string clusterPath = __instance.GetCurrentQualitySetting(CustomGameSettingConfigs.ClusterLayout).id;
+            if (clusterPath == null || clusterPath.Count() == 0)
+            {
+                ///default is no path selected, this picks either classic Terra on "classic" selection or Terrania on "spaced out" selection
+                clusterPath = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
+            }
+
+            if (CGM_Screen == null || !CGM_Screen.isActiveAndEnabled)
+            {
+                SelectedItemSettings.PresetApplied = false;
+                CGSMClusterManager.LoadCustomCluster = false;
+                CGSMClusterManager.CreateCustomClusterFrom(clusterPath, ForceRegen: true);
+                SgtLogger.l("Regenerating Cluster from " + clusterPath + ". Reason: " + changedConfigID + " changed.");
+            }
+            else
+            {
+                CGSMClusterManager.RerollTraits();
+                SgtLogger.l("Regenerating Traits for " + clusterPath + ". Reason: " + changedConfigID + " changed.");
+            }
+        }
+        [HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
+        [HarmonyPatch(nameof(ColonyDestinationSelectScreen.ShuffleClicked))]
+        public static class SeedInserted
+        {
+            public static void Postfix(ColonyDestinationSelectScreen __instance)
+            {
+                CGSMClusterManager.selectScreen = __instance;
+                if (__instance.newGameSettings == null)
+                    return;
+
+                RegenerateCGM(__instance.newGameSettings.settings,"Coordinate");
+            }
+        }
 
         //public static class ReplaceDefaultName_3
         //{
@@ -285,7 +297,7 @@ namespace ClusterTraitGenerationManager
         {
             public static void Prefix(Exception e, ref string errorMessage)
             {
-                CGSMClusterManager.LastWorldGenFailed();
+                CGSMClusterManager.LastWorldGenDidFail();
                 if (e.Message.Contains("Could not find a spot in the cluster for"))
                 {
                     string planetName = e.Message.Replace("Could not find a spot in the cluster for ", string.Empty).Split()[0];

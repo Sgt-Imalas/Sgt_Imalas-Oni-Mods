@@ -221,7 +221,7 @@ namespace ClusterTraitGenerationManager
                 ResetAllButton.SetInteractable(!PresetApplied);
         }
 
-        private static bool _presetApplied =false;
+        private static bool _presetApplied = false;
         public static bool PresetApplied 
         {
             get 
