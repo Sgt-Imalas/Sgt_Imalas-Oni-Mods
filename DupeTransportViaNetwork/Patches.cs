@@ -47,7 +47,7 @@ namespace DupeTransportViaNetwork
             {
                 SgtLogger.l("Main Menu Initialized");
                 SgtLogger.l(__instance.ambientLoopEventName);
-                __instance.ambientLoopEventName = "Music_SupplyCloset";
+               // __instance.ambientLoopEventName = "Music_SupplyCloset";
             }
         }
     }
