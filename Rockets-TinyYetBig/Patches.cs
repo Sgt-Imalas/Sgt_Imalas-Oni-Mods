@@ -153,16 +153,6 @@ namespace Rockets_TinyYetBig
         //}
         
 
-        [HarmonyPatch(typeof(WorldSelector), "OnPrefabInit")]
-        public static class CustomSideScreenPatch_Gibinfo
-        {
-            public static void Postfix(WorldSelector __instance)
-            {
-                
-                // UIUtils.ListAllChildren(__instance.transform);
-            }
-        }
-
 
         [HarmonyPatch(typeof(BuildingTemplates), nameof(BuildingTemplates.CreateRocketBuildingDef))]
         public static class RocketEngineWidthIsReduced
