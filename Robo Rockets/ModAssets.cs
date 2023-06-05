@@ -85,6 +85,14 @@ namespace RoboRockets
                     str = str.Replace("{BRAINBOOST}", speedString.ToString());
                     return str.Replace("{BRAINXPSTATE}", ExpDesc);
                 }
+                else if( obj is float defaultSpeedModifier )
+                {
+                    str = str.Replace("{BRAINNAME}", STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.NOBRAIN);
+                    var speedString = (defaultSpeedModifier - 1f) * 100f;
+                    str = str.Replace("{BRAINBOOST}", speedString.ToString());
+                    return str.Replace("{BRAINXPSTATE}", STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVLNONE);
+
+                }
                 return str;
             });
 
