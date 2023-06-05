@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UtilLibs;
 using static LogicSatellites.STRINGS.ITEMS;
+using static ResearchTypes;
 
 namespace LogicSatellites.Behaviours
 {
@@ -23,11 +24,11 @@ namespace LogicSatellites.Behaviours
         }
 
 
-        public static bool FindConnectionViaAdjacencyMatrix(AxialI a, AxialI b)
+        public static bool FindConnectionViaAdjacencyMatrix(AxialI a, AxialI b, int inputOutputDistance = -1)
         {
             bool HasConnection = false;
-            Node A = AdjazenzMatrixHolder.AddItemToGraph(a);
-            Node B = AdjazenzMatrixHolder.AddItemToGraph(b);
+            Node A = AdjazenzMatrixHolder.AddItemToGraph(a, inputOutputDistance);
+            Node B = AdjazenzMatrixHolder.AddItemToGraph(b, inputOutputDistance);
             HasConnection = AdjazenzMatrixHolder.PathFinding(A,B);
             AdjazenzMatrixHolder.RemoveItemTFromGraph(A);
             AdjazenzMatrixHolder.RemoveItemTFromGraph(B);
@@ -120,7 +121,8 @@ namespace LogicSatellites.Behaviours
 
         public class Graph
         {
-            public List<Node> AllNodes = new List<Node>();
+            public List<Node> LogicConnectionNodes = new List<Node>();
+
             public bool?[,] AdjacencyMatrix;
 
             public bool PathFinding(Node startNode, Node TargetNode)
@@ -156,26 +158,26 @@ namespace LogicSatellites.Behaviours
             public Node CreateNode(AxialI location)
             {
                 var n = new Node(location);
-                if (!AllNodes.Contains(n)) { 
-                    AllNodes.Add(n);
+                if (!LogicConnectionNodes.Contains(n)) { 
+                    LogicConnectionNodes.Add(n);
                 }
+
                 return n;
             }
             public void AddNodePair(AxialI location1, AxialI location2)
             {
                 var n = new Node(location1);
-                if (!AllNodes.Contains(n))
+                if (!LogicConnectionNodes.Contains(n))
                 {
-                    AllNodes.Add(n);
+                    LogicConnectionNodes.Add(n);
                 }
                 var m = new Node(location2);
-                if (!AllNodes.Contains(m))
+                if (!LogicConnectionNodes.Contains(m))
                 {
-                    AllNodes.Add(m);
+                    LogicConnectionNodes.Add(m);
                 }
                 n.AddLink(m);
             }
-
 
             public void UpdateAdjacencyMatrix()
             {
@@ -196,19 +198,25 @@ namespace LogicSatellites.Behaviours
                 }
                 AdjacencyMatrix = CreateAdjMatrix();
             } 
-            public Node AddItemToGraph(AxialI item)
+            public Node AddItemToGraph(AxialI item, int overrideDistance = -1)
             {
-                if(AllNodes.Find(f=> f.Satellite == item) != null)
+                int DistanceToCheck = Config.Instance.SatelliteLogicRange;
+                if (overrideDistance != -1 && overrideDistance>0)
                 {
-                    return AllNodes.Find(f => f.Satellite == item);
+                    DistanceToCheck = overrideDistance;
+                }
+
+                if(LogicConnectionNodes.Find(f=> f.SatelliteLocation == item) != null)
+                {
+                    return LogicConnectionNodes.Find(f => f.SatelliteLocation == item);
                 }
                 var newNode = CreateNode(item);
-                foreach (var node in AllNodes)
+                foreach (var node in LogicConnectionNodes)
                 {
                     if (node != newNode)
                     {
-                        int length = AxialUtil.GetDistance(node.Satellite, item);
-                        if (length > 0 && length <= Config.Instance.SatelliteLogicRange)
+                        int length = AxialUtil.GetDistance(node.SatelliteLocation, item);
+                        if (length > 0 && length <= DistanceToCheck)
                         {
                             node.AddLink(newNode);
                         }
@@ -218,7 +226,7 @@ namespace LogicSatellites.Behaviours
             }
             public void RemoveItemTFromGraph(AxialI item)
             {
-                var nodeToRemove = AllNodes.Find(f => f.Satellite == item);
+                var nodeToRemove = LogicConnectionNodes.Find(f => f.SatelliteLocation == item);
                 if (nodeToRemove == null)
                 {
                     return;
@@ -227,11 +235,11 @@ namespace LogicSatellites.Behaviours
                 {
                     link.Child.RemoveLink(nodeToRemove);
                 }
-                AllNodes.Remove(nodeToRemove);
+                LogicConnectionNodes.Remove(nodeToRemove);
             }
             public void RemoveItemTFromGraph(Node item)
             {
-                if (!AllNodes.Contains(item))
+                if (!LogicConnectionNodes.Contains(item))
                 {
                     return;
                 }
@@ -239,21 +247,21 @@ namespace LogicSatellites.Behaviours
                 {
                     link.Child.RemoveLink(item);
                 }
-                AllNodes.Remove(item);
+                LogicConnectionNodes.Remove(item);
             }
 
 
             public bool?[,] CreateAdjMatrix()
             {
-                bool?[,] adj = new bool?[AllNodes.Count, AllNodes.Count];
+                bool?[,] adj = new bool?[LogicConnectionNodes.Count, LogicConnectionNodes.Count];
 
-                for (int i = 0; i < AllNodes.Count; i++)
+                for (int i = 0; i < LogicConnectionNodes.Count; i++)
                 {
-                    Node n1 = AllNodes[i];
+                    Node n1 = LogicConnectionNodes[i];
 
-                    for (int j = 0; j < AllNodes.Count; j++)
+                    for (int j = 0; j < LogicConnectionNodes.Count; j++)
                     {
-                        Node n2 = AllNodes[j];
+                        Node n2 = LogicConnectionNodes[j];
 
                         var arc = n1.Links.FirstOrDefault(a => a.Child == n2);
 
@@ -269,11 +277,11 @@ namespace LogicSatellites.Behaviours
 
         public class Node
         {
-            public AxialI Satellite;
+            public AxialI SatelliteLocation;
             public List<Link> Links = new List<Link>();
             public Node(AxialI sat)
             {
-                Satellite = sat;
+                SatelliteLocation = sat;
             }
             public void RemoveLink(Node ch)
             {
@@ -297,6 +305,22 @@ namespace LogicSatellites.Behaviours
 
                 return this;
             }
+            //public override bool Equals(System.Object obj)
+            //{
+            //    return obj is Node c && this == c;
+            //}
+            //public override int GetHashCode()
+            //{
+            //    return SatelliteLocation.GetHashCode();
+            //}
+            //public static bool operator ==(Node x, Node y)
+            //{
+            //    return x.SatelliteLocation == y.SatelliteLocation;
+            //}
+            //public static bool operator !=(Node x, Node y)
+            //{
+            //    return !(x == y);
+            //}
 
         }
         public class Link

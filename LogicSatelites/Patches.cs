@@ -7,6 +7,8 @@ using LogicSatellites.Satellites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -48,6 +50,59 @@ namespace LogicSatellites
                 }
                 __result = ModAssets.FindConnectionViaAdjacencyMatrix(a, b);
                 return false;
+            }
+        }
+
+
+        [HarmonyPatch(typeof(MissionControlCluster.Instance), nameof(MissionControlCluster.Instance.UpdateWorkableRocketsInRange))]
+        public class MissionControlClusterInstance_UpdateWorkableRocketsInRange_Patch
+        {
+            private static readonly MethodInfo TargetMethod = AccessTools.Method(
+                    typeof(ClusterGrid),
+                    nameof(ClusterGrid.IsInRange));
+
+
+            private static readonly MethodInfo ReplaceMethod = AccessTools.Method(
+                    typeof(MissionControlClusterInstance_UpdateWorkableRocketsInRange_Patch),
+                    nameof(MissionControlClusterInstance_UpdateWorkableRocketsInRange_Patch.AdvancedRangeChecker));
+
+            public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+            {
+                var code = orig.ToList();
+
+                // find injection point        //    public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+                //    {
+                //        var code = instructions.ToList();
+                //        var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Ldstr && (string)ci.operand == "cloud");
+
+                //        if (insertionIndex != -1)
+                //        {
+                //            code[insertionIndex].operand = "carbon_asteroid_field";
+                //        }
+                //        return code;
+                //    }
+
+
+                var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo f && f == TargetMethod);
+
+                if (insertionIndex == -1)
+                {
+                    return code;
+                }
+
+                code[insertionIndex].operand = ReplaceMethod;
+                TranspilerHelper.PrintInstructions(code,true);
+                return code;
+            }
+
+            private static bool AdvancedRangeChecker(ClusterGrid _, AxialI a, AxialI b, int range = 1)
+            {
+                bool returnValue = AxialUtil.GetDistance(a, b) <= range;
+                if (returnValue)
+                {
+                    return true;
+                }
+                return ModAssets.FindConnectionViaAdjacencyMatrix(a, b, range);
             }
         }
 
