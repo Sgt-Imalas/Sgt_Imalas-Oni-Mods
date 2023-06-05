@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static RoboRockets.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS;
 using static RoboRockets.STRINGS.MISC.TAGS;
 using static STRINGS.BUILDINGS.PREFABS;
 
@@ -16,7 +17,7 @@ namespace RoboRockets
         {
             public class TAGS
             {
-                public static LocString RR_SPACEBRAINFLYER = "Pilot Brain"; 
+                public static LocString RR_SPACEBRAINFLYER = RR_BRAINFLYER.NAME; 
             }
         }
         public class ITEMS
