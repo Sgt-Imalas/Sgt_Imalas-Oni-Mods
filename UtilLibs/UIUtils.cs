@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using KAnim;
 using MonoMod.Utils;
 using System;
 using System.Collections.Generic;
@@ -406,7 +405,7 @@ namespace UtilLibs
                 return null;
             }
 
-            KAnim.Anim.Frame frame = default(Anim.Frame);
+            KAnim.Anim.Frame frame = default;
             for (int i = 0; i < data.animCount; i++)
             {
                 KAnim.Anim anim = data.GetAnim(i);
@@ -416,7 +415,7 @@ namespace UtilLibs
                 }
             }
 
-            if (frame.Equals(default(Anim.Frame)))
+            if (frame.Equals(default))
             {
                 DebugUtil.LogWarningArgs($"missing '{animName}' anim in '{animFile}'");
                 return null;
