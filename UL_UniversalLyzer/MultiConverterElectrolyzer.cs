@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace UL_UniversalLyzer
 {
@@ -23,18 +24,20 @@ namespace UL_UniversalLyzer
         private Operational operational;
         private MeterController meter;
 
+        [MyCmpGet]
+        KBatchedAnimController controller;
+
         public override void OnSpawn()
         {
-            KBatchedAnimController component = this.GetComponent<KBatchedAnimController>();
             converterList = this.GetComponents<ElementConverter>().ToList();
 
             if (this.hasMeter)
-                this.meter = new MeterController(component, "U2H_meter_target", "meter", Meter.Offset.Behind, Grid.SceneLayer.NoLayer, new Vector3(-0.4f, 0.5f, -0.1f), new string[4]
+                this.meter = new MeterController(controller, "U2H_meter_target", "meter", Meter.Offset.Behind, Grid.SceneLayer.NoLayer, new Vector3(-0.4f, 0.5f, -0.1f), new string[4]
                 {
-        "U2H_meter_target",
-        "U2H_meter_tank",
-        "U2H_meter_waterbody",
-        "U2H_meter_level"
+                    "U2H_meter_target",
+                    "U2H_meter_tank",
+                    "U2H_meter_waterbody",
+                    "U2H_meter_level"
                 });
             this.smi.StartSM();
             this.UpdateMeter();
@@ -52,15 +55,24 @@ namespace UL_UniversalLyzer
             if (!this.hasMeter)
                 return;
             this.meter.SetPositionPercent(Mathf.Clamp01(this.storage.MassStored() / this.storage.capacityKg));
-            var liquid = storage.FindFirst(GameTags.AnyWater);
-            if(liquid != null&&liquid.TryGetComponent<PrimaryElement>(out var element))
+            UpdateColor();
+        }
+        public void UpdateColor()
+        {
+            var liquid = storage.FindFirstWithMass(GameTags.AnyWater,0.2f);
+            if (liquid != null && liquid.TryGetComponent<PrimaryElement>(out var element))
             {
-                
-                meter.SetSymbolTint("water", element.Element.substance.uiColour);
+                var color = element.Element.substance.conduitColour;
+                meter.SetSymbolTint("u2h_meter_waterlevel", color);
+                meter.SetSymbolTint("u2h_meter_waterbody", color);
+                controller.SetSymbolTint("u1h_fxbubbles", color);
+                controller.SetSymbolTint("filterwater", color);
+                controller.SetSymbolTint("bub", color);
             }
         }
 
-        private bool RoomForPressure => !GameUtil.FloodFillCheck(new Func<int, MultiConverterElectrolyzer, bool>(MultiConverterElectrolyzer.OverPressure), this, Grid.OffsetCell(Grid.PosToCell(this.transform.GetPosition()), this.emissionOffset), 3, true, true);
+
+        private bool RoomForPressure => Config.Instance.IsPiped ? true : !GameUtil.FloodFillCheck(new Func<int, MultiConverterElectrolyzer, bool>(MultiConverterElectrolyzer.OverPressure), this, Grid.OffsetCell(Grid.PosToCell(this.transform.GetPosition()), this.emissionOffset), 3, true, true);
 
         private static bool OverPressure(int cell, MultiConverterElectrolyzer MultiConverterElectrolyzer) => (double)Grid.Mass[cell] > MultiConverterElectrolyzer.maxMass;
 
@@ -93,12 +105,13 @@ namespace UL_UniversalLyzer
                     .Enter("Waiting", smi => smi.master.operational.SetActive(false))
                     .EventTransition(GameHashes.OnStorageChange, this.converting, smi => smi.master.HasEnoughMassToStartConverting());
                 this.converting.Enter("Ready", smi => smi.master.operational.SetActive(true))
+                          .Transition(this.waiting, smi => !smi.master.CanConvertAtAll())
+                          .Transition(this.overpressure, smi => !smi.master.RoomForPressure)
                         .Update((smi, dt) =>
                         {
                             smi.master.UpdateStatusItems();
-                        })
-                          .Transition(this.waiting, smi => !smi.master.CanConvertAtAll())
-                          .Transition(this.overpressure, smi => !smi.master.RoomForPressure);
+                            smi.master.UpdateColor();
+                        });
                 this.overpressure
                     .Enter("OverPressure", smi => smi.master.operational.SetActive(false))
                     .ToggleStatusItem(Db.Get().BuildingStatusItems.PressureOk)
@@ -111,7 +124,7 @@ namespace UL_UniversalLyzer
             {
                 if (converter.CanConvertAtAll())
                 {
-                    if(converter.consumedElementStatusHandles.Count == 0)
+                    if (converter.consumedElementStatusHandles.Count == 0)
                         converter.smi.AddStatusItems();
                 }
                 else
@@ -124,9 +137,9 @@ namespace UL_UniversalLyzer
         }
         private bool CanConvertAtAll()
         {
-            foreach(var converter in converterList)
+            foreach (var converter in converterList)
             {
-                if(converter.CanConvertAtAll()) return true;
+                if (converter.CanConvertAtAll()) return true;
             }
             return false;
         }
@@ -135,6 +148,21 @@ namespace UL_UniversalLyzer
             foreach (var converter in converterList)
             {
                 if (converter.HasEnoughMassToStartConverting()) return true;
+            }
+            return false;
+        }
+        private Substance lastElement = default;
+        private bool ElementChanged()
+        {
+            if (storage.items.Count == 0) return false;
+
+            if (storage.items.First().TryGetComponent<PrimaryElement>(out var element))
+            {
+                if (lastElement != element.Element.substance)
+                {
+                    lastElement = element.Element.substance;
+                    return true;
+                }
             }
             return false;
         }

@@ -15,123 +15,123 @@ namespace Rockets_TinyYetBig.Patches
     internal class TravelTubePatches
     {
 
-        [HarmonyPatch]
-        public class NavGrid_TargetMethod_Patch
-        {
-            public static MethodBase TargetMethod()
-            {
-                // NavGrid.Transition is not yet loaded when the patches run, 
-                var type = typeof(NavGrid);
-                return AccessTools.Constructor(type, new[]
-                {
-                    typeof(string),
-                    typeof(NavGrid.Transition[]),
-                    typeof(NavGrid.NavTypeData[]),
-                    typeof(CellOffset[]),
-                    typeof(NavTableValidator[]),
-                    typeof(int),
-                    typeof(int),
-                    typeof(int)
-                });
-            }
+        //[HarmonyPatch]
+        //public class NavGrid_TargetMethod_Patch
+        //{
+        //    public static MethodBase TargetMethod()
+        //    {
+        //        // NavGrid.Transition is not yet loaded when the patches run, 
+        //        var type = typeof(NavGrid);
+        //        return AccessTools.Constructor(type, new[]
+        //        {
+        //            typeof(string),
+        //            typeof(NavGrid.Transition[]),
+        //            typeof(NavGrid.NavTypeData[]),
+        //            typeof(CellOffset[]),
+        //            typeof(NavTableValidator[]),
+        //            typeof(int),
+        //            typeof(int),
+        //            typeof(int)
+        //        });
+        //    }
 
-            public static void Prefix(string id, ref NavGrid.Transition[] transitions, ref NavGrid.NavTypeData[] nav_type_data, ref NavTableValidator[] validators)
-            {
-                if (id != MinionConfig.MINION_NAV_GRID_NAME)
-                {
-                    return;
-                }
-                SgtLogger.l("Patching navgrid");
-
-
-                var setA = new NavGrid.Transition[]
-                {
-                        new NavGrid.Transition(NavType.Tube, NavType.Tube, 0, 2, NavAxis.NA, false, false, false, 15, "", new CellOffset[0], new CellOffset[0], new NavOffset[]
-                        {
-                            new NavOffset(NavType.Tube, 0, 2),
-                            new NavOffset(NavType.Tube, 0, -2)
-                        }, new NavOffset[0], animSpeed: 3.3f)
-                        ,
-                    new NavGrid.Transition(NavType.Tube, NavType.Tube, 0, -2, NavAxis.NA, false, false, false, 15, "", new CellOffset[0], new CellOffset[0], new NavOffset[]
-                    {
-                            new NavOffset(NavType.Tube, 0, 2),
-                            new NavOffset(NavType.Tube, 0, -2)
-                    }, new NavOffset[0], animSpeed: 2.2f)
-                };
-
-                SgtLogger.l("transitioncount: " + setA.Length);
-                setA = MirrorTransitions(setA);
-
-                SgtLogger.l("transitioncount: " + setA.Length);
-                //transitions = transitions.AddRangeToArray(setA);
-
-                transitions = CombineTransitions(setA, transitions);
+        //    public static void Prefix(string id, ref NavGrid.Transition[] transitions, ref NavGrid.NavTypeData[] nav_type_data, ref NavTableValidator[] validators)
+        //    {
+        //        if (id != MinionConfig.MINION_NAV_GRID_NAME)
+        //        {
+        //            return;
+        //        }
+        //        SgtLogger.l("Patching navgrid");
 
 
-            }
-            #region combining
-            private static NavGrid.Transition[] CombineTransitions(NavGrid.Transition[] setA, NavGrid.Transition[] setB)
-            {
-                var array = new NavGrid.Transition[setA.Length + setB.Length];
-                Array.Copy(setA, array, setA.Length);
-                Array.Copy(setB, 0, array, setA.Length, setB.Length);
-                Array.Sort(array, (x, y) => x.cost.CompareTo(y.cost));
-                return array;
-            }
+        //        var setA = new NavGrid.Transition[]
+        //        {
+        //                new NavGrid.Transition(NavType.Tube, NavType.Tube, 0, 2, NavAxis.NA, false, false, false, 15, "", new CellOffset[0], new CellOffset[0], new NavOffset[]
+        //                {
+        //                    new NavOffset(NavType.Tube, 0, 2),
+        //                    new NavOffset(NavType.Tube, 0, -2)
+        //                }, new NavOffset[0], animSpeed: 3.3f)
+        //                ,
+        //            new NavGrid.Transition(NavType.Tube, NavType.Tube, 0, -2, NavAxis.NA, false, false, false, 15, "", new CellOffset[0], new CellOffset[0], new NavOffset[]
+        //            {
+        //                    new NavOffset(NavType.Tube, 0, 2),
+        //                    new NavOffset(NavType.Tube, 0, -2)
+        //            }, new NavOffset[0], animSpeed: 2.2f)
+        //        };
 
-            private static NavGrid.Transition[] MirrorTransitions(NavGrid.Transition[] transitions)
-            {
-                var list = new List<NavGrid.Transition>();
-                foreach (var transition in transitions)
-                {
-                    list.Add(transition);
-                    if (transition.x != 0 || transition.start == NavType.RightWall || transition.end == NavType.RightWall || transition.start == NavType.LeftWall || transition.end == NavType.LeftWall)
-                    {
-                        var transition2 = transition;
-                        transition2.x = -transition2.x;
-                        transition2.voidOffsets = MirrorOffsets(transition.voidOffsets);
-                        transition2.solidOffsets = MirrorOffsets(transition.solidOffsets);
-                        transition2.validNavOffsets = MirrorNavOffsets(transition.validNavOffsets);
-                        transition2.invalidNavOffsets = MirrorNavOffsets(transition.invalidNavOffsets);
-                        transition2.start = NavGrid.MirrorNavType(transition2.start);
-                        transition2.end = NavGrid.MirrorNavType(transition2.end);
-                        list.Add(transition2);
-                    }
-                }
-                list.Sort((NavGrid.Transition x, NavGrid.Transition y) => x.cost.CompareTo(y.cost));
-                return list.ToArray();
-            }
+        //        SgtLogger.l("transitioncount: " + setA.Length);
+        //        setA = MirrorTransitions(setA);
 
-            private static CellOffset[] MirrorOffsets(CellOffset[] offsets)
-            {
-                var list = new List<CellOffset>();
-                for (var i = 0; i < offsets.Length; i++)
-                {
-                    var cellOffset = offsets[i];
-                    cellOffset.x = -cellOffset.x;
-                    list.Add(cellOffset);
-                }
-                return list.ToArray();
-            }
+        //        SgtLogger.l("transitioncount: " + setA.Length);
+        //        //transitions = transitions.AddRangeToArray(setA);
 
-            private static NavOffset[] MirrorNavOffsets(NavOffset[] offsets)
-            {
-                var list = new List<NavOffset>();
+        //        transitions = CombineTransitions(setA, transitions);
 
-                for (var i = 0; i < offsets.Length; i++)
-                {
-                    var navOffset = offsets[i];
 
-                    navOffset.navType = NavGrid.MirrorNavType(navOffset.navType);
-                    navOffset.offset.x = -navOffset.offset.x;
+        //    }
+        //    #region combining
+        //    private static NavGrid.Transition[] CombineTransitions(NavGrid.Transition[] setA, NavGrid.Transition[] setB)
+        //    {
+        //        var array = new NavGrid.Transition[setA.Length + setB.Length];
+        //        Array.Copy(setA, array, setA.Length);
+        //        Array.Copy(setB, 0, array, setA.Length, setB.Length);
+        //        Array.Sort(array, (x, y) => x.cost.CompareTo(y.cost));
+        //        return array;
+        //    }
 
-                    list.Add(navOffset);
-                }
+        //    private static NavGrid.Transition[] MirrorTransitions(NavGrid.Transition[] transitions)
+        //    {
+        //        var list = new List<NavGrid.Transition>();
+        //        foreach (var transition in transitions)
+        //        {
+        //            list.Add(transition);
+        //            if (transition.x != 0 || transition.start == NavType.RightWall || transition.end == NavType.RightWall || transition.start == NavType.LeftWall || transition.end == NavType.LeftWall)
+        //            {
+        //                var transition2 = transition;
+        //                transition2.x = -transition2.x;
+        //                transition2.voidOffsets = MirrorOffsets(transition.voidOffsets);
+        //                transition2.solidOffsets = MirrorOffsets(transition.solidOffsets);
+        //                transition2.validNavOffsets = MirrorNavOffsets(transition.validNavOffsets);
+        //                transition2.invalidNavOffsets = MirrorNavOffsets(transition.invalidNavOffsets);
+        //                transition2.start = NavGrid.MirrorNavType(transition2.start);
+        //                transition2.end = NavGrid.MirrorNavType(transition2.end);
+        //                list.Add(transition2);
+        //            }
+        //        }
+        //        list.Sort((NavGrid.Transition x, NavGrid.Transition y) => x.cost.CompareTo(y.cost));
+        //        return list.ToArray();
+        //    }
 
-                return list.ToArray();
-            }
-            #endregion
-        }
+        //    private static CellOffset[] MirrorOffsets(CellOffset[] offsets)
+        //    {
+        //        var list = new List<CellOffset>();
+        //        for (var i = 0; i < offsets.Length; i++)
+        //        {
+        //            var cellOffset = offsets[i];
+        //            cellOffset.x = -cellOffset.x;
+        //            list.Add(cellOffset);
+        //        }
+        //        return list.ToArray();
+        //    }
+
+        //    private static NavOffset[] MirrorNavOffsets(NavOffset[] offsets)
+        //    {
+        //        var list = new List<NavOffset>();
+
+        //        for (var i = 0; i < offsets.Length; i++)
+        //        {
+        //            var navOffset = offsets[i];
+
+        //            navOffset.navType = NavGrid.MirrorNavType(navOffset.navType);
+        //            navOffset.offset.x = -navOffset.offset.x;
+
+        //            list.Add(navOffset);
+        //        }
+
+        //        return list.ToArray();
+        //    }
+        //    #endregion
+        //}
 
         //public static class InsertingAdditional
         //{

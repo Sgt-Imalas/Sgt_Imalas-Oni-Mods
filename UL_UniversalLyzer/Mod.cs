@@ -1,6 +1,9 @@
 ﻿using HarmonyLib;
 using KMod;
+using PeterHan.PLib.Core;
+using PeterHan.PLib.Options;
 using System;
+using UtilLibs;
 
 namespace UL_UniversalLyzer
 {
@@ -8,7 +11,17 @@ namespace UL_UniversalLyzer
     {
         public override void OnLoad(Harmony harmony)
         {
+            PUtil.InitLibrary(false);
+
+            new POptions().RegisterOptions(this, typeof(Config));
             base.OnLoad(harmony);
+            ModAssets.InitializeLyzerPowerCosts();
+
+            //GameTags.MaterialBuildingElements.Add(ModAssets.Tags.RadiationShielding);
+            //GameTags.MaterialBuildingElements.Add(ModAssets.Tags.NeutroniumDust);
+
+            SgtLogger.debuglog("Initialized");
+            SgtLogger.LogVersion(this);
         }
     }
 }
