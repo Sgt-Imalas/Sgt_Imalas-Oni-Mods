@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PeterHan.PLib;
 using PeterHan.PLib.Options;
 using Rockets_TinyYetBig.Patches;
 using System;
@@ -57,10 +58,14 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool HabitatInteriorRadiation { get; set; }
 
-        [Option("Habitat Interior Port Improvements", "Rocket  Connectors count as Rocket Wall for buildings that can only be attached to it.\nRocket Ports block the same amount of radiation as rocket wall", "(1) Rocketry Vanilla+")]
+        [Option("Habitat Interior Port Improvements", "Rocket Connectors count as Rocket Wall for buildings that can only be attached to it.\nRocket Ports block the same amount of radiation as rocket wall", "(1) Rocketry Vanilla+")]
         [JsonProperty]
         public bool HabitatInteriorPortImprovements { get; set; }
 
+
+        [Option("Slim Rockets", "Rocket Modules that are wider than 5 tiles (Steam, Hydrogen, Petrol Engine) are reduced to 5 width.", "(1) Rocketry Vanilla+")]
+        [JsonProperty]
+        public bool SlimLargeEngines { get; set; }
 
         #endregion
 
@@ -241,6 +246,7 @@ namespace Rockets_TinyYetBig
             EnableExtendedHabs = true;
             HabitatInteriorRadiation = true;
             HabitatInteriorPortImprovements = true;
+            SlimLargeEngines = false;
 
             ///Drilling&Shipping
             EnableCritterStorage = true;

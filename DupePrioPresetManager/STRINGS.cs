@@ -26,6 +26,42 @@ namespace DupePrioPresetManager
         public static LocString UNNAMEDPRESET = "Unnamed Preset";
         public class UI
         {
+            public class SCHEDULECLONER
+            {
+                public class TITLE
+                {
+                    public static LocString TITLETEXT = "Schedule Offsets";
+                }
+                public class CONTENT
+                {
+                    public class CLONEOFFSET
+                    {
+                        public class OFFSET
+                        {
+                            public class INPUT
+                            {
+                                public class TEXTAREA
+                                {
+                                    public static LocString PLACEHOLDER = "";
+                                }
+                            }
+                        }
+                        public static LocString LABEL = "Schedule Offset:";
+                    }
+                    public class CLONEBUTTON
+                    {
+                        public static LocString LABEL = "Create Clone from Offset";
+                    }
+                    public class CANCEL
+                    {
+                        public static LocString LABEL = "Cancel";
+                    }
+                    public class APPLYBUTTON
+                    {
+                        public static LocString LABEL = "Apply Offset";
+                    }
+                }
+            }
             public class PRESETWINDOWDUPEPRIOS
             {
                 public class DELETEWINDOW
@@ -36,6 +72,7 @@ namespace DupePrioPresetManager
                     public static LocString CANCEL = "Cancel";
 
                 }
+                public static LocString OPENSHIFTCLONE = "Shift/Clone Schedule";
 
                 public static LocString OPENPRESETWINDOW = "Open Preset Window";
                 public static LocString TITLE = "Priority Presets";
@@ -60,7 +97,6 @@ namespace DupePrioPresetManager
                     public static LocString OMITNUMBER = "\n({0} of your configured default-presets already exist by name and will thus be omitted)";
                     public static LocString ALLGENERATED = "All schedules marked as default-presets already exist by name";
                 }
-
 
                 public class HORIZONTALLAYOUT
                 {

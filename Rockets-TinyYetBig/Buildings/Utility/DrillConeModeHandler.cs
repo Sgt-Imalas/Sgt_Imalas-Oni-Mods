@@ -42,7 +42,7 @@ namespace Rockets_TinyYetBig.Buildings.Utility
                 if (IsAutoLoader)
                 {
                     deliveryKG.AbortDelivery("Mode Toggled on drill module.");
-                    deliveryKG.ClearRequests();
+                    //deliveryKG.ClearRequests();
                     ManualDeliveryOriginalCapacity = deliveryKG.capacity;
                     deliveryKG.capacity = 0;
                 }

@@ -33,7 +33,7 @@ namespace ClusterTraitGenerationManager
         public SerializableStarmapItem WarpPlanet;
         public Dictionary<string,SerializableStarmapItem> OuterPlanets;
         public Dictionary<string, SerializableStarmapItem> POIs;
-
+        public Dictionary<string,string> StoryTraits;
 
         void PopulatePresetData(CustomClusterData data)
         {
@@ -204,10 +204,29 @@ namespace ClusterTraitGenerationManager
             }
 
 
+
             Seed = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id;
+
+            StoryTraits = new Dictionary<string, string>();
+            foreach (var story in instance.StorySettings)
+            {
+                string value = string.Empty;
+
+                if (!instance.currentStoryLevelsBySetting.ContainsKey(story.Key))
+                {
+                    value = isNoSweat
+                    ? story.Value.GetNoSweatDefaultLevelId()
+                    : story.Value.GetDefaultLevelId();
+                }
+                else
+                {
+                    value = instance.currentStoryLevelsBySetting[story.Key];
+                }
+                StoryTraits.Add(story.Key, value);  
+            }
         }
 
-        private void SetCustomGameSettings(SettingConfig ConfigToSet, object valueId)
+        private void SetCustomGameSettings(SettingConfig ConfigToSet, object valueId, bool isStoryTrait = false)
         {
             string valueToSet = valueId.ToString();
             if (valueId is bool)
@@ -215,7 +234,14 @@ namespace ClusterTraitGenerationManager
                 var toggle = ConfigToSet as ToggleSettingConfig;
                 valueToSet = ((bool)valueId) ? toggle.on_level.id : toggle.off_level.id;
             }
-            CustomGameSettings.Instance.SetQualitySetting(ConfigToSet, valueToSet);
+            if (isStoryTrait)
+            {
+                CustomGameSettings.Instance.SetStorySetting(ConfigToSet, valueToSet);
+            }
+            else
+            {
+                CustomGameSettings.Instance.SetQualitySetting(ConfigToSet, valueToSet);
+            }
         }
 
         private void ApplyGameSettings()
@@ -251,22 +277,40 @@ namespace ClusterTraitGenerationManager
                 SetCustomGameSettings(CustomGameSettingConfigs.Stress, Stress);
 
             ///StressBreaks
-            SetCustomGameSettings(CustomGameSettingConfigs.StressBreaks, StressBreaks);
+            if (StressBreaks != null && StressBreaks.Length > 0)
+                SetCustomGameSettings(CustomGameSettingConfigs.StressBreaks, StressBreaks);
 
             ///CarePackages
-            SetCustomGameSettings(CustomGameSettingConfigs.CarePackages, CarePackages);
+            if (CarePackages != null && CarePackages.Length > 0)
+                SetCustomGameSettings(CustomGameSettingConfigs.CarePackages, CarePackages);
 
             ///Fast Workers
-            SetCustomGameSettings(CustomGameSettingConfigs.FastWorkersMode, FastWorkersMode);
+            if (FastWorkersMode != null && FastWorkersMode.Length > 0)
+                SetCustomGameSettings(CustomGameSettingConfigs.FastWorkersMode, FastWorkersMode);
 
             ///Save to Cloud
-            SetCustomGameSettings(CustomGameSettingConfigs.SaveToCloud, SaveToCloud);
+            if (SaveToCloud != null && SaveToCloud.Length > 0)
+                SetCustomGameSettings(CustomGameSettingConfigs.SaveToCloud, SaveToCloud);
 
             ///Teleporters
-            SetCustomGameSettings(CustomGameSettingConfigs.Teleporters, Teleporters);
+            if (Teleporters != null && Teleporters.Length > 0)
+                SetCustomGameSettings(CustomGameSettingConfigs.Teleporters, Teleporters);
             
             ///Seed
-            SetCustomGameSettings(CustomGameSettingConfigs.WorldgenSeed, Seed);
+            if(Seed != null && Seed.Length > 0)
+                SetCustomGameSettings(CustomGameSettingConfigs.WorldgenSeed, Seed);
+
+
+            if(StoryTraits!=null && StoryTraits.Count > 0)
+            {
+                foreach (var story in StoryTraits)
+                {
+                    if (CustomGameSettings.Instance.StorySettings.ContainsKey(story.Key))
+                    {
+                        SetCustomGameSettings(CustomGameSettings.Instance.StorySettings[story.Key], story.Value,true);
+                    }
+                }
+            }
         }
 
 

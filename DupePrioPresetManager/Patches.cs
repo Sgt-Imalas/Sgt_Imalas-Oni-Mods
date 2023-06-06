@@ -230,7 +230,7 @@ namespace DupePrioPresetManager
             /// </summary>
             
             [HarmonyPriority(Priority.LowerThanNormal)]
-            internal static void Postfix(Dictionary<string, ColorStyleSetting> ___paintStyles)
+            internal static void Postfix(ScheduleScreen __instance, Dictionary<string, ColorStyleSetting> ___paintStyles)
             {
                 if (___paintStyles != null)
                 {
@@ -240,6 +240,8 @@ namespace DupePrioPresetManager
                         ModAssets.ColoursForBlocks[Kvp.Key] = Kvp.Value;
                     }
                 }
+
+                UnityScreen_ScheduleShifterPopup.RefreshAllAction = () => { __instance.OnSchedulesChanged(ScheduleManager.Instance.schedules); };
             }
         }
         [HarmonyPatch(typeof(ScheduleScreenEntry), nameof(ScheduleScreenEntry.Setup))]
@@ -251,23 +253,40 @@ namespace DupePrioPresetManager
 
             internal static void Postfix(ScheduleScreenEntry __instance,Schedule schedule)
             {
-                //UIUtils.ListAllChildrenPath(__instance.transform);
+                UIUtils.ListAllChildrenPath(__instance.transform);
                 //UIUtils.ListAllChildrenWithComponents(__instance.transform);
                 var btn = __instance.transform.Find("Header/OptionsButton");
-                var Button = Util.KInstantiateUI(btn.gameObject, btn.transform.parent.gameObject).GetComponent<KButton>();
-                Button.transform.SetSiblingIndex(2);
-                Button.name = "PresetButton";
-                Button.transform.Find("GameObject").TryGetComponent<Image>(out var image);
-                UIUtils.AddSimpleTooltipToObject(Button.transform, STRINGS.UI.PRESETWINDOWDUPEPRIOS.OPENPRESETWINDOW, true, onBottom: true); 
+                var ButtonPresets = Util.KInstantiateUI(btn.gameObject, btn.transform.parent.gameObject).GetComponent<KButton>();
+                ButtonPresets.transform.SetSiblingIndex(2);
+                ButtonPresets.name = "PresetButton";
+                ButtonPresets.transform.Find("GameObject").TryGetComponent<Image>(out var imageBT);
+                UIUtils.AddSimpleTooltipToObject(ButtonPresets.transform, STRINGS.UI.PRESETWINDOWDUPEPRIOS.OPENPRESETWINDOW, true, onBottom: true);
 
-                image.sprite = Assets.GetSprite("iconPaste");
-                Button.onClick += () => UnityPresetScreen_Schedule.ShowWindow(schedule, 
+                imageBT.sprite = Assets.GetSprite("iconPaste");
+                ButtonPresets.onClick += () => UnityPresetScreen_Schedule.ShowWindow(schedule, 
                     ()=>
                     {
                         __instance.OnScheduleChanged(schedule);
                         __instance.title.SetTitle(schedule.name);
                     }, schedule.name);
 
+                
+                var ButtonShift = Util.KInstantiateUI(btn.gameObject, btn.transform.parent.gameObject).GetComponent<KButton>();
+                ButtonShift.transform.SetSiblingIndex(3);
+                ButtonShift.name = "PresetButton";
+                ButtonShift.transform.Find("GameObject").TryGetComponent<Image>(out var imageShift);
+                UIUtils.AddSimpleTooltipToObject(ButtonShift.transform, STRINGS.UI.PRESETWINDOWDUPEPRIOS.OPENSHIFTCLONE, true, onBottom: true);
+
+                imageShift.sprite = Assets.GetSprite("action_direction_both");
+                ButtonShift.onClick += () => UnityScreen_ScheduleShifterPopup.ShowWindow(schedule,
+                 //ButtonShift.gameObject
+                    ModAssets.ParentScreen
+                     , () =>
+                    {
+                        __instance.OnScheduleChanged(schedule);
+                        __instance.title.SetTitle(schedule.name);
+                    }        
+                    );
             }
         }
 

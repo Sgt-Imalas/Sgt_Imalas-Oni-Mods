@@ -38,6 +38,7 @@ using static ClusterTraitGenerationManager.CustomClusterSettingsPreset;
 using System.Net;
 using static STRINGS.CODEX;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM.TRAITPOPUP.SCROLLAREA.CONTENT;
+using static KTabMenuHeader;
 
 namespace ClusterTraitGenerationManager
 {
@@ -175,7 +176,7 @@ namespace ClusterTraitGenerationManager
                 //PresetHolder.transform.Find("TraitImage").gameObject.SetActive(false);
                 var img = PresetHolder.transform.Find("TraitImage").GetComponent<Image>();
                 //InDefaultListImage(img, config.InDefaultList);
-                GetPlanetImageAndApply(config, img);    
+                bool loadable = GetPlanetImageAndApply(config, img);
 
                 UIUtils.TryChangeText(PresetHolder.transform, "Label", config.ConfigName);
                 PresetHolder.transform.Find("RenameButton").FindOrAddComponent<FButton>().OnClick +=
@@ -187,10 +188,20 @@ namespace ClusterTraitGenerationManager
                             }
                         );
 
-                PresetHolder.transform.Find("AddThisTraitButton").FindOrAddComponent<FButton>().OnClick += () => SetAsCurrent(config);
 
+                var load = PresetHolder.transform.Find("AddThisTraitButton").FindOrAddComponent<FButton>();
+                if( loadable)
+                {
+                    load.OnClick += () => SetAsCurrent(config);
+                    UIUtils.AddSimpleTooltipToObject(load.transform, PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.ADDTHISTRAITBUTTON.TOOLTIP, true, onBottom: true);
+                }
+                else
+                {
+                    load.SetInteractable(false);
+                    UIUtils.AddSimpleTooltipToObject(load.transform, STRINGS.ERRORMESSAGES.MISSINGWORLD, true, onBottom: true);
+                }
+                
 
-                UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("AddThisTraitButton"), PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.ADDTHISTRAITBUTTON.TOOLTIP, true, onBottom: true);
                 PresetHolder.transform.Find("DeleteButton").FindOrAddComponent<FButton>().OnClick += () => DeletePreset(config);
 
 
@@ -240,14 +251,14 @@ namespace ClusterTraitGenerationManager
             var settingsInstance = CustomGameSettings.Instance;
             foreach (var kvp in GameSettingsTexts)
             {
-                kvp.Value.text = kvp.Key.label + ": " + settingsInstance.GetCurrentQualitySetting(kvp.Key).id; 
+                kvp.Value.text = kvp.Key.label + ": " + settingsInstance.GetCurrentQualitySetting(kvp.Key).id;
             }
             GameSettingsTexts[CustomGameSettingConfigs.WorldgenSeed].text = CustomGameSettingConfigs.WorldgenSeed.label + ": " + CustomGameSettingConfigs.WorldgenSeed.GetLevel(CurrentlySelected.Seed).label;
             GameSettingsTexts[CustomGameSettingConfigs.ImmuneSystem].text = CustomGameSettingConfigs.ImmuneSystem.label + ": " + CustomGameSettingConfigs.ImmuneSystem.GetLevel(CurrentlySelected.ImmuneSystem).label;
             GameSettingsTexts[CustomGameSettingConfigs.CalorieBurn].text = CustomGameSettingConfigs.CalorieBurn.label + ": " + CustomGameSettingConfigs.CalorieBurn.GetLevel(CurrentlySelected.CalorieBurn).label;
             GameSettingsTexts[CustomGameSettingConfigs.Morale].text = CustomGameSettingConfigs.Morale.label + ": " + CustomGameSettingConfigs.Morale.GetLevel(CurrentlySelected.Morale).label;
             GameSettingsTexts[CustomGameSettingConfigs.Durability].text = CustomGameSettingConfigs.Durability.label + ": " + CustomGameSettingConfigs.Durability.GetLevel(CurrentlySelected.Durability).label;
-            GameSettingsTexts[CustomGameSettingConfigs.MeteorShowers].text = CustomGameSettingConfigs.MeteorShowers.label + ": " + CustomGameSettingConfigs.MeteorShowers.GetLevel(CurrentlySelected.MeteorShowers).label; 
+            GameSettingsTexts[CustomGameSettingConfigs.MeteorShowers].text = CustomGameSettingConfigs.MeteorShowers.label + ": " + CustomGameSettingConfigs.MeteorShowers.GetLevel(CurrentlySelected.MeteorShowers).label;
             if (DlcManager.IsExpansion1Active())
                 GameSettingsTexts[CustomGameSettingConfigs.Radiation].text = CustomGameSettingConfigs.Radiation.label + ": " + CustomGameSettingConfigs.Radiation.GetLevel(CurrentlySelected.Radiation).label;
             GameSettingsTexts[CustomGameSettingConfigs.Stress].text = CustomGameSettingConfigs.Stress.label + ": " + CustomGameSettingConfigs.Stress.GetLevel(CurrentlySelected.Stress).label;
@@ -267,10 +278,51 @@ namespace ClusterTraitGenerationManager
 
             StarmapItemContainers.Add(Util.KInstantiateUI(InfoSpacer, InfoScreenContainer, true));
 
+
+
+            if(CurrentlySelected.StoryTraits!=null && CurrentlySelected.StoryTraits.Count() > 0)
+            {
+                var storyHeader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
+                storyHeader.transform.Find("Label").GetComponent<LocText>().text = global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.STORY_TRAITS_HEADER + ":";
+                StarmapItemContainers.Add(storyHeader);
+
+                var db = Db.Get().Stories;
+
+                foreach (var storyKVP in CurrentlySelected.StoryTraits)
+                {
+                    if (db.TryGet(storyKVP.Key) != null)
+                    {
+                        Story story = db.TryGet(storyKVP.Key);
+
+                        var storyGO = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
+
+                        storyGO.transform.Find("Label/TraitImage").TryGetComponent<Image>(out var image);
+                        image.sprite = Assets.GetSprite(story.StoryTrait.icon);
+
+                        UIUtils.TryChangeText(storyGO.transform, "Label", Strings.Get(story.StoryTrait.name));
+                        UIUtils.AddSimpleTooltipToObject(storyGO.transform, Strings.Get(story.StoryTrait.description), true, 200, true);
+                        var imageContainer = storyGO.transform.Find("IconContainer").gameObject;
+
+                        var traitImagePrefab = storyGO.transform.Find("IconContainer/TraitImage").gameObject;
+
+
+                        Util.KInstantiateUI(traitImagePrefab, imageContainer, true).TryGetComponent<Image>(out var traitImage);
+                        traitImage.color = Color.white;
+                        traitImage.sprite = Assets.GetSprite(storyKVP.Value != "Disabled" ? "check" : "cancel");
+
+                        StarmapItemContainers.Add(storyGO);
+                    }
+                }
+            }
+
+
+
+            StarmapItemContainers.Add(Util.KInstantiateUI(InfoSpacer, InfoScreenContainer, true));
+
             if (CurrentlySelected.StarterPlanet != null)
             {
                 var starterHeader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-                starterHeader.transform.Find("Label").GetComponent<LocText>().text = CUSTOMCLUSTERUI.CATEGORYENUM.START + ":"; 
+                starterHeader.transform.Find("Label").GetComponent<LocText>().text = CUSTOMCLUSTERUI.CATEGORYENUM.START + ":";
                 StarmapItemContainers.Add(starterHeader);
 
                 CreateUIItemForStarmapItem(CurrentlySelected.StarterPlanet);
@@ -288,7 +340,7 @@ namespace ClusterTraitGenerationManager
             if (CurrentlySelected.OuterPlanets.Count > 0)
             {
                 var outerHeader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-                outerHeader.transform.Find("Label").GetComponent<LocText>().text = CUSTOMCLUSTERUI.CATEGORYENUM.OUTER + ":"; 
+                outerHeader.transform.Find("Label").GetComponent<LocText>().text = CUSTOMCLUSTERUI.CATEGORYENUM.OUTER + ":";
                 StarmapItemContainers.Add(outerHeader);
             }
 
@@ -306,7 +358,7 @@ namespace ClusterTraitGenerationManager
                 if (item.category == StarmapItemCategory.POI && reachedPOI == false)
                 {
                     var poi = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-                    poi.transform.Find("Label").GetComponent<LocText>().text = CUSTOMCLUSTERUI.CATEGORYENUM.POI+":"; 
+                    poi.transform.Find("Label").GetComponent<LocText>().text = CUSTOMCLUSTERUI.CATEGORYENUM.POI + ":";
                     StarmapItemContainers.Add(poi);
                     reachedPOI = true;
                 }
@@ -325,36 +377,39 @@ namespace ClusterTraitGenerationManager
 
         List<GameObject> StarmapItemContainers = new List<GameObject>();
 
-        void GetPlanetImageAndApply(CustomClusterSettingsPreset preset,Image image)
+        bool GetPlanetImageAndApply(CustomClusterSettingsPreset preset, Image image)
         {
             if (preset.StarterPlanet != null)
             {
-                ApplyPlanetImage(preset.StarterPlanet, image);
-                return;
+                if(ApplyPlanetImage(preset.StarterPlanet, image))
+                    return true;
             }
 
             if (preset.WarpPlanet != null)
             {
-                ApplyPlanetImage(preset.WarpPlanet, image);
-                return;
+                if(ApplyPlanetImage(preset.WarpPlanet, image))
+                    return false;
             }
 
             if (preset.OuterPlanets.Count > 0)
             {
-                ApplyPlanetImage(preset.OuterPlanets.Values.First(), image);
-                return;
+                if(ApplyPlanetImage(preset.OuterPlanets.Values.First(), image))
+                    return false;
             }
+            return false;
         }
 
-        void ApplyPlanetImage(SerializableStarmapItem item, Image image)
+        bool ApplyPlanetImage(SerializableStarmapItem item, Image image)
         {
             if (!PlanetoidDict().ContainsKey(item.itemID))
             {
                 SgtLogger.warning(item.itemID + " not found!");
-                return;
+                image.sprite = Assets.GetSprite(SpritePatch.randomTraitsTraitIcon);
+                return false;
             }
             var starmapItem = PlanetoidDict()[item.itemID];
             image.sprite = starmapItem.planetSprite;
+            return true;
         }
 
         GameObject CreateUIItemForStarmapItem(SerializableStarmapItem item)
@@ -374,7 +429,7 @@ namespace ClusterTraitGenerationManager
 
             var infoText = starmapItem.DisplayName;
             if (item.maxNumberToSpawn != 1 || item.category == StarmapItemCategory.POI)
-                infoText += ": x" + item.numberToSpawn ;
+                infoText += ": x" + item.numberToSpawn;
 
             UIUtils.TryChangeText(planetObject.transform, "Label", infoText);
 
@@ -413,7 +468,6 @@ namespace ClusterTraitGenerationManager
 
         private void Init()
         {
-            UIUtils.ListAllChildrenPath(this.transform);
             //UIUtils.TryChangeText(transform, "Title", TITLESCHEDULES);
             int i = 1;
             GeneratePresetButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/GenerateFromCurrent").FindOrAddComponent<FButton>();
@@ -462,7 +516,7 @@ namespace ClusterTraitGenerationManager
             };
 
 
-            UIUtils.AddSimpleTooltipToObject(GeneratePresetButton.transform, STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP, true, onBottom:true);
+            UIUtils.AddSimpleTooltipToObject(GeneratePresetButton.transform, STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP, true, onBottom: true);
             UIUtils.AddSimpleTooltipToObject(CloseButton.transform, STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TOOLTIP, true, onBottom: true);
             UIUtils.AddSimpleTooltipToObject(ApplyButton.transform, STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TOOLTIP, true, onBottom: true);
 

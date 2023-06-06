@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static RoboRockets.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS;
 using static RoboRockets.STRINGS.MISC.TAGS;
 using static STRINGS.BUILDINGS.PREFABS;
 
@@ -16,7 +17,7 @@ namespace RoboRockets
         {
             public class TAGS
             {
-                public static LocString RR_SPACEBRAINFLYER = "Pilot Brain"; 
+                public static LocString RR_SPACEBRAINFLYER = RR_BRAINFLYER.NAME; 
             }
         }
         public class ITEMS
@@ -105,6 +106,8 @@ namespace RoboRockets
                     public static LocString NAME = "{BRAINXPSTATE}";
                     public static LocString TOOLTIP = "{BRAINNAME} is a {BRAINXPSTATE} ({BRAINBOOST}% total rocket speed)";
                     public static LocString UNNAMEDBRAIN = "This Brain";
+                    public static LocString NOBRAIN = "This AI-Module";
+                    public static LocString LVLNONE = (LocString)global::STRINGS.UI.FormatAsLink("Automated Pilot", nameof(LVLNONE));
                     public static LocString LVL1 = (LocString)global::STRINGS.UI.FormatAsLink("Novice Pilot", nameof(LVL1));
                     public static LocString LVL2 = (LocString)global::STRINGS.UI.FormatAsLink("Advanced Beginner Pilot",nameof(LVL2));
                     public static LocString LVL3 = (LocString)global::STRINGS.UI.FormatAsLink("Competent Pilot", nameof(LVL3));

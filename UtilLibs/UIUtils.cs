@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using KAnim;
 using MonoMod.Utils;
 using System;
 using System.Collections.Generic;
@@ -405,17 +406,17 @@ namespace UtilLibs
                 return null;
             }
 
-            KAnim.Anim.Frame frame = KAnim.Anim.Frame.InvalidFrame;
+            KAnim.Anim.Frame frame = default(Anim.Frame);
             for (int i = 0; i < data.animCount; i++)
             {
                 KAnim.Anim anim = data.GetAnim(i);
                 if (anim.name == animName)
                 {
-                    frame = anim.GetFrame(data.batchTag, 0);
+                    anim.TryGetFrame(data.batchTag, 0, out frame);
                 }
             }
 
-            if (!frame.IsValid())
+            if (frame.Equals(default(Anim.Frame)))
             {
                 DebugUtil.LogWarningArgs($"missing '{animName}' anim in '{animFile}'");
                 return null;

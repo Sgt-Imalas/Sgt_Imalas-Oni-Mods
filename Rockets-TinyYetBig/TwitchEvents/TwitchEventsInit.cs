@@ -35,7 +35,7 @@ namespace Rockets_TinyYetBig.TwitchEvents
             deckInst = TwitchDeckManager.Instance;
 
             initalized = true;
-            SgtLogger.debuglog("Initalized Twitch integration");
+            SgtLogger.debuglog("Initialized Twitch integration");
         }
         public static void RegisterAll()
         {

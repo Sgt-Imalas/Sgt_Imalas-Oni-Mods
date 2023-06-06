@@ -105,9 +105,9 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                     //SgtLogger.l("modul: " + module.ToString());
                     if (module.storage.MassStored() > 0.01)
                     {
-                        foreach (var item in module.storage.items)
+                        for (int i = module.storage.items.Count - 1; i >= 0; i--)
                         {
-                            //SgtLogger.l("item: " + item.ToString());
+                            var item = module.storage.items[i];
                             if (item.HasAnyTags(filterArray))
                             {
                                 if (item.TryGetComponent<Pickupable>(out var pickupable))
@@ -166,16 +166,14 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                     //SgtLogger.l("modul: " + module.ToString());
                     if (module.storage.MassStored() > 0.01)
                     {
-                        foreach (var item in module.storage.items)
+                        for (int i = module.storage.items.Count - 1; i >= 0; i--)
                         {
-                            //SgtLogger.l("item: " + item.ToString());
-                            if (item.TryGetComponent<Pickupable>(out var pickupable) && item.TryGetComponent<Edible>(out var edible))
+                            if (module.storage.items[i].TryGetComponent<Pickupable>(out var pickupable) && module.storage.items[i].TryGetComponent<Edible>(out var edible))
                             {
                                 float thisFoodsMass = edible.foodInfo.CaloriesPerUnit * pickupable.TotalAmount / 1000f;
                                 totalKCalNew += thisFoodsMass;
                                 infoText += string.Format(RTB_FOODSTORAGESTATUS.FOODINFO, edible.foodInfo.ConsumableName, thisFoodsMass.ToString());
                             }
-
                         }
                     }
                 }

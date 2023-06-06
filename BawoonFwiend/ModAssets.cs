@@ -112,8 +112,8 @@ namespace BawoonFwiend
 
             KAnimFileData data = animFile.GetData();
             int frame2 = default(KAnim.Anim.FrameElement).frame;
-            KAnim.Build.SymbolFrame symbolFrame = symbol.GetFrame(frame2).symbolFrame;
-            if (symbolFrame == null)
+            KAnim.Build.SymbolFrameInstance symbolFrame = symbol.GetFrame(frame2);
+            if (symbolFrame.Equals(default))
             {
                 SgtLogger.l("SymbolFrame [" + frame2 + "] is missing");
                 return Assets.GetSprite("unknown");

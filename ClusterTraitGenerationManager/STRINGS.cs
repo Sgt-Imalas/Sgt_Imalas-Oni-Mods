@@ -409,6 +409,7 @@ namespace ClusterTraitGenerationManager
         public class ERRORMESSAGES
         {
             public static LocString PLANETPLACEMENTERROR = "Starmap Generation Error!\n{0} could not be placed on the star map. Increase the maximum distance of of this asteroid to fix this issue.";
+            public static LocString MISSINGWORLD = "Missing Worlds!\nThe preset cannot be loaded since its start world is missing.";
         }
     }
 }

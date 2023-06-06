@@ -14,20 +14,19 @@ namespace RoboRockets.LearningBrain
 {
     internal class DemolishableDroppable: Demolishable
     {
+        [Serialize]
+        public bool ShouldDrop = true;
+
         public override void OnCompleteWork(Worker worker) => this.DropOnDestroy();
 
         private void DropOnDestroy()
         {
-            if (this.IsNullOrDestroyed())
+            if (this.IsNullOrDestroyed() || !ShouldDrop)
                 return;
 
-            Debug.Log("DROPPIN");
-            Debug.Log(gameObject.transform.position + " possss");
             SpawnItemForRecipes(BrainConfig.ProductionCosts);
             Debug.Log("Done");
             UnityEngine.Object.Destroy(this.gameObject);
-            Debug.Log("wat");
-
         }
 
         public void SpawnItemForRecipes(RecipeElement[] materials)

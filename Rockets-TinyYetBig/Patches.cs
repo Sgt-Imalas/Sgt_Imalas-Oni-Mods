@@ -62,60 +62,6 @@ namespace Rockets_TinyYetBig
             }
         }
 
-        /// <summary>
-        /// This fixes the missing carbon field anim
-        /// </summary>
-        //[HarmonyPatch(typeof(HarvestablePOIConfig))]
-        //[HarmonyPatch(nameof(HarvestablePOIConfig.CreatePrefabs))]
-        public static class FixForMissingCarbonFieldAnim
-        {
-            //[PLibPatch(RunAt.AfterDbInit, nameof(HarvestablePOIConfig.CreatePrefabs), RequireType = "HarvestablePOIConfig")]
-            public static void Postfix(ref List<GameObject> __result)
-            {
-                foreach(var obj in __result)
-                {
-                    //SgtLogger.l(obj.ToString(),"PATCHSS");
-                    if(obj.TryGetComponent<HarvestablePOIClusterGridEntity>(out var poi))
-                    {
-                        if (poi.PrefabID().ToString().Contains(HarvestablePOIConfig.CarbonAsteroidField))
-                        {
-                            poi.m_Anim = "carbon_asteroid_field";
-                            SgtLogger.l("Fixed Carbon POI sprite");
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        [HarmonyPatch(typeof(Db))]
-        [HarmonyPatch("Initialize")]
-        public static class Db_Init_Patch
-        {
-            // using System; will allow using Type insted of System.Type
-            // using System.Reflection; will allow using MethodInfo instead of System.Reflection.MethodInfo
-            static System.Reflection.MethodInfo GetMethodInfo(System.Type classType, string methodName)
-            {
-                System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.Public
-                                                    | System.Reflection.BindingFlags.NonPublic
-                                                    | System.Reflection.BindingFlags.Static
-                                                    | System.Reflection.BindingFlags.Instance;
-
-                System.Reflection.MethodInfo method = classType.GetMethod(methodName, flags);
-                if (method == null)
-                    Debug.Log($"Error - {methodName} method is null...");
-
-                return method;
-            }
-
-            public static void Postfix()
-            {
-                System.Reflection.MethodInfo patched = GetMethodInfo(typeof(HarvestablePOIConfig), "CreatePrefabs");
-                System.Reflection.MethodInfo postfix = GetMethodInfo(typeof(FixForMissingCarbonFieldAnim), "Postfix");
-                // TODO: Update line below
-                Harmony harmony = new Harmony("Rocketry Expanded");
-                harmony.Patch(patched, null, new HarmonyMethod(postfix));
-            }
-        }
 
         ///// <summary>
         ///// Fridge Access Hatch accessible food should count towards tracker
@@ -153,15 +99,25 @@ namespace Rockets_TinyYetBig
         //}
         
 
-        [HarmonyPatch(typeof(WorldSelector), "OnPrefabInit")]
-        public static class CustomSideScreenPatch_Gibinfo
+
+        [HarmonyPatch(typeof(BuildingTemplates), nameof(BuildingTemplates.CreateRocketBuildingDef))]
+        public static class RocketEngineWidthIsReduced
         {
-            public static void Postfix(WorldSelector __instance)
+            public static void Postfix(BuildingDef def)
             {
-                // UIUtils.ListAllChildren(__instance.transform);
+                  
+                if (
+                    //Config.Instance.SlimLargeEngines
+                    //&& 
+                    def.WidthInCells>5
+                    )
+                {
+                    SgtLogger.l(def.name, "SQUISH");
+                    def.WidthInCells = 5;
+                    def.GenerateOffsets();
+                }
             }
         }
-
 
 
         /// <summary>
