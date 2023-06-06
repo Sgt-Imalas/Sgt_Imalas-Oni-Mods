@@ -104,7 +104,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DupePrioPresetManager", "Du
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingToken", "BuildingToken\BuildingToken.csproj", "{B1074224-1E07-4A5B-B187-1ACB6DC6A1C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LitAF", "LitAF\LitAF.csproj", "{A6C785FE-A07E-4C2A-9942-D4B51CBF3DAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LitAF", "LitAF\LitAF.csproj", "{A6C785FE-A07E-4C2A-9942-D4B51CBF3DAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UL_UniversalLyzer", "UL_UniversalLyzer\UL_UniversalLyzer.csproj", "{A6EC01CD-EC34-4618-A6CC-FB33AC200700}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -394,6 +396,12 @@ Global
 		{A6C785FE-A07E-4C2A-9942-D4B51CBF3DAF}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{A6C785FE-A07E-4C2A-9942-D4B51CBF3DAF}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
 		{A6C785FE-A07E-4C2A-9942-D4B51CBF3DAF}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
+		{A6EC01CD-EC34-4618-A6CC-FB33AC200700}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6EC01CD-EC34-4618-A6CC-FB33AC200700}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6EC01CD-EC34-4618-A6CC-FB33AC200700}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6EC01CD-EC34-4618-A6CC-FB33AC200700}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{A6EC01CD-EC34-4618-A6CC-FB33AC200700}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6EC01CD-EC34-4618-A6CC-FB33AC200700}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
