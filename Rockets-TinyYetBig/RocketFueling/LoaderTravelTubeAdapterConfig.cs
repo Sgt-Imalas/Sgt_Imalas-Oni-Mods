@@ -28,7 +28,7 @@ namespace Rockets_TinyYetBig.RocketFueling
         BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(
                 ID, 
                 1, 
-                1,
+                2,
                 "loader_tube_adapter_kanim", 
                 200, 
                 40f, 
@@ -110,13 +110,8 @@ namespace Rockets_TinyYetBig.RocketFueling
         {
             TravelTubeUtilityNetworkLink utilityNetworkLink = go.AddOrGet<TravelTubeUtilityNetworkLink>();
             utilityNetworkLink.link1 = new CellOffset(0, -1);
-            utilityNetworkLink.link2 = new CellOffset(0, 1);
+            utilityNetworkLink.link2 = new CellOffset(0, 2);
             utilityNetworkLink.visualizeOnly = visualOnly;
-
-            //TravelTubeUtilityNetworkLink utilityNetworkLink2 = go.AddOrGet<TravelTubeUtilityNetworkLink>();
-            //utilityNetworkLink2.link1 = new CellOffset(0, 0);
-            //utilityNetworkLink2.link2 = new CellOffset(0, 1);
-            //utilityNetworkLink2.visualizeOnly = visualOnly;
 
             return utilityNetworkLink;
         }
