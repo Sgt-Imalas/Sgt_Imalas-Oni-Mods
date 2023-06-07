@@ -64,16 +64,55 @@ namespace UL_UniversalLyzer
                                             | System.Reflection.BindingFlags.Static
                                             | System.Reflection.BindingFlags.Instance;
 
+        public static Type TryFindType(string typeName)
+        {
+            Type rettype = null;
+            foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                foreach (var type in a.GetTypes())
+                {
+                    if (type == null) continue;
 
-        public static Type NightLib_PortDisplayOutput_Type = Type.GetType("NightLib.PortDisplayOutput, NightLib", false, false);
-        public static Type NightLib_PortDisplayController_Type = Type.GetType("NightLib.PortDisplayController, NightLib", false, false);
-        public static Type NightLib_PipedDispenser_Type = Type.GetType("Nightinggale.PipedOutput.PipedDispenser, Nightinggale.PipedOutput", false, false);
-        public static Type NightLib_PipedOptionalExhaust_Type = Type.GetType("Nightinggale.PipedOutput.PipedOptionalExhaust, Nightinggale.PipedOutput", false, false);
+                    SgtLogger.l(type.AssemblyQualifiedName, "ass");
+                    if (type.Name == typeName)
+                    {
+                        SgtLogger.l(type.Name, "bame");
+                        SgtLogger.l(type.AssemblyQualifiedName, "ass, but fitting");
+                        rettype = type;
+                        break;
+                    }
+                }
+                // t = a.GetType(typeName);
+                if (rettype != null)
+                    break;
+            }
+            return rettype;
+        }
+
+
+        public static Type NightLib_PortDisplayOutput_Type = Type.GetType("NightLib.PortDisplayOutput, PipedOutput", false, false);
+        public static Type NightLib_PortDisplayController_Type = Type.GetType("NightLib.PortDisplayController, PipedOutput", false, false);
+        public static Type NightLib_PipedDispenser_Type = Type.GetType("Nightinggale.PipedOutput.PipedDispenser, PipedOutput", false, false);
+        public static Type NightLib_PipedOptionalExhaust_Type = Type.GetType("Nightinggale.PipedOutput.PipedOptionalExhaust, PipedOutput", false, false);
         public static void AddPipes(GameObject go)
         {
-            var q = AppDomain.CurrentDomain.GetAssemblies()
-                       .SelectMany(t => t.GetTypes());
-            q.ToList().ForEach(t => SgtLogger.l(t.Name, t.Namespace));
+            //var q = AppDomain.CurrentDomain.GetAssemblies()
+            //           .SelectMany(t => t.GetTypes());
+            //q.ToList().ForEach(t => SgtLogger.l(t.Name, t.Namespace));
+
+            SgtLogger.Assert(nameof(NightLib_PortDisplayOutput_Type), NightLib_PortDisplayOutput_Type);
+            SgtLogger.Assert(nameof(NightLib_PortDisplayController_Type), NightLib_PortDisplayController_Type);
+            SgtLogger.Assert(nameof(NightLib_PipedDispenser_Type), NightLib_PipedDispenser_Type);
+            SgtLogger.Assert(nameof(NightLib_PipedOptionalExhaust_Type), NightLib_PipedOptionalExhaust_Type);
+
+
+            //SgtLogger.l(1 + " " + TryFindType("PortDisplayOutput"));
+            //SgtLogger.l(2 + " " + TryFindType("PortDisplayController"));
+            //SgtLogger.l(3 + " " + TryFindType("PipedDispenser"));
+            //SgtLogger.l(4 + " " + TryFindType("PipedOptionalExhaust"));
+
+
+
 
             if (NightLib_PortDisplayOutput_Type == null)
             {
@@ -90,60 +129,73 @@ namespace UL_UniversalLyzer
 
             if (ConstructorMethod_PortDisplayOutput == null)
             {
-                SgtLogger.logwarning(nameof(ConstructorMethod_PortDisplayOutput)+"Not Found!");
+                SgtLogger.logwarning(nameof(ConstructorMethod_PortDisplayOutput) + "Not Found!");
                 return;
             }
+            
 
             var controller = go.GetComponent(NightLib_PortDisplayController_Type);
             if (controller == null)
             {
                 controller = go.AddComponent(NightLib_PortDisplayController_Type);
-                Traverse.Create(controller).Method("Init").GetValue(new object[] { go });
+                SgtLogger.Assert("PortDisplayController", controller);
+
+                Traverse.Create(controller).Method("Init", new object[] { go }).GetValue();
             }
+            
 
             ///Chlorine
-            var chlorineColour =  ElementLoader.GetElement(SimHashes.ChlorineGas.CreateTag()).substance.conduitColour;
+            var chlorineColour = ElementLoader.GetElement(SimHashes.ChlorineGas.CreateTag()).substance.conduitColour;
             chlorineColour.a = 255;
 
-            var PortDisplayOutput_Instance_Chlorine = ConstructorMethod_PortDisplayOutput.Invoke(new object[] { ConduitType.Gas, new CellOffset(0,0),null, chlorineColour });
+            var PortDisplayOutput_Instance_Chlorine = ConstructorMethod_PortDisplayOutput.Invoke(new object[] { ConduitType.Gas, new CellOffset(0, 0), null, ((Color?)chlorineColour )});
 
-            Traverse.Create(controller).Method("AssignPort").GetValue(new object[] { go, PortDisplayOutput_Instance_Chlorine });
+
+            SgtLogger.Assert("PortDisplayOutput_Instance_Chlorine", PortDisplayOutput_Instance_Chlorine);
+
+            Traverse.Create(controller).Method("AssignPort", new object[] { go, PortDisplayOutput_Instance_Chlorine }).GetValue();
+            
 
             var PipedDispenser_Cl = go.AddComponent(NightLib_PipedDispenser_Type);
-            Traverse.Create(PipedDispenser_Cl).Field("elementFilter").SetValue(new object[] { new SimHashes[] { SimHashes.ChlorineGas } });
-            Traverse.Create(PipedDispenser_Cl).Method("AssignPort").GetValue(new object[] { go, PortDisplayOutput_Instance_Chlorine });
-            Traverse.Create(PipedDispenser_Cl).Field("alwaysDispense").SetValue(new object[] { true });
-            Traverse.Create(PipedDispenser_Cl).Field("SkipSetOperational").SetValue(new object[] { true });
+
+            Traverse.Create(PipedDispenser_Cl).Field("elementFilter").SetValue(new SimHashes[] { SimHashes.ChlorineGas });
+            Traverse.Create(PipedDispenser_Cl).Method("AssignPort", PortDisplayOutput_Instance_Chlorine).GetValue();
+            Traverse.Create(PipedDispenser_Cl).Field("alwaysDispense").SetValue(true );
+            Traverse.Create(PipedDispenser_Cl).Field("SkipSetOperational").SetValue(true);
+
 
             var PipedOptionalExhaust_Cl = go.AddComponent(NightLib_PipedOptionalExhaust_Type);
-            Traverse.Create(PipedOptionalExhaust_Cl).Field("dispenser").SetValue(new object[] { PipedDispenser_Cl });
-            Traverse.Create(PipedOptionalExhaust_Cl).Field("elementHash").SetValue(new object[] { SimHashes.ChlorineGas });
-            Traverse.Create(PipedOptionalExhaust_Cl).Field("elementTag").SetValue(new object[] { SimHashes.ChlorineGas.CreateTag() });
-            Traverse.Create(PipedOptionalExhaust_Cl).Field("capacity").SetValue(new object[] { 1f });
+            Traverse.Create(PipedOptionalExhaust_Cl).Field("dispenser").SetValue(PipedDispenser_Cl);
+            Traverse.Create(PipedOptionalExhaust_Cl).Field("elementHash").SetValue(SimHashes.ChlorineGas);
+            Traverse.Create(PipedOptionalExhaust_Cl).Field("elementTag").SetValue(SimHashes.ChlorineGas.CreateTag() );
+            Traverse.Create(PipedOptionalExhaust_Cl).Field("capacity").SetValue(5f);
 
+            
 
             ///pOx
 
             var poxColour = ElementLoader.GetElement(SimHashes.ContaminatedOxygen.CreateTag()).substance.conduitColour;
             poxColour.a = 255;
 
-            var PortDisplayOutput_Instance_pOx = ConstructorMethod_PortDisplayOutput.Invoke(new object[] { ConduitType.Gas, new CellOffset(1, 0), null, poxColour });
-
-
-            Traverse.Create(controller).Method("AssignPort").GetValue(new object[] {go, PortDisplayOutput_Instance_pOx });
+            var PortDisplayOutput_Instance_pOx = ConstructorMethod_PortDisplayOutput.Invoke(new object[] { ConduitType.Gas, new CellOffset(1, 0), null, ((Color?)poxColour) });
+            
+            Traverse.Create(controller).Method("AssignPort",new object[] { go, PortDisplayOutput_Instance_pOx }).GetValue();
+            
 
             var PipedDispenser_pox = go.AddComponent(NightLib_PipedDispenser_Type);
-            Traverse.Create(PipedDispenser_pox).Field("elementFilter").SetValue(new object[] { new SimHashes[] { SimHashes.ContaminatedOxygen } });
-            Traverse.Create(PipedDispenser_pox).Method("AssignPort").GetValue(new object[] { go, PortDisplayOutput_Instance_Chlorine });
-            Traverse.Create(PipedDispenser_pox).Field("alwaysDispense").SetValue(new object[] { true });
-            Traverse.Create(PipedDispenser_pox).Field("SkipSetOperational").SetValue(new object[] { true });
+            Traverse.Create(PipedDispenser_pox).Field("elementFilter").SetValue(new SimHashes[] { SimHashes.ContaminatedOxygen });
+            Traverse.Create(PipedDispenser_pox).Method("AssignPort", PortDisplayOutput_Instance_Chlorine).GetValue();
+            Traverse.Create(PipedDispenser_pox).Field("alwaysDispense").SetValue(true);
+            Traverse.Create(PipedDispenser_pox).Field("SkipSetOperational").SetValue(true);
+            
 
             var PipedOptionalExhaust_POX = go.AddComponent(NightLib_PipedOptionalExhaust_Type);
-            Traverse.Create(PipedOptionalExhaust_POX).Field("dispenser").SetValue(new object[] { PipedDispenser_pox });
-            Traverse.Create(PipedOptionalExhaust_POX).Field("elementHash").SetValue(new object[] { SimHashes.ContaminatedOxygen });
-            Traverse.Create(PipedOptionalExhaust_POX).Field("elementTag").SetValue(new object[] { SimHashes.ContaminatedOxygen.CreateTag() });
-            Traverse.Create(PipedOptionalExhaust_POX).Field("capacity").SetValue(new object[] { 1f });
+            Traverse.Create(PipedOptionalExhaust_POX).Field("dispenser").SetValue(PipedDispenser_pox);
+            Traverse.Create(PipedOptionalExhaust_POX).Field("elementHash").SetValue(SimHashes.ContaminatedOxygen);
+            Traverse.Create(PipedOptionalExhaust_POX).Field("elementTag").SetValue(SimHashes.ContaminatedOxygen.CreateTag());
+            Traverse.Create(PipedOptionalExhaust_POX).Field("capacity").SetValue(5f);
 
+            
 
 
 
