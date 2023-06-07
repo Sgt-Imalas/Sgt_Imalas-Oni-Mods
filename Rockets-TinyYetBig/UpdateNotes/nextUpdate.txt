@@ -1,0 +1,6 @@
+
+
+- Added option to squish rockets -> when enabled, any rocket module above 5 width will be squished down to 5 width
+- Added option (requires enabling) to refill drillcone maintainence module during flight via solid port inside the cabin
+
+- revamped generator modules - they now work while landed and had their values rebalanced
