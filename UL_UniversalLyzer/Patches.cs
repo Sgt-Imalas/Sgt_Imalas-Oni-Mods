@@ -16,12 +16,6 @@ namespace UL_UniversalLyzer
 {
     internal class Patches
     {
-
-        private static ConduitPortInfo O2Port = new ConduitPortInfo(ConduitType.Gas, new CellOffset(0, 0));
-        private static ConduitPortInfo H2Port = new ConduitPortInfo(ConduitType.Gas, new CellOffset(1, 0));
-        private static ConduitPortInfo ClPort = new ConduitPortInfo(ConduitType.Gas, new CellOffset(1, 1));
-
-
         [HarmonyPatch(typeof(ElectrolyzerConfig))]
         [HarmonyPatch(nameof(ElectrolyzerConfig.CreateBuildingDef))]
         public static class ModifyBuildingDef
@@ -59,52 +53,29 @@ namespace UL_UniversalLyzer
                 UnityEngine.Object.Destroy(oldLyzer);
             }
         }
+
         static System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.Public
                                             | System.Reflection.BindingFlags.NonPublic
                                             | System.Reflection.BindingFlags.Static
                                             | System.Reflection.BindingFlags.Instance;
-
-        public static Type TryFindType(string typeName)
-        {
-            Type rettype = null;
-            foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                foreach (var type in a.GetTypes())
-                {
-                    if (type == null) continue;
-
-                    SgtLogger.l(type.AssemblyQualifiedName, "ass");
-                    if (type.Name == typeName)
-                    {
-                        SgtLogger.l(type.Name, "bame");
-                        SgtLogger.l(type.AssemblyQualifiedName, "ass, but fitting");
-                        rettype = type;
-                        break;
-                    }
-                }
-                // t = a.GetType(typeName);
-                if (rettype != null)
-                    break;
-            }
-            return rettype;
-        }
 
 
         public static Type NightLib_PortDisplayOutput_Type = Type.GetType("NightLib.PortDisplayOutput, PipedOutput", false, false);
         public static Type NightLib_PortDisplayController_Type = Type.GetType("NightLib.PortDisplayController, PipedOutput", false, false);
         public static Type NightLib_PipedDispenser_Type = Type.GetType("Nightinggale.PipedOutput.PipedDispenser, PipedOutput", false, false);
         public static Type NightLib_PipedOptionalExhaust_Type = Type.GetType("Nightinggale.PipedOutput.PipedOptionalExhaust, PipedOutput", false, false);
+
         public static void AddPipes(GameObject go)
         {
-            //var q = AppDomain.CurrentDomain.GetAssemblies()
-            //           .SelectMany(t => t.GetTypes());
-            //q.ToList().ForEach(t => SgtLogger.l(t.Name, t.Namespace));
+            NightLib_PortDisplayOutput_Type = Type.GetType("NightLib.PortDisplayOutput, PipedOutput", false, false);
+            NightLib_PortDisplayController_Type = Type.GetType("NightLib.PortDisplayController, PipedOutput", false, false);
+            NightLib_PipedDispenser_Type = Type.GetType("Nightinggale.PipedOutput.PipedDispenser, PipedOutput", false, false);
+            NightLib_PipedOptionalExhaust_Type = Type.GetType("Nightinggale.PipedOutput.PipedOptionalExhaust, PipedOutput", false, false);
 
-            SgtLogger.Assert(nameof(NightLib_PortDisplayOutput_Type), NightLib_PortDisplayOutput_Type);
+        SgtLogger.Assert(nameof(NightLib_PortDisplayOutput_Type), NightLib_PortDisplayOutput_Type);
             SgtLogger.Assert(nameof(NightLib_PortDisplayController_Type), NightLib_PortDisplayController_Type);
             SgtLogger.Assert(nameof(NightLib_PipedDispenser_Type), NightLib_PipedDispenser_Type);
             SgtLogger.Assert(nameof(NightLib_PipedOptionalExhaust_Type), NightLib_PipedOptionalExhaust_Type);
-
 
             //SgtLogger.l(1 + " " + TryFindType("PortDisplayOutput"));
             //SgtLogger.l(2 + " " + TryFindType("PortDisplayController"));
@@ -114,11 +85,15 @@ namespace UL_UniversalLyzer
 
 
 
-            if (NightLib_PortDisplayOutput_Type == null)
+            if (NightLib_PortDisplayOutput_Type == null || NightLib_PortDisplayController_Type == null || NightLib_PipedDispenser_Type == null || NightLib_PipedOptionalExhaust_Type == null )
             {
-                SgtLogger.warning("Piped Output Class not found, Piped Output wont be active");
+                SgtLogger.warning("Failed to initialize Piped Output Class types, Piped Output wont be active");
                 return;
             }
+
+            SgtLogger.l("Successfully initialized Piped Output types");
+            InitializeOrUpdateLyzerPowerCosts();
+
             var ConstructorMethod_PortDisplayOutput = NightLib_PortDisplayOutput_Type.GetConstructor(flags, null, new System.Type[]
             {
                 typeof (ConduitType),
@@ -184,7 +159,7 @@ namespace UL_UniversalLyzer
 
             var PipedDispenser_pox = go.AddComponent(NightLib_PipedDispenser_Type);
             Traverse.Create(PipedDispenser_pox).Field("elementFilter").SetValue(new SimHashes[] { SimHashes.ContaminatedOxygen });
-            Traverse.Create(PipedDispenser_pox).Method("AssignPort", PortDisplayOutput_Instance_Chlorine).GetValue();
+            Traverse.Create(PipedDispenser_pox).Method("AssignPort", PortDisplayOutput_Instance_pOx).GetValue();
             Traverse.Create(PipedDispenser_pox).Field("alwaysDispense").SetValue(true);
             Traverse.Create(PipedDispenser_pox).Field("SkipSetOperational").SetValue(true);
             
@@ -204,7 +179,7 @@ namespace UL_UniversalLyzer
         [HarmonyPatch(nameof(ElectrolyzerConfig.DoPostConfigureComplete))]
         public static class PostConfig
         {
-
+            [HarmonyPriority(Priority.LowerThanNormal)]
             public static void Postfix(GameObject go)
             {
                 if (!Config.Instance.IsPiped)

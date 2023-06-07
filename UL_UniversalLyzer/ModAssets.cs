@@ -6,19 +6,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace UL_UniversalLyzer
 {
     public class ModAssets
     {
+
         public static Dictionary<SimHashes, ElectrolyzerConfiguration> ElectrolyzerConfigurations = new Dictionary<SimHashes, ElectrolyzerConfiguration>();
 
         public static CellOffset defaultLyzerOffset = new CellOffset(0, 1);
-        public static CellOffset debrisOffset = new CellOffset(0, 0);
+        public static CellOffset debrisOffset = new CellOffset(1, 0);
         public static CellOffset tertiaryGasOffset = new CellOffset(1, 1);
-        public static void InitializeLyzerPowerCosts()
+
+        public static bool IsPipedAndPipedBuildingsActive => Patches.NightLib_PortDisplayOutput_Type != null && Patches.NightLib_PortDisplayController_Type != null && Patches.NightLib_PipedDispenser_Type != null && Patches.NightLib_PipedOptionalExhaust_Type != null && Config.Instance.IsPiped;
+
+        public static void InitializeOrUpdateLyzerPowerCosts()
         {
 
+            bool a = Patches.NightLib_PortDisplayOutput_Type != null;
+            bool b = Patches.NightLib_PortDisplayController_Type != null;
+            bool c = Patches.NightLib_PipedDispenser_Type != null;
+            bool d = Patches.NightLib_PipedOptionalExhaust_Type != null;
+            bool e = Config.Instance.IsPiped;
+            SgtLogger.l("AMENA Bools: " +a+", "+b + "," +c + "," +d + "," +e);
+
+            SgtLogger.l(IsPipedAndPipedBuildingsActive.ToString(), "Lyzer Piped?");
 
             AddLyzerConfiguration(SimHashes.Water, new ElementConverter.ConsumedElement[1]
             {
@@ -26,8 +39,8 @@ namespace UL_UniversalLyzer
             },
             new ElementConverter.OutputElement[]
             {
-                new ElementConverter.OutputElement(0.888f, SimHashes.Oxygen, 343.15f, useEntityTemperature: false, storeOutput: false, defaultLyzerOffset.x, defaultLyzerOffset.y),
-                new ElementConverter.OutputElement(0.112f, SimHashes.Hydrogen, 343.15f, useEntityTemperature: false, storeOutput: false,defaultLyzerOffset.x, defaultLyzerOffset.y),
+                new ElementConverter.OutputElement(0.888f, SimHashes.Oxygen, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_water), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, defaultLyzerOffset.x, defaultLyzerOffset.y),
+                new ElementConverter.OutputElement(0.112f, SimHashes.Hydrogen, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_water), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive,defaultLyzerOffset.x, defaultLyzerOffset.y),
             },
             Config.Instance.consumption_water
             );
@@ -40,14 +53,14 @@ namespace UL_UniversalLyzer
                 Config.Instance.SolidDebris
                 ? new ElementConverter.OutputElement[]
                 {
-                        new ElementConverter.OutputElement(0.886f, SimHashes.ContaminatedOxygen, 343.15f, useEntityTemperature: false, storeOutput: false, defaultLyzerOffset.x, defaultLyzerOffset.y),
-                        new ElementConverter.OutputElement(0.111f, SimHashes.Hydrogen, 343.15f, useEntityTemperature: false, storeOutput: false, defaultLyzerOffset.x, defaultLyzerOffset.y),
-                        new ElementConverter.OutputElement(0.003f, SimHashes.ToxicSand, 343.15f, useEntityTemperature: false, storeOutput: false, debrisOffset.x, debrisOffset.y)
+                        new ElementConverter.OutputElement(0.886f, SimHashes.ContaminatedOxygen, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_pollutedwater), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, defaultLyzerOffset.x, defaultLyzerOffset.y),
+                        new ElementConverter.OutputElement(0.111f, SimHashes.Hydrogen, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_pollutedwater), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, defaultLyzerOffset.x, defaultLyzerOffset.y),
+                        new ElementConverter.OutputElement(0.003f, SimHashes.ToxicSand, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_pollutedwater), useEntityTemperature: false, storeOutput: false, debrisOffset.x, debrisOffset.y)
                 }
                 : new ElementConverter.OutputElement[]
                 {
-                        new ElementConverter.OutputElement(0.888f, SimHashes.ContaminatedOxygen, 343.15f, useEntityTemperature: false, storeOutput: false, defaultLyzerOffset.x, defaultLyzerOffset.y),
-                        new ElementConverter.OutputElement(0.112f, SimHashes.Hydrogen, 343.15f, useEntityTemperature: false, storeOutput: false, defaultLyzerOffset.x, defaultLyzerOffset.y)
+                        new ElementConverter.OutputElement(0.888f, SimHashes.ContaminatedOxygen, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_pollutedwater), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, defaultLyzerOffset.x, defaultLyzerOffset.y),
+                        new ElementConverter.OutputElement(0.112f, SimHashes.Hydrogen, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_pollutedwater), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, defaultLyzerOffset.x, defaultLyzerOffset.y)
                 }
             ,
             Config.Instance.consumption_pollutedwater
@@ -62,17 +75,17 @@ namespace UL_UniversalLyzer
                 ?
                 new ElementConverter.OutputElement[]
                 {
-                        new ElementConverter.OutputElement(0.826f, SimHashes.Oxygen, 343.15f, useEntityTemperature: false, storeOutput: false, defaultLyzerOffset.x, defaultLyzerOffset.y),
-                        new ElementConverter.OutputElement(0.104f, SimHashes.Hydrogen, 343.15f, useEntityTemperature: false, storeOutput: false, defaultLyzerOffset.x, defaultLyzerOffset.y),
-                        new ElementConverter.OutputElement(0.047f, SimHashes.ChlorineGas, 343.15f, useEntityTemperature: false, storeOutput: false, tertiaryGasOffset.x, tertiaryGasOffset.y),
-                        new ElementConverter.OutputElement(0.023f, SimHashes.Salt, 343.15f, useEntityTemperature: false, storeOutput: false, debrisOffset.x, debrisOffset.y)
+                        new ElementConverter.OutputElement(0.826f, SimHashes.Oxygen, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_saltwater), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, defaultLyzerOffset.x, defaultLyzerOffset.y),
+                        new ElementConverter.OutputElement(0.104f, SimHashes.Hydrogen, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_saltwater), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, defaultLyzerOffset.x, defaultLyzerOffset.y),
+                        new ElementConverter.OutputElement(0.047f, SimHashes.ChlorineGas, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_saltwater), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, tertiaryGasOffset.x, tertiaryGasOffset.y),
+                        new ElementConverter.OutputElement(0.023f, SimHashes.Salt, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_saltwater), useEntityTemperature: false, storeOutput: false, debrisOffset.x, debrisOffset.y)
                 }
                 :
                 new ElementConverter.OutputElement[]
                 {
-                        new ElementConverter.OutputElement(0.826f, SimHashes.Oxygen, 343.15f, useEntityTemperature: false, storeOutput: false, defaultLyzerOffset.x, defaultLyzerOffset.y),
-                        new ElementConverter.OutputElement(0.104f, SimHashes.Hydrogen, 343.15f, useEntityTemperature: false, storeOutput: false, defaultLyzerOffset.x, defaultLyzerOffset.y),
-                        new ElementConverter.OutputElement(0.070f, SimHashes.ChlorineGas, 343.15f, useEntityTemperature: false, storeOutput: false, tertiaryGasOffset.x, tertiaryGasOffset.y)
+                        new ElementConverter.OutputElement(0.826f, SimHashes.Oxygen, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_saltwater), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, defaultLyzerOffset.x, defaultLyzerOffset.y),
+                        new ElementConverter.OutputElement(0.104f, SimHashes.Hydrogen, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_saltwater), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, defaultLyzerOffset.x, defaultLyzerOffset.y),
+                        new ElementConverter.OutputElement(0.070f, SimHashes.ChlorineGas, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_saltwater), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, tertiaryGasOffset.x, tertiaryGasOffset.y)
                 }
             ,
             Config.Instance.consumption_saltwater
@@ -86,16 +99,16 @@ namespace UL_UniversalLyzer
               Config.Instance.SolidDebris
                 ? new ElementConverter.OutputElement[]
                 {
-                        new ElementConverter.OutputElement(0.622f, SimHashes.Oxygen, 343.15f, useEntityTemperature: false, storeOutput: false, defaultLyzerOffset.x, defaultLyzerOffset.y),
-                        new ElementConverter.OutputElement(0.078f, SimHashes.Hydrogen, 343.15f, useEntityTemperature: false, storeOutput: false, defaultLyzerOffset.x, defaultLyzerOffset.y),
-                        new ElementConverter.OutputElement(0.200f, SimHashes.ChlorineGas, 343.15f, useEntityTemperature: false, storeOutput: false, tertiaryGasOffset.x, tertiaryGasOffset.y),
-                        new ElementConverter.OutputElement(0.100f, SimHashes.Salt, 343.15f, useEntityTemperature: false, storeOutput: false, debrisOffset.x, debrisOffset.y)
+                        new ElementConverter.OutputElement(0.622f, SimHashes.Oxygen, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_brine), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, defaultLyzerOffset.x, defaultLyzerOffset.y),
+                        new ElementConverter.OutputElement(0.078f, SimHashes.Hydrogen, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_brine), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, defaultLyzerOffset.x, defaultLyzerOffset.y),
+                        new ElementConverter.OutputElement(0.200f, SimHashes.ChlorineGas, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_brine), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, tertiaryGasOffset.x, tertiaryGasOffset.y),
+                        new ElementConverter.OutputElement(0.100f, SimHashes.Salt, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_brine), useEntityTemperature: false, storeOutput: false, debrisOffset.x, debrisOffset.y)
                 }
                 : new ElementConverter.OutputElement[]
                 {
-                        new ElementConverter.OutputElement(0.622f, SimHashes.Oxygen, 343.15f, useEntityTemperature: false, storeOutput: false, defaultLyzerOffset.x, defaultLyzerOffset.y),
-                        new ElementConverter.OutputElement(0.78f, SimHashes.Hydrogen, 343.15f, useEntityTemperature: false, storeOutput: false, defaultLyzerOffset.x, defaultLyzerOffset.y),
-                        new ElementConverter.OutputElement(0.300f, SimHashes.ChlorineGas, 343.15f, useEntityTemperature: false, storeOutput: false, tertiaryGasOffset.x, tertiaryGasOffset.y)
+                        new ElementConverter.OutputElement(0.622f, SimHashes.Oxygen, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_brine), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, defaultLyzerOffset.x, defaultLyzerOffset.y),
+                        new ElementConverter.OutputElement(0.78f, SimHashes.Hydrogen, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_brine), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, defaultLyzerOffset.x, defaultLyzerOffset.y),
+                        new ElementConverter.OutputElement(0.300f, SimHashes.ChlorineGas, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_brine), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, tertiaryGasOffset.x, tertiaryGasOffset.y)
                 }
             ,
             Config.Instance.consumption_brine

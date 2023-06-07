@@ -15,7 +15,7 @@ namespace UL_UniversalLyzer
 
             new POptions().RegisterOptions(this, typeof(Config));
             base.OnLoad(harmony);
-            ModAssets.InitializeLyzerPowerCosts();
+            ModAssets.InitializeOrUpdateLyzerPowerCosts();
 
             //GameTags.MaterialBuildingElements.Add(ModAssets.Tags.RadiationShielding);
             //GameTags.MaterialBuildingElements.Add(ModAssets.Tags.NeutroniumDust);

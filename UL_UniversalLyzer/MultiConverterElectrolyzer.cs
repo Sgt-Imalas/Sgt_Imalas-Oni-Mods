@@ -112,11 +112,14 @@ namespace UL_UniversalLyzer
                 this.waiting
                     .Enter("Waiting", smi => smi.master.operational.SetActive(false))
                     .EventTransition(GameHashes.OnStorageChange, this.converting, smi => smi.master.HasEnoughMassToStartConverting())
+                    .Transition(this.overpressure, smi => !smi.master.RoomForPressure)
                     .Update((smi, dt) =>
                     {
                         smi.master.UpdateConverter();
                         smi.master.UpdateColor();
-                    });
+                    })
+                    .UpdateTransition(converting, (smi,dt) => smi.master.HasEnoughMassToStartConverting())
+                    ;
                 this.converting.Enter("Ready", smi => smi.master.operational.SetActive(true))
                           .Transition(this.waiting, smi => !smi.master.CanConvertAtAll())
                           .Transition(this.overpressure, smi => !smi.master.RoomForPressure);
