@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static ElementConverter;
+using static UL_UniversalLyzer.ModAssets;
 
 namespace UL_UniversalLyzer
 {
@@ -19,7 +21,9 @@ namespace UL_UniversalLyzer
         public CellOffset emissionOffset = CellOffset.none;
         [MyCmpAdd]
         private Storage storage;
-        public List<ElementConverter> converterList = new List<ElementConverter>();
+
+        [MyCmpGet]
+        public ElementConverter converter;
         [MyCmpReq]
         private Operational operational;
         private MeterController meter;
@@ -27,9 +31,12 @@ namespace UL_UniversalLyzer
         [MyCmpGet]
         KBatchedAnimController controller;
 
+        [MyCmpGet]
+        EnergyConsumer energyConsumer;
+        [MyCmpGet]
+        Building building;
         public override void OnSpawn()
         {
-            converterList = this.GetComponents<ElementConverter>().ToList();
 
             if (this.hasMeter)
                 this.meter = new MeterController(controller, "U2H_meter_target", "meter", Meter.Offset.Behind, Grid.SceneLayer.NoLayer, new Vector3(-0.4f, 0.5f, -0.1f), new string[4]
@@ -39,7 +46,8 @@ namespace UL_UniversalLyzer
                     "U2H_meter_waterbody",
                     "U2H_meter_level"
                 });
-            this.smi.StartSM();
+            this.smi.StartSM(); 
+            UpdateColor();
             this.UpdateMeter();
             Tutorial.Instance.oxygenGenerators.Add(this.gameObject);
         }
@@ -72,7 +80,7 @@ namespace UL_UniversalLyzer
         }
 
 
-        private bool RoomForPressure => Config.Instance.IsPiped ? true : !GameUtil.FloodFillCheck(new Func<int, MultiConverterElectrolyzer, bool>(MultiConverterElectrolyzer.OverPressure), this, Grid.OffsetCell(Grid.PosToCell(this.transform.GetPosition()), this.emissionOffset), 3, true, true);
+        private bool RoomForPressure => !GameUtil.FloodFillCheck(new Func<int, MultiConverterElectrolyzer, bool>(MultiConverterElectrolyzer.OverPressure), this, Grid.OffsetCell(Grid.PosToCell(this.transform.GetPosition()), this.emissionOffset), 3, true, true);
 
         private static bool OverPressure(int cell, MultiConverterElectrolyzer MultiConverterElectrolyzer) => (double)Grid.Mass[cell] > MultiConverterElectrolyzer.maxMass;
 
@@ -103,68 +111,79 @@ namespace UL_UniversalLyzer
                     .EventTransition(GameHashes.OperationalChanged, this.waiting, smi => smi.master.operational.IsOperational);
                 this.waiting
                     .Enter("Waiting", smi => smi.master.operational.SetActive(false))
-                    .EventTransition(GameHashes.OnStorageChange, this.converting, smi => smi.master.HasEnoughMassToStartConverting());
+                    .EventTransition(GameHashes.OnStorageChange, this.converting, smi => smi.master.HasEnoughMassToStartConverting())
+                    .Update((smi, dt) =>
+                    {
+                        smi.master.UpdateConverter();
+                        smi.master.UpdateColor();
+                    });
                 this.converting.Enter("Ready", smi => smi.master.operational.SetActive(true))
                           .Transition(this.waiting, smi => !smi.master.CanConvertAtAll())
-                          .Transition(this.overpressure, smi => !smi.master.RoomForPressure)
-                        .Update((smi, dt) =>
-                        {
-                            smi.master.UpdateStatusItems();
-                            smi.master.UpdateColor();
-                        });
+                          .Transition(this.overpressure, smi => !smi.master.RoomForPressure);
+                        
                 this.overpressure
                     .Enter("OverPressure", smi => smi.master.operational.SetActive(false))
                     .ToggleStatusItem(Db.Get().BuildingStatusItems.PressureOk)
                     .Transition(this.converting, smi => smi.master.RoomForPressure);
             }
         }
-        private void UpdateStatusItems()
+        private bool CanConvertAtAll() => converter.CanConvertAtAll();
+        private bool HasEnoughMassToStartConverting() => converter.HasEnoughMassToStartConverting();
+
+        private void UpdateConverter()
         {
-            foreach (ElementConverter converter in converterList)
+            if (storage.items.Count == 0) return;
+
+
+            var liquid = storage.FindFirstWithMass(GameTags.AnyWater, 0.1f);
+            if (liquid != null && liquid.TryGetComponent<PrimaryElement>(out var element)&& converter.smi.IsInsideState(converter.smi.sm.disabled))
             {
-                if (converter.CanConvertAtAll())
+                ElectrolyzerConfiguration config = ModAssets.ElectrolyzerConfigurations[SimHashes.Water];
+                if (ModAssets.ElectrolyzerConfigurations.ContainsKey(element.ElementID))
                 {
-                    if (converter.consumedElementStatusHandles.Count == 0)
-                        converter.smi.AddStatusItems();
+                    config = ModAssets.ElectrolyzerConfigurations[element.ElementID];
                 }
-                else
+
+
+                CleaningUpOldAccumulators();
+                converter.consumedElements = config.InputElements.ToArray();
+                converter.outputElements = config.OutputElements.ToArray();
+                CreatingNewAccumulators();
+
+                SgtLogger.l(config.PowerConsumption + " wattage "+ Config.Instance.LiquidConductivity);
+                if (Config.Instance.LiquidConductivity)
                 {
-                    converter.smi.RemoveStatusItems();
-
-                }
-            }
-
-        }
-        private bool CanConvertAtAll()
-        {
-            foreach (var converter in converterList)
-            {
-                if (converter.CanConvertAtAll()) return true;
-            }
-            return false;
-        }
-        private bool HasEnoughMassToStartConverting()
-        {
-            foreach (var converter in converterList)
-            {
-                if (converter.HasEnoughMassToStartConverting()) return true;
-            }
-            return false;
-        }
-        private Substance lastElement = default;
-        private bool ElementChanged()
-        {
-            if (storage.items.Count == 0) return false;
-
-            if (storage.items.First().TryGetComponent<PrimaryElement>(out var element))
-            {
-                if (lastElement != element.Element.substance)
-                {
-                    lastElement = element.Element.substance;
-                    return true;
+                    energyConsumer.BaseWattageRating = config.PowerConsumption;
                 }
             }
-            return false;
+        }
+
+        private void CleaningUpOldAccumulators()
+        {
+            for (int i = converter.consumedElements.Length-1; i >=0 ; i--)
+            {
+                Game.Instance.accumulators.Remove(converter.consumedElements[i].Accumulator);
+            }
+
+            for (int i = converter.outputElements.Length - 1; i >= 0; i--)
+            {
+                Game.Instance.accumulators.Remove(converter.outputElements[i].accumulator);
+            }
+        }
+        private void CreatingNewAccumulators()
+        {
+
+            for (int i = 0; i < converter.consumedElements.Length; i++)
+            {
+                converter.consumedElements[i].Accumulator = Game.Instance.accumulators.Add("ElementsConsumed", converter);
+            }
+
+            converter.totalDiseaseWeight = 0f;
+            for (int j = 0; j < converter.outputElements.Length; j++)
+            {
+                converter.outputElements[j].accumulator = Game.Instance.accumulators.Add("OutputElements", converter);
+                converter.totalDiseaseWeight += converter.outputElements[j].diseaseWeight;
+            }
         }
     }
 

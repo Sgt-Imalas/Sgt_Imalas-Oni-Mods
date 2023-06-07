@@ -42,108 +42,104 @@ namespace UL_UniversalLyzer
             {
                 bool storeOutput = Config.Instance.IsPiped;
                 go.TryGetComponent<Electrolyzer>(out var oldLyzer);
-                CellOffset emissionOffset = oldLyzer.emissionOffset;
-                CellOffset secondaryEmissionOffset = new CellOffset(1, 1);
+
                 if (go.TryGetComponent<ConduitConsumer>(out var consumer))
                 {
                     consumer.capacityTag = GameTags.AnyWater;
                 }
-                ElementConverter pWaterConverter = go.AddComponent<ElementConverter>();
-                pWaterConverter.consumedElements = new ElementConverter.ConsumedElement[1]
-                {
-                    new ElementConverter.ConsumedElement(SimHashes.DirtyWater.CreateTag(), 1f)
-                };
-                pWaterConverter.outputElements =
-                    Config.Instance.SolidDebris 
-                    ? new ElementConverter.OutputElement[]
-                    {
-                        new ElementConverter.OutputElement(0.886f, SimHashes.ContaminatedOxygen, 343.15f, useEntityTemperature: false, storeOutput: storeOutput, emissionOffset.x, emissionOffset.y),
-                        new ElementConverter.OutputElement(0.111f, SimHashes.Hydrogen, 343.15f, useEntityTemperature: false, storeOutput: storeOutput, emissionOffset.x, emissionOffset.y),
-                        new ElementConverter.OutputElement(0.003f, SimHashes.ToxicSand, 343.15f, useEntityTemperature: false, storeOutput: false, 1, 0)
-                    }
-                    : new ElementConverter.OutputElement[]
-                    {
-                        new ElementConverter.OutputElement(0.888f, SimHashes.ContaminatedOxygen, 343.15f, useEntityTemperature: false, storeOutput: storeOutput, emissionOffset.x, emissionOffset.y),
-                        new ElementConverter.OutputElement(0.112f, SimHashes.Hydrogen, 343.15f, useEntityTemperature: false, storeOutput: storeOutput, emissionOffset.x, emissionOffset.y)
-                    };
 
-                ElementConverter saltWaterConverter = go.AddComponent<ElementConverter>();
-                saltWaterConverter.consumedElements = new ElementConverter.ConsumedElement[1]
-                {
-                    new ElementConverter.ConsumedElement(SimHashes.SaltWater.CreateTag(), 1f)
-                };
-                saltWaterConverter.outputElements =
-                    Config.Instance.SolidDebris
-                    ? 
-                    new ElementConverter.OutputElement[]
-                    {
-                        new ElementConverter.OutputElement(0.826f, SimHashes.Oxygen, 343.15f, useEntityTemperature: false, storeOutput: storeOutput, emissionOffset.x, emissionOffset.y),
-                        new ElementConverter.OutputElement(0.104f, SimHashes.Hydrogen, 343.15f, useEntityTemperature: false, storeOutput: storeOutput, emissionOffset.x, emissionOffset.y),
-                        new ElementConverter.OutputElement(0.047f, SimHashes.ChlorineGas, 343.15f, useEntityTemperature: false, storeOutput: storeOutput, secondaryEmissionOffset.x, secondaryEmissionOffset.y),
-                        new ElementConverter.OutputElement(0.023f, SimHashes.Salt, 343.15f, useEntityTemperature: false, storeOutput: false, 1, 0)
-                    } 
-                    :
-                    new ElementConverter.OutputElement[]
-                    {
-                        new ElementConverter.OutputElement(0.826f, SimHashes.Oxygen, 343.15f, useEntityTemperature: false, storeOutput: storeOutput, emissionOffset.x, emissionOffset.y),
-                        new ElementConverter.OutputElement(0.104f, SimHashes.Hydrogen, 343.15f, useEntityTemperature: false, storeOutput: storeOutput, emissionOffset.x, emissionOffset.y),
-                        new ElementConverter.OutputElement(0.070f, SimHashes.ChlorineGas, 343.15f, useEntityTemperature: false, storeOutput: storeOutput, secondaryEmissionOffset.x, secondaryEmissionOffset.y)
-                    };
+                var newLyzer = go.AddComponent<MultiConverterElectrolyzer>();
 
-                ElementConverter brineWaterConverter = go.AddComponent<ElementConverter>();
-                brineWaterConverter.consumedElements = new ElementConverter.ConsumedElement[1]
-                {
-                    new ElementConverter.ConsumedElement(SimHashes.Brine.CreateTag(), 1f)
-                };
-                brineWaterConverter.outputElements =
-                    Config.Instance.SolidDebris
-                    ? new ElementConverter.OutputElement[]
-                    {
-                        new ElementConverter.OutputElement(0.622f, SimHashes.Oxygen, 343.15f, useEntityTemperature: false, storeOutput: storeOutput, emissionOffset.x, emissionOffset.y),
-                        new ElementConverter.OutputElement(0.78f, SimHashes.Hydrogen, 343.15f, useEntityTemperature: false, storeOutput: storeOutput, emissionOffset.x, emissionOffset.y),
-                        new ElementConverter.OutputElement(0.200f, SimHashes.ChlorineGas, 343.15f, useEntityTemperature: false, storeOutput: storeOutput, secondaryEmissionOffset.x, secondaryEmissionOffset.y),
-                        new ElementConverter.OutputElement(0.100f, SimHashes.Salt, 343.15f, useEntityTemperature: false, storeOutput: false, 1, 0 )
-                    } 
-                    : new ElementConverter.OutputElement[]
-                    {
-                        new ElementConverter.OutputElement(0.622f, SimHashes.Oxygen, 343.15f, useEntityTemperature: false, storeOutput: storeOutput, emissionOffset.x, emissionOffset.y),
-                        new ElementConverter.OutputElement(0.78f, SimHashes.Hydrogen, 343.15f, useEntityTemperature: false, storeOutput: storeOutput, emissionOffset.x, emissionOffset.y),
-                        new ElementConverter.OutputElement(0.300f, SimHashes.ChlorineGas, 343.15f, useEntityTemperature: false, storeOutput: storeOutput, secondaryEmissionOffset.x, secondaryEmissionOffset.y)
-                    };
+                newLyzer.emissionOffset = oldLyzer.emissionOffset;
+                newLyzer.maxMass = oldLyzer.maxMass;
+                newLyzer.simRenderLoadBalance = oldLyzer.simRenderLoadBalance;
 
                 UnityEngine.Object.Destroy(oldLyzer);
-                go.AddComponent<MultiConverterElectrolyzer>();
-
-
-                if (storeOutput)
-                    AttachPorts(go);
-
             }
         }
-        private static void AttachPorts(GameObject go)
-        {
-            go.AddComponent<ConduitSecondaryOutput>().portInfo = O2Port;
-            go.AddComponent<ConduitSecondaryOutput>().portInfo = H2Port;
-            go.AddComponent<ConduitSecondaryOutput>().portInfo = ClPort;
-        }
+        static System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.Public
+                                            | System.Reflection.BindingFlags.NonPublic
+                                            | System.Reflection.BindingFlags.Static
+                                            | System.Reflection.BindingFlags.Instance;
+
+
+        public static Type NightLib_PortDisplayOutput_Type = Type.GetType("NightLib.PortDisplayOutput, NightLib", false, false);
+        public static Type NightLib_PortDisplayController_Type = Type.GetType("NightLib.PortDisplayController, NightLib", false, false);
+        public static Type NightLib_PipedDispenser_Type = Type.GetType("Nightinggale.PipedOutput.PipedDispenser, NightLib", false, false);
+        public static Type NightLib_PipedOptionalExhaust_Type = Type.GetType("Nightinggale.PipedOutput.PipedOptionalExhaust, NightLib", false, false);
         public static void AddPipes(GameObject go)
         {
-            if(!Config.Instance.IsPiped) return;
+            if (NightLib_PortDisplayOutput_Type == null)
+            {
+                SgtLogger.warning("Piped Output Class not found, Piped Output wont be active");
+                return;
+            }
+            var ConstructorMethod_PortDisplayOutput = NightLib_PortDisplayOutput_Type.GetConstructor(flags, null, new System.Type[]
+            {
+                typeof (ConduitType),
+                typeof (CellOffset),
+                typeof (CellOffset?),
+                typeof (Color?)
+            }, null);
 
-            //var ox = go.AddComponent<ConduitElementOutput>();
-            //ox.portInfo = O2Port;
-            //ox.elementFilter = new SimHashes[] { SimHashes.Oxygen, SimHashes.ContaminatedOxygen };
-            //ox.alwaysDispense = true;
+            if (ConstructorMethod_PortDisplayOutput == null)
+            {
+                SgtLogger.logwarning(nameof(ConstructorMethod_PortDisplayOutput)+"Not Found!");
+                return;
+            }
 
-            //var h2 = go.AddComponent<ConduitElementOutput>();
-            //h2.portInfo = H2Port;
-            //h2.elementFilter = new SimHashes[] { SimHashes.Hydrogen };
-            //h2.alwaysDispense = true;
+            var controller = go.GetComponent(NightLib_PortDisplayController_Type);
+            if (controller == null)
+            {
+                controller = go.AddComponent(NightLib_PortDisplayController_Type);
+                Traverse.Create(controller).Method("Init").GetValue(new object[] { go });
+            }
 
-            //var Cl = go.AddComponent<ConduitElementOutput>();
-            //Cl.portInfo = ClPort;
-            //Cl.elementFilter = new SimHashes[] { SimHashes.ChlorineGas };
-            //Cl.alwaysDispense = true;
+            ///Chlorine
+            var chlorineColour =  ElementLoader.GetElement(SimHashes.ChlorineGas.CreateTag()).substance.conduitColour;
+            chlorineColour.a = 255;
+
+            var PortDisplayOutput_Instance_Chlorine = ConstructorMethod_PortDisplayOutput.Invoke(new object[] { ConduitType.Gas, new CellOffset(0,0),null, chlorineColour });
+
+            Traverse.Create(controller).Method("AssignPort").GetValue(new object[] { go, PortDisplayOutput_Instance_Chlorine });
+
+            var PipedDispenser_Cl = go.AddComponent(NightLib_PipedDispenser_Type);
+            Traverse.Create(PipedDispenser_Cl).Field("elementFilter").SetValue(new object[] { new SimHashes[] { SimHashes.ChlorineGas } });
+            Traverse.Create(PipedDispenser_Cl).Method("AssignPort").GetValue(new object[] { go, PortDisplayOutput_Instance_Chlorine });
+            Traverse.Create(PipedDispenser_Cl).Field("alwaysDispense").SetValue(new object[] { true });
+            Traverse.Create(PipedDispenser_Cl).Field("SkipSetOperational").SetValue(new object[] { true });
+
+            var PipedOptionalExhaust_Cl = go.AddComponent(NightLib_PipedOptionalExhaust_Type);
+            Traverse.Create(PipedOptionalExhaust_Cl).Field("dispenser").SetValue(new object[] { PipedDispenser_Cl });
+            Traverse.Create(PipedOptionalExhaust_Cl).Field("elementHash").SetValue(new object[] { SimHashes.ChlorineGas });
+            Traverse.Create(PipedOptionalExhaust_Cl).Field("elementTag").SetValue(new object[] { SimHashes.ChlorineGas.CreateTag() });
+            Traverse.Create(PipedOptionalExhaust_Cl).Field("capacity").SetValue(new object[] { 1f });
+
+
+            ///pOx
+
+            var poxColour = ElementLoader.GetElement(SimHashes.ContaminatedOxygen.CreateTag()).substance.conduitColour;
+            poxColour.a = 255;
+
+            var PortDisplayOutput_Instance_pOx = ConstructorMethod_PortDisplayOutput.Invoke(new object[] { ConduitType.Gas, new CellOffset(1, 0), null, poxColour });
+
+
+            Traverse.Create(controller).Method("AssignPort").GetValue(new object[] {go, PortDisplayOutput_Instance_pOx });
+
+            var PipedDispenser_pox = go.AddComponent(NightLib_PipedDispenser_Type);
+            Traverse.Create(PipedDispenser_pox).Field("elementFilter").SetValue(new object[] { new SimHashes[] { SimHashes.ContaminatedOxygen } });
+            Traverse.Create(PipedDispenser_pox).Method("AssignPort").GetValue(new object[] { go, PortDisplayOutput_Instance_Chlorine });
+            Traverse.Create(PipedDispenser_pox).Field("alwaysDispense").SetValue(new object[] { true });
+            Traverse.Create(PipedDispenser_pox).Field("SkipSetOperational").SetValue(new object[] { true });
+
+            var PipedOptionalExhaust_POX = go.AddComponent(NightLib_PipedOptionalExhaust_Type);
+            Traverse.Create(PipedOptionalExhaust_POX).Field("dispenser").SetValue(new object[] { PipedDispenser_pox });
+            Traverse.Create(PipedOptionalExhaust_POX).Field("elementHash").SetValue(new object[] { SimHashes.ContaminatedOxygen });
+            Traverse.Create(PipedOptionalExhaust_POX).Field("elementTag").SetValue(new object[] { SimHashes.ContaminatedOxygen.CreateTag() });
+            Traverse.Create(PipedOptionalExhaust_POX).Field("capacity").SetValue(new object[] { 1f });
+
+
+
 
         }
         [HarmonyPatch(typeof(ElectrolyzerConfig))]
@@ -155,8 +151,7 @@ namespace UL_UniversalLyzer
             {
                 if (!Config.Instance.IsPiped)
                     return;
-                
-                AttachPorts(go);
+
                 AddPipes(go);
             }
         }
