@@ -65,18 +65,16 @@ namespace UL_UniversalLyzer
                                             | System.Reflection.BindingFlags.Instance;
 
 
+        public static Type NightLib_PortDisplayOutput_Type = Type.GetType("NightLib.PortDisplayOutput, NightLib", false, false);
+        public static Type NightLib_PortDisplayController_Type = Type.GetType("NightLib.PortDisplayController, NightLib", false, false);
+        public static Type NightLib_PipedDispenser_Type = Type.GetType("Nightinggale.PipedOutput.PipedDispenser, Nightinggale.PipedOutput", false, false);
+        public static Type NightLib_PipedOptionalExhaust_Type = Type.GetType("Nightinggale.PipedOutput.PipedOptionalExhaust, Nightinggale.PipedOutput", false, false);
         public static void AddPipes(GameObject go)
         {
             var q = AppDomain.CurrentDomain.GetAssemblies()
                        .SelectMany(t => t.GetTypes());
             q.ToList().ForEach(t => SgtLogger.l(t.Name, t.Namespace));
 
-
-            Type NightLib_PortDisplayOutput_Type = Type.GetType("NightLib.PortDisplayOutput, NightLib", false, false);
-            Type NightLib_PortDisplayController_Type = Type.GetType("NightLib.PortDisplayController, NightLib", false, false);
-            Type NightLib_PipedDispenser_Type = Type.GetType("Nightinggale.PipedOutput.PipedDispenser, Nightinggale.PipedOutput", false, false);
-            Type NightLib_PipedOptionalExhaust_Type = Type.GetType("Nightinggale.PipedOutput.PipedOptionalExhaust, Nightinggale.PipedOutput", false, false);
-    
             if (NightLib_PortDisplayOutput_Type == null)
             {
                 SgtLogger.warning("Piped Output Class not found, Piped Output wont be active");
