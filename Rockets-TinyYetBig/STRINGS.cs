@@ -73,7 +73,7 @@ namespace Rockets_TinyYetBig
                 public static LocString REQUIRED = "\nA Rocket needs atleast one of these!";
 
                 public static LocString ENGINES = "Every rocket has to fly somehow.\nA rocket engine provides the necessary thrust." + REQUIRED;
-                public static LocString HABITATS = "Strapped to the side, a pilot wouldn't survive long.\nBuild them a nice home to live in a Spacefarer." + REQUIRED;
+                public static LocString HABITATS = "Strapped to the side, a pilot wouldn't survive long.\nBuild them a nice home to live in a Spacefarer ." + REQUIRED;
                 public static LocString NOSECONES = "When not using a habitat nosecone,\nthe rocket needs one of these\nto keep it's tip nicely shaped.";
                 public static LocString DEPLOYABLES = "Colonizing new worlds needs some perimeter establishment.\nThese modules help with deployment.";
                 public static LocString FUEL = "A rocket without fuel or oxidizer won't fly far.\nThese modules help you with that.";
@@ -97,7 +97,7 @@ namespace Rockets_TinyYetBig
             public class CATEGORYTITLES
             {
                 public static LocString ENGINES = "Rocket Engines";
-                public static LocString HABITATS = "Spacefarer Modules";
+                public static LocString HABITATS = "Command Modules";
                 public static LocString NOSECONES = "Nosecones";
                 public static LocString DEPLOYABLES = "Deployables";
                 public static LocString FUEL = "Fuel & Oxidizer Tanks";
