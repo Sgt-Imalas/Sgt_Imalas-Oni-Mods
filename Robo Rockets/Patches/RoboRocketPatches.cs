@@ -167,7 +167,7 @@ namespace RoboRockets
         {
             public static void Postfix(PassengerRocketModule module, HabitatModuleSideScreen __instance)
             {
-                bool allowed = !module.gameObject.TryGetComponent<AIPassengerModule>(out var n);
+                bool allowed = !module.gameObject.TryGetComponent<AIPassengerModule>(out _);
 
                 HierarchyReferences component = __instance.GetComponent<HierarchyReferences>();
                 KButton reference = component.GetReference<KButton>("button");
