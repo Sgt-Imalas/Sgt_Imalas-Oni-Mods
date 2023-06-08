@@ -47,7 +47,6 @@ namespace UL_UniversalLyzer
                 var newLyzer = go.AddComponent<MultiConverterElectrolyzer>();
 
                 newLyzer.emissionOffset = oldLyzer.emissionOffset;
-                newLyzer.maxMass = oldLyzer.maxMass;
                 newLyzer.simRenderLoadBalance = oldLyzer.simRenderLoadBalance;
 
                 UnityEngine.Object.Destroy(oldLyzer);

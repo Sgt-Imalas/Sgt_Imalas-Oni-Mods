@@ -9,7 +9,7 @@ namespace UL_UniversalLyzer
     [ModInfo("Universal Electrolyzer")]
     public class Config : SingletonOptions<Config>
     {
-        [Option("Piped Output Compatibility - Use piped outputs", "Does nothing on its own. When the mod \"Piped Output\" is installed,\nthe Electrolyzer will ignore that mod unless this option here is checked.\nIf checked and piped output is enabled, the electrolyzer will gain two additional piped outputs,\nchlorine and polluted oxygen", "(1) General Settings") ]
+        [Option("Piped Output Compatibility - Use piped outputs", "Does nothing on its own.\nWhen the mod \"Piped Output\" is installed,\nthe Electrolyzer will ignore that mod unless this option here is checked.\nIf checked and piped output is enabled, the electrolyzer will gain two additional piped outputs,\nchlorine and polluted oxygen", "(1) General Settings") ]
         [JsonProperty]
         public bool IsPiped { get; set; }
 
@@ -17,20 +17,27 @@ namespace UL_UniversalLyzer
         [JsonProperty]
         public bool SolidDebris { get; set; }
 
-        [Option("Liquid Conductivity affects power consumption", "When active, the power consumption of the electrolyzer will be affected by the conductivity of the liquid.\nHigh conductivity liquids (salt water, brine), will make it consume less power,\npolluted water will slightly increase the power consumption.", "(1) General Settings")]
-        [JsonProperty]
-        public bool LiquidConductivity { get; set; }
 
-        [Option("Power Consumption", "Power Consumption of the electrolyzer when it uses Water.\nWhen \"Liquid Conductivity\" is disabled, this option defines the general electrolyzer power consumption.", "(2) Default / Water Settings")]
+        [Option("Water Type used affects Electrolyzer", "When active, the power consumption, output temperature and overpressurisation threshold are affected by the water type.", "(1) General Settings")]
+        [JsonProperty]
+        public bool PerLiquidSettings { get; set; }
+
+        [Option("Power Consumption", "Power Consumption of the electrolyzer when it uses Water.\nWhen \"Liquid Conductivity\" is disabled, this option defines the general electrolyzer power consumption.", "(2) Default Settings / Water")]
         [JsonProperty]
         [Limit(10, 300)]
         public int consumption_water { get; set; }
-        [Option("Minimum Gas Output Temperature", "Minimum Temperature of the Output Gasses in °C ", "(2) Default / Water Settings")]
+        [Option("Minimum Gas Output Temperature", "Minimum Temperature of the Output Gasses in °C ", "(2) Default Settings / Water")]
         [JsonProperty]
         [Limit(10, 160)]
         public int minOutputTemp_water { get; set; }
+        [Option("Overpressurisation Threshold", "Gas Threshold Mass in KG above which the Electrolyzer overpressurizes when electrolyzing Water.", "(2) Default Settings / Water")]
+        [JsonProperty]
+        [Limit(1, 15)]
+        public float PressureThresholdMass_water { get; set; }
 
-        [Option("Power Consumption", "Power Consumption of the electrolyzer when it uses Polluted Water.\nOnly has an effect when \"Liquid Conductivity\" is enabled.", "(3) Polluted Water")]
+
+
+        [Option("Power Consumption", "Power Consumption of the electrolyzer when it uses Polluted Water.", "(3) Polluted Water")]
         [JsonProperty]
         [Limit(10, 300)]
         public int consumption_pollutedwater { get; set; }
@@ -39,8 +46,15 @@ namespace UL_UniversalLyzer
         [JsonProperty]
         [Limit(10, 160)]
         public int minOutputTemp_pollutedwater { get; set; }
+        [Option("Overpressurisation Threshold", "Gas Threshold Mass in KG above which the Electrolyzer overpressurizes when electrolyzing Polluted Water.", "(3) Polluted Water")]
+        [JsonProperty]
+        [Limit(1, 15)]
+        public float PressureThresholdMass_pollutedwater { get; set; }
 
-        [Option("Power Consumption", "Power Consumption of the electrolyzer when it uses Salt Water.\nOnly has an effect when \"Liquid Conductivity\" is enabled.", "(4) Salt Water")]
+
+
+
+        [Option("Power Consumption", "Power Consumption of the electrolyzer when it uses Salt Water.", "(4) Salt Water")]
         [JsonProperty]
         [Limit(10, 300)]
         public int consumption_saltwater { get; set; }
@@ -50,8 +64,15 @@ namespace UL_UniversalLyzer
         [Limit(10, 160)]
         public int minOutputTemp_saltwater { get; set; }
 
+        [Option("Overpressurisation Threshold", "Gas Threshold Mass in KG above which the Electrolyzer overpressurizes when electrolyzing Salt Water.", "(4) Salt Water")]
+        [JsonProperty]
+        [Limit(1, 15)]
+        public float PressureThresholdMass_saltwater { get; set; }
 
-        [Option("Power Consumption", "Power Consumption of the electrolyzer when it uses Brine.\nOnly has an effect when \"Liquid Conductivity\" is enabled.", "(5) Brine")]
+
+
+
+        [Option("Power Consumption", "Power Consumption of the electrolyzer when it uses Brine.", "(5) Brine")]
         [JsonProperty]
         [Limit(10, 300)]
         public int consumption_brine { get; set; }
@@ -60,22 +81,31 @@ namespace UL_UniversalLyzer
         [JsonProperty]
         [Limit(10, 160)]
         public int minOutputTemp_brine { get; set; }
+        [Option("Overpressurisation Threshold", "Gas Threshold Mass in KG above which the Electrolyzer overpressurizes when electrolyzing Brine.", "(5) Brine")]
+        [JsonProperty]
+        [Limit(1, 15)]
+        public float PressureThresholdMass_brine { get; set; }
 
         public Config()
         {
             IsPiped = false;
             SolidDebris = true;
-            LiquidConductivity = true;
+            PerLiquidSettings = true;
+
+            PressureThresholdMass_water = 2.5f;
+            PressureThresholdMass_pollutedwater = 1.8f;
+            PressureThresholdMass_saltwater = 2.7f;
+            PressureThresholdMass_brine = 3.0f;
 
             consumption_water = 120;
             consumption_pollutedwater = 130;
-            consumption_saltwater = 80;
-            consumption_brine = 50;
+            consumption_saltwater = 90;
+            consumption_brine = 60;
 
-            minOutputTemp_brine = 70; 
+            minOutputTemp_brine = 75; 
             minOutputTemp_saltwater = 70;
-            minOutputTemp_pollutedwater = 70;
-            minOutputTemp_water = 70;
+            minOutputTemp_pollutedwater = 50;
+            minOutputTemp_water = 80;
         }
     }
 }

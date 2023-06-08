@@ -14,8 +14,6 @@ namespace UL_UniversalLyzer
     public class MultiConverterElectrolyzer : StateMachineComponent<MultiConverterElectrolyzer.StatesInstance>
     {
         [SerializeField]
-        public float maxMass = 2.5f;
-        [SerializeField]
         public bool hasMeter = true;
         [SerializeField]
         public CellOffset emissionOffset = CellOffset.none;
@@ -82,7 +80,7 @@ namespace UL_UniversalLyzer
 
         private bool RoomForPressure => !GameUtil.FloodFillCheck(new Func<int, MultiConverterElectrolyzer, bool>(MultiConverterElectrolyzer.OverPressure), this, Grid.OffsetCell(Grid.PosToCell(this.transform.GetPosition()), this.emissionOffset), 3, true, true);
 
-        private static bool OverPressure(int cell, MultiConverterElectrolyzer MultiConverterElectrolyzer) => (double)Grid.Mass[cell] > MultiConverterElectrolyzer.maxMass;
+        private static bool OverPressure(int cell, MultiConverterElectrolyzer MultiConverterElectrolyzer) => (double)Grid.Mass[cell] > MultiConverterElectrolyzer.LastActiveConfig.OverpressurisationThreshold;
 
         public class StatesInstance :
           GameStateMachine<States, StatesInstance, MultiConverterElectrolyzer, object>.GameInstance
@@ -133,6 +131,9 @@ namespace UL_UniversalLyzer
         private bool CanConvertAtAll() => converter.CanConvertAtAll();
         private bool HasEnoughMassToStartConverting() => converter.HasEnoughMassToStartConverting();
 
+
+        ElectrolyzerConfiguration LastActiveConfig = ModAssets.ElectrolyzerConfigurations[SimHashes.Water];
+
         private void UpdateConverter()
         {
             if (storage.items.Count == 0) return;
@@ -141,22 +142,24 @@ namespace UL_UniversalLyzer
             var liquid = storage.FindFirstWithMass(GameTags.AnyWater, 0.1f);
             if (liquid != null && liquid.TryGetComponent<PrimaryElement>(out var element)&& converter.smi.IsInsideState(converter.smi.sm.disabled))
             {
-                ElectrolyzerConfiguration config = ModAssets.ElectrolyzerConfigurations[SimHashes.Water];
-                if (ModAssets.ElectrolyzerConfigurations.ContainsKey(element.ElementID))
+                var lastVal = LastActiveConfig;
+
+                if (Config.Instance.PerLiquidSettings && ModAssets.ElectrolyzerConfigurations.ContainsKey(element.ElementID))
                 {
-                    config = ModAssets.ElectrolyzerConfigurations[element.ElementID];
+                    LastActiveConfig = ModAssets.ElectrolyzerConfigurations[element.ElementID];
+                }
+                else if (LastActiveConfig != ModAssets.ElectrolyzerConfigurations[SimHashes.Water])
+                {
+                    LastActiveConfig = ModAssets.ElectrolyzerConfigurations[SimHashes.Water];
                 }
 
-
-                CleaningUpOldAccumulators();
-                converter.consumedElements = config.InputElements.ToArray();
-                converter.outputElements = config.OutputElements.ToArray();
-                CreatingNewAccumulators();
-
-                SgtLogger.l(config.PowerConsumption + " wattage "+ Config.Instance.LiquidConductivity);
-                if (Config.Instance.LiquidConductivity)
+                if(LastActiveConfig!= lastVal)
                 {
-                    energyConsumer.BaseWattageRating = config.PowerConsumption;
+                    CleaningUpOldAccumulators();
+                    converter.consumedElements = LastActiveConfig.InputElements.ToArray();
+                    converter.outputElements = LastActiveConfig.OutputElements.ToArray();
+                    CreatingNewAccumulators();
+                    energyConsumer.BaseWattageRating = LastActiveConfig.PowerConsumption;
                 }
             }
         }

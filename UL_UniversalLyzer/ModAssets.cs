@@ -42,7 +42,8 @@ namespace UL_UniversalLyzer
                 new ElementConverter.OutputElement(0.888f, SimHashes.Oxygen, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_water), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, defaultLyzerOffset.x, defaultLyzerOffset.y),
                 new ElementConverter.OutputElement(0.112f, SimHashes.Hydrogen, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_water), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive,defaultLyzerOffset.x, defaultLyzerOffset.y),
             },
-            Config.Instance.consumption_water
+            Config.Instance.consumption_water,
+            Config.Instance.PressureThresholdMass_water
             );
 
             AddLyzerConfiguration(SimHashes.DirtyWater, new ElementConverter.ConsumedElement[1]
@@ -63,7 +64,8 @@ namespace UL_UniversalLyzer
                         new ElementConverter.OutputElement(0.112f, SimHashes.Hydrogen, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_pollutedwater), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, defaultLyzerOffset.x, defaultLyzerOffset.y)
                 }
             ,
-            Config.Instance.consumption_pollutedwater
+            Config.Instance.consumption_pollutedwater,
+            Config.Instance.PressureThresholdMass_pollutedwater
             );
 
             AddLyzerConfiguration(SimHashes.SaltWater, new ElementConverter.ConsumedElement[1]
@@ -88,7 +90,8 @@ namespace UL_UniversalLyzer
                         new ElementConverter.OutputElement(0.070f, SimHashes.ChlorineGas, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_saltwater), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, tertiaryGasOffset.x, tertiaryGasOffset.y)
                 }
             ,
-            Config.Instance.consumption_saltwater
+            Config.Instance.consumption_saltwater,
+            Config.Instance.PressureThresholdMass_saltwater
             );
 
             AddLyzerConfiguration(SimHashes.Brine, new ElementConverter.ConsumedElement[1]
@@ -111,7 +114,8 @@ namespace UL_UniversalLyzer
                         new ElementConverter.OutputElement(0.300f, SimHashes.ChlorineGas, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_brine), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, tertiaryGasOffset.x, tertiaryGasOffset.y)
                 }
             ,
-            Config.Instance.consumption_brine
+            Config.Instance.consumption_brine,
+            Config.Instance.PressureThresholdMass_brine
             );
         }
 
@@ -129,9 +133,9 @@ namespace UL_UniversalLyzer
             ElectrolyzerConfigurations[element] = config;
         }
 
-        public static void AddLyzerConfiguration(SimHashes element, ElementConverter.ConsumedElement[] InputElements, ElementConverter.OutputElement[] outputElements, float power)
+        public static void AddLyzerConfiguration(SimHashes element, ElementConverter.ConsumedElement[] InputElements, ElementConverter.OutputElement[] outputElements, float power, float threshold)
         {
-            ElectrolyzerConfigurations[element] = new ElectrolyzerConfiguration(InputElements, outputElements, power);
+            ElectrolyzerConfigurations[element] = new ElectrolyzerConfiguration(InputElements, outputElements, power, threshold);
         }
 
 
@@ -141,11 +145,13 @@ namespace UL_UniversalLyzer
             public List<ElementConverter.OutputElement> OutputElements;
 
             public float PowerConsumption;
-            public ElectrolyzerConfiguration(ElementConverter.ConsumedElement[] input, ElementConverter.OutputElement[] output, float power)
+            public float OverpressurisationThreshold;
+            public ElectrolyzerConfiguration(ElementConverter.ConsumedElement[] input, ElementConverter.OutputElement[] output, float power, float overpressurisationThreshold)
             {
                 InputElements = input.ToList();
                 OutputElements = output.ToList();
                 PowerConsumption = power;
+                OverpressurisationThreshold = overpressurisationThreshold;
             }
 
         }
