@@ -35,8 +35,8 @@ namespace RoboRockets.LearningBrain
                 initialAnim: "object",
                 sceneLayer: Grid.SceneLayer.Front,
                 collisionShape: EntityTemplates.CollisionShape.RECTANGLE,
-                width: 1.9f,
-                height: 1.9f,
+                width: 1.2f,
+                height: 1.2f,
                 isPickupable: true,
                 sortOrder: 0,
                 element: SimHashes.Creature,
@@ -50,7 +50,7 @@ namespace RoboRockets.LearningBrain
             prefab.AddOrGet<UserNameable>();
             prefab.AddComponent<FlyingBrain>(); 
             prefab.AddOrGet<DemolishableDroppable>();
-            prefab.AddOrGet<OccupyArea>().SetCellOffsets(EntityTemplates.GenerateOffsets(1, 1)); 
+            prefab.AddOrGet<OccupyArea>().SetCellOffsets(EntityTemplates.GenerateOffsets(0, 0)); 
             prefab.AddOrGet<CharacterOverlay>().shouldShowName = true;
 
             return prefab;
