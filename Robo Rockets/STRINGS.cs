@@ -68,8 +68,14 @@ namespace RoboRockets
                 }
                 public class RR_AILEARNINGCONTROLMODULE
                 {
+                    public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("AI Brain Module [OLD]", nameof(RR_AINOSECONE));
+                    public static LocString DESC = "Piloting is fun, even for an artificial brain!";
+                    public static LocString EFFECT = "Requires a " + MISC.TAGS.RR_SPACEBRAINFLYER + " to function.\nBrains can be made at the " + global::STRINGS.BUILDINGS.PREFABS.SUPERMATERIALREFINERY.NAME + "\nA brain will pilot the rocket and slowly gain piloting experience, resulting in faster flight times.\n\nFunctions as a Command Module.\n\nOne Command Module may be installed per rocket.\n\nMust be built at the top of a Rocket\n\nWon't allow any duplicants inside";
+                }
+                public class RR_AILEARNINGCONTROLMODULEV2
+                {
                     public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("AI Brain Module", nameof(RR_AINOSECONE));
-                    public static LocString DESC = "The big camera lens helps its AI with navigation.";
+                    public static LocString DESC = "Piloting is fun, even for an artificial brain!";
                     public static LocString EFFECT = "Requires a " + MISC.TAGS.RR_SPACEBRAINFLYER + " to function.\nBrains can be made at the " + global::STRINGS.BUILDINGS.PREFABS.SUPERMATERIALREFINERY.NAME + "\nA brain will pilot the rocket and slowly gain piloting experience, resulting in faster flight times.\n\nFunctions as a Command Module.\n\nOne Command Module may be installed per rocket.\n\nMust be built at the top of a Rocket\n\nWon't allow any duplicants inside";
                 }
                 public class RR_AICONTROLMODULE
