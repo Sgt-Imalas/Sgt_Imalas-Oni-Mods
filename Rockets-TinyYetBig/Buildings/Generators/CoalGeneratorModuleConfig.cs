@@ -62,7 +62,7 @@ namespace Rockets_TinyYetBig
             manualDeliveryKg.SetStorage(storage);
             manualDeliveryKg.RequestedItemTag = ElementLoader.FindElementByHash(SimHashes.Carbon).tag;
             manualDeliveryKg.capacity = storage.capacityKg;
-            manualDeliveryKg.refillMass = storage.capacityKg;
+            manualDeliveryKg.refillMass = storage.capacityKg/8f;
             manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
 
             var generator = go.AddOrGet<RTB_ModuleGenerator>();

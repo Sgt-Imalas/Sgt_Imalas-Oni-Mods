@@ -24,15 +24,6 @@ namespace UL_UniversalLyzer
         public static void InitializeOrUpdateLyzerPowerCosts()
         {
 
-            bool a = Patches.NightLib_PortDisplayOutput_Type != null;
-            bool b = Patches.NightLib_PortDisplayController_Type != null;
-            bool c = Patches.NightLib_PipedDispenser_Type != null;
-            bool d = Patches.NightLib_PipedOptionalExhaust_Type != null;
-            bool e = Config.Instance.IsPiped;
-            SgtLogger.l("AMENA Bools: " +a+", "+b + "," +c + "," +d + "," +e);
-
-            SgtLogger.l(IsPipedAndPipedBuildingsActive.ToString(), "Lyzer Piped?");
-
             AddLyzerConfiguration(SimHashes.Water, new ElementConverter.ConsumedElement[1]
             {
                     new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 1f)

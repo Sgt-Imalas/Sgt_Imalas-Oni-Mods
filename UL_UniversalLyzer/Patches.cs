@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using UnityEngine;
 using UtilLibs;
+using static Storage;
 using static UL_UniversalLyzer.ModAssets;
 
 namespace UL_UniversalLyzer
@@ -36,6 +37,11 @@ namespace UL_UniversalLyzer
 
             public static void Postfix(GameObject go)
             {
+                if(go.TryGetComponent<Storage>(out var stor))
+                {
+                    stor.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
+                }
+
                 bool storeOutput = Config.Instance.IsPiped;
                 go.TryGetComponent<Electrolyzer>(out var oldLyzer);
 

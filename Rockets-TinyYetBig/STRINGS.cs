@@ -454,6 +454,11 @@ namespace Rockets_TinyYetBig
 
         public class UI
         {
+            public static class ROCKETGENERATOR
+            {
+                public static LocString BUTTONTEXT = (LocString)"Toggle On/Off";
+                public static LocString TOOLTIP = (LocString)"Toggle the Generator producing power while landed";
+            }
             public class NEWBUILDCATEGORIES
             {
                 public static class ROCKETFUELING
@@ -462,6 +467,7 @@ namespace Rockets_TinyYetBig
                     public static LocString BUILDMENUTITLE = (LocString)"Rocket Fueling";
                     public static LocString TOOLTIP = (LocString)"";
                 }
+                
             }
         }
 

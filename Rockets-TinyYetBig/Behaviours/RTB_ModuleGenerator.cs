@@ -9,7 +9,7 @@ using static STRINGS.BUILDINGS.PREFABS;
 
 namespace Rockets_TinyYetBig.Behaviours
 {
-    public class RTB_ModuleGenerator : Generator//, ISidescreenButtonControl
+    public class RTB_ModuleGenerator : Generator, ISidescreenButtonControl
     {
 
         /// <summary>
@@ -22,19 +22,19 @@ namespace Rockets_TinyYetBig.Behaviours
         /// Swimming pool Chlordispenser disinfectant
         /// </summary>
 
-        [MyCmpGet] 
+        [MyCmpGet]
         private Storage storage;
 
 
         private Clustercraft clustercraft;
-        private Guid poweringStatusItemHandle;
-        private Guid notPoweringStatusItemHandle;
+        private Guid ActiveStatusItemHandle;
+       // private Guid notPoweringStatusItemHandle;
         public Guid FuelStatusHandle;
 
         [Serialize]
         public bool AlwaysActive = false;
         [SerializeField]
-        public bool produceWhileLanded = true;
+        public bool produceWhileLanded = false;
         [Serialize]
         public bool AllowRefill = true;
 
@@ -45,7 +45,7 @@ namespace Rockets_TinyYetBig.Behaviours
         [Serialize]
         public bool OutputToOwnStorage = false;
         [Serialize]
-        public Vector3 ElementOutputCellOffset = new Vector3(0,0);
+        public Vector3 ElementOutputCellOffset = new Vector3(0, 0);
 
         [Serialize]
         public CargoBay.CargoType PullFromRocketStorageType = CargoBay.CargoType.Entities;
@@ -61,6 +61,9 @@ namespace Rockets_TinyYetBig.Behaviours
         public float outputProductionRate = -1f;
         public float outputProductionTemperature = 293.15f;
 
+        public string SidescreenButtonText => STRINGS.UI.ROCKETGENERATOR.BUTTONTEXT;
+
+        public string SidescreenButtonTooltip => STRINGS.UI.ROCKETGENERATOR.TOOLTIP;
 
         public override void OnPrefabInit()
         {
@@ -77,9 +80,9 @@ namespace Rockets_TinyYetBig.Behaviours
             Game.Instance.electricalConduitSystem.AddToVirtualNetworks(this.VirtualCircuitKey, (object)this, true);
             base.OnSpawn();
         }
-        public Tuple<float,float> GetConsumptionStatusStats()
+        public Tuple<float, float> GetConsumptionStatusStats()
         {
-            var returnVals = new Tuple<float, float>(0,0);
+            var returnVals = new Tuple<float, float>(0, 0);
             if (storage == null)
                 return returnVals;
             if (this.PullFromRocketStorageType == CargoBay.CargoType.Entities)
@@ -143,6 +146,8 @@ namespace Rockets_TinyYetBig.Behaviours
             }
         }
 
+
+        bool lastActiveState = false;
         public override void EnergySim200ms(float dt)
         {
             //selectable.SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus, (object)this);
@@ -165,12 +170,13 @@ namespace Rockets_TinyYetBig.Behaviours
 
                     this.GenerateJoules(this.WattageRating * dt);
 
-                    if (!(this.poweringStatusItemHandle == Guid.Empty))
+                    if (lastActiveState)
                         return;
-                    this.poweringStatusItemHandle = this.AlwaysActive ?
-                        this.selectable.ReplaceStatusItem(this.notPoweringStatusItemHandle, ModAssets.StatusItems.RTB_AlwaysActiveOn , (object)this):
-                        this.selectable.ReplaceStatusItem(this.notPoweringStatusItemHandle, ModAssets.StatusItems.RTB_ModuleGeneratorPowered, (object)this);
-                    this.notPoweringStatusItemHandle = Guid.Empty;
+                    this.ActiveStatusItemHandle = this.AlwaysActive ?
+                        this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModAssets.StatusItems.RTB_AlwaysActiveOn, (object)this) :
+                        this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModAssets.StatusItems.RTB_ModuleGeneratorPowered, (object)this);
+                    // this.notPoweringStatusItemHandle = Guid.Empty;
+                    lastActiveState = true;
                 }
                 else
                 {
@@ -182,13 +188,15 @@ namespace Rockets_TinyYetBig.Behaviours
             }
             else
             {
-                if (!(this.notPoweringStatusItemHandle == Guid.Empty))
+                if (!lastActiveState)
                     return;
-                this.notPoweringStatusItemHandle = this.AlwaysActive ?
-                        this.selectable.ReplaceStatusItem(this.notPoweringStatusItemHandle, ModAssets.StatusItems.RTB_AlwaysActiveOff, (object)this) :
-                        this.selectable.ReplaceStatusItem(this.notPoweringStatusItemHandle, ModAssets.StatusItems.RTB_ModuleGeneratorNotPowered, (object)this);
-                this.poweringStatusItemHandle = Guid.Empty;
-
+                // if (!(this.notPoweringStatusItemHandle == Guid.Empty))
+                //    return;
+                this.ActiveStatusItemHandle = this.AlwaysActive ?
+                        this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModAssets.StatusItems.RTB_AlwaysActiveOff, (object)this) :
+                        this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModAssets.StatusItems.RTB_ModuleGeneratorNotPowered, (object)this);
+                // this.poweringStatusItemHandle = Guid.Empty;
+                lastActiveState = false;
 
             }
 
@@ -210,8 +218,8 @@ namespace Rockets_TinyYetBig.Behaviours
                 if (storage.GetMassAvailable(consumptionElement) < consumptionRate * dt)
                     return false;
                 var ratio = this.ConsumeRessources(dt);
-                this.ProduceRessources(dt,ratio);
-                
+                this.ProduceRessources(dt, ratio);
+
                 //}
 
                 return true;
@@ -221,7 +229,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
         private void PullFuelFromRocketStorage(float dt)
         {
-            
+
             foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)clustercraft.ModuleInterface.ClusterModules)
             {
                 CargoBayCluster component = clusterModule.Get().GetComponent<CargoBayCluster>();
@@ -254,7 +262,7 @@ namespace Rockets_TinyYetBig.Behaviours
                 CargoBayCluster component = clusterModule.Get().GetComponent<CargoBayCluster>();
                 if (component != null && component.storageType == this.PushToRocketStorageType)
                 {
-                    if ((double)component.RemainingCapacity >= outputProductionRate * dt && component.GetComponent<TreeFilterable>().ContainsTag(outputElement.CreateTag())) 
+                    if ((double)component.RemainingCapacity >= outputProductionRate * dt && component.GetComponent<TreeFilterable>().ContainsTag(outputElement.CreateTag()))
                     {
                         component.storage.Store(ElementLoader.FindElementByHash(outputElement).substance.SpawnResource(this.transform.GetPosition(), outputProductionRate * dt, outputProductionTemperature, byte.MaxValue, 0), true);
                         putAwaySuccess = true;
@@ -271,7 +279,7 @@ namespace Rockets_TinyYetBig.Behaviours
         {
             if (!AllowRefill && storage.GetAmountAvailable(consumptionElement) == 0)
             {
-                if(clustercraft.Status == Clustercraft.CraftStatus.Grounded)
+                if (clustercraft.Status == Clustercraft.CraftStatus.Grounded)
                 {
                     this.TryGetComponent<ManualDeliveryKG>(out var delivery);
                     if (delivery.IsPaused)
@@ -279,8 +287,8 @@ namespace Rockets_TinyYetBig.Behaviours
                         delivery.Pause(false, "one Refill allowed.");
                         RefillingPaused = false;
                     }
-                    if (outputElement != SimHashes.Void && storage.GetAmountAvailable(outputElement.CreateTag())>0f)
-                        storage.DropAll(this.transform.position, true, true); 
+                    if (outputElement != SimHashes.Void && storage.GetAmountAvailable(outputElement.CreateTag()) > 0f)
+                        storage.DropAll(this.transform.position, true, true);
 
                 }
             }
@@ -288,7 +296,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
         void ToggleFill(bool shouldPause)
         {
-            if(this.TryGetComponent<ManualDeliveryKG>(out var delivery) && !AllowRefill)
+            if (this.TryGetComponent<ManualDeliveryKG>(out var delivery) && !AllowRefill)
             {
                 delivery.Pause(shouldPause, "no Refill allowed.");
             }
@@ -297,10 +305,10 @@ namespace Rockets_TinyYetBig.Behaviours
         private void RemoveRefillOnSatisfied()
         {
             this.TryGetComponent<ManualDeliveryKG>(out var delivery);
-            
+
             if (delivery == null || AllowRefill || consumptionElement == SimHashes.Void.CreateTag())
                 return;
-            
+
             if (storage.GetMassAvailable(consumptionElement) < consumptionMaxStoredMass)
                 return;
 
@@ -315,14 +323,14 @@ namespace Rockets_TinyYetBig.Behaviours
                 return 0;
 
 
-                var remainingMats = storage.GetAmountAvailable(consumptionElement);
+            var remainingMats = storage.GetAmountAvailable(consumptionElement);
 
-                float amount = consumptionRate * dt;
-                float ratio = 1f;
-                ratio = remainingMats < amount ? remainingMats / amount : 1;
+            float amount = consumptionRate * dt;
+            float ratio = 1f;
+            ratio = remainingMats < amount ? remainingMats / amount : 1;
 
 
-                this.storage.ConsumeIgnoringDisease(consumptionElement, amount);
+            this.storage.ConsumeIgnoringDisease(consumptionElement, amount);
             return ratio;
         }
 
@@ -332,11 +340,12 @@ namespace Rockets_TinyYetBig.Behaviours
                 return;
             //foreach (var producable in formula.outputs)
             //{
-                float amount = outputProductionRate * dt * amountLeftMultiplier;
+            float amount = outputProductionRate * dt * amountLeftMultiplier;
 
-                Element elementByHash = ElementLoader.FindElementByHash(outputElement);
+            Element elementByHash = ElementLoader.FindElementByHash(outputElement);
 
-            if (this.OutputToOwnStorage) { 
+            if (this.OutputToOwnStorage)
+            {
                 if (elementByHash.IsGas)
                     this.storage.AddGasChunk(outputElement, amount, outputProductionTemperature, byte.MaxValue, 0, true);
                 else if (elementByHash.IsLiquid)
@@ -348,16 +357,16 @@ namespace Rockets_TinyYetBig.Behaviours
             {
                 if (this.PushToRocketStorageType != CargoBay.CargoType.Entities)
                 {
-                    if (TryPuttingOutputIntoStorage(dt)) 
-                    { 
+                    if (TryPuttingOutputIntoStorage(dt))
+                    {
                         return;
                     }
                 }
 
                 if (clustercraft.Status == Clustercraft.CraftStatus.Grounded)
                 {
-                    Vector3 output = this.transform.GetPosition() + ElementOutputCellOffset; 
-                    
+                    Vector3 output = this.transform.GetPosition() + ElementOutputCellOffset;
+
                     if (elementByHash.IsGas || elementByHash.IsLiquid)
                         SimMessages.AddRemoveSubstance(Grid.PosToCell(output), outputElement, CellEventLogger.Instance.ElementEmitted, amount, outputProductionTemperature, byte.MaxValue, 0);
                     else if (elementByHash.IsSolid)
@@ -386,5 +395,20 @@ namespace Rockets_TinyYetBig.Behaviours
         //}
 
         public int ButtonSideScreenSortOrder() => 20;
+
+        public void SetButtonTextOverride(ButtonMenuTextOverride textOverride)
+        {
+        }
+
+        public bool SidescreenEnabled() => clustercraft.status == Clustercraft.CraftStatus.Grounded;
+
+        public bool SidescreenButtonInteractable() => true;
+
+        public void OnSidescreenButtonPressed()
+        {
+            produceWhileLanded = !produceWhileLanded;
+        }
+        public int HorizontalGroupID() => -1;
+
     }
 }
