@@ -47,7 +47,7 @@ namespace Rockets_TinyYetBig
             buildingDef.attachablePosition = new CellOffset(0, 0);
 
             buildingDef.GeneratorWattageRating = energyProduction;
-            buildingDef.GeneratorBaseCapacity = 2400f;
+            buildingDef.GeneratorBaseCapacity = 240f;
             buildingDef.RequiresPowerInput = false;
             buildingDef.RequiresPowerOutput = false;
 
@@ -78,7 +78,7 @@ namespace Rockets_TinyYetBig
             manualDeliveryKg.SetStorage(storage);
             manualDeliveryKg.RequestedItemTag = ElementLoader.FindElementByHash(SimHashes.EnrichedUranium).tag;
             manualDeliveryKg.capacity = storage.capacityKg;
-            manualDeliveryKg.refillMass = UraniumCapacity;
+            manualDeliveryKg.refillMass = 0f;
             manualDeliveryKg.MinimumMass = UraniumCapacity;
             manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
 

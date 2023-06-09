@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace Rockets_TinyYetBig
 {
@@ -41,7 +42,7 @@ namespace Rockets_TinyYetBig
             buildingDef.Cancellable = false;
             buildingDef.attachablePosition = new CellOffset(0, 0);
 
-            buildingDef.GeneratorWattageRating = 200f;
+            buildingDef.GeneratorWattageRating = 320f;
             buildingDef.GeneratorBaseCapacity = 6666f;
             buildingDef.RequiresPowerInput = false;
             buildingDef.RequiresPowerOutput = false;
@@ -67,12 +68,12 @@ namespace Rockets_TinyYetBig
             var generator = go.AddOrGet<RTB_ModuleGenerator>();
 
             generator.consumptionElement = SimHashes.Carbon.CreateTag();
-            generator.consumptionRate = 0.15f;
+            generator.consumptionRate = 0.125f;
             generator.consumptionMaxStoredMass = storage.capacityKg;
 
             generator.outputElement = SimHashes.CarbonDioxide;
-            generator.outputProductionTemperature = 383.15f;
-            generator.outputProductionRate = 0.15f;
+            generator.outputProductionTemperature = UtilMethods.GetKelvinFromC(110f);
+            generator.outputProductionRate = 0.050f;
             generator.ElementOutputCellOffset = new Vector3(2, 0);
 
 

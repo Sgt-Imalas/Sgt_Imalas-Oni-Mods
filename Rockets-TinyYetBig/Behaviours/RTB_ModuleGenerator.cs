@@ -33,8 +33,8 @@ namespace Rockets_TinyYetBig.Behaviours
 
         [Serialize]
         public bool AlwaysActive = false;
-        //[SerializeField]
-        //public bool produceWhileLanded = false;
+        [SerializeField]
+        public bool produceWhileLanded = true;
         [Serialize]
         public bool AllowRefill = true;
 
@@ -119,8 +119,8 @@ namespace Rockets_TinyYetBig.Behaviours
             Game.Instance.electricalConduitSystem.RemoveFromVirtualNetworks(this.VirtualCircuitKey, (object)this, true);
         }
 
-        public override bool IsProducingPower() => AlwaysActive && ConsumptionSatisfied()|| this.clustercraft.Status != Clustercraft.CraftStatus.Grounded && BatteriesNotFull() && ConsumptionSatisfied();// || produceWhileLanded && BatteriesNotFull();
-        public bool ShouldProduciePower() => AlwaysActive || this.clustercraft.Status != Clustercraft.CraftStatus.Grounded && BatteriesNotFull();// || produceWhileLanded && BatteriesNotFull();
+        public override bool IsProducingPower() => AlwaysActive && ConsumptionSatisfied() || this.clustercraft.Status != Clustercraft.CraftStatus.Grounded && BatteriesNotFull() && ConsumptionSatisfied() || produceWhileLanded && BatteriesNotFull();
+        public bool ShouldProduciePower() => AlwaysActive || this.clustercraft.Status != Clustercraft.CraftStatus.Grounded && BatteriesNotFull() || produceWhileLanded && BatteriesNotFull();
 
 
         public bool BatteriesNotFull()

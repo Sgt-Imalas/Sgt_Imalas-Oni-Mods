@@ -45,7 +45,7 @@ namespace Rockets_TinyYetBig
 
             buildingDef.attachablePosition = new CellOffset(0, 0);
 
-            buildingDef.GeneratorWattageRating = 400f;
+            buildingDef.GeneratorWattageRating = 480f;
             buildingDef.GeneratorBaseCapacity = 2400f;
             buildingDef.RequiresPowerInput = false;
             buildingDef.RequiresPowerOutput = false;
