@@ -84,7 +84,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
         public void SetCurrentlyLoadingStuff(bool IsLoading)
         {
-            SgtLogger.l("IsNowLoading? " + IsLoading);
+           SgtLogger.l("IsNowLoading? " + IsLoading);
             isLoading = IsLoading;
 
             if (!IsLoading&&OnFinishedLoading!=null)
@@ -317,6 +317,13 @@ namespace Rockets_TinyYetBig.Behaviours
             return DockingDoors.ContainsValue(WorldID);
         }
 
+        public bool GetActiveUIState(int worldId) => IsDockedTo(worldId) || HasPendingUndocks(worldId);
+
+        public bool HasPendingUndocks(int WorldID)
+        {
+            return PendingUndocks.Keys.Any(door => door.GetMyWorldId() == WorldID);
+        }
+
         public void HandleUiDocking(int prevDockingState, int targetWorld, DockingDoor door = null, System.Action onFinished = null)
         {
             //SgtLogger.debuglog(prevDockingState == 0 ? "Trying to dock " + MyWorldId + " with dedicated door to " + targetWorld : "Trying To Undock " + MyWorldId + " from " + targetWorld);
@@ -346,6 +353,18 @@ namespace Rockets_TinyYetBig.Behaviours
                 SgtLogger.warning("Already Docked");
                 return;
             }
+
+            if(HasPendingUndocks(targetWorldId))
+            {
+                var worldDoor = PendingUndocks.FirstOrDefault(door => door.Key.GetMyWorldId() == targetWorldId).Key;
+                SgtLogger.l("canceled pending undocking");
+                if (worldDoor != default)
+                    PendingUndocks.Remove(worldDoor);
+                return;
+            }
+
+
+
             ConnectTwo(this, target, OwnDoor);
 
             if (SpaceStationManager.WorldIsSpaceStationInterior(MyWorldId))
@@ -432,11 +451,17 @@ namespace Rockets_TinyYetBig.Behaviours
 
             int targetWorldId = door2.GetMyWorldId();
 
+
+
             if (OnFinishedUndock != null)
-                OnFinishedUndock.Invoke();
+                   OnFinishedUndock.Invoke();
 
             ClusterManager.Instance.GetWorld(targetWorldId).SetParentIdx(targetWorldId);
             ClusterManager.Instance.GetWorld(MyWorldId).SetParentIdx(MyWorldId);
+
+            door.gameObject.Trigger((int)GameHashes.RocketLaunched);
+            door2.gameObject.Trigger((int)GameHashes.RocketLaunched);
+            
 
             //DetailsScreen.Instance.Refresh(door.gameObject);
         }
@@ -448,8 +473,8 @@ namespace Rockets_TinyYetBig.Behaviours
             if (targetWorldId == -1)
                 return;
 
-            var door = DockingDoors.First(d => d.Value == targetWorldId).Key;
-            if(door == null)
+            var door = DockingDoors.FirstOrDefault(d => d.Value == targetWorldId).Key;
+            if(door == default(DockingDoor))
             {
                 Debug.LogWarning("No connection to undock from found");
                 return;

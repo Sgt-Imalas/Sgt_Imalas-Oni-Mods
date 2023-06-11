@@ -62,6 +62,7 @@ namespace Rockets_TinyYetBig
                     .Target(this.attachedRocket)
                     .Target(this.masterTarget)
                     .Enter((smi) => smi.SetConnectedRocketStatusLoading(true))
+                    .UpdateTransition( operational.rocketLost , (smi,dt) => { return smi.GetDockedRocket() == null; })
             ;
 
             this.operational
@@ -89,14 +90,15 @@ namespace Rockets_TinyYetBig
             this.operational
                 .hasRocket
                     .transferComplete
-                .ToggleStatusItem(Db.Get().BuildingStatusItems.RocketCargoFull)
-                .ToggleTag(GameTags.TransferringCargoComplete)
-                .ParamTransition<bool>(this.fillComplete, (State)this.operational.hasRocket.transferring, IsFalse)
-                .ParamTransition<bool>(this.emptyComplete, (State)this.operational.hasRocket.transferring, IsFalse)
-                .Enter((smi) => 
-                { 
+                    .ToggleStatusItem(Db.Get().BuildingStatusItems.RocketCargoFull)
+                    .ToggleTag(GameTags.TransferringCargoComplete)
+                    .ParamTransition<bool>(this.fillComplete, (State)this.operational.hasRocket.transferring, IsFalse)
+                    .ParamTransition<bool>(this.emptyComplete, (State)this.operational.hasRocket.transferring, IsFalse)
+                    .EventTransition(GameHashes.RocketLaunched, this.operational.rocketLost)
+                .Enter((smi) =>
+                {
                     smi.SetConnectedRocketStatusLoading(false);
-                    this.SetAttachedRocket(null, smi);
+                    // this.SetAttachedRocket(null, smi);
                 });
 
             this.operational
@@ -114,7 +116,7 @@ namespace Rockets_TinyYetBig
           CraftModuleInterface attached,
           DockedRocketMaterialDistributor.Instance smi)
         {
-            if(attached == this.attachedRocket.Get(smi))
+            if (attached == this.attachedRocket.Get(smi))
                 return;
 
             HashSetPool<ChainedBuilding.StatesInstance, ChainedBuilding.StatesInstance>.PooledHashSet chain = HashSetPool<ChainedBuilding.StatesInstance, ChainedBuilding.StatesInstance>.Allocate();
@@ -245,7 +247,7 @@ namespace Rockets_TinyYetBig
             public void FillRocket(float dt)
             {
                 CraftModuleInterface craftInterface = this.sm.attachedRocket.Get<CraftModuleInterface>(this.smi);
-                
+
                 HashSetPool<ChainedBuilding.StatesInstance, ChainedBuilding.StatesInstance>.PooledHashSet chain = HashSetPool<ChainedBuilding.StatesInstance, ChainedBuilding.StatesInstance>.Allocate();
                 this.smi.GetSMI<ChainedBuilding.StatesInstance>().GetLinkedBuildings(ref chain);
 

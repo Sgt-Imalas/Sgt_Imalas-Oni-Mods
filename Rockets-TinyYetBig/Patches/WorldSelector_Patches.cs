@@ -23,14 +23,14 @@ namespace Rockets_TinyYetBig.Patches
         static List<GameObject> worldEntries = new List<GameObject>();
         public static Dictionary<int, GameObject> collapseButtons = new Dictionary<int, GameObject>();
         public static Dictionary<int, bool> ShouldCollapseDic = new Dictionary<int, bool>();
-        public const int SpaceStationHeaderId = -101;
-        public static MultiToggle SpaceStationHeader = null;
+        //public const int SpaceStationHeaderId = -101;
+        //public static MultiToggle SpaceStationHeader = null;
         public const int RocketHeaderId = -102;
         public static MultiToggle RocketHeader = null;
 
         [HarmonyPatch(typeof(WorldSelector))]
         [HarmonyPatch(nameof(WorldSelector.SortRows))]
-        public static class WorldSelectorReplacement__WIP
+        public static class WorldSelectorReplacement
         {
             enum WorldType
             {
@@ -50,10 +50,10 @@ namespace Rockets_TinyYetBig.Patches
                 //SgtLogger.debuglog(headerImg + ", " + HeaderText);
                 switch (HeaderId)
                 {
-                    case SpaceStationHeaderId:
-                        HeaderText.key = "STRINGS.UI_MOD.COLLAPSIBLEWORLDSELECTOR.SPACESTATIONS";
-                        headerImg.sprite = Assets.GetSprite("icon_category_ventilation");
-                        break;
+                    //case SpaceStationHeaderId:
+                    //    HeaderText.key = "STRINGS.UI_MOD.COLLAPSIBLEWORLDSELECTOR.SPACESTATIONS";
+                    //    headerImg.sprite = Assets.GetSprite("icon_category_ventilation");
+                    //    break;
 
                     case RocketHeaderId:
                         HeaderText.key = "STRINGS.UI_MOD.COLLAPSIBLEWORLDSELECTOR.ROCKETS";
@@ -84,7 +84,7 @@ namespace Rockets_TinyYetBig.Patches
                 if (Config.Instance.EnableAdvWorldSelector)
                 {
                     var asteroids = ListPool<KeyValuePair<int, MultiToggle>, WorldSelector>.Allocate();
-                    var spaceStations = ListPool<KeyValuePair<int, MultiToggle>, WorldSelector>.Allocate();
+                   // var spaceStations = ListPool<KeyValuePair<int, MultiToggle>, WorldSelector>.Allocate();
                     var rockets = ListPool<KeyValuePair<int, MultiToggle>, WorldSelector>.Allocate();
 
                     var OutputList = ListPool<KeyValuePair<int, MultiToggle>, WorldSelector>.Allocate();
@@ -96,10 +96,10 @@ namespace Rockets_TinyYetBig.Patches
                         {
                             rockets.Add(worldKV);
                         }
-                        else if (SpaceStationManager.WorldIsSpaceStationInterior(worldKV.Key))
-                        {
-                            spaceStations.Add(worldKV);
-                        }
+                        //else if (SpaceStationManager.WorldIsSpaceStationInterior(worldKV.Key))
+                        //{
+                        //    spaceStations.Add(worldKV);
+                        //}
                         else
                         {
                             if (collapseButtons.ContainsKey(worldKV.Key))
@@ -112,27 +112,27 @@ namespace Rockets_TinyYetBig.Patches
 
                     OutputList.AddRange(asteroids);
 
-                    if (spaceStations.Count > 0)
-                    {
-                        spaceStations.OrderBy(a => ClusterManager.Instance.GetWorld(a.Key).DiscoveryTimestamp);
-                        if (SpaceStationHeader == null)
-                        {
-                            SpaceStationHeader = Util.KInstantiateUI(__instance.worldRowPrefab, __instance.worldRowContainer).GetComponent<MultiToggle>();
-                            InitHeader(SpaceStationHeaderId, SpaceStationHeader);
-                        }
-                        OutputList.Add(new KeyValuePair<int, MultiToggle>(SpaceStationHeaderId, SpaceStationHeader));
-                        SpaceStationHeader.gameObject.SetActive(true);
+                    //if (spaceStations.Count > 0)
+                    //{
+                    //    spaceStations.OrderBy(a => ClusterManager.Instance.GetWorld(a.Key).DiscoveryTimestamp);
+                    //    if (SpaceStationHeader == null)
+                    //    {
+                    //        SpaceStationHeader = Util.KInstantiateUI(__instance.worldRowPrefab, __instance.worldRowContainer).GetComponent<MultiToggle>();
+                    //        InitHeader(SpaceStationHeaderId, SpaceStationHeader);
+                    //    }
+                    //    OutputList.Add(new KeyValuePair<int, MultiToggle>(SpaceStationHeaderId, SpaceStationHeader));
+                    //    SpaceStationHeader.gameObject.SetActive(true);
 
-                        OutputList.AddRange(spaceStations);
+                    //    OutputList.AddRange(spaceStations);
 
-                    }
-                    else
-                    {
-                        if (SpaceStationHeader != null)
-                        {
-                            SpaceStationHeader.gameObject.SetActive(false);
-                        }
-                    }
+                    //}
+                    //else
+                    //{
+                    //    if (SpaceStationHeader != null)
+                    //    {
+                    //        SpaceStationHeader.gameObject.SetActive(false);
+                    //    }
+                    //}
 
                     if (rockets.Count > 0)
                     {
@@ -149,10 +149,11 @@ namespace Rockets_TinyYetBig.Patches
                         RocketHeader.gameObject.SetActive(false);
                     }
 
-                    foreach (var keyValuePair1 in spaceStations)
-                    {
-                        keyValuePair1.Value.gameObject.SetActive(value: !ShouldCollapseDic[SpaceStationHeaderId]);
-                    }
+                    //foreach (var keyValuePair1 in spaceStations)
+                    //{
+                    //    if(keyValuePair1.Value!=null&& ShouldCollapseDic.ContainsKey(SpaceStationHeaderId))
+                    //        keyValuePair1.Value.gameObject.SetActive(value: !ShouldCollapseDic[SpaceStationHeaderId]);
+                    //}
 
                     foreach (var keyValuePair1 in OutputList)
                     {
@@ -163,6 +164,13 @@ namespace Rockets_TinyYetBig.Patches
                     {
                         WorldContainer rocketWorld = ClusterManager.Instance.GetWorld(rocket.Key);
                         bool Collapse = false;
+
+                        if(rocketWorld==null)
+                        {
+                            SgtLogger.warning("The world with the id: "+rocket.Key + " was null!");
+                            continue;
+
+                        }
                         if (rocketWorld.ParentWorldId != rocketWorld.id && rocketWorld.ParentWorldId != (int)ClusterManager.INVALID_WORLD_IDX)
                         {
                             if (collapseButtons.ContainsKey(rocketWorld.ParentWorldId))
@@ -180,7 +188,7 @@ namespace Rockets_TinyYetBig.Patches
                             SetAnchors(rocket.Value, !SpaceStationManager.WorldIsRocketInterior(rocketWorld.ParentWorldId));
 
                             if (collapseButtons.ContainsKey(rocketWorld.ParentWorldId))
-                                Collapse = ShouldCollapseDic[rocketWorld.ParentWorldId];
+                                Collapse = ShouldCollapseDic[rocketWorld.ParentWorldId];                            
                         }
                         else
                         {
@@ -189,17 +197,21 @@ namespace Rockets_TinyYetBig.Patches
                             SetAnchors(rocket.Value, false);
                             RocketHeader.gameObject.SetActive(true);
                         }
-                        rocket.Value.gameObject.SetActive(value: !Collapse);
+                        if(rocket.Value!= null)
+                        {
+                            rocket.Value.gameObject.SetActive(value: !Collapse);
+                        }
                     }
 
                     for (int index22 = 0; index22 < OutputList.Count; ++index22)
                     {
-                        OutputList[index22].Value.gameObject.transform.SetSiblingIndex(index22);
+                        if (OutputList[index22].Value != null)
+                            OutputList[index22].Value.gameObject.transform.SetSiblingIndex(index22);
                     }
 
                     rockets.Recycle();
                     asteroids.Recycle();
-                    spaceStations.Recycle();
+                    //spaceStations.Recycle();
                     OutputList.Recycle();
                     return false;
                 }
@@ -222,7 +234,7 @@ namespace Rockets_TinyYetBig.Patches
             public static void Prefix(WorldSelector __instance)
             {
                 RocketHeader = null;
-                SpaceStationHeader = null;
+                //SpaceStationHeader = null;
                 edgeCases.Clear();
             }
         }
@@ -286,9 +298,9 @@ namespace Rockets_TinyYetBig.Patches
         {
             //SgtLogger.l("Adding world with id: " + worldKV.Key);
             var worldContainer = ClusterManager.Instance.GetWorld(worldKV.Key);
-            if (!worldContainer.IsModuleInterior)
+            if (!SpaceStationManager.WorldIsRocketInterior(worldKV.Key))
             {
-                if (worldContainer.gameObject.TryGetComponent<AsteroidGridEntity>(out var e))
+                if (worldContainer.gameObject.TryGetComponent<AsteroidGridEntity>(out _) || SpaceStationManager.WorldIsSpaceStationInterior(worldKV.Key))
                 {
                     ShouldCollapseDic[worldKV.Key] = false;
                     AddCollapsible(worldKV.Key, worldKV.Value.gameObject);

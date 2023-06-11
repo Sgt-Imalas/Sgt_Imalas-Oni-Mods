@@ -108,7 +108,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 }
                 if(Config.SpaceStationsPossible) { 
                     InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, SpaceStationDockingDoorConfig.ID, DockingTubeDoorConfig.ID);
-                    AddRocketModuleToBuildList(SpaceStationBuilderModuleConfig.ID, RocketCategory.utility, OrbitalCargoModuleConfig.ID);
+                    AddRocketModuleToBuildList(SpaceStationBuilderModuleConfig.ID, new RocketCategory[] {RocketCategory.deployables,RocketCategory.utility}, OrbitalCargoModuleConfig.ID);
                 }
 
                 if (Config.Instance.EnableWallAdapter)

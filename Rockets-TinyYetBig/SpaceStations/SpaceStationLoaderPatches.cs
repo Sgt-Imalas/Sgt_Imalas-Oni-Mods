@@ -12,7 +12,7 @@ namespace Rockets_TinyYetBig.SpaceStations
     public class SpaceStationLoaderPatches
     {
         [HarmonyPatch(typeof(LaunchPadMaterialDistributor.Instance), "GetLandedRocketFromPad")]
-        public static class CustomSideScreenPatch_SatelliteCarrier
+        public static class LaunchPadMaterialDistributorInstance_Patch
         {
             public static bool Prefix(LaunchPadMaterialDistributor.Instance __instance,ref RocketModuleCluster __result)
             {

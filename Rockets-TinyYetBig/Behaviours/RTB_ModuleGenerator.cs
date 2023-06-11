@@ -79,6 +79,7 @@ namespace Rockets_TinyYetBig.Behaviours
             this.clustercraft = craftInterface.GetComponent<Clustercraft>();
             Game.Instance.electricalConduitSystem.AddToVirtualNetworks(this.VirtualCircuitKey, (object)this, true);
             base.OnSpawn();
+            StatusItemUpdate(false, true);
         }
         public Tuple<float, float> GetConsumptionStatusStats()
         {
@@ -147,7 +148,6 @@ namespace Rockets_TinyYetBig.Behaviours
         }
 
 
-        bool lastActiveState = false;
         public override void EnergySim200ms(float dt)
         {
             //selectable.SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus, (object)this);
@@ -170,39 +170,49 @@ namespace Rockets_TinyYetBig.Behaviours
 
                     this.GenerateJoules(this.WattageRating * dt);
 
-                    if (lastActiveState)
-                        return;
-                    this.ActiveStatusItemHandle = this.AlwaysActive ?
-                        this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModAssets.StatusItems.RTB_AlwaysActiveOn, (object)this) :
-                        this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModAssets.StatusItems.RTB_ModuleGeneratorPowered, (object)this);
-                    // this.notPoweringStatusItemHandle = Guid.Empty;
-                    lastActiveState = true;
+                    StatusItemUpdate(true);
                 }
                 else
                 {
                     if (emitter != null)
                     {
                         emitter.SetEmitting(false);
+                        StatusItemUpdate(false);
                     }
                 }
             }
             else
             {
-                if (!lastActiveState)
-                    return;
-                // if (!(this.notPoweringStatusItemHandle == Guid.Empty))
-                //    return;
-                this.ActiveStatusItemHandle = this.AlwaysActive ?
-                        this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModAssets.StatusItems.RTB_AlwaysActiveOff, (object)this) :
-                        this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModAssets.StatusItems.RTB_ModuleGeneratorNotPowered, (object)this);
-                // this.poweringStatusItemHandle = Guid.Empty;
-                lastActiveState = false;
-
+                StatusItemUpdate(false);
             }
 
             //this.selectable.GetStatusItemGroup().SetStatusItem(FuelStatusHandleGrounded, Db.Get().StatusItemCategories.Main, ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus, (object)this);
             ResetRefillStatus();
         }
+
+        bool lastState = false;
+        void StatusItemUpdate(bool active = false, bool force = false)
+        {
+            if (lastState == active && !force)
+                return;
+
+            lastState = active;
+
+            if (active)
+            {
+                this.ActiveStatusItemHandle = this.AlwaysActive ?
+                    this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModAssets.StatusItems.RTB_AlwaysActiveOn, (object)this) :
+                    this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModAssets.StatusItems.RTB_ModuleGeneratorPowered, (object)this);
+            }
+            else
+            {
+                this.ActiveStatusItemHandle = this.AlwaysActive ?
+                        this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModAssets.StatusItems.RTB_AlwaysActiveOff, (object)this) :
+                        this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModAssets.StatusItems.RTB_ModuleGeneratorNotPowered, (object)this);
+
+            }
+        }
+
 
         public bool ConsumptionSatisfied(float dt = 1)
         {

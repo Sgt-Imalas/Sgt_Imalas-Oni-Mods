@@ -18,7 +18,7 @@ namespace Rockets_TinyYetBig.Docking
         public override void OnSpawn()
         {
             base.OnSpawn();
-           // ListAllChildren(this.transform);
+            // ListAllChildren(this.transform);
         }
 
         //[SerializeField]
@@ -39,16 +39,16 @@ namespace Rockets_TinyYetBig.Docking
 
 
         private List<int> refreshHandle = new List<int>();
-        
+
 
         public override float GetSortKey() => 21f;
         public override bool IsValidForTarget(GameObject target)
         {
-            DockingDoor door=null;
+            DockingDoor door = null;
             var manager = target.GetComponent<DockingManager>();
             if (manager == null)
             {
-                if(target.TryGetComponent<DockingDoor>(out door))
+                if (target.TryGetComponent<DockingDoor>(out door))
                 {
                     manager = door.dManager;
                 }
@@ -57,10 +57,10 @@ namespace Rockets_TinyYetBig.Docking
                 return false;
 
             var spaceship = manager.GetComponent<Clustercraft>();
-            
-            bool flying = spaceship!= null ? spaceship.Status == Clustercraft.CraftStatus.InFlight : false;
 
-            return manager != null && manager.HasDoors() && manager.GetCraftType != DockableType.Derelict && flying &&(!RocketryUtils.IsRocketInFlight(spaceship)) ;
+            bool flying = spaceship != null ? spaceship.Status == Clustercraft.CraftStatus.InFlight : false;
+
+            return manager != null && manager.HasDoors() && manager.GetCraftType != DockableType.Derelict && flying && (!RocketryUtils.IsRocketInFlight(spaceship));
         }
         public override void ClearTarget()
         {
@@ -68,7 +68,7 @@ namespace Rockets_TinyYetBig.Docking
                 targetCraft.Unsubscribe(id);
             refreshHandle.Clear();
             targetManager = null;
-            targetDoor= null;
+            targetDoor = null;
             targetCraft = null;
             base.ClearTarget();
         }
@@ -112,13 +112,13 @@ namespace Rockets_TinyYetBig.Docking
         {
             if (rowPrefab == null)
             {
-                rowPrefab=transform.Find("Content/ContentScrollRect/RowContainer/Rows/RowPrefab").gameObject;
+                rowPrefab = transform.Find("Content/ContentScrollRect/RowContainer/Rows/RowPrefab").gameObject;
                 listContainer = transform.Find("Content/ContentScrollRect/RowContainer/Rows").gameObject;
                 //var layout = transform.Find("Content/ContentScrollRect/Scrollbar").GetComponent<LayoutElement>();
                 //SgtLogger.debuglog(String.Format("{0}, {1}, {2}", layout.minHeight, layout.preferredHeight, layout.flexibleHeight));
                 //layout.minHeight = 150f;
 
-                transform.Find("Content/ContentScrollRect").GetComponent<LayoutElement>().minHeight = 150; 
+                transform.Find("Content/ContentScrollRect").GetComponent<LayoutElement>().minHeight = 150;
                 transform.Find("Content/ContentScrollRect/Scrollbar").GetComponent<LayoutElement>().minHeight = 120;
 
                 headerLabel = TryFindComponent<LocText>(transform.Find("Content/Header"));
@@ -140,7 +140,7 @@ namespace Rockets_TinyYetBig.Docking
 #endif
             if (targetManager == null || headerLabel == null)
                 return;
-            this.headerLabel.SetText("Docking Ports: "+ targetManager.GetUiDoorInfo());
+            this.headerLabel.SetText("Docking Ports: " + targetManager.GetUiDoorInfo());
             this.ClearRows();
             var AllDockerObjects = ClusterGrid.Instance.GetVisibleEntitiesAtCell(this.targetCraft.Location).FindAll(e => e.TryGetComponent<DockingManager>(out DockingManager manager));
             var AllDockers = AllDockerObjects
@@ -193,14 +193,18 @@ namespace Rockets_TinyYetBig.Docking
                 hr.GetReference<Image>("WorldIcon").sprite = kvp.Key.GetDockingIcon();
                 //hr.GetReference<Image>("WorldIcon").color = Color.black ;
                 var toggle = hr.GetReference<MultiToggle>("Toggle");
-                
+
                 toggle.onClick = (() =>
                 {
-                    targetManager.HandleUiDocking(toggle.CurrentState, kvp.Key.GetWorldId(), targetDoor, ()=> this.Refresh());                    
+                    targetManager.HandleUiDocking(toggle.CurrentState, kvp.Key.GetWorldId(), targetDoor,
+                        () =>
+                        {
+                            this.Refresh();
+                        });
                     this.Refresh();
                 });
                 hr.GetReference<MultiToggle>("Toggle")
-                    .ChangeState(targetManager.IsDockedTo(kvp.Key.GetWorldId()) ? 1 : 0);
+                    .ChangeState(targetManager.GetActiveUIState(kvp.Key.GetWorldId()) ? 1 : 0);
             }
         }
     }

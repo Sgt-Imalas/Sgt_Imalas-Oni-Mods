@@ -178,9 +178,11 @@ namespace Rockets_TinyYetBig.Behaviours
 
         public void OnSidescreenButtonPressed()
         {
-            ClusterManager.Instance.SetActiveWorld(connected.Get().GetMyWorld().id);
-
-            SelectTool.Instance.Activate();
+            if(connected!=null && connected.Get()!=null)
+            {
+                ClusterManager.Instance.SetActiveWorld(connected.Get().GetMyWorld().id);
+                SelectTool.Instance.Activate();
+            }
         }
 
         public void SetButtonTextOverride(ButtonMenuTextOverride text) => throw new NotImplementedException();
