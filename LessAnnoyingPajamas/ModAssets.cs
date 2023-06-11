@@ -7,10 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace LessAnnoyingPajamas
+namespace ClothingLockerMod
 {
     internal class ModAssets
     {
+        public static PathFinder.PotentialPath.Flags PajamasFlag = (PathFinder.PotentialPath.Flags)42;
 
     }
 }
