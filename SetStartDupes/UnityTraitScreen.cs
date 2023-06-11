@@ -96,6 +96,10 @@ namespace SetStartDupes
             {
                 this.Show(false);
             }
+            if (e.TryConsume(Action.DebugToggleClusterFX))
+            {
+                Searchbar.ExternalStartEditing();
+            }
 
             base.OnKeyDown(e);
         }

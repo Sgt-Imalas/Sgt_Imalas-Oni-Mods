@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UtilLibs.UIcmp //Source: Aki
 {
@@ -68,7 +69,6 @@ namespace UtilLibs.UIcmp //Source: Aki
             base.OnSpawn();
             inputField.onFocus += OnEditStart;
             inputField.onEndEdit.AddListener(OnEditEnd);
-
             Activate();
         }
 
@@ -97,6 +97,8 @@ namespace UtilLibs.UIcmp //Source: Aki
             isEditing = false;
             inputField.DeactivateInputField();
         }
+
+        public void ExternalStartEditing() => OnEditStart();
 
         private void OnEditStart()
         {
