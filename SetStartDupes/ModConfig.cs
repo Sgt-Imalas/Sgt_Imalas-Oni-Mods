@@ -64,9 +64,18 @@ namespace SetStartDupes
         [Limit(1, 5)]
         public int CarePackagesOnlyPackageCap { get; set; }
 
-        [Option("STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.NAME", "STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
+        [Option("STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.NAME", "STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.D_UTIL")]
         [JsonProperty]
         public bool SkinsDoReactions { get; set; }
+
+        [Option("STRINGS.UI.DSS_OPTIONS.REROLLCRYOPODANDJORGE.NAME", "STRINGS.UI.DSS_OPTIONS.REROLLCRYOPODANDJORGE.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.D_UTIL")]
+        [JsonProperty]
+        public bool JorgeAndCryopodDupes { get; set; }
+
+        [Option("STRINGS.UI.DSS_OPTIONS.HERMITSKIN.NAME", "STRINGS.UI.DSS_OPTIONS.HERMITSKIN.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.D_UTIL")]
+        [JsonProperty]
+        public bool HermitSkin { get; set; }
+
 
         [Option("STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.NAME", "STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
         [JsonProperty]
@@ -101,6 +110,9 @@ namespace SetStartDupes
             CarePackagesOnlyPackageCap = 3;
 
             SkinsDoReactions = true;
+            JorgeAndCryopodDupes = true;
+            HermitSkin = true;
+
             AddAndRemoveTraitsAndInterests = false;
             BalanceAddRemove = true;
             NoJoyReactions = false;

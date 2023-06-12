@@ -1,4 +1,5 @@
 ﻿using Database;
+using Epic.OnlineServices;
 using HarmonyLib;
 using Klei.AI;
 using ProcGen.Noise;
@@ -29,14 +30,19 @@ namespace SetStartDupes
         {
             public static void Prefix()
             {
-                ModAssets.EditingSingleDupe = true;
-                ImmigrantScreen.InitializeImmigrantScreen(null);
+                if (ModConfig.Instance.JorgeAndCryopodDupes)
+                {
+                    ModAssets.EditingSingleDupe = true;
+                    ImmigrantScreen.InitializeImmigrantScreen(null);
+                }
             }
             public static void Postfix(CryoTank __instance)
             {
-                SgtLogger.l("Getting CryoDupe gameobject");
-
-                CryoDupeToApplyStatsOn = __instance.smi.sm.defrostedDuplicant.Get(__instance.smi);
+                if (ModConfig.Instance.JorgeAndCryopodDupes)
+                {
+                    SgtLogger.l("Getting CryoDupe gameobject");
+                    CryoDupeToApplyStatsOn = __instance.smi.sm.defrostedDuplicant.Get(__instance.smi);
+                }
             }
 
             //public static MinionStartingStats OverrideStartingStatsConstructor(bool is_starter_minion, string guaranteedAptitudeID = null, string guaranteedTraitID = null, bool debugminion = false)
@@ -121,7 +127,7 @@ namespace SetStartDupes
                     {
                         __instance.stats.Traits.Add(ancientKnowledgeTrait);
                     }
-                    __instance.SetReshufflingState(true );
+                    __instance.SetReshufflingState(true);
                     __instance.SetAnimator();
                     __instance.SetInfoText();
                     __instance.StartCoroutine(__instance.SetAttributes());
@@ -342,10 +348,11 @@ namespace SetStartDupes
 
                 if (
                     Game.Instance != null
-                    && Game.Instance.unlocks!=null 
+                    && Game.Instance.unlocks != null
                     && Game.Instance.unlocks.IsUnlocked("story_trait_lonelyminion_foodquest")
                     && Game.Instance.unlocks.IsUnlocked("story_trait_lonelyminion_pluggedin")
                     && Game.Instance.unlocks.IsUnlocked("story_trait_lonelyminion_highdecor")
+                    && ModConfig.Instance.HermitSkin
                     )
                 {
                     MinionBrowserScreen.GridItem.PersonalityTarget[] items
@@ -435,19 +442,18 @@ namespace SetStartDupes
         [HarmonyPatch(typeof(LonelyMinionHouse.Instance), nameof(LonelyMinionHouse.Instance.SpawnMinion))]
         public class MakeJorgeRerollable
         {
-            public static 
-               // MinionIdentity 
-               void
-                GrabJorgeGameObject(MinionIdentity minionIdentity)
+            public static void GrabJorgeGameObject(MinionIdentity minionIdentity)
             {
-                SgtLogger.l("Getting Jorge Gameobject");
-                CryoDupeToApplyStatsOn = minionIdentity.gameObject;
-                //return minionIdentity;
+                if (ModConfig.Instance.JorgeAndCryopodDupes)
+                {
+                    SgtLogger.l("Getting Jorge Gameobject");
+                    CryoDupeToApplyStatsOn = minionIdentity.gameObject;
+                }
             }
             public static void Postfix()
             {
                 SgtLogger.l("Start Editing Jorge");
-                if (CryoDupeToApplyStatsOn)
+                if (CryoDupeToApplyStatsOn && ModConfig.Instance.JorgeAndCryopodDupes)
                 {
 
                     ModAssets.EditingSingleDupe = true;
@@ -470,7 +476,7 @@ namespace SetStartDupes
             {
                 var code = instructions.ToList();
                 var insertionIndex1 = code.FindIndex(ci => ci.opcode == OpCodes.Ldsfld && ci.operand is FieldInfo f && f == immigrationInstance);
-                int locId = TranspilerHelper.FindIndexOfNextLocalIndex(code, insertionIndex1,false);
+                int locId = TranspilerHelper.FindIndexOfNextLocalIndex(code, insertionIndex1, false);
 
                 //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
                 if (insertionIndex1 != -1)

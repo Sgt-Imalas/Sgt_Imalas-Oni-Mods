@@ -23,6 +23,7 @@ namespace SetStartDupes
                     public static LocString A_GAMESTART = "Options for Game Start";
                     public static LocString B_PRINTINGPOD = "Options for Printing Pod";
                     public static LocString C_EXTRAS = "Options for Traits and Interests";
+                    public static LocString D_UTIL = "Extra Settings";
                 }
 
                 public class DUPLICANTSTARTAMOUNT
@@ -51,7 +52,7 @@ namespace SetStartDupes
                 public class REROLLDURINGGAME
                 {
                     public static LocString NAME = "Reroll printing pod";
-                    public static LocString TOOLTIP = "Enable this option to add the reroll button to printing pod Duplicants and care packages.";
+                    public static LocString TOOLTIP = "Enable this option to add the reroll button to printing pod Duplicants and care packages.\nCare Packages allow selecting from all currently available package configurations.";
                 }
 
                 public class PRINTINGPODRECHARGETIME
@@ -107,6 +108,16 @@ namespace SetStartDupes
                 {
                     public static LocString NAME = "Disable Stress Reactions";
                     public static LocString TOOLTIP = "Deactivates Stress Reactions on newly generated duplicants";
+                }
+                public class REROLLCRYOPODANDJORGE
+                {
+                    public static LocString NAME = "Hermit/Cryopod Modification";
+                    public static LocString TOOLTIP = "Allows modifying of the Hermit and Cryopod Duplicants.\nPresets and Stat modifications are tied to their respective settings.\n\"Ancient Knowledge\"-Trait no longer takes the slot of a positive trait during generation of these duplicants.";
+                }
+                public class HERMITSKIN
+                {
+                    public static LocString NAME = "Hermit Skin";
+                    public static LocString TOOLTIP = "Adds the Hermit to the pool of selectable skins if the story trait has been completed on the current save game.";
                 }
 
             }
