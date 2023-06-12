@@ -87,13 +87,26 @@ namespace Rockets_TinyYetBig.Behaviours
 #endif
 
             this.Trigger((int)GameHashes.RocketLaunched);
-            this.Trigger((int)GameHashes.ChainedNetworkChanged); 
+            this.Trigger((int)GameHashes.ChainedNetworkChanged);
+            if (this.gameObject.IsNullOrDestroyed())
+            {
+                SgtLogger.l("wasdestroyed");
+                return;
+            }
+
+            if (gameObject == null || assignable == null || Teleporter == null) return;
+
             connected = null;
             assignable.Unassign();
             assignable.canBeAssigned = false;
             Teleporter.SetTarget(null);
+
+            if (skipanim)
+                return;
+
             if (gameObject.TryGetComponent<KBatchedAnimController>(out var kanim))
             {
+                SgtLogger.l("cleanup: "+skipanim);
                 if (!skipanim)
                 {
                     kanim.Play("retracting");

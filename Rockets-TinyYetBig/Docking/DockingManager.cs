@@ -451,13 +451,14 @@ namespace Rockets_TinyYetBig.Behaviours
 
             int targetWorldId = door2.GetMyWorldId();
 
-
-
             if (OnFinishedUndock != null)
                    OnFinishedUndock.Invoke();
 
-            ClusterManager.Instance.GetWorld(targetWorldId).SetParentIdx(targetWorldId);
-            ClusterManager.Instance.GetWorld(MyWorldId).SetParentIdx(MyWorldId);
+            if(ClusterManager.Instance.GetWorld(targetWorldId)!=null)
+                ClusterManager.Instance.GetWorld(targetWorldId).SetParentIdx(targetWorldId);
+
+            if(ClusterManager.Instance.GetWorld(MyWorldId)!=null)
+                ClusterManager.Instance.GetWorld(MyWorldId).SetParentIdx(MyWorldId);
 
             door.gameObject.Trigger((int)GameHashes.RocketLaunched);
             door2.gameObject.Trigger((int)GameHashes.RocketLaunched);
