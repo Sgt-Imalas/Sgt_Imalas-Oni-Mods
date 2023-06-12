@@ -1,6 +1,7 @@
 ﻿using Database;
 using HarmonyLib;
 using Klei.AI;
+using ProcGen.Noise;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ using UnityEngine;
 using UnityEngine.Diagnostics;
 using UnityEngine.UI;
 using UtilLibs;
+using static KAnim;
 using static SetStartDupes.ModAssets;
 
 namespace SetStartDupes
@@ -20,146 +22,249 @@ namespace SetStartDupes
     class Patches
     {
 
-        //[HarmonyPatch(typeof(CryoTank))]
-        //[HarmonyPatch(nameof(CryoTank.DropContents))]
-        //public class AddToCryoTank
-        //{
-        //    public static void Prefix()
-        //    {
-        //        ModAssets.EditingSingleDupe = true;
-        //        ImmigrantScreen.InitializeImmigrantScreen(null);
-        //        //SingleDupeImmigrandScreen.InitializeSingleImmigrantScreen(null);
-        //    }
-        //    public static void Postfix(CryoTank.StatesInstance __instance)
-        //    {
-        //        Debug.Log("asssaaaaaaats " + _TargetStats);
-        //        if (ModAssets._TargetStats != null)
-        //        {
-        //            var dupe = __instance.sm.defrostedDuplicant.Get(__instance);
-        //            ModAssets._TargetStats.Apply(dupe);
-        //            Debug.Log("Dupee " + dupe);
+        [HarmonyPatch(typeof(CryoTank))]
+        [HarmonyPatch(nameof(CryoTank.DropContents))]
+        //[HarmonyPatch(nameof(CryoTank.OnSidescreenButtonPressed))] 
+        public class AddToCryoTank
+        {
+            public static void Prefix()
+            {
+                ModAssets.EditingSingleDupe = true;
+                ImmigrantScreen.InitializeImmigrantScreen(null);
+            }
+            public static void Postfix(CryoTank __instance)
+            {
+                SgtLogger.l("Getting CryoDupe gameobject");
 
-        //            dupe.GetComponent<MinionIdentity>().arrivalTime = UnityEngine.Random.Range(-2000, -1000);
-        //            MinionResume component = dupe.GetComponent<MinionResume>();
-        //            int num = 3;
-        //            for (int i = 0; i < num; i++)
-        //            {
-        //                component.ForceAddSkillPoint();
-        //            }
+                CryoDupeToApplyStatsOn = __instance.smi.sm.defrostedDuplicant.Get(__instance.smi);
+            }
 
+            //public static MinionStartingStats OverrideStartingStatsConstructor(bool is_starter_minion, string guaranteedAptitudeID = null, string guaranteedTraitID = null, bool debugminion = false)
+            //{
+            //    if (ModAssets.SingleCharacterContainer! != null)
+            //    {
+            //        SgtLogger.l("Overwrote Cryopod Duplicant starting stats");
+            //        return ModAssets.SingleCharacterContainer.stats;
+            //    }
+            //    else
+            //    {
 
-        //            ModAssets._TargetStats = null;
-        //        }
-        //    }
-        //}
-        //[HarmonyPatch(typeof(CharacterContainer))]
-        //[HarmonyPatch(nameof(CharacterContainer.GenerateCharacter))]
-        //public class OverwriteRngGeneration
-        //{
-        //    public static bool Prefix(CharacterContainer __instance, KButton ___selectButton)
-        //    {
-        //        if (ModAssets.EditingSingleDupe)
-        //        {
-
-        //            if (ModAssets._TargetStats != null)
-        //            {
-        //                __instance.stats = ModAssets._TargetStats;
-        //            }
-        //            else
-        //            {
-        //                __instance.stats = new MinionStartingStats(is_starter_minion: false, null, "AncientKnowledge");
-        //            }
-
-        //            __instance.SetAnimator();
-        //            __instance.SetInfoText();
-        //            __instance.StartCoroutine(__instance.SetAttributes());
-        //            ___selectButton.ClearOnClick();
-        //            ___selectButton.enabled = true;
-        //            ___selectButton.onClick += delegate
-        //            {
-        //                __instance.SelectDeliverable();
-        //            };
+            //        SgtLogger.l("created new DuplicantStartingStats");
+            //        return new MinionStartingStats(is_starter_minion, guaranteedAptitudeID, guaranteedTraitID, debugminion);
+            //    }
+            //}
 
 
+            //private static readonly ConstructorInfo MinionStartingStatsConstructor = AccessTools.Constructor(
+            //    typeof(MinionStartingStats),
+            //    new Type[] { typeof(bool), typeof(string), typeof(string), typeof(bool), });
 
-        //            ModAssets._TargetStats = __instance.stats;
-        //            return false;
-        //        }
-        //        return true;
-        //    }
-        //}
+            //private static readonly MethodInfo OverrideConstructor = AccessTools.Method(
+            //   typeof(AddToCryoTank),
+            //   nameof(AddToCryoTank.OverrideStartingStatsConstructor));
 
-        //[HarmonyPatch(typeof(ImmigrantScreen))]
-        //[HarmonyPatch(nameof(ImmigrantScreen.Initialize))]
-        //public class CustomSingleForNoTelepad
-        //{
-        //    public static bool Prefix(Telepad telepad, ImmigrantScreen __instance)
-        //    {
-        //        if (telepad == null && EditingSingleDupe)
-        //        {
-        //            __instance.DisableProceedButton();
+            //static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+            //{
+            //    var code = instructions.ToList();
+            //    var insertionIndex1 = code.FindIndex(codeinstruction => codeinstruction.opcode == OpCodes.Newobj && codeinstruction.operand is ConstructorInfo constructorInfo && constructorInfo == MinionStartingStatsConstructor);
 
-        //            if (__instance.containers != null && __instance.containers.Count > 1)
-        //            {
-        //                foreach(var container in __instance.containers)
-        //                {
-        //                    UnityEngine.Object.Destroy(container.GetGameObject());
-        //                }
-        //                __instance.containers.Clear();
-        //            }
+            //    //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
+            //    if (insertionIndex1 != -1)
+            //    {
+            //        code[insertionIndex1] = new CodeInstruction(OpCodes.Call, OverrideConstructor);
 
-        //            __instance.containers = new List<ITelepadDeliverableContainer>();
+            //        TranspilerHelper.PrintInstructions(code);
+            //    }
+            //    else
+            //        SgtLogger.l("Constructor not found :(((");
+            //    return code;
+            //}
+        }
+        [HarmonyPatch(typeof(CharacterContainer))]
+        [HarmonyPatch(nameof(CharacterContainer.GenerateCharacter))]
+        public class OverwriteRngGeneration
+        {
+            public static bool Prefix(CharacterContainer __instance, KButton ___selectButton)
+            {
+                if (ModAssets.EditingSingleDupe)
+                {
+                    if (CryoDupeToApplyStatsOn != null
+                        && CryoDupeToApplyStatsOn.TryGetComponent<MinionIdentity>(out var minionIdentity)
+                        && Db.Get().Personalities.Get(minionIdentity.personalityResourceId) != null
+                        )
+                    {
+                        var originPersonality = Db.Get().Personalities.Get(minionIdentity.personalityResourceId);
+                        __instance.stats = new MinionStartingStats(originPersonality);
+                        //ModAssets.ApplySkinFromPersonality(originPersonality, __instance.stats);
+                        //__instance.characterNameTitle.OnEndEdit(originPersonality.Name);
 
-        //            CharacterContainer characterContainerZZZ = Util.KInstantiateUI<CharacterContainer>(__instance.containerPrefab.gameObject, __instance.containerParent);
-        //            characterContainerZZZ.SetController(__instance);
+                    }
+                    else
+                    {
+                        __instance.stats = new MinionStartingStats(is_starter_minion: false);
+                    }
+                    if (EditingJorge)
+                    {
+                        Trait chatty = Db.Get().traits.TryGet("Chatty");
+                        if (chatty != null)
+                        {
+                            __instance.stats.Traits.Add(chatty);
+                        }
+                        __instance.stats.voiceIdx = -2;
+                    }
+                    else
+                        __instance.stats.voiceIdx = UnityEngine.Random.Range(0, 4);
 
-        //            __instance.containers.Add(characterContainerZZZ);
-        //            __instance.selectedDeliverables = new List<ITelepadDeliverable>();
-        //            __instance.AddDeliverable(characterContainerZZZ.stats);
 
-        //            foreach (ITelepadDeliverableContainer container in __instance.containers)
-        //            {
-        //                CharacterContainer characterContainer = container as CharacterContainer;
-        //                if ((UnityEngine.Object)characterContainer != (UnityEngine.Object)null)
-        //                    characterContainer.SetReshufflingState(false);
-        //            }
-        //            __instance.EnableProceedButton();
-        //            return false;
-        //        }
-        //        return true;
-        //    }
-        //}
+                    Trait ancientKnowledgeTrait = Db.Get().traits.TryGet("AncientKnowledge");
+                    if (ancientKnowledgeTrait != null)
+                    {
+                        __instance.stats.Traits.Add(ancientKnowledgeTrait);
+                    }
+                    __instance.SetReshufflingState(true );
+                    __instance.SetAnimator();
+                    __instance.SetInfoText();
+                    __instance.StartCoroutine(__instance.SetAttributes());
+                    ___selectButton.ClearOnClick();
+                    ___selectButton.interactable = false;
+                    SgtLogger.l(__instance.stats.Name + " <- cryopod dupe");
+                    return false;
+                }
+                return true;
+            }
+        }
 
-        //[HarmonyPatch(typeof(ImmigrantScreen), "OnProceed")]
-        //public class SkipTelepadStuff
-        //{
-        //    public static bool Prefix(Telepad ___telepad, ImmigrantScreen __instance)
-        //    {
-        //        if (___telepad == null && EditingSingleDupe)
-        //        {
-        //            var containerField = AccessTools.Field(typeof(CharacterSelectionController), "containers");
-        //            var __containers = (List<ITelepadDeliverableContainer>)containerField.GetValue(__instance);
-        //            var deliverablesField = AccessTools.Field(typeof(CharacterSelectionController), "selectedDeliverables");
+        [HarmonyPatch(typeof(ImmigrantScreen))]
+        [HarmonyPatch(nameof(ImmigrantScreen.Initialize))]
+        public class CustomSingleForNoTelepad
+        {
+            public static bool Prefix(Telepad telepad, ImmigrantScreen __instance)
+            {
+                EditingSingleDupe = telepad == null;
+                if (EditingSingleDupe)
+                {
+                    if (__instance.containers != null && __instance.containers.Count > 0)
+                    {
+                        foreach (var container in __instance.containers)
+                        {
+                            container.GetGameObject().SetActive(false);
+                        }
+                    }
+                    if (__instance.rejectButton != null)
+                    {
+                        __instance.rejectButton.gameObject.SetActive(false);
+                    }
+                    if (__instance.closeButton != null)
+                    {
+                        __instance.closeButton.gameObject.SetActive(false);
+                    }
 
-        //            var DupeToDeliver = (MinionStartingStats)((List<ITelepadDeliverable>)deliverablesField.GetValue(__instance)).First();
-        //            Debug.Log("AAAAAASSSSSSS " + DupeToDeliver);
-        //            ModAssets._TargetStats = DupeToDeliver;
+                    if (SingleCharacterContainer != null && SingleCharacterContainer.gameObject != null)
+                    {
+                        SingleCharacterContainer.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        SingleCharacterContainer = Util.KInstantiateUI<CharacterContainer>(__instance.containerPrefab.gameObject, __instance.containerParent, true);
+                    }
+                    SingleCharacterContainer.SetController(__instance);
+                    __instance.EnableProceedButton();
 
-        //            __instance.Show(false);
-        //            if (__containers != null)
-        //            {
-        //                __containers.ForEach((System.Action<ITelepadDeliverableContainer>)(cc => UnityEngine.Object.Destroy((UnityEngine.Object)cc.GetGameObject())));
-        //                __containers.Clear();
-        //            }
-        //            AudioMixer.instance.Stop(AudioMixerSnapshots.Get().MENUNewDuplicantSnapshot);
-        //            AudioMixer.instance.Stop(AudioMixerSnapshots.Get().PortalLPDimmedSnapshot);
-        //            MusicManager.instance.PlaySong("Stinger_NewDuplicant");
-        //            EditingSingleDupe = false;
-        //            return false;
-        //        }
-        //        return true;
-        //    }
-        //}
+                    return false;
+                }
+                else
+                {
+                    if (__instance.containers != null && __instance.containers.Count > 0)
+                    {
+                        foreach (var container in __instance.containers)
+                        {
+                            container.GetGameObject().SetActive(true);
+                        }
+                    }
+                    if (__instance.rejectButton != null && __instance.rejectButton.gameObject != null)
+                    {
+                        __instance.rejectButton.gameObject.SetActive(true);
+                    }
+                    if (__instance.closeButton != null)
+                    {
+                        __instance.closeButton.gameObject.SetActive(true);
+                    }
+                    if (SingleCharacterContainer != null && SingleCharacterContainer.gameObject != null)
+                    {
+                        SingleCharacterContainer.gameObject.SetActive(false);
+                    }
+                }
+
+                return true;
+            }
+            public static void Postfix(ImmigrantScreen __instance)
+            {
+                ModAssets.ParentScreen = PauseScreen.Instance.transform.parent.gameObject;
+            }
+        }
+
+        [HarmonyPatch(typeof(ImmigrantScreen))]
+        [HarmonyPatch(nameof(ImmigrantScreen.OnProceed))]
+        public class SkipTelepadStuff
+        {
+            public static bool Prefix(Telepad ___telepad, ImmigrantScreen __instance)
+            {
+                if (EditingSingleDupe)
+                {
+                    var DupeToDeliver = (MinionStartingStats)ModAssets.SingleCharacterContainer.stats;
+
+                    foreach (var trait in DupeToDeliver.Traits)
+                        SgtLogger.l(trait.Name, "TraitLog");
+
+                    if (CryoDupeToApplyStatsOn != null)
+                    {
+                        foreach (var trait in CryoDupeToApplyStatsOn.GetComponent<Traits>().GetTraitIds())
+                        {
+                            SgtLogger.l("purging existing trait: " + trait);
+                        }
+
+                        CryoDupeToApplyStatsOn.GetComponent<Traits>().Clear();
+
+
+                        MinionResume component = CryoDupeToApplyStatsOn.GetComponent<MinionResume>();
+
+                        var keys = component.AptitudeBySkillGroup.Keys.ToList();
+                        for (int i = keys.Count - 1; i >= 0; --i)
+                        {
+                            var skillAptitude = keys[i];
+                            component.SetAptitude(skillAptitude, 0);
+                        }
+
+                        foreach (string key in DUPLICANTSTATS.ALL_ATTRIBUTES)
+                            DupeToDeliver.StartingLevels[key] += 7;
+
+
+                        DupeToDeliver.Apply(CryoDupeToApplyStatsOn);
+
+                        if (SingleCharacterContainer.gameObject != null)
+                        {
+                            UnityEngine.Object.Destroy(SingleCharacterContainer.gameObject);
+                            SingleCharacterContainer = null;
+                        }
+                        CryoDupeToApplyStatsOn = null;
+                        EditingJorge = false;
+                    }
+
+
+                    //dupe.GetComponent<MinionIdentity>().arrivalTime = UnityEngine.Random.Range(-2000, -1000);
+
+
+                    __instance.Show(false);
+                    //AudioMixer.instance.Stop(AudioMixerSnapshots.Get().MENUNewDuplicantSnapshot);
+                    //AudioMixer.instance.Stop(AudioMixerSnapshots.Get().PortalLPDimmedSnapshot);
+                    //MusicManager.instance.PlaySong("Stinger_NewDuplicant");
+
+                    EditingSingleDupe = false;
+                    return false;
+                }
+                return true;
+            }
+        }
 
         [HarmonyPatch(typeof(ImmigrantScreen))]
         [HarmonyPatch(nameof(ImmigrantScreen.Initialize))]
@@ -169,29 +274,123 @@ namespace SetStartDupes
             {
                 if (ModConfig.Instance.RerollDuringGame)
                 {
-                    foreach (ITelepadDeliverableContainer container in __instance.containers)
+                    if (__instance.containers != null && __instance.containers.Count > 0)
                     {
-                        CharacterContainer characterContainer = container as CharacterContainer;
-                        CarePackageContainer carePackContainer = container as CarePackageContainer;
-                        if (characterContainer != null)
+                        foreach (ITelepadDeliverableContainer container in __instance.containers)
                         {
-                            characterContainer.SetReshufflingState(true);
-                        }
-                        if (carePackContainer != null)
-                        {
-                            carePackContainer.SetReshufflingState(true);
-                            carePackContainer.reshuffleButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 120f);
-                            carePackContainer.reshuffleButton.onClick += () =>
+                            CharacterContainer characterContainer = container as CharacterContainer;
+                            CarePackageContainer carePackContainer = container as CarePackageContainer;
+                            if (characterContainer != null)
                             {
-                                carePackContainer.controller.RemoveLast();
-                                carePackContainer.Reshuffle(false);
-                            };
-                            UIUtils.AddSimpleTooltipToObject(carePackContainer.reshuffleButton.transform, STRINGS.UI.BUTTONS.REROLLCAREPACKAGE, true, onBottom: true);
+                                characterContainer.SetReshufflingState(true);
+                            }
+                            if (carePackContainer != null)
+                            {
+                                carePackContainer.SetReshufflingState(true);
+                                carePackContainer.reshuffleButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 120f);
+                                carePackContainer.reshuffleButton.onClick += () =>
+                                {
+                                    carePackContainer.controller.RemoveLast();
+                                    carePackContainer.Reshuffle(false);
+                                };
+                                UIUtils.AddSimpleTooltipToObject(carePackContainer.reshuffleButton.transform, STRINGS.UI.BUTTONS.REROLLCAREPACKAGE, true, onBottom: true);
+                            }
                         }
                     }
                 }
             }
         }
+        [HarmonyPatch(typeof(ImmigrantScreen))]
+        [HarmonyPatch(nameof(ImmigrantScreen.OnPressBack))]
+        public class CatchCryopodDupeException
+        {
+            public static bool Prefix(ImmigrantScreen __instance)
+            {
+                return !(__instance.containers == null || __instance.containers.Count == 0);
+            }
+        }
+        [HarmonyPatch(typeof(CharacterContainer))]
+        [HarmonyPatch(nameof(CharacterContainer.Reshuffle))]
+        public class PreventCrashForSIngleDupes
+        {
+            public static bool Prefix(CharacterContainer __instance, bool is_starter)
+            {
+                if (EditingSingleDupe)
+                {
+
+                    if (__instance.fxAnim != null)
+                    {
+                        __instance.fxAnim.Play("loop");
+                    }
+
+                    __instance.GenerateCharacter(is_starter, __instance.guaranteedAptitudeID);
+
+                    return false;
+                }
+                return true;
+            }
+        }
+
+
+
+        [HarmonyPatch(typeof(MinionBrowserScreenConfig))]
+        [HarmonyPatch(nameof(MinionBrowserScreenConfig.Personalities))]
+        public class AddJorgeToSkinSelection
+        {
+            public static bool Prefix(ref MinionBrowserScreenConfig __result, Option<Personality> defaultSelectedPersonality = default(Option<Personality>))
+            {
+
+                if (
+                    Game.Instance != null
+                    && Game.Instance.unlocks!=null 
+                    && Game.Instance.unlocks.IsUnlocked("story_trait_lonelyminion_foodquest")
+                    && Game.Instance.unlocks.IsUnlocked("story_trait_lonelyminion_pluggedin")
+                    && Game.Instance.unlocks.IsUnlocked("story_trait_lonelyminion_highdecor")
+                    )
+                {
+                    MinionBrowserScreen.GridItem.PersonalityTarget[] items
+                        = Db.Get().Personalities.GetAll(false, false)
+                                                .Select(personality => MinionBrowserScreen.GridItem.Of(personality)).ToArray();
+                    Option<MinionBrowserScreen.GridItem> defaultSelectedItem = defaultSelectedPersonality.AndThen(personality => (MinionBrowserScreen.GridItem)items.FirstOrDefault(item => item.personality == personality));
+
+                    if (defaultSelectedItem.IsNone() && items.Length != 0)
+                        defaultSelectedItem = (Option<MinionBrowserScreen.GridItem>)items[0];
+
+                    __result = new MinionBrowserScreenConfig(items, defaultSelectedItem);
+                    return false;
+                }
+                return true;
+            }
+        }
+
+        //[HarmonyPatch(typeof(MinionBrowserScreen))]
+        //[HarmonyPatch(nameof(MinionBrowserScreen.PopulateGallery))]
+        //public class AddJorgeToSkinSelection2
+        //{
+        //    public static bool Prefix(MinionBrowserScreenConfig __result, Option<Personality> defaultSelectedPersonality = default(Option<Personality>))
+        //    {
+        //        if (
+        //            true
+        //            )
+        //        {
+
+        //            return false;
+        //        }
+        //        return true;
+        //    }
+        //}
+
+        //[HarmonyPatch(typeof(CharacterSelectionController))]
+        //[HarmonyPatch(nameof(CharacterSelectionController.OnPressBack))]
+        //public class CatchCryopodDupeException2
+        //{
+        //    public static bool Prefix(CharacterSelectionController __instance)
+        //    {
+        //        return __instance.containers == null || __instance.containers.Count == 0;
+        //    }
+        //}
+
+
 
         /// <summary>
         /// Pauses Printing Pod
@@ -232,6 +431,64 @@ namespace SetStartDupes
                 //}
             }
         }
+
+        [HarmonyPatch(typeof(LonelyMinionHouse.Instance), nameof(LonelyMinionHouse.Instance.SpawnMinion))]
+        public class MakeJorgeRerollable
+        {
+            public static 
+               // MinionIdentity 
+               void
+                GrabJorgeGameObject(MinionIdentity minionIdentity)
+            {
+                SgtLogger.l("Getting Jorge Gameobject");
+                CryoDupeToApplyStatsOn = minionIdentity.gameObject;
+                //return minionIdentity;
+            }
+            public static void Postfix()
+            {
+                SgtLogger.l("Start Editing Jorge");
+                if (CryoDupeToApplyStatsOn)
+                {
+
+                    ModAssets.EditingSingleDupe = true;
+                    ModAssets.EditingJorge = true;
+                    ImmigrantScreen.InitializeImmigrantScreen(null);
+
+                }
+            }
+
+            public static readonly MethodInfo GrabGameObjectOfJorge = AccessTools.Method(
+               typeof(MakeJorgeRerollable),
+               nameof(MakeJorgeRerollable.GrabJorgeGameObject));
+
+            public static readonly FieldInfo immigrationInstance = AccessTools.Field(
+                typeof(Immigration),
+                nameof(Immigration.Instance)
+            );
+
+            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+            {
+                var code = instructions.ToList();
+                var insertionIndex1 = code.FindIndex(ci => ci.opcode == OpCodes.Ldsfld && ci.operand is FieldInfo f && f == immigrationInstance);
+                int locId = TranspilerHelper.FindIndexOfNextLocalIndex(code, insertionIndex1,false);
+
+                //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
+                if (insertionIndex1 != -1)
+                {
+                    code.Insert(insertionIndex1, new CodeInstruction(OpCodes.Call, GrabGameObjectOfJorge));
+                    code.Insert(insertionIndex1, new CodeInstruction(OpCodes.Ldloc_S, locId));
+
+                }
+                else
+                {
+                    SgtLogger.l("JORGE INSERTION FAILED");
+                }
+                TranspilerHelper.PrintInstructions(code);
+                return code;
+            }
+        }
+
+
 
         /// <summary>
         /// Gets a prefab and applies "Care Packages Only"-Mode
@@ -289,8 +546,6 @@ namespace SetStartDupes
                 }
                 return code;
             }
-
-
         }
 
 
@@ -405,9 +660,9 @@ namespace SetStartDupes
                 }
             }
 
+            //consuming old value to always roll dupes with more than 2 traits on reroll
             public static bool VariableTraits(bool isStarterMinion)
             {
-
                 return false;
             }
 
@@ -421,16 +676,10 @@ namespace SetStartDupes
                 var code = instructions.ToList();
                 var insertionIndex = code.FindLastIndex(ci => ci.opcode == OpCodes.Ldfld && ci.operand.ToString().Contains("is_starter_minion"));
 
-                //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
                 if (insertionIndex != -1)
                 {
-                    //++insertionIndex;
-                    //code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 7));
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, overrideStarterGeneration));
-                    //code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Stloc_S,  7));
-                    //code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, 7));
                 }
-                //foreach (var v in code) { Console.WriteLine(v.opcode + (v.operand != null ? ": " + v.operand : "")); };
                 return code;
             }
         }
@@ -474,6 +723,7 @@ namespace SetStartDupes
                 GameObject parentToScale = (GameObject)typeof(CharacterSelectionController).GetField("containerParent", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
                 CharacterContainer prefabToScale = (CharacterContainer)typeof(CharacterSelectionController).GetField("containerPrefab", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
 
+                ///If is starterscreen
                 if (__instance.GetType() == typeof(MinionSelectScreen))
                 {
 #if DEBUG
@@ -934,7 +1184,7 @@ namespace SetStartDupes
                         }
                         );
                     }
-                    if(DupeTraitMng.ExternalModPoints!=0)
+                    if (DupeTraitMng.ExternalModPoints != 0)
                         InterestBonusTooltip += "\n" + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, STRINGS.UI.DUPESETTINGSSCREEN.OTHERMODORIGINNAME, UIUtils.ColorNumber(DupeTraitMng.ExternalModPoints));
 
                     UIUtils.AddSimpleTooltipToObject(InterestPointBonus.transform, InterestBonusTooltip, true, onBottom: true);

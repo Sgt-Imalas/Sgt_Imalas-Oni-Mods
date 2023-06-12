@@ -51,6 +51,8 @@ namespace SetStartDupes
             stress,
             undefined,
             allTraits
+
+            ,CarePackage
         }
         internal void SetReferenceStats(MinionStartingStats referencedStats)
         {

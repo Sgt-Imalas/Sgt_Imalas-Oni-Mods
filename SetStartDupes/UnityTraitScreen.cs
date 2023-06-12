@@ -65,6 +65,7 @@ namespace SetStartDupes
         {
             Interest,
             Trait,
+            CarePackage,
             undefined
         }
 
@@ -299,6 +300,8 @@ namespace SetStartDupes
                     if(item.dlcId == ""|| item.dlcId == DlcManager.GetHighestActiveDlcId())
                         AddUIContainer(traitsDb.TryGet(item.id), type);
                 }
+
+
             }
             foreach (var item in interests)
             {

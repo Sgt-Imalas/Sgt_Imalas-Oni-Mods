@@ -1,4 +1,5 @@
 ﻿using Database;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +17,8 @@ namespace SetStartDupes
         public static bool IsCustomActive = false;
         List<Transform> StuffToDeactivate = new List<Transform>();
         List<Transform> StuffToActivate = new List<Transform>();
-        
-
+        [MyCmpGet]
+        MinionBrowserScreen minionSelectionScreen;
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
@@ -55,12 +56,10 @@ namespace SetStartDupes
 
         public void SetSelectedDupe()
         {
-            var minionSelectionScreen = this.GetComponent<MinionBrowserScreen>();
             MinionBrowserScreen.GridItem Selected = minionSelectionScreen.selectedGridItem;
             //EditableIdentity;
             //CurrentContainer.OnNameChanged(Selected.GetName());
-            ApplySkinFromPersonality(Selected.GetPersonality(), EditableIdentity);
-            EditableIdentity.personality = Selected.GetPersonality();
+            ModAssets.ApplySkinFromPersonality(Selected.GetPersonality(), EditableIdentity);
             CurrentContainer.characterNameTitle.OnEndEdit(Selected.GetName());
             CurrentContainer.SetAnimator();
             CurrentContainer.SetAttributes();
@@ -68,150 +67,6 @@ namespace SetStartDupes
             ToggleCustomScreenOff();
         }
 
-        void ApplySkinFromPersonality(Personality personality, MinionStartingStats stats)
-        {
-            KCompBuilder.BodyData bodyData = MinionStartingStats.CreateBodyData(personality);
-            stats.accessories.Clear();
-            foreach (AccessorySlot resource in Db.Get().AccessorySlots.resources)
-            {
-                if (resource.accessories.Count == 0)
-                {
-                    continue;
-                }
-
-                Accessory accessory = null;
-                if (resource == Db.Get().AccessorySlots.HeadShape)
-                {
-                    accessory = resource.Lookup(bodyData.headShape);
-                    if (accessory == null)
-                    {
-                        personality.headShape = 0;
-                    }
-                }
-                else if (resource == Db.Get().AccessorySlots.Mouth)
-                {
-                    accessory = resource.Lookup(bodyData.mouth);
-                    if (accessory == null)
-                    {
-                        personality.mouth = 0;
-                    }
-                }
-                else if (resource == Db.Get().AccessorySlots.Eyes)
-                {
-                    accessory = resource.Lookup(bodyData.eyes);
-                    if (accessory == null)
-                    {
-                        personality.eyes = 0;
-                    }
-                }
-                else if (resource == Db.Get().AccessorySlots.Hair)
-                {
-                    accessory = resource.Lookup(bodyData.hair);
-                    if (accessory == null)
-                    {
-                        personality.hair = 0;
-                    }
-                }
-                else if (resource == Db.Get().AccessorySlots.HatHair)
-                {
-                    accessory = resource.accessories[0];
-                }
-                else if (resource == Db.Get().AccessorySlots.Body)
-                {
-                    accessory = resource.Lookup(bodyData.body);
-                    if (accessory == null)
-                    {
-                        personality.body = 0;
-                    }
-                }
-                else if (resource == Db.Get().AccessorySlots.Arm)
-                {
-                    accessory = resource.Lookup(bodyData.arms);
-                }
-                else if (resource == Db.Get().AccessorySlots.ArmLower)
-                {
-                    accessory = resource.Lookup(bodyData.armslower);
-                }
-                else if (resource == Db.Get().AccessorySlots.ArmLowerSkin)
-                {
-                    accessory = resource.Lookup(bodyData.armLowerSkin);
-                }
-                else if (resource == Db.Get().AccessorySlots.ArmUpperSkin)
-                {
-                    accessory = resource.Lookup(bodyData.armUpperSkin);
-                }
-                else if (resource == Db.Get().AccessorySlots.LegSkin)
-                {
-                    accessory = resource.Lookup(bodyData.legSkin);
-                }
-                else if (resource == Db.Get().AccessorySlots.Leg)
-                {
-                    accessory = resource.Lookup(bodyData.legs);
-                }
-                else if (resource == Db.Get().AccessorySlots.Belt)
-                {
-                    accessory = resource.Lookup(bodyData.belt);
-                    if (accessory == null)
-                    {
-                        accessory = resource.accessories[0];
-                    }
-                }
-                else if (resource == Db.Get().AccessorySlots.Neck)
-                {
-                    accessory = resource.Lookup(bodyData.neck);
-                }
-                else if (resource == Db.Get().AccessorySlots.Pelvis)
-                {
-                    accessory = resource.Lookup(bodyData.pelvis);
-                }
-                else if (resource == Db.Get().AccessorySlots.Foot)
-                {
-                    accessory = resource.Lookup(bodyData.foot);
-                    if (accessory == null)
-                    {
-                        accessory = resource.accessories[0];
-                    }
-                }
-                else if (resource == Db.Get().AccessorySlots.Skirt)
-                {
-                    accessory = resource.Lookup(bodyData.skirt);
-                }
-                else if (resource == Db.Get().AccessorySlots.Necklace)
-                {
-                    accessory = resource.Lookup(bodyData.necklace);
-                }
-                else if (resource == Db.Get().AccessorySlots.Cuff)
-                {
-                    accessory = resource.Lookup(bodyData.cuff);
-                    if (accessory == null)
-                    {
-                        accessory = resource.accessories[0];
-                    }
-                }
-                else if (resource == Db.Get().AccessorySlots.Hand)
-                {
-                    accessory = resource.Lookup(bodyData.hand);
-                    if (accessory == null)
-                    {
-                        accessory = resource.accessories[0];
-                    }
-                }
-
-                stats.accessories.Add(accessory);
-            }
-
-            if (ModConfig.Instance.SkinsDoReactions)
-            {
-                if (!ModConfig.Instance.NoJoyReactions)
-                {
-                    stats.stressTrait = Db.Get().traits.TryGet(personality.stresstrait);
-                }
-                if (!ModConfig.Instance.NoStressReactions)
-                {
-                    stats.joyTrait = Db.Get().traits.TryGet(personality.joyTrait);
-                }
-            }
-        }
 
 
         void ToggleUICmps()
@@ -237,9 +92,13 @@ namespace SetStartDupes
 
         internal static void ShowSkinScreen(CharacterContainer container,MinionStartingStats startingStats)
         {
+           
+
+
             var instance = LockerNavigator.Instance.duplicantCatalogueScreen.AddOrGet<DupeSkinScreenAddon>();
             IsCustomActive = true;
-            MinionBrowserScreenConfig.Personalities().ApplyAndOpenScreen();
+
+            MinionBrowserScreenConfig.Personalities(startingStats.personality).ApplyAndOpenScreen();
             instance.InitUI(container, startingStats);
         }
         public override void OnShow(bool show)

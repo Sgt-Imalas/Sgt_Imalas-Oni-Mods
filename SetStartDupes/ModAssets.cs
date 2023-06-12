@@ -21,10 +21,13 @@ namespace SetStartDupes
         public static string DupeTemplatePath;
         public static string DupeTemplateName = "UnnamedDuplicantPreset";
         public static bool EditingSingleDupe = false;
-        public static MinionStartingStats _TargetStats;
+        public static bool EditingJorge = false;
 
-        public static CharacterContainer PrefabToFix;
         public static GameObject StartPrefab;
+
+        public static CharacterContainer SingleCharacterContainer;
+        public static GameObject CryoDupeToApplyStatsOn = null;
+
 
         public static GameObject NextButtonPrefab;
 
@@ -39,6 +42,8 @@ namespace SetStartDupes
 
         public static GameObject PresetWindowPrefab;
         public static GameObject TraitsWindowPrefab;
+
+
 
         public static GameObject ParentScreen
         {
@@ -84,6 +89,160 @@ namespace SetStartDupes
 
         public static Dictionary<MinionStartingStats, DupeTraitManager> DupeTraitManagers = new Dictionary<MinionStartingStats, DupeTraitManager>();
 
+        public static void ApplySkinFromPersonality(Personality personality, MinionStartingStats stats)
+        {
+            KCompBuilder.BodyData bodyData = MinionStartingStats.CreateBodyData(personality);
+            stats.accessories.Clear();
+            foreach (AccessorySlot resource in Db.Get().AccessorySlots.resources)
+            {
+                if (resource.accessories.Count == 0)
+                {
+                    continue;
+                }
+
+                Accessory accessory = null;
+                if (resource == Db.Get().AccessorySlots.HeadShape)
+                {
+                    accessory = resource.Lookup(bodyData.headShape);
+                    if (accessory == null)
+                    {
+                        personality.headShape = 0;
+                    }
+                }
+                else if (resource == Db.Get().AccessorySlots.Mouth)
+                {
+                    accessory = resource.Lookup(bodyData.mouth);
+                    if (accessory == null)
+                    {
+                        personality.mouth = 0;
+                    }
+                }
+                else if (resource == Db.Get().AccessorySlots.Eyes)
+                {
+                    accessory = resource.Lookup(bodyData.eyes);
+                    if (accessory == null)
+                    {
+                        personality.eyes = 0;
+                    }
+                }
+                else if (resource == Db.Get().AccessorySlots.Hair)
+                {
+                    accessory = resource.Lookup(bodyData.hair);
+                    if (accessory == null)
+                    {
+                        personality.hair = 0;
+                    }
+                }
+                else if (resource == Db.Get().AccessorySlots.HatHair)
+                {
+                    accessory = resource.accessories[0];
+                }
+                else if (resource == Db.Get().AccessorySlots.Body)
+                {
+                    accessory = resource.Lookup(bodyData.body);
+                    if (accessory == null)
+                    {
+                        personality.body = 0;
+                    }
+                }
+                else if (resource == Db.Get().AccessorySlots.Arm)
+                {
+                    accessory = resource.Lookup(bodyData.arms);
+                }
+                else if (resource == Db.Get().AccessorySlots.ArmLower)
+                {
+                    accessory = resource.Lookup(bodyData.armslower);
+                }
+                else if (resource == Db.Get().AccessorySlots.ArmLowerSkin)
+                {
+                    accessory = resource.Lookup(bodyData.armLowerSkin);
+                }
+                else if (resource == Db.Get().AccessorySlots.ArmUpperSkin)
+                {
+                    accessory = resource.Lookup(bodyData.armUpperSkin);
+                }
+                else if (resource == Db.Get().AccessorySlots.LegSkin)
+                {
+                    accessory = resource.Lookup(bodyData.legSkin);
+                }
+                else if (resource == Db.Get().AccessorySlots.Leg)
+                {
+                    accessory = resource.Lookup(bodyData.legs);
+                }
+                else if (resource == Db.Get().AccessorySlots.Belt)
+                {
+                    accessory = resource.Lookup(bodyData.belt);
+                    if (accessory == null)
+                    {
+                        accessory = resource.accessories[0];
+                    }
+                }
+                else if (resource == Db.Get().AccessorySlots.Neck)
+                {
+                    accessory = resource.Lookup(bodyData.neck);
+                }
+                else if (resource == Db.Get().AccessorySlots.Pelvis)
+                {
+                    accessory = resource.Lookup(bodyData.pelvis);
+                }
+                else if (resource == Db.Get().AccessorySlots.Foot)
+                {
+                    accessory = resource.Lookup(bodyData.foot);
+                    if (accessory == null)
+                    {
+                        accessory = resource.accessories[0];
+                    }
+                }
+                else if (resource == Db.Get().AccessorySlots.Skirt)
+                {
+                    accessory = resource.Lookup(bodyData.skirt);
+                }
+                else if (resource == Db.Get().AccessorySlots.Necklace)
+                {
+                    accessory = resource.Lookup(bodyData.necklace);
+                }
+                else if (resource == Db.Get().AccessorySlots.Cuff)
+                {
+                    accessory = resource.Lookup(bodyData.cuff);
+                    if (accessory == null)
+                    {
+                        accessory = resource.accessories[0];
+                    }
+                }
+                else if (resource == Db.Get().AccessorySlots.Hand)
+                {
+                    accessory = resource.Lookup(bodyData.hand);
+                    if (accessory == null)
+                    {
+                        accessory = resource.accessories[0];
+                    }
+                }
+
+                stats.accessories.Add(accessory);
+            }
+
+            if (ModConfig.Instance.SkinsDoReactions)
+            {
+                if (!ModConfig.Instance.NoJoyReactions)
+                {
+                    stats.stressTrait = Db.Get().traits.TryGet(personality.stresstrait);
+                }
+                if (!ModConfig.Instance.NoStressReactions)
+                {
+                    stats.joyTrait = Db.Get().traits.TryGet(personality.joyTrait);
+                }
+            }
+            stats.personality = personality;
+            stats.stickerType = personality.stickerType;
+            if (personality.nameStringKey.ToLowerInvariant()=="jorge")
+            {
+                stats.voiceIdx = -2;
+            }
+            else
+            {
+                stats.voiceIdx = UnityEngine.Random.Range(0, 4);
+            }
+        }
 
         public static int MinimumPointsPerInterest(MinionStartingStats stats)
         {
@@ -138,10 +297,15 @@ namespace SetStartDupes
         public static void RedoStatpointBonus(MinionStartingStats stats, Trait trait, bool isAdding = false)
         {
             ModAssets.GetTraitListOfTrait(trait.Id, out var list);
+
+            if (list == null)
+                return;
+
             var traitBonusHolder = list.Find(traitTo => traitTo.id == trait.Id);
-            
+
             if (traitBonusHolder.statBonus == 0)
                 return;
+
 
             int targetPoints = GetTraitBonus(stats);
             int minimumPoints = MinimumPointsPerInterest(stats);
@@ -226,6 +390,10 @@ namespace SetStartDupes
         {
             string tooltip = string.Empty;
             ModAssets.GetTraitListOfTrait(trait.Id, out var list);
+
+            if (list == null)
+                return tooltip;
+
             var traitBonusHolder = list.Find(traitTo => traitTo.id == trait.Id);   
             if(traitBonusHolder.statBonus==0)
                 return tooltip;
