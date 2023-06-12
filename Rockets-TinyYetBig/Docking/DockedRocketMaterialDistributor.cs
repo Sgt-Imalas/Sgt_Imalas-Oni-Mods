@@ -62,7 +62,7 @@ namespace Rockets_TinyYetBig
                     .Target(this.attachedRocket)
                     .Target(this.masterTarget)
                     .Enter((smi) => smi.SetConnectedRocketStatusLoading(true))
-                    .UpdateTransition( operational.rocketLost , (smi,dt) => { return smi.GetDockedRocket() == null; })
+                    .UpdateTransition(operational.rocketLost, (smi, dt) => { return smi.GetDockedRocket() == null; })
             ;
 
             this.operational
@@ -162,7 +162,15 @@ namespace Rockets_TinyYetBig
             {
             }
 
-            public CraftModuleInterface GetDockedRocket() => this.GetComponent<DockingDoor>().GetDockedCraftModuleInterface();
+            public CraftModuleInterface GetDockedRocket()
+            {
+
+                if (this.gameObject.TryGetComponent<DockingDoor>(out var door))
+                {
+                    return door.GetDockedCraftModuleInterface();
+                }
+                return null;
+            }
 
             public void SetConnectedRocketStatusLoading(bool isLoadingOrUnloading)
             {

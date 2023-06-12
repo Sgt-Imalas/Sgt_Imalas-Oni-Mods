@@ -43,8 +43,12 @@ namespace Rockets_TinyYetBig.Behaviours
         {
             if (connected == null)
                 return null;
-            else 
-                return connected.Get().GetWorldObject().GetComponent<CraftModuleInterface>();
+            else
+            {
+                if (connected.Get() != null && connected.Get().GetWorldObject() != null && connected.Get().TryGetComponent<CraftModuleInterface>(out var interfac))
+                    return interfac;
+                return null;
+            }
         }
 
         public void ConnecDoor(DockingDoor d)
