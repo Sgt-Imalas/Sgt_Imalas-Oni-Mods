@@ -112,7 +112,7 @@ namespace SetStartDupes
                 public class REROLLCRYOPODANDJORGE
                 {
                     public static LocString NAME = "Hermit/Cryopod Modification";
-                    public static LocString TOOLTIP = "Allows modifying of the Hermit and Cryopod Duplicants.\nPresets and Stat modifications are tied to their respective settings.\n\"Ancient Knowledge\"-Trait no longer takes the slot of a positive trait during generation of these duplicants.";
+                    public static LocString TOOLTIP = "Allows modifying of the Hermit and Cryopod Duplicants.\n\"Ancient Knowledge\"-Trait no longer takes the slot of a positive trait during generation of these duplicants.";
                 }
                 public class HERMITSKIN
                 {

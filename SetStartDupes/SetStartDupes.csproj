@@ -55,8 +55,6 @@
 	
 	<ItemGroup>
 	  <Folder Include="ModAssets\assets\linux\" />
-	  <Folder Include="ModAssets\assets\mac\" />
-	  <Folder Include="ModAssets\assets\windows\" />
 	</ItemGroup>
 	
 	<ItemGroup>

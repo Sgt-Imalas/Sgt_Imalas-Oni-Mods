@@ -234,6 +234,9 @@ namespace SetStartDupes
             }
             stats.personality = personality;
             stats.stickerType = personality.stickerType;
+            stats.GenderStringKey = personality.genderStringKey;
+            stats.NameStringKey = personality.nameStringKey;
+
             if (personality.nameStringKey.ToLowerInvariant()=="jorge")
             {
                 stats.voiceIdx = -2;

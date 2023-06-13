@@ -293,7 +293,7 @@ namespace SetStartDupes
                             if (carePackContainer != null)
                             {
                                 carePackContainer.SetReshufflingState(true);
-                                carePackContainer.reshuffleButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 120f);
+                                carePackContainer.reshuffleButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 20, 120f);
                                 carePackContainer.reshuffleButton.onClick += () =>
                                 {
                                     carePackContainer.controller.RemoveLast();
@@ -306,6 +306,36 @@ namespace SetStartDupes
                 }
             }
         }
+
+        [HarmonyPatch(typeof(CarePackageContainer))]
+        [HarmonyPatch(nameof(CarePackageContainer.OnSpawn))]
+        public class CarePackageContainer_Add_SelectPackageButton
+        {
+            public static void Postfix (CarePackageContainer __instance)
+            {
+                if (__instance.reshuffleButton == null || !ModConfig.Instance.RerollDuringGame)
+                    return;
+
+
+
+                var selectButton = Util.KInstantiateUI<KButton>(__instance.reshuffleButton.gameObject, __instance.reshuffleButton.transform.parent.gameObject, true);
+                selectButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 20, 33f);
+                UIUtils.FindAndDestroy(selectButton.transform, "Text");
+                if(selectButton.transform.Find("FG").TryGetComponent<Image>(out var image))
+                {
+                    image.sprite = Assets.GetSprite("icon_gear");
+                }
+
+                UIUtils.ListAllChildren(selectButton.transform);
+                selectButton.onClick += () =>
+                {
+                    List<CarePackageInfo> carePackageInfos = Immigration.Instance.carePackages.ToList();                   
+                    UnityCarePackageScreen.ShowWindow(__instance, () => { }, carePackageInfos);
+                };
+            }
+        }
+
+
         [HarmonyPatch(typeof(ImmigrantScreen))]
         [HarmonyPatch(nameof(ImmigrantScreen.OnPressBack))]
         public class CatchCryopodDupeException
@@ -851,6 +881,7 @@ namespace SetStartDupes
                 //    //var fieldInfo = (uint)Traverse.Create(component).Method("get_ArtistBalloonSymbolIdx").GetValue();
                 //}
 
+                bool AllowModification = ModConfig.Instance.ModifyDuringGame || (EditingSingleDupe && ModConfig.Instance.JorgeAndCryopodDupes);
 
                 List<KButton> ButtonsToDisableOnEdit = new List<KButton>();
 
@@ -859,7 +890,7 @@ namespace SetStartDupes
 
                 //28
                 int insetBase = 4, insetA = 28, insetB = insetA * 2, insetC = insetA * 3;
-                float insetDistance = (!is_starter && !ModConfig.Instance.ModifyDuringGame) ? insetBase + insetA : insetBase + insetC;
+                float insetDistance = (!is_starter && !AllowModification) ? insetBase + insetA : insetBase + insetC;
 
                 //var TextInput = titlebar.transform.Find("LabelGroup/");
                 //TextInput.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 3, 60);
@@ -891,7 +922,7 @@ namespace SetStartDupes
 
 
 
-                if (!(!is_starter && !ModConfig.Instance.ModifyDuringGame))
+                if (!(!is_starter && !AllowModification))
                 {
 
                     float insetDistancePresetButton = insetBase + insetB;
@@ -909,7 +940,7 @@ namespace SetStartDupes
                     ButtonsToDisableOnEdit.Add(PresetButton.FindComponent<KButton>());
                 }
 
-                if (!is_starter && !ModConfig.Instance.ModifyDuringGame)
+                if (!is_starter && !AllowModification)
                     return;
                 ///Make modify button
                 var changebtn = Util.KInstantiateUI(buttonPrefab, titlebar);

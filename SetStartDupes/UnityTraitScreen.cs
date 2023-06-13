@@ -65,7 +65,6 @@ namespace SetStartDupes
         {
             Interest,
             Trait,
-            CarePackage,
             undefined
         }
 
