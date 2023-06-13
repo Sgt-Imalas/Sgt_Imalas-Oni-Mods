@@ -103,6 +103,7 @@ namespace RoboRockets
         {
             base.DoPostConfigureUnderConstruction(go);
             go.AddOrGet<BuildingCellVisualizer>();
+            go.GetComponent<Constructable>().requiredSkillPerk = Db.Get().SkillPerks.ConveyorBuild.Id;
         }
     }
 
