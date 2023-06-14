@@ -62,6 +62,7 @@ namespace RoboRockets.LearningBrain
             Storage storage = go.AddOrGet<Storage>();
             storage.capacityKg = 1f;
             storage.showInUI = false;
+            storage.useWideOffsets = true;
             ManualDeliveryKG manualDeliveryKg = go.AddOrGet<ManualDeliveryKG>();
             manualDeliveryKg.SetStorage(storage);
             manualDeliveryKg.RequestedItemTag = ModAssets.Tags.SpaceBrain;
@@ -85,14 +86,6 @@ namespace RoboRockets.LearningBrain
             Ownable ownable = go.AddOrGet<Ownable>();
             ownable.slotID = Db.Get().AssignableSlots.HabitatModule.Id;
             ownable.canBePublic = false;
-            FakeFloorAdder fakeFloorAdder = go.AddOrGet<FakeFloorAdder>();
-            fakeFloorAdder.floorOffsets = new CellOffset[3]
-            {
-      new CellOffset(-1, -1),
-      new CellOffset(0, -1),
-      new CellOffset(1, -1)
-            };
-            fakeFloorAdder.initiallyActive = false;
             go.AddOrGet<BuildingCellVisualizer>();
             go.GetComponent<ReorderableBuilding>().buildConditions.Add(new LimitOneCommandModule());
         }
