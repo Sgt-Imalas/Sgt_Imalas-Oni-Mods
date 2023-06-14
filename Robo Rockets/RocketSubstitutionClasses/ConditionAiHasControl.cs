@@ -1,5 +1,6 @@
 ﻿
 
+using RoboRockets.LearningBrain;
 using UnityEngine;
 using static RoboRockets.STRINGS;
 
@@ -12,11 +13,11 @@ namespace RoboRockets
 
         public override Status EvaluateCondition()
         {
-            if(module.TryGetComponent<Storage>(out var storage))
+            if(module.TryGetComponent<BrainTeacher>(out var teacher))
             {
                 //module.TryGetComponent<KBatchedAnimController>(out var kanim);
                 
-                if (storage.FindFirst(ModAssets.Tags.SpaceBrain))
+                if (teacher.HasBrain)
                 {
                     //kanim.Play("grounded");
                     return ProcessCondition.Status.Ready;

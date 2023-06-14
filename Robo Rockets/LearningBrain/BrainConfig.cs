@@ -35,14 +35,14 @@ namespace RoboRockets.LearningBrain
                 initialAnim: "object",
                 sceneLayer: Grid.SceneLayer.Front,
                 collisionShape: EntityTemplates.CollisionShape.RECTANGLE,
-                width: 1.2f,
-                height: 1.2f,
+                width: 1.06f,
+                height: 1.06f,
                 isPickupable: true,
                 sortOrder: 0,
                 element: SimHashes.Creature,
                 additionalTags: new List<Tag>()
                 {
-                    GameTags.IndustrialIngredient,
+                    GameTags.IndustrialProduct,
                     ModAssets.Tags.SpaceBrain,
                     GameTags.PedestalDisplayable
                 });

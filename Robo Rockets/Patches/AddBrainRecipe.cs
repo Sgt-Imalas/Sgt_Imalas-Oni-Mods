@@ -41,5 +41,19 @@ namespace RoboRockets.Patches
             }
         }
 
+        [HarmonyPatch(typeof(RocketModuleCluster), nameof(RocketModuleCluster.UpdateAnimations))]
+        public static class SkipAnimSetter
+        {
+            public static bool Prefix(RocketModuleCluster __instance)
+            {
+                if(__instance.TryGetComponent<BrainTeacher>(out var brainTeacher))
+                {
+                    return !brainTeacher.PreventAnimChanges;
+                }
+                return true;
+            }
+            
+        }
+
     }
 }
