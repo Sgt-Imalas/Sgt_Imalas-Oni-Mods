@@ -176,7 +176,7 @@ namespace SetStartDupes
                                 ColorStyle.disabledColor = UIUtils.rgb(37, 37, 41);
                                 image.colorStyleSetting = ColorStyle;
                                 image.ApplyColorStyleSetting();
-
+                                 
                             }
                             Spacer = spacer.gameObject;
                         }
