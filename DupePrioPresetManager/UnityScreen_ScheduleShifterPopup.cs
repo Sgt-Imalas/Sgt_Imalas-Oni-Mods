@@ -82,7 +82,7 @@ namespace DupePrioPresetManager
 
         private void Init()
         {
-            UIUtils.ListAllChildrenPath(this.transform);
+            //UIUtils.ListAllChildrenPath(this.transform);
 
             CloseButton2 = transform.Find("Title/CloseButton").FindOrAddComponent<FButton>();
             CloseButton = transform.Find("Content/Cancel").FindOrAddComponent<FButton>();

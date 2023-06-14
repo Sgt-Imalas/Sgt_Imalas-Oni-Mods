@@ -182,7 +182,7 @@ namespace SaveGameModLoader
 
                 }; 
                 var closeButton = __instance.transform.Find("Panel/DetailsView/CloseButton");
-                UIUtils.ListAllChildrenWithComponents(closeButton.transform);
+                //UIUtils.ListAllChildrenWithComponents(closeButton.transform);
                 closeButton.SetAsLastSibling();
             }
         }

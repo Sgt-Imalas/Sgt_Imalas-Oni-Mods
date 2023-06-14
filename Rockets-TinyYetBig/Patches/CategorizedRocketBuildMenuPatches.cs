@@ -110,6 +110,12 @@ namespace Rockets_TinyYetBig
                 if (__instance is SelectModuleSideScreen)
                 {
                     __instance.isEditing = CategoryPatchTest.EditingSearch;
+                    if (e.TryConsume(Action.DebugToggleClusterFX))
+                    {
+                        CategoryPatchTest.SearchBar.Select();
+                        CategoryPatchTest.SearchBar.ActivateInputField();
+                        KScreenManager.Instance.RefreshStack();
+                    }
                 }
             }
         }

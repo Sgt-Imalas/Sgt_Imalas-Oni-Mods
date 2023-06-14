@@ -31,7 +31,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         }
         public override void SetTarget(GameObject target)
         {
-            UIUtils.ListAllChildren(transform);
+            //UIUtils.ListAllChildren(transform);
 
             viewButton = UIUtils.TryFindComponent<KButton>(transform, "Contents/TopPanel/Buttons/ViewInteriorButton");
             icon = UIUtils.TryFindComponent<Image>(transform, "Contents/TopPanel/Image");

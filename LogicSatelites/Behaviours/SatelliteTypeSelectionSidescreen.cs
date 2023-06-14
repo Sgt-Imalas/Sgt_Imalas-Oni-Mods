@@ -173,7 +173,7 @@ namespace LogicSatellites
             //var text = "Deploy Satellite";
             if (PlaceStationButton != null)
             {
-                UIUtils.ListAllChildren(PlaceStationButton.transform);
+                //UIUtils.ListAllChildren(PlaceStationButton.transform);
                 UIUtils.TryChangeText(PlaceStationButton.transform, "Label", targetSatelliteCarrier.HoldingSatellite() ? (ModAssets.SatelliteConfigurations[SatType].NAME) : (string)STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_FALSE);
                 //UIUtils.AddSimpleTooltipToObject(PlaceStationButton.transform, targetSatelliteCarrier.HoldingSatellite() ? (ModAssets.SatelliteConfigurations[SatType].DESC) : (string)STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_FALSE, true);
                 flipButton.GetComponent<KButton>().isInteractable = targetSatelliteCarrier.HoldingSatellite();

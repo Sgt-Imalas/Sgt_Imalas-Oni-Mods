@@ -66,7 +66,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         public override void OnPrefabInit()
         {
 
-            UIUtils.ListAllChildren(this.transform);
+            //UIUtils.ListAllChildren(this.transform);
             base.OnPrefabInit();
             titleKey = "STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONBUILDERMODULESIDESCREEN.TITLE";
             stateButtonPrefab = transform.Find("ButtonPrefab").gameObject;
