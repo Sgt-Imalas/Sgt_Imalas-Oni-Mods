@@ -127,6 +127,10 @@ namespace UtilLibs.UIcmp //Source: Aki
 
         public void OnPointerDown(PointerEventData eventData)
         {
+            if (!interactable)
+            {
+                return;
+            }
 
             if (KInputManager.isFocused)
             {
