@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace UtilLibs.UIcmp //Source: Aki
 {
-    public class FButton : KMonoBehaviour, IEventSystemHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
+    public class FButton : KMonoBehaviour, IEventSystemHandler, IPointerUpHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
     {
         public event System.Action OnClick;
         public event System.Action OnRightClick;
@@ -17,7 +17,7 @@ namespace UtilLibs.UIcmp //Source: Aki
         private bool interactable;
         private Material material;
 
-        [MyCmpReq]
+        [MyCmpGet]
         private Image image;
 
         [MyCmpGet]
@@ -36,6 +36,11 @@ namespace UtilLibs.UIcmp //Source: Aki
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
+            if(image ==null && button != null)
+            {
+                image = button.image;
+            }
+
             material = image.material;
             interactable = true;
         }
@@ -59,7 +64,7 @@ namespace UtilLibs.UIcmp //Source: Aki
             }
         }
 
-        public void OnPointerDown(PointerEventData eventData)
+        public void OnPointerUp(PointerEventData eventData)
         {
             if(!interactable)
             {
@@ -72,16 +77,19 @@ namespace UtilLibs.UIcmp //Source: Aki
             if (KInputManager.isFocused)
             {
                 KInputManager.SetUserActive();
-                PlaySound(UISoundHelper.ClickOpen);
-                if(OnClick != null && OnRightClick != null)
+                //PlaySound(UISoundHelper.ClickOpen);
+                if (!eventData.IsPointerMoving())
                 {
-                    if(eventData.button == PointerEventData.InputButton.Right)
+                    if (OnClick != null && OnRightClick != null)
                     {
-                        OnRightClick.Invoke();
-                        return;
+                        if (eventData.button == PointerEventData.InputButton.Right)
+                        {
+                            OnRightClick.Invoke();
+                            return;
+                        }
                     }
-                }
-                OnClick?.Invoke();                
+                    OnClick?.Invoke();
+                }          
             }
         }
 
@@ -114,6 +122,16 @@ namespace UtilLibs.UIcmp //Source: Aki
             if (button == null)
             {
                 image.color = normalColor;
+            }
+        }
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+
+            if (KInputManager.isFocused)
+            {
+                KInputManager.SetUserActive();
+                PlaySound(UISoundHelper.ClickOpen);
             }
         }
     }

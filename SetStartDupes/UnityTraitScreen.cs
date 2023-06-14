@@ -192,13 +192,13 @@ namespace SetStartDupes
 
                 if (trait != null)
                 {
-                    PresetHolder.transform.Find("SwitchIn").FindOrAddComponent<FButton>().OnClick += () => ChoseThis(trait);
+                    PresetHolder.transform.FindOrAddComponent<FButton>().OnClick += () => ChoseThis(trait);
                     PresetHolder.transform.Find("Background").FindOrAddComponent<Image>().color = ModAssets.GetColourFromType(traitType);
                     TraitContainers[trait] = PresetHolder;
                 }
                 else if (skillGroup != null)
                 {
-                    PresetHolder.transform.Find("SwitchIn").FindOrAddComponent<FButton>().OnClick += () => ChoseThis(skillGroup);
+                    PresetHolder.transform.FindOrAddComponent<FButton>().OnClick += () => ChoseThis(skillGroup);
                     DupeInterestContainers[skillGroup] = PresetHolder;
                 }
             }

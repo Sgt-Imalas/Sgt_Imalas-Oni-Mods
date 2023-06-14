@@ -196,8 +196,9 @@ namespace SetStartDupes
                 {
                     UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("Label"), description, true, onBottom: true);
                 }
+                UIUtils.ListAllChildrenWithComponents(PresetHolder.transform);
 
-                PresetHolder.transform.Find("SwitchIn").FindOrAddComponent<FButton>().OnClick += () => ChoseThis(info);
+                PresetHolder.transform.FindOrAddComponent<FButton>().OnClick += () => ChoseThis(info);
                 PresetHolder.transform.Find("CarePackageSprite").TryGetComponent<Image>(out var image);
                 ApplyCarePackageSprite(info, image);
 
