@@ -280,7 +280,7 @@ namespace SetStartDupes
 
 
             var CloserButton = transform.Find("CloseButton").gameObject;
-            UIUtils.ListAllChildren(CloserButton.transform);
+            //UIUtils.ListAllChildren(CloserButton.transform);
             CloserButton.FindOrAddComponent<FButton>().OnClick += () => this.Show(false);
             InitAllContainers();
 

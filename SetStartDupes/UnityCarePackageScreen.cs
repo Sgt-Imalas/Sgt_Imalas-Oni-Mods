@@ -164,7 +164,7 @@ namespace SetStartDupes
 
 
             var CloserButton = transform.Find("CloseButton").gameObject;
-            UIUtils.ListAllChildren(CloserButton.transform);
+            
             CloserButton.FindOrAddComponent<FButton>().OnClick += () => this.Show(false);
             InitAllContainers();
 
@@ -196,7 +196,6 @@ namespace SetStartDupes
                 {
                     UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("Label"), description, true, onBottom: true);
                 }
-                UIUtils.ListAllChildrenWithComponents(PresetHolder.transform);
 
                 PresetHolder.transform.FindOrAddComponent<FButton>().OnClick += () => ChoseThis(info);
                 PresetHolder.transform.Find("CarePackageSprite").TryGetComponent<Image>(out var image);

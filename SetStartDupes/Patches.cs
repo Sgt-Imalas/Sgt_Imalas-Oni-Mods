@@ -100,14 +100,14 @@ namespace SetStartDupes
                         )
                     {
                         var originPersonality = Db.Get().Personalities.Get(minionIdentity.personalityResourceId);
-                        __instance.stats = new MinionStartingStats(originPersonality);
+                        __instance.stats = new MinionStartingStats(originPersonality,__instance.guaranteedAptitudeID);
                         //ModAssets.ApplySkinFromPersonality(originPersonality, __instance.stats);
                         //__instance.characterNameTitle.OnEndEdit(originPersonality.Name);
 
                     }
                     else
                     {
-                        __instance.stats = new MinionStartingStats(is_starter_minion: false);
+                        __instance.stats = new MinionStartingStats(is_starter_minion: false, __instance.guaranteedAptitudeID);
                     }
                     if (EditingJorge)
                     {
@@ -144,11 +144,44 @@ namespace SetStartDupes
         [HarmonyPatch(nameof(ImmigrantScreen.Initialize))]
         public class CustomSingleForNoTelepad
         {
+            static GameObject Spacer = null;
             public static bool Prefix(Telepad telepad, ImmigrantScreen __instance)
             {
                 EditingSingleDupe = telepad == null;
                 if (EditingSingleDupe)
                 {
+                    if ((EditingSingleDupe && ModConfig.Instance.JorgeAndCryopodDupes) || ModConfig.Instance.RerollDuringGame)
+                    {
+                        if (Spacer == null)
+                        {
+                            var container = __instance.transform.Find("Layout");
+                            var spacer = Util.KInstantiateUI(__instance.transform.Find("Layout/Title").gameObject, container.gameObject, true).rectTransform();
+
+                            spacer.SetSiblingIndex(2);
+                            if (spacer.TryGetComponent<LayoutElement>(out var layoutElement))
+                            {
+                                layoutElement.minHeight = 42;
+                            }
+                            UIUtils.FindAndDestroy(spacer, "TitleLabel");
+                            UIUtils.FindAndDestroy(spacer, "CloseButton");
+
+                            //UIUtils.ListAllChildrenWithComponents(spacer.transform);
+
+                            if (spacer.transform.Find("BG").TryGetComponent<KImage>(out var image))
+                            {
+                                var ColorStyle = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
+                                ColorStyle.inactiveColor = UIUtils.rgb(37, 37, 41);
+                                ColorStyle.hoverColor = UIUtils.rgb(37, 37, 41);
+                                ColorStyle.activeColor = UIUtils.rgb(37, 37, 41);
+                                ColorStyle.disabledColor = UIUtils.rgb(37, 37, 41);
+                                image.colorStyleSetting = ColorStyle;
+                                image.ApplyColorStyleSetting();
+
+                            }
+                            Spacer = spacer.gameObject;
+                        }
+                    }
+
                     if (__instance.containers != null && __instance.containers.Count > 0)
                     {
                         foreach (var container in __instance.containers)
@@ -180,6 +213,12 @@ namespace SetStartDupes
                 }
                 else
                 {
+                    if (Spacer != null)
+                    {
+                        UnityEngine.Object.Destroy(Spacer);
+                        Spacer = null;
+                    }
+
                     if (__instance.containers != null && __instance.containers.Count > 0)
                     {
                         foreach (var container in __instance.containers)
@@ -220,7 +259,7 @@ namespace SetStartDupes
                     var DupeToDeliver = (MinionStartingStats)ModAssets.SingleCharacterContainer.stats;
 
                     foreach (var trait in DupeToDeliver.Traits)
-                        SgtLogger.l(trait.Name, "TraitLog");
+                        SgtLogger.l(trait.Name, "Trait ToApply");
 
                     if (CryoDupeToApplyStatsOn != null)
                     {
@@ -311,25 +350,23 @@ namespace SetStartDupes
         [HarmonyPatch(nameof(CarePackageContainer.OnSpawn))]
         public class CarePackageContainer_Add_SelectPackageButton
         {
-            public static void Postfix (CarePackageContainer __instance)
+            public static void Postfix(CarePackageContainer __instance)
             {
                 if (__instance.reshuffleButton == null || !ModConfig.Instance.RerollDuringGame)
                     return;
 
-
-
                 var selectButton = Util.KInstantiateUI<KButton>(__instance.reshuffleButton.gameObject, __instance.reshuffleButton.transform.parent.gameObject, true);
                 selectButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 20, 33f);
                 UIUtils.FindAndDestroy(selectButton.transform, "Text");
-                if(selectButton.transform.Find("FG").TryGetComponent<Image>(out var image))
+                if (selectButton.transform.Find("FG").TryGetComponent<Image>(out var image))
                 {
                     image.sprite = Assets.GetSprite("icon_gear");
                 }
 
-                UIUtils.ListAllChildren(selectButton.transform);
+                //UIUtils.ListAllChildren(selectButton.transform);
                 selectButton.onClick += () =>
                 {
-                    List<CarePackageInfo> carePackageInfos = Immigration.Instance.carePackages.ToList();                   
+                    List<CarePackageInfo> carePackageInfos = Immigration.Instance.carePackages.ToList();
                     UnityCarePackageScreen.ShowWindow(__instance, () => { }, carePackageInfos);
                 };
             }
@@ -358,7 +395,7 @@ namespace SetStartDupes
                     {
                         __instance.fxAnim.Play("loop");
                     }
-
+                    SgtLogger.l(__instance.guaranteedAptitudeID, "archetypeID");
                     __instance.GenerateCharacter(is_starter, __instance.guaranteedAptitudeID);
 
                     return false;
@@ -517,9 +554,8 @@ namespace SetStartDupes
                 }
                 else
                 {
-                    SgtLogger.l("JORGE INSERTION FAILED");
+                    SgtLogger.l("JORGE TRANSPILER INSERTION FAILED");
                 }
-                TranspilerHelper.PrintInstructions(code);
                 return code;
             }
         }
@@ -754,8 +790,6 @@ namespace SetStartDupes
             /// <param name="__instance"></param>
             public static void Prefix(CharacterSelectionController __instance)
             {
-
-                Debug.Log(__instance.GetType());
                 GameObject parentToScale = (GameObject)typeof(CharacterSelectionController).GetField("containerParent", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
                 CharacterContainer prefabToScale = (CharacterContainer)typeof(CharacterSelectionController).GetField("containerPrefab", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
 
@@ -820,14 +854,16 @@ namespace SetStartDupes
 
                 }
                 if (!__instance.IsStarterMinion)
+                {
                     return;
+                }
 
                 LocText[] objectsOfType1 = UnityEngine.Object.FindObjectsOfType<LocText>();
                 if (objectsOfType1 != null)
                 {
                     foreach (LocText locText in objectsOfType1)
                     {
-                        if (locText.key == "STRINGS.UI.IMMIGRANTSCREEN.SELECTYOURCREW")
+                        if (locText.key == "STRINGS.UI.IMMIGRANTSCREEN.SELECTYOURCREW" || locText.key == "STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURLONECREWMAN")
                         {
                             locText.key = ModConfig.Instance.DuplicantStartAmount == 1 ? "STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURLONECREWMAN" : "STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURCREW";
                             break;
