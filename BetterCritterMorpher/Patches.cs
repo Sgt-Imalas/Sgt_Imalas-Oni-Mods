@@ -155,7 +155,7 @@ namespace BetterCritterMorpher
                 var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Call && ci.operand is MethodInfo f && f == TargetMethod);
                 var insertionIndex2 = code.FindLastIndex(ci => ci.opcode == OpCodes.Call && ci.operand is MethodInfo f && f == TargetMethod);
 
-                TranspilerHelper.PrintInstructions(code);
+                //TranspilerHelper.PrintInstructions(code);
 
                 if (insertionIndex != -1)
                 {
