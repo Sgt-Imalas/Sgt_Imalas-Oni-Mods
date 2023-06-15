@@ -92,11 +92,6 @@
             The type of the <see cref="T:ONITwitchLib.ToastManager"/> from the core Twitch Integration mod.
             </summary>
         </member>
-        <member name="T:ONITwitchLib.Core.PocketDimensionGenerator">
-            <summary>
-            Provides methods for adding new pocket dimensions to the generation pool and to generate pocket dimensions.
-            </summary>
-        </member>
         <member name="T:ONITwitchLib.Core.TwitchDeckManager">
             <summary>
             Provides methods to manipulate the deck of events 
@@ -1075,6 +1070,11 @@
             Gets the <see cref="T:Grid"/> cell that the mouse is on, within the current world and the screen.
             </summary>
             <returns>The cell position of the mouse, within the current active world and clamped to the screen boundaries.</returns>
+        </member>
+        <member name="F:ONITwitchLib.Utils.PosUtil.MouseRangeOverride">
+            <summary>
+            Used for the dev tools. Do not use.
+            </summary>
         </member>
         <member name="M:ONITwitchLib.Utils.PosUtil.ClampedMousePosWithRange(System.Int32)">
             <summary>
