@@ -416,9 +416,7 @@ namespace SetStartDupes
                 if (
                     Game.Instance != null
                     && Game.Instance.unlocks != null
-                    && Game.Instance.unlocks.IsUnlocked("story_trait_lonelyminion_foodquest")
-                    && Game.Instance.unlocks.IsUnlocked("story_trait_lonelyminion_pluggedin")
-                    && Game.Instance.unlocks.IsUnlocked("story_trait_lonelyminion_highdecor")
+                    && Game.Instance.unlocks.IsUnlocked("LonelyMinion_STORY_COMPLETE")
                     && ModConfig.Instance.HermitSkin
                     )
                 {

@@ -117,7 +117,7 @@ namespace SetStartDupes
                 public class HERMITSKIN
                 {
                     public static LocString NAME = "Hermit Skin";
-                    public static LocString TOOLTIP = "Adds the Hermit to the pool of selectable skins if the story trait has been completed on the current save game.";
+                    public static LocString TOOLTIP = "Adds the Hermit to the pool of selectable skins\nonce the story trait has been completed atleast once on any savegame.";
                 }
 
             }
