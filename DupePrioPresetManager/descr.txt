@@ -4,7 +4,7 @@
 
 This mod adds presets to consumables, priorities and schedules.
 
-[h1]Current latest Version: 1.0.0[/h1]
+[h1]Current latest Version: 1.1.0[/h1]
 
 [hr][/hr]
 
@@ -16,7 +16,10 @@ This mod adds presets to consumables, priorities and schedules.
 [*]Schedule Presets: store and load presets for schedules
 [/list][img]https://i.imgur.com/R0LCYEx.gif[/img][list]
 [*]Default Schedules: Mark schedule presets as "default" - you then can automatically create schedules for each preset marked like that with one click (ideal for new games)
-[/list][img]https://i.imgur.com/ltnWF4V.gif[/img]
+[/list][img]https://i.imgur.com/ltnWF4V.gif[/img][list]
+[*]Shifting Schedules: shift existing schedules or create shifted copies from existing schedules:
+[/list][img]https://i.imgur.com/xlcGvTa.gif[/img]
+
 
 [h1]Want more Presets?[/h1]
 [list][*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2856555858]DSS - Duplicant Presets:[/url] store and load attribute & trait presets for printing pod and starter duplicants. skins are separatly selectable.
