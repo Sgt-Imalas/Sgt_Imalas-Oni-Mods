@@ -305,20 +305,15 @@ namespace RoboRockets
         {
             public static void Prefix(Clustercraft __instance)
             {
-                bool isAiRocket = false;
                 if (__instance == null)
                     return;
                 foreach (Ref<RocketModuleCluster> clusterModule in __instance.ModuleInterface.ClusterModules)
                 {
-                    var isAI = clusterModule.Get().GetComponent<AIPassengerModule>();
-                    if (isAI != null)
-                        isAiRocket = true;
+                    if(clusterModule.Get().TryGetComponent<AIPassengerModule>(out _))
+                    {
+                        __instance.Launch();
+                    }
                 }
-                if (isAiRocket)
-                {
-                    __instance.Launch();
-                }
-
             }
         }
 
