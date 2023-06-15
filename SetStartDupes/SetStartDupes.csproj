@@ -26,7 +26,7 @@
 		<ModName>Duplicant Stat Selector [DSS]</ModName>
 		<ModDescription>Adjust the amount of duplicants you start a game with and the stats of duplicants .</ModDescription>
 		<SupportedContent>ALL</SupportedContent>
-		<MinimumSupportedBuild>498381</MinimumSupportedBuild>
+		<MinimumSupportedBuild>561558</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 

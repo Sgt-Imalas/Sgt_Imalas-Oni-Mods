@@ -26,7 +26,7 @@
 		<ModName>AI Controlled Rockets</ModName>
 		<ModDescription>Adds in 3 Control Modules that allows Rockets to fly without a Pilot</ModDescription>
 		<SupportedContent>EXPANSION1_ID</SupportedContent>
-		<MinimumSupportedBuild>550377</MinimumSupportedBuild>
+		<MinimumSupportedBuild>561558</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>

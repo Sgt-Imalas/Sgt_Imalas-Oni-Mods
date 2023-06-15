@@ -26,7 +26,7 @@
 		<ModName>Canned Food</ModName>
 		<ModDescription>Adds canned meat and fish.</ModDescription>
 		<SupportedContent>ALL</SupportedContent>
-		<MinimumSupportedBuild>509629</MinimumSupportedBuild>
+		<MinimumSupportedBuild>561558</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>

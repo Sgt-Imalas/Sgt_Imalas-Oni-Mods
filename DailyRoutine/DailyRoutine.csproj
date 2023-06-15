@@ -26,7 +26,7 @@
 		<ModName>Daily Routine</ModName>
 		<ModDescription>Set reoccuring production tasks to reoccur each day</ModDescription>
 		<SupportedContent>ALL</SupportedContent>
-		<MinimumSupportedBuild>498381</MinimumSupportedBuild>
+		<MinimumSupportedBuild>561558</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 
