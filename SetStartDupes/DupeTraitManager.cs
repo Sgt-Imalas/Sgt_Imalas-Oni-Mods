@@ -181,6 +181,8 @@ namespace SetStartDupes
                 SgtLogger.l(levelToRemove.Name, "Removing stats for");
                 if (ToEditMinionStats.StartingLevels.ContainsKey(levelToRemove.Id))
                 {
+                    SgtLogger.l(ToEditMinionStats.StartingLevels[levelToRemove.Id].ToString(), "old bonus");
+
                     removedPoints += ToEditMinionStats.StartingLevels[levelToRemove.Id];
                     ToEditMinionStats.StartingLevels[levelToRemove.Id] = 0;
                 }
@@ -200,11 +202,9 @@ namespace SetStartDupes
         {
             if (interest == null) return;
             SgtLogger.l(interest.Name, "Adding Interest");
-
+            SgtLogger.l(newPoints.ToString(), "New Points");
 
             var LevelsToAdd = new List<Klei.AI.Attribute>(interest.relevantAttributes);
-
-            SgtLogger.l(LevelsToAdd.Count().ToString());
 
             foreach (var aptitude in ToEditMinionStats.skillAptitudes.Keys)
             {
@@ -253,18 +253,21 @@ namespace SetStartDupes
 
         void RecalculateSkillPoints()
         {
+            SgtLogger.l("Recalculating Skill Points, current amount to Ship: " + AdditionalSkillPoints);
             int amountToShip = AdditionalSkillPoints;
 
             Dictionary<string, int> newVals = new Dictionary<string, int>();
 
-            bool reroll = false;
+            int minimumSkillValue = ModAssets.MinimumPointsPerInterest(ToEditMinionStats);
+
+            int maxNumberOfRerolls = ToEditMinionStats.StartingLevels.Count;
             do
             {
                 foreach (var level in ToEditMinionStats.StartingLevels)
                 {
-                    if (level.Value > 0)
+                    --maxNumberOfRerolls;
+                    if (level.Value > minimumSkillValue)
                     {
-                        reroll = true;
                         int randomPoints = UnityEngine.Random.Range(0, amountToShip + 1);
                         amountToShip -= randomPoints;
 
@@ -275,7 +278,7 @@ namespace SetStartDupes
                     }
                 }
             }
-            while (amountToShip > 0 && reroll);
+            while (amountToShip > 0 || maxNumberOfRerolls>=0);
 
             foreach (var newv in newVals)
             {

@@ -11,6 +11,7 @@ using TUNING;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
+using static KSerialization.DebugLog;
 using static SetStartDupes.DupeTraitManager;
 using static STRINGS.DUPLICANTS;
 
@@ -252,12 +253,9 @@ namespace SetStartDupes
             int SkillAmount = 0;
             foreach (var s in stats.skillAptitudes)
             {
-                SgtLogger.l(s.Key + ": " + s.Value);
                 if (s.Value > 0)
                 {
-
                     SkillAmount++;
-                    SgtLogger.l("increased");
                 }
             }
 
@@ -266,7 +264,6 @@ namespace SetStartDupes
 
         public static int PointsPerInterests(int numberOfInterests)
         {
-            SgtLogger.l("number: " + numberOfInterests);
 
             int pointsPer = 0;
             if (numberOfInterests > 0)
@@ -366,6 +363,7 @@ namespace SetStartDupes
             }
             foreach (var newv in newVals)
             {
+                SgtLogger.l(newv.Value.ToString() ,newv.Key);
                 stats.StartingLevels[newv.Key] = Math.Max(minimumPoints,newv.Value);
             }
 

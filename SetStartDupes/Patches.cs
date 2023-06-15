@@ -1093,8 +1093,6 @@ namespace SetStartDupes
                     scrollerCmp.elasticity = 0;
                     scrollerCmp.inertia = false;
                     //scrollerCmp.decelerationRate = 100;
-                    //UtilMethods.ListAllComponents(overallSize.gameObject);
-                    UtilMethods.ListAllComponents(ContentContainer.gameObject);
                     var vlg = ContentContainer.GetComponent<VerticalLayoutGroup>();
                     //SgtLogger.l(vlg.padding.ToString() + ", " + vlg.spacing);
                     vlg.spacing = 1;
