@@ -148,40 +148,51 @@ namespace SetStartDupes
             public static bool Prefix(Telepad telepad, ImmigrantScreen __instance)
             {
                 EditingSingleDupe = telepad == null;
+
+                if ((EditingSingleDupe && ModConfig.Instance.JorgeAndCryopodDupes) || ModConfig.Instance.RerollDuringGame)
+                {
+                    if (Spacer == null)
+                    {
+                        var container = __instance.transform.Find("Layout");
+                        var spacer = Util.KInstantiateUI(__instance.transform.Find("Layout/Title").gameObject, container.gameObject, true).rectTransform();
+
+                        spacer.SetSiblingIndex(2);
+                        if (spacer.TryGetComponent<LayoutElement>(out var layoutElement))
+                        {
+                            layoutElement.minHeight = 42;
+                        }
+                        UIUtils.FindAndDestroy(spacer, "TitleLabel");
+                        UIUtils.FindAndDestroy(spacer, "CloseButton");
+
+                        //UIUtils.ListAllChildrenWithComponents(spacer.transform);
+
+                        if (spacer.transform.Find("BG").TryGetComponent<KImage>(out var image))
+                        {
+                            var ColorStyle = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
+                            ColorStyle.inactiveColor = UIUtils.rgb(37, 37, 41);
+                            ColorStyle.hoverColor = UIUtils.rgb(37, 37, 41);
+                            ColorStyle.activeColor = UIUtils.rgb(37, 37, 41);
+                            ColorStyle.disabledColor = UIUtils.rgb(37, 37, 41);
+                            image.colorStyleSetting = ColorStyle;
+                            image.ApplyColorStyleSetting();
+
+                        }
+                        Spacer = spacer.gameObject;
+                    }
+                }
+                else
+                {
+                    if (Spacer != null)
+                    {
+                        UnityEngine.Object.Destroy(Spacer);
+                        Spacer = null;
+                    }
+                }
+
+
+
                 if (EditingSingleDupe)
                 {
-                    if ((EditingSingleDupe && ModConfig.Instance.JorgeAndCryopodDupes) || ModConfig.Instance.RerollDuringGame)
-                    {
-                        if (Spacer == null)
-                        {
-                            var container = __instance.transform.Find("Layout");
-                            var spacer = Util.KInstantiateUI(__instance.transform.Find("Layout/Title").gameObject, container.gameObject, true).rectTransform();
-
-                            spacer.SetSiblingIndex(2);
-                            if (spacer.TryGetComponent<LayoutElement>(out var layoutElement))
-                            {
-                                layoutElement.minHeight = 42;
-                            }
-                            UIUtils.FindAndDestroy(spacer, "TitleLabel");
-                            UIUtils.FindAndDestroy(spacer, "CloseButton");
-
-                            //UIUtils.ListAllChildrenWithComponents(spacer.transform);
-
-                            if (spacer.transform.Find("BG").TryGetComponent<KImage>(out var image))
-                            {
-                                var ColorStyle = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
-                                ColorStyle.inactiveColor = UIUtils.rgb(37, 37, 41);
-                                ColorStyle.hoverColor = UIUtils.rgb(37, 37, 41);
-                                ColorStyle.activeColor = UIUtils.rgb(37, 37, 41);
-                                ColorStyle.disabledColor = UIUtils.rgb(37, 37, 41);
-                                image.colorStyleSetting = ColorStyle;
-                                image.ApplyColorStyleSetting();
-                                 
-                            }
-                            Spacer = spacer.gameObject;
-                        }
-                    }
-
                     if (__instance.containers != null && __instance.containers.Count > 0)
                     {
                         foreach (var container in __instance.containers)
@@ -213,11 +224,7 @@ namespace SetStartDupes
                 }
                 else
                 {
-                    if (Spacer != null)
-                    {
-                        UnityEngine.Object.Destroy(Spacer);
-                        Spacer = null;
-                    }
+                    
 
                     if (__instance.containers != null && __instance.containers.Count > 0)
                     {
@@ -280,8 +287,11 @@ namespace SetStartDupes
                             component.SetAptitude(skillAptitude, 0);
                         }
 
-                        foreach (string key in DUPLICANTSTATS.ALL_ATTRIBUTES)
-                            DupeToDeliver.StartingLevels[key] += 7;
+                        if (EditingJorge)
+                        {
+                            foreach (string key in DUPLICANTSTATS.ALL_ATTRIBUTES)
+                                DupeToDeliver.StartingLevels[key] += 7;
+                        }
 
 
                         DupeToDeliver.Apply(CryoDupeToApplyStatsOn);

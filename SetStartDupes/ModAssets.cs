@@ -252,8 +252,13 @@ namespace SetStartDupes
             int SkillAmount = 0;
             foreach (var s in stats.skillAptitudes)
             {
+                SgtLogger.l(s.Key + ": " + s.Value);
                 if (s.Value > 0)
+                {
+
                     SkillAmount++;
+                    SgtLogger.l("increased");
+                }
             }
 
             return PointsPerInterests(SkillAmount);
@@ -261,6 +266,8 @@ namespace SetStartDupes
 
         public static int PointsPerInterests(int numberOfInterests)
         {
+            SgtLogger.l("number: " + numberOfInterests);
+
             int pointsPer = 0;
             if (numberOfInterests > 0)
             {

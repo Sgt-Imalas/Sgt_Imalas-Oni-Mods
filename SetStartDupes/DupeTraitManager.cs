@@ -240,7 +240,7 @@ namespace SetStartDupes
         int pointsPerInterest()
         {
             int SkillAmount = 0;
-            foreach (var s in ToEditMinionStats.StartingLevels)
+            foreach (var s in ToEditMinionStats.skillAptitudes)
             {
                 if (s.Value > 0)
                 {
