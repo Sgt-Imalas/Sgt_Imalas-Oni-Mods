@@ -6,7 +6,7 @@ Have you ever wanted to [b]truly[/b] automate rockets, just to have been hit wit
 
 [img]https://i.imgur.com/VgZFBU7.png[/img]
 
-[h1]Current latest Version: 3.0.0[/h1]
+[h1]Current latest Version: 4.0.0[/h1]
 
 [hr][/hr]
 
@@ -17,12 +17,14 @@ The modules are mutually exclusive with other command modules.
 
 [h1]Requirements[/h1]
 [list]
+    [*]AI Modules require Mechatronics Skill to build
     [*]AI Control Module & AI Nosecone are locked behind the research "High Velocity Destruction"
     [*]AI Brain Module is locked behind a new Tech, "Artificial Learning Capabilities", requiring a lot of space science to unlock.
     [*]AI Brains:[list] 
         [*]can be made in the Molecular Forge, requiring a vaccilator recarge amongs some other resources.
         [*]can be named
         [*]can be demolished to refund the ressources
+        [*]certain POIs drop AI brains when demolished (these brains wont drop resources on demolishing)
         [*]When loaded into a rocket, the brain will learn while flying, resulting in faster flight speeds at higher piloting levels
     [/list]
 [/list] 
@@ -49,6 +51,7 @@ also demolish all brains if you want to get the vaccilator recharges back.
 [h1]Credits[/h1]
 Much thanks to Romen, Aki, pether.pg, Peter Han & Cairath from the Modding Discord who helped me get a hold in Oni modding
 Also special thanks to Aki who teached me how to create animations and draw more "oni-style"
+Much Thanks to NOUS for creating the redesign of the AI Brain Module
 
 [hr][/hr]
 

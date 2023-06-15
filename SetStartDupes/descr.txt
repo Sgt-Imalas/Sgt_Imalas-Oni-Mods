@@ -8,7 +8,7 @@ Furtermore you can store your favourite Stat-Loadouts as Preset-Templates that y
 The mod also allows to customize the Personality (Skin) of a dupe without changing any of its stats (for when you want a Pei-Only Colony, but there is no Meep-Mod equivalent).
 
 
-[h1]Current latest Version: 4.4.0[/h1]
+[h1]Current latest Version: 5.0.0[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
@@ -23,7 +23,7 @@ The mod also allows to customize the Personality (Skin) of a dupe without changi
 [*] Option to override interest bonus point limit (for those experimental super dupes)
 [*] Changing dupe stats during the game can be disabled in the config (this also disables the preset function)
 [*] Option to start the game with additional food and oxylite for every additional start dupe above 3.
-[*] Option to enable rerolling the printing pod dupes AND Care Packages
+[*] Option to enable rerolling the printing pod dupes AND Care Packages (care packages can additionally be selected via a list of all unlocked packages as an alternative to endless rerolling)
 [*] Ability to apply personalities (= skins) to dupes without changing its interests and traits (stress and overjoyed reaction get applied by default, this can be disabled to be ONLY visual) (see the steam image how this works)
 [*] Ability to add new Traits & Interests (need to be enabled in the config)
 [*] Ability to remove existing Traits & Interests (need to be enabled in the config)
@@ -31,11 +31,13 @@ The mod also allows to customize the Personality (Skin) of a dupe without changi
 [*] Change the printing pod interval (default is every 3 cycles)
 [*] Pause game on "New Print available" (requires activation in config)
 [*] Option to only print care packages if you have over a certain amount of duplicants.
+[*] Reroll and adjust Stats for Cryopod Duplicants
+[*] Reroll and adjust Stats for the lonely Hermit
 [/list] 
 
 Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2869608898]Bio-Inks[/url] 
-Incompatible with DGSM
-Incompatible with RePrint (Function integrated, requires enabling in the config)
+Incompatible with "Duplicant Generation Settings Manager (DGSM)
+Incompatible with "RePrint" (Functionality is integrated, requires enabling in the config)
 
 [h1]Localisation[/h1]
 - English
