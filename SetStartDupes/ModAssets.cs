@@ -313,64 +313,13 @@ namespace SetStartDupes
             if (traitBonusHolder.statBonus == 0)
                 return;
 
-
-            int targetPoints = GetTraitBonus(stats);
-            int minimumPoints = MinimumPointsPerInterest(stats);
-            int currentPoints = 0;
-
-            //SgtLogger.l(targetPoints.ToString(), "ActiveStatBonus");
-
-            foreach (var level in stats.StartingLevels.Values)
-            {
-                currentPoints += Math.Max(0, level - minimumPoints);
-            }
-            int difference = targetPoints - currentPoints;
-            
-
-
-            bool subtracting = difference < 0;
-            if (subtracting)
-                difference *= -1;
-
-
-            //SgtLogger.l(difference.ToString(), subtracting?"Removing":"Adding");
-
-            Dictionary<string, int> newVals = new Dictionary<string, int>();
-            int i = 40;
-            while (difference > 0 && i>0)
-            {
-                --i;
-                foreach (var level in stats.StartingLevels.Shuffle())
-                {
-                    if (difference <= 0)
-                        continue;
-
-                    if (level.Value > 0 && !subtracting || subtracting && level.Value > minimumPoints)
-                    {
-                        int randPoints = 1;
-                        difference-= randPoints;
-
-
-                        if (!newVals.ContainsKey(level.Key))
-                        {
-                            newVals.Add(level.Key, stats.StartingLevels[level.Key] + (!subtracting ? randPoints : -randPoints));
-                        }
-                        else
-                            newVals[level.Key] += (!subtracting ? randPoints : -randPoints);
-
-                    }
-                }
-            }
-            foreach (var newv in newVals)
-            {
-                SgtLogger.l(newv.Value.ToString() ,newv.Key);
-                stats.StartingLevels[newv.Key] = Math.Max(minimumPoints,newv.Value);
-            }
-
             if (DupeTraitManagers.ContainsKey(stats))
             {
-                DupeTraitManagers[stats].CalculateAdditionalSkillPoints(targetPoints);
-                DupeTraitManagers[stats].ResetPool() ;
+                if (DupeTraitManagers[stats].CalculateAdditionalSkillPointsTrueIfChanged())
+                {
+                    DupeTraitManagers[stats].RecalculateSkillPoints();
+                    DupeTraitManagers[stats].ResetPool();
+                }
             }
         }
 

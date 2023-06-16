@@ -71,14 +71,16 @@ namespace SetStartDupes
             CalculateAdditionalSkillPoints();
         }
 
-        public void CalculateAdditionalSkillPoints(int overridePoints = 0)
+        public void CalculateAdditionalSkillPoints() => CalculateAdditionalSkillPointsTrueIfChanged();
+
+        public bool CalculateAdditionalSkillPointsTrueIfChanged()
         {
-            //if (overridePoints > 0)
-            //{
-            //    additionalSkillPoints = overridePoints;
-            //    return;
-            //}
-            additionalSkillPoints = ModAssets.GetTraitBonus(ToEditMinionStats);
+            var newValue = ModAssets.GetTraitBonus(ToEditMinionStats);
+            var oldValue = additionalSkillPoints;
+
+
+            additionalSkillPoints = newValue; 
+            return newValue != oldValue;
         }
         public void ExternalModBonusPointCalculation()
         {
@@ -181,7 +183,7 @@ namespace SetStartDupes
                 SgtLogger.l(levelToRemove.Name, "Removing stats for");
                 if (ToEditMinionStats.StartingLevels.ContainsKey(levelToRemove.Id))
                 {
-                    SgtLogger.l(ToEditMinionStats.StartingLevels[levelToRemove.Id].ToString(), "old bonus");
+                    //SgtLogger.l(ToEditMinionStats.StartingLevels[levelToRemove.Id].ToString(), "old bonus");
 
                     removedPoints += ToEditMinionStats.StartingLevels[levelToRemove.Id];
                     ToEditMinionStats.StartingLevels[levelToRemove.Id] = 0;
@@ -237,21 +239,7 @@ namespace SetStartDupes
             ResetPool();
         }
 
-        int pointsPerInterest()
-        {
-            int SkillAmount = 0;
-            foreach (var s in ToEditMinionStats.skillAptitudes)
-            {
-                if (s.Value > 0)
-                {
-                    SkillAmount++;
-                }
-            }
-
-            return ModAssets.PointsPerInterests(SkillAmount);
-        }
-
-        void RecalculateSkillPoints()
+        public void RecalculateSkillPoints()
         {
             SgtLogger.l("Recalculating Skill Points, current amount to Ship: " + AdditionalSkillPoints);
             int amountToShip = AdditionalSkillPoints;
@@ -259,26 +247,28 @@ namespace SetStartDupes
             Dictionary<string, int> newVals = new Dictionary<string, int>();
 
             int minimumSkillValue = ModAssets.MinimumPointsPerInterest(ToEditMinionStats);
+            SgtLogger.l(minimumSkillValue.ToString(), "minimum skill value");
 
             int maxNumberOfRerolls = ToEditMinionStats.StartingLevels.Count;
             do
             {
                 foreach (var level in ToEditMinionStats.StartingLevels)
                 {
-                    --maxNumberOfRerolls;
-                    if (level.Value > minimumSkillValue)
+                    SgtLogger.l(maxNumberOfRerolls.ToString(), "remaining rerolls");
+                    maxNumberOfRerolls--;
+                    if (level.Value > 0)
                     {
                         int randomPoints = UnityEngine.Random.Range(0, amountToShip + 1);
                         amountToShip -= randomPoints;
 
                         if (!newVals.ContainsKey(level.Key))
-                            newVals.Add(level.Key, pointsPerInterest() + randomPoints);
+                            newVals.Add(level.Key, Mathf.Max(minimumSkillValue,minimumSkillValue + randomPoints));
                         else
-                            newVals[level.Key] += randomPoints;
+                            newVals[level.Key] = Mathf.Max(minimumSkillValue, newVals[level.Key] + randomPoints) ;
                     }
                 }
             }
-            while (amountToShip > 0 || maxNumberOfRerolls>=0);
+            while (amountToShip > 0 || maxNumberOfRerolls > 0);
 
             foreach (var newv in newVals)
             {
@@ -413,20 +403,6 @@ namespace SetStartDupes
 
 
 
-        public void AddTrait(string id)
-        {
-            if (!currentTraitIds.Contains(id))
-                currentTraitIds.Add(id);
-        }
-        public void ReplaceTrait(string old, string newS)
-        {
-            if (old == newS) return;
-            if (!currentTraitIds.Contains(old) || currentTraitIds.Contains(newS))
-                return;
-
-            currentTraitIds.Remove(old);
-            currentTraitIds.Add(newS);
-        }
         public List<string> CurrentTraitsWithout(string thisTrait)
         {
             return currentTraitIds.Where(entry => entry != thisTrait).ToList();
