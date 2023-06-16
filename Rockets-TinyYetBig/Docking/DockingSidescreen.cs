@@ -196,7 +196,7 @@ namespace Rockets_TinyYetBig.Docking
 
                 toggle.onClick = (() =>
                 {
-                    targetManager.HandleUiDocking(toggle.CurrentState, kvp.Key.GetWorldId(), targetDoor,
+                    targetManager.HandleUiDocking(toggle.CurrentState, kvp.Key.WorldId, targetDoor,
                         () =>
                         {
                             this.Refresh();
@@ -204,7 +204,7 @@ namespace Rockets_TinyYetBig.Docking
                     this.Refresh();
                 });
                 hr.GetReference<MultiToggle>("Toggle")
-                    .ChangeState(targetManager.GetActiveUIState(kvp.Key.GetWorldId()) ? 1 : 0);
+                    .ChangeState(targetManager.GetActiveUIState(kvp.Key.WorldId) ? 1 : 0);
             }
         }
     }

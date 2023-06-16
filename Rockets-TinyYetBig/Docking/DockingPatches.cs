@@ -266,7 +266,7 @@ namespace Rockets_TinyYetBig.Patches
 
                     //SgtLogger.l(AllDockers.First().GetWorldId() + "", "firstworld");
                     //SgtLogger.l(mng.GetWorldId() + "", "ownWorld");
-                    int targetWorldID = AllDockers.First().GetWorldId();
+                    int targetWorldID = AllDockers.First().WorldId;
                     mng.AddPendingDock(targetWorldID);
 
                     if (!__instance.m_repeat)

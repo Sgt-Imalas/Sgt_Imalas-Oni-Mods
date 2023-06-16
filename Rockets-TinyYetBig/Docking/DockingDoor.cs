@@ -45,7 +45,7 @@ namespace Rockets_TinyYetBig.Behaviours
                 return null;
             else
             {
-                if (connected.Get() != null && connected.Get().GetWorldObject() != null && connected.Get().TryGetComponent<CraftModuleInterface>(out var interfac))
+                if (connected.Get() != null && connected.Get().GetWorldObject() != null && connected.Get().GetWorldObject().TryGetComponent<CraftModuleInterface>(out var interfac))
                     return interfac;
                 return null;
             }
@@ -141,14 +141,12 @@ namespace Rockets_TinyYetBig.Behaviours
         public override void OnSpawn()
         {
             base.OnSpawn();
-            int worldId = ClusterUtil.GetMyWorldId(this.gameObject); 
             //dManager = ModAssets.Dockables.Items.Find(item => item.GetWorldId() == worldId);//GetRocket().GetComponent<DockingdManager>();
-            dManager = GetWorldObject().AddOrGet<DockingManager>();
+            dManager = ClusterUtil.GetMyWorld(this.gameObject).gameObject.AddOrGet<DockingManager>();
 
             Teleporter.offset = GetRotatedOffset();
             Teleporter.OnCellChanged();
 
-            dManager.StartupID(worldId);
             dManager.AddDoor(this);
             dManager.SetManagerType();
             string startKanim = string.Empty;
@@ -178,8 +176,8 @@ namespace Rockets_TinyYetBig.Behaviours
 
         private GameObject GetWorldObject()
         {
-            WorldContainer world = ClusterUtil.GetMyWorld(this.gameObject);
-            return (UnityEngine.Object)world == (UnityEngine.Object)null ? (GameObject)null : world.gameObject.GetComponent<ClusterGridEntity>().gameObject;
+            WorldContainer world = ClusterManager.Instance.GetWorld(dManager.WorldId);
+            return world == null ? null : world.gameObject;
         }
 
         #region Sidescreen
