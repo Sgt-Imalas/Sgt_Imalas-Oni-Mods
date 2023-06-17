@@ -51,8 +51,6 @@ namespace SetStartDupes
             stress,
             undefined,
             allTraits
-
-            ,CarePackage
         }
         internal void SetReferenceStats(MinionStartingStats referencedStats)
         {
@@ -249,7 +247,7 @@ namespace SetStartDupes
             int minimumSkillValue = ModAssets.MinimumPointsPerInterest(ToEditMinionStats);
             SgtLogger.l(minimumSkillValue.ToString(), "minimum skill value");
 
-            int maxNumberOfRerolls = ToEditMinionStats.StartingLevels.Count;
+            int maxNumberOfRerolls = ToEditMinionStats.StartingLevels.Count*2;
             do
             {
                 foreach (var level in ToEditMinionStats.StartingLevels)
@@ -268,12 +266,13 @@ namespace SetStartDupes
                     }
                 }
             }
-            while (amountToShip > 0 || maxNumberOfRerolls > 0);
+            while (amountToShip > 0 && maxNumberOfRerolls >= 0);
 
             foreach (var newv in newVals)
             {
                 ToEditMinionStats.StartingLevels[newv.Key] = newv.Value;
             }
+            SgtLogger.l("Skill Points recalculated");
         }
 
 

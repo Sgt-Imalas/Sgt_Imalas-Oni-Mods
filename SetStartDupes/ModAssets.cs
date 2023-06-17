@@ -238,7 +238,7 @@ namespace SetStartDupes
             stats.GenderStringKey = personality.genderStringKey;
             stats.NameStringKey = personality.nameStringKey;
 
-            if (personality.nameStringKey.ToLowerInvariant()=="jorge")
+            if (personality.nameStringKey.ToLowerInvariant().Contains("jorge"))
             {
                 stats.voiceIdx = -2;
             }
@@ -295,6 +295,7 @@ namespace SetStartDupes
             }
             if (OtherModBonusPoints.ContainsKey(stats))
             {
+                SgtLogger.l("Had additional " + OtherModBonusPoints[stats] + " points from other mods");
                 targetPoints += OtherModBonusPoints[stats];
             }
 
