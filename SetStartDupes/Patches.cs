@@ -362,6 +362,23 @@ namespace SetStartDupes
         {
             public static void Postfix(CarePackageContainer __instance)
             {
+                List<CarePackageInfo> carePackageInfos=null;
+
+                var BioInks_ModApi_Type = Type.GetType("PrintingPodRecharge.ModAPI, PrintingPodRecharge", false, false);
+                if(BioInks_ModApi_Type!=null)
+                {
+                    var currentPool = Traverse.Create(BioInks_ModApi_Type).Method("GetCurrentPool").GetValue() as List<CarePackageInfo>;
+                    carePackageInfos = currentPool;             
+                }
+
+                if (carePackageInfos == null)
+                {
+                    carePackageInfos = Immigration.Instance.carePackages.ToList();
+                }
+                else
+                    SgtLogger.l("Bio Inks Pool loaded");
+
+
                 if (__instance.reshuffleButton == null || !ModConfig.Instance.RerollDuringGame)
                     return;
 
@@ -376,7 +393,6 @@ namespace SetStartDupes
                 //UIUtils.ListAllChildren(selectButton.transform);
                 selectButton.onClick += () =>
                 {
-                    List<CarePackageInfo> carePackageInfos = Immigration.Instance.carePackages.ToList();
                     UnityCarePackageScreen.ShowWindow(__instance, () => { }, carePackageInfos);
                 };
             }

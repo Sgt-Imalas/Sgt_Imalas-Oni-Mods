@@ -1,12 +1,15 @@
 ﻿using Database;
 using Epic.OnlineServices.Sessions;
 using FMOD;
+using HarmonyLib;
 using Klei.AI;
 using Klei.CustomSettings;
 using KMod;
+using Newtonsoft.Json.Linq;
 using ProcGen;
 using rail;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -173,7 +176,29 @@ namespace SetStartDupes
 
         private void InitAllContainers()
         {
-            foreach (CarePackageInfo carePackage in Immigration.Instance.carePackages)
+            List<CarePackageInfo> allCarePackages = new List<CarePackageInfo>(Immigration.Instance.carePackages);
+
+            var BioInks_ImmigrationModifier_Type = Type.GetType("PrintingPodRecharge.Content.Cmps.ImmigrationModifier, PrintingPodRecharge", false, false);
+            if (BioInks_ImmigrationModifier_Type != null)
+            {
+                /////Gets all types + namespace 
+                //var q = AppDomain.CurrentDomain.GetAssemblies()
+                //       .SelectMany(t => t.GetTypes());
+                //q.ToList().ForEach(t => SgtLogger.l(t.Name, t.Namespace));
+
+                SgtLogger.l("initializing Bio Inks Care Packages");
+                var ModifiersInstance = BioInks_ImmigrationModifier_Type.GetProperty("Instance").GetValue(null,null); 
+
+                var bundleDictionary = Traverse.Create(ModifiersInstance).Field("bundles").GetValue();
+
+                foreach (var CarePackageBundle in (bundleDictionary as IDictionary).Values)
+                {
+                    var CarePackageList = Traverse.Create(CarePackageBundle).Field("info").GetValue() as List<CarePackageInfo>;
+                    allCarePackages.AddRange(CarePackageList);
+                }
+            }
+
+            foreach (CarePackageInfo carePackage in allCarePackages)
             {
                 AddUiContainer(carePackage);
             }
@@ -238,7 +263,10 @@ namespace SetStartDupes
                 }
             }
         }
-        bool CarePackageAllowed(CarePackageInfo info) => info.requirement == null ? true : info.requirement.Invoke();
+        bool CarePackageAllowed(CarePackageInfo info) =>(DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive) ? true 
+            : info.requirement == null 
+                ? true 
+                : info.requirement.Invoke();
 
         private void ApplyCarePackageSprite(CarePackageInfo CarePackage, Image image)
         {
@@ -296,7 +324,12 @@ namespace SetStartDupes
         {
             if (ElementLoader.GetElement(CarePackageID.ToTag()) != null)
                 return string.Format((string)global::STRINGS.UI.IMMIGRANTSCREEN.CARE_PACKAGE_ELEMENT_QUANTITY, GameUtil.GetFormattedMass(CarePackageQuantity), Assets.GetPrefab((Tag)CarePackageID).GetProperName());
-            return EdiblesManager.GetFoodInfo(CarePackageID) != null ? string.Format((string)global::STRINGS.UI.IMMIGRANTSCREEN.CARE_PACKAGE_ELEMENT_QUANTITY, GameUtil.GetFormattedCaloriesForItem((Tag)CarePackageID, CarePackageQuantity), Assets.GetPrefab((Tag)CarePackageID).GetProperName()) : string.Format((string)global::STRINGS.UI.IMMIGRANTSCREEN.CARE_PACKAGE_ELEMENT_COUNT, Assets.GetPrefab((Tag)CarePackageID).GetProperName(), CarePackageQuantity.ToString());
+
+            var info = EdiblesManager.GetFoodInfo(CarePackageID);
+
+            return info != null && info.CaloriesPerUnit > 0
+                ? string.Format((string)global::STRINGS.UI.IMMIGRANTSCREEN.CARE_PACKAGE_ELEMENT_QUANTITY, GameUtil.GetFormattedCaloriesForItem((Tag)CarePackageID, CarePackageQuantity), Assets.GetPrefab((Tag)CarePackageID).GetProperName()) 
+                : string.Format((string)global::STRINGS.UI.IMMIGRANTSCREEN.CARE_PACKAGE_ELEMENT_COUNT, Assets.GetPrefab((Tag)CarePackageID).GetProperName(), CarePackageQuantity.ToString());
         }
 
         private string GetSpawnableDescription(string CarePackageID)

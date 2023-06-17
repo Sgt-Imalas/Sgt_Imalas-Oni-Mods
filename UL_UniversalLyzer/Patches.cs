@@ -76,8 +76,8 @@ namespace UL_UniversalLyzer
             NightLib_PortDisplayController_Type = Type.GetType("NightLib.PortDisplayController, PipedOutput", false, false);
             NightLib_PipedDispenser_Type = Type.GetType("Nightinggale.PipedOutput.PipedDispenser, PipedOutput", false, false);
             NightLib_PipedOptionalExhaust_Type = Type.GetType("Nightinggale.PipedOutput.PipedOptionalExhaust, PipedOutput", false, false);
-
-        SgtLogger.Assert(nameof(NightLib_PortDisplayOutput_Type), NightLib_PortDisplayOutput_Type);
+            
+            SgtLogger.Assert(nameof(NightLib_PortDisplayOutput_Type), NightLib_PortDisplayOutput_Type);
             SgtLogger.Assert(nameof(NightLib_PortDisplayController_Type), NightLib_PortDisplayController_Type);
             SgtLogger.Assert(nameof(NightLib_PipedDispenser_Type), NightLib_PipedDispenser_Type);
             SgtLogger.Assert(nameof(NightLib_PipedOptionalExhaust_Type), NightLib_PipedOptionalExhaust_Type);
