@@ -24,8 +24,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
         [MyCmpGet]
         private Storage storage;
-
-
+        
         private Clustercraft clustercraft;
         private Guid ActiveStatusItemHandle;
        // private Guid notPoweringStatusItemHandle;
@@ -123,7 +122,10 @@ namespace Rockets_TinyYetBig.Behaviours
             Game.Instance.electricalConduitSystem.RemoveFromVirtualNetworks(this.VirtualCircuitKey, (object)this, true);
         }
 
-        public override bool IsProducingPower() => AlwaysActive && ConsumptionSatisfied() || this.clustercraft.Status != Clustercraft.CraftStatus.Grounded && BatteriesNotFull() && ConsumptionSatisfied() || produceWhileLanded && BatteriesNotFull();
+        public override bool IsProducingPower() => 
+            AlwaysActive && ConsumptionSatisfied() 
+            || clustercraft.Status != Clustercraft.CraftStatus.Grounded && BatteriesNotFull() && ConsumptionSatisfied() 
+            || produceWhileLanded && BatteriesNotFull() && ConsumptionSatisfied();
         public bool ShouldProduciePower() => AlwaysActive || this.clustercraft.Status != Clustercraft.CraftStatus.Grounded && BatteriesNotFull() || produceWhileLanded && BatteriesNotFull();
 
 

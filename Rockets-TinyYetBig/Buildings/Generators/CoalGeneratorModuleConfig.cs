@@ -55,6 +55,19 @@ namespace Rockets_TinyYetBig
             BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
             go.AddOrGet<LoopingSounds>();
             
+            go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
+
+            go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
+            {
+                new BuildingAttachPoint.HardPoint(new CellOffset(0, 1), GameTags.Rocket, (AttachableBuilding) null)
+            }; 
+           
+        }
+
+        public override void DoPostConfigureComplete(GameObject go)
+        {
+            Prioritizable.AddRef(go);
+
             Storage storage = go.AddOrGet<Storage>();
             storage.capacityKg = 300f;
 
@@ -62,7 +75,7 @@ namespace Rockets_TinyYetBig
             manualDeliveryKg.SetStorage(storage);
             manualDeliveryKg.RequestedItemTag = ElementLoader.FindElementByHash(SimHashes.Carbon).tag;
             manualDeliveryKg.capacity = storage.capacityKg;
-            manualDeliveryKg.refillMass = storage.capacityKg/8f;
+            manualDeliveryKg.refillMass = storage.capacityKg / 8f;
             manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
 
             var generator = go.AddOrGet<RTB_ModuleGenerator>();
@@ -76,19 +89,6 @@ namespace Rockets_TinyYetBig
             generator.outputProductionRate = 0.050f;
             generator.ElementOutputCellOffset = new Vector3(2, 0);
 
-
-            go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
-
-            go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
-            {
-                new BuildingAttachPoint.HardPoint(new CellOffset(0, 1), GameTags.Rocket, (AttachableBuilding) null)
-            }; 
-           
-        }
-
-        public override void DoPostConfigureComplete(GameObject go)
-        {
-            Prioritizable.AddRef(go);
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, 2);
         }
     }

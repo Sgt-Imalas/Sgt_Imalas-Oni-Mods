@@ -63,6 +63,21 @@ namespace Rockets_TinyYetBig
             BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
             go.AddOrGet<LoopingSounds>();
             go.GetComponent<KPrefabID>().AddTag(RTB_RTG);
+            
+
+            go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
+
+            go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
+            {
+                new BuildingAttachPoint.HardPoint(new CellOffset(0, 1), GameTags.Rocket, (AttachableBuilding) null)
+            }; 
+           
+        }
+
+        public override void DoPostConfigureComplete(GameObject go)
+        {
+            Prioritizable.AddRef(go);
+
             Storage storage = go.AddOrGet<Storage>();
             storage.capacityKg = UraniumCapacity;
             go.AddOrGet<FlushUranium>();
@@ -83,18 +98,7 @@ namespace Rockets_TinyYetBig
             manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
 
 
-            go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 
-            go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
-            {
-                new BuildingAttachPoint.HardPoint(new CellOffset(0, 1), GameTags.Rocket, (AttachableBuilding) null)
-            }; 
-           
-        }
-
-        public override void DoPostConfigureComplete(GameObject go)
-        {
-            Prioritizable.AddRef(go);
             var generator = go.AddOrGet<RTB_ModuleGenerator>();
 
             generator.consumptionElement = SimHashes.EnrichedUranium.CreateTag();
