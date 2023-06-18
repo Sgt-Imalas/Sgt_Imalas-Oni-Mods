@@ -257,8 +257,24 @@ namespace SetStartDupes
 
         [HarmonyPatch(typeof(ImmigrantScreen))]
         [HarmonyPatch(nameof(ImmigrantScreen.OnProceed))]
-        public class SkipTelepadStuff
+        public class SkipTelepadActionsForCryoDupes
         {
+
+            ///Assuming the component added by the Trait has the same class name as the trait, which is the case for all klei traits.
+            public static void PurgingComponentIfExists(string id, GameObject minionToRemoveFrom)
+            {
+                var traitCmp = minionToRemoveFrom.GetComponent(id);
+                if (traitCmp != null)
+                {
+                    SgtLogger.l("Trait Component Found, purging... " + id); 
+                    UnityEngine.Object.Destroy(traitCmp);
+                }
+                if(ModApi.ActionsOnTraitRemoval.ContainsKey(id))
+                {
+                    ModApi.ActionsOnTraitRemoval[id].Invoke(minionToRemoveFrom);
+                }
+            }
+
             public static bool Prefix(Telepad ___telepad, ImmigrantScreen __instance)
             {
                 if (EditingSingleDupe)
@@ -273,6 +289,7 @@ namespace SetStartDupes
                         foreach (var trait in CryoDupeToApplyStatsOn.GetComponent<Traits>().GetTraitIds())
                         {
                             SgtLogger.l("purging existing trait: " + trait);
+                            PurgingComponentIfExists(trait, CryoDupeToApplyStatsOn);
                         }
 
                         CryoDupeToApplyStatsOn.GetComponent<Traits>().Clear();

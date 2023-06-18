@@ -14,7 +14,13 @@ namespace UtilLibs
 {
     public static class UtilMethods
     {
-
+        public static void ListAllTypesWithAssemblies()
+        {
+            ///Gets all types + namespace 
+            var q = AppDomain.CurrentDomain.GetAssemblies()
+                   .SelectMany(t => t.GetTypes());
+            q.ToList().ForEach(t => SgtLogger.l(t.Name, t.Namespace));
+        }
         public static void ListAllPropertyValues(object s)
         {
             SgtLogger.l("Listing all properties of: " + s.ToString());
