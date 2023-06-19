@@ -79,9 +79,10 @@ namespace RoboRockets
         }
 
         [HarmonyPatch(typeof(PassengerRocketModule))]
-        [HarmonyPatch("RefreshAccessStatus")]
+        [HarmonyPatch(nameof(PassengerRocketModule.RefreshAccessStatus))]
         public class PassengerRocketModule_RefreshAccessStatus_Patch
         {
+            [HarmonyPriority(Priority.VeryHigh)]
             public static bool Prefix(PassengerRocketModule __instance)
             {
                 if (__instance.GetType() == typeof(AIPassengerModule))
@@ -303,17 +304,19 @@ namespace RoboRockets
         [HarmonyPatch("RequestLaunch")]
         public class TriggerLaunchForAIRocketsPatch
         {
-            public static void Prefix(Clustercraft __instance)
+            public static bool Prefix(Clustercraft __instance)
             {
                 if (__instance == null)
-                    return;
+                    return true;
                 foreach (Ref<RocketModuleCluster> clusterModule in __instance.ModuleInterface.ClusterModules)
                 {
                     if(clusterModule.Get().TryGetComponent<AIPassengerModule>(out _))
                     {
                         __instance.Launch();
+                        return false;
                     }
                 }
+                return true;
             }
         }
 

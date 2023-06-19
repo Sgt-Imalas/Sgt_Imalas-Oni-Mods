@@ -126,6 +126,12 @@ namespace Rockets_TinyYetBig
             public class PREFABS
             {
                 public static LocString GENERATORLIMIT = "\n\n If there is atleast one battery connected, the generator will stop producing if the battery is above 95% charge.";
+                public class RTB_LANDERROCKETPLATFORM
+                {
+                    public static LocString NAME = (LocString)FormatAsLink("Deployable Rocket Platform", nameof(RTB_LANDERROCKETPLATFORM));
+                    public static LocString DESC = (LocString)"Perfect for a first landing";
+                }
+
 
                 public class RTB_POICAPACITYSENSOR
                 {

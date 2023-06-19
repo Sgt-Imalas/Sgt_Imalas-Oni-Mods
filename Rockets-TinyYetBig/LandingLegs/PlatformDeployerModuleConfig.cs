@@ -48,7 +48,6 @@ namespace Rockets_TinyYetBig.LandingLegs
             buildingDef.CanMove = true;
             buildingDef.Cancellable = false;
             buildingDef.ShowInBuildMenu = false;
-            buildingDef.InputConduitType = ConduitType.Gas;
 
 
             return buildingDef;
@@ -59,6 +58,23 @@ namespace Rockets_TinyYetBig.LandingLegs
             BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
             go.AddOrGet<LoopingSounds>();
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
+            Storage storage = go.AddComponent<Storage>();
+            storage.showInUI = true;
+            storage.useWideOffsets = true;
+            storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+            BuildingInternalConstructor.Def def1 = go.AddOrGetDef<BuildingInternalConstructor.Def>();
+            def1.constructionMass = 750f;
+            def1.outputIDs = new List<string>() { PlatformLanderConfig.ID };
+            def1.spawnIntoStorage = true;
+            def1.storage = (DefComponent<Storage>)storage;
+            def1.constructionSymbol = "under_construction";
+            go.AddOrGet<BuildingInternalConstructorWorkable>().SetWorkTime(120f);
+            JettisonableCargoModule.Def def2 = go.AddOrGetDef<JettisonableCargoModule.Def>();
+            def2.landerPrefabID = PlatformLanderConfig.ID.ToTag();
+            def2.landerContainer = (DefComponent<Storage>)storage;
+            def2.clusterMapFXPrefabID = "DeployingPioneerLanderFX";
+
+
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
             {
                 new BuildingAttachPoint.HardPoint(new CellOffset(0, 5), GameTags.Rocket,  null)

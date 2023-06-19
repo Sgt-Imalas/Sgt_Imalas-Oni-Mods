@@ -11,17 +11,27 @@ namespace Rockets_TinyYetBig.SpaceStations
 {
     class SpaceStationManager : KMonoBehaviour
     {
+        
 
         private static readonly Lazy<SpaceStationManager> lazy =
         new Lazy<SpaceStationManager>(() => new SpaceStationManager());
+
 
         public static SpaceStationManager Instance { get { return lazy.Value; } }
 
 
         public static bool ActiveWorldIsSpaceStationInterior() => ClusterManager.Instance.activeWorld.HasTag(ModAssets.Tags.IsSpaceStation);
-        public static bool ActiveWorldIsRocketInterior() => !ClusterManager.Instance.activeWorld.HasTag(ModAssets.Tags.IsSpaceStation) && ClusterManager.Instance.activeWorld.IsModuleInterior;
-        public static bool WorldIsRocketInterior(int worldId) => !ClusterManager.Instance.GetWorld(worldId).HasTag(ModAssets.Tags.IsSpaceStation) && ClusterManager.Instance.GetWorld(worldId).IsModuleInterior;
-        public static bool WorldIsSpaceStationInterior(int worldId) => ClusterManager.Instance.GetWorld(worldId).HasTag(ModAssets.Tags.IsSpaceStation) && ClusterManager.Instance.GetWorld(worldId).IsModuleInterior;
+        public static bool ActiveWorldIsRocketInterior() => 
+            !ClusterManager.Instance.activeWorld.HasTag(ModAssets.Tags.IsSpaceStation) 
+            && ClusterManager.Instance.activeWorld.IsModuleInterior;
+        public static bool WorldIsRocketInterior(int worldId) =>
+            //!ClusterManager.Instance.GetWorld(worldId).HasTag(ModAssets.Tags.IsSpaceStation) 
+            !Instance.SpaceStationWorlds.Contains(worldId)
+            && ClusterManager.Instance.GetWorld(worldId).IsModuleInterior;
+        public static bool WorldIsSpaceStationInterior(int worldId) =>
+             //ClusterManager.Instance.GetWorld(worldId).HasTag(ModAssets.Tags.IsSpaceStation) 
+             Instance.SpaceStationWorlds.Contains(worldId)
+            && ClusterManager.Instance.GetWorld(worldId).IsModuleInterior;
 
         public SpaceStation GetSpaceStationFromWorldId(int worldId) 
         { 
@@ -33,7 +43,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             return null;
         }
 
-        public List<int> SpaceStationWorlds = new List<int>();
+        public HashSet<int> SpaceStationWorlds = new HashSet<int>();
 
         public SpaceStationManager()
         {

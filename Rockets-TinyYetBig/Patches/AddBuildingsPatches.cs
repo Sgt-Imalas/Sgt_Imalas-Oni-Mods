@@ -9,6 +9,7 @@ using Rockets_TinyYetBig.Buildings.Generators;
 using Rockets_TinyYetBig.Buildings.Habitats;
 using Rockets_TinyYetBig.Buildings.Nosecones;
 using Rockets_TinyYetBig.Buildings.Utility;
+using Rockets_TinyYetBig.LandingLegs;
 using Rockets_TinyYetBig.NonRocketBuildings;
 using Rockets_TinyYetBig.RocketFueling;
 using Rockets_TinyYetBig.SpaceStations;
@@ -86,7 +87,8 @@ namespace RoboRockets.Rockets_TinyYetBig
                 if (Config.Instance.EnableBunkerPlatform)
                 {
                     InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, BunkeredLaunchPadConfig.ID, LaunchPadConfig.ID);
-                    InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, AdvancedLaunchPadConfig.ID, LaunchPadConfig.ID);
+                    InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, AdvancedLaunchPadConfig.ID, LaunchPadConfig.ID); 
+                    AddRocketModuleToBuildList(PlatformDeployerModuleConfig.ID, new RocketCategory[] { RocketCategory.deployables, RocketCategory.utility }, PioneerModuleConfig.ID);
                 }
 
                 if (Config.Instance.EnableSolarNosecone)
