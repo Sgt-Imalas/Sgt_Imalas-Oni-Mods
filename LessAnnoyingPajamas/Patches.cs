@@ -127,6 +127,7 @@ namespace StoreDreamJournals
             {
                 InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, ClothingLockerConfig.ID, EspressoMachineConfig.ID);
                 InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, ClothingLockerMarkerConfig.ID, EspressoMachineConfig.ID);
+                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Medicine, PillDispenserConfig.ID);
             }
         }
 
