@@ -10,6 +10,7 @@ using TemplateClasses;
 using UnityEngine;
 using UtilLibs;
 using Rockets_TinyYetBig.Science;
+using Klei.AI;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
@@ -84,7 +85,6 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
         }
 
-
         /// <summary>
         /// Nameable Stations
         /// </summary>
@@ -130,6 +130,17 @@ namespace Rockets_TinyYetBig.SpaceStations
                 if (world.IsModuleInterior && world.TryGetComponent<SpaceStation>(out var station))
                     return false;
                 return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(RadiationBalanceDisplayer))]
+        [HarmonyPatch(nameof(RadiationBalanceDisplayer.GetTooltip))]
+        public static class Fixes_Crash_for_out_of_world_dupes
+        {
+            public static bool Prefix(Amount master, AmountInstance instance)
+            {
+                int num = Grid.PosToCell(instance.gameObject);
+                return Grid.IsValidCell(num);
             }
         }
 

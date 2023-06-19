@@ -52,38 +52,48 @@ namespace Rockets_TinyYetBig.Patches
                     ___operational.SetActive(true);
                 float amount = __instance.targetLevel - currentMassStored;
 
+                ///Refilling drillcone support module with diamond
+                if (Config.Instance.RefillDrillSupport && __instance.cargoType == CargoBay.CargoType.Solids)
+                {
+                    foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)___craftModuleInterface.ClusterModules)
+                    {
+
+                        if (clusterModule.Get().TryGetComponent<DrillConeAssistentModule>(out var drillConeAssistentModule)
+                            && amount < 0.0
+                            && drillConeAssistentModule.DiamondStorage.RemainingCapacity() > 0.0)
+                        {
+                            double transferAmount = (double)Mathf.Min(-amount, drillConeAssistentModule.DiamondStorage.RemainingCapacity());
+
+                            for (int index = __instance.storage.items.Count - 1; index >= 0; --index)
+                            {
+                                if (
+                                    __instance.storage.items[index] == null ||
+                                    __instance.storage.items[index].PrefabID() != SimHashes.Diamond.CreateTag())
+                                {
+                                    continue;
+                                }
+                                Pickupable pickupable = __instance.storage.items[index].GetComponent<Pickupable>().Take(-amount);
+
+                                if (pickupable != null)
+                                {
+                                    amount += pickupable.PrimaryElement.Mass;
+                                    drillConeAssistentModule.DiamondStorage.Store(pickupable.gameObject, true);
+                                }
+                                if ((double)amount >= 0.0)
+                                    break;
+                            }
+                            if ((double)amount <= 0.0)
+                                break;
+
+                        }
+                    }
+                }
+
+
                 foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)___craftModuleInterface.ClusterModules)
                 {
                     var module = clusterModule.Get();
 
-                    if (Config.Instance.RefillDrillSupport
-                        && __instance.cargoType == CargoBay.CargoType.Solids
-                        && module.TryGetComponent<DrillConeAssistentModule>(out var drillConeAssistentModule)
-                        && amount < 0.0
-                        && drillConeAssistentModule.DiamondStorage.RemainingCapacity() > 0.0)
-                    {
-                        double transferAmount = (double)Mathf.Min(-amount, drillConeAssistentModule.DiamondStorage.RemainingCapacity());
-
-                        for (int index = __instance.storage.items.Count - 1; index >= 0; --index)
-                        {
-                            if (
-                                __instance.storage.items[index] == null || 
-                                __instance.storage.items[index].PrefabID()!= SimHashes.Diamond.CreateTag())
-                            {
-                                continue;
-                            }
-                            Pickupable pickupable = __instance.storage.items[index].GetComponent<Pickupable>().Take(-amount);
-
-                            if (pickupable != null)
-                            {
-                                amount += pickupable.PrimaryElement.Mass;
-                                drillConeAssistentModule.DiamondStorage.Store(pickupable.gameObject, true);
-                            }
-                            if ((double)amount >= 0.0)
-                                break;
-                        }
-
-                    }
 
                     if (module.TryGetComponent<CargoBayCluster>(out var cargoBay) && cargoBay.storageType == __instance.cargoType)
                     {
