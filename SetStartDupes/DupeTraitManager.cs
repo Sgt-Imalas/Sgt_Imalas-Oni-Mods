@@ -43,6 +43,7 @@ namespace SetStartDupes
 
         public enum NextType
         {
+            special,
             geneShufflerTrait,
             posTrait,
             needTrait,
@@ -50,6 +51,7 @@ namespace SetStartDupes
             joy,
             stress,
             undefined,
+            cogenital,
             allTraits
         }
         internal void SetReferenceStats(MinionStartingStats referencedStats)

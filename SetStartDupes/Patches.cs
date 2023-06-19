@@ -103,7 +103,6 @@ namespace SetStartDupes
                         __instance.stats = new MinionStartingStats(originPersonality,__instance.guaranteedAptitudeID);
                         //ModAssets.ApplySkinFromPersonality(originPersonality, __instance.stats);
                         //__instance.characterNameTitle.OnEndEdit(originPersonality.Name);
-
                     }
                     else
                     {
@@ -438,7 +437,7 @@ namespace SetStartDupes
                     {
                         __instance.fxAnim.Play("loop");
                     }
-                    SgtLogger.l(__instance.guaranteedAptitudeID, "archetypeID");
+                    //SgtLogger.l(__instance.guaranteedAptitudeID, "archetypeID");
                     __instance.GenerateCharacter(is_starter, __instance.guaranteedAptitudeID);
 
                     return false;

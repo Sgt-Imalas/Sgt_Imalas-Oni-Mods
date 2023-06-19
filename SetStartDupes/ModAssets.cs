@@ -420,6 +420,14 @@ namespace SetStartDupes
             {
                 NextType.stress,
                 DUPLICANTSTATS.STRESSTRAITS  
+            },
+            {
+                NextType.special,
+                DUPLICANTSTATS.SPECIALTRAITS
+            },
+            {
+                NextType.cogenital,
+                DUPLICANTSTATS.CONGENITALTRAITS
             }
         };
 
@@ -438,7 +446,14 @@ namespace SetStartDupes
                 //if (traitsForCost == null || !ModConfig.Instance.BalanceAddRemove)
                 if (true)
                 {
-                    return TraitsByType[NextType.posTrait].Concat(TraitsByType[NextType.needTrait]).Concat(TraitsByType[NextType.negTrait]).ToList();
+                    if (DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive)
+                    {
+                        return TraitsByType[NextType.special].Concat(TraitsByType[NextType.geneShufflerTrait]).Concat(TraitsByType[NextType.posTrait]).Concat(TraitsByType[NextType.needTrait]).Concat(TraitsByType[NextType.negTrait]).ToList();
+                    }
+                    else
+                    {
+                        return TraitsByType[NextType.posTrait].Concat(TraitsByType[NextType.needTrait]).Concat(TraitsByType[NextType.negTrait]).ToList();
+                    }
                 }
                 else
                 {
