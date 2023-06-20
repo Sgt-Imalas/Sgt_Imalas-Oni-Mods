@@ -149,6 +149,11 @@ msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS"
 msgid "Options for Traits and Interests"
 msgstr "Optionen für Interessen und Eigenschaften"
 
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.D_UTIL
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.D_UTIL"
+msgid "Extra Settings"
+msgstr "Extra Optionen"
+
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.NAME"
 msgid "Number of Starting Duplicants"
@@ -159,6 +164,21 @@ msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.TOOLTIP"
 msgid "Choose the amount of duplicants you want to start with."
 msgstr ""
 "Wähle die Anzahl der Duplikanten, mit denen ein Spielstand starten soll."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.HERMITSKIN.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.HERMITSKIN.NAME"
+msgid "Hermit Skin"
+msgstr "Aussehen des Einsiedler"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.HERMITSKIN.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.HERMITSKIN.TOOLTIP"
+msgid ""
+"Adds the Hermit to the pool of selectable skins\n"
+"once the story trait has been completed atleast once on any savegame."
+msgstr ""
+"Fügt das Aussehen des Einsiedlers zur Auswahl hinzu\n"
+"sobald seine Story-Mission einmalig (spielstandübergreifend) abgeschlossen "
+"wurde."
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.NAME"
@@ -188,7 +208,7 @@ msgid ""
 "This also enables the use of presets."
 msgstr ""
 "Wenn die Option aktiv ist, können Biodrucker-Duplikanten ebenfalls "
-"modifiziert warden.\n"
+"modifiziert werden.\n"
 "Wenn diese Option deaktiviert ist, erscheint die Funktion nur bei den Start-"
 "Duplikanten bei neuen Spielständen.\n"
 "Dies aktiviert auch die Verwendung von Attributvorlagen."
@@ -238,6 +258,22 @@ msgstr ""
 "Zeit, in Zyklen, die der Biodrucker zum nächsten Druck benötigt.\n"
 "Der Standardwert ist 3 Zyklen."
 
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLCRYOPODANDJORGE.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLCRYOPODANDJORGE.NAME"
+msgid "Hermit/Cryopod Modification"
+msgstr "Einsiedler/Kryotank modifizieren"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLCRYOPODANDJORGE.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLCRYOPODANDJORGE.TOOLTIP"
+msgid ""
+"Allows modifying of the Hermit and Cryopod Duplicants.\n"
+"\"Ancient Knowledge\"-Trait no longer takes the slot of a positive trait "
+"during generation of these duplicants."
+msgstr ""
+"Erlaubt die Modifikation des Einsiedlers und von Kryotank-Duplikanten.\n"
+"\"Uraltes Wissen\"-Eigenschaft blockiert nicht länger den \"positive "
+"Eigenschaft\"-Slot bei diesen Duplikanten"
+
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.NAME"
 msgid "Reroll printing pod"
@@ -247,10 +283,14 @@ msgstr "Neuwürfeln des Biodruckers"
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.TOOLTIP"
 msgid ""
 "Enable this option to add the reroll button to printing pod Duplicants and "
-"care packages."
+"care packages.\n"
+"Care Packages allow selecting from all currently available package "
+"configurations."
 msgstr ""
 "Diese Option aktiviert den Würfel-Knopf bei Biodrucker-Duplikanten und "
-"Hilfspaketen."
+"Hilfspaketen.\n"
+"Hilfspakete können zusätzlich aus einer durchsuchbaren Liste ausgewählt "
+"werden."
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.NAME"
@@ -303,7 +343,7 @@ msgstr "{0}, ({1} +{2})"
 #. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.OTHERMODORIGINNAME
 msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.OTHERMODORIGINNAME"
 msgid "Mysterious Origin (other mods)"
-msgstr ""
+msgstr "Mysteriöse Herkunft (andere Mods)"
 
 #. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT
 msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT"
@@ -368,7 +408,7 @@ msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.DESC"
 msgid ""
 "You are about to delete the stat preset \"{0}\".\n"
 "Do you want to continue?"
-msgstr "Soll die Attributvorlage \"{0}\" wirklich gelöscht warden?"
+msgstr "Soll die Attributvorlage \"{0}\" wirklich gelöscht werden?"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.TITLE
 msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.TITLE"

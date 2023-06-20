@@ -29,6 +29,10 @@ namespace SetStartDupes
 
         MinionStartingStats ToEditMinionStats = null;
 
+
+
+
+
         int FallBack = -1;
 
         int additionalSkillPoints = 0;
@@ -79,7 +83,7 @@ namespace SetStartDupes
             var oldValue = additionalSkillPoints;
 
 
-            additionalSkillPoints = newValue; 
+            additionalSkillPoints = newValue;
             return newValue != oldValue;
         }
         public void ExternalModBonusPointCalculation()
@@ -239,39 +243,54 @@ namespace SetStartDupes
             ResetPool();
         }
 
-        public void RecalculateSkillPoints()
+        public void RecalculateSkillPoints(int concreteDifference = 0)
         {
             SgtLogger.l("Recalculating Skill Points, current amount to Ship: " + AdditionalSkillPoints);
             int amountToShip = AdditionalSkillPoints;
 
             Dictionary<string, int> newVals = new Dictionary<string, int>();
 
+
+
             int minimumSkillValue = ModAssets.MinimumPointsPerInterest(ToEditMinionStats);
             SgtLogger.l(minimumSkillValue.ToString(), "minimum skill value");
 
-            int maxNumberOfRerolls = ToEditMinionStats.StartingLevels.Count*2;
+            int maxNumberOfRerolls = ToEditMinionStats.StartingLevels.Count * 2;
+
+            SgtLogger.l("Interests were changed, redistributing at random");
+
+            foreach (var levels in ToEditMinionStats.StartingLevels)
+            {
+                newVals[levels.Key] = 0;
+            }
             do
             {
-                foreach (var level in ToEditMinionStats.StartingLevels)
+                foreach (var level in ToEditMinionStats.skillAptitudes)
                 {
-                    SgtLogger.l(maxNumberOfRerolls.ToString(), "remaining rerolls");
+                    SgtLogger.l(maxNumberOfRerolls.ToString()+", remaining: "+amountToShip, "remaining rerolls");
                     maxNumberOfRerolls--;
                     if (level.Value > 0)
                     {
                         int randomPoints = UnityEngine.Random.Range(0, amountToShip + 1);
                         amountToShip -= randomPoints;
 
-                        if (!newVals.ContainsKey(level.Key))
-                            newVals.Add(level.Key, Mathf.Max(minimumSkillValue,minimumSkillValue + randomPoints));
+                        string AttributeID = level.Key.relevantAttributes.First().Id;
+
+                        if (!newVals.ContainsKey(AttributeID))
+                            newVals.Add(AttributeID, Mathf.Max(minimumSkillValue, minimumSkillValue + randomPoints));
                         else
-                            newVals[level.Key] = Mathf.Max(minimumSkillValue, newVals[level.Key] + randomPoints) ;
+                            newVals[AttributeID] = Mathf.Max(minimumSkillValue, Mathf.Max(newVals[AttributeID], minimumSkillValue) + randomPoints);
                     }
                 }
+                if (ToEditMinionStats.skillAptitudes.Count == 0)
+                    maxNumberOfRerolls = -1;
             }
             while (amountToShip > 0 && maxNumberOfRerolls >= 0);
 
+
             foreach (var newv in newVals)
             {
+                SgtLogger.l(newv.Value+"", newv.Key);
                 ToEditMinionStats.StartingLevels[newv.Key] = newv.Value;
             }
             SgtLogger.l("Skill Points recalculated");

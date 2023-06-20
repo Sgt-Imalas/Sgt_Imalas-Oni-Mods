@@ -318,7 +318,7 @@ namespace SetStartDupes
             {
                 if (DupeTraitManagers[stats].CalculateAdditionalSkillPointsTrueIfChanged())
                 {
-                    DupeTraitManagers[stats].RecalculateSkillPoints();
+                    DupeTraitManagers[stats].RecalculateSkillPoints(isAdding ? traitBonusHolder.statBonus : -traitBonusHolder.statBonus);
                     DupeTraitManagers[stats].ResetPool();
                 }
             }
