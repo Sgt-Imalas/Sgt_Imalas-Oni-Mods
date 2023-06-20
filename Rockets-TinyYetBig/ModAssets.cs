@@ -417,6 +417,7 @@ namespace Rockets_TinyYetBig
             public static StatusItem RTB_ModuleGeneratorNotPowered;
             public static StatusItem RTB_ModuleGeneratorPowered;
             public static StatusItem RTB_ModuleGeneratorFuelStatus;
+            public static StatusItem RTB_ModuleGeneratorLandedEnabled;
             public static StatusItem RTB_RocketBatteryStatus;
             public static StatusItem RTB_AlwaysActiveOn;
             public static StatusItem RTB_AlwaysActiveOff;
@@ -490,6 +491,17 @@ namespace Rockets_TinyYetBig
                      NotificationType.Neutral,
                      false,
                      OverlayModes.Power.ID);
+
+                RTB_ModuleGeneratorLandedEnabled = new StatusItem(
+                     "RTB_ROCKETGENERATORLANDEDACTIVE",
+                     "BUILDING",
+                     string.Empty,
+                     StatusItem.IconType.Info,
+                     NotificationType.Neutral,
+                     false,
+                     OverlayModes.Power.ID);
+                
+
 
                 RTB_CritterModuleContent = new StatusItem(
                      "RTB_CRITTERMODULECONTENT",

@@ -29,7 +29,12 @@ namespace Rockets_TinyYetBig.LandingLegs
             var thruster = placedEntity.AddOrGetDef<ThrusterPoweredLander.Def>();
             
             thruster.previewTag = "ScoutLander_Preview".ToTag();
-            thruster.cmpsToEnable = new List<Type>() { typeof(RTB_LaunchPadWithoutLogic) };
+            thruster.cmpsToEnable = new List<Type>() 
+            {
+                //typeof(RTB_LaunchPadWithoutLogic) 
+                //,typeof(LaunchPadConditions)
+
+            };
 
             placedEntity.AddOrGet<Prioritizable>();
             Prioritizable.AddRef(placedEntity);
@@ -55,13 +60,16 @@ namespace Rockets_TinyYetBig.LandingLegs
         public void OnPrefabInit(GameObject inst)
         {
             OccupyArea component = inst.GetComponent<OccupyArea>();
-            component.ApplyToCells = false;
+            component.ApplyToCells = true;
             component.objectLayers = new ObjectLayer[1]
             {
                 ObjectLayer.Building
             };
+            // component.enabled = false;
+            inst.AddOrGet<EmptyLaunchPadConditions>();
+
             var launchpad = inst.AddComponent<RTB_LaunchPadWithoutLogic>();
-            launchpad.enabled = false;
+            //launchpad.enabled = false;
             launchpad.baseModulePosition = new CellOffset(0, 3);
         }
 

@@ -6,7 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static AnimCommandFile;
 using static Components;
+using static ConduitFlowVisualizer.RenderMeshTask;
 
 namespace Rockets_TinyYetBig.LandingLegs
 {
@@ -19,6 +21,7 @@ namespace Rockets_TinyYetBig.LandingLegs
 
             public bool deployOnLanding = true;
             public List<Type> cmpsToEnable;
+
         }
 
         public class CrashedStates : State
@@ -41,13 +44,6 @@ namespace Rockets_TinyYetBig.LandingLegs
 
             public SimHashes exhaustElement = SimHashes.CarbonDioxide;
 
-            public float maxAccelerationDistance = 25f;
-            public float takeoffAccelPowerInv = 1f/4f;
-            public float takeoffAccelPower = 4f;
-            public float heightLaunchSpeedRatio = 1;
-
-            public float topSpeed = 16f;
-
             public GameObject landingPreview;
 
             public StatesInstance(IStateMachineTarget master, Def def)
@@ -64,6 +60,11 @@ namespace Rockets_TinyYetBig.LandingLegs
             {
                 int cell = Grid.PosToCell(this.gameObject);
                 flightAnimOffset = (float)(ClusterManager.Instance.GetWorld((int)Grid.WorldIdx[cell]).maximumBounds.y - (double)this.gameObject.transform.GetPosition().y + 100.0f);
+                SgtLogger.l(flightAnimOffset.ToString(), "StartingOffset");
+                currentVelocity = 100.0f; // 100 m/s
+                currentAcceleration = 9.81f;
+                landingSafetyMargin = 0.1f;
+                landingSpeed = 0.20f;
             }
 
             public void ShowLandingPreview(bool show)
@@ -81,16 +82,35 @@ namespace Rockets_TinyYetBig.LandingLegs
             }
 
 
-            float SpeedFunc(float HeightValue) => Mathf.Min(HeightValue * 0.25f, topSpeed)+0.4f;
+            //float SpeedFunc(float HeightValue) => Mathf.Min(HeightValue * 0.25f, topSpeed)+0.4f;
             //float SpeedFunc(float HeightValue) => Mathf.Min(1.6f*Mathf.Pow(1.84f, (HeightValue/14f ))-0.4f, topSpeed);
             //float SpeedFunc(float HeightValue) => Mathf.Min(4*Mathf.Pow(1.1f, HeightValue - 15f), topSpeed) - 0.0f;
             //float SpeedFunc(float HeightValue) => Mathf.Min(0.3f*Mathf.Pow( HeightValue ,2f)+0.25f, topSpeed);
+
+            public float currentVelocity = 100.0f; // 100 m/s
+            public float currentAcceleration = 9.81f;
+            //public float currentAcceleration = 3.33f;
+            public float landingSafetyMargin = 0.1f;
+            public float landingSpeed = 0.20f;
+
             public void LandingUpdate(float dt)
             {
-                var DeltaVdifference = SpeedFunc(flightAnimOffset);
+                if (dt == 0 || dt == float.NaN|| float.IsInfinity(dt))
+                    return;
 
-                SgtLogger.l(flightAnimOffset.ToString(), DeltaVdifference.ToString());
-                flightAnimOffset -= DeltaVdifference * dt;
+                SgtLogger.l(string.Format("currentHeight: {0}, currentVelocity: {1}, currentAcceleration: {2}", flightAnimOffset, currentVelocity, currentAcceleration),"before");
+                var targetVelocity = flightAnimOffset - landingSafetyMargin;
+                currentAcceleration = Mathf.Min(900,(targetVelocity - currentVelocity) / dt);
+                currentVelocity = currentVelocity + currentAcceleration * dt;
+
+                if (currentVelocity < landingSpeed) 
+                    currentVelocity = landingSpeed;
+
+                flightAnimOffset -= currentVelocity * dt;
+
+                SgtLogger.l(string.Format("currentHeight: {0}, currentVelocity: {1}, currentAcceleration: {2}", flightAnimOffset, currentVelocity, currentAcceleration), "after");
+
+
                 ResetAnimPosition();
                 int num = Grid.PosToCell(base.gameObject.transform.GetPosition() + new Vector3(0f, flightAnimOffset, 0f));
                 if (Grid.IsValidCell(num))
@@ -123,6 +143,11 @@ namespace Rockets_TinyYetBig.LandingLegs
                         {
                             SgtLogger.l(component.ToString(), "Enabled");
                             (component as KMonoBehaviour).enabled = true;
+                            if(component is OccupyArea)
+                            {
+                                (component as OccupyArea).UpdateOccupiedArea();
+                            }
+
                         }
                     }
                 }
@@ -184,7 +209,6 @@ namespace Rockets_TinyYetBig.LandingLegs
             init.ParamTransition(isLanded, grounded, GameStateMachine<ThrusterPoweredLander, StatesInstance, IStateMachineTarget, Def>.IsTrue).GoTo(stored);
             stored.TagTransition(GameTags.Stored, landing, on_remove: true).EventHandler(GameHashes.JettisonedLander, delegate (StatesInstance smi)
             {
-                smi.OnJettisoned();
             });
             landing.PlayAnim("landing", KAnim.PlayMode.Loop).Enter(delegate (StatesInstance smi)
             {
@@ -195,13 +219,19 @@ namespace Rockets_TinyYetBig.LandingLegs
             })
                 .Enter(delegate (StatesInstance smi)
                 {
+                    smi.OnJettisoned();
                     smi.ResetAnimPosition();
                 })
                 .Update(delegate (StatesInstance smi, float dt)
                 {
                     smi.LandingUpdate(dt);
                 }, UpdateRate.SIM_33ms)
-                .UpdateTransition(land, ( smi,dt) => smi.flightAnimOffset <= 0.1f);
+                .Exit((smi) =>
+                {
+                    SgtLogger.l("launchpad landed");
+                    smi.DoLand();
+                })
+                .UpdateTransition(land, ( smi,dt) => smi.flightAnimOffset <= 0.3f);
             land.PlayAnim("grounded_pre").OnAnimQueueComplete(grounded);
             grounded.DefaultState(grounded.loaded)
                 .ToggleOperationalFlag(RocketModule.landedFlag)
@@ -216,10 +246,7 @@ namespace Rockets_TinyYetBig.LandingLegs
             grounded.loaded.PlayAnim("grounded")
                 .ParamTransition(hasCargo, grounded.empty, GameStateMachine<ThrusterPoweredLander, StatesInstance, IStateMachineTarget, Def>.IsFalse)
                 .OnSignal(emptyCargo, grounded.emptying)
-                .Enter(delegate (StatesInstance smi)
-                {
-                    smi.DoLand();
-                });
+                ;
             grounded.emptying.PlayAnim("deploying").TriggerOnEnter(GameHashes.JettisonCargo).OnAnimQueueComplete(grounded.empty);
             grounded.empty.PlayAnim("deployed").ParamTransition(hasCargo, grounded.loaded, GameStateMachine<ThrusterPoweredLander, StatesInstance, IStateMachineTarget, Def>.IsTrue);
         }

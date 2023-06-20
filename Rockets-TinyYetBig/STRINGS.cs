@@ -419,6 +419,11 @@ namespace Rockets_TinyYetBig
                     public static LocString NAME = (LocString)"Battery Module Charge: {CurrentCharge}/{MaxCharge}";
                     public static LocString TOOLTIP = (LocString)("This Rocket has {CurrentCharge}/{MaxCharge} stored in battery modules.");
                 }
+                public class RTB_ROCKETGENERATORLANDEDACTIVE
+                {
+                    public static LocString NAME = (LocString)"Active while landed";
+                    public static LocString TOOLTIP = (LocString)("This generator will run even while landed");
+                }
                 public class RTB_FOODSTORAGESTATUS
                 {
                     public static LocString NAME = (LocString)"Total Food: {REMAININGMASS}KCal";

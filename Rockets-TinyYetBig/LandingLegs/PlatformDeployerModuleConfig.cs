@@ -74,7 +74,6 @@ namespace Rockets_TinyYetBig.LandingLegs
             def2.landerContainer = (DefComponent<Storage>)storage;
             def2.clusterMapFXPrefabID = "DeployingPioneerLanderFX";
 
-
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
             {
                 new BuildingAttachPoint.HardPoint(new CellOffset(0, 5), GameTags.Rocket,  null)

@@ -15,7 +15,10 @@ namespace Rockets_TinyYetBig.LandingLegs
             public static bool Prefix(LaunchPad __instance)
             {
                 if (__instance is RTB_LaunchPadWithoutLogic)
+                {
+                    __instance.CheckLandedRocketPassengerModuleStatus();
                     return false;
+                }
 
                 return true;
             }
@@ -43,7 +46,19 @@ namespace Rockets_TinyYetBig.LandingLegs
 
                 return true;
             }
-
+            
         }
+        //[HarmonyPatch(typeof(CraftModuleInterface), nameof(CraftModuleInterface.GetConditionSet))]
+        //public static class NoLogicUpdate4
+        //{
+        //    public static bool Prefix(LaunchPad __instance)
+        //    {
+        //        if (__instance is RTB_LaunchPadWithoutLogic)
+        //            return false;
+
+        //        return true;
+        //    }
+            
+        //}
     }
 }
