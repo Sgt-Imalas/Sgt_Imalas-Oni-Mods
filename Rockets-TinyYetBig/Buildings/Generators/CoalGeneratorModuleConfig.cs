@@ -70,6 +70,7 @@ namespace Rockets_TinyYetBig
 
             Storage storage = go.AddOrGet<Storage>();
             storage.capacityKg = 300f;
+            storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 
             ManualDeliveryKG manualDeliveryKg = go.AddOrGet<ManualDeliveryKG>();
             manualDeliveryKg.SetStorage(storage);

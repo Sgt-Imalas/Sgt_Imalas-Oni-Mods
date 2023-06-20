@@ -80,6 +80,7 @@ namespace Rockets_TinyYetBig
 
             Storage storage = go.AddOrGet<Storage>();
             storage.capacityKg = UraniumCapacity;
+            storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
             go.AddOrGet<FlushUranium>();
             RadiationEmitter radiationEmitter = go.AddOrGet<RadiationEmitter>();
             radiationEmitter.emitType = RadiationEmitter.RadiationEmitterType.Constant;

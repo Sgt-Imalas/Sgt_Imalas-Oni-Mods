@@ -79,6 +79,7 @@ namespace Rockets_TinyYetBig.Behaviours
             Game.Instance.electricalConduitSystem.AddToVirtualNetworks(this.VirtualCircuitKey, (object)this, true);
             base.OnSpawn();
             StatusItemUpdate(false, true);
+            UpdateLandedStatusItem();
         }
         public Tuple<float, float> GetConsumptionStatusStats()
         {
@@ -416,9 +417,19 @@ namespace Rockets_TinyYetBig.Behaviours
 
         public bool SidescreenButtonInteractable() => true;
 
+        public void UpdateLandedStatusItem()
+        {
+            if(produceWhileLanded)
+                this.selectable.AddStatusItem( ModAssets.StatusItems.RTB_ModuleGeneratorLandedEnabled);
+            else
+                this.selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_ModuleGeneratorLandedEnabled);
+
+        }
+
         public void OnSidescreenButtonPressed()
         {
             produceWhileLanded = !produceWhileLanded;
+            UpdateLandedStatusItem();
         }
         public int HorizontalGroupID() => -1;
 
