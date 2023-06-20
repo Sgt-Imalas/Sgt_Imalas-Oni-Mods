@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UtilLibs;
+using static LaunchConditionManager;
 
 namespace Rockets_TinyYetBig.LandingLegs
 {
@@ -48,17 +50,23 @@ namespace Rockets_TinyYetBig.LandingLegs
             }
             
         }
-        //[HarmonyPatch(typeof(CraftModuleInterface), nameof(CraftModuleInterface.GetConditionSet))]
-        //public static class NoLogicUpdate4
-        //{
-        //    public static bool Prefix(LaunchPad __instance)
-        //    {
-        //        if (__instance is RTB_LaunchPadWithoutLogic)
-        //            return false;
+        [HarmonyPatch(typeof(SimpleInfoScreen), nameof(SimpleInfoScreen.RefreshProcessConditionsForType))]
+        public static class NoLogicUpdate4
+        {
+            public static bool Prefix(SimpleInfoScreen __instance, ProcessCondition.ProcessConditionType conditionType)
+            {
 
-        //        return true;
-        //    }
-            
-        //}
+
+                if(__instance.selectedTarget == null || __instance.selectedTarget.GetComponent<IProcessConditionSet>() == null)
+                    return false;
+
+
+                if(__instance.selectedTarget.TryGetComponent<RTB_LaunchPadWithoutLogic>(out _))
+                    return false;
+
+                return true;
+            }
+
+        }
     }
 }

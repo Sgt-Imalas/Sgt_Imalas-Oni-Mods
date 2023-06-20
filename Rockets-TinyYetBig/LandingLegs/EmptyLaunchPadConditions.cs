@@ -21,7 +21,7 @@ namespace Rockets_TinyYetBig.LandingLegs
         public override void OnSpawn()
         {
             conditions = new List<ProcessCondition>();
-            conditions.Add(new EmptyCondition(base.gameObject));
+            //conditions.Add(new EmptyCondition(base.gameObject));
         }
     }
 }
