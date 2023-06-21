@@ -87,11 +87,11 @@ namespace Rockets_TinyYetBig.LandingLegs
             //float SpeedFunc(float HeightValue) => Mathf.Min(4*Mathf.Pow(1.1f, HeightValue - 15f), topSpeed) - 0.0f;
             //float SpeedFunc(float HeightValue) => Mathf.Min(0.3f*Mathf.Pow( HeightValue ,2f)+0.25f, topSpeed);
 
-            public float currentVelocity = 100.0f; // 100 m/s
-            public float currentAcceleration = 9.81f;
+            public float currentVelocity = -10.0f; // 100 m/s
+            public float currentAcceleration = 9.81f; //9.81 m/s^2
             //public float currentAcceleration = 3.33f;
-            public float landingSafetyMargin = 0.1f;
-            public float landingSpeed = 0.20f;
+            public float landingSafetyMargin = 3f; // Soft landing starts at 3m altitude
+            public float landingSpeed = -1f; // 1 m/s
 
             public void LandingUpdate(float dt)
             {
@@ -99,14 +99,18 @@ namespace Rockets_TinyYetBig.LandingLegs
                     return;
 
                 SgtLogger.l(string.Format("currentHeight: {0}, currentVelocity: {1}, currentAcceleration: {2}", flightAnimOffset, currentVelocity, currentAcceleration),"before");
-                var targetVelocity = flightAnimOffset - landingSafetyMargin;
-                currentAcceleration = Mathf.Min(900,(targetVelocity - currentVelocity) / dt);
-                currentVelocity = currentVelocity + currentAcceleration * dt;
 
+                // Landing computer can control acceleration directly, so imagine 
+                float targetVelocity = flightAnimOffset - landingSafetyMargin;
+                currentAcceleration = (targetVelocity - currentVelocity) / dt;
+
+                currentVelocity += currentAcceleration * dt;
                 if (currentVelocity < landingSpeed) 
                     currentVelocity = landingSpeed;
 
-                flightAnimOffset -= currentVelocity * dt;
+                flightAnimOffset += currentVelocity * dt;
+                if (flightAnimOffset < 0)
+                    flightAnimOffset = 0;
 
                 SgtLogger.l(string.Format("currentHeight: {0}, currentVelocity: {1}, currentAcceleration: {2}", flightAnimOffset, currentVelocity, currentAcceleration), "after");
 
