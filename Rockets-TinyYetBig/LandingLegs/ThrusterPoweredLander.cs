@@ -12,247 +12,270 @@ using static ConduitFlowVisualizer.RenderMeshTask;
 
 namespace Rockets_TinyYetBig.LandingLegs
 {
-    [SerializationConfig(MemberSerialization.OptIn)]
-    public class ThrusterPoweredLander : GameStateMachine<ThrusterPoweredLander, ThrusterPoweredLander.StatesInstance, IStateMachineTarget, ThrusterPoweredLander.Def>
+
+
+    public class ThrusterPoweredLander : StateMachineComponent<ThrusterPoweredLander.StatesInstance>
     {
-        public class Def : BaseDef
-        {
-            public Tag previewTag;
+        [Serialize]
+        public Tag previewTag;
+        [Serialize]
+        public bool deployOnLanding = true;
+        [Serialize]
+        public List<Type> cmpsToEnable;
 
-            public bool deployOnLanding = true;
-            public List<Type> cmpsToEnable;
+        [Serialize]
+        public float flightAnimOffset = 50f;
+
+        [Serialize]
+        public bool hasLandedBool = false;
+
+
+        public float exhaustEmitRate = 50f;
+
+        public float exhaustTemperature = 1263.15f;
+
+        public SimHashes exhaustElement = SimHashes.CarbonDioxide;
+
+        public GameObject landingPreview;
+        public override void OnSpawn()
+        {
+            smi.StartSM();
+        }
+
+
+        public void ResetAnimPosition()
+        {
+            GetComponent<KBatchedAnimController>().Offset = Vector3.up * flightAnimOffset;
+        }
+
+        public void OnJettisoned()
+        {
+            bool hasLanded = smi.sm.isLanded.Get(smi);
+            SgtLogger.l("onjettisoned");
+            SgtLogger.l(hasLanded.ToString(), "haslanded");
+
+
+            int cell = Grid.PosToCell(this.gameObject);
+            flightAnimOffset = (float)(ClusterManager.Instance.GetWorld((int)Grid.WorldIdx[cell]).maximumBounds.y - (double)this.gameObject.transform.GetPosition().y) + 100.0f;
+            SgtLogger.l(flightAnimOffset.ToString(), "StartingOffset");
+
+            currentVelocity = -10.0f; // 100 m/s
+            currentAcceleration = 9.81f; //9.81 m/s^2           
+            landingSafetyMargin = 1.5f; // Soft landing starts at 3m altitude
+            landingSpeed = -1f; // 1 m/s
 
         }
 
-        public class CrashedStates : State
+        public void ShowLandingPreview(bool show)
         {
-            public State loaded;
-
-            public State emptying;
-
-            public State empty;
+            if (show)
+            {
+                landingPreview = Util.KInstantiate(Assets.GetPrefab(previewTag), base.transform.GetPosition(), Quaternion.identity, base.gameObject);
+                landingPreview.SetActive(value: true);
+            }
+            else
+            {
+                landingPreview.DeleteObject();
+                landingPreview = null;
+            }
         }
 
-        public class StatesInstance : GameInstance
+
+
+        public float currentVelocity = -10.0f; // 100 m/s
+        public float currentAcceleration = 9.81f; //9.81 m/s^2
+        public float landingSafetyMargin = 3f; // Soft landing starts at 3m altitude
+        public float landingSpeed = -1f; // 1 m/s
+
+        public void LandingUpdate(float dt)
         {
-            [Serialize]
-            public float flightAnimOffset = 50f;
+            if (dt == 0 || dt == float.NaN || float.IsInfinity(dt))
+                return;
 
-            public float exhaustEmitRate = 50f;
+            SgtLogger.l(string.Format("currentHeight: {0}, currentVelocity: {1}, currentAcceleration: {2}", flightAnimOffset, currentVelocity, currentAcceleration), "before");
 
-            public float exhaustTemperature = 1263.15f;
+            // Landing computer can control acceleration directly, so imagine 
+            float targetVelocity = -flightAnimOffset + landingSafetyMargin;
+            currentAcceleration = (targetVelocity - currentVelocity) / dt;
 
-            public SimHashes exhaustElement = SimHashes.CarbonDioxide;
+            currentVelocity += currentAcceleration * dt;
+            if (currentVelocity > landingSpeed)
+                currentVelocity = landingSpeed;
 
-            public GameObject landingPreview;
+            flightAnimOffset += currentVelocity * dt;
+            if (flightAnimOffset < 0)
+                flightAnimOffset = 0;
 
-            public StatesInstance(IStateMachineTarget master, Def def)
-                : base(master, def)
+            SgtLogger.l(string.Format("currentHeight: {0}, currentVelocity: {1}, currentAcceleration: {2}", flightAnimOffset, currentVelocity, currentAcceleration), "after");
+
+
+            ResetAnimPosition();
+            int num = Grid.PosToCell(base.gameObject.transform.GetPosition() + new Vector3(0f, flightAnimOffset, 0f));
+            if (Grid.IsValidCell(num))
             {
+                SimMessages.EmitMass(num, ElementLoader.GetElementIndex(exhaustElement), dt * exhaustEmitRate, exhaustTemperature, 0, 0);
+            }
+        }
+
+        public void DoLand()
+        {
+            base.smi.master.GetComponent<KBatchedAnimController>().Offset = Vector3.zero;
+            OccupyArea occupy = base.smi.GetComponent<OccupyArea>();
+            if (occupy != null)
+            {
+                occupy.ApplyToCells = true;
             }
 
-            public void ResetAnimPosition()
+            if (deployOnLanding && CheckIfLoaded())
             {
-                GetComponent<KBatchedAnimController>().Offset = Vector3.up * flightAnimOffset;
+                smi.sm.emptyCargo.Trigger(smi);
             }
-
-            public void OnJettisoned()
+            SgtLogger.l("Landed");
+            if (cmpsToEnable != null && cmpsToEnable.Count > 0)
             {
-                int cell = Grid.PosToCell(this.gameObject);
-                flightAnimOffset = (float)(ClusterManager.Instance.GetWorld((int)Grid.WorldIdx[cell]).maximumBounds.y - (double)this.gameObject.transform.GetPosition().y + 100.0f);
-                SgtLogger.l(flightAnimOffset.ToString(), "StartingOffset");
-                currentVelocity = 100.0f; // 100 m/s
-                currentAcceleration = 9.81f;
-                landingSafetyMargin = 0.1f;
-                landingSpeed = 0.20f;
-            }
-
-            public void ShowLandingPreview(bool show)
-            {
-                if (show)
+                foreach (var cmp in cmpsToEnable)
                 {
-                    landingPreview = Util.KInstantiate(Assets.GetPrefab(base.def.previewTag), base.transform.GetPosition(), Quaternion.identity, base.gameObject);
-                    landingPreview.SetActive(value: true);
-                }
-                else
-                {
-                    landingPreview.DeleteObject();
-                    landingPreview = null;
-                }
-            }
-
-
-            //float SpeedFunc(float HeightValue) => Mathf.Min(HeightValue * 0.25f, topSpeed)+0.4f;
-            //float SpeedFunc(float HeightValue) => Mathf.Min(1.6f*Mathf.Pow(1.84f, (HeightValue/14f ))-0.4f, topSpeed);
-            //float SpeedFunc(float HeightValue) => Mathf.Min(4*Mathf.Pow(1.1f, HeightValue - 15f), topSpeed) - 0.0f;
-            //float SpeedFunc(float HeightValue) => Mathf.Min(0.3f*Mathf.Pow( HeightValue ,2f)+0.25f, topSpeed);
-
-            public float currentVelocity = -10.0f; // 100 m/s
-            public float currentAcceleration = 9.81f; //9.81 m/s^2
-            //public float currentAcceleration = 3.33f;
-            public float landingSafetyMargin = 3f; // Soft landing starts at 3m altitude
-            public float landingSpeed = -1f; // 1 m/s
-
-            public void LandingUpdate(float dt)
-            {
-                if (dt == 0 || dt == float.NaN|| float.IsInfinity(dt))
-                    return;
-
-                SgtLogger.l(string.Format("currentHeight: {0}, currentVelocity: {1}, currentAcceleration: {2}", flightAnimOffset, currentVelocity, currentAcceleration),"before");
-
-                // Landing computer can control acceleration directly, so imagine 
-                float targetVelocity = flightAnimOffset - landingSafetyMargin;
-                currentAcceleration = (targetVelocity - currentVelocity) / dt;
-
-                currentVelocity += currentAcceleration * dt;
-                if (currentVelocity < landingSpeed) 
-                    currentVelocity = landingSpeed;
-
-                flightAnimOffset += currentVelocity * dt;
-                if (flightAnimOffset < 0)
-                    flightAnimOffset = 0;
-
-                SgtLogger.l(string.Format("currentHeight: {0}, currentVelocity: {1}, currentAcceleration: {2}", flightAnimOffset, currentVelocity, currentAcceleration), "after");
-
-
-                ResetAnimPosition();
-                int num = Grid.PosToCell(base.gameObject.transform.GetPosition() + new Vector3(0f, flightAnimOffset, 0f));
-                if (Grid.IsValidCell(num))
-                {
-                    SimMessages.EmitMass(num, ElementLoader.GetElementIndex(exhaustElement), dt * exhaustEmitRate, exhaustTemperature, 0, 0);
-                }
-            }
-
-            public void DoLand()
-            {
-                base.smi.master.GetComponent<KBatchedAnimController>().Offset = Vector3.zero;
-                OccupyArea occupy = base.smi.GetComponent<OccupyArea>();
-                if (occupy != null)
-                {
-                    occupy.ApplyToCells = true;
-                }
-
-                if (base.def.deployOnLanding && CheckIfLoaded())
-                {
-                    base.sm.emptyCargo.Trigger(this);
-                }
-                SgtLogger.l("Landed");
-                if (def.cmpsToEnable!=null && def.cmpsToEnable.Count > 0)
-                {
-                    foreach(var cmp in def.cmpsToEnable)
+                    SgtLogger.l("Trying to enable " + cmp.ToString());
+                    var component = gameObject.GetComponent(cmp);
+                    if (component != null && component is KMonoBehaviour)
                     {
-                        SgtLogger.l("Trying to enable " + cmp.ToString());
-                        var component = gameObject.GetComponent(cmp);
-                        if (component!=null && component is KMonoBehaviour)
+                        SgtLogger.l(component.ToString(), "Enabled");
+                        (component as KMonoBehaviour).enabled = true;
+                        if (component is OccupyArea)
                         {
-                            SgtLogger.l(component.ToString(), "Enabled");
-                            (component as KMonoBehaviour).enabled = true;
-                            if(component is OccupyArea)
-                            {
-                                (component as OccupyArea).UpdateOccupiedArea();
-                            }
-
+                            (component as OccupyArea).UpdateOccupiedArea();
                         }
+
                     }
                 }
-
-                base.smi.master.gameObject.Trigger(1591811118, this);
             }
 
-            public bool CheckIfLoaded()
+            base.smi.master.gameObject.Trigger(1591811118, this);
+        }
+
+        public bool CheckIfLoaded()
+        {
+            bool flag = false;
+            MinionStorage component = GetComponent<MinionStorage>();
+            if (component != null)
             {
-                bool flag = false;
-                MinionStorage component = GetComponent<MinionStorage>();
-                if (component != null)
-                {
-                    flag |= component.GetStoredMinionInfo().Count > 0;
-                }
+                flag |= component.GetStoredMinionInfo().Count > 0;
+            }
 
-                Storage component2 = GetComponent<Storage>();
-                if (component2 != null && !component2.IsEmpty())
-                {
-                    flag = true;
-                }
+            Storage component2 = GetComponent<Storage>();
+            if (component2 != null && !component2.IsEmpty())
+            {
+                flag = true;
+            }
 
-                if (flag != base.sm.hasCargo.Get(this))
-                {
-                    base.sm.hasCargo.Set(flag, this);
-                }
+            if (flag != smi.sm.hasCargo.Get(smi))
+            {
+                smi.sm.hasCargo.Set(flag, smi);
+            }
 
-                return flag;
+            return flag;
+        }
+
+        public class StatesInstance : GameStateMachine<States, StatesInstance, ThrusterPoweredLander, object>.GameInstance
+        {
+            public StatesInstance(ThrusterPoweredLander master) : base(master)
+            {
             }
         }
 
-        public BoolParameter hasCargo;
 
-        public Signal emptyCargo;
-
-        public State init;
-
-        public State stored;
-
-        public State landing;
-
-        public State land;
-
-        public CrashedStates grounded;
-
-        public BoolParameter isLanded = new BoolParameter(default_value: false);
-
-        public override void InitializeStates(out BaseState default_state)
+        public class States : GameStateMachine<States, StatesInstance, ThrusterPoweredLander>
         {
-            default_state = init;
-            base.serializable = SerializeType.ParamsOnly;
-            root.InitializeOperationalFlag(RocketModule.landedFlag).Enter(delegate (StatesInstance smi)
+            public class CrashedStates : State
             {
-                smi.CheckIfLoaded();
-            }).EventHandler(GameHashes.OnStorageChange, delegate (StatesInstance smi)
+                public State loaded;
+
+                public State emptying;
+
+                public State empty;
+            }
+
+            public BoolParameter hasCargo;
+
+            public Signal emptyCargo;
+
+            public State init;
+
+            public State stored;
+
+            public State landing;
+
+            public State land;
+
+            public CrashedStates grounded;
+
+            public BoolParameter isLanded = new BoolParameter(default_value: false);
+
+            public override void InitializeStates(out BaseState default_state)
             {
-                smi.CheckIfLoaded();
-            });
-            init.ParamTransition(isLanded, grounded, GameStateMachine<ThrusterPoweredLander, StatesInstance, IStateMachineTarget, Def>.IsTrue).GoTo(stored);
-            stored.TagTransition(GameTags.Stored, landing, on_remove: true).EventHandler(GameHashes.JettisonedLander, delegate (StatesInstance smi)
-            {
-            });
-            landing.PlayAnim("landing", KAnim.PlayMode.Loop).Enter(delegate (StatesInstance smi)
-            {
-                smi.ShowLandingPreview(show: true);
-            }).Exit(delegate (StatesInstance smi)
-            {
-                smi.ShowLandingPreview(show: false);
-            })
-                .Enter(delegate (StatesInstance smi)
+                default_state = init;
+                base.serializable = SerializeType.ParamsOnly;
+                root
+                    .Enter((smi) => smi.sm.isLanded.Set(smi.master.hasLandedBool, smi))
+                    .InitializeOperationalFlag(RocketModule.landedFlag)
+                    .Enter(delegate (StatesInstance smi)
                 {
-                    smi.OnJettisoned();
-                    smi.ResetAnimPosition();
-                })
-                .Update(delegate (StatesInstance smi, float dt)
+                    SgtLogger.l("Root " + smi.master.hasLandedBool);
+                    smi.master.CheckIfLoaded();
+                }).EventHandler(GameHashes.OnStorageChange, delegate (StatesInstance smi)
                 {
-                    smi.LandingUpdate(dt);
-                }, UpdateRate.SIM_33ms)
-                .Exit((smi) =>
-                {
-                    SgtLogger.l("launchpad landed");
-                    smi.DoLand();
-                })
-                .UpdateTransition(land, ( smi,dt) => smi.flightAnimOffset <= 0.3f);
-            land.PlayAnim("grounded_pre").OnAnimQueueComplete(grounded);
-            grounded.DefaultState(grounded.loaded)
-                .ToggleOperationalFlag(RocketModule.landedFlag)
-                .Enter(delegate (StatesInstance smi)
-                {
-                    smi.CheckIfLoaded();
-                })
-                .Enter(delegate (StatesInstance smi)
-                {
-                    smi.sm.isLanded.Set(value: true, smi);
+                    smi.master.CheckIfLoaded();
                 });
-            grounded.loaded.PlayAnim("grounded")
-                .ParamTransition(hasCargo, grounded.empty, GameStateMachine<ThrusterPoweredLander, StatesInstance, IStateMachineTarget, Def>.IsFalse)
-                .OnSignal(emptyCargo, grounded.emptying)
-                ;
-            grounded.emptying.PlayAnim("deploying").TriggerOnEnter(GameHashes.JettisonCargo).OnAnimQueueComplete(grounded.empty);
-            grounded.empty.PlayAnim("deployed").ParamTransition(hasCargo, grounded.loaded, GameStateMachine<ThrusterPoweredLander, StatesInstance, IStateMachineTarget, Def>.IsTrue);
+                init
+                    .Enter((smi) => smi.sm.isLanded.Set(smi.master.hasLandedBool, smi))
+                    .Enter((smi) => SgtLogger.l("init " + smi.master.hasLandedBool))
+                    .ParamTransition(isLanded, grounded, IsTrue)
+                    .GoTo(stored);
+                stored.TagTransition(GameTags.Stored, landing, on_remove: true).EventHandler(GameHashes.JettisonedLander, delegate (StatesInstance smi)
+                {
+                });
+                landing.PlayAnim("landing", KAnim.PlayMode.Loop).Enter(delegate (StatesInstance smi)
+                {
+                    smi.master.ShowLandingPreview(show: true);
+                }).Exit(delegate (StatesInstance smi)
+                {
+                    smi.master.ShowLandingPreview(show: false);
+                })
+                    .Enter(delegate (StatesInstance smi)
+                    {
+                        smi.master.OnJettisoned();
+                        smi.master.ResetAnimPosition();
+                    })
+                    .Update(delegate (StatesInstance smi, float dt)
+                    {
+                        smi.master.LandingUpdate(dt);
+                    }, UpdateRate.SIM_33ms)
+                    .Exit((smi) =>
+                    {
+                        SgtLogger.l("launchpad landed");
+                        smi.master.DoLand();
+                    })
+                    .UpdateTransition(land, (smi, dt) => smi.master.flightAnimOffset <= 0.3f);
+                land.PlayAnim("grounded_pre").OnAnimQueueComplete(grounded);
+                grounded.DefaultState(grounded.loaded)
+                    .ToggleOperationalFlag(RocketModule.landedFlag)
+                    .Enter(delegate (StatesInstance smi)
+                    {
+                        smi.master.CheckIfLoaded();
+                    })
+                    .Enter(delegate (StatesInstance smi)
+                    {
+                        smi.master.hasLandedBool = true;
+                        smi.sm.isLanded.Set(value: true, smi);
+                    });
+                grounded.loaded.PlayAnim("grounded")
+                    .ParamTransition(hasCargo, grounded.empty, IsFalse)
+                    .OnSignal(emptyCargo, grounded.emptying)
+                    ;
+                grounded.emptying.PlayAnim("deploying").TriggerOnEnter(GameHashes.JettisonCargo).OnAnimQueueComplete(grounded.empty);
+                grounded.empty.PlayAnim("deployed").ParamTransition(hasCargo, grounded.loaded, IsTrue);
+            }
+
         }
     }
 }

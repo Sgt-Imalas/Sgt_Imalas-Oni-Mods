@@ -26,13 +26,14 @@ namespace Rockets_TinyYetBig.LandingLegs
             EffectorValues decor = tieR0_1;
             EffectorValues noise = tieR0_2;
             GameObject placedEntity = EntityTemplates.CreatePlacedEntity(ID, name, desc, 400f, anim, "grounded", Grid.SceneLayer.Building, 7, 3, decor, noise);
-            var thruster = placedEntity.AddOrGetDef<ThrusterPoweredLander.Def>();
+            var thruster = placedEntity.AddOrGet<ThrusterPoweredLander>();
             
             thruster.previewTag = "ScoutLander_Preview".ToTag();
             thruster.cmpsToEnable = new List<Type>() 
             {
-                //typeof(RTB_LaunchPadWithoutLogic) 
-                //,typeof(LaunchPadConditions)
+                typeof(RTB_LaunchPadWithoutLogic) 
+                ,typeof(EmptyLaunchPadConditions)
+                ,typeof(OccupyArea)
 
             };
 
@@ -65,11 +66,11 @@ namespace Rockets_TinyYetBig.LandingLegs
             {
                 ObjectLayer.Building
             };
-            // component.enabled = false;
+            component.enabled = false;
             inst.AddOrGet<EmptyLaunchPadConditions>();
 
             var launchpad = inst.AddComponent<RTB_LaunchPadWithoutLogic>();
-            //launchpad.enabled = false;
+            launchpad.enabled = false;
             launchpad.baseModulePosition = new CellOffset(0, 3);
         }
 
