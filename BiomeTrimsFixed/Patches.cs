@@ -25,6 +25,6 @@ namespace BiomeTrimsFixed
                     __result = (int)World.Instance.zoneRenderData.GetSubWorldZoneType(cell);
                 }
             }
-        }
+        }        
     }
 }

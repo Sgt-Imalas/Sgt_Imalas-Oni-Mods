@@ -14,6 +14,9 @@ causing each biomes tiles to have a specific tile border.
 This mechanic broke in the "Hot Shots" Update, leading to all biomes having the same tile border.
 This mod fixes that.
 Some direct comparisons:
+direct comparison:
+[img]https://i.imgur.com/gmZnv8W.gif[/img]
+other biomes:
 [img]https://i.imgur.com/072TjUe.png[/img]
 [img]https://i.imgur.com/LRNG8ZX.png[/img]
 [img]https://i.imgur.com/BtQ3FWS.png[/img]
