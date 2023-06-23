@@ -111,6 +111,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UL_UniversalLyzer", "UL_Uni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebugButton", "DebugButton\DebugButton.csproj", "{73457190-2AA0-496B-BE52-CD4DBA89C303}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiomeTrimsFixed", "BiomeTrimsFixed\BiomeTrimsFixed.csproj", "{EFD5F74A-6E27-4F89-B7EF-028E91ED74F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -411,6 +413,12 @@ Global
 		{73457190-2AA0-496B-BE52-CD4DBA89C303}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{73457190-2AA0-496B-BE52-CD4DBA89C303}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
 		{73457190-2AA0-496B-BE52-CD4DBA89C303}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
+		{EFD5F74A-6E27-4F89-B7EF-028E91ED74F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFD5F74A-6E27-4F89-B7EF-028E91ED74F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFD5F74A-6E27-4F89-B7EF-028E91ED74F4}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFD5F74A-6E27-4F89-B7EF-028E91ED74F4}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{EFD5F74A-6E27-4F89-B7EF-028E91ED74F4}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFD5F74A-6E27-4F89-B7EF-028E91ED74F4}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

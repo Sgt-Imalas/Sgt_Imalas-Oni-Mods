@@ -1,0 +1,19 @@
+﻿[img]https://i.imgur.com/GbFtLZ2.png[/img]
+
+[h1]Biome Trims Fixed[/h1]
+
+This mod readds biome specific trims
+
+[h1]Current latest Version: 1.0.0[/h1]
+
+[hr][/hr]
+
+[h1]Features[/h1]
+Biomes in this game each have a specific trim that (in theory) applies to their tiles, 
+causing each biomes tiles to have a specific tile border.
+This mechanic broke in the "Hot Shots" Update, leading to all biomes having the same tile border.
+This mod fixes that.
+Some direct comparisons:
+[img]https://i.imgur.com/072TjUe.png[/img]
+[img]https://i.imgur.com/LRNG8ZX.png[/img]
+[img]https://i.imgur.com/BtQ3FWS.png[/img]
