@@ -13,6 +13,11 @@ namespace NeuralVaccilatorExpanded
     {
         [MyCmpGet]
         private MinionIdentity identity;
+        [MyCmpGet]
+        private Effects ownEffects;
+
+        Dictionary<MinionIdentity,int> TalkingPoints = new Dictionary<MinionIdentity,int>();
+
 
         public static float duration = 600;
         public static string effectID = "NVE_ThoughtfullChatter";
@@ -34,25 +39,33 @@ namespace NeuralVaccilatorExpanded
 
         public override void OnPrefabInit()
         {
-            this.GetComponent<KPrefabID>().AddTag(GameTags.AlwaysConverse);
-            this.Subscribe((int)GameHashes.StartedTalking, new System.Action<object>(this.OnStartedTalking));
-            this.identity = this.GetComponent<MinionIdentity>(); 
-            
+            this.GetComponent<KPrefabID>().AddTag(GameTags.AlwaysConverse); 
+            this.Subscribe((int)GameHashes.StartedTalking, new System.Action<object>(this.OnStartedTalking));            
+            this.Subscribe((int)GameHashes.StoppedTalking, new System.Action<object>(this.StoppedTalking));
+        }
+
+
+        public void StoppedTalking(object data)
+        {
+            TalkingPoints.Clear();
         }
 
         public void OnStartedTalking(object data)
         {
             Debug.Log(data);
-            if (data is StartedTalkingEvent talkingEvent
-                && UnityEngine.Random.Range(0, 50) <= 1
-                && talkingEvent.talker != identity)
+            Debug.Log(data.GetType());
+            if (data is MinionIdentity other
+                //&& UnityEngine.Random.Range(0, 50) <= 1
+                && other != identity)
             {
-                if (talkingEvent.talker.TryGetComponent<Effects>(out var _targetEffects))
+                if (other.TryGetComponent<Effects>(out var _targetEffects))
                 {
                     if (!_targetEffects.HasEffect(effectID))
                     {
                         SgtLogger.l("Triggered thoughtful conversation");
-                        _targetEffects.Add(ChatEffect, true);
+
+                        ChatEffect.duration = 
+                        _targetEffects.Add(ChatEffect, true);                        
                     }
                 }
             }

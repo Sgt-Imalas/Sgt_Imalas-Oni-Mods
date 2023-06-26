@@ -34,7 +34,7 @@ namespace NeuralVaccilatorExpanded
                 public class NVE_SHARINGGENIUS
                 {
                     public static LocString NAME = (LocString)"Charismatic Genius";
-                    public static LocString DESC = (LocString)"Who knew a conversation could be that informative?\n\nLeaves other dupes a bit smarter after a conversation.";
+                    public static LocString DESC = (LocString)"Who knew a conversation could be that informative?\n\nShares his knowledge with other dupes during conversations.";
                 }
             }
         }
