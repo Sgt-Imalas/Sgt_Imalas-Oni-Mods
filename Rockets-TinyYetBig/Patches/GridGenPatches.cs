@@ -43,7 +43,7 @@ namespace Rockets_TinyYetBig.Patches
         /// </summary>
         [HarmonyPatch(typeof(ClusterMapMeteorShower.Def))]
         [HarmonyPatch(nameof(ClusterMapMeteorShower.Def.GetDescriptors))]
-        public static class IncreaseFreeGridSpaceOnSaving
+        public static class FixesVanillaCrashOnPlanetSelection
         {
             public static bool Prefix(ClusterMapMeteorShower.Def __instance, ref List<Descriptor> __result)
             {
@@ -53,6 +53,27 @@ namespace Rockets_TinyYetBig.Patches
                     return false;
                 }
                 return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(Grid))]
+        [HarmonyPatch(nameof(Grid.FreeGridSpace))]
+        public static class CleanupOfWorldsFix
+        {
+            internal static void Prefix(Vector2I size, Vector2I offset)
+            {
+                int cell = Grid.XYToCell(offset.x, offset.y), width = size.x, stride =
+                    Grid.WidthInCells - width;
+                for (int y = size.y; y > 0; y--)
+                {
+                    for (int x = width; x > 0; x--)
+                    {
+                        if (Grid.IsValidCell(cell))
+                            SimMessages.ReplaceElement(cell, SimHashes.Vacuum, null, 0.0f);
+                        cell++;
+                    }
+                    cell += stride;
+                }
             }
         }
     }

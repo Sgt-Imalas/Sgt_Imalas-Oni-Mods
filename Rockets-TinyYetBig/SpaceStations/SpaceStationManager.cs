@@ -193,7 +193,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         }
         private void DeleteWorldObjects(WorldContainer world)
         {
-            Grid.FreeGridSpace(world.WorldSize, world.WorldOffset);
+            ModAssets.FreeGridSpace_Fixed(world.WorldSize, world.WorldOffset);
             WorldInventory worldInventory = (WorldInventory)null;
             if (world != null)
             {

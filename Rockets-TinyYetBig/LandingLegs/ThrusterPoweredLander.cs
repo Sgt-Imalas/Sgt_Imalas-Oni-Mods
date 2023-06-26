@@ -52,16 +52,16 @@ namespace Rockets_TinyYetBig.LandingLegs
         {
             bool hasLanded = smi.sm.isLanded.Get(smi);
             SgtLogger.l("onjettisoned");
-            SgtLogger.l(hasLanded.ToString(), "haslanded");
 
 
-            int cell = Grid.PosToCell(this.gameObject);
-            flightAnimOffset = (float)(ClusterManager.Instance.GetWorld((int)Grid.WorldIdx[cell]).maximumBounds.y - (double)this.gameObject.transform.GetPosition().y) + 100.0f;
+            var world = this.GetMyWorld();
+            SgtLogger.l(string.Format("maximum y: {0}, current pos: {1}, difference: {2}", world.maximumBounds.y, this.gameObject.transform.GetPosition().y, world.maximumBounds.y - this.gameObject.transform.GetPosition().y));
+            flightAnimOffset = (world.maximumBounds.y - this.gameObject.transform.GetPosition().y) + 100.0f;
             SgtLogger.l(flightAnimOffset.ToString(), "StartingOffset");
 
-            currentVelocity = -10.0f; // 100 m/s
-            currentAcceleration = 9.81f; //9.81 m/s^2           
-            landingSafetyMargin = 1.5f; // Soft landing starts at 3m altitude
+            currentVelocity = -flightAnimOffset; // 100 m/s
+            currentAcceleration = -9.81f; //9.81 m/s^2           
+            landingSafetyMargin = 1.5f; // Soft landing starts at this altitude
             landingSpeed = -1f; // 1 m/s
 
         }
@@ -92,21 +92,53 @@ namespace Rockets_TinyYetBig.LandingLegs
             if (dt == 0 || dt == float.NaN || float.IsInfinity(dt))
                 return;
 
-            SgtLogger.l(string.Format("currentHeight: {0}, currentVelocity: {1}, currentAcceleration: {2}", flightAnimOffset, currentVelocity, currentAcceleration), "before");
 
-            // Landing computer can control acceleration directly, so imagine 
+            // Pretend there is a landing computer in the rocket.
+            // It can control acceleration directly because it can control the power coming out of the landing thruster.
+            // The control system has a target velocity it wants to keep the rocket at based on its height off the ground.
             float targetVelocity = -flightAnimOffset + landingSafetyMargin;
-            currentAcceleration = (targetVelocity - currentVelocity) / dt;
 
+            float h = flightAnimOffset - landingSafetyMargin; // Our "h" variable reaches 0 at some small distance above the ground
+
+            // Target Option 1: Speed towards ground linearly based on height
+            // targetVelocity = -h;
+
+            // Target Option 2: Speed towards ground based on sqrt(height)
+            targetVelocity = -Mathf.Sqrt(h);
+
+            // Target Option 3: Speed towards ground based on log(height)
+            // Make sure h i
+             //targetVelocity = h > 1 ? -Mathf.Log(h) - 1 : -1;
+
+            // The rocket needs to accelerate by the difference between how fast it is going and how fast it wants to go.
+            // There is a constant acceleration due to gravity that is being cancelled by the thruster, so this is a calculation of the *net* acceleration.
+            // If the thruster was disabled/broken/off this should be a constant -9.81 to implement freefall.
+            // If we wanted to be realistic then we would have to model the response time of the thruster too! A real rocket can't instantly modulate its output power.
+            //currentAcceleration = (targetVelocity - currentVelocity) / dt;
+
+            // Control Option 1 : Decelerate based on just error.
+            // This one probably has a responsiveness lag, always about ~1s behind what speed it needs to be?
+            //currentAcceleration = (targetVelocity - currentVelocity);
+
+            // Control Option 2: Decelerate based on error, but divide by timestep to fix the error in just one timestep!
+            // This one is "perfect" and unrealistic, it will make the rocket move at the target Velocity every frame like it has perfect responsiveness.
+            //currentAcceleration = (targetVelocity - currentVelocity);
+
+            // Control Option 3: Decelerate based on proportion of error. Change the coefficient to tune responsiveness.
+            // This one probably makes the landing speed oscilliate, probably looks weird?
+            currentAcceleration = 1.5f * (targetVelocity - currentVelocity);
+
+            // Velocity changes every frame by the acceleration (Yay calculus!)
             currentVelocity += currentAcceleration * dt;
             if (currentVelocity > landingSpeed)
                 currentVelocity = landingSpeed;
 
+            // Position changes every frame by the velocity (Yay 2nd order calculus!)
             flightAnimOffset += currentVelocity * dt;
             if (flightAnimOffset < 0)
                 flightAnimOffset = 0;
 
-            SgtLogger.l(string.Format("currentHeight: {0}, currentVelocity: {1}, currentAcceleration: {2}", flightAnimOffset, currentVelocity, currentAcceleration), "after");
+            SgtLogger.l(string.Format("currentHeight: {0}, currentVelocity: {1}, currentAcceleration: {2}", flightAnimOffset, currentVelocity, currentAcceleration));
 
 
             ResetAnimPosition();

@@ -107,7 +107,30 @@ namespace Rockets_TinyYetBig
                 foreach (T item in col)
                     yield return item;
         }
+        internal static void FreeGridSpace_Fixed(Vector2I size, Vector2I offset)
+        {
+            int cell = Grid.XYToCell(offset.x, offset.y), width = size.x, stride =
+                Grid.WidthInCells - width;
+            for (int y = size.y; y > 0; y--)
+            {
+                for (int x = width; x > 0; x--)
+                {
+                    if (Grid.IsValidCell(cell))
+                        SimMessages.ReplaceElement(cell, SimHashes.Vacuum, null, 0.0f);
+                    cell++;
+                }
+                cell += stride;
+            }
+        }
 
+
+
+        /// <summary>
+        /// This Method replaces the loading code for the landing platform to integrate fuel loaders, radbolt loaders and drillcone diamond storage loading
+        /// </summary>
+        /// <param name="craftInterface"></param>
+        /// <param name="chain"></param>
+        /// <param name="SetCompleteAction"></param>
         public static void ReplacedCargoLoadingMethod(CraftModuleInterface craftInterface, HashSetPool<ChainedBuilding.StatesInstance, ChainedBuilding.StatesInstance>.PooledHashSet chain, System.Action<bool> SetCompleteAction)
         {
             bool HasLoadingProcess = false;
