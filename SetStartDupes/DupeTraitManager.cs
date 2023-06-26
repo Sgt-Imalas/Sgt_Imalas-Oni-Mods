@@ -88,25 +88,36 @@ namespace SetStartDupes
         }
         public void ExternalModBonusPointCalculation()
         {
+            SgtLogger.l("Initializing External Bonus Point Calculation for "+ ToEditMinionStats.Name);
+
             _externalModPoints = 0;
             int PointsPerInterest = ModAssets.MinimumPointsPerInterest(ToEditMinionStats);
 
-            List<string> Names = new List<string>();
+            SgtLogger.l("Minimum points per interest: "+PointsPerInterest);
+            List<string> relevantAttributes = new List<string>();
             foreach (var interest in ToEditMinionStats.skillAptitudes)
             {
                 if (interest.Value > 0)
                 {
                     foreach (var attr in interest.Key.relevantAttributes)
-                        Names.Add(attr.Id);
+                        relevantAttributes.Add(attr.Id);
                 }
             }
 
             foreach (var startingLevel in ToEditMinionStats.StartingLevels)
             {
-                if (Names.Contains(startingLevel.Key))
+                if (relevantAttributes.Contains(startingLevel.Key))
                     _externalModPoints += Math.Max(0, (startingLevel.Value - PointsPerInterest));
             }
-            _externalModPoints -= ModAssets.GetTraitBonus(ToEditMinionStats);
+            SgtLogger.l("Total bonus gathered from starting levels " + _externalModPoints);
+            SgtLogger.l("Total trait bonus " + ModAssets.GetTraitBonus(ToEditMinionStats));
+            int TraitBonus = ModAssets.GetTraitBonus(ToEditMinionStats);
+
+            if (_externalModPoints > 0)
+                _externalModPoints -= TraitBonus;
+
+            SgtLogger.l("Final Value: " + _externalModPoints);
+
 
             if (_externalModPoints != 0)
                 ModAssets.OtherModBonusPoints.Add(ToEditMinionStats, _externalModPoints);
