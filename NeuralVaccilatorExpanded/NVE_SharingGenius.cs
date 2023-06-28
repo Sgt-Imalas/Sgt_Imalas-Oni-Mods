@@ -1,9 +1,11 @@
-﻿using Klei.AI;
+﻿using ClipperLib;
+using Klei.AI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UtilLibs;
 using static ConversationManager;
 
@@ -16,7 +18,9 @@ namespace NeuralVaccilatorExpanded
         [MyCmpGet]
         private Effects ownEffects;
 
-        Dictionary<MinionIdentity,int> TalkingPoints = new Dictionary<MinionIdentity,int>();
+        [MyCmpGet]
+        private AttributeConverters attributes;
+
 
 
         public static float duration = 600;
@@ -39,33 +43,60 @@ namespace NeuralVaccilatorExpanded
 
         public override void OnPrefabInit()
         {
-            this.GetComponent<KPrefabID>().AddTag(GameTags.AlwaysConverse); 
-            this.Subscribe((int)GameHashes.StartedTalking, new System.Action<object>(this.OnStartedTalking));            
-            this.Subscribe((int)GameHashes.StoppedTalking, new System.Action<object>(this.StoppedTalking));
+            this.GetComponent<KPrefabID>().AddTag(GameTags.AlwaysConverse);
+            this.Subscribe((int)GameHashes.StartedTalking, new System.Action<object>(this.OnStartedTalking));
+            //this.Subscribe((int)GameHashes.StoppedTalking, new System.Action<object>(this.StoppedTalking));
         }
 
 
         public void StoppedTalking(object data)
         {
-            TalkingPoints.Clear();
+            if (data is StartedTalkingEvent talkingEvent
+                //&& UnityEngine.Random.Range(0, 50) <= 1
+                && talkingEvent.talker != identity)
+            {
+                if (talkingEvent.talker.TryGetComponent<Effects>(out var _targetEffects))
+                {
+                    if (!_targetEffects.HasEffect(effectID)
+                        && TalkingPoints.ContainsKey(talkingEvent.talker)
+                        && TalkingPoints[talkingEvent.talker] <= 0)
+                    {
+                        float scieneModifier = attributes.GetConverter(Db.Get().AttributeConverters.ResearchSpeed.Id).Evaluate();
+                        ChatEffect.duration = 300f + 600f * scieneModifier;
+                        ChatEffect.SelfModifiers = new List<AttributeModifier>()
+                        {
+                            new AttributeModifier(Db.Get().Attributes.Learning.Id, Mathf.RoundToInt(4f*(1+scieneModifier)))
+                        };
+                        _targetEffects.Add(ChatEffect, true);
+
+                        SgtLogger.l("added info effect,science mod: " + scieneModifier + " duration: " + ChatEffect.duration + ", strenght: " + Mathf.RoundToInt(4f * (1 + scieneModifier)));
+                    }
+                }
+            }
+
+            // TalkingPoints.Clear();
         }
 
         public void OnStartedTalking(object data)
         {
-            Debug.Log(data);
-            Debug.Log(data.GetType());
-            if (data is MinionIdentity other
+
+            if (data is StartedTalkingEvent talkingEvent
                 //&& UnityEngine.Random.Range(0, 50) <= 1
-                && other != identity)
+                && talkingEvent.talker != identity)
             {
-                if (other.TryGetComponent<Effects>(out var _targetEffects))
+                if (talkingEvent.talker.TryGetComponent<Effects>(out var _targetEffects))
                 {
                     if (!_targetEffects.HasEffect(effectID))
                     {
-                        SgtLogger.l("Triggered thoughtful conversation");
+                        float scieneModifier = attributes.GetConverter(Db.Get().AttributeConverters.ResearchSpeed.Id).Evaluate();
+                        ChatEffect.duration = 300f + 600f * scieneModifier;
+                        ChatEffect.SelfModifiers = new List<AttributeModifier>()
+                        {
+                            new AttributeModifier(Db.Get().Attributes.Learning.Id, Mathf.RoundToInt(4f*(1+scieneModifier)))
+                        };
+                        _targetEffects.Add(ChatEffect, true);
 
-                        ChatEffect.duration = 
-                        _targetEffects.Add(ChatEffect, true);                        
+                        SgtLogger.l("added info effect,science mod: " + scieneModifier + " duration: " + ChatEffect.duration + ", strenght: " + Mathf.RoundToInt(4f * (1 + scieneModifier)));
                     }
                 }
             }
