@@ -26,20 +26,6 @@ namespace NeuralVaccilatorExpanded
         public static float duration = 600;
         public static string effectID = "NVE_ThoughtfullChatter";
 
-        public static Effect ChatEffect = new Effect(
-                     effectID,
-                     STRINGS.DUPLICANTS.STATUSITEMS.NVE_THOUGHTFULLCHATTER.NAME,
-                     STRINGS.DUPLICANTS.STATUSITEMS.NVE_THOUGHTFULLCHATTER.TOOLTIP,
-                     duration,
-                     true,
-                     true,
-                     false)
-        {
-            SelfModifiers = new List<AttributeModifier>()
-            {
-                new AttributeModifier(Db.Get().Attributes.Learning.Id, 4)
-            }
-        };
 
         public override void OnPrefabInit()
         {
@@ -51,54 +37,68 @@ namespace NeuralVaccilatorExpanded
 
         public void StoppedTalking(object data)
         {
-            if (data is StartedTalkingEvent talkingEvent
-                //&& UnityEngine.Random.Range(0, 50) <= 1
-                && talkingEvent.talker != identity)
-            {
-                if (talkingEvent.talker.TryGetComponent<Effects>(out var _targetEffects))
-                {
-                    if (!_targetEffects.HasEffect(effectID)
-                        && TalkingPoints.ContainsKey(talkingEvent.talker)
-                        && TalkingPoints[talkingEvent.talker] <= 0)
-                    {
-                        float scieneModifier = attributes.GetConverter(Db.Get().AttributeConverters.ResearchSpeed.Id).Evaluate();
-                        ChatEffect.duration = 300f + 600f * scieneModifier;
-                        ChatEffect.SelfModifiers = new List<AttributeModifier>()
-                        {
-                            new AttributeModifier(Db.Get().Attributes.Learning.Id, Mathf.RoundToInt(4f*(1+scieneModifier)))
-                        };
-                        _targetEffects.Add(ChatEffect, true);
-
-                        SgtLogger.l("added info effect,science mod: " + scieneModifier + " duration: " + ChatEffect.duration + ", strenght: " + Mathf.RoundToInt(4f * (1 + scieneModifier)));
-                    }
-                }
-            }
-
-            // TalkingPoints.Clear();
         }
 
         public void OnStartedTalking(object data)
         {
 
-            if (data is StartedTalkingEvent talkingEvent
-                //&& UnityEngine.Random.Range(0, 50) <= 1
-                && talkingEvent.talker != identity)
+            if (data is StartedTalkingEvent talkingEvent && talkingEvent.talker != identity.gameObject)
             {
-                if (talkingEvent.talker.TryGetComponent<Effects>(out var _targetEffects))
+                if (UnityEngine.Random.Range(0, 20) <= 1)
                 {
-                    if (!_targetEffects.HasEffect(effectID))
+                    if (talkingEvent.talker.TryGetComponent<Effects>(out var _targetEffects))
                     {
+                        int increase = 0;
                         float scieneModifier = attributes.GetConverter(Db.Get().AttributeConverters.ResearchSpeed.Id).Evaluate();
-                        ChatEffect.duration = 300f + 600f * scieneModifier;
+
+                        if (scieneModifier < 1)
+                            scieneModifier = 1;
+                        scieneModifier += 1;
+
+                        increase = (int)((scieneModifier / 3f) + 2);
+                        var effectDuration = 400 + 150f * scieneModifier;
+
+                        var ChatEffect = new Effect(
+                            effectID,
+                            STRINGS.DUPLICANTS.STATUSITEMS.NVE_THOUGHTFULLCHATTER.NAME,
+                            STRINGS.DUPLICANTS.STATUSITEMS.NVE_THOUGHTFULLCHATTER.TOOLTIP,
+                            duration,
+                            true,  
+                            true,
+                            false)
+                        {                          
+                            SelfModifiers = new List<AttributeModifier>()
+                            {
+                                new AttributeModifier(Db.Get().Attributes.Learning.Id, 4)
+                            }
+                        };
+
+                        ChatEffect.duration = effectDuration;
                         ChatEffect.SelfModifiers = new List<AttributeModifier>()
                         {
-                            new AttributeModifier(Db.Get().Attributes.Learning.Id, Mathf.RoundToInt(4f*(1+scieneModifier)))
+                            new AttributeModifier(Db.Get().Attributes.Learning.Id, increase)
                         };
-                        _targetEffects.Add(ChatEffect, true);
 
-                        SgtLogger.l("added info effect,science mod: " + scieneModifier + " duration: " + ChatEffect.duration + ", strenght: " + Mathf.RoundToInt(4f * (1 + scieneModifier)));
+                        if (!_targetEffects.HasEffect(effectID))
+                        {
+                            _targetEffects.Add(ChatEffect, true);
+                            SgtLogger.l("added infoConversation effect, science mod: " + scieneModifier + " duration: " + ChatEffect.duration + ", strenght: " + increase);
+                        }
+                        else
+                        {
+                            EffectInstance activeEffect = _targetEffects.Get(effectID);
+
+                            if (activeEffect.timeRemaining < effectDuration)
+                            {
+                                _targetEffects.Remove(effectID);
+                                _targetEffects.Add(ChatEffect, true);
+                                SgtLogger.l("refreshed infoConversation effect, science mod: " + scieneModifier + " duration: " + ChatEffect.duration + ", strenght: " + increase);
+                            }
+                        }
                     }
                 }
+                else
+                    SgtLogger.l("interesting conversation");
             }
         }
     }

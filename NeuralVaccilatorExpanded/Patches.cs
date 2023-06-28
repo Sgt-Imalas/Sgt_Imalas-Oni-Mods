@@ -30,13 +30,17 @@ namespace NeuralVaccilatorExpanded
             {
                 string traitName = (string)STRINGS.DUPLICANTS.TRAITS.NVE_DAFTPUNK.NAME;
                 Trait trait = db.CreateTrait(DaftPunk,traitName, (string)STRINGS.DUPLICANTS.TRAITS.NVE_DAFTPUNK.DESC, null, should_save: true, null, true, is_valid_starter_trait: false);
-                trait.Add(new AttributeModifier(db.Attributes.Learning.Id, -4, traitName));
-                trait.Add(new AttributeModifier(db.Attributes.Athletics.Id, 6, traitName));
-                //trait.Add(new AttributeModifier(db.Amounts.ImmuneLevel.deltaAttribute.Id, 0.025f, traitName));
-                trait.Add(new AttributeModifier(db.Attributes.RadiationResistance.Id, 0.025f, traitName));
-                trait.Add(new AttributeModifier(db.Amounts.HitPoints.maxAttribute.Id, 150, traitName));
+                trait.Add(new AttributeModifier(db.Attributes.Learning.Id, -3, traitName));
+
+                trait.Add(new AttributeModifier(db.Attributes.GermResistance.Id, 2f, traitName));
+                trait.Add(new AttributeModifier(db.Attributes.RadiationResistance.Id, 0.2f, traitName));
+
+                trait.Add(new AttributeModifier(db.Attributes.Machinery.Id, 5, traitName));
+                trait.Add(new AttributeModifier(db.Attributes.Athletics.Id, 5, traitName));
                 trait.Add(new AttributeModifier(db.Attributes.CarryAmount.Id, 500, traitName));
-                
+
+                //trait.Add(new AttributeModifier(db.Amounts.HitPoints.maxAttribute.Id, 150, traitName));
+
             }
             public static void Postfix(Db __instance)
             {
@@ -44,8 +48,6 @@ namespace NeuralVaccilatorExpanded
                 TraitUtil.CreateAttributeEffectTrait(SuperBrains, (string)STRINGS.DUPLICANTS.TRAITS.NVE_SUPERBRAINS.NAME, (string)STRINGS.DUPLICANTS.TRAITS.NVE_SUPERBRAINS.DESC, __instance.Attributes.Learning.Id, 10f, true).Invoke();
                 TraitUtil.CreateComponentTrait<NVE_SharingGenius>(GeniusShare, (string)STRINGS.DUPLICANTS.TRAITS.NVE_SHARINGGENIUS.NAME, (string)STRINGS.DUPLICANTS.TRAITS.NVE_SHARINGGENIUS.DESC, true).Invoke();
                 CreateDaftPunkTrait(__instance);
-                var daftTrait = TraitUtil.CreateAttributeEffectTrait(DaftPunk, , true).Invoke();
-
 
                 var AdditionalTraits = new List<DUPLICANTSTATS.TraitVal>
                 {
@@ -63,6 +65,11 @@ namespace NeuralVaccilatorExpanded
                     {
                         id = GeniusShare,
                         dlcId = ""
+                    },
+                    new DUPLICANTSTATS.TraitVal
+                    {
+                        id = DaftPunk,
+                        dlcId = ""
                     }
                 };
 
@@ -74,16 +81,6 @@ namespace NeuralVaccilatorExpanded
             }
         }
 
-        [HarmonyPatch(typeof(DUPLICANTSTATS), MethodType.Constructor)]
-        //[HarmonyPatch(new Type[] { typeof(int), typeof(List<string>) })]
-        public static class RegisterNewTraitsToGeneshufflerList
-        {
-
-            public static void Prefix()
-            {
-                //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
-            }
-        }
 
         /// <summary>
         /// Init. auto translation
