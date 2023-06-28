@@ -31,7 +31,8 @@ namespace RoboRockets.Rockets_TinyYetBig
 
 
         /// <summary>
-        /// Adding Rocket buildings to build Screen
+        /// This patch registers all buildings to the build screen 
+        /// and all rocket modules to the rocket module selection screen and their building categories, added by RE 
         /// </summary>
         [HarmonyPatch(typeof(GeneratedBuildings))]
         [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
@@ -40,7 +41,9 @@ namespace RoboRockets.Rockets_TinyYetBig
 
             public static void Postfix()
             {
+                //Assign categories to each vanilla module
                 CategorizeVanillaModules();
+
                 if (Config.Instance.EnableExtendedHabs)
                 {
                     AddRocketModuleToBuildList(HabitatModuleSmallExpandedConfig.ID, new RocketCategory[] { RocketCategory.habitats, RocketCategory.nosecones }, HabitatModuleSmallConfig.ID);
@@ -149,7 +152,7 @@ namespace RoboRockets.Rockets_TinyYetBig
         }
 
         /// <summary>
-        /// Add new Buildings to Technologies
+        /// Register Buildings to existing Technologies (newly added techs are in "ResearchTreePatches" class
         /// </summary>
         [HarmonyPatch(typeof(Db))]
         [HarmonyPatch("Initialize")]

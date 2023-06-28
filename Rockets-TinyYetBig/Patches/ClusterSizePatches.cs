@@ -10,6 +10,9 @@ namespace Rockets_TinyYetBig.Patches
 {
     class ClusterSizePatches
     {
+        /// <summary>
+        /// initial experiments with starmap size
+        /// </summary>
         [HarmonyPatch(typeof(ClusterManager), "OnSpawn")]
         public static class DoubleAsteroidsTest
         {

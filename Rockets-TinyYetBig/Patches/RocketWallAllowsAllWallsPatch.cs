@@ -8,6 +8,9 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Patches
 {
+    /// <summary>
+    /// Make Rocket interior wall ports part of the rocket wall to allow conduit loaders/unloaders to connect to them
+    /// </summary>
     public class RocketWallAllowsAllWallsPatch
     {
         [HarmonyPatch(typeof(RocketInteriorLiquidInputPortConfig), "DoPostConfigureComplete")]

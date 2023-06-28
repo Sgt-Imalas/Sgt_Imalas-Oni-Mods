@@ -10,6 +10,9 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Patches
 {
+    /// <summary>
+    /// Force Reevalulation for logic ports on radbolt storage modules
+    /// </summary>
     public class RadStoragesLogicUpdateFix
     {
         [HarmonyPatch(typeof(ReorderableBuilding), "ApplyAnimOffset")]
@@ -25,10 +28,7 @@ namespace Rockets_TinyYetBig.Patches
                     {
                         if (Module.Get().TryGetComponent<HighEnergyParticleStorage>(out var storage))
                         {
-                            //MethodInfo methodInfo = typeof(HighEnergyParticleStorage).GetMethod("UpdateLogicPorts", BindingFlags.NonPublic | BindingFlags.Instance);
-                            //methodInfo.Invoke(storage, null);
-
-                            Traverse.Create(storage).Method("UpdateLogicPorts").GetValue();
+                            storage.UpdateLogicPorts();
                         }
                     }
                 }
@@ -43,10 +43,7 @@ namespace Rockets_TinyYetBig.Patches
                 {
                     if (Module.Get().TryGetComponent<HighEnergyParticleStorage>(out var storage))
                     {
-                        //MethodInfo methodInfo = typeof(HighEnergyParticleStorage).GetMethod("UpdateLogicPorts", BindingFlags.NonPublic | BindingFlags.Instance);
-                        //methodInfo.Invoke(storage, null);
-
-                        Traverse.Create(storage).Method("UpdateLogicPorts").GetValue();
+                        storage.UpdateLogicPorts();
                     }
                 }
             }

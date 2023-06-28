@@ -9,13 +9,14 @@ namespace Rockets_TinyYetBig.TwitchEvents
 {
     public interface ITwitchEventBase
     {
-         string ID { get; }
-         string EventName { get; }
-         string EventDescription { get; }
-         EventWeight EventWeight { get; }
-         Action<object> EventAction { get; }
-         Func<object, bool> Condition { get; }
-         Danger EventDanger { get; }
+        string ID { get; }
+        string EventName { get; }
+        string EventDescription { get; }
+        string EventGroupID { get; }
+        EventWeight EventWeight { get; }
+        Action<object> EventAction { get; }
+        Func<object, bool> Condition { get; }
+        Danger EventDanger { get; }
     }
     public enum EventWeight
     {

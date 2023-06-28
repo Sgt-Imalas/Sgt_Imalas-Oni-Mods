@@ -19,88 +19,9 @@ namespace Rockets_TinyYetBig
 
     class CategorizedRocketBuildMenuPatches
     {
-
-        //[HarmonyPatch(typeof(AdditionalDetailsPanel))]
-        //[HarmonyPatch("OnPrefabInit")]
-        //public static class GibCOllaps
-        //{ 
-        //    public static void Postfix(AdditionalDetailsPanel __instance)
-        //    {
-        //        var detailsPanel = (GameObject)typeof(AdditionalDetailsPanel).GetField("detailsPanel", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
-
-        //        //SgtLogger.debuglog("Detailspanel:");
-        //        //UIUtils.ListAllChildren(detailsPanel.transform);
-        //        //SgtLogger.debuglog("LabelTemplate:");
-        //        //UIUtils.ListAllChildren(__instance.attributesLabelTemplate.transform);
-        //    }
-        //}
-
         /// <summary>
-        /// Is only bugged in creative, aka direct replacement, thus no longer enabled as "fix"
+        /// Enables the rocket module menu searchbar input on ctrl+f input 
         /// </summary>
-        //[HarmonyPatch(typeof(ReorderableBuilding))]
-        //[HarmonyPatch("CanChangeModule")]
-        //public static class DisableSwapButtonOnHabitats_Patch ///Should be base game, is bugged in base game
-        //{
-        //    public static void Postfix(ReorderableBuilding __instance,ref bool __result)
-        //    {
-        //        if (__result)
-        //        {
-        //            string moduleId = !((UnityEngine.Object)__instance.GetComponent<BuildingUnderConstruction>() != (UnityEngine.Object)null) ? __instance.GetComponent<Building>().Def.PrefabID : __instance.GetComponent<BuildingUnderConstruction>().Def.PrefabID;
-        //            var Habitats = RocketModuleList.GetRocketModuleList()[(int)RocketCategory.habitats];
-        //            if (Habitats.Contains(moduleId))
-        //            {
-        //                __result = false;
-        //            }
-        //        }
-
-        //        //SgtLogger.debuglog("Detailspanel:");
-        //        //UIUtils.ListAllChildren(detailsPanel.transform);
-        //        //SgtLogger.debuglog("LabelTemplate:");
-        //        //UIUtils.ListAllChildren(__instance.attributesLabelTemplate.transform);
-        //    }
-        //}
-
-        //[HarmonyPatch(typeof(SelectModuleSideScreen))]
-        //[HarmonyPatch("UpdateBuildableStates")]
-        //public static class HideEmptyCategories
-        //{
-        //    public static void Postfix(SelectModuleSideScreen __instance)
-        //    {
-        //        if (Config.Instance.EnableBuildingCategories)
-        //        {
-
-        //        }
-        //    }
-        //}
-
-        ///Joinked from Asquareds mod filter, gets a prefab of a searchbar
-        //[HarmonyPatch(typeof(MainMenu), "OnPrefabInit")]
-        //public static class MainMenu_OnPrefabInit_Patch
-        //{
-        //    public static GameObject SearchBarPrefab;
-        //    public static void Postfix()
-        //    {
-        //        var prefabGo = ScreenPrefabs.Instance.RetiredColonyInfoScreen.gameObject;
-        //        prefabGo.SetActive(false);
-        //        var clone = Util.KInstantiateUI(prefabGo);
-        //        if (clone != null)
-        //        {
-        //            var go = clone.transform.Find("Content/ColonyData/Colonies and Achievements/Colonies/Search");
-        //            if (go != null)
-        //            {
-        //                SearchBarPrefab = Util.KInstantiateUI(go.gameObject);
-        //                UnityEngine.Object.Destroy(clone);
-        //                prefabGo.SetActive(true);
-        //                SgtLogger.l("Created Searchbar Prefab");
-        //                return;
-        //            }
-        //        }
-
-        //        // ERROR!
-        //        SgtLogger.error("Error creating search prefab!");
-        //    }
-        //}
         [HarmonyPatch(typeof(KScreen))]
         [HarmonyPatch(nameof(KScreen.OnKeyDown))]
         public static class ConsumeInputs
@@ -120,6 +41,9 @@ namespace Rockets_TinyYetBig
             }
         }
 
+        /// <summary>
+        /// Add consumeMouseScroll so scrolling inside the screen no longer scolls the world outside of it
+        /// </summary>
         [HarmonyPatch(typeof(SelectModuleSideScreen))]
         [HarmonyPatch(nameof(SelectModuleSideScreen.OrderBuildSelectedModule))]
         public static class FixScrollingAfterModuleIsBuilt
@@ -130,6 +54,9 @@ namespace Rockets_TinyYetBig
             }
         }
 
+        /// <summary>
+        /// Clear Rocket menu searchbar text on close
+        /// </summary>
         [HarmonyPatch(typeof(DetailsScreen))]
         [HarmonyPatch(nameof(DetailsScreen.ClearSecondarySideScreen))]
         public static class ClearSearchBarAfterOnShow
@@ -140,7 +67,7 @@ namespace Rockets_TinyYetBig
             }
         }
         /// <summary>
-        /// add Categories to Rocket modules
+        /// add building categories and searchbar to Rocket module screen
         /// </summary>
         [HarmonyPatch(typeof(SelectModuleSideScreen))]
         [HarmonyPatch(nameof(SelectModuleSideScreen.SpawnButtons))]
@@ -400,6 +327,10 @@ namespace Rockets_TinyYetBig
                 return false;
             }
         }
+
+        /// <summary>
+        /// Add button color setter to categorized buttons
+        /// </summary>
         [HarmonyPatch(typeof(SelectModuleSideScreen))]
         [HarmonyPatch(nameof(SelectModuleSideScreen.SetButtonColors))]
         public static class ButtonColorPatch
@@ -464,6 +395,9 @@ namespace Rockets_TinyYetBig
             }
         }
 
+        /// <summary>
+        /// Update buildable states for categorized buttons
+        /// </summary>
         [HarmonyPatch(typeof(SelectModuleSideScreen))]
         [HarmonyPatch(nameof(SelectModuleSideScreen.UpdateBuildableStates))]
         public static class BuildableStatesCategoryPatch

@@ -65,7 +65,9 @@ namespace Rockets_TinyYetBig//.Patches
             }
         }
 
-
+        /// <summary>
+        /// TODO: what did this do?
+        /// </summary>
         [HarmonyPatch(typeof(RocketClusterDestinationSelector), "OnStorageChange")]
         public static class RemoveSubFromParticleStorage
         {

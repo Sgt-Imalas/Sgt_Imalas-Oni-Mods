@@ -11,6 +11,9 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.Patches
 {
+    /// <summary>
+    /// Patches to prevent crash on starmap sensor position addition and sidescreen adjustments for it
+    /// </summary>
     public class StarmapSensor_ClusterLocationSensorPatches
     {
         static AxialI DisabledLocation = new AxialI(999, 999);

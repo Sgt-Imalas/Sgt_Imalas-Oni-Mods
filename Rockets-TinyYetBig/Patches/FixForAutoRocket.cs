@@ -10,6 +10,9 @@ namespace Rockets_TinyYetBig.Patches
 {
     class FixForAutoRocket
     {
+        /// <summary>
+        /// Only affects debug create rocket command, prevents crash when it tries to load element with combustibleliquid tag by converting it to petroleum
+        /// </summary>
         [HarmonyPatch(typeof(ElementLoader), "GetElement")]
         public static class FixAutoRocket
         {

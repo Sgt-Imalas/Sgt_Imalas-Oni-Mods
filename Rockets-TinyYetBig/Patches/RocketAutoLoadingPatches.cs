@@ -23,6 +23,9 @@ using static STRINGS.UI.STARMAP;
 
 namespace Rockets_TinyYetBig.Patches
 {
+    /// <summary>
+    /// Replace Filler Logic to include fuel loaders and loading of additional modules
+    /// </summary>
     public class RocketAutoLoadingPatches
     {
         [HarmonyPatch(typeof(LaunchPadMaterialDistributor.Instance))]

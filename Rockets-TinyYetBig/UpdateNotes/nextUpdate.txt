@@ -1,6 +1,2 @@
-
-
-- Added option to squish rockets -> when enabled, any rocket module above 5 width will be squished down to 5 width
-- Added option (requires enabling) to refill drillcone maintainence module during flight via solid port inside the cabin
-
-- revamped generator modules - they now work while landed and had their values rebalanced
+- Liquid Fuel tanks now will now only take in fuel (Hydrogen,Petroleum,Ethanol, any modded elements with the combustibleLiquid Tag)
+- poi capacities no longer dip into negative values

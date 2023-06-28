@@ -11,6 +11,10 @@ namespace Rockets_TinyYetBig.Patches
 {
     public class InfinitePOIPatches
     {
+        /// <summary>
+        /// When infinite POI Capacity is enabled, mining the POI keeps its (internal) capacity at max capacity. 
+        /// Also prevents the capacity from becoming negative
+        /// </summary>
         [HarmonyPatch(typeof(HarvestablePOIStates.Instance))]
         [HarmonyPatch(nameof(HarvestablePOIStates.Instance.DeltaPOICapacity))]
         public static class InstaRecharge
@@ -21,11 +25,13 @@ namespace Rockets_TinyYetBig.Patches
                 {
                     __instance.poiCapacity = __instance.configuration.GetMaxCapacity();
                 }
-                delta = Mathf.Max(0f, delta);
+                __instance.poiCapacity = Mathf.Max(0f, __instance.poiCapacity);
             }
         }
         
-
+        /// <summary>
+        /// When infinite POIs are enabled, its capacity text is set to an infinite symbol.
+        /// </summary>
         [HarmonyPatch(typeof(SpacePOISimpleInfoPanel), "RefreshMassHeader")]
         public static class InstaRechargeStatusItem
         {

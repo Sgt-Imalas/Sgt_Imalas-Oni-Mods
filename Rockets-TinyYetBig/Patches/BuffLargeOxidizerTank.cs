@@ -10,6 +10,9 @@ namespace Rockets_TinyYetBig.Patches
 {
     class BuffLargeOxidizerTank
     {
+        /// <summary>
+        /// Increases or decreases the Large oxidizer module capacity, depending on setting config.
+        /// </summary>
         [HarmonyPatch(typeof(OxidizerTank), "OnSpawn")]
         public static class IncreaseCapacityto1350Oxidizers
         {

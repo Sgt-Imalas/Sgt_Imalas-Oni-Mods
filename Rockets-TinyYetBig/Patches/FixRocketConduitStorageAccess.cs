@@ -16,13 +16,12 @@ namespace Rockets_TinyYetBig.Patches
     public class FixRocketConduitStorageAccess
     {
         /// <summary>
-        /// This throws out food that is not allowed in cargo bays
+        /// This throws out food that is not allowed in cargo bays if there is no freezer module
         /// Also allows feeding the drillcone support module
         /// </summary>
         [HarmonyPatch(typeof(RocketConduitStorageAccess), "Sim200ms")]
         public static class OnlyAllowStorageFilterItemsInStorage
         {
-
             public static bool CouldStorageAllowThisTag(Tag tagAllowed, Storage storage)
             {
                 bool flag = false;
@@ -153,7 +152,9 @@ namespace Rockets_TinyYetBig.Patches
 
         }
 
-
+        /// <summary>
+        /// Adds consumables and medicine to Loader to allow the loading of the freezer module
+        /// </summary>
         [HarmonyPatch(typeof(BaseModularLaunchpadPortConfig))]
         [HarmonyPatch(nameof(BaseModularLaunchpadPortConfig.ConfigureBuildingTemplate))]
         public static class FoodLoading

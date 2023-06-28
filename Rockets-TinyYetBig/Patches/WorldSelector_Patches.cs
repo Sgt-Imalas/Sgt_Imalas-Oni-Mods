@@ -18,6 +18,9 @@ using static STRINGS.UI.CLUSTERMAP;
 
 namespace Rockets_TinyYetBig.Patches
 {
+    /// <summary>
+    /// Collapsible subworlds for world selector
+    /// </summary>
     class WorldSelector_Patches
     {
         static List<GameObject> worldEntries = new List<GameObject>();

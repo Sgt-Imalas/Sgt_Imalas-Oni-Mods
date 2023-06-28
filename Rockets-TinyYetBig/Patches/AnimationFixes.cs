@@ -11,6 +11,11 @@ namespace Rockets_TinyYetBig.Patches
 {
     internal class AnimationFixes
     {
+
+        /// <summary>
+        /// Vanilla Liquid Oxidizer Tank meter animation broke sometime in early 2023, this fixes it, part 1:
+        /// Registering the meter controller
+        /// </summary>
         [HarmonyPatch(typeof(OxidizerTank), nameof(OxidizerTank.OnSpawn))]
         public static class FixLOXMeterV1
         {
@@ -33,6 +38,10 @@ namespace Rockets_TinyYetBig.Patches
             }
         }
 
+        /// <summary>
+        /// Vanilla Liquid Oxidizer Tank meter animation broke sometime in early 2023, this fixes it, part 2:
+        /// Refreshing the meter 
+        /// </summary>
         [HarmonyPatch(typeof(OxidizerTank), nameof(OxidizerTank.RefreshMeter))]
         public static class FixLOXMeterV2
         {
@@ -75,7 +84,8 @@ namespace Rockets_TinyYetBig.Patches
 
 
         /// <summary>
-        /// This fixes the missing carbon field anim
+        /// This fixes the missing carbon field anim so it uses the "carbon_asteroid_field" animation instead of the generic "cloud" animation.
+        /// Patch gets called manually to execute after Db init
         /// </summary>
         //[HarmonyPatch(typeof(HarvestablePOIConfig))]
         //[HarmonyPatch(nameof(HarvestablePOIConfig.CreatePrefabs))]
@@ -99,6 +109,10 @@ namespace Rockets_TinyYetBig.Patches
                 }
             }
         }
+
+        /// <summary>
+        /// Calls the carbon field animation fix.
+        /// </summary>
         [HarmonyPatch(typeof(Db))]
         [HarmonyPatch("Initialize")]
         public static class Db_Init_Patch

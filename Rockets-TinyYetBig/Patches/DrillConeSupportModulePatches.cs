@@ -12,6 +12,9 @@ namespace Rockets_TinyYetBig.Patches
 {
     public class DrillConeSupportModulePatches
     {
+        /// <summary>
+        /// Add Loadable Component to Drillcone + storage filters for diamonds if not exists
+        /// </summary>
         [HarmonyPatch(typeof(NoseconeHarvestConfig), "ConfigureBuildingTemplate")]
         public static class AddFilterForLoaders
         {
@@ -22,12 +25,15 @@ namespace Rockets_TinyYetBig.Patches
                 {
                     if (diamondStorage.storageFilters == null)
                         diamondStorage.storageFilters = new List<Tag>() { SimHashes.Diamond.CreateTag() };
-                    else
+                    else if(!diamondStorage.storageFilters.Contains(SimHashes.Diamond.CreateTag()))
                         diamondStorage.storageFilters.Add(SimHashes.Diamond.CreateTag());
                 }
             }
         }
 
+        /// <summary>
+        /// Adjusts the drilling status item to include support module speedboost in displayed number
+        /// </summary>
         [HarmonyPatch(typeof(ResourceHarvestModule.StatesInstance), "AddHarvestStatusItems")]
         public static class FixStatusItem
         {
@@ -47,6 +53,9 @@ namespace Rockets_TinyYetBig.Patches
             }
         }
 
+        /// <summary>
+        /// Adjusts the drilling speed of drillcone SMI to include support module speed boosts
+        /// </summary>
         [HarmonyPatch(typeof(ResourceHarvestModule.StatesInstance), "HarvestFromPOI")]
         public static class AddSpeedBuff
         {
@@ -69,7 +78,9 @@ namespace Rockets_TinyYetBig.Patches
             }
         }
 
-
+        /// <summary>
+        /// caches the support modules for this drillcone on selection
+        /// </summary>
         [HarmonyPatch(typeof(HarvestModuleSideScreen), "SetTarget")]
         public static class TargetSetterPatch
         {
@@ -99,7 +110,9 @@ namespace Rockets_TinyYetBig.Patches
             }
         }
 
-
+        /// <summary>
+        /// Way more efficient replacement for drillcone sidescreen that also includes speedboost and capacity increase from support modules
+        /// </summary>
         [HarmonyPatch(typeof(HarvestModuleSideScreen), "SimEveryTick")]
         public static class CorrectInfoScreenForSupportModules
         {

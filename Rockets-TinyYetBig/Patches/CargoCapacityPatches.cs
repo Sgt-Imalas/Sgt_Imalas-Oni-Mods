@@ -14,6 +14,9 @@ namespace Rockets_TinyYetBig.Patches
 {
     public class CargoCapacityPatches
     {
+        /// <summary>
+        /// Applies Cargo Capacity Settings
+        /// </summary>
         [HarmonyPatch(typeof(CargoBayCluster), nameof(CargoBayCluster.OnSpawn))]
         public static class CargoBayRebalance
         {
@@ -52,6 +55,9 @@ namespace Rockets_TinyYetBig.Patches
                 }
             }
         }
+        /// <summary>
+        /// Adds (or removes, depending on config setting) Insulation to cargo bays
+        /// </summary>
         [HarmonyPatch(typeof(CargoBayCluster), nameof(CargoBayCluster.OnSpawn))]
         public static class CargoBayInsulation
         {

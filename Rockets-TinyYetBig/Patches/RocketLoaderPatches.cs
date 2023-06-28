@@ -11,6 +11,9 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.Patches
 {
+    /// <summary>
+    /// Replace Launchpad tag with universal RocketPlatform tag to allow connecting to other launchpads and station doors
+    /// </summary>
     class RocketLoaderPatches
     {
         [HarmonyPatch(typeof(ChainedBuilding.StatesInstance))]

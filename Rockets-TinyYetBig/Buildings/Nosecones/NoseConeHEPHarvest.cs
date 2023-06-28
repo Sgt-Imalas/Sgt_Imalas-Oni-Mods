@@ -26,7 +26,10 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
             not_grounded
                 .DefaultState(not_grounded.not_harvesting)
                 .EventHandler(GameHashes.ClusterLocationChanged, smi => Game.Instance, smi => smi.CheckIfCanHarvest()).EventHandler(GameHashes.OnStorageChange, smi => smi.CheckIfCanHarvest()).TagTransition(GameTags.RocketNotOnGround, grounded, true);
-            not_grounded.not_harvesting.PlayAnim("loaded").ParamTransition(canHarvest, not_grounded.harvesting, IsTrue).Enter(smi => StatesInstance.RemoveHarvestStatusItems(smi.master.gameObject.GetComponent<RocketModuleCluster>().CraftInterface.gameObject)).Update((smi, dt) => smi.CheckIfCanHarvest(), UpdateRate.SIM_4000ms);
+            not_grounded.not_harvesting.PlayAnim("loaded")
+                .ParamTransition(canHarvest, not_grounded.harvesting, IsTrue)
+                .Enter(smi => StatesInstance.RemoveHarvestStatusItems(smi.master.gameObject.GetComponent<RocketModuleCluster>().CraftInterface.gameObject))
+                .Update((smi, dt) => smi.CheckIfCanHarvest(), UpdateRate.SIM_4000ms);
             not_grounded.harvesting.PlayAnim("deploying")
                 .Exit(smi =>
                 {
@@ -170,8 +173,6 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
                     sm.canHarvest.Set(false, this);
                     return false;
                 }
-                //var UpdateMethod = typeof(RocketClusterDestinationSelector).GetMethod("OnStorageChange", BindingFlags.NonPublic | BindingFlags.Instance);
-                //var loopmaster = component.GetComponent<RocketClusterDestinationSelector>();
 
                 if ((double)GetMaxExtractKGFromHEPsAvailable() <= 0.0)
                 {
@@ -187,7 +188,6 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
                     if (!smi.POICanBeHarvested())
                     {
                         sm.canHarvest.Set(false, this);
-                        //UpdateMethod.Invoke(loopmaster, new[] { (System.Object)null });
                         return false;
                     }
                     foreach (KeyValuePair<SimHashes, float> elementsWithWeight in smi.configuration.GetElementsWithWeights())

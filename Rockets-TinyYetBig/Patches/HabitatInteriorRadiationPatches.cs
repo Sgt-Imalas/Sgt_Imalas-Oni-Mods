@@ -15,7 +15,9 @@ namespace Rockets_TinyYetBig.Patches
 {
     public class HabitatInteriorRadiationPatches
     {
-
+        /// <summary>
+        /// Fixes bugged rad absorpion of liquid input port
+        /// </summary>
         [HarmonyPatch(typeof(RocketInteriorLiquidInputPortConfig))]
         [HarmonyPatch(nameof(RocketInteriorLiquidInputPortConfig.CreateBuildingDef))]
         public static class InputPortIsFoundation
@@ -28,6 +30,9 @@ namespace Rockets_TinyYetBig.Patches
                 }
             }
         }
+        /// <summary>
+        /// Fixes bugged rad absorpion of liquid output port
+        /// </summary>
         [HarmonyPatch(typeof(RocketInteriorLiquidOutputPortConfig))]
         [HarmonyPatch(nameof(RocketInteriorLiquidOutputPortConfig.CreateBuildingDef))]
         public static class OutputPortIsFoundation
@@ -41,6 +46,9 @@ namespace Rockets_TinyYetBig.Patches
             }
         }
 
+        /// <summary>
+        /// Adjusts interior radiation of habitats dynamically by either copying exterior rads while landed or by distance to center of the starmap (higher distance == higher rads)
+        /// </summary>
         [HarmonyPatch(typeof(Clustercraft))]
         [HarmonyPatch(nameof(Clustercraft.Sim4000ms))]
         public static class AdjustHabitats

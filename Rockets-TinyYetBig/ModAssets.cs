@@ -360,8 +360,11 @@ namespace Rockets_TinyYetBig
             public static Tag SpaceStationOnlyInteriorBuilding = TagManager.Create("RTB_SpaceStationInteriorOnly");
             public static Tag RocketInteriorOnlyBuilding = TagManager.Create("RTB_RocketInteriorOnly");
             public static Tag RocketPlatformTag = TagManager.Create("RTB_RocketPlatformTag");
-            public static Tag RadiationShielding = TagManager.Create("RadiationShieldingMaterial");
             public static Tag NeutroniumAlloy = TagManager.Create("RTB_NeutroniumAlloyMaterial");
+            //Use this tag to add the radiation shielding tag to a material, making it available for f.e. the plated nosecone
+            public static Tag RadiationShielding = TagManager.Create("RadiationShieldingMaterial");
+            //add this tag to any liquid material that is a rocket fuel
+            public static Tag RocketFuelTag = TagManager.Create("RocketFuelMaterial");
         }
 
         public enum SpaceStationType

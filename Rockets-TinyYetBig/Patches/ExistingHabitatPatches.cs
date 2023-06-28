@@ -9,6 +9,9 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.Patches
 {
+    /// <summary>
+    /// Compact and properly centered habitat interior templates
+    /// </summary>
     class ExistingHabitatPatches
     {
         #region HabitatMedium

@@ -11,6 +11,9 @@ namespace Rockets_TinyYetBig.Patches
 {
     class GridGenPatches
     {
+        /// <summary>
+        /// More free grid space at world gen
+        /// </summary>
         [HarmonyPatch(typeof(BestFit))]
         [HarmonyPatch(nameof(BestFit.BestFitWorlds))]
         public static class IncreaseFreeGridSpace
@@ -39,7 +42,7 @@ namespace Rockets_TinyYetBig.Patches
         //}
 
         /// <summary>
-        /// fixes a crash that can happen here
+        /// fixes a vanilla crash that can happen when this has eventID==null
         /// </summary>
         [HarmonyPatch(typeof(ClusterMapMeteorShower.Def))]
         [HarmonyPatch(nameof(ClusterMapMeteorShower.Def.GetDescriptors))]
@@ -56,6 +59,9 @@ namespace Rockets_TinyYetBig.Patches
             }
         }
 
+        /// <summary>
+        /// Fixes a bug with the cleanup method that would cause invisible solid tiles in the next world at that location
+        /// </summary>
         [HarmonyPatch(typeof(Grid))]
         [HarmonyPatch(nameof(Grid.FreeGridSpace))]
         public static class CleanupOfWorldsFix

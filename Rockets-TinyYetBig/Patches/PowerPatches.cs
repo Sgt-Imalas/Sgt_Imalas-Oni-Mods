@@ -8,6 +8,9 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.Patches
 {
+    /// <summary>
+    /// Expermiments with power consuming rocket modules
+    /// </summary>
     internal class PowerPatches
     {
         //[HarmonyPatch(typeof(CircuitManager), "PowerFromBatteries")]

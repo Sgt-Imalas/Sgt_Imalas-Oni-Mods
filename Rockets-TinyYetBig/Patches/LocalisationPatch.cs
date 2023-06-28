@@ -12,6 +12,9 @@ namespace Rockets_TinyYetBig
 {
     class LocalisationPatch
     {
+        /// <summary>
+        /// Initializes Localisation for modded strings
+        /// </summary>
         [HarmonyPatch(typeof(Localization), "Initialize")]
         public class Localization_Initialize_Patch
         {
@@ -21,6 +24,7 @@ namespace Rockets_TinyYetBig
             }
         }
 
+        ///No longer needed crash fix for a bug in localisation
         //[HarmonyPatch(typeof(Localization))]
         //[HarmonyPatch(nameof(Localization.WriteStringsTemplate))]
         //public class FIX_KLEI_TEMPLATE_BUG

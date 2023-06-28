@@ -37,14 +37,14 @@ namespace Rockets_TinyYetBig.Patches
             }
 
         }
-        [HarmonyPatch(typeof(LiquidFuelTankClusterConfig), "DoPostConfigureComplete")]
+        [HarmonyPatch(typeof(LiquidFuelTankClusterConfig), nameof(LiquidFuelTankClusterConfig.DoPostConfigureComplete))]
         public static class ReplaceFuelTagInBigFuelTankRocket
         {
             public static void Postfix(GameObject go)
             {
                 if (Config.Instance.EthanolEngines)
                 {
-                    FuelTank tank = go.GetComponent<FuelTank>();
+                    var consumer = go.GetComponent<ConduitConsumer>();
                     tank.FuelType = GameTags.CombustibleLiquid;
                     UnityEngine.Object.Destroy(go.GetComponent<ManualDeliveryKG>());
                 }
