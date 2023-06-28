@@ -34,7 +34,7 @@
 		  OutputFile="$(TargetPath)"/>
 	</Target>
 
-	<Target Name="CopyModsToDevFolder" AfterTargets="ILRepack" Condition="'$(AssemblyName)' != 'UtilLibs'">
+	<Target Name="CopyModsToDevFolder" AfterTargets="ILRepack" Condition="'$(AssemblyName)' != 'UtilLibs' and '$(AssemblyName)' != 'Util_TwitchIntegrationLib'">
 		
 		<Message Text="Executing CopyDLLs task" Importance="High" />
 
