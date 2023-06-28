@@ -14,7 +14,7 @@ namespace Rockets_TinyYetBig.TwitchEvents
         {
             public static void Postfix(Db __instance)
             {
-                TwitchEventsInit.RegisterAll();
+                Util_TwitchIntegrationLib.EventRegistration.InitializeTwitchEventsInNameSpace("Rockets_TinyYetBig.TwitchEvents.Events");
             }
         }
     }

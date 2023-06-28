@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TemplateClasses;
 using UnityEngine;
+using Util_TwitchIntegrationLib;
 
 namespace Rockets_TinyYetBig.TwitchEvents.Events
 {
@@ -43,5 +44,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
 
                 ToastManager.InstantiateToastWithGoTarget(EventName, string.Format(EventDescription, world.GetProperName()), gameObject);
             };
+
+        public string EventGroupID => null;
     }
 }

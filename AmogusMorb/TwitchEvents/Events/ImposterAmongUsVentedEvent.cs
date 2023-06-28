@@ -6,17 +6,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Util_TwitchIntegrationLib;
 
 namespace AmogusMorb.TwitchEvents.Events
 {
     internal class ImposterAmongUsVentEvent : ITwitchEventBase
     {
+        public string EventGroupID => null;
         public string ID => "RTB_TwitchEvent_AmongUsVent";
         public string EventName => "Vent Hopper";
 
         public Danger EventDanger => Danger.Small;
         public string EventDescription => "Something crawled out of the vent!";
-        public EventWeight EventWeight => (EventWeight)33;
+        public EventWeight EventWeight => (EventWeight.WEIGHT_NORMAL);
         public Func<object, bool> Condition =>
                 (data) =>
                 {

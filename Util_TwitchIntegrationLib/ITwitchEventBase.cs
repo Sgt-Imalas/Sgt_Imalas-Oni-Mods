@@ -1,9 +1,5 @@
 ﻿using ONITwitchLib;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static Util_TwitchIntegrationLib.EventRegistration;
 
 namespace Util_TwitchIntegrationLib
@@ -18,5 +14,14 @@ namespace Util_TwitchIntegrationLib
         Action<object> EventAction { get; }
         Func<object, bool> Condition { get; }
         Danger EventDanger { get; }
+        
+    }
+    public enum EventWeight
+    {
+        WEIGHT_NEVER = 0,
+        WEIGHT_ALMOST_NEVER = 1,
+        WEIGHT_RARE = 7,
+        WEIGHT_NORMAL = 14,
+        WEIGHT_COMMON = 35
     }
 }

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Util_TwitchIntegrationLib;
 using UtilLibs;
 using static EdiblesManager;
 using static STRINGS.CREATURES.SPECIES;
@@ -24,7 +25,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
 
         public Danger EventDanger => Danger.None;
         public string EventDescription => "\"With best regards from the Spacing Guild\"\nAll (rocket) Navigators have recieved an extra portion of Melange.";
-        public EventWeight EventWeight => (EventWeight)(40);
+        public EventWeight EventWeight => EventWeight.WEIGHT_COMMON;
         public Func<object, bool> Condition =>
                 (data) =>
                 {
@@ -73,5 +74,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
                     ToastManager.InstantiateToast(EventName, EventDescription);
                 }
             };
+
+        public string EventGroupID => null;
     }
 }

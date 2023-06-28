@@ -14,7 +14,7 @@ namespace AmogusMorb.TwitchEvents
         {
             public static void Postfix(Db __instance)
             {
-                TwitchEventsInit.RegisterAll();
+                Util_TwitchIntegrationLib.EventRegistration.InitializeTwitchEventsInNameSpace("AmogusMorb.TwitchEvents.Events");
             }
         }
     }

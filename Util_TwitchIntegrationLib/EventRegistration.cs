@@ -1,5 +1,7 @@
 ﻿using ONITwitchLib;
 using ONITwitchLib.Core;
+using System;
+using System.Linq;
 using System.Reflection;
 
 namespace Util_TwitchIntegrationLib
@@ -14,7 +16,7 @@ namespace Util_TwitchIntegrationLib
                 return;
             }
 
-            Debug.Log(nameSpace.Split(".").First() + ": Registering Twitch Events!");
+            Debug.Log("["+nameSpace.Split('.').First() + "]: Registering Twitch Events!");
             RegisterAllEventsInNamespace(nameSpace);
         }
 
@@ -31,11 +33,11 @@ namespace Util_TwitchIntegrationLib
 
             foreach (Type eventType in events)
             {
-                var Instance = (ITwitchEventBase?)Activator.CreateInstance(eventType);
-                if(Instance != null )
+                ITwitchEventBase Instance = (ITwitchEventBase)Activator.CreateInstance(eventType);
+                if(Instance != default)
                     RegisterEvent(Instance);
             }
-            Debug.Log(nameSpace.Split(".").First() + ": Added " + events.Count + " Twitch Events");
+            Debug.Log(nameSpace.Split('.').First() + ": Added " + events.Count + " Twitch Events");
         }
 
         public static void RegisterEvent(ITwitchEventBase twitchEvent)
@@ -43,11 +45,11 @@ namespace Util_TwitchIntegrationLib
             if ((int)twitchEvent.EventWeight == (int)EventWeight.WEIGHT_NEVER)
                 return;
 
-            var deckInst = TwitchDeckManager.Instance;
+            TwitchDeckManager deckInst = TwitchDeckManager.Instance;
 
             ONITwitchLib.EventInfo _event;
             ONITwitchLib.EventGroup _eventGroup;
-            if(twitchEvent.EventGroupID==null || twitchEvent.EventGroupID.Length==0 || twitchEvent.EventGroupID == string.Empty)
+            if(twitchEvent.EventGroupID == null || twitchEvent.EventGroupID.Length==0 || twitchEvent.EventGroupID == string.Empty)
             {
                 (_event, _eventGroup) = EventGroup.DefaultSingleEventGroup(twitchEvent.ID, (int)twitchEvent.EventWeight, twitchEvent.EventName);
             }
@@ -61,15 +63,6 @@ namespace Util_TwitchIntegrationLib
             _event.AddCondition(twitchEvent.Condition);
             _event.Danger = twitchEvent.EventDanger;
             deckInst.AddGroup(_eventGroup);
-        }
-
-        public enum EventWeight
-        {
-            WEIGHT_NEVER = 0,
-            WEIGHT_ALMOST_NEVER = 1,
-            WEIGHT_RARE = 5,
-            WEIGHT_NORMAL = 10,
-            WEIGHT_COMMON = 30
         }
     }
 }

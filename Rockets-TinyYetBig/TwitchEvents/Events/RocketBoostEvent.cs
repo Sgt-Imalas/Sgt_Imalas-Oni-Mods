@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Util_TwitchIntegrationLib;
 
 namespace Rockets_TinyYetBig.TwitchEvents.Events
 {
@@ -43,5 +44,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
                         break;
                     }
             };
+
+        public string EventGroupID => "RTB_RocketBoostGroup";
     }
 }

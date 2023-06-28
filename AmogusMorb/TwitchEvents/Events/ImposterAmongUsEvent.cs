@@ -6,11 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Util_TwitchIntegrationLib;
 
 namespace AmogusMorb.TwitchEvents.Events
 {
     internal class ImposterAmongUsEven : ITwitchEventBase
     {
+        public string EventGroupID => null;
         public string ID => "RTB_TwitchEvent_AmongUsImposter";
         public string EventName => "Imposter Among Us";
 

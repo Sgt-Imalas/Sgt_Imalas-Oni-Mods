@@ -49,6 +49,7 @@
 	
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
+		<ProjectReference Include="..\Util_TwitchIntegrationLib\Util_TwitchIntegrationLib.csproj" />
 	</ItemGroup>
 	
 	<ItemGroup>

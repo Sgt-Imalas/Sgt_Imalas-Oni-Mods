@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using static UnityEngine.UI.Image;
+using Util_TwitchIntegrationLib;
 
 namespace AmogusMorb.TwitchEvents.Events
 {
@@ -57,5 +58,6 @@ namespace AmogusMorb.TwitchEvents.Events
                 ToastManager.InstantiateToastWithPosTarget(EventName, EventDescription, printerCoords);
             };
 
+        public string EventGroupID => null;
     }
 }
