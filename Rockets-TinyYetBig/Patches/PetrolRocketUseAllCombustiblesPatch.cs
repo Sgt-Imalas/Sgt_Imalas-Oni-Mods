@@ -45,7 +45,7 @@ namespace Rockets_TinyYetBig.Patches
                 if (Config.Instance.EthanolEngines)
                 {
                     var consumer = go.GetComponent<ConduitConsumer>();
-                    tank.FuelType = GameTags.CombustibleLiquid;
+                    consumer.capacityTag = ModAssets.Tags.RocketFuelTag;
                     UnityEngine.Object.Destroy(go.GetComponent<ManualDeliveryKG>());
                 }
             }

@@ -65,7 +65,6 @@ namespace Rockets_TinyYetBig.Buildings.Fuel
             FuelTank fuelTank = go.AddOrGet<FuelTank>();
             fuelTank.consumeFuelOnLand = false;
             fuelTank.storage = storage;
-            fuelTank.FuelType = GameTags.CombustibleLiquid;
             fuelTank.targetFillMass = storage.capacityKg;
             fuelTank.physicalFuelCapacity = storage.capacityKg;
             go.AddOrGet<CopyBuildingSettings>();
@@ -73,7 +72,7 @@ namespace Rockets_TinyYetBig.Buildings.Fuel
             ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
             conduitConsumer.conduitType = ConduitType.Liquid;
             conduitConsumer.consumptionRate = 10f;
-            conduitConsumer.capacityTag = fuelTank.FuelType;
+            conduitConsumer.capacityTag = ModAssets.Tags.RocketFuelTag;
             conduitConsumer.capacityKG = storage.capacityKg;
             conduitConsumer.forceAlwaysSatisfied = true;
             conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Store;
