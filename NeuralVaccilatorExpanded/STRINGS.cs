@@ -31,6 +31,11 @@ namespace NeuralVaccilatorExpanded
                     public static LocString NAME = (LocString)"Expert Mechanic";
                     public static LocString DESC = (LocString)"Nuts? Bolts? This Duplicant has them all";
                 }
+                public class NVE_DAFTPUNK
+                {
+                    public static LocString NAME = (LocString)"Daft Punk";
+                    public static LocString DESC = (LocString)"Harder, Better, Faster, Stronger";
+                }
                 public class NVE_SHARINGGENIUS
                 {
                     public static LocString NAME = (LocString)"Charismatic Genius";
