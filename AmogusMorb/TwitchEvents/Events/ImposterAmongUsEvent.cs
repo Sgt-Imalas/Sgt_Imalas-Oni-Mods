@@ -23,7 +23,7 @@ namespace AmogusMorb.TwitchEvents.Events
                 (data) =>
                 {
 
-                    if (GameClock.Instance.GetCycle() < 100 || Components.MinionIdentities.Count < 5 && UtilLibs.ModListUtils.ModIsActive("Amorbus"))
+                    if (GameClock.Instance.GetCycle() < 33 || Components.MinionIdentities.Count < 5)
                         return false;
                     return true;
                 };

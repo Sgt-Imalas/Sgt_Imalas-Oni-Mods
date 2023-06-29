@@ -9,11 +9,17 @@ namespace Imalas_TwitchChaosEvents
 {
     internal class STRINGS
     {
-        public class BUILDINGS
+        public class CHAOSEVENTS
         {
-            public class PREFABS
+            public class INVERSEELEMENT
             {
-
+                public static LocString NAME = "Inversium";
+                public static LocString TOASTTEXT = "ʇuǝɯǝlƎ sᴉɥʇ ɥʇᴉʍ ɟɟo sᴉ ƃuᴉɥʇǝɯoS";
+            }
+            public class BUZZSAW
+            {
+                public static LocString NAME = "Buzzsaw";
+                public static LocString TOASTTEXT = "With recommendations of the white palace";
             }
         }
     }
