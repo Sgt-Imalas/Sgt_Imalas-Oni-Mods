@@ -15,8 +15,11 @@ namespace Radiator_Mod
     //, IGameObjectEffectDescriptor
     {
         [MyCmpReq] protected Operational operational;
-        [MyCmpReq] private KSelectable selectable;
-        [MyCmpGet] private Rotatable rotatable;
+        [MyCmpGet] private KSelectable selectable;
+        [MyCmpGet] private Building building;
+        [MyCmpGet] private Rotatable rotatable; 
+        [MyCmpGet] private PrimaryElement panel_mat;
+        
 
         [Serialize]
         bool RocketInteriorModule = false;
@@ -35,6 +38,7 @@ namespace Radiator_Mod
         public List<CellOffset> RadiatorArea;
         private HandleVector<int>.Handle accumulator = HandleVector<int>.InvalidHandle;
         private HandleVector<int>.Handle structureTemperature;
+        public float buildingDefSHC_Modifier = 1f;
 
 
         #region NetworkStuff
@@ -140,12 +144,11 @@ namespace Radiator_Mod
         public override void OnSpawn()
         {
             base.OnSpawn();
-            SetRadiatorArea();
-            var building = GetComponent<Building>();
             inputCell = building.GetUtilityInputCell();
             outputCell = building.GetUtilityOutputCell();
+            RocketInteriorModule = this.GetMyWorld().IsModuleInterior;
+            SetRadiatorArea();
 
-            smi.StartSM();
             Conduit.GetFlowManager(type).AddConduitUpdater(ConduitUpdate);
             structureTemperature = GameComps.StructureTemperatures.GetHandle(gameObject);
 
@@ -156,6 +159,7 @@ namespace Radiator_Mod
             _protected_from_impacts_status = new StatusItem(BunkerDown, Category, string.Empty, StatusItem.IconType.Info, NotificationType.Good, false, OverlayModes.TileMode.ID);
 
             AmIInSpace();
+            smi.StartSM();
         }
 
         public void SetRadiatorArea()
@@ -163,12 +167,14 @@ namespace Radiator_Mod
 
             RadiatorArea = new List<CellOffset>();
 
-            if (RocketInteriorModule)
+            if (!RocketInteriorModule)
             {
+                //SgtLogger.l("Not a Rocket interior");
                 for (int i = 1; i < 6; i++)
                 {
                     for (int j = 0; j <= 1; j++)
                     {
+                        //Debug.Log("x: " + i + ", y: " + j);
                         RadiatorArea.Add(new CellOffset(j, i));
                     }
                 }
@@ -176,6 +182,7 @@ namespace Radiator_Mod
             }
             else
             {
+                //SgtLogger.l("RocketInterior");
                 for (int i = -2; i > -7; i--)
                 {
                     for (int j = 0; j <= 1; j++)
@@ -209,49 +216,102 @@ namespace Radiator_Mod
         {
             var flowManager = Conduit.GetFlowManager(type);
             if (!flowManager.HasConduit(inputCell)) return;
+            if (!flowManager.GetContents(outputCell).Equals(ConduitFlow.ConduitContents.Empty))
+            {
+                return;
+            }
+
             var contents = flowManager.GetContents(inputCell);
             if (contents.mass <= 0f) return;
-            var panel_mat = gameObject.GetComponent<PrimaryElement>();
             var panel_mat_temperature = panel_mat.Temperature;
 
             var element = ElementLoader.FindElementByHash(contents.element);
-            var deltaheat =
+
+            var potentialHeatTransfer =
                 conductive_heat(element,
                 contents.temperature,
                 panel_mat.Element,
-                panel_mat_temperature,
-                RadiatorArea.Count);
+                panel_mat_temperature);
 
-            // heat change = mass * specific heat capacity * temp change        
-            var deltatemp_panel = deltaheat / RadiatorBaseConfig.matCosts[0] / panel_mat.Element.specificHeatCapacity * dt;
-            var deltatemp_liquid = -deltaheat / contents.mass / element.specificHeatCapacity * dt;
-            var panel_newtemp = panel_mat_temperature + deltatemp_panel;
-            var liquid_newtemp = contents.temperature + deltatemp_liquid;
-            // In this case, the panel can at most be cooled to the content temperature
-            if (panel_mat_temperature > contents.temperature)
+            potentialHeatTransfer *= dt;
+
+           // SgtLogger.l(potentialHeatTransfer + "", "pot heat transfer");
+
+            var panel_heat_capacity = building.Def.MassForTemperatureModification;// (RadiatorBaseConfig.matCosts[0] * panel_mat.Element.specificHeatCapacity);
+            var liquid_heat_capacity = contents.mass * element.specificHeatCapacity;
+
+            //SgtLogger.l(panel_heat_capacity + "", "panel_heat_capacity");
+            //SgtLogger.l(liquid_heat_capacity + "", "liquid_heat_capacity");
+
+
+
+            float minimumTemperature = Mathf.Min(panel_mat_temperature, contents.temperature);
+            float maximumTemperature = Mathf.Max(panel_mat_temperature, contents.temperature);
+
+            //SgtLogger.l(minimumTemperature + "", "minimumTemperature");
+            //SgtLogger.l(maximumTemperature + "", "maximumTemperature");
+
+            var delta_temp_panel = (potentialHeatTransfer / panel_heat_capacity) * dt;
+            var delta_temp_liquid = (-potentialHeatTransfer / liquid_heat_capacity) * dt;
+
+            //SgtLogger.l(delta_temp_panel + "", "delta_temp_panel");
+            //SgtLogger.l(delta_temp_liquid + "", "delta_temp_liquid");
+
+            float newLiquidTemperature = (contents.temperature + delta_temp_liquid);
+            float newPanelTemperature = panel_mat_temperature + delta_temp_panel;
+            //SgtLogger.l(UtilMethods.GetCFromKelvin (newLiquidTemperature) + "", "newLiquidTemperature pre");
+            //SgtLogger.l(UtilMethods.GetCFromKelvin (newPanelTemperature) + "", "newPanelTemperature pre");
+
+            if (newLiquidTemperature < minimumTemperature)
             {
-                panel_newtemp = Math.Max(panel_newtemp, contents.temperature);
-                liquid_newtemp = Math.Min(liquid_newtemp, panel_mat_temperature);
+                delta_temp_panel *= -((contents.temperature - minimumTemperature) / (delta_temp_liquid));
+                //SgtLogger.l(delta_temp_panel + "", "delta_temp_panel post");
+                newLiquidTemperature = minimumTemperature;
+                newPanelTemperature = panel_mat_temperature + delta_temp_panel;
             }
-            else
+            else if(newLiquidTemperature > maximumTemperature)
             {
-                panel_newtemp = Math.Min(panel_newtemp, contents.temperature);
-                liquid_newtemp = Math.Max(liquid_newtemp, panel_mat_temperature);
+                delta_temp_panel *= -((contents.temperature - maximumTemperature) / (delta_temp_liquid));
+                //SgtLogger.l(delta_temp_panel + "", "delta_temp_panel post");
+                newLiquidTemperature = maximumTemperature;
+                newPanelTemperature = panel_mat_temperature + delta_temp_panel;
             }
 
-            var delta = flowManager.AddElement(outputCell, contents.element, contents.mass, liquid_newtemp,
+            else if (newPanelTemperature < minimumTemperature)
+            {
+                delta_temp_liquid *= -((panel_mat_temperature - minimumTemperature) / (delta_temp_panel));
+                //SgtLogger.l(delta_temp_liquid + "", "delta_temp_liquid post");
+                newPanelTemperature = minimumTemperature;
+                newLiquidTemperature = (contents.temperature + delta_temp_liquid);
+            }
+            else if (newPanelTemperature > maximumTemperature)
+            {
+                delta_temp_liquid *= -((panel_mat_temperature - maximumTemperature) / (delta_temp_panel));
+                //SgtLogger.l(delta_temp_liquid + "", "delta_temp_liquid post");
+                newPanelTemperature = maximumTemperature;
+                newLiquidTemperature = (contents.temperature + delta_temp_liquid);
+            }
+
+
+
+            //SgtLogger.l(UtilMethods.GetCFromKelvin(newLiquidTemperature) + "", "newLiquidTemperature post");
+            //SgtLogger.l(UtilMethods.GetCFromKelvin(newPanelTemperature) + "", "newPanelTemperature post");
+
+
+            var delta = flowManager.AddElement(outputCell, contents.element, contents.mass, newLiquidTemperature,
                 contents.diseaseIdx, contents.diseaseCount);
             
-            panel_mat.Temperature = panel_newtemp;
+            panel_mat.Temperature = newPanelTemperature;
 
             if (delta <= 0f) return;
             flowManager.RemoveElement(inputCell, delta);
             Game.Instance.accumulators.Accumulate(accumulator, contents.mass);
         }
-        private static float conductive_heat(Element from, float from_temp, Element panel_material, float panel_temp, float area)
+        private static float conductive_heat(Element from, float from_temp, Element panel_material, float panel_temp)
         {
-            var conductivity = Math.Min(from.thermalConductivity, panel_material.thermalConductivity);
-            return conductivity * area * (from_temp - panel_temp) * 1f;
+            //var conductivity = Math.Min(from.thermalConductivity, panel_material.thermalConductivity);
+            var conductivity = (from.thermalConductivity + panel_material.thermalConductivity)/2f;
+            return conductivity * (from_temp - panel_temp);
         }
 
         /// <summary>
@@ -270,20 +330,21 @@ namespace Radiator_Mod
         /// <returns></returns>
         public bool AmIInSpace()
         {
-            bool retVal = true;
+            bool currentlyInSpace = true;
             var root_cell = Grid.PosToCell(this);
             foreach (var _cell in RadiatorArea)
             {
                 var _cellRotated = Rotatable.GetRotatedCellOffset(_cell, rotatable.Orientation);
-                if (!UtilMethods.IsCellInSpaceAndVacuum(Grid.OffsetCell(root_cell, _cellRotated)))
+                if (!UtilMethods.IsCellInSpaceAndVacuum(Grid.OffsetCell(root_cell, _cellRotated), root_cell))
                 {
-                    retVal = false;
+                    //SgtLogger.l("notInSpace");
+                    currentlyInSpace = false;
                     break;
                 }
             }
-            selectable.ToggleStatusItem(_no_space_status, !retVal);
-            smi.sm.IsInTrueSpace.Set(retVal, smi);
-            return retVal;
+            selectable.ToggleStatusItem(_no_space_status, !currentlyInSpace);
+            smi.sm.IsInTrueSpace.Set(currentlyInSpace, smi);
+            return currentlyInSpace;
         }
 
         #region StateMachine
@@ -324,11 +385,11 @@ namespace Radiator_Mod
 
                 Radiating
                     .Update("Radiating", (smi, dt) =>
-                    {
-                        smi.master.RadiateIntoSpace();
-                        smi.master.AmIInSpace();
+                {
+                    smi.master.RadiateIntoSpace();
+                    smi.master.AmIInSpace();
 
-                    }, UpdateRate.SIM_200ms)
+                }, UpdateRate.SIM_200ms)
                     .QueueAnim("on_rad", true)
                     .Exit(smi => smi.master.UpdateRadiation(false))
                     .EventTransition(GameHashes.OperationalChanged, Retracting, smi => !smi.IsOperational)

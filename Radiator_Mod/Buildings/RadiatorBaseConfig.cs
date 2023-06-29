@@ -78,15 +78,5 @@ namespace Radiator_Mod
 
         //public override void DoPostConfigureUnderConstruction(GameObject go) => RadiatorBaseConfig.AddVisualPreview(go, false);
 
-        private static void AddVisualPreview(GameObject go, bool movable) { 
-        
-            var vis = go.AddOrGet<StationaryChoreRangeVisualizer>();
-            vis.y = 1;
-            vis.width = 2;
-            vis.height = 5;
-            vis.vision_offset = new CellOffset(0, 1);
-            vis.blocking_tile_visible = false;
-            vis.movable = movable;
-        }
     }
 }

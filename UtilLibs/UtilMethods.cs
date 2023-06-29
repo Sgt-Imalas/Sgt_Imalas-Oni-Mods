@@ -42,17 +42,22 @@ namespace UtilLibs
                 }
             }
         }
-        
+        public static float GetCFromKelvin(float degreeK)
+        {
+            return degreeK - 273.15f;
+        }
         public static float GetKelvinFromC(float degreeC)
         {
             return degreeC + 273.15f;
         }
         public static string ModPath => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        public static bool IsCellInSpaceAndVacuum(int _cell)
+        public static bool IsCellInSpaceAndVacuum(int _cell, int root)
         {
-            if (Grid.IsValidCell(_cell))
+            if (!Grid.IsValidCell(_cell) || !Grid.AreCellsInSameWorld(_cell,root))
                 return true;
-            return (Grid.IsCellOpenToSpace(_cell) || IsCellInRocket(_cell)) && (Grid.Mass[_cell] == 0 || Grid.Element[_cell].id == SimHashes.Unobtanium);
+            //SgtLogger.l(_cell+ ": "+Grid.IsCellOpenToSpace(_cell).ToString() + ", " + IsCellInRocket(_cell).ToString() + ", " + (Grid.Element[_cell].id == SimHashes.Vacuum) + ", " + (Grid.Element[_cell].id == SimHashes.Unobtanium).ToString());
+
+            return (Grid.IsCellOpenToSpace(_cell) || IsCellInRocket(_cell)) && (Grid.Element[_cell].id == SimHashes.Vacuum || Grid.Element[_cell].id == SimHashes.Unobtanium);
         }
         private static bool IsCellInRocket(int _cell)
         {

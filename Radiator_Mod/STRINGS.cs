@@ -19,6 +19,12 @@ namespace Radiator_Mod
                     public static LocString DESC = (LocString)"Radiates off heat energy into space as infrared radiation.";
                     public static LocString EFFECT = (LocString)"Exchanges heat with the liquid pumped through it.\n\nIf in space, radiates off infrared energy based off the Stefan–Boltzmann law.";
                 }
+                public class RADIATORUPDATED
+                {
+                    public static LocString NAME = (LocString)"Space Radiator";
+                    public static LocString DESC = (LocString)"Radiates off heat energy into space as infrared radiation.";
+                    public static LocString EFFECT = (LocString)"Exchanges heat with the liquid pumped through it.\n\nIf in space, radiates off infrared energy based off the Stefan–Boltzmann law.";
+                }
                 public class RM_RADIATORROCKETWALLBUILDABLE
                 {
                     public static LocString NAME = (LocString)"Space Radiator (Rocket)";
