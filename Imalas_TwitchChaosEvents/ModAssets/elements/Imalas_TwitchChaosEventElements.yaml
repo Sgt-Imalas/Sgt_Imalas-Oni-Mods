@@ -1,0 +1,87 @@
+---
+elements: 
+  - elementId: ITCE_Inverse_Steam
+    specificHeatCapacity: 4.179
+    thermalConductivity: 0.184
+    solidSurfaceAreaMultiplier: 25
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    flow: 0.1
+    
+    highTemp: 272.5
+    highTempTransitionTarget: ITCE_Inverse_Water
+    defaultTemperature: 232.15
+
+    defaultPressure: 57
+    molarMass: 18.01528
+    toxicity: 0
+    lightAbsorptionFactor: 0.1
+    radiationAbsorptionFactor: 0.08
+    radiationPer1000Mass: 0
+    materialCategory: Unbreathable
+    isDisabled: false
+    state: Gas
+    localizationID: STRINGS.ELEMENTS.ITCE_INVERSE_STEAM.NAME
+    dlcId: "" 
+
+  - elementId: ITCE_Inverse_Water
+    maxMass: 1000
+    liquidCompression: 1.01
+    speed: 125
+    minHorizontalFlow: 0.01
+    minVerticalFlow: 0.01
+    specificHeatCapacity: 4.179
+    thermalConductivity: 0.609
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    lowTemp: 272.5 
+    highTemp: 372.5
+    lowTempTransitionTarget: ITCE_Inverse_Steam
+    highTempTransitionTarget: ITCE_Inverse_Ice
+    convertId: DirtyWater
+    defaultTemperature: 300
+    defaultMass: 1000
+    molarMass: 18.01528
+    toxicity: 0
+    lightAbsorptionFactor: 0.25
+    radiationAbsorptionFactor: 0.8
+    radiationPer1000Mass: 0
+    tags:
+    isDisabled: false
+    state: Liquid
+    localizationID: STRINGS.ELEMENTS.ITCE_INVERSE_WATER.NAME
+    dlcId: ""
+
+  - elementId: ITCE_Inverse_Ice
+    specificHeatCapacity: 2.05
+    thermalConductivity: 2.18
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 1
+
+    lowTemp: 372.5
+    highTemp: 9999.99
+    lowTempTransitionTarget: ITCE_Inverse_Water
+    highTempTransitionTarget: ITCE_Inverse_Ice
+
+    defaultTemperature: 400
+    defaultMass: 1000
+    maxMass: 1100
+    hardness: 25
+    molarMass: 18.01528
+    lightAbsorptionFactor: 0.33333
+    radiationAbsorptionFactor: 0.8
+    radiationPer1000Mass: 0
+    materialCategory: Liquifiable
+    tags:
+    - BuildableAny
+    buildMenuSort: 5
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.ITCE_INVERSE_ICE.NAME
+    dlcId: ""
+  
+
+  

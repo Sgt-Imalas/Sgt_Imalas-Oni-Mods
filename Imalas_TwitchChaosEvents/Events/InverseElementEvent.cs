@@ -33,7 +33,7 @@ namespace Imalas_TwitchChaosEvents.Events
 
         public void SpawnBuzzSaw()
         {
-            ToastManager.InstantiateToastWithPosTarget(EventName, EventDescription, targetCoords);
+            //ToastManager.InstantiateToastWithPosTarget(EventName, EventDescription, targetCoords);
         }
     }
 }

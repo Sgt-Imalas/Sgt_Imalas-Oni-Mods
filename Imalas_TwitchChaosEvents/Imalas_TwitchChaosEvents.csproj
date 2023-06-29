@@ -37,6 +37,7 @@
 
 	<PropertyGroup>
 		<LangVersion>preview</LangVersion>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 	
 	<ItemGroup>
@@ -48,5 +49,18 @@
 	  <Reference Include="ONITwitchLib">
 	    <HintPath>..\TwitchLib\ONITwitchLib.dll</HintPath>
 	  </Reference>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <None Update="ModAssets\assets\textures\ITCE_Inverse_Ice.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\elements\Imalas_TwitchChaosEventElements.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="ModAssets\anim\" />
 	</ItemGroup>
 </Project>
