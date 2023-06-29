@@ -83,7 +83,7 @@ namespace Rockets_TinyYetBig
             generator.outputProductionTemperature = UtilMethods.GetKelvinFromC(95);
 
 
-            generator.AllowRefill = true;
+            //generator.AllowRefill = true;
             generator.AlwaysActive = false;
             generator.PushToRocketStorageType = CargoBay.CargoType.Liquids;
             generator.ElementOutputCellOffset = new Vector3(0, 0);

@@ -34,12 +34,12 @@ namespace Rockets_TinyYetBig.Behaviours
         public bool AlwaysActive = false;
         [SerializeField]
         public bool produceWhileLanded = false;
-        [Serialize]
-        public bool AllowRefill = true;
+        //[Serialize]
+        //public bool AllowRefill = true;
 
 
-        [Serialize]
-        public bool RefillingPaused = false;
+        //[Serialize]
+        //public bool RefillingPaused = false;
 
         [Serialize]
         public bool OutputToOwnStorage = false;
@@ -155,10 +155,10 @@ namespace Rockets_TinyYetBig.Behaviours
         {
             //selectable.SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus, (object)this);
             RemoveRefillOnSatisfied();
-            if (!AllowRefill)
-            {
-                ToggleFill(RefillingPaused);
-            }
+            //if (!AllowRefill)
+            //{
+            //    ToggleFill(RefillingPaused);
+            //}
             base.EnergySim200ms(dt);
             var emitter = this.gameObject.GetComponent<RadiationEmitter>();
 
@@ -258,6 +258,7 @@ namespace Rockets_TinyYetBig.Behaviours
                                 Pickupable pickupable = go.GetComponent<Pickupable>().Take(consumptionRate * dt);
                                 if (pickupable != null)
                                 {
+                                    storage.PlaySound3D
                                     this.storage.Store(pickupable.gameObject, true);
                                     break;
                                 }
@@ -290,7 +291,9 @@ namespace Rockets_TinyYetBig.Behaviours
 
         private void ResetRefillStatus()
         {
-            if (!AllowRefill && storage.GetAmountAvailable(consumptionElement) == 0)
+            if (
+                //!AllowRefill && 
+                storage.GetAmountAvailable(consumptionElement) == 0)
             {
                 if (clustercraft.Status == Clustercraft.CraftStatus.Grounded)
                 {
@@ -298,7 +301,7 @@ namespace Rockets_TinyYetBig.Behaviours
                     if (delivery.IsPaused)
                     {
                         delivery.Pause(false, "one Refill allowed.");
-                        RefillingPaused = false;
+                        //RefillingPaused = false;
                     }
                     if (outputElement != SimHashes.Void && storage.GetAmountAvailable(outputElement.CreateTag()) > 0f)
                         storage.DropAll(this.transform.position, true, true);
@@ -309,7 +312,9 @@ namespace Rockets_TinyYetBig.Behaviours
 
         void ToggleFill(bool shouldPause)
         {
-            if (this.TryGetComponent<ManualDeliveryKG>(out var delivery) && !AllowRefill)
+            if (this.TryGetComponent<ManualDeliveryKG>(out var delivery) 
+                //&& !AllowRefill
+                )
             {
                 delivery.Pause(shouldPause, "no Refill allowed.");
             }
@@ -319,14 +324,16 @@ namespace Rockets_TinyYetBig.Behaviours
         {
             this.TryGetComponent<ManualDeliveryKG>(out var delivery);
 
-            if (delivery == null || AllowRefill || consumptionElement == SimHashes.Void.CreateTag())
+            if (delivery == null ||
+                //AllowRefill ||
+                consumptionElement == SimHashes.Void.CreateTag())
                 return;
 
             if (storage.GetMassAvailable(consumptionElement) < consumptionMaxStoredMass)
                 return;
 
             delivery.Pause(true, "no Refill allowed.");
-            RefillingPaused = true;
+            //RefillingPaused = true;
         }
 
         private float ConsumeRessources(float dt)

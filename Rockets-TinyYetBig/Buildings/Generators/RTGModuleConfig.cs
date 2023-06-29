@@ -94,8 +94,8 @@ namespace Rockets_TinyYetBig
             manualDeliveryKg.SetStorage(storage);
             manualDeliveryKg.RequestedItemTag = ElementLoader.FindElementByHash(SimHashes.EnrichedUranium).tag;
             manualDeliveryKg.capacity = storage.capacityKg;
-            manualDeliveryKg.refillMass = 0f;
-            manualDeliveryKg.MinimumMass = UraniumCapacity;
+            manualDeliveryKg.refillMass = UraniumCapacity;
+            manualDeliveryKg.MinimumMass = 0.01f;
             manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
 
 
@@ -110,7 +110,7 @@ namespace Rockets_TinyYetBig
             generator.outputProductionRate = ConsumptionRate;
             generator.outputProductionTemperature = 363.15f;
 
-            generator.AllowRefill = false;
+            //generator.AllowRefill = false;
             generator.AlwaysActive = true;
             generator.OutputToOwnStorage = true;
 
