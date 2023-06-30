@@ -67,13 +67,15 @@ namespace Imalas_TwitchChaosEvents
                     }
                 }
 
+                public static Color CurrentColor => Color.HSVToRGB(time / looptime, 1, 1);
+
                 [HarmonyPriority(Priority.High)]
                 public static void Postfix()
                 {
                     time++;
                     IntPtr pixelsPtr = PropertyTextures.externalLiquidTex;
-                    var currentcolor = Color.HSVToRGB(time / looptime, 1, 1);
-                    byte rByte = (byte)(currentcolor.r * 255f), gByte = (byte)(currentcolor.g * 255f), bByte = (byte)(currentcolor.b * 255f);
+                    var currentcolor = CurrentColor;
+                    byte rByte = (byte)(CurrentColor.r * 255f), gByte = (byte)(currentcolor.g * 255f), bByte = (byte)(currentcolor.b * 255f);
 
                     Parallel.For(0, Grid.CellCount, (i) => ProcessPixel(pixelsPtr, i, rByte, gByte,bByte));
                     time %= looptime;
