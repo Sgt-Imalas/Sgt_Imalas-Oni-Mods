@@ -15,7 +15,9 @@ namespace Imalas_TwitchChaosEvents.Elements
         public static ElementInfo
             InverseIce,
             InverseWater,
-            InverseSteam;
+            InverseSteam,
+            Creeper,
+            CreeperGas;
 
         public static void RegisterSubstances(List<Substance> list)
         {
@@ -36,13 +38,17 @@ namespace Imalas_TwitchChaosEvents.Elements
             InverseIce = ElementInfo.Solid("ITCE_Inverse_Ice", Color.HSVToRGB(iceH, iceS,iceV));
             InverseWater = ElementInfo.Liquid("ITCE_Inverse_Water", Color.HSVToRGB(waterH, waterS,waterV));
             InverseSteam = ElementInfo.Gas("ITCE_Inverse_Steam", Color.HSVToRGB(steamH, steamS,steamV));
+            CreeperGas = ElementInfo.Gas("ITCE_CreepyLiquidGas", new Color(163f / 255f,0f,230f/255f));
+            Creeper = ElementInfo.Liquid("ITCE_CreepyLiquid", new Color(163f / 255f, 0f, 230f / 255f));
 
 
             var newElements = new HashSet<Substance>()
             {
                 InverseIce.CreateSubstance(),
                 InverseWater.CreateSubstance(),
-                InverseSteam.CreateSubstance()
+                InverseSteam.CreateSubstance(),
+                Creeper.CreateSubstance(),
+                CreeperGas.CreateSubstance()
             };
             list.AddRange(newElements);
 

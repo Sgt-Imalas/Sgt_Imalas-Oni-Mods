@@ -57,20 +57,6 @@ namespace Imalas_TwitchChaosEvents.Elements
                     return true;
                 }
             }
-
-            [HarmonyPatch(typeof(Enum), nameof(Enum.Parse), new Type[] { typeof(Type), typeof(string), typeof(bool) })]
-            public class SimHashes_Parse_Patch
-            {
-                public static bool Prefix(Type enumType, string value, ref object __result)
-                {
-                    if (enumType.Equals(typeof(SimHashes)))
-                    {
-                        return !SgtElementUtil.ReverseSimHashNameLookup.TryGetValue(value, out __result);
-                    }
-
-                    return true;
-                }
-            }
         }
     }
 }
