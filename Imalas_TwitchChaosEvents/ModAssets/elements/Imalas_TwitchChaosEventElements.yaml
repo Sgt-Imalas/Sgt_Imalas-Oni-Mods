@@ -96,7 +96,7 @@ elements:
     liquidSurfaceAreaMultiplier: 25
     gasSurfaceAreaMultiplier: 1
     lowTemp: 200
-    highTemp:  00
+    highTemp:  1900
     highTempTransitionTarget: ITCE_CreepyLiquidGas
     lowTempTransitionTarget: Ice
     defaultTemperature: 303.15 # 30 C
