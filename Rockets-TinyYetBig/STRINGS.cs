@@ -136,6 +136,7 @@ namespace Rockets_TinyYetBig
                 public class RTB_POICAPACITYSENSOR
                 {
                     public static LocString NAME = (LocString)FormatAsLink("Starmap POI Capacity Sensor", nameof(RTB_POICAPACITYSENSOR));
+
                     public static LocString DESC = (LocString)"How much stuff is out there?";
                     public static LocString EFFECT = (LocString)("After pointing the building at a space poi, the building will output logic signals based on the poi artifact existing and the mass remaining in the poi.");
                     public static LocString LOGIC_PORT_CAPACITY = (LocString)"POI mass above set threshold.";
@@ -465,6 +466,11 @@ namespace Rockets_TinyYetBig
 
         public class UI
         {
+            public static class CLUSTERLOCATIONSENSORADDON
+            {
+                public static LocString TITLE = "Extra green signal at";
+            }
+
             public static class ROCKETGENERATOR
             {
                 public static LocString BUTTONTEXT = (LocString)"Toggle On/Off";

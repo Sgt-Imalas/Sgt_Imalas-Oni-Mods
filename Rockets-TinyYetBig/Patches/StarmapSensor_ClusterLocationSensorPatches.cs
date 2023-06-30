@@ -118,7 +118,9 @@ namespace Rockets_TinyYetBig.Patches
 
             public static bool Prefix(ClusterDestinationSideScreen __instance)
             {
-                if (__instance.targetSelector.TryGetComponent<LogicClusterLocationSensor>(out _) || __instance.targetSelector.TryGetComponent<POICapacitySensorSM>(out _))
+                bool isClusterLocationSensor = __instance.targetSelector.TryGetComponent<LogicClusterLocationSensor>(out _);
+
+                if (isClusterLocationSensor || __instance.targetSelector.TryGetComponent<POICapacitySensorSM>(out _))
                 {
                     //SgtLogger.l("replacing Icon");
                     var selector = __instance.targetSelector;
@@ -126,13 +128,13 @@ namespace Rockets_TinyYetBig.Patches
                     {
                         GetLocationDescriptionWithPOIs(selector.GetDestination(), out var sprite, out var label);
                         __instance.destinationImage.sprite = sprite;
-                        __instance.destinationLabel.text = (string)global::STRINGS.UI.UISIDESCREENS.CLUSTERDESTINATIONSIDESCREEN.TITLE + ": " + label;
+                        __instance.destinationLabel.text = (isClusterLocationSensor ? (string)STRINGS.UI.CLUSTERLOCATIONSENSORADDON.TITLE:(string)global::STRINGS.UI.UISIDESCREENS.CLUSTERDESTINATIONSIDESCREEN.TITLE) + ": " + label;
                         __instance.clearDestinationButton.isInteractable = true;
                     }
                     else
                     {
                         __instance.destinationImage.sprite = Assets.GetSprite((HashedString)"hex_unknown");
-                        __instance.destinationLabel.text = (string)global::STRINGS.UI.UISIDESCREENS.CLUSTERDESTINATIONSIDESCREEN.TITLE + ": " + (string)global::STRINGS.UI.SPACEDESTINATIONS.NONE.NAME;
+                        __instance.destinationLabel.text = (isClusterLocationSensor ? (string)STRINGS.UI.CLUSTERLOCATIONSENSORADDON.TITLE : (string)global::STRINGS.UI.UISIDESCREENS.CLUSTERDESTINATIONSIDESCREEN.TITLE) + ": " + (string)global::STRINGS.UI.SPACEDESTINATIONS.NONE.NAME;
                         __instance.clearDestinationButton.isInteractable = false;
                     }
                     __instance.launchPadDropDown.gameObject.SetActive(false);

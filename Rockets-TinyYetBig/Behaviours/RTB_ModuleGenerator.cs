@@ -258,7 +258,6 @@ namespace Rockets_TinyYetBig.Behaviours
                                 Pickupable pickupable = go.GetComponent<Pickupable>().Take(consumptionRate * dt);
                                 if (pickupable != null)
                                 {
-                                    storage.PlaySound3D
                                     this.storage.Store(pickupable.gameObject, true);
                                     break;
                                 }

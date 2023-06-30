@@ -2,6 +2,11 @@
 - antenna nosecone for moar booster building range
 - concept for boosters
 - sugar tank
+- liquid chlorine oxidizer - 3x efficiency, 2 height, high weight, uses abyssalite in recipe
+- add fuel component to trailblazer to get back up
+
+- trade route planner
+
 - nerf solar nosecone weight if not already done - DONE
 - fix vacuum for insulated adapter - DONE
 - travel tube adapter

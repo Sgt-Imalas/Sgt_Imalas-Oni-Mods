@@ -91,7 +91,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 {
                     InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, BunkeredLaunchPadConfig.ID, LaunchPadConfig.ID);
                     InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, AdvancedLaunchPadConfig.ID, LaunchPadConfig.ID); 
-                    AddRocketModuleToBuildList(PlatformDeployerModuleConfig.ID, new RocketCategory[] { RocketCategory.deployables, RocketCategory.utility }, PioneerModuleConfig.ID);
+                    //AddRocketModuleToBuildList(PlatformDeployerModuleConfig.ID, new RocketCategory[] { RocketCategory.deployables, RocketCategory.utility }, PioneerModuleConfig.ID);
                 }
 
                 if (Config.Instance.EnableSolarNosecone)
@@ -142,7 +142,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 }
                 
                 if (Config.Instance.EnablePOISensor)
-                    InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Automation, POICapacitySensorConfig.ID);
+                    InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Automation, POICapacitySensorConfig.ID,CometDetectorConfig.ID);
                 return;
                 //InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, PartWorkshopConfig.ID, "stationParts");
                 //InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, Part_A_1_Config.ID, "stationParts");

@@ -1,4 +1,5 @@
-- Liquid Fuel tanks now will now only take in fuel (Hydrogen,Petroleum,Ethanol, any modded elements with the combustibleLiquid Tag)
+//- Liquid Fuel tanks now will now only take in fuel (Hydrogen,Petroleum,Ethanol, any modded elements with the combustibleLiquid Tag)
 - poi capacities no longer dip into negative values
 - fixed small liquid fuel tank meter animation
 - fixed RTG not fueling properly
+- adjusted title of starmap location sensor sidescreen addon to clarify the function of the selctor
