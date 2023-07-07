@@ -504,8 +504,8 @@ namespace ClusterTraitGenerationManager
         }
         void ApplyDataToStarmapItem(SerializableStarmapItem item, StarmapItem reciever)
         {
-            reciever.SetInnerRing(item.minRing);
             reciever.SetOuterRing(item.maxRing);
+            reciever.SetInnerRing(item.minRing);
             reciever.SetBuffer(item.buffer);
             reciever.SetSpawnNumber(item.numberToSpawn);
             if (item.sizePreset != default)
