@@ -36,7 +36,7 @@ namespace AmogusMorb
         [HarmonyPatch(typeof(Localization), "Initialize")]
         public static class Localization_Initialize_Patch
         {
-            public static void Prefix()
+            public static void Postfix()
             {
                 CREATURES.FAMILY.GLOM = (LocString)UI.FormatAsLink("Amorbus", "GLOMSPECIES");
                 CREATURES.FAMILY_PLURAL.GLOMSPECIES = (LocString)UI.FormatAsLink("Amorbi", nameof(CREATURES.FAMILY_PLURAL.GLOMSPECIES));

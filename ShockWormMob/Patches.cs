@@ -19,15 +19,16 @@ namespace ShockWormMob
         /// <summary>
      /// Test of old Decomposer component
      /// </summary>
-        [HarmonyPatch(typeof(MinionConfig))]
-        [HarmonyPatch(nameof(MinionConfig.CreatePrefab))]
+        [HarmonyPatch(typeof(RationalAi.Instance))]
+        [HarmonyPatch(nameof(RationalAi.Instance.RefreshUserMenu))]
         public static class AddRot
         {
 
             [HarmonyPriority(Priority.VeryLow)]
-            public static void Postfix(GameObject __result)
+            public static void Postfix(RationalAi.Instance __instance)
             {
-                __result.AddOrGet<Decomposer>();
+                if (__instance.master.gameObject.HasTag(GameTags.Dead))
+                    __instance.master.gameObject.AddOrGet<Decomposer>();
             }
         }
 
