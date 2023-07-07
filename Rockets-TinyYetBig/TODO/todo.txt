@@ -1,14 +1,100 @@
-﻿- move power plug into on tech earlier next to the smol battery tech - DONE
+﻿- investigate potential drillcone ui bug
 - antenna nosecone for moar booster building range
 - concept for boosters
 - sugar tank
 - liquid chlorine oxidizer - 3x efficiency, 2 height, high weight, uses abyssalite in recipe
 - add fuel component to trailblazer to get back up
+- deployable landing platform - wip
+- vertical adapter?
+- laser drillcone can use HEP storage module as extra storage
 
 - trade route planner
+	- replaces roundtrip?
+	- custom ui
+	- any amount of "checkpoints"
+	- assign any amount of rockets to each route
+	- each route checkpoint can be configured to be a "fueling location"
+	- warning based on that if the rocket would strand flying the route
+	- add additional rocket conditions (like factorio train conditions) -> copy factorio train schedule UI for individual Rockets(?!)
+	- trade route visualisation ( anno2070 like , either separate window or on starmap (toggle on starmap with coloured lines(?)))
 
-- nerf solar nosecone weight if not already done - DONE
-- fix vacuum for insulated adapter - DONE
+- AI rocket cargo docking port (AI rocket docking compatibility, 2 or 1 height module (better 2), functions as one docking port for cargo transfer only, no dupe passthrough)
+- interior logic port that translates logic input to additional launch condition.
+- interior logic output thats configurable to all or one of the launch conditions.
 - travel tube adapter
-- remove replacement on ladder adapter - DONE
 - PDC-Module
+
+
+- orbital/deep space construction projects 
+	- interior space station.
+	- mining rig?
+	- jump beacon <-> jump drive module?
+	- jump gates?
+	- meteor swarm harvester?
+	- dyson sphere around temporal tear?
+- explorable derelics
+	- puzzles
+	- limited time (like pocket dimension)
+	- vast riches + dangers (protomolecule -> see expanse content pack)
+
+- Deep space explorations (like vanilla rocket missions, rocket disappears from the starmap into (?)Wormhole, requires "quantum storage module"?)
+- Story Trait(s):
+	- crashed alien spaceship
+		- repair it in multiple stages, get a very fast, cheap dupe transport 
+	- repairable derelict, spawns at the edge of the starmap, same procedure, but requires docking to it
+
+What do I want for stations:
+
+Construction:
+- get constructed via 3gub drawn construction module
+- multi stage project (is constructed in stages, each stage consumes 1 large part)
+- large parts are built on the ground as multi stage buildings (like monument), then split into carriable parts
+	ex: 1 large part - "Structure Skeleton Beam"- made from 3 separate buildings, bottom, middle, top
+	when all 3 are built by dupes, button for "transport dissasembly" becomes active, this splits the multi stage building in f.e. 100 "structure skeleton beam parts"
+	these parts are then carried by the dupes to the construction module
+	construction module can only hold 1 of these large modules at a time, requiring either multiple construction modules (5 height each) for parallel assembly 
+	or using a "space construction cargo bay" - modified cargo bay that can carry a full part aswell, but cannot construct itself
+- UI on landed modules is copied repaint screen, allowing to select the type of large part it should carry/construct
+- station construction sites are to be marked via new UI component that unlocks with the first tech on the starmap -> find way to add new menus to that
+- construction sites use hermit like checklist of all required large parts
+	- integrate roundtrip/traderoute logic to "fly to location -> install part(s) -> come back" like with mining
+	- some sort of "core/skeleton" has to be the first part. like knocking
+- construction of a station can use the story trait quest notification system
+
+
+Features of a Station
+- when built in orbit, allows construction of a space elevator for dupes/cargo (similar to teleporter, but ships stuff in large packages)
+- docking allows refueling/loading/unloading cargo
+- can do space science on there
+- new type of science to be conducted in orbit: deep space sciecne
+	- acquired by doing space station experiments & uncovering artifacts
+	- artifacts unlock initial space station tech, then costs steeply increase to encourage space station construction
+	- Seed Radiator building: takes in radbolts + seed, gives deep space science in the process and allows doing some (maybe) targeted gene manipulations (source of mutated seeds)
+	- Reuse Carousel anim for dupe testing - dupe uses it for n time, generating science, but each use increases the chance of the dupe to throw up afterwards
+	- ?some sort of further databank usage?
+	- ?percentage of other sciences in a station contribute to deep space sciece
+
+
+Things to decide:
+- make stations upgradable? 
+	- all stations reserve the full max size of grid, but block off the outer area via neutronium/undiggable "forcefield" element+ local fog of war (like POIs)
+	- an Upgrade would fare similar to construction, build the parts via construction module, on completion the ring of forcefield and the fog of war is lifted, granting more building area
+- make stations flyable and/or require Upkeep
+	- new Buildings inside station: Station Thruster (with different tiers)
+	- each thruster can fire to provide "orbit stability", a number that slowly diminishes over time and has to be refilled
+	- when below certain thresholds, dupes stationed on the station get unease / panic debuff, as the station is slowly losing its orbit
+	- slowly losing orbit == at a certain threshold, the station will start falling into the next gravity well (drift towards the next planet).
+	- if it ""hits"" the planet, it will selfdestruct, triggering a debris meteor shower (custom debris meteors, non/weak radioactive opposed to satellite meteors)
+	- thrusters consume small amounts of resources for upkeep generation, triggering either automatically below a selectable stability threshold OR logic signal input (stability sensor)
+	- thrusters can also fire continuously, allowing flying to an adjacent tile. This should be highly ineffective (like 25 cycles per tile), dont move your station around, thats what rockets are for
+	- required upkeep scales with station size
+
+Expanse Content Pack:
+- Protomolecule Disease 
+	- infects everything
+	- thrives in light/radiation
+	- at a certain threshold, it converts the block its on to protomolecule element, learns sth about the consumed thing
+	- custom shader for infected buildings
+- Rocinante modules
+- Constructable Behemoth station
+	
