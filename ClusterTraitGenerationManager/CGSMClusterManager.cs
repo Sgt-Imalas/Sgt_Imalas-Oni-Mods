@@ -618,6 +618,8 @@ namespace ClusterTraitGenerationManager
                         }
                         placementPOI.allowedRings = rings;
                     }
+                    else
+                        SgtLogger.warning(this.id + ": no placement component found!");
                 }
             }
             public void SetOuterRing(int newRing, bool original = false)
@@ -647,6 +649,8 @@ namespace ClusterTraitGenerationManager
                         }
                         placementPOI.allowedRings = rings;
                     }
+                    else
+                        SgtLogger.warning(this.id + ": no placement component found!");
                 }
             }
             
@@ -665,6 +669,8 @@ namespace ClusterTraitGenerationManager
                         //}
                         placement.buffer = newBuffer;
                     }
+                    else
+                        SgtLogger.warning(this.id + ": no placement component found!");
                 }
             }
 

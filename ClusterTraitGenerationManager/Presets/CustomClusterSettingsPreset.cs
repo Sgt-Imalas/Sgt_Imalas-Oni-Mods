@@ -502,11 +502,20 @@ namespace ClusterTraitGenerationManager
                 cluster.POIs[poi.Key] = poiItem;
             }
         }
-        void ApplyDataToStarmapItem(SerializableStarmapItem item, StarmapItem reciever)
+        void ApplyDataToStarmapItem(SerializableStarmapItem item, StarmapItem reciverToLookup)
         {
+            item.minRing = Math.Max(0, item.minRing);
+            item.maxRing = Math.Max(0, item.maxRing);
+            if (item.category != StarmapItemCategory.POI)
+                item.buffer = Math.Max(0, item.buffer);
+            
+            var reciever = GivePrefilledItem(reciverToLookup);
+
+            SgtLogger.l("setting starmap item rings: min->"+item.minRing + ", max->" + item.maxRing+", buffer: "+item.buffer, reciever.id);
+
             reciever.SetOuterRing(item.maxRing);
             reciever.SetInnerRing(item.minRing);
-            reciever.SetBuffer(item.buffer);
+            reciever.SetBuffer( item.buffer);
             reciever.SetSpawnNumber(item.numberToSpawn);
             if (item.sizePreset != default)
             {
