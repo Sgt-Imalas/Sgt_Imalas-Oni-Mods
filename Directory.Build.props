@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
-	<PropertyGroup>
+  <PropertyGroup>
     <!--Gamedata Folder, adjust to your own ONI installation-->
-		<GameLibsFolder>C:\Program Files (x86)\Steam\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed</GameLibsFolder>
+    <GameLibsFolder>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed</GameLibsFolder>
     <!--OutputModFolder, adjust it to your own dev folder-->
-		<!--	<ModFolder>E:\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>-->
-		<!--<ModFolder>E:\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>-->
+    <ModFolder>E:\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>
     <!--Default for dev folder: -->
-		<ModFolder>$(UserProfile)\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>
-		<Optimize>true</Optimize>
-	</PropertyGroup>
+    <!--<ModFolder>$(UserProfile)\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>-->
+    <Optimize>true</Optimize>
+  </PropertyGroup>
 
 	<ItemGroup Condition="'$(GenerateMetadata)' == 'true' ">
 		<PackageReference Include="Cairath.ONIMetadataFileGenerator" Version="1.0.0">
