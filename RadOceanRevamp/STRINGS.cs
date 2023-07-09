@@ -24,6 +24,11 @@ namespace RadOceanRevamp
                 public static LocString NAME = "Rad Ocean Revamped";
                 public static LocString DESCRIPTION = "This world is rad ocean, but better!";
             }
+            public class REVAMPED_DESOLANDS_MOONLET
+            {
+                public static LocString NAME = "Desolands Revamped";
+                public static LocString DESCRIPTION = "This world is desolands, but better!";
+            }
         }
     }
 }

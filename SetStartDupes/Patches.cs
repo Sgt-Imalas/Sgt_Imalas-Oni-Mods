@@ -504,6 +504,16 @@ namespace SetStartDupes
         //    }
         //}
 
+        [HarmonyPatch(typeof(CharacterSelectionController))]
+        [HarmonyPatch(nameof(CharacterSelectionController.AddDeliverable))]
+        public class CatchErrorLogging
+        {
+            public static void Prefix(ITelepadDeliverable deliverable, CharacterSelectionController __instance)
+            {
+                //if(__instance.selectedDeliverables)
+            }
+        }
+
 
 
         /// <summary>

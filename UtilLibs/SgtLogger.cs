@@ -15,7 +15,6 @@ namespace UtilLibs
         {
             debuglog("Mod Version: " + usermod.mod.packagedModInfo.version);
         }
-
         public static void l(string message, string assemblyOverride = "")
         {
             debuglog(message, assemblyOverride);
