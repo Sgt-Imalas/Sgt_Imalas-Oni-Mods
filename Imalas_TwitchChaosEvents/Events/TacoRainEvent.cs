@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Util_TwitchIntegrationLib;
 using static STRINGS.BUILDINGS.PREFABS.EXTERIORWALL.FACADES;
 using UtilLibs;
+using UnityEngine;
 
 namespace Imalas_TwitchChaosEvents.Events
 {
@@ -26,32 +27,65 @@ namespace Imalas_TwitchChaosEvents.Events
 
         public Action<object> EventAction => (object data) =>
         {
-            GameScheduler.Instance.Schedule("taco rain", 0.5f, _ =>
-            {
-                //rain.StartRaining();
-                if(ClusterManager.Instance.activeWorld.IsModuleInterior)
-                {
-                    return;
-                }
-
-                GameplayEventInstance eventInstance = GameplayEventManager.Instance.StartNewEvent(MeteorPatches.ITC_TacoMeteors, ClusterManager.Instance.activeWorldId);
-                // ClusterManager.Instance.activeWorld.GetSMI<GameplaySeasonManager.Instance>().Start(Db.Get().GameplaySeasons.TemporalTearMeteorShowers);
-                SoundUtils.PlaySound(ModAssets.SOUNDS.TACORAIN, SoundUtils.GetSFXVolume() * 0.3f,true);
-            });
             string body = STRINGS.CHAOSEVENTS.TACORAIN.TOASTTEXT;
 
-            if(ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe == false)
+            if (ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe == false)
             {
                 body += STRINGS.CHAOSEVENTS.TACORAIN.NEWRECIPE;
                 ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe = true;
             }
 
 
-            ToastManager.InstantiateToast(
+            
+
+            GameScheduler.Instance.Schedule("taco rain", 0.5f, _ =>
+            {
+                int activeWorld = ClusterManager.Instance.activeWorldId;
+                //rain.StartRaining();
+                if (ClusterManager.Instance.activeWorld.IsModuleInterior)
+                {
+                    activeWorld = 0;
+                }
+
+                GameplayEventInstance eventInstance = GameplayEventManager.Instance.StartNewEvent(MeteorPatches.ITC_TacoMeteors, activeWorld);
+                // ClusterManager.Instance.activeWorld.GetSMI<GameplaySeasonManager.Instance>().Start(Db.Get().GameplaySeasons.TemporalTearMeteorShowers);
+                SoundUtils.PlaySound(ModAssets.SOUNDS.TACORAIN, SoundUtils.GetSFXVolume() * 0.3f,true);
+
+                var world = ClusterManager.Instance.GetWorld(activeWorld);
+                //var pos = world.LookAtSurface();
+
+
+                ToastManager.InstantiateToastWithPosTarget(
                 STRINGS.CHAOSEVENTS.TACORAIN.TOAST,
-                 body
+                 body, GetSurfacePos(world)
+
             );
+
+            });
         };
+
+        Vector3 GetSurfacePos(WorldContainer world)
+        {
+            int num = (int)world.maximumBounds.y;
+            for (int i = 0; i < world.worldSize.X; i++)
+            {
+                for (int num2 = world.worldSize.y - 1; num2 >= 0; num2--)
+                {
+                    int num3 = num2 + world.worldOffset.y;
+                    int num4 = Grid.XYToCell(i + world.worldOffset.x, num3);
+                    if (Grid.IsValidCell(num4) && (Grid.Solid[num4] || Grid.IsLiquid(num4)))
+                    {
+                        num = Math.Min(num, num3);
+                        break;
+                    }
+                }
+            }
+
+            int num5 = (num + world.worldOffset.y + world.worldSize.y) / 2;
+            Vector3 vector = new Vector3(world.WorldOffset.x + world.Width / 2, num5, 0f);
+            return vector;
+        }
+
 
         public Func<object, bool> Condition =>
             (data) =>
