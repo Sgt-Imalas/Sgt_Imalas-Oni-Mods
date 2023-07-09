@@ -1314,12 +1314,13 @@ namespace ClusterTraitGenerationManager
             LastPresetGenerated = clusterID;
         }
 
+        public static bool RerollTraitsWithSeedChange = true;
         public static void RerollTraits()
         {
-            int seed = int.Parse(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id);
-
-            if (CustomCluster == null)
+            if (CustomCluster == null || (!RerollTraitsWithSeedChange && CustomSettingsController.Instance.CurrentlyActive))
                 return;
+
+            int seed = int.Parse(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id);
 
             var planets = CustomCluster.GetAllPlanets();
             for (int i = 0; i < planets.Count; i++)

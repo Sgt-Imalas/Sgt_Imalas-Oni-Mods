@@ -117,7 +117,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeuralVaccilatorExpanded", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Util_TwitchIntegrationLib", "Util_TwitchIntegrationLib\Util_TwitchIntegrationLib.csproj", "{71283410-EA3E-4DFD-B9D5-9CE9895F2C40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imalas_TwitchChaosEvents", "Imalas_TwitchChaosEvents\Imalas_TwitchChaosEvents.csproj", "{9DDA660B-8AAF-4125-A7DE-D4E9121157F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Imalas_TwitchChaosEvents", "Imalas_TwitchChaosEvents\Imalas_TwitchChaosEvents.csproj", "{9DDA660B-8AAF-4125-A7DE-D4E9121157F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadOceanRevamp", "RadOceanRevamp\RadOceanRevamp.csproj", "{A59AF28A-E7D9-444B-AEC4-F53967683E59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -443,6 +445,12 @@ Global
 		{9DDA660B-8AAF-4125-A7DE-D4E9121157F8}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{9DDA660B-8AAF-4125-A7DE-D4E9121157F8}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
 		{9DDA660B-8AAF-4125-A7DE-D4E9121157F8}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
+		{A59AF28A-E7D9-444B-AEC4-F53967683E59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A59AF28A-E7D9-444B-AEC4-F53967683E59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A59AF28A-E7D9-444B-AEC4-F53967683E59}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{A59AF28A-E7D9-444B-AEC4-F53967683E59}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{A59AF28A-E7D9-444B-AEC4-F53967683E59}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
+		{A59AF28A-E7D9-444B-AEC4-F53967683E59}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

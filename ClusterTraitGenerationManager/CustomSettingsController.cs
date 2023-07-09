@@ -31,6 +31,7 @@ namespace ClusterTraitGenerationManager
 
         public FInputField2 SeedInput;
         public FButton SeedCycleButton;
+        public FToggle2 SeedRerollsTraitsToggle;
 
         private FCycle ImmuneSystem;
         private FCycle CalorieBurn;
@@ -304,9 +305,25 @@ namespace ClusterTraitGenerationManager
             SeedCycleButton = transform.Find("Content/Seed/SeedBar/DeleteButton").FindOrAddComponent<FButton>();
             SeedCycleButton.OnClick += () => GetNewRandomSeed();
 
+
+
+
             var SeedLabel = transform.Find("Content/Seed/Label").gameObject.AddOrGet<LocText>();
             SeedLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.WORLDGEN_SEED.NAME;
             UIUtils.AddSimpleTooltipToObject(SeedLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.WORLDGEN_SEED.TOOLTIP,alignCenter:true,onBottom:true);
+
+
+            SeedRerollsTraitsToggle = transform.Find("Content/SeedTraits").FindOrAddComponent<FToggle2>();
+            SeedRerollsTraitsToggle.SetCheckmark("Background/Checkmark");
+            SeedRerollsTraitsToggle.On = CGSMClusterManager.RerollTraitsWithSeedChange;
+            SeedRerollsTraitsToggle.OnClick += () =>
+            {
+                CGSMClusterManager.RerollTraitsWithSeedChange = SeedRerollsTraitsToggle.On;
+            };
+
+            var seedRerollLabel = transform.Find("Content/SeedTraits/Label").gameObject.AddOrGet<LocText>();
+            seedRerollLabel.text = STRINGS.UI.SEEDLOCK.NAME;
+            UIUtils.AddSimpleTooltipToObject(seedRerollLabel.transform, STRINGS.UI.SEEDLOCK.TOOLTIP, alignCenter: true, onBottom: true);
 
 
             CloseButton = transform.Find("Title/CloseButton").FindOrAddComponent<FButton>();

@@ -373,6 +373,11 @@ namespace ClusterTraitGenerationManager
                 }
 
             }
+            public class SEEDLOCK
+            {
+                public static LocString NAME = (LocString)"Seed rerolling affects traits";
+                public static LocString TOOLTIP = (LocString)"When enabled, rerolling the seed will also reroll the planet traits to those of the new seed.\nDisable to reroll the seed without affecting the traits.\nOnly blocks trait rerolling for the seed setting above.";
+            }
 
             public class SPACEDESTINATIONS
             {
