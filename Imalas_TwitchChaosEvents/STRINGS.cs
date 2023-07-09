@@ -4,12 +4,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Imalas_TwitchChaosEvents.STRINGS.ELEMENTS;
 using static STRINGS.UI ;
 
 namespace Imalas_TwitchChaosEvents
 {
-    internal class STRINGS
+    public class STRINGS
     {
+        public class ITEMS
+        {
+            public class FOOD
+            {
+                public class ICT_TACO
+                {
+                    public static LocString NAME = FormatAsLink("Taco", nameof(ICT_TACO));
+                    public static LocString DESC = "A staple meal that provides vital nutrients and energy to those who consume it.";
+                }
+            }
+
+        }
+        public class COMETS
+        {
+            public class ITC_TACOCOMET
+            {
+                public static LocString NAME = FormatAsLink("Flying Taco", nameof(ITC_TACOCOMET));
+                public static LocString DESC = "A flying taco, it looks delicious!";
+            }
+                
+        }
+
         public class ELEMENTS
         {
             public class ITCE_INVERSE_ICE
@@ -59,6 +82,13 @@ namespace Imalas_TwitchChaosEvents
                 public static LocString NAME = "Creeper Rain";
                 public static LocString TOAST = "Creeper Rain";
                 public static LocString TOASTTEXT = "The Creeper is about to arrive on {0}";
+            }
+            public class TACORAIN
+            {
+                public static LocString NAME = "Taco Rain";
+                public static LocString TOAST = "Taco Rain!";
+                public static LocString TOASTTEXT = "It's raining Tacos!";
+                public static LocString NEWRECIPE = "\n\nThere is also a new recipe in the Gas Range.";
             }
         }
     }

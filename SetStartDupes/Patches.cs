@@ -510,7 +510,7 @@ namespace SetStartDupes
         {
             public static void Prefix(ITelepadDeliverable deliverable, CharacterSelectionController __instance)
             {
-                //if(__instance.selectedDeliverables)
+                //if(__instance.selectedDeliverables) //clear that
             }
         }
 

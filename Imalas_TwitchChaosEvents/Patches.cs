@@ -1,6 +1,7 @@
 ﻿using Database;
 using HarmonyLib;
 using Imalas_TwitchChaosEvents.Elements;
+using Imalas_TwitchChaosEvents.Meteors;
 using Klei.AI;
 using ProcGen;
 using System;
@@ -38,6 +39,30 @@ namespace Imalas_TwitchChaosEvents
             public static void Postfix()
             {
                 LocalisationUtil.Translate(typeof(STRINGS), true);
+            }
+        }
+        public class SaveGamePatch
+        {
+
+            [HarmonyPatch(typeof(SaveGame), "OnPrefabInit")]
+            public class SaveGame_OnPrefabInit_Patch
+            {
+                public static void Postfix(SaveGame __instance)
+                {
+                    __instance.gameObject.AddOrGet<ChaosTwitch_SaveGameStorage>();
+                }
+            }
+        }
+        [HarmonyPatch(typeof(ComplexFabricatorSideScreen), "AnyRecipeRequirementsDiscovered")]
+        public class ComplexFabricatorSideScreen_AnyRecipeRequirementsDiscovered_Patch
+        {
+            public static void Postfix(ComplexRecipe recipe, ref bool __result)
+            {
+                if (ChaosTwitch_SaveGameStorage.Instance == null)
+                    return;
+
+                if (recipe.id == TacoConfig.ID)
+                    __result = ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe;
             }
         }
 

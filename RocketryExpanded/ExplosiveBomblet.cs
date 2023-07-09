@@ -13,9 +13,11 @@ namespace ExplosiveMaterials
 {
     public class ExplosiveBomblet : KMonoBehaviour, ISim200ms
     {
+        public static GameHashes ImpactTriggered = (GameHashes)Hash.SDBMLower("FallingBomblet_ImpactTriggered"); 
         private bool isTriggered = false;
         private float timeToDetonate = -1f;
         private bool HasDetonated = false;
+        public bool GravityTriggered = false;
 
         public int radius = -1;
         public float dmg = 5f;
@@ -42,6 +44,8 @@ namespace ExplosiveMaterials
         public override void OnSpawn()
         {
             base.OnSpawn();
+            if (GravityTriggered)
+                this.Subscribe((int)ImpactTriggered, (obj) => Detonate());
         }
         public void Sim200ms(float dt)
         {
@@ -80,7 +84,6 @@ namespace ExplosiveMaterials
 
         private IEnumerator Explode()
         {
-            SgtLogger.aaa();
             ApplyParams();
             var outerCircle = ProcGen.Util.GetCircle(transform.position, radius);
             var center = Grid.PosToXY(transform.position);
