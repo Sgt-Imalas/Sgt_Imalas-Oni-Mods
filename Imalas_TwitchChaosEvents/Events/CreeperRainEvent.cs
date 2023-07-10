@@ -37,9 +37,12 @@ namespace Imalas_TwitchChaosEvents.Events
 
             go.SetActive(true);
 
-            GameScheduler.Instance.Schedule("creeper rain", 5f, _ =>
+            GameScheduler.Instance.Schedule("creeper rain", 15f, _ =>
             {
                 rain.StartRaining();
+                ToastManager.InstantiateToast(
+                    STRINGS.CHAOSEVENTS.CREEPERRAIN.TOAST,
+                    string.Format(STRINGS.CHAOSEVENTS.CREEPERRAIN.TOASTTEXT2, ClusterManager.Instance.activeWorld.GetProperName()));
                 //AudioUtil.PlaySound(ModAssets.Sounds.SPLAT, ModAssets.GetSFXVolume() * 0.15f); // its loud
             });
 
@@ -51,7 +54,7 @@ namespace Imalas_TwitchChaosEvents.Events
         public Func<object, bool> Condition =>
             (data) =>
             {
-                return GameClock.Instance.GetCycle() > 33;
+                return GameClock.Instance.GetCycle() > 50;
             };
 
         public Danger EventDanger => Danger.Extreme;

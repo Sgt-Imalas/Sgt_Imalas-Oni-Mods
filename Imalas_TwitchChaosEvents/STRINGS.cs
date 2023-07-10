@@ -91,6 +91,7 @@ namespace Imalas_TwitchChaosEvents
                 public static LocString NAME = "Creeper Rain";
                 public static LocString TOAST = "Creeper Rain";
                 public static LocString TOASTTEXT = "The Creeper is about to arrive on {0}";
+                public static LocString TOASTTEXT2 = "The Creeper has arrived on {0}!";
             }
             public class TACORAIN
             {
@@ -103,7 +104,7 @@ namespace Imalas_TwitchChaosEvents
         }
         public class HOTKEYACTIONS
         {
-            public static LocString TRIGGER_FAKE_TACORAIN_NAME = "Trigger a fake Taco Rain";
+            public static LocString TRIGGER_FAKE_TACORAIN_NAME = "Trigger a ghostly Taco Rain";
             public static LocString UNLOCK_TACO_RECIPE = "Manually unlock Taco Recipe";
             public static LocString UNLOCK_TACO_RECIPE_TITLE = "Tacos!";
             public static LocString UNLOCK_TACO_RECIPE_BODY = "The Taco recipe has been unlocked in the Gas Range";
@@ -115,10 +116,10 @@ namespace Imalas_TwitchChaosEvents
             public static LocString TACORAIN_MUSIC_NAME = "Music on Taco Rain Event";
             public static LocString TACORAIN_MUSIC_TOOLTIP = "During the twitch event \"Taco Rain\", the song \"Raining Tacos - Parry Gripp & BooneBum\" gets played.\nDisable this option here to mute it.";
 
-            public static LocString FAKE_TACORAIN_MUSIC_NAME = "Music on triggerable Taco Rain";
+            public static LocString FAKE_TACORAIN_MUSIC_NAME = "Music on triggerable ghostly Taco Rain";
             public static LocString FAKE_TACORAIN_MUSIC_TOOLTIP = "During the triggerable Taco Rain the song \"Raining Tacos - Parry Gripp & BooneBum\" gets played.\nDisable this option here to mute it.";
 
-            public static LocString FAKE_TACORAIN_DURATION_NAME = "triggerable Taco Rain duration in s";
+            public static LocString FAKE_TACORAIN_DURATION_NAME = "triggerable ghostly Taco Rain duration in s";
             public static LocString FAKE_TACORAIN_DURATION_TOOLTIP = "How long should the triggerable Taco Rain last (in seconds).";
         }
     }

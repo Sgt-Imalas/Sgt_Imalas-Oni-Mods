@@ -103,15 +103,15 @@ elements:
     offGasPercentage: 1
     sublimateFx: BuildingLeakLiquid
     sublimateId: ITCE_CreepyLiquidGas
-    sublimateEfficiency: 25
-    sublimateRate: 25
+    sublimateEfficiency: 50
+    sublimateRate: 20
     sublimateProbability: 1
     defaultMass: 500
     molarMass: 1
     toxicity: 0
     lightAbsorptionFactor: 1
     radiationAbsorptionFactor: 0.73
-    radiationPer1000Mass: 0
+    radiationPer1000Mass: 150
     tags:
     isDisabled: false
     state: Liquid

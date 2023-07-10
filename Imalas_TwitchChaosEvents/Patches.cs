@@ -75,21 +75,34 @@ namespace Imalas_TwitchChaosEvents
             [HarmonyPriority(Priority.High)]
             public static class Game_Update_Patch
             {
-                static ushort CreeperIDx=0;
-                static float time = 0;
-                const float looptime = 180f;
+                static Dictionary<int, System.Tuple<byte, byte, byte>> ColourValues;
+                static ushort CreeperIDx = 0;
+                static int time = 0;
+                static int colourStep = 0;
+                const int looptime = 120;
 
                 [HarmonyPriority(Priority.High)]
                 public static void Prefix()
                 {
-                    if(CreeperIDx == 0)
+                    if (CreeperIDx == 0)
                     {
                         var element = ElementLoader.FindElementByHash(ModElements.Creeper.SimHash);
-                        if(element != null)
+                        if (element != null)
                         {
-                            CreeperIDx = element.idx;                            
+                            CreeperIDx = element.idx;
                         }
+                        ColourValues = new Dictionary<int, System.Tuple<byte, byte, byte>>();
+
+                        for (int i = 0; i < looptime; ++i)
+                            AddColourEntry(i);
                     }
+                }
+
+                static void AddColourEntry(int i)
+                {
+                    var stepColor = Color.HSVToRGB((float)i / (float)looptime, 1, 1);
+                    byte rByte = (byte)(stepColor.r * 255f), gByte = (byte)(stepColor.g * 255f), bByte = (byte)(stepColor.b * 255f);
+                    ColourValues[i] = System.Tuple.Create(rByte, gByte, bByte);
                 }
 
                 public static Color CurrentColor => Color.HSVToRGB(time / looptime, 1, 1);
@@ -97,18 +110,45 @@ namespace Imalas_TwitchChaosEvents
                 [HarmonyPriority(Priority.High)]
                 public static void Postfix()
                 {
-                    time++;
+                    if (SpeedControlScreen.Instance == null ||
+                        false
+                        )
+                        return;
+                    if (!SpeedControlScreen.Instance.IsPaused)
+                        time++;
                     IntPtr pixelsPtr = PropertyTextures.externalLiquidTex;
-                    var currentcolor = CurrentColor;
-                    byte rByte = (byte)(CurrentColor.r * 255f), gByte = (byte)(currentcolor.g * 255f), bByte = (byte)(currentcolor.b * 255f);
 
-                    Parallel.For(0, Grid.CellCount, (i) => ProcessPixel(pixelsPtr, i, rByte, gByte,bByte));
+                    //Parallel.For(0, Grid.CellCount, (i) => ProcessPixel(pixelsPtr, i, rByte, gByte,bByte));
+                    Parallel.For(0, Grid.CellCount, (i) => ProcessPixelbyTime(pixelsPtr, i, time));
                     time %= looptime;
                 }
+                private static unsafe void ProcessPixelbyTime(IntPtr pixelsPtr, int i, int time)
+                {
+                    if (!Grid.IsActiveWorld(i) || !Grid.IsLiquid(i)) return;
+
+                    var colour = ColourValues[GetCurrentColour(i, time)];
+
+                    byte* pixel = (byte*)pixelsPtr.ToPointer() + (i * 4);
+                    pixel[0] = colour.Item1;
+                    pixel[1] = colour.Item2;
+                    pixel[2] = colour.Item3;
+                    // pixel[3] = (byte)10;
+                }
+                static int GetCurrentColour(int cell, int time)
+                {
+                    int Y = Grid.CellRow(cell)
+                        //,                        X = Grid.CellColumn(cell)
+                        ;
+
+                    return (Y + time) % looptime;
+                }
+
 
                 private static unsafe void ProcessPixel(IntPtr pixelsPtr, int i, byte r, byte g, byte b)
                 {
-                    if (!Grid.IsActiveWorld(i) || Grid.elementIdx[i]!= CreeperIDx || CreeperIDx == 0) return;
+                    if (!Grid.IsActiveWorld(i) || Grid.elementIdx[i] != CreeperIDx || CreeperIDx == 0) return;
+
+
 
                     byte* pixel = (byte*)pixelsPtr.ToPointer() + (i * 4);
                     pixel[0] = r;

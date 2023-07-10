@@ -70,15 +70,12 @@ namespace Imalas_TwitchChaosEvents.Events
 
         public Func<object, bool> Condition =>
             (data) =>
-            {
+            { ///Sim cannot handle solids freezing into liquid
+                return false;
                 return true;
             };
 
         public Danger EventDanger => Danger.Medium;
 
-        public void SpawnBuzzSaw()
-        {
-            //ToastManager.InstantiateToastWithPosTarget(EventName, EventDescription, targetCoords);
-        }
     }
 }

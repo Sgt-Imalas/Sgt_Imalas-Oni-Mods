@@ -1,39 +1,63 @@
-﻿//using ONITwitchLib;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using UnityEngine.UI;
-//using Util_TwitchIntegrationLib;
+﻿using ONITwitchLib;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine.UI;
+using Util_TwitchIntegrationLib;
+using UtilLibs;
 
-//namespace Imalas_TwitchChaosEvents.Events
-//{
-//    internal class BuzzsawEvent : ITwitchEventBase
-//    {
-//        public string ID => "ChaosTwitch_Buzzsaw";
+namespace Imalas_TwitchChaosEvents.Events
+{
+    internal class BuzzsawEvent : ITwitchEventBase
+    {
+        public string ID => "ChaosTwitch_Buzzsaw";
 
-//        public string EventGroupID => null;
+        public string EventGroupID => null;
 
-//        public string EventName => throw new NotImplementedException();
+        public string EventName => STRINGS.CHAOSEVENTS.BUZZSAW.NAME;
 
-//        public string EventDescription => throw new NotImplementedException();
+        public string EventDescription => STRINGS.CHAOSEVENTS.BUZZSAW.TOASTTEXT;
 
-//        public EventWeight EventWeight => EventWeight.WEIGHT_NORMAL;
+        public EventWeight EventWeight => EventWeight.WEIGHT_NORMAL;
 
-//        public Action<object> EventAction => throw new NotImplementedException();
+        public Action<object> EventAction => (object data) =>
+        {
 
-//        public Func<object, bool> Condition =>
-//            (data) =>
-//            {
-//                return true;
-//            };
+            ToastManager.InstantiateToast(
+            STRINGS.CHAOSEVENTS.BUZZSAW.TOAST,
+             STRINGS.CHAOSEVENTS.BUZZSAW.TOASTTEXT
+             );
 
-//        public Danger EventDanger => Danger.High;
+            GameScheduler.Instance.Schedule("buzzsaw", 3f, _ =>
+            {
+                int activeWorld = ClusterManager.Instance.activeWorldId;
+                //rain.StartRaining();
+                if (ClusterManager.Instance.activeWorld.IsModuleInterior)
+                {
+                    activeWorld = 0;
+                }
 
-//        public void SpawnBuzzSaw()
-//        {
+                var world = ClusterManager.Instance.GetWorld(activeWorld);
+                //var pos = world.LookAtSurface();
+                SpawnBuzzSaw();
 
-//        }
-//    }
-//}
+            });
+        };
+
+        public Func<object, bool> Condition =>
+            (data) =>
+            {
+                return false;
+                return true;
+            };
+
+        public Danger EventDanger => Danger.High;
+
+        public void SpawnBuzzSaw()
+        {
+
+        }
+    }
+}
