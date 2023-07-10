@@ -11,7 +11,7 @@ namespace DrywallPatternColours
     {
         public class BUILDINGS
         {
-            public class PREFABS
+            public class PREFABS_MODDEDSKINS
             {
                 public class EXTERIORWALL
                 {
