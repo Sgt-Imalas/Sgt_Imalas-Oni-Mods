@@ -126,21 +126,20 @@ namespace Imalas_TwitchChaosEvents
                 {
                     if (!Grid.IsActiveWorld(i) || !Grid.IsLiquid(i)) return;
 
-                    var colour = ColourValues[GetCurrentColour(i, time)];
+                    var colour = ColourValues[GetCurrentColourIndex(i, time)];
 
                     byte* pixel = (byte*)pixelsPtr.ToPointer() + (i * 4);
                     pixel[0] = colour.Item1;
                     pixel[1] = colour.Item2;
                     pixel[2] = colour.Item3;
-                    // pixel[3] = (byte)10;
                 }
-                static int GetCurrentColour(int cell, int time)
+                static int GetCurrentColourIndex(int cell, int time)
                 {
                     int Y = Grid.CellRow(cell)
-                        //,                        X = Grid.CellColumn(cell)
+                        ,X = Grid.CellColumn(cell)
                         ;
 
-                    return (Y + time) % looptime;
+                    return ((Y+X/2) + time) % looptime;
                 }
 
 

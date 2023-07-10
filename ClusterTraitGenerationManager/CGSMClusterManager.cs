@@ -367,6 +367,10 @@ namespace ClusterTraitGenerationManager
 
             public SpaceMapPOIPlacement placementPOI;
 
+            public bool IsPOI => category == StarmapItemCategory.POI;
+            public bool IsRandom => id.Contains(RandomKey);
+
+
             public string DisplayName
             {
                 get
@@ -1351,9 +1355,12 @@ namespace ClusterTraitGenerationManager
                 ToAdd.AddItemWorldPlacement(PredefinedPlacementData[ToAdd.id]);
             else
             {
-                var item = new WorldPlacement();
-                item.world = ToAdd.id;
-                ToAdd.AddItemWorldPlacement(item);
+                if (!ToAdd.IsPOI)
+                {
+                    var item = new WorldPlacement();
+                    item.world = ToAdd.id;
+                    ToAdd.AddItemWorldPlacement(item);
+                }
             }
 
             return ToAdd;

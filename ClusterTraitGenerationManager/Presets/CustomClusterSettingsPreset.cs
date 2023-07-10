@@ -531,11 +531,15 @@ namespace ClusterTraitGenerationManager
             {
                 reciever.world.seasons = item.meteorSeasons;
             }
-            if (item.category != StarmapItemCategory.POI)
+            if (!reciever.IsPOI && !reciever.IsRandom)
             {
                 reciever.SetWorldTraits(item.planetTraits); 
             }
-            reciever.MaxNumberOfInstances = item.maxNumberToSpawn;
+            else
+            {
+                reciever.MaxNumberOfInstances = item.maxNumberToSpawn;
+                reciever.SetSpawnNumber(item.numberToSpawn);
+            }
         }
 
 

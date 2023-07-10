@@ -612,7 +612,7 @@ namespace ClusterTraitGenerationManager
             ///Shower Container
             foreach (var gameplayEvent in Db.Get().GameplayEvents.resources)
             {
-                if (!(gameplayEvent is MeteorShowerEvent) || gameplayEvent.Id.Contains("Fullerene"))
+                if (!(gameplayEvent is MeteorShowerEvent) || gameplayEvent.Id.Contains("Fullerene") )
                     continue;
                 var meteorEvent = gameplayEvent as MeteorShowerEvent;
                 string ClusterEventID = meteorEvent.clusterMapMeteorShowerID;
@@ -620,6 +620,7 @@ namespace ClusterTraitGenerationManager
                 ///for those pesky vanilla meteors without starmap entity
                 if (ClusterEventID == null || ClusterEventID == string.Empty)
                 {
+                    continue;
                     string TypeOfEvent = meteorEvent.Id.Replace("MeteorShower", string.Empty).Replace("Event", string.Empty);
                     ClusterEventID = ClusterMapMeteorShowerConfig.GetFullID(TypeOfEvent);
                 }
