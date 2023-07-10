@@ -2,6 +2,7 @@
 using HarmonyLib;
 using Imalas_TwitchChaosEvents.Meteors;
 using Klei.AI;
+using ONITwitchLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,12 @@ using static ComplexRecipe;
 
 namespace Imalas_TwitchChaosEvents
 {
-    internal class MeteorPatches
+    internal class TacoMeteorPatches
     {
         public const string ITC_TacoMeteorsID = "ITC_TacoMeteorShowerEvent";
+        public const string ITC_FakeTacoMeteorsID = "ITC_FakeTacoMeteorShowerEvent";
         public static GameplayEvent ITC_TacoMeteors;
+        public static GameplayEvent ITC_FakeTacoMeteors;
         public static void Register(GameplayEvents gameplayEvents)
         {
             ITC_TacoMeteors = gameplayEvents.Add(new MeteorShowerEvent(
@@ -31,6 +34,16 @@ namespace Imalas_TwitchChaosEvents
                 false)
                 .AddMeteor(TacoCometConfig.ID, 0.15f));
 
+            ITC_FakeTacoMeteors = gameplayEvents.Add(new MeteorShowerEvent(
+                ITC_FakeTacoMeteorsID,
+                Config.Instance.FakeTacoEventDuration,
+                0.12f,
+                METEORS.BOMBARDMENT_OFF.NONE,
+                METEORS.BOMBARDMENT_ON.UNLIMITED,
+                null,
+                false)
+                .AddMeteor(GhostlyTacoCometConfig.ID, 0.15f));
+
         }
         [HarmonyPatch(typeof(Db), "Initialize")]
         public class Db_Initialize_Patch
@@ -41,19 +54,43 @@ namespace Imalas_TwitchChaosEvents
             }
         }
 
+        [HarmonyPatch(typeof(PlayerController), "OnKeyDown")]
+        public class PlayerController_OnKeyDown_Patch
+        {
+            public static void Prefix(KButtonEvent e)
+            {
+                if (ClusterManager.Instance == null)
+                    return;
+
+                if (e.TryConsume(ModAssets.HotKeys.UnlockTacoRecipe.GetKAction()))
+                {
+                    ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe = true;
+                    ToastManager.InstantiateToast(STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE_TITLE, STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE_BODY);
+                }
+                else if ( e.TryConsume(ModAssets.HotKeys.TriggerTacoRain.GetKAction()))
+                {
+                    TriggerGhostTacoMeteors();
+                }
+            }
+        }
+
+        static void TriggerGhostTacoMeteors()
+        {
+            int activeWorld = ClusterManager.Instance.activeWorldId;
+            if (ClusterManager.Instance.activeWorld.IsModuleInterior)
+            {
+                activeWorld = 0;
+            }
+            GameplayEventInstance eventInstance = GameplayEventManager.Instance.StartNewEvent(TacoMeteorPatches.ITC_FakeTacoMeteors, activeWorld);
+            if (Config.Instance.FakeTacoEventMusic)
+                SoundUtils.PlaySound(ModAssets.SOUNDS.TACORAIN, SoundUtils.GetSFXVolume() * 0.3f, true);
+        }
+
 
         [HarmonyPatch(typeof(Db))]
         [HarmonyPatch(nameof(Db.Initialize))]
         public static class PatchCarnivoreAchievment
         {
-            //public static void Postfix(List<string> fromFoodType)
-            //{
-            //    if (!fromFoodType.Contains(CannedBBQConfig.ID))
-            //    {
-            //        fromFoodType.Add(CannedBBQConfig.ID);
-            //        fromFoodType.Add(CannedTunaConfig.ID);
-            //    }
-            //}
             public static void Postfix(Db __instance)
             {
                 var items = __instance.ColonyAchievements.EatkCalFromMeatByCycle100.requirementChecklist;

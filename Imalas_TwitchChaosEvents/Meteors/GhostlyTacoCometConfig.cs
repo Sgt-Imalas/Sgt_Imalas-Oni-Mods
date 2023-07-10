@@ -9,12 +9,12 @@ using static STRINGS.UI.SPACEDESTINATIONS.COMETS;
 
 namespace Imalas_TwitchChaosEvents.Meteors
 {
-    internal class TacoCometConfig : IEntityConfig
+    internal class GhostlyTacoCometConfig : IEntityConfig
     {
-        public const string ID = "ITC_TacoComet";
+        public const string ID = "ITC_GhostlyTacoComet";
         public GameObject CreatePrefab()
         {
-            GameObject entity = EntityTemplates.CreateEntity(ID, STRINGS.COMETS.ITC_TACOCOMET.NAME);
+            GameObject entity = EntityTemplates.CreateEntity(ID, STRINGS.COMETS.ITC_GHOSTTACOCOMET.NAME);
             entity.AddOrGet<SaveLoadRoot>();
             entity.AddOrGet<LoopingSounds>();
             VariableAmountMeteor gassyMooComet = entity.AddOrGet<VariableAmountMeteor>();
@@ -31,10 +31,10 @@ namespace Imalas_TwitchChaosEvents.Meteors
             gassyMooComet.addTiles = 0;
             gassyMooComet.affectedByDifficulty = false;
             gassyMooComet.destroyOnExplode = false;
-            gassyMooComet.craterPrefabs = new string[1] { TacoConfig.ID };
+            gassyMooComet.craterPrefabs = new string[1] { GhostlyTacoConfig.ID };
             gassyMooComet.amountRange = new Vector2(0.015f, 0.1f);
             gassyMooComet.mooSpawnImpactOffset = Vector2.zero;
-            gassyMooComet.spawnOffset = new Vector2(0.0f, 0.38f);
+            gassyMooComet.spawnOffset = new Vector2(0.1f, 0.38f);
             //gassyMooComet.spawnWithOffset = true;
             //gassyMooComet.offsetPosition = new Vector3(0.5f, 0.4f, 0f);   
             PrimaryElement primaryElement = entity.AddOrGet<PrimaryElement>();
@@ -50,6 +50,7 @@ namespace Imalas_TwitchChaosEvents.Meteors
             kbatchedAnimController.initialMode = KAnim.PlayMode.Loop;
             kbatchedAnimController.visibilityType = KAnimControllerBase.VisibilityType.OffscreenUpdate;
             entity.AddOrGet<KCircleCollider2D>().radius = 1.1f;
+            entity.AddOrGet<GhostFade>();
             entity.AddTag(GameTags.Comet);
             return entity;
         }
@@ -59,8 +60,7 @@ namespace Imalas_TwitchChaosEvents.Meteors
         public void OnPrefabInit(GameObject inst) { }
 
         public void OnSpawn(GameObject inst) 
-        {
-        
+        {        
         }
     }
 }

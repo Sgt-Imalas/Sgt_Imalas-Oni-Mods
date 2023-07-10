@@ -279,7 +279,7 @@ namespace ExplosiveMaterials
 
             if (!Grid.IsValidCell(cell))
                 return;
-            GameObject building_go = Grid.Objects[cell, 1];
+            GameObject building_go = Grid.Objects[cell, (int)ObjectLayer.Building];
             if (building_go != null&& building_go.TryGetComponent<BuildingHP>(out var buildingHP))
             {
                 if (!damagedEntities.Contains(building_go))

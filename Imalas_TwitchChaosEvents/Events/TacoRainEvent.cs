@@ -32,13 +32,14 @@ namespace Imalas_TwitchChaosEvents.Events
             if (ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe == false)
             {
                 body += STRINGS.CHAOSEVENTS.TACORAIN.NEWRECIPE;
-                ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe = true;
+                ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe = true; 
             }
 
+            ChaosTwitch_SaveGameStorage.Instance.lastTacoRain = GameClock.Instance.GetTimeInCycles();
 
-            
 
-            GameScheduler.Instance.Schedule("taco rain", 0.5f, _ =>
+
+        GameScheduler.Instance.Schedule("taco rain", 0.5f, _ =>
             {
                 int activeWorld = ClusterManager.Instance.activeWorldId;
                 //rain.StartRaining();
@@ -47,9 +48,10 @@ namespace Imalas_TwitchChaosEvents.Events
                     activeWorld = 0;
                 }
 
-                GameplayEventInstance eventInstance = GameplayEventManager.Instance.StartNewEvent(MeteorPatches.ITC_TacoMeteors, activeWorld);
+                GameplayEventInstance eventInstance = GameplayEventManager.Instance.StartNewEvent(TacoMeteorPatches.ITC_TacoMeteors, activeWorld);
                 // ClusterManager.Instance.activeWorld.GetSMI<GameplaySeasonManager.Instance>().Start(Db.Get().GameplaySeasons.TemporalTearMeteorShowers);
-                SoundUtils.PlaySound(ModAssets.SOUNDS.TACORAIN, SoundUtils.GetSFXVolume() * 0.3f,true);
+                if(Config.Instance.TacoEventMusic)
+                    SoundUtils.PlaySound(ModAssets.SOUNDS.TACORAIN, SoundUtils.GetSFXVolume() * 0.3f,true);
 
                 var world = ClusterManager.Instance.GetWorld(activeWorld);
                 //var pos = world.LookAtSurface();
@@ -90,15 +92,12 @@ namespace Imalas_TwitchChaosEvents.Events
         public Func<object, bool> Condition =>
             (data) =>
             {
-
-                return true;
+                return 
+                (GameClock.Instance.GetCycle() > 50 && !ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe)
+                || (ChaosTwitch_SaveGameStorage.Instance.lastTacoRain + 75f > GameClock.Instance.GetTimeInCycles()) 
+                ;
             };
 
-        public Danger EventDanger => Danger.Medium;
-
-        public void SpawnBuzzSaw()
-        {
-            //ToastManager.InstantiateToastWithPosTarget(EventName, EventDescription, targetCoords);
-        }
+        public Danger EventDanger => Danger.None;
     }
 }

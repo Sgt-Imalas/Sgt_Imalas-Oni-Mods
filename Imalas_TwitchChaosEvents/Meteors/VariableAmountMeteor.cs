@@ -1,17 +1,21 @@
 ﻿using Database;
 using Klei.AI;
+using KSerialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static STRINGS.UI.CLUSTERMAP;
 
 namespace Imalas_TwitchChaosEvents.Meteors
 {
     internal class VariableAmountMeteor: GassyMooComet
     {
-        public Vector2 amountRange = new Vector2(1f, -1f);
+        [Serialize] public Vector2 amountRange = new Vector2(1f, -1f);
+        [Serialize] public Vector3 spawnOffset = new Vector2(0,0);
+
         public override void SpawnCraterPrefabs()
         {
             KBatchedAnimController animController = GetComponent<KBatchedAnimController>();
@@ -28,7 +32,8 @@ namespace Imalas_TwitchChaosEvents.Meteors
 
                     GameObject gameObject = Util.KInstantiate(Assets.GetPrefab(craterPrefabs[UnityEngine.Random.Range(0, craterPrefabs.Length)]), Grid.CellToPos(cell));
                     gameObject.transform.position = new Vector3(base.gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
-                    gameObject.transform.position += mooSpawnImpactOffset;
+                    //gameObject.transform.position += mooSpawnImpactOffset;
+                    gameObject.transform.position += spawnOffset;
                     gameObject.GetComponent<KBatchedAnimController>().FlipX = animController.FlipX; 
                     
                     if(gameObject.TryGetComponent<PrimaryElement>(out var primaryElement))
@@ -38,11 +43,31 @@ namespace Imalas_TwitchChaosEvents.Meteors
                         primaryElement.Units = amount;
                     }
                     gameObject.SetActive(value: true);
+                    //YeetTheDrop(gameObject);
                 }
 
                 Util.KDestroyGameObject(base.gameObject);
             };
         }
+        void YeetTheDrop(GameObject drop)
+        {
+            Vector2 normalized = Vector2.zero;
+            normalized += new Vector2(0f, 0.55f);
+            normalized *= 0.5f * UnityEngine.Random.Range(explosionSpeedRange.x, explosionSpeedRange.y);
+            if (GameComps.Fallers.Has(drop))
+            {
+                GameComps.Fallers.Remove(drop);
+            }
+
+            if (GameComps.Gravities.Has(drop))
+            {
+                GameComps.Gravities.Remove(drop);
+            }
+
+            GameComps.Fallers.Add(drop, normalized);
+        }
+
+
         public override void RandomizeVelocity()
         {
             float num = UnityEngine.Random.Range(spawnAngle.x, spawnAngle.y);

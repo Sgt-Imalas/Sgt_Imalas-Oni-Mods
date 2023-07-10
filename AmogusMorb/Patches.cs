@@ -27,7 +27,7 @@ namespace AmogusMorb
 
                 KBatchedAnimController kBatchedAnimController = __result.AddOrGet<KBatchedAnimController>();
                 kBatchedAnimController.AnimFiles = new KAnimFile[1] { Assets.GetAnim(amogusAnimName) };
-                UtilMethods.CopySoundsToAnim(amogusAnimName, "glom_kanim");
+                SoundUtils.CopySoundsToAnim(amogusAnimName, "glom_kanim");
             }
         }
         /// <summary>

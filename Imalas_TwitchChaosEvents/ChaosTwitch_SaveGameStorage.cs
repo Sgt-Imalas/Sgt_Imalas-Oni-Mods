@@ -12,6 +12,7 @@ namespace Imalas_TwitchChaosEvents
         public static ChaosTwitch_SaveGameStorage Instance;
 
         [Serialize] public bool hasUnlockedTacoRecipe;
+        [Serialize] public float lastTacoRain = 0;
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();

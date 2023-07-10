@@ -21,7 +21,11 @@ namespace Imalas_TwitchChaosEvents
                     public static LocString DESC = "A staple meal that provides vital nutrients and energy to those who consume it.";
                 }
             }
-
+            public class ICT_GHOSTTACO
+            {
+                public static LocString NAME = FormatAsLink("Ghostly Taco", nameof(ICT_GHOSTTACO));
+                public static LocString DESC = "A semitranslucent image of a delicious Taco.\nSoon it will fade away";
+            }
         }
         public class COMETS
         {
@@ -30,7 +34,12 @@ namespace Imalas_TwitchChaosEvents
                 public static LocString NAME = FormatAsLink("Flying Taco", nameof(ITC_TACOCOMET));
                 public static LocString DESC = "A flying taco, it looks delicious!";
             }
-                
+            public class ITC_GHOSTTACOCOMET
+            {
+                public static LocString NAME = FormatAsLink("Ghostly Flying Taco", nameof(ITC_TACOCOMET));
+                public static LocString DESC = "A semitranslucent image of flying taco, it still looks delicious!";
+            }
+
         }
 
         public class ELEMENTS
@@ -89,7 +98,28 @@ namespace Imalas_TwitchChaosEvents
                 public static LocString TOAST = "Taco Rain!";
                 public static LocString TOASTTEXT = "It's raining Tacos!";
                 public static LocString NEWRECIPE = "\n\nThere is also a new recipe in the Gas Range.";
+
             }
+        }
+        public class HOTKEYACTIONS
+        {
+            public static LocString TRIGGER_FAKE_TACORAIN_NAME = "Trigger a fake Taco Rain";
+            public static LocString UNLOCK_TACO_RECIPE = "Manually unlock Taco Recipe";
+            public static LocString UNLOCK_TACO_RECIPE_TITLE = "Tacos!";
+            public static LocString UNLOCK_TACO_RECIPE_BODY = "The Taco recipe has been unlocked in the Gas Range";
+
+        }
+        public class CHAOS_CONFIG
+        {
+
+            public static LocString TACORAIN_MUSIC_NAME = "Music on Taco Rain Event";
+            public static LocString TACORAIN_MUSIC_TOOLTIP = "During the twitch event \"Taco Rain\", the song \"Raining Tacos - Parry Gripp & BooneBum\" gets played.\nDisable this option here to mute it.";
+
+            public static LocString FAKE_TACORAIN_MUSIC_NAME = "Music on triggerable Taco Rain";
+            public static LocString FAKE_TACORAIN_MUSIC_TOOLTIP = "During the triggerable Taco Rain the song \"Raining Tacos - Parry Gripp & BooneBum\" gets played.\nDisable this option here to mute it.";
+
+            public static LocString FAKE_TACORAIN_DURATION_NAME = "triggerable Taco Rain duration in s";
+            public static LocString FAKE_TACORAIN_DURATION_TOOLTIP = "How long should the triggerable Taco Rain last (in seconds).";
         }
     }
 }
