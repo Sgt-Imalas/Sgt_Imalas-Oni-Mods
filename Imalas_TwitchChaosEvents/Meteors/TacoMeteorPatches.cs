@@ -69,7 +69,11 @@ namespace Imalas_TwitchChaosEvents
                 }
                 else if ( e.TryConsume(ModAssets.HotKeys.TriggerTacoRain.GetKAction()))
                 {
-                    TriggerGhostTacoMeteors();
+                    TriggerGhostTacoMeteors(); 
+                }
+                else if (e.TryConsume(ModAssets.HotKeys.ToggleRainbowLiquid.GetKAction()))
+                {
+                    ModAssets.RainbowLiquids = !ModAssets.RainbowLiquids;
                 }
             }
         }

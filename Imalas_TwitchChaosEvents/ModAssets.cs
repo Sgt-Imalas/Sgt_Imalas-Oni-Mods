@@ -1,15 +1,5 @@
-﻿using Klei.AI;
-using ONITwitchLib.Logger;
-using PeterHan.PLib.Actions;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using PeterHan.PLib.Actions;
 using UtilLibs;
-using static STRINGS.CREATURES.STATS;
 
 namespace Imalas_TwitchChaosEvents
 {
@@ -21,7 +11,7 @@ namespace Imalas_TwitchChaosEvents
                 TACORAIN = "ICT_TACORAIN",
                 NUKE_DETONATION = "ICT_NUKEDETONATION";
         }
-
+        public static bool RainbowLiquids = false;
 
         public static void LoadAll()
         {
@@ -31,9 +21,11 @@ namespace Imalas_TwitchChaosEvents
         {
             public static PAction TriggerTacoRain { get; private set; }
             public static PAction UnlockTacoRecipe { get; private set; }
+            public static PAction ToggleRainbowLiquid { get; private set; }
 
             public const string TRIGGER_FAKE_TACORAIN_IDENTIFIER = "ICT_TRIGGERFAKETACORAIN";
             public const string TRIGGER_UNLOCKTACORECIPE = "ICT_UNLOCKTACORECIPE";
+            public const string TRIGGER_RAINBOWLIQUIDTOGGLE = "ICT_RAINBOWLIQUIDTOGGLE";
 
             public static void Register()
             {
@@ -46,6 +38,11 @@ namespace Imalas_TwitchChaosEvents
                     TRIGGER_UNLOCKTACORECIPE,
                     STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE,
                     new PKeyBinding(KKeyCode.F9, Modifier.Shift));
+
+                ToggleRainbowLiquid = new PActionManager().CreateAction(
+                    TRIGGER_RAINBOWLIQUIDTOGGLE,
+                    "DEBUG: Toggle Rainbow",
+                    new PKeyBinding(KKeyCode.R, Modifier.Ctrl));
             }
         }
     }
