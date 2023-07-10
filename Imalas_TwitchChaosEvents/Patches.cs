@@ -79,7 +79,7 @@ namespace Imalas_TwitchChaosEvents
                 static ushort CreeperIDx = 0;
                 static int time = 0;
                 static int colourStep = 0;
-                const int looptime = 120;
+                const int looptime = 100;
 
                 [HarmonyPriority(Priority.High)]
                 public static void Prefix()
@@ -107,6 +107,9 @@ namespace Imalas_TwitchChaosEvents
 
                 public static Color CurrentColor => Color.HSVToRGB(time / looptime, 1, 1);
 
+                static int internalTimer = 0;
+                static int CameraOffset = 0;
+
                 [HarmonyPriority(Priority.High)]
                 public static void Postfix()
                 {
@@ -115,31 +118,41 @@ namespace Imalas_TwitchChaosEvents
                         )
                         return;
                     if (!SpeedControlScreen.Instance.IsPaused)
-                        time++;
+                        internalTimer += 1+SpeedControlScreen.Instance.GetSpeed();
+
+                    if(internalTimer >= 2)
+                    {
+                        time += internalTimer/2;
+                        internalTimer %= 2;
+                    }
+                    var cameraVector = CameraController.Instance.transform.position;
+                    if(Grid.IsWorldValidCell(Grid.PosToCell(cameraVector)))
+                        CameraOffset = (Mathf.RoundToInt(cameraVector.x + cameraVector.y + cameraVector.z) / 2);
+
                     IntPtr pixelsPtr = PropertyTextures.externalLiquidTex;
 
                     //Parallel.For(0, Grid.CellCount, (i) => ProcessPixel(pixelsPtr, i, rByte, gByte,bByte));
-                    Parallel.For(0, Grid.CellCount, (i) => ProcessPixelbyTime(pixelsPtr, i, time));
+                    Parallel.For(0, Grid.CellCount, (i) => ProcessPixelbyTime(pixelsPtr, i));
                     time %= looptime;
                 }
-                private static unsafe void ProcessPixelbyTime(IntPtr pixelsPtr, int i, int time)
+                private static unsafe void ProcessPixelbyTime(IntPtr pixelsPtr, int i)
                 {
                     if (!Grid.IsActiveWorld(i) || !Grid.IsLiquid(i)) return;
 
-                    var colour = ColourValues[GetCurrentColourIndex(i, time)];
+                    var colour = ColourValues[GetCurrentColourIndex(i)];
 
                     byte* pixel = (byte*)pixelsPtr.ToPointer() + (i * 4);
                     pixel[0] = colour.Item1;
                     pixel[1] = colour.Item2;
                     pixel[2] = colour.Item3;
                 }
-                static int GetCurrentColourIndex(int cell, int time)
+                static int GetCurrentColourIndex(int cell)
                 {
                     int Y = Grid.CellRow(cell)
                         ,X = Grid.CellColumn(cell)
                         ;
 
-                    return ((Y+X/2) + time) % looptime;
+                    return ((Y+X/2) + time+ CameraOffset) % looptime;
                 }
 
 
