@@ -144,7 +144,7 @@ namespace Imalas_TwitchChaosEvents
 
 
                     int current = GetCurrentColourIndex(i);
-                    var colour = ColourValues[current];
+                    ref var colour = ref ColourValues[current];
 
                     byte* pixel = (byte*)pixelsPtr.ToPointer() + (i * 4);
                     pixel[0] = colour.r;

@@ -1,8 +1,8 @@
 ---
 elements: 
   - elementId: ITCE_Inverse_Steam
-    specificHeatCapacity: 0.184
-    thermalConductivity: 4.179
+    specificHeatCapacity: 4.179
+    thermalConductivity: 0.184
     solidSurfaceAreaMultiplier: 25
     liquidSurfaceAreaMultiplier: 1
     gasSurfaceAreaMultiplier: 1
@@ -26,21 +26,49 @@ elements:
     localizationID: STRINGS.ELEMENTS.ITCE_INVERSE_STEAM.NAME
     dlcId: "" 
 
+  - elementId: ITCE_Inverse_Water_Placeholder
+    maxMass: 1000
+    liquidCompression: 1.01
+    speed: 125
+    minHorizontalFlow: 0.01
+    minVerticalFlow: 0.01
+    specificHeatCapacity: 4.179
+    thermalConductivity: 0.609
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    highTemp: 9999
+    lowTemp: 9998
+    lowTempTransitionTarget: ITCE_Inverse_Ice
+    highTempTransitionTarget: ITCE_Inverse_Steam
+    defaultTemperature: 300
+    defaultMass: 1000
+    molarMass: 18.01528
+    toxicity: 0
+    lightAbsorptionFactor: 0.25
+    radiationAbsorptionFactor: 0.8
+    radiationPer1000Mass: 0
+    tags:
+    isDisabled: false
+    state: Liquid
+    localizationID: STRINGS.ELEMENTS.ITCE_INVERSE_WATER.NAME
+    dlcId: ""
+
   - elementId: ITCE_Inverse_Water
     maxMass: 1000
     liquidCompression: 1.01
     speed: 125
     minHorizontalFlow: 0.01
     minVerticalFlow: 0.01
-    specificHeatCapacity: 0.609
-    thermalConductivity: 4.179
+    specificHeatCapacity: 4.179
+    thermalConductivity: 0.609 
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 25
     gasSurfaceAreaMultiplier: 1
     lowTemp: 272.5 
     highTemp: 372.5
     lowTempTransitionTarget: ITCE_Inverse_Steam
-    highTempTransitionTarget: ITCE_Inverse_Ice
+    highTempTransitionTarget: ITCE_Inverse_Water_Placeholder
     defaultTemperature: 300
     defaultMass: 1000
     molarMass: 18.01528
@@ -55,8 +83,8 @@ elements:
     dlcId: ""
 
   - elementId: ITCE_Inverse_Ice
-    specificHeatCapacity: 2.18
-    thermalConductivity: 2.05
+    specificHeatCapacity: 2.05
+    thermalConductivity: 2.18
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 1
     gasSurfaceAreaMultiplier: 1
