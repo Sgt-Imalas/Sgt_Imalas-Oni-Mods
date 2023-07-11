@@ -246,6 +246,7 @@ namespace SetStartDupes
             {
                 stats.voiceIdx = UnityEngine.Random.Range(0, 4);
             }
+
         }
 
         public static int MinimumPointsPerInterest(MinionStartingStats stats)

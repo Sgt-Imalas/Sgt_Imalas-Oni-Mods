@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using TUNING;
@@ -16,6 +17,7 @@ using UnityEngine.Diagnostics;
 using UnityEngine.UI;
 using UtilLibs;
 using static KAnim;
+using static KCompBuilder;
 using static SetStartDupes.ModAssets;
 
 namespace SetStartDupes
@@ -279,6 +281,8 @@ namespace SetStartDupes
                 if (EditingSingleDupe)
                 {
                     var DupeToDeliver = (MinionStartingStats)ModAssets.SingleCharacterContainer.stats;
+                    SgtLogger.l(DupeToDeliver.personality.IdHash.ToString(), "resourceID");
+                    SgtLogger.l(DupeToDeliver.Name + " <- cryopod dupe´fin");
 
                     foreach (var trait in DupeToDeliver.Traits)
                         SgtLogger.l(trait.Name, "Trait ToApply");
@@ -311,6 +315,24 @@ namespace SetStartDupes
 
 
                         DupeToDeliver.Apply(CryoDupeToApplyStatsOn);
+                        ///These symbols get overidden at dupe creation, as we are editing already spawned dupes, we have to remove the old overrides and add the new overrides
+                        if (CryoDupeToApplyStatsOn.TryGetComponent<SymbolOverrideController>(out var symbolOverride) && CryoDupeToApplyStatsOn.TryGetComponent<Accessorizer>(out var accessorizer))
+                        {
+                            var headshape_symbolName = (KAnimHashedString)HashCache.Get().Get(accessorizer.GetAccessory(Db.Get().AccessorySlots.HeadShape).symbol.hash).Replace("headshape", "cheek");
+                            var cheek_symbol_snapTo = (HashedString)"snapto_cheek";
+                            var hair_symbol_snapTo = (HashedString)"snapto_hair_always";
+
+                            symbolOverride.RemoveSymbolOverride(headshape_symbolName);
+                            symbolOverride.RemoveSymbolOverride(cheek_symbol_snapTo);
+                            symbolOverride.RemoveSymbolOverride(hair_symbol_snapTo);
+
+                            symbolOverride.AddSymbolOverride(cheek_symbol_snapTo, Assets.GetAnim((HashedString)"head_swap_kanim").GetData().build.GetSymbol((KAnimHashedString)headshape_symbolName), 1);
+                            symbolOverride.AddSymbolOverride(hair_symbol_snapTo, accessorizer.GetAccessory(Db.Get().AccessorySlots.Hair).symbol, 1);
+                            symbolOverride.AddSymbolOverride((HashedString)Db.Get().AccessorySlots.HatHair.targetSymbolId, Db.Get().AccessorySlots.HatHair.Lookup("hat_" + HashCache.Get().Get(accessorizer.GetAccessory(Db.Get().AccessorySlots.Hair).symbol.hash)).symbol, 1);
+
+                        }
+
+
 
                         if (SingleCharacterContainer.gameObject != null)
                         {
@@ -698,8 +720,8 @@ namespace SetStartDupes
 
                     GameObject go = Util.KInstantiate(Assets.GetPrefab(FieldRationConfig.ID));
                     go.transform.SetPosition(SpawnPos);
-                    PrimaryElement component2 = go.GetComponent<PrimaryElement>();
-                    component2.Units = FoodeNeeded;
+                    PrimaryElement symbolOverride = go.GetComponent<PrimaryElement>();
+                    symbolOverride.Units = FoodeNeeded;
                     go.SetActive(true);
                 }
             }
@@ -709,8 +731,8 @@ namespace SetStartDupes
 
                 GameObject go = Util.KInstantiate(Assets.GetPrefab(FieldRationConfig.ID));
                 go.transform.SetPosition(Grid.CellToPosCCC(Grid.PosToCell(originGo), Grid.SceneLayer.Ore));
-                PrimaryElement component2 = go.GetComponent<PrimaryElement>();
-                component2.Units = amount;
+                PrimaryElement symbolOverride = go.GetComponent<PrimaryElement>();
+                symbolOverride.Units = amount;
                 go.SetActive(true);
 
 
