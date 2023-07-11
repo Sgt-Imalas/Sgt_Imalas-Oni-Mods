@@ -21,50 +21,67 @@ namespace DrywallPatternColours
 
         //[HarmonyPatch(typeof(BuildingFacades), MethodType.Constructor, typeof(ResourceSet))] 
         //[HarmonyPatch(typeof(BuildingFacades), nameof(BuildingFacades.PostProcess))] 
-        public static class AddNewSkins
+        public class AddNewSkins
         {
-
-            public static void initSkins(BuildingFacades __instance)
+            // manually patching, because referencing BuildingFacades class will load strings too early
+            public static void Patch(Harmony harmony)
             {
-                SgtLogger.l("init skins");
-                __instance.Add("ExteriorWall_red_deep", (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.RED_DEEP.NAME, (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.RED_DEEP.DESC, PermitRarity.Universal, ExteriorWallConfig.ID, "walls_red_deep_kanim");
-                __instance.Add("ExteriorWall_orange_satsuma", (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.ORANGE_SATSUMA.NAME, (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.ORANGE_SATSUMA.DESC, PermitRarity.Universal, ExteriorWallConfig.ID, "walls_orange_satsuma_kanim");
-                __instance.Add("ExteriorWall_yellow_lemon", (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.YELLOW_LEMON.NAME, (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.YELLOW_LEMON.DESC, PermitRarity.Universal, ExteriorWallConfig.ID, "walls_yellow_lemon_kanim");
-                __instance.Add("ExteriorWall_green_kelly", (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.GREEN_KELLY.NAME, (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.GREEN_KELLY.DESC, PermitRarity.Universal, ExteriorWallConfig.ID, "walls_green_kelly_kanim");
-                __instance.Add("ExteriorWall_blue_cobalt", (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.BLUE_COBALT.NAME, (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.BLUE_COBALT.DESC, PermitRarity.Universal, ExteriorWallConfig.ID, "walls_blue_cobalt_kanim");
-                __instance.Add("ExteriorWall_pink_flamingo", (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.PINK_FLAMINGO.NAME, (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.PINK_FLAMINGO.DESC, PermitRarity.Universal, ExteriorWallConfig.ID, "walls_pink_flamingo_kanim");
-                __instance.Add("ExteriorWall_grey_charcoal", (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.GREY_CHARCOAL.NAME, (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.GREY_CHARCOAL.DESC, PermitRarity.Universal, ExteriorWallConfig.ID, "walls_grey_charcoal_kanim");
+                SgtLogger.l("init Patch 2");
+                var targetType = AccessTools.TypeByName("Database.BuildingFacades");
+                var target = AccessTools.Constructor(targetType, new[] { typeof(ResourceSet) });
+                var postfix = AccessTools.Method(typeof(InitFacadePatchForDrywalls), "PostfixPatch");
+
+                Debug.Log(targetType);
+                Debug.Log(target);
+                Debug.Log(postfix);
+
+                harmony.Patch(target, postfix: new HarmonyMethod(postfix));
+            }
+
+            public class InitFacadePatchForDrywalls
+            {
+                public static void PostfixPatch(object __instance)
+                {
+                    SgtLogger.l("Start Facade Patch");
+                    var resource = (ResourceSet<BuildingFacadeResource>)__instance;
+                    AddFacade(resource, "ExteriorWall_red_deep", (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.RED_DEEP.NAME, (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.RED_DEEP.DESC, PermitRarity.Universal, ExteriorWallConfig.ID, "walls_red_deep_kanim");
+                    AddFacade(resource, "ExteriorWall_orange_satsuma", (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.ORANGE_SATSUMA.NAME, (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.ORANGE_SATSUMA.DESC, PermitRarity.Universal, ExteriorWallConfig.ID, "walls_orange_satsuma_kanim");
+                    AddFacade(resource, "ExteriorWall_yellow_lemon", (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.YELLOW_LEMON.NAME, (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.YELLOW_LEMON.DESC, PermitRarity.Universal, ExteriorWallConfig.ID, "walls_yellow_lemon_kanim");
+                    AddFacade(resource, "ExteriorWall_green_kelly", (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.GREEN_KELLY.NAME, (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.GREEN_KELLY.DESC, PermitRarity.Universal, ExteriorWallConfig.ID, "walls_green_kelly_kanim");
+                    AddFacade(resource, "ExteriorWall_blue_cobalt", (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.BLUE_COBALT.NAME, (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.BLUE_COBALT.DESC, PermitRarity.Universal, ExteriorWallConfig.ID, "walls_blue_cobalt_kanim");
+                    AddFacade(resource, "ExteriorWall_pink_flamingo", (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.PINK_FLAMINGO.NAME, (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.PINK_FLAMINGO.DESC, PermitRarity.Universal, ExteriorWallConfig.ID, "walls_pink_flamingo_kanim");
+                    AddFacade(resource, "ExteriorWall_grey_charcoal", (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.GREY_CHARCOAL.NAME, (string)STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.GREY_CHARCOAL.DESC, PermitRarity.Universal, ExteriorWallConfig.ID, "walls_grey_charcoal_kanim");
+                    
+                    //foreach(var skin in resource.resources)
+                    //{
+                    //    SgtLogger.l( skin.Description, skin.Name);
+                    //}
+                    SgtLogger.l("Patch Executed");
+                }
+
+                public static void AddFacade(
+                    ResourceSet<BuildingFacadeResource> set,
+                    string id,
+                    LocString name,
+                    LocString description,
+                    PermitRarity rarity,
+                    string prefabId,
+                    string animFile,
+                    Dictionary<string, string> workables = null)
+                {
+                    set.resources.Add(new BuildingFacadeResource(id, name, description, rarity, prefabId, animFile, workables));
+                }
             }
         }
 
-        [HarmonyPatch(typeof(Db))]
-        [HarmonyPatch("Initialize")]
-        public static class Db_Init_Patch
+        [HarmonyPatch(typeof(Db), "Initialize")]
+        public static class Assets_OnPrefabInit_Patch
         {
-            // using System; will allow using Type insted of System.Type
-            // using System.Reflection; will allow using MethodInfo instead of System.Reflection.MethodInfo
-           
-            
-
-            public static void Postfix(Db __instance)
+            public static void Prefix()
             {
+                AddNewSkins.Patch(Mod.harmonyInstance);
             }
         }
-        [HarmonyPatch(typeof(BuildingFacades))]
-        [HarmonyPatch("PostProcess")]
-        public static class BuildingFacadesbats
-        {
-            // using System; will allow using Type insted of System.Type
-            // using System.Reflection; will allow using MethodInfo instead of System.Reflection.MethodInfo
-
-
-
-            public static void Prefix(BuildingFacades __instance)
-            {
-                AddNewSkins.initSkins(Db.Get().Permits.BuildingFacades);
-            }
-        }
-
 
         /// <summary>
         /// Init. auto translation

@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>DrywallPatternColours</PackageId>
-		<Version>1.1.1</Version>
+		<Version>1.1.2</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022-2023 Sgt_Imalas</Copyright>
 		<RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
@@ -107,5 +107,15 @@
 	  <None Update="ModAssets\anim\assets\walls_yellow_lemon\walls_yellow_lemon_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\translations\de.po">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\translations\ru.po">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="ModAssets\translations\" />
 	</ItemGroup>
 </Project>

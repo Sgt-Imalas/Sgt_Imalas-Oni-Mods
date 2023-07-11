@@ -7,12 +7,12 @@ namespace DrywallPatternColours
 {
     public class Mod : UserMod2
     {
-        public static Harmony myHarmony;
+        public static Harmony harmonyInstance;
         public override void OnLoad(Harmony harmony)
         {
+            harmonyInstance = harmony;
             base.OnLoad(harmony);
             SgtLogger.LogVersion(this);
-            myHarmony = harmony;
         }
     }
 }
