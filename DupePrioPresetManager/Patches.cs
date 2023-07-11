@@ -253,7 +253,7 @@ namespace DupePrioPresetManager
 
             internal static void Postfix(ScheduleScreenEntry __instance,Schedule schedule)
             {
-                UIUtils.ListAllChildrenPath(__instance.transform);
+                //UIUtils.ListAllChildrenPath(__instance.transform);
                 //UIUtils.ListAllChildrenWithComponents(__instance.transform);
                 var btn = __instance.transform.Find("Header/OptionsButton");
                 var ButtonPresets = Util.KInstantiateUI(btn.gameObject, btn.transform.parent.gameObject).GetComponent<KButton>();
