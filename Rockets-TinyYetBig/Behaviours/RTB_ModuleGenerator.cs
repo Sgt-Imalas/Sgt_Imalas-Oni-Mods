@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using YamlDotNet.Core.Tokens;
 using static STRINGS.BUILDINGS.PREFABS;
 
 namespace Rockets_TinyYetBig.Behaviours
@@ -248,8 +249,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
             foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)clustercraft.ModuleInterface.ClusterModules)
             {
-                CargoBayCluster component = clusterModule.Get().GetComponent<CargoBayCluster>();
-                if (component != null && component.storageType == this.PullFromRocketStorageType)
+                if (clusterModule.Get().TryGetComponent<CargoBayCluster>(out var component) && component.storageType == this.PullFromRocketStorageType)
                 {
                     if ((double)component.storage.MassStored() >= consumptionRate * dt)
                     {
@@ -275,12 +275,11 @@ namespace Rockets_TinyYetBig.Behaviours
             bool putAwaySuccess = false;
             foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)clustercraft.ModuleInterface.ClusterModules)
             {
-                CargoBayCluster component = clusterModule.Get().GetComponent<CargoBayCluster>();
-                if (component != null && component.storageType == this.PushToRocketStorageType)
+                if (clusterModule.Get().TryGetComponent<CargoBayCluster>(out var carbobay) && carbobay.storageType == this.PushToRocketStorageType)
                 {
-                    if ((double)component.RemainingCapacity >= outputProductionRate * dt && component.GetComponent<TreeFilterable>().ContainsTag(outputElement.CreateTag()))
+                    if ((double)carbobay.RemainingCapacity >= outputProductionRate * dt && carbobay.GetComponent<TreeFilterable>().ContainsTag(outputElement.CreateTag()))
                     {
-                        component.storage.Store(ElementLoader.FindElementByHash(outputElement).substance.SpawnResource(this.transform.GetPosition(), outputProductionRate * dt, outputProductionTemperature, byte.MaxValue, 0), true);
+                        PutOutputElementToStorate(outputElement,outputProductionRate * dt, carbobay.storage);
                         putAwaySuccess = true;
                     }
                 }
@@ -288,6 +287,22 @@ namespace Rockets_TinyYetBig.Behaviours
             return putAwaySuccess;
         }
 
+        void PutOutputElementToStorate(SimHashes key, float mass, Storage storage)
+        {
+            Element elementByHash = ElementLoader.FindElementByHash(key);
+            switch (elementByHash.state & Element.State.Solid)
+            {
+                case Element.State.Gas:
+                    storage.AddGasChunk(key, mass, outputProductionTemperature, byte.MaxValue, 0, false);
+                    break;
+                case Element.State.Liquid:
+                    storage.AddLiquid(key, mass, outputProductionTemperature, byte.MaxValue, 0);
+                    break;
+                case Element.State.Solid:
+                    storage.AddOre(key, mass, outputProductionTemperature, byte.MaxValue, 0);
+                    break;
+            }
+        }
 
 
 
@@ -368,12 +383,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
             if (this.OutputToOwnStorage)
             {
-                if (elementByHash.IsGas)
-                    this.storage.AddGasChunk(outputElement, amount, outputProductionTemperature, byte.MaxValue, 0, true);
-                else if (elementByHash.IsLiquid)
-                    this.storage.AddLiquid(outputElement, amount, outputProductionTemperature, byte.MaxValue, 0, true);
-                else
-                    this.storage.Store(elementByHash.substance.SpawnResource(this.transform.GetPosition(), amount, outputProductionTemperature, byte.MaxValue, 0), true);
+                PutOutputElementToStorate(outputElement, amount, this.storage);
             }
             else
             {
