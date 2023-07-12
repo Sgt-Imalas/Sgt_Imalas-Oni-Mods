@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace ShockWormMob.OreDeposits
 {
+    //Building definitions should always end with [...]Config for clarity
     public class MinerSolidMk1Config : IBuildingConfig
     {
         public const string ID = "SolidMinerMK1";
@@ -40,21 +41,29 @@ namespace ShockWormMob.OreDeposits
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
             go.AddOrGet<LoopingSounds>();
-            BuildingTemplates.CreateDefaultStorage(go).showInUI = true;
-            Storage standardStorage = go.AddOrGet<Storage>();
-            standardStorage.capacityKg = 100f;
-            ManualDeliveryKG manualDeliveryKg = go.AddOrGet<ManualDeliveryKG>();
-            manualDeliveryKg.SetStorage(standardStorage);
-            manualDeliveryKg.RequestedItemTag = GameTags.RefinedMetal;
-            manualDeliveryKg.refillMass = 120f;
-            manualDeliveryKg.capacity = 480f;
-            manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
         }
 
         public override void DoPostConfigureComplete(GameObject go)
         {
             go.AddOrGet<LogicOperationalController>();
-            go.AddOrGet<Miner>().baseMiningEff = this.baseMiningEff;
+
+            Storage drillbitStorage = go.AddOrGet<Storage>();
+            drillbitStorage.capacityKg = 100f;
+            drillbitStorage.showInUI = true;
+
+            ManualDeliveryKG manualDeliveryKg = go.AddOrGet<ManualDeliveryKG>();
+            manualDeliveryKg.SetStorage(drillbitStorage);
+            manualDeliveryKg.RequestedItemTag = Miner.DrillbitMaterial;
+            manualDeliveryKg.refillMass = 40f;
+            manualDeliveryKg.capacity = 100f;
+            manualDeliveryKg.MinimumMass = 20;
+            manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
+
+            var miner = go.AddOrGet<Miner>();
+
+            miner.BaseMiningSpeed = this.baseMiningEff;
+            miner.DumpMaterialToWorld = true;
+            miner.drillbitStorage = drillbitStorage;
         }
 
     }
