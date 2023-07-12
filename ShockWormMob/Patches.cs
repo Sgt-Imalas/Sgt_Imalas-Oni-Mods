@@ -2,6 +2,7 @@
 using HarmonyLib;
 using Klei.AI;
 using PeterHan.PLib.Core;
+using ShockWormMob.OreDeposits;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -105,6 +106,8 @@ namespace ShockWormMob
             public static void Prefix()
             {
                 //InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
+
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, MinerSolidMk1Config.ID);
                 InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Utilities, EventDebugTileConfig.ID);
                 InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Base, JobBoardConfig.ID, ExobaseHeadquartersConfig.ID);
                 ModAssets.InitEventTest(); 

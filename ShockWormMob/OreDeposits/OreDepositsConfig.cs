@@ -9,7 +9,9 @@ namespace ShockWormMob.OreDeposits
 {
     internal class OreDepositsConfig : IMultiEntityConfig
     {
-        public static Tag DepositAttachmentTag = TagManager.Create("depositMineralSolidAttachment");
+        public static Tag DepositSolidAttachmentTag = TagManager.Create("depositMineralSolidAttachment");
+        public static Tag DepositLiquidAttachmentTag = TagManager.Create("depositMineralLiquidAttachment");
+        public static Tag DepositGasAttachmentTag = TagManager.Create("depositMineralGasAttachment");
         public const string KatheriumDepositID = "Katherium";
 
         public List<GameObject> CreatePrefabs()
@@ -43,7 +45,7 @@ namespace ShockWormMob.OreDeposits
             {
                 occupyArea.objectLayers = new ObjectLayer[1] { ObjectLayer.Building};
             }
-            entity.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[] { new BuildingAttachPoint.HardPoint(CellOffset.none, DepositAttachmentTag, null) };
+            entity.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[] { new BuildingAttachPoint.HardPoint(CellOffset.none, config.attachmentTag, null) };
 
             entity.AddOrGet<SaveLoadRoot>();
             var deposit = entity.AddOrGet<OreDeposit>();
@@ -69,7 +71,7 @@ namespace ShockWormMob.OreDeposits
                     SimHashes.RefinedCarbon,//replace with katherium simhash
                     1.0f
                     }
-                }));
+                }, DepositSolidAttachmentTag));
             return configs;
         }
 
@@ -80,14 +82,16 @@ namespace ShockWormMob.OreDeposits
             public string animName;
             public string description;
             public Dictionary<SimHashes, float> mineableElements;
+            public Tag attachmentTag;
 
-            public HarvestableDepositConfig(string id, string name, string desc, string anim, Dictionary<SimHashes, float> mineableElements)
+            public HarvestableDepositConfig(string id, string name, string desc, string anim, Dictionary<SimHashes, float> mineableElements, Tag _attachmentTag)
             {
                 this.id = "HarvestableDeposit_" + id;
                 this.name = name;
                 animName = anim;
                 description = desc;
                 this.mineableElements = mineableElements;
+                attachmentTag = _attachmentTag;
             }
         }
     }
