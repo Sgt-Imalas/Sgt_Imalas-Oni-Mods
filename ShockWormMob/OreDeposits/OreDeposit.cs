@@ -11,6 +11,17 @@ namespace ShockWormMob.OreDeposits
     internal class OreDeposit : KMonoBehaviour
     {
         [Serialize]public Dictionary<SimHashes,float> MiningRates;
-        internal Dictionary<SimHashes, float> getMiningRates() => MiningRates;
-    }
+        public Dictionary<SimHashes, float> getMiningRates() => MiningRates;
+
+
+        /// <summary>
+        /// Allows varying the outputs of a deposit if you change the logic, atm it just gives the first one
+        /// </summary>
+        /// <returns></returns>
+        public KeyValuePair<SimHashes,float> GetCurrentMiningElement()
+        {
+            return MiningRates.FirstOrDefault();
+        }
+
+    }    
 }

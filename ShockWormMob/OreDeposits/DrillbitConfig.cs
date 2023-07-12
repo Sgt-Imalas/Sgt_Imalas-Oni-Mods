@@ -11,12 +11,15 @@ namespace ShockWormMob.OreDeposits
     public class DrillbitConfig : IEntityConfig
     {
         public const string ID = "CraftableDrillBit";
+        public const string NAME = "Mining Drillbit";
+        public const string DESC = "This drillbit is used in the mining of ore veins.\nA mining drill will slowly consume drillbits when mining";
+        public const string DESC_RECIPE = "Use drillbits to mine resources from ore veins.";
         public GameObject CreatePrefab()
         {
             GameObject looseEntity = EntityTemplates.CreateLooseEntity(
                 id: ID,
-                name: "Mining Drillbit",
-                desc: "This drillbit is used in the mining of ore veins.\nA mining drill will slowly consume drillbits when mining",
+                name: NAME,
+                desc: DESC,
                 mass: 1f,
                 unitMass: false,
                 anim: Assets.GetAnim("kit_electrician_kanim"), //insert custom anim
