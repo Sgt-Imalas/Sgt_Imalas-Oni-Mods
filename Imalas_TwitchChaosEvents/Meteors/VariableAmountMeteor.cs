@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using static STRINGS.UI.CLUSTERMAP;
+using static UnityEngine.UI.Image;
 
 namespace Imalas_TwitchChaosEvents.Meteors
 {
@@ -15,7 +16,14 @@ namespace Imalas_TwitchChaosEvents.Meteors
     {
         [Serialize] public Vector2 amountRange = new Vector2(1f, -1f);
         [Serialize] public Vector3 spawnOffset = new Vector2(0,0);
+        [Serialize] public bool IgnoredByBlaster = true;
 
+        public override void OnSpawn()
+        {
+            base.OnSpawn();
+            if(IgnoredByBlaster)
+                Components.Meteors.Remove(this.gameObject.GetMyWorldId(), this);
+        }
         public override void SpawnCraterPrefabs()
         {
             KBatchedAnimController animController = GetComponent<KBatchedAnimController>();
@@ -31,7 +39,7 @@ namespace Imalas_TwitchChaosEvents.Meteors
                     }
 
                     GameObject gameObject = Util.KInstantiate(Assets.GetPrefab(craterPrefabs[UnityEngine.Random.Range(0, craterPrefabs.Length)]), Grid.CellToPos(cell));
-                    gameObject.transform.position = new Vector3(base.gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
+                    gameObject.transform.SetPosition(Grid.CellToPosCCC(Grid.PosToCell(base.gameObject), Grid.SceneLayer.Ore));
                     //gameObject.transform.position += mooSpawnImpactOffset;
                     gameObject.transform.position += spawnOffset;
                     gameObject.GetComponent<KBatchedAnimController>().FlipX = animController.FlipX; 

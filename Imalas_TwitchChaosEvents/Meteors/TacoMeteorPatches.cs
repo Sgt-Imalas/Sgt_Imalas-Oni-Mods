@@ -65,7 +65,7 @@ namespace Imalas_TwitchChaosEvents
                 if (e.TryConsume(ModAssets.HotKeys.UnlockTacoRecipe.GetKAction()))
                 {
                     ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe = true;
-                    ToastManager.InstantiateToast(STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE_TITLE, STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE_BODY);
+                    //ToastManager.InstantiateToast(STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE_TITLE, STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE_BODY);
                 }
                 else if ( e.TryConsume(ModAssets.HotKeys.TriggerTacoRain.GetKAction()))
                 {
