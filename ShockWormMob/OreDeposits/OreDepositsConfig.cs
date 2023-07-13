@@ -14,16 +14,21 @@ namespace ShockWormMob.OreDeposits
         public static Tag DepositGasAttachmentTag = TagManager.Create("depositMineralGasAttachment");
         public const string KatheriumDepositID = "Katherium";
 
+        public static Dictionary<string, HarvestableDepositConfig> DepositConfigurations = new Dictionary<string, HarvestableDepositConfig>();
+
+
         public List<GameObject> CreatePrefabs()
         {
             List<GameObject> prefabs = new List<GameObject>();
-            foreach (var config in GenerateConfigs())
+            foreach (var config in DepositConfigurations)
                 prefabs.Add(CreateHarvestablePOI(config));
             return prefabs;
         }
 
-        public static GameObject CreateHarvestablePOI(HarvestableDepositConfig config)
+        public static GameObject CreateHarvestablePOI(KeyValuePair<string,HarvestableDepositConfig> kvp)
         {
+
+            var config = kvp.Value;
             GameObject entity = EntityTemplates.CreatePlacedEntity(
                 config.id,
                 config.name,
@@ -36,21 +41,20 @@ namespace ShockWormMob.OreDeposits
                 2,
                 TUNING.BUILDINGS.DECOR.BONUS.TIER1);
 
-            if(entity.TryGetComponent<PrimaryElement>(out var primElement))
+            if (entity.TryGetComponent<PrimaryElement>(out var primElement))
             {
-                primElement.SetElement(SimHashes.Unobtanium, true); 
-                primElement.Temperature = 272.15f; 
+                primElement.SetElement(SimHashes.Unobtanium, true);
+                primElement.Temperature = 272.15f;
             }
-            if(entity.TryGetComponent<OccupyArea>(out var occupyArea))
+            if (entity.TryGetComponent<OccupyArea>(out var occupyArea))
             {
-                occupyArea.objectLayers = new ObjectLayer[1] { ObjectLayer.Building};
+                occupyArea.objectLayers = new ObjectLayer[1] { ObjectLayer.Building };
             }
             entity.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[] { new BuildingAttachPoint.HardPoint(CellOffset.none, config.attachmentTag, null) };
 
             entity.AddOrGet<SaveLoadRoot>();
             var deposit = entity.AddOrGet<OreDeposit>();
-            deposit.MiningRate = config.mineableElements.First().Value;
-            deposit.MiningElement = config.mineableElements.First().Key;
+            deposit.DepositTypeID = kvp.Key;
             return entity;
         }
 
@@ -62,10 +66,14 @@ namespace ShockWormMob.OreDeposits
         {
         }
 
-        private List<HarvestableDepositConfig> GenerateConfigs()
+        /// <summary>
+        /// Call this method in Mod.OnLoad()! (via  OreDepositsConfig.GenerateAllDepositConfigs();)
+        /// </summary>
+        public static void GenerateAllDepositConfigs()
         {
             List<HarvestableDepositConfig> configs = new List<HarvestableDepositConfig>();
-            configs.Add(new HarvestableDepositConfig(KatheriumDepositID,"Katherium Deposit","A vast mineral deposit that spreads through other regions of the asteroid","geyser_side_oil_kanim", 
+            DepositConfigurations.Add(KatheriumDepositID,
+                new HarvestableDepositConfig(KatheriumDepositID, "Katherium Deposit", "A vast mineral deposit that spreads through other regions of the asteroid", "geyser_side_oil_kanim",
                 new Dictionary<SimHashes, float>()
                 {
                     {
@@ -73,7 +81,6 @@ namespace ShockWormMob.OreDeposits
                     1.0f
                     }
                 }, DepositSolidAttachmentTag));
-            return configs;
         }
 
         public struct HarvestableDepositConfig
