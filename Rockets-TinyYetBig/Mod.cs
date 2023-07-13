@@ -9,6 +9,7 @@ using UtilLibs;
 using static UtilLibs.RocketryUtils;
 using static Rockets_TinyYetBig.STRINGS;
 using static PeterHan.PLib.AVC.JsonURLVersionChecker;
+using PeterHan.PLib.AVC;
 
 namespace Rockets_TinyYetBig
 {
@@ -28,6 +29,7 @@ namespace Rockets_TinyYetBig
 
             SgtLogger.debuglog("Initialized");
             SgtLogger.LogVersion(this);
+            new PVersionCheck().Register(this, new SteamVersionChecker());
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
