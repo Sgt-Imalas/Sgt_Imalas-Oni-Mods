@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using KMod;
+using PeterHan.PLib.AVC;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
 using System;
@@ -14,7 +15,8 @@ namespace AmogusMorb
             PUtil.InitLibrary(false);
             new POptions().RegisterOptions(this, typeof(Config));
             base.OnLoad(harmony);
-            SgtLogger.LogVersion(this);
+            SgtLogger.LogVersion(this); 
+            new PVersionCheck().Register(this, new SteamVersionChecker());
         }
     }
 }
