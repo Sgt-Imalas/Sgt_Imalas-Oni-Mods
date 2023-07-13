@@ -118,13 +118,13 @@ namespace Rockets_TinyYetBig.Behaviours
         }
         public override void OnCleanUp()
         {
+            Game.Instance.electricalConduitSystem.RemoveFromVirtualNetworks(this.VirtualCircuitKey, (object)this, true);
             //if(clustercraft!= null && clustercraft.TryGetComponent<KSelectable>(out var selectable))
             //{
             //    selectable.RemoveStatusItem(FuelStatusHandle, true);
             //}
             base.OnCleanUp();
 
-            Game.Instance.electricalConduitSystem.RemoveFromVirtualNetworks(this.VirtualCircuitKey, (object)this, true);
         }
 
         public override bool IsProducingPower() => 

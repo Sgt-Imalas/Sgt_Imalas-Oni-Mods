@@ -19,10 +19,6 @@ namespace Rockets_TinyYetBig.Patches
         [HarmonyPatch(typeof(OxidizerTank), nameof(OxidizerTank.OnSpawn))]
         public static class FixLOXMeterV1
         {
-            public static void Prefix(OxidizerTank __instance)
-            {
-                __instance.storage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
-            }
 
             public static void Postfix(OxidizerTank __instance)
             {

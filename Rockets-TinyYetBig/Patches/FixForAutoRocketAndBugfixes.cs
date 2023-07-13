@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using HarmonyLib;
+using UtilLibs;
 
 namespace Rockets_TinyYetBig.Patches
 {
@@ -35,9 +36,12 @@ namespace Rockets_TinyYetBig.Patches
                     && __instance.supportsMultipleOxidizers
                     && sourceTank.supportsMultipleOxidizers)
                 {
-                    if(__instance.TryGetComponent<FlatTagFilterable>(out var flatTagDestination) && __instance.TryGetComponent<FlatTagFilterable>(out var flatTagSource))
+                    if (__instance.TryGetComponent<FlatTagFilterable>(out var flatTagDestination) && sourceTank.TryGetComponent<FlatTagFilterable>(out var flatTagSource))
                     {
-                        flatTagDestination.selectedTags = flatTagSource.selectedTags;
+                        flatTagDestination.selectedTags = new List<Tag>(flatTagSource.selectedTags);
+
+                        if (__instance.TryGetComponent<TreeFilterable>(out var TreeFilter))
+                            TreeFilter.UpdateFilters(new HashSet<Tag>(flatTagDestination.selectedTags));
                     }
                 }
             }
