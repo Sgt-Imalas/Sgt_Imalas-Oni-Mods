@@ -596,7 +596,7 @@ namespace MineralizerReborn
                         }
                         else
                         {
-                            GameObject go = element.substance.SpawnResource(base.transform.GetPosition(), num16, num17, a.idx, a.count, prevent_merge: true);
+                            GameObject go = element.substance.SpawnResource(base.transform.GetPosition(), num16, num17, a.idx, a.count, prevent_merge: false);
                             OutputStorage.Store(go, hide_popups: true);
                         }
                     }

@@ -34,6 +34,7 @@ namespace ShockWormMob.OreDeposits
             buildingDef.AttachmentSlotTag = OreDepositsConfig.DepositSolidAttachmentTag;
             buildingDef.BuildLocationRule = BuildLocationRule.BuildingAttachPoint;
             buildingDef.ObjectLayer = ObjectLayer.AttachableBuilding;
+            buildingDef.SceneLayer = Grid.SceneLayer.Building;
 
             return buildingDef;
         }
@@ -64,6 +65,7 @@ namespace ShockWormMob.OreDeposits
             miner.BaseMiningSpeed = this.baseMiningEff;
             miner.DumpMaterialToWorld = true;
             miner.drillbitStorage = drillbitStorage;
+            miner.outputCellOffset = new CellOffset(2, 1);
         }
 
     }

@@ -49,7 +49,8 @@ namespace ShockWormMob.OreDeposits
 
             entity.AddOrGet<SaveLoadRoot>();
             var deposit = entity.AddOrGet<OreDeposit>();
-            deposit.MiningRates = config.mineableElements;
+            deposit.MiningRate = config.mineableElements.First().Value;
+            deposit.MiningElement = config.mineableElements.First().Key;
             return entity;
         }
 

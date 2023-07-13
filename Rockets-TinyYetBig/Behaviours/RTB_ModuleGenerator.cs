@@ -402,7 +402,7 @@ namespace Rockets_TinyYetBig.Behaviours
                     if (elementByHash.IsGas || elementByHash.IsLiquid)
                         SimMessages.AddRemoveSubstance(Grid.PosToCell(output), outputElement, CellEventLogger.Instance.ElementEmitted, amount, outputProductionTemperature, byte.MaxValue, 0);
                     else if (elementByHash.IsSolid)
-                        elementByHash.substance.SpawnResource(output, amount, outputProductionTemperature, byte.MaxValue, 0);
+                        elementByHash.substance.SpawnResource(output, amount, outputProductionTemperature, byte.MaxValue, 0).SetActive(true);
                     //SgtLogger.debuglog("dumped Element " + outputElement + " with " + amount + " amount");
                 }
             }

@@ -51,9 +51,9 @@ namespace ShockWormMob.OreDeposits
 
 
         /// <summary>
-        /// Rate at which the drillbit is consumed. Default: 1kg of drill per 50kg mined - can be adjusted in building def
+        /// Rate at which the drillbit is consumed. Default: 1 drillbit per 500kg mined - can be adjusted in building def
         /// </summary>
-        public float drillbitConsumptionRate = 1f / 50f;
+        public float drillbitConsumptionRate = 1f / 500f;
 
         /// <summary>
         /// kg per second mined
@@ -83,7 +83,7 @@ namespace ShockWormMob.OreDeposits
 
         public bool IsMiningPossible(float dt = 1f)
         {
-            if (!DumpMaterialToWorld)
+            if (DumpMaterialToWorld)
                 return drillbitStorage.MassStored() >= BaseMiningSpeed * drillbitConsumptionRate * dt;
             else
                 return drillbitStorage.MassStored() >= BaseMiningSpeed * drillbitConsumptionRate * dt && outputStorage.RemainingCapacity() >= BaseMiningSpeed * dt; //rn this blocks production if the output is full, can be changed if needed
@@ -109,7 +109,14 @@ namespace ShockWormMob.OreDeposits
                 if (elementByHash.IsGas || elementByHash.IsLiquid)
                     SimMessages.AddRemoveSubstance(materialOutputCell, minedMaterial, CellEventLogger.Instance.ElementEmitted, ElementMassToProduce, primaryElement.Temperature, byte.MaxValue, 0);
                 else if (elementByHash.IsSolid)
-                    elementByHash.substance.SpawnResource(Grid.CellToPos(materialOutputCell), ElementMassToProduce, primaryElement.Temperature, byte.MaxValue, 0);
+                {
+                   var chunk =  elementByHash.substance.SpawnResource(Grid.CellToPos(materialOutputCell
+                       ,CellAlignment.Center,Grid.SceneLayer.Ore 
+                       ), ElementMassToProduce, primaryElement.Temperature, byte.MaxValue, 0);
+                    chunk.SetActive(true);
+                    Debug.Log(chunk);
+                    Debug.Log(chunk.transform.position.ToString());
+                }
 
             }
             else

@@ -10,8 +10,8 @@ namespace ShockWormMob.OreDeposits
 {
     internal class OreDeposit : KMonoBehaviour
     {
-        [Serialize]public Dictionary<SimHashes,float> MiningRates;
-        public Dictionary<SimHashes, float> getMiningRates() => MiningRates;
+        [Serialize]public float MiningRate;
+        [Serialize]public SimHashes MiningElement;
 
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace ShockWormMob.OreDeposits
         /// <returns></returns>
         public KeyValuePair<SimHashes,float> GetCurrentMiningElement()
         {
-            return MiningRates.FirstOrDefault();
+            return new KeyValuePair<SimHashes, float> (MiningElement, MiningRate);
         }
 
     }    
