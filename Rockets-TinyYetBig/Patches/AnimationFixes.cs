@@ -19,6 +19,11 @@ namespace Rockets_TinyYetBig.Patches
         [HarmonyPatch(typeof(OxidizerTank), nameof(OxidizerTank.OnSpawn))]
         public static class FixLOXMeterV1
         {
+            public static void Prefix(OxidizerTank __instance)
+            {
+                __instance.storage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
+            }
+
             public static void Postfix(OxidizerTank __instance)
             {
                 ///this is a LOX module, it needs a meter.. but it wont get one in kleis implementation, so we need to add one
@@ -32,7 +37,7 @@ namespace Rockets_TinyYetBig.Patches
                             "meter_OL"
                     });
                     __instance.meter.gameObject.GetComponent<KBatchedAnimTracker>().matchParentOffset = true;
-                    __instance.RefreshMeter();
+                    __instance.RefreshMeter();     
                 }
                 //this.meter.SetPositionPercent(this.storage.MassStored() / this.storage.capacityKg);
             }

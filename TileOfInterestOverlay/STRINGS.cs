@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UL_UniversalLyzer
+namespace TileOfInterestOverlay
 {
     internal class STRINGS
     {
-        public class OVERLAYS
+        public class BUILDINGS
         {
-            public class TILEOFINTERESTOVERLAY
+            public class PREFABS
             {
 
             }
