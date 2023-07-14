@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 using static SingleEntityReceptacle;
 using UnityEngine;
 using TUNING;
+using UtilLibs;
 
 namespace TileOfInterestOverlay
 {
     internal class TileOfInterestOverlay : OverlayModes.Mode
     {
-        static Color none = Color.black, workable = Color.blue, building = Color.red;
+        static Color none = Color.black, workable = Color.blue, building = Color.red, workableCenter = Color.magenta;
 
         public enum HighlightType
         {
-            None,Building,Workable
+            None,Building,Workable, WorkableCenter
         }
 
         /// <summary>
@@ -32,7 +33,14 @@ namespace TileOfInterestOverlay
         {
             var shade = Color.black;
             var reason = Instance.cells[cell];
-            switch (reason)
+            return (GetColorFrom(reason));
+           
+        }
+
+        static Color GetColorFrom(HighlightType type)
+        {
+            var shade = Color.black;
+            switch (type)
             {
                 case HighlightType.None:
                     break;
@@ -42,9 +50,13 @@ namespace TileOfInterestOverlay
                 case HighlightType.Building:
                     shade = building;
                     break;
+                case HighlightType.WorkableCenter:
+                    shade = workableCenter;
+                    break;
             }
             return shade;
         }
+
 
         /// <summary>
         /// The instance of this class created by OverlayScreen.
@@ -69,12 +81,12 @@ namespace TileOfInterestOverlay
         /// <summary>
         /// The target plants that are visible on screen.
         /// </summary>
-        private readonly ICollection<KMonoBehaviour> layerTargets;
+        private readonly ICollection<BuildingComplete> layerTargets;
 
         /// <summary>
         /// The partitioner used to selectively iterate plants.
         /// </summary>
-        private UniformGrid<KMonoBehaviour> partition;
+        private UniformGrid<BuildingComplete> partition;
 
         /// <summary>
         /// Cached legend colors used for pip planting.
@@ -112,7 +124,7 @@ namespace TileOfInterestOverlay
             conditions = new OverlayModes.ColorHighlightCondition[] {
                 new OverlayModes.ColorHighlightCondition(GetHighlightColor, ShouldHighlight)
             };
-            layerTargets = new HashSet<KMonoBehaviour>();
+            layerTargets = new HashSet<BuildingComplete>();
             legendFilters = CreateDefaultFilters();
             Instance = this;
             TileOfInterestLegend = new List<LegendEntry>
@@ -125,7 +137,12 @@ namespace TileOfInterestOverlay
             partition = null;
 
 
-            targetTags = new HashSet<Tag>(Assets.GetPrefabTagsWithComponent<Workable>().Concat(Assets.GetPrefabTagsWithComponent<BuildingComplete>().Distinct()));
+            targetTags = new HashSet<Tag>(
+               // Assets.GetPrefabTagsWithComponent<Workable>()
+                //.Concat(
+                    Assets.GetPrefabTagsWithComponent<BuildingComplete>()
+                 //   )
+                );
             selectionMask = LayerMask.GetMask(new string[] {
                 "MaskedOverlay"
             });
@@ -150,7 +167,7 @@ namespace TileOfInterestOverlay
             base.Enable();
             RegisterSaveLoadListeners();
 
-            partition = PopulatePartition<KMonoBehaviour>(targetTags);
+            partition = PopulatePartition<BuildingComplete>(targetTags);
 
             CameraController.Instance.ToggleColouredOverlayView(true);
             Camera.main.cullingMask |= cameraLayerMask;
@@ -168,14 +185,15 @@ namespace TileOfInterestOverlay
         /// <returns>The color to tint the plant - red if too many, green if OK.</returns>
         private Color GetHighlightColor(KMonoBehaviour _)
         {
+            //return Color.black;
+
             var color = Color.black;
             // Same method as used by the decor overlay
             int mouseCell = Grid.PosToCell(CameraController.Instance.baseCamera.
                 ScreenToWorldPoint(KInputManager.GetMousePos()));
             if (Grid.IsValidCell(mouseCell))
-                color = (cells[mouseCell] == HighlightType.Workable) ?
-                    workable : building;
-            return color;
+                color = GetColorFrom(cells[mouseCell]);
+            return color ;
         }
 
         public override string GetSoundName()
@@ -189,13 +207,17 @@ namespace TileOfInterestOverlay
             var tag = root.GetComponent<KPrefabID>().GetSaveLoadTag();
             if (targetTags.Contains(tag))
             {
-                if (root.TryGetComponent<Workable>(out var workable))
+                //if (root.TryGetComponent<Workable>(out var workable))
+                //{
+                //    partition.Add(workable);
+                //    UpdateForBuilding(workable, true);
+                //}
+                //else 
+                if(root.TryGetComponent<BuildingComplete>(out var building))
                 {
-                    partition.Add(workable);
-                    UpdateForBuilding(workable, true);
-                }
-                else if(root.TryGetComponent<BuildingComplete>(out var building))
-                {
+                    if (building.Def.WidthInCells == 1 && building.Def.HeightInCells == 1)
+                        return;
+
                     partition.Add(building);
                     UpdateForBuilding(building,true);
                 }
@@ -203,19 +225,23 @@ namespace TileOfInterestOverlay
             }
         }
 
-        public override void OnSaveLoadRootUnregistered(SaveLoadRoot root)
+        public override void OnSaveLoadRootUnregistered(SaveLoadRoot root) 
         {
             // Remove plants from partitioner if they die
             if (root != null && root.gameObject != null)
             {
-                if (root.TryGetComponent<Workable>(out var workable))
+                //if (root.TryGetComponent<Workable>(out var workable))
+                //{
+                //    layerTargets.Remove(workable);
+                //    partition.Remove(workable);
+                //    UpdateForBuilding(workable, false);
+                //}
+                //else
+                if (root.TryGetComponent<BuildingComplete>(out var building))
                 {
-                    layerTargets.Remove(workable);
-                    partition.Remove(workable);
-                    UpdateForBuilding(workable, false);
-                }
-                else if (root.TryGetComponent<BuildingComplete>(out var building))
-                {
+                    if (building.Def.WidthInCells == 1 && building.Def.HeightInCells == 1)
+                        return;
+
                     layerTargets.Remove(building);
                     partition.Remove(building);
                     UpdateForBuilding(building, false);
@@ -232,15 +258,15 @@ namespace TileOfInterestOverlay
         {
             int mouseCell = Grid.PosToCell(CameraController.Instance.baseCamera.
                 ScreenToWorldPoint(KInputManager.GetMousePos()));
-            return (cells[mouseCell] != HighlightType.None && Grid.PosToCell(inputItem) == mouseCell);           
+            return (cells[mouseCell] != HighlightType.None && (inputItem!=null) && inputItem.transform!=null && Grid.PosToCell(inputItem) == mouseCell);           
         }
 
         public override void Update()
         {
             int x1, x2, y1, y2;
-            var intersecting = HashSetPool<KMonoBehaviour, TileOfInterestOverlay>.Allocate();
+            var intersecting = HashSetPool<BuildingComplete, TileOfInterestOverlay>.Allocate();
             base.Update();
-            // SimDebugView is updated on a background thread, so since plant checking
+            // SimDebugView is updated on a background thread, so since plant checkingcy
             // must be done on the FG thread, it is updated here
             Grid.GetVisibleExtents(out Vector2I min, out Vector2I max);
             x1 = min.x; x2 = max.x;
@@ -251,32 +277,51 @@ namespace TileOfInterestOverlay
                 intersecting);
             foreach (var building in intersecting)
             {
+                
                 UpdateForBuilding(building);
                 AddTargetIfVisible(building, min, max, layerTargets, targetLayer);
             }
 
             UpdateHighlightTypeOverlay(min, max, layerTargets, targetTags, conditions,
-                OverlayModes.BringToFrontLayerSetting.Constant, targetLayer);
+                OverlayModes.BringToFrontLayerSetting.Conditional, targetLayer);
             intersecting.Recycle();
         }
         
-        void UpdateForBuilding(KMonoBehaviour building, bool? addTrueRemoveFalse = null)
+        void UpdateForBuilding(BuildingComplete building, bool? addTrueRemoveFalse = null)
         {
+            if(building==null || building.transform==null) return;
+            if (building.Def.WidthInCells == 1 && building.Def.HeightInCells == 1)
+                return;
+
             HighlightType type = HighlightType.None;
             int cell = Grid.PosToCell(building);
 
-            if (building is Workable)
-            {
-                type = HighlightType.Workable;
-            }
-            else if (building is BuildingComplete)
+            SgtLogger.l($"Building at {cell}!", "buildingRegistration");
+
+            //if (building is Workable)
+            //{
+            //    type = HighlightType.Workable;
+            //}
+            //else 
+            if (building is BuildingComplete)
             {
                 type = HighlightType.Building;
             }
-            if (addTrueRemoveFalse != null)
+            if (addTrueRemoveFalse.HasValue)
             {
                 type = (addTrueRemoveFalse == false) ? HighlightType.None : type;
             }
+            if(building.TryGetComponent<Workable>(out var workable))
+            {
+                var offset = workable.GetOffsets().FirstOrDefault();
+                if (offset != default && offset != CellOffset.none)
+                {
+                    cells[Grid.OffsetCell(cell, building.rotatable.GetRotatedCellOffset(offset))] = HighlightType.Workable;
+                }
+                else
+                    type = HighlightType.WorkableCenter;
+            }
+
             cells[cell] = type;
         }
 

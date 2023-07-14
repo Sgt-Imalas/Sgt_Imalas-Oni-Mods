@@ -78,7 +78,7 @@ namespace TileOfInterestOverlay
             ConstructorInfo[] cs;
             if (OVERLAY_TYPE == null || (cs = OVERLAY_TYPE.GetConstructors(INSTANCE_ALL)).
                     Length != 1)
-                PUtil.LogWarning("Unable to add PipPlantOverlay - missing constructor");
+                PUtil.LogWarning("Unable to add TileOfInterest - missing constructor");
             else
             {
                 var cons = cs[0];
@@ -86,7 +86,7 @@ namespace TileOfInterestOverlay
                 int paramCount = toggleParams.Length;
                 // Manually plug in the knowns
                 if (paramCount < KNOWN_PARAMS)
-                    PUtil.LogWarning("Unable to add PipPlantOverlay - parameters missing");
+                    PUtil.LogWarning("Unable to add TileOfInterest - parameters missing");
                 else
                 {
                     object[] args = new object[paramCount];
@@ -105,7 +105,7 @@ namespace TileOfInterestOverlay
                             args[i] = op.DefaultValue;
                         else
                         {
-                            PUtil.LogWarning("Unable to add PipPlantOverlay - new parameters");
+                            PUtil.LogWarning("Unable to add TileOfInterest - new parameters");
                             args[i] = null;
                         }
                     }
