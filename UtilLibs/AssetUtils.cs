@@ -14,12 +14,20 @@ namespace UtilLibs
     /// </summary>
     public class AssetUtils
     {
-        public static void AddSpriteToAssets(Assets instance, string spriteid)
+        public static void AddSpriteToAssets(Assets instance, string spriteid, bool overrideExisting = false)
         {
             var path = Path.Combine(UtilMethods.ModPath, "assets");
             var texture = LoadTexture(spriteid, path);
             var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector3.zero);
             sprite.name = spriteid;
+
+            if (instance.SpriteAssets.Any(foundsprite => foundsprite.name == spriteid))
+            {
+                if (!overrideExisting)
+                    return;
+
+                instance.SpriteAssets.RemoveAll(foundsprite2 => foundsprite2.name == spriteid);
+            }    
             instance.SpriteAssets.Add(sprite);
         }
         public static Texture2D LoadTexture(string name, string directory)

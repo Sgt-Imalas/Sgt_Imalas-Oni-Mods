@@ -123,6 +123,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RadOceanRevamp", "RadOceanR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileOfInterestOverlay", "TileOfInterestOverlay\TileOfInterestOverlay.csproj", "{F42A0D64-D331-40FA-8C36-886E4EC5E656}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OniRetroEdition", "OniRetroEdition\OniRetroEdition.csproj", "{7327DAF2-86EB-43CD-904F-4AEB1A41F454}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -459,6 +461,12 @@ Global
 		{F42A0D64-D331-40FA-8C36-886E4EC5E656}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{F42A0D64-D331-40FA-8C36-886E4EC5E656}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
 		{F42A0D64-D331-40FA-8C36-886E4EC5E656}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
+		{7327DAF2-86EB-43CD-904F-4AEB1A41F454}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7327DAF2-86EB-43CD-904F-4AEB1A41F454}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7327DAF2-86EB-43CD-904F-4AEB1A41F454}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{7327DAF2-86EB-43CD-904F-4AEB1A41F454}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{7327DAF2-86EB-43CD-904F-4AEB1A41F454}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
+		{7327DAF2-86EB-43CD-904F-4AEB1A41F454}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

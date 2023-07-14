@@ -23,6 +23,17 @@ namespace ElementUtilNamespace
             return simHash;
         }
 
+        public static void SetTexture_Main(Material material, string texture) => SetTexture(material,  texture, "_MainTex");
+        public static void SetTexture_ShineMask(Material material, string texture, Color? specularColor = null)
+        {
+            SetTexture(material, texture, "_ShineMask");
+            if(specularColor.HasValue)
+                material.SetColor("_ShineColour", specularColor.Value);
+
+        }
+
+        public static void SetTexture_NormalNoise(Material material, string normal) => SetTexture(material, normal, "_NormalNoise");
+
         public static Substance CreateSubstance(SimHashes id, bool specular, string anim, Element.State state, Color color, Material material, Color uiColor, Color conduitColor, Color? specularColor, string normal)
         {
             var animFile = Assets.Anims.Find(a => a.name == anim);
@@ -36,21 +47,16 @@ namespace ElementUtilNamespace
 
             if (state == Element.State.Solid)
             {
-                SetTexture(newMaterial, id.ToString().ToLowerInvariant(), "_MainTex");
+                SetTexture_Main(newMaterial, id.ToString().ToLowerInvariant());
 
                 if (specular)
                 {
-                    SetTexture(newMaterial, id.ToString().ToLowerInvariant() + "_spec", "_ShineMask");
-
-                    if (specularColor.HasValue)
-                    {
-                        newMaterial.SetColor("_ShineColour", specularColor.Value);
-                    }
+                    SetTexture_ShineMask(newMaterial, id.ToString().ToLowerInvariant() + "_spec", specularColor);
                 }
 
                 if (!normal.IsNullOrWhiteSpace())
                 {
-                    SetTexture(newMaterial, normal, "_NormalNoise");
+                    SetTexture_NormalNoise(newMaterial, normal);
                 }
             }
 
