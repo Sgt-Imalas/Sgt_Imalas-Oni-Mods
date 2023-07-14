@@ -251,8 +251,8 @@ namespace TileOfInterestOverlay
                 intersecting);
             foreach (var building in intersecting)
             {
-                AddTargetIfVisible(building, min, max, layerTargets, targetLayer);
                 UpdateForBuilding(building);
+                AddTargetIfVisible(building, min, max, layerTargets, targetLayer);
             }
 
             UpdateHighlightTypeOverlay(min, max, layerTargets, targetTags, conditions,
