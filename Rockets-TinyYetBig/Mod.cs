@@ -10,6 +10,7 @@ using static UtilLibs.RocketryUtils;
 using static Rockets_TinyYetBig.STRINGS;
 using static PeterHan.PLib.AVC.JsonURLVersionChecker;
 using PeterHan.PLib.AVC;
+using Rockets_TinyYetBig.Patches;
 
 namespace Rockets_TinyYetBig
 {
@@ -34,7 +35,7 @@ namespace Rockets_TinyYetBig
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
             base.OnAllModsLoaded(harmony, mods);
-
+            FixForAutoRocketAndBugfixes.AttemptPatch(harmony);
             
         }
 
