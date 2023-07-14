@@ -39,8 +39,16 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
                 {
                     Clustercraft component = smi.master.gameObject.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
                     component.AddTag(GameTags.POIHarvesting);
+
+                    var controlStations = Components.RocketControlStations.GetWorldItems(component.m_moduleInterface.GetInteriorWorld().id);
+                    if (controlStations != null && controlStations.Count > 0)
+                    {
+                        var station = controlStations.First();
+                        station.smi.sm.CreateLaunchChore(station.smi);
+                    }
+
                     component.Trigger(-1762453998, null);
-                    StatesInstance.AddHarvestStatusItems(smi.master.gameObject.GetComponent<RocketModuleCluster>().CraftInterface.gameObject, smi.def.harvestSpeed);
+                    StatesInstance.AddHarvestStatusItems(smi.master.gameObject.GetComponent<RocketModuleCluster>().CraftInterface.gameObject, smi.def.harvestSpeed * ModAssets.GetMiningPilotSkillMultiplier(component));
                 }).Exit(smi => smi.master.gameObject.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>().RemoveTag(GameTags.POIHarvesting))
 
             .Update((smi, dt) =>
@@ -90,6 +98,8 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
                 meter.SetPositionPercent(storage.Particles / storage.Capacity());
             }
 
+
+
             public void HarvestFromPOI(float dt)
             {
                 Clustercraft component = GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
@@ -108,7 +118,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
                     if (!DiscoveredResources.Instance.IsDiscovered(elementByHash.tag))
                         DiscoveredResources.Instance.Discover(elementByHash.tag, elementByHash.GetMaterialCategoryTag());
                 }
-                float harvestSpeedDT = Mathf.Min(GetMaxExtractKGFromHEPsAvailable(), def.harvestSpeed * dt);
+                float harvestSpeedDT = Mathf.Min(GetMaxExtractKGFromHEPsAvailable(), def.harvestSpeed * dt * ModAssets.GetMiningPilotSkillMultiplier(component));
                 float consumptionMass = 0.0f;
                 float num4 = 0.0f;
                 float wastedHarvestingMass = 0.0f;
@@ -118,7 +128,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
                     {
                         SimHashes key = keyValuePair.Key;
                         float elementDropPercentage = keyValuePair.Value / percentageSum;
-                        float elementMassPerTick = def.harvestSpeed * dt * elementDropPercentage;
+                        float elementMassPerTick = def.harvestSpeed * ModAssets.GetMiningPilotSkillMultiplier(component) * dt * elementDropPercentage ;
                         consumptionMass += elementMassPerTick;
                         Element elementByHash = ElementLoader.FindElementByHash(key);
                         CargoBay.CargoType stateToCargoType = CargoBay.ElementStateToCargoTypes[elementByHash.state & Element.State.Solid];

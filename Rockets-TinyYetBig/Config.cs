@@ -101,6 +101,11 @@ namespace Rockets_TinyYetBig
         public bool RefillDrillSupport { get; set; }
 
 
+        [Option("Pilot Skill Mining Speed", "The pilots skills affect the drilling speed of the drillcone.\nApplies to both drillcone types", "(2) Mining & Shipping")]
+        [JsonProperty]
+        public bool PilotSkillAffectsDrillSpeed { get; set; }
+
+
         [Option("Infinite Mining Capacity", "Mining POI become infinite. Does not affect artifacts.", "(2) Mining & Shipping")]
         [JsonProperty]
         public bool InfinitePOI { get; set; }
@@ -261,6 +266,7 @@ namespace Rockets_TinyYetBig
             EnableDrillSupport = true;
             LaserDrillconeSpeed = 25;
             DrillconeSupportDiamondMass = 1500;
+            PilotSkillAffectsDrillSpeed = true;
             RefillDrillSupport = false;
             EnablePOISensor = true;
 

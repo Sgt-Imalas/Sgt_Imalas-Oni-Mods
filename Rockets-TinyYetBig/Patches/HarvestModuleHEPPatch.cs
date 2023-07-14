@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Klei.AI;
 using Rockets_TinyYetBig.Buildings.Nosecones;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,13 @@ namespace Rockets_TinyYetBig//.Patches
             }
         }
 
+        
+
+
+
+        /// <summary>
+        /// Sub all hep storage change handlers on start mining
+        /// </summary>
         [HarmonyPatch(typeof(RocketClusterDestinationSelector), "WaitForPOIHarvest")]
         public static class AddSubToParticleStorage
         {
@@ -66,7 +74,7 @@ namespace Rockets_TinyYetBig//.Patches
         }
 
         /// <summary>
-        /// TODO: what did this do?
+        /// Unsub all hep storage change handlers on returntrip
         /// </summary>
         [HarmonyPatch(typeof(RocketClusterDestinationSelector), "OnStorageChange")]
         public static class RemoveSubFromParticleStorage

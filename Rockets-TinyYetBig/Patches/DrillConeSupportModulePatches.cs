@@ -1,4 +1,6 @@
 ﻿using HarmonyLib;
+using Klei.AI;
+using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.Buildings.Utility;
 using System;
 using System.Collections.Generic;
@@ -7,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
+using static STRINGS.BUILDINGS.PREFABS;
 
 namespace Rockets_TinyYetBig.Patches
 {
@@ -25,9 +29,41 @@ namespace Rockets_TinyYetBig.Patches
                 {
                     if (diamondStorage.storageFilters == null)
                         diamondStorage.storageFilters = new List<Tag>() { SimHashes.Diamond.CreateTag() };
-                    else if(!diamondStorage.storageFilters.Contains(SimHashes.Diamond.CreateTag()))
+                    else if (!diamondStorage.storageFilters.Contains(SimHashes.Diamond.CreateTag()))
                         diamondStorage.storageFilters.Add(SimHashes.Diamond.CreateTag());
                 }
+            }
+        }
+
+        /// <summary>
+        /// Get Mining Skill modifier, handle legacy AI rockets with 0
+        /// </summary>
+        [HarmonyPatch(typeof(RocketControlStation.StatesInstance))]
+        [HarmonyPatch("SetPilotSpeedMult")]
+        public class RocketControlStation_SetPilotSpeedMult_Patch
+        {
+            [HarmonyPriority(Priority.HigherThanNormal)]
+            public static void Prefix(Worker pilot, RocketControlStation.StatesInstance __instance)
+            {
+                AttributeConverter diggingSpeed = Db.Get().AttributeConverters.DiggingSpeed;
+                if (pilot.TryGetComponent<AttributeConverters>(out var converters) && converters.GetConverter(diggingSpeed.Id) != null)
+                {
+                    ///digging converter is 10x as effective as rocket
+                    float diggingSpeedValue = 1f + (converters.GetConverter(diggingSpeed.Id).Evaluate() / 10f);
+                    diggingSpeedValue = Mathf.Max(diggingSpeedValue, 0.1f);
+                    SgtLogger.l("setting digging multiplier on rocket: "+ diggingSpeedValue);
+                    __instance.smi.sm.clusterCraft.Get(__instance.smi).GetComponent<Clustercraft_AdditionalComponent>().SetMiningMultiplierForRocket(diggingSpeedValue);
+
+                }
+            }
+            public static Clustercraft GetRocket(RocketControlStation.StatesInstance smi)
+            {
+                WorldContainer world = ClusterManager.Instance.GetWorld(smi.GetMyWorldId());
+                if (world == null)
+                {
+                    return null;
+                }
+                return world.gameObject.GetComponent<Clustercraft>();
             }
         }
 
@@ -49,9 +85,20 @@ namespace Rockets_TinyYetBig.Patches
                     }
                 }
                 //SgtLogger.debuglog(__instance + ", BooserCount: " + SupportModuleCount);
-                harvestRate = (1f + SupportModuleCount * ((float)Config.Instance.DrillconeSupportBoost)/100f) * AddSpeedBuff.defaultMiningSpeed;
+                harvestRate = (1f + SupportModuleCount * ((float)Config.Instance.DrillconeSupportBoost) / 100f) * AddSpeedBuff.defaultMiningSpeed * ModAssets.GetMiningPilotSkillMultiplier(CraftInterface.m_clustercraft);
             }
         }
+
+        [HarmonyPatch(typeof(ClustercraftConfig), nameof(ClustercraftConfig.CreatePrefab))]
+        public static class MiningBuffStorage
+        {
+            public static void Postfix(GameObject __result)
+            {
+                __result.AddOrGet<Clustercraft_AdditionalComponent>();
+            }
+        }
+
+
 
         /// <summary>
         /// Adjusts the drilling speed of drillcone SMI to include support module speed boosts
@@ -73,7 +120,7 @@ namespace Rockets_TinyYetBig.Patches
                         }
                     }
                     //SgtLogger.debuglog(__instance + ", BooserCount: " + SupportModuleCount);
-                    __instance.def.harvestSpeed = (1f + SupportModuleCount * ((float)Config.Instance.DrillconeSupportBoost) / 100f) * defaultMiningSpeed;
+                    __instance.def.harvestSpeed = (1f + SupportModuleCount * ((float)Config.Instance.DrillconeSupportBoost) / 100f) * defaultMiningSpeed * ModAssets.GetMiningPilotSkillMultiplier(Module.CraftInterface.m_clustercraft);
                 }
             }
         }
@@ -122,9 +169,9 @@ namespace Rockets_TinyYetBig.Patches
                 lastMassStored = -2f;
                 helperModules.Clear();
                 drillerStorage = null;
-                moduleInstance=null;
+                moduleInstance = null;
             }
-            public static readonly List<DrillConeAssistentModule> helperModules= new List<DrillConeAssistentModule>();
+            public static readonly List<DrillConeAssistentModule> helperModules = new List<DrillConeAssistentModule>();
             static float globalDT = 0f;
             const float dtGate = 1 / 5f;
             static float lastPercentageState = -1f;
@@ -146,28 +193,28 @@ namespace Rockets_TinyYetBig.Patches
                         return false;
 
                     float Capacity = 0, MassStored = 0;
-                    if (drillerStorage!=null)
+                    if (drillerStorage != null)
                     {
                         Capacity += drillerStorage.Capacity();
                         MassStored += drillerStorage.MassStored();
                     }
-                    foreach(var module in helperModules)
+                    foreach (var module in helperModules)
                     {
                         Capacity += module.DiamondStorage.Capacity();
                         MassStored += module.DiamondStorage.MassStored();
                     }
 
                     __instance.TryGetComponent<HierarchyReferences>(out HierarchyReferences component1);
-                    float miningProgress = moduleInstance.sm.canHarvest.Get(moduleInstance) ? (moduleInstance.timeinstate % 4f)/4f : -1f;
+                    float miningProgress = moduleInstance.sm.canHarvest.Get(moduleInstance) ? (moduleInstance.timeinstate % 4f) / 4f : -1f;
 
-                    if (!Mathf.Approximately(miningProgress,lastPercentageState))
+                    if (!Mathf.Approximately(miningProgress, lastPercentageState))
                     {
                         GenericUIProgressBar reference1 = component1.GetReference<GenericUIProgressBar>("progressBar");
                         reference1.SetFillPercentage(miningProgress > -1f ? miningProgress : 0f);
                         reference1.label.SetText(miningProgress > -1f ? (string)global::STRINGS.UI.UISIDESCREENS.HARVESTMODULESIDESCREEN.MINING_IN_PROGRESS : (string)global::STRINGS.UI.UISIDESCREENS.HARVESTMODULESIDESCREEN.MINING_STOPPED);
                         lastPercentageState = miningProgress;
                     }
-                    if (!Mathf.Approximately(MassStored,lastMassStored))
+                    if (!Mathf.Approximately(MassStored, lastMassStored))
                     {
                         GenericUIProgressBar reference2 = component1.GetReference<GenericUIProgressBar>("diamondProgressBar");
                         reference2.SetFillPercentage(MassStored / Capacity);

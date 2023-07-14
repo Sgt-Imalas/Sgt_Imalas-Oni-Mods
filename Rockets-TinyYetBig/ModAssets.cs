@@ -71,6 +71,22 @@ namespace Rockets_TinyYetBig
 
         };
 
+        public static float GetMiningPilotSkillMultiplier(Clustercraft clustercraft)
+        {
+            float multiplier = 1f;
+            if (Config.Instance.PilotSkillAffectsDrillSpeed)
+            {
+                float flyingSpeedMultiplier = clustercraft.PilotSkillMultiplier;
+                float miningSpeedMultiplier = clustercraft.GetComponent<Clustercraft_AdditionalComponent>().Drillcone_MiningSkillMultiplier;
+               
+                multiplier = Mathf.Max(0.75f, (flyingSpeedMultiplier*0.5f + miningSpeedMultiplier * 0.5f));
+                //SgtLogger.l($"Total MiningMultiplier: {multiplier}, flying: {flyingSpeedMultiplier}, mining: {miningSpeedMultiplier}.");
+                multiplier = (multiplier - 1) * 2 + 1;
+                //SgtLogger.l($"Total MiningMultiplier adjusted: {multiplier}.");
+            }
+            return multiplier;
+        }
+
         public static bool GetCargoBayCapacity(string id, out float cargoCapacity)
         {
             cargoCapacity = 0;
