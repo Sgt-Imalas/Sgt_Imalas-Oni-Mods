@@ -14,6 +14,7 @@ using TUNING;
 using UnityEngine;
 using UtilLibs;
 using static OniRetroEdition.ModAssets;
+using static STRINGS.BUILDINGS.PREFABS;
 using static STRINGS.CREATURES.STATS;
 
 namespace OniRetroEdition
@@ -103,6 +104,171 @@ namespace OniRetroEdition
             }
         }
 
+        #region reenableDeprecateds
+        [HarmonyPatch(typeof(AirborneCreatureLureConfig))]
+        [HarmonyPatch(nameof(AirborneCreatureLureConfig.CreateBuildingDef))]
+        public static class Revive_AirborneCreatureLureConfig
+        {
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.Deprecated = false;
+            }
+        }
+        [HarmonyPatch(typeof(PressureSwitchGasConfig))]
+        [HarmonyPatch(nameof(PressureSwitchGasConfig.CreateBuildingDef))]
+        public static class Revive_PressureSwitchGasConfig
+        {
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.Deprecated = false;
+            }
+        }
+        [HarmonyPatch(typeof(AtmoicGardenConfig))]
+        [HarmonyPatch(nameof(AtmoicGardenConfig.CreateBuildingDef))]
+        public static class Revive_AtmoicGardenConfig
+        {
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.Deprecated = false;
+            }
+        }
+        [HarmonyPatch(typeof(CrewCapsuleConfig))]
+        [HarmonyPatch(nameof(CrewCapsuleConfig.CreateBuildingDef))]
+        public static class Revive_CrewCapsuleConfig
+        {
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.Deprecated = false;
+            }
+        }
+        [HarmonyPatch(typeof(GasConduitOverflowConfig))]
+        [HarmonyPatch(nameof(GasConduitOverflowConfig.CreateBuildingDef))]
+        public static class Revive_GasConduitOverflowConfig
+        {
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.Deprecated = false;
+            }
+        }
+        [HarmonyPatch(typeof(GasConduitPreferentialFlowConfig))]
+        [HarmonyPatch(nameof(GasConduitPreferentialFlowConfig.CreateBuildingDef))]
+        public static class Revive_GasConduitPreferentialFlowConfig
+        {
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.Deprecated = false;
+            }
+        }
+        [HarmonyPatch(typeof(GenericFabricatorConfig))]
+        [HarmonyPatch(nameof(GenericFabricatorConfig.CreateBuildingDef))]
+        public static class Revive_GenericFabricatorConfig
+        {
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.Deprecated = false;
+            }
+        }
+        [HarmonyPatch(typeof(LiquidCooledFanConfig))]
+        [HarmonyPatch(nameof(LiquidCooledFanConfig.CreateBuildingDef))]
+        public static class Revive_LiquidCooledFanConfig
+        {
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.Deprecated = false;
+            }
+        }
+        [HarmonyPatch(typeof(PressureSwitchLiquidConfig))]
+        [HarmonyPatch(nameof(PressureSwitchLiquidConfig.CreateBuildingDef))]
+        public static class Revive_PressureSwitchLiquidConfig
+        {
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.Deprecated = false;
+            }
+        }
+        [HarmonyPatch(typeof(LiquidConduitOverflowConfig))]
+        [HarmonyPatch(nameof(LiquidConduitOverflowConfig.CreateBuildingDef))]
+        public static class Revive_LiquidConduitOverflowConfig
+        {
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.Deprecated = false;
+            }
+        }
+        [HarmonyPatch(typeof(LiquidConduitPreferentialFlowConfig))]
+        [HarmonyPatch(nameof(LiquidConduitPreferentialFlowConfig.CreateBuildingDef))]
+        public static class Revive_LiquidConduitPreferentialFlowConfig
+        {
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.Deprecated = false;
+            }
+        }
+        [HarmonyPatch(typeof(MachineShopConfig))]
+        [HarmonyPatch(nameof(MachineShopConfig.CreateBuildingDef))]
+        public static class Revive_MachineShopConfig
+        {
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.Deprecated = false;
+            }
+        }
+        [HarmonyPatch(typeof(AdvancedApothecaryConfig))]
+        [HarmonyPatch(nameof(AdvancedApothecaryConfig.CreateBuildingDef))]
+        public static class Revive_AdvancedApothecaryConfig
+        {
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.Deprecated = false;
+            }
+        }
+        [HarmonyPatch(typeof(OxygenMaskStationConfig))]
+        [HarmonyPatch(nameof(OxygenMaskStationConfig.CreateBuildingDef))]
+        public static class Revive_OxygenMaskStationConfig
+        {
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.Deprecated = false;
+            }
+        }
+        [HarmonyPatch(typeof(AstronautTrainingCenterConfig))]
+        [HarmonyPatch(nameof(AstronautTrainingCenterConfig.CreateBuildingDef))]
+        public static class Revive_AstronautTrainingCenterConfig
+        {
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.Deprecated = false;
+            }
+        }
+        [HarmonyPatch(typeof(SteamTurbineConfig))]
+        [HarmonyPatch(nameof(SteamTurbineConfig.CreateBuildingDef))]
+        public static class Revive_SteamTurbineConfig
+        {
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.Deprecated = false;
+            }
+        }
+        [HarmonyPatch(typeof(TemperatureControlledSwitchConfig))]
+        [HarmonyPatch(nameof(TemperatureControlledSwitchConfig.CreateBuildingDef))]
+        public static class Revive_TemperatureControlledSwitchConfig
+        {
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.Deprecated = false;
+            }
+        }
+        [HarmonyPatch(typeof(MouldingTileConfig))]
+        [HarmonyPatch(nameof(MouldingTileConfig.CreateBuildingDef))]
+        public static class Revive_MouldingTileConfig
+        {
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.Deprecated = false;
+            }
+        }
+
+
         [HarmonyPatch(typeof(RoleStationConfig))]
         [HarmonyPatch(nameof(RoleStationConfig.CreateBuildingDef))]
         public static class ReviveOldJobStation2
@@ -114,7 +280,7 @@ namespace OniRetroEdition
 
             }
         }
-
+#endregion
 
 
         [HarmonyPatch(typeof(ExobaseHeadquartersConfig))]
