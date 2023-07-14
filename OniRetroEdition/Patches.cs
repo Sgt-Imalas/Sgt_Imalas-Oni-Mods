@@ -165,8 +165,8 @@ namespace OniRetroEdition
             }
         }
 
-        [HarmonyPatch(typeof(AirborneCreatureLureConfig))]
-        [HarmonyPatch(nameof(AirborneCreatureLureConfig.CreateBuildingDef))]
+        [HarmonyPatch(typeof(FlyingCreatureBaitConfig))]
+        [HarmonyPatch(nameof(FlyingCreatureBaitConfig.CreateBuildingDef))]
         public static class AirborneCritterBait_CeilingOnly
         {
             public static void Postfix(ref BuildingDef __result)
@@ -206,6 +206,10 @@ namespace OniRetroEdition
 
             public static void Postfix(ref BuildingDef __result)
             {
+
+                __result.UtilityInputOffset = new CellOffset(-1, 1);
+                __result.UtilityOutputOffset = new CellOffset(1, 1);
+                __result.PowerInputOffset = new CellOffset(1, 0);
                 __result.HeightInCells = 2;
                 __result.WidthInCells = 3;
                 __result.GenerateOffsets();
