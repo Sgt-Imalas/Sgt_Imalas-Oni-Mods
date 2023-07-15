@@ -2,6 +2,7 @@
 using Klei;
 using KMod;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UtilLibs;
 
@@ -33,6 +34,12 @@ namespace ClusterTraitGenerationManager
 #if DEBUG
             Debug.LogError("Error THIS IS NOT RELEASE");
 #endif
+        }
+        public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
+        {
+            base.OnAllModsLoaded(harmony, mods);
+            CompatibilityNotifications.CheckAndAddIncompatibles("CGSMMerged", "CLuster Generation Settings Manager");
+            CompatibilityNotifications.CheckAndAddIncompatibles("Mod.WGSM", "WGSM - World Generation Settings Manager");
         }
     }
 }
