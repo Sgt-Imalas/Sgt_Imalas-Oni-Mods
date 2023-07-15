@@ -101,6 +101,17 @@ namespace Rockets_TinyYetBig.Buildings.Engines
             fuelTank.FuelType = GameTags.CombustibleGas;// FUEL.CreateTag();
             fuelTank.targetFillMass = storage.capacityKg;
             fuelTank.physicalFuelCapacity = storage.capacityKg;
+
+            go.AddOrGet<CopyBuildingSettings>();
+
+            ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
+            conduitConsumer.conduitType = ConduitType.Gas;
+            conduitConsumer.consumptionRate = 10f;
+            conduitConsumer.capacityTag = fuelTank.FuelType;
+            conduitConsumer.capacityKG = storage.capacityKg;
+            conduitConsumer.forceAlwaysSatisfied = true;
+            conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MODERATE_PLUS, 40f, TankCapacity / Config.Instance.EnableNatGasEngineRange / 600f);
             go.GetComponent<KPrefabID>().prefabInitFn += inst => { };
         }

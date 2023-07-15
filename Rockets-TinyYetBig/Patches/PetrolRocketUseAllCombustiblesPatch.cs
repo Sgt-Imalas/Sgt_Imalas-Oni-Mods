@@ -27,13 +27,20 @@ namespace Rockets_TinyYetBig.Patches
         {
             public static void Postfix(GameObject go)
             {
+                FuelTank tank = go.GetComponent<FuelTank>();
+                RocketEngineCluster rocketEngineCluster = go.GetComponent<RocketEngineCluster>();
                 if (Config.Instance.EthanolEngines)
                 {
-                    RocketEngineCluster rocketEngineCluster = go.GetComponent<RocketEngineCluster>();
                     rocketEngineCluster.fuelTag = GameTags.CombustibleLiquid;
-                    FuelTank tank = go.GetComponent<FuelTank>();
                     tank.FuelType = GameTags.CombustibleLiquid;
                 }
+                ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
+                conduitConsumer.conduitType = ConduitType.Liquid;
+                conduitConsumer.consumptionRate = 10f;
+                conduitConsumer.capacityTag = rocketEngineCluster.fuelTag;
+                conduitConsumer.capacityKG = tank.storage.capacityKg;
+                conduitConsumer.forceAlwaysSatisfied = true;
+                conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
             }
 
         }
@@ -42,12 +49,14 @@ namespace Rockets_TinyYetBig.Patches
         {
             public static void Postfix(GameObject go)
             {
+                var consumer = go.GetComponent<ConduitConsumer>();
                 if (Config.Instance.EthanolEngines)
                 {
-                    var consumer = go.GetComponent<ConduitConsumer>();
                     consumer.capacityTag = ModAssets.Tags.RocketFuelTag;
                     UnityEngine.Object.Destroy(go.GetComponent<ManualDeliveryKG>());
                 }
+                consumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+                go.AddOrGet<DropAllWorkable>().dropWorkTime = 60f;
             }
 
         }

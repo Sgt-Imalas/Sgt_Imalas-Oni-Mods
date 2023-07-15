@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUNING;
+using UtilLibs;
 
 namespace Rockets_TinyYetBig.Patches
 {
@@ -23,33 +24,32 @@ namespace Rockets_TinyYetBig.Patches
             {
                 foreach(var element in ElementLoader.elements)
                 {
-                    if(element.oreTags!=null && element.oreTags.Contains(GameTags.CombustibleLiquid) )
+                    if(element.HasTag(GameTags.CombustibleLiquid) )
                     {
-                        element.oreTags.AddToArray(ModAssets.Tags.RocketFuelTag);
+                        element.oreTags = element.oreTags.Append(ModAssets.Tags.RocketFuelTag);
                     }
                 }
 
-                var hydrogen = ElementLoader.GetElement(SimHashes.Hydrogen.CreateTag());
+                var hydrogen = ElementLoader.GetElement(SimHashes.LiquidHydrogen.CreateTag());
                 if (hydrogen.oreTags is null)
                 {
                     hydrogen.oreTags = new Tag[] { };
                 }
-                hydrogen.oreTags = hydrogen.oreTags.AddToArray(ModAssets.Tags.RocketFuelTag);
-
+                hydrogen.oreTags = hydrogen.oreTags.Append(ModAssets.Tags.RocketFuelTag);
 
                 var uran = ElementLoader.GetElement(SimHashes.DepletedUranium.CreateTag());
                 if (uran.oreTags is null)
                 {
                     uran.oreTags = new Tag[] { };
                 }
-                uran.oreTags = uran.oreTags.AddToArray(ModAssets.Tags.RadiationShielding);
+                uran.oreTags = uran.oreTags.Append(ModAssets.Tags.RadiationShielding);
 
                 var lead = ElementLoader.GetElement(SimHashes.Lead.CreateTag());
                 if (lead.oreTags is null)
                 {
                     lead.oreTags = new Tag[] { };
                 }
-                lead.oreTags = lead.oreTags.AddToArray(ModAssets.Tags.RadiationShielding);
+                lead.oreTags = lead.oreTags.Append(ModAssets.Tags.RadiationShielding);
             }
         }
     }

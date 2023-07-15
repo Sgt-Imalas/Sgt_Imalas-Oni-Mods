@@ -75,7 +75,11 @@ namespace Rockets_TinyYetBig.Buildings.Fuel
             conduitConsumer.capacityTag = ModAssets.Tags.RocketFuelTag;
             conduitConsumer.capacityKG = storage.capacityKg;
             conduitConsumer.forceAlwaysSatisfied = true;
-            conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Store;
+            conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+
+            go.AddOrGet<CopyBuildingSettings>();
+            go.AddOrGet<DropAllWorkable>().dropWorkTime = 60f;
+
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MINOR);
         }
 

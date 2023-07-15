@@ -1,6 +1,8 @@
 
 New Features:
 - Drillcone Mining now recieves a boost from the pilots Flying and Digging Skills. AI rockets get a reduced bonus (can be toggled in config, enabled by default)
+- Added "Drop All" to Fuel Loaders, Cargo Loaders and liquid fuel tanks
+- liquid Rocket Fuel Tanks will no longer fill with liquids that arent rocket fuel (combustible liquids and hydrogen)
 
 New Modules:
 

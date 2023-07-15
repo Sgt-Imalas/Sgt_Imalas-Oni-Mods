@@ -78,6 +78,9 @@ namespace Rockets_TinyYetBig.RocketFueling
             def.linkBuildingTag = BaseModularLaunchpadPortConfig.LinkTag;
             def.objectLayer = ObjectLayer.Building;
             go.AddOrGet<LogicOperationalController>();
+
+            DropAllWorkable dropAllWorkable = go.AddOrGet<DropAllWorkable>();
+            dropAllWorkable.dropWorkTime = 15f;
         }
 
         public override void DoPostConfigureComplete(GameObject go)

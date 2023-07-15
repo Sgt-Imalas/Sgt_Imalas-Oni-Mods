@@ -71,6 +71,17 @@ namespace Rockets_TinyYetBig.Patches
                 def.headBuildingTag = ModAssets.Tags.RocketPlatformTag;
             }
         }
+        [HarmonyPatch(typeof(BaseModularLaunchpadPortConfig))]
+        [HarmonyPatch("DoPostConfigureComplete")]
+        public static class AddDropAllComponent
+        {
+            [HarmonyPriority(Priority.LowerThanNormal)]
+            public static void Postfix(GameObject go)
+            {
+                DropAllWorkable dropAllWorkable = go.AddOrGet<DropAllWorkable>();
+                dropAllWorkable.dropWorkTime = 15f;
+            }
+        }
 
     }
 }

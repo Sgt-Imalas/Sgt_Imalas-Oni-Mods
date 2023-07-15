@@ -54,6 +54,7 @@ namespace Rockets_TinyYetBig.RocketFueling
             LoaderComp.liquidPortInfo = this.liquidInputPort;
             LoaderComp.gasPortInfo = this.gasInputPort;
             LoaderComp.solidPortInfo = this.solidInputPort;
+
             LoaderComp.gasStorage = go.AddComponent<Storage>();
             LoaderComp.gasStorage.showInUI = true; //dev
             LoaderComp.gasStorage.capacityKg = 10f;
@@ -78,6 +79,9 @@ namespace Rockets_TinyYetBig.RocketFueling
             def.linkBuildingTag = BaseModularLaunchpadPortConfig.LinkTag;
             def.objectLayer = ObjectLayer.Building;
             go.AddOrGet<LogicOperationalController>();
+
+            DropAllWorkable dropAllWorkable = go.AddOrGet<DropAllWorkable>();
+            dropAllWorkable.dropWorkTime = 15f;
         }
 
         public override void DoPostConfigureComplete(GameObject go)
