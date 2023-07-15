@@ -15,6 +15,11 @@ namespace Imalas_TwitchChaosEvents
         {
             public class FOOD
             {
+                public class ICT_TACO_NONSPOILING
+                {
+                    public static LocString NAME = FormatAsLink("Space Taco", nameof(ICT_TACO_NONSPOILING));
+                    public static LocString DESC = "A staple meal that provides vital nutrients and energy to those who consume it.\nFallen from the sky, it does not spoil for some reason.";
+                }
                 public class ICT_TACO
                 {
                     public static LocString NAME = FormatAsLink("Taco", nameof(ICT_TACO));

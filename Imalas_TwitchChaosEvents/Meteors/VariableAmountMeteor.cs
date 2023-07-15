@@ -37,9 +37,19 @@ namespace Imalas_TwitchChaosEvents.Meteors
                     {
                         cell = Grid.CellAbove(cell);
                     }
+                    var targetCell = Grid.PosToCell(base.gameObject);
+                    while (Grid.Solid[targetCell])
+                    {
+                        targetCell = Grid.CellAbove(targetCell);
+                    }
+                    var position =Grid.CellToPosCCC(targetCell, Grid.SceneLayer.Ore);
 
-                    GameObject gameObject = Util.KInstantiate(Assets.GetPrefab(craterPrefabs[UnityEngine.Random.Range(0, craterPrefabs.Length)]), Grid.CellToPos(cell));
-                    gameObject.transform.SetPosition(Grid.CellToPosCCC(Grid.PosToCell(base.gameObject), Grid.SceneLayer.Ore));
+
+                    GameObject gameObject = Util.KInstantiate(Assets.GetPrefab(craterPrefabs[UnityEngine.Random.Range(0, craterPrefabs.Length)]), position);
+                    
+                    
+
+
                     //gameObject.transform.position += mooSpawnImpactOffset;
                     gameObject.transform.position += spawnOffset;
                     gameObject.GetComponent<KBatchedAnimController>().FlipX = animController.FlipX; 
@@ -51,6 +61,7 @@ namespace Imalas_TwitchChaosEvents.Meteors
                         primaryElement.Units = amount;
                     }
                     gameObject.SetActive(value: true);
+
                     //YeetTheDrop(gameObject);
                 }
 

@@ -8,17 +8,16 @@ using UnityEngine;
 
 namespace Imalas_TwitchChaosEvents.Meteors
 {
-    internal class TacoConfig : IEntityConfig
+    internal class TacoNotSpoilingConfig : IEntityConfig
     {
-        public static string ID = "ICT_Taco";
-        public static ComplexRecipe recipe;
+        public static string ID = "ICT_Taco_NonSpoiling";
 
         public GameObject CreatePrefab()
         {
             GameObject prefab = EntityTemplates.CreateLooseEntity(
                 id: ID,
-                name: STRINGS.ITEMS.FOOD.ICT_TACO.NAME,
-                desc: STRINGS.ITEMS.FOOD.ICT_TACO.DESC,
+                name: STRINGS.ITEMS.FOOD.ICT_TACO_NONSPOILING.NAME,
+                desc: STRINGS.ITEMS.FOOD.ICT_TACO_NONSPOILING.DESC,
                 mass: 1f,
                 unitMass: false,
                 anim: Assets.GetAnim("taco_food_kanim"),
@@ -41,7 +40,7 @@ namespace Imalas_TwitchChaosEvents.Meteors
                 preserveTemperatue: 255.15f,
                 rotTemperature: 277.15f,
                 spoilTime: 4800f,
-                can_rot: true);
+                can_rot: false);
             foodInfo.AddEffects(new List<string>() { "GoodEats" }, DlcManager.AVAILABLE_ALL_VERSIONS);
             return EntityTemplates.ExtendEntityToFood(prefab, foodInfo);
         }

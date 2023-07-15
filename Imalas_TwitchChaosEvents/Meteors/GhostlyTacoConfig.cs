@@ -25,7 +25,7 @@ namespace Imalas_TwitchChaosEvents.Meteors
                 initialAnim: "object",
                 sceneLayer: Grid.SceneLayer.Front,
                 collisionShape: EntityTemplates.CollisionShape.RECTANGLE,
-                width: 1.1f,
+                width: 1.0f,
                 height: 0.6f,
                 isPickupable: true,
                 sortOrder: 0,

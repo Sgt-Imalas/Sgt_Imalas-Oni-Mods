@@ -30,7 +30,7 @@ namespace Imalas_TwitchChaosEvents
         {
             FakeTacoEventMusic = true;
             TacoEventMusic = true;
-            FakeTacoEventDuration = 35;
+            FakeTacoEventDuration = 50;
         }       
 
     }

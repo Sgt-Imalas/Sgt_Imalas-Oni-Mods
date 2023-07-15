@@ -37,7 +37,7 @@ namespace Imalas_TwitchChaosEvents
             ITC_FakeTacoMeteors = gameplayEvents.Add(new MeteorShowerEvent(
                 ITC_FakeTacoMeteorsID,
                 Config.Instance.FakeTacoEventDuration,
-                0.12f,
+                0.1f,
                 METEORS.BOMBARDMENT_OFF.NONE,
                 METEORS.BOMBARDMENT_ON.UNLIMITED,
                 null,

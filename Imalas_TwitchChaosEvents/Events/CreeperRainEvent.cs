@@ -54,6 +54,7 @@ namespace Imalas_TwitchChaosEvents.Events
         public Func<object, bool> Condition =>
             (data) =>
             {
+                return false;
                 return GameClock.Instance.GetCycle() > 50;
             };
 
