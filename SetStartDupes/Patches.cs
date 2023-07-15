@@ -532,7 +532,13 @@ namespace SetStartDupes
         {
             public static void Prefix(ITelepadDeliverable deliverable, CharacterSelectionController __instance)
             {
-                //if(__instance.selectedDeliverables) //clear that
+                if (!__instance.selectedDeliverables.Contains(deliverable) 
+                    && __instance.selectedDeliverables.Count >= __instance.selectableCount
+                    && __instance.selectableCount>0
+                    ) 
+                { 
+                __instance.selectedDeliverables.RemoveAt(0);
+                } //clear that
             }
         }
 

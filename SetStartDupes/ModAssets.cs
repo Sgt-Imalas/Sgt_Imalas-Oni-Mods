@@ -263,20 +263,22 @@ namespace SetStartDupes
             return PointsPerInterests(SkillAmount);
         }
 
+        /// <summary>
+        /// Grab from game files to include compatibility with always3Interests
+        /// </summary>
+        /// <param name="numberOfInterests"></param>
+        /// <returns></returns>
         public static int PointsPerInterests(int numberOfInterests)
         {
+            int interestIndex = numberOfInterests - 1;
+            if (interestIndex < 0)
+                return 0;
 
-            int pointsPer = 0;
-            if (numberOfInterests > 0)
-            {
-                if (numberOfInterests == 1)
-                    pointsPer = 7;
-                else if (numberOfInterests == 2)
-                    pointsPer = 3;
-                else
-                    pointsPer = 1;
-            }
-            return pointsPer;
+            int Maximum = DUPLICANTSTATS.APTITUDE_ATTRIBUTE_BONUSES.Length-1;
+
+            if (interestIndex > Maximum)
+                interestIndex = Maximum;
+            return DUPLICANTSTATS.APTITUDE_ATTRIBUTE_BONUSES[interestIndex];
         }
 
         public static Dictionary<MinionStartingStats,int> OtherModBonusPoints = new Dictionary<MinionStartingStats,int>();

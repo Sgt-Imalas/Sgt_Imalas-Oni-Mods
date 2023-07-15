@@ -1,9 +1,11 @@
 ﻿using HarmonyLib;
 using Klei;
 using KMod;
+using PeterHan.PLib.AVC;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UtilLibs;
 
@@ -32,7 +34,15 @@ namespace SetStartDupes
             SgtLogger.log("Folders succesfully initialized");
 
             SgtLogger.LogVersion(this);
+            new PVersionCheck().Register(this, new SteamVersionChecker());
             base.OnLoad(harmony);
+        }
+        public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
+        {
+            base.OnAllModsLoaded(harmony, mods);
+            CompatibilityNotifications.CheckAndAddIncompatibles(".Mod.DGSM", "DGSM - Duplicants Generation Settings Manager");
+            CompatibilityNotifications.CheckAndAddIncompatibles("RePrint", "Reprint");
+            //CheckAndAddIncompatibles(".Mod.WGSM", "WGSM");
         }
     }
 }
