@@ -78,7 +78,7 @@ namespace Rockets_TinyYetBig.Buildings.Fuel
             conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
             go.AddOrGet<CopyBuildingSettings>();
-            go.AddOrGet<DropAllWorkable>().dropWorkTime = 60f;
+            go.AddOrGet<DropAllWorkable>().dropWorkTime = 40f;
 
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MINOR);
         }
