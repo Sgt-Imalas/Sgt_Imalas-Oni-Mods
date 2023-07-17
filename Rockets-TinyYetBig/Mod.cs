@@ -11,22 +11,29 @@ using static Rockets_TinyYetBig.STRINGS;
 using static PeterHan.PLib.AVC.JsonURLVersionChecker;
 using PeterHan.PLib.AVC;
 using Rockets_TinyYetBig.Patches;
+using Rockets_TinyYetBig._ModuleConfig;
 
 namespace Rockets_TinyYetBig
 {
     public class Mod : UserMod2
     {
+        public static Harmony haromy;
         public static Dictionary<int, string> Tooltips = new Dictionary<int, string>();
         public override void OnLoad(Harmony harmony)
         {
+            haromy = harmony;
             PUtil.InitLibrary(false);
             
             new POptions().RegisterOptions(this, typeof(Config));
+            ModuleConfigManager.Init();
+
             base.OnLoad(harmony);
             CreateTooltipDictionary();
 
             //GameTags.MaterialBuildingElements.Add(ModAssets.Tags.RadiationShielding);
             //GameTags.MaterialBuildingElements.Add(ModAssets.Tags.NeutroniumDust);
+
+            ModAssets.LoadAssets();
 
             SgtLogger.debuglog("Initialized");
             SgtLogger.LogVersion(this);

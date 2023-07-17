@@ -139,8 +139,7 @@ namespace Rockets_TinyYetBig.Patches
                 System.Reflection.MethodInfo patched = GetMethodInfo(typeof(HarvestablePOIConfig), "CreatePrefabs");
                 System.Reflection.MethodInfo postfix = GetMethodInfo(typeof(FixForMissingCarbonFieldAnim), "Postfix");
                 // TODO: Update line below
-                Harmony harmony = new Harmony("Rocketry Expanded");
-                harmony.Patch(patched, null, new HarmonyMethod(postfix));
+                Mod.haromy.Patch(patched, null, new HarmonyMethod(postfix));
             }
         }
     }

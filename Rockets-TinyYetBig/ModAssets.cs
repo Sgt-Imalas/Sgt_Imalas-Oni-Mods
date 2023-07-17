@@ -21,6 +21,21 @@ namespace Rockets_TinyYetBig
 {
     public class ModAssets
     {
+        public static GameObject ModuleSettingsWindowPrefab;
+        public static void LoadAssets()
+        {
+            AssetBundle bundle = AssetUtils.LoadAssetBundle("rocketryexpanded_ui_assets", platformSpecific: true);
+            ModuleSettingsWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/ModuleSettings.prefab");
+
+            UIUtils.ListAllChildren(ModuleSettingsWindowPrefab.transform);
+
+            var TMPConverter = new TMPConverter();
+            TMPConverter.ReplaceAllText(ModuleSettingsWindowPrefab);
+
+        }
+
+
+
         public const float SmallCargoBayUnits = 9;
         public const float MediumCargoBayUnits = 28;
         public const float CollossalCargoBayUnits = 64;

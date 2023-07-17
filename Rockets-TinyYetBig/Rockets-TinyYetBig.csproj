@@ -483,6 +483,9 @@
 	  <None Update="ModAssets\assets\textures\unobtaniumdust.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\assets\windows\rocketryexpanded_ui_assets">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\elements\deep_space_elements.yaml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
@@ -528,6 +531,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="ModAssets\assets\mac\" />
+	  <Folder Include="ModAssets\assets\linux\" />
 	  <Folder Include="SpaceStations\Construction\ModuleItems\" />
 	  <Folder Include="TwitchEvents\TwitchEventAddons\" />
 	</ItemGroup>
