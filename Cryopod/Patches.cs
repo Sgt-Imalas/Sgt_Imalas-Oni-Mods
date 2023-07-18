@@ -29,18 +29,32 @@ namespace Cryopod
         //        }
         //    }
         //}
-        [HarmonyPatch(typeof(ClusterManager))]
-        [HarmonyPatch(nameof(ClusterManager.DestoryRocketInteriorWorld))]
-        public static class ThrowOutFrozenDupesInsideRocket_ToWorld_Patch
+        [HarmonyPatch(typeof(WorldContainer))]
+        [HarmonyPatch(nameof(WorldContainer.SpacePodAllDupes))]
+        public static class EjectFrozenDupesToSpacepod
         {
-            public static void Prefix(int world_id, ClustercraftExteriorDoor door, ClusterManager __instance)
+            public static void Prefix(AxialI sourceLocation,WorldContainer __instance)
             {
-                foreach (var worldItem in ModAssets.CryoPods.GetWorldItems(world_id))
+                foreach (var worldItem in ModAssets.CryoPods.GetWorldItems(__instance.id))
                 {
-                    worldItem.ThrowOutDupe(true);
+                    worldItem.CreateEscapePodForCryopodupe(sourceLocation);
                 }
             }
         }
+        [HarmonyPatch(typeof(WorldContainer))]
+        [HarmonyPatch(nameof(WorldContainer.EjectAllDupes))]
+        public static class EjectFrozenDupesToWorld
+        {
+            public static void Prefix( WorldContainer __instance, Vector3 spawn_pos)
+            {
+                foreach (var worldItem in ModAssets.CryoPods.GetWorldItems(__instance.id))
+                {
+                    SgtLogger.l("throwing out dupe from destruction");
+                    worldItem.ThrowOutDupe(true, spawn_pos);
+                }
+            }
+        }
+
 
 
         /// <summary>

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static Cryopod.ModAssets;
+using static PropertyTextures;
 
 namespace Cryopod.Buildings
 {
@@ -200,7 +201,22 @@ namespace Cryopod.Buildings
 			this.smi.GoTo(this.smi.sm.HoldingDuplicant.Working.Thawing);
 			this.RefreshSideScreen();
 		}
-
+        /// <summary>
+        /// copied from WorldContainer
+        /// </summary>
+        /// <param name="info"></param>
+        public void CreateEscapePodForCryopodupe(AxialI sourceLocation)
+		{
+            Vector3 position = new Vector3(-1f, -1f, 0.0f);
+            GameObject go = Util.KInstantiate(Assets.GetPrefab((Tag)"EscapePod"), position);
+            go.GetComponent<PrimaryElement>().SetElement(this.GetComponent<PrimaryElement>().ElementID);
+            go.SetActive(true);
+            go.GetComponent<MinionStorage>().SetStoredMinionInfo(new (DupeStorage.GetStoredMinionInfo()));
+            TravellingCargoLander.StatesInstance smi = go.GetSMI<TravellingCargoLander.StatesInstance>();
+            smi.StartSM();
+            smi.Travel(sourceLocation, ClusterUtil.ClosestVisibleAsteroidToLocation(sourceLocation).Location);
+			DupeStorage.serializedMinions.Clear();
+        }
 
 		public void ThrowOutDupe(bool skipAnim = false, Vector3? overrideSpawnPos = null)
 		{
@@ -208,6 +224,7 @@ namespace Cryopod.Buildings
 			if (DupeStorage.GetStoredMinionInfo().Count <= 0)
 				return;
 			var newDupe = DupeStorage.GetStoredMinionInfo().First();
+			
 			var spawn_position = overrideSpawnPos == null ? Grid.CellToPosCBC(Grid.OffsetCell(Grid.PosToCell(this.transform.position), this.dropOffset), Grid.SceneLayer.BuildingUse) : (Vector3)overrideSpawnPos;
 
 			

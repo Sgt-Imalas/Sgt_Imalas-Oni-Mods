@@ -214,7 +214,8 @@ namespace Cryopod
                 cryoSickness.duration = (60 * dmgVal);
                 cryoSickness.SelfModifiers = debuffs;
                 //helf.Damage(doDamage);
-                helf.StartCoroutine(KillOnEndEditRoutine(helf, doDamage));
+                GameScheduler.Instance.Schedule("applyDamageToDupe", 1, (obj) => helf.Damage(doDamage), null);
+                //helf.StartCoroutine(KillOnEndEditRoutine(helf, doDamage));
                 dupe.GetComponent<Effects>().Add(cryoSickness, true);
             }
             private static IEnumerator KillOnEndEditRoutine(Health helf, float dmg)
