@@ -16,14 +16,14 @@ namespace UtilLibs
     {
         public const string CompatibilityDataKey = "Sgt_Imalas_IncompatibleModList";
 
-        public static void CheckAndAddIncompatibles(string assemblyName, string modName, string reason="")
+        public static void CheckAndAddIncompatibles(string assemblyName, string modName, string conflictingMod)
         {
             Debug.Log("checking if incompatible mod is installed: " + assemblyName);
             initList();
             if (AppDomain.CurrentDomain.GetAssemblies().ToList().Any(ass => ass.FullName.ToLowerInvariant().Contains(assemblyName.ToLowerInvariant())))
             {
                 Debug.Log("incompatible mod found: " + assemblyName);
-                AddIncompatibleToList(modName, reason);
+                AddIncompatibleToList(modName, conflictingMod);
             }
             else
                 Debug.Log("mod not found: " + assemblyName);
@@ -31,69 +31,61 @@ namespace UtilLibs
 
         static void initList()
         {
-            if (PRegistry.GetData<List<Tuple<string, string>>>(CompatibilityDataKey) != null )
+            if (PRegistry.GetData<Dictionary<string, string>>(CompatibilityDataKey) != null )
                 return;
 
             var current = new List<Tuple<string, string>>();
-            foreach(var ass in AppDomain.CurrentDomain.GetAssemblies().ToList())
-            {
-                SgtLogger.l(ass.FullName);
-            }
+            //foreach(var ass in AppDomain.CurrentDomain.GetAssemblies().ToList())
+            //{
+            //    SgtLogger.l(ass.FullName);
+            //}
             PRegistry.PutData(CompatibilityDataKey, current);
-
-
-            CheckAndAddIncompatibles(".Mod.DebugConsole", "Debug Console");
-
         }
 
 
-        static void AddIncompatibleToList(string modName, string reason ="")
+        static void AddIncompatibleToList(string modName, string conflictingModName)
 
         {
-            List<Tuple<string,string>> current = PRegistry.GetData<List<Tuple<string, string>>>(CompatibilityDataKey);
+            Dictionary<string,string> current = PRegistry.GetData<Dictionary<string, string>>(CompatibilityDataKey);
             if (current == null)
             {
-                current = new List<Tuple<string, string>>();
+                current = new Dictionary<string, string>();
             }
-            current.Add(new Tuple<string, string>(modName,reason));
+
+            if (conflictingModName.Count() > 40)
+            {
+                conflictingModName = conflictingModName.Remove(40);
+                conflictingModName += "...";
+            }
+            if (!current.ContainsKey(modName))
+                current.Add(modName, "");
+
+            current[modName] += "\n• " + conflictingModName;
+
             PRegistry.PutData(CompatibilityDataKey, current);
 
         }
         public static void DumpIncompatibilityMessage(MainMenu parent)
         {
-            List<Tuple<string, string>> current = PRegistry.GetData<List<Tuple<string, string>>>(CompatibilityDataKey);
+            Dictionary<string, string> current = PRegistry.GetData<Dictionary<string, string>>(CompatibilityDataKey);
             if (current == null || current.Count==0)
                 return;
-            
 
-            StringBuilder message = new StringBuilder();
-            message.AppendLine("The following conflicting mods have been found, disable them to mitigate errors:");
-            
-            foreach(Tuple<string, string> item in current)
+
+
+            foreach (var item in current)
             {
-                message.Append("• ");
-                string modName = item.first;
-                if (modName.Count() > 35)
-                {
-                    modName = modName.Remove(33);
-                    modName += "...";
-                }
+                StringBuilder message = new StringBuilder();
+                message.AppendLine($"{item.Key} has declared the following mods as conflicting:");
+                message.AppendLine(item.Value);
 
-                message.Append(modName);
-                if(item.second!=string.Empty)
-                {
-                    message.Append(": ");
-                    message.Append(item.second);
-                }
-                message.AppendLine();
+                KMod.Manager.Dialog(parent.gameObject, "Conflicting Mods found!", message.ToString(),
+                            UI.CONFIRMDIALOG.OK);
             }
 
-            Debug.Log(message.ToString());
 
             PRegistry.PutData(CompatibilityDataKey, null);
 
-            KMod.Manager.Dialog(parent.gameObject, "Conflicting Mods found!", message.ToString(),
-                        UI.CONFIRMDIALOG.OK);
 
         }
 

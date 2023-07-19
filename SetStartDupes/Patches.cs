@@ -376,6 +376,11 @@ namespace SetStartDupes
                             if (characterContainer != null)
                             {
                                 characterContainer.SetReshufflingState(true);
+                                characterContainer.reshuffleButton.onClick += () =>
+                                {
+                                    //Prevents multiple selections
+                                    characterContainer.controller.RemoveLast();
+                                };
                             }
                             if (carePackContainer != null)
                             {
@@ -576,13 +581,37 @@ namespace SetStartDupes
         {
             public static void Prefix(Immigration __instance)
             {
-                __instance.spawnInterval[__instance.spawnInterval.Length - 1] = Mathf.RoundToInt(ModConfig.Instance.PrintingPodRechargeTime * 600f);
+
+                for(int i = 0; i < __instance.spawnInterval.Length; i++)
+                {
+                    __instance.spawnInterval[i] = Mathf.RoundToInt(ModConfig.Instance.PrintingPodRechargeTime * 600f);
+                }
                 //for(int i = 0; i < __instance.spawnInterval.Length; i++)
                 //{
                 //    SgtLogger.l(__instance.spawnInterval[i].ToString(), i.ToString());
                 //}
             }
         }
+        [HarmonyPatch(typeof(Immigration))]
+        [HarmonyPatch(nameof(Immigration.OnPrefabInit))]
+        public class AdjustTImeOfReprint_Initial
+        {
+            public static void Postfix(Immigration __instance)
+            {
+
+                for (int i = 0; i < __instance.spawnInterval.Length; i++)
+                {
+                    __instance.spawnInterval[i] = Mathf.RoundToInt(ModConfig.Instance.PrintingPodRechargeTime * 600f);
+                }
+                __instance.timeBeforeSpawn = Mathf.RoundToInt(ModConfig.Instance.PrintingPodRechargeTime * 600f);
+                //for(int i = 0; i < __instance.spawnInterval.Length; i++)
+                //{
+                //    SgtLogger.l(__instance.spawnInterval[i].ToString(), i.ToString());
+                //}
+            }
+        }
+
+
 
         [HarmonyPatch(typeof(LonelyMinionHouse.Instance), nameof(LonelyMinionHouse.Instance.SpawnMinion))]
         public class MakeJorgeRerollable

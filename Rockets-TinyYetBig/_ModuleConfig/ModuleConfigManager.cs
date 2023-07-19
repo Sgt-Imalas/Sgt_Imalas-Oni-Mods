@@ -118,22 +118,16 @@ namespace Rockets_TinyYetBig._ModuleConfig
                 def.GenerateOffsets();
             }
         }
-        internal void LoadCustomValuesForRocketModuleDefinition(BuildingDef def)
+        internal void LoadCustomValuesForRocketModuleDefinition(GameObject template,ref int burden,ref float enginePower,ref float fuelCostPerDistance)
         {
-            if (CustomModuleDefinitions.ContainsKey(def.PrefabID))
+            string id = template.GetComponent<Building>().Def.PrefabID;
+
+            if (CustomModuleDefinitions.ContainsKey(id))
             {
-                ModuleSettingSerializable ValuesToLoad = CustomModuleDefinitions[def.PrefabID];
-
-                def.WidthInCells = ValuesToLoad.Width;
-                def.HeightInCells = ValuesToLoad.Height;
-
-                if (ValuesToLoad.ModuleEnginePower > 0)
-                {
-                    def.GeneratorWattageRating = ValuesToLoad.ModuleEnginePower;
-                    def.GeneratorBaseCapacity = ValuesToLoad.ModuleGeneratorCapacity > 0 ? ValuesToLoad.ModuleGeneratorCapacity : ValuesToLoad.ModuleEnginePower * 30f;
-                }
-
-                def.GenerateOffsets();
+                var toReadValuesFrom = CustomModuleDefinitions[id];
+                burden = toReadValuesFrom.ModuleWeight;
+                enginePower = toReadValuesFrom.ModuleEnginePower;
+                fuelCostPerDistance = toReadValuesFrom.FuelCostPerDistance;
             }
         }
 

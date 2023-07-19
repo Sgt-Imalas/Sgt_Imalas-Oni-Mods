@@ -76,7 +76,8 @@ namespace Rockets_TinyYetBig._ModuleConfig
             {
                 ///Apply Settings
                 SgtLogger.l($"ModuleInitialisation: {def.PrefabID}, width: {def.WidthInCells}, height: {def.HeightInCells}");
-                ModuleConfigManager.Instance.PrepareBuildingDefForRegistration(def);
+                ModuleConfigManager.Instance.FinalizeRegistration(def); 
+                ModuleConfigManager.Instance.LoadCustomValuesForModuleBuildingDef(def);
             }
 
         }
@@ -84,6 +85,8 @@ namespace Rockets_TinyYetBig._ModuleConfig
         [HarmonyPatch(typeof(BuildingTemplates), nameof(BuildingTemplates.ExtendBuildingToRocketModuleCluster))]
         public static class ReadAndApplyModuleConfigurations
         {
+
+            [HarmonyPrefix]
             [HarmonyPriority(Priority.VeryHigh)]
             public static void Prefix(GameObject template, int burden, float enginePower = 0.0f, float fuelCostPerDistance = 0.0f)
             {
@@ -91,7 +94,19 @@ namespace Rockets_TinyYetBig._ModuleConfig
                 ///
 
                 ModuleConfigManager.Instance.AddOriginalModuleDefinitions(template, burden, enginePower, fuelCostPerDistance);
-                SgtLogger.l($"RocketModuleStats: {template.GetComponent<Building>().Def.PrefabID}, burden: {burden}, engine: {enginePower}, fuelPerHex: {fuelCostPerDistance}");
+                SgtLogger.l($"Original RocketModuleStats: {template.GetComponent<Building>().Def.PrefabID}, burden: {burden}, engine: {enginePower}, fuelPerHex: {fuelCostPerDistance}");
+
+            }
+
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.VeryLow)]
+            public static void Prefix2(GameObject template, ref int burden, ref float enginePower,ref float fuelCostPerDistance)
+            {
+                ///Apply Settings
+                ///
+
+                ModuleConfigManager.Instance.LoadCustomValuesForRocketModuleDefinition(template,ref burden,ref enginePower,ref   fuelCostPerDistance);
+                SgtLogger.l($"New RocketModuleStats: {template.GetComponent<Building>().Def.PrefabID}, burden: {burden}, engine: {enginePower}, fuelPerHex: {fuelCostPerDistance}");
 
             }
 

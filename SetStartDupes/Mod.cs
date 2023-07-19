@@ -40,8 +40,8 @@ namespace SetStartDupes
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
             base.OnAllModsLoaded(harmony, mods);
-            CompatibilityNotifications.CheckAndAddIncompatibles(".Mod.DGSM", "DGSM - Duplicants Generation Settings Manager");
-            CompatibilityNotifications.CheckAndAddIncompatibles("RePrint", "Reprint");
+            CompatibilityNotifications.CheckAndAddIncompatibles(".Mod.DGSM", "Duplicant Stat Selector","DGSM - Duplicants Generation Settings Manager");
+            CompatibilityNotifications.CheckAndAddIncompatibles("RePrint", "Duplicant Stat Selector","Reprint");
             //CheckAndAddIncompatibles(".Mod.WGSM", "WGSM");
         }
     }

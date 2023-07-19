@@ -70,7 +70,17 @@ namespace SetStartDupes
                 public class CAREPACKAGESONLY
                 {
                     public static LocString NAME = "Print Care Packages only";
-                    public static LocString TOOLTIP = "When enabled, the printing pod will only give care packages when more than the the configured number of duplicants are alive.\nOverrides the care package configuration of a save game.";
+                    public static LocString TOOLTIP = "When enabled, the printing pod will only give care packages when more than the the configured number of duplicants are alive.\nOverrides the care package configuration of a save game (no care package difficulty setting is ignored).";
+                }
+                public class MORECAREPACKAGES
+                {
+                    public static LocString NAME = "Additional Care Packages";
+                    public static LocString TOOLTIP = "Adds a number of items to the list of care packages that would otherwise not be obtainable. Those are:\n Nosh Beans, Buddy Buds, Beetinys";
+                }
+                public class NOFINDINGRESTRICTIONCYCLE
+                {
+                    public static LocString NAME = "Remove Care Package Restrictions above Cycle [DLC only]";
+                    public static LocString TOOLTIP = "Adds a number of items to the list of care packages that would otherwise not be obtainable. Those are:\nNosh Bean, Buddy Bud\nDLC only: Beetiny, Saturn Critter Trap";
                 }
 
                 public class CAREPACKAGESONLYDUPECAP
