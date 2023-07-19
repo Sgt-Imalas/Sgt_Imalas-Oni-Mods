@@ -26,6 +26,8 @@ using System.Threading;
 using static ClusterTraitGenerationManager.STRINGS;
 using System.Text.RegularExpressions;
 using PeterHan.PLib.Options;
+using static Door;
+using static STRINGS.DUPLICANTS.THOUGHTS;
 
 namespace ClusterTraitGenerationManager
 {
@@ -297,7 +299,459 @@ namespace ClusterTraitGenerationManager
 
                 return code;
             }
+           
         }
+
+
+        //[HarmonyPatch(typeof(WorldPlacement))]
+        //[HarmonyPatch(nameof(WorldPlacement.CompareLocationType))]
+        //public static class help
+        //{
+        //    public static void Prefix(ProcGen.WorldPlacement a, ProcGen.WorldPlacement b)
+        //    {
+        //        SgtLogger.l(a.ToString(), "a");
+        //        SgtLogger.l(b.ToString(), "b");
+
+        //        UtilMethods.ListAllPropertyValues(a);
+        //        UtilMethods.ListAllPropertyValues(b);
+        //    }
+        //}
+
+
+
+        /// <summary>
+        /// yes this code is very necessary
+        /// </summary>
+        struct Child { public bool isGood,isNaughty ,areParentsPoor;public List<string> gifts; }
+        static List<Child> GetAllChildren( ) { return new List<Child>(); }
+        static void SelectGoodGifts(Child child) { }
+        static void SelectCoal(Child child) { }
+        static class SantaClaus { public static async Task ComingToTown() {await new Task(() => { }); } }
+
+        /// <summary>
+        /// faith hill: santa claus is coming to town
+        /// </summary>
+        public static async void SantaExe()
+        {
+            List<Child> allKids = GetAllChildren();
+
+            foreach (var kid in allKids)
+                if (kid.isNaughty) SelectCoal(kid);
+            foreach (var kid in allKids)
+                if (kid.isGood) SelectGoodGifts(kid);
+            await SantaClaus.ComingToTown();
+        }
+
+        [HarmonyPatch(typeof(MainMenu), "OnSpawn")]
+        public static class InitExtraWorlds
+        {
+            static bool wasInitialized = false;
+            public static void Postfix()
+            {
+                if(wasInitialized) return;
+
+                wasInitialized = true;
+                var __instance = ProcGen.SettingsCache.worlds;
+                SgtLogger.l("Initializing generation of additional planetoids, current count: " + __instance.worldCache.Count());
+                List<KeyValuePair<string, ProcGen.World>> toAdd = new List<KeyValuePair<string, ProcGen.World>>();
+                foreach (var sourceWorld in __instance.worldCache)
+                {
+                    ///Moonlets already exist in all 3 configurations
+
+
+
+                    SgtLogger.l(sourceWorld.Key, "current planet");
+                    
+                    
+                    if (sourceWorld.Key.Contains("NiobiumMoonlet")
+                        || sourceWorld.Key.Contains("RegolithMoonlet")
+                        || sourceWorld.Key.Contains("MooMoonlet")
+
+                        )
+                    {
+                        SgtLogger.l("skipping to avoid unlivable planets");
+                        continue;
+                    }
+
+
+                    var TypeToIgnore = DeterminePlanetType(sourceWorld.Value);
+                    if (TypeToIgnore == StarmapItemCategory.Starter)
+                    {
+                        if (
+                        __instance.worldCache.ContainsKey(sourceWorld.Key.Replace("Start", "")) && sourceWorld.Key.Contains("Start")
+                        || __instance.worldCache.ContainsKey(sourceWorld.Key.Replace("Start", "") + "Warp")
+                        )
+                        {
+                            SgtLogger.l("skipping bc there is already a warp and normal asteroid");
+                            continue;
+                        }
+                    }
+                    else if (TypeToIgnore == StarmapItemCategory.Warp)
+                    {
+                        if (
+                        __instance.worldCache.ContainsKey(sourceWorld.Key.Replace("Warp", "")) && sourceWorld.Key.Contains("Warp")
+                        || __instance.worldCache.ContainsKey(sourceWorld.Key.Replace("Warp", "") + "Start")
+                        )
+                        {
+                            SgtLogger.l("skipping bc there is already a start and outer asteroid");
+                            continue;
+                        }
+                    }
+                    else if (TypeToIgnore == StarmapItemCategory.Outer)
+                    {
+                        if (
+                           __instance.worldCache.ContainsKey(sourceWorld.Key + "Warp")
+                        || __instance.worldCache.ContainsKey(sourceWorld.Key + "Start")
+                        )
+                        {
+                            SgtLogger.l("skipping bc there is already a warp and Start asteroid");
+                            continue;
+                        }
+                    }
+
+
+
+                    //StartWorld
+
+                    if (TypeToIgnore != StarmapItemCategory.Starter)
+                    {
+                        string newStartWorldPath = sourceWorld.Key + "Start";
+
+                        var StartWorld = new ProcGen.World();
+
+                        CopyValues(StartWorld, sourceWorld.Value);
+
+                        StartWorld.unknownCellsAllowedSubworlds = new List<ProcGen.World.AllowedCellsFilter>(sourceWorld.Value.unknownCellsAllowedSubworlds);
+                        StartWorld.subworldFiles = new List<WeightedSubworldName>(sourceWorld.Value.subworldFiles);
+
+                        StartWorld.worldTemplateRules = new List<ProcGen.World.TemplateSpawnRules>();
+                        foreach (var rule in sourceWorld.Value.worldTemplateRules)
+                        {
+                            var ruleNew = new ProcGen.World.TemplateSpawnRules();
+                            CopyValues(ruleNew, rule);
+
+                            //if (ruleNew.listRule == ProcGen.World.TemplateSpawnRules.ListRule.GuaranteeAll)
+                            //    ruleNew.listRule = ProcGen.World.TemplateSpawnRules.ListRule.GuaranteeSomeTryMore;
+                            StartWorld.worldTemplateRules.Add(ruleNew);
+                        }
+
+                        StartWorld.worldTraitRules = new List<ProcGen.World.TraitRule>();
+
+                        if (StartWorld.worldTraitRules.Count > 0)
+                        {
+                            foreach (var rule in sourceWorld.Value.worldTraitRules)
+                            {
+                                var newRule = new ProcGen.World.TraitRule(rule.min,rule.max);
+                                newRule.requiredTags = new List<string>(rule.requiredTags);
+                                newRule.specificTraits = new List<string>(rule.specificTraits);
+                                newRule.forbiddenTags = new List<string>(rule.forbiddenTags);
+                                newRule.forbiddenTraits = new List<string>(rule.forbiddenTraits);
+                                    
+                                if (newRule.forbiddenTags.Contains("StartChange"))
+                                    newRule.forbiddenTags.Remove("StartChange");
+                                if (!newRule.forbiddenTags.Contains("StartWorldOnly"))
+                                    newRule.forbiddenTags.Add("StartWorldOnly");
+
+                                StartWorld.worldTraitRules.Add(newRule);
+                            }
+
+                        }
+
+                        StartWorld.filePath = newStartWorldPath;
+                        StartWorld.startSubworldName = "expansion1::subworlds/sandstone/SandstoneStart";
+                        StartWorld.startingBaseTemplate = "bases/sandstoneBase";
+
+                        //Starter Biome subworld files
+                        var startBiome = new WeightedSubworldName("expansion1::subworlds/sandstone/SandstoneStart", 1);
+                        startBiome.overridePower = 4;
+                         
+                        var startBiomeWater = new WeightedSubworldName("expansion1::subworlds/sandstone/SandstoneMiniWater", 1);
+                        startBiomeWater.overridePower = 0.7f;
+                        startBiomeWater.maxCount = 3;
+
+                        StartWorld.subworldFiles.Insert(0, startBiomeWater);
+                        StartWorld.subworldFiles.Insert(0, startBiome);
+
+                        //Starter biome placement rules
+                        ProcGen.World.AllowedCellsFilter MiniWater = new ProcGen.World.AllowedCellsFilter();
+                        MiniWater.tagcommand = ProcGen.World.AllowedCellsFilter.TagCommand.DistanceFromTag;
+                        MiniWater.tag = "AtStart";
+                        MiniWater.minDistance = 1;
+                        MiniWater.maxDistance = 1;
+                        MiniWater.command = ProcGen.World.AllowedCellsFilter.Command.Replace;
+                        MiniWater.subworldNames = new List<string>() { "expansion1::subworlds/sandstone/SandstoneMiniWater" };
+
+                        ProcGen.World.AllowedCellsFilter CoreSandstone = new ProcGen.World.AllowedCellsFilter();
+                        CoreSandstone.tagcommand = ProcGen.World.AllowedCellsFilter.TagCommand.DistanceFromTag;
+                        CoreSandstone.tag = "AtStart";
+                        CoreSandstone.minDistance = 0;
+                        CoreSandstone.maxDistance = 0;
+                        CoreSandstone.command = ProcGen.World.AllowedCellsFilter.Command.Replace;
+                        CoreSandstone.subworldNames = new List<string>() { "expansion1::subworlds/sandstone/med_SandstoneResourceful" };
+
+
+                        StartWorld.unknownCellsAllowedSubworlds.Add(MiniWater);
+                        StartWorld.unknownCellsAllowedSubworlds.Add(CoreSandstone);
+
+                        //Teleporter PlacementRules
+
+                        ProcGen.World.TemplateSpawnRules TeleporterSpawn = new ProcGen.World.TemplateSpawnRules();
+
+                        //Deleting any of the existing teleporter templates
+                        StartWorld.worldTemplateRules.RemoveAll(cellsfilter => cellsfilter.names.Any(name => name.Contains("poi/warp")));
+
+                        TeleporterSpawn.names = new List<string>() { "expansion1::poi/warp/sender_mini", "expansion1::poi/warp/receiver_mini", "expansion1::poi/warp/teleporter_mini" };
+                        TeleporterSpawn.listRule = ProcGen.World.TemplateSpawnRules.ListRule.GuaranteeAll;
+                        TeleporterSpawn.priority = 90;
+                        TeleporterSpawn.allowedCellsFilter = new List<ProcGen.World.AllowedCellsFilter>()
+                        {
+                            new ProcGen.World.AllowedCellsFilter()
+                            {
+                                command = ProcGen.World.AllowedCellsFilter.Command.Replace,
+                                tagcommand = ProcGen.World.AllowedCellsFilter.TagCommand.DistanceFromTag,
+                                tag = "AtStart",
+                                minDistance = 1,
+                                maxDistance = 2,
+                            },
+                            new ProcGen.World.AllowedCellsFilter()
+                            {
+                                command = ProcGen.World.AllowedCellsFilter.Command.ExceptWith,
+                                tagcommand = ProcGen.World.AllowedCellsFilter.TagCommand.DistanceFromTag,
+                                tag = "AtDepths",
+                                minDistance = 0,
+                                maxDistance = 0,
+                            },
+                            new ProcGen.World.AllowedCellsFilter()
+                            {
+                                command = ProcGen.World.AllowedCellsFilter.Command.ExceptWith,
+                                zoneTypes  = new List<SubWorld.ZoneType>() { SubWorld.ZoneType.Space
+                                , SubWorld.ZoneType.MagmaCore 
+                                }
+                            },
+                            new ProcGen.World.AllowedCellsFilter()
+                            {
+                                command = ProcGen.World.AllowedCellsFilter.Command.ExceptWith,
+                                tagcommand = ProcGen.World.AllowedCellsFilter.TagCommand.AtTag,
+                                tag = "NoGravitasFeatures"
+                            }
+                        };
+                        StartWorld.worldTemplateRules.Insert(0, TeleporterSpawn);
+
+
+                        toAdd.Add(new(newStartWorldPath, StartWorld));
+
+                        SgtLogger.l(newStartWorldPath, "Created Starter Planet Variant");
+
+                    }
+                    ///Warp planet variant
+                    if (TypeToIgnore != StarmapItemCategory.Warp)
+                    {
+                        string newStartWorldPath = sourceWorld.Key + "Warp";
+
+                        var StartWorld = new ProcGen.World();
+
+                        CopyValues(StartWorld, sourceWorld.Value);
+
+                        StartWorld.unknownCellsAllowedSubworlds = new List<ProcGen.World.AllowedCellsFilter>(sourceWorld.Value.unknownCellsAllowedSubworlds);
+                        StartWorld.subworldFiles = new List<WeightedSubworldName>(sourceWorld.Value.subworldFiles);
+                        StartWorld.worldTemplateRules = new List<ProcGen.World.TemplateSpawnRules>();
+                        foreach(var rule in sourceWorld.Value.worldTemplateRules)
+                        {
+                            var ruleNew = new ProcGen.World.TemplateSpawnRules();
+                            CopyValues(ruleNew, rule);
+                            
+                            //if (ruleNew.listRule == ProcGen.World.TemplateSpawnRules.ListRule.GuaranteeAll)
+                            //    ruleNew.listRule = ProcGen.World.TemplateSpawnRules.ListRule.GuaranteeSomeTryMore;
+                            StartWorld.worldTemplateRules.Add(ruleNew);
+                        }
+
+
+
+                        StartWorld.worldTraitRules = new List<ProcGen.World.TraitRule>();
+
+                        if (StartWorld.worldTraitRules.Count > 0)
+                        {
+                            foreach (var rule in sourceWorld.Value.worldTraitRules)
+                            {
+                                var newRule = new ProcGen.World.TraitRule(rule.min, rule.max);
+                                newRule.requiredTags = new List<string>(rule.requiredTags);
+                                newRule.specificTraits = new List<string>(rule.specificTraits);
+                                newRule.forbiddenTags = new List<string>(rule.forbiddenTags);
+                                newRule.forbiddenTraits = new List<string>(rule.forbiddenTraits);
+
+                                if (newRule.forbiddenTags.Contains("StartChange"))
+                                    newRule.forbiddenTags.Remove("StartChange");
+                                if (newRule.forbiddenTags.Contains("StartWorldOnly"))
+                                    newRule.forbiddenTags.Remove("StartWorldOnly");
+
+                                StartWorld.worldTraitRules.Add(newRule);
+                            }
+
+                        }
+
+                        StartWorld.filePath = newStartWorldPath;
+                        StartWorld.startingBaseTemplate = "expansion1::bases/warpworldSandstoneBase";
+                        StartWorld.startSubworldName = "expansion1::subworlds/sandstone/SandstoneWarpStart";
+
+                        //Starter Biome subworld files
+                        var startBiome = new WeightedSubworldName("expansion1::subworlds/sandstone/SandstoneWarpStart", 1);
+                        startBiome.overridePower = 1;
+
+                        //var startBiomeWater = new WeightedSubworldName("expansion1::subworlds/sandstone/SandstoneMiniWater", 1);
+                        //startBiomeWater.overridePower = 0.7f;
+                        //startBiomeWater.maxCount = 2;
+
+                        //StartWorld.subworldFiles.Insert(0, startBiomeWater);
+                        StartWorld.subworldFiles.Insert(0, startBiome);
+                        //Starter biome placement rules
+                        ProcGen.World.AllowedCellsFilter MiniWater = new ProcGen.World.AllowedCellsFilter();
+                        MiniWater.tagcommand = ProcGen.World.AllowedCellsFilter.TagCommand.DistanceFromTag;
+                        MiniWater.tag = "AtStart";
+                        MiniWater.minDistance = 1;
+                        MiniWater.maxDistance = 1;
+                        MiniWater.command = ProcGen.World.AllowedCellsFilter.Command.Replace;
+                        MiniWater.subworldNames = new List<string>() { "expansion1::subworlds/sandstone/SandstoneMiniWater" };
+
+                        //ProcGen.World.AllowedCellsFilter CoreSandstone = new ProcGen.World.AllowedCellsFilter();
+                        //CoreSandstone.tagcommand = ProcGen.World.AllowedCellsFilter.TagCommand.DistanceFromTag;
+                        //CoreSandstone.tag = "AtStart";
+                        //CoreSandstone.minDistance = 0;
+                        //CoreSandstone.maxDistance = 0;
+                        //CoreSandstone.command = ProcGen.World.AllowedCellsFilter.Command.Replace;
+                        //CoreSandstone.subworldNames = new List<string>() { "expansion1::subworlds/sandstone/med_SandstoneResourceful" };
+
+
+                        StartWorld.unknownCellsAllowedSubworlds.Add(MiniWater);
+                        //StartWorld.unknownCellsAllowedSubworlds.Add(CoreSandstone);
+
+                        //Teleporter PlacementRules
+
+                        //Deleting any of the existing teleporter templates
+                        StartWorld.worldTemplateRules.RemoveAll(cellsfilter => cellsfilter.names.Any(name => name.Contains("poi/warp")));
+                        
+
+                        ProcGen.World.TemplateSpawnRules TeleporterSpawn = new ProcGen.World.TemplateSpawnRules();
+                        TeleporterSpawn.names = new List<string>() { "expansion1::poi/warp/sender_mini", "expansion1::poi/warp/receiver_mini"};
+                        TeleporterSpawn.listRule = ProcGen.World.TemplateSpawnRules.ListRule.GuaranteeAll;
+                        TeleporterSpawn.priority = 90;
+                        TeleporterSpawn.allowedCellsFilter = new List<ProcGen.World.AllowedCellsFilter>()
+                        {
+                            new ProcGen.World.AllowedCellsFilter()
+                            {
+                                command = ProcGen.World.AllowedCellsFilter.Command.Replace,
+                                tagcommand = ProcGen.World.AllowedCellsFilter.TagCommand.DistanceFromTag,
+                                tag = "AtStart",
+                                minDistance = 1,
+                                maxDistance = 2,
+                            },
+                            new ProcGen.World.AllowedCellsFilter()
+                            {
+                                command = ProcGen.World.AllowedCellsFilter.Command.ExceptWith,
+                                tagcommand = ProcGen.World.AllowedCellsFilter.TagCommand.DistanceFromTag,
+                                tag = "AtDepths",
+                                minDistance = 0,
+                                maxDistance = 0,
+                            },
+                            new ProcGen.World.AllowedCellsFilter()
+                            {
+                                command = ProcGen.World.AllowedCellsFilter.Command.ExceptWith,
+                                zoneTypes  = new List<SubWorld.ZoneType>() { SubWorld.ZoneType.Space
+                                , SubWorld.ZoneType.MagmaCore
+                                }
+                            },
+                            new ProcGen.World.AllowedCellsFilter()
+                            {
+                                command = ProcGen.World.AllowedCellsFilter.Command.ExceptWith,
+                                tagcommand = ProcGen.World.AllowedCellsFilter.TagCommand.AtTag,
+                                tag = "NoGravitasFeatures"
+                            }
+                        };
+                        StartWorld.worldTemplateRules.Insert(0, TeleporterSpawn);
+
+
+                        toAdd.Add(new(newStartWorldPath, StartWorld));
+
+                        SgtLogger.l(newStartWorldPath, "Created Warp Planet Variant");
+
+                    }
+                    if (TypeToIgnore != StarmapItemCategory.Outer)
+                    {
+                        string newStartWorldPath = sourceWorld.Key.Replace("Warp","").Replace("Start","") + "Outer";
+
+                        var StartWorld = new ProcGen.World();
+
+                        CopyValues(StartWorld, sourceWorld.Value);
+                        StartWorld.filePath = newStartWorldPath;
+                        StartWorld.startingBaseTemplate = null;
+                        
+                        StartWorld.unknownCellsAllowedSubworlds = new List<ProcGen.World.AllowedCellsFilter>(sourceWorld.Value.unknownCellsAllowedSubworlds);
+                        StartWorld.subworldFiles = new List<WeightedSubworldName>(sourceWorld.Value.subworldFiles); 
+                        
+                        StartWorld.worldTemplateRules = new List<ProcGen.World.TemplateSpawnRules>();
+                        foreach (var rule in sourceWorld.Value.worldTemplateRules)
+                        {
+                            var ruleNew = new ProcGen.World.TemplateSpawnRules();
+                            CopyValues(ruleNew, rule);
+
+                            if (ruleNew.listRule == ProcGen.World.TemplateSpawnRules.ListRule.GuaranteeAll)
+                                ruleNew.listRule = ProcGen.World.TemplateSpawnRules.ListRule.GuaranteeSomeTryMore;
+                            StartWorld.worldTemplateRules.Add(ruleNew);
+                        }
+                        
+                        StartWorld.worldTraitRules = new List<ProcGen.World.TraitRule>();
+
+                        if (StartWorld.worldTraitRules.Count > 0)
+                        {
+                            foreach (var rule in sourceWorld.Value.worldTraitRules)
+                            {
+                                var newRule = new ProcGen.World.TraitRule(rule.min, rule.max);
+                                newRule.requiredTags = new List<string>(rule.requiredTags);
+                                newRule.specificTraits = new List<string>(rule.specificTraits);
+                                newRule.forbiddenTags = new List<string>(rule.forbiddenTags);
+                                newRule.forbiddenTraits = new List<string>(rule.forbiddenTraits);
+
+                                if (newRule.forbiddenTags.Contains("StartChange"))
+                                    newRule.forbiddenTags.Remove("StartChange");
+                                if (newRule.forbiddenTags.Contains("StartWorldOnly"))
+                                    newRule.forbiddenTags.Remove("StartWorldOnly");
+
+                                StartWorld.worldTraitRules.Add(newRule);
+                            }
+
+                        }
+
+                        //StartWorld.unknownCellsAllowedSubworlds.RemoveAll(cellsfilter => cellsfilter.tag == "AtStart");
+                        //StartWorld.subworldFiles.RemoveAll(cellsfilter => cellsfilter.name.Contains("Start"));
+                        StartWorld.worldTemplateRules.RemoveAll(cellsfilter => cellsfilter.names.Any(name => name.Contains("poi/warp")));
+                        StartWorld.worldTemplateRules.ForEach(TemplateRule =>
+                        {
+                            if (TemplateRule.listRule == ProcGen.World.TemplateSpawnRules.ListRule.GuaranteeAll)
+                                TemplateRule.listRule = ProcGen.World.TemplateSpawnRules.ListRule.GuaranteeSomeTryMore;
+                        }
+                        );
+
+                        //StartWorld.worldTemplateRules.RemoveAll(cellsfilter => cellsfilter.allowedCellsFilter.Any(item=> item.tag=="AtStart"));
+
+                        toAdd.Add(new(newStartWorldPath, StartWorld));
+                        SgtLogger.l(newStartWorldPath, "Created Outer Planet Variant");
+                    }
+
+
+                }
+                foreach (var item in toAdd)
+                {
+                    __instance.worldCache.Add(item.Key, item.Value);
+                }
+            }
+            static void CopyValues<T>(T targetObject, T sourceObject)
+            {
+                foreach (PropertyInfo property in typeof(T).GetProperties().Where(p => p.CanWrite))
+                {
+                    property.SetValue(targetObject, property.GetValue(sourceObject, null), null);
+                }
+            }
+        }
+
 
         /// <summary>
         /// Makes error msg display the actual error instead of "couldn't germinate"

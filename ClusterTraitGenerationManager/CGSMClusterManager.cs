@@ -925,7 +925,7 @@ namespace ClusterTraitGenerationManager
                 max = 3;
 
             max *= multiplier;
-
+            max = Math.Min(max, CustomCluster.Rings);
 
             int max2 = Math.Min(placement.allowedRings.max + CustomCluster.AdjustedOuterExpansion, CustomCluster.Rings);
             int newMax = Math.Max((int)Math.Round(max), max2);
@@ -1359,6 +1359,8 @@ namespace ClusterTraitGenerationManager
                 {
                     var item = new WorldPlacement();
                     item.world = ToAdd.id;
+                    item.allowedRings = new MinMaxI(0, CustomCluster.Rings);
+                    item.startWorld = ToAdd.category == StarmapItemCategory.Starter;
                     ToAdd.AddItemWorldPlacement(item);
                 }
             }
@@ -1631,6 +1633,42 @@ namespace ClusterTraitGenerationManager
                     return Assets.GetSprite("unknown");
             }
         }
+
+        public static StarmapItemCategory DeterminePlanetType(ProcGen.World world)
+        {
+
+            StarmapItemCategory category = StarmapItemCategory.Outer;
+
+            if (world.startingBaseTemplate != null)
+            {
+                string stripped = world.startingBaseTemplate.Replace("bases/", string.Empty);
+
+                // SgtLogger.l(stripped.ToUpperInvariant(),"KEY");
+
+                if (stripped.ToUpperInvariant().Contains("WARPWORLD")
+                    //|| KeyUpper.ToUpperInvariant().Contains("CGSM")&&
+                    //stripped.ToUpperInvariant().Contains("WARPBASE")
+                    )
+                {
+                    category = StarmapItemCategory.Warp;
+                }
+                else if (stripped.ToUpperInvariant().Contains("BASE")
+                    || stripped.ToUpperInvariant().Contains("ALLIN1") ///Vortex base name.
+                    //||KeyUpper.ToUpperInvariant().Contains("CGSM") && 
+                    //stripped.ToUpperInvariant().Contains("BASE")
+                    )
+                {
+                    category = StarmapItemCategory.Starter;
+                }
+            }
+            else
+            {
+                category = StarmapItemCategory.Outer;
+            }
+
+            return category;
+        }
+
         public static Dictionary<string, StarmapItem> PlanetoidDict()
         {
             if (PlanetsAndPOIs == null)
@@ -1695,32 +1733,7 @@ namespace ClusterTraitGenerationManager
 
                     if (!WorldFromCache.Key.Contains("worlds/SandstoneDefault") && !SkipModdedWorld)
                     {
-                        if (world.startingBaseTemplate != null)
-                        {
-                            string stripped = world.startingBaseTemplate.Replace("bases/", string.Empty);
-
-                           // SgtLogger.l(stripped.ToUpperInvariant(),"KEY");
-
-                            if (stripped.ToUpperInvariant().Contains("WARPWORLD")
-                                //|| KeyUpper.ToUpperInvariant().Contains("CGSM")&&
-                                //stripped.ToUpperInvariant().Contains("WARPBASE")
-                                )
-                            {
-                                category = StarmapItemCategory.Warp;
-                            }
-                            else if (stripped.ToUpperInvariant().Contains("BASE")
-                                || stripped.ToUpperInvariant().Contains("ALLIN1") ///Vortex base name.
-                                //||KeyUpper.ToUpperInvariant().Contains("CGSM") && 
-                                //stripped.ToUpperInvariant().Contains("BASE")
-                                )
-                            {
-                                category = StarmapItemCategory.Starter;
-                            }
-                        }
-                        else
-                        {
-                            category = StarmapItemCategory.Outer;
-                        }
+                        category = DeterminePlanetType(world);
 
                         Sprite sprite = ColonyDestinationAsteroidBeltData.GetUISprite(WorldFromCache.Value.asteroidIcon);
 
