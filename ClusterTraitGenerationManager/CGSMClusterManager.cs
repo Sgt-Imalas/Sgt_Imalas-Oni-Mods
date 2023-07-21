@@ -19,6 +19,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UtilLibs;
+using static ClusterTraitGenerationManager.Patches;
 using static ClusterTraitGenerationManager.STRINGS.UI;
 using static Klei.ClusterLayoutSave;
 using static ProcGen.WorldPlacement;
@@ -77,6 +78,8 @@ namespace ClusterTraitGenerationManager
 
         public static async void InstantiateClusterSelectionView(ColonyDestinationSelectScreen parent, System.Action onClose = null)
         {
+
+
             if (Screen == null)
             {
                 ///Change to check for moonlet/vanilla start
@@ -100,6 +103,8 @@ namespace ClusterTraitGenerationManager
                 var ScreenRect = newScreen.rectTransform();
                 LoadCustomCluster = false;
 
+                UIUtils.ListAllChildren(newScreen.transform);
+                UIUtils.ListAllChildrenPath(newScreen.transform);
                 newScreen.name = "ClusterSelectionView";
                 CGM_Screen = newScreen.AddComponent<FeatureSelectionScreen>();
 

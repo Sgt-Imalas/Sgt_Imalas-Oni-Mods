@@ -118,7 +118,7 @@ namespace UtilLibs
 
         public static void AddBuildingStrings(string buildingId, string name, string description = "", string effect = "")
         {
-            Strings.Add($"STRINGS.BUILDINGS.PREFABS.{buildingId.ToUpperInvariant()}.NAME", UI.FormatAsLink(name, buildingId));
+            Strings.Add($"STRINGS.BUILDINGS.PREFABS.{buildingId.ToUpperInvariant()}.NAME", STRINGS.UI.FormatAsLink(name, buildingId));
             Strings.Add($"STRINGS.BUILDINGS.PREFABS.{buildingId.ToUpperInvariant()}.DESC", description);
             Strings.Add($"STRINGS.BUILDINGS.PREFABS.{buildingId.ToUpperInvariant()}.EFFECT", effect);
         }
@@ -127,25 +127,25 @@ namespace UtilLibs
         //CodexEntryGenerator_GenerateCreatureEntries_Patch
         public static void AddCreatureStrings(string creatureId, string name)
         {
-            Strings.Add($"STRINGS.CREATURES.FAMILY.{creatureId.ToUpperInvariant()}", UI.FormatAsLink(name, creatureId));
-            Strings.Add($"STRINGS.CREATURES.FAMILY_PLURAL.{creatureId.ToUpperInvariant()}", UI.FormatAsLink(name + "s", creatureId));
+            Strings.Add($"STRINGS.CREATURES.FAMILY.{creatureId.ToUpperInvariant()}", STRINGS.UI.FormatAsLink(name, creatureId));
+            Strings.Add($"STRINGS.CREATURES.FAMILY_PLURAL.{creatureId.ToUpperInvariant()}", STRINGS.UI.FormatAsLink(name + "s", creatureId));
         }
         public static void AddPlantStrings(string plantId, string name, string description, string domesticatedDescription)
         {
-            Strings.Add($"STRINGS.CREATURES.SPECIES.{plantId.ToUpperInvariant()}.NAME", UI.FormatAsLink(name, plantId));
+            Strings.Add($"STRINGS.CREATURES.SPECIES.{plantId.ToUpperInvariant()}.NAME", STRINGS.UI.FormatAsLink(name, plantId));
             Strings.Add($"STRINGS.CREATURES.SPECIES.{plantId.ToUpperInvariant()}.DESC", description);
             Strings.Add($"STRINGS.CREATURES.SPECIES.{plantId.ToUpperInvariant()}.DOMESTICATEDDESC", domesticatedDescription);
         }
 
         public static void AddPlantSeedStrings(string plantId, string name, string description)
         {
-            Strings.Add($"STRINGS.CREATURES.SPECIES.SEEDS.{plantId.ToUpperInvariant()}.NAME", UI.FormatAsLink(name, plantId));
+            Strings.Add($"STRINGS.CREATURES.SPECIES.SEEDS.{plantId.ToUpperInvariant()}.NAME", STRINGS.UI.FormatAsLink(name, plantId));
             Strings.Add($"STRINGS.CREATURES.SPECIES.SEEDS.{plantId.ToUpperInvariant()}.DESC", description);
         }
 
         public static void AddFoodStrings(string foodId, string name, string description, string recipeDescription = null)
         {
-            Strings.Add($"STRINGS.ITEMS.FOOD.{foodId.ToUpperInvariant()}.NAME", UI.FormatAsLink(name, foodId));
+            Strings.Add($"STRINGS.ITEMS.FOOD.{foodId.ToUpperInvariant()}.NAME", STRINGS.UI.FormatAsLink(name, foodId));
             Strings.Add($"STRINGS.ITEMS.FOOD.{foodId.ToUpperInvariant()}.DESC", description);
 
             if (recipeDescription != null)
@@ -153,7 +153,7 @@ namespace UtilLibs
         }
         public static void AddDiseaseStrings(string id, string name, string symptomps, string description)
         {
-            Strings.Add($"STRINGS.DUPLICANTS.DISEASES.{id.ToUpperInvariant()}.NAME", UI.FormatAsLink(name, id));
+            Strings.Add($"STRINGS.DUPLICANTS.DISEASES.{id.ToUpperInvariant()}.NAME", STRINGS.UI.FormatAsLink(name, id));
             Strings.Add($"STRINGS.DUPLICANTS.DISEASES.{id.ToUpperInvariant()}.DESCRIPTIVE_SYMPTOMS", symptomps);
             Strings.Add($"STRINGS.DUPLICANTS.DISEASES.{id.ToUpperInvariant()}.DESC", description);
             //Strings.Add($"STRINGS.DUPLICANTS.DISEASES.{id.ToUpperInvariant()}.LEGEND_HOVERTEXT", hover);

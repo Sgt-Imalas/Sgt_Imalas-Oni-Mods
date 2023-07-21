@@ -17,7 +17,7 @@ namespace UL_UniversalLyzer
 
         public static CellOffset defaultLyzerOffset = new CellOffset(0, 1);
         public static CellOffset debrisOffset = new CellOffset(1, 0);
-        public static CellOffset tertiaryGasOffset = new CellOffset(1, 1);
+        public static CellOffset tertiaryGasOffset = new CellOffset(1, 0);
 
         public static bool IsPipedAndPipedBuildingsActive => Patches.NightLib_PortDisplayOutput_Type != null && Patches.NightLib_PortDisplayController_Type != null && Patches.NightLib_PipedDispenser_Type != null && Patches.NightLib_PipedOptionalExhaust_Type != null && Config.Instance.IsPiped;
 

@@ -267,6 +267,8 @@ namespace ClusterTraitGenerationManager
 
         private void Init()
         {
+
+
             StarmapItemEnabled = transform.Find("StarmapItemEnabled").FindOrAddComponent<FToggle2>();
             StarmapItemEnabled.SetCheckmark("Background/Checkmark");
             StarmapItemEnabled.OnClick += () =>

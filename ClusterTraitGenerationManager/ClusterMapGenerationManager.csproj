@@ -157,4 +157,14 @@
 	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="ModAssets\dlc\expansion1\worldgen\subworlds\forest\" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Reference Include="UnityUIExtensions">
+	    <HintPath>D:\Unity\ONI_DGM_UI\Library\ScriptAssemblies\UnityUIExtensions.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
 </Project>

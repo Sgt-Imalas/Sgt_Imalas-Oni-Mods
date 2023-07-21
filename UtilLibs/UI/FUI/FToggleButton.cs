@@ -1,45 +1,46 @@
-﻿using EventSystem2Syntax;
-using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using UnityEngine.EventSystems;
+using UnityEngine;
+using UtilLibs.UIcmp;
 using UnityEngine.UI;
+using static STRINGS.BUILDING.STATUSITEMS.ACCESS_CONTROL;
+using static Operational;
 
-namespace UtilLibs.UIcmp //Source: Aki
+namespace UtilLibs.UI.FUI
 {
-    public class FButton : KMonoBehaviour, IEventSystemHandler, IPointerUpHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
+    public class FToggleButton : KMonoBehaviour, IEventSystemHandler, IPointerUpHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
         public event System.Action OnClick;
-        public event System.Action OnRightClick;
-
+        public event System.Action OnDoubleClick;
 
         public event System.Action OnPointerEnterAction;
         public event System.Action OnPointerExitAction;
 
         private bool interactable;
         private Material material;
-
+        
         [MyCmpGet]
         private Image image;
 
-        [MyCmpGet]
+        [MyCmpReq]
         private Button button;
 
         [SerializeField]
-        public Color disabledColor = new Color(0.78f, 0.78f, 0.78f);
+        bool IsHighlighted = false;
 
-        [SerializeField]
-        public Color normalColor = new Color(0.243f, 0.263f, 0.341f);
 
-        [SerializeField]
-        public Color hoverColor = new Color(0.345f, 0.373f, 0.702f);
-
-        public bool allowRightClick = false;
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
-            if(image ==null && button != null)
+            if (image == null && button != null)
             {
                 image = button.image;
             }
+
 
             material = image.material;
             interactable = true;
@@ -47,31 +48,25 @@ namespace UtilLibs.UIcmp //Source: Aki
 
         public void SetInteractable(bool interactable)
         {
-            if(interactable == this.interactable)
+            if (interactable == this.interactable)
             {
                 return;
             }
 
             this.interactable = interactable;
-            //image.material = interactable ? material : global::Assets.instance.UIPrefabAssets.TableScreenWidgets.DesaturatedUIMaterial;
-            if(button == null)
-            {
-                image.color = interactable ? normalColor : disabledColor;
-            }
-            else
-            {
-                button.interactable = interactable;
-            }
+            button.interactable = interactable;
         }
+
+        
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            if(!interactable)
+            if (!interactable)
             {
                 return;
             }
 
-            if (!allowRightClick && eventData.button != PointerEventData.InputButton.Left)
+            if (eventData.button != PointerEventData.InputButton.Left)
                 return;
 
             if (KInputManager.isFocused)
@@ -80,19 +75,36 @@ namespace UtilLibs.UIcmp //Source: Aki
                 //PlaySound(UISoundHelper.ClickOpen);
                 if (!eventData.IsPointerMoving())
                 {
-                    button.OnDeselect(null);
-                    if (OnClick != null && OnRightClick != null)
+                    ToggleSelection();
+                    if (OnClick != null)
                     {
-                        if (eventData.button == PointerEventData.InputButton.Right)
-                        {
-                            OnRightClick.Invoke();
-                            return;
-                        }
+                        OnClick?.Invoke();
                     }
-                    OnClick?.Invoke();
-                }          
+                }
             }
         }
+
+
+        public void ToggleSelection()
+        {
+            IsHighlighted = !IsHighlighted;
+            ChangeSelection(IsHighlighted);
+        }
+        public void ChangeSelection(bool _isHighlighted = false)
+        {
+
+            IsHighlighted = _isHighlighted;
+            SetSelectedState();
+        }
+        void SetSelectedState()
+        {
+            if (IsHighlighted)
+                button.OnSelect(null);
+            else
+                button.OnDeselect(null);
+        }
+
+
 
         public void OnPointerEnter(PointerEventData eventData)
         {
@@ -106,24 +118,17 @@ namespace UtilLibs.UIcmp //Source: Aki
 
             if (KInputManager.isFocused)
             {
-                if(button == null)
-                {
-                    image.color = hoverColor;
-                }
-
                 KInputManager.SetUserActive();
                 PlaySound(UISoundHelper.MouseOver);
             }
+            SetSelectedState();
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             if (OnPointerExitAction != null)
                 OnPointerExitAction.Invoke();
-            if (button == null)
-            {
-                image.color = normalColor;
-            }
+            SetSelectedState();
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -137,6 +142,14 @@ namespace UtilLibs.UIcmp //Source: Aki
             {
                 KInputManager.SetUserActive();
                 PlaySound(UISoundHelper.ClickOpen);
+            }
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (OnDoubleClick != null && eventData.clickCount == 2)
+            {
+                OnDoubleClick.Invoke();
             }
         }
     }

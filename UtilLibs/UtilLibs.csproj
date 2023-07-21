@@ -18,7 +18,4 @@
 			<Private>false</Private>
 		</PackageReference>
 	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="UI\" />
-	</ItemGroup>
 </Project>

@@ -53,6 +53,7 @@ namespace ClusterTraitGenerationManager
 
             OnResize();
             galleryGridContent = transform.Find("Panel/Content/ColumnItemGallery/LayoutBreaker/Content/Categories/ScrollRect/GridContent").rectTransform();
+            //galleryGridContent = transform.Find("Panel/Content/ColumnItemGallery/LayoutBreaker/Content/Categories/ScrollRect/GridContent/SubCategoryContainerPrefab/Grid").rectTransform();
             categoryListContent = transform.Find("Panel/Content/ColumnCategorySelection/LayoutBreaker/Content/Categories/ScrollRect/ContentContainer/Content").rectTransform();
             galleryHeaderLabel = transform.Find("Panel/Content/ColumnItemGallery/LayoutBreaker/Header/Label").GetComponent<LocText>();
             categoryHeaderLabel = transform.Find("Panel/Content/ColumnCategorySelection/LayoutBreaker/Header/Label").GetComponent<LocText>();
@@ -88,6 +89,11 @@ namespace ClusterTraitGenerationManager
             //UIUtils.FindAndDestroy(transform, "Panel/Content/ColumnSelectedDetails/LayoutBreaker/Content/Content/KleiPermitDioramaVis");
             UIUtils.FindAndDestroy(transform, "Panel/Content/ColumnSelectedDetails/LayoutBreaker/Content/Content/DescriptionSection");
 
+            var header = Util.KInstantiateUI(transform.Find("Panel/Content/ColumnItemGallery/LayoutBreaker/Content/Categories/ScrollRect/GridContent/SubCategoryContainerPrefab").gameObject, transform.Find("Panel/Content/ColumnItemGallery/LayoutBreaker/Content/Categories/ScrollRect/GridContent").gameObject, true);
+            header.name = "planetoidHeader";
+            galleryGridContent = header.transform.Find("Grid").rectTransform();
+
+
 
 
             //selectionNameLabel = transform.Find("Panel/Content/ColumnSelectedDetails/LayoutBreaker/Content/Content/DescriptionSection/ScrollRect/Content/NameLabel").GetComponent<LocText>();
@@ -103,8 +109,11 @@ namespace ClusterTraitGenerationManager
             {
                 minCellSize = 64f,
                 maxCellSize = 96f,
-                targetGridLayout = galleryGridContent.GetComponent<GridLayoutGroup>()
+                targetGridLayouts = new List<GridLayoutGroup>() { galleryGridContent.GetComponent<GridLayoutGroup>() }
             };
+            UIUtils.ListAllChildrenWithComponents(galleryGridContent);
+
+
             UIUtils.FindAndDestroy(infoInsert, "KleiPermitDioramaVis");
             //UIUtils.ListAllChildren(infoInsert);
         }
@@ -161,6 +170,7 @@ namespace ClusterTraitGenerationManager
 
                 ///Enabled?
                 multiToggle1.ChangeState(key.Equals(SelectedPlanet) ? 1 : 0);
+                
 
                 HierarchyReferences component = multiToggle1.gameObject.GetComponent<HierarchyReferences>();
                 LocText reference1 = component.GetReference<LocText>("OwnedCountLabel");

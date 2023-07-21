@@ -80,7 +80,7 @@ namespace UtilLibs
                 message.AppendLine(item.Value);
 
                 KMod.Manager.Dialog(parent.gameObject, "Conflicting Mods found!", message.ToString(),
-                            UI.CONFIRMDIALOG.OK);
+                            STRINGS.UI.CONFIRMDIALOG.OK);
             }
 
 

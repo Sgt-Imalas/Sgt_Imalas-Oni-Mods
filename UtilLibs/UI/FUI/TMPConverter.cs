@@ -47,33 +47,26 @@ namespace UtilLibs.UIcmp //Source: Aki
                     LT.color = new Color(data.Color[0], data.Color[1], data.Color[2]);
                     LT.key = data.Content;
                     // alignment isn't carried over instantiation, so it's applied later
-                    if(realign)
+                    if (realign)
                     {
                         LT.gameObject.AddComponent<TMPFixer>().alignment = data.Alignment;
                     }
                 }
             }
         }
-
-        private static bool isValidJSon(string data)
-        {
-            if (string.IsNullOrWhiteSpace(data)) return false;
-            return data.StartsWith("{") && data.EndsWith("}");
-        }
-
         private static TMPSettings ExtractTMPData(string TMPData, Text text)
         {
             TMPSettings data = null;
 
             if (isValidJSon(TMPData))
             {
-                try 
+                try
                 {
                     data = JsonConvert.DeserializeObject<TMPSettings>(TMPData);
                 }
                 catch (JsonReaderException e)
                 {
-                 SgtLogger.warning("Not valid Json format"+ e);
+                    SgtLogger.warning("Not valid Json format" + e);
                 }
 
                 Object.DestroyImmediate(text);
@@ -81,5 +74,12 @@ namespace UtilLibs.UIcmp //Source: Aki
 
             return data;
         }
+        private static bool isValidJSon(string data)
+        {
+            if (string.IsNullOrWhiteSpace(data)) return false;
+            return data.StartsWith("{") && data.EndsWith("}");
+        }
+
+
     }
 }
