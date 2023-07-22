@@ -26,7 +26,7 @@ using static ProcGen.WorldPlacement;
 
 namespace ClusterTraitGenerationManager
 {
-    internal class CGSMClusterManager
+    public class CGSMClusterManager
     {
         public static GameObject Screen = null;
 
@@ -49,12 +49,6 @@ namespace ClusterTraitGenerationManager
         }
         private static bool _loadCustomCluster = false;
 
-
-        static async Task DoWithDelay(int ms)
-        {
-            await Task.Delay(ms);
-            LockerNavigator.Instance.PopScreen();
-        }
         public static void ResetMeteorSeasons(ProcGen.World singleItem = null)
         {
             if (singleItem == null)
@@ -74,12 +68,10 @@ namespace ClusterTraitGenerationManager
                 }
             }
         }
-        public static FeatureSelectionScreen CGM_Screen = null;
+        public static CGM_MainScreen_UnityScreen CGM_Screen = null;
 
         public static async void InstantiateClusterSelectionView(ColonyDestinationSelectScreen parent, System.Action onClose = null)
         {
-
-
             if (Screen == null)
             {
                 ///Change to check for moonlet/vanilla start
@@ -88,42 +80,27 @@ namespace ClusterTraitGenerationManager
                     var defaultCluster = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
                     CGSMClusterManager.CreateCustomClusterFrom(defaultCluster);
                 }
-                var window = Util.KInstantiateUI(LockerNavigator.Instance.kleiInventoryScreen.gameObject);
-                window.SetActive(false);
-                var copy = window.transform;
-                UnityEngine.Object.Destroy(window);
-                //var canvas = FrontEndManager.Instance.MakeKleiCanvas("ClusterSelectionView");
-                var GlobalScreen = FrontEndManager.Instance.transform; // Global.Instance.globalCanvas;
-                //var GlobalScreen2 = Global.Instance.globalCanvas; // Global.Instance.globalCanvas;
 
-
-
-                var newScreen = Util.KInstantiateUI(copy.gameObject, GlobalScreen.gameObject, true);
+                Screen = Util.KInstantiateUI(ModAssets.CGM_MainMenu, FrontEndManager.Instance.gameObject, true);
                 selectScreen = parent;
-                var ScreenRect = newScreen.rectTransform();
-                LoadCustomCluster = false;
 
-                UIUtils.ListAllChildren(newScreen.transform);
-                UIUtils.ListAllChildrenPath(newScreen.transform);
-                newScreen.name = "ClusterSelectionView";
-                CGM_Screen = newScreen.AddComponent<FeatureSelectionScreen>();
-
-                Screen = newScreen;
+                UIUtils.ListAllChildren(Screen.transform);
+                UIUtils.ListAllChildrenPath(Screen.transform);
+                Screen.name = "ClusterSelectionView";
+                CGM_Screen = Screen.AddComponent<CGM_MainScreen_UnityScreen>();
             }
-            else
+            if (CustomCluster == null)
             {
-                //SgtLogger.l("not new", "SCREEN");
-                if (CustomCluster == null)
-                {
-                    var defaultCluster = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
-                    CGSMClusterManager.CreateCustomClusterFrom(defaultCluster);
-                }
+                var defaultCluster = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
+                CGSMClusterManager.CreateCustomClusterFrom(defaultCluster);
             }
+            LoadCustomCluster = false;
+
             Screen.transform.SetAsLastSibling();
             Screen.gameObject.SetActive(true);
-            var FeatureScreen = Screen.GetComponent<FeatureSelectionScreen>();
-            FeatureScreen.SelectCategory(StarmapItemCategory.Starter);
-            FeatureScreen.RefreshView();
+            CGM_Screen = Screen.GetComponent<CGM_MainScreen_UnityScreen>();
+            CGM_Screen.SelectCategory(StarmapItemCategory.Starter);
+            CGM_Screen.RefreshView();
         }
 
         public static void SetAndStretchToParentSize(RectTransform _mRect, RectTransform _parent)
@@ -789,7 +766,7 @@ namespace ClusterTraitGenerationManager
                 }
             }
 
-            internal void AddMeteorSeason(string id)
+            public void AddMeteorSeason(string id)
             {
                 BackupOriginalWorldTraits();
                 if (world != null)
@@ -798,7 +775,7 @@ namespace ClusterTraitGenerationManager
                 }
             }
 
-            internal void RemoveMeteorSeason(string id)
+            public void RemoveMeteorSeason(string id)
             {
                 BackupOriginalWorldTraits();
                 if (world != null)
@@ -895,7 +872,7 @@ namespace ClusterTraitGenerationManager
             {
                 currentPlanetTraits.Clear();
             }
-            internal List<string> GetWorldTraits()
+            public List<string> GetWorldTraits()
             {
                 return currentPlanetTraits;
             }
@@ -1326,7 +1303,7 @@ namespace ClusterTraitGenerationManager
         public static bool RerollTraitsWithSeedChange = true;
         public static void RerollTraits()
         {
-            if (CustomCluster == null || (!RerollTraitsWithSeedChange && CustomSettingsController.Instance.CurrentlyActive))
+            if (CustomCluster == null || (!RerollTraitsWithSeedChange && CustomSettingsController.Instance.IsCurrentlyActive))
                 return;
 
             int seed = int.Parse(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id);
@@ -1420,7 +1397,26 @@ namespace ClusterTraitGenerationManager
 
 
         static Dictionary<string, WorldPlacement> PredefinedPlacementData = null;
+        public static List<StarmapItem> GetActivePlanetsStarmapitems()
+        {
+            var planets = new List<StarmapItem>();
 
+            if (CustomCluster.StarterPlanet != null)
+                planets.Add(CustomCluster.StarterPlanet);
+
+            if (CustomCluster.WarpPlanet != null)
+                planets.Add(CustomCluster.WarpPlanet);
+
+            foreach (var planet in CustomCluster.OuterPlanets)
+            {
+                planets.Add(planet.Value);
+            }
+            foreach (var planet in CustomCluster.POIs)
+            {
+                planets.Add(planet.Value);
+            }
+            return planets;
+        }
         public static List<string> GetActivePlanetsCluster()
         {
             var planetPaths = new List<string>();
@@ -1764,7 +1760,7 @@ namespace ClusterTraitGenerationManager
         }
 
         static int AdjustedClusterSize => CustomCluster.defaultRings + Mathf.Max(0, (CustomCluster.AdjustedOuterExpansion / 4));
-        internal static void InitializeGeneration()
+        public static void InitializeGeneration()
         {
             int randoPlanets = 0;
             if (CustomCluster.HasStarmapItem(RandomKey + StarmapItemCategory.Outer.ToString(), out var item))
@@ -1815,12 +1811,12 @@ namespace ClusterTraitGenerationManager
         public static bool LastGenFailed => lastWorldGenFailed;
 
         static bool lastWorldGenFailed = false;
-        internal static void LastWorldGenDidFail(bool fail = true)
+        public static void LastWorldGenDidFail(bool fail = true)
         {
             lastWorldGenFailed = fail;
         }
 
-        internal static void OpenPresetWindow(System.Action onclose = null)
+        public static void OpenPresetWindow(System.Action onclose = null)
         {
             UnityPresetScreen.ShowWindow(CustomCluster, onclose);
         }

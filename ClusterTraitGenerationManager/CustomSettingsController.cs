@@ -50,7 +50,7 @@ namespace ClusterTraitGenerationManager
         public FButton CloseButton;
         public FButton CloseButton2;
 
-        public bool CurrentlyActive;
+        public bool IsCurrentlyActive;
         public System.Action onCloseAction=null;
 
         public static void ShowWindow(System.Action onCloseAction = null)
@@ -588,7 +588,7 @@ namespace ClusterTraitGenerationManager
             {
                 Init();
             }
-            CurrentlyActive = show;
+            IsCurrentlyActive = show;
         }
     }
 }

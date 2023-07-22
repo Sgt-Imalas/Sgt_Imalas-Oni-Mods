@@ -9,6 +9,7 @@ using UtilLibs.UIcmp;
 using UnityEngine.UI;
 using static STRINGS.BUILDING.STATUSITEMS.ACCESS_CONTROL;
 using static Operational;
+using static STRINGS.DUPLICANTS.MODIFIERS;
 
 namespace UtilLibs.UI.FUI
 {
@@ -26,12 +27,23 @@ namespace UtilLibs.UI.FUI
         [MyCmpGet]
         private Image image;
 
-        [MyCmpReq]
+        [MyCmpGet]
         private Button button;
 
         [SerializeField]
         bool IsHighlighted = false;
 
+        [SerializeField]
+        public Color disabledColor = new Color(0.78f, 0.78f, 0.78f);
+
+        [SerializeField]
+        public Color normalColor = new Color(0.243f, 0.263f, 0.341f);
+
+        [SerializeField]
+        public Color hoverColor = new Color(0.345f, 0.373f, 0.702f);
+
+        [SerializeField]
+        public Color highlightedColor = new Color(0.345f, 0.373f, 0.702f);
 
         public override void OnPrefabInit()
         {
@@ -40,10 +52,17 @@ namespace UtilLibs.UI.FUI
             {
                 image = button.image;
             }
+            disabledColor = button.colors.disabledColor;
+            normalColor = button.colors.normalColor;
+            hoverColor = button.colors.highlightedColor;
+            highlightedColor = button.colors.selectedColor;
 
+
+            button.enabled=false;
 
             material = image.material;
             interactable = true;
+            SetColorState();
         }
 
         public void SetInteractable(bool interactable)
@@ -54,7 +73,6 @@ namespace UtilLibs.UI.FUI
             }
 
             this.interactable = interactable;
-            button.interactable = interactable;
         }
 
         
@@ -69,19 +87,19 @@ namespace UtilLibs.UI.FUI
             if (eventData.button != PointerEventData.InputButton.Left)
                 return;
 
-            if (KInputManager.isFocused)
-            {
-                KInputManager.SetUserActive();
-                //PlaySound(UISoundHelper.ClickOpen);
-                if (!eventData.IsPointerMoving())
-                {
-                    ToggleSelection();
-                    if (OnClick != null)
-                    {
-                        OnClick?.Invoke();
-                    }
-                }
-            }
+            //if (KInputManager.isFocused)
+            //{
+            //    KInputManager.SetUserActive();
+            //    //PlaySound(UISoundHelper.ClickOpen);
+            //    if (!eventData.IsPointerMoving())
+            //    {
+            //        ToggleSelection();
+            //        if (OnClick != null)
+            //        {
+            //            OnClick?.Invoke();
+            //        }
+            //    }
+            //}
         }
 
 
@@ -92,20 +110,34 @@ namespace UtilLibs.UI.FUI
         }
         public void ChangeSelection(bool _isHighlighted = false)
         {
-
             IsHighlighted = _isHighlighted;
-            SetSelectedState();
+            SetColorState();
         }
-        void SetSelectedState()
+        void SetColorState()
         {
+            if(image==null)
+                return;
+
+            if(!interactable)
+            {
+                image.color = disabledColor;
+                return;
+            }
             if (IsHighlighted)
-                button.OnSelect(null);
-            else
-                button.OnDeselect(null);
+            {
+                image.color = highlightedColor;
+                return;
+            }
+            if(isHovered)
+            {
+                image.color = hoverColor;
+                return;
+            }
+            image.color = normalColor;
         }
 
-
-
+        bool isHovered = false;
+        
         public void OnPointerEnter(PointerEventData eventData)
         {
             if (OnPointerEnterAction != null)
@@ -120,15 +152,18 @@ namespace UtilLibs.UI.FUI
             {
                 KInputManager.SetUserActive();
                 PlaySound(UISoundHelper.MouseOver);
+                isHovered = true;
             }
-            SetSelectedState();
+            SetColorState();
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             if (OnPointerExitAction != null)
                 OnPointerExitAction.Invoke();
-            SetSelectedState();
+
+            isHovered = false;
+            SetColorState();
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -150,6 +185,11 @@ namespace UtilLibs.UI.FUI
             if (OnDoubleClick != null && eventData.clickCount == 2)
             {
                 OnDoubleClick.Invoke();
+            }
+            else
+            {
+                ToggleSelection();
+                OnClick.Invoke();
             }
         }
     }

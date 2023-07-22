@@ -369,9 +369,6 @@ namespace ClusterTraitGenerationManager
         //[HarmonyPatch(typeof(Db),(nameof(Db.Initialize)))]
         public static class InitExtraWorlds
         {
-
-
-
             static bool initialized = false;
             public static void InitWorlds()
             {
