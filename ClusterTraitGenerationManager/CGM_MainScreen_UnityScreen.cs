@@ -883,6 +883,20 @@ namespace ClusterTraitGenerationManager
                 ActiveToggle = this.gameObject.AddOrGet<FToggleButton>();
                 itemIconImage.sprite = planet.planetSprite;
 
+                UnityEngine.Rect rect = itemIconImage.sprite.rect;
+                if (rect.width > rect.height)
+                {
+                    var size = (rect.height / rect.width) * 80f;
+                    itemIconImage.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, (5 + (80 - size) / 2), size);
+                }
+                else
+                {
+                    var size = (rect.width / rect.height) * 80f;
+                    itemIconImage.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size);
+                }
+
+
+
                 UIUtils.AddSimpleTooltipToObject(this.transform, planet.DisplayName + "\n\n" + planet.DisplayDescription, true, 300, true);
                 Refresh(planet,true);
             }
