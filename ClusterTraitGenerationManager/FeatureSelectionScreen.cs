@@ -17,7 +17,7 @@ using static SandboxSettings;
 
 namespace ClusterTraitGenerationManager
 {
-    internal class FeatureSelectionScreen : KModalScreen
+    internal class FeatureSelectionScreenOLD : KModalScreen
     {
         KButton closeButton;
         GridLayouter galleryGridLayouter;
@@ -193,7 +193,7 @@ namespace ClusterTraitGenerationManager
             ScreenResize.Instance.OnResize += ()=>OnResize();
         }
 
-        SelectedItemSettings selectedItemSettings = null;
+        SelectedItemSettingsOLD selectedItemSettings = null;
         private void CreateUI()
         {
 
@@ -201,7 +201,7 @@ namespace ClusterTraitGenerationManager
 
             var unityScreen = Util.KInstantiateUI(ModAssets.CustomPlanetSideScreen, infoInsert.gameObject, true);
             //UIUtils.ListAllChildrenWithComponents(unityScreen.transform);
-            selectedItemSettings = unityScreen.AddOrGet<SelectedItemSettings>();
+            selectedItemSettings = unityScreen.AddOrGet<SelectedItemSettingsOLD>();
             selectedItemSettings.OnClose += ()=>this.Show(false);
             selectedItemSettings.UiRefresh = new System.Action(() =>
             {
@@ -230,7 +230,7 @@ namespace ClusterTraitGenerationManager
             this.RefreshDetails();
             if(selectedItemSettings != null)
             {
-                SelectedItemSettings.SetResetButtonStates();
+                //SelectedItemSettings.SetResetButtonStates();
             }
            
         }

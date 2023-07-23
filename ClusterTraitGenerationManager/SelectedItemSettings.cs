@@ -23,7 +23,7 @@ using static STRINGS.UI.UISIDESCREENS.AUTOPLUMBERSIDESCREEN;
 
 namespace ClusterTraitGenerationManager
 {
-    internal class SelectedItemSettings : FScreen
+    internal class SelectedItemSettingsOLD : FScreen
     {
         private FToggle2 StarmapItemEnabled;
 

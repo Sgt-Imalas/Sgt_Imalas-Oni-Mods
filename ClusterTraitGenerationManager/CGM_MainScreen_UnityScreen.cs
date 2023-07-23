@@ -156,8 +156,16 @@ namespace ClusterTraitGenerationManager
                     );
         }
 
+        bool overrideToWholeNumbers = false;
         public override void OnKeyDown(KButtonEvent e)
         {
+            if (e.Controller.GetKeyDown(KKeyCode.LeftShift))
+            {
+                overrideToWholeNumbers = !overrideToWholeNumbers;
+                e.Consumed = true;
+                UpdateForSelected();
+            }
+
             if (e.TryConsume(Action.Escape) || e.TryConsume(Action.MouseRight))
             {
                 if (AllowedToClose())
@@ -260,7 +268,7 @@ namespace ClusterTraitGenerationManager
             NumberToGenerate.transform.parent.gameObject.SetActive(canGenerateMultiple);///Amount, only on poi / random planets
             if (canGenerateMultiple)
             {
-                NumberToGenerate.SetWholeNumbers(!current.IsPOI);//|| overrideWholeNumbers);
+                NumberToGenerate.SetWholeNumbers(!current.IsPOI|| overrideToWholeNumbers);
                 NumberToGenerate.SetMinMaxCurrent(0, current.MaxNumberOfInstances, current.InstancesToSpawn);
                 NumberToGenerate.SetInteractable(IsPartOfCluster);
                 current.SetSpawnNumber(NumberToGenerate.Value);
@@ -295,6 +303,11 @@ namespace ClusterTraitGenerationManager
 
         public void SelectItem(StarmapItem planet)
         {
+            if(planet!= SelectedPlanet)
+            {
+                overrideToWholeNumbers = false;
+            }
+
             SelectedPlanet = planet;
             this.RefreshView();
         }

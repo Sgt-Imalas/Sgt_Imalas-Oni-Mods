@@ -68,6 +68,11 @@ namespace UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders
         [Header("Limits")]
         [SerializeField] private float minLimit = 0;
         [SerializeField] private float maxLimit = 100;
+        public float MinLimit => minLimit;
+        public float MaxLimit => maxLimit;
+        public float MinValue => minValue;
+        public float MaxValue => maxValue;
+
 
         [Header("Values")]
         public bool wholeNumbers;
@@ -106,6 +111,8 @@ namespace UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders
         private Canvas parentCanvas;
         private bool isOverlayCanvas;
 
+         private MinMaxSliderAudio AudioComponent;
+
         protected override void Start()
         {
             base.Start();
@@ -118,6 +125,7 @@ namespace UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders
             parentCanvas = GetComponentInParent<Canvas>();
             isOverlayCanvas = parentCanvas.renderMode == RenderMode.ScreenSpaceOverlay;
             mainCamera = customCamera != null ? customCamera : Camera.main;
+            AudioComponent = gameObject.AddOrGet<MinMaxSliderAudio>();
         }
 
         public void SetLimits(float minLimit, float maxLimit)
@@ -203,6 +211,7 @@ namespace UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders
         {
             passDragEvents = Math.Abs(eventData.delta.x) < Math.Abs(eventData.delta.y);
 
+            AudioComponent.OnDragStart();
             if (passDragEvents)
             {
                 PassDragEvents<IBeginDragHandler>(x => x.OnBeginDrag(eventData));
@@ -264,6 +273,7 @@ namespace UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders
                     SetMaxHandleValue01(maxHandle, dragStartMaxValue01 + distancePercent);
                 }
 
+                AudioComponent.OnDrag(dragState == DragState.Max);
                 // set values
                 float min = Mathf.Lerp(minLimit, maxLimit, GetMinHandleValue01(minHandle));
                 float max = Mathf.Lerp(minLimit, maxLimit, GetMaxHandleValue01(maxHandle));
@@ -278,6 +288,7 @@ namespace UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders
 
         public void OnEndDrag(PointerEventData eventData)
         {
+            AudioComponent.OnDragEnd();
             if (passDragEvents)
             {
                 PassDragEvents<IEndDragHandler>(x => x.OnEndDrag(eventData));
