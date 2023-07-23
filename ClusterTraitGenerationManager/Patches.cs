@@ -29,6 +29,8 @@ using PeterHan.PLib.Options;
 using static Door;
 using static STRINGS.DUPLICANTS.THOUGHTS;
 using Klei;
+using static STRINGS.UI.CLUSTERMAP;
+using System.Security.Cryptography;
 
 namespace ClusterTraitGenerationManager
 {
@@ -333,7 +335,7 @@ namespace ClusterTraitGenerationManager
         /// <summary>
         /// faith hill: santa claus is coming to town
         /// </summary>
-        public static async void SantaExe()
+        public static async Task SantaExe()
         {
             List<Child> allKids = GetAllChildren();
 
@@ -345,22 +347,22 @@ namespace ClusterTraitGenerationManager
         }
 
 
-        [HarmonyPatch(typeof(ProcGenGame.WorldGen), (nameof(ProcGenGame.WorldGen.LoadSettings)))]
-        public class ReplaceForDebug
-        {
-            public static void Prefix(bool in_async_thread)
-            {
-                SgtLogger.l($"LoadSettings, {in_async_thread}");
-            }
-        }
-        [HarmonyPatch(typeof(ProcGenGame.WorldGen), (nameof(ProcGenGame.WorldGen.LoadSettings_Internal)))]
-        public class ReplaceForDebug2
-        {
-            public static void Prefix(bool is_playing, bool preloadTemplates)
-            {
-                SgtLogger.l($"LoadSettings_Internal, {is_playing}, {preloadTemplates}");
-            }
-        }
+        //[HarmonyPatch(typeof(ProcGenGame.WorldGen), (nameof(ProcGenGame.WorldGen.LoadSettings)))]
+        //public class ReplaceForDebug
+        //{
+        //    public static void Prefix(bool in_async_thread)
+        //    {
+        //        SgtLogger.l($"LoadSettings, {in_async_thread}");
+        //    }
+        //}
+        //[HarmonyPatch(typeof(ProcGenGame.WorldGen), (nameof(ProcGenGame.WorldGen.LoadSettings_Internal)))]
+        //public class ReplaceForDebug2
+        //{
+        //    public static void Prefix(bool is_playing, bool preloadTemplates)
+        //    {
+        //        SgtLogger.l($"LoadSettings_Internal, {is_playing}, {preloadTemplates}");
+        //    }
+        //}
 
 
 
@@ -934,65 +936,114 @@ namespace ClusterTraitGenerationManager
                     //&& !(target == "OverworldMinNodes") && !(target == "OverworldMaxNodes")
                     )
                     return;
-                __result = GetMultipliedSize(__result, __instance);
+                //SgtLogger.l("Target float:");
+                __result = GetMultipliedSizeFloat(__result, __instance);
             }
         }
-        //[HarmonyPatch(typeof(WorldGenSettings))]
-        //[HarmonyPatch(nameof(WorldGenSettings.GetIntSetting))]
-        //public static class WorldGenSettings_GetIntSetting_Patch
-        //{
-        //    private static void Postfix(WorldGenSettings __instance, string target, ref int __result)
-        //    {
-        //        if (!(target == "OverworldDensityMin") && !(target == "OverworldDensityMax") && !(target == "OverworldAvoidRadius") && !(target == "OverworldMinNodes") && !(target == "OverworldMaxNodes"))
-        //            return;
-        //        __result = GetMultipliedSize(__result,__instance);
-        //    }
-        //}
-        //[HarmonyPatch(typeof(WorldGen))]
-        //[HarmonyPatch(nameof(WorldGen.ProcessByTerrainCell))]
-        //public static class ThinerBorder
-        //{
-        //    private static void Postfix(WorldGen __instance, string target, ref int __result)
-        //    {
-        //        if (!(target == "OverworldDensityMin") && !(target == "OverworldDensityMax") && !(target == "OverworldAvoidRadius") && !(target == "OverworldMinNodes") && !(target == "OverworldMaxNodes"))
-        //            return;
-        //        __result = GetMultipliedSize(__result, __instance);
-        //    }
-        //}
-        public static float GetMultipliedSize(float inputNumber, WorldGenSettings worldgen)
+        [HarmonyPatch(typeof(WorldGenSettings))]
+        [HarmonyPatch(nameof(WorldGenSettings.GetIntSetting))]
+        public static class WorldGenSettings_GetIntSetting_Patch
+        {
+            private static void Postfix(WorldGenSettings __instance, string target, ref int __result)
+            {
+                if (!(target == "OverworldDensityMin") && !(target == "OverworldDensityMax") && !(target == "OverworldAvoidRadius") && !(target == "OverworldMinNodes") && !(target == "OverworldMaxNodes"))
+                    return;
+
+                //SgtLogger.l("Target int:");
+                __result = GetMultipliedSizeInt(__result, __instance);
+            }
+        }
+
+
+        [HarmonyPatch(typeof(Border))]
+        [HarmonyPatch(nameof(Border.ConvertToMap))]
+        public static class Border_ConvertToMap_Patch
+        {
+            private static void Prefix(Border __instance)
+            {
+                //if(OriginalBorder == -1f)
+                //{
+                //    //OriginalBorder = __instance.width;
+                //    SgtLogger.l(OriginalBorder.ToString(), "BorderSizeInit");
+                //}
+
+                  //  SgtLogger.l(__instance.width.ToString(), "BorderSizePre");
+                __instance.width = Mathf.Max(0.25f, __instance.width * borderSizeMultiplier);
+                    //SgtLogger.l(__instance.width.ToString(), "BorderSizePST");
+            }
+        }
+        // static float OriginalBorder = -1f;
+
+        [HarmonyPatch(typeof(WorldGenSettings))]
+        [HarmonyPatch(nameof(WorldGenSettings.GetSubworldsForWorld))]
+        public static class Getw
+        {
+            private static void Postfix(WorldGenSettings __instance, ref List<WeightedSubWorld> __result)
+            {
+                foreach(var weightedSubworld in __result)
+                {
+                    weightedSubworld.minCount = Mathf.Max(1, GetMultipliedSizeInt( weightedSubworld.minCount, __instance));
+                }
+            }
+        }
+        [HarmonyPatch(typeof(WorldLayout))]
+        [HarmonyPatch(nameof(WorldLayout.ConvertUnknownCells))]
+        public static class ApplyMultipliersToWeights
+        {
+            private static void Prefix(ref bool isRunningDebugGen)
+            {
+                if (CGSMClusterManager.LoadCustomCluster)
+                    isRunningDebugGen = true;
+            }
+        }
+
+
+        [HarmonyPatch(typeof(WorldGen))]
+        [HarmonyPatch(nameof(WorldGen.GenerateOffline))]
+        public static class GrabPlanetGenerating
+        {
+            private static void Prefix(WorldGen __instance)
+            {
+                if (__instance != null && __instance.Settings != null)
+                {
+                    borderSizeMultiplier =  Mathf.Min(1, GetMultipliedSizeFloat(1f, __instance.Settings));
+                    SgtLogger.l(borderSizeMultiplier.ToString(), "BorderSizeMultiplier");
+                }
+
+            }
+        }
+        static float borderSizeMultiplier = 1f;
+
+        public static float GetMultipliedSizeFloat(float inputNumber, WorldGenSettings worldgen)
         {
 
-            if (worldgen != null && worldgen.world != null && worldgen.world.name != null &&
-                CGSMClusterManager.CustomCluster.HasStarmapItem(worldgen.world.name, out var item))
+            if (worldgen != null && worldgen.world != null && worldgen.world.filePath != null &&
+                CGSMClusterManager.CustomCluster.HasStarmapItem(worldgen.world.filePath, out var item)
+                && (item.CurrentSizeMultiplier < 1)
+                )
             {
-                return item.ApplySizeMultiplierToValue((float)inputNumber);
+                SgtLogger.l($"changed input float: {inputNumber}, multiplied: {item.ApplySizeMultiplierToValue((float)inputNumber)}");
+
+                    return item.ApplySizeMultiplierToValue((float)inputNumber);
             }
             return inputNumber;
         }
-        public static int GetMultipliedSize(int inputNumber, WorldGenSettings worldgen)
+        public static int GetMultipliedSizeInt(int inputNumber, WorldGenSettings worldgen)
         {
 
-            if (worldgen!=null && worldgen.world!=null && worldgen.world.name!=null &&
-                CGSMClusterManager.CustomCluster.HasStarmapItem(worldgen.world.name, out var item))
+            if (worldgen!=null && worldgen.world!=null && worldgen.world.filePath != null &&
+                CGSMClusterManager.CustomCluster.HasStarmapItem(worldgen.world.filePath, out var item)
+                && (item.CurrentSizeMultiplier < 1))
             {
+
+                SgtLogger.l($"changed input int: {inputNumber}, multiplied: {item.ApplySizeMultiplierToValue((float)inputNumber)}");
+                
+                
                 return Mathf.RoundToInt(item.ApplySizeMultiplierToValue((float)inputNumber));
             }
             return inputNumber;
         }
 
-
-        //[HarmonyPatch(typeof(Border))]
-        //[HarmonyPatch(nameof(Border.ConvertToMap))]
-        //public static class Border_ConvertToMap_Patch
-        //{
-        //    private static void Prefix(Border __instance)
-        //    {
-        //        if (__instance.element == SettingsCache.borders["impenetrable"])
-        //            __instance.width = 1.1f;
-        //        else
-        //            __instance.width = 1.1f;
-        //    }
-        //}
 
 
 
@@ -1093,9 +1144,34 @@ namespace ClusterTraitGenerationManager
                                 {
                                     OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names] = WorldTemplateRule.times;
                                 }
+                                float newGeyserAmount = (((float)OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]) *(float)item.CurrentSizePreset / 100f);
+                                SgtLogger.l(string.Format("Adjusting geyser roll amount to worldsize for {0}; {1} -> {2}", WorldTemplateRule.names.FirstOrDefault(), OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names], newGeyserAmount), item.id);
 
-                                WorldTemplateRule.times = Mathf.RoundToInt(((float)OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]) * (float)item.CurrentSizePreset / 100f);
-                                SgtLogger.l(string.Format("Adjusting geyser roll amount to worldsize for {0}; {1} -> {2}", WorldTemplateRule.names.FirstOrDefault(), OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names], WorldTemplateRule.times), item.id);
+                                if(newGeyserAmount > 1)
+                                {
+                                    WorldTemplateRule.times = Mathf.RoundToInt(newGeyserAmount);
+                                    SgtLogger.l("new Geyser amount above/equal to 1, rounding to " + Mathf.RoundToInt(newGeyserAmount));
+                                }
+                                else
+                                {
+
+                                    SgtLogger.l("new Geyser amount below 1, rolling for the geyser to appear at all..." );
+                                    float chance =  ((float)new System.Random(CGSMClusterManager.CurrentSeed + BitConverter.ToInt32(MD5.Create().ComputeHash(Encoding.Default.GetBytes(WorldTemplateRule.names.First())), 0)).Next(100))/100f;
+                                    SgtLogger.l("rolled: " + chance);
+                                    if (chance <= newGeyserAmount)
+                                    {
+                                        SgtLogger.l("roll succeeded: " + chance * 100f, "POI Chance: " + newGeyserAmount.ToString("P"));
+                                        WorldTemplateRule.times = 1;
+                                    }
+                                    else
+                                    {
+                                        SgtLogger.l("roll failed: " + chance * 100f, "POI Chance: " + newGeyserAmount.ToString("P"));
+                                        WorldTemplateRule.times = 0;
+                                    }
+                                }
+
+                                //WorldTemplateRule.times = Math.Max(1, Mathf.RoundToInt(((float)OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]) * (float)item.CurrentSizePreset / 100f));
+                                //SgtLogger.l(string.Format("Adjusting geyser roll amount to worldsize for {0}; {1} -> {2}", WorldTemplateRule.names.FirstOrDefault(), OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names], WorldTemplateRule.times), item.id);
                             }
                         }
                     }

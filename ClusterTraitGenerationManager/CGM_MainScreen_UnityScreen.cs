@@ -133,7 +133,6 @@ namespace ClusterTraitGenerationManager
                 maxCellSize = 160f,
                 targetGridLayouts = new List<GridLayoutGroup>() { galleryGridContent.GetComponent<GridLayoutGroup>() }
             };
-            UIUtils.ListAllChildrenWithComponents(galleryGridContent.transform);
 
         }
 
@@ -876,7 +875,7 @@ namespace ClusterTraitGenerationManager
            
             public void Initialize(StarmapItem planet)
             {
-                SgtLogger.l(planet.DisplayName, "Init gallery item for");
+                
                 Image itemIconImage = transform.Find("Image").GetComponent<Image>();
                 ItemNumber = transform.Find("AmountLabel").GetComponent<LocText>();
                 DisabledOverlay = transform.Find("DisabledOverlay").gameObject;

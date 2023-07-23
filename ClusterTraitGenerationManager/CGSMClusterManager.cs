@@ -84,8 +84,6 @@ namespace ClusterTraitGenerationManager
                 Screen = Util.KInstantiateUI(ModAssets.CGM_MainMenu, FrontEndManager.Instance.gameObject, true);
                 selectScreen = parent;
 
-                UIUtils.ListAllChildren(Screen.transform);
-                UIUtils.ListAllChildrenPath(Screen.transform);
                 Screen.name = "ClusterSelectionView";
                 CGM_Screen = Screen.AddComponent<CGM_MainScreen_UnityScreen>();
             }
@@ -309,9 +307,9 @@ namespace ClusterTraitGenerationManager
 
         public enum WorldSizePresets
         {
-            Tiny = 35,
-            Smaller = 50,
-            Small = 65,
+            Tiny = 30,
+            Smaller = 45,
+            Small = 60,
             SlightlySmaller = 80,
 
             Custom = -1,
@@ -424,8 +422,7 @@ namespace ClusterTraitGenerationManager
             //private float XYratio = -1f;
             public float ApplySizeMultiplierToValue(float inputValue)
             {
-                float sizePercentage = (float)SizePreset / 100f;
-                return Mathf.RoundToInt(sizePercentage * inputValue);
+                return (CurrentSizeMultiplier * inputValue);
             }
 
             [JsonIgnore] public Vector2I CustomPlanetDimensions
@@ -520,13 +517,13 @@ namespace ClusterTraitGenerationManager
                 {
                     if (heightTrueWidthFalse)
                     {
-                        var rounded = Mathf.RoundToInt(Mathf.Max(Mathf.Min(value, world.worldsize.Y * 2.6f), world.worldsize.Y));
+                        var rounded = Mathf.RoundToInt(Mathf.Max(Mathf.Min(value, world.worldsize.Y * 2.6f), world.worldsize.Y * 0.55f));
                         if (rounded != CustomY)
                             CustomY = rounded;
                     }
                     else
                     {
-                        var rounded = Mathf.RoundToInt(Mathf.Max(Mathf.Min(value, world.worldsize.X * 2.6f), world.worldsize.X));
+                        var rounded = Mathf.RoundToInt(Mathf.Max(Mathf.Min(value, world.worldsize.X * 2.6f), world.worldsize.X * 0.55f));
 
                         if (rounded != CustomX)
                             CustomX = rounded;
@@ -1151,7 +1148,7 @@ namespace ClusterTraitGenerationManager
                 CreateCustomClusterFrom(LastPresetGenerated, PlanetID);
             }
         }
-
+        public static int CurrentSeed=-1;
 
         public static void CreateCustomClusterFrom(string clusterID, string singleItemId = "", bool ForceRegen = false)
         {
@@ -1167,6 +1164,8 @@ namespace ClusterTraitGenerationManager
                 return;
 
             int seed = int.Parse(setting);
+
+            CurrentSeed = seed;
 
             if (singleItemId == string.Empty)
             {
@@ -1307,6 +1306,8 @@ namespace ClusterTraitGenerationManager
                 return;
 
             int seed = int.Parse(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id);
+
+            CurrentSeed = seed;
 
             var planets = CustomCluster.GetAllPlanets();
             for (int i = 0; i < planets.Count; i++)

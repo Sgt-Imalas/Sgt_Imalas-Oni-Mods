@@ -81,9 +81,9 @@ namespace ClusterTraitGenerationManager
                 }
             }
 
-            if (rules.names.Any(name => name.Contains("poi/warp")))
+            if (rules.names.Any(name => name.Contains("poi/warp"))) ///Vanilla Teleporters
                 return true; 
-            if (rules.names.Any(name => name.Contains("onewayteleport")))
+            if (rules.names.Any(name => name.Contains("onewayteleport"))) ///Baator Check
                 return true;
 
             return false;
