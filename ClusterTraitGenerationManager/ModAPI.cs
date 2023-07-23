@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UtilLibs;
+using static ProcGen.World;
 
 namespace ClusterTraitGenerationManager
 {
@@ -58,10 +59,37 @@ namespace ClusterTraitGenerationManager
 
 
         /// <summary>
-        /// if you use any unusual teleporter templates that dont match the condition checks in the method [ADD THAT], please include them under this key.
+        /// if you use any unusual teleporter template that dont match the condition checks in the method [ADD THAT], please include them under this key.
         /// this ensures the Outer planet variant does not get a teleporter template placed
         /// </summary>
         public const string TeleporterTemplate_Key = "CGM_TeleporterTemplate_Key";
+
+
+        public static bool IsATeleporterTemplate(ProcGen.World world,TemplateSpawnRules rules)
+        {
+            if (world != null)
+            {
+                if (world.defaultsOverrides != null && world.defaultsOverrides.data != null && world.defaultsOverrides.data.Count > 0)
+                {
+                    {
+                        if (world.defaultsOverrides.data.TryGetValue(TeleporterTemplate_Key, out var teleporterTemplateKey) && teleporterTemplateKey is string)
+                        {
+                            if (rules.names.Any(name => name.Contains(teleporterTemplateKey as string)))
+                                return true;
+                        }
+                    }
+                }
+            }
+
+            if (rules.names.Any(name => name.Contains("poi/warp")))
+                return true; 
+            if (rules.names.Any(name => name.Contains("onewayteleport")))
+                return true;
+
+            return false;
+        }
+
+
 
 
         public const string DefaultSandstoneStartBiome = "expansion1::subworlds/sandstone/SandstoneStart";

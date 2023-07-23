@@ -529,9 +529,15 @@ namespace ClusterTraitGenerationManager
                         ProcGen.World.TemplateSpawnRules TeleporterSpawn = new ProcGen.World.TemplateSpawnRules();
 
                         //Deleting any of the existing teleporter templates
-                        StartWorld.worldTemplateRules.RemoveAll(cellsfilter => cellsfilter.names.Any(name => name.Contains("poi/warp")));
+                        StartWorld.worldTemplateRules.RemoveAll((template) => ModAPI.IsATeleporterTemplate(StartWorld, template));
 
-                        TeleporterSpawn.names = new List<string>() { "expansion1::poi/warp/sender_mini", "expansion1::poi/warp/receiver_mini", "expansion1::poi/warp/teleporter_mini" };
+                        TeleporterSpawn.names = new List<string>() 
+                        {
+                            "expansion1::poi/warp/sender_mini",///MaterialTeleporter sender
+                            "expansion1::poi/warp/receiver_mini",///MaterialTeleporter reciever
+                            "expansion1::poi/warp/teleporter_mini" ///Big Dupe Teleporter Building
+                        
+                        };
                         TeleporterSpawn.listRule = ProcGen.World.TemplateSpawnRules.ListRule.GuaranteeAll;
                         TeleporterSpawn.priority = 90;
                         TeleporterSpawn.allowedCellsFilter = new List<ProcGen.World.AllowedCellsFilter>()
@@ -661,11 +667,17 @@ namespace ClusterTraitGenerationManager
                         //Teleporter PlacementRules
 
                         //Deleting any of the existing teleporter templates
-                        StartWorld.worldTemplateRules.RemoveAll(cellsfilter => cellsfilter.names.Any(name => name.Contains("poi/warp")));
+
+                        StartWorld.worldTemplateRules.RemoveAll((template) => ModAPI.IsATeleporterTemplate(StartWorld,template));
 
 
                         ProcGen.World.TemplateSpawnRules TeleporterSpawn = new ProcGen.World.TemplateSpawnRules();
-                        TeleporterSpawn.names = new List<string>() { "expansion1::poi/warp/sender_mini", "expansion1::poi/warp/receiver_mini" };
+                        TeleporterSpawn.names = new List<string>() 
+                        { 
+                            "expansion1::poi/warp/sender_mini", ///MaterialTeleporter sender
+                            "expansion1::poi/warp/receiver_mini" ///MaterialTeleporter reciever 
+                        };
+
                         TeleporterSpawn.listRule = ProcGen.World.TemplateSpawnRules.ListRule.GuaranteeAll;
                         TeleporterSpawn.priority = 90;
                         TeleporterSpawn.allowedCellsFilter = new List<ProcGen.World.AllowedCellsFilter>()
@@ -758,7 +770,7 @@ namespace ClusterTraitGenerationManager
 
                         //StartWorld.unknownCellsAllowedSubworlds.RemoveAll(cellsfilter => cellsfilter.tag == "AtStart");
                         //StartWorld.subworldFiles.RemoveAll(cellsfilter => cellsfilter.name.Contains("Start"));
-                        StartWorld.worldTemplateRules.RemoveAll(cellsfilter => cellsfilter.names.Any(name => name.Contains("poi/warp")));
+                        StartWorld.worldTemplateRules.RemoveAll((template) => ModAPI.IsATeleporterTemplate(StartWorld, template));
                         //StartWorld.worldTemplateRules.ForEach(TemplateRule =>
                         //{
                         //    if (TemplateRule.listRule == ProcGen.World.TemplateSpawnRules.ListRule.GuaranteeAll)
