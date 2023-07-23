@@ -59,7 +59,7 @@ namespace ClusterTraitGenerationManager
 
 
         /// <summary>
-        /// if you use any unusual teleporter template that dont match the condition checks in the method [ADD THAT], please include them under this key.
+        /// if you use any unusual teleporter template that dont match the condition checks in the method "IsATeleporterTemplate", please include them under this key.
         /// this ensures the Outer planet variant does not get a teleporter template placed
         /// </summary>
         public const string TeleporterTemplate_Key = "CGM_TeleporterTemplate_Key";
