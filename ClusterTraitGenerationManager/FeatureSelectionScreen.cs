@@ -439,8 +439,8 @@ namespace ClusterTraitGenerationManager
         public void SelectCategory(StarmapItemCategory category)
         {
             this.SelectedCategory = category;
-            this.galleryHeaderLabel.SetText(STRINGS.UI.CUSTOMCLUSTERUI.NAMEITEMS); //TODO: set Planet Type header 
-            this.categoryHeaderLabel.SetText(STRINGS.UI.CUSTOMCLUSTERUI.NAMECATEGORIES); 
+            this.galleryHeaderLabel.SetText(STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.HEADER.LABEL); //TODO: set Planet Type header 
+            this.categoryHeaderLabel.SetText(STRINGS.UI.CGM_MAINSCREENEXPORT.CATEGORIES.HEADER.LABEL); 
             this.SelectDefaultCategoryItem();
             this.RefreshView();
         }
@@ -480,16 +480,16 @@ namespace ClusterTraitGenerationManager
             switch (StarmapItemCategory)
             {
                 case StarmapItemCategory.Starter:
-                    categoryName = STRINGS.UI.CUSTOMCLUSTERUI.CATEGORYENUM.START;
+                    categoryName = STRINGS.UI.CATEGORYENUM.START;
                     break;
                 case StarmapItemCategory.Warp:
-                    categoryName = STRINGS.UI.CUSTOMCLUSTERUI.CATEGORYENUM.WARP;
+                    categoryName = STRINGS.UI.CATEGORYENUM.WARP;
                     break;
                 case StarmapItemCategory.Outer:
-                    categoryName = STRINGS.UI.CUSTOMCLUSTERUI.CATEGORYENUM.OUTER;
+                    categoryName = STRINGS.UI.CATEGORYENUM.OUTER;
                     break;
                 case StarmapItemCategory.POI:
-                    categoryName = STRINGS.UI.CUSTOMCLUSTERUI.CATEGORYENUM.POI;
+                    categoryName = STRINGS.UI.CATEGORYENUM.POI;
                     break;
             }
 

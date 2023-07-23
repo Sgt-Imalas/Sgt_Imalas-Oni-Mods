@@ -8,6 +8,14 @@ using UtilLibs;
 using UtilLibs.UI.FUI;
 using UtilLibs.UIcmp;
 using UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders;
+using static STRINGS.UI.CODEX;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER.BUTTONS;
+using static STRINGS.BUILDINGS.PREFABS.DOOR.CONTROL_STATE;
+using Microsoft.SqlServer.Server;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER;
+using Klei.AI;
+using System.Threading.Tasks;
 
 namespace ClusterTraitGenerationManager
 {
@@ -41,7 +49,57 @@ namespace ClusterTraitGenerationManager
             }
         }
 
+
         StarmapItemCategory SelectedCategory = StarmapItemCategory.Starter;
+
+
+        Dictionary<string, GameObject> SeasonTypes = new Dictionary<string, GameObject>();
+
+        Dictionary<string, GameObject> ShowerTypes = new Dictionary<string, GameObject>();
+
+        Dictionary<string, GameObject> Traits = new Dictionary<string, GameObject>();
+
+
+        private FSlider ClusterSize;
+
+
+        private LocText StarmapItemEnabledText;
+        private FToggle2 StarmapItemEnabled;
+        private FSlider NumberToGenerate;
+        private UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders.MinMaxSlider MinMaxDistanceSlider;
+        private LocText SpawnDistanceText;
+        private FSlider BufferDistance;
+
+        private GameObject AsteroidSize;
+        private LocText AsteroidSizeLabel;
+        private ToolTip AsteroidSizeTooltip;
+
+        private FInputField2 PlanetSizeWidth;
+        private FInputField2 PlanetSizeHeight;
+
+        private FCycle PlanetSizeCycle;
+        private FCycle PlanetRazioCycle;
+
+        private GameObject MeteorSelector;
+        private GameObject ActiveMeteorsContainer;
+        private GameObject MeteorPrefab;
+        private GameObject ActiveSeasonsContainer;
+        private GameObject SeasonPrefab;
+        private FButton AddSeasonButton;
+
+
+        private GameObject AsteroidTraits;
+        private GameObject ActiveTraitsContainer;
+        private GameObject TraitPrefab;
+        private FButton AddTraitButton;
+
+
+        private static FButton ResetButton;
+        private static FButton ResetAllButton;
+        private FButton ReturnButton;
+        private FButton PresetsButton;
+        private FButton SettingsButton;
+        private FButton GenerateClusterButton;
 
         public override void OnPrefabInit()
         {
@@ -128,13 +186,19 @@ namespace ClusterTraitGenerationManager
                 init = true;
             }
 
-            this.SelectCategory(StarmapItemCategory.Starter);
 
             this.galleryGridLayouter.RequestGridResize();
 
             OnResize();
             //RefreshWithDelay(() => OnResize(true),300);
             ScreenResize.Instance.OnResize += () => OnResize();
+            RefreshView();
+            DoWithDelay ( ()=> this.SelectCategory(StarmapItemCategory.Starter),25);
+        }
+        static async Task DoWithDelay(System.Action task, int ms)
+        {
+            await Task.Delay(ms);
+            task.Invoke();
         }
         public void OnResize()
         {
@@ -148,7 +212,6 @@ namespace ClusterTraitGenerationManager
             this.RefreshCategories();
             this.RefreshGallery();
             this.RefreshDetails();
-            this.ResetSettingButtonStates();
         }
         private void RefreshCategories()
         {
@@ -175,40 +238,65 @@ namespace ClusterTraitGenerationManager
         }
         private void RefreshDetails()
         {
-            if (!init || SelectedPlanet == null 
-               // || selectedItemSettings == null
-                )
+            if (SelectedPlanet == null)
                 return;
-
-            string name = SelectedPlanet.DisplayName;
-            string description = SelectedPlanet.DisplayDescription;
-
-            this.selectionHeaderLabel.SetText(name);
-
-            if (SelectedPlanet != null)
-            {
-                UpdateForSelected(SelectedPlanet);
-            }
-
-        }
-        public void ResetSettingButtonStates()
-        {
-            //FAT TODO!
+            UpdateForSelected();
         }
         
-        public void UpdateForSelected(StarmapItem starmapItem)
+        public void UpdateForSelected()
         {
-            //FAT TODO!
+
+            this.galleryHeaderLabel.SetText(ModAssets.Strings.ApplyCategoryTypeToString(STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.HEADER.LABEL, SelectedCategory));
+            bool IsPartOfCluster = CustomCluster.HasStarmapItem(SelectedPlanet.id, out var current);
+
+            bool isRandom = current.id.Contains(CGSMClusterManager.RandomKey);
+            bool canGenerateMultiple = current.MaxNumberOfInstances > 1;
+
+            selectionHeaderLabel.SetText(ModAssets.Strings.ApplyCategoryTypeToString(string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL,SelectedPlanet.DisplayName), SelectedCategory));
+            StarmapItemEnabledText.SetText(ModAssets.Strings.ApplyCategoryTypeToString(STARMAPITEMENABLED.LABEL, SelectedCategory));
+
+            StarmapItemEnabled.SetOn(IsPartOfCluster);
+
+            NumberToGenerate.transform.parent.gameObject.SetActive(canGenerateMultiple);///Amount, only on poi / random planets
+            if (canGenerateMultiple)
+            {
+                NumberToGenerate.SetWholeNumbers(!current.IsPOI);//|| overrideWholeNumbers);
+                NumberToGenerate.SetMinMaxCurrent(0, current.MaxNumberOfInstances, current.InstancesToSpawn);
+                NumberToGenerate.SetInteractable(IsPartOfCluster);
+                current.SetSpawnNumber(NumberToGenerate.Value);
+            }
+
+            MinMaxDistanceSlider.interactable = IsPartOfCluster;
+
+            MinMaxDistanceSlider.SetLimits(0, CustomCluster.Rings);
+            MinMaxDistanceSlider.SetValues(current.minRing, current.maxRing, 0, CustomCluster.Rings, true);
+
+            BufferDistance.SetMinMaxCurrent(0, CustomCluster.Rings, SelectedPlanet.buffer);
+            BufferDistance.transform.parent.gameObject.SetActive(!current.IsPOI);
+            BufferDistance.SetInteractable(IsPartOfCluster);
+
+            ClusterSize.SetMinMaxCurrent(ringMin, ringMax, CustomCluster.Rings);
+
+            AddTraitButton.SetInteractable(IsPartOfCluster && !isRandom);
+            AddSeasonButton.SetInteractable(IsPartOfCluster && !isRandom);
+
+            AsteroidSize.SetActive(!current.IsPOI && !isRandom);
+            MeteorSelector.SetActive(!current.IsPOI && !isRandom);
+            AsteroidTraits.SetActive(!current.IsPOI && !isRandom);
+
+            UpdateSizeLabels(current);
+            PlanetSizeCycle.Value = current.CurrentSizePreset.ToString();
+            PlanetRazioCycle.Value = current.CurrentRatioPreset.ToString();
+
+            if (current.IsPOI) return;
+            RefreshMeteorLists();
+            RefreshTraitList();
         }
 
         public void SelectItem(StarmapItem planet)
         {
             SelectedPlanet = planet;
-            //CGSMClusterManager.TogglePlanetoid(planet);
-            ///Select Planet
-            this.RefreshGallery();
-            this.RefreshDetails();
-            UpdateForSelected(planet);
+            this.RefreshView();
         }
 
         private void RefreshGallery()
@@ -227,14 +315,15 @@ namespace ClusterTraitGenerationManager
                 logicComponent.Refresh(galleryGridButton.Key, PlanetIsInList, selected);
                 galleryGridButton.Value.gameObject.SetActive(galleryGridButton.Key.category == this.SelectedCategory);
             }
+            
+            this.galleryHeaderLabel.SetText(ModAssets.Strings.ApplyCategoryTypeToString(STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.HEADER.LABEL, SelectedCategory));
         }
 
 
         public void SelectCategory(StarmapItemCategory category)
         {
             this.SelectedCategory = category;
-            this.galleryHeaderLabel.SetText(STRINGS.UI.CUSTOMCLUSTERUI.NAMEITEMS); //TODO: set Planet Type header 
-            this.categoryHeaderLabel.SetText(STRINGS.UI.CUSTOMCLUSTERUI.NAMECATEGORIES);
+            //this.categoryHeaderLabel.SetText(STRINGS.UI.CUSTOMCLUSTERUI.NAMECATEGORIES);
             this.SelectDefaultCategoryItem();
             this.RefreshView();
         }
@@ -259,22 +348,487 @@ namespace ClusterTraitGenerationManager
             this.SelectItem(null);
         }
 
-
         #region initialisation
 
         public void InitializeItemSettings()
         {
-            UIUtils.ListAllChildrenWithComponents(transform.Find("Details/Content/ScrollRectContainer/MinMaxDistance/Slider"));
-            UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders.MinMaxSlider slider = transform.Find("Details/Content/ScrollRectContainer/MinMaxDistance/Slider").FindOrAddComponent<UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders.MinMaxSlider>();
-            slider.SliderBounds = slider.transform.Find("Handle Slide Area").rectTransform();
-            slider.MinHandle = slider.transform.Find("Handle Slide Area/HandleMin").rectTransform();
-            slider.MaxHandle = slider.transform.Find("Handle Slide Area/Handle").rectTransform();
-            slider.MiddleGraphic = slider.transform.Find("Fill Area/Fill").rectTransform();
+
+            MinMaxDistanceSlider = transform.Find("Details/Content/ScrollRectContainer/MinMaxDistance/Slider").FindOrAddComponent<UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders.MinMaxSlider>();
+            MinMaxDistanceSlider.SliderBounds = MinMaxDistanceSlider.transform.Find("Handle Slide Area").rectTransform();
+            MinMaxDistanceSlider.MinHandle = MinMaxDistanceSlider.transform.Find("Handle Slide Area/HandleMin").rectTransform();
+            MinMaxDistanceSlider.MaxHandle = MinMaxDistanceSlider.transform.Find("Handle Slide Area/Handle").rectTransform();
+            MinMaxDistanceSlider.MiddleGraphic = MinMaxDistanceSlider.transform.Find("Fill Area/Fill").rectTransform();
+            MinMaxDistanceSlider.wholeNumbers = true;
+            MinMaxDistanceSlider.onValueChanged.AddListener(
+                (min, max)=>
+                {
+                    if (SelectedPlanet!=null && CustomCluster.HasStarmapItem(SelectedPlanet.id, out var current))
+                    {
+                        current.SetInnerRing(Mathf.RoundToInt(min));
+                        current.SetOuterRing(Mathf.RoundToInt(max));
+                        SpawnDistanceText.SetText(string.Format(MINMAXDISTANCE.DESCRIPTOR.FORMAT, (int)min, (int)max));
+                    }          
+                }
+                );
+
+            //MinMaxDistanceSlider.SetLimits(0, CustomCluster.Rings);
+            //MinMaxDistanceSlider.SetValues(0, 0.001f, 0, CustomCluster.Rings, true);
+
+            SpawnDistanceText = MinMaxDistanceSlider.transform.parent.Find("Descriptor/Output").GetComponent<LocText>();
+            UIUtils.AddSimpleTooltipToObject(MinMaxDistanceSlider.transform.parent.Find("Descriptor"), (MINMAXDISTANCE.DESCRIPTOR.TOOLTIP), onBottom: true, alignCenter: true);
+
+            StarmapItemEnabledText = transform.Find("Details/Content/ScrollRectContainer/StarmapItemEnabled/Label").GetComponent<LocText>();
+            StarmapItemEnabled = transform.Find("Details/Content/ScrollRectContainer/StarmapItemEnabled").FindOrAddComponent<FToggle2>();
+            StarmapItemEnabled.SetCheckmark("Background/Checkmark");
+            StarmapItemEnabled.OnClick += () =>
+            {
+                if (SelectedPlanet != null)
+                {
+                    CGSMClusterManager.TogglePlanetoid(SelectedPlanet);
+                    this.RefreshCategories();
+                    this.RefreshGallery();
+                }
+            };
+            UIUtils.AddSimpleTooltipToObject(StarmapItemEnabled.transform, STARMAPITEMENABLED.TOOLTIP, onBottom: true, alignCenter: true);
 
 
-            FButton button = transform.Find("Details/Footer/Buttons/GenerateClusterButton").FindOrAddComponent<FButton>();
-            button.OnClick += () => CGSMClusterManager.InitializeGeneration();
-            //FAT TODO!
+            NumberToGenerate = transform.Find("Details/Content/ScrollRectContainer/AmountSlider/Slider").FindOrAddComponent<FSlider>();
+
+            NumberToGenerate.SetWholeNumbers(true);
+            NumberToGenerate.AttachOutputField(transform.Find("Details/Content/ScrollRectContainer/AmountSlider/Descriptor/Output").GetComponent<LocText>());
+            NumberToGenerate.OnChange += (value) =>
+            {
+                if (SelectedPlanet != null)
+                {
+                    if (CustomCluster.HasStarmapItem(SelectedPlanet.id, out var current))
+                        current.SetSpawnNumber(value);
+                    this.RefreshGallery();
+                }
+            };
+
+            UIUtils.AddSimpleTooltipToObject(NumberToGenerate.transform.parent.Find("Descriptor"), (AMOUNTSLIDER.DESCRIPTOR.TOOLTIP), onBottom: true, alignCenter: true);
+
+            BufferDistance = transform.Find("Details/Content/ScrollRectContainer/BufferSlider/Slider").FindOrAddComponent<FSlider>();
+            BufferDistance.SetWholeNumbers(true);
+            BufferDistance.AttachOutputField(transform.Find("Details/Content/ScrollRectContainer/BufferSlider/Descriptor/Output").GetComponent<LocText>());
+            BufferDistance.OnChange += (value) =>
+            {
+                if (SelectedPlanet != null)
+                {
+                    if (CustomCluster.HasStarmapItem(SelectedPlanet.id, out var current))
+                        current.SetBuffer((int)value);
+                }
+            };
+            UIUtils.AddSimpleTooltipToObject(BufferDistance.transform.parent.Find("Descriptor"), BUFFERSLIDER.DESCRIPTOR.TOOLTIP);
+
+            ClusterSize = transform.Find("Details/Footer/ClusterSizeSlider/Slider").FindOrAddComponent<FSlider>();
+            ClusterSize.SetWholeNumbers(true);
+            ClusterSize.AttachOutputField(transform.Find("Details/Footer/ClusterSizeSlider/Descriptor/Output").GetComponent<LocText>());
+            ClusterSize.OnChange += (value) =>
+            {
+                CustomCluster.SetRings((int)value);
+                this.RefreshDetails();
+            };
+            UIUtils.AddSimpleTooltipToObject(ClusterSize.transform.parent.Find("Descriptor"), CLUSTERSIZESLIDER.DESCRIPTOR.TOOLTIP);
+
+
+            AsteroidSize = transform.Find("Details/Content/ScrollRectContainer/AsteroidSize").gameObject;
+            AsteroidSizeLabel = AsteroidSize.transform.Find("Descriptor/Label").GetComponent<LocText>();
+            AsteroidSizeTooltip = UIUtils.AddSimpleTooltipToObject(AsteroidSizeLabel.transform.parent, ASTEROIDSIZE.DESCRIPTOR.TOOLTIP);
+
+            PlanetSizeWidth = AsteroidSize.transform.Find("Content/Info/WidthLabel/Input").FindOrAddComponent<FInputField2>();
+            PlanetSizeWidth.inputField.onEndEdit.AddListener((string sizestring) => TryApplyingCoordinates(sizestring, false));
+
+            PlanetSizeHeight = AsteroidSize.transform.Find("Content/Info/HeightLabel/Input").FindOrAddComponent<FInputField2>();
+            PlanetSizeHeight.inputField.onEndEdit.AddListener((string sizestring) => TryApplyingCoordinates(sizestring, true));
+
+            PlanetSizeCycle = AsteroidSize.transform.Find("Content/Cycles/SizeCycle").gameObject.AddOrGet<FCycle>();
+            PlanetSizeCycle.Initialize(
+                PlanetSizeCycle.transform.Find("Left").gameObject.AddOrGet<FButton>(),
+                PlanetSizeCycle.transform.Find("Right").gameObject.AddOrGet<FButton>(),
+                PlanetSizeCycle.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
+                PlanetSizeCycle.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
+
+            PlanetSizeCycle.Options = new List<FCycle.Option>()
+            {
+                new FCycle.Option(WorldSizePresets.Tiny.ToString(), ASTEROIDSIZE.SIZESELECTOR.NEGSIZE0, ASTEROIDSIZE.SIZESELECTOR.NEGSIZE0TOOLTIP),
+                new FCycle.Option(WorldSizePresets.Smaller.ToString(), ASTEROIDSIZE.SIZESELECTOR.NEGSIZE1, ASTEROIDSIZE.SIZESELECTOR.NEGSIZE1TOOLTIP),
+                new FCycle.Option(WorldSizePresets.Small.ToString(), ASTEROIDSIZE.SIZESELECTOR.NEGSIZE2, ASTEROIDSIZE.SIZESELECTOR.NEGSIZE2TOOLTIP),
+                new FCycle.Option(WorldSizePresets.SlightlySmaller.ToString(), ASTEROIDSIZE.SIZESELECTOR.NEGSIZE3, ASTEROIDSIZE.SIZESELECTOR.NEGSIZE3TOOLTIP),
+
+                new FCycle.Option(WorldSizePresets.Normal.ToString(), ASTEROIDSIZE.SIZESELECTOR.SIZE0, ASTEROIDSIZE.SIZESELECTOR.SIZE0TOOLTIP),
+                new FCycle.Option(WorldSizePresets.SlightlyLarger.ToString(), ASTEROIDSIZE.SIZESELECTOR.SIZE1, ASTEROIDSIZE.SIZESELECTOR.SIZE1TOOLTIP),
+                new FCycle.Option(WorldSizePresets.Large.ToString(), ASTEROIDSIZE.SIZESELECTOR.SIZE2, ASTEROIDSIZE.SIZESELECTOR.SIZE2TOOLTIP),
+                new FCycle.Option(WorldSizePresets.Huge.ToString(), ASTEROIDSIZE.SIZESELECTOR.SIZE3, ASTEROIDSIZE.SIZESELECTOR.SIZE3TOOLTIP),
+                new FCycle.Option(WorldSizePresets.Massive.ToString(), ASTEROIDSIZE.SIZESELECTOR.SIZE4, ASTEROIDSIZE.SIZESELECTOR.SIZE4TOOLTIP),
+                new FCycle.Option(WorldSizePresets.Enormous.ToString(), ASTEROIDSIZE.SIZESELECTOR.SIZE5, ASTEROIDSIZE.SIZESELECTOR.SIZE5TOOLTIP),
+            };
+
+            PlanetSizeCycle.OnChange += () =>
+            {
+                if (SelectedPlanet != null)
+                {
+                    if (CustomCluster.HasStarmapItem(SelectedPlanet.id, out var current))
+                    {
+                        WorldSizePresets setTo = Enum.TryParse<WorldSizePresets>(PlanetSizeCycle.Value, out var result) ? result : WorldSizePresets.Normal;
+                        current.SetPlanetSizeToPreset(setTo);
+                        UpdateSizeLabels(current);
+                    }
+                }
+            };
+
+            PlanetRazioCycle = AsteroidSize.transform.Find("Content/Cycles/RazioCycle").gameObject.AddOrGet<FCycle>();
+            PlanetRazioCycle.Initialize(
+                PlanetRazioCycle.transform.Find("Left").gameObject.AddOrGet<FButton>(),
+                PlanetRazioCycle.transform.Find("Right").gameObject.AddOrGet<FButton>(),
+                PlanetRazioCycle.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
+                PlanetRazioCycle.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
+
+            PlanetRazioCycle.Options = new List<FCycle.Option>()
+            {
+                new FCycle.Option(WorldRatioPresets.LotWider.ToString(), ASTEROIDSIZE.RATIOSELECTOR.WIDE3, ASTEROIDSIZE.RATIOSELECTOR.WIDE3TOOLTIP),
+                new FCycle.Option(WorldRatioPresets.Wider.ToString(), ASTEROIDSIZE.RATIOSELECTOR.WIDE2, ASTEROIDSIZE.RATIOSELECTOR.WIDE2TOOLTIP),
+                new FCycle.Option(WorldRatioPresets.SlightlyWider.ToString(), ASTEROIDSIZE.RATIOSELECTOR.WIDE1, ASTEROIDSIZE.RATIOSELECTOR.WIDE1TOOLTIP),
+                new FCycle.Option(WorldRatioPresets.Normal.ToString(), ASTEROIDSIZE.RATIOSELECTOR.NORMAL, ASTEROIDSIZE.RATIOSELECTOR.NORMALTOOLTIP),
+                new FCycle.Option(WorldRatioPresets.SlightlyTaller.ToString(), ASTEROIDSIZE.RATIOSELECTOR.HEIGHT1, ASTEROIDSIZE.RATIOSELECTOR.HEIGHT1TOOLTIP),
+                new FCycle.Option(WorldRatioPresets.Taller.ToString(), ASTEROIDSIZE.RATIOSELECTOR.HEIGHT2, ASTEROIDSIZE.RATIOSELECTOR.HEIGHT2TOOLTIP),
+                new FCycle.Option(WorldRatioPresets.LotTaller.ToString(), ASTEROIDSIZE.RATIOSELECTOR.HEIGHT3, ASTEROIDSIZE.RATIOSELECTOR.HEIGHT3TOOLTIP),
+            };
+            PlanetRazioCycle.Value = WorldRatioPresets.Normal.ToString();
+
+            PlanetRazioCycle.OnChange += () =>
+            {
+                if (SelectedPlanet != null)
+                {
+                    if (CustomCluster.HasStarmapItem(SelectedPlanet.id, out var current))
+                    {
+                        WorldRatioPresets setTo = Enum.TryParse<WorldRatioPresets>(PlanetRazioCycle.Value, out var result) ? result : WorldRatioPresets.Normal;
+                        current.SetPlanetRatioToPreset(setTo);
+                        UpdateSizeLabels(current);
+                        //AsteroidSizeLabel.text = string.Format(ASTEROIDSIZEINFO.INFO, current.CustomPlanetDimensions.x, current.CustomPlanetDimensions.y);
+                    }
+                }
+            };
+
+            MeteorSelector = transform.Find("Details/Content/ScrollRectContainer/MeteorSeasonCycle").gameObject;
+            ActiveMeteorsContainer = transform.Find("Details/Content/ScrollRectContainer/MeteorSeasonCycle/Content/Asteroids/ScrollArea/Content").gameObject;
+            MeteorPrefab = transform.Find("Details/Content/ScrollRectContainer/MeteorSeasonCycle/Content/Asteroids/ScrollArea/Content/ListViewEntryPrefab").gameObject;
+
+            ActiveSeasonsContainer = transform.Find("Details/Content/ScrollRectContainer/MeteorSeasonCycle/Content/Seasons/SeasonScrollArea/Content").gameObject;
+            SeasonPrefab = transform.Find("Details/Content/ScrollRectContainer/MeteorSeasonCycle/Content/Seasons/SeasonScrollArea/Content/ListViewEntryPrefab").gameObject;
+
+            AddSeasonButton = transform.Find("Details/Content/ScrollRectContainer/MeteorSeasonCycle/Content/Seasons/SeasonScrollArea/Content/AddSeasonButton").FindOrAddComponent<FButton>();
+            UIUtils.AddSimpleTooltipToObject(AddSeasonButton.transform, METEORSEASONCYCLE.DESCRIPTOR.TOOLTIP);
+
+            AddSeasonButton.OnClick += () =>
+            {
+                SeasonSelectorScreen.InitializeView(SelectedPlanet, () => RefreshMeteorLists());
+            };
+
+            UIUtils.AddSimpleTooltipToObject(MeteorSelector.transform.Find("Descriptor"), METEORSEASONCYCLE.DESCRIPTOR.TOOLTIP);
+
+
+            AsteroidTraits = transform.Find("Details/Content/ScrollRectContainer/AsteroidTraits").gameObject;
+            ActiveTraitsContainer = AsteroidTraits.transform.Find("Content/TraitContainer/ScrollArea/Content").gameObject;
+            TraitPrefab = AsteroidTraits.transform.Find("Content/TraitContainer/ScrollArea/Content/ListViewEntryPrefab").gameObject;
+
+            AddTraitButton = AsteroidTraits.transform.Find("Content/AddSeasonButton").FindOrAddComponent<FButton>();
+
+            AddTraitButton.OnClick += () =>
+            {
+                TraitSelectorScreen.InitializeView(SelectedPlanet, () => RefreshTraitList());
+            };
+
+            var buttons = transform.Find("Details/Footer/Buttons");
+
+            ReturnButton = buttons.Find("ReturnButton").FindOrAddComponent<FButton>();
+            ReturnButton.OnClick += ()=>Show(false);
+
+            GenerateClusterButton = buttons.Find("GenerateClusterButton").FindOrAddComponent<FButton>();
+            GenerateClusterButton.OnClick += () => CGSMClusterManager.InitializeGeneration();
+
+            ResetButton = buttons.Find("ResetSelectionButton").FindOrAddComponent<FButton>();
+            ResetButton.OnClick += () =>
+            {
+                CGSMClusterManager.ResetPlanetFromPreset(SelectedPlanet.id);
+                RefreshView();
+            };
+
+            ResetAllButton = buttons.Find("ResetClusterButton").FindOrAddComponent<FButton>();
+            ResetAllButton.OnClick += () =>
+            {
+                CGSMClusterManager.ResetToLastPreset();
+                RefreshView();
+            };
+
+            PresetsButton = buttons.Find("PresetButton").FindOrAddComponent<FButton>();
+            PresetsButton.OnClick += () =>
+            {
+                CGSMClusterManager.OpenPresetWindow(() => RefreshView());
+            };
+
+            SettingsButton = buttons.Find("SettingsButton").FindOrAddComponent<FButton>();
+            SettingsButton.OnClick += () =>
+            {
+                CustomSettingsController.ShowWindow(() => RefreshView());
+            };
+
+            UIUtils.AddSimpleTooltipToObject(ResetAllButton.transform, RESETCLUSTERBUTTON.TOOLTIP, true, onBottom: true);
+            UIUtils.AddSimpleTooltipToObject(ResetButton.transform, RESETSELECTIONBUTTON.TOOLTIP, true, onBottom: true);
+            UIUtils.AddSimpleTooltipToObject(GenerateClusterButton.transform, GENERATECLUSTERBUTTON.TOOLTIP, true, onBottom: true);
+            UIUtils.AddSimpleTooltipToObject(ReturnButton.transform, RETURNBUTTON.TOOLTIP, true, onBottom: true);
+            UIUtils.AddSimpleTooltipToObject(SettingsButton.transform, SETTINGSBUTTON.TOOLTIP, true, onBottom: true);
+            UIUtils.AddSimpleTooltipToObject(PresetsButton.transform, PRESETBUTTON.TOOLTIP, true, onBottom: true);
+
+            InitializeTraitContainer();
+            InitializeMeteorShowerContainers();
+        }
+
+
+        void InitializeMeteorShowerContainers()
+        {
+            ///SeasonContainer
+            foreach (var gameplaySeason in Db.Get().GameplaySeasons.resources)
+            {
+                if (!(gameplaySeason is MeteorShowerSeason) || gameplaySeason.Id.Contains("Fullerene") || gameplaySeason.Id.Contains("TemporalTear") || gameplaySeason.dlcId != DlcManager.EXPANSION1_ID)
+                    continue;
+                var meteorSeason = gameplaySeason as MeteorShowerSeason;
+
+                var seasonInstanceHolder = Util.KInstantiateUI(SeasonPrefab, ActiveSeasonsContainer, true);
+
+
+                string name = meteorSeason.Name.Replace("MeteorShowers", string.Empty);
+                
+                string description = meteorSeason.events.Count == 0 ? METEORSEASONCYCLE.CONTENT.SEASONTYPENOMETEORSTOOLTIP : METEORSEASONCYCLE.CONTENT.SEASONTYPETOOLTIP;
+
+                foreach (var meteorShower in meteorSeason.events)
+                {
+                    description += "\n • ";
+                    description += Assets.GetPrefab((meteorShower as MeteorShowerEvent).clusterMapMeteorShowerID).GetProperName();// Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
+                }
+                UIUtils.AddSimpleTooltipToObject(seasonInstanceHolder.transform, description);
+                var LocTextName = seasonInstanceHolder.transform.Find("Label").GetComponent<LocText>();
+                LocTextName.fontSizeMax = LocTextName.fontSize;
+                LocTextName.fontSizeMin = LocTextName.fontSize - 7f;
+                LocTextName.enableAutoSizing = true;
+                UIUtils.TryChangeText(seasonInstanceHolder.transform, "Label", name);
+                UIUtils.AddSimpleTooltipToObject(seasonInstanceHolder.transform.Find("Label"), description);
+
+
+                var RemoveButton = seasonInstanceHolder.transform.Find("DeleteButton").gameObject.FindOrAddComponent<FButton>();
+                var SwitchButton = seasonInstanceHolder.transform.Find("SwitchButton").gameObject.FindOrAddComponent<FButton>();
+                UIUtils.AddSimpleTooltipToObject(SwitchButton.transform, METEORSEASONCYCLE.SWITCHTOOTHERSEASONTOOLTIP);
+                UIUtils.AddSimpleTooltipToObject(RemoveButton.transform, METEORSEASONCYCLE.REMOVESEASONTOOLTIP);
+
+
+                RemoveButton.OnClick += () =>
+                {
+                    if (CustomCluster.HasStarmapItem(SelectedPlanet.id, out var item))
+                    {
+                        item.RemoveMeteorSeason(meteorSeason.Id); //SeasonSelectorScreen.InitializeView(lastSelected, () => UpdateUI());
+                    }
+                    RefreshMeteorLists();
+                };
+                SwitchButton.OnClick += () =>
+                {
+                    if (CustomCluster.HasStarmapItem(SelectedPlanet.id, out var item))
+                    {
+                        SeasonSelectorScreen.InitializeView(SelectedPlanet, () => RefreshMeteorLists(), meteorSeason.Id);
+                    }
+                };
+                SeasonTypes[gameplaySeason.Id] = seasonInstanceHolder;
+            }
+
+            ///Shower Container
+            foreach (var gameplayEvent in Db.Get().GameplayEvents.resources)
+            {
+                if (!(gameplayEvent is MeteorShowerEvent) || gameplayEvent.Id.Contains("Fullerene"))
+                    continue;
+                var meteorEvent = gameplayEvent as MeteorShowerEvent;
+                string ClusterEventID = meteorEvent.clusterMapMeteorShowerID;
+
+                ///for those pesky vanilla meteors without starmap entity
+                if (ClusterEventID == null || ClusterEventID == string.Empty)
+                {
+                    continue;
+                }
+
+                var ClusterMapShower = Assets.GetPrefab(ClusterEventID);
+                var showerInstanceHolder = Util.KInstantiateUI(MeteorPrefab, ActiveMeteorsContainer, true);
+
+
+                string name = ClusterMapShower.GetProperName();
+                string description = METEORSEASONCYCLE.SHOWERTOOLTIP;
+                var icon = showerInstanceHolder.transform.Find("TraitImage").GetComponent<Image>();
+                icon.sprite = Def.GetUISprite(Assets.GetPrefab(ClusterEventID)).first;
+
+                var meteortypes = meteorEvent.GetMeteorsInfo();
+                foreach (var meteor in meteortypes)
+                {
+                    description += "\n • ";
+                    description += Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
+                }
+                UIUtils.TryChangeText(showerInstanceHolder.transform, "Label", name);
+                UIUtils.AddSimpleTooltipToObject(showerInstanceHolder.transform, description);
+
+
+                ShowerTypes[gameplayEvent.Id] = showerInstanceHolder;
+            }
+            RefreshMeteorLists();
+        }
+        void InitializeTraitContainer()
+        {
+            foreach (var kvp in ModAssets.AllTraitsWithRandom)
+            {
+                var TraitHolder = Util.KInstantiateUI(TraitPrefab, ActiveTraitsContainer, true);
+                //UIUtils.ListAllChildrenWithComponents(TraitHolder.transform);
+                var RemoveButton = TraitHolder.transform.Find("DeleteButton").gameObject.FindOrAddComponent<FButton>();
+                Strings.TryGet(kvp.Value.name, out var name);
+                Strings.TryGet(kvp.Value.description, out var description);
+
+                var combined = UIUtils.ColorText(name.ToString(), kvp.Value.colorHex);
+
+                string associatedIcon = kvp.Value.filePath.Substring(kvp.Value.filePath.LastIndexOf("/") + 1);
+
+                var icon = TraitHolder.transform.Find("TraitImage").GetComponent<Image>();
+
+                icon.sprite = Assets.GetSprite(associatedIcon);
+                icon.color = Util.ColorFromHex(kvp.Value.colorHex);
+
+                if (kvp.Key.Contains(SpritePatch.randomTraitsTraitIcon))
+                {
+                    combined = UIUtils.RainbowColorText(name.ToString());
+                }
+
+                UIUtils.TryChangeText(TraitHolder.transform, "Label", combined);
+                UIUtils.AddSimpleTooltipToObject(TraitHolder.transform, description);
+                
+                RemoveButton.OnClick += () =>
+                {
+                    if (CustomCluster.HasStarmapItem(SelectedPlanet.id, out var item))
+                    {
+                        item.RemoveWorldTrait(kvp.Value);
+                    }
+                    RefreshTraitList();
+                };
+                Traits[kvp.Value.filePath] = TraitHolder;
+            }
+            RefreshTraitList();
+        }
+
+        public void RefreshMeteorLists()
+        {
+            if (SelectedPlanet == null)
+                return;
+            foreach (var showerHolder in ShowerTypes.Values)
+            {
+                showerHolder.SetActive(false);
+            }
+            foreach (var activeShower in SelectedPlanet.CurrentMeteorShowerTypes)
+            {
+                if (ShowerTypes.ContainsKey(activeShower.Id))
+                    ShowerTypes[activeShower.Id].SetActive(true);
+            }
+
+            foreach (var seasonHolder in SeasonTypes.Values)
+            {
+                seasonHolder.SetActive(false);
+            }
+            foreach (var activeSeason in SelectedPlanet.CurrentMeteorSeasons)
+            {
+                if (SeasonTypes.ContainsKey(activeSeason.Id))
+                    SeasonTypes[activeSeason.Id].SetActive(true);
+            }
+        }
+        public void RefreshTraitList()
+        {
+            if (SelectedPlanet == null)
+                return;
+
+            foreach (var traitContainer in Traits.Values)
+            {
+                traitContainer.SetActive(false);
+            }
+            foreach (var activeTrait in SelectedPlanet.CurrentTraits)
+            {
+                Traits[activeTrait].SetActive(true);
+            }
+        }
+        public static void SetResetButtonStates()
+        {
+            if (ResetButton != null)
+                ResetButton.SetInteractable(!PresetApplied);
+            if (ResetAllButton != null)
+                ResetAllButton.SetInteractable(!PresetApplied);
+        }
+
+        private static bool _presetApplied = false;
+        public static bool PresetApplied
+        {
+            get
+            {
+                return _presetApplied;
+            }
+            set
+            {
+                _presetApplied = value;
+                SetResetButtonStates();
+            }
+        }
+
+        void TryApplyingCoordinates(string msg, bool Height)
+        {
+            if (int.TryParse(msg, out var size))
+            {
+                if (CustomCluster.HasStarmapItem(SelectedPlanet.id, out var current))
+                {
+                    if (size == (Height ? current.CustomPlanetDimensions.Y : current.CustomPlanetDimensions.X))
+                        return;
+
+                    current.ApplyCustomDimension(size, Height);
+                    UpdateSizeLabels(current);
+                }
+            }
+        }
+
+
+        string Warning3 = "EC1802";
+        string Warning2 = "ff8102";
+        string Warning1 = "F6D42A";
+
+        public void UpdateSizeLabels(StarmapItem current)
+        {
+            PlanetSizeWidth.EditTextFromData(current.CustomPlanetDimensions.X.ToString());
+            PlanetSizeHeight.EditTextFromData(current.CustomPlanetDimensions.Y.ToString());
+            PercentageLargerThanTerra(current, out var Percentage);
+            if (Percentage > 200)
+            {
+                AsteroidSizeLabel.text = UIUtils.ColorText(ASTEROIDSIZE.DESCRIPTOR.LABEL, Warning3);
+                AsteroidSizeTooltip.SetSimpleTooltip(UIUtils.ColorText(string.Format(ASTEROIDSIZE.SIZEWARNING, Percentage), Warning3));
+            }
+            else if (Percentage > 100)
+            {
+                AsteroidSizeLabel.text = UIUtils.ColorText(ASTEROIDSIZE.DESCRIPTOR.LABEL, Warning2);
+                AsteroidSizeTooltip.SetSimpleTooltip(UIUtils.ColorText(string.Format(ASTEROIDSIZE.SIZEWARNING, Percentage), Warning2));
+            }
+            else if (Percentage > 33)
+            {
+                AsteroidSizeLabel.text = UIUtils.ColorText(ASTEROIDSIZE.DESCRIPTOR.LABEL, Warning1);
+                AsteroidSizeTooltip.SetSimpleTooltip(UIUtils.ColorText(string.Format(ASTEROIDSIZE.SIZEWARNING, Percentage), Warning1));
+            }
+            else
+            {
+                AsteroidSizeLabel.text = ASTEROIDSIZE.DESCRIPTOR.LABEL;
+                AsteroidSizeTooltip.SetSimpleTooltip(ASTEROIDSIZE.DESCRIPTOR.TOOLTIP);
+            }
+        }
+        void PercentageLargerThanTerra(StarmapItem current, out int dimensions)
+        {
+            float TerraArea = 240 * 380;
+            float CustomSize = current.CustomPlanetDimensions.X * current.CustomPlanetDimensions.Y;
+
+            dimensions = Mathf.RoundToInt((CustomSize / TerraArea) * 100f);
+            dimensions -= 100;
         }
 
 
@@ -361,7 +915,6 @@ namespace ClusterTraitGenerationManager
                 {
                     CGSMClusterManager.TogglePlanetoid(SelectedPlanet);
                     RefreshView();
-                    UpdateForSelected(SelectedPlanet);
                 }
             };
 
@@ -389,27 +942,14 @@ namespace ClusterTraitGenerationManager
                 CategoryIcon.sprite = newSprite;
             }
         }
+
         private void AddCategoryItem(StarmapItemCategory StarmapItemCategory)
         {
             GameObject categoryItem = Util.KInstantiateUI(this.PlanetoidCategoryPrefab, this.categoryListContent, true);
             
-            string categoryName = string.Empty; //CATEGORYENUM
+            string categoryName = ModAssets.Strings.CategoryEnumToName(StarmapItemCategory); //CATEGORYENUM
 
-            switch (StarmapItemCategory)
-            {
-                case StarmapItemCategory.Starter:
-                    categoryName = STRINGS.UI.CUSTOMCLUSTERUI.CATEGORYENUM.START;
-                    break;
-                case StarmapItemCategory.Warp:
-                    categoryName = STRINGS.UI.CUSTOMCLUSTERUI.CATEGORYENUM.WARP;
-                    break;
-                case StarmapItemCategory.Outer:
-                    categoryName = STRINGS.UI.CUSTOMCLUSTERUI.CATEGORYENUM.OUTER;
-                    break;
-                case StarmapItemCategory.POI:
-                    categoryName = STRINGS.UI.CUSTOMCLUSTERUI.CATEGORYENUM.POI;
-                    break;
-            }
+           
 
             categoryItem.transform.Find("Label").GetComponent<LocText>().SetText(categoryName);
             var item = categoryItem.AddOrGet<CategoryItem>();

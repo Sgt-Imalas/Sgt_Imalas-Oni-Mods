@@ -9,7 +9,6 @@ using UtilLibs;
 using UtilLibs.UIcmp;
 using static ClusterTraitGenerationManager.STRINGS.UI;
 using static ClusterTraitGenerationManager.CGSMClusterManager;
-using static ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDTRAITS;
 using UnityEngine.UI;
 using STRINGS;
 using static STRINGS.BUILDINGS.PREFABS.DOOR.CONTROL_STATE;

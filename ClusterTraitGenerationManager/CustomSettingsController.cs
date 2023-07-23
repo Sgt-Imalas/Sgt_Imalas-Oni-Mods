@@ -15,7 +15,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
-using static ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER.BUTTONS;
 using static CustomGameSettings;
 using static SandboxSettings;
 

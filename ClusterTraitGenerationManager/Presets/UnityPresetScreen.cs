@@ -31,7 +31,6 @@ using static BestFit;
 using YamlDotNet.Serialization;
 using static STRINGS.UI.FRONTEND;
 using static ClusterTraitGenerationManager.CGSMClusterManager;
-using static ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS;
 using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS;
 using static STRINGS.DUPLICANTS.TRAITS;
 using static ClusterTraitGenerationManager.CustomClusterSettingsPreset;
@@ -326,7 +325,7 @@ namespace ClusterTraitGenerationManager
             if (CurrentlySelected.StarterPlanet != null)
             {
                 var starterHeader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-                starterHeader.transform.Find("Label").GetComponent<LocText>().text = CUSTOMCLUSTERUI.CATEGORYENUM.START + ":";
+                starterHeader.transform.Find("Label").GetComponent<LocText>().text = CATEGORYENUM.START + ":";
                 StarmapItemContainers.Add(starterHeader);
 
                 CreateUIItemForStarmapItem(CurrentlySelected.StarterPlanet);
@@ -335,7 +334,7 @@ namespace ClusterTraitGenerationManager
             if (CurrentlySelected.WarpPlanet != null)
             {
                 var warpHeader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-                warpHeader.transform.Find("Label").GetComponent<LocText>().text = CUSTOMCLUSTERUI.CATEGORYENUM.WARP + ":";
+                warpHeader.transform.Find("Label").GetComponent<LocText>().text = CATEGORYENUM.WARP + ":";
                 StarmapItemContainers.Add(warpHeader);
 
                 CreateUIItemForStarmapItem(CurrentlySelected.WarpPlanet);
@@ -344,7 +343,7 @@ namespace ClusterTraitGenerationManager
             if (CurrentlySelected.OuterPlanets.Count > 0)
             {
                 var outerHeader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-                outerHeader.transform.Find("Label").GetComponent<LocText>().text = CUSTOMCLUSTERUI.CATEGORYENUM.OUTER + ":";
+                outerHeader.transform.Find("Label").GetComponent<LocText>().text = CATEGORYENUM.OUTER + ":";
                 StarmapItemContainers.Add(outerHeader);
             }
 
@@ -362,7 +361,7 @@ namespace ClusterTraitGenerationManager
                 if (item.category == StarmapItemCategory.POI && reachedPOI == false)
                 {
                     var poi = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-                    poi.transform.Find("Label").GetComponent<LocText>().text = CUSTOMCLUSTERUI.CATEGORYENUM.POI + ":";
+                    poi.transform.Find("Label").GetComponent<LocText>().text = CATEGORYENUM.POI + ":";
                     StarmapItemContainers.Add(poi);
                     reachedPOI = true;
                 }

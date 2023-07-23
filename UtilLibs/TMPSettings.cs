@@ -41,6 +41,13 @@ namespace UtilLibs
 
         [JsonProperty]
         public float[] Color { get; set; }
+
+        [JsonProperty]
+        public bool VariableFontSize { get; set; }
+        [JsonProperty]
+        public float VariableFontSizeMaximum { get; set; }
+        [JsonProperty]
+        public float VariableFontSizeMinimum { get; set; }
     }
 }
 

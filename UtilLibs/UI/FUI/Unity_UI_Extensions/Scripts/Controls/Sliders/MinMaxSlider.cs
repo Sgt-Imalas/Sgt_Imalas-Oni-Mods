@@ -38,6 +38,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine;
 using UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Utilities;
+using UtilLibs.UIcmp;
 
 namespace UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders
 {
@@ -81,6 +82,9 @@ namespace UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders
         public RectTransform MiddleGraphic { get => middleGraphic; set => middleGraphic = value; }
         public TextMeshProUGUI MinText { get => minText; set => minText = value; }
         public TextMeshProUGUI MaxText { get => maxText; set => maxText = value; }
+
+        
+
 
         /// <summary>
         /// Event invoked when either slider value has changed
@@ -137,7 +141,7 @@ namespace UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders
             this.minValue = wholeNumbers ? Mathf.RoundToInt(minValue) : minValue;
             this.maxValue = wholeNumbers ? Mathf.RoundToInt(maxValue) : maxValue;
             SetLimits(minLimit, maxLimit);
-
+            //SgtLogger.l($"min:{minValue}, max: {maxValue}+minlimit:{minLimit}, maxLimit:{maxLimit}");
             RefreshSliders();
             UpdateText();
             UpdateMiddleGraphic();
@@ -269,6 +273,8 @@ namespace UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders
                 UpdateMiddleGraphic();
             }
         }
+
+
 
         public void OnEndDrag(PointerEventData eventData)
         {

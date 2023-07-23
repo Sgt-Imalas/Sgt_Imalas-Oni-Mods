@@ -54,6 +54,9 @@ namespace UtilLibs
                     {
                         LT.gameObject.AddComponent<TMPImportFix>().alignment = data.Alignment;
                     }
+                    LT.autoSizeTextContainer = data.VariableFontSize;
+                    LT.fontSizeMin = data.VariableFontSizeMinimum;
+                    LT.fontSizeMax = data.VariableFontSizeMaximum;
                 }
             }
         }

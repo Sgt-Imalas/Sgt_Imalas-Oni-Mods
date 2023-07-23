@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static ClusterTraitGenerationManager.CGSMClusterManager;
 using static ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS;
 using static STRINGS.CREATURES.STATS;
 
@@ -21,9 +22,56 @@ namespace ClusterTraitGenerationManager
         public static GameObject CustomPlanetSideScreen;
         public static GameObject CGM_MainMenu;
         public static GameObject TraitPopup;
-        public static GameObject PresetScreen; 
-        public static GameObject CustomGameSettings; 
+        public static GameObject PresetScreen;
+        public static GameObject CustomGameSettings;
         public static string CustomClusterTemplatesPath;
+
+
+
+
+        public static class Strings
+        {
+            public static string ApplyCategoryTypeToString(string input, StarmapItem item) => ApplyCategoryTypeToString(input, item.category);
+            public static string ApplyCategoryTypeToString(string input, StarmapItemCategory category)
+            {
+                string returnVal = input.Replace("[STARMAPITEMTYPE]", ItemDescriptor(category, false));
+
+                return returnVal.Replace("[STARMAPITEMTYPEPL]", ItemDescriptor(category, true));
+            }
+
+            public static string CategoryEnumToName(StarmapItemCategory starmapItemCategory)
+            {
+                string categoryName = string.Empty; //CATEGORYENUM
+                switch (starmapItemCategory)
+                {
+                    case StarmapItemCategory.Starter:
+                        categoryName = STRINGS.UI.CATEGORYENUM.START;
+                        break;
+                    case StarmapItemCategory.Warp:
+                        categoryName = STRINGS.UI.CATEGORYENUM.WARP;
+                        break;
+                    case StarmapItemCategory.Outer:
+                        categoryName = STRINGS.UI.CATEGORYENUM.OUTER;
+                        break;
+                    case StarmapItemCategory.POI:
+                        categoryName = STRINGS.UI.CATEGORYENUM.POI;
+                        break;
+                }
+                return categoryName;
+            }
+            public static string ItemDescriptor(StarmapItem item, bool plural = false)
+            {
+                return ItemDescriptor(item.category, plural);
+            }
+            public static string ItemDescriptor(StarmapItemCategory itemCategory, bool plural = false)
+            {
+                if (itemCategory == StarmapItemCategory.POI)
+                    return plural ? STRINGS.UI.STARMAPITEMDESCRIPTOR.POIPLURAL : STRINGS.UI.STARMAPITEMDESCRIPTOR.POI;
+                else
+                    return plural ? STRINGS.UI.STARMAPITEMDESCRIPTOR.ASTEROIDPLURAL : STRINGS.UI.STARMAPITEMDESCRIPTOR.ASTEROID;
+            }
+
+        }
 
         public static void LoadAssets()
         {
@@ -81,7 +129,7 @@ namespace ClusterTraitGenerationManager
             get
             {
                 List<WorldTrait> traits = new List<WorldTrait>();
-                foreach(var trait in AllTraitsWithRandom)
+                foreach (var trait in AllTraitsWithRandom)
                 {
                     traits.Add(trait.Value);
                 }

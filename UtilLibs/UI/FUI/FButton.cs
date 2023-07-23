@@ -124,6 +124,10 @@ namespace UtilLibs.UIcmp //Source: Aki
             {
                 image.color = normalColor;
             }
+            else
+            {
+                button.OnDeselect(null);
+            }
         }
 
         public void OnPointerDown(PointerEventData eventData)

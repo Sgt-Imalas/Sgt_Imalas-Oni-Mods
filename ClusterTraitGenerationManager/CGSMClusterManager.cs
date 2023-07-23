@@ -309,10 +309,10 @@ namespace ClusterTraitGenerationManager
 
         public enum WorldSizePresets
         {
-           // Tiny = 25,
-           // Smaller = 40,
-           // Small = 55,
-            //SlightlySmaller = 75,
+            Tiny = 35,
+            Smaller = 50,
+            Small = 65,
+            SlightlySmaller = 80,
 
             Custom = -1,
             Normal = 100,

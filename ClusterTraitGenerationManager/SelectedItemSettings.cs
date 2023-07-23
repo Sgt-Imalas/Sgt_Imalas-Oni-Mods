@@ -15,10 +15,9 @@ using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
 using static ClusterTraitGenerationManager.CGSMClusterManager;
-using static ClusterTraitGenerationManager.STRINGS.UI;
-using static ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS;
-using static ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDTRAITS;
-using static ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER.BUTTONS;
 using static STRINGS.UI.BUILDCATEGORIES;
 using static STRINGS.UI.UISIDESCREENS.AUTOPLUMBERSIDESCREEN;
 
@@ -175,23 +174,23 @@ namespace ClusterTraitGenerationManager
             PercentageLargerThanTerra(current, out var Percentage);
             if (Percentage > 200)
             {
-                AsteroidSizeLabel.text = UIUtils.ColorText(ASTEROIDSIZEINFO.LABEL, Warning3);
-                AsteroidSizeTooltip.SetSimpleTooltip(UIUtils.ColorText(string.Format(ASTEROIDSIZEINFO.SIZEWARNING, Percentage), Warning3));
+                AsteroidSizeLabel.text = UIUtils.ColorText(ASTEROIDSIZE.DESCRIPTOR.LABEL, Warning3);
+                AsteroidSizeTooltip.SetSimpleTooltip(UIUtils.ColorText(string.Format(ASTEROIDSIZE.SIZEWARNING, Percentage), Warning3));
             }
             else if (Percentage > 100)
             {
-                AsteroidSizeLabel.text = UIUtils.ColorText(ASTEROIDSIZEINFO.LABEL, Warning2);
-                AsteroidSizeTooltip.SetSimpleTooltip(UIUtils.ColorText(string.Format(ASTEROIDSIZEINFO.SIZEWARNING, Percentage), Warning2));
+                AsteroidSizeLabel.text = UIUtils.ColorText(ASTEROIDSIZE.DESCRIPTOR.LABEL, Warning2);
+                AsteroidSizeTooltip.SetSimpleTooltip(UIUtils.ColorText(string.Format(ASTEROIDSIZE.SIZEWARNING, Percentage), Warning2));
             }
             else if (Percentage > 33)
             {
-                AsteroidSizeLabel.text = UIUtils.ColorText(ASTEROIDSIZEINFO.LABEL, Warning1);
-                AsteroidSizeTooltip.SetSimpleTooltip(UIUtils.ColorText(string.Format(ASTEROIDSIZEINFO.SIZEWARNING, Percentage), Warning1));
+                AsteroidSizeLabel.text = UIUtils.ColorText(ASTEROIDSIZE.DESCRIPTOR.LABEL, Warning1);
+                AsteroidSizeTooltip.SetSimpleTooltip(UIUtils.ColorText(string.Format(ASTEROIDSIZE.SIZEWARNING, Percentage), Warning1));
             }
             else
             {
-                AsteroidSizeLabel.text = ASTEROIDSIZEINFO.LABEL;
-                AsteroidSizeTooltip.SetSimpleTooltip(ASTEROIDSIZEINFO.TOOLTIP);
+                AsteroidSizeLabel.text = ASTEROIDSIZE.DESCRIPTOR.LABEL;
+                AsteroidSizeTooltip.SetSimpleTooltip(ASTEROIDSIZE.DESCRIPTOR.TOOLTIP);
             }
         }
         void PercentageLargerThanTerra(StarmapItem current, out int dimensions)
@@ -280,7 +279,7 @@ namespace ClusterTraitGenerationManager
                     }
                 };
 
-            UIUtils.AddSimpleTooltipToObject(StarmapItemEnabled.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.STARMAPITEMENABLED.TOOLTIP);
+            UIUtils.AddSimpleTooltipToObject(StarmapItemEnabled.transform, STARMAPITEMENABLED.TOOLTIP);
 
             NumberToGenerate = transform.Find("AmountSlider/Slider").FindOrAddComponent<FSlider>();
             //UIUtils.FindAndDisable(NumberToGenerate.transform, "Descriptor/Input");
@@ -296,7 +295,7 @@ namespace ClusterTraitGenerationManager
                     UpdateUI();
                 }
             };
-            UIUtils.AddSimpleTooltipToObject(NumberToGenerate.transform.parent.Find("Descriptor"), STRINGS.UI.CGM.INDIVIDUALSETTINGS.AMOUNTSLIDER.DESCRIPTOR.TOOLTIP);
+            UIUtils.AddSimpleTooltipToObject(NumberToGenerate.transform.parent.Find("Descriptor"), AMOUNTSLIDER.DESCRIPTOR.TOOLTIP);
 
             MinimumDistance = transform.Find("MinDistanceSlider/Slider").FindOrAddComponent<FSlider>();
             //UIUtils.FindAndDisable(MinimumDistance.transform, "Descriptor/Input");
@@ -311,7 +310,7 @@ namespace ClusterTraitGenerationManager
                     UpdateUI();
                 }
             };
-            UIUtils.AddSimpleTooltipToObject(MinimumDistance.transform.parent.Find("Descriptor"), STRINGS.UI.CGM.INDIVIDUALSETTINGS.MINDISTANCESLIDER.DESCRIPTOR.TOOLTIP);
+            UIUtils.AddSimpleTooltipToObject(MinimumDistance.transform.parent.Find("Descriptor"), MINMAXDISTANCE.DESCRIPTOR.TOOLTIP);
 
 
             MaximumDistance = transform.Find("MaxDistanceSlider/Slider").FindOrAddComponent<FSlider>();
@@ -327,7 +326,7 @@ namespace ClusterTraitGenerationManager
                     UpdateUI();
                 }
             };
-            UIUtils.AddSimpleTooltipToObject(MaximumDistance.transform.parent.Find("Descriptor"), STRINGS.UI.CGM.INDIVIDUALSETTINGS.MAXDISTANCESLIDER.DESCRIPTOR.TOOLTIP);
+            UIUtils.AddSimpleTooltipToObject(MaximumDistance.transform.parent.Find("Descriptor"), MINMAXDISTANCE.DESCRIPTOR.TOOLTIP);
 
 
             BufferDistance = transform.Find("BufferSlider/Slider").FindOrAddComponent<FSlider>();
@@ -342,7 +341,7 @@ namespace ClusterTraitGenerationManager
                         current.SetBuffer((int)value);
                 }
             };
-            UIUtils.AddSimpleTooltipToObject(BufferDistance.transform.parent.Find("Descriptor"), STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUFFERSLIDER.DESCRIPTOR.TOOLTIP);
+            UIUtils.AddSimpleTooltipToObject(BufferDistance.transform.parent.Find("Descriptor"), BUFFERSLIDER.DESCRIPTOR.TOOLTIP);
 
             ClusterSize = transform.Find("ClusterSize/Slider").FindOrAddComponent<FSlider>();
             //UIUtils.FindAndDisable(ClusterSize.transform, "Descriptor/Input");
@@ -353,14 +352,14 @@ namespace ClusterTraitGenerationManager
                 CustomCluster.SetRings((int)value);
                 UpdateUI();
             };
-            UIUtils.AddSimpleTooltipToObject(ClusterSize.transform.parent.Find("Descriptor"), STRINGS.UI.CGM.INDIVIDUALSETTINGS.CLUSTERSIZE.DESCRIPTOR.TOOLTIP);
+            //UIUtils.AddSimpleTooltipToObject(ClusterSize.transform.parent.Find("Descriptor"), CLUSTERSIZE.DESCRIPTOR.TOOLTIP);
 
 
             AsteroidSize = transform.Find("AsteroidSizeCycle").gameObject;
             AsteroidSizeLabel = AsteroidSize.transform.Find("Label").GetComponent<LocText>();
-            AsteroidSizeTooltip = UIUtils.AddSimpleTooltipToObject(AsteroidSize.transform.Find("Label"), STRINGS.UI.CGM.INDIVIDUALSETTINGS.ASTEROIDSIZEINFO.TOOLTIP);
-            UIUtils.TryChangeText(AsteroidSize.transform, "Info/WidthLabel/Label", ASTEROIDSIZEINFO.WIDTH);
-            UIUtils.TryChangeText(AsteroidSize.transform, "Info/HeightLabel/Label", ASTEROIDSIZEINFO.HEIGHT);
+            AsteroidSizeTooltip = UIUtils.AddSimpleTooltipToObject(AsteroidSize.transform.Find("Label"), ASTEROIDSIZE.DESCRIPTOR.TOOLTIP);
+           // UIUtils.TryChangeText(AsteroidSize.transform, "Info/WidthLabel/Label", ASTEROIDSIZEINFO.WIDTH);
+            //UIUtils.TryChangeText(AsteroidSize.transform, "Info/HeightLabel/Label", ASTEROIDSIZEINFO.HEIGHT);
 
             PlanetSizeWidth = AsteroidSize.transform.Find("Info/WidthLabel/Input").FindOrAddComponent<FInputField2>();
             PlanetSizeWidth.inputField.onEndEdit.AddListener((string sizestring) => TryApplyingCoordinates(sizestring, false));
@@ -379,17 +378,17 @@ namespace ClusterTraitGenerationManager
 
             PlanetSizeCycle.Options = new List<FCycle.Option>()
             {
-               // new FCycle.Option(WorldSizePresets.Tiny.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE0, ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE0TOOLTIP),
-               // new FCycle.Option(WorldSizePresets.Smaller.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE1, ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE1TOOLTIP),
-               // new FCycle.Option(WorldSizePresets.Small.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE2, ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE2TOOLTIP),
-               // new FCycle.Option(WorldSizePresets.SlightlySmaller.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE3, ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE3TOOLTIP),
+                new FCycle.Option(WorldSizePresets.Tiny.ToString(), ASTEROIDSIZE.SIZESELECTOR.NEGSIZE0, ASTEROIDSIZE.SIZESELECTOR.NEGSIZE0TOOLTIP),
+                new FCycle.Option(WorldSizePresets.Smaller.ToString(), ASTEROIDSIZE.SIZESELECTOR.NEGSIZE1, ASTEROIDSIZE.SIZESELECTOR.NEGSIZE1TOOLTIP),
+                new FCycle.Option(WorldSizePresets.Small.ToString(), ASTEROIDSIZE.SIZESELECTOR.NEGSIZE2, ASTEROIDSIZE.SIZESELECTOR.NEGSIZE2TOOLTIP),
+                new FCycle.Option(WorldSizePresets.SlightlySmaller.ToString(), ASTEROIDSIZE.SIZESELECTOR.NEGSIZE3, ASTEROIDSIZE.SIZESELECTOR.NEGSIZE3TOOLTIP),
 
-                new FCycle.Option(WorldSizePresets.Normal.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.SIZE0, ASTEROIDSIZEINFO.SIZESELECTOR.SIZE0TOOLTIP),
-                new FCycle.Option(WorldSizePresets.SlightlyLarger.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.SIZE1, ASTEROIDSIZEINFO.SIZESELECTOR.SIZE1TOOLTIP),
-                new FCycle.Option(WorldSizePresets.Large.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.SIZE2, ASTEROIDSIZEINFO.SIZESELECTOR.SIZE2TOOLTIP),
-                new FCycle.Option(WorldSizePresets.Huge.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.SIZE3, ASTEROIDSIZEINFO.SIZESELECTOR.SIZE3TOOLTIP),
-                new FCycle.Option(WorldSizePresets.Massive.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.SIZE4, ASTEROIDSIZEINFO.SIZESELECTOR.SIZE4TOOLTIP),
-                new FCycle.Option(WorldSizePresets.Enormous.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.SIZE5, ASTEROIDSIZEINFO.SIZESELECTOR.SIZE5TOOLTIP),
+                new FCycle.Option(WorldSizePresets.Normal.ToString(), ASTEROIDSIZE.SIZESELECTOR.SIZE0, ASTEROIDSIZE.SIZESELECTOR.SIZE0TOOLTIP),
+                new FCycle.Option(WorldSizePresets.SlightlyLarger.ToString(), ASTEROIDSIZE.SIZESELECTOR.SIZE1, ASTEROIDSIZE.SIZESELECTOR.SIZE1TOOLTIP),
+                new FCycle.Option(WorldSizePresets.Large.ToString(), ASTEROIDSIZE.SIZESELECTOR.SIZE2, ASTEROIDSIZE.SIZESELECTOR.SIZE2TOOLTIP),
+                new FCycle.Option(WorldSizePresets.Huge.ToString(), ASTEROIDSIZE.SIZESELECTOR.SIZE3, ASTEROIDSIZE.SIZESELECTOR.SIZE3TOOLTIP),
+                new FCycle.Option(WorldSizePresets.Massive.ToString(), ASTEROIDSIZE.SIZESELECTOR.SIZE4, ASTEROIDSIZE.SIZESELECTOR.SIZE4TOOLTIP),
+                new FCycle.Option(WorldSizePresets.Enormous.ToString(), ASTEROIDSIZE.SIZESELECTOR.SIZE5, ASTEROIDSIZE.SIZESELECTOR.SIZE5TOOLTIP),
             };
 
             PlanetSizeCycle.OnChange += () =>
@@ -420,13 +419,13 @@ namespace ClusterTraitGenerationManager
                 //new FCycle.Option(WorldSizePresets.Small.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE2, ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE2TOOLTIP),
                 //new FCycle.Option(WorldSizePresets.SlightlySmaller.ToString(), ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE3, ASTEROIDSIZEINFO.SIZESELECTOR.NEGSIZE3TOOLTIP),
                 
-                new FCycle.Option(WorldRatioPresets.LotWider.ToString(), ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE3, ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE3TOOLTIP),
-                new FCycle.Option(WorldRatioPresets.Wider.ToString(), ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE2, ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE2TOOLTIP),
-                new FCycle.Option(WorldRatioPresets.SlightlyWider.ToString(), ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE1, ASTEROIDSIZEINFO.RATIOSELECTOR.WIDE1TOOLTIP),
-                new FCycle.Option(WorldRatioPresets.Normal.ToString(), ASTEROIDSIZEINFO.RATIOSELECTOR.NORMAL, ASTEROIDSIZEINFO.RATIOSELECTOR.NORMALTOOLTIP),
-                new FCycle.Option(WorldRatioPresets.SlightlyTaller.ToString(), ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT1, ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT1TOOLTIP),
-                new FCycle.Option(WorldRatioPresets.Taller.ToString(), ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT2, ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT2TOOLTIP),
-                new FCycle.Option(WorldRatioPresets.LotTaller.ToString(), ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT3, ASTEROIDSIZEINFO.RATIOSELECTOR.HEIGHT3TOOLTIP),
+                new FCycle.Option(WorldRatioPresets.LotWider.ToString(), ASTEROIDSIZE.RATIOSELECTOR.WIDE3, ASTEROIDSIZE.RATIOSELECTOR.WIDE3TOOLTIP),
+                new FCycle.Option(WorldRatioPresets.Wider.ToString(), ASTEROIDSIZE.RATIOSELECTOR.WIDE2, ASTEROIDSIZE.RATIOSELECTOR.WIDE2TOOLTIP),
+                new FCycle.Option(WorldRatioPresets.SlightlyWider.ToString(), ASTEROIDSIZE.RATIOSELECTOR.WIDE1, ASTEROIDSIZE.RATIOSELECTOR.WIDE1TOOLTIP),
+                new FCycle.Option(WorldRatioPresets.Normal.ToString(), ASTEROIDSIZE.RATIOSELECTOR.NORMAL, ASTEROIDSIZE.RATIOSELECTOR.NORMALTOOLTIP),
+                new FCycle.Option(WorldRatioPresets.SlightlyTaller.ToString(), ASTEROIDSIZE.RATIOSELECTOR.HEIGHT1, ASTEROIDSIZE.RATIOSELECTOR.HEIGHT1TOOLTIP),
+                new FCycle.Option(WorldRatioPresets.Taller.ToString(), ASTEROIDSIZE.RATIOSELECTOR.HEIGHT2, ASTEROIDSIZE.RATIOSELECTOR.HEIGHT2TOOLTIP),
+                new FCycle.Option(WorldRatioPresets.LotTaller.ToString(), ASTEROIDSIZE.RATIOSELECTOR.HEIGHT3, ASTEROIDSIZE.RATIOSELECTOR.HEIGHT3TOOLTIP),
             };
             PlanetRazioCycle.Value = WorldRatioPresets.Normal.ToString();
 
@@ -452,7 +451,7 @@ namespace ClusterTraitGenerationManager
             SeasonPrefab = transform.Find("MeteorSeasonCycle/Seasons/SeasonScrollArea/Content/ListViewEntryPrefab").gameObject;
 
             AddSeasonButton = transform.Find("MeteorSeasonCycle/Seasons/SeasonScrollArea/Content/AddSeasonButton").FindOrAddComponent<FButton>();
-            UIUtils.AddSimpleTooltipToObject(AddSeasonButton.transform, METEORSEASON.ADDNEWSEASONTOOLTIP);
+            ///UIUtils.AddSimpleTooltipToObject(AddSeasonButton.transform, METEORSEASONCYCLE.DESCRIPTOR.ADDNEWSEASONTOOLTIP);
 
             AddSeasonButton.OnClick += () =>
             {
@@ -466,7 +465,7 @@ namespace ClusterTraitGenerationManager
                 TraitSelectorScreen.InitializeView(lastSelected, () => UpdateUI());
             };
 
-            UIUtils.AddSimpleTooltipToObject(MeteorSelector.transform.Find("Title"), STRINGS.UI.CGM.INDIVIDUALSETTINGS.METEORSEASON.TOOLTIP);
+            UIUtils.AddSimpleTooltipToObject(MeteorSelector.transform.Find("Title"), METEORSEASONCYCLE.DESCRIPTOR.TOOLTIP);
 
             AsteroidTraits = transform.Find("AsteroidTraits").gameObject;
             ActiveTraitsContainer = transform.Find("AsteroidTraits/ListView/Content").gameObject;
@@ -512,12 +511,12 @@ namespace ClusterTraitGenerationManager
 
 
 
-            UIUtils.AddSimpleTooltipToObject(ResetAllButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.RESETCLUSTERBUTTON.TOOLTIP, true, onBottom:true);
-            UIUtils.AddSimpleTooltipToObject(ResetButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.RESETSELECTIONBUTTON.TOOLTIP, true, onBottom: true);
-            UIUtils.AddSimpleTooltipToObject(GenerateClusterButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.GENERATECLUSTERBUTTON.TOOLTIP, true, onBottom: true);
-            UIUtils.AddSimpleTooltipToObject(ReturnButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.RETURNBUTTON.TOOLTIP, true, onBottom: true);
-            UIUtils.AddSimpleTooltipToObject(SettingsButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.SETTINGSBUTTON.TOOLTIP, true, onBottom: true);
-            UIUtils.AddSimpleTooltipToObject(PresetsButton.transform, STRINGS.UI.CGM.INDIVIDUALSETTINGS.BUTTONS.PRESETBUTTON.TOOLTIP, true, onBottom: true);
+            UIUtils.AddSimpleTooltipToObject(ResetAllButton.transform, RESETCLUSTERBUTTON.TOOLTIP, true, onBottom:true);
+            UIUtils.AddSimpleTooltipToObject(ResetButton.transform, RESETSELECTIONBUTTON.TOOLTIP, true, onBottom: true);
+            UIUtils.AddSimpleTooltipToObject(GenerateClusterButton.transform, GENERATECLUSTERBUTTON.TOOLTIP, true, onBottom: true);
+            UIUtils.AddSimpleTooltipToObject(ReturnButton.transform, RETURNBUTTON.TOOLTIP, true, onBottom: true);
+            UIUtils.AddSimpleTooltipToObject(SettingsButton.transform, SETTINGSBUTTON.TOOLTIP, true, onBottom: true);
+            UIUtils.AddSimpleTooltipToObject(PresetsButton.transform, PRESETBUTTON.TOOLTIP, true, onBottom: true);
 
             SgtLogger.Assert("AsteroidSize", AsteroidSize);
             //SgtLogger.Assert("AsteroidSizeLabel", AsteroidSizeLabel);
@@ -569,28 +568,30 @@ namespace ClusterTraitGenerationManager
 
 
                 string name = meteorSeason.Name.Replace("MeteorShowers", string.Empty);
-                string description = meteorSeason.events.Count == 0 ? METEORSEASON.SEASONSELECTOR.SEASONTYPENOMETEORSTOOLTIP : METEORSEASON.SEASONSELECTOR.SEASONTYPETOOLTIP;
+                ///string description = meteorSeason.events.Count == 0 ? METEORSEASONCYCLE.DESCRIPTOR.SEASONSELECTOR.SEASONTYPENOMETEORSTOOLTIP : METEORSEASON.SEASONSELECTOR.SEASONTYPETOOLTIP;
+                
+                
                 // var icon = showerInstanceHolder.transform.Find("Label/TraitImage").GetComponent<Image>();
                 // icon.sprite = Def.GetUISprite(Assets.GetPrefab(ClusterEventID)).first;
 
                 foreach (var meteorShower in meteorSeason.events)
                 {
-                    description += "\n • ";
-                    description += Assets.GetPrefab((meteorShower as MeteorShowerEvent).clusterMapMeteorShowerID).GetProperName();// Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
+                    ///description += "\n • ";
+                    ///description += Assets.GetPrefab((meteorShower as MeteorShowerEvent).clusterMapMeteorShowerID).GetProperName();// Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
                 }
-                UIUtils.AddSimpleTooltipToObject(seasonInstanceHolder.transform, description);
+                ///UIUtils.AddSimpleTooltipToObject(seasonInstanceHolder.transform, description);
                 var LocTextName = seasonInstanceHolder.transform.Find("Label").GetComponent<LocText>();
                 LocTextName.fontSizeMax = LocTextName.fontSize;
                 LocTextName.fontSizeMin = LocTextName.fontSize-6f;
                 LocTextName.enableAutoSizing= true;
                 UIUtils.TryChangeText(seasonInstanceHolder.transform, "Label", name);
-                UIUtils.AddSimpleTooltipToObject(seasonInstanceHolder.transform.Find("Label"), description);
+                ///UIUtils.AddSimpleTooltipToObject(seasonInstanceHolder.transform.Find("Label"), description);
 
 
                 var RemoveButton = seasonInstanceHolder.transform.Find("DeleteButton").gameObject.FindOrAddComponent<FButton>();
                 var SwitchButton = seasonInstanceHolder.transform.Find("SwitchButton").gameObject.FindOrAddComponent<FButton>();
-                UIUtils.AddSimpleTooltipToObject(SwitchButton.transform, METEORSEASON.SWITCHTOOTHERSEASONTOOLTIP);
-                UIUtils.AddSimpleTooltipToObject(RemoveButton.transform, METEORSEASON.REMOVESEASONTOOLTIP);
+                ///UIUtils.AddSimpleTooltipToObject(SwitchButton.transform, METEORSEASON.SWITCHTOOTHERSEASONTOOLTIP);
+                ///UIUtils.AddSimpleTooltipToObject(RemoveButton.transform, METEORSEASON.REMOVESEASONTOOLTIP);
 
 
                 RemoveButton.OnClick += () =>
@@ -632,15 +633,15 @@ namespace ClusterTraitGenerationManager
 
 
                 string name = ClusterMapShower.GetProperName();
-                string description = METEORSEASON.SHOWERTOOLTIP;
+                ///string description = METEORSEASON.SHOWERTOOLTIP;
                 var icon = showerInstanceHolder.transform.Find("Label/TraitImage").GetComponent<Image>();
                 icon.sprite = Def.GetUISprite(Assets.GetPrefab(ClusterEventID)).first;
 
                 var meteortypes = meteorEvent.GetMeteorsInfo();
                 foreach (var meteor in meteortypes)
                 {
-                    description += "\n • ";
-                    description += Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
+                    ///description += "\n • ";
+                    /// description += Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
                 }
                 //icon.color = Util.ColorFromHex(kvp.Value.colorHex);
 
@@ -649,7 +650,7 @@ namespace ClusterTraitGenerationManager
                 //    name = UIUtils.RainbowColorText(name.ToString());
                 //}
                 UIUtils.TryChangeText(showerInstanceHolder.transform, "Label", name);
-                UIUtils.AddSimpleTooltipToObject(showerInstanceHolder.transform, description);
+                /// UIUtils.AddSimpleTooltipToObject(showerInstanceHolder.transform, description);
 
 
                 ShowerTypes[gameplayEvent.Id] = showerInstanceHolder;

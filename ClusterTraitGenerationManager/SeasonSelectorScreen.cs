@@ -10,7 +10,8 @@ using UtilLibs.UIcmp;
 using static ClusterTraitGenerationManager.CGSMClusterManager;
 using UnityEngine.UI;
 using Klei.AI;
-using static ClusterTraitGenerationManager.STRINGS.UI.CGM.INDIVIDUALSETTINGS;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER;
 
 namespace ClusterTraitGenerationManager
 {
@@ -70,8 +71,8 @@ namespace ClusterTraitGenerationManager
                 OnCloseAction.Invoke();
                 Show(false);
             };
-            UIUtils.TryChangeText(transform, "Text", METEORSEASON.SEASONSELECTOR.TITEL);
-            UIUtils.TryChangeText(PossibleSeasonContainer.transform, "NoTraitAvailable/Label", METEORSEASON.SEASONSELECTOR.NOSEASONTYPESAVAILABLE);
+            ///UIUtils.TryChangeText(transform, "Text", METEORSEASONCYCLE.SEASONSELECTOR.TITEL);
+            ///  UIUtils.TryChangeText(PossibleSeasonContainer.transform, "NoTraitAvailable/Label", METEORSEASONCYCLE.SEASONSELECTOR.NOSEASONTYPESAVAILABLE);
 
 
             InitializeTraitContainer();
@@ -96,14 +97,14 @@ namespace ClusterTraitGenerationManager
 
 
                 string name = meteorSeason.Name.Replace("MeteorShowers", string.Empty);
-                string description = meteorSeason.events.Count == 0 ? METEORSEASON.SEASONSELECTOR.SEASONTYPENOMETEORSTOOLTIP : METEORSEASON.SEASONSELECTOR.SEASONTYPETOOLTIP; 
-                
+                ///string description = meteorSeason.events.Count == 0 ? METEORSEASONCYCLE.SEASONSELECTOR.SEASONTYPENOMETEORSTOOLTIP : METEORSEASONCYCLE.SEASONSELECTOR.SEASONTYPETOOLTIP; 
+
                 foreach (var meteorShower in meteorSeason.events)
                 {
-                    description += "\n • ";
-                    description += Assets.GetPrefab((meteorShower as MeteorShowerEvent).clusterMapMeteorShowerID).GetProperName();// Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
+                    /// description += "\n • ";
+                    /// description += Assets.GetPrefab((meteorShower as MeteorShowerEvent).clusterMapMeteorShowerID).GetProperName();// Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
                 }
-                UIUtils.AddSimpleTooltipToObject(seasonInstanceHolder.transform, description);
+                /// UIUtils.AddSimpleTooltipToObject(seasonInstanceHolder.transform, description);
 
                 var icon = seasonInstanceHolder.transform.Find("Label/TraitImage").GetComponent<Image>();
                 icon.gameObject.SetActive(false);
@@ -111,7 +112,7 @@ namespace ClusterTraitGenerationManager
                 UIUtils.TryChangeText(seasonInstanceHolder.transform, "Label", name);
 
                 var AddTraitButton = seasonInstanceHolder.transform.Find("AddThisTraitButton").gameObject.FindOrAddComponent<FButton>();
-                seasonInstanceHolder.transform.Find("AddThisTraitButton/Text").gameObject.FindOrAddComponent<LocText>().text = METEORSEASON.SEASONSELECTOR.ADDSEASONTYPEBUTTONLABEL;
+                ///seasonInstanceHolder.transform.Find("AddThisTraitButton/Text").gameObject.FindOrAddComponent<LocText>().text = METEORSEASONCYCLE.SEASONSELECTOR.ADDSEASONTYPEBUTTONLABEL;
 
                 AddTraitButton.OnClick += () =>
                 {
