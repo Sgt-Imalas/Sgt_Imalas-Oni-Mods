@@ -28,6 +28,14 @@ namespace ClusterTraitGenerationManager
 {
     public class CGSMClusterManager
     {
+        public const float MaxAmountPOI = 5f;
+        public const float MaxAmountRandomPOI = 32f; //TODO: dynamic scale with map size
+        public const float MaxAmountRandomPlanet = 6f;
+        public const string RandomKey = "CGM_RANDOM_";
+        static Dictionary<string, StarmapItem> PlanetsAndPOIs = null;
+        static List<string> RandomOuterPlanets = new List<string>();
+
+        public const int ringMax = 25, ringMin = 6;
         public static GameObject Screen = null;
 
         public static ColonyDestinationSelectScreen selectScreen;
@@ -119,7 +127,7 @@ namespace ClusterTraitGenerationManager
             POI
         }
 
-        public const int ringMax = 25, ringMin = 6;
+
         public class CustomClusterData
         {
             int GetAdjustedOuterExpansion()
@@ -1570,16 +1578,6 @@ namespace ClusterTraitGenerationManager
             }
 
         }
-
-        public const float MaxAmountPOI = 5f;
-        public const float MaxAmountRandomPOI = 32f;
-        public const float MaxAmountRandomPlanet = 6f;
-        public const string RandomKey = "CGM_RANDOM_";
-        static Dictionary<string, StarmapItem> PlanetsAndPOIs = null;
-
-
-        static List<string> RandomOuterPlanets = new List<string>();
-
         public static StarmapItem GetRandomItemOfType(StarmapItemCategory starmapItemCategory)
         {
             List<StarmapItem> items = PlanetoidDict().Values.ToList().FindAll(item => item.category == starmapItemCategory);

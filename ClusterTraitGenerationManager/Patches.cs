@@ -1022,7 +1022,7 @@ namespace ClusterTraitGenerationManager
                 && (item.CurrentSizeMultiplier < 1)
                 )
             {
-                SgtLogger.l($"changed input float: {inputNumber}, multiplied: {item.ApplySizeMultiplierToValue((float)inputNumber)}");
+                SgtLogger.l($"changed input float: {inputNumber}, multiplied: {item.ApplySizeMultiplierToValue((float)inputNumber)}","CGM WorldgenModifier");
 
                     return item.ApplySizeMultiplierToValue((float)inputNumber);
             }
@@ -1036,7 +1036,7 @@ namespace ClusterTraitGenerationManager
                 && (item.CurrentSizeMultiplier < 1))
             {
 
-                SgtLogger.l($"changed input int: {inputNumber}, multiplied: {item.ApplySizeMultiplierToValue((float)inputNumber)}");
+                SgtLogger.l($"changed input int: {inputNumber}, multiplied: {item.ApplySizeMultiplierToValue((float)inputNumber)}", "CGM WorldgenModifier");
                 
                 
                 return Mathf.RoundToInt(item.ApplySizeMultiplierToValue((float)inputNumber));
@@ -1064,7 +1064,7 @@ namespace ClusterTraitGenerationManager
                 {
                     if (OriginalPlanetSizes.ContainsKey(world.Key))
                     {
-                        SgtLogger.l("Resetting custom planet size to " + world.Key + ", new size: " + OriginalPlanetSizes[world.Key].X + "x" + OriginalPlanetSizes[world.Key].Y);
+                        SgtLogger.l("Resetting custom planet size to " + world.Key + ", new size: " + OriginalPlanetSizes[world.Key].X + "x" + OriginalPlanetSizes[world.Key].Y, "CGM WorldgenModifier");
                         world.Value.worldsize = OriginalPlanetSizes[world.Key];
                     }
                 }
@@ -1095,7 +1095,7 @@ namespace ClusterTraitGenerationManager
                                 // value.defaultsOverrides.data["OverworldDensityMin"] = (int)item.ApplySizeMultiplierToValue(int.Parse(value.defaultsOverrides.data["OverworldDensityMin"].ToString()));
                                 // value.defaultsOverrides.data["OverworldDensityMax"] = (int)item.ApplySizeMultiplierToValue(int.Parse(value.defaultsOverrides.data["OverworldDensityMax"].ToString()));
 
-                                SgtLogger.l("Applied custom planet size to " + item.DisplayName + ", new size: " + newDimensions.X + "x" + newDimensions.Y);
+                                SgtLogger.l("Applied custom planet size to " + item.DisplayName + ", new size: " + newDimensions.X + "x" + newDimensions.Y, "CGM WorldgenModifier");
                             }
                         }
                         else if (OriginalPlanetSizes.ContainsKey(name))
@@ -1150,7 +1150,7 @@ namespace ClusterTraitGenerationManager
                                 if(newGeyserAmount > 1)
                                 {
                                     WorldTemplateRule.times = Mathf.RoundToInt(newGeyserAmount);
-                                    SgtLogger.l("new Geyser amount above/equal to 1, rounding to " + Mathf.RoundToInt(newGeyserAmount));
+                                    SgtLogger.l("new Geyser amount above/equal to 1, rounding to " + Mathf.RoundToInt(newGeyserAmount), "CGM WorldgenModifier");
                                 }
                                 else
                                 {
@@ -1160,12 +1160,12 @@ namespace ClusterTraitGenerationManager
                                     SgtLogger.l("rolled: " + chance);
                                     if (chance <= newGeyserAmount)
                                     {
-                                        SgtLogger.l("roll succeeded: " + chance * 100f, "POI Chance: " + newGeyserAmount.ToString("P"));
+                                        SgtLogger.l("roll succeeded: " + chance * 100f, "POI Chance: " + newGeyserAmount.ToString("P"), "CGM WorldgenModifier");
                                         WorldTemplateRule.times = 1;
                                     }
                                     else
                                     {
-                                        SgtLogger.l("roll failed: " + chance * 100f, "POI Chance: " + newGeyserAmount.ToString("P"));
+                                        SgtLogger.l("roll failed: " + chance * 100f, "POI Chance: " + newGeyserAmount.ToString("P"), "CGM WorldgenModifier");
                                         WorldTemplateRule.times = 0;
                                     }
                                 }
