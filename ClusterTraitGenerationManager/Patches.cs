@@ -1160,12 +1160,12 @@ namespace ClusterTraitGenerationManager
                                     SgtLogger.l("rolled: " + chance);
                                     if (chance <= newGeyserAmount)
                                     {
-                                        SgtLogger.l("roll succeeded: " + chance * 100f, "POI Chance: " + newGeyserAmount.ToString("P"), "CGM WorldgenModifier");
+                                        SgtLogger.l("roll succeeded: " + chance * 100f, "POI Chance: " + newGeyserAmount.ToString("P"));
                                         WorldTemplateRule.times = 1;
                                     }
                                     else
                                     {
-                                        SgtLogger.l("roll failed: " + chance * 100f, "POI Chance: " + newGeyserAmount.ToString("P"), "CGM WorldgenModifier");
+                                        SgtLogger.l("roll failed: " + chance * 100f, "POI Chance: " + newGeyserAmount.ToString("P"));
                                         WorldTemplateRule.times = 0;
                                     }
                                 }
