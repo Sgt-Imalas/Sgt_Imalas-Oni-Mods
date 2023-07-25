@@ -202,7 +202,7 @@ namespace Rockets_TinyYetBig.Patches
                     {
                         var myDestination = manager.clustercraft.ModuleInterface.GetClusterDestinationSelector().GetDestination();
 
-                        foreach (var docked in manager.DockingDoors)
+                        foreach (var docked in manager.IDockables)
                         {
                             if (docked.Value == -1)
                                 continue;

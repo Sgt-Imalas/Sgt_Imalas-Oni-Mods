@@ -11,96 +11,39 @@ using UtilLibs;
 namespace Rockets_TinyYetBig.Behaviours
 {
     [SerializationConfig(MemberSerialization.OptIn)]
-    public class DockingDoor : KMonoBehaviour, ISidescreenButtonControl
+    public class DockingDoor : IDockable, ISidescreenButtonControl
     {
         /// <summary>
         /// Transfer Storages
         /// </summary>
 
+        public CellOffset porterOffset = new CellOffset(0, 0);
 
-
-        [MyCmpGet]
-        public Assignable assignable;
-
-
-        [MyCmpGet]
-        public NavTeleporter Teleporter;
-        [MyCmpGet]
-        public MoveToDocked MoveTo; 
-
-        [Serialize]
-        Ref<DockingDoor> connected = null;
-
-        public CellOffset porterOffset = new CellOffset(0,0);
-
-        public DockingManager dManager;
-
-        public CraftModuleInterface GetCraftModuleInterface()
+        public override void ConnecDockable(IDockable d)
         {
-            return GetWorldObject().GetComponent<CraftModuleInterface>();
-        }
-        public CraftModuleInterface GetDockedCraftModuleInterface()
-        {
-            if (connected == null)
-                return null;
-            else
+            base.ConnecDockable (d);
+
+            if (connected.Get().HasDupeTeleporter)
             {
-                if (connected.Get() != null && connected.Get().GetWorldObject() != null && connected.Get().GetWorldObject().TryGetComponent<CraftModuleInterface>(out var interfac))
-                    return interfac;
-                return null;
+                Teleporter.SetTarget(d.Teleporter);
+                assignable.canBeAssigned = true;
             }
-        }
-
-        public void ConnecDoor(DockingDoor d)
-        {
-            // SgtLogger.debuglog("Door: " + d);
-            this.Trigger((int)GameHashes.RocketLanded);
-            d.Trigger((int)GameHashes.RocketLanded);
-            this.Trigger((int)GameHashes.ChainedNetworkChanged);
-            connected = new Ref<DockingDoor>(d);
-            Teleporter.SetTarget(d.Teleporter);
             if (!this.gameObject.IsNullOrDestroyed() && gameObject.TryGetComponent<KBatchedAnimController>(out var kanim))
             {
                 kanim.Play("extending");
                 kanim.Queue("extended");
             }
-            assignable.canBeAssigned = true;
             //DetailsScreen.Instance.Refresh(gameObject);
         }
 
-        public bool IsConnected => GetConnec() != null;
 
-        public DockingDoor GetConnec()
-        {
-            if(connected!=null)
-                return connected.Get();
-            return null;
-        }
-
-        public int GetConnectedTargetWorldId()
-        {
-            if (connected != null)
-                return connected.Get().GetMyWorldId();
-            return -1;
-        }
-
-        public void DisconnecDoor(bool skipanim = false)
+        public override void DisconnecDoor(bool skipanim = false)
         {
 #if DEBUG
             SgtLogger.debuglog(dManager.GetWorldId() + " disconneccted from " + connected.Get().dManager.GetWorldId());
 #endif
+            base.DisconnecDoor(skipanim);
 
-            this.Trigger((int)GameHashes.RocketLaunched);
-            this.Trigger((int)GameHashes.ChainedNetworkChanged);
-            if (this.gameObject.IsNullOrDestroyed())
-            {
-                SgtLogger.l("wasdestroyed");
-                return;
-            }
-
-            if (gameObject == null || assignable == null || Teleporter == null) return;
-
-            connected = null;
             assignable.Unassign();
             assignable.canBeAssigned = false;
             Teleporter.SetTarget(null);
@@ -141,18 +84,11 @@ namespace Rockets_TinyYetBig.Behaviours
         public override void OnSpawn()
         {
             base.OnSpawn();
-            //dManager = ModAssets.Dockables.Items.Find(item => item.GetWorldId() == worldId);//GetRocket().GetComponent<DockingdManager>();
-            dManager = ClusterUtil.GetMyWorld(this.gameObject).gameObject.AddOrGet<DockingManager>();
-
-            Teleporter.offset = GetRotatedOffset();
-            Teleporter.OnCellChanged();
-
-            dManager.AddDoor(this);
-            dManager.SetManagerType();
             string startKanim = string.Empty;
-            if (connected != null && connected.Get() != null && connected.Get().Teleporter != null)
+            if (connected != null && connected.Get() != null)
             {
-                Teleporter.SetTarget(connected.Get().Teleporter);
+                if (connected.Get().HasDupeTeleporter)
+                    Teleporter.SetTarget(connected.Get().Teleporter);
                 startKanim = ("extended");
                 assignable.canBeAssigned = true;
             }
@@ -166,18 +102,6 @@ namespace Rockets_TinyYetBig.Behaviours
             {
                 kanim.Play(startKanim);
             }
-        }
-
-        public override void OnCleanUp()
-        {
-            dManager.RemoveDoor(this);
-            base.OnCleanUp();
-        }
-
-        private GameObject GetWorldObject()
-        {
-            WorldContainer world = ClusterManager.Instance.GetWorld(dManager.WorldId);
-            return world == null ? null : world.gameObject;
         }
 
         #region Sidescreen

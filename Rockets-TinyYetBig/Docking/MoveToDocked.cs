@@ -67,10 +67,11 @@ namespace Rockets_TinyYetBig.Docking
         {
             var connectedDoor = door.GetConnec();
 
-            if (connectedDoor != null)
+
+            if (connectedDoor != null && connectedDoor.HasDupeTeleporter )
             {
                 var nav = worker.GetComponent<Navigator>();
-                int targetCell = connectedDoor.GetPorterCell();
+                int targetCell = (connectedDoor as DockingDoor).GetPorterCell();
 
                 MoveToLocationMonitor.Instance smi = nav.GetSMI<MoveToLocationMonitor.Instance>();
                 if (nav.CanReach(targetCell) && smi != null)
