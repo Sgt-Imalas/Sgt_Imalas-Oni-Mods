@@ -39,7 +39,7 @@ namespace ClusterTraitGenerationManager
         public static GameObject Screen = null;
 
         public static ColonyDestinationSelectScreen selectScreen;
-
+        public static StarmapItem RandomPOIStarmapItem = null;
         public static bool LoadCustomCluster
         {
             get
@@ -310,6 +310,8 @@ namespace ClusterTraitGenerationManager
                         }
                     }
                 }
+                if(RandomPOIStarmapItem!=null)
+                    RandomPOIStarmapItem.MaxNumberOfInstances = Math.Max(MaxAmountRandomPOI-16,   Mathf.RoundToInt((7.385f*((float)rings))-56.615f));
             }
         }
 
@@ -1348,9 +1350,16 @@ namespace ClusterTraitGenerationManager
             {
                 if (!ToAdd.IsPOI)
                 {
+
+                    MinMaxI startCoords = new MinMaxI(0, CustomCluster.Rings);
+                    if (ToAdd.category == StarmapItemCategory.Starter)
+                        startCoords = new MinMaxI(0, 0);
+                    else if (ToAdd.category == StarmapItemCategory.Warp)
+                        startCoords = new MinMaxI(3, 5);
+
                     var item = new WorldPlacement();
                     item.world = ToAdd.id;
-                    item.allowedRings = new MinMaxI(0, CustomCluster.Rings);
+                    item.allowedRings = startCoords;
                     item.startWorld = ToAdd.category == StarmapItemCategory.Starter;
                     ToAdd.AddItemWorldPlacement(item);
                 }
@@ -1696,11 +1705,22 @@ namespace ClusterTraitGenerationManager
                         placement.avoidClumping = false;
                         randomItem = randomItem.MakeItemPOI(key, placement, MaxAmountRandomPOI, SPACEDESTINATIONS.CGM_RANDOM_POI.NAME, SPACEDESTINATIONS.CGM_RANDOM_POI.DESCRIPTION);
                         PlanetsAndPOIs[key] = randomItem;
+                        RandomPOIStarmapItem = randomItem;
                     }
                     else
                     {
                         var placement = new WorldPlacement();
-                        placement.allowedRings = category == StarmapItemCategory.Starter ? new MinMaxI(0, 0) : new MinMaxI(0, CustomCluster.Rings);
+
+                        MinMaxI startCoords = new MinMaxI(0, CustomCluster.Rings);
+
+                        if (category == StarmapItemCategory.Starter)
+                            startCoords = new MinMaxI(0, 0);
+                        else if (category == StarmapItemCategory.Warp)
+                            startCoords = new MinMaxI(3, 5);
+
+
+
+                        placement.allowedRings = startCoords;
                         placement.startWorld = category == StarmapItemCategory.Starter;
                         placement.locationType = category == StarmapItemCategory.Starter ? LocationType.Startworld : LocationType.Cluster;
 

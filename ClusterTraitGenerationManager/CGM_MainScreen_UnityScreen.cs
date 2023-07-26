@@ -16,6 +16,7 @@ using Microsoft.SqlServer.Server;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER;
 using Klei.AI;
 using System.Threading.Tasks;
+using static STRINGS.DUPLICANTS.PERSONALITIES;
 
 namespace ClusterTraitGenerationManager
 {
@@ -273,10 +274,11 @@ namespace ClusterTraitGenerationManager
                 current.SetSpawnNumber(NumberToGenerate.Value);
             }
 
-            MinMaxDistanceSlider.interactable = IsPartOfCluster;
 
             MinMaxDistanceSlider.SetLimits(0, CustomCluster.Rings);
             MinMaxDistanceSlider.SetValues(current.minRing, current.maxRing, 0, CustomCluster.Rings, true);
+            MinMaxDistanceSlider.SetInteractable(IsPartOfCluster);
+            SpawnDistanceText.SetText(string.Format(MINMAXDISTANCE.DESCRIPTOR.FORMAT, (int)current.minRing, (int)current.maxRing));
 
             BufferDistance.SetMinMaxCurrent(0, CustomCluster.Rings, SelectedPlanet.buffer);
             BufferDistance.transform.parent.gameObject.SetActive(!current.IsPOI);
@@ -399,6 +401,7 @@ namespace ClusterTraitGenerationManager
                     CGSMClusterManager.TogglePlanetoid(SelectedPlanet);
                     this.RefreshCategories();
                     this.RefreshGallery();
+                    this.RefreshDetails();
                 }
             };
             UIUtils.AddSimpleTooltipToObject(StarmapItemEnabled.transform, STARMAPITEMENABLED.TOOLTIP, onBottom: true, alignCenter: true);
@@ -439,6 +442,7 @@ namespace ClusterTraitGenerationManager
             ClusterSize.OnChange += (value) =>
             {
                 CustomCluster.SetRings((int)value);
+                this.RefreshGallery();
                 this.RefreshDetails();
             };
             UIUtils.AddSimpleTooltipToObject(ClusterSize.transform.parent.Find("Descriptor"), CLUSTERSIZESLIDER.DESCRIPTOR.TOOLTIP);

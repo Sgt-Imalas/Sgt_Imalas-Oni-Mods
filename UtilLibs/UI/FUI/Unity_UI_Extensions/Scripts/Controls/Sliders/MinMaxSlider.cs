@@ -206,9 +206,18 @@ namespace UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders
             middleGraphic.offsetMax = new Vector2(maxHandle.anchoredPosition.x, 0);
         }
 
+        public void SetInteractable(bool setTointeractable)
+        {      
+            interactable = setTointeractable;
+            
+        }
+
         #region IDragHandler
         public void OnBeginDrag(PointerEventData eventData)
         {
+            if(!interactable)
+                return;
+
             passDragEvents = Math.Abs(eventData.delta.x) < Math.Abs(eventData.delta.y);
 
             AudioComponent.OnDragStart();
@@ -245,6 +254,9 @@ namespace UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders
 
         public void OnDrag(PointerEventData eventData)
         {
+            if (!interactable)
+                return;
+
             if (passDragEvents)
             {
                 PassDragEvents<IDragHandler>(x => x.OnDrag(eventData));
@@ -288,6 +300,9 @@ namespace UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders
 
         public void OnEndDrag(PointerEventData eventData)
         {
+            if (!interactable)
+                return;
+
             AudioComponent.OnDragEnd();
             if (passDragEvents)
             {
