@@ -93,7 +93,7 @@ namespace ClusterTraitGenerationManager
 
 
         public const string DefaultSandstoneStartBiome = "expansion1::subworlds/sandstone/SandstoneStart";
-        public const string DefaultSandstoneWarpBiome = "expansion1::subworlds/sandstone/med_SandstoneWarp";
+        public const string DefaultSandstoneWarpBiome = "expansion1::subworlds/sandstone/SandstoneWarpStart";
         public const string DefaultSwampStartBiome =  "expansion1::subworlds/swamp/SwampStart";
         public const string DefaultSwampWarpBiome = "expansion1::subworlds/swamp/SwampWarpStart";
         public const string DefaultForestStartBiome = "expansion1::subworlds/forest/med_ForestStart";

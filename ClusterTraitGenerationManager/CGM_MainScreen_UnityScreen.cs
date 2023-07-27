@@ -67,7 +67,12 @@ namespace ClusterTraitGenerationManager
 
         private LocText StarmapItemEnabledText;
         private FToggle2 StarmapItemEnabled;
+        
         private FSlider NumberToGenerate;
+        private FSlider NumberOfRandomClassics;
+        private GameObject NumberOfRandomClassicsGO;
+
+
         private UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders.MinMaxSlider MinMaxDistanceSlider;
         private LocText SpawnDistanceText;
         private FSlider BufferDistance;
@@ -279,6 +284,9 @@ namespace ClusterTraitGenerationManager
                 current.SetSpawnNumber(NumberToGenerate.Value);
             }
 
+            NumberOfRandomClassicsGO.SetActive(current == CGSMClusterManager.RandomOuterPlanetsStarmapItem);
+            NumberOfRandomClassics.SetMinMaxCurrent(0, current.MaxNumberOfInstances, CGSMClusterManager.MaxClassicOuterPlanets);
+            NumberOfRandomClassics.SetInteractable(IsPartOfCluster);
 
             MinMaxDistanceSlider.SetLimits(0, CustomCluster.Rings);
             MinMaxDistanceSlider.SetValues(current.minRing, current.maxRing, 0, CustomCluster.Rings, true);
@@ -423,10 +431,32 @@ namespace ClusterTraitGenerationManager
                     if (CustomCluster.HasStarmapItem(SelectedPlanet.id, out var current))
                         current.SetSpawnNumber(value);
                     this.RefreshGallery();
+
+                    if (SelectedPlanet == CGSMClusterManager.RandomOuterPlanetsStarmapItem)
+                    {
+                        MaxClassicOuterPlanets = Mathf.Min(MaxClassicOuterPlanets, Mathf.RoundToInt(SelectedPlanet.InstancesToSpawn) + 2);
+                    }
+
+                    this.RefreshDetails();
                 }
             };
-
             UIUtils.AddSimpleTooltipToObject(NumberToGenerate.transform.parent.Find("Descriptor"), (AMOUNTSLIDER.DESCRIPTOR.TOOLTIP), onBottom: true, alignCenter: true);
+            NumberOfRandomClassicsGO = transform.Find("Details/Content/ScrollRectContainer/AmountOfClassicPlanets").gameObject;
+
+            NumberOfRandomClassicsGO.SetActive(true);
+            NumberOfRandomClassics = NumberOfRandomClassicsGO.transform.Find("Slider").FindOrAddComponent<FSlider>();
+            NumberOfRandomClassicsGO.SetActive(false);
+
+            NumberOfRandomClassics.SetWholeNumbers(true);
+            NumberOfRandomClassics.AttachOutputField(transform.Find("Details/Content/ScrollRectContainer/AmountOfClassicPlanets/Descriptor/Output").GetComponent<LocText>());
+            NumberOfRandomClassics.OnChange += (value) =>
+            {
+                MaxClassicOuterPlanets = Mathf.RoundToInt(value)+2;
+            };
+            if (CGSMClusterManager.RandomOuterPlanetsStarmapItem != null)
+                NumberOfRandomClassics.SetMinMaxCurrent(0,CGSMClusterManager.RandomOuterPlanetsStarmapItem.InstancesToSpawn, CGSMClusterManager.RandomOuterPlanetsStarmapItem.InstancesToSpawn);
+
+            UIUtils.AddSimpleTooltipToObject(NumberOfRandomClassics.transform.parent.Find("Descriptor"), (AMOUNTOFCLASSICPLANETS.DESCRIPTOR.TOOLTIP), onBottom: true, alignCenter: true);
 
             BufferDistance = transform.Find("Details/Content/ScrollRectContainer/BufferSlider/Slider").FindOrAddComponent<FSlider>();
             BufferDistance.SetWholeNumbers(true);

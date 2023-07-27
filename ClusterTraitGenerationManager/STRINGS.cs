@@ -154,6 +154,20 @@ namespace ClusterTraitGenerationManager
                                     }
                                 }
                             }
+                            public class AMOUNTOFCLASSICPLANETS
+                            {
+                                public class DESCRIPTOR
+                                {
+                                    public static LocString LABEL = (LocString)"Max. Number of Classic planets:";
+                                    public static LocString TOOLTIP = (LocString)"How many of the random planets are allowed to be \"classic\" size.\nA large number of classic size asteroids can impact performance.\nThis check includes start and warp planet in its calculcations.";
+                                    public static LocString OUTPUT = (LocString)"0";
+                                    public class INPUT
+                                    {
+                                        public static LocString TEXT = (LocString)"";
+
+                                    }
+                                }
+                            }
                             public class MINMAXDISTANCE
                             {
                                 public class DESCRIPTOR

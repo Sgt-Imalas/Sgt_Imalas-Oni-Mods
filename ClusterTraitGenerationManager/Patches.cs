@@ -455,8 +455,46 @@ namespace ClusterTraitGenerationManager
                         var StartWorld = new ProcGen.World();
 
                         CopyValues(StartWorld, sourceWorld.Value);
+
+
+                        if(StartWorld.worldsize.X<100 && StartWorld.worldsize.Y < 160)
+                        {
+                            float planetSizeRatio = StartWorld.worldsize.Y / StartWorld.worldsize.X;
+                            float newX = 100f;
+                            float newY = 100f * planetSizeRatio;
+                            StartWorld.worldsize = new Vector2I(Mathf.RoundToInt(newX), Mathf.RoundToInt(newY));
+                        }
+                        else if (StartWorld.worldsize.Y < 100 && StartWorld.worldsize.X < 160)
+                        {
+                            float planetSizeRatio = StartWorld.worldsize.X / StartWorld.worldsize.Y;
+                            float newY = 100f;
+                            float newX = 100f * planetSizeRatio;
+                            StartWorld.worldsize = new Vector2I(Mathf.RoundToInt(newX), Mathf.RoundToInt(newY));
+                        }
+
+
+
                         StartWorld.unknownCellsAllowedSubworlds = new List<ProcGen.World.AllowedCellsFilter>(sourceWorld.Value.unknownCellsAllowedSubworlds);
                         StartWorld.subworldFiles = new List<WeightedSubworldName>(sourceWorld.Value.subworldFiles);
+
+                        if (StartWorld.subworldFiles != null && StartWorld.subworldFiles.Count > 0)
+                        {
+                            for (int i = StartWorld.subworldFiles.Count - 1; i >= 0; --i)
+                            {
+                                if (StartWorld.subworldFiles[i].name.Contains("Start"))
+                                    StartWorld.subworldFiles.RemoveAt(i);
+                            }
+                        }
+                        if (StartWorld.unknownCellsAllowedSubworlds != null && StartWorld.unknownCellsAllowedSubworlds.Count > 0)
+                        {
+                            for (int i = StartWorld.unknownCellsAllowedSubworlds.Count - 1; i >= 0; --i)
+                            {
+                                if (StartWorld.unknownCellsAllowedSubworlds[i].subworldNames.Any(world => world.ToLowerInvariant().Contains("start")))
+                                    StartWorld.unknownCellsAllowedSubworlds.RemoveAt(i);
+                            }
+                        }
+
+
 
                         StartWorld.worldTemplateRules = new List<ProcGen.World.TemplateSpawnRules>();
 
@@ -512,6 +550,12 @@ namespace ClusterTraitGenerationManager
                         StartWorld.subworldFiles.Insert(0, startBiome);
 
                         //Starter biome placement rules
+
+                        ProcGen.World.AllowedCellsFilter CoreSandstone = new ProcGen.World.AllowedCellsFilter();
+                        CoreSandstone.tagcommand = ProcGen.World.AllowedCellsFilter.TagCommand.Default;
+                        CoreSandstone.command = ProcGen.World.AllowedCellsFilter.Command.Replace;
+                        CoreSandstone.subworldNames = new List<string>() { ModAPI.GetStartAreaSubworld(StartWorld, false) };
+
                         ProcGen.World.AllowedCellsFilter MiniWater = new ProcGen.World.AllowedCellsFilter();
                         MiniWater.tagcommand = ProcGen.World.AllowedCellsFilter.TagCommand.DistanceFromTag;
                         MiniWater.tag = "AtStart";
@@ -520,17 +564,8 @@ namespace ClusterTraitGenerationManager
                         MiniWater.command = ProcGen.World.AllowedCellsFilter.Command.Replace;
                         MiniWater.subworldNames = new List<string>() { ModAPI.GetStartAreaWaterSubworld(StartWorld) };
 
-                        //ProcGen.World.AllowedCellsFilter CoreSandstone = new ProcGen.World.AllowedCellsFilter();
-                        //CoreSandstone.tagcommand = ProcGen.World.AllowedCellsFilter.TagCommand.DistanceFromTag;
-                        //CoreSandstone.tag = "AtStart";
-                        //CoreSandstone.minDistance = 0;
-                        //CoreSandstone.maxDistance = 0;
-                        //CoreSandstone.command = ProcGen.World.AllowedCellsFilter.Command.Replace;
-                        //CoreSandstone.subworldNames = new List<string>() { "expansion1::subworlds/sandstone/med_SandstoneResourceful" };
-
-
-                        StartWorld.unknownCellsAllowedSubworlds.Add(MiniWater);
-                        //StartWorld.unknownCellsAllowedSubworlds.Add(CoreSandstone);
+                        StartWorld.unknownCellsAllowedSubworlds.Insert(0,MiniWater);
+                        StartWorld.unknownCellsAllowedSubworlds.Insert(0,CoreSandstone);
 
                         //Teleporter PlacementRules
 
@@ -599,6 +634,22 @@ namespace ClusterTraitGenerationManager
 
                         CopyValues(StartWorld, sourceWorld.Value);
 
+                        if (StartWorld.worldsize.X < 100 && StartWorld.worldsize.Y < 160)
+                        {
+                            float planetSizeRatio = StartWorld.worldsize.Y / StartWorld.worldsize.X;
+                            float newX = 100f;
+                            float newY = 100f * planetSizeRatio;
+                            StartWorld.worldsize = new Vector2I(Mathf.RoundToInt(newX), Mathf.RoundToInt(newY));
+                        }
+                        else if (StartWorld.worldsize.Y < 100 && StartWorld.worldsize.X < 160)
+                        {
+                            float planetSizeRatio = StartWorld.worldsize.X / StartWorld.worldsize.Y;
+                            float newY = 100f;
+                            float newX = 100f * planetSizeRatio;
+                            StartWorld.worldsize = new Vector2I(Mathf.RoundToInt(newX), Mathf.RoundToInt(newY));
+                        }
+
+
                         StartWorld.unknownCellsAllowedSubworlds = new List<ProcGen.World.AllowedCellsFilter>(sourceWorld.Value.unknownCellsAllowedSubworlds);
                         StartWorld.subworldFiles = new List<WeightedSubworldName>(sourceWorld.Value.subworldFiles);
                         StartWorld.worldTemplateRules = new List<ProcGen.World.TemplateSpawnRules>();
@@ -610,9 +661,26 @@ namespace ClusterTraitGenerationManager
                                 var ruleNew = new ProcGen.World.TemplateSpawnRules();
                                 CopyValues(ruleNew, rule);
 
-                                //if (ruleNew.listRule == ProcGen.World.TemplateSpawnRules.ListRule.GuaranteeAll)
-                                //    ruleNew.listRule = ProcGen.World.TemplateSpawnRules.ListRule.GuaranteeSomeTryMore;
                                 StartWorld.worldTemplateRules.Add(ruleNew);
+                            }
+                        }
+                        if(StartWorld.subworldFiles !=null && StartWorld.subworldFiles.Count > 0)
+                        {
+                            for(int i = StartWorld.subworldFiles.Count-1; i >= 0; --i)
+                            {
+                                SgtLogger.l(StartWorld.subworldFiles[i].name);
+                                if (StartWorld.subworldFiles[i].name.Contains("Start"))
+                                {
+                                    StartWorld.subworldFiles.RemoveAt(i);
+                                }
+                            }
+                        }
+                        if (StartWorld.unknownCellsAllowedSubworlds != null && StartWorld.unknownCellsAllowedSubworlds.Count > 0)
+                        {
+                            for (int i = StartWorld.unknownCellsAllowedSubworlds.Count - 1; i >= 0; --i)
+                            {
+                                if (StartWorld.unknownCellsAllowedSubworlds[i].subworldNames.Any(world => world.ToLowerInvariant().Contains("start")) )
+                                    StartWorld.unknownCellsAllowedSubworlds.RemoveAt(i);
                             }
                         }
 
@@ -646,7 +714,7 @@ namespace ClusterTraitGenerationManager
 
                         //Starter Biome subworld files
                         var startBiome = new WeightedSubworldName(ModAPI.GetStartAreaSubworld(StartWorld, true), 1);
-                        startBiome.overridePower = 1;
+                        startBiome.overridePower = 4;
 
                         //var startBiomeWater = new WeightedSubworldName("expansion1::subworlds/sandstone/SandstoneMiniWater", 1);
                         //startBiomeWater.overridePower = 0.7f;
@@ -655,25 +723,13 @@ namespace ClusterTraitGenerationManager
                         //StartWorld.subworldFiles.Insert(0, startBiomeWater);
                         StartWorld.subworldFiles.Insert(0, startBiome);
                         //Starter biome placement rules
-                        ProcGen.World.AllowedCellsFilter MiniWater = new ProcGen.World.AllowedCellsFilter();
-                        MiniWater.tagcommand = ProcGen.World.AllowedCellsFilter.TagCommand.DistanceFromTag;
-                        MiniWater.tag = "AtStart";
-                        MiniWater.minDistance = 1;
-                        MiniWater.maxDistance = 1;
-                        MiniWater.command = ProcGen.World.AllowedCellsFilter.Command.Replace;
-                        MiniWater.subworldNames = new List<string>() { ModAPI.GetStartAreaSubworld(StartWorld, true) };
+                        ProcGen.World.AllowedCellsFilter CoreBiome = new ProcGen.World.AllowedCellsFilter();
+                        CoreBiome.tagcommand = ProcGen.World.AllowedCellsFilter.TagCommand.Default;
+                        CoreBiome.command = ProcGen.World.AllowedCellsFilter.Command.Replace;
+                        CoreBiome.subworldNames = new List<string>() { ModAPI.GetStartAreaSubworld(StartWorld, true) };
+                        
+                        StartWorld.unknownCellsAllowedSubworlds.Insert(0, CoreBiome);
 
-                        //ProcGen.World.AllowedCellsFilter CoreSandstone = new ProcGen.World.AllowedCellsFilter();
-                        //CoreSandstone.tagcommand = ProcGen.World.AllowedCellsFilter.TagCommand.DistanceFromTag;
-                        //CoreSandstone.tag = "AtStart";
-                        //CoreSandstone.minDistance = 0;
-                        //CoreSandstone.maxDistance = 0;
-                        //CoreSandstone.command = ProcGen.World.AllowedCellsFilter.Command.Replace;
-                        //CoreSandstone.subworldNames = new List<string>() { "expansion1::subworlds/sandstone/med_SandstoneResourceful" };
-
-
-                        StartWorld.unknownCellsAllowedSubworlds.Add(MiniWater);
-                        //StartWorld.unknownCellsAllowedSubworlds.Add(CoreSandstone);
 
                         //Teleporter PlacementRules
 
@@ -728,12 +784,21 @@ namespace ClusterTraitGenerationManager
                         };
                         StartWorld.worldTemplateRules.Insert(0, TeleporterSpawn);
 
+                        foreach (var subworld in StartWorld.subworldFiles)
+                            SgtLogger.l(subworld.name, "SUBWORLD");
+                        foreach (var unknownCell in StartWorld.unknownCellsAllowedSubworlds)
+                            foreach (var name in unknownCell.subworldNames)
+                                SgtLogger.l(name, "UNKNOWNCELL");
+                        SgtLogger.l(StartWorld.startSubworldName, "STARTSUB");
+
+
 
                         toAdd.Add(new(newStartWorldPath, StartWorld));
 
                         SgtLogger.l(newStartWorldPath, "Created Warp Planet Variant");
 
                     }
+
                     if (TypeToIgnore != StarmapItemCategory.Outer)
                     {
                         string newStartWorldPath = BaseName + "Outer";
@@ -743,11 +808,33 @@ namespace ClusterTraitGenerationManager
                         CopyValues(StartWorld, sourceWorld.Value);
                         StartWorld.filePath = newStartWorldPath;
                         StartWorld.startingBaseTemplate = null;
+                        //StartWorld.startSubworldName = string.Empty;
 
                         StartWorld.unknownCellsAllowedSubworlds = new List<ProcGen.World.AllowedCellsFilter>(sourceWorld.Value.unknownCellsAllowedSubworlds);
                         StartWorld.subworldFiles = new List<WeightedSubworldName>(sourceWorld.Value.subworldFiles);
 
-                        StartWorld.worldTemplateRules = new List<ProcGen.World.TemplateSpawnRules>(); if (sourceWorld.Value.worldTemplateRules != null && sourceWorld.Value.worldTemplateRules.Count > 0)
+                        //if (StartWorld.subworldFiles != null && StartWorld.subworldFiles.Count > 0)
+                        //{
+                        //    for (int i = StartWorld.subworldFiles.Count - 1; i >= 0; --i)
+                        //    {
+                        //        if (StartWorld.subworldFiles[i].name.Contains("Start"))
+                        //            StartWorld.subworldFiles.RemoveAt(i);
+                        //    }
+                        //}
+                        //if (StartWorld.unknownCellsAllowedSubworlds != null && StartWorld.unknownCellsAllowedSubworlds.Count > 0)
+                        //{
+                        //    for (int i = StartWorld.unknownCellsAllowedSubworlds.Count - 1; i >= 0; --i)
+                        //    {
+                        //        if (StartWorld.unknownCellsAllowedSubworlds[i].subworldNames.Any(world => world.ToLowerInvariant().Contains("start")))
+                        //            StartWorld.unknownCellsAllowedSubworlds.RemoveAt(i);
+                        //    }
+                        //}
+
+                        StartWorld.worldTemplateRules = new List<ProcGen.World.TemplateSpawnRules>();
+                        
+
+
+                        if (sourceWorld.Value.worldTemplateRules != null && sourceWorld.Value.worldTemplateRules.Count > 0)
                         {
                             foreach (var rule in sourceWorld.Value.worldTemplateRules)
                             {

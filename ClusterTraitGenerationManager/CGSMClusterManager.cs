@@ -40,6 +40,11 @@ namespace ClusterTraitGenerationManager
 
         public static ColonyDestinationSelectScreen selectScreen;
         public static StarmapItem RandomPOIStarmapItem = null;
+        public static StarmapItem RandomOuterPlanetsStarmapItem = null;
+
+
+        public static int MaxClassicOuterPlanets = 3, CurrentClassicOuterPlanets = 0;
+
         public static bool LoadCustomCluster
         {
             get
@@ -132,7 +137,10 @@ namespace ClusterTraitGenerationManager
         {
             int GetAdjustedOuterExpansion()
             {
-                int planetDiff = (CustomCluster.OuterPlanets.Count - CustomCluster.defaultOuterPlanets);
+                int outerPlanetcount = RandomOuterPlanetsStarmapItem != null ? (int)RandomOuterPlanetsStarmapItem.InstancesToSpawn : 0;
+                bool outerplanetSelected = RandomOuterPlanetsStarmapItem != null ? CustomCluster.HasStarmapItem(RandomOuterPlanetsStarmapItem.id, out _) : false;
+
+                int planetDiff = (CustomCluster.OuterPlanets.Count + (outerplanetSelected?-1 : 0) + outerPlanetcount - CustomCluster.defaultOuterPlanets);
 
 
                 return planetDiff;
@@ -933,13 +941,22 @@ namespace ClusterTraitGenerationManager
             placement.allowedRings = new MinMaxI((int)min, newMax);
         }
 
+        static bool PlanetIsClassic(StarmapItem item)
+        {
+            if (item.IsPOI)
+                return false;
 
+            if (item.id.Contains("Vanilla") || item.world!=null && item.world.worldsize.x * item.world.worldsize.y > 90000)
+                return true;
+
+            return false;
+        }
 
         public static ClusterLayout GenerateClusterLayoutFromCustomData()
         {
             SgtLogger.l("Started generating custom cluster");
             var layout = new ClusterLayout();
-
+            CurrentClassicOuterPlanets = 0;
 
             //var Reference = SettingsCache.clusterLayouts.GetClusterData(ClusterID);
             //SgtLogger.log(Reference.ToString());
@@ -958,6 +975,10 @@ namespace ClusterTraitGenerationManager
 
             if (CustomCluster.StarterPlanet != null)
             {
+
+                if (PlanetIsClassic(CustomCluster.StarterPlanet))
+                    CurrentClassicOuterPlanets++;
+
                 ///Disabling Story Traits if MiniBase worlds are active
                 if (CustomCluster.StarterPlanet.DisablesStoryTraits)
                     layout.disableStoryTraits = true;
@@ -990,6 +1011,8 @@ namespace ClusterTraitGenerationManager
 
             if (CustomCluster.WarpPlanet != null)
             {
+                if (PlanetIsClassic(CustomCluster.WarpPlanet))
+                    CurrentClassicOuterPlanets++;
                 ///Disabling Story Traits if MiniBase worlds are active
                 if (CustomCluster.WarpPlanet.DisablesStoryTraits)
                     layout.disableStoryTraits = true;
@@ -1591,13 +1614,22 @@ namespace ClusterTraitGenerationManager
         {
             List<StarmapItem> items = PlanetoidDict().Values.ToList().FindAll(item => item.category == starmapItemCategory);
             items.Shuffle();
-
+            bool isClassic = false;
             StarmapItem item = null;
             int i;
             for (i = 0; i < items.Count; ++i)
             {
+                isClassic = false;
                 item = items[i];
-                //SgtLogger.l(item.id, "Random");
+
+                isClassic = item.id.Contains("Vanilla");
+
+                if (isClassic)
+                {
+                    if(CurrentClassicOuterPlanets >= MaxClassicOuterPlanets)
+                        continue;
+                }
+               
                 if (!(item.id.Contains("TemporalTear")
                     || item.id == null
                     || item.id == string.Empty
@@ -1608,6 +1640,7 @@ namespace ClusterTraitGenerationManager
                 {
                     break;
                 }
+
                 if (i == items.Count - 1 && starmapItemCategory == StarmapItemCategory.Outer)
                 {
                     item = null;
@@ -1615,7 +1648,12 @@ namespace ClusterTraitGenerationManager
             }
 
             if (item != null && starmapItemCategory == StarmapItemCategory.Outer)
+            {
                 RandomOuterPlanets.Add(item.id);
+                if (isClassic)
+                    CurrentClassicOuterPlanets++;
+            }
+            
 
             //while (item.category != starmapItemCategory || item.id.Contains("TemporalTear") || item.id == null || item.id == string.Empty)
             //{
@@ -1726,6 +1764,9 @@ namespace ClusterTraitGenerationManager
 
                         randomItem = randomItem.AddItemWorldPlacement(placement, category == StarmapItemCategory.Outer ? MaxAmountRandomPlanet : 1);
                         PlanetsAndPOIs[key] = randomItem;
+
+                        if(category == StarmapItemCategory.Outer)
+                            RandomOuterPlanetsStarmapItem = randomItem;
                     }
                 }
 
@@ -1781,6 +1822,7 @@ namespace ClusterTraitGenerationManager
         static int AdjustedClusterSize => CustomCluster.defaultRings + Mathf.Max(0, (CustomCluster.AdjustedOuterExpansion / 4));
         public static void InitializeGeneration()
         {
+
             int randoPlanets = 0;
             if (CustomCluster.HasStarmapItem(RandomKey + StarmapItemCategory.Outer.ToString(), out var item))
             {
