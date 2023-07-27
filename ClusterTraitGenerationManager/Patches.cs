@@ -438,7 +438,13 @@ namespace ClusterTraitGenerationManager
                         }
                     }
 
+                    List<string> additionalTemplates = new List<string>();
 
+                    if (sourceWorld.Value.startingBaseTemplate != null && sourceWorld.Value.startingBaseTemplate.Count()>0 &&
+                        (sourceWorld.Value.startingBaseTemplate.Contains("sap_tree_room")|| sourceWorld.Value.startingBaseTemplate.Contains("poi_satellite_3_a")))
+                    {
+                        additionalTemplates.Add(sourceWorld.Value.startingBaseTemplate);
+                    }
 
                     //StartWorld
 
@@ -540,6 +546,9 @@ namespace ClusterTraitGenerationManager
                             "expansion1::poi/warp/teleporter_mini" ///Big Dupe Teleporter Building
                         
                         };
+                        if(additionalTemplates.Count > 0)
+                            TeleporterSpawn.names.AddRange(additionalTemplates);
+
                         TeleporterSpawn.listRule = ProcGen.World.TemplateSpawnRules.ListRule.GuaranteeAll;
                         TeleporterSpawn.priority = 90;
                         TeleporterSpawn.allowedCellsFilter = new List<ProcGen.World.AllowedCellsFilter>()
@@ -679,6 +688,9 @@ namespace ClusterTraitGenerationManager
                             "expansion1::poi/warp/sender_mini", ///MaterialTeleporter sender
                             "expansion1::poi/warp/receiver_mini" ///MaterialTeleporter reciever 
                         };
+
+                        if (additionalTemplates.Count > 0)
+                            TeleporterSpawn.names.AddRange(additionalTemplates);
 
                         TeleporterSpawn.listRule = ProcGen.World.TemplateSpawnRules.ListRule.GuaranteeAll;
                         TeleporterSpawn.priority = 90;

@@ -1,6 +1,3 @@
 ﻿
 Geysers:
 - dedicated geyser selector
-
-Size:
-- smaller planets

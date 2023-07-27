@@ -22,7 +22,8 @@ namespace ClusterTraitGenerationManager
 {
     public class CGM_MainScreen_UnityScreen : KModalScreen
     {
-        GridLayouter galleryGridLayouter;
+        ////GridLayouter galleryGridLayouter;
+        //GridLayoutSizeAdjustment galleryGridLayouter;
 
         private Dictionary<StarmapItemCategory, CategoryItem> categoryToggles = new Dictionary<StarmapItemCategory, CategoryItem>();
         private Dictionary<StarmapItem, GalleryItem> planetoidGridButtons = new Dictionary<StarmapItem, GalleryItem>();
@@ -113,7 +114,6 @@ namespace ClusterTraitGenerationManager
 #if DEBUG
             //UIUtils.ListAllChildrenPath(this.transform);
 #endif
-            OnResize();
 
             //Categories
             PlanetoidCategoryPrefab = transform.Find("Categories/Content/Item").gameObject;
@@ -128,13 +128,16 @@ namespace ClusterTraitGenerationManager
             ///Details
             selectionHeaderLabel = transform.Find("Details/Header/Label").GetComponent<LocText>();
 
-            galleryGridLayouter = new GridLayouter
-            {
-                minCellSize = 80f,
-                maxCellSize = 160f,
-                targetGridLayouts = new List<GridLayoutGroup>() { galleryGridContent.GetComponent<GridLayoutGroup>() }
-            };
+            //galleryGridLayouter = galleryGridContent.AddOrGet<GridLayoutSizeAdjustment>();
+            //galleryGridLayouter.SetValues(100, 140);
+            //galleryGridLayouter = new GridLayouter
+            //{
+            //    minCellSize = 80f,
+            //    maxCellSize = 160f,
+            //    targetGridLayouts = new List<GridLayoutGroup>() { galleryGridContent.GetComponent<GridLayoutGroup>() }
+            //};
 
+            OnResize();
         }
 
         public void DoAndRefreshView(System.Action action)
@@ -195,7 +198,7 @@ namespace ClusterTraitGenerationManager
             }
 
 
-            this.galleryGridLayouter.RequestGridResize();
+           //// this.galleryGridLayouter.RequestGridResize();
 
             OnResize();
             //RefreshWithDelay(() => OnResize(true),300);
@@ -213,6 +216,8 @@ namespace ClusterTraitGenerationManager
             var rectMain = this.rectTransform();
             rectMain.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, UnityEngine.Screen.width * (1f / (rectMain.lossyScale.x)));
             rectMain.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, UnityEngine.Screen.height * (1f / (rectMain.lossyScale.y)));
+            //if(galleryGridLayouter!=null)    
+            //    this.galleryGridLayouter.RequestGridResize();
         }
 
         public void RefreshView()
@@ -868,7 +873,8 @@ namespace ClusterTraitGenerationManager
             {
                 AddCategoryItem(category);
             };
-            this.galleryGridLayouter.RequestGridResize();
+            //if (galleryGridLayouter != null)
+            //    this.galleryGridLayouter.RequestGridResize();
         }
 
         public class GalleryItem : KMonoBehaviour
