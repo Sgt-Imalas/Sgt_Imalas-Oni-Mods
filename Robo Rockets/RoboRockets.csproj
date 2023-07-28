@@ -126,6 +126,9 @@
 	  <None Update="ModAssets\templates\interiors\habitat_robo.yaml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\translations\ru.po">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="ModAssets\translations\" />

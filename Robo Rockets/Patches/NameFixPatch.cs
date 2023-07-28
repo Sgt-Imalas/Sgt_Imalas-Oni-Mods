@@ -14,14 +14,13 @@ namespace RoboRockets.Patches
 {
     internal class NameFixPatch
     {
-        [HarmonyPatch(typeof(DetailsScreen), "TrySetRocketTitle")]
+        [HarmonyPatch(typeof(DetailsScreen),nameof( DetailsScreen.TrySetRocketTitle))]
         [HarmonyPatch(new Type[] { typeof(ClustercraftExteriorDoor) })]
         public static class Patch_CraftingTableConfig_ConfigureRecipes
         {
             public static bool GetTargetWorldNotNull(ClustercraftExteriorDoor clusterCraftDoor)
             {
-                ClustercraftInteriorDoor targetDoor = (ClustercraftInteriorDoor)typeof(ClustercraftExteriorDoor).GetField("targetDoor", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(clusterCraftDoor);
-                if (targetDoor == null)
+                if (clusterCraftDoor!= null && clusterCraftDoor.targetDoor == null)
                     return false;
 
                 return (clusterCraftDoor.GetTargetWorld() != null);

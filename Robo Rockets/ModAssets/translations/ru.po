@@ -1,0 +1,328 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.3.2\n"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL1
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL1"
+msgid "<link=\"LVL1\">Novice Pilot</link>"
+msgstr "<link=\"LVL1\">Пилот-новичок</link>"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL2
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL2"
+msgid "<link=\"LVL2\">Advanced Beginner Pilot</link>"
+msgstr "<link=\"LVL2\">Продвинутый пилот-новичок</link>"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL3
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL3"
+msgid "<link=\"LVL3\">Competent Pilot</link>"
+msgstr "<link=\"LVL3\">Компетентный пилот</link>"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL4
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL4"
+msgid "<link=\"LVL4\">Proficient Pilot</link>"
+msgstr "<link=\"LVL4\">Опытный пилот</link>"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL5
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL5"
+msgid "<link=\"LVL5\">Expert Pilot</link>"
+msgstr "<link=\"LVL5\">Пилот-эксперт</link>"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL6
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL6"
+msgid "<link=\"LVL6\">Master Pilot</link>"
+msgstr "<link=\"LVL6\">Мастер-пилот</link>"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVLNONE
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVLNONE"
+msgid "<link=\"LVLNONE\">Automated Pilot</link>"
+msgstr "<link=\"LVLNONE\">Автоматизированный пилот</link>"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.NAME
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.NAME"
+msgid "{BRAINXPSTATE}"
+msgstr "{BRAINXPSTATE}"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.NOBRAIN
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.NOBRAIN"
+msgid "This AI-Module"
+msgstr "Этот ИИ-модуль"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.TOOLTIP
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.TOOLTIP"
+msgid "{BRAINNAME} is a {BRAINXPSTATE} ({BRAINBOOST}% total rocket speed)"
+msgstr "{BRAINNAME} - {BRAINXPSTATE} ({BRAINBOOST}% общей скорости ракеты)"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.UNNAMEDBRAIN
+msgctxt ""
+"RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.UNNAMEDBRAIN"
+msgid "This Brain"
+msgstr "Этот мозг"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_NOBRAIN.NAME
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_NOBRAIN.NAME"
+msgid "No brain installed!"
+msgstr "Мозг не установлен!"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_NOBRAIN.TOOLTIP
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_NOBRAIN.TOOLTIP"
+msgid "This Module is missing a brain!"
+msgstr "У этого модуля отсутствует мозг!"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.AIMODULE.DESC
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.AIMODULE.DESC"
+msgid ""
+"[Module Deprecated]\n"
+"Please replace with one of the new Modules"
+msgstr ""
+"[Модуль устарел]\n"
+"Пожалуйста, замените на новый модуль"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.AIMODULE.EFFECT
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.AIMODULE.EFFECT"
+msgid ""
+"[Module Deprecated]\n"
+"Please replace with one of the new Modules"
+msgstr ""
+"[Модуль устарел]\n"
+"Пожалуйста, замените на новый модуль"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.AIMODULE.NAME
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.AIMODULE.NAME"
+msgid "<link=\"AIMODULE\">AI Control Module [DEPRECATED]</link>"
+msgstr "<link=\"AIMODULE\">Модуль управления ИИ [УСТАРЕЛ]</link>"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AICONTROLMODULE.DESC
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AICONTROLMODULE.DESC"
+msgid ""
+"[Module Deprecated]\n"
+"Please replace with one of the new Modules"
+msgstr ""
+"[Модуль устарел]\n"
+"Пожалуйста, замените на новый модуль"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AICONTROLMODULE.EFFECT
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AICONTROLMODULE.EFFECT"
+msgid ""
+"[Module Deprecated]\n"
+"Please replace with one of the new Modules"
+msgstr ""
+"[Модуль устарел]\n"
+"Пожалуйста, замените на новый модуль"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AICONTROLMODULE.NAME
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AICONTROLMODULE.NAME"
+msgid "<link=\"AICONTROLMODULECONFIG\">AI Control Module [DEPRECATED]</link>"
+msgstr "<link=\"AICONTROLMODULECONFIG\">Модуль управления ИИ [УСТАРЕЛ]</link>"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULE.DESC
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULE.DESC"
+msgid "Piloting is fun, even for an artificial brain!"
+msgstr "Пилотирование - это весело даже для искусственного мозга!"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULE.EFFECT
+msgctxt ""
+"RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULE.EFFECT"
+msgid ""
+"Requires a <link=\"ROBOROCKETCONFIG\">AI Brain</link> to function.\n"
+"Brains can be made at the <link=\"SUPERMATERIALREFINERY\">Молекулярная "
+"кузница</link>\n"
+"A brain will pilot the rocket and slowly gain piloting experience, resulting "
+"in faster flight times.\n"
+"\n"
+"Functions as a Command Module.\n"
+"\n"
+"One Command Module may be installed per rocket.\n"
+"\n"
+"Must be built at the top of a Rocket\n"
+"\n"
+"Won't allow any duplicants inside"
+msgstr ""
+"Для работы требуется <link=\"ROBOROCKETCONFIG\">Мозг ИИ</link>.\n"
+"Мозг можно изготовить в <link=\"SUPERMATERIALREFINERY\">Молекулярной "
+"кузнице</link>.\n"
+"Мозг будет управлять ракетой и постепенно приобретать опыт пилотирования, "
+"что приведёт к ускорению полета.\n"
+"\n"
+"Функционирует как командный модуль.\n"
+"\n"
+"На одной ракете может быть установлен один командный модуль.\n"
+"\n"
+"Не допускает дубликатов внутри."
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULE.NAME
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULE.NAME"
+msgid "<link=\"RRAINOSECONE\">AI Brain Module [OLD]</link>"
+msgstr "<link=\"RRAINOSECONE\">Мозговой модуль ИИ [СТАРЫЙ]</link>"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULEV2.DESC
+msgctxt ""
+"RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULEV2.DESC"
+msgid "Piloting is fun, even for an artificial brain!"
+msgstr "Пилотирование - это весело даже для искусственного мозга!"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULEV2.EFFECT
+msgctxt ""
+"RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULEV2.EFFECT"
+msgid ""
+"Requires a <link=\"ROBOROCKETCONFIG\">AI Brain</link> to function.\n"
+"Brains can be made at the <link=\"SUPERMATERIALREFINERY\">Молекулярная "
+"кузница</link>\n"
+"A brain will pilot the rocket and slowly gain piloting experience, resulting "
+"in faster flight times.\n"
+"\n"
+"Functions as a Command Module.\n"
+"\n"
+"One Command Module may be installed per rocket.\n"
+"\n"
+"Must be built at the top of a Rocket\n"
+"\n"
+"Won't allow any duplicants inside"
+msgstr ""
+"Для работы требуется <link=\"ROBOROCKETCONFIG\">Мозг ИИ</link>.\n"
+"Мозг можно изготовить в <link=\"SUPERMATERIALREFINERY\">Молекулярной "
+"кузнице</link>.\n"
+"Мозг будет управлять ракетой и постепенно приобретать опыт пилотирования, "
+"что приведёт к ускорению полета.\n"
+"\n"
+"Функционирует как командный модуль.\n"
+"\n"
+"На одной ракете может быть установлен один командный модуль.\n"
+"\n"
+"Не допускает дубликатов внутри."
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULEV2.NAME
+msgctxt ""
+"RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULEV2.NAME"
+msgid "<link=\"RRAINOSECONE\">AI Brain Module</link>"
+msgstr "<link=\"RRAINOSECONE\">Мозговой модуль ИИ</link>"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AINOSECONE.DESC
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AINOSECONE.DESC"
+msgid "The big camera lens helps its AI with navigation."
+msgstr "Большой объектив камеры помогает ИИ с навигацией."
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AINOSECONE.EFFECT
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AINOSECONE.EFFECT"
+msgid ""
+"Will pilot a rocket without any duplicant interaction.\n"
+"\n"
+"Functions as a Command Module an a Nosecone.\n"
+"\n"
+"One Command Module may be installed per rocket.\n"
+"\n"
+"Must be built at the top of a Rocket\n"
+"\n"
+"Won't allow any duplicants inside"
+msgstr ""
+"Управляет ракетой без участия дубликантов.\n"
+"\n"
+"Функционирует как командный модуль и головной обтекатель.\n"
+"\n"
+"На каждую ракету может быть установлен один командный модуль.\n"
+"\n"
+"Должен устанавливаться на вершину ракеты.\n"
+"\n"
+"Не допускает дубликантов внутрь."
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AINOSECONE.NAME
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AINOSECONE.NAME"
+msgid "<link=\"RRAINOSECONE\">AI Nosecone</link>"
+msgstr "<link=\"RRAINOSECONE\">Головной обтекатель ИИ</link>"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_EARLYGAMEAICONTROLMODULE.DESC
+msgctxt ""
+"RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_EARLYGAMEAICONTROLMODULE.DESC"
+msgid "Piloting a rocket, now without duplicants."
+msgstr "Пилотирование ракеты, теперь без дубликантов."
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_EARLYGAMEAICONTROLMODULE.EFFECT
+msgctxt ""
+"RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_EARLYGAMEAICONTROLMODULE.EFFECT"
+msgid ""
+"Will pilot a rocket without any duplicant interaction.\n"
+"\n"
+"Functions as a Command Module.\n"
+"\n"
+"One Command Module may be installed per rocket.\n"
+"\n"
+"Won't allow any duplicants inside"
+msgstr ""
+"Управляет ракетой без участия дубликантов.\n"
+"\n"
+"Функционирует как командный модуль.\n"
+"\n"
+"На каждую ракету может быть установлен один командный модуль.\n"
+"\n"
+"Не допускает дубликантов внутрь."
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_EARLYGAMEAICONTROLMODULE.NAME
+msgctxt ""
+"RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_EARLYGAMEAICONTROLMODULE.NAME"
+msgid "<link=\"RREARLYGAMEAICONTROLMODULE\">AI Control Module</link>"
+msgstr "<link=\"RREARLYGAMEAICONTROLMODULE\">Модуль управления ИИ</link>"
+
+#. RoboRockets.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RR_BRAINFLYER.DESC
+msgctxt "RoboRockets.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RR_BRAINFLYER.DESC"
+msgid "This brain learned to fly."
+msgstr "Этот мозг научился летать."
+
+#. RoboRockets.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RR_BRAINFLYER.EFFECT
+msgctxt "RoboRockets.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RR_BRAINFLYER.EFFECT"
+msgid ""
+"Seated in a brain jar, this brain will fly your rockets\n"
+"\n"
+"Flying a rocket slowly increases the brains piloting skill, resulting in "
+"faster rockets.\n"
+"\n"
+"Since it does not have anything to learn, it may fly even more efficient "
+"than a duplicant."
+msgstr ""
+"Находясь в банке, этот мозг будет управлять вашими ракетами.\n"
+"\n"
+"Полёт на ракете медленно повышает навык пилотирования мозга, что приводит к "
+"более быстрым ракетам.\n"
+"\n"
+"Поскольку мозгу нечему учиться, он может летать даже эффективнее, чем "
+"дубликант."
+
+#. RoboRockets.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RR_BRAINFLYER.NAME
+msgctxt "RoboRockets.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RR_BRAINFLYER.NAME"
+msgid "<link=\"ROBOROCKETCONFIG\">AI Brain</link>"
+msgstr "<link=\"ROBOROCKETCONFIG\">Мозг ИИ</link>"
+
+#. RoboRockets.STRINGS.MISC.TAGS.RR_SPACEBRAINFLYER
+msgctxt "RoboRockets.STRINGS.MISC.TAGS.RR_SPACEBRAINFLYER"
+msgid "<link=\"ROBOROCKETCONFIG\">AI Brain</link>"
+msgstr "<link=\"ROBOROCKETCONFIG\">Мозг ИИ</link>"
+
+#. RoboRockets.STRINGS.RESEARCH.TECHS.RR_BRAINMODULETECH.DESC
+msgctxt "RoboRockets.STRINGS.RESEARCH.TECHS.RR_BRAINMODULETECH.DESC"
+msgid "Grow a brain and let it reach for the stars"
+msgstr "Вырастите мозг и дайте ему дотянуться до звёзд"
+
+#. RoboRockets.STRINGS.RESEARCH.TECHS.RR_BRAINMODULETECH.NAME
+msgctxt "RoboRockets.STRINGS.RESEARCH.TECHS.RR_BRAINMODULETECH.NAME"
+msgid "<link=\"RRBRAINMODULETECH\">Artificial Learning Capabilities</link>"
+msgstr "<link=\"RRBRAINMODULETECH\">Возможности искусственного обучения</link>"
+
+#. RoboRockets.STRINGS.UI.STARMAP.AISTATUS.NAME
+msgctxt "RoboRockets.STRINGS.UI.STARMAP.AISTATUS.NAME"
+msgid "Ai controlled"
+msgstr "Контролируется ИИ"
+
+#. RoboRockets.STRINGS.UI.STARMAP.AISTATUS.TOOLTIP
+msgctxt "RoboRockets.STRINGS.UI.STARMAP.AISTATUS.TOOLTIP"
+msgid ""
+"This Rocket flies on it's own - your duplicants are scared yet impressed!"
+msgstr ""
+"Эта ракета летает сама по себе - ваши дубликанты напуганы, но впечатлены!"

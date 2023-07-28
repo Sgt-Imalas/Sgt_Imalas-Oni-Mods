@@ -208,15 +208,18 @@ namespace RoboRockets
 #endif
                     AIPassengerModule Module = ModAssets.ForbiddenInteriorIDs[id];
 
-                    if (!Module.HasTag(GameTags.RocketOnGround))
+                    if (Module!= null && Module.TryGetComponent<KPrefabID>(out var prefabID) && !prefabID.HasTag(GameTags.RocketOnGround))
                     {
                         if(!ClusterMapScreen.Instance.gameObject.activeSelf)
                             ManagementMenu.Instance.ToggleClusterMap();
-                        ClusterMapScreen.Instance.SelectEntity(Module.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<ClusterGridEntity>(), true);
+
+                        if(Module.TryGetComponent<RocketModuleCluster>(out var module) && module.CraftInterface.TryGetComponent<ClusterGridEntity>(out var entity))
+                        {
+                            ClusterMapScreen.Instance.SelectEntity(entity, true);
+                        }
                     }
                     else
                     {
-
                         if (Module.TryGetComponent<RocketModuleCluster>(out var door))
                         {
 
