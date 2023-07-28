@@ -91,7 +91,9 @@ namespace Rockets_TinyYetBig.Docking
         public override void OnSpawn()
         {
             base.OnSpawn();
-            dManager = gameObject.TryGetComponent<Clustercraft>(out _) ? gameObject.AddOrGet<DockingManager>() : ClusterUtil.GetMyWorld(this.gameObject).gameObject.AddOrGet<DockingManager>();
+            dManager = gameObject.TryGetComponent<RocketModuleCluster>(out var module) 
+                ? module.CraftInterface.gameObject.AddOrGet<DockingManager>() 
+                : ClusterUtil.GetMyWorld(this.gameObject).gameObject.AddOrGet<DockingManager>();
             dManager.AddDockable(this);
             dManager.SetManagerType();
         }
@@ -102,7 +104,7 @@ namespace Rockets_TinyYetBig.Docking
             base.OnCleanUp();
         }
 
-        public GameObject GetWorldObject()
+        public virtual GameObject GetWorldObject()
         {
             WorldContainer world = ClusterManager.Instance.GetWorld(dManager.WorldId);
             return world == null ? null : world.gameObject;

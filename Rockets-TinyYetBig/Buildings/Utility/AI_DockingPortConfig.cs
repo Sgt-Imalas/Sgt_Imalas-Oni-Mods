@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rockets_TinyYetBig.Docking;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,17 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 
         public override BuildingDef CreateBuildingDef()
         {
+            float[] materialMass = new float[2]
+            {
+                200f,
+                550f
+            };
+            string[] materialType = new string[2]
+            {
+                "RefinedMetal",
+                "Transparent"
+            };
+
             float[] MatCosts = {
                 300f,
                 100f
@@ -27,7 +39,7 @@ namespace Rockets_TinyYetBig.Buildings.Utility
             EffectorValues tieR2 = NOISE_POLLUTION.NONE;
             EffectorValues none = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "artifact_transport_module_kanim", 1000, 30f, MatCosts, Materials, 9999f, BuildLocationRule.Anywhere, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 2, "rocket_cluster_oxidizer_tank_liquid_kanim", 1000, 60f, MatCosts, Materials, 9999f, BuildLocationRule.Anywhere, none, noise);
             BuildingTemplates.CreateRocketBuildingDef(buildingDef);
             buildingDef.DefaultAnimState = "grounded";
             buildingDef.AttachmentSlotTag = GameTags.Rocket;
@@ -51,7 +63,7 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
             {
-                new BuildingAttachPoint.HardPoint(new CellOffset(0, 1), GameTags.Rocket, (AttachableBuilding) null)
+                new BuildingAttachPoint.HardPoint(new CellOffset(0, 2), GameTags.Rocket, (AttachableBuilding) null)
             };
 
         }
@@ -60,8 +72,8 @@ namespace Rockets_TinyYetBig.Buildings.Utility
         {
             Prioritizable.AddRef(go);
 
-
-            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, 1);
+            go.AddOrGet<VirtualDockable>();
+            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MODERATE);
         }
     }
 }
