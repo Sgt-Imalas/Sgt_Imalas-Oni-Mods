@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UtilLibs;
+using static STRINGS.ELEMENTS;
 
 namespace Rockets_TinyYetBig.Patches
 {
@@ -50,6 +51,26 @@ namespace Rockets_TinyYetBig.Patches
                     lead.oreTags = new Tag[] { };
                 }
                 lead.oreTags = lead.oreTags.Append(ModAssets.Tags.RadiationShielding);
+
+
+
+                var LiquidChlorine = ElementLoader.GetElement(SimHashes.Chlorine.CreateTag());
+                if (LiquidChlorine.oreTags is null)
+                {
+                    LiquidChlorine.oreTags = new Tag[] { };
+                }
+                LiquidChlorine.oreTags = LiquidChlorine.oreTags.Append(ModAssets.Tags.CorrosiveOxidizer);                
+                LiquidChlorine.oreTags = LiquidChlorine.oreTags.Append(ModAssets.Tags.OxidizerEfficiency_3);
+
+
+
+                var liquidOxygen = ElementLoader.GetElement(SimHashes.LiquidOxygen.CreateTag());
+                if (liquidOxygen.oreTags is null)
+                {
+                    liquidOxygen.oreTags = new Tag[] { };
+                }
+                liquidOxygen.oreTags = liquidOxygen.oreTags.Append(ModAssets.Tags.LOXTankOxidizer);
+                liquidOxygen.oreTags = liquidOxygen.oreTags.Append(ModAssets.Tags.OxidizerEfficiency_4);
             }
         }
     }

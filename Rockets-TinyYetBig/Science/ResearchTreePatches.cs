@@ -3,6 +3,7 @@ using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.Buildings;
 using Rockets_TinyYetBig.Buildings.CargoBays;
 using Rockets_TinyYetBig.Buildings.Habitats;
+using Rockets_TinyYetBig.Buildings.Utility;
 using Rockets_TinyYetBig.RocketFueling;
 using Rockets_TinyYetBig.SpaceStations;
 using System;
@@ -121,6 +122,7 @@ namespace Rockets_TinyYetBig.Science
                     ModAssets.Techs.DockingTech = new Tech(ModAssets.Techs.DockingTechID, new List<string>
                 {
                     DockingTubeDoorConfig.ID,
+                    AI_DockingPortConfig.ID,
                     //SpaceStationDockingDoorConfig.ID
                 },
                 __instance

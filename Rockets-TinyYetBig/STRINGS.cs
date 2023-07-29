@@ -35,25 +35,34 @@ namespace Rockets_TinyYetBig
         {
             public class TAGS
             {
-                    public static LocString RTB_NEUTRONIUMALLOYMATERIAL = "Neutronium Alloy";
-                    public static LocString RADIATIONSHIELDINGMATERIAL = "Radiation Shielding";
+                public static LocString RTB_NEUTRONIUMALLOYMATERIAL = "Neutronium Alloy";
+                public static LocString RTB_RADIATIONSHIELDINGMATERIAL = "Radiation Shielding";
+                public static LocString RTB_ROCKETFUELMATERIAL = "Rocket Fuel";
+                public static LocString RTB_OXIDIZERCORROSIVEREQUIREMENT = "Corrosive Liquid Oxidizer";
+                public static LocString RTB_OXIDIZERLOXTANK = "Liquid Oxidizer";
+                public static LocString RTB_OXIDIZEREFFICIENCY_1 = "Oxidizer Efficiency 1";
+                public static LocString RTB_OXIDIZEREFFICIENCY_2 = "Oxidizer Efficiency 2";
+                public static LocString RTB_OXIDIZEREFFICIENCY_3 = "Oxidizer Efficiency 3";
+                public static LocString RTB_OXIDIZEREFFICIENCY_4 = "Oxidizer Efficiency 4";
+                public static LocString RTB_OXIDIZEREFFICIENCY_5 = "Oxidizer Efficiency 5";
+                public static LocString RTB_OXIDIZEREFFICIENCY_6 = "Oxidizer Efficiency 6";
             }
-            
+
         }
 
         public class ELEMENTS
         {
             public class UNOBTANIUMALLOY
             {
-                public static LocString NAME = (LocString) FormatAsLink("Neutronium Alloy", nameof(UNOBTANIUMALLOY));
+                public static LocString NAME = (LocString)FormatAsLink("Neutronium Alloy", nameof(UNOBTANIUMALLOY));
                 public static LocString DESC = "An insanely durable and heat resistant alloy.\nRequired in the construction of large space structures.";
                 public static LocString RECIPE_DESCRIPTION = "Neutronium Alloy is a " + FormatAsLink("Solid Material", "ELEMENTS_SOLID") + " used in the construction of large space structures.";
             }
             public class UNOBTANIUMDUST
             {
-                public static LocString NAME = (LocString) FormatAsLink("Neutronium Dust", nameof(UNOBTANIUMDUST));
-                public static LocString DESC = "Harvested from artifact research, this dust might have some useful properties.\nCan be forged into "+
-                    FormatAsLink("Neutronium Alloy", nameof(UNOBTANIUMALLOY))+" at the "+ (LocString)FormatAsLink("Molecular Forge", nameof(SUPERMATERIALREFINERY));
+                public static LocString NAME = (LocString)FormatAsLink("Neutronium Dust", nameof(UNOBTANIUMDUST));
+                public static LocString DESC = "Harvested from artifact research, this dust might have some useful properties.\nCan be forged into " +
+                    FormatAsLink("Neutronium Alloy", nameof(UNOBTANIUMALLOY)) + " at the " + (LocString)FormatAsLink("Molecular Forge", nameof(SUPERMATERIALREFINERY));
             }
         }
         public class DEEPSPACERESEARCH
@@ -120,7 +129,7 @@ namespace Rockets_TinyYetBig
                 //uncategorized = -1
             }
         }
-        
+
 
         public class BUILDINGS
         {
@@ -161,7 +170,7 @@ namespace Rockets_TinyYetBig
                 {
                     public static LocString NAME = (LocString)FormatAsLink("Freezer Access Hatch", nameof(RTB_FRIDGEMODULEACCESSHATCH));
                     public static LocString DESC = (LocString)"Food spoilage can be slowed by ambient conditions as well as by refrigerators.";
-                    public static LocString EFFECT = (LocString)("Has to be attached to the rocket wall.\n\nStores a small amount of " + FormatAsLink("Food", "FOOD") + " at an ideal " + FormatAsLink("Temperature", "HEAT") + " to prevent spoilage.\n\nWill pull food from a connected "+RTB_FRIDGECARGOBAY.NAME+" when low on food.");
+                    public static LocString EFFECT = (LocString)("Has to be attached to the rocket wall.\n\nStores a small amount of " + FormatAsLink("Food", "FOOD") + " at an ideal " + FormatAsLink("Temperature", "HEAT") + " to prevent spoilage.\n\nWill pull food from a connected " + RTB_FRIDGECARGOBAY.NAME + " when low on food.");
                     public static LocString LOGIC_PORT = (LocString)"Full/Not Full";
                     public static LocString LOGIC_PORT_ACTIVE = (LocString)("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when full");
                     public static LocString LOGIC_PORT_INACTIVE = (LocString)("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
@@ -176,7 +185,7 @@ namespace Rockets_TinyYetBig
                     public static LocString DESC = (LocString)"Bringing home those minerals - for Rock and Stone!";
                     public static LocString EFFECT = (LocString)("Acts as a support module for a normal Drillcone.\n\nProvides additional 1500kg of diamond capacity for the drillcone.\n\nGives a 20% mining speed boost to the drillcone.\n\nCan be toggled between manual loading and automated loading via cargo loader.");
                 }
-                
+
                 public class RTB_AIMODULEDOCKINGPORT
                 {
                     public static LocString NAME = (LocString)FormatAsLink("Docking Module", nameof(RTB_AIMODULEDOCKINGPORT));
@@ -195,7 +204,7 @@ namespace Rockets_TinyYetBig
                     public static LocString NAME = (LocString)FormatAsLink("Natural Gas Engine", nameof(RTB_NATGASENGINECLUSTER));
                     public static LocString DESC = (LocString)"Rockets can be used to send Duplicants into space and retrieve rare resources.";
                     public static LocString EFFECT = (LocString)("Burns " + FormatAsLink("Natural Gas", "METHANE") + " to propel rockets for mid-range space exploration.\n\nEngine must be built via " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ". \n\nOnce the engine has been built, more rocket modules can be added.");
-                }       
+                }
                 public class RTB_SMOLBATTERYMODULE
                 {
                     public static LocString NAME = (LocString)FormatAsLink("Small Battery Module", nameof(RTB_SMOLBATTERYMODULE));
@@ -287,7 +296,7 @@ namespace Rockets_TinyYetBig
 
 
                 public class RTB_HABITATMODULESTARGAZER
-                {   
+                {
                     public static LocString NAME = (LocString)FormatAsLink("Stargazer Nosecone", nameof(HabitatModuleStargazerConfig));
                     public static LocString DESC = "The stars have never felt this close before like in this Command Module.";
                     public static LocString EFFECT = ("Closes during starts and landings to protect the glass\n\n" +
@@ -340,7 +349,7 @@ namespace Rockets_TinyYetBig
                     public static LocString DESC = (LocString)"Storing additional fuel increases the distance a rocket can travel before returning.";
                     public static LocString EFFECT = ("Stores pressurized " + FormatAsLink("Carbon Dioxide", "CARBONDIOXIDE") + " for " + FormatAsLink("Carbon Dioxide Engines", CO2EngineConfig.ID));
                 }
-                
+
                 public class RTB_LIQUIDCHLORINEOXIDIZERTANK
                 {
                     public static LocString NAME = (LocString)FormatAsLink("Liquid Chlorine Oxidizer Tank", nameof(RTB_LIQUIDCHLORINEOXIDIZERTANK));
@@ -423,7 +432,7 @@ namespace Rockets_TinyYetBig
                 {
                     public static LocString NAME = (LocString)"Power Generation: {ActiveWattage}/{MaxWattage}";
                     public static LocString TOOLTIP = (LocString)("Module generator will generate " + FormatAsPositiveRate("{MaxWattage}") + " of " + PRE_KEYWORD + "Power" + PST_KEYWORD + " once fueled\n\nRight now, it's not doing much of anything");
-                }   
+                }
                 public class RTB_MODULEGENERATORFUELSTATUS
                 {
                     public static LocString NAME = (LocString)"Generator Fuel Capacity: {CurrentFuelStorage}/{MaxFuelStorage}";
@@ -498,7 +507,7 @@ namespace Rockets_TinyYetBig
                     public static LocString BUILDMENUTITLE = (LocString)"Rocket Fueling";
                     public static LocString TOOLTIP = (LocString)"";
                 }
-                
+
             }
         }
 
@@ -557,7 +566,7 @@ namespace Rockets_TinyYetBig
                     public static LocString DOCKINGPENDING = "Docking pending";
                     public static LocString ONECONNECTION = "1 available connection";
                     public static LocString MORECONNECTIONS = "{0} available connections";
-                    
+
 
                     public static LocString BUTTON = (LocString)"View connected Target";
                     public static LocString BUTTONINFO = (LocString)"View the interior this docking tube is currently connected to.";
@@ -597,7 +606,7 @@ namespace Rockets_TinyYetBig
         public class MODIFIEDVANILLASTRINGS
         {
             public static LocString KEROSENEENGINECLUSTERSMALL_EFFECT = (LocString)("Burns either " + FormatAsLink("Petroleum", "PETROLEUM") + " or " + FormatAsLink("Ethanol", "ETHANOL") + " to propel rockets for mid-range space exploration.\n\nSmall Petroleum Engines possess the same speed as a " + FormatAsLink("Petroleum Engines", "KEROSENEENGINE") + " but have smaller height restrictions.\n\nEngine must be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ". \n\nOnce the engine has been built, more rocket modules can be added.");
-            public static LocString KEROSENEENGINECLUSTER_EFFECT = (LocString)("Burns either " + FormatAsLink("Petroleum", "PETROLEUM") + " or " +  FormatAsLink("Ethanol", "ETHANOL") + " to propel rockets for mid-range space exploration.\n\nPetroleum Engines have generous height restrictions, ideal for hauling many modules.\n\nEngine must be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ". \n\nOnce the engine has been built, more rocket modules can be added.");
+            public static LocString KEROSENEENGINECLUSTER_EFFECT = (LocString)("Burns either " + FormatAsLink("Petroleum", "PETROLEUM") + " or " + FormatAsLink("Ethanol", "ETHANOL") + " to propel rockets for mid-range space exploration.\n\nPetroleum Engines have generous height restrictions, ideal for hauling many modules.\n\nEngine must be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ". \n\nOnce the engine has been built, more rocket modules can be added.");
         }
         public class RESEARCH
         {
@@ -616,7 +625,7 @@ namespace Rockets_TinyYetBig
 
                 }
                 public class RTB_LARGERROCKETLIVINGSPACETECH
-                {   
+                {
                     public static LocString NAME = FormatAsLink("Luxurious Liv'in Space", nameof(RTB_LARGERROCKETLIVINGSPACETECH));
                     public static LocString DESC = "All the living space a dupe could ask for, now in your rocket.";
 

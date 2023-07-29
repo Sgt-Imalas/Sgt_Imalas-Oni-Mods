@@ -389,15 +389,88 @@ namespace Rockets_TinyYetBig
         public class Tags
         {
             public static Tag IsSpaceStation = TagManager.Create("RTB_isSpaceStationInteriorWorld");
+
             public static Tag SpaceStationOnlyInteriorBuilding = TagManager.Create("RTB_SpaceStationInteriorOnly");
             public static Tag RocketInteriorOnlyBuilding = TagManager.Create("RTB_RocketInteriorOnly");
+
             public static Tag RocketPlatformTag = TagManager.Create("RTB_RocketPlatformTag");
             public static Tag NeutroniumAlloy = TagManager.Create("RTB_NeutroniumAlloyMaterial");
-            //Use this tag to add the radiation shielding tag to a material, making it available for f.e. the plated nosecone
-            public static Tag RadiationShielding = TagManager.Create("RadiationShieldingMaterial");
-            //add this tag to any liquid material that is a rocket fuel
-            public static Tag RocketFuelTag = TagManager.Create("RocketFuelMaterial");
+
+            /// <summary>
+            ///Use this tag to add the radiation shielding tag to a material, making it available for f.e. the plated nosecone.
+            ///By default it is attached to Lead, depleted uranium and neutronium alloy
+            /// </summary>
+            public static Tag RadiationShielding = TagManager.Create("RTB_RadiationShieldingMaterial");
+            
+            /// <summary>
+            /// add this tag to any liquid material that is a rocket fuel, by default it is attached to every material with the "Combustible Liquid" Tag and Hydrogen
+            /// </summary>
+            public static Tag RocketFuelTag = TagManager.Create("RTB_RocketFuelMaterial");
+
+            /// <summary>
+            /// Liquid Oxidizer that is corrosive, requires storing in Plated Liquid Oxidizer Tank
+            /// </summary>
+            public static Tag CorrosiveOxidizer = TagManager.Create("RTB_OxidizerCorrosiveRequirement");
+            
+            /// <summary>
+            /// Liquid Oxidizer that is non corrosive, thus stored in a normal Liquid oxygen tank
+            /// </summary>
+            public static Tag LOXTankOxidizer = TagManager.Create("RTB_OxidizerLOXTank");
+
+            /// <summary>
+            /// has Oxidizer efficiency of 1
+            /// </summary>
+            public static Tag OxidizerEfficiency_1 = TagManager.Create("RTB_OxidizerEfficiency_1");
+            /// <summary>
+            /// has Oxidizer efficiency of 2
+            /// </summary>
+            public static Tag OxidizerEfficiency_2 = TagManager.Create("RTB_OxidizerEfficiency_2");
+            /// <summary>
+            /// has Oxidizer efficiency of 3
+            /// </summary>
+            public static Tag OxidizerEfficiency_3 = TagManager.Create("RTB_OxidizerEfficiency_3");
+
+            //TODO: lock behind lox tank science
+
+            /// <summary>
+            /// has Oxidizer efficiency of 4, is locked behind LOX tank science
+            /// </summary>
+            public static Tag OxidizerEfficiency_4 = TagManager.Create("RTB_OxidizerEfficiency_4");
+
+            //TODO: lock behind space station material science
+
+            /// <summary>
+            /// has Oxidizer efficiency of 5, is locked behind a space station level science upgrade
+            /// </summary>
+            public static Tag OxidizerEfficiency_5 = TagManager.Create("RTB_OxidizerEfficiency_5");
+            /// <summary>
+            /// has Oxidizer efficiency of 6, is locked behind a space station level science upgrade
+            /// </summary>
+            public static Tag OxidizerEfficiency_6 = TagManager.Create("RTB_OxidizerEfficiency_6");
+
+
         }
+        public static class OxidizerEfficiencies
+        {
+            private static Dictionary<Tag, float> oxidizerEfficiencies;
+            public static Dictionary<Tag, float> GetOxidizerEfficiencies()
+            {
+                if(oxidizerEfficiencies== null)
+                {
+                    oxidizerEfficiencies = new Dictionary<Tag, float>()
+                    {
+                        { Tags.OxidizerEfficiency_1, 1 },
+                        { Tags.OxidizerEfficiency_2, 2 },
+                        { Tags.OxidizerEfficiency_3, 3 },
+                        { Tags.OxidizerEfficiency_4, 4 },
+                        { Tags.OxidizerEfficiency_5, 5 },
+                        { Tags.OxidizerEfficiency_6, 6 },
+                    };
+                }
+                return oxidizerEfficiencies;                
+            }
+        }
+
 
         public enum SpaceStationType
         {

@@ -44,6 +44,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 //Assign categories to each vanilla module
                 CategorizeVanillaModules();
 
+
                 if (Config.Instance.EnableExtendedHabs)
                 {
                     AddRocketModuleToBuildList(HabitatModuleSmallExpandedConfig.ID, new RocketCategory[] { RocketCategory.habitats, RocketCategory.nosecones }, HabitatModuleSmallConfig.ID);
@@ -135,6 +136,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 {
                     AddRocketModuleToBuildList(CO2FuelTankConfig.ID, RocketryUtils.RocketCategory.fuel, CO2EngineConfig.ID);
                     AddRocketModuleToBuildList(LiquidFuelTankClusterSmallConfig.ID, RocketryUtils.RocketCategory.fuel, LiquidFuelTankClusterConfig.ID, true);
+                    AddRocketModuleToBuildList(LiquidChlorineOxidizerTankConfig.ID, RocketryUtils.RocketCategory.fuel, OxidizerTankLiquidClusterConfig.ID, true);
                 }
                 if (Config.Instance.EnableLargeCargoBays)
                 {

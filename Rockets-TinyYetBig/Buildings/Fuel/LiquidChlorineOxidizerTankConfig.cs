@@ -73,7 +73,7 @@ namespace Rockets_TinyYetBig.Buildings.Fuel
             storage.capacityKg = 450f;
             storage.storageFilters = new List<Tag>()
             {
-                SimHashes.Chlorine.CreateTag()
+                ModAssets.Tags.CorrosiveOxidizer
             };
             storage.SetDefaultStoredItemModifiers(new List<Storage.StoredItemModifier>()
             {
@@ -93,20 +93,20 @@ namespace Rockets_TinyYetBig.Buildings.Fuel
             ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
             conduitConsumer.conduitType = ConduitType.Liquid;
             conduitConsumer.consumptionRate = 10f;
-            conduitConsumer.capacityTag = ElementLoader.FindElementByHash(SimHashes.Chlorine).tag;
+            conduitConsumer.capacityTag = ModAssets.Tags.CorrosiveOxidizer;
             conduitConsumer.capacityKG = storage.capacityKg;
             conduitConsumer.forceAlwaysSatisfied = true;
             conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MAJOR_PLUS);
             storage.showUnreachableStatus = false;
 
-            go.GetComponent<KPrefabID>().prefabInitFn += (KPrefabID.PrefabFn)(inst =>
-            {
-                Element elementByHash = ElementLoader.FindElementByHash(SimHashes.Chlorine);
-                if (DiscoveredResources.Instance.IsDiscovered(elementByHash.tag))
-                    return;
-                DiscoveredResources.Instance.Discover(elementByHash.tag, elementByHash.GetMaterialCategoryTag());
-            });
+            //go.GetComponent<KPrefabID>().prefabInitFn += (KPrefabID.PrefabFn)(inst =>
+            //{
+            //    Element elementByHash = ElementLoader.FindElementByHash(SimHashes.Chlorine);
+            //    if (DiscoveredResources.Instance.IsDiscovered(elementByHash.tag))
+            //        return;
+            //    DiscoveredResources.Instance.Discover(elementByHash.tag, elementByHash.GetMaterialCategoryTag());
+            //});
         }
     }
 
