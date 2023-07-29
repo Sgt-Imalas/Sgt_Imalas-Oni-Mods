@@ -25,6 +25,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
             if (connected.Get().HasDupeTeleporter)
             {
+
                 Teleporter.SetTarget(d.Teleporter);
                 assignable.canBeAssigned = true;
             }

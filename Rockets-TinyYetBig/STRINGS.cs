@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS;
 using static STRINGS.BUILDINGS.PREFABS;
+using static STRINGS.ELEMENTS;
 using static STRINGS.MISC.NOTIFICATIONS;
 using static STRINGS.UI;
 
@@ -175,7 +176,13 @@ namespace Rockets_TinyYetBig
                     public static LocString DESC = (LocString)"Bringing home those minerals - for Rock and Stone!";
                     public static LocString EFFECT = (LocString)("Acts as a support module for a normal Drillcone.\n\nProvides additional 1500kg of diamond capacity for the drillcone.\n\nGives a 20% mining speed boost to the drillcone.\n\nCan be toggled between manual loading and automated loading via cargo loader.");
                 }
-
+                
+                public class RTB_AIMODULEDOCKINGPORT
+                {
+                    public static LocString NAME = (LocString)FormatAsLink("Docking Module", nameof(RTB_AIMODULEDOCKINGPORT));
+                    public static LocString DESC = (LocString)"Connecting with another (rocket) has never been easier.";
+                    public static LocString EFFECT = (LocString)("Enables docking with other rockets and space stations\n\nBoth docking participants require a docking component to dock.\n\nDuplicants cannot use this docking connection.\n\nAdd it to an AI controlled rocket to allow it to dock.\n\nMultiple Modules allow multiple docking connections");
+                }
                 public class RTB_DOCKINGTUBEDOOR
                 {
                     public static LocString NAME = (LocString)FormatAsLink("Docking Bridge", nameof(RTB_DOCKINGTUBEDOOR));
@@ -332,6 +339,13 @@ namespace Rockets_TinyYetBig
                     public static LocString NAME = (LocString)FormatAsLink("Carbon Dioxide Fuel Tank", nameof(RTB_CO2FUELTANK));
                     public static LocString DESC = (LocString)"Storing additional fuel increases the distance a rocket can travel before returning.";
                     public static LocString EFFECT = ("Stores pressurized " + FormatAsLink("Carbon Dioxide", "CARBONDIOXIDE") + " for " + FormatAsLink("Carbon Dioxide Engines", CO2EngineConfig.ID));
+                }
+                
+                public class RTB_LIQUIDCHLORINEOXIDIZERTANK
+                {
+                    public static LocString NAME = (LocString)FormatAsLink("Liquid Chlorine Oxidizer Tank", nameof(RTB_LIQUIDCHLORINEOXIDIZERTANK));
+                    public static LocString DESC = (LocString)"Liquid chlorine improves the thrust-to-mass ratio of rocket fuels.";
+                    public static LocString EFFECT = (LocString)("Stores " + FormatAsLink("Liquid Chlorine", nameof(CHLORINE)) + " for burning rocket fuels. \n\nMust be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ".\n\nThe oxidizer efficiency of liquid chlorine sits between those of oxylite and liquid oxygen (3).");
                 }
                 public class RTB_LIQUIDFUELTANKCLUSTERSMALL
                 {
