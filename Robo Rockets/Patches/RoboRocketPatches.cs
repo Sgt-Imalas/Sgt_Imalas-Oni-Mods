@@ -37,7 +37,7 @@ namespace RoboRockets
                 SelectModuleCondition.SelectionContext selectionContext)
             {
 
-                if (existingModule == null)
+                if (existingModule == null || !existingModule.TryGetComponent<AttachableBuilding>(out _))
                 {
                     __result = true;
                     return false;

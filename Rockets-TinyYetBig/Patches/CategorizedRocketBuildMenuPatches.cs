@@ -429,32 +429,6 @@ namespace Rockets_TinyYetBig
                     }
                 }
                 CategoryPatchTest.ToggleCategoriesSearch(false);
-                //foreach (var button in CategoryPatchTest.SearchableButtons)
-                //{
-                //    if (!button.IsNullOrDestroyed() && !button.Value.IsNullOrDestroyed())
-                //    {
-                //        if (!___moduleBuildableState.ContainsKey(button.Key))
-                //        {
-                //            ___moduleBuildableState.Add(button.Key, false);
-                //        }
-                //        TechItem techItem = Db.Get().TechItems.TryGet(button.Key.PrefabID);
-                //        if (techItem != null)
-                //        {
-                //            bool flag = DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || techItem.IsComplete();
-
-                //            if (!button.Value.IsNullOrDestroyed())
-                //                button.Value.SetActive(flag);
-                //        }
-                //        else
-                //        {
-                //            if (!button.Value.IsNullOrDestroyed())
-                //                button.Value.SetActive(true);
-                //        }
-                //        ___moduleBuildableState[button.Key] = __instance.TestBuildable(button.Key);
-                //    }
-                //}
-
-
 
                 if (___selectedModuleDef != null)
                 {

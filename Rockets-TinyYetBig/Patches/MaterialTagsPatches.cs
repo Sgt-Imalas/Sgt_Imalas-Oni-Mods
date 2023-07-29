@@ -20,6 +20,16 @@ namespace Rockets_TinyYetBig.Patches
         [HarmonyPatch(nameof(ElementLoader.Load))]
         public static class Patch_ElementLoader_Load
         {
+            public static List<SimHashes> RadShieldingElements = new List<SimHashes>()
+            {
+                SimHashes.Lead,
+                SimHashes.Gold,
+                SimHashes.DepletedUranium,
+                SimHashes.Tungsten,
+                SimHashes.TempConductorSolid
+            };
+
+
             [HarmonyPriority(Priority.Low)]
             public static void Postfix()
             {
@@ -38,21 +48,16 @@ namespace Rockets_TinyYetBig.Patches
                 }
                 hydrogen.oreTags = hydrogen.oreTags.Append(ModAssets.Tags.RocketFuelTag);
 
-                var uran = ElementLoader.GetElement(SimHashes.DepletedUranium.CreateTag());
-                if (uran.oreTags is null)
+
+                foreach(var radShieldElemnt in RadShieldingElements)
                 {
-                    uran.oreTags = new Tag[] { };
+                    var element = ElementLoader.GetElement(radShieldElemnt.CreateTag());
+                    if (element.oreTags is null)
+                    {
+                        element.oreTags = new Tag[] { };
+                    }
+                    element.oreTags = element.oreTags.Append(ModAssets.Tags.RadiationShieldingRocketConstructionMaterial);
                 }
-                uran.oreTags = uran.oreTags.Append(ModAssets.Tags.RadiationShielding);
-
-                var lead = ElementLoader.GetElement(SimHashes.Lead.CreateTag());
-                if (lead.oreTags is null)
-                {
-                    lead.oreTags = new Tag[] { };
-                }
-                lead.oreTags = lead.oreTags.Append(ModAssets.Tags.RadiationShielding);
-
-
 
                 var LiquidChlorine = ElementLoader.GetElement(SimHashes.Chlorine.CreateTag());
                 if (LiquidChlorine.oreTags is null)
@@ -61,7 +66,6 @@ namespace Rockets_TinyYetBig.Patches
                 }
                 LiquidChlorine.oreTags = LiquidChlorine.oreTags.Append(ModAssets.Tags.CorrosiveOxidizer);                
                 LiquidChlorine.oreTags = LiquidChlorine.oreTags.Append(ModAssets.Tags.OxidizerEfficiency_3);
-
 
 
                 var liquidOxygen = ElementLoader.GetElement(SimHashes.LiquidOxygen.CreateTag());

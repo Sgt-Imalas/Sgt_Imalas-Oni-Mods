@@ -20,8 +20,9 @@ namespace Rockets_TinyYetBig.LandingLegs
         public Tag previewTag;
         [Serialize]
         public bool deployOnLanding = true;
+
         [Serialize]
-        public List<Type> cmpsToEnable;
+        public List<string> cmpsToEnable;
 
         [Serialize]
         public float flightAnimOffset = 50f;
@@ -29,6 +30,8 @@ namespace Rockets_TinyYetBig.LandingLegs
         [Serialize]
         public bool hasLandedBool = false;
 
+        [Serialize]
+        public bool EnableOnSaveLoad = false;
 
         public float exhaustEmitRate = 50f;
 
@@ -39,6 +42,9 @@ namespace Rockets_TinyYetBig.LandingLegs
         public GameObject landingPreview;
         public override void OnSpawn()
         {
+            if (EnableOnSaveLoad)
+                EnableAllComponents();
+
             smi.StartSM();
         }
 
@@ -50,11 +56,15 @@ namespace Rockets_TinyYetBig.LandingLegs
 
         public void OnJettisoned()
         {
-            bool hasLanded = smi.sm.isLanded.Get(smi);
             SgtLogger.l("onjettisoned");
+            //ClusterManager.Instance.activeWorld;
+
+            var world = this.gameObject.GetMyWorld();
+            Debug.Log("WORLD: " + world);
+            if (world == null)
+                world = ClusterManager.Instance.activeWorld;
 
 
-            var world = this.GetMyWorld();
             SgtLogger.l(string.Format("maximum y: {0}, current pos: {1}, difference: {2}", world.maximumBounds.y, this.gameObject.transform.GetPosition().y, world.maximumBounds.y - this.gameObject.transform.GetPosition().y));
             flightAnimOffset = (world.maximumBounds.y - this.gameObject.transform.GetPosition().y) + 100.0f;
             SgtLogger.l(flightAnimOffset.ToString(), "StartingOffset");
@@ -101,14 +111,14 @@ namespace Rockets_TinyYetBig.LandingLegs
             float h = flightAnimOffset - landingSafetyMargin; // Our "h" variable reaches 0 at some small distance above the ground
 
             // Target Option 1: Speed towards ground linearly based on height
-            // targetVelocity = -h;
+            //targetVelocity = -h;
 
             // Target Option 2: Speed towards ground based on sqrt(height)
-            targetVelocity = -Mathf.Sqrt(h);
+            //targetVelocity = -Mathf.Sqrt(h);
 
             // Target Option 3: Speed towards ground based on log(height)
             // Make sure h i
-             //targetVelocity = h > 1 ? -Mathf.Log(h) - 1 : -1;
+            targetVelocity = h > 1 ? -Mathf.Log(h) - 1 : -1;
 
             // The rocket needs to accelerate by the difference between how fast it is going and how fast it wants to go.
             // There is a constant acceleration due to gravity that is being cancelled by the thruster, so this is a calculation of the *net* acceleration.
@@ -149,20 +159,10 @@ namespace Rockets_TinyYetBig.LandingLegs
             }
         }
 
-        public void DoLand()
+        public void EnableAllComponents()
         {
-            base.smi.master.GetComponent<KBatchedAnimController>().Offset = Vector3.zero;
-            OccupyArea occupy = base.smi.GetComponent<OccupyArea>();
-            if (occupy != null)
-            {
-                occupy.ApplyToCells = true;
-            }
-
-            if (deployOnLanding && CheckIfLoaded())
-            {
-                smi.sm.emptyCargo.Trigger(smi);
-            }
-            SgtLogger.l("Landed");
+            EnableOnSaveLoad = true;
+            SgtLogger.l("Enabling Components");
             if (cmpsToEnable != null && cmpsToEnable.Count > 0)
             {
                 foreach (var cmp in cmpsToEnable)
@@ -181,6 +181,23 @@ namespace Rockets_TinyYetBig.LandingLegs
                     }
                 }
             }
+        }
+
+        public void DoLand()
+        {
+            base.smi.master.GetComponent<KBatchedAnimController>().Offset = Vector3.zero;
+            OccupyArea occupy = base.smi.GetComponent<OccupyArea>();
+            if (occupy != null)
+            {
+                occupy.ApplyToCells = true;
+            }
+
+            if (deployOnLanding && CheckIfLoaded())
+            {
+                smi.sm.emptyCargo.Trigger(smi);
+            }
+            SgtLogger.l("Landed");
+            EnableAllComponents();
 
             base.smi.master.gameObject.Trigger(1591811118, this);
         }
@@ -266,12 +283,10 @@ namespace Rockets_TinyYetBig.LandingLegs
                 stored.TagTransition(GameTags.Stored, landing, on_remove: true).EventHandler(GameHashes.JettisonedLander, delegate (StatesInstance smi)
                 {
                 });
-                landing.PlayAnim("landing", KAnim.PlayMode.Loop).Enter(delegate (StatesInstance smi)
+                landing
+                    .PlayAnim("landing", KAnim.PlayMode.Loop).Enter(delegate (StatesInstance smi)
                 {
                     smi.master.ShowLandingPreview(show: true);
-                }).Exit(delegate (StatesInstance smi)
-                {
-                    smi.master.ShowLandingPreview(show: false);
                 })
                     .Enter(delegate (StatesInstance smi)
                     {
@@ -285,6 +300,7 @@ namespace Rockets_TinyYetBig.LandingLegs
                     .Exit((smi) =>
                     {
                         SgtLogger.l("launchpad landed");
+                        smi.master.ShowLandingPreview(show: false);
                         smi.master.DoLand();
                     })
                     .UpdateTransition(land, (smi, dt) => smi.master.flightAnimOffset <= 0.3f);

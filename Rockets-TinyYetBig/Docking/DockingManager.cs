@@ -18,6 +18,7 @@ namespace Rockets_TinyYetBig.Docking
 
         public void StartupID(int world)
         {
+            SgtLogger.l(world.ToString(),"RocketDockingManager Initialize World Id");
             MyWorldId = world;
         }
 
@@ -228,14 +229,20 @@ namespace Rockets_TinyYetBig.Docking
             
         }
 
+        public void InitializeWorldId()
+        {
 
+            if (MyWorldId != -1)
+                return;
+            
+            this.gameObject.TryGetComponent<WorldContainer>(out var container);
+            StartupID(container.id);
+        }
         public override void OnSpawn()
         {
             base.OnSpawn();
             ModAssets.Dockables.Add(this);
-            this.gameObject.TryGetComponent<WorldContainer>(out var container);
-            StartupID(container.id);
-
+            InitializeWorldId();
 #if DEBUG
             SgtLogger.debuglog("AddedDockable");
 #endif
@@ -267,8 +274,8 @@ namespace Rockets_TinyYetBig.Docking
 
         public void AddDockable(IDockable door)
         {
-            if(MyWorldId==-1)
-                MyWorldId = ClusterUtil.GetMyWorldId(door);
+            if (MyWorldId == -1) 
+                InitializeWorldId();
             if(!IDockables.ContainsKey(door))
             {
                 int target = -1;

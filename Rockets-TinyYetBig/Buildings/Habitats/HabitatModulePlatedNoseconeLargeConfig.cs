@@ -23,7 +23,7 @@ namespace Rockets_TinyYetBig.Buildings.Habitats
             string[] rawMetals = new[] 
             { 
                 MATERIALS.REFINED_METAL ,
-                ModAssets.Tags.RadiationShielding.ToString()
+                ModAssets.Tags.RadiationShieldingRocketConstructionMaterial.ToString()
             };
             EffectorValues noiseLevel = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;

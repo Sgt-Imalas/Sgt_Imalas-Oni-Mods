@@ -29,12 +29,11 @@ namespace Rockets_TinyYetBig.LandingLegs
             var thruster = placedEntity.AddOrGet<ThrusterPoweredLander>();
             
             thruster.previewTag = "ScoutLander_Preview".ToTag();
-            thruster.cmpsToEnable = new List<Type>() 
+            thruster.cmpsToEnable = new List<string>() 
             {
-                typeof(RTB_LaunchPadWithoutLogic) 
-                ,typeof(EmptyLaunchPadConditions)
-                ,typeof(OccupyArea)
-
+                nameof(RTB_LaunchPadWithoutLogic) 
+                ,nameof(EmptyLaunchPadConditions)
+                ,nameof(OccupyArea)
             };
 
             placedEntity.AddOrGet<Prioritizable>();
@@ -67,7 +66,7 @@ namespace Rockets_TinyYetBig.LandingLegs
                 ObjectLayer.Building
             };
             component.enabled = false;
-            inst.AddOrGet<EmptyLaunchPadConditions>();
+            inst.AddOrGet<EmptyLaunchPadConditions>().enabled = false;
 
             var launchpad = inst.AddComponent<RTB_LaunchPadWithoutLogic>();
             launchpad.enabled = false;

@@ -397,10 +397,10 @@ namespace Rockets_TinyYetBig
             public static Tag NeutroniumAlloy = TagManager.Create("RTB_NeutroniumAlloyMaterial");
 
             /// <summary>
-            ///Use this tag to add the radiation shielding tag to a material, making it available for f.e. the plated nosecone.
-            ///By default it is attached to Lead, depleted uranium and neutronium alloy
+            ///Use this tag to add the radiation shielding tag to a material, making it available for constructing the plated nosecone.
+            ///By default it is attached to Lead, depleted uranium, thermium, tungsten and neutronium alloy
             /// </summary>
-            public static Tag RadiationShielding = TagManager.Create("RTB_RadiationShieldingMaterial");
+            public static Tag RadiationShieldingRocketConstructionMaterial = TagManager.Create("RTB_RadiationShieldingRocketConstructionMaterial");
             
             /// <summary>
             /// add this tag to any liquid material that is a rocket fuel, by default it is attached to every material with the "Combustible Liquid" Tag and Hydrogen
