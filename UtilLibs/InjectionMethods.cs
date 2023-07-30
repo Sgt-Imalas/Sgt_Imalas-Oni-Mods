@@ -7,6 +7,7 @@ using HarmonyLib;
 using STRINGS;
 using TUNING;
 using UnityEngine;
+using static ModUtil;
 
 namespace UtilLibs
 {
@@ -48,6 +49,42 @@ namespace UtilLibs
             AddBuildingToTechnology(techId, techItemId);
             return Db.Get().TechItems.AddTechItem(techItemId, name, description, (anim, centered) => sprite, availableDLCs);
         }
+
+        public static void MoveExistingBuildingToNewPlanscreen(
+            HashedString category,
+            string building_id,
+            string subcategoryID = "uncategorized",
+            ModUtil.BuildingOrdering ordering = ModUtil.BuildingOrdering.After)
+            => MoveExistingBuildingToNewCategory(category, building_id, string.Empty, subcategoryID, ordering);
+
+        public static void MoveExistingBuildingToNewCategory(
+            HashedString category,
+            string building_id,
+            string relativeBuildingId = "",
+            string subcategoryID = "uncategorized",
+            ModUtil.BuildingOrdering ordering = ModUtil.BuildingOrdering.After)
+        {
+            if (subcategoryID == string.Empty || subcategoryID == null)
+                subcategoryID = "uncategorized";
+
+
+            foreach (var EntryList in TUNING.BUILDINGS.PLANORDER)
+            {
+                int locationIndex = EntryList.buildingAndSubcategoryData.FindIndex(dat => dat.Key == building_id);
+                if (locationIndex > -1)
+                {
+                    SgtLogger.l($"Building {building_id} found in category {EntryList.category}, moving it to {category}");
+                    EntryList.buildingAndSubcategoryData.RemoveAt(locationIndex);
+                    break;
+                }
+            }
+            if(TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.ContainsKey(building_id))
+                TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.Remove(building_id);
+
+
+            AddBuildingToPlanScreenBehindNext(category, building_id, relativeBuildingId, subcategoryID, ordering);
+        }
+
 
         public static void AddBuildingToPlanScreen(
             HashedString category,

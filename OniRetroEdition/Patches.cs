@@ -3,10 +3,11 @@ using ElementUtilNamespace;
 using HarmonyLib;
 using Klei.AI;
 using OniRetroEdition.Behaviors;
-using Satsuma;
+using ProcGenGame;
 using ShockWormMob;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,7 +32,14 @@ namespace OniRetroEdition
 
             public static void Prefix()
             {
-                //InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Stations, RoleStationConfig.ID, ResetSkillsStationConfig.ID,ordering:ModUtil.BuildingOrdering.Before);
+                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Base, MouldingTileConfig.ID, CarpetTileConfig.ID);
+                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, AtmoicGardenConfig.ID, FarmTileConfig.ID);
+                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Refinement, GenericFabricatorConfig.ID, RockCrusherConfig.ID);
+                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Stations, MachineShopConfig.ID, PowerControlStationConfig.ID);
+                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Medicine, AdvancedApothecaryConfig.ID, ApothecaryConfig.ID);
+                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Stations, OxygenMaskStationConfig.ID, OxygenMaskMarkerConfig.ID, string.Empty, ModUtil.BuildingOrdering.Before);
+
+
             }
         }// <summary>
         /// Register Buildings to existing Technologies (newly added techs are in "ResearchTreePatches" class
@@ -395,15 +403,28 @@ namespace OniRetroEdition
             }
         }
 
+        [HarmonyPatch(typeof(SolidConduitFlowVisualizer))]
+        [HarmonyPatch(typeof(SolidConduitFlowVisualizer), MethodType.Constructor)]
+        [HarmonyPatch(new Type[] { typeof(SolidConduitFlow), typeof(Game.ConduitVisInfo), typeof(FMODUnity.EventReference), typeof(SolidConduitFlowVisualizer.Tuning) })]
+        public class ChangeGame
+        {
+            public static void Prefix(
+                SolidConduitFlowVisualizer.Tuning tuning)
+            {
+                SgtLogger.l("GamePrefabInit");
 
-        //[HarmonyPatch(typeof(Assets), "OnPrefabInit")]
-        //public class Assets_OnPrefabInit_Patch
-        //{
-        //    public static void Prefix(Assets __instance)
-        //    {
-        //        InjectionMethods.AddSpriteToAssets(__instance, "conveyor_box",true);
-        //    }
-        //}
+                var path = Path.Combine(UtilMethods.ModPath, "assets");
+                var texture = AssetUtils.LoadTexture("conveyor_box_retro", path);
+
+
+                SgtLogger.Assert("TextureNotNull", texture);
+                if(texture != null)
+                {
+                    tuning.foregroundTexture = texture;
+                }
+
+            }
+        }
 
 
         [HarmonyPatch(typeof(ElementLoader), "Load")]
