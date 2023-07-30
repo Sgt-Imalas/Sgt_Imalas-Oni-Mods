@@ -52,6 +52,16 @@ namespace Rockets_TinyYetBig.LandingLegs
             }
 
         }
+        [HarmonyPatch(typeof(LaunchButtonSideScreen), nameof(LaunchButtonSideScreen.IsValidForTarget))]
+        public static class HideSideScreenOnDisabled2
+        {
+            public static void Postfix(GameObject target, ref bool __result)
+            {
+                if (__result && target.TryGetComponent<LaunchPad>(out var launchpad) && launchpad.enabled == false)
+                    __result = false;
+            }
+
+        }
         [HarmonyPatch(typeof(LaunchPadSideScreen), nameof(LaunchPadSideScreen.IsValidForTarget))]
         public static class HideSideScreenOnDisabled
         {
