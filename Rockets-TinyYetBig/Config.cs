@@ -42,7 +42,7 @@ namespace Rockets_TinyYetBig
         public bool EnableExtendedHabs { get; set; }
 
         [Option("Cartographic Module Scan Range", "Cartographic Modules will scan hexes in this radius.", "(1) Rocketry Vanilla+")]
-        [Limit(1, 6)]
+        [Limit(0, 6)]
         [JsonProperty]
         public int ScannerModuleRangeRadius { get; set; }
         [Option("Cartographic Module Scan Speed", "Time it takes for the module to reveal one hex in cycles.", "(1) Rocketry Vanilla+")]

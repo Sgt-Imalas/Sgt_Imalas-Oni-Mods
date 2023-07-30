@@ -130,6 +130,9 @@ namespace Rockets_TinyYetBig.Behaviours
 
             public bool CheckHasAnalyzeTarget()
             {
+                if(this.def.analyzeClusterRadius <= 0) return false;
+
+
                 ClusterFogOfWarManager.Instance smi = SaveGame.Instance.GetSMI<ClusterFogOfWarManager.Instance>();
 
                 AxialI myWorldLocation = this.GetAxialLocation();
