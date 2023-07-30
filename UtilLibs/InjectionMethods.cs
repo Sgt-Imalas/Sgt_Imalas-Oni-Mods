@@ -67,7 +67,7 @@ namespace UtilLibs
             if (subcategoryID == string.Empty || subcategoryID == null)
                 subcategoryID = "uncategorized";
 
-
+            bool foundInExisting = false;
             foreach (var EntryList in TUNING.BUILDINGS.PLANORDER)
             {
                 int locationIndex = EntryList.buildingAndSubcategoryData.FindIndex(dat => dat.Key == building_id);
@@ -75,11 +75,15 @@ namespace UtilLibs
                 {
                     SgtLogger.l($"Building {building_id} found in category {EntryList.category}, moving it to {category}");
                     EntryList.buildingAndSubcategoryData.RemoveAt(locationIndex);
+                    foundInExisting = true;
                     break;
                 }
             }
             if(TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.ContainsKey(building_id))
                 TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.Remove(building_id);
+
+            if(!foundInExisting)
+                SgtLogger.l($"Building {building_id} had no previous category defined, adding it to {category}");
 
 
             AddBuildingToPlanScreenBehindNext(category, building_id, relativeBuildingId, subcategoryID, ordering);
