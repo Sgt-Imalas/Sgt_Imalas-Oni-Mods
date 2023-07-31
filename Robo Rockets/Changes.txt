@@ -1,0 +1,4 @@
+﻿- fixed demolishing of AI brains being unreachable
+- fixed description of AI brain module containing "need to be at the top of the rocket"
+- fixed a race condition crash when clicking an AI module in the world selector
+- added german, portuguese, russian translations
