@@ -493,9 +493,9 @@ namespace OniRetroEdition
                 SgtElementUtil.SetTexture_Main(enrichedU, "enriched_uranium_retro");
 
                 var ironORe = ElementLoader.GetElement(SimHashes.IronOre.CreateTag()).substance.material;
-                SgtElementUtil.SetTexture_Main(ironORe, Config.Instance.IronOreTexture == Config.EarlierVersion.Beta ? "hematite_(t)_retro" : "hematite_(alpha)_retro");
+                SgtElementUtil.SetTexture_Main(ironORe, Config.Instance.IronOreTexture == Config.EarlierVersion.Beta ? "hematite_(t)_retro"  : "hematite_(alpha)_retro");
                 if(Config.Instance.IronOreTexture == Config.EarlierVersion.Alpha) 
-                    SgtElementUtil.SetTexture_ShineMask(aluminium, "hematite_(t)_retro_ShineMask");
+                    SgtElementUtil.SetTexture_ShineMask(aluminium, "hematite_(alpha)_retro_ShineMask");
 
                 var bleachstone = ElementLoader.GetElement(SimHashes.BleachStone.CreateTag()).substance.material;
                 SgtElementUtil.SetTexture_Main(bleachstone, "bleach_stone_retro");
