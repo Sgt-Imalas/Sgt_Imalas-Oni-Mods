@@ -784,12 +784,12 @@ namespace ClusterTraitGenerationManager
                         };
                         StartWorld.worldTemplateRules.Insert(0, TeleporterSpawn);
 
-                        foreach (var subworld in StartWorld.subworldFiles)
-                            SgtLogger.l(subworld.name, "SUBWORLD");
-                        foreach (var unknownCell in StartWorld.unknownCellsAllowedSubworlds)
-                            foreach (var name in unknownCell.subworldNames)
-                                SgtLogger.l(name, "UNKNOWNCELL");
-                        SgtLogger.l(StartWorld.startSubworldName, "STARTSUB");
+                        //foreach (var subworld in StartWorld.subworldFiles)
+                        //    SgtLogger.l(subworld.name, "SUBWORLD");
+                        //foreach (var unknownCell in StartWorld.unknownCellsAllowedSubworlds)
+                        //    foreach (var name in unknownCell.subworldNames)
+                        //        SgtLogger.l(name, "UNKNOWNCELL");
+                        //SgtLogger.l(StartWorld.startSubworldName, "STARTSUB");
 
 
 
@@ -912,7 +912,9 @@ namespace ClusterTraitGenerationManager
         {
             public static void Prefix(Exception e, ref string errorMessage)
             {
-                CGSMClusterManager.LastWorldGenDidFail();
+                if(CGSMClusterManager.LoadCustomCluster)
+                    CGSMClusterManager.LastWorldGenDidFail();
+
                 if (e.Message.Contains("Could not find a spot in the cluster for"))
                 {
                     string planetName = e.Message.Replace("Could not find a spot in the cluster for ", string.Empty).Split()[0];
@@ -1031,6 +1033,8 @@ namespace ClusterTraitGenerationManager
         {
             private static void Postfix(WorldGenSettings __instance, string target, ref float __result)
             {
+                if (!CGSMClusterManager.LoadCustomCluster)
+                    return;
                 if (!(target == "OverworldDensityMin") && !(target == "OverworldDensityMax") && !(target == "OverworldAvoidRadius") 
                     //&& !(target == "OverworldMinNodes") && !(target == "OverworldMaxNodes")
                     )
@@ -1045,7 +1049,7 @@ namespace ClusterTraitGenerationManager
         {
             private static void Postfix(WorldGenSettings __instance, string target, ref int __result)
             {
-                if (!(target == "OverworldDensityMin") && !(target == "OverworldDensityMax") && !(target == "OverworldAvoidRadius") && !(target == "OverworldMinNodes") && !(target == "OverworldMaxNodes"))
+                if (!CGSMClusterManager.LoadCustomCluster || !(target == "OverworldDensityMin") && !(target == "OverworldDensityMax") && !(target == "OverworldAvoidRadius") && !(target == "OverworldMinNodes") && !(target == "OverworldMaxNodes"))
                     return;
 
                 //SgtLogger.l("Target int:");
@@ -1060,15 +1064,8 @@ namespace ClusterTraitGenerationManager
         {
             private static void Prefix(Border __instance)
             {
-                //if(OriginalBorder == -1f)
-                //{
-                //    //OriginalBorder = __instance.width;
-                //    SgtLogger.l(OriginalBorder.ToString(), "BorderSizeInit");
-                //}
-
-                  //  SgtLogger.l(__instance.width.ToString(), "BorderSizePre");
-                __instance.width = Mathf.Max(0.25f, __instance.width * borderSizeMultiplier);
-                    //SgtLogger.l(__instance.width.ToString(), "BorderSizePST");
+                if(CGSMClusterManager.LoadCustomCluster)
+                    __instance.width = Mathf.Max(0.25f, __instance.width * borderSizeMultiplier);
             }
         }
         // static float OriginalBorder = -1f;
@@ -1079,7 +1076,10 @@ namespace ClusterTraitGenerationManager
         {
             private static void Postfix(WorldGenSettings __instance, ref List<WeightedSubWorld> __result)
             {
-                foreach(var weightedSubworld in __result)
+                if (!CGSMClusterManager.LoadCustomCluster)
+                    return;
+                
+                foreach (var weightedSubworld in __result)
                 {
                     weightedSubworld.minCount = Mathf.Max(1, GetMultipliedSizeInt( weightedSubworld.minCount, __instance));
                 }
@@ -1103,6 +1103,8 @@ namespace ClusterTraitGenerationManager
         {
             private static void Prefix(WorldGen __instance)
             {
+                if (!CGSMClusterManager.LoadCustomCluster)
+                    return;
                 if (__instance != null && __instance.Settings != null)
                 {
                     borderSizeMultiplier =  Mathf.Min(1, GetMultipliedSizeFloat(1f, __instance.Settings));
