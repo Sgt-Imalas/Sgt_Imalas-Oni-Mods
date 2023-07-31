@@ -33,6 +33,7 @@ namespace OniRetroEdition
             public static void Prefix()
             {
                 InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Base, MouldingTileConfig.ID, CarpetTileConfig.ID);
+                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Rocketry, CrewCapsuleConfig.ID);
                 InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, AtmoicGardenConfig.ID, FarmTileConfig.ID);
                 InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Refinement, GenericFabricatorConfig.ID, RockCrusherConfig.ID);
                 InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Stations, MachineShopConfig.ID, PowerControlStationConfig.ID);
@@ -389,7 +390,44 @@ namespace OniRetroEdition
                 __result.GenerateOffsets();
             }
         }
+        [HarmonyPatch(typeof(OuthouseConfig))]
+        [HarmonyPatch(nameof(OuthouseConfig.CreateBuildingDef))]
+        public static class AdjustSizePatch_Outhouse
+        {
 
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.HeightInCells = 2;
+                __result.WidthInCells = 2;
+                __result.GenerateOffsets();
+            }
+        }
+        [HarmonyPatch(typeof(BottleEmptierConfig))]
+        [HarmonyPatch(nameof(BottleEmptierConfig.CreateBuildingDef))]
+        public static class AdjustSizePatch_BottleEmptier
+        {
+
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.HeightInCells = 3;
+                __result.WidthInCells = 2;
+                __result.GenerateOffsets();
+            }
+        }
+        [HarmonyPatch(typeof(GasBottlerConfig))]
+        [HarmonyPatch(nameof(GasBottlerConfig.CreateBuildingDef))]
+        public static class AdjustSizePatch_GasBottler
+        {
+
+            public static void Postfix(ref BuildingDef __result)
+            {
+
+                __result.UtilityInputOffset = new CellOffset(1, 2);
+                __result.HeightInCells = 3;
+                __result.WidthInCells = 2;
+                __result.GenerateOffsets();
+            }
+        }
 
         /// <summary>
         /// Init. auto translation
@@ -456,6 +494,8 @@ namespace OniRetroEdition
 
                 var ironORe = ElementLoader.GetElement(SimHashes.IronOre.CreateTag()).substance.material;
                 SgtElementUtil.SetTexture_Main(ironORe, Config.Instance.IronOreTexture == Config.EarlierVersion.Beta ? "hematite_(t)_retro" : "hematite_(alpha)_retro");
+                if(Config.Instance.IronOreTexture == Config.EarlierVersion.Alpha) 
+                    SgtElementUtil.SetTexture_ShineMask(aluminium, "hematite_(t)_retro_ShineMask");
 
                 var bleachstone = ElementLoader.GetElement(SimHashes.BleachStone.CreateTag()).substance.material;
                 SgtElementUtil.SetTexture_Main(bleachstone, "bleach_stone_retro");
