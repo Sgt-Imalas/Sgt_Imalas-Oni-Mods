@@ -1,4 +1,5 @@
 ﻿using KSerialization;
+using ProcGen.Noise;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,24 @@ namespace RoboRockets.LearningBrain
 {
     internal class DemolishableDroppable: Demolishable
     {
+        public override void OnSpawn()
+        {
+
+            base.OnSpawn();
+            CellOffset[][] table = OffsetGroups.InvertedStandardTable;
+            CellOffset[] filter = null;
+
+            CellOffset[] offsets = new CellOffset[1] { new CellOffset(0,0)};
+
+            CellOffset[][] offsetTable = OffsetGroups.BuildReachabilityTable(offsets, table, filter);
+            SetOffsetTable(offsetTable);
+            if (isMarkedForDemolition)
+            {
+                QueueDemolition();
+            }
+        }
+
+
         [Serialize]
         public bool ShouldDrop = true;
 
