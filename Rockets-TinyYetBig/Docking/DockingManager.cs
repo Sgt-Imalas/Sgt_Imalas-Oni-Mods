@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UtilLibs;
+using static STRINGS.BUILDINGS.PREFABS;
+using static STRINGS.UI.UISIDESCREENS.AUTOPLUMBERSIDESCREEN.BUTTONS;
 
 namespace Rockets_TinyYetBig.Docking
 {
@@ -18,14 +20,14 @@ namespace Rockets_TinyYetBig.Docking
 
         public void StartupID(int world)
         {
-            SgtLogger.l(world.ToString(),"RocketDockingManager Initialize World Id");
+            SgtLogger.l(world.ToString(), "RocketDockingManager Initialize World Id");
             MyWorldId = world;
         }
 
         /// <summary>
         /// My door + connectedDoor
         /// </summary>
-        int MyWorldId=-1;
+        int MyWorldId = -1;
 
         public Dictionary<IDockable, int> IDockables = new Dictionary<IDockable, int>();
         public int WorldId => MyWorldId;
@@ -37,7 +39,7 @@ namespace Rockets_TinyYetBig.Docking
         public List<int> GetConnectedWorlds()
         {
             var list = new List<int>();
-            foreach(var door in IDockables)
+            foreach (var door in IDockables)
             {
                 if (door.Value != -1)
                     list.Add(door.Value);
@@ -50,7 +52,7 @@ namespace Rockets_TinyYetBig.Docking
             var list = new List<int>();
             foreach (var door in IDockables)
             {
-                if (door.Value != -1&& SpaceStationManager.WorldIsRocketInterior(door.Value))
+                if (door.Value != -1 && SpaceStationManager.WorldIsRocketInterior(door.Value))
                     list.Add(door.Value);
 
             }
@@ -67,7 +69,7 @@ namespace Rockets_TinyYetBig.Docking
                 {
                     Type = DockableType.SpaceStation;
                 }
-                else if(SpaceStationManager.WorldIsRocketInterior(MyWorldId))
+                else if (SpaceStationManager.WorldIsRocketInterior(MyWorldId))
                 {
                     Type = DockableType.Rocket;
                 }
@@ -80,13 +82,13 @@ namespace Rockets_TinyYetBig.Docking
 
         public void SetCurrentlyLoadingStuff(bool IsLoading)
         {
-           SgtLogger.l("IsNowLoading? " + IsLoading);
+            SgtLogger.l("IsNowLoading? " + IsLoading);
             isLoading = IsLoading;
 
-            if (!IsLoading&&OnFinishedLoading!=null)
+            if (!IsLoading && OnFinishedLoading != null)
                 OnFinishedLoading.Invoke();
         }
-        bool isLoading=false;
+        bool isLoading = false;
 
         public System.Action OnFinishedLoading = null;
 
@@ -97,7 +99,7 @@ namespace Rockets_TinyYetBig.Docking
         public void Sim1000ms(float dt)
         {
             List<DockingDoor> ToRemove = new List<DockingDoor>();
-            foreach(var undockingProcess in PendingUndocks)
+            foreach (var undockingProcess in PendingUndocks)
             {
                 List<MinionIdentity> WrongWorldDupesHERE = new List<MinionIdentity>();
                 List<MinionIdentity> WrongWorldDupesTHERE = new List<MinionIdentity>();
@@ -105,13 +107,13 @@ namespace Rockets_TinyYetBig.Docking
                 {
                     PassengerRocketModule passengerOwn = undockingProcess.Key.GetCraftModuleInterface().GetPassengerModule();
                     PassengerRocketModule passengerDock = undockingProcess.Key.GetDockedCraftModuleInterface().GetPassengerModule();
-                    SgtLogger.l((passengerDock != null).ToString(),"PAssengermoduleDock !=null");
+                    SgtLogger.l((passengerDock != null).ToString(), "PAssengermoduleDock !=null");
                     AssignmentGroupController assignmentGroupControllerOWN = null;
                     AssignmentGroupController assignmentGroupControllerDOCKED = null;
 
                     if (passengerOwn != null)
                         passengerOwn.TryGetComponent<AssignmentGroupController>(out assignmentGroupControllerOWN);
-                    if(passengerDock!= null)
+                    if (passengerDock != null)
                         passengerDock.TryGetComponent<AssignmentGroupController>(out assignmentGroupControllerDOCKED);
 
                     if (assignmentGroupControllerOWN != null)
@@ -162,9 +164,9 @@ namespace Rockets_TinyYetBig.Docking
                     }
                     //SgtLogger.l("GONE");
 
-                    foreach(var minion in WrongWorldDupesHERE)
+                    foreach (var minion in WrongWorldDupesHERE)
                     {
-                        minion.GetSMI<MoveToLocationMonitor.Instance>().MoveToLocation((undockingProcess.Key.GetConnec() as DockingDoor).GetPorterCell());                        
+                        minion.GetSMI<MoveToLocationMonitor.Instance>().MoveToLocation((undockingProcess.Key.GetConnec() as DockingDoor).GetPorterCell());
                     }
                     foreach (var minion in WrongWorldDupesTHERE)
                     {
@@ -179,28 +181,81 @@ namespace Rockets_TinyYetBig.Docking
                     }
                 }
             }
-            foreach(var done in ToRemove)
+            foreach (var done in ToRemove)
             {
                 PendingUndocks.Remove(done);
             }
 
             List<int> ToDock = new List<int>();
-            foreach(var worldToDockTo in PendingDocks)
+            foreach (var worldToDockTo in PendingDocks)
             {
                 var target = ModAssets.Dockables.Items.Find(mng => mng.MyWorldId == worldToDockTo);
                 if (target != null && target.TryGetComponent<ClusterGridEntity>(out var targetEntity))
                 {
-                    if(targetEntity.Location == clustercraft.Location && CanDock() && target.CanDock())
+                    if (targetEntity.Location == clustercraft.Location && CanDock() && target.CanDock())
                     {
                         ToDock.Add(worldToDockTo);
                     }
                 }
             }
-            foreach(var doDock in ToDock)
+            foreach (var doDock in ToDock)
             {
                 DockToTargetWorld(doDock);
             }
         }
+
+        public void CleanupWorldAssignmentsTargetWorldDoor(IDockable targetDoor)
+        {
+            if (targetDoor == null)
+                return;
+            if (targetDoor.dManager != null && targetDoor.dManager.WorldId != this.WorldId) 
+            {
+                this.CleanupWorldAssignments(targetDoor.dManager.WorldId);
+            }
+        }
+
+        /// <summary>
+        /// Clean up world assignments if there was an unexpected decoupling (by blow up or deconstruction)
+        /// </summary>
+        /// <param name="targetWorldId"></param>
+        public void CleanupWorldAssignments(int targetWorldId)
+        {
+            var OwnWorld = ClusterManager.Instance.GetWorld(MyWorldId);
+            var DockedWorld = ClusterManager.Instance.GetWorld(targetWorldId);
+
+            PassengerRocketModule OwnPassengerModule = null;
+            if (OwnWorld != null)
+                OwnPassengerModule = OwnWorld.GetComponent<CraftModuleInterface>().GetPassengerModule();
+
+
+            PassengerRocketModule ConnectedPassengerModule = null;
+            if (DockedWorld != null)
+                ConnectedPassengerModule = DockedWorld.GetComponent<CraftModuleInterface>().GetPassengerModule();
+
+
+            if (OwnPassengerModule != null && OwnPassengerModule.TryGetComponent(out AssignmentGroupController OwnWorldAssignmentController))
+            {
+                foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(MyWorldId))
+                {
+                    if (!Game.Instance.assignmentManager.assignment_groups[OwnWorldAssignmentController.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
+                    {
+                        Game.Instance.assignmentManager.assignment_groups[OwnWorldAssignmentController.AssignmentGroupID].AddMember(minion.assignableProxy.Get());
+                    }
+                }
+
+            }
+            if (ConnectedPassengerModule != null && ConnectedPassengerModule.TryGetComponent(out AssignmentGroupController TargetWorldController))
+            {
+                foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(MyWorldId))
+                {
+                    if (Game.Instance.assignmentManager.assignment_groups[TargetWorldController.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
+                    {
+                        Game.Instance.assignmentManager.assignment_groups[TargetWorldController.AssignmentGroupID].RemoveMember(minion.assignableProxy.Get());
+                    }
+                }
+            }
+        }
+
 
         public void AddPendingDock(int worldID)
         {
@@ -226,7 +281,7 @@ namespace Rockets_TinyYetBig.Docking
                     break;
             }
             return returnVal;
-            
+
         }
 
         public void InitializeWorldId()
@@ -234,7 +289,7 @@ namespace Rockets_TinyYetBig.Docking
 
             if (MyWorldId != -1)
                 return;
-            
+
             this.gameObject.TryGetComponent<WorldContainer>(out var container);
             StartupID(container.id);
         }
@@ -274,16 +329,16 @@ namespace Rockets_TinyYetBig.Docking
 
         public void AddDockable(IDockable door)
         {
-            if (MyWorldId == -1) 
+            if (MyWorldId == -1)
                 InitializeWorldId();
-            if(!IDockables.ContainsKey(door))
+            if (!IDockables.ContainsKey(door))
             {
                 int target = -1;
                 if (door.GetConnec() != null)
                     target = door.GetConnec().dManager.WorldId;
                 IDockables.Add(door, target);
             }
-            SgtLogger.debuglog("Added new Docking Door!, ID: " + MyWorldId+", Doorcount: "+IDockables.Count());
+            SgtLogger.debuglog("Added new Docking Door!, ID: " + MyWorldId + ", Doorcount: " + IDockables.Count());
 
             //UpdateDeconstructionStates();
 
@@ -317,7 +372,7 @@ namespace Rockets_TinyYetBig.Docking
         public bool HasDoors()
         {
             //SgtLogger.debuglog("HAs Doors: " + IDockables.Count);
-            return IDockables.Count>0;
+            return IDockables.Count > 0;
         }
 
         public bool IsDockedTo(int WorldID)
@@ -339,7 +394,7 @@ namespace Rockets_TinyYetBig.Docking
             if (prevDockingState == 0)
                 DockToTargetWorld(targetWorld, door);
             else
-                UnDockFromTargetWorld(targetWorld,OnFinishedUndock: onFinished);
+                UnDockFromTargetWorld(targetWorld, OnFinishedUndock: onFinished);
         }
 
         public void DockToTargetWorld(int targetWorldId, IDockable OwnDoor = null)
@@ -351,18 +406,18 @@ namespace Rockets_TinyYetBig.Docking
             var target = ModAssets.Dockables.Items.Find(mng => mng.MyWorldId == targetWorldId);
 
 
-            if (target == null || target.IDockables.Count == 0 || this.IDockables.Count==0 || !target.CanDock())
+            if (target == null || target.IDockables.Count == 0 || this.IDockables.Count == 0 || !target.CanDock())
             {
                 SgtLogger.warning("No doors found");
                 return;
             }
-            if(IsDockedTo(targetWorldId))
+            if (IsDockedTo(targetWorldId))
             {
                 SgtLogger.warning("Already Docked");
                 return;
             }
 
-            if(HasPendingUndocks(targetWorldId))
+            if (HasPendingUndocks(targetWorldId))
             {
                 var worldDoor = PendingUndocks.FirstOrDefault(door => door.Key.GetMyWorldId() == targetWorldId).Key;
                 SgtLogger.l("canceled pending undocking");
@@ -381,21 +436,21 @@ namespace Rockets_TinyYetBig.Docking
             {
                 ClusterManager.Instance.GetWorld(MyWorldId).SetParentIdx(targetWorldId);
             }
-            
+
             else
                 ClusterManager.Instance.GetWorld(MyWorldId).SetParentIdx(targetWorldId);
 
-            if(PendingDocks.Contains(targetWorldId))
+            if (PendingDocks.Contains(targetWorldId))
                 PendingDocks.Remove(targetWorldId);
 
-            SgtLogger.l(MyWorldId+" docked to world: " + targetWorldId);
+            SgtLogger.l(MyWorldId + " docked to world: " + targetWorldId);
         }
         public void UndockAll(bool force = false)
         {
-            if(GetConnectedWorlds().Count > 0)
+            if (GetConnectedWorlds().Count > 0)
                 SgtLogger.debuglog("Undocking all");
 
-            foreach(int id in GetConnectedWorlds())
+            foreach (int id in GetConnectedWorlds())
             {
                 SgtLogger.debuglog("from World: " + id);
                 UnDockFromTargetWorld(id, force);
@@ -407,7 +462,7 @@ namespace Rockets_TinyYetBig.Docking
             if (OverwriteOwn != null && OverwriteOwn.GetConnec() != null)
                 OverwriteOwn = null;
 
-            var door1 = OverwriteOwn != null? OverwriteOwn : door1mng.IDockables.First(k => k.Value == -1).Key;
+            var door1 = OverwriteOwn != null ? OverwriteOwn : door1mng.IDockables.First(k => k.Value == -1).Key;
             var door2 = door2mng.IDockables.First(k => k.Value == -1).Key;
             if (door1 == null || door2 == null)
                 return;
@@ -418,7 +473,7 @@ namespace Rockets_TinyYetBig.Docking
 
             door1.ConnecDockable(door2);
             door2.ConnecDockable(door1);
-            if(door1.HasDupeTeleporter && door2.HasDupeTeleporter)
+            if (door1.HasDupeTeleporter && door2.HasDupeTeleporter)
                 door1.Teleporter.EnableTwoWayTarget(true);
             //DetailsScreen.Instance.Refresh(door1.gameObject);
         }
@@ -433,13 +488,16 @@ namespace Rockets_TinyYetBig.Docking
 
         void InitPendingUndock(IDockable door, bool cleanup = false, System.Action OnFinishedUndock = null)
         {
-            SgtLogger.l("Pending undock: " + door.GetMyWorldId()+" force: "+cleanup);
+            SgtLogger.l("Pending undock: " + door.GetMyWorldId() + " force: " + cleanup);
 
             if (cleanup)
+            {
+                CleanupWorldAssignmentsTargetWorldDoor(door.GetConnec());
                 UndockDoor(door, true, OnFinishedUndock);
+            }
             else
             {
-                if(!PendingUndocks.Keys.Contains(door) && !PendingUndocks.Keys.Contains(door.GetConnec())) 
+                if (!PendingUndocks.Keys.Contains(door) && !PendingUndocks.Keys.Contains(door.GetConnec()))
                     PendingUndocks.Add(door as DockingDoor, OnFinishedUndock);
             }
         }
@@ -447,7 +505,7 @@ namespace Rockets_TinyYetBig.Docking
         public static Dictionary<DockingDoor, System.Action> PendingUndocks = new Dictionary<DockingDoor, System.Action>();
 
 
-        void UndockDoor(IDockable door, bool cleanup = false,System.Action OnFinishedUndock = null)
+        void UndockDoor(IDockable door, bool cleanup = false, System.Action OnFinishedUndock = null)
         {
             var door2 = door.GetConnec();
 
@@ -463,22 +521,22 @@ namespace Rockets_TinyYetBig.Docking
             int targetWorldId = door2.GetMyWorldId();
 
             if (OnFinishedUndock != null)
-                   OnFinishedUndock.Invoke();
+                OnFinishedUndock.Invoke();
 
-            if(ClusterManager.Instance.GetWorld(targetWorldId)!=null)
+            if (ClusterManager.Instance.GetWorld(targetWorldId) != null)
                 ClusterManager.Instance.GetWorld(targetWorldId).SetParentIdx(targetWorldId);
 
-            if(ClusterManager.Instance.GetWorld(MyWorldId)!=null)
+            if (ClusterManager.Instance.GetWorld(MyWorldId) != null)
                 ClusterManager.Instance.GetWorld(MyWorldId).SetParentIdx(MyWorldId);
 
             door.gameObject.Trigger((int)GameHashes.RocketLaunched);
             door2.gameObject.Trigger((int)GameHashes.RocketLaunched);
-            
+
 
             //DetailsScreen.Instance.Refresh(door.gameObject);
         }
 
-        public void UnDockFromTargetWorld(int targetWorldId,bool cleanup=false, System.Action OnFinishedUndock = null)
+        public void UnDockFromTargetWorld(int targetWorldId, bool cleanup = false, System.Action OnFinishedUndock = null)
         {
             SgtLogger.debuglog("TargetWorldToUndock: " + targetWorldId);
 
@@ -486,7 +544,7 @@ namespace Rockets_TinyYetBig.Docking
                 return;
 
             var door = IDockables.FirstOrDefault(d => d.Value == targetWorldId).Key;
-            if(door == default(IDockable))
+            if (door == default(IDockable))
             {
                 Debug.LogWarning("No connection to undock from found");
                 return;

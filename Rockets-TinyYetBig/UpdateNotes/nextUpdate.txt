@@ -11,3 +11,4 @@ New Modules:
 
 Fixes:
 - fixed vanilla bug of oxidizer tanks losing their contents on loading the game when "copy settings" from a different oxidizer tank was used to set their settings
+- fixed an assignment bug with docking when blowing up rockets
