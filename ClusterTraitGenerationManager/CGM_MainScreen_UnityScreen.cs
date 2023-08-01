@@ -284,9 +284,12 @@ namespace ClusterTraitGenerationManager
                 current.SetSpawnNumber(NumberToGenerate.Value);
             }
 
-            NumberOfRandomClassicsGO.SetActive(current == CGSMClusterManager.RandomOuterPlanetsStarmapItem);
-            NumberOfRandomClassics.SetMinMaxCurrent(0, current.MaxNumberOfInstances, CGSMClusterManager.MaxClassicOuterPlanets);
-            NumberOfRandomClassics.SetInteractable(IsPartOfCluster);
+            if (RandomOuterPlanetsStarmapItem != null)
+            {
+                NumberOfRandomClassicsGO.SetActive(current.IsRandom && !current.IsPOI);
+                NumberOfRandomClassics.SetMinMaxCurrent(0, CGSMClusterManager.RandomOuterPlanetsStarmapItem.MaxNumberOfInstances, CGSMClusterManager.MaxClassicOuterPlanets);
+                NumberOfRandomClassics.SetInteractable(IsPartOfCluster);
+            }
 
             MinMaxDistanceSlider.SetLimits(0, CustomCluster.Rings);
             MinMaxDistanceSlider.SetValues(current.minRing, current.maxRing, 0, CustomCluster.Rings, true);
@@ -451,7 +454,7 @@ namespace ClusterTraitGenerationManager
             NumberOfRandomClassics.AttachOutputField(transform.Find("Details/Content/ScrollRectContainer/AmountOfClassicPlanets/Descriptor/Output").GetComponent<LocText>());
             NumberOfRandomClassics.OnChange += (value) =>
             {
-                MaxClassicOuterPlanets = Mathf.RoundToInt(value)+2;
+                MaxClassicOuterPlanets = Mathf.RoundToInt(value);
             };
             if (CGSMClusterManager.RandomOuterPlanetsStarmapItem != null)
                 NumberOfRandomClassics.SetMinMaxCurrent(0,CGSMClusterManager.RandomOuterPlanetsStarmapItem.InstancesToSpawn, CGSMClusterManager.RandomOuterPlanetsStarmapItem.InstancesToSpawn);
