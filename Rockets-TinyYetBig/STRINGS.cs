@@ -52,6 +52,11 @@ namespace Rockets_TinyYetBig
 
         public class ELEMENTS
         {
+            public class SPACESTATIONFORCEFIELD
+            {
+                public static LocString NAME = (LocString)FormatAsLink("Station Force Field", nameof(SPACESTATIONFORCEFIELD));
+                public static LocString DESC = "A force field, protecting the station against micro meteors.";
+            }
             public class UNOBTANIUMALLOY
             {
                 public static LocString NAME = (LocString)FormatAsLink("Neutronium Alloy", nameof(UNOBTANIUMALLOY));

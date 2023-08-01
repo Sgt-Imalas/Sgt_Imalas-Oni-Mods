@@ -114,7 +114,9 @@ namespace RoboRockets.Rockets_TinyYetBig
                     AddRocketModuleToBuildList(AI_DockingPortConfig.ID, RocketCategory.utility, ScannerModuleConfig.ID);
                     InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, DockingTubeDoorConfig.ID, GantryConfig.ID);
                 }
-                if(Config.SpaceStationsPossible) { 
+                if(
+                    Config.SpaceStationsPossible
+                    ) { 
                     InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, SpaceStationDockingDoorConfig.ID, DockingTubeDoorConfig.ID);
                     AddRocketModuleToBuildList(SpaceStationBuilderModuleConfig.ID, new RocketCategory[] {RocketCategory.deployables,RocketCategory.utility}, OrbitalCargoModuleConfig.ID);
                 }

@@ -3,6 +3,7 @@ New Features:
 - Drillcone Mining now recieves a boost from the pilots Flying and Digging Skills. AI rockets get a reduced bonus (can be toggled in config, enabled by default)
 - Added "Drop All" to Fuel Loaders, Cargo Loaders and liquid fuel tanks
 - liquid Rocket Fuel Tanks will no longer fill with liquids that arent rocket fuel (combustible liquids and hydrogen)
+- The Radbolt storage module can now refuel the laser drillcone
 
 New Modules:
 - Docking module: add it to an AI rocket to allow it to dock. Dupes can not use this to go to the other rocket. constructing multiple modules of this type allows multiple rockets to link together in space.

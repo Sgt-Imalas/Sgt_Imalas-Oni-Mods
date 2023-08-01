@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Buildings.Utility;
 using TUNING;
 using UnityEngine;
 
@@ -90,6 +91,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
             go.AddOrGet<LoopingSounds>();
             var HEPBatteryModule = go.AddOrGet<RadiationBatteryOutputHandler>();
             HEPBatteryModule.physicalFuelCapacity = 3000f;
+            go.AddOrGet<DrillConeAssistentModuleHEP>();
         }
 
         public override void DoPostConfigureComplete(GameObject go)

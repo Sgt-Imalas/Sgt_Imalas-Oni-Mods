@@ -57,3 +57,27 @@ elements:
     state: Solid
     localizationID: STRINGS.ELEMENTS.UNOBTANIUMDUST.NAME
     dlcId: ""
+
+  - elementId: SpaceStationForceField
+    specificHeatCapacity: 0
+    thermalConductivity: 0
+    solidSurfaceAreaMultiplier: 0
+    liquidSurfaceAreaMultiplier: 0
+    gasSurfaceAreaMultiplier: 0
+    strength: 0
+    highTemp: 10000
+    highTempTransitionTarget: SpaceStationForceField
+    defaultTemperature: 300
+    defaultMass: 20000
+    maxMass: 20000
+    hardness: 255
+    molarMass: 10000
+    lightAbsorptionFactor: 0
+    radiationAbsorptionFactor: 0
+    radiationPer1000Mass: 0
+    materialCategory: Special
+    buildMenuSort: 1
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.SPACESTATIONFORCEFIELD.NAME
+    dlcId: ""

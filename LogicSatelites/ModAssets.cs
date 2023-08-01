@@ -189,7 +189,7 @@ namespace LogicSatellites.Behaviours
                         if(node != nodeTarget)
                         {
                             int length = AxialUtil.GetDistance(node, nodeTarget);
-                            if (length >0 && length <= Config.Instance.SatelliteLogicRange)
+                            if (length > 0 && length <= Config.Instance.SatelliteLogicRange)
                             {
                                 AddNodePair(node, nodeTarget);
                             }

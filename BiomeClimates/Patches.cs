@@ -78,7 +78,7 @@ namespace BiomeClimates
                     {
                         "Biome Overlay",
                         "overlay_biomes",
-                        BiomeOverlay.ID,
+                        "dux",
                         "",
                         Action.NumActions,
                         "Displays various information about biomes",
