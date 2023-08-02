@@ -167,7 +167,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             int verticalLeft = world.WorldOffset.x + ((world.Width - borderSize) / 2);
             int verticalRight = world.WorldOffset.x + world.Width - ((world.Width - borderSize) / 2) - 1;
 
-            // horizontal world
+            // horizontal up to lower station bound
             for (var x = 0; x < world.WorldSize.x; x++)
             {
                 for(int y = 0; y <= horizontalRow; y++)
@@ -179,7 +179,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                 }
             }
 
-            // vertical world
+            // vertical lines left and right
             for (var y = 0; y < world.WorldSize.y; y++)
             {
                 for (var x = 0; x < world.WorldSize.x; x++)

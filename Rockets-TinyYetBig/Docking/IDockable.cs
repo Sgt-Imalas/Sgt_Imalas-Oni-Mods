@@ -94,7 +94,8 @@ namespace Rockets_TinyYetBig.Docking
             dManager = gameObject.TryGetComponent<RocketModuleCluster>(out var module) 
                 ? module.CraftInterface.gameObject.AddOrGet<DockingManager>() 
                 : ClusterUtil.GetMyWorld(this.gameObject).gameObject.AddOrGet<DockingManager>();
-            dManager.AddDockable(this);
+
+            GameScheduler.Instance.ScheduleNextFrame("Adding Dockable", (obj) => dManager.AddDockable(this));
             dManager.SetManagerType();
         }
 
