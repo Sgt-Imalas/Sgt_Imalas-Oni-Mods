@@ -539,7 +539,7 @@ namespace ClusterTraitGenerationManager
 
                         //Starter Biome subworld files
                         var startBiome = new WeightedSubworldName(ModAPI.GetStartAreaSubworld(StartWorld, false), 1);
-                        startBiome.overridePower = 4;
+                        startBiome.overridePower = 3;
 
                         var startBiomeWater = new WeightedSubworldName(ModAPI.GetStartAreaWaterSubworld(StartWorld), 1);
                         startBiomeWater.overridePower = 0.7f;
@@ -714,7 +714,7 @@ namespace ClusterTraitGenerationManager
 
                         //Starter Biome subworld files
                         var startBiome = new WeightedSubworldName(ModAPI.GetStartAreaSubworld(StartWorld, true), 1);
-                        startBiome.overridePower = 4;
+                        startBiome.overridePower = 3;
 
                         //var startBiomeWater = new WeightedSubworldName("expansion1::subworlds/sandstone/SandstoneMiniWater", 1);
                         //startBiomeWater.overridePower = 0.7f;
