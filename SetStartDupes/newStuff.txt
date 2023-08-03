@@ -1,1 +1,1 @@
-﻿- fixed rare attribute bug for tidying - carrying combination giving less attribute points than intended
+﻿

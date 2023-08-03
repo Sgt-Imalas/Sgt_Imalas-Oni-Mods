@@ -137,7 +137,7 @@ namespace SGTIM_NotificationManager
                 if (notification == null)
                     return;
 
-                SgtLogger.l(notification.NotifierName + ", " + notification.titleText);
+                //SgtLogger.l(notification.NotifierName + ", " + notification.titleText);
                 bool skipAudio = false;
                 if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.STARVING.NOTIFICATION_NAME)
                 {
@@ -201,6 +201,7 @@ namespace SGTIM_NotificationManager
         [HarmonyPatch(nameof(NotificationScreen.Entry.Add))]
         public static class PauseAndZoom
         {
+            static float lastTrigger = -1;
             public static void Postfix(Notification notification)
             {
                 if (notification == null)
@@ -262,6 +263,19 @@ namespace SGTIM_NotificationManager
                 {
                     pause = Config.Instance.PAUSE_ON_RADIATIONVOMITING;
                     moveCam = Config.Instance.PAN_TO_RADIATIONVOMITING;
+                }
+
+                if (GameClock.Instance!= null)
+                {
+                    var currentTime = GameClock.Instance.GetTimeInCycles();
+                    if(Mathf.Approximately(lastTrigger,currentTime))
+                    {
+                        return;
+                    }
+                    else 
+                    {
+                        lastTrigger = currentTime; 
+                    }
                 }
 
                 if (notification.Notifier != null && moveCam)
