@@ -92,6 +92,20 @@ namespace RoboRockets
                 return true;
             }
         }
+        [HarmonyPatch(typeof(RequestCrewSideScreen))]
+        [HarmonyPatch(nameof(RequestCrewSideScreen.IsValidForTarget))]
+        public class RequestCrewSideScreen_IsValidForTarget_Patch
+        {
+            public static bool Prefix(GameObject target, ref bool __result)
+            {
+                if (target.TryGetComponent<PassengerRocketModule>(out var passengerRocketModule) && passengerRocketModule is AIPassengerModule)
+                {
+                    __result = false;
+                    return false;
+                }
+                return true;
+            }
+        }
 
         [HarmonyPatch(typeof(PassengerRocketModule))]
         [HarmonyPatch("CheckPilotBoarded")]
@@ -201,7 +215,7 @@ namespace RoboRockets
             public static bool Prefix(int id)
             {
 
-                if (ModAssets.ForbiddenInteriorIDs.ContainsKey(id))
+                if (ModAssets.ForbiddenInteriorIDs!=null && ModAssets.ForbiddenInteriorIDs.ContainsKey(id))
                 {
 #if DEBUG
                     SgtLogger.l("WorldID is forbidden to look into: " + id);
@@ -210,7 +224,7 @@ namespace RoboRockets
 
                     if (Module!= null && Module.TryGetComponent<KPrefabID>(out var prefabID) && !prefabID.HasTag(GameTags.RocketOnGround))
                     {
-                        if(!ClusterMapScreen.Instance.gameObject.activeSelf)
+                        if(ClusterMapScreen.Instance!= null && !ClusterMapScreen.Instance.gameObject.activeSelf && ManagementMenu.Instance != null)
                             ManagementMenu.Instance.ToggleClusterMap();
 
                         if(Module.TryGetComponent<RocketModuleCluster>(out var module) && module.CraftInterface.TryGetComponent<ClusterGridEntity>(out var entity))
@@ -223,10 +237,15 @@ namespace RoboRockets
                         if (Module.TryGetComponent<RocketModuleCluster>(out var door))
                         {
 
-                            if (ClusterMapScreen.Instance.gameObject.activeSelf)
+                            if (ClusterMapScreen.Instance != null && ClusterMapScreen.Instance.gameObject.activeSelf && ManagementMenu.Instance != null)
                                 ManagementMenu.Instance.ToggleClusterMap();
+                            System.Action OnSelect = null;
+                            if(Module.TryGetComponent<KSelectable>(out var selectable))
+                            {
+                                OnSelect = () => SelectTool.Instance.Select(selectable);
+                            }
 
-                            CameraController.Instance.ActiveWorldStarWipe(ClusterManager.Instance.GetWorld(id).ParentWorldId,true, door.transform.position, 10f , null);
+                            CameraController.Instance.ActiveWorldStarWipe(ClusterManager.Instance.GetWorld(id).ParentWorldId, true, door.transform.position, 10f, OnSelect); 
                         }
                     }
                     
