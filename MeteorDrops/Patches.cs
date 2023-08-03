@@ -14,17 +14,33 @@ namespace MeteorDrops
 {
     internal class Patches
     {
-        /// <summary>
-        /// add buildings to plan screen
-        /// </summary>
-        [HarmonyPatch(typeof(GeneratedBuildings))]
-        [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
-        public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
+        [HarmonyPatch(typeof(MissileProjectile.StatesInstance))]
+        [HarmonyPatch(nameof(MissileProjectile.StatesInstance.SpawnMeteorResources))]
+        public static class AdjustResourcePercentage
         {
 
-            public static void Prefix()
+            public static void Prefix(MissileProjectile.StatesInstance __instance)
             {
-                //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
+                __instance.def.MeteorDebrisMassModifier = ((float)Config.Instance.MassPercentage / 100f);
+            }
+        }
+        [HarmonyPatch(typeof(GassyMooCometConfig))]
+        [HarmonyPatch(nameof(GassyMooCometConfig.CreatePrefab))]
+        public static class AdjustMeatAmount
+        {
+            public static void Postfix(GameObject __result)
+            {
+                if(__result.TryGetComponent<GassyMooComet>(out var gassyComet))
+                {
+                    int NumberOfMeat = Mathf.RoundToInt(Config.Instance.MassPercentage / 10f);
+                    List<string> DroppedItems = new List<string>();
+                    for(int i = 0; i < NumberOfMeat; i++)
+                    {
+                        DroppedItems.Add(MeatConfig.ID);
+                    }
+                    gassyComet.lootOnDestroyedByMissile = DroppedItems.ToArray();
+                }
+
             }
         }
         /// <summary>
@@ -60,6 +76,8 @@ namespace MeteorDrops
 
             public static void Prefix(MissileProjectile.StatesInstance __instance)
             {
+                return;//using vanilla version now
+
                 if (!__instance.smi.sm.meteorTarget.IsNullOrDestroyed())
                 {
                     Comet CometToDropMats = __instance.smi.sm.meteorTarget.Get(__instance.smi);

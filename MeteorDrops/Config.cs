@@ -16,7 +16,7 @@ namespace MeteorDrops
     {
         [Option("Mass Percentage", "Percentage of its mass a meteor drops when blasted.")]
         [JsonProperty]
-        [Limit(0, 100)]
+        [Limit(0, 200)]
         public int MassPercentage { get; set; }
         public Config()
         {
