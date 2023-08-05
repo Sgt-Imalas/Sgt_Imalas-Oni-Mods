@@ -41,6 +41,30 @@ namespace Imalas_TwitchChaosEvents
                 LocalisationUtil.Translate(typeof(STRINGS), true);
             }
         }
+
+        //public class Moped
+        //{
+           
+        //    [HarmonyPatch(typeof(StringTable), nameof(StringTable.Get))]
+        //    [HarmonyPatch(new Type[] { typeof(StringKey) })]
+        //    public class Moped2
+        //    {
+        //        const string moped = "Moped ";
+        //        static int mopedCount = moped.Length;
+        //        public static void Postfix(StringEntry __result)
+        //        {
+        //            if (__result !=null && __result.String.Length > 0 && !__result.String.Contains("MISSING"))
+        //            {
+        //                int count = __result.String.Length;
+        //                int fit = Math.Max(1, count / mopedCount);
+        //                __result.String = string.Concat(Enumerable.Repeat(moped, fit));
+        //            }
+
+        //        }
+        //    }
+        //}
+
+
         public class SaveGamePatch
         {
 
@@ -102,7 +126,7 @@ namespace Imalas_TwitchChaosEvents
                 {
                     var stepColor = Color.HSVToRGB((float)i / (float)looptime, 1, 1);
                     byte rByte = (byte)(stepColor.r * 255f), gByte = (byte)(stepColor.g * 255f), bByte = (byte)(stepColor.b * 255f);
-                    ColourValues[i] = new Color32(rByte, gByte, bByte,(byte)255);
+                    ColourValues[i] = new Color32(rByte, gByte, bByte, (byte)255);
                 }
 
                 public static Color CurrentColor => Color.HSVToRGB(time / looptime, 1, 1);
@@ -119,15 +143,15 @@ namespace Imalas_TwitchChaosEvents
                         )
                         return;
                     if (!SpeedControlScreen.Instance.IsPaused)
-                        internalTimer += 1+SpeedControlScreen.Instance.GetSpeed();
+                        internalTimer += 1 + SpeedControlScreen.Instance.GetSpeed();
 
-                    if(internalTimer >= 2)
+                    if (internalTimer >= 2)
                     {
-                        time += internalTimer/2;
+                        time += internalTimer / 2;
                         internalTimer %= 2;
                     }
                     var cameraVector = CameraController.Instance.transform.position;
-                    if(Grid.IsWorldValidCell(Grid.PosToCell(cameraVector)))
+                    if (Grid.IsWorldValidCell(Grid.PosToCell(cameraVector)))
                         CameraOffset = (Mathf.RoundToInt(cameraVector.x + cameraVector.y + cameraVector.z) / 2);
 
                     TimeAndCameraOffset = time + CameraOffset;
@@ -154,10 +178,10 @@ namespace Imalas_TwitchChaosEvents
                 static int GetCurrentColourIndex(int cell)
                 {
                     int Y = Grid.CellRow(cell)
-                        ,X = Grid.CellColumn(cell)
+                        , X = Grid.CellColumn(cell)
                         ;
                     //this:
-                    return ((Y+X) / 2 + TimeAndCameraOffset) % looptime;
+                    return ((Y + X) / 2 + TimeAndCameraOffset) % looptime;
                     ////or this:
                     //var val = ((Y +X)/2) + TimeAndCameraOffset;
                     //while (val >= looptime)
@@ -168,7 +192,7 @@ namespace Imalas_TwitchChaosEvents
 
                 private static unsafe void ProcessPixel(IntPtr pixelsPtr, int i, byte r, byte g, byte b)
                 {
-                    if (!Grid.IsActiveWorld(i) || Grid.elementIdx[i] != CreeperIDx || CreeperIDx == 0) 
+                    if (!Grid.IsActiveWorld(i) || Grid.elementIdx[i] != CreeperIDx || CreeperIDx == 0)
                         return;
 
                     byte* pixel = (byte*)pixelsPtr.ToPointer() + (i * 4);
