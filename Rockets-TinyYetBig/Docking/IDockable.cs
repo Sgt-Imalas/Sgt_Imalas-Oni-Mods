@@ -91,6 +91,8 @@ namespace Rockets_TinyYetBig.Docking
         public override void OnSpawn()
         {
             base.OnSpawn();
+            Debug.Log("ConnectedDockable: " + connected);
+
             dManager = gameObject.TryGetComponent<RocketModuleCluster>(out var module) 
                 ? module.CraftInterface.gameObject.AddOrGet<DockingManager>() 
                 : ClusterUtil.GetMyWorld(this.gameObject).gameObject.AddOrGet<DockingManager>();

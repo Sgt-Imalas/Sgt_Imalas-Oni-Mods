@@ -337,8 +337,8 @@ namespace Rockets_TinyYetBig.Docking
                 if (door.GetConnec() != null)
                     target = door.GetConnec().dManager.WorldId;
                 IDockables.Add(door, target);
+                SgtLogger.debuglog("Added new Docking Door!, ID: " + MyWorldId + ", Doorcount: " + IDockables.Count()+", Connected? "+target);
             }
-            SgtLogger.debuglog("Added new Docking Door!, ID: " + MyWorldId + ", Doorcount: " + IDockables.Count());
 
             //UpdateDeconstructionStates();
 
@@ -384,7 +384,11 @@ namespace Rockets_TinyYetBig.Docking
 
         public bool HasPendingUndocks(int WorldID)
         {
-            return PendingUndocks.Keys.Any(door => door.GetMyWorldId() == WorldID);
+            if(PendingUndocks == null || PendingUndocks.Keys == null || PendingUndocks.Keys.Count == 0)
+            {
+                return false; 
+            }
+            return PendingUndocks.Keys.Any(door => door.dManager!=null &&  door.dManager.WorldId == WorldID);
         }
 
         public void HandleUiDocking(int prevDockingState, int targetWorld, IDockable door = null, System.Action onFinished = null)

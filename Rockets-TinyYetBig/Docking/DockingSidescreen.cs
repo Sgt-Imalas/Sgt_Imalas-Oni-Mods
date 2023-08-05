@@ -202,9 +202,8 @@ namespace Rockets_TinyYetBig.Docking
                             this.Refresh();
                         });
                     this.Refresh();
-                });
-                hr.GetReference<MultiToggle>("Toggle")
-                    .ChangeState(targetManager.GetActiveUIState(kvp.Key.WorldId) ? 1 : 0);
+                }); 
+                toggle.ChangeState(targetManager.GetActiveUIState(kvp.Key.WorldId) ? 1 : 0);
             }
         }
     }

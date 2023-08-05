@@ -37,11 +37,11 @@ namespace Rockets_TinyYetBig._ModuleConfig
                 foreach (var type in TargetTypes) 
                 {
                     //MethodInfo method = type.GetMethod("CreateBuildingDef");
-
+                    ///THIS METHOD CRASHES WITH TRANSFER PORT MOD!!!! TODO!!!
                     MethodInfo method = AccessTools.Method(type, "CreateBuildingDef", new Type[] { });
-                    //SgtLogger.l($"Type {type.FullName}, method: {method.Name} {!method.IsGenericMethod}, {method.HasMethodBody()}"); 
+                    SgtLogger.l($"Type {type.FullName}, method: {method.Name} {!method.IsGenericMethod}, {method.HasMethodBody()}"); 
 
-                    if (method != null && !method.IsAbstract  && !method.IsGenericMethod && method.HasMethodBody() && method.DeclaringType != typeof(IBuildingConfig) )
+                    if (method != null && !method.IsAbstract && !method.IsGenericMethod && method.HasMethodBody() && method.DeclaringType != typeof(IBuildingConfig) )
                     {
                         TargetMethods.Add(method);
                     }

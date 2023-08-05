@@ -29,8 +29,8 @@ namespace Rockets_TinyYetBig.Buildings.Fuel
             BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(
                 ID, 
                 5, 
-                2, 
-                "rocket_cluster_oxidizer_tank_liquid_kanim",
+                2,
+                "liquid_chlorine_oxidizer_kanim",
                 1000, 
                 60f, 
                 fuelTankDryMass, 

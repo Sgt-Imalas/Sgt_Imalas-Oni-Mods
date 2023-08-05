@@ -84,6 +84,15 @@
 	  <None Update="ModAssets\anim\assets\ion_thrus_module\ion_thrus_module_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\anim\assets\liquid_chlorine_oxidizer\liquid_chlorine_oxidizer_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\liquid_chlorine_oxidizer\liquid_chlorine_oxidizer_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\liquid_chlorine_oxidizer\liquid_chlorine_oxidizer_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\anim\assets\loader_tube_adapter\loader_tube_adapter_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>

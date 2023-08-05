@@ -240,6 +240,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 {
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Gases.GasDistribution, CO2FuelTankConfig.ID);
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.LiquidTuning, LiquidFuelTankClusterSmallConfig.ID);
+                    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.ImprovedHydrocarbonPropulsion, LiquidChlorineOxidizerTankConfig.ID);
                 }
                 if (Config.Instance.EnablePOISensor)
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Computers.SensitiveMicroimaging, POICapacitySensorConfig.ID);
