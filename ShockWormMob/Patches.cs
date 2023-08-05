@@ -32,7 +32,18 @@ namespace ShockWormMob
                     __instance.master.gameObject.AddOrGet<Decomposer>();
             }
         }
+        [HarmonyPatch(typeof(Db))]
+        [HarmonyPatch(nameof(Db.Initialize))]
+        public static class MagmaDrink
+        {
 
+            [HarmonyPriority(Priority.Low)]
+            public static void Postfix()
+            {
+                WaterCoolerConfig.BEVERAGE_CHOICE_OPTIONS = WaterCoolerConfig.BEVERAGE_CHOICE_OPTIONS.AddToArray(new Tuple<Tag, string>(SimHashes.Magma.CreateTag(), "HotStuff"));
+                WaterCoolerConfig.BEVERAGE_CHOICE_OPTIONS = WaterCoolerConfig.BEVERAGE_CHOICE_OPTIONS.AddToArray(new Tuple<Tag, string>(SimHashes.Oxygen.CreateTag(), "VerticalWindTunnel"));
+            }
+        }
 
         [HarmonyPatch(typeof(RoleStation))]
         [HarmonyPatch(nameof(RoleStation.OnStopWork))]
