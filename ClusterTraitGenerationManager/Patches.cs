@@ -1235,7 +1235,7 @@ namespace ClusterTraitGenerationManager
                     if (!OriginalGeyserAmounts.ContainsKey(settings.world.filePath))
                         OriginalGeyserAmounts[settings.world.filePath] = new Dictionary<List<string>, int>();
 
-                    if (CGSMClusterManager.CustomCluster.HasStarmapItem(settings.world.filePath, out var item) && item.CurrentSizePreset != WorldSizePresets.Normal)
+                    if (CGSMClusterManager.CustomCluster.HasStarmapItem(settings.world.filePath, out var item) && !Mathf.Approximately(item.CurrentSizeMultiplier,1))
                     {
                         foreach (var WorldTemplateRule in settings.world.worldTemplateRules)
                         {
@@ -1245,7 +1245,14 @@ namespace ClusterTraitGenerationManager
                                 {
                                     OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names] = WorldTemplateRule.times;
                                 }
-                                float newGeyserAmount = (((float)OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]) *(float)item.CurrentSizePreset / 100f);
+                                float SizeModifier = item.CurrentSizeMultiplier;
+                                if (SizeModifier < 1)
+                                {
+                                    SizeModifier = (1 + SizeModifier) / 2;
+                                }
+
+
+                                float newGeyserAmount = (((float)OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]) * SizeModifier);
                                 SgtLogger.l(string.Format("Adjusting geyser roll amount to worldsize for {0}; {1} -> {2}", WorldTemplateRule.names.FirstOrDefault(), OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names], newGeyserAmount), item.id);
 
                                 if(newGeyserAmount > 1)
