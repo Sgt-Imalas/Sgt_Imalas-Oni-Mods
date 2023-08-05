@@ -23,10 +23,10 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>CrownMouldSkin</ModName>
+		<ModName>Extra Moulding Skins</ModName>
 		<ModDescription></ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
-		<MinimumSupportedBuild>535211</MinimumSupportedBuild>
+		<MinimumSupportedBuild>567980</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 
