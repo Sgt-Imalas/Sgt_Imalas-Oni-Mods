@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TemplateClasses;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -35,6 +36,12 @@ namespace OniRetroEdition
                 InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Base, MouldingTileConfig.ID, CarpetTileConfig.ID);
                 InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Rocketry, CrewCapsuleConfig.ID);
                 InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, AtmoicGardenConfig.ID, FarmTileConfig.ID);
+
+                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, FlyingCreatureBaitConfig.ID, EggCrackerConfig.ID);
+                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, AirborneCreatureLureConfig.ID, EggCrackerConfig.ID); 
+                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, FishTrapConfig.ID, EggCrackerConfig.ID);
+                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, CreatureTrapConfig.ID, EggCrackerConfig.ID);
+
                 InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Refinement, GenericFabricatorConfig.ID, RockCrusherConfig.ID);
                 InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Stations, MachineShopConfig.ID, PowerControlStationConfig.ID);
                 InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Medicine, AdvancedApothecaryConfig.ID, ApothecaryConfig.ID);
@@ -76,9 +83,9 @@ namespace OniRetroEdition
         public static class SwapTooltipForSkillStation
         {
 
-            public static void Prefix(ManagementMenu __instance,ManagementMenu.ManagementMenuToggleInfo toggleInfo, ref string disabledTooltip)
+            public static void Prefix(ManagementMenu __instance, ManagementMenu.ManagementMenuToggleInfo toggleInfo, ref string disabledTooltip)
             {
-                if(toggleInfo == __instance.skillsInfo)
+                if (toggleInfo == __instance.skillsInfo)
                 {
                     disabledTooltip = STRINGS.UI.TOOLTIPS.MANAGEMENTMENU_REQUIRES_SKILL_STATION_RETRO;
                 }
@@ -120,9 +127,51 @@ namespace OniRetroEdition
         {
             public static void Postfix(ref BuildingDef __result)
             {
+                __result.ShowInBuildMenu = true;
                 __result.Deprecated = false;
             }
         }
+
+        [HarmonyPatch(typeof(LureSideScreen))]
+        [HarmonyPatch(nameof(LureSideScreen.SetTarget))]
+        public static class Revive_AirborneCreatureLureScreenExtension
+        {
+            public static void Prefix(LureSideScreen __instance)
+            {
+
+                __instance.baitAttractionStrings = new Dictionary<Tag, string>
+                {
+                    { SimHashes.SlimeMold.CreateTag(), global::STRINGS.CREATURES.SPECIES.PUFT.NAME},
+                    { SimHashes.Phosphorus.CreateTag(),global::STRINGS.CREATURES.SPECIES.LIGHTBUG.NAME},
+                    { SimHashes.Phosphorite.CreateTag(), global::STRINGS.CREATURES.SPECIES.LIGHTBUG.NAME},
+                    { SimHashes.BleachStone.CreateTag(),global::STRINGS.CREATURES.SPECIES.PUFT.NAME},
+                    { SimHashes.Diamond.CreateTag(),global::STRINGS.CREATURES.SPECIES.LIGHTBUG.NAME},
+                    { SimHashes.OxyRock.CreateTag(),global::STRINGS.CREATURES.SPECIES.PUFT.NAME},
+                };
+            }
+        }
+
+        [HarmonyPatch(typeof(AirborneCreatureLureConfig))]
+        [HarmonyPatch(nameof(AirborneCreatureLureConfig.ConfigureBuildingTemplate))]
+        public static class Revive_AirborneCreatureLureConfig2
+        {
+            public static void Postfix(GameObject prefab)
+            {
+
+                CreatureLure creatureLure = prefab.AddOrGet<CreatureLure>();
+                creatureLure.baitTypes = new List<Tag>
+                {
+                    SimHashes.SlimeMold.CreateTag(),
+                    SimHashes.Phosphorus.CreateTag(),
+                    SimHashes.Phosphorite.CreateTag(),
+                    SimHashes.BleachStone.CreateTag(),
+                    SimHashes.Diamond.CreateTag(),
+                    SimHashes.OxyRock.CreateTag(),
+                };
+                creatureLure.baitStorage.storageFilters = creatureLure.baitTypes;
+            }
+        }
+
         [HarmonyPatch(typeof(PressureSwitchGasConfig))]
         [HarmonyPatch(nameof(PressureSwitchGasConfig.CreateBuildingDef))]
         public static class Revive_PressureSwitchGasConfig
@@ -138,6 +187,7 @@ namespace OniRetroEdition
         {
             public static void Postfix(ref BuildingDef __result)
             {
+                __result.ShowInBuildMenu = true;
                 __result.Deprecated = false;
             }
         }
@@ -156,6 +206,7 @@ namespace OniRetroEdition
         {
             public static void Postfix(ref BuildingDef __result)
             {
+                __result.ShowInBuildMenu = true;
                 __result.Deprecated = false;
             }
         }
@@ -165,6 +216,7 @@ namespace OniRetroEdition
         {
             public static void Postfix(ref BuildingDef __result)
             {
+                __result.ShowInBuildMenu = true;
                 __result.Deprecated = false;
             }
         }
@@ -174,6 +226,7 @@ namespace OniRetroEdition
         {
             public static void Postfix(ref BuildingDef __result)
             {
+                __result.ShowInBuildMenu = true;
                 __result.Deprecated = false;
             }
         }
@@ -183,6 +236,7 @@ namespace OniRetroEdition
         {
             public static void Postfix(ref BuildingDef __result)
             {
+                __result.ShowInBuildMenu = true;
                 __result.Deprecated = false;
             }
         }
@@ -192,6 +246,7 @@ namespace OniRetroEdition
         {
             public static void Postfix(ref BuildingDef __result)
             {
+                __result.ShowInBuildMenu = true;
                 __result.Deprecated = false;
             }
         }
@@ -210,6 +265,7 @@ namespace OniRetroEdition
         {
             public static void Postfix(ref BuildingDef __result)
             {
+                __result.ShowInBuildMenu = true;
                 __result.Deprecated = false;
             }
         }
@@ -219,6 +275,7 @@ namespace OniRetroEdition
         {
             public static void Postfix(ref BuildingDef __result)
             {
+                __result.ShowInBuildMenu = true;
                 __result.Deprecated = false;
             }
         }
@@ -228,6 +285,7 @@ namespace OniRetroEdition
         {
             public static void Postfix(ref BuildingDef __result)
             {
+                __result.ShowInBuildMenu = true;
                 __result.Deprecated = false;
             }
         }
@@ -237,6 +295,7 @@ namespace OniRetroEdition
         {
             public static void Postfix(ref BuildingDef __result)
             {
+                __result.ShowInBuildMenu = true;
                 __result.Deprecated = false;
             }
         }
@@ -246,6 +305,7 @@ namespace OniRetroEdition
         {
             public static void Postfix(ref BuildingDef __result)
             {
+                __result.ShowInBuildMenu = true;
                 __result.Deprecated = false;
             }
         }
@@ -255,6 +315,7 @@ namespace OniRetroEdition
         {
             public static void Postfix(ref BuildingDef __result)
             {
+                __result.ShowInBuildMenu = true;
                 __result.Deprecated = false;
             }
         }
@@ -264,6 +325,7 @@ namespace OniRetroEdition
         {
             public static void Postfix(ref BuildingDef __result)
             {
+                __result.ShowInBuildMenu = true;
                 __result.Deprecated = false;
             }
         }
@@ -273,10 +335,35 @@ namespace OniRetroEdition
         {
             public static void Postfix(ref BuildingDef __result)
             {
+                __result.ShowInBuildMenu = true;
                 __result.Deprecated = false;
+                BuildingTemplates.CreateFoundationTileDef(__result);
             }
         }
+        [HarmonyPatch(typeof(MouldingTileConfig))]
+        [HarmonyPatch(nameof(MouldingTileConfig.DoPostConfigureComplete))]
+        public static class Revive_MouldingTileConfig2
+        {
+            public static void Postfix(GameObject go)
+            {
+                KPrefabID component = go.GetComponent<KPrefabID>();
+                component.AddTag(GameTags.FloorTiles);
+            }
+        }
+        [HarmonyPatch(typeof(GeyserGenericConfig))]
+        [HarmonyPatch(nameof(GeyserGenericConfig.CreateGeyser))]
+        public static class GeyserResize
+        {
+            public static void Prefix(string id, ref int width, ref int height)
+            {
+                if(id.Contains("steam") || id.Contains("hot_steam") || id.Contains("methane"))
+                {
+                    width = 3;
+                    height = 3;
+                }
 
+            }
+        }
 
         [HarmonyPatch(typeof(RoleStationConfig))]
         [HarmonyPatch(nameof(RoleStationConfig.CreateBuildingDef))]
@@ -284,13 +371,48 @@ namespace OniRetroEdition
         {
             public static void Postfix(ref BuildingDef __result)
             {
+                __result.ShowInBuildMenu = true;
                 __result.Deprecated = false;
                 __result.Overheatable = false;
 
             }
         }
-#endregion
 
+        [HarmonyPatch(typeof(CreatureTrapConfig))]
+        [HarmonyPatch(nameof(CreatureTrapConfig.CreateBuildingDef))]
+        public static class AdjustSizePatch_CreatureTrap
+        {
+
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.ShowInBuildMenu = true;
+                __result.Deprecated = false;
+            }
+        }
+        [HarmonyPatch(typeof(FishTrapConfig))]
+        [HarmonyPatch(nameof(FishTrapConfig.CreateBuildingDef))]
+        public static class AdjustSizePatch_FishTrap
+        {
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.ShowInBuildMenu = true;
+                __result.Deprecated = false;
+            }
+        }
+
+        #endregion
+
+        [HarmonyPatch(typeof(LogicElementSensorGasConfig))]
+        [HarmonyPatch(nameof(LogicElementSensorGasConfig.CreateBuildingDef))]
+        public static class LogicElementSensorGasNeedsPower
+        {
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.RequiresPowerInput = true;
+                __result.EnergyConsumptionWhenActive = 25f;
+
+            }
+        }
 
         [HarmonyPatch(typeof(ExobaseHeadquartersConfig))]
         [HarmonyPatch(nameof(ExobaseHeadquartersConfig.ConfigureBuildingTemplate))]
@@ -298,7 +420,7 @@ namespace OniRetroEdition
         {
             public static void Postfix(GameObject go)
             {
-                if(go.TryGetComponent<RoleStation>(out var station))
+                if (go.TryGetComponent<RoleStation>(out var station))
                 {
                     UnityEngine.Object.Destroy(station);
                 }
@@ -346,6 +468,8 @@ namespace OniRetroEdition
         {
             public static void Postfix(ref BuildingDef __result)
             {
+                __result.ShowInBuildMenu = true;
+                __result.Deprecated = false;
                 __result.BuildLocationRule = BuildLocationRule.OnCeiling;
             }
         }
@@ -402,9 +526,9 @@ namespace OniRetroEdition
                 __result.GenerateOffsets();
             }
         }
-        [HarmonyPatch(typeof(BottleEmptierConfig))]
-        [HarmonyPatch(nameof(BottleEmptierConfig.CreateBuildingDef))]
-        public static class AdjustSizePatch_BottleEmptier
+        [HarmonyPatch(typeof(BottleEmptierGasConfig))]
+        [HarmonyPatch(nameof(BottleEmptierGasConfig.CreateBuildingDef))]
+        public static class AdjustSizePatch_BottleEmptierGas
         {
 
             public static void Postfix(ref BuildingDef __result)
@@ -456,7 +580,7 @@ namespace OniRetroEdition
 
 
                 SgtLogger.Assert("TextureNotNull", texture);
-                if(texture != null)
+                if (texture != null)
                 {
                     tuning.foregroundTexture = texture;
                 }
@@ -470,7 +594,7 @@ namespace OniRetroEdition
         {
             public static void Postfix()
             {
-                
+
                 //var metalMaterial = ElementLoader.GetElement(SimHashes.Steel.CreateTag()).substance.material;
 
                 // fix lead specular
@@ -493,8 +617,8 @@ namespace OniRetroEdition
                 SgtElementUtil.SetTexture_Main(enrichedU, "enriched_uranium_retro");
 
                 var ironORe = ElementLoader.GetElement(SimHashes.IronOre.CreateTag()).substance.material;
-                SgtElementUtil.SetTexture_Main(ironORe, Config.Instance.IronOreTexture == Config.EarlierVersion.Beta ? "hematite_(t)_retro"  : "hematite_(alpha)_retro");
-                if(Config.Instance.IronOreTexture == Config.EarlierVersion.Alpha) 
+                SgtElementUtil.SetTexture_Main(ironORe, Config.Instance.IronOreTexture == Config.EarlierVersion.Beta ? "hematite_(t)_retro" : "hematite_(alpha)_retro");
+                if (Config.Instance.IronOreTexture == Config.EarlierVersion.Alpha)
                     SgtElementUtil.SetTexture_ShineMask(aluminium, "hematite_(alpha)_retro_ShineMask");
 
                 var bleachstone = ElementLoader.GetElement(SimHashes.BleachStone.CreateTag()).substance.material;
