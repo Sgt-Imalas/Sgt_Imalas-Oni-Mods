@@ -409,6 +409,7 @@ namespace OniRetroEdition
             public static void Postfix(ref BuildingDef __result)
             {
                 __result.RequiresPowerInput = true;
+                __result.AddLogicPowerPort = false;
                 __result.EnergyConsumptionWhenActive = 25f;
 
             }

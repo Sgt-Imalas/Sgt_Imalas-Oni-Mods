@@ -222,7 +222,7 @@ namespace RoboRockets
 #endif
                     AIPassengerModule Module = ModAssets.ForbiddenInteriorIDs[id];
 
-                    if (Module!= null && Module.TryGetComponent<KPrefabID>(out var prefabID) && !prefabID.HasTag(GameTags.RocketOnGround))
+                    if (Module != null && Module.gameObject != null && Module.TryGetComponent<KPrefabID>(out var prefabID) && !prefabID.HasTag(GameTags.RocketOnGround))
                     {
                         if(ClusterMapScreen.Instance!= null && !ClusterMapScreen.Instance.gameObject.activeSelf && ManagementMenu.Instance != null)
                             ManagementMenu.Instance.ToggleClusterMap();
@@ -234,7 +234,7 @@ namespace RoboRockets
                     }
                     else
                     {
-                        if (Module.TryGetComponent<RocketModuleCluster>(out var door))
+                        if (Module != null && Module.gameObject != null && Module.TryGetComponent<RocketModuleCluster>(out var rocketModule))
                         {
 
                             if (ClusterMapScreen.Instance != null && ClusterMapScreen.Instance.gameObject.activeSelf && ManagementMenu.Instance != null)
@@ -245,7 +245,7 @@ namespace RoboRockets
                                 OnSelect = () => SelectTool.Instance.Select(selectable);
                             }
 
-                            CameraController.Instance.ActiveWorldStarWipe(ClusterManager.Instance.GetWorld(id).ParentWorldId, true, door.transform.position, 10f, OnSelect); 
+                            CameraController.Instance.ActiveWorldStarWipe(ClusterManager.Instance.GetWorld(id).ParentWorldId, true, rocketModule.transform.position, 10f, OnSelect); 
                         }
                     }
                     
