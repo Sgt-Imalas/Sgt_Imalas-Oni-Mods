@@ -20,7 +20,7 @@ namespace ClusterTraitGenerationManager
     internal class FeatureSelectionScreenOLD : KModalScreen
     {
         KButton closeButton;
-        GridLayouter galleryGridLayouter;
+        //GridLayouter galleryGridLayouter;
 
         GameObject PlanetoidCategoryPrefab;
         GameObject PlanetoidEntryPrefab;
@@ -99,12 +99,12 @@ namespace ClusterTraitGenerationManager
 
             var infoInsert = transform.Find("Panel/Content/ColumnSelectedDetails/LayoutBreaker/Content/Content");
             base.ConsumeMouseScroll = true;
-            galleryGridLayouter = new GridLayouter
-            {
-                minCellSize = 64f,
-                maxCellSize = 96f,
-                targetGridLayouts = new List<GridLayoutGroup>() { galleryGridContent.GetComponent<GridLayoutGroup>() }
-            };
+            //galleryGridLayouter = new GridLayouter
+            //{
+            //    minCellSize = 64f,
+            //    maxCellSize = 96f,
+            //    targetGridLayouts = new List<GridLayoutGroup>() { galleryGridContent.GetComponent<GridLayoutGroup>() }
+            //};
             UIUtils.FindAndDestroy(infoInsert, "KleiPermitDioramaVis");
             //UIUtils.ListAllChildren(infoInsert);
         }
@@ -287,7 +287,7 @@ namespace ClusterTraitGenerationManager
                 this.RecycleGalleryGridButton(galleryGridButton.Value.gameObject);
             this.planetoidGridButtons.Clear();
 
-            this.galleryGridLayouter.ImmediateSizeGridToScreenResolution();
+            //this.galleryGridLayouter.ImmediateSizeGridToScreenResolution();
 
             foreach (var Planet in PlanetoidDict())
             {
