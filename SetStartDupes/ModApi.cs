@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace SetStartDupes
 {
@@ -26,6 +27,27 @@ namespace SetStartDupes
             else
             {
                 ActionsOnTraitRemoval[TraitID] = action;
+            }
+        }
+
+        static bool HermitTraitCompletedOnce() => (Game.Instance != null && Game.Instance.unlocks != null && Game.Instance.unlocks.IsUnlocked("LonelyMinion_STORY_COMPLETE") && ModConfig.Instance.HermitSkin);
+
+        public static void AddJorgeToHiddenUnlockables()
+        {
+            Func<bool> Unlock = ()=>  HermitTraitCompletedOnce();
+            AddHiddenDupeToSkinSelection("Jorge", Unlock);
+            
+        }
+
+
+        public static Dictionary<string, System.Func<bool>> HiddenPersonalitiesWithUnlockCondition = new Dictionary<string, Func<bool>>();
+
+        public static void AddHiddenDupeToSkinSelection(string nameStringKey, Func<bool> UnlockCondition)
+        {
+            if (!HiddenPersonalitiesWithUnlockCondition.ContainsKey(nameStringKey))
+            {
+                HiddenPersonalitiesWithUnlockCondition[nameStringKey] = UnlockCondition;
+                SgtLogger.l($"Added {nameStringKey} to hidden Unlockables");
             }
         }
     }

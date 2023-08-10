@@ -15,6 +15,8 @@ namespace SetStartDupes
     {
         public override void OnLoad(Harmony harmony)
         {
+            ModApi.AddJorgeToHiddenUnlockables();
+
             ModAssets.LoadAssets();
             PUtil.InitLibrary(false);
             new POptions().RegisterOptions(this, typeof(ModConfig));

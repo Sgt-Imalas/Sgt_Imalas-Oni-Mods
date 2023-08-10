@@ -233,6 +233,7 @@ namespace SetStartDupes
                     stats.joyTrait = Db.Get().traits.TryGet(personality.joyTrait);
                 }
             }
+            
             stats.personality = personality;
             stats.stickerType = personality.stickerType;
             stats.GenderStringKey = personality.genderStringKey;

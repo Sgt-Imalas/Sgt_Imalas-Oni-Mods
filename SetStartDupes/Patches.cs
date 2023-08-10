@@ -16,9 +16,11 @@ using UnityEngine;
 using UnityEngine.Diagnostics;
 using UnityEngine.UI;
 using UtilLibs;
+using static FetchManager;
 using static KAnim;
 using static KCompBuilder;
 using static SetStartDupes.ModAssets;
+using static STRINGS.UI.DETAILTABS;
 
 namespace SetStartDupes
 {
@@ -479,28 +481,51 @@ namespace SetStartDupes
         [HarmonyPatch(nameof(MinionBrowserScreenConfig.Personalities))]
         public class AddJorgeToSkinSelection
         {
-            public static bool Prefix(ref MinionBrowserScreenConfig __result, Option<Personality> defaultSelectedPersonality = default(Option<Personality>))
+            public static void Postfix(ref MinionBrowserScreenConfig __result, Option<Personality> defaultSelectedPersonality = default(Option<Personality>))
             {
+                var personalities = Db.Get().Personalities;
+                List<MinionBrowserScreen.GridItem> HiddenPersonalityTargets = new List<MinionBrowserScreen.GridItem> ();
+                SgtLogger.l("Adding hidden personalities to dupe screen");
 
-                if (
-                    Game.Instance != null
-                    && Game.Instance.unlocks != null
-                    && Game.Instance.unlocks.IsUnlocked("LonelyMinion_STORY_COMPLETE")
-                    && ModConfig.Instance.HermitSkin
-                    )
+                foreach(var HiddenPersonalityUnlock in ModApi.HiddenPersonalitiesWithUnlockCondition)
                 {
-                    MinionBrowserScreen.GridItem.PersonalityTarget[] items
-                        = Db.Get().Personalities.GetAll(false, false)
-                                                .Select(personality => MinionBrowserScreen.GridItem.Of(personality)).ToArray();
-                    Option<MinionBrowserScreen.GridItem> defaultSelectedItem = defaultSelectedPersonality.AndThen(personality => (MinionBrowserScreen.GridItem)items.FirstOrDefault(item => item.personality == personality));
+                    SgtLogger.l($"Trying to add {HiddenPersonalityUnlock.Key}");
+                    bool isUnlocked = false;
+                    try
+                    {
+                        isUnlocked = HiddenPersonalityUnlock.Value.Invoke();
+                    }
+                    catch
+                    {
+                        SgtLogger.error($"unlock condition method for {HiddenPersonalityUnlock.Key} failed to execute!");
+                    }
 
-                    if (defaultSelectedItem.IsNone() && items.Length != 0)
-                        defaultSelectedItem = (Option<MinionBrowserScreen.GridItem>)items[0];
-
-                    __result = new MinionBrowserScreenConfig(items, defaultSelectedItem);
-                    return false;
+                    if(isUnlocked)
+                    {
+                        Personality hiddenPersonality = personalities.GetPersonalityFromNameStringKey(HiddenPersonalityUnlock.Key);
+                        if(hiddenPersonality==null)
+                        {
+                            SgtLogger.warning($"{HiddenPersonalityUnlock.Key} was not found in the database!");
+                            continue;
+                        }
+                        MinionBrowserScreen.GridItem.PersonalityTarget Target = MinionBrowserScreen.GridItem.Of(hiddenPersonality);
+                        if(Target == null)
+                        {
+                            SgtLogger.warning($"no grid item found for {HiddenPersonalityUnlock.Key}!");
+                            continue;
+                        }
+                        HiddenPersonalityTargets.Add(Target );
+                        SgtLogger.l($"{HiddenPersonalityUnlock.Key} added");
+                    }
+                    else
+                    {
+                        SgtLogger.l($"{HiddenPersonalityUnlock.Key} not unlocked!");
+                    }
                 }
-                return true;
+
+                HiddenPersonalityTargets.InsertRange(0, __result.items);
+                
+                __result = new MinionBrowserScreenConfig(HiddenPersonalityTargets.OrderBy( item => item.GetName()).ToArray(), __result.defaultSelectedItem);
             }
         }
 
@@ -822,6 +847,24 @@ namespace SetStartDupes
                 return code;
             }
         }
+
+        [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.OnNameChanged))]
+        public class FixPersonalityRenaming
+        {
+            static string Backup = "MISSING";
+
+            public static void Prefix(CharacterContainer __instance, string __state)
+            {
+                __state = __instance.stats.personality.Name;
+            }
+            public static void Postfix(CharacterContainer __instance, string __state)
+            {
+                if (__state == null)
+                    return;
+                __instance.stats.personality.Name = __state;
+            }
+        }
+
 
         [HarmonyPatch(typeof(MinionStartingStats), "GenerateTraits")]
         [HarmonyPatch(nameof(MinionStartingStats.GenerateTraits))]
