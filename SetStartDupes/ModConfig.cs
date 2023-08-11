@@ -63,15 +63,20 @@ namespace SetStartDupes
         [Limit(1, 5)]
         public int CarePackagesOnlyPackageCap { get; set; }
 
-        [Option("STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.NAME", "STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.D_UTIL")]
+
+        [Option("STRINGS.UI.DSS_OPTIONS.LIVEDUPESKINCHANGE.NAME", "STRINGS.UI.DSS_OPTIONS.LIVEDUPESKINCHANGE.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.D_SKINSETTINGS")]
+        [JsonProperty]
+        public bool LiveDupeSkins { get; set; }
+
+        [Option("STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.NAME", "STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.D_SKINSETTINGS")]
         [JsonProperty]
         public bool SkinsDoReactions { get; set; }
 
-        [Option("STRINGS.UI.DSS_OPTIONS.REROLLCRYOPODANDJORGE.NAME", "STRINGS.UI.DSS_OPTIONS.REROLLCRYOPODANDJORGE.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.D_UTIL")]
+        [Option("STRINGS.UI.DSS_OPTIONS.REROLLCRYOPODANDJORGE.NAME", "STRINGS.UI.DSS_OPTIONS.REROLLCRYOPODANDJORGE.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.E_UTIL")]
         [JsonProperty]
         public bool JorgeAndCryopodDupes { get; set; }
 
-        [Option("STRINGS.UI.DSS_OPTIONS.HERMITSKIN.NAME", "STRINGS.UI.DSS_OPTIONS.HERMITSKIN.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.D_UTIL")]
+        [Option("STRINGS.UI.DSS_OPTIONS.HERMITSKIN.NAME", "STRINGS.UI.DSS_OPTIONS.HERMITSKIN.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.D_SKINSETTINGS")]
         [JsonProperty]
         public bool HermitSkin { get; set; }
 
@@ -108,6 +113,7 @@ namespace SetStartDupes
             CarePackagesOnlyDupeCap = 16;
             CarePackagesOnlyPackageCap = 3;
 
+            LiveDupeSkins = true;
             SkinsDoReactions = true;
             JorgeAndCryopodDupes = true;
             HermitSkin = true;

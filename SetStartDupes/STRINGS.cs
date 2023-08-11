@@ -23,7 +23,8 @@ namespace SetStartDupes
                     public static LocString A_GAMESTART = "Options for Game Start";
                     public static LocString B_PRINTINGPOD = "Options for Printing Pod";
                     public static LocString C_EXTRAS = "Options for Traits and Interests";
-                    public static LocString D_UTIL = "Extra Settings";
+                    public static LocString D_SKINSETTINGS = "Skin Options";
+                    public static LocString E_UTIL = "Extra Settings";
                 }
 
                 public class DUPLICANTSTARTAMOUNT
@@ -93,6 +94,11 @@ namespace SetStartDupes
                 {
                     public static LocString NAME = "Number of care packages for care packages only";
                     public static LocString TOOLTIP = "Only has an effect if \"" + CAREPACKAGESONLY.NAME + "\" is enabled.\nSet the number of care packages that generate when the cap is in effect";
+                }
+                public class LIVEDUPESKINCHANGE
+                {
+                    public static LocString NAME = "Skins for active Duplicants";
+                    public static LocString TOOLTIP = "Change the Skin of already existing duplicants";
                 }
                 public class SKINSDOREACTS
                 {

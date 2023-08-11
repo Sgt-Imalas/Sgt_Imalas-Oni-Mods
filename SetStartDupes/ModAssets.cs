@@ -1,4 +1,5 @@
 ﻿using Database;
+using Epic.OnlineServices;
 using Klei.AI;
 using STRINGS;
 using System;
@@ -14,6 +15,7 @@ using UtilLibs;
 using static KSerialization.DebugLog;
 using static SetStartDupes.DupeTraitManager;
 using static STRINGS.DUPLICANTS;
+using static STRINGS.UI.DETAILTABS;
 
 namespace SetStartDupes
 {
@@ -63,9 +65,9 @@ namespace SetStartDupes
                 }
                 if (UnityTraitScreen.Instance != null)
                 {
-                   // UnityTraitScreen.Instance.transform.SetParent(parentScreen.transform, false);
-                     UnityEngine.Object.Destroy(UnityTraitScreen.Instance);
-                     UnityTraitScreen.Instance = null;
+                    // UnityTraitScreen.Instance.transform.SetParent(parentScreen.transform, false);
+                    UnityEngine.Object.Destroy(UnityTraitScreen.Instance);
+                    UnityTraitScreen.Instance = null;
                 }
                 parentScreen = value;
             }
@@ -87,141 +89,126 @@ namespace SetStartDupes
 
         }
 
+        ///Assuming the component added by the Trait has the same class name as the trait, which is the case for all klei traits.
+        public static void PurgingTraitComponentIfExists(string id, GameObject minionToRemoveFrom)
+        {
+            var traitCmp = minionToRemoveFrom.GetComponent(id);
+            if (traitCmp != null)
+            {
+                SgtLogger.l("Trait Component Found, purging... " + id);
+                UnityEngine.Object.Destroy(traitCmp);
+            }
+            if (ModApi.ActionsOnTraitRemoval.ContainsKey(id))
+            {
+                ModApi.ActionsOnTraitRemoval[id].Invoke(minionToRemoveFrom);
+            }
+        }
+
 
         public static Dictionary<MinionStartingStats, DupeTraitManager> DupeTraitManagers = new Dictionary<MinionStartingStats, DupeTraitManager>();
 
-        public static void ApplySkinFromPersonality(Personality personality, MinionStartingStats stats)
+        public static void ApplySkinToExistingDuplicant(Personality Skin, GameObject Duplicant)
         {
-            KCompBuilder.BodyData bodyData = MinionStartingStats.CreateBodyData(personality);
-            stats.accessories.Clear();
-            foreach (AccessorySlot resource in Db.Get().AccessorySlots.resources)
+            if (Duplicant.TryGetComponent<MinionIdentity>(out var IdentityHolder))
             {
-                if (resource.accessories.Count == 0)
-                {
-                    continue;
-                }
-
-                Accessory accessory = null;
-                if (resource == Db.Get().AccessorySlots.HeadShape)
-                {
-                    accessory = resource.Lookup(bodyData.headShape);
-                    if (accessory == null)
-                    {
-                        personality.headShape = 0;
-                    }
-                }
-                else if (resource == Db.Get().AccessorySlots.Mouth)
-                {
-                    accessory = resource.Lookup(bodyData.mouth);
-                    if (accessory == null)
-                    {
-                        personality.mouth = 0;
-                    }
-                }
-                else if (resource == Db.Get().AccessorySlots.Eyes)
-                {
-                    accessory = resource.Lookup(bodyData.eyes);
-                    if (accessory == null)
-                    {
-                        personality.eyes = 0;
-                    }
-                }
-                else if (resource == Db.Get().AccessorySlots.Hair)
-                {
-                    accessory = resource.Lookup(bodyData.hair);
-                    if (accessory == null)
-                    {
-                        personality.hair = 0;
-                    }
-                }
-                else if (resource == Db.Get().AccessorySlots.HatHair)
-                {
-                    accessory = resource.accessories[0];
-                }
-                else if (resource == Db.Get().AccessorySlots.Body)
-                {
-                    accessory = resource.Lookup(bodyData.body);
-                    if (accessory == null)
-                    {
-                        personality.body = 0;
-                    }
-                }
-                else if (resource == Db.Get().AccessorySlots.Arm)
-                {
-                    accessory = resource.Lookup(bodyData.arms);
-                }
-                else if (resource == Db.Get().AccessorySlots.ArmLower)
-                {
-                    accessory = resource.Lookup(bodyData.armslower);
-                }
-                else if (resource == Db.Get().AccessorySlots.ArmLowerSkin)
-                {
-                    accessory = resource.Lookup(bodyData.armLowerSkin);
-                }
-                else if (resource == Db.Get().AccessorySlots.ArmUpperSkin)
-                {
-                    accessory = resource.Lookup(bodyData.armUpperSkin);
-                }
-                else if (resource == Db.Get().AccessorySlots.LegSkin)
-                {
-                    accessory = resource.Lookup(bodyData.legSkin);
-                }
-                else if (resource == Db.Get().AccessorySlots.Leg)
-                {
-                    accessory = resource.Lookup(bodyData.legs);
-                }
-                else if (resource == Db.Get().AccessorySlots.Belt)
-                {
-                    accessory = resource.Lookup(bodyData.belt);
-                    if (accessory == null)
-                    {
-                        accessory = resource.accessories[0];
-                    }
-                }
-                else if (resource == Db.Get().AccessorySlots.Neck)
-                {
-                    accessory = resource.Lookup(bodyData.neck);
-                }
-                else if (resource == Db.Get().AccessorySlots.Pelvis)
-                {
-                    accessory = resource.Lookup(bodyData.pelvis);
-                }
-                else if (resource == Db.Get().AccessorySlots.Foot)
-                {
-                    accessory = resource.Lookup(bodyData.foot);
-                    if (accessory == null)
-                    {
-                        accessory = resource.accessories[0];
-                    }
-                }
-                else if (resource == Db.Get().AccessorySlots.Skirt)
-                {
-                    accessory = resource.Lookup(bodyData.skirt);
-                }
-                else if (resource == Db.Get().AccessorySlots.Necklace)
-                {
-                    accessory = resource.Lookup(bodyData.necklace);
-                }
-                else if (resource == Db.Get().AccessorySlots.Cuff)
-                {
-                    accessory = resource.Lookup(bodyData.cuff);
-                    if (accessory == null)
-                    {
-                        accessory = resource.accessories[0];
-                    }
-                }
-                else if (resource == Db.Get().AccessorySlots.Hand)
-                {
-                    accessory = resource.Lookup(bodyData.hand);
-                    if (accessory == null)
-                    {
-                        accessory = resource.accessories[0];
-                    }
-                }
-
-                stats.accessories.Add(accessory);
+                IdentityHolder.SetName(Skin.Name);
+                IdentityHolder.nameStringKey = Skin.nameStringKey;
+                IdentityHolder.genderStringKey = Skin.genderStringKey;
+                IdentityHolder.personalityResourceId = Skin.IdHash;
+                IdentityHolder.voiceIdx = ModApi.GetVoiceIdxOverrideForPersonality(Skin.nameStringKey);
+                IdentityHolder.SetStickerType(Skin.stickerType);
+                IdentityHolder.SetGender(Skin.genderStringKey);
             }
 
+            //Changing Joy/Stress Traits if applicable
+            if (ModConfig.Instance.SkinsDoReactions && Duplicant.TryGetComponent(out Traits traits))
+            {
+                List<Trait> traitsToRemove = new List<Trait>();
+
+                foreach (Trait trait in traits.TraitList)
+                {
+                    var traitType = GetTraitListOfTrait(trait.Id, out _);
+                    if (traitType == NextType.joy || traitType == NextType.stress)
+                    {
+                        traitsToRemove.Add(trait);
+                    }
+                }
+                foreach (Trait trait in traitsToRemove)
+                {
+                    PurgingTraitComponentIfExists(trait.Id, Duplicant);
+                    traits.Remove(trait);
+                }
+                if (!ModConfig.Instance.NoJoyReactions)
+                {
+                    var newJoyTrait = Db.Get().traits.TryGet(Skin.stresstrait);
+                    if (newJoyTrait != null)
+                        traits.Add(newJoyTrait);
+                }
+                if (!ModConfig.Instance.NoStressReactions)
+                {
+                    var newStressTrait = Db.Get().traits.TryGet(Skin.joyTrait);
+                    if (newStressTrait != null)
+                        traits.Add(newStressTrait);
+                }
+            }
+
+            if (Duplicant.TryGetComponent<Accessorizer>(out var accessorizer))
+            {
+
+                accessorizer.ApplyMinionPersonality(Skin);
+                accessorizer.UpdateHairBasedOnHat();
+
+                ///These symbols get overidden at dupe creation, as we are editing already spawned dupes, we have to remove the old overrides and add the new overrides
+                if (Duplicant.TryGetComponent<SymbolOverrideController>(out var symbolOverride))
+                {
+                    var headshape_symbolName = (KAnimHashedString)HashCache.Get().Get(accessorizer.GetAccessory(Db.Get().AccessorySlots.HeadShape).symbol.hash).Replace("headshape", "cheek");
+                    var cheek_symbol_snapTo = (HashedString)"snapto_cheek";
+                    var hair_symbol_snapTo = (HashedString)"snapto_hair_always";
+
+                    symbolOverride.RemoveSymbolOverride(headshape_symbolName);
+                    symbolOverride.RemoveSymbolOverride(cheek_symbol_snapTo);
+                    symbolOverride.RemoveSymbolOverride(hair_symbol_snapTo);
+
+                    symbolOverride.AddSymbolOverride(cheek_symbol_snapTo, Assets.GetAnim((HashedString)"head_swap_kanim").GetData().build.GetSymbol((KAnimHashedString)headshape_symbolName), 1);
+                    symbolOverride.AddSymbolOverride(hair_symbol_snapTo, accessorizer.GetAccessory(Db.Get().AccessorySlots.Hair).symbol, 1);
+                    symbolOverride.AddSymbolOverride((HashedString)Db.Get().AccessorySlots.HatHair.targetSymbolId, Db.Get().AccessorySlots.HatHair.Lookup("hat_" + HashCache.Get().Get(accessorizer.GetAccessory(Db.Get().AccessorySlots.Hair).symbol.hash)).symbol, 1);
+                }
+            }
+            ApplyOutfit(Skin, Duplicant);
+            ApplyJoyResponseOutfit(Skin, Duplicant);
+        }
+        public static void ApplyOutfit(Personality personality, GameObject Duplicant)
+        {
+            if (Duplicant.TryGetComponent<WearableAccessorizer>(out var component))
+            {
+                foreach (KeyValuePair<ClothingOutfitUtility.OutfitType, string> outfitId in personality.outfitIds)
+                {
+                    Option<ClothingOutfitTarget> outfit = ClothingOutfitTarget.TryFromTemplateId(outfitId.Value);
+                    if (outfit.HasValue)
+                    {
+                        component.AddCustomOutfit(outfit);
+                    }
+                }
+
+                if (personality.outfitIds.ContainsKey(ClothingOutfitUtility.OutfitType.Clothing))
+                {
+                    Option<ClothingOutfitTarget> option = ClothingOutfitTarget.TryFromTemplateId(personality.outfitIds[ClothingOutfitUtility.OutfitType.Clothing]);
+                    if (option.HasValue)
+                    {
+                        component.ApplyClothingItems(option.Value.OutfitType, option.Value.ReadItemValues());
+                    }
+                }
+
+            }
+        }
+        public static void ApplyJoyResponseOutfit(Personality personality, GameObject go)
+        {
+            JoyResponseOutfitTarget joyResponseOutfitTarget = JoyResponseOutfitTarget.FromPersonality(personality);
+            JoyResponseOutfitTarget.FromMinion(go).WriteFacadeId(joyResponseOutfitTarget.ReadFacadeId());
+        }
+
+        public static void ApplySkinFromPersonality(Personality personality, MinionStartingStats stats)
+        {            
             if (ModConfig.Instance.SkinsDoReactions)
             {
                 if (!ModConfig.Instance.NoJoyReactions)
@@ -233,21 +220,13 @@ namespace SetStartDupes
                     stats.joyTrait = Db.Get().traits.TryGet(personality.joyTrait);
                 }
             }
-            
+
+            //stats.congenitaltrait = Db.Get().traits.TryGet(personality.congenitaltrait);
             stats.personality = personality;
             stats.stickerType = personality.stickerType;
             stats.GenderStringKey = personality.genderStringKey;
             stats.NameStringKey = personality.nameStringKey;
-
-            if (personality.nameStringKey.ToLowerInvariant().Contains("jorge"))
-            {
-                stats.voiceIdx = -2;
-            }
-            else
-            {
-                stats.voiceIdx = UnityEngine.Random.Range(0, 4);
-            }
-
+            stats.voiceIdx = ModApi.GetVoiceIdxOverrideForPersonality(personality.nameStringKey);
         }
 
         public static int MinimumPointsPerInterest(MinionStartingStats stats)
@@ -275,14 +254,14 @@ namespace SetStartDupes
             if (interestIndex < 0)
                 return 0;
 
-            int Maximum = DUPLICANTSTATS.APTITUDE_ATTRIBUTE_BONUSES.Length-1;
+            int Maximum = DUPLICANTSTATS.APTITUDE_ATTRIBUTE_BONUSES.Length - 1;
 
             if (interestIndex > Maximum)
                 interestIndex = Maximum;
             return DUPLICANTSTATS.APTITUDE_ATTRIBUTE_BONUSES[interestIndex];
         }
 
-        public static Dictionary<MinionStartingStats,int> OtherModBonusPoints = new Dictionary<MinionStartingStats,int>();
+        public static Dictionary<MinionStartingStats, int> OtherModBonusPoints = new Dictionary<MinionStartingStats, int>();
 
         public static int GetTraitBonus(MinionStartingStats stats)
         {
@@ -330,18 +309,18 @@ namespace SetStartDupes
 
         public static string GetTraitTooltip(Trait trait)
         {
-            if(trait == null)
+            if (trait == null)
                 return string.Empty;
             string tooltip = trait.GetTooltip();
-            
+
 
             ModAssets.GetTraitListOfTrait(trait.Id, out var list);
-            if(list== null)
-                return tooltip; 
+            if (list == null)
+                return tooltip;
 
             var traitBonusHolder = list.Find(traitTo => traitTo.id == trait.Id);
 
-            if(traitBonusHolder.statBonus != 0)
+            if (traitBonusHolder.statBonus != 0)
             {
                 tooltip += "\n\n" + GetTraitStatBonusTooltip(trait);
             }
@@ -356,14 +335,14 @@ namespace SetStartDupes
             if (list == null)
                 return tooltip;
 
-            var traitBonusHolder = list.Find(traitTo => traitTo.id == trait.Id);   
-            if(traitBonusHolder.statBonus==0)
+            var traitBonusHolder = list.Find(traitTo => traitTo.id == trait.Id);
+            if (traitBonusHolder.statBonus == 0)
                 return tooltip;
 
-            if(withDescriptor)
+            if (withDescriptor)
                 tooltip += STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOINTS + " ";
             tooltip += UIUtils.ColorNumber(traitBonusHolder.statBonus);
-            return  tooltip;
+            return tooltip;
         }
 
 
@@ -372,7 +351,7 @@ namespace SetStartDupes
             if (stats.Traits.Contains(trait))
             {
                 stats.Traits.Remove(trait);
-                RedoStatpointBonus(stats, trait,false);
+                RedoStatpointBonus(stats, trait, false);
             }
 
         }
@@ -423,7 +402,7 @@ namespace SetStartDupes
             },
             {
                 NextType.stress,
-                DUPLICANTSTATS.STRESSTRAITS  
+                DUPLICANTSTATS.STRESSTRAITS
             },
             {
                 NextType.special,
@@ -521,16 +500,16 @@ namespace SetStartDupes
             else
                 description = string.Format((string)DUPLICANTS.ROLES.GROUPS.APTITUDE_DESCRIPTION, group.Name, DUPLICANTSTATS.APTITUDE_BONUS);
 
-            if(stats == null)
+            if (stats == null)
                 return description;
 
             float startingLevel = (float)stats.StartingLevels[group.relevantAttributes[0].Id];
-            string attributes = group.relevantAttributes[0].Name + ": +" + startingLevel.ToString() ;
+            string attributes = group.relevantAttributes[0].Name + ": +" + startingLevel.ToString();
             List<AttributeConverter> convertersForAttribute = Db.Get().AttributeConverters.GetConvertersForAttribute(group.relevantAttributes[0]);
             for (int index = 0; index < convertersForAttribute.Count; ++index)
                 attributes = attributes + "\n    • " + convertersForAttribute[index].DescriptionFromAttribute(convertersForAttribute[index].multiplier * startingLevel, (GameObject)null);
 
-            return description + "\n\n" + attributes ;
+            return description + "\n\n" + attributes;
         }
 
         public static NextType GetTraitListOfTrait(string traitId, out List<DUPLICANTSTATS.TraitVal> TraitList)

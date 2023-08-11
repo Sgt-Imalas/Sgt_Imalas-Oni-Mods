@@ -9,6 +9,7 @@ using UnityEngine;
 using UtilLibs;
 using static MinionBrowserScreen;
 using static STRINGS.BUILDINGS.PREFABS.DOOR.CONTROL_STATE;
+using static STRINGS.UI.DETAILTABS;
 
 namespace SetStartDupes
 {
@@ -19,6 +20,7 @@ namespace SetStartDupes
         List<Transform> StuffToActivate = new List<Transform>();
         [MyCmpGet]
         MinionBrowserScreen minionSelectionScreen;
+
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
@@ -57,17 +59,23 @@ namespace SetStartDupes
         public void SetSelectedDupe()
         {
             MinionBrowserScreen.GridItem Selected = minionSelectionScreen.selectedGridItem;
-            //EditableIdentity;
             //CurrentContainer.OnNameChanged(Selected.GetName());
-            ModAssets.ApplySkinFromPersonality(Selected.GetPersonality(), EditableIdentity);
-            CurrentContainer.characterNameTitle.OnEndEdit(Selected.GetName());
-            CurrentContainer.SetAnimator();
-            CurrentContainer.SetAttributes();
-            CurrentContainer.SetInfoText();
+            if(EditableIdentity!=null)
+                ModAssets.ApplySkinFromPersonality(Selected.GetPersonality(), EditableIdentity);
+            if(CurrentContainer != null)
+            {
+                CurrentContainer.characterNameTitle.OnEndEdit(Selected.GetName());
+                CurrentContainer.SetAnimator();
+                CurrentContainer.SetAttributes();
+                CurrentContainer.SetInfoText();
+            }
+            if (EditingSkinOnExistingDupeGO != null)
+            {
+                ModAssets.ApplySkinToExistingDuplicant(Selected.GetPersonality(),EditingSkinOnExistingDupeGO);
+            }
+
             ToggleCustomScreenOff();
         }
-
-
 
         void ToggleUICmps()
         {
@@ -87,18 +95,28 @@ namespace SetStartDupes
             CurrentContainer = container;
             ToggleUICmps();
         }
+
+        GameObject EditingSkinOnExistingDupeGO = null;
         MinionStartingStats EditableIdentity;
         CharacterContainer CurrentContainer;
 
-        internal static void ShowSkinScreen(CharacterContainer container,MinionStartingStats startingStats)
+        internal static void ShowSkinScreen(CharacterContainer container, MinionStartingStats startingStats, GameObject LiveDupeGO = null)
         {
-           
-
-
             var instance = LockerNavigator.Instance.duplicantCatalogueScreen.AddOrGet<DupeSkinScreenAddon>();
             IsCustomActive = true;
+            instance.EditingSkinOnExistingDupeGO = LiveDupeGO;
 
-            MinionBrowserScreenConfig.Personalities(startingStats.personality).ApplyAndOpenScreen();
+            Personality targetPersonality = null;
+            if (startingStats != null)
+            {
+                targetPersonality = startingStats.personality;
+            }
+            else if(LiveDupeGO != null && LiveDupeGO.TryGetComponent<MinionIdentity>(out var IdentityHolder))
+            {
+                targetPersonality = Db.Get().Personalities.Get(IdentityHolder.personalityResourceId);
+            }
+
+            MinionBrowserScreenConfig.Personalities(targetPersonality).ApplyAndOpenScreen();
             instance.InitUI(container, startingStats);
         }
         public override void OnShow(bool show)

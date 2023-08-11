@@ -21,6 +21,7 @@ using static KAnim;
 using static KCompBuilder;
 using static SetStartDupes.ModAssets;
 using static STRINGS.UI.DETAILTABS;
+using static UnityEngine.GraphicsBuffer;
 
 namespace SetStartDupes
 {
@@ -48,47 +49,6 @@ namespace SetStartDupes
                     CryoDupeToApplyStatsOn = __instance.smi.sm.defrostedDuplicant.Get(__instance.smi);
                 }
             }
-
-            //public static MinionStartingStats OverrideStartingStatsConstructor(bool is_starter_minion, string guaranteedAptitudeID = null, string guaranteedTraitID = null, bool debugminion = false)
-            //{
-            //    if (ModAssets.SingleCharacterContainer! != null)
-            //    {
-            //        SgtLogger.l("Overwrote Cryopod Duplicant starting stats");
-            //        return ModAssets.SingleCharacterContainer.stats;
-            //    }
-            //    else
-            //    {
-
-            //        SgtLogger.l("created new DuplicantStartingStats");
-            //        return new MinionStartingStats(is_starter_minion, guaranteedAptitudeID, guaranteedTraitID, debugminion);
-            //    }
-            //}
-
-
-            //private static readonly ConstructorInfo MinionStartingStatsConstructor = AccessTools.Constructor(
-            //    typeof(MinionStartingStats),
-            //    new Type[] { typeof(bool), typeof(string), typeof(string), typeof(bool), });
-
-            //private static readonly MethodInfo OverrideConstructor = AccessTools.Method(
-            //   typeof(AddToCryoTank),
-            //   nameof(AddToCryoTank.OverrideStartingStatsConstructor));
-
-            //static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
-            //{
-            //    var code = instructions.ToList();
-            //    var insertionIndex1 = code.FindIndex(codeinstruction => codeinstruction.opcode == OpCodes.Newobj && codeinstruction.operand is ConstructorInfo constructorInfo && constructorInfo == MinionStartingStatsConstructor);
-
-            //    //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
-            //    if (insertionIndex1 != -1)
-            //    {
-            //        code[insertionIndex1] = new CodeInstruction(OpCodes.Call, OverrideConstructor);
-
-            //        TranspilerHelper.PrintInstructions(code);
-            //    }
-            //    else
-            //        SgtLogger.l("Constructor not found :(((");
-            //    return code;
-            //}
         }
         [HarmonyPatch(typeof(CharacterContainer))]
         [HarmonyPatch(nameof(CharacterContainer.GenerateCharacter))]
@@ -119,11 +79,8 @@ namespace SetStartDupes
                         {
                             __instance.stats.Traits.Add(chatty);
                         }
-                        __instance.stats.voiceIdx = -2;
-                    }
-                    else
-                        __instance.stats.voiceIdx = UnityEngine.Random.Range(0, 4);
-
+                    }                    
+                    __instance.stats.voiceIdx = ModApi.GetVoiceIdxOverrideForPersonality(__instance.stats.NameStringKey);
 
                     Trait ancientKnowledgeTrait = Db.Get().traits.TryGet("AncientKnowledge");
                     if (ancientKnowledgeTrait != null)
@@ -227,8 +184,6 @@ namespace SetStartDupes
                 }
                 else
                 {
-                    
-
                     if (__instance.containers != null && __instance.containers.Count > 0)
                     {
                         foreach (var container in __instance.containers)
@@ -263,21 +218,6 @@ namespace SetStartDupes
         public class SkipTelepadActionsForCryoDupes
         {
 
-            ///Assuming the component added by the Trait has the same class name as the trait, which is the case for all klei traits.
-            public static void PurgingComponentIfExists(string id, GameObject minionToRemoveFrom)
-            {
-                var traitCmp = minionToRemoveFrom.GetComponent(id);
-                if (traitCmp != null)
-                {
-                    SgtLogger.l("Trait Component Found, purging... " + id); 
-                    UnityEngine.Object.Destroy(traitCmp);
-                }
-                if(ModApi.ActionsOnTraitRemoval.ContainsKey(id))
-                {
-                    ModApi.ActionsOnTraitRemoval[id].Invoke(minionToRemoveFrom);
-                }
-            }
-
             public static bool Prefix(Telepad ___telepad, ImmigrantScreen __instance)
             {
                 if (EditingSingleDupe)
@@ -294,7 +234,7 @@ namespace SetStartDupes
                         foreach (var trait in CryoDupeToApplyStatsOn.GetComponent<Traits>().GetTraitIds())
                         {
                             SgtLogger.l("purging existing trait: " + trait);
-                            PurgingComponentIfExists(trait, CryoDupeToApplyStatsOn);
+                            PurgingTraitComponentIfExists(trait, CryoDupeToApplyStatsOn);
                         }
 
                         CryoDupeToApplyStatsOn.GetComponent<Traits>().Clear();
@@ -407,13 +347,13 @@ namespace SetStartDupes
         {
             public static void Postfix(CarePackageContainer __instance)
             {
-                List<CarePackageInfo> carePackageInfos=null;
+                List<CarePackageInfo> carePackageInfos = null;
 
                 var BioInks_ModApi_Type = Type.GetType("PrintingPodRecharge.ModAPI, PrintingPodRecharge", false, false);
-                if(BioInks_ModApi_Type!=null)
+                if (BioInks_ModApi_Type != null)
                 {
                     var currentPool = Traverse.Create(BioInks_ModApi_Type).Method("GetCurrentPool").GetValue() as List<CarePackageInfo>;
-                    carePackageInfos = currentPool;             
+                    carePackageInfos = currentPool;
                 }
 
                 if (carePackageInfos == null)
@@ -474,8 +414,45 @@ namespace SetStartDupes
                 return true;
             }
         }
+        [HarmonyPatch(typeof(DetailsScreen))]
+        [HarmonyPatch(nameof(DetailsScreen.OnPrefabInit))]
+        public class AddSkinButtonToDetailScreen
+        {
+            public static GameObject SkinButtonGO = null;
+            public static void Postfix(DetailsScreen __instance)
+            {
+                if (ModConfig.Instance.LiveDupeSkins)
+                {
+                    var SkinButton = Util.KInstantiateUI<KButton>(__instance.ChangeOutfitButton.gameObject, __instance.ChangeOutfitButton.transform.parent.gameObject, true);
+                    //SkinButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 20, 33f);
+                    SkinButton.ClearOnClick();
+                    SkinButton.name = "DupeSkinButtonSideScreen";
+                    UIUtils.AddSimpleTooltipToObject(SkinButton.transform, STRINGS.UI.BUTTONS.DUPESKINBUTTONTOOLTIP, true, onBottom: true);
+                    if (SkinButton.transform.Find("Image").TryGetComponent<Image>(out var image))
+                    {
+                        image.sprite = Assets.GetSprite("ic_dupe");
+                    }
 
-
+                    SkinButton.onClick += () =>
+                    {
+                        DupeSkinScreenAddon.ShowSkinScreen(null, null, __instance.target);
+                    };
+                    SkinButtonGO = SkinButton.gameObject;
+                }
+            }
+        }
+        [HarmonyPatch(typeof(DetailsScreen))]
+        [HarmonyPatch(nameof(DetailsScreen.UpdateOutfitButton))]
+        public class ToggleSkinButtonVisibility
+        {
+            public static void Postfix(DetailsScreen __instance)
+            {
+                if(AddSkinButtonToDetailScreen.SkinButtonGO != null)
+                {
+                    AddSkinButtonToDetailScreen.SkinButtonGO.SetActive(__instance.target.TryGetComponent<MinionIdentity>(out _));
+                }
+            }
+        }
 
         [HarmonyPatch(typeof(MinionBrowserScreenConfig))]
         [HarmonyPatch(nameof(MinionBrowserScreenConfig.Personalities))]
@@ -484,10 +461,10 @@ namespace SetStartDupes
             public static void Postfix(ref MinionBrowserScreenConfig __result, Option<Personality> defaultSelectedPersonality = default(Option<Personality>))
             {
                 var personalities = Db.Get().Personalities;
-                List<MinionBrowserScreen.GridItem> HiddenPersonalityTargets = new List<MinionBrowserScreen.GridItem> ();
+                List<MinionBrowserScreen.GridItem> HiddenPersonalityTargets = new List<MinionBrowserScreen.GridItem>();
                 SgtLogger.l("Adding hidden personalities to dupe screen");
 
-                foreach(var HiddenPersonalityUnlock in ModApi.HiddenPersonalitiesWithUnlockCondition)
+                foreach (var HiddenPersonalityUnlock in ModApi.HiddenPersonalitiesWithUnlockCondition)
                 {
                     SgtLogger.l($"Trying to add {HiddenPersonalityUnlock.Key}");
                     bool isUnlocked = false;
@@ -500,21 +477,21 @@ namespace SetStartDupes
                         SgtLogger.error($"unlock condition method for {HiddenPersonalityUnlock.Key} failed to execute!");
                     }
 
-                    if(isUnlocked)
+                    if (isUnlocked)
                     {
                         Personality hiddenPersonality = personalities.GetPersonalityFromNameStringKey(HiddenPersonalityUnlock.Key);
-                        if(hiddenPersonality==null)
+                        if (hiddenPersonality == null)
                         {
                             SgtLogger.warning($"{HiddenPersonalityUnlock.Key} was not found in the database!");
                             continue;
                         }
                         MinionBrowserScreen.GridItem.PersonalityTarget Target = MinionBrowserScreen.GridItem.Of(hiddenPersonality);
-                        if(Target == null)
+                        if (Target == null)
                         {
                             SgtLogger.warning($"no grid item found for {HiddenPersonalityUnlock.Key}!");
                             continue;
                         }
-                        HiddenPersonalityTargets.Add(Target );
+                        HiddenPersonalityTargets.Add(Target);
                         SgtLogger.l($"{HiddenPersonalityUnlock.Key} added");
                     }
                     else
@@ -524,8 +501,8 @@ namespace SetStartDupes
                 }
 
                 HiddenPersonalityTargets.InsertRange(0, __result.items);
-                
-                __result = new MinionBrowserScreenConfig(HiddenPersonalityTargets.OrderBy( item => item.GetName()).ToArray(), __result.defaultSelectedItem);
+
+                __result = new MinionBrowserScreenConfig(HiddenPersonalityTargets.OrderBy(item => item.GetName()).ToArray(), __result.defaultSelectedItem);
             }
         }
 
@@ -562,12 +539,12 @@ namespace SetStartDupes
         {
             public static void Prefix(ITelepadDeliverable deliverable, CharacterSelectionController __instance)
             {
-                if (!__instance.selectedDeliverables.Contains(deliverable) 
+                if (!__instance.selectedDeliverables.Contains(deliverable)
                     && __instance.selectedDeliverables.Count >= __instance.selectableCount
-                    && __instance.selectableCount>0
-                    ) 
-                { 
-                __instance.selectedDeliverables.RemoveAt(0);
+                    && __instance.selectableCount > 0
+                    )
+                {
+                    __instance.selectedDeliverables.RemoveAt(0);
                 } //clear that
             }
         }
@@ -607,7 +584,7 @@ namespace SetStartDupes
             public static void Prefix(Immigration __instance)
             {
 
-                for(int i = 0; i < __instance.spawnInterval.Length; i++)
+                for (int i = 0; i < __instance.spawnInterval.Length; i++)
                 {
                     __instance.spawnInterval[i] = Mathf.RoundToInt(ModConfig.Instance.PrintingPodRechargeTime * 600f);
                 }
@@ -1459,7 +1436,6 @@ namespace SetStartDupes
             static string GetSkillGroupName(SkillGroup Group) => Strings.Get("STRINGS.DUPLICANTS.SKILLGROUPS." + Group.Id.ToUpperInvariant() + ".NAME");
             static string FirstSkillGroupStat(SkillGroup Group) => Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + Group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME");
         }
-
 
         /// <summary>
         /// /// Init. auto translation
