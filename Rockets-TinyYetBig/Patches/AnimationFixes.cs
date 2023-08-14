@@ -83,6 +83,27 @@ namespace Rockets_TinyYetBig.Patches
         //    }
         //}
 
+        //[HarmonyPatch(typeof(VerticalModuleTiler), nameof(VerticalModuleTiler.HasWideNeighbor))]
+        ////[HarmonyPatch(new Type[] { typeof(LaunchPad), typeof(bool) })]
+        //public static class Fix_SmallRocketModulesLosetheirAttachmentsOnLand
+        //{
+        //    /// <summary>
+        //    /// Apply Meter changes on LOX module
+        //    /// </summary>
+        //    /// <param name="__instance"></param>
+        //    public static void Postfix(VerticalModuleTiler __instance, ref bool __result)
+        //    {
+        //        if(!__result && __instance.TryGetComponent<RocketModuleCluster>(out var module))
+        //        {
+        //            var engine = module.CraftInterface.GetEngine();
+        //            if (engine != null && engine.TryGetComponent<Building>(out var building))
+        //            {
+        //                if(building.Def.WidthInCells>3)
+        //                    __result= true;
+        //            }
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// This fixes the missing carbon field anim so it uses the "carbon_asteroid_field" animation instead of the generic "cloud" animation.

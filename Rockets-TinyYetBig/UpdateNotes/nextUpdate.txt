@@ -10,6 +10,7 @@ New Modules:
 (Note: Docking can be used to tow a stranded rocket or to increase the speed of slow rockets, boosting it by docking to a fast rocket. More functions to come...)
 - Liquid Chlorine Oxidizer Tank: a stepping stone towards liquid oxygen, liquid chlorine has a oxidizer efficiency of 3 (oxylite has 2, liquid oxygen has 4)
 
-Fixes:
+Fixes&Adjustments:
 - fixed vanilla bug of oxidizer tanks losing their contents on loading the game when "copy settings" from a different oxidizer tank was used to set their settings
 - fixed an assignment bug with docking when blowing up rockets
+- added a few materials that count as "Radiation blocking" for the plated nosecone
