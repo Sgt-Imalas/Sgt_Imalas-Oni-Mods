@@ -1,1 +1,3 @@
-﻿
+﻿- added an option to change the appearance of existing dupes
+-
+- Fixed the vanilla bug that changing names in the printer would change the name of the dupe type

@@ -830,7 +830,7 @@ namespace SetStartDupes
         {
             static string Backup = "MISSING";
 
-            public static void Prefix(CharacterContainer __instance, string __state)
+            public static void Prefix(CharacterContainer __instance,ref string __state)
             {
                 __state = __instance.stats.personality.Name;
             }
