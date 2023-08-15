@@ -10,12 +10,12 @@ namespace UtilLibs
 {
     public static class IO_Util
     {
-        public static bool ReadFromFile<T>(string FileOrigin, out T output)
+        public static bool ReadFromFile<T>(string FileOrigin, out T output, string forceExtensionTo = "")
         {
             var filePath = new FileInfo(FileOrigin);
-            if (!filePath.Exists || filePath.Extension != ".json")
+            if (!filePath.Exists || (forceExtensionTo!= string.Empty && filePath.Extension != forceExtensionTo))
             {
-                SgtLogger.logwarning("Module Settings File does not exist!");
+                SgtLogger.logwarning("File does not exist!");
                 output = default(T);
                 return false;
             }

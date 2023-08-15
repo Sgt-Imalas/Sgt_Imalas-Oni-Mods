@@ -27,6 +27,17 @@ namespace ClusterTraitGenerationManager
         public static string CustomClusterTemplatesPath;
 
 
+        /// <summary>
+        /// These have a guaranteed Start,Warp and Outer Version
+        /// </summary>
+        public static List<string> Moonlets = new List<string>()
+            {
+                "MiniBadlands",
+                "MiniFlipped",
+                "MiniForestFrozen",
+                "MiniMetallicSwampy",
+                "MiniRadioactiveOcean"
+            };
 
 
         public static class Strings

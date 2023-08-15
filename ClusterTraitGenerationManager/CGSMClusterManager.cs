@@ -388,10 +388,10 @@ namespace ClusterTraitGenerationManager
                         }
                     }
 
-                    if (world != null)
+                    if (world != null && world.name !=null )
                     {
-                        Strings.TryGet(world.name, out var name);
-                        return name;
+                        if(Strings.TryGet(world.name, out var name))
+                            return name;
                     }
                     else if (_poiID != null)
                     {
@@ -420,10 +420,10 @@ namespace ClusterTraitGenerationManager
                         }
                     }
 
-                    if (world != null)
+                    if (world != null && world.description!=null)
                     {
-                        Strings.TryGet(world.description, out var description);
-                        return description.String;
+                        if(Strings.TryGet(world.description, out var description))
+                            return description.String;
                     }
                     else if (_poiID != null)
                     {
@@ -1380,6 +1380,26 @@ namespace ClusterTraitGenerationManager
                     else if (ToAdd.category == StarmapItemCategory.Warp)
                         startCoords = new MinMaxI(3, 5);
 
+                    if (ModAssets.Moonlets.Any(moonlet => ToAdd.id.Contains(moonlet)))
+                    {
+                        if(PredefinedPlacementData.TryGetValue(ToAdd.id.Replace("Start",""),out var OuterVariant))
+                        {
+                            startCoords = OuterVariant.allowedRings;
+                        }
+                        else if (PredefinedPlacementData.TryGetValue(ToAdd.id.Replace("Warp", ""), out var OuterVariant2))
+                        {
+                            startCoords = OuterVariant2.allowedRings;
+                        }
+                        else if (PredefinedPlacementData.TryGetValue(ToAdd.id+"Start", out var StartVariant))
+                        {
+                            startCoords = StartVariant.allowedRings;
+                        }
+                        else if (PredefinedPlacementData.TryGetValue(ToAdd.id + "Warp", out var WarpVariant))
+                        {
+                            startCoords = WarpVariant.allowedRings;
+                        }
+                    }
+
                     var item = new WorldPlacement();
                     item.world = ToAdd.id;
                     item.allowedRings = startCoords;
@@ -1488,7 +1508,6 @@ namespace ClusterTraitGenerationManager
 
             foreach (var ClusterLayout in SettingsCache.clusterLayouts.clusterCache.ToList())
             {
-                // SgtLogger.debuglog(ClusterLayout.Key,"HALP");
                 if (ClusterLayout.Key.Contains("clusters/SandstoneDefault"))
                 {
                     continue;
@@ -1776,8 +1795,10 @@ namespace ClusterTraitGenerationManager
                     //SgtLogger.l(World.Key + "; " + World.Value.ToString());
                     ProcGen.World world = WorldFromCache.Value;
 
-                   // SgtLogger.l(WorldFromCache.Key.ToUpperInvariant(), "PLANETKEY");
-                    if ((int)world.skip >= 99)
+                    //SgtLogger.l(world.skip.ToString(), "skip?");
+                    if ((int)world.skip >= 99
+                        //&& !DebugHandler.enabled
+                        )
                         continue;
 
 

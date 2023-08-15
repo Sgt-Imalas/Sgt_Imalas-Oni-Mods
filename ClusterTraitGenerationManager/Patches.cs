@@ -31,6 +31,7 @@ using static STRINGS.DUPLICANTS.THOUGHTS;
 using Klei;
 using static STRINGS.UI.CLUSTERMAP;
 using System.Security.Cryptography;
+using System.IO;
 
 namespace ClusterTraitGenerationManager
 {
@@ -276,33 +277,85 @@ namespace ClusterTraitGenerationManager
         [HarmonyPatch(nameof(Worlds.UpdateWorldCache))]
         public static class AllowUnusedWorldTemplatesToLoadIntoCache
         {
-            public static bool ContainsOrIsPredefined(ISet<string> referencedWorlds, string toContain)
+            const string DLC_WorldNamePrefix = "expansion1::worlds/";
+            const string Base_WorldNamePrefix = "worlds/";
+
+            ///Klei Refactored, transpiler broke:
+            ///TODO: add for Clusters.UpdateClusterCache
+            public static void Postfix(Worlds __instance, ISet<string> referencedWorlds, List<YamlIO.Error> errors)
             {
-                return referencedWorlds.Contains(toContain) || toContain.Contains("CGSM") || toContain.Contains("CGM");
-            }
+                //foreach (var vorld in referencedWorlds)
+                //{
+                //    //SgtLogger.l(vorld, "WORLD");
+                //}
+                var hashSet = new HashSet<string>(referencedWorlds);
+                string path = SettingsCache.GetAbsoluteContentPath(DlcManager.GetHighestActiveDlcId(), "worldgen/");
+                var WorldFiles = new DirectoryInfo(FileSystem.Normalize(System.IO.Path.Combine(path, "worlds/"))).GetFiles("*.yaml");
 
-            private static readonly MethodInfo AllowTemplates = AccessTools.Method(
-               typeof(AllowUnusedWorldTemplatesToLoadIntoCache),
-               nameof(ContainsOrIsPredefined)
-            );
-
-            private static readonly MethodInfo TargetMethod = AccessTools.Method(
-                    typeof(System.Collections.Generic.ICollection<string>),
-                    nameof(System.Collections.Generic.ICollection<string>.Contains));
-
-            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
-            {
-                var code = instructions.ToList();
-
-                var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo f && f == TargetMethod);
-
-                if (insertionIndex != -1)
+                foreach (var WorldFile in WorldFiles)
                 {
-                    code[insertionIndex] = new CodeInstruction(OpCodes.Call, AllowTemplates);
+                    string WorldCacheName = DLC_WorldNamePrefix + System.IO.Path.GetFileNameWithoutExtension(WorldFile.FullName);
+                    
+                    if (!__instance.worldCache.ContainsKey(WorldCacheName) && !hashSet.Contains(WorldCacheName))
+                    {
+                        string filePath = SettingsCache.RewriteWorldgenPathYaml(WorldCacheName);
+                        //SgtLogger.l(filePath, "Paf");
+                        ProcGen.World world = YamlIO.LoadFile<ProcGen.World>(filePath, delegate (YamlIO.Error error, bool force_log_as_warning)
+                        {
+                            errors.Add(error);
+                        });
+                        if (world == null)
+                        {
+                            DebugUtil.LogWarningArgs("Failed to load world: ", filePath);
+                        }
+                        else if (
+                            //world.skip != ProcGen.World.Skip.Always && world.skip != ProcGen.World.Skip.EditorOnly
+                            //|| DebugHandler.enabled 
+                            //|| 
+                            ModAssets.Moonlets.Any(WorldCacheName.Contains))
+                        {
+                            world.filePath = WorldCacheName;
+                            __instance.worldCache[world.filePath] = world;
+                            SgtLogger.l(WorldCacheName, "Loaded World");
+                        }
+                    }
                 }
-
-                return code;
             }
+
+
+            //public static bool ContainsOrIsPredefined(ISet<string> referencedWorlds, string toContain)
+            //{
+            //    SgtLogger.l(DebugHandler.enabled.ToString(),"Debug enabled?");
+
+            //    return (DebugHandler.enabled 
+            //        || referencedWorlds.Contains(toContain) 
+            //        || toContain.Contains("CGSM") 
+            //        || toContain.Contains("CGM") 
+            //        || ModAssets.Moonlets.Any( moonletName => toContain.Contains(moonletName)));
+            //}
+
+            //private static readonly MethodInfo AllowTemplates = AccessTools.Method(
+            //   typeof(AllowUnusedWorldTemplatesToLoadIntoCache),
+            //   nameof(ContainsOrIsPredefined)
+            //);
+
+            //private static readonly MethodInfo TargetMethod = AccessTools.Method(
+            //        typeof(System.Collections.Generic.ICollection<string>),
+            //        nameof(System.Collections.Generic.ICollection<string>.Contains));
+
+            //static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+            //{
+            //    var code = instructions.ToList();
+
+            //    var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo f && f == TargetMethod);
+
+            //    if (insertionIndex != -1)
+            //    {
+            //        code[insertionIndex] = new CodeInstruction(OpCodes.Call, AllowTemplates);
+            //    }
+
+            //    return code;
+            //}
 
         }
 
@@ -440,8 +493,8 @@ namespace ClusterTraitGenerationManager
 
                     List<string> additionalTemplates = new List<string>();
 
-                    if (sourceWorld.Value.startingBaseTemplate != null && sourceWorld.Value.startingBaseTemplate.Count()>0 &&
-                        (sourceWorld.Value.startingBaseTemplate.Contains("sap_tree_room")|| sourceWorld.Value.startingBaseTemplate.Contains("poi_satellite_3_a")))
+                    if (sourceWorld.Value.startingBaseTemplate != null && sourceWorld.Value.startingBaseTemplate.Count() > 0 &&
+                        (sourceWorld.Value.startingBaseTemplate.Contains("sap_tree_room") || sourceWorld.Value.startingBaseTemplate.Contains("poi_satellite_3_a")))
                     {
                         additionalTemplates.Add(sourceWorld.Value.startingBaseTemplate);
                     }
@@ -457,7 +510,7 @@ namespace ClusterTraitGenerationManager
                         CopyValues(StartWorld, sourceWorld.Value);
 
 
-                        if(StartWorld.worldsize.X<100 && StartWorld.worldsize.Y < 160)
+                        if (StartWorld.worldsize.X < 100 && StartWorld.worldsize.Y < 160)
                         {
                             float planetSizeRatio = StartWorld.worldsize.Y / StartWorld.worldsize.X;
                             float newX = 100f;
@@ -564,8 +617,8 @@ namespace ClusterTraitGenerationManager
                         MiniWater.command = ProcGen.World.AllowedCellsFilter.Command.Replace;
                         MiniWater.subworldNames = new List<string>() { ModAPI.GetStartAreaWaterSubworld(StartWorld) };
 
-                        StartWorld.unknownCellsAllowedSubworlds.Insert(0,MiniWater);
-                        StartWorld.unknownCellsAllowedSubworlds.Insert(0,CoreSandstone);
+                        StartWorld.unknownCellsAllowedSubworlds.Insert(0, MiniWater);
+                        StartWorld.unknownCellsAllowedSubworlds.Insert(0, CoreSandstone);
 
                         //Teleporter PlacementRules
 
@@ -574,14 +627,14 @@ namespace ClusterTraitGenerationManager
                         //Deleting any of the existing teleporter templates
                         StartWorld.worldTemplateRules.RemoveAll((template) => ModAPI.IsATeleporterTemplate(StartWorld, template));
 
-                        TeleporterSpawn.names = new List<string>() 
+                        TeleporterSpawn.names = new List<string>()
                         {
                             "expansion1::poi/warp/sender_mini",///MaterialTeleporter sender
                             "expansion1::poi/warp/receiver_mini",///MaterialTeleporter reciever
                             "expansion1::poi/warp/teleporter_mini" ///Big Dupe Teleporter Building
                         
                         };
-                        if(additionalTemplates.Count > 0)
+                        if (additionalTemplates.Count > 0)
                             TeleporterSpawn.names.AddRange(additionalTemplates);
 
                         TeleporterSpawn.listRule = ProcGen.World.TemplateSpawnRules.ListRule.GuaranteeAll;
@@ -664,9 +717,9 @@ namespace ClusterTraitGenerationManager
                                 StartWorld.worldTemplateRules.Add(ruleNew);
                             }
                         }
-                        if(StartWorld.subworldFiles !=null && StartWorld.subworldFiles.Count > 0)
+                        if (StartWorld.subworldFiles != null && StartWorld.subworldFiles.Count > 0)
                         {
-                            for(int i = StartWorld.subworldFiles.Count-1; i >= 0; --i)
+                            for (int i = StartWorld.subworldFiles.Count - 1; i >= 0; --i)
                             {
                                 SgtLogger.l(StartWorld.subworldFiles[i].name);
                                 if (StartWorld.subworldFiles[i].name.Contains("Start"))
@@ -679,7 +732,7 @@ namespace ClusterTraitGenerationManager
                         {
                             for (int i = StartWorld.unknownCellsAllowedSubworlds.Count - 1; i >= 0; --i)
                             {
-                                if (StartWorld.unknownCellsAllowedSubworlds[i].subworldNames.Any(world => world.ToLowerInvariant().Contains("start")) )
+                                if (StartWorld.unknownCellsAllowedSubworlds[i].subworldNames.Any(world => world.ToLowerInvariant().Contains("start")))
                                     StartWorld.unknownCellsAllowedSubworlds.RemoveAt(i);
                             }
                         }
@@ -727,7 +780,7 @@ namespace ClusterTraitGenerationManager
                         CoreBiome.tagcommand = ProcGen.World.AllowedCellsFilter.TagCommand.Default;
                         CoreBiome.command = ProcGen.World.AllowedCellsFilter.Command.Replace;
                         CoreBiome.subworldNames = new List<string>() { ModAPI.GetStartAreaSubworld(StartWorld, true) };
-                        
+
                         StartWorld.unknownCellsAllowedSubworlds.Insert(0, CoreBiome);
 
 
@@ -735,12 +788,12 @@ namespace ClusterTraitGenerationManager
 
                         //Deleting any of the existing teleporter templates
 
-                        StartWorld.worldTemplateRules.RemoveAll((template) => ModAPI.IsATeleporterTemplate(StartWorld,template));
+                        StartWorld.worldTemplateRules.RemoveAll((template) => ModAPI.IsATeleporterTemplate(StartWorld, template));
 
 
                         ProcGen.World.TemplateSpawnRules TeleporterSpawn = new ProcGen.World.TemplateSpawnRules();
-                        TeleporterSpawn.names = new List<string>() 
-                        { 
+                        TeleporterSpawn.names = new List<string>()
+                        {
                             "expansion1::poi/warp/sender_mini", ///MaterialTeleporter sender
                             "expansion1::poi/warp/receiver_mini" ///MaterialTeleporter reciever 
                         };
@@ -831,7 +884,7 @@ namespace ClusterTraitGenerationManager
                         //}
 
                         StartWorld.worldTemplateRules = new List<ProcGen.World.TemplateSpawnRules>();
-                        
+
 
 
                         if (sourceWorld.Value.worldTemplateRules != null && sourceWorld.Value.worldTemplateRules.Count > 0)
@@ -912,7 +965,7 @@ namespace ClusterTraitGenerationManager
         {
             public static void Prefix(Exception e, ref string errorMessage)
             {
-                if(CGSMClusterManager.LoadCustomCluster)
+                if (CGSMClusterManager.LoadCustomCluster)
                     CGSMClusterManager.LastWorldGenDidFail();
 
                 if (e.Message.Contains("Could not find a spot in the cluster for"))
@@ -1035,7 +1088,7 @@ namespace ClusterTraitGenerationManager
             {
                 if (!CGSMClusterManager.LoadCustomCluster)
                     return;
-                if (!(target == "OverworldDensityMin") && !(target == "OverworldDensityMax") && !(target == "OverworldAvoidRadius") 
+                if (!(target == "OverworldDensityMin") && !(target == "OverworldDensityMax") && !(target == "OverworldAvoidRadius")
                     //&& !(target == "OverworldMinNodes") && !(target == "OverworldMaxNodes")
                     )
                     return;
@@ -1064,7 +1117,7 @@ namespace ClusterTraitGenerationManager
         {
             private static void Prefix(Border __instance)
             {
-                if(CGSMClusterManager.LoadCustomCluster)
+                if (CGSMClusterManager.LoadCustomCluster)
                     __instance.width = Mathf.Max(0.25f, __instance.width * borderSizeMultiplier);
             }
         }
@@ -1078,10 +1131,10 @@ namespace ClusterTraitGenerationManager
             {
                 if (!CGSMClusterManager.LoadCustomCluster)
                     return;
-                
+
                 foreach (var weightedSubworld in __result)
                 {
-                    weightedSubworld.minCount = Mathf.Max(1, GetMultipliedSizeInt( weightedSubworld.minCount, __instance));
+                    weightedSubworld.minCount = Mathf.Max(1, GetMultipliedSizeInt(weightedSubworld.minCount, __instance));
                 }
             }
         }
@@ -1107,7 +1160,7 @@ namespace ClusterTraitGenerationManager
                     return;
                 if (__instance != null && __instance.Settings != null)
                 {
-                    borderSizeMultiplier =  Mathf.Min(1, GetMultipliedSizeFloat(1f, __instance.Settings));
+                    borderSizeMultiplier = Mathf.Min(1, GetMultipliedSizeFloat(1f, __instance.Settings));
                     SgtLogger.l(borderSizeMultiplier.ToString(), "BorderSizeMultiplier");
                 }
 
@@ -1123,23 +1176,23 @@ namespace ClusterTraitGenerationManager
                 && (item.CurrentSizeMultiplier < 1)
                 )
             {
-                SgtLogger.l($"changed input float: {inputNumber}, multiplied: {item.ApplySizeMultiplierToValue((float)inputNumber)}","CGM WorldgenModifier");
+                SgtLogger.l($"changed input float: {inputNumber}, multiplied: {item.ApplySizeMultiplierToValue((float)inputNumber)}", "CGM WorldgenModifier");
 
-                    return item.ApplySizeMultiplierToValue((float)inputNumber);
+                return item.ApplySizeMultiplierToValue((float)inputNumber);
             }
             return inputNumber;
         }
         public static int GetMultipliedSizeInt(int inputNumber, WorldGenSettings worldgen)
         {
 
-            if (worldgen!=null && worldgen.world!=null && worldgen.world.filePath != null &&
+            if (worldgen != null && worldgen.world != null && worldgen.world.filePath != null &&
                 CGSMClusterManager.CustomCluster.HasStarmapItem(worldgen.world.filePath, out var item)
                 && (item.CurrentSizeMultiplier < 1))
             {
 
                 SgtLogger.l($"changed input int: {inputNumber}, multiplied: {item.ApplySizeMultiplierToValue((float)inputNumber)}", "CGM WorldgenModifier");
-                
-                
+
+
                 return Mathf.RoundToInt(item.ApplySizeMultiplierToValue((float)inputNumber));
             }
             return inputNumber;
@@ -1235,7 +1288,7 @@ namespace ClusterTraitGenerationManager
                     if (!OriginalGeyserAmounts.ContainsKey(settings.world.filePath))
                         OriginalGeyserAmounts[settings.world.filePath] = new Dictionary<List<string>, int>();
 
-                    if (CGSMClusterManager.CustomCluster.HasStarmapItem(settings.world.filePath, out var item) && !Mathf.Approximately(item.CurrentSizeMultiplier,1))
+                    if (CGSMClusterManager.CustomCluster.HasStarmapItem(settings.world.filePath, out var item) && !Mathf.Approximately(item.CurrentSizeMultiplier, 1))
                     {
                         foreach (var WorldTemplateRule in settings.world.worldTemplateRules)
                         {
@@ -1255,7 +1308,7 @@ namespace ClusterTraitGenerationManager
                                 float newGeyserAmount = (((float)OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]) * SizeModifier);
                                 SgtLogger.l(string.Format("Adjusting geyser roll amount to worldsize for {0}; {1} -> {2}", WorldTemplateRule.names.FirstOrDefault(), OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names], newGeyserAmount), item.id);
 
-                                if(newGeyserAmount > 1)
+                                if (newGeyserAmount > 1)
                                 {
                                     WorldTemplateRule.times = Mathf.RoundToInt(newGeyserAmount);
                                     SgtLogger.l("new Geyser amount above/equal to 1, rounding to " + Mathf.RoundToInt(newGeyserAmount), "CGM WorldgenModifier");
@@ -1263,8 +1316,8 @@ namespace ClusterTraitGenerationManager
                                 else
                                 {
 
-                                    SgtLogger.l("new Geyser amount below 1, rolling for the geyser to appear at all..." );
-                                    float chance =  ((float)new System.Random(CGSMClusterManager.CurrentSeed + BitConverter.ToInt32(MD5.Create().ComputeHash(Encoding.Default.GetBytes(WorldTemplateRule.names.First())), 0)).Next(100))/100f;
+                                    SgtLogger.l("new Geyser amount below 1, rolling for the geyser to appear at all...");
+                                    float chance = ((float)new System.Random(CGSMClusterManager.CurrentSeed + BitConverter.ToInt32(MD5.Create().ComputeHash(Encoding.Default.GetBytes(WorldTemplateRule.names.First())), 0)).Next(100)) / 100f;
                                     SgtLogger.l("rolled: " + chance);
                                     if (chance <= newGeyserAmount)
                                     {

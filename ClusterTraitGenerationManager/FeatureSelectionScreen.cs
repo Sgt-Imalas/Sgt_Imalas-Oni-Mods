@@ -186,7 +186,7 @@ namespace ClusterTraitGenerationManager
             this.CreateUI();
             
 
-            this.galleryGridLayouter.RequestGridResize();
+            //this.galleryGridLayouter.RequestGridResize();
 
             OnResize();
             //RefreshWithDelay(() => OnResize(true),300);
@@ -305,7 +305,7 @@ namespace ClusterTraitGenerationManager
 
         private void Update()
         { 
-            this.galleryGridLayouter.CheckIfShouldResizeGrid();
+            //this.galleryGridLayouter.CheckIfShouldResizeGrid();
             //var r = transform.Find("Panel/Content").rectTransform();
             //this.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, UnityEngine.Screen.height*0.9f);v
             //OnResize();
