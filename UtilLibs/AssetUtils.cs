@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using YamlDotNet.Core.Tokens;
 
 namespace UtilLibs
 {
@@ -29,6 +30,42 @@ namespace UtilLibs
                 instance.SpriteAssets.RemoveAll(foundsprite2 => foundsprite2.name == spriteid);
             }    
             instance.SpriteAssets.Add(sprite);
+        }
+        public static void OverrideSpriteTextures(Assets instance, FileInfo file)
+        {
+            string spriteId = Path.GetFileNameWithoutExtension(file.Name);
+            var texture = LoadTexture(file.FullName);
+
+            if(instance.TextureAssets.Any(foundsprite => foundsprite.name == spriteId))
+            {
+                SgtLogger.l("removed existing TextureAsset" + spriteId);
+                instance.TextureAssets.RemoveAll(foundsprite2 => foundsprite2.name == spriteId);
+            }
+            instance.TextureAssets.Add(texture);
+            if (Assets.Textures.Any(foundsprite => foundsprite.name == spriteId))
+            {
+                SgtLogger.l("removed existing Texture" + spriteId);
+                Assets.Textures.RemoveAll(foundsprite2 => foundsprite2.name == spriteId);
+            }
+            Assets.Textures.Add(texture);
+
+            var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector3.zero);
+            sprite.name = spriteId;
+
+            if (instance.SpriteAssets.Any(foundsprite => foundsprite.name == spriteId))
+            {
+                SgtLogger.l("removed existing SpriteAsset" + spriteId);
+                instance.SpriteAssets.RemoveAll(foundsprite2 => foundsprite2.name == spriteId);
+            }
+            instance.SpriteAssets.Add(sprite);
+
+            if (Assets.Sprites.ContainsKey(spriteId))
+            {
+                SgtLogger.l("removed existing Sprite" + spriteId);
+                Assets.Sprites.Remove(spriteId);
+            }
+            Assets.Sprites.Add(spriteId, sprite);
+
         }
         public static Texture2D LoadTexture(string name, string directory)
         {

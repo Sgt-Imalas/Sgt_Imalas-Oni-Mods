@@ -46,11 +46,13 @@
 	
 	<ItemGroup>
 	  <Folder Include="ModAssets\anim\assets\" />
-	  <Folder Include="ModAssets\assets\ReplacementSprites\" />
 	</ItemGroup>
 	
 	<ItemGroup>
 	  <None Update="ModAssets\assets\conveyor_box_retro.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\assets\ReplacementSprites\CrashedSatellites.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\assets\textures\aluminium_retro.png">

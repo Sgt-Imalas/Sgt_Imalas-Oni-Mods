@@ -38,7 +38,7 @@ namespace OniRetroEdition
                 InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, AtmoicGardenConfig.ID, FarmTileConfig.ID);
 
                 InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, FlyingCreatureBaitConfig.ID, EggCrackerConfig.ID);
-                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, AirborneCreatureLureConfig.ID, EggCrackerConfig.ID); 
+                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, AirborneCreatureLureConfig.ID, EggCrackerConfig.ID);
                 InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, FishTrapConfig.ID, EggCrackerConfig.ID);
                 InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, CreatureTrapConfig.ID, EggCrackerConfig.ID);
 
@@ -356,7 +356,7 @@ namespace OniRetroEdition
         {
             public static void Prefix(string id, ref int width, ref int height)
             {
-                if(id.Contains("steam") || id.Contains("hot_steam") || id.Contains("methane"))
+                if (id.Contains("steam") || id.Contains("hot_steam") || id.Contains("methane"))
                 {
                     width = 3;
                     height = 3;
@@ -554,6 +554,45 @@ namespace OniRetroEdition
             }
         }
 
+
+        [HarmonyPatch(typeof(AlgaeDistilleryConfig))]
+        [HarmonyPatch(nameof(AlgaeDistilleryConfig.ConfigureBuildingTemplate))]
+        public static class ManualAlgaeDestillery
+        {
+
+            public static void Postfix(GameObject go)
+            {
+                go.TryGetComponent<ManualDeliveryKG>(out var manualDeliveryKG);
+                manualDeliveryKG.refillMass = 300f;
+                manualDeliveryKG.capacity = 1000f;
+
+                go.TryGetComponent<AlgaeDistillery>(out var distillery);
+                UnityEngine.Object.Destroy(distillery);
+
+                ElementConverter elementConverter = go.AddOrGet<ElementConverter>();
+                elementConverter.consumedElements = new ElementConverter.ConsumedElement[1]
+                {
+                    new ElementConverter.ConsumedElement(SimHashes.SlimeMold.CreateTag(), 1.8f)
+                };
+                elementConverter.outputElements = new ElementConverter.OutputElement[2]
+                {
+                    new ElementConverter.OutputElement(0.6f, SimHashes.Algae, 303.15f, useEntityTemperature: false, storeOutput: false, 1f, 1f),
+                    new ElementConverter.OutputElement(1.2f, SimHashes.DirtyWater, 303.15f, useEntityTemperature: false, storeOutput: true)
+                };
+
+                elementConverter.OperationalRequirement = Operational.State.Operational;
+
+                var manualOperatable = go.AddComponent<GenericWorkableComponent>();
+                manualOperatable.overrideAnims = new KAnimFile[1]
+                {
+                    Assets.GetAnim((HashedString) "anim_interacts_algae_distillery_kanim")
+                };
+                manualOperatable.workOffset = new CellOffset(-1, 0);
+                manualOperatable.WorkTime = (30f);
+                manualOperatable.workLayer = Grid.SceneLayer.BuildingUse;
+            }
+        }
+
         /// <summary>
         /// Init. auto translation
         /// </summary>
@@ -588,7 +627,32 @@ namespace OniRetroEdition
 
             }
         }
+        [HarmonyPatch(typeof(Assets), "OnPrefabInit")]
+        public class Assets_OnPrefabInit_Patch
+        {
+            public static void Postfix(Assets __instance)
+            {
+                var path = Path.Combine(Path.Combine(UtilMethods.ModPath, "assets"), "ReplacementSprites");
 
+                SgtLogger.l(path, "PATH for imports");
+                var files = new DirectoryInfo(path).GetFiles();
+
+                SgtLogger.l(files.Count().ToString(), "Files to import and override");
+
+                for (int i = 0; i < files.Count(); i++)
+                {
+                    var File = files[i];
+                    try
+                    {
+                        AssetUtils.OverrideSpriteTextures(__instance, File);
+                    }
+                    catch (Exception e)
+                    {
+                        SgtLogger.logError("Failed importing sprite: " + File.FullName + ",\nError: " + e);
+                    }
+                }
+            }
+        }
 
         [HarmonyPatch(typeof(ElementLoader), "Load")]
         public static class Patch_ElementLoader_Load
@@ -620,7 +684,7 @@ namespace OniRetroEdition
                 var ironORe = ElementLoader.GetElement(SimHashes.IronOre.CreateTag()).substance.material;
                 SgtElementUtil.SetTexture_Main(ironORe, Config.Instance.IronOreTexture == Config.EarlierVersion.Beta ? "hematite_(t)_retro" : "hematite_(alpha)_retro");
                 if (Config.Instance.IronOreTexture == Config.EarlierVersion.Alpha)
-                    SgtElementUtil.SetTexture_ShineMask(aluminium, "hematite_(alpha)_retro_ShineMask");
+                    SgtElementUtil.SetTexture_ShineMask(ironORe, "hematite_(alpha)_retro_ShineMask");
 
                 var bleachstone = ElementLoader.GetElement(SimHashes.BleachStone.CreateTag()).substance.material;
                 SgtElementUtil.SetTexture_Main(bleachstone, "bleach_stone_retro");
