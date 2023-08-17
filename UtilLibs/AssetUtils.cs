@@ -38,19 +38,33 @@ namespace UtilLibs
 
             if(instance.TextureAssets.Any(foundsprite => foundsprite.name == spriteId))
             {
-                SgtLogger.l("removed existing TextureAsset" + spriteId);
+                SgtLogger.l("removed existing TextureAsset: " + spriteId);
                 instance.TextureAssets.RemoveAll(foundsprite2 => foundsprite2.name == spriteId);
             }
             instance.TextureAssets.Add(texture);
             if (Assets.Textures.Any(foundsprite => foundsprite.name == spriteId))
             {
-                SgtLogger.l("removed existing Texture" + spriteId);
+                SgtLogger.l("removed existing Texture: " + spriteId);
                 Assets.Textures.RemoveAll(foundsprite2 => foundsprite2.name == spriteId);
             }
             Assets.Textures.Add(texture);
 
+            if (instance.TextureAtlasAssets.Any(TextureAtlas => TextureAtlas.texture.name == spriteId))
+            {
+                SgtLogger.l("replaced Texture Atlas Asset texture: " + spriteId);
+                instance.TextureAtlasAssets.First().texture = texture;
+            }
+
+            if (Assets.TextureAtlases.Any(TextureAtlas => TextureAtlas.texture.name == spriteId))
+            {
+                SgtLogger.l("replaced Texture Atlas texture: " + spriteId);
+                Assets.TextureAtlases.First().texture = texture;
+            }
+
             var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector3.zero);
             sprite.name = spriteId;
+
+
 
             if (instance.SpriteAssets.Any(foundsprite => foundsprite.name == spriteId))
             {
@@ -64,6 +78,12 @@ namespace UtilLibs
                 SgtLogger.l("removed existing Sprite" + spriteId);
                 Assets.Sprites.Remove(spriteId);
             }
+            if (Assets.TintedSprites.Any(foundsprite => foundsprite.name == spriteId))
+            {
+                Assets.TintedSprites.First().sprite = sprite;
+            }
+
+
             Assets.Sprites.Add(spriteId, sprite);
 
         }

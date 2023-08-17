@@ -18,6 +18,7 @@ using UtilLibs;
 using static OniRetroEdition.ModAssets;
 using static STRINGS.BUILDINGS.PREFABS;
 using static STRINGS.CREATURES.STATS;
+using static STRINGS.MISC.STATUSITEMS;
 
 namespace OniRetroEdition
 {
@@ -567,6 +568,48 @@ namespace OniRetroEdition
                 }
             }
         }
+
+
+        [HarmonyPatch(typeof(ComplexFabricatorSM.States))]
+        [HarmonyPatch(nameof(ComplexFabricatorSM.States.InitializeStates))]
+        public static class Add_Working_pst_complete_anim_ComplexFabricator
+        {
+
+            public static void Postfix(ComplexFabricatorSM.States __instance)
+            {
+                __instance.operating.working_pst.transitions.Clear();
+                __instance.operating.working_pst.OnAnimQueueComplete(__instance.operating.working_pst_complete);
+            }
+        }
+
+        //[HarmonyPatch(typeof(PoweredActiveController))]
+        //[HarmonyPatch(nameof(PoweredActiveController.InitializeStates))]
+        //public static class ExtendedPoweredActiveController
+        //{
+        //    static GameStateMachine<PoweredActiveController, PoweredActiveController.Instance, IStateMachineTarget, PoweredActiveController.Def>.State poweredAnimComplete;
+        //    public static void Postfix(PoweredActiveController __instance)
+        //    {
+        //        //for(int i = __instance.states.Count- 1; i >= 0;i--)
+        //        //{
+        //        //    var state = __instance.states[i];
+        //        //    if (state.name.Contains("stressed"))
+        //        //    {
+        //        //        __instance.states.RemoveAt(i);
+        //        //    }
+        //        //}
+
+        //        poweredAnimComplete = new GameStateMachine<PoweredActiveController, PoweredActiveController.Instance, IStateMachineTarget, PoweredActiveController.Def>.State();
+
+
+        //        poweredAnimComplete
+        //            //.PlayAnim("stop")
+        //            .OnAnimQueueComplete(__instance.on);
+
+        //        __instance.working.pst.transitions.Clear();
+        //        __instance.working.pst.OnAnimQueueComplete(poweredAnimComplete);
+        //    }
+        //}
+
         [HarmonyPatch(typeof(Assets))]
         [HarmonyPatch(nameof(Assets.TryGetAnim))]
         public static class TryGetRetroAnim_TryGetAnim
@@ -656,10 +699,10 @@ namespace OniRetroEdition
 
             }
         }
-        [HarmonyPatch(typeof(Assets), "OnPrefabInit")]
+        [HarmonyPatch(typeof(Assets), "LoadAnims")]
         public class Assets_OnPrefabInit_Patch
         {
-            public static void Postfix(Assets __instance)
+            public static void Prefix(Assets __instance)
             {
                 var path = Path.Combine(Path.Combine(UtilMethods.ModPath, "assets"), "ReplacementSprites");
 
