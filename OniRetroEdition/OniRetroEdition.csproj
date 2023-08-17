@@ -46,6 +46,7 @@
 	
 	<ItemGroup>
 	  <Folder Include="ModAssets\anim\assets\" />
+	  <Folder Include="ModAssets\anim\assets\" />
 	</ItemGroup>
 	
 	<ItemGroup>

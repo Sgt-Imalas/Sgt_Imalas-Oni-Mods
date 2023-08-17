@@ -553,6 +553,35 @@ namespace OniRetroEdition
                 __result.GenerateOffsets();
             }
         }
+        [HarmonyPatch(typeof(Assets))]
+        [HarmonyPatch(nameof(Assets.GetAnim))]
+        public static class TryGetRetroAnim_GetAnim
+        {
+
+            public static void Prefix(Assets __instance,ref HashedString name)
+            {
+                string retroStringVariant = name.ToString().Replace("_kanim", "_retro_kanim");
+                if(name.IsValid && Assets.AnimTable.ContainsKey(retroStringVariant))
+                {
+                    name = retroStringVariant;
+                }
+            }
+        }
+        [HarmonyPatch(typeof(Assets))]
+        [HarmonyPatch(nameof(Assets.TryGetAnim))]
+        public static class TryGetRetroAnim_TryGetAnim
+        {
+
+            public static void Prefix(ref HashedString name)
+            {
+                string retroStringVariant = name.ToString().Replace("_kanim", "_retro_kanim");
+                if (name.IsValid && Assets.AnimTable.ContainsKey(retroStringVariant))
+                {
+                    name = retroStringVariant;
+                }
+            }
+        }
+
 
 
         [HarmonyPatch(typeof(AlgaeDistilleryConfig))]
