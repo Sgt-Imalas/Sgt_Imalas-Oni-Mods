@@ -9,7 +9,7 @@ using TUNING;
 using UtilLibs;
 using static STRINGS.ELEMENTS;
 
-namespace Rockets_TinyYetBig.Patches
+namespace Rockets_TinyYetBig.Elements
 {
     public class MaterialTagsPatches
     {
@@ -33,9 +33,9 @@ namespace Rockets_TinyYetBig.Patches
             [HarmonyPriority(Priority.Low)]
             public static void Postfix()
             {
-                foreach(var element in ElementLoader.elements)
+                foreach (var element in ElementLoader.elements)
                 {
-                    if(element.HasTag(GameTags.CombustibleLiquid) )
+                    if (element.HasTag(GameTags.CombustibleLiquid))
                     {
                         element.oreTags = element.oreTags.Append(ModAssets.Tags.RocketFuelTag);
                     }
@@ -49,7 +49,7 @@ namespace Rockets_TinyYetBig.Patches
                 hydrogen.oreTags = hydrogen.oreTags.Append(ModAssets.Tags.RocketFuelTag);
 
 
-                foreach(var radShieldElemnt in RadShieldingElements)
+                foreach (var radShieldElemnt in RadShieldingElements)
                 {
                     var element = ElementLoader.GetElement(radShieldElemnt.CreateTag());
                     if (element.oreTags is null)
@@ -64,7 +64,7 @@ namespace Rockets_TinyYetBig.Patches
                 {
                     LiquidChlorine.oreTags = new Tag[] { };
                 }
-                LiquidChlorine.oreTags = LiquidChlorine.oreTags.Append(ModAssets.Tags.CorrosiveOxidizer);                
+                LiquidChlorine.oreTags = LiquidChlorine.oreTags.Append(ModAssets.Tags.CorrosiveOxidizer);
                 LiquidChlorine.oreTags = LiquidChlorine.oreTags.Append(ModAssets.Tags.OxidizerEfficiency_3);
 
 

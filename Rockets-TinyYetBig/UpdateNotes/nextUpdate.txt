@@ -14,3 +14,4 @@ Fixes&Adjustments:
 - fixed vanilla bug of oxidizer tanks losing their contents on loading the game when "copy settings" from a different oxidizer tank was used to set their settings
 - fixed an assignment bug with docking when blowing up rockets
 - added a few materials that count as "Radiation blocking" for the plated nosecone
+- fixed neutronium alloy not inheriting the +200 overheat temperature of steel. Also its very pretty now

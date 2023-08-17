@@ -60,7 +60,7 @@ namespace Rockets_TinyYetBig
             public class UNOBTANIUMALLOY
             {
                 public static LocString NAME = (LocString)FormatAsLink("Neutronium Alloy", nameof(UNOBTANIUMALLOY));
-                public static LocString DESC = "An insanely durable and heat resistant alloy.\nRequired in the construction of large space structures.";
+                public static LocString DESC = "An insanely durable and heat resistant alloy.\nRequired in the construction of large space structures.\nVery sparkly";
                 public static LocString RECIPE_DESCRIPTION = "Neutronium Alloy is a " + FormatAsLink("Solid Material", "ELEMENTS_SOLID") + " used in the construction of large space structures.";
             }
             public class UNOBTANIUMDUST

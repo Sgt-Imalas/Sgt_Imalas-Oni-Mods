@@ -1,4 +1,5 @@
 ﻿using ElementUtilNamespace;
+using Klei.AI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static Rockets_TinyYetBig.STRINGS.ELEMENTS;
 
 namespace Rockets_TinyYetBig.Elements
 {
@@ -26,6 +28,7 @@ namespace Rockets_TinyYetBig.Elements
             UnobtaniumAlloy = ElementInfo.Solid("UnobtaniumAlloy", Color.grey);
             SpaceStationForceField = ElementInfo.Solid("SpaceStationForceField", Color.blue);
 
+
             var newElements = new HashSet<Substance>()
             {
                 UnobtaniumDust.CreateSubstance(),
@@ -33,6 +36,7 @@ namespace Rockets_TinyYetBig.Elements
                 UnobtaniumAlloy.CreateSubstance(true, refined)
             };
             list.AddRange(newElements);
+
             //SgtLogger.debuglog("2," + list + ", " + list.Count);
 
         }
