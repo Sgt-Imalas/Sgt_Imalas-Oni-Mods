@@ -85,6 +85,9 @@
 	  <None Update="ModAssets\anim\assets\ITCE_Inverse_Ice\itce_inverse_ice_.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\assets\windows\chaos_twitch_assets">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\elements\Imalas_TwitchChaosEventElements.yaml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>

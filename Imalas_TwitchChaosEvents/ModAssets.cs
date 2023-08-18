@@ -1,4 +1,6 @@
 ﻿using PeterHan.PLib.Actions;
+using ProcGen;
+using UnityEngine;
 using UtilLibs;
 
 namespace Imalas_TwitchChaosEvents
@@ -16,7 +18,27 @@ namespace Imalas_TwitchChaosEvents
         public static void LoadAll()
         {
             SoundUtils.LoadSound(SOUNDS.TACORAIN, "ICT_TACORAIN.wav");
+
+            LoadAssets();
         }
+
+        public static GameObject FogSpawner;
+        public static GameObject OmegaSawblade;
+
+        public static void LoadAssets()
+        {
+            var bundle = AssetUtils.LoadAssetBundle("chaos_twitch_assets", platformSpecific: true);
+            FogSpawner = bundle.LoadAsset<GameObject>("Assets/FogObject.prefab").transform.Find("Particle System").gameObject;
+            SgtLogger.Assert("FogSpawner", FogSpawner);
+            var renderer = FogSpawner.GetComponent<ParticleSystemRenderer>();
+            renderer.material.renderQueue = RenderQueues.Liquid;
+
+            OmegaSawblade = bundle.LoadAsset<GameObject>("Assets/OmegaSawblade.prefab");
+            SgtLogger.Assert("OmegaSawblade", OmegaSawblade);
+
+        }
+
+
         public class HotKeys
         {
             public static PAction TriggerTacoRain { get; private set; }

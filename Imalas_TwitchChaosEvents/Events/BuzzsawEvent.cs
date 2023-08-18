@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.UI;
 using Util_TwitchIntegrationLib;
 using UtilLibs;
+using static STRINGS.UI.CLUSTERMAP;
 
 namespace Imalas_TwitchChaosEvents.Events
 {
@@ -57,6 +59,12 @@ namespace Imalas_TwitchChaosEvents.Events
 
         public void SpawnBuzzSaw()
         {
+            var spawningPosition = Grid.CellToPos(ONITwitchLib.Utils.PosUtil.ClampedMouseCellWithRange(10));
+            SgtLogger.l(spawningPosition.ToString(), "POS1");
+            spawningPosition.z = (int)Grid.SceneLayer.Move;
+            var blade = Util.KInstantiate(ModAssets.OmegaSawblade, spawningPosition);
+            SgtLogger.l(spawningPosition.ToString(), "POS2");
+            blade.SetActive(true);
 
         }
     }

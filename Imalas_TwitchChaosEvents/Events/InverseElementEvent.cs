@@ -75,7 +75,7 @@ namespace Imalas_TwitchChaosEvents.Events
                 return true;
             };
 
-        public Danger EventDanger => Danger.Medium;
+        public Danger EventDanger => Danger.Medium; //same as other floods
 
     }
 }

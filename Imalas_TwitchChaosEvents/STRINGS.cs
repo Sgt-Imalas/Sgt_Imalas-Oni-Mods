@@ -85,6 +85,14 @@ namespace Imalas_TwitchChaosEvents
                 public static LocString TOAST = "Doolf!";
                 public static LocString TOASTTEXT = "sᴉɥʇ ɥʇᴉʍ ɟɟo sᴉ ƃuᴉɥʇǝɯoS";
             }
+            public class FOG
+            {
+                public static LocString NAME = "Fog";
+                public static LocString TOAST = "Fog";
+                public static LocString TOASTTEXT = "Bloody hell, it's foggy innit";
+
+                public static LocString TOASTTEXTENDING = "The fog is starting to clear.";
+            }
             public class BUZZSAW
             {
                 public static LocString NAME = "Buzzsaw";
