@@ -127,6 +127,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvertedItemFilter", "Inver
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubPlanetaryTransport", "SubPlanetaryTransport\SubPlanetaryTransport.csproj", "{C050C85A-4070-4781-A09B-7FD2D9F22F86}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrokenRocketInteriorPortFix", "BrokenRocketInteriorPortFix\BrokenRocketInteriorPortFix.csproj", "{B6BC63AA-520E-46A9-BA10-DBB149BC0CB1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -478,6 +480,12 @@ Global
 		{C050C85A-4070-4781-A09B-7FD2D9F22F86}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{C050C85A-4070-4781-A09B-7FD2D9F22F86}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
 		{C050C85A-4070-4781-A09B-7FD2D9F22F86}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
+		{B6BC63AA-520E-46A9-BA10-DBB149BC0CB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6BC63AA-520E-46A9-BA10-DBB149BC0CB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6BC63AA-520E-46A9-BA10-DBB149BC0CB1}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6BC63AA-520E-46A9-BA10-DBB149BC0CB1}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{B6BC63AA-520E-46A9-BA10-DBB149BC0CB1}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6BC63AA-520E-46A9-BA10-DBB149BC0CB1}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

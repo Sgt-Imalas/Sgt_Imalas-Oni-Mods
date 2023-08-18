@@ -28,15 +28,15 @@ namespace UtilLibs
                     return;
 
                 instance.SpriteAssets.RemoveAll(foundsprite2 => foundsprite2.name == spriteid);
-            }    
+            }
             instance.SpriteAssets.Add(sprite);
         }
         public static void OverrideSpriteTextures(Assets instance, FileInfo file)
         {
             string spriteId = Path.GetFileNameWithoutExtension(file.Name);
-            var texture = LoadTexture(file.FullName);
+            var texture = AssetUtils.LoadTexture(file.FullName);
 
-            if(instance.TextureAssets.Any(foundsprite => foundsprite.name == spriteId))
+            if (instance.TextureAssets.Any(foundsprite => foundsprite.name == spriteId))
             {
                 SgtLogger.l("removed existing TextureAsset: " + spriteId);
                 instance.TextureAssets.RemoveAll(foundsprite2 => foundsprite2.name == spriteId);
@@ -49,16 +49,25 @@ namespace UtilLibs
             }
             Assets.Textures.Add(texture);
 
-            if (instance.TextureAtlasAssets.Any(TextureAtlas => TextureAtlas.texture.name == spriteId))
+            if (instance.TextureAtlasAssets.Any(TextureAtlas => TextureAtlas != null && TextureAtlas.texture != null && TextureAtlas.texture.name == spriteId))
             {
                 SgtLogger.l("replaced Texture Atlas Asset texture: " + spriteId);
-                instance.TextureAtlasAssets.First().texture = texture;
+                var atlasInQuestion = instance.TextureAtlasAssets.First(TextureAtlas => TextureAtlas != null && TextureAtlas.texture != null && TextureAtlas.texture.name == spriteId);
+                if (atlasInQuestion != null)
+                {
+                    atlasInQuestion.texture = texture;
+                }
             }
 
-            if (Assets.TextureAtlases.Any(TextureAtlas => TextureAtlas.texture.name == spriteId))
+
+            if (Assets.TextureAtlases.Any(TextureAtlas => TextureAtlas != null && TextureAtlas.texture != null && TextureAtlas.texture.name == spriteId))
             {
-                SgtLogger.l("replaced Texture Atlas texture: " + spriteId);
-                Assets.TextureAtlases.First().texture = texture;
+                var atlasInQuestion = Assets.TextureAtlases.First(TextureAtlas => TextureAtlas != null && TextureAtlas.texture != null && TextureAtlas.texture.name == spriteId);
+                if (atlasInQuestion != null)
+                {
+                    atlasInQuestion.texture = texture;
+                }
+
             }
 
             var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector3.zero);
@@ -80,7 +89,7 @@ namespace UtilLibs
             }
             if (Assets.TintedSprites.Any(foundsprite => foundsprite.name == spriteId))
             {
-                Assets.TintedSprites.First().sprite = sprite;
+                Assets.TintedSprites.First(foundsprite => foundsprite.name == spriteId).sprite = sprite;
             }
 
 

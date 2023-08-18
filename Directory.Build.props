@@ -58,6 +58,10 @@
 			<HintPath>$(GameLibsFolder)/UnityEngine.AssetBundleModule.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
+    <Reference Include="UnityEngine.ParticleSystemModule">
+      <HintPath>$(GameLibsFolder)/UnityEngine.ParticleSystemModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
 		<Reference Include="UnityEngine.ImageConversionModule">
 			<HintPath>$(GameLibsFolder)/UnityEngine.ImageConversionModule.dll</HintPath>
 			<Private>false</Private>
