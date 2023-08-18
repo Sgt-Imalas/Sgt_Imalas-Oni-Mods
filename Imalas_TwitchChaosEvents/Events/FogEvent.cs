@@ -19,11 +19,11 @@ namespace Imalas_TwitchChaosEvents.Events
 
         public string EventDescription => STRINGS.CHAOSEVENTS.FOG.TOASTTEXT;
 
-        public EventWeight EventWeight => EventWeight.WEIGHT_NORMAL;
+        public EventWeight EventWeight => EventWeight.WEIGHT_COMMON;
 
         public Action<object> EventAction => (object data) =>
         {
-            GameScheduler.Instance.Schedule("fog start", 10f, _ =>
+            GameScheduler.Instance.Schedule("fog start", 15f, _ =>
             {
                 ToastManager.InstantiateToast(
                 STRINGS.CHAOSEVENTS.FOG.TOAST,
@@ -33,9 +33,9 @@ namespace Imalas_TwitchChaosEvents.Events
 
             var pos = CameraController.Instance.baseCamera.transform.GetPosition();
             pos.z = 40;
-            var fog = Util.KInstantiate(ModAssets.FogSpawner, pos);
+            ModAssets.CurrentFogGO = Util.KInstantiate(ModAssets.FogSpawner, pos);
 
-            fog.SetActive(true);
+            ModAssets.CurrentFogGO.SetActive(true);
 
             SgtLogger.l(CameraController.Instance.baseCamera.transform.position.ToString(), "CAMERA");
 
@@ -46,14 +46,15 @@ namespace Imalas_TwitchChaosEvents.Events
                 STRINGS.CHAOSEVENTS.FOG.TOAST,
                  STRINGS.CHAOSEVENTS.FOG.TOASTTEXTENDING
                  );
-                UnityEngine.Object.Destroy(fog); 
+                UnityEngine.Object.Destroy(ModAssets.CurrentFogGO);
+                ModAssets.CurrentFogGO = null;
             });
         };
 
         public Func<object, bool> Condition =>
             (data) =>
             {
-                return true;
+                return ModAssets.CurrentFogGO == null;
             };
 
         public Danger EventDanger => Danger.None;

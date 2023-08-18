@@ -58,6 +58,14 @@
 			<HintPath>$(GameLibsFolder)/UnityEngine.AssetBundleModule.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>$(GameLibsFolder)/UnityEngine.PhysicsModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.Physics2DModule">
+      <HintPath>$(GameLibsFolder)/UnityEngine.Physics2DModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="UnityEngine.ParticleSystemModule">
       <HintPath>$(GameLibsFolder)/UnityEngine.ParticleSystemModule.dll</HintPath>
       <Private>false</Private>

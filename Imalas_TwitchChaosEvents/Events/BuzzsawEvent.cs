@@ -1,4 +1,5 @@
-﻿using ONITwitchLib;
+﻿using Imalas_TwitchChaosEvents.OmegaSawblade;
+using ONITwitchLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace Imalas_TwitchChaosEvents.Events
 
         public string EventDescription => STRINGS.CHAOSEVENTS.BUZZSAW.TOASTTEXT;
 
-        public EventWeight EventWeight => EventWeight.WEIGHT_NORMAL;
+        public EventWeight EventWeight => EventWeight.WEIGHT_RARE;
 
         public Action<object> EventAction => (object data) =>
         {
@@ -51,20 +52,21 @@ namespace Imalas_TwitchChaosEvents.Events
         public Func<object, bool> Condition =>
             (data) =>
             {
-                return false;
-                return true;
+                return GameClock.Instance.GetCycle() > 50;
             };
 
-        public Danger EventDanger => Danger.High;
+        public Danger EventDanger => Danger.Extreme;
 
         public void SpawnBuzzSaw()
         {
-            var spawningPosition = Grid.CellToPos(ONITwitchLib.Utils.PosUtil.ClampedMouseCellWithRange(10));
+            //var spawningPosition = CameraController.Instance.baseCamera.transform.GetPosition(); ///This gives middle of the screeen
+            ///Camera.main.ScreenToWorldPoint(KInputManager.GetMousePos()); this gives mouse pos
+            var spawningPosition = Grid.CellToPos(ONITwitchLib.Utils.PosUtil.ClampedMouseCellWithRange(0));
             SgtLogger.l(spawningPosition.ToString(), "POS1");
-            spawningPosition.z = (int)Grid.SceneLayer.Move;
-            var blade = Util.KInstantiate(ModAssets.OmegaSawblade, spawningPosition);
-            SgtLogger.l(spawningPosition.ToString(), "POS2");
+            spawningPosition.z = Grid.GetLayerZ(Grid.SceneLayer.Front);
+            var blade = Util.KInstantiate(Assets.GetPrefab(OmegaSawbladeConfig.ID), spawningPosition, Quaternion.identity);
             blade.SetActive(true);
+            SgtLogger.l(spawningPosition.ToString(), "POS2");
 
         }
     }

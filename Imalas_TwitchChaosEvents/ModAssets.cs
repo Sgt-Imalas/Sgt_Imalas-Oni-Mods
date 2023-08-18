@@ -7,6 +7,7 @@ namespace Imalas_TwitchChaosEvents
 {
     internal class ModAssets
     {
+        public static GameObject CurrentFogGO = null;
         public static class SOUNDS
         {
             public const string
@@ -23,7 +24,7 @@ namespace Imalas_TwitchChaosEvents
         }
 
         public static GameObject FogSpawner;
-        public static GameObject OmegaSawblade;
+        public static GameObject FireSpawner;
 
         public static void LoadAssets()
         {
@@ -33,8 +34,10 @@ namespace Imalas_TwitchChaosEvents
             var renderer = FogSpawner.GetComponent<ParticleSystemRenderer>();
             renderer.material.renderQueue = RenderQueues.Liquid;
 
-            OmegaSawblade = bundle.LoadAsset<GameObject>("Assets/OmegaSawblade.prefab");
-            SgtLogger.Assert("OmegaSawblade", OmegaSawblade);
+            FireSpawner = bundle.LoadAsset<GameObject>("Assets/FireParticleSystem.prefab");
+
+            var renderer2 = FireSpawner.GetComponent<ParticleSystemRenderer>();
+            renderer2.material.renderQueue = RenderQueues.Liquid;
 
         }
 

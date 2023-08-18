@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static Imalas_TwitchChaosEvents.ModAssets;
+using static ResearchTypes;
 
 namespace Imalas_TwitchChaosEvents
 {
@@ -44,7 +45,7 @@ namespace Imalas_TwitchChaosEvents
 
         //public class Moped
         //{
-           
+
         //    [HarmonyPatch(typeof(StringTable), nameof(StringTable.Get))]
         //    [HarmonyPatch(new Type[] { typeof(StringKey) })]
         //    public class Moped2
@@ -63,7 +64,24 @@ namespace Imalas_TwitchChaosEvents
         //        }
         //    }
         //}
+        public class MoveFogGO
+        {
 
+            [HarmonyPatch(typeof(CameraController), nameof(CameraController.ActiveWorldStarWipe), new Type[] { typeof(int), typeof(bool ), typeof(Vector3), typeof(float), typeof(System.Action) })]
+            public class MoveFogToNewWorlds
+            {
+                public static void Postfix(bool useForcePosition, Vector3 forcePosition)
+                {
+                    if(ModAssets.CurrentFogGO != null)
+                    {
+                        var pos = CameraController.Instance.baseCamera.transform.GetPosition();
+                        pos.z = 40;
+                        ModAssets.CurrentFogGO.transform.SetPosition(pos);
+                        SgtLogger.l($"Moved Fog GO to new world pos; {pos} -> {ModAssets.CurrentFogGO.transform.position}");
+                    }
+                }
+            }
+        }
 
         public class SaveGamePatch
         {

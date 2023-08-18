@@ -54,11 +54,10 @@ namespace Imalas_TwitchChaosEvents.Events
         public Func<object, bool> Condition =>
             (data) =>
             {
-                return false;
-                return GameClock.Instance.GetCycle() > 50;
+                return GameClock.Instance.GetCycle() > 150;
             };
 
-        public Danger EventDanger => Danger.Extreme;
+        public Danger EventDanger => Danger.Deadly;
 
     }
 }

@@ -31,6 +31,11 @@ namespace Imalas_TwitchChaosEvents
                 public static LocString NAME = FormatAsLink("Ghostly Taco", nameof(ICT_GHOSTTACO));
                 public static LocString DESC = "A semitranslucent image of a delicious Taco.\nSoon it will fade away";
             }
+            public class ICT_OMEGASAWBLADE
+            {
+                public static LocString NAME = FormatAsLink("Omega Sawblade", nameof(ICT_OMEGASAWBLADE));
+                public static LocString DESC = "Bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz";
+            }
         }
         public class COMETS
         {
@@ -97,13 +102,20 @@ namespace Imalas_TwitchChaosEvents
             {
                 public static LocString NAME = "Buzzsaw";
                 public static LocString TOAST = "Buzzsaw";
-                public static LocString TOASTTEXT = "With recommendations of the white palace";
+                public static LocString TOASTTEXT = "Bzzzzt";
+            }
+            public class BURNINGCURSOR
+            {
+                public static LocString NAME = "Burning Cursor";
+                public static LocString TOAST = "Burning Cursor";
+                public static LocString TOASTTEXT = "The mouse cursor has caught fire!";
+                public static LocString TOASTTEXTENDING = "The mouse cursor has been extinguished";
             }
             public class CREEPERRAIN
             {
                 public static LocString NAME = "Creeper Rain";
                 public static LocString TOAST = "Creeper Rain";
-                public static LocString TOASTTEXT = "The Creeper is about to arrive on {0}";
+                public static LocString TOASTTEXT = "ALARM!\nThe Creeper is about to arrive on {0}";
                 public static LocString TOASTTEXT2 = "The Creeper has arrived on {0}!";
             }
             public class TACORAIN

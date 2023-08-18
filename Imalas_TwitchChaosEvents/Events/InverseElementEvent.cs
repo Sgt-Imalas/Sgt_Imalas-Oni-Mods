@@ -70,8 +70,7 @@ namespace Imalas_TwitchChaosEvents.Events
 
         public Func<object, bool> Condition =>
             (data) =>
-            { ///Sim cannot handle solids freezing into liquid
-                return false;
+            { 
                 return true;
             };
 
