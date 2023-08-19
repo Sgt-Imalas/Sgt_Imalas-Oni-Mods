@@ -1,0 +1,33 @@
+biomeNoise: noise/subworldHotMarsh
+temperatureRange: Room
+pdWeight: 8
+density:
+  min: 10
+  max: 15
+avoidRadius: 20.0
+minChildCount: 4
+dontRelaxChildren: true
+sampleBehaviour: PoissonDisk
+borderOverride: rocky
+biomes:
+  - name: expansion1::biomes/HotMarsh/Basic
+    weight: 4
+    tags:
+      - med_MushroomPlant
+      - med_MushroomSeed
+      - med_Puft
+      - med_BasicFabricPlant
+      - med_BasicFabricMaterialPlantSeed
+      - med_Pacu
+      - med_BulbPlant
+      - med_BulbPlantSeed
+  - name: expansion1::biomes/HotMarsh/Dry
+    weight: 2
+centralFeature:
+  type: features/generic/StartLocation
+features:
+  - type: features/hotmarsh/TallRoom
+  - type: features/hotmarsh/BlobRoom
+tags:
+  - IgnoreCaveOverride
+zoneType: BoggyMarsh

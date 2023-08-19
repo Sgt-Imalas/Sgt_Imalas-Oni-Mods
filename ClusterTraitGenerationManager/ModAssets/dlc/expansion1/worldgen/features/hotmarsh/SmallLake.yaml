@@ -1,0 +1,44 @@
+tags:
+  - AllowExceedNodeBorders
+  - Wet
+shape: ShortWide
+borders:
+  - 1
+  - 1
+  - 1
+blobSize:
+  min: 4.1
+  max: 7.5
+ElementChoiceGroups:
+  RoomCenterElements:
+    selectionMethod: WeightedResample
+    choices:
+      - element: Oxygen
+        weight: 1
+        overrides:
+          massOverride: 1
+      - element: Water
+        weight: .2
+        overrides:
+          massOverride: 1000
+  RoomBorderChoices0:
+    selectionMethod: WeightedResample
+    choices:
+      - element: Water
+        weight: 2
+  RoomBorderChoices1:
+    selectionMethod: WeightedResample
+    choices:
+      - element: SlimeMold
+        weight: 1
+        overrides:
+          massOverride: 50
+      - element: SedimentaryRock
+        weight: 1
+      - element: GoldAmalgam
+        weight: 1
+  RoomBorderChoices2:
+    selectionMethod: WeightedResample
+    choices:
+      - element: SedimentaryRock
+        weight: 1

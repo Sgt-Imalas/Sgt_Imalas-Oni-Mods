@@ -111,7 +111,7 @@ namespace ClusterTraitGenerationManager
         public void LoadTemporalPreset(CustomClusterData toGenerateFrom)
         {
             referencedCluster = toGenerateFrom;
-            CustomClusterSettingsPreset tempStats = CustomClusterSettingsPreset.CreateFromCluster(toGenerateFrom, RefName);
+            CustomClusterSettingsPreset tempStats = CreateFromCluster(toGenerateFrom, RefName);
             SetAsCurrent(tempStats);
         }
 

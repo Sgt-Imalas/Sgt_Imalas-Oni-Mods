@@ -130,7 +130,7 @@ namespace ClusterTraitGenerationManager
                         {
                             if (subworld.name.ToLowerInvariant().Contains("forest"))
                                 ++forestBiomes;
-                            if (subworld.name.ToLowerInvariant().Contains("swamp"))
+                            if (subworld.name.ToLowerInvariant().Contains("swamp")|| subworld.name.ToLowerInvariant().Contains("marsh"))
                                 ++swampBiomes;
                             if (subworld.name.ToLowerInvariant().Contains("sandstone")|| subworld.name.ToLowerInvariant().Contains("barren"))
                                 ++sandstoneBiomes;
@@ -210,7 +210,7 @@ namespace ClusterTraitGenerationManager
                         {
                             if (subworld.name.ToLowerInvariant().Contains("forest"))
                                 ++forestBiomes;
-                            if (subworld.name.ToLowerInvariant().Contains("swamp"))
+                            if (subworld.name.ToLowerInvariant().Contains("swamp")|| subworld.name.ToLowerInvariant().Contains("marsh"))
                                 ++swampBiomes;
                             if (subworld.name.ToLowerInvariant().Contains("sandstone") || subworld.name.ToLowerInvariant().Contains("barren"))
                                 ++sandstoneBiomes;

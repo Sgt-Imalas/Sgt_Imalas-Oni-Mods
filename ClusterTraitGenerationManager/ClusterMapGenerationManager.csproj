@@ -138,6 +138,18 @@
 	  <None Update="ModAssets\dlc\expansion1\worldgen\clusters\CustomCluster.yaml">
 	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\dlc\expansion1\worldgen\features\hotmarsh\SmallLake.yaml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\dlc\expansion1\worldgen\subworlds\marsh\MarshMiniWater.yaml">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\dlc\expansion1\worldgen\subworlds\marsh\MarshStart.yaml">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\dlc\expansion1\worldgen\subworlds\marsh\MarshWarpStart.yaml">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\dlc\expansion1\worldgen\worlds\RandomFillerWarp.yaml">
 	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </None>

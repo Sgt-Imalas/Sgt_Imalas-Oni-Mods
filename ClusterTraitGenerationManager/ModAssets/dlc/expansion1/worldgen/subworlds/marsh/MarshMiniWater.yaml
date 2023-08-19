@@ -1,0 +1,30 @@
+biomeNoise: noise/subworldHotMarsh
+temperatureRange: Room
+pdWeight: 1.0
+density:
+  min: 10
+  max: 15
+avoidRadius: 20.0
+doAvoidPoints: false
+dontRelaxChildren: true
+sampleBehaviour: PoissonDisk
+borderOverride: rocky
+biomes:
+  - name: biomes/HotMarsh/Basic
+    weight: 2
+    tags:
+      - MushroomPlant
+      - MushroomSeed
+      - BasicFabricPlant
+      - BasicFabricMaterialPlantSeed
+      - Pacu
+      - BulbPlant
+      - BulbPlantSeed
+tags:
+  - IgnoreCaveOverride
+  - NoGlobalFeatureSpawning
+  - StartWorld
+centralFeature:
+  type: features/marsh/SmallLake
+features: []
+zoneType: BoggyMarsh

@@ -200,6 +200,25 @@ namespace ClusterTraitGenerationManager
         //    }
         //}
 
+        /// <summary>
+        /// CoreTraitFix_SolarSystemWorlds
+        /// </summary>
+        [HarmonyPatch(typeof(MinionSelectScreen))]
+        [HarmonyPatch(nameof(MinionSelectScreen.OnProceed))]
+        public static class Generate_Preset_On_NewGame
+        {
+            public static void Postfix()
+            {
+
+                if(CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null)
+                {
+                    string name = SaveGame.Instance.BaseName;
+                    CustomClusterSettingsPreset tempStats = CustomClusterSettingsPreset.CreateFromCluster(CGSMClusterManager.CustomCluster, name);
+                    tempStats.WriteToFile();
+                }
+            }
+        }
+
 
         /// <summary>
         /// CoreTraitFix_SolarSystemWorlds
