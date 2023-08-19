@@ -1,6 +1,7 @@
 ﻿using Database;
 using HarmonyLib;
 using Imalas_TwitchChaosEvents.Elements;
+using Imalas_TwitchChaosEvents.Fire;
 using Imalas_TwitchChaosEvents.Meteors;
 using Klei.AI;
 using ProcGen;
@@ -92,6 +93,8 @@ namespace Imalas_TwitchChaosEvents
                 public static void Postfix(SaveGame __instance)
                 {
                     __instance.gameObject.AddOrGet<ChaosTwitch_SaveGameStorage>();
+                    //FireUpdater.instance = __instance.gameObject.AddOrGet<FireUpdater>();
+                    FireManager.Instance = __instance.gameObject.AddOrGet<FireManager>(); 
                 }
             }
         }

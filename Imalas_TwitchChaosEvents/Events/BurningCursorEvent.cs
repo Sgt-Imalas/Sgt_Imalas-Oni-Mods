@@ -1,4 +1,5 @@
-﻿using Imalas_TwitchChaosEvents.OmegaSawblade;
+﻿using Imalas_TwitchChaosEvents.Fire;
+using Imalas_TwitchChaosEvents.OmegaSawblade;
 using ONITwitchLib;
 using System;
 using System.Collections.Generic;

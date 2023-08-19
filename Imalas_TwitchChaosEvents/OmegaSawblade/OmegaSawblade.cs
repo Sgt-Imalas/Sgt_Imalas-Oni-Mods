@@ -27,13 +27,12 @@ namespace Imalas_TwitchChaosEvents.OmegaSawblade
         public List<Tuple<CellOffset, float>> DamageZones = new List<Tuple<CellOffset, float>>()
         {
             new Tuple<CellOffset, float>( new CellOffset(0,0),1f ),
-            new Tuple<CellOffset, float>( new CellOffset(-1,0),1f ),
-            new Tuple<CellOffset, float>( new CellOffset(1,0),1f ),
-            new Tuple<CellOffset, float>( new CellOffset(0,1),1f ),
-            new Tuple<CellOffset, float>( new CellOffset(0,-1),1f ),
+            new Tuple<CellOffset, float>( new CellOffset(-1,0),0.75f ),
+            new Tuple<CellOffset, float>( new CellOffset(1,0),0.75f ),
+            new Tuple<CellOffset, float>( new CellOffset(0,1),0.75f ),
+            new Tuple<CellOffset, float>( new CellOffset(0,-1),0.75f ),
             new Tuple<CellOffset, float>( new CellOffset(-1,-1),0.66f ),
             new Tuple<CellOffset, float>( new CellOffset(1,-1),0.66f ),
-            new Tuple<CellOffset, float>( new CellOffset(-1,-1),0.66f ),
             new Tuple<CellOffset, float>( new CellOffset(1,1),0.66f ),
             new Tuple<CellOffset, float>( new CellOffset(-1,1),0.66f )
 
