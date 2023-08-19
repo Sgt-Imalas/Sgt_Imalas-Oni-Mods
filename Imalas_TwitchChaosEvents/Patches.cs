@@ -3,6 +3,7 @@ using HarmonyLib;
 using Imalas_TwitchChaosEvents.Elements;
 using Imalas_TwitchChaosEvents.Fire;
 using Imalas_TwitchChaosEvents.Meteors;
+using Imalas_TwitchChaosEvents.OmegaSawblade;
 using Klei.AI;
 using ProcGen;
 using System;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UtilLibs;
 using static Imalas_TwitchChaosEvents.ModAssets;
 using static ResearchTypes;
@@ -86,7 +88,6 @@ namespace Imalas_TwitchChaosEvents
 
         public class SaveGamePatch
         {
-
             [HarmonyPatch(typeof(SaveGame), "OnPrefabInit")]
             public class SaveGame_OnPrefabInit_Patch
             {
@@ -94,9 +95,22 @@ namespace Imalas_TwitchChaosEvents
                 {
                     __instance.gameObject.AddOrGet<ChaosTwitch_SaveGameStorage>();
                     //FireUpdater.instance = __instance.gameObject.AddOrGet<FireUpdater>();
-                    FireManager.Instance = __instance.gameObject.AddOrGet<FireManager>(); 
+                    FireManager.Instance = __instance.gameObject.AddOrGet<FireManager>();
                 }
             }
+
+            //[HarmonyPatch(typeof(VirtualInputModule), "SetCursor")]
+            //public class CursorHp
+            //{
+            //    public static void Postfix(VirtualInputModule __instance)
+            //    {
+            //        if (__instance.m_VirtualCursor == null)
+            //            return;
+            //        var hp = Util.KInstantiateUI(ModAssets.CursorHP, __instance.m_VirtualCursor.gameObject, true);
+            //        hp.AddComponent<CursorHP>();
+            //        hp.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 10, 10);
+            //    }
+            //}
         }
         [HarmonyPatch(typeof(ComplexFabricatorSideScreen), "AnyRecipeRequirementsDiscovered")]
         public class ComplexFabricatorSideScreen_AnyRecipeRequirementsDiscovered_Patch

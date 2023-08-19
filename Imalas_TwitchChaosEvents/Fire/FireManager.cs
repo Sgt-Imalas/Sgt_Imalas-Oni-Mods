@@ -137,21 +137,21 @@ namespace Imalas_TwitchChaosEvents.Fire
     public class OverloadedFire
     {
 
-        [HarmonyPatch(typeof(BuildingHP), nameof(BuildingHP.OnDoBuildingDamage))]
-        public class SaveGame_OnPrefabInit_Patch
-        {
-            public static void Postfix(BuildingHP __instance, object data)
-            {
-                if(data != null)
-                {
-                    var converted = (DamageSourceInfo)data;
-                    if(converted.takeDamageEffect == SpawnFXHashes.BuildingSpark)
-                    {
-                        var cell = Grid.PosToCell(__instance);
-                        FireManager.Instance.ApplyIgnitionHeatToCell(cell, FireManager.Instance.ignitionThreshold*10f);
-                    }
-                }
-            }
-        }
+        //[HarmonyPatch(typeof(BuildingHP), nameof(BuildingHP.OnDoBuildingDamage))]
+        //public class SaveGame_OnPrefabInit_Patch
+        //{
+        //    public static void Postfix(BuildingHP __instance, object data)
+        //    {
+        //        if(data != null)
+        //        {
+        //            var converted = (DamageSourceInfo)data;
+        //            if(converted.takeDamageEffect == SpawnFXHashes.BuildingSpark)
+        //            {
+        //                var cell = Grid.PosToCell(__instance);
+        //                FireManager.Instance.ApplyIgnitionHeatToCell(cell, FireManager.Instance.ignitionThreshold*10f);
+        //            }
+        //        }
+        //    }
+        //}
     }
 }

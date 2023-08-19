@@ -43,7 +43,7 @@ namespace Imalas_TwitchChaosEvents.OmegaSawblade
         public float WorldDamagePerSecond = 4f / 5f;
         public float BuildingDamagePerSecond = 100f / 2f;
         public float BunkerDamagePerSecond = 120f / 3f;
-        public float EntityDamagePerSecond = 100f / 3f;
+        public float EntityDamagePerSecond = 100f / 2f;
         public float DupeDamagePerSecond = 100f / 1f;
         public float lifeTime = 15f;
         public float speed = 240f;
@@ -238,7 +238,8 @@ namespace Imalas_TwitchChaosEvents.OmegaSawblade
             if(lifeTime<=0)
             {
                attracted= false;
-                rigidBody.velocity= Vector2.zero;                
+                rigidBody.velocity= Vector2.zero;
+                rigidBody.freezeRotation = true;
                 kbac.Stop();
                 kbac.Play("idle");
                 sounds.StopAllSounds();

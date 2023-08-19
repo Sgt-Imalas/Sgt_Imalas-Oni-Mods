@@ -28,8 +28,8 @@ namespace Imalas_TwitchChaosEvents
         public int FakeTacoEventDuration { get; set; }
         public Config()
         {
-            FakeTacoEventMusic = true;
-            TacoEventMusic = true;
+            FakeTacoEventMusic = false;
+            TacoEventMusic = false;
             FakeTacoEventDuration = 50;
         }       
 

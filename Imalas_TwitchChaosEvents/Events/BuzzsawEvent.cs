@@ -33,20 +33,17 @@ namespace Imalas_TwitchChaosEvents.Events
              STRINGS.CHAOSEVENTS.BUZZSAW.TOASTTEXT
              );
 
-            GameScheduler.Instance.Schedule("buzzsaw", 3f, _ =>
+            int activeWorld = ClusterManager.Instance.activeWorldId;
+            //rain.StartRaining();
+            if (ClusterManager.Instance.activeWorld.IsModuleInterior)
             {
-                int activeWorld = ClusterManager.Instance.activeWorldId;
-                //rain.StartRaining();
-                if (ClusterManager.Instance.activeWorld.IsModuleInterior)
-                {
-                    activeWorld = 0;
-                }
-
-                var world = ClusterManager.Instance.GetWorld(activeWorld);
-                //var pos = world.LookAtSurface();
-                SpawnBuzzSaw();
-
-            });
+                activeWorld = 0;
+            }
+            SpeedControlScreen.Instance.SetSpeed(0);
+            SpeedControlScreen.Instance.Pause();
+            var world = ClusterManager.Instance.GetWorld(activeWorld);
+            //var pos = world.LookAtSurface();
+            SpawnBuzzSaw();
         };
 
         public Func<object, bool> Condition =>

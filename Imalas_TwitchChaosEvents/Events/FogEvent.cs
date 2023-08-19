@@ -29,6 +29,7 @@ namespace Imalas_TwitchChaosEvents.Events
                 STRINGS.CHAOSEVENTS.FOG.TOAST,
                  STRINGS.CHAOSEVENTS.FOG.TOASTTEXT
                  );
+                SoundUtils.PlaySound(ModAssets.SOUNDS.THUNDERSTRIKE, SoundUtils.GetSFXVolume() * 1.0f, true);
             });
 
             var pos = CameraController.Instance.baseCamera.transform.GetPosition();

@@ -12,6 +12,7 @@ namespace Imalas_TwitchChaosEvents
         {
             public const string
                 TACORAIN = "ICT_TACORAIN",
+                THUNDERSTRIKE = "ICT_ThunderStrike",
                 NUKE_DETONATION = "ICT_NUKEDETONATION";
         }
         public static bool RainbowLiquids = false;
@@ -19,12 +20,14 @@ namespace Imalas_TwitchChaosEvents
         public static void LoadAll()
         {
             SoundUtils.LoadSound(SOUNDS.TACORAIN, "ICT_TACORAIN.wav");
+            SoundUtils.LoadSound(SOUNDS.THUNDERSTRIKE, "ICT_ThunderStrike.mp3");
 
             LoadAssets();
         }
 
         public static GameObject FogSpawner;
         public static GameObject FireSpawner;
+        public static GameObject CursorHP;
 
         public static void LoadAssets()
         {
@@ -38,6 +41,10 @@ namespace Imalas_TwitchChaosEvents
 
             var renderer2 = FireSpawner.GetComponent<ParticleSystemRenderer>();
             renderer2.material.renderQueue = RenderQueues.Liquid;
+
+
+            CursorHP = bundle.LoadAsset<GameObject>("Assets/CursorHP.prefab");
+
 
         }
 
