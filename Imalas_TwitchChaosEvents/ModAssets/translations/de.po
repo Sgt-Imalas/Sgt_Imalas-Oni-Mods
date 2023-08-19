@@ -1,0 +1,354 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.3.2\n"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOS_CONFIG.FAKE_TACORAIN_DURATION_NAME
+msgctxt ""
+"Imalas_TwitchChaosEvents.STRINGS.CHAOS_CONFIG.FAKE_TACORAIN_DURATION_NAME"
+msgid "triggerable ghostly Taco Rain duration in s"
+msgstr "Dauer aktivierbarer Taco Regen"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOS_CONFIG.FAKE_TACORAIN_DURATION_TOOLTIP
+msgctxt ""
+"Imalas_TwitchChaosEvents.STRINGS.CHAOS_CONFIG.FAKE_TACORAIN_DURATION_TOOLTIP"
+msgid "How long should the triggerable Taco Rain last (in seconds)."
+msgstr "Wie lang sollte der aktivierbare Taco-Regen dauern (in Sekunden)"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOS_CONFIG.FAKE_TACORAIN_MUSIC_NAME
+msgctxt ""
+"Imalas_TwitchChaosEvents.STRINGS.CHAOS_CONFIG.FAKE_TACORAIN_MUSIC_NAME"
+msgid "Music on triggerable ghostly Taco Rain"
+msgstr "Musik beim aktivierbaren Taco-Regen"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOS_CONFIG.FAKE_TACORAIN_MUSIC_TOOLTIP
+msgctxt ""
+"Imalas_TwitchChaosEvents.STRINGS.CHAOS_CONFIG.FAKE_TACORAIN_MUSIC_TOOLTIP"
+msgid ""
+"During the triggerable Taco Rain the song \"Raining Tacos - Parry Gripp & "
+"BooneBum\" gets played.\n"
+"Disable this option here to mute it."
+msgstr ""
+"Während des via Hotkey auslösbaren Taco-Regens wird der Song \"Raining Tacos "
+"- Parry Gripp & BooneBum\" gespielt.\n"
+"\n"
+"Deaktivieren Sie diese Option hier, um ihn stumm zu schalten."
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOS_CONFIG.TACORAIN_MUSIC_NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOS_CONFIG.TACORAIN_MUSIC_NAME"
+msgid "Music on Taco Rain Event"
+msgstr "Musik beim Taco-Regen"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOS_CONFIG.TACORAIN_MUSIC_TOOLTIP
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOS_CONFIG.TACORAIN_MUSIC_TOOLTIP"
+msgid ""
+"During the twitch event \"Taco Rain\", the song \"Raining Tacos - Parry "
+"Gripp & BooneBum\" gets played.\n"
+"Disable this option here to mute it."
+msgstr ""
+"Während des Twitch-Events \"Taco Rain\" wird der Song \"Raining Tacos - "
+"Parry Gripp & BooneBum\" gespielt.\n"
+"\n"
+"Deaktivieren Sie diese Option hier, um ihn stumm zu schalten."
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BURNINGCURSOR.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BURNINGCURSOR.NAME"
+msgid "Burning Cursor"
+msgstr "Brennender Mauszeiger"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BURNINGCURSOR.TOAST
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BURNINGCURSOR.TOAST"
+msgid "Burning Cursor"
+msgstr "Brennender Mauszeiger"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BURNINGCURSOR.TOASTTEXT
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BURNINGCURSOR.TOASTTEXT"
+msgid "The mouse cursor has caught fire!"
+msgstr "Der Mauszeiger hat Feuer gefangen!"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BURNINGCURSOR.TOASTTEXTENDING
+msgctxt ""
+"Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BURNINGCURSOR.TOASTTEXTENDING"
+msgid "The mouse cursor has been extinguished"
+msgstr "Der Mauszeiger wurde gelöscht"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BUZZSAW.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BUZZSAW.NAME"
+msgid "Omega Sawblade"
+msgstr "Omega Kreissäge"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BUZZSAW.TOAST
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BUZZSAW.TOAST"
+msgid "Omega Sawblade"
+msgstr "Omega Kreissäge"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BUZZSAW.TOASTTEXT
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BUZZSAW.TOASTTEXT"
+msgid "Bzzzzt"
+msgstr "Bzzzzt"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.CREEPERRAIN.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.CREEPERRAIN.NAME"
+msgid "Creeper Rain"
+msgstr "Kriecher-Regen"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.CREEPERRAIN.TOAST
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.CREEPERRAIN.TOAST"
+msgid "Creeper Rain"
+msgstr "Kriecher-Regen"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.CREEPERRAIN.TOASTTEXT
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.CREEPERRAIN.TOASTTEXT"
+msgid ""
+"ALARM!\n"
+"The Creeper is about to arrive on {0}"
+msgstr ""
+"ALARM!\n"
+"Der Kriecher wird gleich auf {0} landen!"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.CREEPERRAIN.TOASTTEXT2
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.CREEPERRAIN.TOASTTEXT2"
+msgid "The Creeper has arrived on {0}!"
+msgstr "Der Kriecher ist auf {0} gelandet!"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.FOG.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.FOG.NAME"
+msgid "Fog"
+msgstr "Nebel"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.FOG.TOAST
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.FOG.TOAST"
+msgid "Fog"
+msgstr "Nebel"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.FOG.TOASTTEXT
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.FOG.TOASTTEXT"
+msgid "Bloody hell, it's foggy innit"
+msgstr "Ziemlich neblig nicht wahr?"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.FOG.TOASTTEXTENDING
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.FOG.TOASTTEXTENDING"
+msgid "The fog is starting to clear."
+msgstr "Der Nebel beginnt sich zu lichten."
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.INVERSEELEMENT.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.INVERSEELEMENT.NAME"
+msgid "Doolf"
+msgstr "Tulf"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.INVERSEELEMENT.TOAST
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.INVERSEELEMENT.TOAST"
+msgid "Doolf!"
+msgstr "Tulf!"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.INVERSEELEMENT.TOASTTEXT
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.INVERSEELEMENT.TOASTTEXT"
+msgid "sᴉɥʇ ɥʇᴉʍ ɟɟo sᴉ ƃuᴉɥʇǝɯoS"
+msgstr "ɥɔsıɯoʞ ɐp ʇsı sɐʍpuǝƃɹı"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.RAINBOWLIQUIDS.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.RAINBOWLIQUIDS.NAME"
+msgid "Rainbow Rave"
+msgstr "Regenbogen-Rave"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.RAINBOWLIQUIDS.TOAST
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.RAINBOWLIQUIDS.TOAST"
+msgid "Rainbow Rave"
+msgstr "Regenbogen-Rave"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.RAINBOWLIQUIDS.TOASTTEXT
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.RAINBOWLIQUIDS.TOASTTEXT"
+msgid "All Liquids are throwing a rainbow party!"
+msgstr "Alle Flüssigkeiten feiern eine Regenbogenparty!"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.TACORAIN.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.TACORAIN.NAME"
+msgid "Taco Rain"
+msgstr "Taco-Regen"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.TACORAIN.NEWRECIPE
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.TACORAIN.NEWRECIPE"
+msgid ""
+"\n"
+"\n"
+"There is also a new recipe in the Gas Range."
+msgstr ""
+"\n"
+"\n"
+"Der Gasherd hat außerdem ein neues Rezept erhalten"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.TACORAIN.TOAST
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.TACORAIN.TOAST"
+msgid "Taco Rain!"
+msgstr "Taco-Regen!"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.TACORAIN.TOASTTEXT
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.TACORAIN.TOASTTEXT"
+msgid "It's raining Tacos!"
+msgstr "Es regnet Tacos!"
+
+#. Imalas_TwitchChaosEvents.STRINGS.COMETS.ITC_GHOSTTACOCOMET.DESC
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.COMETS.ITC_GHOSTTACOCOMET.DESC"
+msgid "A semitranslucent image of flying taco, it still looks delicious!"
+msgstr ""
+"Das semitransparente Bild eines fliegenden Tacos, sieht trotzdem superlecker "
+"aus!"
+
+#. Imalas_TwitchChaosEvents.STRINGS.COMETS.ITC_GHOSTTACOCOMET.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.COMETS.ITC_GHOSTTACOCOMET.NAME"
+msgid "<link=\"ITCTACOCOMET\">Ghostly Flying Taco</link>"
+msgstr "<link=\"ITCTACOCOMET\">Geist eines fliegenden Tacos</link>"
+
+#. Imalas_TwitchChaosEvents.STRINGS.COMETS.ITC_TACOCOMET.DESC
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.COMETS.ITC_TACOCOMET.DESC"
+msgid "A flying taco, it looks delicious!"
+msgstr "Ein fliegender Taco, er sieht superlecker aus!"
+
+#. Imalas_TwitchChaosEvents.STRINGS.COMETS.ITC_TACOCOMET.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.COMETS.ITC_TACOCOMET.NAME"
+msgid "<link=\"ITCTACOCOMET\">Flying Taco</link>"
+msgstr "<link=\"ITCTACOCOMET\">Fliegender Taco</link>"
+
+#. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_CREEPYLIQUID.DESC
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_CREEPYLIQUID.DESC"
+msgid "The Creeper."
+msgstr "Der Kriecher"
+
+#. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_CREEPYLIQUID.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_CREEPYLIQUID.NAME"
+msgid "<link=\"ITCECREEPYLIQUID\">Creeper</link>"
+msgstr "<link=\"ITCECREEPYLIQUID\">Kriecher</link>"
+
+#. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_CREEPYLIQUIDGAS.DESC
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_CREEPYLIQUIDGAS.DESC"
+msgid "the ever extending tendril of creeper"
+msgstr "Der sich ewig ausbreitende Tentakel des Kriechers"
+
+#. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_CREEPYLIQUIDGAS.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_CREEPYLIQUIDGAS.NAME"
+msgid "<link=\"ITCECREEPYLIQUIDGAS\">Creeper Tendril</link>"
+msgstr "<link=\"ITCECREEPYLIQUIDGAS\">Kriechertentakel</link>"
+
+#. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_ICE.DESC
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_ICE.DESC"
+msgid "weird Ice..."
+msgstr "Seltsames Eis..."
+
+#. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_ICE.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_ICE.NAME"
+msgid "<link=\"ITCEINVERSEICE\">Eci</link>"
+msgstr "<link=\"ITCEINVERSEICE\">Sie</link>"
+
+#. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_STEAM.DESC
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_STEAM.DESC"
+msgid "weird Steam..."
+msgstr "Seltsamer Dampf..."
+
+#. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_STEAM.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_STEAM.NAME"
+msgid "<link=\"ITCEINVERSESTEAM\">Maets</link>"
+msgstr "<link=\"ITCEINVERSESTEAM\">Fpmad</link>"
+
+#. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_WATER.DESC
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_WATER.DESC"
+msgid "weird Water..."
+msgstr "Seltsames Wasser..."
+
+#. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_WATER.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_WATER.NAME"
+msgid "<link=\"ITCEINVERSEWATER\">Retaw</link>"
+msgstr "<link=\"ITCEINVERSEWATER\">Ressaw</link>"
+
+#. Imalas_TwitchChaosEvents.STRINGS.HOTKEYACTIONS.TRIGGER_FAKE_TACORAIN_NAME
+msgctxt ""
+"Imalas_TwitchChaosEvents.STRINGS.HOTKEYACTIONS.TRIGGER_FAKE_TACORAIN_NAME"
+msgid "Trigger a ghostly Taco Rain"
+msgstr "Einen GeistTaco-Regen starten"
+
+#. Imalas_TwitchChaosEvents.STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE"
+msgid "Manually unlock Taco Recipe"
+msgstr "Tacorezept manuell freischalten"
+
+#. Imalas_TwitchChaosEvents.STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE_BODY
+msgctxt ""
+"Imalas_TwitchChaosEvents.STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE_BODY"
+msgid "The Taco recipe has been unlocked in the Gas Range"
+msgstr "Das Taco-Rezept wurde im Gasherd freigeschaltet"
+
+#. Imalas_TwitchChaosEvents.STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE_TITLE
+msgctxt ""
+"Imalas_TwitchChaosEvents.STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE_TITLE"
+msgid "Tacos!"
+msgstr "Tacos!"
+
+#. Imalas_TwitchChaosEvents.STRINGS.ITEMS.FOOD.ICT_TACO.DESC
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.ITEMS.FOOD.ICT_TACO.DESC"
+msgid ""
+"A staple meal that provides vital nutrients and energy to those who consume "
+"it."
+msgstr ""
+"Eine leckere Mahlzeit voller wertvoller Vitamine der dem Konsumenten "
+"wertvolle Energie liefert."
+
+#. Imalas_TwitchChaosEvents.STRINGS.ITEMS.FOOD.ICT_TACO.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.ITEMS.FOOD.ICT_TACO.NAME"
+msgid "<link=\"ICTTACO\">Taco</link>"
+msgstr "<link=\"ICTTACO\">Taco</link>"
+
+#. Imalas_TwitchChaosEvents.STRINGS.ITEMS.FOOD.ICT_TACO_NONSPOILING.DESC
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.ITEMS.FOOD.ICT_TACO_NONSPOILING.DESC"
+msgid ""
+"A staple meal that provides vital nutrients and energy to those who consume "
+"it.\n"
+"Fallen from the sky, it does not spoil for some reason."
+msgstr ""
+"Eine leckere Mahlzeit voller wertvoller Vitamine der dem Konsumenten "
+"wertvolle Energie liefert.\n"
+"Seit der Reise durchs All verdirbt er aus irgendeinem Grund nicht."
+
+#. Imalas_TwitchChaosEvents.STRINGS.ITEMS.FOOD.ICT_TACO_NONSPOILING.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.ITEMS.FOOD.ICT_TACO_NONSPOILING.NAME"
+msgid "<link=\"ICTTACONONSPOILING\">Space Taco</link>"
+msgstr "<link=\"ICTTACONONSPOILING\">Weltraum-Taco</link>"
+
+#. Imalas_TwitchChaosEvents.STRINGS.ITEMS.ICT_GHOSTTACO.DESC
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.ITEMS.ICT_GHOSTTACO.DESC"
+msgid ""
+"A semitranslucent image of a delicious Taco.\n"
+"Soon it will fade away"
+msgstr ""
+"Ein semitransparentes Abbild eines köstlichen Tacos.\n"
+"Bald wird es verblasst sein"
+
+#. Imalas_TwitchChaosEvents.STRINGS.ITEMS.ICT_GHOSTTACO.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.ITEMS.ICT_GHOSTTACO.NAME"
+msgid "<link=\"ICTGHOSTTACO\">Ghostly Taco</link>"
+msgstr "<link=\"ICTGHOSTTACO\">Geistertaco</link>"
+
+#. Imalas_TwitchChaosEvents.STRINGS.ITEMS.ICT_OMEGASAWBLADE.DESC
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.ITEMS.ICT_OMEGASAWBLADE.DESC"
+msgid "Bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+msgstr "Bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+
+#. Imalas_TwitchChaosEvents.STRINGS.ITEMS.ICT_OMEGASAWBLADE.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.ITEMS.ICT_OMEGASAWBLADE.NAME"
+msgid "<link=\"ICTOMEGASAWBLADE\">Omega Sawblade</link>"
+msgstr "<link=\"ICTOMEGASAWBLADE\">Omega Kreissäge</link>"
+
+#~ msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BUZZSAW.NAME"
+#~ msgid "Buzzsaw"
+#~ msgstr "Omega-Kreissäge"
+
+#~ msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BUZZSAW.TOAST"
+#~ msgid "Buzzsaw"
+#~ msgstr "Omega-Kreissäge"

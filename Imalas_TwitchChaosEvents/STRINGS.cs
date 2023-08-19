@@ -57,17 +57,17 @@ namespace Imalas_TwitchChaosEvents
             public class ITCE_INVERSE_ICE
             {
                 public static LocString NAME = FormatAsLink("Eci", nameof(ITCE_INVERSE_ICE));
-                public static LocString DESC = "weird Ice";
+                public static LocString DESC = "weird Ice...";
             }
             public class ITCE_INVERSE_WATER
             {
                 public static LocString NAME = FormatAsLink("Retaw", nameof(ITCE_INVERSE_WATER));
-                public static LocString DESC = "weird Water";
+                public static LocString DESC = "weird Water...";
             }
             public class ITCE_INVERSE_STEAM
             {
                 public static LocString NAME = FormatAsLink("Maets", nameof(ITCE_INVERSE_STEAM));
-                public static LocString DESC = "weird Steam";
+                public static LocString DESC = "weird Steam...";
             }
             public class ITCE_CREEPYLIQUID
             {
@@ -84,6 +84,12 @@ namespace Imalas_TwitchChaosEvents
 
         public class CHAOSEVENTS
         {
+            public class RAINBOWLIQUIDS
+            {
+                public static LocString NAME = "Rainbow Rave";
+                public static LocString TOAST = "Rainbow Rave";
+                public static LocString TOASTTEXT = "All Liquids are throwing a rainbow party!";
+            }
             public class INVERSEELEMENT
             {
                 public static LocString NAME = "Doolf";
@@ -100,8 +106,8 @@ namespace Imalas_TwitchChaosEvents
             }
             public class BUZZSAW
             {
-                public static LocString NAME = "Buzzsaw";
-                public static LocString TOAST = "Buzzsaw";
+                public static LocString NAME = "Omega Sawblade";
+                public static LocString TOAST = "Omega Sawblade";
                 public static LocString TOASTTEXT = "Bzzzzt";
             }
             public class BURNINGCURSOR
