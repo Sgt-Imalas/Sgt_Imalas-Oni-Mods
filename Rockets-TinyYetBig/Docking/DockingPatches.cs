@@ -179,15 +179,6 @@ namespace Rockets_TinyYetBig.Patches
             }
         }
 
-        [HarmonyPatch(typeof(DetailsScreen), "OnPrefabInit")]
-        public static class CustomSideScreenPatch_DailyReset
-        {
-            public static void Postfix(List<DetailsScreen.SideScreenRef> ___sideScreens)
-            {
-                UIUtils.AddClonedSideScreen<DockingSidescreen>("DockingSidescreen", "LogicBroadcastChannelSideScreen", typeof(LogicBroadcastChannelSideScreen));
-            }
-        }
-
         [HarmonyPatch(typeof(Clustercraft))]
         [HarmonyPatch(nameof(Clustercraft.OnClusterDestinationChanged))]
         public static class UndockOnFlight

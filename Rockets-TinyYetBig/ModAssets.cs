@@ -23,15 +23,23 @@ namespace Rockets_TinyYetBig
     public class ModAssets
     {
         public static GameObject ModuleSettingsWindowPrefab;
+        public static GameObject DockingSideScreenWindowPrefab;
+        public static GameObject DupeTransferSecondarySideScreenWindowPrefab; 
         public static void LoadAssets()
         {
             AssetBundle bundle = AssetUtils.LoadAssetBundle("rocketryexpanded_ui_assets", platformSpecific: true);
             ModuleSettingsWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/ModuleSettings.prefab");
+            DupeTransferSecondarySideScreenWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DockingTransferScreen.prefab");
+            DockingSideScreenWindowPrefab  = bundle.LoadAsset<GameObject>("Assets/UIs/DockingScreen.prefab");
 
-            UIUtils.ListAllChildren(ModuleSettingsWindowPrefab.transform);
+            SgtLogger.Assert("ModuleSettingsWindowPrefab", ModuleSettingsWindowPrefab);
+            SgtLogger.Assert("DockingSideScreenWindowPrefab", DockingSideScreenWindowPrefab);
+            SgtLogger.Assert("DupeTransferSecondarySideScreenWindowPrefab", DupeTransferSecondarySideScreenWindowPrefab);
 
             var TMPConverter = new TMPConverter();
             TMPConverter.ReplaceAllText(ModuleSettingsWindowPrefab);
+            TMPConverter.ReplaceAllText(DockingSideScreenWindowPrefab);
+            TMPConverter.ReplaceAllText(DupeTransferSecondarySideScreenWindowPrefab);
 
         }
 

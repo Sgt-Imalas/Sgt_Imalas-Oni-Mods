@@ -107,9 +107,9 @@ namespace Rockets_TinyYetBig.Behaviours
 
         #region Sidescreen
 
-        public string SidescreenButtonText => STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.BUTTON;
+        public string SidescreenButtonText => "Show docked"; //STRINGS.UI.DOCKINGSCREEN.BUTTON;
 
-        public string SidescreenButtonTooltip => STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.BUTTONINFO;
+        public string SidescreenButtonTooltip => "";// STRINGS.UI.DOCKINGSCREEN.BUTTONINFO;
 
         public int ButtonSideScreenSortOrder()
         {

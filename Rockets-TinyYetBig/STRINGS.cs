@@ -499,6 +499,47 @@ namespace Rockets_TinyYetBig
                 public static LocString TITLE = "Extra green signal at";
             }
 
+            public class DOCKINGSCREEN
+            {
+                public static class TITLE
+                {
+                    public static LocString TITLETEXT = "Docking Management";
+                }
+
+                public static class DOCKINGBRIDGES
+                {
+                    public static LocString TITLETEXT = "Available Docking Ports: {0} / {1}";
+                }
+
+                public static class OWNDUPESCONTAINER
+                {
+                    public static class SCROLLRECTCONTAINER
+                    {
+                        public static class ITEMPREFAB
+                        {
+                            public static class ROW1
+                            {
+                                public static LocString TITLETEXT = "{SpacecraftName}";
+                            }
+                            public static class ROW2
+                            {
+                                public static class TRANSFERBUTTON
+                                {
+                                    public static LocString LABEL = "Transfer Duplicants between Crafts";
+                                }
+                                public static class VIEWDOCKEDBUTTON
+                                {
+                                    public static LocString LABEL = "View docked Interior";
+                                    public static LocString TOOLTIP = (LocString)"View the interior this docking tube is currently connected to.";
+                                    public static LocString TOOLTIPNOINTERIOR = (LocString)"No interior found";
+
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
             public static class ROCKETGENERATOR
             {
                 public static LocString BUTTONTEXT = (LocString)"Toggle On/Off";
@@ -560,21 +601,6 @@ namespace Rockets_TinyYetBig
                     public static LocString CONSTRUCTTOOLTIP = (LocString)"Space Station Construction";
                     public static LocString CANCELCONSTRUCTION = (LocString)"Cancel Construction";
                     public static LocString STARTCONSTRUCTION = (LocString)"Start Station Construction";
-
-                }
-                public class DOCKINGSIDESCREEN
-                {
-                    public static LocString TITLE = (LocString)"Docking Management";
-
-                    public static LocString DOCKINGINFO = "Docking Ports: {0}";
-                    public static LocString UNDOCKINGPENDING = "Undocking pending";
-                    public static LocString DOCKINGPENDING = "Docking pending";
-                    public static LocString ONECONNECTION = "1 available connection";
-                    public static LocString MORECONNECTIONS = "{0} available connections";
-
-
-                    public static LocString BUTTON = (LocString)"View connected Target";
-                    public static LocString BUTTONINFO = (LocString)"View the interior this docking tube is currently connected to.";
 
                 }
             }

@@ -308,19 +308,19 @@ namespace Rockets_TinyYetBig.Docking
             base.OnCleanUp();
         }
 
-        public string GetUiDoorInfo()
-        {
-            if (PendingUndocks.Count > 0)
-                return STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.UNDOCKINGPENDING;
-            else if (PendingDocks.Count > 0)
-                return STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.DOCKINGPENDING;
+        //public string GetUiDoorInfo()
+        //{
+        //    if (PendingUndocks.Count > 0)
+        //        return STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.UNDOCKINGPENDING;
+        //    else if (PendingDocks.Count > 0)
+        //        return STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.DOCKINGPENDING;
 
-            int count = AvailableConnections();
-            if (count == 1)
-                return STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.ONECONNECTION;
-            else
-                return string.Format(STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.MORECONNECTIONS, count);
-        }
+        //    int count = AvailableConnections();
+        //    if (count == 1)
+        //        return STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.ONECONNECTION;
+        //    else
+        //        return string.Format(STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.MORECONNECTIONS, count);
+        //}
         public int AvailableConnections()
         {
             int count = IDockables.Keys.ToList().FindAll(k => k.GetConnec() == null).Count();

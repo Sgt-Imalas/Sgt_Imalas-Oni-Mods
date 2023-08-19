@@ -15,3 +15,4 @@ Fixes&Adjustments:
 - fixed an assignment bug with docking when blowing up rockets
 - added a few materials that count as "Radiation blocking" for the plated nosecone
 - fixed neutronium alloy not inheriting the +200 overheat temperature of steel. Also its very pretty now
+- fixed a OnLoad crash with active dockings

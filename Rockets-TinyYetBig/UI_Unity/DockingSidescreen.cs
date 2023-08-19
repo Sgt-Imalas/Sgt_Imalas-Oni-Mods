@@ -1,4 +1,5 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Docking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using UtilLibs;
 using static UnityEngine.GraphicsBuffer;
 using static UtilLibs.UIUtils;
 
-namespace Rockets_TinyYetBig.Docking
+namespace Rockets_TinyYetBig.UI_Unity
 {
     class DockingSidescreen : SideScreenContent
     {
@@ -21,8 +22,6 @@ namespace Rockets_TinyYetBig.Docking
             // ListAllChildren(this.transform);
         }
 
-        //[SerializeField]
-        //private Dictionary<DockingDoor, GameObject> dockingPorts = new Dictionary<DockingDoor, GameObject>();
         private DockingManager targetManager;
         private Clustercraft targetCraft;
         private DockingDoor targetDoor;
@@ -48,7 +47,7 @@ namespace Rockets_TinyYetBig.Docking
             var manager = target.GetComponent<DockingManager>();
             if (manager == null)
             {
-                if (target.TryGetComponent<DockingDoor>(out door))
+                if (target.TryGetComponent(out door))
                 {
                     manager = door.dManager;
                 }
@@ -60,11 +59,11 @@ namespace Rockets_TinyYetBig.Docking
 
             bool flying = spaceship != null ? spaceship.Status == Clustercraft.CraftStatus.InFlight : false;
 
-            return manager != null && manager.HasDoors() && manager.GetCraftType != DockableType.Derelict && flying && (!RocketryUtils.IsRocketInFlight(spaceship));
+            return manager != null && manager.HasDoors() && manager.GetCraftType != DockableType.Derelict && flying && !RocketryUtils.IsRocketInFlight(spaceship);
         }
         public override void ClearTarget()
         {
-            foreach (int id in this.refreshHandle)
+            foreach (int id in refreshHandle)
                 targetCraft.Unsubscribe(id);
             refreshHandle.Clear();
             targetManager = null;
@@ -76,40 +75,42 @@ namespace Rockets_TinyYetBig.Docking
         {
             if (target != null)
             {
-                foreach (int id in this.refreshHandle)
+                foreach (int id in refreshHandle)
                     target.Unsubscribe(id);
                 refreshHandle.Clear();
             }
             base.SetTarget(target);
-            target.TryGetComponent<DockingManager>(out targetManager); ///??? revisit
-            target.TryGetComponent<Clustercraft>(out targetCraft);
-            target.TryGetComponent<DockingDoor>(out targetDoor);
+            target.TryGetComponent(out targetManager); ///??? revisit
+            target.TryGetComponent(out targetCraft);
+            target.TryGetComponent(out targetDoor);
             if (targetManager == null)
             {
                 targetManager = targetDoor.dManager;
             }
-            targetManager.TryGetComponent<Clustercraft>(out targetCraft);
+            targetManager.TryGetComponent(out targetCraft);
             ConnectReference();
             Build();
-            refreshHandle.Add(this.targetCraft.gameObject.Subscribe((int)GameHashes.ClusterDestinationChanged, new System.Action<object>(this.RefreshAll)));
-            refreshHandle.Add(this.targetCraft.gameObject.Subscribe((int)GameHashes.ClusterLocationChanged, new System.Action<object>(this.RefreshAll)));
+            refreshHandle.Add(targetCraft.gameObject.Subscribe((int)GameHashes.ClusterDestinationChanged, new Action<object>(RefreshAll)));
+            refreshHandle.Add(targetCraft.gameObject.Subscribe((int)GameHashes.ClusterLocationChanged, new Action<object>(RefreshAll)));
         }
 
-        private void RefreshAll(object data = null) => this.Build();
+        private void RefreshAll(object data = null) => Build();
         private void ClearRows()
         {
-            foreach (KeyValuePair<DockingManager, GameObject> broadcasterRow in this.DockingTargets)
+            foreach (KeyValuePair<DockingManager, GameObject> broadcasterRow in DockingTargets)
                 Util.KDestroyGameObject(broadcasterRow.Value);
-            this.DockingTargets.Clear();
+            DockingTargets.Clear();
         }
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
-            titleKey = "STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.TITLE";
+            //titleKey = "STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.TITLE";
         }
 
         void ConnectReference()
         {
+            return;
+
             if (rowPrefab == null)
             {
                 rowPrefab = transform.Find("Content/ContentScrollRect/RowContainer/Rows/RowPrefab").gameObject;
@@ -140,9 +141,9 @@ namespace Rockets_TinyYetBig.Docking
 #endif
             if (targetManager == null || headerLabel == null)
                 return;
-            this.headerLabel.SetText("Docking Ports: " + targetManager.GetUiDoorInfo());
-            this.ClearRows();
-            var AllDockerObjects = ClusterGrid.Instance.GetVisibleEntitiesAtCell(this.targetCraft.Location).FindAll(e => e.TryGetComponent<DockingManager>(out DockingManager manager));
+            //headerLabel.SetText("Docking Ports: " + targetManager.GetUiDoorInfo());
+            ClearRows();
+            var AllDockerObjects = ClusterGrid.Instance.GetVisibleEntitiesAtCell(targetCraft.Location).FindAll(e => e.TryGetComponent(out DockingManager manager));
             var AllDockers = AllDockerObjects
                 .Select(e => e.GetComponent<DockingManager>())
                 .Where(mng => mng.HasDoors())
@@ -167,25 +168,25 @@ namespace Rockets_TinyYetBig.Docking
 
                 if (!targetManager.IsNullOrDestroyed())
                 {
-                    GameObject gameObject = Util.KInstantiateUI(this.rowPrefab, this.listContainer);
+                    GameObject gameObject = Util.KInstantiateUI(rowPrefab, listContainer);
                     gameObject.gameObject.name = targetManager.GetProperName();
-                    Debug.Assert(!this.DockingTargets.ContainsKey(targetManager), (object)("Adding two of the same DockingManager to DockingSideScreen UI: " + targetManager.gameObject.GetProperName()));
-                    this.DockingTargets.Add(targetManager, gameObject);
+                    Debug.Assert(!DockingTargets.ContainsKey(targetManager), "Adding two of the same DockingManager to DockingSideScreen UI: " + targetManager.gameObject.GetProperName());
+                    DockingTargets.Add(targetManager, gameObject);
                     gameObject.SetActive(true);
                 }
             }
-            this.noChannelRow.SetActive(AllDockers.Count == 0);
-            this.Refresh();
+            noChannelRow.SetActive(AllDockers.Count == 0);
+            Refresh();
         }
 
         private void Refresh()
         {
-            this.headerLabel.SetText(string.Format(STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.MORECONNECTIONS, targetManager.GetUiDoorInfo()));
-            foreach (KeyValuePair<DockingManager, GameObject> kvp in this.DockingTargets)
+            //headerLabel.SetText(string.Format(STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.MORECONNECTIONS, targetManager.GetUiDoorInfo()));
+            foreach (KeyValuePair<DockingManager, GameObject> kvp in DockingTargets)
             {
                 kvp.Value.TryGetComponent<HierarchyReferences>(out var hr);
                 hr.GetReference<LocText>("Label").SetText(kvp.Key.gameObject.GetProperName());
-                hr.GetReference<LocText>("DistanceLabel").SetText(kvp.Key.GetUiDoorInfo());
+               // hr.GetReference<LocText>("DistanceLabel").SetText(kvp.Key.GetUiDoorInfo());
                 hr.GetReference<Image>("Icon").gameObject.SetActive(false);
                 //hr.GetReference<Image>("Icon").sprite = Def.GetUISprite((object)kvp.Key.gameObject).first;
                 //hr.GetReference<Image>("Icon").color = Def.GetUISprite((object)kvp.Key.gameObject).second;
@@ -194,15 +195,15 @@ namespace Rockets_TinyYetBig.Docking
                 //hr.GetReference<Image>("WorldIcon").color = Color.black ;
                 var toggle = hr.GetReference<MultiToggle>("Toggle");
 
-                toggle.onClick = (() =>
+                toggle.onClick = () =>
                 {
                     targetManager.HandleUiDocking(toggle.CurrentState, kvp.Key.WorldId, targetDoor,
                         () =>
                         {
-                            this.Refresh();
+                            Refresh();
                         });
-                    this.Refresh();
-                }); 
+                    Refresh();
+                };
                 toggle.ChangeState(targetManager.GetActiveUIState(kvp.Key.WorldId) ? 1 : 0);
             }
         }

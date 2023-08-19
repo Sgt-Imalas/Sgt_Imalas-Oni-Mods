@@ -63,8 +63,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightBridge", "LightBridge\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiomeClimates", "BiomeClimates\BiomeClimates.csproj", "{118332F7-D5D0-4F24-968A-491790C48CE7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpacedOutRocketryClassic", "SpacedOutRocketryClassic\SpacedOutRocketryClassic.csproj", "{6845B659-6385-49E3-A68B-E7A935A8FD7A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1_CycleComma", "1LineCrasher\1_CycleComma.csproj", "{1F037F3F-1961-48BD-9A89-BAC700BBB414}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrownMouldSkin", "CrownMouldSkin\CrownMouldSkin.csproj", "{C30B56BB-8F06-4BCB-BE39-766383904E21}"
@@ -125,9 +123,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OniRetroEdition", "OniRetro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvertedItemFilter", "InvertedItemFilter\InvertedItemFilter.csproj", "{14F424C8-92F2-4098-AF87-6E33BFBD8857}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubPlanetaryTransport", "SubPlanetaryTransport\SubPlanetaryTransport.csproj", "{C050C85A-4070-4781-A09B-7FD2D9F22F86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubPlanetaryTransport", "SubPlanetaryTransport\SubPlanetaryTransport.csproj", "{C050C85A-4070-4781-A09B-7FD2D9F22F86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrokenRocketInteriorPortFix", "BrokenRocketInteriorPortFix\BrokenRocketInteriorPortFix.csproj", "{B6BC63AA-520E-46A9-BA10-DBB149BC0CB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrokenRocketInteriorPortFix", "BrokenRocketInteriorPortFix\BrokenRocketInteriorPortFix.csproj", "{B6BC63AA-520E-46A9-BA10-DBB149BC0CB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -289,11 +287,6 @@ Global
 		{118332F7-D5D0-4F24-968A-491790C48CE7}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{118332F7-D5D0-4F24-968A-491790C48CE7}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
 		{118332F7-D5D0-4F24-968A-491790C48CE7}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
-		{6845B659-6385-49E3-A68B-E7A935A8FD7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6845B659-6385-49E3-A68B-E7A935A8FD7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6845B659-6385-49E3-A68B-E7A935A8FD7A}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{6845B659-6385-49E3-A68B-E7A935A8FD7A}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
-		{6845B659-6385-49E3-A68B-E7A935A8FD7A}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
 		{1F037F3F-1961-48BD-9A89-BAC700BBB414}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1F037F3F-1961-48BD-9A89-BAC700BBB414}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F037F3F-1961-48BD-9A89-BAC700BBB414}.Release|Any CPU.ActiveCfg = Debug|Any CPU
