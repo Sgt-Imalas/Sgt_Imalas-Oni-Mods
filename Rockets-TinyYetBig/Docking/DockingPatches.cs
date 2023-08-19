@@ -231,7 +231,7 @@ namespace Rockets_TinyYetBig.Patches
         {
             public static void Postfix(Clustercraft __instance, CraftStatus craft_status)
             {
-                if (__instance != null && __instance.gameObject != null && __instance.TryGetComponent<DockingManager>(out var manager) && craft_status != CraftStatus.InFlight)
+                if (__instance != null && __instance.gameObject != null && __instance.TryGetComponent<DockingManager>(out var manager) && !craft_status.Equals(CraftStatus.InFlight))
                 {
                     manager.UndockAll();
                 }
