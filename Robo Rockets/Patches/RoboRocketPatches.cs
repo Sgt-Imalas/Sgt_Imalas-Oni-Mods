@@ -215,7 +215,7 @@ namespace RoboRockets
             public static bool Prefix(int id)
             {
 
-                if (ModAssets.ForbiddenInteriorIDs!=null && ModAssets.ForbiddenInteriorIDs.ContainsKey(id))
+                if (ModAssets.ForbiddenInteriorIDs != null && ModAssets.ForbiddenInteriorIDs.ContainsKey(id))
                 {
 #if DEBUG
                     SgtLogger.l("WorldID is forbidden to look into: " + id);
@@ -234,7 +234,7 @@ namespace RoboRockets
                     }
                     else
                     {
-                        if (Module != null && Module.gameObject != null && Module.TryGetComponent<RocketModuleCluster>(out var rocketModule))
+                        if (Module != null && Module.gameObject != null)
                         {
 
                             if (ClusterMapScreen.Instance != null && ClusterMapScreen.Instance.gameObject.activeSelf && ManagementMenu.Instance != null)
@@ -245,7 +245,7 @@ namespace RoboRockets
                                 OnSelect = () => SelectTool.Instance.Select(selectable);
                             }
 
-                            CameraController.Instance.ActiveWorldStarWipe(ClusterManager.Instance.GetWorld(id).ParentWorldId, true, rocketModule.transform.position, 10f, OnSelect); 
+                            CameraController.Instance.ActiveWorldStarWipe(ClusterManager.Instance.GetWorld(id).ParentWorldId, true, Module.gameObject.transform.position, 10f, OnSelect); 
                         }
                     }
                     
@@ -263,20 +263,20 @@ namespace RoboRockets
         {
             public static void Postfix(ClustercraftExteriorDoor __instance)
             {
-                if (__instance.gameObject.TryGetComponent<AIPassengerModule>(out var aiModue))
+                if (__instance.gameObject.TryGetComponent<AIPassengerModule>(out var aiModue) && __instance.gameObject.TryGetComponent<RocketModuleCluster>(out RocketModuleCluster rocketModuleCluster))
                 {
-                    int worldRefID = (int)typeof(ClustercraftExteriorDoor).GetField("targetWorldId", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
-                    Clustercraft component = __instance.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
+                    rocketModuleCluster.CraftInterface.TryGetComponent<WorldContainer>(out var craftWorld);
+                    int worldRefID = craftWorld.id;
                     if(!aiModue.variableSpeed)
-                    { 
+                    {
 #if DEBUG
                         SgtLogger.l("AI Module added; adjusting automated Speed to " + Config.Instance.NoBrainRockets);
 #endif
-                        component.AutoPilotMultiplier = Config.Instance.NoBrainRockets;
+                        rocketModuleCluster.CraftInterface.m_clustercraft.AutoPilotMultiplier = Config.Instance.NoBrainRockets;
                     }
-#if DEBUG
+
                     SgtLogger.l("World forbidden to look into: " + worldRefID);
-#endif
+
                     if(!ModAssets.ForbiddenInteriorIDs.ContainsKey(worldRefID))
                         ModAssets.ForbiddenInteriorIDs.Add(worldRefID,aiModue);
                 }
