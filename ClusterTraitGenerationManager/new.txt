@@ -1,3 +1,4 @@
 ﻿- Starting a Custom Cluster game now automatically generates a cluster preset
 - added missing moonlet warp asteroid
 - reduced geyser generation penalty for small worlds
+- Fixed chinese localisation (Big thanks to NOUS for creating it)
