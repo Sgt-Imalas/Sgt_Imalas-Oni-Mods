@@ -1,6 +1,7 @@
 ﻿using ONITwitchLib;
 using ONITwitchLib.Core;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -8,6 +9,7 @@ namespace Util_TwitchIntegrationLib
 {
     public static class EventRegistration
     {
+        public static Dictionary<string, ONITwitchLib.EventInfo> Events = new Dictionary<string, ONITwitchLib.EventInfo> ();
         public static void InitializeTwitchEventsInNameSpace(string nameSpace)
         {
             if (!TwitchModInfo.TwitchIsPresent)
@@ -15,7 +17,6 @@ namespace Util_TwitchIntegrationLib
                 Debug.LogWarning(nameSpace + ": Twitch not enabled!");
                 return;
             }
-
             Debug.Log("["+nameSpace.Split('.').First() + "]: Registering Twitch Events!");
             RegisterAllEventsInNamespace(nameSpace);
         }
@@ -62,6 +63,9 @@ namespace Util_TwitchIntegrationLib
             _event.AddListener(twitchEvent.EventAction);
             _event.AddCondition(twitchEvent.Condition);
             _event.Danger = twitchEvent.EventDanger;
+
+            Events[twitchEvent.ID] = ( _event);
+
             deckInst.AddGroup(_eventGroup);
         }
     }
