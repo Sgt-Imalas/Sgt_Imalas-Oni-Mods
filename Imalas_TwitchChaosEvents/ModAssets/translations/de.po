@@ -93,8 +93,24 @@ msgstr "Omega Kreissäge"
 
 #. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BUZZSAW.TOASTTEXT
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BUZZSAW.TOASTTEXT"
-msgid "Bzzzzt"
-msgstr "Bzzzzt"
+msgid "Keep that cursor dancing :]"
+msgstr "Lass den Mauszeiger tanzen :]"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.CREEPEREATINGBOI.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.CREEPEREATINGBOI.NAME"
+msgid "Green Boi"
+msgstr "Grüner Kumpel"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.CREEPEREATINGBOI.TOAST
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.CREEPEREATINGBOI.TOAST"
+msgid "Green Boi"
+msgstr "Grüner Kumpel"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.CREEPEREATINGBOI.TOASTTEXT
+msgctxt ""
+"Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.CREEPEREATINGBOI.TOASTTEXT"
+msgid "Hi!"
+msgstr "Hi!"
 
 #. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.CREEPERRAIN.NAME
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.CREEPERRAIN.NAME"
@@ -140,20 +156,55 @@ msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.FOG.TOASTTEXTENDING"
 msgid "The fog is starting to clear."
 msgstr "Der Nebel beginnt sich zu lichten."
 
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.HUNGRYROACHES.EVENTFAIL
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.HUNGRYROACHES.EVENTFAIL"
+msgid "Not enough food was available to attract any roaches."
+msgstr "Es war nicht genug Essen da um Schaben anzulocken."
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.HUNGRYROACHES.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.HUNGRYROACHES.NAME"
+msgid "Roach Infestation"
+msgstr "Schabenbefall"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.HUNGRYROACHES.TOAST
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.HUNGRYROACHES.TOAST"
+msgid "Roach Infestation!"
+msgstr "Schabenbefall!"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.HUNGRYROACHES.TOASTTEXT
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.HUNGRYROACHES.TOASTTEXT"
+msgid ""
+"Your kitchen fridge, it holds some pastry\n"
+"the roaches come, it looks them tasty!\n"
+"\n"
+"Hungry roaches ate 50% of your food supply on {0}."
+msgstr ""
+"Und hin zum Kühlschrank hinken Schaben,\n"
+"denn sie wollen Schinken haben!\n"
+"\n"
+"Hungrige Schaben haben 50% der Nahrung auf {0} gefressen."
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.HUNGRYROACHES.TOASTTEXTALTERNATIVE
+msgctxt ""
+"Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.HUNGRYROACHES."
+"TOASTTEXTALTERNATIVE"
+msgid "Hungry roaches have taken a liking to your food supply on {0}."
+msgstr "Hungrige Schaben haben Interesse an der Nahrung auf {0} gefunden."
+
 #. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.INVERSEELEMENT.NAME
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.INVERSEELEMENT.NAME"
 msgid "Doolf"
-msgstr "<rotate=180>Flut</rotate>"
+msgstr "Tulf"
 
 #. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.INVERSEELEMENT.TOAST
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.INVERSEELEMENT.TOAST"
 msgid "Doolf!"
-msgstr "<rotate=180>Flut!</rotate>"
+msgstr "Tulf!"
 
 #. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.INVERSEELEMENT.TOASTTEXT
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.INVERSEELEMENT.TOASTTEXT"
-msgid "sᴉɥʇ ɥʇᴉʍ ɟɟo sᴉ ƃuᴉɥʇǝɯoS"
-msgstr "<rotate=180>Irgendwas ist komisch mit dieser Flut</rotate>"
+msgid "<rotate=180>Something is off with this...</rotate>"
+msgstr "<rotate=180>Irgendwas ist hier komisch..</rotate>"
 
 #. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.RAINBOWLIQUIDS.NAME
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.RAINBOWLIQUIDS.NAME"
@@ -184,7 +235,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Der Gasherd hat außerdem ein neues Rezept erhalten"
+"Der Gasherd hat außerdem ein neues Rezept erhalten."
 
 #. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.TACORAIN.TOAST
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.TACORAIN.TOAST"
@@ -218,10 +269,30 @@ msgctxt "Imalas_TwitchChaosEvents.STRINGS.COMETS.ITC_TACOCOMET.NAME"
 msgid "<link=\"ITCTACOCOMET\">Flying Taco</link>"
 msgstr "<link=\"ITCTACOCOMET\">Fliegender Taco</link>"
 
+#. Imalas_TwitchChaosEvents.STRINGS.CREATURES.SPECIES.ITCE_CREEPEREATER.DESC
+msgctxt ""
+"Imalas_TwitchChaosEvents.STRINGS.CREATURES.SPECIES.ITCE_CREEPEREATER.DESC"
+msgid "A green friend that LOVES to consume the Creeper"
+msgstr "Ein grüner Freund der es LIEBT den Kriecher zu verspeisen"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CREATURES.SPECIES.ITCE_CREEPEREATER.NAME
+msgctxt ""
+"Imalas_TwitchChaosEvents.STRINGS.CREATURES.SPECIES.ITCE_CREEPEREATER.NAME"
+msgid "<link=\"ITCECREEPEREATER\">Green Friend</link>"
+msgstr "<link=\"ITCECREEPEREATER\">Grüner Freund</link>"
+
 #. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_CREEPYLIQUID.DESC
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_CREEPYLIQUID.DESC"
-msgid "The Creeper."
-msgstr "Der Kriecher"
+msgid ""
+"The Creeper.\n"
+"Everly expanding\n"
+"Weak to the cold.\n"
+"Weak to Pressure"
+msgstr ""
+"Der Kriecher.\n"
+"Endlos ausdehnend.\n"
+"Schwach gegen die Kälte.\n"
+"Schwach gegen Druck."
 
 #. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_CREEPYLIQUID.NAME
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_CREEPYLIQUID.NAME"
@@ -230,7 +301,7 @@ msgstr "<link=\"ITCECREEPYLIQUID\">Kriecher</link>"
 
 #. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_CREEPYLIQUIDGAS.DESC
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_CREEPYLIQUIDGAS.DESC"
-msgid "the ever extending tendril of creeper"
+msgid "the ever extending tendril of the creeper"
 msgstr "Der sich ewig ausbreitende Tentakel des Kriechers"
 
 #. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_CREEPYLIQUIDGAS.NAME
@@ -245,7 +316,7 @@ msgstr "Seltsames Eis..."
 
 #. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_ICE.NAME
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_ICE.NAME"
-msgid "<link=\"ITCEINVERSEICE\">Eci</link>"
+msgid "<link=\"ITCEINVERSEICE\"><rotate=180>Ice</rotate></link>"
 msgstr "<link=\"ITCEINVERSEICE\"><rotate=180>Eis</rotate></link>"
 
 #. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_STEAM.DESC
@@ -255,7 +326,7 @@ msgstr "Seltsamer Dampf..."
 
 #. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_STEAM.NAME
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_STEAM.NAME"
-msgid "<link=\"ITCEINVERSESTEAM\">Maets</link>"
+msgid "<link=\"ITCEINVERSESTEAM\"><rotate=180>Steam</rotate></link>"
 msgstr "<link=\"ITCEINVERSESTEAM\"><rotate=180>Dampf</rotate></link>"
 
 #. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_WATER.DESC
@@ -265,7 +336,7 @@ msgstr "Seltsames Wasser..."
 
 #. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_WATER.NAME
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_WATER.NAME"
-msgid "<link=\"ITCEINVERSEWATER\">Retaw</link>"
+msgid "<link=\"ITCEINVERSEWATER\"><rotate=180>Water</rotate></link>"
 msgstr "<link=\"ITCEINVERSEWATER\"><rotate=180>Wasser</rotate></link>"
 
 #. Imalas_TwitchChaosEvents.STRINGS.HOTKEYACTIONS.TRIGGER_FAKE_TACORAIN_NAME
@@ -337,13 +408,30 @@ msgstr "<link=\"ICTGHOSTTACO\">Geistertaco</link>"
 
 #. Imalas_TwitchChaosEvents.STRINGS.ITEMS.ICT_OMEGASAWBLADE.DESC
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.ITEMS.ICT_OMEGASAWBLADE.DESC"
-msgid "Bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
-msgstr "Bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+msgid ""
+"Bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz.\n"
+"Homes onto living beings and the mouse cursor."
+msgstr ""
+"Bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz.\n"
+"Verfolgt sich bewegende Lebewesen und den Mauszeiger."
 
 #. Imalas_TwitchChaosEvents.STRINGS.ITEMS.ICT_OMEGASAWBLADE.NAME
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.ITEMS.ICT_OMEGASAWBLADE.NAME"
 msgid "<link=\"ICTOMEGASAWBLADE\">Omega Sawblade</link>"
 msgstr "<link=\"ICTOMEGASAWBLADE\">Omega Kreissäge</link>"
+
+#~ msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BUZZSAW.TOASTTEXT"
+#~ msgid "Bzzzzt"
+#~ msgstr "Bzzzzt"
+
+#~ msgctxt ""
+#~ "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.INVERSEELEMENT.TOASTTEXT"
+#~ msgid "sᴉɥʇ ɥʇᴉʍ ɟɟo sᴉ ƃuᴉɥʇǝɯoS"
+#~ msgstr "<rotate=180>Irgendwas ist komisch mit dieser Flut</rotate>"
+
+#~ msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_CREEPYLIQUID.DESC"
+#~ msgid "The Creeper."
+#~ msgstr "Der Kriecher"
 
 #~ msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BUZZSAW.NAME"
 #~ msgid "Buzzsaw"

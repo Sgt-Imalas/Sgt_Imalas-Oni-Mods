@@ -45,7 +45,7 @@ namespace Imalas_TwitchChaosEvents
             public class ICT_OMEGASAWBLADE
             {
                 public static LocString NAME = FormatAsLink("Omega Sawblade", nameof(ICT_OMEGASAWBLADE));
-                public static LocString DESC = "Bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz";
+                public static LocString DESC = "Bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz.\nHomes onto living beings and the mouse cursor.";
             }
         }
         public class COMETS
@@ -95,6 +95,20 @@ namespace Imalas_TwitchChaosEvents
 
         public class CHAOSEVENTS
         {
+            public class HUNGRYROACHES
+            {
+                public static LocString NAME = "Roach Infestation";
+                public static LocString TOAST = "Roach Infestation!";
+                //public static LocString TOASTTEXT = "Hungry Roaches have taken a liking to your food supply.";
+                public static LocString TOASTTEXT = 
+                    "Your kitchen fridge, it holds some pastry\n" +
+                    "the roaches come, it looks them tasty!" +
+                    "\n\nHungry roaches ate 50% of your food supply on {0}.";
+                public static LocString TOASTTEXTALTERNATIVE =
+                    "Hungry roaches have taken a liking to your food supply on {0}.";
+                public static LocString EVENTFAIL =
+                    "Not enough food was available to attract any roaches.";
+            }
             public class RAINBOWLIQUIDS
             {
                 public static LocString NAME = "Rainbow Rave";
@@ -103,8 +117,8 @@ namespace Imalas_TwitchChaosEvents
             }
             public class INVERSEELEMENT
             {
-                public static LocString NAME = "<rotate=180>Flood</rotate>";
-                public static LocString TOAST = "<rotate=180>Flood!</rotate>";
+                public static LocString NAME = "Doolf";
+                public static LocString TOAST = "Doolf!";
                 public static LocString TOASTTEXT = "<rotate=180>Something is off with this...</rotate>";
             }
             public class FOG
@@ -125,7 +139,7 @@ namespace Imalas_TwitchChaosEvents
             {
                 public static LocString NAME = "Omega Sawblade";
                 public static LocString TOAST = "Omega Sawblade";
-                public static LocString TOASTTEXT = "Bzzzzt";
+                public static LocString TOASTTEXT = "Keep that cursor dancing :]";
             }
             public class BURNINGCURSOR
             {

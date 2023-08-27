@@ -32,6 +32,7 @@ namespace Imalas_TwitchChaosEvents.OmegaSawblade
             entity.AddOrGet<KCircleCollider2D>().radius = 0.75f; 
             entity.AddComponent<CircleCollider2D>().radius = 0.75f;
             entity.AddOrGet<OmegaSawblade>();
+            entity.AddOrGet<InfoDescription>().description = STRINGS.ITEMS.ICT_OMEGASAWBLADE.DESC;
             return entity;
         }
 

@@ -12,7 +12,7 @@ using Imalas_TwitchChaosEvents.Meteors;
 
 namespace Imalas_TwitchChaosEvents.OmegaSawblade
 {
-    internal class OmegaSawblade : KMonoBehaviour, ISim33ms, ISim200ms
+    internal class OmegaSawblade : KMonoBehaviour, ISim33ms
     {
         private Rigidbody2D rigidBody;
 
@@ -50,6 +50,9 @@ namespace Imalas_TwitchChaosEvents.OmegaSawblade
         public float maxSpeed = 45;
         public float sliding = 0.010f;
 
+        public float ChanceDistanceThreshold = 14f; 
+        public float GuaranteedDistanceThresholdPerSec = 6f;
+
         public bool homeOnlyDupes = false;
         public override void OnPrefabInit()
         {
@@ -74,18 +77,64 @@ namespace Imalas_TwitchChaosEvents.OmegaSawblade
         {
             base.OnSpawn();
             sounds.StartSound(GlobalAssets.GetSound("IceCooledFan_fan_LP"));
-            GameScheduler.Instance.Schedule("StartHomingOmegaSawblade", 20, (obj) => attracted = true);
+            GameScheduler.Instance.Schedule("StartHomingOmegaSawblade", 8, (obj) => attracted = true);
             SgtLogger.Assert("Rigidbody", rigidBody);
 
         }
 
         public void Sim33ms(float dt)
         {
+            CursorDistance(dt);
             Homing(dt);
             Damage(dt);
         }
-        public void Sim200ms(float dt)
+        float distancePassed = 0;
+        float timePassed = 0;
+        Vector3 MousePos,OldMousePos;
+        List<float> lastDistances = new List<float>();
+
+        void CursorDistance(float dt)
         {
+            if (MousePos == null)
+            {
+                OldMousePos = Camera.main.ScreenToWorldPoint(KInputManager.GetMousePos()); 
+            }
+            else
+            {
+                OldMousePos = MousePos;
+            }
+            MousePos = Camera.main.ScreenToWorldPoint(KInputManager.GetMousePos());
+            distancePassed += (MousePos - OldMousePos).magnitude;
+
+            timePassed += dt;
+            if (timePassed > 0.33f)
+            {
+                SgtLogger.l(timePassed.ToString(), "distance");
+
+                lastDistances.Add(distancePassed);
+                if(lastDistances.Count > 3)
+                    lastDistances.RemoveAt(0);
+                timePassed -= 0.33f;
+                distancePassed = 0;
+            }
+        }
+
+        bool BelowDistanceThreshold()
+        {
+            var avg = lastDistances.Sum()/(float)lastDistances.Count;
+
+            SgtLogger.l("avg: " + avg);
+
+            if(avg < GuaranteedDistanceThresholdPerSec)
+                return true;
+            if (avg < ChanceDistanceThreshold)
+            {
+                float random = new System.Random().Next();
+                var chance = 1f - ( avg - GuaranteedDistanceThresholdPerSec /  ChanceDistanceThreshold - GuaranteedDistanceThresholdPerSec);
+                return chance > random;
+            }
+            return false;
+
         }
 
         public void Damage(float dt)
@@ -196,23 +245,29 @@ namespace Imalas_TwitchChaosEvents.OmegaSawblade
 
         Vector3 GetHomingTarget(float dt)
         {
-            if (randoPosDuration > 0 )
+            if(!BelowDistanceThreshold())
+            {
+                randoPosDuration = 0;
+            }
+
+            if (randoPosDuration > 0)
             {
                 randoPosDuration -= dt;
                 return randoPos;
             }
             else
             {
-                float random = new System.Random().Next(1000);
+                //float random = new System.Random().Next(1000);
                 if(
-                    random < 6 
+                    //random < 6
+                     BelowDistanceThreshold()
                    || homeOnlyDupes
                     )
                 {
                     var ActiveWorldDupes = Components.LiveMinionIdentities.GetWorldItems(ClusterManager.Instance.activeWorldId);
                     if (ActiveWorldDupes != null && ActiveWorldDupes.Count > 0)
                     {
-                        randoPosDuration = Mathf.Min(Mathf.Max(0.33f,random/2.5f),3f);
+                        randoPosDuration = Mathf.Min(Mathf.Max(0.33f,2f),3f);
                         randoPos = ActiveWorldDupes.GetRandom().gameObject.transform.position;
                         //SgtLogger.l(randoPos.ToString()+ ", duration: "+ randoPosDuration, "RANDOPOS");
                         return randoPos;
@@ -231,7 +286,7 @@ namespace Imalas_TwitchChaosEvents.OmegaSawblade
                 lifeTime -= dt;
                 targetPos = GetHomingTarget(dt);
                 Vector2 force = targetPos - transform.position;
-                SgtLogger.l($"{transform.position} => {targetPos}");
+                //SgtLogger.l($"{transform.position} => {targetPos}");
                 force.Normalize();
                 force *= speed;
                 rigidBody.AddForce(force);
