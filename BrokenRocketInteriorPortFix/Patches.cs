@@ -94,6 +94,8 @@ namespace BrokenRocketInteriorPortFix
                 yield return typeof(RocketInteriorGasOutputPortConfig).GetMethod(name);
                 yield return typeof(RocketInteriorLiquidInputPortConfig).GetMethod(name);
                 yield return typeof(RocketInteriorLiquidOutputPortConfig).GetMethod(name);
+                yield return typeof(RocketEnvelopeWindowTileConfig).GetMethod(name);
+                yield return typeof(RocketWallTileConfig).GetMethod(name);
             }
         }
         [HarmonyPatch]
@@ -103,7 +105,8 @@ namespace BrokenRocketInteriorPortFix
             public static void Postfix(GameObject go)
             {
                 KPrefabID component = go.GetComponent<KPrefabID>();
-                component.AddTag(GameTags.UniquePerWorld);
+                if(component.PrefabID().ToString().Contains("RocketInterior"))
+                    component.AddTag(GameTags.UniquePerWorld);
                 component.AddTag(GameTags.RocketInteriorBuilding);
             }
             [HarmonyTargetMethods]
@@ -114,6 +117,8 @@ namespace BrokenRocketInteriorPortFix
                 yield return typeof(RocketInteriorGasOutputPortConfig).GetMethod(name);
                 yield return typeof(RocketInteriorLiquidInputPortConfig).GetMethod(name);
                 yield return typeof(RocketInteriorLiquidOutputPortConfig).GetMethod(name);
+                yield return typeof(RocketEnvelopeWindowTileConfig).GetMethod(name);
+                yield return typeof(RocketWallTileConfig).GetMethod(name);
             }
         }
         [HarmonyPatch(typeof(GeneratedBuildings))]
@@ -127,6 +132,8 @@ namespace BrokenRocketInteriorPortFix
                 InjectionMethods.MoveExistingBuildingToNewPlanscreen(GameStrings.PlanMenuCategory.Rocketry, RocketInteriorGasOutputPortConfig.ID, "fittings", ordering: ModUtil.BuildingOrdering.Before);
                 InjectionMethods.MoveExistingBuildingToNewPlanscreen(GameStrings.PlanMenuCategory.Rocketry, RocketInteriorLiquidInputPortConfig.ID, "fittings", ordering: ModUtil.BuildingOrdering.Before);
                 InjectionMethods.MoveExistingBuildingToNewPlanscreen(GameStrings.PlanMenuCategory.Rocketry, RocketInteriorLiquidOutputPortConfig.ID, "fittings", ordering: ModUtil.BuildingOrdering.Before);
+                InjectionMethods.MoveExistingBuildingToNewPlanscreen(GameStrings.PlanMenuCategory.Rocketry, RocketEnvelopeWindowTileConfig.ID, "fittings", ordering: ModUtil.BuildingOrdering.Before);
+                InjectionMethods.MoveExistingBuildingToNewPlanscreen(GameStrings.PlanMenuCategory.Rocketry, RocketWallTileConfig.ID, "fittings", ordering: ModUtil.BuildingOrdering.Before);
             }
         }
     }
