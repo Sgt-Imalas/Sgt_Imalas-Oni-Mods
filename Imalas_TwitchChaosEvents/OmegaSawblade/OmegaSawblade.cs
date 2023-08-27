@@ -45,7 +45,7 @@ namespace Imalas_TwitchChaosEvents.OmegaSawblade
         public float BunkerDamagePerSecond = 120f / 3f;
         public float EntityDamagePerSecond = 100f / 2f;
         public float DupeDamagePerSecond = 100f / 1f;
-        public float lifeTime = 15f;
+        public float lifeTime = 20f;
         public float speed = 240f;
         public float maxSpeed = 45;
         public float sliding = 0.010f;
@@ -74,7 +74,7 @@ namespace Imalas_TwitchChaosEvents.OmegaSawblade
         {
             base.OnSpawn();
             sounds.StartSound(GlobalAssets.GetSound("IceCooledFan_fan_LP"));
-            GameScheduler.Instance.Schedule("StartHomingOmegaSawblade", 6, (obj) => attracted = true);
+            GameScheduler.Instance.Schedule("StartHomingOmegaSawblade", 20, (obj) => attracted = true);
             SgtLogger.Assert("Rigidbody", rigidBody);
 
         }
@@ -204,7 +204,10 @@ namespace Imalas_TwitchChaosEvents.OmegaSawblade
             else
             {
                 float random = new System.Random().Next(1000);
-                if(random < 6 || homeOnlyDupes)
+                if(
+                    random < 6 
+                   || homeOnlyDupes
+                    )
                 {
                     var ActiveWorldDupes = Components.LiveMinionIdentities.GetWorldItems(ClusterManager.Instance.activeWorldId);
                     if (ActiveWorldDupes != null && ActiveWorldDupes.Count > 0)

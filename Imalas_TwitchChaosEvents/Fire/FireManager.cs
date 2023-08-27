@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Imalas_TwitchChaosEvents.Elements;
 using KSerialization;
 using System;
 using System.Collections.Generic;
@@ -47,6 +48,8 @@ namespace Imalas_TwitchChaosEvents.Fire
 
         Dictionary<SimHashes, float> ElementMultiplier = new Dictionary<SimHashes, float>() 
         {
+            {ModElements.Creeper.SimHash, 200f},
+            {ModElements.CreeperGas.SimHash, 200f},
             {SimHashes.Algae, 2f},
             {SimHashes.SlimeMold, 2f},
             {SimHashes.Carbon, 3f},

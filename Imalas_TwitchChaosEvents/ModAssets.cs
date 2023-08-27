@@ -13,6 +13,7 @@ namespace Imalas_TwitchChaosEvents
             public const string
                 TACORAIN = "ICT_TACORAIN",
                 THUNDERSTRIKE = "ICT_ThunderStrike",
+                EVILSOUND = "ICT_EVILARRIVING",
                 NUKE_DETONATION = "ICT_NUKEDETONATION";
         }
         public static bool RainbowLiquids = false;
@@ -20,6 +21,7 @@ namespace Imalas_TwitchChaosEvents
         public static void LoadAll()
         {
             SoundUtils.LoadSound(SOUNDS.TACORAIN, "ICT_TACORAIN.wav");
+            SoundUtils.LoadSound(SOUNDS.EVILSOUND, "ICT_EVIL.mp3");
             SoundUtils.LoadSound(SOUNDS.THUNDERSTRIKE, "ICT_ThunderStrike.mp3");
 
             LoadAssets();

@@ -23,7 +23,7 @@ namespace Imalas_TwitchChaosEvents.Events
 
         public Action<object> EventAction => (object data) =>
         {
-            GameScheduler.Instance.Schedule("fog start", 15f, _ =>
+            GameScheduler.Instance.Schedule("fog start", 8f, _ =>
             {
                 ToastManager.InstantiateToast(
                 STRINGS.CHAOSEVENTS.FOG.TOAST,
@@ -41,7 +41,7 @@ namespace Imalas_TwitchChaosEvents.Events
             SgtLogger.l(CameraController.Instance.baseCamera.transform.position.ToString(), "CAMERA");
 
 
-            GameScheduler.Instance.Schedule("fog removal", 600f, _ =>
+            GameScheduler.Instance.Schedule("fog removal", 1800f, _ =>
             {
                 ToastManager.InstantiateToast(
                 STRINGS.CHAOSEVENTS.FOG.TOAST,

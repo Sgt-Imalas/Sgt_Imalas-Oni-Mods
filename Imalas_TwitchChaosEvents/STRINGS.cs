@@ -11,6 +11,17 @@ namespace Imalas_TwitchChaosEvents
 {
     public class STRINGS
     {
+        public class CREATURES
+        {
+            public class SPECIES
+            {
+                public class ITCE_CREEPEREATER
+                {
+                    public static LocString NAME = FormatAsLink("Green Friend", nameof(ITCE_CREEPEREATER));
+                    public static LocString DESC = "A green friend that LOVES to consume the Creeper";
+                }
+            }
+        }
         public class ITEMS
         {
             public class FOOD
@@ -56,28 +67,28 @@ namespace Imalas_TwitchChaosEvents
         {
             public class ITCE_INVERSE_ICE
             {
-                public static LocString NAME = FormatAsLink("Eci", nameof(ITCE_INVERSE_ICE));
+                public static LocString NAME = FormatAsLink("<rotate=180>Ice</rotate>", nameof(ITCE_INVERSE_ICE));
                 public static LocString DESC = "weird Ice...";
             }
             public class ITCE_INVERSE_WATER
             {
-                public static LocString NAME = FormatAsLink("Retaw", nameof(ITCE_INVERSE_WATER));
+                public static LocString NAME = FormatAsLink("<rotate=180>Water</rotate>", nameof(ITCE_INVERSE_WATER));
                 public static LocString DESC = "weird Water...";
             }
             public class ITCE_INVERSE_STEAM
             {
-                public static LocString NAME = FormatAsLink("Maets", nameof(ITCE_INVERSE_STEAM));
+                public static LocString NAME = FormatAsLink("<rotate=180>Steam</rotate>", nameof(ITCE_INVERSE_STEAM));
                 public static LocString DESC = "weird Steam...";
             }
             public class ITCE_CREEPYLIQUID
             {
                 public static LocString NAME = FormatAsLink("Creeper", nameof(ITCE_CREEPYLIQUID));
-                public static LocString DESC = "The Creeper.";
+                public static LocString DESC = "The Creeper.\nEverly expanding\nWeak to the cold.\nWeak to Pressure";
             }
             public class ITCE_CREEPYLIQUIDGAS
             {
                 public static LocString NAME = FormatAsLink("Creeper Tendril", nameof(ITCE_CREEPYLIQUIDGAS));
-                public static LocString DESC = "the ever extending tendril of creeper";
+                public static LocString DESC = "the ever extending tendril of the creeper";
             }
             
         }
@@ -92,9 +103,9 @@ namespace Imalas_TwitchChaosEvents
             }
             public class INVERSEELEMENT
             {
-                public static LocString NAME = "Doolf";
-                public static LocString TOAST = "Doolf!";
-                public static LocString TOASTTEXT = "sᴉɥʇ ɥʇᴉʍ ɟɟo sᴉ ƃuᴉɥʇǝɯoS";
+                public static LocString NAME = "<rotate=180>Flood</rotate>";
+                public static LocString TOAST = "<rotate=180>Flood!</rotate>";
+                public static LocString TOASTTEXT = "<rotate=180>Something is off with this...</rotate>";
             }
             public class FOG
             {
@@ -103,6 +114,12 @@ namespace Imalas_TwitchChaosEvents
                 public static LocString TOASTTEXT = "Bloody hell, it's foggy innit";
 
                 public static LocString TOASTTEXTENDING = "The fog is starting to clear.";
+            }
+            public class CREEPEREATINGBOI
+            {
+                public static LocString NAME = "Green Boi";
+                public static LocString TOAST = "Green Boi";
+                public static LocString TOASTTEXT = "Hi!";
             }
             public class BUZZSAW
             {

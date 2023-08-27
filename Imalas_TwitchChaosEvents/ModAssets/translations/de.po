@@ -143,17 +143,17 @@ msgstr "Der Nebel beginnt sich zu lichten."
 #. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.INVERSEELEMENT.NAME
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.INVERSEELEMENT.NAME"
 msgid "Doolf"
-msgstr "Tulf"
+msgstr "<rotate=180>Flut</rotate>"
 
 #. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.INVERSEELEMENT.TOAST
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.INVERSEELEMENT.TOAST"
 msgid "Doolf!"
-msgstr "Tulf!"
+msgstr "<rotate=180>Flut!</rotate>"
 
 #. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.INVERSEELEMENT.TOASTTEXT
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.INVERSEELEMENT.TOASTTEXT"
 msgid "sᴉɥʇ ɥʇᴉʍ ɟɟo sᴉ ƃuᴉɥʇǝɯoS"
-msgstr "ɥɔsıɯoʞ ɐp ʇsı sɐʍpuǝƃɹı"
+msgstr "<rotate=180>Irgendwas ist komisch mit dieser Flut</rotate>"
 
 #. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.RAINBOWLIQUIDS.NAME
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.RAINBOWLIQUIDS.NAME"
@@ -246,7 +246,7 @@ msgstr "Seltsames Eis..."
 #. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_ICE.NAME
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_ICE.NAME"
 msgid "<link=\"ITCEINVERSEICE\">Eci</link>"
-msgstr "<link=\"ITCEINVERSEICE\">Sie</link>"
+msgstr "<link=\"ITCEINVERSEICE\"><rotate=180>Eis</rotate></link>"
 
 #. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_STEAM.DESC
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_STEAM.DESC"
@@ -256,7 +256,7 @@ msgstr "Seltsamer Dampf..."
 #. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_STEAM.NAME
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_STEAM.NAME"
 msgid "<link=\"ITCEINVERSESTEAM\">Maets</link>"
-msgstr "<link=\"ITCEINVERSESTEAM\">Fpmad</link>"
+msgstr "<link=\"ITCEINVERSESTEAM\"><rotate=180>Dampf</rotate></link>"
 
 #. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_WATER.DESC
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_WATER.DESC"
@@ -266,7 +266,7 @@ msgstr "Seltsames Wasser..."
 #. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_WATER.NAME
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_INVERSE_WATER.NAME"
 msgid "<link=\"ITCEINVERSEWATER\">Retaw</link>"
-msgstr "<link=\"ITCEINVERSEWATER\">Ressaw</link>"
+msgstr "<link=\"ITCEINVERSEWATER\"><rotate=180>Wasser</rotate></link>"
 
 #. Imalas_TwitchChaosEvents.STRINGS.HOTKEYACTIONS.TRIGGER_FAKE_TACORAIN_NAME
 msgctxt ""

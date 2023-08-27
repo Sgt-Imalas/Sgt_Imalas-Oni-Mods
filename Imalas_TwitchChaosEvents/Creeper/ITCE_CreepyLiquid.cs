@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Imalas_TwitchChaosEvents.Elements;
+using ONITwitchLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Imalas_TwitchChaosEvents.Elements
+namespace Imalas_TwitchChaosEvents.Creeper
 {
-    internal class CreepyLiquidConfig : IOreConfig
+    internal class ITCE_CreepyLiquid : IOreConfig
     {
         public SimHashes ElementID => ModElements.Creeper.SimHash;
 
@@ -15,7 +17,7 @@ namespace Imalas_TwitchChaosEvents.Elements
 
         public GameObject CreatePrefab()
         {
-            GameObject liquidOreEntity = EntityTemplates.CreateLiquidOreEntity(this.ElementID);
+            GameObject liquidOreEntity = EntityTemplates.CreateLiquidOreEntity(this.ElementID, new List<Tag>() { ExtraTags.OniTwitchSurpriseBoxForceDisabled });
             Sublimates sublimates = liquidOreEntity.AddOrGet<Sublimates>();
             sublimates.spawnFXHash = SpawnFXHashes.BuildingLeakLiquid;
             sublimates.decayStorage = true;
@@ -24,3 +26,4 @@ namespace Imalas_TwitchChaosEvents.Elements
         }
     }
 }
+

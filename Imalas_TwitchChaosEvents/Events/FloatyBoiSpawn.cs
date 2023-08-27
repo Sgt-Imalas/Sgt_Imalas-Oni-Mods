@@ -1,36 +1,30 @@
-﻿using Imalas_TwitchChaosEvents.OmegaSawblade;
+﻿using Imalas_TwitchChaosEvents.Creeper;
+using Imalas_TwitchChaosEvents.OmegaSawblade;
 using ONITwitchLib;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 using Util_TwitchIntegrationLib;
 using UtilLibs;
-using static STRINGS.UI.CLUSTERMAP;
 
 namespace Imalas_TwitchChaosEvents.Events
 {
-    internal class BuzzsawEvent : ITwitchEventBase
+    internal class FloatyBoiSpawn : ITwitchEventBase
     {
-        public string ID => "ChaosTwitch_Buzzsaw";
+        public string ID => "ChaosTwitch_CreeperEater";
 
         public string EventGroupID => null;
 
-        public string EventName => STRINGS.CHAOSEVENTS.BUZZSAW.NAME;
+        public string EventName => STRINGS.CHAOSEVENTS.CREEPEREATINGBOI.NAME;
 
-        public string EventDescription => STRINGS.CHAOSEVENTS.BUZZSAW.TOASTTEXT;
+        public string EventDescription => STRINGS.CHAOSEVENTS.CREEPEREATINGBOI.TOASTTEXT;
 
-        public EventWeight EventWeight => EventWeight.WEIGHT_RARE;
+        public EventWeight EventWeight => EventWeight.WEIGHT_ALMOST_NEVER;
 
         public Action<object> EventAction => (object data) =>
         {
-            SpeedControlScreen.Instance.SetSpeed(0);
-            SpeedControlScreen.Instance.Pause();
-
-            SpawnBuzzSaw();
+            SpawnBoi();
         };
 
         public Func<object, bool> Condition =>
@@ -39,22 +33,22 @@ namespace Imalas_TwitchChaosEvents.Events
                 return GameClock.Instance.GetCycle() > 50;
             };
 
-        public Danger EventDanger => Danger.Extreme;
+        public Danger EventDanger => Danger.None;
 
-        public void SpawnBuzzSaw()
+        public void SpawnBoi()
         {
             //var spawningPosition = CameraController.Instance.baseCamera.transform.GetPosition(); ///This gives middle of the screeen
             ///Camera.main.ScreenToWorldPoint(KInputManager.GetMousePos()); this gives mouse pos
             var spawningPosition = Grid.CellToPos(ONITwitchLib.Utils.PosUtil.ClampedMouseCellWithRange(0));
             SgtLogger.l(spawningPosition.ToString(), "POS1");
             spawningPosition.z = Grid.GetLayerZ(Grid.SceneLayer.Front);
-            var blade = Util.KInstantiate(Assets.GetPrefab(OmegaSawbladeConfig.ID), spawningPosition, Quaternion.identity);
+            var blade = Util.KInstantiate(Assets.GetPrefab(CreeperConsumerPetConfig.ID), spawningPosition, Quaternion.identity);
             blade.SetActive(true);
             SgtLogger.l(spawningPosition.ToString(), "POS2");
 
             ToastManager.InstantiateToastWithGoTarget(
-            STRINGS.CHAOSEVENTS.BUZZSAW.TOAST,
-             STRINGS.CHAOSEVENTS.BUZZSAW.TOASTTEXT, blade
+            STRINGS.CHAOSEVENTS.CREEPEREATINGBOI.TOAST,
+             STRINGS.CHAOSEVENTS.CREEPEREATINGBOI.TOASTTEXT, blade
              );
         }
     }

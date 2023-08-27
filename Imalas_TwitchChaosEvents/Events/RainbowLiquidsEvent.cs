@@ -31,7 +31,7 @@ namespace Imalas_TwitchChaosEvents.Events
 
            
 
-            GameScheduler.Instance.Schedule("rainbow liquid disable", 120f, _ =>
+            GameScheduler.Instance.Schedule("rainbow liquid disable", 600f, _ =>
             {
                 ModAssets.RainbowLiquids = false;
             });

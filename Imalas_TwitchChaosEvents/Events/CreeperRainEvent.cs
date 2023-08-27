@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Util_TwitchIntegrationLib;
 using Util_TwitchIntegrationLib.Scripts;
+using UtilLibs;
 
 namespace Imalas_TwitchChaosEvents.Events
 {
@@ -21,7 +22,7 @@ namespace Imalas_TwitchChaosEvents.Events
 
         public string EventDescription => STRINGS.CHAOSEVENTS.CREEPERRAIN.TOASTTEXT;
 
-        public EventWeight EventWeight => EventWeight.WEIGHT_RARE;
+        public EventWeight EventWeight => EventWeight.WEIGHT_VERY_RARE;
 
         public Action<object> EventAction => (object data) =>
         {
@@ -37,7 +38,7 @@ namespace Imalas_TwitchChaosEvents.Events
 
             go.SetActive(true);
 
-            GameScheduler.Instance.Schedule("creeper rain", 15f, _ =>
+            GameScheduler.Instance.Schedule("creeper rain", 10f, _ =>
             {
                 rain.StartRaining();
                 ToastManager.InstantiateToast(
@@ -46,6 +47,7 @@ namespace Imalas_TwitchChaosEvents.Events
                 //AudioUtil.PlaySound(ModAssets.Sounds.SPLAT, ModAssets.GetSFXVolume() * 0.15f); // its loud
             });
 
+            SoundUtils.PlaySound(ModAssets.SOUNDS.EVILSOUND, SoundUtils.GetSFXVolume() * 1.0f, true);
             ToastManager.InstantiateToast(
                 STRINGS.CHAOSEVENTS.CREEPERRAIN.TOAST,
                 string.Format(STRINGS.CHAOSEVENTS.CREEPERRAIN.TOASTTEXT, ClusterManager.Instance.activeWorld.GetProperName()));

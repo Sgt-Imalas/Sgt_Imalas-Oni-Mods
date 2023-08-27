@@ -120,7 +120,7 @@ namespace Imalas_TwitchChaosEvents
                 RecipeElement[] input = new RecipeElement[]
                 {
                     new RecipeElement((Tag) "ColdWheatSeed", 4f),
-                    new RecipeElement( SimHashes.Salt.CreateTag(), 0.2f), 
+                    new RecipeElement( TableSaltConfig.ID, 0.01f), 
                     new RecipeElement((Tag) "Lettuce", 1f),
                     new RecipeElement((Tag) "CookedMeat", 1f),
                     new RecipeElement((Tag) SpiceNutConfig.ID, 1f)

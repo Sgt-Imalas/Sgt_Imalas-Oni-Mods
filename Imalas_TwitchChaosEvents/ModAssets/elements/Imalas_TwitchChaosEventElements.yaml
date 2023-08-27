@@ -119,11 +119,11 @@ elements:
     minHorizontalFlow: 0.01
     minVerticalFlow: 0.01
     specificHeatCapacity: 0.05
-    thermalConductivity: 0.0081
+    thermalConductivity: 1
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 25
     gasSurfaceAreaMultiplier: 1
-    lowTemp: 200
+    lowTemp: 263
     highTemp:  1900
     highTempTransitionTarget: ITCE_CreepyLiquidGas
     lowTempTransitionTarget: Ice
@@ -132,7 +132,7 @@ elements:
     sublimateFx: BuildingLeakLiquid
     sublimateId: ITCE_CreepyLiquidGas
     sublimateEfficiency: 2
-    sublimateRate: 10
+    sublimateRate: 4
     sublimateProbability: 1
     defaultMass: 500
     molarMass: 1

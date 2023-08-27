@@ -1,5 +1,6 @@
 ﻿using Database;
 using HarmonyLib;
+using Imalas_TwitchChaosEvents.Creeper;
 using Imalas_TwitchChaosEvents.Elements;
 using Imalas_TwitchChaosEvents.Fire;
 using Imalas_TwitchChaosEvents.Meteors;
@@ -94,7 +95,7 @@ namespace Imalas_TwitchChaosEvents
                 public static void Postfix(SaveGame __instance)
                 {
                     __instance.gameObject.AddOrGet<ChaosTwitch_SaveGameStorage>();
-                    //FireUpdater.instance = __instance.gameObject.AddOrGet<FireUpdater>();
+                    CreeperController.instance = __instance.gameObject.AddOrGet<CreeperController>();
                     FireManager.Instance = __instance.gameObject.AddOrGet<FireManager>();
                 }
             }

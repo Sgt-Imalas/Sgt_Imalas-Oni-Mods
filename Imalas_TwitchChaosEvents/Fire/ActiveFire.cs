@@ -110,7 +110,7 @@ namespace Imalas_TwitchChaosEvents.Fire
                     FireManager.Instance.ApplyIgnitionHeatToCell(cell,  Mathf.Lerp(MaxHeat, - MaxHeat*0.1f, Mathf.Clamp01(TimeLerp*5f)));
 
 
-                    SimMessages.ConsumeMass(cell, Grid.Element[cell].id, 1f * dt, 1, -1);
+                    SimMessages.ConsumeMass(cell, Grid.Element[cell].id, 1f * dt* multiplier, 1, -1);
                     if (!Grid.IsSolidCell(Grid.CellAbove(cell)))
                     {
                         SimMessages.ReplaceAndDisplaceElement(Grid.CellAbove(cell), SimHashes.CarbonDioxide, SpawnEvent, 0.1f * dt, UtilMethods.GetKelvinFromC(600));
