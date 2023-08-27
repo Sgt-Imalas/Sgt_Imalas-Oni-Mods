@@ -11,7 +11,7 @@ using UtilLibs;
 namespace Rockets_TinyYetBig.Behaviours
 {
     [SerializationConfig(MemberSerialization.OptIn)]
-    public class DockingDoor : IDockable, ISidescreenButtonControl
+    public class DockingDoor : IDockable
     {
         /// <summary>
         /// Transfer Storages
@@ -27,7 +27,7 @@ namespace Rockets_TinyYetBig.Behaviours
             {
 
                 Teleporter.SetTarget(d.Teleporter);
-                assignable.canBeAssigned = true;
+               // assignable.canBeAssigned = true;
             }
             if (!this.gameObject.IsNullOrDestroyed() && gameObject.TryGetComponent<KBatchedAnimController>(out var kanim))
             {
@@ -45,8 +45,8 @@ namespace Rockets_TinyYetBig.Behaviours
 #endif
             base.DisconnecDoor(skipanim);
 
-            assignable.Unassign();
-            assignable.canBeAssigned = false;
+            //assignable.Unassign();
+            //assignable.canBeAssigned = false;
             Teleporter.SetTarget(null);
 
             if (skipanim)
@@ -91,52 +91,18 @@ namespace Rockets_TinyYetBig.Behaviours
                 if (connected.Get().HasDupeTeleporter)
                     Teleporter.SetTarget(connected.Get().Teleporter);
                 startKanim = ("extended");
-                assignable.canBeAssigned = true;
+              //  assignable.canBeAssigned = true;
             }
             else
             {
                 startKanim = ("retracted");
-                assignable.Unassign();
-                assignable.canBeAssigned = false;
+                //assignable.Unassign();
+               // assignable.canBeAssigned = false;
             }
             if(gameObject.TryGetComponent<KBatchedAnimController>(out var kanim))
             {
                 kanim.Play(startKanim);
             }
         }
-
-        #region Sidescreen
-
-        public string SidescreenButtonText => "Show docked"; //STRINGS.UI.DOCKINGSCREEN.BUTTON;
-
-        public string SidescreenButtonTooltip => "";// STRINGS.UI.DOCKINGSCREEN.BUTTONINFO;
-
-        public int ButtonSideScreenSortOrder()
-        {
-            return 20;
-        }
-
-        public void OnSidescreenButtonPressed()
-        {
-            if(connected!=null && connected.Get()!=null)
-            {
-                ClusterManager.Instance.SetActiveWorld(connected.Get().GetMyWorld().id);
-                SelectTool.Instance.Activate();
-            }
-        }
-
-        public void SetButtonTextOverride(ButtonMenuTextOverride text) => throw new NotImplementedException();
-        public bool SidescreenButtonInteractable() => assignable.canBeAssigned;
-
-        public bool SidescreenEnabled()
-        {
-            return true;
-        }
-
-        public int HorizontalGroupID()
-        {
-            return -1;
-        }
-        #endregion
     }
 }

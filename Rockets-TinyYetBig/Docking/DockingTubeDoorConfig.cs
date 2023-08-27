@@ -85,10 +85,10 @@ namespace Rockets_TinyYetBig.Buildings
         {
             UnityEngine.Object.DestroyImmediate(go.GetComponent<BuildingEnabledButton>());
 
-            var ownable = go.AddOrGet<Ownable>();
-            ownable.tintWhenUnassigned = false;
-            ownable.slotID = Db.Get().AssignableSlots.WarpPortal.Id;
-            go.AddOrGet<MoveToDocked>();
+            //var ownable = go.AddOrGet<Ownable>();
+            //ownable.tintWhenUnassigned = false;
+            //ownable.slotID = Db.Get().AssignableSlots.WarpPortal.Id;
+            //go.AddOrGet<MoveToDocked>();
             go.AddComponent<DockingDoor>().porterOffset = new CellOffset(1, 0);
             go.AddOrGet<NavTeleporter>().offset = new CellOffset(1, 0);
             FakeFloorAdder fakeFloorAdder = go.AddOrGet<FakeFloorAdder>();

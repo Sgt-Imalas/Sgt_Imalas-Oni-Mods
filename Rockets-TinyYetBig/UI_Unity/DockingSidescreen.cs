@@ -8,32 +8,54 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
+using UtilLibs.UI.FUI;
+using UtilLibs.UIcmp;
+using YamlDotNet.Core.Tokens;
+using static ModInfo;
+using static Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2;
 using static UnityEngine.GraphicsBuffer;
 using static UtilLibs.UIUtils;
 
 namespace Rockets_TinyYetBig.UI_Unity
 {
-    class DockingSidescreen : SideScreenContent
+    class DockingSidescreen : SideScreenContent, IRender200ms
     {
 
+        private CrewAssignmentSidescreen crewScreen;
         public override void OnSpawn()
         {
             base.OnSpawn();
-            // ListAllChildren(this.transform);
+            ClusterManager.Instance.Subscribe(-1280433810, new System.Action<object>(this.NewWorldAddedHandler));
+
         }
 
-        private DockingManager targetManager;
-        private Clustercraft targetCraft;
-        private DockingDoor targetDoor;
+        private void NewWorldAddedHandler(object obj)
+        {
+            var newWorldId = (int)obj;
+            var newWorld = ClusterManager.Instance.GetWorld(newWorldId);
+            if(newWorld != null && newWorld.IsModuleInterior)
+            {
+                if(newWorld.TryGetComponent<DockingManager>(out var manager))
+                {
+                    AddRowEntry(manager);
+                }
+                else
+                {
+                    Debug.LogError("Failed to get DockingManager from new rocket interior");
+                }
+            }
+                
+        }
 
-        [SerializeField]
-        private GameObject rowPrefab;
-        [SerializeField]
-        private GameObject listContainer;
-        [SerializeField]
-        private LocText headerLabel;
-        [SerializeField]
-        private GameObject noChannelRow;
+        protected DockingManager targetManager;
+        protected Clustercraft targetCraft;
+        protected DockingDoor targetDoor;
+
+        protected GameObject rowPrefab;
+        protected GameObject listContainer;
+        protected LocText headerLabel;
+        //[SerializeField]
+        //private GameObject noChannelRow;
         private Dictionary<DockingManager, GameObject> DockingTargets = new Dictionary<DockingManager, GameObject>();
 
 
@@ -63,6 +85,7 @@ namespace Rockets_TinyYetBig.UI_Unity
         }
         public override void ClearTarget()
         {
+            SgtLogger.l("clearing Target");
             foreach (int id in refreshHandle)
                 targetCraft.Unsubscribe(id);
             refreshHandle.Clear();
@@ -73,12 +96,15 @@ namespace Rockets_TinyYetBig.UI_Unity
         }
         public override void SetTarget(GameObject target)
         {
+
             if (target != null)
             {
                 foreach (int id in refreshHandle)
                     target.Unsubscribe(id);
                 refreshHandle.Clear();
             }
+
+            SgtLogger.l("setting Target");
             base.SetTarget(target);
             target.TryGetComponent(out targetManager); ///??? revisit
             target.TryGetComponent(out targetCraft);
@@ -92,15 +118,11 @@ namespace Rockets_TinyYetBig.UI_Unity
             Build();
             refreshHandle.Add(targetCraft.gameObject.Subscribe((int)GameHashes.ClusterDestinationChanged, new Action<object>(RefreshAll)));
             refreshHandle.Add(targetCraft.gameObject.Subscribe((int)GameHashes.ClusterLocationChanged, new Action<object>(RefreshAll)));
+
+            Refresh();
         }
 
         private void RefreshAll(object data = null) => Build();
-        private void ClearRows()
-        {
-            foreach (KeyValuePair<DockingManager, GameObject> broadcasterRow in DockingTargets)
-                Util.KDestroyGameObject(broadcasterRow.Value);
-            DockingTargets.Clear();
-        }
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
@@ -109,40 +131,32 @@ namespace Rockets_TinyYetBig.UI_Unity
 
         void ConnectReference()
         {
-            return;
-
             if (rowPrefab == null)
             {
-                rowPrefab = transform.Find("Content/ContentScrollRect/RowContainer/Rows/RowPrefab").gameObject;
-                listContainer = transform.Find("Content/ContentScrollRect/RowContainer/Rows").gameObject;
+                rowPrefab = transform.Find("OwnDupesContainer/ScrollRectContainer/ItemPrefab").gameObject;
+                listContainer = transform.Find("OwnDupesContainer/ScrollRectContainer").gameObject;
                 //var layout = transform.Find("Content/ContentScrollRect/Scrollbar").GetComponent<LayoutElement>();
                 //SgtLogger.debuglog(String.Format("{0}, {1}, {2}", layout.minHeight, layout.preferredHeight, layout.flexibleHeight));
                 //layout.minHeight = 150f;
+                rowPrefab.gameObject.SetActive(false);
+                headerLabel = TryFindComponent<LocText>(transform.Find("DockingBridges/TitleText"));
+                //noChannelRow = transform.Find("Content/ContentScrollRect/RowContainer/Rows/NoChannelRow").gameObject;
 
-                transform.Find("Content/ContentScrollRect").GetComponent<LayoutElement>().minHeight = 150;
-                transform.Find("Content/ContentScrollRect/Scrollbar").GetComponent<LayoutElement>().minHeight = 120;
-
-                headerLabel = TryFindComponent<LocText>(transform.Find("Content/Header"));
-                noChannelRow = transform.Find("Content/ContentScrollRect/RowContainer/Rows/NoChannelRow").gameObject;
-
-                TryChangeText(noChannelRow.transform, "Labels/Label", "Nothing");
-                TryChangeText(noChannelRow.transform, "Labels/DescLabel", "Nothing to dock to.");
+                //TryChangeText(noChannelRow.transform, "Labels/Label", "Nothing");
+                //TryChangeText(noChannelRow.transform, "Labels/DescLabel", "Nothing to dock to.");
             }
         }
 
         private void Build()
         {
-#if DEBUG
-            // SgtLogger.debuglog("------------------");
-            //UIUtils.ListAllChildren(this.transform);
-            // SgtLogger.debuglog("------------------");
-            //UIUtils.ListAllChildrenWithComponents(this.transform);
-            // SgtLogger.debuglog("------------------");
-#endif
+            foreach (var uirow in DockingTargets)
+            {
+                uirow.Value.SetActive(false);
+            }
+
             if (targetManager == null || headerLabel == null)
                 return;
             //headerLabel.SetText("Docking Ports: " + targetManager.GetUiDoorInfo());
-            ClearRows();
             var AllDockerObjects = ClusterGrid.Instance.GetVisibleEntitiesAtCell(targetCraft.Location).FindAll(e => e.TryGetComponent(out DockingManager manager));
             var AllDockers = AllDockerObjects
                 .Select(e => e.GetComponent<DockingManager>())
@@ -157,54 +171,165 @@ namespace Rockets_TinyYetBig.UI_Unity
                 AllDockers.RemoveAll(craft => craft.GetCraftType == DockableType.SpaceStation);
             }
 
+
+
             foreach (DockingManager targetManager in AllDockers)
             {
-                if (RocketryUtils.IsRocketInFlight(targetCraft))
-                    continue;
-                targetManager.gameObject.TryGetComponent<Clustercraft>(out var clustercraft);
-                if (clustercraft != null && RocketryUtils.IsRocketInFlight(clustercraft))
-                    continue;
-
-
-                if (!targetManager.IsNullOrDestroyed())
+                if (!DockingTargets.ContainsKey(targetManager))
                 {
-                    GameObject gameObject = Util.KInstantiateUI(rowPrefab, listContainer);
-                    gameObject.gameObject.name = targetManager.GetProperName();
-                    Debug.Assert(!DockingTargets.ContainsKey(targetManager), "Adding two of the same DockingManager to DockingSideScreen UI: " + targetManager.gameObject.GetProperName());
-                    DockingTargets.Add(targetManager, gameObject);
-                    gameObject.SetActive(true);
+                    AddRowEntry(targetManager);
                 }
+
+                DockingTargets[targetManager].SetActive(true);
             }
-            noChannelRow.SetActive(AllDockers.Count == 0);
+
+            //noChannelRow.SetActive(AllDockers.Count == 0);
+
             Refresh();
+        }
+        List<RectTransform> rotatings = new List<RectTransform>();
+
+        void ToggleCrewScreen(DockingManager target)
+        {
+            if(crewScreen == null)
+            {
+                crewScreen = (CrewAssignmentSidescreen)DetailsScreen.Instance.SetSecondarySideScreen(ModAssets.DupeTransferSecondarySideScreen, "Crew Assignment");
+                crewScreen.UpdateForConnection(targetManager.GetAssignmentGroupControllerIfExisting(), targetManager.WorldId, target.GetAssignmentGroupControllerIfExisting(), target.WorldId);
+            }
+            else
+            {
+                ClearSecondarySideScreen();
+            }
+        }
+        public override void OnShow(bool show)
+        {
+            base.OnShow(show);
+
+            if(!show)
+            {
+                ClearSecondarySideScreen();
+            }
+        }
+        void ClearSecondarySideScreen()
+        {
+            DetailsScreen.Instance.ClearSecondarySideScreen();
+            this.crewScreen = null;
+        }
+
+        private void AddRowEntry(DockingManager referencedManager)
+        {
+            int ReferenceWorldId = referencedManager.WorldId;
+            GameObject RowEntry = Util.KInstantiateUI(rowPrefab, listContainer);
+            ///ListAllChildren(RowEntry.transform);
+            RowEntry.name = referencedManager.GetProperName();
+            RowEntry.transform.Find("Row1/TitleText").gameObject.GetComponent<LocText>().SetText(referencedManager.GetProperName());
+            RowEntry.transform.Find("Row1/SpaceCraftIcon/Image").GetComponent<Image>().sprite = referencedManager.GetDockingIcon();
+
+
+            Debug.Assert(!DockingTargets.ContainsKey(referencedManager), "Adding two of the same DockingManager to DockingSideScreen UI: " + referencedManager.gameObject.GetProperName());
+
+            var DockButton = RowEntry.transform.Find("Row1/Dock").gameObject.AddComponent<FButton>();
+            var UndockButton = RowEntry.transform.Find("Row1/Undock").gameObject.AddComponent<FButton>();
+            var TransferButton = RowEntry.transform.Find("Row2/TransferButton").gameObject.AddComponent<FButton>();
+            var ViewDockedButton = RowEntry.transform.Find("Row2/ViewDockedButton").gameObject.AddComponent<FButton>();
+
+            var SpaceShipIconRotatabe = RowEntry.transform.Find("Row1/WaitContainer/loading").rectTransform();
+            SpaceShipIconRotatabe.gameObject.SetActive(false);
+
+            DockButton.OnClick += () =>
+            {
+                ClearSecondarySideScreen();
+                this.targetManager.DockToTargetWorld(ReferenceWorldId, targetDoor);
+                Refresh();
+            };
+
+            UndockButton.OnClick += () =>
+            {
+                ClearSecondarySideScreen();
+                rotatings.Add(SpaceShipIconRotatabe);
+                SpaceShipIconRotatabe.gameObject.SetActive(true);
+
+                targetManager.UnDockFromTargetWorld(ReferenceWorldId, false,
+                    () =>
+                    {
+                        rotatings.Remove(SpaceShipIconRotatabe);
+                        SpaceShipIconRotatabe.gameObject.SetActive(false);
+                        Refresh();
+                    });
+                Refresh();
+            };
+            TransferButton.OnClick += () =>
+            {
+                ToggleCrewScreen(referencedManager);
+
+            };
+
+            ViewDockedButton.OnClick += () =>
+            {
+                if (referencedManager != null && targetManager.IsDockedTo(ReferenceWorldId))
+                {
+                    if (targetManager.DockedToDoor(ReferenceWorldId) != null)
+                        ViewDockedButton.SetInteractable(targetManager.DockedToDoor(ReferenceWorldId).HasDupeTeleporter);
+                    {
+                        ClusterManager.Instance.SetActiveWorld(ReferenceWorldId);
+                        SelectTool.Instance.Activate();
+                    }
+                }
+            };
+
+            DockingTargets.Add(referencedManager, RowEntry);
+            RowEntry.SetActive(true);
         }
 
         private void Refresh()
         {
-            //headerLabel.SetText(string.Format(STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.MORECONNECTIONS, targetManager.GetUiDoorInfo()));
-            foreach (KeyValuePair<DockingManager, GameObject> kvp in DockingTargets)
+            if(targetManager==null)
             {
-                kvp.Value.TryGetComponent<HierarchyReferences>(out var hr);
-                hr.GetReference<LocText>("Label").SetText(kvp.Key.gameObject.GetProperName());
-               // hr.GetReference<LocText>("DistanceLabel").SetText(kvp.Key.GetUiDoorInfo());
-                hr.GetReference<Image>("Icon").gameObject.SetActive(false);
-                //hr.GetReference<Image>("Icon").sprite = Def.GetUISprite((object)kvp.Key.gameObject).first;
-                //hr.GetReference<Image>("Icon").color = Def.GetUISprite((object)kvp.Key.gameObject).second;
-                WorldContainer myWorld = kvp.Key.GetMyWorld();
-                hr.GetReference<Image>("WorldIcon").sprite = kvp.Key.GetDockingIcon();
-                //hr.GetReference<Image>("WorldIcon").color = Color.black ;
-                var toggle = hr.GetReference<MultiToggle>("Toggle");
+                SgtLogger.l("Skipping refresh");
+                return;
+            }
+            headerLabel.SetText(string.Format(STRINGS.UI.DOCKINGSCREEN.DOCKINGBRIDGES.TITLETEXT, targetManager.AvailableConnections(), targetManager.TotatConnections()));
 
-                toggle.onClick = () =>
-                {
-                    targetManager.HandleUiDocking(toggle.CurrentState, kvp.Key.WorldId, targetDoor,
-                        () =>
-                        {
-                            Refresh();
-                        });
-                    Refresh();
-                };
-                toggle.ChangeState(targetManager.GetActiveUIState(kvp.Key.WorldId) ? 1 : 0);
+
+            foreach (var kvp in DockingTargets)
+            {
+                //if (!kvp.Value.activeInHierarchy)
+                //    continue;
+
+                SgtLogger.l("refreshing " + kvp.Key.ToString());
+
+                var manager = kvp.Key;
+                int ReferenceWorldId = manager.WorldId;
+                var DockButton = kvp.Value.transform.Find("Row1/Dock").gameObject.GetComponent<FButton>();
+                var UndockButton = kvp.Value.transform.Find("Row1/Undock").gameObject.GetComponent<FButton>();
+                var TransferButton = kvp.Value.transform.Find("Row2/TransferButton").gameObject.GetComponent<FButton>();
+                var ViewDockedButton = kvp.Value.transform.Find("Row2/ViewDockedButton").gameObject.GetComponent<FButton>();
+
+
+                bool CanDock = targetManager.AvailableConnections() > 0 && manager.AvailableConnections() > 0 && !targetManager.IsDockedTo(ReferenceWorldId);
+                DockButton.SetInteractable(CanDock);
+
+                bool CanUnDock = targetManager.IsDockedTo(ReferenceWorldId) && !targetManager.HasPendingUndocks(ReferenceWorldId);
+                
+                UndockButton.SetInteractable(CanUnDock);
+
+                bool canViewInterior =
+                     CanUnDock
+                    && manager.DockedToDoor(targetManager.WorldId).HasDupeTeleporter
+                    ;
+
+                    ViewDockedButton.SetInteractable(canViewInterior);
+
+                    TransferButton.SetInteractable(canViewInterior);
+            }
+        }
+
+
+        public void Render200ms(float dt)
+        {
+            foreach (var rotatable in rotatings)
+            {
+                rotatable.Rotate(new Vector3(0, 0, 25));
             }
         }
     }

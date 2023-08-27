@@ -16,14 +16,14 @@ namespace Rockets_TinyYetBig.Docking
         [Serialize]
         public Ref<IDockable> connected = null;
 
-        [MyCmpGet]
-        public Assignable assignable;
+        //[MyCmpGet]
+        //public Assignable assignable;
         [MyCmpGet]
         public NavTeleporter Teleporter;
-        [MyCmpGet]
-        public MoveToDocked MoveTo;
+        //[MyCmpGet]
+        //public MoveToDocked MoveTo;
 
-        public bool HasDupeTeleporter => Teleporter != null && MoveTo != null && assignable != null ;
+        public bool HasDupeTeleporter => Teleporter != null;// && MoveTo != null && assignable != null ;
 
 
         public DockingManager dManager;
@@ -98,7 +98,7 @@ namespace Rockets_TinyYetBig.Docking
                 : ClusterUtil.GetMyWorld(this.gameObject).gameObject.AddOrGet<DockingManager>();
 
             GameScheduler.Instance.ScheduleNextFrame("Adding Dockable", (obj) => dManager.AddDockable(this));
-            dManager.SetManagerType();
+           
         }
 
         public override void OnCleanUp()

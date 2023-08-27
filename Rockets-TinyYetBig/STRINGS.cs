@@ -540,6 +540,44 @@ namespace Rockets_TinyYetBig
                 }
 
             }
+            public class DOCKINGTRANSFERSCREEN
+            {
+                public static class TITLE
+                {
+                    public static LocString TITLETEXT = "Crew Management";
+                }
+
+                public static class CONTENTHEADEROWN
+                {
+                    public static LocString TITLETEXT = "Duplicants assigned to this Spacecraft:";
+                }
+                public static class CONTENTHEADERDOCKED
+                {
+                    public static LocString TITLETEXT = "Duplicants assigned the docked Spacecraft:";
+                }
+                public static class OWNDUPESCONTAINER
+                {
+                    public static class SCROLLRECTCONTAINER
+                    {
+                        public static class NODUPESASSIGNED
+                        {
+                            public static LocString TITLETEXT = "No Duplicants assigned are currently assigned to this spacecraft.";
+                        }
+                    }
+                }
+                public static class TARGETDUPESCONTAINER
+                {
+                    public static class SCROLLRECTCONTAINER
+                    {
+                        public static class NODUPESASSIGNED
+                        {
+                            public static LocString TITLETEXT = "No Duplicants are currently assigned to this spacecraft.";
+                        }
+                    }
+                }
+                public static LocString ASSIGNTOOTHERBUTTONTEXT = "Assign Duplicant to the other Spacecraft";
+                 
+            }
             public static class ROCKETGENERATOR
             {
                 public static LocString BUTTONTEXT = (LocString)"Toggle On/Off";

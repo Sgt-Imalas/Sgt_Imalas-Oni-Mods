@@ -5,6 +5,7 @@ using Rockets_TinyYetBig.Docking;
 using Rockets_TinyYetBig.NonRocketBuildings;
 using Rockets_TinyYetBig.RocketFueling;
 using Rockets_TinyYetBig.SpaceStations;
+using Rockets_TinyYetBig.UI_Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ namespace Rockets_TinyYetBig
         public static GameObject ModuleSettingsWindowPrefab;
         public static GameObject DockingSideScreenWindowPrefab;
         public static GameObject DupeTransferSecondarySideScreenWindowPrefab; 
+        public static KScreen DupeTransferSecondarySideScreen;
         public static void LoadAssets()
         {
             AssetBundle bundle = AssetUtils.LoadAssetBundle("rocketryexpanded_ui_assets", platformSpecific: true);
@@ -40,6 +42,8 @@ namespace Rockets_TinyYetBig
             TMPConverter.ReplaceAllText(ModuleSettingsWindowPrefab);
             TMPConverter.ReplaceAllText(DockingSideScreenWindowPrefab);
             TMPConverter.ReplaceAllText(DupeTransferSecondarySideScreenWindowPrefab);
+
+            DupeTransferSecondarySideScreen  = DupeTransferSecondarySideScreenWindowPrefab.AddComponent<CrewAssignmentSidescreen>();
 
         }
 
