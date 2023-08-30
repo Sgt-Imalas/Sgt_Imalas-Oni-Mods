@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Imalas_TwitchChaosEvents.Creeper
 {
-    internal class CreeperConsumerPetConfig : IEntityConfig
+    internal class CreeperConsumerPetConfig// : IEntityConfig
     {
         public const string ID = "ITCE_CREEPERCONSUMER";
         public const string BASE_TRAIT_ID = "ITCE_CREEPERCONSUMER_BASETRAIT";

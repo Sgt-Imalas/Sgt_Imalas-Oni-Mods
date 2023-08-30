@@ -22,8 +22,8 @@ namespace Imalas_TwitchChaosEvents.Fire
         [MyCmpGet]
         ParticleSystem particleSystem;
 
-        public float energyPerSecondKJStart = 600f;
-        public float energyPerSecondKJPutOut = 200f;
+        public float energyPerSecondKJStart = 90f;
+        public float energyPerSecondKJPutOut = 20f;
 
         public float burningtime = 30f;
         public float ignitionEnergyPerSecond = 20f;
@@ -109,11 +109,13 @@ namespace Imalas_TwitchChaosEvents.Fire
                     //SgtLogger.l("" + Mathf.Lerp(MaxHeat, -MaxHeat * 0.1f, Mathf.Clamp01(TimeLerp * 5f)), "heat");
                     FireManager.Instance.ApplyIgnitionHeatToCell(cell,  Mathf.Lerp(MaxHeat, - MaxHeat*0.1f, Mathf.Clamp01(TimeLerp*5f)));
 
-
-                    SimMessages.ConsumeMass(cell, Grid.Element[cell].id, 1f * dt* multiplier, 1, -1);
-                    if (!Grid.IsSolidCell(Grid.CellAbove(cell)))
+                    if (ONITwitchLib.Utils.GridUtil.IsCellFoundationEmpty(cell))
                     {
-                        SimMessages.ReplaceAndDisplaceElement(Grid.CellAbove(cell), SimHashes.CarbonDioxide, SpawnEvent, 0.1f * dt, UtilMethods.GetKelvinFromC(600));
+                        SimMessages.ConsumeMass(cell, Grid.Element[cell].id, 0.1f * dt * multiplier, 1, -1);
+                        if (!Grid.IsSolidCell(Grid.CellAbove(cell)))
+                        {
+                            SimMessages.ReplaceAndDisplaceElement(Grid.CellAbove(cell), SimHashes.CarbonDioxide, SpawnEvent, 0.1f * dt, UtilMethods.GetKelvinFromC(600));
+                        }
                     }
                 }
             }
