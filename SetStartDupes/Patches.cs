@@ -423,7 +423,12 @@ namespace SetStartDupes
             {
                 if (ModConfig.Instance.LiveDupeSkins)
                 {
-                    var SkinButton = Util.KInstantiateUI<KButton>(__instance.ChangeOutfitButton.gameObject, __instance.ChangeOutfitButton.transform.parent.gameObject, true);
+                    SgtLogger.l("adding skin button to detailsScreen");
+
+                    if (SkinButtonGO != null)
+                        UnityEngine.Object.Destroy(SkinButtonGO);
+
+                    var SkinButton = Util.KInstantiateUI<KButton>(__instance.ChangeOutfitButton.gameObject, __instance.ChangeOutfitButton.transform.parent.gameObject);
                     //SkinButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 20, 33f);
                     SkinButton.ClearOnClick();
                     SkinButton.name = "DupeSkinButtonSideScreen";
@@ -438,19 +443,24 @@ namespace SetStartDupes
                         DupeSkinScreenAddon.ShowSkinScreen(null, null, __instance.target);
                     };
                     SkinButtonGO = SkinButton.gameObject;
+                    SkinButtonGO.SetActive(false);
                 }
             }
         }
         [HarmonyPatch(typeof(DetailsScreen))]
-        [HarmonyPatch(nameof(DetailsScreen.UpdateOutfitButton))]
+        [HarmonyPatch(nameof(DetailsScreen.SetTitle))]
+        [HarmonyPatch(new Type[] { typeof(int) })]
         public class ToggleSkinButtonVisibility
         {
-            public static void Postfix(DetailsScreen __instance)
+            public static void Prefix(DetailsScreen __instance)
             {
-                if(AddSkinButtonToDetailScreen.SkinButtonGO != null)
+                if (AddSkinButtonToDetailScreen.SkinButtonGO != null && __instance.target!=null)
                 {
-                    AddSkinButtonToDetailScreen.SkinButtonGO.SetActive(__instance.target.TryGetComponent<MinionIdentity>(out _));
+                    AddSkinButtonToDetailScreen.SkinButtonGO.SetActive(__instance.target.GetComponent<MinionIdentity>());
+                    //SgtLogger.l("AddSkinButtonToDetailScreen.SkinButtonGO.Active: " + AddSkinButtonToDetailScreen.SkinButtonGO.activeSelf);
                 }
+                //else
+                //    SgtLogger.warning("skin button go was null!");
             }
         }
 
