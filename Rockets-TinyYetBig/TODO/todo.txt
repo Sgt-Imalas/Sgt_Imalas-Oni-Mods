@@ -2,7 +2,6 @@
 - antenna nosecone for moar booster building range
 - concept for boosters
 - sugar tank
-- liquid chlorine oxidizer - 3x efficiency, 2 height, high weight, uses abyssalite in recipe
 - add fuel component to trailblazer to get back up
 - deployable landing platform - wip
 - vertical adapter?
@@ -76,7 +75,7 @@ Features of a Station
 
 
 Things to decide:
-- make stations upgradable? 
+- make stations upgradable?  - YES, DONE
 	- all stations reserve the full max size of grid, but block off the outer area via neutronium/undiggable "forcefield" element+ local fog of war (like POIs)
 	- an Upgrade would fare similar to construction, build the parts via construction module, on completion the ring of forcefield and the fog of war is lifted, granting more building area
 - make stations flyable and/or require Upkeep

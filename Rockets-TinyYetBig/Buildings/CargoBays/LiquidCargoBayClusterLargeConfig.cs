@@ -13,7 +13,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
         public const string ID = "RTB_LiquidCargoBayClusterLarge";
         public static float CAPACITY = !Config.Instance.RebalancedCargoCapacity ? CAPACITY_OFF : CAPACITY_ON;
         public static float CAPACITY_OFF = 50000f;
-        public static float CAPACITY_ON = Config.Instance.LiquidCargoBayUnits * ModAssets.CollossalCargoBayUnits;
+        public static float CAPACITY_ON = Config.Instance.LiquidCargoBayKgPerUnit * Config.Instance.CollossalCargoBayUnits;
 
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
 

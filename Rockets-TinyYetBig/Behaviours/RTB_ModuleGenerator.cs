@@ -25,10 +25,10 @@ namespace Rockets_TinyYetBig.Behaviours
 
         [MyCmpGet]
         private Storage storage;
-        
+
         private Clustercraft clustercraft;
         private Guid ActiveStatusItemHandle;
-       // private Guid notPoweringStatusItemHandle;
+        // private Guid notPoweringStatusItemHandle;
         public Guid FuelStatusHandle;
 
         [Serialize]
@@ -118,7 +118,7 @@ namespace Rockets_TinyYetBig.Behaviours
         }
         public override void OnCleanUp()
         {
-            if(VirtualCircuitKey!=null)
+            if (VirtualCircuitKey != null)
                 Game.Instance.electricalConduitSystem.RemoveFromVirtualNetworks(this.VirtualCircuitKey, (object)this, true);
             //if(clustercraft!= null && clustercraft.TryGetComponent<KSelectable>(out var selectable))
             //{
@@ -128,9 +128,9 @@ namespace Rockets_TinyYetBig.Behaviours
 
         }
 
-        public override bool IsProducingPower() => 
-            AlwaysActive && ConsumptionSatisfied() 
-            || clustercraft.Status != Clustercraft.CraftStatus.Grounded && BatteriesNotFull() && ConsumptionSatisfied() 
+        public override bool IsProducingPower() =>
+            AlwaysActive && ConsumptionSatisfied()
+            || clustercraft.Status != Clustercraft.CraftStatus.Grounded && BatteriesNotFull() && ConsumptionSatisfied()
             || produceWhileLanded && BatteriesNotFull() && ConsumptionSatisfied();
         public bool ShouldProduciePower() => AlwaysActive || this.clustercraft.Status != Clustercraft.CraftStatus.Grounded && BatteriesNotFull() || produceWhileLanded && BatteriesNotFull();
 
@@ -280,7 +280,7 @@ namespace Rockets_TinyYetBig.Behaviours
                 {
                     if ((double)carbobay.RemainingCapacity >= outputProductionRate * dt && carbobay.GetComponent<TreeFilterable>().ContainsTag(outputElement.CreateTag()))
                     {
-                        PutOutputElementToStorate(outputElement,outputProductionRate * dt, carbobay.storage);
+                        PutOutputElementToStorate(outputElement, outputProductionRate * dt, carbobay.storage);
                         putAwaySuccess = true;
                     }
                 }
@@ -315,22 +315,25 @@ namespace Rockets_TinyYetBig.Behaviours
             {
                 if (clustercraft.Status == Clustercraft.CraftStatus.Grounded)
                 {
-                    this.TryGetComponent<ManualDeliveryKG>(out var delivery);
-                    if (delivery.IsPaused)
+                    if (TryGetComponent<ManualDeliveryKG>(out var delivery))
                     {
-                        delivery.Pause(false, "one Refill allowed.");
-                        //RefillingPaused = false;
-                    }
-                    if (outputElement != SimHashes.Void && storage.GetAmountAvailable(outputElement.CreateTag()) > 0f)
-                        storage.DropAll(this.transform.position, true, true);
+                        if (delivery.IsPaused)
+                        {
+                            delivery.Pause(false, "one Refill allowed.");
+                            //RefillingPaused = false;
+                        }
+                        if (outputElement != SimHashes.Void && storage.GetAmountAvailable(outputElement.CreateTag()) > 0f)
+                            storage.DropAll(this.transform.position, true, true);
 
+
+                    }
                 }
             }
         }
 
         void ToggleFill(bool shouldPause)
         {
-            if (this.TryGetComponent<ManualDeliveryKG>(out var delivery) 
+            if (this.TryGetComponent<ManualDeliveryKG>(out var delivery)
                 //&& !AllowRefill
                 )
             {
@@ -439,8 +442,8 @@ namespace Rockets_TinyYetBig.Behaviours
 
         public void UpdateLandedStatusItem()
         {
-            if(produceWhileLanded)
-                this.selectable.AddStatusItem( ModAssets.StatusItems.RTB_ModuleGeneratorLandedEnabled);
+            if (produceWhileLanded)
+                this.selectable.AddStatusItem(ModAssets.StatusItems.RTB_ModuleGeneratorLandedEnabled);
             else
                 this.selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_ModuleGeneratorLandedEnabled);
 

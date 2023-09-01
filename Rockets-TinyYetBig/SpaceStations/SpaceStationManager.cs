@@ -167,7 +167,11 @@ namespace Rockets_TinyYetBig.SpaceStations
                 world.CancelChores();
                 HashSet<int> noRefundTiles;
                 world.DestroyWorldBuildings(out noRefundTiles);
+                station.ClearAllBarriers(world, ref noRefundTiles);
+
                 ClusterManager.Instance.UnregisterWorldContainer(world);
+
+
                 GameScheduler.Instance.ScheduleNextFrame("ClusterManager.world.TransferResourcesToDebris", (System.Action<object>)(obj => world.TransferResourcesToDebris(clusterLocation, noRefundTiles, SimHashes.Cuprite)));
                 GameScheduler.Instance.ScheduleNextFrame("ClusterManager.DeleteWorldObjects", (System.Action<object>)(obj => DeleteWorldObjects(world)));
                 SpaceStationWorlds.Remove(world_id);

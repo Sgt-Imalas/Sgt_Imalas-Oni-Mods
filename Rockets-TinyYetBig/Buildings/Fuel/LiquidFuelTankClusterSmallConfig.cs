@@ -16,7 +16,7 @@ namespace Rockets_TinyYetBig.Buildings.Fuel
 
         public override BuildingDef CreateBuildingDef()
         {
-            float[] MatCosts = BUILDINGS.ROCKETRY_MASS_KG.DENSE_TIER0;
+            float[] MatCosts = new float[] { 100f };
             string[] Materials = MATERIALS.ALL_METALS;
             EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;

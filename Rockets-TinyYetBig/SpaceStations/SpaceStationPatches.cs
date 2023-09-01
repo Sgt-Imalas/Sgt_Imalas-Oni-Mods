@@ -85,6 +85,63 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
         }
 
+        [HarmonyPatch(typeof(CameraController))]
+        [HarmonyPatch(nameof(CameraController.ConstrainToWorld))]
+        public static class ConstrainToSmallerWorld_FixForModules
+        {
+            public static bool Prefix(CameraController __instance)
+            {
+                if (Game.Instance == null || Game.Instance.IsLoading() || __instance.FreeCameraEnabled)
+                    return false;
+
+                WorldContainer activeWorld = ClusterManager.Instance.activeWorld;
+
+
+
+                var bottomLeftBoundryBox = activeWorld.WorldOffset; // + (Vector2)activeWorld.WorldSize * 0.05f
+                var topRightBoundryBox = activeWorld.WorldOffset + (Vector2)activeWorld.WorldSize;
+
+                if (activeWorld.TryGetComponent<SpaceStation>(out var spaceStation))
+                {
+                    bottomLeftBoundryBox = activeWorld.WorldOffset + spaceStation.bottomLeftCorner;
+                    topRightBoundryBox = activeWorld.WorldOffset + spaceStation.topRightCorner;
+                }
+
+
+                var Pos = __instance.baseCamera.transform.GetPosition();
+
+                bool modify = false;
+                if(Pos.x < bottomLeftBoundryBox.x)
+                {
+                    modify=true;
+                    Pos.x = bottomLeftBoundryBox.x;
+                }
+                else if( Pos.x > topRightBoundryBox.x)
+                {
+                    modify = true;
+                    Pos.x = topRightBoundryBox.x;
+                }
+                if(Pos.y < bottomLeftBoundryBox.y)
+                {
+                    modify = true;
+                    Pos.y = bottomLeftBoundryBox.y;
+                }
+                else if(Pos.y > topRightBoundryBox.y)
+                {
+                    modify = true;
+                    Pos.y = topRightBoundryBox.y;
+                }
+
+                if (modify)
+                {
+                    Pos.z = -100;
+                    __instance.transform.SetPosition(Pos);
+                }
+                return false;
+            }
+        }
+
+
         /// <summary>
         /// Nameable Stations
         /// </summary>
@@ -139,8 +196,8 @@ namespace Rockets_TinyYetBig.SpaceStations
         {
             public static bool Prefix(Amount master, AmountInstance instance)
             {
-                int num = Grid.PosToCell(instance.gameObject);
-                return Grid.IsValidCell(num);
+                int targetCell = Grid.PosToCell(instance.gameObject);
+                return Grid.IsValidCell(targetCell);
             }
         }
 
@@ -418,6 +475,76 @@ namespace Rockets_TinyYetBig.SpaceStations
                 }
             }
         }
+
+        /// <summary>
+        /// adjust for smaller space stations
+        /// </summary>
+        [HarmonyPatch(typeof(RailGunPayload.StatesInstance))]
+        [HarmonyPatch(nameof(RailGunPayload.StatesInstance.StartLand))]
+        public static class PatchRailgunPayload_LandInsideSpaceStation
+        {
+            public static bool Prefix(RailGunPayload.StatesInstance __instance)
+            {
+                WorldContainer worldContainer = ClusterManager.Instance.GetWorld(__instance.sm.destinationWorld.Get(__instance));
+                if (worldContainer == null)
+                {
+                    return true;
+                }
+
+                if(worldContainer.TryGetComponent<SpaceStation>(out var spaceStation))
+                {
+                    int targetCell = 0;
+                    int targetBeaconCell = Grid.InvalidCell;
+                    if (__instance.def.attractToBeacons)
+                    {
+                        targetBeaconCell = ClusterManager.Instance.GetLandingBeaconLocation(worldContainer.id);
+                    }
+
+                    if (targetBeaconCell != Grid.InvalidCell)
+                    {
+                        Grid.CellToXY(targetBeaconCell, out var x, out var _);
+                        int minInclusive = Mathf.Max(x - 2, (int)spaceStation.topRightCorner.x);
+                        int maxExclusive = Mathf.Min(x + 3, (int)spaceStation.topRightCorner.x);
+                        targetCell = Mathf.RoundToInt(UnityEngine.Random.Range(minInclusive, maxExclusive));
+                    }
+                    else
+                    {
+                        targetCell = Mathf.RoundToInt(UnityEngine.Random.Range(spaceStation.topRightCorner.x + 3f, spaceStation.topRightCorner.x - 3f));
+                    }
+
+                    TransformExtensions.SetPosition(position: new Vector3((float)targetCell + 0.5f, spaceStation.topRightCorner.y - 1f, Grid.GetLayerZ(Grid.SceneLayer.Front)), transform: __instance.transform);
+                    if (GameComps.Fallers.Has(__instance.gameObject))
+                    {
+                        GameComps.Fallers.Remove(__instance.gameObject);
+                    }
+
+                    GameComps.Fallers.Add(__instance.gameObject, new Vector2(0f, -10f));
+                    __instance.sm.destinationWorld.Set(-1, __instance);
+
+
+                    int worldID = __instance.gameObject.GetMyWorldId();
+                    if (worldID != -1 && ClusterManager.Instance.GetWorld(worldID).TryGetComponent<SpaceStation>(out var component))
+                    {
+                        Vector3 position = __instance.transform.GetPosition();
+                        position.y -= 1f;
+                        int cell = Grid.PosToCell(position);
+                        if (!Grid.IsValidCellInWorld(cell, worldID))
+                        {
+                            position.y += ClusterManager.Instance.GetWorld(worldID).Height;
+                            __instance.transform.position = position;
+                        }
+                    }
+                    return false;
+                }
+
+                return true;
+
+
+                
+            }
+        }
+
+
 
         //[HarmonyPatch(typeof(RailGunPayload.StatesInstance))]
         //[HarmonyPatch(nameof(RailGunPayload.StatesInstance.Travel))]

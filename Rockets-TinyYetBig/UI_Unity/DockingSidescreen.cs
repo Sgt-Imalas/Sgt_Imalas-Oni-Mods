@@ -31,19 +31,25 @@ namespace Rockets_TinyYetBig.UI_Unity
 
         private void NewWorldAddedHandler(object obj)
         {
-            var newWorldId = (int)obj;
-            var newWorld = ClusterManager.Instance.GetWorld(newWorldId);
-            if(newWorld != null && newWorld.IsModuleInterior)
+            GameScheduler.Instance.Schedule("refreshUI", 0.5f,(oj =>
             {
-                if(newWorld.TryGetComponent<DockingManager>(out var manager))
+
+                var newWorldId = (int)obj;
+                var newWorld = ClusterManager.Instance.GetWorld(newWorldId);
+                if (newWorld != null && newWorld.IsModuleInterior)
                 {
-                    AddRowEntry(manager);
+                    if (newWorld.TryGetComponent<DockingManager>(out var manager))
+                    {
+                        AddRowEntry(manager);
+                        Refresh();
+                    }
+                    else
+                    {
+                        Debug.LogError("Failed to get DockingManager from new rocket interior");
+                    }
                 }
-                else
-                {
-                    Debug.LogError("Failed to get DockingManager from new rocket interior");
-                }
-            }
+            })
+            );
                 
         }
 
@@ -122,7 +128,7 @@ namespace Rockets_TinyYetBig.UI_Unity
             Refresh();
         }
 
-        private void RefreshAll(object data = null) => Build();
+        private void RefreshAll(object data = null) => DelayedRefresh();
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
@@ -183,10 +189,18 @@ namespace Rockets_TinyYetBig.UI_Unity
                 DockingTargets[targetManager].SetActive(true);
             }
 
+
             //noChannelRow.SetActive(AllDockers.Count == 0);
 
             Refresh();
+            DelayedRefresh();
         }
+
+        void DelayedRefresh()
+        {
+            GameScheduler.Instance.ScheduleNextFrame("dockingUiRefresh",(d)=>Refresh());
+        }
+
         List<RectTransform> rotatings = new List<RectTransform>();
 
         void ToggleCrewScreen(DockingManager target)
@@ -216,7 +230,7 @@ namespace Rockets_TinyYetBig.UI_Unity
             this.crewScreen = null;
         }
 
-        private void AddRowEntry(DockingManager referencedManager)
+        private void AddRowEntry(DockingManager referencedManager, bool startActive = true)
         {
             int ReferenceWorldId = referencedManager.WorldId;
             GameObject RowEntry = Util.KInstantiateUI(rowPrefab, listContainer);
@@ -261,7 +275,6 @@ namespace Rockets_TinyYetBig.UI_Unity
             TransferButton.OnClick += () =>
             {
                 ToggleCrewScreen(referencedManager);
-
             };
 
             ViewDockedButton.OnClick += () =>
@@ -278,7 +291,7 @@ namespace Rockets_TinyYetBig.UI_Unity
             };
 
             DockingTargets.Add(referencedManager, RowEntry);
-            RowEntry.SetActive(true);
+            RowEntry.SetActive(startActive);
         }
 
         private void Refresh()
@@ -296,7 +309,7 @@ namespace Rockets_TinyYetBig.UI_Unity
                 //if (!kvp.Value.activeInHierarchy)
                 //    continue;
 
-                SgtLogger.l("refreshing " + kvp.Key.ToString());
+               // SgtLogger.l("refreshing " + kvp.Key.ToString());
 
                 var manager = kvp.Key;
                 int ReferenceWorldId = manager.WorldId;
@@ -309,13 +322,13 @@ namespace Rockets_TinyYetBig.UI_Unity
                 bool CanDock = targetManager.AvailableConnections() > 0 && manager.AvailableConnections() > 0 && !targetManager.IsDockedTo(ReferenceWorldId);
                 DockButton.SetInteractable(CanDock);
 
-                bool CanUnDock = targetManager.IsDockedTo(ReferenceWorldId) && !targetManager.HasPendingUndocks(ReferenceWorldId);
+                bool CanUnDock = targetManager.IsDockedTo(ReferenceWorldId) && !targetManager.HasPendingUndocks(ReferenceWorldId) && !manager.HasPendingUndocks(targetManager.WorldId);
                 
                 UndockButton.SetInteractable(CanUnDock);
 
                 bool canViewInterior =
                      CanUnDock
-                    && manager.DockedToDoor(targetManager.WorldId).HasDupeTeleporter
+                    && manager.DockedToDoor(targetManager.WorldId).HasDupeTeleporter 
                     ;
 
                     ViewDockedButton.SetInteractable(canViewInterior);

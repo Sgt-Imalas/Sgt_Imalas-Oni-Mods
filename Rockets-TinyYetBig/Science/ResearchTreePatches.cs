@@ -122,7 +122,7 @@ namespace Rockets_TinyYetBig.Science
                     ModAssets.Techs.DockingTech = new Tech(ModAssets.Techs.DockingTechID, new List<string>
                 {
                     DockingTubeDoorConfig.ID,
-                    AI_DockingPortConfig.ID,
+                    //AI_DockingPortConfig.ID,
                     //SpaceStationDockingDoorConfig.ID
                 },
                 __instance

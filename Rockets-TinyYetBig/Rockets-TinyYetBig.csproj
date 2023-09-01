@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>Rocketry_Expanded</PackageId>
-		<Version>2.6.4.0</Version>
+		<Version>2.7.0.1</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022-2023 Sgt_Imalas</Copyright>
 		<RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
@@ -33,6 +33,9 @@
 	  <Compile Remove="ModAssets\translations\**" />
 	  <EmbeddedResource Remove="ModAssets\translations\**" />
 	  <None Remove="ModAssets\translations\**" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="SpaceStations\SpaceStation.cs~RF14458d6.TMP" />
 	</ItemGroup>
 
 	<ItemGroup>

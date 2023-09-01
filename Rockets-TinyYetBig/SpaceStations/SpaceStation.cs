@@ -42,9 +42,14 @@ namespace Rockets_TinyYetBig.SpaceStations
         [Serialize]
         public int spaceStationLevelUnlock = 0;
 
+        [Serialize]
+        public Vector2I bottomLeftCorner;
+        [Serialize]
+        public Vector2I topRightCorner;
 
         public Vector2I InteriorSize = new Vector2I(30, 30);
-        public string InteriorTemplate = "emptySpacefor100";
+       // public string InteriorTemplate = "emptySpacefor100"; 
+        public string InteriorTemplate = "emptySpaceStationPrefab"; 
 
         public string ClusterAnimName = "space_station_small_kanim";
         //public string IconAnimName = "station_3";
@@ -125,6 +130,25 @@ namespace Rockets_TinyYetBig.SpaceStations
         }
 
 
+
+        public void ClearAllBarriers(WorldContainer world, ref HashSet<int> cells)
+        {
+            for (var x = 0; x < world.WorldSize.x; x++)
+            {
+                for (var y = 0; y < world.WorldSize.y; y++)
+                {
+                    var cell = Grid.XYToCell(world.WorldOffset.x +x , world.WorldOffset.y + y);
+                    if (Grid.Element[cell].id == ModElements.SpaceStationForceField.SimHash)
+                    {
+                        SimMessages.ReplaceElement(cell, SimHashes.Vacuum, null, 0);
+                        cells.Add(cell);
+                    }
+                    Grid.Visible[cell] = byte.MaxValue;
+                    Grid.PreventFogOfWarReveal[cell] = false;
+                }
+            }
+        }
+
         public void DrawOuterBarriers(WorldContainer world)
         {
 
@@ -132,7 +156,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             for (var x = 0; x < world.WorldSize.x; x++)
             {
                 var cell = Grid.XYToCell(world.WorldOffset.x + x, world.WorldOffset.y);
-                SimMessages.ReplaceElement(cell, ModElements.SpaceStationForceField.SimHash, null, 0);
+                SimMessages.ReplaceElement(cell, ModElements.SpaceStationForceField.SimHash, null, 20000);
                 Grid.Visible[cell] = 0;
                 Grid.PreventFogOfWarReveal[cell] = true;
             }
@@ -141,7 +165,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             for (var y = 0; y < world.WorldSize.y; y++)
             {
                 var cell = Grid.XYToCell(world.WorldOffset.x, world.WorldOffset.y + y);
-                SimMessages.ReplaceElement(cell, ModElements.SpaceStationForceField.SimHash, null, 0);
+                SimMessages.ReplaceElement(cell, ModElements.SpaceStationForceField.SimHash, null, 20000);
                 Grid.Visible[cell] = 0;
                 Grid.PreventFogOfWarReveal[cell] = true;
             }
@@ -150,49 +174,41 @@ namespace Rockets_TinyYetBig.SpaceStations
             for (var y = 0; y < world.WorldSize.y; y++)
             {
                 var cell = Grid.XYToCell(world.WorldOffset.x + world.WorldSize.x-1, world.WorldOffset.y + y);
-                SimMessages.ReplaceElement(cell, ModElements.SpaceStationForceField.SimHash, null, 0);
+                SimMessages.ReplaceElement(cell, ModElements.SpaceStationForceField.SimHash, null, 20000);
                 Grid.Visible[cell] = 0;
                 Grid.PreventFogOfWarReveal[cell] = true;
             }
         }
 
-        const int lvl1Width = 50;
-        const int lvl2Width = 74;
+        const int lvl1Width = 40;
+        const int lvl2Width = 70;
         const int lvl3Width = 100;
 
         public void DrawLeveledBarriers(WorldContainer world, int borderSize, bool locking = true)
         {
 
-            int horizontalRow = world.WorldOffset.y + world.Height - borderSize - 3;
-            int verticalLeft = world.WorldOffset.x + ((world.Width - borderSize) / 2);
-            int verticalRight = world.WorldOffset.x + world.Width - ((world.Width - borderSize) / 2) - 1;
+            bottomLeftCorner = new Vector2I(-borderSize/2 + (world.Width/2), -borderSize / 2 + (world.Height/2));
+            topRightCorner = new Vector2I((borderSize/2) + (world.Width/2) - 1, (borderSize / 2 ) + (world.Height/2) - 1);
 
-            // horizontal up to lower station bound
+            SgtLogger.l($"Size: {borderSize} BottomLeft:  {bottomLeftCorner}, TopRight: {topRightCorner}");
+
             for (var x = 0; x < world.WorldSize.x; x++)
             {
-                for(int y = 0; y <= horizontalRow; y++)
+                for (int y = 0; y < world.WorldSize.y; y++)
                 {
                     var cell = Grid.XYToCell(world.WorldOffset.x + x, world.WorldOffset.y + y);
-                    SimMessages.ReplaceElement(cell, locking ? ModElements.SpaceStationForceField.SimHash : SimHashes.Vacuum, null, 0);
-                    Grid.Visible[cell] = locking ? byte.MinValue : byte.MaxValue;
-                    Grid.PreventFogOfWarReveal[cell] = locking;
-                }
-            }
-
-            // vertical lines left and right
-            for (var y = 0; y < world.WorldSize.y; y++)
-            {
-                for (var x = 0; x < world.WorldSize.x; x++)
-                {
-                    var conX = x + world.WorldOffset.x;
-
-                    if ( (conX < verticalLeft && conX < verticalRight ) || (conX > verticalRight && conX > verticalLeft))
+                    if (x < bottomLeftCorner.x || x > topRightCorner.x || y < bottomLeftCorner.y || y > topRightCorner.y)
                     {
-                        var cell = Grid.XYToCell(world.WorldOffset.x + x, world.WorldOffset.y + y);
-                        SimMessages.ReplaceElement(cell, locking ? ModElements.SpaceStationForceField.SimHash : SimHashes.Vacuum, null, 0);
+                        SimMessages.ReplaceElement(cell, locking ? ModElements.SpaceStationForceField.SimHash : SimHashes.Vacuum, null, locking? 20000 : 0);
                         Grid.Visible[cell] = locking ? byte.MinValue : byte.MaxValue;
                         Grid.PreventFogOfWarReveal[cell] = locking;
                     }
+                    else
+                    {
+                        Grid.Visible[cell] = byte.MaxValue;
+                        Grid.PreventFogOfWarReveal[cell] = false;
+                    }
+
                 }
             }
         }
@@ -218,8 +234,9 @@ namespace Rockets_TinyYetBig.SpaceStations
             {
 
                 var world = ClusterManager.Instance.GetWorld(SpaceStationInteriorId);
-                DrawLeveledBarriers(world, lvl1Width, false);
-                DrawOuterBarriers(world);
+                DrawLeveledBarriers(world, lvl2Width, false);
+                DrawLeveledBarriers(world, lvl3Width);
+               // DrawOuterBarriers(world);
             }
 
         }

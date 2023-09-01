@@ -664,7 +664,7 @@ namespace Rockets_TinyYetBig
         }
 
 
-        public class OPTIONS
+        public class OPTIONS_ROCKETRYEXPANDED
         {
             public const string UNITDESCRIPTION = "Only has an effect if the option \"Rebalanced Cargo Bays\" is enabled.\n" +
                 "Cargo bay capacity is calculated by \"Unit-KG * Cargobay-Unit-Count\"\nUnit-Count per size:\n- Small: 9 Units\n- Large: 28 Units\n- Colossal: 64 Units.\n\nAdjust the Unit-KG for this cargo bay type below.";

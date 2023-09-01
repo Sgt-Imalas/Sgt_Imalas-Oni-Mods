@@ -48,11 +48,6 @@ namespace Rockets_TinyYetBig
         }
 
 
-
-        public const float SmallCargoBayUnits = 9;
-        public const float MediumCargoBayUnits = 28;
-        public const float CollossalCargoBayUnits = 64;
-
         /// <summary>
         /// Second value is when rebalance is on, first is when off
         /// </summary>
@@ -60,11 +55,11 @@ namespace Rockets_TinyYetBig
         {
             {
                 SolidCargoBaySmallConfig.ID,
-                new Tuple<float, float>(1200f * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.SolidCargoBayUnits * SmallCargoBayUnits)
+                new Tuple<float, float>(1200f * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.SolidCargoBayKgPerUnit * Config.Instance.SmallCargoBayUnits)
             },
             {
                 SolidCargoBayClusterConfig.ID,
-                new Tuple<float, float>(ROCKETRY.SOLID_CARGO_BAY_CLUSTER_CAPACITY * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.SolidCargoBayUnits * MediumCargoBayUnits)
+                new Tuple<float, float>(ROCKETRY.SOLID_CARGO_BAY_CLUSTER_CAPACITY * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.SolidCargoBayKgPerUnit * Config.Instance.MediumCargoBayUnits)
             },
             {
                 SolidCargoBayClusterLargeConfig.ID,
@@ -73,11 +68,11 @@ namespace Rockets_TinyYetBig
 
             {
                 LiquidCargoBaySmallConfig.ID,
-                new Tuple<float, float>(900f * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.LiquidCargoBayUnits * SmallCargoBayUnits)
+                new Tuple<float, float>(900f * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.LiquidCargoBayKgPerUnit * Config.Instance.SmallCargoBayUnits)
             },
             {
                 LiquidCargoBayClusterConfig.ID,
-                new Tuple<float, float>(ROCKETRY.LIQUID_CARGO_BAY_CLUSTER_CAPACITY * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.LiquidCargoBayUnits * MediumCargoBayUnits)
+                new Tuple<float, float>(ROCKETRY.LIQUID_CARGO_BAY_CLUSTER_CAPACITY * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.LiquidCargoBayKgPerUnit * Config.Instance.MediumCargoBayUnits)
             },
             {
                 LiquidCargoBayClusterLargeConfig.ID,
@@ -86,11 +81,11 @@ namespace Rockets_TinyYetBig
 
             {
                 GasCargoBaySmallConfig.ID,
-                new Tuple<float, float>(360f * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.GasCargoBayUnits * SmallCargoBayUnits)
+                new Tuple<float, float>(360f * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.GasCargoBayKgPerUnit * Config.Instance.SmallCargoBayUnits)
             },
             {
                 GasCargoBayClusterConfig.ID,
-                new Tuple<float, float>(ROCKETRY.GAS_CARGO_BAY_CLUSTER_CAPACITY * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.GasCargoBayUnits * MediumCargoBayUnits)
+                new Tuple<float, float>(ROCKETRY.GAS_CARGO_BAY_CLUSTER_CAPACITY * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.GasCargoBayKgPerUnit * Config.Instance.MediumCargoBayUnits)
             },
             {
                 GasCargoBayClusterLargeConfig.ID,

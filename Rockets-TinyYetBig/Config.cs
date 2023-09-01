@@ -37,7 +37,7 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool CompressInteriors { get; set; }
 
-        [Option("Extended Spacefarer Modules", STRINGS.OPTIONS.TOGGLEMULTI, "(1) Rocketry Vanilla+")]
+        [Option("Extended Spacefarer Modules", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI, "(1) Rocketry Vanilla+")]
         [JsonProperty]
         public bool EnableExtendedHabs { get; set; }
 
@@ -71,7 +71,7 @@ namespace Rockets_TinyYetBig
 
         #region mining&shipping
 
-        [Option("Laser Drillcone", STRINGS.OPTIONS.TOGGLESINGLE, "(2) Mining & Shipping")]
+        [Option("Laser Drillcone", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(2) Mining & Shipping")]
         [JsonProperty]
         public bool EnableLaserDrill { get; set; }
 
@@ -81,7 +81,7 @@ namespace Rockets_TinyYetBig
         public float LaserDrillconeSpeed { get; set; }
 
 
-        [Option("Drillcone Service Module", STRINGS.OPTIONS.TOGGLESINGLE, "(2) Mining & Shipping")]
+        [Option("Drillcone Service Module", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(2) Mining & Shipping")]
         [JsonProperty]
         public bool EnableDrillSupport { get; set; }
 
@@ -111,12 +111,12 @@ namespace Rockets_TinyYetBig
         public bool InfinitePOI { get; set; }
 
 
-        [Option("Enable Fridge Module", STRINGS.OPTIONS.TOGGLESINGLE, "(2) Mining & Shipping")]
+        [Option("Enable Fridge Module", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(2) Mining & Shipping")]
         [JsonProperty]
         public bool EnableFridge { get; set; }
         
 
-        [Option("Large Cargo Modules", STRINGS.OPTIONS.TOGGLEMULTI, "(2) Mining & Shipping")]
+        [Option("Large Cargo Modules", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI, "(2) Mining & Shipping")]
         [JsonProperty]
         public bool EnableLargeCargoBays { get; set; }
 
@@ -124,15 +124,15 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool InsulatedCargoBays { get; set; }
 
-        [Option("Radbolt Storage Module", STRINGS.OPTIONS.TOGGLESINGLE, "(2) Mining & Shipping")]
+        [Option("Radbolt Storage Module", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(2) Mining & Shipping")]
         [JsonProperty]
         public bool EnableRadboltStorage { get; set; }
 
-        [Option("Critter Containment Module", STRINGS.OPTIONS.TOGGLESINGLE, "(2) Mining & Shipping")]
+        [Option("Critter Containment Module", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(2) Mining & Shipping")]
         [JsonProperty]
         public bool EnableCritterStorage { get; set; }
 
-        [Option("POI Capacity Sensor", STRINGS.OPTIONS.TOGGLESINGLE, "(2) Mining & Shipping")]
+        [Option("POI Capacity Sensor", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(2) Mining & Shipping")]
         [JsonProperty]
         public bool EnablePOISensor { get; set; }
 
@@ -145,18 +145,40 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool RebalancedCargoCapacity { get; set; }
 
-        [Option("Gas Cargobay KG/Unit", STRINGS.OPTIONS.UNITDESCRIPTION, "(2) Mining & Shipping")]
+        [Option("Gas Cargobay KG/Unit", STRINGS.OPTIONS_ROCKETRYEXPANDED.UNITDESCRIPTION, "(2) Mining & Shipping")]
         [Limit(200, 1500)]
         [JsonProperty]
-        public int GasCargoBayUnits { get; set; }
-        [Option("Liquid Cargobay KG/Unit", STRINGS.OPTIONS.UNITDESCRIPTION, "(2) Mining & Shipping")]
+        public int GasCargoBayKgPerUnit { get; set; }
+
+
+        [Option("Liquid Cargobay KG/Unit", STRINGS.OPTIONS_ROCKETRYEXPANDED.UNITDESCRIPTION, "(2) Mining & Shipping")]
         [Limit(500, 2000)]
         [JsonProperty]
-        public int LiquidCargoBayUnits { get; set; }
-        [Option("Solid Cargobay KG/Unit", STRINGS.OPTIONS.UNITDESCRIPTION, "(2) Mining & Shipping")]
+        public int LiquidCargoBayKgPerUnit { get; set; }
+
+        [Option("Solid Cargobay KG/Unit", STRINGS.OPTIONS_ROCKETRYEXPANDED.UNITDESCRIPTION, "(2) Mining & Shipping")]
         [Limit(800, 6000)]
         [JsonProperty]
-        public int SolidCargoBayUnits { get; set; }
+        public int SolidCargoBayKgPerUnit { get; set; }
+
+
+        [Option("Small Cargobay Units", "Amount of Cargo Units in this Cargo Bay Size", "(2) Mining & Shipping")]
+        [Limit(3, 32)]
+        [JsonProperty]
+        public float SmallCargoBayUnits { get; set; }
+
+
+        [Option("Large Cargobay Units", "Amount of Cargo Units in this Cargo Bay Size", "(2) Mining & Shipping")]
+        [Limit(6, 64)]
+        [JsonProperty]
+        public float MediumCargoBayUnits { get; set; }
+
+        [Option("Collossal Cargo Bay Units", "Amount of Cargo Units in this Cargo Bay Size", "(2) Mining & Shipping")]
+        [Limit(9, 128)]
+        [JsonProperty]
+        public float CollossalCargoBayUnits { get; set; }
+
+
         #endregion
 
         #region Fuel&Logistics
@@ -169,7 +191,7 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool EthanolEngines { get; set; }
 
-        [Option("Natural Gas Engine Module", STRINGS.OPTIONS.TOGGLESINGLE, "(3) Fuel & Logistics")]
+        [Option("Natural Gas Engine Module", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(3) Fuel & Logistics")]
         [JsonProperty]
         public bool EnableNatGasEngine { get; set; }
 
@@ -178,36 +200,36 @@ namespace Rockets_TinyYetBig
         [Limit(8, 18)]
         public int EnableNatGasEngineRange { get; set; }
 
-        [Option("Early Game Fuel Tanks", STRINGS.OPTIONS.TOGGLEMULTI, "(3) Fuel & Logistics")]
+        [Option("Early Game Fuel Tanks", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI, "(3) Fuel & Logistics")]
         [JsonProperty]
         public bool EnableEarlyGameFuelTanks { get; set; }
 
-        [Option("Fuel Loaders", STRINGS.OPTIONS.TOGGLEMULTI, "(3) Fuel & Logistics")]
+        [Option("Fuel Loaders", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI, "(3) Fuel & Logistics")]
         [JsonProperty]
         public bool EnableFuelLoaders { get; set; }
 
 
-        [Option("Loader Adapters", STRINGS.OPTIONS.TOGGLEMULTI, "(3) Fuel & Logistics")]
+        [Option("Loader Adapters", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI, "(3) Fuel & Logistics")]
         [JsonProperty]
         public bool EnableWallAdapter { get; set; }
 
-        [Option("Fortified & Advanced Rocket Platform", STRINGS.OPTIONS.TOGGLEMULTI, "(3) Fuel & Logistics")]
+        [Option("Fortified & Advanced Rocket Platform", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI, "(3) Fuel & Logistics")]
         [JsonProperty]
         public bool EnableBunkerPlatform { get; set; }
         #endregion
 
         #region Power&Utility
 
-        [Option("Solar Nosecone", STRINGS.OPTIONS.TOGGLESINGLE, "(4) Power & Utility")]
+        [Option("Solar Nosecone", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(4) Power & Utility")]
         [JsonProperty]
         public bool EnableSolarNosecone { get; set; }
 
-        [Option("Generator Modules", STRINGS.OPTIONS.TOGGLEMULTI, "(4) Power & Utility")]
+        [Option("Generator Modules", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI, "(4) Power & Utility")]
         [JsonProperty]
         public bool EnableGenerators { get; set; }
         
 
-        [Option("Small Battery Module", STRINGS.OPTIONS.TOGGLESINGLE, "(4) Power & Utility")]
+        [Option("Small Battery Module", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(4) Power & Utility")]
         [JsonProperty]
         public bool EnableSmolBattery { get; set; }
         
@@ -271,9 +293,12 @@ namespace Rockets_TinyYetBig
             EnablePOISensor = true;
 
             RebalancedCargoCapacity = true;
-            GasCargoBayUnits = 500;
-            LiquidCargoBayUnits = 1250;
-            SolidCargoBayUnits = 2000;
+            GasCargoBayKgPerUnit = 500;
+            LiquidCargoBayKgPerUnit = 1250;
+            SolidCargoBayKgPerUnit = 2000;
+            SmallCargoBayUnits = 9;
+            MediumCargoBayUnits = 27;
+            CollossalCargoBayUnits = 64;
 
 
             /// Fuel&Logistics
