@@ -47,6 +47,10 @@ namespace UtilLibs.UIcmp //Source: Aki
 
         public void SetInteractable(bool interactable)
         {
+            if (this.IsNullOrDestroyed() || button==null && image == null)
+                return;
+
+
             if(interactable == this.interactable)
             {
                 return;
@@ -56,14 +60,19 @@ namespace UtilLibs.UIcmp //Source: Aki
             //image.material = interactable ? material : global::Assets.instance.UIPrefabAssets.TableScreenWidgets.DesaturatedUIMaterial;
             if(button == null)
             {
-                image.color = interactable ? normalColor : disabledColor;
+                if(image != null)
+                    image.color = interactable ? normalColor : disabledColor;
             }
             else
             {
                 button.interactable = interactable;
             }
         }
-
+        public void ClearOnClick()
+        {
+            OnClick = null;
+            OnRightClick = null;
+        }
         public void OnPointerUp(PointerEventData eventData)
         {
             if(!interactable)
