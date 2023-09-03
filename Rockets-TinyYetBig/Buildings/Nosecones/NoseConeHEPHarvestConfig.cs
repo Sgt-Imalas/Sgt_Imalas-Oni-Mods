@@ -68,7 +68,6 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
             energyParticleStorage.showCapacityStatusItem = true;
             energyParticleStorage.showCapacityAsMainStatus = true;
 
-            go.AddOrGetDef<NoseConeHEPHarvest.Def>().harvestSpeed = Config.Instance.LaserDrillconeSpeed;
 
 
         }
@@ -78,6 +77,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MINOR);
             go.GetComponent<ReorderableBuilding>().buildConditions.Add(new TopOnly());
             go.AddOrGet<ExtendedClusterModuleAnimator>();
+            go.AddOrGetDef<NoseConeHEPHarvest.Def>().harvestSpeed = Config.Instance.LaserDrillconeSpeed;
         }
     }
 }

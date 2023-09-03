@@ -9,14 +9,14 @@ using Rockets_TinyYetBig.Buildings.Nosecones;
 
 namespace Rockets_TinyYetBig.Buildings.Utility
 {
-    public class DrillConeAssistentModuleHEP : KMonoBehaviour, ISim4000ms
+    public class DrillConeAssistentModuleHEP : KMonoBehaviour, ISim1000ms
     {
         [MyCmpGet] public HighEnergyParticleStorage HEPStorage;
         [MyCmpGet] RocketModuleCluster module;
 
         HighEnergyParticleStorage TargetStorage = null;
 
-        public void Sim4000ms(float dt)
+        public void Sim1000ms(float dt)
         {
             var clustercraft = module.CraftInterface.m_clustercraft;
             if (clustercraft.Status == Clustercraft.CraftStatus.Grounded)
@@ -25,10 +25,13 @@ namespace Rockets_TinyYetBig.Buildings.Utility
             }
             if(clustercraft.Status == Clustercraft.CraftStatus.InFlight)
             {
-                if (TargetStorage != null || !TargetStorage.IsNullOrDestroyed())
+                if (TargetStorage != null && !TargetStorage.IsNullOrDestroyed())
                 {
                     Transferparticle();
                 }
+                else
+                    CheckTarget();
+
             }
         }
 

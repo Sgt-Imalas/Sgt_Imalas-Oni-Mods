@@ -291,7 +291,7 @@ namespace Rockets_TinyYetBig.Docking
                     returnVal = clustercraft.GetUISprite();
                     break;
                 case DockableType.Derelict:
-                    break;
+                   // break;
 
                 default:
                     returnVal = Assets.GetSprite("unknown");
@@ -304,19 +304,21 @@ namespace Rockets_TinyYetBig.Docking
         public void InitializeWorldId()
         {
 
-            if (MyWorldId != -1)
-                return;
             if (!this.gameObject.TryGetComponent<WorldContainer>(out var container))
             {
-                SgtLogger.logError("World was not properly cleaned up and is null:" + gameObject.name);
+                SgtLogger.logwarning("no worldContainer found:" + gameObject.name);
+                MyWorldId = -1;
                 hasInterior = false;
                 return;
             }
-                
+
+            if (MyWorldId != -1)
+                return;
+
             StartupID(container.id);
             if (container.Width < 5 || container.Height < 5)
             {
-                SgtLogger.log("World has no proper interior: " + gameObject.name);
+                SgtLogger.log("World has no proper interior and will be handled as AI rocket: " + gameObject.name);
                 hasInterior = false;
             }
 
@@ -326,7 +328,7 @@ namespace Rockets_TinyYetBig.Docking
             base.OnSpawn();
             ModAssets.Dockables.Add(this);
             InitializeWorldId();
-
+            Subscribe((int)GameHashes.RocketModuleChanged, (module) => GameScheduler.Instance.Schedule("reinit world", 0.1f, (b)=>InitializeWorldId()));
 
 #if DEBUG
             SgtLogger.debuglog("AddedDockable");
@@ -335,6 +337,7 @@ namespace Rockets_TinyYetBig.Docking
         public override void OnCleanUp()
         {
             ModAssets.Dockables.Remove(this);
+            Unsubscribe((int)GameHashes.RocketModuleChanged,(module) => GameScheduler.Instance.Schedule("reinit world", 0.1f, (b)=>InitializeWorldId()));
             base.OnCleanUp();
         }
 

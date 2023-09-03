@@ -111,7 +111,7 @@ namespace RoboRockets.Rockets_TinyYetBig
                 if (Config.Instance.RocketDocking)
                 {
                     
-                    AddRocketModuleToBuildList(AI_DockingPortConfig.ID, RocketCategory.utility, ScannerModuleConfig.ID);
+                    //AddRocketModuleToBuildList(AI_DockingPortConfig.ID, RocketCategory.utility, ScannerModuleConfig.ID);
                     InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, DockingTubeDoorConfig.ID, GantryConfig.ID);
                 }
                 if(

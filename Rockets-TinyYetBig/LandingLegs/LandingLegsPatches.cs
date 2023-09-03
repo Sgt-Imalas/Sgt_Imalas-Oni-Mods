@@ -108,7 +108,7 @@ namespace Rockets_TinyYetBig.LandingLegs
             {
                 ///Edge case: new rocket on landing platform, as that is an entity, not a building
                 ///
-                Debug.Log((existingModule != null) + "," + existingModule.TryGetComponent<RTB_LaunchPadWithoutLogic>(out _) + "," + existingModule.TryGetComponent<KBoxCollider2D>(out _) + ", " + existingModule.TryGetComponent<OccupyArea>(out _));
+                //Debug.Log((existingModule != null) + "," + existingModule.TryGetComponent<RTB_LaunchPadWithoutLogic>(out _) + "," + existingModule.TryGetComponent<KBoxCollider2D>(out _) + ", " + existingModule.TryGetComponent<OccupyArea>(out _));
                 if (existingModule != null
                     && existingModule.TryGetComponent<RTB_LaunchPadWithoutLogic>(out _)
                     && existingModule.TryGetComponent<KBoxCollider2D>(out var collider2D)
