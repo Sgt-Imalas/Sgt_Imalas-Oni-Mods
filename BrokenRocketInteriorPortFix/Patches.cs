@@ -77,13 +77,13 @@ namespace BrokenRocketInteriorPortFix
             }
         }
 
-
         [HarmonyPatch]
         public static class AddPortsToBuildMenu
         {
             [HarmonyPostfix]
             public static void Postfix(BuildingDef __result)
             {
+                __result.DebugOnly = false;
                 __result.ShowInBuildMenu = true;
             }
             [HarmonyTargetMethods]
