@@ -122,17 +122,6 @@ namespace OniRetroEdition
         }
 
         #region reenableDeprecateds
-        [HarmonyPatch(typeof(AirborneCreatureLureConfig))]
-        [HarmonyPatch(nameof(AirborneCreatureLureConfig.CreateBuildingDef))]
-        public static class Revive_AirborneCreatureLureConfig
-        {
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.ShowInBuildMenu = true;
-                __result.Deprecated = false;
-            }
-        }
-
         [HarmonyPatch(typeof(LureSideScreen))]
         [HarmonyPatch(nameof(LureSideScreen.SetTarget))]
         public static class Revive_AirborneCreatureLureScreenExtension
@@ -170,175 +159,6 @@ namespace OniRetroEdition
                     SimHashes.OxyRock.CreateTag(),
                 };
                 creatureLure.baitStorage.storageFilters = creatureLure.baitTypes;
-            }
-        }
-
-        [HarmonyPatch(typeof(PressureSwitchGasConfig))]
-        [HarmonyPatch(nameof(PressureSwitchGasConfig.CreateBuildingDef))]
-        public static class Revive_PressureSwitchGasConfig
-        {
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.Deprecated = false;
-            }
-        }
-        [HarmonyPatch(typeof(AtmoicGardenConfig))]
-        [HarmonyPatch(nameof(AtmoicGardenConfig.CreateBuildingDef))]
-        public static class Revive_AtmoicGardenConfig
-        {
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.ShowInBuildMenu = true;
-                __result.Deprecated = false;
-            }
-        }
-        [HarmonyPatch(typeof(CrewCapsuleConfig))]
-        [HarmonyPatch(nameof(CrewCapsuleConfig.CreateBuildingDef))]
-        public static class Revive_CrewCapsuleConfig
-        {
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.Deprecated = false;
-            }
-        }
-        [HarmonyPatch(typeof(GasConduitOverflowConfig))]
-        [HarmonyPatch(nameof(GasConduitOverflowConfig.CreateBuildingDef))]
-        public static class Revive_GasConduitOverflowConfig
-        {
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.ShowInBuildMenu = true;
-                __result.Deprecated = false;
-            }
-        }
-        [HarmonyPatch(typeof(GasConduitPreferentialFlowConfig))]
-        [HarmonyPatch(nameof(GasConduitPreferentialFlowConfig.CreateBuildingDef))]
-        public static class Revive_GasConduitPreferentialFlowConfig
-        {
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.ShowInBuildMenu = true;
-                __result.Deprecated = false;
-            }
-        }
-        [HarmonyPatch(typeof(GenericFabricatorConfig))]
-        [HarmonyPatch(nameof(GenericFabricatorConfig.CreateBuildingDef))]
-        public static class Revive_GenericFabricatorConfig
-        {
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.ShowInBuildMenu = true;
-                __result.Deprecated = false;
-            }
-        }
-        [HarmonyPatch(typeof(LiquidCooledFanConfig))]
-        [HarmonyPatch(nameof(LiquidCooledFanConfig.CreateBuildingDef))]
-        public static class Revive_LiquidCooledFanConfig
-        {
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.ShowInBuildMenu = true;
-                __result.Deprecated = false;
-            }
-        }
-        [HarmonyPatch(typeof(PressureSwitchLiquidConfig))]
-        [HarmonyPatch(nameof(PressureSwitchLiquidConfig.CreateBuildingDef))]
-        public static class Revive_PressureSwitchLiquidConfig
-        {
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.ShowInBuildMenu = true;
-                __result.Deprecated = false;
-            }
-        }
-        [HarmonyPatch(typeof(LiquidConduitOverflowConfig))]
-        [HarmonyPatch(nameof(LiquidConduitOverflowConfig.CreateBuildingDef))]
-        public static class Revive_LiquidConduitOverflowConfig
-        {
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.Deprecated = false;
-            }
-        }
-        [HarmonyPatch(typeof(LiquidConduitPreferentialFlowConfig))]
-        [HarmonyPatch(nameof(LiquidConduitPreferentialFlowConfig.CreateBuildingDef))]
-        public static class Revive_LiquidConduitPreferentialFlowConfig
-        {
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.ShowInBuildMenu = true;
-                __result.Deprecated = false;
-            }
-        }
-        [HarmonyPatch(typeof(MachineShopConfig))]
-        [HarmonyPatch(nameof(MachineShopConfig.CreateBuildingDef))]
-        public static class Revive_MachineShopConfig
-        {
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.ShowInBuildMenu = true;
-                __result.Deprecated = false;
-            }
-        }
-        [HarmonyPatch(typeof(AdvancedApothecaryConfig))]
-        [HarmonyPatch(nameof(AdvancedApothecaryConfig.CreateBuildingDef))]
-        public static class Revive_AdvancedApothecaryConfig
-        {
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.ShowInBuildMenu = true;
-                __result.Deprecated = false;
-            }
-        }
-        [HarmonyPatch(typeof(OxygenMaskStationConfig))]
-        [HarmonyPatch(nameof(OxygenMaskStationConfig.CreateBuildingDef))]
-        public static class Revive_OxygenMaskStationConfig
-        {
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.ShowInBuildMenu = true;
-                __result.Deprecated = false;
-            }
-        }
-        [HarmonyPatch(typeof(AstronautTrainingCenterConfig))]
-        [HarmonyPatch(nameof(AstronautTrainingCenterConfig.CreateBuildingDef))]
-        public static class Revive_AstronautTrainingCenterConfig
-        {
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.ShowInBuildMenu = true;
-                __result.Deprecated = false;
-            }
-        }
-        [HarmonyPatch(typeof(SteamTurbineConfig))]
-        [HarmonyPatch(nameof(SteamTurbineConfig.CreateBuildingDef))]
-        public static class Revive_SteamTurbineConfig
-        {
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.ShowInBuildMenu = true;
-                __result.Deprecated = false;
-            }
-        }
-        [HarmonyPatch(typeof(TemperatureControlledSwitchConfig))]
-        [HarmonyPatch(nameof(TemperatureControlledSwitchConfig.CreateBuildingDef))]
-        public static class Revive_TemperatureControlledSwitchConfig
-        {
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.ShowInBuildMenu = true;
-                __result.Deprecated = false;
-            }
-        }
-        [HarmonyPatch(typeof(MouldingTileConfig))]
-        [HarmonyPatch(nameof(MouldingTileConfig.CreateBuildingDef))]
-        public static class Revive_MouldingTileConfig
-        {
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.ShowInBuildMenu = true;
-                __result.Deprecated = false;
-                BuildingTemplates.CreateFoundationTileDef(__result);
             }
         }
         [HarmonyPatch(typeof(MouldingTileConfig))]
@@ -379,27 +199,8 @@ namespace OniRetroEdition
             }
         }
 
-        [HarmonyPatch(typeof(CreatureTrapConfig))]
-        [HarmonyPatch(nameof(CreatureTrapConfig.CreateBuildingDef))]
-        public static class AdjustSizePatch_CreatureTrap
-        {
 
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.ShowInBuildMenu = true;
-                __result.Deprecated = false;
-            }
-        }
-        [HarmonyPatch(typeof(FishTrapConfig))]
-        [HarmonyPatch(nameof(FishTrapConfig.CreateBuildingDef))]
-        public static class AdjustSizePatch_FishTrap
-        {
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.ShowInBuildMenu = true;
-                __result.Deprecated = false;
-            }
-        }
+
 
         #endregion
 
@@ -476,84 +277,6 @@ namespace OniRetroEdition
             }
         }
 
-        [HarmonyPatch(typeof(TravelTubeEntranceConfig))]
-        [HarmonyPatch(nameof(TravelTubeEntranceConfig.CreateBuildingDef))]
-        public static class AdjustSizePatch_TravelTubeEntranceConfig
-        {
-
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.HeightInCells = 2;
-                __result.WidthInCells = 2;
-                __result.GenerateOffsets();
-            }
-        }
-        [HarmonyPatch(typeof(HydrogenGeneratorConfig))]
-        [HarmonyPatch(nameof(HydrogenGeneratorConfig.CreateBuildingDef))]
-        public static class AdjustSizePatch_HydrogenGen
-        {
-
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.HeightInCells = 2;
-                __result.WidthInCells = 4;
-                __result.GenerateOffsets();
-            }
-        }
-        [HarmonyPatch(typeof(WaterPurifierConfig))]
-        [HarmonyPatch(nameof(WaterPurifierConfig.CreateBuildingDef))]
-        public static class AdjustSizePatch_WaterSieve
-        {
-
-            public static void Postfix(ref BuildingDef __result)
-            {
-
-                __result.UtilityInputOffset = new CellOffset(-1, 1);
-                __result.UtilityOutputOffset = new CellOffset(1, 1);
-                __result.PowerInputOffset = new CellOffset(1, 0);
-                __result.HeightInCells = 2;
-                __result.WidthInCells = 3;
-                __result.GenerateOffsets();
-            }
-        }
-        [HarmonyPatch(typeof(OuthouseConfig))]
-        [HarmonyPatch(nameof(OuthouseConfig.CreateBuildingDef))]
-        public static class AdjustSizePatch_Outhouse
-        {
-
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.HeightInCells = 2;
-                __result.WidthInCells = 2;
-                __result.GenerateOffsets();
-            }
-        }
-        [HarmonyPatch(typeof(BottleEmptierGasConfig))]
-        [HarmonyPatch(nameof(BottleEmptierGasConfig.CreateBuildingDef))]
-        public static class AdjustSizePatch_BottleEmptierGas
-        {
-
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.HeightInCells = 3;
-                __result.WidthInCells = 2;
-                __result.GenerateOffsets();
-            }
-        }
-        [HarmonyPatch(typeof(GasBottlerConfig))]
-        [HarmonyPatch(nameof(GasBottlerConfig.CreateBuildingDef))]
-        public static class AdjustSizePatch_GasBottler
-        {
-
-            public static void Postfix(ref BuildingDef __result)
-            {
-
-                __result.UtilityInputOffset = new CellOffset(1, 2);
-                __result.HeightInCells = 3;
-                __result.WidthInCells = 2;
-                __result.GenerateOffsets();
-            }
-        }
         [HarmonyPatch(typeof(Assets))]
         [HarmonyPatch(nameof(Assets.GetAnim))]
         public static class TryGetRetroAnim_GetAnim
@@ -757,6 +480,9 @@ namespace OniRetroEdition
                 SgtElementUtil.SetTexture_Main(ironORe, Config.Instance.IronOreTexture == Config.EarlierVersion.Beta ? "hematite_(t)_retro" : "hematite_(alpha)_retro");
                 if (Config.Instance.IronOreTexture == Config.EarlierVersion.Alpha)
                     SgtElementUtil.SetTexture_ShineMask(ironORe, "hematite_(alpha)_retro_ShineMask");
+                else
+                    SgtElementUtil.SetTexture_ShineMask(ironORe, "hematite_(t)_retro_ShineMask.png");
+
 
                 var bleachstone = ElementLoader.GetElement(SimHashes.BleachStone.CreateTag()).substance.material;
                 SgtElementUtil.SetTexture_Main(bleachstone, "bleach_stone_retro");

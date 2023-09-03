@@ -92,6 +92,9 @@
 	  <None Update="ModAssets\assets\textures\hematite_%28t%29_retro.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\assets\textures\hematite_%28t%29_retro_ShineMask.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\assets\textures\hematite_(alpha)_retro_ShineMask.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
