@@ -70,12 +70,10 @@ namespace DebugButton
 
             public static void Postfix(TopLeftControlScreen __instance)
             {
-
                 if (DebugHandler.enabled)
                 {
-
                     var debugButton = Util.KInstantiateUI(__instance.sandboxToggle.gameObject, __instance.sandboxToggle.transform.parent.gameObject, true).transform;
-                    UIUtils.ListAllChildrenWithComponents(debugButton);
+                    //UIUtils.ListAllChildrenWithComponents(debugButton);
                     debugButton.SetSiblingIndex(__instance.sandboxToggle.transform.GetSiblingIndex() + 1);
                     debugButton.Find("FG").GetComponent<Image>().sprite = Assets.GetSprite("icon_archetype_build");
                     debugButton.Find("Label").GetComponent<LocText>().text = STRINGS.UI.TOOLS.DEBUG_INSTABUILD_TOGGLE.NAME;

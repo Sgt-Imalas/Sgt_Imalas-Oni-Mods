@@ -103,7 +103,7 @@ namespace SetStartDupes
             DuplicantStartAmount = 3;
             PrintingPodRechargeTime = 3;
             ModifyDuringGame = true;
-            RerollDuringGame = false;
+            RerollDuringGame = true;
             PauseOnReadyToPrint = false;
 
             StartupResources = false;
@@ -113,7 +113,7 @@ namespace SetStartDupes
             CarePackagesOnlyDupeCap = 16;
             CarePackagesOnlyPackageCap = 3;
 
-            LiveDupeSkins = true;
+            LiveDupeSkins = false;
             SkinsDoReactions = true;
             JorgeAndCryopodDupes = true;
             HermitSkin = true;

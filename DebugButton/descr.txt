@@ -1,0 +1,58 @@
+﻿[img]https://i.imgur.com/GbFtLZ2.png[/img]
+
+[h1]Debug Build Button[/h1]
+
+This mod adds a button, similar
+
+[h1]Current latest Version: 1.0.0[/h1]
+
+[hr][/hr]
+
+[h1]Features[/h1]
+[list][*] New Building: Balloon Dispenser, found under Furniture/Recreation.
+[*] Requires 250KG of refined metal.
+[*] Unlocked with the research "Home Luxuries".
+[*] Gives out a balloon at the cost of 5kg of ballon gas; either hydrogen or helium (found in other mods, f.e. Baator).
+[*] Gives a less strong ballon buddy buff (+3 by default, can be changed in mod config).
+[*] Has Selection screen that allows to individually enable/disable unlocked ballon skins and switch between random and queue based skin selection
+[/list]
+
+[hr][/hr]
+[h1]Integration[/h1]
+This mod has integration with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2293939893] Varicoloured Balloons[/url].
+When Varicoloured Balloons is installed, it's skins become available for selection in the balloon dispenser.
+
+[hr][/hr]
+[h1]Credits[/h1]
+Balloon Dispenser Animation and ukrainian translation made by 3GuB
+Options made with PLib.
+
+[hr][/hr]
+[h1]Translations[/h1]
+Current Languages:
+- English
+- German
+- Ukrainian (by 3GuB)
+
+This mod is fully translatable! 
+You can find the translation template under ~\Documents\Klei\OxygenNotIncluded\mods\strings_templates
+The template for this mod is called "bawoonfwiend_template.pot".
+If you want to have a specific translation added, you can create a translation file with that template and send it to me via GitHub.
+[hr][/hr]
+
+[h1]Bug Reports[/h1]
+Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+The Log is NOT the crash message displayed, it is the file found under: 
+[list]
+[*]Windows: 
+    C:\Users\%username%\AppData\LocalLow\Klei\Oxygen Not Included\Player.log
+[*]Mac: 
+    ~/Library/Logs/Klei/Oxygen Not Included/Player.log
+[*] Linux: 
+~/.config/unity3d/Klei/Oxygen Not Included/Player.log
+[/list] 
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
+
