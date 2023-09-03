@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.UI;
 using Util_TwitchIntegrationLib;
+using static STRINGS.BUILDINGS.PREFABS.EXTERIORWALL.FACADES;
+using Util_TwitchIntegrationLib.Scripts;
 
 namespace Imalas_TwitchChaosEvents.Events
 {
@@ -32,7 +34,22 @@ namespace Imalas_TwitchChaosEvents.Events
         public Action<object> EventAction => (object data) =>
         {
             var cell = PosUtil.RandomCellNearMouse();
+
+            if (SpaceCheeseChecker.HasThereBeenAttemptedSpaceCheese(cell, out var NEWcell, out var dupe, 6, 8, false, 7))
+            {
+                cell = NEWcell;
+
+                GameScheduler.Instance.Schedule("creeper rain cheese protection toast", 5f, _ =>
+                {
+                    ToastManager.InstantiateToastWithPosTarget(
+                    STRINGS.CHAOSEVENTS.SPACECHEESEDETECTED.TOAST,
+                    string.Format(STRINGS.CHAOSEVENTS.SPACECHEESEDETECTED.TOASTTEXT, EventName, dupe), Grid.CellToPos(NEWcell));
+                });
+            }
+
             var nearestCell = GridUtil.FindCellWithCavityClearance(cell);
+
+
 
             const int maxFloodSize = 41; // A diamond with 4 cells from the middle filled in
             var cells = GridUtil.FloodCollectCells(

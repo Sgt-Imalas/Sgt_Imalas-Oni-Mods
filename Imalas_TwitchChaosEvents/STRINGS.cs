@@ -95,6 +95,12 @@ namespace Imalas_TwitchChaosEvents
 
         public class CHAOSEVENTS
         {
+            public class SPACECHEESEDETECTED
+            {
+                public static LocString TOAST = "Yuck, Space";
+                public static LocString TOASTTEXT = "{0} really didnt like to be in space,\nso it appeared on {1} instead";
+            }
+
             public class HUNGRYROACHES
             {
                 public static LocString NAME = "Roach Infestation";
@@ -154,6 +160,7 @@ namespace Imalas_TwitchChaosEvents
                 public static LocString TOAST = "Creeper Rain";
                 public static LocString TOASTTEXT = "ALARM!\nThe Creeper is about to arrive on {0}";
                 public static LocString TOASTTEXT2 = "The Creeper has arrived on {0}!";
+                public static LocString TOASTTEXT3 = "Kleiner Scherz am Rande, das Zeug dehnt sich nicht mehr aus :D";
             }
             public class TACORAIN
             {

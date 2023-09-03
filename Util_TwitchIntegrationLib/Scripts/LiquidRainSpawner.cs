@@ -45,10 +45,21 @@ namespace Util_TwitchIntegrationLib.Scripts
             density = (int)(totalDropletCount / durationInSeconds);
         }
 
-        public void StartRaining()
+        public void StartRaining(int cellOverride = -1)
         {
-            transform.position = ONITwitchLib.Utils.PosUtil.ClampedMouseCellWorldPos();
-            originCell = Grid.PosToCell(this);
+            if(cellOverride == -1)
+            {
+                transform.position = ONITwitchLib.Utils.PosUtil.ClampedMouseCellWorldPos();
+                originCell = Grid.PosToCell(this);
+            }
+            else
+
+            {
+
+                transform.position = Grid.CellToPos(cellOverride);
+                originCell = cellOverride;
+            }
+
             raining = true;
         }
         public int OriginCell => originCell;

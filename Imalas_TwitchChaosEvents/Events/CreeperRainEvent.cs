@@ -30,20 +30,47 @@ namespace Imalas_TwitchChaosEvents.Events
 
             var rain = go.AddComponent<LiquidRainSpawner>();
 
-            rain.totalAmountRangeKg = (10, 40);
+            rain.totalAmountRangeKg = (1000, 10000);
             rain.durationInSeconds = 40;
             rain.dropletMassKg = 0.05f;
             rain.elementId = ModElements.Creeper;
             rain.spawnRadius = 15;
 
+            SpeedControlScreen.Instance.SetSpeed(0);
             go.SetActive(true);
 
             GameScheduler.Instance.Schedule("creeper rain", 10f, _ =>
             {
-                rain.StartRaining();
-                ToastManager.InstantiateToast(
-                    STRINGS.CHAOSEVENTS.CREEPERRAIN.TOAST,
-                    string.Format(STRINGS.CHAOSEVENTS.CREEPERRAIN.TOASTTEXT2, ClusterManager.Instance.activeWorld.GetProperName()));
+                int cell = ONITwitchLib.Utils.PosUtil.ClampedMouseCell();
+
+                if(SpaceCheeseChecker.HasThereBeenAttemptedSpaceCheese(cell, out var NEWcell, out var dupe, 5,8,false,4))
+                {
+                    rain.StartRaining(NEWcell);
+                    ToastManager.InstantiateToast(
+                        STRINGS.CHAOSEVENTS.CREEPERRAIN.TOAST,
+                        string.Format(STRINGS.CHAOSEVENTS.CREEPERRAIN.TOASTTEXT2, ClusterManager.Instance.activeWorld.GetProperName()));
+
+                    GameScheduler.Instance.Schedule("creeper rain cheese protection toast", 5f, _ =>
+                    {
+                        ToastManager.InstantiateToastWithPosTarget(
+                        STRINGS.CHAOSEVENTS.SPACECHEESEDETECTED.TOAST,
+                        string.Format(STRINGS.CHAOSEVENTS.SPACECHEESEDETECTED.TOASTTEXT, EventName, dupe), Grid.CellToPos(NEWcell));
+                    });
+                    GameScheduler.Instance.Schedule("creeper harmless toast", 60f, _ =>
+                    {
+                        ToastManager.InstantiateToast(
+                        STRINGS.CHAOSEVENTS.CREEPERRAIN.TOAST,
+                        STRINGS.CHAOSEVENTS.CREEPERRAIN.TOASTTEXT3);
+                    });
+                }
+                else
+                {
+                    rain.StartRaining();
+                    ToastManager.InstantiateToast(
+                        STRINGS.CHAOSEVENTS.CREEPERRAIN.TOAST,
+                        string.Format(STRINGS.CHAOSEVENTS.CREEPERRAIN.TOASTTEXT2, ClusterManager.Instance.activeWorld.GetProperName()));
+                }
+
                 //AudioUtil.PlaySound(ModAssets.Sounds.SPLAT, ModAssets.GetSFXVolume() * 0.15f); // its loud
             });
 

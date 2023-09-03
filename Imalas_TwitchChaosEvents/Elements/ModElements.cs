@@ -41,8 +41,8 @@ namespace Imalas_TwitchChaosEvents.Elements
             InverseWaterFlakingCrashPrevention = ElementInfo.Liquid("ITCE_Inverse_Water_Placeholder", Color.HSVToRGB(waterH, waterS, waterV));
 
             InverseSteam = ElementInfo.Gas("ITCE_Inverse_Steam", Color.HSVToRGB(steamH, steamS,steamV));
-            CreeperGas = ElementInfo.Gas("ITCE_CreepyLiquidGas", new Color(163f / 255f,0f,230f/255f));
-            Creeper = ElementInfo.Liquid("ITCE_CreepyLiquid", new Color(163f / 255f, 0f, 230f / 255f));
+            CreeperGas = ElementInfo.Gas("ITCE_CreepyLiquidGas", new Color(121f / 255f, 74f / 255f, 230f/255f));
+            Creeper = ElementInfo.Liquid("ITCE_CreepyLiquid", new Color(100f / 255f, 62f/255f, 191f / 255f));
 
 
             var newElements = new HashSet<Substance>()
