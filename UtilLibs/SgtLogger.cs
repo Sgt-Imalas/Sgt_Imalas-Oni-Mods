@@ -13,7 +13,7 @@ namespace UtilLibs
     {
         public static void LogVersion(UserMod2 usermod)
         {
-            debuglog("Mod Version: " + usermod.mod.packagedModInfo.version);
+            debuglog($"{usermod.mod.staticID} - Mod Version: {usermod.mod.packagedModInfo.version} ");
         }
         public static void l(string message, string assemblyOverride = "")
         {

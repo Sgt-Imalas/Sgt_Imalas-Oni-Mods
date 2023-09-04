@@ -25,7 +25,7 @@ namespace Rockets_TinyYetBig
             PUtil.InitLibrary(false);
             
             new POptions().RegisterOptions(this, typeof(Config));
-            ModuleConfigManager.Init();
+            //ModuleConfigManager.Init();
 
             base.OnLoad(harmony);
             CreateTooltipDictionary();

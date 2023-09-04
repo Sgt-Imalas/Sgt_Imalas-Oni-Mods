@@ -216,15 +216,15 @@ namespace Rockets_TinyYetBig.Patches
             }
         }
 
-        [HarmonyPatch(typeof(ClustercraftConfig))]
-        [HarmonyPatch(nameof(ClustercraftConfig.CreatePrefab))]
-        public static class AddDockingManager
-        {
-            public static void Postfix(ref GameObject __result)
-            {
-                __result.AddOrGet<DockingManager>();               
-            }
-        }
+        //[HarmonyPatch(typeof(ClustercraftConfig))]
+        //[HarmonyPatch(nameof(ClustercraftConfig.OnSpawn))]
+        //public static class AddDockingManager
+        //{
+        //    public static void Postfix(ref GameObject inst)
+        //    {
+        //        inst.AddOrGet<DockingManager>();               
+        //    }
+        //}
 
 
         [HarmonyPatch(typeof(Clustercraft))]

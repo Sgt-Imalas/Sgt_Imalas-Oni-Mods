@@ -303,6 +303,12 @@ namespace Rockets_TinyYetBig.Docking
 
         public void InitializeWorldId()
         {
+            if (this.gameObject == null)
+            {
+                SgtLogger.warning($"Gameobject of dockingmanager {this} was null?!");
+                return;
+            }
+
 
             if (!this.gameObject.TryGetComponent<WorldContainer>(out var container))
             {
@@ -321,14 +327,18 @@ namespace Rockets_TinyYetBig.Docking
                 SgtLogger.log("World has no proper interior and will be handled as AI rocket: " + gameObject.name);
                 hasInterior = false;
             }
+            else 
+                hasInterior = true;
+
 
         }
         public override void OnSpawn()
         {
+            SgtLogger.l("Added docking manager to "+this.gameObject.name);
             base.OnSpawn();
             ModAssets.Dockables.Add(this);
             InitializeWorldId();
-            Subscribe((int)GameHashes.RocketModuleChanged, (module) => GameScheduler.Instance.Schedule("reinit world", 0.1f, (b)=>InitializeWorldId()));
+            //Subscribe((int)GameHashes.RocketModuleChanged, (module) =>InitializeWorldId());
 
 #if DEBUG
             SgtLogger.debuglog("AddedDockable");
@@ -336,8 +346,9 @@ namespace Rockets_TinyYetBig.Docking
         }
         public override void OnCleanUp()
         {
+            SgtLogger.l("removed docking manager with " + this.gameObject.name);
             ModAssets.Dockables.Remove(this);
-            Unsubscribe((int)GameHashes.RocketModuleChanged,(module) => GameScheduler.Instance.Schedule("reinit world", 0.1f, (b)=>InitializeWorldId()));
+            //Unsubscribe((int)GameHashes.RocketModuleChanged, (module) => InitializeWorldId());
             base.OnCleanUp();
         }
 
@@ -386,12 +397,18 @@ namespace Rockets_TinyYetBig.Docking
         {
             if (IDockables.ContainsKey(door))
             {
-                SgtLogger.debuglog(door + "-IDockable removed from  " + door.GetMyWorldId());
+                SgtLogger.debuglog(door + "- IDockable removed from  " + door.GetMyWorldId());
                 UnDockFromTargetWorld(door.GetConnectedTargetWorldId(), true);
                 ///Disconecc;
                 //door.DisconnecDoor();
                 IDockables.Remove(door);
                 //UpdateDeconstructionStates();
+            }
+
+            if (this.IDockables.Count == 0)
+            {
+                SgtLogger.l("removing docking manager");
+                UnityEngine.Object.Destroy(this);
             }
         }
 
