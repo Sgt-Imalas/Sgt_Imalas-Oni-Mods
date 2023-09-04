@@ -8,6 +8,13 @@ body:
       value: |
         Thanks for taking the time to fill out this bug report
   - type: textarea
+    id: modName
+    attributes:
+      label: Which Mod?
+      description: What mod has the issue?
+    validations:
+      required: true
+  - type: textarea
     id: bug-description
     attributes:
       label: Description of the bug/crash
