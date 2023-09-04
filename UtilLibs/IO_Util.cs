@@ -15,7 +15,7 @@ namespace UtilLibs
             var filePath = new FileInfo(FileOrigin);
             if (!filePath.Exists || (forceExtensionTo!= string.Empty && filePath.Extension != forceExtensionTo))
             {
-                SgtLogger.logwarning("File does not exist!");
+                SgtLogger.logwarning(FileOrigin,"File does not exist!");
                 output = default(T);
                 return false;
             }
