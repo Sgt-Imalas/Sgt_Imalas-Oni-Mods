@@ -97,8 +97,10 @@ namespace Imalas_TwitchChaosEvents
         {
             public class SPACECHEESEDETECTED
             {
-                public static LocString TOAST = "Yuck, Space";
-                public static LocString TOASTTEXT = "{0} really didnt like to be in space,\nso it appeared on {1} instead";
+                //public static LocString TOAST = "Yuck, Space";
+                public static LocString TOAST = "Ihhh, Weltraum";
+                //public static LocString TOASTTEXT = "{0} really didnt like to be in space,\nso it appeared on {1} instead";
+                public static LocString TOASTTEXT = "{0} hatte wirklich keine Lust auf den Weltraum,\ndeswegen ist es stattdessen auf {1} gelanded";
             }
 
             public class HUNGRYROACHES

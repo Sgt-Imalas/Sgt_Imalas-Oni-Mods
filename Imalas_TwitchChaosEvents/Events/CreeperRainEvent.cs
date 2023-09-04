@@ -22,7 +22,8 @@ namespace Imalas_TwitchChaosEvents.Events
 
         public string EventDescription => STRINGS.CHAOSEVENTS.CREEPERRAIN.TOASTTEXT;
 
-        public EventWeight EventWeight => EventWeight.WEIGHT_VERY_RARE;
+        //public EventWeight EventWeight => EventWeight.WEIGHT_VERY_RARE;
+        public EventWeight EventWeight => EventWeight.WEIGHT_RARE;
 
         public Action<object> EventAction => (object data) =>
         {
@@ -56,7 +57,7 @@ namespace Imalas_TwitchChaosEvents.Events
                         STRINGS.CHAOSEVENTS.SPACECHEESEDETECTED.TOAST,
                         string.Format(STRINGS.CHAOSEVENTS.SPACECHEESEDETECTED.TOASTTEXT, EventName, dupe), Grid.CellToPos(NEWcell));
                     });
-                    GameScheduler.Instance.Schedule("creeper harmless toast", 60f, _ =>
+                    GameScheduler.Instance.Schedule("creeper harmless toast", 40f, _ =>
                     {
                         ToastManager.InstantiateToast(
                         STRINGS.CHAOSEVENTS.CREEPERRAIN.TOAST,
