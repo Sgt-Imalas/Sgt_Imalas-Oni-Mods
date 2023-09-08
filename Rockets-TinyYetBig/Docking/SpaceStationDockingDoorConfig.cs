@@ -102,7 +102,7 @@ namespace Rockets_TinyYetBig.Buildings
             var ownable = go.AddOrGet<Ownable>();
             ownable.tintWhenUnassigned = false;
             ownable.slotID = Db.Get().AssignableSlots.WarpPortal.Id;
-            go.AddOrGet<MoveToDocked>();
+            //go.AddOrGet<MoveToDocked>();
             go.AddOrGet<NavTeleporter>();
             var door = go.AddComponent<DockingDoor>();
 

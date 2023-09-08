@@ -78,12 +78,12 @@ namespace Rockets_TinyYetBig.Docking
                 {
                     var minion = (IAssignableIdentity)worker.resume.identity.assignableProxy.Get();
 
-                    var OwnPassengerModule = door.GetMyWorld().GetComponent<CraftModuleInterface>().GetPassengerModule();
+                    var OwnPassengerModule = door.dManager.GetAssignmentGroupControllerIfExisting();
                     var ConnectedPassengerModule = connectedDoor.GetMyWorld().GetComponent<CraftModuleInterface>().GetPassengerModule();
-
+                    
                     if (OwnPassengerModule != null && OwnPassengerModule.TryGetComponent<AssignmentGroupController>(out var controllerRM))
                     {
-                        SgtLogger.l("Removing DOOP");
+                        SgtLogger.l("Removing DOOP "+ OwnPassengerModule.name);
                         if (Game.Instance.assignmentManager.assignment_groups[controllerRM.AssignmentGroupID].HasMember(minion))
                         {
                             Game.Instance.assignmentManager.assignment_groups[controllerRM.AssignmentGroupID].RemoveMember(minion);
@@ -93,7 +93,7 @@ namespace Rockets_TinyYetBig.Docking
                     }
                     if (ConnectedPassengerModule != null && ConnectedPassengerModule.TryGetComponent<AssignmentGroupController>(out var controllerADD))
                     {
-                        SgtLogger.l("Adding DOOP");
+                        SgtLogger.l("Adding DOOP " + ConnectedPassengerModule.name);
                         if (!Game.Instance.assignmentManager.assignment_groups[controllerADD.AssignmentGroupID].HasMember(minion))
                         {
                             Game.Instance.assignmentManager.assignment_groups[controllerADD.AssignmentGroupID].AddMember(minion);

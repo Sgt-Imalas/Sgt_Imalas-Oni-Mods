@@ -25,33 +25,51 @@ namespace Rockets_TinyYetBig.UI_Unity
         public override void OnSpawn()
         {
             base.OnSpawn();
-            ClusterManager.Instance.Subscribe(-1280433810, new System.Action<object>(this.NewWorldAddedHandler));
+            ClusterManager.Instance.Subscribe(ModAssets.Hashes.DockingManagerAdded, new System.Action<object>(this.ManagerAddedHandler));
+            ClusterManager.Instance.Subscribe(ModAssets.Hashes.DockingManagerRemoved , new System.Action<object>(this.ManagerRemovedHandler));
 
         }
 
-        private void NewWorldAddedHandler(object obj)
+        private void ManagerAddedHandler(object obj)
         {
-            GameScheduler.Instance.Schedule("refreshUI", 0.5f,(oj =>
+            GameScheduler.Instance.ScheduleNextFrame("refreshUI", (oj =>
             {
-
-                var newWorldId = (int)obj;
-                var newWorld = ClusterManager.Instance.GetWorld(newWorldId);
-                if (newWorld != null && newWorld.IsModuleInterior)
+                if (obj is DockingManager mng)
                 {
-                    if (newWorld.TryGetComponent<DockingManager>(out var manager))
+                    if (!DockingTargets.ContainsKey(mng))
                     {
-                        AddRowEntry(manager);
+                        AddRowEntry(mng);
                         Refresh();
                     }
                     else
                     {
-                        Debug.LogError("Failed to get DockingManager from new rocket interior");
+                        Debug.LogWarning("already had DockingManager");
                     }
+
                 }
             })
             );
-                
+
         }
+        private void ManagerRemovedHandler(object obj)
+        {
+            if (obj is DockingManager mng)
+            {
+                if (!DockingTargets.ContainsKey(mng))
+                {
+                    AddRowEntry(mng);
+                    Refresh();
+                }
+                else
+                {
+                    Debug.LogWarning("already had DockingManager");
+                }
+
+            }
+
+        }
+
+
 
         protected DockingManager targetManager;
         protected Clustercraft targetCraft;
@@ -91,7 +109,7 @@ namespace Rockets_TinyYetBig.UI_Unity
         }
         public override void ClearTarget()
         {
-            SgtLogger.l("clearing Target");
+            //SgtLogger.l("clearing Target");
             foreach (int id in refreshHandle)
                 targetCraft.Unsubscribe(id);
             refreshHandle.Clear();
@@ -110,7 +128,7 @@ namespace Rockets_TinyYetBig.UI_Unity
                 refreshHandle.Clear();
             }
 
-            SgtLogger.l("setting Target");
+            //SgtLogger.l("setting Target");
             base.SetTarget(target);
             target.TryGetComponent(out targetManager); ///??? revisit
             target.TryGetComponent(out targetCraft);
@@ -198,14 +216,14 @@ namespace Rockets_TinyYetBig.UI_Unity
 
         void DelayedRefresh()
         {
-            GameScheduler.Instance.ScheduleNextFrame("dockingUiRefresh",(d)=>Refresh());
+            GameScheduler.Instance.ScheduleNextFrame("dockingUiRefresh", (d) => Refresh());
         }
 
         List<RectTransform> rotatings = new List<RectTransform>();
 
         void ToggleCrewScreen(DockingManager target)
         {
-            if(crewScreen == null)
+            if (crewScreen == null)
             {
                 crewScreen = (CrewAssignmentSidescreen)DetailsScreen.Instance.SetSecondarySideScreen(ModAssets.DupeTransferSecondarySideScreen, "Crew Assignment");
                 crewScreen.UpdateForConnection(targetManager.GetAssignmentGroupControllerIfExisting(), targetManager.WorldId, target.GetAssignmentGroupControllerIfExisting(), target.WorldId);
@@ -219,7 +237,7 @@ namespace Rockets_TinyYetBig.UI_Unity
         {
             base.OnShow(show);
 
-            if(!show)
+            if (!show)
             {
                 ClearSecondarySideScreen();
             }
@@ -296,7 +314,7 @@ namespace Rockets_TinyYetBig.UI_Unity
 
         private void Refresh()
         {
-            if(targetManager==null)
+            if (targetManager == null)
             {
                 SgtLogger.l("Skipping refresh");
                 return;
@@ -309,7 +327,7 @@ namespace Rockets_TinyYetBig.UI_Unity
                 //if (!kvp.Value.activeInHierarchy)
                 //    continue;
 
-               // SgtLogger.l("refreshing " + kvp.Key.ToString());
+                // SgtLogger.l("refreshing " + kvp.Key.ToString());
 
                 var manager = kvp.Key;
                 int ReferenceWorldId = manager.WorldId;
@@ -323,17 +341,17 @@ namespace Rockets_TinyYetBig.UI_Unity
                 DockButton.SetInteractable(CanDock);
 
                 bool CanUnDock = targetManager.IsDockedTo(ReferenceWorldId) && !targetManager.HasPendingUndocks(ReferenceWorldId) && !manager.HasPendingUndocks(targetManager.WorldId);
-                
+
                 UndockButton.SetInteractable(CanUnDock);
 
                 bool canViewInterior =
                      CanUnDock
-                    && manager.DockedToDoor(targetManager.WorldId).HasDupeTeleporter 
+                    && manager.DockedToDoor(targetManager.WorldId).HasDupeTeleporter
                     ;
 
-                    ViewDockedButton.SetInteractable(canViewInterior);
+                ViewDockedButton.SetInteractable(canViewInterior);
 
-                    TransferButton.SetInteractable(canViewInterior);
+                TransferButton.SetInteractable(canViewInterior);
             }
         }
 

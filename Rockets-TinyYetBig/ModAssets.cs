@@ -23,6 +23,13 @@ namespace Rockets_TinyYetBig
 {
     public class ModAssets
     {
+        public class Hashes
+        {
+            public static ModHashes DockingManagerAdded = new ModHashes("RTB_DockingManagerAdded");
+            public static ModHashes DockingManagerRemoved = new ModHashes("RTB_DockingManagerRemoved");
+        }
+
+
         public static GameObject ModuleSettingsWindowPrefab;
         public static GameObject DockingSideScreenWindowPrefab;
         public static GameObject DupeTransferSecondarySideScreenWindowPrefab; 

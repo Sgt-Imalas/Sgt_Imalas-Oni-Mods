@@ -517,6 +517,10 @@ namespace Rockets_TinyYetBig
                     {
                         public static class ITEMPREFAB
                         {
+
+                            public static LocString DOCKINGTOOLTIP = "Dock to this craft.";
+                            public static LocString UNDOCKINGTOOLTIP = "Undock from this craft.";
+
                             public static class ROW1
                             {
                                 public static LocString TITLETEXT = "{SpacecraftName}";
@@ -530,8 +534,8 @@ namespace Rockets_TinyYetBig
                                 public static class VIEWDOCKEDBUTTON
                                 {
                                     public static LocString LABEL = "View docked Interior";
-                                    public static LocString TOOLTIP = (LocString)"View the interior this docking tube is currently connected to.";
-                                    public static LocString TOOLTIPNOINTERIOR = (LocString)"No interior found";
+                                    public static LocString TOOLTIP = "View the interior this docking tube is currently connected to.";
+                                    public static LocString TOOLTIPNOINTERIOR = "No interior found";
 
                                 }
                             }
@@ -561,7 +565,7 @@ namespace Rockets_TinyYetBig
                     {
                         public static class NODUPESASSIGNED
                         {
-                            public static LocString TITLETEXT = "No Duplicants assigned are currently assigned to this spacecraft.";
+                            public static LocString TITLETEXT = "No Duplicants are currently assigned to this spacecraft.";
                         }
                     }
                 }

@@ -119,19 +119,21 @@ namespace Rockets_TinyYetBig.RocketFueling
             {
                 ChainedBuilding.Def def = go.AddOrGetDef<ChainedBuilding.Def>();
                 def.headBuildingTag = ModAssets.Tags.RocketPlatformTag;
-            }
-        }
-        [HarmonyPatch(typeof(BaseModularLaunchpadPortConfig))]
-        [HarmonyPatch("DoPostConfigureComplete")]
-        public static class AddDropAllComponent
-        {
-            [HarmonyPriority(Priority.LowerThanNormal)]
-            public static void Postfix(GameObject go)
-            {
+
+
                 DropAllWorkable dropAllWorkable = go.AddOrGet<DropAllWorkable>();
                 dropAllWorkable.dropWorkTime = 15f;
             }
         }
+        //[HarmonyPatch(typeof(BaseModularLaunchpadPortConfig))]
+        //[HarmonyPatch("DoPostConfigureComplete")]
+        //public static class AddDropAllComponent
+        //{
+        //    [HarmonyPriority(Priority.LowerThanNormal)]
+        //    public static void Postfix(GameObject go)
+        //    {
+        //    }
+        //}
 
     }
 }

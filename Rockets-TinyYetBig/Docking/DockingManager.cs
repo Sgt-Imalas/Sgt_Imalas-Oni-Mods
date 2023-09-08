@@ -46,6 +46,9 @@ namespace Rockets_TinyYetBig.Docking
             {
                 return controller;
             }
+            if(this.gameObject.TryGetComponent<AssignmentGroupController>(out var controller2))
+                return controller2;
+
             return null;
         }
 
@@ -119,15 +122,8 @@ namespace Rockets_TinyYetBig.Docking
                 if (undockingProcess.Key.IsConnected && IDockables.ContainsKey(undockingProcess.Key))
                 {
                     PassengerRocketModule passengerOwn = undockingProcess.Key.GetCraftModuleInterface().GetPassengerModule();
-                    PassengerRocketModule passengerDock = undockingProcess.Key.GetDockedCraftModuleInterface().GetPassengerModule();
-                    //SgtLogger.l((passengerDock != null).ToString(), "PAssengermoduleDock !=null");
-                    AssignmentGroupController assignmentGroupControllerOWN = null;
-                    AssignmentGroupController assignmentGroupControllerDOCKED = null;
-
-                    if (passengerOwn != null)
-                        passengerOwn.TryGetComponent<AssignmentGroupController>(out assignmentGroupControllerOWN);
-                    if (passengerDock != null)
-                        passengerDock.TryGetComponent<AssignmentGroupController>(out assignmentGroupControllerDOCKED);
+                    var assignmentGroupControllerOWN = undockingProcess.Key.dManager.GetAssignmentGroupControllerIfExisting();
+                    var assignmentGroupControllerDOCKED = undockingProcess.Key.GetConnec().dManager.GetAssignmentGroupControllerIfExisting();
 
                     if (assignmentGroupControllerOWN != null)
                     {
@@ -338,6 +334,8 @@ namespace Rockets_TinyYetBig.Docking
             base.OnSpawn();
             ModAssets.Dockables.Add(this);
             InitializeWorldId();
+
+            ClusterManager.Instance.Trigger(ModAssets.Hashes.DockingManagerAdded, this);
             //Subscribe((int)GameHashes.RocketModuleChanged, (module) =>InitializeWorldId());
 
 #if DEBUG
@@ -347,6 +345,9 @@ namespace Rockets_TinyYetBig.Docking
         public override void OnCleanUp()
         {
             SgtLogger.l("removed docking manager with " + this.gameObject.name);
+
+            ClusterManager.Instance.Trigger(ModAssets.Hashes.DockingManagerRemoved, this);
+
             ModAssets.Dockables.Remove(this);
             //Unsubscribe((int)GameHashes.RocketModuleChanged, (module) => InitializeWorldId());
             base.OnCleanUp();

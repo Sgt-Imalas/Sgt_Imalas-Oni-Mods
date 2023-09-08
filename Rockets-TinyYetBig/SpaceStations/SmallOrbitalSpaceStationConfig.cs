@@ -23,6 +23,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             saveLoadRoot.DeclareOptionalComponent<WorldInventory>();
             saveLoadRoot.DeclareOptionalComponent<WorldContainer>();
             saveLoadRoot.DeclareOptionalComponent<OrbitalMechanics>();
+            entity.AddOrGet<AssignmentGroupController>().generateGroupOnStart = true;
 
             RocketClusterDestinationSelector destinationSelector = entity.AddOrGet<RocketClusterDestinationSelector>();
             destinationSelector.assignable = false;

@@ -52,6 +52,12 @@ namespace Rockets_TinyYetBig.UI_Unity
                 AddDupeEntry(dupe, true);
                 AddDupeEntry(dupe, false);
             }
+
+            Components.LiveMinionIdentities.OnAdd += (minion) =>
+            {
+                AddDupeEntry(minion, true);
+                AddDupeEntry(minion, false);
+            };
         }
 
         public override void OnShow(bool show)
@@ -141,12 +147,12 @@ namespace Rockets_TinyYetBig.UI_Unity
             var minionIdentity = minion.assignableProxy.Get();
             if (source != null && Game.Instance.assignmentManager.assignment_groups[source.AssignmentGroupID].HasMember(minionIdentity))
             {
-                SgtLogger.l("REMOVING DOOP");
+                SgtLogger.l("REMOVING DOOP " + source.name);
                 Game.Instance.assignmentManager.assignment_groups[source.AssignmentGroupID].RemoveMember(minionIdentity);
             }
             if (target != null && !Game.Instance.assignmentManager.assignment_groups[target.AssignmentGroupID].HasMember(minionIdentity))
             {
-                SgtLogger.l("ADDING DOOP");
+                SgtLogger.l("Adding DOOP " + target.name);
                 Game.Instance.assignmentManager.assignment_groups[target.AssignmentGroupID].AddMember(minionIdentity);
             }
         }
