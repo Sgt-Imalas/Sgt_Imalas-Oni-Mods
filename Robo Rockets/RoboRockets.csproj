@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
   <PropertyGroup>
     <PackageId>RoboRockets</PackageId>
-    <Version>4.1.1</Version>
+    <Version>4.2.0</Version>
     <Authors>Sgt_Imalas</Authors>
     <Copyright>2022-2023 Sgt_Imalas</Copyright>
     <RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
@@ -132,8 +132,8 @@
 	  <None Update="ModAssets\translations\ru.po">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="ModAssets\translations\" />
+	  <None Update="ModAssets\translations\zh_CN.po">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 </Project>
