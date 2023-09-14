@@ -4,17 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static STRINGS.UI;
 
 namespace AmogusMorb
 {
     internal class STRINGS
     {
-        public class BUILDINGS
+        public class MOODLAMPSKINS
         {
-            public class PREFABS
-            {
-
-            }
+            public static LocString SITTINGMOGUS ="Sitting Mogus";
+               // public static LocString DESC = "Taking a break from tiring tasks.";
         }
     }
 }

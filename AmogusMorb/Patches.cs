@@ -44,5 +44,25 @@ namespace AmogusMorb
                 CREATURES.SPECIES.GLOM.DESC = "When the Imposter is Sus?!?\n\n" + CREATURES.SPECIES.GLOM.DESC;
             }
         }
+        [HarmonyPatch(typeof(Db), "Initialize")]
+        public class Db_Initialize_Patch
+        {
+            public static void Postfix()
+            {
+                if (DecorPackA_ModAPI.TryInitialize(true))
+                {
+                    DecorPackA_ModAPI.AddMoodLamp(
+                        "AM_SittingMogus",
+                        STRINGS.MOODLAMPSKINS.SITTINGMOGUS,
+                        "customizable",
+                        "moodlamp_amogus__sitting_kanim",
+                        Color.white,
+                        KAnim.PlayMode.Paused,
+                        new HashSet<HashedString>() { "Tintable" });
+
+                    //DecorPackA_ModAPI.AddComponentToLampPrefab(typeof(TestMoodlampBehavior));
+                }
+            }
+        }
     }
 }
