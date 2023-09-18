@@ -127,6 +127,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubPlanetaryTransport", "Su
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrokenRocketInteriorPortFix", "BrokenRocketInteriorPortFix\BrokenRocketInteriorPortFix.csproj", "{B6BC63AA-520E-46A9-BA10-DBB149BC0CB1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChainedDeconFix", "ChainedDeconFix\ChainedDeconFix.csproj", "{6BEA64D3-123A-49AF-8F47-B0D35704B740}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -479,6 +481,12 @@ Global
 		{B6BC63AA-520E-46A9-BA10-DBB149BC0CB1}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{B6BC63AA-520E-46A9-BA10-DBB149BC0CB1}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
 		{B6BC63AA-520E-46A9-BA10-DBB149BC0CB1}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
+		{6BEA64D3-123A-49AF-8F47-B0D35704B740}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BEA64D3-123A-49AF-8F47-B0D35704B740}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BEA64D3-123A-49AF-8F47-B0D35704B740}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BEA64D3-123A-49AF-8F47-B0D35704B740}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{6BEA64D3-123A-49AF-8F47-B0D35704B740}.ReleaseOld|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BEA64D3-123A-49AF-8F47-B0D35704B740}.ReleaseOld|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
