@@ -78,11 +78,19 @@ namespace Imalas_TwitchChaosEvents
                 {
                     if(ModAssets.CurrentFogGO != null)
                     {
-                        var pos = CameraController.Instance.baseCamera.transform.GetPosition();
-                        pos.z = 40;
-                        ModAssets.CurrentFogGO.transform.SetPosition(pos);
-                        SgtLogger.l($"Moved Fog GO to new world pos; {pos} -> {ModAssets.CurrentFogGO.transform.position}");
+                        SetFogToCameraPosition();
+                        GameScheduler.Instance.Schedule("fogMove", 0.5f, (g) => SetFogToCameraPosition());
                     }
+                }
+                static void SetFogToCameraPosition()
+                {
+
+                    if (ModAssets.CurrentFogGO == null)
+                        return;
+                    var pos = CameraController.Instance.baseCamera.transform.GetPosition();
+                    pos.z = 40;
+                    ModAssets.CurrentFogGO.transform.SetPosition(pos);
+                    SgtLogger.l($"Moved Fog GO to new world pos; {pos} -> {ModAssets.CurrentFogGO.transform.position}");
                 }
             }
         }

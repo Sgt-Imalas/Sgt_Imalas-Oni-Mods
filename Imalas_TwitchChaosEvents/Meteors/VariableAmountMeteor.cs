@@ -30,7 +30,7 @@ namespace Imalas_TwitchChaosEvents.Meteors
             animController.Play("landing");
             animController.onAnimComplete += delegate
             {
-                if (craterPrefabs != null && craterPrefabs.Length != 0)
+                if (craterPrefabs != null && craterPrefabs.Length > 0)
                 {
                     int cell = Grid.PosToCell(this);
                     if (Grid.IsValidCell(Grid.CellAbove(cell)))
@@ -40,9 +40,16 @@ namespace Imalas_TwitchChaosEvents.Meteors
                     var targetCell = Grid.PosToCell(base.gameObject);
                     while (Grid.Solid[targetCell])
                     {
-                        targetCell = Grid.CellAbove(targetCell);
+                        if (Grid.IsValidCell(Grid.CellAbove(targetCell)))
+                        {
+                            targetCell = Grid.CellAbove(targetCell);
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
-                    var position =Grid.CellToPosCCC(targetCell, Grid.SceneLayer.Ore);
+                    var position = Grid.CellToPosCCC(targetCell, Grid.SceneLayer.Ore);
 
 
                     GameObject gameObject = Util.KInstantiate(Assets.GetPrefab(craterPrefabs[UnityEngine.Random.Range(0, craterPrefabs.Length)]), position);

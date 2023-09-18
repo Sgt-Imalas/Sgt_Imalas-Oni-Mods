@@ -11,6 +11,17 @@ namespace Imalas_TwitchChaosEvents
 {
     public class STRINGS
     {
+        public class EQUIPMENT
+        {
+            public class PREFABS
+            {
+                public class ITCE_MOPED
+                {
+                    public static LocString NAME = FormatAsLink("Moped", nameof(ITCE_MOPED));
+                    public static LocString DESC = "Moped Moped Moped Moped Moped Moped Moped Moped Moped Moped";
+                }
+            }
+        }
         public class CREATURES
         {
             public class SPECIES

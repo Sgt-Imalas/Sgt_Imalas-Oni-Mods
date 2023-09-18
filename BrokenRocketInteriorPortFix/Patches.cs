@@ -52,15 +52,29 @@ namespace BrokenRocketInteriorPortFix
         [HarmonyPatch(nameof(RocketConduitSender.OnSpawn))]
         public static class TFW_Killed_interiorPorts
         {
-            public static void Postfix(RocketConduitSender __instance)
+            //static List <RocketConduitSender> brokens = new List <RocketConduitSender>();
+            public static bool Prefix(RocketConduitSender __instance)
             {
+                __instance.FindPartner();
                 if (__instance.partnerReceiver == null
                     )
                 {
                     Debug.Log("Shutting Down Conduit State machine");
                     __instance.smi.StopSM("Someone deleted the interior partner");
+                    Components.RocketConduitSenders.Add(__instance);
+                    return false;
                 }
+                return true;
             }
+            //public static void Postfix(RocketConduitSender __instance)
+            //{
+            //    if (__instance.partnerReceiver == null
+            //        )
+            //    {
+            //        Debug.Log("Shutting Down Conduit State machine");
+            //        __instance.smi.StopSM("Someone deleted the interior partner");
+            //    }
+            //}
         }
         [HarmonyPatch(typeof(RocketConduitSender))]
         [HarmonyPatch(nameof(RocketConduitSender.FindPartner))]
@@ -125,7 +139,7 @@ namespace BrokenRocketInteriorPortFix
         [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
         public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
         {
-
+            [HarmonyPriority(Priority.Low)]
             public static void Prefix()
             {
                 InjectionMethods.MoveExistingBuildingToNewPlanscreen(GameStrings.PlanMenuCategory.Rocketry, RocketInteriorGasInputPortConfig.ID, "fittings",ordering: ModUtil.BuildingOrdering.Before);
