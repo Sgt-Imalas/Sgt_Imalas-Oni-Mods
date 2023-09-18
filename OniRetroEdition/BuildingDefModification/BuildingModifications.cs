@@ -17,7 +17,7 @@ namespace OniRetroEdition.BuildingDefModification
 
         public static BuildingModifications Instance;
 
-        Dictionary<string, BuildingModification> LoadedBuildingOverrides = new Dictionary<string, BuildingModification>();
+        public Dictionary<string, BuildingModification> LoadedBuildingOverrides = new Dictionary<string, BuildingModification>();
         public static void LoadBuildingOverrides()
         {
 

@@ -120,7 +120,7 @@ namespace ShockWormMob
 
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, MinerSolidMk1Config.ID);
                 InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Utilities, EventDebugTileConfig.ID);
-                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Base, JobBoardConfig.ID, ExobaseHeadquartersConfig.ID);
+                //InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Base, JobBoardConfig.ID, ExobaseHeadquartersConfig.ID);
                 ModAssets.InitEventTest(); 
             }
         }

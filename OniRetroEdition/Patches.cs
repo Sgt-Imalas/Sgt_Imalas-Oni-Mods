@@ -3,6 +3,7 @@ using ElementUtilNamespace;
 using HarmonyLib;
 using Klei.AI;
 using OniRetroEdition.Behaviors;
+using OniRetroEdition.BuildingDefModification;
 using ProcGenGame;
 using ShockWormMob;
 using System;
@@ -34,19 +35,48 @@ namespace OniRetroEdition
 
             public static void Prefix()
             {
-                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Base, MouldingTileConfig.ID, CarpetTileConfig.ID);
-                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Rocketry, CrewCapsuleConfig.ID);
-                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, AtmoicGardenConfig.ID, FarmTileConfig.ID);
+                foreach(var config in BuildingModifications.Instance.LoadedBuildingOverrides)
+                {
 
-                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, FlyingCreatureBaitConfig.ID, EggCrackerConfig.ID);
-                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, AirborneCreatureLureConfig.ID, EggCrackerConfig.ID);
-                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, FishTrapConfig.ID, EggCrackerConfig.ID);
-                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, CreatureTrapConfig.ID, EggCrackerConfig.ID);
 
-                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Refinement, GenericFabricatorConfig.ID, RockCrusherConfig.ID);
-                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Stations, MachineShopConfig.ID, PowerControlStationConfig.ID);
-                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Medicine, AdvancedApothecaryConfig.ID, ApothecaryConfig.ID);
-                InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Stations, OxygenMaskStationConfig.ID, OxygenMaskMarkerConfig.ID, string.Empty, ModUtil.BuildingOrdering.Before);
+                    if(config.Value.buildMenuCategory!=null&& config.Value.buildMenuCategory.Length > 0)
+                    {
+                        string buildingId = config.Key;
+                        string category = config.Value.buildMenuCategory;
+
+                        string relativeBuildingId = null;
+
+                        if(config.Value.placedBehindBuildingId!=null&& config.Value.placedBehindBuildingId.Length > 0)
+                        {
+                            relativeBuildingId = config.Value.placedBehindBuildingId;
+                            if (config.Value.placeBefore.HasValue)
+                            {
+                                bool before = config.Value.placeBefore.Value;
+                                InjectionMethods.MoveExistingBuildingToNewCategory(category, buildingId, relativeBuildingId, string.Empty, before ? ModUtil.BuildingOrdering.Before : ModUtil.BuildingOrdering.After);
+                                continue;
+                            }
+
+                            InjectionMethods.MoveExistingBuildingToNewCategory(category, buildingId, relativeBuildingId);
+                            continue;
+                        }
+                        InjectionMethods.MoveExistingBuildingToNewCategory(category, buildingId);
+                    }
+                }
+
+
+                //InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Base, MouldingTileConfig.ID, CarpetTileConfig.ID);
+                //InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Rocketry, CrewCapsuleConfig.ID);
+                //InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, AtmoicGardenConfig.ID, FarmTileConfig.ID);
+
+                //InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, FlyingCreatureBaitConfig.ID, EggCrackerConfig.ID);
+                //InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, AirborneCreatureLureConfig.ID, EggCrackerConfig.ID);
+                //InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, FishTrapConfig.ID, EggCrackerConfig.ID);
+                //InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, CreatureTrapConfig.ID, EggCrackerConfig.ID);
+
+                //InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Refinement, GenericFabricatorConfig.ID, RockCrusherConfig.ID);
+                //InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Stations, MachineShopConfig.ID, PowerControlStationConfig.ID);
+                //InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Medicine, AdvancedApothecaryConfig.ID, ApothecaryConfig.ID);
+                //InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Stations, OxygenMaskStationConfig.ID, OxygenMaskMarkerConfig.ID, string.Empty, ModUtil.BuildingOrdering.Before);
 
 
             }

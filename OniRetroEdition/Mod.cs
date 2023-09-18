@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using KMod;
+using OniRetroEdition.BuildingDefModification;
 using PeterHan.PLib.AVC;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
@@ -17,6 +18,8 @@ namespace OniRetroEdition
             base.OnLoad(harmony);
             SgtLogger.LogVersion(this);
             new PVersionCheck().Register(this, new SteamVersionChecker());
+
+            BuildingModifications.InitializeFolderPath();
         }
     }
 }
