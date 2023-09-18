@@ -33,8 +33,10 @@ namespace AmogusMorb.TwitchEvents.Events
             {
 
                 int worldID = ClusterManager.Instance.activeWorld.IsModuleInterior ? ClusterManager.Instance.WorldContainers[0].id : ClusterManager.Instance.activeWorldId;
-                var Printer = Components.Telepads.GetWorldItems(worldID).First();
-                if (Printer == null)
+                Telepad Printer;
+                if (Components.Telepads.GetWorldItems(worldID).Count > 0 )
+                    Printer = Components.Telepads.GetWorldItems(worldID).First();
+                else 
                     Printer = Components.Telepads.items.data.GetRandom();
 
                 int dupecount = Components.MinionIdentities.Items.Count();

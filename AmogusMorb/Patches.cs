@@ -58,7 +58,16 @@ namespace AmogusMorb
                         "moodlamp_amogus__sitting_kanim",
                         Color.white,
                         KAnim.PlayMode.Paused,
+
                         new HashSet<HashedString>() { "Tintable" });
+                    DecorPackA_ModAPI.AddMoodLamp(
+                        "AM_StickbuggedLoL",
+                        STRINGS.MOODLAMPSKINS.STICKBUG,
+                        "",
+                        "moodlamp_stickbug_kanim",
+                        UIUtils.rgb(243, 241, 196),
+                        KAnim.PlayMode.Loop,
+                        new HashSet<HashedString>() { });
 
                     //DecorPackA_ModAPI.AddComponentToLampPrefab(typeof(TestMoodlampBehavior));
                 }

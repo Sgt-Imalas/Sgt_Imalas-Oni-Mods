@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>AmogusMorb</PackageId>
-		<Version>2.1.2</Version>
+		<Version>2.2.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022 Sgt_Imalas</Copyright>
 		<RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
@@ -84,6 +84,15 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\anim\assets\moodlamp_amogus__sitting\moodlamp_amogus__sitting_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\moodlamp_stickbug\stickbug_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\moodlamp_stickbug\stickbug_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\moodlamp_stickbug\stickbug_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\anim\assets\twitch_imposter\twitch_imposter_0.png">
