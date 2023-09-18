@@ -38,6 +38,8 @@ namespace ClusterTraitGenerationManager
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
             base.OnAllModsLoaded(harmony, mods);
+            CompatibilityNotifications.FlagLoggingPrevention(mods);
+
             CompatibilityNotifications.CheckAndAddIncompatibles("CGSMMerged", "Cluster Generation Manager", "Cluster Generation Settings Manager");
             CompatibilityNotifications.CheckAndAddIncompatibles("Mod.WGSM", "Cluster Generation Manager","WGSM - World Generation Settings Manager");
 

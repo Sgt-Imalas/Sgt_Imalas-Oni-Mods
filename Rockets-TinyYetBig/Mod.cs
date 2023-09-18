@@ -42,8 +42,9 @@ namespace Rockets_TinyYetBig
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
             base.OnAllModsLoaded(harmony, mods);
+            CompatibilityNotifications.FlagLoggingPrevention(mods);
             FixForAutoRocketAndBugfixes.AttemptPatch(harmony);
-            
+
         }
 
         void CreateTooltipDictionary()

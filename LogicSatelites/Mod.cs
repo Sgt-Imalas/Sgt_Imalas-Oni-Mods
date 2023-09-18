@@ -88,5 +88,12 @@ namespace LogicSatellites
 
             return brightness;
         }
+
+        public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
+        {
+            base.OnAllModsLoaded(harmony, mods);
+            CompatibilityNotifications.FlagLoggingPrevention(mods);
+
+        }
     }
 }

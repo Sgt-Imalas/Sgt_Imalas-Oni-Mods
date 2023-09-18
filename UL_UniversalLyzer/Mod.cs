@@ -3,6 +3,7 @@ using KMod;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
 using System;
+using System.Collections.Generic;
 using UtilLibs;
 
 namespace UL_UniversalLyzer
@@ -22,6 +23,12 @@ namespace UL_UniversalLyzer
 
             SgtLogger.debuglog("Initialized");
             SgtLogger.LogVersion(this);
+        }
+        public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
+        {
+            base.OnAllModsLoaded(harmony, mods);
+            CompatibilityNotifications.FlagLoggingPrevention(mods);
+
         }
     }
 }

@@ -3,6 +3,7 @@ using KMod;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
 using System;
+using System.Collections.Generic;
 using UtilLibs;
 
 namespace Imalas_TwitchChaosEvents
@@ -18,6 +19,13 @@ namespace Imalas_TwitchChaosEvents
 
             ModAssets.LoadAll();
             ModAssets.HotKeys.Register();
+        }
+
+        public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
+        {
+            base.OnAllModsLoaded(harmony, mods);
+            CompatibilityNotifications.FlagLoggingPrevention(mods);
+
         }
     }
 }

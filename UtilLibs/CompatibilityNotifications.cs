@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using KMod;
 using PeterHan.PLib.Core;
 using STRINGS;
 using System;
@@ -29,9 +30,50 @@ namespace UtilLibs
                 Debug.Log("mod not found: " + assemblyName);
         }
 
+
+        public static void DisableLoggingPrevention(IReadOnlyList<KMod.Mod> _mods)
+        {
+
+            //AddIncompatibleToList("Oxygen Not Included", "Ony Debug Console");
+
+            List<KMod.Mod> mods = _mods.ToList();
+
+            Mod faultyMod = mods.Find(mod => mod.staticID.ToUpperInvariant().Contains("DEBUGCONSOLE"));
+
+            if (faultyMod != null && faultyMod.IsEnabledForActiveDlc())
+            {
+                Debug.Log("DebugConsole detected, disabling");
+                //faultyMod.SetCrashCount(3);
+                faultyMod.SetEnabledForDlc("", false);
+                faultyMod.SetEnabledForDlc("EXPANSION1_ID", false);
+
+                //App.instance.Restart();
+            }
+            else
+                Debug.Log("DebugConsole not found, gj on that");
+        }
+        public static void FlagLoggingPrevention(IReadOnlyList<KMod.Mod> _mods)
+        {
+
+            //AddIncompatibleToList("Oxygen Not Included", "Ony Debug Console");
+
+            List<KMod.Mod> mods = _mods.ToList();
+
+            Mod faultyMod = mods.Find(mod => mod.staticID.ToUpperInvariant().Contains("DEBUGCONSOLE"));
+
+            if (faultyMod != null && faultyMod.IsEnabledForActiveDlc())
+            {
+                faultyMod.SetCrashCount(3);
+                AddIncompatibleToList(GameName,faultyMod.title);
+
+            }
+        }
+        static readonly string GameName = "OxygenNotIncluded_DebugConsole";
+
+
         static void initList()
         {
-            if (PRegistry.GetData<Dictionary<string, string>>(CompatibilityDataKey) != null )
+            if (PRegistry.GetData<Dictionary<string, string>>(CompatibilityDataKey) != null)
                 return;
 
             var current = new List<Tuple<string, string>>();
@@ -46,7 +88,7 @@ namespace UtilLibs
         static void AddIncompatibleToList(string modName, string conflictingModName)
 
         {
-            Dictionary<string,string> current = PRegistry.GetData<Dictionary<string, string>>(CompatibilityDataKey);
+            Dictionary<string, string> current = PRegistry.GetData<Dictionary<string, string>>(CompatibilityDataKey);
             if (current == null)
             {
                 current = new Dictionary<string, string>();
@@ -57,10 +99,21 @@ namespace UtilLibs
                 conflictingModName = conflictingModName.Remove(40);
                 conflictingModName += "...";
             }
-            if (!current.ContainsKey(modName))
-                current.Add(modName, "");
 
-            current[modName] += "\n• " + conflictingModName;
+            if(modName == GameName)
+            {
+                if (!current.ContainsKey(modName))
+                {
+                    current.Add(modName, "");
+                    current[modName] = conflictingModName;
+                }
+            }
+            else
+            {
+                if (!current.ContainsKey(modName))
+                    current.Add(modName, "");
+                current[modName] += "\n• " + conflictingModName;
+            }
 
             PRegistry.PutData(CompatibilityDataKey, current);
 
@@ -68,19 +121,26 @@ namespace UtilLibs
         public static void DumpIncompatibilityMessage(MainMenu parent)
         {
             Dictionary<string, string> current = PRegistry.GetData<Dictionary<string, string>>(CompatibilityDataKey);
-            if (current == null || current.Count==0)
+            if (current == null || current.Count == 0)
                 return;
-
-
 
             foreach (var item in current)
             {
-                StringBuilder message = new StringBuilder();
-                message.AppendLine($"{item.Key} has declared the following mods as conflicting:");
-                message.AppendLine(item.Value);
-
-                KMod.Manager.Dialog(parent.gameObject, "Conflicting Mods found!", message.ToString(),
-                            STRINGS.UI.CONFIRMDIALOG.OK);
+                if(item.Key == GameName)
+                {
+                    StringBuilder message = new StringBuilder();
+                    message.AppendLine($"The mod \"{item.Value}\" has been detected, please disable it as it prevents other mods from proper logging.");
+                    KMod.Manager.Dialog(parent.gameObject, "Debug Console detected", message.ToString(),
+                                STRINGS.UI.CONFIRMDIALOG.OK);
+                }
+                else
+                {
+                    StringBuilder message = new StringBuilder();
+                    message.AppendLine($"{item.Key} has declared the following mods as conflicting:");
+                    message.AppendLine(item.Value);
+                    KMod.Manager.Dialog(parent.gameObject, "Conflicting Mods found!", message.ToString(),
+                                STRINGS.UI.CONFIRMDIALOG.OK);
+                }
             }
 
 
