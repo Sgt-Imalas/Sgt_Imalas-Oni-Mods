@@ -662,7 +662,7 @@ namespace Rockets_TinyYetBig
             }
             public class COLLAPSIBLEWORLDSELECTOR
             {
-                public static LocString SPACESTATIONS = (LocString)"Space Stations";
+                public static LocString DERELICS = (LocString)"Derelics";
                 public static LocString ROCKETS = (LocString)"Rockets";
             }
         }

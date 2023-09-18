@@ -31,10 +31,11 @@ namespace Rockets_TinyYetBig.Behaviours
         // private Guid notPoweringStatusItemHandle;
         public Guid FuelStatusHandle;
 
-        [Serialize]
         public bool AlwaysActive = false;
         [SerializeField]
         public bool produceWhileLanded = false;
+        [Serialize]
+        private bool _producingEnergy = false;
         //[Serialize]
         //public bool AllowRefill = true;
 
@@ -127,12 +128,11 @@ namespace Rockets_TinyYetBig.Behaviours
             base.OnCleanUp();
 
         }
-
-        public override bool IsProducingPower() =>
-            AlwaysActive && ConsumptionSatisfied()
-            || clustercraft.Status != Clustercraft.CraftStatus.Grounded && BatteriesNotFull() && ConsumptionSatisfied()
-            || produceWhileLanded && BatteriesNotFull() && ConsumptionSatisfied();
-        public bool ShouldProduciePower() => AlwaysActive || this.clustercraft.Status != Clustercraft.CraftStatus.Grounded && BatteriesNotFull() || produceWhileLanded && BatteriesNotFull();
+        public override bool IsProducingPower() => _producingEnergy;
+        public bool ShouldProducePower() =>
+            AlwaysActive 
+            || this.clustercraft.Status != Clustercraft.CraftStatus.Grounded && BatteriesNotFull() 
+            || produceWhileLanded && BatteriesNotFull();
 
 
         public bool BatteriesNotFull()
@@ -155,7 +155,6 @@ namespace Rockets_TinyYetBig.Behaviours
             }
         }
 
-
         public override void EnergySim200ms(float dt)
         {
             //selectable.SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus, (object)this);
@@ -167,7 +166,7 @@ namespace Rockets_TinyYetBig.Behaviours
             base.EnergySim200ms(dt);
             var emitter = this.gameObject.GetComponent<RadiationEmitter>();
 
-            if (this.ShouldProduciePower())
+            if (this.ShouldProducePower())
             {
                 if (ConsumptionSatisfied(dt))
                 {
@@ -177,7 +176,7 @@ namespace Rockets_TinyYetBig.Behaviours
                     }
 
                     this.GenerateJoules(this.WattageRating * dt);
-
+                    _producingEnergy = true;
                     StatusItemUpdate(true);
                 }
                 else
@@ -187,10 +186,12 @@ namespace Rockets_TinyYetBig.Behaviours
                         emitter.SetEmitting(false);
                         StatusItemUpdate(false);
                     }
+                    _producingEnergy = false;
                 }
             }
             else
             {
+                _producingEnergy = false;
                 StatusItemUpdate(false);
             }
 
@@ -222,7 +223,7 @@ namespace Rockets_TinyYetBig.Behaviours
         }
 
 
-        public bool ConsumptionSatisfied(float dt = 1)
+        public bool ConsumptionSatisfied(float dt)
         {
             if (consumptionElement == SimHashes.Void.CreateTag())
                 return true;
@@ -436,9 +437,9 @@ namespace Rockets_TinyYetBig.Behaviours
         {
         }
 
-        public bool SidescreenEnabled() => clustercraft.status == Clustercraft.CraftStatus.Grounded;
+        public bool SidescreenEnabled() => (clustercraft.status == Clustercraft.CraftStatus.Grounded) && !AlwaysActive;
 
-        public bool SidescreenButtonInteractable() => true;
+        public bool SidescreenButtonInteractable() => !AlwaysActive;
 
         public void UpdateLandedStatusItem()
         {

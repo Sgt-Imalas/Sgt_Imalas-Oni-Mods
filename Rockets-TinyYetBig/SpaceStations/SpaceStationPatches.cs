@@ -435,7 +435,16 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
         }
 
-
+        //[HarmonyPatch(typeof(GridSettings))]
+        //[HarmonyPatch(nameof(GridSettings.Reset))]
+        //public static class Size_Experiment
+        //{
+        //    public static void Prefix(ref int width,ref int height)
+        //    {
+        //        width += 500;
+        //        height += 500;
+        //    }
+        //}
 
 
         //[HarmonyPatch(typeof(ClusterDestinationSelector))]

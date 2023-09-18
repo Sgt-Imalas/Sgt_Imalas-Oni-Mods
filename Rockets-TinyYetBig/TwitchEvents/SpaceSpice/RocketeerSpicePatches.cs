@@ -39,7 +39,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
         }
         public class GlowyEyes
         {
-
+            public static bool RegistrationSuccessful = false;
             public static void Register(AccessorySlots instance, ResourceSet parent)
             {
                 AddAccessories(Assets.GetAnim("eye_spice_effect_kanim"), instance.Eyes, parent);
@@ -47,6 +47,13 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
 
             public static void AddAccessories(KAnimFile file, AccessorySlot slot, ResourceSet parent)
             {
+                if(file == null)
+                {
+                    SgtLogger.error("eye_spice_effect was null!");
+                    return;
+                }
+
+
                 var build = file.GetData().build;
                 var id = slot.Id.ToLower();
 
@@ -60,6 +67,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
                         HashCache.Get().Add(accessory.IdHash.HashValue, accessory.Id);
                     }
                 }
+                RegistrationSuccessful = true;  
             }
         }
         [HarmonyPatch(typeof(MinionConfig), "CreatePrefab")]

@@ -74,6 +74,12 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
 
         private void ReplaceAccessory(string accessory)
         {
+            if (!RocketeerSpicePatches.GlowyEyes.RegistrationSuccessful)
+            {
+                return;
+            }
+
+
             var eyeSlot = Db.Get().AccessorySlots.Eyes;
             var newAccessory = eyeSlot.Lookup(accessory);
             var currentAccessory = accessorizer.GetAccessory(eyeSlot);
@@ -95,6 +101,11 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
                 SgtLogger.debuglog("slot id is not valid value");
                 return;
             }
+            if (!RocketeerSpicePatches.GlowyEyes.RegistrationSuccessful)
+            {
+                return;
+            }
+
 
             //SgtLogger.debuglog("Changing accessory slot to " + HashCache.Get().Get(value));
 

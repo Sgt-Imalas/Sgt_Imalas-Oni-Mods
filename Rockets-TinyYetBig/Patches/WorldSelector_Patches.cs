@@ -28,6 +28,7 @@ namespace Rockets_TinyYetBig.Patches
         public static Dictionary<int, bool> ShouldCollapseDic = new Dictionary<int, bool>();
         //public const int SpaceStationHeaderId = -101;
         //public static MultiToggle SpaceStationHeader = null;
+        //public const int DerelictHeaderId = -101;
         public const int RocketHeaderId = -102;
         public static MultiToggle RocketHeader = null;
 
@@ -53,8 +54,8 @@ namespace Rockets_TinyYetBig.Patches
                 //SgtLogger.debuglog(headerImg + ", " + HeaderText);
                 switch (HeaderId)
                 {
-                    //case SpaceStationHeaderId:
-                    //    HeaderText.key = "STRINGS.UI_MOD.COLLAPSIBLEWORLDSELECTOR.SPACESTATIONS";
+                    //case DerelictHeaderId:
+                    //    HeaderText.key = "STRINGS.UI_MOD.COLLAPSIBLEWORLDSELECTOR.DERELICS";
                     //    headerImg.sprite = Assets.GetSprite("icon_category_ventilation");
                     //    break;
 
@@ -279,6 +280,100 @@ namespace Rockets_TinyYetBig.Patches
                         collapseButtons.Remove(num);
                     }
                 }
+            }
+        }
+
+
+
+        /// <summary>
+        /// A crash preventing method if a habitat mod got removed; written for akis mod fixer mod
+        /// </summary>
+        [HarmonyPatch(typeof(Clustercraft))]
+        [HarmonyPatch(nameof(Clustercraft.GetUISprite))]
+        public static class MissingHabitat_OnLoadCrashFix
+        {
+            static List<int> worldIdsThatAreInRemoval = new List<int>();
+            public static bool Prefix(Clustercraft __instance, ref Sprite __result)
+            {
+                if(__instance.ModuleInterface.GetPassengerModule()==null)
+                {
+                    Debug.LogWarning($"PassengerModule for {__instance} was null!");
+                    __result = Assets.GetSprite("unknown");
+
+                    if(ClusterManager.Instance != null && __instance!=null && __instance.gameObject!=null && __instance.gameObject.TryGetComponent(out WorldContainer RocketInterior) && !worldIdsThatAreInRemoval.Contains(RocketInterior.id))
+                    {
+                        worldIdsThatAreInRemoval.Add(RocketInterior.id);
+                        GameScheduler.Instance.ScheduleNextFrame("rm broken rocket interior", (ob) => {
+                            DestroyRocketInteriorWithoutDoorReference(RocketInterior, __instance);
+                        } );
+                        
+                    }
+                    return false;
+                }
+
+                return true;
+            }
+            public static void DestroyRocketInteriorWithoutDoorReference(WorldContainer world, Clustercraft clustercraft)
+            {
+                if (ClusterManager.Instance.activeWorldId == world.id)
+                {
+                    WorldContainer targetWorld;
+                    if (world.ParentWorldId == world.id)
+                    {
+                        targetWorld = ClusterManager.Instance.GetStartWorld();
+                    }
+                    else
+                    {
+                        targetWorld = ClusterManager.Instance.GetWorld(world.ParentWorldId);
+                    }
+                    ClusterManager.Instance.SetActiveWorld(targetWorld.id);
+                }
+
+                if (world.TryGetComponent<OrbitalMechanics>(out var orbitalMechanics))
+                {
+                    UnityEngine.Object.Destroy(orbitalMechanics);
+                }
+                bool IsInSpace = (clustercraft.status == Clustercraft.CraftStatus.InFlight);
+
+                Vector3 outdoorPos=default;
+
+                if (IsInSpace)
+                {
+                    world.SpacePodAllDupes(clustercraft.Location, SimHashes.Cuprite);
+                }
+                else
+                {
+                    if (clustercraft.ModuleInterface.modules.Count > 0)
+                        outdoorPos = clustercraft.ModuleInterface.modules.First().Get().gameObject.transform.position;
+                    else
+                        outdoorPos = Grid.CellToPos(ClusterManager.Instance.GetStartWorld().GetSafeCell());
+                    world.EjectAllDupes(outdoorPos);
+                }
+
+
+
+                world.CancelChores();
+                world.DestroyWorldBuildings(out var noRefundTiles);
+                ClusterManager.Instance.UnregisterWorldContainer(world);
+
+                if (IsInSpace)
+                {
+                    GameScheduler.Instance.ScheduleNextFrame("ClusterManager.world.TransferResourcesToDebris", delegate
+                    {
+                        world.TransferResourcesToDebris(clustercraft.Location, noRefundTiles, SimHashes.Cuprite);
+                    });
+                }
+                else
+                {
+                    GameScheduler.Instance.ScheduleNextFrame("RocketCleanup_ClusterManager.world.TransferResourcesToParentWorld", delegate
+                    {
+                        world.TransferResourcesToParentWorld(outdoorPos + new Vector3(0f, 0.5f, 0f), noRefundTiles);
+                    });
+                }
+                GameScheduler.Instance.ScheduleNextFrame("ClusterManager.DeleteWorldObjects", delegate
+                {
+                    ClusterManager.Instance.DeleteWorldObjects(world);
+                });
             }
         }
 
