@@ -1,5 +1,6 @@
 ﻿using Database;
 using HarmonyLib;
+using Imalas_TwitchChaosEvents.Attachments;
 using Imalas_TwitchChaosEvents.Creeper;
 using Imalas_TwitchChaosEvents.Elements;
 using Imalas_TwitchChaosEvents.Fire;
@@ -95,32 +96,6 @@ namespace Imalas_TwitchChaosEvents
             }
         }
 
-        public class SaveGamePatch
-        {
-            [HarmonyPatch(typeof(SaveGame), "OnPrefabInit")]
-            public class SaveGame_OnPrefabInit_Patch
-            {
-                public static void Postfix(SaveGame __instance)
-                {
-                    __instance.gameObject.AddOrGet<ChaosTwitch_SaveGameStorage>();
-                    CreeperController.instance = __instance.gameObject.AddOrGet<CreeperController>();
-                    FireManager.Instance = __instance.gameObject.AddOrGet<FireManager>();
-                }
-            }
-
-            //[HarmonyPatch(typeof(VirtualInputModule), "SetCursor")]
-            //public class CursorHp
-            //{
-            //    public static void Postfix(VirtualInputModule __instance)
-            //    {
-            //        if (__instance.m_VirtualCursor == null)
-            //            return;
-            //        var hp = Util.KInstantiateUI(ModAssets.CursorHP, __instance.m_VirtualCursor.gameObject, true);
-            //        hp.AddComponent<CursorHP>();
-            //        hp.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 10, 10);
-            //    }
-            //}
-        }
         [HarmonyPatch(typeof(ComplexFabricatorSideScreen), "AnyRecipeRequirementsDiscovered")]
         public class ComplexFabricatorSideScreen_AnyRecipeRequirementsDiscovered_Patch
         {

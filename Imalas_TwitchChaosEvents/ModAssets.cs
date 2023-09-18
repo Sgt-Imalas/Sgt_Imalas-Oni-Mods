@@ -1,12 +1,72 @@
-﻿using PeterHan.PLib.Actions;
+﻿using HarmonyLib;
+using Imalas_TwitchChaosEvents.Elements;
+using PeterHan.PLib.Actions;
 using ProcGen;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UtilLibs;
 
 namespace Imalas_TwitchChaosEvents
 {
-    internal class ModAssets
+    public class ModAssets
     {
+        public class WaterCoolerDrinks
+        {
+            public static Dictionary<Tag, string> Beverages = new Dictionary<Tag, string>()
+            {
+                { ModElements.InverseWater.Tag, Chaos_Effects.FLIPPEDWATERDRINK }
+            };
+
+            [HarmonyPatch(typeof(Db))]
+            [HarmonyPatch(nameof(Db.Initialize))]
+            public class Db_init
+            {
+                public static void Postfix(Db __instance)
+                {
+                    var beverages = new List<Tuple<Tag, string>>();
+
+                    foreach (var beverage in Beverages)
+                        beverages.Add(new Tuple<Tag, string>(beverage.Key, beverage.Value));
+
+                    WaterCoolerConfig.BEVERAGE_CHOICE_OPTIONS = WaterCoolerConfig.BEVERAGE_CHOICE_OPTIONS
+                        .AddRangeToArray(beverages.ToArray())
+                        .ToArray();
+                }
+            }
+        }
+
+
+        public static class Chaos_Effects
+        {
+            [HarmonyPatch(typeof(ModifierSet), "Initialize")]
+            public class ModifierSet_Initialize_Patch
+            {
+                public static void Postfix(ModifierSet __instance)
+                {
+                    RegisterEffects(__instance);
+                }
+            }
+
+            public const string
+            FLIPPEDWATERDRINK = "ITCE_INVERSE_WATER_DRINK"
+           ;
+
+
+            public static void RegisterEffects(ModifierSet set)
+            {
+                var db = Db.Get();
+                var athlethics = db.Attributes.Athletics.Id;
+
+                new EffectBuilder(FLIPPEDWATERDRINK, 300f, false)
+                    .Modifier(db.Amounts.Stress.deltaAttribute.Id, 1f/600f)
+                    .Modifier(db.Attributes.Strength.Id, 5)
+                    .Modifier(athlethics, -1)
+                    .Add(set);
+            }
+        }
+
+
         public static GameObject CurrentFogGO = null;
         public static class SOUNDS
         {

@@ -1,5 +1,6 @@
 ﻿using ElementUtilNamespace;
 using HarmonyLib;
+using Klei.AI;
 using ONITwitchLib.Utils;
 using STRINGS;
 using System;
@@ -10,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static ComplexRecipe;
 
 namespace Imalas_TwitchChaosEvents.Elements
 {
@@ -60,56 +62,101 @@ namespace Imalas_TwitchChaosEvents.Elements
             }
         }
 
-        //[HarmonyPatch(typeof(GameUtil), "IsEmissionBlocked")]
-        //public class GameUtil_IsEmissionBlocked_Patch
+        //public static class  DangerousCreeperPatch
         //{
-        //    public static bool Prefix(int cell, out bool all_not_gaseous, out bool all_over_pressure)
+        //    [HarmonyPatch(typeof(SafeCellQuery), "GetFlags")]
+        //    public class SimHashes_ToString_Patch
         //    {
-        //        if(Grid.Element[cell].id == ModElements.Creeper)
-        //        {
-        //            all_not_gaseous = false;
-        //            all_over_pressure = false;
-        //            return false;
+        //        public static void Postfix(int cell, ref SafeCellQuery.SafeFlags __result)
+        //        {                  
+        //            int headCell = Grid.CellAbove(cell);
+
+        //            if (
+        //                (Grid.Element[cell].id == ModElements.Creeper.SimHash || Grid.Element[headCell].id == ModElements.Creeper.SimHash))
+        //            {
+        //                SgtLogger.l(Grid.Element[cell].tag.ToString(),"DANGER");
+        //                SgtLogger.l(Grid.CellToPos(cell).ToString(),"DANGER2");
+
+        //                __result  = (SafeCellQuery.SafeFlags)0;
+        //            }
         //        }
-
-        //        all_not_gaseous = true;
-        //        all_over_pressure = true;
-        //        return true;
         //    }
-        //    //public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
-        //    //{
-        //    //    var codes = orig.ToList();
-
-        //    //    // find injection point
-        //    //    var index = codes.FindIndex(ci => ci.opcode == OpCodes.Ldc_R4 && ci.operand is float f && Mathf.Approximately(f,1.8f));
-
-        //    //    if (index == -1)
-        //    //    {
-        //    //        return codes;
-        //    //    }
-
-        //    //    var m_InjectedMethod = AccessTools.DeclaredMethod(typeof(GameUtil_IsEmissionBlocked_Patch), "InjectedMethod");
-
-        //    //    // inject right after the found index
-        //    //    codes.InsertRange(index + 1, new[]
-        //    //    {
-        //    //                new CodeInstruction(OpCodes.Ldloc_3),
-        //    //                new CodeInstruction(OpCodes.Call, m_InjectedMethod)
-        //    //            });
-        //    //    return codes;
-        //    //}
-
-        //    //private static float InjectedMethod( float old, Element ele)
-        //    //{
-        //    //    SgtLogger.l("creep creep ? "+ ele.id);
-        //    //    if (ele.id == ModElements.Creeper)
-        //    //    {
-        //    //        return 1000f;
-        //    //    }
-        //    //    return old;
-
-        //    //}
         //}
 
+
+        [HarmonyPatch(typeof(WaterCoolerChore.States), "Drink")]
+        public class WaterCoolerChore_States_Drink_Patch
+        {
+            public static void Prefix(WaterCoolerChore.States __instance, WaterCoolerChore.StatesInstance smi)
+            {
+                var storage = __instance.masterTarget.Get<Storage>(smi);
+
+                if (storage.IsEmpty())
+                    return;
+
+                Tag tag = storage.items[0].PrefabID();
+
+                if (ModAssets.WaterCoolerDrinks.Beverages.TryGetValue(tag, out var effect))
+                    __instance.stateTarget
+                        .Get<Worker>(smi)
+                        .GetComponent<Effects>()
+                        .Add(effect, true);
+            }
+        }
+        [HarmonyPatch(typeof(SupermaterialRefineryConfig))]
+        [HarmonyPatch(nameof(SupermaterialRefineryConfig.ConfigureBuildingTemplate))]
+        public static class Patch_CraftingTableConfig_ConfigureRecipes
+        {
+            public static void Postfix()
+            {
+                AddRetawRecipe();
+            }
+            private static void AddRetawRecipe()
+            {
+                RecipeElement[] input = new RecipeElement[]
+                {
+                    new RecipeElement(ModElements.InverseWater.Tag, 1000f),
+                };
+
+                RecipeElement[] output = new RecipeElement[]
+                {
+                    new RecipeElement(SimHashes.Water.CreateTag(), 999f),
+                    new RecipeElement(SimHashes.Unobtanium.CreateTag(), 1f)
+                };
+
+                string recipeID = ComplexRecipeManager.MakeRecipeID(SupermaterialRefineryConfig.ID, input, output);
+                new ComplexRecipe(recipeID, input, output)
+                {
+                    time = 30f,
+                    description = STRINGS.ELEMENTS.ITCE_INVERSE_WATER.RECIPE_DESCRIPTION,
+                    nameDisplay = RecipeNameDisplay.Result,
+                    fabricators = new List<Tag> { SupermaterialRefineryConfig.ID }
+                };
+
+            }
+            private static void AddRetawReverseRecipe()
+            {
+                RecipeElement[] input = new RecipeElement[]
+                {
+                    new RecipeElement(SimHashes.Water.CreateTag(), 499.5f),
+                    new RecipeElement(ModElements.InverseWater.Tag, 499.5f),
+                };
+
+                RecipeElement[] output = new RecipeElement[]
+                {
+                    new RecipeElement(ModElements.InverseWater.Tag, 1000f),
+                };
+
+                string recipeID = ComplexRecipeManager.MakeRecipeID(SupermaterialRefineryConfig.ID, input, output);
+                new ComplexRecipe(recipeID, input, output)
+                {
+                    time = 30f,
+                    description = STRINGS.ELEMENTS.ITCE_INVERSE_WATER.RECIPE_DESCRIPTION_CREATE,
+                    nameDisplay = RecipeNameDisplay.Result,
+                    fabricators = new List<Tag> { SupermaterialRefineryConfig.ID }
+                };
+
+            }
+        }
     }
 }

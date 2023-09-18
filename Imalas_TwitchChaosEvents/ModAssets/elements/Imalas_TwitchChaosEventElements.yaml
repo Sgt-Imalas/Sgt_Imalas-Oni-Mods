@@ -127,7 +127,7 @@ elements:
     highTemp:  1900
     highTempTransitionTarget: ITCE_CreepyLiquidGas
     lowTempTransitionTarget: Ice
-    defaultTemperature: 303.15 # 30 C
+    defaultTemperature: 363.15 # 30 C
     offGasPercentage: 1
     sublimateFx: BuildingLeakLiquid
     sublimateId: ITCE_CreepyLiquidGas

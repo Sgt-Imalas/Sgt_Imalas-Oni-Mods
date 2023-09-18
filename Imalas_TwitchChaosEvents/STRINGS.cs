@@ -5,12 +5,50 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static Imalas_TwitchChaosEvents.STRINGS.ELEMENTS;
+using static STRINGS.CREATURES.STATS;
 using static STRINGS.UI ;
 
 namespace Imalas_TwitchChaosEvents
 {
     public class STRINGS
     {
+        public static class BUILDINGS
+        {
+            public static class PREFABS
+            {
+                public static class WATERCOOLER
+                {
+                    public static class OPTION_TOOLTIPS
+                    {
+                        public static LocString ITCE_INVERSE_WATER = FormatAsLink("       <rotate=180>Water</rotate>", nameof(ELEMENTS.ITCE_INVERSE_WATER))+"\nAww yeah, this drink is flippin' good!";
+                    }
+                }
+            }
+        }
+
+        public class DUPLICANTS
+        {
+            public class STATUSITEMS
+            {
+                public class ITCE_HURTINGELEMENT
+                {
+                    public static LocString NAME = "Creeping Burns";
+                    public static LocString TOOLTIP = "The Creeper burns to the touch!";
+                    public static LocString NOTIFICATION_NAME = NAME;
+                    public static LocString NOTIFICATION_TOOLTIP = TOOLTIP;
+                }
+            }
+            public static class MODIFIERS
+            {
+                public static class ITCE_INVERSE_WATER_DRINK
+                {
+                    public static LocString NAME = "Flipped";
+                    public static LocString TOOLTIP = "This duplicant consumed\n"+ ITCE_INVERSE_WATER.NAME;
+                    public static LocString DESCRIPTION = "This duplicant consumed\n"+ ITCE_INVERSE_WATER.NAME;
+                }
+            }
+        }
+
         public class EQUIPMENT
         {
             public class PREFABS
@@ -22,6 +60,20 @@ namespace Imalas_TwitchChaosEvents
                 }
             }
         }
+
+        public class ENTITIES
+        {
+            public class GEYSERS
+            {
+                public class ITCE_BEEGEYSER
+                {
+                    public static LocString NAME = FormatAsLink("Bee Geyser", nameof(ITCE_BEEGEYSER));
+                    public static LocString DESC = "Not the Bees, NOT THE BEES!!!";
+                }
+            }
+        }
+
+
         public class CREATURES
         {
             public class SPECIES
@@ -78,23 +130,25 @@ namespace Imalas_TwitchChaosEvents
         {
             public class ITCE_INVERSE_ICE
             {
-                public static LocString NAME = FormatAsLink("<rotate=180>Ice</rotate>", nameof(ITCE_INVERSE_ICE));
+                public static LocString NAME = FormatAsLink("       <rotate=180>Ice</rotate>", nameof(ITCE_INVERSE_ICE));
                 public static LocString DESC = "weird Ice...";
             }
             public class ITCE_INVERSE_WATER
             {
-                public static LocString NAME = FormatAsLink("<rotate=180>Water</rotate>", nameof(ITCE_INVERSE_WATER));
+                public static LocString NAME = FormatAsLink("       <rotate=180>Water</rotate>", nameof(ITCE_INVERSE_WATER));
                 public static LocString DESC = "weird Water...";
+                public static LocString RECIPE_DESCRIPTION = "Deny that what must not be..";
+                public static LocString RECIPE_DESCRIPTION_CREATE = "Embrace that what must not be!";
             }
             public class ITCE_INVERSE_STEAM
             {
-                public static LocString NAME = FormatAsLink("<rotate=180>Steam</rotate>", nameof(ITCE_INVERSE_STEAM));
+                public static LocString NAME = FormatAsLink("       <rotate=180>Steam</rotate>", nameof(ITCE_INVERSE_STEAM));
                 public static LocString DESC = "weird Steam...";
             }
             public class ITCE_CREEPYLIQUID
             {
                 public static LocString NAME = FormatAsLink("Creeper", nameof(ITCE_CREEPYLIQUID));
-                public static LocString DESC = "The Creeper.\nEverly expanding\nWeak to the cold.\nWeak to Pressure";
+                public static LocString DESC = "The Creeper.\nDeadly to all living things\nEverly expanding\nWeak to the cold.";
             }
             public class ITCE_CREEPYLIQUIDGAS
             {
