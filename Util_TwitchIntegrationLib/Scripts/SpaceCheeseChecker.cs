@@ -30,14 +30,17 @@ namespace Util_TwitchIntegrationLib.Scripts
 
                 Debug.Log($"World.Instance.zoneRenderData.worldZoneTypes[randomCheckPos]: ({Grid.CellToXY(randomCheckPos)}) " + World.Instance.zoneRenderData.worldZoneTypes[randomCheckPos]);
 
-                if (World.Instance.zoneRenderData.worldZoneTypes[randomCheckPos] == SubWorld.ZoneType.Space && instaFail)
+                if (World.Instance.zoneRenderData.worldZoneTypes[randomCheckPos] == SubWorld.ZoneType.Space)
                 {
-                    targetCell = GetRandomLiveDupeCell(sourceCell, out dupeName);
-                    return true;
-                }
-                else
-                {
-                    fails++;
+                    if (instaFail)
+                    {
+                        targetCell = GetRandomLiveDupeCell(sourceCell, out dupeName);
+                        return true;
+                    }
+                    else
+                    {
+                        fails++;
+                    }
                 }
             }
 
