@@ -23,6 +23,6 @@ namespace Util_TwitchIntegrationLib
         WEIGHT_VERY_RARE = 3,
         WEIGHT_RARE = 7,
         WEIGHT_NORMAL = 14,
-        WEIGHT_COMMON = 35
+        WEIGHT_COMMON = 30
     }
 }

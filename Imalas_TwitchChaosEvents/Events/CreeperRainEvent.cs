@@ -57,12 +57,6 @@ namespace Imalas_TwitchChaosEvents.Events
                         STRINGS.CHAOSEVENTS.SPACECHEESEDETECTED.TOAST,
                         string.Format(STRINGS.CHAOSEVENTS.SPACECHEESEDETECTED.TOASTTEXT, EventName, dupe), Grid.CellToPos(NEWcell));
                     });
-                    GameScheduler.Instance.Schedule("creeper harmless toast", 40f, _ =>
-                    {
-                        ToastManager.InstantiateToast(
-                        STRINGS.CHAOSEVENTS.CREEPERRAIN.TOAST,
-                        STRINGS.CHAOSEVENTS.CREEPERRAIN.TOASTTEXT3);
-                    });
                 }
                 else
                 {

@@ -128,6 +128,11 @@ namespace Imalas_TwitchChaosEvents
 
         public class ELEMENTS
         {
+            public class ITCE_LIQUID_POOP
+            {
+                public static LocString NAME = FormatAsLink("Diarrhea", nameof(ITCE_INVERSE_ICE));
+                public static LocString DESC = "It smells as bad as it looks...";
+            }
             public class ITCE_INVERSE_ICE
             {
                 public static LocString NAME = FormatAsLink("       <rotate=180>Ice</rotate>", nameof(ITCE_INVERSE_ICE));
@@ -148,7 +153,7 @@ namespace Imalas_TwitchChaosEvents
             public class ITCE_CREEPYLIQUID
             {
                 public static LocString NAME = FormatAsLink("Creeper", nameof(ITCE_CREEPYLIQUID));
-                public static LocString DESC = "The Creeper.\nDeadly to all living things\nEverly expanding\nWeak to the cold.";
+                public static LocString DESC = "The Creeper.\nDeadly to all living things\nWeak to the cold.";
             }
             public class ITCE_CREEPYLIQUIDGAS
             {
@@ -162,10 +167,10 @@ namespace Imalas_TwitchChaosEvents
         {
             public class SPACECHEESEDETECTED
             {
-                //public static LocString TOAST = "Yuck, Space";
-                public static LocString TOAST = "Ihhh, Weltraum";
-                //public static LocString TOASTTEXT = "{0} really didnt like to be in space,\nso it appeared on {1} instead";
-                public static LocString TOASTTEXT = "{0} hatte wirklich keine Lust auf den Weltraum,\ndeswegen ist es stattdessen auf {1} gelanded";
+                public static LocString TOAST = "Yuck, Space";
+                //public static LocString TOAST = "Ihhh, Weltraum";
+                public static LocString TOASTTEXT = "{0} really didnt like to be in space,\nso it appeared on {1} instead";
+               // public static LocString TOASTTEXT = "{0} hatte wirklich keine Lust auf den Weltraum,\ndeswegen ist es stattdessen auf {1} gelanded";
             }
 
             public class HUNGRYROACHES
@@ -188,6 +193,13 @@ namespace Imalas_TwitchChaosEvents
                 public static LocString TOAST = "Rainbow Rave";
                 public static LocString TOASTTEXT = "All Liquids are throwing a rainbow party!";
             }
+            public class SHART
+            {
+                public static LocString NAME = "Shart";
+                public static LocString TOAST = "Shart";
+                public static LocString TOASTTEXT = "All Duplicants have sharted. What was in that Frost Burger?";
+            }
+
             public class INVERSEELEMENT
             {
                 public static LocString NAME = "Doolf";
@@ -227,7 +239,6 @@ namespace Imalas_TwitchChaosEvents
                 public static LocString TOAST = "Creeper Rain";
                 public static LocString TOASTTEXT = "ALARM!\nThe Creeper is about to arrive on {0}";
                 public static LocString TOASTTEXT2 = "The Creeper has arrived on {0}!";
-                public static LocString TOASTTEXT3 = "Kleiner Scherz am Rande, das Zeug dehnt sich nicht mehr aus :D";
             }
             public class TACORAIN
             {

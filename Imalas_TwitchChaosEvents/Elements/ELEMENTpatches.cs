@@ -1,6 +1,7 @@
 ﻿using ElementUtilNamespace;
 using HarmonyLib;
 using Klei.AI;
+using Klei.AI.DiseaseGrowthRules;
 using ONITwitchLib.Utils;
 using STRINGS;
 using System;
@@ -82,6 +83,19 @@ namespace Imalas_TwitchChaosEvents.Elements
         //        }
         //    }
         //}
+
+        [HarmonyPatch(typeof(FoodGerms), "PopulateElemGrowthInfo")]
+        public static class FoodGerms_Dwell_On_Poop
+        {
+            public static void Postfix(FoodGerms __instance)
+            {
+                ElementGrowthRule poopRule = new ElementGrowthRule(ModElements.LiquidPoop.SimHash);
+                poopRule.populationHalfLife = -24000f;
+                poopRule.overPopulationHalfLife = 24000f;
+                poopRule.maxCountPerKG = 5000f;
+                __instance.AddGrowthRule(poopRule);
+            }
+        }
 
 
         [HarmonyPatch(typeof(WaterCoolerChore.States), "Drink")]
