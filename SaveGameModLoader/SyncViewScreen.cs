@@ -33,7 +33,9 @@ namespace SaveGameModLoader
                 return;
             }
             ModlistManager manager = ModlistManager.Instance;
-            int DiffCount = ModlistManager.ModListDifferencesPublic.Count;
+
+
+            int DiffCount = ModlistManager.ModListDifferencesPublic;
             int MissingCount = ModlistManager.MissingModsPublic.Count;
 
             ///Disable toggle all button if no mods are in the list
@@ -81,6 +83,7 @@ namespace SaveGameModLoader
             missingModListEntry.name = "infoButton";
 
 
+            RefreshAction += () => ReevaluateInfoState();
             workShopButton.gameObject.SetActive(false);
             ReevaluateInfoState();
 
@@ -89,9 +92,8 @@ namespace SaveGameModLoader
         RectTransform missingModListEntry;
         public void ReevaluateInfoState()
         {
-            RefreshAction+= ()=> ReevaluateInfoState();
             ModlistManager manager = ModlistManager.Instance;
-            int DiffCount = ModlistManager.ModListDifferencesPublic.Count;
+            int DiffCount = ModlistManager.ModListDifferencesPublic;
             int MissingCount = ModlistManager.MissingModsPublic.Count;
             var BtnText = missingModListEntry.Find("Text").GetComponent<LocText>();
             var bgColorImage = missingModListEntry.GetComponent<KImage>();
@@ -124,7 +126,7 @@ namespace SaveGameModLoader
                 Btn.ClearOnClick();
                 Btn.onClick += () =>
                 {
-                    ModListScreen.InstantiateMissingModsView(this.gameObject, ModlistManager.MissingModsPublic, RefreshAction);
+                    ModListScreen.InstantiateMissingModsView(this.gameObject, ModlistManager.MissingModsPublic.ToList(), RefreshAction);
                     ReevaluateInfoState();
                 };
             }

@@ -2,6 +2,7 @@
 using Klei;
 using KMod;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UtilLibs;
 
@@ -35,5 +36,13 @@ namespace SaveGameModLoader
             base.OnLoad(harmony);
             SgtLogger.LogVersion(this);
         }
+        public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
+        {
+            base.OnAllModsLoaded(harmony, mods);
+
+            CompatibilityNotifications.FlagLoggingPrevention(mods);
+            ModlistManager.Instance.UpdateModDict();
+        }
     }
+    
 }

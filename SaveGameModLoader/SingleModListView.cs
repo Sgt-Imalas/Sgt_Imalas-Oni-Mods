@@ -18,7 +18,7 @@ namespace SaveGameModLoader
 
         bool ViewSingleEntry = false;
         bool IsMissingModsOnly = false;
-        List<KMod.Label> MissingModsList = new List<KMod.Label>();
+        List<string> MissingModsIdList = new List<string>();
         string Title = string.Empty;
         SaveGameModList Mods;
         List<GameObject> Entries = new List<GameObject>();
@@ -138,7 +138,7 @@ namespace SaveGameModLoader
         }
 
 
-        void SubActionToAllMissing(List<KMod.Label> allMissings)
+        void SubActionToAllMissing(List<string> allMissings)
         {
             if (allMissings.Count == 0)
                 return;
@@ -148,9 +148,11 @@ namespace SaveGameModLoader
             for (int i = 0; i < allMissings.Count; ++i)
             {
                 var mod = allMissings[i];
-                SgtLogger.log("nr: " + i+ ", mod: "+ mod.id);
-                string modID = mod.id;
-                if (mod.distribution_platform == KMod.Label.DistributionPlatform.Steam)
+                SgtLogger.log("nr: " + i+ ", mod: "+ mod);
+                string modID = mod;
+                if (true
+                    //mod.distribution_platform == KMod.Label.DistributionPlatform.Steam
+                    )
                 {
                     SubActionWithDelay(modID, msInterval * i);
                 }
@@ -187,8 +189,8 @@ namespace SaveGameModLoader
         }
 
 
-        void MissingModWorkshopHandler(KMod.Label singleMod) => MissingModWorkshopHandler(new List<KMod.Label> { singleMod });
-        void MissingModWorkshopHandler(List<KMod.Label> missingMods)
+        void MissingModWorkshopHandler(string singleMod) => MissingModWorkshopHandler(new List<string> { singleMod });
+        void MissingModWorkshopHandler(List<string> missingMods)
         {
             bool isList = missingMods.Count > 1;
 
@@ -213,12 +215,12 @@ namespace SaveGameModLoader
                 WORKSHOPACTIONS.SUB,
                 () =>
                 {
-                    SubToLoneMissing(missingMods[0].id);
+                    SubToLoneMissing(missingMods[0]);
                 },
                 WORKSHOPACTIONS.VISIT,
                 () =>
                 {
-                    OpenMissingMod(missingMods[0].id);
+                    OpenMissingMod(missingMods[0]);
                 },
                 global::STRINGS.UI.FRONTEND.NEWGAMESETTINGS.BUTTONS.CANCEL,
                 () => { });
@@ -241,14 +243,14 @@ namespace SaveGameModLoader
             App.OpenWebURL("https://steamcommunity.com/sharedfiles/filedetails/?id=" + modId);
         }
 
-        void MarkEntryAsMissing(Transform entry, KMod.Label mod)
+        void MarkEntryAsMissing(Transform entry, string modId)
         {
             var bgColor = TryFindComponent<KImage>(entry, "BG");
             bgColor.defaultState = KImage.ColorSelector.Disabled;
             bgColor.ColorState = KImage.ColorSelector.Disabled;
 
             var infoBt = TryFindComponent<KButton>(entry, "ManageButton");
-            bool isSteamMod = mod.distribution_platform == KMod.Label.DistributionPlatform.Steam;
+            bool isSteamMod = true;// mod.distribution_platform == KMod.Label.DistributionPlatform.Steam;
             infoBt.FindOrAddUnityComponent<ToolTip>().SetSimpleTooltip(isSteamMod ? WORKSHOPFINDTOOLTIP : NOSTEAMMOD);
             infoBt.isInteractable = isSteamMod;
             AddActionToButton(
@@ -256,7 +258,7 @@ namespace SaveGameModLoader
                 "",
                 () =>
                 {
-                    MissingModWorkshopHandler(mod);
+                    MissingModWorkshopHandler(modId);
                 }, true);
 
             var bgColorImage = infoBt.bgImage;
@@ -267,7 +269,7 @@ namespace SaveGameModLoader
         }
 
 
-        void RebuildList(List<KMod.Label> modsForSingleView = null)
+        void RebuildList(List<string> modsForSingleView = null)
         {
 
             if (Entries.Count > 0)
@@ -281,11 +283,11 @@ namespace SaveGameModLoader
             {
                 //SgtLogger.log("AddedMissingToView");
 
-                foreach (var mod in MissingModsList)
+                foreach (var mod in MissingModsIdList)
                 {
                     var entry = Util.KInstantiateUI(EntryPrefab.gameObject, InsertLocation.gameObject, true).transform;
-                    TryChangeText(entry, "Title", mod.title);
-                    TryChangeText(entry, "Version", "internal mod Version: " + mod.version.ToString());
+                    TryChangeText(entry, "Title", mod);
+                    //TryChangeText(entry, "Version", "internal mod Version: " + mod..ToString());
 
                     MarkEntryAsMissing(entry, mod);
 
@@ -294,13 +296,13 @@ namespace SaveGameModLoader
                 AddActionToButton(
                     transform,
                     "Panel/DetailsView/ToggleAllButton",
-                    () => RebuildList(MissingModsList),
+                    () => RebuildList(MissingModsIdList),
                     true);
 
                 AddActionToButton(
                     WorkShopSubBtn.transform,
                     "",
-                    () => MissingModWorkshopHandler(MissingModsList)
+                    () => MissingModWorkshopHandler(MissingModsIdList)
                     , true);
                 return;
             }
@@ -313,27 +315,37 @@ namespace SaveGameModLoader
                 KMod.Manager modManager = Global.Instance.modManager;
 
                 var allMods = modManager.mods.Select(mod => mod.label).ToList();
-                MissingModsList = modsForSingleView.Except(allMods, new ModlistManager.ModDifferencesByIdComparer()).ToList();
+
+
+                ModlistManager.Instance.AssignModDifferences(modsForSingleView);
+                //MissingModsList = modsForSingleView.Except(allMods, new ModlistManager.ModDifferencesByIdComparer()).ToList();
 
 
                 foreach (var mod in modsForSingleView)
                 {
                     var entry = Util.KInstantiateUI(EntryPrefab.gameObject, InsertLocation.gameObject, true).transform;
-                    TryChangeText(entry, "Title", mod.title);
-                    TryChangeText(entry, "Version", "internal mod Version: " + mod.version.ToString());
 
-                    if (MissingModsList.Contains(mod, new ModlistManager.ModDifferencesByIdComparer()))
+                    if (ModlistManager.MissingModsPublic.Contains(mod))
                     {
+                        TryChangeText(entry, "Title", mod);
+                        TryChangeText(entry, "Version", "404");
                         MarkEntryAsMissing(entry, mod);
+                        SteamInfoQuery.AddModIdToQuery(mod, (name) => TryChangeText(entry, "Title", name));
                     }
                     else
                     {
+                       var locMod = modManager.mods.First(mode => mode.label.id == mod);
+
+                        TryChangeText(entry, "Title", locMod.label.title);
+                        TryChangeText(entry, "Version", "internal mod Version: " + locMod.label.version.ToString());
                         FindAndDisable(entry, "ManageButton");
                     }
                     Entries.Add(entry.gameObject);
 
                 }
-                TryFindComponent<KButton>(SyncButton.transform).isInteractable = modsForSingleView.Count > MissingModsList.Count;
+                SteamInfoQuery.InstantiateMissingModQuery();
+
+                TryFindComponent<KButton>(SyncButton.transform).isInteractable = modsForSingleView.Count > ModlistManager.MissingModsPublic.Count;
                 AddActionToButton(
                        SyncButton.transform,
                        "",
@@ -352,12 +364,12 @@ namespace SaveGameModLoader
                     () => RebuildList(modsForSingleView),
                     true);
 
-                TryFindComponent<KButton>(WorkShopSubBtn.transform).isInteractable = MissingModsList.Count > 0;
+                TryFindComponent<KButton>(WorkShopSubBtn.transform).isInteractable = ModlistManager.MissingModsPublic.Count > 0;
 
                 AddActionToButton(
                     WorkShopSubBtn.transform,
                     "",
-                    () => MissingModWorkshopHandler(MissingModsList)
+                    () => MissingModWorkshopHandler(ModlistManager.MissingModsPublic.ToList())
                     , true);
             }
             else
@@ -373,17 +385,31 @@ namespace SaveGameModLoader
                     AddActionToButton(
                         entry,
                         "ManageButton",
-                         () => ViewSingleList(mod.Value)
+                         () => ViewSingleList(mod.Value.Select(i => i.id).ToList())
                         , true);
 
                     var syncbt = TryInsertNamedCopy(entry, "ManageButton", "SyncButton");
                     TryChangeText(syncbt.transform, "Text", SYNCLIST);
+                    UIUtils.AddSimpleTooltipToObject(syncbt.transform, SYNCLISTTOOLTIP);
+
 
                     AddActionToButton(
                         syncbt,
                         "",
-                        () => SyncSingleList(mod.Value)
-                        , true);
+                         () => SyncSingleList(mod.Value.Select(i => i.id).ToList()));
+
+
+                    var syncbtAdditive = TryInsertNamedCopy(entry, "ManageButton", "SyncButtonAdditive");
+                    TryChangeText(syncbtAdditive.transform, "Text", SYNCLISTADDITIVE);
+                    UIUtils.AddSimpleTooltipToObject(syncbtAdditive.transform, SYNCLISTADDITIVETOOLTIP);
+
+
+                    AddActionToButton(
+                        syncbtAdditive,
+                        "",
+                        () => AddListMods(mod.Value.Select(i=>i.id).ToList()));
+
+
                     Entries.Add(entry.gameObject);
                 }
 
@@ -395,13 +421,24 @@ namespace SaveGameModLoader
             }
         }
 
-        internal void ViewSingleList(List<KMod.Label> modsInList)
+        internal void ViewSingleList(List<string> modsInList)
         {
             SetAdditionalButtons(true);
             RebuildList(modsInList);
         }
 
-        internal void SyncSingleList(List<KMod.Label> modsInList)
+        internal void AddListMods(List<string> modsInList)
+        {
+            ModlistManager.Instance.SyncFromModListWithoutAutoLoad(modsInList,
+                (() =>
+                {
+                    this.Deactivate();
+                    if (ParentWindow != null)
+                        ParentWindow.Deactivate();
+                }
+                ),true);
+        }
+        internal void SyncSingleList(List<string> modsInList)
         {
             ModlistManager.Instance.SyncFromModListWithoutAutoLoad(modsInList,
                 (() =>
@@ -419,12 +456,12 @@ namespace SaveGameModLoader
             ParentWindow = parent;
             onClose = null;
         }
-        public void InstantiateMissing(List<KMod.Label> missingMods, System.Action onclose =null)
+        public void InstantiateMissing(List<string> missingMods, System.Action onclose =null)
         {
             Title = STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSTITLE;
             IsMissingModsOnly = true;
-            MissingModsList.Clear();
-            MissingModsList.AddRange(missingMods);
+            //MissingModsList.Clear();
+            //MissingModsList.AddRange(missingMods);
             onClose = onclose;
         }
         System.Action onClose = null;

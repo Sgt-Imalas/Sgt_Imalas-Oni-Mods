@@ -312,8 +312,6 @@ namespace SaveGameModLoader
             }
         }
 
-
-
         void LoadName(CSteamID id)
         {
             string CollectionAuthor = SteamFriends.GetFriendPersonaName(id);
@@ -420,7 +418,6 @@ namespace SaveGameModLoader
 
             }
         }
-
 
         public void SaveModPack(string fileName)
         {

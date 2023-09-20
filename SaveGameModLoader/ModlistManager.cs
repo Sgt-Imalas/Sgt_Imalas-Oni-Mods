@@ -11,11 +11,31 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static SaveGameModLoader.STRINGS.UI.FRONTEND;
+using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.EXPANSION1ACTIVE.LEVELS;
 
 namespace SaveGameModLoader
 {
     public class ModlistManager
     {
+        //public struct ModLabelName
+        //{
+        //    public string id, title;
+        //    public ModLabelName(string id, string name)
+        //    {
+        //        this.id = id;
+        //        this.title = name;
+        //    }
+        //    public ModLabelName(KMod.Mod mod)
+        //    {
+        //        new ModLabelName(mod.label);
+        //    }
+        //    public ModLabelName(KMod.Label label)
+        //    {
+        //        this.id = label.id;
+        //        this.title = label.title;
+        //    }
+        //}
+
         public Dictionary<string, SaveGameModList> Modlists = new();
         public Dictionary<string, SaveGameModList> ModPacks = new();
         private static readonly Lazy<ModlistManager> _instance = new Lazy<ModlistManager>(() => new ModlistManager());
@@ -23,25 +43,31 @@ namespace SaveGameModLoader
         public static ModlistManager Instance { get { return _instance.Value; } }
 
         public GameObject ParentObjectRef;
-        Dictionary<KMod.Label, bool> ModListDifferences = new Dictionary<KMod.Label, bool>();
-        List<KMod.Label> MissingMods = new List<KMod.Label>();
+
+        HashSet<string> ActiveModlistModIds = new HashSet<string>();
+
         public bool IsSyncing { get; set; }
         public string ActiveSave = string.Empty;
 
-        public static Dictionary<KMod.Label, bool> ModListDifferencesPublic
+        int _differenceCount = 0;
+        HashSet<string> _missingMods = new HashSet<string>();
+        public static int ModListDifferencesPublic
         {
-            get { return Instance.ModListDifferences; }
+            get { return Instance._differenceCount; }
         }
-        public static List<KMod.Label> MissingModsPublic
+        public static HashSet<string> MissingModsPublic
         {
-            get { return Instance.MissingMods; }
+            get { return Instance._missingMods; }
         }
 
         public bool ModIsNotInSync(KMod.Mod mod)
         {
+
             if (mod.label.id == ModAssets.ModID)
                 return false;
-            return ModListDifferences.Keys.Contains(mod.label);
+
+            return (mod.IsEnabledForActiveDlc() && !ActiveModlistModIds.Contains(mod.label.id))
+                || (!mod.IsEnabledForActiveDlc() && ActiveModlistModIds.Contains(mod.label.id));
         }
 
         public SaveGameModList TryGetColonyModlist(string colonyName)
@@ -54,20 +80,22 @@ namespace SaveGameModLoader
 
         public void InstantiateSyncViewWithoutRestart(List<KMod.Label> mods, GameObject parent)
         {
-            InstantiateModView(mods, "",parent, false);
+            InstantiateModView(mods, "", parent, false);
         }
 
         /// <summary>
         /// Create a modified Modview for syncing
         /// </summary>
         /// <param name="mods"></param>
-        public void InstantiateModView(List<KMod.Label> mods,string activeSaveToLoad = "", GameObject parent = null, bool LoadOnCLose = true)
+        public void InstantiateModView(List<KMod.Label> mods, string activeSaveToLoad = "", GameObject parent = null, bool LoadOnCLose = true)
         {
             ActiveSave = activeSaveToLoad;
             IsSyncing = true;
+            AssignModDifferences(mods);
+
 
             var assignAction = () => { AssignModDifferences(mods); };
-            assignAction.Invoke();
+
             var ParentGO = parent == null ? ParentObjectRef : parent;
 
             var modScreen = Util.KInstantiateUI(ScreenPrefabs.Instance.modsMenu.gameObject, ParentGO);
@@ -78,7 +106,7 @@ namespace SaveGameModLoader
 
             var screen = (SyncViewScreen)modScreen.AddComponent(typeof(SyncViewScreen));
             screen.LoadOnClose = LoadOnCLose;
-            screen.RefreshAction= assignAction;
+            screen.RefreshAction = assignAction;
         }
         //public void ShowMissingMods()
         //{
@@ -120,15 +148,17 @@ namespace SaveGameModLoader
 
         public void AutoRestart(bool save = true)
         {
-            if (ModListDifferences.Count > 0)
+            if (_differenceCount > 0)
             {
                 if (save)
                     Global.Instance.modManager.Save();
-                ModListDifferences.Clear();
-                MissingMods.Clear();
+                //ModListDifferences.Clear();
+                //MissingMods.Clear();
                 AutoLoadOnRestart();
             }
         }
+
+        #region modsJsonOverriding
         public enum Status
         {
             NotInstalled,
@@ -187,7 +217,7 @@ namespace SaveGameModLoader
                 FileStream fcreate = fileInfo.Open(FileMode.Create);//(path, FileMode.Create);
 
                 var JsonString = JsonConvert.SerializeObject(modlist, Formatting.Indented);
-                SgtLogger.l(JsonString);   
+                SgtLogger.l(JsonString);
                 using (var streamWriter = new StreamWriter(fcreate))
                 {
                     SgtLogger.log("Overwriting mods.json");
@@ -200,47 +230,54 @@ namespace SaveGameModLoader
             }
         }
 
-        public void SyncFromModListWithoutAutoLoad(List<KMod.Label> modList, System.Action OnFinishAction = null)
+        #endregion
+
+
+        public void SyncFromModListWithoutAutoLoad(List<string> modList, System.Action OnFinishAction = null, bool dontDisableActiveMods = false)
         {
+            SgtLogger.l($"Syncing from list; {modList.Count} entries, addingOnly: {dontDisableActiveMods}");
+
             AssignModDifferences(modList);
-            SyncAllMods(null, false, OnFinishAction);
+            SyncAllMods(modList, null, false, OnFinishAction, dontDisableActiveMods);
         }
 
-        public void SyncAllMods(bool? enableAll, bool restartAfter = true, System.Action OnFinishAction = null)
+        public void SyncAllMods(List<string> modList, bool? enableAll, bool restartAfter = true, System.Action OnFinishAction = null, bool dontDisableActiveMods = false)
         {
+
+
             if (restartAfter)
                 RestartSyncing(enableAll, restartAfter);
             else
             {
-                if (ModListDifferences.Count > 20)
-                {
-                    KMod.Manager.Dialog(Global.Instance.globalCanvas,
-                        SINGLEMODLIST.WARNINGMANYMODS,
-                        SINGLEMODLIST.WARNINGMANYMODSQUESTION,
-                        SINGLEMODLIST.USEALTERNATIVEMODE,
-                        () =>
-                        {
-                            RestartSyncing(enableAll, restartAfter);
-                        },
-                        SINGLEMODLIST.USENORMALMETHOD,
-                        () =>
-                        {
-                            NormalSyncing(enableAll, restartAfter);
-                        },
-                        global::STRINGS.UI.FRONTEND.NEWGAMESETTINGS.BUTTONS.CANCEL,
-                        () => { }
-                  );
-                }
-                else
-                {
-                    NormalSyncing(enableAll, restartAfter);
-                    KMod.Manager.Dialog(Global.Instance.globalCanvas,
-                   SINGLEMODLIST.POPUPSYNCEDTITLE,
-                   SINGLEMODLIST.POPUPSYNCEDTEXT,
-                   SINGLEMODLIST.RETURNTWO,
-                   OnFinishAction
-                   );
-                }
+                //if (ModListDifferences.Count > 100)
+                //{
+                //    KMod.Manager.Dialog(Global.Instance.globalCanvas,
+                //        SINGLEMODLIST.WARNINGMANYMODS,
+                //        SINGLEMODLIST.WARNINGMANYMODSQUESTION,
+                //        SINGLEMODLIST.USEALTERNATIVEMODE,
+                //        () =>
+                //        {
+                //            RestartSyncing(enableAll, restartAfter);
+                //        },
+                //        SINGLEMODLIST.USENORMALMETHOD,
+                //        () =>
+                //        {
+                //            NormalSyncing(enableAll, restartAfter);
+                //        },
+                //        global::STRINGS.UI.FRONTEND.NEWGAMESETTINGS.BUTTONS.CANCEL,
+                //        () => { }
+                //  );
+                //}
+                //else
+                //{
+                NormalSyncing(enableAll, restartAfter, dontDisableActiveMods);
+                KMod.Manager.Dialog(Global.Instance.globalCanvas,
+               SINGLEMODLIST.POPUPSYNCEDTITLE,
+               dontDisableActiveMods ? SINGLEMODLIST.POPUPSYNCEDTEXTENABLEONLY : SINGLEMODLIST.POPUPSYNCEDTEXT,
+               SINGLEMODLIST.RETURNTWO,
+               OnFinishAction
+               );
+                //}
             }
         }
         public void RestartSyncing(bool? enableAll, bool restartAfter = true)
@@ -256,108 +293,189 @@ namespace SaveGameModLoader
 
             string dlcId = DlcManager.IsExpansion1Active() ? DlcManager.EXPANSION1_ID : DlcManager.VANILLA_ID;
 
-            foreach (var mod in ModListDifferences.Keys)
+            for (int i = 0; i < ModFileDeserialized.mods.Count; i++)
             {
-                var TargetModIndex = ModFileDeserialized.mods.FindIndex(tmod => tmod.label.id == mod.id || tmod.label.title == mod.title);
-                if (TargetModIndex != -1)
+                file_Mod mod_entry = ModFileDeserialized.mods[i];
+
+                bool enabled = enableAll.HasValue ? enableAll.Value : ActiveModlistModIds.Contains(mod_entry.label.id);
+
+                if (ModFileDeserialized.mods[i].enabledForDlc == null)
                 {
-                    bool enabled = enableAll == null ? ModListDifferences[mod] : (bool)enableAll;
-
-
-
-                    if (ModFileDeserialized.mods[TargetModIndex].enabledForDlc == null)
-                    {
-                        ModFileDeserialized.mods[TargetModIndex].enabledForDlc = new List<string>();
-                    }
-
-                    if (enabled)
-                    {
-                        SgtLogger.l("ENABLE: " + ModFileDeserialized.mods[TargetModIndex].label);
-                        ModFileDeserialized.mods[TargetModIndex].enabledForDlc.Add(dlcId);
-                    }  //new List<string> { DlcManager.EXPANSION1_ID }; VANILLA_ID
-                    else
-                    {
-                        SgtLogger.l("DISABLE: " + ModFileDeserialized.mods[TargetModIndex].label);
-                        ModFileDeserialized.mods[TargetModIndex].enabledForDlc.Remove(dlcId);
-                    }
+                    ModFileDeserialized.mods[i].enabledForDlc = new List<string>();
                 }
-                else SgtLogger.error(mod.id);
+
+                if (enabled)
+                {
+                    SgtLogger.l("ENABLE: " + ModFileDeserialized.mods[i].label);
+                    ModFileDeserialized.mods[i].enabledForDlc.Add(dlcId);
+                }  //new List<string> { DlcManager.EXPANSION1_ID }; VANILLA_ID
+                else
+                {
+                    SgtLogger.l("DISABLE: " + ModFileDeserialized.mods[i].label);
+                    ModFileDeserialized.mods[i].enabledForDlc.Remove(dlcId);
+                }
             }
 
 
-            foreach (var mod in ModFileDeserialized.mods)
-                SgtLogger.l(mod.enabledForDlc.FirstOrDefault());
+            //foreach (var mod in ModFileDeserialized.mods)
+            //    SgtLogger.l(mod.enabledForDlc.FirstOrDefault());
 
             OverwriteGameMods(ModFileDeserialized);
-            
+
             AutoLoadOnRestart();
         }
 
 
-        public void NormalSyncing(bool? enableAll, bool restartAfter = true)
+        public void NormalSyncing(bool? enableAll, bool restartAfter = true, bool dontDisableActives = false)
         {
-            Manager modManager = Global.Instance.modManager;
-            foreach (var mod in this.ModListDifferences.Keys)
+            var mm = Global.Instance.modManager;
+            foreach (var modToEdit in mm.mods)
             {
-                if (modManager.FindMod(mod) == null)
+                var modLabel = modToEdit.label.id;
+                bool shouldBeEnabled = enableAll.HasValue ? enableAll.Value : ActiveModlistModIds.Contains(modLabel);
+
+
+                //bool isEnabled = modToEdit.IsEnabledForActiveDlc();
+
+
+                if (modLabel == ModAssets.ModID)
+                    shouldBeEnabled = true;
+
+                shouldBeEnabled = shouldBeEnabled ? true : dontDisableActives;
+
+
+                modToEdit.SetEnabledForActiveDlc(shouldBeEnabled);
+                if (shouldBeEnabled)
                 {
-                    SgtLogger.warning("Mod not found: " + mod.title);
-                    continue;
+                    modToEdit.Load((Content)0);
                 }
-
-                bool enabled = enableAll == null ? ModListDifferences[mod] : (bool)enableAll;
-                if (mod.id == ModAssets.ModID)
-                    enabled = true;
-
-                modManager.EnableMod(mod, enabled, null);
+                else
+                {
+                    modToEdit.Unload((Content)0);
+                }
+                SgtLogger.l(shouldBeEnabled ? "enabled Mod: " + modLabel : "disabled Mod: " + modLabel);
             }
+
+            Global.Instance.modManager.dirty = true;
+            Global.Instance.modManager.Update(null);
+
             if (restartAfter)
                 AutoRestart();
+
+
+            Global.Instance.modManager.Save();
+            //ModListDifferences.Clear();
+            //MissingMods.Clear();
+
+            //foreach (var modLabel in this.ModListDifferences.Keys)
+            //{
+
+
+
+            //    if (mod == null )
+            //    {
+            //        SgtLogger.warning("Mod not found: " + modLabel.title);
+            //        continue;
+            //    }
+
+            //    bool enabled = enableAll.HasValue ? enableAll.Value : ModListDifferences[modLabel];
+            //    if (modLabel.id == ModAssets.ModID)
+            //        enabled = true;
+
+            //    //KMod.Mod mod = GameModDictionary[modLabel];
+
+
+            //    bool ChangedModState = mod.IsEnabledForActiveDlc() != enabled;
+
+            //    mod.SetEnabledForActiveDlc(enabled);
+
+
+            //    //Global.Instance.modManager.EnableMod(mod.label, enabled,this);
+
+            //    if (enabled)
+            //    {
+            //        mod.Load((Content)0);
+            //    }
+            //    else
+            //    {
+            //        mod.Unload((Content)0);
+            //    }
+            //    //Global.Instance.modManager.EnableMod(modLabel, enabled, null);
+            //    if (ChangedModState)
+            //    {
+            //        SgtLogger.l(enabled ? "enabled Mod: " + modLabel.title : "disabled Mod: " + modLabel.title);
+            //    }
+            //    else
+            //    {
+            //        SgtLogger.l("No change for " + modLabel.title+", was already "+ (enabled?"enabled":"disabled"));
+            //    }
+            //}
+
+
+            //Global.Instance.modManager.dirty = true;
+            //Global.Instance.modManager.Update(Global.Instance.modManager);
+
+            //if (restartAfter)
+            //    AutoRestart();
         }
-
-
         public void AssignModDifferences(List<KMod.Label> modList)
         {
-            KMod.Manager modManager = Global.Instance.modManager;
+            AssignModDifferences(new List<string>(modList.Select(mod => mod.id)));
 
-            var thisMod = modManager.mods.Find(mod => mod.label.id == ModAssets.ModID).label;
-
-
-            var allMods = modManager.mods.Select(mod => mod.label).ToList();
-            var enabledModLabels = modManager.mods.FindAll(mod => mod.IsActive() == true).Select(mod => mod.label).ToList();
-
-            var comparer = new ModDifferencesByIdComparer();
-            var enabledButNotSavedMods = enabledModLabels.Except(modList, comparer).ToList();
-            var savedButNotEnabledMods = modList.Except(enabledModLabels, comparer).ToList();
-
-            MissingMods = modList.Except(allMods, comparer).ToList();
-#if DEBUG
-            SgtLogger.log("MissingMods start");
-            foreach (var m in MissingMods) SgtLogger.log(m.id + ": " + m.title);
-            SgtLogger.log("MissingMods end");
-#endif
-            ModListDifferences.Clear();
-            foreach (var toDisable in enabledButNotSavedMods)
-            {
-                ModListDifferences.Add(toDisable, false);
-            }
-            foreach (var toEnable in savedButNotEnabledMods)
-            {
-                ModListDifferences.Add(toEnable, true);
-            }
-            ModListDifferences.Remove(thisMod);
-
-#if DEBUG
-            SgtLogger.log("The Following mods deviate from the config:");
-            foreach (var modDif in ModListDifferences)
-            {
-                string status = modDif.Value ? "enabled" : "disabled";
-                SgtLogger.log(modDif.Key.id + ": " + modDif.Key + " -> should be " + status);
-            }
-#endif
 
         }
+        public void AssignModDifferences(List<string> modList)
+        {
 
+            ActiveModlistModIds = new(modList);
+
+            _differenceCount = 0;
+
+            KMod.Manager modManager = Global.Instance.modManager;
+            HashSet<string> allModsInProfile = new HashSet<string> (modList);   
+            foreach(var mod in modManager.mods)
+            {
+
+                bool isCurrentlyActive = mod.IsEnabledForActiveDlc();
+                if (allModsInProfile.Contains(mod.label.id))
+                {
+                    if (!isCurrentlyActive)
+                        ++_differenceCount;
+                    allModsInProfile.Remove(mod.label.id);
+                }
+                else
+                {
+                    if (isCurrentlyActive)
+                        ++_differenceCount;
+                }
+            }
+            _missingMods = new HashSet<string>( allModsInProfile);
+            SgtLogger.l($"Asserted differences for modlist, difference count: {_differenceCount}, missing: {_missingMods.Count}");
+
+
+            //var thisMod = modManager.mods.Find(mod => mod.label.id == ModAssets.ModID).label;
+
+
+            //var allMods = modManager.mods.Select(mod => mod.label.id).ToList();
+            //var enabledMods = modManager.mods.FindAll(mod => mod.IsActive() == true).Select(mod => mod.label.id).ToList();
+
+
+
+        }
+        public class StringEqualityComparer : IEqualityComparer<string>
+        {
+            public bool Equals(string l1, string l2)
+            {
+                return l1 == l2;
+            }
+
+            public int GetHashCode(string obj)
+            {
+                //SgtLogger.log(obj.id + ": "+obj.title);
+                return obj.GetHashCode();
+            }
+
+        }
         public class ModDifferencesByIdComparer : IEqualityComparer<Label>
         {
             public bool Equals(Label l1, Label l2)
@@ -404,17 +522,17 @@ namespace SaveGameModLoader
         public void GetAllStoredModlists()
         {
             Modlists.Clear();
-            MissingMods.Clear();
+            //MissingMods.Clear();
             var files = new DirectoryInfo(ModAssets.ModPath).GetFiles();
 
-            
+
             foreach (FileInfo modlist in files)
             {
                 try
                 {
                     //SgtLogger.log("Trying to load: " + modlist);
                     var list = SaveGameModList.ReadModlistListFromFile(modlist);
-                    if(list != null)
+                    if (list != null)
                     {
                         Modlists.Add(list.ReferencedColonySaveName, list);
                     }
@@ -429,7 +547,7 @@ namespace SaveGameModLoader
         public void GetAllModPacks()
         {
             ModPacks.Clear();
-            MissingMods.Clear();
+            //MissingMods.Clear();
             var files = new DirectoryInfo(ModAssets.ModPacksPath).GetFiles();
             foreach (FileInfo modlist in files)
             {
@@ -511,6 +629,21 @@ namespace SaveGameModLoader
 
             return hasBeenInitialized | subListInitialized;
 
+        }
+
+        public Dictionary<Label, KMod.Mod> GameModDictionary = new Dictionary<Label, KMod.Mod>();
+        internal void UpdateModDict()
+        {
+            SgtLogger.l("Mods have changed, updating dictionary...");
+
+            GameModDictionary.Clear();
+
+            foreach (KMod.Mod mod in Global.Instance.modManager.mods)
+            {
+                GameModDictionary.Add(mod.label, mod);
+            }
+
+            SgtLogger.l("Dictionary updated.");
         }
     }
 }

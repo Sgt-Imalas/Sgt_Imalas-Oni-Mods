@@ -53,6 +53,13 @@ namespace SaveGameModLoader
 
             var spacer = Util.KInstantiateUI(ButtonPrefab, SpacerParent, true);
             UIUtils.TryChangeText(spacer.transform, "Label", STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTSTANDALONEHEADER);
+            spacer.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 25);
+            UIUtils.ListAllChildrenWithComponents(spacer.transform.parent);
+            var LE = spacer.AddComponent<LayoutElement>();
+            LE.minHeight = 30;
+            //ele.minHeight = 25;
+            //fitter.enabled = false;vlg
+
             //UIUtils.FindAndDisable(spacer.transform, "Label");
             var bt1 = UIUtils.TryFindComponent<KButton>(spacer.transform);
             spacer.rectTransform().SetAsFirstSibling();
@@ -60,6 +67,8 @@ namespace SaveGameModLoader
 
 
             var spacer2 = Util.KInstantiateUI(ButtonPrefab, SpacerParent, true);
+            var LE2 = spacer2.AddComponent<LayoutElement>();
+            LE2.minHeight = 30;
             UIUtils.TryChangeText(spacer2.transform, "Label", STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTSAVEGAMEHEADER);
             //UIUtils.FindAndDisable(spacer2.transform, "Label");
             UIUtils.TryChangeText(spacer2.transform, "Label", STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTSAVEGAMEHEADER);
@@ -111,7 +120,7 @@ namespace SaveGameModLoader
             var mlv = (SingleModListView)window.AddComponent(typeof(SingleModListView));
             mlv.InstantiateParams(exportedList, sis);
         }
-        public static void InstantiateMissingModsView(GameObject parent, List<KMod.Label> mossing, System.Action onClose = null)
+        public static void InstantiateMissingModsView(GameObject parent, List<string> missingModIds, System.Action onClose = null)
         {
             var window = Util.KInstantiateUI(ScreenPrefabs.Instance.modsMenu.gameObject, parent);
             //window.SetActive(false);
@@ -124,7 +133,7 @@ namespace SaveGameModLoader
             var oldComp = window.GetComponent<ModsScreen>();
             UnityEngine.Object.Destroy(oldComp);
             var mlv = (SingleModListView)window.AddComponent(typeof(SingleModListView));
-            mlv.InstantiateMissing(mossing, onClose);
+            mlv.InstantiateMissing(missingModIds, onClose);
         }
 
 

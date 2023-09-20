@@ -17,9 +17,9 @@ using UtilLibs;
 using static SaveGameModLoader.ModAssets;
 using Ionic.Zlib;
 using Klei;
-using static UnityEngine.UI.Image;
 using YamlDotNet;
 using static TextureAtlas.AtlasData;
+using KMod;
 
 namespace SaveGameModLoader
 {
@@ -127,6 +127,24 @@ namespace SaveGameModLoader
                 public long Size;
             }
         }
+
+        [HarmonyPatch(typeof(KMod.Manager), nameof(KMod.Manager.Install))]
+        public static class UpdateManagerDictionary_Install
+        {
+            public static void Postfix()
+            {
+                ModlistManager.Instance.UpdateModDict();
+            }
+        }
+        [HarmonyPatch(typeof(KMod.Manager), nameof(KMod.Manager.Uninstall))]
+        public static class UpdateManagerDictionary_Uninstall
+        {
+            public static void Postfix()
+            {
+                ModlistManager.Instance.UpdateModDict();
+            }
+        }
+
 
         [HarmonyPatch(typeof(ModsScreen), "Exit")]
         public static class SyncModeOff
