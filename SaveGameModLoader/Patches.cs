@@ -128,22 +128,22 @@ namespace SaveGameModLoader
             }
         }
 
-        [HarmonyPatch(typeof(KMod.Manager), nameof(KMod.Manager.Install))]
-        public static class UpdateManagerDictionary_Install
-        {
-            public static void Postfix()
-            {
-                ModlistManager.Instance.UpdateModDict();
-            }
-        }
-        [HarmonyPatch(typeof(KMod.Manager), nameof(KMod.Manager.Uninstall))]
-        public static class UpdateManagerDictionary_Uninstall
-        {
-            public static void Postfix()
-            {
-                ModlistManager.Instance.UpdateModDict();
-            }
-        }
+        //[HarmonyPatch(typeof(KMod.Manager), nameof(KMod.Manager.Install))]
+        //public static class UpdateManagerDictionary_Install
+        //{
+        //    public static void Postfix()
+        //    {
+        //        ModlistManager.Instance.UpdateModDict();
+        //    }
+        //}
+        //[HarmonyPatch(typeof(KMod.Manager), nameof(KMod.Manager.Uninstall))]
+        //public static class UpdateManagerDictionary_Uninstall
+        //{
+        //    public static void Postfix()
+        //    {
+        //        ModlistManager.Instance.UpdateModDict();
+        //    }
+        //}
 
 
         [HarmonyPatch(typeof(ModsScreen), "Exit")]

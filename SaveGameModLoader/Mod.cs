@@ -41,7 +41,7 @@ namespace SaveGameModLoader
             base.OnAllModsLoaded(harmony, mods);
 
             CompatibilityNotifications.FlagLoggingPrevention(mods);
-            ModlistManager.Instance.UpdateModDict();
+            //ModlistManager.Instance.UpdateModDict();
         }
     }
     

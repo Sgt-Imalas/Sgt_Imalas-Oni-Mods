@@ -28,6 +28,7 @@ namespace SaveGameModLoader
 
         //GameObject ReturnButton;
         GameObject SyncButton;
+        GameObject AddSyncButton;
         GameObject RefreshViewBtn;
         GameObject WorkShopSubBtn;
         KModalScreen ParentWindow;
@@ -38,6 +39,8 @@ namespace SaveGameModLoader
 
             if (SyncButton != null)
                 SyncButton.SetActive(active);
+            if (AddSyncButton != null)
+                AddSyncButton.SetActive(active);
             if (RefreshViewBtn != null)
                 RefreshViewBtn.SetActive(active);
             if (WorkShopSubBtn != null)
@@ -55,7 +58,7 @@ namespace SaveGameModLoader
             missingModColorStyle.activeColor = new Color(0.7f, 0.25f, 0.25f);
             missingModColorStyle.disabledColor = new Color(0.7f, 0.25f, 0.25f);
             missingModColorStyle.hoverColor = new Color(0.8f, 0.25f, 0.25f);
-
+             
             var SingleFileModlists = this.transform;
             ///Set Title of Mod Sync Screen.
             if (Mods != null)
@@ -97,6 +100,7 @@ namespace SaveGameModLoader
             RefreshViewBtn.SetActive(false);
 
             SyncButton = transform.Find("Panel/DetailsView/WorkshopButton").gameObject;
+            AddSimpleTooltipToObject(SyncButton.transform, SYNCLISTTOOLTIP);
             SyncButton.SetActive(false);
 
             TryChangeText(
@@ -123,6 +127,16 @@ namespace SaveGameModLoader
                 new System.Action(this.Deactivate),
                 true);
 
+            AddSyncButton = TryInsertNamedCopy(DetailsView.transform, "ToggleAllButton", "AddSyncButton").gameObject;
+            AddSyncButton.transform.SetAsLastSibling();
+            AddSyncButton.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100);
+
+            SingleFileModlists.Find("Panel/DetailsView/CloseButton").SetAsLastSibling();
+
+            TryChangeText(AddSyncButton.transform, "Text", SYNCLISTADDITIVE);
+            AddSimpleTooltipToObject(AddSyncButton.transform, SYNCLISTADDITIVETOOLTIP);
+            
+            transform.Find("Panel/Title/CloseButton").transform.SetAsLastSibling();
 
             WorkShopSubBtn = TryInsertNamedCopy(DetailsView.transform, "ToggleAllButton", "SubAllButton").gameObject;
             WorkShopSubBtn.transform.SetAsFirstSibling();
@@ -135,6 +149,8 @@ namespace SaveGameModLoader
             FindAndRemove<DragMe>(EntryPrefab);
             InsertLocation = SingleFileModlists.Find("Panel/ListView/Files/Viewport/Content");
             SetAdditionalButtons(false);
+
+            UIUtils.ListAllChildren(SingleFileModlists);
         }
 
 
@@ -330,7 +346,10 @@ namespace SaveGameModLoader
                         TryChangeText(entry, "Title", mod);
                         TryChangeText(entry, "Version", "404");
                         MarkEntryAsMissing(entry, mod);
-                        SteamInfoQuery.AddModIdToQuery(mod, (name) => TryChangeText(entry, "Title", name));
+                        SteamInfoQuery.AddModIdToQuery(mod, 
+                            (name)  
+                            => TryChangeText(entry, "Title", name)
+                          );
                     }
                     else
                     {
@@ -346,11 +365,20 @@ namespace SaveGameModLoader
                 SteamInfoQuery.InstantiateMissingModQuery();
 
                 TryFindComponent<KButton>(SyncButton.transform).isInteractable = modsForSingleView.Count > ModlistManager.MissingModsPublic.Count;
+                TryFindComponent<KButton>(AddSyncButton.transform).isInteractable = modsForSingleView.Count > ModlistManager.MissingModsPublic.Count;
+
                 AddActionToButton(
                        SyncButton.transform,
                        "",
                        () => SyncSingleList(modsForSingleView),
                        true);
+
+                AddActionToButton(
+                       AddSyncButton.transform,
+                       "",
+                        () => AddListMods(modsForSingleView)
+                       , true);
+
 
                 AddActionToButton(
                     transform,

@@ -14,7 +14,7 @@ namespace SaveGameModLoader
                     public static LocString SYNCMODSBUTTONBG = "SYNC MODS";
                     public static LocString SYNCALL = "SYNC AND LOAD SAVE";
                     public static LocString MODDIFFS = "MOD DIFFERENCES";
-                    public static LocString SYNCSELECTED = "SYNC CURRENT SETTINGS AND LOAD";
+                    public static LocString SYNCSELECTED = "LOAD WITH CURRENT LOADOUT";
                     public static LocString MISSINGMOD = "MISSING MODS!";
                     public static LocString ALLSYNCED = "ALL MODS SYNCED, CLOSE";
 
@@ -72,7 +72,7 @@ namespace SaveGameModLoader
                     public static LocString SYNCLIST = "Apply Profile";
                     public static LocString SYNCLISTTOOLTIP = "Applies the Profile.\nThis enables all mods listed in the profile\nand disables all mods not listed in the profile.";
 
-                    public static LocString SYNCLISTADDITIVE = "Enable All";
+                    public static LocString SYNCLISTADDITIVE = "Make all active";
                     public static LocString SYNCLISTADDITIVETOOLTIP = "This enables all mods stored in the profile\nbut doesnt affect already enabled mods.";
 
                     public static LocString SUBTOALL = "Subscribe to all missing Mods";

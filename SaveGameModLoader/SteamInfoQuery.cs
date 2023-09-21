@@ -20,27 +20,33 @@ namespace SaveGameModLoader
         /// </summary>
         private static CallResult<SteamUGCQueryCompleted_t> onMissingQueryComplete;
 
-        private Callback<PersonaStateChange_t> personaState;
-
-
         static List<ulong> modIdsToLookup = new List<ulong>();
 
         static Dictionary<string,Action<string>> PendingLookups = new Dictionary<string, Action<string>>();
 
         public static void AddModIdToQuery(string modIDstring, Action<string> callback)
         {
-            var modId = ulong.Parse(modIDstring);
             if (FetchedModNames.ContainsKey(modIDstring))
             {
                 callback.Invoke(FetchedModNames[modIDstring]);
             }
             else
             {
-                PendingLookups[modIDstring] = callback; 
-                
-                if (!modIdsToLookup.Contains(modId))
+                var isValidModId = ulong.TryParse(modIDstring, out var modId);
+
+                if(isValidModId)
                 {
-                    modIdsToLookup.Add(modId);
+                    PendingLookups[modIDstring] = callback;
+
+                    if (!modIdsToLookup.Contains(modId))
+                    {
+                        modIdsToLookup.Add(modId);
+                    }
+                }
+                else
+                {
+                    SgtLogger.warning(modIDstring + " was no valid modId");
+                    callback.Invoke(modIDstring);
                 }
             }
             
@@ -127,13 +133,19 @@ namespace SaveGameModLoader
                 {
                     if (SteamUGC.GetQueryUGCResult(handle, i, out SteamUGCDetails_t details))
                     {
+                        string modID = details.m_nPublishedFileId.m_PublishedFileId.ToString();
                         if (details.m_rgchTitle == string.Empty && details.m_unNumChildren == 0)
                         {
-                            SgtLogger.logwarning("could not parse mod data (mod is hidden).");
+                            SgtLogger.logwarning("could not parse mod data (mod is hidden): "+ details.m_nPublishedFileId.m_PublishedFileId.ToString());
+
+                            if (PendingLookups.ContainsKey(modID) && ModlistManager.Instance.TryGetModTitleFromStorage(modID, out var name))
+                            {
+                                PendingLookups[modID].Invoke(name);
+                                FetchedModNames.Add(modID, name);
+                            }
                             continue;
                         }
                         var tuple = new Tuple<ulong, string>(details.m_nPublishedFileId.m_PublishedFileId, details.m_rgchTitle.ToString());
-                        string modID = details.m_nPublishedFileId.m_PublishedFileId.ToString();
                         
                         if (PendingLookups.ContainsKey(modID))
                         {

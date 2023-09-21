@@ -244,32 +244,15 @@ namespace SaveGameModLoader
         public void SyncAllMods(List<string> modList, bool? enableAll, bool restartAfter = true, System.Action OnFinishAction = null, bool dontDisableActiveMods = false)
         {
 
+            if (modList == null)
+            {
+                modList = ActiveModlistModIds.ToList();
+            }
 
             if (restartAfter)
-                RestartSyncing(enableAll, restartAfter);
+                NormalSyncing(enableAll, restartAfter, dontDisableActiveMods);
             else
             {
-                //if (ModListDifferences.Count > 100)
-                //{
-                //    KMod.Manager.Dialog(Global.Instance.globalCanvas,
-                //        SINGLEMODLIST.WARNINGMANYMODS,
-                //        SINGLEMODLIST.WARNINGMANYMODSQUESTION,
-                //        SINGLEMODLIST.USEALTERNATIVEMODE,
-                //        () =>
-                //        {
-                //            RestartSyncing(enableAll, restartAfter);
-                //        },
-                //        SINGLEMODLIST.USENORMALMETHOD,
-                //        () =>
-                //        {
-                //            NormalSyncing(enableAll, restartAfter);
-                //        },
-                //        global::STRINGS.UI.FRONTEND.NEWGAMESETTINGS.BUTTONS.CANCEL,
-                //        () => { }
-                //  );
-                //}
-                //else
-                //{
                 NormalSyncing(enableAll, restartAfter, dontDisableActiveMods);
                 KMod.Manager.Dialog(Global.Instance.globalCanvas,
                SINGLEMODLIST.POPUPSYNCEDTITLE,
@@ -326,34 +309,42 @@ namespace SaveGameModLoader
         }
 
 
-        public void NormalSyncing(bool? enableAll, bool restartAfter = true, bool dontDisableActives = false)
+        public void NormalSyncing(bool? enableAll = null, bool restartAfter = true, bool dontDisableActives = false)
         {
             var mm = Global.Instance.modManager;
+
+            SgtLogger.l($"initiating syncing. EnableAll: {enableAll}, restartAfter: {restartAfter}, dontDisableActives:{dontDisableActives}");
+
             foreach (var modToEdit in mm.mods)
             {
-                var modLabel = modToEdit.label.id;
-                bool shouldBeEnabled = enableAll.HasValue ? enableAll.Value : ActiveModlistModIds.Contains(modLabel);
+                var modID = modToEdit.label.id;
+                bool shouldBeEnabled = enableAll.HasValue ? enableAll.Value : ActiveModlistModIds.Contains(modID);
+                bool isEnabled = modToEdit.IsEnabledForActiveDlc();
 
-
-                //bool isEnabled = modToEdit.IsEnabledForActiveDlc();
-
-
-                if (modLabel == ModAssets.ModID)
+                if (modID == ModAssets.ModID)
                     shouldBeEnabled = true;
 
-                shouldBeEnabled = shouldBeEnabled ? true : dontDisableActives;
+                if(shouldBeEnabled == false && dontDisableActives && isEnabled)
+                    shouldBeEnabled = true;
 
-
-                modToEdit.SetEnabledForActiveDlc(shouldBeEnabled);
-                if (shouldBeEnabled)
+                if (shouldBeEnabled != isEnabled)
                 {
-                    modToEdit.Load((Content)0);
+                    if(modToEdit.available_content != 0)
+                    {
+                        modToEdit.SetEnabledForActiveDlc(shouldBeEnabled);
+                        //if (shouldBeEnabled)
+                        //{
+                        //    modToEdit.Load((Content)0);
+                        //}
+                        //else
+                        //{
+                        //    modToEdit.Unload((Content)0);
+                        //}
+                        SgtLogger.l(shouldBeEnabled ? "enabled Mod: " + modToEdit.title : "disabled Mod: " + modToEdit.title);
+                    }
+                    else
+                        SgtLogger.l("mod not compatible: " + modToEdit.title);
                 }
-                else
-                {
-                    modToEdit.Unload((Content)0);
-                }
-                SgtLogger.l(shouldBeEnabled ? "enabled Mod: " + modLabel : "disabled Mod: " + modLabel);
             }
 
             Global.Instance.modManager.dirty = true;
@@ -432,8 +423,8 @@ namespace SaveGameModLoader
             _differenceCount = 0;
 
             KMod.Manager modManager = Global.Instance.modManager;
-            HashSet<string> allModsInProfile = new HashSet<string> (modList);   
-            foreach(var mod in modManager.mods)
+            HashSet<string> allModsInProfile = new HashSet<string>(modList);
+            foreach (var mod in modManager.mods)
             {
 
                 bool isCurrentlyActive = mod.IsEnabledForActiveDlc();
@@ -449,7 +440,7 @@ namespace SaveGameModLoader
                         ++_differenceCount;
                 }
             }
-            _missingMods = new HashSet<string>( allModsInProfile);
+            _missingMods = new HashSet<string>(allModsInProfile);
             SgtLogger.l($"Asserted differences for modlist, difference count: {_differenceCount}, missing: {_missingMods.Count}");
 
 
@@ -532,6 +523,9 @@ namespace SaveGameModLoader
                 {
                     //SgtLogger.log("Trying to load: " + modlist);
                     var list = SaveGameModList.ReadModlistListFromFile(modlist);
+
+                    ReadModTitles(list);
+
                     if (list != null)
                     {
                         Modlists.Add(list.ReferencedColonySaveName, list);
@@ -544,6 +538,21 @@ namespace SaveGameModLoader
             }
             SgtLogger.log("Found Mod Configs for " + files.Count() + " Colonies");
         }
+
+        private void ReadModTitles(SaveGameModList list)
+        {
+            foreach (var modlist in list.SavePoints.Values)
+            {
+                foreach (var mod in modlist)
+                {
+                    if (!StoredModTitles.ContainsKey(mod.id))
+                    {
+                        StoredModTitles.Add(mod.id, mod.title);
+                    }
+                }
+            }
+        }
+
         public void GetAllModPacks()
         {
             ModPacks.Clear();
@@ -559,6 +568,7 @@ namespace SaveGameModLoader
                 {
                     //SgtLogger.log("Trying to load: " + modlist);
                     var list = SaveGameModList.ReadModlistListFromFile(modlist);
+                    ReadModTitles(list);
                     if (list != null)
                     {
                         ModPacks.Add(list.ReferencedColonySaveName, list);
@@ -631,19 +641,36 @@ namespace SaveGameModLoader
 
         }
 
-        public Dictionary<Label, KMod.Mod> GameModDictionary = new Dictionary<Label, KMod.Mod>();
-        internal void UpdateModDict()
+        public Dictionary<string, string> StoredModTitles = new Dictionary<string, string>();
+
+        public bool TryGetModTitleFromStorage(string id, out string title)
         {
-            SgtLogger.l("Mods have changed, updating dictionary...");
-
-            GameModDictionary.Clear();
-
-            foreach (KMod.Mod mod in Global.Instance.modManager.mods)
+            if(StoredModTitles.TryGetValue(id, out title))
             {
-                GameModDictionary.Add(mod.label, mod);
+                SgtLogger.l($"Found title for id {id}: {title}");
+                return true;
             }
-
-            SgtLogger.l("Dictionary updated.");
+            else
+            {
+                SgtLogger.warning($"couldnt find title for id {id}");
+                title = id; 
+                return false; 
+            }
+            
         }
+
+        //internal void UpdateModDict()
+        //{
+        //    SgtLogger.l("Mods have changed, updating dictionary...");
+
+        //    GameModDictionary.Clear();
+
+        //    foreach (KMod.Mod mod in Global.Instance.modManager.mods)
+        //    {
+        //        GameModDictionary.Add(mod.label, mod);
+        //    }
+
+        //    SgtLogger.l("Dictionary updated.");
+        //}
     }
 }

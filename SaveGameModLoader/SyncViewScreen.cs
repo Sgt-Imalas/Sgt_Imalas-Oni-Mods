@@ -60,7 +60,7 @@ namespace SaveGameModLoader
             var SyncAllButton = SyncAllButtonObject.GetComponentInChildren<KButton>(true);
             SyncAllButton.ClearOnClick();
             SyncAllButton.isInteractable = DiffCount > 0;
-            SyncAllButton.onClick += () => { manager.SyncAllMods(null,LoadOnClose); };
+            SyncAllButton.onClick += () => { manager.SyncAllMods(null, null,LoadOnClose); };
 
 
 
