@@ -356,12 +356,9 @@ namespace SetStartDupes
                     carePackageInfos = currentPool;
                 }
 
-                if (carePackageInfos == null)
-                {
-                    carePackageInfos = Immigration.Instance.carePackages.ToList();
-                }
-                else
+                if (carePackageInfos != null)
                     SgtLogger.l("Bio Inks Pool loaded");
+
 
 
                 if (__instance.reshuffleButton == null || !ModConfig.Instance.RerollDuringGame)

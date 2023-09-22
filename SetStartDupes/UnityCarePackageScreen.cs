@@ -15,6 +15,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
@@ -65,14 +66,13 @@ namespace SetStartDupes
         Dictionary<CarePackageInfo, searchableCarePackageContainer> SearchableCarePackageInfo = new Dictionary<CarePackageInfo, searchableCarePackageContainer>();
 
 
-        Trait CurrentCarePackage = null;
-
         public static void ShowWindow(CarePackageContainer currentContainer, System.Action onClose, List<CarePackageInfo> allowedCarePackages)
         {
             if (Instance == null)
             {
                 var screen = Util.KInstantiateUI(ModAssets.TraitsWindowPrefab, ModAssets.ParentScreen, true);
                 Instance = screen.AddOrGet<UnityCarePackageScreen>();
+                InitArtifactCarePackages();
                 Instance.Init();
             }
             Instance.ReferencedContainer = currentContainer;
@@ -101,19 +101,32 @@ namespace SetStartDupes
 
             base.OnKeyDown(e);
         }
+
         private void SetOpenedType(List<CarePackageInfo> currentlyAllowed)
         {
 
             ToReplaceName.text = GetSpawnableQuantity(ReferencedContainer.info.id,ReferencedContainer.info.quantity);
-
             CurrentlyAllowedCarePackages.Clear();
+            if(currentlyAllowed == null)
+            {
+                currentlyAllowed = GetDefaultCarePackageSelection();
+            }
+
+
             foreach (var go in CarePackageContainers)
             {
                 go.Value.SetActive(false);
             }
-            foreach (var activeInfo in currentlyAllowed)
+            foreach (CarePackageInfo activeInfo in currentlyAllowed)
             {
-                CurrentlyAllowedCarePackages.Add(activeInfo, CarePackageContainers[activeInfo]);
+                if (CarePackageContainers.ContainsKey(activeInfo))
+                {
+                    CurrentlyAllowedCarePackages.Add(activeInfo, CarePackageContainers[activeInfo]);
+                }
+                else
+                {
+                    SgtLogger.warning("couldnt find container for " + activeInfo.id);
+                }
             }
             ApplyFilter();
         }
@@ -174,10 +187,44 @@ namespace SetStartDupes
             init = true;
         }
 
+        public static List<CarePackageInfo> GetDefaultCarePackageSelection()
+        {
+            if (Sanchozz_ArtifactCarePackages != null)
+            {
+                return Immigration.Instance.carePackages.Concat(Sanchozz_ArtifactCarePackages).ToList();
+            }
+            else
+            {
+                return Immigration.Instance.carePackages.ToList();
+            }
+        }
+        private static List<CarePackageInfo> Sanchozz_ArtifactCarePackages;
+
+        public static void InitArtifactCarePackages()
+        {
+            var ArtifactCarePackages_ArtifactImmigration_Type = Type.GetType("ArtifactCarePackages.ArtifactImmigration, ArtifactCarePackages", false, false);
+            if (ArtifactCarePackages_ArtifactImmigration_Type != null)
+            {
+                /////Gets all types + namespace 
+                //var q = AppDomain.CurrentDomain.GetAssemblies()
+                //       .SelectMany(t => t.GetTypes());
+                //q.ToList().ForEach(t => SgtLogger.l(t.Name, t.Namespace));
+
+
+                SgtLogger.l("initializing Artifact Care Packages");
+                var ArtifactPackagesInstance = ArtifactCarePackages_ArtifactImmigration_Type.GetField("Instance", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
+
+                var bundleDictionary = Traverse.Create(ArtifactPackagesInstance).Field("carePackages").GetValue();
+                Sanchozz_ArtifactCarePackages = new List<CarePackageInfo>((bundleDictionary as List<CarePackageInfo>));
+            }
+        }
+
+
+
         private void InitAllContainers()
         {
-            List<CarePackageInfo> allCarePackages = new List<CarePackageInfo>(Immigration.Instance.carePackages);
-
+            List<CarePackageInfo> allCarePackages = GetDefaultCarePackageSelection();
+//
             var BioInks_ImmigrationModifier_Type = Type.GetType("PrintingPodRecharge.Content.Cmps.ImmigrationModifier, PrintingPodRecharge", false, false);
             if (BioInks_ImmigrationModifier_Type != null)
             {
@@ -196,8 +243,8 @@ namespace SetStartDupes
                     var CarePackageList = Traverse.Create(CarePackageBundle).Field("info").GetValue() as List<CarePackageInfo>;
                     allCarePackages.AddRange(CarePackageList);
                 }
+                SgtLogger.l("Bio Inks Care Packages initialized!");
             }
-
             foreach (CarePackageInfo carePackage in allCarePackages)
             {
                 AddUiContainer(carePackage);
@@ -207,6 +254,8 @@ namespace SetStartDupes
         {
             if (info != null && !CarePackageContainers.ContainsKey(info))
             {
+                SgtLogger.l("adding care package container for: "+ info.id);
+
                 var PresetHolder = Util.KInstantiateUI(PresetListPrefab, PresetListContainer, true);
 
 
