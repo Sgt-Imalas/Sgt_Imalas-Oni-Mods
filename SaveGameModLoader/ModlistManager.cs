@@ -347,14 +347,19 @@ namespace SaveGameModLoader
                 }
             }
 
-            Global.Instance.modManager.dirty = true;
-            Global.Instance.modManager.Update(null);
+            if (!restartAfter)
+            {
+                Global.Instance.modManager.dirty = true;
+                Global.Instance.modManager.Update(null);
+            }
+            else
+                Global.Instance.modManager.Save();
+
 
             if (restartAfter)
                 AutoRestart();
 
 
-            Global.Instance.modManager.Save();
             //ModListDifferences.Clear();
             //MissingMods.Clear();
 

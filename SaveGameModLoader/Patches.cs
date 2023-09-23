@@ -128,22 +128,33 @@ namespace SaveGameModLoader
             }
         }
 
-        //[HarmonyPatch(typeof(KMod.Manager), nameof(KMod.Manager.Install))]
-        //public static class UpdateManagerDictionary_Install
-        //{
-        //    public static void Postfix()
-        //    {
-        //        ModlistManager.Instance.UpdateModDict();
-        //    }
-        //}
-        //[HarmonyPatch(typeof(KMod.Manager), nameof(KMod.Manager.Uninstall))]
-        //public static class UpdateManagerDictionary_Uninstall
-        //{
-        //    public static void Postfix()
-        //    {
-        //        ModlistManager.Instance.UpdateModDict();
-        //    }
-        //}
+
+        [HarmonyPatch(typeof(MainMenu), "OnPrefabInit")]
+        public static class MainMenuSearchBarInit
+        {
+            public static GameObject _prefab;
+            public static void Postfix()
+            {
+                var prefabGo = ScreenPrefabs.Instance.RetiredColonyInfoScreen.gameObject;
+                prefabGo.SetActive(false);
+                var clone = Util.KInstantiateUI(prefabGo);
+                if (clone != null)
+                {
+                    var go = clone.transform.Find("Content/ColonyData/Colonies and Achievements/Colonies/Search");
+                    if (go != null)
+                    {
+                        _prefab = Util.KInstantiateUI(go.gameObject);
+                        UnityEngine.Object.Destroy(clone);
+                        prefabGo.SetActive(true);
+
+                        return;
+                    }
+                }
+
+                // ERROR!
+                Debug.Log("[ModFilter] Error creating search prefab!  The mod will not function!");
+            }
+        }
 
 
         [HarmonyPatch(typeof(ModsScreen), "Exit")]
