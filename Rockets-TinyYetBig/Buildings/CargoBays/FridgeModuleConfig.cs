@@ -19,7 +19,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 
         public override BuildingDef CreateBuildingDef()
         {
-            float[] hollowTieR1 = BUILDINGS.ROCKETRY_MASS_KG.HOLLOW_TIER2;
+            float[] hollowTieR1 = new[] { 400f, 200f };
             string[] refinedMetals = {
                 MATERIALS.REFINED_METAL,
                 MATERIALS.PLASTIC

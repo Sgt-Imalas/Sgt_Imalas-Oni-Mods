@@ -16,7 +16,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 
         public override BuildingDef CreateBuildingDef()
         {
-            float[] hollowTieR2 = BUILDINGS.ROCKETRY_MASS_KG.HOLLOW_TIER3;
+            float[] hollowTieR2 = new[] { 800f, 400f }; 
             string[] construction_materials = new string[2]
             {
                 "Steel",

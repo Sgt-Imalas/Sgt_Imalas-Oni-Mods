@@ -17,7 +17,7 @@ namespace Rockets_TinyYetBig.Buildings.Fuel
 
         public override BuildingDef CreateBuildingDef()
         {
-            float[] fuelTankDryMass = BUILDINGS.ROCKETRY_MASS_KG.HOLLOW_TIER1;
+            float[] fuelTankDryMass = new[] { 200f, 100f };
             string[] construction_materials = new string[]
             {
                 SimHashes.Steel.ToString(),

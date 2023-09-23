@@ -17,7 +17,7 @@ namespace LogicSatellites.Buildings
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public override BuildingDef CreateBuildingDef()
         {
-            float[] MatCosts = BUILDINGS.ROCKETRY_MASS_KG.HOLLOW_TIER2;
+            float[] MatCosts = new[] { 400f, 200f };
             string[] Materials = new string[2]
             {
                 "RefinedMetal",

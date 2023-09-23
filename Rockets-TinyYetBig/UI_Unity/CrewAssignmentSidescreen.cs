@@ -36,7 +36,7 @@ namespace Rockets_TinyYetBig.UI_Unity
 
         void Init()
         {
-            UIUtils.ListAllChildrenPath(this.transform);
+            //UIUtils.ListAllChildrenPath(this.transform);
             OwnDupeContainer = transform.Find("OwnDupesContainer/ScrollRectContainer").gameObject;
             TargetDupeContainer = transform.Find("TargetDupesContainer/ScrollRectContainer").gameObject;
 
