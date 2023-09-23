@@ -68,7 +68,7 @@ namespace Imalas_TwitchChaosEvents
                 public class ITCE_BEEGEYSER
                 {
                     public static LocString NAME = FormatAsLink("Bee Geyser", nameof(ITCE_BEEGEYSER));
-                    public static LocString DESC = "Not the Bees, NOT THE BEES!!!";
+                    public static LocString DESC = "Not the Bees, NOT THE BEES..\nAllthough... it looks kinda tasty.";
                 }
             }
         }

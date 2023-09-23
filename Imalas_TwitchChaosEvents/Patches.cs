@@ -72,10 +72,11 @@ namespace Imalas_TwitchChaosEvents
         public class MoveFogGO
         {
 
-            [HarmonyPatch(typeof(CameraController), nameof(CameraController.ActiveWorldStarWipe), new Type[] { typeof(int), typeof(bool ), typeof(Vector3), typeof(float), typeof(System.Action) })]
+            //[HarmonyPatch(typeof(CameraController), nameof(CameraController.ActiveWorldStarWipe), new Type[] { typeof(int), typeof(bool ), typeof(Vector3), typeof(float), typeof(System.Action) })]
+            [HarmonyPatch(typeof(CameraController), nameof(CameraController.SetPosition))]
             public class MoveFogToNewWorlds
             {
-                public static void Postfix(bool useForcePosition, Vector3 forcePosition)
+                public static void Postfix()
                 {
                     if(ModAssets.CurrentFogGO != null)
                     {
