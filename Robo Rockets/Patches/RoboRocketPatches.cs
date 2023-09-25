@@ -298,8 +298,8 @@ namespace RoboRockets
             }
         }
 
-        [HarmonyPatch(typeof(PauseScreen))]
-        [HarmonyPatch(nameof(PauseScreen.TriggerQuitGame))]
+        [HarmonyPatch(typeof(Game))]
+        [HarmonyPatch(nameof(Game.DestroyInstances))]
         public class Clear_ForbiddenList
         {
             public static void Prefix()

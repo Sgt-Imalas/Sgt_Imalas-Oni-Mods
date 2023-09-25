@@ -21,6 +21,14 @@ namespace Util_TwitchIntegrationLib
             RegisterAllEventsInNamespace(nameSpace);
         }
 
+        public static bool TryGetEvent(string eventId, out ONITwitchLib.EventInfo eventInfo)
+        {
+            eventInfo = null;
+            return Events.TryGetValue(eventId, out eventInfo);
+        }
+
+
+
         static void RegisterAllEventsInNamespace(string nameSpace)
         {
 

@@ -32,7 +32,7 @@ namespace Rockets_TinyYetBig.Behaviours
         public Guid FuelStatusHandle;
 
         public bool AlwaysActive = false;
-        [SerializeField]
+        [Serialize]
         public bool produceWhileLanded = false;
         [Serialize]
         private bool _producingEnergy = false;

@@ -35,8 +35,8 @@ namespace Rockets_TinyYetBig
         {
             public class TAGS
             {
+                public static LocString RADIATIONSHIELDINGMATERIAL = "Radiation Shielding";
                 public static LocString RTB_NEUTRONIUMALLOYMATERIAL = "Neutronium Alloy";
-                public static LocString RTB_RADIATIONSHIELDINGMATERIAL = "Radiation Shielding";
                 public static LocString RTB_ROCKETFUELMATERIAL = "Rocket Fuel";
                 public static LocString RTB_OXIDIZERCORROSIVEREQUIREMENT = "Corrosive Liquid Oxidizer";
                 public static LocString RTB_OXIDIZERLOXTANK = "Liquid Oxidizer";
