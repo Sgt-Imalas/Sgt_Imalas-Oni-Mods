@@ -14,7 +14,7 @@ namespace Imalas_TwitchChaosEvents.BeeGeyser
 {
     internal class BeeGeyserConfig : IEntityConfig
     {
-        static string ID = "ITCE_BeeGeyser";
+        public static string ID = "ITCE_BeeGeyser";
         public GameObject CreatePrefab()
         {
             GameObject placedEntity = 

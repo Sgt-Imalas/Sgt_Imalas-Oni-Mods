@@ -4,11 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using Util_TwitchIntegrationLib;
 using UtilLibs;
 
 namespace Imalas_TwitchChaosEvents.Events
 {
+    /// <summary>
+    /// Thick fog envelopes everything
+    /// </summary>
     internal class FogEvent : ITwitchEventBase
     {
         public string ID => "ChaosTwitch_Fog";
@@ -41,7 +45,7 @@ namespace Imalas_TwitchChaosEvents.Events
             SgtLogger.l(CameraController.Instance.baseCamera.transform.position.ToString(), "CAMERA");
 
 
-            GameScheduler.Instance.Schedule("fog removal", 1800f, _ =>
+            GameScheduler.Instance.Schedule("fog removal", Mathf.Max(Config.Instance.FogDuration * 600f, 600f), _ =>
             {
                 ToastManager.InstantiateToast(
                 STRINGS.CHAOSEVENTS.FOG.TOAST,

@@ -12,6 +12,9 @@ using Util_TwitchIntegrationLib;
 
 namespace Imalas_TwitchChaosEvents.Events
 {
+    /// <summary>
+    /// Fart V2
+    /// </summary>
     internal class ShartEvent : ITwitchEventBase
     {
         public string ID => "ChaosTwitch_Shart";
@@ -77,7 +80,7 @@ namespace Imalas_TwitchChaosEvents.Events
 
             var objectIsSelectedAndVisible = SoundEvent.ObjectIsSelectedAndVisible(dupe);
             var audioPos = dupePos with { z = 0.0f };
-            var volume = 3f;
+            var volume = 1f;
             if (objectIsSelectedAndVisible)
             {
                 audioPos = SoundEvent.AudioHighlightListenerPosition(audioPos);

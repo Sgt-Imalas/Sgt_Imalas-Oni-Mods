@@ -11,6 +11,9 @@ using static KleiItems;
 
 namespace Imalas_TwitchChaosEvents.Events
 {
+    /// <summary>
+    /// destroys 50% of food up to 1mil kcal
+    /// </summary>
     internal class RoachInfestationEvent : ITwitchEventBase
     {
         public string ID => "ChaosTwitch_HungryRoachesEvent";

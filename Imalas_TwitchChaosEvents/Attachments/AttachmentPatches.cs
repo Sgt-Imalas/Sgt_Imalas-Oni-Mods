@@ -12,7 +12,7 @@ namespace Imalas_TwitchChaosEvents.Attachments
 {
     internal class AttachmentPatches
     {
-        [HarmonyPatch(typeof(Health), "OnPrefabInit")]
+        [HarmonyPatch(typeof(Health), nameof(Health.OnSpawn))]
         public class HealthDamageHandler_Addon_Patch
         {
             public static void Postfix(Health __instance)
@@ -22,12 +22,12 @@ namespace Imalas_TwitchChaosEvents.Attachments
 
         }
 
-        [HarmonyPatch(typeof(MinionConfig), nameof(MinionConfig.CreatePrefab))]
+        [HarmonyPatch(typeof(MinionConfig), nameof(MinionConfig.OnSpawn))]
         public class Minion_AddFlipper_Patch
         {
-            public static void Postfix(GameObject __result)
+            public static void Postfix(GameObject go)
             {
-                __result.AddOrGet<Minion_Flipper>();
+                go.AddOrGet<Minion_Flipper>();
             }
 
         }

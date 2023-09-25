@@ -13,6 +13,9 @@ using UtilLibs;
 
 namespace Imalas_TwitchChaosEvents.Events
 {
+    /// <summary>
+    /// Cursor catches fire, ignites underlying tiles
+    /// </summary>
     internal class BurningCursorEvent : ITwitchEventBase
     {
         public string ID => "ChaosTwitch_BurningCursor";

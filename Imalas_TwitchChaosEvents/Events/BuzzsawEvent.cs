@@ -13,6 +13,9 @@ using static STRINGS.UI.CLUSTERMAP;
 
 namespace Imalas_TwitchChaosEvents.Events
 {
+    /// <summary>
+    /// Noita Omega Sawblade that either homes for wiggling mouse cursor or dupes
+    /// </summary>
     internal class BuzzsawEvent : ITwitchEventBase
     {
         public string ID => "ChaosTwitch_Buzzsaw";
@@ -28,7 +31,7 @@ namespace Imalas_TwitchChaosEvents.Events
         public Action<object> EventAction => (object data) =>
         {
             SpeedControlScreen.Instance.SetSpeed(0);
-            SpeedControlScreen.Instance.Pause();
+            //SpeedControlScreen.Instance.Pause();
 
             SpawnBuzzSaw();
         };

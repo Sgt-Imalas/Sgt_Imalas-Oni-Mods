@@ -50,8 +50,8 @@ namespace Imalas_TwitchChaosEvents.OmegaSawblade
         public float maxSpeed = 45;
         public float sliding = 0.010f;
 
-        public float ChanceDistanceThreshold = 18f; 
-        public float GuaranteedDistanceThresholdPerSec = 10f;
+        public float ChanceDistanceThreshold = 14f; 
+        public float GuaranteedDistanceThresholdPerSec = 7f;
 
         public bool homeOnlyDupes = false;
         public override void OnPrefabInit()

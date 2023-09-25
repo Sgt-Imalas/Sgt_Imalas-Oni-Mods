@@ -187,6 +187,26 @@ namespace Imalas_TwitchChaosEvents
                 public static LocString EVENTFAIL =
                     "Not enough food was available to attract any roaches.";
             }
+            public class WEATHERFORECAST
+            {
+                public static LocString NAME = "Weather Forecast";
+                public static LocString TOAST = "Weather Forecasted";
+                public static LocString TOASTTEXT = "the weather forecast will be {0}";
+            }
+            public class BEEVOLCANO
+            {
+                public static LocString NAME = "Beeyzer";
+                public static LocString TOAST = "Its a Bee Geyser!";
+                public static LocString TOASTTEXT = "This looks very lickable..\nWait... BEES???";
+            }
+
+            public class CREEPEREATINGBOI
+            {
+                public static LocString NAME = "Green Boi";
+                public static LocString TOAST = "Green Boi";
+                public static LocString TOASTTEXT = "Hi!";
+            }
+
             public class RAINBOWLIQUIDS
             {
                 public static LocString NAME = "Rainbow Rave";
@@ -213,12 +233,6 @@ namespace Imalas_TwitchChaosEvents
                 public static LocString TOASTTEXT = "Bloody hell, it's foggy innit";
 
                 public static LocString TOASTTEXTENDING = "The fog is starting to clear.";
-            }
-            public class CREEPEREATINGBOI
-            {
-                public static LocString NAME = "Green Boi";
-                public static LocString TOAST = "Green Boi";
-                public static LocString TOASTTEXT = "Hi!";
             }
             public class BUZZSAW
             {
@@ -268,6 +282,10 @@ namespace Imalas_TwitchChaosEvents
 
             public static LocString FAKE_TACORAIN_DURATION_NAME = "triggerable ghostly Taco Rain duration in s";
             public static LocString FAKE_TACORAIN_DURATION_TOOLTIP = "How long should the triggerable Taco Rain last (in seconds).";
+
+
+            public static LocString FOG_DURATION_NAME = "Fog Duration in cycles";
+            public static LocString FOG_DURATION_TOOLTIP = "How long should the Fog from fog event last (wont go lower than 1).";
         }
     }
 }

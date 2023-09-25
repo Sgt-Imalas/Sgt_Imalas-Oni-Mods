@@ -14,6 +14,9 @@ using Util_TwitchIntegrationLib.Scripts;
 
 namespace Imalas_TwitchChaosEvents.Events
 {
+    /// <summary>
+    /// Retaw flood
+    /// </summary>
     internal class InverseElementEvent : ITwitchEventBase
     {
         public string ID => "ChaosTwitch_InverseElement";

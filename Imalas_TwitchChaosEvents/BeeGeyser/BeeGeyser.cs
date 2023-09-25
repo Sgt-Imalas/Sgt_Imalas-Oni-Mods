@@ -9,7 +9,8 @@ namespace Imalas_TwitchChaosEvents.BeeGeyser
 {
     internal class BeeGeyser : KMonoBehaviour, ISim200ms
     {
-        float beeInterval = 20;
+        float beeIntervalMin = 20;
+        float beeIntervalMax = 0.5f;
 
 
         [Serialize] float timeToNextBee = 0;

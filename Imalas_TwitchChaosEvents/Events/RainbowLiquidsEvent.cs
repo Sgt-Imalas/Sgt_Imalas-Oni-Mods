@@ -9,6 +9,9 @@ using UtilLibs;
 
 namespace Imalas_TwitchChaosEvents.Events
 {
+    /// <summary>
+    /// all liquids turn rainbow
+    /// </summary>
     internal class RainbowLiquidsEvent : ITwitchEventBase
     {
         public string ID => "ChaosTwitch_RainbowLiquidsEvent";

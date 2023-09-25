@@ -26,11 +26,20 @@ namespace Imalas_TwitchChaosEvents
         [Option("STRINGS.CHAOS_CONFIG.FAKE_TACORAIN_DURATION_NAME", "STRINGS.CHAOS_CONFIG.FAKE_TACORAIN_DURATION_TOOLTIP")]
         [JsonProperty]
         public int FakeTacoEventDuration { get; set; }
+
+
+        [Option("STRINGS.CHAOS_CONFIG.FOG_DURATION_NAME", "STRINGS.CHAOS_CONFIG.FOG_DURATION_TOOLTIP")]
+        [JsonProperty]
+        public float FogDuration { get; set; }
+
+
         public Config()
         {
             FakeTacoEventMusic = false;
             TacoEventMusic = false;
             FakeTacoEventDuration = 50;
+
+            FogDuration = 2.0f;
         }       
 
     }

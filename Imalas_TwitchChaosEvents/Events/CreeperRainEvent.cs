@@ -12,6 +12,9 @@ using UtilLibs;
 
 namespace Imalas_TwitchChaosEvents.Events
 {
+    /// <summary>
+    /// Creeper liquid rain
+    /// </summary>
     internal class CreeperRainEvent : ITwitchEventBase
     {
         public string ID => "ChaosTwitch_CreeperRain";

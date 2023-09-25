@@ -36,8 +36,8 @@ namespace Imalas_TwitchChaosEvents.Attachments
                 new DamagingMaterial()
                 {
                     criticalMass = 0.1f,
-                    damagePerSecond = 100f/45f,
-                    damagePerSecondSuited= 100f/300f,
+                    damagePerSecond = 100f/60f,
+                    damagePerSecondSuited= 100f/600f,
                 }
             }
         };

@@ -14,6 +14,9 @@ using PeterHan.PLib.UI;
 
 namespace Imalas_TwitchChaosEvents.Events
 {
+    /// <summary>
+    /// Taco Meteor shower
+    /// </summary>
     internal class TacoRainEvent : ITwitchEventBase
     {
         public string ID => "ChaosTwitch_TacoRain";

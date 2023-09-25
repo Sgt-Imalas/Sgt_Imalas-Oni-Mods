@@ -71,6 +71,25 @@ msgstr ""
 "\n"
 "Deaktivieren Sie diese Option hier, um ihn stumm zu schalten."
 
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BEEVOLCANO.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BEEVOLCANO.NAME"
+msgid "Beeyzer"
+msgstr "Biesir"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BEEVOLCANO.TOAST
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BEEVOLCANO.TOAST"
+msgid "Its a Bee Geyser!"
+msgstr "Es ist ein Bienen-Geysir!"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BEEVOLCANO.TOASTTEXT
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BEEVOLCANO.TOASTTEXT"
+msgid ""
+"This looks very lickable..\n"
+"Wait... BEES???"
+msgstr ""
+"das sieht sehr lecker aus...\n"
+"Warte, Bienen???"
+
 #. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BURNINGCURSOR.NAME
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BURNINGCURSOR.NAME"
 msgid "Burning Cursor"
@@ -289,6 +308,22 @@ msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.TACORAIN.TOASTTEXT"
 msgid "It's raining Tacos!"
 msgstr "Es regnet Tacos!"
 
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.WEATHERFORECAST.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.WEATHERFORECAST.NAME"
+msgid "Weather Forecast"
+msgstr "Wetterbericht"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.WEATHERFORECAST.TOAST
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.WEATHERFORECAST.TOAST"
+msgid "Weather Forecasted"
+msgstr "Und nun zum Wetter"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.WEATHERFORECAST.TOASTTEXT
+msgctxt ""
+"Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.WEATHERFORECAST.TOASTTEXT"
+msgid "the weather forecast will be {0}"
+msgstr "Das Wetter des kommenden Zyklus ist vorraussichtlich {0}"
+
 #. Imalas_TwitchChaosEvents.STRINGS.COMETS.ITC_GHOSTTACOCOMET.DESC
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.COMETS.ITC_GHOSTTACOCOMET.DESC"
 msgid "A semitranslucent image of flying taco, it still looks delicious!"
@@ -462,8 +497,10 @@ msgstr "<link=\"ITCEINVERSEICE\">Durchfall</link>"
 
 #. Imalas_TwitchChaosEvents.STRINGS.ENTITIES.GEYSERS.ITCE_BEEGEYSER.DESC
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.ENTITIES.GEYSERS.ITCE_BEEGEYSER.DESC"
-msgid "Not the Bees, NOT THE BEES!!!"
-msgstr "Nicht die Bienen, NICHT DIE BIENEN!!!"
+msgid ""
+"Not the Bees, NOT THE BEES..\n"
+"Allthough... it looks kinda tasty."
+msgstr ""
 
 #. Imalas_TwitchChaosEvents.STRINGS.ENTITIES.GEYSERS.ITCE_BEEGEYSER.NAME
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.ENTITIES.GEYSERS.ITCE_BEEGEYSER.NAME"
@@ -560,6 +597,11 @@ msgstr ""
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.ITEMS.ICT_OMEGASAWBLADE.NAME"
 msgid "<link=\"ICTOMEGASAWBLADE\">Omega Sawblade</link>"
 msgstr "<link=\"ICTOMEGASAWBLADE\">Omega Kreissäge</link>"
+
+#~ msgctxt ""
+#~ "Imalas_TwitchChaosEvents.STRINGS.ENTITIES.GEYSERS.ITCE_BEEGEYSER.DESC"
+#~ msgid "Not the Bees, NOT THE BEES!!!"
+#~ msgstr "Nicht die Bienen, NICHT DIE BIENEN!!!"
 
 #~ msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BUZZSAW.TOASTTEXT"
 #~ msgid "Bzzzzt"
