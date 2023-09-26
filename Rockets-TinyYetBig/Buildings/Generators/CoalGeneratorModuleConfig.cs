@@ -76,10 +76,16 @@ namespace Rockets_TinyYetBig
             manualDeliveryKg.SetStorage(storage);
             manualDeliveryKg.RequestedItemTag = ElementLoader.FindElementByHash(SimHashes.Carbon).tag;
             manualDeliveryKg.capacity = storage.capacityKg;
-            manualDeliveryKg.refillMass = storage.capacityKg / 8f;
+            manualDeliveryKg.refillMass = storage.capacityKg; /// 8f;
+            manualDeliveryKg.MinimumMass = 1;
             manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
 
+            var del = go.AddOrGet<ManualDeliverablePercentageThreshold>();
+            del.refillThreshold = storage.capacityKg;
+            
             var generator = go.AddOrGet<RTB_ModuleGenerator>();
+
+
 
             generator.consumptionElement = SimHashes.Carbon.CreateTag();
             generator.consumptionRate = 0.125f;

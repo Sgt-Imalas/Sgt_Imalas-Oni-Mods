@@ -297,6 +297,7 @@ namespace Rockets_TinyYetBig
                     public static LocString NAME = (LocString)FormatAsLink("Coal Generator Module", nameof(CoalGeneratorModuleConfig));
                     public static LocString DESC = ("Converts " + FormatAsLink("Coal", "CARBON") + " into electrical " + FormatAsLink("Power", "POWER") + ".");
                     public static LocString EFFECT = "Burning coal produces more energy than manual power, who could have thought this also works in space." + GENERATORLIMIT;
+                    public static LocString SIDESCREEN_TOOLTIP = "Duplicants will be requested to deliver " + PRE_KEYWORD + "{0}" + PST_KEYWORD + " when the amount stored falls below <b>{1}</b>";
                 }
 
 

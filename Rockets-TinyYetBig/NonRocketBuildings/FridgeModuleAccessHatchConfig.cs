@@ -59,7 +59,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
-
+            
             go.GetComponent<KPrefabID>().AddTag(GameTags.RocketInteriorBuilding);
         }
 
@@ -81,6 +81,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                 StoredItemModifier.Preserve,
                 StoredItemModifier.Insulate
             });
+            go.AddOrGet<Prioritizable>();
             Prioritizable.AddRef(go);
 
             go.AddOrGet<TreeFilterable>(); 
@@ -89,6 +90,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
             go.AddOrGetDef<StorageController.Def>();
             go.AddOrGetDef<OperationalController.Def>();
-        }
+           // go.AddOrGet<Prioritizable>();
+        }//
     }
 }
