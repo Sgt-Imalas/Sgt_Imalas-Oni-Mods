@@ -1641,7 +1641,7 @@ namespace ClusterTraitGenerationManager
                 isClassic = false;
                 item = items[i];
 
-                isClassic = item.id.Contains("Vanilla");
+                isClassic = PlanetIsClassic(item);
 
                 if (isClassic)
                 {
@@ -1831,7 +1831,7 @@ namespace ClusterTraitGenerationManager
 
                         if (KeyUpper.Contains("BABY"))
                         {
-                            SgtLogger.l(WorldFromCache.Key + " will disable story traits due to Baby size");
+                            //SgtLogger.l(WorldFromCache.Key + " will disable story traits due to Baby size");
                             PlanetsAndPOIs[WorldFromCache.Key].DisablesStoryTraits = true;
                         }
                         SgtLogger.l("isClassic: " + PlanetIsClassic(PlanetsAndPOIs[WorldFromCache.Key]), WorldFromCache.Key);
