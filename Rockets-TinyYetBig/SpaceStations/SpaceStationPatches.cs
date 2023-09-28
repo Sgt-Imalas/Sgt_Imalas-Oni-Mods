@@ -11,6 +11,8 @@ using UnityEngine;
 using UtilLibs;
 using Rockets_TinyYetBig.Science;
 using Klei.AI;
+using static Operational;
+using Rockets_TinyYetBig.Elements;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
@@ -189,6 +191,21 @@ namespace Rockets_TinyYetBig.SpaceStations
                 return true;
             }
         }
+        [HarmonyPatch(typeof(CraftModuleInterface), nameof(CraftModuleInterface.GetInteriorWorld))]
+        public static class GetInteriorWorld_SpaceStation
+        {
+            public static bool Prefix(CraftModuleInterface __instance, ref WorldContainer __result)
+            {
+                if(__instance.TryGetComponent<SpaceStation>(out SpaceStation station))
+                {
+                    __result = null;
+                    if (station.SpaceStationInteriorId!=-1)
+                        __result = ClusterManager.Instance.GetWorld(station.SpaceStationInteriorId);
+                    return false;
+                }
+                return true;
+            }
+        }
 
         [HarmonyPatch(typeof(RadiationBalanceDisplayer))]
         [HarmonyPatch(nameof(RadiationBalanceDisplayer.GetTooltip))]
@@ -198,6 +215,112 @@ namespace Rockets_TinyYetBig.SpaceStations
             {
                 int targetCell = Grid.PosToCell(instance.gameObject);
                 return Grid.IsValidCell(targetCell);
+            }
+        }
+
+
+        [HarmonyPatch(typeof(LandingBeacon))]
+        [HarmonyPatch(nameof(LandingBeacon.UpdateLineOfSight))]
+        public static class LandingBeacon_SpaceStationFix
+        {
+            public static bool Prefix(LandingBeacon.Instance smi)
+            {
+                var worldId = smi.GetMyWorldId();
+                if (SpaceStationManager.WorldIsSpaceStationInterior(worldId))
+                {
+                    bool flag = true;
+                    var myWorld = ClusterManager.Instance.GetWorld(worldId);
+                    int num = Grid.PosToCell(smi);
+                    for (int y = (int)myWorld.maximumBounds.y; Grid.CellRow(num) <= y; num = Grid.CellAbove(num))
+                    {
+                        if (!Grid.IsValidCell(num) || Grid.Solid[num] && Grid.Element[num].id != ModElements.SpaceStationForceField.SimHash)
+                        {
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if (smi.skyLastVisible == flag)
+                        return false;
+                    smi.selectable.ToggleStatusItem(Db.Get().BuildingStatusItems.NoSurfaceSight, !flag);
+                    smi.operational.SetFlag(LandingBeacon.noSurfaceSight, flag);
+                    smi.skyLastVisible = flag;
+
+                    return false;
+                }
+                return true;
+            }
+        }
+        [HarmonyPatch(typeof(RailGun))]
+        [HarmonyPatch(nameof(RailGun.Sim200ms))]
+        public static class Railgun_SpaceStationFix
+        {
+            public static bool Prefix(RailGun __instance)
+            {
+                var worldId = __instance.GetMyWorldId();
+                if (SpaceStationManager.WorldIsSpaceStationInterior(worldId))
+                {
+                    var myWorld = ClusterManager.Instance.GetWorld(worldId);
+                    Extents extents = __instance.GetComponent<Building>().GetExtents();
+
+                    int x1 = extents.x;
+                    int x2 = extents.x + extents.width - 2;
+                    int y1 = extents.y + extents.height;
+                    int cell1 = Grid.XYToCell(x1, y1);
+                    int y2 = y1;
+                    int cell2 = Grid.XYToCell(x2, y2);
+                    bool flag = true;
+                    int y3 = (int)myWorld.maximumBounds.y;
+                    for (int index1 = cell1; index1 <= cell2; ++index1)
+                    {
+                        for (int index2 = index1; Grid.CellRow(index2) <= y3; index2 = Grid.CellAbove(index2))
+                        {
+                            if (!Grid.IsValidCell(index2) || Grid.Solid[index2] && Grid.Element[index2].id != ModElements.SpaceStationForceField.SimHash)
+                            {
+                                flag = false;
+                                break;
+                            }
+                        }
+                    }
+                    __instance.operational.SetFlag(RailGun.noSurfaceSight, flag);
+                    __instance.operational.SetFlag(RailGun.noDestination, __instance.destinationSelector.GetDestinationWorld() >= 0);
+                    if(__instance.TryGetComponent<KSelectable>(out var component))
+                    {
+                        component.ToggleStatusItem(RailGun.noSurfaceSightStatusItem, !flag);
+                        component.ToggleStatusItem(RailGun.noDestinationStatusItem, __instance.destinationSelector.GetDestinationWorld() < 0);
+                    }
+                    __instance.UpdateMeters();
+                    return false;
+                }
+                return true;
+            }
+        }
+
+
+
+        [HarmonyPatch(typeof(WorldContainer))]
+        [HarmonyPatch(nameof(WorldContainer.maximumBounds))]
+        [HarmonyPatch(MethodType.Getter)]
+        public static class DimensionLimiter_SpaceStation_max
+        {
+            public static void Postfix(WorldContainer __instance, ref Vector2 __result)
+            {
+                if (__instance.TryGetComponent<SpaceStation>(out var spaceStation))
+                {
+                    __result = __instance.WorldOffset + spaceStation.topRightCorner;
+                }
+            }
+        }
+        [HarmonyPatch(typeof(WorldContainer))]
+        [HarmonyPatch(nameof(WorldContainer.minimumBounds))]
+        [HarmonyPatch(MethodType.Getter)]
+        public static class DimensionLimiter_SpaceStation_min
+        {
+            public static void Postfix(WorldContainer __instance, ref Vector2 __result)
+            {
+                if (__instance.TryGetComponent<SpaceStation>(out var spaceStation))
+                {
+                    __result = __instance.WorldOffset + spaceStation.bottomLeftCorner;
+                }
             }
         }
 

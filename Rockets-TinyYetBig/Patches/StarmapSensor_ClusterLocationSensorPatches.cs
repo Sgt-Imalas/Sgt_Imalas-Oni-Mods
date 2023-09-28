@@ -52,9 +52,9 @@ namespace Rockets_TinyYetBig.Patches
         {
             public static bool Prefix(LogicClusterLocationSensor __instance, ref bool __result)
             {
-                if(__instance.TryGetComponent<ClusterDestinationSelector>(out var selector))
+                if (__instance.TryGetComponent<ClusterDestinationSelector>(out var selector))
                 {
-                    if(selector.GetDestination() == selector.gameObject.GetMyWorldLocation() && selector.GetDestination() != DisabledLocation)
+                    if (selector.GetDestination() == selector.gameObject.GetMyWorldLocation() && selector.GetDestination() != DisabledLocation)
                     {
                         __result = true;
                         return false;
@@ -78,31 +78,51 @@ namespace Rockets_TinyYetBig.Patches
                 return true;
             }
         }
+
+
+        [HarmonyPatch(typeof(ClusterGrid))]
+        [HarmonyPatch(nameof(ClusterGrid.GetLocationDescription))]
+        public static class POIs_in_RocketTargetSelector
+        {
+            public static bool Prefix(AxialI location, out Sprite sprite, out string label, out string sublabel)
+            {
+                BetterViewOfLocation.GetLocationDescriptionWithPOIs(location, out sprite, out label, out sublabel);
+                return false;
+            }
+        }
+
+
+
         [HarmonyPatch(typeof(ClusterDestinationSideScreen))]
         [HarmonyPatch(nameof(ClusterDestinationSideScreen.Refresh))]
         public static class BetterViewOfLocation
         {
-            public static void GetLocationDescriptionWithPOIs(AxialI location, out Sprite sprite, out string label)
+            public static void GetLocationDescriptionWithPOIs(AxialI location, out Sprite sprite, out string label, out string sublabel)
             {
+                sublabel = string.Empty;
                 ClusterGridEntity clusterGridEntity = null;
                 List<ClusterGridEntity> visibleEntitiesAtCell = ClusterGrid.Instance.GetVisibleEntitiesAtCell(location);
 
-                if (visibleEntitiesAtCell.Count>0)
+                if (visibleEntitiesAtCell.Count > 0)
                     clusterGridEntity = visibleEntitiesAtCell.Find((ClusterGridEntity x) => x.Layer == EntityLayer.Asteroid || x.Layer == EntityLayer.POI);
 
-                ClusterGridEntity visibleEntityOfLayerAtAdjacentCell = ClusterGrid.Instance.GetVisibleEntityOfLayerAtAdjacentCell(location, EntityLayer.Asteroid);
+                ClusterGridEntity visibleAsteroidAtAdjacentCell = ClusterGrid.Instance.GetVisibleEntityOfLayerAtAdjacentCell(location, EntityLayer.Asteroid);
                 if (clusterGridEntity != null)
                 {
-                    sprite = clusterGridEntity.Layer == EntityLayer.POI ?  
-                        Def.GetUISpriteFromMultiObjectAnim(clusterGridEntity.AnimConfigs.First().animFile,clusterGridEntity.AnimConfigs.First().initialAnim) 
+                    sprite = clusterGridEntity.Layer == EntityLayer.POI ?
+                        Def.GetUISpriteFromMultiObjectAnim(clusterGridEntity.AnimConfigs.First().animFile, clusterGridEntity.AnimConfigs.First().initialAnim)
                         : clusterGridEntity.GetUISprite();
 
                     label = clusterGridEntity.Name;
+                    if(clusterGridEntity.TryGetComponent<WorldContainer>(out var world))
+                        sublabel = Strings.Get(world.name);
                 }
-                else if (visibleEntityOfLayerAtAdjacentCell != null)
+                else if (visibleAsteroidAtAdjacentCell != null)
                 {
-                    sprite = visibleEntityOfLayerAtAdjacentCell.GetUISprite();
-                    label = global::STRINGS.UI.SPACEDESTINATIONS.ORBIT.NAME_FMT.Replace("{Name}", visibleEntityOfLayerAtAdjacentCell.Name);
+                    sprite = visibleAsteroidAtAdjacentCell.GetUISprite();
+                    label = global::STRINGS.UI.SPACEDESTINATIONS.ORBIT.NAME_FMT.Replace("{Name}", visibleAsteroidAtAdjacentCell.Name);
+                    if (visibleAsteroidAtAdjacentCell.TryGetComponent<WorldContainer>(out var world))
+                        sublabel = Strings.Get(world.name);
                 }
                 else if (ClusterGrid.Instance.IsCellVisible(location))
                 {
@@ -118,17 +138,20 @@ namespace Rockets_TinyYetBig.Patches
 
             public static bool Prefix(ClusterDestinationSideScreen __instance)
             {
+                if (__instance.targetSelector == null)
+                    return true;
+
                 bool isClusterLocationSensor = __instance.targetSelector.TryGetComponent<LogicClusterLocationSensor>(out _);
 
                 if (isClusterLocationSensor || __instance.targetSelector.TryGetComponent<POICapacitySensorSM>(out _))
                 {
                     //SgtLogger.l("replacing Icon");
                     var selector = __instance.targetSelector;
-                    if(!(selector.GetDestination() == DisabledLocation))
+                    if (!(selector.GetDestination() == DisabledLocation))
                     {
-                        GetLocationDescriptionWithPOIs(selector.GetDestination(), out var sprite, out var label);
+                        GetLocationDescriptionWithPOIs(selector.GetDestination(), out var sprite, out var label, out _);
                         __instance.destinationImage.sprite = sprite;
-                        __instance.destinationLabel.text = (isClusterLocationSensor ? (string)STRINGS.UI.CLUSTERLOCATIONSENSORADDON.TITLE:(string)global::STRINGS.UI.UISIDESCREENS.CLUSTERDESTINATIONSIDESCREEN.TITLE) + ": " + label;
+                        __instance.destinationLabel.text = (isClusterLocationSensor ? (string)STRINGS.UI.CLUSTERLOCATIONSENSORADDON.TITLE : (string)global::STRINGS.UI.UISIDESCREENS.CLUSTERDESTINATIONSIDESCREEN.TITLE) + ": " + label;
                         __instance.clearDestinationButton.isInteractable = true;
                     }
                     else
