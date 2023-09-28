@@ -946,7 +946,7 @@ namespace ClusterTraitGenerationManager
             if (item.IsPOI)
                 return false;
 
-            if (item.id.Contains("Vanilla") || item.world!=null && item.world.worldsize.x * item.world.worldsize.y > 90000)
+            if (item.id.Contains("Vanilla") || item.world != null && item.world.worldsize.x * item.world.worldsize.y > 90000)
                 return true;
 
             return false;
@@ -1791,6 +1791,9 @@ namespace ClusterTraitGenerationManager
 
                 foreach (var WorldFromCache in SettingsCache.worlds.worldCache)
                 {
+
+
+
                     StarmapItemCategory category = StarmapItemCategory.Outer;
                     //SgtLogger.l(World.Key + "; " + World.Value.ToString());
                     ProcGen.World world = WorldFromCache.Value;
@@ -1831,6 +1834,7 @@ namespace ClusterTraitGenerationManager
                             SgtLogger.l(WorldFromCache.Key + " will disable story traits due to Baby size");
                             PlanetsAndPOIs[WorldFromCache.Key].DisablesStoryTraits = true;
                         }
+                        SgtLogger.l("isClassic: " + PlanetIsClassic(PlanetsAndPOIs[WorldFromCache.Key]), WorldFromCache.Key);
                     }
 
                 }

@@ -27,7 +27,12 @@ namespace Imalas_TwitchChaosEvents.Attachments
         {
             damagingMaterials[elementId] = new DamagingMaterial() { criticalMass = minMassForDamage, damagePerSecond = dps, damagePerSecondSuited = dpsSuited };
         }
-
+        public override void OnSpawn()
+        {
+            base.OnSpawn();
+            if(status_item == null)
+                status_item = MakeStatusItem();
+        }
 
         public static Dictionary<SimHashes, DamagingMaterial> damagingMaterials = new Dictionary<SimHashes, DamagingMaterial>()
         {
@@ -42,7 +47,7 @@ namespace Imalas_TwitchChaosEvents.Attachments
             }
         };
         public float lastBurnTime;
-        public static StatusItem status_item = MakeStatusItem();
+        public static StatusItem status_item;
 
         public static StatusItem MakeStatusItem()
         {

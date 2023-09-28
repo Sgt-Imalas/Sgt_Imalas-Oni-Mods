@@ -30,6 +30,7 @@ namespace Rockets_TinyYetBig.Behaviours
         public float GetSliderMin(int index) => 0.0f;
 
         public string GetSliderTooltip() => string.Format(STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.SIDESCREEN_TOOLTIP, delivery.RequestedItemTag.ProperName(), refillThreshold + global::STRINGS.UI.UNITSUFFIXES.MASS.KILOGRAM);
+        public string GetSliderTooltip(int i) => string.Format(STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.SIDESCREEN_TOOLTIP, delivery.RequestedItemTag.ProperName(), refillThreshold + global::STRINGS.UI.UNITSUFFIXES.MASS.KILOGRAM);
 
         public string GetSliderTooltipKey(int index) => STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.SIDESCREEN_TOOLTIP;
 

@@ -64,7 +64,7 @@ namespace DupePodRailgun.Buildings
         {
             go.AddOrGet<KBatchedAnimController>().initialAnim = "option_a";
             go.GetComponent<KPrefabID>();
-            go.AddOrGet<Assignable>();
+            //go.AddOrGet<Assignable>();
             go.AddOrGet<DupeRailgunStateMachine>();
         }
     }

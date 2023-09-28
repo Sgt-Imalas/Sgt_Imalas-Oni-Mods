@@ -66,6 +66,7 @@ namespace Rockets_TinyYetBig
 
         public override void DoPostConfigureComplete(GameObject go)
         {
+            go.AddOrGet<Prioritizable>();
             Prioritizable.AddRef(go);
 
             Storage storage = go.AddOrGet<Storage>();
