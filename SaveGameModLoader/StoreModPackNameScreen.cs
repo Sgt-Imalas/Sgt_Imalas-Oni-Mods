@@ -424,7 +424,7 @@ namespace SaveGameModLoader
             if (fileName == string.Empty)
                 return;
             fileName = fileName.Replace(".sav", ".json");
-            var enabledModLabels = Global.Instance.modManager.mods.FindAll(mod => mod.IsActive() == true).Select(mod => mod.label).ToList();
+            var enabledModLabels = Global.Instance.modManager.mods.FindAll(mod => mod.IsEnabledForActiveDlc()).Select(mod => mod.label).ToList();
             ModlistManager.Instance.CreateOrAddToModPacks(fileName, enabledModLabels);
             ModlistManager.Instance.GetAllModPacks();
         }
