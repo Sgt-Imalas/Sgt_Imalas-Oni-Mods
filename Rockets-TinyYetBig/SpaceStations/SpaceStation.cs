@@ -216,7 +216,6 @@ namespace Rockets_TinyYetBig.SpaceStations
         int counter = 0;
         public new void Sim4000ms(float dt)
         {
-            return;
             counter++;
             counter %= 9;
 
@@ -238,8 +237,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                 DrawLeveledBarriers(world, lvl2Width, false);
                 DrawLeveledBarriers(world, lvl3Width);
                // DrawOuterBarriers(world);
-            }
-
+            }            
         }
 
         public void DrawBarriers()

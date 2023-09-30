@@ -306,7 +306,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             {
                 if (__instance.TryGetComponent<SpaceStation>(out var spaceStation))
                 {
-                    __result = __instance.WorldOffset + spaceStation.topRightCorner;
+                    __result = Vector2.Min(__result, __instance.WorldOffset + spaceStation.topRightCorner);
                 }
             }
         }
@@ -319,7 +319,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             {
                 if (__instance.TryGetComponent<SpaceStation>(out var spaceStation))
                 {
-                    __result = __instance.WorldOffset + spaceStation.bottomLeftCorner;
+                    __result = Vector2.Max(__result,__instance.WorldOffset + spaceStation.bottomLeftCorner);
                 }
             }
         }
