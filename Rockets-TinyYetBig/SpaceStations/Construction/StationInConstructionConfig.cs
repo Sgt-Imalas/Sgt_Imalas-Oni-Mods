@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.SpaceStations.Construction
 {
-    internal class StationInConstructionConfig : IEntityConfig
+    public class StationInConstructionConfig : IEntityConfig
     {
         public const string ID = "RTB_StationConstructionSite";
 

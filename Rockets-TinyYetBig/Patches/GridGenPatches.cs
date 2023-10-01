@@ -22,8 +22,8 @@ namespace Rockets_TinyYetBig.Patches
             {
                 if (DlcManager.FeatureClusterSpaceEnabled())
                 {
-                    __result.x += 272;
-                    __result.y = Math.Max(__result.y, 272);
+                    __result.x += 312;
+                    __result.y = Math.Max(__result.y, 324);
                     SgtLogger.debuglog("RocketryExpanded: Increased free grid space allocation");
                 }
             }
