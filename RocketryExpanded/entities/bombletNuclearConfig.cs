@@ -45,11 +45,11 @@ namespace ExplosiveMaterials.entities
 
             looseEntity.AddOrGet<EntitySplitter>().maxStackSize = 50f;
 
-            RadiationEmitter radiationEmitter = looseEntity.AddComponent<RadiationEmitter>();
-            radiationEmitter.emitType = RadiationEmitter.RadiationEmitterType.Constant;
-            radiationEmitter.radiusProportionalToRads = true;
-            radiationEmitter.emitRads = 200;
-            radiationEmitter.emissionOffset = new Vector3(0.0f, 0.0f, 0.0f);
+            //RadiationEmitter radiationEmitter = looseEntity.AddComponent<RadiationEmitter>();
+            //radiationEmitter.emitType = RadiationEmitter.RadiationEmitterType.Constant;
+            //radiationEmitter.radiusProportionalToRads = true;
+            //radiationEmitter.emitRads = 200;
+            //radiationEmitter.emissionOffset = new Vector3(0.0f, 0.0f, 0.0f);
             return looseEntity;
         }
         
@@ -63,6 +63,7 @@ namespace ExplosiveMaterials.entities
             radiationEmitter.emitRadiusY = radiationEmitter.emitRadiusX;
             radiationEmitter.emitRads = 200;
             radiationEmitter.emissionOffset = new Vector3(0.0f, 0.0f, 0.0f);
+            radiationEmitter.emitRate = 0f;
         }
         public void OnSpawn(GameObject inst) { }
     }
