@@ -18,11 +18,10 @@ namespace SaveGameModLoader
                     public static LocString MISSINGMOD = "MISSING MODS!";
                     public static LocString ALLSYNCED = "ALL MODS SYNCED, CLOSE";
 
-                    public static LocString EXPORTMODLISTCONFIRMSCREEN = "Create Mod Profile";
-
-                    public static LocString IMPORTMODLISTCONFIRMSCREEN = "Paste collection link to import Mod Profile";
-
                     public static LocString MISSINGMODSTITLE = "MISSING MODS";
+
+
+
                 }
                 public class MODLISTVIEW
                 {
@@ -58,7 +57,15 @@ namespace SaveGameModLoader
                         public static LocString PARSINGERROR = "Could not determine the workshop ID";
                         public static LocString STEAMINFOERROR = "Error parsing steam data";
                         public static LocString SUCCESSTITLE = "Import successful";
-                        public static LocString ADDEDNEW = "Successfully imported Mod Profile:\n{0}";
+                        public static LocString ADDEDNEW = "Successfully imported Mod Profile:\n{0} with {1} mods";
+
+                        public static LocString EXPORTMODLISTCONFIRMSCREEN = "Create Mod Profile with {0} mods";
+                        public static LocString ENTERNAME = "Enter profile name...";
+                        public static LocString ENTERCOLLECTIONLINK = "Enter collection link...";
+
+                        public static LocString IMPORTMODLISTCONFIRMSCREEN = "Paste collection link to import Mod Profile";
+                        public static LocString EXPORTCONFIRMATION = "New Mod Profile created!";
+                        public static LocString EXPORTCONFIRMATIONTOOLTIP = "Mod Profile \"{0}\" with {1} mods has been created.";
 
                     }
                 }

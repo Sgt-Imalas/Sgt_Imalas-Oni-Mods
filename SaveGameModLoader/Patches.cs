@@ -20,6 +20,11 @@ using Klei;
 using YamlDotNet;
 using static TextureAtlas.AtlasData;
 using KMod;
+using static Database.MonumentPartResource;
+using System.Text;
+using UnityEngine.UI;
+using PeterHan.PLib.Core;
+using System.ComponentModel;
 
 namespace SaveGameModLoader
 {
@@ -82,8 +87,8 @@ namespace SaveGameModLoader
                 && meth.GetParameters().Last().ParameterType == typeof(UnityEngine.Transform)
                 && meth.GetParameters().First().ParameterType.IsGenericParameter
                 ).MakeGenericMethod(typeof(RectTransform));
-                
-                
+
+
                 //SgtLogger.l(GenericMethodInfo.Name + "::" + GenericMethodInfo, "postselect");
                 ///
 
@@ -107,7 +112,7 @@ namespace SaveGameModLoader
                     insertionIndex += 1;
                     code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, TransformIndex));//7
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, saveFileRootIndex));//6
-                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, ButtonLogic)); 
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, ButtonLogic));
 
                     //TranspilerHelper.PrintInstructions(code,true);
                 }
@@ -156,6 +161,155 @@ namespace SaveGameModLoader
             }
         }
 
+        [HarmonyPatch(typeof(KMod.Manager), nameof(KMod.Manager.NotifyDialog))]
+        public static class OnLoad_BetterModDifferenceScreen_Patch
+        {
+            public static bool Prefix(KMod.Manager __instance, string title, string message_format, GameObject parent)
+            {
+                if (title == global::STRINGS.UI.FRONTEND.MOD_DIALOGS.SAVE_GAME_MODS_DIFFER.TITLE && __instance.events.Count > 0)
+                {
+
+                    var eventList = __instance.events.OrderBy(entry => entry.mod.title).Distinct().ToList();
+
+
+
+                    ConfirmDialogScreen popUpGO =
+                        ((ConfirmDialogScreen)KScreenManager.Instance.StartScreen(ScreenPrefabs.Instance.ConfirmDialogScreen.gameObject, Global.Instance.globalCanvas));
+                    var newlyEnabled = new StringBuilder();
+                    var newlyDisabled = new StringBuilder();
+
+
+                    Event.GetUIStrings(EventType.ExpectedInactive, out var expectedInactive, out _);
+                    Event.GetUIStrings(EventType.ExpectedActive, out var expectedActive, out _);
+
+                    bool hadNewlyEnabled = false, hadNewlyDisabled = false;
+
+                    //for(int i = 0; i < 99; ++i)
+                    //{
+
+                    //    newlyEnabled.AppendLine(" s "+i);
+                    //}
+
+                    newlyEnabled.AppendLine();
+                    newlyDisabled.AppendLine();
+
+                    newlyEnabled.AppendLine(UIUtils.ColorText("<b>" + expectedInactive + ":</b>", GlobalAssets.Instance.colorSet.logicOnSidescreen));
+                    newlyDisabled.AppendLine(UIUtils.ColorText("<b>" + expectedActive + ":</b>",  GlobalAssets.Instance.colorSet.logicOffSidescreen));
+
+                    int changesOverLimit = 30;
+                    int changesOverLimitExAc = 0;
+                    int changesOverLimitExIn = 0;
+
+                    foreach (Event @event in eventList)
+                    {
+                        if (@event.event_type == EventType.ExpectedInactive)
+                        {
+                            hadNewlyEnabled = true;
+                            if (changesOverLimit >= 0)
+                            {
+                                changesOverLimit--;
+                                newlyEnabled.AppendLine("• " + @event.mod.title);
+                            }
+                            else
+                            {
+                                changesOverLimitExIn++;
+                            }
+                        }
+                        else if (@event.event_type == EventType.ExpectedActive)
+                        {
+                            hadNewlyDisabled = true; 
+                            if (changesOverLimit >= 0)
+                            {
+                                changesOverLimit--;
+                                newlyDisabled.AppendLine("• " + @event.mod.title);
+                            }
+                            else
+                            {
+                                changesOverLimitExAc++;
+                            }
+                        }
+                    }
+
+                    if (!hadNewlyDisabled && !hadNewlyEnabled)
+                        return false;
+
+                    string allMods =
+                        (hadNewlyEnabled ? newlyEnabled.ToString() : string.Empty)
+                        + (changesOverLimitExIn > 0 ? global::STRINGS.UI.FRONTEND.MOD_DIALOGS.ADDITIONAL_MOD_EVENTS.Replace("(", "(" + changesOverLimitExIn + " ").Replace("...",string.Empty) : string.Empty)
+                        + (hadNewlyDisabled ? newlyDisabled.ToString() : string.Empty)
+                        + (changesOverLimitExAc > 0 ? global::STRINGS.UI.FRONTEND.MOD_DIALOGS.ADDITIONAL_MOD_EVENTS.Replace("(", "(" + changesOverLimitExAc + " ").Replace("...", string.Empty) : string.Empty);
+                        ;
+
+                    string text = string.Format(global::STRINGS.UI.FRONTEND.MOD_DIALOGS.SAVE_GAME_MODS_DIFFER.MESSAGE, allMods);
+
+
+                    popUpGO.popupMessage.alignment = TMPro.TextAlignmentOptions.TopLeft;
+
+                    //var ScrollContainer = Util.KInstantiateUI(new GameObject("ScrollContainer"), popUpGO.transform.Find("GameObject").gameObject, true);
+                    //var ScrollRectt = Util.KInstantiateUI(new GameObject("ScrollRect"), ScrollContainer, true);
+                    //var textGo = popUpGO.popupMessage.gameObject;
+
+                    //var mask = ScrollContainer.AddOrGet<RectMask2D>();
+
+                    //ScrollContainer.transform.SetSiblingIndex(2);
+                    //var LE = ScrollContainer.AddOrGet<LayoutElement>();
+                    //LE.minHeight = 200;
+                    //LE.preferredHeight = 300;
+                    //LE.minWidth = 300;
+
+
+                    //var scroll = ScrollContainer.AddOrGet<ScrollRect>();
+                    //scroll.content = ScrollRectt.transform.rectTransform();
+                    //scroll.horizontal = false;
+                    //scroll.scrollSensitivity = 60;
+                    ////scroll.movementType = ScrollRect.MovementType.Clamped;
+                    //scroll.movementType = ScrollRect.MovementType.Elastic;
+                    //scroll.inertia = false;
+                    ////scroll.viewport = scroll.rectTransform();
+
+
+                    //var csf = ScrollRectt.AddOrGet<ContentSizeFitter>();
+                    //csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+                    //csf.SetLayoutVertical();
+                    //csf.enabled = true;
+                    ////csf.rectTransform().anchorMin = new(0, 0);
+                    ////csf.rectTransform().anchorMax = new(1, 1);
+
+                    ////var LE2 = ScrollRectt.AddOrGet<LayoutElement>();
+                    ////LE2.minWidth = 350;
+
+                    //var LG = ScrollRectt.AddOrGet<VerticalLayoutGroup>();
+                    //LG.childControlWidth = true;
+                    //LG.childForceExpandWidth = true;
+                    //LG.childAlignment = TextAnchor.UpperLeft;
+                    //LG.padding = new RectOffset(3, 3, 3, 3);
+
+
+
+                    //textGo.SetParent(ScrollRectt);
+                    //textGo.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 350);
+
+
+                    /////setting start pos
+                    //ScrollRectt.transform.rectTransform().pivot = new Vector2(0.5f, 0.99f);
+
+
+
+                    popUpGO.PopupConfirmDialog(text, null, null, null, null, global::STRINGS.UI.FRONTEND.MOD_DIALOGS.SAVE_GAME_MODS_DIFFER.TITLE, null, null, null);
+
+
+                    //SgtLogger.l("POPUPLISTING");
+                    //UIUtils.ListAllChildren(popUpGO.gameObject.transform);
+                    //SgtLogger.l("POPUPLISTING2");
+                    //UIUtils.ListAllChildrenWithComponents(popUpGO.gameObject.transform);
+                    //UtilMethods.ListAllPropertyValues(popUpGO.popupMessage);
+                    return false;
+                }
+                return true;
+            }
+        }
+
+
 
         [HarmonyPatch(typeof(ModsScreen), "Exit")]
         public static class SyncModeOff
@@ -179,7 +333,7 @@ namespace SaveGameModLoader
         [HarmonyPatch(typeof(ModsScreen), "OnActivate")]
         public static class ModsScreen_AddModListButton
         {
-            public  static void Postfix(ModsScreen __instance)
+            public static void Postfix(ModsScreen __instance)
             {
                 ///Add Modlist Button
                 var workShopButton = __instance.transform.Find("Panel/DetailsView/WorkshopButton");
@@ -200,7 +354,7 @@ namespace SaveGameModLoader
 
                 modlistButton.onClick += () =>
                 {
-                ///Util.KInstantiateUI(ScreenPrefabs.Instance.RailModUploadMenu.gameObject, modScreen.gameObject, true); ///HMMM; great if modified for modpack creation
+                    ///Util.KInstantiateUI(ScreenPrefabs.Instance.RailModUploadMenu.gameObject, modScreen.gameObject, true); ///HMMM; great if modified for modpack creation
                     var window = Util.KInstantiateUI(ScreenPrefabs.Instance.languageOptionsScreen.gameObject);
                     window.SetActive(false);
                     var copy = window.transform;
@@ -209,7 +363,7 @@ namespace SaveGameModLoader
                     newScreen.name = "ModListView";
                     newScreen.AddComponent(typeof(ModListScreen));
 
-                }; 
+                };
                 var closeButton = __instance.transform.Find("Panel/DetailsView/CloseButton");
                 //UIUtils.ListAllChildrenWithComponents(closeButton.transform);
                 closeButton.SetAsLastSibling();
@@ -220,14 +374,14 @@ namespace SaveGameModLoader
         {
             public static bool Prefix(LoadScreen __instance)
             {
-                if( __instance.name == "NODONTDOTHAT") return false;
+                if (__instance.name == "NODONTDOTHAT") return false;
 
                 ModlistManager.Instance.ParentObjectRef = __instance.transform.parent.gameObject;
                 ModlistManager.Instance.GetAllStoredModlists();
 
 
                 var ViewRootFinder = typeof(LoadScreen).GetField("colonyViewRoot", BindingFlags.NonPublic | BindingFlags.Instance);
-                
+
                 GameObject viewRoot = (GameObject)ViewRootFinder.GetValue(__instance);
 
                 HierarchyReferences references = viewRoot.GetComponent<HierarchyReferences>();
@@ -275,7 +429,7 @@ namespace SaveGameModLoader
 #if DEBUG
                 //UIUtils.ListAllChildren(__instance.transform);
 #endif
-                if(path==null||path == string.Empty)
+                if (path == null || path == string.Empty)
                 {
                     return;
                 }
@@ -283,8 +437,8 @@ namespace SaveGameModLoader
                 Transform parentBar;
                 Transform contButton;
 
-                if (DlcManager.IsExpansion1Active()) 
-                { 
+                if (DlcManager.IsExpansion1Active())
+                {
                     parentBar = __instance.transform.Find("MainMenuMenubar/MainMenuButtons");
                     contButton = __instance.transform.Find("MainMenuMenubar/MainMenuButtons/Button_ResumeGame");
                 }
@@ -294,30 +448,30 @@ namespace SaveGameModLoader
                     contButton = __instance.transform.Find("UI Group/TopRight/MainMenuButtons/Button_ResumeGame");
                 }
 
-                    var bt = Util.KInstantiateUI(contButton.gameObject, parentBar.gameObject, true);
+                var bt = Util.KInstantiateUI(contButton.gameObject, parentBar.gameObject, true);
 
-                    string colonyName = SaveGameModList.GetModListFileName(path);
+                string colonyName = SaveGameModList.GetModListFileName(path);
 
-                    var colony =  ModlistManager.Instance.TryGetColonyModlist(colonyName);
-                    bool interactable = colony != null ? colony.TryGetModListEntry(path)!=null : false;
+                var colony = ModlistManager.Instance.TryGetColonyModlist(colonyName);
+                bool interactable = colony != null ? colony.TryGetModListEntry(path) != null : false;
 
-                    var button = bt.GetComponent<KButton>();
-                    bt.name = "SyncAndContinue";
-                    var internalText = bt.transform.Find("ResumeText").GetComponent<LocText>();
+                var button = bt.GetComponent<KButton>();
+                bt.name = "SyncAndContinue";
+                var internalText = bt.transform.Find("ResumeText").GetComponent<LocText>();
 
-                    internalText.text = STRINGS.UI.FRONTEND.MODSYNCING.CONTINUEANDSYNC;
+                internalText.text = STRINGS.UI.FRONTEND.MODSYNCING.CONTINUEANDSYNC;
 
-                    button.isInteractable = interactable;
-                    button.ClearOnClick();
-                    button.onClick +=
-                    () =>
-                    {
-                        ModlistManager.Instance.InstantiateModViewForPathOnly(path);
-                    };
+                button.isInteractable = interactable;
+                button.ClearOnClick();
+                button.onClick +=
+                () =>
+                {
+                    ModlistManager.Instance.InstantiateModViewForPathOnly(path);
+                };
 
-                    ModlistManager.Instance.ParentObjectRef = __instance.gameObject;
-                    var SaveGameName = button.transform.Find("SaveNameText").gameObject;
-                    UnityEngine.Object.Destroy(SaveGameName);
+                ModlistManager.Instance.ParentObjectRef = __instance.gameObject;
+                var SaveGameName = button.transform.Find("SaveNameText").gameObject;
+                UnityEngine.Object.Destroy(SaveGameName);
             }
         }
 
@@ -325,8 +479,7 @@ namespace SaveGameModLoader
         /// <summary>
         /// On loading a savegame, store the mod config in the modlist.
         /// </summary>
-        [HarmonyPatch(typeof(SaveLoader), "Load")]
-        [HarmonyPatch(new System.Type[] { typeof(IReader) })]
+        [HarmonyPatch(typeof(SaveLoader), nameof(SaveLoader.Load), new System.Type[] { typeof(IReader) })]
         public static class LoadModConfigPatch
         {
             internal class SaveFileRoot
@@ -348,13 +501,13 @@ namespace SaveGameModLoader
             {
                 var savedButNotEnabledMods = saveFileRoot.active_mods;
                 savedButNotEnabledMods.Remove(savedButNotEnabledMods.Find(mod => mod.title == "SaveGameModLoader"));
-                
-                
+
+
                 bool init = ModlistManager.Instance.CreateOrAddToModLists(
-                    SaveLoader.GetActiveSaveFilePath(), 
+                    SaveLoader.GetActiveSaveFilePath(),
                     saveFileRoot.active_mods
                     );
-                
+
                 KPlayerPrefs.DeleteKey("AutoResumeSaveFile");
             }
 
@@ -381,10 +534,10 @@ namespace SaveGameModLoader
                 var saveFileRootIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, deserializerSearchIndex);
 
                 //foreach (var v in code) { SgtLogger.log(v.opcode + " -> " + v.operand); };
-                if (insertionIndex != -1&& saveFileRootIndex!=-1)
+                if (insertionIndex != -1 && saveFileRootIndex != -1)
                 {
-                     code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, saveFileRootIndex));
-                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, ScreenCreator));
+                    code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, saveFileRootIndex));
+                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, ScreenCreator));
                 }
 
                 return code;

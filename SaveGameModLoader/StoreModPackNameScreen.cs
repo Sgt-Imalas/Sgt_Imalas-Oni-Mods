@@ -1,5 +1,6 @@
 ﻿
 using KMod;
+using PeterHan.PLib.UI;
 using Steamworks;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,16 @@ namespace SaveGameModLoader
 #endif
             var TitleBar = transform.Find("Panel/Title_BG");
 
-            TitleBar.Find("Title").GetComponent<LocText>().text = ExportToFile?STRINGS.UI.FRONTEND.MODSYNCING.EXPORTMODLISTCONFIRMSCREEN: STRINGS.UI.FRONTEND.MODSYNCING.IMPORTMODLISTCONFIRMSCREEN;
+            int ModNumber = -1;
+            if (ExportToFile)
+            {
+                ModNumber = Global.Instance.modManager.mods.FindAll(mod => mod.IsEnabledForActiveDlc()).Select(mod => mod.label).Count();
+            }
+
+            TitleBar.Find("Title").GetComponent<LocText>().text =
+                ExportToFile
+                ? string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.EXPORTMODLISTCONFIRMSCREEN, ModNumber)
+                : STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.IMPORTMODLISTCONFIRMSCREEN;
             TitleBar.Find("CloseButton").GetComponent<KButton>().onClick += new System.Action(((KScreen)this).Deactivate);
 
             var ContentBar = transform.Find("Panel/Body");
@@ -39,6 +49,9 @@ namespace SaveGameModLoader
             textField = ContentBar.Find("LocTextInputField").GetComponent<KInputTextField>();
             textField.characterLimit = 300;
 
+            textField.placeholder.GetComponent<LocText>().text = ExportToFile ?
+                STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ENTERNAME
+                : STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ENTERCOLLECTIONLINK;
             CancelButtonGO.GetComponent<KButton>().onClick += new System.Action(((KScreen)this).Deactivate);
             
 
@@ -194,7 +207,7 @@ namespace SaveGameModLoader
                 
                 Progress = 0;
                 ((KScreen)parentTwo).Deactivate();
-                CreatePopup(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.SUCCESSTITLE, string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ADDEDNEW, ModListTitle));
+                CreatePopup(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.SUCCESSTITLE, string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ADDEDNEW, ModListTitle, mods.Count()));
             }
 
         }
@@ -272,7 +285,6 @@ namespace SaveGameModLoader
         {
             KMod.Manager.Dialog(Global.Instance.globalCanvas,
                 title, content);
-
         }
 
         private void QueryUGCDetails(PublishedFileId_t[] mods, CallResult<SteamUGCQueryCompleted_t> onQueryComplete)
@@ -427,6 +439,7 @@ namespace SaveGameModLoader
             var enabledModLabels = Global.Instance.modManager.mods.FindAll(mod => mod.IsEnabledForActiveDlc()).Select(mod => mod.label).ToList();
             ModlistManager.Instance.CreateOrAddToModPacks(fileName, enabledModLabels);
             ModlistManager.Instance.GetAllModPacks();
+            CreatePopup(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.EXPORTCONFIRMATION, string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.EXPORTCONFIRMATIONTOOLTIP, fileName, enabledModLabels.Count()));
         }
     }
 }
