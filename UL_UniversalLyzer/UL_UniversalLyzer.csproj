@@ -23,7 +23,7 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>&lt;color=#FF00DE&gt;Universal Electrolizer&lt;/color&gt;</ModName>
+		<ModName>&lt;color=#FF00DE&gt;Universal Electrolyzer&lt;/color&gt;</ModName>
 		<ModDescription></ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>561558</MinimumSupportedBuild>
