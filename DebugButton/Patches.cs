@@ -63,7 +63,29 @@ namespace DebugButton
                 else
                 {
                     KMonoBehaviour.PlaySound(GlobalAssets.GetSound("HUD_Click"));
+
                     DebugHandler.InstantBuildMode = !DebugHandler.InstantBuildMode;
+                    InterfaceTool.ToggleConfig(Action.DebugInstantBuildMode);
+                    if (Game.Instance == null)
+                        return;
+                    Game.Instance.Trigger(1557339983, null);
+                    if (PlanScreen.Instance != null)
+                        PlanScreen.Instance.Refresh();
+                    if (BuildMenu.Instance != null)
+                        BuildMenu.Instance.Refresh();
+                    if (OverlayMenu.Instance != null)
+                        OverlayMenu.Instance.Refresh();
+                    if (ConsumerManager.instance != null)
+                        ConsumerManager.instance.RefreshDiscovered();
+                    if (ManagementMenu.Instance != null)
+                    {
+                        ManagementMenu.Instance.CheckResearch(null);
+                        ManagementMenu.Instance.CheckSkills();
+                        ManagementMenu.Instance.CheckStarmap();
+                    }
+                    if (SelectTool.Instance.selected != null)
+                        DetailsScreen.Instance.Refresh(SelectTool.Instance.selected.gameObject);
+                    Game.Instance.Trigger(1594320620, "all_the_things");
                 }
                 UpdateDebugToggleState();
             }
