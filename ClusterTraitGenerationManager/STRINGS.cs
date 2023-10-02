@@ -21,6 +21,10 @@ namespace ClusterTraitGenerationManager
         }
         public class UI
         {
+            public class INFOTOOLTIPS
+            {
+                public static LocString INFO_ONLY = "These are for info only and are not configurable.";
+            }
             public class GENERATIONWARNING
             {
                 public static LocString WINDOWNAME = (LocString)"Potential Generation Errors detected!";
@@ -487,6 +491,7 @@ namespace ClusterTraitGenerationManager
             public class SEEDLOCK
             {
                 public static LocString NAME = (LocString)"Seed rerolling affects traits";
+                public static LocString NAME_SHORT = (LocString)"rerolling Traits:";
                 public static LocString TOOLTIP = (LocString)"When enabled, rerolling the seed will also reroll the planet traits to those of the new seed.\nDisable to reroll the seed without affecting the traits.\nOnly blocks trait rerolling for the seed setting above.";
             }
 

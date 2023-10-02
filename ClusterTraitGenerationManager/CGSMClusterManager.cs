@@ -952,6 +952,8 @@ namespace ClusterTraitGenerationManager
             return false;
         }
 
+
+
         public static ClusterLayout GenerateClusterLayoutFromCustomData()
         {
             SgtLogger.l("Started generating custom cluster");
@@ -1335,7 +1337,7 @@ namespace ClusterTraitGenerationManager
         public static bool RerollTraitsWithSeedChange = true;
         public static void RerollTraits()
         {
-            if (CustomCluster == null || (!RerollTraitsWithSeedChange && CustomSettingsController.Instance.IsCurrentlyActive))
+            if (CustomCluster == null || (!RerollTraitsWithSeedChange && CGM_Screen.IsCurrentlyActive))
                 return;
 
             int seed = int.Parse(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id);
@@ -1346,7 +1348,7 @@ namespace ClusterTraitGenerationManager
             for (int i = 0; i < planets.Count; i++)
             {
                 var FoundPlanet = planets[i];
-                if(FoundPlanet.world==null) continue;
+                if(FoundPlanet.world == null) continue;
 
                 FoundPlanet.ClearWorldTraits();
                 foreach (var planetTrait in SettingsCache.GetRandomTraits(seed + i, FoundPlanet.world))

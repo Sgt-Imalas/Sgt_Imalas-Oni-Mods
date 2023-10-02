@@ -309,7 +309,7 @@ namespace ClusterTraitGenerationManager
 
 
             var SeedLabel = transform.Find("Content/Seed/Label").gameObject.AddOrGet<LocText>();
-            SeedLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.WORLDGEN_SEED.NAME;
+            SeedLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.WORLDGEN_SEED.NAME+":";
             UIUtils.AddSimpleTooltipToObject(SeedLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.WORLDGEN_SEED.TOOLTIP,alignCenter:true,onBottom:true);
 
 
@@ -319,6 +319,10 @@ namespace ClusterTraitGenerationManager
             SeedRerollsTraitsToggle.OnClick += () =>
             {
                 CGSMClusterManager.RerollTraitsWithSeedChange = SeedRerollsTraitsToggle.On;
+                if (onCloseAction != null)
+                {
+                    onCloseAction.Invoke();
+                }
             };
 
             var seedRerollLabel = transform.Find("Content/SeedTraits/Label").gameObject.AddOrGet<LocText>();
