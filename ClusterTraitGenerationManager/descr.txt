@@ -4,7 +4,7 @@
 
 Gain nearly full control over each tiny detail of your cluster generation - manipulate each item on the star map individually!
 
-[h1]Current latest Version: 1.5.0[/h1]
+[h1]Current latest Version: 2.1.0[/h1]
 
 [hr][/hr]
 
@@ -21,6 +21,7 @@ If you forgot some settings (stuff like difficulty, story traits) on the normal 
 [h1]Features[/h1]
 [list]
 [*] Preset Generation from ALL clusters
+[*] All planets available as starter, teleporter and outer planet (exceptions: regolith, moo and superconductive moonlet)
 [*] Support for all modded planets (e.g. Baator, Roller Snakes, Other Cluster,...)
 [*] Configurable star map radius
 [*] Randomly selected planets/pois in each category
@@ -30,7 +31,7 @@ If you forgot some settings (stuff like difficulty, story traits) on the normal 
     [*] minimum distance to other planetoids
     [*] Asteroid Traits (support for modded traits like f.e. "Holes" from Empty Worlds, "Iron Core" from Solar System Worlds)
     [*] "Random Traits"-Trait
-    [*] Asteroid Size (currently only allows to create larger asteroids as trying to make them smaller ones breaks world generation)
+    [*] Asteroid Size 
     [*] Asteroid Meteor Seasons
     [*] (only random planets & pois): Number of instances that should be spawned[/list]
 [*] Save your favourite custom cluster to share them with friends or to replay them later
@@ -52,15 +53,18 @@ When a seed fails however, the config is kept, so you can retry with a different
 [h1]Compatible with [url=https://toolsnotincluded.net/map-tools/map-browser]ToolsNotIncluded Seeds:[/url] [/h1]
 Using a ToolsNotIncluded Seed as a Base will generate all planets that are normally in the cluster with the same world layouts. The star map layout however is NOT kept. Planetary Traits are imported from the seed, but can be changed in the CGM menu without altering the world layouts. (adding or removing Traits like "Magma Cannels" however WILL replace parts of the Asteroid since these traits add new sub-biomes)
 
-[h1]Compatible custom planet mods (examples):[/h1][list]
+[h1]Tested compatible custom planet mods:[/h1][list]
 [*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2582905897]Baator[/url]
 [*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2860569135]Roller Snakes[/url]
 [*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2879715930]Other Cluster[/url] 
 [*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2973000407]Minibase SO Edition[/url] (also adds 2 new POIs)
 [*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1930918856]Solar System Worlds[/url] (also adds a new Trait, Planets of this mod dont seem to generate well with added world traits)
 [*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1825146346]Empty Worlds[/url] (also adds a new Trait)
-[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2977857632]A new hope[/url]
+[*] [url=https://steamcommunity.com/id/Excs/myworkshopfiles/?appid=457140]Asteroid Mods by Excs[/url] 
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2994137080]Improved World Traits[/url] (No new worlds, but a large number of additional world traits)
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1810480011]Geo Apocalypse {Updated}[/url] (New Trait: 100 Geysers/Volcanoes)
 [/list]
+Note that this list contains mods that I tested, by default most mods that add planets should work aswell, I just didn't test those yet.
 
 [h1]Incompatible Mods:[/h1][list]
 [*]CGSM ("Cluster Generation Settings Manager", breaks worldgen)
@@ -69,27 +73,24 @@ Using a ToolsNotIncluded Seed as a Base will generate all planets that are norma
 
 [h1]Credits[/h1]
 Much Thanks to 3GuB for making the Random-Selection Art
-Much Thanks to 去码头整点薯条 for providing a chinese translation.
+Much Thanks to NOUS for providing the chinese localisation
 
 [hr][/hr]
 [h1]Translations[/h1]
 Current Languages:
 - English
 - German
-- Chinese by 去码头整点薯条
+- Chinese by NOUS
 
-[h1]Bug Reports[/h1]
-Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or my[url=https://discord.gg/5n7peBCnWZ] Discord[/url]. Always include the full player.log in a report
+[hr][/hr]
 
-Where to find the Log:
-[list]
-[*]Windows: 
-    C:\Users\%username%\AppData\LocalLow\Klei\Oxygen Not Included\Player.log
-[*]Mac: 
-    ~/Library/Logs/Klei/Oxygen Not Included/Player.log
-[*] Linux: 
-~/.config/unity3d/Klei/Oxygen Not Included/Player.log
-[/list] 
+[h1]Bug Reports & Local Download[/h1]
+You can find direct downloads for my mods [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases]here[/url] (please notify me if I forgot to release new versions).
+
+Please post bug reports and issues on [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or on my [url=https://discord.gg/5n7peBCnWZ]Discord Server[/url]. 
+[b]Always include the full player.log in a report: [/b] https://github.com/aki-art/ONI-Mods/wiki/How-to-send-a-log
+
+[b]Make sure you do NOT have the mod "Debug Console" enabled as it breaks the game's logging and makes the log useless for debugging![/b] 
 
 [hr][/hr]
 

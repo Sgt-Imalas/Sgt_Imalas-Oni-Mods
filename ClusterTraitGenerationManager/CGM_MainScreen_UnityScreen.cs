@@ -20,6 +20,7 @@ using static STRINGS.DUPLICANTS.PERSONALITIES;
 using Klei.CustomSettings;
 using ProcGen;
 using System.Text.RegularExpressions;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDTRAITS.CONTENT.TRAITCONTAINER.SCROLLAREA.CONTENT.LISTVIEWENTRYPREFAB;
 
 namespace ClusterTraitGenerationManager
 {
@@ -110,6 +111,8 @@ namespace ClusterTraitGenerationManager
         private GameObject ActiveTraitsContainer;
         private GameObject TraitPrefab;
         private FButton AddTraitButton;
+        private FButton RandomTraitBlacklistOpener;
+        private FButton RandomTraitDeleteButton;
 
 
         private GameObject PlanetBiomesGO;
@@ -342,12 +345,13 @@ namespace ClusterTraitGenerationManager
 
             ClusterSize.SetMinMaxCurrent(ringMin, ringMax, CustomCluster.Rings);
 
+            RandomTraitDeleteButton.SetInteractable(!isRandom);
             AddTraitButton.SetInteractable(IsPartOfCluster && !isRandom);
             AddSeasonButton.SetInteractable(IsPartOfCluster && !isRandom);
 
             AsteroidSize.SetActive(!current.IsPOI && !isRandom);
             MeteorSelector.SetActive(!current.IsPOI && !isRandom);
-            AsteroidTraits.SetActive(!current.IsPOI && !isRandom);
+            AsteroidTraits.SetActive(!current.IsPOI);
             PlanetBiomesGO.SetActive(!current.IsPOI && !isRandom);
             ActiveBiomesContainer.SetActive(!current.IsPOI && !isRandom);
 
@@ -361,7 +365,7 @@ namespace ClusterTraitGenerationManager
 
             if (current.IsPOI) return;
             RefreshMeteorLists();
-            RefreshTraitList(); 
+            RefreshTraitList();
             RefreshPlanetBiomes();
         }
 
@@ -633,6 +637,7 @@ namespace ClusterTraitGenerationManager
             AsteroidTraits = transform.Find("Details/Content/ScrollRectContainer/AsteroidTraits").gameObject;
             ActiveTraitsContainer = AsteroidTraits.transform.Find("Content/TraitContainer/ScrollArea/Content").gameObject;
             TraitPrefab = AsteroidTraits.transform.Find("Content/TraitContainer/ScrollArea/Content/ListViewEntryPrefab").gameObject;
+            TraitPrefab.SetActive(false);
 
             AddTraitButton = AsteroidTraits.transform.Find("Content/AddSeasonButton").FindOrAddComponent<FButton>();
 
@@ -724,7 +729,7 @@ namespace ClusterTraitGenerationManager
             {
                 var match = rx.Match(biomeTypePath);
                 string biomeName = string.Empty;
-                if (!match.Success|| match.Groups.Count<2)
+                if (!match.Success || match.Groups.Count < 2)
                 {
                     continue;
                 }
@@ -741,7 +746,7 @@ namespace ClusterTraitGenerationManager
                     var icon = biomeHolder.transform.Find("Image").GetComponent<Image>();
                     icon.sprite = biomeSprite;
 
-                    UIUtils.AddSimpleTooltipToObject(biomeHolder.transform, description,true,250,true);
+                    UIUtils.AddSimpleTooltipToObject(biomeHolder.transform, description, true, 250, true);
                     var LocTextName = biomeHolder.transform.Find("Label").GetComponent<LocText>();
                     LocTextName.fontSizeMax = 18f;
                     LocTextName.fontSizeMin = LocTextName.fontSize - 7f;
@@ -854,7 +859,7 @@ namespace ClusterTraitGenerationManager
             {
                 var TraitHolder = Util.KInstantiateUI(TraitPrefab, ActiveTraitsContainer, true);
                 //UIUtils.ListAllChildrenWithComponents(TraitHolder.transform);
-                var RemoveButton = TraitHolder.transform.Find("DeleteButton").gameObject.FindOrAddComponent<FButton>();
+                var RemoveButton = TraitHolder.transform.Find("DeleteButton").FindOrAddComponent<FButton>();
                 Strings.TryGet(kvp.Value.name, out var name);
                 Strings.TryGet(kvp.Value.description, out var description);
 
@@ -866,14 +871,22 @@ namespace ClusterTraitGenerationManager
 
                 icon.sprite = Assets.GetSprite(associatedIcon);
                 icon.color = Util.ColorFromHex(kvp.Value.colorHex);
-
-                if (kvp.Key.Contains(SpritePatch.randomTraitsTraitIcon))
+                if (kvp.Key == ModAssets.CustomTraitID)
                 {
+                    UIUtils.ListAllChildren(TraitHolder.transform);
                     combined = UIUtils.RainbowColorText(name.ToString());
+                    TraitHolder.transform.Find("AwailableRandomTraits").gameObject.SetActive(true);
+
+                    RandomTraitBlacklistOpener = TraitHolder.transform.Find("AwailableRandomTraits").FindOrAddComponent<FButton>();
+                    RandomTraitBlacklistOpener.gameObject.SetActive(true);
+                    UIUtils.AddSimpleTooltipToObject(RandomTraitBlacklistOpener.transform, AWAILABLERANDOMTRAITS.TOOLTIP);
+                    RandomTraitBlacklistOpener.OnClick += () => TraitSelectorScreen.InitializeView(null, () => RefreshTraitList(), true);
                 }
 
                 UIUtils.TryChangeText(TraitHolder.transform, "Label", combined);
                 UIUtils.AddSimpleTooltipToObject(TraitHolder.transform, description);
+
+
 
                 RemoveButton.OnClick += () =>
                 {
@@ -883,6 +896,12 @@ namespace ClusterTraitGenerationManager
                     }
                     RefreshTraitList();
                 };
+
+                if (kvp.Key == ModAssets.CustomTraitID)
+                {
+                    RandomTraitDeleteButton = RemoveButton;
+                }
+
                 Traits[kvp.Value.filePath] = TraitHolder;
             }
             RefreshTraitList();
@@ -890,7 +909,7 @@ namespace ClusterTraitGenerationManager
 
         public void RefreshPlanetBiomes()
         {
-            if (SelectedPlanet == null||SelectedPlanet.world==null)
+            if (SelectedPlanet == null || SelectedPlanet.world == null)
                 return;
             foreach (var biomeHolder in PlanetBiomes.Values)
             {
@@ -947,9 +966,16 @@ namespace ClusterTraitGenerationManager
             {
                 traitContainer.SetActive(false);
             }
-            foreach (var activeTrait in SelectedPlanet.CurrentTraits)
+            if (SelectedPlanet.IsRandom)
             {
-                Traits[activeTrait].SetActive(true);
+                Traits[ModAssets.CustomTraitID].SetActive(true);
+            }
+            else
+            {
+                foreach (var activeTrait in SelectedPlanet.CurrentTraits)
+                {
+                    Traits[activeTrait].SetActive(true);
+                }
             }
         }
         public static void SetResetButtonStates()

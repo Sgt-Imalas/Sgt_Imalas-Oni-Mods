@@ -16,7 +16,7 @@ namespace ClusterTraitGenerationManager
             public class CGM_RANDOMTRAIT
             {
                 public static LocString NAME = (LocString)"Randomized Traits";
-                public static LocString DESCRIPTION = (LocString)"Chooses between 1 and 3 Traits at random.\nMutually exclusive with other selectable Traits.";
+                public static LocString DESCRIPTION = (LocString)"Chooses between 1 and 3 Traits at random.\n(Between 0 and 2 for random planets)\nMutually exclusive with other selectable Traits.";
             }
         }
         public class UI
@@ -302,6 +302,14 @@ namespace ClusterTraitGenerationManager
                                                 {
                                                     public static LocString LABEL = (LocString)"No Traits";
                                                 }
+                                                public class LISTVIEWENTRYPREFAB
+                                                {
+                                                    public class AWAILABLERANDOMTRAITS
+                                                    {
+                                                        public static LocString LABEL = (LocString)"Blacklist Traits";
+                                                        public static LocString TOOLTIP = (LocString)"Disable Traits you want to not show up as random traits.";
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -458,12 +466,20 @@ namespace ClusterTraitGenerationManager
                                     public static LocString TEXT = (LocString)"Add this trait";
 
                                 }
+                                public class TOGGLETRAITBUTTON
+                                {
+                                    public static LocString ADDTOBLACKLIST = "Disable as Random";
+                                    public static LocString ADDTOBLACKLISTTOOLTIP = "Prevent the Trait from generating as a random trait";
+                                    public static LocString REMOVEFROMBLACKLIST = "Enable as Random";
+                                    public static LocString REMOVEFROMBLACKLISTTOOLTIP = "Allows the Trait generating as a random trait";
+
+                                }
                             }
                         }
                     }
                     public class CANCELBUTTON
                     {
-                        public static LocString TEXT = (LocString)"Cancel";
+                        public static LocString TEXT = (LocString)"Close";
                     }
                 }
             }

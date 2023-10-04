@@ -1026,11 +1026,17 @@ namespace ClusterTraitGenerationManager
             {
                 if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null)
                 {
-                    var traitIDs = CGSMClusterManager.CustomCluster.GiveWorldTraitsForWorldGen(world);
+                    var traitIDs = CGSMClusterManager.CustomCluster.GiveWorldTraitsForWorldGen(world, seed);
+                    //SgtLogger.l(world.filePath, "World");
+
+                    //foreach (var traits in  traitIDs)
+                    //{
+                    //    SgtLogger.l(traits, "TRAITID");
+                    //}
 
                     if (traitIDs.Count > 0)
                     {
-                        List<WorldTrait> list = new List<WorldTrait>(SettingsCache.worldTraits.Values);
+                        //List<WorldTrait> list = new List<WorldTrait>(SettingsCache.worldTraits.Values);
 
                         __result = new List<string>();
                         foreach (var trait in traitIDs)
@@ -1044,7 +1050,7 @@ namespace ClusterTraitGenerationManager
                 }
                 return true;
             }
-            public static void Postfix(ProcGen.World world, ref List<string> __result)
+            public static void Postfix(int seed, ProcGen.World world,  ref List<string> __result)
             {
                 if (__result.Count > 0)
                 {
@@ -1052,7 +1058,7 @@ namespace ClusterTraitGenerationManager
                     int replaceCount = 0;
                     foreach (var trait in __result)
                     {
-                        if (!trait.Contains("CGMRandomTraits"))
+                        if (trait != ModAssets.CustomTraitID)
                         {
                             list.Add(trait);
                         }
@@ -1061,7 +1067,7 @@ namespace ClusterTraitGenerationManager
                     }
                     if (replaceCount > 0)
                     {
-                        __result = CGSMClusterManager.CustomClusterData.AddRandomTraitsForWorld(list, world, replaceCount);
+                        __result = CGSMClusterManager.CustomClusterData.AddRandomTraitsForWorld(list, world, replaceCount, seed);
                     }
                 }
             }

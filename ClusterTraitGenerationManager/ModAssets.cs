@@ -107,7 +107,7 @@ namespace ClusterTraitGenerationManager
             RandomizedTraitsTrait.name = "STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT.NAME";
             RandomizedTraitsTrait.description = "STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT.DESCRIPTION";
             RandomizedTraitsTrait.colorHex = "FFFFFF";
-            RandomizedTraitsTrait.filePath = "traits/CGMRandomTraits";
+            RandomizedTraitsTrait.filePath = CustomTraitID;
         }
         public static readonly string CustomTraitID = "traits/CGMRandomTraits";
         public static WorldTrait RandomizedTraitsTrait;
