@@ -71,19 +71,37 @@ namespace BawoonFwiend
         }
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
+            go.AddOrGet<Operational>();
             Storage storage = go.AddOrGet<Storage>();
             storage.SetDefaultStoredItemModifiers(Storage.StandardFabricatorStorage);
+            storage.capacityKg=Config.Instance.GasMass*20f;
+            
             ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
             conduitConsumer.conduitType = ConduitType.Gas;
             conduitConsumer.capacityTag = ModAssets.Tags.BalloonGas;
-            conduitConsumer.capacityKG = 20f;
+            conduitConsumer.capacityKG = Config.Instance.GasMass * 20f;
             conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
             go.AddOrGet<LogicOperationalController>();
+
+            ManualDeliveryKG manualDeliveryKg = go.AddOrGet<ManualDeliveryKG>();
+            manualDeliveryKg.storage = storage;
+            manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
+            manualDeliveryKg.RequestedItemTag =  ModAssets.Tags.BalloonGas; //SimHashes.Hydrogen.CreateTag();//
+            manualDeliveryKg.capacity = Config.Instance.GasMass * 20f;
+            manualDeliveryKg.refillMass = Config.Instance.GasMass * 20f / 4f;
+            //manualDeliveryKg.allowPause = true;
+            manualDeliveryKg.MinimumMass = 1f;
+            manualDeliveryKg.paused = true;
+            manualDeliveryKg.operationalRequirement = Operational.State.None;
+
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.RecBuilding);
             go.AddOrGet<Bawoongiver>();
             go.AddOrGet<BawoongiverWorkable>();
             go.AddOrGet<EnergyConsumer>();
+
+
+
 
             RoomTracker roomTracker = go.AddOrGet<RoomTracker>();
             roomTracker.requiredRoomType = Db.Get().RoomTypes.RecRoom.Id;

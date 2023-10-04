@@ -17,7 +17,7 @@ namespace BawoonFwiend
     {
         [Option("STRINGS.MODCONFIG.GASMASS.NAME", "STRINGS.MODCONFIG.GASMASS.TOOLTIP")]
         [JsonProperty]
-        [Limit(0.1f, 10f)]
+        [Limit(0.1f, 8f)]
         public float GasMass { get; set; }
 
         [Option("STRINGS.MODCONFIG.STATBOOST.NAME", "STRINGS.MODCONFIG.STATBOOST.TOOLTIP")]
@@ -27,7 +27,7 @@ namespace BawoonFwiend
         public Config()
         {
             MachineGivenBalloonBuff = 3;
-            GasMass = 5f;
+            GasMass = 2f;
         }
     }
 }

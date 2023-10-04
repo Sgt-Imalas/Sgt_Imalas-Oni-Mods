@@ -20,6 +20,7 @@ namespace BawoonFwiend
 
         private GameObject stateButtonPrefab;
         private GameObject PlaceStationButton;
+        private GameObject ToggleManualDeliveryButton;
         private GameObject flipButton;
         private Dictionary<BalloonSkinByIndex, MultiToggle> buttons = new Dictionary<BalloonSkinByIndex, MultiToggle>();
         //private Dictionary<SpaceStationWithStats, MultiToggle> buttons = new Dictionary<SpaceStationWithStats, MultiToggle>();
@@ -38,7 +39,7 @@ namespace BawoonFwiend
             //PlaceStationButton.SetActive(false);
             //UIUtils.TryChangeText(PlaceStationButton.transform, "Label", "MakeOrBreakSpaceStation");
             RandomButtonImage = flipButton.transform.Find("FG").GetComponent<Image>();
-
+            //UIUtils.ListAllChildren(this.transform, PreAmblel:"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") ;
 
             if (PlaceStationButton.TryGetComponent<KImage>(out var sourceBtn) && flipButton.TryGetComponent<KImage>(out var targetButton))
             {
@@ -46,6 +47,8 @@ namespace BawoonFwiend
                 targetButton.ApplyColorStyleSetting();
             }
 
+            
+            UIUtils.AddActionToButton(ToggleManualDeliveryButton.transform, "", () => { TargetBalloonStand.ToggleManualDelivery(); RefreshButtons(); });
             UIUtils.AddActionToButton(PlaceStationButton.transform, "", () => { TargetBalloonStand.ToggleAll(); RefreshButtons(); });
             UIUtils.AddActionToButton(flipButton.transform, "", () => { TargetBalloonStand.ToggleFullyRandom(); RefreshButtons(); });
             //Game.Instance.Subscribe((int)GameHashes.ResearchComplete, RefreshAll);
@@ -72,6 +75,15 @@ namespace BawoonFwiend
             PlaceStationButton = transform.Find("Butttons/ApplyButton").gameObject;
             flipButton = transform.Find("Butttons/ClearStyleButton").gameObject;
             RandomButtonImage = flipButton.transform.Find("FG").GetComponent<Image>();
+
+
+            var buttons = transform.Find("Butttons");
+            var toggle = Util.KInstantiateUI(buttons.gameObject, transform.gameObject).transform;
+            toggle.SetAsLastSibling();
+            toggle.Find("ClearStyleButton").gameObject.SetActive(false);
+            ToggleManualDeliveryButton = toggle.transform.Find("ApplyButton").gameObject;
+
+
             GenerateStateButtons();
 
             PlaceStationButton.GetComponent<ToolTip>().enabled = false;
@@ -97,6 +109,7 @@ namespace BawoonFwiend
                     InitLinks();
                     //GenerateStateButtons();
                     GenerateStateButtons();
+                    RefreshButtons();
                 }
             }
         }
@@ -104,6 +117,7 @@ namespace BawoonFwiend
         void RefreshStrings()
         {
             bool toggleAll = TargetBalloonStand == null ? false : TargetBalloonStand.ToggleAllBtnOn;
+            bool manualDeliveryEnabled = TargetBalloonStand == null ? false : TargetBalloonStand.UseManualDelivery;
             bool toggleAllRandom = TargetBalloonStand == null ? false : TargetBalloonStand.AllRandom;
             UIUtils.TryChangeText(PlaceStationButton.transform, "Label", toggleAll
                 ? STRINGS.UI.UISIDESCREENS.BF_BALLOONSTAND.TOGGLEALLOFF
@@ -117,6 +131,14 @@ namespace BawoonFwiend
             UIUtils.AddSimpleTooltipToObject(flipButton.transform.Find("FG"), toggleAllRandom
                 ? STRINGS.UI.UISIDESCREENS.BF_BALLOONSTAND.ALLRANDOMYES
                 : STRINGS.UI.UISIDESCREENS.BF_BALLOONSTAND.ALLRANDOMNO);
+
+            UIUtils.TryChangeText(ToggleManualDeliveryButton.transform, "Label", manualDeliveryEnabled
+                ? STRINGS.UI.UISIDESCREENS.BF_BALLOONSTAND.DISABLEMANUALDELIVERY
+                : STRINGS.UI.UISIDESCREENS.BF_BALLOONSTAND.ENABLEMANUALDELIVERY);
+
+            UIUtils.AddSimpleTooltipToObject(ToggleManualDeliveryButton.transform, manualDeliveryEnabled
+                ? STRINGS.UI.UISIDESCREENS.BF_BALLOONSTAND.DISABLEMANUALDELIVERYTOOLTIP
+                : STRINGS.UI.UISIDESCREENS.BF_BALLOONSTAND.ENABLEMANUALDELIVERYTOOLTIP);
         }
 
         // Creates clickable card buttons for all the lamp types + a randomizer button

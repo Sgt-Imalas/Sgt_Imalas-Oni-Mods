@@ -37,8 +37,18 @@ namespace BawoonFwiend
         [Serialize]
         int nextIndex = -1;
 
-        [MyCmpGet]
+        [Serialize]
+        public bool UseManualDelivery=false;
+        [MyCmpReq]
+        ConduitConsumer ConduitConsumer;
+        [MyCmpReq]
+        ManualDeliveryKG manualDelivery;
+        [MyCmpReq]
+        RequireInputs requireInput;
+
+        [MyCmpReq]
         Storage storage;
+
 
         [Serialize]
         List<BalloonOverrideSymbol> ActiveSkinOverrides = new List<BalloonOverrideSymbol>();
@@ -73,6 +83,24 @@ namespace BawoonFwiend
             }
         }
 
+        public void ToggleManualDelivery()
+        {
+            UseManualDelivery = !UseManualDelivery;
+            UpdateManualDelivery();
+        }
+        public void UpdateManualDelivery()
+        {
+            ConduitConsumer.SetOnState(!UseManualDelivery);
+            ConduitConsumer.forceAlwaysSatisfied = UseManualDelivery;
+            ConduitConsumer.satisfied = UseManualDelivery;
+
+            requireInput.CheckRequirements(true);
+            //requireInput.SetRequirements(true, !UseManualDelivery);
+            //requireInput.requireConduitHasMass = !UseManualDelivery;
+
+            manualDelivery.Pause(!UseManualDelivery,"toggled");
+            manualDelivery.UpdateDeliveryState();
+        }
         public void UpdateActives()
         {
             var currentSkin = ActiveSkinOverrides.Count == 0 || currentIndex == -1 ? default(BalloonOverrideSymbol) : ActiveSkinOverrides[currentIndex];
@@ -344,6 +372,7 @@ namespace BawoonFwiend
             base.OnSpawn();
             this.smi.StartSM();
             UpdatePossibleBalloonSkins();
+            UpdateManualDelivery();
             //OverwriteSymbol();
         }
 
@@ -464,8 +493,6 @@ namespace BawoonFwiend
                 public State pumpingBloon;
             }
         }
-
-
 
         public class StatesInstance :
           GameStateMachine<States, StatesInstance, Bawoongiver, object>.GameInstance
