@@ -198,9 +198,14 @@ namespace UtilLibs
             }
         }
 
-        public static void ListAllChildren(Transform parent, int level = 0, int maxDepth = 10)
+        public static void ListAllChildren(Transform parent,  int level = 0, int maxDepth = 10, string PreAmblel = "")
         {
             if (level >= maxDepth) return;
+
+            if (level == 0 && PreAmblel.Length > 0)
+            {
+                SgtLogger.l(PreAmblel);
+            }
 
             foreach (Transform child in parent)
             {

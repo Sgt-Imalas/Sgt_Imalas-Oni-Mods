@@ -45,6 +45,7 @@ namespace ShockWormMob
         public float GetSliderMin(int index) => 0;
 
         public string GetSliderTooltip() => "SelectEvent";
+        public string GetSliderTooltip(int i) => "SelectEvent";
 
         public string GetSliderTooltipKey => "";
 

@@ -49,10 +49,11 @@ namespace SaveGameModLoader
                     catch (Exception e)
                     {
                         migrationSuccessful = false;
-                        SgtLogger.logError("Error while moving file from legacy folder, Error: " + e);
+                       // SgtLogger.logError("Error while moving file from legacy folder, Error: " + e);
                     }
                 }
-                SgtLogger.l("Migrated save mod profiles to new directory");
+                if(migrationSuccessful)
+                    SgtLogger.l("Migrated save mod profiles to new directory");
             }
             else
                 migrationSuccessful = false;
@@ -68,10 +69,11 @@ namespace SaveGameModLoader
                     catch (Exception e)
                     {
                         migrationSuccessful = false;
-                        SgtLogger.logError("Error while moving file from legacy folder, Error: " + e);
+                       // SgtLogger.logError("Error while moving file from legacy folder, Error: " + e);
                     }
                 }
-                SgtLogger.l("Migrated custom mod profiles to new directory");
+                if (migrationSuccessful)
+                    SgtLogger.l("Migrated custom mod profiles to new directory");
             }
             else
                 migrationSuccessful = false;

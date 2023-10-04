@@ -628,7 +628,7 @@ namespace Rockets_TinyYetBig.Patches
                             for (int j = 0; j < ArtifactModules.Count; ++j)
                             {
                                 var aModule = ArtifactModules[j];
-                                GameObject gameObject = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.artifactModuleLabels, rocketStatusContainer.gameObject, "artifactModule_" + j);
+                                GameObject gameObject = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.artifactModuleLabels, rocketStatusContainer, "artifactModule_" + j);
 
                                 string text2 = string.Empty;
                                 text2 = ((!(aModule.Occupant != null)) ? $"{aModule.GetProperName()}: {(global::STRINGS.UI.CLUSTERMAP.ROCKETS.ARTIFACT_MODULE.EMPTY)}" : (aModule.GetProperName() + ": " + aModule.Occupant.GetProperName()));
@@ -665,7 +665,7 @@ namespace Rockets_TinyYetBig.Patches
                                     var currentCargoBay = currentModule.CargoBay;
                                     ListPool<Tuple<string, TextStyleSetting>, SimpleInfoScreen>.PooledList pooledList = ListPool<Tuple<string, TextStyleSetting>, SimpleInfoScreen>.Allocate();
 
-                                    GameObject RowEntry = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.cargoBayLabels, rocketStatusContainer.gameObject, "cargoBay_" + j);
+                                    GameObject RowEntry = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.cargoBayLabels, rocketStatusContainer, "cargoBay_" + j);
 
                                     Transform transform = RowEntry.transform.Find("removeAttributeButton");
                                     if (transform != null)
@@ -701,7 +701,7 @@ namespace Rockets_TinyYetBig.Patches
                                 else if (currentModule.CritterModule != null)
                                 {
                                     var critterHolder = currentModule.CritterModule;
-                                    GameObject RowEntry = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.cargoBayLabels, rocketStatusContainer.gameObject, "cargoBay_" + j);
+                                    GameObject RowEntry = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.cargoBayLabels, rocketStatusContainer, "cargoBay_" + j);
                                     string CargobayText = $"{critterHolder.GetComponent<KPrefabID>().GetProperName()}: {Util.FormatWholeNumber(critterHolder.CurrentCapacity)}/{Util.FormatWholeNumber(Config.Instance.CritterStorageCapacity)}";
                                     string ToolTip = critterHolder.GetStatusItem();
 
@@ -721,7 +721,7 @@ namespace Rockets_TinyYetBig.Patches
                                 else if (currentModule.HepBatteryModule != null)
                                 {
                                     var HepBattery = currentModule.HepBatteryModule;
-                                    GameObject RowEntry = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.cargoBayLabels, rocketStatusContainer.gameObject, "cargoBay_" + j);
+                                    GameObject RowEntry = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.cargoBayLabels, rocketStatusContainer, "cargoBay_" + j);
                                     string CargobayText = $"{HepBattery.GetComponent<KPrefabID>().GetProperName()}: {Util.FormatWholeNumber(HepBattery.hepStorage.Particles)}/{Util.FormatWholeNumber(HepBattery.hepStorage.capacity)}";
                                     string ToolTip = string.Empty;
 

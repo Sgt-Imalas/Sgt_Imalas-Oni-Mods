@@ -46,7 +46,8 @@ namespace LightBridge.Buildings
         public string GetSliderTooltipKey(int index)=> "STRINGS.UI.UISIDESCREENS.LIGHTBRIDGESIDESCREEN.DESC";
 
         public string GetSliderTooltip() => STRINGS.UI.UISIDESCREENS.LIGHTBRIDGESIDESCREEN.DESC;
-#endregion
+        public string GetSliderTooltip(int _) => STRINGS.UI.UISIDESCREENS.LIGHTBRIDGESIDESCREEN.DESC;
+        #endregion
 
         int lastLength = 0;
 

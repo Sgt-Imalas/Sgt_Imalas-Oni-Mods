@@ -23,7 +23,7 @@ namespace UL_UniversalLyzer
 
         public static void InitializeOrUpdateLyzerPowerCosts()
         {
-
+            SgtLogger.l("updating Lyzer config");
             AddLyzerConfiguration(SimHashes.Water, new ElementConverter.ConsumedElement[1]
             {
                     new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 1f)
@@ -108,6 +108,7 @@ namespace UL_UniversalLyzer
             Config.Instance.consumption_brine,
             Config.Instance.PressureThresholdMass_brine
             );
+            SgtLogger.l("Lyzer config updated");
         }
 
         public static float GetWattageForElement(SimHashes element)

@@ -186,7 +186,7 @@ namespace UL_UniversalLyzer
         //{
         //    return Convert.ChangeType(obj, castTo);
         //}
-        public static void ModIntegration_PipedEverything(GameObject go)
+        public static void ModIntegration_PipedEverything()
         {
             PipedEverything_PipedEverythingState_Type = Type.GetType("PipedEverything.PipedEverythingState, PipedEverything", false, false);
 
@@ -218,9 +218,33 @@ namespace UL_UniversalLyzer
                     typeof(int),
                     typeof(string[]),
                     typeof(Color32?),
-                    typeof(int?),
-                    typeof(float?)
+                    typeof(float?),
+                    typeof(int?)
                 });
+
+            if(m_AddConfig == null)
+            {
+                SgtLogger.warning("normal AddConfig method was null, trying to get obsolete variant..");
+                m_AddConfig = AccessTools.Method(PipedEverything_PipedEverythingState_Type, "AddConfig",
+                new[]
+                {
+                    typeof(string),
+                    typeof(bool),
+                    typeof(int),
+                    typeof(int),
+                    typeof(string[]),
+                    typeof(Color32?),
+                    typeof(int?),
+                    typeof(int?)
+                });
+            }
+
+
+            if(m_AddConfig == null  || m_RemoveConfig == null)
+            {
+                SgtLogger.warning("Failed to initialize Piped Everything methods");
+                return;
+            }
 
 
             if (!Config.Instance.IsPiped)
@@ -263,7 +287,7 @@ namespace UL_UniversalLyzer
             }
             public static void Prefix(GameObject go)
             {
-                ModIntegration_PipedEverything(go);
+                ModIntegration_PipedEverything();
             }
         }
 
