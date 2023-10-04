@@ -97,18 +97,18 @@ namespace Imalas_TwitchChaosEvents
             }
         }
 
-        [HarmonyPatch(typeof(ComplexFabricatorSideScreen), "AnyRecipeRequirementsDiscovered")]
-        public class ComplexFabricatorSideScreen_AnyRecipeRequirementsDiscovered_Patch
-        {
-            public static void Postfix(ComplexRecipe recipe, ref bool __result)
-            {
-                if (ChaosTwitch_SaveGameStorage.Instance == null)
-                    return;
+        //[HarmonyPatch(typeof(ComplexFabricatorSideScreen), "AnyRecipeRequirementsDiscovered")]
+        //public class ComplexFabricatorSideScreen_AnyRecipeRequirementsDiscovered_Patch
+        //{
+        //    public static void Postfix(ComplexRecipe recipe, ref bool __result)
+        //    {
+        //        if (ChaosTwitch_SaveGameStorage.Instance == null)
+        //            return;
 
-                if (recipe.id == TacoConfig.ID)
-                    __result = ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe;
-            }
-        }
+        //        if (recipe.id == TacoConfig.ID)
+        //            __result = ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe;
+        //    }
+        //}
 
         public static class Rainbow_Liquid_Patch
         {

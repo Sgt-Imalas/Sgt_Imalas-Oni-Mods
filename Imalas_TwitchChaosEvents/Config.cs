@@ -39,7 +39,7 @@ namespace Imalas_TwitchChaosEvents
             TacoEventMusic = false;
             FakeTacoEventDuration = 50;
 
-            FogDuration = 2.0f;
+            FogDuration = 1.0f;
         }       
 
     }

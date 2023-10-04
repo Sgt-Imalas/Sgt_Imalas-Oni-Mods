@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UtilLibs;
 
 namespace Imalas_TwitchChaosEvents.BeeGeyser
 {
@@ -19,15 +20,22 @@ namespace Imalas_TwitchChaosEvents.BeeGeyser
         KBatchedAnimController animController;
         public override void OnSpawn()
         {
-            base.OnSpawn();
             animController.flipY = true;
+            animController.offset = new UnityEngine.Vector3(0, 4);
+            base.OnSpawn();
         }
 
 
 
         public void Sim200ms(float dt)
         {
+            animController.Play("erupt");
+            animController.onAnimComplete += (s) => SpawnBee(s);
+        }
 
+        private void SpawnBee(HashedString s)
+        {
+            SgtLogger.l(s.ToString(), "hashed");
         }
     }
 }

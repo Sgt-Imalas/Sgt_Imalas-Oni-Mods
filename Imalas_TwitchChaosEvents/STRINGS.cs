@@ -130,7 +130,7 @@ namespace Imalas_TwitchChaosEvents
         {
             public class ITCE_LIQUID_POOP
             {
-                public static LocString NAME = FormatAsLink("Diarrhea", nameof(ITCE_INVERSE_ICE));
+                public static LocString NAME = FormatAsLink("Liquid Poop", nameof(ITCE_LIQUID_POOP));
                 public static LocString DESC = "It smells as bad as it looks...";
             }
             public class ITCE_INVERSE_ICE
@@ -219,7 +219,13 @@ namespace Imalas_TwitchChaosEvents
                 public static LocString TOAST = "Shart";
                 public static LocString TOASTTEXT = "All Duplicants have sharted. What was in that Frost Burger?";
             }
-
+            public class MOPED
+            {
+                public static LocString NAME = "Moped";
+                public static LocString MOPEDTEXT = "Moped ";
+                public static LocString TOAST = "Moped!";
+                public static LocString TOASTTEXT = "Moped!";
+            }
             public class INVERSEELEMENT
             {
                 public static LocString NAME = "Doolf";

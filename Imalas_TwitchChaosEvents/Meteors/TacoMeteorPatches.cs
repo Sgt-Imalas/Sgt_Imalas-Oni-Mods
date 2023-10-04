@@ -65,6 +65,8 @@ namespace Imalas_TwitchChaosEvents
                 if (e.TryConsume(ModAssets.HotKeys.UnlockTacoRecipe.GetKAction()))
                 {
                     ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe = true;
+                    if(Research.Instance==null)
+                        Research.Instance.Get(ModAssets.Techs.TacoTech)?.Purchased();
                     //ToastManager.InstantiateToast(STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE_TITLE, STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE_BODY);
                 }
                 else if ( e.TryConsume(ModAssets.HotKeys.TriggerTacoRain.GetKAction()))
@@ -141,6 +143,8 @@ namespace Imalas_TwitchChaosEvents
                     fabricators = new List<Tag> { GourmetCookingStationConfig.ID },
                     sortOrder = 900
                 };
+
+                TacoConfig.recipe.requiredTech = ModAssets.Techs.TacoTechID;
             }
         }
     }

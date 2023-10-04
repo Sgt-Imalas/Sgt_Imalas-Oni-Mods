@@ -41,9 +41,9 @@ namespace Imalas_TwitchChaosEvents.BeeGeyser
             component.Temperature = UtilMethods.GetKelvinFromC(666) ;
             placedEntity.AddOrGet<Prioritizable>();
 
-            Studyable studyable = placedEntity.AddOrGet<Studyable>();
-            studyable.meterTrackerSymbol = "geotracker_target";
-            studyable.meterAnim = "tracker";
+            //Studyable studyable = placedEntity.AddOrGet<Studyable>();
+            //studyable.meterTrackerSymbol = "geotracker_target";
+            //studyable.meterAnim = "tracker";
             placedEntity.AddOrGet<LoopingSounds>();
             placedEntity.AddOrGet<BeeGeyser>();
             SoundEventVolumeCache.instance.AddVolume("geyser_side_steam_kanim", "Geyser_shake_LP", NOISE_POLLUTION.NOISY.TIER5);

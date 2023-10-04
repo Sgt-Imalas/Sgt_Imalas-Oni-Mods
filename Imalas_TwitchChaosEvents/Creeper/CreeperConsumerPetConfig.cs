@@ -79,7 +79,7 @@ namespace Imalas_TwitchChaosEvents.Creeper
             //    butcherable.SetDrops(drops.ToArray());
             //}
 
-            placedEntity.AddComponent<CreeperConverter>();
+            //placedEntity.AddComponent<CreeperConverter>();
             placedEntity.AddOrGet<OilFloaterMovementSound>().sound = "OilFloaterBaby_move_LP";
 
             return placedEntity;

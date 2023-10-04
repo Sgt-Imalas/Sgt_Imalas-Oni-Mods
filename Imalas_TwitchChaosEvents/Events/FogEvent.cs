@@ -45,7 +45,7 @@ namespace Imalas_TwitchChaosEvents.Events
             SgtLogger.l(CameraController.Instance.baseCamera.transform.position.ToString(), "CAMERA");
 
 
-            GameScheduler.Instance.Schedule("fog removal", Mathf.Max(Config.Instance.FogDuration * 600f, 600f), _ =>
+            GameScheduler.Instance.Schedule("fog removal", Mathf.Max(Config.Instance.FogDuration * 600f, 300f), _ =>
             {
                 ToastManager.InstantiateToast(
                 STRINGS.CHAOSEVENTS.FOG.TOAST,

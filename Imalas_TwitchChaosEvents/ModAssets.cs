@@ -11,6 +11,11 @@ namespace Imalas_TwitchChaosEvents
 {
     public class ModAssets
     {
+        public class Techs
+        {
+            public static string TacoTechID = "ITCE_TacoTech";
+            public static Tech TacoTech;
+        }
         public class WaterCoolerDrinks
         {
             public static Dictionary<Tag, string> Beverages = new Dictionary<Tag, string>()
