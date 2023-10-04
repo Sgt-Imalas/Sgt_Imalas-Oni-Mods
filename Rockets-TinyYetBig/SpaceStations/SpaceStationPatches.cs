@@ -186,7 +186,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                 //AudioMixer.instance.Stop(AudioMixerSnapshots.Get().MediumRocketInteriorReverbSnapshot);
 
                 WorldContainer world = __instance.GetWorld(worldId);
-                if (world.IsModuleInterior && world.TryGetComponent<SpaceStation>(out var station))
+                if (world!= null && world.IsModuleInterior && world.TryGetComponent<SpaceStation>(out _))
                     return false;
                 return true;
             }
@@ -304,7 +304,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         {
             public static void Postfix(WorldContainer __instance, ref Vector2 __result)
             {
-                if (__instance.TryGetComponent<SpaceStation>(out var spaceStation))
+                if (!__instance.IsNullOrDestroyed()&& __instance.TryGetComponent<SpaceStation>(out var spaceStation))
                 {
                     __result = Vector2.Min(__result, __instance.WorldOffset + spaceStation.topRightCorner);
                 }
@@ -317,12 +317,13 @@ namespace Rockets_TinyYetBig.SpaceStations
         {
             public static void Postfix(WorldContainer __instance, ref Vector2 __result)
             {
-                if (__instance.TryGetComponent<SpaceStation>(out var spaceStation))
+                if (!__instance.IsNullOrDestroyed() && __instance.TryGetComponent<SpaceStation>(out var spaceStation))
                 {
                     __result = Vector2.Max(__result,__instance.WorldOffset + spaceStation.bottomLeftCorner);
                 }
             }
         }
+
 
 
         [HarmonyPatch(typeof(Clustercraft))]

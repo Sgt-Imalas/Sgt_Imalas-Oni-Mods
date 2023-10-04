@@ -219,7 +219,7 @@ namespace UL_UniversalLyzer
                     typeof(string[]),
                     typeof(Color32?),
                     typeof(int?),
-                    typeof(int?)
+                    typeof(float?)
                 });
 
 

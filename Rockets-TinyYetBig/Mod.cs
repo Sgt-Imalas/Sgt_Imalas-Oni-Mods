@@ -38,6 +38,9 @@ namespace Rockets_TinyYetBig
             SgtLogger.debuglog("Initialized");
             SgtLogger.LogVersion(this);
             new PVersionCheck().Register(this, new SteamVersionChecker());
+
+            ///mod applies fix to rocketConduitports leaking
+            PRegistry.PutData("Bugs.RocketConduitPorts", true);
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
