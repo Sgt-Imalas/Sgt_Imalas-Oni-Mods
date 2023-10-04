@@ -11,9 +11,10 @@ namespace SaveGameModLoader
 {
     public class Mod : UserMod2
     {
+        public static UserMod2 ThisMod;
         public override void OnLoad(Harmony harmony)
         {
-
+            ThisMod = this;
             var LegacyModPath = FileSystem.Normalize(Path.Combine(Manager.GetDirectory(), "[ModSync]StoredModConfigs/"));
             var LegacyModPacksPath = FileSystem.Normalize(Path.Combine(LegacyModPath, "[StandAloneModLists]/"));
 
@@ -43,7 +44,7 @@ namespace SaveGameModLoader
                 {
                     try
                     {
-                        file.CopyTo(Path.Combine(ModAssets.ModPath, file.Name), true);
+                        file.CopyTo(Path.Combine(ModAssets.ModPath, file.Name), false);
                     }
                     catch (Exception e)
                     {
@@ -62,7 +63,7 @@ namespace SaveGameModLoader
                 {
                     try
                     {
-                        file.CopyTo(Path.Combine(ModAssets.ModPacksPath,file.Name),true);
+                        file.CopyTo(Path.Combine(ModAssets.ModPacksPath,file.Name),false);
                     }
                     catch (Exception e)
                     {
@@ -86,7 +87,7 @@ namespace SaveGameModLoader
 
             SgtLogger.log("Folders succesfully initialized");
 
-            ModAssets.ModID = this.mod.label.id;
+            //ModAssets.ModID = this.mod.label.defaultStaticID;
             SgtLogger.log("Retrieving Modlists");
             ModlistManager.Instance.GetAllStoredModlists();
             ModlistManager.Instance.GetAllModPacks();

@@ -63,11 +63,11 @@ namespace SaveGameModLoader
         public bool ModIsNotInSync(KMod.Mod mod)
         {
 
-            if (mod.label.id == ModAssets.ModID)
+            if (mod == Mod.ThisMod.mod)
                 return false;
 
-            return (mod.IsEnabledForActiveDlc() && !ActiveModlistModIds.Contains(mod.label.id))
-                || (!mod.IsEnabledForActiveDlc() && ActiveModlistModIds.Contains(mod.label.id));
+            return (mod.IsEnabledForActiveDlc() && !ActiveModlistModIds.Contains(mod.label.defaultStaticID))
+                || (!mod.IsEnabledForActiveDlc() && ActiveModlistModIds.Contains(mod.label.defaultStaticID));
         }
 
         public SaveGameModList TryGetColonyModlist(string colonyName)
@@ -280,7 +280,7 @@ namespace SaveGameModLoader
             {
                 file_Mod mod_entry = ModFileDeserialized.mods[i];
 
-                bool enabled = enableAll.HasValue ? enableAll.Value : ActiveModlistModIds.Contains(mod_entry.label.id);
+                bool enabled = enableAll.HasValue ? enableAll.Value : ActiveModlistModIds.Contains(mod_entry.label.defaultStaticID);
 
                 if (ModFileDeserialized.mods[i].enabledForDlc == null)
                 {
@@ -317,11 +317,11 @@ namespace SaveGameModLoader
 
             foreach (var modToEdit in mm.mods)
             {
-                var modID = modToEdit.label.id;
+                var modID = modToEdit.label.defaultStaticID;
                 bool shouldBeEnabled = enableAll.HasValue ? enableAll.Value : ActiveModlistModIds.Contains(modID);
                 bool isEnabled = modToEdit.IsEnabledForActiveDlc();
 
-                if (modID == ModAssets.ModID)
+                if (modToEdit == Mod.ThisMod.mod)
                     shouldBeEnabled = true;
 
                 if(shouldBeEnabled == false && dontDisableActives && isEnabled)
@@ -416,7 +416,7 @@ namespace SaveGameModLoader
         }
         public void AssignModDifferences(List<KMod.Label> modList)
         {
-            AssignModDifferences(new List<string>(modList.Select(mod => mod.id)));
+            AssignModDifferences(new List<string>(modList.Select(mod => mod.defaultStaticID)));
 
 
         }
@@ -433,11 +433,11 @@ namespace SaveGameModLoader
             {
 
                 bool isCurrentlyActive = mod.IsEnabledForActiveDlc();
-                if (allModsInProfile.Contains(mod.label.id))
+                if (allModsInProfile.Contains(mod.label.defaultStaticID))
                 {
                     if (!isCurrentlyActive)
                         ++_differenceCount;
-                    allModsInProfile.Remove(mod.label.id);
+                    allModsInProfile.Remove(mod.label.defaultStaticID);
                 }
                 else
                 {
@@ -476,13 +476,13 @@ namespace SaveGameModLoader
         {
             public bool Equals(Label l1, Label l2)
             {
-                return l1.id == l2.id || l1.title == l2.title;
+                return l1.defaultStaticID == l2.defaultStaticID || l1.title == l2.title;
             }
 
             public int GetHashCode(Label obj)
             {
                 //SgtLogger.log(obj.id + ": "+obj.title);
-                return obj.id.GetHashCode();
+                return obj.defaultStaticID.GetHashCode();
             }
 
         }
@@ -550,9 +550,9 @@ namespace SaveGameModLoader
             {
                 foreach (var mod in modlist)
                 {
-                    if (!StoredModTitles.ContainsKey(mod.id))
+                    if (!StoredModTitles.ContainsKey(mod.defaultStaticID))
                     {
-                        StoredModTitles.Add(mod.id, mod.title);
+                        StoredModTitles.Add(mod.defaultStaticID, mod.title);
                     }
                 }
             }

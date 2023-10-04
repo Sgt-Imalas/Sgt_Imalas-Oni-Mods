@@ -13,6 +13,6 @@ namespace SaveGameModLoader
     {
         public static string ModPath;
         public static string ModPacksPath;
-        public static string ModID;
+        //public static string ModID;
     }
 }

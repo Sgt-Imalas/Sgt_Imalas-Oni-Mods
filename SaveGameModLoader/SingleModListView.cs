@@ -353,7 +353,7 @@ namespace SaveGameModLoader
                     }
                     else
                     {
-                       var locMod = modManager.mods.First(mode => mode.label.id == mod);
+                       var locMod = modManager.mods.First(mode => mode.label.defaultStaticID == mod);
 
                         TryChangeText(entry, "Title", locMod.label.title);
                         TryChangeText(entry, "Version", "internal mod Version: " + locMod.label.version.ToString());
@@ -413,7 +413,7 @@ namespace SaveGameModLoader
                     AddActionToButton(
                         entry,
                         "ManageButton",
-                         () => ViewSingleList(mod.Value.Select(i => i.id).ToList())
+                         () => ViewSingleList(mod.Value.Select(i => i.defaultStaticID).ToList())
                         , true);
 
                     var syncbt = TryInsertNamedCopy(entry, "ManageButton", "SyncButton");
@@ -424,7 +424,7 @@ namespace SaveGameModLoader
                     AddActionToButton(
                         syncbt,
                         "",
-                         () => SyncSingleList(mod.Value.Select(i => i.id).ToList()));
+                         () => SyncSingleList(mod.Value.Select(i => i.defaultStaticID).ToList()));
 
 
                     var syncbtAdditive = TryInsertNamedCopy(entry, "ManageButton", "SyncButtonAdditive");
@@ -435,7 +435,7 @@ namespace SaveGameModLoader
                     AddActionToButton(
                         syncbtAdditive,
                         "",
-                        () => AddListMods(mod.Value.Select(i=>i.id).ToList()));
+                        () => AddListMods(mod.Value.Select(i=>i.defaultStaticID).ToList()));
 
 
                     Entries.Add(entry.gameObject);

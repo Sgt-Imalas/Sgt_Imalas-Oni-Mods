@@ -149,8 +149,8 @@ namespace SaveGameModLoader
                         KMod.Label mod = new();
                         mod.id = id.ToString();
                         mod.distribution_platform = KMod.Label.DistributionPlatform.Steam;
-                        var RefMod = allMods.Find(refm => refm.id == mod.id);
-                        if (RefMod.id != null && RefMod.id != "")
+                        var RefMod = allMods.Find(refm => refm.defaultStaticID == mod.defaultStaticID);
+                        if (RefMod.defaultStaticID != null && RefMod.defaultStaticID != "")
                         {
                             mod.title = RefMod.title;
                             mod.version = RefMod.version;
@@ -161,7 +161,7 @@ namespace SaveGameModLoader
                             continue;
                         }
                         mods.Add(mod);
-                        SgtLogger.log(mod.title + "; " + mod.id);
+                        SgtLogger.log(mod.title + "; " + mod.defaultStaticID);
                     }
                     SgtLogger.log("all known mods added");
                     ++Progress;
@@ -192,7 +192,7 @@ namespace SaveGameModLoader
                         mod.title = id.second.ToString();
                         mod.version = 404;
                         mods.Add(mod);
-                        SgtLogger.log(mod.title + ": " + mod.id);
+                        SgtLogger.log(mod.title + ": " + mod.defaultStaticID);
                     }
                     SgtLogger.log("all unknown mods added");
                     ++Progress; 
