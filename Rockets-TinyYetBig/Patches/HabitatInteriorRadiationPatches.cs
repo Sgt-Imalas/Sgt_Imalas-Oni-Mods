@@ -6,6 +6,7 @@ using Rockets_TinyYetBig.SpaceStations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TUNING;
@@ -15,36 +16,7 @@ namespace Rockets_TinyYetBig.Patches
 {
     public class HabitatInteriorRadiationPatches
     {
-        /// <summary>
-        /// Fixes bugged rad absorpion of liquid input port
-        /// </summary>
-        [HarmonyPatch(typeof(RocketInteriorLiquidInputPortConfig))]
-        [HarmonyPatch(nameof(RocketInteriorLiquidInputPortConfig.CreateBuildingDef))]
-        public static class InputPortIsFoundation
-        {
-            static void Postfix(ref BuildingDef __result)
-            {
-                if (Config.Instance.HabitatInteriorPortImprovements)
-                {
-                    BuildingTemplates.CreateFoundationTileDef(__result);
-                }
-            }
-        }
-        /// <summary>
-        /// Fixes bugged rad absorpion of liquid output port
-        /// </summary>
-        [HarmonyPatch(typeof(RocketInteriorLiquidOutputPortConfig))]
-        [HarmonyPatch(nameof(RocketInteriorLiquidOutputPortConfig.CreateBuildingDef))]
-        public static class OutputPortIsFoundation
-        {
-            static void Postfix(ref BuildingDef __result)
-            {
-                if (Config.Instance.HabitatInteriorPortImprovements)
-                {
-                    BuildingTemplates.CreateFoundationTileDef(__result);
-                }
-            }
-        }
+
 
         /// <summary>
         /// Adjusts interior radiation of habitats dynamically by either copying exterior rads while landed or by distance to center of the starmap (higher distance == higher rads)

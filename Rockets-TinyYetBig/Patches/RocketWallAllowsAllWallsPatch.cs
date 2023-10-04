@@ -3,6 +3,7 @@ using PeterHan.PLib.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -15,9 +16,11 @@ namespace Rockets_TinyYetBig.Patches
     /// </summary>
     public class RocketWallAllowsAllWallsPatch
     {
-        [HarmonyPatch(typeof(RocketInteriorLiquidInputPortConfig), "DoPostConfigureComplete")]
+
+        [HarmonyPatch]
         public static class AddRocketWallTagToTilesThatShouldBeWall
         {
+            [HarmonyPostfix]
             public static void Postfix(GameObject go)
             {
                 KPrefabID component = go.GetComponent<KPrefabID>();
@@ -27,20 +30,44 @@ namespace Rockets_TinyYetBig.Patches
                     component.AddTag(GameTags.CorrosionProof);
                 }
             }
+            [HarmonyTargetMethods]
+            internal static IEnumerable<MethodBase> TargetMethods()
+            {
+                const string name = nameof(IBuildingConfig.DoPostConfigureComplete);
+                yield return typeof(RocketInteriorGasInputPortConfig).GetMethod(name);
+                yield return typeof(RocketInteriorGasOutputPortConfig).GetMethod(name);
+                yield return typeof(RocketInteriorLiquidInputPortConfig).GetMethod(name);
+                yield return typeof(RocketInteriorLiquidOutputPortConfig).GetMethod(name);
+            }
         }
-        [HarmonyPatch(typeof(RocketInteriorLiquidOutputPortConfig), "DoPostConfigureComplete")]
-        public static class AddRocketWallTagToTilesThatShouldBeWall2
+
+
+
+        /// <summary>
+        /// Fixes bugged rad absorpion of habitat ports
+        /// </summary>
+        [HarmonyPatch]
+        public static class MakeHabitatPortsFoundationTiles
         {
-            public static void Postfix(GameObject go)
+            [HarmonyPostfix]
+            static void Postfix(ref BuildingDef __result)
             {
-                KPrefabID component = go.GetComponent<KPrefabID>();
                 if (Config.Instance.HabitatInteriorPortImprovements)
                 {
-                    component.AddTag(GameTags.RocketEnvelopeTile);
-                    component.AddTag(GameTags.CorrosionProof);
+                    BuildingTemplates.CreateFoundationTileDef(__result);
                 }
             }
+            [HarmonyTargetMethods]
+            internal static IEnumerable<MethodBase> TargetMethods()
+            {
+                const string name = nameof(IBuildingConfig.CreateBuildingDef);
+                yield return typeof(RocketInteriorGasInputPortConfig).GetMethod(name);
+                yield return typeof(RocketInteriorGasOutputPortConfig).GetMethod(name);
+                yield return typeof(RocketInteriorLiquidInputPortConfig).GetMethod(name);
+                yield return typeof(RocketInteriorLiquidOutputPortConfig).GetMethod(name);
+            }
         }
+
 
         public class AutoDropperRocketFix
         {
@@ -52,7 +79,9 @@ namespace Rockets_TinyYetBig.Patches
             {
                 public static void Postfix(AutoStorageDropper.Instance __instance)
                 {
-                    InvertedDictionary[__instance] = __instance.def.invertElementFilter;
+                    //always start off (otherwise it will drop a single blob)
+                    InvertedDictionary[__instance] = false;// __instance.def.invertElementFilter;
+                    
                     //SgtLogger.l("Instance: " + __instance.master.ToString() + ": " + __instance.def.invertElementFilter);
                 }
             }
@@ -90,71 +119,6 @@ namespace Rockets_TinyYetBig.Patches
                 }
             }
         }
-        [HarmonyPatch(typeof(RocketConduitSender.States), nameof(RocketConduitSender.States.InitializeStates))]
-        public static class FixLiquidDeletionOnPorts
-        {
-            public static void Postfix(RocketConduitSender.States __instance)
-            {
 
-                __instance.on.working.ground.Enter(_ => SgtLogger.l("entered on.working.ground"));
-                __instance.on.working.notOnGround.Enter(_ => SgtLogger.l("entered on.working.ground"));
-                __instance.on.working.Enter(_ => SgtLogger.l("entered on.working"));
-                __instance.on.waiting.Enter(_ => SgtLogger.l("entered on.working"));
-                __instance.on.Enter(_ => SgtLogger.l("entered on"));
-
-
-                //.Update("fixing_OnGround", (smi, _) =>
-                //{
-                //    if (smi.gameObject != null)
-                //    {
-                //        var Dropper = smi.gameObject.GetSMI<AutoStorageDropper.Instance>();
-                //        if (Dropper != null)
-                //        {
-                //            SgtLogger.l("entered working, disabling elementDropper");
-                //            Dropper.SetInvertElementFilter(false);
-                //            GameScheduler.Instance.ScheduleNextFrame("delayedDeactivation", (_) => Dropper.SetInvertElementFilter(false));
-                //        }
-                //        else
-                //        {
-                //            //SgtLogger.warning("dropper was null on enter");
-                //        }
-                //    }
-                //    else
-                //    {
-                //        SgtLogger.warning("go was null on enter");
-                //    }
-                //})
-                //;
-            }
-        }
-
-
-
-        [HarmonyPatch(typeof(RocketInteriorGasInputPortConfig), "DoPostConfigureComplete")]
-        public static class AddRocketWallTagToTilesThatShouldBeWall3
-        {
-            public static void Postfix(GameObject go)
-            {
-                KPrefabID component = go.GetComponent<KPrefabID>();
-                if (Config.Instance.HabitatInteriorPortImprovements)
-                {
-                    component.AddTag(GameTags.RocketEnvelopeTile);
-                    component.AddTag(GameTags.CorrosionProof);
-                }
-            }
-        }
-        [HarmonyPatch(typeof(RocketInteriorGasOutputPortConfig), "DoPostConfigureComplete")]
-        public static class AddRocketWallTagToTilesThatShouldBeWall4
-        {
-            public static void Postfix(GameObject go)
-            {
-                KPrefabID component = go.GetComponent<KPrefabID>();
-                if (Config.Instance.HabitatInteriorPortImprovements)
-                {
-                    component.AddTag(GameTags.RocketEnvelopeTile);
-                    component.AddTag(GameTags.CorrosionProof);
-                }
-            }
-        }
     }
 }
