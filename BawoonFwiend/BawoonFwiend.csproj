@@ -26,7 +26,7 @@
 		<ModName>Balloon Dispenser</ModName>
 		<ModDescription>Adds a Rec. Building that hands out balloons.</ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
-		<MinimumSupportedBuild>561558</MinimumSupportedBuild>
+		<MinimumSupportedBuild>575720</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 

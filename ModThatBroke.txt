@@ -1,7 +1,5 @@
 To Update:
 
-- Balloon Dispenser
 - CGM
-- Critter Traits
 - RE
 - Mod Profile mng

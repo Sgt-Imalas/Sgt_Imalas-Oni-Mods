@@ -230,6 +230,8 @@ namespace SaveGameModLoader
                         }
                     }
 
+                    __instance.events.Clear();
+
                     if (!hadNewlyDisabled && !hadNewlyEnabled)
                         return false;
 

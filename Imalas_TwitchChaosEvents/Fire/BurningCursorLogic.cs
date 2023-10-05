@@ -19,7 +19,7 @@ namespace Imalas_TwitchChaosEvents.Fire
         public float energyPerSecondKJPutOut = 3000f;
         public float distanceToPutOut = 400f;
         public float timeToPutOut = 60f;
-        public float ignitionEnergy = 60f;
+        public float ignitionEnergy = 80f;
 
         public List<Tuple<CellOffset, float>> HeatZones = new List<Tuple<CellOffset, float>>()
         {
@@ -81,7 +81,7 @@ namespace Imalas_TwitchChaosEvents.Fire
 
             float SmallerLerpVal = Mathf.Min(DistanceLerp, TimeLerp);
 
-            SgtLogger.l(DistanceLerp + " -> " + distanceRemaining +" from "+distanceToPutOut, "Lerps");
+            //SgtLogger.l(DistanceLerp + " -> " + distanceRemaining +" from "+distanceToPutOut, "Lerps");
 
             float energy = Mathf.Lerp(energyPerSecondKJPutOut, energyPerSecondKJStart, SmallerLerpVal);
 

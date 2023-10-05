@@ -548,7 +548,7 @@ namespace Rockets_TinyYetBig
         };
 
         public static Components.Cmps<FridgeModuleHatchGrabber> FridgeModuleGrabbers = new Components.Cmps<FridgeModuleHatchGrabber>();
-        public static Components.Cmps<FridgeModuleItemDistributor> FridgeModuleDistributors = new Components.Cmps<FridgeModuleItemDistributor>();
+        //public static Components.Cmps<FridgeModuleItemDistributor> FridgeModuleDistributors = new Components.Cmps<FridgeModuleItemDistributor>();
         public static Components.Cmps<DockingManager> Dockables = new Components.Cmps<DockingManager>();
 
         public static Dictionary<Tuple<BuildingDef, int>, GameObject> CategorizedButtons = new Dictionary<Tuple<BuildingDef, int>, GameObject>();

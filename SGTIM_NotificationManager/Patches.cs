@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static SGTIM_NotificationManager.ModAssets;
+using static STRINGS.BUILDINGS.PREFABS.CONDUIT;
 
 namespace SGTIM_NotificationManager
 {
@@ -27,20 +28,43 @@ namespace SGTIM_NotificationManager
             }
         }
 
-        /// <summary>
-        /// Starving
-        /// </summary>
-        [HarmonyPatch(typeof(CalorieMonitor.Instance))]
-        [HarmonyPatch(nameof(CalorieMonitor.Instance.IsStarving))]
-        public static class StarvingNotification
+
+
+        [HarmonyPatch(typeof(AlertStateManager))]
+        [HarmonyPatch(nameof(AlertStateManager.InitializeStates))]
+        public static class StartStopSoundRemoval
         {
-            public static bool Prefix(CalorieMonitor.Instance __instance, ref bool __result)
+            public static void Postfix(AlertStateManager __instance)
             {
-                float percentage = ((float)Config.Instance.STARVATION_THRESHOLD*1000) / __instance.calories.GetMax();
-                __result = __instance.GetCalories0to1() < percentage;
-                return false;
+                if (Config.Instance.MUTE_RED_ALERT)
+                {
+                    __instance.on.red.enterActions.RemoveAll(action => action.name == "SoundsOnRedAlert");
+                    __instance.on.red.exitActions.RemoveAll(action => action.name == "SoundsOffRedAlert");
+                }
+                if (Config.Instance.MUTE_YELLOW_ALERT)
+                {
+                    __instance.on.yellow.enterActions.RemoveAll(action => action.name == "SoundsOnYellowAlert");
+                    __instance.on.yellow.exitActions.RemoveAll(action => action.name == "SoundsOffRedAlert");
+                }
             }
         }
+        [HarmonyPatch(typeof(Vignette))]
+        [HarmonyPatch(nameof(Vignette.Refresh))]
+        public static class StressLoopDisableSound
+        {
+            public static void Postfix(Vignette __instance)
+            {
+                if (Config.Instance.MUTE_RED_ALERT && __instance.showingRedAlert)
+                {
+                    __instance.looping_sounds.StopSound(GlobalAssets.GetSound("RedAlert_LP"));
+                }
+                if (Config.Instance.MUTE_YELLOW_ALERT && __instance.showingYellowAlert)
+                {
+                    __instance.looping_sounds.StopSound(GlobalAssets.GetSound("YellowAlert_LP"));
+                }
+            }
+        }
+
 
         //[HarmonyPatch(typeof(StressMonitor.Instance))]
         //[HarmonyPatch(nameof(StressMonitor.Instance.IsStressed))]
@@ -100,34 +124,139 @@ namespace SGTIM_NotificationManager
         //    }
         //}
 
-
-
-        [HarmonyPatch(typeof(SuffocationMonitor.Instance))]
-        [HarmonyPatch(nameof(SuffocationMonitor.Instance.IsSuffocating))]
-        public static class SuffocationNotification
+        [HarmonyPatch(typeof(CalorieMonitor))]
+        [HarmonyPatch(nameof(CalorieMonitor.InitializeStates))]
+        public static class StarvationMonitorStates
         {
-            public static bool Prefix(SuffocationMonitor.Instance __instance, ref bool __result)
+            public static void Postfix(CalorieMonitor __instance)
             {
-                float breathValuePercentage = ((float)Config.Instance.SUFFOCATION_THRESHOLD) * 100f / 110f;
-                if (__instance.breath.deltaAttribute.GetTotalValue() <= 0f)
+                StatusItem status_item = Db.Get().DuplicantStatusItems.Starving;
+                StatusItem hungry_statusItem = Db.Get().DuplicantStatusItems.Hungry;
+                __instance.hungry.starving.enterActions.RemoveAll(action => action.name == "AddStatusItem(" + status_item.Id + ")");
+                __instance.hungry.starving.exitActions.RemoveAll(action => action.name == "RemoveStatusItem(" + status_item.Id + ")");
+
+                __instance.hungry.starving.Update((CalorieMonitor.Instance smi, float dt) =>
                 {
-                    return __instance.breath.value <= breathValuePercentage;
+                    float percentage = ((float)Config.Instance.STARVATION_THRESHOLD * 1000) / smi.calories.GetMax();
+                    bool BeyondNotificationThreshold = smi.GetCalories0to1() < percentage;
+
+                    if (smi.master.gameObject.TryGetComponent<KSelectable>(out var selectable))
+                    {
+                        if (BeyondNotificationThreshold)
+                        {
+                            selectable.AddStatusItem(status_item);
+                            selectable.RemoveStatusItem(hungry_statusItem);
+                        }
+                        else
+                        {
+                            selectable.RemoveStatusItem(status_item);
+                            selectable.AddStatusItem(hungry_statusItem);
+                        }
+                    }
                 }
-                __result = false;
-                return false;
+                ).Exit((CalorieMonitor.Instance smi) =>
+                {
+                    if (smi.master.gameObject.TryGetComponent<KSelectable>(out var selectable))
+                    {
+                        selectable.RemoveStatusItem(status_item);
+                        selectable.RemoveStatusItem(hungry_statusItem);
+                    }
+                }
+                )
+                ;
             }
         }
-        [HarmonyPatch(typeof(SuitSuffocationMonitor.Instance))]
-        [HarmonyPatch(nameof(SuitSuffocationMonitor.Instance.IsSuffocating))]
+
+
+
+
+
+        [HarmonyPatch(typeof(SuitSuffocationMonitor))]
+        [HarmonyPatch(nameof(SuitSuffocationMonitor.InitializeStates))]
         public static class SuffocationNotificationSuit
         {
-            public static bool Prefix(SuffocationMonitor.Instance __instance, ref bool __result)
+            public static void Postfix(SuitSuffocationMonitor __instance)
             {
-                float breathValuePercentage = ((float)Config.Instance.SUFFOCATION_THRESHOLD) * 100f / 110f;
-                __result = (double)__instance.breath.value <= breathValuePercentage;
-                return false;
+                __instance.nooxygen.suffocating.enterActions.Clear();
+                //__instance.nooxygen.suffocating.exitActions.Clear();
+                __instance.nooxygen.suffocating.Update((SuitSuffocationMonitor.Instance smi, float dt) =>
+                {
+                    float breathValuePercentage = ((float)Config.Instance.SUFFOCATION_THRESHOLD) * 100f / 110f;
+                    bool BeyondNotificationThreshold = (double)smi.breath.value <= breathValuePercentage;
+
+                    if (smi.master.gameObject.TryGetComponent<KSelectable>(out var selectable))
+                    {
+                        if (BeyondNotificationThreshold)
+                        {
+                            selectable.SetStatusItem(Db.Get().StatusItemCategories.Suffocation, Db.Get().DuplicantStatusItems.Suffocating);
+                        }
+                        else
+                        {
+                            selectable.SetStatusItem(Db.Get().StatusItemCategories.Suffocation, Db.Get().DuplicantStatusItems.HoldingBreath);
+                        }
+                    }
+                }
+                );
             }
         }
+
+        [HarmonyPatch(typeof(SuffocationMonitor))]
+        [HarmonyPatch(nameof(SuffocationMonitor.InitializeStates))]
+        public static class SuffocationNotification
+        {
+            public static void Postfix(SuffocationMonitor __instance)
+            {
+                __instance.nooxygen.suffocating.enterActions.Clear();
+                //__instance.nooxygen.suffocating.exitActions.Clear();
+                __instance.nooxygen.suffocating.Update((SuffocationMonitor.Instance smi, float dt) =>
+                {
+                    float breathValuePercentage = ((float)Config.Instance.SUFFOCATION_THRESHOLD) * 100f / 110f;
+                    bool BeyondNotificationThreshold = (double)smi.breath.value <= breathValuePercentage;
+
+                    if (smi.master.gameObject.TryGetComponent<KSelectable>(out var selectable))
+                    {
+                        if (BeyondNotificationThreshold)
+                        {
+                            selectable.SetStatusItem(Db.Get().StatusItemCategories.Suffocation, Db.Get().DuplicantStatusItems.Suffocating);
+                        }
+                        else
+                        {
+                            selectable.SetStatusItem(Db.Get().StatusItemCategories.Suffocation, Db.Get().DuplicantStatusItems.HoldingBreath);
+                        }
+                    }
+                }
+                );
+            }
+        }
+
+        //[HarmonyPatch(typeof(SuffocationMonitor.Instance))]
+        //[HarmonyPatch(nameof(SuffocationMonitor.Instance.IsSuffocating))]
+        //public static class SuffocationNotification
+        //{
+        //    public static bool Prefix(SuffocationMonitor.Instance __instance, ref bool __result)
+        //    {
+        //        float breathValuePercentage = ((float)Config.Instance.SUFFOCATION_THRESHOLD) * 100f / 110f;
+        //        if (__instance.breath.deltaAttribute.GetTotalValue() <= 0f)
+        //        {
+        //            return __instance.breath.value <= breathValuePercentage;
+        //        }
+        //        __result = false;
+        //        return false;
+        //    }
+        //}
+
+        //[HarmonyPatch(typeof(SuitSuffocationMonitor.Instance))]
+        //[HarmonyPatch(nameof(SuitSuffocationMonitor.Instance.IsSuffocating))]
+        //public static class SuffocationNotificationSuit
+        //{
+        //    public static bool Prefix(SuffocationMonitor.Instance __instance, ref bool __result)
+        //    {
+        //        float breathValuePercentage = ((float)Config.Instance.SUFFOCATION_THRESHOLD) * 100f / 110f;
+        //        __result = (double)__instance.breath.value <= breathValuePercentage;
+        //        return false;
+        //    }
+        //}
+
         [HarmonyPatch(typeof(NotificationScreen))]
         [HarmonyPatch(nameof(NotificationScreen.PlayDingSound))]
         public static class MuteDingSound
@@ -265,16 +394,16 @@ namespace SGTIM_NotificationManager
                     moveCam = Config.Instance.PAN_TO_RADIATIONVOMITING;
                 }
 
-                if (GameClock.Instance!= null)
+                if (GameClock.Instance != null)
                 {
                     var currentTime = GameClock.Instance.GetTimeInCycles();
-                    if(Mathf.Approximately(lastTrigger,currentTime))
+                    if (Mathf.Approximately(lastTrigger, currentTime))
                     {
                         return;
                     }
-                    else 
+                    else
                     {
-                        lastTrigger = currentTime; 
+                        lastTrigger = currentTime;
                     }
                 }
 

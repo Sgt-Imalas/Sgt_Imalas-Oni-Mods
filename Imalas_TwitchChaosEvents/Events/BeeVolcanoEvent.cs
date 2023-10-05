@@ -8,9 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Util_TwitchIntegrationLib;
 using UtilLibs;
+using static AmbienceManager;
 using static Grid;
 using static STRINGS.ELEMENTS;
 using static STRINGS.WORLD_TRAITS;
+using static TUNING.ROCKETRY;
 
 namespace Imalas_TwitchChaosEvents.Events
 {
@@ -24,6 +26,35 @@ namespace Imalas_TwitchChaosEvents.Events
 
         public EventWeight EventWeight => EventWeight.WEIGHT_NORMAL;
 
+
+
+
+        List<CellOffset> beezerOffsets = new List<CellOffset> ()
+        {
+            new(0,0),
+            new(0,-1),
+            new(1,-1),
+            new(0,-2),
+            new(1,-2),
+            new(0,-3),
+            new(1,-3),
+        };
+        bool ValidateBeezerOffset(int sourceCell)
+        {
+            foreach(var o in beezerOffsets)
+            {
+                int offsetCell = OffsetCell(sourceCell, o);
+
+                if (!Grid.IsValidCell(offsetCell)
+                ||Grid.Solid[offsetCell]
+                || Grid.Objects[offsetCell, (int)Grid.SceneLayer.Building] != null
+                    )
+                    return false;
+            }
+            return true;
+        }
+
+
         private OccupyArea prefabOccupyArea;
         public Action<object> EventAction => (_) =>
         {
@@ -32,11 +63,41 @@ namespace Imalas_TwitchChaosEvents.Events
 
             var worlds = new List<WorldContainer>(ClusterManager.Instance.WorldContainers)
                 .Where((world)=> world.IsDiscovered && !world.isModuleInterior)
-                .OrderBy((world)=> Components.LiveMinionIdentities.GetWorldItems(world.id).Count);
+                .OrderByDescending((world)=> Components.LiveMinionIdentities.GetWorldItems(world.id).Count);
 
-            var targetWorld = ClusterManager.Instance.activeWorld.IsModuleInterior? ClusterManager.Instance.GetWorld(ClusterManager.Instance.activeWorld.ParentWorldId) : ClusterManager.Instance.activeWorld;
+            WorldContainer targetWorld;
+            
+            if(worlds.Count() > 0)
+            {
+                targetWorld = worlds.First();
+            }
+            else
+            {
+                targetWorld = ClusterManager.Instance.activeWorld.IsModuleInterior ? ClusterManager.Instance.GetWorld(ClusterManager.Instance.activeWorld.ParentWorldId) : ClusterManager.Instance.activeWorld;
+            }
+            
 
             SgtLogger.l("world found for beeser: " + targetWorld.name);
+
+            var worlddupes = Components.LiveMinionIdentities.GetWorldItems(targetWorld.id);
+            worlddupes.Shuffle();
+            foreach (var minion in worlddupes)
+            {
+                var dupeCellUp = Grid.PosToCell(minion);
+                while (!Grid.Solid[CellAbove(dupeCellUp)]&&Grid.IsValidCell(CellAbove(dupeCellUp)))
+                {
+                    dupeCellUp = CellAbove(dupeCellUp);
+                }
+
+                if (ValidateBeezerOffset(dupeCellUp))
+                {
+                    SpawnBeeGeyserAt(Grid.OffsetCell(dupeCellUp,new(1,-3)));
+                    return;
+                }
+            }
+
+
+
             List<Room> rooms = new List<Room>();
             List<CavityInfo> backupCavities= new List<CavityInfo>();
             foreach (Room room in Game.Instance.roomProber.rooms)
@@ -128,23 +189,25 @@ namespace Imalas_TwitchChaosEvents.Events
                     SgtLogger.l("no cell found");
                     continue;
                 }
-
-
-                var go = GameUtil.KInstantiate(global::Assets.GetPrefab(BeeGeyserConfig.ID), CellToPos(cell), Grid.SceneLayer.Building);
-                go.SetActive(true);
-
-                ONITwitchLib.ToastManager.InstantiateToastWithGoTarget(
-                    STRINGS.CHAOSEVENTS.BEEVOLCANO.TOAST,
-                    STRINGS.CHAOSEVENTS.BEEVOLCANO.TOASTTEXT,
-                    go);
-
-
+                SpawnBeeGeyserAt(cell);
                 return;
             }
 
 
         };
         
+        void SpawnBeeGeyserAt(int cell)
+        {
+            var go = GameUtil.KInstantiate(global::Assets.GetPrefab(BeeGeyserConfig.ID), CellToPos(cell), Grid.SceneLayer.Building);
+            go.SetActive(true);
+
+            ONITwitchLib.ToastManager.InstantiateToastWithGoTarget(
+                STRINGS.CHAOSEVENTS.BEEVOLCANO.TOAST,
+                STRINGS.CHAOSEVENTS.BEEVOLCANO.TOASTTEXT,
+                go);
+        }
+
+
         private int GetValidPlacementInCavity(CavityInfo cavity)
         {
             var minX = cavity.minX ; // no need to check up against wall
@@ -168,7 +231,7 @@ namespace Imalas_TwitchChaosEvents.Events
             return -1;
         }
 
-        public Func<object, bool> Condition => (_) =>  GameClock.Instance.GetCycle() > 50;
+        public Func<object, bool> Condition => (_) => false; // GameClock.Instance.GetCycle() > 50;
 
         public Danger EventDanger => Danger.High;
     }

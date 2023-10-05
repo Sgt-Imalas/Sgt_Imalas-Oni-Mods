@@ -1,4 +1,5 @@
-﻿using Rockets_TinyYetBig.Buildings.CargoBays;
+﻿using PeterHan.PLib.Core;
+using Rockets_TinyYetBig.Buildings.CargoBays;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -115,7 +116,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                 {
                     foreach (var module in ConnectedFridgeModules)
                     {
-                        if (module.storage.MassStored() > 0.01)
+                        if (module.storage.MassStored() > 0)
                         {
                             for (int i = module.storage.items.Count - 1; i >= 0; i--)
                             {
@@ -144,7 +145,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                 }
                 else if (neededStorage < 0)
                 {
-                    //push some back into module
+                    //push some back into module REDO THIS, ITS SCUFFED AF!
                     neededStorage *= -1;
 
                     for (int i = offlineStorage.items.Count - 1; i >= 0; i--)
@@ -160,13 +161,14 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                             {
                                 if (itemToPutInStorage.TryGetComponent<Pickupable>(out var pickupable))
                                 {
+                                    var currentAmount = pickupable.TotalAmount;
+
                                     float amount = Mathf.Min(remainingCapacity, neededStorage);
 
                                     if(amount == 0)
                                         continue;
 
-
-                                    SgtLogger.l($"{amount}, {remainingCapacity}, {neededStorage} -> {pickupable}");
+                                    //SgtLogger.l($"{amount}, {remainingCapacity}, {neededStorage} -> {pickupable}");
                                     var TakenPickup = pickupable.Take(amount);
 
                                     if (TakenPickup != null)
@@ -175,6 +177,11 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                                         neededStorage -= TakenPickup.TotalAmount;
                                         module.storage.Store(TakenPickup.gameObject, true, true);
                                     }
+                                    if (currentAmount <= amount)
+                                    {
+                                        break;
+                                    }
+
                                 }
 
                                 if (neededStorage <= 0)

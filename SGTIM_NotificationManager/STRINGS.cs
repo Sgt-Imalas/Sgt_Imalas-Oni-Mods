@@ -26,6 +26,16 @@ namespace SGTIM_NotificationManager
                 public static LocString THRESHOLD = "Starvation Calorie Threshold";
                 public static LocString THRESHOLD_TOOLTIP = "Calorie threshold for the starvation notification.\nDefault is 1000";
             }
+
+            public class ALERTS
+            {
+                public static LocString CATEGORY = "Alerts";
+                public static LocString MUTEYELLOWALERT = "Mute Yellow Alert Sound";
+                public static LocString MUTEREDALERT = "Mute Red Alert Sound";
+
+            }
+
+
             public class ATTACK
             {
                 public static LocString CATEGORY = global::STRINGS.DUPLICANTS.STATUSITEMS.FIGHTING.NOTIFICATION_NAME + "-" + global::STRINGS.BUILDINGS.PREFABS.LOGICALARM.LOGIC_PORT;

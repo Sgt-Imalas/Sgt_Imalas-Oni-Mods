@@ -25,6 +25,14 @@ namespace SGTIM_NotificationManager
             STRESS_THRESHOLD = 60;
         }
 
+        [Option("STRINGS.NOTIFICATION_CONFIG.ALERTS.MUTEYELLOWALERT", "", "STRINGS.NOTIFICATION_CONFIG.ALERTS.CATEGORY")]
+        [JsonProperty]
+        public bool MUTE_YELLOW_ALERT { get; set; }
+
+        [Option("STRINGS.NOTIFICATION_CONFIG.ALERTS.MUTEREDALERT", "", "STRINGS.NOTIFICATION_CONFIG.ALERTS.CATEGORY")]
+        [JsonProperty]
+        public bool MUTE_RED_ALERT { get; set; }
+
         [Option("STRINGS.NOTIFICATION_CONFIG.MUTE_PING", "STRINGS.NOTIFICATION_CONFIG.MUTE_PING_TOOLTIP","STRINGS.NOTIFICATION_CONFIG.STARVATION.CATEGORY")]
         [JsonProperty]
         public bool MUTE_STARVATION_SOUND { get; set; }
