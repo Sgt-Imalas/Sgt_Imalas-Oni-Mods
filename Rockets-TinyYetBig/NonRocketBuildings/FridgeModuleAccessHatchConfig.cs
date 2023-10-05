@@ -59,8 +59,11 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
-            
-            go.GetComponent<KPrefabID>().AddTag(GameTags.RocketInteriorBuilding);
+            if(go.TryGetComponent<KPrefabID>(out var component))
+            {
+                component.AddTag(GameTags.RocketInteriorBuilding);
+                component.AddTag(GameTags.UniquePerWorld);
+            }
         }
 
         public override void DoPostConfigureComplete(GameObject go)
@@ -69,10 +72,10 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             Storage storage = go.AddOrGet<Storage>();
             storage.showInUI = true;
             storage.showDescriptor = true;
-            storage.storageFilters = new List<Tag>() { GameTags.Edible };
+            storage.storageFilters = STORAGEFILTERS.FOOD;
             storage.allowItemRemoval = true;
             //storage.fetchCategory = Storage.FetchCategory.GeneralStorage;
-            storage.capacityKg = 2.0f;
+            storage.capacityKg = 4.0f;
             storage.showCapacityStatusItem = true;
             storage.SetDefaultStoredItemModifiers(new List<StoredItemModifier>
             {
@@ -85,12 +88,12 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             Prioritizable.AddRef(go);
 
             go.AddOrGet<TreeFilterable>(); 
-            go.AddOrGet<FridgeModuleHatchGrabber>().maxPullCapacityKG = 1f;
+            go.AddOrGet<FridgeModuleHatchGrabber>().maxPullCapacityKG = 2f;
+            //go.AddOrGet<FridgeModuleItemDistributor>();
             go.AddOrGetDef<RocketUsageRestriction.Def>().restrictOperational = false;
 
-            go.AddOrGetDef<StorageController.Def>();
+            //go.AddOrGetDef<StorageController.Def>();
             go.AddOrGetDef<OperationalController.Def>();
-           // go.AddOrGet<Prioritizable>();
-        }//
+        }
     }
 }

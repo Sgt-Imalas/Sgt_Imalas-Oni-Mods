@@ -31,7 +31,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
         CraftModuleInterface craftModuleInterface;
 
-        private static readonly EventSystem.IntraObjectHandler<FridgeModuleHatchGrabber> OnRocketModulesChangend = new EventSystem.IntraObjectHandler<FridgeModuleHatchGrabber>((System.Action<FridgeModuleHatchGrabber, object>)((component, data) => component.UpdateModules(data)));
+        static readonly EventSystem.IntraObjectHandler<FridgeModuleHatchGrabber> OnRocketModulesChangend = new EventSystem.IntraObjectHandler<FridgeModuleHatchGrabber>((System.Action<FridgeModuleHatchGrabber, object>)((component, data) => component.UpdateModules(data)));
 
 
         List<CargoBayCluster> ConnectedFridgeModules = new List<CargoBayCluster>();
@@ -45,10 +45,10 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
             craftModuleInterface.gameObject.Subscribe((int)GameHashes.RocketModuleChanged, UpdateModules);
             UpdateModules(null);
-            StatusItemHandle = selectable.AddStatusItem( ModAssets.StatusItems.RTB_AccessHatchStorage, (object)this);
-            ModAssets.FridgeModuleGrabbers.Add(this); 
+            StatusItemHandle = selectable.AddStatusItem(ModAssets.StatusItems.RTB_AccessHatchStorage, (object)this);
+            ModAssets.FridgeModuleGrabbers.Add(this);
             GetAllMassDesc();
-            this.filteredStorage.FilterChanged(); 
+            this.filteredStorage.FilterChanged();
             CreateMeter();
             UpdateMeter();
         }
@@ -74,8 +74,11 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
         public override void OnPrefabInit()
         {
-            base.OnPrefabInit(); 
-            this.filteredStorage = new FilteredStorage((KMonoBehaviour)this, (Tag[])null, (IUserControlledCapacity)null, false, Db.Get().ChoreTypes.StorageFetch);
+            base.OnPrefabInit();
+            this.filteredStorage = new FilteredStorage((KMonoBehaviour)this, new Tag[1]
+            {
+                GameTags.Compostable
+            }, (IUserControlledCapacity)null, true, Db.Get().ChoreTypes.StorageFetch);
 
         }
         public override void OnCleanUp()
@@ -88,7 +91,10 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
         public void Sim1000ms(float dt)
         {
             float neededStorage = maxPullCapacityKG - offlineStorage.MassStored();
-            if (neededStorage < 0.001 || !operational.IsOperational || operational.Flags.ContainsKey(RocketUsageRestriction.rocketUsageAllowed) && operational.GetFlag(RocketUsageRestriction.rocketUsageAllowed) == false) return;
+
+
+            if (!operational.IsOperational || operational.Flags.ContainsKey(RocketUsageRestriction.rocketUsageAllowed) && operational.GetFlag(RocketUsageRestriction.rocketUsageAllowed) == false)
+                return;
             var filterArray = filter.acceptedTagSet.ToArray();
 
             currentCapacity = 0;
@@ -97,33 +103,85 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             //SgtLogger.l("needed: "+ neededStorage.ToString());
             if (ConnectedFridgeModules.Count > 0)
             {
+
                 foreach (var module in ConnectedFridgeModules)
                 {
                     currentCapacity += module.storage.MassStored();
                     totalCapacity += module.userMaxCapacity;
+                }
 
-                    //SgtLogger.l("modul: " + module.ToString());
-                    if (module.storage.MassStored() > 0.01)
+
+                if (neededStorage > 0)
+                {
+                    foreach (var module in ConnectedFridgeModules)
                     {
-                        for (int i = module.storage.items.Count - 1; i >= 0; i--)
+                        if (module.storage.MassStored() > 0.01)
                         {
-                            var item = module.storage.items[i];
-                            if (item.HasAnyTags(filterArray))
+                            for (int i = module.storage.items.Count - 1; i >= 0; i--)
                             {
-                                if (item.TryGetComponent<Pickupable>(out var pickupable))
+                                var item = module.storage.items[i];
+                                if (item.HasAnyTags(filterArray))
                                 {
-                                    //SgtLogger.l("item2: " + pickupable.ToString());
-                                    var TakenPickup = pickupable.Take(neededStorage);
-                                    neededStorage -= TakenPickup.TotalAmount;
-                                    offlineStorage.Store(TakenPickup.gameObject, true, true);
+                                    if (item.TryGetComponent<Pickupable>(out var pickupable))
+                                    {
+                                        //SgtLogger.l("item2: " + pickupable.ToString());
+                                        var TakenPickup = pickupable.Take(neededStorage);
+
+                                        if(TakenPickup != null)
+                                        {
+                                            neededStorage -= TakenPickup.TotalAmount;
+                                            offlineStorage.Store(TakenPickup.gameObject, true, true);
+                                        }
+                                    }
+                                    if (neededStorage <= 0)
+                                        break;
                                 }
-                                if (neededStorage < 0.001f)
+                            }
+                        }
+                        if (neededStorage <= 0)
+                            break;
+                    }
+                }
+                else if (neededStorage < 0)
+                {
+                    //push some back into module
+                    neededStorage *= -1;
+
+                    for (int i = offlineStorage.items.Count - 1; i >= 0; i--)
+                    {
+                        var itemToPutInStorage = offlineStorage.items[i];
+                        foreach (var module in ConnectedFridgeModules)
+                        {
+                            float remainingCapacity = module.storage.RemainingCapacity();
+
+                            if (remainingCapacity <= 0)
+                                continue;
+                            if (itemToPutInStorage.HasAnyTags(module.storage.storageFilters.ToArray()))
+                            {
+                                if (itemToPutInStorage.TryGetComponent<Pickupable>(out var pickupable))
+                                {
+                                    float amount = Mathf.Min(remainingCapacity, neededStorage);
+
+                                    if(amount == 0)
+                                        continue;
+
+
+                                    SgtLogger.l($"{amount}, {remainingCapacity}, {neededStorage} -> {pickupable}");
+                                    var TakenPickup = pickupable.Take(amount);
+
+                                    if (TakenPickup != null)
+                                    {
+                                        remainingCapacity -= TakenPickup.TotalAmount;
+                                        neededStorage -= TakenPickup.TotalAmount;
+                                        module.storage.Store(TakenPickup.gameObject, true, true);
+                                    }
+                                }
+
+                                if (neededStorage <= 0)
                                     break;
                             }
                         }
                     }
-                    if (neededStorage < 0.001f)
-                        break;
                 }
             }
         }
@@ -135,7 +193,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
             foreach (var module in craftModuleInterface.ClusterModules)
             {
-                if (module.Get().TryGetComponent<FridgeModule>(out var fridgeModule)&&module.Get().TryGetComponent<CargoBayCluster>(out var clusterbay))
+                if (module.Get().TryGetComponent<FridgeModule>(out var fridgeModule) && module.Get().TryGetComponent<CargoBayCluster>(out var clusterbay))
                 {
                     //SgtLogger.l("found fridge");
                     ConnectedFridgeModules.Add(clusterbay);
@@ -178,7 +236,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                     }
                 }
             }
-            if(Mathf.RoundToInt(totalKCalNew) != Mathf.RoundToInt(_totalKCal))
+            if (Mathf.RoundToInt(totalKCalNew) != Mathf.RoundToInt(_totalKCal))
             {
                 _totalKCal = (totalKCalNew);
             }

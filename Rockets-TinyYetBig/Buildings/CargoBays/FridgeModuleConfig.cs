@@ -68,7 +68,10 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
                 StoredItemModifier.Preserve,
                 StoredItemModifier.Insulate
             });
+            //freezerStorage.showInUI = false;
+
             go.AddOrGet<FridgeModule>();
+            //go.AddOrGet<FakeStorage>().LinkType = FakeStorage.RocketModuleLinkType.FreezerModule;
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MINOR_PLUS);
         }
     }
