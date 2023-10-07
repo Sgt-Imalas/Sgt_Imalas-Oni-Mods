@@ -80,8 +80,19 @@ namespace Rockets_TinyYetBig.Patches
                 public static void Postfix(AutoStorageDropper.Instance __instance)
                 {
                     //always start off (otherwise it will drop a single blob)
-                    InvertedDictionary[__instance] = false;// __instance.def.invertElementFilter;
-                    
+                    if (__instance.master.gameObject.TryGetComponent<RocketConduitSender>(out _))
+                    {
+                        //SgtLogger.l("blocked dispenser from deleting liquid");
+                        InvertedDictionary[__instance] = false;// __instance.def.invertElementFilter;
+
+                    }
+                    else
+                    {
+                        //SgtLogger.l("toilet found doing nothin");
+                        InvertedDictionary[__instance] =  __instance.def.invertElementFilter;
+                    }
+
+
                     //SgtLogger.l("Instance: " + __instance.master.ToString() + ": " + __instance.def.invertElementFilter);
                 }
             }

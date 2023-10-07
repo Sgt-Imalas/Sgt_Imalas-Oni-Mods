@@ -10,20 +10,17 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.Buildings.Boosters
 {
-    public class IonEngineBoosterClusterConfig : IBuildingConfig
+    public class PetroleumBoosterClusterConfig : IBuildingConfig
     {
-        public const string ID = "RTB_IonBooster";
-        public const string kanim = "ion_thrus_module_kanim"; //rocket_petro_engine_small_kanim
-        public const SimHashes FUEL = SimHashes.Methane;
-        public const float Wattage = 480f;
-        public const float TankCapacity = 900f;
-        public const int RocketHeight = 23;
+        public const string ID = "RTB_PetroleumBooster";
+        public const string kanim = "rocket_solid_booster_kanim"; //rocket_petro_engine_small_kanim
+        //public const float Wattage = 240f;
 
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
 
         public override BuildingDef CreateBuildingDef()
         {
-            SoundUtils.CopySoundsToAnim(kanim, "rocket_cluster_hydrogen_engine_kanim");
+            SoundUtils.CopySoundsToAnim(kanim, "rocket_cluster_petroleum_engine_kanim");
 
             float[] constructionMass = new float[] { 300f };
             string[] constructioMaterials = MATERIALS.REFINED_METALS;
@@ -50,15 +47,12 @@ namespace Rockets_TinyYetBig.Buildings.Boosters
             buildingDef.AttachmentSlotTag = GameTags.Rocket;
             buildingDef.ObjectLayer = ObjectLayer.Building;
             buildingDef.attachablePosition = new CellOffset(0, 0);
-            buildingDef.GeneratorWattageRating = Wattage;
-            buildingDef.GeneratorBaseCapacity = 20000f;
-            buildingDef.RequiresPowerInput = false;
-            buildingDef.RequiresPowerOutput = false;
             buildingDef.CanMove = true;
             buildingDef.Cancellable = false;
             buildingDef.ShowInBuildMenu = false;
             buildingDef.UtilityInputOffset = new CellOffset(-1, 3);
-            buildingDef.InputConduitType = ConduitType.Gas;
+            buildingDef.InputConduitType = ConduitType.Liquid;
+            
 
 
             return buildingDef;
@@ -89,7 +83,7 @@ namespace Rockets_TinyYetBig.Buildings.Boosters
             //go.AddOrGet<ModuleGenerator>();
 
             Storage storage = go.AddOrGet<Storage>();
-            storage.capacityKg = TankCapacity;
+            storage.capacityKg = 450;//TankCapacity;
             storage.SetDefaultStoredItemModifiers(new List<Storage.StoredItemModifier>()
             {
                 Storage.StoredItemModifier.Hide,
@@ -103,7 +97,8 @@ namespace Rockets_TinyYetBig.Buildings.Boosters
             //fuelTank.FuelType = FUEL.CreateTag();
             //fuelTank.targetFillMass = storage.capacityKg;
             //fuelTank.physicalFuelCapacity = storage.capacityKg;
-            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MODERATE_PLUS, 0, 0);
+            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MODERATE, 0, 0);
+
             go.AddOrGet<RTB_RocketBooster>();
             go.GetComponent<KPrefabID>().prefabInitFn += inst => { };
         }

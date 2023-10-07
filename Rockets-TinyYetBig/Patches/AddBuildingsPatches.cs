@@ -53,9 +53,11 @@ namespace RoboRockets.Rockets_TinyYetBig
                     AddRocketModuleToBuildList(HabitatModulePlatedNoseconeLargeConfig.ID, new RocketCategory[] { RocketCategory.habitats, RocketCategory.nosecones }, HabitatModuleSmallExpandedConfig.ID);
                 }
 
-
-                //AddRocketModuleToBuildList(IonEngineBoosterClusterConfig.ID, RocketryUtils.RocketCategory.fuel, HydrogenEngineClusterConfig.ID);
-
+                //if (Config.Instance.Boosters)
+                //{
+                //    AddRocketModuleToBuildList(PetroleumBoosterClusterConfig.ID, RocketryUtils.RocketCategory.engines, KeroseneEngineClusterConfig.ID);
+                //    AddRocketModuleToBuildList(IonEngineBoosterClusterConfig.ID, RocketryUtils.RocketCategory.engines, HydrogenEngineClusterConfig.ID);
+                //}
 
                 if (Config.Instance.EnableRadboltStorage)
                     AddRocketModuleToBuildList(HEPBatteryModuleConfig.ID, RocketryUtils.RocketCategory.cargo, GasCargoBayClusterConfig.ID);
@@ -185,7 +187,12 @@ namespace RoboRockets.Rockets_TinyYetBig
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.FoodRepurposing, FridgeModuleConfig.ID);
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.FoodRepurposing, FridgeModuleAccessHatchConfig.ID);
                 }
-                
+                //if (Config.Instance.Boosters)
+                //{
+                //    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.HydrocarbonPropulsion, PetroleumBoosterClusterConfig.ID);
+                //    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CryoFuelPropulsion, IonEngineBoosterClusterConfig.ID);
+                //}
+
 
                 if (Config.Instance.EnableLaserDrill)
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, NoseConeHEPHarvestConfig.ID);
