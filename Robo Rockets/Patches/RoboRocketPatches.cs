@@ -192,22 +192,21 @@ namespace RoboRockets
             }
         }
 
-        //[HarmonyPatch(typeof(CameraController))]
-        //[HarmonyPatch(nameof(CameraController.ActiveWorldStarWipe))]
-        //[HarmonyPatch(new System.Type[] { typeof(int), typeof(System.Action) })]
-        //public class DisableViewInteriorWorldSelector_Patch
-        //{
-        //    public static bool Prefix(int id)
-        //    {
-        //        if (ModAssets.ForbiddenInteriorIDs.Contains(id))
-        //        {
-
-        //            SgtLogger.l("WorldID is forbidden to look into: " + id);
-        //            return false;
-        //        }
-        //        return true;
-        //    }
-        //}
+        [HarmonyPatch(typeof(CameraController))]
+        [HarmonyPatch(nameof(CameraController.ActiveWorldStarWipe))]
+        [HarmonyPatch(new System.Type[] { typeof(int), typeof(System.Action) })]
+        public class DisableViewInteriorWorldSelector_OnClickStarmap_Patch
+        {
+            public static bool Prefix(int id)
+            {
+                if (ModAssets.ForbiddenInteriorIDs.ContainsKey(id))
+                {
+                    SgtLogger.l("WorldID is forbidden to look into: " + id);
+                    return false;
+                }
+                return true;
+            }
+        }
         [HarmonyPatch(typeof(WorldSelector))]
         [HarmonyPatch(nameof(WorldSelector.OnWorldRowClicked))]
         public class DisableViewInteriorWorldSelector_Patch

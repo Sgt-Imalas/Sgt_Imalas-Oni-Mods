@@ -63,7 +63,7 @@ namespace UtilLibs
 
             if (faultyMod != null && faultyMod.IsEnabledForActiveDlc())
             {
-                faultyMod.SetCrashCount(3);
+                faultyMod.SetCrashed();
                 AddIncompatibleToList(GameName,faultyMod.title);
 
             }
