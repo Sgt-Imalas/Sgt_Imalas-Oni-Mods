@@ -8,9 +8,9 @@ using UnityEngine;
 
 namespace NeutroniumTrashCan
 {
-    internal class NeutroniumTrashCanConfig : IBuildingConfig
+    internal class GasTrashCanConfig : IBuildingConfig
     {
-        public const string ID = "NTC_NeutroniumTrashCan";
+        public const string ID = "NTC_GasTrashCan";
 
         public override BuildingDef CreateBuildingDef()
         {
@@ -35,6 +35,9 @@ namespace NeutroniumTrashCan
             buildingDef.Floodable = false;
             buildingDef.AudioCategory = "Metal";
             buildingDef.Overheatable = false;
+            buildingDef.InputConduitType = ConduitType.Gas;
+            buildingDef.ViewMode = OverlayModes.GasConduits.ID;
+            buildingDef.UtilityInputOffset = new CellOffset(0, 0);
             return buildingDef;
         }
 
@@ -47,17 +50,13 @@ namespace NeutroniumTrashCan
             storage.showInUI = true;
             storage.allowItemRemoval = false;
             storage.showDescriptor = true;
-            ManualDeliveryKG manualDeliveryKg = go.AddOrGet<ManualDeliveryKG>();
-            manualDeliveryKg.SetStorage(storage);
-            manualDeliveryKg.RequestedItemTag = GameTags.Special;
-            manualDeliveryKg.capacity = 9999999;
-            manualDeliveryKg.refillMass = 9999998;
-            manualDeliveryKg.MinimumMass = 9999999;
-            manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.StorageFetch.IdHash;
-
-
+            storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+            ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
+            conduitConsumer.conduitType = ConduitType.Liquid;
+            conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Store;
+            conduitConsumer.forceAlwaysSatisfied = true;
         }
 
-        public override void DoPostConfigureComplete(GameObject go) => go.AddOrGet<NeutroniumTrashCan>();
+        public override void DoPostConfigureComplete(GameObject go) => go.AddOrGet<NeutroniumTrashCan>().tint = Color.yellow;
     }
 }

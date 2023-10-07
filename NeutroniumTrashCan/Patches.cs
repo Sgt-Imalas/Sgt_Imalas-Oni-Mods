@@ -25,6 +25,9 @@ namespace NeutroniumTrashCan
             public static void Prefix()
             {
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, NeutroniumTrashCanConfig.ID);
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, SolidTrashCanConfig.ID);
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, LiquidTrashCanConfig.ID);
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, GasTrashCanConfig.ID);
             }
         }
         /// <summary>
