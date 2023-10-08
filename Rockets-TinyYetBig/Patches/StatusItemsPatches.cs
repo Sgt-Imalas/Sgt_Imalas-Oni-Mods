@@ -610,10 +610,12 @@ namespace Rockets_TinyYetBig.Patches
                         rocketStatusContainer.Commit();
                     }
                     
-                    if ((!Mathf.Approximately(cargoStorage, CargoStoragePREV)) || (!Mathf.Approximately(cargoStorageMax, CargoStorageMaxPREV)))
+                    if (
+                        redrawPanel||
+                        (!Mathf.Approximately(cargoStorage, CargoStoragePREV)) || (!Mathf.Approximately(cargoStorageMax, CargoStorageMaxPREV)))
                     {
                         CargoStoragePREV = cargoStorage;
-                        CargoStorageMaxPREV= cargoStorage;
+                        CargoStorageMaxPREV= cargoStorageMax;
 
                         ///Cargos
                         if (clusterCraft != null)
