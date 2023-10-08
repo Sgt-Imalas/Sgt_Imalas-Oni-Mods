@@ -295,8 +295,6 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
         }
 
-
-
         [HarmonyPatch(typeof(WorldContainer))]
         [HarmonyPatch(nameof(WorldContainer.maximumBounds))]
         [HarmonyPatch(MethodType.Getter)]
@@ -559,6 +557,27 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
         }
 
+
+        [HarmonyPatch]
+        public static class PatchRailgunPayloadTravel
+        {
+            [HarmonyPostfix]
+            public static void Postfix(RailGunPayload.StatesInstance __instance, AxialI source, AxialI destination)
+            {
+                if (__instance.master.gameObject.TryGetComponent<ClusterTraveler>(out ClusterTraveler clusterTraveler) && SpaceStationManager.IsSpaceStationAt(destination) && clusterTraveler.quickTravelToAsteroidIfInOrbit == true)
+                {
+                    clusterTraveler.quickTravelToAsteroidIfInOrbit = false;
+                    SgtLogger.l("Railgun projectile set for space station, deactivating orbit fast travel");
+
+                }
+            }
+            [HarmonyTargetMethods]
+            internal static IEnumerable<MethodBase> TargetMethods()
+            {
+                yield return typeof(RailGunPayload.StatesInstance).GetMethod("Travel");
+                yield return typeof(RailGunPayload.StatesInstance).GetMethod("Launch");
+            }
+        }
         //[HarmonyPatch(typeof(GridSettings))]
         //[HarmonyPatch(nameof(GridSettings.Reset))]
         //public static class Size_Experiment
@@ -568,172 +587,6 @@ namespace Rockets_TinyYetBig.SpaceStations
         //        width += 500;
         //        height += 500;
         //    }
-        //}
-
-
-        //[HarmonyPatch(typeof(ClusterDestinationSelector))]
-        //[HarmonyPatch(nameof(ClusterDestinationSelector.SetDestination))]
-        //public static class removeAssertInSetDestination
-        //{
-        //    public static bool Prefix(AxialI location, ClusterDestinationSelector __instance, ref AxialI ___m_destination)
-        //    {
-        //        if (__instance.requireAsteroidDestination)
-        //            Debug.Assert(ClusterUtil.GetAsteroidWorldIdAtLocation(location) != -1 || SpaceStationManager.GetSpaceStationWorldIdAtLocation(location) != -1, (object)string.Format("Cannot SetDestination to {0} as there is no world there", (object)location));
-        //        ___m_destination = location;
-        //        __instance.Trigger(543433792, (object)location);
-        //        return false;
-        //    }
-        //}
-
-        /// <summary>
-        /// Edge case situation
-        /// </summary>
-        [HarmonyPatch(typeof(RailGunPayload.StatesInstance))]
-        [HarmonyPatch(nameof(RailGunPayload.StatesInstance.UpdateLanding))]
-        public static class PatchRailgunPayload_InsideStation
-        {
-            public static void Postfix(RailGunPayload.StatesInstance __instance)
-            {
-                int worldID = __instance.gameObject.GetMyWorldId();
-                if (worldID != -1 && ClusterManager.Instance.GetWorld(worldID).TryGetComponent<SpaceStation>(out var component))
-                {
-                    Vector3 position = __instance.transform.GetPosition();
-                    position.y -= 1f;
-                    int cell = Grid.PosToCell(position);
-                    if (!Grid.IsValidCellInWorld(cell, worldID))
-                    {
-                        position.y += ClusterManager.Instance.GetWorld(worldID).Height;
-                        __instance.transform.position = position;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// adjust for smaller space stations
-        /// </summary>
-        [HarmonyPatch(typeof(RailGunPayload.StatesInstance))]
-        [HarmonyPatch(nameof(RailGunPayload.StatesInstance.StartLand))]
-        public static class PatchRailgunPayload_LandInsideSpaceStation
-        {
-            public static bool Prefix(RailGunPayload.StatesInstance __instance)
-            {
-                WorldContainer worldContainer = ClusterManager.Instance.GetWorld(__instance.sm.destinationWorld.Get(__instance));
-                if (worldContainer == null)
-                {
-                    return true;
-                }
-
-                if(worldContainer.TryGetComponent<SpaceStation>(out var spaceStation))
-                {
-                    int targetCell = 0;
-                    int targetBeaconCell = Grid.InvalidCell;
-                    if (__instance.def.attractToBeacons)
-                    {
-                        targetBeaconCell = ClusterManager.Instance.GetLandingBeaconLocation(worldContainer.id);
-                    }
-
-                    if (targetBeaconCell != Grid.InvalidCell)
-                    {
-                        Grid.CellToXY(targetBeaconCell, out var x, out var _);
-                        int minInclusive = Mathf.Max(x - 2, (int)spaceStation.topRightCorner.x);
-                        int maxExclusive = Mathf.Min(x + 3, (int)spaceStation.topRightCorner.x);
-                        targetCell = Mathf.RoundToInt(UnityEngine.Random.Range(minInclusive, maxExclusive));
-                    }
-                    else
-                    {
-                        targetCell = Mathf.RoundToInt(UnityEngine.Random.Range(spaceStation.topRightCorner.x + 3f, spaceStation.topRightCorner.x - 3f));
-                    }
-
-                    TransformExtensions.SetPosition(position: new Vector3((float)targetCell + 0.5f, spaceStation.topRightCorner.y - 1f, Grid.GetLayerZ(Grid.SceneLayer.Front)), transform: __instance.transform);
-                    if (GameComps.Fallers.Has(__instance.gameObject))
-                    {
-                        GameComps.Fallers.Remove(__instance.gameObject);
-                    }
-
-                    GameComps.Fallers.Add(__instance.gameObject, new Vector2(0f, -10f));
-                    __instance.sm.destinationWorld.Set(-1, __instance);
-
-
-                    int worldID = __instance.gameObject.GetMyWorldId();
-                    if (worldID != -1 && ClusterManager.Instance.GetWorld(worldID).TryGetComponent<SpaceStation>(out var component))
-                    {
-                        Vector3 position = __instance.transform.GetPosition();
-                        position.y -= 1f;
-                        int cell = Grid.PosToCell(position);
-                        if (!Grid.IsValidCellInWorld(cell, worldID))
-                        {
-                            position.y += ClusterManager.Instance.GetWorld(worldID).Height;
-                            __instance.transform.position = position;
-                        }
-                    }
-                    return false;
-                }
-
-                return true;
-
-
-                
-            }
-        }
-
-
-
-        //[HarmonyPatch(typeof(RailGunPayload.StatesInstance))]
-        //[HarmonyPatch(nameof(RailGunPayload.StatesInstance.Travel))]
-        //public static class PatchRailgunPayloadTravel
-        //{
-        //    public static bool Prefix(AxialI source, AxialI destination, RailGunPayload.StatesInstance __instance)
-        //    {
-        //        __instance.GetComponent<BallisticClusterGridEntity>().Configure(source, destination);
-        //        if (ClusterUtil.GetAsteroidWorldIdAtLocation(destination) != -1)
-        //            __instance.sm.destinationWorld.Set(ClusterUtil.GetAsteroidWorldIdAtLocation(destination), __instance);
-        //        else
-        //            __instance.sm.destinationWorld.Set(SpaceStationManager.GetSpaceStationWorldIdAtLocation(destination), __instance);
-        //        __instance.GoTo((StateMachine.BaseState)__instance.sm.travel);
-        //        return false;
-        //    }
-        //}
-
-
-
-        //[HarmonyPatch(typeof(TerrainBG), "LateUpdate")]
-        //public static class BackgroundEvalRemoveClustercraft
-        //{
-        //    public static bool Prefix(TerrainBG __instance, Texture3D ___noiseVolume, Mesh ___starsPlane, int ___layer, MaterialPropertyBlock[] ___propertyBlocks, Mesh ___worldPlane, Mesh ___gasPlane)
-        //    {
-
-        //        WorldContainer world = ClusterManager.Instance.activeWorld;
-        //        if (world.IsModuleInterior && world.TryGetComponent<SpaceStation>(out var station))
-        //        {
-        //            Material material = __instance.starsMaterial_space;
-        //            material.renderQueue = RenderQueues.Stars;
-        //            material.SetTexture("_NoiseVolume", (Texture)___noiseVolume);
-        //            Graphics.DrawMesh(___starsPlane, new Vector3(0.0f, 0.0f, Grid.GetLayerZ(Grid.SceneLayer.Background) + 1f), Quaternion.identity, material, ___layer);
-        //            __instance.backgroundMaterial.renderQueue = RenderQueues.Backwall;
-        //            for (int index = 0; index < Lighting.Instance.Settings.BackgroundLayers; ++index)
-        //            {
-        //                if (index >= Lighting.Instance.Settings.BackgroundLayers - 1)
-        //                {
-        //                    float t = (float)index / (float)(Lighting.Instance.Settings.BackgroundLayers - 1);
-        //                    float x = Mathf.Lerp(1f, Lighting.Instance.Settings.BackgroundDarkening, t);
-        //                    float z = Mathf.Lerp(1f, Lighting.Instance.Settings.BackgroundUVScale, t);
-        //                    float w = 1f;
-        //                    if (index == Lighting.Instance.Settings.BackgroundLayers - 1)
-        //                        w = 0.0f;
-        //                    MaterialPropertyBlock propertyBlock = ___propertyBlocks[index];
-        //                    propertyBlock.SetVector("_BackWallParameters", new Vector4(x, Lighting.Instance.Settings.BackgroundClip, z, w));
-        //                    Graphics.DrawMesh(___worldPlane, new Vector3(0.0f, 0.0f, Grid.GetLayerZ(Grid.SceneLayer.Background)), Quaternion.identity, __instance.backgroundMaterial, ___layer, (Camera)null, 0, propertyBlock);
-        //                }
-        //            }
-        //            __instance.gasMaterial.renderQueue = RenderQueues.Gas;
-        //            Graphics.DrawMesh(___gasPlane, new Vector3(0.0f, 0.0f, Grid.GetLayerZ(Grid.SceneLayer.Gas)), Quaternion.identity, __instance.gasMaterial, ___layer);
-        //            Graphics.DrawMesh(___gasPlane, new Vector3(0.0f, 0.0f, Grid.GetLayerZ(Grid.SceneLayer.GasFront)), Quaternion.identity, __instance.gasMaterial, ___layer);
-        //            return false;
-        //        }
-        //        return true;
-        //    }
-
         //}
     }
 }
