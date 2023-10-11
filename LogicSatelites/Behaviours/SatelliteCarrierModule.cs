@@ -159,7 +159,7 @@ namespace LogicSatellites.Behaviours
                     storage.Remove(satellite.gameObject);
                     storage.items.Remove(satellite.gameObject);
                     GameObject.Destroy(satellite);
-                    Debug.Log(satellite.IsNullOrDestroyed() + "SHOULD BE TRUE");
+                    //Debug.Log(satellite.IsNullOrDestroyed() + "SHOULD BE TRUE");
 
                     SpawnSatellite(component.Location, ModAssets.SatelliteConfigurations[satType].GridID);
                     sm.hasSatellite.Set(false, this);

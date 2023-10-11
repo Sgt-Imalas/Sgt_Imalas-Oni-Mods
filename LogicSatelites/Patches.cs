@@ -18,7 +18,7 @@ using static ComplexRecipe;
 
 namespace LogicSatellites
 {
-    class Patches
+    class Patches_LS
     {
         
         [HarmonyPatch(typeof(Assets), "OnPrefabInit")]
@@ -30,29 +30,6 @@ namespace LogicSatellites
                 InjectionMethods.AddSpriteToAssets(__instance, "LS_Solar_Sat");
             }
         }
-
-
-
-        [HarmonyPatch(typeof(LogicBroadcastReceiver))]
-        [HarmonyPatch(nameof(LogicBroadcastReceiver.CheckRange))]
-        public static class BroadcastRecieverRangePatch
-        {
-            public static bool Prefix(LogicBroadcastReceiver __instance, ref bool __result, GameObject broadcaster, GameObject receiver)
-            {
-                AxialI a, b;
-                a = broadcaster.GetMyWorldLocation();
-                b = receiver.GetMyWorldLocation();
-                bool returnValue = AxialUtil.GetDistance(a, b) <= LogicBroadcaster.RANGE;
-                if (returnValue)
-                {
-                    __result = true;
-                    return false;
-                }
-                __result = ModAssets.FindConnectionViaAdjacencyMatrix(a, b);
-                return false;
-            }
-        }
-
 
         [HarmonyPatch(typeof(MissionControlCluster.Instance), nameof(MissionControlCluster.Instance.UpdateWorkableRocketsInRange))]
         public class MissionControlClusterInstance_UpdateWorkableRocketsInRange_Patch
@@ -95,14 +72,16 @@ namespace LogicSatellites
                 return code;
             }
 
-            private static bool AdvancedRangeChecker(ClusterGrid _, AxialI a, AxialI b, int range = 1)
+            private static bool AdvancedRangeChecker(ClusterGrid consumeOnly, AxialI a, AxialI b, int range = 1)
             {
                 bool returnValue = AxialUtil.GetDistance(a, b) <= range;
                 if (returnValue)
                 {
                     return true;
                 }
-                return ModAssets.FindConnectionViaAdjacencyMatrix(a, b, range);
+                bool HasConnection = ModAssets.FindConnectionViaAdjacencyMatrix(a, b,out _,range);
+
+                return HasConnection;
             }
         }
 

@@ -89,61 +89,61 @@ namespace Rockets_TinyYetBig.LandingLegs
 
         }
 
-        [HarmonyPatch(typeof(Db))]
-        [HarmonyPatch("Initialize")]
-        public static class Db_Init_Patch
-        {
+        //[HarmonyPatch(typeof(Db))]
+        //[HarmonyPatch("Initialize")]
+        //public static class Db_Init_Patch
+        //{
 
-            public static void Postfix()
-            {
-                System.Reflection.MethodInfo prefix = AccessTools.Method(typeof(ModifyLaunchConditionsForEdgeCase), "Prefix");
-                foreach (var MethodToPatch in ModifyLaunchConditionsForEdgeCase.TargetMethods())
-                    Mod.haromy.Patch(MethodToPatch, new HarmonyMethod(prefix));
-            }
-        }
+        //    public static void Postfix()
+        //    {
+        //        System.Reflection.MethodInfo prefix = AccessTools.Method(typeof(ModifyLaunchConditionsForEdgeCase), "Prefix");
+        //        foreach (var MethodToPatch in ModifyLaunchConditionsForEdgeCase.TargetMethods())
+        //            Mod.haromy.Patch(MethodToPatch, new HarmonyMethod(prefix));
+        //    }
+        //}
 
-        public static class ModifyLaunchConditionsForEdgeCase
-        {
-            public static bool Prefix(GameObject existingModule, BuildingDef selectedPart, SelectionContext selectionContext, ref bool __result)
-            {
-                ///Edge case: new rocket on landing platform, as that is an entity, not a building
-                ///
-                //Debug.Log((existingModule != null) + "," + existingModule.TryGetComponent<RTB_LaunchPadWithoutLogic>(out _) + "," + existingModule.TryGetComponent<KBoxCollider2D>(out _) + ", " + existingModule.TryGetComponent<OccupyArea>(out _));
-                if (existingModule != null
-                    && existingModule.TryGetComponent<RTB_LaunchPadWithoutLogic>(out _)
-                    && existingModule.TryGetComponent<KBoxCollider2D>(out var collider2D)
-                    && existingModule.TryGetComponent<OccupyArea>(out var occupyArea))
-                {
-                    __result = true; return false;
-                }
-                return true;
+        //public static class ModifyLaunchConditionsForEdgeCase
+        //{
+        //    public static bool Prefix(GameObject existingModule, BuildingDef selectedPart, SelectionContext selectionContext, ref bool __result)
+        //    {
+        //        ///Edge case: new rocket on landing platform, as that is an entity, not a building
+        //        ///
+        //        //Debug.Log((existingModule != null) + "," + existingModule.TryGetComponent<RTB_LaunchPadWithoutLogic>(out _) + "," + existingModule.TryGetComponent<KBoxCollider2D>(out _) + ", " + existingModule.TryGetComponent<OccupyArea>(out _));
+        //        if (existingModule != null
+        //            && existingModule.TryGetComponent<RTB_LaunchPadWithoutLogic>(out _)
+        //            && existingModule.TryGetComponent<KBoxCollider2D>(out var collider2D)
+        //            && existingModule.TryGetComponent<OccupyArea>(out var occupyArea))
+        //        {
+        //            __result = true; return false;
+        //        }
+        //        return true;
 
-            }
+        //    }
 
-            internal static IEnumerable<MethodBase> TargetMethods()
-            {
-                List<Type> TargetTypes = new List<Type>();
-                List<MethodBase> TargetMethods = new List<MethodBase>();
-                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-                {
-                    var subclassTypes = assembly.GetTypes()
-                        .Where(t => t.IsSubclassOf(typeof(SelectModuleCondition)));
-                    TargetTypes.AddRange(subclassTypes);
-                }
-                foreach (var type in TargetTypes)
-                {
-                    MethodInfo method = AccessTools.Method(type, "EvaluateCondition", new Type[] { typeof(GameObject), typeof(BuildingDef), typeof(SelectionContext) });
+        //    internal static IEnumerable<MethodBase> TargetMethods()
+        //    {
+        //        List<Type> TargetTypes = new List<Type>();
+        //        List<MethodBase> TargetMethods = new List<MethodBase>();
+        //        foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+        //        {
+        //            var subclassTypes = assembly.GetTypes()
+        //                .Where(t => t.IsSubclassOf(typeof(SelectModuleCondition)));
+        //            TargetTypes.AddRange(subclassTypes);
+        //        }
+        //        foreach (var type in TargetTypes)
+        //        {
+        //            MethodInfo method = AccessTools.Method(type, "EvaluateCondition", new Type[] { typeof(GameObject), typeof(BuildingDef), typeof(SelectionContext) });
 
-                    if (method != null && !method.IsAbstract && !method.IsGenericMethod && method.HasMethodBody() && method.DeclaringType != typeof(IBuildingConfig))
-                    {
-                        TargetMethods.Add(method);
-                    }
-                }
-                SgtLogger.l("All Condition Methods acquired, Count: " + TargetMethods.Count());
-                return TargetMethods;
-            }
+        //            if (method != null && !method.IsAbstract && !method.IsGenericMethod && method.HasMethodBody() && method.DeclaringType != typeof(IBuildingConfig))
+        //            {
+        //                TargetMethods.Add(method);
+        //            }
+        //        }
+        //        SgtLogger.l("All Condition Methods acquired, Count: " + TargetMethods.Count());
+        //        return TargetMethods;
+        //    }
 
-        }
+        //}
 
     }
 }

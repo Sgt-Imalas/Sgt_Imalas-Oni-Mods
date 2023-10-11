@@ -24,14 +24,14 @@ namespace LogicSatellites.Behaviours
         }
 
 
-        public static bool FindConnectionViaAdjacencyMatrix(AxialI a, AxialI b, int inputOutputDistance = -1)
+        public static bool FindConnectionViaAdjacencyMatrix(AxialI a, AxialI b, out List<AxialI> path, int inputOutputDistance = -1)
         {
             bool HasConnection = false;
             Node A = AdjazenzMatrixHolder.AddItemToGraph(a, inputOutputDistance);
             Node B = AdjazenzMatrixHolder.AddItemToGraph(b, inputOutputDistance);
-            HasConnection = AdjazenzMatrixHolder.PathFinding(A,B);
-            AdjazenzMatrixHolder.RemoveItemTFromGraph(A);
-            AdjazenzMatrixHolder.RemoveItemTFromGraph(B);
+            HasConnection = AdjazenzMatrixHolder.PathFinding(A,B, out path);
+            AdjazenzMatrixHolder.TEMPNODE_RemoveItemTFromGraph(A);
+            AdjazenzMatrixHolder.TEMPNODE_RemoveItemTFromGraph(B);
             return HasConnection;
         }
 
@@ -125,8 +125,9 @@ namespace LogicSatellites.Behaviours
 
             public bool?[,] AdjacencyMatrix;
 
-            public bool PathFinding(Node startNode, Node TargetNode)
+            public bool PathFinding(Node startNode, Node TargetNode, out List<AxialI> validPath)
             {
+                validPath = null;
                 var openList = new List<Node>();
                 var closedList = new List<Node>();
                 openList.Add(startNode);
@@ -137,6 +138,8 @@ namespace LogicSatellites.Behaviours
 
                     if(currenNode == TargetNode)
                     {
+                        closedList.Add(TargetNode);
+                        validPath = new List<AxialI>(closedList.Select(node => node.SatelliteLocation));
                         return true;
                     }
                     else
@@ -208,8 +211,10 @@ namespace LogicSatellites.Behaviours
 
                 if(LogicConnectionNodes.Find(f=> f.SatelliteLocation == item) != null)
                 {
+                    SgtLogger.l($"there was already a satellite node at {item}");
                     return LogicConnectionNodes.Find(f => f.SatelliteLocation == item);
                 }
+                SgtLogger.l($"Adding Satellite node at {item}");
                 var newNode = CreateNode(item);
                 foreach (var node in LogicConnectionNodes)
                 {
@@ -226,6 +231,15 @@ namespace LogicSatellites.Behaviours
             }
             public void RemoveItemTFromGraph(AxialI item)
             {
+
+                var SatellitesInHex = Satellites.Where(satellite=> satellite.Location== item).ToList();
+                if (SatellitesInHex.Count > 0)
+                {
+                    SgtLogger.l($"Tried removing Satellite at {item.ToString()}, but there were still {SatellitesInHex.Count} satellites there!");
+                    return;
+                }
+
+
                 var nodeToRemove = LogicConnectionNodes.Find(f => f.SatelliteLocation == item);
                 if (nodeToRemove == null)
                 {
@@ -237,12 +251,19 @@ namespace LogicSatellites.Behaviours
                 }
                 LogicConnectionNodes.Remove(nodeToRemove);
             }
-            public void RemoveItemTFromGraph(Node item)
+            public void TEMPNODE_RemoveItemTFromGraph(Node item)
             {
                 if (!LogicConnectionNodes.Contains(item))
                 {
                     return;
                 }
+                var SatellitesInHex = Satellites.Where(satellite => satellite.Location == item.SatelliteLocation).ToList();
+                if (SatellitesInHex.Count > 0)
+                {
+                    SgtLogger.l($"There was a satellite at {item.SatelliteLocation}, not removing temp node.");
+                    return;
+                }
+
                 foreach (var link in item.Links)
                 {
                     link.Child.RemoveLink(item);
