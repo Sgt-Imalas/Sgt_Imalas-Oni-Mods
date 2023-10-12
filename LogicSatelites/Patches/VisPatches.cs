@@ -29,7 +29,7 @@ namespace LogicSatellites.Patches
                 if (returnValue)
                 {
                     __result = true;
-                    PathUpdating.AddOrUpdateConnection(receiver, new List<AxialI>() { a, b });
+                    //PathUpdating.AddOrUpdateConnection(receiver, new List<AxialI>() { a, b });
                     return false;
                 }
                 __result = ModAssets.FindConnectionViaAdjacencyMatrix(a, b, out var Connection);
@@ -42,7 +42,8 @@ namespace LogicSatellites.Patches
         [HarmonyPatch(nameof(ClusterMapScreen.UpdatePaths))]
         public static class PathUpdating
         {
-
+           static Color satelliteConnectionColor = UIUtils.rgba(255, 255, 255, 0.15f);
+           static Color activeConnectionColor = UIUtils.rgba(255, 90, 90, 0.3f);
             public static void AddOrUpdateConnection(GameObject item, List<AxialI> connections)
             {
                 if(item == null)
@@ -60,7 +61,7 @@ namespace LogicSatellites.Patches
                 {
                     var path = ClusterMapScreen.Instance.pathDrawer.AddPath();
                     path.SetPoints(connections.Select(note => note.ToWorld2D()).ToList());
-                    path.SetColor(UnityEngine.Color.red);
+                    path.SetColor(activeConnectionColor);
                     ActiveConnections.Add(item,path);
                 }
             }
@@ -82,7 +83,7 @@ namespace LogicSatellites.Patches
                     {
                         var path = __instance.pathDrawer.AddPath();
                         path.SetPoints(new List<UnityEngine.Vector2>() { link.Parent.SatelliteLocation.ToWorld2D(), link.Child.SatelliteLocation.ToWorld2D()});
-                        path.SetColor(UnityEngine.Color.blue);
+                        path.SetColor(satelliteConnectionColor);
                         values.Add(path);
                     }
                     Paths[node] = values;

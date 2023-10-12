@@ -17,6 +17,8 @@ namespace LogicSatellites.Behaviours
         private string m_name;
         [Serialize]
         public int satelliteType;
+        [Serialize]
+        public bool ShowOnMap = true;
         // private string clusterAnimSymbolSwapTarget;
         // private string clusterAnimSymbolSwapSymbol;
 
@@ -76,7 +78,7 @@ namespace LogicSatellites.Behaviours
             ModAssets.AdjazenzMatrixHolder.RemoveItemTFromGraph(this.Location);
             base.OnCleanUp();
         }
-        public override bool IsVisible => true;
+        public override bool IsVisible => ShowOnMap;
 
         public override ClusterRevealLevel IsVisibleInFOW => ClusterRevealLevel.Visible;
         public void Init(AxialI location) => this.Location = location;
