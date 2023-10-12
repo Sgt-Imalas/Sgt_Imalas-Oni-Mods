@@ -456,7 +456,7 @@ namespace ClusterTraitGenerationManager
                             var worldTrait = ModAssets.AllTraitsWithRandomDict[trait];
                             Util.KInstantiateUI(traitImagePrefab, imageContainer, true).TryGetComponent<Image>(out var traitImage);
                             traitImage.color = Util.ColorFromHex(worldTrait.colorHex);
-                            traitImage.sprite = Assets.GetSprite(worldTrait.filePath.Substring(worldTrait.filePath.LastIndexOf("/") + 1));
+                            traitImage.sprite = ModAssets.GetTraitSprite(worldTrait);
                             UIUtils.AddSimpleTooltipToObject(traitImage.transform, Strings.Get(worldTrait.name), true, onBottom: true);
                         }
                     }

@@ -865,11 +865,9 @@ namespace ClusterTraitGenerationManager
 
                 var combined = UIUtils.ColorText(name.ToString(), kvp.Value.colorHex);
 
-                string associatedIcon = kvp.Value.filePath.Substring(kvp.Value.filePath.LastIndexOf("/") + 1);
-
                 var icon = TraitHolder.transform.Find("TraitImage").GetComponent<Image>();
 
-                icon.sprite = Assets.GetSprite(associatedIcon);
+                icon.sprite = ModAssets.GetTraitSprite(kvp.Value);
                 icon.color = Util.ColorFromHex(kvp.Value.colorHex);
                 if (kvp.Key == ModAssets.CustomTraitID)
                 {

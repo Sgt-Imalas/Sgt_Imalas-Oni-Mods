@@ -159,11 +159,8 @@ namespace ClusterTraitGenerationManager
                 Strings.TryGet(kvp.Value.description, out var description);
                 var combined = "<color=#" + kvp.Value.colorHex + ">" + name.ToString() + "</color>";
 
-
-                string associatedIcon = kvp.Value.filePath.Substring(kvp.Value.filePath.LastIndexOf("/") + 1);
-
                 var icon = TraitHolder.transform.Find("Label/TraitImage").GetComponent<Image>();
-                icon.sprite = Assets.GetSprite(associatedIcon);
+                icon.sprite = ModAssets.GetTraitSprite(kvp.Value);
                 icon.color = Util.ColorFromHex(kvp.Value.colorHex);
 
                 UIUtils.TryChangeText(TraitHolder.transform, "Label", combined);
@@ -191,10 +188,9 @@ namespace ClusterTraitGenerationManager
                 Strings.TryGet(kvp.Value.name, out var name);
                 Strings.TryGet(kvp.Value.description, out var description);
                 var combined = "<color=#" + kvp.Value.colorHex + ">" + name.ToString() + "</color>";
-                string associatedIcon = kvp.Value.filePath.Substring(kvp.Value.filePath.LastIndexOf("/") + 1);
 
                 var icon = TraitHolder.transform.Find("Label/TraitImage").GetComponent<Image>();
-                icon.sprite = Assets.GetSprite(associatedIcon);
+                icon.sprite = ModAssets.GetTraitSprite(kvp.Value);
                 icon.color = Util.ColorFromHex(kvp.Value.colorHex);
 
                 UIUtils.TryChangeText(TraitHolder.transform, "Label", combined);

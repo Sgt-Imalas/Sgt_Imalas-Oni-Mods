@@ -40,6 +40,22 @@ namespace ClusterTraitGenerationManager
             };
 
 
+        public static Sprite GetTraitSprite(WorldTrait trait)
+        {
+            Sprite TraitSprite = null;
+            if(trait.icon != null && trait.icon.Length > 0)
+            {
+                TraitSprite = Assets.GetSprite(trait.icon); 
+            }
+            if(TraitSprite == null)
+            {
+                string associatedIcon = trait.filePath.Substring(trait.filePath.LastIndexOf("/") + 1);
+
+                TraitSprite = Assets.GetSprite(associatedIcon);
+            }
+            return TraitSprite;
+        }
+
         public static class Strings
         {
             public static string ApplyCategoryTypeToString(string input, StarmapItem item) => ApplyCategoryTypeToString(input, item.category);
