@@ -63,7 +63,6 @@ namespace LogicSatellites.Behaviours
             SolarLens = 1,
             RadLens = 2,
             DysonComponent = 3
-            ,GroundTarget = 4
         }
         public static TechItem ExplorationSatellite;
         public static TechItem SolarSatellite;
@@ -131,9 +130,6 @@ namespace LogicSatellites.Behaviours
                 validPath = null;
                 var openList = new List<Node>();
                 var closedList = new List<Node>();
-                var nodesWithParents = new List<Tuple<Node, Node>>();
-
-
                 openList.Add(startNode);
                 while (openList.Count > 0)
                 {
@@ -142,24 +138,16 @@ namespace LogicSatellites.Behaviours
 
                     if(currenNode == TargetNode)
                     {
-                        validPath = new List<AxialI>() { currenNode.SatelliteLocation };
-                        var backtrackingNode = currenNode;
-                        while(nodesWithParents.Any(nod=> nod.first == backtrackingNode))
-                        {
-                            backtrackingNode = nodesWithParents.First(nod => nod.first == backtrackingNode).second;
-                            validPath.Add(backtrackingNode.SatelliteLocation);
-                        }
-
+                        closedList.Add(TargetNode);
+                        validPath = new List<AxialI>(closedList.Select(node => node.SatelliteLocation));
                         return true;
                     }
                     else
                     {
                         foreach(var link in currenNode.Links)
                         {
-                            if (!closedList.Contains(link.Child))
-                            {
+                            if (!closedList.Contains(link.Child)){
                                  openList.Add(link.Child);
-                                nodesWithParents.Add(new Tuple<Node, Node>(link.Child, link.Parent));
                             }
                         }
                         openList.RemoveAt(0);
