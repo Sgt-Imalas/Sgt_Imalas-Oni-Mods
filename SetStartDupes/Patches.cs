@@ -99,6 +99,21 @@ namespace SetStartDupes
                 return true;
             }
         }
+        [HarmonyPatch(typeof(MinionStartingStats))]
+        [HarmonyPatch(nameof(MinionStartingStats.GenerateStats))]
+        public class RecalculateStatBoni
+        {
+            [HarmonyPriority (Priority.LowerThanNormal)]
+            public static void Postfix(MinionStartingStats __instance)
+            {
+                if (ModAssets.DupeTraitManagers.ContainsKey(__instance))
+                    ModAssets.DupeTraitManagers[__instance].RecalculateAll();
+                else
+                    SgtLogger.warning("no mng for " + __instance + " found!");
+            }
+        }
+
+
 
         [HarmonyPatch(typeof(ImmigrantScreen))]
         [HarmonyPatch(nameof(ImmigrantScreen.Initialize))]
@@ -1003,32 +1018,14 @@ namespace SetStartDupes
             }
         }
 
-        [HarmonyPatch(typeof(CharacterContainer), "GenerateCharacter")]
+        [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.GenerateCharacter))]
         public static class AddChangeButtonToCharacterContainer
         {
             public static void Postfix(CharacterContainer __instance, MinionStartingStats ___stats, bool is_starter)
             {
-                ///Only during startup when config is disabled
-
-                //bool IsWhackyDupe = false;
-                //Type BioInksCustomDupeType = Type.GetType("PrintingPodRecharge.Cmps.CustomDupe, PrintingPodRecharge", false, false);
-                //if(BioInksCustomDupeType != null)
-                //{
-
-                //    //var obj = go.gameObject.GetComponent(VaricolouredBalloonsHelperType);
-                //    ////foreach (var cmp in VaricolouredBalloonsHelperType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic)) 
-                //    ////   SgtLogger.l(cmp.Name.ToString(),"GET Field");
-                //    ////foreach (var cmp in VaricolouredBalloonsHelperType.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic))
-                //    ////    SgtLogger.l(cmp.Name.ToString(), "GET method");
-
-                //    //var component = go.GetComponent(VaricolouredBalloonsHelperType);
-                //    //var fieldInfo = (uint)Traverse.Create(component).Method("get_ArtistBalloonSymbolIdx").GetValue();
-                //}
-
                 bool AllowModification = ModConfig.Instance.ModifyDuringGame || (EditingSingleDupe && ModConfig.Instance.JorgeAndCryopodDupes);
 
                 List<KButton> ButtonsToDisableOnEdit = new List<KButton>();
-
                 var buttonPrefab = __instance.transform.Find("TitleBar/RenameButton").gameObject;
                 var titlebar = __instance.transform.Find("TitleBar").gameObject;
 
@@ -1410,9 +1407,8 @@ namespace SetStartDupes
                     }
                 }
 
-
-
                 ParentContainer.gameObject.SetActive(!hide);
+
             }
             static string GetSkillGroupName(SkillGroup Group) => ModAssets.GetChoreGroupNameForSkillgroup(Group);
             static string FirstSkillGroupStat(SkillGroup Group) => Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + Group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME");

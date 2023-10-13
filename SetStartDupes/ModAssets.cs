@@ -210,7 +210,7 @@ namespace SetStartDupes
         }
 
         public static void ApplySkinFromPersonality(Personality personality, MinionStartingStats stats)
-        {            
+        {
             if (ModConfig.Instance.SkinsDoReactions)
             {
                 if (!ModConfig.Instance.NoJoyReactions)
@@ -231,17 +231,47 @@ namespace SetStartDupes
             stats.voiceIdx = ModApi.GetVoiceIdxOverrideForPersonality(personality.nameStringKey);
         }
 
-        public static int MinimumPointsPerInterest(MinionStartingStats stats)
+        public static int MinimumPointsPerInterest(MinionStartingStats stats, SkillGroup checkForMultiplesOf = null)
         {
             int SkillAmount = 0;
-            foreach (var s in stats.skillAptitudes)
+
+
+            Dictionary<string, int> skillGroupCount = new Dictionary<string, int>();
+
+
+            foreach (var aptitude in stats.skillAptitudes)
             {
-                if (s.Value > 0)
+
+                if (aptitude.Value > 0)
                 {
                     SkillAmount++;
+                    foreach (var atb in aptitude.Key.relevantAttributes)
+                    {
+                        if (skillGroupCount.ContainsKey(atb.Id))
+                        {
+                            skillGroupCount[atb.Id] = skillGroupCount[atb.Id]+1;
+                        }
+                        else
+                        {
+                            skillGroupCount[atb.Id] = 1;
+                        }
+                    }
+
                 }
             }
 
+
+            if (checkForMultiplesOf != null && stats.skillAptitudes.ContainsKey(checkForMultiplesOf))
+            {
+                foreach (var attribute in checkForMultiplesOf.relevantAttributes)
+                {
+                    if (skillGroupCount.ContainsKey(attribute.Id) && skillGroupCount[attribute.Id] > 1 )
+                    {
+                        return PointsPerInterests(SkillAmount)* skillGroupCount[attribute.Id];
+                    }
+                }
+            }
+            SkillAmount = Math.Max(SkillAmount, 0);
             return PointsPerInterests(SkillAmount);
         }
 
@@ -624,10 +654,10 @@ namespace SetStartDupes
 
         public static string GetChoreGroupNameForSkillgroup(SkillGroup group)
         {
-            if(group.choreGroupID==string.Empty && group.Id.ToLowerInvariant() == "suits")
+            if (group.choreGroupID == string.Empty && group.Id.ToLowerInvariant() == "suits")
                 return Strings.Get("STRINGS.DUPLICANTS.ROLES.GROUPS.SUITS");
 
-            if(group.choreGroupID!=null)
+            if (group.choreGroupID != null)
                 return Strings.Get("STRINGS.DUPLICANTS.CHOREGROUPS." + group.choreGroupID.ToUpperInvariant() + ".NAME");
             return Strings.Get("STRINGS.DUPLICANTS.SKILLGROUPS." + group.Id.ToUpperInvariant() + ".NAME");
         }

@@ -119,9 +119,9 @@ namespace SetStartDupes
             {
                 if (relevantAttributes.ContainsKey(startingLevel.Key))
                 {
-                    int bonusPointsInThatAttribute = startingLevel.Value* PointsPerInterest;
+                    int pointsThatAttributeShouldHave = relevantAttributes[startingLevel.Key] * PointsPerInterest;
 
-                    _externalModPoints += Math.Max(0, (startingLevel.Value - bonusPointsInThatAttribute));
+                    _externalModPoints += Math.Max(0, (startingLevel.Value - pointsThatAttributeShouldHave)); ///collecting all bonus points in that attribute
                 }
             }
             SgtLogger.l("Total bonus gathered from starting levels " + _externalModPoints);
@@ -135,7 +135,11 @@ namespace SetStartDupes
 
 
             if (_externalModPoints != 0)
+            {
+                SgtLogger.l("Registering additional mod points");
                 ModAssets.OtherModBonusPoints.Add(ToEditMinionStats, _externalModPoints);
+
+            }
         }
 
         public void DeltaPointPool(int delta)
@@ -163,7 +167,7 @@ namespace SetStartDupes
         }
         public void ReduceInterest(SkillGroup interest)
         {
-            int minimumPoints = ModAssets.MinimumPointsPerInterest(ToEditMinionStats);
+            int minimumPoints = ModAssets.MinimumPointsPerInterest(ToEditMinionStats, interest);
             foreach (var attribute in interest.relevantAttributes)
             {
                 if (ToEditMinionStats.StartingLevels.ContainsKey(attribute.Id))
@@ -337,13 +341,22 @@ namespace SetStartDupes
                     }
                 }
             }
-            while (amountToShip > 0 && ToEditMinionStats.skillAptitudes.Count > 0)
+
+            //while (amountToShip > 0 && ToEditMinionStats.skillAptitudes.Count > 0)
+            //{
+            //    int randomPoints = UnityEngine.Random.Range(1, amountToShip + 1);
+            //    amountToShip -= randomPoints;
+            //    var random = MinimumValuesForEachStartingLevel.GetRandom().Key;
+            //    MinimumValuesForEachStartingLevel[random] += randomPoints;
+            //}
+            List<string> keys = MinimumValuesForEachStartingLevel.Keys.ToList();
+
+            for(int counter = amountToShip; counter > 0; --counter)
             {
-                int randomPoints = UnityEngine.Random.Range(1, amountToShip + 1);
-                amountToShip -= randomPoints;
-                var random = MinimumValuesForEachStartingLevel.GetRandom().Key;
-                MinimumValuesForEachStartingLevel[random] += randomPoints;
+                keys.Shuffle();
+                MinimumValuesForEachStartingLevel[keys.First()]++;
             }
+
             foreach(var calculatedValue in MinimumValuesForEachStartingLevel)
             {
                 newVals[calculatedValue.Key] = calculatedValue.Value;
