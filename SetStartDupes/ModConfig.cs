@@ -118,7 +118,7 @@ namespace SetStartDupes
             JorgeAndCryopodDupes = true;
             HermitSkin = true;
 
-            AddAndRemoveTraitsAndInterests = false;
+            AddAndRemoveTraitsAndInterests = true;
             BalanceAddRemove = true;
             NoJoyReactions = false;
             NoStressReactions = false;

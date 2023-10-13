@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using TUNING;
@@ -22,6 +23,7 @@ namespace SetStartDupes
     public class ModAssets
     {
         public static string DupeTemplatePath;
+        public static string DupeGroupTemplatePath;
         public static string DupeTemplateName = "UnnamedDuplicantPreset";
         public static bool EditingSingleDupe = false;
         public static bool EditingJorge = false;
@@ -487,7 +489,7 @@ namespace SetStartDupes
         }
         public static string GetSkillgroupName(SkillGroup group)
         {
-            return Strings.Get("STRINGS.DUPLICANTS.SKILLGROUPS." + group.Id.ToUpperInvariant() + ".NAME") + " (" + Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME") + ")";
+            return GetChoreGroupNameForSkillgroup(group) + " (" + Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME") + ")";
         }
         public static string GetSkillgroupDescription(SkillGroup group, MinionStartingStats stats = null)
         {
@@ -618,6 +620,16 @@ namespace SetStartDupes
             ColorStyle.disabledColor = UIUtils.rgb(216, 54, 63);
             img.colorStyleSetting = ColorStyle;
             img.ApplyColorStyleSetting();
+        }
+
+        public static string GetChoreGroupNameForSkillgroup(SkillGroup group)
+        {
+            if(group.choreGroupID==string.Empty && group.Id.ToLowerInvariant() == "suits")
+                return Strings.Get("STRINGS.DUPLICANTS.ROLES.GROUPS.SUITS");
+
+            if(group.choreGroupID!=null)
+                return Strings.Get("STRINGS.DUPLICANTS.CHOREGROUPS." + group.choreGroupID.ToUpperInvariant() + ".NAME");
+            return Strings.Get("STRINGS.DUPLICANTS.SKILLGROUPS." + group.Id.ToUpperInvariant() + ".NAME");
         }
     }
 }

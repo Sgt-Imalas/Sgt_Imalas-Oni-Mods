@@ -289,12 +289,11 @@ namespace SetStartDupes
                 return "";
             else
             {
-                Strings.TryGet("STRINGS.DUPLICANTS.SKILLGROUPS." + groupID.ToUpperInvariant() + ".NAME", out var attribute);
 
                 var skillGroup = Db.Get().SkillGroups.TryGet(groupID);
                 string relevantSkillID = skillGroup.relevantAttributes.First().Id;
 
-                return string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, attribute, SkillGroup(skillGroup), SkillLevel(relevantSkillID));
+                return string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, ModAssets.GetChoreGroupNameForSkillgroup(skillGroup), SkillGroup(skillGroup), SkillLevel(relevantSkillID));
             }
         }
         public string SkillGroupDesc(string groupID)

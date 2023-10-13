@@ -463,7 +463,7 @@ namespace SetStartDupes
 
         [HarmonyPatch(typeof(MinionBrowserScreenConfig))]
         [HarmonyPatch(nameof(MinionBrowserScreenConfig.Personalities))]
-        public class AddJorgeToSkinSelection
+        public class AddHiddenPersonalitiesToSkinSelection
         {
             public static void Postfix(ref MinionBrowserScreenConfig __result, Option<Personality> defaultSelectedPersonality = default(Option<Personality>))
             {
@@ -479,9 +479,9 @@ namespace SetStartDupes
                     {
                         isUnlocked = HiddenPersonalityUnlock.Value.Invoke();
                     }
-                    catch
+                    catch(Exception e)
                     {
-                        SgtLogger.error($"unlock condition method for {HiddenPersonalityUnlock.Key} failed to execute!");
+                        SgtLogger.error($"unlock condition method for {HiddenPersonalityUnlock.Key} failed to execute!\n\n"+e);
                     }
 
                     if (isUnlocked)
@@ -513,32 +513,6 @@ namespace SetStartDupes
             }
         }
 
-        //[HarmonyPatch(typeof(MinionBrowserScreen))]
-        //[HarmonyPatch(nameof(MinionBrowserScreen.PopulateGallery))]
-        //public class AddJorgeToSkinSelection2
-        //{
-        //    public static bool Prefix(MinionBrowserScreenConfig __result, Option<Personality> defaultSelectedPersonality = default(Option<Personality>))
-        //    {
-        //        if (
-        //            true
-        //            )
-        //        {
-
-        //            return false;
-        //        }
-        //        return true;
-        //    }
-        //}
-
-        //[HarmonyPatch(typeof(CharacterSelectionController))]
-        //[HarmonyPatch(nameof(CharacterSelectionController.OnPressBack))]
-        //public class CatchCryopodDupeException2
-        //{
-        //    public static bool Prefix(CharacterSelectionController __instance)
-        //    {
-        //        return __instance.containers == null || __instance.containers.Count == 0;
-        //    }
-        //}
 
         [HarmonyPatch(typeof(CharacterSelectionController))]
         [HarmonyPatch(nameof(CharacterSelectionController.AddDeliverable))]
@@ -1440,7 +1414,7 @@ namespace SetStartDupes
 
                 ParentContainer.gameObject.SetActive(!hide);
             }
-            static string GetSkillGroupName(SkillGroup Group) => Strings.Get("STRINGS.DUPLICANTS.SKILLGROUPS." + Group.Id.ToUpperInvariant() + ".NAME");
+            static string GetSkillGroupName(SkillGroup Group) => ModAssets.GetChoreGroupNameForSkillgroup(Group);
             static string FirstSkillGroupStat(SkillGroup Group) => Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + Group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME");
         }
 

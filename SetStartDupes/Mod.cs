@@ -23,11 +23,13 @@ namespace SetStartDupes
 
             SgtLogger.debuglog("Initializing file paths..");
             ModAssets.DupeTemplatePath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config/"),"DuplicantStatPresets/"));
+            ModAssets.DupeGroupTemplatePath = FileSystem.Normalize(Path.Combine(ModAssets.DupeTemplatePath, "StartingLayoutPresets"));
             SgtLogger.debuglog(ModAssets.DupeTemplatePath,"Stat Preset Folder");
             SgtLogger.debuglog("Initializing folders..");
             try
             {
                 System.IO.Directory.CreateDirectory(ModAssets.DupeTemplatePath);
+                System.IO.Directory.CreateDirectory(ModAssets.DupeGroupTemplatePath);
             }
             catch (Exception e)
             {
@@ -44,6 +46,7 @@ namespace SetStartDupes
             base.OnAllModsLoaded(harmony, mods);
             CompatibilityNotifications.FlagLoggingPrevention(mods);
             CompatibilityNotifications.CheckAndAddIncompatibles(".Mod.DGSM", "Duplicant Stat Selector","DGSM - Duplicants Generation Settings Manager");
+            CompatibilityNotifications.CheckAndAddIncompatibles("DGSM2", "Duplicant Stat Selector","DGSM - Duplicants Generation Settings Manager");
             CompatibilityNotifications.CheckAndAddIncompatibles("RePrint", "Duplicant Stat Selector","Reprint");
             //CheckAndAddIncompatibles(".Mod.WGSM", "WGSM");
         }
