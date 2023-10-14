@@ -35,7 +35,7 @@ namespace SetStartDupes
             StuffToDeactivate.Add(transform.Find("PreviewColumn/LayoutBreaker/Content/ButtonsContainer/Buttons/ChangeOutfitButton"));
 
             var ConfirmButton = Util.KInstantiateUI(transform.Find("PreviewColumn/LayoutBreaker/Content/ButtonsContainer/Buttons/EditOutfitButton").gameObject, transform.Find("PreviewColumn/LayoutBreaker/Content/ButtonsContainer/Buttons").gameObject, true);
-            UIUtils.TryChangeText(ConfirmButton.transform, "Label", STRINGS.UI.BUTTONS.APPLYSKIN); 
+            UIUtils.TryChangeText(ConfirmButton.transform, "Label", STRINGS.UI.BUTTONS.APPLYSKIN);
             UIUtils.AddActionToButton(ConfirmButton.transform, "", () => SetSelectedDupe());
             StuffToActivate.Add(ConfirmButton.transform);
         }
@@ -59,19 +59,28 @@ namespace SetStartDupes
         public void SetSelectedDupe()
         {
             MinionBrowserScreen.GridItem Selected = minionSelectionScreen.selectedGridItem;
+
+            bool OverrideName = true;
             //CurrentContainer.OnNameChanged(Selected.GetName());
-            if(EditableIdentity!=null)
-                ModAssets.ApplySkinFromPersonality(Selected.GetPersonality(), EditableIdentity);
-            if(CurrentContainer != null)
+            if (EditableIdentity != null)
             {
-                CurrentContainer.characterNameTitle.OnEndEdit(Selected.GetName());
+                if (EditableIdentity.Name != EditableIdentity.personality.Name)
+                {
+                    OverrideName = false;
+                }
+                ModAssets.ApplySkinFromPersonality(Selected.GetPersonality(), EditableIdentity);
+            }
+            if (CurrentContainer != null)
+            {
+                if (OverrideName)
+                    CurrentContainer.characterNameTitle.OnEndEdit(Selected.GetName());
                 CurrentContainer.SetAnimator();
                 CurrentContainer.SetAttributes();
                 CurrentContainer.SetInfoText();
             }
             if (EditingSkinOnExistingDupeGO != null)
             {
-                ModAssets.ApplySkinToExistingDuplicant(Selected.GetPersonality(),EditingSkinOnExistingDupeGO);
+                ModAssets.ApplySkinToExistingDuplicant(Selected.GetPersonality(), EditingSkinOnExistingDupeGO);
             }
 
             ToggleCustomScreenOff();
@@ -111,7 +120,7 @@ namespace SetStartDupes
             {
                 targetPersonality = startingStats.personality;
             }
-            else if(LiveDupeGO != null && LiveDupeGO.TryGetComponent<MinionIdentity>(out var IdentityHolder))
+            else if (LiveDupeGO != null && LiveDupeGO.TryGetComponent<MinionIdentity>(out var IdentityHolder))
             {
                 targetPersonality = Db.Get().Personalities.Get(IdentityHolder.personalityResourceId);
             }
@@ -124,7 +133,7 @@ namespace SetStartDupes
             if (!show)
             {
                 IsCustomActive = false;
-            }           
+            }
             base.OnShow(show);
         }
     }

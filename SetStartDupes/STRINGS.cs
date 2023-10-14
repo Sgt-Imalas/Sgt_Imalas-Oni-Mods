@@ -186,6 +186,7 @@ namespace SetStartDupes
                 }
 
                 public static LocString TITLE = "Stat Presets";
+                public static LocString TITLECREW = "Crew Presets";
                 public class HORIZONTALLAYOUT
                 {
                     public class OBJECTLIST
@@ -238,12 +239,13 @@ namespace SetStartDupes
                             public class GENERATEFROMCURRENT
                             {
                                 public static LocString TEXT = "Generate Preset";
-                                public static LocString TOOLTIP = "Generate and store a new preset from the currenly displayed stats.\nOnly has an effect if the preset doesn't exist yet";
+                                public static LocString TOOLTIP = "Generate and store a new preset from the currenly displayed values.\nOnly has an effect if the preset doesn't exist yet";
                             }
                             public class APPLYPRESETBUTTON
                             {
                                 public static LocString TEXT = "Apply Preset";
                                 public static LocString TOOLTIP = "Apply the currenly displayed stats to the Duplicant this window was opened from.";
+                                public static LocString TOOLTIPCREW = "Load the Crew Preset thats currently displayed in the preview";
                             }
                         }
                     }

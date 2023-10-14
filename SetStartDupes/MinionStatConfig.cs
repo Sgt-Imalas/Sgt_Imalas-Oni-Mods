@@ -15,7 +15,7 @@ using static STRINGS.UI.TOOLS;
 
 namespace SetStartDupes
 {
-    internal class MinionStatConfig
+    public class MinionStatConfig
     {
         public string FileName;
         public string ConfigName;
@@ -56,7 +56,7 @@ namespace SetStartDupes
 
         static string FileNameWithHash(string filename)
         {
-            return filename.Replace(" ", "_") + "_" + GenerateHash(System.DateTime.Now.ToString());
+            return filename.Replace(" ", "_");// + "_" + GenerateHash(System.DateTime.Now.ToString());
         }
 
         public MinionStatConfig(string fileName, string configName, List<Trait> traits, Trait stressTrait, Trait joyTrait, List<KeyValuePair<string, int>> startingLevels, List<KeyValuePair<SkillGroup, float>> skillAptitudes)
@@ -101,7 +101,6 @@ namespace SetStartDupes
             }
             string dupeName = startingStats.Name+ " "+STRINGS.UNNAMEDPRESET;
 
-            List<Trait> traits = startingStats.Traits;
             var config = new MinionStatConfig(
                 FileNameWithHash(dupeName),
                 dupeName,
@@ -112,25 +111,7 @@ namespace SetStartDupes
                 startingStats.skillAptitudes.ToList());
             return config;
         }
-        public static MinionStatConfig ReadFromFile(FileInfo filePath)
-        {
-            if (!filePath.Exists || filePath.Extension != ".json")
-            {
-                SgtLogger.logwarning("Not a valid dupe preset.");
-                return null;
-            }
-            else
-            {
-                FileStream filestream = filePath.OpenRead();
-                using (var sr = new StreamReader(filestream))
-                {
-                    string jsonString = sr.ReadToEnd();
-                    MinionStatConfig modlist = JsonConvert.DeserializeObject<MinionStatConfig>(jsonString);
-                    return modlist;
-                }
-            }
-        }
-        internal void ApplyPreset(MinionStartingStats referencedStats)
+        public void ApplyPreset(MinionStartingStats referencedStats)
         {
             referencedStats.Name = this.ConfigName.Replace(STRINGS.UNNAMEDPRESET,string.Empty);
 
@@ -180,7 +161,24 @@ namespace SetStartDupes
             }
         }
 
-
+        public static MinionStatConfig ReadFromFile(FileInfo filePath)
+        {
+            if (!filePath.Exists || filePath.Extension != ".json")
+            {
+                SgtLogger.logwarning("Not a valid dupe preset.");
+                return null;
+            }
+            else
+            {
+                FileStream filestream = filePath.OpenRead();
+                using (var sr = new StreamReader(filestream))
+                {
+                    string jsonString = sr.ReadToEnd();
+                    MinionStatConfig modlist = JsonConvert.DeserializeObject<MinionStatConfig>(jsonString);
+                    return modlist;
+                }
+            }
+        }
         public void WriteToFile()
         {
             try
@@ -212,7 +210,7 @@ namespace SetStartDupes
             }
             catch (Exception e)
             {
-                SgtLogger.logError("Could not write file, Exception: " + e);
+                SgtLogger.logError("Could not delete file, Exception: " + e);
             }
         }
 

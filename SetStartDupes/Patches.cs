@@ -99,6 +99,20 @@ namespace SetStartDupes
                 return true;
             }
         }
+
+        [HarmonyPatch(typeof(CharacterContainer))]
+        [HarmonyPatch(nameof(CharacterContainer.GenerateCharacter))]
+        public class ApplyCrewPresetIfAvailable
+        {
+            public static void Postfix(CharacterContainer __instance, KButton ___selectButton)
+            {
+                if (MinionCrewPreset.OpenPresetAssignments.Count > 0)
+                {
+                    MinionCrewPreset.ApplySingleMinion(MinionCrewPreset.OpenPresetAssignments.First(), __instance);
+                    MinionCrewPreset.OpenPresetAssignments.RemoveAt(0);
+                }
+            }
+        }
         [HarmonyPatch(typeof(MinionStartingStats))]
         [HarmonyPatch(nameof(MinionStartingStats.GenerateStats))]
         public class RecalculateStatBoni
@@ -108,8 +122,8 @@ namespace SetStartDupes
             {
                 if (ModAssets.DupeTraitManagers.ContainsKey(__instance))
                     ModAssets.DupeTraitManagers[__instance].RecalculateAll();
-                else
-                    SgtLogger.warning("no mng for " + __instance + " found!");
+                //else
+                    //SgtLogger.warning("no mng for " + __instance + " found!");
             }
         }
 
@@ -606,6 +620,20 @@ namespace SetStartDupes
                 //{
                 //    SgtLogger.l(__instance.spawnInterval[i].ToString(), i.ToString());
                 //}
+            }
+        }
+        [HarmonyPatch(typeof(MinionSelectScreen))]
+        [HarmonyPatch(nameof(MinionSelectScreen.OnSpawn))]
+        public class AddCrewPresetButton
+        {
+            public static void Postfix(MinionSelectScreen __instance)
+            {
+               var PresetButton = Util.KInstantiateUI(__instance.proceedButton.gameObject, __instance.proceedButton.transform.parent.gameObject, true);
+               var btn = PresetButton.GetComponent<KButton>();
+
+                PresetButton.GetComponentInChildren<LocText>().text = STRINGS.UI.PRESETWINDOW.TITLECREW.ToString().ToUpperInvariant();
+                UIUtils.AddActionToButton(PresetButton.transform, "", () => UnityCrewPresetScreen.ShowWindow(__instance as CharacterSelectionController, null));
+                PresetButton.transform.SetSiblingIndex(1);
             }
         }
 

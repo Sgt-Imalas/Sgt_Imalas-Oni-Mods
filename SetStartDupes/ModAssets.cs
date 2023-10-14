@@ -113,7 +113,12 @@ namespace SetStartDupes
         {
             if (Duplicant.TryGetComponent<MinionIdentity>(out var IdentityHolder))
             {
-                IdentityHolder.SetName(Skin.Name);
+                var OldPersonality = Db.Get().Personalities.GetPersonalityFromNameStringKey(IdentityHolder.nameStringKey);
+
+                if(IdentityHolder.name==OldPersonality.Name)
+                {
+                    IdentityHolder.SetName(Skin.Name);
+                }
                 IdentityHolder.nameStringKey = Skin.nameStringKey;
                 IdentityHolder.genderStringKey = Skin.genderStringKey;
                 IdentityHolder.personalityResourceId = Skin.IdHash;
