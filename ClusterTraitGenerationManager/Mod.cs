@@ -32,7 +32,7 @@ namespace ClusterTraitGenerationManager
 
             SgtLogger.LogVersion(this);
 #if DEBUG
-            Debug.LogError("Error THIS IS NOT RELEASE");
+            //Debug.LogError("Error THIS IS NOT RELEASE");
 #endif
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)

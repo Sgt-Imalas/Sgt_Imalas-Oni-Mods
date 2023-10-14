@@ -36,7 +36,10 @@ namespace LogicSatellites.Behaviours
 
 
         public override float GetSortKey() => 21f;
-        public override bool IsValidForTarget(GameObject target) => target.GetComponent<Clustercraft>() != null && this.HasSatelliteCarriers(target.GetComponent<Clustercraft>());
+        public override bool IsValidForTarget(GameObject target) =>
+            target.TryGetComponent<Clustercraft>(out var clustercraft)
+            && this.HasSatelliteCarriers(clustercraft)
+            && clustercraft.Status == Clustercraft.CraftStatus.InFlight;
         
         public override void SetTarget(GameObject target)
         {
@@ -52,8 +55,8 @@ namespace LogicSatellites.Behaviours
             targetCraft = target.GetComponent<Clustercraft>();
             if (targetCraft == null && target.GetComponent<RocketControlStation>() != null)
                 targetCraft = target.GetMyWorld().GetComponent<Clustercraft>();
-            refreshHandle.Add(this.targetCraft.gameObject.Subscribe(-1298331547, new System.Action<object>(this.RefreshAll)));
-            refreshHandle.Add(this.targetCraft.gameObject.Subscribe(1792516731, new System.Action<object>(this.RefreshAll)));
+            refreshHandle.Add(this.targetCraft.gameObject.Subscribe((int)GameHashes.ClusterLocationChanged, new System.Action<object>(this.RefreshAll)));
+            refreshHandle.Add(this.targetCraft.gameObject.Subscribe((int)GameHashes.ClusterDestinationChanged, new System.Action<object>(this.RefreshAll)));
             BuildModules();
 
             RefreshStrings();
@@ -89,15 +92,16 @@ namespace LogicSatellites.Behaviours
             foreach (Ref<RocketModuleCluster> clusterModule in targetCraft.GetComponent<CraftModuleInterface>().ClusterModules)
             {
                 if (clusterModule.Get().GetSMI<ISatelliteCarrier>() != null) {
-                    GameObject hierarchyReferences = Util.KInstantiateUI(this.modulePanelPrefab, this.moduleContentContainer, true);
+                    GameObject moduleEntryGO = Util.KInstantiateUI(this.modulePanelPrefab, this.moduleContentContainer, true);
                 ISatelliteCarrier carrierInstance = clusterModule.Get().GetSMI<ISatelliteCarrier>();
                 if (carrierInstance != null)
                 {
-                    this.modulePanels.Add(carrierInstance, hierarchyReferences);
+                    this.modulePanels.Add(carrierInstance, moduleEntryGO);
                     this.RefreshModulePanel(carrierInstance);
                 }
                 }
             }
+            RefreshStrings();
         }
 
         public override void OnShow(bool show)
@@ -150,16 +154,21 @@ namespace LogicSatellites.Behaviours
             Button1.onClick += () => DeployButtonClicked(module);
             module.ModeIsDeployment = module.HoldingSatellite();
             //Button2.onClick += () => ChangeOperationMode(module);
-            RefreshStrings();
         }
-        private void RefreshStrings(ISatelliteCarrier module = null)
+        private void RefreshStrings()
         {
-            if (module.IsNullOrDestroyed())
-                return;
             foreach (var v in modulePanels.Keys)
             {
-                titleLabels[v].SetText(v.HoldingSatellite() ? string.Format(STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_TRUE, ModAssets.SatelliteConfigurations[v.SatelliteType()].NAME) : (string)STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_FALSE);
-                buttons[v].isInteractable = v.HoldingSatellite() ? v.CanDeploySatellite() : true;
+                if (v == null)
+                    continue;
+
+                bool canDoStuffWithSatellite = v.HoldingSatellite() ? v.CanDeploySatellite() : v.CanRetrieveSatellite();
+
+
+                v.ModeIsDeployment = v.HoldingSatellite();
+
+                titleLabels[v].SetText(v.ModeIsDeployment ? string.Format(STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_TRUE, ModAssets.SatelliteConfigurations[v.SatelliteType()].NAME) : (string)STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_FALSE);
+                buttons[v].isInteractable = canDoStuffWithSatellite;
                 buttonLabels[v].SetText(v.ModeIsDeployment ? STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONLABEL_HASSAT_TRUE : STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONLABEL_HASSAT_FALSE);
                 buttonTooltips1[v].SetSimpleTooltip(v.ModeIsDeployment ? STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONTOOLTIP_DEPLOY : STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONTOOLTIP_RETRIEVE);
                 //buttonTooltips2[v].SetSimpleTooltip(STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONTOOLTIP_CHANGEMODE);
@@ -170,13 +179,9 @@ namespace LogicSatellites.Behaviours
              module.OnButtonClicked();
             module.ModeIsDeployment = module.HoldingSatellite();
             RefreshStrings();
+            //GameScheduler.Instance.ScheduleNextFrame("refreshUI", (_) => RefreshStrings());
         }
 
-        private void ChangeOperationMode(ISatelliteCarrier module)
-        {
-            module.ModeIsDeployment = !module.ModeIsDeployment;
-            RefreshStrings();
-        }
         public override void OnSpawn()
         {
             base.OnSpawn();

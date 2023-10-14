@@ -14,9 +14,7 @@ namespace LogicSatellites.Behaviours
     {
         [MyCmpReq] private KSelectable selectable;
         [MyCmpReq]
-        [Serialize]
         public Storage storage;
-
 
         public override void OnSpawn()
         {
@@ -28,6 +26,11 @@ namespace LogicSatellites.Behaviours
         public class StatesInstance : GameStateMachine<States, StatesInstance, IStateMachineTarget, object>.GameInstance, ISatelliteCarrier
         {
 
+            [MyCmpGet]
+            public RocketModuleCluster rocketModuleCluster;
+
+            Clustercraft craft;
+
             public bool HoldingSatellite()
             {
                 return sm.hasSatellite.Get(this);
@@ -35,10 +38,12 @@ namespace LogicSatellites.Behaviours
 
             public bool CanDeploySatellite()
             {
-                Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
-                ClusterGridEntity atCurrentLocation = component.GetPOIAtCurrentLocation();
-                if (!this.HoldingSatellite())
+
+                if (!this.HoldingSatellite()||craft.IsTravellingAndFueled())
                     return false;
+
+                ClusterGridEntity atCurrentLocation =  craft.GetPOIAtCurrentLocation();
+
                 var locationRule = ModAssets.SatelliteConfigurations[this.SatelliteType()].AllowedLocation;
 
                 if (locationRule == DeployLocation.anywhere)
@@ -47,15 +52,15 @@ namespace LogicSatellites.Behaviours
                 }
                 else if (locationRule == DeployLocation.orbital)
                 {
-                    return atCurrentLocation == null && ClusterGrid.Instance.GetVisibleEntityOfLayerAtAdjacentCell(component.Location, EntityLayer.Asteroid) != null;
+                    return atCurrentLocation == null && ClusterGrid.Instance.GetVisibleEntityOfLayerAtAdjacentCell(craft.Location, EntityLayer.Asteroid) != null;
                 }
                 else if (locationRule == DeployLocation.deepSpace)
                 {
-                    return atCurrentLocation == null && ClusterGrid.Instance.GetVisibleEntityOfLayerAtAdjacentCell(component.Location, EntityLayer.Asteroid) == null;
+                    return atCurrentLocation == null && ClusterGrid.Instance.GetVisibleEntityOfLayerAtAdjacentCell(craft.Location, EntityLayer.Asteroid) == null;
                 }
                 else if (locationRule == DeployLocation.temporalTear)
                 {
-                    return atCurrentLocation.TryGetComponent<TemporalTear>(out var tear);
+                    return atCurrentLocation.TryGetComponent<TemporalTear>(out _);
                 }
                 else return false;
 
@@ -102,7 +107,7 @@ namespace LogicSatellites.Behaviours
             }
             public bool CanRetrieveSatellite()
             {
-                return IsEntityAtLocation()?.gameObject.GetComponent<SatelliteGridEntity>() != null;
+                return IsEntityAtLocation()?.gameObject.GetComponent<SatelliteGridEntity>() != null && !HoldingSatellite();
             }
             public void OnButtonClicked()
             {
@@ -206,6 +211,7 @@ namespace LogicSatellites.Behaviours
             public StatesInstance(IStateMachineTarget master) : base(master)
             {
                 this.storage = master.GetComponent<Storage>();
+                craft = rocketModuleCluster.CraftInterface.m_clustercraft;
             }
         }
 
