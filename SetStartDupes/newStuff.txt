@@ -1,3 +1,7 @@
-﻿- added an option to change the appearance of existing dupes
--
-- Fixed the vanilla bug that changing names in the printer would change the name of the dupe type
+﻿- New Feature: Crew Presets
+- crew presets store/override the entire start screen of dupes, allowing to load the entire starting group with one preset 
+
+- fixed additional stat boni from other mods getting ignored
+- overriding a skin on a duplicant with a custom name no longer overrides the custom name with the new skins' name
+- interests in all screens are now correctly named (f.e. Digger -> Digging)
+- interest bonus redistribution on bonus value change is now more in line with vanilla value distribution
