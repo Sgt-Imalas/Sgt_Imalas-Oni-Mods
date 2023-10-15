@@ -231,7 +231,7 @@ namespace Imalas_TwitchChaosEvents.Events
             return -1;
         }
 
-        public Func<object, bool> Condition => (_) => false; // GameClock.Instance.GetCycle() > 50;
+        public Func<object, bool> Condition => (_) =>  GameClock.Instance.GetCycle() > 50;
 
         public Danger EventDanger => Danger.High;
     }

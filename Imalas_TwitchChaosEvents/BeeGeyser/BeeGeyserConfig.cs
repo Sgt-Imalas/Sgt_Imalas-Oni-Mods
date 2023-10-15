@@ -46,6 +46,7 @@ namespace Imalas_TwitchChaosEvents.BeeGeyser
             //studyable.meterAnim = "tracker";
             placedEntity.AddOrGet<LoopingSounds>();
             placedEntity.AddOrGet<BeeGeyser>();
+            placedEntity.AddOrGet<Demolishable>();
             SoundEventVolumeCache.instance.AddVolume("geyser_side_steam_kanim", "Geyser_shake_LP", NOISE_POLLUTION.NOISY.TIER5);
             SoundEventVolumeCache.instance.AddVolume("geyser_side_steam_kanim", "Geyser_erupt_LP", NOISE_POLLUTION.NOISY.TIER6);
             return placedEntity;

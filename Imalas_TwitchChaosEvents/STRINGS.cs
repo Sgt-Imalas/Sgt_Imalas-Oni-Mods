@@ -68,7 +68,7 @@ namespace Imalas_TwitchChaosEvents
                 public class ITCE_BEEGEYSER
                 {
                     public static LocString NAME = FormatAsLink("Bee Geyser", nameof(ITCE_BEEGEYSER));
-                    public static LocString DESC = "Not the Bees, NOT THE BEES..\nAllthough... it looks kinda tasty.";
+                    public static LocString DESC = "Not the Bees, NOT THE BEES..";
                 }
             }
         }
@@ -155,6 +155,11 @@ namespace Imalas_TwitchChaosEvents
                 public static LocString NAME = FormatAsLink("Creeper", nameof(ITCE_CREEPYLIQUID));
                 public static LocString DESC = "The Creeper.\nDeadly to all living things\nWeak to the cold.";
             }
+            public class ITCE_VOIDLIQUID
+            {
+                public static LocString NAME = FormatAsLink("Void", nameof(ITCE_VOIDLIQUID));
+                public static LocString DESC = "";
+            }
             public class ITCE_CREEPYLIQUIDGAS
             {
                 public static LocString NAME = FormatAsLink("Creeper Tendril", nameof(ITCE_CREEPYLIQUIDGAS));
@@ -197,7 +202,7 @@ namespace Imalas_TwitchChaosEvents
             {
                 public static LocString NAME = "Beeyzer";
                 public static LocString TOAST = "Its a Bee Geyser!";
-                public static LocString TOASTTEXT = "This looks very lickable..\nWait... BEES???";
+                public static LocString TOASTTEXT = "What a nice looking geyser..\nWait... BEES???";
             }
 
             public class CREEPEREATINGBOI

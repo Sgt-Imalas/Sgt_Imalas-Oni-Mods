@@ -17,6 +17,7 @@ namespace Imalas_TwitchChaosEvents.Elements
             InverseWater,
             InverseWaterFlakingCrashPrevention,
             InverseSteam,
+            VoidLiquid,
             Creeper,
             CreeperGas,
             LiquidPoop;
@@ -35,7 +36,8 @@ namespace Imalas_TwitchChaosEvents.Elements
             waterH = waterH + 0.5f % 1f;
             iceH = iceH + 0.5f % 1f;
 
-            
+            var voidColor = Color.black;
+
 
             InverseIce = ElementInfo.Solid("ITCE_Inverse_Ice", Color.HSVToRGB(iceH, iceS,iceV));
             InverseWater = ElementInfo.Liquid("ITCE_Inverse_Water", Color.HSVToRGB(waterH, waterS,waterV));
@@ -45,7 +47,7 @@ namespace Imalas_TwitchChaosEvents.Elements
             CreeperGas = ElementInfo.Gas("ITCE_CreepyLiquidGas", new Color(121f / 255f, 74f / 255f, 230f/255f));
             Creeper = ElementInfo.Liquid("ITCE_CreepyLiquid", new Color(100f / 255f, 62f/255f, 191f / 255f));
             LiquidPoop = new ElementInfo("ITCE_Liquid_Poop", "ITCE_liquid_poop_kanim",Element.State.Liquid,new Color(128f / 255f, 61f/255f, 43f / 255f));
-
+            VoidLiquid = ElementInfo.Liquid("ITCE_VoidLiquid", voidColor);
 
             var newElements = new HashSet<Substance>()
             {
@@ -56,6 +58,7 @@ namespace Imalas_TwitchChaosEvents.Elements
                 Creeper.CreateSubstance(),
                 CreeperGas.CreateSubstance(),
                 LiquidPoop.CreateSubstance()
+                ,VoidLiquid.CreateSubstance()
             };
             list.AddRange(newElements);
 
