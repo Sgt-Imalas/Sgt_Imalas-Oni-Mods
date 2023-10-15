@@ -12,7 +12,7 @@
 	<!-- Build Properties -->
 	<PropertyGroup>
 		<TargetFramework>net471</TargetFramework>
-		<Configurations>Debug;Release2;Release</Configurations>
+		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>Rocketry Expanded</AssemblyName>
 		<RootNamespace>Rockets_TinyYetBig</RootNamespace>
 		<IsMod>true</IsMod>

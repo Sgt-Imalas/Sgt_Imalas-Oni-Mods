@@ -12,7 +12,7 @@
 	<!-- Build Properties -->
 	<PropertyGroup>
 		<TargetFramework>net471</TargetFramework>
-		<Configurations>Debug</Configurations>
+		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>DirtyBrine</AssemblyName>
 		<RootNamespace>DirtyBrine</RootNamespace>
 		<IsMod>true</IsMod>

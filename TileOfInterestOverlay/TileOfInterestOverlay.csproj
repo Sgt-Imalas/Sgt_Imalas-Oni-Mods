@@ -12,7 +12,7 @@
 	<!-- Build Properties -->
 	<PropertyGroup>
 		<TargetFramework>net471</TargetFramework>
-		<Configurations>Debug</Configurations>
+		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>TileOfInterestOverlay</AssemblyName>
 		<RootNamespace>TileOfInterestOverlay</RootNamespace>
 		<IsMod>true</IsMod>

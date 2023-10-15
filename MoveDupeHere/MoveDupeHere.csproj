@@ -12,7 +12,7 @@
 	<!-- Build Properties -->
 	<PropertyGroup>
 		<TargetFramework>net471</TargetFramework>
-		<Configurations>Debug;Release2;Release</Configurations>
+		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>MoveDupeHere</AssemblyName>
 		<RootNamespace>MoveDupeHere</RootNamespace>
 		<IsMod>true</IsMod>

@@ -12,7 +12,7 @@
 	<!-- Build Properties -->
 	<PropertyGroup>
 		<TargetFramework>net471</TargetFramework>
-		<Configurations>Debug</Configurations>
+		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>Imalas_TwitchChaosEvents</AssemblyName>
 		<RootNamespace>Imalas_TwitchChaosEvents</RootNamespace>
 		<IsMod>true</IsMod>

@@ -12,7 +12,7 @@
 	<!-- Build Properties -->
 	<PropertyGroup>
 		<TargetFramework>net471</TargetFramework>
-		<Configurations>Debug</Configurations>
+		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>BetterCritterMorpher</AssemblyName>
 		<RootNamespace>BetterCritterMorpher</RootNamespace>
 		<IsMod>true</IsMod>
@@ -28,11 +28,6 @@
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>561558</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
-	</PropertyGroup>
-
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<OutDir>bin</OutDir>
 	</PropertyGroup>
 
 	<PropertyGroup>
