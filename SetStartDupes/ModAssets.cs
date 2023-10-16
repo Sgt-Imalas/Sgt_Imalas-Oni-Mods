@@ -47,6 +47,7 @@ namespace SetStartDupes
 
         public static GameObject PresetWindowPrefab;
         public static GameObject TraitsWindowPrefab;
+        public static GameObject CrewDupeEntryPrefab;
 
 
 
@@ -82,12 +83,14 @@ namespace SetStartDupes
             AssetBundle bundle = AssetUtils.LoadAssetBundle("dcs_presetwindow", platformSpecific: true);
             PresetWindowPrefab = bundle.LoadAsset<GameObject>("Assets/PresetWindow_Prefab.prefab");
             TraitsWindowPrefab = bundle.LoadAsset<GameObject>("Assets/DupeSkillsPopUp.prefab");
+            CrewDupeEntryPrefab = bundle.LoadAsset<GameObject>("Assets/DupePresetListItem.prefab");
 
             //UIUtils.ListAllChildren(PresetWindowPrefab.transform);
 
             var TMPConverter = new TMPConverter();
             TMPConverter.ReplaceAllText(PresetWindowPrefab);
             TMPConverter.ReplaceAllText(TraitsWindowPrefab);
+            TMPConverter.ReplaceAllText(CrewDupeEntryPrefab);
 
         }
 

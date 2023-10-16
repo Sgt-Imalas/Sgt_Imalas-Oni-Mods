@@ -179,6 +179,42 @@ namespace SetStartDupes
                 }
             }
         }
+        public string SkillGroupName(string groupID)
+        {
+            if (groupID == null)
+                return "";
+            else
+            {
+
+                var skillGroup = Db.Get().SkillGroups.TryGet(groupID);
+                string relevantSkillID = skillGroup.relevantAttributes.First().Id;
+
+                return string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, ModAssets.GetChoreGroupNameForSkillgroup(skillGroup), SkillGroup(skillGroup), SkillLevel(relevantSkillID));
+            }
+        }
+        public string SkillGroupDesc(string groupID)
+        {
+            if (groupID == null)
+                return "";
+            else
+            {
+                var skillGroup = Db.Get().SkillGroups.TryGet(groupID);
+                return ModAssets.GetSkillgroupDescription(skillGroup);
+            }
+        }
+        public string SkillGroup(SkillGroup group)
+        {
+            return Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME");
+        }
+        string SkillLevel(string skillID)
+        {
+            return StartingLevels.Find((skill) => skill.Key == skillID).Value.ToString();
+        }
+
+
+
+
+
         public void WriteToFile()
         {
             try

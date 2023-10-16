@@ -109,7 +109,7 @@ namespace SetStartDupes
                 stats.ConfigName = mate.Name;
 
                 if (count < 4)
-                    crewTitle += mate.personality.nameStringKey;
+                    crewTitle += mate.Name;
 
 
                 preset.Crewmates.Add(new(mate.personality.nameStringKey, stats));

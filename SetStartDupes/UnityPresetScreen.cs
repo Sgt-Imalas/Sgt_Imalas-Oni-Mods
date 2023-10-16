@@ -229,8 +229,8 @@ namespace SetStartDupes
                 //    continue;
 
                 var aptitude = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
-                UIUtils.TryChangeText(aptitude.transform, "Label", SkillGroupName(skill.Key));
-                UIUtils.AddSimpleTooltipToObject(aptitude.transform, SkillGroupDesc(skill.Key), true);
+                UIUtils.TryChangeText(aptitude.transform, "Label", CurrentlySelected.SkillGroupName(skill.Key));
+                UIUtils.AddSimpleTooltipToObject(aptitude.transform, CurrentlySelected.SkillGroupDesc(skill.Key), true);
                 InformationObjects.Add(aptitude);
 
             }
@@ -283,45 +283,14 @@ namespace SetStartDupes
 
             GeneratePresetButton.SetInteractable(!Presets.ContainsKey(CurrentlySelected));
         }
-        public string SkillGroupName(string groupID)
-        {
-            if (groupID == null)
-                return "";
-            else
-            {
+        
 
-                var skillGroup = Db.Get().SkillGroups.TryGet(groupID);
-                string relevantSkillID = skillGroup.relevantAttributes.First().Id;
-
-                return string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, ModAssets.GetChoreGroupNameForSkillgroup(skillGroup), SkillGroup(skillGroup), SkillLevel(relevantSkillID));
-            }
-        }
-        public string SkillGroupDesc(string groupID)
-        {
-            if (groupID == null)
-                return "";
-            else
-            {
-                var skillGroup = Db.Get().SkillGroups.TryGet(groupID);
-                return ModAssets.GetSkillgroupDescription(skillGroup);
-            }
-        }
         void ApplyColorToTraitContainer(GameObject container, string traitID)
         {
 
             var type = ModAssets.GetTraitListOfTrait(traitID, out var list);
             container.FindOrAddComponent<Image>().color = ModAssets.GetColourFromType(type);
         }
-
-        public string SkillGroup(SkillGroup group)
-        {
-            return Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME");
-        }
-        string SkillLevel(string skillID)
-        {
-            return CurrentlySelected.StartingLevels.Find((skill) => skill.Key == skillID).Value.ToString();
-        }
-
 
 
 

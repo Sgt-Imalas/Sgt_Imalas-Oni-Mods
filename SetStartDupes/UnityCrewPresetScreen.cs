@@ -224,105 +224,100 @@ namespace SetStartDupes
             var spacer4 = Util.KInstantiateUI(InfoSpacer, InfoScreenContainer, true);
             InformationObjects.Add(spacer4);
 
-            foreach(var mate in CurrentlySelected.Crewmates)
+            var traitRef = Db.Get().traits;
+            var AptitudeRef = Db.Get().SkillGroups;
+
+            foreach (var mate in CurrentlySelected.Crewmates)
             {
 
-                var aptitude = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
-                UIUtils.TryChangeText(aptitude.transform, "Label", mate.second.ConfigName) ;
-                InformationObjects.Add(aptitude);
+                var CrewmatePrefab = Util.KInstantiateUI(ModAssets.CrewDupeEntryPrefab, InfoScreenContainer, true);
+
+                UIUtils.TryChangeText(CrewmatePrefab.transform, "MainInfo/Label", mate.second.ConfigName);
+                InformationObjects.Add(CrewmatePrefab);
+                var pers = Db.Get().Personalities.GetPersonalityFromNameStringKey(mate.first);
+
+                var DupeFace = Assets.GetSprite("unknown");
+                if (pers != null)
+                {
+                    DupeFace = pers.GetMiniIcon();
+                }
+                CrewmatePrefab.transform.Find("MainInfo/TraitImage").GetComponent<Image>().sprite = DupeFace;
+
+                var aptitudeHeader = CrewmatePrefab.transform.Find("InterestInfo").gameObject;
+                UIUtils.TryChangeText(aptitudeHeader.transform, "Label", global::STRINGS.UI.CHARACTERCONTAINER_APTITUDES_TITLE + ":");
+
+                var traitHeader = CrewmatePrefab.transform.Find("TraitInfo").gameObject;
+                UIUtils.TryChangeText(traitHeader.transform, "Label", global::STRINGS.UI.CHARACTERCONTAINER_TRAITS_TITLE + ":");
+
+
+                var joyheader = CrewmatePrefab.transform.Find("Reactions/LabelJoy").gameObject;
+                UIUtils.TryChangeText(joyheader.transform, "", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_JOYTRAIT, string.Empty));
+
+                var stressheader = CrewmatePrefab.transform.Find("Reactions/LabelStress").gameObject;
+                UIUtils.TryChangeText(stressheader.transform, "", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_STRESSTRAIT, string.Empty));
+
+
+                var InterestContainer = CrewmatePrefab.transform.Find("InterestInfo/ScrollArea/Content").gameObject;
+                var InterestPrefab = CrewmatePrefab.transform.Find("InterestInfo/ScrollArea/Content/ListViewEntryPrefab").gameObject;
+
+                var TraitContainer = CrewmatePrefab.transform.Find("TraitInfo/ScrollArea/Content").gameObject;
+                var TraitPrefab = CrewmatePrefab.transform.Find("TraitInfo/ScrollArea/Content/ListViewEntryPrefab").gameObject;
+
+                foreach (var skill in mate.second.skillAptitudes)
+                {
+                    var aptitude = Util.KInstantiateUI(InterestPrefab, InterestContainer, true);
+                    UIUtils.TryChangeText(aptitude.transform, "Label", mate.second.SkillGroupName(skill.Key));
+                    UIUtils.AddSimpleTooltipToObject(aptitude.transform, mate.second.SkillGroupDesc(skill.Key), true);
+                    //if (aptitude.transform.Find("Label").TryGetComponent<LocText>(out var text))
+                    //{
+                    //    text.color = Color.black;
+                    //    text.alignment = TextAlignmentOptions.TopGeoAligned;
+                    //    text.fontSize = 12;
+                    //}
+                }
+
+                foreach (var trait in mate.second.Traits)
+                {
+                    if (trait == MinionConfig.MINION_BASE_TRAIT_ID)
+                        continue;
+                    var traitcon = Util.KInstantiateUI(TraitPrefab, TraitContainer, true);
+                    UIUtils.TryChangeText(traitcon.transform, "Label", traitRef.TryGet(trait).Name);
+                    //if(traitcon.transform.Find("Label").TryGetComponent<LocText>(out var text))
+                    //{
+                    //    text.alignment = TextAlignmentOptions.TopGeoAligned;
+                    //    text.fontSize = 12;
+                    //}
+                    UIUtils.AddSimpleTooltipToObject(traitcon.transform, ModAssets.GetTraitTooltip(traitRef.TryGet(trait)), true);
+                    ApplyColorToTraitContainer(traitcon, trait);
+                }
+
+                var JoyTrait = mate.second.joyTrait;
+                var joy = CrewmatePrefab.transform.Find("Reactions/JoyTrait").gameObject;
+                UIUtils.TryChangeText(joy.transform, "Label", traitRef.TryGet(JoyTrait).Name);
+                UIUtils.AddSimpleTooltipToObject(joy.transform, ModAssets.GetTraitTooltip(traitRef.TryGet(JoyTrait)), true);
+                ApplyColorToTraitContainer(joy, JoyTrait);
+
+                var StressTrait = mate.second.stressTrait;
+
+                var stress = CrewmatePrefab.transform.Find("Reactions/StressTrait").gameObject;
+                UIUtils.TryChangeText(stress.transform, "Label", traitRef.TryGet(StressTrait).Name);
+                UIUtils.AddSimpleTooltipToObject(stress.transform, ModAssets.GetTraitTooltip(traitRef.TryGet(StressTrait)), true);
+                ApplyColorToTraitContainer(stress, StressTrait);
             }
-            //var aptitudeHeader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-            //UIUtils.TryChangeText(aptitudeHeader.transform, "Label", global::STRINGS.UI.CHARACTERCONTAINER_APTITUDES_TITLE + ":");
-            //InformationObjects.Add(aptitudeHeader);
-
-            //foreach (var skill in CurrentlySelected.skillAptitudes)
-            //{
-            //    //if (skill.Value < 1)
-            //    //    continue;
-
-            //    var aptitude = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
-            //    UIUtils.TryChangeText(aptitude.transform, "Label", SkillGroupName(skill.Key));
-            //    UIUtils.AddSimpleTooltipToObject(aptitude.transform, SkillGroupDesc(skill.Key), true);
-            //    InformationObjects.Add(aptitude);
-
-            //}
-
-            //var spacer3 = Util.KInstantiateUI(InfoSpacer, InfoScreenContainer, true);
-            //InformationObjects.Add(spacer3);
-
-            //var traitHeader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-            //UIUtils.TryChangeText(traitHeader.transform, "Label", global::STRINGS.UI.CHARACTERCONTAINER_TRAITS_TITLE + ":");
-            //InformationObjects.Add(traitHeader);
-
-
-            //var traits = Db.Get().traits;
-            //foreach (var trait in CurrentlySelected.Traits)
-            //{
-            //    if (trait == MinionConfig.MINION_BASE_TRAIT_ID)
-            //        continue;
-
-            //    var traitcon = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
-            //    UIUtils.TryChangeText(traitcon.transform, "Label", traits.TryGet(trait).Name);
-            //    UIUtils.AddSimpleTooltipToObject(traitcon.transform, ModAssets.GetTraitTooltip(traits.TryGet(trait)), true);
-            //    InformationObjects.Add(traitcon);
-            //    ApplyColorToTraitContainer(traitcon, trait);
-            //}
-
-            //var spacer2 = Util.KInstantiateUI(InfoSpacer, InfoScreenContainer, true);
-            //InformationObjects.Add(spacer2);
-
-            //var joyheader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-            //UIUtils.TryChangeText(joyheader.transform, "Label", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_JOYTRAIT, string.Empty));
-            //InformationObjects.Add(joyheader);
-
-
-            //var joy = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
-            //UIUtils.TryChangeText(joy.transform, "Label", traits.TryGet(CurrentlySelected.joyTrait).Name);
-            //UIUtils.AddSimpleTooltipToObject(joy.transform, ModAssets.GetTraitTooltip(traits.TryGet(CurrentlySelected.joyTrait)), true);
-            //InformationObjects.Add(joy);
-            //ApplyColorToTraitContainer(joy, CurrentlySelected.joyTrait);
-
-            //var stressheader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-            //UIUtils.TryChangeText(stressheader.transform, "Label", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_STRESSTRAIT, string.Empty));
-            //InformationObjects.Add(stressheader);
-
-            //var stress = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
-            //UIUtils.TryChangeText(stress.transform, "Label", traits.TryGet(CurrentlySelected.stressTrait).Name);
-            //InformationObjects.Add(stress);
-            //UIUtils.AddSimpleTooltipToObject(stress.transform, ModAssets.GetTraitTooltip(traits.TryGet(CurrentlySelected.stressTrait)), true);
-            //ApplyColorToTraitContainer(stress, CurrentlySelected.stressTrait);
-
+            
 
             GeneratePresetButton.SetInteractable(!Presets.ContainsKey(CurrentlySelected));
         }
-        //public string SkillGroupName(string groupID)
-        //{
-        //    if (groupID == null)
-        //        return "";
-        //    else
-        //    {
 
-        //        var skillGroup = Db.Get().SkillGroups.TryGet(groupID);
-        //        string relevantSkillID = skillGroup.relevantAttributes.First().Id;
-
-        //        return string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, ModAssets.GetChoreGroupNameForSkillgroup(skillGroup), SkillGroup(skillGroup), SkillLevel(relevantSkillID));
-        //    }
-        //}
-        //public string SkillGroupDesc(string groupID)
-        //{
-        //    if (groupID == null)
-        //        return "";
-        //    else
-        //    {
-        //        var skillGroup = Db.Get().SkillGroups.TryGet(groupID);
-        //        return ModAssets.GetSkillgroupDescription(skillGroup);
-        //    }
-        //}
         void ApplyColorToTraitContainer(GameObject container, string traitID)
         {
+            var type = ModAssets.GetTraitListOfTrait(traitID, out _);
+            var bg = container.transform.Find("Background");
+            if(bg != null && bg.TryGetComponent<Image>(out var image))
+            {
 
-            var type = ModAssets.GetTraitListOfTrait(traitID, out var list);
-            container.FindOrAddComponent<Image>().color = ModAssets.GetColourFromType(type);
+                image.color = ModAssets.GetColourFromType(type);
+            }
         }
 
 

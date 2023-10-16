@@ -633,6 +633,18 @@ namespace SetStartDupes
 
                 PresetButton.GetComponentInChildren<LocText>().text = STRINGS.UI.PRESETWINDOW.TITLECREW.ToString().ToUpperInvariant();
                 UIUtils.AddActionToButton(PresetButton.transform, "", () => UnityCrewPresetScreen.ShowWindow(__instance as CharacterSelectionController, null));
+
+
+                //var addOneDupeButton = Util.KInstantiateUI<KButton>(__instance.backButton.gameObject, __instance.proceedButton.transform.parent.gameObject, true);
+                //UIUtils.AddActionToButton(addOneDupeButton.transform, "", () => 
+                //{
+                //    CharacterContainer characterContainer = Util.KInstantiateUI<CharacterContainer>(__instance.containerPrefab.gameObject, __instance.containerParent);
+                //    characterContainer.SetController(__instance);
+                //    __instance.containers.Add(characterContainer);
+                //}
+                //);
+
+                //addOneDupeButton.transform.SetSiblingIndex(1);
                 PresetButton.transform.SetSiblingIndex(1);
             }
         }
