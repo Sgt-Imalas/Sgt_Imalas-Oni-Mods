@@ -1327,6 +1327,9 @@ namespace ClusterTraitGenerationManager
                                 if (SizeModifier < 1)
                                 {
                                     SizeModifier = (1 + SizeModifier) / 2;
+                                    
+                                    ///Geyser Penalty needs a better implementation...
+                                    SizeModifier = 1;
                                 }
 
 
