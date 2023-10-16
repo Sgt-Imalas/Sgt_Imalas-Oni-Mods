@@ -20,6 +20,7 @@ using static FetchManager;
 using static KAnim;
 using static KCompBuilder;
 using static SetStartDupes.ModAssets;
+using static SetStartDupes.STRINGS.UI;
 using static STRINGS.UI.DETAILTABS;
 using static UnityEngine.GraphicsBuffer;
 
@@ -64,7 +65,7 @@ namespace SetStartDupes
                         )
                     {
                         var originPersonality = Db.Get().Personalities.Get(minionIdentity.personalityResourceId);
-                        __instance.stats = new MinionStartingStats(originPersonality,__instance.guaranteedAptitudeID);
+                        __instance.stats = new MinionStartingStats(originPersonality, __instance.guaranteedAptitudeID);
                         //ModAssets.ApplySkinFromPersonality(originPersonality, __instance.stats);
                         //__instance.characterNameTitle.OnEndEdit(originPersonality.Name);
                     }
@@ -79,7 +80,7 @@ namespace SetStartDupes
                         {
                             __instance.stats.Traits.Add(chatty);
                         }
-                    }                    
+                    }
                     __instance.stats.voiceIdx = ModApi.GetVoiceIdxOverrideForPersonality(__instance.stats.NameStringKey);
 
                     Trait ancientKnowledgeTrait = Db.Get().traits.TryGet("AncientKnowledge");
@@ -117,13 +118,13 @@ namespace SetStartDupes
         [HarmonyPatch(nameof(MinionStartingStats.GenerateStats))]
         public class RecalculateStatBoni
         {
-            [HarmonyPriority (Priority.LowerThanNormal)]
+            [HarmonyPriority(Priority.LowerThanNormal)]
             public static void Postfix(MinionStartingStats __instance)
             {
                 if (ModAssets.DupeTraitManagers.ContainsKey(__instance))
                     ModAssets.DupeTraitManagers[__instance].RecalculateAll();
                 //else
-                    //SgtLogger.warning("no mng for " + __instance + " found!");
+                //SgtLogger.warning("no mng for " + __instance + " found!");
             }
         }
 
@@ -480,7 +481,7 @@ namespace SetStartDupes
         {
             public static void Prefix(DetailsScreen __instance)
             {
-                if (AddSkinButtonToDetailScreen.SkinButtonGO != null && __instance.target!=null)
+                if (AddSkinButtonToDetailScreen.SkinButtonGO != null && __instance.target != null)
                 {
                     AddSkinButtonToDetailScreen.SkinButtonGO.SetActive(__instance.target.GetComponent<MinionIdentity>());
                     //SgtLogger.l("AddSkinButtonToDetailScreen.SkinButtonGO.Active: " + AddSkinButtonToDetailScreen.SkinButtonGO.activeSelf);
@@ -508,9 +509,9 @@ namespace SetStartDupes
                     {
                         isUnlocked = HiddenPersonalityUnlock.Value.Invoke();
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
-                        SgtLogger.error($"unlock condition method for {HiddenPersonalityUnlock.Key} failed to execute!\n\n"+e);
+                        SgtLogger.error($"unlock condition method for {HiddenPersonalityUnlock.Key} failed to execute!\n\n" + e);
                     }
 
                     if (isUnlocked)
@@ -628,24 +629,29 @@ namespace SetStartDupes
         {
             public static void Postfix(MinionSelectScreen __instance)
             {
-               var PresetButton = Util.KInstantiateUI(__instance.proceedButton.gameObject, __instance.proceedButton.transform.parent.gameObject, true);
-               var btn = PresetButton.GetComponent<KButton>();
+                var PresetButton = Util.KInstantiateUI(__instance.proceedButton.gameObject, __instance.proceedButton.transform.parent.gameObject, true);
+                var btn = PresetButton.GetComponent<KButton>();
 
                 PresetButton.GetComponentInChildren<LocText>().text = STRINGS.UI.PRESETWINDOW.TITLECREW.ToString().ToUpperInvariant();
                 UIUtils.AddActionToButton(PresetButton.transform, "", () => UnityCrewPresetScreen.ShowWindow(__instance as CharacterSelectionController, null));
 
 
-                //var addOneDupeButton = Util.KInstantiateUI<KButton>(__instance.backButton.gameObject, __instance.proceedButton.transform.parent.gameObject, true);
-                //UIUtils.AddActionToButton(addOneDupeButton.transform, "", () => 
-                //{
-                //    CharacterContainer characterContainer = Util.KInstantiateUI<CharacterContainer>(__instance.containerPrefab.gameObject, __instance.containerParent);
-                //    characterContainer.SetController(__instance);
-                //    __instance.containers.Add(characterContainer);
-                //}
-                //);
+                var addOneDupeButton = Util.KInstantiateUI<KButton>(__instance.backButton.gameObject, __instance.proceedButton.transform.parent.gameObject, true);
+                UIUtils.AddActionToButton(addOneDupeButton.transform, "", () =>
+                {
+                    CharacterContainer characterContainer = Util.KInstantiateUI<CharacterContainer>(__instance.containerPrefab.gameObject, __instance.containerParent);
+                    characterContainer.SetController(__instance);
+                    __instance.containers.Add(characterContainer);
+                }
+                );
 
-                //addOneDupeButton.transform.SetSiblingIndex(1);
-                PresetButton.transform.SetSiblingIndex(1);
+                UIUtils.AddSimpleTooltipToObject(addOneDupeButton.transform, MODDEDIMMIGRANTSCREEN.ADDDUPETOOLTIP);
+                UIUtils.TryChangeText(addOneDupeButton.transform, "Text", MODDEDIMMIGRANTSCREEN.ADDDUPE);
+                addOneDupeButton.transform.Find("FG").GetComponent<Image>().sprite = Assets.GetSprite("icon_positive");
+
+
+                addOneDupeButton.transform.SetSiblingIndex(1);
+                PresetButton.transform.SetSiblingIndex(2);
             }
         }
 
@@ -861,12 +867,42 @@ namespace SetStartDupes
             }
         }
 
+        [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.OnSpawn))]
+        public class AddDeletionButtonForStartScreen
+        {
+            public static void Postfix(CharacterContainer __instance)
+            {
+                if (__instance.controller is MinionSelectScreen)
+                {
+
+                    GameObject deleteBtn = Util.KInstantiateUI(__instance.reshuffleButton.gameObject, __instance.reshuffleButton.transform.parent.gameObject, true);
+                    deleteBtn.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, 100f);
+                    var text = deleteBtn.transform.Find("Text");
+                    text.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 2, 96f);
+
+
+                    UIUtils.TryChangeText(text, "", MODDEDIMMIGRANTSCREEN.REMOVEDUPE);
+                    UIUtils.AddSimpleTooltipToObject(deleteBtn.transform, MODDEDIMMIGRANTSCREEN.REMOVEDUPETOOLTIP);
+                    UIUtils.AddActionToButton(deleteBtn.transform, "", () =>
+                    {
+                        if (__instance.controller.containers.Count > 1)
+                        {
+                            __instance.controller.containers.Remove(__instance);
+                            UnityEngine.Object.Destroy(__instance.GetGameObject());
+                        }
+                    });
+                }
+            }
+        }
+
+
+
         [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.OnNameChanged))]
         public class FixPersonalityRenaming
         {
             static string Backup = "MISSING";
 
-            public static void Prefix(CharacterContainer __instance,ref string __state)
+            public static void Prefix(CharacterContainer __instance, ref string __state)
             {
                 __state = __instance.stats.personality.Name;
             }
@@ -962,8 +998,6 @@ namespace SetStartDupes
 #if DEBUG
                     Debug.Log("Manipulating Instance: " + __instance.GetType());
 
-                    //UIUtils.ListAllChildren(__instance.transform);
-                    // UIUtils.ListAllChildrenWithComponents(__instance.transform);
 
 #endif
 

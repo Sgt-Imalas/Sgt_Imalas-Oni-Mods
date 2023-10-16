@@ -255,6 +255,10 @@ namespace SetStartDupes
             {
                 public static LocString SELECTYOURLONECREWMAN = "CHOOSE YOUR LONE DUPLICANT TO BEGIN";
                 public static LocString SELECTYOURCREW = "CHOOSE YOUR DUPLICANTS TO BEGIN";
+                public static LocString ADDDUPE = "ADD SLOT";
+                public static LocString ADDDUPETOOLTIP = "Add an additional duplicant slot, increasing your total starting duplicant count by 1.";
+                public static LocString REMOVEDUPE = "REMOVE SLOT";
+                public static LocString REMOVEDUPETOOLTIP = "Remove this duplicant slot, reducing your total starting duplicant count by 1.";
             }
             public class DUPESETTINGSSCREEN
             {
