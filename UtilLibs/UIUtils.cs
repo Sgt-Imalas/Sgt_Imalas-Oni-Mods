@@ -94,7 +94,7 @@ namespace UtilLibs
            
             return true;
         }
-        public static ToolTip AddSimpleTooltipToObject(Transform go, string tooltip, bool alignCenter = false, float wrapWidth = 0, bool onBottom = false)
+        public static ToolTip AddSimpleTooltipToObject(Transform go, string tooltip, bool alignCenter = true, float wrapWidth = 0, bool onBottom = true)
         {
             if (go == null)
                 return null;
