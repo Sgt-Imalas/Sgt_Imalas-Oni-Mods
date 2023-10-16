@@ -30,6 +30,20 @@ namespace NeutroniumTrashCan
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, GasTrashCanConfig.ID);
             }
         }
+
+        [HarmonyPatch(typeof(Db))]
+        [HarmonyPatch(nameof(Db.Initialize))]
+        public class Db_Initialize_Patch
+        {
+            public static void Postfix()
+            {
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SmartStorage, NeutroniumTrashCanConfig.ID);
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SmartStorage, SolidTrashCanConfig.ID);
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SmartStorage, LiquidTrashCanConfig.ID);
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SmartStorage, GasTrashCanConfig.ID);
+
+            }
+        }
         /// <summary>
         /// Init. auto translation
         /// </summary>

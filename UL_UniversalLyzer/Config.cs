@@ -9,7 +9,7 @@ namespace UL_UniversalLyzer
     [ModInfo("Universal Electrolyzer")]
     public class Config : SingletonOptions<Config>
     {
-        [Option("Piped Output Compatibility - Use piped outputs", "Does nothing on its own.\nWhen the mod \"Piped Output\" is installed,\nthe Electrolyzer will ignore that mod unless this option here is checked.\nIf checked and piped output is enabled, the electrolyzer will gain two additional piped outputs,\nchlorine and polluted oxygen", "(1) General Settings") ]
+        [Option("Piped Output Compatibility - Use piped outputs", "Does nothing on its own.\nWhen the mod \"Piped Output\" or \"Piped Everything\" is installed,\nthe Electrolyzer will ignore that mod unless this option here is checked.\nIf checked and piped output is enabled, the electrolyzer will gain two additional piped outputs,\nchlorine and polluted oxygen", "(1) General Settings") ]
         [JsonProperty]
         public bool IsPiped { get; set; }
 
@@ -88,8 +88,8 @@ namespace UL_UniversalLyzer
 
         public Config()
         {
-            IsPiped = false;
-            SolidDebris = true;
+            IsPiped = true;
+            SolidDebris = false;
             PerLiquidSettings = true;
 
             PressureThresholdMass_water = 2.5f;

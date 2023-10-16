@@ -9,12 +9,5 @@ namespace UL_UniversalLyzer
 {
     internal class STRINGS
     {
-        public class OVERLAYS
-        {
-            public class TILEOFINTERESTOVERLAY
-            {
-
-            }
-        }
     }
 }

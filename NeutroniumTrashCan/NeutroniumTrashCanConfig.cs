@@ -15,7 +15,7 @@ namespace NeutroniumTrashCan
         public override BuildingDef CreateBuildingDef()
         {
             float[] tieR4 = BUILDINGS.CONSTRUCTION_MASS_KG.TIER2;
-            string[] rawMinerals = MATERIALS.RAW_MINERALS;
+            string[] rawMinerals = MATERIALS.ALL_METALS;
             EffectorValues none = NOISE_POLLUTION.NONE;
             EffectorValues tieR1 = BUILDINGS.DECOR.PENALTY.TIER1;
             EffectorValues noise = none;

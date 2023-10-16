@@ -9,50 +9,30 @@ This mod allows the electrolyzer to electrolyze all types of water. the output g
 [hr][/hr]
 
 [h1]Features[/h1]
-[list][*] New Building: Balloon Dispenser, found under Furniture/Recreation.
-[*] Requires 250KG of refined metal.
-[*] Unlocked with the research "Home Luxuries".
-[*] Gives out a balloon at the cost of 5kg of ballon gas; either hydrogen or helium (found in other mods, f.e. Baator).
-[*] Gives a less strong ballon buddy buff (+3 by default, can be changed in mod config).
-[*] Has Selection screen that allows to individually enable/disable unlocked ballon skins and switch between random and queue based skin selection
+[list][*] The Electrolyzer can now electrolyze all water types, resulting in different gas mixes produced
+[*] Polluted Water creates hydrogen and polluted oxygen
+[*] Salt Water and Brine produce hydrogen, oxygen and chlorine (in varying quantities, according to their mixture)
+[*] Power Consumption, Output Temperature are configurable for every water type
+[*] Integration with "piped everything", "piped outputs" to either disable pipes on the electrolyzer building or adding pipes for additional elements
 [/list]
 
 [hr][/hr]
 [h1]Integration[/h1]
-This mod has integration with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2293939893] Varicoloured Balloons[/url].
-When Varicoloured Balloons is installed, it's skins become available for selection in the balloon dispenser.
+This mod has integration with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3033409170]Piped Everything[/url] and [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2550027771]Piped Output - Updated[/url].
 
 [hr][/hr]
 [h1]Credits[/h1]
-Balloon Dispenser Animation and ukrainian translation made by 3GuB
 Options made with PLib.
 
-[hr][/hr]
-[h1]Translations[/h1]
-Current Languages:
-- English
-- German
-- Ukrainian (by 3GuB)
+[h1]Bug Reports & Local Download[/h1]
+You can find direct downloads for my mods [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases]here[/url] (please notify me if I forgot to release new versions).
 
-This mod is fully translatable! 
-You can find the translation template under ~\Documents\Klei\OxygenNotIncluded\mods\strings_templates
-The template for this mod is called "bawoonfwiend_template.pot".
-If you want to have a specific translation added, you can create a translation file with that template and send it to me via GitHub.
-[hr][/hr]
+Please post bug reports and issues on [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or on my [url=https://discord.gg/5n7peBCnWZ]Discord Server[/url]. 
+[b]Always include the full player.log in a report: [/b] https://github.com/aki-art/ONI-Mods/wiki/How-to-send-a-log
 
-[h1]Bug Reports[/h1]
-Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
-The Log is NOT the crash message displayed, it is the file found under: 
-[list]
-[*]Windows: 
-    C:\Users\%username%\AppData\LocalLow\Klei\Oxygen Not Included\Player.log
-[*]Mac: 
-    ~/Library/Logs/Klei/Oxygen Not Included/Player.log
-[*] Linux: 
-~/.config/unity3d/Klei/Oxygen Not Included/Player.log
-[/list] 
+[b]Make sure you do NOT have the mod "Debug Console" enabled as it breaks the game's logging and makes the log useless for debugging![/b] 
 
 [hr][/hr]
 
-Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
+Do you like the mods I made? If you want, you can support me on [url=https://www.buymeacoffee.com/sgtimalas]Buy me a coffe[/url] or [url=https://ko-fi.com/sgtimalas]Kofi[/url] :D.
 
