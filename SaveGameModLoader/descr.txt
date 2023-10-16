@@ -9,7 +9,7 @@ To generate such a mod profile, just load the corresponding save or save your ga
 Import mod profiles from Steam Collections & Export/Save your own.
 
 
-[h1]Current latest Version: 5.0.0[/h1]
+[h1]Current latest Version: 5.1.0[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
