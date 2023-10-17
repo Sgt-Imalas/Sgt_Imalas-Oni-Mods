@@ -134,10 +134,19 @@ namespace SetStartDupes
             {
                 referencedStats.joyTrait = traitRef.Get(this.joyTrait);
             }
+            else
+            {
+                referencedStats.joyTrait = traitRef.Get("None");
+            }
             if(!ModConfig.Instance.NoStressReactions)
             {
                 referencedStats.stressTrait = traitRef.Get(this.stressTrait);
             }
+            else
+            {
+                referencedStats.stressTrait = traitRef.Get("None");
+            }
+
             if (ModAssets.DupeTraitManagers.ContainsKey(referencedStats))
             {
                 ModAssets.DupeTraitManagers[referencedStats].ResetPool();

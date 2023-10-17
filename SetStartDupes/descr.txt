@@ -4,29 +4,36 @@
 
 When you start up a new game, there are a lot of dangers for your dupes so you want to prepare carefully.
 This mod allows you to adjust the amount of duplicants you start your game with and what Traits and Interests they should have.
+You can add more Traits or just remove those you don't want.
 Furtermore you can store your favourite Stat-Loadouts as Preset-Templates that you can then load and apply to any dupes created after.
 The mod also allows to customize the Personality (Skin) of a dupe without changing any of its stats (for when you want a Pei-Only Colony, but there is no Meep-Mod equivalent).
+You can now also modify any dupe that emerges from a cryopod and the mysterious hermit
 
 
-[h1]Current latest Version: 5.0.0[/h1]
+[h1]Current latest Version: 6.0.0[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
 [list]
-[*] Between 1 and 100 starting duplicants (default: 3)
-[*] Individually change the different Traits, Interests and Reactions of a Duplicant (similar to DGSM) but via searchable list -> no longer a need for endless "click to next":
-[/list][img]https://i.imgur.com/zJcOWLS.gif[/img][list]
-[*] Option to store and load stat presets:
+[*] Between 1 and 100 starting duplicants (default: 3), with dynamical count adjustments:
+[/list][img]https://i.imgur.com/RPJxqjV.gif[/img][list]
+[*] Individually change the different Traits, Interests and Reactions of a Duplicant: ([strike] similar to DGSM but via searchable list -> no longer a need for endless "click to next"[/strike] Feature so good, dgsm copied it :D )
+[/list][img]https://i.imgur.com/S2rAxjo.gif[/img][list]
+[*] Option to store and load crew presets:
+[/list][img]https://i.imgur.com/uRNo2Ji.gif[/img][list]
+[*] Option to store and load individual stat presets:
 [/list][img]https://i.imgur.com/uRNo2Ji.gif[/img][list]
 [*] Redistribute Interest Points (this resets each time the interest bonus changes, so do it after you have selected traits and interest types):
 [/list][img]https://i.imgur.com/WfNtqid.gif[/img][list]
+[*] Feature to guarantee a trait when rerolling
 [*] Option to override interest bonus point limit (for those experimental super dupes)
-[*] Changing dupe stats during the game can be disabled in the config (this also disables the preset function)
+[*] Changing printing pod dupe stats during the game can be disabled in the config (this also disables the preset function)
 [*] Option to start the game with additional food and oxylite for every additional start dupe above 3.
 [*] Option to enable rerolling the printing pod dupes AND Care Packages (care packages can additionally be selected via a list of all unlocked packages as an alternative to endless rerolling)
-[*] Ability to apply personalities (= skins) to dupes without changing its interests and traits (stress and overjoyed reaction get applied by default, this can be disabled to be ONLY visual) (see the steam image how this works)
-[*] Ability to add new Traits & Interests (need to be enabled in the config)
-[*] Ability to remove existing Traits & Interests (need to be enabled in the config)
+[*] Ability to apply personalities (= skins) to dupes without changing its interests and traits (stress and overjoyed reaction get applied by default, this can be disabled to only apply visual changes) (see the steam image how this works)
+[*] Change appearance of live duplicants (needs to be enabled in the config)
+[*] Ability to add additional Traits & Interests 
+[*] Ability to remove existing Traits & Interests
 [*] Ability to disable Stress Reactions & Joy Responses
 [*] Change the printing pod interval (default is every 3 cycles)
 [*] Pause game on "New Print available" (requires activation in config)
@@ -36,7 +43,9 @@ The mod also allows to customize the Personality (Skin) of a dupe without changi
 [/list] 
 
 Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2869608898]Bio-Inks[/url] 
-Incompatible with "Duplicant Generation Settings Manager (DGSM)
+Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2455735197]Artifacts in Care Packages[/url] 
+Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1833878154]Care Package Manager[/url] 
+Incompatible with "Duplicant Generation Settings Manager (DGSM)" (all features included)
 Incompatible with "RePrint" (Functionality is integrated, requires enabling in the config)
 
 [h1]Localisation[/h1]
@@ -46,27 +55,24 @@ Incompatible with "RePrint" (Functionality is integrated, requires enabling in t
 
 [h1]Credits[/h1]
 Mod Config made with PLib by PeterHan/Stephen
-Chinese translation provided by [url=https://steamcommunity.com/profiles/76561198037403104/myworkshopfiles/?appid=457140] tyriankid[/url]
+Chinese translation provided by [url=https://steamcommunity.com/profiles/76561198037403104/myworkshopfiles/?appid=457140] tyrian[/url]
 
 [h1]Known Issues[/h1]
 [list]
-[*]Similar to mods done before, having fever than 3 duplicants prevents the Game-Start-Popup to become visible. Hit Esc. to close the invisible start message popup.
-[/list] 
-
-[hr][/hr]
-[h1]Bug Reports[/h1]
-Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or my[url=https://discord.gg/5n7peBCnWZ] Discord[/url]. Always include the full player.log in a report
-
-Where to find the Log:
-[list]
-[*]Windows: 
-    C:\Users\%username%\AppData\LocalLow\Klei\Oxygen Not Included\Player.log
-[*]Mac: 
-    ~/Library/Logs/Klei/Oxygen Not Included/Player.log
-[*] Linux: 
-    ~/.config/unity3d/Klei/Oxygen Not Included/Player.log
+[*]Similar to mods done before, having fever than 3 duplicants might prevent the Game-Start-Popup to become visible. Hit Esc. to close the invisible start message popup.
 [/list] 
 
 [hr][/hr]
 
-Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D
+[h1]Bug Reports & Local Download[/h1]
+You can find direct downloads for my mods [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases]here[/url] (please notify me if I forgot to release new versions).
+
+Please post bug reports and issues on [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or on my [url=https://discord.gg/5n7peBCnWZ]Discord Server[/url]. 
+[b]Always include the full player.log in a report: [/b] https://github.com/aki-art/ONI-Mods/wiki/How-to-send-a-log
+
+[b]Make sure you do NOT have the mod "Debug Console" enabled as it breaks the game's logging and makes the log useless for debugging![/b] 
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me on [url=https://www.buymeacoffee.com/sgtimalas]Buy me a coffe[/url] or [url=https://ko-fi.com/sgtimalas]Kofi[/url] :D.
+

@@ -1,7 +1,13 @@
-﻿- New Feature: Crew Presets
-- crew presets store/override the entire start screen of dupes, allowing to load the entire starting group with one preset 
+﻿Duplicant Stat Selector 6.0:
 
-- fixed additional stat boni from other mods getting ignored
+New Features:
+- Crew Presets: crew presets store/override the entire start screen of dupes, allowing to load the entire starting group with one preset 
+- Guarantee Trait when rerolling: in addition to selectable interests, this feature allows you to lock in a trait that then is guaranteed to be rolled when rerolling
+- Starting Screen Crew Slots: you can now dynamically adjust the total amount of duplicants you want, reducing or increasing the number while in that screen. the option in the config now marks the default value for the dupe start number
+
+
+- fixed additional stat boni from other mods getting ignored sometimes
 - overriding a skin on a duplicant with a custom name no longer overrides the custom name with the new skins' name
 - interests in all screens are now correctly named (f.e. Digger -> Digging)
 - interest bonus redistribution on bonus value change is now more in line with vanilla value distribution
+- adding/removing traits and interest feature is now enabled in the default settings
