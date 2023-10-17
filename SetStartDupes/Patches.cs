@@ -425,26 +425,20 @@ namespace SetStartDupes
         }
         [HarmonyPatch(typeof(CharacterContainer))]
         [HarmonyPatch(nameof(CharacterContainer.Reshuffle))]
-        public class PreventCrashForSIngleDupes
+        public class PreventCrashForSingleDupes
         {
             
             public static bool Prefix(CharacterContainer __instance,ref bool is_starter)
             {
-                is_starter = __instance.controller is MinionSelectScreen;
-
                 if (EditingSingleDupe)
                 {
-                    if (__instance.controller != null && __instance.controller.IsSelected(__instance.stats))
-                    {
-                        __instance.DeselectDeliverable();
-                    }
+                    is_starter = __instance.controller is MinionSelectScreen;
                     if (__instance.fxAnim != null)
                     {
                         __instance.fxAnim.Play("loop");
                     }
                     //SgtLogger.l(__instance.guaranteedAptitudeID, "archetypeID");
                     __instance.GenerateCharacter(is_starter, __instance.guaranteedAptitudeID);
-
                     return false;
                 }
                 return true;
@@ -917,6 +911,7 @@ namespace SetStartDupes
                     {
                         UnityTraitRerollingScreen.ShowWindow( () =>
                         {
+                            __instance.Reshuffle(IsStartDupe);
                             var type = GetTraitListOfTrait(UnityTraitRerollingScreen.GetTraitId(__instance), out _);
                             ApplyTraitStyleByKey(rerollTraitBtn.GetComponent<KImage>(), type);
                             UIUtils.TryChangeText(text, "", UnityTraitRerollingScreen.GetTraitName(__instance));
@@ -949,6 +944,7 @@ namespace SetStartDupes
                 if (__state == null)
                     return;
                 __instance.stats.personality.Name = __state;
+                __instance.description.text = __instance.stats.personality.description;
             }
         }
 

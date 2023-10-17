@@ -625,7 +625,7 @@ namespace SetStartDupes
             ColorStyle.inactiveColor = colorToPaint;
             ColorStyle.hoverColor = UIUtils.Lighten(colorToPaint, 10);
             ColorStyle.activeColor = UIUtils.Lighten(colorToPaint, 25);
-            ColorStyle.disabledColor = colorToPaint;
+            ColorStyle.disabledColor = UIUtils.Lighten(colorToPaint, 40);
             img.colorStyleSetting = ColorStyle;
             img.ApplyColorStyleSetting();
         }
