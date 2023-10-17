@@ -42,7 +42,6 @@ namespace SaveGameModLoader
                     public static LocString MODLISTSAVEGAMEHEADER = "Mod Profiles from Save Games";
 
                     public static LocString IMPORTEDTITLEANDAUTHOR = "{0}, Collection by {1}";
-                    I dont think there is a way to have both mods work at the same time, 
                     public class SINGLEENTRY
                     {
                         public static LocString ONESTOREDLIST = " stored Profile";
