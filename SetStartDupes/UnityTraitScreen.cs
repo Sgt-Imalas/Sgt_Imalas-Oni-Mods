@@ -124,7 +124,7 @@ namespace SetStartDupes
             }
             else if (currentTrait != null)
             {
-                var next = ModAssets.GetTraitListOfTrait(currentTrait.Id, out var list);
+                var next = ModAssets.GetTraitListOfTrait(currentTrait.Id, out _);
                 TraitCategory = next;
                 ToReplaceName.text = GetTraitName(currentTrait);
                 ToReplaceColour.color = ModAssets.GetColourFromType(next);
@@ -132,20 +132,21 @@ namespace SetStartDupes
             }
             else
             {
-                ToReplaceName.text = "-";
+                ToReplaceName.text = global::STRINGS.DUPLICANTS.CONGENITALTRAITS.NONE.NAME;
                 ToReplaceColour.color = ModAssets.Colors.grey;
             }
-            List<SkillGroup> forbidden = ReferencedStats.skillAptitudes.Keys.ToList();
-
-
             foreach (var go in TraitContainers)
             {
                 go.Value.SetActive(type == OpenedFrom.Trait && allowedTraits.Contains(go.Key.Id));
             }
+
+            List<SkillGroup> forbidden = ReferencedStats.skillAptitudes.Keys.ToList();
             foreach (var go in DupeInterestContainers)
             {
                 go.Value.SetActive(type == OpenedFrom.Interest && !forbidden.Contains(go.Key));
             }
+
+
             openedFrom = type;
             ApplyFilter();
         }
@@ -203,7 +204,7 @@ namespace SetStartDupes
                 }
             }
         }
-        
+
 
         private void ChoseThis(Trait trait)
         {
@@ -214,7 +215,7 @@ namespace SetStartDupes
                 case NextType.negTrait:
                 case NextType.needTrait:
                 case NextType.allTraits:
-                    ModAssets.RemoveTrait(ReferencedStats,CurrentTrait);
+                    ModAssets.RemoveTrait(ReferencedStats, CurrentTrait);
                     ModAssets.AddTrait(ReferencedStats, trait);
                     break;
                 case NextType.stress:
@@ -293,14 +294,14 @@ namespace SetStartDupes
             var interests = Db.Get().SkillGroups.resources;
             foreach (var type in (NextType[])Enum.GetValues(typeof(NextType)))
             {
+                if(type == NextType.allTraits) continue;
+
                 var TraitsOfCategory = ModAssets.TryGetTraitsOfCategory(type);
                 foreach (var item in TraitsOfCategory)
                 {
-                    if(item.dlcId == ""|| item.dlcId == DlcManager.GetHighestActiveDlcId())
+                    if (item.dlcId == "" || item.dlcId == DlcManager.GetHighestActiveDlcId())
                         AddUIContainer(traitsDb.TryGet(item.id), type);
                 }
-
-
             }
             foreach (var item in interests)
             {
@@ -356,7 +357,7 @@ namespace SetStartDupes
 
         List<string> GetAllowedTraits()
         {
-            var allowedTraits = ModAssets.TryGetTraitsOfCategory(TraitCategory,ReferencedStats.Traits).Select(t => t.id).ToList();
+            var allowedTraits = ModAssets.TryGetTraitsOfCategory(TraitCategory, ReferencedStats.Traits).Select(t => t.id).ToList();
             var finalTraits = new List<string>();
             var forbiddenTraits = ReferencedStats.Traits.Count > 0 ? ReferencedStats.Traits.Select(allowedTraits => allowedTraits.Id).ToList() : new List<string>();
 

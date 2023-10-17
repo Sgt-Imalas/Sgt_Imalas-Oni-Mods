@@ -63,7 +63,7 @@ namespace SetStartDupes
         {
             string nameStringKey = "Jorge";
 
-            ///Hidden Unlcoakbles
+            ///Hidden Unlockables
             Func<bool> Unlock = () => HermitTraitCompletedOnce();
             AddHiddenDupeToSkinSelection(nameStringKey, Unlock);
 

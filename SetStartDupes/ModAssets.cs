@@ -110,6 +110,7 @@ namespace SetStartDupes
         }
 
 
+        public static Dictionary<CharacterContainer, List<KButton>> buttonsToDeactivateOnEdit = new Dictionary<CharacterContainer, List<KButton>>();
         public static Dictionary<MinionStartingStats, DupeTraitManager> DupeTraitManagers = new Dictionary<MinionStartingStats, DupeTraitManager>();
 
         public static void ApplySkinToExistingDuplicant(Personality Skin, GameObject Duplicant)

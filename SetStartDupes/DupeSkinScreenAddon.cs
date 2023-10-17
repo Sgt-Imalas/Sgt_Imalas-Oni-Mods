@@ -61,23 +61,42 @@ namespace SetStartDupes
             MinionBrowserScreen.GridItem Selected = minionSelectionScreen.selectedGridItem;
 
             bool OverrideName = true;
+
+            SgtLogger.l(Selected.GetName(), "Personality selected");
             //CurrentContainer.OnNameChanged(Selected.GetName());
             if (EditableIdentity != null)
             {
+                SgtLogger.l("Editing Starting Stat Dupe");
                 if (EditableIdentity.Name != EditableIdentity.personality.Name)
                 {
                     OverrideName = false;
                 }
                 ModAssets.ApplySkinFromPersonality(Selected.GetPersonality(), EditableIdentity);
             }
+            else
+            {
+                SgtLogger.warning("minionStartingStats was null!");
+            }
+
             if (CurrentContainer != null)
             {
+                if (CurrentContainer.animController != null)
+                {
+                    UnityEngine.Object.Destroy(CurrentContainer.animController.gameObject);
+                    CurrentContainer.animController = null;
+                }
+
                 if (OverrideName)
                     CurrentContainer.characterNameTitle.OnEndEdit(Selected.GetName());
                 CurrentContainer.SetAnimator();
                 CurrentContainer.SetAttributes();
                 CurrentContainer.SetInfoText();
             }
+            else
+            {
+                SgtLogger.warning("current container was null!");
+            }
+
             if (EditingSkinOnExistingDupeGO != null)
             {
                 ModAssets.ApplySkinToExistingDuplicant(Selected.GetPersonality(), EditingSkinOnExistingDupeGO);

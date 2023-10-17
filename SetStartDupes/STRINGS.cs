@@ -259,6 +259,7 @@ namespace SetStartDupes
                 public static LocString ADDDUPETOOLTIP = "Add an additional duplicant slot, increasing your total starting duplicant count by 1.";
                 public static LocString REMOVEDUPE = "REMOVE SLOT";
                 public static LocString REMOVEDUPETOOLTIP = "Remove this duplicant slot, reducing your total starting duplicant count by 1.";
+                public static LocString GUARANTEETRAIT = "Guarantee this trait to be rolled on a reroll.\nWorks in combination with the interest selector.";
             }
             public class DUPESETTINGSSCREEN
             {
