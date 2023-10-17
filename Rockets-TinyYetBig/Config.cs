@@ -16,12 +16,15 @@ namespace Rockets_TinyYetBig
     [ModInfo("https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods", "preview.png")]
     public class Config : SingletonOptions<Config>
     {
-        public static bool SpaceStationsPossible => true;
-            //Instance.CompressInteriors
-            //&& Instance.EnableAdvWorldSelector
-            //&& Instance.SpaceStationsAndTech
-            //&& Instance.NeutroniumMaterial
-            //;
+        public static bool SpaceStationsPossible =>
+#if DEBUG
+            true ||
+#endif
+            Instance.CompressInteriors
+            && Instance.EnableAdvWorldSelector
+            && Instance.SpaceStationsAndTech
+            && Instance.NeutroniumMaterial
+            ;
 
 
         //[Option("test2", ".")]
@@ -193,8 +196,11 @@ namespace Rockets_TinyYetBig
 
         [Option("Booster Modules", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI, "(3) Fuel & Logistics")]
         [JsonProperty]
+#if DEBUG
         public bool Boosters { get; set; }
-
+#else
+        private bool Boosters { get; set; }
+#endif
         [Option("Natural Gas Engine Module", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(3) Fuel & Logistics")]
         [JsonProperty]
         public bool EnableNatGasEngine { get; set; }
@@ -220,7 +226,7 @@ namespace Rockets_TinyYetBig
         [Option("Fortified & Advanced Rocket Platform", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI, "(3) Fuel & Logistics")]
         [JsonProperty]
         public bool EnableBunkerPlatform { get; set; }
-        #endregion
+#endregion
 
         #region Power&Utility
 

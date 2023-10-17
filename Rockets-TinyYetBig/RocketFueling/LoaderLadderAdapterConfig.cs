@@ -34,7 +34,7 @@ namespace Rockets_TinyYetBig.RocketFueling
                 MaterialCosts,
                 Materials,
                 1600f, 
-                BuildLocationRule.Tile, 
+                BuildLocationRule.NotInTiles, 
                 noise: NOISE_POLLUTION.NONE, 
                 decor: BUILDINGS.DECOR.PENALTY.TIER0);
 

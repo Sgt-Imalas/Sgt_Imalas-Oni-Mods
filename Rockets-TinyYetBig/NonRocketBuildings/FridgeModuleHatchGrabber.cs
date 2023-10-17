@@ -48,8 +48,8 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             UpdateModules(null);
             StatusItemHandle = selectable.AddStatusItem(ModAssets.StatusItems.RTB_AccessHatchStorage, (object)this);
             ModAssets.FridgeModuleGrabbers.Add(this);
-            GetAllMassDesc();
-            this.filteredStorage.FilterChanged();
+            //GetAllMassDesc();
+            //this.filteredStorage.FilterChanged();
             CreateMeter();
             UpdateMeter();
         }
@@ -76,10 +76,10 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
-            this.filteredStorage = new FilteredStorage((KMonoBehaviour)this, new Tag[1]
-            {
-                GameTags.Compostable
-            }, (IUserControlledCapacity)null, true, Db.Get().ChoreTypes.StorageFetch);
+            //this.filteredStorage = new FilteredStorage((KMonoBehaviour)this, new Tag[1]
+            //{
+            //    GameTags.Compostable
+            //}, (IUserControlledCapacity)null, true, Db.Get().ChoreTypes.StorageFetch);
 
         }
         public override void OnCleanUp()
@@ -121,7 +121,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                             for (int i = module.storage.items.Count - 1; i >= 0; i--)
                             {
                                 var item = module.storage.items[i];
-                                if (item.HasAnyTags(filterArray))
+                                if (item.TryGetComponent(out KPrefabID prefab ) && prefab.HasAnyTags(filterArray))
                                 {
                                     if (item.TryGetComponent<Pickupable>(out var pickupable))
                                     {
@@ -131,7 +131,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                                         if(TakenPickup != null)
                                         {
                                             neededStorage -= TakenPickup.TotalAmount;
-                                            offlineStorage.Store(TakenPickup.gameObject, true, true);
+                                            offlineStorage.Store(TakenPickup.gameObject, true, false);
                                         }
                                     }
                                     if (neededStorage <= 0)
@@ -143,54 +143,59 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                             break;
                     }
                 }
-                else if (neededStorage < 0)
-                {
-                    //push some back into module REDO THIS, ITS SCUFFED AF!
-                    neededStorage *= -1;
 
-                    for (int i = offlineStorage.items.Count - 1; i >= 0; i--)
-                    {
-                        var itemToPutInStorage = offlineStorage.items[i];
-                        foreach (var module in ConnectedFridgeModules)
-                        {
-                            float remainingCapacity = module.storage.RemainingCapacity();
+                return;
+                //else 
+                //    if (neededStorage < 0)
+                //{
+                //    //push some back into module REDO THIS, ITS SCUFFED AF!
+                //    neededStorage *= -1;
 
-                            if (remainingCapacity <= 0)
-                                continue;
-                            if (itemToPutInStorage.HasAnyTags(module.storage.storageFilters.ToArray()))
-                            {
-                                if (itemToPutInStorage.TryGetComponent<Pickupable>(out var pickupable))
-                                {
-                                    var currentAmount = pickupable.TotalAmount;
+                //    for (int i = offlineStorage.items.Count - 1; i >= 0; i--)
+                //    {
+                //        var itemToPutInStorage = offlineStorage.items[i];
+                //        foreach (var module in ConnectedFridgeModules)
+                //        {
+                //            float remainingCapacity = module.storage.RemainingCapacity();
 
-                                    float amount = Mathf.Min(remainingCapacity, neededStorage);
+                //            if (remainingCapacity <= 0)
+                //                continue;
+                //            if (itemToPutInStorage.HasAnyTags(module.storage.storageFilters.ToArray()))
+                //            {
+                //                if (itemToPutInStorage.TryGetComponent<Pickupable>(out var pickupable))
+                //                {
+                //                    var currentAmount = pickupable.TotalAmount;
 
-                                    if(amount == 0)
-                                        continue;
+                //                    float amount = Mathf.Min(remainingCapacity, neededStorage);
 
-                                    //SgtLogger.l($"{amount}, {remainingCapacity}, {neededStorage} -> {pickupable}");
-                                    var TakenPickup = pickupable.Take(amount);
+                //                    if(amount == 0)
+                //                        continue;
 
-                                    if (TakenPickup != null)
-                                    {
-                                        remainingCapacity -= TakenPickup.TotalAmount;
-                                        neededStorage -= TakenPickup.TotalAmount;
-                                        module.storage.Store(TakenPickup.gameObject, true, true);
-                                    }
-                                    if (currentAmount <= amount)
-                                    {
-                                        break;
-                                    }
+                //                    //SgtLogger.l($"{amount}, {remainingCapacity}, {neededStorage} -> {pickupable}");
+                //                    var TakenPickup = pickupable.Take(amount);
 
-                                }
+                //                    if (TakenPickup != null)
+                //                    {
+                //                        remainingCapacity -= TakenPickup.TotalAmount;
+                //                        neededStorage -= TakenPickup.TotalAmount;
+                //                        module.storage.Store(TakenPickup.gameObject, true, false);
+                //                    }
+                //                    if (currentAmount <= amount)
+                //                    {
+                //                        break;
+                //                    }
 
-                                if (neededStorage <= 0)
-                                    break;
-                            }
-                        }
-                    }
-                }
+                //                }
+
+                //                if (neededStorage <= 0)
+                //                    break;
+                //            }
+                //        }
+                //    }
+                //}
+
             }
+
         }
 
         void UpdateModules(object o)
@@ -206,7 +211,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                     ConnectedFridgeModules.Add(clusterbay);
                 }
             }
-            GetAllMassDesc();
+            //GetAllMassDesc();
             UpdateMeter();
         }
 
@@ -225,15 +230,22 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             {
                 foreach (var module in ConnectedFridgeModules)
                 {
+                    if(module.storage==null)
+                        continue;
+
                     currentCapacity += module.storage.MassStored();
                     totalCapacity += module.storage.capacityKg;
 
                     //SgtLogger.l("modul: " + module.ToString());
-                    if (module.storage.MassStored() > 0.01)
+                    if (module.storage.MassStored() > 0f)
                     {
                         for (int i = module.storage.items.Count - 1; i >= 0; i--)
                         {
-                            if (module.storage.items[i].TryGetComponent<Pickupable>(out var pickupable) && module.storage.items[i].TryGetComponent<Edible>(out var edible))
+                            if (module.storage.items[i] != null
+                                && !module.storage.items[i].IsNullOrDestroyed()
+                                && module.storage.items[i].gameObject != null
+                                && module.storage.items[i].gameObject.TryGetComponent<Pickupable>(out var pickupable) 
+                                && module.storage.items[i].gameObject.TryGetComponent<Edible>(out var edible))
                             {
                                 float thisFoodsMass = edible.foodInfo.CaloriesPerUnit * pickupable.TotalAmount / 1000f;
                                 totalKCalNew += thisFoodsMass;
