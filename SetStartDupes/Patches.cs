@@ -19,6 +19,7 @@ using UtilLibs;
 using static FetchManager;
 using static KAnim;
 using static KCompBuilder;
+using static SetStartDupes.DupeTraitManager;
 using static SetStartDupes.ModAssets;
 using static SetStartDupes.STRINGS.UI;
 using static STRINGS.DUPLICANTS;
@@ -67,13 +68,13 @@ namespace SetStartDupes
                         && Db.Get().Personalities.Get(minionIdentity.personalityResourceId) != null)
                     {
                         var originPersonality = Db.Get().Personalities.Get(minionIdentity.personalityResourceId);
-                        __instance.stats = new MinionStartingStats(originPersonality, __instance.guaranteedAptitudeID);
+                        __instance.stats = new MinionStartingStats(originPersonality, guaranteedTraitID: "AncientKnowledge");
                         //ModAssets.ApplySkinFromPersonality(originPersonality, __instance.stats);
                         //__instance.characterNameTitle.OnEndEdit(originPersonality.Name);
                     }
                     else
                     {
-                        __instance.stats = new MinionStartingStats(is_starter_minion: false, __instance.guaranteedAptitudeID);
+                        __instance.stats = new MinionStartingStats(is_starter_minion: false, guaranteedTraitID: "AncientKnowledge");
                     }
                     if (EditingJorge)
                     {
@@ -85,11 +86,11 @@ namespace SetStartDupes
                     }
                     __instance.stats.voiceIdx = ModApi.GetVoiceIdxOverrideForPersonality(__instance.stats.NameStringKey);
 
-                    Trait ancientKnowledgeTrait = Db.Get().traits.TryGet("AncientKnowledge");
-                    if (ancientKnowledgeTrait != null)
-                    {
-                        __instance.stats.Traits.Add(ancientKnowledgeTrait);
-                    }
+                    //Trait ancientKnowledgeTrait = Db.Get().traits.TryGet("AncientKnowledge");
+                    //if (ancientKnowledgeTrait != null)
+                    //{
+                    //   // __instance.stats.Traits.Add(ancientKnowledgeTrait);
+                    //}
                     __instance.SetReshufflingState(true);
                     __instance.SetAnimator();
                     __instance.SetInfoText();
@@ -430,9 +431,9 @@ namespace SetStartDupes
             
             public static bool Prefix(CharacterContainer __instance,ref bool is_starter)
             {
+                is_starter = __instance.controller is MinionSelectScreen;
                 if (EditingSingleDupe)
                 {
-                    is_starter = __instance.controller is MinionSelectScreen;
                     if (__instance.fxAnim != null)
                     {
                         __instance.fxAnim.Play("loop");
@@ -1495,7 +1496,7 @@ namespace SetStartDupes
                         });
 
                         UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, v.Name));
-                        traitEntry.transform.Find("RemoveButton").gameObject.SetActive(ModConfig.Instance.AddAndRemoveTraitsAndInterests);
+                        traitEntry.transform.Find("RemoveButton").gameObject.SetActive(ModConfig.Instance.AddAndRemoveTraitsAndInterests && type != NextType.undefined);
 
                         ApplyTraitStyleByKey(traitEntry.transform.Find("RemoveButton").gameObject.GetComponent<KImage>(), type);
 
