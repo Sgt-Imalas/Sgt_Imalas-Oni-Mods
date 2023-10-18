@@ -1302,6 +1302,7 @@ namespace ClusterTraitGenerationManager
         public static class AddSomeGeysers
         {
             static Dictionary<string, Dictionary<List<string>, int>> OriginalGeyserAmounts = new Dictionary<string, Dictionary<List<string>, int>>();
+            static Dictionary<ProcGen.World.TemplateSpawnRules, Vector2I> placementOverridesAdjustments = new Dictionary<ProcGen.World.TemplateSpawnRules, Vector2I>();
             /// <summary>
             /// Inserting Custom Traits
             /// </summary>
@@ -1315,6 +1316,7 @@ namespace ClusterTraitGenerationManager
 
                     if (CGSMClusterManager.CustomCluster.HasStarmapItem(settings.world.filePath, out var item) && !Mathf.Approximately(item.CurrentSizeMultiplier, 1))
                     {
+                        float SizeModifier = item.CurrentSizeMultiplier;
                         foreach (var WorldTemplateRule in settings.world.worldTemplateRules)
                         {
                             if (WorldTemplateRule.names.Any(name => name.ToUpperInvariant().Contains(geyserKey)))
@@ -1323,13 +1325,12 @@ namespace ClusterTraitGenerationManager
                                 {
                                     OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names] = WorldTemplateRule.times;
                                 }
-                                float SizeModifier = item.CurrentSizeMultiplier;
                                 if (SizeModifier < 1)
                                 {
                                     SizeModifier = (1 + SizeModifier) / 2;
                                     
                                     ///Geyser Penalty needs a better implementation...
-                                    SizeModifier = 1;
+                                    SizeModifier = 1f;
                                 }
 
 
@@ -1358,9 +1359,30 @@ namespace ClusterTraitGenerationManager
                                         WorldTemplateRule.times = 0;
                                     }
                                 }
+                                ///Fixed Templates on KleiFest2023 asteroid can only spawn once
+                                ///
+
+                               
 
                                 //WorldTemplateRule.times = Math.Max(1, Mathf.RoundToInt(((float)OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]) * (float)item.CurrentSizePreset / 100f));
                                 //SgtLogger.l(string.Format("Adjusting geyser roll amount to worldsize for {0}; {1} -> {2}", WorldTemplateRule.names.FirstOrDefault(), OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names], WorldTemplateRule.times), item.id);
+                            }
+                            
+                            if (WorldTemplateRule.overridePlacement != Vector2I.minusone)
+                            {
+                                if (!placementOverridesAdjustments.ContainsKey(WorldTemplateRule))
+                                {
+                                    SgtLogger.l(WorldTemplateRule.overridePlacement.ToString(), "vanilla override placement");
+                                    placementOverridesAdjustments[WorldTemplateRule] = (WorldTemplateRule.overridePlacement);
+                                }
+                                WorldTemplateRule.overridePlacement = new Vector2I(Mathf.RoundToInt(((float)WorldTemplateRule.overridePlacement.X) * (float)item.SizeMultiplierX()), Mathf.RoundToInt(((float)WorldTemplateRule.overridePlacement.Y) * (float)item.SizeMultiplierY()));
+                                SgtLogger.l(WorldTemplateRule.overridePlacement.ToString(), "adjusted override placement, modifier: " + item.SizeMultiplierX());
+
+                            }
+
+                            if (WorldTemplateRule.times > 1 && WorldTemplateRule.overridePlacement != Vector2I.minusone)
+                            {
+                                WorldTemplateRule.times = 1;
                             }
                         }
                     }
@@ -1377,6 +1399,10 @@ namespace ClusterTraitGenerationManager
                         {
                             SgtLogger.l(string.Format("Resetting Geyser rules back for {0}; {1} -> {2}", WorldTemplateRule.names.FirstOrDefault(), WorldTemplateRule.times, OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]), WorldTemplateRule.ruleId);
                             WorldTemplateRule.times = OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names];
+                        }
+                        if (placementOverridesAdjustments.ContainsKey(WorldTemplateRule))
+                        {
+                            WorldTemplateRule.overridePlacement = placementOverridesAdjustments[WorldTemplateRule];
                         }
                     }
                     //OriginalGeyserAmounts.Remove(settings.world.filePath);

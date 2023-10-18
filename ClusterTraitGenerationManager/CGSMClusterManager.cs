@@ -564,6 +564,33 @@ namespace ClusterTraitGenerationManager
                     CustomSizeIncrease = (float)(CustomX * CustomY) / (float)(world.worldsize.X * world.worldsize.Y);
                 }
             }
+            public float SizeMultiplierX()
+            {
+                if (UsingCustomDimensions && world != null)
+                {
+                    return CustomX / world.worldsize.X;
+                }
+                else
+                {
+                    float sizePercentage = (float)SizePreset / 100f;
+                    return Mathf.Sqrt(sizePercentage);
+                }
+
+            }
+            public float SizeMultiplierY()
+            {
+                if (UsingCustomDimensions && world != null)
+                {
+                    return CustomY / world.worldsize.Y;
+                }
+                else
+                {
+                    float sizePercentage = (float)SizePreset / 100f;
+                    return Mathf.Sqrt(sizePercentage);
+                }
+            }
+
+
             float CustomSizeIncrease = -1f;
 
             public float InstancesToSpawn = 1;
@@ -1822,9 +1849,6 @@ namespace ClusterTraitGenerationManager
 
                 foreach (var WorldFromCache in SettingsCache.worlds.worldCache)
                 {
-
-
-
                     StarmapItemCategory category = StarmapItemCategory.Outer;
                     //SgtLogger.l(World.Key + "; " + World.Value.ToString());
                     ProcGen.World world = WorldFromCache.Value;
@@ -1839,10 +1863,10 @@ namespace ClusterTraitGenerationManager
                     ///Hardcoded checks due to others not having the correct folder structure
                     string KeyUpper = WorldFromCache.Key.ToUpperInvariant();
                     bool SkipModdedWorld =
-                        KeyUpper.Contains("EMPTERA") && !KeyUpper.Contains("DLC")
-                        || KeyUpper.Contains("ISLANDS") && !KeyUpper.Contains("DLC")
-                        || KeyUpper.Contains("FULERIA") && !KeyUpper.Contains("DLC")
-                        ;
+                        KeyUpper.Contains("EMPTERA") && DlcManager.IsExpansion1Active() ? !KeyUpper.Contains("DLC") : KeyUpper.Contains("DLC")
+                        || KeyUpper.Contains("ISLANDS") && DlcManager.IsExpansion1Active() ? !KeyUpper.Contains("DLC") : KeyUpper.Contains("DLC")
+                        || KeyUpper.Contains("FULERIA") && DlcManager.IsExpansion1Active() ? !KeyUpper.Contains("DLC") : KeyUpper.Contains("DLC");
+                        
 
 
 
