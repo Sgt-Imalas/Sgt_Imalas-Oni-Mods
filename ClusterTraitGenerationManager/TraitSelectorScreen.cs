@@ -183,7 +183,7 @@ namespace ClusterTraitGenerationManager
             {
                 var TraitHolder = Util.KInstantiateUI(TraitPrefab, PossibleTraitsContainer, true);
                 var blacklistContainer = TraitHolder.AddOrGet<BlacklistTrait>();
-                blacklistContainer.Init(kvp.Key);
+                blacklistContainer.Init(kvp.Value.filePath);
 
                 Strings.TryGet(kvp.Value.name, out var name);
                 Strings.TryGet(kvp.Value.description, out var description);

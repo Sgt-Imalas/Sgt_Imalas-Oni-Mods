@@ -210,7 +210,7 @@ namespace ClusterTraitGenerationManager
             public static void Postfix()
             {
 
-                if(CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null)
+                if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null)
                 {
                     string name = SaveGame.Instance.BaseName;
                     CustomClusterSettingsPreset tempStats = CustomClusterSettingsPreset.CreateFromCluster(CGSMClusterManager.CustomCluster, name);
@@ -314,7 +314,7 @@ namespace ClusterTraitGenerationManager
                 foreach (var WorldFile in WorldFiles)
                 {
                     string WorldCacheName = DLC_WorldNamePrefix + System.IO.Path.GetFileNameWithoutExtension(WorldFile.FullName);
-                    
+
                     if (!__instance.worldCache.ContainsKey(WorldCacheName) && !hashSet.Contains(WorldCacheName))
                     {
                         string filePath = SettingsCache.RewriteWorldgenPathYaml(WorldCacheName);
@@ -467,6 +467,7 @@ namespace ClusterTraitGenerationManager
                     if (sourceWorld.Key.Contains("NiobiumMoonlet")
                         || sourceWorld.Key.Contains("RegolithMoonlet")
                         || sourceWorld.Key.Contains("MooMoonlet")
+                        || sourceWorld.Key.ToUpperInvariant().Contains("BABY")
 
                         )
                     {
@@ -975,6 +976,16 @@ namespace ClusterTraitGenerationManager
         }
 
 
+        [HarmonyPatch(typeof(SaveGame), "GetColonyToolTip")]
+        public class SaveGame_GetColonyTooltip_Patch
+        {
+            public static void Postfix(List<Tuple<string, TextStyleSetting>> __result)
+            {
+                SettingLevel currentQualitySetting = CustomGameSettings.Instance.GetCurrentQualitySetting((SettingConfig)CustomGameSettingConfigs.ClusterLayout);
+            }
+        }
+
+
         /// <summary>
         /// Makes error msg display the actual error instead of "couldn't germinate"
         /// </summary>
@@ -1024,53 +1035,34 @@ namespace ClusterTraitGenerationManager
             /// </summary>
             public static bool Prefix(int seed, ProcGen.World world, ref List<string> __result)
             {
-                if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null)
+                if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null && ApplyCustomGen.IsGenerating)
                 {
-                    var traitIDs = CGSMClusterManager.CustomCluster.GiveWorldTraitsForWorldGen(world, seed);
-                    //SgtLogger.l(world.filePath, "World");
-
-                    //foreach (var traits in  traitIDs)
-                    //{
-                    //    SgtLogger.l(traits, "TRAITID");
-                    //}
-
-                    if (traitIDs.Count > 0)
-                    {
-                        //List<WorldTrait> list = new List<WorldTrait>(SettingsCache.worldTraits.Values);
-
-                        __result = new List<string>();
-                        foreach (var trait in traitIDs)
-                        {
-                            //WorldTrait gatheredTrait = SettingsCache.GetCachedWorldTrait(trait, true);
-                            __result.Add(trait);
-                        }
-                        return false;
-                    }
-
+                    __result = CGSMClusterManager.CustomCluster.GiveWorldTraitsForWorldGen(world, seed);
+                    return false;
                 }
                 return true;
             }
-            public static void Postfix(int seed, ProcGen.World world,  ref List<string> __result)
-            {
-                if (__result.Count > 0)
-                {
-                    var list = new List<string>();
-                    int replaceCount = 0;
-                    foreach (var trait in __result)
-                    {
-                        if (trait != ModAssets.CustomTraitID)
-                        {
-                            list.Add(trait);
-                        }
-                        else
-                            ++replaceCount;
-                    }
-                    if (replaceCount > 0)
-                    {
-                        __result = CGSMClusterManager.CustomClusterData.AddRandomTraitsForWorld(list, world, replaceCount, seed);
-                    }
-                }
-            }
+            //public static void Postfix(int seed, ProcGen.World world, ref List<string> __result)
+            //{
+            //    if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null)
+            //    {
+            //        var list = new List<string>();
+            //        int replaceCount = 0;
+            //        foreach (var trait in __result)
+            //        {
+            //            if (trait != ModAssets.CustomTraitID)
+            //            {
+            //                list.Add(trait);
+            //            }
+            //            else
+            //                ++replaceCount;
+            //        }
+            //        if (replaceCount > 0)
+            //        {
+            //            __result = CGSMClusterManager.CustomClusterData.AddRandomTraitsForWorld(list, world, replaceCount, seed);
+            //        }
+            //    }
+            //}
         }
 
         [HarmonyPatch(typeof(FileNameDialog))]
@@ -1328,7 +1320,7 @@ namespace ClusterTraitGenerationManager
                                 if (SizeModifier < 1)
                                 {
                                     SizeModifier = (1 + SizeModifier) / 2;
-                                    
+
                                     ///Geyser Penalty needs a better implementation...
                                     SizeModifier = 1f;
                                 }
@@ -1362,12 +1354,12 @@ namespace ClusterTraitGenerationManager
                                 ///Fixed Templates on KleiFest2023 asteroid can only spawn once
                                 ///
 
-                               
+
 
                                 //WorldTemplateRule.times = Math.Max(1, Mathf.RoundToInt(((float)OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]) * (float)item.CurrentSizePreset / 100f));
                                 //SgtLogger.l(string.Format("Adjusting geyser roll amount to worldsize for {0}; {1} -> {2}", WorldTemplateRule.names.FirstOrDefault(), OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names], WorldTemplateRule.times), item.id);
                             }
-                            
+
                             if (WorldTemplateRule.overridePlacement != Vector2I.minusone)
                             {
                                 if (!placementOverridesAdjustments.ContainsKey(WorldTemplateRule))

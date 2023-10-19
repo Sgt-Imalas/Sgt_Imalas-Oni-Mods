@@ -233,9 +233,16 @@ namespace ClusterTraitGenerationManager
                     int count = 0;
                     if (random >= 85)
                         count = 2;
-                    else if (random >= 45)
+                    else if (random >= 40)
                         count = 1;
                     List<string> randomSelectedTraits = new List<string>();
+
+                    if (world.disableWorldTraits || world.worldTraitRules == null)
+                    {
+                        SgtLogger.l("worldtraits disabled, not rolling any random traits", Strings.Get(world.name));
+                        return randomSelectedTraits;
+                    }
+
                     return AddRandomTraitsForWorld(randomSelectedTraits, world, count, seed);
                 }
 
@@ -249,6 +256,11 @@ namespace ClusterTraitGenerationManager
                         count = 2;
 
                     List<string> randomSelectedTraits = new List<string>();
+
+
+                    if (world.disableWorldTraits || world.worldTraitRules == null)
+                        return randomSelectedTraits;
+
                     return AddRandomTraitsForWorld(randomSelectedTraits, world, count, seed);
                 }
 
@@ -257,16 +269,27 @@ namespace ClusterTraitGenerationManager
             }
             public static List<string> AddRandomTraitsForWorld(List<string> existing, ProcGen.World world, int count, int seed)
             {
+                SgtLogger.l($"rolling {count} random traits", Strings.Get(world.name));
                 for (int i = 0; i < count; ++i)
                 {
-                    var possibleTraits = StarmapItem.AllowedWorldTraitsFor(existing, world).Where(item => !BlacklistedTraits.Contains(item.filePath));
+                    var possibleTraits = StarmapItem.AllowedWorldTraitsFor(existing, world)
+                        .Where(item => 
+                        item.filePath != ModAssets.CustomTraitID 
+                        //&& !item.filePath.ToUpperInvariant().Contains("SPACEHOLE")
+                        && !RandomTraitInBlacklist(item.filePath));
                     if (possibleTraits.Count() == 0)
                         break;
                     else
                     {
-                        possibleTraits.Shuffle(new System.Random(seed));
+                        possibleTraits = possibleTraits.Shuffle(new System.Random(seed));
                         string randTrait = possibleTraits.First().filePath == ModAssets.CustomTraitID ? possibleTraits.Last().filePath : possibleTraits.First().filePath;
-                        existing.Add(randTrait);
+
+                        if(randTrait!= ModAssets.CustomTraitID)
+                        {
+                            existing.Add(randTrait);
+                            SgtLogger.l(seed + " rolled " + randTrait, Strings.Get(world.name));
+                        }
+                        seed+=1;
                     }
                 }
                 return existing;
@@ -950,9 +973,9 @@ namespace ClusterTraitGenerationManager
             SettingsCache.clusterLayouts.clusterCache[CustomClusterID] = GeneratedCustomCluster;
             CustomGameSettings.Instance.LoadClusters();// levels.clusterCache[CustomClusterID] = GeneratedCustomCluster;
             //selectScreen.newGameSettings.SetSetting((SettingConfig)CustomGameSettingConfigs.ClusterLayout, CustomClusterID);
-            SgtLogger.l(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.ClusterLayout).id.ToString());
+            //SgtLogger.l(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.ClusterLayout).id.ToString());
             CustomGameSettings.Instance.SetQualitySetting((SettingConfig)CustomGameSettingConfigs.ClusterLayout, GeneratedCustomCluster.filePath);
-            SgtLogger.l(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.ClusterLayout).id.ToString());
+            //SgtLogger.l(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.ClusterLayout).id.ToString());
             CGSMClusterManager.selectScreen.LaunchClicked();
         }
 
@@ -1002,12 +1025,14 @@ namespace ClusterTraitGenerationManager
             SgtLogger.l("Started generating custom cluster");
             var layout = new ClusterLayout();
             CurrentClassicOuterPlanets = 0;
+            layout.name = "STRINGS.CLUSTER_NAMES.CGM.NAME";
 
 
             string setting = selectScreen.newGameSettings.GetSetting(CustomGameSettingConfigs.WorldgenSeed);
             int seed = int.Parse(setting);
-
-
+            SgtLogger.l(setting, "CurrentSeed");
+            SgtLogger.l(MaxClassicOuterPlanets.ToString(), "Max. allowed classic sized");
+            
             //var Reference = SettingsCache.clusterLayouts.GetClusterData(ClusterID);
             //SgtLogger.log(Reference.ToString());
             layout.filePath = CustomClusterID;
@@ -1114,6 +1139,8 @@ namespace ClusterTraitGenerationManager
                         for (int i = 1; i <= (int)world.InstancesToSpawn; i++)
                         {
                             var randomItem = GetRandomItemOfType(StarmapItemCategory.Outer, seed);
+                            seed++;
+
                             if (randomItem == null)
                             {
 
@@ -1137,8 +1164,8 @@ namespace ClusterTraitGenerationManager
                         ApplySizeMultiplier(placement, multiplier);
                         layout.worldPlacements.Add(placement);
                         SgtLogger.l(world.id, "Outer Planet");
+                        seed++;
                     }
-                    seed++;
                 }
 
             }
@@ -1159,6 +1186,7 @@ namespace ClusterTraitGenerationManager
                     for (int i = 0; i < randomInstancesToSpawn; i++)
                     {
                         var randomItem = GetRandomItemOfType(StarmapItemCategory.POI, seed);
+                        seed++;
                         if (randomItem == null)
                             break;
                         randomItem.SetInnerRing(poi.Value.minRing);
@@ -1187,7 +1215,7 @@ namespace ClusterTraitGenerationManager
                 }
                 if (instancesToSpawn < 1 && instancesToSpawn > 0.01)
                 {
-                    float chance = UnityEngine.Random.Range(0.01f, 1.01f);
+                    float chance = ((float)new System.Random(seed).Next(1,101))/100f;
                     if (chance <= instancesToSpawn)
                     {
                         var poiPlacement = poi.Value.placementPOI;
@@ -1201,6 +1229,7 @@ namespace ClusterTraitGenerationManager
                         SgtLogger.l(poi.Value.id + ", failed: " + chance * 100f, "POI Chance: " + instancesToSpawn.ToString("P"));
                         //pity += 1-instancesToSpawn;
                     }
+                    seed++;
                 }
             }
 
@@ -1686,8 +1715,10 @@ namespace ClusterTraitGenerationManager
         {
             List<StarmapItem> items = PlanetoidDict().Values.ToList().FindAll(item => item.category == starmapItemCategory);
 
+            SgtLogger.l(seed+"","Getting Random item, Seed");
+
             if (seed != -1)
-                items.Shuffle(new System.Random(seed));
+                items = items.Shuffle(new System.Random(seed)).ToList();
             else
                 items.Shuffle();
 

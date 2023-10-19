@@ -140,22 +140,29 @@ namespace ClusterTraitGenerationManager
 
                 if (swampBiomes > 0 || forestBiomes > 0 || sandstoneBiomes > 0)
                 {
+#if DEBUG
                     SgtLogger.l($"SandstoneBiomes: {sandstoneBiomes}, ForestBiomes: {forestBiomes}, SwampBiomes: {swampBiomes}");
+#endif
                     if (sandstoneBiomes>=swampBiomes && sandstoneBiomes >= forestBiomes)
                     {
+#if DEBUG
                         SgtLogger.l(Warp ? "Sandstone Warp Biome" : "Sandstone Start Biome");
+#endif
                         return Warp ? DefaultSandstoneWarpBiome : DefaultSandstoneStartBiome;
                     }
 
                     else if (forestBiomes >= swampBiomes && forestBiomes >= sandstoneBiomes)
                     {
+#if DEBUG
                         SgtLogger.l(Warp ? "Forest Warp Biome" : "Forest Start Biome");
+#endif
                         return Warp ? DefaultForestWarpBiome : DefaultForestStartBiome;
                     }
                     else if (swampBiomes >= forestBiomes && swampBiomes >= sandstoneBiomes)
                     {
-
+#if DEBUG
                         SgtLogger.l(Warp ? "Swampy Warp Biome" : "Swampy Start Biome");
+#endif
                         return Warp ? DefaultSwampWarpBiome : DefaultSwampStartBiome;
                     }
                 }
@@ -165,7 +172,9 @@ namespace ClusterTraitGenerationManager
                 if (world.startSubworldName != null && world.startSubworldName.ToLowerInvariant().Contains("forest") 
                     || world.asteroidIcon != null && world.asteroidIcon.ToLowerInvariant().Contains("forest"))
                 {
+                    #if DEBUG
                     SgtLogger.l(Warp ? "Forest Warp Biome" : "Forest Start Biome");
+#endif
                     return Warp ? DefaultForestWarpBiome : DefaultForestStartBiome;
                 }
 
@@ -179,7 +188,10 @@ namespace ClusterTraitGenerationManager
             }
             else
                 SgtLogger.warning("world was null");
+
+#if DEBUG
             SgtLogger.l(Warp ? "Sandstone Warp Biome" : "Sandstone Start Biome");
+#endif
             return Warp ? DefaultSandstoneWarpBiome : DefaultSandstoneStartBiome; //default
         }
 
@@ -219,23 +231,32 @@ namespace ClusterTraitGenerationManager
                 }
                 if (swampBiomes > 0 || forestBiomes > 0 || sandstoneBiomes > 0)
                 {
+#if DEBUG
                     SgtLogger.l($"SandstoneBiomes: {sandstoneBiomes}, ForestBiomes: {forestBiomes}, SwampBiomes: {swampBiomes}");
+#endif
                     if (sandstoneBiomes >= swampBiomes && sandstoneBiomes >= forestBiomes)
                     {
+
+#if DEBUG
                         SgtLogger.l("Sandstone Water Biome");
+#endif
                         return DefaultSandstoneWater;
                     }
 
                     else if (forestBiomes >= swampBiomes && forestBiomes >= sandstoneBiomes)
                     {
+#if DEBUG
                         SgtLogger.l( "Forest Water Biome");
+#endif
                         return DefaultForestWater;
                     }
                     else if (swampBiomes >= forestBiomes && swampBiomes >= sandstoneBiomes)
                     {
-
+#if DEBUG
                         SgtLogger.l("Swampy Water Biome");
-                        return  DefaultSwampWater;
+#endif
+
+                        return DefaultSwampWater;
                     }
                 }
 
@@ -244,7 +265,9 @@ namespace ClusterTraitGenerationManager
                 if (world.startSubworldName != null && world.startSubworldName.ToLowerInvariant().Contains("forest") 
                     || world.asteroidIcon != null && world.asteroidIcon.ToLowerInvariant().Contains("forest"))
                 {
+#if DEBUG
                     SgtLogger.l("Forest Water Source");
+#endif
                     return DefaultForestWater;
                 }
                 if (world.startSubworldName != null && world.startSubworldName.ToLowerInvariant().Contains("marsh") 
@@ -252,14 +275,18 @@ namespace ClusterTraitGenerationManager
                 || world.startSubworldName != null && world.startSubworldName.ToLowerInvariant().Contains("swamp") 
                 || world.asteroidIcon != null && world.asteroidIcon.ToLowerInvariant().Contains(value: "swamp"))
                 {
+#if DEBUG
                     SgtLogger.l("Swampy Water Source");
+#endif
                     return DefaultSwampWater;
                 }
             }
             else
                 SgtLogger.warning("world was null");
 
+#if DEBUG
             SgtLogger.l("Sandstone Water Source");
+#endif
             return DefaultSandstoneWater; //default
         }
 
@@ -310,22 +337,30 @@ namespace ClusterTraitGenerationManager
                 }
                 if (swampBiomes > 0 || forestBiomes > 0 || sandstoneBiomes > 0)
                 {
+#if DEBUG
                     SgtLogger.l($"SandstoneBiomes: {sandstoneBiomes}, ForestBiomes: {forestBiomes}, SwampBiomes: {swampBiomes}");
+#endif
                     if (sandstoneBiomes >= swampBiomes && sandstoneBiomes >= forestBiomes)
                     {
+#if DEBUG
                         SgtLogger.l(Warp ? "Sandstone Warp Biome" : "Sandstone Start Biome");
+#endif
                         return Warp ? DefaultSandstoneWarpBase : DefaultSandstoneStartBase;
                     }
 
                     else if (forestBiomes >= swampBiomes && forestBiomes >= sandstoneBiomes)
                     {
+#if DEBUG
                         SgtLogger.l(Warp ? "Forest Warp Biome" : "Forest Start Biome");
+#endif
                         return Warp ? DefaultForestWarpBase : DefaultForestStartBase;
                     }
                     else if (swampBiomes >= forestBiomes && swampBiomes >= sandstoneBiomes)
                     {
 
+#if DEBUG
                         SgtLogger.l(Warp ? "Swampy Warp Biome" : "Swampy Start Biome");
+#endif
                         return Warp ? DefaultSwampWarpBase : DefaultSwampStartBase;
                     }
                 }
@@ -334,20 +369,27 @@ namespace ClusterTraitGenerationManager
 
                 if (world.startSubworldName != null && world.startSubworldName.ToLowerInvariant().Contains("forest") || world.asteroidIcon != null && world.asteroidIcon.ToLowerInvariant().Contains("forest"))
                 {
+#if DEBUG
                     SgtLogger.l(Warp ? "Forest Warp Base" : "Forest Start Base");
+#endif
                     return !Warp ? DefaultForestStartBase : DefaultForestWarpBase;
                 }
 
                 if (world.startSubworldName != null && world.startSubworldName.ToLowerInvariant().Contains("marsh") || world.asteroidIcon != null && world.asteroidIcon.ToLowerInvariant().Contains("marsh")
                     || world.startSubworldName != null && world.startSubworldName.ToLowerInvariant().Contains("swamp") || world.asteroidIcon != null && world.asteroidIcon.ToLowerInvariant().Contains(value: "swamp"))
                 {
+#if DEBUG
                     SgtLogger.l(Warp ? "Swamp Warp Base" : "Swamp Start Base");
+#endif
                     return !Warp ? DefaultSwampStartBase : DefaultSwampWarpBase;
                 }
             }
             else
                 SgtLogger.warning("world was null");
 
+#if DEBUG
+            SgtLogger.l(Warp ? "Sandstone Warp Base" : "Sandstone Start Base");
+#endif
             SgtLogger.l(Warp ? "Sandstone Warp Base" : "Sandstone Start Base");
             return !Warp ? DefaultSandstoneStartBase : DefaultSandstoneWarpBase; //default
         }

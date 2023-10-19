@@ -537,7 +537,7 @@ namespace ClusterTraitGenerationManager
         }
         public class CLUSTER_NAMES
         {
-            public class CGSM
+            public class CGM
             {
                 public static LocString NAME = "CGM Cluster";
                 public static LocString DESCRIPTION = "CGM Cluster";
