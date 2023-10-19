@@ -176,10 +176,10 @@ namespace LogicSatellites.Behaviours
         }
         private void DeployButtonClicked(ISatelliteCarrier module)
         {
-             module.OnButtonClicked();
+            module.OnButtonClicked();
             module.ModeIsDeployment = module.HoldingSatellite();
             RefreshStrings();
-            //GameScheduler.Instance.ScheduleNextFrame("refreshUI", (_) => RefreshStrings());
+            GameScheduler.Instance.Schedule("refreshUI",0.1f, (_) => RefreshStrings());
         }
 
         public override void OnSpawn()
