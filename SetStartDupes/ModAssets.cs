@@ -553,6 +553,15 @@ namespace SetStartDupes
             return description + "\n\n" + attributes;
         }
 
+        public static bool TraitAllowedInCurrentDLC(string traitId)
+        {
+            var traitStats = DUPLICANTSTATS.GetTraitVal(traitId);
+            if (traitStats.id == DUPLICANTSTATS.INVALID_TRAIT_VAL.id)
+                return false;
+            
+            return traitStats.dlcId == "" || traitStats.dlcId == DlcManager.GetHighestActiveDlcId();
+        }
+
         public static NextType GetTraitListOfTrait(string traitId, out List<DUPLICANTSTATS.TraitVal> TraitList)
         {
             if (DUPLICANTSTATS.GENESHUFFLERTRAITS.FindIndex(t => t.id == traitId) != -1)

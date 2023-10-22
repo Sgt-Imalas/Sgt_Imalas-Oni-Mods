@@ -120,7 +120,7 @@ namespace SetStartDupes
             foreach(var traitID in this.Traits)
             {
                 var Trait = traitRef.TryGet(traitID);
-                if (Trait != null)
+                if (Trait != null && ModAssets.TraitAllowedInCurrentDLC(traitID))
                 {
                     referencedStats.Traits.Add(Trait);
                 }
