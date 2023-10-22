@@ -57,17 +57,40 @@ namespace Imalas_TwitchChaosEvents.BeeGeyser
                 timeToNextBee = currentInterval;
                 //SgtLogger.l(currentInterval.ToString(), "currentInvervalBee");
 
+                if (LiveBees.Count > 25)
+                    return;
+
                 animController.Play("erupt");
             }
         }
 
         private void SpawnBee(HashedString s)
         {
+            SgtLogger.l(s.ToString(), new HashedString("erupt").ToString());  
+            if (s.hash != new HashedString("erupt").hash)
+                return;
+
             var bee = GameUtil.KInstantiate(Assets.GetPrefab(BeeConfig.ID), Grid.SceneLayer.Creatures);
+            bee.AddComponent<GeyserBeeLiveState>().parent = this;
             bee.transform.SetPosition(this.transform.position + new Vector3(0.5f, 1));
             bee.SetActive(true);
            
 
+        }
+        [Serialize]
+        List<GeyserBeeLiveState> LiveBees = new List<GeyserBeeLiveState>();
+        public int BeeCount => LiveBees.Count;
+
+        internal void AddBee(GeyserBeeLiveState geyserBeeLiveState)
+        {
+            if(LiveBees.Contains(geyserBeeLiveState)) return;
+            LiveBees.Add(geyserBeeLiveState);
+        }
+
+        internal void RemoveBee(GeyserBeeLiveState geyserBeeLiveState)
+        {
+            if (!LiveBees.Contains(geyserBeeLiveState)) return;
+            LiveBees.Remove(geyserBeeLiveState);
         }
     }
 }
