@@ -69,7 +69,7 @@ namespace Rockets_TinyYetBig.Patches
         }
 
 
-        public class AutoDropperRocketFix
+        public class AutoDropperRocketFix_RocketConduitPorts_Leaking_Fix
         {
             public static Dictionary<AutoStorageDropper.Instance, bool> InvertedDictionary = new Dictionary<AutoStorageDropper.Instance, bool>();
 
