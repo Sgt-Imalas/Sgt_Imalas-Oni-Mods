@@ -21,11 +21,11 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
                    name: "Station construction site",
                    true);
             enity.AddOrGet<CharacterOverlay>().shouldShowName = true;
-            ClusterDestinationSelector destinationSelector = enity.AddOrGet<ClusterDestinationSelector>();
-            destinationSelector.assignable = false;
-            destinationSelector.shouldPointTowardsPath = false;
-            destinationSelector.requireAsteroidDestination = false;
-            var entity = enity.AddOrGet<SpaceConstructionSite>();
+
+
+            enity.AddOrGet<Storage>();
+            var site = enity.AddOrGet<SpaceConstructionSite>();
+            
 
             return enity;
         }

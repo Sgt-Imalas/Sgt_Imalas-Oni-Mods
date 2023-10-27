@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace Rockets_TinyYetBig.SpaceStations.Construction
 {
-    public class SpaceConstructionSite:ClusterGridEntity
+    public class SpaceConstructionSite : ClusterGridEntity
     {
+
+        [MyCmpReq]
+        Storage buildPartStorage;
+
         [Serialize]
         public string clusterAnimName;
         [Serialize]
@@ -18,7 +22,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
 
         public override bool SpaceOutInSameHex() => true;
 
-        public override EntityLayer Layer => EntityLayer.Payload;
+        public override EntityLayer Layer => EntityLayer.POI;
 
         public override string Name => this.m_name;
         public override List<ClusterGridEntity.AnimConfig> AnimConfigs => new List<ClusterGridEntity.AnimConfig>()
