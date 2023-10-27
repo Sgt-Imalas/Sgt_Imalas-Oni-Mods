@@ -97,12 +97,15 @@ namespace OniRetroEdition.BuildingDefModification
                     if (overrideParams.HeightOverride.HasValue)
                     {
                         sizeChanged = true;
+                        SgtLogger.l(def.HeightInCells + " to " + overrideParams.HeightOverride, "Changing Height");
                         def.HeightInCells = overrideParams.HeightOverride.Value;
                     }
                     if (overrideParams.WidthOverride.HasValue)
                     {
                         sizeChanged = true;
-                        def.WidthInCells = overrideParams.HeightOverride.Value;
+
+                        SgtLogger.l(def.WidthInCells + " to " + overrideParams.WidthOverride, "Changing Width");
+                        def.WidthInCells = overrideParams.WidthOverride.Value;
                     }
                     if (sizeChanged)
                     {
