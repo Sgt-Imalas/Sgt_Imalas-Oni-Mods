@@ -1,6 +1,7 @@
 ﻿using Database;
 using Klei.AI;
 using KSerialization;
+using Rockets_TinyYetBig.SpaceStations.Construction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,43 +18,12 @@ namespace Rockets_TinyYetBig.SpaceStations
 {
     class SpaceStationBuilder : KMonoBehaviour, ISim1000ms//, ISidescreenButtonControl
     {
+        [Serialize]
+        PartProject CurrentProject = null;
 
         [Serialize]
-        public int CurrentSpaceStationTypeInt = 0;
+        public float CurrentProjectTime = -1;
 
-        [Serialize]
-        public float ConstructionProgress = -1;
-
-        [Serialize]
-        public float DemolishingProgress = -1;
-
-        [Serialize]
-        float CurrentLocationDemolishTime = -1;
-
-        public float GetProgressPercentage()
-        {
-            if (this.Constructing())
-            {
-                return Math.Min((ConstructionProgress / ModAssets.SpaceStationTypes[CurrentSpaceStationTypeInt].constructionTime) * 100f, 100f);
-            }
-            else if (this.Demolishing())
-            {
-                return Math.Min((DemolishingProgress / CurrentLocationDemolishTime) * 100f, 100f);
-            }
-            return -1;
-        }
-        public float RemainingTime()
-        {
-            if (this.Constructing())
-            {
-                return Math.Max(ModAssets.SpaceStationTypes[CurrentSpaceStationTypeInt].constructionTime - ConstructionProgress,0);
-            }
-            else if (this.Demolishing())
-            {
-                return Math.Max(CurrentLocationDemolishTime - DemolishingProgress, 0);
-            }
-            return 0;
-        }
         public bool HasResources(bool consumeMaterial = false)
         {
             if (DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive)

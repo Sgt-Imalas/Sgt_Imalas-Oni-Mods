@@ -4,23 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Rockets_TinyYetBig.SpaceStations.Construction
 {
     public class SpaceConstructionSite : ClusterGridEntity
     {
-
-        [MyCmpReq]
-        Storage buildPartStorage;
-
-        [Serialize]
-        public string clusterAnimName;
         [Serialize]
         private string m_name;
         // private string clusterAnimSymbolSwapTarget;
         // private string clusterAnimSymbolSwapSymbol;
 
-        public override bool SpaceOutInSameHex() => true;
+        public override bool SpaceOutInSameHex() => false;
 
         public override EntityLayer Layer => EntityLayer.POI;
 
@@ -29,16 +24,14 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
         {
             new ClusterGridEntity.AnimConfig()
             {
-                animFile = Assets.GetAnim((HashedString) this.clusterAnimName),
-                initialAnim = "idle_loop",
+                animFile = Assets.GetAnim("harvestable_space_poi_kanim"),
+                initialAnim = "cloud",
                 //symbolSwapTarget = this.clusterAnimSymbolSwapTarget,
                // symbolSwapSymbol = this.clusterAnimSymbolSwapSymbol
             }
         };
-        public override void OnSpawn()
-        {
-            base.OnSpawn();
-        }
+
+
         public void SetItemName(string newName)
         {
             this.m_name = newName;
@@ -71,5 +64,6 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
 
         public override ClusterRevealLevel IsVisibleInFOW => ClusterRevealLevel.Visible;
         public void Init(AxialI location) => this.Location = location;
+
     }
 }

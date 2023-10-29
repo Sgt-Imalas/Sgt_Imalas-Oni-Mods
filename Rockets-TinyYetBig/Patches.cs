@@ -223,7 +223,7 @@ namespace Rockets_TinyYetBig
         {
             public static bool Prefix(RocketModuleCluster __instance)
             {
-                if (__instance.TryGetComponent<ExtendedClusterModuleAnimator>(out var extendedClusterModuleAnimator))
+                if (__instance.TryGetComponent<ExtendedClusterModuleAnimator>(out _))
                 {
                     return false;
                 }

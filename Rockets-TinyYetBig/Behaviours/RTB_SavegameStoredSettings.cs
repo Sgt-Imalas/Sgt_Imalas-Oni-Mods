@@ -14,5 +14,36 @@ namespace Rockets_TinyYetBig.Behaviours
 
         [Serialize]
         public bool useModuleCategories = true;
+
+        [Serialize]
+        public bool trulyUsingCompressedInteriors;
+
+
+        public override void OnSpawn()
+        {
+            base.OnSpawn();
+            Instance = this;
+            trulyUsingCompressedInteriors = Config.Instance.CompressInteriors;
+        }
+        public override void OnCleanUp()
+        {
+            base.OnCleanUp();
+            Instance = null;
+        }
+
+        public bool CheckCompressionState()
+        {
+            if (!trulyUsingCompressedInteriors)
+                return false;
+
+            foreach(var world in ClusterManager.Instance.WorldContainers)
+            {
+                if(world != null && world.IsModuleInterior && world.WorldSize == TUNING.ROCKETRY.ROCKET_INTERIOR_SIZE)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

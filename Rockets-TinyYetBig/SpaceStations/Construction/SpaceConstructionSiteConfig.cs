@@ -18,14 +18,17 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
         {
             var enity = EntityTemplates.CreateEntity(
                    id: ID,
-                   name: "Station construction site",
+                   name: "Space Station construction site",
                    true);
             enity.AddOrGet<CharacterOverlay>().shouldShowName = true;
 
 
             enity.AddOrGet<Storage>();
-            var site = enity.AddOrGet<SpaceConstructionSite>();
-            
+            enity.AddOrGet<SpaceConstructionSite>();
+            var site = enity.AddOrGet<SpaceConstructable>();
+            site.AssignP
+                roject(ConstructionProjects.SpaceStationInit);
+
 
             return enity;
         }

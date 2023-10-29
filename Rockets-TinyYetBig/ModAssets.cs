@@ -27,6 +27,8 @@ namespace Rockets_TinyYetBig
         {
             public static ModHashes DockingManagerAdded = new ModHashes("RTB_DockingManagerAdded");
             public static ModHashes DockingManagerRemoved = new ModHashes("RTB_DockingManagerRemoved");
+            public static ModHashes OnStationPartConstructionStarted = new ModHashes("RTB_OnStationPartConstructionStarted");
+            public static ModHashes OnStationPartConstructionFinished = new ModHashes("RTB_OnStationPartConstructionFinished");
         }
 
 

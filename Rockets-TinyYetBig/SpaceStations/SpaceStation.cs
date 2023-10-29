@@ -65,8 +65,8 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         public override string Name => this.m_name;
         //public override bool IsVisible => true;
-        public override EntityLayer Layer => EntityLayer.Craft;
-        public override bool SpaceOutInSameHex() => true;
+        public override EntityLayer Layer => EntityLayer.POI;
+        public override bool SpaceOutInSameHex() => false;
         public override ClusterRevealLevel IsVisibleInFOW => ClusterRevealLevel.Visible;
         //public override Sprite GetUISprite() => Assets.GetSprite("rocket_landing"); //Def.GetUISprite((object)this.gameObject).first;
         public override Sprite GetUISprite()
