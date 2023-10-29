@@ -89,13 +89,13 @@ namespace SetStartDupes
         }
         public void ExternalModBonusPointCalculation()
         {
-            SgtLogger.l("Initializing External Bonus Point Calculation for "+ ToEditMinionStats.Name);
+            SgtLogger.l("Initializing External Bonus Point Calculation for " + ToEditMinionStats.Name);
 
             _externalModPoints = 0;
             int PointsPerInterest = ModAssets.MinimumPointsPerInterest(ToEditMinionStats);
 
-            SgtLogger.l("Minimum points per interest: "+PointsPerInterest);
-            Dictionary<string,int> relevantAttributes = new Dictionary<string,int>();
+            SgtLogger.l("Minimum points per interest: " + PointsPerInterest);
+            Dictionary<string, int> relevantAttributes = new Dictionary<string, int>();
             foreach (var interest in ToEditMinionStats.skillAptitudes)
             {
                 if (interest.Value > 0)
@@ -104,7 +104,7 @@ namespace SetStartDupes
                     {
                         if (!relevantAttributes.ContainsKey(attr.Id))
                         {
-                            relevantAttributes.Add(attr.Id,1);
+                            relevantAttributes.Add(attr.Id, 1);
                         }
                         else
                         {
@@ -328,8 +328,8 @@ namespace SetStartDupes
             Dictionary<string, int> MinimumValuesForEachStartingLevel = new Dictionary<string, int>();
             //min. vals in each Trait;
             foreach (var skillgroup in ToEditMinionStats.skillAptitudes.Keys)
-            { 
-                foreach(var attributeAffected in skillgroup.relevantAttributes)
+            {
+                foreach (var attributeAffected in skillgroup.relevantAttributes)
                 {
                     if (!MinimumValuesForEachStartingLevel.ContainsKey(attributeAffected.Id))
                     {
@@ -349,22 +349,25 @@ namespace SetStartDupes
             //    var random = MinimumValuesForEachStartingLevel.GetRandom().Key;
             //    MinimumValuesForEachStartingLevel[random] += randomPoints;
             //}
+
+
             List<string> keys = MinimumValuesForEachStartingLevel.Keys.ToList();
-
-            for(int counter = amountToShip; counter > 0; --counter)
+            if (MinimumValuesForEachStartingLevel.Count > 0)
             {
-                keys.Shuffle();
-                MinimumValuesForEachStartingLevel[keys.First()]++;
-            }
-
-            foreach(var calculatedValue in MinimumValuesForEachStartingLevel)
-            {
-                newVals[calculatedValue.Key] = calculatedValue.Value;
+                for (int counter = amountToShip; counter > 0; --counter)
+                {
+                    keys.Shuffle();
+                    MinimumValuesForEachStartingLevel[keys.First()]++;
+                }
+                foreach (var calculatedValue in MinimumValuesForEachStartingLevel)
+                {
+                    newVals[calculatedValue.Key] = calculatedValue.Value;
+                }
             }
 
             foreach (var newv in newVals)
             {
-                SgtLogger.l(newv.Value+"", newv.Key);
+                SgtLogger.l(newv.Value + "", newv.Key);
                 ToEditMinionStats.StartingLevels[newv.Key] = newv.Value;
             }
             SgtLogger.l("Skill Points recalculated");
