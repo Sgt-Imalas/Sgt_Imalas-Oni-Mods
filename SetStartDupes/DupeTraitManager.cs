@@ -351,9 +351,9 @@ namespace SetStartDupes
             //}
 
 
-            List<string> keys = MinimumValuesForEachStartingLevel.Keys.ToList();
             if (MinimumValuesForEachStartingLevel.Count > 0)
             {
+                List<string> keys = MinimumValuesForEachStartingLevel.Keys.ToList();
                 for (int counter = amountToShip; counter > 0; --counter)
                 {
                     keys.Shuffle();
