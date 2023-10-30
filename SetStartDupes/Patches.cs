@@ -30,6 +30,32 @@ namespace SetStartDupes
 {
     class Patches
     {
+        [HarmonyPatch(typeof(Traits))]
+        [HarmonyPatch(nameof(Traits.OnSpawn))]
+        public class FixDupesWithoutDupeTrait
+        {
+            public static void Postfix(Traits __instance)
+            {
+                if (__instance.TryGetComponent<MinionIdentity>(out _)
+                    && __instance.TryGetComponent<Health>(out var helt)
+                    && helt.hitPoints == 0
+                    && Db.Get().Amounts.Calories.Lookup(__instance.gameObject) != null
+                    && Db.Get().Amounts.Calories.Lookup(__instance.gameObject).value == 0
+                    )
+                {
+                    SgtLogger.l("Someone was ded on arrival, fixing that...");
+
+                    helt.hitPoints = 100f;
+                    helt.State = Health.HealthState.Perfect;
+
+                    var cals = Db.Get().Amounts.Calories.Lookup(__instance.gameObject);
+                    cals.SetValue(3550000);
+                }
+            }
+        }
+
+
+
 
         [HarmonyPatch(typeof(CryoTank))]
         [HarmonyPatch(nameof(CryoTank.DropContents))]
@@ -428,8 +454,8 @@ namespace SetStartDupes
         [HarmonyPatch(nameof(CharacterContainer.Reshuffle))]
         public class PreventCrashForSingleDupes
         {
-            
-            public static bool Prefix(CharacterContainer __instance,ref bool is_starter)
+
+            public static bool Prefix(CharacterContainer __instance, ref bool is_starter)
             {
                 is_starter = __instance.controller is MinionSelectScreen;
                 if (EditingSingleDupe)
@@ -905,12 +931,12 @@ namespace SetStartDupes
                     text.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 2, 76f);
 
 
-                    ApplyTraitStyleByKey(rerollTraitBtn.GetComponent<KImage>(),default);
+                    ApplyTraitStyleByKey(rerollTraitBtn.GetComponent<KImage>(), default);
                     UIUtils.TryChangeText(text, "", CONGENITALTRAITS.NONE.NAME);
                     UIUtils.AddSimpleTooltipToObject(rerollTraitBtn.transform, MODDEDIMMIGRANTSCREEN.GUARANTEETRAIT);
                     UIUtils.AddActionToButton(rerollTraitBtn.transform, "", () =>
                     {
-                        UnityTraitRerollingScreen.ShowWindow( () =>
+                        UnityTraitRerollingScreen.ShowWindow(() =>
                         {
                             __instance.Reshuffle(IsStartDupe);
                             var type = GetTraitListOfTrait(UnityTraitRerollingScreen.GetTraitId(__instance), out _);
@@ -1131,9 +1157,9 @@ namespace SetStartDupes
         public static class AddChangeButtonToCharacterContainer
         {
 
-            public static MinionStartingStats GenerateWithGuaranteedSkill(bool is_starter_minion, string guaranteedAptitudeID = null, string guaranteedTraitID = null, bool isDebugMinion = false, CharacterContainer __instance=null)
+            public static MinionStartingStats GenerateWithGuaranteedSkill(bool is_starter_minion, string guaranteedAptitudeID = null, string guaranteedTraitID = null, bool isDebugMinion = false, CharacterContainer __instance = null)
             {
-                if (__instance!=null && UnityTraitRerollingScreen.GuaranteedTraitRoll.ContainsKey(__instance))
+                if (__instance != null && UnityTraitRerollingScreen.GuaranteedTraitRoll.ContainsKey(__instance))
                 {
                     return new MinionStartingStats(is_starter_minion, guaranteedAptitudeID, UnityTraitRerollingScreen.GuaranteedTraitRoll[__instance].Id, isDebugMinion);
                 }
@@ -1167,7 +1193,7 @@ namespace SetStartDupes
             public static void Postfix(CharacterContainer __instance, MinionStartingStats ___stats, bool is_starter)
             {
                 bool AllowModification = ModConfig.Instance.ModifyDuringGame || (EditingSingleDupe && ModConfig.Instance.JorgeAndCryopodDupes);
-                if(!buttonsToDeactivateOnEdit.ContainsKey(__instance))
+                if (!buttonsToDeactivateOnEdit.ContainsKey(__instance))
                 {
                     buttonsToDeactivateOnEdit[__instance] = new List<KButton>();
                 }
@@ -1429,7 +1455,7 @@ namespace SetStartDupes
                         {
                             UnityTraitScreen.ShowWindow(referencedStats, () => InstantiateOrGetDupeModWindow(parent, referencedStats, hide), currentGroup: a, DupeTraitManager: DupeTraitMng);
                         });
-                        UIUtils.AddSimpleTooltipToObject(AptitudeEntry.transform, ModAssets.GetSkillgroupDescription( a, referencedStats), true, onBottom: true);
+                        UIUtils.AddSimpleTooltipToObject(AptitudeEntry.transform, ModAssets.GetSkillgroupDescription(a, referencedStats), true, onBottom: true);
                         AptitudeEntry.GetComponent<KButton>().enabled = true;
                         ApplyDefaultStyle(AptitudeEntry.GetComponent<KImage>());
                         UIUtils.TryChangeText(AptitudeEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, GetSkillGroupName(a), FirstSkillGroupStat(a), DupeTraitMng.GetBonusValue(a)));
@@ -1477,7 +1503,7 @@ namespace SetStartDupes
                             continue;
                         var traitEntry = Util.KInstantiateUI(prefabParent, ContentContainer.gameObject, true);
 
-                        UIUtils.AddSimpleTooltipToObject(traitEntry.transform, ModAssets.GetTraitTooltip(v,v.Id), true, onBottom: true);
+                        UIUtils.AddSimpleTooltipToObject(traitEntry.transform, ModAssets.GetTraitTooltip(v, v.Id), true, onBottom: true);
                         var type = ModAssets.GetTraitListOfTrait(v.Id, out var list);
 
                         TraitsToSort.Add(new Tuple<GameObject, DupeTraitManager.NextType>(traitEntry, type));
