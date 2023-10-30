@@ -30,6 +30,15 @@ namespace UtilLibs
                 Console.WriteLine(p + ": " + p.GetValue(s, null));
             }
         }
+        public static void ListAllFieldValues(object s)
+        {
+            SgtLogger.l("Listing all fields of: " + s.ToString());
+
+            foreach (var p in s.GetType().GetFields())
+            {
+                Console.WriteLine(p + ": " + p.GetValue(s));
+            }
+        }
         public static void ListAllComponents(GameObject s)
         {
             SgtLogger.l("Listing all Components of: " + s.ToString());
