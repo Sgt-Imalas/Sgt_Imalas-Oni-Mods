@@ -48,48 +48,58 @@ namespace BrokenRocketInteriorPortFix
                 return true;
             }
         }
-        [HarmonyPatch(typeof(RocketConduitSender))]
-        [HarmonyPatch(nameof(RocketConduitSender.OnSpawn))]
-        public static class TFW_Killed_interiorPorts
-        {
-            //static List <RocketConduitSender> brokens = new List <RocketConduitSender>();
-            public static bool Prefix(RocketConduitSender __instance)
-            {
-                __instance.FindPartner();
-                if (__instance.partnerReceiver == null
-                    )
-                {
-                    Debug.Log("Shutting Down Conduit State machine");
-                    __instance.smi.StopSM("Someone deleted the interior partner");
-                    Components.RocketConduitSenders.Add(__instance);
-                    return false;
-                }
-                return true;
-            }
-            //public static void Postfix(RocketConduitSender __instance)
-            //{
-            //    if (__instance.partnerReceiver == null
-            //        )
-            //    {
-            //        Debug.Log("Shutting Down Conduit State machine");
-            //        __instance.smi.StopSM("Someone deleted the interior partner");
-            //    }
-            //}
-        }
-        [HarmonyPatch(typeof(RocketConduitSender))]
-        [HarmonyPatch(nameof(RocketConduitSender.FindPartner))]
-        public static class TFW_Killed_interiorPorts2
-        {
-            public static void Postfix(RocketConduitSender __instance)
-            {
-                if (__instance.partnerReceiver == null
-                    )
-                {
-                    Debug.Log("Shutting Down Conduit State machine");
-                    __instance.smi.StopSM("Someone deleted the interior partner");
-                }
-            }
-        }
+
+
+        /// <summary>
+        /// Klei fixed this part :)
+        /// </summary>
+        
+        //[HarmonyPatch(typeof(RocketConduitSender))]
+        //[HarmonyPatch(nameof(RocketConduitSender.OnSpawn))]
+        //public static class TFW_Killed_interiorPorts
+        //{
+        //    //static List <RocketConduitSender> brokens = new List <RocketConduitSender>();
+        //    public static bool Prefix(RocketConduitSender __instance)
+        //    {
+        //        __instance.FindPartner();
+        //        if (__instance.partnerReceiver == null
+        //            )
+        //        {
+        //            Debug.Log("Shutting Down Conduit State machine");
+        //            __instance.smi.StopSM("Someone deleted the interior partner");
+        //            Components.RocketConduitSenders.Add(__instance);
+        //            return false;
+        //        }
+        //        return true;
+        //    }
+        //    //public static void Postfix(RocketConduitSender __instance)
+        //    //{
+        //    //    if (__instance.partnerReceiver == null
+        //    //        )
+        //    //    {
+        //    //        Debug.Log("Shutting Down Conduit State machine");
+        //    //        __instance.smi.StopSM("Someone deleted the interior partner");
+        //    //    }
+        //    //}
+        //}
+        /// <summary>
+        /// Klei fixed this part :)
+        /// </summary>
+
+        //[HarmonyPatch(typeof(RocketConduitSender))]
+        //[HarmonyPatch(nameof(RocketConduitSender.FindPartner))]
+        //public static class TFW_Killed_interiorPorts2
+        //{
+        //    public static void Postfix(RocketConduitSender __instance)
+        //    {
+        //        if (__instance.partnerReceiver == null
+        //            )
+        //        {
+        //            Debug.Log("Shutting Down Conduit State machine");
+        //            __instance.smi.StopSM("Someone deleted the interior partner");
+        //        }
+        //    }
+        //}
 
         [HarmonyPatch]
         public static class AddPortsToBuildMenu
@@ -122,6 +132,8 @@ namespace BrokenRocketInteriorPortFix
                 if(component.PrefabID().ToString().Contains("RocketInterior"))
                     component.AddTag(GameTags.UniquePerWorld);
                 component.AddTag(GameTags.RocketInteriorBuilding);
+
+                go.GetComponent<Deconstructable>().allowDeconstruction = true;
             }
             [HarmonyTargetMethods]
             internal static IEnumerable<MethodBase> TargetMethods()
