@@ -86,6 +86,7 @@ namespace Imalas_TwitchChaosEvents.Elements
         //    }
         //}
 
+        // Credits to Aki
         // because YAML will try to parse from string that wont work, so I assign it manually
         [HarmonyPatch(typeof(ElementLoader), "CopyEntryToElement")]
         public static class ElementLoader_CopyEntryToElement_Patch
