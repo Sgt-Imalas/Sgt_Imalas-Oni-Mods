@@ -204,7 +204,7 @@ namespace Rockets_TinyYetBig.Patches
             }
 
             /// <summary>
-            /// Replaces StatusiteminfoPanel with a much more efficient version
+            /// Replaces StatusiteminfoPanel with a much more efficient version for Rocket info
             /// </summary>
             /// <param name="__instance"></param>
             /// <param name="rocketStatusContainer"></param>

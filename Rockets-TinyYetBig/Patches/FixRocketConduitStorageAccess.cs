@@ -167,7 +167,6 @@ namespace Rockets_TinyYetBig.Patches
                     {
                         List<Tag> tagList = new List<Tag>();
                         tagList.AddRange((IEnumerable<Tag>)STORAGEFILTERS.NOT_EDIBLE_SOLIDS);
-                        tagList.AddRange((IEnumerable<Tag>)STORAGEFILTERS.GASES);
                         tagList.AddRange((IEnumerable<Tag>)STORAGEFILTERS.FOOD);
                         storage.storageFilters = tagList;
                     }
