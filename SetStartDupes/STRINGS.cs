@@ -13,6 +13,10 @@ namespace SetStartDupes
     public class STRINGS
     {
         public static LocString UNNAMEDPRESET = "(Unnamed Preset)";
+        public static LocString MISSINGTRAIT = "Missing Trait!";
+        public static LocString MISSINGTRAITDESC = "This Trait could not be found: {0}";
+        public static LocString MISSINGSKILLGROUP = "Missing Attribute!";
+        public static LocString MISSINGSKILLGROUPDESC = "This Attribute could not be found: {0}";
         public class UI
         {
 

@@ -223,6 +223,7 @@ namespace SetStartDupes
             UIUtils.TryChangeText(aptitudeHeader.transform, "Label", global::STRINGS.UI.CHARACTERCONTAINER_APTITUDES_TITLE + ":");
             InformationObjects.Add(aptitudeHeader);
 
+            //SgtLogger.l("redoing aptitude vis");
             foreach (var skill in CurrentlySelected.skillAptitudes)
             {
                 //if (skill.Value < 1)
@@ -244,14 +245,15 @@ namespace SetStartDupes
 
 
             var traits = Db.Get().traits;
+            //SgtLogger.l("redoing trait vis");
             foreach (var trait in CurrentlySelected.Traits)
             {
                 if (trait == MinionConfig.MINION_BASE_TRAIT_ID)
                     continue;
 
                 var traitcon = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
-                UIUtils.TryChangeText(traitcon.transform, "Label", traits.TryGet(trait).Name);
-                UIUtils.AddSimpleTooltipToObject(traitcon.transform, ModAssets.GetTraitTooltip(traits.TryGet(trait)), true);
+                UIUtils.TryChangeText(traitcon.transform, "Label", ModAssets.GetTraitName(traits.TryGet(trait)));
+                UIUtils.AddSimpleTooltipToObject(traitcon.transform, ModAssets.GetTraitTooltip(traits.TryGet(trait), trait), true);
                 InformationObjects.Add(traitcon);
                 ApplyColorToTraitContainer(traitcon, trait);
             }
@@ -265,8 +267,8 @@ namespace SetStartDupes
 
 
             var joy = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
-            UIUtils.TryChangeText(joy.transform, "Label", traits.TryGet(CurrentlySelected.joyTrait).Name);
-            UIUtils.AddSimpleTooltipToObject(joy.transform, ModAssets.GetTraitTooltip(traits.TryGet(CurrentlySelected.joyTrait)), true);
+            UIUtils.TryChangeText(joy.transform, "Label", ModAssets.GetTraitName(traits.TryGet(CurrentlySelected.joyTrait)));
+            UIUtils.AddSimpleTooltipToObject(joy.transform, ModAssets.GetTraitTooltip(traits.TryGet(CurrentlySelected.joyTrait), CurrentlySelected.joyTrait), true);
             InformationObjects.Add(joy);
             ApplyColorToTraitContainer(joy, CurrentlySelected.joyTrait);
 
@@ -275,9 +277,9 @@ namespace SetStartDupes
             InformationObjects.Add(stressheader);
 
             var stress = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
-            UIUtils.TryChangeText(stress.transform, "Label", traits.TryGet(CurrentlySelected.stressTrait).Name);
+            UIUtils.TryChangeText(stress.transform, "Label", ModAssets.GetTraitName(traits.TryGet(CurrentlySelected.stressTrait)));
             InformationObjects.Add(stress);
-            UIUtils.AddSimpleTooltipToObject(stress.transform, ModAssets.GetTraitTooltip(traits.TryGet(CurrentlySelected.stressTrait)), true);
+            UIUtils.AddSimpleTooltipToObject(stress.transform, ModAssets.GetTraitTooltip(traits.TryGet(CurrentlySelected.stressTrait), CurrentlySelected.stressTrait), true);
             ApplyColorToTraitContainer(stress, CurrentlySelected.stressTrait);
 
 

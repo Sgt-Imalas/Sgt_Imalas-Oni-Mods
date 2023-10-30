@@ -281,27 +281,27 @@ namespace SetStartDupes
                     if (trait == MinionConfig.MINION_BASE_TRAIT_ID)
                         continue;
                     var traitcon = Util.KInstantiateUI(TraitPrefab, TraitContainer, true);
-                    UIUtils.TryChangeText(traitcon.transform, "Label", traitRef.TryGet(trait).Name);
+                    UIUtils.TryChangeText(traitcon.transform, "Label", ModAssets.GetTraitName(traitRef.TryGet(trait)));
                     //if(traitcon.transform.Find("Label").TryGetComponent<LocText>(out var text))
                     //{
                     //    text.alignment = TextAlignmentOptions.TopGeoAligned;
                     //    text.fontSize = 12;
                     //}
-                    UIUtils.AddSimpleTooltipToObject(traitcon.transform, ModAssets.GetTraitTooltip(traitRef.TryGet(trait)), true);
+                    UIUtils.AddSimpleTooltipToObject(traitcon.transform, ModAssets.GetTraitTooltip(traitRef.TryGet(trait),trait), true);
                     ApplyColorToTraitContainer(traitcon, trait);
                 }
 
                 var JoyTrait = mate.second.joyTrait;
                 var joy = CrewmatePrefab.transform.Find("Reactions/JoyTrait").gameObject;
-                UIUtils.TryChangeText(joy.transform, "Label", traitRef.TryGet(JoyTrait).Name);
-                UIUtils.AddSimpleTooltipToObject(joy.transform, ModAssets.GetTraitTooltip(traitRef.TryGet(JoyTrait)), true);
+                UIUtils.TryChangeText(joy.transform, "Label", ModAssets.GetTraitName(traitRef.TryGet(JoyTrait)));
+                UIUtils.AddSimpleTooltipToObject(joy.transform, ModAssets.GetTraitTooltip(traitRef.TryGet(JoyTrait), JoyTrait), true);
                 ApplyColorToTraitContainer(joy, JoyTrait);
 
                 var StressTrait = mate.second.stressTrait;
 
                 var stress = CrewmatePrefab.transform.Find("Reactions/StressTrait").gameObject;
-                UIUtils.TryChangeText(stress.transform, "Label", traitRef.TryGet(StressTrait).Name);
-                UIUtils.AddSimpleTooltipToObject(stress.transform, ModAssets.GetTraitTooltip(traitRef.TryGet(StressTrait)), true);
+                UIUtils.TryChangeText(stress.transform, "Label", ModAssets.GetTraitName(traitRef.TryGet(StressTrait)));
+                UIUtils.AddSimpleTooltipToObject(stress.transform, ModAssets.GetTraitTooltip(traitRef.TryGet(StressTrait), StressTrait), true);
                 ApplyColorToTraitContainer(stress, StressTrait);
             }
             

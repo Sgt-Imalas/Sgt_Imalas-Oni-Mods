@@ -196,9 +196,15 @@ namespace SetStartDupes
             {
 
                 var skillGroup = Db.Get().SkillGroups.TryGet(groupID);
-                string relevantSkillID = skillGroup.relevantAttributes.First().Id;
-
-                return string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, ModAssets.GetChoreGroupNameForSkillgroup(skillGroup), SkillGroup(skillGroup), SkillLevel(relevantSkillID));
+                if(skillGroup == null)
+                {
+                    return STRINGS.MISSINGSKILLGROUP;
+                }
+                else
+                {
+                    string relevantSkillID = skillGroup.relevantAttributes.First().Id;
+                    return string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, ModAssets.GetChoreGroupNameForSkillgroup(skillGroup), SkillGroup(skillGroup), SkillLevel(relevantSkillID));
+                }
             }
         }
         public string SkillGroupDesc(string groupID)
@@ -208,7 +214,7 @@ namespace SetStartDupes
             else
             {
                 var skillGroup = Db.Get().SkillGroups.TryGet(groupID);
-                return ModAssets.GetSkillgroupDescription(skillGroup);
+                return ModAssets.GetSkillgroupDescription(skillGroup,id: groupID);
             }
         }
         public string SkillGroup(SkillGroup group)

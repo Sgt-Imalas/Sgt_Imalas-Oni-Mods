@@ -171,7 +171,7 @@ namespace SetStartDupes
             if (trait2 != null)
                 AddUiContainer(
                 GetTraitName(trait2),
-                ModAssets.GetTraitTooltip(trait2),
+                ModAssets.GetTraitTooltip(trait2, trait2.Id),
                 trait: trait2,
                 traitType: next);
 

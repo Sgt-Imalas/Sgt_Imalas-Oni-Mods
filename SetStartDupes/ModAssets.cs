@@ -347,11 +347,19 @@ namespace SetStartDupes
                 }
             }
         }
-
-        public static string GetTraitTooltip(Trait trait)
+        public static string GetTraitName(Trait trait)
         {
             if (trait == null)
-                return string.Empty;
+                return STRINGS.MISSINGTRAIT;
+
+            return trait.Name;
+        }
+
+
+        public static string GetTraitTooltip(Trait trait, string id)
+        {
+            if (trait == null)
+                return string.Format(STRINGS.MISSINGTRAITDESC, id);
             string tooltip = trait.GetTooltip();
 
 
@@ -384,6 +392,51 @@ namespace SetStartDupes
                 tooltip += STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOINTS + " ";
             tooltip += UIUtils.ColorNumber(traitBonusHolder.statBonus);
             return tooltip;
+        }
+        public static string GetSkillgroupName(SkillGroup group)
+        {
+            if (group == null)
+                return STRINGS.MISSINGSKILLGROUP;
+
+            return GetChoreGroupNameForSkillgroup(group) + " (" + Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME") + ")";
+        }
+        public static string GetSkillgroupDescription(SkillGroup group, MinionStartingStats stats = null, string id = "")
+        {
+            if (group == null)
+                return string.Format(STRINGS.MISSINGSKILLGROUPDESC, id);
+
+
+            string description;
+            if (group.choreGroupID != "")
+            {
+                ChoreGroup choreGroup = Db.Get().ChoreGroups.Get(group.choreGroupID);
+                description = string.Format(DUPLICANTS.ROLES.GROUPS.APTITUDE_DESCRIPTION_CHOREGROUP, group.Name, DUPLICANTSTATS.APTITUDE_BONUS, choreGroup.description);
+            }
+            else
+                description = string.Format((string)DUPLICANTS.ROLES.GROUPS.APTITUDE_DESCRIPTION, group.Name, DUPLICANTSTATS.APTITUDE_BONUS);
+
+            if (stats == null)
+                return description;
+
+            float startingLevel = (float)stats.StartingLevels[group.relevantAttributes[0].Id];
+            string attributes = group.relevantAttributes[0].Name + ": +" + startingLevel.ToString();
+            List<AttributeConverter> convertersForAttribute = Db.Get().AttributeConverters.GetConvertersForAttribute(group.relevantAttributes[0]);
+            for (int index = 0; index < convertersForAttribute.Count; ++index)
+                attributes = attributes + "\n    • " + convertersForAttribute[index].DescriptionFromAttribute(convertersForAttribute[index].multiplier * startingLevel, (GameObject)null);
+
+            return description + "\n\n" + attributes;
+        }
+
+        public static bool TraitAllowedInCurrentDLC(string traitId)
+        {
+            if (traitId == MinionConfig.MINION_BASE_TRAIT_ID)
+                return true;
+
+            var traitStats = DUPLICANTSTATS.GetTraitVal(traitId);
+            if (traitStats.id == DUPLICANTSTATS.INVALID_TRAIT_VAL.id)
+                return false;
+
+            return traitStats.dlcId == "" || traitStats.dlcId == DlcManager.GetHighestActiveDlcId();
         }
 
 
@@ -525,41 +578,6 @@ namespace SetStartDupes
 
             }
 
-        }
-        public static string GetSkillgroupName(SkillGroup group)
-        {
-            return GetChoreGroupNameForSkillgroup(group) + " (" + Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME") + ")";
-        }
-        public static string GetSkillgroupDescription(SkillGroup group, MinionStartingStats stats = null)
-        {
-            string description;
-            if (group.choreGroupID != "")
-            {
-                ChoreGroup choreGroup = Db.Get().ChoreGroups.Get(group.choreGroupID);
-                description = string.Format(DUPLICANTS.ROLES.GROUPS.APTITUDE_DESCRIPTION_CHOREGROUP, group.Name, DUPLICANTSTATS.APTITUDE_BONUS, choreGroup.description);
-            }
-            else
-                description = string.Format((string)DUPLICANTS.ROLES.GROUPS.APTITUDE_DESCRIPTION, group.Name, DUPLICANTSTATS.APTITUDE_BONUS);
-
-            if (stats == null)
-                return description;
-
-            float startingLevel = (float)stats.StartingLevels[group.relevantAttributes[0].Id];
-            string attributes = group.relevantAttributes[0].Name + ": +" + startingLevel.ToString();
-            List<AttributeConverter> convertersForAttribute = Db.Get().AttributeConverters.GetConvertersForAttribute(group.relevantAttributes[0]);
-            for (int index = 0; index < convertersForAttribute.Count; ++index)
-                attributes = attributes + "\n    • " + convertersForAttribute[index].DescriptionFromAttribute(convertersForAttribute[index].multiplier * startingLevel, (GameObject)null);
-
-            return description + "\n\n" + attributes;
-        }
-
-        public static bool TraitAllowedInCurrentDLC(string traitId)
-        {
-            var traitStats = DUPLICANTSTATS.GetTraitVal(traitId);
-            if (traitStats.id == DUPLICANTSTATS.INVALID_TRAIT_VAL.id)
-                return false;
-            
-            return traitStats.dlcId == "" || traitStats.dlcId == DlcManager.GetHighestActiveDlcId();
         }
 
         public static NextType GetTraitListOfTrait(string traitId, out List<DUPLICANTSTATS.TraitVal> TraitList)
