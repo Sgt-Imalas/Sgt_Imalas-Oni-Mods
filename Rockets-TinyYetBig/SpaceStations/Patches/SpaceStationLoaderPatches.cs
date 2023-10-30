@@ -7,21 +7,21 @@ using System.Text;
 using System.Threading.Tasks;
 using UtilLibs;
 
-namespace Rockets_TinyYetBig.SpaceStations
+namespace Rockets_TinyYetBig.SpaceStations.Patches
 {
     public class SpaceStationLoaderPatches
     {
         [HarmonyPatch(typeof(LaunchPadMaterialDistributor.Instance), "GetLandedRocketFromPad")]
         public static class LaunchPadMaterialDistributorInstance_Patch
         {
-            public static bool Prefix(LaunchPadMaterialDistributor.Instance __instance,ref RocketModuleCluster __result)
+            public static bool Prefix(LaunchPadMaterialDistributor.Instance __instance, ref RocketModuleCluster __result)
             {
-               if(__instance.gameObject.TryGetComponent<DockingDoor>(out var door))
+                if (__instance.gameObject.TryGetComponent<DockingDoor>(out var door))
                 {
                     __result = door.GetDockedCraftModuleInterface().ClusterModules.First().Get();
                     return false;
                 }
-               return true;
+                return true;
             }
         }
     }

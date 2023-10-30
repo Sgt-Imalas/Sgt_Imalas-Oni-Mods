@@ -75,6 +75,18 @@ namespace Rockets_TinyYetBig.SpaceStations
         }
 
         //public Sprite GetUISpriteAt(int i) => Def.GetUISpriteFromMultiObjectAnim(AnimConfigs[i].animFile);
+
+
+
+        public static void SpawnNewSpaceStation(AxialI location)
+        {
+            Vector3 position = new Vector3(-1f, -1f, 0.0f);
+            GameObject sat = Util.KInstantiate(Assets.GetPrefab((Tag)SpaceStationConfig.ID), position);
+            sat.SetActive(true);
+            var spaceStation = sat.GetComponent<SpaceStation>();
+            spaceStation.Location = location;
+        }
+
         public override void OnSpawn()
         {
             //SgtLogger.debuglog("MY WorldID:" + SpaceStationInteriorId);

@@ -26,8 +26,8 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
             enity.AddOrGet<Storage>();
             enity.AddOrGet<SpaceConstructionSite>();
             var site = enity.AddOrGet<SpaceConstructable>();
-            site.AssignP
-                roject(ConstructionProjects.SpaceStationInit);
+            site.buildPartStorage = enity.AddComponent<Storage>();
+            site.AssignProject(ConstructionProjects.SpaceStationInit);
 
 
             return enity;

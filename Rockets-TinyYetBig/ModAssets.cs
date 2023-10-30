@@ -5,6 +5,7 @@ using Rockets_TinyYetBig.Docking;
 using Rockets_TinyYetBig.NonRocketBuildings;
 using Rockets_TinyYetBig.RocketFueling;
 using Rockets_TinyYetBig.SpaceStations;
+using Rockets_TinyYetBig.SpaceStations.Construction;
 using Rockets_TinyYetBig.UI_Unity;
 using System;
 using System.Collections;
@@ -36,24 +37,36 @@ namespace Rockets_TinyYetBig
         public static GameObject DockingSideScreenWindowPrefab;
         public static GameObject DupeTransferSecondarySideScreenWindowPrefab; 
         public static KScreen DupeTransferSecondarySideScreen;
+
+        public static GameObject SpaceConstructionSideScreenWindowPrefab;
+        public static GameObject SpaceConstructionTargetScreenWindowPrefab;
+        public static KScreen SpaceConstructionTargetSecondarySideScreen;
+
         public static void LoadAssets()
         {
             AssetBundle bundle = AssetUtils.LoadAssetBundle("rocketryexpanded_ui_assets", platformSpecific: true);
             ModuleSettingsWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/ModuleSettings.prefab");
             DupeTransferSecondarySideScreenWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DockingTransferScreen.prefab");
             DockingSideScreenWindowPrefab  = bundle.LoadAsset<GameObject>("Assets/UIs/DockingScreen.prefab");
+            SpaceConstructionSideScreenWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/SpaceAssembleMenu_Sidescreen.prefab");
+            SpaceConstructionTargetScreenWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/ConstructionSelector_SecondarySidescreen.prefab");
+
 
             SgtLogger.Assert("ModuleSettingsWindowPrefab", ModuleSettingsWindowPrefab);
             SgtLogger.Assert("DockingSideScreenWindowPrefab", DockingSideScreenWindowPrefab);
             SgtLogger.Assert("DupeTransferSecondarySideScreenWindowPrefab", DupeTransferSecondarySideScreenWindowPrefab);
+            SgtLogger.Assert("SpaceConstructionSideScreenWindowPrefab", SpaceConstructionSideScreenWindowPrefab);
+            SgtLogger.Assert("SpaceConstructionTargetScreenWindowPrefab", SpaceConstructionTargetScreenWindowPrefab);
 
             var TMPConverter = new TMPConverter();
             TMPConverter.ReplaceAllText(ModuleSettingsWindowPrefab);
             TMPConverter.ReplaceAllText(DockingSideScreenWindowPrefab);
             TMPConverter.ReplaceAllText(DupeTransferSecondarySideScreenWindowPrefab);
+            TMPConverter.ReplaceAllText(SpaceConstructionSideScreenWindowPrefab);
+            TMPConverter.ReplaceAllText(SpaceConstructionTargetScreenWindowPrefab);
 
             DupeTransferSecondarySideScreen  = DupeTransferSecondarySideScreenWindowPrefab.AddComponent<CrewAssignmentSidescreen>();
-
+            SpaceConstructionTargetSecondarySideScreen = SpaceConstructionTargetScreenWindowPrefab.AddComponent<SpaceConstructionTargetScreen>();
         }
 
 
@@ -692,30 +705,24 @@ namespace Rockets_TinyYetBig
                 RTB_SpaceStationConstruction_Status.resolveStringCallback = ((str, data) =>
                 {
                     var StationConstructior = (SpaceStationBuilder)data;
-                    float remainingTime = StationConstructior.RemainingTime();
-                    if (remainingTime > 0)
+
+                    if(StationConstructior.ConstructionTimes(out bool isConstructing, out var remainingTime))
                     {
+                        if (isConstructing)
+                        {                            
+                            str = str.Replace("{STATUS}", RTB_STATIONCONSTRUCTORSTATUS.CONSTRUCTING);
+                            str = str.Replace("{TIME}", GameUtil.GetFormattedTime(remainingTime));
+                        }
+                        else
+                        {
+                            str = str.Replace("{STATUS}", RTB_STATIONCONSTRUCTORSTATUS.DECONSTRUCTING);
+                            str = str.Replace("{TIME}", GameUtil.GetFormattedTime(remainingTime));
+                        }
                         str = str.Replace("{TOOLTIP}", RTB_STATIONCONSTRUCTORSTATUS.TIMEREMAINING);
-                        str = str.Replace("{TIME}", GameUtil.GetFormattedTime(remainingTime));
                     }
                     else
                     {
                         str = str.Replace("{TOOLTIP}", RTB_STATIONCONSTRUCTORSTATUS.NONEQUEUED);
-                    }
-
-                    if (StationConstructior.Constructing())
-                    {
-                        str = str.Replace("{STATUS}", RTB_STATIONCONSTRUCTORSTATUS.CONSTRUCTING);
-                        str = str.Replace("{TIME}", GameUtil.GetFormattedTime(remainingTime));
-
-                    }
-                    else if (StationConstructior.Demolishing())
-                    {
-                        str = str.Replace("{STATUS}", RTB_STATIONCONSTRUCTORSTATUS.DECONSTRUCTING);
-                        str = str.Replace("{TIME}", GameUtil.GetFormattedTime(remainingTime));
-                    }
-                    else
-                    {
                         str = str.Replace("{STATUS}", RTB_STATIONCONSTRUCTORSTATUS.IDLE);
                     }
                     return str;

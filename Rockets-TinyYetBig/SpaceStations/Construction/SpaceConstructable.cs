@@ -16,11 +16,11 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
 
 
         [MyCmpReq]
-        Storage buildPartStorage;
+        public Storage buildPartStorage;
         public bool ConstructionActive => this.OpenParts.Count > 0 || this.InProgressParts.Count > 0;
 
 
-        private static readonly EventSystem.IntraObjectHandler<SpaceConstructionSite> OnStorageChangeDelegate = new EventSystem.IntraObjectHandler<SpaceConstructionSite>((System.Action<SpaceConstructionSite, object>)((component, data) => component.OnStorageChange(data)));
+        private static readonly EventSystem.IntraObjectHandler<SpaceConstructable> OnStorageChangeDelegate = new EventSystem.IntraObjectHandler<SpaceConstructable>((System.Action<SpaceConstructable, object>)((component, data) => component.OnStorageChange(data)));
         
         public override void OnSpawn()
         {
@@ -76,7 +76,9 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
 
         public bool PullFromConstructionStorage(PartProject part, Storage TargetStorage)
         {
-            if (!SufficientMaterialInStorage(part, buildPartStorage)) return false;
+            if (!SufficientMaterialInStorage(part, buildPartStorage))
+                return false;
+
             var material = buildPartStorage.FindFirstWithMass(part.ResourceTag, part.ResourceAmountMass);
             if (material.TryGetComponent<Pickupable>(out var pickupable))
             {
@@ -102,12 +104,13 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
             return false;
         }
 
-        public bool StartWork(PartProject part)
+        public bool StartConstruction(PartProject part)
         {
             if (OpenParts.Contains(part)
                 && !InProgressParts.Contains(part)
                 && !FinishedParts.Contains(part))
             {
+                part.IsConstructionProcess = true;
                 OpenParts.Remove(part);
                 InProgressParts.Add(part);
                 this.Trigger(ModAssets.Hashes.OnStationPartConstructionStarted, part);
@@ -115,7 +118,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
             }
             return false;
         }
-        public bool CancelWork(PartProject part)
+        public bool CancelConstruction(PartProject part)
         {
             if (!OpenParts.Contains(part)
                 && InProgressParts.Contains(part)
@@ -127,7 +130,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
             }
             return false;
         }
-        public bool FinishWork(PartProject part)
+        public bool FinishConstruction(PartProject part)
         {
             if (!OpenParts.Contains(part)
                 && InProgressParts.Contains(part)
@@ -140,6 +143,50 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
             }
             return false;
         }
+        public bool StartDeconstruction(PartProject part)
+        {
+            if (FinishedParts.Contains(part)
+                && !InProgressParts.Contains(part)
+                && !OpenParts.Contains(part))
+            {
+                part.IsConstructionProcess = false;
 
+                FinishedParts.Remove(part);
+                InProgressParts.Add(part);
+                this.Trigger(ModAssets.Hashes.OnStationPartConstructionStarted, part);
+                return true;
+            }
+            return false;
+        }
+
+        public bool CancelDeconstruction(PartProject part)
+        {
+            if (!OpenParts.Contains(part)
+                && InProgressParts.Contains(part)
+                && !FinishedParts.Contains(part))
+            {
+                InProgressParts.Remove(part);
+                FinishedParts.Add(part);
+
+                part.IsConstructionProcess = true;
+                return true;
+            }
+            return false;
+        }
+        public bool FinishDeconstruction(PartProject part)
+        {
+            if (!OpenParts.Contains(part)
+                && InProgressParts.Contains(part)
+                && !FinishedParts.Contains(part))
+            {
+                InProgressParts.Remove(part);
+                OpenParts.Add(part);
+                this.Trigger(ModAssets.Hashes.OnStationPartConstructionFinished, part);
+
+                part.IsConstructionProcess = true;
+                return true;
+            }
+            return false;
+        }
     }
 }

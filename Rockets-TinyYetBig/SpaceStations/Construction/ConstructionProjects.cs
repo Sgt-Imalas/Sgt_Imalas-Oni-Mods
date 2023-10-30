@@ -13,15 +13,15 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
         {
             IsUpgrade = false,
             Parts = new List<PartProject>()
-                {
-                    new PartProject(SimHashes.Steel.CreateTag(), 10, 600),
-                    new PartProject(SimHashes.Ceramic.CreateTag(), 10, 600),
-                    new PartProject(SimHashes.Water.CreateTag(), 10, 600)
-                },
-            PreviewSprite = Assets.GetSprite("unknown"),
-            OnConstructionFinishedAction = new Action<GameObject>( (SiteGO) => 
             {
-                if(SiteGO != null && SiteGO.TryGetComponent<ClusterGridEntity>(out var entity))
+                new PartProject(SimHashes.Steel.CreateTag(), 10, 600),
+                new PartProject(SimHashes.Ceramic.CreateTag(), 10, 600),
+                new PartProject(SimHashes.Water.CreateTag(), 10, 600)
+            },
+            PreviewSprite = Assets.GetSprite("unknown"),
+            OnConstructionFinishedAction = new Action<GameObject>((SiteGO) =>
+            {
+                if (SiteGO != null && SiteGO.TryGetComponent<ClusterGridEntity>(out var entity))
                 {
                     SpaceStation.SpawnNewSpaceStation(entity.Location);
                 }

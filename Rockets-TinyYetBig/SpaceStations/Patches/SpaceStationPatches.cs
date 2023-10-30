@@ -14,7 +14,7 @@ using Klei.AI;
 using static Operational;
 using Rockets_TinyYetBig.Elements;
 
-namespace Rockets_TinyYetBig.SpaceStations
+namespace Rockets_TinyYetBig.SpaceStations.Patches
 {
 
     class SpaceStationPatches
@@ -75,7 +75,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             public static void Postfix(ref List<ClusterGridEntity> __result)
             {
                 List<ClusterGridEntity> AdjustedList = new List<ClusterGridEntity>();
-                foreach(var entity in __result)
+                foreach (var entity in __result)
                 {
                     if (!(entity is SpaceStation))
                     {
@@ -113,22 +113,22 @@ namespace Rockets_TinyYetBig.SpaceStations
                 var Pos = __instance.baseCamera.transform.GetPosition();
 
                 bool modify = false;
-                if(Pos.x < bottomLeftBoundryBox.x)
+                if (Pos.x < bottomLeftBoundryBox.x)
                 {
-                    modify=true;
+                    modify = true;
                     Pos.x = bottomLeftBoundryBox.x;
                 }
-                else if( Pos.x > topRightBoundryBox.x)
+                else if (Pos.x > topRightBoundryBox.x)
                 {
                     modify = true;
                     Pos.x = topRightBoundryBox.x;
                 }
-                if(Pos.y < bottomLeftBoundryBox.y)
+                if (Pos.y < bottomLeftBoundryBox.y)
                 {
                     modify = true;
                     Pos.y = bottomLeftBoundryBox.y;
                 }
-                else if(Pos.y > topRightBoundryBox.y)
+                else if (Pos.y > topRightBoundryBox.y)
                 {
                     modify = true;
                     Pos.y = topRightBoundryBox.y;
@@ -152,10 +152,10 @@ namespace Rockets_TinyYetBig.SpaceStations
         {
             public static void Postfix(string name, UserNameable __instance)
             {
-                if (__instance.TryGetComponent<SpaceStation>(out var station) )
+                if (__instance.TryGetComponent<SpaceStation>(out var station))
                 {
                     ClusterNameDisplayScreen.Instance.UpdateName(station);
-                    __instance.Trigger(1102426921, (object)name);
+                    __instance.Trigger(1102426921, name);
                 }
             }
         }
@@ -168,7 +168,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         {
             public static void Postfix(List<DetailsScreen.SideScreenRef> ___sideScreens)
             {
-                UIUtils.AddClonedSideScreen<SpaceStationBuilderModuleSideScreen>("SpaceStationBuilderModuleSideScreen", "ArtableSelectionSideScreen", typeof(ArtableSelectionSideScreen));
+               // UIUtils.AddClonedSideScreen<SpaceStationBuilderModuleSideScreen>("SpaceStationBuilderModuleSideScreen", "ArtableSelectionSideScreen", typeof(ArtableSelectionSideScreen));
                 UIUtils.AddClonedSideScreen<SpaceStationSideScreen>("SpaceStationSideScreen", "ClusterGridWorldSideScreen", typeof(ClusterGridWorldSideScreen));
             }
         }
@@ -186,7 +186,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                 //AudioMixer.instance.Stop(AudioMixerSnapshots.Get().MediumRocketInteriorReverbSnapshot);
 
                 WorldContainer world = __instance.GetWorld(worldId);
-                if (world!= null && world.IsModuleInterior && world.TryGetComponent<SpaceStation>(out _))
+                if (world != null && world.IsModuleInterior && world.TryGetComponent<SpaceStation>(out _))
                     return false;
                 return true;
             }
@@ -196,10 +196,10 @@ namespace Rockets_TinyYetBig.SpaceStations
         {
             public static bool Prefix(CraftModuleInterface __instance, ref WorldContainer __result)
             {
-                if(__instance.TryGetComponent<SpaceStation>(out SpaceStation station))
+                if (__instance.TryGetComponent(out SpaceStation station))
                 {
                     __result = null;
-                    if (station.SpaceStationInteriorId!=-1)
+                    if (station.SpaceStationInteriorId != -1)
                         __result = ClusterManager.Instance.GetWorld(station.SpaceStationInteriorId);
                     return false;
                 }
@@ -283,7 +283,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                     }
                     __instance.operational.SetFlag(RailGun.noSurfaceSight, flag);
                     __instance.operational.SetFlag(RailGun.noDestination, __instance.destinationSelector.GetDestinationWorld() >= 0);
-                    if(__instance.TryGetComponent<KSelectable>(out var component))
+                    if (__instance.TryGetComponent<KSelectable>(out var component))
                     {
                         component.ToggleStatusItem(RailGun.noSurfaceSightStatusItem, !flag);
                         component.ToggleStatusItem(RailGun.noDestinationStatusItem, __instance.destinationSelector.GetDestinationWorld() < 0);
@@ -302,7 +302,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         {
             public static void Postfix(WorldContainer __instance, ref Vector2 __result)
             {
-                if (!__instance.IsNullOrDestroyed()&& __instance.TryGetComponent<SpaceStation>(out var spaceStation))
+                if (!__instance.IsNullOrDestroyed() && __instance.TryGetComponent<SpaceStation>(out var spaceStation))
                 {
                     __result = Vector2.Min(__result, __instance.WorldOffset + spaceStation.topRightCorner);
                 }
@@ -317,7 +317,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             {
                 if (!__instance.IsNullOrDestroyed() && __instance.TryGetComponent<SpaceStation>(out var spaceStation))
                 {
-                    __result = Vector2.Max(__result,__instance.WorldOffset + spaceStation.bottomLeftCorner);
+                    __result = Vector2.Max(__result, __instance.WorldOffset + spaceStation.bottomLeftCorner);
                 }
             }
         }
@@ -449,6 +449,28 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
         }
 
+        /// <summary>
+        /// Bouncy Stations
+        /// </summary>
+        [HarmonyPatch(typeof(ClusterMapScreen))]
+        [HarmonyPatch(nameof(ClusterMapScreen.FloatyAsteroidAnimation))]
+        public static class Bouncing_Space_Stations
+        {
+            public static void Postfix(ClusterMapScreen __instance)
+            {
+                float num = 0.0f;
+                foreach (var worldContainer in ClusterManager.Instance.WorldContainers)
+                {
+                    if (worldContainer.TryGetComponent<SpaceStation>(out var component))
+                    {
+                        if (__instance.m_gridEntityVis.ContainsKey(component))
+                            __instance.m_gridEntityVis[component].GetFirstAnimController().Offset = new Vector2(0.0f, __instance.floatCycleOffset + __instance.floatCycleScale * Mathf.Sin(__instance.floatCycleSpeed * (num + GameClock.Instance.GetTime())));
+                        ++num;
+                    }
+                }
+            }
+        }
+
         [HarmonyPatch(typeof(ClusterUtil))]
         [HarmonyPatch(nameof(ClusterUtil.GetAsteroidWorldIdAtLocation))]
         public static class WorldTargetForSpaceStation
@@ -473,12 +495,12 @@ namespace Rockets_TinyYetBig.SpaceStations
         [HarmonyPatch(nameof(ClusterMapScreen.GetSelectorGridEntity))]
         public static class FixInteriorRailgunsAndSensor
         {
-            public static bool Prefix( ClusterDestinationSelector selector, ref ClusterGridEntity __result)
+            public static bool Prefix(ClusterDestinationSelector selector, ref ClusterGridEntity __result)
             {
                 if (selector.TryGetComponent<LogicClusterLocationSensor>(out var logicSensor))
                 {
                     var world = logicSensor.GetMyWorld();
-                    if(world != null && world.TryGetComponent<ClusterGridEntity>(out var clusterGridEntity))
+                    if (world != null && world.TryGetComponent<ClusterGridEntity>(out var clusterGridEntity))
                     {
                         __result = clusterGridEntity;
                         return false;
@@ -486,7 +508,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                 }
 
                 ClusterGridEntity component = selector.GetComponent<ClusterGridEntity>();
-                if ((UnityEngine.Object)component != (UnityEngine.Object)null && ClusterGrid.Instance.IsVisible(component))
+                if (component != null && ClusterGrid.Instance.IsVisible(component))
                     return component;
                 ClusterGridEntity entityOfLayerAtCell = ClusterGrid.Instance.GetVisibleEntityOfLayerAtCell(selector.GetMyWorldLocation(), EntityLayer.Asteroid);
                 if (entityOfLayerAtCell == null)
@@ -494,7 +516,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                     entityOfLayerAtCell = SpaceStationManager.GetSpaceStationAtLocation(selector.GetMyWorldLocation());
                 }
 
-                Debug.Assert((UnityEngine.Object)component != (UnityEngine.Object)null || (UnityEngine.Object)entityOfLayerAtCell != (UnityEngine.Object)null, (object)string.Format("{0} has no grid entity and isn't located at a visible asteroid at {1}", (object)selector, (object)selector.GetMyWorldLocation()));
+                Debug.Assert(component != null || entityOfLayerAtCell != null, string.Format("{0} has no grid entity and isn't located at a visible asteroid at {1}", selector, selector.GetMyWorldLocation()));
                 __result = (bool)entityOfLayerAtCell ? entityOfLayerAtCell : component;
                 return false;
             }
@@ -505,7 +527,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         /// </summary>
         [HarmonyPatch(typeof(ClusterGrid))]
         [HarmonyPatch(nameof(ClusterGrid.GetPath))]
-        [HarmonyPatch(new Type[] { typeof(AxialI), typeof(AxialI), typeof(ClusterDestinationSelector), typeof(string),typeof(bool) }, new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out, ArgumentType.Normal })]
+        [HarmonyPatch(new Type[] { typeof(AxialI), typeof(AxialI), typeof(ClusterDestinationSelector), typeof(string), typeof(bool) }, new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out, ArgumentType.Normal })]
         public static class tarnspilerforPathSpaceStation
         {
             static ClusterGridEntity AllowSpaceStation(ClusterGridEntity original, ClusterDestinationSelector selector, AxialI target)
@@ -564,7 +586,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             [HarmonyPostfix]
             public static void Postfix(RailGunPayload.StatesInstance __instance, AxialI source, AxialI destination)
             {
-                if (__instance.master.gameObject.TryGetComponent<ClusterTraveler>(out ClusterTraveler clusterTraveler) && SpaceStationManager.IsSpaceStationAt(destination) && clusterTraveler.quickTravelToAsteroidIfInOrbit == true)
+                if (__instance.master.gameObject.TryGetComponent(out ClusterTraveler clusterTraveler) && SpaceStationManager.IsSpaceStationAt(destination) && clusterTraveler.quickTravelToAsteroidIfInOrbit == true)
                 {
                     clusterTraveler.quickTravelToAsteroidIfInOrbit = false;
                     SgtLogger.l("Railgun projectile set for space station, deactivating orbit fast travel");

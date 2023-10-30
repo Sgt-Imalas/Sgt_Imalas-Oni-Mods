@@ -11,17 +11,20 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
     {
         [Serialize] Tag _resourceTag = null;
         [Serialize] float _resourceAmountMass = 0;
-        [Serialize] float _constructionTime = 600f;
+        [Serialize] float _totalConstructionTime = 600f;
         [Serialize] bool _primaryConstruction = false;
+        [Serialize] public bool IsConstructionProcess = true;
+
+        [Serialize] public float CurrentConstructionTime = -1;
 
         public PartProject(Tag resourceTag, float resourceAmountMass, float constructionTime, bool primaryConstruction =false)
         {
             _resourceTag = resourceTag;
             _resourceAmountMass = resourceAmountMass;
-            _constructionTime = constructionTime;
+            _totalConstructionTime = constructionTime;
             _primaryConstruction = primaryConstruction;
         }
-        public float ConstructionTime => _constructionTime;
+        public float TotalConstructionTime => _totalConstructionTime;
         public float ResourceAmountMass => _resourceAmountMass;
         public Tag ResourceTag => _resourceTag;
         public bool IsPrimary => _primaryConstruction;

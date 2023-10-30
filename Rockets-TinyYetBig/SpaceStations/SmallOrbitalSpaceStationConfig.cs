@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rockets_TinyYetBig.SpaceStations.Construction;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,6 +32,9 @@ namespace Rockets_TinyYetBig.SpaceStations
             destinationSelector.requireAsteroidDestination = false;
 
             var spst = entity.AddOrGet<SpaceStation>();
+            var constructable = entity.AddOrGet<SpaceConstructable>();
+            constructable.buildPartStorage = entity.AddComponent<Storage>();
+
 
             entity.AddOrGet<CharacterOverlay>().shouldShowName = true;
             entity.AddOrGetDef<AlertStateManager.Def>();

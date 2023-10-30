@@ -15,7 +15,8 @@ namespace Rockets_TinyYetBig.UI_Unity
         {
             public static void Postfix(List<DetailsScreen.SideScreenRef> ___sideScreens)
             {
-                UIUtils.AddCustomSideScreen<DockingSidescreen>("DockingSidescreen", ModAssets.DockingSideScreenWindowPrefab);
+                UIUtils.AddCustomSideScreen<DockingSidescreen>("RTB_DockingSidescreen", ModAssets.DockingSideScreenWindowPrefab);
+                UIUtils.AddCustomSideScreen<SpaceConstructionSidescreen>("RTB_SpaceConstructionSidescreen", ModAssets.SpaceConstructionSideScreenWindowPrefab);
             }
         }
 

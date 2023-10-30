@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Rockets_TinyYetBig.SpaceStations
+namespace Rockets_TinyYetBig.SpaceStations.Patches
 {
     public class ExcludePortsFromSpaceStationPatches
     {

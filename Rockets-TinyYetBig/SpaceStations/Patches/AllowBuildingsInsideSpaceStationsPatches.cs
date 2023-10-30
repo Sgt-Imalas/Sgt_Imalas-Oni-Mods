@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using static STRINGS.BUILDINGS.PREFABS;
 
-namespace Rockets_TinyYetBig.SpaceStations
+namespace Rockets_TinyYetBig.SpaceStations.Patches
 {
     public class AllowBuildingsInsideSpaceStationsPatches
     {
