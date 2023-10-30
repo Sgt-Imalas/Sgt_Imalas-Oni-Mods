@@ -127,46 +127,73 @@ namespace Rockets_TinyYetBig.Docking
 
                     if (assignmentGroupControllerOWN != null)
                     {
-                        //SgtLogger.l("assignmentGroupControllerOWN", "notnull");
+#if DEBUG
+                        SgtLogger.l("assignmentGroupControllerOWN", "notnull");
+#endif
                         foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(undockingProcess.Key.dManager.MyWorldId))
                         {
-                            //SgtLogger.l(minion.name, "minion");
 
+#if DEBUG
+                            SgtLogger.l(minion.name, "minion");
+#endif
                             if (!Game.Instance.assignmentManager.assignment_groups[assignmentGroupControllerOWN.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
                             {
-                                //SgtLogger.l(minion.name, "wrong here");
+#if DEBUG
+                                SgtLogger.l(minion.name, "wrong here");
+#endif
                                 WrongWorldDupesHERE.Add(minion);
                             }
                         }
                         foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(undockingProcess.Key.GetConnec().dManager.MyWorldId))
                         {
-                            //SgtLogger.l(minion.name, "minion there");
+
+#if DEBUG
+                            SgtLogger.l(minion.name, "minion there");
+#endif
                             if (Game.Instance.assignmentManager.assignment_groups[assignmentGroupControllerOWN.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
                             {
-                                //SgtLogger.l(minion.name, "wrong there;");
+
+#if DEBUG
+                                SgtLogger.l(minion.name, "wrong there;");
+#endif
                                 WrongWorldDupesTHERE.Add(minion);
                             }
                         }
                     }
                     else if (assignmentGroupControllerDOCKED != null)
                     {
-                        //SgtLogger.l("assignmentGroupControllerDOCKED", "notnull");
+
+#if DEBUG
+                        SgtLogger.l("assignmentGroupControllerDOCKED", "notnull");
+#endif
                         foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(undockingProcess.Key.dManager.MyWorldId))
                         {
-                            //SgtLogger.l(minion.name, "minion 2");
+
+#if DEBUG
+                            SgtLogger.l(minion.name, "minion 2");
+#endif
 
                             if (Game.Instance.assignmentManager.assignment_groups[assignmentGroupControllerDOCKED.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
                             {
-                                //SgtLogger.l(minion.name, "wrong here 2");
+
+#if DEBUG
+                                SgtLogger.l(minion.name, "wrong here 2");
+#endif
                                 WrongWorldDupesHERE.Add(minion);
                             }
                         }
                         foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(undockingProcess.Key.GetConnec().dManager.MyWorldId))
                         {
-                            //SgtLogger.l(minion.name, "minion there 2");
+
+#if DEBUG
+                            SgtLogger.l(minion.name, "minion there 2");
+#endif
                             if (!Game.Instance.assignmentManager.assignment_groups[assignmentGroupControllerDOCKED.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
                             {
-                                //SgtLogger.l(minion.name, "wrong there 2");
+
+#if DEBUG
+                                SgtLogger.l(minion.name, "wrong there 2");
+#endif
                                 WrongWorldDupesTHERE.Add(minion);
                             }
                         }
@@ -385,7 +412,7 @@ namespace Rockets_TinyYetBig.Docking
             {
                 int target = -1;
                 if (door.GetConnec() != null)
-                    target = door.GetConnec().dManager.WorldId;
+                    target = door.GetConnec().GetWorldObject().GetComponent<WorldContainer>().id;//  dManager.WorldId;
                 IDockables.Add(door, target);
                 SgtLogger.debuglog("Added new Docking Door!, ID: " + MyWorldId + ", Doorcount: " + IDockables.Count()+", Connected? "+target);
             }

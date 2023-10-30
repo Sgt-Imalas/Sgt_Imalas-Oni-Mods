@@ -28,6 +28,8 @@ namespace Rockets_TinyYetBig.UI_Unity
         AssignmentGroupController MyAssignmentGroup;
         AssignmentGroupController TargetAssignmentGroup;
 
+        LocText OwnHeader,TargetHeader;
+
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
@@ -42,7 +44,9 @@ namespace Rockets_TinyYetBig.UI_Unity
 
             OwnDupePreset = transform.Find("OwnDupesContainer/ScrollRectContainer/ItemPrefab").gameObject;
             TargetDupePreset = transform.Find("TargetDupesContainer/ScrollRectContainer/ItemPrefab").gameObject;
-            
+            OwnHeader = transform.Find("ContentHeaderOwn/TitleText").GetComponent<LocText>();
+            TargetHeader = transform.Find("ContentHeaderDocked/TitleText").GetComponent<LocText>();
+
 
             OwnDupePreset.SetActive(false);
             TargetDupePreset.SetActive(false);
@@ -80,6 +84,11 @@ namespace Rockets_TinyYetBig.UI_Unity
         {
             MyAssignmentGroup = myAssignmentGroup;
             TargetAssignmentGroup = targetAssignmentGroup;
+
+            var own = ClusterManager.Instance.GetWorld(MyWorldID);
+            OwnHeader.SetText(string.Format(STRINGS.UI.DOCKINGTRANSFERSCREEN.DUPESASSIGNEDTO, own.GetProperName()));
+            var target = ClusterManager.Instance.GetWorld(TargetWorldId);
+            TargetHeader.SetText(string.Format(STRINGS.UI.DOCKINGTRANSFERSCREEN.DUPESASSIGNEDTO, target.GetProperName()));
 
 
             var AllDupes = Components.LiveMinionIdentities.GetWorldItems(MyWorldID).Concat(Components.LiveMinionIdentities.GetWorldItems(TargetWorldId)).ToList();

@@ -14,6 +14,7 @@ using UtilLibs.UI.FUI;
 using UtilLibs.UIcmp;
 using YamlDotNet.Core.Tokens;
 using static ModInfo;
+using static Rockets_TinyYetBig.STRINGS.UI;
 using static Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2;
 using static UnityEngine.GraphicsBuffer;
 using static UtilLibs.UIUtils;
@@ -33,7 +34,6 @@ namespace Rockets_TinyYetBig.UI_Unity
 
         protected Clustercraft targetCraft;
         protected SpaceStationBuilder stationBuilder;
-
 
 
 
@@ -59,7 +59,6 @@ namespace Rockets_TinyYetBig.UI_Unity
                 PartPreview = transform.Find("Row1/SpaceCraftIcon").GetComponent<Image>();
                 ConstructionProgress = transform.Find("CostContainer/Slider").GetComponent<Slider>();
                 ConstructionProgressLabel = transform.Find("CostContainer/Slider/DurationText").GetComponent<LocText>();
-
 
             }
             public void Refresh()
@@ -159,7 +158,7 @@ namespace Rockets_TinyYetBig.UI_Unity
         {
             if (buildTargetScreen == null)
             {
-                buildTargetScreen = (SpaceConstructionTargetScreen)DetailsScreen.Instance.SetSecondarySideScreen(ModAssets.SpaceConstructionTargetSecondarySideScreen, "ProjectSelection");
+                buildTargetScreen = (SpaceConstructionTargetScreen)DetailsScreen.Instance.SetSecondarySideScreen(ModAssets.SpaceConstructionTargetSecondarySideScreen, CONSTRUCTIONSELECTOR_SECONDARYSIDESCREEN.TITLE.TITLETEXT);
                 //buildTargetScreen.UpdateForConnection(targetManager.GetAssignmentGroupControllerIfExisting(), targetManager.WorldId, target.GetAssignmentGroupControllerIfExisting(), target.WorldId);
             }
             else

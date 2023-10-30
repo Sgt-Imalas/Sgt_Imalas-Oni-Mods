@@ -26,7 +26,22 @@ namespace Rockets_TinyYetBig.Docking
         public bool HasDupeTeleporter => Teleporter != null;// && MoveTo != null && assignable != null ;
 
 
-        public DockingManager dManager;
+        public DockingManager dManager
+        {
+            get
+            {
+                if (_dMng == null)
+                {
+                    _dMng = gameObject.TryGetComponent<RocketModuleCluster>(out var module)
+                        ? module.CraftInterface.gameObject.AddOrGet<DockingManager>()
+                        : ClusterUtil.GetMyWorld(this.gameObject).gameObject.AddOrGet<DockingManager>();
+                }
+
+                return _dMng;
+            }
+        }
+        private DockingManager _dMng;
+
 
         public virtual CraftModuleInterface GetCraftModuleInterface()
         {
@@ -71,7 +86,7 @@ namespace Rockets_TinyYetBig.Docking
         public virtual void DisconnecDoor(bool skipanim = false)
         {
 #if DEBUG
-            SgtLogger.debuglog(dManager.GetWorldId() + " disconneccted from " + connected.Get().dManager.GetWorldId());
+            SgtLogger.debuglog(dManager.WorldId + " disconneccted from " + connected.Get().dManager.WorldId);
 #endif
 
             this.Trigger((int)GameHashes.RocketLaunched);
@@ -93,12 +108,9 @@ namespace Rockets_TinyYetBig.Docking
             base.OnSpawn();
             Debug.Log("ConnectedDockable: " + connected);
 
-            dManager = gameObject.TryGetComponent<RocketModuleCluster>(out var module) 
-                ? module.CraftInterface.gameObject.AddOrGet<DockingManager>() 
-                : ClusterUtil.GetMyWorld(this.gameObject).gameObject.AddOrGet<DockingManager>();
+            dManager.AddDockable(this);
+            //GameScheduler.Instance.ScheduleNextFrame("Adding Dockable", (obj) => dManager.AddDockable(this));
 
-            GameScheduler.Instance.ScheduleNextFrame("Adding Dockable", (obj) => dManager.AddDockable(this));
-           
         }
 
         public override void OnCleanUp()
@@ -109,8 +121,11 @@ namespace Rockets_TinyYetBig.Docking
 
         public virtual GameObject GetWorldObject()
         {
-            WorldContainer world = ClusterManager.Instance.GetWorld(dManager.WorldId);
-            return world == null ? null : world.gameObject;
+            return gameObject.TryGetComponent<RocketModuleCluster>(out var module)
+                 ? module.CraftInterface.gameObject
+                 : ClusterUtil.GetMyWorld(this.gameObject).gameObject;
+            //WorldContainer world = ClusterManager.Instance.GetWorld(dManager.WorldId);
+            //return world == null ? null : world.gameObject;
         }
     }
 }

@@ -499,7 +499,7 @@ namespace Rockets_TinyYetBig
             {
                 public static LocString TITLE = "Extra green signal at";
             }
-            public class SPACEASSEMBLEMENU_SECONDARYSIDESCREEN
+            public class SPACEASSEMBLEMENU_SIDESCREEN
             {
                 public static class TITLE
                 {
@@ -529,9 +529,39 @@ namespace Rockets_TinyYetBig
                 public static LocString CANCELCONSTRUCTION = "Cancel Construction";
                 public static LocString STARTDECONSTRUCTION = "Start Deconstruction";
                 public static LocString CANCELDECONSTRUCTION = "Cancel Deconstruction";
+            }
+            public class CONSTRUCTIONSELECTOR_SECONDARYSIDESCREEN
+            {
+                public static class TITLE
+                {
+                    public static LocString TITLETEXT = "Available Construction Projects";
+                }
+
+                public static class PROJECTHEADER
+                {
+                    public static class ROW1
+                    {
+                        public static LocString TITLETEXT = "No space construction project here.";
+                        public static class CREATENEW
+                        {
+
+                            public static LocString LABEL = "Create new construction project";
+                            public static LocString LABELCANCEL = "Cancel current construction project";
+                        }
+                    }
+                    public static class COSTCONTAINER
+                    {
+                        public static LocString TITLETEXT = "Total Progress:";
+                        public static LocString PARTCOUNT = "{0}/{1}";
+                    }
+                }
+                public static LocString TIMEREMAINING = "{0} seconds remaining";
+                public static LocString STARTCONSTRUCTION = "Start Construction";
+                public static LocString CANCELCONSTRUCTION = "Cancel Construction";
+                public static LocString STARTDECONSTRUCTION = "Start Deconstruction";
+                public static LocString CANCELDECONSTRUCTION = "Cancel Deconstruction";
 
             }
-
 
 
             public class DOCKINGSCREEN
@@ -586,6 +616,7 @@ namespace Rockets_TinyYetBig
                     public static LocString TITLETEXT = "Crew Management";
                 }
 
+                public static LocString DUPESASSIGNEDTO = "Duplicants assigned to \"{0}\"";
                 public static class CONTENTHEADEROWN
                 {
                     public static LocString TITLETEXT = "Duplicants assigned to this Spacecraft:";

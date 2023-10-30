@@ -1,4 +1,5 @@
 ﻿using Database;
+using Rockets_TinyYetBig.SpaceStations.Construction;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Printing;
@@ -15,12 +16,63 @@ namespace Rockets_TinyYetBig.UI_Unity
 {
     internal class SpaceConstructionTargetScreen : KScreen
     {
+        private class ProjectListUIEntry : KMonoBehaviour
+        {
+            public FButton StartProjectBtn;
+            public LocText ProjectLabel;
+            public LocText ProjectDesc;
+            public Image ProjectPreview;
 
-        GameObject TargetDupeContainer;
+            public ConstructionProjectAssembly Reference;
+            GameObject PartContainer;
+            GameObject PartListEntryPrefab;
+
+            public void Init(ConstructionProjectAssembly referencedProject)
+            {
+                Reference = referencedProject;
+                StartProjectBtn = transform.Find("Row1/ConstructBtn").gameObject.AddOrGet<FButton>();
+                ProjectPreview = transform.Find("Row1/SpaceCraftIcon").GetComponent<Image>();
+                ProjectLabel = transform.Find("Row1/TitleText").GetComponent<LocText>();
+                ProjectDesc = transform.Find("Desc/TitleText").GetComponent<LocText>();
+                PartContainer = gameObject;
+                PartListEntryPrefab = transform.Find("CostContainer").gameObject;
+                PartListEntryPrefab.gameObject.SetActive(false);
 
 
-        AssignmentGroupController MyAssignmentGroup;
-        AssignmentGroupController TargetAssignmentGroup;
+                ProjectLabel.SetText(referencedProject.ProjectName);
+                ProjectDesc.SetText(referencedProject.ProjectDescription);
+                ProjectPreview.sprite = referencedProject.PreviewSprite;
+
+                Dictionary<string, int> partCount = new Dictionary<string, int>();
+                foreach(var part in referencedProject.Parts)
+                {
+                    if(partCount.ContainsKey(part.name)) 
+                        partCount[part.name]++;
+                    else
+                    {
+                        partCount[part.name] = 1;
+                    }
+                }
+
+                foreach(var item in partCount)
+                {
+                    var entry = Util.KInstantiateUI(PartListEntryPrefab, PartContainer, true);
+                    entry.transform.Find("TitleText").GetComponent<LocText>().SetText(item.Key);
+                    entry.transform.Find("PartCount").GetComponent<LocText>().SetText("x"+item.Value.ToString());
+                    
+                }
+                StartProjectBtn.OnClick += () =>
+                {
+
+                };
+            }
+        }
+
+
+        GameObject ProjectsContainer;
+        GameObject ProjectPrefab;
+
+        Dictionary<ConstructionProjectAssembly, ProjectListUIEntry> Project = new Dictionary<ConstructionProjectAssembly, ProjectListUIEntry>();
 
         public override void OnPrefabInit()
         {
@@ -31,28 +83,19 @@ namespace Rockets_TinyYetBig.UI_Unity
         void Init()
         {
             UIUtils.ListAllChildrenPath(this.transform);
+
+
+            transform.Find("Title").gameObject.SetActive(false);
             //UIUtils.ListAllChildrenPath(this.transform);
-            //OwnDupeContainer = transform.Find("OwnDupesContainer/ScrollRectContainer").gameObject;
-            //TargetDupeContainer = transform.Find("TargetDupesContainer/ScrollRectContainer").gameObject;
+            ProjectsContainer = transform.Find("ProjectsContainer/ScrollRectContainer").gameObject;
+            ProjectPrefab = transform.Find("ProjectsContainer/ScrollRectContainer/PartContainerPrefab").gameObject;
 
-            //OwnDupePreset = transform.Find("OwnDupesContainer/ScrollRectContainer/ItemPrefab").gameObject;
-            //TargetDupePreset = transform.Find("TargetDupesContainer/ScrollRectContainer/ItemPrefab").gameObject;
-
-
-            //OwnDupePreset.SetActive(false);
-            //TargetDupePreset.SetActive(false);
-
-            //foreach (MinionIdentity dupe in Components.LiveMinionIdentities)
-            //{
-            //    AddDupeEntry(dupe, true);
-            //    AddDupeEntry(dupe, false);
-            //}
-
-            //Components.LiveMinionIdentities.OnAdd += (minion) =>
-            //{
-            //    AddDupeEntry(minion, true);
-            //    AddDupeEntry(minion, false);
-            //};
+            foreach(var project in ConstructionProjects.AllProjects)
+            {
+                var entry = Util.KInstantiateUI(ProjectPrefab, ProjectsContainer, true);
+                var logic = entry.AddComponent<ProjectListUIEntry>();
+                logic.Init(project);
+            }
         }
 
         public override void OnShow(bool show)

@@ -12,6 +12,7 @@ using UtilLibs.UI.FUI;
 using UtilLibs.UIcmp;
 using YamlDotNet.Core.Tokens;
 using static ModInfo;
+using static Rockets_TinyYetBig.STRINGS.UI;
 using static Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2;
 using static UnityEngine.GraphicsBuffer;
 using static UtilLibs.UIUtils;
@@ -25,8 +26,10 @@ namespace Rockets_TinyYetBig.UI_Unity
         public override void OnSpawn()
         {
             base.OnSpawn();
+
+            ConnectReference();
             ClusterManager.Instance.Subscribe(ModAssets.Hashes.DockingManagerAdded, new System.Action<object>(this.ManagerAddedHandler));
-            ClusterManager.Instance.Subscribe(ModAssets.Hashes.DockingManagerRemoved , new System.Action<object>(this.ManagerRemovedHandler));
+            //ClusterManager.Instance.Subscribe(ModAssets.Hashes.DockingManagerRemoved , new System.Action<object>(this.ManagerRemovedHandler));
 
         }
 
@@ -51,29 +54,29 @@ namespace Rockets_TinyYetBig.UI_Unity
             );
 
         }
-        private void ManagerRemovedHandler(object obj)
-        {
-            if (obj is DockingManager mng)
-            {
-                if (!DockingTargets.ContainsKey(mng))
-                {
-                    AddRowEntry(mng);
-                    Refresh();
-                }
-                else
-                {
-                    Debug.LogWarning("already had DockingManager");
-                }
+        //private void ManagerRemovedHandler(object obj)
+        //{
+        //    if (obj is DockingManager mng)
+        //    {
+        //        if (!DockingTargets.ContainsKey(mng))
+        //        {
+        //            AddRowEntry(mng);
+        //            Refresh();
+        //        }
+        //        else
+        //        {
+        //            Debug.LogWarning("already had DockingManager");
+        //        }
 
-            }
+        //    }
 
-        }
+        //}
 
 
 
         protected DockingManager targetManager;
         protected Clustercraft targetCraft;
-        protected DockingDoor targetDoor;
+        protected IDockable targetDoor;
 
         protected GameObject rowPrefab;
         protected GameObject listContainer;
@@ -89,7 +92,7 @@ namespace Rockets_TinyYetBig.UI_Unity
         public override float GetSortKey() => 21f;
         public override bool IsValidForTarget(GameObject target)
         {
-            DockingDoor door = null;
+            IDockable door = null;
             var manager = target.GetComponent<DockingManager>();
             if (manager == null)
             {
@@ -130,15 +133,17 @@ namespace Rockets_TinyYetBig.UI_Unity
 
             //SgtLogger.l("setting Target");
             base.SetTarget(target);
+
+            ConnectReference();
             target.TryGetComponent(out targetManager); ///??? revisit
             target.TryGetComponent(out targetCraft);
             target.TryGetComponent(out targetDoor);
-            if (targetManager == null)
+            if (targetManager == null && targetDoor != null)
             {
                 targetManager = targetDoor.dManager;
             }
             targetManager.TryGetComponent(out targetCraft);
-            ConnectReference();
+
             Build();
             refreshHandle.Add(targetCraft.gameObject.Subscribe((int)GameHashes.ClusterDestinationChanged, new Action<object>(RefreshAll)));
             refreshHandle.Add(targetCraft.gameObject.Subscribe((int)GameHashes.ClusterLocationChanged, new Action<object>(RefreshAll)));
@@ -153,22 +158,25 @@ namespace Rockets_TinyYetBig.UI_Unity
             //titleKey = "STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.TITLE";
         }
 
+        bool refsConnected = false;
         void ConnectReference()
         {
-            if (rowPrefab == null)
-            {
-                rowPrefab = transform.Find("OwnDupesContainer/ScrollRectContainer/ItemPrefab").gameObject;
-                listContainer = transform.Find("OwnDupesContainer/ScrollRectContainer").gameObject;
-                //var layout = transform.Find("Content/ContentScrollRect/Scrollbar").GetComponent<LayoutElement>();
-                //SgtLogger.debuglog(String.Format("{0}, {1}, {2}", layout.minHeight, layout.preferredHeight, layout.flexibleHeight));
-                //layout.minHeight = 150f;
-                rowPrefab.gameObject.SetActive(false);
-                headerLabel = TryFindComponent<LocText>(transform.Find("DockingBridges/TitleText"));
-                //noChannelRow = transform.Find("Content/ContentScrollRect/RowContainer/Rows/NoChannelRow").gameObject;
+            if (refsConnected)
+                return; 
+            refsConnected = true;
 
-                //TryChangeText(noChannelRow.transform, "Labels/Label", "Nothing");
-                //TryChangeText(noChannelRow.transform, "Labels/DescLabel", "Nothing to dock to.");
-            }
+            rowPrefab = transform.Find("OwnDupesContainer/ScrollRectContainer/ItemPrefab").gameObject;
+            listContainer = transform.Find("OwnDupesContainer/ScrollRectContainer").gameObject;
+            //var layout = transform.Find("Content/ContentScrollRect/Scrollbar").GetComponent<LayoutElement>();
+            //SgtLogger.debuglog(String.Format("{0}, {1}, {2}", layout.minHeight, layout.preferredHeight, layout.flexibleHeight));
+            //layout.minHeight = 150f;
+            rowPrefab.gameObject.SetActive(false);
+            headerLabel = TryFindComponent<LocText>(transform.Find("DockingBridges/TitleText"));
+            //noChannelRow = transform.Find("Content/ContentScrollRect/RowContainer/Rows/NoChannelRow").gameObject;
+
+            //TryChangeText(noChannelRow.transform, "Labels/Label", "Nothing");
+            //TryChangeText(noChannelRow.transform, "Labels/DescLabel", "Nothing to dock to.");
+
         }
 
         private void Build()
@@ -225,7 +233,7 @@ namespace Rockets_TinyYetBig.UI_Unity
         {
             if (crewScreen == null)
             {
-                crewScreen = (CrewAssignmentSidescreen)DetailsScreen.Instance.SetSecondarySideScreen(ModAssets.DupeTransferSecondarySideScreen, "Crew Assignment");
+                crewScreen = (CrewAssignmentSidescreen)DetailsScreen.Instance.SetSecondarySideScreen(ModAssets.DupeTransferSecondarySideScreen, DOCKINGTRANSFERSCREEN.TITLE.TITLETEXT);
                 crewScreen.UpdateForConnection(targetManager.GetAssignmentGroupControllerIfExisting(), targetManager.WorldId, target.GetAssignmentGroupControllerIfExisting(), target.WorldId);
             }
             else
@@ -314,13 +322,14 @@ namespace Rockets_TinyYetBig.UI_Unity
 
         private void Refresh()
         {
+            Debug.Log(targetManager);
+
             if (targetManager == null)
             {
                 SgtLogger.l("Skipping refresh");
                 return;
             }
             headerLabel.SetText(string.Format(STRINGS.UI.DOCKINGSCREEN.DOCKINGBRIDGES.TITLETEXT, targetManager.AvailableConnections(), targetManager.TotatConnections()));
-
 
             foreach (var kvp in DockingTargets)
             {

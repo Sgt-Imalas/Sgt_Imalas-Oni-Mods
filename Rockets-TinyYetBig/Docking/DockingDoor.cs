@@ -40,9 +40,6 @@ namespace Rockets_TinyYetBig.Behaviours
 
         public override void DisconnecDoor(bool skipanim = false)
         {
-#if DEBUG
-            SgtLogger.debuglog(dManager.GetWorldId() + " disconneccted from " + connected.Get().dManager.GetWorldId());
-#endif
             base.DisconnecDoor(skipanim);
 
             //assignable.Unassign();
@@ -81,6 +78,10 @@ namespace Rockets_TinyYetBig.Behaviours
         {
             return Grid.OffsetCell(Grid.PosToCell(this), GetRotatedOffset());
         }
+        //public override GameObject GetWorldObject()
+        //{
+        //    //return this.GetMyWorld().gameObject;
+        //}
 
         public override void OnSpawn()
         {

@@ -74,7 +74,6 @@ namespace Rockets_TinyYetBig.Buildings
             go.AddComponent<ZoneTile>();
             //component.AddTag(GameTags.UniquePerWorld);
             //IntitializeStorageConnections();
-            go.AddOrGetDef<DockedRocketMaterialDistributor.Def>();
 
             ChainedBuilding.Def def = go.AddOrGetDef<ChainedBuilding.Def>();
             def.headBuildingTag = ModAssets.Tags.RocketPlatformTag;
@@ -100,13 +99,11 @@ namespace Rockets_TinyYetBig.Buildings
             UnityEngine.Object.DestroyImmediate(go.GetComponent<Deconstructable>());
 
             AddFakeFloor(go);
-            var ownable = go.AddOrGet<Ownable>();
-            ownable.tintWhenUnassigned = false;
-            ownable.slotID = Db.Get().AssignableSlots.WarpPortal.Id;
-            //go.AddOrGet<MoveToDocked>();
+            //4go.AddOrGet<MoveToDocked>();
             go.AddOrGet<NavTeleporter>();
             var door = go.AddComponent<DockingDoor>();
 
+            go.AddOrGetDef<DockedRocketMaterialDistributor.Def>();
         }
 
         //private void AttachPorts(GameObject go)

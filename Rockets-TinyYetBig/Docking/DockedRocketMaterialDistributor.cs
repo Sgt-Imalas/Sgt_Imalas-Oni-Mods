@@ -1,4 +1,5 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Docking;
 using Rockets_TinyYetBig.Patches;
 using Rockets_TinyYetBig.RocketFueling;
 using System;
@@ -165,7 +166,7 @@ namespace Rockets_TinyYetBig
             public CraftModuleInterface GetDockedRocket()
             {
 
-                if (this.gameObject.TryGetComponent<DockingDoor>(out var door))
+                if (this.gameObject.TryGetComponent<IDockable>(out var door))
                 {
                     return door.GetDockedCraftModuleInterface();
                 }
@@ -174,7 +175,7 @@ namespace Rockets_TinyYetBig
 
             public void SetConnectedRocketStatusLoading(bool isLoadingOrUnloading)
             {
-                var door = this.GetComponent<DockingDoor>();
+                var door = this.gameObject.GetComponent<IDockable>();
                 if (door.IsConnected)
                 {
                     door.GetConnec().dManager.SetCurrentlyLoadingStuff(isLoadingOrUnloading);

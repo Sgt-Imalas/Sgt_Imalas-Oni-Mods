@@ -20,7 +20,7 @@ namespace Rockets_TinyYetBig
 #if DEBUG
             true ||
 #endif
-            Instance.CompressInteriors
+               Instance.CompressInteriors
             && Instance.EnableAdvWorldSelector
             && Instance.SpaceStationsAndTech
             && Instance.NeutroniumMaterial
