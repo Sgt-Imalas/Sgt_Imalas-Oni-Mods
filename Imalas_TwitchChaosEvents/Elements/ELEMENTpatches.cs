@@ -2,6 +2,7 @@
 using HarmonyLib;
 using Klei.AI;
 using Klei.AI.DiseaseGrowthRules;
+using ONITwitchLib.Logger;
 using ONITwitchLib.Utils;
 using STRINGS;
 using System;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static ComplexRecipe;
+using static Game;
 
 namespace Imalas_TwitchChaosEvents.Elements
 {
@@ -84,6 +86,17 @@ namespace Imalas_TwitchChaosEvents.Elements
         //    }
         //}
 
+        // because YAML will try to parse from string that wont work, so I assign it manually
+        [HarmonyPatch(typeof(ElementLoader), "CopyEntryToElement")]
+        public static class ElementLoader_CopyEntryToElement_Patch
+        {
+            public static void Postfix(Element elem)
+            {
+                if (elem.id == ModElements.LiquidPoop)
+                    elem.sublimateFX = Game_InitializeFXSpawners_Patch.ITCE_PoopyLiquidFX;
+            }
+        }
+        
         [HarmonyPatch(typeof(FoodGerms), "PopulateElemGrowthInfo")]
         public static class FoodGerms_Dwell_On_Poop
         {
@@ -96,6 +109,63 @@ namespace Imalas_TwitchChaosEvents.Elements
                 __instance.AddGrowthRule(poopRule);
             }
         }
+        [HarmonyPatch(typeof(Game), "InitializeFXSpawners")]
+        public static class Game_InitializeFXSpawners_Patch
+        {
+            public static SpawnFXHashes ITCE_PoopyLiquidFX = (SpawnFXHashes)1024551740;
+            public static void Prefix(Game __instance)
+            {
+                if (__instance.fxSpawnData == null)
+                {
+                    SgtLogger.warning("No spawn data");
+                    return;
+                }
+                //SgtLogger.l("Fields of spawners");
+                //foreach(var entry in __instance.fxSpawnData)
+                //{
+                //    UtilMethods.ListAllFieldValues(entry);
+                //}
+
+                var spawnData = new List<Game.SpawnPoolData>(__instance.fxSpawnData);
+                var prefab = spawnData.Find(d => d.id == SpawnFXHashes.ContaminatedOxygenBubbleWater).fxPrefab;
+
+                if (prefab == null)
+                {
+                    SgtLogger.warning("FX prefab not found.");
+                    return;
+                }
+
+                var pWater = spawnData.FirstOrDefault(d => d.id == SpawnFXHashes.ContaminatedOxygenBubbleWater);
+                spawnData.Add(new Game.SpawnPoolData()
+                {
+                    id = ITCE_PoopyLiquidFX,
+                    initialCount = pWater.initialCount,
+                    spawnOffset = Vector3.zero,
+                    spawnRandomOffset = pWater.spawnRandomOffset,
+                    colour = new Color(128f / 255f, 61f / 255f, 43f / 255f),
+                    fxPrefab = GetNewPrefab(prefab),
+                    initialAnim = pWater.initialAnim
+                });
+
+
+                __instance.fxSpawnData = spawnData.ToArray();
+            }
+
+            private static GameObject GetNewPrefab(GameObject original, string newAnim = null, float scale = 1f)
+            {
+                var prefab = UnityEngine.Object.Instantiate(original);
+                var kbac = prefab.GetComponent<KBatchedAnimController>();
+
+                if (!newAnim.IsNullOrWhiteSpace())
+                    kbac.AnimFiles[0] = Assets.GetAnim(newAnim);
+
+                kbac.animScale *= scale;
+
+                return prefab;
+            }
+
+        }
+
 
 
         [HarmonyPatch(typeof(WaterCoolerChore.States), "Drink")]
