@@ -100,6 +100,7 @@ namespace Rockets_TinyYetBig.Buildings
 
             AddFakeFloor(go);
             go.AddOrGet<NavTeleporter>();
+            go.AddOrGet<AccessControl>();
             var door = go.AddComponent<DockingDoor>();
 
         }

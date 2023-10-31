@@ -127,9 +127,6 @@ namespace Rockets_TinyYetBig.Docking
 
                     if (assignmentGroupControllerOWN != null)
                     {
-#if DEBUG
-                        SgtLogger.l("assignmentGroupControllerOWN", "notnull");
-#endif
                         foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(undockingProcess.Key.dManager.MyWorldId))
                         {
 
@@ -162,10 +159,6 @@ namespace Rockets_TinyYetBig.Docking
                     }
                     else if (assignmentGroupControllerDOCKED != null)
                     {
-
-#if DEBUG
-                        SgtLogger.l("assignmentGroupControllerDOCKED", "notnull");
-#endif
                         foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(undockingProcess.Key.dManager.MyWorldId))
                         {
 
@@ -200,17 +193,24 @@ namespace Rockets_TinyYetBig.Docking
                     }
                     //SgtLogger.l("GONE");
 
+                    DockingDoor OwnDoor = (undockingProcess.Key);
+                    DockingDoor ConnectedDoor = (undockingProcess.Key.GetConnec() as DockingDoor);
+
                     foreach (var minion in WrongWorldDupesHERE)
                     {
-                        var smi = minion.GetSMI<MoveToLocationMonitor.Instance>();
-                        if(smi.IsInsideState(smi.sm.satisfied))
-                            smi.MoveToLocation((undockingProcess.Key.GetConnec() as DockingDoor).GetPorterCell());
+                        var smi = minion.GetSMI<RocketPassengerMonitor.Instance>();                      
+                        smi.SetMoveTarget(ConnectedDoor.GetPorterCell());
+                        OwnDoor.RefreshAccessStatus(minion, false);
+                        ConnectedDoor.RefreshAccessStatus(minion, true);
+
                     }
                     foreach (var minion in WrongWorldDupesTHERE)
                     {
-                        var smi = minion.GetSMI<MoveToLocationMonitor.Instance>();
-                        if (smi.IsInsideState(smi.sm.satisfied))
-                            smi.MoveToLocation(undockingProcess.Key.GetPorterCell());
+                        var smi = minion.GetSMI<RocketPassengerMonitor.Instance>();
+                        smi.SetMoveTarget((undockingProcess.Key).GetPorterCell());
+
+                        OwnDoor.RefreshAccessStatus(minion, true);
+                        ConnectedDoor.RefreshAccessStatus(minion, false);
                     }
 
                     if (WrongWorldDupesHERE.Count == 0 && WrongWorldDupesTHERE.Count == 0)

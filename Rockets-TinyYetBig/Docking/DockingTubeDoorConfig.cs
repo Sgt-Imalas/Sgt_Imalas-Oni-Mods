@@ -91,6 +91,7 @@ namespace Rockets_TinyYetBig.Buildings
             //go.AddOrGet<MoveToDocked>();
             go.AddComponent<DockingDoor>().porterOffset = new CellOffset(1, 0);
             go.AddOrGet<NavTeleporter>().offset = new CellOffset(1, 0);
+            go.AddOrGet<AccessControl>();
             FakeFloorAdder fakeFloorAdder = go.AddOrGet<FakeFloorAdder>();
             fakeFloorAdder.floorOffsets =  new CellOffset[]
             {

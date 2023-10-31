@@ -18,6 +18,7 @@ namespace Rockets_TinyYetBig.Behaviours
         /// </summary>
 
         public CellOffset porterOffset = new CellOffset(0, 0);
+        [MyCmpReq] AccessControl accessControl;
 
         public override void ConnecDockable(IDockable d)
         {
@@ -25,10 +26,11 @@ namespace Rockets_TinyYetBig.Behaviours
 
             if (connected.Get().HasDupeTeleporter)
             {
-
                 Teleporter.SetTarget(d.Teleporter);
                // assignable.canBeAssigned = true;
             }
+            EnableAccessAll();
+
             if (!this.gameObject.IsNullOrDestroyed() && gameObject.TryGetComponent<KBatchedAnimController>(out var kanim))
             {
                 kanim.Play("extending");
@@ -37,6 +39,34 @@ namespace Rockets_TinyYetBig.Behaviours
             //DetailsScreen.Instance.Refresh(gameObject);
         }
 
+        public void EnableAccessAll()
+        {
+
+            for (int idx = 0; idx < Components.LiveMinionIdentities.Count; ++idx)
+            {
+                RefreshAccessStatus(Components.LiveMinionIdentities[idx], false);
+            }
+        }
+        public void RefreshAccessStatus(MinionIdentity minion, bool restrictToOwnWorld)
+        {
+            if (restrictToOwnWorld)
+            {
+                var Controller = dManager.GetAssignmentGroupControllerIfExisting();
+
+                if (Game.Instance.assignmentManager.assignment_groups[Controller.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
+                {
+                    accessControl.SetPermission(minion.assignableProxy.Get(), AccessControl.Permission.Neither);
+                }
+                else
+                {
+                    accessControl.SetPermission(minion.assignableProxy.Get(), AccessControl.Permission.Both);
+                }
+            }
+            else
+            {
+                accessControl.SetPermission(minion.assignableProxy.Get(), AccessControl.Permission.Both);
+            }
+        }
 
         public override void DisconnecDoor(bool skipanim = false)
         {
