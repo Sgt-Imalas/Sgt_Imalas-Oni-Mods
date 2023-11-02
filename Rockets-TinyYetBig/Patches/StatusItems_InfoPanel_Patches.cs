@@ -18,7 +18,7 @@ using static Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN;
 
 namespace Rockets_TinyYetBig.Patches
 {
-    class StatusItemsPatches
+    class StatusItems_InfoPanel_Patches
     {
         class StatusItemsRegisterPatch
         {

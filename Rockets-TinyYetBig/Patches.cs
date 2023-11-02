@@ -143,7 +143,7 @@ namespace Rockets_TinyYetBig
 
 
         /// <summary>
-        /// Adjust Scanner Module range
+        /// Adds Scanner Module Telescope function
         /// </summary>
         [HarmonyPatch(typeof(ScannerModuleConfig), "DoPostConfigureComplete")]
         public static class BuffScannerModule
@@ -153,6 +153,9 @@ namespace Rockets_TinyYetBig
                 go.AddOrGetDef<ExplorerModuleTelescope.Def>();
             }
         }
+        /// <summary>
+        /// TelescopeTarget add fallback selfdestroy
+        /// </summary>
         [HarmonyPatch(typeof(ClusterGridEntity), "OnSpawn")]
         public static class DestroyFinishedTelescopeTargets
         {
@@ -186,9 +189,7 @@ namespace Rockets_TinyYetBig
         {
             public static bool Prefix(GameObject target, ref bool __result)
             {
-                var targetComponent = target.GetComponent<RadiationBatteryOutputHandler>();
-                //SgtLogger.debuglog((target != null) + " ATLEAST ONCE TRUE");
-                if (targetComponent != null)
+                if (target.TryGetComponent<RadiationBatteryOutputHandler>(out _))
                 {
                     __result = true;
                     return false;

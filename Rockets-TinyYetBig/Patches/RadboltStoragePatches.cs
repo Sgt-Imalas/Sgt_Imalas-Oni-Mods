@@ -13,7 +13,7 @@ namespace Rockets_TinyYetBig.Patches
     /// <summary>
     /// Force Reevalulation for logic ports on radbolt storage modules
     /// </summary>
-    public class RadStoragesLogicUpdateFix
+    public class RadboltStoragePatches
     {
         [HarmonyPatch(typeof(ReorderableBuilding), "ApplyAnimOffset")]
         public static class ForceUpdateLogicOnReorder

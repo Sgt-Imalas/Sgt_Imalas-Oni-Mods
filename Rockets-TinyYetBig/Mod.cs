@@ -46,7 +46,7 @@ namespace Rockets_TinyYetBig
         {
             base.OnAllModsLoaded(harmony, mods);
             CompatibilityNotifications.FlagLoggingPrevention(mods);
-            FixForAutoRocketAndBugfixes.AttemptPatch(harmony);
+            BugfixPatches.AttemptPatch(harmony);
 
         }
 
