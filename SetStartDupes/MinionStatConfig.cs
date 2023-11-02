@@ -117,6 +117,10 @@ namespace SetStartDupes
 
             referencedStats.Traits.Clear();
             var traitRef = Db.Get().traits;
+
+            if (!Traits.Contains(MinionConfig.MINION_BASE_TRAIT_ID))
+                Traits.Add(MinionConfig.MINION_BASE_TRAIT_ID);
+
             foreach(var traitID in this.Traits)
             {
                 var Trait = traitRef.TryGet(traitID);
