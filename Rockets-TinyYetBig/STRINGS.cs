@@ -537,32 +537,24 @@ namespace Rockets_TinyYetBig
                     public static LocString TITLETEXT = "Available Construction Projects";
                 }
 
-                public static class PROJECTHEADER
+                public static class PROJECTSCONTAINER
                 {
-                    public static class ROW1
+                    public static class SCROLLRECTCONTAINER
                     {
-                        public static LocString TITLETEXT = "No space construction project here.";
-                        public static class CREATENEW
+                        public static class PARTCONTAINERPREFAB
                         {
-
-                            public static LocString LABEL = "Create new construction project";
-                            public static LocString LABELCANCEL = "Cancel current construction project";
+                            public static class ROW1
+                            {
+                                public static class CONSTRUCTBTN
+                                {
+                                    public static LocString LABEL = "Start Project";
+                                }
+                            }
                         }
                     }
-                    public static class COSTCONTAINER
-                    {
-                        public static LocString TITLETEXT = "Total Progress:";
-                        public static LocString PARTCOUNT = "{0}/{1}";
-                    }
                 }
-                public static LocString TIMEREMAINING = "{0} seconds remaining";
-                public static LocString STARTCONSTRUCTION = "Start Construction";
-                public static LocString CANCELCONSTRUCTION = "Cancel Construction";
-                public static LocString STARTDECONSTRUCTION = "Start Deconstruction";
-                public static LocString CANCELDECONSTRUCTION = "Cancel Deconstruction";
 
             }
-
 
             public class DOCKINGSCREEN
             {

@@ -1,21 +1,3 @@
-
-New Features:
-- Drillcone Mining now recieves a boost from the pilots Flying and Digging Skills. AI rockets get a reduced bonus (can be toggled in config, enabled by default)
-- Added "Drop All" to Fuel Loaders, Cargo Loaders and liquid fuel tanks
-- liquid Rocket Fuel Tanks will no longer fill with liquids that arent rocket fuel (combustible liquids and hydrogen)
-- The Radbolt storage module can now refuel the laser drillcone during flight
-
-New Modules:
-- Docking module: add it to an AI rocket to allow it to dock. Dupes can not use this to go to the other rocket. constructing multiple modules of this type allows multiple rockets to link together in space.
-(Note: Docking can be used to tow a stranded rocket or to increase the speed of slow rockets, boosting it by docking to a fast rocket. More functions to come...)
-- Liquid Chlorine Oxidizer Tank: a stepping stone towards liquid oxygen, liquid chlorine has a oxidizer efficiency of 3 (oxylite has 2, liquid oxygen has 4)
-
-Fixes&Adjustments:
-- fixed the vanilla bug of oxidizer tanks losing their contents on loading the game when "copy settings" from a different oxidizer tank was used to set their settings
-- fixed an assignment bug with docking when blowing up rockets
-- added a few materials that count as "Radiation blocking" for the plated nosecone
-- fixed neutronium alloy not inheriting any overheat temperature (like +200 of steel). Also its very pretty now (+100% decor bonus)
-- fixed a OnLoad crash with active dockings
-- adjusted cost of small liquid fuel tank to be more in line with the large liquid fuel tank
-- camera will no longer glitch out inside of smaller rocket interiors
-- added cargo unit settings
+- Fixed vanilla bug of rocket interior space exposure not working until a reload.
+- Undocking rockets should now handle crew transfer better
+- Fixed a rare crash with the docking UI

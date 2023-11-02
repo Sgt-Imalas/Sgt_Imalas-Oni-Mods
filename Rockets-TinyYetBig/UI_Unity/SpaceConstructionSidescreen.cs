@@ -159,6 +159,7 @@ namespace Rockets_TinyYetBig.UI_Unity
             if (buildTargetScreen == null)
             {
                 buildTargetScreen = (SpaceConstructionTargetScreen)DetailsScreen.Instance.SetSecondarySideScreen(ModAssets.SpaceConstructionTargetSecondarySideScreen, CONSTRUCTIONSELECTOR_SECONDARYSIDESCREEN.TITLE.TITLETEXT);
+                buildTargetScreen.UpdatePositions(targetCraft.Location);
                 //buildTargetScreen.UpdateForConnection(targetManager.GetAssignmentGroupControllerIfExisting(), targetManager.WorldId, target.GetAssignmentGroupControllerIfExisting(), target.WorldId);
             }
             else

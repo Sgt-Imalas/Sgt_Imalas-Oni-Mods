@@ -23,6 +23,14 @@
 - travel tube adapter
 - PDC-Module
 
+- Habitat module loader/unloader 3x3
+- vertical adapter
+- vertical piece
+- wide variants of solar panel/artifact module?
+- artifact unloader
+
+
+
 
 - orbital/deep space construction projects 
 	- interior space station.

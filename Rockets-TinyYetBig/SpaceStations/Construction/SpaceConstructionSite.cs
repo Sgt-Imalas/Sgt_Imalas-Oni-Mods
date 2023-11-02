@@ -64,6 +64,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
 
         public override ClusterRevealLevel IsVisibleInFOW => ClusterRevealLevel.Visible;
         public void Init(AxialI location) => this.Location = location;
+        public override bool ShowName() => false;// true;
 
     }
 }

@@ -6,10 +6,12 @@ using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TemplateClasses;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
+using static ProcGen.Mob;
 using static STRINGS.UI.UISIDESCREENS.AUTOPLUMBERSIDESCREEN.BUTTONS;
 
 namespace Rockets_TinyYetBig.UI_Unity
@@ -26,12 +28,20 @@ namespace Rockets_TinyYetBig.UI_Unity
             public ConstructionProjectAssembly Reference;
             GameObject PartContainer;
             GameObject PartListEntryPrefab;
+            AxialI Location;
+
+            public void UpdateLocation(AxialI location)
+            {
+                Location = location;
+            }
 
             public void Init(ConstructionProjectAssembly referencedProject)
             {
+               // UIUtils.ListAllChildrenPath(transform);
+
                 Reference = referencedProject;
                 StartProjectBtn = transform.Find("Row1/ConstructBtn").gameObject.AddOrGet<FButton>();
-                ProjectPreview = transform.Find("Row1/SpaceCraftIcon").GetComponent<Image>();
+                ProjectPreview = transform.Find("Row1/SpaceCraftIcon/Image").GetComponent<Image>();
                 ProjectLabel = transform.Find("Row1/TitleText").GetComponent<LocText>();
                 ProjectDesc = transform.Find("Desc/TitleText").GetComponent<LocText>();
                 PartContainer = gameObject;
@@ -41,38 +51,58 @@ namespace Rockets_TinyYetBig.UI_Unity
 
                 ProjectLabel.SetText(referencedProject.ProjectName);
                 ProjectDesc.SetText(referencedProject.ProjectDescription);
-                ProjectPreview.sprite = referencedProject.PreviewSprite;
+                ProjectPreview.sprite = referencedProject.PreviewSprite != null ? referencedProject.PreviewSprite : Assets.GetSprite("unknown"); 
+                SgtLogger.l("AAAA");
 
                 Dictionary<string, int> partCount = new Dictionary<string, int>();
-                foreach(var part in referencedProject.Parts)
+                foreach(PartProject part in referencedProject.Parts)
                 {
-                    if(partCount.ContainsKey(part.name)) 
-                        partCount[part.name]++;
+                    if(partCount.ContainsKey(part.ResourceTag.ToString())) 
+                        partCount[part.ResourceTag.ToString()]++;
                     else
                     {
-                        partCount[part.name] = 1;
+                        partCount[part.ResourceTag.ToString()] = 1;
                     }
                 }
 
                 foreach(var item in partCount)
                 {
+                SgtLogger.l("EE");
                     var entry = Util.KInstantiateUI(PartListEntryPrefab, PartContainer, true);
+                    SgtLogger.l("EEqqq");
                     entry.transform.Find("TitleText").GetComponent<LocText>().SetText(item.Key);
-                    entry.transform.Find("PartCount").GetComponent<LocText>().SetText("x"+item.Value.ToString());
-                    
+                    SgtLogger.l("EEaa");
+                    entry.transform.Find("PartCount").GetComponent<LocText>().SetText("x" + item.Value.ToString());
+                SgtLogger.l("EEaaewe");
+
                 }
                 StartProjectBtn.OnClick += () =>
                 {
-
+                    InstantiateNewConstructionSite(Reference, Location);
+                    DetailsScreen.Instance.ClearSecondarySideScreen();
                 };
             }
+        }
+        public static GameObject InstantiateNewConstructionSite(ConstructionProjectAssembly project, AxialI TargetLocation)
+        {
+            Vector3 position = new Vector3(-1f, -1f, 0.0f);
+            GameObject sat = Util.KInstantiate(Assets.GetPrefab(SpaceConstructionSiteConfig.ID), position);
+            sat.name = project.ProjectName;
+            var site = sat.GetComponent<SpaceConstructionSite>();
+            site.Location = (TargetLocation);
+            site.SetItemName(project.ProjectName);
+
+
+            sat.GetComponent<SpaceConstructable>().AssignProject(project);
+            sat.SetActive(true);
+            return sat;
         }
 
 
         GameObject ProjectsContainer;
         GameObject ProjectPrefab;
 
-        Dictionary<ConstructionProjectAssembly, ProjectListUIEntry> Project = new Dictionary<ConstructionProjectAssembly, ProjectListUIEntry>();
+        Dictionary<ConstructionProjectAssembly, ProjectListUIEntry> Projects = new Dictionary<ConstructionProjectAssembly, ProjectListUIEntry>();
 
         public override void OnPrefabInit()
         {
@@ -82,19 +112,28 @@ namespace Rockets_TinyYetBig.UI_Unity
 
         void Init()
         {
-            UIUtils.ListAllChildrenPath(this.transform);
+            //UIUtils.ListAllChildrenPath(this.transform);
 
 
             transform.Find("Title").gameObject.SetActive(false);
             //UIUtils.ListAllChildrenPath(this.transform);
             ProjectsContainer = transform.Find("ProjectsContainer/ScrollRectContainer").gameObject;
             ProjectPrefab = transform.Find("ProjectsContainer/ScrollRectContainer/PartContainerPrefab").gameObject;
-
-            foreach(var project in ConstructionProjects.AllProjects)
+            ProjectPrefab.SetActive(false);
+            foreach (var project in ConstructionProjects.AllProjects)
             {
                 var entry = Util.KInstantiateUI(ProjectPrefab, ProjectsContainer, true);
                 var logic = entry.AddComponent<ProjectListUIEntry>();
                 logic.Init(project);
+                Projects[project] = logic;
+            }
+        }
+
+        internal void UpdatePositions(AxialI location)
+        {
+            foreach(var project in Projects.Values)
+            {
+                project.UpdateLocation(location);
             }
         }
 
@@ -150,5 +189,6 @@ namespace Rockets_TinyYetBig.UI_Unity
             //}
 
         }
+
     }
 }

@@ -18,7 +18,6 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
         public string RequiredScienceUnlockId = string.Empty;
 
 
-
         public Tag RequiredPrebuilt=null;
         public List<PartProject> Parts = new List<PartProject>();
 
