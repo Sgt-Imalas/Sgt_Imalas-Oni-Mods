@@ -12,7 +12,7 @@ using static ClusterTraitGenerationManager.CGSMClusterManager;
 using UnityEngine.UI;
 using STRINGS;
 using static STRINGS.BUILDINGS.PREFABS.DOOR.CONTROL_STATE;
-using static ClusterTraitGenerationManager.STRINGS.UI.CGM.TRAITPOPUP.SCROLLAREA.CONTENT.LISTVIEWENTRYPREFAB;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGMEXPORT_SIDEMENUS.TRAITPOPUP.SCROLLAREA.CONTENT.LISTVIEWENTRYPREFAB;
 
 namespace ClusterTraitGenerationManager
 {
@@ -28,12 +28,15 @@ namespace ClusterTraitGenerationManager
 
             public void Init(string traitID)
             {
+
+                gameObject.transform.Find("AddThisTraitButton").gameObject.SetActive(true);
                 buttonDescription = gameObject.transform.Find("AddThisTraitButton/Text").GetComponent<LocText>();
-                ToggleBlacklistTrait = gameObject.transform.Find("AddThisTraitButton").FindOrAddComponent<FButton>();
+                ToggleBlacklistTrait = gameObject.transform
+                    .Find("AddThisTraitButton")
+                    .FindOrAddComponent<FButton>();
                 backgroundImage = gameObject.transform.Find("Background").GetComponent<Image>();
                 originalColor = backgroundImage.color;
                 referencedTraitId = traitID;
-
                 ToggleBlacklistTrait.OnClick +=
                     () =>
                     {
@@ -154,7 +157,9 @@ namespace ClusterTraitGenerationManager
 
                 var TraitHolder = Util.KInstantiateUI(TraitPrefab, PossibleTraitsContainer, true);
                 //UIUtils.ListAllChildrenWithComponents(TraitHolder.transform);
-                var AddTraitButton = TraitHolder.transform.Find("AddThisTraitButton").gameObject.FindOrAddComponent<FButton>();
+                var AddTraitButton = TraitHolder
+                    //.transform.Find("AddThisTraitButton").gameObject
+                    .FindOrAddComponent<FButton>();
                 Strings.TryGet(kvp.Value.name, out var name);
                 Strings.TryGet(kvp.Value.description, out var description);
                 var combined = "<color=#" + kvp.Value.colorHex + ">" + name.ToString() + "</color>";

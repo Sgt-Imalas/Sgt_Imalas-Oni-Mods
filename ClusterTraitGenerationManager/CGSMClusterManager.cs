@@ -143,10 +143,16 @@ namespace ClusterTraitGenerationManager
 
         public enum StarmapItemCategory
         {
-            Starter,
-            Warp,
-            Outer,
-            POI
+            Starter = 1,
+            Warp = 2,
+            Outer = 3,
+            POI = 4,
+
+            ///These only exist for the UI handlers
+            None = -1,
+            StoryTraits = -2,
+            GameSettings = -3,
+            VanillaStarmap = -4,
         }
 
 
@@ -1832,6 +1838,10 @@ namespace ClusterTraitGenerationManager
 
                 foreach (StarmapItemCategory category in (StarmapItemCategory[])Enum.GetValues(typeof(StarmapItemCategory)))
                 {
+                    if (category < 0)
+                        continue;
+
+
                     var key = RandomKey + category.ToString();
                     var randomItem = new StarmapItem
                         (

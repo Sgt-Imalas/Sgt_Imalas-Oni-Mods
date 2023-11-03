@@ -21,6 +21,10 @@ using Klei.CustomSettings;
 using ProcGen;
 using System.Text.RegularExpressions;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDTRAITS.CONTENT.TRAITCONTAINER.SCROLLAREA.CONTENT.LISTVIEWENTRYPREFAB;
+using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS;
+using static ClusterTraitGenerationManager.CGM_MainScreen_UnityScreen;
+using static CustomGameSettings;
+using Database;
 
 namespace ClusterTraitGenerationManager
 {
@@ -32,11 +36,34 @@ namespace ClusterTraitGenerationManager
         private Dictionary<StarmapItemCategory, CategoryItem> categoryToggles = new Dictionary<StarmapItemCategory, CategoryItem>();
         private Dictionary<StarmapItem, GalleryItem> planetoidGridButtons = new Dictionary<StarmapItem, GalleryItem>();
 
+        ///Gallery
         GameObject PlanetoidEntryPrefab;
-        private GameObject galleryGridContent;
+        private GameObject galleryGridContainer;
 
+        GameObject StoryTraitEntryPrefab;
+        private GameObject StoryTraitGridContainer;
+
+        GameObject CustomGameSettingsContainer;
+
+        GameObject VanillaStarmapItemContainer;
+        private GameObject VanillaStarmapItemPrefab;
+
+        ///GalleryContents
+        GameObject CustomGameSettingsContent;
+        GameObject VanillaStarmapItemContent;
+        GameObject StoryTraitGridContent;
+        GameObject ClusterItemsContent;
+
+
+        ///Categories
         GameObject PlanetoidCategoryPrefab;
         public GameObject categoryListContent;
+
+
+        GameObject VanillaStarmapButton;
+
+        GameObject StoryTraitButton;
+        GameObject GameSettingsButton;
 
         private LocText galleryHeaderLabel;
         private LocText categoryHeaderLabel;
@@ -56,6 +83,25 @@ namespace ClusterTraitGenerationManager
         }
 
 
+
+
+        ///<GameSettings>
+
+        private FCycle ImmuneSystem;
+        private FCycle CalorieBurn;
+        private FCycle Morale;
+        private FCycle Durability;
+        private FCycle MeteorShowers;
+        private FCycle Radiation;
+        private FCycle Stress;
+        private FToggle2 StressBreaks;
+        private FToggle2 CarePackages;
+        private FToggle2 SandboxMode;
+        private FToggle2 FastWorkersMode;
+        private FToggle2 SaveToCloud;
+        private FToggle2 Teleporters;
+
+        /// </GameSettings>
         StarmapItemCategory SelectedCategory = StarmapItemCategory.Starter;
 
 
@@ -67,6 +113,24 @@ namespace ClusterTraitGenerationManager
         Dictionary<string, GameObject> PlanetBiomes = new Dictionary<string, GameObject>();
 
         Dictionary<string, GameObject> Traits = new Dictionary<string, GameObject>();
+
+
+
+        private GameObject Details_StoryTraitContainer;
+        private Image StoryTraitImage;
+        private LocText StoryTraitDesc;
+        public FToggle2 StoryTraitToggle;
+
+
+        private GameObject Details_VanillaPOIContainer;
+        private GameObject VanillaPOIResourceContainer;
+        private GameObject VanillaPOIResourcePrefab;
+        private LocText VanillaPOI_SizeAmountDesc;
+        private LocText VanillaPOI_ReplenishmentAmountDesc;
+        private LocText VanillaPOI_ArtifactDesc;
+        private FButton VanillaPOI_RemovePOIBtn;
+        List<GameObject> VanillaPOI_Resources = new List<GameObject>();
+
 
 
         private FSlider ClusterSize;
@@ -124,7 +188,7 @@ namespace ClusterTraitGenerationManager
         private static FButton ResetAllButton;
         private FButton ReturnButton;
         private FButton PresetsButton;
-        private FButton SettingsButton;
+        //private FButton SettingsButton;
         private FButton GenerateClusterButton;
 
         public override void OnPrefabInit()
@@ -139,27 +203,48 @@ namespace ClusterTraitGenerationManager
             //UIUtils.ListAllChildrenPath(this.transform);
 #endif
 
-            //Categories
+            ///Categories
             PlanetoidCategoryPrefab = transform.Find("Categories/Content/Item").gameObject;
             categoryListContent = transform.Find("Categories/Content").gameObject;
             categoryHeaderLabel = transform.Find("Categories/Header/Label").GetComponent<LocText>();
 
-            //Gallery
-            galleryGridContent = transform.Find("ItemSelection/Content/StarItemContainer").gameObject;
-            PlanetoidEntryPrefab = transform.Find("ItemSelection/Content/StarItemContainer/Item").gameObject;
+            StoryTraitButton = transform.Find("Categories/FooterContent/StoryTraits").gameObject;
+            GameSettingsButton = transform.Find("Categories/FooterContent/GameSettings").gameObject;
+            
+            ///Gallery
+            StoryTraitGridContainer = transform.Find("ItemSelection/StoryTraitsContent/StoryTraitsContainer").gameObject;
+            StoryTraitEntryPrefab = transform.Find("ItemSelection/StoryTraitsContent/StoryTraitsContainer/Item").gameObject;
+
+            VanillaStarmapItemContainer = transform.Find("ItemSelection/VanillaStarmapContent/VanillaStarmapContainer").gameObject;
+            VanillaStarmapItemPrefab = transform.Find("ItemSelection/VanillaStarmapContent/VanillaStarmapContainer/Item").gameObject;
+
+            CustomGameSettingsContainer = transform.Find("ItemSelection/CustomGameSettingsContent/CustomGameSettingsContainer").gameObject;
+
+            galleryGridContainer = transform.Find("ItemSelection/StarItemContent/StarItemContainer").gameObject;
+            PlanetoidEntryPrefab = transform.Find("ItemSelection/StarItemContent/StarItemContainer/Item").gameObject;
             galleryHeaderLabel = transform.Find("ItemSelection/Header/Label").GetComponent<LocText>();
+            ///GalleryContainers
+
+            CustomGameSettingsContent = transform.Find("ItemSelection/CustomGameSettingsContent").gameObject;
+            VanillaStarmapItemContent = transform.Find("ItemSelection/VanillaStarmapContent").gameObject;
+            StoryTraitGridContent = transform.Find("ItemSelection/StoryTraitsContent").gameObject;
+            ClusterItemsContent = transform.Find("ItemSelection/StarItemContent").gameObject;
+
+
 
             ///Details
             selectionHeaderLabel = transform.Find("Details/Header/Label").GetComponent<LocText>();
 
-            //galleryGridLayouter = galleryGridContent.AddOrGet<GridLayoutSizeAdjustment>();
+            //galleryGridLayouter = galleryGridContainer.AddOrGet<GridLayoutSizeAdjustment>();
             //galleryGridLayouter.SetValues(100, 140);
             //galleryGridLayouter = new GridLayouter
             //{
             //    minCellSize = 80f,
             //    maxCellSize = 160f,
-            //    targetGridLayouts = new List<GridLayoutGroup>() { galleryGridContent.GetComponent<GridLayoutGroup>() }
+            //    targetGridLayouts = new List<GridLayoutGroup>() { galleryGridContainer.GetComponent<GridLayoutGroup>() }
             //};
+            Init();
+
 
             OnResize();
         }
@@ -190,7 +275,7 @@ namespace ClusterTraitGenerationManager
             {
                 overrideToWholeNumbers = !overrideToWholeNumbers;
                 e.Consumed = true;
-                UpdateForSelected();
+                RefreshDetails();
             }
 
             if (e.TryConsume(Action.Escape) || e.TryConsume(Action.MouseRight))
@@ -218,8 +303,7 @@ namespace ClusterTraitGenerationManager
 
             if (!init)
             {
-                this.PopulateGalleryAndCategories();
-                this.InitializeItemSettings();
+                Init();
                 init = true;
             }
             IsCurrentlyActive = show;
@@ -275,11 +359,180 @@ namespace ClusterTraitGenerationManager
                 categoryToggle.Value.Refresh(SelectedCategory, PlanetSprite);
             }
         }
-        private void RefreshDetails()
+
+        #region gamesettings
+        private void AddMissingCustomGameSetting(SettingConfig type)
         {
-            if (SelectedPlanet == null)
-                return;
-            UpdateForSelected();
+            SgtLogger.warning(type.GetType().ToString() + " value not found, defaulting");
+            CustomGameSettings.Instance.QualitySettings[type.id] = type;
+        }
+        private void LoadGameSettings()
+        {
+            var instance = CustomGameSettings.Instance;
+            bool isNoSweat = instance.customGameMode == CustomGameMode.Nosweat;
+
+            ///ImmuneSystem
+            if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.ImmuneSystem.id))
+            {
+                ImmuneSystem.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.ImmuneSystem).id;
+            }
+            else
+            {
+                AddMissingCustomGameSetting(CustomGameSettingConfigs.ImmuneSystem);
+                ImmuneSystem.Value = isNoSweat ? CustomGameSettingConfigs.ImmuneSystem.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.ImmuneSystem.GetDefaultLevelId();
+            }
+
+            ///CalorieBurn
+            if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.CalorieBurn.id))
+            {
+                CalorieBurn.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.CalorieBurn).id;
+            }
+            else
+            {
+                AddMissingCustomGameSetting(CustomGameSettingConfigs.CalorieBurn);
+                CalorieBurn.Value = isNoSweat ? CustomGameSettingConfigs.CalorieBurn.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.CalorieBurn.GetDefaultLevelId();
+            }
+
+            ///Morale
+            if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.Morale.id))
+            {
+                Morale.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Morale).id;
+            }
+            else
+            {
+                AddMissingCustomGameSetting(CustomGameSettingConfigs.Morale);
+                Morale.Value = isNoSweat ? CustomGameSettingConfigs.Morale.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.Morale.GetDefaultLevelId();
+            }
+
+            ///Durability (suits)
+            if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.Durability.id))
+            {
+                Durability.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Durability).id;
+            }
+            else
+            {
+                AddMissingCustomGameSetting(CustomGameSettingConfigs.Durability);
+                Durability.Value = isNoSweat ? CustomGameSettingConfigs.Durability.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.Durability.GetDefaultLevelId();
+            }
+
+            ///MeteorShowers
+            if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.MeteorShowers.id))
+            {
+                MeteorShowers.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.MeteorShowers).id;
+            }
+            else
+            {
+                AddMissingCustomGameSetting(CustomGameSettingConfigs.MeteorShowers);
+                MeteorShowers.Value = isNoSweat ? CustomGameSettingConfigs.MeteorShowers.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.MeteorShowers.GetDefaultLevelId();
+            }
+
+            ///Radiation
+            if (DlcManager.IsExpansion1Active())
+            {
+                if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.Radiation.id))
+                {
+                    Radiation.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Radiation).id;
+                }
+                else
+                {
+                    AddMissingCustomGameSetting(CustomGameSettingConfigs.Radiation);
+                    Radiation.Value = isNoSweat ? CustomGameSettingConfigs.Radiation.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.Radiation.GetDefaultLevelId();
+                }
+            }
+
+            ///Stress
+            if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.Stress.id))
+            {
+                Stress.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Stress).id;
+            }
+            else
+            {
+                AddMissingCustomGameSetting(CustomGameSettingConfigs.Stress);
+                Stress.Value = isNoSweat ? CustomGameSettingConfigs.Stress.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.Stress.GetDefaultLevelId();
+            }
+
+            ///StressBreaks
+            if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.StressBreaks.id))
+            {
+                StressBreaks.On = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.StressBreaks).id == (CustomGameSettingConfigs.StressBreaks as ToggleSettingConfig).on_level.id;
+            }
+            else
+            {
+                AddMissingCustomGameSetting(CustomGameSettingConfigs.StressBreaks);
+                StressBreaks.On = isNoSweat
+                    ? CustomGameSettingConfigs.StressBreaks.GetNoSweatDefaultLevelId() == (CustomGameSettingConfigs.StressBreaks as ToggleSettingConfig).on_level.id
+                    : CustomGameSettingConfigs.StressBreaks.GetDefaultLevelId() == (CustomGameSettingConfigs.StressBreaks as ToggleSettingConfig).on_level.id;
+            }
+
+            ///Sandbox
+            if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.SandboxMode.id))
+            {
+                SandboxMode.On = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.SandboxMode).id == (CustomGameSettingConfigs.SandboxMode as ToggleSettingConfig).on_level.id;
+            }
+            else
+            {
+                AddMissingCustomGameSetting(CustomGameSettingConfigs.SandboxMode);
+                SandboxMode.On = isNoSweat
+                    ? CustomGameSettingConfigs.SandboxMode.GetNoSweatDefaultLevelId() == (CustomGameSettingConfigs.SandboxMode as ToggleSettingConfig).on_level.id
+                    : CustomGameSettingConfigs.SandboxMode.GetDefaultLevelId() == (CustomGameSettingConfigs.SandboxMode as ToggleSettingConfig).on_level.id;
+            }
+
+            ///CarePackages
+            if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.CarePackages.id))
+            {
+                CarePackages.On = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.CarePackages).id == (CustomGameSettingConfigs.CarePackages as ToggleSettingConfig).on_level.id;
+            }
+            else
+            {
+                AddMissingCustomGameSetting(CustomGameSettingConfigs.CarePackages);
+                CarePackages.On = isNoSweat
+                    ? CustomGameSettingConfigs.CarePackages.GetNoSweatDefaultLevelId() == (CustomGameSettingConfigs.CarePackages as ToggleSettingConfig).on_level.id
+                    : CustomGameSettingConfigs.CarePackages.GetDefaultLevelId() == (CustomGameSettingConfigs.CarePackages as ToggleSettingConfig).on_level.id;
+            }
+
+            ///Fast Workers
+            if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.FastWorkersMode.id))
+            {
+                FastWorkersMode.On = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.FastWorkersMode).id == (CustomGameSettingConfigs.FastWorkersMode as ToggleSettingConfig).on_level.id;
+            }
+            else
+            {
+                AddMissingCustomGameSetting(CustomGameSettingConfigs.FastWorkersMode);
+                FastWorkersMode.On = isNoSweat
+                    ? CustomGameSettingConfigs.FastWorkersMode.GetNoSweatDefaultLevelId() == (CustomGameSettingConfigs.FastWorkersMode as ToggleSettingConfig).on_level.id
+                    : CustomGameSettingConfigs.FastWorkersMode.GetDefaultLevelId() == (CustomGameSettingConfigs.FastWorkersMode as ToggleSettingConfig).on_level.id;
+            }
+
+            ///Save to Cloud
+            if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.SaveToCloud.id))
+            {
+                SaveToCloud.On = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.SaveToCloud).id == (CustomGameSettingConfigs.SaveToCloud as ToggleSettingConfig).on_level.id;
+            }
+            else
+            {
+                AddMissingCustomGameSetting(CustomGameSettingConfigs.SaveToCloud);
+                SaveToCloud.On = isNoSweat
+                    ? CustomGameSettingConfigs.SaveToCloud.GetNoSweatDefaultLevelId() == (CustomGameSettingConfigs.SaveToCloud as ToggleSettingConfig).on_level.id
+                    : CustomGameSettingConfigs.SaveToCloud.GetDefaultLevelId() == (CustomGameSettingConfigs.SaveToCloud as ToggleSettingConfig).on_level.id;
+            }
+
+            ///Teleporters
+            ///
+            if (DlcManager.IsExpansion1Active())
+            {
+                if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.Teleporters.id))
+                {
+                    Teleporters.On = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Teleporters).id == (CustomGameSettingConfigs.Teleporters as ToggleSettingConfig).on_level.id;
+                }
+                else
+                {
+                    AddMissingCustomGameSetting(CustomGameSettingConfigs.Teleporters);
+                    Teleporters.On = isNoSweat
+                        ? CustomGameSettingConfigs.Teleporters.GetNoSweatDefaultLevelId() == (CustomGameSettingConfigs.Teleporters as ToggleSettingConfig).on_level.id
+                        : CustomGameSettingConfigs.Teleporters.GetDefaultLevelId() == (CustomGameSettingConfigs.Teleporters as ToggleSettingConfig).on_level.id;
+                }
+            }
+
         }
 
         private void GetNewRandomSeed() => this.SetSeed(UnityEngine.Random.Range(0, int.MaxValue).ToString());
@@ -300,73 +553,89 @@ namespace ClusterTraitGenerationManager
             RefreshView();
         }
 
+        #endregion
 
+        bool _lastCategoryWasStarmapItem = false;
 
-        public void UpdateForSelected()
+        public void RefreshDetails()
         {
-
             SeedInput_Main.Text = CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id;
-
-            this.galleryHeaderLabel.SetText(ModAssets.Strings.ApplyCategoryTypeToString(STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.HEADER.LABEL, SelectedCategory));
-            bool IsPartOfCluster = CustomCluster.HasStarmapItem(SelectedPlanet.id, out var current);
-
-            bool isRandom = current.id.Contains(CGSMClusterManager.RandomKey);
-            bool canGenerateMultiple = current.MaxNumberOfInstances > 1;
-
-            selectionHeaderLabel.SetText(ModAssets.Strings.ApplyCategoryTypeToString(string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL, SelectedPlanet.DisplayName), SelectedCategory));
-            StarmapItemEnabledText.SetText(ModAssets.Strings.ApplyCategoryTypeToString(STARMAPITEMENABLED.LABEL, SelectedCategory));
-
-            StarmapItemEnabled.SetOn(IsPartOfCluster);
-
-            NumberToGenerate.transform.parent.gameObject.SetActive(canGenerateMultiple);///Amount, only on poi / random planets
-            if (canGenerateMultiple)
-            {
-                NumberToGenerate.SetWholeNumbers(!current.IsPOI || overrideToWholeNumbers);
-                NumberToGenerate.SetMinMaxCurrent(0, current.MaxNumberOfInstances, current.InstancesToSpawn);
-                NumberToGenerate.SetInteractable(IsPartOfCluster);
-                current.SetSpawnNumber(NumberToGenerate.Value);
-            }
-
-            if (RandomOuterPlanetsStarmapItem != null)
-            {
-                NumberOfRandomClassicsGO.SetActive(current.IsRandom && !current.IsPOI);
-                NumberOfRandomClassics.SetMinMaxCurrent(0, CGSMClusterManager.RandomOuterPlanetsStarmapItem.MaxNumberOfInstances, CGSMClusterManager.MaxClassicOuterPlanets);
-                NumberOfRandomClassics.SetInteractable(IsPartOfCluster);
-            }
-
-            MinMaxDistanceSlider.SetLimits(0, CustomCluster.Rings);
-            MinMaxDistanceSlider.SetValues(current.minRing, current.maxRing, 0, CustomCluster.Rings, true);
-            MinMaxDistanceSlider.SetInteractable(IsPartOfCluster);
-            SpawnDistanceText.SetText(string.Format(MINMAXDISTANCE.DESCRIPTOR.FORMAT, (int)current.minRing, (int)current.maxRing));
-
-            BufferDistance.SetMinMaxCurrent(0, CustomCluster.Rings, SelectedPlanet.buffer);
-            BufferDistance.transform.parent.gameObject.SetActive(!current.IsPOI);
-            BufferDistance.SetInteractable(IsPartOfCluster);
-
-            ClusterSize.SetMinMaxCurrent(ringMin, ringMax, CustomCluster.Rings);
-
-            RandomTraitDeleteButton.SetInteractable(!isRandom);
-            AddTraitButton.SetInteractable(IsPartOfCluster && !isRandom);
-            AddSeasonButton.SetInteractable(IsPartOfCluster && !isRandom);
-
-            AsteroidSize.SetActive(!current.IsPOI && !isRandom);
-            MeteorSelector.SetActive(!current.IsPOI && !isRandom);
-            AsteroidTraits.SetActive(!current.IsPOI);
-            PlanetBiomesGO.SetActive(!current.IsPOI && !isRandom);
-            ActiveBiomesContainer.SetActive(!current.IsPOI && !isRandom);
-
-            UpdateSizeLabels(current);
-            PlanetSizeCycle.Value = current.CurrentSizePreset.ToString();
-            PlanetRazioCycle.Value = current.CurrentRatioPreset.ToString();
-
-
             SeedRerollsTraitsToggle_Main.On = CGSMClusterManager.RerollTraitsWithSeedChange;
 
+            bool CategoryIsStarmapitem = SelectedCategory > 0;
+            if(CategoryIsStarmapitem != _lastCategoryWasStarmapItem)
+            {
+                _lastCategoryWasStarmapItem = CategoryIsStarmapitem;
+                StarmapItemEnabled.gameObject.SetActive(CategoryIsStarmapitem);
+                NumberToGenerate.transform.parent.gameObject.SetActive(CategoryIsStarmapitem);
+                MinMaxDistanceSlider.transform.parent.gameObject.SetActive(CategoryIsStarmapitem);
+                BufferDistance.transform.parent.gameObject.SetActive(CategoryIsStarmapitem);
+                AsteroidSize.SetActive(CategoryIsStarmapitem);
+                MeteorSelector.SetActive(CategoryIsStarmapitem);
+                AsteroidTraits.SetActive(CategoryIsStarmapitem);
+                PlanetBiomesGO.SetActive(CategoryIsStarmapitem);
+                ActiveBiomesContainer.SetActive(CategoryIsStarmapitem);
+            }
+            Details_StoryTraitContainer.SetActive(SelectedCategory == StarmapItemCategory.StoryTraits);
+            Details_VanillaPOIContainer.SetActive(SelectedCategory == StarmapItemCategory.VanillaStarmap);
 
-            if (current.IsPOI) return;
-            RefreshMeteorLists();
-            RefreshTraitList();
-            RefreshPlanetBiomes();
+            if (CategoryIsStarmapitem && SelectedPlanet != null)
+            {
+                bool IsPartOfCluster = CustomCluster.HasStarmapItem(SelectedPlanet.id, out var current);
+                bool isRandom = current.id.Contains(CGSMClusterManager.RandomKey);
+                bool canGenerateMultiple = current.MaxNumberOfInstances > 1;
+
+                selectionHeaderLabel.SetText(ModAssets.Strings.ApplyCategoryTypeToString(string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL, SelectedPlanet.DisplayName), SelectedCategory));
+                
+                StarmapItemEnabledText.SetText(ModAssets.Strings.ApplyCategoryTypeToString(STARMAPITEMENABLED.LABEL, SelectedCategory));
+                StarmapItemEnabled.SetOn(IsPartOfCluster);
+
+                NumberToGenerate.transform.parent.gameObject.SetActive(canGenerateMultiple);///Amount, only on poi / random planets
+                if (canGenerateMultiple)
+                {
+                    NumberToGenerate.SetWholeNumbers(!current.IsPOI || overrideToWholeNumbers);
+                    NumberToGenerate.SetMinMaxCurrent(0, current.MaxNumberOfInstances, current.InstancesToSpawn);
+                    NumberToGenerate.SetInteractable(IsPartOfCluster);
+                    current.SetSpawnNumber(NumberToGenerate.Value);
+                }
+
+                if (RandomOuterPlanetsStarmapItem != null)
+                {
+                    NumberOfRandomClassicsGO.SetActive(current.IsRandom && !current.IsPOI);
+                    NumberOfRandomClassics.SetMinMaxCurrent(0, CGSMClusterManager.RandomOuterPlanetsStarmapItem.MaxNumberOfInstances, CGSMClusterManager.MaxClassicOuterPlanets);
+                    NumberOfRandomClassics.SetInteractable(IsPartOfCluster);
+                }
+
+                MinMaxDistanceSlider.SetLimits(0, CustomCluster.Rings);
+                MinMaxDistanceSlider.SetValues(current.minRing, current.maxRing, 0, CustomCluster.Rings, true);
+                MinMaxDistanceSlider.SetInteractable(IsPartOfCluster);
+                SpawnDistanceText.SetText(string.Format(MINMAXDISTANCE.DESCRIPTOR.FORMAT, (int)current.minRing, (int)current.maxRing));
+
+                BufferDistance.SetMinMaxCurrent(0, CustomCluster.Rings, SelectedPlanet.buffer);
+                BufferDistance.transform.parent.gameObject.SetActive(!current.IsPOI);
+                BufferDistance.SetInteractable(IsPartOfCluster);
+
+                ClusterSize.SetMinMaxCurrent(ringMin, ringMax, CustomCluster.Rings);
+
+                RandomTraitDeleteButton.SetInteractable(!isRandom);
+                AddTraitButton.SetInteractable(IsPartOfCluster && !isRandom);
+                AddSeasonButton.SetInteractable(IsPartOfCluster && !isRandom);
+
+                AsteroidSize.SetActive(!current.IsPOI && !isRandom);
+                MeteorSelector.SetActive(!current.IsPOI && !isRandom);
+                AsteroidTraits.SetActive(!current.IsPOI);
+                PlanetBiomesGO.SetActive(!current.IsPOI && !isRandom);
+                ActiveBiomesContainer.SetActive(!current.IsPOI && !isRandom);
+
+                UpdateSizeLabels(current);
+                PlanetSizeCycle.Value = current.CurrentSizePreset.ToString();
+                PlanetRazioCycle.Value = current.CurrentRatioPreset.ToString();
+
+                if (current.IsPOI) return;
+                RefreshMeteorLists();
+                RefreshTraitList();
+                RefreshPlanetBiomes();
+            }
         }
 
         public void SelectItem(StarmapItem planet)
@@ -382,22 +651,44 @@ namespace ClusterTraitGenerationManager
 
         private void RefreshGallery()
         {
-            //SgtLogger.warning(planetoidGridButtons.Count.ToString(),"CUND");
-            var activePlanets = CGSMClusterManager.GetActivePlanetsStarmapitems();
 
-            foreach (var galleryGridButton in planetoidGridButtons)
+            CustomGameSettingsContent.SetActive(SelectedCategory == StarmapItemCategory.GameSettings);
+            VanillaStarmapItemContent.SetActive(SelectedCategory == StarmapItemCategory.VanillaStarmap);
+            StoryTraitGridContent.SetActive(SelectedCategory == StarmapItemCategory.StoryTraits);
+            ClusterItemsContent.SetActive(SelectedCategory > 0);
+
+            if (SelectedCategory > 0)
             {
-                var logicComponent = galleryGridButton.Value;
+                var activePlanets = CGSMClusterManager.GetActivePlanetsStarmapitems();
 
-                bool PlanetIsInList = activePlanets.Contains(galleryGridButton.Key);
-                bool selected = SelectedPlanet == null ? false : SelectedPlanet == galleryGridButton.Key;
-
-
-                logicComponent.Refresh(galleryGridButton.Key, PlanetIsInList, selected);
-                galleryGridButton.Value.gameObject.SetActive(galleryGridButton.Key.category == this.SelectedCategory);
+                foreach (var galleryGridButton in planetoidGridButtons)
+                {
+                    var logicComponent = galleryGridButton.Value;
+                    logicComponent.Refresh(galleryGridButton.Key, false, false);
+                    galleryGridButton.Value.gameObject.SetActive(galleryGridButton.Key.category == this.SelectedCategory);
+                }
+                foreach (var activePlanet in activePlanets)
+                {
+                    bool selected = SelectedPlanet == null ? false : SelectedPlanet == activePlanet;
+                    planetoidGridButtons[activePlanet].Refresh(activePlanet, true, selected);
+                    planetoidGridButtons[activePlanet].gameObject.SetActive(activePlanet.category == this.SelectedCategory);
+                }
+                this.galleryHeaderLabel.SetText(ModAssets.Strings.ApplyCategoryTypeToString(STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.HEADER.LABEL, SelectedCategory));
+            }
+            else if (SelectedCategory == StarmapItemCategory.GameSettings)
+            {
+                this.galleryHeaderLabel.SetText(global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.CUSTOMIZE);
+                LoadGameSettings();
+            }
+            else if (SelectedCategory == StarmapItemCategory.StoryTraits)
+            {
+                this.galleryHeaderLabel.SetText(global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.STORY_TRAITS_HEADER);
+            }
+            else if (SelectedCategory == StarmapItemCategory.VanillaStarmap)
+            {
+                this.galleryHeaderLabel.SetText(global::STRINGS.UI.CLUSTERMAP.TITLE);
             }
 
-            this.galleryHeaderLabel.SetText(ModAssets.Strings.ApplyCategoryTypeToString(STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.HEADER.LABEL, SelectedCategory));
         }
 
 
@@ -430,6 +721,19 @@ namespace ClusterTraitGenerationManager
         }
 
         #region initialisation
+
+        public void Init()
+        {
+            if (init) return;
+
+            this.InitializeVanillaStarmapInfo();
+            this.InitializeVanillaStarmap();
+            this.InitializeStoryTraits();
+            this.InitializeGameSettings();
+            this.PopulateGalleryAndCategories();
+            this.InitializeItemSettings();
+            init = true;
+        }
 
         public void InitializeItemSettings()
         {
@@ -674,17 +978,17 @@ namespace ClusterTraitGenerationManager
                 CGSMClusterManager.OpenPresetWindow(() => RefreshView());
             };
 
-            SettingsButton = buttons.Find("SettingsButton").FindOrAddComponent<FButton>();
-            SettingsButton.OnClick += () =>
-            {
-                CustomSettingsController.ShowWindow(() => RefreshView());
-            };
+            //SettingsButton = buttons.Find("SettingsButton").FindOrAddComponent<FButton>();
+            //SettingsButton.OnClick += () =>
+            //{
+            //    CustomSettingsController.ShowWindow(() => RefreshView());
+            //};
 
             UIUtils.AddSimpleTooltipToObject(ResetAllButton.transform, RESETCLUSTERBUTTON.TOOLTIP, true, onBottom: true);
             UIUtils.AddSimpleTooltipToObject(ResetButton.transform, RESETSELECTIONBUTTON.TOOLTIP, true, onBottom: true);
             UIUtils.AddSimpleTooltipToObject(GenerateClusterButton.transform, GENERATECLUSTERBUTTON.TOOLTIP, true, onBottom: true);
             UIUtils.AddSimpleTooltipToObject(ReturnButton.transform, RETURNBUTTON.TOOLTIP, true, onBottom: true);
-            UIUtils.AddSimpleTooltipToObject(SettingsButton.transform, SETTINGSBUTTON.TOOLTIP, true, onBottom: true);
+            //UIUtils.AddSimpleTooltipToObject(SettingsButton.transform, SETTINGSBUTTON.TOOLTIP, true, onBottom: true);
             UIUtils.AddSimpleTooltipToObject(PresetsButton.transform, PRESETBUTTON.TOOLTIP, true, onBottom: true);
 
             PlanetBiomesGO = transform.Find("Details/Content/ScrollRectContainer/AsteroidBiomes").gameObject;
@@ -718,6 +1022,367 @@ namespace ClusterTraitGenerationManager
             InitializeMeteorShowerContainers();
             //UIUtils.AddSimpleTooltipToObject(SeedLabel.transform, global::STRINGS.UI.DETAILTABS.SIMPLEINFO.GROUPNAME_BIOMES, alignCenter: true, onBottom: true);
             InitializePlanetBiomesContainers();
+        }
+
+        public void InitializeVanillaStarmapInfo()
+        {
+
+            Details_VanillaPOIContainer = transform.Find("Details/Content/ScrollRectContainer/VanillaPOI_Resources").gameObject;// .FindOrAddComponent<FToggle2>();
+            Details_VanillaPOIContainer.SetActive(true);
+            VanillaPOIResourceContainer = transform.Find("Details/Content/ScrollRectContainer/VanillaPOI_Resources/Content/ResourceContainer/ScrollArea/Content").gameObject;
+            VanillaPOIResourcePrefab = transform.Find("Details/Content/ScrollRectContainer/VanillaPOI_Resources/Content/ResourceContainer/ScrollArea/Content/ListViewEntryPrefab").gameObject;
+            VanillaPOI_SizeAmountDesc = transform.Find("Details/Content/ScrollRectContainer/VanillaPOI_Resources/Size/Amount").FindOrAddComponent<LocText>();
+            VanillaPOI_ReplenishmentAmountDesc = transform.Find("Details/Content/ScrollRectContainer/VanillaPOI_Resources/Replenisment/Amount").FindOrAddComponent<LocText>();
+            VanillaPOI_ArtifactDesc = transform.Find("Details/Content/ScrollRectContainer/VanillaPOI_Resources/VanillaPOI_Artifact/Amount").FindOrAddComponent<LocText>();
+            VanillaPOI_RemovePOIBtn = transform.Find("Details/Content/ScrollRectContainer/VanillaPOI_Resources/VanillaPOI_Remove/DeletePOI").FindOrAddComponent<FButton>();
+            Details_VanillaPOIContainer.SetActive(false);
+        }
+        public void InitializeStoryTraits()
+        {
+
+            StoryTraitGridContainer = transform.Find("ItemSelection/StoryTraitsContent/StoryTraitsContainer").gameObject;
+            StoryTraitEntryPrefab = transform.Find("ItemSelection/StoryTraitsContent/StoryTraitsContainer/Item").gameObject;
+
+            Details_StoryTraitContainer = transform.Find("Details/Content/ScrollRectContainer/StoryTrait").gameObject;// .FindOrAddComponent<FToggle2>();
+            Details_StoryTraitContainer.SetActive(true);
+            StoryTraitImage = transform.Find("Details/Content/ScrollRectContainer/StoryTrait/HeaderImage").FindOrAddComponent<Image>();
+            StoryTraitDesc = transform.Find("Details/Content/ScrollRectContainer/StoryTrait/Description").FindOrAddComponent<LocText>();
+            StoryTraitToggle = transform.Find("Details/Content/ScrollRectContainer/StoryTrait/StoryTraitEnabled").FindOrAddComponent<FToggle2>();
+            Details_StoryTraitContainer.SetActive(false);
+        }
+        public void InitializeVanillaStarmap()
+        {
+            VanillaStarmapItemContainer = transform.Find("ItemSelection/VanillaStarmapContent/VanillaStarmapContainer").gameObject;
+            VanillaStarmapItemPrefab = transform.Find("ItemSelection/VanillaStarmapContent/VanillaStarmapContainer/VanillaStarmapEntryPrefab").gameObject;
+        }
+
+
+        private void SetCustomGameSettings(SettingConfig ConfigToSet, object valueId)
+        {
+            string valueToSet = valueId.ToString();
+            if (valueId is bool)
+            {
+                var toggle = ConfigToSet as ToggleSettingConfig;
+                valueToSet = ((bool)valueId) ? toggle.on_level.id : toggle.off_level.id;
+            }
+            SgtLogger.l("changing " + ConfigToSet.id.ToString() + " from " + CustomGameSettings.Instance.GetCurrentQualitySetting(ConfigToSet).id + " to " + valueToSet.ToString());
+            CustomGameSettings.Instance.SetQualitySetting(ConfigToSet, valueToSet);
+        }
+
+        public void InitializeGameSettings()
+        {
+            var transform = CustomGameSettingsContainer.transform;
+            transform.gameObject.SetActive(true);
+            GameObject SwitchPrefab = CustomGameSettingsContainer.transform.Find("SwitchPrefab").gameObject;
+            GameObject TogglePrefab = CustomGameSettingsContainer.transform.Find("TogglePrefab").gameObject;
+
+            TogglePrefab.SetActive(false);
+            SwitchPrefab.SetActive(false);
+            // UIUtils.AddSimpleTooltipToObject(transform.Find("Content/Warning"), STRINGS.UI.CUSTOMGAMESETTINGSCHANGER.CHANGEWARNINGTOOLTIP);
+
+            StressBreaks = Util.KInstantiateUI(TogglePrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FToggle2>();
+
+            var StressBreaksLabel = StressBreaks.transform.Find("Label").gameObject.AddOrGet<LocText>();
+            StressBreaksLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.STRESS_BREAKS.NAME;
+            UIUtils.AddSimpleTooltipToObject(StressBreaksLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.STRESS_BREAKS.TOOLTIP, alignCenter: true, onBottom: true);
+
+            StressBreaks.SetCheckmark("Background/Checkmark");
+            StressBreaks.OnClick += () =>
+            {
+                SetCustomGameSettings(CustomGameSettingConfigs.StressBreaks, StressBreaks.On);
+            };
+
+            CarePackages = Util.KInstantiateUI(TogglePrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FToggle2>();
+
+            var CarePackagesLabel = CarePackages.transform.Find("Label").gameObject.AddOrGet<LocText>();
+            CarePackagesLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.CAREPACKAGES.NAME;
+            UIUtils.AddSimpleTooltipToObject(CarePackagesLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.CAREPACKAGES.TOOLTIP, alignCenter: true, onBottom: true);
+
+            CarePackages.SetCheckmark("Background/Checkmark");
+            CarePackages.OnClick += () =>
+            {
+                SetCustomGameSettings(CustomGameSettingConfigs.CarePackages, CarePackages.On);
+            };
+
+
+            SandboxMode = Util.KInstantiateUI(TogglePrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FToggle2>();
+
+            var SandboxModeLabel = SandboxMode.transform.Find("Label").gameObject.AddOrGet<LocText>();
+            SandboxModeLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.SANDBOXMODE.NAME;
+            UIUtils.AddSimpleTooltipToObject(SandboxModeLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.SANDBOXMODE.TOOLTIP, alignCenter: true, onBottom: true);
+
+            SandboxMode.SetCheckmark("Background/Checkmark");
+            SandboxMode.OnClick += () =>
+            {
+                SetCustomGameSettings(CustomGameSettingConfigs.SandboxMode, SandboxMode.On);
+            };
+
+
+
+            FastWorkersMode = Util.KInstantiateUI(TogglePrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FToggle2>();
+
+            var FastWorkersModeLabel = FastWorkersMode.transform.Find("Label").gameObject.AddOrGet<LocText>();
+            FastWorkersModeLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.FASTWORKERSMODE.NAME;
+            UIUtils.AddSimpleTooltipToObject(FastWorkersModeLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.FASTWORKERSMODE.TOOLTIP, alignCenter: true, onBottom: true);
+
+            FastWorkersMode.SetCheckmark("Background/Checkmark");
+            FastWorkersMode.OnClick += () =>
+            {
+                SetCustomGameSettings(CustomGameSettingConfigs.FastWorkersMode, FastWorkersMode.On);
+            };
+
+            SaveToCloud = Util.KInstantiateUI(TogglePrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FToggle2>();
+
+            var SaveToCloudLabel = SaveToCloud.transform.Find("Label").gameObject.AddOrGet<LocText>();
+            SaveToCloudLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.SAVETOCLOUD.NAME;
+            UIUtils.AddSimpleTooltipToObject(SaveToCloudLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.SAVETOCLOUD.TOOLTIP, alignCenter: true, onBottom: true);
+
+            SaveToCloud.SetCheckmark("Background/Checkmark");
+            SaveToCloud.OnClick += () =>
+            {
+                SetCustomGameSettings(CustomGameSettingConfigs.SaveToCloud, SaveToCloud.On);
+            };
+
+
+            Teleporters = Util.KInstantiateUI(TogglePrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FToggle2>();
+            if (DlcManager.IsExpansion1Active())
+            {
+                var TeleportersLabel = Teleporters.transform.Find("Label").gameObject.AddOrGet<LocText>();
+                TeleportersLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.TELEPORTERS.NAME;
+                UIUtils.AddSimpleTooltipToObject(TeleportersLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.TELEPORTERS.TOOLTIP, alignCenter: true, onBottom: true);
+
+                Teleporters.SetCheckmark("Background/Checkmark");
+                Teleporters.OnClick += () =>
+                {
+                    SetCustomGameSettings(CustomGameSettingConfigs.Teleporters, Teleporters.On);
+                };
+            }
+            else
+            {
+                Teleporters.gameObject.SetActive(false);
+            }
+
+            ///Immune System Strength
+            ImmuneSystem = Util.KInstantiateUI(SwitchPrefab, CustomGameSettingsContainer, true).transform.gameObject.AddOrGet<FCycle>();
+            var ImmuneLabel = ImmuneSystem.transform.Find("Label").gameObject.AddOrGet<LocText>();
+            ImmuneLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.IMMUNESYSTEM.NAME;
+            UIUtils.AddSimpleTooltipToObject(ImmuneLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.IMMUNESYSTEM.TOOLTIP, alignCenter: true, onBottom: true);
+            ImmuneSystem.Initialize(
+                ImmuneSystem.transform.Find("Left").gameObject.AddOrGet<FButton>(),
+                ImmuneSystem.transform.Find("Right").gameObject.AddOrGet<FButton>(),
+                ImmuneSystem.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
+                ImmuneSystem.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
+
+            ImmuneSystem.Options = new List<FCycle.Option>();
+            foreach (var config in CustomGameSettingConfigs.ImmuneSystem.GetLevels())
+            {
+                ImmuneSystem.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
+            }
+            ImmuneSystem.OnChange += () =>
+            {
+                SetCustomGameSettings(CustomGameSettingConfigs.ImmuneSystem, ImmuneSystem.Value);
+            };
+
+            ///Calorie Usage
+            CalorieBurn = Util.KInstantiateUI(SwitchPrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FCycle>();
+
+            var CalorieBurnLabel = CalorieBurn.transform.Find("Label").gameObject.AddOrGet<LocText>();
+            CalorieBurnLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.CALORIE_BURN.NAME;
+            UIUtils.AddSimpleTooltipToObject(CalorieBurnLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.CALORIE_BURN.TOOLTIP, alignCenter: true, onBottom: true);
+
+            CalorieBurn.Initialize(
+                CalorieBurn.transform.Find("Left").gameObject.AddOrGet<FButton>(),
+                CalorieBurn.transform.Find("Right").gameObject.AddOrGet<FButton>(),
+                CalorieBurn.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
+                CalorieBurn.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
+
+            CalorieBurn.Options = new List<FCycle.Option>();
+            foreach (var config in CustomGameSettingConfigs.CalorieBurn.GetLevels())
+            {
+                CalorieBurn.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
+            }
+            CalorieBurn.OnChange += () =>
+            {
+                SetCustomGameSettings(CustomGameSettingConfigs.CalorieBurn, CalorieBurn.Value);
+            };
+
+            ///Morale Requirements
+            Morale = Util.KInstantiateUI(SwitchPrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FCycle>();
+
+            var MoraleLabel = Morale.transform.Find("Label").gameObject.AddOrGet<LocText>();
+            MoraleLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.MORALE.NAME;
+            UIUtils.AddSimpleTooltipToObject(MoraleLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.MORALE.TOOLTIP, alignCenter: true, onBottom: true);
+
+            Morale.Initialize(
+                Morale.transform.Find("Left").gameObject.AddOrGet<FButton>(),
+                Morale.transform.Find("Right").gameObject.AddOrGet<FButton>(),
+                Morale.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
+                Morale.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
+
+            Morale.Options = new List<FCycle.Option>();
+            foreach (var config in CustomGameSettingConfigs.Morale.GetLevels())
+            {
+                Morale.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
+            }
+            Morale.OnChange += () =>
+            {
+                SetCustomGameSettings(CustomGameSettingConfigs.Morale, Morale.Value);
+            };
+
+            ///Suit Durability Settings
+            Durability = Util.KInstantiateUI(SwitchPrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FCycle>();
+
+            var DurabilityLabel = Durability.transform.Find("Label").gameObject.AddOrGet<LocText>();
+            DurabilityLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.DURABILITY.NAME;
+            UIUtils.AddSimpleTooltipToObject(DurabilityLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.DURABILITY.TOOLTIP, alignCenter: true, onBottom: true);
+
+            Durability.Initialize(
+                Durability.transform.Find("Left").gameObject.AddOrGet<FButton>(),
+                Durability.transform.Find("Right").gameObject.AddOrGet<FButton>(),
+                Durability.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
+                Durability.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
+
+            Durability.Options = new List<FCycle.Option>();
+            foreach (var config in CustomGameSettingConfigs.Durability.GetLevels())
+            {
+                Durability.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
+            }
+            Durability.OnChange += () =>
+            {
+                SetCustomGameSettings(CustomGameSettingConfigs.Durability, Durability.Value);
+            };
+
+            ///Meteors
+            MeteorShowers = Util.KInstantiateUI(SwitchPrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FCycle>();
+
+            var MeteorLabel = MeteorShowers.transform.Find("Label").gameObject.AddOrGet<LocText>();
+            MeteorLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.METEORSHOWERS.NAME;
+            UIUtils.AddSimpleTooltipToObject(MeteorLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.METEORSHOWERS.TOOLTIP, alignCenter: true, onBottom: true);
+            MeteorShowers.Initialize(
+                MeteorShowers.transform.Find("Left").gameObject.AddOrGet<FButton>(),
+                MeteorShowers.transform.Find("Right").gameObject.AddOrGet<FButton>(),
+                MeteorShowers.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
+                MeteorShowers.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
+
+            MeteorShowers.Options = new List<FCycle.Option>();
+            foreach (var config in CustomGameSettingConfigs.MeteorShowers.GetLevels())
+            {
+                MeteorShowers.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
+            }
+            MeteorShowers.OnChange += () =>
+            {
+                SetCustomGameSettings(CustomGameSettingConfigs.MeteorShowers, MeteorShowers.Value);
+            };
+
+            ///Radiation
+            Radiation = Util.KInstantiateUI(SwitchPrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FCycle>();
+            if (DlcManager.IsExpansion1Active())
+            {
+                Radiation.Initialize(
+                    Radiation.transform.Find("Left").gameObject.AddOrGet<FButton>(),
+                    Radiation.transform.Find("Right").gameObject.AddOrGet<FButton>(),
+                    Radiation.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
+                    Radiation.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
+
+
+                var RadiationLabel = Radiation.transform.Find("Label").gameObject.AddOrGet<LocText>();
+                RadiationLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.RADIATION.NAME;
+                UIUtils.AddSimpleTooltipToObject(RadiationLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.RADIATION.TOOLTIP, alignCenter: true, onBottom: true);
+
+                Radiation.Options = new List<FCycle.Option>();
+                foreach (var config in CustomGameSettingConfigs.Radiation.GetLevels())
+                {
+                    Radiation.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
+                }
+                Radiation.OnChange += () =>
+                {
+                    SetCustomGameSettings(CustomGameSettingConfigs.Radiation, Radiation.Value);
+                };
+            }
+            else
+            {
+                Radiation.gameObject.SetActive(false);
+            }
+
+            ///Stress
+            Stress = Util.KInstantiateUI(SwitchPrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FCycle>();
+
+            var STRESSLabel = Stress.transform.Find("Label").gameObject.AddOrGet<LocText>();
+            STRESSLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.STRESS.NAME;
+            UIUtils.AddSimpleTooltipToObject(STRESSLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.STRESS.TOOLTIP, alignCenter: true, onBottom: true);
+
+            Stress.Initialize(
+                Stress.transform.Find("Left").gameObject.AddOrGet<FButton>(),
+                Stress.transform.Find("Right").gameObject.AddOrGet<FButton>(),
+                Stress.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
+                Stress.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
+
+            Stress.Options = new List<FCycle.Option>();
+            foreach (var config in CustomGameSettingConfigs.Stress.GetLevels())
+            {
+                Stress.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
+            }
+            Stress.OnChange += () =>
+            {
+                SetCustomGameSettings(CustomGameSettingConfigs.Stress, Stress.Value);
+            };
+
+            this.ImmuneSystem.transform.SetAsLastSibling();
+            this.CalorieBurn.transform.SetAsLastSibling();
+            this.Morale.transform.SetAsLastSibling();
+            this.Durability.transform.SetAsLastSibling();
+            this.MeteorShowers.transform.SetAsLastSibling();
+            this.Radiation.transform.SetAsLastSibling();
+            this.Stress.transform.SetAsLastSibling();
+            this.StressBreaks.transform.SetAsLastSibling();
+            this.CarePackages.transform.SetAsLastSibling();
+            this.SandboxMode.transform.SetAsLastSibling();
+            this.FastWorkersMode.transform.SetAsLastSibling();
+            this.SaveToCloud.transform.SetAsLastSibling();
+            this.Teleporters.transform.SetAsLastSibling();
+
+        }
+        public void PopulateGalleryAndCategories()
+        {
+            foreach (var galleryGridButton in this.planetoidGridButtons)
+                UnityEngine.Object.Destroy(galleryGridButton.Value.gameObject);
+            planetoidGridButtons.Clear();
+
+            foreach (var item in this.categoryToggles)
+                UnityEngine.Object.Destroy(item.Value.gameObject);
+
+            categoryToggles.Clear();
+
+
+            foreach (var Planet in PlanetoidDict())
+            {
+                this.AddItemToGallery(Planet.Value);
+            }
+            foreach (StarmapItemCategory category in (StarmapItemCategory[])Enum.GetValues(typeof(StarmapItemCategory)))
+            {
+                if (category < 0)
+                    continue;
+
+                AddCategoryItem(category);
+            };
+            var StoryTraitsBtn = StoryTraitButton.AddOrGet<CategoryItem>();
+            StoryTraitsBtn.Initialize(StarmapItemCategory.StoryTraits, null);
+            StoryTraitsBtn.ActiveToggle.OnClick += (() => this.SelectCategory(StarmapItemCategory.StoryTraits));
+            this.categoryToggles.Add(StarmapItemCategory.StoryTraits, StoryTraitsBtn);
+
+            var GameSettingsBtn = GameSettingsButton.AddOrGet<CategoryItem>();
+            GameSettingsBtn.Initialize(StarmapItemCategory.GameSettings, null);
+            GameSettingsBtn.ActiveToggle.OnClick += (() => this.SelectCategory(StarmapItemCategory.GameSettings));
+            this.categoryToggles.Add(StarmapItemCategory.GameSettings, GameSettingsBtn);
+
+            //if (galleryGridLayouter != null)
+            //    this.galleryGridLayouter.RequestGridResize();
+
+
+            CustomGameSettingsContainer.SetActive(true);
+            VanillaStarmapItemContent.SetActive(true);
+            StoryTraitGridContent.SetActive(true);
+            ClusterItemsContent.SetActive(true);
         }
         void InitializePlanetBiomesContainers()
         {
@@ -871,7 +1536,7 @@ namespace ClusterTraitGenerationManager
                 icon.color = Util.ColorFromHex(kvp.Value.colorHex);
                 if (kvp.Key == ModAssets.CustomTraitID)
                 {
-                    UIUtils.ListAllChildren(TraitHolder.transform);
+                    //UIUtils.ListAllChildren(TraitHolder.transform);
                     combined = UIUtils.RainbowColorText(name.ToString());
                     TraitHolder.transform.Find("AwailableRandomTraits").gameObject.SetActive(true);
 
@@ -1054,29 +1719,7 @@ namespace ClusterTraitGenerationManager
         }
 
 
-        public void PopulateGalleryAndCategories()
-        {
-            foreach (var galleryGridButton in this.planetoidGridButtons)
-                UnityEngine.Object.Destroy(galleryGridButton.Value.gameObject);
-            planetoidGridButtons.Clear();
 
-            foreach (var item in this.categoryToggles)
-                UnityEngine.Object.Destroy(item.Value.gameObject);
-
-            categoryToggles.Clear();
-
-
-            foreach (var Planet in PlanetoidDict())
-            {
-                this.AddItemToGallery(Planet.Value);
-            }
-            foreach (StarmapItemCategory category in (StarmapItemCategory[])Enum.GetValues(typeof(StarmapItemCategory)))
-            {
-                AddCategoryItem(category);
-            };
-            //if (galleryGridLayouter != null)
-            //    this.galleryGridLayouter.RequestGridResize();
-        }
 
         public class GalleryItem : KMonoBehaviour
         {
@@ -1134,7 +1777,7 @@ namespace ClusterTraitGenerationManager
             }
 
             // PermitPresentationInfo presentationInfo = permit.GetPermitPresentationInfo();
-            GameObject availableGridButton = Util.KInstantiateUI(PlanetoidEntryPrefab, galleryGridContent);
+            GameObject availableGridButton = Util.KInstantiateUI(PlanetoidEntryPrefab, galleryGridContainer);
             var itemLogic = availableGridButton.AddComponent<GalleryItem>();
             itemLogic.Initialize(planet);
 
@@ -1168,7 +1811,10 @@ namespace ClusterTraitGenerationManager
 
             public void Initialize(StarmapItemCategory category, Sprite newSprite)
             {
-                CategoryIcon = transform.Find("Image").GetComponent<Image>();
+                if (newSprite != null)
+                {
+                    CategoryIcon = transform.Find("Image").GetComponent<Image>();
+                }
                 Category = category;
                 ActiveToggle = this.gameObject.AddOrGet<FToggleButton>();
                 Refresh(StarmapItemCategory.Starter, newSprite);
@@ -1176,7 +1822,10 @@ namespace ClusterTraitGenerationManager
             public void Refresh(StarmapItemCategory category, Sprite newSprite)
             {
                 ActiveToggle.ChangeSelection(this.Category == category);
-                CategoryIcon.sprite = newSprite;
+                if (newSprite != null)
+                {
+                    CategoryIcon.sprite = newSprite;
+                }
             }
         }
 

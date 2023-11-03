@@ -17,6 +17,7 @@ using static SandboxSettings;
 
 namespace ClusterTraitGenerationManager
 {
+    [Obsolete]
     internal class FeatureSelectionScreenOLD : KModalScreen
     {
         KButton closeButton;
@@ -295,6 +296,9 @@ namespace ClusterTraitGenerationManager
             }
             foreach (StarmapItemCategory category in (StarmapItemCategory[])Enum.GetValues(typeof(StarmapItemCategory)))
             {
+                if (category < 0)
+                    continue;
+
                 AddPermitCategory(category);
 
                 //var RandomPlanet = new StarmapItem("Random", category, Assets.GetSprite("unknown"));

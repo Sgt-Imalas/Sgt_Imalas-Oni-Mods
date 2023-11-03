@@ -33,84 +33,6 @@ namespace ClusterTraitGenerationManager
                 public static LocString NOMANUAL = (LocString)"No, let me do it manually.";
             }
 
-            public class PRESETWINDOWCLUSTERPRESETS
-            {
-                public class DELETEWINDOW
-                {
-                    public static LocString TITLE = "Delete {0}";
-                    public static LocString DESC = "You are about to delete the preset \"{0}\".\nDo you want to continue?";
-                    public static LocString YES = "Confirm Deletion";
-                    public static LocString CANCEL = "Cancel";
-
-                }
-
-                public static LocString TITLE = "Cluster Presets";
-
-                public class HORIZONTALLAYOUT
-                {
-                    public class OBJECTLIST
-                    {
-                        public class SCROLLAREA
-                        {
-                            public class CONTENT
-                            {
-                                public class NOPRESETSAVAILABLE
-                                {
-                                    public static LocString LABEL = "No presets available";
-                                }
-                                public class PRESETENTRYPREFAB
-                                {
-                                    public class ADDTHISTRAITBUTTON
-                                    {
-                                        public static LocString TEXT = "Load Preset";
-                                        public static LocString TOOLTIP = "Load this preset to the preview";
-
-                                    }
-
-                                    public static LocString RENAMEPRESETTOOLTIP = "Rename Preset";
-                                    public static LocString DELETEPRESETTOOLTIP = "Delete Preset";
-
-                                }
-                            }
-                        }
-
-                        internal class SEARCHBAR
-                        {
-                            public static LocString CLEARTOOLTIP = "Clear search bar";
-                            public static LocString OPENFOLDERTOOLTIP = "Open the folder where the presets are stored.";
-                            internal class INPUT
-                            {
-                                public class TEXTAREA
-                                {
-                                    public static LocString PLACEHOLDER = "Enter text to filter presets...";
-                                    public static LocString TEXT = "";
-                                }
-                            }
-                        }
-                    }
-                    public class ITEMINFO
-                    {
-                        public class BUTTONS
-                        {
-                            public class CLOSEBUTTON
-                            {
-                                public static LocString TEXT = "Return";
-                                public static LocString TOOLTIP = "Close this preset window";
-                            }
-                            public class GENERATEFROMCURRENT
-                            {
-                                public static LocString TEXT = "Generate Preset";
-                                public static LocString TOOLTIP = "Save the currently loaded cluster configuration to a new preset.";
-                            }
-                            public class APPLYPRESETBUTTON
-                            {
-                                public static LocString TEXT = "Apply Preset";
-                                public static LocString TOOLTIP = "Apply the preset thats currently displayed in the preview to the custom cluster.";
-                            }
-                        }
-                    }
-                }
-            }
             public class CGM_MAINSCREENEXPORT
             {
                 public class CATEGORIES
@@ -119,6 +41,23 @@ namespace ClusterTraitGenerationManager
                     {
                         public static LocString LABEL = (LocString)"Starmap Item Categories";
 
+                    }
+                    public class FOOTERCONTENT
+                    {
+                        public class TITLE
+                        {
+                            public static LocString LABEL = (LocString)"World Settings";
+                        }
+                        public class STORYTRAITS
+                        {
+                            public static LocString LABEL = global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.STORY_TRAITS_HEADER;
+                            public static LocString TOOLTIP = (LocString)"Open the game settings screen.";
+                        }
+                        public class GAMESETTINGS
+                        {
+                            public static LocString LABEL = global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.CUSTOMIZE;
+                            public static LocString TOOLTIP = (LocString)"Open the game settings.";
+                        }
                     }
                 }
                 public class ITEMSELECTION
@@ -139,6 +78,14 @@ namespace ClusterTraitGenerationManager
                     {
                         public class SCROLLRECTCONTAINER
                         {
+                            public class STORYTRAIT
+                            {
+                                public class STORYTRAITENABLED
+                                {
+                                    public static LocString LABEL = (LocString)"GGenerate Story Trait:";
+                                    public static LocString TOOLTIP = (LocString)"Should this Story Trait be generated?";
+                                }
+                            }
                             public class STARMAPITEMENABLED
                             {
                                 public static LocString LABEL = (LocString)"Generate [STARMAPITEMTYPE]:";
@@ -428,11 +375,6 @@ namespace ClusterTraitGenerationManager
                                 public static LocString TEXT = (LocString)"Cluster Presets";
                                 public static LocString TOOLTIP = (LocString)"Create new or load your existing cluster presets";
                             }
-                            public class SETTINGSBUTTON
-                            {
-                                public static LocString TEXT = global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.CUSTOMIZE;
-                                public static LocString TOOLTIP = (LocString)"Open the game settings screen.";
-                            }
                             public class GENERATECLUSTERBUTTON
                             {
                                 public static LocString TEXT = (LocString)"Start modified Game";
@@ -444,8 +386,86 @@ namespace ClusterTraitGenerationManager
             }
 
 
-            public class CGM
+            public class CGMEXPORT_SIDEMENUS
             {
+            public class PRESETWINDOWCGM
+            {
+                public class DELETEWINDOW
+                {
+                    public static LocString TITLE = "Delete {0}";
+                    public static LocString DESC = "You are about to delete the preset \"{0}\".\nDo you want to continue?";
+                    public static LocString YES = "Confirm Deletion";
+                    public static LocString CANCEL = "Cancel";
+
+                }
+
+                public static LocString TITLE = "Cluster Presets";
+
+                public class HORIZONTALLAYOUT
+                {
+                    public class OBJECTLIST
+                    {
+                        public class SCROLLAREA
+                        {
+                            public class CONTENT
+                            {
+                                public class NOPRESETSAVAILABLE
+                                {
+                                    public static LocString LABEL = "No presets available";
+                                }
+                                public class PRESETENTRYPREFAB
+                                {
+                                    public class ADDTHISTRAITBUTTON
+                                    {
+                                        public static LocString TEXT = "Load Preset";
+                                        public static LocString TOOLTIP = "Load this preset to the preview";
+
+                                    }
+
+                                    public static LocString RENAMEPRESETTOOLTIP = "Rename Preset";
+                                    public static LocString DELETEPRESETTOOLTIP = "Delete Preset";
+
+                                }
+                            }
+                        }
+
+                        internal class SEARCHBAR
+                        {
+                            public static LocString CLEARTOOLTIP = "Clear search bar";
+                            public static LocString OPENFOLDERTOOLTIP = "Open the folder where the presets are stored.";
+                            internal class INPUT
+                            {
+                                public class TEXTAREA
+                                {
+                                    public static LocString PLACEHOLDER = "Enter text to filter presets...";
+                                    public static LocString TEXT = "";
+                                }
+                            }
+                        }
+                    }
+                    public class ITEMINFO
+                    {
+                        public class BUTTONS
+                        {
+                            public class CLOSEBUTTON
+                            {
+                                public static LocString TEXT = "Return";
+                                public static LocString TOOLTIP = "Close this preset window";
+                            }
+                            public class GENERATEFROMCURRENT
+                            {
+                                public static LocString TEXT = "Generate Preset";
+                                public static LocString TOOLTIP = "Save the currently loaded cluster configuration to a new preset.";
+                            }
+                            public class APPLYPRESETBUTTON
+                            {
+                                public static LocString TEXT = "Apply Preset";
+                                public static LocString TOOLTIP = "Apply the preset thats currently displayed in the preview to the custom cluster.";
+                            }
+                        }
+                    }
+                }
+            }
                 public class TRAITPOPUP
                 {
                     public static LocString TEXT = (LocString)"available Traits:";

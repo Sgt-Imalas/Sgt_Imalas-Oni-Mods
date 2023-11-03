@@ -97,21 +97,24 @@ namespace ClusterTraitGenerationManager
 
 
                 string name = meteorSeason.Name.Replace("MeteorShowers", string.Empty);
-                ///string description = meteorSeason.events.Count == 0 ? METEORSEASONCYCLE.SEASONSELECTOR.SEASONTYPENOMETEORSTOOLTIP : METEORSEASONCYCLE.SEASONSELECTOR.SEASONTYPETOOLTIP; 
+
+                string description = meteorSeason.events.Count == 0 ? METEORSEASONCYCLE.CONTENT.SEASONTYPENOMETEORSTOOLTIP : METEORSEASONCYCLE.CONTENT.SEASONTYPETOOLTIP;
 
                 foreach (var meteorShower in meteorSeason.events)
                 {
-                    /// description += "\n • ";
-                    /// description += Assets.GetPrefab((meteorShower as MeteorShowerEvent).clusterMapMeteorShowerID).GetProperName();// Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
+                    description += "\n • ";
+                    description += Assets.GetPrefab((meteorShower as MeteorShowerEvent).clusterMapMeteorShowerID).GetProperName();// Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
                 }
-                /// UIUtils.AddSimpleTooltipToObject(seasonInstanceHolder.transform, description);
+                UIUtils.AddSimpleTooltipToObject(seasonInstanceHolder.transform, description);
 
                 var icon = seasonInstanceHolder.transform.Find("Label/TraitImage").GetComponent<Image>();
                 icon.gameObject.SetActive(false);
 
                 UIUtils.TryChangeText(seasonInstanceHolder.transform, "Label", name);
 
-                var AddTraitButton = seasonInstanceHolder.transform.Find("AddThisTraitButton").gameObject.FindOrAddComponent<FButton>();
+                var AddTraitButton = seasonInstanceHolder
+                    //.transform.Find("AddThisTraitButton").gameObject
+                    .FindOrAddComponent<FButton>();
                 ///seasonInstanceHolder.transform.Find("AddThisTraitButton/Text").gameObject.FindOrAddComponent<LocText>().text = METEORSEASONCYCLE.SEASONSELECTOR.ADDSEASONTYPEBUTTONLABEL;
 
                 AddTraitButton.OnClick += () =>

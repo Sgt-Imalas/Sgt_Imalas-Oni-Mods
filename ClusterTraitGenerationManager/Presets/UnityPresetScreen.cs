@@ -36,8 +36,9 @@ using static STRINGS.DUPLICANTS.TRAITS;
 using static ClusterTraitGenerationManager.CustomClusterSettingsPreset;
 using System.Net;
 using static STRINGS.CODEX;
-using static ClusterTraitGenerationManager.STRINGS.UI.CGM.TRAITPOPUP.SCROLLAREA.CONTENT;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGMEXPORT_SIDEMENUS.TRAITPOPUP.SCROLLAREA.CONTENT;
 using static KTabMenuHeader;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGMEXPORT_SIDEMENUS;
 
 namespace ClusterTraitGenerationManager
 {
@@ -192,11 +193,13 @@ namespace ClusterTraitGenerationManager
                         );
 
 
-                var load = PresetHolder.transform.Find("AddThisTraitButton").FindOrAddComponent<FButton>();
+                var load = PresetHolder.transform
+                    //.Find("AddThisTraitButton")
+                    .FindOrAddComponent<FButton>();
                 if( loadable)
                 {
                     load.OnClick += () => SetAsCurrent(config);
-                    UIUtils.AddSimpleTooltipToObject(load.transform, PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.ADDTHISTRAITBUTTON.TOOLTIP, true, onBottom: true);
+                    UIUtils.AddSimpleTooltipToObject(load.transform, PRESETWINDOWCGM.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.ADDTHISTRAITBUTTON.TOOLTIP, true, onBottom: true);
                 }
                 else
                 {
@@ -208,8 +211,8 @@ namespace ClusterTraitGenerationManager
                 PresetHolder.transform.Find("DeleteButton").FindOrAddComponent<FButton>().OnClick += () => DeletePreset(config);
 
 
-                UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("RenameButton"), STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP, true, onBottom: true);
-                UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("DeleteButton"), STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP, true, onBottom: true);
+                UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("RenameButton"), STRINGS.UI.CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP, true, onBottom: true);
+                UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("DeleteButton"), STRINGS.UI.CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP, true, onBottom: true);
                 Presets[config] = PresetHolder;
                 return true;
             }
@@ -231,11 +234,11 @@ namespace ClusterTraitGenerationManager
             { };
 
             KMod.Manager.Dialog(Global.Instance.globalCanvas,
-           string.Format(STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.DELETEWINDOW.TITLE, config.ConfigName),
-           string.Format(STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.DELETEWINDOW.DESC, config.ConfigName),
-           STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.DELETEWINDOW.YES,
+           string.Format(STRINGS.UI.CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM.DELETEWINDOW.TITLE, config.ConfigName),
+           string.Format(STRINGS.UI.CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM.DELETEWINDOW.DESC, config.ConfigName),
+           STRINGS.UI.CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM.DELETEWINDOW.YES,
            Delete,
-           STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.DELETEWINDOW.CANCEL
+           STRINGS.UI.CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM.DELETEWINDOW.CANCEL
            , nothing
            );
         }
@@ -518,12 +521,12 @@ namespace ClusterTraitGenerationManager
             };
 
 
-            UIUtils.AddSimpleTooltipToObject(GeneratePresetButton.transform, STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP, true, onBottom: true);
-            UIUtils.AddSimpleTooltipToObject(CloseButton.transform, STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TOOLTIP, true, onBottom: true);
-            UIUtils.AddSimpleTooltipToObject(ApplyButton.transform, STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TOOLTIP, true, onBottom: true);
+            UIUtils.AddSimpleTooltipToObject(GeneratePresetButton.transform, STRINGS.UI.CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP, true, onBottom: true);
+            UIUtils.AddSimpleTooltipToObject(CloseButton.transform, STRINGS.UI.CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TOOLTIP, true, onBottom: true);
+            UIUtils.AddSimpleTooltipToObject(ApplyButton.transform, STRINGS.UI.CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TOOLTIP, true, onBottom: true);
 
-            UIUtils.AddSimpleTooltipToObject(ClearSearchBar.transform, STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.CLEARTOOLTIP, true, onBottom: true);
-            UIUtils.AddSimpleTooltipToObject(OpenPresetFolder.transform, STRINGS.UI.PRESETWINDOWCLUSTERPRESETS.HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.OPENFOLDERTOOLTIP, true, onBottom: true);
+            UIUtils.AddSimpleTooltipToObject(ClearSearchBar.transform, STRINGS.UI.CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM.HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.CLEARTOOLTIP, true, onBottom: true);
+            UIUtils.AddSimpleTooltipToObject(OpenPresetFolder.transform, STRINGS.UI.CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM.HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.OPENFOLDERTOOLTIP, true, onBottom: true);
 
             InfoHeaderPrefab = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/HeaderPrefab").gameObject;
             InfoRowPrefab = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/ListViewEntryPrefab").gameObject;

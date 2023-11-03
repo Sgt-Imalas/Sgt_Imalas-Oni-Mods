@@ -103,8 +103,8 @@ namespace ClusterTraitGenerationManager
         public static void LoadAssets()
         {
             var bundle = AssetUtils.LoadAssetBundle("clustergenerationsettingsmanager_menuassets", platformSpecific: true);
-            var Assets = bundle.LoadAsset<GameObject>("Assets/CGMExport.prefab");
-            CGM_MainMenu = bundle.LoadAsset<GameObject>("Assets/CGM_MainScreenExport.prefab");
+            var Assets = bundle.LoadAsset<GameObject>("Assets/UIs/CGMExport_SideMenus.prefab");
+            CGM_MainMenu = bundle.LoadAsset<GameObject>("Assets/UIs/CGM_MainScreenExport.prefab");
 
             //UIUtils.ListAllChildren(Assets.transform);
 
@@ -134,8 +134,10 @@ namespace ClusterTraitGenerationManager
         {
             get
             {
-                Dictionary<string, WorldTrait> traits = new Dictionary<string, WorldTrait>();
-                traits.Add(ModAssets.CustomTraitID, ModAssets.RandomizedTraitsTrait);
+                Dictionary<string, WorldTrait> traits = new Dictionary<string, WorldTrait>
+                {
+                    { ModAssets.CustomTraitID, ModAssets.RandomizedTraitsTrait }
+                };
                 traits.AddRange(SettingsCache.worldTraits);
                 return traits;
             }
@@ -145,8 +147,10 @@ namespace ClusterTraitGenerationManager
         {
             get
             {
-                List<KeyValuePair<string, WorldTrait>> traits = new List<KeyValuePair<string, WorldTrait>>();
-                traits.Add(new KeyValuePair<string, WorldTrait>(ModAssets.CustomTraitID, ModAssets.RandomizedTraitsTrait));
+                List<KeyValuePair<string, WorldTrait>> traits = new List<KeyValuePair<string, WorldTrait>>
+                {
+                    new KeyValuePair<string, WorldTrait>(ModAssets.CustomTraitID, ModAssets.RandomizedTraitsTrait)
+                };
                 traits.AddRange(SettingsCache.worldTraits.ToList());
                 return traits;
             }
