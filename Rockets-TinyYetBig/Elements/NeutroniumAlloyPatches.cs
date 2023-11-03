@@ -53,6 +53,23 @@ namespace Rockets_TinyYetBig.Elements
             {
                 var UnobtaniumAlloy = ModElements.UnobtaniumAlloy.Get();
 
+                //string OverheatId = Db.Get().BuildingAttributes.OverheatTemperature.Id;
+                //Dictionary<SimHashes, float> ModifierOverrides = new Dictionary<SimHashes, float>();
+                //ModifierOverrides.Add(SimHashes.Copper, 200f);
+                //ModifierOverrides.Add(SimHashes.Gold, 200f);
+                //ModifierOverrides.Add(SimHashes.Lead, 200f);
+
+                //foreach(var elementOverride in ModifierOverrides)
+                //{
+                //    var ElementEntry = ElementLoader.GetElement(elementOverride.Key.CreateTag());
+                //    if(ElementEntry != null)
+                //    {
+                //        ElementEntry.attributeModifiers.RemoveAll(item => item.AttributeId == OverheatId);
+                //        ElementEntry.attributeModifiers.Add(new AttributeModifier(OverheatId, elementOverride.Value, ElementEntry.name));
+                //    }
+                //}
+
+               
                 UnobtaniumAlloy.attributeModifiers.Add(new AttributeModifier("Decor", 1.0f, UnobtaniumAlloy.name, true));
                 UnobtaniumAlloy.attributeModifiers.Add(new AttributeModifier(Db.Get().BuildingAttributes.OverheatTemperature.Id, 2000f, UnobtaniumAlloy.name));
             }
