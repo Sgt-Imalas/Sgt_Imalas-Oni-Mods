@@ -33,7 +33,8 @@ namespace UtilLibs.UIcmp //Source: Aki
         {
             base.OnPrefabInit();
 
-            mark = gameObject.GetComponentInChildren<Image>();
+            if(mark==null)
+                mark = gameObject.GetComponentInChildren<Image>();
         }
 
         public void SetCheckmark(string path)
