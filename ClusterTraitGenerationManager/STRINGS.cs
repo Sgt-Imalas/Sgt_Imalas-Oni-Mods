@@ -562,8 +562,8 @@ namespace ClusterTraitGenerationManager
         {
             public class CGM
             {
-                public static LocString NAME = "CGM Cluster";
-                public static LocString DESCRIPTION = "CGM Cluster";
+                public static LocString NAME = "CGM Custom Cluster";
+                public static LocString DESCRIPTION = "This cluster has been handcrafted in the Cluster Generation Manager";
             }
         }
         public class ERRORMESSAGES

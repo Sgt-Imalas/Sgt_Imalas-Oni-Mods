@@ -25,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>Cluster Generation Manager</ModName>
 		<ModDescription></ModDescription>
-		<SupportedContent>EXPANSION1_ID</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
+		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>575720</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

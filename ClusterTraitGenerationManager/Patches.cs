@@ -37,6 +37,36 @@ namespace ClusterTraitGenerationManager
 {
     internal class Patches
     {
+        [HarmonyPatch(typeof(SaveGame), "GetColonyToolTip")]
+        public static class LayoutNameFix
+        {
+            public static void Postfix(ref List<Tuple<string, TextStyleSetting>> __result, SaveGame __instance)
+            {
+                if (Game.clusterId == CustomClusterID)
+                {
+                    var array = __result.ToArray();
+                    array[1] = new Tuple<string, TextStyleSetting>((string)STRINGS.CLUSTER_NAMES.CGM.NAME, ToolTipScreen.Instance.defaultTooltipBodyStyle);
+                    __result = array.ToList();
+                }
+            }
+        }
+        /// <summary>
+        /// Custom cluster in load menu
+        /// </summary>
+        [HarmonyPatch(typeof(LoadScreen), "ShowColonySave")]
+        public static class LoadScreen_NameFix
+        {
+            public static void Postfix(LoadScreen.SaveGameFileDetails save, LoadScreen __instance)
+            {
+                if (save.FileInfo.clusterId == CustomClusterID)
+                {
+                    HierarchyReferences component1 = __instance.colonyViewRoot.GetComponent<HierarchyReferences>();
+                    component1.GetReference<LocText>("InfoWorld").text = string.Format((string)global::STRINGS.UI.FRONTEND.LOADSCREEN.COLONY_INFO_FMT, (object)global::STRINGS.UI.FRONTEND.LOADSCREEN.WORLD_NAME, STRINGS.CLUSTER_NAMES.CGM.NAME);
+                }
+            }
+        }
+
+
 
         /// <summary>
         /// Init. auto translation
