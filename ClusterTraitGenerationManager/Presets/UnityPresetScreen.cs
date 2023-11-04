@@ -538,7 +538,7 @@ namespace ClusterTraitGenerationManager
             InfoScreenContainer = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content").gameObject;
             PresetListContainer = transform.Find("HorizontalLayout/ObjectList/ScrollArea/Content").gameObject;
             PresetListPrefab = transform.Find("HorizontalLayout/ObjectList/ScrollArea/Content/PresetEntryPrefab").gameObject;
-
+            PresetListPrefab.SetActive(false);
             var Name = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
             //UIUtils.TryChangeText(Name.transform, "Label", "\"" + CurrentlySelected.ConfigName + "\"");
             TitleHolder = Name.transform.Find("Label").GetComponent<LocText>();

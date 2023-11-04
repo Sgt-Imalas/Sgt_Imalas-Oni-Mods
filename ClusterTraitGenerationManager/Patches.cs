@@ -394,31 +394,6 @@ namespace ClusterTraitGenerationManager
         //}
 
 
-
-        /// <summary>
-        /// yes this code is very necessary
-        /// </summary>
-        struct Child { public bool isGood, isNaughty, areParentsPoor; public List<string> gifts; }
-        static List<Child> GetAllChildren() { return new List<Child>(); }
-        static void SelectGoodGifts(Child child) { }
-        static void SelectCoal(Child child) { }
-        static class SantaClaus { public static async Task ComingToTown() { await new Task(() => { }); } }
-
-        /// <summary>
-        /// faith hill: santa claus is coming to town
-        /// </summary>
-        public static async Task SantaExe()
-        {
-            List<Child> allKids = GetAllChildren();
-
-            foreach (var kid in allKids)
-                if (kid.isNaughty) SelectCoal(kid);
-            foreach (var kid in allKids)
-                if (kid.isGood) SelectGoodGifts(kid);
-            await SantaClaus.ComingToTown();
-        }
-
-
         //[HarmonyPatch(typeof(ProcGenGame.WorldGen), (nameof(ProcGenGame.WorldGen.LoadSettings)))]
         //public class ReplaceForDebug
         //{
@@ -446,6 +421,8 @@ namespace ClusterTraitGenerationManager
             static bool initialized = false;
             public static void InitWorlds()
             {
+                if (!DlcManager.IsExpansion1Active())
+                    return;
 
                 if (initialized)
                     return;
@@ -467,7 +444,7 @@ namespace ClusterTraitGenerationManager
                     if (sourceWorld.Key.Contains("NiobiumMoonlet")
                         || sourceWorld.Key.Contains("RegolithMoonlet")
                         || sourceWorld.Key.Contains("MooMoonlet")
-                        || sourceWorld.Key.ToUpperInvariant().Contains("BABY")
+                        || PlanetByIdIsMiniBase(sourceWorld.Key.ToUpperInvariant())
 
                         )
                     {

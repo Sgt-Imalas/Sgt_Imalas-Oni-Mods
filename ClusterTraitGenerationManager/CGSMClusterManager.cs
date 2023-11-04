@@ -1013,7 +1013,7 @@ namespace ClusterTraitGenerationManager
             placement.allowedRings = new MinMaxI((int)min, newMax);
         }
 
-        static bool PlanetIsClassic(StarmapItem item)
+        public static bool PlanetIsClassic(StarmapItem item)
         {
             if (item.IsPOI)
                 return false;
@@ -1023,7 +1023,20 @@ namespace ClusterTraitGenerationManager
 
             return false;
         }
+        public static bool PlanetIsMiniBase(StarmapItem item)
+        {
+            if (item.IsPOI)
+                return false;
 
+            string KeyUpper = item.id.ToUpperInvariant();
+
+            return PlanetByIdIsMiniBase(KeyUpper);
+        }
+        public static bool PlanetByIdIsMiniBase(string KeyUpper)
+        {
+            KeyUpper = KeyUpper.ToUpperInvariant();
+            return (KeyUpper.Contains("BABY") || KeyUpper.Contains("MINIBASE"));
+        }
 
 
         public static ClusterLayout GenerateClusterLayoutFromCustomData()
@@ -1925,9 +1938,9 @@ namespace ClusterTraitGenerationManager
                         sprite
                         ).MakeItemPlanet(world));
 
-                        if (KeyUpper.Contains("BABY"))
+                        if (PlanetIsMiniBase(PlanetsAndPOIs[WorldFromCache.Key]))
                         {
-                            //SgtLogger.l(WorldFromCache.Key + " will disable story traits due to Baby size");
+                            SgtLogger.l(WorldFromCache.Key + " will disable story traits due to Baby size");
                             PlanetsAndPOIs[WorldFromCache.Key].DisablesStoryTraits = true;
                         }
                         SgtLogger.l("isClassic: " + PlanetIsClassic(PlanetsAndPOIs[WorldFromCache.Key]), WorldFromCache.Key);

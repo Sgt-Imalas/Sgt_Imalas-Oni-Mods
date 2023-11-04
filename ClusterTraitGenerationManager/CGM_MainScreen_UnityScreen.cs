@@ -582,6 +582,13 @@ namespace ClusterTraitGenerationManager
             Details_StoryTraitContainer.SetActive(SelectedCategory == StarmapItemCategory.StoryTraits);
             Details_VanillaPOIContainer.SetActive(SelectedCategory == StarmapItemCategory.VanillaStarmap);
 
+            if(SelectedCategory == StarmapItemCategory.GameSettings)
+            {
+                selectionHeaderLabel.SetText(string.Empty);
+            }
+
+
+
             if (CategoryIsStarmapitem && SelectedPlanet != null)
             {
                 bool IsPartOfCluster = CustomCluster.HasStarmapItem(SelectedPlanet.id, out var current);
@@ -1050,7 +1057,7 @@ namespace ClusterTraitGenerationManager
 
             StoryTraitGridContainer = transform.Find("ItemSelection/StoryTraitsContent/StoryTraitsContainer").gameObject;
             StoryTraitEntryPrefab =   transform.Find("ItemSelection/StoryTraitsContent/StoryTraitsContainer/Item").gameObject;
-
+            StoryTraitEntryPrefab.SetActive(false);
             Details_StoryTraitContainer = transform.Find("Details/Content/ScrollRectContainer/StoryTrait").gameObject;// .FindOrAddComponent<FToggle2>();
             Details_StoryTraitContainer.SetActive(true);
             StoryTraitImage = transform.Find("Details/Content/ScrollRectContainer/StoryTrait/HeaderImage").gameObject.AddOrGet<Image>();
@@ -1078,6 +1085,8 @@ namespace ClusterTraitGenerationManager
                     ToggleStoryTrait(Story.Id);
                 };
 
+                Debug.Log(toggle.mark + " mark");
+
                 StoryTraitToggleButtons[Story.Id] = btn;
                 StoryTraitToggleCheckmarks[Story.Id] = toggle;
                 btn.OnClick += () =>
@@ -1102,10 +1111,15 @@ namespace ClusterTraitGenerationManager
         void RefreshStoryTraitsUI()
         {
             StoryTraitToggle.On = StoryTraitEnabled(CurrentlySelectedStoryTrait);
-            foreach(var state in StoryTraitToggleCheckmarks)
+
+            foreach (var state in StoryTraitToggleCheckmarks)
             {
-                StoryTraitToggleButtons[state.Key].ChangeSelection(state.Key == CurrentlySelectedStoryTrait);
                 state.Value.On = (StoryTraitEnabled(state.Key));
+            }
+
+            foreach (var state in StoryTraitToggleButtons)
+            {
+                state.Value.ChangeSelection(state.Key == CurrentlySelectedStoryTrait);
             }
             RefreshDetails();
         }

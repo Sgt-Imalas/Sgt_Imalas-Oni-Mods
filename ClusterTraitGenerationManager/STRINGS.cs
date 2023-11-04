@@ -343,7 +343,7 @@ namespace ClusterTraitGenerationManager
                             public class DESCRIPTOR
                             {
                                 public static LocString TOOLTIP = (LocString)"The radius of the starmap.";
-                                public static LocString LABEL = (LocString)"Cluster Size:";
+                                public static LocString LABEL = (LocString)"Cluster Size (Radius):";
                                 public static LocString OUTPUT = (LocString)"0";
                                 public class INPUT
                                 {
