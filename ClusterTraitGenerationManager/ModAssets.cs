@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static ClusterTraitGenerationManager.CGSMClusterManager;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER;
 using static ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS;
 using static STRINGS.CREATURES.STATS;
 
@@ -92,7 +93,12 @@ namespace ClusterTraitGenerationManager
             }
             public static string ItemDescriptor(StarmapItemCategory itemCategory, bool plural = false)
             {
-                if (itemCategory == StarmapItemCategory.POI)
+                if(itemCategory == StarmapItemCategory.StoryTraits)
+                {
+                    return plural ?  STRINGS.UI.STARMAPITEMDESCRIPTOR.STORYTRAITPLURAL : STRINGS.UI.STARMAPITEMDESCRIPTOR.STORYTRAIT;
+                }
+
+                if (itemCategory == StarmapItemCategory.POI || itemCategory == StarmapItemCategory.VanillaStarmap)
                     return plural ? STRINGS.UI.STARMAPITEMDESCRIPTOR.POIPLURAL : STRINGS.UI.STARMAPITEMDESCRIPTOR.POI;
                 else
                     return plural ? STRINGS.UI.STARMAPITEMDESCRIPTOR.ASTEROIDPLURAL : STRINGS.UI.STARMAPITEMDESCRIPTOR.ASTEROID;

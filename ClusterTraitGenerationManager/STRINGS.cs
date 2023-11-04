@@ -82,7 +82,7 @@ namespace ClusterTraitGenerationManager
                             {
                                 public class STORYTRAITENABLED
                                 {
-                                    public static LocString LABEL = (LocString)"GGenerate Story Trait:";
+                                    public static LocString LABEL = (LocString)"Generate Story Trait:";
                                     public static LocString TOOLTIP = (LocString)"Should this Story Trait be generated?";
                                 }
                             }
@@ -522,6 +522,9 @@ namespace ClusterTraitGenerationManager
                 public static LocString ASTEROIDPLURAL = (LocString)"Asteroids";
                 public static LocString POI = (LocString)"Point of Interest";
                 public static LocString POIPLURAL = (LocString)"Points of Interest";
+
+                public static LocString STORYTRAIT = (LocString)"Story Trait";
+                public static LocString STORYTRAITPLURAL = (LocString)"Story Traits";
             }
 
             public class SEEDLOCK

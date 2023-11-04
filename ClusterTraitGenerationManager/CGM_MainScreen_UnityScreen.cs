@@ -25,6 +25,9 @@ using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS;
 using static ClusterTraitGenerationManager.CGM_MainScreen_UnityScreen;
 using static CustomGameSettings;
 using Database;
+using static STRINGS.CODEX;
+using static ResearchTypes;
+using PeterHan.PLib.UI;
 
 namespace ClusterTraitGenerationManager
 {
@@ -701,6 +704,11 @@ namespace ClusterTraitGenerationManager
         }
         private void SelectDefaultCategoryItem()
         {
+            if(SelectedCategory == StarmapItemCategory.StoryTraits)
+            {
+                SelectStoryTrait(Db.Get().Stories.resources.First().Id);
+            }
+
             foreach (var galleryGridButton in this.planetoidGridButtons)
             {
                 if (galleryGridButton.Key.category == this.SelectedCategory && CustomCluster.HasStarmapItem(galleryGridButton.Key.id, out var i))
@@ -1041,15 +1049,78 @@ namespace ClusterTraitGenerationManager
         {
 
             StoryTraitGridContainer = transform.Find("ItemSelection/StoryTraitsContent/StoryTraitsContainer").gameObject;
-            StoryTraitEntryPrefab = transform.Find("ItemSelection/StoryTraitsContent/StoryTraitsContainer/Item").gameObject;
+            StoryTraitEntryPrefab =   transform.Find("ItemSelection/StoryTraitsContent/StoryTraitsContainer/Item").gameObject;
 
             Details_StoryTraitContainer = transform.Find("Details/Content/ScrollRectContainer/StoryTrait").gameObject;// .FindOrAddComponent<FToggle2>();
             Details_StoryTraitContainer.SetActive(true);
-            StoryTraitImage = transform.Find("Details/Content/ScrollRectContainer/StoryTrait/HeaderImage").FindOrAddComponent<Image>();
-            StoryTraitDesc = transform.Find("Details/Content/ScrollRectContainer/StoryTrait/Description").FindOrAddComponent<LocText>();
-            StoryTraitToggle = transform.Find("Details/Content/ScrollRectContainer/StoryTrait/StoryTraitEnabled").FindOrAddComponent<FToggle2>();
+            StoryTraitImage = transform.Find("Details/Content/ScrollRectContainer/StoryTrait/HeaderImage").gameObject.AddOrGet<Image>();
+            StoryTraitDesc = transform.Find("Details/Content/ScrollRectContainer/StoryTrait/Description").gameObject.AddOrGet<LocText>();
+            StoryTraitToggle = transform.Find("Details/Content/ScrollRectContainer/StoryTrait/StoryTraitEnabled").gameObject.AddOrGet<FToggle2>();
+            StoryTraitToggle.SetCheckmark("Background/Checkmark");
             Details_StoryTraitContainer.SetActive(false);
+            StoryTraitToggle.OnClick += 
+                () => {
+                    ToggleStoryTrait(CurrentlySelectedStoryTrait); 
+                };
+
+            foreach (Story Story in Db.Get().Stories.resources)
+            {
+                var entry = Util.KInstantiateUI(StoryTraitEntryPrefab, StoryTraitGridContainer);
+                UIUtils.TryChangeText(entry.transform, "Label", Strings.Get(Story.StoryTrait.name));
+                entry.transform.Find("Image").GetComponent<Image>().sprite = Assets.GetSprite(Story.StoryTrait.icon);
+                var btn = entry.gameObject.AddOrGet<FToggleButton>();
+                FToggle2 toggle = entry.transform.Find("Background").gameObject.AddOrGet<FToggle2>();
+                toggle.SetCheckmark("Checkmark");
+                toggle.OnClick +=
+                () => 
+                {
+                    SelectStoryTrait(Story.Id);
+                    ToggleStoryTrait(Story.Id);
+                };
+
+                StoryTraitToggleButtons[Story.Id] = btn;
+                StoryTraitToggleCheckmarks[Story.Id] = toggle;
+                btn.OnClick += () =>
+                {
+                    SelectStoryTrait(Story.Id);
+                };
+
+                entry.SetActive(true);
+            }
         }
+
+        Dictionary<string, FToggle2> StoryTraitToggleCheckmarks = new Dictionary<string, FToggle2>();
+        Dictionary<string, FToggleButton> StoryTraitToggleButtons = new Dictionary<string, FToggleButton>();
+
+        string CurrentlySelectedStoryTrait;
+        bool StoryTraitEnabled(string id) => (CustomGameSettings.Instance.GetCurrentStoryTraitSetting(id).id == StoryContentPanel.StoryState.Guaranteed.ToString());
+        public void ToggleStoryTrait(string id)
+        {
+            CustomGameSettings.Instance.SetStorySetting(CustomGameSettings.Instance.StorySettings[id], !StoryTraitEnabled(id));
+            RefreshStoryTraitsUI();
+        }
+        void RefreshStoryTraitsUI()
+        {
+            StoryTraitToggle.On = StoryTraitEnabled(CurrentlySelectedStoryTrait);
+            foreach(var state in StoryTraitToggleCheckmarks)
+            {
+                StoryTraitToggleButtons[state.Key].ChangeSelection(state.Key == CurrentlySelectedStoryTrait);
+                state.Value.On = (StoryTraitEnabled(state.Key));
+            }
+            RefreshDetails();
+        }
+
+        public void SelectStoryTrait(string id)
+        {
+            CurrentlySelectedStoryTrait = id;
+            WorldTrait storyTrait = Db.Get().Stories.GetStoryTrait(id, true);
+
+            selectionHeaderLabel.SetText(ModAssets.Strings.ApplyCategoryTypeToString(string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL, Strings.Get(storyTrait.name)), SelectedCategory));
+            StoryTraitDesc.SetText(Strings.Get(storyTrait.description));
+            StoryTraitImage.sprite = Assets.GetSprite(storyTrait.icon.Replace("_icon", "_image"));
+            RefreshStoryTraitsUI();
+        }
+
         public void InitializeVanillaStarmap()
         {
             VanillaStarmapItemContainer = transform.Find("ItemSelection/VanillaStarmapContent/VanillaStarmapContainer").gameObject;
