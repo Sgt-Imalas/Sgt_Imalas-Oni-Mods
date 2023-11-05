@@ -44,49 +44,45 @@ namespace Imalas_TwitchChaosEvents.Events
             ChaosTwitch_SaveGameStorage.Instance.lastTacoRain = GameClock.Instance.GetTimeInCycles();
 
 
-
-        GameScheduler.Instance.Schedule("taco rain", 0.5f, _ =>
+            int activeWorld = ClusterManager.Instance.activeWorldId;
+            //rain.StartRaining();
+            if (ClusterManager.Instance.activeWorld.IsModuleInterior)
             {
-                int activeWorld = ClusterManager.Instance.activeWorldId;
-                //rain.StartRaining();
-                if (ClusterManager.Instance.activeWorld.IsModuleInterior)
-                {
+                if (ClusterManager.Instance.activeWorld.ParentWorldId == ClusterManager.Instance.activeWorld.id)
                     activeWorld = 0;
-                }
+                else
+                    activeWorld = ClusterManager.Instance.activeWorld.ParentWorldId;
+            }
 
-                var world = ClusterManager.Instance.GetWorld(activeWorld);
-
-
-                foreach (var planet in ClusterManager.Instance.WorldContainers)
-                {
-                    if ((planet.IsDupeVisited || planet.IsStartWorld) && planet.IsSurfaceRevealed && !planet.IsModuleInterior)
-                    {
-                        world = planet;
-                        break;
-                    }
-                }
-
-                SpeedControlScreen.Instance.SetSpeed(0);
-                GameplayEventInstance eventInstance = GameplayEventManager.Instance.StartNewEvent(TacoMeteorPatches.ITC_TacoMeteors, activeWorld);
-                // ClusterManager.Instance.activeWorld.GetSMI<GameplaySeasonManager.Instance>().Start(Db.Get().GameplaySeasons.TemporalTearMeteorShowers);
-                if(Config.Instance.TacoEventMusic)
-                    SoundUtils.PlaySound(ModAssets.SOUNDS.TACORAIN, SoundUtils.GetSFXVolume() * 0.3f,true);
-
-                //var pos = world.LookAtSurface();
+            var world = ClusterManager.Instance.GetWorld(activeWorld);
 
 
-                ToastManager.InstantiateToastWithPosTarget(
-                STRINGS.CHAOSEVENTS.TACORAIN.TOAST,
-                 body, GetSurfacePos(world)
+            //foreach (var planet in ClusterManager.Instance.WorldContainers)
+            //{
+            //    if ((planet.IsDupeVisited || planet.IsStartWorld) && planet.IsSurfaceRevealed && !planet.IsModuleInterior)
+            //    {
+            //        world = planet;
+            //        break;
+            //    }
+            //}
 
-            );
+            SpeedControlScreen.Instance.SetSpeed(0);
+            GameplayEventInstance eventInstance = GameplayEventManager.Instance.StartNewEvent(TacoMeteorPatches.ITC_TacoMeteors, activeWorld);
+            // ClusterManager.Instance.activeWorld.GetSMI<GameplaySeasonManager.Instance>().Start(Db.Get().GameplaySeasons.TemporalTearMeteorShowers);
+            if (Config.Instance.TacoEventMusic)
+                SoundUtils.PlaySound(ModAssets.SOUNDS.TACORAIN, SoundUtils.GetSFXVolume() * 0.3f, true);
 
-            });
+            //var pos = world.LookAtSurface();
+
+
+            ToastManager.InstantiateToastWithPosTarget(
+            STRINGS.CHAOSEVENTS.TACORAIN.TOAST,
+             body, GetSurfacePos(world));
         };
 
         Vector3 GetSurfacePos(WorldContainer world)
         {
-            Vector3 vector = new Vector3(world.WorldOffset.x + (world.Width / 2), world.WorldOffset.y + (world.Height -15 ), 0f);
+            Vector3 vector = new Vector3(world.WorldOffset.x + (world.Width / 2), world.WorldOffset.y + (world.Height - 15), 0f);
             return vector;
         }
 
@@ -96,23 +92,23 @@ namespace Imalas_TwitchChaosEvents.Events
             {
                 bool anyUnlockedPlanetRevealed = false;
 
-                foreach(var planet in ClusterManager.Instance.WorldContainers)
+                foreach (var planet in ClusterManager.Instance.WorldContainers)
                 {
-                    if((planet.IsDupeVisited||planet.IsStartWorld) && planet.IsSurfaceRevealed && !planet.IsModuleInterior)
+                    if ((planet.IsDupeVisited || planet.IsStartWorld) && planet.IsSurfaceRevealed && !planet.IsModuleInterior)
                     {
                         anyUnlockedPlanetRevealed = true;
                         break;
                     }
                 }
 
-                if(!anyUnlockedPlanetRevealed)
+                if (!anyUnlockedPlanetRevealed)
                     return false;
 
 
-                return 
+                return
                 (GameClock.Instance.GetCycle() > 50 && !ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe)
-                || 
-                (ChaosTwitch_SaveGameStorage.Instance.lastTacoRain + 75f > GameClock.Instance.GetTimeInCycles()) 
+                ||
+                (ChaosTwitch_SaveGameStorage.Instance.lastTacoRain + 75f > GameClock.Instance.GetTimeInCycles())
                 ;
             };
 
