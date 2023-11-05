@@ -94,11 +94,14 @@ namespace UtilLibs
            
             return true;
         }
-        public static ToolTip AddSimpleTooltipToObject(Transform go, string tooltip, bool alignCenter = true, float wrapWidth = 0, bool onBottom = true)
+
+        public static ToolTip AddSimpleTooltipToObject(Transform go, string tooltip, bool alignCenter = true, float wrapWidth = 0, bool onBottom = true)=> AddSimpleTooltipToObject(go.gameObject,tooltip, alignCenter, wrapWidth, onBottom);   
+        
+        public static ToolTip AddSimpleTooltipToObject(GameObject go, string tooltip, bool alignCenter = true, float wrapWidth = 0, bool onBottom = true)
         {
             if (go == null)
                 return null;
-            var tt = go.gameObject.AddOrGet<ToolTip>();
+            var tt = go.AddOrGet<ToolTip>();
             tt.UseFixedStringKey = false;
             tt.enabled = true;
             tt.tooltipPivot = alignCenter ? new Vector2(0.5f, onBottom? 1f : 0f) : new Vector2(1f, onBottom ? 1f : 0f);
