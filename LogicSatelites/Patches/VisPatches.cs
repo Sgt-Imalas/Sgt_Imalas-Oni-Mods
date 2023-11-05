@@ -13,8 +13,19 @@ namespace LogicSatellites.Patches
 {
     internal class VisPatches
     {
+        [HarmonyPatch(typeof(MissionControlClusterWorkable))]
+        [HarmonyPatch(nameof(MissionControlClusterWorkable.IsRocketInRange))]
+        public static class MissionControlClusterWorkableRangePatch
+        {
+            public static void Postfix(ref bool __result, AxialI worldLocation, AxialI rocketLocation)
+            {
+                if (__result)
+                    return;
 
-
+                __result = ModAssets.FindConnectionViaAdjacencyMatrix(worldLocation, rocketLocation, out var Connection);
+                //PathUpdating.AddOrUpdateConnection(receiver, Connection);
+            }
+        }
 
         [HarmonyPatch(typeof(LogicBroadcastReceiver))]
         [HarmonyPatch(nameof(LogicBroadcastReceiver.CheckRange))]
