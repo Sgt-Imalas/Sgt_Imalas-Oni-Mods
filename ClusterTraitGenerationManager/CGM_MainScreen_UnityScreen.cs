@@ -28,6 +28,7 @@ using Database;
 using static STRINGS.CODEX;
 using static ResearchTypes;
 using PeterHan.PLib.UI;
+using TUNING;
 
 namespace ClusterTraitGenerationManager
 {
@@ -110,7 +111,8 @@ namespace ClusterTraitGenerationManager
 
         Dictionary<string, GameObject> SeasonTypes = new Dictionary<string, GameObject>();
 
-        Dictionary<string, GameObject> ShowerTypes = new Dictionary<string, GameObject>();
+        Dictionary<string, GameObject> MeteorTypes = new Dictionary<string, GameObject>();
+        Dictionary<string, ToolTip> MeteorTypeTooltips = new Dictionary<string, ToolTip>();
 
 
         Dictionary<string, GameObject> PlanetBiomes = new Dictionary<string, GameObject>();
@@ -213,7 +215,7 @@ namespace ClusterTraitGenerationManager
 
             StoryTraitButton = transform.Find("Categories/FooterContent/StoryTraits").gameObject;
             GameSettingsButton = transform.Find("Categories/FooterContent/GameSettings").gameObject;
-            
+
             ///Gallery
             StoryTraitGridContainer = transform.Find("ItemSelection/StoryTraitsContent/StoryTraitsContainer").gameObject;
             StoryTraitEntryPrefab = transform.Find("ItemSelection/StoryTraitsContent/StoryTraitsContainer/Item").gameObject;
@@ -566,7 +568,7 @@ namespace ClusterTraitGenerationManager
             SeedRerollsTraitsToggle_Main.On = CGSMClusterManager.RerollTraitsWithSeedChange;
 
             bool CategoryIsStarmapitem = SelectedCategory > 0;
-            if(CategoryIsStarmapitem != _lastCategoryWasStarmapItem)
+            if (CategoryIsStarmapitem != _lastCategoryWasStarmapItem)
             {
                 _lastCategoryWasStarmapItem = CategoryIsStarmapitem;
                 StarmapItemEnabled.gameObject.SetActive(CategoryIsStarmapitem);
@@ -582,7 +584,7 @@ namespace ClusterTraitGenerationManager
             Details_StoryTraitContainer.SetActive(SelectedCategory == StarmapItemCategory.StoryTraits);
             Details_VanillaPOIContainer.SetActive(SelectedCategory == StarmapItemCategory.VanillaStarmap);
 
-            if(SelectedCategory == StarmapItemCategory.GameSettings)
+            if (SelectedCategory == StarmapItemCategory.GameSettings)
             {
                 selectionHeaderLabel.SetText(string.Empty);
             }
@@ -596,7 +598,7 @@ namespace ClusterTraitGenerationManager
                 bool canGenerateMultiple = current.MaxNumberOfInstances > 1;
 
                 selectionHeaderLabel.SetText(ModAssets.Strings.ApplyCategoryTypeToString(string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL, SelectedPlanet.DisplayName), SelectedCategory));
-                
+
                 StarmapItemEnabledText.SetText(ModAssets.Strings.ApplyCategoryTypeToString(STARMAPITEMENABLED.LABEL, SelectedCategory));
                 StarmapItemEnabled.SetOn(IsPartOfCluster);
 
@@ -711,7 +713,7 @@ namespace ClusterTraitGenerationManager
         }
         private void SelectDefaultCategoryItem()
         {
-            if(SelectedCategory == StarmapItemCategory.StoryTraits)
+            if (SelectedCategory == StarmapItemCategory.StoryTraits)
             {
                 SelectStoryTrait(Db.Get().Stories.resources.First().Id);
             }
@@ -1056,7 +1058,7 @@ namespace ClusterTraitGenerationManager
         {
 
             StoryTraitGridContainer = transform.Find("ItemSelection/StoryTraitsContent/StoryTraitsContainer").gameObject;
-            StoryTraitEntryPrefab =   transform.Find("ItemSelection/StoryTraitsContent/StoryTraitsContainer/Item").gameObject;
+            StoryTraitEntryPrefab = transform.Find("ItemSelection/StoryTraitsContent/StoryTraitsContainer/Item").gameObject;
             StoryTraitEntryPrefab.SetActive(false);
             Details_StoryTraitContainer = transform.Find("Details/Content/ScrollRectContainer/StoryTrait").gameObject;// .FindOrAddComponent<FToggle2>();
             Details_StoryTraitContainer.SetActive(true);
@@ -1065,9 +1067,10 @@ namespace ClusterTraitGenerationManager
             StoryTraitToggle = transform.Find("Details/Content/ScrollRectContainer/StoryTrait/StoryTraitEnabled").gameObject.AddOrGet<FToggle2>();
             StoryTraitToggle.SetCheckmark("Background/Checkmark");
             Details_StoryTraitContainer.SetActive(false);
-            StoryTraitToggle.OnClick += 
-                () => {
-                    ToggleStoryTrait(CurrentlySelectedStoryTrait); 
+            StoryTraitToggle.OnClick +=
+                () =>
+                {
+                    ToggleStoryTrait(CurrentlySelectedStoryTrait);
                 };
 
             foreach (Story Story in Db.Get().Stories.resources)
@@ -1079,7 +1082,7 @@ namespace ClusterTraitGenerationManager
                 FToggle2 toggle = entry.transform.Find("Background").gameObject.AddOrGet<FToggle2>();
                 toggle.SetCheckmark("Checkmark");
                 toggle.OnClick +=
-                () => 
+                () =>
                 {
                     SelectStoryTrait(Story.Id);
                     ToggleStoryTrait(Story.Id);
@@ -1439,15 +1442,12 @@ namespace ClusterTraitGenerationManager
             categoryToggles.Clear();
 
 
-            foreach (var Planet in PlanetoidDict())
+            foreach (var Planet in PlanetoidDict)
             {
                 this.AddItemToGallery(Planet.Value);
             }
-            foreach (StarmapItemCategory category in (StarmapItemCategory[])Enum.GetValues(typeof(StarmapItemCategory)))
+            foreach (StarmapItemCategory category in AvailableStarmapItemCategories)
             {
-                if (category < 0)
-                    continue;
-
                 AddCategoryItem(category);
             };
             var StoryTraitsBtn = StoryTraitButton.AddOrGet<CategoryItem>();
@@ -1517,21 +1517,20 @@ namespace ClusterTraitGenerationManager
             ///SeasonContainer
             foreach (var gameplaySeason in Db.Get().GameplaySeasons.resources)
             {
-                if (!(gameplaySeason is MeteorShowerSeason) || gameplaySeason.Id.Contains("Fullerene") || gameplaySeason.Id.Contains("TemporalTear") || gameplaySeason.dlcId != DlcManager.EXPANSION1_ID)
+                if (!(gameplaySeason is MeteorShowerSeason) || gameplaySeason.Id.Contains("Fullerene") || gameplaySeason.Id.Contains("TemporalTear") || gameplaySeason.dlcId != DlcManager.GetHighestActiveDlcId())
                     continue;
+
                 var meteorSeason = gameplaySeason as MeteorShowerSeason;
-
                 var seasonInstanceHolder = Util.KInstantiateUI(SeasonPrefab, ActiveSeasonsContainer, true);
-
-
                 string name = meteorSeason.Name.Replace("MeteorShowers", string.Empty);
-
+                if (name == string.Empty)
+                    name = METEORSEASONCYCLE.VANILLASEASON;
                 string description = meteorSeason.events.Count == 0 ? METEORSEASONCYCLE.CONTENT.SEASONTYPENOMETEORSTOOLTIP : METEORSEASONCYCLE.CONTENT.SEASONTYPETOOLTIP;
 
                 foreach (var meteorShower in meteorSeason.events)
                 {
                     description += "\n • ";
-                    description += Assets.GetPrefab((meteorShower as MeteorShowerEvent).clusterMapMeteorShowerID).GetProperName();// Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
+                    description += (meteorShower as MeteorShowerEvent).Id;// Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
                 }
                 UIUtils.AddSimpleTooltipToObject(seasonInstanceHolder.transform, description);
                 var LocTextName = seasonInstanceHolder.transform.Find("Label").GetComponent<LocText>();
@@ -1567,39 +1566,19 @@ namespace ClusterTraitGenerationManager
             }
 
             ///Shower Container
-            foreach (var gameplayEvent in Db.Get().GameplayEvents.resources)
+            foreach (var MeteorPreset in Assets.GetPrefabsWithComponent<Comet>())
             {
-                if (!(gameplayEvent is MeteorShowerEvent) || gameplayEvent.Id.Contains("Fullerene"))
-                    continue;
-                var meteorEvent = gameplayEvent as MeteorShowerEvent;
-                string ClusterEventID = meteorEvent.clusterMapMeteorShowerID;
+                string meteorId = MeteorPreset.GetComponent<KPrefabID>().PrefabID().ToString();
+                //SgtLogger.l(meteorId, "METEOR");
+                var cometInstanceHolder = Util.KInstantiateUI(MeteorPrefab, ActiveMeteorsContainer, true);
 
-                ///for those pesky vanilla meteors without starmap entity
-                if (ClusterEventID == null || ClusterEventID == string.Empty)
-                {
-                    continue;
-                }
-
-                var ClusterMapShower = Assets.GetPrefab(ClusterEventID);
-                var showerInstanceHolder = Util.KInstantiateUI(MeteorPrefab, ActiveMeteorsContainer, true);
-
-
-                string name = ClusterMapShower.GetProperName();
                 string description = METEORSEASONCYCLE.SHOWERTOOLTIP;
-                var icon = showerInstanceHolder.transform.Find("TraitImage").GetComponent<Image>();
-                icon.sprite = Def.GetUISprite(Assets.GetPrefab(ClusterEventID)).first;
+                var icon = cometInstanceHolder.transform.Find("TraitImage").GetComponent<Image>();
+                icon.sprite = Def.GetUISprite(MeteorPreset).first;
 
-                var meteortypes = meteorEvent.GetMeteorsInfo();
-                foreach (var meteor in meteortypes)
-                {
-                    description += "\n • ";
-                    description += Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
-                }
-                UIUtils.TryChangeText(showerInstanceHolder.transform, "Label", name);
-                UIUtils.AddSimpleTooltipToObject(showerInstanceHolder.transform, description);
-
-
-                ShowerTypes[gameplayEvent.Id] = showerInstanceHolder;
+                UIUtils.TryChangeText(cometInstanceHolder.transform, "Label", MeteorPreset.GetProperName());
+                MeteorTypeTooltips[meteorId] = UIUtils.AddSimpleTooltipToObject(cometInstanceHolder, description);
+                MeteorTypes[meteorId] = cometInstanceHolder;
             }
             RefreshMeteorLists();
         }
@@ -1679,20 +1658,34 @@ namespace ClusterTraitGenerationManager
                     PlanetBiomes[biomeName].SetActive(true);
             }
         }
-
+        Dictionary<string,string> CometDescriptions = new Dictionary<string,string>();
 
         public void RefreshMeteorLists()
         {
             if (SelectedPlanet == null)
                 return;
-            foreach (var showerHolder in ShowerTypes.Values)
+            foreach (var meteorType in MeteorTypes.Values)
             {
-                showerHolder.SetActive(false);
+                meteorType.SetActive(false);
             }
+            CometDescriptions.Clear();
             foreach (var activeShower in SelectedPlanet.CurrentMeteorShowerTypes)
             {
-                if (ShowerTypes.ContainsKey(activeShower.Id))
-                    ShowerTypes[activeShower.Id].SetActive(true);
+                foreach (var cometType in activeShower.GetMeteorsInfo())
+                {
+                    if (MeteorTypes.ContainsKey(cometType.prefab))
+                    {
+                        if (!CometDescriptions.ContainsKey(cometType.prefab))
+                            CometDescriptions[cometType.prefab] = string.Empty;
+
+                        CometDescriptions[cometType.prefab] += "\n • "+ activeShower.Id;
+                        MeteorTypes[cometType.prefab].SetActive(true);
+                    }
+                }
+            }
+            foreach(var entry in CometDescriptions)
+            {
+                MeteorTypeTooltips[entry.Key].SetSimpleTooltip(METEORSEASONCYCLE.SHOWERTOOLTIP + entry.Value);
             }
 
             foreach (var seasonHolder in SeasonTypes.Values)

@@ -152,7 +152,7 @@ namespace ClusterTraitGenerationManager
 
             foreach (KeyValuePair<StarmapItem, MultiToggle> galleryGridButton in planetoidGridButtons)
             {
-                var key = CGSMClusterManager.PlanetoidDict()[galleryGridButton.Key.id];
+                var key = CGSMClusterManager.PlanetoidDict[galleryGridButton.Key.id];
                 MultiToggle multiToggle1 = galleryGridButton.Value;
 
                 //SgtLogger.log(SelectedCategory.ToString()+" == ? "+ key.category, "CATEGORY");
@@ -290,11 +290,11 @@ namespace ClusterTraitGenerationManager
 
             //this.galleryGridLayouter.ImmediateSizeGridToScreenResolution();
 
-            foreach (var Planet in PlanetoidDict())
+            foreach (var Planet in PlanetoidDict)
             {
                 this.AddItemToGallery(Planet.Value);
             }
-            foreach (StarmapItemCategory category in (StarmapItemCategory[])Enum.GetValues(typeof(StarmapItemCategory)))
+            foreach (StarmapItemCategory category in AvailableStarmapItemCategories)
             {
                 if (category < 0)
                     continue;

@@ -89,7 +89,7 @@ namespace ClusterTraitGenerationManager
         {
             foreach (var gameplaySeason in Db.Get().GameplaySeasons.resources)
             {
-                if (!(gameplaySeason is MeteorShowerSeason) || gameplaySeason.Id.Contains("Fullerene") || gameplaySeason.Id.Contains("TemporalTear") || gameplaySeason.dlcId != DlcManager.EXPANSION1_ID)
+                if (!(gameplaySeason is MeteorShowerSeason) || gameplaySeason.Id.Contains("Fullerene") || gameplaySeason.Id.Contains("TemporalTear") || gameplaySeason.dlcId != DlcManager.GetHighestActiveDlcId())
                     continue;
                 var meteorSeason = gameplaySeason as MeteorShowerSeason;
 
@@ -97,13 +97,14 @@ namespace ClusterTraitGenerationManager
 
 
                 string name = meteorSeason.Name.Replace("MeteorShowers", string.Empty);
-
+                if (name == string.Empty)
+                    name = METEORSEASONCYCLE.VANILLASEASON;
                 string description = meteorSeason.events.Count == 0 ? METEORSEASONCYCLE.CONTENT.SEASONTYPENOMETEORSTOOLTIP : METEORSEASONCYCLE.CONTENT.SEASONTYPETOOLTIP;
 
                 foreach (var meteorShower in meteorSeason.events)
                 {
                     description += "\n • ";
-                    description += Assets.GetPrefab((meteorShower as MeteorShowerEvent).clusterMapMeteorShowerID).GetProperName();// Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
+                    description += (meteorShower as MeteorShowerEvent).Id;// Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
                 }
                 UIUtils.AddSimpleTooltipToObject(seasonInstanceHolder.transform, description);
 

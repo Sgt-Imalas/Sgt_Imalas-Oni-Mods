@@ -325,7 +325,8 @@ namespace ClusterTraitGenerationManager
         public class SerializableStarmapItem
         {
             public string itemID;
-            public int minRing, maxRing, buffer;
+            public int _predefinedPlacementOrder = -1;
+            public int  minRing, maxRing, buffer;
             public float numberToSpawn, maxNumberToSpawn;
             public StarmapItemCategory category;
             public WorldSizePresets sizePreset;
@@ -336,7 +337,8 @@ namespace ClusterTraitGenerationManager
 
             public SerializableStarmapItem(
                 string itemID, 
-                int minRing, 
+                int placementOrder, 
+                int minRing,
                 int maxRing, 
                 int buffer, 
                 float numberToSpawn, float maxNumberToSpawn,
@@ -348,6 +350,7 @@ namespace ClusterTraitGenerationManager
                 List<string> planetTraits)
             {
                 this.itemID = itemID;
+                this._predefinedPlacementOrder = placementOrder;
                 this.minRing = minRing;
                 this.maxRing = maxRing;
                 this.buffer = buffer;
@@ -369,6 +372,7 @@ namespace ClusterTraitGenerationManager
 
                 return new SerializableStarmapItem(
                     poiItem.id,
+                    -1,
                     poiItem.minRing,
                     poiItem.maxRing,
                     poiItem.buffer,
@@ -393,6 +397,7 @@ namespace ClusterTraitGenerationManager
 
                 return new SerializableStarmapItem(
                     poiItem.id,
+                    poiItem.PredefinedPlacementOrder,
                     poiItem.minRing,
                     poiItem.maxRing,
                     poiItem.buffer,
@@ -451,7 +456,7 @@ namespace ClusterTraitGenerationManager
 
             ApplyGameSettings();
 
-            var dict = PlanetoidDict();
+            var dict = PlanetoidDict;
 
             var cluster = CGSMClusterManager.CustomCluster;
             cluster.defaultRings = DefaultRings;
@@ -519,6 +524,9 @@ namespace ClusterTraitGenerationManager
             var reciever = GivePrefilledItem(reciverToLookup);
 
             SgtLogger.l("setting starmap item rings: min->"+item.minRing + ", max->" + item.maxRing+", buffer: "+item.buffer, reciever.id);
+
+            if(item._predefinedPlacementOrder!=-1)
+                reciever.PredefinedPlacementOrder = item._predefinedPlacementOrder;
 
             reciever.SetOuterRing(item.maxRing);
             reciever.SetInnerRing(item.minRing);

@@ -16,7 +16,7 @@ namespace ClusterTraitGenerationManager
         ///     Start Version - Players can start on this planet
         ///     Warp Version - The Teleporters will connect to this planet
         ///     Outer Version - No Teleporter templates are here, only reachable via rocket
-        /// The version that is not generated is the default version of your planet, the type of that is determined in CGSMClusterManager.PlanetoidDict()
+        /// The version that is not generated is the default version of your planet, the type of that is determined in CGSMClusterManager.PlanetoidDict
         /// </summary>
 
 

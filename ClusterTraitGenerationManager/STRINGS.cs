@@ -329,7 +329,9 @@ namespace ClusterTraitGenerationManager
                                 public static LocString SWITCHTOOTHERSEASONTOOLTIP = (LocString)"Swap this season to a different type";
                                 public static LocString REMOVESEASONTOOLTIP = (LocString)"Remove this season type";
 
-                                public static LocString SHOWERTOOLTIP = (LocString)"Meteors in this shower type:";
+                                public static LocString SHOWERTOOLTIP = (LocString)"Meteor type present in these shower types:";
+                                public static LocString VANILLASEASON = (LocString)"Vanilla Meteor Showers";
+                                public static LocString FULLERENETOOLTIP = (LocString)"One time shower event when opening the tear.";
                             }
 
                         }

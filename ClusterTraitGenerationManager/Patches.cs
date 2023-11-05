@@ -103,7 +103,6 @@ namespace ClusterTraitGenerationManager
                 var InsertLocation = __instance.shuffleButton.transform.parent; //__instance.transform.Find("Layout/DestinationInfo/Content/InfoColumn/Horiz/Section - Destination/DestinationDetailsHeader/");
                 var copyButton = Util.KInstantiateUI(__instance.shuffleButton.gameObject, InsertLocation.gameObject, true); //UIUtils.GetShellWithoutFunction(InsertLocation, "CoordinateContainer", "cgsm");
 
-                // UIUtils.ListAllChildrenPath(__instance.transform); 
 
                 UIUtils.TryFindComponent<Image>(copyButton.transform, "FG").sprite = Assets.GetSprite("icon_gear");
                 UIUtils.TryFindComponent<ToolTip>(copyButton.transform, "").toolTip = STRINGS.UI.CGMBUTTON.DESC;
@@ -178,6 +177,18 @@ namespace ClusterTraitGenerationManager
                 RegenerateCGM(__instance.newGameSettings.settings, "Coordinate");
             }
         }
+        [HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
+        [HarmonyPatch(nameof(ColonyDestinationSelectScreen.CoordinateChanged))]
+        public static class CompleteSeedAdded
+        {
+            public static void Postfix(ColonyDestinationSelectScreen __instance)
+            {
+                CGSMClusterManager.selectScreen = __instance;
+                if (__instance.newGameSettings == null)
+                    return;
+                RegenerateCGM(__instance.newGameSettings.settings, "Coordinate");
+            }
+        }
 
         //public static class ReplaceDefaultName_3
         //{
@@ -231,7 +242,6 @@ namespace ClusterTraitGenerationManager
         //}
 
         /// <summary>
-        /// CoreTraitFix_SolarSystemWorlds
         /// </summary>
         [HarmonyPatch(typeof(MinionSelectScreen))]
         [HarmonyPatch(nameof(MinionSelectScreen.OnProceed))]
@@ -343,7 +353,9 @@ namespace ClusterTraitGenerationManager
 
                 foreach (var WorldFile in WorldFiles)
                 {
-                    string WorldCacheName = DLC_WorldNamePrefix + System.IO.Path.GetFileNameWithoutExtension(WorldFile.FullName);
+                    string WorldCacheName = 
+                        (DlcManager.IsExpansion1Active() ? DLC_WorldNamePrefix : Base_WorldNamePrefix)
+                        + System.IO.Path.GetFileNameWithoutExtension(WorldFile.FullName);
 
                     if (!__instance.worldCache.ContainsKey(WorldCacheName) && !hashSet.Contains(WorldCacheName))
                     {
@@ -368,7 +380,7 @@ namespace ClusterTraitGenerationManager
                             SgtLogger.l(WorldCacheName, "Loaded World");
                         }
                     }
-                }
+                } 
             }
 
 
@@ -451,12 +463,12 @@ namespace ClusterTraitGenerationManager
             static bool initialized = false;
             public static void InitWorlds()
             {
-                if (!DlcManager.IsExpansion1Active())
-                    return;
-
                 if (initialized)
                     return;
                 initialized = true;
+
+                if (!DlcManager.IsExpansion1Active())
+                    return;
 
                 ProcGen.Worlds __instance = SettingsCache.worlds;
 
@@ -1329,7 +1341,7 @@ namespace ClusterTraitGenerationManager
                                     SizeModifier = (1 + SizeModifier) / 2;
 
                                     ///Geyser Penalty needs a better implementation...
-                                    SizeModifier = 1f;
+                                    //SizeModifier = 1f;
                                 }
 
 
@@ -1347,6 +1359,7 @@ namespace ClusterTraitGenerationManager
                                     SgtLogger.l("new Geyser amount below 1, rolling for the geyser to appear at all...");
                                     float chance = ((float)new System.Random(CGSMClusterManager.CurrentSeed + BitConverter.ToInt32(MD5.Create().ComputeHash(Encoding.Default.GetBytes(WorldTemplateRule.names.First())), 0)).Next(100)) / 100f;
                                     SgtLogger.l("rolled: " + chance);
+                                    //chance = 0;///always atleast 1
                                     if (chance <= newGeyserAmount)
                                     {
                                         SgtLogger.l("roll succeeded: " + chance * 100f, "POI Chance: " + newGeyserAmount.ToString("P"));
@@ -1379,6 +1392,7 @@ namespace ClusterTraitGenerationManager
 
                             }
 
+                            ///if it has a fixed position                                           this part here
                             if (WorldTemplateRule.times > 1 && WorldTemplateRule.overridePlacement != Vector2I.minusone)
                             {
                                 WorldTemplateRule.times = 1;

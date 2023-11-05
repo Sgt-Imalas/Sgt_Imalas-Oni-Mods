@@ -407,13 +407,13 @@ namespace ClusterTraitGenerationManager
 
         bool ApplyPlanetImage(SerializableStarmapItem item, Image image)
         {
-            if (!PlanetoidDict().ContainsKey(item.itemID))
+            if (!PlanetoidDict.ContainsKey(item.itemID))
             {
                 SgtLogger.warning(item.itemID + " not found!");
                 image.sprite = Assets.GetSprite(SpritePatch.randomTraitsTraitIcon);
                 return false;
             }
-            var starmapItem = PlanetoidDict()[item.itemID];
+            var starmapItem = PlanetoidDict[item.itemID];
             image.sprite = starmapItem.planetSprite;
             return true;
         }
@@ -423,13 +423,13 @@ namespace ClusterTraitGenerationManager
             if (item == null)
                 return null;
 
-            if (!PlanetoidDict().ContainsKey(item.itemID))
+            if (!PlanetoidDict.ContainsKey(item.itemID))
             {
                 SgtLogger.warning(item.itemID + " not found!");
                 return null;
             }
 
-            var starmapItem = PlanetoidDict()[item.itemID];
+            var starmapItem = PlanetoidDict[item.itemID];
 
             var planetObject = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
 
