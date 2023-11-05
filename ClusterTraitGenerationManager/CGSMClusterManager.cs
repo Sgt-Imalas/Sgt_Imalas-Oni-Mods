@@ -1495,6 +1495,7 @@ namespace ClusterTraitGenerationManager
             LastPresetGenerated = clusterID;
         }
 
+        public static bool RerollVanillaStarmapWithSeedChange = true;
         public static bool RerollTraitsWithSeedChange = true;
         public static void RerollTraits()
         {

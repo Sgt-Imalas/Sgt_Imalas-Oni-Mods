@@ -143,7 +143,7 @@ namespace ClusterTraitGenerationManager
         public FInputField2 SeedInput_Main;
         public FButton SeedCycleButton_Main;
         public FToggle2 SeedRerollsTraitsToggle_Main;
-
+        public FToggle2 SeedRerollsVanillaStarmapToggle;
 
 
         private LocText StarmapItemEnabledText;
@@ -566,6 +566,7 @@ namespace ClusterTraitGenerationManager
         {
             SeedInput_Main.Text = CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id;
             SeedRerollsTraitsToggle_Main.On = CGSMClusterManager.RerollTraitsWithSeedChange;
+            SeedRerollsVanillaStarmapToggle.On = CGSMClusterManager.RerollVanillaStarmapWithSeedChange;
 
             bool CategoryIsStarmapitem = SelectedCategory > 0;
             if (CategoryIsStarmapitem != _lastCategoryWasStarmapItem)
@@ -617,6 +618,12 @@ namespace ClusterTraitGenerationManager
                     NumberOfRandomClassics.SetMinMaxCurrent(0, CGSMClusterManager.RandomOuterPlanetsStarmapItem.MaxNumberOfInstances, CGSMClusterManager.MaxClassicOuterPlanets);
                     NumberOfRandomClassics.SetInteractable(IsPartOfCluster);
                 }
+                bool DlcActive = DlcManager.IsExpansion1Active();
+
+                ClusterSize.transform.parent.gameObject.SetActive(DlcActive);
+                SeedRerollsVanillaStarmapToggle.gameObject.SetActive(!DlcActive);
+
+                MinMaxDistanceSlider.transform.parent.gameObject.SetActive(DlcActive);
 
                 MinMaxDistanceSlider.SetLimits(0, CustomCluster.Rings);
                 MinMaxDistanceSlider.SetValues(current.minRing, current.maxRing, 0, CustomCluster.Rings, true);
@@ -624,7 +631,7 @@ namespace ClusterTraitGenerationManager
                 SpawnDistanceText.SetText(string.Format(MINMAXDISTANCE.DESCRIPTOR.FORMAT, (int)current.minRing, (int)current.maxRing));
 
                 BufferDistance.SetMinMaxCurrent(0, CustomCluster.Rings, SelectedPlanet.buffer);
-                BufferDistance.transform.parent.gameObject.SetActive(!current.IsPOI);
+                BufferDistance.transform.parent.gameObject.SetActive(!current.IsPOI && DlcActive);
                 BufferDistance.SetInteractable(IsPartOfCluster);
 
                 ClusterSize.SetMinMaxCurrent(ringMin, ringMax, CustomCluster.Rings);
@@ -1020,6 +1027,13 @@ namespace ClusterTraitGenerationManager
             SeedLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.WORLDGEN_SEED.NAME;
             UIUtils.AddSimpleTooltipToObject(SeedLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.WORLDGEN_SEED.TOOLTIP, alignCenter: true, onBottom: true);
 
+            SeedRerollsVanillaStarmapToggle = transform.Find("Details/Footer/Seed/SeedAfffectingStarmap").gameObject.AddOrGet<FToggle2>();
+            SeedRerollsVanillaStarmapToggle.SetCheckmark("Background/Checkmark");
+            SeedRerollsVanillaStarmapToggle.On = CGSMClusterManager.RerollVanillaStarmapWithSeedChange;
+            SeedRerollsVanillaStarmapToggle.OnClick += () =>
+            {
+                CGSMClusterManager.RerollVanillaStarmapWithSeedChange = SeedRerollsVanillaStarmapToggle.On;
+            };
 
             SeedRerollsTraitsToggle_Main = transform.Find("Details/Footer/Seed/SeedAfffectingTraits").FindOrAddComponent<FToggle2>();
             SeedRerollsTraitsToggle_Main.SetCheckmark("Background/Checkmark");
