@@ -97,6 +97,17 @@ namespace SetStartDupes
         ///Assuming the component added by the Trait has the same class name as the trait, which is the case for all klei traits.
         public static void PurgingTraitComponentIfExists(string id, GameObject minionToRemoveFrom)
         {
+            if(minionToRemoveFrom.TryGetComponent<StateMachineController>(out StateMachineController ctrl))
+            {
+                var traitSMIs = ctrl.stateMachines.FindAll(smi=>smi.stateMachine.GetType().Name == id);
+                foreach ( var traitSMI in traitSMIs)
+                {
+                    SgtLogger.l("Trait SMI Found, purging... " + id);
+                    traitSMI.StopSM("purged by DSS");
+                }
+            }
+
+            ///only this part was present
             var traitCmp = minionToRemoveFrom.GetComponent(id);
             if (traitCmp != null)
             {

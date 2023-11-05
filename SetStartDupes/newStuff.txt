@@ -1,1 +1,1 @@
-﻿- presets can no longer add dlc traits in the base game, these now get skipped
+﻿- fixed cryopod dupes getting multiple stress/overjoyed reactions until reload

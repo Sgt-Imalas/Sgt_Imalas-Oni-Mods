@@ -23,6 +23,7 @@ using static SetStartDupes.DupeTraitManager;
 using static SetStartDupes.ModAssets;
 using static SetStartDupes.STRINGS.UI;
 using static STRINGS.DUPLICANTS;
+using static STRINGS.DUPLICANTS.CHORES;
 using static STRINGS.UI.DETAILTABS;
 using static UnityEngine.GraphicsBuffer;
 
@@ -282,7 +283,7 @@ namespace SetStartDupes
             {
                 if (EditingSingleDupe)
                 {
-                    var DupeToDeliver = (MinionStartingStats)ModAssets.SingleCharacterContainer.stats;
+                    MinionStartingStats DupeToDeliver = (MinionStartingStats)ModAssets.SingleCharacterContainer.stats;
                     SgtLogger.l(DupeToDeliver.personality.IdHash.ToString(), "resourceID");
                     SgtLogger.l(DupeToDeliver.Name + " <- cryopod dupe´fin");
 
