@@ -25,15 +25,13 @@ using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS;
 using static ClusterTraitGenerationManager.CGM_MainScreen_UnityScreen;
 using static CustomGameSettings;
 using Database;
-using static STRINGS.CODEX;
-using static ResearchTypes;
-using PeterHan.PLib.UI;
-using TUNING;
 
 namespace ClusterTraitGenerationManager
 {
     public class CGM_MainScreen_UnityScreen : KModalScreen
     {
+        public static CGM_MainScreen_UnityScreen Instance = null;
+
         ////GridLayouter galleryGridLayouter;
         //GridLayoutSizeAdjustment galleryGridLayouter;
 
@@ -63,8 +61,11 @@ namespace ClusterTraitGenerationManager
         GameObject PlanetoidCategoryPrefab;
         public GameObject categoryListContent;
 
-
+        /// VanillaStarmap
         GameObject VanillaStarmapButton;
+        
+        
+
 
         GameObject StoryTraitButton;
         GameObject GameSettingsButton;
@@ -189,8 +190,8 @@ namespace ClusterTraitGenerationManager
         private GameObject BiomePrefab;
 
 
-        private static FButton ResetButton;
-        private static FButton ResetAllButton;
+        private FButton ResetButton;
+        private FButton ResetAllButton;
         private FButton ReturnButton;
         private FButton PresetsButton;
         //private FButton SettingsButton;
@@ -199,6 +200,7 @@ namespace ClusterTraitGenerationManager
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
+            Instance = this;
             this.canBackoutWithRightClick = true;
             base.ConsumeMouseScroll = true;
             this.SetHasFocus(true);
@@ -1741,27 +1743,24 @@ namespace ClusterTraitGenerationManager
                 }
             }
         }
-        public static void VanillaResetButtonStates()
-        {
-            if (DlcManager.IsExpansion1Active())
-                return;
 
-            UIUtils.TryChangeText(ResetButton, "Text", Category)
-        }
-
-        public static void SetResetButtonStates()
+        public void SetResetButtonStates()
         {
-            if (!DlcManager.IsExpansion1Active())
-                return;
 
             if (ResetButton != null)
-                ResetButton.SetInteractable(!PresetApplied);
+                ResetButton.SetInteractable(!PresetApplied && (SelectedCategory > 0 || SelectedCategory != StarmapItemCategory.VanillaStarmap));
+
+            UIUtils.TryChangeText(ResetButton.transform, "Text", SelectedCategory == StarmapItemCategory.VanillaStarmap
+                ? RESETSELECTIONBUTTON.TEXT_STARMAP_VANILLA
+                : RESETSELECTIONBUTTON.TEXT
+                );
+
             if (ResetAllButton != null)
                 ResetAllButton.SetInteractable(!PresetApplied);
         }
 
-        private static bool _presetApplied = false;
-        public static bool PresetApplied
+        private bool _presetApplied = false;
+        public bool PresetApplied
         {
             get
             {

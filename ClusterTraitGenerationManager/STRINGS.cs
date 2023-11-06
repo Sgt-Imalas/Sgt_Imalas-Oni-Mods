@@ -360,7 +360,7 @@ namespace ClusterTraitGenerationManager
                             public class RESETCLUSTERBUTTON
                             {
                                 public static LocString TEXT = (LocString)"Reset Cluster";
-                                public static LocString TEXT_VANILLA = (LocString)"Reset World";
+                                public static LocString TEXT_VANILLA = (LocString)"Reset All";
                                 public static LocString TOOLTIP = (LocString)"Undo all changes you have made by reloading the cluster preset.";
                                 public static LocString TOOLTIP_VANILLA = (LocString)"Undo all changes you have made by reloading the world preset.";
                             }

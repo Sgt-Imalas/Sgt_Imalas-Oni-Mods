@@ -495,7 +495,7 @@ namespace ClusterTraitGenerationManager
             ApplyButton.OnClick += () =>
             {
                 CurrentlySelected.ApplyPreset();
-                CGM_MainScreen_UnityScreen.PresetApplied = true;
+                CGM_MainScreen_UnityScreen.Instance.PresetApplied = true;
                 this.OnCloseAction.Invoke();
                 this.Show(false);
             };

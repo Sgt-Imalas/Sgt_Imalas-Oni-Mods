@@ -187,6 +187,8 @@ namespace ClusterTraitGenerationManager
             public Dictionary<string, StarmapItem> POIs = new Dictionary<string, StarmapItem>();
             public string DLC_Id = DlcManager.GetHighestActiveDlcId();
 
+            public List<Tuple<string, int>> VanillaStarmapItems = new List<Tuple<string, int>>();
+
             public bool HasStarmapItem(string id, out StarmapItem item1)
             {
                 if (id == null || id.Length == 0)
@@ -374,10 +376,166 @@ namespace ClusterTraitGenerationManager
                     RandomPOIStarmapItem.MaxNumberOfInstances = Math.Max(MaxAmountRandomPOI - 16, Mathf.RoundToInt((7.385f * ((float)rings)) - 56.615f));
             }
 
-            internal void ResetVanillaStarmap()
+
+
+            public void ResetVanillaStarmap()
+            {
+                VanillaStarmapItems.Clear();
+                VanillaStarmapItems = GenerateVanillaStarmapDestinations();
+            }
+            ///<summary>
+            /// copied from SpaceCraftManager.GenerateFixedDestinations and SpaceCraftManager.GenerateRandomDestinations.
+            /// required since those methods require the savegame seed and arent returning anything
+            /// </summary>
+            /// <returns>List of Tuple<StarmapDestination,distance> </returns>
+            List<Tuple<string, int>> GenerateVanillaStarmapDestinations()
             {
 
+                string setting = selectScreen.newGameSettings.GetSetting(CustomGameSettingConfigs.WorldgenSeed);
+                int seed = int.Parse(setting);
+                SpaceDestinationTypes destinationTypes = Db.Get().SpaceDestinationTypes;
+
+                List<Tuple<string, int>> destinationsWithDistance = new List<Tuple<string, int>>();
+                ///Fixed Items:
+                destinationsWithDistance.Add(new(destinationTypes.CarbonaceousAsteroid.Id, 0));
+                destinationsWithDistance.Add(new(destinationTypes.CarbonaceousAsteroid.Id, 0));
+                destinationsWithDistance.Add(new(destinationTypes.MetallicAsteroid.Id, 1));
+                destinationsWithDistance.Add(new(destinationTypes.RockyAsteroid.Id, 2));
+                destinationsWithDistance.Add(new(destinationTypes.IcyDwarf.Id, 3));
+                destinationsWithDistance.Add(new(destinationTypes.OrganicDwarf.Id, 4));
+                ///Random Items:
+                KRandom krandom = new KRandom(seed);
+                List<List<string>> stringListList = new List<List<string>>()
+                {
+                    new List<string>(),
+                    new List<string>() { destinationTypes.OilyAsteroid.Id },
+                    new List<string>() { destinationTypes.Satellite.Id },
+                    new List<string>()
+                    {
+                        destinationTypes.Satellite.Id,
+                        destinationTypes.RockyAsteroid.Id,
+                        destinationTypes.CarbonaceousAsteroid.Id,
+                        destinationTypes.ForestPlanet.Id
+                    },
+                    new List<string>()
+                    {
+                        destinationTypes.MetallicAsteroid.Id,
+                        destinationTypes.RockyAsteroid.Id,
+                        destinationTypes.CarbonaceousAsteroid.Id,
+                        destinationTypes.SaltDwarf.Id
+                    },
+                    new List<string>()
+                    {
+                        destinationTypes.MetallicAsteroid.Id,
+                        destinationTypes.RockyAsteroid.Id,
+                        destinationTypes.CarbonaceousAsteroid.Id,
+                        destinationTypes.IcyDwarf.Id,
+                        destinationTypes.OrganicDwarf.Id
+                    },
+                    new List<string>()
+                    {
+                        destinationTypes.IcyDwarf.Id,
+                        destinationTypes.OrganicDwarf.Id,
+                        destinationTypes.DustyMoon.Id,
+                        destinationTypes.ChlorinePlanet.Id,
+                        destinationTypes.RedDwarf.Id
+                    },
+                    new List<string>()
+                    {
+                        destinationTypes.DustyMoon.Id,
+                        destinationTypes.TerraPlanet.Id,
+                        destinationTypes.VolcanoPlanet.Id
+                    },
+                    new List<string>()
+                    {
+                        destinationTypes.TerraPlanet.Id,
+                        destinationTypes.GasGiant.Id,
+                        destinationTypes.IceGiant.Id,
+                        destinationTypes.RustPlanet.Id
+                    },
+                    new List<string>()
+                    {
+                        destinationTypes.GasGiant.Id,
+                        destinationTypes.IceGiant.Id,
+                        destinationTypes.HydrogenGiant.Id
+                    },
+                    new List<string>()
+                    {
+                        destinationTypes.RustPlanet.Id,
+                        destinationTypes.VolcanoPlanet.Id,
+                        destinationTypes.RockyAsteroid.Id,
+                        destinationTypes.TerraPlanet.Id,
+                        destinationTypes.MetallicAsteroid.Id
+                    },
+                    new List<string>()
+                    {
+                        destinationTypes.ShinyPlanet.Id,
+                        destinationTypes.MetallicAsteroid.Id,
+                        destinationTypes.RockyAsteroid.Id
+                    },
+                    new List<string>()
+                    {
+                        destinationTypes.GoldAsteroid.Id,
+                        destinationTypes.OrganicDwarf.Id,
+                        destinationTypes.ForestPlanet.Id,
+                        destinationTypes.ChlorinePlanet.Id
+                    },
+                    new List<string>()
+                    {
+                        destinationTypes.IcyDwarf.Id,
+                        destinationTypes.MetallicAsteroid.Id,
+                        destinationTypes.DustyMoon.Id,
+                        destinationTypes.VolcanoPlanet.Id,
+                        destinationTypes.IceGiant.Id
+                    },
+                    new List<string>()
+                    {
+                        destinationTypes.ShinyPlanet.Id,
+                        destinationTypes.RedDwarf.Id,
+                        destinationTypes.RockyAsteroid.Id,
+                        destinationTypes.GasGiant.Id
+                    },
+                    new List<string>()
+                    {
+                        destinationTypes.HydrogenGiant.Id,
+                        destinationTypes.ForestPlanet.Id,
+                        destinationTypes.OilyAsteroid.Id
+                    },
+                    new List<string>()
+                    {
+                        destinationTypes.GoldAsteroid.Id,
+                        destinationTypes.SaltDwarf.Id,
+                        destinationTypes.TerraPlanet.Id,
+                        destinationTypes.VolcanoPlanet.Id
+                    }
+                };
+                List<int> intList = new List<int>();
+                int num1 = 3;
+                int minValue = 15;
+                int maxValue = 25;
+                for (int index1 = 0; index1 < stringListList.Count; ++index1)
+                {
+                    if (stringListList[index1].Count != 0)
+                    {
+                        for (int index2 = 0; index2 < num1; ++index2)
+                            intList.Add(index1);
+                    }
+                }
+                int num2 = krandom.Next(minValue, maxValue);
+                for (int index3 = 0; index3 < num2; ++index3)
+                {
+                    int index4 = krandom.Next(0, intList.Count - 1);
+                    int num3 = intList[index4];
+                    intList.RemoveAt(index4);
+                    List<string> stringList = stringListList[num3];
+                    destinationsWithDistance.Add(new(stringList[krandom.Next(0, stringList.Count)], num3));
+                }
+
+                destinationsWithDistance.Add(new(destinationTypes.Earth.Id, 4));
+                destinationsWithDistance.Add(new(destinationTypes.Wormhole.Id, stringListList.Count));
+                return destinationsWithDistance;
             }
+
         }
 
         public enum WorldSizePresets
@@ -1288,7 +1446,7 @@ namespace ClusterTraitGenerationManager
 
             SgtLogger.l("Ordering Asteroids");
 
-            foreach(var item in CustomCluster.GetAllPlanets())
+            foreach (var item in CustomCluster.GetAllPlanets())
             {
                 SgtLogger.l(item.PredefinedPlacementOrder.ToString(), item.id);
             }
@@ -2111,7 +2269,7 @@ namespace ClusterTraitGenerationManager
 
         internal static void ResetStarmap()
         {
-            if(CustomCluster!=null && !DlcManager.IsExpansion1Active())
+            if (CustomCluster != null && !DlcManager.IsExpansion1Active())
             {
                 CustomCluster.ResetVanillaStarmap();
             }

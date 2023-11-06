@@ -153,7 +153,7 @@ namespace ClusterTraitGenerationManager
 
             if (CGM_Screen == null || !CGM_Screen.isActiveAndEnabled)
             {
-                CGM_MainScreen_UnityScreen.PresetApplied = false;
+                CGM_MainScreen_UnityScreen.Instance.PresetApplied = false;
                 CGSMClusterManager.LoadCustomCluster = false;
                 CGSMClusterManager.CreateCustomClusterFrom(clusterPath, ForceRegen: true);
                 SgtLogger.l("Regenerating Cluster from " + clusterPath + ". Reason: " + changedConfigID + " changed.");
