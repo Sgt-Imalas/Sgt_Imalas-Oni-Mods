@@ -360,12 +360,16 @@ namespace ClusterTraitGenerationManager
                             public class RESETCLUSTERBUTTON
                             {
                                 public static LocString TEXT = (LocString)"Reset Cluster";
+                                public static LocString TEXT_VANILLA = (LocString)"Reset World";
                                 public static LocString TOOLTIP = (LocString)"Undo all changes you have made by reloading the cluster preset.";
+                                public static LocString TOOLTIP_VANILLA = (LocString)"Undo all changes you have made by reloading the world preset.";
                             }
                             public class RESETSELECTIONBUTTON
                             {
                                 public static LocString TEXT = (LocString)"Reset Selected Item";
+                                public static LocString TEXT_STARMAP_VANILLA = (LocString)"Reset Starmap";
                                 public static LocString TOOLTIP = (LocString)"Undo all changes you have made to the currently selected item.";
+                                public static LocString TOOLTIP_STARMAP_VANILLA = (LocString)"Undo all changes you have made to the starmap";
                             }
                             public class RETURNBUTTON
                             {
@@ -533,7 +537,9 @@ namespace ClusterTraitGenerationManager
             {
                 public static LocString NAME = (LocString)"Seed rerolling affects traits";
                 public static LocString NAME_SHORT = (LocString)"rerolling Traits:";
+                public static LocString NAME_STARMAP = (LocString)"rerolling Starmap:";
                 public static LocString TOOLTIP = (LocString)"When enabled, rerolling the seed will also reroll the planet traits to those of the new seed.\nDisable to reroll the seed without affecting the traits.\nOnly blocks trait rerolling for the seed setting above.";
+                public static LocString TOOLTIP_STARMAP = (LocString)"When enabled, rerolling the seed will also reroll the starmap to the new seed.\nDisable to reroll the seed without affecting the starmap.";
             }
 
             public class SPACEDESTINATIONS

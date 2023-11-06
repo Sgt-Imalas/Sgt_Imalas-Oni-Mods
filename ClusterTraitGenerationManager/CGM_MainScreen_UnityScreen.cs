@@ -985,7 +985,11 @@ namespace ClusterTraitGenerationManager
             ResetButton = buttons.Find("ResetSelectionButton").FindOrAddComponent<FButton>();
             ResetButton.OnClick += () =>
             {
-                CGSMClusterManager.ResetPlanetFromPreset(SelectedPlanet.id);
+                if(DlcManager.IsExpansion1Active())
+                    CGSMClusterManager.ResetPlanetFromPreset(SelectedPlanet.id);
+                else
+                    CGSMClusterManager.ResetStarmap();
+
                 RefreshView();
             };
 
@@ -1034,6 +1038,10 @@ namespace ClusterTraitGenerationManager
             {
                 CGSMClusterManager.RerollVanillaStarmapWithSeedChange = SeedRerollsVanillaStarmapToggle.On;
             };
+
+            var seedStarmapRerollLabel = transform.Find("Details/Footer/Seed/SeedAfffectingStarmap/Label").gameObject.AddOrGet<LocText>();
+            UIUtils.TryChangeText(seedStarmapRerollLabel.transform, "", STRINGS.UI.SEEDLOCK.NAME_STARMAP);
+            UIUtils.AddSimpleTooltipToObject(seedStarmapRerollLabel.transform, STRINGS.UI.SEEDLOCK.TOOLTIP_STARMAP, alignCenter: true, onBottom: true);
 
             SeedRerollsTraitsToggle_Main = transform.Find("Details/Footer/Seed/SeedAfffectingTraits").FindOrAddComponent<FToggle2>();
             SeedRerollsTraitsToggle_Main.SetCheckmark("Background/Checkmark");
@@ -1733,8 +1741,19 @@ namespace ClusterTraitGenerationManager
                 }
             }
         }
+        public static void VanillaResetButtonStates()
+        {
+            if (DlcManager.IsExpansion1Active())
+                return;
+
+            UIUtils.TryChangeText(ResetButton, "Text", Category)
+        }
+
         public static void SetResetButtonStates()
         {
+            if (!DlcManager.IsExpansion1Active())
+                return;
+
             if (ResetButton != null)
                 ResetButton.SetInteractable(!PresetApplied);
             if (ResetAllButton != null)

@@ -185,6 +185,7 @@ namespace ClusterTraitGenerationManager
             public StarmapItem WarpPlanet { get; set; }
             public Dictionary<string, StarmapItem> OuterPlanets = new Dictionary<string, StarmapItem>();
             public Dictionary<string, StarmapItem> POIs = new Dictionary<string, StarmapItem>();
+            public string DLC_Id = DlcManager.GetHighestActiveDlcId();
 
             public bool HasStarmapItem(string id, out StarmapItem item1)
             {
@@ -371,6 +372,11 @@ namespace ClusterTraitGenerationManager
                 }
                 if (RandomPOIStarmapItem != null)
                     RandomPOIStarmapItem.MaxNumberOfInstances = Math.Max(MaxAmountRandomPOI - 16, Mathf.RoundToInt((7.385f * ((float)rings)) - 56.615f));
+            }
+
+            internal void ResetVanillaStarmap()
+            {
+
             }
         }
 
@@ -1361,11 +1367,11 @@ namespace ClusterTraitGenerationManager
             int seed = int.Parse(setting);
 
             CurrentSeed = seed;
-
             if (singleItemId == string.Empty)
             {
                 CustomCluster = new CustomClusterData();
                 CustomCluster.SetRings(Reference.numRings - 1, true);
+                ResetStarmap();
             }
             else
             {
@@ -2101,6 +2107,14 @@ namespace ClusterTraitGenerationManager
         public static void OpenPresetWindow(System.Action onclose = null)
         {
             UnityPresetScreen.ShowWindow(CustomCluster, onclose);
+        }
+
+        internal static void ResetStarmap()
+        {
+            if(CustomCluster!=null && !DlcManager.IsExpansion1Active())
+            {
+                CustomCluster.ResetVanillaStarmap();
+            }
         }
     }
 }

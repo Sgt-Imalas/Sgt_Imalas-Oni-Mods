@@ -142,7 +142,8 @@ namespace ClusterTraitGenerationManager
             Presets.Clear();
             foreach (var loadedPreset in LoadPresets())
             {
-                AddUiElementForPreset(loadedPreset);
+                if (loadedPreset.PresetDLCId == DlcManager.GetHighestActiveDlcId())
+                    AddUiElementForPreset(loadedPreset);
             }
         }
 
@@ -196,7 +197,7 @@ namespace ClusterTraitGenerationManager
                 var load = PresetHolder.transform
                     //.Find("AddThisTraitButton")
                     .FindOrAddComponent<FButton>();
-                if( loadable)
+                if (loadable)
                 {
                     load.OnClick += () => SetAsCurrent(config);
                     UIUtils.AddSimpleTooltipToObject(load.transform, PRESETWINDOWCGM.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.ADDTHISTRAITBUTTON.TOOLTIP, true, onBottom: true);
@@ -206,7 +207,7 @@ namespace ClusterTraitGenerationManager
                     load.SetInteractable(false);
                     UIUtils.AddSimpleTooltipToObject(load.transform, STRINGS.ERRORMESSAGES.MISSINGWORLD, true, onBottom: true);
                 }
-                
+
 
                 PresetHolder.transform.Find("DeleteButton").FindOrAddComponent<FButton>().OnClick += () => DeletePreset(config);
 
@@ -273,7 +274,8 @@ namespace ClusterTraitGenerationManager
             GameSettingsTexts[CustomGameSettingConfigs.CarePackages].text = CustomGameSettingConfigs.CarePackages.label + ": " + CustomGameSettingConfigs.CarePackages.GetLevel(CurrentlySelected.CarePackages).label;
             GameSettingsTexts[CustomGameSettingConfigs.FastWorkersMode].text = CustomGameSettingConfigs.FastWorkersMode.label + ": " + CustomGameSettingConfigs.FastWorkersMode.GetLevel(CurrentlySelected.FastWorkersMode).label;
             GameSettingsTexts[CustomGameSettingConfigs.SaveToCloud].text = CustomGameSettingConfigs.SaveToCloud.label + ": " + CustomGameSettingConfigs.SaveToCloud.GetLevel(CurrentlySelected.SaveToCloud).label;
-            GameSettingsTexts[CustomGameSettingConfigs.Teleporters].text = CustomGameSettingConfigs.Teleporters.label + ": " + CustomGameSettingConfigs.Teleporters.GetLevel(CurrentlySelected.Teleporters).label;
+            if (DlcManager.IsExpansion1Active())
+                GameSettingsTexts[CustomGameSettingConfigs.Teleporters].text = CustomGameSettingConfigs.Teleporters.label + ": " + CustomGameSettingConfigs.Teleporters.GetLevel(CurrentlySelected.Teleporters).label;
 
             TitleHolder.text = CurrentlySelected.ConfigName;
             GeneratePresetButton.SetInteractable(!Presets.ContainsKey(CurrentlySelected));
@@ -286,7 +288,7 @@ namespace ClusterTraitGenerationManager
 
 
 
-            if(CurrentlySelected.StoryTraits!=null && CurrentlySelected.StoryTraits.Count() > 0)
+            if (CurrentlySelected.StoryTraits != null && CurrentlySelected.StoryTraits.Count() > 0)
             {
                 var storyHeader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
                 storyHeader.transform.Find("Label").GetComponent<LocText>().text = global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.STORY_TRAITS_HEADER + ":";
@@ -387,19 +389,19 @@ namespace ClusterTraitGenerationManager
         {
             if (preset.StarterPlanet != null)
             {
-                if(ApplyPlanetImage(preset.StarterPlanet, image))
+                if (ApplyPlanetImage(preset.StarterPlanet, image))
                     return true;
             }
 
             if (preset.WarpPlanet != null)
             {
-                if(ApplyPlanetImage(preset.WarpPlanet, image))
+                if (ApplyPlanetImage(preset.WarpPlanet, image))
                     return false;
             }
 
             if (preset.OuterPlanets.Count > 0)
             {
-                if(ApplyPlanetImage(preset.OuterPlanets.Values.First(), image))
+                if (ApplyPlanetImage(preset.OuterPlanets.Values.First(), image))
                     return false;
             }
             return false;
@@ -582,10 +584,13 @@ namespace ClusterTraitGenerationManager
             UIUtils.AddSimpleTooltipToObject(MeteorShowers.transform.parent, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.METEORSHOWERS.TOOLTIP, alignCenter: true, onBottom: true);
             GameSettingsTexts[CustomGameSettingConfigs.MeteorShowers] = MeteorShowers;
 
-            var Radiation = Util.KInstantiateUI(InfoRowSimple, InfoScreenContainer, true).transform.Find("Label").gameObject.AddOrGet<LocText>();
-            Radiation.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.RADIATION.NAME;
-            UIUtils.AddSimpleTooltipToObject(Radiation.transform.parent, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.RADIATION.TOOLTIP, alignCenter: true, onBottom: true);
-            GameSettingsTexts[CustomGameSettingConfigs.Radiation] = Radiation;
+            if (DlcManager.IsExpansion1Active())
+            {
+                var Radiation = Util.KInstantiateUI(InfoRowSimple, InfoScreenContainer, true).transform.Find("Label").gameObject.AddOrGet<LocText>();
+                Radiation.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.RADIATION.NAME;
+                UIUtils.AddSimpleTooltipToObject(Radiation.transform.parent, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.RADIATION.TOOLTIP, alignCenter: true, onBottom: true);
+                GameSettingsTexts[CustomGameSettingConfigs.Radiation] = Radiation;
+            }
 
             var Stress = Util.KInstantiateUI(InfoRowSimple, InfoScreenContainer, true).transform.Find("Label").gameObject.AddOrGet<LocText>();
             Stress.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.STRESS.NAME;
@@ -619,11 +624,13 @@ namespace ClusterTraitGenerationManager
             UIUtils.AddSimpleTooltipToObject(SaveToCloud.transform.parent, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.SAVETOCLOUD.TOOLTIP, alignCenter: true, onBottom: true);
             GameSettingsTexts[CustomGameSettingConfigs.SaveToCloud] = SaveToCloud;
 
-            var Teleporters = Util.KInstantiateUI(InfoRowSimple, InfoScreenContainer, true).transform.Find("Label").gameObject.AddOrGet<LocText>();
-            Teleporters.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.TELEPORTERS.NAME;
-            UIUtils.AddSimpleTooltipToObject(Teleporters.transform.parent, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.TELEPORTERS.TOOLTIP, alignCenter: true, onBottom: true);
-            GameSettingsTexts[CustomGameSettingConfigs.Teleporters] = Teleporters;
-
+            if (DlcManager.IsExpansion1Active())
+            {
+                var Teleporters = Util.KInstantiateUI(InfoRowSimple, InfoScreenContainer, true).transform.Find("Label").gameObject.AddOrGet<LocText>();
+                Teleporters.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.TELEPORTERS.NAME;
+                UIUtils.AddSimpleTooltipToObject(Teleporters.transform.parent, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.TELEPORTERS.TOOLTIP, alignCenter: true, onBottom: true);
+                GameSettingsTexts[CustomGameSettingConfigs.Teleporters] = Teleporters;
+            }
             init = true;
         }
 

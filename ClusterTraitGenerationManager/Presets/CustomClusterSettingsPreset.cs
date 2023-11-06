@@ -26,6 +26,7 @@ namespace ClusterTraitGenerationManager
     internal class CustomClusterSettingsPreset
     {
         public string FileName;
+        public string PresetDLCId = DlcManager.EXPANSION1_ID;
         public string ConfigName;
         public int Rings;
         public int DefaultRings;
@@ -38,6 +39,7 @@ namespace ClusterTraitGenerationManager
 
         void PopulatePresetData(CustomClusterData data)
         {
+            PresetDLCId = data.DLC_Id;
             Rings = data.Rings;
             DefaultRings = data.defaultRings;
             StarterPlanet = SerializableStarmapItem.InitPlanet(data.StarterPlanet);
@@ -300,8 +302,11 @@ namespace ClusterTraitGenerationManager
                 SetCustomGameSettings(CustomGameSettingConfigs.SaveToCloud, SaveToCloud);
 
             ///Teleporters
-            if (Teleporters != null && Teleporters.Length > 0)
-                SetCustomGameSettings(CustomGameSettingConfigs.Teleporters, Teleporters);
+            if (DlcManager.IsExpansion1Active())
+            {
+                if (Teleporters != null && Teleporters.Length > 0)
+                    SetCustomGameSettings(CustomGameSettingConfigs.Teleporters, Teleporters);
+            }
             
             ///Seed
             if(Seed != null && Seed.Length > 0)
@@ -461,6 +466,7 @@ namespace ClusterTraitGenerationManager
             var cluster = CGSMClusterManager.CustomCluster;
             cluster.defaultRings = DefaultRings;
             cluster.SetRings(this.Rings);
+            cluster.DLC_Id = PresetDLCId;
 
             if (StarterPlanet != null)
             {
