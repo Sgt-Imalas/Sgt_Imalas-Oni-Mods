@@ -278,7 +278,7 @@ namespace SetStartDupes
         [HarmonyPatch(nameof(ImmigrantScreen.OnProceed))]
         public class SkipTelepadActionsForCryoDupes
         {
-
+            [HarmonyPriority(Priority.Low)]
             public static bool Prefix(Telepad ___telepad, ImmigrantScreen __instance)
             {
                 if (EditingSingleDupe)
@@ -301,14 +301,11 @@ namespace SetStartDupes
                         CryoDupeToApplyStatsOn.GetComponent<Traits>().Clear();
 
 
-                        MinionResume component = CryoDupeToApplyStatsOn.GetComponent<MinionResume>();
-
-                        var keys = component.AptitudeBySkillGroup.Keys.ToList();
-                        for (int i = keys.Count - 1; i >= 0; --i)
+                        if(CryoDupeToApplyStatsOn.TryGetComponent<MinionResume>(out var minionRes))
                         {
-                            var skillAptitude = keys[i];
-                            component.SetAptitude(skillAptitude, 0);
+                            minionRes.AptitudeBySkillGroup.Clear();
                         }
+
 
                         if (EditingJorge)
                         {
