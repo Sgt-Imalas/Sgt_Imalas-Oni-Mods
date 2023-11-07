@@ -5,4 +5,5 @@
 - Story traits are now configurable in the CGM main screen
 - Game settings got moved into the CGM main screen
 
-- fixed outer planets partially shuffling their generation order, causing slight variants in tni seeds (only applies for newly created worlds and presets)
+- fixed outer planets partially shuffling their generation order, causing slight variants in tni seeds on outer planets (only applies for newly created worlds and presets)
+- fixed a crash when clicking on the colonly summary screen if there was atleast one twitch integration pocket dimension currently active

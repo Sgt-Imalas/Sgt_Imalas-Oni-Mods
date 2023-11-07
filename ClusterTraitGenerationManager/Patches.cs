@@ -1276,14 +1276,6 @@ namespace ClusterTraitGenerationManager
                                 SgtLogger.l(value.worldsize.ToString(), "Original World Size");
                                 OriginalPlanetSizes[name] = value.worldsize;
                                 value.worldsize = newDimensions;
-                                //UtilMethods.ListAllPropertyValues(value.defaultsOverrides);
-                                //foreach(var d in value.defaultsOverrides.data)
-                                //{
-                                //    SgtLogger.l(d.Value.ToString() + d.Value.GetType(), d.Key);
-                                //}
-
-                                // value.defaultsOverrides.data["OverworldDensityMin"] = (int)item.ApplySizeMultiplierToValue(int.Parse(value.defaultsOverrides.data["OverworldDensityMin"].ToString()));
-                                // value.defaultsOverrides.data["OverworldDensityMax"] = (int)item.ApplySizeMultiplierToValue(int.Parse(value.defaultsOverrides.data["OverworldDensityMax"].ToString()));
 
                                 SgtLogger.l("Applied custom planet size to " + item.DisplayName + ", new size: " + newDimensions.X + "x" + newDimensions.Y, "CGM WorldgenModifier");
                             }
@@ -1300,10 +1292,11 @@ namespace ClusterTraitGenerationManager
                     }
                     return false;
                 }
-                else if (OriginalPlanetSizes.ContainsKey(name) && __instance.worldCache.TryGetValue(name, out var value))
+                else if (!name.IsNullOrWhiteSpace() && OriginalPlanetSizes.ContainsKey(name) && __instance.worldCache.TryGetValue(name, out var value))
                 {
                     value.worldsize = OriginalPlanetSizes[name];
                     OriginalPlanetSizes.Remove(name);
+                    return false;
                 }
                 return true;
             }
