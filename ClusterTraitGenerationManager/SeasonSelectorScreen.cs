@@ -12,6 +12,7 @@ using UnityEngine.UI;
 using Klei.AI;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER;
+using TemplateClasses;
 
 namespace ClusterTraitGenerationManager
 {
@@ -103,8 +104,18 @@ namespace ClusterTraitGenerationManager
 
                 foreach (var meteorShower in meteorSeason.events)
                 {
+                    var shower = (meteorShower as MeteorShowerEvent);
                     description += "\n • ";
-                    description += (meteorShower as MeteorShowerEvent).Id;// Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
+                    description += shower.Id;// Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
+                    description += ":";
+                    foreach (var info in shower.GetMeteorsInfo())
+                    {
+                        var meteor = Assets.GetPrefab(info.prefab);
+                        if (meteor == null) continue;
+
+                        description += "\n    • ";
+                        description += meteor.GetProperName();
+                    }
                 }
                 UIUtils.AddSimpleTooltipToObject(seasonInstanceHolder.transform, description);
 

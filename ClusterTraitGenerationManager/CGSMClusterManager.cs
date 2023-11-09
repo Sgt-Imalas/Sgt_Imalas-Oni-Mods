@@ -127,7 +127,13 @@ namespace ClusterTraitGenerationManager
             }
             if (CustomCluster == null)
             {
-                var defaultCluster = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
+                string defaultCluster;
+
+                if (DlcManager.IsExpansion1Active())
+                    defaultCluster = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
+                else
+                    defaultCluster = "SandstoneDefault";
+
                 CGSMClusterManager.CreateCustomClusterFrom(defaultCluster);
             }
             LoadCustomCluster = false;
@@ -187,8 +193,7 @@ namespace ClusterTraitGenerationManager
             public Dictionary<string, StarmapItem> POIs = new Dictionary<string, StarmapItem>();
             public string DLC_Id = DlcManager.GetHighestActiveDlcId();
 
-            public List<Tuple<string, int>> VanillaStarmapItems = new List<Tuple<string, int>>();
-
+            public Dictionary<int, List<string>> VanillaStarmapItems = new Dictionary<int, List<string>>();
             public bool HasStarmapItem(string id, out StarmapItem item1)
             {
                 if (id == null || id.Length == 0)
@@ -377,18 +382,39 @@ namespace ClusterTraitGenerationManager
             }
 
 
+            public void AddVanillaStarmapDistance()
+            {
+                int distance = VanillaStarmapItems.Count;
+                VanillaStarmapItems[distance - 1].RemoveAll(item => item == "Wormhole");
+
+                VanillaStarmapItems[distance] = new List<string>() { "Wormhole" };
+            }
+            public void RemoveFurthestVanillaStarmapDistance()
+            {
+                int distance = VanillaStarmapItems.Count;
+                VanillaStarmapItems.Remove(distance - 1);
+                VanillaStarmapItems[distance-2].Add("Wormhole" );
+            }
+            public void RemoveVanillaPoi(string id, int range)
+            {
+                VanillaStarmapItems[range].Remove(id);
+            }
+            public void AddVanillaPoi( string id, int range)
+            {
+                VanillaStarmapItems[range].Add(id);
+            }
+
 
             public void ResetVanillaStarmap()
             {
                 VanillaStarmapItems.Clear();
-                VanillaStarmapItems = GenerateVanillaStarmapDestinations();
+                GenerateVanillaStarmapDestinations();
             }
             ///<summary>
             /// copied from SpaceCraftManager.GenerateFixedDestinations and SpaceCraftManager.GenerateRandomDestinations.
             /// required since those methods require the savegame seed and arent returning anything
             /// </summary>
-            /// <returns>List of Tuple<StarmapDestination,distance> </returns>
-            List<Tuple<string, int>> GenerateVanillaStarmapDestinations()
+            void GenerateVanillaStarmapDestinations()
             {
 
                 string setting = selectScreen.newGameSettings.GetSetting(CustomGameSettingConfigs.WorldgenSeed);
@@ -533,7 +559,16 @@ namespace ClusterTraitGenerationManager
 
                 destinationsWithDistance.Add(new(destinationTypes.Earth.Id, 4));
                 destinationsWithDistance.Add(new(destinationTypes.Wormhole.Id, stringListList.Count));
-                return destinationsWithDistance;
+                
+
+                foreach(var entry in destinationsWithDistance)
+                {
+                    if(!VanillaStarmapItems.ContainsKey(entry.second))
+                    {
+                        VanillaStarmapItems[entry.second] = new List<string>();
+                    }
+                    VanillaStarmapItems[entry.second].Add(entry.first);
+                }
             }
 
         }
@@ -1074,7 +1109,7 @@ namespace ClusterTraitGenerationManager
                 List<string> ExclusiveWithTags
                     = new List<string>();
 
-                if (currentTraits.Count > 0)
+                if (currentTraits.Count > 0 || (world!=null&& world.disableWorldTraits))
                 {
                     AllTraits.RemoveAll((WorldTrait trait) => trait.filePath == ModAssets.CustomTraitID);
                 }
@@ -1109,6 +1144,7 @@ namespace ClusterTraitGenerationManager
                     || currentTraits.Contains(trait.filePath)
                     || trait.exclusiveWith.Any(x => currentTraits.Any(y => y == x))
                     );
+
 
                 return AllTraits;
 
@@ -1657,6 +1693,8 @@ namespace ClusterTraitGenerationManager
                 }
             }
             LastPresetGenerated = clusterID;
+            if (CGM_Screen != null)
+                CGM_Screen.PresetApplied = false;
         }
 
         public static bool RerollVanillaStarmapWithSeedChange = true;

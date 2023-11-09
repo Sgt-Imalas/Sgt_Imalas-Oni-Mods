@@ -460,7 +460,7 @@ namespace ClusterTraitGenerationManager
                             }
                             public class GENERATEFROMCURRENT
                             {
-                                public static LocString TEXT = "Generate Preset";
+                                public static LocString TEXT = "Generate new Preset";
                                 public static LocString TOOLTIP = "Save the currently loaded cluster configuration to a new preset.";
                             }
                             public class APPLYPRESETBUTTON
@@ -521,6 +521,7 @@ namespace ClusterTraitGenerationManager
                 public static LocString WARP = (LocString)"Teleport Asteroid";
                 public static LocString OUTER = (LocString)"Outer Asteroids";
                 public static LocString POI = (LocString)"Points of Interest";
+                public static LocString VANILLASTARMAP = (LocString)"Star Map";
             }
             public static class STARMAPITEMDESCRIPTOR
             {

@@ -88,7 +88,111 @@ namespace ClusterTraitGenerationManager
         }
 
 
+        private string _currentlySelectedStoryTrait;
+        string CurrentlySelectedStoryTrait
+        {
+            get { return _currentlySelectedStoryTrait; }
+            set
+            {
+                _currentlySelectedStoryTrait = value;
+                this.RefreshView();
+            }
+        }
 
+        private Tuple<string, int> _currentlySelectedVanillaStarmapItem;
+        Tuple<string,int> CurrentlySelectedVanillaStarmapItem
+        {
+            get { return _currentlySelectedVanillaStarmapItem; }
+            set
+            {
+                _currentlySelectedVanillaStarmapItem = value;
+                this.RefreshView();
+            }
+        }
+
+
+        class VanillaStarmapRangeBand:KMonoBehaviour
+        {
+            int range;
+            List<Tuple<string, GameObject>> ActivePOIsInBand = new List<Tuple<string, GameObject>>();
+            GameObject POIContainer, POIPrefab;
+            FButton AddNewPOI;
+            public bool IsLatestEntry {
+                get 
+                {
+                    return _isLatestEntry;
+                }
+                set
+                {
+                    _isLatestEntry = value;
+                    Wormhole.SetActive(value);
+                }
+            }
+            private bool _isLatestEntry;
+
+            GameObject Wormhole;
+
+
+            public void Init(int range)
+            {
+                this.range = range;
+                this.ActivePOIsInBand.Clear();
+                POIContainer = transform.Find("MiningWorldsContainer/ScrollArea/Content").gameObject;
+                transform.Find("DistanceHeader/Label").gameObject.GetComponent<LocText>().text = (range*10000).ToString()+ " " + global::STRINGS.UI.UNITSUFFIXES.DISTANCE.KILOMETER;
+
+                POIPrefab = transform.Find("MiningWorldsContainer/ScrollArea/Content/VanillaWorldPrefab").gameObject;
+                AddNewPOI = transform.Find("MiningWorldsContainer/ScrollArea/Content/AddPOI").gameObject.AddOrGet<FButton>();
+                AddNewPOI.gameObject.SetActive(true);
+                AddNewPOI.OnClick += ()=> 
+
+                VanillaPOISelectorScreen.InitializeView(range, (id) =>
+                {
+                    AddPoi(id);
+                    Instance.CurrentlySelectedVanillaStarmapItem = new Tuple<string, int>(id, range);
+                });
+
+                Wormhole = AddPoi("Wormhole");
+                IsLatestEntry = false;
+            }
+            public bool RemovePoi(string id)
+            {
+                for(int i = 0; i < ActivePOIsInBand.Count; ++i)
+                {
+                    var poi = ActivePOIsInBand[i];
+                    if (poi.first==id)
+                    {
+                        UnityEngine.Object.Destroy(poi.second);
+                        ActivePOIsInBand.RemoveAt(i);
+                        CustomCluster.RemoveVanillaPoi( id, range);
+                        return true;
+                    }
+                }
+                return false;
+            }
+            public GameObject AddPoi(string id)
+            {
+                GameObject poiEntry = Util.KInstantiateUI(POIPrefab, POIContainer, true);
+                var poi = Db.Get().SpaceDestinationTypes.TryGet(id);
+                if (poi != null)
+                {
+                    poiEntry.transform.Find("Image").GetComponent<Image>().sprite = Assets.GetSprite(poi.spriteName);
+                    UIUtils.TryChangeText(poiEntry.transform, "Label", poi.Name);
+                    poiEntry.AddOrGet<FButton>().OnClick += () =>
+                    {
+                        CustomCluster.AddVanillaPoi(id, range);
+                        CGM_MainScreen_UnityScreen.Instance.CurrentlySelectedVanillaStarmapItem = new Tuple<string, int>(id, range);
+                    };
+                }
+                else
+                    SgtLogger.warning("POI in gallery was null!");
+
+                ActivePOIsInBand.Add(new(id,poiEntry));
+                AddNewPOI.transform.SetAsLastSibling();
+                return poiEntry;
+            }
+        }
+
+        static System.Action RefreshVanillaPOI;
 
         ///<GameSettings>
 
@@ -211,6 +315,9 @@ namespace ClusterTraitGenerationManager
 #endif
 
             ///Categories
+            ///
+            UIUtils.ListAllChildrenPath(transform);
+            SgtLogger.l("Hooking up Categories");
             PlanetoidCategoryPrefab = transform.Find("Categories/Content/Item").gameObject;
             categoryListContent = transform.Find("Categories/Content").gameObject;
             categoryHeaderLabel = transform.Find("Categories/Header/Label").GetComponent<LocText>();
@@ -219,11 +326,12 @@ namespace ClusterTraitGenerationManager
             GameSettingsButton = transform.Find("Categories/FooterContent/GameSettings").gameObject;
 
             ///Gallery
+            SgtLogger.l("Hooking up Gallery");
             StoryTraitGridContainer = transform.Find("ItemSelection/StoryTraitsContent/StoryTraitsContainer").gameObject;
             StoryTraitEntryPrefab = transform.Find("ItemSelection/StoryTraitsContent/StoryTraitsContainer/Item").gameObject;
 
             VanillaStarmapItemContainer = transform.Find("ItemSelection/VanillaStarmapContent/VanillaStarmapContainer").gameObject;
-            VanillaStarmapItemPrefab = transform.Find("ItemSelection/VanillaStarmapContent/VanillaStarmapContainer/Item").gameObject;
+            VanillaStarmapItemPrefab = transform.Find("ItemSelection/VanillaStarmapContent/VanillaStarmapContainer/VanillaStarmapEntryPrefab").gameObject;
 
             CustomGameSettingsContainer = transform.Find("ItemSelection/CustomGameSettingsContent/CustomGameSettingsContainer").gameObject;
 
@@ -231,6 +339,7 @@ namespace ClusterTraitGenerationManager
             PlanetoidEntryPrefab = transform.Find("ItemSelection/StarItemContent/StarItemContainer/Item").gameObject;
             galleryHeaderLabel = transform.Find("ItemSelection/Header/Label").GetComponent<LocText>();
             ///GalleryContainers
+            SgtLogger.l("Hooking up GalleryContainers");
 
             CustomGameSettingsContent = transform.Find("ItemSelection/CustomGameSettingsContent").gameObject;
             VanillaStarmapItemContent = transform.Find("ItemSelection/VanillaStarmapContent").gameObject;
@@ -240,6 +349,8 @@ namespace ClusterTraitGenerationManager
 
 
             ///Details
+            ///
+            SgtLogger.l("Hooking up Details");
             selectionHeaderLabel = transform.Find("Details/Header/Label").GetComponent<LocText>();
 
             //galleryGridLayouter = galleryGridContainer.AddOrGet<GridLayoutSizeAdjustment>();
@@ -339,6 +450,8 @@ namespace ClusterTraitGenerationManager
 
         public void RefreshView()
         {
+            if(!init) return;
+
             this.RefreshCategories();
             this.RefreshGallery();
             this.RefreshDetails();
@@ -361,6 +474,10 @@ namespace ClusterTraitGenerationManager
                         break;
                     case StarmapItemCategory.POI:
                         PlanetSprite = CustomCluster.POIs.Count > 0 ? CustomCluster.POIs.First().Value.planetSprite : Assets.GetSprite("unknown");
+                        break;
+
+                    case StarmapItemCategory.VanillaStarmap:
+                        PlanetSprite = Assets.GetSprite(Db.Get().SpaceDestinationTypes.Wormhole.spriteName);
                         break;
                 }
                 categoryToggle.Value.Refresh(SelectedCategory, PlanetSprite);
@@ -725,19 +842,19 @@ namespace ClusterTraitGenerationManager
             if (SelectedCategory == StarmapItemCategory.StoryTraits)
             {
                 SelectStoryTrait(Db.Get().Stories.resources.First().Id);
+                return;
             }
+
+            if(SelectedCategory == StarmapItemCategory.VanillaStarmap)
+            {
+                //DoStuff
+                return;
+            }
+
 
             foreach (var galleryGridButton in this.planetoidGridButtons)
             {
                 if (galleryGridButton.Key.category == this.SelectedCategory && CustomCluster.HasStarmapItem(galleryGridButton.Key.id, out var i))
-                {
-                    this.SelectItem(galleryGridButton.Key);
-                    return;
-                }
-            }
-            foreach (var galleryGridButton in this.planetoidGridButtons)
-            {
-                if (galleryGridButton.Key.category == this.SelectedCategory)
                 {
                     this.SelectItem(galleryGridButton.Key);
                     return;
@@ -752,12 +869,13 @@ namespace ClusterTraitGenerationManager
         {
             if (init) return;
 
-            this.InitializeVanillaStarmapInfo();
-            this.InitializeVanillaStarmap();
-            this.InitializeStoryTraits();
-            this.InitializeGameSettings();
+
             this.PopulateGalleryAndCategories();
             this.InitializeItemSettings();
+            this.InitializeGameSettings();
+            this.InitializeStoryTraits();
+            this.InitializeVanillaStarmapInfo();
+            this.InitializeVanillaStarmap();
             init = true;
         }
 
@@ -1067,15 +1185,14 @@ namespace ClusterTraitGenerationManager
 
         public void InitializeVanillaStarmapInfo()
         {
-
             Details_VanillaPOIContainer = transform.Find("Details/Content/ScrollRectContainer/VanillaPOI_Resources").gameObject;// .FindOrAddComponent<FToggle2>();
             Details_VanillaPOIContainer.SetActive(true);
             VanillaPOIResourceContainer = transform.Find("Details/Content/ScrollRectContainer/VanillaPOI_Resources/Content/ResourceContainer/ScrollArea/Content").gameObject;
             VanillaPOIResourcePrefab = transform.Find("Details/Content/ScrollRectContainer/VanillaPOI_Resources/Content/ResourceContainer/ScrollArea/Content/ListViewEntryPrefab").gameObject;
-            VanillaPOI_SizeAmountDesc = transform.Find("Details/Content/ScrollRectContainer/VanillaPOI_Resources/Size/Amount").FindOrAddComponent<LocText>();
-            VanillaPOI_ReplenishmentAmountDesc = transform.Find("Details/Content/ScrollRectContainer/VanillaPOI_Resources/Replenisment/Amount").FindOrAddComponent<LocText>();
-            VanillaPOI_ArtifactDesc = transform.Find("Details/Content/ScrollRectContainer/VanillaPOI_Resources/VanillaPOI_Artifact/Amount").FindOrAddComponent<LocText>();
-            VanillaPOI_RemovePOIBtn = transform.Find("Details/Content/ScrollRectContainer/VanillaPOI_Resources/VanillaPOI_Remove/DeletePOI").FindOrAddComponent<FButton>();
+            VanillaPOI_SizeAmountDesc = transform.Find("Details/Content/ScrollRectContainer/VanillaPOI_Resources/Capacity/Amount").gameObject.AddOrGet<LocText>();
+            VanillaPOI_ReplenishmentAmountDesc = transform.Find("Details/Content/ScrollRectContainer/VanillaPOI_Resources/Replenisment/Amount").gameObject.AddOrGet<LocText>();
+            VanillaPOI_ArtifactDesc = transform.Find("Details/Content/ScrollRectContainer/VanillaPOI_Resources/VanillaPOI_Artifact/Amount").gameObject.AddOrGet<LocText>();
+            VanillaPOI_RemovePOIBtn = transform.Find("Details/Content/ScrollRectContainer/VanillaPOI_Resources/VanillaPOI_Remove/DeletePOI").gameObject.AddOrGet<FButton>();
             Details_VanillaPOIContainer.SetActive(false);
         }
         public void InitializeStoryTraits()
@@ -1112,8 +1229,6 @@ namespace ClusterTraitGenerationManager
                     ToggleStoryTrait(Story.Id);
                 };
 
-                Debug.Log(toggle.mark + " mark");
-
                 StoryTraitToggleButtons[Story.Id] = btn;
                 StoryTraitToggleCheckmarks[Story.Id] = toggle;
                 btn.OnClick += () =>
@@ -1128,7 +1243,6 @@ namespace ClusterTraitGenerationManager
         Dictionary<string, FToggle2> StoryTraitToggleCheckmarks = new Dictionary<string, FToggle2>();
         Dictionary<string, FToggleButton> StoryTraitToggleButtons = new Dictionary<string, FToggleButton>();
 
-        string CurrentlySelectedStoryTrait;
         bool StoryTraitEnabled(string id) => (CustomGameSettings.Instance.GetCurrentStoryTraitSetting(id).id == StoryContentPanel.StoryState.Guaranteed.ToString());
         public void ToggleStoryTrait(string id)
         {
@@ -1162,10 +1276,41 @@ namespace ClusterTraitGenerationManager
             RefreshStoryTraitsUI();
         }
 
+        Dictionary<int, VanillaStarmapRangeBand> VanillaStarmapEntries = new Dictionary<int, VanillaStarmapRangeBand>();
         public void InitializeVanillaStarmap()
         {
+            SgtLogger.AAA();
             VanillaStarmapItemContainer = transform.Find("ItemSelection/VanillaStarmapContent/VanillaStarmapContainer").gameObject;
             VanillaStarmapItemPrefab = transform.Find("ItemSelection/VanillaStarmapContent/VanillaStarmapContainer/VanillaStarmapEntryPrefab").gameObject;
+            SgtLogger.AAA();
+            UIUtils.ListAllChildren(transform.Find("ItemSelection/VanillaStarmapContent/VanillaStarmapContainer"));
+
+            var AddButton = VanillaStarmapItemContainer.transform.Find("AddNewDistanceButtonContainer/AddDistanceRow");
+            AddButton.gameObject.AddOrGet<FButton>().OnClick += ()=> CustomCluster.AddVanillaStarmapDistance();
+            var RemoveButton = VanillaStarmapItemContainer.transform.Find("AddNewDistanceButtonContainer/RemoveDistanceRow").gameObject.AddOrGet<FButton>();
+            RemoveButton.OnClick += () => CustomCluster.RemoveFurthestVanillaStarmapDistance();
+
+            CustomCluster.ResetVanillaStarmap();
+            foreach (var rangeEntry in CustomCluster.VanillaStarmapItems)
+            {
+            SgtLogger.l("BBB");
+                var entry = Util.KInstantiateUI(VanillaStarmapItemPrefab, VanillaStarmapItemContainer, true);
+            SgtLogger.AAA();
+                var logic = entry.AddOrGet<VanillaStarmapRangeBand>();
+                logic.Init(rangeEntry.Key);
+                foreach(var item in rangeEntry.Value)
+                {
+                    logic.AddPoi(item);
+                }
+                VanillaStarmapEntries[rangeEntry.Key] = logic;
+            }
+            SgtLogger.AAA();
+            RefreshVanillaStarmap();
+        }
+
+        public void RefreshVanillaStarmap()
+        {
+
         }
 
 
@@ -1187,6 +1332,10 @@ namespace ClusterTraitGenerationManager
             transform.gameObject.SetActive(true);
             GameObject SwitchPrefab = CustomGameSettingsContainer.transform.Find("SwitchPrefab").gameObject;
             GameObject TogglePrefab = CustomGameSettingsContainer.transform.Find("TogglePrefab").gameObject;
+
+            SgtLogger.Assert("SwitchPrefab missing", SwitchPrefab);
+            SgtLogger.Assert("TogglePrefab missing", TogglePrefab);
+            SgtLogger.l("initializing settings");
 
             TogglePrefab.SetActive(false);
             SwitchPrefab.SetActive(false);
@@ -1273,6 +1422,8 @@ namespace ClusterTraitGenerationManager
             {
                 Teleporters.gameObject.SetActive(false);
             }
+
+            SgtLogger.l("Settings Toggles done");
 
             ///Immune System Strength
             ImmuneSystem = Util.KInstantiateUI(SwitchPrefab, CustomGameSettingsContainer, true).transform.gameObject.AddOrGet<FCycle>();
@@ -1474,6 +1625,12 @@ namespace ClusterTraitGenerationManager
             {
                 AddCategoryItem(category);
             };
+            if(!DlcManager.IsExpansion1Active())
+            {
+                AddCategoryItem(StarmapItemCategory.VanillaStarmap);
+            }
+
+
             var StoryTraitsBtn = StoryTraitButton.AddOrGet<CategoryItem>();
             StoryTraitsBtn.Initialize(StarmapItemCategory.StoryTraits, null);
             StoryTraitsBtn.ActiveToggle.OnClick += (() => this.SelectCategory(StarmapItemCategory.StoryTraits));
@@ -1553,8 +1710,18 @@ namespace ClusterTraitGenerationManager
 
                 foreach (var meteorShower in meteorSeason.events)
                 {
+                    var shower = (meteorShower as MeteorShowerEvent);
                     description += "\n • ";
-                    description += (meteorShower as MeteorShowerEvent).Id;// Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
+                    description += shower.Id;// Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
+                    description += ":";
+                    foreach (var info in shower.GetMeteorsInfo())
+                    {
+                        var meteor = Assets.GetPrefab(info.prefab);
+                        if (meteor == null) continue;
+
+                        description += "\n    • ";
+                        description += meteor.GetProperName();
+                    }
                 }
                 UIUtils.AddSimpleTooltipToObject(seasonInstanceHolder.transform, description);
                 var LocTextName = seasonInstanceHolder.transform.Find("Label").GetComponent<LocText>();
@@ -1944,8 +2111,6 @@ namespace ClusterTraitGenerationManager
             GameObject categoryItem = Util.KInstantiateUI(this.PlanetoidCategoryPrefab, this.categoryListContent, true);
 
             string categoryName = ModAssets.Strings.CategoryEnumToName(StarmapItemCategory); //CATEGORYENUM
-
-
 
             categoryItem.transform.Find("Label").GetComponent<LocText>().SetText(categoryName);
             var item = categoryItem.AddOrGet<CategoryItem>();

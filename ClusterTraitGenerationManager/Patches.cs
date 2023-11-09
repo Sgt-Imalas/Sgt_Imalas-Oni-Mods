@@ -130,8 +130,11 @@ namespace ClusterTraitGenerationManager
             {
                 if (__instance == null || LoadCustomCluster)
                     return;
+
                 if (config.id != "WorldgenSeed" && config.id != "ClusterLayout")
                     return;
+                SgtLogger.l(config.id, "ConfigId");
+
                 RegenerateCGM(__instance, config.id);
             }
         }
@@ -149,11 +152,16 @@ namespace ClusterTraitGenerationManager
             {
                 ///default is no path selected, this picks either classic Terra on "classic" selection or Terrania on "spaced out" selection
                 clusterPath = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
+
+                if (DlcManager.IsExpansion1Active())
+                    clusterPath = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
+                else
+                    clusterPath = "SandstoneDefault";
             }
 
             if (CGM_Screen == null || !CGM_Screen.isActiveAndEnabled)
             {
-                CGM_MainScreen_UnityScreen.Instance.PresetApplied = false;
+                //CGM_MainScreen_UnityScreen.Instance.PresetApplied = false;
                 CGSMClusterManager.LoadCustomCluster = false;
                 CGSMClusterManager.CreateCustomClusterFrom(clusterPath, ForceRegen: true);
                 SgtLogger.l("Regenerating Cluster from " + clusterPath + ". Reason: " + changedConfigID + " changed.");

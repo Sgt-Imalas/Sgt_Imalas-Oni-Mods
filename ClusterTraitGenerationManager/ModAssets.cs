@@ -84,6 +84,9 @@ namespace ClusterTraitGenerationManager
                     case StarmapItemCategory.POI:
                         categoryName = STRINGS.UI.CATEGORYENUM.POI;
                         break;
+                    case StarmapItemCategory.VanillaStarmap:
+                        categoryName = STRINGS.UI.CATEGORYENUM.VANILLASTARMAP;
+                        break;
                 }
                 return categoryName;
             }
