@@ -63,8 +63,9 @@ namespace ClusterTraitGenerationManager
 
         /// VanillaStarmap
         GameObject VanillaStarmapButton;
-        
-        
+
+        Dictionary<int, VanillaStarmapRangeBand> VanillaStarmapEntries = new Dictionary<int, VanillaStarmapRangeBand>();
+        Transform AddRemoveStarmapButtons;
 
 
         GameObject StoryTraitButton;
@@ -138,9 +139,10 @@ namespace ClusterTraitGenerationManager
                 this.range = range;
                 this.ActivePOIsInBand.Clear();
                 POIContainer = transform.Find("MiningWorldsContainer/ScrollArea/Content").gameObject;
-                transform.Find("DistanceHeader/Label").gameObject.GetComponent<LocText>().text = (range*10000).ToString()+ " " + global::STRINGS.UI.UNITSUFFIXES.DISTANCE.KILOMETER;
+                transform.Find("DistanceHeader/Label").gameObject.GetComponent<LocText>().text = (10000 + range *10000).ToString()+ " " + global::STRINGS.UI.UNITSUFFIXES.DISTANCE.KILOMETER;
 
                 POIPrefab = transform.Find("MiningWorldsContainer/ScrollArea/Content/VanillaWorldPrefab").gameObject;
+                POIPrefab.SetActive(false);
                 AddNewPOI = transform.Find("MiningWorldsContainer/ScrollArea/Content/AddPOI").gameObject.AddOrGet<FButton>();
                 AddNewPOI.gameObject.SetActive(true);
                 AddNewPOI.OnClick += ()=> 
@@ -191,8 +193,6 @@ namespace ClusterTraitGenerationManager
                 return poiEntry;
             }
         }
-
-        static System.Action RefreshVanillaPOI;
 
         ///<GameSettings>
 
@@ -1276,41 +1276,81 @@ namespace ClusterTraitGenerationManager
             RefreshStoryTraitsUI();
         }
 
-        Dictionary<int, VanillaStarmapRangeBand> VanillaStarmapEntries = new Dictionary<int, VanillaStarmapRangeBand>();
         public void InitializeVanillaStarmap()
         {
-            SgtLogger.AAA();
             VanillaStarmapItemContainer = transform.Find("ItemSelection/VanillaStarmapContent/VanillaStarmapContainer").gameObject;
             VanillaStarmapItemPrefab = transform.Find("ItemSelection/VanillaStarmapContent/VanillaStarmapContainer/VanillaStarmapEntryPrefab").gameObject;
-            SgtLogger.AAA();
-            UIUtils.ListAllChildren(transform.Find("ItemSelection/VanillaStarmapContent/VanillaStarmapContainer"));
+            VanillaStarmapItemPrefab.SetActive(false);
+            AddRemoveStarmapButtons = transform.Find("ItemSelection/VanillaStarmapContent/VanillaStarmapContainer/AddNewDistanceButtonContainer");
 
-            var AddButton = VanillaStarmapItemContainer.transform.Find("AddNewDistanceButtonContainer/AddDistanceRow");
-            AddButton.gameObject.AddOrGet<FButton>().OnClick += ()=> CustomCluster.AddVanillaStarmapDistance();
-            var RemoveButton = VanillaStarmapItemContainer.transform.Find("AddNewDistanceButtonContainer/RemoveDistanceRow").gameObject.AddOrGet<FButton>();
-            RemoveButton.OnClick += () => CustomCluster.RemoveFurthestVanillaStarmapDistance();
 
-            CustomCluster.ResetVanillaStarmap();
-            foreach (var rangeEntry in CustomCluster.VanillaStarmapItems)
+            var AddButton = AddRemoveStarmapButtons.Find("AddDistanceRow");
+            AddButton.gameObject.AddOrGet<FButton>().OnClick += () =>
             {
-            SgtLogger.l("BBB");
-                var entry = Util.KInstantiateUI(VanillaStarmapItemPrefab, VanillaStarmapItemContainer, true);
-            SgtLogger.AAA();
-                var logic = entry.AddOrGet<VanillaStarmapRangeBand>();
-                logic.Init(rangeEntry.Key);
-                foreach(var item in rangeEntry.Value)
-                {
-                    logic.AddPoi(item);
-                }
-                VanillaStarmapEntries[rangeEntry.Key] = logic;
-            }
-            SgtLogger.AAA();
-            RefreshVanillaStarmap();
+                int newDistance = CustomCluster.AddVanillaStarmapDistance();
+                AddVanillaStarmapItemBand(newDistance, new List<string>());
+
+                RefreshTearIndex();
+                AddRemoveStarmapButtons.SetAsLastSibling();
+            };
+            var RemoveButton = AddRemoveStarmapButtons.Find("RemoveDistanceRow").gameObject.AddOrGet<FButton>();
+            RemoveButton.OnClick += () =>
+            {
+                CustomCluster.RemoveFurthestVanillaStarmapDistance();
+                RemoveFurthestVanillaStarmapItemBand();
+            };
+
+            RebuildVanillaStarmap();
+            RefreshTearIndex();
         }
 
-        public void RefreshVanillaStarmap()
+        public void RefreshTearIndex()
         {
+            foreach (KeyValuePair<int, VanillaStarmapRangeBand> item in VanillaStarmapEntries)
+            {
+                item.Value.IsLatestEntry = item.Key == CustomCluster.MaxStarmapDistance;
+            }
+        }
+        GameObject AddVanillaStarmapItemBand(int band, List<string> items)
+        {
+            var entry = Util.KInstantiateUI(VanillaStarmapItemPrefab, VanillaStarmapItemContainer, true);
+            var logic = entry.AddOrGet<VanillaStarmapRangeBand>();
+            logic.Init(band);
 
+            foreach (var item in items)
+            {
+                if( "Wormhole" != item)
+                
+                logic.AddPoi(item);
+            }
+            VanillaStarmapEntries[band] = logic;
+            return entry;
+        }
+        void RemoveFurthestVanillaStarmapItemBand()
+        {
+            int last = VanillaStarmapEntries.Count - 1;
+            UnityEngine.Object.Destroy(VanillaStarmapEntries[last].gameObject);
+            VanillaStarmapEntries.Remove(last);
+
+            RefreshTearIndex();
+        }
+
+
+        public void RebuildVanillaStarmap()
+        {
+            CustomCluster.ResetVanillaStarmap();
+            var list = VanillaStarmapEntries.Values.ToList();
+            for (int i = VanillaStarmapEntries.Count-1; i > 0; i--)
+            {
+                UnityEngine.Object.Destroy(list[i]);
+            }
+            VanillaStarmapEntries.Clear();
+
+            foreach (var rangeEntry in CustomCluster.VanillaStarmapItems.OrderBy(entry => entry.Key))
+            {
+                AddVanillaStarmapItemBand(rangeEntry.Key, rangeEntry.Value);
+            }
+            AddRemoveStarmapButtons.SetAsLastSibling();
         }
 
 

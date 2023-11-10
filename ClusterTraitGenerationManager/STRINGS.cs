@@ -66,6 +66,40 @@ namespace ClusterTraitGenerationManager
                     {
                         public static LocString LABEL = (LocString)"[STARMAPITEMTYPEPL] in this category:";
                     }
+                    public class VANILLASTARMAPCONTENT
+                    {
+                        public class VANILLASTARMAPCONTAINER
+                        {
+                            public class VANILLASTARMAPENTRYPREFAB
+                            {
+                                public class MININGWORLDSCONTAINER
+                                {
+                                    public class SCROLLAREA
+                                    {
+                                        public class CONTENT
+                                        {
+                                            public class ADDPOI
+                                            {
+                                                public static LocString LABEL = (LocString)"Add new POI";
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            public class ADDNEWDISTANCEBUTTONCONTAINER
+                            {
+                                public class ADDDISTANCEROW
+                                {
+                                    public static LocString LABEL = (LocString)"Increase max. Distance";
+                                }
+                                public class REMOVEDISTANCEROW
+                                {
+                                    public static LocString LABEL = (LocString)"Reduce max. Distance";
+                                }
+                            }
+                        }
+                    }
                 }
                 public class DETAILS
                 {
@@ -127,7 +161,7 @@ namespace ClusterTraitGenerationManager
                                     public static LocString TOOLTIP = (LocString)"The minimum and maximum distance to the center of the starmap the starmap item can generate with.\nSetting the range to 0 - 0 will always spawn the starmap item the center of the map.\nSetting the range to 3 - 8 will spawn the starmap item randomly between 3 and 8 hexes away from the center of the starmap.";
 
                                     public static LocString FORMAT = "Between {0} and {1}";
-                                    public static LocString OUTPUT = (LocString)"0"; 
+                                    public static LocString OUTPUT = (LocString)"0";
                                     public class INPUT
                                     {
                                         public static LocString TEXT = (LocString)"";
@@ -394,84 +428,84 @@ namespace ClusterTraitGenerationManager
 
             public class CGMEXPORT_SIDEMENUS
             {
-            public class PRESETWINDOWCGM
-            {
-                public class DELETEWINDOW
+                public class PRESETWINDOWCGM
                 {
-                    public static LocString TITLE = "Delete {0}";
-                    public static LocString DESC = "You are about to delete the preset \"{0}\".\nDo you want to continue?";
-                    public static LocString YES = "Confirm Deletion";
-                    public static LocString CANCEL = "Cancel";
-
-                }
-
-                public static LocString TITLE = "Cluster Presets";
-
-                public class HORIZONTALLAYOUT
-                {
-                    public class OBJECTLIST
+                    public class DELETEWINDOW
                     {
-                        public class SCROLLAREA
+                        public static LocString TITLE = "Delete {0}";
+                        public static LocString DESC = "You are about to delete the preset \"{0}\".\nDo you want to continue?";
+                        public static LocString YES = "Confirm Deletion";
+                        public static LocString CANCEL = "Cancel";
+
+                    }
+
+                    public static LocString TITLE = "Cluster Presets";
+
+                    public class HORIZONTALLAYOUT
+                    {
+                        public class OBJECTLIST
                         {
-                            public class CONTENT
+                            public class SCROLLAREA
                             {
-                                public class NOPRESETSAVAILABLE
+                                public class CONTENT
                                 {
-                                    public static LocString LABEL = "No presets available";
-                                }
-                                public class PRESETENTRYPREFAB
-                                {
-                                    public class ADDTHISTRAITBUTTON
+                                    public class NOPRESETSAVAILABLE
                                     {
-                                        public static LocString TEXT = "Load Preset";
-                                        public static LocString TOOLTIP = "Load this preset to the preview";
+                                        public static LocString LABEL = "No presets available";
+                                    }
+                                    public class PRESETENTRYPREFAB
+                                    {
+                                        public class ADDTHISTRAITBUTTON
+                                        {
+                                            public static LocString TEXT = "Load Preset";
+                                            public static LocString TOOLTIP = "Load this preset to the preview";
+
+                                        }
+
+                                        public static LocString RENAMEPRESETTOOLTIP = "Rename Preset";
+                                        public static LocString DELETEPRESETTOOLTIP = "Delete Preset";
 
                                     }
-
-                                    public static LocString RENAMEPRESETTOOLTIP = "Rename Preset";
-                                    public static LocString DELETEPRESETTOOLTIP = "Delete Preset";
-
                                 }
                             }
-                        }
 
-                        internal class SEARCHBAR
-                        {
-                            public static LocString CLEARTOOLTIP = "Clear search bar";
-                            public static LocString OPENFOLDERTOOLTIP = "Open the folder where the presets are stored.";
-                            internal class INPUT
+                            internal class SEARCHBAR
                             {
-                                public class TEXTAREA
+                                public static LocString CLEARTOOLTIP = "Clear search bar";
+                                public static LocString OPENFOLDERTOOLTIP = "Open the folder where the presets are stored.";
+                                internal class INPUT
                                 {
-                                    public static LocString PLACEHOLDER = "Enter text to filter presets...";
-                                    public static LocString TEXT = "";
+                                    public class TEXTAREA
+                                    {
+                                        public static LocString PLACEHOLDER = "Enter text to filter presets...";
+                                        public static LocString TEXT = "";
+                                    }
                                 }
                             }
                         }
-                    }
-                    public class ITEMINFO
-                    {
-                        public class BUTTONS
+                        public class ITEMINFO
                         {
-                            public class CLOSEBUTTON
+                            public class BUTTONS
                             {
-                                public static LocString TEXT = "Return";
-                                public static LocString TOOLTIP = "Close this preset window";
-                            }
-                            public class GENERATEFROMCURRENT
-                            {
-                                public static LocString TEXT = "Generate new Preset";
-                                public static LocString TOOLTIP = "Save the currently loaded cluster configuration to a new preset.";
-                            }
-                            public class APPLYPRESETBUTTON
-                            {
-                                public static LocString TEXT = "Apply Preset";
-                                public static LocString TOOLTIP = "Apply the preset thats currently displayed in the preview to the custom cluster.";
+                                public class CLOSEBUTTON
+                                {
+                                    public static LocString TEXT = "Return";
+                                    public static LocString TOOLTIP = "Close this preset window";
+                                }
+                                public class GENERATEFROMCURRENT
+                                {
+                                    public static LocString TEXT = "Generate new Preset";
+                                    public static LocString TOOLTIP = "Save the currently loaded cluster configuration to a new preset.";
+                                }
+                                public class APPLYPRESETBUTTON
+                                {
+                                    public static LocString TEXT = "Apply Preset";
+                                    public static LocString TOOLTIP = "Apply the preset thats currently displayed in the preview to the custom cluster.";
+                                }
                             }
                         }
                     }
                 }
-            }
                 public class TRAITPOPUP
                 {
                     public static LocString TEXT = (LocString)"available Traits:";
@@ -521,7 +555,7 @@ namespace ClusterTraitGenerationManager
                 public static LocString WARP = (LocString)"Teleport Asteroid";
                 public static LocString OUTER = (LocString)"Outer Asteroids";
                 public static LocString POI = (LocString)"Points of Interest";
-                public static LocString VANILLASTARMAP = (LocString)"Star Map";
+                public static LocString VANILLASTARMAP = (LocString)"Starmap";
             }
             public static class STARMAPITEMDESCRIPTOR
             {

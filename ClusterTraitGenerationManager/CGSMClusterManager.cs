@@ -194,6 +194,8 @@ namespace ClusterTraitGenerationManager
             public string DLC_Id = DlcManager.GetHighestActiveDlcId();
 
             public Dictionary<int, List<string>> VanillaStarmapItems = new Dictionary<int, List<string>>();
+            public int MaxStarmapDistance;
+
             public bool HasStarmapItem(string id, out StarmapItem item1)
             {
                 if (id == null || id.Length == 0)
@@ -382,18 +384,17 @@ namespace ClusterTraitGenerationManager
             }
 
 
-            public void AddVanillaStarmapDistance()
+            public int AddVanillaStarmapDistance()
             {
-                int distance = VanillaStarmapItems.Count;
-                VanillaStarmapItems[distance - 1].RemoveAll(item => item == "Wormhole");
+                VanillaStarmapItems[MaxStarmapDistance].RemoveAll(item => item == "Wormhole");
 
-                VanillaStarmapItems[distance] = new List<string>() { "Wormhole" };
+                VanillaStarmapItems[++MaxStarmapDistance] = new List<string>() { "Wormhole" };
+                return MaxStarmapDistance;
             }
             public void RemoveFurthestVanillaStarmapDistance()
             {
-                int distance = VanillaStarmapItems.Count;
-                VanillaStarmapItems.Remove(distance - 1);
-                VanillaStarmapItems[distance-2].Add("Wormhole" );
+                VanillaStarmapItems.Remove(MaxStarmapDistance);
+                VanillaStarmapItems[--MaxStarmapDistance].Add("Wormhole" );
             }
             public void RemoveVanillaPoi(string id, int range)
             {
@@ -403,7 +404,6 @@ namespace ClusterTraitGenerationManager
             {
                 VanillaStarmapItems[range].Add(id);
             }
-
 
             public void ResetVanillaStarmap()
             {
@@ -559,14 +559,15 @@ namespace ClusterTraitGenerationManager
 
                 destinationsWithDistance.Add(new(destinationTypes.Earth.Id, 4));
                 destinationsWithDistance.Add(new(destinationTypes.Wormhole.Id, stringListList.Count));
-                
+                MaxStarmapDistance = stringListList.Count;
 
-                foreach(var entry in destinationsWithDistance)
+                for (int distance = 0; distance <= MaxStarmapDistance; distance++)
                 {
-                    if(!VanillaStarmapItems.ContainsKey(entry.second))
-                    {
-                        VanillaStarmapItems[entry.second] = new List<string>();
-                    }
+                    VanillaStarmapItems[distance] = new List<string>();
+                }
+
+                foreach (var entry in destinationsWithDistance)
+                {
                     VanillaStarmapItems[entry.second].Add(entry.first);
                 }
             }

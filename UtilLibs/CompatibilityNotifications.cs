@@ -65,7 +65,6 @@ namespace UtilLibs
             {
                 faultyMod.SetCrashed();
                 AddIncompatibleToList(GameName,faultyMod.title);
-
             }
         }
         static readonly string GameName = "OxygenNotIncluded_DebugConsole";
