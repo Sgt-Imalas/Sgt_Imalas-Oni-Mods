@@ -251,17 +251,6 @@ namespace ClusterTraitGenerationManager
             }
         }
 
-        //public static class ReplaceDefaultName_3
-        //{
-        //    public static void Postfix(ref string __result)
-        //    {
-        //        if (LoadCustomCluster)
-        //        {
-        //            var regex = new Regex(Regex.Escape("-"));
-        //            __result = regex.Replace(__result, @"^[^\s-]+", CustomClusterIDCoordinate);
-        //        }
-        //    }
-        //}
 
         [HarmonyPatch(typeof(NewGameSettingsPanel))]
         [HarmonyPatch(nameof(NewGameSettingsPanel.SetSetting))]
@@ -273,34 +262,7 @@ namespace ClusterTraitGenerationManager
                 return true;
             }
         }
-        /// <summary>
-        /// custom meteor example code
-        /// </summary>
-        //[HarmonyPatch(typeof(Db), "Initialize")]
-        //public static class Db_addSeason
-        //{
-        //    public static void Postfix(Db __instance)
-        //    {
-        //        __instance.GameplayEvents.Add(
-        //            new MeteorShowerSeason(
-        //                "AllShowersInOnceID",
-        //                GameplaySeason.Type.World,
-        //                "EXPANSION1_ID",
-        //                20f,
-        //                false,
-        //                startActive: true,
-        //                clusterTravelDuration: 6000f)
-        //            .AddEvent(Db.Get().GameplayEvents.MeteorShowerDustEvent)
-        //            .AddEvent(Db.Get().GameplayEvents.ClusterCopperShower)
-        //            .AddEvent(Db.Get().GameplayEvents.ClusterGoldShower)
-        //            .AddEvent(Db.Get().GameplayEvents.ClusterIronShower)
-        //            .AddEvent(Db.Get().GameplayEvents.ClusterIceShower)
-        //            .AddEvent(Db.Get().GameplayEvents.ClusterBiologicalShower)
-        //            .AddEvent(Db.Get().GameplayEvents.ClusterBleachStoneShower)
-        //            .AddEvent(Db.Get().GameplayEvents.ClusterUraniumShower));
-        //        ///obv. not all events
-        //    }
-        //}
+        
 
         /// <summary>
         /// </summary>
@@ -1122,27 +1084,6 @@ namespace ClusterTraitGenerationManager
                 }
                 return true;
             }
-            //public static void Postfix(int seed, ProcGen.World world, ref List<string> __result)
-            //{
-            //    if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null)
-            //    {
-            //        var list = new List<string>();
-            //        int replaceCount = 0;
-            //        foreach (var trait in __result)
-            //        {
-            //            if (trait != ModAssets.CustomTraitID)
-            //            {
-            //                list.Add(trait);
-            //            }
-            //            else
-            //                ++replaceCount;
-            //        }
-            //        if (replaceCount > 0)
-            //        {
-            //            __result = CGSMClusterManager.CustomClusterData.AddRandomTraitsForWorld(list, world, replaceCount, seed);
-            //        }
-            //    }
-            //}
         }
 
         [HarmonyPatch(typeof(FileNameDialog))]
@@ -1185,11 +1126,8 @@ namespace ClusterTraitGenerationManager
             {
                 if (!CGSMClusterManager.LoadCustomCluster)
                     return;
-                if (!(target == "OverworldDensityMin") && !(target == "OverworldDensityMax") && !(target == "OverworldAvoidRadius")
-                    //&& !(target == "OverworldMinNodes") && !(target == "OverworldMaxNodes")
-                    )
+                if ((target != "OverworldDensityMin") && (target != "OverworldDensityMax") && (target != "OverworldAvoidRadius"))
                     return;
-                //SgtLogger.l("Target float:");
                 __result = GetMultipliedSizeFloat(__result, __instance);
             }
         }
@@ -1199,10 +1137,11 @@ namespace ClusterTraitGenerationManager
         {
             private static void Postfix(WorldGenSettings __instance, string target, ref int __result)
             {
-                if (!CGSMClusterManager.LoadCustomCluster || !(target == "OverworldDensityMin") && !(target == "OverworldDensityMax") && !(target == "OverworldAvoidRadius") && !(target == "OverworldMinNodes") && !(target == "OverworldMaxNodes"))
+                if (!CGSMClusterManager.LoadCustomCluster)
+                    return;
+                if ((target != "OverworldDensityMin") && (target != "OverworldDensityMax") && (target != "OverworldAvoidRadius"))// && (target != "OverworldMaxNodes") && (target != "OverworldMaxNodes"))
                     return;
 
-                //SgtLogger.l("Target int:");
                 __result = GetMultipliedSizeInt(__result, __instance);
             }
         }
@@ -1258,19 +1197,21 @@ namespace ClusterTraitGenerationManager
                 if (__instance != null && __instance.Settings != null)
                 {
                     borderSizeMultiplier = Mathf.Min(1, GetMultipliedSizeFloat(1f, __instance.Settings));
+                    WorldSizeMultiplier =  GetMultipliedSizeFloat(1f, __instance.Settings);
                     SgtLogger.l(borderSizeMultiplier.ToString(), "BorderSizeMultiplier");
                 }
 
             }
         }
         static float borderSizeMultiplier = 1f;
+        static float WorldSizeMultiplier = 1f;
 
         public static float GetMultipliedSizeFloat(float inputNumber, WorldGenSettings worldgen)
         {
 
             if (worldgen != null && worldgen.world != null && worldgen.world.filePath != null &&
                 CGSMClusterManager.CustomCluster.HasStarmapItem(worldgen.world.filePath, out var item)
-                && (item.CurrentSizeMultiplier < 1)
+                //&& (item.CurrentSizeMultiplier < 1)
                 )
             {
                 SgtLogger.l($"changed input float: {inputNumber}, multiplied: {item.ApplySizeMultiplierToValue((float)inputNumber)}", "CGM WorldgenModifier");
@@ -1357,7 +1298,7 @@ namespace ClusterTraitGenerationManager
                 {
                     value.worldsize = OriginalPlanetSizes[name];
                     OriginalPlanetSizes.Remove(name);
-                    return false;
+                    return true;
                 }
                 return true;
             }
@@ -1475,6 +1416,25 @@ namespace ClusterTraitGenerationManager
                 }
             }
         }
+        [HarmonyPatch(typeof(MobSettings), "GetMob")]
+        public static class MobSettings_GetMob_Patch
+        {
+            public static HashSet<string> patched = new HashSet<string>();
+
+            public static void Postfix(string id, ref Mob __result)
+            {
+                if (__result == null)
+                    return;
+                string str = __result.prefabName ?? __result.name;
+                if (str == null || Patches.MobSettings_GetMob_Patch.patched.Contains(str))
+                    return;
+                Patches.MobSettings_GetMob_Patch.patched.Add(str);
+                Traverse.Create((object)__result).Property("density").SetValue((object)new ProcGen.MinMax(__result.density.min * WorldSizeMultiplier, __result.density.max * WorldSizeMultiplier));
+            }
+        }
+        
+
+
 
         [HarmonyPatch(typeof(Cluster))]
         [HarmonyPatch(typeof(Cluster), MethodType.Constructor)]
@@ -1491,6 +1451,7 @@ namespace ClusterTraitGenerationManager
                 //CustomLayout
                 if (CGSMClusterManager.LoadCustomCluster)
                 {
+                    SgtLogger.l("ClusterConstructor has started");
                     //if (CGSMClusterManager.CustomCluster == null)
                     //{
                     //    ///Generating custom cluster if null
@@ -1500,9 +1461,17 @@ namespace ClusterTraitGenerationManager
                     IsGenerating = true;
                 }
             }
-            public static void Postfix()
+
+            [HarmonyPatch(typeof(MainMenu), nameof(MainMenu.OnSpawn))]
+            public static class Localization_Initialize_Patch
             {
-                IsGenerating = false;
+                public static void Postfix()
+                {
+                    IsGenerating = false;
+                    borderSizeMultiplier = 1f;
+                    WorldSizeMultiplier = 1f;
+                    LoadCustomCluster = false;
+                }
             }
         }
     }
