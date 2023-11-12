@@ -34,6 +34,7 @@ namespace ClusterTraitGenerationManager
         public SerializableStarmapItem WarpPlanet;
         public Dictionary<string,SerializableStarmapItem> OuterPlanets;
         public Dictionary<string, SerializableStarmapItem> POIs;
+        public Dictionary<int, List<string>> VanillaStarmapLocations;
         public Dictionary<string,string> StoryTraits;
         public List<string> BlacklistedTraits;
 
@@ -55,6 +56,7 @@ namespace ClusterTraitGenerationManager
             {
                 POIs.Add(poi.Key, SerializableStarmapItem.InitPOI(poi.Value));
             }
+            VanillaStarmapLocations = new Dictionary<int, List<string>>(data.VanillaStarmapItems);
         }
 
         public string ImmuneSystem, CalorieBurn, Morale, Durability, MeteorShowers, Radiation, Stress, Seed, SandboxMode, StressBreaks, CarePackages, FastWorkersMode, SaveToCloud, Teleporters;
@@ -450,7 +452,7 @@ namespace ClusterTraitGenerationManager
 
         static string FileNameWithHash(string filename)
         {
-            return filename.Replace(" ", "_") + "_" + GenerateHash(System.DateTime.Now.ToString());
+            return filename.Replace(" ", "_");// + "_" + GenerateHash(System.DateTime.Now.ToString());
         }
 
         public void ApplyPreset()
@@ -519,6 +521,9 @@ namespace ClusterTraitGenerationManager
                 else SgtLogger.l(poi.Key + " had no item");
                 cluster.POIs[poi.Key] = poiItem;
             }
+
+            cluster.VanillaStarmapItems.Clear();
+            cluster.VanillaStarmapItems = new Dictionary<int, List<string>>(this.VanillaStarmapLocations);
         }
         void ApplyDataToStarmapItem(SerializableStarmapItem item, StarmapItem reciverToLookup)
         {

@@ -549,7 +549,7 @@ namespace ClusterTraitGenerationManager
             List<List<string>> _vanillaSpawns = null;
 
             [JsonIgnore]
-            public List<List<string>> VanillaSpawns
+            List<List<string>> VanillaSpawns
             {
                 get
                 {
@@ -559,7 +559,7 @@ namespace ClusterTraitGenerationManager
                 }
             }
             [JsonIgnore]
-            public Dictionary<string, List<int>> PossibleVanillaStarmapLocations
+            Dictionary<string, List<int>> PossibleVanillaStarmapLocations
             {
                 get
                 {

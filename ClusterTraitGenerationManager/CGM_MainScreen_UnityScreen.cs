@@ -1249,12 +1249,12 @@ namespace ClusterTraitGenerationManager
                 AddNewPOI = transform.Find("MiningWorldsContainer/ScrollArea/Content/AddPOI").gameObject.AddOrGet<FButton>();
                 AddNewPOI.gameObject.SetActive(true);
                 AddNewPOI.OnClick += () =>
-
-                VanillaPOISelectorScreen.InitializeView(range, (id) =>
-                {
-                    AddPoi(id);
-                    Instance.CurrentlySelectedVanillaStarmapItem = new Tuple<string, int>(id, range);
-                });
+                    VanillaPOISelectorScreen.InitializeView(range, (id) =>
+                    {
+                        AddPoi(id);
+                        CustomCluster.AddVanillaPoi(id, range);
+                        Instance.CurrentlySelectedVanillaStarmapItem = new Tuple<string, int>(id, range);
+                    });
 
                 Wormhole = AddPoi("Wormhole");
                 IsLatestEntry = false;
@@ -1286,7 +1286,6 @@ namespace ClusterTraitGenerationManager
 
                     poiEntry.AddOrGet<FButton>().OnClick += () =>
                     {
-                        CustomCluster.AddVanillaPoi(id, range);
                         CGM_MainScreen_UnityScreen.Instance.CurrentlySelectedVanillaStarmapItem = new Tuple<string, int>(id, range);
                     };
                 }
@@ -1686,7 +1685,12 @@ namespace ClusterTraitGenerationManager
             PresetsButton = buttons.Find("PresetButton").FindOrAddComponent<FButton>();
             PresetsButton.OnClick += () =>
             {
-                CGSMClusterManager.OpenPresetWindow(() => RefreshView());
+                CGSMClusterManager.OpenPresetWindow(() =>
+                {
+                    RefreshView();
+                    RebuildVanillaStarmap(false);
+                }    
+                    );
             };
 
             //SettingsButton = buttons.Find("SettingsButton").FindOrAddComponent<FButton>();
@@ -1767,7 +1771,6 @@ namespace ClusterTraitGenerationManager
             {
                 if (CurrentlySelectedVanillaStarmapItem != null)
                 {
-                    CustomCluster.RemoveVanillaPoi(CurrentlySelectedVanillaStarmapItem);
                     VanillaStarmapEntries[CurrentlySelectedVanillaStarmapItem.second].RemovePoi(CurrentlySelectedVanillaStarmapItem.first);
                     CurrentlySelectedVanillaStarmapItem = null;
 
