@@ -977,8 +977,31 @@ namespace ClusterTraitGenerationManager
                     VanillaPOI_ArtifactDesc.text = ArtifactRateToString(currentDestination.artifactDropTable);
                     VanillaPOI_SizeAmountDesc.text = (currentDestination.maxiumMass - currentDestination.minimumMass).ToString() + global::STRINGS.UI.UNITSUFFIXES.MASS.KILOGRAM;
                     VanillaPOI_RemovePOIBtn.gameObject.SetActive(CurrentlySelectedVanillaStarmapItem.first != "Wormhole");
+
+                    VanillaPOI_ArtifactTooltip.SetSimpleTooltip(ArtifactRateTooltip(currentDestination.artifactDropTable));
                 }
             }
+            string ArtifactRateTooltip(ArtifactDropRate rateItem)
+            {
+                string artifactRates = string.Empty;
+                bool first = true;
+                foreach(var artifactRate in rateItem.rates)
+                {
+                    if (!first)
+                    {
+                        artifactRates += "\n";
+                    }
+                    first = false;
+                    var rate = artifactRate.first;
+                    artifactRates += "• ";
+                    artifactRates += Strings.Get(rate.name_key);
+                    artifactRates += ": ";
+                    artifactRates += (artifactRate.second/rateItem.totalWeight).ToString("P");
+
+                }
+                return artifactRates;
+            }
+
 
             string ArtifactRateToString(ArtifactDropRate rate)
             {
@@ -1187,6 +1210,7 @@ namespace ClusterTraitGenerationManager
         private LocText VanillaPOI_POIDesc;
         private LocText VanillaPOI_ReplenishmentAmountDesc;
         private LocText VanillaPOI_ArtifactDesc;
+        private ToolTip VanillaPOI_ArtifactTooltip;
         private FButton VanillaPOI_RemovePOIBtn;
         List<GameObject> VanillaPOI_Resources = new List<GameObject>();
 
@@ -1723,6 +1747,7 @@ namespace ClusterTraitGenerationManager
 
             VanillaPOI_ReplenishmentAmountDesc = transform.Find("Details/Content/ScrollRectContainer/VanillaPOI_Resources/Replenisment/Amount").gameObject.AddOrGet<LocText>();
             VanillaPOI_ArtifactDesc = transform.Find("Details/Content/ScrollRectContainer/VanillaPOI_Resources/VanillaPOI_Artifact/Amount").gameObject.AddOrGet<LocText>();
+            VanillaPOI_ArtifactTooltip = UIUtils.AddSimpleTooltipToObject(VanillaPOI_ArtifactDesc.transform, "");
             VanillaPOI_RemovePOIBtn = transform.Find("Details/Content/ScrollRectContainer/VanillaPOI_Resources/VanillaPOI_Remove/DeletePOI").gameObject.AddOrGet<FButton>();
 
             VanillaPOI_RemovePOIBtn.OnClick += () =>
