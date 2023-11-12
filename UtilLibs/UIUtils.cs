@@ -86,7 +86,7 @@ namespace UtilLibs
 
             if (textToChangeComp == null)
                 return false;
-            var textToChange = textToChangeComp.GetComponent<LocText>();
+            var textToChange = textToChangeComp.gameObject.GetComponent<LocText>();
             if (textToChange == null)
                 return false;
             textToChange.key = string.Empty;

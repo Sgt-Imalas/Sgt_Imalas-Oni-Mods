@@ -383,6 +383,17 @@ namespace ClusterTraitGenerationManager
                     RandomPOIStarmapItem.MaxNumberOfInstances = Math.Max(MaxAmountRandomPOI - 16, Mathf.RoundToInt((7.385f * ((float)rings)) - 56.615f));
             }
 
+            public bool SomeStarmapitemsMissing(out List<string> missings)
+            {
+                missings = Db.Get().SpaceDestinationTypes.resources.Select(entry => entry.Id).ToList();
+
+                foreach (var poiList in VanillaStarmapItems.Values)
+                {
+                    missings.RemoveAll(entry => poiList.Contains(entry));
+                    
+                }
+                return missings.Count>0;
+            }
 
             public int AddVanillaStarmapDistance()
             {
@@ -394,13 +405,14 @@ namespace ClusterTraitGenerationManager
             public void RemoveFurthestVanillaStarmapDistance()
             {
                 VanillaStarmapItems.Remove(MaxStarmapDistance);
-                VanillaStarmapItems[--MaxStarmapDistance].Add("Wormhole" );
+                VanillaStarmapItems[--MaxStarmapDistance].Add("Wormhole");
             }
+            public void RemoveVanillaPoi(Tuple<string, int> item) => RemoveVanillaPoi(item.first, item.second);
             public void RemoveVanillaPoi(string id, int range)
             {
                 VanillaStarmapItems[range].Remove(id);
             }
-            public void AddVanillaPoi( string id, int range)
+            public void AddVanillaPoi(string id, int range)
             {
                 VanillaStarmapItems[range].Add(id);
             }
@@ -410,28 +422,11 @@ namespace ClusterTraitGenerationManager
                 VanillaStarmapItems.Clear();
                 GenerateVanillaStarmapDestinations();
             }
-            ///<summary>
-            /// copied from SpaceCraftManager.GenerateFixedDestinations and SpaceCraftManager.GenerateRandomDestinations.
-            /// required since those methods require the savegame seed and arent returning anything
-            /// </summary>
-            void GenerateVanillaStarmapDestinations()
+
+            void PopulateVanillaStarmapLocations()
             {
-
-                string setting = selectScreen.newGameSettings.GetSetting(CustomGameSettingConfigs.WorldgenSeed);
-                int seed = int.Parse(setting);
                 SpaceDestinationTypes destinationTypes = Db.Get().SpaceDestinationTypes;
-
-                List<Tuple<string, int>> destinationsWithDistance = new List<Tuple<string, int>>();
-                ///Fixed Items:
-                destinationsWithDistance.Add(new(destinationTypes.CarbonaceousAsteroid.Id, 0));
-                destinationsWithDistance.Add(new(destinationTypes.CarbonaceousAsteroid.Id, 0));
-                destinationsWithDistance.Add(new(destinationTypes.MetallicAsteroid.Id, 1));
-                destinationsWithDistance.Add(new(destinationTypes.RockyAsteroid.Id, 2));
-                destinationsWithDistance.Add(new(destinationTypes.IcyDwarf.Id, 3));
-                destinationsWithDistance.Add(new(destinationTypes.OrganicDwarf.Id, 4));
-                ///Random Items:
-                KRandom krandom = new KRandom(seed);
-                List<List<string>> stringListList = new List<List<string>>()
+                _vanillaSpawns = new List<List<string>>()
                 {
                     new List<string>(),
                     new List<string>() { destinationTypes.OilyAsteroid.Id },
@@ -535,13 +530,103 @@ namespace ClusterTraitGenerationManager
                         destinationTypes.VolcanoPlanet.Id
                     }
                 };
+
+                _possibleVanillaStarmapLocations = new Dictionary<string, List<int>>();
+
+                for(int distance = 0; distance < _vanillaSpawns.Count; distance++)
+                {
+                    foreach (var planet in _vanillaSpawns[distance])
+                    {
+                        if (!_possibleVanillaStarmapLocations.ContainsKey(planet))            
+                            _possibleVanillaStarmapLocations.Add(planet, new List<int>());
+                        _possibleVanillaStarmapLocations[planet].Add(distance);
+                    }
+                }
+            }
+
+
+            [JsonIgnore]
+            List<List<string>> _vanillaSpawns = null;
+
+            [JsonIgnore]
+            public List<List<string>> VanillaSpawns
+            {
+                get
+                {
+                    if (_vanillaSpawns == null)
+                        PopulateVanillaStarmapLocations();
+                    return _vanillaSpawns;
+                }
+            }
+            [JsonIgnore]
+            public Dictionary<string, List<int>> PossibleVanillaStarmapLocations
+            {
+                get
+                {
+                    if (_possibleVanillaStarmapLocations == null)
+                        PopulateVanillaStarmapLocations();
+
+                    return _possibleVanillaStarmapLocations;
+                }
+            }
+            [JsonIgnore]
+            Dictionary<string, List<int>> _possibleVanillaStarmapLocations = null;
+
+            public void AddMissingStarmapItems()
+            {
+                if (SomeStarmapitemsMissing(out var missingIds))
+                {
+                    string setting = selectScreen.newGameSettings.GetSetting(CustomGameSettingConfigs.WorldgenSeed);
+                    int seed = int.Parse(setting);
+                    SgtLogger.l(setting, "seed");
+                    var random = new System.Random(seed);
+                    foreach (string planetId in  missingIds)
+                    {
+                        List<int> possibleLocations = PossibleVanillaStarmapLocations.ContainsKey(planetId) 
+                            ? PossibleVanillaStarmapLocations[planetId] 
+                            : MaxStarmapDistance > 5 
+                                ? Enumerable.Range(4, MaxStarmapDistance - 5).ToList() 
+                                : new List<int>() { 0};
+
+                        possibleLocations = possibleLocations.Shuffle(random).ToList();
+                        int distance = possibleLocations.First();
+                        SgtLogger.l(planetId + ": " + distance, "adding missing,"+PossibleVanillaStarmapLocations.ContainsKey(planetId));
+                        AddVanillaPoi(planetId, distance);
+                    }
+                }
+            }
+            ///<summary>
+            /// copied from SpaceCraftManager.GenerateFixedDestinations and SpaceCraftManager.GenerateRandomDestinations.
+            /// required since those methods require the savegame seed and arent returning anything
+            /// </summary>
+            void GenerateVanillaStarmapDestinations()
+            {
+
+                string setting = selectScreen.newGameSettings.GetSetting(CustomGameSettingConfigs.WorldgenSeed);
+                int seed = int.Parse(setting);
+                SpaceDestinationTypes destinationTypes = Db.Get().SpaceDestinationTypes;
+
+                List<Tuple<string, int>> destinationsWithDistance = new List<Tuple<string, int>>();
+                ///Fixed Items:
+                destinationsWithDistance.Add(new(destinationTypes.CarbonaceousAsteroid.Id, 0));
+                destinationsWithDistance.Add(new(destinationTypes.CarbonaceousAsteroid.Id, 0));
+                destinationsWithDistance.Add(new(destinationTypes.MetallicAsteroid.Id, 1));
+                destinationsWithDistance.Add(new(destinationTypes.RockyAsteroid.Id, 2));
+                destinationsWithDistance.Add(new(destinationTypes.IcyDwarf.Id, 3));
+                destinationsWithDistance.Add(new(destinationTypes.OrganicDwarf.Id, 4));
+
+                destinationsWithDistance.Add(new(destinationTypes.Earth.Id, 4));
+                ///Random Items:
+                KRandom krandom = new KRandom(seed);
+
+
                 List<int> intList = new List<int>();
                 int num1 = 3;
                 int minValue = 15;
                 int maxValue = 25;
-                for (int index1 = 0; index1 < stringListList.Count; ++index1)
+                for (int index1 = 0; index1 < VanillaSpawns.Count; ++index1)
                 {
-                    if (stringListList[index1].Count != 0)
+                    if (VanillaSpawns[index1].Count != 0)
                     {
                         for (int index2 = 0; index2 < num1; ++index2)
                             intList.Add(index1);
@@ -553,13 +638,12 @@ namespace ClusterTraitGenerationManager
                     int index4 = krandom.Next(0, intList.Count - 1);
                     int num3 = intList[index4];
                     intList.RemoveAt(index4);
-                    List<string> stringList = stringListList[num3];
+                    List<string> stringList = VanillaSpawns[num3];
                     destinationsWithDistance.Add(new(stringList[krandom.Next(0, stringList.Count)], num3));
                 }
 
-                destinationsWithDistance.Add(new(destinationTypes.Earth.Id, 4));
-                destinationsWithDistance.Add(new(destinationTypes.Wormhole.Id, stringListList.Count));
-                MaxStarmapDistance = stringListList.Count;
+                destinationsWithDistance.Add(new(destinationTypes.Wormhole.Id, VanillaSpawns.Count));
+                MaxStarmapDistance = VanillaSpawns.Count;
 
                 for (int distance = 0; distance <= MaxStarmapDistance; distance++)
                 {
@@ -1110,7 +1194,7 @@ namespace ClusterTraitGenerationManager
                 List<string> ExclusiveWithTags
                     = new List<string>();
 
-                if (currentTraits.Count > 0 || (world!=null&& world.disableWorldTraits))
+                if (currentTraits.Count > 0 || (world != null && world.disableWorldTraits))
                 {
                     AllTraits.RemoveAll((WorldTrait trait) => trait.filePath == ModAssets.CustomTraitID);
                 }

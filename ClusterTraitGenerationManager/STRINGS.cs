@@ -1,4 +1,5 @@
-﻿using ProcGenGame;
+﻿using Database;
+using ProcGenGame;
 using STRINGS;
 using System;
 using System.Collections.Generic;
@@ -70,6 +71,22 @@ namespace ClusterTraitGenerationManager
                     {
                         public class VANILLASTARMAPCONTAINER
                         {
+                            public class ADDMISSINGPOI
+                            {
+                                public static LocString LABEL = (LocString)"Add missing POIs ({0} missing)";
+                                public static LocString TOOLTIP = (LocString)"The following POI types are currently missing:{0}";
+
+                                public class ARTIFACTRATES
+                                {
+                                     public static LocString NONE = "None";
+                                     public static LocString BAD = "Bad";
+                                     public static LocString MEDIOCRE = "Mediocre";
+                                     public static LocString GOOD = "Good";
+                                     public static LocString GREAT = "Great";
+                                     public static LocString AMAZING = "Amazing";
+                                     public static LocString PERFECT = "Perfect";
+                                }
+                            }
                             public class VANILLASTARMAPENTRYPREFAB
                             {
                                 public class MININGWORLDSCONTAINER
@@ -120,6 +137,59 @@ namespace ClusterTraitGenerationManager
                                     public static LocString TOOLTIP = (LocString)"Should this Story Trait be generated?";
                                 }
                             }
+                            public class VANILLAPOI_RESOURCES
+                            {
+                                public static LocString NONESELECTED = (LocString)"None";
+                                public static LocString SELECTEDDISTANCE = (LocString)"{0} at {1} {2}";
+                                public class RESOURCEHEADER
+                                {
+                                    public static LocString LABEL = (LocString)"Resources:";
+                                }
+                                public class CONTENT
+                                {
+                                    public class RESOURCECONTAINER
+                                    {
+                                        public class SCROLLAREA
+                                        {
+                                            public class CONTENT
+                                            {
+                                                public class NORESOURCES
+                                                {
+                                                    public static LocString LABEL = (LocString)"No Resources here..";                                                   
+                                                }
+                                                public class LISTVIEWENTRYPREFAB
+                                                {
+                                                    public class BIOLABEL
+                                                    {
+                                                        public static LocString LABEL = (LocString)"Bio-Resource";
+                                                        public static LocString TOOLTIP = (LocString)"This resource requires a biological cargo bay to collect.";
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                public class VANILLAPOI_REMOVE
+                                {
+                                    public class DELETEPOI
+                                    {
+                                        public static LocString TEXT = (LocString)"Remove this POI";
+                                    }
+                                }
+                                public class CAPACITY
+                                {
+                                    public static LocString LABEL = (LocString)"Collectable Mass:";
+                                }
+                                public class REPLENISMENT
+                                {
+                                    public static LocString LABEL = (LocString)"Replenishment per cycle:";
+                                }
+                                public class VANILLAPOI_ARTIFACT
+                                {
+                                    public static LocString LABEL = (LocString)"Artifact Rarity:";
+                                }
+                            }
+
                             public class STARMAPITEMENABLED
                             {
                                 public static LocString LABEL = (LocString)"Generate [STARMAPITEMTYPE]:";
@@ -573,6 +643,7 @@ namespace ClusterTraitGenerationManager
                 public static LocString NAME = (LocString)"Seed rerolling affects traits";
                 public static LocString NAME_SHORT = (LocString)"rerolling Traits:";
                 public static LocString NAME_STARMAP = (LocString)"rerolling Starmap:";
+                public static LocString SEED_PLACEHOLDER = (LocString)"Enter Seed...";
                 public static LocString TOOLTIP = (LocString)"When enabled, rerolling the seed will also reroll the planet traits to those of the new seed.\nDisable to reroll the seed without affecting the traits.\nOnly blocks trait rerolling for the seed setting above.";
                 public static LocString TOOLTIP_STARMAP = (LocString)"When enabled, rerolling the seed will also reroll the starmap to the new seed.\nDisable to reroll the seed without affecting the starmap.";
             }
