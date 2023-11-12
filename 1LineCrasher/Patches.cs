@@ -18,13 +18,13 @@ namespace _1LineCrasher
             /// </summary>
             public static void Postfix(DateTime __instance)
             {
-                __instance.text.text = (GameClock.Instance.GetTimeInCycles() +1).ToString("n3");
+                __instance.text.text = (GameClock.Instance.GetTimeInCycles() + 1).ToString("n3");
             }
         }
 
         [HarmonyPatch(typeof(CodexEntryGenerator))]
         [HarmonyPatch(nameof(CodexEntryGenerator.PopulateCategoryEntries))]
-        [HarmonyPatch(new Type[] {typeof( List <CategoryEntry>), typeof(Comparison<CodexEntry>) })]
+        [HarmonyPatch(new Type[] { typeof(List<CategoryEntry>), typeof(Comparison<CodexEntry>) })]
         public static class FixMoped
         {
             public static void Prefix(ref Comparison<CodexEntry> comparison)
@@ -58,6 +58,47 @@ namespace _1LineCrasher
         //        {
         //            translated_strings[key] = "Moped";
         //        }
+        //    }
+        //}
+
+        //[HarmonyPatch(typeof(RailGun.States))]
+        //[HarmonyPatch(nameof(RailGun.States.InitializeStates))]
+        //public static class Modify_RailgunCooldown
+        //{
+        //    public static bool Prepare() => false;
+        //    static float NewCooldownTimer = 20f;
+        //    public static void Postfix(RailGun.States __instance)
+        //    {
+        //        __instance.on.cooldown.pre.Enter((smi) => smi.sm.cooldownTimer.Set(NewCooldownTimer, smi));
+        //    }
+        //}
+
+        /// <summary>
+        /// custom meteor example code
+        /// </summary>
+        //[HarmonyPatch(typeof(Db), "Initialize")]
+        //public static class Db_addSeason
+        //{
+        //    public static void Postfix(Db __instance)
+        //    {
+        //        __instance.GameplayEvents.Add(
+        //            new MeteorShowerSeason(
+        //                "AllShowersInOnceID",
+        //                GameplaySeason.Type.World,
+        //                "EXPANSION1_ID",
+        //                20f,
+        //                false,
+        //                startActive: true,
+        //                clusterTravelDuration: 6000f)
+        //            .AddEvent(Db.Get().GameplayEvents.MeteorShowerDustEvent)
+        //            .AddEvent(Db.Get().GameplayEvents.ClusterCopperShower)
+        //            .AddEvent(Db.Get().GameplayEvents.ClusterGoldShower)
+        //            .AddEvent(Db.Get().GameplayEvents.ClusterIronShower)
+        //            .AddEvent(Db.Get().GameplayEvents.ClusterIceShower)
+        //            .AddEvent(Db.Get().GameplayEvents.ClusterBiologicalShower)
+        //            .AddEvent(Db.Get().GameplayEvents.ClusterBleachStoneShower)
+        //            .AddEvent(Db.Get().GameplayEvents.ClusterUraniumShower));
+        //        ///obv. not all events
         //    }
         //}
     }

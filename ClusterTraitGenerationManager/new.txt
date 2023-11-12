@@ -7,4 +7,4 @@
 
 - fixed outer planets partially shuffling their generation order, causing slight variants in tni seeds on outer planets (only applies for newly created worlds and presets)
 - fixed a crash when clicking on the colonly summary screen if there was atleast one twitch integration pocket dimension currently active
-- worlds with disabled traits can no longer recieve random traits for compatibility reasons
+- worlds with disabled traits can no longer receive random traits for compatibility reasons
