@@ -150,9 +150,7 @@ namespace ClusterTraitGenerationManager
             string clusterPath = __instance.GetCurrentQualitySetting(CustomGameSettingConfigs.ClusterLayout).id;
             if (clusterPath == null || clusterPath.Count() == 0)
             {
-                ///default is no path selected, this picks either classic Terra on "classic" selection or Terrania on "spaced out" selection
-                clusterPath = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
-
+                ///default is no path selected, this picks either classic Terra on "classic" selection/base game or Terrania on "spaced out" selection
                 if (DlcManager.IsExpansion1Active())
                     clusterPath = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
                 else
@@ -163,13 +161,13 @@ namespace ClusterTraitGenerationManager
             {
                 //CGM_MainScreen_UnityScreen.Instance.PresetApplied = false;
                 CGSMClusterManager.LoadCustomCluster = false;
-                CGSMClusterManager.CreateCustomClusterFrom(clusterPath, ForceRegen: true);
                 SgtLogger.l("Regenerating Cluster from " + clusterPath + ". Reason: " + changedConfigID + " changed.");
+                CGSMClusterManager.CreateCustomClusterFrom(clusterPath, ForceRegen: true);
             }
             else
             {
-                CGSMClusterManager.RerollTraits();
                 SgtLogger.l("Regenerating Traits for " + clusterPath + ". Reason: " + changedConfigID + " changed.");
+                CGSMClusterManager.RerollTraits();
             }
         }
         [HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
@@ -185,6 +183,61 @@ namespace ClusterTraitGenerationManager
                 RegenerateCGM(__instance.newGameSettings.settings, "Coordinate");
             }
         }
+
+        [HarmonyPatch(typeof(SpacecraftManager))]
+        [HarmonyPatch(nameof(SpacecraftManager.RestoreDestinations))]
+        public static class VanillaStarmap_InsertModified
+        {
+            public static bool Prefix(SpacecraftManager __instance)
+            {
+                SgtLogger.l("SpacecraftManager.RestoreDestinations");
+                if (CGSMClusterManager.LoadCustomCluster && CustomCluster != null)
+                {
+                    SgtLogger.l("Overriding Vanilla Starmap gen");
+
+                    if (!__instance.destinationsGenerated)
+                    {
+                        __instance.destinations = new List<SpaceDestination>();
+
+                        foreach (var band in CustomCluster.VanillaStarmapItems)
+                        {
+                            SgtLogger.l(band.Key.ToString(), "Band");
+                            foreach(var destinationType in band.Value)
+                            {
+
+                                SgtLogger.l(destinationType.ToString(), "POI here");
+                                __instance.destinations.Add(new SpaceDestination(__instance.destinations.Count(), destinationType, band.Key));
+                            }
+                        }
+                        SgtLogger.l("all POIs added");
+                        __instance.destinations.Sort(((a, b) => a.distance.CompareTo(b.distance)));
+
+
+                        //shenanigans in the vanilla code:
+                        List<float> list = new List<float>();
+                        for (int index = 0; index < 10; ++index)
+                            list.Add((float)index / 10f);
+                        for (int index1 = 0; index1 < 20; ++index1)
+                        {
+                            list.Shuffle<float>();
+                            int index2 = 0;
+                            foreach (SpaceDestination destination in __instance.destinations)
+                            {
+                                if (destination.distance == index1)
+                                {
+                                    ++index2;
+                                    destination.startingOrbitPercentage = list[index2];
+                                }
+                            }
+                        }
+                        __instance.destinationsGenerated = true;
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+
         [HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
         [HarmonyPatch(nameof(ColonyDestinationSelectScreen.CoordinateChanged))]
         public static class CompleteSeedAdded
@@ -1329,6 +1382,12 @@ namespace ClusterTraitGenerationManager
                     if (CGSMClusterManager.CustomCluster.HasStarmapItem(settings.world.filePath, out var item) && !Mathf.Approximately(item.CurrentSizeMultiplier, 1))
                     {
                         float SizeModifier = item.CurrentSizeMultiplier;
+                        if (SizeModifier < 1)
+                        {
+                            SizeModifier = (1 + SizeModifier) / 2;
+                            ///Geyser Penalty needs a better implementation...
+                        }
+
                         foreach (var WorldTemplateRule in settings.world.worldTemplateRules)
                         {
                             if (WorldTemplateRule.names.Any(name => name.ToUpperInvariant().Contains(geyserKey)))
@@ -1337,13 +1396,7 @@ namespace ClusterTraitGenerationManager
                                 {
                                     OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names] = WorldTemplateRule.times;
                                 }
-                                if (SizeModifier < 1)
-                                {
-                                    SizeModifier = (1 + SizeModifier) / 2;
-
-                                    ///Geyser Penalty needs a better implementation...
-                                    //SizeModifier = 1f;
-                                }
+                                
 
 
                                 float newGeyserAmount = (((float)OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]) * SizeModifier);
@@ -1372,8 +1425,6 @@ namespace ClusterTraitGenerationManager
                                         WorldTemplateRule.times = 0;
                                     }
                                 }
-                                ///Fixed Templates on KleiFest2023 asteroid can only spawn once
-                                ///
 
 
 
@@ -1393,6 +1444,7 @@ namespace ClusterTraitGenerationManager
 
                             }
 
+                            ///Fixed Templates on KleiFest2023 asteroid can only spawn once
                             ///if it has a fixed position                                           this part here
                             if (WorldTemplateRule.times > 1 && WorldTemplateRule.overridePlacement != Vector2I.minusone)
                             {

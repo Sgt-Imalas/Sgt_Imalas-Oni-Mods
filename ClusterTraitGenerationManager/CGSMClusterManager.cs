@@ -1359,6 +1359,12 @@ namespace ClusterTraitGenerationManager
             layout.description = CustomClusterID;
             layout.worldPlacements = new List<WorldPlacement>();
             layout.coordinatePrefix = CustomClusterIDCoordinate;
+
+            if (DlcManager.IsExpansion1Active())
+                layout.requiredDlcId = DlcManager.EXPANSION1_ID;
+            else
+                layout.forbiddenDlcId = DlcManager.EXPANSION1_ID;
+
             float multiplier = 1f;
             if (CustomCluster.Rings > CustomCluster.defaultRings)
             {
@@ -1632,6 +1638,13 @@ namespace ClusterTraitGenerationManager
 
         public static void CreateCustomClusterFrom(string clusterID, string singleItemId = "", bool ForceRegen = false)
         {
+            if(singleItemId != string.Empty)
+            {
+                SgtLogger.l("Regenerating stats for " + singleItemId+" in "+clusterID);
+            }
+            else
+                SgtLogger.l("Generating custom cluster from " + clusterID);
+
             if (lastWorldGenFailed && !ForceRegen)
                 return;
             ClusterLayout Reference = SettingsCache.clusterLayouts.GetClusterData(clusterID);
@@ -1742,6 +1755,11 @@ namespace ClusterTraitGenerationManager
                 }
             }
 
+            LastPresetGenerated = clusterID;
+            if (CGM_Screen != null)
+                CGM_Screen.PresetApplied = false;
+
+
             if (Reference.poiPlacements == null)
                 return;
 
@@ -1777,9 +1795,7 @@ namespace ClusterTraitGenerationManager
                     }
                 }
             }
-            LastPresetGenerated = clusterID;
-            if (CGM_Screen != null)
-                CGM_Screen.PresetApplied = false;
+            
         }
 
         public static bool RerollVanillaStarmapWithSeedChange = true;
