@@ -75,17 +75,6 @@ namespace ClusterTraitGenerationManager
                             {
                                 public static LocString LABEL = (LocString)"Add missing POIs ({0} missing)";
                                 public static LocString TOOLTIP = (LocString)"The following POI types are currently missing:{0}";
-
-                                public class ARTIFACTRATES
-                                {
-                                     public static LocString NONE = "None";
-                                     public static LocString BAD = "Bad";
-                                     public static LocString MEDIOCRE = "Mediocre";
-                                     public static LocString GOOD = "Good";
-                                     public static LocString GREAT = "Great";
-                                     public static LocString AMAZING = "Amazing";
-                                     public static LocString PERFECT = "Perfect";
-                                }
                             }
                             public class VANILLASTARMAPENTRYPREFAB
                             {
@@ -176,9 +165,17 @@ namespace ClusterTraitGenerationManager
                                         public static LocString TEXT = (LocString)"Remove this POI";
                                     }
                                 }
+
+                                public class MODIFYPOIBTN
+                                {
+                                    public class MODIFYPOI
+                                    {
+                                        public static LocString TEXT = (LocString)"Modify this POI Type";
+                                    }
+                                }
                                 public class CAPACITY
                                 {
-                                    public static LocString LABEL = (LocString)"Collectable Mass:";
+                                    public static LocString LABEL = (LocString)"Mineable Mass:";
                                 }
                                 public class REPLENISMENT
                                 {
@@ -187,6 +184,18 @@ namespace ClusterTraitGenerationManager
                                 public class VANILLAPOI_ARTIFACT
                                 {
                                     public static LocString LABEL = (LocString)"Artifact Rarity:";
+                                    public class ARTIFACTRATES
+                                    {
+                                        public static LocString NONE = "None";
+                                        public static LocString BAD = "Bad";
+                                        public static LocString MEDIOCRE = "Mediocre";
+                                        public static LocString GOOD = "Good";
+                                        public static LocString GREAT = "Great";
+                                        public static LocString AMAZING = "Amazing";
+                                        public static LocString PERFECT = "Perfect";
+                                        public static LocString DLC_NO = "No Artifacts";
+                                        public static LocString DLC_YES = "Produces Artifacts";
+                                    }
                                 }
                             }
 
@@ -424,7 +433,7 @@ namespace ClusterTraitGenerationManager
                                         }
                                     }
 
-                                    public static LocString TITEL = (LocString)"Available Meteor Season Types:";
+                                    public static LocString TITLE = (LocString)"Available Meteor Season Types:";
                                     public static LocString NOSEASONTYPESAVAILABLE = (LocString)"No more available Season Types";
                                     public static LocString SEASONTYPETOOLTIP = (LocString)"This season type contains the following shower types:";
                                     public static LocString SEASONTYPENOMETEORSTOOLTIP = (LocString)"This season type does not contain any meteor shower types.\nThis might change in the future if Klei decides to add some showers to this season type.\nFor this reason the season type is listed here.";

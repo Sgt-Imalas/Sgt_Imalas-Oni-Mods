@@ -72,8 +72,8 @@ namespace ClusterTraitGenerationManager
                 OnCloseAction.Invoke();
                 Show(false);
             };
-            ///UIUtils.TryChangeText(transform, "Text", METEORSEASONCYCLE.SEASONSELECTOR.TITEL);
-            ///  UIUtils.TryChangeText(PossibleSeasonContainer.transform, "NoTraitAvailable/Label", METEORSEASONCYCLE.SEASONSELECTOR.NOSEASONTYPESAVAILABLE);
+            UIUtils.TryChangeText(transform, "Text", METEORSEASONCYCLE.CONTENT.TITLE);
+            UIUtils.TryChangeText(PossibleSeasonContainer.transform, "NoTraitAvailable/Label", METEORSEASONCYCLE.CONTENT.NOSEASONTYPESAVAILABLE);
 
 
             InitializeTraitContainer();

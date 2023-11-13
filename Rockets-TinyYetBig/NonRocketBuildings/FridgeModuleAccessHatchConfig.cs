@@ -89,6 +89,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
             go.AddOrGet<TreeFilterable>(); 
             go.AddOrGet<FridgeModuleHatchGrabber>().maxPullCapacityKG = 2f;
+            
             //go.AddOrGet<FridgeModuleItemDistributor>();
             go.AddOrGetDef<RocketUsageRestriction.Def>().restrictOperational = false;
 

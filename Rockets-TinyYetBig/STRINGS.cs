@@ -695,12 +695,10 @@ namespace Rockets_TinyYetBig
 
                     public static LocString VIEW_WORLD_DESC = (LocString)"Oversee Station Interior";
                 }
-                public class SPACESTATIONBUILDERMODULESIDESCREEN
+                public class SPACECONSTRUCTIONSITE
                 {
-                    public static LocString TITLE = (LocString)"Space Station Construction";
-                    public static LocString CONSTRUCTTOOLTIP = (LocString)"Space Station Construction";
-                    public static LocString CANCELCONSTRUCTION = (LocString)"Cancel Construction";
-                    public static LocString STARTCONSTRUCTION = (LocString)"Start Station Construction";
+                    public static LocString TITLE = (LocString)"Space Construction Site";
+                    public static LocString DESC = (LocString)"This construction site will produce a {0} once all these parts are assembled:";
 
                 }
             }

@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS;
 
 namespace Rockets_TinyYetBig.SpaceStations.Construction
 {
-    public class SpaceConstructable : KMonoBehaviour
+    public class SpaceConstructable : KMonoBehaviour, ICheckboxListGroupControl
     {
         [Serialize] List<PartProject> OpenParts = new List<PartProject>();
         [Serialize] List<PartProject> InProgressParts = new List<PartProject>();
@@ -18,7 +19,6 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
         [MyCmpReq]
         public Storage buildPartStorage;
         public bool ConstructionActive => this.OpenParts.Count > 0 || this.InProgressParts.Count > 0;
-
 
         private static readonly EventSystem.IntraObjectHandler<SpaceConstructable> OnStorageChangeDelegate = new EventSystem.IntraObjectHandler<SpaceConstructable>((System.Action<SpaceConstructable, object>)((component, data) => component.OnStorageChange(data)));
         
@@ -39,6 +39,8 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
                 GameScheduler.Instance.ScheduleNextFrame("RemoveConstructer", (_) => UnityEngine.Object.Destroy(this.gameObject));
             }
         }
+
+        
 
         public bool CancelCurrentProject()
         {
@@ -188,5 +190,52 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
             }
             return false;
         }
+
+
+        public string Title => SPACECONSTRUCTIONSITE.TITLE;
+
+        public string Description => SPACECONSTRUCTIONSITE.DESC;
+
+        public ICheckboxListGroupControl.ListGroup[] GetData()
+        {
+            var Items = new List<ICheckboxListGroupControl.ListGroup>();
+            if (CurrentProject != null)
+            {
+                var checkboxes = new List<ICheckboxListGroupControl.CheckboxItem>();
+                foreach (PartProject item in InProgressParts)
+                {
+                    checkboxes.Add(new ICheckboxListGroupControl.CheckboxItem()
+                    {
+                        text = item.ResourceTag.ToString(),
+                        isOn = false
+                    });
+                    ;
+                }
+                foreach (PartProject item in FinishedParts)
+                {
+                    checkboxes.Add(new ICheckboxListGroupControl.CheckboxItem()
+                    {
+                        text = item.ResourceTag.ToString(),
+                        isOn = true
+                    });
+                    ;
+                }
+                foreach (PartProject item in OpenParts)
+                {
+                    checkboxes.Add(new ICheckboxListGroupControl.CheckboxItem()
+                    {
+                        text = item.ResourceTag.ToString(),
+                        isOn = false
+                    });
+                    ;
+                }
+                Items.Add(new ICheckboxListGroupControl.ListGroup("Parts", checkboxes.ToArray()));
+            }
+            return Items.ToArray();
+        }
+
+        public bool SidescreenEnabled() => CurrentProject != null;
+
+        public int CheckboxSideScreenSortOrder() => 20;
     }
 }

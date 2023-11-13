@@ -27,7 +27,8 @@ using static CustomGameSettings;
 using Database;
 using TMPro;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.VANILLASTARMAPCONTENT.VANILLASTARMAPCONTAINER;
-using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.VANILLASTARMAPCONTENT.VANILLASTARMAPCONTAINER.ADDMISSINGPOI;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.VANILLAPOI_RESOURCES;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.VANILLAPOI_RESOURCES.VANILLAPOI_ARTIFACT;
 
 namespace ClusterTraitGenerationManager
 {
@@ -1070,10 +1071,72 @@ namespace ClusterTraitGenerationManager
                 PlanetSizeCycle.Value = current.CurrentSizePreset.ToString();
                 PlanetRazioCycle.Value = current.CurrentRatioPreset.ToString();
 
-                if (current.IsPOI) return;
-                RefreshMeteorLists();
-                RefreshTraitList();
-                RefreshPlanetBiomes();
+
+                Details_VanillaPOIContainer.SetActive(current.IsPOI && !isRandom);
+
+                if (current.IsPOI && !isRandom)
+                {
+                    GameObject poiGO = Util.KInstantiateUI(Assets.GetPrefab(current.id));
+                    if (poiGO != null)
+                    {
+
+                        VanillaPOI_POIDesc.text = current.DisplayDescription;
+                        for (int i = VanillaPOI_Resources.Count - 1; i >= 0; i--)
+                        {
+                            Destroy(VanillaPOI_Resources[i].gameObject);
+                        }
+
+                        string replenishmentString = VANILLAPOI_ARTIFACT.ARTIFACTRATES.NONE;
+                        string mineableMassString = VANILLAPOI_ARTIFACT.ARTIFACTRATES.NONE;
+                        string artifactsMinableString = VANILLAPOI_ARTIFACT.ARTIFACTRATES.DLC_NO;
+
+                        if (poiGO.TryGetComponent<HarvestablePOIConfigurator>(out var config))
+                        {
+                            var HarvestableConfig = HarvestablePOIConfigurator.FindType(config.presetType);
+
+                            float totalWeight = 0;
+                            foreach(var entry in HarvestableConfig.harvestableElements.Values)
+                            {
+                                totalWeight += entry;
+                            }
+
+                            foreach (var res in HarvestableConfig.harvestableElements)
+                            {
+                                var entry = Util.KInstantiateUI(VanillaPOIResourcePrefab, VanillaPOIResourceContainer, true);
+                                Element element = ElementLoader.GetElement(res.Key.CreateTag());
+
+                                var UISprite = Def.GetUISprite(element);
+                                var image = entry.transform.Find("PreviewImage").gameObject.AddOrGet<Image>();
+                                image.sprite = UISprite.first;
+                                image.color = UISprite.second;
+                                entry.transform.Find("Label").gameObject.AddOrGet<LocText>().text = element.name;
+                                entry.transform.Find("BioLabel").gameObject.SetActive(false);
+                                entry.transform.Find("Amount").gameObject.AddOrGet<LocText>().text = (res.Value / totalWeight).ToString("P");
+
+                                VanillaPOI_Resources.Add(entry);
+                            }
+                            replenishmentString = ((HarvestableConfig.poiCapacityMin)/(HarvestableConfig.poiRechargeMax / 600f)).ToString("0.0") + global::STRINGS.UI.UNITSUFFIXES.MASS.KILOGRAM + " - " + ((HarvestableConfig.poiCapacityMax) / (HarvestableConfig.poiRechargeMin / 600f)).ToString("0.0") + global::STRINGS.UI.UNITSUFFIXES.MASS.KILOGRAM;
+                            mineableMassString = (HarvestableConfig.poiCapacityMin/1000f).ToString("0.0") + global::STRINGS.UI.UNITSUFFIXES.MASS.TONNE + " - " + (HarvestableConfig.poiCapacityMax/1000f).ToString("0.0") + global::STRINGS.UI.UNITSUFFIXES.MASS.TONNE;
+                        }      
+                        if(poiGO.TryGetComponent<ArtifactPOIConfigurator>(out _))
+                        {
+                            artifactsMinableString = VANILLAPOI_ARTIFACT.ARTIFACTRATES.DLC_YES;
+                        }
+                        VanillaPOI_ReplenishmentAmountDesc.text = replenishmentString;
+                        VanillaPOI_ArtifactDesc.text = artifactsMinableString;
+                        VanillaPOI_SizeAmountDesc.text = mineableMassString;
+                        VanillaPOI_RemovePOIBtn.gameObject.SetActive(false);
+
+                        VanillaPOI_ArtifactTooltip.SetSimpleTooltip(string.Empty);
+                    }
+                }
+
+                else
+                {
+                    RefreshMeteorLists();
+                    RefreshTraitList();
+                    RefreshPlanetBiomes();
+                }
             }
         }
         string ArtifactRateToString(ArtifactDropRate rate)
