@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 using static STRINGS.DUPLICANTS.CHORES;
 
 namespace SubPlanetaryTransport
@@ -51,6 +52,8 @@ namespace SubPlanetaryTransport
             buildingDef.EnergyConsumptionWhenActive = 2400f;
             buildingDef.DefaultAnimState = "off";
             buildingDef.SelfHeatKilowattsWhenActive = 32f;
+            buildingDef.Overheatable = true;
+            buildingDef.OverheatTemperature = UtilMethods.GetKelvinFromC(100);
 
             buildingDef.PermittedRotations = PermittedRotations.FlipH;
             buildingDef.InputConduitType = ConduitType.Solid;
@@ -79,10 +82,26 @@ namespace SubPlanetaryTransport
 
             return buildingDef;
         }
-        private ConduitPortInfo secondaryPort = new ConduitPortInfo(ConduitType.Liquid, new CellOffset(-1, 0));
-        private void AttachPort(GameObject go) => go.AddComponent<ConduitSecondaryInput>().portInfo = this.secondaryPort;
+        //private ConduitPortInfo secondaryPort = new ConduitPortInfo(ConduitType.Liquid, new CellOffset(-1, 0));
+       // private void AttachPort(GameObject go) => go.AddComponent<ConduitSecondaryInput>().portInfo = this.secondaryPort;
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
+            //this.AddVisualizer(go);
+        }
+        public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
+        {
+            base.DoPostConfigurePreview(def, go);
+            //this.AttachPort(go);
+        }
+        public override void DoPostConfigureUnderConstruction(GameObject go)
+        {
+            base.DoPostConfigureUnderConstruction(go);
+            //this.AttachPort(go);
+        }
+        public override void DoPostConfigureComplete(GameObject go)
+        {
+            SymbolOverrideControllerUtil.AddToPrefab(go);
+
             Storage CargoInput = go.AddComponent<Storage>();
             CargoInput.capacityKg = 4000f;
             List<Storage.StoredItemModifier> modifiers = new List<Storage.StoredItemModifier>()
@@ -94,10 +113,10 @@ namespace SubPlanetaryTransport
             };
             CargoInput.SetDefaultStoredItemModifiers(modifiers);
 
-            Storage CoolantStorage = go.AddComponent<Storage>();
-            CoolantStorage.capacityKg = 900f;
-            Storage CoolantOutputStorage = go.AddComponent<Storage>();
-            CoolantOutputStorage.capacityKg = 900f;
+            //Storage CoolantStorage = go.AddComponent<Storage>();
+            //CoolantStorage.capacityKg = 900f;
+            //Storage CoolantOutputStorage = go.AddComponent<Storage>();
+            //CoolantOutputStorage.capacityKg = 900f;
 
             Storage workingStorage = go.AddComponent<Storage>();
 
@@ -108,11 +127,11 @@ namespace SubPlanetaryTransport
             solidConduitConsumer.storage = CargoInput;
             solidConduitConsumer.alwaysConsume = true;
 
-            ConduitDispenser conduitDispenser = go.AddOrGet<ConduitDispenser>();
-            conduitDispenser.storage = CoolantOutputStorage;
-            conduitDispenser.conduitType = ConduitType.Liquid;
-            conduitDispenser.elementFilter = (SimHashes[])null;
-            conduitDispenser.alwaysDispense = true;
+            //ConduitDispenser conduitDispenser = go.AddOrGet<ConduitDispenser>();
+            //conduitDispenser.storage = CoolantOutputStorage;
+            //conduitDispenser.conduitType = ConduitType.Liquid;
+            //conduitDispenser.elementFilter = (SimHashes[])null;
+            //conduitDispenser.alwaysDispense = true;
 
 
             go.AddOrGet<LogicOperationalController>();
@@ -120,27 +139,11 @@ namespace SubPlanetaryTransport
             SubPlanetaryItemRailgun subPlanetaryItemRailgun = go.AddOrGet<SubPlanetaryItemRailgun>();
             subPlanetaryItemRailgun.joulesPerLaunch = 20000f;
             subPlanetaryItemRailgun.jouleCapacity = subPlanetaryItemRailgun.joulesPerLaunch * 7f;
-            subPlanetaryItemRailgun.CoolantStorage = CoolantStorage;
-            subPlanetaryItemRailgun.CoolantOutputStorage = CoolantOutputStorage;
+            //subPlanetaryItemRailgun.CoolantStorage = CoolantStorage;
+            //subPlanetaryItemRailgun.CoolantOutputStorage = CoolantOutputStorage;
             subPlanetaryItemRailgun.CargoStorage = CargoInput;
-            subPlanetaryItemRailgun.portInfo = secondaryPort;
+            //subPlanetaryItemRailgun.portInfo = secondaryPort;
             subPlanetaryItemRailgun.WorkingStorage = workingStorage;
-
-            this.AddVisualizer(go);
-        }
-        public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
-        {
-            base.DoPostConfigurePreview(def, go);
-            this.AttachPort(go);
-        }
-        public override void DoPostConfigureUnderConstruction(GameObject go)
-        {
-            base.DoPostConfigureUnderConstruction(go);
-            this.AttachPort(go);
-        }
-        public override void DoPostConfigureComplete(GameObject go)
-        {
-            SymbolOverrideControllerUtil.AddToPrefab(go);
         }
         private void AddVisualizer(GameObject go)
         {

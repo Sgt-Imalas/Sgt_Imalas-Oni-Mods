@@ -13,10 +13,14 @@ using static ModInfo;
 namespace SubPlanetaryTransport
 {
 
-    public class SubPlanetaryItemRailgun : StateMachineComponent<SubPlanetaryItemRailgun.StatesInstance>, ISim200ms, ISecondaryInput, ISidescreenButtonControl, ISim33ms
+    public class SubPlanetaryItemRailgun : StateMachineComponent<SubPlanetaryItemRailgun.StatesInstance>, ISim200ms, 
+        //ISecondaryInput, 
+        ISidescreenButtonControl, ISim33ms
     {
         [MyCmpReq]
         private Building building;
+        [MyCmpReq]
+        private PrimaryElement element;
         [MyCmpReq]
         private Rotatable rotatable;
         [MyCmpReq]
@@ -25,6 +29,8 @@ namespace SubPlanetaryTransport
         private EnergyConsumerSelfSustaining energyConsumer;
         [MyCmpReq]
         private Operational operational;
+        [MyCmpReq]
+        private Overheatable overheatable;
         [MyCmpGet]
         KBatchedAnimController animController;
         [MyCmpGet]
@@ -49,17 +55,17 @@ namespace SubPlanetaryTransport
         [Serialize]
         private float activeFiringCooldown = 0;
 
-        public ConduitPortInfo portInfo;
-        private int secondaryInputCell = -1;
-        private FlowUtilityNetwork.NetworkItem flowNetworkItem;
-        private ConduitConsumer CoolantConsumer;
+        //public ConduitPortInfo portInfo;
+        //private int secondaryInputCell = -1;
+        //private FlowUtilityNetwork.NetworkItem flowNetworkItem;
+        //private ConduitConsumer CoolantConsumer;
 
         public Storage CargoStorage;
-        public Storage CoolantStorage;
+        //public Storage CoolantStorage;
         public Storage WorkingStorage;
-        public Storage CoolantOutputStorage;
+        //public Storage CoolantOutputStorage;
 
-        public float CoolantPerShot = 300f;
+        //public float CoolantPerShot = 300f;
         public float ItemMassPerShot = 500f;
 
         public float jouleCapacity = 1f;
@@ -124,11 +130,12 @@ namespace SubPlanetaryTransport
                 return !IsCurrentlyTurning
                     && activeFiringCooldown <= 0
                     && availableJoules >= joulesPerLaunch
-                    && HasEnoughCoolant
+                    //&& HasEnoughCoolant
+                    //&& IsCoolEnough
                     && HasEnoughShootableMaterial;
             }
         }
-        public bool HasEnoughCoolant => CoolantStorage.MassStored() >= CoolantPerShot && CoolantOutputStorage.RemainingCapacity() >= CoolantPerShot;
+        //public bool HasEnoughCoolant => CoolantStorage.MassStored() >= CoolantPerShot && CoolantOutputStorage.RemainingCapacity() >= CoolantPerShot;
         public bool HasEnoughShootableMaterial => CargoStorage.MassStored() >= ItemMassPerShot;
 
         public void RecalculateAimingArc()
@@ -181,25 +188,26 @@ namespace SubPlanetaryTransport
 
             ProjectileSourceCell = Grid.OffsetCell(Grid.PosToCell(this), rotatable.GetRotatedCellOffset(StartPosition));
 
+            this.structureTemperature = GameComps.StructureTemperatures.GetHandle(this.gameObject);
             smi.StartSM();
 
-            this.CoolantConsumer = this.gameObject.AddComponent<ConduitConsumer>();
-            CoolantConsumer.conduitType = ConduitType.Liquid;
-            this.CoolantConsumer.storage = CoolantStorage;
-            this.CoolantConsumer.capacityKG = CoolantStorage.capacityKg;
-            this.CoolantConsumer.useSecondaryInput = true;
-            this.CoolantConsumer.consumptionRate = 10f;
-            CoolantConsumer.forceAlwaysSatisfied = true;
-            RequireInputs requireInputs = this.gameObject.AddComponent<RequireInputs>();
-            requireInputs.conduitConsumer = this.CoolantConsumer;
-            requireInputs.SetRequirements(false, true);
+            //this.CoolantConsumer = this.gameObject.AddComponent<ConduitConsumer>();
+            //CoolantConsumer.conduitType = ConduitType.Liquid;
+            //this.CoolantConsumer.storage = CoolantStorage;
+            //this.CoolantConsumer.capacityKG = CoolantStorage.capacityKg;
+            //this.CoolantConsumer.useSecondaryInput = true;
+            //this.CoolantConsumer.consumptionRate = 10f;
+            //CoolantConsumer.forceAlwaysSatisfied = true;
+            //RequireInputs requireInputs = this.gameObject.AddComponent<RequireInputs>();
+            //requireInputs.conduitConsumer = this.CoolantConsumer;
+            //requireInputs.SetRequirements(false, true);
 
-            this.secondaryInputCell = Grid.OffsetCell(Grid.PosToCell(this.transform.GetPosition()), this.building.GetRotatedOffset(this.portInfo.offset));
-            IUtilityNetworkMgr networkManager = Conduit.GetNetworkManager(this.portInfo.conduitType);
-            this.flowNetworkItem = new FlowUtilityNetwork.NetworkItem(this.portInfo.conduitType, Endpoint.Sink, this.secondaryInputCell, this.gameObject);
-            int secondaryInputCell = this.secondaryInputCell;
-            FlowUtilityNetwork.NetworkItem flowNetworkItem = this.flowNetworkItem;
-            networkManager.AddToNetworks(secondaryInputCell, (object)flowNetworkItem, true);
+            //this.secondaryInputCell = Grid.OffsetCell(Grid.PosToCell(this.transform.GetPosition()), this.building.GetRotatedOffset(this.portInfo.offset));
+            //IUtilityNetworkMgr networkManager = Conduit.GetNetworkManager(this.portInfo.conduitType);
+            //this.flowNetworkItem = new FlowUtilityNetwork.NetworkItem(this.portInfo.conduitType, Endpoint.Sink, this.secondaryInputCell, this.gameObject);
+            //int secondaryInputCell = this.secondaryInputCell;
+            //FlowUtilityNetwork.NetworkItem flowNetworkItem = this.flowNetworkItem;
+            //networkManager.AddToNetworks(secondaryInputCell, (object)flowNetworkItem, true);
 
             Rotation = new MeterController(animController, "gun_barrel_target", "barrelrotation", Meter.Offset.Behind, Grid.SceneLayer.BuildingBack, Array.Empty<string>());
             StorageMeter = new MeterController(animController, "storage_meter_target", "storage_meter", Meter.Offset.Infront, Grid.SceneLayer.TransferArm, Array.Empty<string>());
@@ -215,14 +223,13 @@ namespace SubPlanetaryTransport
         }
         public override void OnCleanUp()
         {
-            Conduit.GetNetworkManager(this.portInfo.conduitType).RemoveFromNetworks(this.secondaryInputCell, (object)this.flowNetworkItem, true);
+            //Conduit.GetNetworkManager(this.portInfo.conduitType).RemoveFromNetworks(this.secondaryInputCell, (object)this.flowNetworkItem, true);
             base.OnCleanUp();
         }
 
         private void OnStorageChanged(object obj)
         {
             StorageMeter.SetPositionPercent(Mathf.Clamp01(CargoStorage.MassStored() / CargoStorage.capacityKg));
-            CoolantStorageMeter.SetPositionPercent(Mathf.Clamp01(CoolantStorage.MassStored() / CoolantStorage.capacityKg));
         }
         public override void OnPrefabInit()
         {
@@ -262,6 +269,8 @@ namespace SubPlanetaryTransport
         private void UpdateActive() => this.operational.SetActive(this.CanAcceptMorePower());
         public void Sim200ms(float dt)
         {
+            
+            StorageTileConfig
             // SgtLogger.l($"{this.operational.IsOperational} && {(this.button == null || this.button.IsEnabled)} && {this.energyConsumer.IsExternallyPowered} && {(double)this.availableJoules} < {(double)this.jouleCapacity}");
 
             if (this.CanAcceptMorePower())
@@ -294,9 +303,9 @@ namespace SubPlanetaryTransport
             this.energyConsumer.UpdatePoweredStatus();
         }
 
-        bool ISecondaryInput.HasSecondaryConduitType(ConduitType type) => this.portInfo.conduitType == type;
+        //bool ISecondaryInput.HasSecondaryConduitType(ConduitType type) => this.portInfo.conduitType == type;
 
-        public CellOffset GetSecondaryConduitOffset(ConduitType type) => this.portInfo.conduitType == type ? this.portInfo.offset : CellOffset.none;
+        //public CellOffset GetSecondaryConduitOffset(ConduitType type) => this.portInfo.conduitType == type ? this.portInfo.offset : CellOffset.none;
 
 
 
@@ -324,6 +333,9 @@ namespace SubPlanetaryTransport
 
             if (activeFiringCooldown > 0)
                 activeFiringCooldown -= dt;
+
+
+            CoolantStorageMeter.SetPositionPercent(Mathf.Clamp01(1f-activeFiringCooldown/ TimeBetweenShotsSecs));
 
             if (ShouldShoot && CanShoot)
             {
@@ -378,49 +390,52 @@ namespace SubPlanetaryTransport
             }
         }
 
+        private HandleVector<int>.Handle structureTemperature;
         protected void HeatAndTransferCoolant()
         {
-            float coolantTotalHeatCapacity = 0.0f;
-            float remainingMass = CoolantPerShot;
-            SgtLogger.l(remainingMass.ToString());
-            SgtLogger.l(CoolantStorage.items.Count.ToString());
-            for (int i = CoolantStorage.items.Count - 1; i >= 0; --i)
-            {
-                SgtLogger.l(i.ToString());
-                GameObject gameObject = CoolantStorage.items[i];
-                gameObject.TryGetComponent<PrimaryElement>(out var element);
-                if (element.Mass > 0.0f)
-                {
-                    SgtLogger.l(gameObject.ToString());
-                    if (gameObject.TryGetComponent<Pickupable>(out var pickupable))
-                    {
-                        Pickupable amountTaken = pickupable.Take(remainingMass);
-                        remainingMass -= amountTaken.TotalAmount;
-                        SgtLogger.l(amountTaken.TotalAmount.ToString());
-                        WorkingStorage.Store(amountTaken.gameObject,true);
-                    }
-                }
-                if (remainingMass <= 0)
-                    break;
-            }
-            List<PrimaryElement> ActiveCoolant = new List<PrimaryElement>();
-            foreach (GameObject gameObject in WorkingStorage.items)
-            {
+          GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, kDTUPerShot, "Intraplanetary Railgun shot", 1f);
+            
+            //float coolantTotalHeatCapacity = 0.0f;
+            //float remainingMass = CoolantPerShot;
+            //SgtLogger.l(remainingMass.ToString());
+            //SgtLogger.l(CoolantStorage.items.Count.ToString());
+            //for (int i = CoolantStorage.items.Count - 1; i >= 0; --i)
+            //{
+            //    SgtLogger.l(i.ToString());
+            //    GameObject gameObject = CoolantStorage.items[i];
+            //    gameObject.TryGetComponent<PrimaryElement>(out var element);
+            //    if (element.Mass > 0.0f)
+            //    {
+            //        SgtLogger.l(gameObject.ToString());
+            //        if (gameObject.TryGetComponent<Pickupable>(out var pickupable))
+            //        {
+            //            Pickupable amountTaken = pickupable.Take(remainingMass);
+            //            remainingMass -= amountTaken.TotalAmount;
+            //            SgtLogger.l(amountTaken.TotalAmount.ToString());
+            //            WorkingStorage.Store(amountTaken.gameObject,true);
+            //        }
+            //    }
+            //    if (remainingMass <= 0)
+            //        break;
+            //}
+            //List<PrimaryElement> ActiveCoolant = new List<PrimaryElement>();
+            //foreach (GameObject gameObject in WorkingStorage.items)
+            //{
 
-                gameObject.TryGetComponent<PrimaryElement>(out var element);
-                if (element.Mass <= 0.0f)
-                    continue;
-                coolantTotalHeatCapacity += element.Mass * element.Element.specificHeatCapacity;
-                ActiveCoolant.Add(element);
-            }
-            foreach (var coolant in ActiveCoolant)
-            {
-                float percentageOfTotalHeatCapacity = coolant.Mass * coolant.Element.specificHeatCapacity / coolantTotalHeatCapacity;
-                float kilowatts = kDTUPerShot * percentageOfTotalHeatCapacity;
-                float temperatureChange = GameUtil.CalculateTemperatureChange(coolant.Element.specificHeatCapacity, coolant.Mass, kilowatts);
-                coolant.Temperature += temperatureChange;
-            }
-            this.WorkingStorage.Transfer(this.CoolantOutputStorage, hide_popups: true);
+            //    gameObject.TryGetComponent<PrimaryElement>(out var element);
+            //    if (element.Mass <= 0.0f)
+            //        continue;
+            //    coolantTotalHeatCapacity += element.Mass * element.Element.specificHeatCapacity;
+            //    ActiveCoolant.Add(element);
+            //}
+            //foreach (var coolant in ActiveCoolant)
+            //{
+            //    float percentageOfTotalHeatCapacity = coolant.Mass * coolant.Element.specificHeatCapacity / coolantTotalHeatCapacity;
+            //    float kilowatts = kDTUPerShot * percentageOfTotalHeatCapacity;
+            //    float temperatureChange = GameUtil.CalculateTemperatureChange(coolant.Element.specificHeatCapacity, coolant.Mass, kilowatts);
+            //    coolant.Temperature += temperatureChange;
+            //}
+            //this.WorkingStorage.Transfer(this.CoolantOutputStorage, hide_popups: true);
         }
 
         public static Vector3 GetPointOnUnitSphereCap(Quaternion targetDirection, float angle)
