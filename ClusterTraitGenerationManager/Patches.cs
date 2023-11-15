@@ -37,9 +37,43 @@ namespace ClusterTraitGenerationManager
 {
     internal class Patches
     {
-        [HarmonyPatch(typeof(SaveGame), "GetColonyToolTip")]
+        /// <summary>
+        /// These patches have to run manually or they break translations on certain screens
+        /// </summary>
+        [HarmonyPatch(typeof(Assets), nameof(Assets.OnPrefabInit))]
+        public static class OnASsetPrefabPatch
+        {
+            public static void Postfix()
+            {
+                LayoutNameFix.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+                ColonyDestinationSelectScreen_ShuffleClicked_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+                ColonyDestinationSelectScreen_CoordinateChanged_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+            }
+            //public static void AssetOnPrefabInitPostfix(Harmony harmony)
+            //{
+            //    var m_TargetMethod = AccessTools.Method("CharacterSelectionController, Assembly-CSharp:InitializeContainers");
+            //    var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Transpiler");
+            //    var m_Prefix = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Prefix");
+            //    var m_Postfix = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Postfix");
+
+            //    harmony.Patch(m_TargetMethod, new HarmonyMethod(m_Prefix), new HarmonyMethod(m_Postfix), new HarmonyMethod(m_Transpiler));
+            //}
+        }
+
+
+
+
+        //[HarmonyPatch(typeof(SaveGame), "GetColonyToolTip")]
         public static class LayoutNameFix
         {
+            public static void AssetOnPrefabInitPostfix(Harmony harmony)
+            {
+                var m_TargetMethod = AccessTools.Method("SaveGame, Assembly-CSharp:GetColonyToolTip");
+                var m_Postfix = AccessTools.Method(typeof(LayoutNameFix), "Postfix");
+
+                harmony.Patch(m_TargetMethod, null, new HarmonyMethod(m_Postfix), null);
+            }
+
             public static void Postfix(ref List<Tuple<string, TextStyleSetting>> __result, SaveGame __instance)
             {
                 if (Game.clusterId == CustomClusterID)
@@ -170,10 +204,19 @@ namespace ClusterTraitGenerationManager
                 CGSMClusterManager.RerollTraits();
             }
         }
-        [HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
-        [HarmonyPatch(nameof(ColonyDestinationSelectScreen.ShuffleClicked))]
-        public static class SeedInserted
+
+        //[HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
+        //[HarmonyPatch(nameof(ColonyDestinationSelectScreen.ShuffleClicked))]
+        public static class ColonyDestinationSelectScreen_ShuffleClicked_Patch
         {
+            public static void AssetOnPrefabInitPostfix(Harmony harmony)
+            {
+                var m_TargetMethod = AccessTools.Method("ColonyDestinationSelectScreen, Assembly-CSharp:ShuffleClicked");
+                var m_Postfix = AccessTools.Method(typeof(ColonyDestinationSelectScreen_ShuffleClicked_Patch), "Postfix");
+
+                harmony.Patch(m_TargetMethod, null, new HarmonyMethod(m_Postfix), null);
+            }
+
             public static void Postfix(ColonyDestinationSelectScreen __instance)
             {
                 CGSMClusterManager.selectScreen = __instance;
@@ -238,10 +281,19 @@ namespace ClusterTraitGenerationManager
             }
         }
 
-        [HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
-        [HarmonyPatch(nameof(ColonyDestinationSelectScreen.CoordinateChanged))]
-        public static class CompleteSeedAdded
+        //[HarmonyPatch(typeof(ColonyDestinationSelectScreen))]
+        //[HarmonyPatch(nameof(ColonyDestinationSelectScreen.CoordinateChanged))]
+        public static class ColonyDestinationSelectScreen_CoordinateChanged_Patch
         {
+            public static void AssetOnPrefabInitPostfix(Harmony harmony)
+            {
+                var m_TargetMethod = AccessTools.Method("ColonyDestinationSelectScreen, Assembly-CSharp:CoordinateChanged");
+                var m_Postfix = AccessTools.Method(typeof(ColonyDestinationSelectScreen_CoordinateChanged_Patch), "Postfix");
+
+                harmony.Patch(m_TargetMethod, null, new HarmonyMethod(m_Postfix), null);
+            }
+
+
             public static void Postfix(ColonyDestinationSelectScreen __instance)
             {
                 CGSMClusterManager.selectScreen = __instance;
@@ -1018,16 +1070,6 @@ namespace ClusterTraitGenerationManager
         }
 
 
-        [HarmonyPatch(typeof(SaveGame), "GetColonyToolTip")]
-        public class SaveGame_GetColonyTooltip_Patch
-        {
-            public static void Postfix(List<Tuple<string, TextStyleSetting>> __result)
-            {
-                SettingLevel currentQualitySetting = CustomGameSettings.Instance.GetCurrentQualitySetting((SettingConfig)CustomGameSettingConfigs.ClusterLayout);
-            }
-        }
-
-
         /// <summary>
         /// Makes error msg display the actual error instead of "couldn't germinate"
         /// </summary>
@@ -1303,6 +1345,7 @@ namespace ClusterTraitGenerationManager
                 return true;
             }
         }
+        
         [HarmonyPatch(typeof(TemplateSpawning))]
         [HarmonyPatch(nameof(TemplateSpawning.SpawnTemplatesFromTemplateRules))]
         public static class AddSomeGeysers
@@ -1462,16 +1505,17 @@ namespace ClusterTraitGenerationManager
                 }
             }
 
-            [HarmonyPatch(typeof(MainMenu), nameof(MainMenu.OnSpawn))]
-            public static class Localization_Initialize_Patch
+            
+        }
+        [HarmonyPatch(typeof(MainMenu), nameof(MainMenu.OnSpawn))]
+        public static class MainMenu_Initialize_Patch
+        {
+            public static void Postfix()
             {
-                public static void Postfix()
-                {
-                    IsGenerating = false;
-                    borderSizeMultiplier = 1f;
-                    WorldSizeMultiplier = 1f;
-                    LoadCustomCluster = false;
-                }
+                ApplyCustomGen.IsGenerating = false;
+                borderSizeMultiplier = 1f;
+                WorldSizeMultiplier = 1f;
+                LoadCustomCluster = false;
             }
         }
     }
