@@ -496,8 +496,8 @@ namespace ClusterTraitGenerationManager
         }
 
 
-        //[HarmonyPatch(typeof(WorldPlacement))]
-        //[HarmonyPatch(nameof(WorldPlacement.CompareLocationType))]
+        ////[HarmonyPatch(typeof(WorldPlacement))]
+        ////[HarmonyPatch(nameof(WorldPlacement.CompareLocationType))]
         //public static class help
         //{
         //    public static void Prefix(ProcGen.WorldPlacement a, ProcGen.WorldPlacement b)
@@ -511,7 +511,7 @@ namespace ClusterTraitGenerationManager
         //}
 
 
-        //[HarmonyPatch(typeof(ProcGenGame.WorldGen), (nameof(ProcGenGame.WorldGen.LoadSettings)))]
+        ////[HarmonyPatch(typeof(ProcGenGame.WorldGen), (nameof(ProcGenGame.WorldGen.LoadSettings)))]
         //public class ReplaceForDebug
         //{
         //    public static void Prefix(bool in_async_thread)
@@ -519,7 +519,7 @@ namespace ClusterTraitGenerationManager
         //        SgtLogger.l($"LoadSettings, {in_async_thread}");
         //    }
         //}
-        //[HarmonyPatch(typeof(ProcGenGame.WorldGen), (nameof(ProcGenGame.WorldGen.LoadSettings_Internal)))]
+        ////[HarmonyPatch(typeof(ProcGenGame.WorldGen), (nameof(ProcGenGame.WorldGen.LoadSettings_Internal)))]
         //public class ReplaceForDebug2
         //{
         //    public static void Prefix(bool is_playing, bool preloadTemplates)
@@ -532,7 +532,7 @@ namespace ClusterTraitGenerationManager
 
 
 
-        //[HarmonyPatch(typeof(Db),(nameof(Db.Initialize)))]
+        ////[HarmonyPatch(typeof(Db),(nameof(Db.Initialize)))]
         public static class InitExtraWorlds
         {
             static bool initialized = false;
