@@ -18,11 +18,23 @@ namespace CustomGameSettingsModifier
 {
     internal class Patches
     {
-        [HarmonyPatch(typeof(CustomGameSettings))]
-        [HarmonyPatch(nameof(CustomGameSettings.OnDeserialized))]
+       // [HarmonyPatch(typeof(CustomGameSettings))]
+        //[HarmonyPatch(nameof(CustomGameSettings.OnDeserialized))]
         public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
         {
+            public static void AssetOnPrefabInitPostfix(Harmony harmony)
+            {
+                var m_TargetMethod = AccessTools.Method("CustomGameSettings, Assembly-CSharp:OnDeserialized");
+                //var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Transpiler");
+                //var m_Prefix = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Prefix");
+                var m_Postfix = AccessTools.Method(typeof(GeneratedBuildings_LoadGeneratedBuildings_Patch), "Postfix");
 
+                harmony.Patch(m_TargetMethod,
+                    null,//new HarmonyMethod(m_Prefix),
+                    new HarmonyMethod(m_Postfix),
+                    null //new HarmonyMethod(m_Transpiler)
+                         );
+            }
             public static void Postfix(CustomGameSettings __instance)
             {
                 if (!__instance.CurrentQualityLevelsBySetting.ContainsKey(CustomGameSettingConfigs.MeteorShowers.id))
@@ -55,10 +67,35 @@ namespace CustomGameSettingsModifier
             }));
         }
 
-        [HarmonyPatch(typeof(PauseScreen), "OnPrefabInit")]
+        [HarmonyPatch(typeof(Assets), nameof(Assets.OnPrefabInit))]
+        public static class OnASsetPrefabPatch
+        {
+            public static void Postfix()
+            {
+                PauseScreen_OnPrefabInit_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+                GeneratedBuildings_LoadGeneratedBuildings_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+            }
+        }
+
+
+
+        //[HarmonyPatch(typeof(PauseScreen), "OnPrefabInit")]
         private static class PauseScreen_OnPrefabInit_Patch
         {
-            [UsedImplicitly]
+            public static void AssetOnPrefabInitPostfix(Harmony harmony)
+            {
+                var m_TargetMethod = AccessTools.Method("PauseScreen, Assembly-CSharp:OnPrefabInit");
+                //var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Transpiler");
+                //var m_Prefix = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Prefix");
+                var m_Postfix = AccessTools.Method(typeof(PauseScreen_OnPrefabInit_Patch), "Postfix");
+
+                harmony.Patch(m_TargetMethod, 
+                    null,//new HarmonyMethod(m_Prefix),
+                    new HarmonyMethod(m_Postfix),
+                    null //new HarmonyMethod(m_Transpiler)
+                         );
+            }
+
             private static void Postfix(ref IList<KButtonMenu.ButtonInfo> ___buttons)
             {
                 List<KButtonMenu.ButtonInfo> list = ___buttons.ToList<KButtonMenu.ButtonInfo>();
@@ -67,24 +104,6 @@ namespace CustomGameSettingsModifier
                 ___buttons = (IList<KButtonMenu.ButtonInfo>)list;
             }
         }
-
-        [HarmonyPatch(typeof(KButtonMenu), "RefreshButtons")]
-        private static class PauseScreen_RefreshButtons_Patch
-        {
-            [UsedImplicitly]
-            private static void Postfix(KButtonMenu __instance)
-            {
-                //if (!(__instance is PauseScreen) || !((UnityEngine.Object)PauseMenuPatches.TwitchButtonInfo.uibutton != (UnityEngine.Object)null) || !((UnityEngine.Object)PauseMenuPatches.twitchButtonStyle == (UnityEngine.Object)null) && !((UnityEngine.Object)PauseMenuPatches.TwitchButtonInfo.uibutton.bgImage.colorStyleSetting == (UnityEngine.Object)null) && !((UnityEngine.Object)PauseMenuPatches.TwitchButtonInfo.uibutton.bgImage.colorStyleSetting != (UnityEngine.Object)PauseMenuPatches.twitchButtonStyle))
-                //    return;
-                //PauseMenuPatches.twitchButtonStyle = ScriptableObject.CreateInstance<ColorStyleSetting>();
-                //PauseMenuPatches.twitchButtonStyle.disabledColor = PauseMenuPatches.DisabledColor;
-                //PauseMenuPatches.twitchButtonStyle.inactiveColor = PauseMenuPatches.InactiveTwitchColor;
-                //PauseMenuPatches.twitchButtonStyle.hoverColor = PauseMenuPatches.HoverTwitchColor;
-                //PauseMenuPatches.twitchButtonStyle.activeColor = PauseMenuPatches.PressedTwitchColor;
-                //PauseMenuPatches.TwitchButtonInfo.uibutton.bgImage.colorStyleSetting = PauseMenuPatches.twitchButtonStyle;
-            }
-        }
-
 
         /// <summary>
         /// Init. auto translation

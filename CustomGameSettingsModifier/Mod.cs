@@ -8,8 +8,10 @@ namespace CustomGameSettingsModifier
 {
     public class Mod : UserMod2
     {
+        public static Harmony harmonyInstance;
         public override void OnLoad(Harmony harmony)
         {
+            harmonyInstance = harmony;
             ModAssets.LoadAssets();
             base.OnLoad(harmony);
             SgtLogger.LogVersion(this);
