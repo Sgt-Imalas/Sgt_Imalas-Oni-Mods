@@ -2,6 +2,7 @@
 using Epic.OnlineServices;
 using HarmonyLib;
 using Klei.AI;
+using PeterHan.PLib.Core;
 using ProcGen.Noise;
 using System;
 using System.Collections.Generic;
@@ -739,14 +740,33 @@ namespace SetStartDupes
             }
         }
 
-
+        [HarmonyPatch(typeof(Assets), nameof(Assets.OnPrefabInit))]
+        public static class OnASsetPrefabPatch
+        {
+            public static void Postfix()
+            {
+                CharacterSelectionController_Patch2.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+                CharacterSelectionController_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+            }
+        }
 
         /// <summary>
         /// Gets a prefab and applies "Care Packages Only"-Mode
         /// </summary>
-        [HarmonyPatch(typeof(CharacterSelectionController), nameof(CharacterSelectionController.InitializeContainers))]
-        public class controller2_patch
+        //[HarmonyPatch(typeof(CharacterSelectionController), nameof(CharacterSelectionController.InitializeContainers))]
+        public class CharacterSelectionController_Patch2
         {
+            public static void AssetOnPrefabInitPostfix(Harmony harmony)
+            {
+                var m_TargetMethod = AccessTools.Method("CharacterSelectionController, Assembly-CSharp:InitializeContainers");
+                var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_Patch2), "Transpiler");
+                var m_Prefix = AccessTools.Method(typeof(CharacterSelectionController_Patch2), "Prefix");
+                var m_Postfix = AccessTools.Method(typeof(CharacterSelectionController_Patch2), "Postfix");
+
+                harmony.Patch(m_TargetMethod, new HarmonyMethod(m_Prefix), new HarmonyMethod(m_Postfix), new HarmonyMethod(m_Transpiler));
+            }
+
+
             public static CharacterSelectionController instance;
             public static void Prefix(CharacterSelectionController __instance)
             {
@@ -778,8 +798,8 @@ namespace SetStartDupes
                 "numberOfCarePackageOptions");
 
             public static readonly MethodInfo AdjustNumbers = AccessTools.Method(
-               typeof(controller2_patch),
-               nameof(controller2_patch.CarePackagesOnly));
+               typeof(CharacterSelectionController_Patch2),
+               nameof(CharacterSelectionController_Patch2.CarePackagesOnly));
 
             static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
             {
@@ -1014,12 +1034,22 @@ namespace SetStartDupes
             //}
         }
 
-        [HarmonyPatch(typeof(CharacterSelectionController), nameof(CharacterSelectionController.InitializeContainers))]
+        //[HarmonyPatch(typeof(CharacterSelectionController), nameof(CharacterSelectionController.InitializeContainers))]
         public class CharacterSelectionController_Patch
         {
+            public static void AssetOnPrefabInitPostfix(Harmony harmony)
+            {
+                var m_TargetMethod = AccessTools.Method("CharacterSelectionController, Assembly-CSharp:InitializeContainers");
+                var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Transpiler");
+                var m_Prefix = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Prefix");
+                var m_Postfix = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Postfix");
+
+                harmony.Patch(m_TargetMethod, new HarmonyMethod(m_Prefix), new HarmonyMethod(m_Postfix), new HarmonyMethod(m_Transpiler));
+            }
+
             public static int CustomStartingDupeCount(int dupeCount) ///int requirement to consume previous "3" on stack
             {
-                if (dupeCount == 3 && controller2_patch.instance is MinionSelectScreen)
+                if (dupeCount == 3 && CharacterSelectionController_Patch2.instance is MinionSelectScreen)
                     return ModConfig.Instance.DuplicantStartAmount; ///push new value to the stack
                 else return dupeCount;
             }

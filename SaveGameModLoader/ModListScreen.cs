@@ -71,12 +71,7 @@ namespace SaveGameModLoader
             ButtonPrefab = CreateMPButtonGO.gameObject;
 
             ContentParentStandalone = transform.Find("Content/ScrollWindow/Viewport/Content/PreinstalledContent").gameObject;
-#if DEBUG
-            foreach (var v in ContentParentStandalone.transform.parent.gameObject.GetComponents(typeof(Component)))
-            {
-                //SgtLogger.log(v.GetType() + " <- Type, name ->" + v.name);
-            }
-#endif
+
             var SpacerParent = ContentParentStandalone.transform.parent.gameObject;
             var csf = UIUtils.TryFindComponent<VerticalLayoutGroup>(SpacerParent.transform);
 
@@ -151,7 +146,7 @@ namespace SaveGameModLoader
         {
             var window = Util.KInstantiateUI(ScreenPrefabs.Instance.modsMenu.gameObject, parent);
             //window.SetActive(false);
-
+            
             window.name = "SingleList";
 #if DEBUG
            // SgtLogger.log("SINGLE LIST:");

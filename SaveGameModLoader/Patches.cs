@@ -30,6 +30,18 @@ namespace SaveGameModLoader
 {
     class AllPatches
     {
+        [HarmonyPatch(typeof(Assets), nameof(Assets.OnPrefabInit))]
+        public static class OnASsetPrefabPatch
+        {
+            public static void Postfix()
+            {
+                LoadModConfigPatch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+            }
+        }
+
+
+
+
         [HarmonyPatch(typeof(LoadScreen), "ShowColony")]
         public static class AddModSyncButtonLogic
         {
@@ -137,6 +149,9 @@ namespace SaveGameModLoader
         [HarmonyPatch(typeof(MainMenu), "OnPrefabInit")]
         public static class MainMenuSearchBarInit
         {
+
+
+
             public static GameObject _prefab;
             public static void Postfix()
             {
@@ -170,8 +185,6 @@ namespace SaveGameModLoader
                 {
 
                     var eventList = __instance.events.OrderBy(entry => entry.mod.title).Distinct().ToList();
-
-
 
                     ConfirmDialogScreen popUpGO =
                         ((ConfirmDialogScreen)KScreenManager.Instance.StartScreen(ScreenPrefabs.Instance.ConfirmDialogScreen.gameObject, Global.Instance.globalCanvas));
@@ -312,15 +325,15 @@ namespace SaveGameModLoader
         }
 
 
-
         [HarmonyPatch(typeof(ModsScreen), "Exit")]
-        public static class SyncModeOff
+        public static class ModsScreen_SyncModeOff
         {
             public static void Postfix()
             {
                 ModlistManager.Instance.IsSyncing = false;
             }
         }
+
         [HarmonyPatch(typeof(ModsScreen), "ShouldDisplayMod")]
         public static class ModsScreen_ShouldDisplayMod_Patch
         {
@@ -332,9 +345,11 @@ namespace SaveGameModLoader
                 }
             }
         }
+
         [HarmonyPatch(typeof(ModsScreen), "OnActivate")]
         public static class ModsScreen_AddModListButton
         {
+
             public static void Postfix(ModsScreen __instance)
             {
                 ///Add Modlist Button
@@ -357,7 +372,7 @@ namespace SaveGameModLoader
                 modlistButton.onClick += () =>
                 {
                     ///Util.KInstantiateUI(ScreenPrefabs.Instance.RailModUploadMenu.gameObject, modScreen.gameObject, true); ///HMMM; great if modified for modpack creation
-                    var window = Util.KInstantiateUI(ScreenPrefabs.Instance.languageOptionsScreen.gameObject);
+                    GameObject window =  Util.KInstantiateUI(ScreenPrefabs.Instance.languageOptionsScreen.gameObject);
                     window.SetActive(false);
                     var copy = window.transform;
                     UnityEngine.Object.Destroy(window);
@@ -371,6 +386,7 @@ namespace SaveGameModLoader
                 closeButton.SetAsLastSibling();
             }
         }
+
         [HarmonyPatch(typeof(LoadScreen), "OnActivate")]
         public static class AddModSyncButtonToLoadscreen
         {
@@ -417,7 +433,7 @@ namespace SaveGameModLoader
         /// Add a "Sync and Continue"-Button to the main menu prefab
         /// </summary>
         [HarmonyPatch(typeof(MainMenu), "OnPrefabInit")]
-        public static class AddSyncContinueButton
+        public static class MainMenu_OnPrefabInit_Patch
         {
             public static void Prefix(MainMenu __instance)
             {
@@ -481,9 +497,26 @@ namespace SaveGameModLoader
         /// <summary>
         /// On loading a savegame, store the mod config in the modlist.
         /// </summary>
-        [HarmonyPatch(typeof(SaveLoader), nameof(SaveLoader.Load), new System.Type[] { typeof(IReader) })]
+        //[HarmonyPatch(typeof(SaveLoader), nameof(SaveLoader.Load), new System.Type[] { typeof(IReader) })]
         public static class LoadModConfigPatch
         {
+            //Manual patch required here, otherwise it will break translations of game settings as those get their assets initialized earlier than translation
+            public static void AssetOnPrefabInitPostfix(Harmony harmony)
+            {
+                var m_TargetMethod = AccessTools.Method("SaveLoader, Assembly-CSharp:Load", new System.Type[] { typeof(IReader) });
+                var m_Transpiler = AccessTools.Method(typeof(LoadModConfigPatch), "Transpiler");
+                var m_Prefix = AccessTools.Method(typeof(LoadModConfigPatch), "Prefix");
+                //var m_Postfix = AccessTools.Method(typeof(MainMenuSearchBarInit), "Postfix");
+
+                harmony.Patch(m_TargetMethod,
+                    new HarmonyMethod(m_Prefix),
+                    null,//new HarmonyMethod(m_Postfix),
+                    new HarmonyMethod(m_Transpiler)
+                    );
+            }
+
+
+
             internal class SaveFileRoot
             {
                 public int WidthInCells;

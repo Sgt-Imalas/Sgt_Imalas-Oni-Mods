@@ -75,7 +75,7 @@ namespace SaveGameModLoader
                 TryChangeText(
                     SingleFileModlists,
                     "Panel/Title/Title",
-                    STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSTITLE
+                    MODSYNCING.MISSINGMODSTITLE
                    );
             }
 

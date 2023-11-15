@@ -11,9 +11,11 @@ namespace SaveGameModLoader
 {
     public class Mod : UserMod2
     {
+        public static Harmony harmonyInstance;
         public static UserMod2 ThisMod;
         public override void OnLoad(Harmony harmony)
         {
+            harmonyInstance = harmony;
             ThisMod = this;
             var LegacyModPath = FileSystem.Normalize(Path.Combine(Manager.GetDirectory(), "[ModSync]StoredModConfigs/"));
             var LegacyModPacksPath = FileSystem.Normalize(Path.Combine(LegacyModPath, "[StandAloneModLists]/"));
@@ -101,7 +103,6 @@ namespace SaveGameModLoader
             base.OnAllModsLoaded(harmony, mods);
 
             CompatibilityNotifications.FlagLoggingPrevention(mods);
-            //ModlistManager.Instance.UpdateModDict();
         }
     }
     

@@ -13,8 +13,10 @@ namespace SetStartDupes
 {
     public class Mod : UserMod2
     {
+        public static Harmony harmonyInstance;
         public override void OnLoad(Harmony harmony)
         {
+            harmonyInstance = harmony;
             ModApi.RegisteringJorge();
 
             ModAssets.LoadAssets();
