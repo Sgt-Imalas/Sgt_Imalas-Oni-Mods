@@ -270,7 +270,6 @@ namespace SubPlanetaryTransport
         public void Sim200ms(float dt)
         {
             
-            StorageTileConfig
             // SgtLogger.l($"{this.operational.IsOperational} && {(this.button == null || this.button.IsEnabled)} && {this.energyConsumer.IsExternallyPowered} && {(double)this.availableJoules} < {(double)this.jouleCapacity}");
 
             if (this.CanAcceptMorePower())

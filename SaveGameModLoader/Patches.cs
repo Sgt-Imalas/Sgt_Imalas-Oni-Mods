@@ -157,7 +157,7 @@ namespace SaveGameModLoader
                 }
 
                 // ERROR!
-                Debug.Log("[ModFilter] Error creating search prefab!  The mod will not function!");
+                Debug.Log("[ModProfileManager] Error creating search prefab!  The mod will not function!");
             }
         }
 
