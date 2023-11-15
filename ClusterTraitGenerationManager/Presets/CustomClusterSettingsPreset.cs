@@ -259,10 +259,12 @@ namespace ClusterTraitGenerationManager
             CGSMClusterManager.BlacklistedTraits = new(this.BlacklistedTraits);
 
             ///ImmuneSystem
-            if (ImmuneSystem!=null&& ImmuneSystem.Length>0)SetCustomGameSettings(CustomGameSettingConfigs.ImmuneSystem, ImmuneSystem);
+            if (ImmuneSystem!=null&& ImmuneSystem.Length >0 )
+                SetCustomGameSettings(CustomGameSettingConfigs.ImmuneSystem, ImmuneSystem);
 
             ///CalorieBurn
-            if (CalorieBurn != null && CalorieBurn.Length > 0) SetCustomGameSettings(CustomGameSettingConfigs.CalorieBurn, CalorieBurn);
+            if (CalorieBurn != null && CalorieBurn.Length > 0) 
+                SetCustomGameSettings(CustomGameSettingConfigs.CalorieBurn, CalorieBurn);
             
             ///Morale
             if (Morale != null && Morale.Length > 0)
@@ -452,7 +454,7 @@ namespace ClusterTraitGenerationManager
 
         static string FileNameWithHash(string filename)
         {
-            return filename.Replace(" ", "_");// + "_" + GenerateHash(System.DateTime.Now.ToString());
+            return filename.Replace(" ", "_" )+ "_" + GenerateHash(System.DateTime.Now.ToString());
         }
 
         public void ApplyPreset()
@@ -462,7 +464,7 @@ namespace ClusterTraitGenerationManager
                 return;
 
             ApplyGameSettings();
-
+            SgtLogger.l("Settings loaded");
             var dict = PlanetoidDict;
 
             var cluster = CGSMClusterManager.CustomCluster;
@@ -522,8 +524,11 @@ namespace ClusterTraitGenerationManager
                 cluster.POIs[poi.Key] = poiItem;
             }
 
-            cluster.VanillaStarmapItems.Clear();
-            cluster.VanillaStarmapItems = new Dictionary<int, List<string>>(this.VanillaStarmapLocations);
+            if (!DlcManager.IsExpansion1Active() && VanillaStarmapLocations !=null)
+            {
+                cluster.VanillaStarmapItems.Clear();
+                cluster.VanillaStarmapItems = new Dictionary<int, List<string>>(this.VanillaStarmapLocations);
+            }
         }
         void ApplyDataToStarmapItem(SerializableStarmapItem item, StarmapItem reciverToLookup)
         {

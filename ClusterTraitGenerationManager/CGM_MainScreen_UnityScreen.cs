@@ -779,9 +779,9 @@ namespace ClusterTraitGenerationManager
         public static bool AllowedToClose()
         {
             return (
-                (TraitSelectorScreen.Instance != null ? !TraitSelectorScreen.Instance.IsCurrentlyActive : true)
+                     (TraitSelectorScreen.Instance != null ? !TraitSelectorScreen.Instance.IsCurrentlyActive : true)
                     && (SeasonSelectorScreen.Instance != null ? !SeasonSelectorScreen.Instance.IsCurrentlyActive : true)
-                    && (CustomSettingsController.Instance != null ? !CustomSettingsController.Instance.IsCurrentlyActive : true)
+                    && (VanillaPOISelectorScreen.Instance != null ? !VanillaPOISelectorScreen.Instance.IsCurrentlyActive : true)
                     );
         }
 
@@ -922,7 +922,7 @@ namespace ClusterTraitGenerationManager
         public void RefreshDetails()
         {
 
-            ResetButton.SetInteractable(SelectedCategory > 0);
+            ResetButton.SetInteractable(SelectedCategory >= 0);
             ResetButton.gameObject.SetActive(SelectedCategory != StarmapItemCategory.VanillaStarmap);
             VanillaStarmapButton.gameObject.SetActive(SelectedCategory == StarmapItemCategory.VanillaStarmap);
 
@@ -931,7 +931,7 @@ namespace ClusterTraitGenerationManager
             SeedRerollsTraitsToggle_Main.On = CGSMClusterManager.RerollTraitsWithSeedChange;
             SeedRerollsVanillaStarmapToggle.On = CGSMClusterManager.RerollVanillaStarmapWithSeedChange;
 
-            bool CategoryIsStarmapitem = SelectedCategory > 0;
+            bool CategoryIsStarmapitem =SelectedCategory >= 0;
             if (CategoryIsStarmapitem != _lastCategoryWasStarmapItem)
             {
                 _lastCategoryWasStarmapItem = CategoryIsStarmapitem;
@@ -1128,7 +1128,9 @@ namespace ClusterTraitGenerationManager
                         VanillaPOI_RemovePOIBtn.gameObject.SetActive(false);
 
                         VanillaPOI_ArtifactTooltip.SetSimpleTooltip(string.Empty);
+                        Destroy(poiGO);
                     }
+
                 }
 
                 else
@@ -1190,9 +1192,9 @@ namespace ClusterTraitGenerationManager
             CustomGameSettingsContent.SetActive(SelectedCategory == StarmapItemCategory.GameSettings);
             VanillaStarmapItemContent.SetActive(SelectedCategory == StarmapItemCategory.VanillaStarmap);
             StoryTraitGridContent.SetActive(SelectedCategory == StarmapItemCategory.StoryTraits);
-            ClusterItemsContent.SetActive(SelectedCategory > 0);
+            ClusterItemsContent.SetActive(SelectedCategory >= 0);
 
-            if (SelectedCategory > 0)
+            if (SelectedCategory >= 0)
             {
                 var activePlanets = CGSMClusterManager.GetActivePlanetsStarmapitems();
 
@@ -1481,7 +1483,6 @@ namespace ClusterTraitGenerationManager
         public void Init()
         {
             if (init) return;
-
 
             this.PopulateGalleryAndCategories();
             this.InitializeItemSettings();
@@ -2234,7 +2235,7 @@ namespace ClusterTraitGenerationManager
         {
 
             if (ResetButton != null)
-                ResetButton.SetInteractable(!PresetApplied && (SelectedCategory > 0 || SelectedCategory != StarmapItemCategory.VanillaStarmap));
+                ResetButton.SetInteractable(!PresetApplied && (SelectedCategory >= 0 || SelectedCategory != StarmapItemCategory.VanillaStarmap));
 
             //UIUtils.TryChangeText(ResetButton.transform, "Text", SelectedCategory == StarmapItemCategory.VanillaStarmap
             //    ? RESETSELECTIONBUTTON.TEXT_STARMAP_VANILLA

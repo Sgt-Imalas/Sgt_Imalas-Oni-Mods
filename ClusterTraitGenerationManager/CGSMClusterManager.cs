@@ -157,10 +157,10 @@ namespace ClusterTraitGenerationManager
 
         public enum StarmapItemCategory
         {
-            Starter = 1,
-            Warp = 2,
-            Outer = 3,
-            POI = 4,
+            Starter = 0,
+            Warp = 1,
+            Outer = 2,
+            POI = 3,
 
             ///These only exist for the UI handlers
             None = -1,
@@ -1661,6 +1661,7 @@ namespace ClusterTraitGenerationManager
             CurrentSeed = seed;
             if (singleItemId == string.Empty)
             {
+                SgtLogger.l("Rebuilding Cluster Data");
                 CustomCluster = new CustomClusterData();
                 CustomCluster.SetRings(Reference.numRings - 1, true);
                 ResetStarmap();
@@ -1970,6 +1971,7 @@ namespace ClusterTraitGenerationManager
         {
             if (PredefinedPlacementData != null) { return; }
 
+            SgtLogger.l("Populating cluster placements");
             PredefinedPlacementData = new Dictionary<string, WorldPlacement>();
             //PredefinedPlacementDataPOI = new Dictionary<string, SpaceMapPOIPlacement>();
 
@@ -2022,8 +2024,7 @@ namespace ClusterTraitGenerationManager
                         //SgtLogger.l(lonePOI, "LonePOI");
                         GameObject gameObject = Util.KInstantiateUI(Assets.GetPrefab((Tag)lonePOI));
 
-                        ClusterGridEntity component1 = gameObject.GetComponent<ClusterGridEntity>();
-                        if ((UnityEngine.Object)component1 != (UnityEngine.Object)null)
+                        if (gameObject.TryGetComponent<ClusterGridEntity>(out var component1))
                         {
                             animName = component1.AnimConfigs.First().initialAnim;
                             animFile = component1.AnimConfigs.First().animFile;
@@ -2300,7 +2301,6 @@ namespace ClusterTraitGenerationManager
                             //&& !DebugHandler.enabled
                             )
                             continue;
-
 
                         ///Hardcoded checks due to others not having the correct folder structure
                         string KeyUpper = WorldFromCache.Key.ToUpperInvariant();

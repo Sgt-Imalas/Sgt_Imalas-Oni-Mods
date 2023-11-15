@@ -166,7 +166,7 @@ namespace ClusterTraitGenerationManager
                 }
                 catch (Exception e)
                 {
-                    SgtLogger.logError("Couln't load priority preset from: " + File.FullName + ",\nError: " + e.ToString());
+                    SgtLogger.logError("Couln't load cgm preset from: " + File.FullName + ",\nError: " + e.ToString());
                 }
             }
             minionStatConfigs = minionStatConfigs.OrderBy(entry => entry.ConfigName).ToList();
@@ -351,27 +351,20 @@ namespace ClusterTraitGenerationManager
                 outerHeader.transform.Find("Label").GetComponent<LocText>().text = CATEGORYENUM.OUTER + ":";
                 StarmapItemContainers.Add(outerHeader);
             }
-
-            var combined = new List<SerializableStarmapItem>();
-            combined.AddRange(CurrentlySelected.OuterPlanets.Values);
-            combined.AddRange(CurrentlySelected.POIs.Values);
-            bool reachedPOI = false;
-
-
-
-            for (int i = 0; i < combined.Count; i++)
+            foreach(KeyValuePair<string, SerializableStarmapItem> planet in CurrentlySelected.OuterPlanets)
             {
-                var item = combined[i];
+                CreateUIItemForStarmapItem(planet.Value);
+            }
 
-                if (item.category == StarmapItemCategory.POI && reachedPOI == false)
-                {
-                    var poi = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
-                    poi.transform.Find("Label").GetComponent<LocText>().text = CATEGORYENUM.POI + ":";
-                    StarmapItemContainers.Add(poi);
-                    reachedPOI = true;
-                }
-
-                CreateUIItemForStarmapItem(item);
+            if (CurrentlySelected.POIs.Values.Count > 0)
+            {
+                var poi = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
+                poi.transform.Find("Label").GetComponent<LocText>().text = CATEGORYENUM.POI + ":";
+                StarmapItemContainers.Add(poi);
+            }
+            foreach (KeyValuePair<string, SerializableStarmapItem> planet in CurrentlySelected.POIs)
+            {
+                CreateUIItemForStarmapItem(planet.Value);
             }
         }
 
