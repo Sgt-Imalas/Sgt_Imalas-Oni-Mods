@@ -57,7 +57,9 @@ namespace Radiator_Mod
             KPrefabID component = go.GetComponent<KPrefabID>();
             component.AddTag(GameTags.RocketInteriorBuilding);
             component.AddTag(RoomConstraints.ConstraintTags.RocketInterior);
+            component.AddTag(RocketInteriorOnlyBuilding);
         }
+        public static Tag RocketInteriorOnlyBuilding = TagManager.Create("RTB_RocketInteriorOnly");
         public override void DoPostConfigureComplete(GameObject go)
         {
             UnityEngine.Object.DestroyImmediate(go.GetComponent<RequireInputs>());

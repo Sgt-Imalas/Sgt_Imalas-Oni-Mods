@@ -131,7 +131,7 @@ namespace Rockets_TinyYetBig.UI_Unity
 
         void ConnectReference()
         {
-
+            
             UIUtils.ListAllChildrenPath(this.transform);
 
             PartEntryPrefab = transform.Find("PartProgressContainer/ScrollRectContainer/PartContainerPrefab").gameObject;
@@ -149,7 +149,11 @@ namespace Rockets_TinyYetBig.UI_Unity
 
             ToggleConstructionButton.OnClick += () =>
             {
+#if DEBUG
+                SpaceStation.SpawnNewSpaceStation(targetCraft.Location);
+#else
                 ToggleBuildTargetScreen();
+#endif
             };
         }
 
