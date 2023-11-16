@@ -893,7 +893,7 @@ namespace ClusterTraitGenerationManager
                     string.Format(VANILLAPOI_RESOURCES.SELECTEDDISTANCE,
                         Db.Get().SpaceDestinationTypes.TryGet(CurrentlySelectedVanillaStarmapItem.first).Name,
                         (CurrentlySelectedVanillaStarmapItem.second + 1) * 10000,
-                        global::STRINGS.UI.UNITSUFFIXES.DISTANCE.KILOMETER))
+                        global::STRINGS.UI.UNITSUFFIXES.DISTANCE.KILOMETER.Replace(" ","")))
                 : string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL, VANILLAPOI_RESOURCES.NONESELECTED)
                 , StarmapItemCategory.VanillaStarmap);
         }
