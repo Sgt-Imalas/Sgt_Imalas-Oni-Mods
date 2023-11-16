@@ -22,13 +22,9 @@ namespace UtilLibs
             var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector3.zero);
             sprite.name = spriteid;
 
-            if (instance.SpriteAssets.Any(foundsprite => foundsprite.name == spriteid))
-            {
-                if (!overrideExisting)
-                    return;
+            if(overrideExisting)
+                instance.SpriteAssets.RemoveAll(foundsprite2 => foundsprite2 != null && foundsprite2.name == spriteid);
 
-                instance.SpriteAssets.RemoveAll(foundsprite2 => foundsprite2.name == spriteid);
-            }
             instance.SpriteAssets.Add(sprite);
         }
         public static void OverrideSpriteTextures(Assets instance, FileInfo file)
