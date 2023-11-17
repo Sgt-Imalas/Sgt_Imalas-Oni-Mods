@@ -1,10 +1,14 @@
 ﻿using HarmonyLib;
 using Klei;
 using KMod;
+using SaveGameModLoader.FastTrack_VirtualScroll;
+using SaveGameModLoader.ModFilter;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UtilLibs;
+using static SaveGameModLoader.AllPatches;
 using Directory = System.IO.Directory;
 
 namespace SaveGameModLoader
@@ -24,6 +28,8 @@ namespace SaveGameModLoader
             SgtLogger.debuglog("Initializing file paths..");
             ModAssets.ModPath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config/"), "[ModSync]StoredModConfigs/"));
             ModAssets.ModPacksPath = FileSystem.Normalize(Path.Combine(ModAssets.ModPath ,"[StandAloneModLists]/"));
+            ModAssets.ConfigPath =FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config/"), "MPM_Config.json"));
+
             SgtLogger.debuglog(ModAssets.ModPath);
             SgtLogger.debuglog(ModAssets.ModPacksPath);
 
@@ -101,6 +107,27 @@ namespace SaveGameModLoader
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
             base.OnAllModsLoaded(harmony, mods);
+
+            bool FastTrackActive = mods.Any(mod => mod.staticID.Contains("PeterHan.FastTrack") && mod.IsEnabledForActiveDlc());
+            bool ModFilterActive = mods.Any(mod => mod.staticID.Contains("asquared31415.ModsFilter") && mod.IsEnabledForActiveDlc());
+            ModAssets.FastTrackActive = FastTrackActive;
+            ModAssets.ModsFilterActive = ModFilterActive;
+            if (!FastTrackActive)
+            {
+                SgtLogger.l("Fast Track not active, executing virtual scroll patches");
+                DragMe_OnBeginDrag_Patch.ExecutePatch(harmony);
+                DragMe_OnEndDrag_Patch.ExecutePatch(harmony);
+                ModsScreen_OnActivate_Patch.ExecutePatch(harmony);
+                ModsScreen_BuildDisplay_Patch.ExecutePatch(harmony);
+            }
+            if(!ModFilterActive)
+            {
+                SgtLogger.l("Mod Filter not active, executing virtual scroll patches");
+                FilterPatches.ModsScreen_OnActivate_SearchBar_Patch.ExecutePatch(harmony);
+            }
+
+
+            ModsScreen_BuildDisplay_Patch_Pin_Button.ExecutePatch(harmony);
 
             CompatibilityNotifications.FlagLoggingPrevention(mods);
         }

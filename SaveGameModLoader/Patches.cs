@@ -25,6 +25,15 @@ using System.Text;
 using UnityEngine.UI;
 using PeterHan.PLib.Core;
 using System.ComponentModel;
+using SaveGameModLoader.Patches;
+using PeterHan.PLib.UI;
+using static UnityEngine.UI.CanvasScaler;
+using static ModsScreen;
+using SaveGameModLoader.FastTrack_VirtualScroll;
+using SaveGameModLoader.ModsFilter;
+using TMPro;
+using SaveGameModLoader.ModFilter;
+using System.Globalization;
 
 namespace SaveGameModLoader
 {
@@ -146,35 +155,97 @@ namespace SaveGameModLoader
         }
 
 
-        [HarmonyPatch(typeof(MainMenu), "OnPrefabInit")]
-        public static class MainMenuSearchBarInit
+
+        //[HarmonyPatch(typeof(ModsScreen), nameof(ModsScreen.BuildDisplay))]
+        //[HarmonyPriority(Priority.HigherThanNormal)]
+        public static class ModsScreen_BuildDisplay_Patch_Pin_Button
         {
-
-
-
-            public static GameObject _prefab;
-            public static void Postfix()
+            public static void ExecutePatch(Harmony harmony)
             {
-                var prefabGo = ScreenPrefabs.Instance.RetiredColonyInfoScreen.gameObject;
-                prefabGo.SetActive(false);
-                var clone = Util.KInstantiateUI(prefabGo);
-                if (clone != null)
-                {
-                    var go = clone.transform.Find("Content/ColonyData/Colonies and Achievements/Colonies/Search");
-                    if (go != null)
-                    {
-                        _prefab = Util.KInstantiateUI(go.gameObject);
-                        UnityEngine.Object.Destroy(clone);
-                        prefabGo.SetActive(true);
+                var m_TargetMethod = AccessTools.Method("ModsScreen, Assembly-CSharp:BuildDisplay");
+                var m_Postfix = AccessTools.Method(typeof(ModsScreen_BuildDisplay_Patch_Pin_Button), "Postfix");
+                harmony.Patch(m_TargetMethod, null, new HarmonyMethod(m_Postfix, 601), null);
+            }
 
-                        return;
+
+            public static Dictionary<RectTransform, int> OriginalOrder = new Dictionary<RectTransform, int>();
+            /// <summary>
+            /// Applied after BuildDisplay runs.
+            /// </summary>
+            internal static void Postfix(ModsScreen __instance, KButton ___closeButton, List<DisplayedMod> ___displayedMods)
+            {
+                OriginalOrder.Clear();
+                foreach (DisplayedMod displayedMod in ___displayedMods)
+                {
+                    var mod = Global.Instance.modManager.mods[displayedMod.mod_index];
+                    var go = displayedMod.rect_transform.gameObject;
+                    var btn = Util.KInstantiateUI(FilterPatches._buttonPrefab, go, true);
+                    btn.transform.SetSiblingIndex(4);
+                    var img = btn.transform.Find("GameObject").GetComponent<Image>();
+                    HandleListEntry(displayedMod, mod.label.defaultStaticID, btn, img);
+
+                    if (btn.TryGetComponent<KButton>(out var button))
+                    {
+                        button.ClearOnClick();
+                        button.onClick += () =>
+                        {
+                            MPM_Config.Instance.TogglePinnedMod(mod.label.defaultStaticID);
+                            __instance.RebuildDisplay("pinned mod changed");
+                            //if (__instance.entryParent.TryGetComponent(out VirtualScroll vs))
+                            //{
+                            //    vs.OnBuild();
+                            //    SgtLogger.l("Rebuilding Virt. Scroll");
+                            //    HandleListEntry(displayedMod, mod.label.defaultStaticID, btn, img);
+
+                            //    vs.Rebuild();
+                            //    __instance.RebuildDisplay("pinned mod changed");
+                            //}
+                            //else
+                            //    HandleListEntry(displayedMod, mod.label.defaultStaticID, btn, img);
+                        };
                     }
                 }
+            }
+            static async Task DoWithDelay(System.Action task, int ms)
+            {
+                await Task.Delay(ms);
+                task.Invoke();
+            }
+            static void HandleListEntry(DisplayedMod mod, string id, GameObject btn, Image img )
+            {
+                bool isPinned = MPM_Config.Instance.ModPinned(id);
+                //OnHoverReveal ohr = mod.rect_transform.gameObject.AddOrGet<OnHoverReveal>();
+                //ohr.Target = btn;
+                //ohr.ShouldToggle = !isPinned;
 
-                // ERROR!
-                Debug.Log("[ModProfileManager] Error creating search prefab!  The mod will not function!");
+                img.color = isPinned ? Color.red : Color.white;
+                if (isPinned)
+                {
+                    if (!OriginalOrder.ContainsKey(mod.rect_transform))
+                    {
+                        OriginalOrder.Add(mod.rect_transform, mod.mod_index);
+                        mod.rect_transform.SetAsFirstSibling();
+                    }
+                }
+                else
+                {
+                    if (OriginalOrder.ContainsKey(mod.rect_transform))
+                    {
+                        mod.rect_transform.SetSiblingIndex(OriginalOrder[mod.rect_transform]);
+                        OriginalOrder.Remove(mod.rect_transform);
+
+                        foreach (var item in OriginalOrder)
+                        {
+                            item.Key.SetAsFirstSibling();
+                        }
+                    }
+                }
+                btn.SetActive(isPinned);
             }
         }
+
+
+
 
         [HarmonyPatch(typeof(KMod.Manager), nameof(KMod.Manager.NotifyDialog))]
         public static class OnLoad_BetterModDifferenceScreen_Patch
@@ -207,7 +278,7 @@ namespace SaveGameModLoader
                     newlyDisabled.AppendLine();
 
                     newlyEnabled.AppendLine(UIUtils.ColorText("<b>" + expectedInactive + ":</b>", GlobalAssets.Instance.colorSet.logicOnSidescreen));
-                    newlyDisabled.AppendLine(UIUtils.ColorText("<b>" + expectedActive + ":</b>",  GlobalAssets.Instance.colorSet.logicOffSidescreen));
+                    newlyDisabled.AppendLine(UIUtils.ColorText("<b>" + expectedActive + ":</b>", GlobalAssets.Instance.colorSet.logicOffSidescreen));
 
                     int changesOverLimit = 30;
                     int changesOverLimitExAc = 0;
@@ -230,7 +301,7 @@ namespace SaveGameModLoader
                         }
                         else if (@event.event_type == EventType.ExpectedActive)
                         {
-                            hadNewlyDisabled = true; 
+                            hadNewlyDisabled = true;
                             if (changesOverLimit >= 0)
                             {
                                 changesOverLimit--;
@@ -250,10 +321,10 @@ namespace SaveGameModLoader
 
                     string allMods =
                         (hadNewlyEnabled ? newlyEnabled.ToString() : string.Empty)
-                        + (changesOverLimitExIn > 0 ? global::STRINGS.UI.FRONTEND.MOD_DIALOGS.ADDITIONAL_MOD_EVENTS.Replace("(", "(" + changesOverLimitExIn + " ").Replace("...",string.Empty) : string.Empty)
+                        + (changesOverLimitExIn > 0 ? global::STRINGS.UI.FRONTEND.MOD_DIALOGS.ADDITIONAL_MOD_EVENTS.Replace("(", "(" + changesOverLimitExIn + " ").Replace("...", string.Empty) : string.Empty)
                         + (hadNewlyDisabled ? newlyDisabled.ToString() : string.Empty)
                         + (changesOverLimitExAc > 0 ? global::STRINGS.UI.FRONTEND.MOD_DIALOGS.ADDITIONAL_MOD_EVENTS.Replace("(", "(" + changesOverLimitExAc + " ").Replace("...", string.Empty) : string.Empty);
-                        ;
+                    ;
 
                     string text = string.Format(global::STRINGS.UI.FRONTEND.MOD_DIALOGS.SAVE_GAME_MODS_DIFFER.MESSAGE, allMods);
 
@@ -325,6 +396,8 @@ namespace SaveGameModLoader
         }
 
 
+
+
         [HarmonyPatch(typeof(ModsScreen), "Exit")]
         public static class ModsScreen_SyncModeOff
         {
@@ -334,17 +407,6 @@ namespace SaveGameModLoader
             }
         }
 
-        [HarmonyPatch(typeof(ModsScreen), "ShouldDisplayMod")]
-        public static class ModsScreen_ShouldDisplayMod_Patch
-        {
-            public static void Postfix(KMod.Mod mod, ref bool __result)
-            {
-                if (__result && ModlistManager.Instance.IsSyncing)
-                {
-                    __result = ModlistManager.Instance.ModIsNotInSync(mod);
-                }
-            }
-        }
 
         [HarmonyPatch(typeof(ModsScreen), "OnActivate")]
         public static class ModsScreen_AddModListButton
@@ -366,13 +428,13 @@ namespace SaveGameModLoader
                 modlistButton.ClearOnClick();
 
 #if DEBUG
-               // UIUtils.ListAllChildren(__instance.transform);
+                // UIUtils.ListAllChildren(__instance.transform);
 #endif
 
                 modlistButton.onClick += () =>
                 {
                     ///Util.KInstantiateUI(ScreenPrefabs.Instance.RailModUploadMenu.gameObject, modScreen.gameObject, true); ///HMMM; great if modified for modpack creation
-                    GameObject window =  Util.KInstantiateUI(ScreenPrefabs.Instance.languageOptionsScreen.gameObject);
+                    GameObject window = Util.KInstantiateUI(ScreenPrefabs.Instance.languageOptionsScreen.gameObject);
                     window.SetActive(false);
                     var copy = window.transform;
                     UnityEngine.Object.Destroy(window);
@@ -616,5 +678,8 @@ namespace SaveGameModLoader
         //        return true;
         //    }
         //}
+
+     
+
     }
 }

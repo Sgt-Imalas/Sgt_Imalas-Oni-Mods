@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SaveGameModLoader.ModFilter;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -76,7 +77,7 @@ namespace SaveGameModLoader
             var csf = UIUtils.TryFindComponent<VerticalLayoutGroup>(SpacerParent.transform);
 
 
-            var local = Util.KInstantiateUI(AllPatches.MainMenuSearchBarInit._prefab);
+            var local = Util.KInstantiateUI(FilterPatches._prefab);
 
             var trans = local.transform;
             trans.SetParent(SpacerParent.transform, false);
