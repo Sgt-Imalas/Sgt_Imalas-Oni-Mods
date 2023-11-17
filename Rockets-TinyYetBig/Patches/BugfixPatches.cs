@@ -57,42 +57,43 @@ namespace Rockets_TinyYetBig.Patches
         }
 
 
+        /// Fixed by Klei :D
 
-        /// <summary>
-        /// Fixes the Condition to only run if there is actually a drillcone installed
-        /// </summary>
-        [HarmonyPatch(typeof(ConditionHasCargoBayForNoseconeHarvest), nameof(ConditionHasCargoBayForNoseconeHarvest.EvaluateCondition))]
-        public static class ConditionHasCargoBayForNoseconeHarvest_EvaluateCondition_Patch
-        {
-            public static bool Prefix(ConditionHasCargoBayForNoseconeHarvest __instance, ref ProcessCondition.Status __result)
-            {
-                bool HasDrillcone = false, HasCargoBay = false;
+        ///// <summary>
+        ///// Fixes the Condition to only run if there is actually a drillcone installed
+        ///// </summary>
+        //[HarmonyPatch(typeof(ConditionHasCargoBayForNoseconeHarvest), nameof(ConditionHasCargoBayForNoseconeHarvest.EvaluateCondition))]
+        //public static class ConditionHasCargoBayForNoseconeHarvest_EvaluateCondition_Patch
+        //{
+        //    public static bool Prefix(ConditionHasCargoBayForNoseconeHarvest __instance, ref ProcessCondition.Status __result)
+        //    {
+        //        bool HasDrillcone = false, HasCargoBay = false;
 
-                foreach (Ref<RocketModuleCluster> part in __instance.launchable.parts)
-                {
-                    var gottenPart = part.Get();
-                    if (gottenPart.TryGetComponent<CargoBayCluster>(out _))
-                    {
-                        HasCargoBay = true;
-                    }
-                    if (gottenPart.HasTag("NoseconeHarvest"))
-                    {
-                        HasDrillcone = true;
-                    }
-                    if (HasDrillcone && HasCargoBay)
-                        break;
-                }
+        //        foreach (Ref<RocketModuleCluster> part in __instance.launchable.parts)
+        //        {
+        //            var gottenPart = part.Get();
+        //            if (gottenPart.TryGetComponent<CargoBayCluster>(out _))
+        //            {
+        //                HasCargoBay = true;
+        //            }
+        //            if (gottenPart.HasTag("NoseconeHarvest"))
+        //            {
+        //                HasDrillcone = true;
+        //            }
+        //            if (HasDrillcone && HasCargoBay)
+        //                break;
+        //        }
 
-                __result = ProcessCondition.Status.Ready;
+        //        __result = ProcessCondition.Status.Ready;
 
-                if(HasDrillcone && !HasCargoBay)
-                {
-                    __result = ProcessCondition.Status.Warning;
-                }
+        //        if(HasDrillcone && !HasCargoBay)
+        //        {
+        //            __result = ProcessCondition.Status.Warning;
+        //        }
 
-                return false;
-            }
-        }
+        //        return false;
+        //    }
+        //}
 
 
         /// <summary>
