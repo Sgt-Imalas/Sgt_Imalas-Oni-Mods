@@ -97,7 +97,10 @@ namespace Imalas_TwitchChaosEvents
                 public class ICT_TACO
                 {
                     public static LocString NAME = FormatAsLink("Taco", nameof(ICT_TACO));
+                    public static LocString NAME_DEHYDRATED = FormatAsLink("Dehydrated Taco", nameof(ICT_TACO));
                     public static LocString DESC = "A staple meal that provides vital nutrients and energy to those who consume it.";
+                    public static LocString DESC_DEHYDRATED = "A staple meal that provides vital nutrients and energy to those who consume it, reduced to a preserving brick.";
+
                 }
             }
             public class ICT_GHOSTTACO

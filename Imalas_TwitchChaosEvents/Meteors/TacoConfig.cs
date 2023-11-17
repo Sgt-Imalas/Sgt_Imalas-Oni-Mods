@@ -12,6 +12,19 @@ namespace Imalas_TwitchChaosEvents.Meteors
     {
         public static string ID = "ICT_Taco";
         public static ComplexRecipe recipe;
+        public static FoodInfo foodInfo = new FoodInfo(
+                id: ID,
+                dlcId: DlcManager.VANILLA_ID,
+                caloriesPerUnit: 5800000f,
+                quality: 6,
+                preserveTemperatue: 255.15f,
+                rotTemperature: 277.15f,
+                spoilTime: 4800f,
+                can_rot: true)
+        {
+            Effects = new List<string>() { "GoodEats" }
+        };
+
 
         public GameObject CreatePrefab()
         {
@@ -32,17 +45,6 @@ namespace Imalas_TwitchChaosEvents.Meteors
                 element: SimHashes.Creature
                 );
 
-
-            FoodInfo foodInfo = new FoodInfo(
-                id: ID,
-                dlcId: DlcManager.VANILLA_ID,
-                caloriesPerUnit: 5800000f,
-                quality: 6,
-                preserveTemperatue: 255.15f,
-                rotTemperature: 277.15f,
-                spoilTime: 4800f,
-                can_rot: true);
-            foodInfo.AddEffects(new List<string>() { "GoodEats" }, DlcManager.AVAILABLE_ALL_VERSIONS);
             return EntityTemplates.ExtendEntityToFood(prefab, foodInfo);
         }
 

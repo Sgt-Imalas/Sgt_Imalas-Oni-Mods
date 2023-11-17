@@ -13,6 +13,7 @@ using TUNING;
 using UnityEngine;
 using UtilLibs;
 using static ComplexRecipe;
+using static EdiblesManager;
 
 namespace Imalas_TwitchChaosEvents
 {
@@ -65,13 +66,13 @@ namespace Imalas_TwitchChaosEvents
                 if (e.TryConsume(ModAssets.HotKeys.UnlockTacoRecipe.GetKAction()))
                 {
                     ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe = true;
-                    if(Research.Instance==null)
+                    if (Research.Instance == null)
                         Research.Instance.Get(ModAssets.Techs.TacoTech)?.Purchased();
                     //ToastManager.InstantiateToast(STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE_TITLE, STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE_BODY);
                 }
-                else if ( e.TryConsume(ModAssets.HotKeys.TriggerTacoRain.GetKAction()))
+                else if (e.TryConsume(ModAssets.HotKeys.TriggerTacoRain.GetKAction()))
                 {
-                    TriggerGhostTacoMeteors(); 
+                    TriggerGhostTacoMeteors();
                 }
                 else if (e.TryConsume(ModAssets.HotKeys.ToggleRainbowLiquid.GetKAction()))
                 {
@@ -110,6 +111,47 @@ namespace Imalas_TwitchChaosEvents
                 }
             }
         }
+
+        [HarmonyPatch(typeof(FoodDehydratorConfig), "ConfigureRecipes")]
+        public static class FoodDehydrator_ConfigureRecipes
+        {
+            public static void Postfix()
+            {
+                AddDehydriedTacoRecipe();
+            }
+            private static void AddDehydriedTacoRecipe()
+            {
+                var foodInfo = TacoConfig.foodInfo;
+                var material = TacoDehydratedConfig.ID;
+
+                RecipeElement[] input = new RecipeElement[2]
+                {
+                    new RecipeElement(foodInfo, 6000000f / foodInfo.CaloriesPerUnit),
+                    new RecipeElement(SimHashes.Polypropylene.CreateTag(), 12f)
+                };
+                RecipeElement[] output = new RecipeElement[2]
+                {
+                    new RecipeElement(material, 6f, ComplexRecipe.RecipeElement.TemperatureOperation.Dehydrated),
+                    new RecipeElement(SimHashes.Water.CreateTag(), 6f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+                };
+                TacoDehydratedConfig.recipe = new ComplexRecipe(ComplexRecipeManager.MakeRecipeID("FoodDehydrator", (IList<RecipeElement>)input, (IList<RecipeElement>)output), input, output)
+                {
+                    time = 250f,
+                    nameDisplay = ComplexRecipe.RecipeNameDisplay.Custom,
+                    customName = string.Format((string)global::STRINGS.BUILDINGS.PREFABS.FOODDEHYDRATOR.RECIPE_NAME, (object)foodInfo.Name),
+                    description = string.Format((string)global::STRINGS.BUILDINGS.PREFABS.FOODDEHYDRATOR.RESULT_DESCRIPTION, (object)foodInfo.Name),
+                    fabricators = new List<Tag>()
+                    {
+                        TagManager.Create("FoodDehydrator")
+                    },
+                    sortOrder = 28
+                };
+
+                TacoDehydratedConfig.recipe.requiredTech = ModAssets.Techs.TacoTechID;
+            }
+        }
+
+
         [HarmonyPatch(typeof(GourmetCookingStationConfig), "ConfigureRecipes")]
         public static class AddGasRangeRecipes
         {
@@ -122,7 +164,7 @@ namespace Imalas_TwitchChaosEvents
                 RecipeElement[] input = new RecipeElement[]
                 {
                     new RecipeElement((Tag) "ColdWheatSeed", 4f),
-                    new RecipeElement( TableSaltConfig.ID, 0.01f), 
+                    new RecipeElement( TableSaltConfig.ID, 0.01f),
                     new RecipeElement((Tag) "Lettuce", 1f),
                     new RecipeElement((Tag) "CookedMeat", 1f),
                     new RecipeElement((Tag) SpiceNutConfig.ID, 1f)
