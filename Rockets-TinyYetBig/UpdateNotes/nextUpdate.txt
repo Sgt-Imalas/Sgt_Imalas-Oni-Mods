@@ -1,3 +1,2 @@
-- Fixed vanilla bug of rocket interior space exposure not working until a reload.
-- Undocking rockets should now handle crew transfer better
-- Fixed a rare crash with the docking UI
+- Fixed vanilla bug of "drillcone requires cargobay" condition getting checked even if no drillcone was installed
+- new drillcone condition now also applies to the laser drillcone

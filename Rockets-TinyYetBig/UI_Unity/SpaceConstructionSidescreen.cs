@@ -152,7 +152,9 @@ namespace Rockets_TinyYetBig.UI_Unity
 #if DEBUG
                 SpaceStation.SpawnNewSpaceStation(targetCraft.Location);
 #else
-                ToggleBuildTargetScreen();
+
+                SpaceStation.SpawnNewSpaceStation(targetCraft.Location);
+                //ToggleBuildTargetScreen();
 #endif
             };
         }

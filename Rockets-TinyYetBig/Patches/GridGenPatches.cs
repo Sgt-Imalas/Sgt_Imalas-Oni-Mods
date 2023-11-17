@@ -41,46 +41,6 @@ namespace Rockets_TinyYetBig.Patches
         //    }
         //}
 
-        /// <summary>
-        /// fixes a vanilla crash that can happen when this has eventID==null
-        /// </summary>
-        [HarmonyPatch(typeof(ClusterMapMeteorShower.Def))]
-        [HarmonyPatch(nameof(ClusterMapMeteorShower.Def.GetDescriptors))]
-        public static class FixesVanillaCrashOnPlanetSelection
-        {
-            public static bool Prefix(ClusterMapMeteorShower.Def __instance, ref List<Descriptor> __result)
-            {
-                if(__instance.eventID==string.Empty|| __instance.eventID == null) 
-                {
-                    __result = new List<Descriptor>();
-                    return false;
-                }
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Fixes a bug with the cleanup method that would cause invisible solid tiles in the next world at that location
-        /// </summary>
-        [HarmonyPatch(typeof(Grid))]
-        [HarmonyPatch(nameof(Grid.FreeGridSpace))]
-        public static class CleanupOfWorldsFix
-        {
-            internal static void Prefix(Vector2I size, Vector2I offset)
-            {
-                int cell = Grid.XYToCell(offset.x, offset.y), width = size.x, stride =
-                    Grid.WidthInCells - width;
-                for (int y = size.y; y > 0; y--)
-                {
-                    for (int x = width; x > 0; x--)
-                    {
-                        if (Grid.IsValidCell(cell))
-                            SimMessages.ReplaceElement(cell, SimHashes.Vacuum, null, 0.0f);
-                        cell++;
-                    }
-                    cell += stride;
-                }
-            }
-        }
+        
     }
 }

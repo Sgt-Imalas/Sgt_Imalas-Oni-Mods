@@ -60,6 +60,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
             go.AddOrGet<LoopingSounds>();
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
             go.GetComponent<KPrefabID>().AddTag(GameTags.NoseRocketModule);
+            go.GetComponent<KPrefabID>().AddTag(TagManager.Create(NoseconeHarvestConfig.ID));
 
             HighEnergyParticleStorage energyParticleStorage = go.AddOrGet<HighEnergyParticleStorage>();
             energyParticleStorage.capacity = 6000f;

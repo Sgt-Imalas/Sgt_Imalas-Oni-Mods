@@ -97,10 +97,22 @@ namespace Rockets_TinyYetBig.RocketFueling
             }
         }
 
-
         [HarmonyPatch(typeof(LaunchPadConfig))]
         [HarmonyPatch("ConfigureBuildingTemplate")]
         public static class PatchDefaultTagIntoLaunchpad
+        {
+            public static void Postfix(GameObject go)
+            {
+                go.GetComponent<KPrefabID>().AddTag(ModAssets.Tags.RocketPlatformTag);
+
+                ChainedBuilding.Def def = go.AddOrGetDef<ChainedBuilding.Def>();
+                def.headBuildingTag = ModAssets.Tags.RocketPlatformTag;
+            }
+        }
+
+        [HarmonyPatch(typeof(ModularLaunchpadPortBridgeConfig))]
+        [HarmonyPatch("ConfigureBuildingTemplate")]
+        public static class PatchDefaultTagIntoVanillaAdapter
         {
             public static void Postfix(GameObject go)
             {

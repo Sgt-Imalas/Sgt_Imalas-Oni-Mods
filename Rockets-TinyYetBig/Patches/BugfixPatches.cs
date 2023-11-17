@@ -16,6 +16,86 @@ namespace Rockets_TinyYetBig.Patches
     class BugfixPatches
     {
         /// <summary>
+        /// fixes a vanilla crash that can happen when this has eventID==null
+        /// </summary>
+        [HarmonyPatch(typeof(ClusterMapMeteorShower.Def))]
+        [HarmonyPatch(nameof(ClusterMapMeteorShower.Def.GetDescriptors))]
+        public static class FixesVanillaCrashOnPlanetSelection
+        {
+            public static bool Prefix(ClusterMapMeteorShower.Def __instance, ref List<Descriptor> __result)
+            {
+                if (__instance.eventID == string.Empty || __instance.eventID == null)
+                {
+                    __result = new List<Descriptor>();
+                    return false;
+                }
+                return true;
+            }
+        }/// <summary>
+         /// Fixes a bug with the cleanup method that would cause invisible solid tiles in the next world at that location
+         /// manual patch to avoid double patching with StockBugFix
+         /// </summary>
+        //[HarmonyPatch(typeof(Grid))]
+        //[HarmonyPatch(nameof(Grid.FreeGridSpace))]
+        public static class Grid_FreeGridSpace_BugfixPatch
+        {
+            internal static void Prefix(Vector2I size, Vector2I offset)
+            {
+                int cell = Grid.XYToCell(offset.x, offset.y), width = size.x, stride =
+                    Grid.WidthInCells - width;
+                for (int y = size.y; y > 0; y--)
+                {
+                    for (int x = width; x > 0; x--)
+                    {
+                        if (Grid.IsValidCell(cell))
+                            SimMessages.ReplaceElement(cell, SimHashes.Vacuum, null, 0.0f);
+                        cell++;
+                    }
+                    cell += stride;
+                }
+            }
+        }
+
+
+
+        /// <summary>
+        /// Fixes the Condition to only run if there is actually a drillcone installed
+        /// </summary>
+        [HarmonyPatch(typeof(ConditionHasCargoBayForNoseconeHarvest), nameof(ConditionHasCargoBayForNoseconeHarvest.EvaluateCondition))]
+        public static class ConditionHasCargoBayForNoseconeHarvest_EvaluateCondition_Patch
+        {
+            public static bool Prefix(ConditionHasCargoBayForNoseconeHarvest __instance, ref ProcessCondition.Status __result)
+            {
+                bool HasDrillcone = false, HasCargoBay = false;
+
+                foreach (Ref<RocketModuleCluster> part in __instance.launchable.parts)
+                {
+                    var gottenPart = part.Get();
+                    if (gottenPart.TryGetComponent<CargoBayCluster>(out _))
+                    {
+                        HasCargoBay = true;
+                    }
+                    if (gottenPart.HasTag("NoseconeHarvest"))
+                    {
+                        HasDrillcone = true;
+                    }
+                    if (HasDrillcone && HasCargoBay)
+                        break;
+                }
+
+                __result = ProcessCondition.Status.Ready;
+
+                if(HasDrillcone && !HasCargoBay)
+                {
+                    __result = ProcessCondition.Status.Warning;
+                }
+
+                return false;
+            }
+        }
+
+
+        /// <summary>
         /// Fixes freshly built rocket interior space exposure not working
         /// </summary>
         [HarmonyPatch(typeof(WorldContainer), "PlaceInteriorTemplate")]
@@ -61,9 +141,9 @@ namespace Rockets_TinyYetBig.Patches
 
         }
 
-        public static void AttemptPatch(Harmony harmony)
+        public static void AttemptOxidizerTaskBugfixPatch(Harmony harmony, bool alreadyFixed)
         {
-            if (!AppDomain.CurrentDomain.GetAssemblies().ToList().Any(ass => ass.FullName.Contains("StockBugFix")))
+            if (!alreadyFixed)
             {
                 SgtLogger.l("applying oxidizer fix patch as stock bug fix is not installed");
                 var postfixMethod = AccessTools.Method(
@@ -75,7 +155,7 @@ namespace Rockets_TinyYetBig.Patches
                 harmony.Patch(OxidizerTank_Set_UserMaxCapacity_Patch_IncorporatedFromStockBugFix.TargetMethod(), postfix: new HarmonyMethod(postfixMethod));
             }
             else
-                SgtLogger.l("Stockbugfix is installed, skipping oxidizer patch");
+                SgtLogger.l("stock bug fix  is installed, skipping oxidizer patch");
         }
         public static class OxidizerTank_Set_UserMaxCapacity_Patch_IncorporatedFromStockBugFix
         {

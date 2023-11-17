@@ -12,6 +12,7 @@ using static PeterHan.PLib.AVC.JsonURLVersionChecker;
 using PeterHan.PLib.AVC;
 using Rockets_TinyYetBig.Patches;
 using Rockets_TinyYetBig._ModuleConfig;
+using static Rockets_TinyYetBig.Patches.BugfixPatches;
 
 namespace Rockets_TinyYetBig
 {
@@ -46,8 +47,17 @@ namespace Rockets_TinyYetBig
         {
             base.OnAllModsLoaded(harmony, mods);
             CompatibilityNotifications.FlagLoggingPrevention(mods);
-            BugfixPatches.AttemptPatch(harmony);
 
+            bool FreeGridSpaceFixed = PRegistry.GetData<bool>("Bugs.FreeGridSpace");
+
+
+            BugfixPatches.AttemptOxidizerTaskBugfixPatch(harmony, FreeGridSpaceFixed);
+
+            if (!FreeGridSpaceFixed)
+            {
+                PRegistry.PutData("Bugs.FreeGridSpace", true);
+                harmony.Patch(AccessTools.Method(typeof(Grid), nameof(Grid.FreeGridSpace)),new HarmonyMethod(AccessTools.Method(typeof(Grid_FreeGridSpace_BugfixPatch), "Prefix")));                
+            } 
         }
 
         void CreateTooltipDictionary()
