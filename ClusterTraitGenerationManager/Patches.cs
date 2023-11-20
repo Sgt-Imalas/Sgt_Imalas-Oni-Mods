@@ -245,7 +245,7 @@ namespace ClusterTraitGenerationManager
                         foreach (var band in CustomCluster.VanillaStarmapItems)
                         {
                             SgtLogger.l(band.Key.ToString(), "Band");
-                            foreach(var destinationType in band.Value)
+                            foreach (var destinationType in band.Value)
                             {
 
                                 SgtLogger.l(destinationType.ToString(), "POI here");
@@ -314,7 +314,7 @@ namespace ClusterTraitGenerationManager
                 return true;
             }
         }
-        
+
 
         /// <summary>
         /// </summary>
@@ -428,7 +428,7 @@ namespace ClusterTraitGenerationManager
 
                 foreach (var WorldFile in WorldFiles)
                 {
-                    string WorldCacheName = 
+                    string WorldCacheName =
                         (DlcManager.IsExpansion1Active() ? DLC_WorldNamePrefix : Base_WorldNamePrefix)
                         + System.IO.Path.GetFileNameWithoutExtension(WorldFile.FullName);
 
@@ -455,7 +455,7 @@ namespace ClusterTraitGenerationManager
                             SgtLogger.l(WorldCacheName, "Loaded World");
                         }
                     }
-                } 
+                }
             }
 
 
@@ -558,9 +558,11 @@ namespace ClusterTraitGenerationManager
                     SgtLogger.l(sourceWorld.Key, "current planet");
 
 
-                    if (sourceWorld.Key.Contains("NiobiumMoonlet")
+                    if (
+                        sourceWorld.Key.Contains("NiobiumMoonlet")
                         || sourceWorld.Key.Contains("RegolithMoonlet")
-                        || sourceWorld.Key.Contains("MooMoonlet")
+                        //|| sourceWorld.Key.Contains("MooMoonlet")
+                        || sourceWorld.Key.Contains("worlds/SandstoneDefault")
                         || PlanetByIdIsMiniBase(sourceWorld.Key.ToUpperInvariant())
 
                         )
@@ -624,18 +626,20 @@ namespace ClusterTraitGenerationManager
                         CopyValues(StartWorld, sourceWorld.Value);
 
 
-                        if (StartWorld.worldsize.X < 100 && StartWorld.worldsize.Y < 160)
+                        if (StartWorld.worldsize.X < 100 || StartWorld.worldsize.Y < 100)
                         {
-                            float planetSizeRatio = StartWorld.worldsize.Y / StartWorld.worldsize.X;
-                            float newX = 100f;
-                            float newY = 100f * planetSizeRatio;
-                            StartWorld.worldsize = new Vector2I(Mathf.RoundToInt(newX), Mathf.RoundToInt(newY));
-                        }
-                        else if (StartWorld.worldsize.Y < 100 && StartWorld.worldsize.X < 160)
-                        {
-                            float planetSizeRatio = StartWorld.worldsize.X / StartWorld.worldsize.Y;
-                            float newY = 100f;
-                            float newX = 100f * planetSizeRatio;
+                            float planetSizeRatio = ((float)StartWorld.worldsize.Y) / ((float)StartWorld.worldsize.X);
+                            float newX, newY;
+                            if (planetSizeRatio > 1)
+                            {
+                                newX = 100f;
+                                newY = 100f * planetSizeRatio;
+                            }
+                            else
+                            {
+                                newX = 100f * (1f / planetSizeRatio);
+                                newY = 100f;
+                            }
                             StartWorld.worldsize = new Vector2I(Mathf.RoundToInt(newX), Mathf.RoundToInt(newY));
                         }
 
@@ -801,18 +805,20 @@ namespace ClusterTraitGenerationManager
 
                         CopyValues(StartWorld, sourceWorld.Value);
 
-                        if (StartWorld.worldsize.X < 100 && StartWorld.worldsize.Y < 160)
+                        if (StartWorld.worldsize.X < 100 || StartWorld.worldsize.Y < 100)
                         {
-                            float planetSizeRatio = StartWorld.worldsize.Y / StartWorld.worldsize.X;
-                            float newX = 100f;
-                            float newY = 100f * planetSizeRatio;
-                            StartWorld.worldsize = new Vector2I(Mathf.RoundToInt(newX), Mathf.RoundToInt(newY));
-                        }
-                        else if (StartWorld.worldsize.Y < 100 && StartWorld.worldsize.X < 160)
-                        {
-                            float planetSizeRatio = StartWorld.worldsize.X / StartWorld.worldsize.Y;
-                            float newY = 100f;
-                            float newX = 100f * planetSizeRatio;
+                            float planetSizeRatio = ((float)StartWorld.worldsize.Y) / ((float)StartWorld.worldsize.X);
+                            float newX, newY;
+                            if (planetSizeRatio > 1)
+                            {
+                                newX = 100f;
+                                newY = 100f * planetSizeRatio;
+                            }
+                            else
+                            {
+                                newX = 100f * (1f/planetSizeRatio);
+                                newY = 100f;
+                            }
                             StartWorld.worldsize = new Vector2I(Mathf.RoundToInt(newX), Mathf.RoundToInt(newY));
                         }
 
@@ -1173,20 +1179,20 @@ namespace ClusterTraitGenerationManager
                 __result = GetMultipliedSizeFloat(__result, __instance);
             }
         }
-        [HarmonyPatch(typeof(WorldGenSettings))]
-        [HarmonyPatch(nameof(WorldGenSettings.GetIntSetting))]
-        public static class WorldGenSettings_GetIntSetting_Patch
-        {
-            private static void Postfix(WorldGenSettings __instance, string target, ref int __result)
-            {
-                if (!CGSMClusterManager.LoadCustomCluster)
-                    return;
-                if ((target != "OverworldDensityMin") && (target != "OverworldDensityMax") && (target != "OverworldAvoidRadius"))// && (target != "OverworldMaxNodes") && (target != "OverworldMaxNodes"))
-                    return;
+        //[HarmonyPatch(typeof(WorldGenSettings))]
+        //[HarmonyPatch(nameof(WorldGenSettings.GetIntSetting))]
+        //public static class WorldGenSettings_GetIntSetting_Patch
+        //{
+        //    private static void Postfix(WorldGenSettings __instance, string target, ref int __result)
+        //    {
+        //        if (!CGSMClusterManager.LoadCustomCluster)
+        //            return;
+        //        if ((target != "OverworldDensityMin") && (target != "OverworldDensityMax") && (target != "OverworldAvoidRadius"))// && (target != "OverworldMaxNodes") && (target != "OverworldMaxNodes"))
+        //            return;
 
-                __result = GetMultipliedSizeInt(__result, __instance);
-            }
-        }
+        //        __result = GetMultipliedSizeInt(__result, __instance);
+        //    }
+        //}
 
 
         [HarmonyPatch(typeof(Border))]
@@ -1239,7 +1245,7 @@ namespace ClusterTraitGenerationManager
                 if (__instance != null && __instance.Settings != null)
                 {
                     borderSizeMultiplier = Mathf.Min(1, GetMultipliedSizeFloat(1f, __instance.Settings));
-                    WorldSizeMultiplier =  GetMultipliedSizeFloat(1f, __instance.Settings);
+                    WorldSizeMultiplier = GetMultipliedSizeFloat(1f, __instance.Settings);
                     SgtLogger.l(borderSizeMultiplier.ToString(), "BorderSizeMultiplier");
                 }
 
@@ -1253,7 +1259,7 @@ namespace ClusterTraitGenerationManager
 
             if (worldgen != null && worldgen.world != null && worldgen.world.filePath != null &&
                 CGSMClusterManager.CustomCluster.HasStarmapItem(worldgen.world.filePath, out var item)
-                //&& (item.CurrentSizeMultiplier < 1)
+                && (item.CurrentSizeMultiplier < 1)
                 )
             {
                 SgtLogger.l($"changed input float: {inputNumber}, multiplied: {item.ApplySizeMultiplierToValue((float)inputNumber)}", "CGM WorldgenModifier");
@@ -1267,7 +1273,8 @@ namespace ClusterTraitGenerationManager
 
             if (worldgen != null && worldgen.world != null && worldgen.world.filePath != null &&
                 CGSMClusterManager.CustomCluster.HasStarmapItem(worldgen.world.filePath, out var item)
-                && (item.CurrentSizeMultiplier < 1))
+                && (item.CurrentSizeMultiplier < 1)
+                )
             {
 
                 SgtLogger.l($"changed input int: {inputNumber}, multiplied: {item.ApplySizeMultiplierToValue((float)inputNumber)}", "CGM WorldgenModifier");
@@ -1286,11 +1293,6 @@ namespace ClusterTraitGenerationManager
         public static class OverrideWorldSizeOnDataGetting
         {
             public static Dictionary<string, Vector2I> OriginalPlanetSizes = new Dictionary<string, Vector2I>();
-            /// <summary>
-            /// Inserting Custom Traits
-            /// </summary>
-            /// 
-
 
             public static void ResetCustomSizes()
             {
@@ -1302,50 +1304,40 @@ namespace ClusterTraitGenerationManager
                         world.Value.worldsize = OriginalPlanetSizes[world.Key];
                     }
                 }
-                OriginalPlanetSizes.Clear();
+                //OriginalPlanetSizes.Clear();
             }
-
-            public static bool Prefix(Worlds __instance, string name, ref ProcGen.World __result)
+            public static void Postfix(Worlds __instance, string name, ref ProcGen.World __result)
             {
-                if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null && ApplyCustomGen.IsGenerating)
+                if (__result != null && name != null)
                 {
-                    if (!name.IsNullOrWhiteSpace() && __instance.worldCache.TryGetValue(name, out var value))
+                    if (!OriginalPlanetSizes.ContainsKey(name))
+                        OriginalPlanetSizes.Add(name, __result.worldsize);
+
+
+                    if (CGSMClusterManager.CustomCluster != null && CGSMClusterManager.CustomCluster.HasStarmapItem(name, out var item))
                     {
-                        if (CGSMClusterManager.CustomCluster.HasStarmapItem(name, out var item) && value.worldsize != item.CustomPlanetDimensions)
+                        if (__result.worldsize != item.CustomPlanetDimensions)
                         {
-
-                            if (!OriginalPlanetSizes.ContainsKey(name))
+                            __result.worldsize = item.CustomPlanetDimensions;
+                            SgtLogger.l("CGM generating, applied custom planet size to " + item.DisplayName + ", new size: " + __result.worldsize.ToString(), "CGM WorldgenModifier");
+                        }
+                    }
+                    else
+                    {
+                        if (OriginalPlanetSizes.ContainsKey(name))
+                        {
+                            if (__result.worldsize != OriginalPlanetSizes[name])
                             {
-                                Vector2I newDimensions = item.CustomPlanetDimensions;
-                                SgtLogger.l(value.worldsize.ToString(), "Original World Size");
-                                OriginalPlanetSizes[name] = value.worldsize;
-                                value.worldsize = newDimensions;
-
-                                SgtLogger.l("Applied custom planet size to " + item.DisplayName + ", new size: " + newDimensions.X + "x" + newDimensions.Y, "CGM WorldgenModifier");
+                                __result.worldsize = OriginalPlanetSizes[name];
+                                SgtLogger.l("CGM not generating, worlgen size for " + name + " set to default: " + __result.worldsize.ToString(), "CGM WorldgenModifier");
                             }
                         }
-                        else if (OriginalPlanetSizes.ContainsKey(name))
-                        {
-                            value.worldsize = OriginalPlanetSizes[name];
-                            OriginalPlanetSizes.Remove(name);
-                        }
-                        //value.worldsize = new((int)(value.worldsize.x*0.8f), (int)(value.worldsize.y*0.8));
-                        //SgtLogger.l("Applied custom planet size to " + name);
-
-                        __result = value;
                     }
-                    return false;
                 }
-                else if (!name.IsNullOrWhiteSpace() && OriginalPlanetSizes.ContainsKey(name) && __instance.worldCache.TryGetValue(name, out var value))
-                {
-                    value.worldsize = OriginalPlanetSizes[name];
-                    OriginalPlanetSizes.Remove(name);
-                    return true;
-                }
-                return true;
             }
+
         }
-        
+
         [HarmonyPatch(typeof(TemplateSpawning))]
         [HarmonyPatch(nameof(TemplateSpawning.SpawnTemplatesFromTemplateRules))]
         public static class AddSomeGeysers
@@ -1367,10 +1359,8 @@ namespace ClusterTraitGenerationManager
                     {
                         float SizeModifier = item.CurrentSizeMultiplier;
                         if (SizeModifier < 1)
-                        {
                             SizeModifier = (1 + SizeModifier) / 2;
-                            ///Geyser Penalty needs a better implementation...
-                        }
+                        ///Geyser Penalty needs a better implementation...
 
                         foreach (var WorldTemplateRule in settings.world.worldTemplateRules)
                         {
@@ -1380,7 +1370,7 @@ namespace ClusterTraitGenerationManager
                                 {
                                     OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names] = WorldTemplateRule.times;
                                 }
-                                
+
 
 
                                 float newGeyserAmount = (((float)OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]) * SizeModifier);
@@ -1438,24 +1428,26 @@ namespace ClusterTraitGenerationManager
                     }
 
                 }
-            }
-            public static void Postfix(WorldGenSettings settings)
-            {
-                if (OriginalGeyserAmounts.ContainsKey(settings.world.filePath))
+                else
                 {
-                    foreach (var WorldTemplateRule in settings.world.worldTemplateRules)
+                    if (OriginalGeyserAmounts.ContainsKey(settings.world.filePath))
                     {
-                        if (OriginalGeyserAmounts[settings.world.filePath].ContainsKey(WorldTemplateRule.names))
+                        foreach (var WorldTemplateRule in settings.world.worldTemplateRules)
                         {
-                            SgtLogger.l(string.Format("Resetting Geyser rules back for {0}; {1} -> {2}", WorldTemplateRule.names.FirstOrDefault(), WorldTemplateRule.times, OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]), WorldTemplateRule.ruleId);
-                            WorldTemplateRule.times = OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names];
+                            if (OriginalGeyserAmounts[settings.world.filePath].ContainsKey(WorldTemplateRule.names))
+                            {
+                                SgtLogger.l(string.Format("Resetting Geyser rules back for {0}; {1} -> {2}", WorldTemplateRule.names.FirstOrDefault(), WorldTemplateRule.times, OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]), WorldTemplateRule.ruleId);
+                                WorldTemplateRule.times = OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names];
+                                OriginalGeyserAmounts.Remove(settings.world.filePath);
+                            }
+                            if (placementOverridesAdjustments.ContainsKey(WorldTemplateRule))
+                            {
+                                WorldTemplateRule.overridePlacement = placementOverridesAdjustments[WorldTemplateRule];
+                                placementOverridesAdjustments.Remove(WorldTemplateRule);
+                            }
                         }
-                        if (placementOverridesAdjustments.ContainsKey(WorldTemplateRule))
-                        {
-                            WorldTemplateRule.overridePlacement = placementOverridesAdjustments[WorldTemplateRule];
-                        }
+                        OriginalGeyserAmounts.Remove(settings.world.filePath);
                     }
-                    //OriginalGeyserAmounts.Remove(settings.world.filePath);
                 }
             }
         }
@@ -1475,7 +1467,7 @@ namespace ClusterTraitGenerationManager
                 Traverse.Create((object)__result).Property("density").SetValue((object)new ProcGen.MinMax(__result.density.min * WorldSizeMultiplier, __result.density.max * WorldSizeMultiplier));
             }
         }
-        
+
 
 
 
@@ -1505,7 +1497,7 @@ namespace ClusterTraitGenerationManager
                 }
             }
 
-            
+
         }
         [HarmonyPatch(typeof(MainMenu), nameof(MainMenu.OnSpawn))]
         public static class MainMenu_Initialize_Patch

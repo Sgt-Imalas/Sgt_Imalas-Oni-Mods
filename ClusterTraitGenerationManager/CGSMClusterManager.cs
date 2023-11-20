@@ -695,6 +695,7 @@ namespace ClusterTraitGenerationManager
             [JsonIgnore] public Sprite planetSprite;
 
             [JsonIgnore] public ProcGen.World world;
+            [JsonIgnore] public Vector2I originalWorldDimensions;
 
             public WorldPlacement placement;
 
@@ -819,8 +820,8 @@ namespace ClusterTraitGenerationManager
                         }
                         float sizeIncreaseMultiplier = Mathf.Sqrt(sizePercentage);
 
-                        dim.X = Mathf.RoundToInt(world.worldsize.X * sizeIncreaseMultiplier);
-                        dim.Y = Mathf.RoundToInt(world.worldsize.Y * sizeIncreaseMultiplier);
+                        dim.X = Mathf.RoundToInt(originalWorldDimensions.X * sizeIncreaseMultiplier);
+                        dim.Y = Mathf.RoundToInt(originalWorldDimensions.Y * sizeIncreaseMultiplier);
 
                         if (ChooseHeight == true)
                         {
@@ -878,25 +879,25 @@ namespace ClusterTraitGenerationManager
                 {
                     if (heightTrueWidthFalse)
                     {
-                        var rounded = Mathf.RoundToInt(Mathf.Max(Mathf.Min(value, world.worldsize.Y * 2.6f), world.worldsize.Y * 0.55f));
+                        var rounded = Mathf.RoundToInt(Mathf.Max(Mathf.Min(value, originalWorldDimensions.Y * 2.6f), originalWorldDimensions.Y * 0.55f));
                         if (rounded != CustomY)
                             CustomY = rounded;
                     }
                     else
                     {
-                        var rounded = Mathf.RoundToInt(Mathf.Max(Mathf.Min(value, world.worldsize.X * 2.6f), world.worldsize.X * 0.55f));
+                        var rounded = Mathf.RoundToInt(Mathf.Max(Mathf.Min(value, originalWorldDimensions.X * 2.6f), originalWorldDimensions.X * 0.55f));
 
                         if (rounded != CustomX)
                             CustomX = rounded;
                     }
-                    CustomSizeIncrease = (float)(CustomX * CustomY) / (float)(world.worldsize.X * world.worldsize.Y);
+                    CustomSizeIncrease = (float)(CustomX * CustomY) / (float)(originalWorldDimensions.X * originalWorldDimensions.Y);
                 }
             }
             public float SizeMultiplierX()
             {
                 if (UsingCustomDimensions && world != null)
                 {
-                    return CustomX / world.worldsize.X;
+                    return CustomX / originalWorldDimensions.X;
                 }
                 else
                 {
@@ -909,7 +910,7 @@ namespace ClusterTraitGenerationManager
             {
                 if (UsingCustomDimensions && world != null)
                 {
-                    return CustomY / world.worldsize.Y;
+                    return CustomY / originalWorldDimensions.Y;
                 }
                 else
                 {
@@ -1056,6 +1057,7 @@ namespace ClusterTraitGenerationManager
             public StarmapItem MakeItemPlanet(ProcGen.World world)
             {
                 this.world = world;
+                this.originalWorldDimensions = world.worldsize;
                 //XYratio = (float)world.worldsize.X / (float)world.worldsize.Y;
                 return this;
             }
@@ -1318,7 +1320,7 @@ namespace ClusterTraitGenerationManager
             if (item.IsPOI)
                 return false;
 
-            if (item.id.Contains("Vanilla") || item.world != null && item.world.worldsize.x * item.world.worldsize.y > 90000)
+            if (item.id.Contains("Vanilla") || item.world != null && item.originalWorldDimensions.x * item.originalWorldDimensions.y > 90000)
                 return true;
 
             return false;
