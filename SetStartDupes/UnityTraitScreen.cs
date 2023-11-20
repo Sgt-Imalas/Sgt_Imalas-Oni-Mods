@@ -1,4 +1,5 @@
-﻿using Database;
+﻿using Beached_ModAPI;
+using Database;
 using Epic.OnlineServices.Sessions;
 using FMOD;
 using Klei.AI;
@@ -69,7 +70,7 @@ namespace SetStartDupes
         }
 
 
-        public static void ShowWindow(MinionStartingStats startingStats, System.Action onClose, SkillGroup currentGroup = null, DupeTraitManager DupeTraitManager = null, Trait currentTrait = null, OpenedFrom openedFrom = default)
+        public static void ShowWindow(MinionStartingStats startingStats, System.Action onClose,  SkillGroup currentGroup = null, DupeTraitManager DupeTraitManager = null, Trait currentTrait = null, OpenedFrom openedFrom = default)
         {
             if (Instance == null)
             {
@@ -84,6 +85,7 @@ namespace SetStartDupes
             Instance.transform.SetAsLastSibling();
             Instance.OnCloseAction = onClose;
             Instance.Searchbar.Text = string.Empty;
+
         }
 
         private bool init;
@@ -215,14 +217,19 @@ namespace SetStartDupes
                 case NextType.negTrait:
                 case NextType.needTrait:
                 case NextType.allTraits:
-                    ModAssets.RemoveTrait(ReferencedStats, CurrentTrait);
-                    ModAssets.AddTrait(ReferencedStats, trait);
+                    currentStatManager.RemoveTrait(CurrentTrait);
+                    currentStatManager.AddTrait(trait);
                     break;
                 case NextType.stress:
                     ReferencedStats.stressTrait = trait;
                     break;
                 case NextType.joy:
                     ReferencedStats.joyTrait = trait;
+                    break;
+                case NextType.Beached_LifeGoal:
+                    currentStatManager.RemoveLifeGoal();
+                    currentStatManager.AddLifeGoal(trait);
+
                     break;
 
             }
@@ -238,7 +245,8 @@ namespace SetStartDupes
             {
                 currentStatManager.AddInterest(group);
             }
-            currentStatManager.ReplaceInterest(CurrentGroup, group);
+            else
+                currentStatManager.ReplaceInterest(CurrentGroup, group);
 
             if (OnCloseAction != null)
                 this.OnCloseAction.Invoke();
@@ -299,8 +307,11 @@ namespace SetStartDupes
                 var TraitsOfCategory = ModAssets.TryGetTraitsOfCategory(type);
                 foreach (var item in TraitsOfCategory)
                 {
-                    if (item.dlcId == "" || item.dlcId == DlcManager.GetHighestActiveDlcId())
+                    if (ModAssets.TraitAllowedInCurrentDLC(item))
                         AddUIContainer(traitsDb.TryGet(item.id), type);
+                    else
+                        SgtLogger.l(item.id, "Filtered, not active dlc");
+
                 }
             }
             foreach (var item in interests)

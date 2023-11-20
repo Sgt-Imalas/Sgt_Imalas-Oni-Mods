@@ -128,24 +128,26 @@ namespace SetStartDupes
         MinionStartingStats EditableIdentity;
         CharacterContainer CurrentContainer;
 
-        internal static void ShowSkinScreen(CharacterContainer container, MinionStartingStats startingStats, GameObject LiveDupeGO = null)
+        internal static void ShowSkinScreen(CharacterContainer container, GameObject LiveDupeGO = null)
         {
             var instance = LockerNavigator.Instance.duplicantCatalogueScreen.AddOrGet<DupeSkinScreenAddon>();
             IsCustomActive = true;
             instance.EditingSkinOnExistingDupeGO = LiveDupeGO;
 
             Personality targetPersonality = null;
-            if (startingStats != null)
+            if (container != null)
             {
-                targetPersonality = startingStats.personality;
+                targetPersonality = container.stats.personality;
+                MinionBrowserScreenConfig.Personalities(targetPersonality).ApplyAndOpenScreen();
+                instance.InitUI(container, container.stats);
             }
             else if (LiveDupeGO != null && LiveDupeGO.TryGetComponent<MinionIdentity>(out var IdentityHolder))
             {
                 targetPersonality = Db.Get().Personalities.Get(IdentityHolder.personalityResourceId);
+                MinionBrowserScreenConfig.Personalities(targetPersonality).ApplyAndOpenScreen();
+                instance.InitUI(null,null);
             }
 
-            MinionBrowserScreenConfig.Personalities(targetPersonality).ApplyAndOpenScreen();
-            instance.InitUI(container, startingStats);
         }
         public override void OnShow(bool show)
         {

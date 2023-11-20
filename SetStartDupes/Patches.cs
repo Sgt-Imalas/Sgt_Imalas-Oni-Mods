@@ -17,12 +17,14 @@ using UnityEngine;
 using UnityEngine.Diagnostics;
 using UnityEngine.UI;
 using UtilLibs;
+using static Database.MonumentPartResource;
 using static FetchManager;
 using static KAnim;
 using static KCompBuilder;
 using static SetStartDupes.DupeTraitManager;
 using static SetStartDupes.ModAssets;
 using static SetStartDupes.STRINGS.UI;
+using static SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO;
 using static STRINGS.DUPLICANTS;
 using static STRINGS.DUPLICANTS.CHORES;
 using static STRINGS.UI.DETAILTABS;
@@ -302,7 +304,7 @@ namespace SetStartDupes
                         CryoDupeToApplyStatsOn.GetComponent<Traits>().Clear();
 
 
-                        if(CryoDupeToApplyStatsOn.TryGetComponent<MinionResume>(out var minionRes))
+                        if (CryoDupeToApplyStatsOn.TryGetComponent<MinionResume>(out var minionRes))
                         {
                             minionRes.AptitudeBySkillGroup.Clear();
                         }
@@ -496,7 +498,7 @@ namespace SetStartDupes
 
                     SkinButton.onClick += () =>
                     {
-                        DupeSkinScreenAddon.ShowSkinScreen(null, null, __instance.target);
+                        DupeSkinScreenAddon.ShowSkinScreen(null, __instance.target);
                     };
                     SkinButtonGO = SkinButton.gameObject;
                     SkinButtonGO.SetActive(false);
@@ -761,25 +763,30 @@ namespace SetStartDupes
                 var m_TargetMethod = AccessTools.Method("CharacterSelectionController, Assembly-CSharp:InitializeContainers");
                 var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_Patch2), "Transpiler");
                 var m_Prefix = AccessTools.Method(typeof(CharacterSelectionController_Patch2), "Prefix");
-                var m_Postfix = AccessTools.Method(typeof(CharacterSelectionController_Patch2), "Postfix");
+                //var m_Postfix = AccessTools.Method(typeof(CharacterSelectionController_Patch2), "Postfix");
 
-                harmony.Patch(m_TargetMethod, new HarmonyMethod(m_Prefix), new HarmonyMethod(m_Postfix), new HarmonyMethod(m_Transpiler));
+                harmony.Patch(m_TargetMethod, new HarmonyMethod(m_Prefix),
+                   null, //new HarmonyMethod(m_Postfix),
+                    new HarmonyMethod(m_Transpiler));
             }
 
 
             public static CharacterSelectionController instance;
-            public static void Prefix(CharacterSelectionController __instance)
+            public static void Prefix(CharacterSelectionController __instance, KButton ___proceedButton)
             {
                 instance = __instance;
-            }
-
-            public static void Postfix(KButton ___proceedButton)
-            {
-                //Debug.Log("Creating PREFAB2");
                 NextButtonPrefab = Util.KInstantiateUI(___proceedButton.gameObject);
                 //UIUtils.ListAllChildren(NextButtonPrefab.transform);
                 NextButtonPrefab.name = "CycleButtonPrefab";
             }
+
+            //public static void Postfix(KButton ___proceedButton)
+            //{
+            //    //Debug.Log("Creating PREFAB2");
+            //    NextButtonPrefab = Util.KInstantiateUI(___proceedButton.gameObject);
+            //    //UIUtils.ListAllChildren(NextButtonPrefab.transform);
+            //    NextButtonPrefab.name = "CycleButtonPrefab";
+            //}
             public static void CarePackagesOnly()
             {
                 if (ModConfig.Instance.CarePackagesOnly && Components.MinionIdentities.Count > ModConfig.Instance.CarePackagesOnlyDupeCap)
@@ -918,6 +925,7 @@ namespace SetStartDupes
         [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.OnSpawn))]
         public class AddDeletionButtonForStartScreen_TraitRerolling
         {
+            [HarmonyPostfix]
             public static void Postfix(CharacterContainer __instance)
             {
                 bool IsStartDupe = __instance.controller is MinionSelectScreen;
@@ -971,6 +979,461 @@ namespace SetStartDupes
                     buttonsToDeactivateOnEdit[__instance].Add(rerollTraitBtn.GetComponent<KButton>());
                 }
             }
+
+
+            /// <summary>
+            /// Adding the dss screen to each characterContainer
+            /// </summary>
+            /// <param name="__instance"></param>
+            /// <param name="___stats"></param>
+            /// <param name="__state"></param>
+            [HarmonyPostfix]
+            public static void Postfix(CharacterContainer __instance, MinionStartingStats ___stats)
+            {
+                bool is_starter = __instance.controller is MinionSelectScreen;
+
+                bool AllowModification = ModConfig.Instance.ModifyDuringGame || (EditingSingleDupe && ModConfig.Instance.JorgeAndCryopodDupes);
+                if (!buttonsToDeactivateOnEdit.ContainsKey(__instance))
+                {
+                    buttonsToDeactivateOnEdit[__instance] = new List<KButton>();
+                }
+
+                var buttonPrefab = __instance.transform.Find("TitleBar/RenameButton").gameObject;
+                var titlebar = __instance.transform.Find("TitleBar").gameObject;
+
+                //28
+                int insetBase = 4, insetA = 28, insetB = insetA * 2, insetC = insetA * 3;
+                float insetDistance = (!is_starter && !AllowModification) ? insetBase + insetA : insetBase + insetC;
+
+                //var TextInput = titlebar.transform.Find("LabelGroup/");
+                //TextInput.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 3, 60);
+
+                ///Make skin button
+                var skinBtn = Util.KInstantiateUI(buttonPrefab, titlebar);
+                skinBtn.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, insetDistance, skinBtn.rectTransform().sizeDelta.x);
+
+                skinBtn.name = "DupeSkinButton";
+                skinBtn.GetComponent<ToolTip>().toolTip = STRINGS.UI.BUTTONS.DUPESKINBUTTONTOOLTIP;
+
+                skinBtn.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("ic_dupe");
+
+
+                buttonsToDeactivateOnEdit[__instance].Add(skinBtn.FindComponent<KButton>());
+
+                //var currentlySelectedIdentity = __instance.GetComponent<MinionIdentity>();
+
+                System.Action RebuildDupePanel = () =>
+                {
+                    __instance.SetInfoText();
+                    __instance.SetAttributes();
+                    __instance.SetAnimator();
+                };
+
+                UIUtils.AddActionToButton(skinBtn.transform, "", () => DupeSkinScreenAddon.ShowSkinScreen(__instance));
+
+
+                if (!is_starter && !AllowModification)
+                    return;
+
+                ///Make modify button
+                var changebtn = Util.KInstantiateUI(buttonPrefab, titlebar);
+                changebtn.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, insetBase + insetA, changebtn.rectTransform().sizeDelta.x);
+                changebtn.name = "ChangeDupeStatButton";
+                changebtn.GetComponent<ToolTip>().toolTip = STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP;
+
+                var img = changebtn.transform.Find("Image").GetComponent<KImage>();
+                img.sprite = Assets.GetSprite("icon_gear");
+
+                var button = __instance.transform.Find("ShuffleDupeButton").GetComponent<KButton>();
+                var button2 = __instance.transform.Find("ArchetypeSelect").GetComponent<KButton>();
+
+                buttonsToDeactivateOnEdit[__instance].Add(button);
+                buttonsToDeactivateOnEdit[__instance].Add(button2);
+                changebtn.TryGetComponent<ToolTip>(out var tt);
+                changebtn.TryGetComponent<KButton>(out var btn);
+
+                if (AddNewToTraitsButtonPrefab == null)
+                {
+                    AddNewToTraitsButtonPrefab = Util.KInstantiateUI(buttonPrefab);
+                    AddNewToTraitsButtonPrefab.GetComponent<ToolTip>().enabled = false;
+                    AddNewToTraitsButtonPrefab.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("icon_positive");
+                    AddNewToTraitsButtonPrefab.name = "AddButton";
+                }
+                if (RemoveFromTraitsButtonPrefab == null)
+                {
+                    RemoveFromTraitsButtonPrefab = Util.KInstantiateUI(buttonPrefab);
+                    RemoveFromTraitsButtonPrefab.GetComponent<ToolTip>().enabled = false;
+                    RemoveFromTraitsButtonPrefab.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("cancel");
+                    RemoveFromTraitsButtonPrefab.name = "RemoveButton";
+                }
+
+                var detailsSection = __instance.transform.Find("Details").gameObject;
+                GameObject dssSection;
+
+                if (__instance.transform.Find("ModifyDupeStats") != null)
+                    dssSection = __instance.transform.Find("ModifyDupeStats").gameObject;
+                else
+                {
+                    dssSection = Util.KInstantiateUI(StartPrefab, __instance.gameObject, true);
+                    dssSection.AddOrGet<DupeTraitManager>().InitUI();
+                    dssSection.name = "ModifyDupeStats";
+                }
+
+                var mng = dssSection.AddOrGet<DupeTraitManager>();
+
+                ToggleEditButtonState(mng.CurrentlyEditing, __instance, detailsSection, dssSection, img, tt);
+
+                btn.onClick += () =>
+                {
+                    mng.CurrentlyEditing = !mng.CurrentlyEditing;
+                    ToggleEditButtonState(mng.CurrentlyEditing, __instance, detailsSection, dssSection, img, tt);
+
+                    if (!mng.CurrentlyEditing)
+                    {
+                        __instance.SetInfoText();
+                        __instance.SetAttributes();
+                        __instance.SetAnimator();
+                    }
+                };
+
+                float insetDistancePresetButton = insetBase + insetB;
+                ///Make Preset button
+                var PresetButton = Util.KInstantiateUI(buttonPrefab, titlebar);
+                PresetButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, insetDistancePresetButton, PresetButton.rectTransform().sizeDelta.x);
+                PresetButton.name = "DupePresetButton";
+                PresetButton.GetComponent<ToolTip>().toolTip = STRINGS.UI.BUTTONS.PRESETWINDOWBUTTONTOOLTIP;
+
+                PresetButton.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("iconPaste");
+                //var currentlySelectedIdentity = __instance.GetComponent<MinionIdentity>();
+
+                //UIUtils.AddActionToButton(PresetButton.transform, "", () => DupePresetScreenAddon.ShowPresetScreen(__instance, ___stats)); 
+
+                UIUtils.AddActionToButton(PresetButton.transform, "", () => UnityPresetScreen.ShowWindow(mng.Stats, RebuildDupePanel));
+                buttonsToDeactivateOnEdit[__instance].Add(PresetButton.FindComponent<KButton>());
+            }
+            static void ToggleEditButtonState(bool currentlyEditing, CharacterContainer characterContainer, GameObject detailsSection, GameObject DSS_Section, KImage btnImage, ToolTip tt)
+            {
+                tt.SetSimpleTooltip(currentlyEditing ? STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP2 : STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP);
+                btnImage.sprite = Assets.GetSprite(currentlyEditing ? "iconSave" : "icon_gear");
+                detailsSection.SetActive(!currentlyEditing);
+                DSS_Section.SetActive(currentlyEditing);
+
+                if (buttonsToDeactivateOnEdit.ContainsKey(characterContainer))
+                {
+                    foreach (var button in buttonsToDeactivateOnEdit[characterContainer])
+                    {
+                        button.isInteractable = !currentlyEditing;
+                    }
+                }
+            }
+
+            static void ChangeButton(bool isCurrentlyInEditMode, GameObject buttonGO, CharacterContainer parent, MinionStartingStats referencedStats, System.Action OnClose)
+            {
+                buttonGO.GetComponent<ToolTip>().SetSimpleTooltip(!isCurrentlyInEditMode ? STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP : STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP2);
+                var img = buttonGO.transform.Find("Image").GetComponent<KImage>();
+                img.sprite = Assets.GetSprite(!isCurrentlyInEditMode ? "icon_gear" : "iconSave");
+                var button = buttonGO.GetComponent<KButton>();
+                button.ClearOnClick();
+                button.onClick += () =>
+                {
+                    ChangeButton(!isCurrentlyInEditMode, buttonGO, parent, referencedStats, OnClose);
+                    if (isCurrentlyInEditMode)
+                    {
+                        InstantiateOrGetDupeModWindow(parent.gameObject, referencedStats, true);
+                        OnClose.Invoke();
+                    }
+                    else
+                    {
+                        InstantiateOrGetDupeModWindow(parent.gameObject, referencedStats, false);
+                    }
+                    if (buttonsToDeactivateOnEdit.ContainsKey(parent))
+                    {
+                        foreach (var button in buttonsToDeactivateOnEdit[parent])
+                        {
+                            button.isInteractable = isCurrentlyInEditMode;
+                        }
+                    }
+                };
+                parent.transform.Find("Details").gameObject.SetActive(!isCurrentlyInEditMode);
+            }
+
+            static void InstantiateOrGetDupeModWindow(GameObject parent, MinionStartingStats referencedStats, bool hide)
+            {
+
+                bool ShouldInit = true;
+                var ParentContainer = parent.transform.Find("ModifyDupeStats");
+
+                if (ParentContainer == null)
+                {
+                    //Debug.Log("HAD TO MAKE NEW");
+                    //ParentContainer = Util.KInstantiateUI(StartPrefab, parent).transform;
+                    ParentContainer.gameObject.name = "ModifyDupeStats";
+                }
+                else
+                {
+                    //Debug.Log("FOUND OLD");
+                    var refOld = ParentContainer.gameObject;
+                    ;
+                    refOld.transform.SetAsLastSibling();
+                    UnityEngine.Object.Destroy(refOld);
+                    //ParentContainer = Util.KInstantiateUI(StartPrefab, parent).transform;
+                    ParentContainer.gameObject.name = "ModifyDupeStats";
+                    //ShouldInit = false;
+                }
+
+
+                ///Building the Button window
+                if (ShouldInit)
+                {
+
+                    //Debug.Log("FindScroll");
+                    //UIUtils.ListAllChildren(ParentContainer.transform);
+                    //Debug.Log("endFindScroll");
+
+                    UIUtils.FindAndDestroy(ParentContainer.transform, "Top");
+                    UIUtils.FindAndDestroy(ParentContainer.transform, "AttributeScores");
+                    UIUtils.FindAndDestroy(ParentContainer.transform, "AttributeScores");
+                    UIUtils.FindAndDestroy(ParentContainer.transform, "Scroll/Content/TraitsAndAptitudes/AptitudeContainer");
+                    UIUtils.FindAndDestroy(ParentContainer.transform, "Scroll/Content/TraitsAndAptitudes/TraitContainer");
+                    UIUtils.FindAndDestroy(ParentContainer.transform, "Scroll/Content/ExpectationsGroupAlt");
+                    UIUtils.FindAndDestroy(ParentContainer.transform, "Scroll/Content/DescriptionGroup");
+
+                    var ContentContainer = ParentContainer.Find("Scroll/Content/TraitsAndAptitudes");
+                    var overallSize = ParentContainer.Find("Scroll");
+                    var SizeSetter = ParentContainer.Find("Scroll").GetComponent<LayoutElement>();
+                    SizeSetter.flexibleHeight = 600;
+                    var scrollerCmp = overallSize.GetComponent<KScrollRect>();
+
+                    scrollerCmp.elasticity = 0;
+                    scrollerCmp.inertia = false;
+                    //scrollerCmp.decelerationRate = 100;
+                    var vlg = ContentContainer.GetComponent<VerticalLayoutGroup>();
+                    //SgtLogger.l(vlg.padding.ToString() + ", " + vlg.spacing);
+                    vlg.spacing = 1;
+                    vlg.padding = new RectOffset(3, 1, 0, 0);
+                    //UIUtils.ListComponents(overallSize.gameObject);
+
+
+                    var prefabParent = NextButtonPrefab;
+                    if (prefabParent.transform.Find("NextButton") == null)
+                    {
+                        prefabParent.GetComponent<KButton>().enabled = true;
+                        var right = Util.KInstantiateUI(RemoveFromTraitsButtonPrefab, prefabParent);
+                        UIUtils.TryFindComponent<ToolTip>(right.transform).toolTip = STRINGS.UI.BUTTONS.REMOVEFROMSTATS;
+                        //UIUtils.TryFindComponent<ToolTip>(right.transform,"Image").toolTip="Cycle to next";
+                        right.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 2.5f, 25);
+                        right.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 2.5f, 25);
+                        right.SetActive(false);
+
+                        var AddOnSpacerInterestUP = Util.KInstantiateUI(RemoveFromTraitsButtonPrefab, prefabParent);
+                        //UIUtils.TryFindComponent<ToolTip>(prefabParent.transform).toolTip = STRINGS.UI.BUTTONS.ADDTOSTATS;
+                        //UIUtils.TryFindComponent<ToolTip>(right.transform,"Image").toolTip="Cycle to next";
+                        AddOnSpacerInterestUP.name = "InterestUP";
+                        AddOnSpacerInterestUP.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 27.5f, 25);
+                        AddOnSpacerInterestUP.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 2.5f, 25);
+                        AddOnSpacerInterestUP.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("iconDown");
+                        AddOnSpacerInterestUP.transform.Find("Image").rectTransform().Rotate(new Vector3(0, 0, 180));
+                        AddOnSpacerInterestUP.SetActive(false);
+
+                        var AddOnSpacerInterestDown = Util.KInstantiateUI(RemoveFromTraitsButtonPrefab, prefabParent);
+                        //UIUtils.TryFindComponent<ToolTip>(prefabParent.transform).toolTip = STRINGS.UI.BUTTONS.ADDTOSTATS;
+                        //UIUtils.TryFindComponent<ToolTip>(right.transform,"Image").toolTip="Cycle to next";
+                        AddOnSpacerInterestDown.name = "InterestDOWN";
+                        AddOnSpacerInterestDown.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 2.5f, 25);
+                        AddOnSpacerInterestDown.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 2.5f, 25);
+                        AddOnSpacerInterestDown.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("iconDown");
+                        AddOnSpacerInterestDown.SetActive(false);
+
+                    }
+
+
+                    var renameLabel = prefabParent.transform.Find("SelectLabel");
+                    if (renameLabel != null)
+                    {
+                        renameLabel.name = "Label";
+                    }
+
+                    prefabParent.GetComponent<LayoutElement>().minHeight = 30;
+                    prefabParent.GetComponent<LayoutElement>().preferredHeight = 30;
+                    var spacerParent = Util.KInstantiateUI(prefabParent.transform.Find("Label").gameObject);
+                    spacerParent.AddOrGet<LayoutElement>().minHeight = 25;
+
+                    var AddOnSpacer = Util.KInstantiateUI(AddNewToTraitsButtonPrefab, spacerParent);
+                    UIUtils.TryFindComponent<ToolTip>(AddOnSpacer.transform).toolTip = STRINGS.UI.BUTTONS.ADDTOSTATS;
+                    //UIUtils.TryFindComponent<ToolTip>(right.transform,"Image").toolTip="Cycle to next";
+                    AddOnSpacer.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 2.5f, 25);
+                    AddOnSpacer.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0f, 25);
+                    AddOnSpacer.SetActive(false);
+
+                    //skillMod.transform.Find("DetailsContainer").gameObject.SetActive(false);
+
+                    if (!ModAssets.DupeTraitManagers.ContainsKey(referencedStats))
+                    {
+                        DupeTraitManagers[referencedStats] = new DupeTraitManager();
+                        DupeTraitManagers[referencedStats].SetReferenceStats(referencedStats);
+                    }
+                    var DupeTraitMng = DupeTraitManagers[referencedStats];
+
+
+
+                    var Spacer2AndInterestHolder = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
+                    UIUtils.AddSimpleTooltipToObject(Spacer2AndInterestHolder.transform, global::STRINGS.UI.CHARACTERCONTAINER_APTITUDES_TITLE_TOOLTIP, alignCenter: true, onBottom: true);
+
+                    var InterestPointBonus = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
+                    UIUtils.TryChangeText(InterestPointBonus.transform, "", STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOL + " " + DupeTraitMng.PointPool);
+                    string InterestBonusTooltip = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOLTOOLTIP, ModConfig.Instance.BalanceAddRemove ? DupeTraitMng.AdditionalSkillPoints : "∞");
+
+                    if (!ModConfig.Instance.BalanceAddRemove)
+                        InterestBonusTooltip += "\n" + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, STRINGS.UI.DUPESETTINGSSCREEN.CONFIGBALANCINGDISABLED, UIUtils.ColorText("∞", UIUtils.number_green));
+
+                    UIUtils.TryChangeText(Spacer2AndInterestHolder.transform, "", global::STRINGS.UI.CHARACTERCONTAINER_APTITUDES_TITLE); //
+                    Spacer2AndInterestHolder.transform.Find("AddButton").gameObject.SetActive(ModConfig.Instance.AddAndRemoveTraitsAndInterests);
+                    UIUtils.AddActionToButton(Spacer2AndInterestHolder.transform, "AddButton", () =>
+                    {
+                        UnityTraitScreen.ShowWindow(referencedStats, () => InstantiateOrGetDupeModWindow(parent, referencedStats, hide), DupeTraitManager: DupeTraitMng, openedFrom: UnityTraitScreen.OpenedFrom.Interest);
+                    });
+
+
+                    foreach (var a in DupeTraitMng.GetInterestsWithStats())
+                    {
+                        var AptitudeEntry = Util.KInstantiateUI(prefabParent, ContentContainer.gameObject, true);
+                        UIUtils.AddActionToButton(AptitudeEntry.transform, "", () =>
+                        {
+                            UnityTraitScreen.ShowWindow(referencedStats, () => InstantiateOrGetDupeModWindow(parent, referencedStats, hide), currentGroup: a, DupeTraitManager: DupeTraitMng);
+                        });
+                        UIUtils.AddSimpleTooltipToObject(AptitudeEntry.transform, ModAssets.GetSkillgroupDescription(a, referencedStats), true, onBottom: true);
+                        AptitudeEntry.GetComponent<KButton>().enabled = true;
+                        ApplyDefaultStyle(AptitudeEntry.GetComponent<KImage>());
+                        UIUtils.TryChangeText(AptitudeEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, GetSkillGroupName(a), FirstSkillGroupStat(a), DupeTraitMng.GetBonusValue(a)));
+
+                        AptitudeEntry.transform.Find("RemoveButton").gameObject.SetActive(ModConfig.Instance.AddAndRemoveTraitsAndInterests);
+                        UIUtils.AddActionToButton(AptitudeEntry.transform, "RemoveButton", () =>
+                        {
+                            DupeTraitMng.RemoveInterest(a);
+                            InstantiateOrGetDupeModWindow(parent, referencedStats, hide);
+                        }
+                        );
+
+                        AptitudeEntry.transform.Find("InterestDOWN").gameObject.SetActive(true);
+                        UIUtils.AddActionToButton(AptitudeEntry.transform, "InterestDOWN", () =>
+                        {
+                            DupeTraitMng.ReduceInterest(a);
+                            InstantiateOrGetDupeModWindow(parent, referencedStats, hide);
+                        });
+                        AptitudeEntry.transform.Find("InterestUP").gameObject.SetActive(true);
+                        UIUtils.AddActionToButton(AptitudeEntry.transform, "InterestUP", () =>
+                        {
+                            DupeTraitMng.IncreaseInterest(a);
+                            InstantiateOrGetDupeModWindow(parent, referencedStats, hide);
+                        });
+
+                    }
+                    ///EndAptitudes
+
+                    var spacer3 = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
+                    UIUtils.TryChangeText(spacer3.transform, "", global::STRINGS.UI.CHARACTERCONTAINER_TRAITS_TITLE);
+                    //Db.Get().traits.TryGet();
+                    spacer3.transform.Find("AddButton").gameObject.SetActive(ModConfig.Instance.AddAndRemoveTraitsAndInterests);
+                    UIUtils.AddActionToButton(spacer3.transform, "AddButton", () =>
+                    {
+                        UnityTraitScreen.ShowWindow(referencedStats, () => InstantiateOrGetDupeModWindow(parent, referencedStats, hide), DupeTraitManager: DupeTraitMng, openedFrom: UnityTraitScreen.OpenedFrom.Trait);
+                    });
+
+
+                    var TraitsToSort = new List<Tuple<GameObject, DupeTraitManager.NextType>>();
+
+
+                    foreach (Trait v in referencedStats.Traits)
+                    {
+                        if (v.Id == MinionConfig.MINION_BASE_TRAIT_ID)
+                            continue;
+                        var traitEntry = Util.KInstantiateUI(prefabParent, ContentContainer.gameObject, true);
+
+                        UIUtils.AddSimpleTooltipToObject(traitEntry.transform, ModAssets.GetTraitTooltip(v, v.Id), true, onBottom: true);
+                        var type = ModAssets.GetTraitListOfTrait(v.Id, out var list);
+
+                        TraitsToSort.Add(new Tuple<GameObject, DupeTraitManager.NextType>(traitEntry, type));
+
+                        ApplyTraitStyleByKey(traitEntry.GetComponent<KImage>(), type);
+                        var thisOnesInterest = GetTraitStatBonusTooltip(v, false);
+                        if (thisOnesInterest != string.Empty)
+                        {
+                            InterestBonusTooltip += "\n" + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, v.Name, thisOnesInterest);
+                        }
+
+                        traitEntry.GetComponent<KButton>().enabled = true;
+                        UIUtils.AddActionToButton(traitEntry.transform, "", () =>
+                        {
+                            UnityTraitScreen.ShowWindow(referencedStats, () => InstantiateOrGetDupeModWindow(parent, referencedStats, hide), currentTrait: v);
+                        });
+
+                        UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, v.Name));
+                        traitEntry.transform.Find("RemoveButton").gameObject.SetActive(ModConfig.Instance.AddAndRemoveTraitsAndInterests && type != NextType.undefined);
+
+                        ApplyTraitStyleByKey(traitEntry.transform.Find("RemoveButton").gameObject.GetComponent<KImage>(), type);
+
+                        UIUtils.AddActionToButton(traitEntry.transform, "RemoveButton", () =>
+                        {
+                            DupeTraitMng.RemoveTrait(v);
+                            InstantiateOrGetDupeModWindow(parent, referencedStats, hide);
+                        }
+                        );
+                    }
+
+
+                    if (DupeTraitMng.ExternalModPoints != 0)
+                        InterestBonusTooltip += "\n" + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, STRINGS.UI.DUPESETTINGSSCREEN.OTHERMODORIGINNAME, UIUtils.ColorNumber(DupeTraitMng.ExternalModPoints));
+
+                    UIUtils.AddSimpleTooltipToObject(InterestPointBonus.transform, InterestBonusTooltip, true, onBottom: true);
+
+                    TraitsToSort = TraitsToSort.OrderBy(t => (int)t.second).ToList();
+                    for (int i = 0; i < TraitsToSort.Count; i++)
+                    {
+                        TraitsToSort[i].first.transform.SetAsLastSibling();
+                    }
+                    if (!ModConfig.Instance.NoJoyReactions && referencedStats.joyTrait.Id != "None")
+                    {
+                        var spacer = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
+                        UIUtils.TryChangeText(spacer.transform, "", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_JOYTRAIT, string.Empty));
+
+                        var JoyTrait = Util.KInstantiateUI(prefabParent, ContentContainer.gameObject, true);
+
+                        JoyTrait.GetComponent<KButton>().enabled = true;
+                        UIUtils.AddActionToButton(JoyTrait.transform, "", () =>
+                        {
+                            UnityTraitScreen.ShowWindow(referencedStats, () => InstantiateOrGetDupeModWindow(parent, referencedStats, hide), currentTrait: referencedStats.joyTrait);
+                        });
+
+                        ApplyTraitStyleByKey(JoyTrait.GetComponent<KImage>(), DupeTraitManager.NextType.joy);
+                        UIUtils.TryChangeText(JoyTrait.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, referencedStats.joyTrait.Name));
+                        UIUtils.AddSimpleTooltipToObject(JoyTrait.transform, ModAssets.GetTraitTooltip(referencedStats.joyTrait, referencedStats.joyTrait.Id), true, onBottom: true);
+                    }
+
+                    if (!ModConfig.Instance.NoStressReactions && referencedStats.stressTrait.Id != "None")
+                    {
+                        var spacerStress = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
+                        UIUtils.TryChangeText(spacerStress.transform, "", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_STRESSTRAIT, string.Empty))
+                            ;
+                        var StressTrait = Util.KInstantiateUI(prefabParent, ContentContainer.gameObject, true);
+                        StressTrait.GetComponent<KButton>().enabled = true;
+                        UIUtils.AddActionToButton(StressTrait.transform, "", () =>
+                        {
+                            UnityTraitScreen.ShowWindow(referencedStats, () => InstantiateOrGetDupeModWindow(parent, referencedStats, hide), currentTrait: referencedStats.stressTrait);
+                        });
+
+                        ApplyTraitStyleByKey(StressTrait.GetComponent<KImage>(), DupeTraitManager.NextType.stress);
+
+                        UIUtils.AddSimpleTooltipToObject(StressTrait.transform, ModAssets.GetTraitTooltip(referencedStats.stressTrait, referencedStats.stressTrait.Id), true, onBottom: true);
+                        UIUtils.TryChangeText(StressTrait.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, referencedStats.stressTrait.Name));
+                    }
+                }
+
+                ParentContainer.gameObject.SetActive(!hide);
+
+            }
+            static string GetSkillGroupName(SkillGroup Group) => ModAssets.GetChoreGroupNameForSkillgroup(Group);
+            static string FirstSkillGroupStat(SkillGroup Group) => Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + Group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME");
+
         }
 
 
@@ -1135,8 +1598,6 @@ namespace SetStartDupes
                 if (ModAssets.StartPrefab == null)
                 {
                     StartPrefab = ___containerPrefab.transform.Find("Details").gameObject;
-                    //StartPrefab.transform.Find("Top/PortraitContainer/PortraitContent").gameObject.SetActive(false);
-                    //StartPrefab.transform.name = "ModifyDupeStats";
 
                 }
                 if (!__instance.IsStarterMinion)
@@ -1181,6 +1642,22 @@ namespace SetStartDupes
             }
         }
 
+
+        [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.SetInfoText))]
+        public static class CharacterContainer_SetInfoText_Patch_ContainerSize
+        {
+            /// <summary>
+            /// Remove prev height so additional traits extend the box indstead of going hidden
+            /// </summary>
+            /// <param name="__instance"></param>
+            public static void Postfix(CharacterContainer __instance)
+            {
+                if (__instance.aptitudeEntry.transform.parent.parent.gameObject.TryGetComponent<LayoutElement>(out LayoutElement layoutElement))
+                {
+                    layoutElement.preferredHeight = -1;
+                }
+            }
+        }
         [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.GenerateCharacter))]
         public static class AddChangeButtonToCharacterContainer
         {
@@ -1218,402 +1695,20 @@ namespace SetStartDupes
 
 
 
-            public static void Postfix(CharacterContainer __instance, MinionStartingStats ___stats, bool is_starter)
+            public static void Prefix(CharacterContainer __instance, MinionStartingStats ___stats, bool is_starter, ref DupeTraitManager __state)
             {
-                bool AllowModification = ModConfig.Instance.ModifyDuringGame || (EditingSingleDupe && ModConfig.Instance.JorgeAndCryopodDupes);
-                if (!buttonsToDeactivateOnEdit.ContainsKey(__instance))
+                __state = __instance.transform.Find("ModifyDupeStats").gameObject.GetComponent<DupeTraitManager>();
+
+            }
+            public static void Postfix(CharacterContainer __instance, MinionStartingStats ___stats, bool is_starter, DupeTraitManager __state)
+            {
+                if (__state == null)
                 {
-                    buttonsToDeactivateOnEdit[__instance] = new List<KButton>();
-                }
-
-
-                var buttonPrefab = __instance.transform.Find("TitleBar/RenameButton").gameObject;
-                var titlebar = __instance.transform.Find("TitleBar").gameObject;
-
-                //28
-                int insetBase = 4, insetA = 28, insetB = insetA * 2, insetC = insetA * 3;
-                float insetDistance = (!is_starter && !AllowModification) ? insetBase + insetA : insetBase + insetC;
-
-                //var TextInput = titlebar.transform.Find("LabelGroup/");
-                //TextInput.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 3, 60);
-
-
-
-                ///Make skin button
-                var skinBtn = Util.KInstantiateUI(buttonPrefab, titlebar);
-                skinBtn.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, insetDistance, skinBtn.rectTransform().sizeDelta.x);
-
-                skinBtn.name = "DupeSkinButton";
-                skinBtn.GetComponent<ToolTip>().toolTip = STRINGS.UI.BUTTONS.DUPESKINBUTTONTOOLTIP;
-
-                skinBtn.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("ic_dupe");
-
-
-                buttonsToDeactivateOnEdit[__instance].Add(skinBtn.FindComponent<KButton>());
-
-                //var currentlySelectedIdentity = __instance.GetComponent<MinionIdentity>();
-
-                System.Action RebuildDupePanel = () =>
-                {
-                    __instance.SetInfoText();
-                    __instance.SetAttributes();
-                    __instance.SetAnimator();
-                };
-
-                UIUtils.AddActionToButton(skinBtn.transform, "", () => DupeSkinScreenAddon.ShowSkinScreen(__instance, ___stats));
-
-                if (!(!is_starter && !AllowModification))
-                {
-                    float insetDistancePresetButton = insetBase + insetB;
-                    ///Make Preset button
-                    var PresetButton = Util.KInstantiateUI(buttonPrefab, titlebar);
-                    PresetButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, insetDistancePresetButton, PresetButton.rectTransform().sizeDelta.x);
-                    PresetButton.name = "DupePresetButton";
-                    PresetButton.GetComponent<ToolTip>().toolTip = STRINGS.UI.BUTTONS.PRESETWINDOWBUTTONTOOLTIP;
-
-                    PresetButton.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("iconPaste");
-                    //var currentlySelectedIdentity = __instance.GetComponent<MinionIdentity>();
-
-                    //UIUtils.AddActionToButton(PresetButton.transform, "", () => DupePresetScreenAddon.ShowPresetScreen(__instance, ___stats)); 
-                    UIUtils.AddActionToButton(PresetButton.transform, "", () => UnityPresetScreen.ShowWindow(___stats, RebuildDupePanel));
-                    buttonsToDeactivateOnEdit[__instance].Add(PresetButton.FindComponent<KButton>());
-                }
-
-                if (!is_starter && !AllowModification)
+                    SgtLogger.warning("dupe mng was null!");
                     return;
-                ///Make modify button
-                var changebtn = Util.KInstantiateUI(buttonPrefab, titlebar);
-                changebtn.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, insetBase + insetA, changebtn.rectTransform().sizeDelta.x);
-                changebtn.name = "ChangeDupeStatButton";
-                changebtn.GetComponent<ToolTip>().toolTip = STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP;
-
-                var img = changebtn.transform.Find("Image").GetComponent<KImage>();
-                img.sprite = Assets.GetSprite("icon_gear");
-
-                var button = __instance.transform.Find("ShuffleDupeButton").GetComponent<KButton>();
-                var button2 = __instance.transform.Find("ArchetypeSelect").GetComponent<KButton>();
-
-                buttonsToDeactivateOnEdit[__instance].Add(button);
-                buttonsToDeactivateOnEdit[__instance].Add(button2);
-
-                ChangeButton(false, changebtn, __instance, ___stats, RebuildDupePanel);
-
-                AddNewToTraitsButtonPrefab = Util.KInstantiateUI(buttonPrefab);
-                AddNewToTraitsButtonPrefab.GetComponent<ToolTip>().enabled = false;
-                AddNewToTraitsButtonPrefab.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("icon_positive");
-                AddNewToTraitsButtonPrefab.name = "AddButton";
-
-                RemoveFromTraitsButtonPrefab = Util.KInstantiateUI(buttonPrefab);
-                RemoveFromTraitsButtonPrefab.GetComponent<ToolTip>().enabled = false;
-                RemoveFromTraitsButtonPrefab.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("icon_negative");
-                RemoveFromTraitsButtonPrefab.name = "RemoveButton";
-
-            }
-
-            static void ChangeButton(bool isCurrentlyInEditMode, GameObject buttonGO, CharacterContainer parent, MinionStartingStats referencedStats, System.Action OnClose)
-            {
-                buttonGO.GetComponent<ToolTip>().SetSimpleTooltip(!isCurrentlyInEditMode ? STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP : STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP2);
-                var img = buttonGO.transform.Find("Image").GetComponent<KImage>();
-                img.sprite = Assets.GetSprite(!isCurrentlyInEditMode ? "icon_gear" : "iconSave");
-                var button = buttonGO.GetComponent<KButton>();
-                button.ClearOnClick();
-                button.onClick += () =>
-                {
-                    ChangeButton(!isCurrentlyInEditMode, buttonGO, parent, referencedStats, OnClose);
-                    if (isCurrentlyInEditMode)
-                    {
-                        InstantiateOrGetDupeModWindow(parent.gameObject, referencedStats, true);
-                        OnClose.Invoke();
-                    }
-                    else
-                    {
-                        InstantiateOrGetDupeModWindow(parent.gameObject, referencedStats, false);
-                    }
-                    if (buttonsToDeactivateOnEdit.ContainsKey(parent))
-                    {
-                        foreach (var button in buttonsToDeactivateOnEdit[parent])
-                        {
-                            button.isInteractable = isCurrentlyInEditMode;
-                        }
-                    }
-                };
-                parent.transform.Find("Details").gameObject.SetActive(!isCurrentlyInEditMode);
-            }
-
-            static void InstantiateOrGetDupeModWindow(GameObject parent, MinionStartingStats referencedStats, bool hide)
-            {
-
-                bool ShouldInit = true;
-                var ParentContainer = parent.transform.Find("ModifyDupeStats");
-
-
-                if (ParentContainer == null)
-                {
-                    //Debug.Log("HAD TO MAKE NEW");
-                    ParentContainer = Util.KInstantiateUI(StartPrefab, parent).transform;
-                    ParentContainer.gameObject.name = "ModifyDupeStats";
                 }
-                else
-                {
-                    //Debug.Log("FOUND OLD");
-                    var refOld = ParentContainer.gameObject;
-                    ;
-                    refOld.transform.SetAsLastSibling();
-                    UnityEngine.Object.Destroy(refOld);
-                    ParentContainer = Util.KInstantiateUI(StartPrefab, parent).transform;
-                    ParentContainer.gameObject.name = "ModifyDupeStats";
-                    //ShouldInit = false;
-                }
-
-
-                ///Building the Button window
-                if (ShouldInit)
-                {
-
-                    //Debug.Log("FindScroll");
-                    //UIUtils.ListAllChildren(ParentContainer.transform);
-                    //Debug.Log("endFindScroll");
-
-                    UIUtils.FindAndDestroy(ParentContainer.transform, "Top");
-                    UIUtils.FindAndDestroy(ParentContainer.transform, "AttributeScores");
-                    UIUtils.FindAndDestroy(ParentContainer.transform, "AttributeScores");
-                    UIUtils.FindAndDestroy(ParentContainer.transform, "Scroll/Content/TraitsAndAptitudes/AptitudeContainer");
-                    UIUtils.FindAndDestroy(ParentContainer.transform, "Scroll/Content/TraitsAndAptitudes/TraitContainer");
-                    UIUtils.FindAndDestroy(ParentContainer.transform, "Scroll/Content/ExpectationsGroupAlt");
-                    UIUtils.FindAndDestroy(ParentContainer.transform, "Scroll/Content/DescriptionGroup");
-
-                    var ContentContainer = ParentContainer.Find("Scroll/Content/TraitsAndAptitudes");
-                    var overallSize = ParentContainer.Find("Scroll");
-                    var SizeSetter = ParentContainer.Find("Scroll").GetComponent<LayoutElement>();
-                    SizeSetter.flexibleHeight = 600;
-                    var scrollerCmp = overallSize.GetComponent<KScrollRect>();
-
-                    scrollerCmp.elasticity = 0;
-                    scrollerCmp.inertia = false;
-                    //scrollerCmp.decelerationRate = 100;
-                    var vlg = ContentContainer.GetComponent<VerticalLayoutGroup>();
-                    //SgtLogger.l(vlg.padding.ToString() + ", " + vlg.spacing);
-                    vlg.spacing = 1;
-                    vlg.padding = new RectOffset(3, 1, 0, 0);
-                    //UIUtils.ListComponents(overallSize.gameObject);
-
-
-                    var prefabParent = NextButtonPrefab;
-                    if (prefabParent.transform.Find("NextButton") == null)
-                    {
-                        prefabParent.GetComponent<KButton>().enabled = true;
-                        var right = Util.KInstantiateUI(RemoveFromTraitsButtonPrefab, prefabParent);
-                        UIUtils.TryFindComponent<ToolTip>(right.transform).toolTip = STRINGS.UI.BUTTONS.REMOVEFROMSTATS;
-                        //UIUtils.TryFindComponent<ToolTip>(right.transform,"Image").toolTip="Cycle to next";
-                        right.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 2.5f, 25);
-                        right.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 2.5f, 25);
-                        right.SetActive(false);
-
-                        var AddOnSpacerInterestUP = Util.KInstantiateUI(RemoveFromTraitsButtonPrefab, prefabParent);
-                        //UIUtils.TryFindComponent<ToolTip>(prefabParent.transform).toolTip = STRINGS.UI.BUTTONS.ADDTOSTATS;
-                        //UIUtils.TryFindComponent<ToolTip>(right.transform,"Image").toolTip="Cycle to next";
-                        AddOnSpacerInterestUP.name = "InterestUP";
-                        AddOnSpacerInterestUP.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 27.5f, 25);
-                        AddOnSpacerInterestUP.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 2.5f, 25);
-                        AddOnSpacerInterestUP.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("iconDown");
-                        AddOnSpacerInterestUP.transform.Find("Image").rectTransform().Rotate(new Vector3(0, 0, 180));
-                        AddOnSpacerInterestUP.SetActive(false);
-
-                        var AddOnSpacerInterestDown = Util.KInstantiateUI(RemoveFromTraitsButtonPrefab, prefabParent);
-                        //UIUtils.TryFindComponent<ToolTip>(prefabParent.transform).toolTip = STRINGS.UI.BUTTONS.ADDTOSTATS;
-                        //UIUtils.TryFindComponent<ToolTip>(right.transform,"Image").toolTip="Cycle to next";
-                        AddOnSpacerInterestDown.name = "InterestDOWN";
-                        AddOnSpacerInterestDown.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 2.5f, 25);
-                        AddOnSpacerInterestDown.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 2.5f, 25);
-                        AddOnSpacerInterestDown.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("iconDown");
-                        AddOnSpacerInterestDown.SetActive(false);
-
-                    }
-
-
-                    var renameLabel = prefabParent.transform.Find("SelectLabel");
-                    if (renameLabel != null)
-                    {
-                        renameLabel.name = "Label";
-                    }
-
-                    prefabParent.GetComponent<LayoutElement>().minHeight = 30;
-                    prefabParent.GetComponent<LayoutElement>().preferredHeight = 30;
-                    var spacerParent = Util.KInstantiateUI(prefabParent.transform.Find("Label").gameObject);
-                    spacerParent.AddOrGet<LayoutElement>().minHeight = 25;
-
-                    var AddOnSpacer = Util.KInstantiateUI(AddNewToTraitsButtonPrefab, spacerParent);
-                    UIUtils.TryFindComponent<ToolTip>(AddOnSpacer.transform).toolTip = STRINGS.UI.BUTTONS.ADDTOSTATS;
-                    //UIUtils.TryFindComponent<ToolTip>(right.transform,"Image").toolTip="Cycle to next";
-                    AddOnSpacer.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 2.5f, 25);
-                    AddOnSpacer.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0f, 25);
-                    AddOnSpacer.SetActive(false);
-
-                    //skillMod.transform.Find("DetailsContainer").gameObject.SetActive(false);
-
-                    if (!ModAssets.DupeTraitManagers.ContainsKey(referencedStats))
-                    {
-                        DupeTraitManagers[referencedStats] = new DupeTraitManager();
-                        DupeTraitManagers[referencedStats].SetReferenceStats(referencedStats);
-                    }
-                    var DupeTraitMng = DupeTraitManagers[referencedStats];
-
-
-
-                    var Spacer2AndInterestHolder = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
-                    UIUtils.AddSimpleTooltipToObject(Spacer2AndInterestHolder.transform, global::STRINGS.UI.CHARACTERCONTAINER_APTITUDES_TITLE_TOOLTIP, alignCenter: true, onBottom: true);
-
-                    var InterestPointBonus = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
-                    UIUtils.TryChangeText(InterestPointBonus.transform, "", STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOL + " " + DupeTraitMng.PointPool);
-                    string InterestBonusTooltip = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOLTOOLTIP, DupeTraitMng.AdditionalSkillPoints);
-
-
-                    UIUtils.TryChangeText(Spacer2AndInterestHolder.transform, "", global::STRINGS.UI.CHARACTERCONTAINER_APTITUDES_TITLE); //
-                    Spacer2AndInterestHolder.transform.Find("AddButton").gameObject.SetActive(ModConfig.Instance.AddAndRemoveTraitsAndInterests);
-                    UIUtils.AddActionToButton(Spacer2AndInterestHolder.transform, "AddButton", () =>
-                    {
-                        UnityTraitScreen.ShowWindow(referencedStats, () => InstantiateOrGetDupeModWindow(parent, referencedStats, hide), DupeTraitManager: DupeTraitMng, openedFrom: UnityTraitScreen.OpenedFrom.Interest);
-                    });
-
-
-                    foreach (var a in DupeTraitMng.GetInterestsWithStats())
-                    {
-                        var AptitudeEntry = Util.KInstantiateUI(prefabParent, ContentContainer.gameObject, true);
-                        UIUtils.AddActionToButton(AptitudeEntry.transform, "", () =>
-                        {
-                            UnityTraitScreen.ShowWindow(referencedStats, () => InstantiateOrGetDupeModWindow(parent, referencedStats, hide), currentGroup: a, DupeTraitManager: DupeTraitMng);
-                        });
-                        UIUtils.AddSimpleTooltipToObject(AptitudeEntry.transform, ModAssets.GetSkillgroupDescription(a, referencedStats), true, onBottom: true);
-                        AptitudeEntry.GetComponent<KButton>().enabled = true;
-                        ApplyDefaultStyle(AptitudeEntry.GetComponent<KImage>());
-                        UIUtils.TryChangeText(AptitudeEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, GetSkillGroupName(a), FirstSkillGroupStat(a), DupeTraitMng.GetBonusValue(a)));
-
-                        AptitudeEntry.transform.Find("RemoveButton").gameObject.SetActive(ModConfig.Instance.AddAndRemoveTraitsAndInterests);
-                        UIUtils.AddActionToButton(AptitudeEntry.transform, "RemoveButton", () =>
-                        {
-                            DupeTraitMng.RemoveInterest(a);
-                            InstantiateOrGetDupeModWindow(parent, referencedStats, hide);
-                        }
-                        );
-
-                        AptitudeEntry.transform.Find("InterestDOWN").gameObject.SetActive(true);
-                        UIUtils.AddActionToButton(AptitudeEntry.transform, "InterestDOWN", () =>
-                        {
-                            DupeTraitMng.ReduceInterest(a);
-                            InstantiateOrGetDupeModWindow(parent, referencedStats, hide);
-                        });
-                        AptitudeEntry.transform.Find("InterestUP").gameObject.SetActive(true);
-                        UIUtils.AddActionToButton(AptitudeEntry.transform, "InterestUP", () =>
-                        {
-                            DupeTraitMng.IncreaseInterest(a);
-                            InstantiateOrGetDupeModWindow(parent, referencedStats, hide);
-                        });
-
-                    }
-                    ///EndAptitudes
-
-                    var spacer3 = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
-                    UIUtils.TryChangeText(spacer3.transform, "", global::STRINGS.UI.CHARACTERCONTAINER_TRAITS_TITLE);
-                    //Db.Get().traits.TryGet();
-                    spacer3.transform.Find("AddButton").gameObject.SetActive(ModConfig.Instance.AddAndRemoveTraitsAndInterests);
-                    UIUtils.AddActionToButton(spacer3.transform, "AddButton", () =>
-                    {
-                        UnityTraitScreen.ShowWindow(referencedStats, () => InstantiateOrGetDupeModWindow(parent, referencedStats, hide), DupeTraitManager: DupeTraitMng, openedFrom: UnityTraitScreen.OpenedFrom.Trait);
-                    });
-
-
-                    var TraitsToSort = new List<Tuple<GameObject, DupeTraitManager.NextType>>();
-
-
-                    foreach (Trait v in referencedStats.Traits)
-                    {
-                        if (v.Id == MinionConfig.MINION_BASE_TRAIT_ID)
-                            continue;
-                        var traitEntry = Util.KInstantiateUI(prefabParent, ContentContainer.gameObject, true);
-
-                        UIUtils.AddSimpleTooltipToObject(traitEntry.transform, ModAssets.GetTraitTooltip(v, v.Id), true, onBottom: true);
-                        var type = ModAssets.GetTraitListOfTrait(v.Id, out var list);
-
-                        TraitsToSort.Add(new Tuple<GameObject, DupeTraitManager.NextType>(traitEntry, type));
-
-                        ApplyTraitStyleByKey(traitEntry.GetComponent<KImage>(), type);
-                        var thisOnesInterest = GetTraitStatBonusTooltip(v, false);
-                        if (thisOnesInterest != string.Empty)
-                        {
-                            InterestBonusTooltip += "\n" + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, v.Name, thisOnesInterest);
-                        }
-
-                        traitEntry.GetComponent<KButton>().enabled = true;
-                        UIUtils.AddActionToButton(traitEntry.transform, "", () =>
-                        {
-                            UnityTraitScreen.ShowWindow(referencedStats, () => InstantiateOrGetDupeModWindow(parent, referencedStats, hide), currentTrait: v);
-                        });
-
-                        UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, v.Name));
-                        traitEntry.transform.Find("RemoveButton").gameObject.SetActive(ModConfig.Instance.AddAndRemoveTraitsAndInterests && type != NextType.undefined);
-
-                        ApplyTraitStyleByKey(traitEntry.transform.Find("RemoveButton").gameObject.GetComponent<KImage>(), type);
-
-                        UIUtils.AddActionToButton(traitEntry.transform, "RemoveButton", () =>
-                        {
-                            ModAssets.RemoveTrait(referencedStats, v);
-                            InstantiateOrGetDupeModWindow(parent, referencedStats, hide);
-                        }
-                        );
-                    }
-                    if (DupeTraitMng.ExternalModPoints != 0)
-                        InterestBonusTooltip += "\n" + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, STRINGS.UI.DUPESETTINGSSCREEN.OTHERMODORIGINNAME, UIUtils.ColorNumber(DupeTraitMng.ExternalModPoints));
-
-                    UIUtils.AddSimpleTooltipToObject(InterestPointBonus.transform, InterestBonusTooltip, true, onBottom: true);
-
-                    TraitsToSort = TraitsToSort.OrderBy(t => (int)t.second).ToList();
-                    for (int i = 0; i < TraitsToSort.Count; i++)
-                    {
-                        TraitsToSort[i].first.transform.SetAsLastSibling();
-                    }
-                    if (!ModConfig.Instance.NoJoyReactions && referencedStats.joyTrait.Id != "None")
-                    {
-                        var spacer = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
-                        UIUtils.TryChangeText(spacer.transform, "", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_JOYTRAIT, string.Empty));
-
-                        var JoyTrait = Util.KInstantiateUI(prefabParent, ContentContainer.gameObject, true);
-
-                        JoyTrait.GetComponent<KButton>().enabled = true;
-                        UIUtils.AddActionToButton(JoyTrait.transform, "", () =>
-                        {
-                            UnityTraitScreen.ShowWindow(referencedStats, () => InstantiateOrGetDupeModWindow(parent, referencedStats, hide), currentTrait: referencedStats.joyTrait);
-                        });
-
-                        ApplyTraitStyleByKey(JoyTrait.GetComponent<KImage>(), DupeTraitManager.NextType.joy);
-                        UIUtils.TryChangeText(JoyTrait.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, referencedStats.joyTrait.Name));
-                        UIUtils.AddSimpleTooltipToObject(JoyTrait.transform, ModAssets.GetTraitTooltip(referencedStats.joyTrait, referencedStats.joyTrait.Id), true, onBottom: true);
-                    }
-
-                    if (!ModConfig.Instance.NoStressReactions && referencedStats.stressTrait.Id != "None")
-                    {
-                        var spacerStress = Util.KInstantiateUI(spacerParent, ContentContainer.gameObject, true);
-                        UIUtils.TryChangeText(spacerStress.transform, "", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_STRESSTRAIT, string.Empty))
-                            ;
-                        var StressTrait = Util.KInstantiateUI(prefabParent, ContentContainer.gameObject, true);
-                        StressTrait.GetComponent<KButton>().enabled = true;
-                        UIUtils.AddActionToButton(StressTrait.transform, "", () =>
-                        {
-                            UnityTraitScreen.ShowWindow(referencedStats, () => InstantiateOrGetDupeModWindow(parent, referencedStats, hide), currentTrait: referencedStats.stressTrait);
-                        });
-
-                        ApplyTraitStyleByKey(StressTrait.GetComponent<KImage>(), DupeTraitManager.NextType.stress);
-
-                        UIUtils.AddSimpleTooltipToObject(StressTrait.transform, ModAssets.GetTraitTooltip(referencedStats.stressTrait, referencedStats.stressTrait.Id), true, onBottom: true);
-                        UIUtils.TryChangeText(StressTrait.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, referencedStats.stressTrait.Name));
-                    }
-                }
-
-                ParentContainer.gameObject.SetActive(!hide);
-
+                __state.SetReferenceStats(___stats);
             }
-            static string GetSkillGroupName(SkillGroup Group) => ModAssets.GetChoreGroupNameForSkillgroup(Group);
-            static string FirstSkillGroupStat(SkillGroup Group) => Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + Group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME");
-
 
         }
 

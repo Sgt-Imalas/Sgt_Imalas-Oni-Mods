@@ -31,6 +31,9 @@ using static STRINGS.UI.DETAILTABS.PERSONALITY.RESUME;
 
 namespace SetStartDupes
 {
+    /// <summary>
+    /// copied from trait screen, responsible for selecting a reroll trait 
+    /// </summary>
     internal class UnityTraitRerollingScreen : FScreen
     {
 #pragma warning disable IDE0051 // Remove unused private members
@@ -245,7 +248,7 @@ namespace SetStartDupes
                 var TraitsOfCategory = ModAssets.TryGetTraitsOfCategory(type);
                 foreach (var item in TraitsOfCategory)
                 {
-                    if (item.dlcId == "" || item.dlcId == DlcManager.GetHighestActiveDlcId())
+                    if(ModAssets.TraitAllowedInCurrentDLC(item))
                         AddUIContainer(traitsDb.TryGet(item.id), type);
                 }
             }

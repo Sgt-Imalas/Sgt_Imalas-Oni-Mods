@@ -267,11 +267,13 @@ namespace SetStartDupes
             }
             public class DUPESETTINGSSCREEN
             {
-                public static LocString APTITUDEENTRY = "{0}, ({1} +{2})";
+                public static LocString APTITUDEENTRY = "{0} ({1} +{2})";
+                public static LocString APTITUDEENTRY2 = "{0}\n({1} +{2})";
                 public static LocString TRAIT = "{0}";
                 public static LocString TRAITBONUSPOINTS = "Interest Bonus:";
 
                 public static LocString TRAITBONUSPOOL = "Interest points to spend:";
+                public static LocString CONFIGBALANCINGDISABLED = "ModConfig - Balancing Disabled";
                 public static LocString OTHERMODORIGINNAME = "Mysterious Origin (other mods)";
                 public static LocString TRAITBONUSPOOLTOOLTIP = "This Duplicant has {0} total interest bonus points\nThese come from the following trait boni:";
 

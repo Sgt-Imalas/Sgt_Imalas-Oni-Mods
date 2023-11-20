@@ -1,1 +1,4 @@
-﻿- fixed cryopod dupes getting multiple stress/overjoyed reactions until reload
+﻿- fixed some patches causing translations in certain screens to fail (note that quite a few other mods also might cause this to break)
+- if adding more than 3 interests, the interest box on the main dupe screen now expands in height instead of cutting the additional interest off
+- if interest points balancing is disabled, the point count will now display an infinity symbol
+- 

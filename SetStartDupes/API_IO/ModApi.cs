@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HarmonyLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,7 +40,7 @@ namespace SetStartDupes
         /// </summary>
         /// <param name="nameStringKey"></param>
         /// <param name="voiceIdxOverride"></param>
-        public static void AddingCustomVoiceIdx (string nameStringKey, int voiceIdxOverride)
+        public static void AddingCustomVoiceIdx(string nameStringKey, int voiceIdxOverride)
         {
             if(!VoiceIdxOverrides.ContainsKey(nameStringKey)) 
             {

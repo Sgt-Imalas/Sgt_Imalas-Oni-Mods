@@ -1,6 +1,8 @@
-﻿using Database;
+﻿using Beached_ModAPI;
+using Database;
 using Epic.OnlineServices;
 using Klei.AI;
+using Microsoft.Build.Utilities;
 using STRINGS;
 using System;
 using System.Collections;
@@ -97,10 +99,10 @@ namespace SetStartDupes
         ///Assuming the component added by the Trait has the same class name as the trait, which is the case for all klei traits.
         public static void PurgingTraitComponentIfExists(string id, GameObject minionToRemoveFrom)
         {
-            if(minionToRemoveFrom.TryGetComponent<StateMachineController>(out StateMachineController ctrl))
+            if (minionToRemoveFrom.TryGetComponent<StateMachineController>(out StateMachineController ctrl))
             {
-                var traitSMIs = ctrl.stateMachines.FindAll(smi=>smi.stateMachine.GetType().Name == id);
-                foreach ( var traitSMI in traitSMIs)
+                var traitSMIs = ctrl.stateMachines.FindAll(smi => smi.stateMachine.GetType().Name == id);
+                foreach (var traitSMI in traitSMIs)
                 {
                     SgtLogger.l("Trait SMI Found, purging... " + id);
                     traitSMI.StopSM("purged by DSS");
@@ -130,7 +132,7 @@ namespace SetStartDupes
             {
                 var OldPersonality = Db.Get().Personalities.GetPersonalityFromNameStringKey(IdentityHolder.nameStringKey);
 
-                if(IdentityHolder.name==OldPersonality.Name)
+                if (IdentityHolder.name == OldPersonality.Name)
                 {
                     IdentityHolder.SetName(Skin.Name);
                 }
@@ -251,6 +253,9 @@ namespace SetStartDupes
             stats.voiceIdx = ModApi.GetVoiceIdxOverrideForPersonality(personality.nameStringKey);
         }
 
+        public static bool BeachedActive = false;
+
+
         public static int MinimumPointsPerInterest(MinionStartingStats stats, SkillGroup checkForMultiplesOf = null)
         {
             int SkillAmount = 0;
@@ -269,7 +274,7 @@ namespace SetStartDupes
                     {
                         if (skillGroupCount.ContainsKey(atb.Id))
                         {
-                            skillGroupCount[atb.Id] = skillGroupCount[atb.Id]+1;
+                            skillGroupCount[atb.Id] = skillGroupCount[atb.Id] + 1;
                         }
                         else
                         {
@@ -285,9 +290,9 @@ namespace SetStartDupes
             {
                 foreach (var attribute in checkForMultiplesOf.relevantAttributes)
                 {
-                    if (skillGroupCount.ContainsKey(attribute.Id) && skillGroupCount[attribute.Id] > 1 )
+                    if (skillGroupCount.ContainsKey(attribute.Id) && skillGroupCount[attribute.Id] > 1)
                     {
-                        return PointsPerInterests(SkillAmount)* skillGroupCount[attribute.Id];
+                        return PointsPerInterests(SkillAmount) * skillGroupCount[attribute.Id];
                     }
                 }
             }
@@ -337,27 +342,7 @@ namespace SetStartDupes
             return targetPoints;
         }
 
-        public static void RedoStatpointBonus(MinionStartingStats stats, Trait trait, bool isAdding = false)
-        {
-            ModAssets.GetTraitListOfTrait(trait.Id, out var list);
 
-            if (list == null)
-                return;
-
-            var traitBonusHolder = list.Find(traitTo => traitTo.id == trait.Id);
-
-            if (traitBonusHolder.statBonus == 0)
-                return;
-
-            if (DupeTraitManagers.ContainsKey(stats))
-            {
-                if (DupeTraitManagers[stats].CalculateAdditionalSkillPointsTrueIfChanged())
-                {
-                    DupeTraitManagers[stats].RecalculateSkillPoints();
-                    DupeTraitManagers[stats].ResetPool();
-                }
-            }
-        }
         public static string GetTraitName(Trait trait)
         {
             if (trait == null)
@@ -440,30 +425,22 @@ namespace SetStartDupes
 
         public static bool TraitAllowedInCurrentDLC(string traitId)
         {
+
+
             if (traitId == MinionConfig.MINION_BASE_TRAIT_ID)
                 return true;
 
-            var traitStats = DUPLICANTSTATS.GetTraitVal(traitId);
-            if (traitStats.id == DUPLICANTSTATS.INVALID_TRAIT_VAL.id)
+            GetTraitListOfTrait(traitId, out var traitList);
+            var trait = traitList.Find(x => x.id == traitId);
+            return TraitAllowedInCurrentDLC(trait);
+
+        }
+        public static bool TraitAllowedInCurrentDLC(DUPLICANTSTATS.TraitVal trait)
+        {
+            if (trait.id == DUPLICANTSTATS.INVALID_TRAIT_VAL.id)
                 return false;
 
-            return traitStats.dlcId == "" || traitStats.dlcId == DlcManager.GetHighestActiveDlcId();
-        }
-
-
-        public static void RemoveTrait(MinionStartingStats stats, Trait trait)
-        {
-            if (stats.Traits.Contains(trait))
-            {
-                stats.Traits.Remove(trait);
-                RedoStatpointBonus(stats, trait, false);
-            }
-
-        }
-        public static void AddTrait(MinionStartingStats stats, Trait trait)
-        {
-            stats.Traits.Add(trait);
-            RedoStatpointBonus(stats, trait, true);
+            return trait.dlcId == null || trait.dlcId == "" || trait.dlcId == DlcManager.GetHighestActiveDlcId();
         }
 
 
@@ -483,8 +460,42 @@ namespace SetStartDupes
             ///Color.Lerp(originalColor, Color.white, .5f); To lighten by 50% 
         }
 
+        public static List<DUPLICANTSTATS.TraitVal> BEACHED_LIFEGOALS = new List<DUPLICANTSTATS.TraitVal>();
+        public static void InitBeached()
+        {
+            SgtLogger.l("Beached Found, initializing...");
+            ModAssets.BeachedActive = Beached_API.IsUsingLifeGoals.Invoke();
+            SgtLogger.l(Beached_API.IsUsingLifeGoals.Invoke().ToString(), "Using Lifegoals");
+            
+            
+            List<string> Beached_LifegoalTraitsIds = Beached_API.GetPossibleLifegoalTraits.Invoke(null, true);
+            var db = Db.Get().traits;
+
+            foreach(var traitID in Beached_LifegoalTraitsIds)
+            {
+                var beachedTrait = db.TryGet(traitID);
+                if (beachedTrait != null)
+                {
+                    var val = new DUPLICANTSTATS.TraitVal()
+                    {
+                        id = traitID,
+                        dlcId = DlcManager.VANILLA_ID,
+                    };
+                    BEACHED_LIFEGOALS.Add(val);
+                }
+                else
+                    SgtLogger.warning(traitID, "Trait was null");
+            }
+
+        }
+
+
         private static Dictionary<NextType, List<DUPLICANTSTATS.TraitVal>> TraitsByType = new Dictionary<NextType, List<DUPLICANTSTATS.TraitVal>>()
         {
+            {
+                NextType.Beached_LifeGoal,
+                BEACHED_LIFEGOALS
+            },
             {
                 NextType.geneShufflerTrait,
                 DUPLICANTSTATS.GENESHUFFLERTRAITS
@@ -531,68 +542,36 @@ namespace SetStartDupes
             }
             else
             {
-                //if (traitsForCost == null || !ModConfig.Instance.BalanceAddRemove)
-                if (true)
+
+                if (DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive)
                 {
-                    if (DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive)
-                    {
-                        return TraitsByType[NextType.special].Concat(TraitsByType[NextType.geneShufflerTrait]).Concat(TraitsByType[NextType.posTrait]).Concat(TraitsByType[NextType.needTrait]).Concat(TraitsByType[NextType.negTrait]).ToList();
-                    }
-                    else
-                    {
-                        return TraitsByType[NextType.posTrait].Concat(TraitsByType[NextType.needTrait]).Concat(TraitsByType[NextType.negTrait]).ToList();
-                    }
+                    return TraitsByType[NextType.special].Concat(TraitsByType[NextType.geneShufflerTrait]).Concat(TraitsByType[NextType.posTrait]).Concat(TraitsByType[NextType.needTrait]).Concat(TraitsByType[NextType.negTrait]).ToList();
                 }
                 else
                 {
-                    float negative = 0, positive = 0;
-                    foreach (var trait in traitsForCost)
-                    {
-                        switch (GetTraitListOfTrait(trait.Id, out var traitVals))
-                        {
-
-                            case NextType.posTrait:
-                                positive += 1;
-                                break;
-                            case NextType.negTrait:
-                                negative += 1;
-                                break;
-                            case NextType.needTrait:
-                                negative += 1f / 3f;
-                                break;
-                            case NextType.geneShufflerTrait:
-                                positive += 2.5f;
-                                break;
-                        }
-                    }
-                    var Allowed = new List<DUPLICANTSTATS.TraitVal>();
-
-                    if (positive - negative < -3.2f)
-                    {
-                        Allowed.AddRange(TraitsByType[NextType.geneShufflerTrait]);
-                    }
-
-                    if (positive - negative < 2f)
-                    {
-                        Allowed.AddRange(TraitsByType[NextType.posTrait]);
-                    }
-                    if (positive - negative > -3f)
-                    {
-                        Allowed.AddRange(TraitsByType[NextType.needTrait]);
-                    }
-                    if (positive - negative > -5f)
-                    {
-                        Allowed.AddRange(TraitsByType[NextType.negTrait]);
-                    }
-                    return Allowed;
+                    return TraitsByType[NextType.posTrait].Concat(TraitsByType[NextType.needTrait]).Concat(TraitsByType[NextType.negTrait]).ToList();
                 }
-
             }
 
+        }
+        static Dictionary<Trait, NextType> NextTypesPerTrait = new();
+        public static NextType GetTraitListOfTrait(Trait trait)
+        {
+            if (!NextTypesPerTrait.ContainsKey(trait))
+            {
+                var type = GetTraitListOfTrait(trait.Id, out _);
+                NextTypesPerTrait.Add(trait, type);
+            }
+            return NextTypesPerTrait[trait];
         }
 
         public static NextType GetTraitListOfTrait(string traitId, out List<DUPLICANTSTATS.TraitVal> TraitList)
         {
+            if(BEACHED_LIFEGOALS.FindIndex(t => t.id == traitId) != -1)
+            {
+                TraitList = BEACHED_LIFEGOALS;
+                return NextType.Beached_LifeGoal;
+            }
             if (DUPLICANTSTATS.GENESHUFFLERTRAITS.FindIndex(t => t.id == traitId) != -1)
             {
                 TraitList = DUPLICANTSTATS.GENESHUFFLERTRAITS;
@@ -642,6 +621,7 @@ namespace SetStartDupes
                     colorToPaint = Colors.red;
                     break;
                 case DupeTraitManager.NextType.needTrait:
+                case DupeTraitManager.NextType.Beached_LifeGoal:
                     colorToPaint = Colors.gold;
                     break;
                 case DupeTraitManager.NextType.geneShufflerTrait:
@@ -675,26 +655,6 @@ namespace SetStartDupes
             ColorStyle.hoverColor = new Color(0.30f, 0.30f, 0.40f);
             ColorStyle.activeColor = new Color(0.35f, 0.35f, 0.45f);
             ColorStyle.disabledColor = new Color(0.35f, 0.35f, 0.45f);
-            img.colorStyleSetting = ColorStyle;
-            img.ApplyColorStyleSetting();
-        }
-        public static void ApplyGoodTraitStyle(KImage img)
-        {
-            var ColorStyle = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
-            ColorStyle.inactiveColor = UIUtils.rgb(68, 135, 85);
-            ColorStyle.hoverColor = UIUtils.rgb(87, 173, 109);
-            ColorStyle.activeColor = UIUtils.rgb(106, 211, 133);
-            ColorStyle.disabledColor = UIUtils.rgb(106, 211, 133);
-            img.colorStyleSetting = ColorStyle;
-            img.ApplyColorStyleSetting();
-        }
-        public static void ApplyBadTraitStyle(KImage img)
-        {
-            var ColorStyle = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
-            ColorStyle.inactiveColor = UIUtils.rgb(140, 36, 41);
-            ColorStyle.hoverColor = UIUtils.rgb(178, 45, 52);
-            ColorStyle.activeColor = UIUtils.rgb(216, 54, 63);
-            ColorStyle.disabledColor = UIUtils.rgb(216, 54, 63);
             img.colorStyleSetting = ColorStyle;
             img.ApplyColorStyleSetting();
         }
