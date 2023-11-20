@@ -17,6 +17,7 @@ using static Database.MonumentPartResource;
 using static KInputController;
 using static STRINGS.DUPLICANTS;
 using static STRINGS.DUPLICANTS.CHORES;
+using static STRINGS.UI.DETAILTABS;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace SetStartDupes
@@ -113,7 +114,7 @@ namespace SetStartDupes
             LifeGoalContainer = Util.KInstantiateUI(TraitContainer, TraitContainer.transform.parent.gameObject, ModAssets.BeachedActive);
             LifeGoalContainer.name = "LifeGoalContainer";
             UIUtils.TryChangeText(LifeGoalContainer.transform, "Title", string.Format(Strings.Get("STRINGS.UI.CHARACTERCONTAINER_LIFEGOAL_TRAIT"), string.Empty));
-
+            StressContainer.SetActive(ModAssets.BeachedActive); 
             if (InterestContainer.transform.gameObject.TryGetComponent<LayoutElement>(out LayoutElement layoutElement))
             {
                 layoutElement.preferredHeight = -1;
@@ -605,7 +606,19 @@ namespace SetStartDupes
             ExternalModBonusPointCalculation();
             CalculateAdditionalSkillPoints();
             RebuildUI();
+        
         }
+
+        void Beached_RecalculateLifeGoal()
+        {
+            if(ToEditMinionStats == null || ModAssets.BeachedActive)
+            {
+                Trait currentGoal = Beached_API.GetCurrentLifeGoal(ToEditMinionStats);
+                Beached_API.RemoveLifeGoal(ToEditMinionStats);
+                Beached_API.SetLifeGoal(ToEditMinionStats, currentGoal, false);
+            }
+        }
+
 
         public void CalculateAdditionalSkillPoints() => CalculateAdditionalSkillPointsTrueIfChanged();
 
@@ -833,7 +846,10 @@ namespace SetStartDupes
             }
 
             if (rebalanceAfter)
+            {
                 RecalculateSkillPoints();
+                Beached_RecalculateLifeGoal();
+            }
 
             if (removedPoints == 0)
                 removedPoints++;
@@ -876,7 +892,10 @@ namespace SetStartDupes
                 }
             }
             if (rebalanceAfter)
+            {
                 RecalculateSkillPoints();
+                Beached_RecalculateLifeGoal();
+            }
             ResetPool();
 
             AddInterestUI(interest);

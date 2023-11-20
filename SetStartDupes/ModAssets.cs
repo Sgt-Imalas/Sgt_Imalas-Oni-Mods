@@ -151,8 +151,8 @@ namespace SetStartDupes
 
                 foreach (Trait trait in traits.TraitList)
                 {
-                    var traitType = GetTraitListOfTrait(trait.Id, out _);
-                    if (traitType == NextType.joy || traitType == NextType.stress)
+                    var traitType = GetTraitListOfTrait(trait);
+                    if (traitType == NextType.joy || traitType == NextType.stress )
                     {
                         traitsToRemove.Add(trait);
                     }
@@ -243,6 +243,12 @@ namespace SetStartDupes
                 {
                     stats.joyTrait = Db.Get().traits.TryGet(personality.joyTrait);
                 }
+                if (ModAssets.BeachedActive)
+                {
+                    Beached_API.RemoveLifeGoal(stats);
+                    Beached_API.SetLifeGoal(stats, Beached_API.GetLifeGoalFromPersonality(personality), false);
+                }
+
             }
 
             //stats.congenitaltrait = Db.Get().traits.TryGet(personality.congenitaltrait);

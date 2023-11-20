@@ -1,4 +1,5 @@
-﻿using Database;
+﻿using Beached_ModAPI;
+using Database;
 using Klei.AI;
 using Newtonsoft.Json;
 using System;
@@ -68,6 +69,7 @@ namespace SetStartDupes
             this.joyTrait = joyTrait.Id;
             StartingLevels = startingLevels;
             this.skillAptitudes = skillAptitudes.Select(kvp => new KeyValuePair<string, float>(kvp.Key.Id, kvp.Value)).ToList();
+
         }
         public MinionStatConfig() { }
         public MinionStatConfig(string fileName, string configName, List<string> traits, string stressTrait, string joyTrait, List<KeyValuePair<string, int>> startingLevels, List<KeyValuePair<string, float>> skillAptitudes)
@@ -90,7 +92,7 @@ namespace SetStartDupes
                 return BitConverter.ToString(data).Replace("-", "").Substring(0, 6);
             }
         }
-
+        
 
         public static MinionStatConfig CreateFromStartingStats(MinionStartingStats startingStats)
         {
@@ -109,6 +111,10 @@ namespace SetStartDupes
                 startingStats.joyTrait,
                 startingStats.StartingLevels.ToList(),
                 startingStats.skillAptitudes.ToList());
+
+            if (ModAssets.BeachedActive)
+                config.Traits.Add(Beached_API.GetCurrentLifeGoal(startingStats).Id);
+
             return config;
         }
         public void ApplyPreset(MinionStartingStats referencedStats)
@@ -124,6 +130,14 @@ namespace SetStartDupes
             foreach(var traitID in this.Traits)
             {
                 var Trait = traitRef.TryGet(traitID);
+
+                if (ModAssets.GetTraitListOfTrait(Trait) == DupeTraitManager.NextType.Beached_LifeGoal)
+                {
+                    Beached_API.RemoveLifeGoal(referencedStats);
+                    Beached_API.SetLifeGoal(referencedStats, Trait,false);
+                    continue;
+                }
+
                 if (Trait != null && ModAssets.TraitAllowedInCurrentDLC(traitID))
                 {
                     referencedStats.Traits.Add(Trait);

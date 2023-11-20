@@ -246,7 +246,7 @@ namespace SetStartDupes
                 if (type != NextType.posTrait && type!=NextType.negTrait) continue;
 
                 var TraitsOfCategory = ModAssets.TryGetTraitsOfCategory(type);
-                foreach (var item in TraitsOfCategory)
+                foreach (DUPLICANTSTATS.TraitVal item in TraitsOfCategory)
                 {
                     if(ModAssets.TraitAllowedInCurrentDLC(item))
                         AddUIContainer(traitsDb.TryGet(item.id), type);

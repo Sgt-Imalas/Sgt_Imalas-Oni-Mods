@@ -64,6 +64,8 @@ namespace SetStartDupes
 
             SgtLogger.l(Selected.GetName(), "Personality selected");
             //CurrentContainer.OnNameChanged(Selected.GetName());
+
+            ///if changing minionstartingstats
             if (EditableIdentity != null)
             {
                 SgtLogger.l("Editing Starting Stat Dupe");
@@ -78,6 +80,7 @@ namespace SetStartDupes
                 SgtLogger.warning("minionStartingStats was null!");
             }
 
+            ///if changing minionstartingstats
             if (CurrentContainer != null)
             {
                 if (CurrentContainer.animController != null)
@@ -97,6 +100,7 @@ namespace SetStartDupes
                 SgtLogger.warning("current container was null!");
             }
 
+            ///if changing live dupe
             if (EditingSkinOnExistingDupeGO != null)
             {
                 ModAssets.ApplySkinToExistingDuplicant(Selected.GetPersonality(), EditingSkinOnExistingDupeGO);
