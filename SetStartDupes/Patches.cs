@@ -1385,19 +1385,21 @@ namespace SetStartDupes
 
 
 
-            public static void Prefix(CharacterContainer __instance, MinionStartingStats ___stats, bool is_starter, ref DupeTraitManager __state)
-            {
-                __state = __instance.transform.Find("ModifyDupeStats").gameObject.GetComponent<DupeTraitManager>();
+            //public static void Prefix(CharacterContainer __instance, MinionStartingStats ___stats, bool is_starter, ref DupeTraitManager __state)
+            //{
+            //    __state = __instance.transform.Find("ModifyDupeStats").gameObject.GetComponent<DupeTraitManager>();
 
-            }
-            public static void Postfix(CharacterContainer __instance, MinionStartingStats ___stats, bool is_starter, DupeTraitManager __state)
+            //}
+            [HarmonyPriority (Priority.Low)]
+            public static void Postfix(CharacterContainer __instance, MinionStartingStats ___stats)
             {
-                if (__state == null)
+                var mng = __instance.transform.Find("ModifyDupeStats").gameObject.GetComponent<DupeTraitManager>();
+                if(mng != null)
                 {
-                    SgtLogger.warning("dupe mng was null!");
-                    return;
+                    mng.SetReferenceStats(___stats);
                 }
-                __state.SetReferenceStats(___stats);
+                else
+                    SgtLogger.warning("dupe mng was null!");
             }
 
         }

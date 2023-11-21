@@ -436,7 +436,8 @@ namespace SetStartDupes
                 UI_TraitEntries[trait] = traitEntry;
 
                 var textLabel = traitEntry.transform.Find("Label").GetComponent<LocText>();
-                textLabel.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 26, LE.preferredWidth-25);
+                if(type != NextType.undefined)
+                    textLabel.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 26, LE.preferredWidth-25);
             }
             UpdateTraitSorting();
 
@@ -452,14 +453,13 @@ namespace SetStartDupes
 
             ModAssets.ApplyTraitStyleByKey(traitEntry.GetComponent<KImage>(), type);
 
-            traitEntry.GetComponent<KButton>().enabled = true;
+            traitEntry.GetComponent<KButton>().enabled = type != NextType.undefined;
             UIUtils.AddActionToButton(traitEntry.transform, "", () =>
             {
                 UnityTraitScreen.ShowWindow(ToEditMinionStats,
                     () => UpdateUI(),
                      DupeTraitManager: this,
                     currentTrait: trait);
-
             });
 
             UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, trait.Name));

@@ -176,15 +176,19 @@ namespace UtilLibs
             toDisable.gameObject.SetActive(false);
             return true;
         }
-        public static bool FindAndDestroy(Transform parent, string name)
+        public static bool FindAndDestroy(Transform parent, string name, bool force = false)
         {
 #if DEBUG
-            //Debug.Log("Disabling " + name);
+            Debug.Log("Destroying " + name);
 #endif
             var toDisable = parent.Find(name);
             if (toDisable == null)
+            {
+                SgtLogger.warning("Failure to delete " + name + " in " + parent.ToString());
                 return false;
-            UnityEngine.Object.Destroy(toDisable.gameObject);
+            }
+            if (force)            UnityEngine.Object.DestroyImmediate(toDisable.gameObject);
+            else UnityEngine.Object.Destroy(toDisable.gameObject);
             return true;
         }
 
@@ -358,10 +362,13 @@ namespace UtilLibs
 
         public static string ColorNumber(float number, bool invert = false)
         {
+            if (invert)
+                return ColorNumber(number * -1);
+
             if (number > 0)
-                return ColorText(number.ToString(), invert ? number_red : number_green);
+                return ColorText(number.ToString(), number_green);
             else if (number < 0)
-                return ColorText(number.ToString(), !invert ? number_red : number_green);
+                return ColorText(number.ToString(),number_red);
 
             return number.ToString();
         }
