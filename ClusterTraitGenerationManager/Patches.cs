@@ -1174,25 +1174,25 @@ namespace ClusterTraitGenerationManager
             {
                 if (!CGSMClusterManager.LoadCustomCluster)
                     return;
-                if ((target != "OverworldDensityMin") && (target != "OverworldDensityMax") && (target != "OverworldAvoidRadius"))
+                if ((target != "OverworldDensityMin") && (target != "OverworldDensityMax") && (target != "OverworldAvoidRadius")&& (target != "OverworldMinNodes") && (target != "OverworldMaxNodes")) 
                     return;
                 __result = GetMultipliedSizeFloat(__result, __instance);
             }
         }
-        //[HarmonyPatch(typeof(WorldGenSettings))]
-        //[HarmonyPatch(nameof(WorldGenSettings.GetIntSetting))]
-        //public static class WorldGenSettings_GetIntSetting_Patch
-        //{
-        //    private static void Postfix(WorldGenSettings __instance, string target, ref int __result)
-        //    {
-        //        if (!CGSMClusterManager.LoadCustomCluster)
-        //            return;
-        //        if ((target != "OverworldDensityMin") && (target != "OverworldDensityMax") && (target != "OverworldAvoidRadius"))// && (target != "OverworldMaxNodes") && (target != "OverworldMaxNodes"))
-        //            return;
+        [HarmonyPatch(typeof(WorldGenSettings))]
+        [HarmonyPatch(nameof(WorldGenSettings.GetIntSetting))]
+        public static class WorldGenSettings_GetIntSetting_Patch
+        {
+            private static void Postfix(WorldGenSettings __instance, string target, ref int __result)
+            {
+                if (!CGSMClusterManager.LoadCustomCluster)
+                    return;
+                if ((target != "OverworldDensityMin") && (target != "OverworldDensityMax") && (target != "OverworldAvoidRadius")  && (target != "OverworldMinNodes") && (target != "OverworldMaxNodes"))
+                    return;
 
-        //        __result = GetMultipliedSizeInt(__result, __instance);
-        //    }
-        //}
+                __result = GetMultipliedSizeInt(__result, __instance);
+            }
+        }
 
 
         [HarmonyPatch(typeof(Border))]
@@ -1358,8 +1358,8 @@ namespace ClusterTraitGenerationManager
                     if (CGSMClusterManager.CustomCluster.HasStarmapItem(settings.world.filePath, out var item) && !Mathf.Approximately(item.CurrentSizeMultiplier, 1))
                     {
                         float SizeModifier = item.CurrentSizeMultiplier;
-                        if (SizeModifier < 1)
-                            SizeModifier = (1 + SizeModifier) / 2;
+                       // if (SizeModifier < 1)
+                        //   SizeModifier = (1 + SizeModifier) / 2;
                         ///Geyser Penalty needs a better implementation...
 
                         foreach (var WorldTemplateRule in settings.world.worldTemplateRules)
