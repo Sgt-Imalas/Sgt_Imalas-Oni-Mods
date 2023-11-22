@@ -410,15 +410,18 @@ namespace ClusterTraitGenerationManager
             public void RemoveVanillaPoi(Tuple<string, int> item) => RemoveVanillaPoi(item.first, item.second);
             public void RemoveVanillaPoi(string id, int range)
             {
+                SgtLogger.l("removing " + id + " from " + range);
                 VanillaStarmapItems[range].Remove(id);
             }
             public void AddVanillaPoi(string id, int range)
             {
+                SgtLogger.l("adding " + id + " to " + range);
                 VanillaStarmapItems[range].Add(id);
             }
 
             public void ResetVanillaStarmap()
             {
+                SgtLogger.l("Resetting vanilla starmap");
                 VanillaStarmapItems.Clear();
                 GenerateVanillaStarmapDestinations();
             }

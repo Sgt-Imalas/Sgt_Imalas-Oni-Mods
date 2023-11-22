@@ -1247,7 +1247,7 @@ namespace ClusterTraitGenerationManager
 
             foreach (var galleryGridButton in this.planetoidGridButtons)
             {
-                if (galleryGridButton.Key.category == this.SelectedCategory && CustomCluster.HasStarmapItem(galleryGridButton.Key.id, out var i))
+                if (galleryGridButton.Key.category == this.SelectedCategory && CustomCluster.HasStarmapItem(galleryGridButton.Key.id, out _))
                 {
                     this.SelectItem(galleryGridButton.Key);
                     return;
