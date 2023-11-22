@@ -125,6 +125,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DontDisableBlamedMods", "Do
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DupeStations", "DupeStations\DupeStations.csproj", "{5BC93DE9-0D30-433C-97EC-4A710FD86A1E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactorMeterFix", "ReactorMeterFix\ReactorMeterFix.csproj", "{AF7DB29E-78BC-480B-87AB-9C6E62C3A9CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -359,6 +361,10 @@ Global
 		{5BC93DE9-0D30-433C-97EC-4A710FD86A1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BC93DE9-0D30-433C-97EC-4A710FD86A1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BC93DE9-0D30-433C-97EC-4A710FD86A1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF7DB29E-78BC-480B-87AB-9C6E62C3A9CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF7DB29E-78BC-480B-87AB-9C6E62C3A9CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF7DB29E-78BC-480B-87AB-9C6E62C3A9CF}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF7DB29E-78BC-480B-87AB-9C6E62C3A9CF}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
