@@ -181,7 +181,7 @@ namespace SaveGameModLoader
                     var go = displayedMod.rect_transform.gameObject;
                     var btn = Util.KInstantiateUI(FilterPatches._buttonPrefab, go, true);
                     btn.transform.SetSiblingIndex(4);
-                    var img = btn.transform.Find("GameObject").GetComponent<Image>();
+                    btn.transform.Find("GameObject").TryGetComponent<Image>(out var img);
                     HandleListEntry(displayedMod, mod.label.defaultStaticID, btn, img);
 
                     if (btn.TryGetComponent<KButton>(out var button))
@@ -191,17 +191,6 @@ namespace SaveGameModLoader
                         {
                             MPM_Config.Instance.TogglePinnedMod(mod.label.defaultStaticID);
                             __instance.RebuildDisplay("pinned mod changed");
-                            //if (__instance.entryParent.TryGetComponent(out VirtualScroll vs))
-                            //{
-                            //    vs.OnBuild();
-                            //    SgtLogger.l("Rebuilding Virt. Scroll");
-                            //    HandleListEntry(displayedMod, mod.label.defaultStaticID, btn, img);
-
-                            //    vs.Rebuild();
-                            //    __instance.RebuildDisplay("pinned mod changed");
-                            //}
-                            //else
-                            //    HandleListEntry(displayedMod, mod.label.defaultStaticID, btn, img);
                         };
                     }
                 }
@@ -214,9 +203,12 @@ namespace SaveGameModLoader
             static void HandleListEntry(DisplayedMod mod, string id, GameObject btn, Image img )
             {
                 bool isPinned = MPM_Config.Instance.ModPinned(id);
-                //OnHoverReveal ohr = mod.rect_transform.gameObject.AddOrGet<OnHoverReveal>();
-                //ohr.Target = btn;
+
+                //OnHoverReveal ohr = mod.rect_transform.gameObject.AddComponent<OnHoverReveal>();
                 //ohr.ShouldToggle = !isPinned;
+                //if (btn.TryGetComponent<Image>(out var btnImg))
+                //    ohr.Images.Add(btnImg);
+                //ohr.Images.Add(img);
 
                 img.color = isPinned ? Color.red : Color.white;
                 if (isPinned)
@@ -240,7 +232,8 @@ namespace SaveGameModLoader
                         }
                     }
                 }
-                btn.SetActive(isPinned);
+
+                //;
             }
         }
 

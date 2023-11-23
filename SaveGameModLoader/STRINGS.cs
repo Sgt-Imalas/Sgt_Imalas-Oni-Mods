@@ -7,6 +7,34 @@ namespace SaveGameModLoader
         {
             public class FRONTEND
             {
+                public class FILTERSTRINGS
+                {
+                    public static LocString HIDE_INCOMPATIBLE = "Hide Incompatibles";
+                    public static LocString UNHIDE_INCOMPATIBLE = "Unhide Incompatibles";
+                    public static LocString HIDE_INCOMPATIBLE_TOOLTIP = "Hide or unhide mods that are not compatible with the current Dlc.";
+
+                    public static LocString HIDE_LOCAL = "Hide local Mods";
+                    public static LocString UNHIDE_LOCAL = "Unhide local Mods";
+                    public static LocString HIDE_LOCAL_TOOLTIP = "Hide or unhide local mods.";
+
+
+                    public static LocString HIDE_PLATFORM = "Hide Steam Mods";
+                    public static LocString UNHIDE_PLATFORM = "Unhide Steam Mods";
+                    public static LocString HIDE_PLATFORM_TOOLTIP = "Hide or unhide steam mods.";
+
+                    public static LocString HIDE_ACTIVE = "Hide active Mods";
+                    public static LocString UNHIDE_ACTIVE = "Unhide active Mods";
+                    public static LocString HIDE_ACTIVE_TOOLTIP = "Hide or unhide active mods.";
+
+                    public static LocString HIDE_INACTIVE = "Hide inactive Mods";
+                    public static LocString UNHIDE_INACTIVE = "Unhide inactive Mods";
+                    public static LocString HIDE_INACTIVE_TOOLTIP = "Hide or unhide inactive mods.";
+
+                    public static LocString HIDE_PINS = "Hide pinned Mods";
+                    public static LocString UNHIDE_PINS = "Unhide pinned Mods";
+                    public static LocString HIDE_PINS_TOOLTIP = "Hide or unhide pinned mods.";
+                }
+
                 public class MODSYNCING
                 {
                     public static LocString CONTINUEANDSYNC = "SYNC AND RESUME";

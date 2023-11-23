@@ -11,21 +11,40 @@ namespace SaveGameModLoader
     public class MPM_Config
     {
         [JsonIgnore]
+        private static MPM_Config _instance;
+        [JsonIgnore]
         public static MPM_Config Instance
         {
             get
             {
-                if(IO_Util.ReadFromFile<MPM_Config>(ModAssets.ConfigPath, out var config))
+                if(_instance == null)
                 {
-                    return config;
+                    if (IO_Util.ReadFromFile<MPM_Config>(ModAssets.ConfigPath, out var config))
+                    {
+                        _instance = config;
+                    }
+                    else
+                    {
+                        _instance = new MPM_Config();
+                    }
                 }
-                else
-                {
-                    return new MPM_Config();
-                }
+                return _instance;
             }
         }
 
+        public bool hideLocal, hidePlatform, hideIncompatible, hideInactive, hideActive, hidePins ;
+
+
+        public void ToggleAll(bool state = true)
+        {
+            hideLocal = state;
+            hidePlatform = state;
+            hideIncompatible = state;
+            hideInactive = state;
+            hideActive = state;
+            hidePins = state;
+        }
+        
         public HashSet<string> PinnedMods = new HashSet<string>();
 
         public bool ModPinned(string id) => PinnedMods.Contains(id);

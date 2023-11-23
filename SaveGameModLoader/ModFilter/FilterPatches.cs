@@ -58,6 +58,7 @@ namespace SaveGameModLoader.ModFilter
             }
         }
 
+        [HarmonyPriority (Priority.Low)]
         [HarmonyPatch(typeof(ModsScreen), "ShouldDisplayMod")]
         public static class ModsScreen_ShouldDisplayMod_Patch
         {
@@ -67,6 +68,11 @@ namespace SaveGameModLoader.ModFilter
                 {
                     __result = ModlistManager.Instance.ModIsNotInSync(mod);
                 }
+
+                if (__result && MPM_Config.Instance.hidePins)
+                    __result = !MPM_Config.Instance.PinnedMods.Contains(mod.label.defaultStaticID);
+
+
                 if (__result && _filterManager != null)
                 {
                     var text = _filterManager.Text;
@@ -79,6 +85,20 @@ namespace SaveGameModLoader.ModFilter
                                    ) >= 0;
                     }
                 }
+                if (__result && MPM_Config.Instance.hideLocal)
+                    __result = !mod.IsLocal && !mod.IsDev;
+
+                if (__result && MPM_Config.Instance.hidePlatform)
+                    __result = mod.IsLocal || mod.IsDev;
+
+                if (__result && MPM_Config.Instance.hideIncompatible)
+                    __result = mod.contentCompatability == ModContentCompatability.OK;
+
+                if (__result && MPM_Config.Instance.hideActive)
+                    __result = !mod.IsActive();
+
+                if (__result && MPM_Config.Instance.hideInactive)
+                    __result = mod.IsActive();
             }
         }
 
@@ -157,12 +177,7 @@ namespace SaveGameModLoader.ModFilter
 
                 UnityEngine.Object.Destroy(filterButtons.transform.Find("ToggleAllButton").gameObject);
                 UnityEngine.Object.Destroy(filterButtons.transform.Find("WorkshopButton").gameObject);
-                var buttonPrefab = filterButtons.transform.Find("CloseButton").gameObject;
-                buttonPrefab.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100);
-
-                UIUtils.TryChangeText(buttonPrefab.transform, "Text", "Hide Incompatible");
-
-
+                filterButtons.AddOrGet<FilterButtons>().Init(()=>__instance.RebuildDisplay(null));
 
 
 
