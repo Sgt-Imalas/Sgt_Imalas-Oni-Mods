@@ -24,6 +24,7 @@ namespace SaveGameModLoader.ModFilter
         [HarmonyPatch(typeof(MainMenu), "OnPrefabInit")]
         public static class MainMenuSearchBarInit
         {
+            [HarmonyPriority(Priority.LowerThanNormal)] 
             public static void Postfix()
             {
                 var prefabGo = ScreenPrefabs.Instance.RetiredColonyInfoScreen.gameObject;
@@ -43,18 +44,32 @@ namespace SaveGameModLoader.ModFilter
                             bgImage.sprite = Assets.GetSprite(SpritePatch.pinSymbol);
                             bgImage.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25);
                             bgImage.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 25);
+
+
+                            UnityEngine.Object.Destroy(_buttonPrefab.GetComponent<Image>());
                             UnityEngine.Object.Destroy(_buttonPrefab.GetComponent<ToolTip>());
+
+
                         }
 
                         UnityEngine.Object.Destroy(clone);
                         prefabGo.SetActive(true);
-
-                        return;
                     }
                 }
-
                 // ERROR!
-                Debug.Log("[ModProfileManager] Error creating search prefab!  The searchbar will not function!");
+                else
+                    Debug.Log("[ModProfileManager] Error creating search prefab!  The searchbar will not function!");
+
+
+
+                //var options = Util.KInstantiateUI<OptionsMenuScreen>(ScreenPrefabs.Instance.OptionsScreen.gameObject);
+                //SgtLogger.Assert("options", options);
+                //var soundClone = Util.KInstantiateUI<GraphicsOptionsScreen>(options.graphicsOptionsScreenPrefab.gameObject);
+                //SgtLogger.Assert("soundClone", soundClone);
+                //_dropDownPrefab = Util.KInstantiateUI(soundClone.resolutionDropdown.transform.parent.gameObject);
+                //SgtLogger.Assert("_dropDownPrefab", _dropDownPrefab);
+                //UnityEngine.Object.Destroy(options.gameObject);
+                //UnityEngine.Object.Destroy(soundClone.gameObject);
             }
         }
 
@@ -86,7 +101,10 @@ namespace SaveGameModLoader.ModFilter
                     }
                 }
                 if (__result && MPM_Config.Instance.hideLocal)
-                    __result = !mod.IsLocal && !mod.IsDev;
+                    __result = !mod.IsLocal;
+
+                if (__result && MPM_Config.Instance.hideDev)
+                    __result = !mod.IsDev;
 
                 if (__result && MPM_Config.Instance.hidePlatform)
                     __result = mod.IsLocal || mod.IsDev;
@@ -108,6 +126,7 @@ namespace SaveGameModLoader.ModFilter
         public static GameObject _prefab;
         public static FilterManager _filterManager;
         public static ModsScreen _modsScreen;
+        //public static GameObject _dropDownPrefab;
         public static class ModsScreen_OnActivate_SearchBar_Patch
         {
             public static void ExecutePatch(Harmony harmony)
@@ -133,6 +152,27 @@ namespace SaveGameModLoader.ModFilter
                     trans.SetParent(panel, false);
                     trans.SetSiblingIndex(1);
                     local.SetActive(true);
+                    local.GetComponent<HorizontalLayoutGroup>().spacing = 3;
+                    var LA = local.GetComponent<LayoutElement>();
+                    LA.minHeight = 42;
+                    LA.preferredHeight = 42;
+                    
+                    //side padding
+                    var leftPadding = Util.KInstantiateUI(trans.Find("ClearButton/GameObject").gameObject, local, true);
+                    var rightPadding = Util.KInstantiateUI(trans.Find("ClearButton/GameObject").gameObject, local, true);
+                    UnityEngine.Object.Destroy(leftPadding.GetComponent<Image>());
+                    UnityEngine.Object.Destroy(rightPadding.GetComponent<Image>());
+                    leftPadding.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 4);
+                    rightPadding.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, 4);
+
+                    leftPadding.transform.SetAsFirstSibling();
+                    rightPadding.transform.SetAsLastSibling();
+
+                    //del img
+                    var symbolTr = trans.Find("ClearButton/GameObject");
+                    symbolTr.GetComponent<Image>().sprite = Assets.GetSprite(SpritePatch.delSymbol);
+                    symbolTr.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 28);
+                    symbolTr.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 28);
 
                     _filterManager = new FilterManager(
                         trans.Find("LocTextInputField").GetComponent<TMP_InputField>(),
@@ -163,17 +203,12 @@ namespace SaveGameModLoader.ModFilter
                 var panel = __instance.transform.Find("Panel");
                 var buttons = panel.Find("DetailsView");
 
-                UIUtils.ListAllChildren(__instance.transform);
-
                 var filterButtons = Util.KInstantiateUI(buttons.gameObject);
                 filterButtons.name = "FilterButtons";
-                UIUtils.ListAllChildrenWithComponents(filterButtons.transform);
                 var LE = filterButtons.GetComponent<LayoutElement>();
                 LE.preferredHeight = 30;
 
-                UtilMethods.ListAllPropertyValues(LE);
                 HorizontalLayoutGroup HLG = filterButtons.GetComponent<HorizontalLayoutGroup>();
-                UtilMethods.ListAllPropertyValues(HLG);
 
                 UnityEngine.Object.Destroy(filterButtons.transform.Find("ToggleAllButton").gameObject);
                 UnityEngine.Object.Destroy(filterButtons.transform.Find("WorkshopButton").gameObject);
@@ -189,7 +224,33 @@ namespace SaveGameModLoader.ModFilter
                 filterButtons.SetActive(true);
             }
         }
+        //[HarmonyPatch(typeof(UnityEngine.UI.Dropdown), nameof(Dropdown.Show))]
+        //public static class Dropdown_Show_Patch
+        //{
+        //    public static string TargetName = "ModProfileManager_Dropdown";
 
+        //    public static void Postfix(Dropdown __instance)
+        //    {
+        //        SgtLogger.l("DROPDOWN PATCH 1");
+        //        if (__instance.gameObject.name != TargetName)
+        //            return;
+
+        //        SgtLogger.l("DROPDOWN PATCH 2");
+        //        //if (!__instance.IsActive() || !__instance.IsInteractable() || __instance.m_Dropdown != null)
+        //        //{
+        //        //    return;
+        //        //}
+
+        //        if (__instance.m_Items != null && __instance.m_Items.Count> 0)
+        //        {
+        //            foreach( var item in __instance.m_Items)
+        //            {
+        //                item.toggle.isOn = true;
+        //            }
+        //        }
+        //        SgtLogger.l("DROPDOWN PATCH 3");
+        //    }
+        //}
 
         [HarmonyPatch(typeof(ModsScreen), "OnDeactivate")]
         public static class ModsScreen_OnDeactivate_Patch

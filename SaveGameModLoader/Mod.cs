@@ -3,6 +3,7 @@ using Klei;
 using KMod;
 using SaveGameModLoader.FastTrack_VirtualScroll;
 using SaveGameModLoader.ModFilter;
+using SaveGameModLoader.Patches;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -102,6 +103,8 @@ namespace SaveGameModLoader
             SgtLogger.log("Retrieving Modlists");
             ModlistManager.Instance.GetAllStoredModlists();
             ModlistManager.Instance.GetAllModPacks();
+
+            ModAssets.ReadOrRegisterBrowserSetting();
             base.OnLoad(harmony);
             SgtLogger.LogVersion(this);
         }
@@ -110,7 +113,7 @@ namespace SaveGameModLoader
             base.OnAllModsLoaded(harmony, mods);
 
 
-            ModAssets.SecureLog(harmony);
+            UnpatchCrashing.SecureLog(harmony);
 
             harmony.UnpatchAll("Ony.OxygenNotIncluded.DebugConsole");
             harmony.UnpatchAll("OxygenNotIncluded.DebugConsole");
@@ -139,7 +142,6 @@ namespace SaveGameModLoader
                 SgtLogger.l("Mod Filter not active, executing virtual scroll patches");
                 FilterPatches.ModsScreen_OnActivate_SearchBar_Patch.ExecutePatch(harmony);
             }
-
 
             ModsScreen_BuildDisplay_Patch_Pin_Button.ExecutePatch(harmony);
             CompatibilityNotifications.FlagLoggingPrevention(mods);

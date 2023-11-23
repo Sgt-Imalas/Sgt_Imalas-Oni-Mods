@@ -63,7 +63,9 @@
       <PubliciseInputAssemblies
 			   Include="
 				$(GameLibsFolder)/Assembly-CSharp.dll;
-				$(GameLibsFolder)/Assembly-CSharp-firstpass.dll"/>
+				$(GameLibsFolder)/Assembly-CSharp-firstpass.dll;
+        $(GameLibsFolder)/UnityEngine.UI.dll;
+         "/>
     </ItemGroup>
 
     <Publicise

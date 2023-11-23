@@ -61,6 +61,9 @@
 
 	
 	<ItemGroup>
+	  <None Update="ModAssets\assets\MPM_DEL.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\assets\MPM_Pin.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>

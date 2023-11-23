@@ -77,11 +77,11 @@ namespace SaveGameModLoader
             var csf = UIUtils.TryFindComponent<VerticalLayoutGroup>(SpacerParent.transform);
 
 
-            var local = Util.KInstantiateUI(FilterPatches._prefab);
+            var local = Util.KInstantiateUI(FilterPatches._prefab, SpacerParent,true);
 
             var trans = local.transform;
-            trans.SetParent(SpacerParent.transform, false);
-            local.SetActive(true);
+            //trans.SetParent(SpacerParent.transform, false);
+            //local.SetActive(true);
             _search = trans.Find("LocTextInputField").GetComponent<TMP_InputField>();
             _clearSearchButton = trans.Find("ClearButton").GetComponent<KButton>();
             ConfigureButtons();

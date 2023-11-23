@@ -11,6 +11,7 @@ namespace SaveGameModLoader.Patches
     internal class SpritePatch
     {
         public static string pinSymbol = "MPM_Pin";
+        public static string delSymbol = "MPM_DEL";
 
 
         [HarmonyPatch(typeof(Assets), "OnPrefabInit")]
@@ -19,6 +20,7 @@ namespace SaveGameModLoader.Patches
             public static void Prefix(Assets __instance)
             {
                 InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.pinSymbol);
+                InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.delSymbol);
             }
         }
     }

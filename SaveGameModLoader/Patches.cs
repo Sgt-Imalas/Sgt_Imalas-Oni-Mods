@@ -34,6 +34,8 @@ using SaveGameModLoader.ModsFilter;
 using TMPro;
 using SaveGameModLoader.ModFilter;
 using System.Globalization;
+using static MotdBox_ImageButtonLayoutElement;
+using Steamworks;
 
 namespace SaveGameModLoader
 {
@@ -164,25 +166,53 @@ namespace SaveGameModLoader
             {
                 var m_TargetMethod = AccessTools.Method("ModsScreen, Assembly-CSharp:BuildDisplay");
                 var m_Postfix = AccessTools.Method(typeof(ModsScreen_BuildDisplay_Patch_Pin_Button), "Postfix");
-                harmony.Patch(m_TargetMethod, null, new HarmonyMethod(m_Postfix, 601), null);
+                harmony.Patch(m_TargetMethod, null, new HarmonyMethod(m_Postfix, Priority.LowerThanNormal), null);
             }
 
 
+            static ColorStyleSetting blue = null;
             public static Dictionary<RectTransform, int> OriginalOrder = new Dictionary<RectTransform, int>();
             /// <summary>
             /// Applied after BuildDisplay runs.
             /// </summary>
+            /// 
+
+
+
             internal static void Postfix(ModsScreen __instance, KButton ___closeButton, List<DisplayedMod> ___displayedMods)
             {
                 OriginalOrder.Clear();
                 foreach (DisplayedMod displayedMod in ___displayedMods)
                 {
+
+
+                    if (blue == null) {
+
+                        displayedMod.rect_transform.Find("ManageButton").TryGetComponent<KImage>(out var mngButtonImage);
+                        var defaultStyle = mngButtonImage.colorStyleSetting;
+                        blue = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
+                        blue.inactiveColor = UIUtils.HSVShift(defaultStyle.inactiveColor,70f);
+                        blue.activeColor = UIUtils.HSVShift(defaultStyle.activeColor, 70f);
+                        blue.disabledColor = UIUtils.HSVShift(defaultStyle.disabledColor, 70f);
+                        blue.hoverColor = UIUtils.HSVShift(defaultStyle.hoverColor,70f);
+                    }
                     var mod = Global.Instance.modManager.mods[displayedMod.mod_index];
                     var go = displayedMod.rect_transform.gameObject;
+                    var transf = go.transform;
+
+                    if (mod.IsLocal)
+                    {
+                        displayedMod.rect_transform.Find("ManageButton").TryGetComponent<KImage>(out var mngButtonImage);
+                        mngButtonImage.colorStyleSetting = blue;
+                        mngButtonImage.ApplyColorStyleSetting();
+                    }
+
                     var btn = Util.KInstantiateUI(FilterPatches._buttonPrefab, go, true);
-                    btn.transform.SetSiblingIndex(4);
-                    btn.transform.Find("GameObject").TryGetComponent<Image>(out var img);
-                    HandleListEntry(displayedMod, mod.label.defaultStaticID, btn, img);
+                    var tr = btn.transform;
+                    tr.SetSiblingIndex(2);
+                    tr.Find("GameObject").TryGetComponent<Image>(out var img);
+                    transf.Find("BG").TryGetComponent<Image>(out var bgImg);
+                    HandleListEntry(displayedMod, mod.label.defaultStaticID, btn, img, bgImg);
 
                     if (btn.TryGetComponent<KButton>(out var button))
                     {
@@ -194,13 +224,16 @@ namespace SaveGameModLoader
                         };
                     }
                 }
+                if (FilterButtons.Instance != null)
+                    FilterButtons.Instance.RefreshUIState(false);
             }
             static async Task DoWithDelay(System.Action task, int ms)
             {
                 await Task.Delay(ms);
                 task.Invoke();
             }
-            static void HandleListEntry(DisplayedMod mod, string id, GameObject btn, Image img )
+            static Color normal = UIUtils.rgb(62, 67, 87), pinnedBg = UIUtils.Darken(normal,15), pinnedActive = UIUtils.Lighten(Color.red,50),pinnedInactive = Color.grey;
+            static void HandleListEntry(DisplayedMod mod, string id, GameObject btn, Image img , Image BgImg)
             {
                 bool isPinned = MPM_Config.Instance.ModPinned(id);
 
@@ -209,8 +242,8 @@ namespace SaveGameModLoader
                 //if (btn.TryGetComponent<Image>(out var btnImg))
                 //    ohr.Images.Add(btnImg);
                 //ohr.Images.Add(img);
-
-                img.color = isPinned ? Color.red : Color.white;
+                BgImg.color = isPinned ? pinnedBg : normal;
+                img.color = isPinned ? pinnedActive : pinnedInactive;
                 if (isPinned)
                 {
                     if (!OriginalOrder.ContainsKey(mod.rect_transform))
@@ -388,7 +421,22 @@ namespace SaveGameModLoader
             }
         }
 
+        [HarmonyPatch(typeof(Steam), nameof(Steam.MakeMod))]
+        public static class Steam_MakeMod
+        {
+            public static void Postfix(KMod.Mod __result)
+            {
+                SgtLogger.l(__result.staticID, "madeSteamMod");
 
+                __result.on_managed =  () => {
+
+                    if (UseSteamOverlay && SteamUtils.IsOverlayEnabled() )
+                        SteamFriends.ActivateGameOverlayToWebPage("https://steamcommunity.com/sharedfiles/filedetails/?id=" + __result.label.id);
+                    else
+                        App.OpenWebURL("https://steamcommunity.com/sharedfiles/filedetails/?id=" + __result.label.id);
+                };
+            }
+        }
 
 
         [HarmonyPatch(typeof(ModsScreen), "Exit")]
@@ -407,6 +455,15 @@ namespace SaveGameModLoader
 
             public static void Postfix(ModsScreen __instance)
             {
+
+                __instance.workshopButton.ClearOnClick();
+                __instance.workshopButton.onClick += ()=> {
+
+                    if(UseSteamOverlay && SteamUtils.IsOverlayEnabled())
+                        SteamFriends.ActivateGameOverlayToWebPage("http://steamcommunity.com/workshop/browse/?appid=457140");
+                    else
+                        App.OpenWebURL("http://steamcommunity.com/workshop/browse/?appid=457140");
+                };
                 ///Add Modlist Button
                 var workShopButton = __instance.transform.Find("Panel/DetailsView/WorkshopButton");
                 var DetailsView = __instance.transform.Find("Panel/DetailsView").gameObject;

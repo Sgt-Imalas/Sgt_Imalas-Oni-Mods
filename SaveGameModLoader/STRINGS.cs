@@ -9,9 +9,35 @@ namespace SaveGameModLoader
             {
                 public class FILTERSTRINGS
                 {
+                    public class DROPDOWN
+                    {
+                        public static LocString SHOW = "Show: {0}";
+                        public static LocString ALL = "All";
+                        public static LocString NONE = "None";
+
+
+                        public static LocString STATE_LABEL = "State Filters:"; //active, inactive, incompatible //, pinned
+                        public static LocString PLATFORM_LABEL = "Platform Filters:"; //steam, local , dev
+
+
+                        public static LocString LOCAL = "Local";
+                        public static LocString STEAM = "Steam";
+                        public static LocString DEV = "Dev";
+
+                        public static LocString INCOMPATIBLE = "Incompatibles";
+                        public static LocString ACTIVE = "Active";
+                        public static LocString INACTIVE = "Inactive";
+                       // public static LocString PINNED = "Pinned";
+                    }
+
+
                     public static LocString HIDE_INCOMPATIBLE = "Hide Incompatibles";
                     public static LocString UNHIDE_INCOMPATIBLE = "Unhide Incompatibles";
-                    public static LocString HIDE_INCOMPATIBLE_TOOLTIP = "Hide or unhide mods that are not compatible with the current Dlc.";
+                    public static LocString HIDE_INCOMPATIBLE_TOOLTIP = "Hide or unhide mods that are not compatible\nwith the current version of the game (DLC/BaseGame).";
+
+                    public static LocString HIDE_DEV = "Hide Dev\nMods";
+                    public static LocString UNHIDE_DEV = "Unhide Dev Mods";
+                    public static LocString HIDE_DEV_TOOLTIP = "Hide or unhide dev mods.";
 
                     public static LocString HIDE_LOCAL = "Hide local Mods";
                     public static LocString UNHIDE_LOCAL = "Unhide local Mods";

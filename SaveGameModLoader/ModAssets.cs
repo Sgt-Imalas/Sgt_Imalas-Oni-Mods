@@ -22,42 +22,24 @@ namespace SaveGameModLoader
         public static bool FastTrackActive = false;
         public static bool ModsFilterActive = false;
 
-        internal static void SecureLog(Harmony harmony)
+
+        public static bool UseSteamOverlay;
+
+        public enum BrowserChoice
         {
-            foreach (MethodBase original in Harmony.GetAllPatchedMethods().ToList())
-            {
-                bool num = original.HasMethodBody();
-                var patchInfo2 = Harmony.GetPatchInfo(original);
-                if (num)
-                {
-                    patchInfo2.Postfixes.DoIf(IDCheck, delegate (Patch patchInfo)
-                    {
-                        harmony.Unpatch(original, patchInfo.PatchMethod);
-                    });
-                    patchInfo2.Prefixes.DoIf(IDCheck, delegate (Patch patchInfo)
-                    {
-                        harmony.Unpatch(original, patchInfo.PatchMethod);
-                    });
-                }
+            undefined = 0,
+            web = 1,
+            steamOverlay = 2,
+        }
 
-                patchInfo2.Transpilers.DoIf(IDCheck, delegate (Patch patchInfo)
-                {
-                    harmony.Unpatch(original, patchInfo.PatchMethod);
-                });
-                if (num)
-                {
-                    patchInfo2.Finalizers.DoIf(IDCheck, delegate (Patch patchInfo)
-                    {
-                        harmony.Unpatch(original, patchInfo.PatchMethod);
-                    });
-                }
-            }
-
-            bool IDCheck(Patch patchInfo)
+        public static string RegistryKey = "Workshop_Browser_Choice";
+        public static void ReadOrRegisterBrowserSetting()
+        {
+            if (KPlayerPrefs.GetInt(RegistryKey) == (int)BrowserChoice.undefined) //nothing valid set;
             {
-                SgtLogger.l(patchInfo.owner);
-                return patchInfo.owner.ToLowerInvariant().Contains("debugconsole") || patchInfo.owner.ToLowerInvariant()==("modmanager");
+                KPlayerPrefs.SetInt(RegistryKey, (int)BrowserChoice.steamOverlay);
             }
+            UseSteamOverlay = KPlayerPrefs.GetInt(RegistryKey) == (int)BrowserChoice.steamOverlay;
         }
     }
 }

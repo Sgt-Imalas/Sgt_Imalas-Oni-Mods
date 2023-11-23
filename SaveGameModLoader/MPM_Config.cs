@@ -32,11 +32,12 @@ namespace SaveGameModLoader
             }
         }
 
-        public bool hideLocal, hidePlatform, hideIncompatible, hideInactive, hideActive, hidePins ;
+        public bool hideLocal, hideDev, hidePlatform, hideIncompatible, hideInactive, hideActive, hidePins ;
 
 
         public void ToggleAll(bool state = true)
         {
+            hideDev = state;
             hideLocal = state;
             hidePlatform = state;
             hideIncompatible = state;
@@ -45,6 +46,7 @@ namespace SaveGameModLoader
             hidePins = state;
         }
         
+        public bool HasPinned => PinnedMods.Count > 0;
         public HashSet<string> PinnedMods = new HashSet<string>();
 
         public bool ModPinned(string id) => PinnedMods.Contains(id);
