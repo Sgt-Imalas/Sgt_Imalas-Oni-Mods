@@ -23,7 +23,6 @@ namespace BawoonFwiend
         private GameObject ToggleManualDeliveryButton;
         private GameObject flipButton;
         private Dictionary<BalloonSkinByIndex, MultiToggle> buttons = new Dictionary<BalloonSkinByIndex, MultiToggle>();
-        //private Dictionary<SpaceStationWithStats, MultiToggle> buttons = new Dictionary<SpaceStationWithStats, MultiToggle>();
 
         public Bawoongiver TargetBalloonStand;
         Image RandomButtonImage;
@@ -34,32 +33,24 @@ namespace BawoonFwiend
         public override void OnSpawn()
         {
             base.OnSpawn();
-            // the monument screen used here has 2 extra buttons that are not needed, disabling them
-            //flipButton.SetActive(false);
-            //PlaceStationButton.SetActive(false);
-            //UIUtils.TryChangeText(PlaceStationButton.transform, "Label", "MakeOrBreakSpaceStation");
+           
             RandomButtonImage = flipButton.transform.Find("FG").GetComponent<Image>();
-            //UIUtils.ListAllChildren(this.transform, PreAmblel:"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") ;
 
             if (PlaceStationButton.TryGetComponent<KImage>(out var sourceBtn) && flipButton.TryGetComponent<KImage>(out var targetButton))
             {
                 targetButton.colorStyleSetting = (sourceBtn.colorStyleSetting);
                 targetButton.ApplyColorStyleSetting();
             }
-
             
             UIUtils.AddActionToButton(ToggleManualDeliveryButton.transform, "", () => { TargetBalloonStand.ToggleManualDelivery(); RefreshButtons(); });
             UIUtils.AddActionToButton(PlaceStationButton.transform, "", () => { TargetBalloonStand.ToggleAll(); RefreshButtons(); });
             UIUtils.AddActionToButton(flipButton.transform, "", () => { TargetBalloonStand.ToggleFullyRandom(); RefreshButtons(); });
-            //Game.Instance.Subscribe((int)GameHashes.ResearchComplete, RefreshAll);
-            //Game.Instance.Subscribe((int)GameHashes.ToggleSandbox, RefreshAll);
         }
 
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
             InitLinks();
-            //UIUtils.ListAllChildren(this.transform)
             RefreshStrings();
 
         }
@@ -141,8 +132,7 @@ namespace BawoonFwiend
                 : STRINGS.UI.UISIDESCREENS.BF_BALLOONSTAND.ENABLEMANUALDELIVERYTOOLTIP);
         }
 
-        // Creates clickable card buttons for all the lamp types + a randomizer button
-
+        // Creates clickable card buttons for all the balloon skin types
         private void GenerateStateButtons()
         {
             ClearButtons();
@@ -158,6 +148,9 @@ namespace BawoonFwiend
             }
         }
 
+        /// <summary>
+        /// Refresh activation states of buttons
+        /// </summary>
         void RefreshButtons()
         {
             TargetBalloonStand.UpdateActives();
@@ -187,11 +180,6 @@ namespace BawoonFwiend
                 buttons.Add(BallonSkin, button);
             }
         }
-
-        //public static Sprite GetBloonUISprite(string animationID, string spriteID)
-        //{
-        //    return Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(Db.GetBuildingFacades().Get(animationID).AnimFile));
-        //}
 
         private void ClearButtons()
         {
