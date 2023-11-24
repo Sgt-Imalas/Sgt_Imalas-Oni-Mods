@@ -59,7 +59,7 @@ namespace Imalas_TwitchChaosEvents.Attachments
         float DealHealthDamage(DamagingMaterial damagingElement, float dt)
         {
             float damage = damagingElement.damagePerSecond * dt;
-            if (suitEquipper!=null && suitEquipper.IsWearingAirtightSuit())
+            if (suitEquipper != null && suitEquipper.IsWearingAirtightSuit())
             {
                 damage = damagingElement.damagePerSecondSuited * dt;
             }
@@ -87,16 +87,23 @@ namespace Imalas_TwitchChaosEvents.Attachments
 
         public DamagingMaterial DamagingElementSearch()
         {
-            if (!this.gameObject.HasTag(GameTags.Dead))
+            if (!this.gameObject.HasTag(GameTags.Dead)&& !this.gameObject.HasTag(GameTags.Robot))
             {
                 int cell = Grid.PosToCell(this.gameObject);
+                if (!Grid.IsValidCell(cell))
+                    return (DamagingMaterial)null;
+
                 Element element1 = Grid.Element[cell];
                 float mass1 = Grid.Mass[cell];
+
                 if (this.IsDamagingElement(element1.id, mass1))
                     return damagingMaterials[element1.id];
                 if (suitEquipper != null)
                 {
                     int i = Grid.CellAbove(Grid.PosToCell(this.gameObject));
+                    if (!Grid.IsValidCell(i))
+                        return (DamagingMaterial)null;
+
                     Element element2 = Grid.Element[i];
                     float mass2 = Grid.Mass[i];
                     if (this.IsDamagingElement(element2.id, mass2))

@@ -58,8 +58,8 @@ namespace SubPlanetaryTransport
             buildingDef.PermittedRotations = PermittedRotations.FlipH;
             buildingDef.InputConduitType = ConduitType.Solid;
             buildingDef.UtilityInputOffset = new CellOffset(0, 0);
-            buildingDef.OutputConduitType = ConduitType.Liquid;
-            buildingDef.UtilityOutputOffset = new CellOffset(2, 0);
+            //buildingDef.OutputConduitType = ConduitType.Liquid;
+            //buildingDef.UtilityOutputOffset = new CellOffset(2, 0);
 
 
             buildingDef.LogicInputPorts = new List<LogicPorts.Port>()
@@ -148,10 +148,7 @@ namespace SubPlanetaryTransport
         private void AddVisualizer(GameObject go)
         {
             RangeVisualizer rangeVisualizer = go.AddOrGet<RangeVisualizer>();
-            rangeVisualizer.RangeMin.x = MissileLauncher.Def.LaunchOffset.x - MissileLauncher.Def.launchRange.x;
-            rangeVisualizer.RangeMax.x = MissileLauncher.Def.LaunchOffset.x + MissileLauncher.Def.launchRange.x;
-            rangeVisualizer.RangeMin.y = MissileLauncher.Def.LaunchOffset.y;
-            rangeVisualizer.RangeMax.y = MissileLauncher.Def.LaunchOffset.y + MissileLauncher.Def.launchRange.y;
+            rangeVisualizer.OriginOffset = new Vector2I(2, 2);
         }
     }
 }

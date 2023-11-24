@@ -29,6 +29,16 @@ namespace MoveDupeHere
                 InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Automation, GoHereTileConfig.ID,FloorSwitchConfig.ID);
             }
         }
+        [HarmonyPatch(typeof(MorbRoverConfig), nameof(MorbRoverConfig.CreatePrefab))]
+        public class MorbRoverConfig_CreatePrefab_Patch
+        {
+            public static void Postfix(GameObject __result)
+            {
+                __result.AddOrGet<UserNameable>();
+            }
+        }
+
+
         /// <summary>
         /// Init. auto translation
         /// </summary>
