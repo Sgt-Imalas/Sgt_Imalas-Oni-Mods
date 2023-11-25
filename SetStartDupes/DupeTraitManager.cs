@@ -111,10 +111,10 @@ namespace SetStartDupes
             UIUtils.TryChangeText(StressContainer.transform, "Title", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_STRESSTRAIT, string.Empty));
             StressContainer.SetActive(!ModConfig.Instance.NoStressReactions);
 
-            LifeGoalContainer = Util.KInstantiateUI(TraitContainer, TraitContainer.transform.parent.gameObject, ModAssets.BeachedActive);
+            LifeGoalContainer = Util.KInstantiateUI(TraitContainer, TraitContainer.transform.parent.gameObject, true);
             LifeGoalContainer.name = "LifeGoalContainer";
             UIUtils.TryChangeText(LifeGoalContainer.transform, "Title", string.Format(Strings.Get("STRINGS.UI.CHARACTERCONTAINER_LIFEGOAL_TRAIT"), string.Empty));
-            StressContainer.SetActive(ModAssets.BeachedActive); 
+            LifeGoalContainer.SetActive(ModAssets.BeachedActive); 
             if (InterestContainer.transform.gameObject.TryGetComponent<LayoutElement>(out LayoutElement layoutElement))
             {
                 layoutElement.preferredHeight = -1;
