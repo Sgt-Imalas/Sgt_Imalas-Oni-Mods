@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using YamlDotNet.Core.Events;
 using static SaveGameModLoader.STRINGS.UI.FRONTEND;
 using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.EXPANSION1ACTIVE.LEVELS;
 
@@ -178,7 +179,7 @@ namespace SaveGameModLoader
         public class modsJSON
         {
             public int version = 1;
-            public List<file_Mod> mods;
+            public List<KMod.Mod> mods;
         }
 
         static string ModsFolder { get { return System.IO.Directory.GetParent(System.IO.Directory.GetParent(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)).FullName).ToString() + "\\"; } }
@@ -205,6 +206,43 @@ namespace SaveGameModLoader
                 }
             }
         }
+
+        internal bool TryParseRML(string path, out SaveGameModList list)
+        {
+            SgtLogger.l(path, "trying to parse RML file");
+            var fileInfo = new FileInfo(path);
+            list = null;
+            if (!fileInfo.Exists)
+            {
+                SgtLogger.logwarning("no valid file found.");
+                return false;
+            }
+            else
+            {
+                FileStream filestream = fileInfo.OpenRead();
+                try
+                {
+                    using (var sr = new StreamReader(filestream))
+                    {
+                        string jsonString = sr.ReadToEnd();
+                        modsJSON modlist = JsonConvert.DeserializeObject<modsJSON>(jsonString);
+
+                        var enabledModLabels = modlist.mods.FindAll(mod => mod.IsEnabledForActiveDlc()).Select(mod => mod.label).ToList();
+                        ModlistManager.Instance.CreateOrAddToModPacks(fileInfo.Name, enabledModLabels);
+                        ModlistManager.Instance.GetAllModPacks();
+                        list = ModPacks[fileInfo.Name];
+                        return true;
+                    }
+                }
+                catch (Exception ex) 
+                {
+                    SgtLogger.warning("Parsing failed!");
+                    SgtLogger.warning(ex.Message);
+                    return false;
+                }
+            }
+        }
+
 
         public void OverwriteGameMods(modsJSON modlist)
         {
@@ -278,7 +316,7 @@ namespace SaveGameModLoader
 
             for (int i = 0; i < ModFileDeserialized.mods.Count; i++)
             {
-                file_Mod mod_entry = ModFileDeserialized.mods[i];
+                var mod_entry = ModFileDeserialized.mods[i];
 
                 bool enabled = enableAll.HasValue ? enableAll.Value : ActiveModlistModIds.Contains(mod_entry.label.defaultStaticID);
 
@@ -324,12 +362,12 @@ namespace SaveGameModLoader
                 if (modToEdit == Mod.ThisMod.mod)
                     shouldBeEnabled = true;
 
-                if(shouldBeEnabled == false && dontDisableActives && isEnabled)
+                if (shouldBeEnabled == false && dontDisableActives && isEnabled)
                     shouldBeEnabled = true;
 
                 if (shouldBeEnabled != isEnabled)
                 {
-                    if(modToEdit.available_content != 0)
+                    if (modToEdit.available_content != 0)
                     {
                         modToEdit.SetEnabledForActiveDlc(shouldBeEnabled);
                         //if (shouldBeEnabled)
@@ -650,7 +688,7 @@ namespace SaveGameModLoader
 
         public bool TryGetModTitleFromStorage(string id, out string title)
         {
-            if(StoredModTitles.TryGetValue(id, out title))
+            if (StoredModTitles.TryGetValue(id, out title))
             {
                 SgtLogger.l($"Found title for id {id}: {title}");
                 return true;
@@ -658,10 +696,10 @@ namespace SaveGameModLoader
             else
             {
                 SgtLogger.warning($"couldnt find title for id {id}");
-                title = id; 
-                return false; 
+                title = id;
+                return false;
             }
-            
+
         }
 
         //internal void UpdateModDict()

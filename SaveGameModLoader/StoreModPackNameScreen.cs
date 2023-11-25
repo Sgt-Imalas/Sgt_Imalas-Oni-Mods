@@ -4,6 +4,7 @@ using PeterHan.PLib.UI;
 using Steamworks;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -61,14 +62,34 @@ namespace SaveGameModLoader
             {
                 ConfirmButton.onClick += new System.Action(this.CreateModPack);
                 ConfirmButton.onClick += new System.Action(((KScreen)this).Deactivate);
-
             }
             else
                 ConfirmButton.onClick += () =>
                 {
-                    StartModCollectionQuery();
+                    HandleLink();
                    //((KScreen)this).Deactivate();
                 };// ImportModList(2854869130);
+
+        }
+
+        void HandleLink()
+        {
+
+            string cut = textField.text;
+            if (cut.Contains("https://steamcommunity.com/sharedfiles/filedetails/?id="))
+            {
+                StartModCollectionQuery();
+            }
+            else
+            {
+                if (ModlistManager.Instance.TryParseRML(cut, out SaveGameModList list))
+                {
+                    parent.RefreshModlistView();
+                    CreatePopup(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.EXPORTCONFIRMATION, string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.EXPORTCONFIRMATIONTOOLTIP, new FileInfo(cut).Name, list.SavePoints.Last().Value.Count()));
+                }
+                else
+                    ThrowErrorPopup();
+            }
 
         }
 
