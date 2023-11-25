@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Application: Oxygen Not IncludedPOT Version: 2.0\n"
-"X-Generator: Poedit 3.4\n"
+"X-Generator: Poedit 3.4.1\n"
 
 #. ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGM.DESCRIPTION
 msgctxt "ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGM.DESCRIPTION"
@@ -693,11 +693,6 @@ msgid "Remove this season type"
 msgstr "Diesen Saison-Typ entfernen"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.METEORSEASONCYCLE.SHOWERTOOLTIP
-#, fuzzy
-#| msgctxt ""
-#| "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
-#| "CONTENT.SCROLLRECTCONTAINER.METEORSEASONCYCLE.SHOWERTOOLTIP"
-#| msgid "Meteors in this shower type:"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.METEORSEASONCYCLE.SHOWERTOOLTIP"

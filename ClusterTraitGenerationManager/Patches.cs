@@ -1218,7 +1218,8 @@ namespace ClusterTraitGenerationManager
 
                 foreach (var weightedSubworld in __result)
                 {
-                    weightedSubworld.minCount = Mathf.Max(1, GetMultipliedSizeInt(weightedSubworld.minCount, __instance));
+                    if(weightedSubworld.minCount != 0)
+                        weightedSubworld.minCount = GetMultipliedSizeInt(weightedSubworld.minCount, __instance);
                 }
             }
         }
@@ -1229,7 +1230,7 @@ namespace ClusterTraitGenerationManager
             private static void Prefix(ref bool isRunningDebugGen)
             {
                 if (CGSMClusterManager.LoadCustomCluster)
-                    isRunningDebugGen = true;
+                   isRunningDebugGen = true;
             }
         }
 
@@ -1358,6 +1359,9 @@ namespace ClusterTraitGenerationManager
                     if (CGSMClusterManager.CustomCluster.HasStarmapItem(settings.world.filePath, out var item) && !Mathf.Approximately(item.CurrentSizeMultiplier, 1))
                     {
                         float SizeModifier = item.CurrentSizeMultiplier;
+
+                        if (Mathf.Approximately(SizeModifier, 1))
+                            return;
                        // if (SizeModifier < 1)
                         //   SizeModifier = (1 + SizeModifier) / 2;
                         ///Geyser Penalty needs a better implementation...
@@ -1458,7 +1462,7 @@ namespace ClusterTraitGenerationManager
 
             public static void Postfix(string id, ref Mob __result)
             {
-                if (__result == null)
+                if (__result == null  || Mathf.Approximately(WorldSizeMultiplier,1))
                     return;
                 string str = __result.prefabName ?? __result.name;
                 if (str == null || Patches.MobSettings_GetMob_Patch.patched.Contains(str))

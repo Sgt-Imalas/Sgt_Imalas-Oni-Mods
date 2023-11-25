@@ -89,8 +89,22 @@ namespace ClusterTraitGenerationManager
             return false;
         }
 
+        private static Dictionary<string, int> _predefinedWorldCompositionOverrides;
+        public static Dictionary<string, int> PredefinedWorldCompositionOverrides
+        {
+            get
+            {
+                if (_predefinedWorldCompositionOverrides == null)
+                    InitPredefs();
+                return _predefinedWorldCompositionOverrides;
+            }
+        }
+        static void InitPredefs()
+        {
+            _predefinedWorldCompositionOverrides = new Dictionary<string, int>();
+            _predefinedWorldCompositionOverrides.Add("expansion1::worlds/MediumRadioactiveVanillaPlanetStart", (int)StartAreaType.Swamp);
 
-
+        }
 
         public const string DefaultSandstoneStartBiome = "expansion1::subworlds/sandstone/SandstoneStart";
         public const string DefaultSandstoneWarpBiome = "expansion1::subworlds/sandstone/SandstoneWarpStart";
@@ -98,6 +112,126 @@ namespace ClusterTraitGenerationManager
         public const string DefaultSwampWarpBiome = "expansion1::subworlds/swamp/SwampWarpStart";
         public const string DefaultForestStartBiome = "expansion1::subworlds/forest/med_ForestStart";
         public const string DefaultForestWarpBiome = "expansion1::subworlds/forest/ForestWarpStart";
+
+        public enum StartAreaType
+        {
+            Undefined = 0,
+            Sandstone = 1,
+            Forest = 2,
+            Swamp = 3,
+        }
+
+        static StartAreaType GetPrimaryWorldCompositionFromWorldAnnotations(ProcGen.World world, bool includeMarsh = false, bool includeBarren = false)
+        {
+            if (world.startSubworldName != null && world.startSubworldName.ToLowerInvariant().Contains("forest")
+                    || world.asteroidIcon != null && world.asteroidIcon.ToLowerInvariant().Contains("forest")
+                    || world.startSubworldName != null && world.startSubworldName.ToLowerInvariant().Contains("forest"))
+            {
+                return StartAreaType.Forest;
+            }
+
+            if (world.startSubworldName != null && world.startSubworldName.ToLowerInvariant().Contains("marsh")
+            || world.startSubworldName != null && world.startSubworldName.ToLowerInvariant().Contains("swamp")
+            || world.asteroidIcon != null && world.asteroidIcon.ToLowerInvariant().Contains("marsh")
+            || world.asteroidIcon != null && world.asteroidIcon.ToLowerInvariant().Contains(value: "swamp")
+            || world.startSubworldName != null && world.startSubworldName.ToLowerInvariant().Contains("swamp"))
+            {
+                return StartAreaType.Swamp;
+            }
+            return StartAreaType.Undefined;
+
+        }
+
+        static StartAreaType GetPrimaryWorldComposition(ProcGen.World world)
+        {
+            var type = GetPrimaryWorldCompositionFromPredefined(world);
+
+            if (type == StartAreaType.Undefined)
+                type = GetPrimaryWorldCompositionFromBiomes(world);
+            if (type == StartAreaType.Undefined)
+                type = GetPrimaryWorldCompositionFromWorldAnnotations(world);
+
+#if DEBUG
+            if (type == StartAreaType.Undefined || type == StartAreaType.Sandstone)
+                SgtLogger.l("Winning StartType: Sandstone", world.filePath + "," + Strings.Get(world.name));
+            if ( type == StartAreaType.Forest)
+                SgtLogger.l("Winning StartType: Forest", world.filePath + "," + Strings.Get(world.name));
+            if (type == StartAreaType.Swamp)
+                SgtLogger.l("Winning StartType: Swamp", world.filePath + "," + Strings.Get(world.name));
+#endif
+
+            return type;
+        }
+
+        static StartAreaType GetPrimaryWorldCompositionFromPredefined(ProcGen.World world)
+        {
+            if (PredefinedWorldCompositionOverrides.ContainsKey(world.filePath))
+            {
+                return (StartAreaType)PredefinedWorldCompositionOverrides[world.filePath];
+            }
+
+            return StartAreaType.Undefined;
+        }
+        static StartAreaType GetPrimaryWorldCompositionFromBiomes(ProcGen.World world, bool includeMarsh = false, bool includeBarren = false)
+        {
+            float swampBiomes = 0, forestBiomes = 0, sandstoneBiomes = 0;
+            if (world.subworldFiles != null && world.subworldFiles.Count > 0)
+            {
+                foreach (ProcGen.WeightedSubworldName subworld in world.subworldFiles)
+                {
+                    if (subworld.name != null)
+                    {
+                        if (subworld.name.ToLowerInvariant().Contains("forest"))
+                        {
+                            forestBiomes++;
+                            //if(subworld.minCount>1)
+                            //    forestBiomes += subworld.minCount-1;
+
+                            //if (subworld.maxCount!= int.MaxValue)
+                            //    forestBiomes += subworld.maxCount;
+
+                        }
+                        if (subworld.name.ToLowerInvariant().Contains("swamp") || (includeMarsh && subworld.name.ToLowerInvariant().Contains("marsh")))
+                        {
+                            swampBiomes++;
+                            //if (subworld.minCount > 1)
+                            //    swampBiomes += subworld.minCount - 1;
+
+                            //if (subworld.maxCount != int.MaxValue)
+                            //    swampBiomes += subworld.maxCount;
+                        }
+                        if (subworld.name.ToLowerInvariant().Contains("sandstone") || (includeBarren && subworld.name.ToLowerInvariant().Contains("barren")))
+                        {
+                            sandstoneBiomes++;
+                            //if (subworld.minCount > 1)
+                            //    sandstoneBiomes += subworld.minCount - 1;
+
+                            //if (subworld.maxCount != int.MaxValue)
+                            //    sandstoneBiomes += subworld.maxCount;
+                        }
+                    }
+                }
+            }
+            if (swampBiomes > 0 || forestBiomes > 0 || sandstoneBiomes > 0)
+            {
+#if DEBUG
+                SgtLogger.l($"SandstoneBiomes: {sandstoneBiomes}, ForestBiomes: {forestBiomes}, SwampBiomes: {swampBiomes}", world.filePath+","+Strings.Get(world.name));
+#endif
+                if (forestBiomes >= swampBiomes && forestBiomes >= sandstoneBiomes)
+                {
+                    return StartAreaType.Forest;
+                }
+                if (swampBiomes >= forestBiomes && swampBiomes >= sandstoneBiomes)
+                {
+                    return StartAreaType.Swamp;
+                }
+                if (sandstoneBiomes >= swampBiomes && sandstoneBiomes >= forestBiomes)
+                {
+                    return StartAreaType.Sandstone;
+                }
+            }
+            return StartAreaType.Undefined;
+        }
 
         public static string GetStartAreaSubworld(ProcGen.World world, bool Warp)
         {
@@ -120,76 +254,29 @@ namespace ClusterTraitGenerationManager
                         }
                     }
                 }
+                StartAreaType type;
+                type = GetPrimaryWorldComposition(world);
 
-                int swampBiomes = 0, forestBiomes = 0, sandstoneBiomes = 0;
-                if(world.subworldFiles!=null && world.subworldFiles.Count > 0)
+
+                if (type != StartAreaType.Undefined)
                 {
-                    foreach(var subworld in world.subworldFiles)
+                    switch (type)
                     {
-                        if (subworld.name != null)
-                        {
-                            if (subworld.name.ToLowerInvariant().Contains("forest"))
-                                ++forestBiomes;
-                            if (subworld.name.ToLowerInvariant().Contains("swamp")|| subworld.name.ToLowerInvariant().Contains("marsh"))
-                                ++swampBiomes;
-                            if (subworld.name.ToLowerInvariant().Contains("sandstone")|| subworld.name.ToLowerInvariant().Contains("barren"))
-                                ++sandstoneBiomes;
-                        }
+                        case StartAreaType.Swamp:
+                            return Warp ? DefaultSwampWarpBiome : DefaultSwampStartBiome;
+                        case StartAreaType.Forest:
+                            return Warp ? DefaultForestWarpBiome : DefaultForestStartBiome;
+                        case StartAreaType.Sandstone:
+                        case StartAreaType.Undefined:
+                            return Warp ? DefaultSandstoneWarpBiome : DefaultSandstoneStartBiome;
                     }
-                }
-
-                if (swampBiomes > 0 || forestBiomes > 0 || sandstoneBiomes > 0)
-                {
-#if DEBUG
-                    SgtLogger.l($"SandstoneBiomes: {sandstoneBiomes}, ForestBiomes: {forestBiomes}, SwampBiomes: {swampBiomes}");
-#endif
-                    if (sandstoneBiomes>=swampBiomes && sandstoneBiomes >= forestBiomes)
-                    {
-#if DEBUG
-                        SgtLogger.l(Warp ? "Sandstone Warp Biome" : "Sandstone Start Biome");
-#endif
-                        return Warp ? DefaultSandstoneWarpBiome : DefaultSandstoneStartBiome;
-                    }
-
-                    else if (forestBiomes >= swampBiomes && forestBiomes >= sandstoneBiomes)
-                    {
-#if DEBUG
-                        SgtLogger.l(Warp ? "Forest Warp Biome" : "Forest Start Biome");
-#endif
-                        return Warp ? DefaultForestWarpBiome : DefaultForestStartBiome;
-                    }
-                    else if (swampBiomes >= forestBiomes && swampBiomes >= sandstoneBiomes)
-                    {
-#if DEBUG
-                        SgtLogger.l(Warp ? "Swampy Warp Biome" : "Swampy Start Biome");
-#endif
-                        return Warp ? DefaultSwampWarpBiome : DefaultSwampStartBiome;
-                    }
-                }
-
-
-
-                if (world.startSubworldName != null && world.startSubworldName.ToLowerInvariant().Contains("forest") 
-                    || world.asteroidIcon != null && world.asteroidIcon.ToLowerInvariant().Contains("forest"))
-                {
-                    #if DEBUG
-                    SgtLogger.l(Warp ? "Forest Warp Biome" : "Forest Start Biome");
-#endif
-                    return Warp ? DefaultForestWarpBiome : DefaultForestStartBiome;
-                }
-
-                if (world.startSubworldName != null && world.startSubworldName.ToLowerInvariant().Contains("marsh") 
-                || world.asteroidIcon != null && world.asteroidIcon.ToLowerInvariant().Contains("marsh")
-                || world.startSubworldName != null && world.startSubworldName.ToLowerInvariant().Contains("swamp") 
-                || world.asteroidIcon != null && world.asteroidIcon.ToLowerInvariant().Contains(value: "swamp"))
-                {
-                    return Warp ? DefaultSwampWarpBiome : DefaultSwampStartBiome;
                 }
             }
             else
                 SgtLogger.warning("world was null");
 
 #if DEBUG
+            SgtLogger.l("defaulting...");
             SgtLogger.l(Warp ? "Sandstone Warp Biome" : "Sandstone Start Biome");
 #endif
             return Warp ? DefaultSandstoneWarpBiome : DefaultSandstoneStartBiome; //default
@@ -213,72 +300,21 @@ namespace ClusterTraitGenerationManager
                     }
                 }
 
-                int swampBiomes = 0, forestBiomes = 0, sandstoneBiomes = 0;
-                if (world.subworldFiles != null && world.subworldFiles.Count > 0)
+                var type = GetPrimaryWorldComposition(world);
+
+
+                if (type != StartAreaType.Undefined)
                 {
-                    foreach (var subworld in world.subworldFiles)
+                    switch(type)
                     {
-                        if (subworld.name != null)
-                        {
-                            if (subworld.name.ToLowerInvariant().Contains("forest"))
-                                ++forestBiomes;
-                            if (subworld.name.ToLowerInvariant().Contains("swamp")|| subworld.name.ToLowerInvariant().Contains("marsh"))
-                                ++swampBiomes;
-                            if (subworld.name.ToLowerInvariant().Contains("sandstone") || subworld.name.ToLowerInvariant().Contains("barren"))
-                                ++sandstoneBiomes;
-                        }
+                        case StartAreaType.Swamp:
+                            return DefaultSwampWater;
+                        case StartAreaType.Forest:  
+                            return DefaultForestWater;
+                        case StartAreaType.Sandstone:
+                        case StartAreaType.Undefined:
+                            return DefaultForestWater;
                     }
-                }
-                if (swampBiomes > 0 || forestBiomes > 0 || sandstoneBiomes > 0)
-                {
-#if DEBUG
-                    SgtLogger.l($"SandstoneBiomes: {sandstoneBiomes}, ForestBiomes: {forestBiomes}, SwampBiomes: {swampBiomes}");
-#endif
-                    if (sandstoneBiomes >= swampBiomes && sandstoneBiomes >= forestBiomes)
-                    {
-
-#if DEBUG
-                        SgtLogger.l("Sandstone Water Biome");
-#endif
-                        return DefaultSandstoneWater;
-                    }
-
-                    else if (forestBiomes >= swampBiomes && forestBiomes >= sandstoneBiomes)
-                    {
-#if DEBUG
-                        SgtLogger.l( "Forest Water Biome");
-#endif
-                        return DefaultForestWater;
-                    }
-                    else if (swampBiomes >= forestBiomes && swampBiomes >= sandstoneBiomes)
-                    {
-#if DEBUG
-                        SgtLogger.l("Swampy Water Biome");
-#endif
-
-                        return DefaultSwampWater;
-                    }
-                }
-
-
-
-                if (world.startSubworldName != null && world.startSubworldName.ToLowerInvariant().Contains("forest") 
-                    || world.asteroidIcon != null && world.asteroidIcon.ToLowerInvariant().Contains("forest"))
-                {
-#if DEBUG
-                    SgtLogger.l("Forest Water Source");
-#endif
-                    return DefaultForestWater;
-                }
-                if (world.startSubworldName != null && world.startSubworldName.ToLowerInvariant().Contains("marsh") 
-                    || world.asteroidIcon != null && world.asteroidIcon.ToLowerInvariant().Contains("marsh")
-                || world.startSubworldName != null && world.startSubworldName.ToLowerInvariant().Contains("swamp") 
-                || world.asteroidIcon != null && world.asteroidIcon.ToLowerInvariant().Contains(value: "swamp"))
-                {
-#if DEBUG
-                    SgtLogger.l("Swampy Water Source");
-#endif
-                    return DefaultSwampWater;
                 }
             }
             else
@@ -319,69 +355,22 @@ namespace ClusterTraitGenerationManager
                     }
                 }
 
-                int swampBiomes = 0, forestBiomes = 0, sandstoneBiomes = 0;
-                if (world.subworldFiles != null && world.subworldFiles.Count > 0)
+
+                var type = GetPrimaryWorldComposition(world);
+
+
+                if (type != StartAreaType.Undefined)
                 {
-                    foreach (var subworld in world.subworldFiles)
+                    switch (type)
                     {
-                        if (subworld.name != null)
-                        {
-                            if (subworld.name.ToLowerInvariant().Contains("forest"))
-                                ++forestBiomes;
-                            if (subworld.name.ToLowerInvariant().Contains("swamp"))
-                                ++swampBiomes;
-                            if (subworld.name.ToLowerInvariant().Contains("sandstone") || subworld.name.ToLowerInvariant().Contains("barren"))
-                                ++sandstoneBiomes;
-                        }
+                        case StartAreaType.Swamp:
+                            return Warp ? DefaultSwampWarpBase : DefaultSwampStartBase;
+                        case StartAreaType.Forest:
+                            return Warp ? DefaultForestWarpBase : DefaultForestStartBase;
+                        case StartAreaType.Sandstone:
+                        case StartAreaType.Undefined:
+                            return Warp ? DefaultSandstoneWarpBase : DefaultSandstoneStartBase;
                     }
-                }
-                if (swampBiomes > 0 || forestBiomes > 0 || sandstoneBiomes > 0)
-                {
-#if DEBUG
-                    SgtLogger.l($"SandstoneBiomes: {sandstoneBiomes}, ForestBiomes: {forestBiomes}, SwampBiomes: {swampBiomes}");
-#endif
-                    if (sandstoneBiomes >= swampBiomes && sandstoneBiomes >= forestBiomes)
-                    {
-#if DEBUG
-                        SgtLogger.l(Warp ? "Sandstone Warp Biome" : "Sandstone Start Biome");
-#endif
-                        return Warp ? DefaultSandstoneWarpBase : DefaultSandstoneStartBase;
-                    }
-
-                    else if (forestBiomes >= swampBiomes && forestBiomes >= sandstoneBiomes)
-                    {
-#if DEBUG
-                        SgtLogger.l(Warp ? "Forest Warp Biome" : "Forest Start Biome");
-#endif
-                        return Warp ? DefaultForestWarpBase : DefaultForestStartBase;
-                    }
-                    else if (swampBiomes >= forestBiomes && swampBiomes >= sandstoneBiomes)
-                    {
-
-#if DEBUG
-                        SgtLogger.l(Warp ? "Swampy Warp Biome" : "Swampy Start Biome");
-#endif
-                        return Warp ? DefaultSwampWarpBase : DefaultSwampStartBase;
-                    }
-                }
-
-
-
-                if (world.startSubworldName != null && world.startSubworldName.ToLowerInvariant().Contains("forest") || world.asteroidIcon != null && world.asteroidIcon.ToLowerInvariant().Contains("forest"))
-                {
-#if DEBUG
-                    SgtLogger.l(Warp ? "Forest Warp Base" : "Forest Start Base");
-#endif
-                    return !Warp ? DefaultForestStartBase : DefaultForestWarpBase;
-                }
-
-                if (world.startSubworldName != null && world.startSubworldName.ToLowerInvariant().Contains("marsh") || world.asteroidIcon != null && world.asteroidIcon.ToLowerInvariant().Contains("marsh")
-                    || world.startSubworldName != null && world.startSubworldName.ToLowerInvariant().Contains("swamp") || world.asteroidIcon != null && world.asteroidIcon.ToLowerInvariant().Contains(value: "swamp"))
-                {
-#if DEBUG
-                    SgtLogger.l(Warp ? "Swamp Warp Base" : "Swamp Start Base");
-#endif
-                    return !Warp ? DefaultSwampStartBase : DefaultSwampWarpBase;
                 }
             }
             else
@@ -390,7 +379,6 @@ namespace ClusterTraitGenerationManager
 #if DEBUG
             SgtLogger.l(Warp ? "Sandstone Warp Base" : "Sandstone Start Base");
 #endif
-            SgtLogger.l(Warp ? "Sandstone Warp Base" : "Sandstone Start Base");
             return !Warp ? DefaultSandstoneStartBase : DefaultSandstoneWarpBase; //default
         }
     }
