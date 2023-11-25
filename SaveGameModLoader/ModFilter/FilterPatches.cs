@@ -204,6 +204,10 @@ namespace SaveGameModLoader.ModFilter
                 var buttons = panel.Find("DetailsView");
 
                 var filterButtons = Util.KInstantiateUI(buttons.gameObject);
+                var trans = filterButtons.transform;
+                trans.SetParent(panel, false);
+                trans.SetSiblingIndex(1);
+
                 filterButtons.name = "FilterButtons";
                 var LE = filterButtons.GetComponent<LayoutElement>();
                 LE.preferredHeight = 30;
@@ -218,9 +222,7 @@ namespace SaveGameModLoader.ModFilter
 
                 HLG.padding = new RectOffset(2,2,2,2);
                 HLG.spacing = 3;
-                var trans = filterButtons.transform;
-                trans.SetParent(panel, false);
-                trans.SetSiblingIndex(1);
+              
                 filterButtons.SetActive(true);
             }
         }

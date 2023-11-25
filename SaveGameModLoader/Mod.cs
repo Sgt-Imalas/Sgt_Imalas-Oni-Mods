@@ -137,11 +137,15 @@ namespace SaveGameModLoader
                 ModsScreen_OnActivate_Patch.ExecutePatch(harmony);
                 ModsScreen_BuildDisplay_Patch.ExecutePatch(harmony);
             }
+            else 
+                SgtLogger.l("Fast Track active, leaving virtual scroll to that");
             if (!ModFilterActive)
             {
-                SgtLogger.l("Mod Filter not active, executing virtual scroll patches");
+                SgtLogger.l("Mod Filter not active, executing search bar patches");
                 FilterPatches.ModsScreen_OnActivate_SearchBar_Patch.ExecutePatch(harmony);
             }
+            else
+                SgtLogger.l("Mod Filter active, leaving the search bar to that");
 
             ModsScreen_BuildDisplay_Patch_Pin_Button.ExecutePatch(harmony);
             CompatibilityNotifications.FlagLoggingPrevention(mods);

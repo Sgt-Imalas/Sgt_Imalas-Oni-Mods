@@ -184,8 +184,6 @@ namespace SaveGameModLoader
                 OriginalOrder.Clear();
                 foreach (DisplayedMod displayedMod in ___displayedMods)
                 {
-
-
                     if (blue == null) {
 
                         displayedMod.rect_transform.Find("ManageButton").TryGetComponent<KImage>(out var mngButtonImage);
@@ -212,7 +210,7 @@ namespace SaveGameModLoader
                     tr.SetSiblingIndex(2);
                     tr.Find("GameObject").TryGetComponent<Image>(out var img);
                     transf.Find("BG").TryGetComponent<Image>(out var bgImg);
-                    HandleListEntry(displayedMod, mod.label.defaultStaticID, btn, img, bgImg);
+                    HandleListEntry(displayedMod, mod, btn, img, bgImg);
 
                     if (btn.TryGetComponent<KButton>(out var button))
                     {
@@ -232,18 +230,20 @@ namespace SaveGameModLoader
                 await Task.Delay(ms);
                 task.Invoke();
             }
-            static Color normal = UIUtils.rgb(62, 67, 87), pinnedBg = UIUtils.Darken(normal,15), pinnedActive = UIUtils.Lighten(Color.red,50),pinnedInactive = Color.grey;
-            static void HandleListEntry(DisplayedMod mod, string id, GameObject btn, Image img , Image BgImg)
+            static Color normal = UIUtils.rgb(62, 67, 87), pinnedBg = UIUtils.Darken(normal,15),incompatibleBg = UIUtils.rgb(26, 28, 33), pinnedActive = UIUtils.Lighten(Color.red,50),pinnedInactive = Color.grey;
+            static void HandleListEntry(DisplayedMod mod, KMod.Mod modData, GameObject btn, Image img , Image BgImg)
             {
-                bool isPinned = MPM_Config.Instance.ModPinned(id);
+                bool isPinned = MPM_Config.Instance.ModPinned(modData.label.defaultStaticID);
 
                 //OnHoverReveal ohr = mod.rect_transform.gameObject.AddComponent<OnHoverReveal>();
                 //ohr.ShouldToggle = !isPinned;
                 //if (btn.TryGetComponent<Image>(out var btnImg))
                 //    ohr.Images.Add(btnImg);
                 //ohr.Images.Add(img);
-                BgImg.color = isPinned ? pinnedBg : normal;
+                if(modData.contentCompatability == ModContentCompatability.OK)
+                    BgImg.color = isPinned ? pinnedBg : normal;
                 img.color = isPinned ? pinnedActive : pinnedInactive;
+
                 if (isPinned)
                 {
                     if (!OriginalOrder.ContainsKey(mod.rect_transform))
@@ -452,7 +452,6 @@ namespace SaveGameModLoader
         [HarmonyPatch(typeof(ModsScreen), "OnActivate")]
         public static class ModsScreen_AddModListButton
         {
-
             public static void Postfix(ModsScreen __instance)
             {
 
@@ -467,6 +466,18 @@ namespace SaveGameModLoader
                 ///Add Modlist Button
                 var workShopButton = __instance.transform.Find("Panel/DetailsView/WorkshopButton");
                 var DetailsView = __instance.transform.Find("Panel/DetailsView").gameObject;
+
+
+
+                var panel = __instance.transform.Find("Panel").rectTransform() ;
+
+                var totalWindowHeight = __instance.rectTransform().rect.height;
+                float goldenHeigh = totalWindowHeight / 1.309f;
+                float paddingSize = (totalWindowHeight - goldenHeigh) / 2f;
+                panel.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, paddingSize, goldenHeigh);
+
+
+
                 if (__instance.gameObject.name == "SYNCSCREEN")
                     return;
                 var modlistButtonGO = Util.KInstantiateUI<RectTransform>(workShopButton.gameObject, DetailsView, true);

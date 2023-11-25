@@ -34,8 +34,12 @@ namespace SaveGameModLoader.ModFilter
             Instance = this;
             var buttonPrefab = transform.Find("CloseButton").gameObject;
             buttonPrefab.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 96);
-            buttonPrefab.TryGetComponent<KImage>(out var referenceImg);
+            //buttonPrefab.TryGetComponent<KImage>(out var referenceImg);
 
+            //UIUtils.ListAllChildren(transform.parent);
+
+            ///normal styling from X button in the title bar
+            transform.parent.Find("Title/CloseButton").TryGetComponent<KImage>(out var referenceImg);
 
             var style = referenceImg.colorStyleSetting;
             normal = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
@@ -46,10 +50,10 @@ namespace SaveGameModLoader.ModFilter
 
 
             highlighted = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
-            highlighted.inactiveColor = UIUtils.Lerp(style.inactiveColor, Color.red, 33f);
-            highlighted.activeColor = UIUtils.Lerp(style.activeColor, Color.red, 33f);
-            highlighted.disabledColor = UIUtils.Lerp(style.disabledColor, Color.red, 33f);
-            highlighted.hoverColor = UIUtils.Lerp(style.hoverColor, Color.red, 33f);
+            highlighted.inactiveColor = UIUtils.Lerp(style.inactiveColor, Color.red, 40f);
+            highlighted.activeColor = UIUtils.Lerp(style.activeColor, Color.red, 40f);
+            highlighted.disabledColor = UIUtils.Lerp(style.disabledColor, Color.red, 40f);
+            highlighted.hoverColor = UIUtils.Lerp(style.hoverColor, Color.red, 40f);
 
             buttonPrefab.SetActive(false);
 
@@ -248,6 +252,19 @@ namespace SaveGameModLoader.ModFilter
             pinFiller.transform.SetSiblingIndex(3);
             RefreshModList = _refresh;
             RefreshUIState(false);
+
+
+            devFiller.name = "Dev_Spacer";
+            localFiller.name = "Local_Spacer";
+            pinFiller.name = "Pinned_Spacer";
+            steamFiller.name = "Steam_Spacer";
+            hideIncompatible_btn.gameObject.name = "Incompatible_Filter";
+            hideDev_btn.gameObject.name = "Dev_Filter";
+            hideLocal_btn.gameObject.name = "Local_Filter";
+            HideSteam_btn.gameObject.name = "Steam_Filter";
+            HideActive_btn.gameObject.name = "Active_Filter";
+            HideInactive_btn.gameObject.name = "Inactive_Filter";
+            hidePins_btn.gameObject.name = "Pinned_Filter";
         }
 
 
