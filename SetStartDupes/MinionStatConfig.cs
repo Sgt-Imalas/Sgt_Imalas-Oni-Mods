@@ -120,11 +120,13 @@ namespace SetStartDupes
         }
 
         static string ANCIENTKNOWLEDGE = "AncientKnowledge";
+        static string CHATTY = "Chatty";
         public void ApplyPreset(MinionStartingStats referencedStats)
         {
             
 
             referencedStats.Name = this.ConfigName.Replace(STRINGS.UNNAMEDPRESET,string.Empty);
+            bool HadChatty = referencedStats.Traits.Any(trait => trait.Id == CHATTY);
             bool HadAncientKnowledge = referencedStats.Traits.Any(trait => trait.Id == ANCIENTKNOWLEDGE);
             referencedStats.Traits.Clear();
             var traitRef = Db.Get().traits;
@@ -139,6 +141,13 @@ namespace SetStartDupes
             }
             else
                 Traits.RemoveAll(trait => trait == ANCIENTKNOWLEDGE);
+
+            if (HadChatty)
+            {
+                Traits.Add(CHATTY);
+            }
+            else
+                Traits.RemoveAll(trait => trait == CHATTY);
 
             SgtLogger.l("Applying traits");
             foreach (var traitID in this.Traits)

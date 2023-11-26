@@ -58,9 +58,6 @@ namespace SetStartDupes
             }
         }
 
-
-
-
         [HarmonyPatch(typeof(CryoTank))]
         [HarmonyPatch(nameof(CryoTank.DropContents))]
         public class AddToCryoTank
@@ -746,6 +743,7 @@ namespace SetStartDupes
         {
             public static void Postfix()
             {
+                SgtLogger.l("Manually patching CharacterSelectionController..");
                 CharacterSelectionController_Patch2.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
                 CharacterSelectionController_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
             }
@@ -1389,10 +1387,17 @@ namespace SetStartDupes
             //    __state = __instance.transform.Find("ModifyDupeStats").gameObject.GetComponent<DupeTraitManager>();
 
             //}
-            [HarmonyPriority (Priority.Low)]
+            [HarmonyPriority (Priority.Low-1)]
             public static void Postfix(CharacterContainer __instance, MinionStartingStats ___stats)
             {
-                var mng = __instance.transform.Find("ModifyDupeStats").gameObject.GetComponent<DupeTraitManager>();
+                var mngt = __instance.transform.Find("ModifyDupeStats");
+                if (mngt == null)
+                {
+
+                    SgtLogger.log("StatManager not found, skipping assignment..")
+                      ; return;
+                }
+                var mng = mngt.gameObject.GetComponent<DupeTraitManager>();
                 if(mng != null)
                 {
                     mng.SetReferenceStats(___stats);
