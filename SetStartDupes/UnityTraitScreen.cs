@@ -268,8 +268,6 @@ namespace SetStartDupes
         {
             if (init) { return; }
             SgtLogger.l("Initializing TraitWindow");
-            //UIUtils.ListAllChildren(this.transform);
-
 
             ToReplaceName = transform.Find("ToReplace/CurrentlyActive/Label").FindComponent<LocText>();
             ToReplaceColour = transform.Find("ToReplace/CurrentlyActive/Background").FindComponent<Image>();
@@ -286,11 +284,17 @@ namespace SetStartDupes
 
             PresetListContainer = transform.Find("ScrollArea/Content").gameObject;
             PresetListPrefab = transform.Find("ScrollArea/Content/PresetEntryPrefab").gameObject;
-
+            PresetListPrefab.SetActive(false);
+            transform.Find("ScrollArea/Content/CarePackagePrefab").gameObject.SetActive(false);
 
             var CloserButton = transform.Find("CloseButton").gameObject;
             //UIUtils.ListAllChildren(CloserButton.transform);
             CloserButton.FindOrAddComponent<FButton>().OnClick += () => this.Show(false);
+            CloserButton.transform.Find("Text").GetComponent<LocText>().text = STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TEXT;
+
+            SgtLogger.Assert("PresetListPrefab was null", PresetListPrefab);
+            SgtLogger.Assert("PresetListContainer was null", PresetListContainer);
+            SgtLogger.l("initializing ListEntries");
             InitAllContainers();
 
             init = true;

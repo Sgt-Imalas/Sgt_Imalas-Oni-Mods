@@ -162,8 +162,9 @@ namespace SetStartDupes
                                 RebuildInformationPanel();
                             }
                         );
-
-                PresetHolder.transform.Find("AddThisTraitButton").FindOrAddComponent<FButton>().OnClick += () => SetAsCurrent(config);
+                PresetHolder.transform
+                    //.Find("AddThisTraitButton")
+                    .FindOrAddComponent<FButton>().OnClick += () => SetAsCurrent(config);
                 PresetHolder.transform.Find("DeleteButton").FindOrAddComponent<FButton>().OnClick += () => DeletePreset(config);
 
                 UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("RenameButton"), SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP);
@@ -299,7 +300,10 @@ namespace SetStartDupes
         private void Init()
         {
             SgtLogger.l("Initializing PresetWindow");
-            GeneratePresetButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/GenerateFromCurrentButton").FindOrAddComponent<FButton>();
+
+            UIUtils.ListAllChildrenPath(transform);
+
+            GeneratePresetButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/GenerateFromCurrent").FindOrAddComponent<FButton>();
             CloseButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/CloseButton").FindOrAddComponent<FButton>();
             ApplyButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/ApplyPresetButton").FindOrAddComponent<FButton>();
 
@@ -322,7 +326,6 @@ namespace SetStartDupes
                 this.Show(false);
             };
             ///OpenFolder
-
             CloseButton.OnClick += () => this.Show(false);
             GeneratePresetButton.OnClick += () =>
             {
@@ -350,13 +353,17 @@ namespace SetStartDupes
             UIUtils.AddSimpleTooltipToObject(OpenPresetFolder.transform, HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.OPENFOLDERTOOLTIP);
 
             InfoHeaderPrefab = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/HeaderPrefab").gameObject; ;
+            InfoHeaderPrefab.SetActive(false);
             InfoRowPrefab = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/ItemPrefab").gameObject;
+            InfoRowPrefab.SetActive(false);
             InfoSpacer = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/Spacer").gameObject;
+            InfoSpacer.SetActive(false);
 
             InfoScreenContainer = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content").gameObject;
 
             PresetListContainer = transform.Find("HorizontalLayout/ObjectList/ScrollArea/Content").gameObject;
             PresetListPrefab = transform.Find("HorizontalLayout/ObjectList/ScrollArea/Content/PresetEntryPrefab").gameObject;
+            PresetListPrefab.SetActive(false);
 
 
             init = true;

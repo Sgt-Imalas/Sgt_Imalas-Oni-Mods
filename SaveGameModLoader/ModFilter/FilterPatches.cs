@@ -74,11 +74,13 @@ namespace SaveGameModLoader.ModFilter
         }
 
         [HarmonyPriority (Priority.Low)]
-        [HarmonyPatch(typeof(ModsScreen), "ShouldDisplayMod")]
+        [HarmonyPatch(typeof(ModsScreen), nameof(ModsScreen.ShouldDisplayMod))]
         public static class ModsScreen_ShouldDisplayMod_Patch
         {
             public static void Postfix(KMod.Mod mod, ref bool __result)
             {
+                var label = mod.label;
+
                 if (__result && ModlistManager.Instance.IsSyncing)
                 {
                     __result = ModlistManager.Instance.ModIsNotInSync(mod);
@@ -101,13 +103,13 @@ namespace SaveGameModLoader.ModFilter
                     }
                 }
                 if (__result && MPM_Config.Instance.hideLocal)
-                    __result = !mod.IsLocal;
+                    __result = label.distribution_platform != Label.DistributionPlatform.Local;
 
                 if (__result && MPM_Config.Instance.hideDev)
-                    __result = !mod.IsDev;
+                    __result = label.distribution_platform != Label.DistributionPlatform.Dev;
 
                 if (__result && MPM_Config.Instance.hidePlatform)
-                    __result = mod.IsLocal || mod.IsDev;
+                    __result = label.distribution_platform == Label.DistributionPlatform.Dev || label.distribution_platform == Label.DistributionPlatform.Local;
 
                 if (__result && MPM_Config.Instance.hideIncompatible)
                     __result = mod.contentCompatability == ModContentCompatability.OK;

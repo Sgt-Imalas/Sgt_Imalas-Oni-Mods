@@ -58,13 +58,10 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <None Update="ModAssets\assets\linux\dcs_presetwindow">
+	  <None Update="ModAssets\assets\mac\dss_uiassets">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\assets\mac\dcs_presetwindow">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\assets\windows\dcs_presetwindow">
+	  <None Update="ModAssets\assets\windows\dss_uiassets">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\translations\de.po">

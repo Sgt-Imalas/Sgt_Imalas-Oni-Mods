@@ -39,8 +39,8 @@ namespace SaveGameModLoader
                     public static LocString UNHIDE_DEV = "Unhide Dev Mods";
                     public static LocString HIDE_DEV_TOOLTIP = "Hide or unhide dev mods.";
 
-                    public static LocString HIDE_LOCAL = "Hide local Mods";
-                    public static LocString UNHIDE_LOCAL = "Unhide local Mods";
+                    public static LocString HIDE_LOCAL = "Hide Local Mods";
+                    public static LocString UNHIDE_LOCAL = "Unhide Local Mods";
                     public static LocString HIDE_LOCAL_TOOLTIP = "Hide or unhide local mods.";
 
 

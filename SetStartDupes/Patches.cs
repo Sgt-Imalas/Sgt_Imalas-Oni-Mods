@@ -63,7 +63,6 @@ namespace SetStartDupes
 
         [HarmonyPatch(typeof(CryoTank))]
         [HarmonyPatch(nameof(CryoTank.DropContents))]
-        //[HarmonyPatch(nameof(CryoTank.OnSidescreenButtonPressed))] 
         public class AddToCryoTank
         {
             public static void Prefix()

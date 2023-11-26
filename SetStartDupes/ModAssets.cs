@@ -82,10 +82,16 @@ namespace SetStartDupes
 
         public static void LoadAssets()
         {
-            AssetBundle bundle = AssetUtils.LoadAssetBundle("dcs_presetwindow", platformSpecific: true);
-            PresetWindowPrefab = bundle.LoadAsset<GameObject>("Assets/PresetWindow_Prefab.prefab");
-            TraitsWindowPrefab = bundle.LoadAsset<GameObject>("Assets/DupeSkillsPopUp.prefab");
-            CrewDupeEntryPrefab = bundle.LoadAsset<GameObject>("Assets/DupePresetListItem.prefab");
+            AssetBundle bundle = AssetUtils.LoadAssetBundle("dss_uiassets", platformSpecific: true);
+
+
+            PresetWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/PresetWindow.prefab");
+            TraitsWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DupeSkillsPopUp.prefab");
+            CrewDupeEntryPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DupePresetListItem.prefab");
+
+            SgtLogger.Assert("PresetWindowPrefab was null!", PresetWindowPrefab);
+            SgtLogger.Assert("TraitsWindowPrefab was null!", TraitsWindowPrefab);
+            SgtLogger.Assert("CrewDupeEntryPrefab was null!", CrewDupeEntryPrefab);
 
             //UIUtils.ListAllChildren(PresetWindowPrefab.transform);
 
@@ -431,12 +437,14 @@ namespace SetStartDupes
 
         public static bool TraitAllowedInCurrentDLC(string traitId)
         {
-
-
             if (traitId == MinionConfig.MINION_BASE_TRAIT_ID)
                 return true;
 
             GetTraitListOfTrait(traitId, out var traitList);
+
+            if (traitList == null)
+                return true;
+
             var trait = traitList.Find(x => x.id == traitId);
             return TraitAllowedInCurrentDLC(trait);
 
@@ -607,6 +615,11 @@ namespace SetStartDupes
             {
                 TraitList = DUPLICANTSTATS.STRESSTRAITS;
                 return NextType.stress;
+            }
+            else if (DUPLICANTSTATS.SPECIALTRAITS.FindIndex(t => t.id == traitId) != -1)
+            {
+                TraitList = new List<DUPLICANTSTATS.TraitVal>() { DUPLICANTSTATS.SPECIALTRAITS.Find(t => t.id == traitId) };
+                return NextType.undefined;
             }
             TraitList = null;
             return NextType.undefined;

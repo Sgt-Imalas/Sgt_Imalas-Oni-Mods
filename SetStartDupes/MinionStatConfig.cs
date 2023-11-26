@@ -65,6 +65,7 @@ namespace SetStartDupes
             FileName = fileName;
             ConfigName = configName;
             Traits = traits.Select(trait => trait.Id).ToList();
+            Traits.RemoveAll(trait => trait == ANCIENTKNOWLEDGE);
             this.stressTrait = stressTrait.Id;
             this.joyTrait = joyTrait.Id;
             StartingLevels = startingLevels;
@@ -117,17 +118,30 @@ namespace SetStartDupes
 
             return config;
         }
+
+        static string ANCIENTKNOWLEDGE = "AncientKnowledge";
         public void ApplyPreset(MinionStartingStats referencedStats)
         {
-            referencedStats.Name = this.ConfigName.Replace(STRINGS.UNNAMEDPRESET,string.Empty);
+            
 
+            referencedStats.Name = this.ConfigName.Replace(STRINGS.UNNAMEDPRESET,string.Empty);
+            bool HadAncientKnowledge = referencedStats.Traits.Any(trait => trait.Id == ANCIENTKNOWLEDGE);
             referencedStats.Traits.Clear();
             var traitRef = Db.Get().traits;
 
             if (!Traits.Contains(MinionConfig.MINION_BASE_TRAIT_ID))
                 Traits.Add(MinionConfig.MINION_BASE_TRAIT_ID);
 
-            foreach(var traitID in this.Traits)
+
+            if (HadAncientKnowledge)
+            {
+                Traits.Add(ANCIENTKNOWLEDGE);
+            }
+            else
+                Traits.RemoveAll(trait => trait == ANCIENTKNOWLEDGE);
+
+
+            foreach (var traitID in this.Traits)
             {
                 var Trait = traitRef.TryGet(traitID);
 
@@ -143,6 +157,7 @@ namespace SetStartDupes
                     referencedStats.Traits.Add(Trait);
                 }
             }
+            
             referencedStats.StartingLevels.Clear();
             foreach(var startLevel in this.StartingLevels)
             {

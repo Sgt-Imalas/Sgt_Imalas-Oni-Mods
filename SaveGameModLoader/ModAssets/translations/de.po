@@ -134,12 +134,12 @@ msgstr "Lokale Mods anzeigen oder ausblenden."
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PINS
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PINS"
 msgid "Hide pinned Mods"
-msgstr "Angepinnte Mods ausblenden"
+msgstr "Gepinnte Mods ausblenden"
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PINS_TOOLTIP
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PINS_TOOLTIP"
 msgid "Hide or unhide pinned mods."
-msgstr "Angepinnte Mods anzeigen oder ausblenden."
+msgstr "Gepinnte Mods anzeigen oder ausblenden."
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PLATFORM
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PLATFORM"
@@ -181,7 +181,7 @@ msgstr "Lokale Mods anzeigen"
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_PINS
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_PINS"
 msgid "Unhide pinned Mods"
-msgstr "Angepinnte Mods anzeigen"
+msgstr "Gepinnte Mods anzeigen"
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_PLATFORM
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_PLATFORM"

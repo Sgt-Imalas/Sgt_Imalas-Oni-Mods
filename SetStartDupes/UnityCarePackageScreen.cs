@@ -177,11 +177,14 @@ namespace SetStartDupes
 
             PresetListContainer = transform.Find("ScrollArea/Content").gameObject;
             PresetListPrefab = transform.Find("ScrollArea/Content/CarePackagePrefab").gameObject;
+            PresetListPrefab.SetActive(false);
+            transform.Find("ScrollArea/Content/PresetEntryPrefab").gameObject.SetActive(false);
 
 
             var CloserButton = transform.Find("CloseButton").gameObject;
             
             CloserButton.FindOrAddComponent<FButton>().OnClick += () => this.Show(false);
+            CloserButton.transform.Find("Text").GetComponent<LocText>().text = STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TEXT;
             InitAllContainers();
 
             init = true;
