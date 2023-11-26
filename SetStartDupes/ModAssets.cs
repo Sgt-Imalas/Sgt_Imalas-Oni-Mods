@@ -52,7 +52,6 @@ namespace SetStartDupes
         public static GameObject CrewDupeEntryPrefab;
 
 
-
         public static GameObject ParentScreen
         {
             get

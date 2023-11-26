@@ -15,8 +15,10 @@ namespace SetStartDupes
 {
     public class MinionCrewPreset
     {
+
         public string FileName;
         public string CrewName;
+
         public MinionCrewPreset() { }
 
         public List<Tuple<string, MinionStatConfig>> Crewmates;

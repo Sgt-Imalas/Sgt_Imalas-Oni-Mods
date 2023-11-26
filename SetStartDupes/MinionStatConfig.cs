@@ -140,12 +140,12 @@ namespace SetStartDupes
             else
                 Traits.RemoveAll(trait => trait == ANCIENTKNOWLEDGE);
 
-
+            SgtLogger.l("Applying traits");
             foreach (var traitID in this.Traits)
             {
                 var Trait = traitRef.TryGet(traitID);
 
-                if (ModAssets.GetTraitListOfTrait(Trait) == DupeTraitManager.NextType.Beached_LifeGoal)
+                if (Trait != null && ModAssets.GetTraitListOfTrait(Trait) == DupeTraitManager.NextType.Beached_LifeGoal)
                 {
                     Beached_API.RemoveLifeGoal(referencedStats);
                     Beached_API.SetLifeGoal(referencedStats, Trait,false);
@@ -157,13 +157,16 @@ namespace SetStartDupes
                     referencedStats.Traits.Add(Trait);
                 }
             }
-            
+
+            SgtLogger.l("Applying starting levels");
             referencedStats.StartingLevels.Clear();
             foreach(var startLevel in this.StartingLevels)
             {
                 referencedStats.StartingLevels[startLevel.Key] = startLevel.Value; 
             }
-            if(!ModConfig.Instance.NoJoyReactions)
+
+            SgtLogger.l("Applying joy reaction");
+            if (!ModConfig.Instance.NoJoyReactions)
             {
                 referencedStats.joyTrait = traitRef.Get(this.joyTrait);
             }
@@ -171,7 +174,8 @@ namespace SetStartDupes
             {
                 referencedStats.joyTrait = traitRef.Get("None");
             }
-            if(!ModConfig.Instance.NoStressReactions)
+            SgtLogger.l("Applying stress reaction");
+            if (!ModConfig.Instance.NoStressReactions)
             {
                 referencedStats.stressTrait = traitRef.Get(this.stressTrait);
             }
@@ -188,11 +192,17 @@ namespace SetStartDupes
             var AptitudeRef = Db.Get().SkillGroups;
             referencedStats.skillAptitudes.Clear();
 
-            foreach(var skillAptitude in this.skillAptitudes)
+            SgtLogger.l("Applying skill aptitudes");
+            foreach (var skillAptitude in this.skillAptitudes)
             {
                 SkillGroup targetGroup = AptitudeRef.TryGet(skillAptitude.Key);
-                referencedStats.skillAptitudes[targetGroup] = skillAptitude.Value;
+                if(targetGroup != null)
+                {
+                    referencedStats.skillAptitudes[targetGroup] = skillAptitude.Value;
+                }
             }
+
+
             if (ModAssets.OtherModBonusPoints.ContainsKey(referencedStats))
             {
                 ModAssets.OtherModBonusPoints.Remove(referencedStats);
