@@ -150,7 +150,7 @@ namespace SaveGameModLoader
             InsertLocation = SingleFileModlists.Find("Panel/ListView/Files/Viewport/Content");
             SetAdditionalButtons(false);
 
-            UIUtils.ListAllChildren(SingleFileModlists);
+            //UIUtils.ListAllChildren(SingleFileModlists);
         }
 
 
