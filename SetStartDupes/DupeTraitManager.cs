@@ -717,6 +717,7 @@ namespace SetStartDupes
                 ToEditMinionStats.Traits.Remove(trait);
                 RedoStatpointBonus(trait);
                 RemoveTraitUI(trait);
+                RebuildInterestPointTooltip();
             }
 
         }
@@ -727,6 +728,7 @@ namespace SetStartDupes
                 ToEditMinionStats.Traits.Add(trait);
                 RedoStatpointBonus(trait);
                 AddTraitUI(trait);
+                RebuildInterestPointTooltip();
             }
         }
         public void RedoStatpointBonus(Trait trait)
