@@ -30,6 +30,8 @@ namespace SaveGameModLoader
         GameObject SyncButton;
         GameObject AddSyncButton;
         GameObject RefreshViewBtn;
+        GameObject CopyToClipboardBtn;
+        List<KMod.Label> currentMods = null;
         GameObject WorkShopSubBtn;
         KModalScreen ParentWindow;
 
@@ -45,6 +47,9 @@ namespace SaveGameModLoader
                 RefreshViewBtn.SetActive(active);
             if (WorkShopSubBtn != null)
                 WorkShopSubBtn.SetActive(active || IsMissingModsOnly);
+
+            if (CopyToClipboardBtn != null)
+                CopyToClipboardBtn.SetActive(active && ViewSingleEntry);
             //SyncButton.SetActive(active);
             //SgtLogger.log(IsMissingModsOnly + "<-Missing only  IsActive? " + active);
             if (!active) RebuildList();
@@ -97,10 +102,12 @@ namespace SaveGameModLoader
 
             RefreshViewBtn = transform.Find("Panel/DetailsView/ToggleAllButton").gameObject;
             RefreshViewBtn.transform.SetAsFirstSibling();
+            RefreshViewBtn.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100);
             RefreshViewBtn.SetActive(false);
-
+            RefreshViewBtn.TryGetComponent<KButton>(out var refreshviewbuttonforstyle);
             SyncButton = transform.Find("Panel/DetailsView/WorkshopButton").gameObject;
             AddSimpleTooltipToObject(SyncButton.transform, SYNCLISTTOOLTIP);
+
             SyncButton.SetActive(false);
 
             TryChangeText(
@@ -148,6 +155,7 @@ namespace SaveGameModLoader
             FindAndDisable(EntryPrefab, "EnabledToggle");
             FindAndRemove<DragMe>(EntryPrefab);
             InsertLocation = SingleFileModlists.Find("Panel/ListView/Files/Viewport/Content");
+            CopyToClipboardBtn = ModAssets.AddCopyButton(DetailsView, () => ModAssets.PutToClipboard(currentMods, false), () => ModAssets.PutToClipboard(currentMods, true), refreshviewbuttonforstyle.bgImage.colorStyleSetting);
             SetAdditionalButtons(false);
 
             //UIUtils.ListAllChildren(SingleFileModlists);
@@ -287,7 +295,6 @@ namespace SaveGameModLoader
 
         void RebuildList(List<string> modsForSingleView = null)
         {
-
             if (Entries.Count > 0)
             {
                 foreach (var entry in Entries)
@@ -322,7 +329,7 @@ namespace SaveGameModLoader
                     , true);
                 return;
             }
-
+            currentMods = new List<KMod.Label>();
             if (ViewSingleEntry)
             {
 
@@ -335,7 +342,6 @@ namespace SaveGameModLoader
 
                 ModlistManager.Instance.AssignModDifferences(modsForSingleView);
                 //MissingModsList = modsForSingleView.Except(allMods, new ModlistManager.ModDifferencesByIdComparer()).ToList();
-
 
                 foreach (var mod in modsForSingleView)
                 {
@@ -354,10 +360,14 @@ namespace SaveGameModLoader
                     else
                     {
                        var locMod = modManager.mods.First(mode => mode.label.defaultStaticID == mod);
+                        if(locMod != null)
+                        {
+                            currentMods.Add(locMod.label);
+                            TryChangeText(entry, "Title", locMod.label.title);
+                            TryChangeText(entry, "Version", "internal mod Version: " + locMod.label.version.ToString());
+                            FindAndDisable(entry, "ManageButton");
+                        }
 
-                        TryChangeText(entry, "Title", locMod.label.title);
-                        TryChangeText(entry, "Version", "internal mod Version: " + locMod.label.version.ToString());
-                        FindAndDisable(entry, "ManageButton");
                     }
                     Entries.Add(entry.gameObject);
 

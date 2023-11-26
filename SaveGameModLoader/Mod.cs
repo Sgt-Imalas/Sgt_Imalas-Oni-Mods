@@ -111,18 +111,6 @@ namespace SaveGameModLoader
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
             base.OnAllModsLoaded(harmony, mods);
-
-
-            UnpatchCrashing.SecureLog(harmony);
-
-            harmony.UnpatchAll("Ony.OxygenNotIncluded.DebugConsole");
-            harmony.UnpatchAll("OxygenNotIncluded.DebugConsole");
-            harmony.UnpatchAll("DebugConsole");
-            harmony.UnpatchAll("Ony.OxygenNotIncluded.DebugConsole.Loader");
-            harmony.UnpatchAll("OxygenNotIncluded.DebugConsole.Loader");
-            harmony.UnpatchAll("DebugConsole.Loader");
-            harmony.UnpatchAll("Release_DLC1.Mod.DebugConsole");
-
             SgtLogger.log(harmony.Id, "HARMONYID");
 
             bool FastTrackActive = mods.Any(mod => mod.staticID.Contains("PeterHan.FastTrack") && mod.IsEnabledForActiveDlc());

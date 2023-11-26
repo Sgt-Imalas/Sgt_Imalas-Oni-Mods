@@ -426,11 +426,12 @@ namespace SaveGameModLoader
         {
             public static void Postfix(KMod.Mod __result)
             {
-                SgtLogger.l(__result.staticID, "madeSteamMod");
+                if (__result == null || __result.staticID == null || __result.label.id == null)
+                    return;
 
-                __result.on_managed =  () => {
+                __result.on_managed = () => {
 
-                    if (UseSteamOverlay && SteamUtils.IsOverlayEnabled() )
+                    if (UseSteamOverlay && SteamUtils.IsOverlayEnabled())
                         SteamFriends.ActivateGameOverlayToWebPage("https://steamcommunity.com/sharedfiles/filedetails/?id=" + __result.label.id);
                     else
                         App.OpenWebURL("https://steamcommunity.com/sharedfiles/filedetails/?id=" + __result.label.id);
@@ -477,9 +478,13 @@ namespace SaveGameModLoader
                 panel.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, paddingSize, goldenHeigh);
 
 
-
                 if (__instance.gameObject.name == "SYNCSCREEN")
                     return;
+
+                __instance.closeButton.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100);
+                AddCopyButton(__instance.workshopButton.transform.parent.gameObject, () => ModAssets.PutCurrentToClipboard(false), ()=>PutCurrentToClipboard(true), __instance.workshopButton.bgImage.colorStyleSetting);
+
+
                 var modlistButtonGO = Util.KInstantiateUI<RectTransform>(workShopButton.gameObject, DetailsView, true);
                 modlistButtonGO.name = "ModListsButton";
                 var modlistButtonText = modlistButtonGO.Find("Text").GetComponent<LocText>();

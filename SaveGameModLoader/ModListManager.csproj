@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>SaveGameModLoader</PackageId>
-		<Version>6.0.0</Version>
+		<Version>6.1.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022-2023 Sgt_Imalas</Copyright>
 		<RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
@@ -58,9 +58,16 @@
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
 	
+	<ItemGroup>
+	  <Reference Include="PresentationCore" />
+	</ItemGroup>
+	
 
 	
 	<ItemGroup>
+	  <None Update="ModAssets\assets\MPM_CLIPBOARD.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\assets\MPM_DEL.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>

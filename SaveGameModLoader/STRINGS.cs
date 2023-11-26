@@ -79,6 +79,7 @@ namespace SaveGameModLoader
                 }
                 public class MODLISTVIEW
                 {
+                    public static LocString COPYTOCLIPBOARD_TOOLTIP = "Copies a list of all active mods to the clipboard.\nDouble click to include their workshop links";
                     public static LocString MODLISTSBUTTON = "MOD PROFILES";
                     public static LocString MODLISTSBUTTONINFO = "View and manage all your mod profiles";
 

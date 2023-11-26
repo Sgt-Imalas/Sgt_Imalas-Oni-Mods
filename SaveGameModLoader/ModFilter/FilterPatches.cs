@@ -39,6 +39,8 @@ namespace SaveGameModLoader.ModFilter
                         var btn = go.transform.Find("ClearButton");
                         if (btn != null)
                         {
+                            _copyToClipboardPrefab = Util.KInstantiateUI(btn.gameObject);
+                            
                             _buttonPrefab = Util.KInstantiateUI(btn.gameObject);
                             var bgImage = _buttonPrefab.transform.Find("GameObject").GetComponent<Image>();
                             bgImage.sprite = Assets.GetSprite(SpritePatch.pinSymbol);
@@ -124,6 +126,7 @@ namespace SaveGameModLoader.ModFilter
 
         //[HarmonyPatch(typeof(ModsScreen), "OnActivate")]
 
+        public static GameObject _copyToClipboardPrefab;
         public static GameObject _buttonPrefab;
         public static GameObject _prefab;
         public static FilterManager _filterManager;
