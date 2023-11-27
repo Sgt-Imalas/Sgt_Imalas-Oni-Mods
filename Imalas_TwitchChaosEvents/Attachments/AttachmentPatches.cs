@@ -17,7 +17,7 @@ namespace Imalas_TwitchChaosEvents.Attachments
         {
             public static void Postfix(Health __instance)
             {
-                __instance.gameObject.AddOrGet<Health_DamageHander>();
+               __instance.gameObject.AddOrGet<Health_DamageHander>();
             }
 
         }

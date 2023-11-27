@@ -55,19 +55,22 @@ namespace Imalas_TwitchChaosEvents.Events
             }
 
             var world = ClusterManager.Instance.GetWorld(activeWorld);
+            if(!world.isSurfaceRevealed)
+            {
+                foreach (var planet in ClusterManager.Instance.WorldContainers)
+                {
+                    if ((planet.IsDupeVisited || planet.IsStartWorld) && planet.IsSurfaceRevealed && !planet.IsModuleInterior)
+                    {
+                        world = planet;
+                        break;
+                    }
+                }
+            }
 
 
-            //foreach (var planet in ClusterManager.Instance.WorldContainers)
-            //{
-            //    if ((planet.IsDupeVisited || planet.IsStartWorld) && planet.IsSurfaceRevealed && !planet.IsModuleInterior)
-            //    {
-            //        world = planet;
-            //        break;
-            //    }
-            //}
 
             SpeedControlScreen.Instance.SetSpeed(0);
-            GameplayEventInstance eventInstance = GameplayEventManager.Instance.StartNewEvent(TacoMeteorPatches.ITC_TacoMeteors, activeWorld);
+            GameplayEventInstance eventInstance = GameplayEventManager.Instance.StartNewEvent(TacoMeteorPatches.ITC_TacoMeteors, world.id);
             // ClusterManager.Instance.activeWorld.GetSMI<GameplaySeasonManager.Instance>().Start(Db.Get().GameplaySeasons.TemporalTearMeteorShowers);
             if (Config.Instance.TacoEventMusic)
                 SoundUtils.PlaySound(ModAssets.SOUNDS.TACORAIN, SoundUtils.GetSFXVolume() * 0.3f, true);
@@ -77,7 +80,7 @@ namespace Imalas_TwitchChaosEvents.Events
 
             ToastManager.InstantiateToastWithPosTarget(
             STRINGS.CHAOSEVENTS.TACORAIN.TOAST,
-             body, GetSurfacePos(world));
+             body, GetSurfacePos(world),80);
         };
 
         Vector3 GetSurfacePos(WorldContainer world)
