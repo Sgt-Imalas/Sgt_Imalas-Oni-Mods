@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static ClaimNotification.ModAssets;
+using static ClaimNotification.STRINGS;
 
 namespace ClaimNotification
 {
@@ -45,11 +46,11 @@ namespace ClaimNotification
                         System.Action close = () => { };
 
                         KMod.Manager.Dialog(Global.Instance.globalCanvas,
-                       "New Item Unlocked",
-                       "You can claim a new Blueprint!",
-                       "Claim Blueprint now",
+                       CLAIMNOTIFICATION.TITLE,
+                       CLAIMNOTIFICATION.TEXT,
+                CLAIMNOTIFICATION.CONFIRM,
                        ShowScreen
-                       , "Close",
+                       , global::STRINGS.UI.CREDITSSCREEN.CLOSEBUTTON,
                        close);
                         HasShownInfo = true;
                     }
@@ -64,7 +65,7 @@ namespace ClaimNotification
         {
             public static void Postfix()
             {
-                //LocalisationUtil.Translate(typeof(STRINGS), true);
+                LocalisationUtil.Translate(typeof(STRINGS), true);
             }
         }
     }
