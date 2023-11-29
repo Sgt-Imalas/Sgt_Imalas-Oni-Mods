@@ -421,9 +421,29 @@ namespace SaveGameModLoader
             }
         }
 
-        [HarmonyPatch(typeof(Steam), nameof(Steam.MakeMod))]
+       // [HarmonyPatch(typeof(Steam), nameof(Steam.MakeMod))]
         public static class Steam_MakeMod
         {
+            public static void TryPatchingSteam(Harmony harmony)
+            {
+                var type = AccessTools.TypeByName("Steam");
+                if (type == null)
+                {
+                    SgtLogger.warning("steam.makemod was null");
+                    return;
+                }
+                SgtLogger.l("patching steam.makemod");
+                var m_TargetMethod = AccessTools.Method(type,"MakeMod");
+                //var m_Transpiler = AccessTools.Method(typeof(LoadModConfigPatch), "Transpiler");
+               // var m_Prefix = AccessTools.Method(typeof(Steam_MakeMod), "Prefix");
+                var m_Postfix = AccessTools.Method(typeof(Steam_MakeMod), "Postfix");
+
+                harmony.Patch(m_TargetMethod,
+                    null, //new HarmonyMethod(m_Prefix),
+                    new HarmonyMethod(m_Postfix)
+                    );
+            }
+
             public static void Postfix(KMod.Mod __result)
             {
                 if (__result == null || __result.staticID == null || __result.label.id == null)

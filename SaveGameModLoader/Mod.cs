@@ -106,6 +106,8 @@ namespace SaveGameModLoader
 
             ModAssets.ReadOrRegisterBrowserSetting();
             base.OnLoad(harmony);
+
+            Steam_MakeMod.TryPatchingSteam(harmony);
             SgtLogger.LogVersion(this);
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)

@@ -45,8 +45,9 @@ namespace SaveGameModLoader
             hideActive = state;
             hidePins = state;
         }
-        
-        public bool HasPinned => PinnedMods.Count > 0;
+
+        [JsonIgnore]public bool HasPinned => PinnedMods.Count > 0;
+
         public HashSet<string> PinnedMods = new HashSet<string>();
 
         public bool ModPinned(string id) => PinnedMods.Contains(id);
