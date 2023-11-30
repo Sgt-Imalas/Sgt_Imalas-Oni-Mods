@@ -32,10 +32,10 @@ namespace ClusterTraitGenerationManager
         public int DefaultRings;
         public SerializableStarmapItem StarterPlanet;
         public SerializableStarmapItem WarpPlanet;
-        public Dictionary<string,SerializableStarmapItem> OuterPlanets;
+        public Dictionary<string, SerializableStarmapItem> OuterPlanets;
         public Dictionary<string, SerializableStarmapItem> POIs;
         public Dictionary<int, List<string>> VanillaStarmapLocations;
-        public Dictionary<string,string> StoryTraits;
+        public Dictionary<string, string> StoryTraits;
         public List<string> BlacklistedTraits;
 
         void PopulatePresetData(CustomClusterData data)
@@ -46,7 +46,7 @@ namespace ClusterTraitGenerationManager
             StarterPlanet = SerializableStarmapItem.InitPlanet(data.StarterPlanet);
             WarpPlanet = SerializableStarmapItem.InitPlanet(data.WarpPlanet);
             OuterPlanets = new Dictionary<string, SerializableStarmapItem>();
-            foreach(var planet in data.OuterPlanets)
+            foreach (var planet in data.OuterPlanets)
             {
                 OuterPlanets.Add(planet.Key, SerializableStarmapItem.InitPlanet(planet.Value));
             }
@@ -56,7 +56,10 @@ namespace ClusterTraitGenerationManager
             {
                 POIs.Add(poi.Key, SerializableStarmapItem.InitPOI(poi.Value));
             }
-            VanillaStarmapLocations = new Dictionary<int, List<string>>(data.VanillaStarmapItems);
+            if(!DlcManager.IsExpansion1Active())
+            {
+                VanillaStarmapLocations = new Dictionary<int, List<string>>(data.VanillaStarmapItems);
+            }
         }
 
         public string ImmuneSystem, CalorieBurn, Morale, Durability, MeteorShowers, Radiation, Stress, Seed, SandboxMode, StressBreaks, CarePackages, FastWorkersMode, SaveToCloud, Teleporters;
@@ -228,7 +231,7 @@ namespace ClusterTraitGenerationManager
                 {
                     value = instance.currentStoryLevelsBySetting[story.Key];
                 }
-                StoryTraits.Add(story.Key, value);  
+                StoryTraits.Add(story.Key, value);
             }
         }
 
@@ -253,19 +256,19 @@ namespace ClusterTraitGenerationManager
         private void ApplyGameSettings()
         {
 
-            if(BlacklistedTraits==null)
-                BlacklistedTraits=new List<string>();
+            if (BlacklistedTraits == null)
+                BlacklistedTraits = new List<string>();
 
             CGSMClusterManager.BlacklistedTraits = new(this.BlacklistedTraits);
 
             ///ImmuneSystem
-            if (ImmuneSystem!=null&& ImmuneSystem.Length >0 )
+            if (ImmuneSystem != null && ImmuneSystem.Length > 0)
                 SetCustomGameSettings(CustomGameSettingConfigs.ImmuneSystem, ImmuneSystem);
 
             ///CalorieBurn
-            if (CalorieBurn != null && CalorieBurn.Length > 0) 
+            if (CalorieBurn != null && CalorieBurn.Length > 0)
                 SetCustomGameSettings(CustomGameSettingConfigs.CalorieBurn, CalorieBurn);
-            
+
             ///Morale
             if (Morale != null && Morale.Length > 0)
                 SetCustomGameSettings(CustomGameSettingConfigs.Morale, Morale);
@@ -311,19 +314,19 @@ namespace ClusterTraitGenerationManager
                 if (Teleporters != null && Teleporters.Length > 0)
                     SetCustomGameSettings(CustomGameSettingConfigs.Teleporters, Teleporters);
             }
-            
+
             ///Seed
-            if(Seed != null && Seed.Length > 0)
+            if (Seed != null && Seed.Length > 0)
                 SetCustomGameSettings(CustomGameSettingConfigs.WorldgenSeed, Seed);
 
 
-            if(StoryTraits!=null && StoryTraits.Count > 0)
+            if (StoryTraits != null && StoryTraits.Count > 0)
             {
                 foreach (var story in StoryTraits)
                 {
                     if (CustomGameSettings.Instance.StorySettings.ContainsKey(story.Key))
                     {
-                        SetCustomGameSettings(CustomGameSettings.Instance.StorySettings[story.Key], story.Value,true);
+                        SetCustomGameSettings(CustomGameSettings.Instance.StorySettings[story.Key], story.Value, true);
                     }
                 }
             }
@@ -335,27 +338,29 @@ namespace ClusterTraitGenerationManager
         {
             public string itemID;
             public int _predefinedPlacementOrder = -1;
-            public int  minRing, maxRing, buffer;
-            public float numberToSpawn, maxNumberToSpawn;
+            public int minRing, maxRing, buffer;
+            public float numberToSpawn;
             public StarmapItemCategory category;
             public WorldSizePresets sizePreset;
             public WorldRatioPresets ratioPreset;
             public int customX, customY;
             public List<string> meteorSeasons;
             public List<string> planetTraits;
+            public List<string> pois;
+            public bool allowDuplicates, avoidClumping;
 
             public SerializableStarmapItem(
-                string itemID, 
-                int placementOrder, 
+                string itemID,
+                int placementOrder,
                 int minRing,
-                int maxRing, 
-                int buffer, 
-                float numberToSpawn, float maxNumberToSpawn,
-                StarmapItemCategory category, 
-                WorldSizePresets sizePreset, 
-                WorldRatioPresets ratioPreset, 
-                int customX, int customY, 
-                List<string> meteorSeasons, 
+                int maxRing,
+                int buffer,
+                float numberToSpawn,
+                StarmapItemCategory category,
+                WorldSizePresets sizePreset,
+                WorldRatioPresets ratioPreset,
+                int customX, int customY,
+                List<string> meteorSeasons,
                 List<string> planetTraits)
             {
                 this.itemID = itemID;
@@ -364,7 +369,6 @@ namespace ClusterTraitGenerationManager
                 this.maxRing = maxRing;
                 this.buffer = buffer;
                 this.numberToSpawn = numberToSpawn;
-                this.maxNumberToSpawn = maxNumberToSpawn;
                 this.category = category;
                 this.sizePreset = sizePreset;
                 this.ratioPreset = ratioPreset;
@@ -386,7 +390,6 @@ namespace ClusterTraitGenerationManager
                     poiItem.maxRing,
                     poiItem.buffer,
                     poiItem.InstancesToSpawn,
-                    poiItem.MaxNumberOfInstances,
                     poiItem.category,
            default,
            default,
@@ -394,7 +397,13 @@ namespace ClusterTraitGenerationManager
             -1,
             null,
             null
-                    );
+                    )
+                {
+                    avoidClumping = poiItem.placementPOI.avoidClumping,
+                    allowDuplicates = poiItem.placementPOI.canSpawnDuplicates,
+                    pois = poiItem.placementPOI.pois
+
+                };
             }
             public static SerializableStarmapItem InitPlanet(StarmapItem poiItem)
             {
@@ -411,7 +420,6 @@ namespace ClusterTraitGenerationManager
                     poiItem.maxRing,
                     poiItem.buffer,
                     poiItem.InstancesToSpawn,
-                    poiItem.MaxNumberOfInstances,
                     poiItem.category,
                     poiItem.CurrentSizePreset,
                     poiItem.CurrentRatioPreset,
@@ -426,7 +434,7 @@ namespace ClusterTraitGenerationManager
 
         public void OpenPopUpToChangeName(System.Action callBackAction = null)
         {
-            FileNameDialog fileNameDialog = Util.KInstantiateUI(ScreenPrefabs.Instance.FileNameDialog.gameObject, FrontEndManager.Instance.gameObject, true).GetComponent<FileNameDialog>(); 
+            FileNameDialog fileNameDialog = Util.KInstantiateUI(ScreenPrefabs.Instance.FileNameDialog.gameObject, FrontEndManager.Instance.gameObject, true).GetComponent<FileNameDialog>();
             fileNameDialog.SetTextAndSelect(ConfigName);
             fileNameDialog.onConfirm = (System.Action<string>)(newName =>
             {
@@ -439,22 +447,22 @@ namespace ClusterTraitGenerationManager
                 }
                 this.ChangenName(newName);
 
-                if(callBackAction!=null) 
+                if (callBackAction != null)
                     callBackAction.Invoke();
-            }); 
+            });
         }
 
         public void ChangenName(string newName)
         {
             DeleteFile();
-            ConfigName = newName; 
-            FileName =  FileNameWithHash(newName);
+            ConfigName = newName;
+            FileName = FileNameWithHash(newName);
             WriteToFile();
         }
 
         static string FileNameWithHash(string filename)
         {
-            return filename.Replace(" ", "_" )+ "_" + GenerateHash(System.DateTime.Now.ToString());
+            return filename.Replace(" ", "_") + "_" + GenerateHash(System.DateTime.Now.ToString());
         }
 
         public void ApplyPreset()
@@ -497,7 +505,7 @@ namespace ClusterTraitGenerationManager
             }
             else
             {
-                cluster.WarpPlanet = null; 
+                cluster.WarpPlanet = null;
             }
 
             cluster.OuterPlanets.Clear();
@@ -515,16 +523,31 @@ namespace ClusterTraitGenerationManager
             cluster.POIs.Clear();
             foreach (var poi in this.POIs)
             {
-                var poiItem = dict.ContainsKey(poi.Value.itemID) ? (dict[poi.Value.itemID]) : null;
-                if (poiItem != null)
+                if (poi.Value == null)
                 {
-                    ApplyDataToStarmapItem(poi.Value, poiItem);
+                    SgtLogger.l(poi.Key + " had no item");
+                    continue;
                 }
-                else SgtLogger.l(poi.Key + " had no item");
-                cluster.POIs[poi.Key] = poiItem;
+
+                if (poi.Value.pois == null)
+                {
+                    SgtLogger.l("legacy poi " + poi.Key + " found");
+                    cluster.AddLegacyPOIGroup(poi.Key,  poi.Value.minRing, poi.Value.maxRing, poi.Value.numberToSpawn);
+                }
+                else
+                {
+                    cluster.AddPoiGroup(poi.Key,new ProcGen.SpaceMapPOIPlacement()
+                    {
+                        allowedRings = new ProcGen.MinMaxI(poi.Value.minRing, poi.Value.maxRing),
+                        pois = poi.Value.pois,
+                        canSpawnDuplicates = poi.Value.allowDuplicates,
+                        avoidClumping = poi.Value.avoidClumping,
+
+                    }, poi.Value.numberToSpawn);
+                }
             }
 
-            if (!DlcManager.IsExpansion1Active() && VanillaStarmapLocations !=null)
+            if (!DlcManager.IsExpansion1Active() && VanillaStarmapLocations != null)
             {
                 cluster.VanillaStarmapItems.Clear();
                 cluster.VanillaStarmapItems = new Dictionary<int, List<string>>(this.VanillaStarmapLocations);
@@ -536,17 +559,17 @@ namespace ClusterTraitGenerationManager
             item.maxRing = Math.Max(0, item.maxRing);
             if (item.category != StarmapItemCategory.POI)
                 item.buffer = Math.Max(0, item.buffer);
-            
+
             var reciever = GivePrefilledItem(reciverToLookup);
 
-            SgtLogger.l("setting starmap item rings: min->"+item.minRing + ", max->" + item.maxRing+", buffer: "+item.buffer, reciever.id);
+            SgtLogger.l("setting starmap item rings: min->" + item.minRing + ", max->" + item.maxRing + ", buffer: " + item.buffer, reciever.id);
 
-            if(item._predefinedPlacementOrder!=-1)
+            if (item._predefinedPlacementOrder != -1)
                 reciever.PredefinedPlacementOrder = item._predefinedPlacementOrder;
 
             reciever.SetOuterRing(item.maxRing);
             reciever.SetInnerRing(item.minRing);
-            reciever.SetBuffer( item.buffer);
+            reciever.SetBuffer(item.buffer);
             reciever.SetSpawnNumber(item.numberToSpawn);
             if (item.sizePreset != default)
             {
@@ -564,11 +587,11 @@ namespace ClusterTraitGenerationManager
             }
             if (!reciever.IsPOI && !reciever.IsRandom)
             {
-                reciever.SetWorldTraits(item.planetTraits); 
+                reciever.SetWorldTraits(item.planetTraits);
             }
             else
             {
-                reciever.MaxNumberOfInstances = item.maxNumberToSpawn;
+                //reciever.MaxNumberOfInstances = item.maxNumberToSpawn;
                 reciever.SetSpawnNumber(item.numberToSpawn);
             }
         }
@@ -595,8 +618,8 @@ namespace ClusterTraitGenerationManager
 
         public static CustomClusterSettingsPreset CreateFromCluster(CustomClusterData data, string nameOverride = "")
         {
-            
-            string scheduleName = nameOverride.Length>0 ? nameOverride : "UNNAMED CLUSTER";
+
+            string scheduleName = nameOverride.Length > 0 ? nameOverride : "UNNAMED CLUSTER";
 
             var config = new CustomClusterSettingsPreset(
                 FileNameWithHash(scheduleName),

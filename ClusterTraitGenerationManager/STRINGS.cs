@@ -73,7 +73,8 @@ namespace ClusterTraitGenerationManager
                         {
                             public class ADDMISSINGPOI
                             {
-                                public static LocString LABEL = (LocString)"Add missing POIs ({0} missing)";
+                                public static LocString LABEL = (LocString)"Add another POI group";
+                                public static LocString LABEL_BASEGAME = (LocString)"Add missing POIs ({0} missing)";
                                 public static LocString TOOLTIP = (LocString)"The following POI types are currently missing:{0}";
                             }
                             public class VANILLASTARMAPENTRYPREFAB
@@ -130,6 +131,7 @@ namespace ClusterTraitGenerationManager
                             {
                                 public static LocString NONESELECTED = (LocString)"None";
                                 public static LocString SELECTEDDISTANCE = (LocString)"{0} at {1} {2}";
+                                public static LocString DISTANCELABEL_DLC = (LocString)"POI-Group {0}\nSpawns {1} of these POIs at Distance {2} to {3}:";
                                 public class RESOURCEHEADER
                                 {
                                     public static LocString LABEL = (LocString)"Resources:";

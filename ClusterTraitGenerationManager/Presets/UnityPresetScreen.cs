@@ -429,7 +429,9 @@ namespace ClusterTraitGenerationManager
             var planetObject = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
 
             var infoText = starmapItem.DisplayName;
-            if (item.maxNumberToSpawn != 1 || item.category == StarmapItemCategory.POI)
+            if (
+                //item.maxNumberToSpawn != 1 || 
+                item.category == StarmapItemCategory.POI)
                 infoText += ": x" + item.numberToSpawn;
 
             UIUtils.TryChangeText(planetObject.transform, "Label", infoText);

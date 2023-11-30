@@ -41,6 +41,95 @@ namespace ClusterTraitGenerationManager
             };
 
 
+
+        public class POI_Data
+        {
+            public string Id;
+            public string Name;
+            public string Description;
+            public Sprite Sprite;
+        }
+        private static Dictionary<string, POI_Data> _so_POIs;
+        public static Dictionary<string, POI_Data> SO_POIs
+        {
+            get
+            {
+                if(_so_POIs == null)
+                {
+                    _so_POIs = new Dictionary<string, POI_Data>();
+                    foreach(var item in Assets.GetPrefabsWithComponent<HarvestablePOIClusterGridEntity>())
+                    {
+                        var data = GetPoiData(item);
+                        if(data!=null && !_so_POIs.ContainsKey(data.Id))
+                        {
+                            _so_POIs.Add(data.Id, data);
+                        }
+                    }
+                    foreach (var item in Assets.GetPrefabsWithComponent<ArtifactPOIClusterGridEntity>())
+                    {
+                        var data = GetPoiData(item);
+                        if (data != null && !_so_POIs.ContainsKey(data.Id))
+                        {
+                            _so_POIs.Add(data.Id, data);
+                        }
+                    }
+                    foreach (var item in Assets.GetPrefabsWithComponent<TemporalTear>())
+                    {
+                        var data = GetPoiData(item);
+                        if (data != null && !_so_POIs.ContainsKey(data.Id))
+                        {
+                            _so_POIs.Add(data.Id, data);
+                        }
+                    }
+                }
+                return _so_POIs;
+            }
+        }
+        static POI_Data GetPoiData(GameObject item)
+        {
+            if (item.TryGetComponent<ClusterGridEntity>(out var component1))
+            {
+                POI_Data data = new POI_Data();
+
+                data.Id = component1.PrefabID().ToString();
+
+                var animName = component1.AnimConfigs.First().initialAnim;
+                var animFile = component1.AnimConfigs.First().animFile;
+
+                if (data.Id.Contains(HarvestablePOIConfig.CarbonAsteroidField)) ///carbon field fix
+                    animName = "carbon_asteroid_field";
+
+                if (animName == "closed_loop")///Temporal tear
+                    animName = "ui";
+
+                data.Sprite = Def.GetUISpriteFromMultiObjectAnim(animFile, animName, true);
+
+                if (item.TryGetComponent<InfoDescription>(out var descHolder))
+                {
+                    data.Description = descHolder.description;
+                    data.Name = component1.Name;
+                }
+                if (component1 is ArtifactPOIClusterGridEntity && data.Name == null)
+                {
+                    string artifact_ID = component1.PrefabID().ToString().Replace("ArtifactSpacePOI_", string.Empty);
+                    data.Name = global::Strings.Get(new StringKey("STRINGS.UI.SPACEDESTINATIONS.ARTIFACT_POI." + artifact_ID.ToUpper() + ".NAME"));
+                    data.Description = global::Strings.Get(new StringKey("STRINGS.UI.SPACEDESTINATIONS.ARTIFACT_POI." + artifact_ID.ToUpper() + ".DESC"));
+                }
+                if (component1 is TemporalTear && data.Name == null)
+                {
+                    data.Name = global::Strings.Get(new StringKey("STRINGS.UI.SPACEDESTINATIONS.WORMHOLE.NAME"));
+                    data.Description = global::Strings.Get(new StringKey("STRINGS.UI.SPACEDESTINATIONS.WORMHOLE.DESCRIPTION"));
+
+
+                }
+
+                return data;
+            }
+            return null;
+        }
+
+
+
         public static Sprite GetTraitSprite(WorldTrait trait)
         {
             Sprite TraitSprite = null;

@@ -13,6 +13,7 @@ using Klei.AI;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER;
 using TemplateClasses;
+using static ClusterTraitGenerationManager.ModAssets;
 
 namespace ClusterTraitGenerationManager
 {
@@ -25,6 +26,23 @@ namespace ClusterTraitGenerationManager
 
         public bool IsCurrentlyActive = false;
         public int CurrentBand;
+        public string CurrentPOIGroup;
+
+        public static void InitializeView(string poiGroupId, Action<string> _selectAction)
+        {
+            if (Instance == null)
+            {
+                var screen = Util.KInstantiateUI(ModAssets.TraitPopup, FrontEndManager.Instance.gameObject, true);
+                Instance = screen.AddOrGet<VanillaPOISelectorScreen>();
+                Instance.Init();
+            }
+            Instance.SelectAction = _selectAction;
+            Instance.CurrentBand = -1;
+            Instance.CurrentPOIGroup = poiGroupId;
+            Instance.Show(true);
+            Instance.ConsumeMouseScroll = true;
+            Instance.transform.SetAsLastSibling();
+        }
 
         public static void InitializeView(int band, Action<string> _selectAction)
         {
@@ -36,6 +54,7 @@ namespace ClusterTraitGenerationManager
             }
             Instance.SelectAction = _selectAction;
             Instance.CurrentBand = band;
+            Instance.CurrentPOIGroup = null;
             Instance.Show(true);
             Instance.ConsumeMouseScroll = true;
             Instance.transform.SetAsLastSibling();
@@ -70,34 +89,64 @@ namespace ClusterTraitGenerationManager
 
         void InitializeTraitContainer()
         {
-            foreach (var poiType in Db.Get().SpaceDestinationTypes.resources)
+            if (DlcManager.IsExpansion1Active())
             {
-                if (poiType.Id == "Wormhole")
-                    continue;
-
-                var poiInstanceHolder = Util.KInstantiateUI(SeasonPrefab, PossibleSeasonContainer, true);
-
-
-                string name = poiType.Name;
-                string description = poiType.description;
-
-                UIUtils.AddSimpleTooltipToObject(poiInstanceHolder.transform, description);
-
-                var icon = poiInstanceHolder.transform.Find("Label/TraitImage").GetComponent<Image>();
-                icon.gameObject.SetActive(true);
-                icon.sprite = Assets.GetSprite(poiType.spriteName);
-
-                UIUtils.TryChangeText(poiInstanceHolder.transform, "Label", name);
-
-                var AddTraitButton = poiInstanceHolder.gameObject.AddOrGet<FButton>();
-
-                AddTraitButton.OnClick += () =>
+                foreach (POI_Data poiType in ModAssets.SO_POIs.Values)
                 {
-                    SelectAction.Invoke(poiType.Id);
-                    CloseThis();
-                };
+                    //if (poiType.Id == "Wormhole")
+                    //    continue;
 
-                VanillaStarmapItems[poiType.Id] = poiInstanceHolder;
+                    var poiInstanceHolder = Util.KInstantiateUI(SeasonPrefab, PossibleSeasonContainer, true);
+
+
+                    UIUtils.TryChangeText(poiInstanceHolder.transform, "Label", poiType.Name);
+                    UIUtils.AddSimpleTooltipToObject(poiInstanceHolder.transform, poiType.Description);
+
+                    var icon = poiInstanceHolder.transform.Find("Label/TraitImage").GetComponent<Image>();
+                    icon.gameObject.SetActive(true);
+                    icon.sprite = poiType.Sprite;
+
+                    var AddPOIButton = poiInstanceHolder.gameObject.AddOrGet<FButton>();
+
+                    AddPOIButton.OnClick += () =>
+                    {
+                        SelectAction.Invoke(poiType.Id);
+                        CloseThis();
+                    };
+
+                    VanillaStarmapItems[poiType.Id] = poiInstanceHolder;
+                }
+            }
+            else
+            {
+                foreach (var poiType in Db.Get().SpaceDestinationTypes.resources)
+                {
+                    if (poiType.Id == "Wormhole")
+                        continue;
+
+                    var poiInstanceHolder = Util.KInstantiateUI(SeasonPrefab, PossibleSeasonContainer, true);
+
+
+                    string name = poiType.Name;
+                    string description = poiType.description;
+
+                    UIUtils.AddSimpleTooltipToObject(poiInstanceHolder.transform, description);
+
+                    var icon = poiInstanceHolder.transform.Find("Label/TraitImage").GetComponent<Image>();
+                    icon.gameObject.SetActive(true);
+                    icon.sprite = Assets.GetSprite(poiType.spriteName);
+
+                    UIUtils.TryChangeText(poiInstanceHolder.transform, "Label", name);
+
+                    var AddTraitButton = poiInstanceHolder.gameObject.AddOrGet<FButton>();
+
+                    AddTraitButton.OnClick += () =>
+                    {
+                        SelectAction.Invoke(poiType.Id);
+                        CloseThis();
+                    };
+                    VanillaStarmapItems[poiType.Id] = poiInstanceHolder;
+                }
             }
         }
 
