@@ -39,6 +39,10 @@ namespace SetStartDupes
             }
             SgtLogger.log("Folders succesfully initialized");
 
+
+            SgtLogger.log("Current Config Settings:");
+            UtilMethods.ListAllPropertyValues(ModConfig.Instance);
+
             SgtLogger.LogVersion(this);
             new PVersionCheck().Register(this, new SteamVersionChecker());
             base.OnLoad(harmony);
