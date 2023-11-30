@@ -35,8 +35,8 @@ namespace Imalas_TwitchChaosEvents
 
         public Config()
         {
-            FakeTacoEventMusic = false;
-            TacoEventMusic = false;
+            FakeTacoEventMusic = true;
+            TacoEventMusic = true;
             FakeTacoEventDuration = 50;
 
             FogDuration = 1.0f;
