@@ -15,6 +15,9 @@ namespace UtilLibs.UIcmp //Source: Aki
         [SerializeField]
         public string placeHolderPath = "Placeholder";
 
+        private bool allowInputs = true;
+        public bool AllowInputs => allowInputs;
+
         private bool initialized;
 
         private bool DataTextUpdate = false;
@@ -26,6 +29,7 @@ namespace UtilLibs.UIcmp //Source: Aki
 
             DataTextUpdate = false;
         }
+        public void SetTextFromData(string text) =>EditTextFromData(text);
 
         public bool IsEditing()
         {
@@ -141,6 +145,15 @@ namespace UtilLibs.UIcmp //Source: Aki
             if (!e.Consumed)
             {
                 base.OnKeyDown(e);
+            }
+        }
+
+        public void SetInteractable(bool interactable)
+        {
+            allowInputs = interactable;
+            if (inputField != null)
+            {
+                inputField.interactable = allowInputs;
             }
         }
     }
