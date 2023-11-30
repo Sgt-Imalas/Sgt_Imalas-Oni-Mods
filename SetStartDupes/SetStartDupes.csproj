@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>SetStartDupes</PackageId>
-		<Version>6.1.2.0</Version>
+		<Version>6.1.3.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022-2023 Sgt_Imalas</Copyright>
 		<RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
@@ -58,6 +58,9 @@
 	</ItemGroup>
 	
 	<ItemGroup>
+	  <None Update="ModAssets\assets\linux\dss_uiassets">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\assets\mac\dss_uiassets">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
