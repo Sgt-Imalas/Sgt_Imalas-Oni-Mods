@@ -73,6 +73,18 @@ namespace SetStartDupes
                     UnityEngine.Object.Destroy(UnityTraitScreen.Instance);
                     UnityTraitScreen.Instance = null;
                 }
+                if (UnityTraitRerollingScreen.Instance != null)
+                {
+                    // UnityTraitScreen.Instance.transform.SetParent(parentScreen.transform, false);
+                    UnityEngine.Object.Destroy(UnityTraitRerollingScreen.Instance);
+                    UnityTraitScreen.Instance = null;
+                }
+                if (UnityCrewPresetScreen.Instance != null)
+                {
+                    // UnityTraitScreen.Instance.transform.SetParent(parentScreen.transform, false);
+                    UnityEngine.Object.Destroy(UnityCrewPresetScreen.Instance);
+                    UnityTraitScreen.Instance = null;
+                }
                 parentScreen = value;
             }
         }
