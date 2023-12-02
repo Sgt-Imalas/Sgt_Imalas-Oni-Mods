@@ -17,6 +17,7 @@ using UnityEngine.UI;
 using UtilLibs;
 using static KSerialization.DebugLog;
 using static SetStartDupes.DupeTraitManager;
+using static SetStartDupes.STRINGS.UI.DSS_OPTIONS;
 using static STRINGS.DUPLICANTS;
 using static STRINGS.UI.DETAILTABS;
 
@@ -563,14 +564,15 @@ namespace SetStartDupes
                     return new List<DUPLICANTSTATS.TraitVal>();
                 else
                     return TraitsByType[type];
-
             }
             else
             {
 
-                if (DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive)
+                if (DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || ModConfig.Instance.AddVaccilatorTraits)
                 {
-                    return TraitsByType[NextType.special].Concat(TraitsByType[NextType.geneShufflerTrait]).Concat(TraitsByType[NextType.posTrait]).Concat(TraitsByType[NextType.needTrait]).Concat(TraitsByType[NextType.negTrait]).ToList();
+                    return 
+                        //TraitsByType[NextType.special].Concat
+                        (TraitsByType[NextType.geneShufflerTrait]).Concat(TraitsByType[NextType.posTrait]).Concat(TraitsByType[NextType.needTrait]).Concat(TraitsByType[NextType.negTrait]).ToList();
                 }
                 else
                 {

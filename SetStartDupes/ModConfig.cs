@@ -85,6 +85,10 @@ namespace SetStartDupes
         [JsonProperty]
         public bool AddAndRemoveTraitsAndInterests { get; set; }
 
+        [Option("STRINGS.UI.DSS_OPTIONS.ADDVACCILATORTRAITS.NAME", "STRINGS.UI.DSS_OPTIONS.ADDVACCILATORTRAITS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
+        [JsonProperty]
+        public bool AddVaccilatorTraits { get; set; }
+
         [Option("STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.NAME", "STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
         [JsonProperty]
         public bool BalanceAddRemove { get; set; }
@@ -119,6 +123,7 @@ namespace SetStartDupes
             HermitSkin = true;
 
             AddAndRemoveTraitsAndInterests = true;
+            AddVaccilatorTraits = false;
             BalanceAddRemove = true;
             NoJoyReactions = false;
             NoStressReactions = false;

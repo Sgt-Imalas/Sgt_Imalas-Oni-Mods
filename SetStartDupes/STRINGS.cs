@@ -114,6 +114,11 @@ namespace SetStartDupes
                     public static LocString NAME = "Add/Remove Interests and Traits";
                     public static LocString TOOLTIP = "Allows to add new or remove existing Traits and Interests on Duplicants.\nCan be overpowered if used excessively.";
                 }
+                public class ADDVACCILATORTRAITS
+                {
+                    public static LocString NAME = "Allow adding Vaccilator Traits";
+                    public static LocString TOOLTIP = "Allows adding Neural-Vaccilator-Traits with the \"Add Trait\" Feature.";
+                }
                 public class INTERESTPOINTSBALANCING
                 {
                     public static LocString NAME = "Interest Point Balancing";
