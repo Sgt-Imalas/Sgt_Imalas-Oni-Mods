@@ -50,7 +50,8 @@ namespace Rockets_TinyYetBig
         {
             public static void Postfix(SelectModuleSideScreen __instance)
             {
-                __instance.ConsumeMouseScroll = true;
+                if(__instance != null)
+                    __instance.ConsumeMouseScroll = true;
             }
         }
 

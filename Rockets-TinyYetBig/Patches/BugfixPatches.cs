@@ -15,6 +15,22 @@ namespace Rockets_TinyYetBig.Patches
 {
     class BugfixPatches
     {
+
+        /// <summary>
+        /// Fixes a crash that happens when an unbuild, disconnected module blocks the space of the module building task
+        /// </summary>
+        [HarmonyPatch(typeof(ReorderableBuilding))]
+        [HarmonyPatch(nameof(ReorderableBuilding.RocketSpecificPostAdd))]
+        public static class FixesVanillaCrashOnUnbuildModuleReordering
+        {
+            public static bool Prefix(GameObject obj, int cell)
+            {
+               return obj != null;
+            }
+        }
+
+
+
         /// <summary>
         /// fixes a vanilla crash that can happen when this has eventID==null
         /// </summary>
@@ -31,7 +47,8 @@ namespace Rockets_TinyYetBig.Patches
                 }
                 return true;
             }
-        }/// <summary>
+        }
+        /// <summary>
          /// Fixes a bug with the cleanup method that would cause invisible solid tiles in the next world at that location
          /// manual patch to avoid double patching with StockBugFix
          /// </summary>
