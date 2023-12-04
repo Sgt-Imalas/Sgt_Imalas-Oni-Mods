@@ -36,7 +36,7 @@ namespace UtilLibs.UIcmp //Source: Aki
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
-            if(image ==null && button != null)
+            if( button != null && button.image !=null)
             {
                 image = button.image;
             }
@@ -44,7 +44,18 @@ namespace UtilLibs.UIcmp //Source: Aki
             material = image.material;
             interactable = true;
         }
-
+        public override void OnSpawn()
+        {
+            base.OnSpawn();
+            if (button != null)
+                button.navigation = GetNoNavigation();
+        }
+        Navigation GetNoNavigation() {
+            Navigation result = default(Navigation);
+            result.m_Mode = Navigation.Mode.None;
+            result.m_WrapAround = false;
+            return result;
+        }
         public void SetInteractable(bool interactable)
         {
             if (this.IsNullOrDestroyed() || button==null && image == null)
