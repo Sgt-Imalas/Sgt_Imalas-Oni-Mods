@@ -14,6 +14,7 @@ using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAI
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER;
 using TemplateClasses;
 using static ClusterTraitGenerationManager.ModAssets;
+using Satsuma;
 
 namespace ClusterTraitGenerationManager
 {
@@ -26,9 +27,9 @@ namespace ClusterTraitGenerationManager
 
         public bool IsCurrentlyActive = false;
         public int CurrentBand;
-        public string CurrentPOIGroup;
+        public StarmapItem CurrentPOIGroup;
 
-        public static void InitializeView(string poiGroupId, Action<string> _selectAction)
+        public static void InitializeView(StarmapItem poiGroup, Action<string> _selectAction)
         {
             if (Instance == null)
             {
@@ -38,10 +39,39 @@ namespace ClusterTraitGenerationManager
             }
             Instance.SelectAction = _selectAction;
             Instance.CurrentBand = -1;
-            Instance.CurrentPOIGroup = poiGroupId;
+            Instance.CurrentPOIGroup = poiGroup;
             Instance.Show(true);
+            Instance.FilterItems();
             Instance.ConsumeMouseScroll = true;
             Instance.transform.SetAsLastSibling();
+        }
+
+        void FilterItems()
+        {
+            foreach (var item in VanillaStarmapItems.Values)
+            {
+                item.SetActive(true);
+            }
+
+            if (VanillaStarmapItems.ContainsKey("TemporalTear"))
+            {
+                VanillaStarmapItems["TemporalTear"].SetActive(CustomCluster!=null && !CustomCluster.HasTear);
+            }
+            if (VanillaStarmapItems.ContainsKey("ArtifactSpacePOI_RussellsTeapot"))
+            {
+                VanillaStarmapItems["ArtifactSpacePOI_RussellsTeapot"].SetActive(CustomCluster != null && !CustomCluster.HasTeapot);
+            }
+            if (CurrentPOIGroup!= null&& CurrentPOIGroup.placementPOI != null && CurrentPOIGroup.placementPOI.pois!=null)
+            {
+                foreach (var id in CurrentPOIGroup.placementPOI.pois)
+                {
+                    if(VanillaStarmapItems.ContainsKey(id))
+                    {
+                        VanillaStarmapItems[id].SetActive(false);
+                    }
+                }
+            }
+            
         }
 
         public static void InitializeView(int band, Action<string> _selectAction)

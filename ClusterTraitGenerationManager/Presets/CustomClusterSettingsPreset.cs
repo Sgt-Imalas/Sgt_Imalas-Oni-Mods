@@ -383,6 +383,12 @@ namespace ClusterTraitGenerationManager
                 if (poiItem == null)
                     return null;
 
+                SgtLogger.Assert("poi placement, " + poiItem.id, poiItem.placementPOI);
+                SgtLogger.Assert("pois, " + poiItem.id, poiItem.placementPOI.pois);
+                SgtLogger.Assert("duplicates, " + poiItem.id, poiItem.placementPOI.canSpawnDuplicates);
+                SgtLogger.Assert("avoidClumping, " + poiItem.id, poiItem.placementPOI.avoidClumping);
+
+
                 return new SerializableStarmapItem(
                     poiItem.id,
                     -1,
@@ -405,13 +411,36 @@ namespace ClusterTraitGenerationManager
 
                 };
             }
+            public static SerializableStarmapItem InitRandomPlanet(StarmapItem poiItem)
+            {
+                if (poiItem == null)
+                    return null;
+
+                return new SerializableStarmapItem(
+                    poiItem.id,
+                    poiItem.PredefinedPlacementOrder,
+                    poiItem.minRing,
+                    poiItem.maxRing,
+                    poiItem.buffer,
+                    poiItem.InstancesToSpawn,
+                    poiItem.category,
+                    default,
+                    default,
+                    -1,
+                    -1,
+                    null,
+                    null
+                    );
+            }
+
+
             public static SerializableStarmapItem InitPlanet(StarmapItem poiItem)
             {
                 if (poiItem == null)
                     return null;
 
                 if (poiItem.id.Contains(CGSMClusterManager.RandomKey))
-                    return InitPOI(poiItem);
+                    return InitRandomPlanet(poiItem);
 
                 return new SerializableStarmapItem(
                     poiItem.id,
@@ -470,6 +499,8 @@ namespace ClusterTraitGenerationManager
 
             if (CGSMClusterManager.CustomCluster == null)
                 return;
+
+            SgtLogger.l("Applying Preset " + ConfigName);
 
             ApplyGameSettings();
             SgtLogger.l("Settings loaded");
@@ -546,7 +577,6 @@ namespace ClusterTraitGenerationManager
                     }, poi.Value.numberToSpawn);
                 }
             }
-
             if (!DlcManager.IsExpansion1Active() && VanillaStarmapLocations != null)
             {
                 cluster.VanillaStarmapItems.Clear();

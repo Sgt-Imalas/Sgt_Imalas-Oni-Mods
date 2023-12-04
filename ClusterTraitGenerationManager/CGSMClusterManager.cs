@@ -183,6 +183,9 @@ namespace ClusterTraitGenerationManager
 
                 return planetDiff;
             }
+
+            [JsonIgnore] public bool HasTear => POIs!=null && POIs.Any(item => item.Value.placementPOI != null && item.Value.placementPOI.pois != null && item.Value.placementPOI.pois.Contains("TemporalTear"));
+            [JsonIgnore] public bool HasTeapot => POIs!=null && POIs.Any(item => item.Value.placementPOI != null && item.Value.placementPOI.pois != null && item.Value.placementPOI.pois.Contains("ArtifactSpacePOI_RussellsTeapot"));            
             [JsonIgnore] public int AdjustedOuterExpansion => GetAdjustedOuterExpansion();
 
             public int defaultRings = 12;
@@ -777,6 +780,11 @@ namespace ClusterTraitGenerationManager
                             return name;
                         }
                     }
+                    else if( category == StarmapItemCategory.POI)
+                    {
+                        return id.Substring(0, 8);
+                    }
+
                     //else if (_poiID != null)
                     //{
                     //    return _poiName;
@@ -1550,16 +1558,10 @@ namespace ClusterTraitGenerationManager
 
             foreach (var poi in CustomCluster.POIs)
             {
-                var radomns = poi.Value.placementPOI.pois.FindAll(i => i.Contains(RandomKey)).Count;
+                var radomns = poi.Value.placementPOI.pois.Any(i => i.Contains(RandomKey)) ? true : false;
 
                 poi.Value.placementPOI.pois.RemoveAll(i => i.Contains(RandomKey));
-                while (radomns > 0)
-                {
-                    string randomId = GetRandomPOI();
-                    if (randomId.Length > 0)
-                        poi.Value.placementPOI.pois.Add(randomId);
-                    radomns--;
-                }
+               
                 poi.Value.placementPOI.numToSpawn = (int)Mathf.Floor(poi.Value.InstancesToSpawn);
                 float percentageAdditional = poi.Value.InstancesToSpawn % 1f;
                 if (percentageAdditional > 0)
@@ -1576,6 +1578,17 @@ namespace ClusterTraitGenerationManager
                     }
                     seed++;
                 }
+                SgtLogger.l("final number of pois for " + poi.Value.id + " " + poi.Value.placementPOI.numToSpawn);
+                if (radomns)
+                {
+                    for(int i = 0; i < poi.Value.placementPOI.numToSpawn; i++)
+                    {
+                        string randomId = GetRandomPOI();
+                        if (randomId.Length > 0)
+                            poi.Value.placementPOI.pois.Add(randomId);
+                    }
+                }
+
                 layout.poiPlacements.Add(poi.Value.placementPOI);
             }
 
@@ -1807,9 +1820,6 @@ namespace ClusterTraitGenerationManager
             }
 
             LastPresetGenerated = clusterID;
-            if (CGM_Screen != null)
-                CGM_Screen.PresetApplied = false;
-
 
             if (Reference.poiPlacements == null)
                 return;
@@ -1822,6 +1832,11 @@ namespace ClusterTraitGenerationManager
                     continue;
                 }
                 CustomCluster.POIs[item.id] = item;
+            }
+            if (CGM_Screen != null)
+            {
+                CGM_Screen.PresetApplied = false;
+                CGM_Screen.RebuildStarmap(true);
             }
         }
 

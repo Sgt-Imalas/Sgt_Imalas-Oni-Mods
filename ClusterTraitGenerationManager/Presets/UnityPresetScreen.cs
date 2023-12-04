@@ -404,7 +404,7 @@ namespace ClusterTraitGenerationManager
         {
             if (!PlanetoidDict.ContainsKey(item.itemID))
             {
-                SgtLogger.warning(item.itemID + " not found!");
+                SgtLogger.warning(item.itemID + " not found in planetoid dictionary!");
                 image.sprite = Assets.GetSprite(SpritePatch.randomTraitsTraitIcon);
                 return false;
             }
@@ -420,7 +420,7 @@ namespace ClusterTraitGenerationManager
 
             if (!PlanetoidDict.ContainsKey(item.itemID))
             {
-                SgtLogger.warning(item.itemID + " not found!");
+                SgtLogger.warning(item.itemID + " not found planetoid dictionar!");
                 return null;
             }
 

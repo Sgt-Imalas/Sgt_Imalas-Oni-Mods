@@ -208,8 +208,10 @@ namespace ClusterTraitGenerationManager
                 {
                     return plural ?  STRINGS.UI.STARMAPITEMDESCRIPTOR.STORYTRAITPLURAL : STRINGS.UI.STARMAPITEMDESCRIPTOR.STORYTRAIT;
                 }
+                if (itemCategory == StarmapItemCategory.POI)
+                    return plural ? STRINGS.UI.STARMAPITEMDESCRIPTOR.POI_GROUP_PLURAL : STRINGS.UI.STARMAPITEMDESCRIPTOR.POI_GROUP;
 
-                if (itemCategory == StarmapItemCategory.POI || itemCategory == StarmapItemCategory.VanillaStarmap)
+                if (itemCategory == StarmapItemCategory.VanillaStarmap)
                     return plural ? STRINGS.UI.STARMAPITEMDESCRIPTOR.POIPLURAL : STRINGS.UI.STARMAPITEMDESCRIPTOR.POI;
                 else
                     return plural ? STRINGS.UI.STARMAPITEMDESCRIPTOR.ASTEROIDPLURAL : STRINGS.UI.STARMAPITEMDESCRIPTOR.ASTEROID;

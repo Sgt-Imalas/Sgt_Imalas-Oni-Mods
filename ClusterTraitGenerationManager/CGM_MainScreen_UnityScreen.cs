@@ -647,6 +647,13 @@ namespace ClusterTraitGenerationManager
             }
         }
 
+        public void ResetSpecialSelections()
+        {
+            CurrentlySelectedVanillaStarmapItem = null;
+            CurrentlySelectedSOStarmapItem = null;
+
+        }
+
         /// </GameSettings>
         StarmapItemCategory SelectedCategory = StarmapItemCategory.Starter;
 
@@ -914,15 +921,17 @@ namespace ClusterTraitGenerationManager
 
         string SpacedOutPOIHeaderString()
         {
-            //TODO!
-            return
+            if (CurrentlySelectedSOStarmapItem == null || !ModAssets.SO_POIs.ContainsKey(CurrentlySelectedSOStarmapItem.first))
+                return string.Empty;
+            var data = ModAssets.SO_POIs[CurrentlySelectedSOStarmapItem.first];
+
+                //TODO!
+                return
                  ModAssets.Strings.ApplyCategoryTypeToString(
-                CurrentlySelectedVanillaStarmapItem != null
-                ? string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL,
-                    string.Format(VANILLAPOI_RESOURCES.SELECTEDDISTANCE,
-                        Db.Get().SpaceDestinationTypes.TryGet(CurrentlySelectedVanillaStarmapItem.first).Name,
-                        (CurrentlySelectedVanillaStarmapItem.second + 1) * 10000,
-                        global::STRINGS.UI.UNITSUFFIXES.DISTANCE.KILOMETER.Replace(" ", "")))
+                CurrentlySelectedSOStarmapItem != null
+                ? string.Format(VANILLAPOI_RESOURCES.SELECTEDDISTANCE_SO,
+                        data.Name,
+                        CurrentlySelectedSOStarmapItem.second.Substring(0,8))
                 : string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL, VANILLAPOI_RESOURCES.NONESELECTED)
                 , StarmapItemCategory.VanillaStarmap);
         }
@@ -932,11 +941,10 @@ namespace ClusterTraitGenerationManager
             return
                  ModAssets.Strings.ApplyCategoryTypeToString(
                 CurrentlySelectedVanillaStarmapItem != null
-                ? string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL,
-                    string.Format(VANILLAPOI_RESOURCES.SELECTEDDISTANCE,
+                ? string.Format(VANILLAPOI_RESOURCES.SELECTEDDISTANCE,
                         Db.Get().SpaceDestinationTypes.TryGet(CurrentlySelectedVanillaStarmapItem.first).Name,
                         (CurrentlySelectedVanillaStarmapItem.second + 1) * 10000,
-                        global::STRINGS.UI.UNITSUFFIXES.DISTANCE.KILOMETER.Replace(" ", "")))
+                        global::STRINGS.UI.UNITSUFFIXES.DISTANCE.KILOMETER.Replace(" ", ""))
                 : string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL, VANILLAPOI_RESOURCES.NONESELECTED)
                 , StarmapItemCategory.VanillaStarmap);
         }
@@ -965,9 +973,9 @@ namespace ClusterTraitGenerationManager
 
         void UpdateVanillaStarmapDetails()
         {
-            selectionHeaderLabel.SetText(VanillaStarmapHeaderString());
             if (CurrentlySelectedVanillaStarmapItem != null && Db.Get().SpaceDestinationTypes.TryGet(CurrentlySelectedVanillaStarmapItem.first) != null)
             {
+                selectionHeaderLabel.SetText(VanillaStarmapHeaderString());
                 SpaceDestinationType currentDestination = Db.Get().SpaceDestinationTypes.TryGet(CurrentlySelectedVanillaStarmapItem.first);
                 VanillaPOI_POIDesc.text = currentDestination.description;
                 for (int i = VanillaPOI_Resources.Count - 1; i >= 0; i--)
@@ -1018,15 +1026,19 @@ namespace ClusterTraitGenerationManager
 
                 VanillaPOI_ArtifactTooltip.SetSimpleTooltip(ArtifactRateTooltip(currentDestination.artifactDropTable));
             }
+            else
+                selectionHeaderLabel.SetText(string.Empty);
         }
 
         void UpdateSO_SinglePOIDetails()
         {
+            selectionHeaderLabel.SetText(string.Empty);
             if (CurrentlySelectedSOStarmapItem == null)
                 return;
 
             if (ModAssets.SO_POIs.ContainsKey(CurrentlySelectedSOStarmapItem.first))
             {
+                selectionHeaderLabel.SetText(SpacedOutPOIHeaderString());
                 ModAssets.POI_Data data = ModAssets.SO_POIs[CurrentlySelectedSOStarmapItem.first];
 
                 VanillaPOI_POIDesc.text = data.Description;
@@ -1122,6 +1134,7 @@ namespace ClusterTraitGenerationManager
         }
         void UpdateSO_POIGroup()
         {
+            selectionHeaderLabel.SetText(ModAssets.Strings.ApplyCategoryTypeToString(string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL, SelectedPlanet.DisplayName), SelectedCategory));
             POIGroup_AllowDuplicates.SetOn(SelectedPlanet.placementPOI.canSpawnDuplicates);
             POIGroup_AvoidClumping.SetOn(SelectedPlanet.placementPOI.avoidClumping);
             var allItems = POIGroup_Entries.Keys.ToList();
@@ -1137,12 +1150,6 @@ namespace ClusterTraitGenerationManager
                 string groupId = SelectedPlanet.id;
                 AddSO_GroupPOIEntry_UI(groupId, poiId);
             }
-
-        }
-        void UpdatePlanetDetails()
-        {
-            if(SelectedPlanet == null)
-                return;
 
         }
 
@@ -1173,6 +1180,7 @@ namespace ClusterTraitGenerationManager
 
             ///PlanetToggles
             StarmapItemEnabled.gameObject.SetActive(planetCategorySelected);
+            NumberOfRandomClassicsGO.SetActive(false);
 
             NumberToGenerateInput.transform.parent.gameObject.SetActive(false);
             MinMaxDistanceSlider.transform.parent.gameObject.SetActive(planetCategorySelected || POIGroupSelected);
@@ -1607,7 +1615,7 @@ namespace ClusterTraitGenerationManager
             {
                 ///TODO: Open POISelector
                 // CustomCluster.AddPoiGroup();
-                VanillaPOISelectorScreen.InitializeView(string.Empty, (id) =>
+                VanillaPOISelectorScreen.InitializeView(null, (id) =>
                 {
                     CustomCluster.AddNewPoiGroupFromPOI(id);
                     RebuildStarmap(false);
@@ -2072,8 +2080,8 @@ namespace ClusterTraitGenerationManager
             {
                 CGSMClusterManager.OpenPresetWindow(() =>
                 {
-                    RefreshView();
                     RebuildStarmap(false);
+                    RefreshView();
                 }
                 );
             };
@@ -2230,7 +2238,7 @@ namespace ClusterTraitGenerationManager
             {
                 if (CustomCluster.HasStarmapItem(SelectedPlanet.id, out var item) && item.category == StarmapItemCategory.POI && item.placementPOI != null)
                 {
-                    VanillaPOISelectorScreen.InitializeView(SelectedPlanet.id, (id) =>
+                    VanillaPOISelectorScreen.InitializeView(SelectedPlanet, (id) =>
                     {
                         AddSOSinglePOI_UI(SelectedPlanet.id, id);
                         SelectedPlanet.placementPOI.pois.Add(id);

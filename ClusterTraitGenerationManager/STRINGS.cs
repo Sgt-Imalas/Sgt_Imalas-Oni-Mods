@@ -172,6 +172,7 @@ namespace ClusterTraitGenerationManager
                             {
                                 public static LocString NONESELECTED = (LocString)"None";
                                 public static LocString SELECTEDDISTANCE = (LocString)"{0} at {1} {2}";
+                                public static LocString SELECTEDDISTANCE_SO = (LocString)"{0} in Group {1}";
                                 public static LocString DISTANCELABEL_DLC = (LocString)"POI-Group {0}\nSpawns {1} of these POIs at Distance {2} to {3}:";
                                 public class RESOURCEHEADER
                                 {
@@ -685,8 +686,11 @@ namespace ClusterTraitGenerationManager
             {
                 public static LocString ASTEROID = (LocString)"Asteroid";
                 public static LocString ASTEROIDPLURAL = (LocString)"Asteroids";
+
                 public static LocString POI = (LocString)"Point of Interest";
-                public static LocString POIPLURAL = (LocString)"Points of Interest";
+                public static LocString POI_GROUP = (LocString)"POI Group";
+                public static LocString POI_GROUP_PLURAL = (LocString)"POI Groups";
+                public static LocString POIPLURAL = (LocString)"Points of Interest"; 
 
                 public static LocString STORYTRAIT = (LocString)"Story Trait";
                 public static LocString STORYTRAITPLURAL = (LocString)"Story Traits";
