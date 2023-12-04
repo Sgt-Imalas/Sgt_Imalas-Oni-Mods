@@ -12,6 +12,7 @@ using UnityEngine;
 using UtilLibs;
 using static ClusterTraitGenerationManager.CGSMClusterManager;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.VANILLAPOI_RESOURCES;
 using static ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS;
 using static STRINGS.CREATURES.STATS;
 
@@ -48,6 +49,12 @@ namespace ClusterTraitGenerationManager
             public string Name;
             public string Description;
             public Sprite Sprite;
+            public Dictionary<SimHashes, float> Mineables;
+            public bool HasArtifacts;
+
+            public float RechargeMin, RechargeMax;
+            public float CapacityMin,CapacityMax;
+
         }
         private static Dictionary<string, POI_Data> _so_POIs;
         public static Dictionary<string, POI_Data> SO_POIs
@@ -104,6 +111,20 @@ namespace ClusterTraitGenerationManager
 
                 data.Sprite = Def.GetUISpriteFromMultiObjectAnim(animFile, animName, true);
 
+                if (item.TryGetComponent<HarvestablePOIConfigurator>(out var harvest))
+                {
+                    var HarvestableConfig = HarvestablePOIConfigurator.FindType(harvest.presetType);
+                    data.Mineables = new(HarvestableConfig.harvestableElements);
+                    data.CapacityMin = HarvestableConfig.poiCapacityMin;
+                    data.CapacityMax = HarvestableConfig.poiCapacityMax;
+                    data.RechargeMin = HarvestableConfig.poiRechargeMin;
+                    data.RechargeMax = HarvestableConfig.poiRechargeMax;
+                }
+                if (item.TryGetComponent<ArtifactPOIConfigurator>(out _))
+                {
+                    data.HasArtifacts = true;
+                }
+
                 if (item.TryGetComponent<InfoDescription>(out var descHolder))
                 {
                     data.Description = descHolder.description;
@@ -119,8 +140,6 @@ namespace ClusterTraitGenerationManager
                 {
                     data.Name = global::Strings.Get(new StringKey("STRINGS.UI.SPACEDESTINATIONS.WORMHOLE.NAME"));
                     data.Description = global::Strings.Get(new StringKey("STRINGS.UI.SPACEDESTINATIONS.WORMHOLE.DESCRIPTION"));
-
-
                 }
 
                 return data;

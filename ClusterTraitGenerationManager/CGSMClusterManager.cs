@@ -1124,6 +1124,7 @@ namespace ClusterTraitGenerationManager
                 placementPOI.allowedRings = new(placement2.allowedRings.min, placement2.allowedRings.max);
                 originalMaxPOI = placement2.allowedRings.max;
                 originalMinPOI = placement2.allowedRings.min;
+                MaxNumberOfInstances = placement2.numToSpawn * 5f; ///TODO!
                 InstancesToSpawn = placement2.numToSpawn;
                 return this;
             }

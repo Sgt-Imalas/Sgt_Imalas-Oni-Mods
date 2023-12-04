@@ -115,10 +115,51 @@ namespace ClusterTraitGenerationManager
                         public static LocString LABEL = (LocString)"Currently selected [STARMAPITEMTYPE]: {0}";
                     }
 
+                    
                     public class CONTENT
                     {
                         public class SCROLLRECTCONTAINER
                         {
+                            public class SO_POIGROUP_CONTAINER
+                            {
+                                public class GROUPHEADER
+                                {
+                                    public static LocString LABEL = (LocString)"POIs in this Group:";
+                                }
+                                public class POICONTAINER
+                                {
+                                    public class SCROLLAREA
+                                    {
+                                        public class CONTENT
+                                        {
+                                            public class NOPOIS
+                                            {
+                                                public static LocString LABEL = (LocString)"No POIs in this group...";
+                                            }
+                                        }
+                                    }
+                                }
+                                public class ADDPOIBUTTON
+                                {
+                                    public static LocString LABEL = (LocString)"Add new POI to group";
+                                }
+                            }
+                            public class POI_ALLOWDUPLICATES
+                            {
+                                public static LocString LABEL = (LocString)"Allow Spawning Duplicates:";
+                                public static LocString TOOLTIP = (LocString)"When enabled, a POI from the POI pool can generate multiple times from this POI group.";
+                            }
+                            public class POI_AVOIDCLUMPING
+                            {
+                                public static LocString LABEL = (LocString)"Avoid Clumping:";
+                                public static LocString TOOLTIP = (LocString)"When enabled, POIs generated from this group cannot generate adjacent to other POIs.";
+                            }
+                            public class SO_POIGROUP_REMOVE
+                            {
+                                public static LocString LABEL = (LocString)"Delete this POI Group";
+                                public static LocString TOOLTIP = (LocString)"Delete the currently selected POI group from the custom cluster.";
+
+                            }
                             public class STORYTRAIT
                             {
                                 public class STORYTRAITENABLED
@@ -146,7 +187,7 @@ namespace ClusterTraitGenerationManager
                                             {
                                                 public class NORESOURCES
                                                 {
-                                                    public static LocString LABEL = (LocString)"No Resources here..";                                                   
+                                                    public static LocString LABEL = (LocString)"No Resources here..";
                                                 }
                                                 public class LISTVIEWENTRYPREFAB
                                                 {

@@ -1382,8 +1382,23 @@ namespace ClusterTraitGenerationManager
 
                                 if (newGeyserAmount > 1)
                                 {
-                                    WorldTemplateRule.times = Mathf.RoundToInt(newGeyserAmount);
-                                    SgtLogger.l("new Geyser amount above/equal to 1, rounding to " + Mathf.RoundToInt(newGeyserAmount), "CGM WorldgenModifier");
+                                    WorldTemplateRule.times = Mathf.FloorToInt(newGeyserAmount);
+                                    SgtLogger.l("new Geyser amount has a chance of "+ newGeyserAmount % 1f+" for an additional spawn, rolling...", "CGM WorldgenModifier");
+
+                                    float chance = ((float)new System.Random(CGSMClusterManager.CurrentSeed + BitConverter.ToInt32(MD5.Create().ComputeHash(Encoding.Default.GetBytes(WorldTemplateRule.names.First())), 0)).Next(100)) / 100f;
+                                    SgtLogger.l("rolled: " + chance);
+                                    //chance = 0;///always atleast 1
+                                    if (chance <=( newGeyserAmount % 1f))
+                                    {
+                                        SgtLogger.l("roll for additional spawn succeeded: " + chance * 100f, "POI Chance: " + newGeyserAmount.ToString("P"));
+                                        WorldTemplateRule.times+=1;
+                                    }
+                                    else
+                                    {
+                                        SgtLogger.l("roll for additional spawn failed: " + chance * 100f, "POI Chance: " + newGeyserAmount.ToString("P"));
+                                    }
+                                    SgtLogger.l("final geyser spawn count: " + WorldTemplateRule.times);
+
                                 }
                                 else
                                 {
