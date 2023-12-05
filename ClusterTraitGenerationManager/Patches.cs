@@ -1201,7 +1201,7 @@ namespace ClusterTraitGenerationManager
         {
             private static void Prefix(Border __instance)
             {
-                if (CGSMClusterManager.LoadCustomCluster)
+                if (CGSMClusterManager.LoadCustomCluster && !Mathf.Approximately(1, borderSizeMultiplier))
                     __instance.width = Mathf.Max(0.25f, __instance.width * borderSizeMultiplier);
             }
         }
@@ -1263,6 +1263,9 @@ namespace ClusterTraitGenerationManager
                 && (item.CurrentSizeMultiplier < 1)
                 )
             {
+                if (Mathf.Approximately(item.CurrentSizeMultiplier, 1))
+                    return inputNumber;
+
                 SgtLogger.l($"changed input float: {inputNumber}, multiplied: {item.ApplySizeMultiplierToValue((float)inputNumber)}", "CGM WorldgenModifier");
 
                 return item.ApplySizeMultiplierToValue((float)inputNumber);
@@ -1278,6 +1281,9 @@ namespace ClusterTraitGenerationManager
                 )
             {
 
+                if (Mathf.Approximately(item.CurrentSizeMultiplier, 1))
+                    return inputNumber;
+                
                 SgtLogger.l($"changed input int: {inputNumber}, multiplied: {item.ApplySizeMultiplierToValue((float)inputNumber)}", "CGM WorldgenModifier");
 
 
