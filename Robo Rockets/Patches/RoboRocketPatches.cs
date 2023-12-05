@@ -228,7 +228,8 @@ namespace RoboRockets
 
                         if(Module.TryGetComponent<RocketModuleCluster>(out var module) && module.CraftInterface.TryGetComponent<ClusterGridEntity>(out var entity))
                         {
-                            ClusterMapScreen.Instance.SelectEntity(entity, true);
+                            ClusterMapScreen.Instance.SetTargetFocusPosition(entity.Location,0);
+                           // ClusterMapScreen.Instance.SelectEntity(entity, true);
                         }
                     }
                     else
