@@ -1336,8 +1336,8 @@ namespace ClusterTraitGenerationManager
             float min = placement.allowedRings.min, max = placement.allowedRings.max;
             //min*= multiplier;
 
-            if (max < 3)
-                max = 3;
+            //if (max < 3)
+                //max = 3;
 
             max *= multiplier;
             max = Math.Min(max, CustomCluster.Rings);
@@ -1561,7 +1561,7 @@ namespace ClusterTraitGenerationManager
                 var radomns = poi.Value.placementPOI.pois.Any(i => i.Contains(RandomKey)) ? true : false;
 
                 poi.Value.placementPOI.pois.RemoveAll(i => i.Contains(RandomKey));
-               
+                    
                 poi.Value.placementPOI.numToSpawn = (int)Mathf.Floor(poi.Value.InstancesToSpawn);
                 float percentageAdditional = poi.Value.InstancesToSpawn % 1f;
                 if (percentageAdditional > 0)
@@ -1578,7 +1578,6 @@ namespace ClusterTraitGenerationManager
                     }
                     seed++;
                 }
-                SgtLogger.l("final number of pois for " + poi.Value.id + " " + poi.Value.placementPOI.numToSpawn);
                 if (radomns)
                 {
                     for(int i = 0; i < poi.Value.placementPOI.numToSpawn; i++)
@@ -1588,6 +1587,9 @@ namespace ClusterTraitGenerationManager
                             poi.Value.placementPOI.pois.Add(randomId);
                     }
                 }
+                poi.Value.placementPOI.pois.ForEach(poi => SgtLogger.l(poi, "poi in group"));
+
+                SgtLogger.l($"\navoidClumping: {poi.Value.placementPOI.avoidClumping},\nallowDuplicates: {poi.Value.placementPOI.canSpawnDuplicates},\nRings: {poi.Value.placementPOI.allowedRings.ToString()}\nNumberToSpawn: {poi.Value.placementPOI.numToSpawn}", "POIGroup " + poi.Key.Substring(0,8));
 
                 layout.poiPlacements.Add(poi.Value.placementPOI);
             }
