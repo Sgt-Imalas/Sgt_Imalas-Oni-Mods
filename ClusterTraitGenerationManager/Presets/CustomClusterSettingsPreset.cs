@@ -573,6 +573,7 @@ namespace ClusterTraitGenerationManager
                         pois = poi.Value.pois,
                         canSpawnDuplicates = poi.Value.allowDuplicates,
                         avoidClumping = poi.Value.avoidClumping,
+                        numToSpawn = (int) Mathf.FloorToInt(poi.Value.numberToSpawn)
 
                     }, poi.Value.numberToSpawn);
                 }
