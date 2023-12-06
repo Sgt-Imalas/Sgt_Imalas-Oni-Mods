@@ -83,7 +83,7 @@ namespace SetStartDupes
         [HarmonyPatch(nameof(CharacterContainer.GenerateCharacter))]
         public class OverwriteRngGeneration
         {
-            public static bool Prefix(CharacterContainer __instance, KButton ___selectButton)
+            public static bool Prefix(CharacterContainer __instance, KButton ___selectButton, string guaranteedAptitudeID)
             {
                 if (ModAssets.EditingSingleDupe)
                 {
@@ -94,13 +94,13 @@ namespace SetStartDupes
                         && Db.Get().Personalities.Get(minionIdentity.personalityResourceId) != null)
                     {
                         var originPersonality = Db.Get().Personalities.Get(minionIdentity.personalityResourceId);
-                        __instance.stats = new MinionStartingStats(originPersonality, guaranteedTraitID: "AncientKnowledge");
+                        __instance.stats = new MinionStartingStats(originPersonality, guaranteedAptitudeID, guaranteedTraitID: "AncientKnowledge");
                         //ModAssets.ApplySkinFromPersonality(originPersonality, __instance.stats);
                         //__instance.characterNameTitle.OnEndEdit(originPersonality.Name);
                     }
                     else
                     {
-                        __instance.stats = new MinionStartingStats(is_starter_minion: false, guaranteedTraitID: "AncientKnowledge");
+                        __instance.stats = new MinionStartingStats(is_starter_minion: false, guaranteedAptitudeID, guaranteedTraitID: "AncientKnowledge");
                     }
                     if (EditingJorge)
                     {

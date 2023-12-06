@@ -96,8 +96,8 @@ namespace SetStartDupes
             UIUtils.FindAndDestroy(TraitContainer.transform, "TraitGroupGood", true);
             UIUtils.FindAndDestroy(TraitContainer.transform, "TraitGroupBad", true);
 
-            UIUtils.ListAllChildrenPath(InterestContainer.transform);
-            UIUtils.ListAllChildrenPath(TraitContainer.transform);
+           // UIUtils.ListAllChildrenPath(InterestContainer.transform);
+           // UIUtils.ListAllChildrenPath(TraitContainer.transform);
             //UIUtils.FindAndDestroy()
 
 
