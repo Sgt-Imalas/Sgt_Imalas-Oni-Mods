@@ -177,4 +177,10 @@
 	  <Folder Include="ModAssets\assets\windows\" />
 	  <Folder Include="ModAssets\dlc\expansion1\worldgen\subworlds\forest\" />
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <Reference Include="UnityEngine.InputLegacyModule">
+	    <HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
 </Project>

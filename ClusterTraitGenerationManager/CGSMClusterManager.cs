@@ -169,6 +169,7 @@ namespace ClusterTraitGenerationManager
             StoryTraits = -2,
             GameSettings = -3,
             VanillaStarmap = -4,
+            SpacedOutStarmap = -5,
         }
 
 

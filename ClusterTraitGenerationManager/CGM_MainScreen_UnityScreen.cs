@@ -33,6 +33,7 @@ using KSerialization;
 using static STRINGS.UI.CLUSTERMAP;
 using UnityEngine.PlayerLoop;
 using static ResearchTypes;
+using ClusterTraitGenerationManager.SO_StarmapEditor;
 
 namespace ClusterTraitGenerationManager
 {
@@ -1375,6 +1376,12 @@ namespace ClusterTraitGenerationManager
 
         public void SelectCategory(StarmapItemCategory category)
         {
+            if(category == StarmapItemCategory.SpacedOutStarmap)
+            {
+                Unity_SO_StarmapScreen.ShowWindow();
+                return;
+            }
+
             this.SelectedCategory = category;
             //this.categoryHeaderLabel.SetText(STRINGS.UI.CUSTOMCLUSTERUI.NAMECATEGORIES);
             this.SelectDefaultCategoryItem();
@@ -2390,6 +2397,8 @@ namespace ClusterTraitGenerationManager
                 AddCategoryItem(category);
             };
             AddCategoryItem(DlcManager.IsExpansion1Active() ? StarmapItemCategory.POI : StarmapItemCategory.VanillaStarmap);
+            if(DlcManager.IsExpansion1Active())
+                AddCategoryItem(StarmapItemCategory.SpacedOutStarmap);
 
 
             var StoryTraitsBtn = StoryTraitButton.AddOrGet<CategoryItem>();
