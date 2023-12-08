@@ -7,7 +7,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UtilLibs.UIcmp;
+using static KInputController;
 using static STRINGS.DUPLICANTS.PERSONALITIES;
+using static STRINGS.UI.CLUSTERMAP.ROCKETS;
 
 namespace ClusterTraitGenerationManager.SO_StarmapEditor
 {
@@ -22,6 +24,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
         public HexGrid Grid;
 
         GameObject HexGridContainer;
+        ScrollRect ScrollRect;
 
         public bool CurrentlyActive = false;
         private bool HoveringPrio = false;
@@ -42,6 +45,23 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
 
         private bool init;
         private System.Action OnCloseAction;
+        //float speed = 0.1f;
+
+        //public void FixedUpdate()
+        //{
+        //    if (leftPan == 0 && rightPan == 0 && upPan == 0 && downPan == 0) return;
+
+        //    float contentHeight = ScrollRect.content.sizeDelta.y;
+        //    float contentWidth = ScrollRect.content.sizeDelta.x;
+        //    float contentShiftVert = speed * (upPan+downPan) * Time.deltaTime;
+        //    float contentShiftHoriz = speed * (leftPan+rightPan) * Time.deltaTime;
+        //    ScrollRect.verticalNormalizedPosition += contentShiftVert / contentHeight;
+        //    ScrollRect.horizontalNormalizedPosition += contentShiftHoriz / contentHeight;
+
+
+
+        //}
+
 
         public override void OnKeyDown(KButtonEvent e)
         {
@@ -53,11 +73,8 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             {
                 this.Show(false);
             }
-            if (e.TryConsume(Action.PanUp))
-            {
-                scroll
-            }
-            
+
+
             base.OnKeyDown(e);
         }
 
@@ -71,7 +88,11 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
         {
             HexGridContainer = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content").gameObject;
             Grid = HexGridContainer.AddComponent<HexGrid>();
-          
+
+            ScrollRect = transform.Find("HorizontalLayout/ItemInfo/ScrollArea").gameObject.GetComponent<ScrollRect>();
+
+
+
             Grid.EntryPrefab =       transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/HexagonBG").gameObject;
             Grid.DraggablePrefab = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/HexDrag").gameObject;
 
