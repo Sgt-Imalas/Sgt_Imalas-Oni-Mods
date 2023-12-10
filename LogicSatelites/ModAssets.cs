@@ -223,10 +223,10 @@ namespace LogicSatellites.Behaviours
 
                 if(LogicConnectionNodes.Find(f=> f.SatelliteLocation == item) != null)
                 {
-                    SgtLogger.l($"there was already a satellite node at {item}");
+                    //SgtLogger.l($"there was already a satellite node at {item}");
                     return LogicConnectionNodes.Find(f => f.SatelliteLocation == item);
                 }
-                SgtLogger.l($"Adding Satellite node at {item}");
+                //SgtLogger.l($"Adding Satellite node at {item}");
                 var newNode = CreateNode(item);
                 foreach (var node in LogicConnectionNodes)
                 {
@@ -247,7 +247,7 @@ namespace LogicSatellites.Behaviours
                 var SatellitesInHex = Satellites.Where(satellite=> satellite.Location== item).ToList();
                 if (SatellitesInHex.Count > 0)
                 {
-                    SgtLogger.l($"Tried removing Satellite at {item.ToString()}, but there were still {SatellitesInHex.Count} satellites there!");
+                    //SgtLogger.l($"Tried removing Satellite at {item.ToString()}, but there were still {SatellitesInHex.Count} satellites there!");
                     return;
                 }
 
@@ -272,7 +272,7 @@ namespace LogicSatellites.Behaviours
                 var SatellitesInHex = Satellites.Where(satellite => satellite.Location == item.SatelliteLocation).ToList();
                 if (SatellitesInHex.Count > 0)
                 {
-                    SgtLogger.l($"There was a satellite at {item.SatelliteLocation}, not removing temp node.");
+                    //SgtLogger.l($"There was a satellite at {item.SatelliteLocation}, not removing temp node.");
                     return;
                 }
 
