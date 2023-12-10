@@ -181,6 +181,7 @@ namespace SaveGameModLoader
 
             internal static void Postfix(ModsScreen __instance, KButton ___closeButton, List<DisplayedMod> ___displayedMods)
             {
+                var allMods = Global.Instance.modManager.mods;
                 OriginalOrder.Clear();
                 foreach (DisplayedMod displayedMod in ___displayedMods)
                 {
@@ -195,7 +196,7 @@ namespace SaveGameModLoader
                         blue.disabledColor = UIUtils.HSVShift(defaultStyle.disabledColor, 70f);
                         blue.hoverColor = UIUtils.HSVShift(defaultStyle.hoverColor, 70f);
                     }
-                    var mod = Global.Instance.modManager.mods[displayedMod.mod_index];
+                    var mod = allMods[displayedMod.mod_index];
                     var go = displayedMod.rect_transform.gameObject;
                     var transf = go.transform;
 
@@ -224,7 +225,11 @@ namespace SaveGameModLoader
                     }
                 }
                 if (FilterButtons.Instance != null)
+                {
                     FilterButtons.Instance.RefreshUIState(false);
+                    FilterButtons.Instance.ReorderVisualModState(___displayedMods, allMods);
+                }
+
             }
             static async Task DoWithDelay(System.Action task, int ms)
             {
@@ -235,39 +240,14 @@ namespace SaveGameModLoader
             static void HandleListEntry(DisplayedMod mod, KMod.Mod modData, GameObject btn, Image img, Image BgImg)
             {
                 bool isPinned = MPM_Config.Instance.ModPinned(modData.label.defaultStaticID);
-
-                //OnHoverReveal ohr = mod.rect_transform.gameObject.AddComponent<OnHoverReveal>();
-                //ohr.ShouldToggle = !isPinned;
-                //if (btn.TryGetComponent<Image>(out var btnImg))
-                //    ohr.Images.Add(btnImg);
-                //ohr.Images.Add(img);
                 if (modData.contentCompatability == ModContentCompatability.OK)
                     BgImg.color = isPinned ? pinnedBg : normal;
                 img.color = isPinned ? pinnedActive : pinnedInactive;
 
                 if (isPinned)
-                {
-                    if (!OriginalOrder.ContainsKey(mod.rect_transform))
-                    {
-                        OriginalOrder.Add(mod.rect_transform, mod.mod_index);
-                        mod.rect_transform.SetAsFirstSibling();
-                    }
+                {                  
+                    mod.rect_transform.SetAsFirstSibling();                    
                 }
-                else
-                {
-                    if (OriginalOrder.ContainsKey(mod.rect_transform))
-                    {
-                        mod.rect_transform.SetSiblingIndex(OriginalOrder[mod.rect_transform]);
-                        OriginalOrder.Remove(mod.rect_transform);
-
-                        foreach (var item in OriginalOrder)
-                        {
-                            item.Key.SetAsFirstSibling();
-                        }
-                    }
-                }
-
-                //;
             }
         }
 

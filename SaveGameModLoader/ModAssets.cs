@@ -94,14 +94,15 @@ namespace SaveGameModLoader
         }
         public static bool ModAuthorFilter(string filterText, KMod.Mod mod)
         {
-            if (mod.label.distribution_platform == KMod.Label.DistributionPlatform.Steam && SteamInfoQuery.FetchedModAuthors.ContainsKey(mod.label.id))
+            //original game filter code, dont allow uninstalled mods/language mods from showing
+            if (mod.label.distribution_platform == KMod.Label.DistributionPlatform.Steam && SteamInfoQuery.FetchedModData.ContainsKey(mod.label.id))
             {
                 return
                      mod.status != 0 
                  &&  mod.status != KMod.Mod.Status.UninstallPending
                  && !mod.HasOnlyTranslationContent()               
                  && CultureInfo.InvariantCulture.CompareInfo.IndexOf(
-                                        SteamInfoQuery.FetchedModAuthors[mod.label.id],
+                                        SteamInfoQuery.FetchedModData[mod.label.id].authorName,
                                         filterText,
                                         CompareOptions.IgnoreCase
                                     ) >= 0;

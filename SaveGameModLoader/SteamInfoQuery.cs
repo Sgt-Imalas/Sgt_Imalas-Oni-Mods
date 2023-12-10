@@ -11,12 +11,22 @@ using static DeserializeWarnings;
 
 namespace SaveGameModLoader
 {
+
+    public class FetchedModData
+    {
+        public FetchedModData(ulong id, string name) {
+            modId = id;
+            modName = name;
+        }
+
+        public ulong modId;
+        public string modName;
+        public string authorName =string.Empty;
+    }
     internal class SteamInfoQuery
     {
-        //ModId - Mod Name
-        public static Dictionary<string, string> FetchedModNames = new Dictionary<string, string>();
-        //ModId - Author Name
-        public static Dictionary<string, string> FetchedModAuthors = new Dictionary<string, string>();
+
+        public static Dictionary<string, FetchedModData> FetchedModData = new Dictionary<string, FetchedModData>();
 
 
         /// <summary>
@@ -32,10 +42,10 @@ namespace SaveGameModLoader
 
         public static void AddModIdToQuery(string modIDstring, Action<string> callback)
         {
-            if (FetchedModNames.ContainsKey(modIDstring))
+            if (FetchedModData.ContainsKey(modIDstring))
             {
                 if(callback!=null)
-                callback.Invoke(FetchedModNames[modIDstring]);
+                callback.Invoke(FetchedModData[modIDstring].modName);
             }
             else
             {
@@ -77,6 +87,7 @@ namespace SaveGameModLoader
                     SgtLogger.warning(id + " was no valid modId");
                 }
             }
+
             InstantiateMissingModQuery();
         }
 
@@ -92,7 +103,7 @@ namespace SaveGameModLoader
 
         public static void FindMissingModsQuery(List<ulong> IDs)
         {
-            if (SteamManager.Initialized)
+            if (SteamManager.Initialized && IDs.Count > 0)
             {
                 SgtLogger.log("Trying to fetch Mod Data for " + IDs.Count+" mods.");
                 var list = new List<PublishedFileId_t>();
@@ -171,8 +182,8 @@ namespace SaveGameModLoader
                             if (PendingLookups.ContainsKey(modID) && ModlistManager.Instance.TryGetModTitleFromStorage(modID, out var name))
                             {
                                 PendingLookups[modID].Invoke(name);
-                                FetchedModNames.Add(modID, name);
-                                FetchedModAuthors.Add(modID, name);
+                                if (!FetchedModData.ContainsKey(modID))
+                                    FetchedModData[modID] = new FetchedModData(details.m_nPublishedFileId.m_PublishedFileId, name);
                             }
                             continue;
                         }
@@ -181,7 +192,9 @@ namespace SaveGameModLoader
                             PendingLookups[modID].Invoke(details.m_rgchTitle.ToString());
                         }
 
-                        FetchedModNames.Add(modID, details.m_rgchTitle.ToString());
+                        if (!FetchedModData.ContainsKey(modID))
+                            FetchedModData[modID] = new FetchedModData(details.m_nPublishedFileId.m_PublishedFileId, details.m_rgchTitle.ToString());
+
                         if (SteamFriends.RequestUserInformation(new(details.m_ulSteamIDOwner), true))
                         {
                             var authorID = details.m_ulSteamIDOwner.ToString();
@@ -190,17 +203,18 @@ namespace SaveGameModLoader
                             {
                                 PendingModAuthors.Add(authorID, new List<Action<string>>());
                             }
-                            PendingModAuthors[authorID].Add((name) => 
-                            { 
-                                if (!FetchedModAuthors.ContainsKey(modID)) 
-                                    FetchedModAuthors.Add(modID, name); 
+                            PendingModAuthors[authorID].Add((name) =>
+                            {
+                                if (FetchedModData.ContainsKey(modID))
+                                    FetchedModData[modID].authorName = (name); 
                             });
                         }
                         else
                         {
                             //SgtLogger.l(SteamFriends.GetFriendPersonaName(new(details.m_ulSteamIDOwner)), "authorname");
-                            if (!FetchedModAuthors.ContainsKey(modID))
-                                FetchedModAuthors.Add(modID, SteamFriends.GetFriendPersonaName(new(details.m_ulSteamIDOwner)));
+
+                            if (FetchedModData.ContainsKey(modID))
+                                FetchedModData[modID].authorName = SteamFriends.GetFriendPersonaName(new(details.m_ulSteamIDOwner));
                         }
                     }
                 }
