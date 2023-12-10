@@ -75,27 +75,39 @@ namespace SaveGameModLoader
             return button;
         }
 
-        public static bool ModWithinTextFilter(string filterText, KMod.Label label)
+        public static bool ModWithinTextFilter(string filterText, KMod.Mod mod)
         {
-            bool isWithinText = CultureInfo.InvariantCulture.CompareInfo.IndexOf(
-                                        label.title,
-                                        filterText,
-                                        CompareOptions.IgnoreCase
-                                    ) >= 0;
-            if(!isWithinText)
+            bool isWithinText = ModNameFilter(filterText, mod);
+            if (!isWithinText)
             {
-                if(SteamInfoQuery.FetchedModAuthors.ContainsKey(label.id))
-                {
-                    isWithinText = CultureInfo.InvariantCulture.CompareInfo.IndexOf(
-                                        SteamInfoQuery.FetchedModAuthors[label.id],
-                                        filterText,
-                                        CompareOptions.IgnoreCase
-                                    ) >= 0;
-                }
+                isWithinText = ModAuthorFilter(filterText, mod);
             }
             return isWithinText;
         }
-
+        public static bool ModNameFilter(string filterText, KMod.Mod mod)
+        {
+            return CultureInfo.InvariantCulture.CompareInfo.IndexOf(
+                                        mod.label.title,
+                                        filterText,
+                                        CompareOptions.IgnoreCase
+                                    ) >= 0;
+        }
+        public static bool ModAuthorFilter(string filterText, KMod.Mod mod)
+        {
+            if (mod.label.distribution_platform == KMod.Label.DistributionPlatform.Steam && SteamInfoQuery.FetchedModAuthors.ContainsKey(mod.label.id))
+            {
+                return
+                     mod.status != 0 
+                 &&  mod.status != KMod.Mod.Status.UninstallPending
+                 && !mod.HasOnlyTranslationContent()               
+                 && CultureInfo.InvariantCulture.CompareInfo.IndexOf(
+                                        SteamInfoQuery.FetchedModAuthors[mod.label.id],
+                                        filterText,
+                                        CompareOptions.IgnoreCase
+                                    ) >= 0;
+            }
+            return false;
+        }
 
         public static void PutCurrentToClipboard(bool linkIncluded)
         {

@@ -78,10 +78,22 @@ namespace SaveGameModLoader.ModFilter
         [HarmonyPatch(typeof(ModsScreen), nameof(ModsScreen.ShouldDisplayMod))]
         public static class ModsScreen_ShouldDisplayMod_Patch
         {
+
+            [HarmonyPostfix]
             [HarmonyPriority(Priority.Low)]
             public static void Postfix(KMod.Mod mod, ref bool __result)
             {
                 var label = mod.label;
+
+                ///Modsfilter is active
+                if (FilterManager.ModFilterText != null && !__result)
+                {
+                    var text = FilterManager.ModFilterText.text;
+                    if (!string.IsNullOrEmpty(text))
+                    {
+                        __result = ModAssets.ModAuthorFilter(text, mod);
+                    }
+                }
 
                 if (__result && ModlistManager.Instance.IsSyncing)
                 {
@@ -95,11 +107,15 @@ namespace SaveGameModLoader.ModFilter
                 if (__result && _filterManager != null)
                 {
                     var text = _filterManager.Text;
+
                     if (!string.IsNullOrEmpty(text))
                     {
-                        __result = ModAssets.ModWithinTextFilter( text, label);
+                        __result = ModAssets.ModWithinTextFilter( text, mod);
                     }
                 }
+
+
+
                 if (__result && MPM_Config.Instance.hideLocal)
                     __result = label.distribution_platform != Label.DistributionPlatform.Local;
 

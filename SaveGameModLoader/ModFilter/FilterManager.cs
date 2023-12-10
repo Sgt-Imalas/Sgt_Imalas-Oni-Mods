@@ -9,7 +9,10 @@ namespace SaveGameModLoader.ModsFilter
 	/// </summary>
 	public class FilterManager
 	{
-		private readonly KButton _clearSearchButton;
+		public static TMP_InputField ModFilterText;
+
+
+        private readonly KButton _clearSearchButton;
 		private readonly TMP_InputField _search;
 
 		public FilterManager(TMP_InputField search, KButton button)

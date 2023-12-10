@@ -111,7 +111,6 @@ namespace SaveGameModLoader
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
             base.OnAllModsLoaded(harmony, mods);
-            //SgtLogger.log(harmony.Id, "HARMONYID");
 
             bool FastTrackActive = mods.Any(mod => mod.staticID.Contains("PeterHan.FastTrack") && mod.IsEnabledForActiveDlc());
             bool ModFilterActive = mods.Any(mod => mod.staticID.Contains("asquared31415.ModsFilter") && mod.IsEnabledForActiveDlc());

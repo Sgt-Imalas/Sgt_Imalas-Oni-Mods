@@ -445,19 +445,27 @@ namespace SaveGameModLoader
                     );
             }
 
-            public static void Postfix(KMod.Mod __result, object subscribed)
+            public static void Postfix(KMod.Mod __result)
             {
                 if (__result == null || __result.staticID == null || __result.label.id == null)
                     return;
 
                 __result.on_managed = () =>
                 {
-
                     if (UseSteamOverlay && SteamUtils.IsOverlayEnabled())
                         SteamFriends.ActivateGameOverlayToWebPage("https://steamcommunity.com/sharedfiles/filedetails/?id=" + __result.label.id);
                     else
                         App.OpenWebURL("https://steamcommunity.com/sharedfiles/filedetails/?id=" + __result.label.id);
                 };
+            }
+        }
+        [HarmonyPatch(typeof(KMod.Manager), nameof(KMod.Manager.Install))]
+        public static class ModManager_Subscribe
+        {
+            public static void Postfix(KMod.Mod mod)
+            {
+                if (ulong.TryParse(mod.label.id, out var steamID))
+                    SteamInfoQuery.FindMissingModsQuery(new List<ulong>() { steamID });
             }
         }
 
@@ -477,6 +485,15 @@ namespace SaveGameModLoader
         {
             public static void Postfix(ModsScreen __instance)
             {
+                if(ModAssets.ModsFilterActive)
+                {
+                    var modsFilterGO = __instance.transform.Find("Panel/Search/LocTextInputField");
+                    if(modsFilterGO != null)
+                    {
+                        modsFilterGO.gameObject.TryGetComponent(out FilterManager.ModFilterText);
+                    }
+                }
+
 
                 __instance.workshopButton.ClearOnClick();
                 __instance.workshopButton.onClick += () =>
