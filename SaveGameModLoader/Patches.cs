@@ -184,15 +184,16 @@ namespace SaveGameModLoader
                 OriginalOrder.Clear();
                 foreach (DisplayedMod displayedMod in ___displayedMods)
                 {
-                    if (blue == null) {
+                    if (blue == null)
+                    {
 
                         displayedMod.rect_transform.Find("ManageButton").TryGetComponent<KImage>(out var mngButtonImage);
                         var defaultStyle = mngButtonImage.colorStyleSetting;
                         blue = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
-                        blue.inactiveColor = UIUtils.HSVShift(defaultStyle.inactiveColor,70f);
+                        blue.inactiveColor = UIUtils.HSVShift(defaultStyle.inactiveColor, 70f);
                         blue.activeColor = UIUtils.HSVShift(defaultStyle.activeColor, 70f);
                         blue.disabledColor = UIUtils.HSVShift(defaultStyle.disabledColor, 70f);
-                        blue.hoverColor = UIUtils.HSVShift(defaultStyle.hoverColor,70f);
+                        blue.hoverColor = UIUtils.HSVShift(defaultStyle.hoverColor, 70f);
                     }
                     var mod = Global.Instance.modManager.mods[displayedMod.mod_index];
                     var go = displayedMod.rect_transform.gameObject;
@@ -230,8 +231,8 @@ namespace SaveGameModLoader
                 await Task.Delay(ms);
                 task.Invoke();
             }
-            static Color normal = UIUtils.rgb(62, 67, 87), pinnedBg = UIUtils.Darken(normal,15),incompatibleBg = UIUtils.rgb(26, 28, 33), pinnedActive = UIUtils.Lighten(Color.red,50),pinnedInactive = Color.grey;
-            static void HandleListEntry(DisplayedMod mod, KMod.Mod modData, GameObject btn, Image img , Image BgImg)
+            static Color normal = UIUtils.rgb(62, 67, 87), pinnedBg = UIUtils.Darken(normal, 15), incompatibleBg = UIUtils.rgb(26, 28, 33), pinnedActive = UIUtils.Lighten(Color.red, 50), pinnedInactive = Color.grey;
+            static void HandleListEntry(DisplayedMod mod, KMod.Mod modData, GameObject btn, Image img, Image BgImg)
             {
                 bool isPinned = MPM_Config.Instance.ModPinned(modData.label.defaultStaticID);
 
@@ -240,7 +241,7 @@ namespace SaveGameModLoader
                 //if (btn.TryGetComponent<Image>(out var btnImg))
                 //    ohr.Images.Add(btnImg);
                 //ohr.Images.Add(img);
-                if(modData.contentCompatability == ModContentCompatability.OK)
+                if (modData.contentCompatability == ModContentCompatability.OK)
                     BgImg.color = isPinned ? pinnedBg : normal;
                 img.color = isPinned ? pinnedActive : pinnedInactive;
 
@@ -421,7 +422,7 @@ namespace SaveGameModLoader
             }
         }
 
-       // [HarmonyPatch(typeof(Steam), nameof(Steam.MakeMod))]
+        // [HarmonyPatch(typeof(Steam), nameof(Steam.MakeMod))]
         public static class Steam_MakeMod
         {
             public static void TryPatchingSteam(Harmony harmony)
@@ -433,9 +434,9 @@ namespace SaveGameModLoader
                     return;
                 }
                 SgtLogger.l("patching steam.makemod");
-                var m_TargetMethod = AccessTools.Method(type,"MakeMod");
+                var m_TargetMethod = AccessTools.Method(type, "MakeMod");
                 //var m_Transpiler = AccessTools.Method(typeof(LoadModConfigPatch), "Transpiler");
-               // var m_Prefix = AccessTools.Method(typeof(Steam_MakeMod), "Prefix");
+                // var m_Prefix = AccessTools.Method(typeof(Steam_MakeMod), "Prefix");
                 var m_Postfix = AccessTools.Method(typeof(Steam_MakeMod), "Postfix");
 
                 harmony.Patch(m_TargetMethod,
@@ -449,7 +450,8 @@ namespace SaveGameModLoader
                 if (__result == null || __result.staticID == null || __result.label.id == null)
                     return;
 
-                __result.on_managed = () => {
+                __result.on_managed = () =>
+                {
 
                     if (UseSteamOverlay && SteamUtils.IsOverlayEnabled())
                         SteamFriends.ActivateGameOverlayToWebPage("https://steamcommunity.com/sharedfiles/filedetails/?id=" + __result.label.id);
@@ -477,9 +479,10 @@ namespace SaveGameModLoader
             {
 
                 __instance.workshopButton.ClearOnClick();
-                __instance.workshopButton.onClick += ()=> {
+                __instance.workshopButton.onClick += () =>
+                {
 
-                    if(UseSteamOverlay && SteamUtils.IsOverlayEnabled())
+                    if (UseSteamOverlay && SteamUtils.IsOverlayEnabled())
                         SteamFriends.ActivateGameOverlayToWebPage("http://steamcommunity.com/workshop/browse/?appid=457140");
                     else
                         App.OpenWebURL("http://steamcommunity.com/workshop/browse/?appid=457140");
@@ -490,7 +493,7 @@ namespace SaveGameModLoader
 
 
 
-                var panel = __instance.transform.Find("Panel").rectTransform() ;
+                var panel = __instance.transform.Find("Panel").rectTransform();
 
                 var totalWindowHeight = __instance.rectTransform().rect.height;
                 float goldenHeigh = totalWindowHeight / 1.309f;
@@ -502,7 +505,7 @@ namespace SaveGameModLoader
                     return;
 
                 __instance.closeButton.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100);
-                AddCopyButton(__instance.workshopButton.transform.parent.gameObject, () => ModAssets.PutCurrentToClipboard(false), ()=>PutCurrentToClipboard(true), __instance.workshopButton.bgImage.colorStyleSetting);
+                AddCopyButton(__instance.workshopButton.transform.parent.gameObject, () => ModAssets.PutCurrentToClipboard(false), () => PutCurrentToClipboard(true), __instance.workshopButton.bgImage.colorStyleSetting);
 
 
                 var modlistButtonGO = Util.KInstantiateUI<RectTransform>(workShopButton.gameObject, DetailsView, true);
@@ -643,11 +646,15 @@ namespace SaveGameModLoader
                 ///SteamAuthorInfoFetching:
                 ///
 
-                var steamMods = Global.Instance.modManager.mods
-                    .Where(mod => mod.label.distribution_platform == KMod.Label.DistributionPlatform.Steam)
-                    .Select(mod => mod.label.id)
-                    .ToList();
-                SteamInfoQuery.InitModAuthorQuery(steamMods);
+                if (SteamManager.Initialized)
+                {
+                    var steamMods = Global.Instance.modManager.mods
+                        .Where(mod => mod.label.distribution_platform == KMod.Label.DistributionPlatform.Steam)
+                        .Select(mod => mod.label.id)
+                        .ToList();
+                    if(steamMods.Count> 0) 
+                        SteamInfoQuery.InitModAuthorQuery(steamMods);
+                }
             }
         }
 
@@ -775,7 +782,7 @@ namespace SaveGameModLoader
         //    }
         //}
 
-     
+
 
     }
 }
