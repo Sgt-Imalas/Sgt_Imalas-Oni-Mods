@@ -96,7 +96,6 @@ namespace SaveGameModLoader
             }
 
 
-
             SgtLogger.log("Folders succesfully initialized");
 
             //ModAssets.ModID = this.mod.label.defaultStaticID;
@@ -106,14 +105,13 @@ namespace SaveGameModLoader
 
             ModAssets.ReadOrRegisterBrowserSetting();
             base.OnLoad(harmony);
-
             Steam_MakeMod.TryPatchingSteam(harmony);
             SgtLogger.LogVersion(this);
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
             base.OnAllModsLoaded(harmony, mods);
-            SgtLogger.log(harmony.Id, "HARMONYID");
+            //SgtLogger.log(harmony.Id, "HARMONYID");
 
             bool FastTrackActive = mods.Any(mod => mod.staticID.Contains("PeterHan.FastTrack") && mod.IsEnabledForActiveDlc());
             bool ModFilterActive = mods.Any(mod => mod.staticID.Contains("asquared31415.ModsFilter") && mod.IsEnabledForActiveDlc());

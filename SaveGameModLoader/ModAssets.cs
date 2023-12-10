@@ -5,6 +5,7 @@ using SaveGameModLoader.Patches;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -74,12 +75,34 @@ namespace SaveGameModLoader
             return button;
         }
 
+        public static bool ModWithinTextFilter(string filterText, KMod.Label label)
+        {
+            bool isWithinText = CultureInfo.InvariantCulture.CompareInfo.IndexOf(
+                                        label.title,
+                                        filterText,
+                                        CompareOptions.IgnoreCase
+                                    ) >= 0;
+            if(!isWithinText)
+            {
+                if(SteamInfoQuery.FetchedModAuthors.ContainsKey(label.id))
+                {
+                    isWithinText = CultureInfo.InvariantCulture.CompareInfo.IndexOf(
+                                        SteamInfoQuery.FetchedModAuthors[label.id],
+                                        filterText,
+                                        CompareOptions.IgnoreCase
+                                    ) >= 0;
+                }
+            }
+            return isWithinText;
+        }
+
+
         public static void PutCurrentToClipboard(bool linkIncluded)
         {
             List<KMod.Label> activeMods = Global.Instance.modManager.mods.FindAll(mod => mod.IsActive() == true).Select(mod => mod.label).ToList();
             PutToClipboard(activeMods, linkIncluded);
         }
-        public static void  PutToClipboard(List<KMod.Label> mods, bool includeLink)
+        public static void PutToClipboard(List<KMod.Label> mods, bool includeLink)
         {
             StringBuilder stringBuilder = new StringBuilder();
             foreach(var mod in mods)

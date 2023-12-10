@@ -444,7 +444,7 @@ namespace SaveGameModLoader
                     );
             }
 
-            public static void Postfix(KMod.Mod __result)
+            public static void Postfix(KMod.Mod __result, object subscribed)
             {
                 if (__result == null || __result.staticID == null || __result.label.id == null)
                     return;
@@ -460,7 +460,7 @@ namespace SaveGameModLoader
         }
 
 
-        [HarmonyPatch(typeof(ModsScreen), "Exit")]
+        [HarmonyPatch(typeof(ModsScreen), "OnDeactivate")]
         public static class ModsScreen_SyncModeOff
         {
             public static void Postfix()
@@ -638,6 +638,16 @@ namespace SaveGameModLoader
                 ModlistManager.Instance.ParentObjectRef = __instance.gameObject;
                 var SaveGameName = button.transform.Find("SaveNameText").gameObject;
                 UnityEngine.Object.Destroy(SaveGameName);
+
+
+                ///SteamAuthorInfoFetching:
+                ///
+
+                var steamMods = Global.Instance.modManager.mods
+                    .Where(mod => mod.label.distribution_platform == KMod.Label.DistributionPlatform.Steam)
+                    .Select(mod => mod.label.id)
+                    .ToList();
+                SteamInfoQuery.InitModAuthorQuery(steamMods);
             }
         }
 

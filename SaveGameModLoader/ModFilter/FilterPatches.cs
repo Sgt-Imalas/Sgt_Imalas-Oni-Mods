@@ -75,10 +75,10 @@ namespace SaveGameModLoader.ModFilter
             }
         }
 
-        [HarmonyPriority (Priority.Low)]
         [HarmonyPatch(typeof(ModsScreen), nameof(ModsScreen.ShouldDisplayMod))]
         public static class ModsScreen_ShouldDisplayMod_Patch
         {
+            [HarmonyPriority(Priority.Low)]
             public static void Postfix(KMod.Mod mod, ref bool __result)
             {
                 var label = mod.label;
@@ -97,11 +97,7 @@ namespace SaveGameModLoader.ModFilter
                     var text = _filterManager.Text;
                     if (!string.IsNullOrEmpty(text))
                     {
-                        __result = CultureInfo.InvariantCulture.CompareInfo.IndexOf(
-                                       mod.label.title,
-                                       text,
-                                       CompareOptions.IgnoreCase
-                                   ) >= 0;
+                        __result = ModAssets.ModWithinTextFilter( text, label);
                     }
                 }
                 if (__result && MPM_Config.Instance.hideLocal)
@@ -121,6 +117,7 @@ namespace SaveGameModLoader.ModFilter
 
                 if (__result && MPM_Config.Instance.hideInactive)
                     __result = mod.IsActive();
+                
             }
         }
 
