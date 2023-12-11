@@ -185,10 +185,10 @@ namespace SaveGameModLoader
                 OriginalOrder.Clear();
                 foreach (DisplayedMod displayedMod in ___displayedMods)
                 {
+                    var transf = displayedMod.rect_transform;
                     if (blue == null)
                     {
-
-                        displayedMod.rect_transform.Find("ManageButton").TryGetComponent<KImage>(out var mngButtonImage);
+                        transf.Find("ManageButton").TryGetComponent<KImage>(out var mngButtonImage);
                         var defaultStyle = mngButtonImage.colorStyleSetting;
                         blue = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
                         blue.inactiveColor = UIUtils.HSVShift(defaultStyle.inactiveColor, 70f);
@@ -197,12 +197,11 @@ namespace SaveGameModLoader
                         blue.hoverColor = UIUtils.HSVShift(defaultStyle.hoverColor, 70f);
                     }
                     var mod = allMods[displayedMod.mod_index];
-                    var go = displayedMod.rect_transform.gameObject;
-                    var transf = go.transform;
+                    var go = transf.gameObject;
 
                     if (mod.IsLocal)
                     {
-                        displayedMod.rect_transform.Find("ManageButton").TryGetComponent<KImage>(out var mngButtonImage);
+                        transf.Find("ManageButton").TryGetComponent<KImage>(out var mngButtonImage);
                         mngButtonImage.colorStyleSetting = blue;
                         mngButtonImage.ApplyColorStyleSetting();
                     }
@@ -212,7 +211,7 @@ namespace SaveGameModLoader
                     tr.SetSiblingIndex(2);
                     tr.Find("GameObject").TryGetComponent<Image>(out var img);
                     transf.Find("BG").TryGetComponent<Image>(out var bgImg);
-                    HandleListEntry(displayedMod, mod, btn, img, bgImg);
+                    HandleListEntry(transf, mod,  img, bgImg);
 
                     if (btn.TryGetComponent<KButton>(out var button))
                     {
@@ -227,12 +226,17 @@ namespace SaveGameModLoader
                 if (FilterButtons.Instance != null)
                 {
                     FilterButtons.Instance.RefreshUIState(false);
-                    ModAssets.ReorderVisualModState(___displayedMods, allMods);
                 }
+                ModAssets.ReorderVisualModState(___displayedMods, allMods);
 
             }
-            static Color normal = UIUtils.rgb(62, 67, 87), pinnedBg = UIUtils.Darken(normal, 15), incompatibleBg = UIUtils.rgb(26, 28, 33), pinnedActive = UIUtils.Lighten(Color.red, 50), pinnedInactive = Color.grey;
-            static void HandleListEntry(DisplayedMod mod, KMod.Mod modData, GameObject btn, Image img, Image BgImg)
+            static Color 
+                normal = UIUtils.rgb(62, 67, 87),
+                pinnedBg = UIUtils.Darken(normal, 15), 
+                incompatibleBg = UIUtils.rgb(26, 28, 33), 
+                pinnedActive = UIUtils.Lighten(Color.red, 50),
+                pinnedInactive = Color.grey;
+            static void HandleListEntry(Transform transform, KMod.Mod modData, Image img, Image BgImg)
             {
                 bool isPinned = MPM_Config.Instance.ModPinned(modData.label.defaultStaticID);
                 if (modData.contentCompatability == ModContentCompatability.OK)
@@ -240,8 +244,8 @@ namespace SaveGameModLoader
                 img.color = isPinned ? pinnedActive : pinnedInactive;
 
                 if (isPinned)
-                {                  
-                    mod.rect_transform.SetAsFirstSibling();                    
+                {
+                    transform.SetAsFirstSibling();                    
                 }
             }
         }
