@@ -227,7 +227,7 @@ namespace SaveGameModLoader
                 if (FilterButtons.Instance != null)
                 {
                     FilterButtons.Instance.RefreshUIState(false);
-                    FilterButtons.Instance.ReorderVisualModState(___displayedMods, allMods);
+                    ModAssets.ReorderVisualModState(___displayedMods, allMods);
                 }
 
             }

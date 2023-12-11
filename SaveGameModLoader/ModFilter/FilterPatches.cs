@@ -86,9 +86,9 @@ namespace SaveGameModLoader.ModFilter
                 var label = mod.label;
 
                 ///Modsfilter is active
-                if (FilterManager.ModFilterText != null && !__result)
+                if (FilterManager.ModFilterTextCmp != null && !__result)
                 {
-                    var text = FilterManager.ModFilterText.text;
+                    var text = FilterManager.ModFilterText;
                     if (!string.IsNullOrEmpty(text))
                     {
                         __result = ModAssets.ModAuthorFilter(text, mod);
