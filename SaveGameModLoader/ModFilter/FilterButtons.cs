@@ -336,33 +336,5 @@ namespace SaveGameModLoader.ModFilter
             if (RefreshModList != null && rebuildAfter)
                 RefreshModList();
         }
-
-        internal void ReorderVisualModState(List<ModsScreen.DisplayedMod> displayedMods, List<KMod.Mod> mods)
-        {
-            return;//Todo for later;
-            Dictionary<KMod.Mod, RectTransform> originalPos = new();
-            for(int i= 0; i<displayedMods.Count; i++)
-            {
-                var displayedMod = displayedMods[i];
-                var mod = mods[displayedMod.mod_index];
-                originalPos.Add(mod, displayedMod.rect_transform);
-            }
-
-
-            var sorted =
-                mods
-                .OrderBy(mod => MPM_Config.Instance.ModPinned(mod.label.defaultStaticID))
-                .ThenByDescending(mod => mod.label.title);
-
-
-            foreach (var mod in sorted)
-            {
-                if (originalPos.ContainsKey(mod))
-                    originalPos[mod].SetAsFirstSibling();
-                else
-                    SgtLogger.l(mod.label.title + " not found in dictionary");
-            }
-
-        }
     }
 }

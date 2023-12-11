@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Klei.AI;
 using SaveGameModLoader.ModFilter;
+using SaveGameModLoader.ModsFilter;
 using SaveGameModLoader.Patches;
 using System;
 using System.Collections;
@@ -46,6 +47,41 @@ namespace SaveGameModLoader
             }
             UseSteamOverlay = KPlayerPrefs.GetInt(RegistryKey) == (int)BrowserChoice.steamOverlay;
         }
+
+
+        public static void ReorderVisualModState(List<ModsScreen.DisplayedMod> displayedMods, List<KMod.Mod> mods)
+        {
+            ///no text entered => default sorting
+            if (FilterManager.ModFilterTextCmp != null && FilterManager.ModFilterText.Length == 0 || FilterPatches._filterManager != null && FilterPatches._filterManager.Text.Length == 0)
+                return;
+
+
+            return;//Todo for later;
+            Dictionary<KMod.Mod, RectTransform> originalPos = new();
+            for (int i = 0; i < displayedMods.Count; i++)
+            {
+                var displayedMod = displayedMods[i];
+                var mod = mods[displayedMod.mod_index];
+                originalPos.Add(mod, displayedMod.rect_transform);
+            }
+
+
+            var sorted =
+                mods
+                .OrderBy(mod => MPM_Config.Instance.ModPinned(mod.label.defaultStaticID))
+                .ThenByDescending(mod => mod.label.title);
+
+
+            foreach (var mod in sorted)
+            {
+                if (originalPos.ContainsKey(mod))
+                    originalPos[mod].SetAsFirstSibling();
+                else
+                    SgtLogger.l(mod.label.title + " not found in dictionary");
+            }
+
+        }
+
 
         public static GameObject AddCopyButton(GameObject parent, System.Action onClick, System.Action onDoubleClick, ColorStyleSetting setting)
         {
