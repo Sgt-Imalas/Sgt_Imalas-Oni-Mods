@@ -231,11 +231,6 @@ namespace SaveGameModLoader
                 }
 
             }
-            static async Task DoWithDelay(System.Action task, int ms)
-            {
-                await Task.Delay(ms);
-                task.Invoke();
-            }
             static Color normal = UIUtils.rgb(62, 67, 87), pinnedBg = UIUtils.Darken(normal, 15), incompatibleBg = UIUtils.rgb(26, 28, 33), pinnedActive = UIUtils.Lighten(Color.red, 50), pinnedInactive = Color.grey;
             static void HandleListEntry(DisplayedMod mod, KMod.Mod modData, GameObject btn, Image img, Image BgImg)
             {
@@ -470,7 +465,7 @@ namespace SaveGameModLoader
                     var modsFilterGO = __instance.transform.Find("Panel/Search/LocTextInputField");
                     if(modsFilterGO != null)
                     {
-                        modsFilterGO.gameObject.TryGetComponent(out FilterManager.ModFilterText);
+                        modsFilterGO.gameObject.TryGetComponent(out FilterManager.ModFilterTextCmp);
                     }
                 }
 
