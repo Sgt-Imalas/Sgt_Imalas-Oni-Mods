@@ -22,12 +22,14 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
         public void OnDrop(PointerEventData eventData)
         {
             if (eventData.pointerDrag.TryGetComponent(out HexDrag hexDragger) && hexDragger.IsPOI
-                || eventData.pointerDrag.TryGetComponent(out ToolkitDraggable _))
+                //|| eventData.pointerDrag.TryGetComponent(out ToolkitDraggable _)
+                )
+
             {
                 hexGrid.RemovePOI(hexDragger);
                 Destroy(hexDragger.gameObject);
-                highlight.color = normal;
             }
+            highlight.color = normal;
         }
         public override void OnSpawn()
         {

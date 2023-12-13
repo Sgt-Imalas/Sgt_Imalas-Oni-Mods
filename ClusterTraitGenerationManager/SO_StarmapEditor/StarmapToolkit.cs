@@ -26,10 +26,10 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             public Image ownImage;
             public Vector3 DragStartPosition;
             HexGrid _grid;
-            public void Init(string Id,HexGrid grid)
+            public void Init(string Id, HexGrid grid)
             {
                 this.poiId = Id;
-                this.tParent = transform;
+                this.tParent = transform.parent;
                 this.dragParent = transform.parent.parent.parent.parent.parent.parent;
                 _grid = grid;
                 TryGetComponent(out ownImage);
@@ -45,18 +45,16 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
                 DragStartPosition = transform.position;
                 ownImage.raycastTarget = false;
                 transform.SetParent(dragParent);
-                if(eventData != null)
+                if (eventData != null)
                     _grid.DoubleClickCanceledByDraggingHandler();
-                // InternalImage.raycastTarget = false;
             }
 
             public void OnEndDrag(PointerEventData eventData)
             {
                 transform.SetParent(tParent);
-                transform.localScale = Vector3.one;
                 transform.position = DragStartPosition;
                 ownImage.raycastTarget = true;
-               // InternalImage.raycastTarget = true;
+                transform.localScale = Vector3.one;
             }
 
             public void OnPointerClick(PointerEventData eventData)
@@ -71,20 +69,22 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             }
         }
 
-
-
         static Color toolkitEntryNormal = UIUtils.rgb(34, 39, 60), toolkitEntryMissing = UIUtils.rgb(153, 123, 17), tooltipWarningColor = UIUtils.rgb(255, 237, 30);
 
-        class ToolkitItem: KMonoBehaviour
+        class ToolkitItem : KMonoBehaviour
         {
             Image bgImage, fgImage;
             LocText Label;
             string desc;
             ToolTip toolTip;
+            public string poiName = "";
             bool currentlyMissing = false;
             public bool IsMissing => currentlyMissing;
             public void SetMissing(bool isMissing)
             {
+                if (currentlyMissing == isMissing)
+                    return;
+
                 currentlyMissing = isMissing;
                 bgImage.color = isMissing ? toolkitEntryMissing : toolkitEntryNormal;
                 toolTip.SetSimpleTooltip(isMissing ? desc + "\n\n" + UIUtils.ColorText(FOOTER.TOOLBOX.BOXOFPOI.POINOTINSTARMAP, tooltipWarningColor) : desc);
@@ -117,6 +117,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
                         rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size);
                         rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, width);
                     }
+                    poiName = data.Name;
                     Label.SetText(data.Name);
                     toolTip = UIUtils.AddSimpleTooltipToObject(gameObject, data.Description);
                     desc = data.Description;
@@ -127,22 +128,22 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
 
         private GameObject ToolboxPOIContainer;
         private GameObject ToolboxPOIPrefab;
-        private FInputField2 POIFilter;
+        private FInputField2 POIFilterTextInput;
         private FToggle2 alwaysShowNames;
         private HexGrid Grid;
         private GameObject TrashCan;
-        Dictionary<string,ToolkitItem> ToolboxItems;
+        Dictionary<string, ToolkitItem> ToolboxItems;
 
         private GameObject HexGridGO;
         private GameObject FooterGO;
 
-        private bool _init =false;
-        private bool wasActive = false; 
+        private bool _init = false;
+        private bool wasActive = false;
 
 
         public void SetActive(bool active, bool isInit = false)
         {
-            if(wasActive!= active || isInit)
+            if (wasActive != active || isInit)
             {
                 wasActive = active;
                 Init();
@@ -158,14 +159,30 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             Grid.MapRadius = currentLayout.numRings;
             Grid.InitGrid();
             Grid.InitPositions();
+        }
+        public void ApplyFilter(string filterstring = "")
+        {
+            foreach (var item in ToolboxItems.Values)
+            {
+                item.gameObject.SetActive(filterstring == string.Empty ? true : item.poiName.ToLowerInvariant().Contains(filterstring.ToLowerInvariant()));
+            }
+        }
+        public void OnMissingChanged()
+        {
+            foreach(var item in ToolboxItems.Values)
+            {
+                item.SetMissing(true);
+            }
+
             foreach (var item in Grid.ActiveItems.Values)
             {
-                if (ToolboxItems.ContainsKey(item.ID) && ToolboxItems[item.ID].IsMissing)
+                if (ToolboxItems.ContainsKey(item.ID))
                 {
                     ToolboxItems[item.ID].SetMissing(false);
                 }
             }
         }
+
 
         public void Init()
         {
@@ -186,10 +203,11 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             Grid.DraggablePrefab = transform.Find("SpacedOutStarmapContent/ItemInfo/ScrollArea/Content/HexDrag").gameObject;
             Grid.EntryPrefab.SetActive(false);
             Grid.DraggablePrefab.SetActive(false);
+            Grid.OnActiveItemCompositionChanged = () => OnMissingChanged();
 
             TrashCan = transform.Find("Footer/Toolbox/TrashCanContainer/Trashcan").gameObject;
             var handler = TrashCan.AddOrGet<DeleteDragHandler>();
-            handler.secondaryHighlight = TrashCan.transform.Find("TrashcanIcon").gameObject.GetComponent<Image>(); 
+            handler.secondaryHighlight = TrashCan.transform.Find("TrashcanIcon").gameObject.GetComponent<Image>();
             handler.hexGrid = Grid;
 
             alwaysShowNames = transform.Find("Footer/Toolbox/TrashCanContainer/ShowPermaLabels").gameObject.AddOrGet<FToggle2>();
@@ -199,15 +217,19 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
 
             ToolboxItems = new Dictionary<string, ToolkitItem>();
 
-            foreach(var poi in ModAssets.SO_POIs)
+            foreach (var poi in ModAssets.SO_POIs)
             {
-                var toolKitGO = Util.KInstantiateUI(ToolboxPOIPrefab, ToolboxPOIContainer,true);
+                var toolKitGO = Util.KInstantiateUI(ToolboxPOIPrefab, ToolboxPOIContainer, true);
                 var toolkitItem = toolKitGO.AddOrGet<ToolkitItem>();
-                toolkitItem.Init(poi.Key,Grid);
+                toolkitItem.Init(poi.Key, Grid);
 
                 ToolboxItems.Add(poi.Key, toolkitItem);
                 toolkitItem.SetMissing(true);
             }
+
+            POIFilterTextInput = transform.Find("Footer/Toolbox/BoxOfPoi/Input").FindOrAddComponent<FInputField2>();
+            POIFilterTextInput.OnValueChanged.AddListener(ApplyFilter);
+            POIFilterTextInput.Text = string.Empty;
         }
     }
 }

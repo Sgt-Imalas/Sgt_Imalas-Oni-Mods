@@ -239,6 +239,9 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
         public void RemovePOI(HexDrag hexDragger)
         {
             ActiveItems.Remove(hexDragger.InternalPos);
+
+            if (OnActiveItemCompositionChanged != null)
+                OnActiveItemCompositionChanged();
         }
 
         private void MovePOIToNewLocation(HexDrag hexDragger, Tuple<int, int> hexPos)
@@ -246,6 +249,9 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             ActiveItems.Remove(hexDragger.InternalPos);
             hexDragger.InternalPos = hexPos;
             ActiveItems.Add(hexDragger.InternalPos, hexDragger);
+
+            if (OnActiveItemCompositionChanged != null)
+                OnActiveItemCompositionChanged();
             //TODO: logic
         }
 
@@ -354,10 +360,15 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
         }
         public void OnDoubleClickSimDragDeletedHandler()
         {
-            if (_currentlySimDragged != null)
+            if (_currentlySimDragged != null )
             {
-                RemovePOI(_currentlySimDragged);
-                Destroy(_currentlySimDragged.gameObject);
+                if (_currentlySimDragged.IsPOI)
+                {
+                    RemovePOI(_currentlySimDragged);
+                    Destroy(_currentlySimDragged.gameObject);
+                }
+                else
+                    _currentlySimDragged.OnEndDrag(null);
             }
             else if (_currentlySimDraggedNew != null)
             {
@@ -424,6 +435,9 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
 
             }
         }
+
+        public System.Action OnActiveItemCompositionChanged;
+
         private bool _alwaysShowNames = true;
 
         float lowerZoomBound = 2.5f, upperZoomBound = 0.2f;
@@ -508,6 +522,9 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
                 dragLogic.Init(this, x, y, itemId);
 
                 ActiveItems.Add(new Tuple<int, int>(x, y), dragLogic);
+
+                if (OnActiveItemCompositionChanged != null)
+                    OnActiveItemCompositionChanged();
             }
             else
             {
@@ -531,6 +548,8 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
                 var key = new Tuple<int, int>(dataEntry.Key.R, dataEntry.Key.Q);
                 AddNewPoiToStarmap(key, dataEntry.Value);
             }
+            if(OnActiveItemCompositionChanged!=null)
+                OnActiveItemCompositionChanged();
         }
     }
 
