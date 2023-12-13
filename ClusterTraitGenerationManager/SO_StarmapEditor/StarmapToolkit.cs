@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FMOD;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION;
+using static Database.MonumentPartResource;
 using static ResearchTypes;
 using static STRINGS.ELEMENTS;
 using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS;
@@ -17,23 +19,24 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
 {
     internal class StarmapToolkit : KMonoBehaviour
     {
-        public class ToolkitDraggable : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler
+        public class ToolkitDraggable : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler, IPointerClickHandler
         {
             public Transform tParent, dragParent;
             public string poiId;
             public Image ownImage;
             public Vector3 DragStartPosition;
-            public void Init(string Id)
+            HexGrid _grid;
+            public void Init(string Id,HexGrid grid)
             {
                 this.poiId = Id;
                 this.tParent = transform;
                 this.dragParent = transform.parent.parent.parent.parent.parent.parent;
+                _grid = grid;
                 TryGetComponent(out ownImage);
             }
 
             public void OnDrag(PointerEventData eventData)
             {
-                transform.SetParent(dragParent);
                 transform.position = eventData.position;
             }
 
@@ -41,15 +44,30 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             {
                 DragStartPosition = transform.position;
                 ownImage.raycastTarget = false;
-               // InternalImage.raycastTarget = false;
+                transform.SetParent(dragParent);
+                if(eventData != null)
+                    _grid.DoubleClickCanceledByDraggingHandler();
+                // InternalImage.raycastTarget = false;
             }
 
             public void OnEndDrag(PointerEventData eventData)
             {
                 transform.SetParent(tParent);
+                transform.localScale = Vector3.one;
                 transform.position = DragStartPosition;
                 ownImage.raycastTarget = true;
                // InternalImage.raycastTarget = true;
+            }
+
+            public void OnPointerClick(PointerEventData eventData)
+            {
+                if (eventData.button == PointerEventData.InputButton.Left)
+                {
+                    if (eventData.clickCount == 2)
+                    {
+                        _grid.OnDoubleClickSimDragStartedHandler(this);
+                    }
+                }
             }
         }
 
@@ -71,17 +89,16 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
                 bgImage.color = isMissing ? toolkitEntryMissing : toolkitEntryNormal;
                 toolTip.SetSimpleTooltip(isMissing ? desc + "\n\n" + UIUtils.ColorText(FOOTER.TOOLBOX.BOXOFPOI.POINOTINSTARMAP, tooltipWarningColor) : desc);
             }
-            public void Init(string poiID)
+            public void Init(string poiID, HexGrid _grid)
             {
                 bgImage = gameObject.GetComponent<Image>();
                 fgImage = transform.Find("Image").gameObject.GetComponent<Image>();
-                fgImage.gameObject.AddOrGet<ToolkitDraggable>().Init(poiID);
+                fgImage.gameObject.AddOrGet<ToolkitDraggable>().Init(poiID, _grid);
 
 
                 Label = transform.Find("Label").gameObject.GetComponent<LocText>();
                 if (ModAssets.SO_POIs.ContainsKey(poiID))
                 {
-                    //SgtLogger.l("isPOI");
                     var data = ModAssets.SO_POIs[poiID];
                     fgImage.sprite = data.Sprite;
                     var rectTransform = fgImage.rectTransform();
@@ -186,7 +203,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             {
                 var toolKitGO = Util.KInstantiateUI(ToolboxPOIPrefab, ToolboxPOIContainer,true);
                 var toolkitItem = toolKitGO.AddOrGet<ToolkitItem>();
-                toolkitItem.Init(poi.Key);
+                toolkitItem.Init(poi.Key,Grid);
 
                 ToolboxItems.Add(poi.Key, toolkitItem);
                 toolkitItem.SetMissing(true);

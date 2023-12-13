@@ -9,18 +9,20 @@ using UnityEngine.UI;
 using UtilLibs;
 using static AnimEventHandler;
 using static ClusterTraitGenerationManager.SO_StarmapEditor.HexGrid;
+using static ClusterTraitGenerationManager.SO_StarmapEditor.StarmapToolkit;
 using static Database.MonumentPartResource;
 
 namespace ClusterTraitGenerationManager.SO_StarmapEditor
 {
-    internal class DeleteDragHandler : KMonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
+    internal class DeleteDragHandler : KMonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
         public HexGrid hexGrid;
         public Image highlight, secondaryHighlight = null; 
         public Color normal = UIUtils.Darken(Color.red,25f), highlighted = Color.red;
         public void OnDrop(PointerEventData eventData)
         {
-            if (eventData.pointerDrag.TryGetComponent(out HexDrag hexDragger) && hexDragger.IsPOI)
+            if (eventData.pointerDrag.TryGetComponent(out HexDrag hexDragger) && hexDragger.IsPOI
+                || eventData.pointerDrag.TryGetComponent(out ToolkitDraggable _))
             {
                 hexGrid.RemovePOI(hexDragger);
                 Destroy(hexDragger.gameObject);
@@ -39,7 +41,11 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if(eventData.dragging && eventData.pointerDrag.TryGetComponent(out HexDrag hexDragger) && hexDragger.IsPOI)
+            if(eventData.dragging && eventData.pointerDrag.TryGetComponent(out HexDrag hexDragger) && hexDragger.IsPOI
+                || eventData.dragging && eventData.pointerDrag.TryGetComponent(out ToolkitDraggable _)
+                || hexGrid.CurrentlySimDragged != null && hexGrid.CurrentlySimDragged.IsPOI
+                || hexGrid.CurrentlySimDraggedNew != null
+                )
             {
                 highlight.color = highlighted;
                 if (secondaryHighlight != null) secondaryHighlight.color = highlighted;
@@ -50,6 +56,18 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
         {
             highlight.color = normal;
             if (secondaryHighlight != null) secondaryHighlight.color = normal;
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                if (eventData.clickCount == 2)
+                {
+                    hexGrid.OnDoubleClickSimDragDeletedHandler();
+                    OnPointerExit(null);
+                }
+            }
         }
     }
 }

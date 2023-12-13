@@ -1,4 +1,5 @@
-﻿using Klei.CustomSettings;
+﻿using EventSystem2Syntax;
+using Klei.CustomSettings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ using static AnimEventHandler;
 using static ClusterTraitGenerationManager.SO_StarmapEditor.StarmapToolkit;
 using static Database.MonumentPartResource;
 using static NameDisplayScreen;
+using static STRINGS.DUPLICANTS.TRAITS;
 using static UnityEngine.UI.StencilMaterial;
 
 namespace ClusterTraitGenerationManager.SO_StarmapEditor
@@ -21,8 +23,9 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
     internal class HexGrid : FScreen
     {
 
-        internal class HexDrag : KMonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
+        internal class HexDrag : KMonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
         {
+            public StarmapToolkit toolKit;
 
             [MyCmpGet]
             RectTransform rectTransform;
@@ -117,20 +120,25 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             public Vector3 DragStartPosition;
             public void OnDrag(PointerEventData eventData)
             {
-                transform.SetParent(dragParent);
                 transform.position = eventData.position;
             }
 
             public void OnBeginDrag(PointerEventData eventData)
             {
+
                 DragStartPosition = transform.position;
                 ownImage.raycastTarget = false;
                 InternalImage.raycastTarget = false;
+                transform.SetParent(dragParent);
+
+                if (eventData != null)
+                    parent.DoubleClickCanceledByDraggingHandler();
             }
 
             public void OnEndDrag(PointerEventData eventData)
             {
                 transform.SetParent(tParent);
+                transform.localScale = Vector3.one;
                 transform.position = DragStartPosition;
                 ownImage.raycastTarget = true;
                 InternalImage.raycastTarget = true;
@@ -158,11 +166,22 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
                 nameAlwaysActive = value;
                 Label.gameObject.SetActive(value);
             }
+
+            public void OnPointerClick(PointerEventData eventData)
+            {
+                if (eventData.button == PointerEventData.InputButton.Left)
+                {
+                    if (eventData.clickCount == 2)
+                    {
+                        parent.OnDoubleClickSimDragStartedHandler(this);
+                    }
+                }
+            }
         }
-        internal class HexDropHandler : KMonoBehaviour, IDropHandler
+        internal class HexDropHandler : KMonoBehaviour, IDropHandler, IPointerClickHandler
         {
             HexGrid parent;
-            Tuple<int, int> HexPos;
+            public Tuple<int, int> HexPos;
             public void Init(int _x, int _y, HexGrid _parent)
             {
                 HexPos = new(_x, _y);
@@ -174,7 +193,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             {
                 if (!parent.HexOccupied(HexPos))
                 {
-                    if(eventData.pointerDrag.TryGetComponent(out HexDrag hexDragger))
+                    if (eventData.pointerDrag.TryGetComponent(out HexDrag hexDragger))
                     {
                         hexDragger.DragStartPosition = transform.position;
                         parent.MovePOIToNewLocation(hexDragger, HexPos);
@@ -185,10 +204,22 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
                     }
                 }
             }
+
+            public void OnPointerClick(PointerEventData eventData)
+            {
+                if (eventData.button == PointerEventData.InputButton.Left)
+                {
+                    if (eventData.clickCount == 2)
+                    {
+                        parent.OnDoubleClickSimDragEndedHandler(this);
+                    }
+                }
+            }
         }
 
         public override void OnBeginDrag(PointerEventData eventData)
         {
+
             transform.parent.TryGetComponent<ScrollRect>(out var scrollRect);
             scrollRect.OnBeginDrag(eventData);
             base.OnBeginDrag(eventData);
@@ -255,7 +286,86 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
         public GameObject DraggablePrefab;
         public GameObject EntryParent;
 
+        ToolkitDraggable _currentlySimDraggedNew = null;
+        public ToolkitDraggable CurrentlySimDraggedNew => _currentlySimDraggedNew;
 
+        HexDrag _currentlySimDragged = null;
+        public HexDrag CurrentlySimDragged => _currentlySimDragged;
+
+
+        public void DoubleClickCanceledByDraggingHandler()
+        {
+            if (_currentlySimDragged != null)
+            {
+                _currentlySimDragged.OnEndDrag(null);
+                _currentlySimDragged = null;
+            }
+
+            if (_currentlySimDraggedNew != null)
+            {
+                _currentlySimDraggedNew.OnEndDrag(null);
+                _currentlySimDraggedNew = null;
+            }
+        }
+
+        public void OnDoubleClickSimDragStartedHandler(HexDrag _clickedItem)
+        {
+            if (_currentlySimDragged != null || _currentlySimDraggedNew != null)
+                return;
+
+            _currentlySimDraggedNew = null;
+            _currentlySimDragged = _clickedItem;
+            _currentlySimDragged.OnBeginDrag(null);
+
+            //SgtLogger.l("start virt drag @" + _clickedItem.name );
+        }
+        public void OnDoubleClickSimDragStartedHandler(ToolkitDraggable _clickedItem)
+        {
+            if (_currentlySimDragged != null || _currentlySimDraggedNew != null)
+                return;
+
+            _currentlySimDraggedNew = _clickedItem;
+            _currentlySimDraggedNew.OnBeginDrag(null);
+            _currentlySimDragged = null;
+        }
+        public void OnDoubleClickSimDragEndedHandler(HexDropHandler dropHandler)
+        {
+            if (_currentlySimDragged != null)
+            {
+                //SgtLogger.l("end virt drag @" + _currentlySimDragged.name);
+                if (!HexOccupied(dropHandler.HexPos))
+                {
+                    _currentlySimDragged.DragStartPosition = dropHandler.transform.position;
+                    MovePOIToNewLocation(_currentlySimDragged, dropHandler.HexPos);
+                }
+                _currentlySimDragged.OnEndDrag(null);
+
+            }
+            else if (_currentlySimDraggedNew != null)
+            {
+                if (!HexOccupied(dropHandler.HexPos))
+                {
+                    AddNewPoiToStarmap(dropHandler.HexPos, _currentlySimDraggedNew.poiId);
+                }
+                _currentlySimDraggedNew.OnEndDrag(null);
+            }
+            _currentlySimDraggedNew = null;
+            _currentlySimDragged = null;
+        }
+        public void OnDoubleClickSimDragDeletedHandler()
+        {
+            if (_currentlySimDragged != null)
+            {
+                RemovePOI(_currentlySimDragged);
+                Destroy(_currentlySimDragged.gameObject);
+            }
+            else if (_currentlySimDraggedNew != null)
+            {
+                _currentlySimDraggedNew.OnEndDrag(null);
+            }
+            _currentlySimDraggedNew = null;
+            _currentlySimDragged = null;
+        }
 
         public override void ScreenUpdate(bool topLevel)
         {
@@ -266,6 +376,8 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             Vector3 vector3_2 = RectTransform.InverseTransformPoint((Vector3)mousePos);
             RectTransform content = RectTransform;
             content.localPosition = content.localPosition + (vector3_2 - vector3_1) * this.m_currentZoomScale;
+            if (_currentlySimDragged != null) _currentlySimDragged.transform.SetPosition(mousePos);
+            if (_currentlySimDraggedNew != null) _currentlySimDraggedNew.transform.SetPosition(mousePos);
         }
 
 
