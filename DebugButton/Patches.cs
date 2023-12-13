@@ -100,12 +100,12 @@ namespace DebugButton
                 UpdateDebugToggleState();
             }
 
-            static void SetSuperSpeed(bool on)
+            static void SetSuperSpeed(bool isOn)
             {
                 if (_debugHandler != null)
                 {
-                    Time.timeScale = on ? 30f : 1f;
-                    _debugHandler.ultraTestMode = on;
+                    Time.timeScale = isOn ? 30f : 1f;
+                    _debugHandler.ultraTestMode = isOn;
                 }
             }
             static void SetInstaBuild(bool on)

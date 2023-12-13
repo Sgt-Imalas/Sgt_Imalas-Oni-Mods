@@ -1096,9 +1096,29 @@ namespace ClusterTraitGenerationManager
             {
                 this.world = world;
                 this.originalWorldDimensions = world.worldsize;
+                //this.InitGeyserInfo();
+
                 //XYratio = (float)world.worldsize.X / (float)world.worldsize.Y;
                 return this;
             }
+
+            //private void InitGeyserInfo()
+            //{
+            //    var Templates = this.world.worldTemplateRules;
+            //    foreach (var Template in Templates)
+            //    {
+
+            //    }
+            //}
+            //[JsonIgnore]public List<GeyserInfo> GeyserInfos;
+            //public class GeyserInfo
+            //{
+            //    public Sprite PreviewImage;
+            //    public string Name, Description;
+            //    public int minCount, maxCount;
+            //}
+
+
             public StarmapItem AddItemWorldPlacement(WorldPlacement placement2, float morethanone = 1)
             {
                 this.MaxNumberOfInstances = morethanone;
@@ -1411,7 +1431,7 @@ namespace ClusterTraitGenerationManager
                 multiplier = (float)CustomCluster.Rings / (float)CustomCluster.defaultRings;
             }
             if (log)
-                SgtLogger.l("Cluster Size: " + CustomCluster.Rings + 1);
+                SgtLogger.l("Cluster Size: " + (CustomCluster.Rings + 1));
             if (log)
                 SgtLogger.l("Placement Multiplier: " + multiplier);
 

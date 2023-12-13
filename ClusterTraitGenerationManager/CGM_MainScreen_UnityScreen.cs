@@ -21,18 +21,12 @@ using Klei.CustomSettings;
 using ProcGen;
 using System.Text.RegularExpressions;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDTRAITS.CONTENT.TRAITCONTAINER.SCROLLAREA.CONTENT.LISTVIEWENTRYPREFAB;
-using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS;
-using static ClusterTraitGenerationManager.CGM_MainScreen_UnityScreen;
 using static CustomGameSettings;
 using Database;
 using TMPro;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.VANILLASTARMAPCONTENT.VANILLASTARMAPCONTAINER;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.VANILLAPOI_RESOURCES;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.VANILLAPOI_RESOURCES.VANILLAPOI_ARTIFACT;
-using KSerialization;
-using static STRINGS.UI.CLUSTERMAP;
-using UnityEngine.PlayerLoop;
-using static ResearchTypes;
 using ClusterTraitGenerationManager.SO_StarmapEditor;
 
 namespace ClusterTraitGenerationManager
@@ -740,6 +734,8 @@ namespace ClusterTraitGenerationManager
         //private FButton SettingsButton;
         private FButton GenerateClusterButton;
 
+        private StarmapToolkit SpacedOutStarmap;
+
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
@@ -772,6 +768,9 @@ namespace ClusterTraitGenerationManager
             galleryGridContainer = transform.Find("ItemSelection/StarItemContent/StarItemContainer").gameObject;
             PlanetoidEntryPrefab = transform.Find("ItemSelection/StarItemContent/StarItemContainer/Item").gameObject;
             galleryHeaderLabel = transform.Find("ItemSelection/Header/Label").GetComponent<LocText>();
+
+            SpacedOutStarmap = transform.Find("ItemSelection").gameObject.AddOrGet<StarmapToolkit>();
+            SpacedOutStarmap.SetActive(false,true);
             ///GalleryContainers
             SgtLogger.l("Hooking up GalleryContainers");
 
@@ -1376,11 +1375,13 @@ namespace ClusterTraitGenerationManager
 
         public void SelectCategory(StarmapItemCategory category)
         {
-            if(category == StarmapItemCategory.SpacedOutStarmap)
-            {
-                Unity_SO_StarmapScreen.ShowWindow();
-                return;
-            }
+
+            SpacedOutStarmap.SetActive(category == StarmapItemCategory.SpacedOutStarmap);
+            //if(category == StarmapItemCategory.SpacedOutStarmap)
+            //{
+            //    Unity_SO_StarmapScreen.ShowWindow();
+            //    return;
+            //}
 
             this.SelectedCategory = category;
             //this.categoryHeaderLabel.SetText(STRINGS.UI.CUSTOMCLUSTERUI.NAMECATEGORIES);

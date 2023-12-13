@@ -28,7 +28,7 @@ namespace ClusterTraitGenerationManager
         public static GameObject CustomGameSettings;
         public static GameObject SO_StarmapScreen;
         public static string CustomClusterTemplatesPath;
-
+        public static readonly string TemporalTearId = "TemporalTear", TeapotId = "ArtifactSpacePOI_RussellsTeapot";
 
         /// <summary>
         /// These have a guaranteed Start,Warp and Outer Version

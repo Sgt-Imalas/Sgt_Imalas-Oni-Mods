@@ -53,13 +53,13 @@ namespace ClusterTraitGenerationManager
                 item.SetActive(true);
             }
 
-            if (VanillaStarmapItems.ContainsKey("TemporalTear"))
+            if (VanillaStarmapItems.ContainsKey(ModAssets.TemporalTearId))
             {
-                VanillaStarmapItems["TemporalTear"].SetActive(CustomCluster!=null && !CustomCluster.HasTear);
+                VanillaStarmapItems[ModAssets.TemporalTearId].SetActive(CustomCluster!=null && !CustomCluster.HasTear);
             }
-            if (VanillaStarmapItems.ContainsKey("ArtifactSpacePOI_RussellsTeapot"))
+            if (VanillaStarmapItems.ContainsKey(ModAssets.TeapotId))
             {
-                VanillaStarmapItems["ArtifactSpacePOI_RussellsTeapot"].SetActive(CustomCluster != null && !CustomCluster.HasTeapot);
+                VanillaStarmapItems[ModAssets.TeapotId].SetActive(CustomCluster != null && !CustomCluster.HasTeapot);
             }
             if (CurrentPOIGroup!= null&& CurrentPOIGroup.placementPOI != null && CurrentPOIGroup.placementPOI.pois!=null)
             {

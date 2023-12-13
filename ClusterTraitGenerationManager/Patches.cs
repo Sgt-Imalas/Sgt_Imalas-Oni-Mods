@@ -99,7 +99,7 @@ namespace ClusterTraitGenerationManager
                 }
             }
         }
-
+        
 
 
         /// <summary>
@@ -113,6 +113,28 @@ namespace ClusterTraitGenerationManager
                 LocalisationUtil.Translate(typeof(STRINGS), true);
             }
         }
+
+        /// <summary>
+        /// CGM in the copied seed in the pause screen for custom clusters
+        /// </summary>
+        [HarmonyPatch(typeof(PauseScreen), "OnSpawn")]
+        public static class PauseScreen_OnSpawn_Patch
+        {
+            public static void Postfix(PauseScreen __instance)
+            {
+                if (Game.clusterId == CustomClusterID)
+                {
+                    string settingsCoordinate = CustomGameSettings.Instance.GetSettingsCoordinate().Replace("SNDST-C","CGM");
+                    string[] settingCoordinate = CustomGameSettings.ParseSettingCoordinate(settingsCoordinate);
+                    __instance.worldSeed.SetText(string.Format((string)global::STRINGS.UI.FRONTEND.PAUSE_SCREEN.WORLD_SEED, (object)settingsCoordinate));
+                    __instance.worldSeed.GetComponent<ToolTip>().toolTip = string.Format((string)global::STRINGS.UI.FRONTEND.PAUSE_SCREEN.WORLD_SEED_TOOLTIP, (object)"CGM", (object)settingCoordinate[2], (object)settingCoordinate[3], (object)settingCoordinate[4]);
+
+                }
+            }
+        }
+
+
+        
 
         /// <summary>
         /// adds gear button to cluster view

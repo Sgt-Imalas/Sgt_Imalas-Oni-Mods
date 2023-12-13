@@ -107,6 +107,37 @@ namespace ClusterTraitGenerationManager
                             }
                         }
                     }
+                    public class FOOTER
+                    {
+                        public class TOOLBOX
+                        {
+                            public class TRASHCANCONTAINER
+                            {
+                                public class SHOWPERMALABELS
+                                {
+                                    public static LocString LABEL = (LocString)"Show Names";
+                                }
+                                public static LocString LABEL = (LocString)"Drag POI here to delete.";
+                                public class INPUT
+                                {
+                                    public static LocString TEXT = (LocString)"";
+                                }
+                            }
+                            public class BOXOFPOI
+                            {
+                                public static LocString LABEL = (LocString)"Drag POI here to delete.";
+                                public static LocString POINOTINSTARMAP = (LocString)"This POI is currently not present on the starmap";
+                                public class INPUT
+                                {
+                                    public class TEXTAREA
+                                    {
+                                        public static LocString TEXT = (LocString)"";
+                                        public static LocString PLACEHOLDER = (LocString)"Enter Text to filter POIs";
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 public class DETAILS
                 {
@@ -115,7 +146,7 @@ namespace ClusterTraitGenerationManager
                         public static LocString LABEL = (LocString)"Currently selected [STARMAPITEMTYPE]: {0}";
                     }
 
-                    
+
                     public class CONTENT
                     {
                         public class SCROLLRECTCONTAINER
@@ -690,7 +721,7 @@ namespace ClusterTraitGenerationManager
                 public static LocString POI = (LocString)"Point of Interest";
                 public static LocString POI_GROUP = (LocString)"POI Group";
                 public static LocString POI_GROUP_PLURAL = (LocString)"POI Groups";
-                public static LocString POIPLURAL = (LocString)"Points of Interest"; 
+                public static LocString POIPLURAL = (LocString)"Points of Interest";
 
                 public static LocString STORYTRAIT = (LocString)"Story Trait";
                 public static LocString STORYTRAITPLURAL = (LocString)"Story Traits";

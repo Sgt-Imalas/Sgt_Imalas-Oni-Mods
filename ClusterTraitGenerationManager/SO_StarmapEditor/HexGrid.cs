@@ -9,26 +9,37 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
+using YamlDotNet.Core.Tokens;
 using static AnimEventHandler;
+using static ClusterTraitGenerationManager.SO_StarmapEditor.StarmapToolkit;
 using static Database.MonumentPartResource;
 using static NameDisplayScreen;
+using static UnityEngine.UI.StencilMaterial;
 
 namespace ClusterTraitGenerationManager.SO_StarmapEditor
 {
-    internal class HexGrid : FScreen, IPointerEnterHandler, IPointerExitHandler
+    internal class HexGrid : FScreen
     {
 
-        internal class HexDrag : KMonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+        internal class HexDrag : KMonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
         {
 
             [MyCmpGet]
             RectTransform rectTransform;
 
+            bool nameAlwaysActive = false;
             HexGrid parent;
             public Tuple<int, int> InternalPos;
             Image InternalImage;
             Image ownImage;
             string ownId;
+            LocText Label;
+            public string ID => ownId;
+            private bool _isPOI = false;
+            public bool IsPOI => _isPOI;
+
+            Transform tParent, dragParent;
+
             public void Init(HexGrid _parent, int _x, int _y, string starmapItemId)
             {
                 //UIUtils.ListAllChildren(transform);
@@ -37,7 +48,14 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
                 InternalPos = new Tuple<int, int>(_x, _y);
                 InternalImage = transform.Find("ButtonContainerImage").gameObject.GetComponent<Image>();
                 ownId = starmapItemId;
+                Label = transform.Find("Label").gameObject.GetComponent<LocText>();
+
                 SetStarmapItem(ownId);
+                Label.gameObject.SetActive(false);
+                Label.raycastTarget = false;
+                SetNameAlwaysActive(parent.AlwaysShowNames);
+                tParent = transform.parent;
+                dragParent = _parent.transform.parent.parent.parent.parent;
             }
 
 
@@ -48,18 +66,24 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
                 {
                     if (CGSMClusterManager.PlanetoidDict.ContainsKey(ID))
                     {
-                        SgtLogger.l("isPlanetoid");
-                        SetContainerSprite(CGSMClusterManager.PlanetoidDict[ID].planetSprite);
+                        //SgtLogger.l("isPlanetoid");
+                        var data = CGSMClusterManager.PlanetoidDict[ID];
+                        SetContainerSprite(data.planetSprite);
+                        Label.SetText(data.DisplayName);
                     }
                     else if (ModAssets.SO_POIs.ContainsKey(ID))
                     {
-                        SgtLogger.l("isPOI");
-                        SetContainerSprite(ModAssets.SO_POIs[ID].Sprite);
+                        //SgtLogger.l("isPOI");
+                        var data = ModAssets.SO_POIs[ID];
+                        SetContainerSprite(data.Sprite);
+                        Label.SetText(data.Name);
+                        _isPOI = true;
                     }
                     else
                     {
-                        SgtLogger.l("IsNothing");
+                        //SgtLogger.l("IsNothing");
                         SetContainerSprite(null);
+                        Label.SetText("");
                     }
                 }
             }
@@ -93,6 +117,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             public Vector3 DragStartPosition;
             public void OnDrag(PointerEventData eventData)
             {
+                transform.SetParent(dragParent);
                 transform.position = eventData.position;
             }
 
@@ -105,6 +130,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
 
             public void OnEndDrag(PointerEventData eventData)
             {
+                transform.SetParent(tParent);
                 transform.position = DragStartPosition;
                 ownImage.raycastTarget = true;
                 InternalImage.raycastTarget = true;
@@ -113,6 +139,24 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             public void SetPositionXY(Tuple<int, int> pos)
             {
                 rectTransform.anchoredPosition = parent.GetPosForHex(pos.first, pos.second);
+            }
+
+            public void OnPointerExit(PointerEventData eventData)
+            {
+                if (!nameAlwaysActive)
+                    Label.gameObject.SetActive(false);
+            }
+
+            public void OnPointerEnter(PointerEventData eventData)
+            {
+                if (!nameAlwaysActive)
+                    Label.gameObject.SetActive(true);
+            }
+
+            internal void SetNameAlwaysActive(bool value)
+            {
+                nameAlwaysActive = value;
+                Label.gameObject.SetActive(value);
             }
         }
         internal class HexDropHandler : KMonoBehaviour, IDropHandler
@@ -128,10 +172,17 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
 
             public void OnDrop(PointerEventData eventData)
             {
-                if (!parent.HexOccupied(HexPos) && eventData.pointerDrag.TryGetComponent<HexDrag>(out HexDrag hexDragger))
+                if (!parent.HexOccupied(HexPos))
                 {
-                    hexDragger.DragStartPosition = transform.position;
-                    parent.MovePOIToNewLocation(hexDragger, HexPos);
+                    if(eventData.pointerDrag.TryGetComponent(out HexDrag hexDragger))
+                    {
+                        hexDragger.DragStartPosition = transform.position;
+                        parent.MovePOIToNewLocation(hexDragger, HexPos);
+                    }
+                    else if (eventData.pointerDrag.TryGetComponent(out ToolkitDraggable newPOI))
+                    {
+                        parent.AddNewPoiToStarmap(HexPos, newPOI.poiId);
+                    }
                 }
             }
         }
@@ -154,6 +205,10 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             scrollRect.OnEndDrag(eventData);
             base.OnEndDrag(eventData);
         }
+        public void RemovePOI(HexDrag hexDragger)
+        {
+            ActiveItems.Remove(hexDragger.InternalPos);
+        }
 
         private void MovePOIToNewLocation(HexDrag hexDragger, Tuple<int, int> hexPos)
         {
@@ -162,7 +217,6 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             ActiveItems.Add(hexDragger.InternalPos, hexDragger);
             //TODO: logic
         }
-
 
         Tuple<int, int>[] axial_direction_vectors = new Tuple<int, int>[]
         {
@@ -192,7 +246,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
 
 
         Dictionary<Tuple<int, int>, GameObject> GridItems = new Dictionary<Tuple<int, int>, GameObject>();
-        Dictionary<Tuple<int, int>, HexDrag> ActiveItems = new Dictionary<Tuple<int, int>, HexDrag>();
+        public Dictionary<Tuple<int, int>, HexDrag> ActiveItems = new Dictionary<Tuple<int, int>, HexDrag>();
         //GameObject[,] GridItems;
         //Button[,] GridButtons;
 
@@ -205,7 +259,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
 
         public override void ScreenUpdate(bool topLevel)
         {
-            this.m_currentZoomScale = Mathf.Lerp(this.m_currentZoomScale, this.m_targetZoomScale, Mathf.Min(8f * Time.unscaledDeltaTime, 4f));
+            this.m_currentZoomScale = Mathf.Lerp(this.m_currentZoomScale, this.m_targetZoomScale, Mathf.Min(4f * Time.unscaledDeltaTime, 1f));
             Vector2 mousePos = (Vector2)KInputManager.GetMousePos();
             Vector3 vector3_1 = RectTransform.InverseTransformPoint((Vector3)mousePos);
             RectTransform.localScale = new Vector3(this.m_currentZoomScale, this.m_currentZoomScale, 1f);
@@ -217,11 +271,12 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
 
         public override void OnKeyDown(KButtonEvent e)
         {
-            if (!e.Consumed && (e.IsAction(Action.ZoomIn) || e.IsAction(Action.ZoomOut)))
+            SgtLogger.l("cursor inside: " + CursorInside);
+            if (!e.Consumed && CursorInside && (e.IsAction(Action.ZoomIn) || e.IsAction(Action.ZoomOut)))
             {
                 if (e.IsAction(Action.ZoomIn) && currentZoomStep < zoomStepMax)
                     currentZoomStep += 1;
-                else if (e.IsAction(Action.ZoomOut)&& currentZoomStep > zoomStepMin)
+                else if (e.IsAction(Action.ZoomOut) && currentZoomStep > zoomStepMin)
                     currentZoomStep -= 1;
                 else
                     return;
@@ -239,15 +294,30 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
                     e.TryConsume(Action.ZoomOut);
 
             }
-
-            base.OnKeyDown(e);
         }
 
+        public bool AlwaysShowNames
+        {
+            get
+            {
+                return _alwaysShowNames;
+            }
+            set
+            {
+                _alwaysShowNames = value;
+                foreach (var active in ActiveItems.Values)
+                {
+                    active.SetNameAlwaysActive(value);
+                }
+
+            }
+        }
+        private bool _alwaysShowNames = true;
 
         float lowerZoomBound = 2.5f, upperZoomBound = 0.2f;
         float currentZoomStep = 1f;
         float zoomStepMin = -2, zoomStepMax = 15;
-        float m_targetZoomScale = 0.25f, m_currentZoomScale= 0.25f;
+        float m_targetZoomScale = 0.25f, m_currentZoomScale = 0.25f;
         int lastRadius;
         float XStep, YStep;
         public void InitGrid()
@@ -255,6 +325,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             int radius = MapRadius - 1;
             if (radius != lastRadius)
             {
+                SgtLogger.l("initing grid");
                 lastRadius = radius;
                 foreach (var item in GridItems)
                 {
@@ -273,8 +344,8 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
                 RectTransform.sizeDelta = new Vector2((float)(MapRadius * 220), (float)(MapRadius * 200));
                 RectTransform.localPosition = new Vector2(0, 0);
 
-                RectTransform.localScale= new Vector2(0.25f, 0.25f);
-                
+                RectTransform.localScale = new Vector2(0.25f, 0.25f);
+
                 for (int x = -radius; x <= radius; ++x)
                 {
                     for (int y = -radius; y <= radius; ++y)
@@ -305,22 +376,32 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
                 }
             }
         }
-        public bool CursorInside => cursorInside;
+        public bool CursorInside = false;
 
         public bool CurrentlySelectingNewPosition = true;
 
-        private bool cursorInside = false;
-
-        public void OnPointerEnter(PointerEventData eventData)
+        public void AddNewPoiToStarmap(Tuple<int, int> key, string itemId)
         {
-            cursorInside = true;
-        }
+            if (!ActiveItems.ContainsKey(key))
+            {
+                int x = key.first, y = key.second;
 
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            cursorInside = false;
-        }
+                var StarmapItemEntry = Util.KInstantiateUI(DraggablePrefab, EntryParent);
+                StarmapItemEntry.SetActive(true);
+                StarmapItemEntry.TryGetComponent<RectTransform>(out var rect);
+                StarmapItemEntry.TryGetComponent<Image>(out var img);
+                rect.anchoredPosition = GetPosForHex(x, y);
 
+                var dragLogic = StarmapItemEntry.AddOrGet<HexDrag>();
+                dragLogic.Init(this, x, y, itemId);
+
+                ActiveItems.Add(new Tuple<int, int>(x, y), dragLogic);
+            }
+            else
+            {
+                SgtLogger.warning(key.first + ", " + key.second + ": " + itemId, "Coordinate Key already in dictionary");
+            }
+        }
         bool HexOccupied(Tuple<int, int> key) => ActiveItems.ContainsKey(key);
 
         internal void InitPositions()
@@ -335,28 +416,8 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             layout.AssignClusterLocations(int.Parse(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id));
             foreach (var dataEntry in layout.OverridePlacements)
             {
-                //SgtLogger.l(dataEntry.Value.ToString(), dataEntry.Key.Q+","+ dataEntry.Key.R);
-                int x = dataEntry.Key.R, y = dataEntry.Key.Q;
-
-                var key = new Tuple<int, int>(x, y);
-
-                if (!ActiveItems.ContainsKey(key))
-                {
-                    var StarmapItemEntry = Util.KInstantiateUI(DraggablePrefab, EntryParent);
-                    StarmapItemEntry.SetActive(true);
-                    StarmapItemEntry.TryGetComponent<RectTransform>(out var rect);
-                    StarmapItemEntry.TryGetComponent<Image>(out var img);
-                    rect.anchoredPosition = GetPosForHex(x, y);
-
-                    var dragLogic = StarmapItemEntry.AddOrGet<HexDrag>();
-                    dragLogic.Init(this, x, y, dataEntry.Value);
-
-                    ActiveItems.Add(new Tuple<int, int>(x, y), dragLogic);
-                }
-                else
-                {
-                    SgtLogger.warning(key.first + ", " + key.second + ": " + dataEntry.Value, "Coordinate Key already in dictionary");
-                }
+                var key = new Tuple<int, int>(dataEntry.Key.R, dataEntry.Key.Q);
+                AddNewPoiToStarmap(key, dataEntry.Value);
             }
         }
     }

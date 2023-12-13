@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using static ResearchTypes;
 using UnityEngine;
 using Klei.CustomSettings;
+using UtilLibs;
 
 namespace ClusterTraitGenerationManager.SO_StarmapEditor
 {
@@ -78,9 +79,10 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
                 {
                     minBuffers.UnionWith(AxialUtil.GetRings(item2, 1, 2));
                 }
+                //ProcGenGame.Cluster.AssignClusterLocations
 
                 availableWorldLocations = (from location in AxialUtil.GetRings(AxialI.ZERO, worldPlacement.allowedRings.min, Mathf.Min(worldPlacement.allowedRings.max, clusterLayout.numRings - 1))
-                         where !assignedLocations.Contains(location) && !minBuffers.Contains(location)
+                         where !assignedLocations.Contains(location) && !minBuffers.Contains(location) //
                          select location).ToList();
                 if (availableWorldLocations.Count > 0)
                 {
@@ -102,55 +104,60 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
 
                 return false;
             }
-
+            SgtLogger.l("asteroids done");
             if (DlcManager.FeatureClusterSpaceEnabled() && poiPlacements != null)
             {
                 HashSet<AxialI> poiClumpLocations = new HashSet<AxialI>();
                 HashSet<AxialI> poiForbiddenLocations = new HashSet<AxialI>();
                 float num = 0.5f;
-                int num2 = 3;
-                int num3 = 0;
-                foreach (SpaceMapPOIPlacement item3 in poiPlacements)
+                int maxRange = 3;
+                int minRange = 0;
+                foreach (SpaceMapPOIPlacement spaceMapPoiPlacement in poiPlacements)
                 {
-                    List<string> list4 = new List<string>(item3.pois);
-                    for (int j = 0; j < item3.numToSpawn; j++)
+                    List<string> availablePOITypes = new List<string>(spaceMapPoiPlacement.pois);
+                    for (int index = 0; index < spaceMapPoiPlacement.numToSpawn; ++index)
                     {
-                        bool num4 = myRandom.RandomRange(0f, 1f) <= num;
-                        List<AxialI> list5 = null;
-                        if (num4 && num3 < num2 && !item3.avoidClumping)
+                        SgtLogger.l((index + 1) + ". durchlauf");
+
+                        if (availablePOITypes.Count == 0)
+                            break;
+
+                        bool randRangeSmaller = myRandom.RandomRange(0f, 1f) <= num;
+                        List<AxialI> availableLocations = null;
+                        if (randRangeSmaller && minRange < maxRange && !spaceMapPoiPlacement.avoidClumping)
                         {
-                            num3++;
-                            list5 = (from location in AxialUtil.GetRings(AxialI.ZERO, item3.allowedRings.min, Mathf.Min(item3.allowedRings.max, clusterLayout.numRings - 1))
+                            minRange++;
+                            availableLocations = (from location in AxialUtil.GetRings(AxialI.ZERO, spaceMapPoiPlacement.allowedRings.min, Mathf.Min(spaceMapPoiPlacement.allowedRings.max, clusterLayout.numRings - 1))
                                      where !assignedLocations.Contains(location) && poiClumpLocations.Contains(location) && !poiWorldAvoidance.Contains(location)
                                      select location).ToList();
                         }
 
-                        if (list5 == null || list5.Count <= 0)
+                        if (availableLocations == null || availableLocations.Count <= 0)
                         {
-                            num3 = 0;
+                            minRange = 0;
                             poiClumpLocations.Clear();
-                            list5 = (from location in AxialUtil.GetRings(AxialI.ZERO, item3.allowedRings.min, Mathf.Min(item3.allowedRings.max, clusterLayout.numRings - 1))
+                            availableLocations = (from location in AxialUtil.GetRings(AxialI.ZERO, spaceMapPoiPlacement.allowedRings.min, Mathf.Min(spaceMapPoiPlacement.allowedRings.max, clusterLayout.numRings - 1))
                                      where !assignedLocations.Contains(location) && !poiWorldAvoidance.Contains(location) && !poiForbiddenLocations.Contains(location)
                                      select location).ToList();
                         }
 
-                        if (list5 != null && list5.Count > 0)
+                        if (availableLocations != null && availableLocations.Count > 0)
                         {
-                            AxialI axialI3 = list5[myRandom.RandomRange(0, list5.Count)];
-                            string text2 = list4[myRandom.RandomRange(0, list4.Count)];
-                            if (!item3.canSpawnDuplicates)
+                            AxialI axialI3 = availableLocations[myRandom.RandomRange(0, availableLocations.Count)];
+                            string selectedPoiType = availablePOITypes[myRandom.RandomRange(0, availablePOITypes.Count)];
+                            if (!spaceMapPoiPlacement.canSpawnDuplicates)
                             {
-                                list4.Remove(text2);
+                                availablePOITypes.Remove(selectedPoiType);
                             }
 
-                            OverridePlacements[axialI3] = text2;
+                            OverridePlacements[axialI3] = selectedPoiType;
                             poiForbiddenLocations.UnionWith(AxialUtil.GetRings(axialI3, 1, 3));
                             poiClumpLocations.UnionWith(AxialUtil.GetRings(axialI3, 1, 1));
                             assignedLocations.Add(axialI3);
                         }
                         else
                         {
-                           // Debug.LogWarning($"There is no room for a Space POI in ring range [{item3.allowedRings.min}, {item3.allowedRings.max}]");
+                           // Debug.LogWarning($"There is no room for a Space POI in ring range [{poiPlacement.allowedRings.min}, {poiPlacement.allowedRings.max}]");
                         }
                     }
                 }
