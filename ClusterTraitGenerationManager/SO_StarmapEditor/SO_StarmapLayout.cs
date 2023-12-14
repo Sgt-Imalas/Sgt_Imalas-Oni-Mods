@@ -11,11 +11,16 @@ using UtilLibs;
 
 namespace ClusterTraitGenerationManager.SO_StarmapEditor
 {
-    internal class SO_StarmapLayout
+    public class SO_StarmapLayout
     {
         public Dictionary<AxialI,string> OverridePlacements = new();
         public bool GenerationPossible=false;
         public bool UsingCustomLayout=false;
+
+        public SO_StarmapLayout(int seed)
+        {
+            ResetCustomPlacements(seed);
+        }
 
         public void ResetCustomPlacements(int seed)
         {
@@ -23,10 +28,21 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             GeneratePlacementOverrides(seed);
         }
 
+        public void AddPOI(string id, AxialI newPlace)
+        {
+            UsingCustomLayout = true;
+            OverridePlacements.Add(newPlace, id);
+        }
         public void MovePOI(string id, AxialI original, AxialI newPlace)
         {
+            UsingCustomLayout = true;
             OverridePlacements.Remove(original);
             OverridePlacements.Add(newPlace, id);  
+        }
+        public void RemovePOI(AxialI original)
+        {
+            UsingCustomLayout = true;
+            OverridePlacements.Remove(original);
         }
 
         void GeneratePlacementOverrides(int seed)
@@ -66,6 +82,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
                 if (availableWorldLocations.Count > 0)
                 {
                     AxialI axialI = availableWorldLocations[myRandom.RandomRange(0, availableWorldLocations.Count)];
+                    //worldGen.SetClusterLocation(axialI);
                     OverridePlacements[axialI]=worldPlacement.world;
                     assignedLocations.Add(axialI);
                     worldForbiddenLocations.UnionWith(AxialUtil.GetRings(axialI, 1, worldPlacement.buffer));
@@ -104,7 +121,6 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
 
                 return false;
             }
-            SgtLogger.l("asteroids done");
             if (DlcManager.FeatureClusterSpaceEnabled() && poiPlacements != null)
             {
                 HashSet<AxialI> poiClumpLocations = new HashSet<AxialI>();
@@ -117,8 +133,6 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
                     List<string> availablePOITypes = new List<string>(spaceMapPoiPlacement.pois);
                     for (int index = 0; index < spaceMapPoiPlacement.numToSpawn; ++index)
                     {
-                        SgtLogger.l((index + 1) + ". durchlauf");
-
                         if (availablePOITypes.Count == 0)
                             break;
 

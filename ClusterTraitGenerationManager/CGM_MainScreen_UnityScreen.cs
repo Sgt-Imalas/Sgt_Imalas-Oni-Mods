@@ -1752,10 +1752,21 @@ namespace ClusterTraitGenerationManager
             CurrentlySelectedSOStarmapItem = null;
         }
 
+        public void ResetSOStarmap()
+        {
+            if (DlcManager.IsExpansion1Active())
+            {
+                CustomCluster.SO_Starmap = null;
+                RebuildSoStarmap();
+                SpacedOutStarmap.RebuildGrid();
+            }
+        }
         public void RebuildStarmap(bool reset)
         {
             if (DlcManager.IsExpansion1Active())
-                RebuildSoStarmap();
+            {
+                ResetSOStarmap();
+            }
             else
                 RebuildVanillaStarmap(reset);
         }

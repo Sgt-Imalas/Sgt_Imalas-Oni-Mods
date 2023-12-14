@@ -201,6 +201,8 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
                     else if (eventData.pointerDrag.TryGetComponent(out ToolkitDraggable newPOI))
                     {
                         parent.AddNewPoiToStarmap(HexPos, newPOI.poiId);
+                        int x = HexPos.first, y = HexPos.second;
+                        CGSMClusterManager.CustomCluster.SO_Starmap.AddPOI(newPOI.poiId, new(x, y));
                     }
                 }
             }
@@ -216,7 +218,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
                 }
             }
         }
-
+        
         public override void OnBeginDrag(PointerEventData eventData)
         {
 
@@ -236,24 +238,8 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             scrollRect.OnEndDrag(eventData);
             base.OnEndDrag(eventData);
         }
-        public void RemovePOI(HexDrag hexDragger)
-        {
-            ActiveItems.Remove(hexDragger.InternalPos);
 
-            if (OnActiveItemCompositionChanged != null)
-                OnActiveItemCompositionChanged();
-        }
 
-        private void MovePOIToNewLocation(HexDrag hexDragger, Tuple<int, int> hexPos)
-        {
-            ActiveItems.Remove(hexDragger.InternalPos);
-            hexDragger.InternalPos = hexPos;
-            ActiveItems.Add(hexDragger.InternalPos, hexDragger);
-
-            if (OnActiveItemCompositionChanged != null)
-                OnActiveItemCompositionChanged();
-            //TODO: logic
-        }
 
         Tuple<int, int>[] axial_direction_vectors = new Tuple<int, int>[]
         {
@@ -446,20 +432,19 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
         float m_targetZoomScale = 0.25f, m_currentZoomScale = 0.25f;
         int lastRadius;
         float XStep, YStep;
-        public void InitGrid()
+        public void UpdateBgGrid()
         {
             int radius = MapRadius - 1;
             if (radius != lastRadius)
             {
-                SgtLogger.l("initing grid");
                 lastRadius = radius;
                 foreach (var item in GridItems)
                 {
                     UnityEngine.Object.Destroy(item.Value.gameObject);
                     //   item.Value.SelfDestruct();
                 }
-
                 GridItems.Clear();
+
                 if (EntryParent == null)
                     EntryParent = gameObject;
 
@@ -525,15 +510,43 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
 
                 if (OnActiveItemCompositionChanged != null)
                     OnActiveItemCompositionChanged();
+
             }
             else
             {
                 SgtLogger.warning(key.first + ", " + key.second + ": " + itemId, "Coordinate Key already in dictionary");
             }
         }
+        public void RemovePOI(HexDrag hexDragger)
+        {
+            ActiveItems.Remove(hexDragger.InternalPos);
+
+            int x = hexDragger.InternalPos.first,
+                y = hexDragger.InternalPos.second;
+
+            CGSMClusterManager.CustomCluster.SO_Starmap.RemovePOI( new(x, y));
+            if (OnActiveItemCompositionChanged != null)
+                OnActiveItemCompositionChanged();
+        }
+        private void MovePOIToNewLocation(HexDrag hexDragger, Tuple<int, int> hexPos)
+        {
+            int x1 = hexDragger.InternalPos.first, y1 = hexDragger.InternalPos.second;
+            int x2 = hexPos.first, y2 = hexPos.second;
+
+            CGSMClusterManager.CustomCluster.SO_Starmap.MovePOI(hexDragger.ID,new(x1, y1), new (x2,y2));
+
+            ActiveItems.Remove(hexDragger.InternalPos);
+            hexDragger.InternalPos = hexPos;
+            ActiveItems.Add(hexDragger.InternalPos, hexDragger);
+
+            if (OnActiveItemCompositionChanged != null)
+                OnActiveItemCompositionChanged();
+        }
+
+
         bool HexOccupied(Tuple<int, int> key) => ActiveItems.ContainsKey(key);
 
-        internal void InitPositions()
+        internal void UpdateActiveItemsPositions()
         {
             foreach (var item in ActiveItems)
             {
@@ -541,9 +554,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             }
             ActiveItems.Clear();
 
-            var layout = new SO_StarmapLayout();
-            layout.AssignClusterLocations(int.Parse(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id));
-            foreach (var dataEntry in layout.OverridePlacements)
+            foreach (var dataEntry in CGSMClusterManager.CustomCluster.SO_Starmap.OverridePlacements)
             {
                 var key = new Tuple<int, int>(dataEntry.Key.R, dataEntry.Key.Q);
                 AddNewPoiToStarmap(key, dataEntry.Value);

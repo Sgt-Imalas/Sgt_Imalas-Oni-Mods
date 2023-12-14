@@ -129,6 +129,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
         private GameObject ToolboxPOIContainer;
         private GameObject ToolboxPOIPrefab;
         private FInputField2 POIFilterTextInput;
+        private FButton deleteFilter;
         private FToggle2 alwaysShowNames;
         private HexGrid Grid;
         private GameObject TrashCan;
@@ -151,21 +152,41 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             }
         }
 
+        public void RebuildGrid()
+        {
+            if (Grid == null)
+                return;
+            Grid.UpdateBgGrid();
+            Grid.UpdateActiveItemsPositions();
+        }
+
         private void Show(bool active)
         {
             HexGridGO.SetActive(active);
             FooterGO.SetActive(active);
             var currentLayout = CGSMClusterManager.GeneratedLayout;
             Grid.MapRadius = currentLayout.numRings;
-            Grid.InitGrid();
-            Grid.InitPositions();
+            Grid.UpdateBgGrid();
+            Grid.UpdateActiveItemsPositions();
+            ClearFilter();
         }
         public void ApplyFilter(string filterstring = "")
         {
+            if (ToolboxItems == null)
+                return;
+
             foreach (var item in ToolboxItems.Values)
             {
                 item.gameObject.SetActive(filterstring == string.Empty ? true : item.poiName.ToLowerInvariant().Contains(filterstring.ToLowerInvariant()));
             }
+            ToolboxItems[ModAssets.TeapotId].gameObject.SetActive(!CGSMClusterManager.CustomCluster.HasTeapot);
+            ToolboxItems[ModAssets.TemporalTearId].gameObject.SetActive(!CGSMClusterManager.CustomCluster.HasTear);
+
+        }
+        public void ClearFilter()
+        {
+            if(POIFilterTextInput!=null)
+            POIFilterTextInput.Text = string.Empty ;
         }
         public void OnMissingChanged()
         {
@@ -230,6 +251,9 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             POIFilterTextInput = transform.Find("Footer/Toolbox/BoxOfPoi/Input").FindOrAddComponent<FInputField2>();
             POIFilterTextInput.OnValueChanged.AddListener(ApplyFilter);
             POIFilterTextInput.Text = string.Empty;
+
+            deleteFilter = transform.Find("Footer/Toolbox/BoxOfPoi/DeleteButton").FindOrAddComponent<FButton>();
+            deleteFilter.OnClick += () => ClearFilter();
         }
     }
 }

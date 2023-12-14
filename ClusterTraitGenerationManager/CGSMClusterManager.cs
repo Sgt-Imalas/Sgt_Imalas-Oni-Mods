@@ -1,4 +1,5 @@
-﻿using Database;
+﻿using ClusterTraitGenerationManager.SO_StarmapEditor;
+using Database;
 using FMOD;
 using HarmonyLib;
 using Klei.AI;
@@ -193,6 +194,23 @@ namespace ClusterTraitGenerationManager
             public int defaultRings = 12;
             public int defaultOuterPlanets = 6;
             public int Rings { get; private set; }
+
+            [JsonIgnore] private SO_StarmapLayout _so_Starmap;
+            [JsonIgnore]
+            public SO_StarmapLayout SO_Starmap
+            {
+                get
+                {
+                    if (_so_Starmap == null)
+                        _so_Starmap = new SO_StarmapLayout(CurrentSeed);
+                    return _so_Starmap;
+                }
+                set
+                {
+                    _so_Starmap = value;
+                }
+            }
+
             public StarmapItem StarterPlanet { get; set; }
             public StarmapItem WarpPlanet { get; set; }
             public Dictionary<string, StarmapItem> OuterPlanets = new Dictionary<string, StarmapItem>();
@@ -1873,6 +1891,8 @@ namespace ClusterTraitGenerationManager
                 }
                 CustomCluster.POIs[item.id] = item;
             }
+            CustomCluster.SO_Starmap = new SO_StarmapLayout(CurrentSeed);
+
             if (CGM_Screen != null)
             {
                 CGM_Screen.PresetApplied = false;
@@ -1964,6 +1984,8 @@ namespace ClusterTraitGenerationManager
         {
             var item = GivePrefilledItem(ToAdd); ///Prefilled
                                                  ///only one starter at a time
+                                                 ///
+            CustomCluster.SO_Starmap = null;
             if (item.category == StarmapItemCategory.Starter)
             {
                 if (item.Equals(CustomCluster.StarterPlanet))
@@ -2498,9 +2520,10 @@ namespace ClusterTraitGenerationManager
 
         internal static void ResetStarmap()
         {
-            if (CustomCluster != null && !DlcManager.IsExpansion1Active())
+            if (CustomCluster != null)
             {
-                CustomCluster.ResetVanillaStarmap();
+                if (!DlcManager.IsExpansion1Active())
+                    CustomCluster.ResetVanillaStarmap();
             }
         }
     }

@@ -1515,7 +1515,32 @@ namespace ClusterTraitGenerationManager
             }
         }
 
+        [HarmonyPatch(typeof(Cluster), nameof(Cluster.AssignClusterLocations))]
+        public static class Cluster_StarmapInit_Patch
+        {
+            public static void Postfix(bool __result, Cluster __instance)
+            {
 
+                if (!__result || !CGSMClusterManager.LoadCustomCluster || CGSMClusterManager.CustomCluster == null || !DlcManager.IsExpansion1Active()) return;
+
+
+                __instance.poiPlacements.Clear();
+
+                foreach (var placementData in CustomCluster.SO_Starmap.OverridePlacements)
+                {
+                    int pos = GeneratedLayout.worldPlacements.FindIndex(placement => placement.world == placementData.Value);
+                    if (pos != -1)
+                    {
+                        __instance.worlds[pos].SetClusterLocation(placementData.Key);
+                    }
+                    else
+                    {
+                        __instance.poiPlacements.Add(placementData.Key,placementData.Value);
+                    }
+
+                }
+            }
+        }
 
 
         [HarmonyPatch(typeof(Cluster))]
