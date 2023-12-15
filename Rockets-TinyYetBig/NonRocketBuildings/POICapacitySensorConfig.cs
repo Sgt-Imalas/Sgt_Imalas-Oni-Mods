@@ -45,7 +45,6 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                 BuildLocationRule.OnFloor,
                 decor: _decor,
                 noise: noiseLevel);
-            BuildingTemplates.CreateRocketBuildingDef(buildingDef);
 
             buildingDef.Overheatable = false;
             buildingDef.Floodable = true;

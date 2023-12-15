@@ -1,2 +1,1 @@
-- Fixed vanilla bug of "drillcone requires cargobay" condition getting checked even if no drillcone was installed
-- new drillcone condition now also applies to the laser drillcone
+- fixed POI Capacity scanner not exchanging heat and being invincible
