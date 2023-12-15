@@ -240,6 +240,9 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
 
             foreach (var poi in ModAssets.SO_POIs)
             {
+                //if (poi.Key == ModAssets.RandomPOIId)
+                //    continue;
+
                 var toolKitGO = Util.KInstantiateUI(ToolboxPOIPrefab, ToolboxPOIContainer, true);
                 var toolkitItem = toolKitGO.AddOrGet<ToolkitItem>();
                 toolkitItem.Init(poi.Key, Grid);

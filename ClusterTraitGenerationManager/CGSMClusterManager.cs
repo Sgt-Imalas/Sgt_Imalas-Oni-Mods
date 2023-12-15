@@ -1605,11 +1605,11 @@ namespace ClusterTraitGenerationManager
             seed = int.Parse(setting) + 100;
             foreach (var poi in CustomCluster.POIs)
             {
-                var radomns = poi.Value.placementPOI.pois.Any(i => i.Contains(RandomKey)) ? true : false;
+                var radomns = poi.Value.placementPOI.pois.Any(i => i.Contains(RandomKey));
 
-                poi.Value.placementPOI.pois.RemoveAll(i => i.Contains(RandomKey));
+                //poi.Value.placementPOI.pois.RemoveAll(i => i.Contains(RandomKey));
 
-                poi.Value.placementPOI.numToSpawn = (int)Mathf.Floor(poi.Value.InstancesToSpawn);
+                poi.Value.placementPOI.numToSpawn = Mathf.FloorToInt(poi.Value.InstancesToSpawn);
                 float percentageAdditional = poi.Value.InstancesToSpawn % 1f;
                 if (percentageAdditional > 0)
                 {
@@ -1629,18 +1629,21 @@ namespace ClusterTraitGenerationManager
                 }
                 if (radomns)
                 {
-                    for (int i = 0; i < poi.Value.placementPOI.numToSpawn; i++)
-                    {
-                        string randomId = GetRandomPOI();
-                        if (randomId.Length > 0)
-                            poi.Value.placementPOI.pois.Add(randomId);
-                    }
+                    //for (int i = 0; i < poi.Value.placementPOI.numToSpawn; i++)
+                    //{
+                    //    string randomId = GetRandomPOI(seed);
+                    //    if (randomId.Length > 0)
+                    //        poi.Value.placementPOI.pois.Add(randomId);
+                    //    seed++;
+                    //}
+                    poi.Value.placementPOI.canSpawnDuplicates = true;
                 }
                 if (log)
                     poi.Value.placementPOI.pois.ForEach(poi => SgtLogger.l(poi, "poi in group"));
 
                 if (log)
                     SgtLogger.l($"\navoidClumping: {poi.Value.placementPOI.avoidClumping},\nallowDuplicates: {poi.Value.placementPOI.canSpawnDuplicates},\nRings: {poi.Value.placementPOI.allowedRings.ToString()}\nNumberToSpawn: {poi.Value.placementPOI.numToSpawn}", "POIGroup " + poi.Key.Substring(0, 8));
+                
 
                 layout.poiPlacements.Add(poi.Value.placementPOI);
             }
@@ -2204,9 +2207,10 @@ namespace ClusterTraitGenerationManager
             }
         }
 
-        public static string GetRandomPOI()
+        public static string GetRandomPOI(int seed)
         {
-            return string.Empty;
+            var ItemList = ModAssets.NonUniquePOI_Ids.Shuffle(new System.Random(seed)).ToList();
+            return ItemList[0]; 
         }
 
 

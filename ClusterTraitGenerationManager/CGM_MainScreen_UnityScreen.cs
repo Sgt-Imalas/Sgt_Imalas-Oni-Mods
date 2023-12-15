@@ -1763,6 +1763,14 @@ namespace ClusterTraitGenerationManager
         }
         public void RebuildStarmap(bool reset)
         {
+            if (SelectedCategory == StarmapItemCategory.POI)
+            {
+                SelectedPlanet = null;
+                CurrentlySelectedSOStarmapItem = null;
+                CurrentlySelectedVanillaStarmapItem = null;
+            }
+
+
             if (DlcManager.IsExpansion1Active())
             {
                 ResetSOStarmap();
@@ -2099,6 +2107,7 @@ namespace ClusterTraitGenerationManager
             {
                 CGSMClusterManager.OpenPresetWindow(() =>
                 {
+                    
                     RebuildStarmap(false);
                     RefreshView();
                 }
@@ -2178,9 +2187,11 @@ namespace ClusterTraitGenerationManager
             SgtLogger.l(poiID, bandId);
 
             RemoveSOSinglePOI_UI(bandId, poiID);
-            if (CustomCluster.HasStarmapItem(CurrentlySelectedSOStarmapItem.second, out var item))
+            SgtLogger.l("rm in ui");
+
+            if (CustomCluster.HasStarmapItem(bandId, out var item))
             {
-                item.placementPOI.pois.Remove(CurrentlySelectedSOStarmapItem.first);
+                item.placementPOI.pois.Remove(poiID);
             }
             CurrentlySelectedSOStarmapItem = null;
 

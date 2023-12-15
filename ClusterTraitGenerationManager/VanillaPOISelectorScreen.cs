@@ -15,6 +15,8 @@ using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAI
 using TemplateClasses;
 using static ClusterTraitGenerationManager.ModAssets;
 using Satsuma;
+using static STRINGS.UI.CLUSTERMAP;
+using static ResearchTypes;
 
 namespace ClusterTraitGenerationManager
 {
@@ -22,7 +24,7 @@ namespace ClusterTraitGenerationManager
     {
         public static VanillaPOISelectorScreen Instance { get; private set; }
 
-        Dictionary<string, GameObject> VanillaStarmapItems = new Dictionary<string, GameObject>();
+        Dictionary<string, GameObject> StarmapItems = new Dictionary<string, GameObject>();
         public Action<string> SelectAction;
 
         public bool IsCurrentlyActive = false;
@@ -48,30 +50,44 @@ namespace ClusterTraitGenerationManager
 
         void FilterItems()
         {
-            foreach (var item in VanillaStarmapItems.Values)
+            foreach (var item in StarmapItems.Values)
             {
                 item.SetActive(true);
             }
 
-            if (VanillaStarmapItems.ContainsKey(ModAssets.TemporalTearId))
+            if (StarmapItems.ContainsKey(ModAssets.TemporalTearId))
             {
-                VanillaStarmapItems[ModAssets.TemporalTearId].SetActive(CustomCluster!=null && !CustomCluster.HasTear);
+                StarmapItems[ModAssets.TemporalTearId].SetActive(CustomCluster != null && !CustomCluster.HasTear);
             }
-            if (VanillaStarmapItems.ContainsKey(ModAssets.TeapotId))
+            if (StarmapItems.ContainsKey(ModAssets.TeapotId))
             {
-                VanillaStarmapItems[ModAssets.TeapotId].SetActive(CustomCluster != null && !CustomCluster.HasTeapot);
+                StarmapItems[ModAssets.TeapotId].SetActive(CustomCluster != null && !CustomCluster.HasTeapot);
             }
-            if (CurrentPOIGroup!= null&& CurrentPOIGroup.placementPOI != null && CurrentPOIGroup.placementPOI.pois!=null)
+            if (CurrentPOIGroup != null && CurrentPOIGroup.placementPOI != null && CurrentPOIGroup.placementPOI.pois != null)
             {
-                foreach (var id in CurrentPOIGroup.placementPOI.pois)
+                if (StarmapItems.ContainsKey(ModAssets.RandomPOIId))
                 {
-                    if(VanillaStarmapItems.ContainsKey(id))
+                    StarmapItems[ModAssets.RandomPOIId].SetActive(CurrentPOIGroup.placementPOI.pois.Count == 0);
+                }
+                if (CurrentPOIGroup.placementPOI.pois.Any(id => id == ModAssets.RandomPOIId))
+                {
+                    foreach (var item in StarmapItems.Values)
                     {
-                        VanillaStarmapItems[id].SetActive(false);
+                        item.SetActive(false);
+                    }
+                }
+                else
+                {
+                    foreach (var id in CurrentPOIGroup.placementPOI.pois)
+                    {
+                        if (StarmapItems.ContainsKey(id))
+                        {
+                            StarmapItems[id].SetActive(false);
+                        }
                     }
                 }
             }
-            
+
         }
 
         public static void InitializeView(int band, Action<string> _selectAction)
@@ -144,7 +160,7 @@ namespace ClusterTraitGenerationManager
                         CloseThis();
                     };
 
-                    VanillaStarmapItems[poiType.Id] = poiInstanceHolder;
+                    StarmapItems[poiType.Id] = poiInstanceHolder;
                 }
             }
             else
@@ -175,7 +191,7 @@ namespace ClusterTraitGenerationManager
                         SelectAction.Invoke(poiType.Id);
                         CloseThis();
                     };
-                    VanillaStarmapItems[poiType.Id] = poiInstanceHolder;
+                    StarmapItems[poiType.Id] = poiInstanceHolder;
                 }
             }
         }

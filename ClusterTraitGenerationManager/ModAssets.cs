@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using YamlDotNet.Core.Tokens;
 using static ClusterTraitGenerationManager.CGSMClusterManager;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.VANILLAPOI_RESOURCES;
@@ -57,38 +58,72 @@ namespace ClusterTraitGenerationManager
             public float CapacityMin,CapacityMax;
 
         }
+
+        private static void InitPOIs()
+        {
+            _so_POIs = new Dictionary<string, POI_Data>();
+            _nonUniquePOI_Ids = new List<string>();
+
+            foreach (var item in Assets.GetPrefabsWithComponent<HarvestablePOIClusterGridEntity>())
+            {
+                var data = GetPoiData(item);
+                if (data != null && !_so_POIs.ContainsKey(data.Id))
+                {
+                    _so_POIs.Add(data.Id, data);
+                    _nonUniquePOI_Ids.Add(data.Id);
+                }
+            }
+            foreach (var item in Assets.GetPrefabsWithComponent<ArtifactPOIClusterGridEntity>())
+            {
+                var data = GetPoiData(item);
+                if (data != null && !_so_POIs.ContainsKey(data.Id))
+                {
+                    _so_POIs.Add(data.Id, data);
+                    if(data.Id!=TeapotId)
+                        _nonUniquePOI_Ids.Add(data.Id);
+                }
+            }
+            foreach (var item in Assets.GetPrefabsWithComponent<TemporalTear>())
+            {
+                var data = GetPoiData(item);
+                if (data != null && !_so_POIs.ContainsKey(data.Id))
+                {
+                    _so_POIs.Add(data.Id, data);
+                }
+            }
+            var randomPoiData = new POI_Data();
+            RandomPOIId = RandomKey + StarmapItemCategory.POI.ToString();
+            randomPoiData.Id = RandomPOIId;
+            randomPoiData.Name = STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_POI.NAME;
+            randomPoiData.Description = STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_POI.DESCRIPTION;
+            randomPoiData.Sprite = Assets.GetSprite(SpritePatch.randomPOI);
+            randomPoiData.HasArtifacts = true;
+            _so_POIs.Add(randomPoiData.Id, randomPoiData);
+
+            _nonUniquePOI_Ids.Sort();
+        }
+
         private static Dictionary<string, POI_Data> _so_POIs;
+        private static List<string> _nonUniquePOI_Ids;
+        public static List<string> NonUniquePOI_Ids
+        {
+            get
+            {
+                if (_nonUniquePOI_Ids == null)
+                {
+                    InitPOIs();
+                }
+                return _nonUniquePOI_Ids;
+            }
+        }
+        public static string RandomPOIId;
         public static Dictionary<string, POI_Data> SO_POIs
         {
             get
             {
                 if(_so_POIs == null)
                 {
-                    _so_POIs = new Dictionary<string, POI_Data>();
-                    foreach(var item in Assets.GetPrefabsWithComponent<HarvestablePOIClusterGridEntity>())
-                    {
-                        var data = GetPoiData(item);
-                        if(data!=null && !_so_POIs.ContainsKey(data.Id))
-                        {
-                            _so_POIs.Add(data.Id, data);
-                        }
-                    }
-                    foreach (var item in Assets.GetPrefabsWithComponent<ArtifactPOIClusterGridEntity>())
-                    {
-                        var data = GetPoiData(item);
-                        if (data != null && !_so_POIs.ContainsKey(data.Id))
-                        {
-                            _so_POIs.Add(data.Id, data);
-                        }
-                    }
-                    foreach (var item in Assets.GetPrefabsWithComponent<TemporalTear>())
-                    {
-                        var data = GetPoiData(item);
-                        if (data != null && !_so_POIs.ContainsKey(data.Id))
-                        {
-                            _so_POIs.Add(data.Id, data);
-                        }
-                    }
+                    InitPOIs();
                 }
                 return _so_POIs;
             }

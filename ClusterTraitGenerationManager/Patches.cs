@@ -1525,6 +1525,8 @@ namespace ClusterTraitGenerationManager
 
 
                 __instance.poiPlacements.Clear();
+                int seed = __instance.seed;
+
 
                 foreach (var placementData in CustomCluster.SO_Starmap.OverridePlacements)
                 {
@@ -1535,7 +1537,14 @@ namespace ClusterTraitGenerationManager
                     }
                     else
                     {
-                        __instance.poiPlacements.Add(placementData.Key,placementData.Value);
+                        if(placementData.Value == ModAssets.RandomPOIId)
+                        {
+                            string selectedRandomPoiId = CGSMClusterManager.GetRandomPOI(seed);
+                            seed++;
+                            __instance.poiPlacements.Add(placementData.Key, selectedRandomPoiId);
+                        }
+                        else
+                            __instance.poiPlacements.Add(placementData.Key,placementData.Value);
                     }
 
                 }
