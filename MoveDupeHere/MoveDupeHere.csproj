@@ -60,5 +60,12 @@
 	  <None Update="ModAssets\anim\assets\moveHereTile\goHereTile_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\translations\fr.po">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="ModAssets\translations\" />
 	</ItemGroup>
 </Project>

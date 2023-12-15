@@ -1,0 +1,18 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.4.1\n"
+
+#. DailyRoutine.STRINGS.UISTRINGS.TimeLeftText
+msgctxt "DailyRoutine.STRINGS.UISTRINGS.TimeLeftText"
+msgid "Time when the tasks reset every day (in seconds):"
+msgstr "Heure à laquelle les tâches se réinitialisent chaque jour (en secondes) :"

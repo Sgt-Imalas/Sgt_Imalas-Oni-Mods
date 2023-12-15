@@ -3,9 +3,9 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>Radiator</PackageId>
-		<Version>2.2.0</Version>
+		<Version>2.2.1</Version>
 		<Authors>Sgt_Imalas</Authors>
-		<Copyright>2022 Sgt_Imalas</Copyright>
+		<Copyright>2022-2023 Sgt_Imalas</Copyright>
 		<RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
 	</PropertyGroup>
 
@@ -86,6 +86,13 @@
 	  <None Update="ModAssets\templates\interiors\habitat_medium_radiator.yaml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\translations\fr.po">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="ModAssets\translations\" />
 	</ItemGroup>
 	
 </Project>

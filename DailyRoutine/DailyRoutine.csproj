@@ -69,5 +69,12 @@
 	  <None Update="ModAssets\anim\assets\cryo_chamber_buildable_liquid\cryo_chamber_buildable_liquid_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\translations\fr.po">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="ModAssets\translations\" />
 	</ItemGroup>
 </Project>
