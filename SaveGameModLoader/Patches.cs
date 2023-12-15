@@ -263,8 +263,6 @@ namespace SaveGameModLoader
 
                     var eventList = __instance.events.OrderBy(entry => entry.mod.title).Distinct().ToList();
 
-                    ConfirmDialogScreen popUpGO =
-                        ((ConfirmDialogScreen)KScreenManager.Instance.StartScreen(ScreenPrefabs.Instance.ConfirmDialogScreen.gameObject, Global.Instance.globalCanvas));
                     var newlyEnabled = new StringBuilder();
                     var newlyDisabled = new StringBuilder();
 
@@ -273,12 +271,6 @@ namespace SaveGameModLoader
                     Event.GetUIStrings(EventType.ExpectedActive, out var expectedActive, out _);
 
                     bool hadNewlyEnabled = false, hadNewlyDisabled = false;
-
-                    //for(int i = 0; i < 99; ++i)
-                    //{
-
-                    //    newlyEnabled.AppendLine(" s "+i);
-                    //}
 
                     newlyEnabled.AppendLine();
                     newlyDisabled.AppendLine();
@@ -335,66 +327,9 @@ namespace SaveGameModLoader
                     string text = string.Format(global::STRINGS.UI.FRONTEND.MOD_DIALOGS.SAVE_GAME_MODS_DIFFER.MESSAGE, allMods);
 
 
-                    popUpGO.popupMessage.alignment = TMPro.TextAlignmentOptions.TopLeft;
-
-                    //var ScrollContainer = Util.KInstantiateUI(new GameObject("ScrollContainer"), popUpGO.transform.Find("GameObject").gameObject, true);
-                    //var ScrollRectt = Util.KInstantiateUI(new GameObject("ScrollRect"), ScrollContainer, true);
-                    //var textGo = popUpGO.popupMessage.gameObject;
-
-                    //var mask = ScrollContainer.AddOrGet<RectMask2D>();
-
-                    //ScrollContainer.transform.SetSiblingIndex(2);
-                    //var LE = ScrollContainer.AddOrGet<LayoutElement>();
-                    //LE.minHeight = 200;
-                    //LE.preferredHeight = 300;
-                    //LE.minWidth = 300;
-
-
-                    //var scroll = ScrollContainer.AddOrGet<ScrollRect>();
-                    //scroll.content = ScrollRectt.transform.rectTransform();
-                    //scroll.horizontal = false;
-                    //scroll.scrollSensitivity = 60;
-                    ////scroll.movementType = ScrollRect.MovementType.Clamped;
-                    //scroll.movementType = ScrollRect.MovementType.Elastic;
-                    //scroll.inertia = false;
-                    ////scroll.viewport = scroll.rectTransform();
-
-
-                    //var csf = ScrollRectt.AddOrGet<ContentSizeFitter>();
-                    //csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-                    //csf.SetLayoutVertical();
-                    //csf.enabled = true;
-                    ////csf.rectTransform().anchorMin = new(0, 0);
-                    ////csf.rectTransform().anchorMax = new(1, 1);
-
-                    ////var LE2 = ScrollRectt.AddOrGet<LayoutElement>();
-                    ////LE2.minWidth = 350;
-
-                    //var LG = ScrollRectt.AddOrGet<VerticalLayoutGroup>();
-                    //LG.childControlWidth = true;
-                    //LG.childForceExpandWidth = true;
-                    //LG.childAlignment = TextAnchor.UpperLeft;
-                    //LG.padding = new RectOffset(3, 3, 3, 3);
-
-
-
-                    //textGo.SetParent(ScrollRectt);
-                    //textGo.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 350);
-
-
-                    /////setting start pos
-                    //ScrollRectt.transform.rectTransform().pivot = new Vector2(0.5f, 0.99f);
-
-
-
+                    ConfirmDialogScreen popUpGO = ((ConfirmDialogScreen)KScreenManager.Instance.StartScreen(ScreenPrefabs.Instance.ConfirmDialogScreen.gameObject, Global.Instance.globalCanvas));
                     popUpGO.PopupConfirmDialog(text, null, null, null, null, global::STRINGS.UI.FRONTEND.MOD_DIALOGS.SAVE_GAME_MODS_DIFFER.TITLE, null, null, null);
-
-
-                    //SgtLogger.l("POPUPLISTING");
-                    //UIUtils.ListAllChildren(popUpGO.gameObject.transform);
-                    //SgtLogger.l("POPUPLISTING2");
-                    //UIUtils.ListAllChildrenWithComponents(popUpGO.gameObject.transform);
-                    //UtilMethods.ListAllPropertyValues(popUpGO.popupMessage);
+                    popUpGO.popupMessage.alignment = TMPro.TextAlignmentOptions.TopLeft;
                     return false;
                 }
                 return true;
