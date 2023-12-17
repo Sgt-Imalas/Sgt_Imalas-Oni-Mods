@@ -108,7 +108,8 @@ namespace LogicSatellites.Behaviours
         {
             base.OnShow(show);
             this.ConsumeMouseScroll = true;
-            RefreshStrings();
+            if(show)
+                RefreshStrings();
         }
         private void GetPrefabStrings()
         {

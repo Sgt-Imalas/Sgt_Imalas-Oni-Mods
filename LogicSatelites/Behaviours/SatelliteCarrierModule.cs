@@ -90,9 +90,9 @@ namespace LogicSatellites.Behaviours
 
             public ClusterGridEntity IsEntityAtLocation()
             {
-                Clustercraft component = this.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
-                ClusterGridEntity atCurrentLocation = GetSatelliteAtCurrentLocation(component);
-                return atCurrentLocation;
+                if(gameObject.TryGetComponent<RocketModuleCluster>(out var module) && module.CraftInterface.TryGetComponent<Clustercraft>(out var craft))
+                    return GetSatelliteAtCurrentLocation(craft);
+                return null;
             }
 
             ClusterGridEntity GetSatelliteAtCurrentLocation(Clustercraft craft)
@@ -107,7 +107,11 @@ namespace LogicSatellites.Behaviours
             }
             public bool CanRetrieveSatellite()
             {
-                return IsEntityAtLocation()?.gameObject.GetComponent<SatelliteGridEntity>() != null && !HoldingSatellite();
+                if(this.gameObject.IsNullOrDestroyed()) 
+                    return false;
+
+                var entity = IsEntityAtLocation();
+                return (entity!=null && entity.TryGetComponent<SatelliteGridEntity>(out _) && !HoldingSatellite());
             }
             public void OnButtonClicked()
             {
