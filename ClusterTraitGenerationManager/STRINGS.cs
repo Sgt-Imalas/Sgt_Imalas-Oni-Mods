@@ -144,6 +144,7 @@ namespace ClusterTraitGenerationManager
                     public class HEADER
                     {
                         public static LocString LABEL = (LocString)"Currently selected [STARMAPITEMTYPE]: {0}";
+                        public static LocString LABEL_LOCATION = (LocString)"Current [STARMAPITEMTYPE]: {0} at {1}";
                     }
 
 
@@ -651,6 +652,7 @@ namespace ClusterTraitGenerationManager
                                 public class GENERATEFROMCURRENT
                                 {
                                     public static LocString TEXT = "Generate new Preset";
+                                    public static LocString TEXT_STARTSCREEN = "Cluster Preset";
                                     public static LocString TOOLTIP = "Save the currently loaded cluster configuration to a new preset.";
                                 }
                                 public class APPLYPRESETBUTTON
@@ -757,7 +759,7 @@ namespace ClusterTraitGenerationManager
                 public class CGM_RANDOM_POI
                 {
                     public static LocString NAME = "Random POI";
-                    public static LocString DESCRIPTION = "Choose an amount of POIs at random.\n\nDoes not roll unique POIs\n(Temporal Tear, Russel's Teapot)";
+                    public static LocString DESCRIPTION = "Chooses a random POI during worldgen.\n\nDoes not roll unique POIs\n(Temporal Tear, Russel's Teapot)";
                 }
             }
         }

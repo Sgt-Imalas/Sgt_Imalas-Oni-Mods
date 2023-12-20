@@ -39,6 +39,7 @@ using static STRINGS.CODEX;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGMEXPORT_SIDEMENUS.TRAITPOPUP.SCROLLAREA.CONTENT;
 using static KTabMenuHeader;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGMEXPORT_SIDEMENUS;
+using static STRINGS.UI.CLUSTERMAP;
 
 namespace ClusterTraitGenerationManager
 {
@@ -418,30 +419,31 @@ namespace ClusterTraitGenerationManager
             if (item == null)
                 return null;
 
-            if (!PlanetoidDict.ContainsKey(item.itemID))
-            {
-                SgtLogger.warning(item.itemID + " not found planetoid dictionar!");
-                return null;
-            }
-
-            var starmapItem = PlanetoidDict[item.itemID];
+           
 
             var planetObject = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
-
-            var infoText = starmapItem.DisplayName;
-            if (
-                //item.maxNumberToSpawn != 1 || 
-                item.category == StarmapItemCategory.POI)
-                infoText += ": x" + item.numberToSpawn;
-
-            UIUtils.TryChangeText(planetObject.transform, "Label", infoText);
-
             planetObject.transform.Find("Label/TraitImage").TryGetComponent<Image>(out var image);
-            image.sprite = starmapItem.planetSprite;
-
             var imageContainer = planetObject.transform.Find("IconContainer").gameObject;
+
             if (item.category != StarmapItemCategory.POI)
             {
+                if (!PlanetoidDict.ContainsKey(item.itemID))
+                {
+                    SgtLogger.warning(item.itemID + " not found planetoid dictionar!");
+                    return null;
+                }
+
+                var starmapItem = PlanetoidDict[item.itemID];
+
+                image.sprite = starmapItem.planetSprite;
+
+                var infoText = starmapItem.DisplayName;
+                if (starmapItem.MoreThanOnePossible )
+                {
+                    infoText += ": x" + item.numberToSpawn;
+                }
+                UIUtils.TryChangeText(planetObject.transform, "Label", infoText);
+
                 var traitImagePrefab = planetObject.transform.Find("IconContainer/TraitImage").gameObject;
                 if (item.planetTraits == null)
                 {
@@ -464,6 +466,31 @@ namespace ClusterTraitGenerationManager
             }
             else
             {
+                UIUtils.TryChangeText(planetObject.transform, "Label", "x" + item.numberToSpawn);
+                var traitImagePrefab = planetObject.transform.Find("IconContainer/TraitImage").gameObject;
+                if (item.pois == null)
+                {
+                    if (ModAssets.SO_POIs.ContainsKey(item.itemID))
+                    {
+                        var poiData = ModAssets.SO_POIs[item.itemID];
+                        image.sprite = poiData.Sprite;
+                    }
+                    imageContainer.gameObject.SetActive(false);
+                }
+                else
+                {
+                    image.gameObject.SetActive(false);
+                    foreach (var poi in item.pois)
+                    {
+                        if (ModAssets.SO_POIs.ContainsKey(poi))
+                        {
+                            var poiData = ModAssets.SO_POIs[poi];
+                            Util.KInstantiateUI(traitImagePrefab, imageContainer, true).TryGetComponent<Image>(out var traitImage);
+                            traitImage.sprite = poiData.Sprite;
+                            UIUtils.AddSimpleTooltipToObject(traitImage.transform, poiData.Name, true, onBottom: true);
+                        }
+                    }
+                }
             }
             StarmapItemContainers.Add(planetObject);
             return planetObject;

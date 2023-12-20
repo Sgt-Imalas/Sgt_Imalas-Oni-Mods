@@ -42,6 +42,7 @@ namespace ClusterTraitGenerationManager
         static List<string> RandomOuterPlanets = new List<string>();
 
         public const int ringMax = 25, ringMin = 6;
+        public static int MaxPOICount = 1;
         public static GameObject Screen = null;
 
         public static ColonyDestinationSelectScreen selectScreen;
@@ -404,7 +405,7 @@ namespace ClusterTraitGenerationManager
                     }
                 }
                 //if (RandomPOIStarmapItem != null)
-                //    RandomPOIStarmapItem.MaxNumberOfInstances = Math.Max(MaxAmountRandomPOI - 16, Mathf.RoundToInt((7.385f * ((float)rings)) - 56.615f));
+                MaxPOICount = Math.Max(16, Mathf.RoundToInt((7.385f * ((float)rings)) - 56.615f));
             }
 
             public bool SomeStarmapitemsMissing(out List<string> missings)
@@ -988,7 +989,8 @@ namespace ClusterTraitGenerationManager
             float CustomSizeIncrease = -1f;
 
             public float InstancesToSpawn = 1;
-            public float MaxNumberOfInstances = 1;
+            public bool MoreThanOnePossible = false;
+            //public float MaxNumberOfInstances = 1;
             [JsonIgnore] public int minRing => placement != null ? placement.allowedRings.min : placementPOI != null ? placementPOI.allowedRings.min : -1;
             [JsonIgnore] public int maxRing => placement != null ? placement.allowedRings.max : placementPOI != null ? placementPOI.allowedRings.max : -1;
             [JsonIgnore] public int buffer => placement != null ? placement.buffer : -1;
@@ -997,9 +999,25 @@ namespace ClusterTraitGenerationManager
             #region SetterMethods
             public void SetSpawnNumber(float newNumber, bool force = false)
             {
-                if (newNumber <= MaxNumberOfInstances || force)
+                if (newNumber < 0)
+                    newNumber = 0;
+                if (this.IsPOI)
                 {
-                    InstancesToSpawn = newNumber;
+                    if (newNumber <= MaxPOICount || force)
+                    {
+                        InstancesToSpawn = newNumber;
+                    }
+                    else
+                        InstancesToSpawn = MaxPOICount;
+                }
+                else
+                {
+                    if (newNumber <= MaxAmountRandomPlanet || force)
+                    {
+                        InstancesToSpawn = newNumber;
+                    }
+                    else
+                        InstancesToSpawn = MaxAmountRandomPlanet;
                 }
             }
             public void ResetPOI()
@@ -1137,10 +1155,10 @@ namespace ClusterTraitGenerationManager
             //}
 
 
-            public StarmapItem AddItemWorldPlacement(WorldPlacement placement2, float morethanone = 1)
+            public StarmapItem AddItemWorldPlacement(WorldPlacement placement2, bool morethanone = false)
             {
-                this.MaxNumberOfInstances = morethanone;
-
+                //this.MaxNumberOfInstances = morethanone;
+                this.MoreThanOnePossible = morethanone;
                 this.placement = new WorldPlacement();
                 placement.startWorld = placement2.startWorld;
                 placement.world = placement2.world;
@@ -1155,18 +1173,20 @@ namespace ClusterTraitGenerationManager
             }
             public StarmapItem MakeItemPOI(SpaceMapPOIPlacement placement2)
             {
-                this.placementPOI = new SpaceMapPOIPlacement();
-                placementPOI.pois = placement2.pois;
+                MoreThanOnePossible = true;
+                placementPOI = new SpaceMapPOIPlacement();
+                placementPOI.pois = new(placement2.pois);
                 placementPOI.canSpawnDuplicates = placement2.canSpawnDuplicates;
                 placementPOI.avoidClumping = placement2.avoidClumping;
                 placementPOI.numToSpawn = placement2.numToSpawn;
                 placementPOI.allowedRings = new(placement2.allowedRings.min, placement2.allowedRings.max);
                 originalMaxPOI = placement2.allowedRings.max;
                 originalMinPOI = placement2.allowedRings.min;
-                MaxNumberOfInstances = placement2.numToSpawn * 5f; ///TODO!
+                //MaxNumberOfInstances = placement2.numToSpawn * 5f; 
                 InstancesToSpawn = placement2.numToSpawn;
                 return this;
             }
+
 
             #region PlanetMeteors
 
@@ -1643,7 +1663,7 @@ namespace ClusterTraitGenerationManager
 
                 if (log)
                     SgtLogger.l($"\navoidClumping: {poi.Value.placementPOI.avoidClumping},\nallowDuplicates: {poi.Value.placementPOI.canSpawnDuplicates},\nRings: {poi.Value.placementPOI.allowedRings.ToString()}\nNumberToSpawn: {poi.Value.placementPOI.numToSpawn}", "POIGroup " + poi.Key.Substring(0, 8));
-                
+
 
                 layout.poiPlacements.Add(poi.Value.placementPOI);
             }
@@ -2210,7 +2230,7 @@ namespace ClusterTraitGenerationManager
         public static string GetRandomPOI(int seed)
         {
             var ItemList = ModAssets.NonUniquePOI_Ids.Shuffle(new System.Random(seed)).ToList();
-            return ItemList[0]; 
+            return ItemList[0];
         }
 
 
@@ -2398,7 +2418,7 @@ namespace ClusterTraitGenerationManager
                         placement.startWorld = category == StarmapItemCategory.Starter;
                         placement.locationType = category == StarmapItemCategory.Starter ? LocationType.Startworld : LocationType.Cluster;
 
-                        randomItem = randomItem.AddItemWorldPlacement(placement, category == StarmapItemCategory.Outer ? MaxAmountRandomPlanet : 1);
+                        randomItem = randomItem.AddItemWorldPlacement(placement, category == StarmapItemCategory.Outer);
                         PlanetsAndPOIs[key] = randomItem;
 
                         if (category == StarmapItemCategory.Outer)

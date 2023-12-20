@@ -72,6 +72,9 @@
 	  <None Update="ModAssets\assets\CGM_random_warp.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\assets\CGM_STARMAPICON.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\assets\CryoVolcanoes.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>

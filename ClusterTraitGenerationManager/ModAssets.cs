@@ -228,6 +228,7 @@ namespace ClusterTraitGenerationManager
                     case StarmapItemCategory.POI:
                         categoryName = STRINGS.UI.CATEGORYENUM.POI;
                         break;
+                    case StarmapItemCategory.SpacedOutStarmap:
                     case StarmapItemCategory.VanillaStarmap:
                         categoryName = STRINGS.UI.CATEGORYENUM.VANILLASTARMAP;
                         break;
@@ -240,17 +241,17 @@ namespace ClusterTraitGenerationManager
             }
             public static string ItemDescriptor(StarmapItemCategory itemCategory, bool plural = false)
             {
+
                 if(itemCategory == StarmapItemCategory.StoryTraits)
-                {
                     return plural ?  STRINGS.UI.STARMAPITEMDESCRIPTOR.STORYTRAITPLURAL : STRINGS.UI.STARMAPITEMDESCRIPTOR.STORYTRAIT;
-                }
+                
                 if (itemCategory == StarmapItemCategory.POI)
                     return plural ? STRINGS.UI.STARMAPITEMDESCRIPTOR.POI_GROUP_PLURAL : STRINGS.UI.STARMAPITEMDESCRIPTOR.POI_GROUP;
 
-                if (itemCategory == StarmapItemCategory.VanillaStarmap)
+                if (itemCategory == StarmapItemCategory.VanillaStarmap|| itemCategory == StarmapItemCategory.SpacedOutStarmap)
                     return plural ? STRINGS.UI.STARMAPITEMDESCRIPTOR.POIPLURAL : STRINGS.UI.STARMAPITEMDESCRIPTOR.POI;
-                else
-                    return plural ? STRINGS.UI.STARMAPITEMDESCRIPTOR.ASTEROIDPLURAL : STRINGS.UI.STARMAPITEMDESCRIPTOR.ASTEROID;
+                
+                return plural ? STRINGS.UI.STARMAPITEMDESCRIPTOR.ASTEROIDPLURAL : STRINGS.UI.STARMAPITEMDESCRIPTOR.ASTEROID;
             }
 
         }

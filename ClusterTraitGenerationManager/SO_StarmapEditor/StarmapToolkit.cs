@@ -237,6 +237,8 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             alwaysShowNames.OnClick += () => Grid.AlwaysShowNames = alwaysShowNames.On;
 
             ToolboxItems = new Dictionary<string, ToolkitItem>();
+            if (!DlcManager.IsExpansion1Active())
+                return;
 
             foreach (var poi in ModAssets.SO_POIs)
             {

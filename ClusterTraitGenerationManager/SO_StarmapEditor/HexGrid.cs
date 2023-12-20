@@ -15,6 +15,7 @@ using static AnimEventHandler;
 using static ClusterTraitGenerationManager.SO_StarmapEditor.StarmapToolkit;
 using static Database.MonumentPartResource;
 using static NameDisplayScreen;
+using static ResearchTypes;
 using static STRINGS.DUPLICANTS.TRAITS;
 using static UnityEngine.UI.StencilMaterial;
 
@@ -142,6 +143,8 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
                 transform.position = DragStartPosition;
                 ownImage.raycastTarget = true;
                 InternalImage.raycastTarget = true;
+
+                CGM_MainScreen_UnityScreen.Instance.SelectHexItem(ID, InternalPos);
             }
 
             public void SetPositionXY(Tuple<int, int> pos)
@@ -174,6 +177,11 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
                     if (eventData.clickCount == 2)
                     {
                         parent.OnDoubleClickSimDragStartedHandler(this);
+                    }
+                    else if (eventData.clickCount == 1)
+                    {
+                        PlaySound(UISoundHelper.ClickOpen);
+                        CGM_MainScreen_UnityScreen.Instance.SelectHexItem(ID, InternalPos);
                     }
                 }
             }
@@ -491,7 +499,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
 
         public bool CurrentlySelectingNewPosition = true;
 
-        public void AddNewPoiToStarmap(Tuple<int, int> key, string itemId)
+        public void AddNewPoiToStarmap(Tuple<int, int> key, string itemId, bool init = false)
         {
             if (!ActiveItems.ContainsKey(key))
             {
@@ -508,8 +516,12 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
 
                 ActiveItems.Add(new Tuple<int, int>(x, y), dragLogic);
 
+                if (init)
+                    return;
+
                 if (OnActiveItemCompositionChanged != null)
                     OnActiveItemCompositionChanged();
+                CGM_MainScreen_UnityScreen.Instance.SelectHexItem(dragLogic.ID, dragLogic.InternalPos);
 
             }
             else
@@ -527,6 +539,8 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             CGSMClusterManager.CustomCluster.SO_Starmap.RemovePOI( new(x, y));
             if (OnActiveItemCompositionChanged != null)
                 OnActiveItemCompositionChanged();
+
+            CGM_MainScreen_UnityScreen.Instance.SelectHexItem(null, null);
         }
         private void MovePOIToNewLocation(HexDrag hexDragger, Tuple<int, int> hexPos)
         {
@@ -541,6 +555,8 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
 
             if (OnActiveItemCompositionChanged != null)
                 OnActiveItemCompositionChanged();
+
+            CGM_MainScreen_UnityScreen.Instance.SelectHexItem(hexDragger.ID, hexDragger.InternalPos);
         }
 
 
@@ -557,7 +573,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             foreach (var dataEntry in CGSMClusterManager.CustomCluster.SO_Starmap.OverridePlacements)
             {
                 var key = new Tuple<int, int>(dataEntry.Key.R, dataEntry.Key.Q);
-                AddNewPoiToStarmap(key, dataEntry.Value);
+                AddNewPoiToStarmap(key, dataEntry.Value, true);
             }
             if(OnActiveItemCompositionChanged!=null)
                 OnActiveItemCompositionChanged();

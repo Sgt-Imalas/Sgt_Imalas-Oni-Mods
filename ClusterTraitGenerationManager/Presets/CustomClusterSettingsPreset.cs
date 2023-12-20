@@ -461,9 +461,12 @@ namespace ClusterTraitGenerationManager
         }
 
 
-        public void OpenPopUpToChangeName(System.Action callBackAction = null)
+        public void OpenPopUpToChangeName(System.Action callBackAction = null,GameObject parentOverride = null)
         {
-            FileNameDialog fileNameDialog = Util.KInstantiateUI(ScreenPrefabs.Instance.FileNameDialog.gameObject, FrontEndManager.Instance.gameObject, true).GetComponent<FileNameDialog>();
+            if (parentOverride == null) parentOverride = FrontEndManager.Instance.gameObject;
+
+
+            FileNameDialog fileNameDialog = Util.KInstantiateUI(ScreenPrefabs.Instance.FileNameDialog.gameObject, parentOverride, true).GetComponent<FileNameDialog>();
             fileNameDialog.SetTextAndSelect(ConfigName);
             fileNameDialog.onConfirm = (System.Action<string>)(newName =>
             {

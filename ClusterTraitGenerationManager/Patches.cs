@@ -99,7 +99,7 @@ namespace ClusterTraitGenerationManager
                 }
             }
         }
-        
+
 
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace ClusterTraitGenerationManager
             {
                 if (Game.clusterId == CustomClusterID)
                 {
-                    string settingsCoordinate = CustomGameSettings.Instance.GetSettingsCoordinate().Replace("SNDST-C","CGM");
+                    string settingsCoordinate = CustomGameSettings.Instance.GetSettingsCoordinate().Replace("SNDST-C", "CGM");
                     string[] settingCoordinate = CustomGameSettings.ParseSettingCoordinate(settingsCoordinate);
                     __instance.worldSeed.SetText(string.Format((string)global::STRINGS.UI.FRONTEND.PAUSE_SCREEN.WORLD_SEED, (object)settingsCoordinate));
                     __instance.worldSeed.GetComponent<ToolTip>().toolTip = string.Format((string)global::STRINGS.UI.FRONTEND.PAUSE_SCREEN.WORLD_SEED_TOOLTIP, (object)"CGM", (object)settingCoordinate[2], (object)settingCoordinate[3], (object)settingCoordinate[4]);
@@ -134,7 +134,7 @@ namespace ClusterTraitGenerationManager
         }
 
 
-        
+
 
         /// <summary>
         /// adds gear button to cluster view
@@ -338,23 +338,23 @@ namespace ClusterTraitGenerationManager
         }
 
 
-        /// <summary>
-        /// </summary>
-        [HarmonyPatch(typeof(MinionSelectScreen))]
-        [HarmonyPatch(nameof(MinionSelectScreen.OnProceed))]
-        public static class Generate_Preset_On_NewGame
-        {
-            public static void Postfix()
-            {
+        ///// <summary>
+        ///// </summary>
+        //[HarmonyPatch(typeof(MinionSelectScreen))]
+        //[HarmonyPatch(nameof(MinionSelectScreen.OnProceed))]
+        //public static class Generate_Preset_On_NewGame
+        //{
+        //    public static void Postfix()
+        //    {
 
-                if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null)
-                {
-                    string name = SaveGame.Instance.BaseName;
-                    CustomClusterSettingsPreset tempStats = CustomClusterSettingsPreset.CreateFromCluster(CGSMClusterManager.CustomCluster, name);
-                    tempStats.WriteToFile();
-                }
-            }
-        }
+        //        if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null)
+        //        {
+        //            string name = SaveGame.Instance.BaseName;
+        //            CustomClusterSettingsPreset tempStats = CustomClusterSettingsPreset.CreateFromCluster(CGSMClusterManager.CustomCluster, name);
+        //            tempStats.WriteToFile();
+        //        }
+        //    }
+        //}
 
 
         /// <summary>
@@ -838,7 +838,7 @@ namespace ClusterTraitGenerationManager
                             }
                             else
                             {
-                                newX = 100f * (1f/planetSizeRatio);
+                                newX = 100f * (1f / planetSizeRatio);
                                 newY = 100f;
                             }
                             StartWorld.worldsize = new Vector2I(Mathf.RoundToInt(newX), Mathf.RoundToInt(newY));
@@ -1196,7 +1196,7 @@ namespace ClusterTraitGenerationManager
             {
                 if (!CGSMClusterManager.LoadCustomCluster)
                     return;
-                if ((target != "OverworldDensityMin") && (target != "OverworldDensityMax") && (target != "OverworldAvoidRadius")&& (target != "OverworldMinNodes") && (target != "OverworldMaxNodes")) 
+                if ((target != "OverworldDensityMin") && (target != "OverworldDensityMax") && (target != "OverworldAvoidRadius") && (target != "OverworldMinNodes") && (target != "OverworldMaxNodes"))
                     return;
                 __result = GetMultipliedSizeFloat(__result, __instance);
             }
@@ -1209,7 +1209,7 @@ namespace ClusterTraitGenerationManager
             {
                 if (!CGSMClusterManager.LoadCustomCluster)
                     return;
-                if ((target != "OverworldDensityMin") && (target != "OverworldDensityMax") && (target != "OverworldAvoidRadius")  && (target != "OverworldMinNodes") && (target != "OverworldMaxNodes"))
+                if ((target != "OverworldDensityMin") && (target != "OverworldDensityMax") && (target != "OverworldAvoidRadius") && (target != "OverworldMinNodes") && (target != "OverworldMaxNodes"))
                     return;
 
                 __result = GetMultipliedSizeInt(__result, __instance);
@@ -1240,7 +1240,7 @@ namespace ClusterTraitGenerationManager
 
                 foreach (var weightedSubworld in __result)
                 {
-                    if(weightedSubworld.minCount != 0)
+                    if (weightedSubworld.minCount != 0)
                         weightedSubworld.minCount = GetMultipliedSizeInt(weightedSubworld.minCount, __instance);
                 }
             }
@@ -1252,7 +1252,7 @@ namespace ClusterTraitGenerationManager
             private static void Prefix(ref bool isRunningDebugGen)
             {
                 if (CGSMClusterManager.LoadCustomCluster)
-                   isRunningDebugGen = true;
+                    isRunningDebugGen = true;
             }
         }
 
@@ -1305,7 +1305,7 @@ namespace ClusterTraitGenerationManager
 
                 if (Mathf.Approximately(item.CurrentSizeMultiplier, 1))
                     return inputNumber;
-                
+
                 SgtLogger.l($"changed input int: {inputNumber}, multiplied: {item.ApplySizeMultiplierToValue((float)inputNumber)}", "CGM WorldgenModifier");
 
 
@@ -1390,7 +1390,7 @@ namespace ClusterTraitGenerationManager
 
                         if (Mathf.Approximately(SizeModifier, 1))
                             return;
-                       // if (SizeModifier < 1)
+                        // if (SizeModifier < 1)
                         //   SizeModifier = (1 + SizeModifier) / 2;
                         ///Geyser Penalty needs a better implementation...
 
@@ -1411,15 +1411,15 @@ namespace ClusterTraitGenerationManager
                                 if (newGeyserAmount > 1)
                                 {
                                     WorldTemplateRule.times = Mathf.FloorToInt(newGeyserAmount);
-                                    SgtLogger.l("new Geyser amount has a chance of "+ newGeyserAmount % 1f+" for an additional spawn, rolling...", "CGM WorldgenModifier");
+                                    SgtLogger.l("new Geyser amount has a chance of " + newGeyserAmount % 1f + " for an additional spawn, rolling...", "CGM WorldgenModifier");
 
                                     float chance = ((float)new System.Random(CGSMClusterManager.CurrentSeed + BitConverter.ToInt32(MD5.Create().ComputeHash(Encoding.Default.GetBytes(WorldTemplateRule.names.First())), 0)).Next(100)) / 100f;
                                     SgtLogger.l("rolled: " + chance);
                                     //chance = 0;///always atleast 1
-                                    if (chance <=( newGeyserAmount % 1f))
+                                    if (chance <= (newGeyserAmount % 1f))
                                     {
                                         SgtLogger.l("roll for additional spawn succeeded: " + chance * 100f, "POI Chance: " + newGeyserAmount.ToString("P"));
-                                        WorldTemplateRule.times+=1;
+                                        WorldTemplateRule.times += 1;
                                     }
                                     else
                                     {
@@ -1505,7 +1505,7 @@ namespace ClusterTraitGenerationManager
 
             public static void Postfix(string id, ref Mob __result)
             {
-                if (__result == null  || Mathf.Approximately(WorldSizeMultiplier,1))
+                if (__result == null || Mathf.Approximately(WorldSizeMultiplier, 1))
                     return;
                 string str = __result.prefabName ?? __result.name;
                 if (str == null || Patches.MobSettings_GetMob_Patch.patched.Contains(str))
@@ -1537,16 +1537,40 @@ namespace ClusterTraitGenerationManager
                     }
                     else
                     {
-                        if(placementData.Value == ModAssets.RandomPOIId)
+                        if (placementData.Value == ModAssets.RandomPOIId)
                         {
                             string selectedRandomPoiId = CGSMClusterManager.GetRandomPOI(seed);
                             seed++;
                             __instance.poiPlacements.Add(placementData.Key, selectedRandomPoiId);
                         }
                         else
-                            __instance.poiPlacements.Add(placementData.Key,placementData.Value);
+                            __instance.poiPlacements.Add(placementData.Key, placementData.Value);
                     }
 
+                }
+            }
+        }
+        [HarmonyPatch(typeof(MinionSelectScreen))]
+        [HarmonyPatch(nameof(MinionSelectScreen.OnSpawn))]
+        public class Add_NewClusterPresetButton
+        {
+            public static void Postfix(MinionSelectScreen __instance)
+            {
+                if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null)
+                {
+                    var makeNewClusterPresetButton = Util.KInstantiateUI<KButton>(__instance.backButton.gameObject, __instance.proceedButton.transform.parent.gameObject, true);
+                    UIUtils.AddActionToButton(makeNewClusterPresetButton.transform, "", () =>
+                    {
+                        CustomClusterSettingsPreset tempStats = CustomClusterSettingsPreset.CreateFromCluster(CGSMClusterManager.CustomCluster);
+                        tempStats.OpenPopUpToChangeName(()=> makeNewClusterPresetButton.interactable = false, __instance.gameObject);
+                    });
+                    makeNewClusterPresetButton.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 300);
+                    UIUtils.AddSimpleTooltipToObject(makeNewClusterPresetButton.transform, CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP);
+                    UIUtils.TryChangeText(makeNewClusterPresetButton.transform, "Text", CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TEXT_STARTSCREEN.ToString().ToUpperInvariant());
+                    makeNewClusterPresetButton.transform.Find("FG").GetComponent<Image>().sprite = Assets.GetSprite("icon_positive");
+
+                    var index = __instance.proceedButton.transform.GetSiblingIndex();
+                    makeNewClusterPresetButton.transform.SetSiblingIndex(index - 1);
                 }
             }
         }

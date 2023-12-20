@@ -17,6 +17,7 @@ namespace ClusterTraitGenerationManager
         public static string randomPOI = "CGM_random_poi";
         public static string noneSelected = "CGM_none_selected";
         public static string randomTraitsTraitIcon = "CGMRandomTraits";
+        public static string starmapIcon = "CGM_STARMAPICON";
         //Empty Worlds
         public static string missingHoleTexture = "SpaceHole";
         //SolarSystemWorlds
@@ -54,6 +55,7 @@ namespace ClusterTraitGenerationManager
                 InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.missingHoleTexture);
                 InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.missingMoltenCoreTexture);
                 InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.randomTraitsTraitIcon);
+                InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.starmapIcon);
 
                 InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.missingGeoApocalypseTexture);
 
