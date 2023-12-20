@@ -1,1 +1,2 @@
 - fixed POI Capacity scanner not exchanging heat and being invincible
+- added a patch that prevents a vanilla crash when planning a new  module that would overlap with free floating planned parts

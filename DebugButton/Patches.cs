@@ -41,7 +41,7 @@ namespace DebugButton
                     {
                         DebugSuperSpeedButtonTooltip.SetSimpleTooltip(GameUtil.ReplaceHotkeyString(STRINGS.UI.TOOLS.DEBUG_SUPERSPEED_TOGGLE.TOOLTIP_TOGGLE, Action.DebugUltraTestMode));
 
-                        if (Mathf.Approximately(Time.timeScale ,30f))
+                        if (Time.timeScale > 10f)
                         {
                             DebugSuperSpeeButton.ChangeState(2);
                         }

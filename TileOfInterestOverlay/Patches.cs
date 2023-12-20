@@ -171,6 +171,21 @@ namespace TileOfInterestOverlay
             }
         }
 
+        //[HarmonyPatch(typeof(UnitConfigurationScreen), "Init")]
+        //public static class GameOptionsScreen_Init_Patch
+        //{
+        //    /// <summary>
+        //    /// Test
+        //    /// </summary>
+        //    internal static void Postfix(UnitConfigurationScreen __instance)
+        //    {
+        //        UIUtils.AddSimpleTooltipToObject(__instance.celsiusToggle.gameObject, "Test tooltip");
+        //    }
+        //}
+
+
+
+
         /// <summary>
         /// Applied to OverlayScreen to add our overlay.
         /// </summary>
