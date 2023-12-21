@@ -1521,16 +1521,16 @@ namespace ClusterTraitGenerationManager
             public static void Postfix(bool __result, Cluster __instance)
             {
 
-                if (!__result || !CGSMClusterManager.LoadCustomCluster || CGSMClusterManager.CustomCluster == null || !DlcManager.IsExpansion1Active()) return;
+                if (!__result || !CGSMClusterManager.LoadCustomCluster || CGSMClusterManager.CustomCluster == null || !DlcManager.IsExpansion1Active() || CustomCluster.SO_Starmap == null || CustomCluster.SO_Starmap.UsingCustomLayout==false) return;
 
-
+                SgtLogger.l("Applying CGM custom starmap");
                 __instance.poiPlacements.Clear();
                 int seed = __instance.seed;
-
+                var worldPlacements = GeneratedLayout.worldPlacements;
 
                 foreach (var placementData in CustomCluster.SO_Starmap.OverridePlacements)
                 {
-                    int pos = GeneratedLayout.worldPlacements.FindIndex(placement => placement.world == placementData.Value);
+                    int pos = worldPlacements.FindIndex(placement => placement.world == placementData.Value);
                     if (pos != -1)
                     {
                         __instance.worlds[pos].SetClusterLocation(placementData.Key);

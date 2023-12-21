@@ -1449,7 +1449,8 @@ namespace ClusterTraitGenerationManager
 
         public static ClusterLayout GenerateClusterLayoutFromCustomData(bool log)
         {
-            SgtLogger.l("Started generating custom cluster layout");
+            if (log)
+                SgtLogger.l("Started generating custom cluster layout");
             var layout = new ClusterLayout();
             CurrentClassicOuterPlanets = 0;
 
@@ -1686,9 +1687,12 @@ namespace ClusterTraitGenerationManager
             if (log)
                 SgtLogger.l("Ordering Asteroids");
 
-            foreach (var item in CustomCluster.GetAllPlanets())
+            if (log)
             {
-                SgtLogger.l(item.PredefinedPlacementOrder.ToString(), item.id);
+                foreach (var item in CustomCluster.GetAllPlanets())
+                {
+                    SgtLogger.l(item.PredefinedPlacementOrder.ToString(), item.id);
+                }
             }
 
             if (CustomCluster.GetAllPlanets().All(item => item.PredefinedPlacementOrder != -1))
@@ -1729,7 +1733,10 @@ namespace ClusterTraitGenerationManager
             if (log)
                 SgtLogger.l("StartIndex: " + layout.startWorldIndex);
 
-            SgtLogger.l("Finished generating custom cluster");
+            if (log)
+                SgtLogger.l("Finished generating custom cluster");
+            else
+                SgtLogger.l("custom cluster data regenerated");
 
             lastWorldGenFailed = false;
             return layout;

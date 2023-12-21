@@ -14,7 +14,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
     public class SO_StarmapLayout
     {
         public Dictionary<AxialI,string> OverridePlacements = new();
-        public bool GenerationPossible=false;
+        public bool GenerationPossible=false;//not used rn; determines if any of the planets wasnt able to be placed
         public bool UsingCustomLayout=false;
 
         public SO_StarmapLayout(int seed)
