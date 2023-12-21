@@ -182,6 +182,10 @@ namespace UtilLibs.UI.FUI
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            if (!interactable)
+            {
+                return;
+            }
             if (OnDoubleClick != null && eventData.clickCount == 2)
             {
                 OnDoubleClick.Invoke();

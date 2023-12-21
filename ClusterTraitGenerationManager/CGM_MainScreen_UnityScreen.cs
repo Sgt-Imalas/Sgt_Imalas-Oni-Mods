@@ -815,8 +815,11 @@ namespace ClusterTraitGenerationManager
         private FButton VanillaStarmapButton;
         //private FButton SettingsButton;
         private FButton GenerateClusterButton;
+        private ToolTip StartGameTooltip;
 
         private StarmapToolkit SpacedOutStarmap;
+        private CategoryItem SpacedOutStarmap_CategoryToggle;
+
 
         public override void OnPrefabInit()
         {
@@ -1261,8 +1264,8 @@ namespace ClusterTraitGenerationManager
 
             ///Reset Buttons
             ResetButton.SetInteractable(planetCategorySelected);
-            ResetButton.gameObject.SetActive(SelectedCategory != StarmapItemCategory.VanillaStarmap);
-            VanillaStarmapButton.gameObject.SetActive(SelectedCategory == StarmapItemCategory.VanillaStarmap);
+            ResetButton.gameObject.SetActive(SelectedCategory != StarmapItemCategory.VanillaStarmap && SelectedCategory != StarmapItemCategory.SpacedOutStarmap);
+            VanillaStarmapButton.gameObject.SetActive(SelectedCategory == StarmapItemCategory.VanillaStarmap||SelectedCategory == StarmapItemCategory.SpacedOutStarmap);
 
             ///Footer Settings
             SeedInput_Main.Text = CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id;
@@ -1882,6 +1885,10 @@ namespace ClusterTraitGenerationManager
                 CustomCluster.SO_Starmap = null;
                 RebuildSoStarmap();
                 SpacedOutStarmap.RebuildGrid();
+                bool genPossible = CustomCluster.SO_Starmap.GenerationPossible;
+                GenerateClusterButton.SetInteractable(genPossible);
+                //if(SpacedOutStarmap_CategoryToggle!=null) SpacedOutStarmap_CategoryToggle.ActiveToggle.SetInteractable(genPossible);
+                StartGameTooltip.SetSimpleTooltip(genPossible ? GENERATECLUSTERBUTTON.TOOLTIP : GENERATECLUSTERBUTTON.TOOLTIP_CLUSTERPLACEMENTFAILED);
             }
         }
         public void RebuildStarmap(bool reset)
@@ -1981,6 +1988,7 @@ namespace ClusterTraitGenerationManager
                         SpawnDistanceText.SetText(string.Format(MINMAXDISTANCE.DESCRIPTOR.FORMAT, (int)min, (int)max));
                         if (CurrentStarmapItem.IsPOI)
                             RefreshPOIGroupHeader(CurrentStarmapItem.id);
+                        if(DlcManager.IsExpansion1Active())RebuildStarmap(false);
                     }
                 }
                 );
@@ -2002,6 +2010,8 @@ namespace ClusterTraitGenerationManager
                     this.RefreshCategories();
                     this.RefreshGallery();
                     this.RefreshDetails();
+
+                    if (DlcManager.IsExpansion1Active()) RebuildStarmap(false);
                 }
             };
             UIUtils.AddSimpleTooltipToObject(StarmapItemEnabled.transform, STARMAPITEMENABLED.TOOLTIP, onBottom: true, alignCenter: true);
@@ -2044,6 +2054,7 @@ namespace ClusterTraitGenerationManager
             NumberOfRandomClassics.OnChange += (value) =>
             {
                 MaxClassicOuterPlanets = Mathf.RoundToInt(value);
+                if (DlcManager.IsExpansion1Active()) RebuildStarmap(false);
             };
             if (CGSMClusterManager.RandomOuterPlanetsStarmapItem != null)
                 NumberOfRandomClassics.SetMinMaxCurrent(0, CGSMClusterManager.RandomOuterPlanetsStarmapItem.InstancesToSpawn, CGSMClusterManager.RandomOuterPlanetsStarmapItem.InstancesToSpawn);
@@ -2058,7 +2069,10 @@ namespace ClusterTraitGenerationManager
                 if (CurrentStarmapItem != null)
                 {
                     if (CustomCluster.HasStarmapItem(CurrentStarmapItem.id, out var current))
+                    {
                         current.SetBuffer((int)value);
+                        if (DlcManager.IsExpansion1Active()) RebuildStarmap(false);
+                    }
                 }
             };
             UIUtils.AddSimpleTooltipToObject(BufferDistance.transform.parent.Find("Descriptor"), BUFFERSLIDER.DESCRIPTOR.TOOLTIP);
@@ -2071,6 +2085,7 @@ namespace ClusterTraitGenerationManager
                 CustomCluster.SetRings((int)value);
                 this.RefreshGallery();
                 this.RefreshDetails();
+                if (DlcManager.IsExpansion1Active()) RebuildStarmap(false);
             };
             UIUtils.AddSimpleTooltipToObject(ClusterSize.transform.parent.Find("Descriptor"), CLUSTERSIZESLIDER.DESCRIPTOR.TOOLTIP);
 
@@ -2238,7 +2253,7 @@ namespace ClusterTraitGenerationManager
             UIUtils.AddSimpleTooltipToObject(ResetAllButton.transform, RESETCLUSTERBUTTON.TOOLTIP, true, onBottom: true);
             UIUtils.AddSimpleTooltipToObject(ResetButton.transform, RESETSELECTIONBUTTON.TOOLTIP, true, onBottom: true);
             UIUtils.AddSimpleTooltipToObject(VanillaStarmapButton.transform, STARMAPBUTTON.TOOLTIP, true, onBottom: true);
-            UIUtils.AddSimpleTooltipToObject(GenerateClusterButton.transform, GENERATECLUSTERBUTTON.TOOLTIP, true, onBottom: true);
+            StartGameTooltip = UIUtils.AddSimpleTooltipToObject(GenerateClusterButton.transform, GENERATECLUSTERBUTTON.TOOLTIP, true, onBottom: true);
             UIUtils.AddSimpleTooltipToObject(ReturnButton.transform, RETURNBUTTON.TOOLTIP, true, onBottom: true);
             //UIUtils.AddSimpleTooltipToObject(SettingsButton.transform, SETTINGSBUTTON.TOOLTIP, true, onBottom: true);
             UIUtils.AddSimpleTooltipToObject(PresetsButton.transform, PRESETBUTTON.TOOLTIP, true, onBottom: true);
@@ -2554,7 +2569,7 @@ namespace ClusterTraitGenerationManager
             };
             AddCategoryItem(DlcManager.IsExpansion1Active() ? StarmapItemCategory.POI : StarmapItemCategory.VanillaStarmap);
             if (DlcManager.IsExpansion1Active())
-                AddCategoryItem(StarmapItemCategory.SpacedOutStarmap);
+                SpacedOutStarmap_CategoryToggle = AddCategoryItem(StarmapItemCategory.SpacedOutStarmap);
 
 
             var StoryTraitsBtn = StoryTraitButton.AddOrGet<CategoryItem>();
@@ -3050,7 +3065,7 @@ namespace ClusterTraitGenerationManager
             }
         }
 
-        private void AddCategoryItem(StarmapItemCategory StarmapItemCategory)
+        private CategoryItem AddCategoryItem(StarmapItemCategory StarmapItemCategory)
         {
             GameObject categoryItem = Util.KInstantiateUI(this.PlanetoidCategoryPrefab, this.categoryListContent, true);
 
@@ -3061,6 +3076,7 @@ namespace ClusterTraitGenerationManager
             item.Initialize(StarmapItemCategory, Assets.GetSprite("unknown"));
             item.ActiveToggle.OnClick += (() => this.SelectCategory(StarmapItemCategory));
             this.categoryToggles.Add(StarmapItemCategory, item);
+            return item;
         }
 
         #endregion
