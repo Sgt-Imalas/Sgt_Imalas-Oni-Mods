@@ -473,7 +473,7 @@ namespace OniRetroEdition
                     }
                     catch (Exception e)
                     {
-                        SgtLogger.logError("Failed importing sprite: " + File.FullName + ",\nError: " + e);
+                        SgtLogger.logError("Failed at importing sprite: " + File.FullName + ",\nError: " + e);
                     }
                 }
             }

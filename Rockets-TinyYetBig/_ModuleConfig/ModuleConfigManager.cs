@@ -29,7 +29,7 @@ namespace Rockets_TinyYetBig._ModuleConfig
 
             InitializeFolderPath();
             var path = Path.Combine(ModuleConfigPath, ConfigFileNameModules + ".json");
-            if (!IO_Util.ReadFromFile<ModuleConfigManager>(path, out Instance))
+            if (!IO_Utils.ReadFromFile<ModuleConfigManager>(path, out Instance))
             {
                 Instance = new ModuleConfigManager();
                 Instance.OriginalModuleDefinitions = new Dictionary<string, ModuleSettingSerializable>();

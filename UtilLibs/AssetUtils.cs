@@ -36,16 +36,16 @@ namespace UtilLibs
             string spriteId = Path.GetFileNameWithoutExtension(file.Name);
             var texture = AssetUtils.LoadTexture(file.FullName);
 
-            if (instance.TextureAssets.Any(foundsprite => foundsprite.name == spriteId))
+            if (instance.TextureAssets.Any(foundsprite => foundsprite != null && foundsprite.name == spriteId))
             {
                 SgtLogger.l("removed existing TextureAsset: " + spriteId);
-                instance.TextureAssets.RemoveAll(foundsprite2 => foundsprite2.name == spriteId);
+                instance.TextureAssets.RemoveAll(foundsprite2 => foundsprite2 != null && foundsprite2.name == spriteId);
             }
             instance.TextureAssets.Add(texture);
             if (Assets.Textures.Any(foundsprite => foundsprite.name == spriteId))
             {
                 SgtLogger.l("removed existing Texture: " + spriteId);
-                Assets.Textures.RemoveAll(foundsprite2 => foundsprite2.name == spriteId);
+                Assets.Textures.RemoveAll(foundsprite2 => foundsprite2 != null && foundsprite2.name == spriteId);
             }
             Assets.Textures.Add(texture);
 

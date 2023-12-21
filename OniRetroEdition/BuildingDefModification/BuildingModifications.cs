@@ -216,12 +216,12 @@ namespace OniRetroEdition.BuildingDefModification
                         }
                     }
                 };
-                IO_Util.WriteToFile<BuildingModifications>(tmp, BuildingConfigPath);
+                IO_Utils.WriteToFile<BuildingModifications>(tmp, BuildingConfigPath);
             }
 
             try
             {
-                IO_Util.ReadFromFile<BuildingModifications>(BuildingConfigPath, out Instance);
+                IO_Utils.ReadFromFile<BuildingModifications>(BuildingConfigPath, out Instance);
             }
             catch (Exception e)
             {

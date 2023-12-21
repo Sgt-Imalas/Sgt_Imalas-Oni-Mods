@@ -19,7 +19,7 @@ namespace SaveGameModLoader
             {
                 if(_instance == null)
                 {
-                    if (IO_Util.ReadFromFile<MPM_Config>(ModAssets.ConfigPath, out var config))
+                    if (IO_Utils.ReadFromFile<MPM_Config>(ModAssets.ConfigPath, out var config))
                     {
                         _instance = config;
                     }
@@ -70,7 +70,7 @@ namespace SaveGameModLoader
 
         public void SaveToFile()
         {
-            IO_Util.WriteToFile(this, ModAssets.ConfigPath);
+            IO_Utils.WriteToFile(this, ModAssets.ConfigPath);
         }
     }
 }

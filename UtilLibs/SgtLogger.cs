@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using UtilLibs.ModVersionCheck;
 
 namespace UtilLibs
 {
@@ -13,6 +14,7 @@ namespace UtilLibs
     {
         public static void LogVersion(UserMod2 usermod)
         {
+            VersionChecker.HandleVersionChecking(usermod);
             debuglog($"{usermod.mod.staticID} - Mod Version: {usermod.mod.packagedModInfo.version} ");
         }
         public static void l(string message, string assemblyOverride = "")

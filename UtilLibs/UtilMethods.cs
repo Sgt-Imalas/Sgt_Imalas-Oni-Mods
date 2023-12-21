@@ -59,7 +59,7 @@ namespace UtilLibs
         {
             return degreeC + 273.15f;
         }
-        public static string ModPath => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        public static string ModPath => IO_Utils.ModPath;
         public static bool IsCellInSpaceAndVacuum(int _cell, int root)
         {
             if (!Grid.IsValidCell(_cell) || !Grid.AreCellsInSameWorld(_cell,root))
