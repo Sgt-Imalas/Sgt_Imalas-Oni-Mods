@@ -727,6 +727,9 @@ namespace ClusterTraitGenerationManager
 
                 public static LocString STORYTRAIT = (LocString)"Story Trait";
                 public static LocString STORYTRAITPLURAL = (LocString)"Story Traits";
+
+
+                public static LocString NOPOISAVAILABLE = (LocString)"No more available POI types.";
             }
 
             public class SEEDLOCK

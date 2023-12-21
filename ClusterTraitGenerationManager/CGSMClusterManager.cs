@@ -997,6 +997,15 @@ namespace ClusterTraitGenerationManager
 
 
             #region SetterMethods
+
+            public void RefresDuplicateState()
+            {
+                if (placementPOI != null && InstancesToSpawn < placementPOI.pois.Count)
+                {
+                    placementPOI.canSpawnDuplicates = true;
+                }
+            }
+
             public void SetSpawnNumber(float newNumber, bool force = false)
             {
                 if (newNumber < 0)
@@ -1009,6 +1018,8 @@ namespace ClusterTraitGenerationManager
                     }
                     else
                         InstancesToSpawn = MaxPOICount;
+
+                    RefresDuplicateState();
                 }
                 else
                 {
@@ -1704,7 +1715,8 @@ namespace ClusterTraitGenerationManager
             }
             foreach (var world in layout.worldPlacements)
             {
-                SgtLogger.l(world.world + ": " + world.allowedRings.ToString());
+                if (log)
+                    SgtLogger.l(world.world + ": " + world.allowedRings.ToString());
             }
 
 

@@ -17,6 +17,7 @@ using static ClusterTraitGenerationManager.ModAssets;
 using Satsuma;
 using static STRINGS.UI.CLUSTERMAP;
 using static ResearchTypes;
+using static ClusterTraitGenerationManager.STRINGS.UI;
 
 namespace ClusterTraitGenerationManager
 {
@@ -115,6 +116,9 @@ namespace ClusterTraitGenerationManager
             init = true;
             SeasonPrefab = transform.Find("ScrollArea/Content/ListViewEntryPrefab").gameObject;
             PossibleSeasonContainer = transform.Find("ScrollArea/Content").gameObject;
+
+            UIUtils.TryChangeText(transform, "Text", STARMAPITEMDESCRIPTOR.POIPLURAL);
+            UIUtils.TryChangeText(PossibleSeasonContainer.transform, "NoTraitAvailable/Label", STARMAPITEMDESCRIPTOR.NOPOISAVAILABLE);
 
             var closeButton = transform.Find("CancelButton").FindOrAddComponent<FButton>();
             closeButton.OnClick += () =>

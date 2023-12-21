@@ -1378,6 +1378,7 @@ namespace ClusterTraitGenerationManager
                 }
 
             }
+
         }
         string ArtifactRateToString(ArtifactDropRate rate)
         {
@@ -1871,8 +1872,7 @@ namespace ClusterTraitGenerationManager
             AddRemoveStarmapButtons.gameObject.SetActive(false);
 
             RefreshMissingItemsButton();
-            VanillaStarmapItemContent.SetActive(currentlyActive);
-            CurrentlySelectedItemData = null;
+            VanillaStarmapItemContent.SetActive(currentlyActive);            
         }
 
         public void ResetSOStarmap()
@@ -1886,12 +1886,6 @@ namespace ClusterTraitGenerationManager
         }
         public void RebuildStarmap(bool reset)
         {
-            if (SelectedCategory == StarmapItemCategory.POI)
-            {
-                CGM_MainScreen_UnityScreen.Instance.CurrentlySelectedItemData = null;
-            }
-
-
             if (DlcManager.IsExpansion1Active())
             {
                 ResetSOStarmap();
@@ -2310,7 +2304,8 @@ namespace ClusterTraitGenerationManager
             {
                 item.placementPOI.pois.Remove(poiID);
             }
-            CurrentlySelectedItemData = null;
+            if(CurrentlySelectedItemData != null && CurrentlySelectedItemData is SelectedSinglePOI)
+                CurrentlySelectedItemData = null;
             RemoveSOSinglePOI_UI(bandId, poiID);
 
             this.RefreshView();
@@ -2328,7 +2323,6 @@ namespace ClusterTraitGenerationManager
                 Destroy(POIGroup_Entries[id].gameObject);
                 POIGroup_Entries.Remove(id);
             }
-
             RebuildStarmap(false);
         }
         void AddSOSinglePOI_UI(string bandId, string id)
@@ -2342,6 +2336,7 @@ namespace ClusterTraitGenerationManager
                 AddSO_GroupPOIEntry_UI(CurrentStarmapItem.id, id);
 
             RebuildStarmap(false);
+            //CurrentlySelectedItemData = new SelectedSinglePOI(id, bandId);
         }
 
 
@@ -2355,6 +2350,7 @@ namespace ClusterTraitGenerationManager
                 if (CustomCluster.HasStarmapItem(CurrentStarmapItem.id, out var item) && item.category == StarmapItemCategory.POI && item.placementPOI != null)
                 {
                     item.placementPOI.canSpawnDuplicates = POIGroup_AllowDuplicates.On;
+                    if (DlcManager.IsExpansion1Active()) RebuildStarmap(false);
                 }
             };
             UIUtils.AddSimpleTooltipToObject(POIGroup_AllowDuplicates.gameObject, POI_ALLOWDUPLICATES.TOOLTIP);
@@ -2366,6 +2362,7 @@ namespace ClusterTraitGenerationManager
                 if (CustomCluster.HasStarmapItem(CurrentStarmapItem.id, out var item) && item.category == StarmapItemCategory.POI && item.placementPOI != null)
                 {
                     item.placementPOI.avoidClumping = POIGroup_AvoidClumping.On;
+                    if (DlcManager.IsExpansion1Active()) RebuildStarmap(false);
                 }
             };
 
@@ -2378,8 +2375,8 @@ namespace ClusterTraitGenerationManager
                 {
                     RemoveSOBand_UI(CurrentStarmapItem.id);
                     CustomCluster.RemovePoiGroup(CurrentStarmapItem.id);
-                    RebuildStarmap(false);
                     CurrentlySelectedItemData = null;
+                    RebuildStarmap(false);
                 }
             };
             UIUtils.AddSimpleTooltipToObject(POIGroup_DeletePoiGroup.gameObject, SO_POIGROUP_REMOVE.TOOLTIP);
@@ -2392,7 +2389,11 @@ namespace ClusterTraitGenerationManager
                     VanillaPOISelectorScreen.InitializeView(CurrentStarmapItem, (id) =>
                     {
                         CurrentStarmapItem.placementPOI.pois.Add(id);
+                        CurrentStarmapItem.RefresDuplicateState();
+                        POIGroup_AllowDuplicates.SetOn(CurrentStarmapItem.placementPOI.canSpawnDuplicates);
                         AddSOSinglePOI_UI(CurrentStarmapItem.id, id);
+
+                        if (DlcManager.IsExpansion1Active()) RebuildStarmap(false);
                     });
                 }
             };
@@ -2425,6 +2426,7 @@ namespace ClusterTraitGenerationManager
                 {
                     var data = (SelectedSinglePOI_Vanilla)CurrentlySelectedItemData;
                     VanillaStarmapEntries[data.Band].RemovePoi(data.ID);
+
                     CurrentlySelectedItemData = null;
 
                     RefreshMissingItemsButton();
@@ -2876,8 +2878,10 @@ namespace ClusterTraitGenerationManager
                 }
                 if (CurrentStarmapItem.IsPOI)
                     RefreshPOIGroupHeader(CurrentStarmapItem.id);
+                this.RefreshDetails();
+                if(DlcManager.IsExpansion1Active()) RebuildStarmap(false);
             }
-            this.RefreshDetails();
+
         }
 
         void TryApplyingCoordinates(string msg, bool Height)
@@ -3010,6 +3014,8 @@ namespace ClusterTraitGenerationManager
                 {
                     CGSMClusterManager.TogglePlanetoid(CurrentStarmapItem);
                     RefreshView();
+
+                    if (DlcManager.IsExpansion1Active()) RebuildStarmap(false);
                 }
             };
 

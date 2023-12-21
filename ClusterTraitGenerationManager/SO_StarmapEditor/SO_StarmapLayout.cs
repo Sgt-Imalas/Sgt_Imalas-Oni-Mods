@@ -60,7 +60,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             ClusterLayout clusterLayout = CGSMClusterManager.GeneratedLayout;
             List<WorldPlacement> asteroidPlacements = new List<WorldPlacement>(clusterLayout.worldPlacements);
             List<SpaceMapPOIPlacement> poiPlacements = ((clusterLayout.poiPlacements == null) ? new List<SpaceMapPOIPlacement>() : new List<SpaceMapPOIPlacement>(clusterLayout.poiPlacements));
-           // currentWorld.SetClusterLocation(AxialI.ZERO);
+            // currentWorld.SetClusterLocation(AxialI.ZERO);
             HashSet<AxialI> assignedLocations = new HashSet<AxialI>();
             HashSet<AxialI> worldForbiddenLocations = new HashSet<AxialI>();
             new HashSet<AxialI>();
