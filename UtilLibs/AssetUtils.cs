@@ -21,9 +21,13 @@ namespace UtilLibs
             var texture = LoadTexture(spriteid, path);
             var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector3.zero);
             sprite.name = spriteid;
-
-            if(overrideExisting)
-                instance.SpriteAssets.RemoveAll(foundsprite2 => foundsprite2 != null && foundsprite2.name == spriteid);
+            if (!overrideExisting && instance.SpriteAssets.Any(spritef => spritef != null && spritef.name == spriteid))
+            {
+                SgtLogger.l("Sprite " + spriteid + " was already existent in the sprite assets");
+                return;
+            }
+            if (overrideExisting)
+                instance.SpriteAssets.RemoveAll(foundsprite2 => foundsprite2 != null && foundsprite2.name == spriteid);            
 
             instance.SpriteAssets.Add(sprite);
         }

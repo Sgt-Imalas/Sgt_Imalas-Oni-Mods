@@ -45,6 +45,7 @@ namespace ClusterTraitGenerationManager
         [HarmonyPatch(typeof(Assets), "OnPrefabInit")]
         public class Assets_OnPrefabInit_Patch
         {
+            [HarmonyPriority(Priority.LowerThanNormal)] 
             public static void Prefix(Assets __instance)
             {
                 InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.randomStarter);
