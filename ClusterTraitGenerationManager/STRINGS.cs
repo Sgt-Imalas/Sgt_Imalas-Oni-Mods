@@ -578,6 +578,7 @@ namespace ClusterTraitGenerationManager
                                 public static LocString TEXT = (LocString)"Start modified Game";
                                 public static LocString TOOLTIP = (LocString)"Start generating a modified Cluster based on selected parameters.\nModified Cluster Generation is only activated if this button here is used.";
                                 public static LocString TOOLTIP_CLUSTERPLACEMENTFAILED = "The current asteroid placement rules do not allow a spot for all asteroids on the starmap.\nPlease adjust your asteroid placements or reduce the total amount of asteroids.";
+                                public static LocString TOOLTIP_CLUSTERPLACEMENTFAILED_ASTEROID = "The current asteroid placement rules for {0} currently fail to place the asteroid.\nPlease adjust your its placements or reduce the total amount of asteroids.";
                                 public static LocString TOOLTIP_CLUSTERPLACEMENTFAILED_COMETS = "The current asteroid placement rules do not allow meteors to reach all asteroids,\nthis will cause a crash on the spawn of the first meteor shower that tries to target the unreachable asteroid.\nPlease adjust your starmap placements.";
                             }
                         }
