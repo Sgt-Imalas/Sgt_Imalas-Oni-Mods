@@ -89,6 +89,10 @@
       "version": "1.0.1.0"
     },
     {
+      "staticID": "DebugButton",
+      "version": "1.0.0.0"
+    },
+    {
       "staticID": "ClusterTraitGenerationManager",
       "version": "4.0.0.0"
     },
