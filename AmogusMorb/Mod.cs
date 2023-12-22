@@ -16,7 +16,6 @@ namespace AmogusMorb
             new POptions().RegisterOptions(this, typeof(Config));
             base.OnLoad(harmony);
             SgtLogger.LogVersion(this); 
-            new PVersionCheck().Register(this, new SteamVersionChecker());
         }
     }
 }

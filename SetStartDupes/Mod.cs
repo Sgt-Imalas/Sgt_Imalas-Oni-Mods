@@ -44,7 +44,6 @@ namespace SetStartDupes
             UtilMethods.ListAllPropertyValues(ModConfig.Instance);
 
             SgtLogger.LogVersion(this);
-            new PVersionCheck().Register(this, new SteamVersionChecker());
             base.OnLoad(harmony);
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)

@@ -1,5 +1,6 @@
 ﻿using KMod;
 using KSerialization;
+using PeterHan.PLib.AVC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,12 @@ namespace UtilLibs
     {
         public static void LogVersion(UserMod2 usermod)
         {
-            VersionChecker.HandleVersionChecking(usermod);
+            ModVersionCheck.VersionChecker.RegisterCurrentVersion(usermod);
+
+            var VersionChecker = new PVersionCheck();
+            //VersionChecker.Register(usermod, new JsonURLVersionChecker());
+
+            VersionChecker.Register(usermod, new SteamVersionChecker());
             debuglog($"{usermod.mod.staticID} - Mod Version: {usermod.mod.packagedModInfo.version} ");
         }
         public static void l(string message, string assemblyOverride = "")

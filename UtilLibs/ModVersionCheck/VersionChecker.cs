@@ -1,9 +1,11 @@
-﻿using System;
+﻿using PeterHan.PLib.AVC;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static PeterHan.PLib.AVC.JsonURLVersionChecker;
 
 namespace UtilLibs.ModVersionCheck
 {
@@ -20,19 +22,18 @@ namespace UtilLibs.ModVersionCheck
                 }
                 var filepath = Path.Combine(IO_Utils.ConfigFolder, ImalasVersionData_Dev.Dev_File_Local);
 
-                IO_Utils.ReadFromFile<ImalasVersionData_Dev>(filepath, out var item);
+                IO_Utils.ReadFromFile<JsonURLVersionChecker.ModVersions>(filepath, out var item);
                 if (item == null)
-                    item = new ImalasVersionData_Dev();
-                var versionData = new ModVersionEntry
+                    item = new JsonURLVersionChecker.ModVersions();
+                var versionData = new ModVersion
                 {
-                    ModID = userMod.mod.staticID,
-                    MinSupportedGameVersion = userMod.mod.packagedModInfo.minimumSupportedBuild,
-                    ModVersion = userMod.mod.packagedModInfo.version
+                    staticID = userMod.mod.staticID,
+                    version = userMod.mod.packagedModInfo.version
                 };
 
 
-                item.ModVersions.Add(versionData);
-                IO_Utils.WriteToFile<ImalasVersionData_Dev>(item, filepath);
+                item.mods.Add(versionData);
+                IO_Utils.WriteToFile<JsonURLVersionChecker.ModVersions>(item, filepath);
             }
             catch (Exception ex)
             {
@@ -43,7 +44,7 @@ namespace UtilLibs.ModVersionCheck
         public static void HandleVersionChecking(KMod.UserMod2 userMod)
         {
             RegisterCurrentVersion(userMod);
-            CheckVersion(userMod);
+            //CheckVersion(userMod);
         }
         public static void CheckVersion(KMod.UserMod2 userMod)
         {

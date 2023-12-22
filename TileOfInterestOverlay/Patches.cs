@@ -122,7 +122,6 @@ namespace TileOfInterestOverlay
             new PPatchManager(harmony).RegisterPatchClass(typeof(Patches));
             OpenOverlay = new PActionManager().CreateAction("OVERLAY_ACTIONTOGGLE_TILEOFINTEREST", "Tile of interest overlay");
                        
-            new PVersionCheck().Register(this, new SteamVersionChecker());
         }
 
         /// <summary>

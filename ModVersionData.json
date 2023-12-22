@@ -1,0 +1,140 @@
+{
+  "mods": [
+    {
+      "staticID": "BawoonFwiend",
+      "version": "1.3.1.0"
+    },
+    {
+      "staticID": "CannedFoods",
+      "version": "3.0.4.0"
+    },
+    {
+      "staticID": "DailyRoutine",
+      "version": "1.0.5.0"
+    },
+    {
+      "staticID": "Cryopod",
+      "version": "1.1.0.0"
+    },
+    {
+      "staticID": "CritterTraitsReborn",
+      "version": "1.0.4.0"
+    },
+    {
+      "staticID": "CrittersShedFurOnBrush",
+      "version": "1.0.1.0"
+    },
+    {
+      "staticID": "AmogusMorb",
+      "version": "2.2.2.0"
+    },
+    {
+      "staticID": "DrywallPatternColours",
+      "version": "1.1.5.0"
+    },
+    {
+      "staticID": "DupePodRailgun",
+      "version": "1.0.0.0"
+    },
+    {
+      "staticID": "LogicSatellites",
+      "version": "1.2.6.0"
+    },
+    {
+      "staticID": "MineralizerReborn",
+      "version": "1.2.1.0"
+    },
+    {
+      "staticID": "MoveDupeHere",
+      "version": "1.0.5.0"
+    },
+    {
+      "staticID": "NuclearExpansion",
+      "version": "1.0.0.0"
+    },
+    {
+      "staticID": "Radiator_Mod",
+      "version": "2.2.1.0"
+    },
+    {
+      "staticID": "RoboRockets",
+      "version": "4.2.2.0"
+    },
+    {
+      "staticID": "Rocketry Expanded",
+      "version": "2.7.2.2"
+    },
+    {
+      "staticID": "RotatableRadboltStorage",
+      "version": "1.0.2.0"
+    },
+    {
+      "staticID": "SaveGameModLoader",
+      "version": "6.2.3.0"
+    },
+    {
+      "staticID": "SetStartDupes",
+      "version": "6.1.5.0"
+    },
+    {
+      "staticID": "YamlTemplateExportFix",
+      "version": "1.0.1.0"
+    },
+    {
+      "staticID": "StoreDreamJournals",
+      "version": "1.0.5.0"
+    },
+    {
+      "staticID": "WeebPacu",
+      "version": "1.0.1.0"
+    },
+    {
+      "staticID": "ClusterTraitGenerationManager",
+      "version": "3.9.0.0"
+    },
+    {
+      "staticID": "ClaimNotification",
+      "version": "1.1.0.0"
+    },
+    {
+      "staticID": "BetterCritterMorpher",
+      "version": "1.0.0.0"
+    },
+    {
+      "staticID": "CustomGameSettingsModifier",
+      "version": "1.0.3.0"
+    },
+    {
+      "staticID": "DirtyBrine",
+      "version": "1.0.0.0"
+    },
+    {
+      "staticID": "SGTIM_NotificationManager",
+      "version": "1.2.0.0"
+    },
+    {
+      "staticID": "DupePrioPresetManager",
+      "version": "1.1.0.0"
+    },
+    {
+      "staticID": "BuildingToken",
+      "version": "1.0.1.0"
+    },
+    {
+      "staticID": "UL_UniversalLyzer",
+      "version": "1.0.1.0"
+    },
+    {
+      "staticID": "OniRetroEdition",
+      "version": "1.0.0.0"
+    },
+    {
+      "staticID": "Imalas_TwitchChaosEvents",
+      "version": "0.3.0.0"
+    },
+    {
+      "staticID": "DontDisableBlamedMods",
+      "version": "1.0.0.0"
+    }
+  ]
+}
