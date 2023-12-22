@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UtilLibs.ModVersionCheck
 {
@@ -102,6 +103,10 @@ namespace UtilLibs.ModVersionCheck
                     if (info.transform.Find("Description").gameObject.TryGetComponent<LocText>(out var desc))
                     {
                         desc.text = infoString;// "The following mods are currently not on their latest version:...";
+                    }
+                    if (info.transform.Find("BG"))
+                    {
+                        info.transform.Find("BG").FindOrAddComponent<Outline>();
                     }
                 }
             }

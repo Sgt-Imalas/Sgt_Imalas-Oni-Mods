@@ -73,11 +73,11 @@ namespace UtilLibs.ModVersionCheck
             {
                 PRegistry.PutData(CurrentlyFetchingKey, true);
 
-                SgtLogger.l("Mod Version Data was null, trying to fetch it");
+                SgtLogger.l("Mod Version Data was null, trying to fetch it","SgtImalas_VersionCheck");
                 using (var client = new WebClient())
                 {
                     var fetched = client.DownloadStringTaskAsync(VersionDataURL);
-                    SgtLogger.l("mod version data fetched from github");
+                    SgtLogger.l("mod version data fetched from github", "SgtImalas_VersionCheck");
                     await fetched;
                     ParseData(fetched.Result);
                 }
@@ -85,7 +85,7 @@ namespace UtilLibs.ModVersionCheck
         }
         static void ParseData(string data)
         {
-            SgtLogger.l("parsing version data");
+            SgtLogger.l("parsing version data", "SgtImalas_VersionCheck");
 
             if (!string.IsNullOrEmpty(data))
             {
@@ -116,8 +116,7 @@ namespace UtilLibs.ModVersionCheck
                 SgtLogger.l("starting version check");
                 var manager = Global.Instance.modManager;
                 StringBuilder stringBuilder = new StringBuilder();
-                //stringBuilder.AppendLine( "The following active mods are currently not on their latest version:");
-                bool maxLineCountExceeded = false;
+
                 foreach (var localModId in localVersionData.Keys)
                 {
                     SgtLogger.l(localModId.ToString());
