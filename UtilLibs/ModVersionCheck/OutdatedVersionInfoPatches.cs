@@ -12,7 +12,6 @@ namespace UtilLibs.ModVersionCheck
     internal class OutdatedVersionInfoPatches
     {
         public const string UICMPName = "SGT_IMALAS_VERSION_INFO";
-        static GameObject _infoBox;
         //[HarmonyPatch(typeof(MainMenu), "OnPrefabInit")]
         public static class MainMenuMissingModsContainerInit
         {
@@ -38,14 +37,14 @@ namespace UtilLibs.ModVersionCheck
 
                 harmony.Patch(m_TargetMethod,
                     null, //new HarmonyMethod(m_Prefix),
-                    new HarmonyMethod(m_Postfix)
+                    new HarmonyMethod(m_Postfix,Priority.LowerThanNormal)
                     );
             }
 
             public static void Postfix(MainMenu __instance)
             {
 
-                if (__instance.transform.Find("UI Group/"+UICMPName)|| __instance.transform.Find(UICMPName) || !VersionChecker.ModsOutOfDate(out var infoString, out int linecount))
+                if (__instance.transform.Find("UI Group/"+UICMPName)|| __instance.transform.Find(UICMPName) || !VersionChecker.ModsOutOfDate(50, out var infoString, out int linecount))
                 {
                     //SgtLogger.l("version info already initiated");
                     return;
@@ -53,20 +52,26 @@ namespace UtilLibs.ModVersionCheck
 
                 //UIUtils.ListAllChildrenPath(__instance.transform);
                 SgtLogger.l("grabbing ref.");
-                var options = Util.KInstantiateUI<OptionsMenuScreen>(ScreenPrefabs.Instance.OptionsScreen.gameObject);
-                SgtLogger.Assert("options", options);
+                var options = Util.KInstantiateUI<OptionsMenuScreen>(ScreenPrefabs.Instance.OptionsScreen.gameObject);                
+                SgtLogger.Assert("options", options); 
+                if (options == null)
+                    return;
+
                 var feedbackClone = Util.KInstantiateUI<FeedbackScreen>(options.feedbackScreenPrefab.gameObject);
                 SgtLogger.Assert("feedbackClone", feedbackClone);
-
+                if (feedbackClone == null)
+                    return;
                 //UIUtils.ListAllChildrenPath(feedbackClone.transform);
-                _infoBox = Util.KInstantiateUI(feedbackClone.transform.Find("Content/GameObject/InfoBox").gameObject);
+                var _infoBox = Util.KInstantiateUI(feedbackClone.transform.Find("Content/GameObject/InfoBox").gameObject);
                 SgtLogger.Assert("_infoBox", _infoBox);
                 UnityEngine.Object.Destroy(options.gameObject);
                 UnityEngine.Object.Destroy(feedbackClone.gameObject);
-                
+                if (_infoBox == null)
+                    return;
+
+
                 GameObject parent = null; GameObject info = null;
-                int height = Math.Min(1000, 75 +linecount * 20);
-                SgtLogger.l(height + "", "HEIGHT");
+                int height = 75 + linecount * 20;
                 if (__instance.transform.Find("MainMenuMenubar/BottomRow") != null)
                 {
                     parent = __instance
@@ -89,16 +94,15 @@ namespace UtilLibs.ModVersionCheck
                 }
                 if(info!= null) 
                 {
-                    info.name = "SGT_IMALAS_VERSION_INFO";
+                    info.name = UICMPName;
                     if(info.transform.Find("Header").gameObject.TryGetComponent<LocText>(out var header))
                     {
-                        header.text = UIUtils.ColorText("Outdated active Mods:", UIUtils.rgb(237, 89, 92));
+                        header.text = UIUtils.ColorText("Outdated Mods:", UIUtils.rgb(237, 89, 92));
                     }
                     if (info.transform.Find("Description").gameObject.TryGetComponent<LocText>(out var desc))
                     {
-                        desc.text = infoString;// "The following mods are currently not on their latest version:";
+                        desc.text = infoString;// "The following mods are currently not on their latest version:...";
                     }
-
                 }
             }
         }

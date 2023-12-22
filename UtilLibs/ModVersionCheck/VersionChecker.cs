@@ -23,7 +23,7 @@ namespace UtilLibs.ModVersionCheck
         public static void RegisterCurrentVersion(KMod.UserMod2 userMod)
         {
             var currentVersionData = PRegistry.GetData<Dictionary<string, string>>(ModVersionDataKey_Client);
-            if(currentVersionData == null)
+            if (currentVersionData == null)
                 currentVersionData = new Dictionary<string, string>();
             currentVersionData[userMod.mod.staticID] = userMod.mod.packagedModInfo.version;
             PRegistry.PutData(ModVersionDataKey_Client, currentVersionData);
@@ -91,7 +91,7 @@ namespace UtilLibs.ModVersionCheck
                 var FoundData = JsonConvert.DeserializeObject<JsonURLVersionChecker.ModVersions>(data);
                 if (FoundData != null)
                 {
-                    Dictionary<string,string> VersionData = new Dictionary<string,string>();
+                    Dictionary<string, string> VersionData = new Dictionary<string, string>();
                     FoundData.mods.ForEach(x => VersionData[x.staticID] = x.version);
                     PRegistry.PutData(ModVersionDataKey_Server, VersionData);
                 }
@@ -99,7 +99,7 @@ namespace UtilLibs.ModVersionCheck
             }
         }
 
-        public static bool ModsOutOfDate(out string missingModsInfo, out int linecount)
+        public static bool ModsOutOfDate(int maxLines, out string missingModsInfo, out int linecount)
         {
             var serverVersionData = PRegistry.GetData<Dictionary<string, string>>(ModVersionDataKey_Server);
             var localVersionData = PRegistry.GetData<Dictionary<string, string>>(ModVersionDataKey_Client);
@@ -107,6 +107,7 @@ namespace UtilLibs.ModVersionCheck
             SgtLogger.Assert("server data was null", serverVersionData);
 
             linecount = 0;
+            int modsOverLineCount = 0;
             missingModsInfo = string.Empty;
             bool outdatedModFound = false;
             if (localVersionData != null && serverVersionData != null)
@@ -115,20 +116,21 @@ namespace UtilLibs.ModVersionCheck
                 var manager = Global.Instance.modManager;
                 StringBuilder stringBuilder = new StringBuilder();
                 //stringBuilder.AppendLine( "The following active mods are currently not on their latest version:");
+                bool maxLineCountExceeded = false;
                 foreach (var localModId in localVersionData.Keys)
                 {
                     SgtLogger.l(localModId.ToString());
 
-                    var localMod =  manager.mods.Find(mod => mod.staticID == localModId);
+                    var localMod = manager.mods.Find(mod => mod.staticID == localModId);
                     SgtLogger.Assert(localModId + " mod data was null!", localMod);
                     //SgtLogger.l("containsKey "+ serverVersionData.ContainsKey(localModId));
                     //SgtLogger.l("parse1 "+ Version.TryParse(localVersionData[localModId], out var sss));
                     //SgtLogger.l("parse2 "+ Version.TryParse(serverVersionData[localModId], out var ss));
 
 
-                    if (localMod != null 
-                        && serverVersionData.ContainsKey(localModId) 
-                        && Version.TryParse(localVersionData[localModId], out var SourceVersion ) 
+                    if (localMod != null
+                        && serverVersionData.ContainsKey(localModId)
+                        && Version.TryParse(localVersionData[localModId], out var SourceVersion)
                         && Version.TryParse(serverVersionData[localModId], out var TargetVersion))
                     {
 
@@ -136,23 +138,36 @@ namespace UtilLibs.ModVersionCheck
                         if (SourceVersion.CompareTo(TargetVersion) < 0)
                         {
                             outdatedModFound = true;
-                            stringBuilder.Append("<b>");
-                            stringBuilder.Append(localMod.title);
-                            stringBuilder.Append(":</b>");
-                            stringBuilder.AppendLine();
+                            if (linecount < maxLines)
+                            {
+                                stringBuilder.Append("<b>");
+                                stringBuilder.Append(localMod.title);
+                                stringBuilder.Append(":</b>");
+                                stringBuilder.AppendLine();
 
-                            stringBuilder.Append("installed: ");
-                            stringBuilder.Append(SourceVersion.ToString());
-                            stringBuilder.Append(", latest: ");
-                            stringBuilder.AppendLine(TargetVersion.ToString());
-                            SgtLogger.warning(localMod.title + " is outdated! Found local version is "+SourceVersion.ToString()+", but latest is "+TargetVersion.ToString());
-                            linecount += 2;
+                                stringBuilder.Append("installed: ");
+                                stringBuilder.Append(SourceVersion.ToString());
+                                stringBuilder.Append(", latest: ");
+                                stringBuilder.AppendLine(TargetVersion.ToString());
+                                SgtLogger.warning(localMod.title + " is outdated! Found local version is " + SourceVersion.ToString() + ", but latest is " + TargetVersion.ToString());
+                                linecount += 2;
+                            }
+                            else
+                            {
+                                modsOverLineCount++;
+                            }
+
                         }
                     }
                 }
+                if (modsOverLineCount > 0)
+                {
+                    linecount++;
+                    stringBuilder.AppendLine($"<b>...and {modsOverLineCount} other</b>");
+                }
+
                 missingModsInfo = stringBuilder.ToString();
             }
-            SgtLogger.l(outdatedModFound+"");
             return outdatedModFound;
         }
 
