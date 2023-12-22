@@ -20,7 +20,7 @@ namespace BuildingToken
         public override void OnLoad(Harmony harmony)
         {
 
-            SgtLogger.LogVersion(this);
+            SgtLogger.LogVersion(this, harmony);
             ModAssets.RuleFilePath = FileSystem.Normalize(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "TokenBuildings.txt"));
             SgtLogger.l(ModAssets.RuleFilePath,"Building Token File Location");
 

@@ -43,7 +43,7 @@ namespace SetStartDupes
             SgtLogger.log("Current Config Settings:");
             UtilMethods.ListAllPropertyValues(ModConfig.Instance);
 
-            SgtLogger.LogVersion(this);
+            SgtLogger.LogVersion(this, harmony);
             base.OnLoad(harmony);
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)

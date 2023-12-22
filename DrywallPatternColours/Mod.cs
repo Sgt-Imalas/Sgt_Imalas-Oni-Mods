@@ -12,7 +12,7 @@ namespace DrywallPatternColours
         {
             harmonyInstance = harmony;
             base.OnLoad(harmony);
-            SgtLogger.LogVersion(this);
+            SgtLogger.LogVersion(this, harmony);
         }
     }
 }

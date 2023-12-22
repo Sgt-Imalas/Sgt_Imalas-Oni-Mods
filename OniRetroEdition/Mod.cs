@@ -16,7 +16,7 @@ namespace OniRetroEdition
             PUtil.InitLibrary(false);
             new POptions().RegisterOptions(this, typeof(Config));
             base.OnLoad(harmony);
-            SgtLogger.LogVersion(this);
+            SgtLogger.LogVersion(this, harmony);
 
             BuildingModifications.InitializeFolderPath();
         }

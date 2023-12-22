@@ -22,7 +22,7 @@ namespace UL_UniversalLyzer
             //GameTags.MaterialBuildingElements.Add(ModAssets.Tags.NeutroniumDust);
 
             SgtLogger.debuglog("Initialized");
-            SgtLogger.LogVersion(this);
+            SgtLogger.LogVersion(this, harmony);
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {

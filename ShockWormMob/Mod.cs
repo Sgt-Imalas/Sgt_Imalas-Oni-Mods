@@ -11,7 +11,7 @@ namespace ShockWormMob
         public override void OnLoad(Harmony harmony)
         {
             base.OnLoad(harmony); OreDepositsConfig.GenerateAllDepositConfigs();
-            SgtLogger.LogVersion(this);
+            SgtLogger.LogVersion(this, harmony);
         }
     }
 }

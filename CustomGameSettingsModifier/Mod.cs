@@ -14,7 +14,7 @@ namespace CustomGameSettingsModifier
             harmonyInstance = harmony;
             ModAssets.LoadAssets();
             base.OnLoad(harmony);
-            SgtLogger.LogVersion(this);
+            SgtLogger.LogVersion(this, harmony);
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {

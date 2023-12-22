@@ -1,9 +1,12 @@
-﻿using KMod;
+﻿using HarmonyLib;
+using KMod;
 using KSerialization;
+using Newtonsoft.Json;
 using PeterHan.PLib.AVC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,13 +16,19 @@ namespace UtilLibs
 {
     public static class SgtLogger
     {
-        public static void LogVersion(UserMod2 usermod)
+        static Harmony harmony;
+        public static void LogVersion(UserMod2 usermod, Harmony _harmony)
         {
-            ModVersionCheck.VersionChecker.RegisterCurrentVersion(usermod);
-
+            harmony = _harmony;
+            ModVersionCheck.VersionChecker.HandleVersionChecking(usermod,harmony);
+            //using (var client = new WebClient())
+            //{
+            //    string responseBody = client.DownloadString("https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/master/ModVersionData.json");
+            //    var FoundData = JsonConvert.DeserializeObject<JsonURLVersionChecker.ModVersions>(responseBody);
+            //    FoundData.mods.ForEach((mod) => SgtLogger.l(mod.version, mod.staticID));
+            //}
             var VersionChecker = new PVersionCheck();
-            //VersionChecker.Register(usermod, new JsonURLVersionChecker());
-
+            //VersionChecker.Register(usermod, new JsonURLVersionChecker("https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/master/ModVersionData.json")); //Currently partially broken
             VersionChecker.Register(usermod, new SteamVersionChecker());
             debuglog($"{usermod.mod.staticID} - Mod Version: {usermod.mod.packagedModInfo.version} ");
         }

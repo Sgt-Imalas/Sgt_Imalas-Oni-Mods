@@ -37,7 +37,7 @@ namespace Rockets_TinyYetBig
             ModAssets.LoadAssets();
 
             SgtLogger.debuglog("Initialized");
-            SgtLogger.LogVersion(this);
+            SgtLogger.LogVersion(this, harmony);
 
             ///mod applies fix to rocketConduitports leaking
             PRegistry.PutData("Bugs.RocketConduitPorts", true);

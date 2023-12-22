@@ -10,7 +10,7 @@ namespace Cryopod
         public override void OnLoad(Harmony harmony)
         {
             base.OnLoad(harmony);
-            SgtLogger.LogVersion(this);
+            SgtLogger.LogVersion(this, harmony);
         }
     }
 }

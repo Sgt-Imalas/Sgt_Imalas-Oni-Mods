@@ -13,7 +13,7 @@ namespace ExplosiveMaterials
 			GameTags.MaterialBuildingElements.Add(ModAssets.Tags.BuildableExplosive);
 			//GameTags.Other.Add("x");
 			base.OnLoad(harmony);
-            SgtLogger.LogVersion(this);
+            SgtLogger.LogVersion(this, harmony);
         }
 	}
 }

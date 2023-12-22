@@ -13,7 +13,7 @@ namespace Imalas_TwitchChaosEvents
         public override void OnLoad(Harmony harmony)
         {
             base.OnLoad(harmony);
-            SgtLogger.LogVersion(this);
+            SgtLogger.LogVersion(this, harmony);
             PUtil.InitLibrary(false);
             new POptions().RegisterOptions(this, typeof(Config));
 

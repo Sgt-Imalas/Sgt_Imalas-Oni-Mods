@@ -15,7 +15,7 @@ namespace CrittersShedFurOnBrush
             PUtil.InitLibrary(false);
             new POptions().RegisterOptions(this, typeof(Config));
             ModAssets.InitSheddables();
-            SgtLogger.LogVersion(this);
+            SgtLogger.LogVersion(this, harmony);
         }
     }
 }

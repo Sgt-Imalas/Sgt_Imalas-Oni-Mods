@@ -38,7 +38,7 @@ namespace DupePrioPresetManager
             }
             SgtLogger.log("Folders succesfully initialized");
 
-            SgtLogger.LogVersion(this);
+            SgtLogger.LogVersion(this, harmony);
             base.OnLoad(harmony);
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)

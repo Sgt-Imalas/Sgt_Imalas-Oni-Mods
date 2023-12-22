@@ -12,7 +12,7 @@ namespace DontBlameMods.cs
         {
             base.OnLoad(harmony);
             SgtLogger.debuglog("Initialized");
-            SgtLogger.LogVersion(this);
+            SgtLogger.LogVersion(this, harmony);
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {

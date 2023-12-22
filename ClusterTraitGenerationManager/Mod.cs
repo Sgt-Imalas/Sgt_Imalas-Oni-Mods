@@ -32,7 +32,7 @@ namespace ClusterTraitGenerationManager
             }
             SgtLogger.log("Folders succesfully initialized");
 
-            SgtLogger.LogVersion(this);
+            SgtLogger.LogVersion(this, harmony);
 #if DEBUG
             //Debug.LogError("Error THIS IS NOT RELEASE");
 #endif
