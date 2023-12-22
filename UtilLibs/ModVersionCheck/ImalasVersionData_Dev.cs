@@ -10,7 +10,7 @@ namespace UtilLibs.ModVersionCheck
     internal class ImalasVersionData_Dev
     {
         [JsonIgnore]
-        public const string Dev_File_Local = "ModVersionData_DevSide.json";
+        public const string Dev_File_Local = "ModVersionData.json";
 
         public List<ModVersionEntry> ModVersions = new List<ModVersionEntry>();
     }

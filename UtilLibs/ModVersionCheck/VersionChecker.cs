@@ -11,30 +11,44 @@ namespace UtilLibs.ModVersionCheck
     {
         public static void RegisterCurrentVersion(KMod.UserMod2 userMod)
         {
-            if (!userMod.mod.IsDev)
+#if DEBUG
+            try
             {
-                return;
+                if (!userMod.mod.IsDev)
+                {
+                    return;
+                }
+                var filepath = Path.Combine(IO_Utils.ConfigFolder, ImalasVersionData_Dev.Dev_File_Local);
+
+                IO_Utils.ReadFromFile<ImalasVersionData_Dev>(filepath, out var item);
+                if (item == null)
+                    item = new ImalasVersionData_Dev();
+                var versionData = new ModVersionEntry
+                {
+                    ModID = userMod.mod.staticID,
+                    MinSupportedGameVersion = userMod.mod.packagedModInfo.minimumSupportedBuild,
+                    ModVersion = userMod.mod.packagedModInfo.version
+                };
+
+
+                item.ModVersions.Add(versionData);
+                IO_Utils.WriteToFile<ImalasVersionData_Dev>(item, filepath);
             }
-            var filepath = Path.Combine(IO_Utils.ConfigFolder, ImalasVersionData_Dev.Dev_File_Local);
-
-            IO_Utils.ReadFromFile<ImalasVersionData_Dev>(filepath, out var item);
-            if (item == null)
-                item = new ImalasVersionData_Dev();
-            var versionData = new ModVersionEntry
+            catch (Exception ex)
             {
-                ModID = userMod.mod.staticID,
-                MinSupportedGameVersion = userMod.mod.packagedModInfo.minimumSupportedBuild,
-                ModVersion = userMod.mod.packagedModInfo.version
-            };
-
-
-            item.ModVersions.Add(versionData);
-            IO_Utils.WriteToFile<ImalasVersionData_Dev>(item, filepath);
+                SgtLogger.l(ex.Message);
+            }
+#endif
         }
         public static void HandleVersionChecking(KMod.UserMod2 userMod)
         {
             RegisterCurrentVersion(userMod);
-            //TODO
+            CheckVersion(userMod);
+        }
+        public static void CheckVersion(KMod.UserMod2 userMod)
+        {
+
+
         }
     }
 }
