@@ -78,6 +78,7 @@ namespace UtilLibs.ModVersionCheck
                 {
                     var fetched = client.DownloadStringTaskAsync(VersionDataURL);
                     SgtLogger.l("mod version data fetched from github");
+                    await fetched;
                     ParseData(fetched.Result);
                 }
             }
