@@ -18,8 +18,15 @@ namespace UtilLibs.ModVersionCheck
         public const string Dev_File_Local = "ImalasModVersionData.json";
         public const string ModVersionDataKey_Server = "Sgt_Imalas_ServerVersionData";
         public const string ModVersionDataKey_Client = "Sgt_Imalas_ClientVersionData";
+        public const string VersionCheckerVersion = "Sgt_Imalas_UI_VersionData";
+        public const string UIInitializedKey = "Sgt_Imalas_UI_Initialized";
         public const string CurrentlyFetchingKey = "Sgt_Imalas_ModVersionData_CurrentlyFetching";
         public const string VersionDataURL = "https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/master/ModVersionData.json";
+
+        public const int CurrentVersion = 1;
+
+        public static bool OlderVersion => CurrentVersion < (PRegistry.GetData<int>(VersionCheckerVersion));
+
         public static void RegisterCurrentVersion(KMod.UserMod2 userMod)
         {
             var currentVersionData = PRegistry.GetData<Dictionary<string, string>>(ModVersionDataKey_Client);
@@ -27,6 +34,10 @@ namespace UtilLibs.ModVersionCheck
                 currentVersionData = new Dictionary<string, string>();
             currentVersionData[userMod.mod.staticID] = userMod.mod.packagedModInfo.version;
             PRegistry.PutData(ModVersionDataKey_Client, currentVersionData);
+
+            int currentMaxVersion = PRegistry.GetData<int>(VersionCheckerVersion);
+            if (currentMaxVersion< CurrentVersion)
+                PRegistry.PutData(VersionCheckerVersion, CurrentVersion);
 
             if (!userMod.mod.IsDev)
             {
@@ -60,8 +71,8 @@ namespace UtilLibs.ModVersionCheck
         }
         public static void HandleVersionChecking(KMod.UserMod2 userMod, Harmony harmony)
         {
-            OutdatedVersionInfoPatches.MainMenuMissingModsContainerInit.InitMainMenuInfoPatch(harmony);
             RegisterCurrentVersion(userMod);
+            OutdatedVersionInfoPatches.MainMenuMissingModsContainerInit.InitMainMenuInfoPatch(harmony);
             //CheckVersion(userMod);
             Task.Run(() => HandleDataFetching(userMod));
         }

@@ -1,5 +1,6 @@
 ﻿using Epic.OnlineServices.Platform;
 using HarmonyLib;
+using PeterHan.PLib.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace UtilLibs.ModVersionCheck
         {
             public static void InitMainMenuInfoPatch(Harmony harmony)
             {
+
                 var type = AccessTools.TypeByName("MainMenu");
                 if (type == null)
                 {
@@ -45,11 +47,18 @@ namespace UtilLibs.ModVersionCheck
             public static void Postfix(MainMenu __instance)
             {
 
-                if (__instance.transform.Find("UI Group/"+UICMPName)|| __instance.transform.Find(UICMPName) || !VersionChecker.ModsOutOfDate(50, out var infoString, out int linecount))
+                if (VersionChecker.OlderVersion
+                    ||__instance.transform.Find("UI Group/"+UICMPName)
+                    || __instance.transform.Find(UICMPName) 
+                    || !VersionChecker.ModsOutOfDate(50, out var infoString, out int linecount)
+                    
+                    )
                 {
                     //SgtLogger.l("version info already initiated");
                     return;
                 }
+
+                SgtLogger.l(PRegistry.GetData<int>(VersionChecker.VersionCheckerVersion).ToString(), "Current UI handler version:");
 
                 //UIUtils.ListAllChildrenPath(__instance.transform);
                 SgtLogger.l("grabbing ref.");
@@ -73,7 +82,9 @@ namespace UtilLibs.ModVersionCheck
 
                 GameObject parent = null; GameObject info = null;
                 int height = 75 + linecount * 20;
-                if (__instance.transform.Find("MainMenuMenubar/BottomRow") != null)
+                RectTransform.Edge verticalEdge = RectTransform.Edge.Top, horizontalEdge = RectTransform.Edge.Left;
+                int verticalInset = 250, horizontalInset = 25;
+                if (__instance.transform.Find("MainMenuMenubar/BottomRow") != null) ///BASE GAME
                 {
                     parent = __instance
                         //.transform.Find("MainMenuMenubar/BottomRow"
@@ -81,17 +92,24 @@ namespace UtilLibs.ModVersionCheck
                         //)
                         .gameObject;
                     info = Util.KInstantiateUI(_infoBox, parent, true);
-                    var rect = info.rectTransform();
-                    rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 250, height);
-                    rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 25, 300);
+                    //var rect = info.rectTransform();
+                    //rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 250, height);
+                    //rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 25, 295);
+                    verticalEdge = RectTransform.Edge.Bottom;
+                    horizontalEdge = RectTransform.Edge.Right;
+                    verticalInset = 245;
+                    horizontalInset = 25;
                 }
-                if(__instance.transform.Find("UI Group")!=null)
+                else if(__instance.transform.Find("UI Group")!=null) ///SPACED OUT
                 {
                     parent = __instance.transform.Find("UI Group").gameObject;
                     info = Util.KInstantiateUI(_infoBox, parent, true);
-                    var rect = info.rectTransform();
-                    rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 25, height);
-                    rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 325, 300);
+                    verticalEdge = RectTransform.Edge.Top;
+                    horizontalEdge = RectTransform.Edge.Left;
+                    //rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 25, height);
+                    //rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 325, 295);
+                    verticalInset = 25;
+                    horizontalInset = 325;
                 }
                 if(info!= null) 
                 {
@@ -100,7 +118,8 @@ namespace UtilLibs.ModVersionCheck
                     {
                         header.text = UIUtils.ColorText("Outdated Mods:", UIUtils.rgb(237, 89, 92));
                     }
-                    if (info.transform.Find("Description").gameObject.TryGetComponent<LocText>(out var desc))
+                    var text = info.transform.Find("Description");
+                    if (text.gameObject.TryGetComponent<LocText>(out var desc))
                     {
                         desc.text = infoString;// "The following mods are currently not on their latest version:...";
                     }
@@ -108,6 +127,10 @@ namespace UtilLibs.ModVersionCheck
                     {
                         info.transform.Find("BG").FindOrAddComponent<Outline>();
                     }
+                    RectTransform rect = info.rectTransform();
+
+                    rect.SetInsetAndSizeFromParentEdge(horizontalEdge, horizontalInset, 298);
+                    rect.SetInsetAndSizeFromParentEdge(verticalEdge , verticalInset, height );
                 }
             }
         }
