@@ -23,14 +23,14 @@ namespace SaveGameModLoader
         {
             harmonyInstance = harmony;
             ThisMod = this;
-            var LegacyModPath = FileSystem.Normalize(Path.Combine(Manager.GetDirectory(), "[ModSync]StoredModConfigs/"));
-            var LegacyModPacksPath = FileSystem.Normalize(Path.Combine(LegacyModPath, "[StandAloneModLists]/"));
+            var LegacyModPath = FileSystem.Normalize(Path.Combine(Manager.GetDirectory(), "[ModSync]StoredModConfigs"));
+            var LegacyModPacksPath = FileSystem.Normalize(Path.Combine(LegacyModPath, "[StandAloneModLists]"));
 
 
             SgtLogger.debuglog("Initializing file paths..");
-            ModAssets.ModPath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config/"), "[ModSync]StoredModConfigs/"));
-            ModAssets.ModPacksPath = FileSystem.Normalize(Path.Combine(ModAssets.ModPath, "[StandAloneModLists]/"));
-            ModAssets.ConfigPath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config/"), "MPM_Config.json"));
+            ModAssets.ModPath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"), "[ModSync]StoredModConfigs"));
+            ModAssets.ModPacksPath = FileSystem.Normalize(Path.Combine(ModAssets.ModPath, "[StandAloneModLists]"));
+            ModAssets.ConfigPath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"), "MPM_Config.json"));
 
             SgtLogger.debuglog(ModAssets.ModPath);
             SgtLogger.debuglog(ModAssets.ModPacksPath);
