@@ -6,6 +6,7 @@ using SaveGameModLoader.Patches;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -48,6 +49,14 @@ namespace SaveGameModLoader
             }
             UseSteamOverlay = KPlayerPrefs.GetInt(RegistryKey) == (int)BrowserChoice.steamOverlay;
         }
+
+        static List<string> forbiddenNames = new List<string>()
+        {
+            "CON", "PRN", "AUX", "NUL","COM1"
+            ,"COM2" ,"COM3" , "COM4", "COM5" , "COM6","COM7" , "COM8", "COM9" , "LPT1"
+            ,"LPT2" ,"LPT3" ,"LPT4" ,"LPT5" ,"LPT6" ,"LPT7" ,"LPT8" , "LPT9"
+        };
+
         public static string GetSanitizedNamePath(string source)
         {
             SgtLogger.l("Sanitizing...");
@@ -56,6 +65,13 @@ namespace SaveGameModLoader
             SgtLogger.l(source, "2");
             source = ReplaceInvalidChars(source);
             SgtLogger.l(source, "3");
+
+            if (forbiddenNames.Contains(source.ToUpperInvariant()))
+            {
+                SgtLogger.l("file name was one of the forbidden ones, replacing..");
+                source = Path.GetRandomFileName();
+                SgtLogger.l(source, "4");
+            }
 
             return source;
         }
