@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -47,8 +48,22 @@ namespace SaveGameModLoader
             }
             UseSteamOverlay = KPlayerPrefs.GetInt(RegistryKey) == (int)BrowserChoice.steamOverlay;
         }
+        public static string GetSanitizedNamePath(string source)
+        {
+            SgtLogger.l("Sanitizing...");
+            SgtLogger.l(source, "1");
+            source = Path.GetFileName(source);
+            SgtLogger.l(source, "2");
+            source = ReplaceInvalidChars(source);
+            SgtLogger.l(source, "3");
 
+            return source;
+        }
 
+        public static string ReplaceInvalidChars(string filename)
+        {
+            return string.Join("_", filename.Split(Path.GetInvalidFileNameChars()));
+        }
         public static void ReorderVisualModState(List<ModsScreen.DisplayedMod> displayedMods, List<KMod.Mod> mods)
         {
             ///no text entered => default sorting

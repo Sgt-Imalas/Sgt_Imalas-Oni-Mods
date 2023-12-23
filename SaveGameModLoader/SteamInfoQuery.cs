@@ -42,6 +42,8 @@ namespace SaveGameModLoader
 
         public static void AddModIdToQuery(string modIDstring, Action<string> callback)
         {
+            modIDstring = modIDstring.Replace(".Steam", string.Empty);
+
             if (FetchedModData.ContainsKey(modIDstring))
             {
                 if(callback!=null)
@@ -74,7 +76,8 @@ namespace SaveGameModLoader
             foreach (var id in ids)
             {
 
-                var isValidModId = ulong.TryParse(id, out var modId);
+                var purgedId = id.Replace(".Steam", string.Empty);
+                var isValidModId = ulong.TryParse(purgedId, out var modId);
                 if (isValidModId)
                 {
                     if (!modIdsToLookup.Contains(modId))
@@ -84,7 +87,7 @@ namespace SaveGameModLoader
                 }
                 else
                 {
-                    SgtLogger.warning(id + " was no valid modId");
+                    SgtLogger.warning(purgedId + " was no valid modId");
                 }
             }
 

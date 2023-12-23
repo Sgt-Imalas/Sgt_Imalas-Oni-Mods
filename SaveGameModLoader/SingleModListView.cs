@@ -173,7 +173,7 @@ namespace SaveGameModLoader
             {
                 var mod = allMissings[i];
                 SgtLogger.log("nr: " + i+ ", mod: "+ mod);
-                string modID = mod;
+                string modID = mod.Replace(".Steam",string.Empty);
                 if (true
                     //mod.distribution_platform == KMod.Label.DistributionPlatform.Steam
                     )
@@ -254,17 +254,31 @@ namespace SaveGameModLoader
         }
         static void UnSubMod(string modId)
         {
-            SteamUGC.UnsubscribeItem(new PublishedFileId_t(ulong.Parse(modId)));
+            modId = modId.Replace(".Steam", string.Empty);
+            if (ulong.TryParse(modId, out var mod))
+                SteamUGC.UnsubscribeItem(new PublishedFileId_t(mod));
+            else
+                SgtLogger.warning("unsubbing from " + modId + " failed!");
         }
 
         static void SubToMissingMod(string modId)
         {
-            SteamUGC.SubscribeItem(new PublishedFileId_t(ulong.Parse(modId)));
+            modId = modId.Replace(".Steam", string.Empty);
+
+            if (ulong.TryParse(modId, out var mod))
+                SteamUGC.SubscribeItem(new PublishedFileId_t(mod));
+            else
+                SgtLogger.warning("subscribing to " + modId + " failed!");
         }
 
         void OpenMissingMod(string modId)
         {
-            App.OpenWebURL("https://steamcommunity.com/sharedfiles/filedetails/?id=" + modId);
+            modId = modId.Replace(".Steam", string.Empty);
+
+            if (ModAssets.UseSteamOverlay && SteamUtils.IsOverlayEnabled())
+                SteamFriends.ActivateGameOverlayToWebPage("https://steamcommunity.com/sharedfiles/filedetails/?id=" + modId);
+            else
+                App.OpenWebURL("https://steamcommunity.com/sharedfiles/filedetails/?id=" + modId);
         }
 
         void MarkEntryAsMissing(Transform entry, string modId)

@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UtilLibs;
+using static STRINGS.BUILDING.STATUSITEMS.MEGABRAINTANK;
+using static STRINGS.UI.FRONTEND;
 
 namespace SaveGameModLoader
 {
@@ -54,7 +56,7 @@ namespace SaveGameModLoader
                 STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ENTERNAME
                 : STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ENTERCOLLECTIONLINK;
             CancelButtonGO.GetComponent<KButton>().onClick += new System.Action(((KScreen)this).Deactivate);
-            
+
 
             var ConfirmButton = ConfirmButtonGO.GetComponent<KButton>();
 
@@ -67,7 +69,7 @@ namespace SaveGameModLoader
                 ConfirmButton.onClick += () =>
                 {
                     HandleLink();
-                   //((KScreen)this).Deactivate();
+                    //((KScreen)this).Deactivate();
                 };// ImportModList(2854869130);
 
         }
@@ -82,10 +84,23 @@ namespace SaveGameModLoader
             }
             else
             {
-                if (ModlistManager.Instance.TryParseRML(cut, out SaveGameModList list))
+
+
+                if (ModlistManager.Instance.TryParseRML(cut, out var list) || ModlistManager.Instance.TryParseLog(cut, out list))
                 {
-                    parent.RefreshModlistView();
-                    CreatePopup(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.EXPORTCONFIRMATION, string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.EXPORTCONFIRMATIONTOOLTIP, new FileInfo(cut).Name, list.SavePoints.Last().Value.Count()));
+                    var doYouWantToImport = string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.IMPORTYESNO_LOCAL, ModAssets.GetSanitizedNamePath(cut), list.Count);
+
+                    KMod.Manager.Dialog(Global.Instance.globalCanvas,
+                    STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.VALIDCOLLECTIONHEADER_FILE, doYouWantToImport, null, () =>
+                    {
+                        ModlistManager.Instance.CreateOrAddToModPacks(ModAssets.GetSanitizedNamePath(cut), list);
+                        parent.RefreshModlistView();
+                        ((KScreen)this).Deactivate();
+                        CreatePopup(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.SUCCESSTITLE, string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ADDEDNEW, ModAssets.GetSanitizedNamePath(cut), list.Count()));
+                    }, null, () =>
+                    {
+                        ((KScreen)this).Deactivate();
+                    });
                 }
                 else
                     ThrowErrorPopup();
@@ -110,9 +125,9 @@ namespace SaveGameModLoader
         private CallResult<SteamUGCQueryCompleted_t> onMissingQueryComplete;
 
         private Callback<PersonaStateChange_t> personaState;
-        Constructable constructable ;
+        Constructable constructable;
 
-        
+
         class Constructable
         {
             public int GetProgress() => Progress;
@@ -122,13 +137,13 @@ namespace SaveGameModLoader
                 parentTwo = parent;
             }
 
-         /// <summary>
-         /// 0 == not started
-         /// 1 == mod ids & title fetched
-         /// 2 == author fetched
-         /// 3 == all missing mods noted;
-         /// 4 == all missing mod titles fetched
-         /// </summary>
+            /// <summary>
+            /// 0 == not started
+            /// 1 == mod ids & title fetched
+            /// 2 == author fetched
+            /// 3 == all missing mods noted;
+            /// 4 == all missing mod titles fetched
+            /// </summary>
             int Progress = 0;
             StoreModPackNameScreen parentTwo;
 
@@ -142,19 +157,19 @@ namespace SaveGameModLoader
 
             public void SetModIDsAndTitle(List<ulong> _mods, string title)
             {
-                if(Progress == 0) 
-                { 
+                if (Progress == 0)
+                {
                     mods.Clear();
-                    modIDs.AddRange(_mods); 
+                    modIDs.AddRange(_mods);
                     Title = title;
-                     ++Progress;
+                    ++Progress;
                 }
             }
             public void SetAuthorName(string name)
             {
                 if (Progress == 1)
                 {
-                    SgtLogger.log("adding Author: " +name);
+                    SgtLogger.log("adding Author: " + name);
                     authorName = name;
                     ++Progress;
                     InitModStats();
@@ -162,7 +177,8 @@ namespace SaveGameModLoader
             }
             public void InitModStats()
             {
-                if(Progress == 2) { 
+                if (Progress == 2)
+                {
                     var allMods = Global.Instance.modManager.mods.Select(mod => mod.label).ToList();
                     SgtLogger.log("adding known mods");
                     foreach (var id in modIDs)
@@ -187,7 +203,7 @@ namespace SaveGameModLoader
                     SgtLogger.log("all known mods added");
                     ++Progress;
                     SgtLogger.log("MissingCOunt: " + missingMods.Count);
-                    if(missingMods.Count>0)
+                    if (missingMods.Count > 0)
                         parentTwo.FindMissingModsQuery(missingMods);
                     else
                     {
@@ -195,9 +211,6 @@ namespace SaveGameModLoader
                         FinalizeConstructedList();
                     }
                 }
-                //ModlistManager.Instance.CreateOrAddToModPacks(ModListTitle, ModLabels);
-                //reference.RefreshModlistView();
-                //((KScreen)this).Deactivate();
             }
             public void InsertMissingIDs(List<Tuple<ulong, string>> missingMods)
             {
@@ -209,26 +222,40 @@ namespace SaveGameModLoader
                         KMod.Label mod = new();
                         mod.id = id.first.ToString();
                         mod.distribution_platform = KMod.Label.DistributionPlatform.Steam;
-                        
+
                         mod.title = id.second.ToString();
                         mod.version = 404;
                         mods.Add(mod);
                         SgtLogger.log(mod.title + ": " + mod.defaultStaticID);
                     }
                     SgtLogger.log("all unknown mods added");
-                    ++Progress; 
+                    ++Progress;
                     FinalizeConstructedList();
                 }
             }
             public void FinalizeConstructedList()
             {
-                var ModListTitle = string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.IMPORTEDTITLEANDAUTHOR, this.Title, this.authorName);
-                ModlistManager.Instance.CreateOrAddToModPacks(ModListTitle, mods);
-                parentTwo.parent.RefreshModlistView();
-                
-                Progress = 0;
-                ((KScreen)parentTwo).Deactivate();
-                CreatePopup(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.SUCCESSTITLE, string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ADDEDNEW, ModListTitle, mods.Count()));
+
+                var ModListTitle = string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.IMPORTEDTITLEANDAUTHOR, ModAssets.GetSanitizedNamePath(this.Title), this.authorName);
+                var doYouWantToImport = string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.IMPORTYESNO, ModAssets.GetSanitizedNamePath(this.Title), mods.Count);
+
+
+                KMod.Manager.Dialog(Global.Instance.globalCanvas,
+                STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.VALIDCOLLECTIONHEADER, doYouWantToImport, null, () =>
+                {
+                    ModlistManager.Instance.CreateOrAddToModPacks(ModListTitle, mods);
+                    parentTwo.parent.RefreshModlistView();
+                    Progress = 0;
+                    ((KScreen)parentTwo).Deactivate();
+                    CreatePopup(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.SUCCESSTITLE, string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ADDEDNEW, ModListTitle, mods.Count()));
+                }, null, () =>
+                {
+                    Progress = 0;
+                    ((KScreen)parentTwo).Deactivate();
+                });
+
+
+
             }
 
         }
@@ -239,11 +266,11 @@ namespace SaveGameModLoader
             {
                 SgtLogger.log("TryFetchingMissingMods, " + IDs.Count);
                 var list = new List<PublishedFileId_t>();
-                foreach(var id in IDs)
+                foreach (var id in IDs)
                 {
                     list.Add(new(id));
                 }
-                QueryUGCDetails(list.ToArray(),onMissingQueryComplete);
+                QueryUGCDetails(list.ToArray(), onMissingQueryComplete);
             }
         }
 
@@ -278,7 +305,7 @@ namespace SaveGameModLoader
 
                 SgtLogger.log("Try Parse ID: " + cut);
 
-                if (cut.Length<10 || !cut.All(Char.IsDigit)) 
+                if (cut.Length < 10 || !cut.All(Char.IsDigit))
                 {
                     ThrowErrorPopup(0);
                     return;
@@ -291,7 +318,7 @@ namespace SaveGameModLoader
 
                 SgtLogger.log("Try Parse ID: " + CollectionID);
 
-                if(CollectionID == 0)
+                if (CollectionID == 0)
                 {
                     ThrowErrorPopup(1);
                     return;
@@ -302,7 +329,7 @@ namespace SaveGameModLoader
             }
         }
 
-        static void CreatePopup( string title, string content)
+        static void CreatePopup(string title, string content)
         {
             KMod.Manager.Dialog(Global.Instance.globalCanvas,
                 title, content);
@@ -314,7 +341,7 @@ namespace SaveGameModLoader
             if (mods == null)
             {
                 SgtLogger.logError("Invalid Collection ID");
-                return; 
+                return;
             }
 
             SgtLogger.log(mods.Length + "< - count");
@@ -327,7 +354,7 @@ namespace SaveGameModLoader
                 SteamUGC.SetReturnLongDescription(handle, true);
 
                 var apiCall = SteamUGC.SendQueryUGCRequest(handle);
-                
+
                 if (apiCall != SteamAPICall_t.Invalid)
                 {
                     //SgtLogger.log("Apicall: " + apiCall);
@@ -338,7 +365,7 @@ namespace SaveGameModLoader
                 }
                 else
                 {
-                    SgtLogger.warning("Invalid API Call "+handle);
+                    SgtLogger.warning("Invalid API Call " + handle);
                     SteamUGC.ReleaseQueryUGCRequest(handle);
 
                 }
@@ -377,7 +404,7 @@ namespace SaveGameModLoader
             List<Tuple<ulong, string>> missingIds = new();
 
             ModListScreen reference = parent;
-               var result = callback.m_eResult;
+            var result = callback.m_eResult;
             var handle = callback.m_handle;
 
             List<ulong> ModList = new();
@@ -387,7 +414,7 @@ namespace SaveGameModLoader
             SgtLogger.log(ioError + " <- Error?");
             SgtLogger.log(EResult.k_EResultOK + " <- Result?");
 #endif
-            if(ioError)
+            if (ioError)
             {
                 ThrowErrorPopup(2);
                 return;
@@ -399,7 +426,8 @@ namespace SaveGameModLoader
                 {
                     if (SteamUGC.GetQueryUGCResult(handle, i, out SteamUGCDetails_t details))
                     {
-                        if (details.m_rgchTitle == string.Empty && details.m_unNumChildren == 0) {
+                        if (details.m_rgchTitle == string.Empty && details.m_unNumChildren == 0)
+                        {
                             SgtLogger.logwarning("could not parse mod data (mod is hidden).");
                             continue;
                         }
@@ -442,7 +470,7 @@ namespace SaveGameModLoader
 #if DEBUG
             SgtLogger.log("PRog: " + constructable.GetProgress());
 #endif
-            if (missingIds.Count > 0&&constructable.GetProgress()==3)
+            if (missingIds.Count > 0 && constructable.GetProgress() == 3)
             {
 #if DEBUG
                 SgtLogger.log("Inserting missing IDs");

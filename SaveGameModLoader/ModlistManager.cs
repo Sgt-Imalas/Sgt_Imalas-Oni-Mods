@@ -7,10 +7,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using YamlDotNet.Core.Events;
+using static KMod.Label;
 using static SaveGameModLoader.STRINGS.UI.FRONTEND;
 using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.EXPANSION1ACTIVE.LEVELS;
 
@@ -207,7 +209,7 @@ namespace SaveGameModLoader
             }
         }
 
-        internal bool TryParseRML(string path, out SaveGameModList list)
+        internal bool TryParseRML(string path, out List<Label> list)
         {
             SgtLogger.l(path, "trying to parse RML file");
             var fileInfo = new FileInfo(path);
@@ -227,16 +229,93 @@ namespace SaveGameModLoader
                         string jsonString = sr.ReadToEnd();
                         modsJSON modlist = JsonConvert.DeserializeObject<modsJSON>(jsonString);
 
-                        var enabledModLabels = modlist.mods.FindAll(mod => mod.IsEnabledForActiveDlc()).Select(mod => mod.label).ToList();
-                        ModlistManager.Instance.CreateOrAddToModPacks(fileInfo.Name, enabledModLabels);
-                        ModlistManager.Instance.GetAllModPacks();
-                        list = ModPacks[fileInfo.Name];
+                        list = modlist.mods.FindAll(mod => mod.IsEnabledForActiveDlc()).Select(mod => mod.label).ToList();
+                        //enabledModLabels = 
+
+                        //ModlistManager.Instance.CreateOrAddToModPacks(fileInfo.Name, enabledModLabels);
+                        //ModlistManager.Instance.GetAllModPacks();
+                        //list = ModPacks[fileInfo.Name];
                         return true;
                     }
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
-                    SgtLogger.warning("Parsing failed!");
+                    SgtLogger.warning("RML Parsing failed!");
+                    SgtLogger.warning(ex.Message);
+                    return false;
+                }
+            }
+        }
+        /// <summary>
+        /// Activate all mods inside list if possible
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        internal bool TryParseLog(string path, out List<Label> list)
+        {
+            SgtLogger.l(path, "trying to parse log file for mods");
+            var fileInfo = new FileInfo(path);
+            list = null;
+            if (!fileInfo.Exists)
+            {
+                SgtLogger.logwarning("no valid file found.");
+                return false;
+            }
+            else
+            {
+                FileStream filestream = fileInfo.OpenRead();
+                try
+                {
+                    SgtLogger.l("aaa");
+                    using (var sr = new StreamReader(filestream))
+                    {
+                        var parsedLabels = new List<KMod.Label>();
+                        while (!sr.EndOfStream)
+                        {
+                            var currentLine = sr.ReadLine();
+
+                            if (currentLine.Contains("-- MAIN MENU --"))
+                            {
+                                sr.ReadToEnd();
+                                break;
+                            }
+
+
+                            Regex getSize = new Regex(@"Loading mod content DLL \[(.*)(:)(.*)\]");
+                            MatchCollection matches = getSize.Matches(currentLine);
+                            if (matches.Count == 1)
+                            {
+                                GroupCollection results = matches[0].Groups;
+                                SgtLogger.l(results.Count+"");
+
+                                if (results.Count >= 4)
+                                {
+                                    bool workshopMod = ulong.TryParse(results[3].Value, out _);
+                                    var newLabel = new KMod.Label()
+                                    {
+                                        id = results[3].Value,
+                                        title = results[1].Value,
+                                        version = 404,
+                                        distribution_platform = workshopMod ? Label.DistributionPlatform.Steam : Label.DistributionPlatform.Local
+                                    };
+                                    //SgtLogger.l($"New Label: {newLabel.defaultStaticID}");
+                                    parsedLabels.Add(newLabel);
+                                }
+                            }
+                        }
+                        if (parsedLabels.Count == 0)
+                            return false;
+                        list = parsedLabels;
+
+                        //ModlistManager.Instance.CreateOrAddToModPacks(fileInfo.Name, parsedLabels);
+                        //ModlistManager.Instance.GetAllModPacks();
+                        //list = ModPacks[fileInfo.Name];
+                        return true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    SgtLogger.warning("Log Parsing failed!");
                     SgtLogger.warning(ex.Message);
                     return false;
                 }

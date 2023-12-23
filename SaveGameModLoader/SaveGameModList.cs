@@ -100,11 +100,14 @@ namespace SaveGameModLoader
             }
             else
             {
-                ReferencedColonySaveName = referencedColonySave;
-                ModlistPath = referencedColonySave;
+                ReferencedColonySaveName = ModAssets.GetSanitizedNamePath(referencedColonySave);
+                ModlistPath = ModAssets.GetSanitizedNamePath(referencedColonySave);
                 Type = DLCType.modPack;
             }
         }
+
+
+
 
         public static string GetModListFileName(string pathOfReference)
         {

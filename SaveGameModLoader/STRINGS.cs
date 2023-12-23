@@ -106,6 +106,15 @@ namespace SaveGameModLoader
 
                     public class POPUP
                     {
+                        public static LocString VALIDCOLLECTIONHEADER = "Steam Collection found";
+                        public static LocString IMPORTYESNO = "Do you want to import the Steam Collection \"{0}\" with {1} mods in it?";
+
+                        public static LocString VALIDCOLLECTIONHEADER_FILE = "File parsing successful";
+                        public static LocString IMPORTYESNO_LOCAL = "Do you want to import the the mod profile from \"{0}\" with {1} mods in it?";
+
+
+
+
                         public static LocString ERRORTITLE = "Could not import Collection";
                         public static LocString WRONGFORMAT = "Not a valid Collection link";
                         public static LocString PARSINGERROR = "Could not determine the workshop ID";
