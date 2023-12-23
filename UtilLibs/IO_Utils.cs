@@ -13,7 +13,7 @@ namespace UtilLibs
     {
         public static string ModPath => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         public static string ModsFolder => System.IO.Directory.GetParent(System.IO.Directory.GetParent(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)).FullName).ToString() + "\\"; 
-        public static string ConfigFolder => Path.Combine(ModsFolder,"config/");
+        public static string ConfigFolder => Path.Combine(ModsFolder,"config");
         public static bool ReadFromFile<T>(string FileOrigin, out T output, string forceExtensionTo = "")
         {
             var filePath = new FileInfo(FileOrigin);

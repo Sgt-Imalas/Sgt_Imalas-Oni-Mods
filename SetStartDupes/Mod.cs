@@ -24,7 +24,7 @@ namespace SetStartDupes
             new POptions().RegisterOptions(this, typeof(ModConfig));
 
             SgtLogger.debuglog("Initializing file paths..");
-            ModAssets.DupeTemplatePath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config/"),"DuplicantStatPresets/"));
+            ModAssets.DupeTemplatePath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"),"DuplicantStatPresets"));
             ModAssets.DupeGroupTemplatePath = FileSystem.Normalize(Path.Combine(ModAssets.DupeTemplatePath, "StartingLayoutPresets"));
             SgtLogger.debuglog(ModAssets.DupeTemplatePath,"Stat Preset Folder");
             SgtLogger.debuglog("Initializing folders..");

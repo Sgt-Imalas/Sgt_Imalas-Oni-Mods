@@ -18,7 +18,7 @@ namespace ClusterTraitGenerationManager
             ModAssets.LoadAssets(); 
             
             SgtLogger.debuglog("Initializing file paths..");
-            ModAssets.CustomClusterTemplatesPath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config/"), "CustomClusterPresetTemplates/"));
+            ModAssets.CustomClusterTemplatesPath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"), "CustomClusterPresetTemplates"));
 
 
             SgtLogger.debuglog("Initializing folders..");

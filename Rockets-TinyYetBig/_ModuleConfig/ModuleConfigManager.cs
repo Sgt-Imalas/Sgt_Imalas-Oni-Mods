@@ -41,7 +41,7 @@ namespace Rockets_TinyYetBig._ModuleConfig
         {
 
             SgtLogger.debuglog("Initializing file paths..");
-            ModuleConfigPath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config/"), "RocketryExpanded/"));
+            ModuleConfigPath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"), "RocketryExpanded"));
 
             SgtLogger.debuglog("Initializing folders..");
             try

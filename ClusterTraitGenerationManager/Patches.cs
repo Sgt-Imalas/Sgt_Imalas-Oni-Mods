@@ -445,8 +445,8 @@ namespace ClusterTraitGenerationManager
                 //    //SgtLogger.l(vorld, "WORLD");
                 //}
                 var hashSet = new HashSet<string>(referencedWorlds);
-                string path = SettingsCache.GetAbsoluteContentPath(DlcManager.GetHighestActiveDlcId(), "worldgen/");
-                var WorldFiles = new DirectoryInfo(FileSystem.Normalize(System.IO.Path.Combine(path, "worlds/"))).GetFiles("*.yaml");
+                string path = SettingsCache.GetAbsoluteContentPath(DlcManager.GetHighestActiveDlcId(), "worldgen");
+                var WorldFiles = new DirectoryInfo(FileSystem.Normalize(System.IO.Path.Combine(path, "worlds"))).GetFiles("*.yaml");
 
                 foreach (var WorldFile in WorldFiles)
                 {

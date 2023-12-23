@@ -19,10 +19,10 @@ namespace DupePrioPresetManager
             //new POptions().RegisterOptions(this, typeof(ModConfig));
 
             SgtLogger.debuglog("Initializing file paths..");
-            ModAssets.DupeTemplatePath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config/"), "DuplicantPriorityPresets/"));
+            ModAssets.DupeTemplatePath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"), "DuplicantPriorityPresets"));
             //SgtLogger.debuglog(ModAssets.DupeTemplatePath, "Priority Preset Folder");
-            ModAssets.FoodTemplatePath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config/"), "DuplicantConsumablePresets/"));
-            ModAssets.ScheduleTemplatePath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config/"), "DuplicantSchedulePresets/"));
+            ModAssets.FoodTemplatePath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"), "DuplicantConsumablePresets"));
+            ModAssets.ScheduleTemplatePath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"), "DuplicantSchedulePresets"));
 
 
             SgtLogger.debuglog("Initializing folders..");
