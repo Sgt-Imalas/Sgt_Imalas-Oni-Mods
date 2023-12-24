@@ -125,7 +125,7 @@ namespace OniRetroEdition
         }
 
         [HarmonyPatch]
-        ///Connects mesh and normal tiles
+        ///Connects mesh+airflow and normal tiles
         public static class ConnectingTiles
         {
             [HarmonyPostfix]

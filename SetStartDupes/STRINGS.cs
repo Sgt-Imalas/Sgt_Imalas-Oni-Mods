@@ -282,6 +282,12 @@ namespace SetStartDupes
                 public static LocString OTHERMODORIGINNAME = "Mysterious Origin (other mods)";
                 public static LocString TRAITBONUSPOOLTOOLTIP = "This Duplicant has {0} total interest bonus points\nThese come from the following trait boni:";
 
+                public static LocString TRAITBALANCEHEADER = "Current Trait Balance: {0}";
+                public static LocString BALANCE_BALANCED = "<b>balanced</b>";
+                public static LocString BALANCE_STRONGER = "<b>stronger</b>";
+                public static LocString BALANCE_WEAKER = "<b>weaker</b>";
+
+                public static LocString BALANCE_TOOLTIP = "The current trait composition is {0} compared to vanilla balancing.\nThe trait balance value is {1}, for vanilla balancing it's usually between -1 and 1\nBalance Composition:";
             }
             public class BUTTONS
             {

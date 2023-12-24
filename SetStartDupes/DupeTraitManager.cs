@@ -63,6 +63,12 @@ namespace SetStartDupes
         ToolTip interestBonusTooltipCMP;
         string InterestBonusTooltip;
 
+
+        LocText TraitBalanceHeader;
+        ToolTip TraitBalanceTooltipCMP;
+        string TraitBalanceTooltip;
+
+
         GameObject InterestContainer;
         GameObject TraitContainer;
         GameObject OverjoyedContainer;
@@ -198,6 +204,8 @@ namespace SetStartDupes
             tt1.enabled = true;
             tt1.SetSimpleTooltip(STRINGS.UI.BUTTONS.ADDTOSTATS);
 
+            
+            
             AddNewTrait = Util.KInstantiateUI(ModAssets.AddNewToTraitsButtonPrefab, TraitContainer, ModConfig.Instance.AddAndRemoveTraitsAndInterests);
             AddNewTrait.TryGetComponent<LayoutElement>(out var addtraitbtnLE);
             addtraitbtnLE.preferredWidth = 262;
@@ -209,7 +217,10 @@ namespace SetStartDupes
             tt2.SetSimpleTooltip(STRINGS.UI.BUTTONS.ADDTOSTATS);
 
             //UIUtils.TryChangeText(InterestPointBonus.transform, "", STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOL + " " + DupeTraitMng.PointPool);
-
+            //var TraitBalanceHeaderGO = Util.KInstantiateUI(SpacerPrefab, TraitContainer, true);
+            //TraitBalanceHeaderGO.name = "TraitBalanceInfoHeader";
+            //TraitBalanceHeader = TraitBalanceHeaderGO.GetComponent<LocText>();
+            //TraitBalanceTooltipCMP = UIUtils.AddSimpleTooltipToObject(TraitBalanceHeaderGO.gameObject, "tt");
             RebuildUI();
         }
 
@@ -505,8 +516,52 @@ namespace SetStartDupes
             {
                 UI_TraitEntries[t].transform.SetAsLastSibling();
             }
+
             AddNewTrait.transform.SetAsLastSibling();
+            UpdateTraitInfoHeader();
         }
+        void UpdateTraitInfoHeader()
+        {
+
+            return;
+            if (ToEditMinionStats == null|| TraitBalanceHeader == null)
+                return;
+            TraitBalanceHeader.transform.SetSiblingIndex(2);
+
+
+            TraitBalanceTooltip = string.Empty;
+
+            int totalRarityBalance = 0;
+            foreach (Trait trait in ToEditMinionStats.Traits)
+            {
+                var traitVal = DUPLICANTSTATS.GetTraitVal(trait.Id);
+
+                if (traitVal.id == DUPLICANTSTATS.INVALID_TRAIT_VAL.id)
+                    continue;
+
+                int rarity = trait.PositiveTrait ? -traitVal.rarity : traitVal.rarity;
+
+                totalRarityBalance += rarity;
+
+                if (rarity.ToString() != string.Empty)
+                {
+                    TraitBalanceTooltip += "\n" + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, trait.Name, rarity);
+                }
+            }
+            string balanceString=string.Empty;
+            if (totalRarityBalance >= -1 && totalRarityBalance <= 1)
+                balanceString = UIUtils.ColorText(STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_BALANCED, UIUtils.number_green);
+            else if(totalRarityBalance > 1)
+                balanceString = UIUtils.ColorText(STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_WEAKER, UIUtils.number_red);
+            else if (totalRarityBalance < -1)
+                balanceString = UIUtils.ColorText(STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_STRONGER, UIUtils.number_red);
+
+
+            TraitBalanceTooltip = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_TOOLTIP, balanceString,totalRarityBalance) + TraitBalanceTooltip;
+            TraitBalanceHeader.text = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAITBALANCEHEADER, balanceString);
+            TraitBalanceTooltipCMP.SetSimpleTooltip(TraitBalanceTooltip);
+        }
+
         void UpdateInterestSorting()
         {
             var interestsSorted = UI_InterestEntries.Keys.OrderBy(t => t.Name).ThenBy(t => t.Id).ToList();
