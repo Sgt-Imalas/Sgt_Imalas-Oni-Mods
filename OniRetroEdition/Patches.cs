@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TemplateClasses;
@@ -122,6 +123,25 @@ namespace OniRetroEdition
                 }
             }
         }
+
+        [HarmonyPatch]
+        ///Connects mesh and normal tiles
+        public static class ConnectingTiles
+        {
+            [HarmonyPostfix]
+            public static void Postfix(GameObject go)
+            {
+                go.AddOrGet<KAnimGridTileVisualizer>().blockTileConnectorID = TileConfig.BlockTileConnectorID;
+            }
+            [HarmonyTargetMethods]
+            internal static IEnumerable<MethodBase> TargetMethods()
+            {
+                const string name = nameof(IBuildingConfig.ConfigureBuildingTemplate);
+                yield return typeof(MeshTileConfig).GetMethod(name);
+                yield return typeof(GasPermeableMembraneConfig).GetMethod(name);
+            }
+        }
+
 
         /// <summary>
         /// fixing crash on end
