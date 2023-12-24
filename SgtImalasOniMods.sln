@@ -128,6 +128,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DupeStations", "DupeStation
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactorMeterFix", "ReactorMeterFix\ReactorMeterFix.csproj", "{AF7DB29E-78BC-480B-87AB-9C6E62C3A9CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilityGlass", "UtilityGlass\UtilityGlass.csproj", "{CAABA07B-CBD1-49E7-9E8F-49375108CDA1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -366,6 +368,10 @@ Global
 		{AF7DB29E-78BC-480B-87AB-9C6E62C3A9CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF7DB29E-78BC-480B-87AB-9C6E62C3A9CF}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{AF7DB29E-78BC-480B-87AB-9C6E62C3A9CF}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{CAABA07B-CBD1-49E7-9E8F-49375108CDA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAABA07B-CBD1-49E7-9E8F-49375108CDA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAABA07B-CBD1-49E7-9E8F-49375108CDA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAABA07B-CBD1-49E7-9E8F-49375108CDA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

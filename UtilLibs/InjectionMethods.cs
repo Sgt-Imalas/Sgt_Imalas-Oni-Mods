@@ -157,6 +157,7 @@ namespace UtilLibs
             AssetUtils.AddSpriteToAssets(instance, spriteid, overrideExisting);
         }
 
+
         public static void AddBuildingStrings(string buildingId, string name, string description = "", string effect = "")
         {
             Strings.Add($"STRINGS.BUILDINGS.PREFABS.{buildingId.ToUpperInvariant()}.NAME", STRINGS.UI.FormatAsLink(name, buildingId));

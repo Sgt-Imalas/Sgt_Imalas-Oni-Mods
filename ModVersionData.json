@@ -93,6 +93,10 @@
       "version": "1.0.0.0"
     },
     {
+      "staticID": "UtilityGlass",
+      "version": "1.0.0.0"
+    },
+    {
       "staticID": "ClusterTraitGenerationManager",
       "version": "4.0.0.0"
     },

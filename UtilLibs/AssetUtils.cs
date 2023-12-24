@@ -137,6 +137,77 @@ namespace UtilLibs
             }
         }
 
+        public static string baseAtlasFolder = Path.Combine("assets","customatlastiles");
+        public static void AddCustomTileTops(BuildingDef def, string name, bool shiny = false, string decorInfo = "tiles_glass_tops_decor_info", string existingPlaceID = null, string existingSpecID = null)
+        {
+            var info = UnityEngine.Object.Instantiate(global::Assets.GetBlockTileDecorInfo(decorInfo));
+
+            // base
+            if (info is object)
+            {
+                info.atlas = GetCustomAtlas($"{name}_tiles_tops", baseAtlasFolder, info.atlas);
+                def.DecorBlockTileInfo = info;
+            }
+
+            // placement
+            if (existingPlaceID.IsNullOrWhiteSpace())
+            {
+                var placeInfo = UnityEngine.Object.Instantiate(global::Assets.GetBlockTileDecorInfo(decorInfo));
+                placeInfo.atlas = GetCustomAtlas($"{name}_tiles_tops_place", baseAtlasFolder, placeInfo.atlas);
+                def.DecorPlaceBlockTileInfo = placeInfo;
+            }
+            else
+            {
+                def.DecorPlaceBlockTileInfo = global::Assets.GetBlockTileDecorInfo(existingPlaceID);
+            }
+
+            // specular
+            if (shiny)
+            {
+                string id = existingSpecID.IsNullOrWhiteSpace() ? $"{name}_tiles_tops_spec" : existingSpecID;
+                info.atlasSpec = GetCustomAtlas(id, baseAtlasFolder, info.atlasSpec);
+            }
+        }
+        public static void AddCustomTileAtlas(BuildingDef def, string name, bool shiny = false, string referenceAtlas = "tiles_metal")
+        {
+            TextureAtlas reference = global::Assets.GetTextureAtlas(referenceAtlas);
+
+            // base
+            def.BlockTileAtlas = GetCustomAtlas($"{name}_tiles", baseAtlasFolder, reference);
+
+            // place
+            def.BlockTilePlaceAtlas = GetCustomAtlas($"{name}_tiles_place", baseAtlasFolder, reference);
+
+            // specular
+            if (shiny)
+            {
+                def.BlockTileShineAtlas = GetCustomAtlas($"{name}_tiles_spec", baseAtlasFolder, reference);
+            }
+        }
+        public static TextureAtlas GetCustomAtlas(string fileName, string folder, TextureAtlas tileAtlas)
+        {
+            string path = UtilMethods.ModPath;
+
+            if (folder != null)
+            {
+                path = Path.Combine(path, folder);
+            }
+
+            var tex = LoadTexture(fileName, path);
+
+            if (tex == null)
+            {
+                return null;
+            }
+
+            TextureAtlas atlas;
+            atlas = ScriptableObject.CreateInstance<TextureAtlas>();
+            atlas.texture = tex;
+            atlas.scaleFactor = tileAtlas.scaleFactor;
+            atlas.items = tileAtlas.items;
+
+            return atlas;
+        }
         public static AssetBundle LoadAssetBundle(string assetBundleName, string path = null, bool platformSpecific = false)
         {
             foreach (var bundle in AssetBundle.GetAllLoadedAssetBundles())
