@@ -159,6 +159,8 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
         {
             if (Grid == null)
                 return;
+            var currentLayout = CGSMClusterManager.GeneratedLayout;
+            Grid.MapRadius = currentLayout.numRings;
             Grid.UpdateBgGrid();
             Grid.UpdateActiveItemsPositions();
         }

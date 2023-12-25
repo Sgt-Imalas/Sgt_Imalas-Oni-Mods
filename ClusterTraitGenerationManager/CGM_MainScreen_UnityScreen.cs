@@ -1898,8 +1898,6 @@ namespace ClusterTraitGenerationManager
                 RebuildSoStarmap();
                 SpacedOutStarmap.RebuildGrid();
                 UpdateStartButton();
-
-                
             }
         }
 
@@ -2138,7 +2136,8 @@ namespace ClusterTraitGenerationManager
                 CustomCluster.SetRings(newRings);
                 this.RefreshGallery();
                 this.RefreshDetails();
-                if (DlcManager.IsExpansion1Active()) ResetSOStarmap();
+                if (DlcManager.IsExpansion1Active()) 
+                    ResetSOStarmap();
             };
             UIUtils.AddSimpleTooltipToObject(ClusterSize.transform.parent.Find("Descriptor"), CLUSTERSIZESLIDER.DESCRIPTOR.TOOLTIP);
 
