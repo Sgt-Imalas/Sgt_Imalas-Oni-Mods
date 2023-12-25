@@ -26,6 +26,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             public Image ownImage;
             public Vector3 DragStartPosition;
             HexGrid _grid;
+
             public void Init(string Id, HexGrid grid)
             {
                 this.poiId = Id;
@@ -140,7 +141,9 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
 
         private bool _init = false;
         private bool wasActive = false;
-
+        private bool _tearOnMap = false;
+        public bool TearOnMap => _tearOnMap;
+        public System.Action OnGridChanged=null;
 
         public void SetActive(bool active, bool isInit = false)
         {
@@ -179,9 +182,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             {
                 item.gameObject.SetActive(filterstring == string.Empty ? true : item.poiName.ToLowerInvariant().Contains(filterstring.ToLowerInvariant()));
             }
-            ToolboxItems[ModAssets.TeapotId].gameObject.SetActive(!CGSMClusterManager.CustomCluster.HasTeapot);
-            ToolboxItems[ModAssets.TemporalTearId].gameObject.SetActive(!CGSMClusterManager.CustomCluster.HasTear);
-
+            OnMissingChanged();
         }
         public void ClearFilter()
         {
@@ -194,14 +195,23 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             {
                 item.SetMissing(true);
             }
-
+            _tearOnMap = false;
+            bool hasTeaPot = false;
             foreach (var item in Grid.ActiveItems.Values)
             {
                 if (ToolboxItems.ContainsKey(item.ID))
                 {
                     ToolboxItems[item.ID].SetMissing(false);
                 }
+                if (item.ID == ModAssets.TeapotId)
+                    hasTeaPot = true;
+                else if(item.ID == ModAssets.TemporalTearId)
+                    _tearOnMap = true;
             }
+            ToolboxItems[ModAssets.TeapotId].gameObject.SetActive(!hasTeaPot);
+            ToolboxItems[ModAssets.TemporalTearId].gameObject.SetActive(!_tearOnMap);
+            if (OnGridChanged != null)
+                OnGridChanged();
         }
 
 

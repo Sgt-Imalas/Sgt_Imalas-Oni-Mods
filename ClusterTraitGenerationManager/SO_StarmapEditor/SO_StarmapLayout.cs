@@ -8,14 +8,50 @@ using static ResearchTypes;
 using UnityEngine;
 using Klei.CustomSettings;
 using UtilLibs;
+using PeterHan.PLib.UI;
 
 namespace ClusterTraitGenerationManager.SO_StarmapEditor
 {
     public class SO_StarmapLayout
     {
-        public Dictionary<AxialI,string> OverridePlacements = new();
-        public bool GenerationPossible=false;//not used rn; determines if any of the planets wasnt able to be placed
-        public bool UsingCustomLayout=false;
+        public Dictionary<AxialI, string> OverridePlacements = new();
+        public bool GenerationPossible => _generationPossible;
+        private bool _generationPossible = false;
+        public string FailedGenerationPlanetId => _failedGenerationPlanetId;
+        private string _failedGenerationPlanetId = string.Empty;
+
+        public bool UsingCustomLayout => _usingCustomLayout;
+        private bool _usingCustomLayout = false;
+        public bool EncasedPlanet(out string encasedId)
+        {
+            HashSet<AxialI> planetPlacements = new HashSet<AxialI>();
+            foreach(var entry in OverridePlacements)
+            {
+                if (!ModAssets.SO_POIs.ContainsKey(entry.Value))
+                {
+                    planetPlacements.Add(entry.Key);
+                }
+            }
+            var directions = AxialI.DIRECTIONS;
+
+            foreach (AxialI planet in planetPlacements)
+            {
+                for (int i = 0; i < directions.Count; ++i)
+                {
+                    if (!planetPlacements.Contains(planet + directions[i]))
+                        break;
+
+                    if (i == directions.Count - 1)
+                    {
+                        encasedId = OverridePlacements[planet];
+                        return true;
+                    }
+                }
+            }
+            encasedId = string.Empty;
+            return false;
+        }
+
 
         public SO_StarmapLayout(int seed)
         {
@@ -24,31 +60,31 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
 
         public void ResetCustomPlacements(int seed)
         {
-            UsingCustomLayout = false;
+            _usingCustomLayout = false;
             GeneratePlacementOverrides(seed);
         }
 
         public void AddPOI(string id, AxialI newPlace)
         {
-            UsingCustomLayout = true;
+            _usingCustomLayout = true;
             OverridePlacements.Add(newPlace, id);
         }
         public void MovePOI(string id, AxialI original, AxialI newPlace)
         {
-            UsingCustomLayout = true;
+            _usingCustomLayout = true;
             OverridePlacements.Remove(original);
             OverridePlacements.Add(newPlace, id);  
         }
         public void RemovePOI(AxialI original)
         {
-            UsingCustomLayout = true;
+            _usingCustomLayout = true;
             OverridePlacements.Remove(original);
         }
 
         void GeneratePlacementOverrides(int seed)
         {
             OverridePlacements.Clear();
-            GenerationPossible = AssignClusterLocations(seed);
+            _generationPossible = AssignClusterLocations(seed);
         }
 
         /// <summary>
@@ -56,6 +92,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
         /// </summary>
         public bool AssignClusterLocations(int seed)
         {
+            _failedGenerationPlanetId = string.Empty;
             var myRandom = new SeededRandom(seed);
             ClusterLayout clusterLayout = CGSMClusterManager.GeneratedLayout;
             List<WorldPlacement> asteroidPlacements = new List<WorldPlacement>(clusterLayout.worldPlacements);
@@ -112,13 +149,13 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
                     continue;
                 }
 
-               // string text = "Could not find a spot in the cluster for " + worldGen.Settings.world.filePath + " EVEN AFTER REDUCING BUFFERS. Check the placement settings in " + Id + ".yaml to ensure there are no conflicts.";
-               // DebugUtil.LogErrorArgs(text);
+                // string text = "Could not find a spot in the cluster for " + worldGen.Settings.world.filePath + " EVEN AFTER REDUCING BUFFERS. Check the placement settings in " + Id + ".yaml to ensure there are no conflicts.";
+                // DebugUtil.LogErrorArgs(text);
                 //if (!worldGen.isRunningDebugGen)
                 //{
                 //    currentWorld.ReportWorldGenError(new Exception(text));
                 //}
-
+                _failedGenerationPlanetId = worldPlacement.world;
                 return false;
             }
             if (DlcManager.FeatureClusterSpaceEnabled() && poiPlacements != null)
