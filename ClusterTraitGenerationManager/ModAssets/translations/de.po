@@ -22,7 +22,7 @@ msgstr ""
 #. ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGM.NAME
 msgctxt "ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGM.NAME"
 msgid "CGM Custom Cluster"
-msgstr "CGM Kluster"
+msgstr "CGM Custom Cluster"
 
 #. ClusterTraitGenerationManager.STRINGS.ERRORMESSAGES.MISSINGWORLD
 msgctxt "ClusterTraitGenerationManager.STRINGS.ERRORMESSAGES.MISSINGWORLD"
@@ -760,6 +760,78 @@ msgstr ""
 "Wenn du den Bereich auf 3 - 8 setzt, wird der Himmelskörper  zufällig "
 "zwischen 3 und 8 Feldern vom Zentrum der Sternenkarte entfernt erzeugt."
 
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.POI_ALLOWDUPLICATES.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.POI_ALLOWDUPLICATES.LABEL"
+msgid "Allow Spawning Duplicates:"
+msgstr "Duplikate erlaubt:"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.POI_ALLOWDUPLICATES.TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.POI_ALLOWDUPLICATES.TOOLTIP"
+msgid ""
+"When enabled, a POI from the POI pool can generate multiple times from this "
+"POI group."
+msgstr ""
+"Wenn aktiviert, kann ein Sternkartenziel in dieser Gruppe mehrfach generiert "
+"werden."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.POI_AVOIDCLUMPING.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.POI_AVOIDCLUMPING.LABEL"
+msgid "Avoid Clumping:"
+msgstr "Verklumpen vermeiden:"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.POI_AVOIDCLUMPING.TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.POI_AVOIDCLUMPING.TOOLTIP"
+msgid ""
+"When enabled, POIs generated from this group cannot generate adjacent to "
+"other POIs."
+msgstr ""
+"Wenn aktiviert, können Sternkartenziele in dieser Gruppe nicht direkt neben "
+"anderen Zielen generieren."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.SO_POIGROUP_CONTAINER.ADDPOIBUTTON.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.SO_POIGROUP_CONTAINER.ADDPOIBUTTON.LABEL"
+msgid "Add new POI to group"
+msgstr "Neues Ziel zur Gruppe hinzufügen"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.SO_POIGROUP_CONTAINER.GROUPHEADER.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.SO_POIGROUP_CONTAINER.GROUPHEADER.LABEL"
+msgid "POIs in this Group:"
+msgstr "Ziele in dieser Gruppe:"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.SO_POIGROUP_CONTAINER.POICONTAINER.SCROLLAREA.CONTENT.NOPOIS.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.SO_POIGROUP_CONTAINER.POICONTAINER.SCROLLAREA."
+"CONTENT.NOPOIS.LABEL"
+msgid "No POIs in this group..."
+msgstr "Keine Ziele in dieser Gruppe..."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.SO_POIGROUP_REMOVE.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.SO_POIGROUP_REMOVE.LABEL"
+msgid "Delete this POI Group"
+msgstr "Diese Sternkartengruppe entfernen"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.SO_POIGROUP_REMOVE.TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.SO_POIGROUP_REMOVE.TOOLTIP"
+msgid "Delete the currently selected POI group from the custom cluster."
+msgstr "Lösche die ausgewählte Sternkartenziel-Gruppe aus dem Cluster."
+
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.STARMAPITEMENABLED.LABEL
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
@@ -819,6 +891,17 @@ msgctxt ""
 msgid "No Resources here.."
 msgstr "Keine Resourcen hier..."
 
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.VANILLAPOI_RESOURCES.DISTANCELABEL_DLC
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.VANILLAPOI_RESOURCES.DISTANCELABEL_DLC"
+msgid ""
+"POI-Group {0}\n"
+"Spawns {1} of these POIs at Distance {2} to {3}:"
+msgstr ""
+"Sternkartenziel-Gruppe {0}\n"
+"Erzeugt {1} dieser Ziele in Distanz {2} bis {3}:"
+
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.VANILLAPOI_RESOURCES.MODIFYPOIBTN.MODIFYPOI.TEXT
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
@@ -853,6 +936,13 @@ msgctxt ""
 "CONTENT.SCROLLRECTCONTAINER.VANILLAPOI_RESOURCES.SELECTEDDISTANCE"
 msgid "{0} at {1} {2}"
 msgstr "{0} bei {1} {2}"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.VANILLAPOI_RESOURCES.SELECTEDDISTANCE_SO
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.VANILLAPOI_RESOURCES.SELECTEDDISTANCE_SO"
+msgid "{0} in Group {1}"
+msgstr "{0} in Gruppe {1}"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.VANILLAPOI_RESOURCES.VANILLAPOI_ARTIFACT.ARTIFACTRATES.AMAZING
 msgctxt ""
@@ -960,6 +1050,62 @@ msgstr ""
 "ausgewählten Parametern.\n"
 "Die Generierung modifizierter Cluster wird nur aktiviert, wenn dieser Knopf "
 "hier verwendet wird."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER.BUTTONS.GENERATECLUSTERBUTTON.TOOLTIP_CLUSTERPLACEMENTFAILED
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER."
+"BUTTONS.GENERATECLUSTERBUTTON.TOOLTIP_CLUSTERPLACEMENTFAILED"
+msgid ""
+"The current asteroid placement rules do not allow a spot for all asteroids "
+"on the starmap.\n"
+"Please adjust your asteroid placement rules or reduce the total amount of "
+"asteroids!"
+msgstr ""
+"Die aktuellen Regeln für die Platzierung von Asteroiden lassen nicht für "
+"alle Asteroiden einen Platz auf der Sternenkarte zu.\n"
+"Bitte passe die Regeln für die Platzierung von Asteroiden an oder reduziere "
+"die Gesamtzahl der Asteroiden!"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER.BUTTONS.GENERATECLUSTERBUTTON.TOOLTIP_CLUSTERPLACEMENTFAILED_ASTEROID
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER."
+"BUTTONS.GENERATECLUSTERBUTTON.TOOLTIP_CLUSTERPLACEMENTFAILED_ASTEROID"
+msgid ""
+"The current asteroid placement rules for the {0} currently fail to place the "
+"asteroid on the starmap.\n"
+"Please adjust its placements or reduce the total amount of asteroids!"
+msgstr ""
+"Die aktuellen Platzierungsregeln des Asteroiden {0} führen dazu, dass dieser "
+"nicht auf der Sternenkarte platziert werden kann.\n"
+"Bitte passe die Platzierungsregeln an oder reduziere die Gesamtanzahl der "
+"Asteroiden!"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER.BUTTONS.GENERATECLUSTERBUTTON.TOOLTIP_CLUSTERPLACEMENTFAILED_COMETS
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER."
+"BUTTONS.GENERATECLUSTERBUTTON.TOOLTIP_CLUSTERPLACEMENTFAILED_COMETS"
+msgid ""
+"The current asteroid placement rules do not allow meteors to reach the {0}.\n"
+"This would cause a crash on the spawn of the first meteor shower that tries "
+"to target this unreachable asteroid.\n"
+"Please adjust your starmap placements!"
+msgstr ""
+"Die aktuellen Regeln für die Platzierung von Asteroiden lassen es nicht zu, "
+"dass Meteoriten den {0} erreichen können.\n"
+"Dies würde zu einem Absturz beim Spawn des ersten Meteoritenschauers führen, "
+"der versucht, diesen unerreichbaren Asteroiden anzuvisieren.\n"
+"Bitte passen Sie Ihre Asteroidenplatzierungen an!"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER.BUTTONS.GENERATECLUSTERBUTTON.TOOLTIP_CLUSTERPLACEMENTFAILED_TEAR
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER."
+"BUTTONS.GENERATECLUSTERBUTTON.TOOLTIP_CLUSTERPLACEMENTFAILED_TEAR"
+msgid ""
+"There is currently no temporal tear on the starmap.\n"
+"Please add a temporal tear to the starmap!"
+msgstr ""
+"Derzeit gibt es keinen Zeitriss auf der Sternenkarte.\n"
+"Bitte füge einen Zeitriss auf der Sternenkarte hinzu!"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER.BUTTONS.PRESETBUTTON.TEXT
 msgctxt ""
@@ -1075,6 +1221,62 @@ msgctxt ""
 msgid "Currently selected [STARMAPITEMTYPE]: {0}"
 msgstr "Momentan ausgewählter [STARMAPITEMTYPE]: {0}"
 
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL_LOCATION
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER."
+"LABEL_LOCATION"
+msgid "Current [STARMAPITEMTYPE]: {0} at {1}"
+msgstr "Momentan ausgewählter [STARMAPITEMTYPE]: {0} bei {1}"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.FOOTER.TOOLBOX.BOXOFPOI.INPUT.TEXTAREA.PLACEHOLDER
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION."
+"FOOTER.TOOLBOX.BOXOFPOI.INPUT.TEXTAREA.PLACEHOLDER"
+msgid "Enter Text to filter POIs"
+msgstr "Text eingeben um Sternkartenziele zu filtern"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.FOOTER.TOOLBOX.BOXOFPOI.INPUT.TEXTAREA.TEXT
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION."
+"FOOTER.TOOLBOX.BOXOFPOI.INPUT.TEXTAREA.TEXT"
+msgid ""
+msgstr ""
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.FOOTER.TOOLBOX.BOXOFPOI.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION."
+"FOOTER.TOOLBOX.BOXOFPOI.LABEL"
+msgid "Drag POI here to delete."
+msgstr "Hier hinziehen zum löschen."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.FOOTER.TOOLBOX.BOXOFPOI.POINOTINSTARMAP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION."
+"FOOTER.TOOLBOX.BOXOFPOI.POINOTINSTARMAP"
+msgid "This POI is currently not present on the starmap"
+msgstr "Dieses Ziel ist momentan nicht auf der Sternenkarte vertreten"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.FOOTER.TOOLBOX.TRASHCANCONTAINER.INPUT.TEXT
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION."
+"FOOTER.TOOLBOX.TRASHCANCONTAINER.INPUT.TEXT"
+msgid ""
+msgstr ""
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.FOOTER.TOOLBOX.TRASHCANCONTAINER.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION."
+"FOOTER.TOOLBOX.TRASHCANCONTAINER.LABEL"
+msgid "Drag POI here to delete."
+msgstr "Drag POI here to delete."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.FOOTER.TOOLBOX.TRASHCANCONTAINER.SHOWPERMALABELS.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION."
+"FOOTER.TOOLBOX.TRASHCANCONTAINER.SHOWPERMALABELS.LABEL"
+msgid "Show Names"
+msgstr "Namen zeigen"
+
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.HEADER.LABEL
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION."
@@ -1086,6 +1288,13 @@ msgstr "[STARMAPITEMTYPEPL] in dieser Kategorie:"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION."
 "VANILLASTARMAPCONTENT.VANILLASTARMAPCONTAINER.ADDMISSINGPOI.LABEL"
+msgid "Add another POI group"
+msgstr "Neue Sternkartenziel-Gruppe hinzufügen"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.VANILLASTARMAPCONTENT.VANILLASTARMAPCONTAINER.ADDMISSINGPOI.LABEL_BASEGAME
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION."
+"VANILLASTARMAPCONTENT.VANILLASTARMAPCONTAINER.ADDMISSINGPOI.LABEL_BASEGAME"
 msgid "Add missing POIs ({0} missing)"
 msgstr "Alle fehlenden Sternkartenziele hinzufügen ({0} fehlen)"
 
@@ -1191,6 +1400,13 @@ msgctxt ""
 "HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TEXT"
 msgid "Generate new Preset"
 msgstr "Generiere neues Preset"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TEXT_STARTSCREEN
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM."
+"HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TEXT_STARTSCREEN"
+msgid "Cluster Preset"
+msgstr "Cluster Preset"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP
 msgctxt ""
@@ -1416,14 +1632,14 @@ msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_POI."
 "DESCRIPTION"
 msgid ""
-"Choose an amount of POIs at random.\n"
+"Chooses a random POI during worldgen.\n"
 "\n"
 "Does not roll unique POIs\n"
 "(Temporal Tear, Russel's Teapot)"
 msgstr ""
-"Wähle eine Anzahl zufällig ausgewählter Sehenswürdigkeiten.\n"
+"Wähle eine Anzahl zufällig ausgewählter Sternkartenziele.\n"
 "\n"
-"Kann keine einmaligen Sehenswürdigkeiten generieren\n"
+"Kann keine einmaligen Sternkartenziele generieren\n"
 "(Zeitriss, Russells Teekanne)"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_POI.NAME
@@ -1473,10 +1689,30 @@ msgctxt ""
 msgid "Asteroids"
 msgstr "Asteroiden"
 
+#. ClusterTraitGenerationManager.STRINGS.UI.STARMAPITEMDESCRIPTOR.NOPOISAVAILABLE
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.STARMAPITEMDESCRIPTOR."
+"NOPOISAVAILABLE"
+msgid "No more available POI types."
+msgstr "Keine weiteren Sternkartenziel-Typen verfügbar."
+
 #. ClusterTraitGenerationManager.STRINGS.UI.STARMAPITEMDESCRIPTOR.POI
 msgctxt "ClusterTraitGenerationManager.STRINGS.UI.STARMAPITEMDESCRIPTOR.POI"
 msgid "Point of Interest"
 msgstr "Sehenswürdigkeit"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.STARMAPITEMDESCRIPTOR.POI_GROUP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.STARMAPITEMDESCRIPTOR.POI_GROUP"
+msgid "POI Group"
+msgstr "Sternkartenziel-Gruppe"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.STARMAPITEMDESCRIPTOR.POI_GROUP_PLURAL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.STARMAPITEMDESCRIPTOR."
+"POI_GROUP_PLURAL"
+msgid "POI Groups"
+msgstr "Sternkartenziel-Gruppen"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.STARMAPITEMDESCRIPTOR.POIPLURAL
 msgctxt ""
