@@ -16,7 +16,7 @@ namespace UtilityGlass
 
         public override BuildingDef CreateBuildingDef()
         {
-            float[] tieR2 = new float[2]{50f,50f};
+            float[] tieR2 = new float[2]{50f,100f};
             string[] transparents = new string[2] { "Transparent" ,"Steel"};
             EffectorValues none = NOISE_POLLUTION.NONE;
             EffectorValues tieR0 = BUILDINGS.DECOR.BONUS.TIER0;
