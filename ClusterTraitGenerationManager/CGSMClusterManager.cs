@@ -1942,14 +1942,27 @@ namespace ClusterTraitGenerationManager
                 return;
 
             var items = GetPOIGroups(Reference);
+            bool resettingSingle = singleItemId != string.Empty;
             foreach (var item in items)
             {
-                if (singleItemId != string.Empty && item.id != singleItemId)
+                if (resettingSingle && item.id != singleItemId)
                 {
                     continue;
                 }
                 CustomCluster.POIs[item.id] = item;
             }
+            if(CGM_Screen != null)
+            {
+                if (resettingSingle && CustomCluster.HasStarmapItem(singleItemId, out var item))
+                {
+                    CGM_Screen.SelectItem(item);
+                }
+                else
+                {
+                    CGM_Screen.DeselectCurrentItem();
+                }
+            }
+
             CustomCluster.SO_Starmap = new SO_StarmapLayout(CurrentSeed);
 
             if (CGM_Screen != null)

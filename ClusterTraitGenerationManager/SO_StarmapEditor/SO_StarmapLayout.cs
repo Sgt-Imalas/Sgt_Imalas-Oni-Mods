@@ -22,6 +22,8 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
 
         public bool UsingCustomLayout => _usingCustomLayout;
         private bool _usingCustomLayout = false;
+        public void SetUsingCustomLayout() => _usingCustomLayout = true;
+
         public bool EncasedPlanet(out string encasedId)
         {
             HashSet<AxialI> planetPlacements = new HashSet<AxialI>();

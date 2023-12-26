@@ -23,6 +23,20 @@ using static STRINGS.UI.TOOLS;
 
 namespace ClusterTraitGenerationManager
 {
+    public class SO_POI_DataEntry
+    {
+        public int x, y;
+        public string itemId;
+        public SO_POI_DataEntry(AxialI point, string _itemId)
+        {
+            x = point.R;
+            y = point.Q; 
+            itemId = _itemId;
+        }
+        [JsonIgnore]
+        public AxialI locationData => new AxialI(x, y);
+    }
+
     internal class CustomClusterSettingsPreset
     {
         public string FileName;
@@ -34,6 +48,7 @@ namespace ClusterTraitGenerationManager
         public SerializableStarmapItem WarpPlanet;
         public Dictionary<string, SerializableStarmapItem> OuterPlanets;
         public Dictionary<string, SerializableStarmapItem> POIs;
+        public List<SO_POI_DataEntry> SO_POI_Overrides;
         public Dictionary<int, List<string>> VanillaStarmapLocations;
         public Dictionary<string, string> StoryTraits;
         public List<string> BlacklistedTraits;
@@ -59,6 +74,12 @@ namespace ClusterTraitGenerationManager
             if(!DlcManager.IsExpansion1Active())
             {
                 VanillaStarmapLocations = new Dictionary<int, List<string>>(data.VanillaStarmapItems);
+               
+            }
+            else if (data.SO_Starmap != null && data.SO_Starmap.UsingCustomLayout)
+            {
+                SO_POI_Overrides = new List<SO_POI_DataEntry>();
+                data.SO_Starmap.OverridePlacements.ToList().ForEach(entry => SO_POI_Overrides.Add(new SO_POI_DataEntry(entry.Key,entry.Value)));
             }
         }
 
@@ -586,6 +607,14 @@ namespace ClusterTraitGenerationManager
                 cluster.VanillaStarmapItems.Clear();
                 cluster.VanillaStarmapItems = new Dictionary<int, List<string>>(this.VanillaStarmapLocations);
             }
+            else if (SO_POI_Overrides != null) 
+            {
+                SgtLogger.l("applying custom spacemap");
+                cluster.SO_Starmap.OverridePlacements = new Dictionary<AxialI, string>();
+                this.SO_POI_Overrides.ForEach(entry => cluster.SO_Starmap.OverridePlacements[entry.locationData] = entry.itemId);
+                cluster.SO_Starmap.SetUsingCustomLayout();
+            }
+
         }
         void ApplyDataToStarmapItem(SerializableStarmapItem item, StarmapItem reciverToLookup)
         {

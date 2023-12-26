@@ -80,11 +80,7 @@ namespace ClusterTraitGenerationManager
         Dictionary<CustomClusterSettingsPreset, GameObject> Presets = new Dictionary<CustomClusterSettingsPreset, GameObject>();
         //List<GameObject> InformationObjects = new List<GameObject>();
 
-        Dictionary<int, Tuple<FButton, LocText, Image>> ScheduleBlocks = new Dictionary<int, Tuple<FButton, LocText, Image>>();
         LocText TitleHolder = null;
-        Image IsActiveAsDefaultSchedule = null;
-        FButton IsActiveAsDefaultScheduleBtn = null;
-        Image IsActiveAsDefaultScheduleBG = null;
 
         string RefName;
 
@@ -103,6 +99,7 @@ namespace ClusterTraitGenerationManager
             Instance.RefName = refName;
             Instance.LoadTemporalPreset(toLoadFrom);
             Instance.OnCloseAction = onClose;
+            Instance.GeneratePresetButton.SetInteractable(CGM_Screen.GenerationPossible);
             Instance.Searchbar.Text = string.Empty;
         }
 
@@ -167,7 +164,9 @@ namespace ClusterTraitGenerationManager
                 }
                 catch (Exception e)
                 {
-                    SgtLogger.logError("Couln't load cgm preset from: " + File.FullName + ",\nError: " + e.ToString());
+                    Debug.LogWarning(File.Name);
+                    Debug.LogWarning(e.ToString());
+                    //SgtLogger.logError("Couln't load cgm preset from: " + File.Name + ",\nError: " + e.ToString());
                 }
             }
             minionStatConfigs = minionStatConfigs.OrderBy(entry => entry.ConfigName).ToList();

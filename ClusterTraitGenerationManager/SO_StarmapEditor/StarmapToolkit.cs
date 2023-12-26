@@ -143,7 +143,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
         private bool wasActive = false;
         private bool _tearOnMap = false;
         public bool TearOnMap => _tearOnMap;
-        public System.Action OnGridChanged=null;
+        public System.Action OnGridChanged = null;
 
         public void SetActive(bool active, bool isInit = false)
         {
@@ -169,11 +169,14 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
         {
             HexGridGO.SetActive(active);
             FooterGO.SetActive(active);
-            var currentLayout = CGSMClusterManager.GeneratedLayout;
-            Grid.MapRadius = currentLayout.numRings;
-            Grid.UpdateBgGrid();
-            Grid.UpdateActiveItemsPositions();
-            ClearFilter();
+            if (DlcManager.IsExpansion1Active())
+            {
+                var currentLayout = CGSMClusterManager.GeneratedLayout;
+                Grid.MapRadius = currentLayout.numRings;
+                Grid.UpdateBgGrid();
+                Grid.UpdateActiveItemsPositions();
+                ClearFilter();
+            }
         }
         public void ApplyFilter(string filterstring = "")
         {
@@ -188,12 +191,12 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
         }
         public void ClearFilter()
         {
-            if(POIFilterTextInput!=null)
-            POIFilterTextInput.Text = string.Empty ;
+            if (POIFilterTextInput != null)
+                POIFilterTextInput.Text = string.Empty;
         }
         public void OnMissingChanged()
         {
-            foreach(var item in ToolboxItems.Values)
+            foreach (var item in ToolboxItems.Values)
             {
                 item.SetMissing(true);
             }
@@ -207,7 +210,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
                 }
                 if (item.ID == ModAssets.TeapotId)
                     hasTeaPot = true;
-                else if(item.ID == ModAssets.TemporalTearId)
+                else if (item.ID == ModAssets.TemporalTearId)
                     _tearOnMap = true;
             }
             ToolboxItems[ModAssets.TeapotId].gameObject.SetActive(!hasTeaPot);
