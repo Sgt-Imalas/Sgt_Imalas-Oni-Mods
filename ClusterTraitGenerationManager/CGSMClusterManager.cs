@@ -1906,10 +1906,28 @@ namespace ClusterTraitGenerationManager
                 }
             }
 
+            
+
+            LastPresetGenerated = clusterID;
+            RegeneratePOIDataFrom(clusterID, singleItemId);
+
+
+        }
+        public static void RegenerateAllPOIData() => RegeneratePOIDataFrom(LastPresetGenerated);
+
+        public static void RegeneratePOIDataFrom(string clusterID, string singleItemId = "")
+        {
+            ClusterLayout Reference = SettingsCache.clusterLayouts.GetClusterData(clusterID);
+            if (LastPresetGenerated == null|| LastPresetGenerated.Length == 0)
+                return;
+
+
             if (singleItemId == string.Empty)
             {
                 CustomCluster.defaultOuterPlanets = Reference.worldPlacements.Count;
                 CustomCluster.POIs.Clear();
+                CustomCluster.SetRings(Reference.numRings - 1, true);
+                SgtLogger.l("Resetting all POIs");
             }
             else
             {
@@ -1917,9 +1935,8 @@ namespace ClusterTraitGenerationManager
                 {
                     CustomCluster.POIs.Remove(singleItemId);
                 }
+                SgtLogger.l("Resetting POI: "+ singleItemId);
             }
-
-            LastPresetGenerated = clusterID;
 
             if (Reference.poiPlacements == null)
                 return;
@@ -1938,9 +1955,12 @@ namespace ClusterTraitGenerationManager
             if (CGM_Screen != null)
             {
                 CGM_Screen.PresetApplied = false;
-                CGM_Screen.RebuildStarmap(true);
+                if(!DlcManager.IsExpansion1Active())
+                    CGM_Screen.RebuildStarmap(true);
             }
         }
+
+
 
         public static bool RerollVanillaStarmapWithSeedChange = true;
         public static bool RerollTraitsWithSeedChange = true;

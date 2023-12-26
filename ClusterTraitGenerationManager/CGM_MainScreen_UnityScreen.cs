@@ -1279,6 +1279,7 @@ namespace ClusterTraitGenerationManager
 
             ClusterSize.transform.parent.gameObject.SetActive(DlcActive);
             ClusterSize.SetMinMaxCurrent(ringMin, ringMax, CustomCluster.Rings);
+            //ClusterSize.SetInteractable(SelectedCategory != StarmapItemCategory.SpacedOutStarmap);
             SeedRerollsVanillaStarmapToggle.gameObject.SetActive(!DlcActive);
 
 
@@ -1929,6 +1930,9 @@ namespace ClusterTraitGenerationManager
         {
             if (DlcManager.IsExpansion1Active())
             {
+                if(reset)
+                    RegenerateAllPOIData();
+
                 ResetSOStarmap();
             }
             else
