@@ -30,7 +30,7 @@ namespace ClusterTraitGenerationManager
         public SO_POI_DataEntry(AxialI point, string _itemId)
         {
             x = point.R;
-            y = point.Q; 
+            y = point.Q;
             itemId = _itemId;
         }
         [JsonIgnore]
@@ -71,15 +71,15 @@ namespace ClusterTraitGenerationManager
             {
                 POIs.Add(poi.Key, SerializableStarmapItem.InitPOI(poi.Value));
             }
-            if(!DlcManager.IsExpansion1Active())
+            if (!DlcManager.IsExpansion1Active())
             {
                 VanillaStarmapLocations = new Dictionary<int, List<string>>(data.VanillaStarmapItems);
-               
+
             }
             else if (data.SO_Starmap != null && data.SO_Starmap.UsingCustomLayout)
             {
                 SO_POI_Overrides = new List<SO_POI_DataEntry>();
-                data.SO_Starmap.OverridePlacements.ToList().ForEach(entry => SO_POI_Overrides.Add(new SO_POI_DataEntry(entry.Key,entry.Value)));
+                data.SO_Starmap.OverridePlacements.ToList().ForEach(entry => SO_POI_Overrides.Add(new SO_POI_DataEntry(entry.Key, entry.Value)));
             }
         }
 
@@ -482,7 +482,7 @@ namespace ClusterTraitGenerationManager
         }
 
 
-        public void OpenPopUpToChangeName(System.Action callBackAction = null,GameObject parentOverride = null)
+        public void OpenPopUpToChangeName(System.Action callBackAction = null, GameObject parentOverride = null)
         {
             if (parentOverride == null) parentOverride = FrontEndManager.Instance.gameObject;
 
@@ -587,32 +587,42 @@ namespace ClusterTraitGenerationManager
                 if (poi.Value.pois == null)
                 {
                     SgtLogger.l("legacy poi " + poi.Key + " found");
-                    cluster.AddLegacyPOIGroup(poi.Key,  poi.Value.minRing, poi.Value.maxRing, poi.Value.numberToSpawn);
+                    cluster.AddLegacyPOIGroup(poi.Key, poi.Value.minRing, poi.Value.maxRing, poi.Value.numberToSpawn);
                 }
                 else
                 {
-                    cluster.AddPoiGroup(poi.Key,new ProcGen.SpaceMapPOIPlacement()
+                    cluster.AddPoiGroup(poi.Key, new ProcGen.SpaceMapPOIPlacement()
                     {
                         allowedRings = new ProcGen.MinMaxI(poi.Value.minRing, poi.Value.maxRing),
                         pois = poi.Value.pois,
                         canSpawnDuplicates = poi.Value.allowDuplicates,
                         avoidClumping = poi.Value.avoidClumping,
-                        numToSpawn = (int) Mathf.FloorToInt(poi.Value.numberToSpawn)
+                        numToSpawn = (int)Mathf.FloorToInt(poi.Value.numberToSpawn)
 
                     }, poi.Value.numberToSpawn);
                 }
             }
-            if (!DlcManager.IsExpansion1Active() && VanillaStarmapLocations != null)
+            if (!DlcManager.IsExpansion1Active())
             {
-                cluster.VanillaStarmapItems.Clear();
-                cluster.VanillaStarmapItems = new Dictionary<int, List<string>>(this.VanillaStarmapLocations);
+                if (VanillaStarmapLocations != null)
+                {
+                    cluster.VanillaStarmapItems.Clear();
+                    cluster.VanillaStarmapItems = new Dictionary<int, List<string>>(this.VanillaStarmapLocations);
+                }
             }
-            else if (SO_POI_Overrides != null) 
+            else
             {
-                SgtLogger.l("applying custom spacemap");
-                cluster.SO_Starmap.OverridePlacements = new Dictionary<AxialI, string>();
-                this.SO_POI_Overrides.ForEach(entry => cluster.SO_Starmap.OverridePlacements[entry.locationData] = entry.itemId);
-                cluster.SO_Starmap.SetUsingCustomLayout();
+                if (SO_POI_Overrides != null)
+                {
+                    SgtLogger.l("applying custom spacemap");
+                    cluster.SO_Starmap.OverridePlacements = new Dictionary<AxialI, string>();
+                    this.SO_POI_Overrides.ForEach(entry => cluster.SO_Starmap.OverridePlacements[entry.locationData] = entry.itemId);
+                    cluster.SO_Starmap.SetUsingCustomLayout();
+                }
+                else
+                {
+                    cluster.SO_Starmap = null;
+                }
             }
 
         }

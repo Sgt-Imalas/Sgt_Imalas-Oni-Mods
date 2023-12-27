@@ -714,7 +714,7 @@ namespace ClusterTraitGenerationManager
                     pois = new List<string> { key },
                     numToSpawn = 1,
                     avoidClumping = false,
-                    canSpawnDuplicates = false
+                    canSpawnDuplicates = numberToSpawn > 1
                 };
                 return AddPoiGroup(GetPOIGroupId(placement, true), placement, numberToSpawn);
             }
@@ -1673,11 +1673,24 @@ namespace ClusterTraitGenerationManager
                 if (log)
                     poi.Value.placementPOI.pois.ForEach(poi => SgtLogger.l(poi, "poi in group"));
 
+                if(poi.Value.placementPOI.pois.Count == 0)
+                {
+                    continue;
+                }
+
+
+                if (poi.Value.placementPOI.pois.Count < poi.Value.placementPOI.numToSpawn)
+                    poi.Value.placementPOI.canSpawnDuplicates = true;
+
+
+
                 if (log)
-                    SgtLogger.l($"\navoidClumping: {poi.Value.placementPOI.avoidClumping},\nallowDuplicates: {poi.Value.placementPOI.canSpawnDuplicates},\nRings: {poi.Value.placementPOI.allowedRings.ToString()}\nNumberToSpawn: {poi.Value.placementPOI.numToSpawn}", "POIGroup " + poi.Key.Substring(0, 8));
+                    SgtLogger.l($"\navoidClumping: {poi.Value.placementPOI.avoidClumping},\nallowDuplicates: {poi.Value.placementPOI.canSpawnDuplicates},\nRings: {poi.Value.placementPOI.allowedRings}\nNumberToSpawn: {poi.Value.placementPOI.numToSpawn}", "POIGroup " + poi.Key.Substring(0, 8));
 
-
-                layout.poiPlacements.Add(poi.Value.placementPOI);
+                if(poi.Value.placementPOI.numToSpawn >= 1)
+                {
+                    layout.poiPlacements.Add(poi.Value.placementPOI);
+                }
             }
 
             if (log)

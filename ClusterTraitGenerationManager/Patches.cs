@@ -32,6 +32,7 @@ using Klei;
 using static STRINGS.UI.CLUSTERMAP;
 using System.Security.Cryptography;
 using System.IO;
+using static ResearchTypes;
 
 namespace ClusterTraitGenerationManager
 {
@@ -1518,10 +1519,18 @@ namespace ClusterTraitGenerationManager
         [HarmonyPatch(typeof(Cluster), nameof(Cluster.AssignClusterLocations))]
         public static class Cluster_StarmapInit_Patch
         {
+            
             public static void Postfix(bool __result, Cluster __instance)
             {
 
-                if (!__result || !CGSMClusterManager.LoadCustomCluster || CGSMClusterManager.CustomCluster == null || !DlcManager.IsExpansion1Active() || CustomCluster.SO_Starmap == null || CustomCluster.SO_Starmap.UsingCustomLayout==false) return;
+                //SgtLogger.l($"{!CGSMClusterManager.LoadCustomCluster}, {CGSMClusterManager.CustomCluster == null}, {!DlcManager.IsExpansion1Active()}, {CustomCluster.SO_Starmap == null},{CustomCluster.SO_Starmap.UsingCustomLayout == false} ");
+
+                //SgtLogger.l("AssignClusterLocationsPostfix");
+                if (   !CGSMClusterManager.LoadCustomCluster 
+                    || CGSMClusterManager.CustomCluster == null 
+                    || !DlcManager.IsExpansion1Active() 
+                    || CustomCluster.SO_Starmap == null 
+                    || CustomCluster.SO_Starmap.UsingCustomLayout == false) return;
 
                 SgtLogger.l("Applying CGM custom starmap");
                 __instance.poiPlacements.Clear();
@@ -1530,6 +1539,8 @@ namespace ClusterTraitGenerationManager
 
                 foreach (var placementData in CustomCluster.SO_Starmap.OverridePlacements)
                 {
+                    SgtLogger.l(placementData.Value);
+
                     int pos = worldPlacements.FindIndex(placement => placement.world == placementData.Value);
                     if (pos != -1)
                     {
