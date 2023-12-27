@@ -1,0 +1,73 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TUNING;
+using UnityEngine;
+
+namespace Rockets_TinyYetBig.RocketFueling
+{
+    internal class VerticalAdapterPieceConfig : IBuildingConfig
+    {
+        public const string ID = "RTB_VerticalAdapterPiece";
+        public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+        public override BuildingDef CreateBuildingDef()
+        {
+
+            string[] Materials = new string[]
+            {
+                MATERIALS.REFINED_METAL
+            };
+            float[] MaterialCosts = new float[] { 150f };
+
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(
+                    ID,
+                    1,
+                    1,
+                    "farmtilerotating_kanim",
+                    30,
+                    15f,
+                    MaterialCosts,
+                    Materials,
+                    1600f,
+                    BuildLocationRule.Anywhere,
+                    noise: NOISE_POLLUTION.NONE,
+                    decor: BUILDINGS.DECOR.PENALTY.TIER0);
+
+            //BuildingTemplates.CreateLadderDef(buildingDef);
+            buildingDef.SceneLayer = Grid.SceneLayer.Building;
+            //buildingDef.ForegroundLayer = Grid.SceneLayer.TileMain;
+            //buildingDef.ForegroundLayer = Grid.SceneLayer.FXFront;
+            //buildingDef.OverheatTemperature = 2273.15f;
+            buildingDef.Floodable = false;
+            buildingDef.Overheatable = false;
+            buildingDef.Entombable = false;
+            buildingDef.DefaultAnimState = "on";
+            buildingDef.AudioCategory = "Metal";
+            buildingDef.AudioSize = "small";
+            buildingDef.BaseTimeUntilRepair = -1f;
+
+            buildingDef.ObjectLayer = ObjectLayer.Building;
+            buildingDef.CanMove = false;
+            return buildingDef;
+        }
+        public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
+        {
+            GeneratedBuildings.MakeBuildingAlwaysOperational(go);
+            BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
+
+
+            go.AddOrGet<VerticalPortAttachment>();
+            KPrefabID component = go.GetComponent<KPrefabID>();
+            component.AddTag(ModAssets.Tags.VerticalPortAttachementPoint);
+            component.AddTag(BaseModularLaunchpadPortConfig.LinkTag);
+            component.AddTag(GameTags.ModularConduitPort);
+
+            go.AddOrGet<AnimTileable>();
+        }
+        public override void DoPostConfigureComplete(GameObject go)
+        {
+        }
+    }
+}

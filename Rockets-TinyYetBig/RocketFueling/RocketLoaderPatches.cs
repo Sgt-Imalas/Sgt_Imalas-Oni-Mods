@@ -50,8 +50,8 @@ namespace Rockets_TinyYetBig.RocketFueling
         //        }
 
         [HarmonyPatch(typeof(ChainedBuilding.StatesInstance))]
-        [HarmonyPatch("CollectNeighbourToChain")]
-        public static class HeadBuildingTagAdjustmentsInChainMethod_VerticalityAdditions
+        [HarmonyPatch(nameof(ChainedBuilding.StatesInstance.CollectNeighbourToChain))]
+        public static class HeadBuildingTagAdjustmentsInChainMethod
         {
             public static bool Prefix(
                 ChainedBuilding.StatesInstance __instance,
@@ -67,35 +67,52 @@ namespace Rockets_TinyYetBig.RocketFueling
                 go.TryGetComponent<KPrefabID>(out var component);
 
 
-
-                if (
-                    (!component.HasTag(__instance.def.linkBuildingTag)&& !component.HasTag(__instance.def.headBuildingTag))
+                if ((!component.HasTag(__instance.def.linkBuildingTag) && !component.HasTag(__instance.def.headBuildingTag))
                     || Grid.CellToXY(Grid.PosToCell(__instance)).y != Grid.CellToXY(Grid.PosToCell(go)).y
                     )
                     return false;
 
-                //SgtLogger.l($"{Grid.CellToXY(Grid.PosToCell(__instance)).y} == {Grid.CellToXY(Grid.PosToCell(go)).y}");
-
-                if (__instance.gameObject != null && __instance.gameObject.TryGetComponent<AttachableBuilding>(out var attachPoint))
+                if (__instance.gameObject != null && __instance.gameObject.TryGetComponent<VerticalPortAttachment>(out var verticalPortAttachment))
                 {
-                    foreach (var part in AttachableBuilding.GetAttachedNetwork(attachPoint))
-                    {
-                        if (part.GetSMI<ChainedBuilding.StatesInstance>() != null && part.TryGetComponent<KPrefabID>(out var linkedPrefabId)
-                            && (linkedPrefabId.HasTag(__instance.def.linkBuildingTag) || linkedPrefabId.HasTag(__instance.def.headBuildingTag))
-                            )
-                        {
-                            part.GetSMI<ChainedBuilding.StatesInstance>()?.CollectToChain(ref chain, ref foundHead, ignoredLink);
-                        }
-
-                    }
+                    verticalPortAttachment.PropagateCollectionEvents(ref chain, ref foundHead, ignoredLink);
+                    //foreach (var part in VerticalPortAttachment.GetNetwork(verticalPortAttachment))
+                    //{
+                    //    if (part.chainedBuilding != null
+                    //        && part.TryGetComponent<KPrefabID>(out var linkedPrefabId)
+                    //        && (linkedPrefabId.HasTag(__instance.def.linkBuildingTag) || linkedPrefabId.HasTag(__instance.def.headBuildingTag))
+                    //        && !chain.Contains(part.chainedBuilding)
+                    //        )
+                    //    {
+                    //        SgtLogger.l("colleccting....");
+                    //        part.chainedBuilding?.CollectToChain(ref chain, ref foundHead, ignoredLink);
+                    //    }
+                    //}
                 }
 
+
                 go.GetSMI<ChainedBuilding.StatesInstance>()?.CollectToChain(ref chain, ref foundHead, ignoredLink);
-
-
                 return false;
             }
         }
+
+
+        //[HarmonyPatch(typeof(ChainedBuilding.StatesInstance))]
+        //[HarmonyPatch(nameof(ChainedBuilding.StatesInstance.CollectToChain))]
+        //public static class VerticalConnectionForRocketPorts
+        //{
+        //    public static void Postfix(
+        //        ChainedBuilding.StatesInstance __instance,
+        //        ref HashSetPool<ChainedBuilding.StatesInstance, ChainedBuilding.StatesInstance>.PooledHashSet chain,
+        //        ref bool foundHead,
+        //        ChainedBuilding.StatesInstance ignoredLink = null)
+        //    {
+        //        if ((ignoredLink != null && ignoredLink == __instance) || chain.Contains(__instance))
+        //            return;
+
+                
+        //    }
+        //}
+
 
         [HarmonyPatch(typeof(LaunchPadConfig))]
         [HarmonyPatch("ConfigureBuildingTemplate")]
@@ -116,7 +133,7 @@ namespace Rockets_TinyYetBig.RocketFueling
         {
             public static void Postfix(GameObject go)
             {
-                go.GetComponent<KPrefabID>().AddTag(ModAssets.Tags.RocketPlatformTag);
+                //go.GetComponent<KPrefabID>().AddTag(ModAssets.Tags.RocketPlatformTag);
 
                 ChainedBuilding.Def def = go.AddOrGetDef<ChainedBuilding.Def>();
                 def.headBuildingTag = ModAssets.Tags.RocketPlatformTag;

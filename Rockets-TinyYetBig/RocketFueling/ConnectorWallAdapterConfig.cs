@@ -90,6 +90,10 @@ namespace Rockets_TinyYetBig.RocketFueling
             def.objectLayer = ObjectLayer.Building;
             go.AddOrGet<AnimTileable>();
         }
-        public override void DoPostConfigureComplete(GameObject go) => go.GetComponent<KPrefabID>().AddTag(GameTags.FloorTiles);
+        public override void DoPostConfigureComplete(GameObject go)
+        {
+
+            go.GetComponent<KPrefabID>().AddTag(GameTags.FloorTiles);
+        }
     }
 }

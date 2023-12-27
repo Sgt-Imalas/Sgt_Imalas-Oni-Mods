@@ -40,7 +40,18 @@ namespace Rockets_TinyYetBig.Patches
         //        }
         //    }
         //}
+        //[HarmonyPatch(typeof(Sim))]
+        //[HarmonyPatch(nameof(Sim.Start))]
+        //public static class IncreaseFreeGridSpaceOnSaving
+        //{
+        //    public static void Prefix()
+        //    {
+        //        GridSettings.Reset(Grid.WidthInCells, Grid.HeightInCells+1000);
+        //        if (UnityEngine.Application.isPlaying)
+        //            Singleton<KBatchedAnimUpdater>.Instance.InitializeGrid();
 
-        
+        //        Sim.AllocateCells(Grid.WidthInCells, Grid.HeightInCells);
+        //    }
+        //}
     }
 }

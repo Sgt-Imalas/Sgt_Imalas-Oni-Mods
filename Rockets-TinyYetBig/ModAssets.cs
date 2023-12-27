@@ -417,6 +417,8 @@ namespace Rockets_TinyYetBig
         }
         public class Tags
         {
+            public static Tag VerticalPortAttachementPoint = TagManager.Create("RTB_verticalPortAttachmentPoint");
+
             public static Tag IsSpaceStation = TagManager.Create("RTB_isSpaceStationInteriorWorld");
 
             public static Tag SpaceStationOnlyInteriorBuilding = TagManager.Create("RTB_SpaceStationInteriorOnly");
