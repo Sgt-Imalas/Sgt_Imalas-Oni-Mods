@@ -85,10 +85,11 @@ namespace UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders
         public RectTransform MinHandle { get => minHandle; set => minHandle = value; }
         public RectTransform MaxHandle { get => maxHandle; set => maxHandle = value; }
         public RectTransform MiddleGraphic { get => middleGraphic; set => middleGraphic = value; }
-        public TextMeshProUGUI MinText { get => minText; set => minText = value; }
-        public TextMeshProUGUI MaxText { get => maxText; set => maxText = value; }
+        public LocText MinText;
+        public LocText MaxText;
+        public LocText MinMaxText;
+        public string MinMaxTextFormat = "{0}, {1}";
 
-        
 
 
         /// <summary>
@@ -149,14 +150,13 @@ namespace UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders
             this.minValue = wholeNumbers ? Mathf.RoundToInt(minValue) : minValue;
             this.maxValue = wholeNumbers ? Mathf.RoundToInt(maxValue) : maxValue;
             SetLimits(minLimit, maxLimit);
-            //SgtLogger.l($"min:{minValue}, max: {maxValue}+minlimit:{minLimit}, maxLimit:{maxLimit}");
+            //SgtLogger.l($"minmaxSlider updated: min:{minValue}, max: {maxValue}+minlimit:{minLimit}, maxLimit:{maxLimit}");
             RefreshSliders();
-            UpdateText();
             UpdateMiddleGraphic();
+            UpdateText();
 
             if (notify)
             {
-                // event
                 onValueChanged.Invoke(this.minValue, this.maxValue);
             }
         }
@@ -185,14 +185,18 @@ namespace UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders
 
         private void UpdateText()
         {
-            if (minText)
+            if (minText != null)
             {
                 minText.SetText(minValue.ToString(textFormat));
             }
 
-            if (maxText)
+            if (maxText != null)
             {
                 maxText.SetText(maxValue.ToString(textFormat));
+            }
+            if (MinMaxText != null)
+            {
+                MinMaxText.SetText(string.Format(MinMaxTextFormat,minValue,MaxValue));
             }
         }
 

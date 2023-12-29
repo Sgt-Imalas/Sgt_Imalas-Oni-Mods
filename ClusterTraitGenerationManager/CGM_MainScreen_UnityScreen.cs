@@ -1232,18 +1232,18 @@ namespace ClusterTraitGenerationManager
                 RemoveSOSinglePOI(groupId, poiId);
             };
 
-            POIGroup_Entries.Add(poiId, entry);
+            POIGroup_Entries.Add(new(poiId, entry));
         }
         void UpdateSO_POIGroup()
         {
             selectionHeaderLabel.SetText(ModAssets.Strings.ApplyCategoryTypeToString(string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL, CurrentStarmapItem.DisplayName), SelectedCategory));
             POIGroup_AllowDuplicates.SetOn(CurrentStarmapItem.placementPOI.canSpawnDuplicates);
             POIGroup_AvoidClumping.SetOn(CurrentStarmapItem.placementPOI.avoidClumping);
-            var allItems = POIGroup_Entries.Keys.ToList();
+            var allItems = POIGroup_Entries;
 
             for (int i = allItems.Count - 1; i >= 0; i--)
             {
-                Destroy(POIGroup_Entries[allItems[i]].gameObject);
+                Destroy(POIGroup_Entries[i].second);
             }
             POIGroup_Entries.Clear();
 
@@ -1353,9 +1353,9 @@ namespace ClusterTraitGenerationManager
 
                     PlanetSizeWidth.SetInteractable(IsPartOfCluster && planetCategorySelected);
                     PlanetSizeHeight.SetInteractable(IsPartOfCluster && planetCategorySelected);
-                    if (!HexGridSelection)
-                        MinMaxDistanceSlider.SetValues(current.minRing, current.maxRing, 0, CustomCluster.Rings, false);
-                    SpawnDistanceText.SetText(string.Format(MINMAXDISTANCE.DESCRIPTOR.FORMAT, (int)current.minRing, (int)current.maxRing));
+                    //if (!HexGridSelection)
+                    //    MinMaxDistanceSlider.SetValues(current.minRing, current.maxRing, 0, CustomCluster.Rings, false);
+                    //SpawnDistanceText.SetText(string.Format(MINMAXDISTANCE.DESCRIPTOR.FORMAT, (int)current.minRing, (int)current.maxRing));
 
                     if (!HexGridSelection)
                     {
@@ -1363,8 +1363,6 @@ namespace ClusterTraitGenerationManager
                     }
                     BufferDistance.transform.parent.gameObject.SetActive(!current.IsPOI && DlcActive && !HexGridSelection);
                     BufferDistance.SetInteractable(IsPartOfCluster);
-
-
 
                     RandomTraitDeleteButton.SetInteractable(!current.IsRandom);
 
@@ -1586,7 +1584,7 @@ namespace ClusterTraitGenerationManager
         public GameObject POIGroup_POIs;
         public GameObject POIGroup_Container;
         public GameObject POIGroup_EntryPrefab;
-        public Dictionary<string, GameObject> POIGroup_Entries = new Dictionary<string, GameObject>();
+        public List<Tuple<string, GameObject>> POIGroup_Entries = new List<Tuple<string, GameObject>>();
         public FButton POIGroup_AddPoiToGroup;
         public FButton POIGroup_DeletePoiGroup;
 
@@ -2027,12 +2025,20 @@ namespace ClusterTraitGenerationManager
 
         public void InitializeItemSettings()
         {
+
+
             MinMaxDistanceSlider = transform.Find("Details/Content/ScrollRectContainer/MinMaxDistance/Slider").FindOrAddComponent<UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders.MinMaxSlider>();
+
+            SpawnDistanceText = MinMaxDistanceSlider.transform.parent.Find("Descriptor/Output").GetComponent<LocText>();
+
             MinMaxDistanceSlider.SliderBounds = MinMaxDistanceSlider.transform.Find("Handle Slide Area").rectTransform();
             MinMaxDistanceSlider.MinHandle = MinMaxDistanceSlider.transform.Find("Handle Slide Area/HandleMin").rectTransform();
             MinMaxDistanceSlider.MaxHandle = MinMaxDistanceSlider.transform.Find("Handle Slide Area/Handle").rectTransform();
             MinMaxDistanceSlider.MiddleGraphic = MinMaxDistanceSlider.transform.Find("Fill Area/Fill").rectTransform();
             MinMaxDistanceSlider.wholeNumbers = true;
+            MinMaxDistanceSlider.MinMaxText = SpawnDistanceText;
+            MinMaxDistanceSlider.MinMaxTextFormat = MINMAXDISTANCE.DESCRIPTOR.FORMAT;
+            
             MinMaxDistanceSlider.onValueChanged.AddListener(
                 (min, max) =>
                 {
@@ -2056,7 +2062,6 @@ namespace ClusterTraitGenerationManager
             //MinMaxDistanceSlider.SetLimits(0, CustomCluster.Rings);
             //MinMaxDistanceSlider.SetValues(0, 0.001f, 0, CustomCluster.Rings, true);
 
-            SpawnDistanceText = MinMaxDistanceSlider.transform.parent.Find("Descriptor/Output").GetComponent<LocText>();
             UIUtils.AddSimpleTooltipToObject(MinMaxDistanceSlider.transform.parent.Find("Descriptor"), (MINMAXDISTANCE.DESCRIPTOR.TOOLTIP), onBottom: true, alignCenter: true);
 
             StarmapItemEnabledText = transform.Find("Details/Content/ScrollRectContainer/StarmapItemEnabled/Label").GetComponent<LocText>();
@@ -2405,10 +2410,12 @@ namespace ClusterTraitGenerationManager
                 var band = (SOStarmapEntries[bandId]);
                 band.RemovePoiUI(id);
             }
-            if (POIGroup_Entries.ContainsKey(id))
+            var toRemove = POIGroup_Entries.FirstOrDefault(item => item.first == id);
+
+            if (toRemove!=null)
             {
-                Destroy(POIGroup_Entries[id].gameObject);
-                POIGroup_Entries.Remove(id);
+                Destroy(toRemove.second);
+                POIGroup_Entries.Remove(toRemove);
             }
             RebuildStarmap(true);
         }
@@ -2419,9 +2426,8 @@ namespace ClusterTraitGenerationManager
                 var band = (SOStarmapEntries[bandId]);
                 band.AddPoiUI(id);
             }
-            if (!POIGroup_Entries.ContainsKey(id))
-                AddSO_GroupPOIEntry_UI(CurrentStarmapItem.id, id);
-
+            
+            AddSO_GroupPOIEntry_UI(CurrentStarmapItem.id, id);
             RebuildStarmap(true);
             //CurrentlySelectedItemData = new SelectedSinglePOI(id, bandId);
         }
