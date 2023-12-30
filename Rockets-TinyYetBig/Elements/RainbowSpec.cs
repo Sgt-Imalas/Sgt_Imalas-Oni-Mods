@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Docking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace Rockets_TinyYetBig.Elements
         {
             __instance.gameObject.AddOrGet<RainbowSpec>();
             RTB_SavegameStoredSettings.Instance = __instance.gameObject.AddOrGet<RTB_SavegameStoredSettings>();
+            DockingManagerSingleton.Instance = __instance.gameObject.AddOrGet<DockingManagerSingleton>();
         }
     }
     public class RainbowSpec : KMonoBehaviour

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static KAnim;
 
 namespace Rockets_TinyYetBig.Behaviours
 {
@@ -20,28 +21,10 @@ namespace Rockets_TinyYetBig.Behaviours
         public CellOffset porterOffset = new CellOffset(0, 0);
         [MyCmpReq] AccessControl accessControl;
 
-        public override void ConnecDockable(IDockable d)
-        {
-            base.ConnecDockable (d);
-
-            if (connected.Get().HasDupeTeleporter)
-            {
-                Teleporter.SetTarget(d.Teleporter);
-               // assignable.canBeAssigned = true;
-            }
-            EnableAccessAll();
-
-            if (!this.gameObject.IsNullOrDestroyed() && gameObject.TryGetComponent<KBatchedAnimController>(out var kanim))
-            {
-                kanim.Play("extending");
-                kanim.Queue("extended");
-            }
-            //DetailsScreen.Instance.Refresh(gameObject);
-        }
+        [MyCmpGet] KBatchedAnimController animController;
 
         public void EnableAccessAll()
         {
-
             for (int idx = 0; idx < Components.LiveMinionIdentities.Count; ++idx)
             {
                 RefreshAccessStatus(Components.LiveMinionIdentities[idx], false);
@@ -49,18 +32,23 @@ namespace Rockets_TinyYetBig.Behaviours
         }
         public void RefreshAccessStatus(MinionIdentity minion, bool restrictToOwnWorld)
         {
+
             if (restrictToOwnWorld)
             {
-                var Controller = dManager.GetAssignmentGroupControllerIfExisting();
-
-                if (Game.Instance.assignmentManager.assignment_groups[Controller.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
+                if (DockingManagerSingleton.Instance.TryGetAssignmentController(GUID, out var Controller))
                 {
-                    accessControl.SetPermission(minion.assignableProxy.Get(), AccessControl.Permission.Neither);
+                    SgtLogger.l("refreshing access status");
+                    if (Game.Instance.assignmentManager.assignment_groups[Controller.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
+                    {
+                        accessControl.SetPermission(minion.assignableProxy.Get(), AccessControl.Permission.Neither);
+                    }
+                    else
+                    {
+                        accessControl.SetPermission(minion.assignableProxy.Get(), AccessControl.Permission.Both);
+                    }
                 }
                 else
-                {
-                    accessControl.SetPermission(minion.assignableProxy.Get(), AccessControl.Permission.Both);
-                }
+                    SgtLogger.warning("couldnt refresh access status - no controller found");
             }
             else
             {
@@ -68,34 +56,7 @@ namespace Rockets_TinyYetBig.Behaviours
             }
         }
 
-        public override void DisconnecDoor(bool skipanim = false)
-        {
-            base.DisconnecDoor(skipanim);
-
-            //assignable.Unassign();
-            //assignable.canBeAssigned = false;
-            Teleporter.SetTarget(null);
-
-            if (skipanim)
-                return;
-
-            if (gameObject.TryGetComponent<KBatchedAnimController>(out var kanim))
-            {
-                SgtLogger.l("cleanup: "+skipanim);
-                if (!skipanim)
-                {
-                    kanim.Play("retracting");
-                    kanim.Queue("retracted");
-                }
-                else
-                {
-                    kanim.Play("retracted");
-                }
-            }
-            //DetailsScreen.Instance.Refresh(gameObject);
-        }
-
-        public CellOffset GetRotatedOffset()
+        public CellOffset GetRotatedTeleportOffset()
         {
             var offset = porterOffset;
             if (TryGetComponent<Rotatable>(out var rotatable))
@@ -106,34 +67,75 @@ namespace Rockets_TinyYetBig.Behaviours
         }
         public int GetPorterCell()
         {
-            return Grid.OffsetCell(Grid.PosToCell(this), GetRotatedOffset());
+            return Grid.OffsetCell(Grid.PosToCell(this), GetRotatedTeleportOffset());
         }
-        //public override GameObject GetWorldObject()
-        //{
-        //    //return this.GetMyWorld().gameObject;
-        //}
-
         public override void OnSpawn()
         {
             base.OnSpawn();
-            string startKanim = string.Empty;
-            if (connected != null && connected.Get() != null)
+            if (DockingManagerSingleton.Instance.IsDocked(GUID, out _))
             {
-                if (connected.Get().HasDupeTeleporter)
-                    Teleporter.SetTarget(connected.Get().Teleporter);
-                startKanim = ("extended");
-              //  assignable.canBeAssigned = true;
+                animController.Play("extended");
+            }
+            else
+                animController.Play("retracted");
+
+        }
+
+        public override bool UpdateDockingConnection(bool initORCleanupCall)
+        {
+
+            bool connected = base.UpdateDockingConnection();
+
+            if (cleaningUp)
+                return connected;
+            if (spacecraftHandler.clustercraft.status == Clustercraft.CraftStatus.InFlight)
+            {
+                if (DockingManagerSingleton.Instance.TryGetDockableIfDocked(GUID, out var currentDocked)
+                    && this.HasDupeTeleporter && currentDocked.HasDupeTeleporter)
+                {
+                    Teleporter.SetTarget(currentDocked.Teleporter);
+                    SgtLogger.l("enabling teleporter");
+                    EnableAccessAll();
+                }
+                else
+                {
+                    SgtLogger.l("disabling teleporter");
+                    Teleporter.SetTarget(null);
+                }
+            }
+
+            if (connected)
+            {
+                if (animController != null)
+                {
+                    if (!initORCleanupCall)
+                    {
+                        animController.Play("extending");
+                        animController.Queue("extended");
+                    }
+                    else
+                    {
+                        animController.Queue("extended");
+                    }
+                }
             }
             else
             {
-                startKanim = ("retracted");
-                //assignable.Unassign();
-               // assignable.canBeAssigned = false;
+                if (animController != null)
+                {
+                    if (!initORCleanupCall)
+                    {
+                        animController.Play("retracting");
+                        animController.Queue("retracted");
+                    }
+                    else
+                    {
+                        animController.Queue("retracted");
+                    }
+                }
             }
-            if(gameObject.TryGetComponent<KBatchedAnimController>(out var kanim))
-            {
-                kanim.Play(startKanim);
-            }
+
+            return connected;
         }
     }
 }

@@ -30,22 +30,22 @@ namespace Rockets_TinyYetBig.Patches
                     //RocketryUtils.IsRocketInFlight(__instance)
                     )
                 {
-                    if (__instance.TryGetComponent<DockingManager>(out var manager))
+                    if (__instance.TryGetComponent<DockingSpacecraftHandler>(out var manager))
                     {
                         var myDestination = manager.clustercraft.ModuleInterface.GetClusterDestinationSelector().GetDestination();
 
-                        foreach (var docked in manager.IDockables)
+                        foreach (var docked in manager.WorldDockables)
                         {
-                            if (docked.Value == -1)
+                            if (!DockingManagerSingleton.Instance.TryGetDockableIfDocked(docked.Value.GUID, out var dockedDockable))
                                 continue;
 
-                            if (SpaceStationManager.WorldIsSpaceStationInterior(docked.Value) && RocketryUtils.IsRocketInFlight(__instance))
+                            if (SpaceStationManager.WorldIsSpaceStationInterior(dockedDockable.WorldId) && RocketryUtils.IsRocketInFlight(__instance))
                             {
-                                manager.UnDockFromTargetWorld(docked.Value);
+                                DockingManagerSingleton.Instance.AddPendingUndock(docked.Value.GUID, dockedDockable.GUID);
                             }
                             else
                             {
-                                var selector = docked.Key.GetConnec().dManager.clustercraft.ModuleInterface.GetClusterDestinationSelector();
+                                var selector = dockedDockable.spacecraftHandler.clustercraft.ModuleInterface.GetClusterDestinationSelector();
                                 if (selector.GetDestination() != myDestination)
                                 {
                                     selector.SetDestination(myDestination);
@@ -74,65 +74,68 @@ namespace Rockets_TinyYetBig.Patches
         {
             public static void Postfix(Clustercraft __instance, CraftStatus craft_status)
             {
-                if (__instance != null && __instance.gameObject != null && __instance.TryGetComponent<DockingManager>(out var manager) && !craft_status.Equals(CraftStatus.InFlight))
+                if (__instance != null && __instance.gameObject != null && __instance.TryGetComponent<DockingSpacecraftHandler>(out var manager) && !craft_status.Equals(CraftStatus.InFlight)) 
                 {
                     manager.UndockAll();
                 }
             }
         }
 
-        [HarmonyPatch(typeof(RocketClusterDestinationSelector), nameof(RocketClusterDestinationSelector.OnClusterLocationChanged))]
-        public static class AutoDockToSpaceStation
-        {
-            public static bool Prefix(RocketClusterDestinationSelector __instance, object data)
-            {
-                if (__instance.TryGetComponent<DockingManager>(out var mng))
-                {
-                    if (mng.clustercraft.status != Clustercraft.CraftStatus.InFlight)
-                    {
-                        mng.UndockAll(true);
-                        return true;
-                    }
 
-                    ClusterLocationChangedEvent locationChangedEvent = (ClusterLocationChangedEvent)data;
-                    if (locationChangedEvent.newLocation != __instance.m_destination)
-                        return true;
+        //TODO!:: patch does auto docking on reaching target for stations; rebuild!
+        //[HarmonyPatch(typeof(RocketClusterDestinationSelector), nameof(RocketClusterDestinationSelector.OnClusterLocationChanged))]
+        //public static class AutoDockToSpaceStation
+        //{
+        //    public static bool Prefix(RocketClusterDestinationSelector __instance, object data)
+        //    {
+        //        if (__instance.TryGetComponent<DockingManager>(out var mng))
+        //        {
+        //            if (mng.clustercraft.status != Clustercraft.CraftStatus.InFlight)
+        //            {
+        //                mng.UndockAll(true);
+        //                return true;
+        //            }
 
-                    var AllDockerObjects = ClusterGrid.Instance.GetVisibleEntitiesAtCell(mng.clustercraft.Location).FindAll(e => e.TryGetComponent(out DockingManager manager));
-                    var AllDockers = AllDockerObjects
-                        .Select(e => e.GetComponent<DockingManager>())
-                        .Where(t_mng => t_mng.HasDoors() && t_mng.GetCraftType == DockableType.SpaceStation || t_mng.GetCraftType == DockableType.Derelict)
-                        .ToList();
-                    //SgtLogger.l(AllDockers.Count +"", "dockers");
-                    if (AllDockers.Count() == 0)
-                        return true;
+        //            ClusterLocationChangedEvent locationChangedEvent = (ClusterLocationChangedEvent)data;
+        //            if (locationChangedEvent.newLocation != __instance.m_destination)
+        //                return true;
 
-                    //SgtLogger.l(AllDockers.First().GetWorldId() + "", "firstworld");
-                    //SgtLogger.l(mng.GetWorldId() + "", "ownWorld");
-                    int targetWorldID = AllDockers.First().WorldId;
-                    mng.AddPendingDock(targetWorldID);
+        //            var AllDockerObjects = ClusterGrid.Instance.GetVisibleEntitiesAtCell(mng.clustercraft.Location).FindAll(e => e.TryGetComponent(out DockingManager manager));
+        //            var AllDockers = AllDockerObjects
+        //                .Select(e => e.GetComponent<DockingManager>())
+        //                .Where(t_mng => t_mng.HasDoors() && t_mng.GetCraftType == DockableType.SpaceStation || t_mng.GetCraftType == DockableType.Derelict)
+        //                .ToList();
+        //            //SgtLogger.l(AllDockers.Count +"", "dockers");
+        //            if (AllDockers.Count() == 0)
+        //                return true;
 
-                    if (!__instance.m_repeat)
-                        return false;
+        //            //SgtLogger.l(AllDockers.First().GetWorldId() + "", "firstworld");
+        //            //SgtLogger.l(mng.GetWorldId() + "", "ownWorld");
+        //            int targetWorldID = AllDockers.First().WorldId;
+        //            mng.AddPendingDock(targetWorldID);
 
-                    SetupAwaitRocketLoading(__instance, mng, targetWorldID);
+        //            if (!__instance.m_repeat)
+        //                return false;
 
-                    return false;
-                }
-                return true;
-            }
-            static void SetupAwaitRocketLoading(RocketClusterDestinationSelector selector, DockingManager manager, int targetWorld)
-            {
-                manager.OnFinishedLoading += new System.Action(() =>
-                {
-                    manager.UnDockFromTargetWorld(targetWorld, OnFinishedUndock: () => InitReturn(selector, manager));
-                });
-            }
-            static void InitReturn(RocketClusterDestinationSelector selector, DockingManager manager)
-            {
-                selector.SetUpReturnTrip();
-                manager.OnFinishedLoading = null;
-            }
-        }
+        //            SetupAwaitRocketLoading(__instance, mng, targetWorldID);
+
+        //            return false;
+        //        }
+        //        return true;
+        //    }
+        //    static void SetupAwaitRocketLoading(RocketClusterDestinationSelector selector, DockingSpacecraftHandler handler, int targetWorld)
+        //    {
+        //        handler.OnFinishedLoading += new System.Action(() =>
+        //        {
+
+        //            handler.UnDockFromTargetWorld(targetWorld, OnFinishedUndock: () => InitReturn(selector, manager));
+        //        });
+        //    }
+        //    static void InitReturn(RocketClusterDestinationSelector selector, DockingManager manager)
+        //    {
+        //        selector.SetUpReturnTrip();
+        //        manager.OnFinishedLoading = null;
+        //    }
+        //}
     }
 }
