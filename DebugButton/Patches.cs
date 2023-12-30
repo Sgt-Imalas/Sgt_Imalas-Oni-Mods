@@ -108,39 +108,25 @@ namespace DebugButton
                     _debugHandler.ultraTestMode = isOn;
                 }
             }
-            static void SetInstaBuild(bool on)
+            static void ToggleInstaBuild(bool forceOff = false)
             {
-                DebugHandler.InstantBuildMode = on;
-                InterfaceTool.ToggleConfig(Action.DebugInstantBuildMode);
-                if (Game.Instance == null)
+                if (forceOff && !DebugHandler.InstantBuildMode)
                     return;
-                Game.Instance.Trigger(1557339983, null);
-                if (PlanScreen.Instance != null)
-                    PlanScreen.Instance.Refresh();
-                if (BuildMenu.Instance != null)
-                    BuildMenu.Instance.Refresh();
-                if (OverlayMenu.Instance != null)
-                    OverlayMenu.Instance.Refresh();
-                if (ConsumerManager.instance != null)
-                    ConsumerManager.instance.RefreshDiscovered();
-                if (ManagementMenu.Instance != null)
-                {
-                    ManagementMenu.Instance.CheckResearch(null);
-                    ManagementMenu.Instance.CheckSkills();
-                    ManagementMenu.Instance.CheckStarmap();
-                }
-                if (SelectTool.Instance.selected != null)
-                    DetailsScreen.Instance.Refresh(SelectTool.Instance.selected.gameObject);
-                Game.Instance.Trigger(1594320620, "all_the_things");
+                
+                _debugHandler.OnKeyDown(new KButtonEvent(null, InputEventType.KeyUp, Action.DebugInstantBuildMode));
             }
 
             public static void OnClickDebugToggle()
             {
                 KMonoBehaviour.PlaySound(GlobalAssets.GetSound("HUD_Click"));
+
+                if(DebugHandler.enabled)
+                {
+                    SetSuperSpeed(false);
+                    ToggleInstaBuild(true);
+                }
                 DebugHandler.SetDebugEnabled(!DebugHandler.enabled);
 
-                SetSuperSpeed(false);
-                SetInstaBuild(false);
                 UpdateDebugToggleState();
             }
 
@@ -154,7 +140,7 @@ namespace DebugButton
                 {
                     KMonoBehaviour.PlaySound(GlobalAssets.GetSound("HUD_Click"));
 
-                    SetInstaBuild(!DebugHandler.InstantBuildMode);
+                    ToggleInstaBuild();
                 }
                 UpdateDebugToggleState();
             }
