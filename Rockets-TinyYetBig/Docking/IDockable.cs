@@ -21,9 +21,9 @@ namespace Rockets_TinyYetBig.Docking
         public string GUID => DockableId;
 
 
-        [Serialize]
-        private int _worldId = -1;
-        public int WorldId => _worldId;
+        //[Serialize]
+        //private int _worldId = -1;
+        public int WorldId => spacecraftHandler == null ? -1 : spacecraftHandler.WorldId;
 
         [MyCmpGet] public NavTeleporter Teleporter;
 
@@ -67,7 +67,7 @@ namespace Rockets_TinyYetBig.Docking
                 if (world != null)
                 {
                     SgtLogger.l("new world found for docking module: " + world.id);
-                    _worldId = world.id;
+                    //_worldId = world.id;
 
                     spacecraftHandler = world.gameObject.AddOrGet<DockingSpacecraftHandler>();
                     spacecraftHandler.RegisterDockable(this);
@@ -75,34 +75,10 @@ namespace Rockets_TinyYetBig.Docking
                 else
                 {
                     SgtLogger.l("no world found for docking module, defaulting");
-                    _worldId = -1;
+                   // _worldId = -1;
                 }
-                UpdateAssignmentController();
                 DockingManagerSingleton.Instance.RegisterDockable(this);
             }
-        }
-
-        /// <summary>
-        /// Update the cached AssignmentController for this dockable
-        /// </summary>
-        public void UpdateAssignmentController()
-        {
-            AssignmentGroupController AssignmentController = null;
-
-            if(TryGetComponent<AssignmentGroupController>(out AssignmentController))
-            {
-                DockingManagerSingleton.Instance.UpdateAssignmentController(this, AssignmentController);
-                return;
-            } 
-
-            var passengerModule = spacecraftHandler.clustercraft.ModuleInterface.GetPassengerModule();
-            if (passengerModule != null)
-            {
-                passengerModule.TryGetComponent(out AssignmentController);
-            }
-
-            SgtLogger.Assert("AssignmentController was null for " + GUID, AssignmentController);
-            DockingManagerSingleton.Instance.UpdateAssignmentController(this, AssignmentController);
         }
 
         public override void OnSpawn()
@@ -126,7 +102,7 @@ namespace Rockets_TinyYetBig.Docking
                 ///building docking ports inside of worlds
                 else
                 {
-                    _worldId = this.GetMyWorldId();
+                    //_worldId = this.GetMyWorldId();
                     var myWorld = this.GetMyWorld();
                     spacecraftHandler = myWorld.gameObject.AddOrGet<DockingSpacecraftHandler>();
                     spacecraftHandler.RegisterDockable(this);
@@ -139,7 +115,6 @@ namespace Rockets_TinyYetBig.Docking
                 spacecraftHandler.RegisterDockable(this);
             }
 
-            UpdateAssignmentController();
             DockingManagerSingleton.Instance.RegisterDockable(this);
 
             UpdateDockingConnection(true);

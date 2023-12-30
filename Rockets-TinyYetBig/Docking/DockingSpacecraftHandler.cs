@@ -16,20 +16,20 @@ namespace Rockets_TinyYetBig.Docking
         public Dictionary<string, IDockable> WorldDockables = new Dictionary<string, IDockable>();
         public PassengerRocketModule PassengerModule;
 
+        public bool IsSpaceStation => Type == DockableType.SpaceStation;
 
         bool isLoading = false;
 
         public System.Action OnFinishedLoading = null;
         public bool IsLoading => isLoading;
-        public int worldId;
 
         [MyCmpGet]
         public CraftModuleInterface Interface;
 
-
         DockableType Type = DockableType.Rocket;
 
-        public DockableType GetCraftType => Type;
+        public bool IsRocket => Type == DockableType.Rocket;
+        public DockableType CraftType => Type;
 
         public int WorldId => world.id;
 
@@ -44,6 +44,14 @@ namespace Rockets_TinyYetBig.Docking
             DockingManagerSingleton.Instance.UnregisterSpacecraftHander(this);
             base.OnCleanUp();
         }
+        public override void OnSpawn()
+        {
+            base.OnSpawn();
+            if (TryGetComponent<SpaceStation>(out _))
+                Type = DockableType.SpaceStation;
+
+        }
+
         public void SetCurrentlyLoadingStuff(bool IsLoading)
         {
             isLoading = IsLoading;

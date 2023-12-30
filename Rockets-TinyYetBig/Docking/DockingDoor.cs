@@ -37,9 +37,9 @@ namespace Rockets_TinyYetBig.Behaviours
 
             if (restrictToOwnWorld)
             {
-                if (DockingManagerSingleton.Instance.TryGetAssignmentController(GUID, out var Controller))
+                if (DockingManagerSingleton.Instance.TryGetMinionAssignment(minion, out var worldID))
                 {
-                    if (Game.Instance.assignmentManager.assignment_groups[Controller.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
+                    if (this.WorldId == worldID)
                     {
                         accessControl.SetPermission(minion.assignableProxy.Get(), AccessControl.Permission.Neither);
                     }
@@ -81,7 +81,7 @@ namespace Rockets_TinyYetBig.Behaviours
                     {
                         craftInteriorDoor.TryGetComponent<NavTeleporter>(out Teleporter);
                         craftInteriorDoor.TryGetComponent<AccessControl>(out accessControl);
-                        SgtLogger.l("docking door attached");
+                        SgtLogger.l("docking door attached to interior door");
                         break;
                     }
                 }

@@ -80,7 +80,7 @@ namespace Rockets_TinyYetBig.Patches
                             {
                                 var handler = docked.spacecraftHandler;
                                 if (handler!=null
-                                && (Mathf.RoundToInt(handler.clustercraft.ModuleInterface.Range) == 0 || handler.GetCraftType != DockableType.Rocket) // pull other rockets if they are empty or if __instance is not a rocket (space station or derelict - maybe flying derelicts later?)
+                                && (Mathf.RoundToInt(handler.clustercraft.ModuleInterface.Range) == 0 || handler.CraftType != DockableType.Rocket) // pull other rockets if they are empty or if __instance is not a rocket (space station or derelict - maybe flying derelicts later?)
                                 && handler.clustercraft.Location != __instance.Location)
                                 {
                                     if ((ClusterGrid.Instance.GetVisibleEntityOfLayerAtCell(__instance.Location, EntityLayer.Asteroid) == null))
