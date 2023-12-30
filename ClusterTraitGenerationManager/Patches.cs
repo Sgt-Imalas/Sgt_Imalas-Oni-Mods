@@ -369,16 +369,13 @@ namespace ClusterTraitGenerationManager
             {
                 string coreKey = string.Empty;
                 string cryoVolcano = string.Empty;
-                string holesKey = string.Empty;
 
 
                 foreach (var trait in SettingsCache.GetCachedWorldTraitNames())
                 {
-                    if (trait.Contains(SpritePatch.missingMoltenCoreTexture))
+                    if (trait.Contains("IronCore"))
                         coreKey = trait;
 
-                    if (trait.Contains(SpritePatch.missingHoleTexture))
-                        holesKey = trait;
                     if (trait.Contains(SpritePatch.missingTexture_CryoVolcanoes))
                         cryoVolcano = trait;
                 }
@@ -392,14 +389,7 @@ namespace ClusterTraitGenerationManager
                     if (!IronCoreTrait.exclusiveWithTags.Contains("CoreTrait"))
                         IronCoreTrait.exclusiveWithTags.Add("CoreTrait");
                 }
-                var HolesTrait = SettingsCache.GetCachedWorldTrait(holesKey, false);
-                if (HolesTrait != null)
-                {
-                    ///Light purple
-                    HolesTrait.colorHex = "9696e2";
-                    ///black
-                    //HolesTrait.colorHex = "000000"; 
-                }
+
                 var cryoVolcanoTrait = SettingsCache.GetCachedWorldTrait(cryoVolcano, false);
                 if (cryoVolcanoTrait != null)
                 {
