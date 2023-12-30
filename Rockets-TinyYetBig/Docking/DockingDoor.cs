@@ -20,7 +20,7 @@ namespace Rockets_TinyYetBig.Behaviours
         /// </summary>
 
         public CellOffset porterOffset = new CellOffset(0, 0);
-        AccessControl accessControl;
+        [MyCmpGet] AccessControl accessControl;
 
         [MyCmpGet] KBatchedAnimController animController;
 
@@ -73,16 +73,21 @@ namespace Rockets_TinyYetBig.Behaviours
         public override void OnSpawn()
         {
             var world = this.GetMyWorld();
-            foreach (ClustercraftInteriorDoor craftInteriorDoor in Components.ClusterCraftInteriorDoors)
+            if(Teleporter == null && accessControl == null)
             {
-                if (craftInteriorDoor.GetMyWorldId() == world.id)
+                foreach (ClustercraftInteriorDoor craftInteriorDoor in Components.ClusterCraftInteriorDoors)
                 {
-                    craftInteriorDoor.TryGetComponent<NavTeleporter>(out Teleporter);
-                    craftInteriorDoor.TryGetComponent<AccessControl>(out accessControl);
-                    SgtLogger.l("docking door attached");
-                    break;
+                    if (craftInteriorDoor.GetMyWorldId() == world.id)
+                    {
+                        craftInteriorDoor.TryGetComponent<NavTeleporter>(out Teleporter);
+                        craftInteriorDoor.TryGetComponent<AccessControl>(out accessControl);
+                        SgtLogger.l("docking door attached");
+                        break;
+                    }
                 }
             }
+            SgtLogger.Assert("Teleporter was null", Teleporter);
+            SgtLogger.Assert("accessControl was null", accessControl);
 
 
             base.OnSpawn();

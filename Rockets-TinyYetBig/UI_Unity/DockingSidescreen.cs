@@ -85,7 +85,7 @@ namespace Rockets_TinyYetBig.UI_Unity
         //[SerializeField]
         //private GameObject noChannelRow;
         private Dictionary<DockingSpacecraftHandler, GameObject> DockingTargets = new Dictionary<DockingSpacecraftHandler, GameObject>();
-        private Dictionary<DockingSpacecraftHandler, System.Action> OnFinishActions = new Dictionary<DockingSpacecraftHandler, System.Action>();
+        private Dictionary<DockingSpacecraftHandler, RectTransform> Rotatings = new Dictionary<DockingSpacecraftHandler, RectTransform>();
 
 
         private List<int> refreshHandle = new List<int>();
@@ -225,8 +225,6 @@ namespace Rockets_TinyYetBig.UI_Unity
             GameScheduler.Instance.ScheduleNextFrame("dockingUiRefresh", (d) => Refresh());
         }
 
-        List<RectTransform> rotatings = new List<RectTransform>();
-
         void ToggleCrewScreen(DockingSpacecraftHandler target)
         {
             if (crewScreen == null)
@@ -258,14 +256,6 @@ namespace Rockets_TinyYetBig.UI_Unity
             this.crewScreen = null;
         }
 
-
-        void ExecuteOnPendingsFinished(object data)
-        {
-            if (OnUndocksFinished != null)
-                OnUndocksFinished();
-        }
-        System.Action OnUndocksFinished;
-
         private void AddRowEntry(DockingSpacecraftHandler referencedManager, bool startActive = true)
         {
             GameObject RowEntry = Util.KInstantiateUI(rowPrefab, listContainer);
@@ -285,6 +275,8 @@ namespace Rockets_TinyYetBig.UI_Unity
             var SpaceShipIconRotatabe = RowEntry.transform.Find("Row1/WaitContainer/loading").rectTransform();
             SpaceShipIconRotatabe.gameObject.SetActive(false);
 
+            Rotatings[referencedManager] = SpaceShipIconRotatabe;
+
             DockButton.OnClick += () =>
             {
                 ClearSecondarySideScreen();
@@ -295,15 +287,7 @@ namespace Rockets_TinyYetBig.UI_Unity
             UndockButton.OnClick += () =>
             {
                 ClearSecondarySideScreen();
-                rotatings.Add(SpaceShipIconRotatabe);
-                SpaceShipIconRotatabe.gameObject.SetActive(true);
                 DockingManagerSingleton.Instance.TryInitializingUndockingBetweenHandlers(targetSpacecraftHandler, referencedManager, targetDoor);
-                OnFinishActions[referencedManager] = () =>
-                    {
-                        rotatings.Remove(SpaceShipIconRotatabe);
-                        SpaceShipIconRotatabe.gameObject.SetActive(false);
-                        Refresh();
-                    };
                 Refresh();
             };
             TransferButton.OnClick += () =>
@@ -366,7 +350,9 @@ namespace Rockets_TinyYetBig.UI_Unity
                     ;
 
                 ViewDockedButton.SetInteractable(canViewInterior);
-
+                SgtLogger.l("aa");
+                if(Rotatings.ContainsKey(manager))
+                    Rotatings[manager].gameObject.SetActive(currentlyConnected && (DockingManagerSingleton.Instance.HasPendingUndocks(firstDock.GUID) || DockingManagerSingleton.Instance.HasPendingUndocks(secondDock.GUID)));
                 TransferButton.SetInteractable(canViewInterior);
             }
         }
@@ -374,7 +360,7 @@ namespace Rockets_TinyYetBig.UI_Unity
 
         public void Render200ms(float dt)
         {
-            foreach (var rotatable in rotatings)
+            foreach (var rotatable in Rotatings.Values)
             {
                 rotatable.Rotate(new Vector3(0, 0, 25));
             }

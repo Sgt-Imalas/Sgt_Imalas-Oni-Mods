@@ -25,7 +25,7 @@ namespace Rockets_TinyYetBig.Docking
         private int _worldId = -1;
         public int WorldId => _worldId;
 
-        public NavTeleporter Teleporter;
+        [MyCmpGet] public NavTeleporter Teleporter;
 
         public DockingSpacecraftHandler spacecraftHandler;
 
