@@ -25,8 +25,6 @@ namespace Rockets_TinyYetBig.Docking
         private int _worldId = -1;
         public int WorldId => _worldId;
 
-
-        [MyCmpGet]
         public NavTeleporter Teleporter;
 
         public DockingSpacecraftHandler spacecraftHandler;
@@ -41,7 +39,7 @@ namespace Rockets_TinyYetBig.Docking
         public virtual bool UpdateDockingConnection(bool initORCleanupCall = false)
         {
             bool connected = DockingManagerSingleton.Instance.IsDocked(this.GUID, out _);
-
+            SgtLogger.l("isConnected; " + connected);
             this.Trigger(connected ? ModAssets.Hashes.DockingConnectionConnected : ModAssets.Hashes.DockingConnectionDisconnected);
             this.Trigger((int)GameHashes.ChainedNetworkChanged);
             UpdateHandler();
@@ -109,6 +107,11 @@ namespace Rockets_TinyYetBig.Docking
 
         public override void OnSpawn()
         {
+            SgtLogger.Assert("GUID was null!", GUID);
+            if (DockableId == null || DockableId.Length == 0)
+            {
+                DockableId = Guid.NewGuid().ToString();
+            }
             base.OnSpawn();
             if (WorldId == -1)
             {
@@ -140,17 +143,6 @@ namespace Rockets_TinyYetBig.Docking
             DockingManagerSingleton.Instance.RegisterDockable(this);
 
             UpdateDockingConnection(true);
-        }
-        public override void OnPrefabInit()
-        {
-            base.OnPrefabInit();
-
-            if (DockableId == null || DockableId.Length == 0)
-            {
-                DockableId = Guid.NewGuid().ToString();
-            }
-            SgtLogger.Assert("GUID was null!", GUID);
-
         }
         protected bool cleaningUp = false;
         public override void OnCleanUp()

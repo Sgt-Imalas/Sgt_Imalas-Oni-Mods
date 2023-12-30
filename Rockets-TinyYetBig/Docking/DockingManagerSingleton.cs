@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UtilLibs;
 using static Rockets_TinyYetBig.ModAssets;
 
@@ -15,21 +16,43 @@ namespace Rockets_TinyYetBig.Docking
     {
         public static DockingManagerSingleton Instance { get; set; }
 
-        [Serialize]
-        private Dictionary<string, string> DockingConnections = new Dictionary<string, string>();
+        [Serialize][SerializeField] private Dictionary<string, string> DockingConnections = new Dictionary<string, string>();
 
-        [Serialize] public Dictionary<string, System.Action> PendingUndockUIRefreshActions = new Dictionary<string, System.Action>();
+        [Serialize][SerializeField] public Dictionary<string, System.Action> PendingUndockUIRefreshActions = new Dictionary<string, System.Action>();
 
-        [Serialize] public Dictionary<string, string> PendingUndocks = new Dictionary<string, string>();
-        [Serialize] public Dictionary<string, string> PendingDocks = new Dictionary<string, string>();
-        [Serialize] public HashSet<string> PendingDockBlockers = new HashSet<string>();
-        [Serialize] public HashSet<string> PendingUndockBlockers = new HashSet<string>();
+        [Serialize][SerializeField] public Dictionary<string, string> PendingUndocks = new Dictionary<string, string>();
+        [Serialize][SerializeField] public Dictionary<string, string> PendingDocks = new Dictionary<string, string>();
+        [Serialize][SerializeField] public HashSet<string> PendingDockBlockers = new HashSet<string>();
+        [Serialize][SerializeField] public HashSet<string> PendingUndockBlockers = new HashSet<string>();
 
         private Dictionary<string, AssignmentGroupController> MinionAssignmentGroupControllers = new Dictionary<string, AssignmentGroupController>();
         public Dictionary<string, IDockable> IDockables = new Dictionary<string, IDockable>();
         public HashSet<DockingSpacecraftHandler> DockingSpacecraftHandlers = new HashSet<DockingSpacecraftHandler>();
 
+        public void OnLoading()
+        {
+            //foreach (var connection in DockingConnectionData)
+            //{
+            //    DockingConnections[connection.first] = connection.second;
+            //    SgtLogger.l(connection.first + " <-> " + connection.second, "Loading");
+            //}
+        }
+        public void OnSaving()
+        {
+            //DockingConnectionData.Clear();
+            foreach (var connection in DockingConnections)
+            {
+                //DockingConnectionData.Add(new Tuple<string, string>(connection.Key, connection.Value));
+                SgtLogger.l(connection.Key + " <-> " + connection.Value, "Saving");
+            }
+        }
 
+        public override void OnSpawn()
+        {
+            OnLoading();
+            base.OnSpawn();
+            SgtLogger.l("DockingManager OnSpawn");
+        }
         public void RegisterSpacecraftHandler(DockingSpacecraftHandler handler)
         {
             if (!DockingSpacecraftHandlers.Contains(handler))
@@ -53,7 +76,7 @@ namespace Rockets_TinyYetBig.Docking
             {
                 SgtLogger.l("was docked");
                 FinalizeUndocking(dockable.GUID, dockedTo, true);
-                if(TryGetDockable(dockedTo, out var dockedToDockable))
+                if (TryGetDockable(dockedTo, out var dockedToDockable))
                 {
                     dockedToDockable.gameObject.Trigger(ModAssets.Hashes.DockingConnectionChanged);
                 }
@@ -120,7 +143,7 @@ namespace Rockets_TinyYetBig.Docking
                 SgtLogger.l(first + " and " + second + " were not docked");
                 return false;
             }
-            SgtLogger.l("adding pending undock between" + first + " and " + second);
+            SgtLogger.l("adding pending undock between " + first + " and " + second);
 
             PendingUndocks.Add(first, second);
             PendingUndockBlockers.Add(first);
@@ -134,7 +157,7 @@ namespace Rockets_TinyYetBig.Docking
         }
 
 
-        
+
 
         public bool IsDocked(string dockableGUID, out string dockedTo)
         {
@@ -310,6 +333,8 @@ namespace Rockets_TinyYetBig.Docking
                 ClusterManager.Instance.GetWorld(second.WorldId).SetParentIdx(second.WorldId);
 
 
+            ///Preassigning dupes for transfer
+            CleanupWorldAssignments(new Tuple<string, string>(firstId, secondId));
             ///Updating internal data in connectors
             first.UpdateDockingConnection(cleanup);
             second.UpdateDockingConnection(cleanup);
@@ -323,8 +348,6 @@ namespace Rockets_TinyYetBig.Docking
             PendingUndockUIRefreshActions[secondId] = null;
 
 
-            ///Preassigning dupes for transfer
-            CleanupWorldAssignments(new Tuple<string, string>(firstId, secondId));
         }
         public void FinalizeDocking(string firstId, string secondId)
         {
@@ -358,11 +381,11 @@ namespace Rockets_TinyYetBig.Docking
             else
                 ClusterManager.Instance.GetWorld(first.WorldId).SetParentIdx(second.WorldId);
 
+            ///setting assigned crew rocket for each dupe to the rocket they are in
+            //CleanupWorldAssignments(new Tuple<string, string>(firstId, secondId));
             first.UpdateDockingConnection();
             second.UpdateDockingConnection();
 
-            ///setting assigned crew rocket for each dupe to the rocket they are in
-            CleanupWorldAssignments(new Tuple<string, string>(firstId, secondId));
         }
 
 
@@ -373,43 +396,38 @@ namespace Rockets_TinyYetBig.Docking
         /// <param name="targetWorldId"></param>
         public void CleanupWorldAssignments(Tuple<string, string> connection)
         {
-            var OwnWorld = ClusterManager.Instance.GetWorld(IDockables[connection.first].WorldId);
-            var DockedWorld = ClusterManager.Instance.GetWorld(IDockables[connection.second].WorldId);
+            var worldFirst = ClusterManager.Instance.GetWorld(IDockables[connection.first].WorldId);
+            var worldSecond = ClusterManager.Instance.GetWorld(IDockables[connection.second].WorldId);
 
-            if (TryGetAssignmentController(connection.first, out var firstController))
+            if (TryGetAssignmentController(connection.first, out var firstController)&& TryGetAssignmentController(connection.first, out var secondController))
             {
-                foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(OwnWorld.id))
+                foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(worldFirst.id))
                 {
-                    if (!Game.Instance.assignmentManager.assignment_groups[firstController.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
+                    //if (!firstController.CheckMinionIsMember(minion.assignableProxy.Get()))
+                    //{
+                        SgtLogger.l("adding "+minion.GetProperName()+" to "+worldFirst.GetProperName());
+                        firstController.SetMember(minion.assignableProxy.Get(), true);
+                    //}
+                    if (secondController.CheckMinionIsMember(minion.assignableProxy.Get()))
                     {
-                        Game.Instance.assignmentManager.assignment_groups[firstController.AssignmentGroupID].AddMember(minion.assignableProxy.Get());
+                        SgtLogger.l("removing " + minion.GetProperName() + " from " + worldSecond.GetProperName());
+                        secondController.SetMember(minion.assignableProxy.Get(), false);
                     }
                 }
-                foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(DockedWorld.id))
+                foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(worldSecond.id))
                 {
-                    if (Game.Instance.assignmentManager.assignment_groups[firstController.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
+                    if (firstController.CheckMinionIsMember(minion.assignableProxy.Get()))
                     {
-                        Game.Instance.assignmentManager.assignment_groups[firstController.AssignmentGroupID].RemoveMember(minion.assignableProxy.Get());
+                        SgtLogger.l("removing " + minion.GetProperName() + " from " + worldFirst.GetProperName());
+                        firstController.SetMember(minion.assignableProxy.Get(), false);
                     }
+                    //if (!secondController.CheckMinionIsMember(minion.assignableProxy.Get()))
+                    //{
+                        SgtLogger.l("adding " + minion.GetProperName() + " to " + worldSecond.GetProperName());
+                        secondController.SetMember(minion.assignableProxy.Get(), true);
+                    //}
                 }
 
-            }
-            if (TryGetAssignmentController(connection.first, out var secondController))
-            {
-                foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(OwnWorld.id))
-                {
-                    if (!Game.Instance.assignmentManager.assignment_groups[secondController.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
-                    {
-                        Game.Instance.assignmentManager.assignment_groups[secondController.AssignmentGroupID].RemoveMember(minion.assignableProxy.Get());
-                    }
-                }
-                foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(DockedWorld.id))
-                {
-                    if (Game.Instance.assignmentManager.assignment_groups[secondController.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
-                    {
-                        Game.Instance.assignmentManager.assignment_groups[secondController.AssignmentGroupID].AddMember(minion.assignableProxy.Get());
-                    }
-                }
             }
         }
 
@@ -421,49 +439,43 @@ namespace Rockets_TinyYetBig.Docking
         {
             foreach (var undockingProcess in PendingUndocks)
             {
-                List<MinionIdentity> WrongWorldDupesHERE = new List<MinionIdentity>();
-                List<MinionIdentity> WrongWorldDupesTHERE = new List<MinionIdentity>();
+                List<MinionIdentity> MoveToSecondDupes = new List<MinionIdentity>();
+                List<MinionIdentity> MoveToFirstDupes = new List<MinionIdentity>();
                 if (TryGetDockable(undockingProcess.Key, out var first) && TryGetDockable(undockingProcess.Value, out var second)
                     && first is DockingDoor && second is DockingDoor
                     )
                 {
-                    if (TryGetAssignmentController(undockingProcess.Key, out var assignmentGroupControllerOWN))
+                    if (TryGetAssignmentController(first.GUID, out var assignmentGroupFirst) && TryGetAssignmentController(second.GUID, out var assignmentGroupSecond))
                     {
-                        Debug.Assert(Game.Instance.assignmentManager.assignment_groups.ContainsKey(assignmentGroupControllerOWN.AssignmentGroupID), "ASSIGNMENTGROUPCTRL first was null");
-                        SgtLogger.l("checking first minions");
+                        foreach (var dupe in assignmentGroupFirst.GetMembers())
+                            SgtLogger.l(dupe.GetProperName(), "Member of "+ ClusterManager.Instance.GetWorld(first.WorldId).GetProperName());
+                        foreach (var dupe in assignmentGroupSecond.GetMembers())
+                            SgtLogger.l(dupe.GetProperName(), "Member of "+ ClusterManager.Instance.GetWorld(second.WorldId).GetProperName());
+
                         foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(first.WorldId))
                         {
-
-                            if (!Game.Instance.assignmentManager.assignment_groups[assignmentGroupControllerOWN.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
+                            if (!assignmentGroupFirst.CheckMinionIsMember(minion.assignableProxy.Get()))
                             {
-                                WrongWorldDupesHERE.Add(minion);
+                                SgtLogger.l(minion.GetProperName() + " was in first world, but is not assigned to it");
+                                MoveToSecondDupes.Add(minion);
+                            }
+                            else if (assignmentGroupSecond.CheckMinionIsMember(minion.assignableProxy.Get()))
+                            {
+                                SgtLogger.l(minion.GetProperName() + " was in first world, but is assigned to second");
+                                MoveToSecondDupes.Add(minion);
                             }
                         }
                         foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(second.WorldId))
                         {
-                            if (Game.Instance.assignmentManager.assignment_groups[assignmentGroupControllerOWN.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
+                            if (assignmentGroupFirst.CheckMinionIsMember(minion.assignableProxy.Get()))
                             {
-                                WrongWorldDupesTHERE.Add(minion);
+                                SgtLogger.l(minion.GetProperName() + " was in second world, but is assigned to first");
+                                MoveToFirstDupes.Add(minion);
                             }
-                        }
-
-                    }
-                    if (TryGetAssignmentController(undockingProcess.Value, out var assignmentGroupControllerDOCKED))
-                    {
-                        Debug.Assert(Game.Instance.assignmentManager.assignment_groups.ContainsKey(assignmentGroupControllerOWN.AssignmentGroupID), "ASSIGNMENTGROUPCTRL second was null");
-                        SgtLogger.l("checking seconds minions");
-                        foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(first.WorldId))
-                        {
-                            if (Game.Instance.assignmentManager.assignment_groups[assignmentGroupControllerDOCKED.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
+                            else if (!assignmentGroupSecond.CheckMinionIsMember(minion.assignableProxy.Get()))
                             {
-                                WrongWorldDupesHERE.Add(minion);
-                            }
-                        }
-                        foreach (var minion in Components.LiveMinionIdentities.GetWorldItems(second.WorldId))
-                        {
-                            if (!Game.Instance.assignmentManager.assignment_groups[assignmentGroupControllerDOCKED.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
-                            {
-                                WrongWorldDupesTHERE.Add(minion);
+                                SgtLogger.l(minion.GetProperName() + " was in second world, but is not assigned to it");
+                                MoveToFirstDupes.Add(minion);
                             }
                         }
                     }
@@ -471,7 +483,7 @@ namespace Rockets_TinyYetBig.Docking
                     DockingDoor firstDoor = first as DockingDoor;
                     DockingDoor secondDoor = second as DockingDoor;
 
-                    foreach (var minion in WrongWorldDupesHERE)
+                    foreach (var minion in MoveToSecondDupes)
                     {
                         var smi = minion.GetSMI<RocketPassengerMonitor.Instance>();
                         smi.SetMoveTarget(secondDoor.GetPorterCell());
@@ -479,7 +491,7 @@ namespace Rockets_TinyYetBig.Docking
                         secondDoor.RefreshAccessStatus(minion, true);
 
                     }
-                    foreach (var minion in WrongWorldDupesTHERE)
+                    foreach (var minion in MoveToFirstDupes)
                     {
                         var smi = minion.GetSMI<RocketPassengerMonitor.Instance>();
                         smi.SetMoveTarget(firstDoor.GetPorterCell());
@@ -487,8 +499,8 @@ namespace Rockets_TinyYetBig.Docking
                         firstDoor.RefreshAccessStatus(minion, true);
                         secondDoor.RefreshAccessStatus(minion, false);
                     }
-                    SgtLogger.l("wrong dupes first: " + WrongWorldDupesHERE.Count + ", wrong dupes second: " + WrongWorldDupesTHERE.Count);
-                    if (WrongWorldDupesHERE.Count == 0 && WrongWorldDupesTHERE.Count == 0)
+                    SgtLogger.l("wrong dupes first: " + MoveToSecondDupes.Count + ", wrong dupes second: " + MoveToFirstDupes.Count);
+                    if (MoveToSecondDupes.Count == 0 && MoveToFirstDupes.Count == 0)
                     {
                         SgtLogger.log(string.Format("Undocking world {0} from {1}, now that all dupes are moved", first.WorldId, second.WorldId));
                         ToRemove.Add(new Tuple<string, string>(first.GUID, second.GUID));

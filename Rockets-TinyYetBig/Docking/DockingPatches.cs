@@ -3,6 +3,7 @@ using HarmonyLib;
 using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.Docking;
 using Rockets_TinyYetBig.SpaceStations;
+using Rockets_TinyYetBig.TwitchEvents.SpaceSpice;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,14 @@ namespace Rockets_TinyYetBig.Patches
     class DockingPatches
     {
 
-
+        [HarmonyPatch(typeof(SaveLoader), "Save", new Type[] { typeof(string), typeof(bool), typeof(bool) })]
+        public class SaveLoader_Save_Patch
+        {
+            public static void Prefix()
+            {
+                DockingManagerSingleton.Instance.OnSaving();
+            }
+        }
         [HarmonyPatch(typeof(Clustercraft))]
         [HarmonyPatch(nameof(Clustercraft.OnClusterDestinationChanged))]
         public static class UndockOnFlight

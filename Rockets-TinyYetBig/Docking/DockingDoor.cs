@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static KAnim;
+using static STRINGS.BUILDING.STATUSITEMS;
 
 namespace Rockets_TinyYetBig.Behaviours
 {
@@ -19,7 +20,7 @@ namespace Rockets_TinyYetBig.Behaviours
         /// </summary>
 
         public CellOffset porterOffset = new CellOffset(0, 0);
-        [MyCmpReq] AccessControl accessControl;
+        AccessControl accessControl;
 
         [MyCmpGet] KBatchedAnimController animController;
 
@@ -32,12 +33,12 @@ namespace Rockets_TinyYetBig.Behaviours
         }
         public void RefreshAccessStatus(MinionIdentity minion, bool restrictToOwnWorld)
         {
+            SgtLogger.l("refreshing access status for "+minion.GetProperName()+" in "+spacecraftHandler.GetProperName()+", restrict: "+restrictToOwnWorld );
 
             if (restrictToOwnWorld)
             {
                 if (DockingManagerSingleton.Instance.TryGetAssignmentController(GUID, out var Controller))
                 {
-                    SgtLogger.l("refreshing access status");
                     if (Game.Instance.assignmentManager.assignment_groups[Controller.AssignmentGroupID].HasMember(minion.assignableProxy.Get()))
                     {
                         accessControl.SetPermission(minion.assignableProxy.Get(), AccessControl.Permission.Neither);
@@ -71,6 +72,19 @@ namespace Rockets_TinyYetBig.Behaviours
         }
         public override void OnSpawn()
         {
+            var world = this.GetMyWorld();
+            foreach (ClustercraftInteriorDoor craftInteriorDoor in Components.ClusterCraftInteriorDoors)
+            {
+                if (craftInteriorDoor.GetMyWorldId() == world.id)
+                {
+                    craftInteriorDoor.TryGetComponent<NavTeleporter>(out Teleporter);
+                    craftInteriorDoor.TryGetComponent<AccessControl>(out accessControl);
+                    SgtLogger.l("docking door attached");
+                    break;
+                }
+            }
+
+
             base.OnSpawn();
             if (DockingManagerSingleton.Instance.IsDocked(GUID, out _))
             {
@@ -95,13 +109,13 @@ namespace Rockets_TinyYetBig.Behaviours
                 {
                     Teleporter.SetTarget(currentDocked.Teleporter);
                     SgtLogger.l("enabling teleporter");
-                    EnableAccessAll();
                 }
                 else
                 {
                     SgtLogger.l("disabling teleporter");
                     Teleporter.SetTarget(null);
                 }
+                EnableAccessAll();
             }
 
             if (connected)

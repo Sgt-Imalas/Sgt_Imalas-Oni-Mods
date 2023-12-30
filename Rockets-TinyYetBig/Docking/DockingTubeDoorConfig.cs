@@ -85,9 +85,8 @@ namespace Rockets_TinyYetBig.Buildings
         {
             UnityEngine.Object.DestroyImmediate(go.GetComponent<BuildingEnabledButton>());
 
-            go.AddOrGet<NavTeleporter>().offset = new CellOffset(1, 0);
-            go.AddOrGet<AccessControl>();
-            go.AddComponent<DockingDoor>().porterOffset = new CellOffset(1, 0);
+            //go.AddOrGet<AccessControl>();
+            go.AddComponent<DockingDoor>().porterOffset = new CellOffset(0, 0);
             FakeFloorAdder fakeFloorAdder = go.AddOrGet<FakeFloorAdder>();
             fakeFloorAdder.floorOffsets =  new CellOffset[]
             {

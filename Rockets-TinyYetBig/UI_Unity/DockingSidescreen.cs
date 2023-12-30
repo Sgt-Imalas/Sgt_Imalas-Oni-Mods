@@ -148,7 +148,7 @@ namespace Rockets_TinyYetBig.UI_Unity
             Build();
             refreshHandle.Add(targetCraft.gameObject.Subscribe((int)GameHashes.ClusterDestinationChanged, new Action<object>(RefreshAll)));
             refreshHandle.Add(targetCraft.gameObject.Subscribe((int)GameHashes.ClusterLocationChanged, new Action<object>(RefreshAll)));
-            refreshHandle.Add(targetSpacecraftHandler.gameObject.Subscribe((int)ModAssets.Hashes.DockingConnectionChanged, new Action<object>(ExecuteOnPendingsFinished)));
+            refreshHandle.Add(targetSpacecraftHandler.gameObject.Subscribe((int)ModAssets.Hashes.DockingConnectionChanged, new Action<object>(RefreshAll)));
 
             Refresh();
         }
@@ -232,10 +232,10 @@ namespace Rockets_TinyYetBig.UI_Unity
             if (crewScreen == null)
             {
                 crewScreen = (CrewAssignmentSidescreen)DetailsScreen.Instance.SetSecondarySideScreen(ModAssets.DupeTransferSecondarySideScreen, DOCKINGTRANSFERSCREEN.TITLE.TITLETEXT);
-                DockingManagerSingleton.Instance.HandlersConnected(target, targetSpacecraftHandler, out IDockable first, out IDockable second);
+                DockingManagerSingleton.Instance.HandlersConnected(targetSpacecraftHandler, target, out IDockable first, out IDockable second);
                 if (DockingManagerSingleton.Instance.TryGetAssignmentController(first.GUID, out var firstController) && DockingManagerSingleton.Instance.TryGetAssignmentController(second.GUID, out var secondController))
                 {
-                    crewScreen.UpdateForConnection(firstController, targetSpacecraftHandler.WorldId, secondController, target.WorldId);
+                    crewScreen.UpdateForConnection(firstController, first.WorldId, secondController, second.WorldId);
                 }
             }
             else
@@ -313,10 +313,10 @@ namespace Rockets_TinyYetBig.UI_Unity
 
             ViewDockedButton.OnClick += () =>
             {
-                if (referencedManager != null && DockingManagerSingleton.Instance.HandlersConnected(referencedManager, targetSpacecraftHandler, out var first, out var secondDock))
+                if (referencedManager != null && DockingManagerSingleton.Instance.HandlersConnected(referencedManager, targetSpacecraftHandler, out var firstDock, out var secondDock))
                 {
                     ViewDockedButton.SetInteractable(secondDock.HasDupeTeleporter);
-                    ClusterManager.Instance.SetActiveWorld(referencedManager.worldId);
+                    ClusterManager.Instance.SetActiveWorld(firstDock.WorldId);
                     SelectTool.Instance.Activate();
                 }
             };

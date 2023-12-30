@@ -14,57 +14,8 @@ namespace Rockets_TinyYetBig.Docking
         [MyCmpGet] public WorldContainer world;
         [MyCmpGet] public Clustercraft clustercraft;
         public Dictionary<string, IDockable> WorldDockables = new Dictionary<string, IDockable>();
+        public PassengerRocketModule PassengerModule;
 
-        public override void OnPrefabInit()
-        {
-            base.OnPrefabInit();
-            DockingManagerSingleton.Instance.RegisterSpacecraftHandler(this);
-
-        }
-        public override void OnCleanUp()
-        {
-            DockingManagerSingleton.Instance.UnregisterSpacecraftHander(this);
-            base.OnCleanUp();
-        }
-
-        public void SetCurrentlyLoadingStuff(bool IsLoading)
-        {
-            isLoading = IsLoading;
-
-            if (!IsLoading && OnFinishedLoading != null)
-                OnFinishedLoading.Invoke();
-        }
-
-        internal bool CanDock()
-        {
-            bool cando = 
-                HasDoors()
-                && AvailableConnections() > 0
-                && (clustercraft.status == Clustercraft.CraftStatus.InFlight);
-            return cando;
-        }
-
-        internal void RegisterDockable(IDockable dockable)
-        {
-            WorldDockables.Add(dockable.GUID, dockable);
-            SgtLogger.l(gameObject.GetProperName()+" total dockable count: " + WorldDockables.Count);
-        }
-
-        internal void UnregisterDockable(IDockable dockable)
-        {
-            WorldDockables.Remove(dockable.GUID);
-        }
-
-        internal void UndockAll()
-        {
-            foreach(var dockable in WorldDockables.Keys)
-            {
-                if(DockingManagerSingleton.Instance.IsDocked(dockable, out var dockedTo))
-                {
-                    DockingManagerSingleton.Instance.AddPendingUndock(dockable, dockedTo);
-                }
-            }
-        }
 
         bool isLoading = false;
 
@@ -82,6 +33,55 @@ namespace Rockets_TinyYetBig.Docking
 
         public int WorldId => world.id;
 
+        public override void OnPrefabInit()
+        {
+            base.OnPrefabInit();
+            DockingManagerSingleton.Instance.RegisterSpacecraftHandler(this);
+
+        }
+        public override void OnCleanUp()
+        {
+            DockingManagerSingleton.Instance.UnregisterSpacecraftHander(this);
+            base.OnCleanUp();
+        }
+        public void SetCurrentlyLoadingStuff(bool IsLoading)
+        {
+            isLoading = IsLoading;
+
+            if (!IsLoading && OnFinishedLoading != null)
+                OnFinishedLoading.Invoke();
+        }
+
+        internal bool CanDock()
+        {
+            bool cando =
+                HasDoors()
+                && AvailableConnections() > 0
+                && (clustercraft.status == Clustercraft.CraftStatus.InFlight);
+            return cando;
+        }
+
+        internal void RegisterDockable(IDockable dockable)
+        {
+            WorldDockables.Add(dockable.GUID, dockable);
+            SgtLogger.l(gameObject.GetProperName() + " total dockable count: " + WorldDockables.Count);
+        }
+
+        internal void UnregisterDockable(IDockable dockable)
+        {
+            WorldDockables.Remove(dockable.GUID);
+        }
+
+        internal void UndockAll()
+        {
+            foreach (var dockable in WorldDockables.Keys)
+            {
+                if (DockingManagerSingleton.Instance.IsDocked(dockable, out var dockedTo))
+                {
+                    DockingManagerSingleton.Instance.AddPendingUndock(dockable, dockedTo);
+                }
+            }
+        }
         public Sprite GetDockingIcon()
         {
             Sprite returnVal = null;
@@ -150,8 +150,6 @@ namespace Rockets_TinyYetBig.Docking
 
         internal bool HasDoors()
         {
-            SgtLogger.l(WorldDockables.Count + "", "has doors");
-
             return WorldDockables.Count > 0;
         }
 
