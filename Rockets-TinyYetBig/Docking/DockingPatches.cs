@@ -1,6 +1,7 @@
 ﻿using Epic.OnlineServices;
 using HarmonyLib;
 using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Buildings;
 using Rockets_TinyYetBig.Docking;
 using Rockets_TinyYetBig.SpaceStations;
 using Rockets_TinyYetBig.TwitchEvents.SpaceSpice;
@@ -19,6 +20,36 @@ namespace Rockets_TinyYetBig.Patches
 {
     class DockingPatches
     {
+        //[HarmonyPatch(typeof(BuildingDef), 
+        //    nameof(BuildingDef.IsValidBuildLocation), 
+        //    new Type[] { typeof(GameObject), typeof(int), typeof(Orientation), typeof(bool), typeof(string) },
+        //    new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out})]
+        //public static class FixTagForInvalidBuildlocationString
+        //{
+        //    public static void Postfix(string fail_reason)
+        //    {
+        //        if (fail_reason == null)
+        //            return;
+
+        //        SgtLogger.l(fail_reason, "FAILREASON");
+        //        if (fail_reason.Contains(ModAssets.Tags.AttachmentSlotDockingDoor.ToString())){
+        //            fail_reason.Replace(ModAssets.Tags.AttachmentSlotDockingDoor.ToString(), STRINGS.MISC.TAGS.RTB_DOCKINGTUBEATTACHMENTSLOT);
+        //        }
+        //    }
+        //}
+
+        [HarmonyPatch(typeof(ClustercraftInteriorDoorConfig))]
+        [HarmonyPatch(nameof(ClustercraftInteriorDoorConfig.OnSpawn))]
+        public static class AddDockingTubeAttachmentSlot
+        {
+            public static void Postfix(GameObject inst)
+            {
+                inst.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
+                {
+                    new BuildingAttachPoint.HardPoint(new CellOffset(1, 0), ModAssets.Tags.AttachmentSlotDockingDoor, (AttachableBuilding) null)
+                };
+            }
+        }
 
         [HarmonyPatch(typeof(SaveLoader), "Save", new Type[] { typeof(string), typeof(bool), typeof(bool) })]
         public class SaveLoader_Save_Patch
@@ -82,7 +113,7 @@ namespace Rockets_TinyYetBig.Patches
         {
             public static void Postfix(Clustercraft __instance, CraftStatus craft_status)
             {
-                if (__instance != null && __instance.gameObject != null && __instance.TryGetComponent<DockingSpacecraftHandler>(out var manager) && !craft_status.Equals(CraftStatus.InFlight)) 
+                if (__instance != null && __instance.gameObject != null && __instance.TryGetComponent<DockingSpacecraftHandler>(out var manager) && !craft_status.Equals(CraftStatus.InFlight))
                 {
                     manager.UndockAll();
                 }
