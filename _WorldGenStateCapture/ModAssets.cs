@@ -7,12 +7,14 @@ using ProcGen;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static Satsuma.CompleteBipartiteGraph;
 using static STRINGS.UI.CLUSTERMAP;
 
 namespace _WorldGenStateCapture
@@ -27,7 +29,6 @@ namespace _WorldGenStateCapture
         static string BaseGameFolder = "BasegameSeeds";
         static string DlcClassicFolder = "DlcClassicSeeds";
         static string DlcSpacedOutFolder = "DlcSOSeeds";
-
 
         internal static void AccumulateSeedData()
         {
@@ -55,10 +56,23 @@ namespace _WorldGenStateCapture
 
 
 
+            var GridMap = new Bitmap(Grid.WidthInCells, Grid.HeightInCells);
+            
+            for (int i = 0; i < Grid.CellCount; i++)
+            {
+                SubWorld.ZoneType data = World.Instance.zoneRenderData.worldZoneTypes[i];
+                Grid.CellToXY(i,out var x,out var y);
+                Color32 color = World.Instance.zoneRenderData.zoneColours[(int)data];
+                
+                GridMap.SetPixel(x, (Grid.HeightInCells-1)  - y, System.Drawing.Color.FromArgb(color.r,color.g,color.b));
+            }
+
+
             ClusterLayout clusterData = SettingsCache.clusterLayouts.GetClusterData(currentQualitySetting.id);
             SettingLevel currentQualitySetting2 = CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed);
             //string otherSettingsCode = CustomGameSettings.Instance.GetOtherSettingsCode();
             string storyTraitSettingsCode = CustomGameSettings.Instance.GetStoryTraitSettingsCode();
+
 
             DataItem.Seed = SaveLoader.Instance.clusterDetailSave.globalWorldSeed;
             DataItem.Coordinate = clusterData.GetCoordinatePrefix();
@@ -116,6 +130,7 @@ namespace _WorldGenStateCapture
             {
                 string fileName = DataItem.FullCoordinate + ".json";
                 IO_Utils.WriteToFile(DataItem, System.IO.Path.Combine(parentPath, fileName));
+                GridMap.Save(System.IO.Path.Combine(parentPath, DataItem.FullCoordinate + ".png"));
             }
 
 
