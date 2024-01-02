@@ -87,6 +87,7 @@ namespace _WorldGenStateCapture
             {
                 DataItem.StarmapEntries_Vanilla = new(baseStarmapItems);
             }
+
             IO_Utils.WriteToFile(DataItem, System.IO.Path.Combine(IO_Utils.ModPath, "TestDataDump.json"));
 
 

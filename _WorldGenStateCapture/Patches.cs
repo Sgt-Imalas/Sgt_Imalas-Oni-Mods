@@ -2,6 +2,10 @@
 using HarmonyLib;
 using Klei;
 using Klei.AI;
+using Klei.CustomSettings;
+using Microsoft.Win32;
+using ProcGen;
+using ProcGenGame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +15,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static _WorldGenStateCapture.ModAssets;
+using static _WorldGenStateCapture.STRINGS.WORLDPARSERMODCONFIG;
 using static WorldGenSpawner;
 
 namespace _WorldGenStateCapture
@@ -28,6 +33,10 @@ namespace _WorldGenStateCapture
                 LocalisationUtil.Translate(typeof(STRINGS), true);
             }
         }
+
+
+
+        #region SkipOrTheGameCrashesDueToNoSave
 
         [HarmonyPatch(typeof(RetireColonyUtility), nameof(RetireColonyUtility.SaveColonySummaryData))]
         public static class PreventSavingWorldRetiredColonyData
@@ -63,6 +72,7 @@ namespace _WorldGenStateCapture
                 return false;
             }
         }
+        #endregion
 
         [HarmonyPatch(typeof(WattsonMessage), nameof(WattsonMessage.OnDeactivate))]
         public static class QuitGamePt2
@@ -101,6 +111,140 @@ namespace _WorldGenStateCapture
                 __instance.button.SignalClick(KKeyCode.Mouse2);
             }
         }
+
+
+
+        [HarmonyPatch(typeof(MainMenu), nameof(MainMenu.OnSpawn))]
+
+        public static class AutoLaunchParser
+        {
+            [HarmonyPriority(Priority.Low)]
+            public static void Postfix(MainMenu __instance)
+            {
+                bool shouldAutoStart = ShoulDoAutoStartParsing(out _);
+                var config = Config.Instance;
+                if (!shouldAutoStart)
+                {
+                    var startParsingBTN = Util.KInstantiateUI(__instance.Button_NewGame.gameObject, __instance.Button_NewGame.transform.parent.gameObject, true);
+                    startParsingBTN.name = "start parsing";
+                    UIUtils.AddActionToButton(startParsingBTN.transform, "", () =>
+                    {
+                        ReduceRemainingRuns();
+                        InitAutoStart(__instance);
+                    });
+                    LocText componentInChildren = startParsingBTN.GetComponentInChildren<LocText>();
+                    componentInChildren.text = STRINGS.STARTPARSING;
+
+                }
+
+
+                if (config.ContinuousParsing)
+                {
+                    InitAutoStart(__instance);
+                    return;
+                }
+
+                if (shouldAutoStart)
+                {
+                    ReduceRemainingRuns();
+                    InitAutoStart(__instance);
+                }
+            }
+            public static string RegistryKey = "SeedParsing_RemainingRuns";
+            public static bool ShoulDoAutoStartParsing(out int remainingRuns)
+            {
+                //if (KPlayerPrefs.GetInt(RegistryKey) == default) //nothing valid set;
+                //{
+                //    KPlayerPrefs.SetInt(RegistryKey, Config.Instance.TargetNumber);
+                //}
+                remainingRuns = KPlayerPrefs.GetInt(RegistryKey);
+                return remainingRuns > 0;
+            }
+            public static void ReduceRemainingRuns()
+            {
+                ShoulDoAutoStartParsing(out int remaining);
+                remaining--;
+                if (remaining>0)
+                {
+                    KPlayerPrefs.SetInt(RegistryKey, remaining);
+                }
+                else
+                    KPlayerPrefs.SetInt(RegistryKey, default);
+
+            }
+
+
+
+            public static void InitAutoStart(MainMenu __instance)
+            {
+                autoLoadActive = false;
+                var clusterPrefix = DlcManager.IsExpansion1Active() ? Config.Instance.TargetCoordinateDLC : Config.Instance.TargetCoordinateBase;
+
+                targetLayout = null;
+                SgtLogger.l("autostarting...");
+                foreach (string clusterName in SettingsCache.GetClusterNames())
+                {
+                    ClusterLayout clusterData = SettingsCache.clusterLayouts.GetClusterData(clusterName);
+                    if (clusterData.coordinatePrefix == clusterPrefix)
+                    {
+                        targetLayout = clusterData;
+                        break;
+                    }
+                }
+
+                if (targetLayout == null)
+                    return;
+
+                SgtLogger.l("autostart successful");
+                autoLoadActive = true;
+                clusterCategory = targetLayout.clusterCategory;
+                __instance.NewGame();
+
+            }
+        }
+        static ClusterLayout targetLayout;
+        static int clusterCategory = -1;
+        static bool autoLoadActive;
+
+
+        [HarmonyPatch(typeof(ClusterCategorySelectionScreen), nameof(ClusterCategorySelectionScreen.OnSpawn))]
+        public static class SelectClusterType
+        {
+            public static void Postfix(ClusterCategorySelectionScreen __instance)
+            {
+                if (autoLoadActive && clusterCategory != -1)
+                {
+                    __instance.OnClickOption((ClusterLayout.ClusterCategory)clusterCategory);
+                }
+            }
+        }
+        [HarmonyPatch(typeof(ModeSelectScreen), nameof(ModeSelectScreen.OnSpawn))]
+        public static class SelectSurvivalSettings
+        {
+            public static void Postfix(ModeSelectScreen __instance)
+            {
+                if (autoLoadActive)
+                {
+                    __instance.OnClickSurvival();
+
+                }
+            }
+        }
+        [HarmonyPatch(typeof(ColonyDestinationSelectScreen), nameof(ColonyDestinationSelectScreen.OnSpawn))]
+        public static class SelectCluster
+        {
+            public static void Postfix(ColonyDestinationSelectScreen __instance)
+            {
+                if (autoLoadActive)
+                {
+                    __instance.newGameSettings.SetSetting((SettingConfig)CustomGameSettingConfigs.ClusterLayout, targetLayout.filePath);
+                    __instance.ShuffleClicked();
+                    __instance.LaunchClicked();
+                }
+            }
+        }
+
+
         /// <summary>
         /// These patches have to run manually or they break translations on certain screens
         /// </summary>
