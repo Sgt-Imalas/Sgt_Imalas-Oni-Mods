@@ -129,6 +129,7 @@ namespace _WorldGenStateCapture
                     startParsingBTN.name = "start parsing";
                     UIUtils.AddActionToButton(startParsingBTN.transform, "", () =>
                     {
+                        ToggleAutoParse(true);
                         ReduceRemainingRuns();
                         InitAutoStart(__instance);
                     });
@@ -149,27 +150,26 @@ namespace _WorldGenStateCapture
                     ReduceRemainingRuns();
                     InitAutoStart(__instance);
                 }
+                else
+                    ToggleAutoParse(false);
             }
             public static string RegistryKey = "SeedParsing_RemainingRuns";
             public static bool ShoulDoAutoStartParsing(out int remainingRuns)
             {
-                //if (KPlayerPrefs.GetInt(RegistryKey) == default) //nothing valid set;
-                //{
-                //    KPlayerPrefs.SetInt(RegistryKey, Config.Instance.TargetNumber);
-                //}
                 remainingRuns = KPlayerPrefs.GetInt(RegistryKey);
                 return remainingRuns > 0;
             }
             public static void ReduceRemainingRuns()
             {
-                ShoulDoAutoStartParsing(out int remaining);
+                int remaining = KPlayerPrefs.GetInt(RegistryKey);
                 remaining--;
-                if (remaining>0)
-                {
-                    KPlayerPrefs.SetInt(RegistryKey, remaining);
-                }
-                else
-                    KPlayerPrefs.SetInt(RegistryKey, default);
+                KPlayerPrefs.SetInt(RegistryKey, remaining);
+
+            }
+            public static void ToggleAutoParse(bool enable)
+            {
+                
+                KPlayerPrefs.SetInt(RegistryKey, enable ? Config.Instance.TargetNumber : -1);
 
             }
 

@@ -3,6 +3,7 @@ using KMod;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
 using System;
+using System.IO;
 using UtilLibs;
 
 namespace _WorldGenStateCapture

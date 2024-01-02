@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace _WorldGenStateCapture
 {
     [Serializable]
+    [RestartRequired]
     [ConfigFile(SharedConfigLocation: true)]
     [ModInfo("World Parser")]
     public class Config : SingletonOptions<Config>

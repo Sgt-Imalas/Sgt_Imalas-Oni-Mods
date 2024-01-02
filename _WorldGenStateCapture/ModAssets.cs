@@ -24,9 +24,19 @@ namespace _WorldGenStateCapture
         public static List<HexMap_Entry> dlcStarmapItems = new List<HexMap_Entry>();
         public static List<VanillaMap_Entry> baseStarmapItems = new List<VanillaMap_Entry>();
 
+        static string BaseGameFolder = "BasegameSeeds";
+        static string DlcClassicFolder = "DlcClassicSeeds";
+        static string DlcSpacedOutFolder = "DlcSOSeeds";
+
 
         internal static void AccumulateSeedData()
         {
+
+            System.IO.Directory.CreateDirectory(System.IO.Path.Combine(IO_Utils.ModPath, BaseGameFolder));
+            System.IO.Directory.CreateDirectory(System.IO.Path.Combine(IO_Utils.ModPath, DlcClassicFolder));
+            System.IO.Directory.CreateDirectory(System.IO.Path.Combine(IO_Utils.ModPath, DlcSpacedOutFolder));
+
+
             bool dlcActive = DlcManager.IsExpansion1Active();
 
             WorldDataInstance DataItem = new WorldDataInstance();
@@ -88,7 +98,25 @@ namespace _WorldGenStateCapture
                 DataItem.StarmapEntries_Vanilla = new(baseStarmapItems);
             }
 
-            IO_Utils.WriteToFile(DataItem, System.IO.Path.Combine(IO_Utils.ModPath, "TestDataDump.json"));
+            string parentPath = string.Empty;
+            switch (clusterData.clusterCategory)
+            {
+                case 0:
+                    parentPath = System.IO.Path.Combine(IO_Utils.ModPath, BaseGameFolder);
+                    break;
+                case 1:
+                    parentPath = System.IO.Path.Combine(IO_Utils.ModPath, DlcClassicFolder);
+                    break;
+                case 2:
+                    parentPath = System.IO.Path.Combine(IO_Utils.ModPath, DlcSpacedOutFolder);
+                    break;
+
+            }
+            if (parentPath != string.Empty)
+            {
+                string fileName = DataItem.FullCoordinate + ".json";
+                IO_Utils.WriteToFile(DataItem, System.IO.Path.Combine(parentPath, fileName));
+            }
 
 
             currentGeysers.Clear();
