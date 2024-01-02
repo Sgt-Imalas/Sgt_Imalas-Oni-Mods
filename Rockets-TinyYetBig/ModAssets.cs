@@ -26,8 +26,11 @@ namespace Rockets_TinyYetBig
     {
         public class Hashes
         {
-            public static ModHashes DockingManagerAdded = new ModHashes("RTB_DockingManagerAdded");
-            public static ModHashes DockingManagerRemoved = new ModHashes("RTB_DockingManagerRemoved");
+            public static ModHashes DockingConnectionChanged = new ModHashes("RTB_DockingConnectionChanged");
+            public static ModHashes DockingConnectionConnected = new ModHashes("RTB_DockingConnectionConnected");
+            public static ModHashes DockingConnectionDisconnected = new ModHashes("RTB_DockingConnectionDisconnected");
+            public static ModHashes DockableAdded = new ModHashes("RTB_DockableAdded");
+            public static ModHashes DockableRemoved = new ModHashes("RTB_DockableRemoved");
             public static ModHashes OnStationPartConstructionStarted = new ModHashes("RTB_OnStationPartConstructionStarted");
             public static ModHashes OnStationPartConstructionFinished = new ModHashes("RTB_OnStationPartConstructionFinished");
         }
@@ -419,6 +422,7 @@ namespace Rockets_TinyYetBig
         {
             public static Tag VerticalPortAttachementPoint = TagManager.Create("RTB_verticalPortAttachmentPoint");
 
+            public static Tag AttachmentSlotDockingDoor = TagManager.Create("RTB_DockingTubeAttachmentSlot");
             public static Tag IsSpaceStation = TagManager.Create("RTB_isSpaceStationInteriorWorld");
 
             public static Tag SpaceStationOnlyInteriorBuilding = TagManager.Create("RTB_SpaceStationInteriorOnly");
@@ -566,7 +570,7 @@ namespace Rockets_TinyYetBig
 
         public static Components.Cmps<FridgeModuleHatchGrabber> FridgeModuleGrabbers = new Components.Cmps<FridgeModuleHatchGrabber>();
         //public static Components.Cmps<FridgeModuleItemDistributor> FridgeModuleDistributors = new Components.Cmps<FridgeModuleItemDistributor>();
-        public static Components.Cmps<DockingManager> Dockables = new Components.Cmps<DockingManager>();
+        //public static Components.Cmps<DockingManager> Dockables = new Components.Cmps<DockingManager>();
 
         public static Dictionary<Tuple<BuildingDef, int>, GameObject> CategorizedButtons = new Dictionary<Tuple<BuildingDef, int>, GameObject>();
 

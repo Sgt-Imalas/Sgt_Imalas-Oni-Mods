@@ -87,6 +87,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
             }
         }
 
+
         [HarmonyPatch(typeof(CameraController))]
         [HarmonyPatch(nameof(CameraController.ConstrainToWorld))]
         public static class ConstrainToSmallerWorld_FixForModules

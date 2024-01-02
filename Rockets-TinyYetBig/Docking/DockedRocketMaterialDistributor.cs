@@ -35,13 +35,13 @@ namespace Rockets_TinyYetBig
             this.operational
                 .DefaultState(this.operational.noRocket)
                 .EventTransition(GameHashes.OperationalChanged, this.inoperational, (smi => !smi.GetComponent<Operational>().IsOperational))
-                .EventHandler(GameHashes.ChainedNetworkChanged, ((smi, data) => this.SetAttachedRocket(smi.GetDockedRocket(), smi)))
-                .EventHandler(GameHashes.RocketLanded, ((smi, data) => this.SetAttachedRocket(smi.GetDockedRocket(), smi)));
+                //.EventHandler(GameHashes.ChainedNetworkChanged, ((smi, data) => this.SetAttachedRocket(smi.GetDockedRocket(), smi)))
+                .EventHandler(ModAssets.Hashes.DockingConnectionConnected, ((smi, data) => this.SetAttachedRocket(smi.GetDockedRocket(), smi)));
 
             this.operational
                 .noRocket
                     .Update(((smi, dt) => this.SetAttachedRocket(smi.GetDockedRocket(), smi)), UpdateRate.RENDER_1000ms)
-                    .EventHandler(GameHashes.RocketLanded, (smi, data) => this.SetAttachedRocket(smi.GetDockedRocket(), smi))
+                    .EventHandler(ModAssets.Hashes.DockingConnectionConnected, (smi, data) => this.SetAttachedRocket(smi.GetDockedRocket(), smi))
                     //.EventHandler(GameHashes.RocketCreated, (smi, data) => this.SetAttachedRocket(smi.GetDockedRocket(), smi))
                     .ParamTransition<GameObject>(this.attachedRocket, this.operational.hasRocket, ((smi, p) => p != null));
 
@@ -58,7 +58,7 @@ namespace Rockets_TinyYetBig
                     .DefaultState((State)this.operational.hasRocket.transferring)
                     .Update(((smi, dt) => smi.EmptyRocket(dt)), UpdateRate.SIM_1000ms)
                     .Update(((smi, dt) => smi.FillRocket(dt)), UpdateRate.SIM_1000ms)
-                    .EventTransition(GameHashes.RocketLaunched, this.operational.rocketLost)
+                    .EventTransition(ModAssets.Hashes.DockingConnectionDisconnected, this.operational.rocketLost)
                     .OnTargetLost(this.attachedRocket, this.operational.rocketLost)
                     .Target(this.attachedRocket)
                     .Target(this.masterTarget)
@@ -95,7 +95,7 @@ namespace Rockets_TinyYetBig
                     .ToggleTag(GameTags.TransferringCargoComplete)
                     .ParamTransition<bool>(this.fillComplete, (State)this.operational.hasRocket.transferring, IsFalse)
                     .ParamTransition<bool>(this.emptyComplete, (State)this.operational.hasRocket.transferring, IsFalse)
-                    .EventTransition(GameHashes.RocketLaunched, this.operational.rocketLost)
+                    .EventTransition(ModAssets.Hashes.DockingConnectionDisconnected, this.operational.rocketLost)
                 .Enter((smi) =>
                 {
                     smi.SetConnectedRocketStatusLoading(false);
@@ -168,17 +168,18 @@ namespace Rockets_TinyYetBig
 
                 if (this.gameObject.TryGetComponent<IDockable>(out var door))
                 {
-                    return door.GetDockedCraftModuleInterface();
+                    return door.spacecraftHandler.Interface; 
                 }
                 return null;
             }
 
             public void SetConnectedRocketStatusLoading(bool isLoadingOrUnloading)
             {
-                var door = this.gameObject.GetComponent<IDockable>();
-                if (door.IsConnected)
+                gameObject.TryGetComponent<IDockable>(out var dockable);
+
+                if (DockingManagerSingleton.Instance.IsDocked(dockable.GUID, out var dockedToId) && DockingManagerSingleton.Instance.TryGetDockable(dockedToId, out var connected))
                 {
-                    door.GetConnec().dManager.SetCurrentlyLoadingStuff(isLoadingOrUnloading);
+                    connected.spacecraftHandler.SetCurrentlyLoadingStuff(isLoadingOrUnloading);
                 }
             }
 

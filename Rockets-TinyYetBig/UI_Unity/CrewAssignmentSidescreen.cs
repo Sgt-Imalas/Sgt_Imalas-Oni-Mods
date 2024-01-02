@@ -1,4 +1,6 @@
 ﻿using Database;
+using KMod;
+using Rockets_TinyYetBig.Docking;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Printing;
@@ -9,6 +11,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
+using static STRINGS.NAMEGEN;
 using static STRINGS.UI.UISIDESCREENS.AUTOPLUMBERSIDESCREEN.BUTTONS;
 
 namespace Rockets_TinyYetBig.UI_Unity
@@ -25,10 +28,9 @@ namespace Rockets_TinyYetBig.UI_Unity
         Dictionary<MinionIdentity, GameObject> OwnDupePresets = new Dictionary<MinionIdentity, GameObject>();
         Dictionary<MinionIdentity, GameObject> TargetDupePresets = new Dictionary<MinionIdentity, GameObject>();
 
-        AssignmentGroupController MyAssignmentGroup;
-        AssignmentGroupController TargetAssignmentGroup;
 
         LocText OwnHeader,TargetHeader;
+        int firstWorldId = -1, secondWorldId = -1;
 
         public override void OnPrefabInit()
         {
@@ -80,18 +82,17 @@ namespace Rockets_TinyYetBig.UI_Unity
             }
         }
 
-        public void UpdateForConnection(AssignmentGroupController myAssignmentGroup, int MyWorldID, AssignmentGroupController targetAssignmentGroup, int TargetWorldId)
+        public void UpdateForConnection(int _firstWorld,int _secondWorld)
         {
-            MyAssignmentGroup = myAssignmentGroup;
-            TargetAssignmentGroup = targetAssignmentGroup;
+            SgtLogger.l("updating for connected: "+ _firstWorld + ", "+ _secondWorld);
+            firstWorldId = _firstWorld;
+            secondWorldId = _secondWorld;
 
-            var own = ClusterManager.Instance.GetWorld(MyWorldID);
+            var own = ClusterManager.Instance.GetWorld(firstWorldId);
             OwnHeader.SetText(string.Format(STRINGS.UI.DOCKINGTRANSFERSCREEN.DUPESASSIGNEDTO, own.GetProperName()));
-            var target = ClusterManager.Instance.GetWorld(TargetWorldId);
+            var target = ClusterManager.Instance.GetWorld(secondWorldId);
             TargetHeader.SetText(string.Format(STRINGS.UI.DOCKINGTRANSFERSCREEN.DUPESASSIGNEDTO, target.GetProperName()));
 
-
-            var AllDupes = Components.LiveMinionIdentities.GetWorldItems(MyWorldID).Concat(Components.LiveMinionIdentities.GetWorldItems(TargetWorldId)).ToList();
 
 
             foreach (var kvp in OwnDupePresets)
@@ -103,41 +104,34 @@ namespace Rockets_TinyYetBig.UI_Unity
                 kvp.Value.SetActive(false);
             }
 
-            foreach(var Duplicant in AllDupes)
+            foreach(var Duplicant in Components.LiveMinionIdentities.Items)
             {
                 if (!OwnDupePresets.ContainsKey(Duplicant))
                 {
                     AddDupeEntry(Duplicant, true);
                     AddDupeEntry(Duplicant, false);
                 }
-                if(MyAssignmentGroup != null )
+                if(DockingManagerSingleton.Instance.TryGetMinionAssignment(Duplicant, out int worldId))
                 {
-                    if (MyAssignmentGroup.CheckMinionIsMember(Duplicant.assignableProxy.Get()))
+                    SgtLogger.l(Duplicant.GetProperName() + " currently assigned to " + worldId, "Current Docking dupe");
+                    SgtLogger.l( ClusterManager.Instance.GetWorld(firstWorldId).GetProperName(), "WorldFirst - "+firstWorldId);
+                    SgtLogger.l( ClusterManager.Instance.GetWorld(secondWorldId).GetProperName(), "WorldSecond - " + secondWorldId);
+
+                    if (worldId == firstWorldId)
                     {
-                        TargetDupePresets[Duplicant].SetActive(false);
                         OwnDupePresets[Duplicant].SetActive(true);
-                    }
-                    else
-                    {
-                        TargetDupePresets[Duplicant].SetActive(true);
-                        OwnDupePresets[Duplicant].SetActive(false);
-                    }
-                    continue;
-                }
-                if (TargetAssignmentGroup != null)
-                {
-                    if (TargetAssignmentGroup.CheckMinionIsMember(Duplicant.assignableProxy.Get()))
-                    {
-                        TargetDupePresets[Duplicant].SetActive(true);
-                        OwnDupePresets[Duplicant].SetActive(false);
-                    }
-                    else
-                    {
                         TargetDupePresets[Duplicant].SetActive(false);
-                        OwnDupePresets[Duplicant].SetActive(true);
                     }
-                    continue;
+                    else if(worldId == secondWorldId)
+                    {
+                        OwnDupePresets[Duplicant].SetActive(false);
+                        TargetDupePresets[Duplicant].SetActive(true);
+                    }
+
                 }
+                else
+                    SgtLogger.l(Duplicant.GetProperName() + " is not currently assigned to anything rn");
+
             }
 
 
@@ -150,21 +144,7 @@ namespace Rockets_TinyYetBig.UI_Unity
             UIUtils.TryChangeText(target.transform,("TitleText"),identity.name);
         }
 
-        void AssignDupeFromTo(MinionIdentity minion, AssignmentGroupController source, AssignmentGroupController target)
-        {
 
-            var minionIdentity = minion.assignableProxy.Get();
-            if (source != null && Game.Instance.assignmentManager.assignment_groups[source.AssignmentGroupID].HasMember(minionIdentity))
-            {
-                SgtLogger.l("REMOVING DOOP " + source.name);
-                Game.Instance.assignmentManager.assignment_groups[source.AssignmentGroupID].RemoveMember(minionIdentity);
-            }
-            if (target != null && !Game.Instance.assignmentManager.assignment_groups[target.AssignmentGroupID].HasMember(minionIdentity))
-            {
-                SgtLogger.l("Adding DOOP " + target.name);
-                Game.Instance.assignmentManager.assignment_groups[target.AssignmentGroupID].AddMember(minionIdentity);
-            }
-        }
 
         void AddDupeEntry(MinionIdentity minionIdentity, bool ownTrueTargetFalse)
         {
@@ -180,7 +160,7 @@ namespace Rockets_TinyYetBig.UI_Unity
             {
                 btn.OnClick += () =>
                 {
-                    AssignDupeFromTo(minionIdentity, MyAssignmentGroup, TargetAssignmentGroup);
+                    DockingManagerSingleton.Instance.SetMinionAssignment(minionIdentity.assignableProxy, secondWorldId);
                     TargetDupePresets[minionIdentity].SetActive(true);
                     OwnDupePresets[minionIdentity].SetActive(false);
                 };
@@ -190,7 +170,7 @@ namespace Rockets_TinyYetBig.UI_Unity
             {
                 btn.OnClick += () =>
                 {
-                    AssignDupeFromTo(minionIdentity, TargetAssignmentGroup, MyAssignmentGroup);
+                    DockingManagerSingleton.Instance.SetMinionAssignment(minionIdentity.assignableProxy,firstWorldId);
                     TargetDupePresets[minionIdentity].SetActive(false);
                     OwnDupePresets[minionIdentity].SetActive(true);
 

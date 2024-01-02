@@ -166,7 +166,6 @@ namespace Rockets_TinyYetBig.UI_Unity
             {
                 buildTargetScreen = (SpaceConstructionTargetScreen)DetailsScreen.Instance.SetSecondarySideScreen(ModAssets.SpaceConstructionTargetSecondarySideScreen, CONSTRUCTIONSELECTOR_SECONDARYSIDESCREEN.TITLE.TITLETEXT);
                 buildTargetScreen.UpdatePositions(targetCraft.Location);
-                //buildTargetScreen.UpdateForConnection(targetManager.GetAssignmentGroupControllerIfExisting(), targetManager.WorldId, target.GetAssignmentGroupControllerIfExisting(), target.WorldId);
             }
             else
             {
@@ -188,8 +187,8 @@ namespace Rockets_TinyYetBig.UI_Unity
             this.buildTargetScreen = null;
         }
 
-        private void AddRowEntry(DockingManager referencedManager, bool startActive = true)
-        {
+       // private void AddRowEntry(DockingManager referencedManager, bool startActive = true)
+        //{
             //int ReferenceWorldId = referencedManager.WorldId;
             //GameObject RowEntry = Util.KInstantiateUI(rowPrefab, listContainer);
             /////ListAllChildren(RowEntry.transform);
@@ -250,7 +249,7 @@ namespace Rockets_TinyYetBig.UI_Unity
 
             //DockingTargets.Add(referencedManager, RowEntry);
             //RowEntry.SetActive(startActive);
-        }
+        //}
 
         private void Refresh(object _ = null)
         {
@@ -259,7 +258,7 @@ namespace Rockets_TinyYetBig.UI_Unity
             //    SgtLogger.l("Skipping refresh");
             //    return;
             //}
-            //headerLabel.SetText(string.Format(STRINGS.UI.DOCKINGSCREEN.DOCKINGBRIDGES.TITLETEXT, targetManager.AvailableConnections(), targetManager.TotatConnections()));
+            //headerLabel.SetText(string.Format(STRINGS.UI.DOCKINGSCREEN.DOCKINGBRIDGES.TITLETEXT, targetManager.AvailableConnections(), targetManager.TotalConnections()));
 
 
             //foreach (var kvp in DockingTargets)

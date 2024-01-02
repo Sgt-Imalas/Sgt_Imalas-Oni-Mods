@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static Rockets_TinyYetBig.Docking.DockingSpacecraftHandler;
 
 namespace Rockets_TinyYetBig.Patches
 {
@@ -23,7 +24,7 @@ namespace Rockets_TinyYetBig.Patches
                 {
 
 
-                    if (__instance.TryGetComponent<DockingManager>(out var manager))
+                    if (__instance.TryGetComponent<DockingSpacecraftHandler>(out var manager))
                     {
                         foreach (var docked in manager.GetConnectedRockets())
                         {
@@ -49,7 +50,7 @@ namespace Rockets_TinyYetBig.Patches
             {
                 public static void Postfix(Clustercraft __instance, ref float __result)
                 {
-                    if (__instance.TryGetComponent<DockingManager>(out var manager))
+                    if (__instance.TryGetComponent<DockingSpacecraftHandler>(out var manager))
                     {
                         foreach (var docked in manager.GetConnectedRockets())
                         {
@@ -73,23 +74,24 @@ namespace Rockets_TinyYetBig.Patches
                 {
                     __instance.m_clusterTraveler.onTravelCB += () =>
                     {
-                        if (__instance.TryGetComponent<DockingManager>(out var manager))
+                        if (__instance.TryGetComponent<DockingSpacecraftHandler>(out var manager))
                         {
-                            foreach (var docked in manager.GetConnectedRockets())
+                            foreach (var docked in manager.GetCurrentDocks())
                             {
-                                if (ClusterManager.Instance.GetWorld(docked).TryGetComponent<Clustercraft>(out var craft)
-                                && (Mathf.RoundToInt(craft.ModuleInterface.Range) == 0 || manager.GetCraftType != DockableType.Rocket)
-                                && craft.Location != __instance.Location)
+                                var handler = docked.spacecraftHandler;
+                                if (handler!=null
+                                && (Mathf.RoundToInt(handler.clustercraft.ModuleInterface.Range) == 0 || handler.CraftType != DockableType.Rocket) // pull other rockets if they are empty or if __instance is not a rocket (space station or derelict - maybe flying derelicts later?)
+                                && handler.clustercraft.Location != __instance.Location)
                                 {
                                     if ((ClusterGrid.Instance.GetVisibleEntityOfLayerAtCell(__instance.Location, EntityLayer.Asteroid) == null))
                                     {
-                                        SgtLogger.l("Pulled stranded rocket " + craft.Name + " to new tile with " + __instance.Name);
-                                        craft.Location = __instance.Location;
+                                        SgtLogger.l("Pulled stranded rocket " + handler.clustercraft.Name + " to new tile with " + __instance.Name);
+                                        handler.clustercraft.Location = __instance.Location;
                                     }
                                     else
                                     {
-                                        SgtLogger.l("Disconnected " + craft.Name + " as stranded in orbit");
-                                        craft.m_clusterTraveler.m_destinationSelector.SetDestination(craft.Location);
+                                        SgtLogger.l("Disconnected " + handler.clustercraft.Name + " as stranded in orbit");
+                                        handler.clustercraft.m_clusterTraveler.m_destinationSelector.SetDestination(handler.clustercraft.Location);
                                         //craft.m_clusterTraveler.m_destinationSelector.SetDestination(__instance.Location);
                                     }
                                 }
@@ -132,7 +134,7 @@ namespace Rockets_TinyYetBig.Patches
             {
                 public static bool Prefix(Clustercraft __instance, ref float __result)
                 {
-                    if (__instance.TryGetComponent<DockingManager>(out var manager))
+                    if (__instance.TryGetComponent<DockingSpacecraftHandler>(out var manager))
                     {
                         float unmodifiedSpeed = __instance.EnginePower / __instance.TotalBurden;
                         float totalAutoPilotMultiplier = __instance.AutoPilotMultiplier;

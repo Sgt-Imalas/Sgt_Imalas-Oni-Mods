@@ -15,7 +15,6 @@ namespace Rockets_TinyYetBig.Buildings
         public const string ID = "RTB_DockingTubeDoor";
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
 
-
         private ConduitPortInfo gasInputPort = new ConduitPortInfo(ConduitType.Gas, new CellOffset(0, 0));
         private ConduitPortInfo liquidInputPort = new ConduitPortInfo(ConduitType.Liquid, new CellOffset(0, 0));
         private ConduitPortInfo solidInputPort = new ConduitPortInfo(ConduitType.Solid, new CellOffset(0, 0));
@@ -51,15 +50,18 @@ namespace Rockets_TinyYetBig.Buildings
                 construction_mass: materialMass,
                 construction_materials: materialType,
                 melting_point: 9999f,
-                BuildLocationRule.OnWall,
+                BuildLocationRule.BuildingAttachPoint,
                 decor: _decor,
                 noise: noiseLevel);
 
+            buildingDef.AttachmentSlotTag = ModAssets.Tags.AttachmentSlotDockingDoor;
             buildingDef.OverheatTemperature = 2273.15f;
             buildingDef.Floodable = false;
             buildingDef.Entombable = false;
 
-            buildingDef.PermittedRotations = PermittedRotations.FlipH;
+            buildingDef.SceneLayer = Grid.SceneLayer.BuildingFront;
+            buildingDef.ObjectLayer = ObjectLayer.Backwall;
+            buildingDef.PermittedRotations = PermittedRotations.Unrotatable;
 
 
             //buildingDef.OnePerWorld = true;
@@ -85,13 +87,9 @@ namespace Rockets_TinyYetBig.Buildings
         {
             UnityEngine.Object.DestroyImmediate(go.GetComponent<BuildingEnabledButton>());
 
-            //var ownable = go.AddOrGet<Ownable>();
-            //ownable.tintWhenUnassigned = false;
-            //ownable.slotID = Db.Get().AssignableSlots.WarpPortal.Id;
-            //go.AddOrGet<MoveToDocked>();
-            go.AddComponent<DockingDoor>().porterOffset = new CellOffset(1, 0);
-            go.AddOrGet<NavTeleporter>().offset = new CellOffset(1, 0);
-            go.AddOrGet<AccessControl>();
+            //go.AddOrGet<NavTeleporter>().offset = new CellOffset(0, 0);
+            //go.AddOrGet<AccessControl>();
+            go.AddComponent<DockingDoor>().porterOffset = new CellOffset(0, 0);
             FakeFloorAdder fakeFloorAdder = go.AddOrGet<FakeFloorAdder>();
             fakeFloorAdder.floorOffsets =  new CellOffset[]
             {

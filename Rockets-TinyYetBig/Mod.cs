@@ -13,6 +13,8 @@ using PeterHan.PLib.AVC;
 using Rockets_TinyYetBig.Patches;
 using Rockets_TinyYetBig._ModuleConfig;
 using static Rockets_TinyYetBig.Patches.BugfixPatches;
+using Klei;
+using System.Runtime.CompilerServices;
 
 namespace Rockets_TinyYetBig
 {
@@ -41,6 +43,8 @@ namespace Rockets_TinyYetBig
 
             ///mod applies fix to rocketConduitports leaking
             PRegistry.PutData("Bugs.RocketConduitPorts", true);
+
+
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
@@ -58,6 +62,7 @@ namespace Rockets_TinyYetBig
                 harmony.Patch(AccessTools.Method(typeof(Grid), nameof(Grid.FreeGridSpace)),new HarmonyMethod(AccessTools.Method(typeof(Grid_FreeGridSpace_BugfixPatch), "Prefix")));                
             } 
         }
+
 
         void CreateTooltipDictionary()
         {

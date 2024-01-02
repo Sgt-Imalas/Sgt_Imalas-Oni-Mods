@@ -3,129 +3,133 @@ using Rockets_TinyYetBig.Behaviours;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static STRINGS.CREATURES.STATUSITEMS;
 
 namespace Rockets_TinyYetBig.Docking
 {
     [SerializationConfig(MemberSerialization.OptIn)]
     public class IDockable : KMonoBehaviour
     {
-        [Serialize]
-        public Ref<IDockable> connected = null;
 
-        //[MyCmpGet]
-        //public Assignable assignable;
-        [MyCmpGet]
-        public NavTeleporter Teleporter;
-        //[MyCmpGet]
-        //public MoveToDocked MoveTo;
+        [Serialize]
+        private string DockableId;
+        public string GUID => DockableId;
+
+
+        //[Serialize]
+        //private int _worldId = -1;
+        public int WorldId => spacecraftHandler == null ? -1 : spacecraftHandler.WorldId;
+
+        [MyCmpGet] public NavTeleporter Teleporter;
+
+        public DockingSpacecraftHandler spacecraftHandler;
+
 
         public bool HasDupeTeleporter => Teleporter != null;// && MoveTo != null && assignable != null ;
 
 
-        public DockingManager dManager
+        /// <summary>
+        /// Stuff to update when the docking connection changes
+        /// </summary>
+        public virtual bool UpdateDockingConnection(bool initORCleanupCall = false)
         {
-            get
+            bool connected = DockingManagerSingleton.Instance.IsDocked(this.GUID, out _);
+            SgtLogger.l("isConnected; " + connected);
+            this.Trigger(connected ? ModAssets.Hashes.DockingConnectionConnected : ModAssets.Hashes.DockingConnectionDisconnected);
+            this.Trigger((int)GameHashes.ChainedNetworkChanged);
+            UpdateHandler();
+            return connected;
+        }
+        public void UpdateHandler()
+        {
+            if (spacecraftHandler != null)
             {
-                if (_dMng == null)
+                spacecraftHandler.gameObject.Trigger(ModAssets.Hashes.DockingConnectionChanged);
+            }
+
+        }
+
+
+        /// <summary>
+        /// Updates World ID each time a module changes; relevant for dockables that are rocket modules
+        /// </summary>
+        void RefreshWorldIdForRocketModule()
+        {
+            if (gameObject.TryGetComponent<RocketModuleCluster>(out var moduleCluster))
+            {
+                DockingManagerSingleton.Instance.UnregisterDockable(this);
+                var world = moduleCluster.CraftInterface.GetInteriorWorld();
+                if (world != null)
                 {
-                    _dMng = gameObject.TryGetComponent<RocketModuleCluster>(out var module)
-                        ? module.CraftInterface.gameObject.AddOrGet<DockingManager>()
-                        : ClusterUtil.GetMyWorld(this.gameObject).gameObject.AddOrGet<DockingManager>();
+                    SgtLogger.l("new world found for docking module: " + world.id);
+                    //_worldId = world.id;
+
+                    spacecraftHandler = world.gameObject.AddOrGet<DockingSpacecraftHandler>();
+                    spacecraftHandler.RegisterDockable(this);
                 }
-
-                return _dMng;
+                else
+                {
+                    SgtLogger.l("no world found for docking module, defaulting");
+                   // _worldId = -1;
+                }
+                DockingManagerSingleton.Instance.RegisterDockable(this);
             }
-        }
-        private DockingManager _dMng;
-
-
-        public virtual CraftModuleInterface GetCraftModuleInterface()
-        {
-            return GetWorldObject().GetComponent<CraftModuleInterface>();
-        }
-        public virtual CraftModuleInterface GetDockedCraftModuleInterface()
-        {
-            if (connected == null)
-                return null;
-            else
-            {
-                if (connected.Get() != null && connected.Get().GetWorldObject() != null && connected.Get().GetWorldObject().TryGetComponent<CraftModuleInterface>(out var interfac))
-                    return interfac;
-                return null;
-            }
-        }
-
-        public virtual void ConnecDockable(IDockable d)
-        {
-            this.Trigger((int)GameHashes.RocketLanded);
-            d.Trigger((int)GameHashes.RocketLanded);
-            this.Trigger((int)GameHashes.ChainedNetworkChanged);
-            connected = new Ref<IDockable>(d);
-        }
-
-        public bool IsConnected => GetConnec() != null;
-
-        public virtual IDockable GetConnec()
-        {
-            if (connected != null)
-                return connected.Get();
-            return null;
-        }
-
-        public virtual int GetConnectedTargetWorldId()
-        {
-            if (connected != null)
-                return connected.Get().GetMyWorldId();
-            return -1;
-        }
-
-        public virtual void DisconnecDoor(bool skipanim = false)
-        {
-#if DEBUG
-            SgtLogger.debuglog(dManager.WorldId + " disconneccted from " + connected.Get().dManager.WorldId);
-#endif
-
-            this.Trigger((int)GameHashes.RocketLaunched);
-            this.Trigger((int)GameHashes.ChainedNetworkChanged);
-            if (this.gameObject.IsNullOrDestroyed())
-            {
-                SgtLogger.l("wasdestroyed");
-                return;
-            }
-
-            if (gameObject == null) return;
-
-            connected = null;
-
         }
 
         public override void OnSpawn()
         {
+            SgtLogger.Assert("GUID was null!", GUID);
+            if (DockableId == null || DockableId.Length == 0)
+            {
+                DockableId = Guid.NewGuid().ToString();
+            }
             base.OnSpawn();
-            Debug.Log("ConnectedDockable: " + connected);
+            if (WorldId == -1)
+            {
+                SgtLogger.l("WorldId was default, initializing..", gameObject.GetProperName());
 
-            dManager.AddDockable(this);
-            //GameScheduler.Instance.ScheduleNextFrame("Adding Dockable", (obj) => dManager.AddDockable(this));
+                ///module docking ports; ai rocket integration
+                if (gameObject.TryGetComponent<RocketModuleCluster>(out var moduleCluster))
+                {
+                    RefreshWorldIdForRocketModule();
+                    moduleCluster.Subscribe((int)GameHashes.RocketModuleChanged, (_) => RefreshWorldIdForRocketModule());
+                }
+                ///building docking ports inside of worlds
+                else
+                {
+                    //_worldId = this.GetMyWorldId();
+                    var myWorld = this.GetMyWorld();
+                    spacecraftHandler = myWorld.gameObject.AddOrGet<DockingSpacecraftHandler>();
+                    spacecraftHandler.RegisterDockable(this);
+                }
+            }
+            else
+            {
+                var world = ClusterManager.Instance.GetWorld(WorldId);
+                spacecraftHandler = world.gameObject.AddOrGet<DockingSpacecraftHandler>();
+                spacecraftHandler.RegisterDockable(this);
+            }
 
+            DockingManagerSingleton.Instance.RegisterDockable(this);
+
+            UpdateDockingConnection(true);
         }
-
+        protected bool cleaningUp = false;
         public override void OnCleanUp()
         {
-            dManager.RemoveDockable(this);
+            SgtLogger.l("cleaning up on dockable decon");
+            cleaningUp = true;
+            DockingManagerSingleton.Instance.UnregisterDockable(this);
+            if (spacecraftHandler != null)
+            {
+                spacecraftHandler.UnregisterDockable(this);
+            }
             base.OnCleanUp();
-        }
-
-        public virtual GameObject GetWorldObject()
-        {
-            return gameObject.TryGetComponent<RocketModuleCluster>(out var module)
-                 ? module.CraftInterface.gameObject
-                 : ClusterUtil.GetMyWorld(this.gameObject).gameObject;
-            //WorldContainer world = ClusterManager.Instance.GetWorld(dManager.WorldId);
-            //return world == null ? null : world.gameObject;
         }
     }
 }
