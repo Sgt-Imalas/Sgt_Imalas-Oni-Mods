@@ -51,23 +51,21 @@ namespace Rockets_TinyYetBig.Patches
             }
         }
 
-        [HarmonyPatch(typeof(SaveLoader), "Save", new Type[] { typeof(string), typeof(bool), typeof(bool) })]
-        public class SaveLoader_Save_Patch
-        {
-            public static void Prefix()
-            {
-                DockingManagerSingleton.Instance.OnSaving();
-            }
-        }
+        //[HarmonyPatch(typeof(SaveLoader), "Save", new Type[] { typeof(string), typeof(bool), typeof(bool) })]
+        //public class SaveLoader_Save_Patch
+        //{
+        //    public static void Prefix()
+        //    {
+        //        DockingManagerSingleton.Instance.OnSaving();
+        //    }
+        //}
         [HarmonyPatch(typeof(Clustercraft))]
         [HarmonyPatch(nameof(Clustercraft.OnClusterDestinationChanged))]
-        public static class UndockOnFlight
+        public static class UndockFromStationsOnFlight_PullDockedRockets
         {
             public static void Postfix(Clustercraft __instance)
             {
-                if (true
-                    //RocketryUtils.IsRocketInFlight(__instance)
-                    )
+                if (RocketryUtils.IsRocketInFlight(__instance))
                 {
                     if (__instance.TryGetComponent<DockingSpacecraftHandler>(out var manager))
                     {
@@ -78,7 +76,7 @@ namespace Rockets_TinyYetBig.Patches
                             if (!DockingManagerSingleton.Instance.TryGetDockableIfDocked(docked.Value.GUID, out var dockedDockable))
                                 continue;
 
-                            if (SpaceStationManager.WorldIsSpaceStationInterior(dockedDockable.WorldId) && RocketryUtils.IsRocketInFlight(__instance))
+                            if (SpaceStationManager.WorldIsSpaceStationInterior(dockedDockable.WorldId))
                             {
                                 DockingManagerSingleton.Instance.AddPendingUndock(docked.Value.GUID, dockedDockable.GUID);
                             }
@@ -95,17 +93,26 @@ namespace Rockets_TinyYetBig.Patches
                 }
             }
         }
+        [HarmonyPatch(typeof(Clustercraft))]
+        [HarmonyPatch(nameof(Clustercraft.OnClusterDestinationReached))]
+        public static class AutoDockToStation
+        {
+            public static void Postfix(Clustercraft __instance)
+            {
+                var clusterDestinationSelector = __instance.m_moduleInterface.GetClusterDestinationSelector();
 
-        //[HarmonyPatch(typeof(ClustercraftConfig))]
-        //[HarmonyPatch(nameof(ClustercraftConfig.OnSpawn))]
-        //public static class AddDockingManager
-        //{
-        //    public static void Postfix(ref GameObject inst)
-        //    {
-        //        inst.AddOrGet<DockingManager>();               
-        //    }
-        //}
-
+                if (__instance.status == CraftStatus.InFlight //In space on a station hex
+                    && __instance.Location == clusterDestinationSelector.GetDestination()
+                    && __instance.TryGetComponent<DockingSpacecraftHandler>(out var handler)
+                    && SpaceStationManager.GetSpaceStationAtLocation(__instance.Location, out var TargetStation)
+                    && TargetStation.TryGetComponent<DockingSpacecraftHandler>(out var stationHandler)
+                    && !DockingManagerSingleton.Instance.HandlersConnected(handler,stationHandler, out _, out _))
+                {
+                    DockingManagerSingleton.Instance.AddPendingToStationDock(handler.WorldId, stationHandler.WorldId);
+                    __instance.UpdateStatusItem();
+                }
+            }
+        }
 
         [HarmonyPatch(typeof(Clustercraft))]
         [HarmonyPatch(nameof(Clustercraft.SetCraftStatus))]
@@ -121,60 +128,28 @@ namespace Rockets_TinyYetBig.Patches
         }
 
 
-        //TODO!:: patch does auto docking on reaching target for stations; rebuild!
-        //[HarmonyPatch(typeof(RocketClusterDestinationSelector), nameof(RocketClusterDestinationSelector.OnClusterLocationChanged))]
-        //public static class AutoDockToSpaceStation
-        //{
-        //    public static bool Prefix(RocketClusterDestinationSelector __instance, object data)
-        //    {
-        //        if (__instance.TryGetComponent<DockingManager>(out var mng))
-        //        {
-        //            if (mng.clustercraft.status != Clustercraft.CraftStatus.InFlight)
-        //            {
-        //                mng.UndockAll(true);
-        //                return true;
-        //            }
+        [HarmonyPatch(typeof(RocketClusterDestinationSelector), nameof(RocketClusterDestinationSelector.OnClusterLocationChanged))]
+        public static class AutoDockToSpaceStation
+        {
+            public static bool Prefix(RocketClusterDestinationSelector __instance, object data)
+            {
+                if (__instance.Repeat && __instance.TryGetComponent<DockingSpacecraftHandler>(out var mng))
+                {
+                    if (mng.clustercraft.status != Clustercraft.CraftStatus.InFlight)
+                    {
+                        mng.UndockAll();
+                        return true;
+                    }
 
-        //            ClusterLocationChangedEvent locationChangedEvent = (ClusterLocationChangedEvent)data;
-        //            if (locationChangedEvent.newLocation != __instance.m_destination)
-        //                return true;
+                    ClusterLocationChangedEvent locationChangedEvent = (ClusterLocationChangedEvent)data;
+                    if (locationChangedEvent.newLocation != __instance.m_destination)
+                        return true;
 
-        //            var AllDockerObjects = ClusterGrid.Instance.GetVisibleEntitiesAtCell(mng.clustercraft.Location).FindAll(e => e.TryGetComponent(out DockingManager manager));
-        //            var AllDockers = AllDockerObjects
-        //                .Select(e => e.GetComponent<DockingManager>())
-        //                .Where(t_mng => t_mng.HasDoors() && t_mng.GetCraftType == DockableType.SpaceStation || t_mng.GetCraftType == DockableType.Derelict)
-        //                .ToList();
-        //            //SgtLogger.l(AllDockers.Count +"", "dockers");
-        //            if (AllDockers.Count() == 0)
-        //                return true;
-
-        //            //SgtLogger.l(AllDockers.First().GetWorldId() + "", "firstworld");
-        //            //SgtLogger.l(mng.GetWorldId() + "", "ownWorld");
-        //            int targetWorldID = AllDockers.First().WorldId;
-        //            mng.AddPendingDock(targetWorldID);
-
-        //            if (!__instance.m_repeat)
-        //                return false;
-
-        //            SetupAwaitRocketLoading(__instance, mng, targetWorldID);
-
-        //            return false;
-        //        }
-        //        return true;
-        //    }
-        //    static void SetupAwaitRocketLoading(RocketClusterDestinationSelector selector, DockingSpacecraftHandler handler, int targetWorld)
-        //    {
-        //        handler.OnFinishedLoading += new System.Action(() =>
-        //        {
-
-        //            handler.UnDockFromTargetWorld(targetWorld, OnFinishedUndock: () => InitReturn(selector, manager));
-        //        });
-        //    }
-        //    static void InitReturn(RocketClusterDestinationSelector selector, DockingManager manager)
-        //    {
-        //        selector.SetUpReturnTrip();
-        //        manager.OnFinishedLoading = null;
-        //    }
-        //}
+                    //Skips RoundTrip-return if there is a station at the target location
+                    return !SpaceStationManager.GetSpaceStationAtLocation(locationChangedEvent.newLocation, out _);
+                }
+                return true;
+            }
+        }
     }
 }

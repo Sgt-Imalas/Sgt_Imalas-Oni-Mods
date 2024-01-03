@@ -223,16 +223,18 @@ namespace Rockets_TinyYetBig.SpaceStations
             return true;
         }
 
-        public static ClusterGridEntity GetSpaceStationAtLocation(AxialI location)
+        public static bool GetSpaceStationAtLocation(AxialI location, out SpaceStation station)
         {
+            station = null;
             foreach (ClusterGridEntity clusterGridEntity in ClusterGrid.Instance.cellContents[location])
             {
                 if (clusterGridEntity is SpaceStation)
                 {
-                    return clusterGridEntity;
+                    station = clusterGridEntity as SpaceStation;
+                    return true;
                 }
             }
-            return null;
+            return false;
         }
 
         public static int GetSpaceStationWorldIdAtLocation(AxialI location)

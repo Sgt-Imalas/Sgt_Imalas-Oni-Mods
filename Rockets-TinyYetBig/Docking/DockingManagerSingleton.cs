@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
+using static CellChangeMonitor.CellChangedEntry;
 using static Rockets_TinyYetBig.ModAssets;
 using static STRINGS.UI.UISIDESCREENS.AUTOPLUMBERSIDESCREEN.BUTTONS;
 
@@ -18,49 +19,107 @@ namespace Rockets_TinyYetBig.Docking
     {
         public static DockingManagerSingleton Instance { get; set; }
 
-        [Serialize][SerializeField] private Dictionary<string, string> DockingConnections = new Dictionary<string, string>();
+        [Serialize][SerializeField] private Dictionary<string, string> DockingConnections = new Dictionary<string, string>(); //active connections by door id;
 
-        [Serialize][SerializeField] public Dictionary<string, string> PendingUndocks = new Dictionary<string, string>();
-        [Serialize][SerializeField] public Dictionary<string, string> PendingDocks = new Dictionary<string, string>();
-        [Serialize][SerializeField] public HashSet<string> PendingDockBlockers = new HashSet<string>();
-        [Serialize][SerializeField] public HashSet<string> PendingUndockBlockers = new HashSet<string>();
-        [Serialize][SerializeField] public Dictionary<Ref<MinionAssignablesProxy>, int> MinionDockingTransferAssignments = new Dictionary<Ref<MinionAssignablesProxy>, int>();
+        [Serialize][SerializeField] public Dictionary<string, string> PendingUndocks = new Dictionary<string, string>(); //pending undock door ids;
+        [Serialize][SerializeField] public Dictionary<string, string> PendingDocks = new Dictionary<string, string>(); //pending dock door ids;
+        [Serialize][SerializeField] public HashSet<string> PendingDockBlockers = new HashSet<string>(); //doors currently in a pending dock process
+        [Serialize][SerializeField] public HashSet<string> PendingUndockBlockers = new HashSet<string>(); //doors currently in a pending undock process
+        [Serialize][SerializeField] public Dictionary<Ref<MinionAssignablesProxy>, int> MinionDockingTransferAssignments = new Dictionary<Ref<MinionAssignablesProxy>, int>(); //current minion crew assignments
+
+        [Serialize][SerializeField] public Dictionary<int, int> PendingToStationDocks = new Dictionary<int, int>(); //rocket worlds that want to connect to a station, rocketworld = key, stationworld = value
 
 
         //private Dictionary<string, AssignmentGroupController> MinionAssignmentGroupControllers = new Dictionary<string, AssignmentGroupController>();
-        public Dictionary<string, IDockable> IDockables = new Dictionary<string, IDockable>();
+        public Dictionary<string, IDockable> IDockables = new Dictionary<string, IDockable>(); 
         public HashSet<DockingSpacecraftHandler> DockingSpacecraftHandlers = new HashSet<DockingSpacecraftHandler>();
+        public Dictionary<int,DockingSpacecraftHandler> WorldToDockingSpacecraftHandlers = new Dictionary<int, DockingSpacecraftHandler> ();
 
-        public void OnLoading()
-        {
-            //foreach (var connection in DockingConnectionData)
-            //{
-            //    DockingConnections[connection.first] = connection.second;
-            //    SgtLogger.l(connection.first + " <-> " + connection.second, "Loading");
-            //}
-        }
-        public void OnSaving()
-        {
-            //DockingConnectionData.Clear();
-            foreach (var connection in DockingConnections)
-            {
-                //DockingConnectionData.Add(new Tuple<string, string>(connection.Key, connection.Value));
-                SgtLogger.l(connection.Key + " <-> " + connection.Value, "Saving");
-            }
-        }
+        //public void OnLoading()
+        //{
+        //    //foreach (var connection in DockingConnectionData)
+        //    //{
+        //    //    DockingConnections[connection.first] = connection.second;
+        //    //    SgtLogger.l(connection.first + " <-> " + connection.second, "Loading");
+        //    //}
+        //}
+        //public void OnSaving()
+        //{
+        //    //DockingConnectionData.Clear();
+        //    foreach (var connection in DockingConnections)
+        //    {
+        //        //DockingConnectionData.Add(new Tuple<string, string>(connection.Key, connection.Value));
+        //        SgtLogger.l(connection.Key + " <-> " + connection.Value, "Saving");
+        //    }
+        //}
 
         public override void OnSpawn()
         {
-            OnLoading();
+            //OnLoading();
             base.OnSpawn();
             SgtLogger.l("DockingManager OnSpawn");
         }
+
+
+        public void AddPendingToStationDock(int craftWorldId, int StationWorldId)
+        {
+            if(!WorldToDockingSpacecraftHandlers.ContainsKey(craftWorldId))
+            {
+                SgtLogger.error("craft handler for rocket with worldId " + craftWorldId + " was null!");
+                return;
+            }
+            if (!WorldToDockingSpacecraftHandlers.ContainsKey(StationWorldId))
+            {
+                SgtLogger.error("craft handler for station with worldId " + StationWorldId + " was null!");
+                return;
+            }
+            if (PendingToStationDocks.ContainsKey(craftWorldId))
+            {
+                SgtLogger.l("already a pending docking process in place for " + craftWorldId);
+                return;
+            }
+
+            PendingToStationDocks.Add(craftWorldId, StationWorldId);
+        }
+
+        public void RemoveToStationDock(int craftWorldId)
+        {
+
+            if (PendingToStationDocks.ContainsKey(craftWorldId))
+            {
+                PendingToStationDocks.Remove(craftWorldId);
+            }
+        }
+        public void UpdatePendingStationDockings()
+        {
+            List<int> ToRemove = new List<int>();
+            foreach(var kvp in PendingToStationDocks)
+            {
+                if(WorldToDockingSpacecraftHandlers.ContainsKey((int)kvp.Key) || WorldToDockingSpacecraftHandlers.ContainsKey((int)kvp.Value))
+                {
+                    var RocketHandler = WorldToDockingSpacecraftHandlers[kvp.Key];
+                    var StationHandler = WorldToDockingSpacecraftHandlers[(int)kvp.Value];
+                    if (TryInitializingDockingBetweenHandlers(RocketHandler, StationHandler))
+                    {
+                        ToRemove.Add(kvp.Key);
+                    }
+                }
+                else
+                    ToRemove.Add(kvp.Key);
+            }
+
+            foreach (var rocket in ToRemove)
+                RemoveToStationDock(rocket);
+        }
+
+
         public void RegisterSpacecraftHandler(DockingSpacecraftHandler handler)
         {
             if (!DockingSpacecraftHandlers.Contains(handler))
             {
                 SgtLogger.l("registering spacecraft docking handler for " + handler.GetProperName());
                 DockingSpacecraftHandlers.Add(handler);
+                WorldToDockingSpacecraftHandlers.Add(handler.WorldId, handler);
 
                 if (handler.CraftType == DockingSpacecraftHandler.DockableType.Rocket)
                 {
@@ -83,6 +142,8 @@ namespace Rockets_TinyYetBig.Docking
             {
                 SgtLogger.l("unregistering spacecraft docking handler for " + handler.GetProperName());
                 DockingSpacecraftHandlers.Remove(handler);
+                WorldToDockingSpacecraftHandlers.Remove(handler.WorldId);
+                RemoveToStationDock(handler.WorldId);
 
                 if (handler.CraftType == DockingSpacecraftHandler.DockableType.Rocket)
                 {
@@ -307,6 +368,10 @@ namespace Rockets_TinyYetBig.Docking
                 return false;
             }
 
+            if(RocketryUtils.IsRocketInFlight(handler.clustercraft))
+                return false;
+
+
             if (overrideDoor != null)
             {
                 var entry = handler.WorldDockables.Values.ToList().FirstOrDefault(data => !IsDocked(data.GUID, out _) && data == overrideDoor && !CurrentlyInDockingProcess(data.GUID));
@@ -502,6 +567,9 @@ namespace Rockets_TinyYetBig.Docking
         HashSet<Tuple<string, string>> ToRemove = new HashSet<Tuple<string, string>>();
         public void Sim1000ms(float dt)
         {
+            UpdatePendingStationDockings();
+
+
             foreach (var undockingProcess in PendingUndocks)
             {
                 List<MinionIdentity> MoveToSecondDupes = new List<MinionIdentity>();

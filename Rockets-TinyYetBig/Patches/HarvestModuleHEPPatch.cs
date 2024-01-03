@@ -88,7 +88,6 @@ namespace Rockets_TinyYetBig//.Patches
                 foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)__instance.GetComponent<Clustercraft>().ModuleInterface.ClusterModules)
                 {
 
-
                     if ((bool)(UnityEngine.Object)clusterModule.Get().GetComponent<HighEnergyParticleStorage>())
                     {
                         //SgtLogger.debuglog("HEP FOUND; UNSUBSCRIBING");

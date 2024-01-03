@@ -512,9 +512,9 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
                 if (component != null && ClusterGrid.Instance.IsVisible(component))
                     return component;
                 ClusterGridEntity entityOfLayerAtCell = ClusterGrid.Instance.GetVisibleEntityOfLayerAtCell(selector.GetMyWorldLocation(), EntityLayer.Asteroid);
-                if (entityOfLayerAtCell == null)
+                if (entityOfLayerAtCell == null && SpaceStationManager.GetSpaceStationAtLocation(selector.GetMyWorldLocation(), out var station))
                 {
-                    entityOfLayerAtCell = SpaceStationManager.GetSpaceStationAtLocation(selector.GetMyWorldLocation());
+                    entityOfLayerAtCell = station;
                 }
 
                 Debug.Assert(component != null || entityOfLayerAtCell != null, string.Format("{0} has no grid entity and isn't located at a visible asteroid at {1}", selector, selector.GetMyWorldLocation()));

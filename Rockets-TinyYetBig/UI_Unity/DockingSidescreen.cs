@@ -342,6 +342,17 @@ namespace Rockets_TinyYetBig.UI_Unity
 
                     continue;
                 }
+                if (manager.CraftType == DockableType.Rocket && RocketryUtils.IsRocketInFlight( manager.clustercraft))
+                {
+                    kvp.Value.SetActive(false);
+
+                    continue;
+                }
+                if (manager.clustercraft.Location != targetSpacecraftHandler.clustercraft.Location)
+                {
+                    kvp.Value.SetActive(false);
+                    continue;
+                }
 
                 kvp.Value.SetActive(true);
                 SgtLogger.l("refreshing " + kvp.Key.GetProperName());

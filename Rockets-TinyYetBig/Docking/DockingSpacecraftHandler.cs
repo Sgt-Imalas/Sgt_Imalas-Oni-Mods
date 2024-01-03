@@ -1,4 +1,5 @@
-﻿using Rockets_TinyYetBig.SpaceStations;
+﻿using Rockets_TinyYetBig.ClustercraftRouting;
+using Rockets_TinyYetBig.SpaceStations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace Rockets_TinyYetBig.Docking
     {
         [MyCmpGet] public WorldContainer world;
         [MyCmpGet] public Clustercraft clustercraft;
+        [MyCmpGet] public RocketClusterDestinationSelector destinationSelector;
         public Dictionary<string, IDockable> WorldDockables = new Dictionary<string, IDockable>();
         public PassengerRocketModule PassengerModule;
 
@@ -20,7 +22,7 @@ namespace Rockets_TinyYetBig.Docking
 
         bool isLoading = false;
 
-        public System.Action OnFinishedLoading = null;
+        //public System.Action OnFinishedLoading = null;
         public bool IsLoading => isLoading;
 
         [MyCmpGet]
@@ -47,17 +49,28 @@ namespace Rockets_TinyYetBig.Docking
         public override void OnSpawn()
         {
             base.OnSpawn();
-            if (TryGetComponent<SpaceStation>(out _))
+            if (clustercraft is SpaceStation)
                 Type = DockableType.SpaceStation;
+            //else
+            //{
+            //    GameScheduler.Instance.ScheduleNextFrame("CheckIfWaiting", (_) => UpdateWaitingStatus());
+            //}
+
 
         }
 
         public void SetCurrentlyLoadingStuff(bool IsLoading)
         {
             isLoading = IsLoading;
+            SgtLogger.l("setting loading: " + IsLoading);
+            if (!IsLoading && destinationSelector.Repeat && destinationSelector is ExtendedRocketClusterDestinationSelector)
+            {
+                var Extended = destinationSelector as ExtendedRocketClusterDestinationSelector;
 
-            if (!IsLoading && OnFinishedLoading != null)
-                OnFinishedLoading.Invoke();
+
+                UndockAll();
+                Extended.ProceedToNextTarget();
+            }
         }
 
         internal bool CanDock()

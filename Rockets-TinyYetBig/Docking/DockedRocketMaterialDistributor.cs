@@ -166,9 +166,10 @@ namespace Rockets_TinyYetBig
             public CraftModuleInterface GetDockedRocket()
             {
 
-                if (this.gameObject.TryGetComponent<IDockable>(out var door))
+                if (this.gameObject.TryGetComponent<IDockable>(out var door)
+                    && DockingManagerSingleton.Instance.TryGetDockableIfDocked(door.GUID,out var targetDock))
                 {
-                    return door.spacecraftHandler.Interface; 
+                    return targetDock.spacecraftHandler.Interface; 
                 }
                 return null;
             }
@@ -177,7 +178,7 @@ namespace Rockets_TinyYetBig
             {
                 gameObject.TryGetComponent<IDockable>(out var dockable);
 
-                if (DockingManagerSingleton.Instance.IsDocked(dockable.GUID, out var dockedToId) && DockingManagerSingleton.Instance.TryGetDockable(dockedToId, out var connected))
+                if (DockingManagerSingleton.Instance.TryGetDockableIfDocked(dockable.GUID, out var connected))
                 {
                     connected.spacecraftHandler.SetCurrentlyLoadingStuff(isLoadingOrUnloading);
                 }
