@@ -13,6 +13,7 @@ using Rockets_TinyYetBig.Science;
 using Klei.AI;
 using static Operational;
 using Rockets_TinyYetBig.Elements;
+using static ResearchTypes;
 
 namespace Rockets_TinyYetBig.SpaceStations.Patches
 {
@@ -385,6 +386,36 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
                 return true;
             }
         }
+        [HarmonyPatch(typeof(RocketLaunchConditionVisualizerEffect))]
+        [HarmonyPatch(nameof(RocketLaunchConditionVisualizerEffect.HasClearPathToSpace))]
+        public static class LaunchVisualizerWorldBounds
+        {
+            public static void Postfix(int cell, Vector2I worldMax, ref bool __result)
+            {
+                if (!__result && ClusterManager.Instance != null && SpaceStationManager.ActiveWorldIsSpaceStationInterior())
+                {
+                    if (!Grid.IsValidCell(cell))
+                    {
+                        return;
+                    }
+
+                    int cell2 = cell;
+                    while ((!Grid.IsSolidCell(cell2) || Grid.Element[cell2].id == ModElements.SpaceStationForceField.SimHash || Grid.Element[cell2].id == SimHashes.Unobtanium)  && Grid.CellToXY(cell2).y < worldMax.y)
+                    {
+                        cell2 = Grid.CellAbove(cell2);
+                    }
+                    if ((!Grid.IsSolidCell(cell2) || Grid.Element[cell2].id == ModElements.SpaceStationForceField.SimHash || Grid.Element[cell2].id == SimHashes.Unobtanium) && Grid.CellToXY(cell2).y == worldMax.y)
+                    {
+                        __result = true;
+                    }
+
+                }
+            }
+        }
+
+
+
+
         /// <summary>
         /// No status items
         /// </summary>
@@ -471,6 +502,78 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
                 }
             }
         }
+
+        [HarmonyPatch(typeof(RocketConduitReceiver))]
+        [HarmonyPatch(nameof(RocketConduitReceiver.FindPartner))]
+        public static class FixReceiverPortsInsideStationOnLoad
+        {
+            public static bool IsTrueRocketInterior(WorldContainer target)
+            {
+                return SpaceStationManager.WorldIsRocketInterior(target.id);
+            }
+
+
+            public static readonly MethodInfo IsTrueRocket = AccessTools.Method(
+               typeof(FixReceiverPortsInsideStationOnLoad),
+               ("IsTrueRocketInterior"));
+
+            public static readonly MethodInfo IsRocketInteriorGetter = AccessTools.Method(
+               typeof(WorldContainer),
+               ("get_IsModuleInterior"));
+            public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+            {
+                var codes = orig.ToList();
+
+                // find injection point
+                var isModuleInteriorIndex = codes.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo f && f == IsRocketInteriorGetter);
+
+                if (isModuleInteriorIndex == -1)
+                {
+                    SgtLogger.warning("IsModuleInteriorCall not found");
+                    return codes;
+                }
+                codes[isModuleInteriorIndex] = new CodeInstruction(OpCodes.Callvirt, IsTrueRocket);
+
+                return codes;
+            }
+        }
+
+        [HarmonyPatch(typeof(RocketConduitSender))]
+        [HarmonyPatch(nameof(RocketConduitSender.FindPartner))]
+        public static class FixSenderPortsInsideStationOnLoad
+        {
+            public static bool IsTrueRocketInterior(WorldContainer target)
+            {
+                return SpaceStationManager.WorldIsRocketInterior(target.id);
+            }
+
+
+            public static readonly MethodInfo IsTrueRocket= AccessTools.Method(
+               typeof(FixSenderPortsInsideStationOnLoad),
+               ("IsTrueRocketInterior"));
+
+            public static readonly MethodInfo IsRocketInteriorGetter = AccessTools.Method(
+               typeof(WorldContainer),
+               ("get_IsModuleInterior"));
+            public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+            {
+                var codes = orig.ToList();
+
+                // find injection point
+                var isModuleInteriorIndex = codes.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo f && f == IsRocketInteriorGetter);
+
+                if (isModuleInteriorIndex == -1)
+                {
+                    SgtLogger.warning("IsModuleInteriorCall not found");
+                    return codes;
+                }
+                codes[isModuleInteriorIndex] = new CodeInstruction(OpCodes.Callvirt, IsTrueRocket);
+
+                return codes;
+            }
+        }
+
+
 
         [HarmonyPatch(typeof(ClusterUtil))]
         [HarmonyPatch(nameof(ClusterUtil.GetAsteroidWorldIdAtLocation))]

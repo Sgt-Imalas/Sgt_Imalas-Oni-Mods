@@ -85,13 +85,13 @@ namespace Rockets_TinyYetBig//.Patches
                 if (canIHarvest)
                     return;
 
-                foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)__instance.GetComponent<Clustercraft>().ModuleInterface.ClusterModules)
+                foreach (Ref<RocketModuleCluster> clusterModule in __instance.GetComponent<Clustercraft>().ModuleInterface.ClusterModules)
                 {
 
-                    if ((bool)(UnityEngine.Object)clusterModule.Get().GetComponent<HighEnergyParticleStorage>())
+                    if (clusterModule.Get().GetComponent<HighEnergyParticleStorage>())
                     {
                         //SgtLogger.debuglog("HEP FOUND; UNSUBSCRIBING");
-                        __instance.Unsubscribe(clusterModule.Get().gameObject, (int)GameHashes.OnParticleStorageChanged, OnHEPHandler(__instance) );
+                        __instance.Unsubscribe(clusterModule.Get().gameObject, (int)GameHashes.OnParticleStorageChanged, OnHEPHandler(__instance));
                     }
                 }
             }

@@ -63,13 +63,17 @@ namespace Rockets_TinyYetBig.Docking
         {
             isLoading = IsLoading;
             SgtLogger.l("setting loading: " + IsLoading);
-            if (!IsLoading && destinationSelector.Repeat && destinationSelector is ExtendedRocketClusterDestinationSelector)
+            if (!IsLoading && destinationSelector.Repeat)
             {
-                var Extended = destinationSelector as ExtendedRocketClusterDestinationSelector;
-
-
                 UndockAll();
-                Extended.ProceedToNextTarget();
+                if (destinationSelector is ExtendedRocketClusterDestinationSelector Extended){
+
+                    Extended.ProceedToNextTarget();
+                }
+                else
+                {
+                    destinationSelector.SetUpReturnTrip();
+                }
             }
         }
 

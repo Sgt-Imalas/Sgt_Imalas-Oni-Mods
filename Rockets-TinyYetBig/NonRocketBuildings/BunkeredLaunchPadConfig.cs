@@ -68,6 +68,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
             go.GetComponent<KPrefabID>().AddTag(GameTags.NotRocketInteriorBuilding);
             go.GetComponent<KPrefabID>().AddTag(ModAssets.Tags.RocketPlatformTag); 
+            go.GetComponent<KPrefabID>().AddTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding);
             go.AddOrGet<Storage>().SetDefaultStoredItemModifiers(new List<Storage.StoredItemModifier>()
             {
                 Storage.StoredItemModifier.Hide,

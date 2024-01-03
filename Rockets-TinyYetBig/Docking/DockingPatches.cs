@@ -145,8 +145,13 @@ namespace Rockets_TinyYetBig.Patches
                     if (locationChangedEvent.newLocation != __instance.m_destination)
                         return true;
 
-                    //Skips RoundTrip-return if there is a station at the target location
-                    return !SpaceStationManager.GetSpaceStationAtLocation(locationChangedEvent.newLocation, out _);
+
+                    //Skips immediate RoundTrip-return if there is a station at the target location
+                    if (SpaceStationManager.GetSpaceStationAtLocation(locationChangedEvent.newLocation, out var station))
+                    {
+                        mng.clustercraft.ModuleInterface.TriggerEventOnCraftAndRocket(GameHashes.ClusterDestinationReached, null);
+                        return false;
+                    }
                 }
                 return true;
             }
