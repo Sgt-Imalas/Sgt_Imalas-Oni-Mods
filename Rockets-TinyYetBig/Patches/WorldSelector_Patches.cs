@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using KSerialization;
 using ProcGen;
+using Rockets_TinyYetBig.Derelicts;
 using Rockets_TinyYetBig.SpaceStations;
 using Rockets_TinyYetBig.TwitchEvents;
 using System;
@@ -113,6 +114,15 @@ namespace Rockets_TinyYetBig.Patches
                     }
 
                     asteroids.OrderBy(a => ClusterManager.Instance.GetWorld(a.Key).DiscoveryTimestamp);
+
+                    foreach(var worldKV in asteroids)
+                    {
+                        var world= ClusterManager.Instance.GetWorld(worldKV.Key);
+                        if (world.HasTag(ModAssets.Tags.IsDerelict) && world.TryGetComponent<DerelictStation>(out var dere))
+                        {
+                            worldKV.Value.gameObject.SetActive(dere.ShowInWorldSelector);
+                        }
+                    }
 
                     OutputList.AddRange(asteroids);
 
@@ -231,6 +241,7 @@ namespace Rockets_TinyYetBig.Patches
             }
         }
 
+
         [HarmonyPatch(typeof(WorldSelector))]
         [HarmonyPatch(nameof(WorldSelector.OnSpawn))]
         public static class ResetHeaders
@@ -295,7 +306,7 @@ namespace Rockets_TinyYetBig.Patches
             static List<int> worldIdsThatAreInRemoval = new List<int>();
             public static bool Prefix(Clustercraft __instance, ref Sprite __result)
             {
-                if(__instance.ModuleInterface.GetPassengerModule()==null)
+                if(__instance.ModuleInterface.GetPassengerModule() == null)
                 {
                     Debug.LogWarning($"PassengerModule for {__instance} was null!");
                     __result = Assets.GetSprite("unknown");

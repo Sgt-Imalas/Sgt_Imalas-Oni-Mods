@@ -1,4 +1,5 @@
 ﻿using Rockets_TinyYetBig.ClustercraftRouting;
+using Rockets_TinyYetBig.Derelicts;
 using Rockets_TinyYetBig.SpaceStations;
 using System;
 using System.Collections.Generic;
@@ -51,6 +52,8 @@ namespace Rockets_TinyYetBig.Docking
             base.OnSpawn();
             if (clustercraft is SpaceStation)
                 Type = DockableType.SpaceStation;
+            if (clustercraft is DerelictStation)
+                Type = DockableType.Derelict;
             //else
             //{
             //    GameScheduler.Instance.ScheduleNextFrame("CheckIfWaiting", (_) => UpdateWaitingStatus());
@@ -62,6 +65,9 @@ namespace Rockets_TinyYetBig.Docking
         public void SetCurrentlyLoadingStuff(bool IsLoading)
         {
             isLoading = IsLoading;
+            if (destinationSelector == null)
+                return;
+
             SgtLogger.l("setting loading: " + IsLoading);
             if (!IsLoading && destinationSelector.Repeat)
             {
@@ -82,7 +88,8 @@ namespace Rockets_TinyYetBig.Docking
             bool cando =
                 HasDoors()
                 && AvailableConnections() > 0
-                && (clustercraft.status == Clustercraft.CraftStatus.InFlight);
+                && RocketryUtils.IsRocketInFlight(clustercraft);
+               
             return cando;
         }
 
@@ -112,11 +119,13 @@ namespace Rockets_TinyYetBig.Docking
             Sprite returnVal = null;
             switch (Type)
             {
-                case DockableType.Rocket:
                 case DockableType.SpaceStation:
                     returnVal = clustercraft.GetUISprite();
                     break;
+                case DockableType.Rocket:
                 case DockableType.Derelict:
+                    returnVal = clustercraft.GetUISprite();
+                    break;
                 // break;
 
                 default:

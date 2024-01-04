@@ -33,6 +33,8 @@ namespace Rockets_TinyYetBig.SpaceStations
         public bool IsDeconstructable = true;
         [Serialize]
         public bool BuildableInterior = true;
+        [Serialize]
+        public bool ShouldDrawBarriers = true;
 
 
         [Serialize]
@@ -99,9 +101,8 @@ namespace Rockets_TinyYetBig.SpaceStations
             }
             base.OnSpawn();
             ClusterManager.Instance.GetWorld(SpaceStationInteriorId).AddTag(ModAssets.Tags.IsSpaceStation);
-
-
             this.SetCraftStatus(CraftStatus.InFlight);
+
             var destinationSelector = gameObject.GetComponent<RocketClusterDestinationSelector>();
             destinationSelector.SetDestination(this.Location);
             var planet = ClusterGrid.Instance.GetVisibleEntityOfLayerAtAdjacentCell(this.Location, EntityLayer.Asteroid);
@@ -255,6 +256,9 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         public void DrawBarriers()
         {
+            if (!ShouldDrawBarriers)
+                return;
+
             if (SpaceStationInteriorId == -1)
             {
                 SgtLogger.l("No world for space station found, id is -1");

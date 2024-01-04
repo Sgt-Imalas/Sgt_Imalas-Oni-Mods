@@ -424,6 +424,9 @@ namespace Rockets_TinyYetBig
 
             public static Tag AttachmentSlotDockingDoor = TagManager.Create("RTB_DockingTubeAttachmentSlot");
             public static Tag IsSpaceStation = TagManager.Create("RTB_isSpaceStationInteriorWorld");
+            public static Tag IsDerelict = TagManager.Create("RTB_isDerelictInterior");
+
+            public static Tag NoBuildingAllowed = TagManager.Create("RTB_NoBuildingAllowed");
 
             public static Tag SpaceStationOnlyInteriorBuilding = TagManager.Create("RTB_SpaceStationInteriorOnly");
             public static Tag RocketInteriorOnlyBuilding = TagManager.Create("RTB_RocketInteriorOnly");
@@ -579,6 +582,7 @@ namespace Rockets_TinyYetBig
 
         public static int InnerLimit = 0;
         public static int Rings = 0;
+
         public class StatusItems
         {
             public static StatusItem RTB_ModuleGeneratorNotPowered;

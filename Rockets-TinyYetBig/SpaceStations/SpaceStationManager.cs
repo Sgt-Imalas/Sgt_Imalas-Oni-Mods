@@ -70,7 +70,7 @@ namespace Rockets_TinyYetBig.SpaceStations
             Vector2I spaceStationInteriorSize,
             bool allowBuilding,
             System.Action callback,
-            AxialI Coordinates)
+            AxialI Coordinates, bool isDerelict = false)
         {
             Vector2I offset;
             if (Grid.GetFreeGridSpace(spaceStationInteriorSize, out offset))
@@ -99,7 +99,15 @@ namespace Rockets_TinyYetBig.SpaceStations
                 craft_go.AddOrGet<OrbitalMechanics>().CreateOrbitalObject(Db.Get().OrbitalTypeCategories.orbit.Id);
                 ClusterManager.Instance.Trigger((int)GameHashes.WorldAdded, (object)spaceStationInteriorWorld.id);
                 spaceStationInteriorWorld.AddTag(ModAssets.Tags.IsSpaceStation);
-                SpaceStationWorlds.Add(spaceStationInteriorWorld.id);
+
+                if(!allowBuilding)
+                    spaceStationInteriorWorld.AddTag(ModAssets.Tags.NoBuildingAllowed);
+
+
+                if (isDerelict)
+                    spaceStationInteriorWorld.AddTag(ModAssets.Tags.IsDerelict);
+                else
+                    SpaceStationWorlds.Add(spaceStationInteriorWorld.id);
 
                     int maxRings = ClusterGrid.Instance.numRings;
                     var distance = GetDistanceFromAxial(Coordinates);

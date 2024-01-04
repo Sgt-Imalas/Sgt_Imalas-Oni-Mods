@@ -14,6 +14,7 @@ using Klei.AI;
 using static Operational;
 using Rockets_TinyYetBig.Elements;
 using static ResearchTypes;
+using Rockets_TinyYetBig.Derelicts;
 
 namespace Rockets_TinyYetBig.SpaceStations.Patches
 {
@@ -57,7 +58,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
         {
             public static bool Prefix(Clustercraft clustercraft, ref bool __result)
             {
-                if (clustercraft is SpaceStation)
+                if (clustercraft is SpaceStation || clustercraft is DerelictStation)
                 {
                     __result = false;
                     return false;
@@ -78,7 +79,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
                 List<ClusterGridEntity> AdjustedList = new List<ClusterGridEntity>();
                 foreach (var entity in __result)
                 {
-                    if (!(entity is SpaceStation))
+                    if (!(entity is SpaceStation || entity is DerelictStation))
                     {
                         AdjustedList.Add(entity);
                     }
@@ -188,7 +189,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
                 //AudioMixer.instance.Stop(AudioMixerSnapshots.Get().MediumRocketInteriorReverbSnapshot);
 
                 WorldContainer world = __instance.GetWorld(worldId);
-                if (world != null && world.IsModuleInterior && world.TryGetComponent<SpaceStation>(out _))
+                if (world != null && world.IsModuleInterior && (world.TryGetComponent<SpaceStation>(out _) || world.TryGetComponent<DerelictStation>(out _)))
                     return false;
                 return true;
             }
@@ -333,7 +334,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
         {
             public static bool Prefix(Clustercraft __instance)
             {
-                if (__instance is SpaceStation)
+                if (__instance is SpaceStation || __instance is DerelictStation)
                     return false;
                 return true;
             }
@@ -345,7 +346,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
         {
             public static bool Prefix(ClusterMapVisualizer __instance, ClusterGridEntity ___entity)
             {
-                if (___entity is SpaceStation)
+                if (___entity is SpaceStation || ___entity is DerelictStation)
                 {
                     //new ClusterMapFXAnimator.StatesInstance(__instance, ___entity).StartSM();
                     return false;
@@ -363,7 +364,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
         {
             public static bool Prefix(Clustercraft __instance, ref float __result)
             {
-                if (__instance is SpaceStation)
+                if (__instance is SpaceStation || __instance is DerelictStation)
                 {
                     __result = 0f;
                     return false;
@@ -378,7 +379,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
         {
             public static bool Prefix(Clustercraft __instance, ref bool __result)
             {
-                if (__instance is SpaceStation)
+                if (__instance is SpaceStation || __instance is DerelictStation)
                 {
                     __result = false;
                     return false;
@@ -425,7 +426,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
         {
             public static bool Prefix(Clustercraft __instance)
             {
-                if (__instance is SpaceStation)
+                if (__instance is SpaceStation || __instance is DerelictStation)
                 {
                     return false;
                 }
@@ -457,7 +458,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
         {
             public static bool Prefix(Clustercraft __instance, ref Clustercraft.PadLandingStatus __result)
             {
-                if (__instance is SpaceStation)
+                if (__instance is SpaceStation || __instance is DerelictStation)
                 {
                     __result = Clustercraft.PadLandingStatus.CanNeverLand;
                     return false;
@@ -474,7 +475,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
         {
             public static void Postfix(GameObject target, ref bool __result)
             {
-                if (target.TryGetComponent<SpaceStation>(out var station))
+                if (target.TryGetComponent<SpaceStation>(out _) || target.TryGetComponent<DerelictStation>(out _))
                 {
                     __result = false;
                 }
@@ -585,7 +586,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
                 {
                     foreach (ClusterGridEntity clusterGridEntity in ClusterGrid.Instance.cellContents[location])
                     {
-                        if (clusterGridEntity is SpaceStation)
+                        if (clusterGridEntity is SpaceStation )
                         {
                             __result = (clusterGridEntity as SpaceStation).SpaceStationInteriorId;
                         }

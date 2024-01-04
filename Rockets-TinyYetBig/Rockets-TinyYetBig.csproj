@@ -513,6 +513,9 @@
 	  <None Update="ModAssets\preview.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\templates\derelictInteriors\ArtifactSpacePOI_GravitasSpaceStation4_RTB_DerelictInterior.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\templates\interiors\emptySpacefor100.yaml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
