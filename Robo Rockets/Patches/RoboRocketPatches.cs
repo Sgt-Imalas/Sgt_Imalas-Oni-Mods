@@ -17,8 +17,7 @@ namespace RoboRockets
 {
     public class RoboRocketPatches
     {
-        [HarmonyPatch(typeof(GeneShufflerRechargeConfig))]
-        [HarmonyPatch(nameof(GeneShufflerRechargeConfig.CreatePrefab))]
+        [HarmonyPatch(typeof(GeneShufflerRechargeConfig), nameof(GeneShufflerRechargeConfig.CreatePrefab))]
         public static class AddTagToItem
         {
             public static void Postfix(ref GameObject __result)
@@ -28,8 +27,7 @@ namespace RoboRockets
             }
         }
 
-        [HarmonyPatch(typeof(LimitOneCommandModule))]
-        [HarmonyPatch(nameof(LimitOneCommandModule.EvaluateCondition))]
+        [HarmonyPatch(typeof(LimitOneCommandModule), nameof(LimitOneCommandModule.EvaluateCondition))]
         public static class LimitOneCommandModule_AI_Patch
         {
             public static bool Prefix( bool __result,
@@ -65,8 +63,7 @@ namespace RoboRockets
         }
 
 
-        [HarmonyPatch(typeof(PassengerRocketModule))]
-        [HarmonyPatch("CheckPassengersBoarded")]
+        [HarmonyPatch(typeof(PassengerRocketModule),nameof(PassengerRocketModule.CheckPassengersBoarded))]
         public class PassengerRocketModule_CheckPassengersBoarded_Patch
         {
             public static void Postfix(PassengerRocketModule __instance, ref bool __result)
@@ -78,8 +75,7 @@ namespace RoboRockets
             }
         }
 
-        [HarmonyPatch(typeof(PassengerRocketModule))]
-        [HarmonyPatch(nameof(PassengerRocketModule.RefreshAccessStatus))]
+        [HarmonyPatch(typeof(PassengerRocketModule), nameof(PassengerRocketModule.RefreshAccessStatus))]
         public class PassengerRocketModule_RefreshAccessStatus_Patch
         {
             [HarmonyPriority(Priority.VeryHigh)]
@@ -92,8 +88,7 @@ namespace RoboRockets
                 return true;
             }
         }
-        [HarmonyPatch(typeof(RequestCrewSideScreen))]
-        [HarmonyPatch(nameof(RequestCrewSideScreen.IsValidForTarget))]
+        [HarmonyPatch(typeof(RequestCrewSideScreen), nameof(RequestCrewSideScreen.IsValidForTarget))]
         public class RequestCrewSideScreen_IsValidForTarget_Patch
         {
             public static bool Prefix(GameObject target, ref bool __result)
@@ -107,8 +102,7 @@ namespace RoboRockets
             }
         }
 
-        [HarmonyPatch(typeof(PassengerRocketModule))]
-        [HarmonyPatch("CheckPilotBoarded")]
+        [HarmonyPatch(typeof(PassengerRocketModule), nameof(PassengerRocketModule.CheckPilotBoarded))]
         public class PassengerRocketModule_CheckPilotBoarded_Patch
         {
             public static void Postfix(PassengerRocketModule __instance, ref bool __result)
@@ -120,8 +114,7 @@ namespace RoboRockets
             }
         }
 
-        [HarmonyPatch(typeof(RocketControlStation.States))]
-        [HarmonyPatch("CreateChore")]
+        [HarmonyPatch(typeof(RocketControlStation.States), nameof(RocketControlStation.States.CreateChore))]
         public class RocketControlStation_CreateChore_Patch
         {
             public static void Postfix(RocketControlStation.StatesInstance smi, ref Chore __result)
@@ -139,8 +132,7 @@ namespace RoboRockets
             }
         }
        
-        [HarmonyPatch(typeof(RocketControlStation.States))]
-        [HarmonyPatch("CreateLaunchChore")]
+        [HarmonyPatch(typeof(RocketControlStation.States), nameof(RocketControlStation.States.CreateLaunchChore))]
         public class RocketControlStation_CreateLaunchChore_Patch
         {
             public static void Postfix(RocketControlStation.StatesInstance smi, ref Chore __result)
@@ -157,8 +149,7 @@ namespace RoboRockets
                 }
             }
         }
-        [HarmonyPatch(typeof(RocketControlStation.StatesInstance))]
-        [HarmonyPatch("SetPilotSpeedMult")]
+        [HarmonyPatch(typeof(RocketControlStation.StatesInstance), nameof(RocketControlStation.StatesInstance.SetPilotSpeedMult))]
         public class RocketControlStation_SetPilotSpeedMult_Patch
         {
             public static bool Prefix(Worker pilot, RocketControlStation.StatesInstance __instance)
@@ -176,8 +167,7 @@ namespace RoboRockets
             }
         }
 
-        [HarmonyPatch(typeof(HabitatModuleSideScreen))]
-        [HarmonyPatch("RefreshModulePanel")]
+        [HarmonyPatch(typeof(HabitatModuleSideScreen),nameof(HabitatModuleSideScreen.RefreshModulePanel))]
         public class DisableViewInteriorSpace_Patch
         {
             public static void Postfix(PassengerRocketModule module, HabitatModuleSideScreen __instance)
@@ -192,8 +182,7 @@ namespace RoboRockets
             }
         }
 
-        [HarmonyPatch(typeof(CameraController))]
-        [HarmonyPatch(nameof(CameraController.ActiveWorldStarWipe))]
+        [HarmonyPatch(typeof(CameraController),nameof(CameraController.ActiveWorldStarWipe))]
         [HarmonyPatch(new System.Type[] { typeof(int), typeof(System.Action) })]
         public class DisableViewInteriorWorldSelector_OnClickStarmap_Patch
         {
@@ -207,8 +196,7 @@ namespace RoboRockets
                 return true;
             }
         }
-        [HarmonyPatch(typeof(WorldSelector))]
-        [HarmonyPatch(nameof(WorldSelector.OnWorldRowClicked))]
+        [HarmonyPatch(typeof(WorldSelector),nameof(WorldSelector.OnWorldRowClicked))]
         public class DisableViewInteriorWorldSelector_Patch
         {
             public static bool Prefix(int id)
@@ -257,8 +245,7 @@ namespace RoboRockets
 
 
 
-        [HarmonyPatch(typeof(ClustercraftExteriorDoor))]
-        [HarmonyPatch("OnSpawn")]
+        [HarmonyPatch(typeof(ClustercraftExteriorDoor),nameof(ClustercraftExteriorDoor.OnSpawn))]
         public class AddInteriorToForbiddenListIfAI
         {
             public static void Postfix(ClustercraftExteriorDoor __instance)
@@ -282,8 +269,7 @@ namespace RoboRockets
                 }
             }
         }
-        [HarmonyPatch(typeof(ClustercraftExteriorDoor))]
-        [HarmonyPatch("OnCleanUp")]
+        [HarmonyPatch(typeof(ClustercraftExteriorDoor), nameof(ClustercraftExteriorDoor.OnCleanUp))]
         public class RemoveInteriorFromForbiddenListIfAI
         {
             public static void Prefix(ClustercraftExteriorDoor __instance)
@@ -298,8 +284,7 @@ namespace RoboRockets
             }
         }
 
-        [HarmonyPatch(typeof(Game))]
-        [HarmonyPatch(nameof(Game.DestroyInstances))]
+        [HarmonyPatch(typeof(Game), nameof(Game.DestroyInstances))]
         public class Clear_ForbiddenList
         {
             public static void Prefix()
@@ -308,8 +293,7 @@ namespace RoboRockets
             }
         }
 
-        [HarmonyPatch(typeof(ClustercraftExteriorDoor))]
-        [HarmonyPatch(nameof(ClustercraftExteriorDoor.HasTargetWorld))]
+        [HarmonyPatch(typeof(ClustercraftExteriorDoor), nameof(ClustercraftExteriorDoor.HasTargetWorld))]
         public class DisableViewInterior_Patch
         {
             public static void Postfix(ClustercraftExteriorDoor __instance, ref bool __result)
@@ -322,8 +306,7 @@ namespace RoboRockets
             }
         }
 
-        [HarmonyPatch(typeof(Clustercraft))]
-        [HarmonyPatch("RequestLaunch")]
+        [HarmonyPatch(typeof(Clustercraft),nameof(Clustercraft.RequestLaunch))]
         public class TriggerLaunchForAIRocketsPatch
         {
             public static bool Prefix(Clustercraft __instance)
@@ -346,8 +329,7 @@ namespace RoboRockets
         /// <summary>
         /// Set interior size to bare minimum
         /// </summary>
-        [HarmonyPatch(typeof(ClusterManager))]
-        [HarmonyPatch("CreateRocketInteriorWorld")]
+        [HarmonyPatch(typeof(ClusterManager), nameof(ClusterManager.CreateRocketInteriorWorld))]
         public class ClusterManager_CreateRocketInteriorWorld_Patch
         {
             
