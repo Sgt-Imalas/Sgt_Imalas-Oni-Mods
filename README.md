@@ -73,4 +73,4 @@ Mods for Oxygen Not Included and ONI - Spaced Out.
 
 
 
-For direct downloads, see [here] | https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases)
+For direct downloads, see [here](https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases)
