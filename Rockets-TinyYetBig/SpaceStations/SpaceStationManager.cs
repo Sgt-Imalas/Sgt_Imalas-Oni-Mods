@@ -1,4 +1,5 @@
 ﻿using ONITwitchLib;
+using Rockets_TinyYetBig.Derelicts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -261,5 +262,17 @@ namespace Rockets_TinyYetBig.SpaceStations
             return -1;
         }
 
+        internal static bool CanBuildStationAt(AxialI location)
+        {
+            foreach (ClusterGridEntity clusterGridEntity in ClusterGrid.Instance.cellContents[location])
+            {
+                if (clusterGridEntity is SpaceStation || clusterGridEntity is DerelictStation || clusterGridEntity is AsteroidGridEntity)
+                {
+                    return false;
+                }
+
+            }
+            return true;
+        }
     }
 }

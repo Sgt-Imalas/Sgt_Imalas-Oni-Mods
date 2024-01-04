@@ -82,6 +82,9 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         public static void SpawnNewSpaceStation(AxialI location)
         {
+            if (!SpaceStationManager.Instance.CanConstructSpaceStation() || SpaceStationManager.IsSpaceStationAt(location) ||!SpaceStationManager.CanBuildStationAt(location))
+                return;
+
             Vector3 position = new Vector3(-1f, -1f, 0.0f);
             GameObject sat = Util.KInstantiate(Assets.GetPrefab((Tag)SpaceStationConfig.ID), position);
             sat.SetActive(true);
