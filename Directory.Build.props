@@ -79,8 +79,8 @@
 			<Private>false</Private>
 		</Reference>
 		<Reference Include="UnityEngine.UI">
-      <!--<HintPath>$(GameLibsFolder)/UnityEngine.UI.dll</HintPath>-->
-      <HintPath>$(SolutionDir)/PublicisedAssembly/UnityEngine.UI_public.dll</HintPath>
+      <HintPath>$(GameLibsFolder)/UnityEngine.UI.dll</HintPath>
+      <!--<HintPath>$(SolutionDir)/PublicisedAssembly/UnityEngine.UI_public.dll</HintPath>-->
 			<Private>false</Private>
 		</Reference>
 		<Reference Include="UnityEngine.UIModule">

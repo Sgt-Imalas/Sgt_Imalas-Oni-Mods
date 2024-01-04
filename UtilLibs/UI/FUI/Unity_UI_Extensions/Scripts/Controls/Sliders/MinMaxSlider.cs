@@ -114,7 +114,7 @@ namespace UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.Sliders
 
          private MinMaxSliderAudio AudioComponent;
 
-        public  override void Start()
+        protected override void Start()
         {
             base.Start();
 

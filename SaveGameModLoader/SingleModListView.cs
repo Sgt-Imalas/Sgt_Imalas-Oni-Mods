@@ -35,6 +35,7 @@ namespace SaveGameModLoader
         GameObject WorkShopSubBtn;
         KModalScreen ParentWindow;
 
+
         public void SetAdditionalButtons(bool active)
         {
             ViewSingleEntry = active;
@@ -368,7 +369,26 @@ namespace SaveGameModLoader
                         MarkEntryAsMissing(entry, mod);
                         SteamInfoQuery.AddModIdToQuery(mod, 
                             (name)  
-                            => TryChangeText(entry, "Title", name)
+                            =>
+                            {
+                                var platform = KMod.Label.DistributionPlatform.Local;
+                                string ID = mod;
+                                if (ulong.TryParse(mod.Replace(".Steam", string.Empty), out var modId))
+                                {
+                                    ID = modId.ToString();
+                                    platform = KMod.Label.DistributionPlatform.Steam;
+                                }
+
+                                var tmpLabel = new KMod.Label()
+                                {
+                                    id = modId.ToString(),
+                                    distribution_platform = platform,
+                                    title = name,
+                                    version = 404
+                                };
+                                currentMods.Add(tmpLabel);
+                                TryChangeText(entry, "Title", name);
+                            }
                           );
                     }
                     else

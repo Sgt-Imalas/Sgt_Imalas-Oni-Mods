@@ -52,8 +52,8 @@ namespace UtilLibs.UIcmp //Source: Aki
         }
         Navigation GetNoNavigation() {
             Navigation result = default(Navigation);
-            result.m_Mode = Navigation.Mode.None;
-            result.m_WrapAround = false;
+            result.mode = Navigation.Mode.None;
+            result.wrapAround = false;
             return result;
         }
         public void SetInteractable(bool interactable)
