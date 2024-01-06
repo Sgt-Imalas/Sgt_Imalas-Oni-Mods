@@ -11,7 +11,7 @@ namespace MeteorMigration
         public override void OnLoad(Harmony harmony)
         {
             base.OnLoad(harmony);
-            SgtLogger.LogVersion(this);
+            SgtLogger.LogVersion(this, harmony);
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
