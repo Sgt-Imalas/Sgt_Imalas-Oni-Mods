@@ -1,12 +1,15 @@
 ﻿using KSerialization;
+using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.Elements;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static KAnim;
 using static Rockets_TinyYetBig.ModAssets;
 using static Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN;
 
@@ -14,10 +17,8 @@ namespace Rockets_TinyYetBig.SpaceStations
 {
     class SpaceStation : Clustercraft, ISim4000ms
     {
-        public Vector2I StationInteriorMaxedSize = new Vector2I(102, 103);
-
         [Serialize]
-        private string m_name = "Space Station";
+        public string l_name = "Space Station";
 
         [Serialize]
         public int SpaceStationInteriorId = -1;
@@ -35,10 +36,10 @@ namespace Rockets_TinyYetBig.SpaceStations
         public bool BuildableInterior = true;
         [Serialize]
         public bool ShouldDrawBarriers = true;
-
-
         [Serialize]
-        public bool HasOrbitUpkeep = true;
+        public bool IsDerelict = false;
+
+
         [Serialize]
         public bool Upgradeable = true;
         [Serialize]
@@ -49,23 +50,24 @@ namespace Rockets_TinyYetBig.SpaceStations
         [Serialize]
         public Vector2I topRightCorner;
 
-        public Vector2I InteriorSize = new Vector2I(30, 30);
-       // public string InteriorTemplate = "emptySpacefor100"; 
-        public string InteriorTemplate = "emptySpaceStationPrefab"; 
+        public Vector2I InteriorSize = new Vector2I(102, 103);
+        // public string InteriorTemplate = "emptySpacefor100"; 
+        public string InteriorTemplate = Path.Combine("interiors","emptySpaceStationPrefab"); 
 
         public string ClusterAnimName = "space_station_small_kanim";
+        public string InitialAnimName = "idle_loop";
         //public string IconAnimName = "station_3";
 
         public override List<AnimConfig> AnimConfigs => new List<AnimConfig>
         {
             new AnimConfig
             {
-                animFile = Assets.GetAnim("space_station_small_kanim"),
-                initialAnim = "idle_loop"
+                animFile = Assets.GetAnim(ClusterAnimName),
+                initialAnim = InitialAnimName
             }
         };
 
-        public override string Name => this.m_name;
+        public override string Name => this.l_name;
         //public override bool IsVisible => true;
         public override EntityLayer Layer => EntityLayer.POI;
         public override bool SpaceOutInSameHex() => false;
@@ -97,13 +99,23 @@ namespace Rockets_TinyYetBig.SpaceStations
             //SgtLogger.debuglog("MY WorldID:" + SpaceStationInteriorId);
             if (SpaceStationInteriorId < 0)
             {
-                var interiorWorld = SpaceStationManager.Instance.CreateSpaceStationInteriorWorld(gameObject, "interiors/" + InteriorTemplate, StationInteriorMaxedSize, BuildableInterior, null, Location);
+                var interiorWorld = SpaceStationManager.Instance.CreateSpaceStationInteriorWorld(gameObject,  InteriorTemplate, InteriorSize, BuildableInterior, null, Location);
                 SpaceStationInteriorId = interiorWorld.id;
                 SgtLogger.debuglog("new WorldID:" + SpaceStationInteriorId);
                 SgtLogger.debuglog("ADDED NEW SPACE STATION INTERIOR");
             }
+            if (!RTB_SavegameStoredSettings.Instance.StationInteriorWorlds.Contains(SpaceStationInteriorId))
+                RTB_SavegameStoredSettings.Instance.StationInteriorWorlds.Add(SpaceStationInteriorId);
             base.OnSpawn();
-            ClusterManager.Instance.GetWorld(SpaceStationInteriorId).AddTag(ModAssets.Tags.IsSpaceStation);
+
+            var world = ClusterManager.Instance.GetWorld(SpaceStationInteriorId);
+
+            world.AddTag(ModAssets.Tags.IsSpaceStation);
+            if(IsDerelict)
+                world.AddTag(ModAssets.Tags.IsDerelict);
+            if(!BuildableInterior)
+                world.AddTag(ModAssets.Tags.NoBuildingAllowed);
+
             this.SetCraftStatus(CraftStatus.InFlight);
 
             var destinationSelector = gameObject.GetComponent<RocketClusterDestinationSelector>();
@@ -122,7 +134,8 @@ namespace Rockets_TinyYetBig.SpaceStations
 
 
             this.Subscribe<SpaceStation>(1102426921, NameChangedHandler);
-            DrawBarriers();
+            if(ShouldDrawBarriers)
+                DrawBarriers();
         }
         private static EventSystem.IntraObjectHandler<SpaceStation> NameChangedHandler = new EventSystem.IntraObjectHandler<SpaceStation>((System.Action<SpaceStation, object>)((cmp, data) => cmp.SetStationName(data)));
         public void SetStationName(object newName)
@@ -132,7 +145,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         public void SetStationName(string newName)
         {
-            m_name = newName;
+            l_name = newName;
             base.name = "Space Station: " + newName;
             ClusterManager.Instance.Trigger(1943181844, newName);
         }
@@ -274,6 +287,8 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         public override void OnCleanUp()
         {
+            if (RTB_SavegameStoredSettings.Instance.StationInteriorWorlds.Contains(SpaceStationInteriorId))
+                RTB_SavegameStoredSettings.Instance.StationInteriorWorlds.Remove(SpaceStationInteriorId);
             base.OnCleanUp();
         }
 

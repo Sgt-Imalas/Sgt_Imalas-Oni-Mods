@@ -1,8 +1,10 @@
 ﻿using KSerialization;
+using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.SpaceStations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -10,59 +12,17 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.Derelicts
 {
-    internal class DerelictStation : Clustercraft
+    internal class DerelictStation : SpaceStation
     {
-        [MyCmpReq]
-        LoreBearer lorebearer;
-
-        public bool ShowInWorldSelector => lorebearer.BeenClicked;
-
-        int SpaceStationInteriorId = -1;
 
         public override bool SpaceOutInSameHex() => false;
-        public override void OnSpawn()
-        {
-
-            if(transform.TryGetComponent<ArtifactPOIClusterGridEntity>(out var old))
-            {
-                var position = old.Location;
-                Destroy(old);
-                this.Location = position;
-            }//SgtLogger.debuglog("MY WorldID:" + SpaceStationInteriorId);
-            if (SpaceStationInteriorId < 0)
-            {
-                var interiorWorld = SpaceStationManager.Instance.CreateSpaceStationInteriorWorld(gameObject, InteriorTemplate, InteriorSize, false, null, Location,true);
-                SpaceStationInteriorId = interiorWorld.id;
-                SgtLogger.debuglog("new WorldID:" + SpaceStationInteriorId);
-                SgtLogger.debuglog("ADDED NEW SPACE STATION INTERIOR");
-            }
-            base.OnSpawn();
-            ClusterManager.Instance.GetWorld(SpaceStationInteriorId).AddTag(ModAssets.Tags.IsSpaceStation);
-            ClusterManager.Instance.GetWorld(SpaceStationInteriorId).AddTag(ModAssets.Tags.IsDerelict);
-            this.SetCraftStatus(CraftStatus.InFlight);
-
-            var destinationSelector = gameObject.GetComponent<RocketClusterDestinationSelector>();
-            destinationSelector.SetDestination(this.Location);
-            
-            var m_clusterTraveler = gameObject.GetComponent<ClusterTraveler>();
-            m_clusterTraveler.getSpeedCB = new Func<float>(this.GetSpeed);
-            m_clusterTraveler.getCanTravelCB = new Func<bool, bool>(this.CanTravel);
-            m_clusterTraveler.onTravelCB = (System.Action)null;
-            m_clusterTraveler.validateTravelCB = null;
-
-
-        }
-
+        
         public string poiID;
 
         public string m_Anim;
-        public override string Name => poiID;
+        public override string Name => l_name;
 
         public override EntityLayer Layer => EntityLayer.POI;
-
-        public Vector2I InteriorSize;
-
-        public string InteriorTemplate;
 
         public override List<AnimConfig> AnimConfigs => new List<AnimConfig>
         {
@@ -89,7 +49,32 @@ namespace Rockets_TinyYetBig.Derelicts
             base.OnPrefabInit();
 
         }
-        
+
+        public override void OnSpawn()
+        {
+            base.OnSpawn();
+            if (TryGetComponent<KSelectable>(out var overlay))
+            {
+                NameDisplayScreen.Instance.UpdateName(overlay.gameObject);
+            }
+
+
+        }
+        public static void SpawnNewDerelictStation(ArtifactPOIClusterGridEntity source)
+        {
+            source.TryGetComponent<KPrefabID>(out var id);
+            var targetStationId = id.PrefabID() + DerelictStationConfigs.DerelictTemplateName;
+            SgtLogger.l(targetStationId, "targetStation");
+            if (Assets.GetPrefab(targetStationId) == null)
+                return;
+
+
+            Vector3 position = new Vector3(-1f, -1f, 0.0f);
+            GameObject sat = Util.KInstantiate(Assets.GetPrefab(targetStationId), position);
+            sat.SetActive(true);
+            var spaceStation = sat.GetComponent<DerelictStation>();
+            spaceStation.Location = source.Location;
+        }
 
         public void Init(AxialI location)
         {

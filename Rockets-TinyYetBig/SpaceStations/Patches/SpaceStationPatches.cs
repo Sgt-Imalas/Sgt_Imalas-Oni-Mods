@@ -189,7 +189,8 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
                 //AudioMixer.instance.Stop(AudioMixerSnapshots.Get().MediumRocketInteriorReverbSnapshot);
 
                 WorldContainer world = __instance.GetWorld(worldId);
-                if (world != null && world.IsModuleInterior && (world.TryGetComponent<SpaceStation>(out _) || world.TryGetComponent<DerelictStation>(out _)))
+                
+                if (world == null ||world.TryGetComponent<SpaceStation>(out _) || world.TryGetComponent<DerelictStation>(out _))
                     return false;
                 return true;
             }

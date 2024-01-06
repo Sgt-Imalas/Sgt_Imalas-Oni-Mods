@@ -117,11 +117,11 @@ namespace Rockets_TinyYetBig.Patches
 
                     foreach(var worldKV in asteroids)
                     {
-                        var world= ClusterManager.Instance.GetWorld(worldKV.Key);
-                        if (world.HasTag(ModAssets.Tags.IsDerelict) && world.TryGetComponent<DerelictStation>(out var dere))
-                        {
-                            worldKV.Value.gameObject.SetActive(dere.ShowInWorldSelector);
-                        }
+                        //var world= ClusterManager.Instance.GetWorld(worldKV.Key);
+                        //if (world.HasTag(ModAssets.Tags.IsDerelict) && world.TryGetComponent<DerelictStation>(out var dere))
+                        //{
+                        //    worldKV.Value.gameObject.SetActive(dere.ShowInWorldSelector);
+                        //}
                     }
 
                     OutputList.AddRange(asteroids);

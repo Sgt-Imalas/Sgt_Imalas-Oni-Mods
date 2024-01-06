@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Docking;
+using Rockets_TinyYetBig.SpaceStations;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,45 +27,34 @@ namespace Rockets_TinyYetBig.Derelicts
                 HashedString poiType,
                 ref GameObject __result)
             {
-                if (id == "RussellsTeapot")
-                    return;
 
-                string templatename = Path.Combine(DerelictSubPath, id + DerelictTemplateName);
-                if (!TemplateCache.TemplateExists(templatename))
-                {
-                    SgtLogger.l(templatename, "template missing");
-                    return;
-                }
-                //if (__result.TryGetComponent<ArtifactPOIClusterGridEntity>(out var old))
-                //    UnityEngine.Object.Destroy(old);
-
-
-                RocketClusterDestinationSelector destinationSelector = __result.AddOrGet<RocketClusterDestinationSelector>();
-                destinationSelector.assignable = false;
-                destinationSelector.shouldPointTowardsPath = false;
-                destinationSelector.requireAsteroidDestination = false;
-
-                __result.AddOrGet<CraftModuleInterface>();
-                var traveler = __result.AddOrGet<ClusterTraveler>();
-                traveler.stopAndNotifyWhenPathChanges = false;
-
-                __result.AddOrGetDef<AlertStateManager.Def>();
-
-                var newEntity = __result.AddOrGet<DerelictStation>();
-                newEntity.m_name = name;
-                newEntity.m_Anim = anim;
-                newEntity.InteriorTemplate = templatename;
-                newEntity.InteriorSize = new Vector2I(19, 18);
-                newEntity.poiID = name;
+                __result.AddOrGet<InfoDescription>().description = desc;// Strings.Get("STRINGS.UI.SPACEDESTINATIONS.ARTIFACT_POI." + spst.poiID.ToUpperInvariant() + ".DESC");
 
             }
         }
         [HarmonyPatch(typeof(LoreBearer), nameof(LoreBearer.OnClickRead))]
         public static class RevealDerelictOnLoreRead
         {
-            public static void Postfix()
+            public static void Postfix(LoreBearer __instance)
             {
                 ClusterManager.Instance.Trigger(1943181844, (object)"lorebearer revealed");
+                if(__instance.TryGetComponent<ArtifactPOIClusterGridEntity>(out var artifact))
+                {
+                    DerelictStation.SpawnNewDerelictStation(artifact);
+                }
+
+            }
+        }
+        [HarmonyPatch(typeof(ArtifactPOIClusterGridEntity), nameof(ArtifactPOIClusterGridEntity.IsVisible), MethodType.Getter)]
+        public static class ArtifactPOIClusterGridEntity_ReplaceOnReveal
+        {
+            public static void Postfix(ArtifactPOIClusterGridEntity __instance,ref bool __result)
+            {
+                if(__instance.TryGetComponent<LoreBearer>(out var loreBearer))
+                {
+                    if(SpaceStationManager.IsSpaceStationAt(__instance.Location))
+                        __result = !loreBearer.BeenClicked;
+                }
 
             }
         }

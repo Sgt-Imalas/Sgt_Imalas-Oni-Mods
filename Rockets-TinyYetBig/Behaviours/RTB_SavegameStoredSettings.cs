@@ -19,11 +19,19 @@ namespace Rockets_TinyYetBig.Behaviours
         public bool trulyUsingCompressedInteriors;
 
 
+        [Serialize]
+        public HashSet<int> StationInteriorWorlds = new HashSet<int>();
+
+
         public override void OnSpawn()
         {
             base.OnSpawn();
             Instance = this;
             trulyUsingCompressedInteriors = Config.Instance.CompressInteriors;
+            if(trulyUsingCompressedInteriors)
+            {
+                trulyUsingCompressedInteriors = CheckCompressionState();
+            }
         }
         public override void OnCleanUp()
         {

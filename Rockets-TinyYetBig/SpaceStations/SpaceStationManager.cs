@@ -1,4 +1,5 @@
 ﻿using ONITwitchLib;
+using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.Derelicts;
 using System;
 using System.Collections.Generic;
@@ -19,10 +20,10 @@ namespace Rockets_TinyYetBig.SpaceStations
         public static SpaceStationManager Instance { get { return lazy.Value; } }
 
 
-        public static bool ActiveWorldIsSpaceStationInterior() => ClusterManager.Instance.activeWorld.HasTag(ModAssets.Tags.IsSpaceStation);
-        public static bool ActiveWorldIsRocketInterior() => !ClusterManager.Instance.activeWorld.HasTag(ModAssets.Tags.IsSpaceStation) && ClusterManager.Instance.activeWorld.IsModuleInterior;
-        public static bool WorldIsRocketInterior(int worldId) => !ClusterManager.Instance.GetWorld(worldId).HasTag(ModAssets.Tags.IsSpaceStation) && ClusterManager.Instance.GetWorld(worldId).IsModuleInterior;
-        public static bool WorldIsSpaceStationInterior(int worldId) => ClusterManager.Instance.GetWorld(worldId).HasTag(ModAssets.Tags.IsSpaceStation) && ClusterManager.Instance.GetWorld(worldId).IsModuleInterior;
+        public static bool ActiveWorldIsSpaceStationInterior() => RTB_SavegameStoredSettings.Instance.StationInteriorWorlds.Contains(ClusterManager.Instance.activeWorldId);
+        public static bool ActiveWorldIsRocketInterior() => !RTB_SavegameStoredSettings.Instance.StationInteriorWorlds.Contains(ClusterManager.Instance.activeWorldId) && ClusterManager.Instance.activeWorld.IsModuleInterior;
+        public static bool WorldIsRocketInterior(int worldId) => !RTB_SavegameStoredSettings.Instance.StationInteriorWorlds.Contains(worldId) && ClusterManager.Instance.GetWorld(worldId).IsModuleInterior;
+        public static bool WorldIsSpaceStationInterior(int worldId) => RTB_SavegameStoredSettings.Instance.StationInteriorWorlds.Contains(worldId);
 
         public SpaceStation GetSpaceStationFromWorldId(int worldId) 
         { 
@@ -149,7 +150,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         const int LowEndRads = 200;
         const int HighEndRads = 850;
 
-        public void DestroySpaceStationInteriorWorld(int world_id)
+        public void DestroySpaceStationInteriorWorld(int world_id, bool refund = true)
         {
             WorldContainer world = ClusterManager.Instance.GetWorld(world_id);
             if ((UnityEngine.Object)world == (UnityEngine.Object)null || !world.IsModuleInterior)
@@ -180,8 +181,8 @@ namespace Rockets_TinyYetBig.SpaceStations
 
                 ClusterManager.Instance.UnregisterWorldContainer(world);
 
-
-                GameScheduler.Instance.ScheduleNextFrame("ClusterManager.world.TransferResourcesToDebris", (System.Action<object>)(obj => world.TransferResourcesToDebris(clusterLocation, noRefundTiles, SimHashes.Cuprite)));
+                if(refund)
+                    GameScheduler.Instance.ScheduleNextFrame("ClusterManager.world.TransferResourcesToDebris", (System.Action<object>)(obj => world.TransferResourcesToDebris(clusterLocation, noRefundTiles, SimHashes.Cuprite)));
                 GameScheduler.Instance.ScheduleNextFrame("ClusterManager.DeleteWorldObjects", (System.Action<object>)(obj => DeleteWorldObjects(world)));
                 SpaceStationWorlds.Remove(world_id);
             }
