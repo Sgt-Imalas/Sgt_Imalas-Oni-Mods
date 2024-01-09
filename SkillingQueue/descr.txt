@@ -7,10 +7,10 @@
 [hr][/hr]
 
 [h1]Features[/h1]
-[list][*] holding <b>SHIFT</b> while clicking on a skill will add it and its prerequisite skills to the skill queue of the currently selected duplicant.
-[*] each Duplicant has its own Skill queue.
+[list][*] holding [b]SHIFT[/b] while clicking on a skill will add it and its prerequisite skills to the skill queue of the currently selected duplicant.
+[*] each Duplicant has its own skill queue.
 [*] Numbers in the title of each skill queued will indicate its position in the queue. this is also indicated by a rainbow gradient (if thats too colorful, it can be disabled in the config)
-[*] <b>SHIFT</b> clicking a skill thats already in the queue will remove it and all skills that depend on it from that duplicants skill queue
+[*] [b]SHIFT[/b] clicking a skill thats already in the queue will remove it and all skills that depend on it from that duplicants skill queue
 [*] all skill queues are saved with the game
 [*] When a skill is acquired via a skill queue, it will give a notification for which duplicant learned what skill. (this can be disabled in the config)
 [*] When a skill queue is completed by learning the last skill queued, it will give a notification for which duplicant it completed the queue. (this can be disabled in the config)
