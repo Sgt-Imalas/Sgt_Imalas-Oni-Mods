@@ -23,8 +23,13 @@ namespace OniRetroEdition
         [JsonProperty]
         public EarlierVersion IronOreTexture { get; set; }
 
+        [Option("Connect certain tile tops", "")]
+        [JsonProperty]
+        public bool TileTopsMerge { get; set; }
+
         public Config()
         {
+            TileTopsMerge = true;
             IronOreTexture = EarlierVersion.Beta;
         }
     }

@@ -90,7 +90,8 @@ namespace OniRetroEdition.BuildingDefModification
                         {
                             buildMenuCategory = GameStrings.PlanMenuCategory.Base,
                             placedBehindBuildingId = CarpetTileConfig.ID,
-                            foundationFloorTile = true
+                            foundationFloorTile = true,
+                            techOverride = GameStrings.Technology.Decor.RenaissanceArt
                         }
                     },{
                         CrewCapsuleConfig.ID,
@@ -168,11 +169,13 @@ namespace OniRetroEdition.BuildingDefModification
                         PressureSwitchGasConfig.ID,
                         new BuildingModification()
                         {
+                            techOverride = GameStrings.Technology.Gases.ImprovedVentilation
                         }
                     },{
                         GasConduitOverflowConfig.ID,
                         new BuildingModification()
                         {
+                            techOverride = GameStrings.Technology.Gases.ImprovedVentilation
                         }
                     },{
                         GasConduitPreferentialFlowConfig.ID,
@@ -235,6 +238,7 @@ namespace OniRetroEdition.BuildingDefModification
         public int? WidthOverride, HeightOverride;
         public bool? foundationFloorTile;
         public string animOverride;
+        public string techOverride;
         public string buildMenuCategory, placedBehindBuildingId;
 
         public CellOffset? UtilityInputOffsetOverride, UtilityOutputOffsetOverride, PowerInputOffsetOverride;

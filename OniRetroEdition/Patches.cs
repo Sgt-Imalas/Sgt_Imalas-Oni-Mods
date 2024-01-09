@@ -40,16 +40,19 @@ namespace OniRetroEdition
                 {
 
 
-                    if(config.Value.buildMenuCategory!=null&& config.Value.buildMenuCategory.Length > 0)
+                    if(config.Value.buildMenuCategory != null && config.Value.buildMenuCategory.Length > 0)
                     {
                         string buildingId = config.Key;
                         string category = config.Value.buildMenuCategory;
 
                         string relativeBuildingId = null;
 
-                        if(config.Value.placedBehindBuildingId!=null&& config.Value.placedBehindBuildingId.Length > 0)
+                        if(config.Value.placedBehindBuildingId != null && config.Value.placedBehindBuildingId.Length > 0)
                         {
                             relativeBuildingId = config.Value.placedBehindBuildingId;
+                            if (relativeBuildingId == null || relativeBuildingId.Length == 0)
+                                continue;
+
                             if (config.Value.placeBefore.HasValue)
                             {
                                 bool before = config.Value.placeBefore.Value;
@@ -63,23 +66,6 @@ namespace OniRetroEdition
                         InjectionMethods.MoveExistingBuildingToNewCategory(category, buildingId);
                     }
                 }
-
-
-                //InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Base, MouldingTileConfig.ID, CarpetTileConfig.ID);
-                //InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Rocketry, CrewCapsuleConfig.ID);
-                //InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, AtmoicGardenConfig.ID, FarmTileConfig.ID);
-
-                //InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, FlyingCreatureBaitConfig.ID, EggCrackerConfig.ID);
-                //InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, AirborneCreatureLureConfig.ID, EggCrackerConfig.ID);
-                //InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, FishTrapConfig.ID, EggCrackerConfig.ID);
-                //InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Food, CreatureTrapConfig.ID, EggCrackerConfig.ID);
-
-                //InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Refinement, GenericFabricatorConfig.ID, RockCrusherConfig.ID);
-                //InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Stations, MachineShopConfig.ID, PowerControlStationConfig.ID);
-                //InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Medicine, AdvancedApothecaryConfig.ID, ApothecaryConfig.ID);
-                //InjectionMethods.MoveExistingBuildingToNewCategory(GameStrings.PlanMenuCategory.Stations, OxygenMaskStationConfig.ID, OxygenMaskMarkerConfig.ID, string.Empty, ModUtil.BuildingOrdering.Before);
-
-
             }
         }// <summary>
         /// Register Buildings to existing Technologies (newly added techs are in "ResearchTreePatches" class
@@ -88,9 +74,22 @@ namespace OniRetroEdition
         [HarmonyPatch("Initialize")]
         public class Db_Initialize_Patch
         {
-            public static void Postfix()
+            public static void Postfix(Db __instance)
             {
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.Employment, RoleStationConfig.ID);
+                foreach (var config in BuildingModifications.Instance.LoadedBuildingOverrides)
+                {
+                    if (config.Value.techOverride != null && config.Value.techOverride.Length > 0)
+                    {
+                        var previousTech = __instance.Techs.TryGetTechForTechItem(config.Key);
+                        if(previousTech != null)
+                        {
+                            previousTech.RemoveUnlockedItemIDs(config.Key);
+                        }
+
+                        InjectionMethods.AddBuildingToTechnology( config.Value.techOverride, config.Key);
+                    }
+                }
             }
         }
 
@@ -128,6 +127,9 @@ namespace OniRetroEdition
         ///Connects mesh+airflow and normal tiles
         public static class ConnectingTiles
         {
+            [HarmonyPrepare]
+            public static bool Prepare() => Config.Instance.TileTopsMerge;
+
             [HarmonyPostfix]
             public static void Postfix(GameObject go)
             {

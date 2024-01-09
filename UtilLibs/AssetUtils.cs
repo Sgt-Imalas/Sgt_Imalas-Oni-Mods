@@ -42,7 +42,7 @@ namespace UtilLibs
                 instance.TextureAssets.RemoveAll(foundsprite2 => foundsprite2 != null && foundsprite2.name == spriteId);
             }
             instance.TextureAssets.Add(texture);
-            if (Assets.Textures.Any(foundsprite => foundsprite.name == spriteId))
+            if (Assets.Textures.Any(foundsprite => foundsprite !=null && foundsprite.name == spriteId))
             {
                 SgtLogger.l("removed existing Texture: " + spriteId);
                 Assets.Textures.RemoveAll(foundsprite2 => foundsprite2 != null && foundsprite2.name == spriteId);
@@ -75,10 +75,10 @@ namespace UtilLibs
 
 
 
-            if (instance.SpriteAssets.Any(foundsprite => foundsprite.name == spriteId))
+            if (instance.SpriteAssets.Any(foundsprite => foundsprite != null && foundsprite.name == spriteId))
             {
                 SgtLogger.l("removed existing SpriteAsset" + spriteId);
-                instance.SpriteAssets.RemoveAll(foundsprite2 => foundsprite2.name == spriteId);
+                instance.SpriteAssets.RemoveAll(foundsprite2 => foundsprite2 != null && foundsprite2.name == spriteId);
             }
             instance.SpriteAssets.Add(sprite);
 
@@ -87,9 +87,9 @@ namespace UtilLibs
                 SgtLogger.l("removed existing Sprite" + spriteId);
                 Assets.Sprites.Remove(spriteId);
             }
-            if (Assets.TintedSprites.Any(foundsprite => foundsprite.name == spriteId))
+            if (Assets.TintedSprites.Any(foundsprite => foundsprite != null && foundsprite.name == spriteId))
             {
-                Assets.TintedSprites.First(foundsprite => foundsprite.name == spriteId).sprite = sprite;
+                Assets.TintedSprites.First(foundsprite => foundsprite != null && foundsprite.name == spriteId).sprite = sprite;
             }
 
 
