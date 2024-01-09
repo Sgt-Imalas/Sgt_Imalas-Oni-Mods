@@ -64,20 +64,34 @@ namespace SkillingQueue
             {
 
                 __instance.skillsScreen.GetMinionIdentity(__instance.skillsScreen.CurrentlySelectedMinion, out var minionIdentity, out _);
-                if (minionIdentity.TryGetComponent<MinionResume>(out var resume) && ResumeQueues.ContainsKey(resume) && ResumeQueues[resume].HasSkillQueued(skillID, out int index))
+                if (minionIdentity.TryGetComponent<MinionResume>(out var resume) && ResumeQueues.ContainsKey(resume))
                 {
-                    Skill skill = Db.Get().Skills.Get(skillID);
+                    string keyCode = GameUtil.GetKeycodeLocalized(KKeyCode.LeftShift) ??
+                        "SHIFT";
+                    string currentTooltip = __instance.tooltip.GetMultiString(0);
+                    currentTooltip += "\r\n\r\n";
+                    if (ResumeQueues[resume].HasSkillQueued(skillID, out int index))
+                    {
+                        Skill skill = Db.Get().Skills.Get(skillID);
 
-                    float min = index;
-                    float max = Mathf.Max(8, ResumeQueues[resume].QueuedSkillCount);
-                    float gradientValue = (min / max) * 0.9f;
-                    var targetColor = Config.Instance.RainbowIndicator ? Color.HSVToRGB(gradientValue, 0.45f, 1f) : UIUtils.rgb(255, 251, 187);
+                        float min = index;
+                        float max = Mathf.Max(8, ResumeQueues[resume].QueuedSkillCount);
+                        float gradientValue = (min / max) * 0.9f;
+                        var targetColor = Config.Instance.RainbowIndicator ? Color.HSVToRGB(gradientValue, 0.45f, 1f) : UIUtils.rgb(255, 251, 187);
 
-                    string positionText = " <b>[" + (++index) + "]</b>";
+                        string positionText = " <b>[" + (++index) + "]</b>";
 
-                    positionText = UIUtils.ColorText(positionText, targetColor);
+                        positionText = UIUtils.ColorText(positionText, targetColor);
 
-                    __instance.Name.text = skill.Name + positionText + "\n(" + Db.Get().SkillGroups.Get(skill.skillGroup).Name + ")";
+                        __instance.Name.text = skill.Name + positionText + "\n(" + Db.Get().SkillGroups.Get(skill.skillGroup).Name + ")";
+
+                        currentTooltip += string.Format(STRINGS.SKILLQUEUE.DEQUEUE, index, keyCode);
+                    }
+                    else
+                    {
+                        currentTooltip += string.Format(STRINGS.SKILLQUEUE.QUEUE, keyCode);
+                    }
+                    __instance.tooltip.SetSimpleTooltip(currentTooltip);
                 }
             }
         }

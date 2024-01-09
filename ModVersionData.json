@@ -143,6 +143,10 @@
     {
       "staticID": "DontDisableBlamedMods",
       "version": "1.0.0.0"
+    },
+    {
+      "staticID": "SkillingQueue",
+      "version": "1.0.0.0"
     }
   ]
 }

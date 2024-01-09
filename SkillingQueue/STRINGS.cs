@@ -8,6 +8,13 @@ namespace SkillingQueue
 {
     internal class STRINGS
     {
+        public class SKILLQUEUE
+        {
+            public static LocString QUEUE = "Hold " + global::STRINGS.UI.PRE_KEYWORD + "{0}" + global::STRINGS.UI.PST_KEYWORD + " and click to add to skill queue";
+            public static LocString DEQUEUE = "Currently at position {0} in the skill queue.\nHold " + global::STRINGS.UI.PRE_KEYWORD + "{1}" + global::STRINGS.UI.PST_KEYWORD + " and click to remove from the queue";
+        }
+
+
         public class SKILLQUEUE_STATUSITEMS
         {
             public class SQ_NEW_SKILL_LEARNED

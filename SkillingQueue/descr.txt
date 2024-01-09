@@ -1,0 +1,37 @@
+﻿This mod allows to queue skills for your dupes, so they instantly acquire the skill as soon as they gain a skillpoint
+
+[img]https://i.imgur.com/GbFtLZ2.png[/img]
+
+[h1]Current latest Version: 1.0.0[/h1]
+
+[hr][/hr]
+
+[h1]Features[/h1]
+[list][*] holding <b>SHIFT</b> while clicking on a skill will add it and its prerequisite skills to the skill queue of the currently selected duplicant.
+[*] each Duplicant has its own Skill queue.
+[*] Numbers in the title of each skill queued will indicate its position in the queue. this is also indicated by a rainbow gradient (if thats too colorful, it can be disabled in the config)
+[*] <b>SHIFT</b> clicking a skill thats already in the queue will remove it and all skills that depend on it from that duplicants skill queue
+[*] all skill queues are saved with the game
+[*] When a skill is acquired via a skill queue, it will give a notification for which duplicant learned what skill. (this can be disabled in the config)
+[*] When a skill queue is completed by learning the last skill queued, it will give a notification for which duplicant it completed the queue. (this can be disabled in the config)
+[/list]
+
+
+[hr][/hr]
+[h1]Credits[/h1]
+Options made with PLib by PeterHan.
+Inspired by Research Queue by PeterHan.
+
+[hr][/hr]
+
+[h1]Bug Reports & Local Download[/h1]
+You can find direct downloads for my mods [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases]here[/url] (please notify me if I forgot to release new versions).
+
+Please post bug reports and issues on [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or on my [url=https://discord.gg/5n7peBCnWZ]Discord Server[/url]. 
+[b]Always include the full player.log in a report: [/b] https://github.com/aki-art/ONI-Mods/wiki/How-to-send-a-log
+
+[b]Make sure you do NOT have the mod "Debug Console" enabled as it breaks the game's logging and makes the log useless for debugging![/b] 
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me on [url=https://ko-fi.com/sgtimalas]Kofi[/url] :D.
