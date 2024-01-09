@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TUNING;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UtilLibs;
@@ -16,22 +17,31 @@ namespace SkillingQueue
     internal class Patches
     {
         //SimHashes.SkillPointAquired, MinionResume data
-        /// <summary>
-        /// Init. auto translation
-        /// </summary>
-        /// 
-
-
         public static Dictionary<MinionResume, SavedSkillQueue> ResumeQueues = new Dictionary<MinionResume, SavedSkillQueue>();
 
+        /// <summary>
+        /// Add Skill queue component to dupe prefab
+        /// </summary>
         [HarmonyPatch(typeof(MinionConfig), nameof(MinionConfig.CreatePrefab))]
-        public static class Localization_Initialize_Patch
+        public static class MinionConfig_CreatePrefab_Patch
         {
             public static void Postfix(GameObject __result)
             {
                 __result.AddOrGet<SavedSkillQueue>();
             }
         }
+        //[HarmonyPatch(typeof(MinionResume), nameof(MinionResume.AddExperience))]
+        //public static class DEBUG_MULTIPLIER
+        //{
+        //    public static void Prefix(ref float amount)
+        //    {
+        //        amount *= 100f;
+        //    }
+        //}
+
+        /// <summary>
+        /// refresh queue on skill learned
+        /// </summary>
         [HarmonyPatch(typeof(MinionResume), nameof(MinionResume.MasterSkill))]
         public static class MinionResume_MasterSkill_Patch
         {
@@ -43,6 +53,10 @@ namespace SkillingQueue
                 }
             }
         }
+
+        /// <summary>
+        /// Add skill queue position indicator to skill widget header text
+        /// </summary>
         [HarmonyPatch(typeof(SkillWidget), nameof(SkillWidget.Refresh))]
         public static class SkillWidget_Refresh_Patch
         {
@@ -50,19 +64,26 @@ namespace SkillingQueue
             {
 
                 __instance.skillsScreen.GetMinionIdentity(__instance.skillsScreen.CurrentlySelectedMinion, out var minionIdentity, out _);
-                if(minionIdentity.TryGetComponent<MinionResume>(out var resume) && ResumeQueues.ContainsKey(resume) && ResumeQueues[resume].HasSkillQueued(skillID,out int index))
+                if (minionIdentity.TryGetComponent<MinionResume>(out var resume) && ResumeQueues.ContainsKey(resume) && ResumeQueues[resume].HasSkillQueued(skillID, out int index))
                 {
                     Skill skill = Db.Get().Skills.Get(skillID);
 
                     float min = index;
-                    float max = Mathf.Max(8,ResumeQueues[resume].QueuedSkillCount);
-                    float gradientValue  =(min/max)*0.9f;
-                    var targetColor = Color.HSVToRGB(gradientValue, 0.45f, 1f);
+                    float max = Mathf.Max(8, ResumeQueues[resume].QueuedSkillCount);
+                    float gradientValue = (min / max) * 0.9f;
+                    var targetColor = Config.Instance.RainbowIndicator ? Color.HSVToRGB(gradientValue, 0.45f, 1f) : UIUtils.rgb(255, 251, 187);
 
-                    __instance.Name.text = skill.Name + UIUtils.ColorText(" <b>["+(++index) +"]</b>", targetColor) +"\n(" + Db.Get().SkillGroups.Get(skill.skillGroup).Name + ")" ;
+                    string positionText = " <b>[" + (++index) + "]</b>";
+
+                    positionText = UIUtils.ColorText(positionText, targetColor);
+
+                    __instance.Name.text = skill.Name + positionText + "\n(" + Db.Get().SkillGroups.Get(skill.skillGroup).Name + ")";
                 }
             }
         }
+        /// <summary>
+        /// enqueue / dequeue skill
+        /// </summary>
         [HarmonyPatch(typeof(SkillWidget), nameof(SkillWidget.OnPointerClick))]
         public static class SkillWidget_OnPointerClick_Patch
         {
@@ -96,6 +117,9 @@ namespace SkillingQueue
             }
         }
 
+        /// <summary>
+        /// Add expected morale and morale expectation for finished queue to morale text
+        /// </summary>
         [HarmonyPatch(typeof(SkillsScreen), nameof(SkillsScreen.RefreshProgressBars))]
         public static class SkillsScreen_RefreshProgressBars_Patch
         {
@@ -113,13 +137,24 @@ namespace SkillingQueue
 
                     if (finalMorale > 0)
                     {
-                        __instance.moraleProgressLabel.text = __instance.moraleProgressLabel.text + GameUtil.ApplyBoldString(GameUtil.ColourizeString(__instance.moraleNotchColor," [" + finalMorale + "] "));
+                        __instance.moraleProgressLabel.text = __instance.moraleProgressLabel.text + GameUtil.ApplyBoldString(GameUtil.ColourizeString(__instance.moraleNotchColor, " [" + finalMorale + "] "));
                     }
                     if (finalMoraleExpectation > 0)
                     {
                         __instance.expectationsProgressLabel.text = __instance.expectationsProgressLabel.text + GameUtil.ApplyBoldString(GameUtil.ColourizeString(__instance.expectationNotchColor, " [" + finalMoraleExpectation + "] "));
                     }
                 }
+            }
+        }
+        /// <summary>
+        /// /// Init. auto translation
+        /// /// </summary>
+        [HarmonyPatch(typeof(Localization), "Initialize")]
+        public static class Localization_Initialize_Patch
+        {
+            public static void Postfix()
+            {
+                LocalisationUtil.Translate(typeof(STRINGS), true);
             }
         }
     }

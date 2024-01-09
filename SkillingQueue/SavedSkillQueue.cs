@@ -89,6 +89,7 @@ namespace SkillingQueue
                 return;
 
             int maxCount = SkillIds.Count;
+            var dbskills = Db.Get().Skills;
 
             for (int i = 0; i < maxCount; i++)
             {
@@ -106,7 +107,20 @@ namespace SkillingQueue
                 {
                     SkillIds.Remove(SkillId);
                     refResume.MasterSkill(SkillId);
+                    if (Config.Instance.NotificationOnSkill)
+                    {
+                        SkillLearnedMessage finishedMessage = new SkillLearnedMessage(resume, dbskills.Get(SkillId));
+                        Messenger.Instance.QueueMessage(finishedMessage);
+                        //GameScheduler.Instance.Schedule("remove message again", 300, (_) => Messenger.Instance.RemoveMessage(finishedMessage));
+                    }
+
                 }
+            }
+            if(SkillIds.Count == 0 && Config.Instance.NotificationOnQueueComplete)
+            {
+                SkillQueueCompleteMessage allfinishedMessage = new SkillQueueCompleteMessage(resume);
+                MusicManager.instance.PlaySong("Stinger_ResearchComplete");
+                Messenger.Instance.QueueMessage(allfinishedMessage);
             }
         }
 
