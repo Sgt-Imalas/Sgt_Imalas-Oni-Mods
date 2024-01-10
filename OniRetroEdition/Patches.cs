@@ -251,9 +251,6 @@ namespace OniRetroEdition
             }
         }
 
-
-
-
         #endregion
 
         [HarmonyPatch(typeof(LogicElementSensorGasConfig))]
