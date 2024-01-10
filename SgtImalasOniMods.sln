@@ -135,6 +135,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_WorldGenStateCapture", "_W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillingQueue", "SkillingQueue\SkillingQueue.csproj", "{53F96B37-8F33-4FE1-8A7F-A5D23DD0A44B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintYourPipes", "PaintYourPipes\PaintYourPipes.csproj", "{D8C48804-9B82-42E7-8A0C-FC30163C7BFF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -385,6 +387,10 @@ Global
 		{53F96B37-8F33-4FE1-8A7F-A5D23DD0A44B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53F96B37-8F33-4FE1-8A7F-A5D23DD0A44B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53F96B37-8F33-4FE1-8A7F-A5D23DD0A44B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8C48804-9B82-42E7-8A0C-FC30163C7BFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8C48804-9B82-42E7-8A0C-FC30163C7BFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8C48804-9B82-42E7-8A0C-FC30163C7BFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8C48804-9B82-42E7-8A0C-FC30163C7BFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
