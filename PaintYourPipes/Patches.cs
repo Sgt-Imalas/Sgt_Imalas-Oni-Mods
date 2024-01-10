@@ -2,23 +2,29 @@
 using HarmonyLib;
 using Klei.AI;
 using Mono.CompilerServices.SymbolWriter;
+using rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UtilLibs;
+using static AmbienceManager;
 using static Game;
 using static OverlayModes;
 using static PaintYourPipes.ModAssets;
+using static STRINGS.UI.TOOLS;
 
 namespace PaintYourPipes
 {
     internal class Patches
     {
-        public static bool OverlayActive = false;
+
+
+        public static ObjectLayer ActiveOverlay = (ObjectLayer) (-1);
 
         /// <summary>
         /// Add Colourable-Component to bridges and pipes
@@ -26,16 +32,12 @@ namespace PaintYourPipes
         /// </summary>
         /// 
         [HarmonyPatch]
-        public static class AddPortsToBuildMenu
+        public static class AddColorComponentToFinishedBuildings
         {
-            static Tag SolidColor = TagManager.Create("ColorConduit_solid");
-            static Tag LiquidColor = TagManager.Create("ColorConduit_liquid");
-            static Tag GasColor = TagManager.Create("ColorConduit_gas");
-
             [HarmonyPostfix]
             public static void Postfix(GameObject go)
             {
-                go.AddOrGet<ColourableBuilding>();
+                go.AddOrGet<ColorableConduit>();
             }
             [HarmonyTargetMethods]
             internal static IEnumerable<MethodBase> TargetMethods()
@@ -54,43 +56,69 @@ namespace PaintYourPipes
         {
             public static void Postfix(ref bool __result, int targetCell, GameObject sourceGameObject)
             {
-                if(sourceGameObject.TryGetComponent<ColourableBuilding>(out var sourcebuilding) && !__result)
+                if(sourceGameObject.TryGetComponent<ColorableConduit>(out var sourcebuilding))
                 {
-                    if (ColourableBuilding.TryGetColorable(targetCell, sourcebuilding, out ColourableBuilding targetConduit))
+                    if (ColorableConduit.TryGetColorable(targetCell, sourcebuilding, out ColorableConduit targetConduit) )
                     {
                         targetConduit.Trigger(-905833192, (object)sourceGameObject);
                         __result = true;
                     }
-                    if (ColourableBuilding.TryGetColorableBridge(targetCell, sourcebuilding, out ColourableBuilding targetBridge))
+                    if (ColorableConduit.TryGetColorableBridge(targetCell, sourcebuilding, out ColorableConduit targetBridge) )
                     {
                         targetBridge.Trigger(-905833192, (object)sourceGameObject);
                         __result = true;
                     }
-
-
                 }
             }
         }
-
-
-
-        [HarmonyPatch(typeof(OverlayModes.ConduitMode), nameof(OverlayModes.ConduitMode.Enable))]
-        public static class ColorsInOverlay_OnEnable
+        [HarmonyPatch(typeof(SolidConveyor), nameof(SolidConveyor.Enable))]
+        public static class ColorsInOverlay_Solid_OnEnable
         {
-            public static void Postfix(OverlayModes.ConduitMode __instance, ref HashSet<SaveLoadRoot> __state)
+            public static void Postfix(SolidConveyor __instance, ref HashSet<SaveLoadRoot> __state)
             {
-                OverlayActive = true;
-                ColourableBuilding.RefreshAll();
+                if (!ColorableConduit.ShowOverlayTint)
+                    return;
+
+                ActiveOverlay = ObjectLayer.SolidConduit;
+                ColorableConduit.RefreshOfConduitType(ActiveOverlay);
             }
         }
-        [HarmonyPatch(typeof(OverlayModes.ConduitMode), nameof(OverlayModes.ConduitMode.Update))]
-        public static class ColorsInOverlay_Update
+
+
+        //[HarmonyPatch(typeof(PlanScreen), "OnClickCopyBuilding")]
+        //public static class PlanScreen_OnClickCopyBuilding_Patch
+        //{
+        //    public static void Prefix() 
+        //    {
+        //        if(SelectTool.Instance.selected == null)
+        //            return;
+
+        //        if (SelectTool.Instance.selected.TryGetComponent(out ColorableConduit colorbuilding))
+        //        {
+        //            ColorableConduit.BuildFromColor = colorbuilding.ColorHex;
+        //            ColorableConduit.HasColorOverride = true;
+        //        }
+        //    }
+
+        //}
+        //[HarmonyPatch(typeof(BuildTool), "OnDeactivateTool")]
+        //public class BuildTool_OnDeactivateTool_Patch
+        //{
+        //    public static void Postfix() => ColorableConduit.HasColorOverride = false;
+        //}
+
+
+        [HarmonyPatch(typeof(SolidConveyor), nameof(SolidConveyor.Update))]
+        public static class ColorsInOverlayy_Solid_Update
         {
-            public static void Postfix(OverlayModes.ConduitMode __instance)
+            public static void Postfix(SolidConveyor __instance)
             {
+                if (!ColorableConduit.ShowOverlayTint)
+                    return;
+
                 foreach (SaveLoadRoot layerTarget in __instance.layerTargets)
                 {
-                    if (layerTarget != null && layerTarget.TryGetComponent<ColourableBuilding>(out var building) && building.ShowInOverlay)
+                    if (layerTarget != null && layerTarget.TryGetComponent<ColorableConduit>(out var building))
                     {
                         building.RefreshColor();
                         if (building.AnimController.enabled)
@@ -102,42 +130,95 @@ namespace PaintYourPipes
                 }
             }
         }
-        [HarmonyPatch(typeof(ConduitFlowVisualizer), nameof(ConduitFlowVisualizer.GetCellTintColour))]
-        public static class OverrideBlobColor
-        {
-            public static void Postfix(ConduitFlowVisualizer __instance, int cell, ref Color32 __result)
-            {
 
-                if (__instance == Game.Instance.liquidFlowVisualizer && ColourableBuilding.LiquidConduits.ContainsKey(cell))
+        [HarmonyPatch(typeof(SolidConveyor), nameof(SolidConveyor.Disable))]
+        public static class ColorsInOverlayy_Solid_OnDisable
+        {
+            public static void Postfix(SolidConveyor __instance)
+            {
+                ActiveOverlay = (ObjectLayer)(-1);
+                ColorableConduit.RefreshAll();
+            }
+        }
+
+        [HarmonyPatch(typeof(OverlayModes.ConduitMode), nameof(OverlayModes.ConduitMode.Enable))]
+        public static class ColorsInOverlay_OnEnable
+        {
+            public static void Postfix(OverlayModes.ConduitMode __instance, ref HashSet<SaveLoadRoot> __state)
+            {
+                if (!ColorableConduit.ShowOverlayTint)
+                    return;
+
+                if (__instance is GasConduits)
+                    ActiveOverlay = ObjectLayer.GasConduit;
+                else if (__instance is LiquidConduits)
+                    ActiveOverlay = ObjectLayer.LiquidConduit;
+
+                ColorableConduit.RefreshOfConduitType(ActiveOverlay);
+            }
+        }
+        [HarmonyPatch(typeof(OverlayModes.ConduitMode), nameof(OverlayModes.ConduitMode.Update))]
+        public static class ColorsInOverlay_Update
+        {
+            public static void Postfix(OverlayModes.ConduitMode __instance)
+            {
+                if (!ColorableConduit.ShowOverlayTint)
+                    return;
+
+                foreach (SaveLoadRoot layerTarget in __instance.layerTargets)
                 {
-                    var colorOverrider = ColourableBuilding.LiquidConduits[cell];
-                    if (colorOverrider.ShowInOverlay)
+                    if (layerTarget != null && layerTarget.TryGetComponent<ColorableConduit>(out var building))
                     {
-                        __result = colorOverrider.TintColor;
-                    }
-                }
-                else if (__instance == Game.Instance.gasFlowVisualizer && ColourableBuilding.GasConduits.ContainsKey(cell))
-                {
-                    var colorOverrider = ColourableBuilding.GasConduits[cell];
-                    if (colorOverrider.ShowInOverlay)
-                    {
-                        __result = colorOverrider.TintColor;
+                        building.RefreshColor();
+                        if (building.AnimController.enabled)
+                        {
+                            building.AnimController.enabled = false;
+                            building.AnimController.enabled = true;
+                        }
                     }
                 }
             }
         }
-
-
 
         [HarmonyPatch(typeof(OverlayModes.ConduitMode), nameof(OverlayModes.ConduitMode.Disable))]
         public static class ColorsInOverlay_OnDisable
         {
             public static void Postfix(OverlayModes.ConduitMode __instance, ref HashSet<SaveLoadRoot> __state)
             {
-                OverlayActive = false;
-                ColourableBuilding.RefreshAll();
+                ActiveOverlay = (ObjectLayer) (-1);
+                ColorableConduit.RefreshAll();
             }
         }
+
+        /// <summary>
+        /// Tint the blobs on pipes in the same color as the pipe
+        /// </summary>
+        [HarmonyPatch(typeof(ConduitFlowVisualizer), nameof(ConduitFlowVisualizer.GetCellTintColour))]
+        public static class OverrideBlobColor
+        {
+            public static void Postfix(ConduitFlowVisualizer __instance, int cell, ref Color32 __result)
+            {
+
+                if (__instance == Game.Instance.liquidFlowVisualizer && ColorableConduit.ConduitsByLayer[(int)ObjectLayer.LiquidConduit].ContainsKey(cell))
+                {
+                    var colorOverrider = ColorableConduit.ConduitsByLayer[(int)ObjectLayer.LiquidConduit][cell];
+                    if (ColorableConduit.ShowOverlayTint)
+                    {
+                        __result = __result.Multiply(colorOverrider.TintColor);
+                    }
+                }
+                else if (__instance == Game.Instance.gasFlowVisualizer && ColorableConduit.ConduitsByLayer[(int)ObjectLayer.GasConduit].ContainsKey(cell))
+                {
+                    var colorOverrider = ColorableConduit.ConduitsByLayer[(int)ObjectLayer.GasConduit][cell];
+                    if (ColorableConduit.ShowOverlayTint)
+                    {
+                        __result = __result.Multiply(colorOverrider.TintColor);
+                    }
+                }
+            }
+        }
+
+
 
         /// <summary>
         /// Grab ColorPicker gameobject from Pixelpack sidescreen
@@ -151,9 +232,9 @@ namespace PaintYourPipes
                 if (pixelPackScreenRef != null)
                 {
                     var pixelPackScreen = pixelPackScreenRef.screenPrefab as PixelPackSideScreen;
-                    ColourableBuildingSideScreen.colorPickerContainerPrefab = pixelPackScreen.colorSwatchContainer;
-                    ColourableBuildingSideScreen.colorPickerSwatchEntryPrefab = pixelPackScreen.swatchEntry;
-                    ColourableBuildingSideScreen.SwatchColors = new(pixelPackScreen.colorSwatch);
+                    ColorableConduit_SideScreen.colorPickerContainerPrefab = pixelPackScreen.colorSwatchContainer;
+                    ColorableConduit_SideScreen.colorPickerSwatchEntryPrefab = pixelPackScreen.swatchEntry;
+                    ColorableConduit_SideScreen.SwatchColors = new(pixelPackScreen.colorSwatch);
                 }
                 else
                     SgtLogger.error("Pixelpack sidescreen not found, mod cannot function!");
@@ -172,12 +253,12 @@ namespace PaintYourPipes
                 if (__instance.currentSideScreen != null
                     && __instance.currentSideScreen.gameObject != null)
                 {
-                    if(__instance.target.TryGetComponent<ColourableBuilding>(out var colorable))
-                        ColourableBuildingSideScreen.Target = colorable;
+                    if(__instance.target.TryGetComponent<ColorableConduit>(out var colorable))
+                        ColorableConduit_SideScreen.Target = colorable;
                     else
-                        ColourableBuildingSideScreen.Target = null;
+                        ColorableConduit_SideScreen.Target = null;
 
-                    ColourableBuildingSideScreen.RefreshUIState(__instance.currentSideScreen.transform);
+                    ColorableConduit_SideScreen.RefreshUIState(__instance.currentSideScreen.transform);
                 }
             }
         }
@@ -188,7 +269,7 @@ namespace PaintYourPipes
         [HarmonyPatch(typeof(Game), nameof(Game.OnDestroy))]
         public static class GameOnDestroy
         {
-            public static void Postfix() => ColourableBuildingSideScreen.Destroy();
+            public static void Postfix() => ColorableConduit_SideScreen.Destroy();
         }
 
         /// <summary>

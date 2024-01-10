@@ -10,13 +10,13 @@ using YamlDotNet.Core.Tokens;
 
 namespace PaintYourPipes
 {
-    internal class ColourableBuildingSideScreen
+    internal class ColorableConduit_SideScreen
     {
         public static GameObject colorPickerContainerPrefab, colorPickerSwatchEntryPrefab;
         public static List<Color> SwatchColors;
         public static Dictionary<Tuple<float,float,float>, GameObject> SwatchColorsHighlightsDictionary;
 
-        public static ColourableBuilding Target
+        public static ColorableConduit Target
         {
             get
             {
@@ -27,7 +27,7 @@ namespace PaintYourPipes
                 _target = value;
             }
         }
-        private static ColourableBuilding _target;
+        private static ColorableConduit _target;
 
         public static bool ColorInOverlay = false;
 
