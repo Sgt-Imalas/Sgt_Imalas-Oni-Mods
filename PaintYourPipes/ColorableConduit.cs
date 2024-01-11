@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 using static AmbienceManager;
 
 namespace PaintYourPipes
@@ -112,6 +113,11 @@ namespace PaintYourPipes
         public void RefreshColor()
         {
             _animController.TintColour = TintColor;
+            if(_animController.enabled)
+            {
+                _animController.enabled = false;
+                _animController.enabled = true;
+            }    
         }
         public override void OnSpawn()
         {
@@ -153,6 +159,8 @@ namespace PaintYourPipes
         public void SetCheckboxValue(bool value)
         {
             ShowOverlayTint = value;
+            //RefreshAll();
+            SgtLogger.l(Patches.ActiveOverlay.ToString(),"Patches.ActiveOverlay");
             RefreshOfConduitType(Patches.ActiveOverlay);
         }
 

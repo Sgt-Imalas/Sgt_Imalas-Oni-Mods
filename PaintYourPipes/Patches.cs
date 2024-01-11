@@ -23,8 +23,16 @@ namespace PaintYourPipes
     internal class Patches
     {
 
-
-        public static ObjectLayer ActiveOverlay = (ObjectLayer) (-1);
+        private static ObjectLayer _activeLayer = (ObjectLayer)(-1);
+        public static ObjectLayer ActiveOverlay
+        {
+            get { return _activeLayer; 
+            }
+            set { 
+                _activeLayer = value;
+               // SgtLogger.l("active set: " + _activeLayer.ToString());
+            }
+        }
 
         /// <summary>
         /// Add Colourable-Component to bridges and pipes
@@ -46,6 +54,7 @@ namespace PaintYourPipes
                 yield return typeof(SolidConduitBridgeConfig).GetMethod(name);
                 yield return typeof(LiquidConduitBridgeConfig).GetMethod(name);
                 yield return typeof(GasConduitBridgeConfig).GetMethod(name);
+                //yield return typeof(BaseWireConfig).GetMethod(name);
 
                 yield return typeof(LiquidConduitConfig).GetMethod(nameof(LiquidConduitConfig.CommonConduitPostConfigureComplete));
             }
@@ -76,10 +85,10 @@ namespace PaintYourPipes
         {
             public static void Postfix(SolidConveyor __instance, ref HashSet<SaveLoadRoot> __state)
             {
+                ActiveOverlay = ObjectLayer.SolidConduit;
+
                 if (!ColorableConduit.ShowOverlayTint)
                     return;
-
-                ActiveOverlay = ObjectLayer.SolidConduit;
                 ColorableConduit.RefreshOfConduitType(ActiveOverlay);
             }
         }
@@ -146,13 +155,14 @@ namespace PaintYourPipes
         {
             public static void Postfix(OverlayModes.ConduitMode __instance, ref HashSet<SaveLoadRoot> __state)
             {
-                if (!ColorableConduit.ShowOverlayTint)
-                    return;
 
                 if (__instance is GasConduits)
                     ActiveOverlay = ObjectLayer.GasConduit;
                 else if (__instance is LiquidConduits)
                     ActiveOverlay = ObjectLayer.LiquidConduit;
+
+                if (!ColorableConduit.ShowOverlayTint)
+                    return;
 
                 ColorableConduit.RefreshOfConduitType(ActiveOverlay);
             }
