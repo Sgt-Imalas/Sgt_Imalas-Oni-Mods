@@ -12,8 +12,6 @@ namespace OniRetroEdition.Behaviors
         [MyCmpReq]
         Operational operational;
 
-        [MyCmpReq]
-        ElementConverter converter;
 
         private WorkChore<GenericWorkableComponent> OperateWorkable;
         private ConverterWorkableSM.Instance smi;
@@ -21,6 +19,8 @@ namespace OniRetroEdition.Behaviors
         public string choreTypeID;
         public float WorkTime = 30.0f;
         public CellOffset workOffset = new CellOffset(0,0);
+
+        public Func<bool> IsWorkable;
 
         public override void OnSpawn()
         {
@@ -38,7 +38,11 @@ namespace OniRetroEdition.Behaviors
             this.skillExperienceSkillGroup = Db.Get().SkillGroups.Technicals.Id;
             this.skillExperienceMultiplier = SKILLS.PART_DAY_EXPERIENCE;
             this.SetWorkTime(WorkTime);
-            this.SetOffsets(new[] { workOffset });
+            this.SetOffsets(new[] 
+            { 
+                workOffset 
+            }
+            );
         }
 
         public WorkChore<GenericWorkableComponent> CreateWorkChore()
@@ -68,7 +72,7 @@ namespace OniRetroEdition.Behaviors
             {
                 default_state = (BaseState)this.idle;
                 this.idle
-                    .EventTransition(GameHashes.OnStorageChange, this.requiresWork, (smi => smi.master.converter.HasEnoughMassToStartConverting()));
+                    .EventTransition(GameHashes.OnStorageChange, this.requiresWork, (smi => smi.master.IsWorkable()));
                 this.requiresWork
                     .ToggleChore((smi => smi.master.CreateWorkChore()), this.idle);
             }

@@ -23,6 +23,27 @@ namespace OniRetroEdition.BuildingDefModification
         //    AddLogic.TryAddLogic(def);
         //}
 
+        [HarmonyPatch(typeof(KAnimGroupFile), "Load")]
+        public class KAnimGroupFile_Load_Patch
+        {
+            public static void Prefix(KAnimGroupFile __instance)
+            {
+                var interacts = new HashSet<HashedString>();
+                BuildingModifications.Instance.LoadedBuildingOverrides.Values.ToList().ForEach(item =>
+                {
+                    if(item.workableAnimOverride!=null && item.workableAnimOverride.Length > 0)
+                    {
+                        interacts.Add(item.workableAnimOverride);
+                    }
+                });
+
+
+                InjectionMethods.RegisterCustomInteractAnim(
+                    __instance, interacts);
+            }
+        }
+
+
         [HarmonyPatch(typeof(Workable), nameof(Workable.OnSpawn))]
         public static class Workable_OnSpawnAnimOverride
         {

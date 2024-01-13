@@ -11,6 +11,14 @@ namespace OniRetroEdition
     {
         public class UI
         {
+            public class KLEI_INVENTORY_SCREEN
+            {
+                public class SUBCATEGORIES
+                {
+                    public static LocString BUILDING_ONI_RETRO = "ONI Retro Skins";
+                }
+
+            }
             public class NEWBUILDCATEGORIES
             {
                 public static class WORKSTATIONS

@@ -257,6 +257,22 @@ namespace OniRetroEdition
         [HarmonyPatch(nameof(LogicElementSensorGasConfig.CreateBuildingDef))]
         public static class LogicElementSensorGasNeedsPower
         {
+            public static bool Prepare() => Config.Instance.gassensorpower;
+
+            public static void Postfix(ref BuildingDef __result)
+            {
+                __result.RequiresPowerInput = true;
+                __result.AddLogicPowerPort = false;
+                __result.EnergyConsumptionWhenActive = 25f;
+
+            }
+        }
+        [HarmonyPatch(typeof(LogicElementSensorLiquidConfig))]
+        [HarmonyPatch(nameof(LogicElementSensorLiquidConfig.CreateBuildingDef))]
+        public static class LogicElementSensorliquidNeedsPower
+        {
+            public static bool Prepare() => Config.Instance.liquidsensorpower;
+
             public static void Postfix(ref BuildingDef __result)
             {
                 __result.RequiresPowerInput = true;
@@ -396,6 +412,30 @@ namespace OniRetroEdition
                 }
             }
         }
+        //[HarmonyPatch(typeof(RailGunPayloadOpenerConfig))]
+        //[HarmonyPatch(nameof(RailGunPayloadOpenerConfig.ConfigureBuildingTemplate))]
+        //public static class ManualRailgunOpener
+        //{
+
+        //    public static bool Prepare() => Config.Instance.manualRailgunPayloadOpener;
+        //    public static void Postfix(GameObject go)
+        //    {
+        //        var manualOperatable = go.AddComponent<GenericWorkableComponent>();
+        //        manualOperatable.overrideAnims = new KAnimFile[1]
+        //        {
+        //            Assets.GetAnim((HashedString) "retro_anim_interact_railgun_opener_kanim")
+        //        };
+        //        RailGunPayloadOpener railGunPayloadOpener = go.GetComponent<RailGunPayloadOpener>();
+
+        //        manualOperatable.workOffset = new CellOffset(0, 0);
+        //        manualOperatable.WorkTime = (11f);
+        //        manualOperatable.workLayer = Grid.SceneLayer.BuildingUse;
+        //        manualOperatable.IsWorkable = () =>
+        //        {
+        //            return railGunPayloadOpener.payloadStorage.Count > 0;
+        //        };
+        //    }
+        //}
 
 
 
@@ -404,6 +444,7 @@ namespace OniRetroEdition
         public static class ManualAlgaeDestillery
         {
 
+            public static bool Prepare() => Config.Instance.manualSlimemachine;
             public static void Postfix(GameObject go)
             {
                 go.TryGetComponent<ManualDeliveryKG>(out var manualDeliveryKG);
@@ -434,6 +475,10 @@ namespace OniRetroEdition
                 manualOperatable.workOffset = new CellOffset(-1, 0);
                 manualOperatable.WorkTime = (30f);
                 manualOperatable.workLayer = Grid.SceneLayer.BuildingUse;
+                manualOperatable.IsWorkable = () =>
+                {
+                    return elementConverter.HasEnoughMassToStartConverting();
+                };
             }
         }
 

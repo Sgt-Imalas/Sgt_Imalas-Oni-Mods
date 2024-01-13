@@ -27,10 +27,28 @@ namespace OniRetroEdition
         [JsonProperty]
         public bool TileTopsMerge { get; set; }
 
+        [Option("manual space can opener", "")]
+        [JsonProperty]
+        public bool manualRailgunPayloadOpener { get; set; }
+
+        [Option("manual slime machine", "")]
+        [JsonProperty]
+        public bool manualSlimemachine { get; set; }
+        [Option("gas element sensor power requirement", "")]
+        [JsonProperty]
+        public bool gassensorpower { get; set; }
+        [Option("liquid element sensor power requirement", "")]
+        [JsonProperty]
+        public bool liquidsensorpower { get; set; }
         public Config()
         {
             TileTopsMerge = true;
+            manualRailgunPayloadOpener = true;
+            manualSlimemachine = false;
             IronOreTexture = EarlierVersion.Beta;
+            gassensorpower = true; 
+            liquidsensorpower = false;
+
         }
     }
 }
