@@ -13,6 +13,68 @@ namespace UtilLibs
 {
     public static class InjectionMethods
     {
+        public class BATCH_TAGS
+        {
+            public const int SWAPS = -77805842;
+            public const int INTERACTS = -1371425853;
+        }
+
+        ///Use the following patch to add any custom interact anims;
+        //      HarmonyPatch(typeof(KAnimGroupFile), "Load")]
+        //public class KAnimGroupFile_Load_Patch
+        //      {
+        //          public static void Prefix(KAnimGroupFile __instance)
+        //          {
+        //              Utils.RegisterBatchTag(
+        //                  __instance,
+        //                  CONSTS.BATCH_TAGS.INTERACTS,
+        //                  new HashSet<HashedString>()
+        //                  {
+        //                      "aete_interacts_espresso_short_kanim",
+        //                      "aete_goop_vomit_kanim"
+        //                  });
+        //          }
+        //      }
+
+        public static void RegisterCustomInteractAnim(KAnimGroupFile kAnimGroupFile, HashSet<HashedString> swaps) =>
+            RegisterBatchTag(kAnimGroupFile, BATCH_TAGS.INTERACTS, swaps);
+
+        /// <summary>
+        /// Required to register the correct anim group for custom made interact anims
+        /// </summary>
+        /// <param name="kAnimGroupFile"></param>
+        /// <param name="taghash"></param>
+        /// <param name="swaps"></param>
+        public static void RegisterBatchTag(KAnimGroupFile kAnimGroupFile, int taghash, HashSet<HashedString> swaps)
+        {
+            var groups = kAnimGroupFile.GetData();
+            var swapAnimsGroup = KAnimGroupFile.GetGroup(new HashedString(taghash));
+
+            // remove the wrong group
+            groups.RemoveAll(g => swaps.Contains(g.animNames[0]));
+
+            foreach (var swap in swaps)
+            {
+                // readd to correct group
+                var anim = global::Assets.GetAnim(swap);
+
+                if(anim==null)
+
+                {
+                    SgtLogger.warning("anim " + swap + " not found");
+                    continue;
+                }
+                if (swapAnimsGroup.animFiles.Contains(anim) || swapAnimsGroup.animNames.Contains(anim.name))
+                {
+
+                    SgtLogger.warning("anim " + swap + " already in group");
+                    continue;
+                }
+
+                swapAnimsGroup.animFiles.Add(anim);
+                swapAnimsGroup.animNames.Add(anim.name);
+            }
+        }
 
         public static void AddStatusItem(string status_id, string category, string name, string desc)
         {
