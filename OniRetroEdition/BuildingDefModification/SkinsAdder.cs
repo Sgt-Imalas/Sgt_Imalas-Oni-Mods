@@ -34,7 +34,7 @@ namespace OniRetroEdition.BuildingDefModification
             {
                 SgtLogger.l("Start Skin Patch");
                 var resource = (ResourceSet<BuildingFacadeResource>)__instance;
-
+                SkinsAdder.Instance.TargetIDWithAnimnameForSoundCopy.Clear();
                 foreach (var entry in SkinsAdder.Instance.newSkins)
                 {
                     if(Assets.GetAnim(entry.Anim) == null)
@@ -48,6 +48,7 @@ namespace OniRetroEdition.BuildingDefModification
                     //    SgtLogger.warning(entry.BuildingId + " was not a valid buildingID, skipping");
                     //    continue;
                     //}
+                    SkinsAdder.Instance.AddAnimForSoundCopy(entry.BuildingId,entry.Anim);
                     SgtLogger.l("adding skin: "+entry.SkinName);
                     AddFacade(resource, entry.SkinId, entry.SkinName, entry.SkinDescription, PermitRarity.Universal, entry.BuildingId, entry.Anim);
 
@@ -101,6 +102,21 @@ namespace OniRetroEdition.BuildingDefModification
 
     internal class SkinsAdder
     {
+
+        [JsonIgnore]
+        public Dictionary<string, List<string>> TargetIDWithAnimnameForSoundCopy => _targetIDWithAnimnameForSoundCopy;
+        [JsonIgnore]
+        private Dictionary<string,List<string>> _targetIDWithAnimnameForSoundCopy = new ();
+
+        public void AddAnimForSoundCopy(string buildingID, string animName)
+        {
+            if(!_targetIDWithAnimnameForSoundCopy.ContainsKey(buildingID))
+                _targetIDWithAnimnameForSoundCopy.Add(buildingID, new List<string> {  animName });
+            else
+                _targetIDWithAnimnameForSoundCopy[buildingID].Add(animName);
+        }
+
+
         [JsonIgnore]
         public static string BuildingConfigPath;
 

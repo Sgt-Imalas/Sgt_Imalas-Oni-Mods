@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static KAnim;
 
 namespace OniRetroEdition.BuildingDefModification
 {
@@ -146,6 +147,23 @@ namespace OniRetroEdition.BuildingDefModification
 
             private static BuildingDef CreateBuildingDef_Postfix(BuildingDef def)
             {
+                if (SkinsAdder.Instance.TargetIDWithAnimnameForSoundCopy.ContainsKey(def.PrefabID))
+                {
+                    var sourceanim = def.AnimFiles.FirstOrDefault();
+                    foreach(var targetAnim in SkinsAdder.Instance.TargetIDWithAnimnameForSoundCopy[def.PrefabID])
+                    {
+                        if (!Assets.TryGetAnim(targetAnim, out _))
+                        {
+                            SgtLogger.warning(targetAnim + " coulnt be found for sound copying");
+                            continue;
+                        }
+
+                        SoundUtils.CopySoundsToAnim(targetAnim, sourceanim.name);
+                    }
+
+                }
+
+
                 if (BuildingModifications.Instance.LoadedBuildingOverrides.ContainsKey(def.PrefabID))
                 {
                     SgtLogger.l($"Applying Settings Override for {def.PrefabID}.");
