@@ -10,7 +10,7 @@ namespace AmogusMorb
 {
     [Serializable]
     [RestartRequired]
-    //[ConfigFile(SharedConfigLocation: true)]
+    [ConfigFile(SharedConfigLocation: true)]
     public class Config : SingletonOptions<Config>
     {
         
