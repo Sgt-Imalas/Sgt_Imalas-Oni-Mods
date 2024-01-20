@@ -48,8 +48,7 @@ namespace UtilLibs.ModVersionCheck
             {
 
                 if (VersionChecker.OlderVersion
-                    ||__instance.transform.Find("UI Group/"+UICMPName)
-                    || __instance.transform.Find(UICMPName) 
+                    || VersionChecker.UI_Built()
                     || !VersionChecker.ModsOutOfDate(50, out var infoString, out int linecount)
                     
                     )
@@ -57,6 +56,7 @@ namespace UtilLibs.ModVersionCheck
                     //SgtLogger.l("version info already initiated");
                     return;
                 }
+
 
                 SgtLogger.l(PRegistry.GetData<int>(VersionChecker.VersionCheckerVersion).ToString(), "Current UI handler version:");
 
@@ -132,6 +132,7 @@ namespace UtilLibs.ModVersionCheck
                     rect.SetInsetAndSizeFromParentEdge(horizontalEdge, horizontalInset, 298);
                     rect.SetInsetAndSizeFromParentEdge(verticalEdge , verticalInset, height );
                 }
+                VersionChecker.SetUIConstructed(true);
             }
         }
     }
