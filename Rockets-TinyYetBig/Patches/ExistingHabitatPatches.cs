@@ -25,6 +25,10 @@ namespace Rockets_TinyYetBig.Patches
             public static void Postfix(GameObject go)
             {
                 go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_medium_compressed";
+                foreach(var storage in go.GetComponents<Storage>())
+                {
+                    storage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
+                }
             }
         }
 
@@ -75,6 +79,11 @@ namespace Rockets_TinyYetBig.Patches
             public static void Postfix(GameObject go)
             {
                 go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_small_compressed";
+               
+                foreach (var storage in go.GetComponents<Storage>())
+                {
+                    storage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
+                }
             }
         }
 

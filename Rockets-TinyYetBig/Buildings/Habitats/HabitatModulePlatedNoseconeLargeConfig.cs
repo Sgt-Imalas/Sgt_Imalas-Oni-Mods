@@ -79,13 +79,17 @@ namespace Rockets_TinyYetBig.Buildings.Habitats
             Storage storage1 = go.AddComponent<Storage>();
             storage1.showInUI = false;
             storage1.capacityKg = 10f;
+           
+            storage1.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
             RocketConduitSender rocketConduitSender1 = go.AddComponent<RocketConduitSender>();
             rocketConduitSender1.conduitStorage = storage1;
             rocketConduitSender1.conduitPortInfo = this.liquidInputPort;
             go.AddComponent<RocketConduitReceiver>().conduitPortInfo = this.liquidOutputPort;
+
             Storage storage2 = go.AddComponent<Storage>();
             storage2.showInUI = false;
             storage2.capacityKg = 1f;
+            storage2.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
             RocketConduitSender rocketConduitSender2 = go.AddComponent<RocketConduitSender>();
             rocketConduitSender2.conduitStorage = storage2;
             rocketConduitSender2.conduitPortInfo = this.gasInputPort;
