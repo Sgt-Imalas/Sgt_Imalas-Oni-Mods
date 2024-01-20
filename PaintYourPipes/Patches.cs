@@ -51,12 +51,53 @@ namespace PaintYourPipes
             internal static IEnumerable<MethodBase> TargetMethods()
             {
                 const string name = nameof(IBuildingConfig.DoPostConfigureComplete);
+
                 yield return typeof(SolidConduitBridgeConfig).GetMethod(name);
                 yield return typeof(LiquidConduitBridgeConfig).GetMethod(name);
                 yield return typeof(GasConduitBridgeConfig).GetMethod(name);
+
+                yield return typeof(LiquidConduitConfig).GetMethod(name);
+                yield return typeof(LiquidConduitRadiantConfig).GetMethod(name);
+                yield return typeof(InsulatedLiquidConduitConfig).GetMethod(name);
+
+                yield return typeof(GasConduitConfig).GetMethod(name);
+                yield return typeof(GasConduitRadiantConfig).GetMethod(name);
+                yield return typeof(InsulatedGasConduitConfig).GetMethod(name);
+
+                yield return typeof(SolidConduitConfig).GetMethod(name);
+
+                //yield return typeof(BaseWireConfig).GetMethod(name);
+            }
+        }
+        [HarmonyPatch]
+        public static class AddColorInfoToInProgressBuilds
+        {
+            [HarmonyPostfix]
+            public static void Postfix(GameObject go)
+            {
+                go.AddComponent<ColorableConduit_UnderConstruction>();
+            }
+            [HarmonyTargetMethods]
+            internal static IEnumerable<MethodBase> TargetMethods()
+            {
+                const string name = nameof(IBuildingConfig.DoPostConfigureUnderConstruction);
+
+                yield return typeof(SolidConduitBridgeConfig).GetMethod(name);
+                yield return typeof(LiquidConduitBridgeConfig).GetMethod(name);
+                yield return typeof(GasConduitBridgeConfig).GetMethod(name);
+
+                yield return typeof(LiquidConduitConfig).GetMethod(name);
+                yield return typeof(LiquidConduitRadiantConfig).GetMethod(name);
+                yield return typeof(InsulatedLiquidConduitConfig).GetMethod(name);
+
+                yield return typeof(GasConduitConfig).GetMethod(name);
+                yield return typeof(GasConduitRadiantConfig).GetMethod(name);
+                yield return typeof(InsulatedGasConduitConfig).GetMethod(name);
+
+                yield return typeof(SolidConduitConfig).GetMethod(name);
+
                 //yield return typeof(BaseWireConfig).GetMethod(name);
 
-                yield return typeof(LiquidConduitConfig).GetMethod(nameof(LiquidConduitConfig.CommonConduitPostConfigureComplete));
             }
         }
 
@@ -80,6 +121,15 @@ namespace PaintYourPipes
                 }
             }
         }
+        [HarmonyPatch(typeof(Game), nameof(Game.DestroyInstances))]
+        public static class Game_DestroyInstance_Patch
+        {
+            public static void Prefix()
+            {
+                ColorableConduit.FlushDictionary();
+            }
+        }
+
         [HarmonyPatch(typeof(SolidConveyor), nameof(SolidConveyor.Enable))]
         public static class ColorsInOverlay_Solid_OnEnable
         {
@@ -94,27 +144,27 @@ namespace PaintYourPipes
         }
 
 
-        //[HarmonyPatch(typeof(PlanScreen), "OnClickCopyBuilding")]
-        //public static class PlanScreen_OnClickCopyBuilding_Patch
-        //{
-        //    public static void Prefix() 
-        //    {
-        //        if(SelectTool.Instance.selected == null)
-        //            return;
+        [HarmonyPatch(typeof(PlanScreen), "OnClickCopyBuilding")]
+        public static class PlanScreen_OnClickCopyBuilding_Patch
+        {
+            public static void Prefix()
+            {
+                if (SelectTool.Instance.selected == null)
+                    return;
 
-        //        if (SelectTool.Instance.selected.TryGetComponent(out ColorableConduit colorbuilding))
-        //        {
-        //            ColorableConduit.BuildFromColor = colorbuilding.ColorHex;
-        //            ColorableConduit.HasColorOverride = true;
-        //        }
-        //    }
+                if (SelectTool.Instance.selected.TryGetComponent(out ColorableConduit colorbuilding))
+                {
+                    ColorableConduit_UnderConstruction.BuildFromColor = colorbuilding.ColorHex;
+                    ColorableConduit_UnderConstruction.HasColorOverride = true;
+                }
+            }
 
-        //}
-        //[HarmonyPatch(typeof(BuildTool), "OnDeactivateTool")]
-        //public class BuildTool_OnDeactivateTool_Patch
-        //{
-        //    public static void Postfix() => ColorableConduit.HasColorOverride = false;
-        //}
+        }
+        [HarmonyPatch(typeof(BuildTool), "OnDeactivateTool")]
+        public class BuildTool_OnDeactivateTool_Patch
+        {
+            public static void Postfix() => ColorableConduit_UnderConstruction.HasColorOverride = false;
+        }
 
 
         [HarmonyPatch(typeof(SolidConveyor), nameof(SolidConveyor.Update))]
@@ -208,22 +258,18 @@ namespace PaintYourPipes
         {
             public static void Postfix(ConduitFlowVisualizer __instance, int cell, ref Color32 __result)
             {
+                if (!ColorableConduit.ShowOverlayTint)
+                    return;
 
                 if (__instance == Game.Instance.liquidFlowVisualizer && ColorableConduit.ConduitsByLayer[(int)ObjectLayer.LiquidConduit].ContainsKey(cell))
                 {
                     var colorOverrider = ColorableConduit.ConduitsByLayer[(int)ObjectLayer.LiquidConduit][cell];
-                    if (ColorableConduit.ShowOverlayTint)
-                    {
-                        __result = __result.Multiply(colorOverrider.TintColor);
-                    }
+                    __result = __result.Multiply(colorOverrider.TintColor);
                 }
                 else if (__instance == Game.Instance.gasFlowVisualizer && ColorableConduit.ConduitsByLayer[(int)ObjectLayer.GasConduit].ContainsKey(cell))
                 {
                     var colorOverrider = ColorableConduit.ConduitsByLayer[(int)ObjectLayer.GasConduit][cell];
-                    if (ColorableConduit.ShowOverlayTint)
-                    {
-                        __result = __result.Multiply(colorOverrider.TintColor);
-                    }
+                    __result = __result.Multiply(colorOverrider.TintColor);
                 }
             }
         }

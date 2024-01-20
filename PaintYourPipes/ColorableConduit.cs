@@ -14,12 +14,9 @@ namespace PaintYourPipes
     [SerializationConfig(MemberSerialization.OptIn)]
     internal class ColorableConduit : KMonoBehaviour, ICheckboxControl
     {
-    //    public static string BuildFromColor = "FFFFFF";
-    //    public static bool HasColorOverride = false;
-
         public static bool ShowOverlayTint;
 
-        public static Dictionary<int,Dictionary<int, ColorableConduit>>ConduitsByLayer = new() 
+        public static Dictionary<int, Dictionary<int, ColorableConduit>> ConduitsByLayer = new()
         {
             { (int)ObjectLayer.GasConduit,new Dictionary<int, ColorableConduit>() },
             { (int)ObjectLayer.LiquidConduit,new Dictionary<int, ColorableConduit>() },
@@ -29,7 +26,19 @@ namespace PaintYourPipes
             { (int)ObjectLayer.SolidConduitConnection,new Dictionary<int, ColorableConduit>() }
 
         };
-        
+        public static void FlushDictionary()
+        {
+            AllConduits.Clear();
+            ConduitsByLayer = new()
+            {
+            { (int)ObjectLayer.GasConduit,new Dictionary<int, ColorableConduit>() },
+            { (int)ObjectLayer.LiquidConduit,new Dictionary<int, ColorableConduit>() },
+            { (int)ObjectLayer.SolidConduit,new Dictionary<int, ColorableConduit>() },
+            { (int)ObjectLayer.GasConduitConnection,new Dictionary<int, ColorableConduit>() },
+            { (int)ObjectLayer.LiquidConduitConnection,new Dictionary<int, ColorableConduit>() },
+            { (int)ObjectLayer.SolidConduitConnection,new Dictionary<int, ColorableConduit>() }
+            };
+        }
 
         public static HashSet<ColorableConduit> AllConduits = new HashSet<ColorableConduit>();
 
@@ -42,7 +51,7 @@ namespace PaintYourPipes
         }
         public static void RefreshOfConduitType(ObjectLayer targetLayer)
         {
-            switch(targetLayer)
+            switch (targetLayer)
             {
                 case ObjectLayer.GasConduit:
                     RefreshList(ObjectLayer.GasConduit);
@@ -63,7 +72,7 @@ namespace PaintYourPipes
             if (!ConduitsByLayer.ContainsKey((int)targetLayer))
                 return;
 
-            foreach(var target in ConduitsByLayer[(int)targetLayer].Values)
+            foreach (var target in ConduitsByLayer[(int)targetLayer].Values)
                 target.RefreshColor();
         }
 
@@ -90,6 +99,9 @@ namespace PaintYourPipes
 
         public Color GetColor()
         {
+            if(colorHex == null || colorHex == string.Empty)
+                colorHex = "FFFFFF";
+
             var col = Util.ColorFromHex(colorHex);
             col.a = SameConduitType(Patches.ActiveOverlay, this.buildingComplete.Def.ObjectLayer) ? 0 : 1;
             return col;
@@ -113,36 +125,56 @@ namespace PaintYourPipes
         public void RefreshColor()
         {
             _animController.TintColour = TintColor;
-            if(_animController.enabled)
+            if (_animController.enabled)
             {
                 _animController.enabled = false;
                 _animController.enabled = true;
-            }    
+            }
         }
-        public override void OnSpawn()
+        private void OnNewConstruction(object data)
         {
-            if(colorHex == string.Empty)
+            if (data is Constructable constructable
+                && constructable.TryGetComponent(out ColorableConduit_UnderConstruction underConstruction))
             {
                 colorHex =
-                   // HasColorOverride ? BuildFromColor : 
+                    underConstruction.HasData ?
+                    underConstruction.ColorHex :
+                    // HasColorOverride ? BuildFromColor : 
                     "FFFFFF";
             }
+        }
+
+
+
+        public override void OnSpawn()
+        {
+            if (colorHex == string.Empty)
+                colorHex = "FFFFFF";
 
             if (!ConduitsByLayer.ContainsKey((int)buildingComplete.Def.ObjectLayer))
                 ConduitsByLayer.Add((int)buildingComplete.Def.ObjectLayer, new());
 
-            ConduitsByLayer[(int)buildingComplete.Def.ObjectLayer].Add(Grid.PosToCell(this), this);
+
+
+            ConduitsByLayer[(int)buildingComplete.Def.ObjectLayer][buildingComplete.PlacementCells.Min()] = this;
+            ConduitsByLayer[(int)buildingComplete.Def.ObjectLayer][buildingComplete.PlacementCells.Max()] = this;
 
             AllConduits.Add(this);
             base.OnSpawn();
             //GameScheduler.Instance.ScheduleNextFrame("deayed initial refresh", (_) => RefreshColor());
             RefreshColor();
+        }
+        public override void OnPrefabInit()
+        {
+            base.OnPrefabInit();
             Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
+            Subscribe((int)GameHashes.NewConstruction, OnNewConstruction);
         }
 
         public override void OnCleanUp()
         {
-            ConduitsByLayer[(int)buildingComplete.Def.ObjectLayer].Remove(Grid.PosToCell(this));
+            ConduitsByLayer[(int)buildingComplete.Def.ObjectLayer].Remove((buildingComplete.PlacementCells.Min()));
+            ConduitsByLayer[(int)buildingComplete.Def.ObjectLayer].Remove((buildingComplete.PlacementCells.Max()));
             AllConduits.Remove(this);
             Unsubscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
             base.OnCleanUp();
@@ -160,7 +192,7 @@ namespace PaintYourPipes
         {
             ShowOverlayTint = value;
             //RefreshAll();
-            SgtLogger.l(Patches.ActiveOverlay.ToString(),"Patches.ActiveOverlay");
+            SgtLogger.l(Patches.ActiveOverlay.ToString(), "Patches.ActiveOverlay");
             RefreshOfConduitType(Patches.ActiveOverlay);
         }
 
@@ -183,7 +215,7 @@ namespace PaintYourPipes
             }
             return false;
         }
-        public  static bool SameConduitType(ColorableConduit first, ColorableConduit second) => SameConduitType(first.buildingComplete.Def.ObjectLayer, second.buildingComplete.Def.ObjectLayer);
+        public static bool SameConduitType(ColorableConduit first, ColorableConduit second) => SameConduitType(first.buildingComplete.Def.ObjectLayer, second.buildingComplete.Def.ObjectLayer);
 
 
         private static bool LayerFromColorBuilding(ColorableConduit building, bool bridges, out int targetLayer)
@@ -194,24 +226,24 @@ namespace PaintYourPipes
                 case ObjectLayer.GasConduitConnection:
                 case ObjectLayer.GasConduit:
                 case ObjectLayer.GasConduitTile:
-                    targetLayer = bridges ? (int)ObjectLayer.GasConduitConnection : (int) ObjectLayer.GasConduit;
+                    targetLayer = bridges ? (int)ObjectLayer.GasConduitConnection : (int)ObjectLayer.GasConduit;
                     break;
                 case ObjectLayer.LiquidConduitConnection:
                 case ObjectLayer.LiquidConduit:
                 case ObjectLayer.LiquidConduitTile:
-                    targetLayer = bridges ? (int)ObjectLayer.LiquidConduitConnection: (int) ObjectLayer.LiquidConduit;
+                    targetLayer = bridges ? (int)ObjectLayer.LiquidConduitConnection : (int)ObjectLayer.LiquidConduit;
                     break;
                 case ObjectLayer.SolidConduitConnection:
                 case ObjectLayer.SolidConduit:
                 case ObjectLayer.SolidConduitTile:
-                    targetLayer = bridges ? (int)ObjectLayer.SolidConduitConnection : (int) ObjectLayer.SolidConduit;
+                    targetLayer = bridges ? (int)ObjectLayer.SolidConduitConnection : (int)ObjectLayer.SolidConduit;
                     break;
             }
 
             return (targetLayer != -1);
         }
 
-        internal static bool TryGetColorable(int cell, ColorableConduit building, out ColorableConduit target , bool bridges = false)
+        internal static bool TryGetColorable(int cell, ColorableConduit building, out ColorableConduit target, bool bridges = false)
         {
             target = null;
             if (!LayerFromColorBuilding(building, bridges, out int layer))
@@ -219,9 +251,9 @@ namespace PaintYourPipes
 
             if (!ConduitsByLayer[layer].ContainsKey(cell))
                 return false;
-            target = ConduitsByLayer[layer][cell]; 
+            target = ConduitsByLayer[layer][cell];
 
-            return target !=null;
+            return target != null;
         }
         internal static bool TryGetColorableBridge(int targetCell, ColorableConduit building, out ColorableConduit target) => TryGetColorable(targetCell, building, out target, true);
     }
