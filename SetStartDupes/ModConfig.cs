@@ -44,6 +44,10 @@ namespace SetStartDupes
         [JsonProperty]
         public float PrintingPodRechargeTime { get; set; }
 
+        [Option("STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIMEFIRST.NAME", "STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIMEFIRST.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
+        [JsonProperty]
+        public float PrintingPodRechargeTimeFirst { get; set; }
+
         [Option("STRINGS.UI.DSS_OPTIONS.PAUSEONREADYTOPRING.NAME", "STRINGS.UI.DSS_OPTIONS.PAUSEONREADYTOPRING.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
         [JsonProperty]
         public bool PauseOnReadyToPrint { get; set; }
@@ -106,6 +110,7 @@ namespace SetStartDupes
         {
             DuplicantStartAmount = 3;
             PrintingPodRechargeTime = 3;
+            PrintingPodRechargeTimeFirst = 2.5f;
             ModifyDuringGame = true;
             RerollDuringGame = true;
             PauseOnReadyToPrint = false;

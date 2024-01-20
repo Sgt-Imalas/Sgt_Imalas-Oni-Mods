@@ -65,6 +65,11 @@ namespace SetStartDupes
                     public static LocString NAME = "Printing pod cooldown time";
                     public static LocString TOOLTIP = "Time it takes for the printing pod to recharge for the next print in cycles.\nDefault is 3 cycles.";
                 }
+                public class PRINTINGPODRECHARGETIMEFIRST
+                {
+                    public static LocString NAME = "First print time";
+                    public static LocString TOOLTIP = "Time after the printing pod offers its first print, in cycles.\nDefault is 2.5 cycles.";
+                }
 
                 public class PAUSEONREADYTOPRING
                 {

@@ -24,6 +24,7 @@ using static KCompBuilder;
 using static SetStartDupes.DupeTraitManager;
 using static SetStartDupes.ModAssets;
 using static SetStartDupes.STRINGS.UI;
+using static SetStartDupes.STRINGS.UI.DSS_OPTIONS;
 using static SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO;
 using static STRINGS.DUPLICANTS;
 using static STRINGS.DUPLICANTS.CHORES;
@@ -636,14 +637,20 @@ namespace SetStartDupes
         [HarmonyPatch(nameof(Immigration.OnPrefabInit))]
         public class AdjustTImeOfReprint_Initial
         {
-            public static void Postfix(Immigration __instance)
+            public static void Prefix(Immigration __instance)
             {
 
-                for (int i = 0; i < __instance.spawnInterval.Length; i++)
+                if(__instance.spawnInterval.Length >= 2)
                 {
-                    __instance.spawnInterval[i] = Mathf.RoundToInt(ModConfig.Instance.PrintingPodRechargeTime * 600f);
+                    __instance.spawnInterval[0] = Mathf.RoundToInt(ModConfig.Instance.PrintingPodRechargeTimeFirst * 600f);
+                    __instance.spawnInterval[1] = Mathf.RoundToInt(ModConfig.Instance.PrintingPodRechargeTime * 600f);
+
                 }
-                __instance.timeBeforeSpawn = Mathf.RoundToInt(ModConfig.Instance.PrintingPodRechargeTime * 600f);
+                //for (int i = 0; i < __instance.spawnInterval.Length; i++)
+                //{
+                //    __instance.spawnInterval[i] = Mathf.RoundToInt(ModConfig.Instance.PrintingPodRechargeTime * 600f);
+                //}
+                //__instance.timeBeforeSpawn = Mathf.RoundToInt(ModConfig.Instance.PrintingPodRechargeTime * 600f);
                 //for(int i = 0; i < __instance.spawnInterval.Length; i++)
                 //{
                 //    SgtLogger.l(__instance.spawnInterval[i].ToString(), i.ToString());
