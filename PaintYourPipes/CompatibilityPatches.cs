@@ -37,7 +37,6 @@ namespace PaintYourPipes
             {
                 return !building.TryGetComponent<ColorableConduit>(out _);
             }
-
         }
         
         public class Reverse_Bridges_Compatibility

@@ -17,6 +17,7 @@ namespace PaintYourPipes
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
             base.OnAllModsLoaded(harmony, mods);
+            Patches.AddColorComponentToFinishedBuildings.ExecutePatch(harmony);
             CompatibilityPatches.Reverse_Bridges_Compatibility.ExecutePatch(harmony);
             CompatibilityPatches.MaterialColour_Compatibility.ExecutePatch(harmony);
         }

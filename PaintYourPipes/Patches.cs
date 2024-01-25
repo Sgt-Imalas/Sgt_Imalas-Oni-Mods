@@ -27,11 +27,14 @@ namespace PaintYourPipes
         private static ObjectLayer _activeLayer = (ObjectLayer)(-1);
         public static ObjectLayer ActiveOverlay
         {
-            get { return _activeLayer; 
+            get
+            {
+                return _activeLayer;
             }
-            set { 
+            set
+            {
                 _activeLayer = value;
-               // SgtLogger.l("active set: " + _activeLayer.ToString());
+                // SgtLogger.l("active set: " + _activeLayer.ToString());
             }
         }
 
@@ -43,114 +46,137 @@ namespace PaintYourPipes
         [HarmonyPatch]
         public static class AddColorComponentToFinishedBuildings
         {
-            [HarmonyPostfix]
-            public static void Postfix(GameObject go)
+
+            public static void ExecutePatch(Harmony harmony)
+            {
+                var DoPostConfigureUnderConstruction_Postfix = AccessTools.Method(typeof(AddColorComponentToFinishedBuildings), "DoPostConfigureUnderConstruction_Postfix");
+                var DoPostConfigureComplete_Postfix = AccessTools.Method(typeof(AddColorComponentToFinishedBuildings), "DoPostConfigureComplete_Postfix");
+                foreach (var m_TargetType in TargetBuildingTypes())
+                {
+                    if (m_TargetType != null)
+                    {
+                        var m_TargetMethod_DoPostConfigureComplete = AccessTools.DeclaredMethod(m_TargetType, "DoPostConfigureComplete");
+                        if (m_TargetMethod_DoPostConfigureComplete == null)
+                        {
+                            SgtLogger.warning("target method DoPostConfigureComplete not found on " + m_TargetType.Name);
+                        }
+                        else
+                        {
+                            harmony.Patch(m_TargetMethod_DoPostConfigureComplete, postfix: new HarmonyMethod(DoPostConfigureComplete_Postfix));
+                        }
+
+                        var m_TargetMethod_DoPostConfigureUnderConstruction = AccessTools.DeclaredMethod(m_TargetType, "DoPostConfigureUnderConstruction");
+                        if (m_TargetMethod_DoPostConfigureUnderConstruction == null)
+                        {
+                            SgtLogger.warning("target method DoPostConfigureUnderConstruction not found on " + m_TargetType.Name);
+                        }
+                        else
+                        {
+                            harmony.Patch(m_TargetMethod_DoPostConfigureUnderConstruction, postfix: new HarmonyMethod(DoPostConfigureUnderConstruction_Postfix));
+                        }
+                    }
+
+                }
+            }
+            public static void DoPostConfigureComplete_Postfix(GameObject go)
             {
                 go.AddOrGet<ColorableConduit>();
             }
-            [HarmonyTargetMethods]
-            internal static IEnumerable<MethodBase> TargetMethods()
+            public static void DoPostConfigureUnderConstruction_Postfix(GameObject go)
             {
-                const string name = nameof(IBuildingConfig.DoPostConfigureComplete);
+                go.AddComponent<ColorableConduit_UnderConstruction>();
+            }
 
-                yield return typeof(SolidConduitBridgeConfig).GetMethod(name);
-                yield return typeof(LiquidConduitBridgeConfig).GetMethod(name);
-                yield return typeof(GasConduitBridgeConfig).GetMethod(name);
+            static List<Type> TargetBuildingTypes()
+            {
+                var values = new List<Type>
+                {
+                    typeof(SolidConduitBridgeConfig),
+                    typeof(LiquidConduitBridgeConfig),
+                    typeof(GasConduitBridgeConfig),
 
-                yield return typeof(LiquidConduitConfig).GetMethod(name);
-                yield return typeof(LiquidConduitRadiantConfig).GetMethod(name);
-                yield return typeof(InsulatedLiquidConduitConfig).GetMethod(name);
+                    typeof(LiquidConduitConfig),
+                    typeof(LiquidConduitRadiantConfig),
+                    typeof(InsulatedLiquidConduitConfig),
 
-                yield return typeof(GasConduitConfig).GetMethod(name);
-                yield return typeof(GasConduitRadiantConfig).GetMethod(name);
-                yield return typeof(InsulatedGasConduitConfig).GetMethod(name);
+                    typeof(GasConduitConfig),
+                    typeof(GasConduitRadiantConfig),
+                    typeof(InsulatedGasConduitConfig),
 
-                yield return typeof(SolidConduitConfig).GetMethod(name);
+                    typeof(SolidConduitConfig),
 
-                yield return typeof(WireConfig).GetMethod(name);
-                yield return typeof(WireHighWattageConfig).GetMethod(name);
-                yield return typeof(WireRefinedConfig).GetMethod(name);
-                yield return typeof(WireRefinedHighWattageConfig).GetMethod(name);
-                
-                yield return typeof(WireBridgeConfig).GetMethod(name);
-                yield return typeof(WireBridgeHighWattageConfig).GetMethod(name);
-                yield return typeof(WireRefinedBridgeConfig).GetMethod(name);
-                yield return typeof(WireRefinedBridgeHighWattageConfig).GetMethod(name);
+                    typeof(WireConfig),
+                    typeof(WireHighWattageConfig),
+                    typeof(WireRefinedConfig),
+                    typeof(WireRefinedHighWattageConfig),
+
+                    typeof(WireBridgeConfig),
+                    typeof(WireBridgeHighWattageConfig),
+                    typeof(WireRefinedBridgeConfig),
+                    typeof(WireRefinedBridgeHighWattageConfig)
+                };
 
                 //Insulated Wire Briges:
                 var InsulatedWireBridgeHighWattageConfig = AccessTools.TypeByName("InsulatedWireBridgeHighWattageConfig");
                 if (InsulatedWireBridgeHighWattageConfig != null)
-                    yield return InsulatedWireBridgeHighWattageConfig.GetMethod(name);
+                    values.Add(InsulatedWireBridgeHighWattageConfig);
 
                 var InsulatedWireRefinedBridgeHighWattageConfig = AccessTools.TypeByName("InsulatedWireRefinedBridgeHighWattageConfig");
                 if (InsulatedWireRefinedBridgeHighWattageConfig != null)
-                    yield return InsulatedWireRefinedBridgeHighWattageConfig.GetMethod(name);
+                    values.Add(InsulatedWireRefinedBridgeHighWattageConfig);
 
                 var LongInsulatedRefinedWireBridgeHighWattageConfig = AccessTools.TypeByName("LongInsulatedRefinedWireBridgeHighWattageConfig");
                 if (LongInsulatedRefinedWireBridgeHighWattageConfig != null)
-                    yield return LongInsulatedRefinedWireBridgeHighWattageConfig.GetMethod(name);
+                    values.Add(LongInsulatedRefinedWireBridgeHighWattageConfig);
 
                 var LongInsulatedWireBridgeHighWattageConfig = AccessTools.TypeByName("LongInsulatedWireBridgeHighWattageConfig");
                 if (LongInsulatedWireBridgeHighWattageConfig != null)
-                    yield return LongInsulatedWireBridgeHighWattageConfig.GetMethod(name);
+                    values.Add(LongInsulatedWireBridgeHighWattageConfig);
 
-            }
-        }
-        [HarmonyPatch]
-        public static class AddColorInfoToInProgressBuilds
-        {
-            [HarmonyPostfix]
-            public static void Postfix(GameObject go)
-            {
-                go.AddComponent<ColorableConduit_UnderConstruction>();
-            }
-            [HarmonyTargetMethods]
-            internal static IEnumerable<MethodBase> TargetMethods()
-            {
-                const string name = nameof(IBuildingConfig.DoPostConfigureUnderConstruction);
+                //GigawattWire
+                var GigawattWireBridgeConfig = AccessTools.TypeByName("GigawattWireBridgeConfig");
+                if (GigawattWireBridgeConfig != null)
+                    values.Add(GigawattWireBridgeConfig);
 
-                yield return typeof(SolidConduitBridgeConfig).GetMethod(name);
-                yield return typeof(LiquidConduitBridgeConfig).GetMethod(name);
-                yield return typeof(GasConduitBridgeConfig).GetMethod(name);
+                var GigawattWireConfig = AccessTools.TypeByName("GigawattWireConfig");
+                if (GigawattWireConfig != null)
+                    values.Add(GigawattWireConfig);
 
-                yield return typeof(LiquidConduitConfig).GetMethod(name);
-                yield return typeof(LiquidConduitRadiantConfig).GetMethod(name);
-                yield return typeof(InsulatedLiquidConduitConfig).GetMethod(name);
+                var JacketedWireBridgeConfig = AccessTools.TypeByName("JacketedWireBridgeConfig");
+                if (JacketedWireBridgeConfig != null)
+                    values.Add(JacketedWireBridgeConfig);
 
-                yield return typeof(GasConduitConfig).GetMethod(name);
-                yield return typeof(GasConduitRadiantConfig).GetMethod(name);
-                yield return typeof(InsulatedGasConduitConfig).GetMethod(name);
+                var JacketedWireConfig = AccessTools.TypeByName("JacketedWireConfig");
+                if (JacketedWireConfig != null)
+                    values.Add(JacketedWireConfig);
 
-                yield return typeof(SolidConduitConfig).GetMethod(name);
+                var MegawattWireBridgeConfig = AccessTools.TypeByName("MegawattWireBridgeConfig");
+                if (MegawattWireBridgeConfig != null)
+                    values.Add(MegawattWireBridgeConfig);
 
-                yield return typeof(WireConfig).GetMethod(name);
-                yield return typeof(WireHighWattageConfig).GetMethod(name);
-                yield return typeof(WireRefinedConfig).GetMethod(name);
-                yield return typeof(WireRefinedHighWattageConfig).GetMethod(name);
+                var MegawattWireConfig = AccessTools.TypeByName("MegawattWireConfig");
+                if (MegawattWireConfig != null)
+                    values.Add(MegawattWireConfig);
 
-                yield return typeof(WireBridgeConfig).GetMethod(name);
-                yield return typeof(WireBridgeHighWattageConfig).GetMethod(name);
-                yield return typeof(WireRefinedBridgeConfig).GetMethod(name);
-                yield return typeof(WireRefinedBridgeHighWattageConfig).GetMethod(name);
+                //HighPressureApplications
+                var HighPressureGasConduitBridgeConfig = AccessTools.TypeByName("HighPressureGasConduitBridgeConfig");
+                if (HighPressureGasConduitBridgeConfig != null)
+                    values.Add(HighPressureGasConduitBridgeConfig);
 
-                //Insulated Wire Briges:
-                var InsulatedWireBridgeHighWattageConfig = AccessTools.TypeByName("InsulatedWireBridgeHighWattageConfig");
-                if(InsulatedWireBridgeHighWattageConfig!=null)
-                    yield return InsulatedWireBridgeHighWattageConfig.GetMethod(name);
+                var HighPressureGasConduitConfig = AccessTools.TypeByName("HighPressureGasConduitConfig");
+                if (HighPressureGasConduitConfig != null)
+                    values.Add(HighPressureGasConduitConfig);
 
-                var InsulatedWireRefinedBridgeHighWattageConfig = AccessTools.TypeByName("InsulatedWireRefinedBridgeHighWattageConfig");
-                if (InsulatedWireRefinedBridgeHighWattageConfig != null)
-                    yield return InsulatedWireRefinedBridgeHighWattageConfig.GetMethod(name);
+                var HighPressureLiquidConduitBridgeConfig = AccessTools.TypeByName("HighPressureLiquidConduitBridgeConfig");
+                if (HighPressureLiquidConduitBridgeConfig != null)
+                    values.Add(HighPressureLiquidConduitBridgeConfig);
 
-                var LongInsulatedRefinedWireBridgeHighWattageConfig = AccessTools.TypeByName("LongInsulatedRefinedWireBridgeHighWattageConfig");
-                if (LongInsulatedRefinedWireBridgeHighWattageConfig != null)
-                    yield return LongInsulatedRefinedWireBridgeHighWattageConfig.GetMethod(name);
-
-                var LongInsulatedWireBridgeHighWattageConfig = AccessTools.TypeByName("LongInsulatedWireBridgeHighWattageConfig");
-                if (LongInsulatedWireBridgeHighWattageConfig != null)
-                    yield return LongInsulatedWireBridgeHighWattageConfig.GetMethod(name);
+                var HighPressureLiquidConduitConfig = AccessTools.TypeByName("HighPressureLiquidConduitConfig");
+                if (HighPressureLiquidConduitConfig != null)
+                    values.Add(HighPressureLiquidConduitConfig);
 
 
+                return values;
             }
         }
 
@@ -159,14 +185,14 @@ namespace PaintYourPipes
         {
             public static void Postfix(ref bool __result, int targetCell, GameObject sourceGameObject)
             {
-                if(sourceGameObject.TryGetComponent<ColorableConduit>(out var sourcebuilding))
+                if (sourceGameObject.TryGetComponent<ColorableConduit>(out var sourcebuilding))
                 {
-                    if (ColorableConduit.TryGetColorable(targetCell, sourcebuilding, out ColorableConduit targetConduit) )
+                    if (ColorableConduit.TryGetColorable(targetCell, sourcebuilding, out ColorableConduit targetConduit))
                     {
                         targetConduit.Trigger(-905833192, (object)sourceGameObject);
                         __result = true;
                     }
-                    if (ColorableConduit.TryGetColorableBridge(targetCell, sourcebuilding, out ColorableConduit targetBridge) )
+                    if (ColorableConduit.TryGetColorableBridge(targetCell, sourcebuilding, out ColorableConduit targetBridge))
                     {
                         targetBridge.Trigger(-905833192, (object)sourceGameObject);
                         __result = true;
@@ -183,7 +209,7 @@ namespace PaintYourPipes
             }
         }
 
-        
+
 
 
         [HarmonyPatch(typeof(PlanScreen), "OnClickCopyBuilding")]
@@ -362,7 +388,7 @@ namespace PaintYourPipes
         {
             public static void Postfix(OverlayModes.ConduitMode __instance, ref HashSet<SaveLoadRoot> __state)
             {
-                ActiveOverlay = (ObjectLayer) (-1);
+                ActiveOverlay = (ObjectLayer)(-1);
                 ColorableConduit.RefreshAll();
             }
         }
@@ -398,7 +424,7 @@ namespace PaintYourPipes
 
                 if (e.TryConsume(ModAssets.HotKeys.ToggleOverlayColors.GetKAction()))
                 {
-                    ColorableConduit.ToggleOverlayTint(); 
+                    ColorableConduit.ToggleOverlayTint();
                 }
             }
         }
@@ -437,7 +463,7 @@ namespace PaintYourPipes
                 if (__instance.currentSideScreen != null
                     && __instance.currentSideScreen.gameObject != null)
                 {
-                    if(__instance.target.TryGetComponent<ColorableConduit>(out var colorable))
+                    if (__instance.target.TryGetComponent<ColorableConduit>(out var colorable))
                         ColorableConduit_SideScreen.Target = colorable;
                     else
                         ColorableConduit_SideScreen.Target = null;
@@ -467,7 +493,7 @@ namespace PaintYourPipes
                 LocalisationUtil.Translate(typeof(STRINGS), true);
             }
         }
-        
-        
+
+
     }
 }
