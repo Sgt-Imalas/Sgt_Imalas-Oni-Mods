@@ -214,7 +214,7 @@ namespace PaintYourPipes
                 case ObjectLayer.Wire:
                 case ObjectLayer.WireConnectors:
                 case ObjectLayer.ReplacementWire:
-                case ObjectLayer.Building:
+                case ObjectLayer.Building: //Edge case: high wattage tile bridges
                     return second == ObjectLayer.Wire || second == ObjectLayer.WireTile || second == ObjectLayer.WireConnectors || second == ObjectLayer.ReplacementWire || second == ObjectLayer.Building;
                 case ObjectLayer.GasConduitConnection:
                 case ObjectLayer.GasConduit:
@@ -257,7 +257,7 @@ namespace PaintYourPipes
                 case ObjectLayer.Wire:
                 case ObjectLayer.WireConnectors:
                 case ObjectLayer.ReplacementWire:
-                case ObjectLayer.Building:
+                case ObjectLayer.Building: //Edge case: high wattage tile bridges
                     targetLayer = bridges ? (int)ObjectLayer.WireConnectors : (int)ObjectLayer.Wire;
                     break;
             }
@@ -271,8 +271,9 @@ namespace PaintYourPipes
             if (!LayerFromColorBuilding(building, bridges, out int layer))
                 return false;
 
-            bool trySecondaryLayer = (layer == (int)ObjectLayer.WireConnectors && bridges);
 
+            //Edge case: high wattage tile bridges
+            bool trySecondaryLayer = (layer == (int)ObjectLayer.WireConnectors && bridges);
             if (!ConduitsByLayer[layer].ContainsKey(cell))
             {
                 if (!trySecondaryLayer)

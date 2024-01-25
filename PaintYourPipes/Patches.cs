@@ -76,6 +76,24 @@ namespace PaintYourPipes
                 yield return typeof(WireBridgeHighWattageConfig).GetMethod(name);
                 yield return typeof(WireRefinedBridgeConfig).GetMethod(name);
                 yield return typeof(WireRefinedBridgeHighWattageConfig).GetMethod(name);
+
+                //Insulated Wire Briges:
+                var InsulatedWireBridgeHighWattageConfig = AccessTools.TypeByName("InsulatedWireBridgeHighWattageConfig");
+                if (InsulatedWireBridgeHighWattageConfig != null)
+                    yield return InsulatedWireBridgeHighWattageConfig.GetMethod(name);
+
+                var InsulatedWireRefinedBridgeHighWattageConfig = AccessTools.TypeByName("InsulatedWireRefinedBridgeHighWattageConfig");
+                if (InsulatedWireRefinedBridgeHighWattageConfig != null)
+                    yield return InsulatedWireRefinedBridgeHighWattageConfig.GetMethod(name);
+
+                var LongInsulatedRefinedWireBridgeHighWattageConfig = AccessTools.TypeByName("LongInsulatedRefinedWireBridgeHighWattageConfig");
+                if (LongInsulatedRefinedWireBridgeHighWattageConfig != null)
+                    yield return LongInsulatedRefinedWireBridgeHighWattageConfig.GetMethod(name);
+
+                var LongInsulatedWireBridgeHighWattageConfig = AccessTools.TypeByName("LongInsulatedWireBridgeHighWattageConfig");
+                if (LongInsulatedWireBridgeHighWattageConfig != null)
+                    yield return LongInsulatedWireBridgeHighWattageConfig.GetMethod(name);
+
             }
         }
         [HarmonyPatch]
@@ -114,6 +132,24 @@ namespace PaintYourPipes
                 yield return typeof(WireBridgeHighWattageConfig).GetMethod(name);
                 yield return typeof(WireRefinedBridgeConfig).GetMethod(name);
                 yield return typeof(WireRefinedBridgeHighWattageConfig).GetMethod(name);
+
+                //Insulated Wire Briges:
+                var InsulatedWireBridgeHighWattageConfig = AccessTools.TypeByName("InsulatedWireBridgeHighWattageConfig");
+                if(InsulatedWireBridgeHighWattageConfig!=null)
+                    yield return InsulatedWireBridgeHighWattageConfig.GetMethod(name);
+
+                var InsulatedWireRefinedBridgeHighWattageConfig = AccessTools.TypeByName("InsulatedWireRefinedBridgeHighWattageConfig");
+                if (InsulatedWireRefinedBridgeHighWattageConfig != null)
+                    yield return InsulatedWireRefinedBridgeHighWattageConfig.GetMethod(name);
+
+                var LongInsulatedRefinedWireBridgeHighWattageConfig = AccessTools.TypeByName("LongInsulatedRefinedWireBridgeHighWattageConfig");
+                if (LongInsulatedRefinedWireBridgeHighWattageConfig != null)
+                    yield return LongInsulatedRefinedWireBridgeHighWattageConfig.GetMethod(name);
+
+                var LongInsulatedWireBridgeHighWattageConfig = AccessTools.TypeByName("LongInsulatedWireBridgeHighWattageConfig");
+                if (LongInsulatedWireBridgeHighWattageConfig != null)
+                    yield return LongInsulatedWireBridgeHighWattageConfig.GetMethod(name);
+
 
             }
         }
