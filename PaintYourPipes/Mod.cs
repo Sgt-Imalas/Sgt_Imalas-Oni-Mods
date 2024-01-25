@@ -17,6 +17,7 @@ namespace PaintYourPipes
         {
             base.OnAllModsLoaded(harmony, mods);
             CompatibilityPatches.Reverse_Bridges_Compatibility.ExecutePatch(harmony);
+            CompatibilityPatches.MaterialColour_Compatibility.ExecutePatch(harmony);
         }
     }
 }
