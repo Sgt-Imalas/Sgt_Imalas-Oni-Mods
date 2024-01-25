@@ -3,6 +3,7 @@ using HarmonyLib;
 using Klei.AI;
 using Mono.CompilerServices.SymbolWriter;
 using rendering;
+using Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,7 +67,15 @@ namespace PaintYourPipes
 
                 yield return typeof(SolidConduitConfig).GetMethod(name);
 
-                //yield return typeof(BaseWireConfig).GetMethod(name);
+                yield return typeof(WireConfig).GetMethod(name);
+                yield return typeof(WireHighWattageConfig).GetMethod(name);
+                yield return typeof(WireRefinedConfig).GetMethod(name);
+                yield return typeof(WireRefinedHighWattageConfig).GetMethod(name);
+                
+                yield return typeof(WireBridgeConfig).GetMethod(name);
+                yield return typeof(WireBridgeHighWattageConfig).GetMethod(name);
+                yield return typeof(WireRefinedBridgeConfig).GetMethod(name);
+                yield return typeof(WireRefinedBridgeHighWattageConfig).GetMethod(name);
             }
         }
         [HarmonyPatch]
@@ -96,7 +105,15 @@ namespace PaintYourPipes
 
                 yield return typeof(SolidConduitConfig).GetMethod(name);
 
-                //yield return typeof(BaseWireConfig).GetMethod(name);
+                yield return typeof(WireConfig).GetMethod(name);
+                yield return typeof(WireHighWattageConfig).GetMethod(name);
+                yield return typeof(WireRefinedConfig).GetMethod(name);
+                yield return typeof(WireRefinedHighWattageConfig).GetMethod(name);
+
+                yield return typeof(WireBridgeConfig).GetMethod(name);
+                yield return typeof(WireBridgeHighWattageConfig).GetMethod(name);
+                yield return typeof(WireRefinedBridgeConfig).GetMethod(name);
+                yield return typeof(WireRefinedBridgeHighWattageConfig).GetMethod(name);
 
             }
         }
@@ -130,18 +147,7 @@ namespace PaintYourPipes
             }
         }
 
-        [HarmonyPatch(typeof(SolidConveyor), nameof(SolidConveyor.Enable))]
-        public static class ColorsInOverlay_Solid_OnEnable
-        {
-            public static void Postfix(SolidConveyor __instance, ref HashSet<SaveLoadRoot> __state)
-            {
-                ActiveOverlay = ObjectLayer.SolidConduit;
-
-                if (!ColorableConduit.ShowOverlayTint)
-                    return;
-                ColorableConduit.RefreshOfConduitType(ActiveOverlay);
-            }
-        }
+        
 
 
         [HarmonyPatch(typeof(PlanScreen), "OnClickCopyBuilding")]
@@ -166,6 +172,19 @@ namespace PaintYourPipes
             public static void Postfix() => ColorableConduit_UnderConstruction.HasColorOverride = false;
         }
 
+
+        [HarmonyPatch(typeof(SolidConveyor), nameof(SolidConveyor.Enable))]
+        public static class ColorsInOverlay_Solid_OnEnable
+        {
+            public static void Postfix(SolidConveyor __instance, ref HashSet<SaveLoadRoot> __state)
+            {
+                ActiveOverlay = ObjectLayer.SolidConduit;
+
+                if (!ColorableConduit.ShowOverlayTint)
+                    return;
+                ColorableConduit.RefreshOfConduitType(ActiveOverlay);
+            }
+        }
 
         [HarmonyPatch(typeof(SolidConveyor), nameof(SolidConveyor.Update))]
         public static class ColorsInOverlayy_Solid_Update
@@ -199,6 +218,68 @@ namespace PaintYourPipes
                 ColorableConduit.RefreshAll();
             }
         }
+
+        [HarmonyPatch(typeof(BlockTileRenderer), nameof(BlockTileRenderer.GetCellColour))]
+        public static class BlockTileRenderer_GetCellColour
+        {
+            public static void Postfix(int cell, SimHashes element, BlockTileRenderer __instance, ref Color __result)
+            {
+                if (!ColorableConduit.ShowOverlayTint || ActiveOverlay != ObjectLayer.Wire)
+                    return;
+
+                if (ColorableConduit.ConduitsByLayer[(int)ObjectLayer.Building].ContainsKey(cell))
+                {
+                    __result = ColorableConduit.ConduitsByLayer[(int)ObjectLayer.Building][cell].GetColor();
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(Power), nameof(Power.Enable))]
+        public static class ColorsInOverlay_Power_OnEnable
+        {
+            public static void Postfix()
+            {
+                ActiveOverlay = ObjectLayer.Wire;
+
+                if (!ColorableConduit.ShowOverlayTint)
+                    return;
+                ColorableConduit.RefreshOfConduitType(ActiveOverlay);
+            }
+        }
+
+        [HarmonyPatch(typeof(Power), nameof(Power.Update))]
+        public static class ColorsInOverlayy_Power_Update
+        {
+            public static void Postfix(Power __instance)
+            {
+                if (!ColorableConduit.ShowOverlayTint)
+                    return;
+
+                foreach (SaveLoadRoot layerTarget in __instance.layerTargets)
+                {
+                    if (layerTarget != null && layerTarget.TryGetComponent<ColorableConduit>(out var building))
+                    {
+                        building.RefreshColor();
+                        if (building.AnimController.enabled)
+                        {
+                            building.AnimController.enabled = false;
+                            building.AnimController.enabled = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(Power), nameof(Power.Disable))]
+        public static class ColorsInOverlayy_Power_OnDisable
+        {
+            public static void Postfix(Power __instance)
+            {
+                ActiveOverlay = (ObjectLayer)(-1);
+                ColorableConduit.RefreshAll();
+            }
+        }
+
 
         [HarmonyPatch(typeof(OverlayModes.ConduitMode), nameof(OverlayModes.ConduitMode.Enable))]
         public static class ColorsInOverlay_OnEnable
@@ -273,7 +354,18 @@ namespace PaintYourPipes
                 }
             }
         }
+        [HarmonyPatch(typeof(PlayerController), "OnKeyDown")]
+        public class PlayerController_OnKeyDown_Patch
+        {
+            public static void Prefix(KButtonEvent e)
+            {
 
+                if (e.TryConsume(ModAssets.HotKeys.ToggleOverlayColors.GetKAction()))
+                {
+                    ColorableConduit.ToggleOverlayTint(); 
+                }
+            }
+        }
 
 
         /// <summary>

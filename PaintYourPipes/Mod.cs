@@ -12,6 +12,7 @@ namespace PaintYourPipes
         {
             base.OnLoad(harmony);
             SgtLogger.LogVersion(this, harmony);
+            ModAssets.HotKeys.Register();
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {

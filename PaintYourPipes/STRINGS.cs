@@ -16,5 +16,10 @@ namespace PaintYourPipes
             public static LocString LABEL = "Show Tint in Overlays";
             public static LocString TOOLTIP = "Toggle wether or not the pipe tint appears in the pipes overlay modes";
         }
+        public class HOTKEYACTIONS
+        {
+            public static LocString TOGGLE_OVERLAY_COLOR = "Toggle Color in Overlays";
+            
+        }
     }
 }

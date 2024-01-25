@@ -21,9 +21,12 @@ namespace PaintYourPipes
             { (int)ObjectLayer.GasConduit,new Dictionary<int, ColorableConduit>() },
             { (int)ObjectLayer.LiquidConduit,new Dictionary<int, ColorableConduit>() },
             { (int)ObjectLayer.SolidConduit,new Dictionary<int, ColorableConduit>() },
+            { (int)ObjectLayer.Wire,new Dictionary<int, ColorableConduit>() },
             { (int)ObjectLayer.GasConduitConnection,new Dictionary<int, ColorableConduit>() },
             { (int)ObjectLayer.LiquidConduitConnection,new Dictionary<int, ColorableConduit>() },
-            { (int)ObjectLayer.SolidConduitConnection,new Dictionary<int, ColorableConduit>() }
+            { (int)ObjectLayer.SolidConduitConnection,new Dictionary<int, ColorableConduit>() },
+            { (int)ObjectLayer.WireConnectors,new Dictionary<int, ColorableConduit>() },
+            { (int)ObjectLayer.Building,new Dictionary<int, ColorableConduit>() },
 
         };
         public static void FlushDictionary()
@@ -34,9 +37,12 @@ namespace PaintYourPipes
             { (int)ObjectLayer.GasConduit,new Dictionary<int, ColorableConduit>() },
             { (int)ObjectLayer.LiquidConduit,new Dictionary<int, ColorableConduit>() },
             { (int)ObjectLayer.SolidConduit,new Dictionary<int, ColorableConduit>() },
+            { (int)ObjectLayer.Wire,new Dictionary<int, ColorableConduit>() },
             { (int)ObjectLayer.GasConduitConnection,new Dictionary<int, ColorableConduit>() },
             { (int)ObjectLayer.LiquidConduitConnection,new Dictionary<int, ColorableConduit>() },
-            { (int)ObjectLayer.SolidConduitConnection,new Dictionary<int, ColorableConduit>() }
+            { (int)ObjectLayer.SolidConduitConnection,new Dictionary<int, ColorableConduit>() },
+            { (int)ObjectLayer.WireConnectors,new Dictionary<int, ColorableConduit>() },
+            { (int)ObjectLayer.Building,new Dictionary<int, ColorableConduit>() },
             };
         }
 
@@ -65,6 +71,12 @@ namespace PaintYourPipes
                     RefreshList(ObjectLayer.SolidConduit);
                     RefreshList(ObjectLayer.SolidConduitConnection);
                     break;
+                case ObjectLayer.Wire:
+                    RefreshList(ObjectLayer.Wire);
+                    RefreshList(ObjectLayer.WireConnectors);
+                    RefreshList(ObjectLayer.Building); //High Wattage Tile Bridges
+
+                    break;
             }
         }
         private static void RefreshList(ObjectLayer targetLayer)
@@ -75,8 +87,6 @@ namespace PaintYourPipes
             foreach (var target in ConduitsByLayer[(int)targetLayer].Values)
                 target.RefreshColor();
         }
-
-
 
         [MyCmpAdd]
         CopyBuildingSettings buildingSettings;
@@ -99,7 +109,7 @@ namespace PaintYourPipes
 
         public Color GetColor()
         {
-            if(colorHex == null || colorHex == string.Empty)
+            if (colorHex == null || colorHex == string.Empty)
                 colorHex = "FFFFFF";
 
             var col = Util.ColorFromHex(colorHex);
@@ -125,6 +135,7 @@ namespace PaintYourPipes
         public void RefreshColor()
         {
             _animController.TintColour = TintColor;
+
             if (_animController.enabled)
             {
                 _animController.enabled = false;
@@ -188,18 +199,23 @@ namespace PaintYourPipes
 
         public bool GetCheckboxValue() => ShowOverlayTint;
 
-        public void SetCheckboxValue(bool value)
+        public void SetCheckboxValue(bool value) => SetOverlayTint(value);
+        public static void SetOverlayTint(bool value)
         {
             ShowOverlayTint = value;
-            //RefreshAll();
-            SgtLogger.l(Patches.ActiveOverlay.ToString(), "Patches.ActiveOverlay");
             RefreshOfConduitType(Patches.ActiveOverlay);
         }
+        public static void ToggleOverlayTint() => SetOverlayTint(!ShowOverlayTint);
 
         public static bool SameConduitType(ObjectLayer first, ObjectLayer second)
         {
             switch (first)
             {
+                case ObjectLayer.Wire:
+                case ObjectLayer.WireConnectors:
+                case ObjectLayer.ReplacementWire:
+                case ObjectLayer.Building:
+                    return second == ObjectLayer.Wire || second == ObjectLayer.WireTile || second == ObjectLayer.WireConnectors || second == ObjectLayer.ReplacementWire || second == ObjectLayer.Building;
                 case ObjectLayer.GasConduitConnection:
                 case ObjectLayer.GasConduit:
                 case ObjectLayer.GasConduitTile:
@@ -238,6 +254,12 @@ namespace PaintYourPipes
                 case ObjectLayer.SolidConduitTile:
                     targetLayer = bridges ? (int)ObjectLayer.SolidConduitConnection : (int)ObjectLayer.SolidConduit;
                     break;
+                case ObjectLayer.Wire:
+                case ObjectLayer.WireConnectors:
+                case ObjectLayer.ReplacementWire:
+                case ObjectLayer.Building:
+                    targetLayer = bridges ? (int)ObjectLayer.WireConnectors : (int)ObjectLayer.Wire;
+                    break;
             }
 
             return (targetLayer != -1);
@@ -249,8 +271,20 @@ namespace PaintYourPipes
             if (!LayerFromColorBuilding(building, bridges, out int layer))
                 return false;
 
+            bool trySecondaryLayer = (layer == (int)ObjectLayer.WireConnectors && bridges);
+
             if (!ConduitsByLayer[layer].ContainsKey(cell))
-                return false;
+            {
+                if (!trySecondaryLayer)
+                    return false;
+
+                layer = (int)ObjectLayer.Building;
+                if (!ConduitsByLayer[layer].ContainsKey(cell))
+                    return false;
+
+            }
+
+
             target = ConduitsByLayer[layer][cell];
 
             return target != null;
