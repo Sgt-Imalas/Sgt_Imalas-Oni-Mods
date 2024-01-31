@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using TemplateClasses;
@@ -36,18 +37,18 @@ namespace OniRetroEdition
 
             public static void Prefix()
             {
-                foreach(var config in BuildingModifications.Instance.LoadedBuildingOverrides)
+                foreach (var config in BuildingModifications.Instance.LoadedBuildingOverrides)
                 {
 
 
-                    if(config.Value.buildMenuCategory != null && config.Value.buildMenuCategory.Length > 0)
+                    if (config.Value.buildMenuCategory != null && config.Value.buildMenuCategory.Length > 0)
                     {
                         string buildingId = config.Key;
                         string category = config.Value.buildMenuCategory;
 
                         string relativeBuildingId = null;
 
-                        if(config.Value.placedBehindBuildingId != null && config.Value.placedBehindBuildingId.Length > 0)
+                        if (config.Value.placedBehindBuildingId != null && config.Value.placedBehindBuildingId.Length > 0)
                         {
                             relativeBuildingId = config.Value.placedBehindBuildingId;
                             if (relativeBuildingId == null || relativeBuildingId.Length == 0)
@@ -82,12 +83,12 @@ namespace OniRetroEdition
                     if (config.Value.techOverride != null && config.Value.techOverride.Length > 0)
                     {
                         var previousTech = __instance.Techs.TryGetTechForTechItem(config.Key);
-                        if(previousTech != null)
+                        if (previousTech != null)
                         {
                             previousTech.RemoveUnlockedItemIDs(config.Key);
                         }
 
-                        InjectionMethods.AddBuildingToTechnology( config.Value.techOverride, config.Key);
+                        InjectionMethods.AddBuildingToTechnology(config.Value.techOverride, config.Key);
                     }
                 }
             }
@@ -330,6 +331,118 @@ namespace OniRetroEdition
             }
         }
 
+        [HarmonyPatch(typeof(MopTool))]
+        [HarmonyPatch(nameof(MopTool.OnPrefabInit))]
+        public static class Moppable_AlwaysMop
+        {
+            [HarmonyPrepare]
+            public static bool Prepare() => Config.Instance.succmop;
+            public static void Postfix(MopTool __instance)
+            {
+                MopTool.maxMopAmt = float.PositiveInfinity;
+            }
+        }
+
+
+        [HarmonyPatch(typeof(MopTool), "OnDragTool")]
+        public class MopTool_OnDragTool_Patch
+        {
+            [HarmonyPrepare]
+            public static bool Prepare() => Config.Instance.succmop;
+            public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+            {
+                var codes = orig.ToList();
+
+                // find injection point
+                var index = codes.FindIndex(ci => ci.opcode == OpCodes.Stloc_1);
+
+                if (index == -1)
+                {
+                    SgtLogger.error("mop transpiler found no target!");
+                    return codes;
+                }
+
+                var m_InjectedMethod = AccessTools.DeclaredMethod(typeof(MopTool_OnDragTool_Patch), "InjectedMethod");
+
+                // inject right after the found index
+                codes.InsertRange(index , new[]
+                {
+                            new CodeInstruction(OpCodes.Call, m_InjectedMethod)
+                        });
+
+                TranspilerHelper.PrintInstructions(codes);
+                return codes;
+            }
+
+            private static bool InjectedMethod(bool old)
+            {
+                return true;
+            }
+        }
+        [HarmonyPatch(typeof(Moppable))]
+        [HarmonyPatch(nameof(Moppable.OnSpawn))]
+        public static class Moppable_Watergun
+        {
+            [HarmonyPrepare]
+            public static bool Prepare() => Config.Instance.succmop;
+            public static void Postfix(Moppable __instance)
+            {
+                __instance.overrideAnims = null;
+                __instance.faceTargetWhenWorking = true;
+                __instance.multitoolContext = "fetchliquid";
+                __instance.multitoolHitEffectTag = WaterSuckEffect.ID;
+                __instance.SetOffsetTable(OffsetGroups.InvertedStandardTableWithCorners);
+            }
+        }
+        /// <summary>
+        /// Teleports "mopped" liquids to the dupe
+        /// </summary>
+        [HarmonyPatch(typeof(Moppable), "OnCellMopped")]
+        public class Moppable_OnCellMopped_Patch
+        {
+            [HarmonyPrepare]
+           public static bool Prepare() => Config.Instance.succmop;
+
+
+            public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+            {
+                var codes = orig.ToList();
+
+                // find injection point
+                var index = codes.FindIndex(ci => ci.Calls(AccessTools.Method(typeof(TransformExtensions), nameof(TransformExtensions.SetPosition))));
+
+                if (index == -1)
+                {
+                    SgtLogger.error("mop transpiler found no target!");
+                    TranspilerHelper.PrintInstructions(codes);
+                    return codes;
+                }
+
+                var m_InjectedMethod = AccessTools.DeclaredMethod(typeof(Moppable_OnCellMopped_Patch), "InjectedMethod");
+
+                // inject right after the found index
+                codes.InsertRange(index, new[]
+                {
+                            new CodeInstruction(OpCodes.Ldarg_0),
+                            new CodeInstruction(OpCodes.Call, m_InjectedMethod)
+                        });
+
+
+                return codes;
+            }
+
+            private static Vector3 InjectedMethod(Vector3 toConsume, Moppable instance)
+            {
+                if(instance == null ||instance.worker==null)
+                    return toConsume;
+
+                return instance.worker.transform.GetPosition();
+
+            }
+        }
+
+
+
         [HarmonyPatch(typeof(FlyingCreatureBaitConfig))]
         [HarmonyPatch(nameof(FlyingCreatureBaitConfig.CreateBuildingDef))]
         public static class AirborneCritterBait_CeilingOnly
@@ -347,10 +460,10 @@ namespace OniRetroEdition
         public static class TryGetRetroAnim_GetAnim
         {
 
-            public static void Prefix(Assets __instance,ref HashedString name)
+            public static void Prefix(Assets __instance, ref HashedString name)
             {
                 string retroStringVariant = name.ToString().Replace("_kanim", "_retro_kanim");
-                if(name.IsValid && Assets.AnimTable.ContainsKey(retroStringVariant))
+                if (name.IsValid && Assets.AnimTable.ContainsKey(retroStringVariant))
                 {
                     name = retroStringVariant;
                 }
@@ -467,6 +580,7 @@ namespace OniRetroEdition
 
                 elementConverter.OperationalRequirement = Operational.State.Operational;
 
+
                 var manualOperatable = go.AddComponent<GenericWorkableComponent>();
                 manualOperatable.overrideAnims = new KAnimFile[1]
                 {
@@ -475,13 +589,18 @@ namespace OniRetroEdition
                 manualOperatable.workOffset = new CellOffset(-1, 0);
                 manualOperatable.WorkTime = (30f);
                 manualOperatable.workLayer = Grid.SceneLayer.BuildingUse;
-                manualOperatable.IsWorkable = () =>
-                {
-                    return elementConverter.HasEnoughMassToStartConverting();
-                };
             }
         }
-
+        [HarmonyPatch(typeof(Turbine), nameof(Turbine.ResolveStrings))]
+        public static class TurbineStringFix
+        {
+            public static void Postfix(ref string str, object data)
+            {
+                Turbine turbine = (Turbine)data;
+                str = str.Replace("{Src_Element}", ElementLoader.FindElementByHash(turbine.srcElem).name);
+                str = str.Replace("{Active_Temperature}", GameUtil.GetFormattedTemperature(turbine.minActiveTemperature));
+            }
+        }
         /// <summary>
         /// Init. auto translation
         /// </summary>

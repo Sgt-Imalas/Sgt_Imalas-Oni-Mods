@@ -27,6 +27,10 @@ namespace OniRetroEdition
         [JsonProperty]
         public bool TileTopsMerge { get; set; }
 
+        [Option("mop becomes water succ", "")]
+        [JsonProperty]
+        public bool succmop { get; set; }
+
         [Option("manual space can opener", "")]
         [JsonProperty]
         public bool manualRailgunPayloadOpener { get; set; }
@@ -48,6 +52,7 @@ namespace OniRetroEdition
             IronOreTexture = EarlierVersion.Beta;
             gassensorpower = true; 
             liquidsensorpower = false;
+            succmop = true;
 
         }
     }
