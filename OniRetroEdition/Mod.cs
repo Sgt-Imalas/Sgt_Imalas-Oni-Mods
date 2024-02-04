@@ -5,7 +5,9 @@ using PeterHan.PLib.AVC;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
 using System;
+using System.Collections.Generic;
 using UtilLibs;
+using static StatusItem;
 
 namespace OniRetroEdition
 {
@@ -22,6 +24,12 @@ namespace OniRetroEdition
 
             base.OnLoad(harmony);
             SgtLogger.LogVersion(this, harmony);
+
+
+            var overlayBitsField = typeof(StatusItem).GetFieldSafe("overlayBitfieldMap", true);
+            if (overlayBitsField != null && overlayBitsField.GetValue(null) is
+                    IDictionary<HashedString, StatusItemOverlays> overlayBits)
+                overlayBits.Add(OverlayModes.Sound.ID, StatusItemOverlays.None);
         }
     }
 }

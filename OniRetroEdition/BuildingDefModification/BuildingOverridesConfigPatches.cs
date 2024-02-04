@@ -32,7 +32,7 @@ namespace OniRetroEdition.BuildingDefModification
                 var interacts = new HashSet<HashedString>();
                 BuildingModifications.Instance.LoadedBuildingOverrides.Values.ToList().ForEach(item =>
                 {
-                    if(item.workableAnimOverride!=null && item.workableAnimOverride.Length > 0)
+                    if (item.workableAnimOverride != null && item.workableAnimOverride.Length > 0)
                     {
                         interacts.Add(item.workableAnimOverride);
                     }
@@ -69,7 +69,7 @@ namespace OniRetroEdition.BuildingDefModification
                     }
                     if (overrideParams.workableAnimOverride != null && overrideParams.workableAnimOverride.Length > 0)
                     {
-                        SgtLogger.l("anim override config found, name of the override anim: "+ overrideParams.workableAnimOverride);
+                        SgtLogger.l("anim override config found, name of the override anim: " + overrideParams.workableAnimOverride);
                         var anim = Assets.GetAnim(overrideParams.workableAnimOverride);
                         if (anim != null)
                         {
@@ -150,7 +150,7 @@ namespace OniRetroEdition.BuildingDefModification
                 if (SkinsAdder.Instance.TargetIDWithAnimnameForSoundCopy.ContainsKey(def.PrefabID))
                 {
                     var sourceanim = def.AnimFiles.FirstOrDefault();
-                    foreach(var targetAnim in SkinsAdder.Instance.TargetIDWithAnimnameForSoundCopy[def.PrefabID])
+                    foreach (var targetAnim in SkinsAdder.Instance.TargetIDWithAnimnameForSoundCopy[def.PrefabID])
                     {
                         if (!Assets.TryGetAnim(targetAnim, out _))
                         {
@@ -224,6 +224,14 @@ namespace OniRetroEdition.BuildingDefModification
             }
             private static void DoPostConfigureComplete_Postfix(BuildingDef def, GameObject go)
             {
+                if (def.BaseNoisePollution > 0)
+                {
+                    NoisePolluter polluter = go.AddOrGet<NoisePolluter>();
+                    polluter.radius = def.BaseNoisePollutionRadius;
+                    polluter.noise = def.BaseNoisePollution;
+                }
+
+
                 if (BuildingModifications.Instance.LoadedBuildingOverrides.ContainsKey(def.PrefabID))
                 {
                     BuildingModification overrideParams = BuildingModifications.Instance.LoadedBuildingOverrides[def.PrefabID];
