@@ -695,6 +695,30 @@ namespace OniRetroEdition
                 return false;
             }
         }
+        //[HarmonyPatch(typeof(OverlayModes.Oxygen), nameof(OverlayModes.Oxygen.GetOxygenMapColour))]
+        //public static class OverlayModes_Color
+        //{
+        //    public static void Postfix(SimDebugView instance, int cell, ref Color __result)
+        //    {
+        //        if (__result == instance.unbreathableColour && Grid.Element[cell].toxicity > 0)
+        //        {
+        //            float t = Mathf.Clamp((Grid.Pressure[cell] - instance.minPressureExpected) / (instance.maxPressureExpected - (instance.minPressureExpected)), 0.0f, 1f);
+        //            __result = Color.Lerp(instance.toxicColour[0], instance.toxicColour[1], t);
+        //        }
+        //    }
+        //}
+        //[HarmonyPatch(typeof(SimDebugView), nameof(SimDebugView.GetOxygenMapColour))]
+        //public static class GetToxicityColor
+        //{
+        //    public static void Postfix(SimDebugView instance, int cell, ref Color __result)
+        //    {
+        //        if(__result == instance.unbreathableColour && Grid.Element[cell].toxicity>0)
+        //        {
+        //            float t = Mathf.Clamp((Grid.Pressure[cell] - instance.minPressureExpected) / (instance.maxPressureExpected - (instance.minPressureExpected)), 0.0f, 1f);
+        //            __result = Color.Lerp(instance.toxicColour[0], instance.toxicColour[1], t);
+        //        }
+        //    }
+        //}
         [HarmonyPatch(typeof(OverlayModes.Sound), nameof(OverlayModes.Sound.OnSaveLoadRootUnregistered))]
         public static class CrashDetect3
         {
