@@ -52,7 +52,6 @@ namespace PaintYourPipes
         [HarmonyPatch]
         public static class AddColorComponentToFinishedBuildings
         {
-
             public static void ExecutePatch(Harmony harmony)
             {
                 var DoPostConfigureUnderConstruction_Postfix = AccessTools.Method(typeof(AddColorComponentToFinishedBuildings), "DoPostConfigureUnderConstruction_Postfix");
@@ -246,18 +245,18 @@ namespace PaintYourPipes
             public static void Postfix() => ColorableConduit_UnderConstruction.HasColorOverride = false;
         }
 
-        static bool HighlightIfApplicable(ColorableConduit target,ICollection<UtilityNetwork> networks, Color targetColor, out Color highlighted)
+        static bool HighlightIfApplicable(ColorableConduit target, ICollection<UtilityNetwork> networks, Color targetColor, out Color highlighted)
         {
             highlighted = targetColor;
             if (networks.Count == 0) return false;
 
             SgtLogger.l(networks.Count() + " " + target.NetworkItem);
-            if (target.NetworkItem!=null && target.NetworkItem.IsConnectedToNetworks(networks) 
+            if (target.NetworkItem != null && target.NetworkItem.IsConnectedToNetworks(networks)
              || target.solidConduit != null && networks.Contains(target.solidConduit.GetNetwork()))
             {
                 float highlightMultiplier = OverlayModes.ModeUtil.GetHighlightScale();
-                
-                highlighted = new Color(targetColor.r * highlightMultiplier, (targetColor.g * highlightMultiplier),(targetColor.b * highlightMultiplier),0);
+
+                highlighted = new Color(targetColor.r * highlightMultiplier, (targetColor.g * highlightMultiplier), (targetColor.b * highlightMultiplier), 0);
 
                 //SgtLogger.l(targetColor + " <> "+ highlighted);
                 return true;
@@ -284,12 +283,10 @@ namespace PaintYourPipes
         {
             public static void Postfix(Logic __instance)
             {
-                if (!ColorableConduit.ShowOverlayTint)
-                    return;
                 Color targetColor;
                 foreach (KBatchedAnimController wireController in __instance.wireControllers)
                 {
-                    if (wireController == null ||!wireController.TryGetComponent<ColorableConduit>(out var building))
+                    if (!ColorableConduit.ShowOverlayTint || wireController == null || !wireController.TryGetComponent<ColorableConduit>(out var building))
                     {
                         continue;
                     }
@@ -304,16 +301,23 @@ namespace PaintYourPipes
                     {
                         continue;
                     }
-                    HighlightIfApplicable(building, __instance.connectedNetworks, building.GetColor(), out targetColor);
-                    ribbonController.SetSymbolTint(RIBBON_WIRE_1_SYMBOL_NAME, targetColor);
-                    ribbonController.SetSymbolTint(RIBBON_WIRE_2_SYMBOL_NAME, targetColor);
-                    ribbonController.SetSymbolTint(RIBBON_WIRE_3_SYMBOL_NAME, targetColor);
-                    ribbonController.SetSymbolTint(RIBBON_WIRE_4_SYMBOL_NAME, targetColor);
+                    if (!ColorableConduit.ShowOverlayTint)
+                    {
+                        ribbonController.TintColour = Color.white;
+                    }
+                    else
+                    {
+                        HighlightIfApplicable(building, __instance.connectedNetworks, building.GetColor(), out targetColor);
+                        ribbonController.SetSymbolTint(RIBBON_WIRE_1_SYMBOL_NAME, targetColor);
+                        ribbonController.SetSymbolTint(RIBBON_WIRE_2_SYMBOL_NAME, targetColor);
+                        ribbonController.SetSymbolTint(RIBBON_WIRE_3_SYMBOL_NAME, targetColor);
+                        ribbonController.SetSymbolTint(RIBBON_WIRE_4_SYMBOL_NAME, targetColor);
+                    }
                 }
 
                 foreach (BridgeInfo bridgeController in __instance.bridgeControllers)
                 {
-                    if (bridgeController.controller == null || !bridgeController.controller.TryGetComponent<ColorableConduit>(out var building))
+                    if (!ColorableConduit.ShowOverlayTint || bridgeController.controller == null || !bridgeController.controller.TryGetComponent<ColorableConduit>(out var building))
                     {
                         continue;
                     }
@@ -328,11 +332,18 @@ namespace PaintYourPipes
                     {
                         continue;
                     }
-                    HighlightIfApplicable(building, __instance.connectedNetworks, building.GetColor(), out targetColor);
-                    ribbonBridgeController.controller.SetSymbolTint(RIBBON_WIRE_1_SYMBOL_NAME, targetColor);
-                    ribbonBridgeController.controller.SetSymbolTint(RIBBON_WIRE_2_SYMBOL_NAME, targetColor);
-                    ribbonBridgeController.controller.SetSymbolTint(RIBBON_WIRE_3_SYMBOL_NAME, targetColor);
-                    ribbonBridgeController.controller.SetSymbolTint(RIBBON_WIRE_4_SYMBOL_NAME, targetColor);
+                    if (!ColorableConduit.ShowOverlayTint)
+                    {
+                        ribbonBridgeController.controller.TintColour = Color.white;
+                    }
+                    else
+                    {
+                        HighlightIfApplicable(building, __instance.connectedNetworks, building.GetColor(), out targetColor);
+                        ribbonBridgeController.controller.SetSymbolTint(RIBBON_WIRE_1_SYMBOL_NAME, targetColor);
+                        ribbonBridgeController.controller.SetSymbolTint(RIBBON_WIRE_2_SYMBOL_NAME, targetColor);
+                        ribbonBridgeController.controller.SetSymbolTint(RIBBON_WIRE_3_SYMBOL_NAME, targetColor);
+                        ribbonBridgeController.controller.SetSymbolTint(RIBBON_WIRE_4_SYMBOL_NAME, targetColor);
+                    }
                 }
             }
         }
@@ -539,7 +550,7 @@ namespace PaintYourPipes
                     var colorOverrider = ColorableConduit.ConduitsByLayer[(int)ObjectLayer.LiquidConduit][cell];
                     if ((int)ActiveOverlay == -1)
                         __result = __result.Multiply(colorOverrider.TintColor);
-                    else if(ActiveOverlay == ObjectLayer.LiquidConduit)
+                    else if (ActiveOverlay == ObjectLayer.LiquidConduit)
                         __result = colorOverrider.TintColor;
                 }
                 else if (__instance == Game.Instance.gasFlowVisualizer && ColorableConduit.ConduitsByLayer[(int)ObjectLayer.GasConduit].ContainsKey(cell))
@@ -547,7 +558,7 @@ namespace PaintYourPipes
                     var colorOverrider = ColorableConduit.ConduitsByLayer[(int)ObjectLayer.GasConduit][cell];
                     if ((int)ActiveOverlay == -1)
                         __result = __result.Multiply(colorOverrider.TintColor);
-                    else if(ActiveOverlay == ObjectLayer.GasConduit)
+                    else if (ActiveOverlay == ObjectLayer.GasConduit)
                         __result = colorOverrider.TintColor;
                 }
             }

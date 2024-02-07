@@ -10,6 +10,7 @@ using UnityEngine;
 using UtilLibs;
 using static AmbienceManager;
 using static ConduitFlow;
+using static STRINGS.UI.STARMAP;
 
 namespace PaintYourPipes
 {
@@ -142,7 +143,7 @@ namespace PaintYourPipes
                 colorHex = "FFFFFF";
 
             var col = Util.ColorFromHex(colorHex);
-            col.a = SameConduitType(Patches.ActiveOverlay, this.buildingComplete.Def.ObjectLayer) ? 0 : 1;
+            col.a = ShowOverlayTint&&SameConduitType(Patches.ActiveOverlay, this.buildingComplete.Def.ObjectLayer) ? 0 : 1;
             return col;
 
         }
@@ -389,19 +390,24 @@ namespace PaintYourPipes
             allNetworks.Clear();
             VisitedCells.Clear(); 
             allNetworks.Clear();
-            GetAllConnectedNetworks(NetworkItem.GetNetworkCell(),mgr);
 
-            foreach(var targetLayer in GetRelevantObjectLayers(buildingComplete.Def.ObjectLayer))
+            if(NetworkItem!=null)
+                GetAllConnectedNetworks(NetworkItem.GetNetworkCell(),mgr);
+            else
+                GetAllConnectedNetworks(Grid.PosToCell(solidConduit), mgr);
+            
+
+            foreach (var targetLayer in GetRelevantObjectLayers(buildingComplete.Def.ObjectLayer))
             {
                 if (!ConduitsByLayer.ContainsKey((int)targetLayer))
                     continue;
                 foreach (var target in ConduitsByLayer[(int)targetLayer].Values)
                 {
-                    if(target.NetworkItem != null && target.NetworkItem.IsConnectedToNetworks(allNetworks))
+                    if(NetworkItem !=null && target.NetworkItem != null && target.NetworkItem.IsConnectedToNetworks(allNetworks))
                     {
                         target.SetColor(this.GetColor());
                     }
-                    else if(target.solidConduit!=null && allNetworks.Contains(target.solidConduit.GetNetwork()))
+                    else if(solidConduit!=null && target.solidConduit!=null && allNetworks.Contains(target.solidConduit.GetNetwork()))
                     {
                         target.SetColor(this.GetColor());
                     }
