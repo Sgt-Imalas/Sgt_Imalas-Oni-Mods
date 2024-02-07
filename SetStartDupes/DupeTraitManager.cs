@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UI;
 using UtilLibs;
 using static Database.MonumentPartResource;
@@ -102,10 +103,12 @@ namespace SetStartDupes
             UIUtils.FindAndDestroy(TraitContainer.transform, "TraitGroupGood", true);
             UIUtils.FindAndDestroy(TraitContainer.transform, "TraitGroupBad", true);
 
-           // UIUtils.ListAllChildrenPath(InterestContainer.transform);
-           // UIUtils.ListAllChildrenPath(TraitContainer.transform);
+            // UIUtils.ListAllChildrenPath(InterestContainer.transform);
+            // UIUtils.ListAllChildrenPath(TraitContainer.transform);
             //UIUtils.FindAndDestroy()
 
+
+            Debug.Assert(TraitContainer, "traitcontainer was null!");
 
             OverjoyedContainer = Util.KInstantiateUI(TraitContainer, TraitContainer.transform.parent.gameObject, true);
             OverjoyedContainer.name = "OverjoyedContainer";
