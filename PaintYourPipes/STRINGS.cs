@@ -13,8 +13,11 @@ namespace PaintYourPipes
         {
 
             public static LocString TITLE = "Tint Colour";
-            public static LocString LABEL = "Show Tint in Overlays";
-            public static LocString TOOLTIP = "Toggle wether or not the pipe tint appears in the pipes overlay modes";
+            public static LocString LABEL = "Paint whole network";
+            public static LocString TOOLTIP = "Applies the colour of the currently selected item to its whole network.";
+
+            public static LocString TOGGLE_TEXT = "COLOR OVERLAYS";
+            public static LocString TOGGLE_TOOLTIP = "Toggle <b>Colors in Overlays</b>\n{Hotkey}";
         }
         public class HOTKEYACTIONS
         {

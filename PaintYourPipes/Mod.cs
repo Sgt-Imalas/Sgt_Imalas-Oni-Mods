@@ -19,6 +19,7 @@ namespace PaintYourPipes
             base.OnAllModsLoaded(harmony, mods);
             Patches.AddColorComponentToFinishedBuildings.ExecutePatch(harmony);
             CompatibilityPatches.Reverse_Bridges_Compatibility.ExecutePatch(harmony);
+            CompatibilityPatches.Material_Colored_Tiles_Compatibility.ExecutePatch(harmony);
             CompatibilityPatches.MaterialColour_Compatibility.ExecutePatch(harmony);
         }
     }

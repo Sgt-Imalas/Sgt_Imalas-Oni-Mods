@@ -11,6 +11,33 @@ namespace PaintYourPipes
 {
     internal class CompatibilityPatches
     {
+        public class Material_Colored_Tiles_Compatibility
+        {
+            public static void ExecutePatch(Harmony harmony)
+            {
+                var m_TargetType = AccessTools.TypeByName("MaterialColoredTilesAndMore.Patches");
+
+                var m_Prefix = AccessTools.Method(typeof(Material_Colored_Tiles_Compatibility), "Prefix");
+                if (m_TargetType != null)
+                {
+                    var m_TargetMethod = AccessTools.Method(m_TargetType, "ChangeBuildingColor", new Type[] { typeof(BuildingComplete) });
+                    if (m_TargetMethod == null)
+                    {
+                        SgtLogger.warning("MaterialColoredTilesAndMore mod target method ChangeBuildingColor not found on type MaterialColoredTilesAndMore.Patches");
+                        return;
+                    }
+                    harmony.Patch(m_TargetMethod, new HarmonyMethod(m_Prefix));
+                }
+                else
+                {
+                    SgtLogger.l("MaterialColoredTilesAndMore mod target type Painter not found.");
+                }
+            }
+            public static bool Prefix(BuildingComplete building)
+            {
+                return !building.TryGetComponent<ColorableConduit>(out _);
+            }
+        }
         public class MaterialColour_Compatibility
         {
             public static void ExecutePatch(Harmony harmony)

@@ -2,18 +2,24 @@
 using Satsuma;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static AmbienceManager;
+using static ConduitFlow;
 
 namespace PaintYourPipes
 {
     [SerializationConfig(MemberSerialization.OptIn)]
-    internal class ColorableConduit : KMonoBehaviour, ICheckboxControl
+    internal class ColorableConduit : KMonoBehaviour, ISidescreenButtonControl
     {
+
+        public IBridgedNetworkItem NetworkItem;
+        [MyCmpGet] public SolidConduit solidConduit;//extrawurst for solid conduits
+
         public static bool ShowOverlayTint;
 
         public static Dictionary<int, Dictionary<int, ColorableConduit>> ConduitsByLayer = new()
@@ -27,6 +33,8 @@ namespace PaintYourPipes
             { (int)ObjectLayer.SolidConduitConnection,new Dictionary<int, ColorableConduit>() },
             { (int)ObjectLayer.WireConnectors,new Dictionary<int, ColorableConduit>() },
             { (int)ObjectLayer.Building,new Dictionary<int, ColorableConduit>() },
+            { (int)ObjectLayer.LogicWire,new Dictionary<int, ColorableConduit>() },
+            { (int)ObjectLayer.LogicGate,new Dictionary<int, ColorableConduit>() },
 
         };
         public static void FlushDictionary()
@@ -43,6 +51,8 @@ namespace PaintYourPipes
             { (int)ObjectLayer.SolidConduitConnection,new Dictionary<int, ColorableConduit>() },
             { (int)ObjectLayer.WireConnectors,new Dictionary<int, ColorableConduit>() },
             { (int)ObjectLayer.Building,new Dictionary<int, ColorableConduit>() },
+            { (int)ObjectLayer.LogicWire,new Dictionary<int, ColorableConduit>() },
+            { (int)ObjectLayer.LogicGate,new Dictionary<int, ColorableConduit>() },
             };
         }
 
@@ -55,28 +65,47 @@ namespace PaintYourPipes
                 cond.RefreshColor();
             }
         }
+
+        public static List<ObjectLayer> GetRelevantObjectLayers(ObjectLayer target)
+        {
+            switch (target)
+            {
+                case ObjectLayer.Wire:
+                case ObjectLayer.WireConnectors:
+                case ObjectLayer.ReplacementWire:
+                case ObjectLayer.Building: //Edge case: high wattage tile bridges
+                    return new List<ObjectLayer>() { ObjectLayer.Wire, ObjectLayer.WireConnectors, ObjectLayer.ReplacementWire, ObjectLayer.Building };
+                case ObjectLayer.GasConduitConnection:
+                case ObjectLayer.GasConduit:
+                case ObjectLayer.GasConduitTile:
+                    return new List<ObjectLayer>() { ObjectLayer.GasConduit, ObjectLayer.GasConduitConnection, ObjectLayer.GasConduitTile };
+                case ObjectLayer.LiquidConduitConnection:
+                case ObjectLayer.LiquidConduit:
+                case ObjectLayer.LiquidConduitTile:
+                    return new List<ObjectLayer>() { ObjectLayer.LiquidConduit, ObjectLayer.LiquidConduitConnection, ObjectLayer.LiquidConduitTile };
+                case ObjectLayer.SolidConduitConnection:
+                case ObjectLayer.SolidConduit:
+                case ObjectLayer.SolidConduitTile:
+                    return new List<ObjectLayer>() { ObjectLayer.SolidConduit, ObjectLayer.SolidConduitConnection, ObjectLayer.SolidConduitTile };
+                case ObjectLayer.LogicWire:
+                case ObjectLayer.LogicWireTile:
+                case ObjectLayer.LogicGate:
+                    return new List<ObjectLayer>() { ObjectLayer.LogicWire, ObjectLayer.LogicGate, ObjectLayer.LogicWireTile };
+                default: return new List<ObjectLayer>() { };
+            }
+        }
+
         public static void RefreshOfConduitType(ObjectLayer targetLayer)
         {
-            switch (targetLayer)
-            {
-                case ObjectLayer.GasConduit:
-                    RefreshList(ObjectLayer.GasConduit);
-                    RefreshList(ObjectLayer.GasConduitConnection);
-                    break;
-                case ObjectLayer.LiquidConduit:
-                    RefreshList(ObjectLayer.LiquidConduit);
-                    RefreshList(ObjectLayer.LiquidConduitConnection);
-                    break;
-                case ObjectLayer.SolidConduit:
-                    RefreshList(ObjectLayer.SolidConduit);
-                    RefreshList(ObjectLayer.SolidConduitConnection);
-                    break;
-                case ObjectLayer.Wire:
-                    RefreshList(ObjectLayer.Wire);
-                    RefreshList(ObjectLayer.WireConnectors);
-                    RefreshList(ObjectLayer.Building); //High Wattage Tile Bridges
+            var layers = GetRelevantObjectLayers(targetLayer);
 
-                    break;
+            if(layers.Count == 0)
+                RefreshAll();
+
+            foreach (var layerTarget in layers)
+            {
+                RefreshList(layerTarget);
+
             }
         }
         private static void RefreshList(ObjectLayer targetLayer)
@@ -132,9 +161,14 @@ namespace PaintYourPipes
             }
         }
 
-        public void RefreshColor()
+        public void RefreshColor(Color Override = default)
         {
-            _animController.TintColour = TintColor;
+            if(Override != default)
+            {
+                _animController.TintColour = Override;
+            }
+            else
+                _animController.TintColour = TintColor;
 
             if (_animController.enabled)
             {
@@ -173,6 +207,7 @@ namespace PaintYourPipes
             AllConduits.Add(this);
             base.OnSpawn();
             //GameScheduler.Instance.ScheduleNextFrame("deayed initial refresh", (_) => RefreshColor());
+            NetworkItem = this.GetComponent<IBridgedNetworkItem>();
             RefreshColor();
         }
         public override void OnPrefabInit()
@@ -191,19 +226,15 @@ namespace PaintYourPipes
             base.OnCleanUp();
         }
 
-        public string CheckboxTitleKey => "STRINGS.PAINTABLEBUILDING.TITLE";
+        public string SidescreenButtonText => STRINGS.PAINTABLEBUILDING.LABEL;
 
-        public string CheckboxLabel => STRINGS.PAINTABLEBUILDING.LABEL;
+        public string SidescreenButtonTooltip => STRINGS.PAINTABLEBUILDING.TOOLTIP;
 
-        public string CheckboxTooltip => STRINGS.PAINTABLEBUILDING.TOOLTIP;
-
-        public bool GetCheckboxValue() => ShowOverlayTint;
-
-        public void SetCheckboxValue(bool value) => SetOverlayTint(value);
         public static void SetOverlayTint(bool value)
         {
             ShowOverlayTint = value;
             RefreshOfConduitType(Patches.ActiveOverlay);
+            //RefreshAll();
         }
         public static void ToggleOverlayTint() => SetOverlayTint(!ShowOverlayTint);
 
@@ -228,11 +259,14 @@ namespace PaintYourPipes
                 case ObjectLayer.SolidConduit:
                 case ObjectLayer.SolidConduitTile:
                     return second == ObjectLayer.SolidConduit || second == ObjectLayer.SolidConduitConnection || second == ObjectLayer.GasConduitTile;
+                case ObjectLayer.LogicWire:
+                case ObjectLayer.LogicWireTile:
+                case ObjectLayer.LogicGate:
+                    return second == ObjectLayer.LogicWire || second == ObjectLayer.LogicWireTile || second == ObjectLayer.LogicGate;
             }
             return false;
         }
         public static bool SameConduitType(ColorableConduit first, ColorableConduit second) => SameConduitType(first.buildingComplete.Def.ObjectLayer, second.buildingComplete.Def.ObjectLayer);
-
 
         private static bool LayerFromColorBuilding(ColorableConduit building, bool bridges, out int targetLayer)
         {
@@ -259,6 +293,11 @@ namespace PaintYourPipes
                 case ObjectLayer.ReplacementWire:
                 case ObjectLayer.Building: //Edge case: high wattage tile bridges
                     targetLayer = bridges ? (int)ObjectLayer.WireConnectors : (int)ObjectLayer.Wire;
+                    break;
+                case ObjectLayer.LogicWire:
+                case ObjectLayer.LogicGate:
+                case ObjectLayer.LogicWireTile:
+                    targetLayer = bridges ? (int)ObjectLayer.LogicGate : (int)ObjectLayer.LogicWire;
                     break;
             }
 
@@ -291,5 +330,124 @@ namespace PaintYourPipes
             return target != null;
         }
         internal static bool TryGetColorableBridge(int targetCell, ColorableConduit building, out ColorableConduit target) => TryGetColorable(targetCell, building, out target, true);
+
+        public void SetButtonTextOverride(ButtonMenuTextOverride textOverride)
+        {
+        }
+
+        public bool SidescreenEnabled() => true;
+
+        public bool SidescreenButtonInteractable() => NetworkItem != null || solidConduit!=null;
+
+        public void OnSidescreenButtonPressed()
+        {
+            PaintCurrentNetwork();
+        }
+
+        public int HorizontalGroupID() => -1;
+
+        public int ButtonSideScreenSortOrder() => 22;
+
+        #region PaintNetworks
+        HashSet<int> VisitedCells = new HashSet<int>();
+        HashSet<UtilityNetwork> allNetworks = new HashSet<UtilityNetwork>();
+        public void PaintCurrentNetwork()
+        {
+            if (NetworkItem == null&& solidConduit==null) return;
+            IUtilityNetworkMgr mgr;
+            switch (buildingComplete.Def.ObjectLayer)
+            {
+                case ObjectLayer.Wire:
+                case ObjectLayer.WireConnectors:
+                case ObjectLayer.ReplacementWire:
+                case ObjectLayer.Building: //Edge case: high wattage tile bridges
+                    mgr = Game.Instance.electricalConduitSystem;
+                    break;
+                case ObjectLayer.GasConduitConnection:
+                case ObjectLayer.GasConduit:
+                case ObjectLayer.GasConduitTile:
+                    mgr = Game.Instance.gasConduitSystem;
+                    break;
+                case ObjectLayer.LiquidConduitConnection:
+                case ObjectLayer.LiquidConduit:
+                case ObjectLayer.LiquidConduitTile:
+                    mgr = Game.Instance.liquidConduitSystem;
+                    break;
+                case ObjectLayer.SolidConduitConnection:
+                case ObjectLayer.SolidConduit:
+                case ObjectLayer.SolidConduitTile:
+                    mgr = Game.Instance.solidConduitSystem;
+                    break;
+                case ObjectLayer.LogicWire:
+                case ObjectLayer.LogicWireTile:
+                case ObjectLayer.LogicGate:
+                    mgr = Game.Instance.logicCircuitSystem;
+                    break;
+                default:
+                    return;
+            }
+            allNetworks.Clear();
+            VisitedCells.Clear(); 
+            allNetworks.Clear();
+            GetAllConnectedNetworks(NetworkItem.GetNetworkCell(),mgr);
+
+            foreach(var targetLayer in GetRelevantObjectLayers(buildingComplete.Def.ObjectLayer))
+            {
+                if (!ConduitsByLayer.ContainsKey((int)targetLayer))
+                    continue;
+                foreach (var target in ConduitsByLayer[(int)targetLayer].Values)
+                {
+                    if(target.NetworkItem != null && target.NetworkItem.IsConnectedToNetworks(allNetworks))
+                    {
+                        target.SetColor(this.GetColor());
+                    }
+                    else if(target.solidConduit!=null && allNetworks.Contains(target.solidConduit.GetNetwork()))
+                    {
+                        target.SetColor(this.GetColor());
+                    }
+                }
+            }
+
+        }
+        private void GetAllConnectedNetworks(
+            int cell,
+            IUtilityNetworkMgr mgr)
+        {
+            if (VisitedCells.Contains(cell))
+                return;
+            VisitedCells.Add(cell);
+            UtilityNetwork networkForCell = mgr.GetNetworkForCell(cell);
+            if (networkForCell == null)
+                return;
+            if(!allNetworks.Contains(networkForCell))
+                allNetworks.Add(networkForCell);
+
+            int connections = (int)mgr.GetConnections(cell, false);
+            if ((connections & 2) != 0)
+                this.GetAllConnectedNetworks(Grid.CellRight(cell), mgr);
+            if ((connections & 1) != 0)
+                this.GetAllConnectedNetworks(Grid.CellLeft(cell), mgr);
+            if ((connections & 4) != 0)
+                this.GetAllConnectedNetworks(Grid.CellAbove(cell), mgr);
+            if ((connections & 8) != 0)
+                this.GetAllConnectedNetworks(Grid.CellBelow(cell), mgr);
+            
+            //these networks dont go over endpoints
+            if(mgr == Game.Instance.logicCircuitManager || mgr == Game.Instance.electricalConduitSystem)
+            {
+                return;
+            }
+
+
+            object endpoint = mgr.GetEndpoint(cell);
+            if (endpoint == null || (endpoint is not FlowUtilityNetwork.NetworkItem networkItem))
+                return;
+            GameObject gameObject = networkItem.GameObject;
+            if (gameObject == null)
+                return;
+            gameObject.GetComponent<IBridgedNetworkItem>()?.AddNetworks(allNetworks);
+        }
+
+        #endregion
     }
 }

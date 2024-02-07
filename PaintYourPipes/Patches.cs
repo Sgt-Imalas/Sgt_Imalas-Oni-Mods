@@ -6,17 +6,23 @@ using rendering;
 using Rendering;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UtilLibs;
 using static AmbienceManager;
+using static FlowUtilityNetwork;
 using static Game;
 using static OverlayModes;
+using static OverlayModes.Logic;
 using static PaintYourPipes.ModAssets;
+using static STRINGS.UI.OVERLAYS;
 using static STRINGS.UI.TOOLS;
 
 namespace PaintYourPipes
@@ -113,7 +119,13 @@ namespace PaintYourPipes
                     typeof(WireBridgeConfig),
                     typeof(WireBridgeHighWattageConfig),
                     typeof(WireRefinedBridgeConfig),
-                    typeof(WireRefinedBridgeHighWattageConfig)
+                    typeof(WireRefinedBridgeHighWattageConfig),
+
+                    typeof(LogicWireConfig),
+                    typeof(LogicRibbonConfig),
+                    typeof(LogicWireBridgeConfig),
+                    typeof(LogicRibbonBridgeConfig),
+                    typeof(LogicGateBaseConfig)
                 };
 
                 //Insulated Wire Briges:
@@ -234,6 +246,110 @@ namespace PaintYourPipes
             public static void Postfix() => ColorableConduit_UnderConstruction.HasColorOverride = false;
         }
 
+        static bool HighlightIfApplicable(ColorableConduit target,ICollection<UtilityNetwork> networks, Color targetColor, out Color highlighted)
+        {
+            highlighted = targetColor;
+            if (networks.Count == 0) return false;
+
+            SgtLogger.l(networks.Count() + " " + target.NetworkItem);
+            if (target.NetworkItem!=null && target.NetworkItem.IsConnectedToNetworks(networks) 
+             || target.solidConduit != null && networks.Contains(target.solidConduit.GetNetwork()))
+            {
+                float highlightMultiplier = OverlayModes.ModeUtil.GetHighlightScale();
+                
+                highlighted = new Color(targetColor.r * highlightMultiplier, (targetColor.g * highlightMultiplier),(targetColor.b * highlightMultiplier),0);
+
+                //SgtLogger.l(targetColor + " <> "+ highlighted);
+                return true;
+            }
+            return false;
+        }
+
+        #region logicOverlay
+        [HarmonyPatch(typeof(Logic), nameof(Logic.Enable))]
+        public static class ColorsInOverlay_Logic_OnEnable
+        {
+            public static void Postfix(Logic __instance)
+            {
+                ActiveOverlay = ObjectLayer.LogicWire;
+
+                if (!ColorableConduit.ShowOverlayTint)
+                    return;
+                ColorableConduit.RefreshOfConduitType(ActiveOverlay);
+            }
+        }
+
+        [HarmonyPatch(typeof(Logic), nameof(Logic.Update))]
+        public static class ColorsInOverlayy_Logic_Update
+        {
+            public static void Postfix(Logic __instance)
+            {
+                if (!ColorableConduit.ShowOverlayTint)
+                    return;
+                Color targetColor;
+                foreach (KBatchedAnimController wireController in __instance.wireControllers)
+                {
+                    if (wireController == null ||!wireController.TryGetComponent<ColorableConduit>(out var building))
+                    {
+                        continue;
+                    }
+                    HighlightIfApplicable(building, __instance.connectedNetworks, building.GetColor(), out targetColor);
+                    //wireController.TintColour = targetColor;
+                    building.RefreshColor(targetColor);
+                }
+
+                foreach (KBatchedAnimController ribbonController in __instance.ribbonControllers)
+                {
+                    if (ribbonController == null || !ribbonController.TryGetComponent<ColorableConduit>(out var building))
+                    {
+                        continue;
+                    }
+                    HighlightIfApplicable(building, __instance.connectedNetworks, building.GetColor(), out targetColor);
+                    ribbonController.SetSymbolTint(RIBBON_WIRE_1_SYMBOL_NAME, targetColor);
+                    ribbonController.SetSymbolTint(RIBBON_WIRE_2_SYMBOL_NAME, targetColor);
+                    ribbonController.SetSymbolTint(RIBBON_WIRE_3_SYMBOL_NAME, targetColor);
+                    ribbonController.SetSymbolTint(RIBBON_WIRE_4_SYMBOL_NAME, targetColor);
+                }
+
+                foreach (BridgeInfo bridgeController in __instance.bridgeControllers)
+                {
+                    if (bridgeController.controller == null || !bridgeController.controller.TryGetComponent<ColorableConduit>(out var building))
+                    {
+                        continue;
+                    }
+                    HighlightIfApplicable(building, __instance.connectedNetworks, building.GetColor(), out targetColor);
+                    //bridgeController.controller.TintColour = targetColor;
+                    building.RefreshColor(targetColor);
+                }
+
+                foreach (BridgeInfo ribbonBridgeController in __instance.ribbonBridgeControllers)
+                {
+                    if (ribbonBridgeController.controller == null || !ribbonBridgeController.controller.TryGetComponent<ColorableConduit>(out var building))
+                    {
+                        continue;
+                    }
+                    HighlightIfApplicable(building, __instance.connectedNetworks, building.GetColor(), out targetColor);
+                    ribbonBridgeController.controller.SetSymbolTint(RIBBON_WIRE_1_SYMBOL_NAME, targetColor);
+                    ribbonBridgeController.controller.SetSymbolTint(RIBBON_WIRE_2_SYMBOL_NAME, targetColor);
+                    ribbonBridgeController.controller.SetSymbolTint(RIBBON_WIRE_3_SYMBOL_NAME, targetColor);
+                    ribbonBridgeController.controller.SetSymbolTint(RIBBON_WIRE_4_SYMBOL_NAME, targetColor);
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(Logic), nameof(Logic.Disable))]
+        public static class ColorsInOverlayy_Logic_OnDisable
+        {
+            public static void Postfix()
+            {
+                ActiveOverlay = (ObjectLayer)(-1);
+                ColorableConduit.RefreshAll();
+            }
+        }
+        #endregion
+
+        #region SolidOverlay
+
 
         [HarmonyPatch(typeof(SolidConveyor), nameof(SolidConveyor.Enable))]
         public static class ColorsInOverlay_Solid_OnEnable
@@ -260,7 +376,11 @@ namespace PaintYourPipes
                 {
                     if (layerTarget != null && layerTarget.TryGetComponent<ColorableConduit>(out var building))
                     {
-                        building.RefreshColor();
+                        if (HighlightIfApplicable(building, __instance.connectedNetworks, building.GetColor(), out var highlighted))
+                            building.RefreshColor(highlighted);
+                        else
+                            building.RefreshColor();
+
                         if (building.AnimController.enabled)
                         {
                             building.AnimController.enabled = false;
@@ -280,7 +400,9 @@ namespace PaintYourPipes
                 ColorableConduit.RefreshAll();
             }
         }
+        #endregion
 
+        #region PowerOverlay
         [HarmonyPatch(typeof(BlockTileRenderer), nameof(BlockTileRenderer.GetCellColour))]
         public static class BlockTileRenderer_GetCellColour
         {
@@ -321,7 +443,11 @@ namespace PaintYourPipes
                 {
                     if (layerTarget != null && layerTarget.TryGetComponent<ColorableConduit>(out var building))
                     {
-                        building.RefreshColor();
+                        if (HighlightIfApplicable(building, __instance.connectedNetworks, building.GetColor(), out var highlighted))
+                            building.RefreshColor(highlighted);
+                        else
+                            building.RefreshColor();
+
                         if (building.AnimController.enabled)
                         {
                             building.AnimController.enabled = false;
@@ -341,8 +467,9 @@ namespace PaintYourPipes
                 ColorableConduit.RefreshAll();
             }
         }
+        #endregion
 
-
+        #region ConduitOverlays
         [HarmonyPatch(typeof(OverlayModes.ConduitMode), nameof(OverlayModes.ConduitMode.Enable))]
         public static class ColorsInOverlay_OnEnable
         {
@@ -372,7 +499,10 @@ namespace PaintYourPipes
                 {
                     if (layerTarget != null && layerTarget.TryGetComponent<ColorableConduit>(out var building))
                     {
-                        building.RefreshColor();
+                        if (HighlightIfApplicable(building, __instance.connectedNetworks, building.GetColor(), out var highlighted))
+                            building.RefreshColor(highlighted);
+                        else
+                            building.RefreshColor();
                         if (building.AnimController.enabled)
                         {
                             building.AnimController.enabled = false;
@@ -407,15 +537,62 @@ namespace PaintYourPipes
                 if (__instance == Game.Instance.liquidFlowVisualizer && ColorableConduit.ConduitsByLayer[(int)ObjectLayer.LiquidConduit].ContainsKey(cell))
                 {
                     var colorOverrider = ColorableConduit.ConduitsByLayer[(int)ObjectLayer.LiquidConduit][cell];
-                    __result = __result.Multiply(colorOverrider.TintColor);
+                    if ((int)ActiveOverlay == -1)
+                        __result = __result.Multiply(colorOverrider.TintColor);
+                    else if(ActiveOverlay == ObjectLayer.LiquidConduit)
+                        __result = colorOverrider.TintColor;
                 }
                 else if (__instance == Game.Instance.gasFlowVisualizer && ColorableConduit.ConduitsByLayer[(int)ObjectLayer.GasConduit].ContainsKey(cell))
                 {
                     var colorOverrider = ColorableConduit.ConduitsByLayer[(int)ObjectLayer.GasConduit][cell];
-                    __result = __result.Multiply(colorOverrider.TintColor);
+                    if ((int)ActiveOverlay == -1)
+                        __result = __result.Multiply(colorOverrider.TintColor);
+                    else if(ActiveOverlay == ObjectLayer.GasConduit)
+                        __result = colorOverrider.TintColor;
                 }
             }
         }
+        #endregion
+
+        #region Input_UI
+
+        [HarmonyPatch(typeof(TopLeftControlScreen))]
+        [HarmonyPatch(nameof(TopLeftControlScreen.OnActivate))]
+        public static class Add_Colorable_Button
+        {
+            static MultiToggle ToggleColorOverlayButton = null;
+            static ToolTip ToggleColorOverlayButtonTooltip = null;
+            static Image image = null;
+            public static void ToggleColorsInOverlay()
+            {
+                ColorableConduit.ToggleOverlayTint();
+                UpdateDebugToggleState();
+                KMonoBehaviour.PlaySound(GlobalAssets.GetSound("HUD_Click"));
+            }
+            public static void UpdateDebugToggleState()
+            {
+                image.sprite = Assets.GetSprite("brush");
+                ToggleColorOverlayButton.ChangeState(ColorableConduit.ShowOverlayTint ? 2 : 1);
+                ToggleColorOverlayButtonTooltip.SetSimpleTooltip(GameUtil.ReplaceHotkeyString(STRINGS.PAINTABLEBUILDING.TOGGLE_TOOLTIP, ModAssets.HotKeys.ToggleOverlayColors.GetKAction()));
+            }
+
+            public static void Postfix(TopLeftControlScreen __instance)
+            {
+
+                var debugTimeButton = Util.KInstantiateUI(__instance.sandboxToggle.gameObject, __instance.sandboxToggle.transform.parent.gameObject, true).transform;
+                //UIUtils.ListAllChildrenWithComponents(debugButton);
+                debugTimeButton.Find("FG").TryGetComponent<Image>(out image);
+                debugTimeButton.Find("Label").GetComponent<LocText>().text = STRINGS.PAINTABLEBUILDING.TOGGLE_TEXT;
+                image.sprite = Assets.GetSprite("brush");
+                debugTimeButton.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 150f);
+                debugTimeButton.TryGetComponent<MultiToggle>(out ToggleColorOverlayButton);
+                debugTimeButton.TryGetComponent<ToolTip>(out ToggleColorOverlayButtonTooltip);
+                debugTimeButton.SetSiblingIndex(__instance.kleiItemDropButton.transform.GetSiblingIndex());
+                ToggleColorOverlayButton.onClick = (System.Action)Delegate.Combine(ToggleColorOverlayButton.onClick, new System.Action(ToggleColorsInOverlay));
+                UpdateDebugToggleState();
+            }
+        }
+
         [HarmonyPatch(typeof(PlayerController), "OnKeyDown")]
         public class PlayerController_OnKeyDown_Patch
         {
@@ -425,10 +602,11 @@ namespace PaintYourPipes
                 if (e.TryConsume(ModAssets.HotKeys.ToggleOverlayColors.GetKAction()))
                 {
                     ColorableConduit.ToggleOverlayTint();
+                    Add_Colorable_Button.UpdateDebugToggleState();
                 }
             }
         }
-
+        #endregion
 
         /// <summary>
         /// Grab ColorPicker gameobject from Pixelpack sidescreen
