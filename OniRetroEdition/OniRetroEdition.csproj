@@ -47,6 +47,7 @@
 	<ItemGroup>
 	  <Folder Include="ModAssets\anim\assets\" />
 	  <Folder Include="ModAssets\anim\assets\" />
+	  <Folder Include="ModPatches\" />
 	</ItemGroup>
 	
 	<ItemGroup>
@@ -96,6 +97,12 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\assets\textures\hematite_(t).png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\assets\textures\lut_day_retro.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\assets\textures\lut_night_retro.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\assets\textures\radium.png">

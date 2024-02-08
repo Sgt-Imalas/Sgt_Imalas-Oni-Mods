@@ -1,11 +1,15 @@
 ﻿using HarmonyLib;
 using KMod;
+using Microsoft.Win32;
 using OniRetroEdition.BuildingDefModification;
 using PeterHan.PLib.AVC;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using UnityEngine;
 using UtilLibs;
 using static StatusItem;
 
@@ -31,5 +35,42 @@ namespace OniRetroEdition
                     IDictionary<HashedString, StatusItemOverlays> overlayBits)
                 overlayBits.Add(OverlayModes.Sound.ID, StatusItemOverlays.None);
         }
+        public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
+        {
+            return;
+            SgtLogger.l("registering custom LUTS for OniRetroEdition");
+            if (mods.Any(mod => mod.staticID == "LUTNotIncluded"))
+            {
+                var LUT_Registry = Global.Instance.gameObject.GetComponent("RomenHRegistry") as IDictionary<string, object>;
+                if (LUT_Registry != null)
+                {
+                    try 
+                    {
+                        LUT_Registry[LUTNotIncluded_DayLUT] = AssetUtils.LoadTexture(Path.Combine(UtilMethods.ModPath, "assets", "textures", "lut_day_retro.png"), true, 2, 2); 
+                        SgtLogger.l("registered retro LUT for day");
+                    }
+                    catch (Exception e)
+                    {
+                        SgtLogger.warning("failed to set retro lut day texture\n" + e);
+                    }
+
+                    try
+                    {
+                        LUT_Registry[LUTNotIncluded_NightLUT] = AssetUtils.LoadTexture(Path.Combine(UtilMethods.ModPath, "assets", "textures", "lut_night_retro.png"), true, 2, 2);
+                        SgtLogger.l("registered retro LUT for night");
+                    }
+                    catch (Exception e)
+                    {
+                        SgtLogger.warning("failed to set retro lut night texture\n"+e);
+                    }
+                }
+                else
+                    SgtLogger.warning("RomenH_Registry not found!");
+            }
+            else
+                SgtLogger.warning("LUTNotIncluded not found!");
+        }
+        public const string LUTNotIncluded_DayLUT = "LUTNotIncluded.DayLUT";
+        public const string LUTNotIncluded_NightLUT = "LUTNotIncluded.NightLUT";
     }
 }

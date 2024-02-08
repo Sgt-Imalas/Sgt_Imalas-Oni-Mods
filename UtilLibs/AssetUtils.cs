@@ -96,6 +96,11 @@ namespace UtilLibs
             Assets.Sprites.Add(spriteId, sprite);
 
         }
+        public static bool TryLoadTexture(string path, out Texture2D texture)
+        {
+            texture = LoadTexture(path, true);
+            return texture != null;
+        }
         public static Texture2D LoadTexture(string name, string directory)
         {
             if (directory == null)
@@ -107,14 +112,14 @@ namespace UtilLibs
 
             return LoadTexture(path);
         }
-        public static Texture2D LoadTexture(string path, bool warnIfFailed = true)
+        public static Texture2D LoadTexture(string path, bool warnIfFailed = true, int customTextureWidth = 1, int customTextureHeight = 1)
         {
             Texture2D texture = null;
 
             if (File.Exists(path))
             {
                 byte[] data = TryReadFile(path);
-                texture = new Texture2D(1, 1);
+                texture = new Texture2D(customTextureWidth, customTextureHeight);
                 texture.LoadImage(data);
             }
             else if (warnIfFailed)
