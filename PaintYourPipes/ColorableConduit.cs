@@ -239,6 +239,17 @@ namespace PaintYourPipes
         }
         public static void ToggleOverlayTint() => SetOverlayTint(!ShowOverlayTint);
 
+
+        public static void ToggleNormalTint(int layer)
+        {
+            if (!ConduitsByLayer.ContainsKey(layer)||ShowOverlayTint)
+                return;
+            foreach(var entry in ConduitsByLayer[layer])
+            {
+                entry.Value.RefreshColor(Color.white);
+            }
+        }
+
         public static bool SameConduitType(ObjectLayer first, ObjectLayer second)
         {
             switch (first)

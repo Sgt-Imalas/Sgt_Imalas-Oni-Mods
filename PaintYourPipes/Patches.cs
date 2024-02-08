@@ -124,7 +124,12 @@ namespace PaintYourPipes
                     typeof(LogicRibbonConfig),
                     typeof(LogicWireBridgeConfig),
                     typeof(LogicRibbonBridgeConfig),
-                    typeof(LogicGateBaseConfig)
+                    typeof(LogicGateBaseConfig),
+                    typeof(LogicGateBufferConfig),
+                    typeof(LogicGateFilterConfig),
+                    typeof(LogicMemoryConfig),
+                    typeof(LogicRibbonReaderConfig),
+                    typeof(LogicRibbonWriterConfig),
                 };
 
                 //Insulated Wire Briges:
@@ -284,6 +289,7 @@ namespace PaintYourPipes
             public static void Postfix(Logic __instance)
             {
                 Color targetColor;
+                ColorableConduit.ToggleNormalTint((int)ObjectLayer.LogicGate);
                 foreach (KBatchedAnimController wireController in __instance.wireControllers)
                 {
                     if (!ColorableConduit.ShowOverlayTint || wireController == null || !wireController.TryGetComponent<ColorableConduit>(out var building))
@@ -380,6 +386,9 @@ namespace PaintYourPipes
         {
             public static void Postfix(SolidConveyor __instance)
             {
+
+                ColorableConduit.ToggleNormalTint((int)ObjectLayer.SolidConduitConnection);
+
                 if (!ColorableConduit.ShowOverlayTint)
                     return;
 
