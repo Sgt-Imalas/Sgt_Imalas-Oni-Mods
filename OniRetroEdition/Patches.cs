@@ -22,6 +22,7 @@ using TUNING;
 using UnityEngine;
 using UtilLibs;
 using static OniRetroEdition.ModAssets;
+using static OverlayLegend;
 using static SimDebugView;
 using static STRINGS.BUILDINGS.PREFABS;
 using static STRINGS.CREATURES.STATS;
@@ -674,6 +675,9 @@ namespace OniRetroEdition
                 return false;
             }
         }
+        /// <summary>
+        /// Initialize spatial splats as soon as they are needed
+        /// </summary>
         [HarmonyPatch(typeof(AudioEventManager), nameof(AudioEventManager.AddSplat))]
         public static class CrashDetect
         {
@@ -687,6 +691,10 @@ namespace OniRetroEdition
                 }
             }
         }
+
+        /// <summary>
+        /// skip the method as it gets initialized in AddSplat prefix instead
+        /// </summary>
         [HarmonyPatch(typeof(AudioEventManager), nameof(AudioEventManager.OnSpawn))]
         public static class CrashDetect2
         {
@@ -707,19 +715,12 @@ namespace OniRetroEdition
         //        }
         //    }
         //}
-        //[HarmonyPatch(typeof(SimDebugView), nameof(SimDebugView.GetOxygenMapColour))]
-        //public static class GetToxicityColor
-        //{
-        //    public static void Postfix(SimDebugView instance, int cell, ref Color __result)
-        //    {
-        //        if(__result == instance.unbreathableColour && Grid.Element[cell].toxicity>0)
-        //        {
-        //            float t = Mathf.Clamp((Grid.Pressure[cell] - instance.minPressureExpected) / (instance.maxPressureExpected - (instance.minPressureExpected)), 0.0f, 1f);
-        //            __result = Color.Lerp(instance.toxicColour[0], instance.toxicColour[1], t);
-        //        }
-        //    }
-        //}
+
+        /// <summary>
+        /// Exclude items from the overlay that dont have a noise component to prevent crashes
+        /// </summary>
         [HarmonyPatch(typeof(OverlayModes.Sound), nameof(OverlayModes.Sound.OnSaveLoadRootUnregistered))]
+
         public static class CrashDetect3
         {
             public static bool Prefix(SaveLoadRoot item)
@@ -747,7 +748,53 @@ namespace OniRetroEdition
                 return Color.Lerp(good, bad, Mathf.Clamp(db, 0, 200f) / 200f);
             }
         }
+        public static Color32[] ToxicityColors = new Color32[2]
+        {
+            UIUtils.rgb(206, 135, 29), //Slightly Toxic
+            UIUtils.rgb(227, 228, 94)  //Very Toxic
+        };
+        [HarmonyPatch(typeof(OverlayLegend), "OnSpawn")]
+        public static class OverlayLegend_OnSpawn
+        {
+            public static void Prefix(List<OverlayLegend.OverlayInfo> ___overlayInfoList)
+            {
+                var oxygenOverlay = ___overlayInfoList
+                    .Find(info => info.mode == OverlayModes.Oxygen.ID);
+                if(oxygenOverlay ==null)
+                {
+                    SgtLogger.error("oxygen overlay not found!");
+                    return;
+                }
 
+                Sprite icon = oxygenOverlay.infoUnits[0].icon;
+                var data = oxygenOverlay.infoUnits[0].formatData;
+                List<OverlayInfoUnit> toxicityValues = new List<OverlayInfoUnit>()
+                {
+                    new OverlayInfoUnit(icon,"STRINGS.UI.RETRO_OVERLAY.TOXICITY.SLIGHTLYTOXIC", ToxicityColors[0], Color.white, data)
+                    {
+                        tooltip = "STRINGS.UI.OVERLAYS.OXYGEN.TOOLTIPS.LEGEND5"
+                    },
+                    new OverlayInfoUnit(icon,"STRINGS.UI.RETRO_OVERLAY.TOXICITY.VERYYTOXIC" ,ToxicityColors[1],Color.white,data){
+                        tooltip = "STRINGS.UI.OVERLAYS.OXYGEN.TOOLTIPS.LEGEND6"
+                    },
+                };
+               oxygenOverlay.infoUnits.AddRange(toxicityValues);
+            }
+        }
+
+
+        [HarmonyPatch(typeof(SimDebugView), nameof(SimDebugView.GetOxygenMapColour))]
+        public static class OxygenOverlay_Add_ToxicityColor
+        {
+            public static void Postfix(SimDebugView instance, int cell, ref Color __result)
+            {
+                if (__result == instance.unbreathableColour && Grid.Element[cell].toxicity > 1f)
+                {
+                    float t = Mathf.Clamp((Grid.Pressure[cell] - instance.minPressureExpected) / (instance.maxPressureExpected - (instance.minPressureExpected)), 0.0f, 1f);
+                    __result = Color.Lerp(ToxicityColors[0], ToxicityColors[1], t);
+                }
+            }
+        }
 
         [HarmonyPatch(typeof(SelectToolHoverTextCard), "UpdateHoverElements")]
         public static class SelectToolHoverTextCard_UpdateHoverElements_Patch
@@ -829,14 +876,14 @@ namespace OniRetroEdition
                 // Cell position info
                 drawer.BeginShadowBar();
                 var db = AudioEventManager.Get().GetDecibelsAtCell(cell);
-                drawer.DrawText("NOISE", inst.Styles_Title.Standard);
+                drawer.DrawText(STRINGS.UI.RETRO_OVERLAY.SOUND.OVERLAYNAME, inst.Styles_Title.Standard);
                 drawer.NewLine();
-                drawer.DrawText($"Total noise Level: {db} dB", inst.Styles_BodyText.Standard);
+                drawer.DrawText(string.Format(STRINGS.UI.RETRO_OVERLAY.SOUND.TOOLTIP1, db), inst.Styles_BodyText.Standard);
                 if (db > 0)
                 {
                     drawer.NewLine();
                     drawer.NewLine();
-                    drawer.DrawText($"Noise Sources:", inst.Styles_BodyText.Standard);
+                    drawer.DrawText(STRINGS.UI.RETRO_OVERLAY.SOUND.TOOLTIP2, inst.Styles_BodyText.Standard);
                     foreach (AudioEventManager.PolluterDisplay source in AudioEventManager.Get().GetPollutersForCell(cell))
                     {
                         drawer.NewLine();
@@ -980,8 +1027,24 @@ namespace OniRetroEdition
         [HarmonyPatch(typeof(ElementLoader), "Load")]
         public static class Patch_ElementLoader_Load
         {
+            public static List<SimHashes> ToxicElements = new List<SimHashes>() 
+            {
+                SimHashes.Hydrogen,
+                SimHashes.ChlorineGas,
+                SimHashes.EthanolGas,
+                SimHashes.SourGas
+            };
+
             public static void Postfix()
             {
+
+                foreach(var simhash in ToxicElements)
+                {
+
+                    var element = ElementLoader.GetElement(simhash.CreateTag());
+                    element.toxicity += 1.1f;
+                }
+
 
                 //var metalMaterial = ElementLoader.GetElement(SimHashes.Steel.CreateTag()).substance.material;
 

@@ -11,6 +11,21 @@ namespace OniRetroEdition
     {
         public class UI
         {
+            public class RETRO_OVERLAY
+            {
+                public class TOXICITY
+                {
+                    public static LocString SLIGHTLYTOXIC = "Slightly Toxic";
+                    public static LocString VERYYTOXIC = "Very Toxic";
+                }
+                public class SOUND
+                {
+                    public static LocString OVERLAYNAME = "NOISE";
+                    public static LocString TOOLTIP1 = "Total noise Level: {0} dB";
+                    public static LocString TOOLTIP2 = "Noise Sources:";
+                }
+
+            }
             public class KLEI_INVENTORY_SCREEN
             {
                 public class SUBCATEGORIES
@@ -32,7 +47,7 @@ namespace OniRetroEdition
             {
                 public static LocString MANAGEMENTMENU_REQUIRES_SKILL_STATION_RETRO = (LocString)("Build a Skills Board to unlock this menu\n\nThe " + (string)BUILDINGS.PREFABS.ROLESTATION.NAME + " can be found in the " + global::STRINGS.UI.FormatAsBuildMenuTab("Stations Tab", Action.Plan10) + " of the Build Menu");
             }
-            
+
         }
     }
 }
