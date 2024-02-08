@@ -32,7 +32,6 @@ namespace Rockets_TinyYetBig.Patches
         [HarmonyPatch(nameof(LaunchPadMaterialDistributor.Instance.FillRocket))]
         public class AddFuelingLogic
         {
-            
             public static bool Prefix(LaunchPadMaterialDistributor.Instance __instance)
             {
                 var craftInterface = __instance.sm.attachedRocket.Get<RocketModuleCluster>(__instance).CraftInterface;
@@ -41,8 +40,9 @@ namespace Rockets_TinyYetBig.Patches
                 __instance.GetSMI<ChainedBuilding.StatesInstance>().GetLinkedBuildings(ref chain);
 
 
-                System.Action<bool> fillCompleteAction = new Action<bool>((isLoading) => __instance.sm.fillComplete.Set(isLoading, __instance));
-                ModAssets.ReplacedCargoLoadingMethod(craftInterface,chain,fillCompleteAction);
+                System.Action<bool> fillInProgressSetterAction = new Action<bool>((fillingOngoing) => __instance.sm.fillComplete.Set(fillingOngoing, __instance));
+                SgtLogger.l(__instance.gameObject.GetProperName());
+                ModAssets.ReplacedCargoLoadingMethod(craftInterface,chain, fillInProgressSetterAction);
 
                 //PPatchTools.TryGetFieldValue(__instance.sm, "fillComplete", out StateMachine<LaunchPadMaterialDistributor, LaunchPadMaterialDistributor.Instance, IStateMachineTarget, LaunchPadMaterialDistributor.Def>.BoolParameter fillComplete);
                 //fillComplete.Set(!HasLoadingProcess, __instance);

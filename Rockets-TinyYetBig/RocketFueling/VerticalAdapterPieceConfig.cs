@@ -25,7 +25,7 @@ namespace Rockets_TinyYetBig.RocketFueling
                     ID,
                     1,
                     1,
-                    "farmtilerotating_kanim",
+                    "conduit_link_piece_kanim",
                     30,
                     15f,
                     MaterialCosts,

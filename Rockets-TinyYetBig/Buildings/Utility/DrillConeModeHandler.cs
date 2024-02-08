@@ -8,7 +8,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.Buildings.Utility
 {
-    public class  DrillConeModeHandler : KMonoBehaviour, ISidescreenButtonControl
+    public class DrillConeModeHandler : KMonoBehaviour, ICheckboxControl
     {
         [MyCmpGet] public Storage DiamondStorage;
         [Serialize] bool IsAutoLoader = false;
@@ -17,13 +17,9 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 
         public bool LoadingAllowed => IsAutoLoader;
 
-        public string SidescreenButtonText => IsAutoLoader ? "Switch to manual loading" : "Switch to automated loading"; //TODO LOC
-
-        public string SidescreenButtonTooltip => "toggle between automatic and manual loading";//TODO LOC
-
         public override void OnSpawn()
         {
-            base.OnSpawn(); 
+            base.OnSpawn();
             if (gameObject.TryGetComponent<ManualDeliveryKG>(out var deliveryKG))
             {
                 ManualDeliveryOriginalCapacity = deliveryKG.capacity;
@@ -37,7 +33,7 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 
         void ToggleBetweenAutoAndManual()
         {
-            if(gameObject.TryGetComponent<ManualDeliveryKG>(out var deliveryKG))
+            if (gameObject.TryGetComponent<ManualDeliveryKG>(out var deliveryKG))
             {
                 if (IsAutoLoader)
                 {
@@ -53,17 +49,8 @@ namespace Rockets_TinyYetBig.Buildings.Utility
                 }
 
             }
-            SgtLogger.debuglog("DeliveryEnabled? : "+ !IsAutoLoader+", Capacity of Manual: "+deliveryKG.capacity+", Original:"+ManualDeliveryOriginalCapacity);
+            SgtLogger.debuglog("DeliveryEnabled? : " + !IsAutoLoader + ", Capacity of Manual: " + deliveryKG.capacity + ", Original:" + ManualDeliveryOriginalCapacity);
         }
-
-        public void SetButtonTextOverride(ButtonMenuTextOverride textOverride)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool SidescreenEnabled() => true;
-
-        public bool SidescreenButtonInteractable() => true;
 
         public void OnSidescreenButtonPressed()
         {
@@ -71,11 +58,21 @@ namespace Rockets_TinyYetBig.Buildings.Utility
             ToggleBetweenAutoAndManual();
         }
 
-        public int ButtonSideScreenSortOrder() => 21;
 
-        public int HorizontalGroupID()
+        public string CheckboxTitleKey => "";
+
+        public string CheckboxLabel => "Load via Cargo Loader"; //TODO LOC
+
+        public string CheckboxTooltip => "toggle between automatic and manual loading";//TODO LOC
+
+
+        public bool GetCheckboxValue() => IsAutoLoader;
+
+        public void SetCheckboxValue(bool value)
         {
-            return -1;
+            IsAutoLoader = value;
+            ToggleBetweenAutoAndManual();
+
         }
     }
 }

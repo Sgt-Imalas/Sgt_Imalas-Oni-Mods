@@ -20,9 +20,11 @@ using System.Threading.Tasks;
 using TemplateClasses;
 using TUNING;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UtilLibs;
 using static OniRetroEdition.ModAssets;
 using static OverlayLegend;
+using static OverlayModes;
 using static SimDebugView;
 using static STRINGS.BUILDINGS.PREFABS;
 using static STRINGS.CREATURES.STATS;
@@ -703,18 +705,6 @@ namespace OniRetroEdition
                 return false;
             }
         }
-        //[HarmonyPatch(typeof(OverlayModes.Oxygen), nameof(OverlayModes.Oxygen.GetOxygenMapColour))]
-        //public static class OverlayModes_Color
-        //{
-        //    public static void Postfix(SimDebugView instance, int cell, ref Color __result)
-        //    {
-        //        if (__result == instance.unbreathableColour && Grid.Element[cell].toxicity > 0)
-        //        {
-        //            float t = Mathf.Clamp((Grid.Pressure[cell] - instance.minPressureExpected) / (instance.maxPressureExpected - (instance.minPressureExpected)), 0.0f, 1f);
-        //            __result = Color.Lerp(instance.toxicColour[0], instance.toxicColour[1], t);
-        //        }
-        //    }
-        //}
 
         /// <summary>
         /// Exclude items from the overlay that dont have a noise component to prevent crashes
@@ -736,18 +726,25 @@ namespace OniRetroEdition
         {
             public static void Postfix(Dictionary<HashedString, Func<SimDebugView, int, Color>> ___getColourFuncs)
             {
+                //sound overlay
                 ___getColourFuncs.Add(OverlayModes.Sound.ID, GetCellColor);
-            }
 
-            static Color bad = new Color(0.75f, 0, 0);
-            static Color good = new Color(0, 0.0f, 0);
+                //old light color
+                GlobalAssets.Instance.colorSet.lightOverlay = UIUtils.rgb(255, 226, 141);
+
+            }
 
             private static Color GetCellColor(SimDebugView instance, int cell)
             {
                 var db = AudioEventManager.Get().GetDecibelsAtCell(cell);
-                return Color.Lerp(good, bad, Mathf.Clamp(db, 0, 200f) / 200f);
+                return Color.Lerp(SoundColors[0], SoundColors[1], Mathf.Clamp(db, 0, 200f) / 200f);
             }
         }
+        public static Color32[] SoundColors = new Color32[2]
+        {
+            Color.black, //No Sound
+            new Color(0.75f, 0, 0)  //Very Loud Sound
+        };
         public static Color32[] ToxicityColors = new Color32[2]
         {
             UIUtils.rgb(206, 135, 29), //Slightly Toxic
@@ -760,7 +757,7 @@ namespace OniRetroEdition
             {
                 var oxygenOverlay = ___overlayInfoList
                     .Find(info => info.mode == OverlayModes.Oxygen.ID);
-                if(oxygenOverlay ==null)
+                if (oxygenOverlay == null)
                 {
                     SgtLogger.error("oxygen overlay not found!");
                     return;
@@ -778,7 +775,7 @@ namespace OniRetroEdition
                         tooltip = "STRINGS.UI.OVERLAYS.OXYGEN.TOOLTIPS.LEGEND6"
                     },
                 };
-               oxygenOverlay.infoUnits.AddRange(toxicityValues);
+                oxygenOverlay.infoUnits.AddRange(toxicityValues);
             }
         }
 
@@ -871,7 +868,7 @@ namespace OniRetroEdition
 
             private static void DrawerHelper(SelectToolHoverTextCard inst, int cell, HoverTextDrawer drawer)
             {
-                if(AudioEventManager.Get() == null) { return; }
+                if (AudioEventManager.Get() == null) { return; }
 
                 // Cell position info
                 drawer.BeginShadowBar();
@@ -879,6 +876,7 @@ namespace OniRetroEdition
                 drawer.DrawText(STRINGS.UI.RETRO_OVERLAY.SOUND.OVERLAYNAME, inst.Styles_Title.Standard);
                 drawer.NewLine();
                 drawer.DrawText(string.Format(STRINGS.UI.RETRO_OVERLAY.SOUND.TOOLTIP1, db), inst.Styles_BodyText.Standard);
+                SelectToolHoverTextCard.highlightedObjects.Clear();
                 if (db > 0)
                 {
                     drawer.NewLine();
@@ -888,6 +886,7 @@ namespace OniRetroEdition
                     {
                         drawer.NewLine();
                         drawer.DrawText($" - {source.name}: {source.value} dB.", inst.Styles_BodyText.Standard);
+                        SelectToolHoverTextCard.highlightedObjects.Add(source.provider.GetGameObject());
                     }
                 }
                 drawer.EndShadowBar();
@@ -1023,11 +1022,19 @@ namespace OniRetroEdition
                 }
             }
         }
-
+        [HarmonyPatch(typeof(WaterCubes), nameof(WaterCubes.Init))]
+        public class WaterCubes_Init_Patch
+        {
+            public static void Postfix(WaterCubes __instance)
+            {
+                // make the liquids a little more see-through
+                __instance.material.SetFloat("_BlendScreen", 0.4f); //courtesy of aki; beached
+            }
+        }
         [HarmonyPatch(typeof(ElementLoader), "Load")]
         public static class Patch_ElementLoader_Load
         {
-            public static List<SimHashes> ToxicElements = new List<SimHashes>() 
+            public static List<SimHashes> ToxicElements = new List<SimHashes>()
             {
                 SimHashes.Hydrogen,
                 SimHashes.ChlorineGas,
@@ -1037,8 +1044,16 @@ namespace OniRetroEdition
 
             public static void Postfix()
             {
+                //foreach (var element in ElementLoader.elements)
+                //{
+                //    if (element.IsLiquid)
+                //    {
+                //        var substance = element.substance;
 
-                foreach(var simhash in ToxicElements)
+                //        substance.colour = new Color32(substance.colour.r, substance.colour.g, element.substance.colour.b, (byte)(element.substance.colour.a * 0.5f));
+                //    }
+                //}
+                foreach (var simhash in ToxicElements)
                 {
 
                     var element = ElementLoader.GetElement(simhash.CreateTag());

@@ -1,17 +1,20 @@
 ﻿using HarmonyLib;
+using Rockets_TinyYetBig.Buildings.Engines;
 using Rockets_TinyYetBig.Docking;
 using System;
 using System.Collections.Generic;
+using System.Data.OleDb;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static Rockets_TinyYetBig.Docking.DockingSpacecraftHandler;
+using static STRINGS.UI.CLUSTERMAP.ROCKETS;
 
 namespace Rockets_TinyYetBig.Patches
 {
-    public class ClustercraftStatModifierPatches
+    public class CraftModuleInterface_Clustercraft_StatModifierPatches
     {
         public static class Rocket_Speed_Docking_Patch
         {
@@ -22,8 +25,6 @@ namespace Rockets_TinyYetBig.Patches
             {
                 public static void Postfix(Clustercraft __instance, ref float __result)
                 {
-
-
                     if (__instance.TryGetComponent<DockingSpacecraftHandler>(out var manager))
                     {
                         foreach (var docked in manager.GetConnectedRockets())
@@ -174,6 +175,91 @@ namespace Rockets_TinyYetBig.Patches
                     return true;
                 }
             }
+        }
+
+        public static class Electric_Engine_Patches
+        {
+            [HarmonyPatch(typeof(CraftModuleInterface))]
+            [HarmonyPatch(nameof(CraftModuleInterface.FuelRemaining))]
+            [HarmonyPatch(MethodType.Getter)]
+            public static class FuelRemaining_Patch
+            {
+                public static void Postfix(CraftModuleInterface __instance, ref float __result)
+                {
+                    if(__result==0f)
+                    {
+                        return;
+                    }
+                    float totalBatteryJoules = 0f;
+                    ElectricEngineCluster targetEngine = null;
+                    foreach (Ref<RocketModuleCluster> clusterModule in __instance.clusterModules)
+                    {
+                        var md = clusterModule.Get();
+                        if (targetEngine == null && md.TryGetComponent<ElectricEngineCluster>(out var eng))
+                        {
+                            targetEngine = eng;
+                        }
+                        if (md.TryGetComponent<ModuleBattery>(out var battery))
+                        {
+                            totalBatteryJoules += battery.JoulesAvailable;
+                        }
+                    }
+                    if (targetEngine == null || !targetEngine.TryGetComponent<RocketModuleCluster>(out var module))
+                    {
+                        return;
+                    }
+
+                    float hexesRemaining_electricity = (totalBatteryJoules / targetEngine.Joules_Per_Hex);
+                    //SgtLogger.l("TotalBatteryJoules: " + totalBatteryJoules);
+                    //SgtLogger.l("hexes : " + hexesRemaining_electricity);
+                    float fuelPerHex = module.performanceStats.fuelKilogramPerDistance;
+                    float remainingElectricity = hexesRemaining_electricity * fuelPerHex * 600f;
+                    //SgtLogger.l("remaining electricity : " + remainingElectricity);
+
+                    __result = Mathf.Min(__result, remainingElectricity);
+                }
+            }
+            [HarmonyPatch(typeof(Clustercraft))]
+            [HarmonyPatch(nameof(Clustercraft.BurnFuelForTravel))]
+            public static class BurnElectricityFuel_Patch
+            {
+                public static void Postfix(Clustercraft __instance)
+                {
+                    ElectricEngineCluster targetEngine = null;
+                    List<ModuleBattery> Batteries = new List<ModuleBattery>();
+
+                    foreach (var clusterModule in __instance.ModuleInterface.ClusterModules)
+                    {
+                        var md = clusterModule.Get();
+                        if (targetEngine == null && md.TryGetComponent<ElectricEngineCluster>(out var eng))
+                        {
+                            targetEngine = eng;
+                        }
+                        if (md.TryGetComponent<ModuleBattery>(out var battery))
+                        {
+                            Batteries.Add(battery);
+                        }
+                    }
+
+                    if (targetEngine == null || !targetEngine.TryGetComponent<RocketModuleCluster>(out var module))
+                    {
+                        return;
+                    }
+                    float joulesToBurn = targetEngine.Joules_Per_Hex;
+                    foreach ( var battery in Batteries)
+                    {
+                        float joulesInBatteryToConsume = Mathf.Min(battery.JoulesAvailable, joulesToBurn);
+                        joulesToBurn -= joulesInBatteryToConsume;
+                        battery.ConsumeEnergy(joulesInBatteryToConsume, false);
+
+                        if (Mathf.Approximately(joulesToBurn, 0f))
+                            break;
+                    }
+
+                }
+            }
+
+
         }
 
     }

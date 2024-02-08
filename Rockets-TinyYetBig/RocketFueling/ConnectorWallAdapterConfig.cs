@@ -42,7 +42,7 @@ namespace Rockets_TinyYetBig.RocketFueling
             //BuildingTemplates.CreateFoundationTileDef(buildingDef);
 
             buildingDef.TileLayer = ObjectLayer.FoundationTile;
-            buildingDef.SceneLayer = Grid.SceneLayer.TileMain;
+            buildingDef.SceneLayer = Grid.SceneLayer.Building;
             buildingDef.IsFoundation = true;
 
             //buildingDef.ForegroundLayer = Grid.SceneLayer.FXFront;

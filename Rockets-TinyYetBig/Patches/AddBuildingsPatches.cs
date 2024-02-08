@@ -58,6 +58,10 @@ namespace RoboRockets.Rockets_TinyYetBig
                 //    AddRocketModuleToBuildList(PetroleumBoosterClusterConfig.ID, RocketryUtils.RocketCategory.engines, KeroseneEngineClusterConfig.ID);
                 //    AddRocketModuleToBuildList(IonEngineBoosterClusterConfig.ID, RocketryUtils.RocketCategory.engines, HydrogenEngineClusterConfig.ID);
                 //}
+                if (Config.Instance.EnableElectricEngine)
+                {
+                    AddRocketModuleToBuildList(IonEngineClusterConfig.ID, RocketryUtils.RocketCategory.engines, HydrogenEngineClusterConfig.ID);
+                }
 
                 if (Config.Instance.EnableRadboltStorage)
                     AddRocketModuleToBuildList(HEPBatteryModuleConfig.ID, RocketryUtils.RocketCategory.cargo, GasCargoBayClusterConfig.ID);
@@ -195,6 +199,10 @@ namespace RoboRockets.Rockets_TinyYetBig
                 //    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.HydrocarbonPropulsion, PetroleumBoosterClusterConfig.ID);
                 //    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CryoFuelPropulsion, IonEngineBoosterClusterConfig.ID);
                 //}
+                if (Config.Instance.EnableElectricEngine)
+                {
+                    InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CryoFuelPropulsion, IonEngineClusterConfig.ID);
+                }
 
 
                 if (Config.Instance.EnableLaserDrill)

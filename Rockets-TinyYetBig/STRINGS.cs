@@ -37,7 +37,10 @@ namespace Rockets_TinyYetBig
             {
                 public static LocString RTB_DOCKINGTUBEATTACHMENTSLOT = "Spacefarer Docking Tube Attachment Port";
                 public static LocString RTB_RADIATIONSHIELDINGMATERIAL = "Radiation Shielding";
+
                 public static LocString RTB_NEUTRONIUMALLOYMATERIAL = "Neutronium Alloy";
+                public static LocString RTB_NEUTRONIUMALLOYMATERIAL_DESC = "Neutronium Alloy is an insanely durable " + FormatAsLink("Solid Material", "ELEMENTS_SOLID") + " used in the construction of large space structures.";
+
                 public static LocString RTB_ROCKETFUELMATERIAL = "Rocket Fuel";
                 public static LocString RTB_OXIDIZERCORROSIVEREQUIREMENT = "Corrosive Liquid Oxidizer";
                 public static LocString RTB_OXIDIZERLOXTANK = "Liquid Oxidizer";
@@ -204,12 +207,17 @@ namespace Rockets_TinyYetBig
                     public static LocString DESC = (LocString)"Connecting with another (rocket) has never been easier.";
                     public static LocString EFFECT = (LocString)("Enables docking with other rockets and space stations\n\nBoth docking participants require a docking component to dock.\n\nAssigning a duplicant forces it to use the docking bridge.");
                 }
-
                 public class RTB_NATGASENGINECLUSTER
                 {
                     public static LocString NAME = (LocString)FormatAsLink("Natural Gas Engine", nameof(RTB_NATGASENGINECLUSTER));
                     public static LocString DESC = (LocString)"Rockets can be used to send Duplicants into space and retrieve rare resources.";
-                    public static LocString EFFECT = (LocString)("Burns " + FormatAsLink("Natural Gas", "METHANE") + " to propel rockets for mid-range space exploration.\n\nEngine must be built via " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ". \n\nOnce the engine has been built, more rocket modules can be added.");
+                    public static LocString EFFECT = (LocString)("Burns " + FormatAsLink("Natural Gas", "METHANE") + " to propel rockets for mid-range space exploration.\n\nEngine must be built via " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME );
+                }
+                public class RTB_IONENGINECLUSTER
+                {
+                    public static LocString NAME = (LocString)FormatAsLink("Ion Engine", nameof(RTB_IONENGINECLUSTER));
+                    public static LocString DESC = (LocString)"Rockets can be used to send Duplicants into space and retrieve rare resources.";
+                    public static LocString EFFECT = (LocString)("Uses large amounts of " + FormatAsLink("Power", "POWER") +" to ionize "+ FormatAsLink("Water", "WATER") + ", ejecting the ionized particles outwards to propel rockets for long-range space exploration.\n\nPower is drawn from battery modules.\n\nEngine must be built via " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME );
                 }
                 public class RTB_SMOLBATTERYMODULE
                 {
@@ -223,10 +231,22 @@ namespace Rockets_TinyYetBig
                     public static LocString DESC = (LocString)"Space food for days";
                     public static LocString EFFECT = (LocString)"Keeps food preserved, prevent spoilage.\nCan only be filled with a cargo loader.\nContents can be accessed during the flight via wall loader";
                 }
+                public class RTB_VERTICALADAPTERBASE
+                {
+                    public static LocString NAME = (LocString)FormatAsLink("Vertical Rocket Port Adapter", nameof(RTB_VERTICALADAPTERBASE));
+                    public static LocString DESC = (LocString)"Ascending to new levels";
+                    public static LocString EFFECT = (LocString)("A Crosspiece rocket port adapter for vertical expansion.\n\nLinks up with other vertical adapter pieces above and below it.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
+                }
+                public class RTB_VERTICALADAPTERPIECE
+                {
+                    public static LocString NAME = (LocString)FormatAsLink("Vertical Rocket Port Piece", nameof(RTB_VERTICALADAPTERPIECE));
+                    public static LocString DESC = (LocString)"Gantry Not Included";
+                    public static LocString EFFECT = (LocString)("A rocket port adapter piece for vertical expansion.\n\nLinks up with other vertical adapter pieces above and below it.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
+                }
                 public class RTB_WALLCONNECTIONADAPTER
                 {
                     public static LocString NAME = (LocString)FormatAsLink("Insulated Rocket Port Wall Adapter", nameof(RTB_WALLCONNECTIONADAPTER));
-                    public static LocString DESC = (LocString)"Insulated for convenience.\nRockets must be landed to load or unload resources.";
+                    public static LocString DESC = (LocString)"Insulated for convenience.";
                     public static LocString EFFECT = (LocString)("An insulated wall adapter to seal off rocket start areas.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
                 }
                 public class RTB_LADDERCONNECTIONADAPTER
@@ -643,8 +663,9 @@ namespace Rockets_TinyYetBig
             }
             public static class ROCKETGENERATOR
             {
-                public static LocString BUTTONTEXT = (LocString)"Toggle On/Off";
-                public static LocString TOOLTIP = (LocString)"Toggle the Generator producing power while landed";
+                public static LocString TITLE = (LocString)"Generator State";
+                public static LocString BUTTONTEXT = (LocString)"Active while landed";
+                public static LocString TOOLTIP = (LocString)"Toggle the Generator producing power while landed.";
             }
             public class NEWBUILDCATEGORIES
             {

@@ -257,13 +257,17 @@ namespace Rockets_TinyYetBig
                 }
             }
 
-            foreach (ChainedBuilding.StatesInstance smi1 in (HashSet<ChainedBuilding.StatesInstance>)chain)
+            foreach (ChainedBuilding.StatesInstance smi1 in chain)
             {
                 ModularConduitPortController.Instance modularConduitPortController = smi1.GetSMI<ModularConduitPortController.Instance>();
                 FuelLoaderComponent fuelLoader = smi1.GetComponent<FuelLoaderComponent>();
-                IConduitConsumer NormalLoaderComponent = smi1.GetComponent<IConduitConsumer>();
+                IConduitConsumer conduitConsumerComponent = smi1.GetComponent<IConduitConsumer>();
+                var operational = smi1.GetComponent<Operational>();
+                if (modularConduitPortController == null|| operational == null || conduitConsumerComponent == null)
+                    continue;
+
                 bool isLoading = false;
-                if (fuelLoader != null && (modularConduitPortController == null || modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Load))
+                if (fuelLoader != null && operational.IsOperational &&  (modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Load || modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Both))
                 {
                     //shouldDoNormal = false;
                     modularConduitPortController.SetRocket(true);
@@ -285,7 +289,7 @@ namespace Rockets_TinyYetBig
                                     if (pickupable != null)
                                     {
                                         fueltank.storage.Store(pickupable.gameObject, true);
-                                        //float num2 = remainingCapacity - pickupable.PrimaryElement.Mass;
+                                        //float internalMassStored = remainingCapacity - pickupable.PrimaryElement.Mass;
                                     }
                                 }
                             }
@@ -330,28 +334,26 @@ namespace Rockets_TinyYetBig
                                     if (pickupable != null)
                                     {
                                         oxTank.storage.Store(pickupable.gameObject, true);
-                                        //float num2 = remainingCapacity - pickupable.PrimaryElement.Mass;
+                                        //float internalMassStored = remainingCapacity - pickupable.PrimaryElement.Mass;
                                     }
                                 }
                             }
                         }
                     }
                 }
-                else if (NormalLoaderComponent != null &&
-                    (modularConduitPortController == null || modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Load || modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Both))
+                else if (operational.IsOperational && (modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Load || modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Both))
                 {
                     modularConduitPortController.SetRocket(true);
-                    for (int num = NormalLoaderComponent.Storage.items.Count - 1; num >= 0; num--)
+                    for (int num = conduitConsumerComponent.Storage.items.Count - 1; num >= 0; num--)
                     {
-                        GameObject gameObject = NormalLoaderComponent.Storage.items[num];
+                        GameObject gameObject = conduitConsumerComponent.Storage.items[num];
                         foreach (var diamondStorage in DrillConeStorages)
                         {
                             float remainingCapacity = diamondStorage.RemainingCapacity();
-                            float num2 = NormalLoaderComponent.Storage.MassStored();
+                            float internalMassStored = conduitConsumerComponent.Storage.MassStored();
                             bool filterable = diamondStorage.storageFilters != null && diamondStorage.storageFilters.Count > 0;
-                            if (remainingCapacity > 0f && num2 > 0f && (filterable ? diamondStorage.storageFilters.Contains(gameObject.PrefabID()) : true))
+                            if (remainingCapacity > 0f && internalMassStored > 0f && (filterable ? diamondStorage.storageFilters.Contains(gameObject.PrefabID()) : true))
                             {
-                               // SgtLogger.debuglog(DrillConeStorages.Count() + "x items, " + diamondStorage.storageFilters.First() + " Fildersssss, " + diamondStorage.RemainingCapacity());
                                 isLoading = true;
                                 HasLoadingProcess = true;
                                 Pickupable pickupable = gameObject.GetComponent<Pickupable>().Take(remainingCapacity);
@@ -362,13 +364,15 @@ namespace Rockets_TinyYetBig
                                 }
                             }
                         }
+                        if (gameObject == null)
+                            continue;
 
-                        foreach (CargoBayCluster cargoBayCluster in pooledDictionary[CargoBayConduit.ElementToCargoMap[NormalLoaderComponent.ConduitType]])
+                        foreach (CargoBayCluster cargoBayCluster in pooledDictionary[CargoBayConduit.ElementToCargoMap[conduitConsumerComponent.ConduitType]])
                         {
                             float remainingCapacity = cargoBayCluster.RemainingCapacity;
-                            float num2 = NormalLoaderComponent.Storage.MassStored();
+                            float internalMassStored = conduitConsumerComponent.Storage.MassStored();
 
-                            if (remainingCapacity > 0f && num2 > 0f && cargoBayCluster.GetComponent<TreeFilterable>().AcceptedTags.Contains(gameObject.PrefabID()))
+                            if (remainingCapacity > 0f && internalMassStored > 0f && cargoBayCluster.GetComponent<TreeFilterable>().AcceptedTags.Contains(gameObject.PrefabID()))
                             {
                                 isLoading = true;
                                 HasLoadingProcess = true;
@@ -382,6 +386,7 @@ namespace Rockets_TinyYetBig
                         }
                     }
                 }
+                SgtLogger.l(isLoading.ToString(), smi1.gameObject.GetProperName());
                 modularConduitPortController?.SetLoading(isLoading);
             }
 

@@ -326,6 +326,32 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
             }
         }
 
+        [HarmonyPatch(typeof(Grid))]
+        [HarmonyPatch(nameof(Grid.IsValidBuildingCell))]
+        public static class SpaceStation_Modified_BuildRules
+        {
+            public static void Postfix(int cell, ref bool __result)
+            {
+                if (!Grid.IsWorldValidCell(cell))
+                    return;
+                WorldContainer world = ClusterManager.Instance.GetWorld((int)Grid.WorldIdx[cell]);
+                if (world == null)
+                    return;
+                
+
+                if (world.TryGetComponent<DerelictStation>(out _))
+                {
+                    __result = false;
+                }
+                else if(world.TryGetComponent<SpaceStation>(out _) && !__result)
+                {
+                    Vector2I xy = Grid.CellToXY(cell);
+                    __result = xy.x >= world.minimumBounds.x && xy.x <= world.maximumBounds.x && xy.y >= world.minimumBounds.y && xy.y <= world.maximumBounds.y;
+
+                }
+            }
+
+        }
 
 
         [HarmonyPatch(typeof(Clustercraft))]

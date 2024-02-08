@@ -25,18 +25,18 @@ namespace Rockets_TinyYetBig.RocketFueling
                     ID,
                     3,
                     2,
-                    "loader_ladder_adapter_tile_kanim",
+                    "conduit_link_cross_kanim",
                     200,
                     60f,
                     MaterialCosts,
                     Materials,
                     1600f,
-                    BuildLocationRule.NotInTiles,
+                    BuildLocationRule.Anywhere,
                     noise: NOISE_POLLUTION.NONE,
                     decor: BUILDINGS.DECOR.PENALTY.TIER0);
 
             //BuildingTemplates.CreateLadderDef(buildingDef);
-            buildingDef.SceneLayer = Grid.SceneLayer.Building;
+            buildingDef.SceneLayer = Grid.SceneLayer.BuildingBack;
             //buildingDef.ForegroundLayer = Grid.SceneLayer.TileMain;
             //buildingDef.ForegroundLayer = Grid.SceneLayer.FXFront;
             //buildingDef.OverheatTemperature = 2273.15f;
@@ -57,12 +57,10 @@ namespace Rockets_TinyYetBig.RocketFueling
             GeneratedBuildings.MakeBuildingAlwaysOperational(go);
             BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
 
-            //SimCellOccupier simCellOccupier = go.AddOrGet<SimCellOccupier>();
-            //simCellOccupier.doReplaceElement = true;
-            //simCellOccupier.notifyOnMelt = true;
-            go.AddOrGet<VerticalPortAttachment>().TopOffset=new CellOffset(0,2);
+            var adapter = go.AddOrGet<VerticalPortAttachment>();
+            adapter.CrossPiece = true;
+            adapter.TopOffset = new CellOffset(0,2);
             
-
             KPrefabID component = go.GetComponent<KPrefabID>();
             component.AddTag(BaseModularLaunchpadPortConfig.LinkTag);
             component.AddTag(GameTags.ModularConduitPort);

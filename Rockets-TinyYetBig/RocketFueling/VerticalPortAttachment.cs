@@ -9,12 +9,36 @@ namespace Rockets_TinyYetBig.RocketFueling
 {
     internal class VerticalPortAttachment : KMonoBehaviour
     {
+        [MyCmpGet] KBatchedAnimController controller;
+
+        public bool CrossPiece = false;
+
         public ChainedBuilding.StatesInstance chainedBuilding;
 
         VerticalPortAttachment top, bottom;
 
         int topCell, bottomCell;
         public CellOffset TopOffset = new CellOffset(0, 1), BottomOffset = new CellOffset(0, -1);
+
+        void HandleConnectionSymbol()
+        {
+            if (CrossPiece)
+            {
+                bool beamConnectorCross = top!=null && !top.CrossPiece;
+                bool crossConnectorCross = top!=null && top.CrossPiece;
+
+
+
+                controller.SetSymbolVisiblity("sup_top", beamConnectorCross);
+                controller.SetSymbolVisiblity("sup_top_fg", beamConnectorCross);
+            }
+            else
+            {
+
+                bool beamConnector = top != null && top.CrossPiece;
+                controller.SetSymbolVisiblity("sup_bottom", beamConnector);
+            }
+        }
 
         public void AttachTop(VerticalPortAttachment _top, bool propagate)
         {
@@ -23,8 +47,7 @@ namespace Rockets_TinyYetBig.RocketFueling
             if (propagate)
                 top.AttachBottom(this, false);
 
-            //if (chainedBuilding != null && propagate)
-            //    chainedBuilding.DEBUG_Relink();
+            HandleConnectionSymbol();
         }
         public void AttachBottom(VerticalPortAttachment _bottom, bool propagate)
         {
@@ -41,6 +64,8 @@ namespace Rockets_TinyYetBig.RocketFueling
 
             if (chainedBuilding != null)
                 chainedBuilding.DEBUG_Relink();
+
+            HandleConnectionSymbol();
         }
         public void DisconnectBottom(bool propagate)
         {
@@ -108,20 +133,25 @@ namespace Rockets_TinyYetBig.RocketFueling
 
             if (Grid.ObjectLayers[(int)ObjectLayer.Building] != null
                 && Grid.ObjectLayers[(int)ObjectLayer.Building].TryGetValue(topCell, out var topBuilding)
-                && topBuilding.TryGetComponent<VerticalPortAttachment>(out var attachmentTop))
+                && topBuilding.TryGetComponent<VerticalPortAttachment>(out var attachmentTop)
+                && Grid.PosToXY(topBuilding.transform.position).X == Grid.PosToXY(this.transform.position).X)
             {
                 AttachTop(attachmentTop, true);
             }
             if (Grid.ObjectLayers[(int)ObjectLayer.Building] != null
                 && Grid.ObjectLayers[(int)ObjectLayer.Building].TryGetValue(bottomCell, out var bottomBuilding)
-                && bottomBuilding.TryGetComponent<VerticalPortAttachment>(out var attachmentBottom))
+                && bottomBuilding.TryGetComponent<VerticalPortAttachment>(out var attachmentBottom)
+                && Grid.PosToXY(bottomBuilding.transform.position).X == Grid.PosToXY(this.transform.position).X)
             {
                 AttachBottom(attachmentBottom, true);
             }
 
             if (chainedBuilding != null)
+            {
                 chainedBuilding.DEBUG_Relink();
-
+                GameScheduler.Instance.ScheduleNextFrame("delayed Relink", (_)=> chainedBuilding.DEBUG_Relink());
+            }
+            HandleConnectionSymbol();
         }
         public override void OnCleanUp()
         {

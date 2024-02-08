@@ -1,6 +1,7 @@
 ﻿using KSerialization;
 using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.SpaceStations;
+using Steamworks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,8 @@ namespace Rockets_TinyYetBig.Derelicts
 {
     internal class DerelictStation : SpaceStation
     {
-
+        [Serialize]
+        public string artifactInReference;
         public override bool SpaceOutInSameHex() => false;
         
         public string poiID;
@@ -62,18 +64,23 @@ namespace Rockets_TinyYetBig.Derelicts
         }
         public static void SpawnNewDerelictStation(ArtifactPOIClusterGridEntity source)
         {
+
             source.TryGetComponent<KPrefabID>(out var id);
             var targetStationId = id.PrefabID() + DerelictStationConfigs.DerelictTemplateName;
             SgtLogger.l(targetStationId, "targetStation");
             if (Assets.GetPrefab(targetStationId) == null)
                 return;
-
+            var originalDef = source.gameObject.GetSMI<ArtifactPOIStates.Instance>();
+            if (originalDef == null || originalDef.configuration.DestroyOnHarvest())
+                return;
 
             Vector3 position = new Vector3(-1f, -1f, 0.0f);
             GameObject sat = Util.KInstantiate(Assets.GetPrefab(targetStationId), position);
             sat.SetActive(true);
             var spaceStation = sat.GetComponent<DerelictStation>();
             spaceStation.Location = source.Location;
+
+
         }
 
         public void Init(AxialI location)

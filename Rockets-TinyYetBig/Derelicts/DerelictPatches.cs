@@ -17,6 +17,9 @@ namespace Rockets_TinyYetBig.Derelicts
         public static readonly string DerelictSubPath  = "derelictInteriors";
         public static readonly string DerelictTemplateName = "_RTB_DerelictInterior";
 
+        /// <summary>
+        /// Fixes description not existing on artifact POIs, also removes the incorrect "requires drillcone" part from the description
+        /// </summary>
         [HarmonyPatch(typeof(ArtifactPOIConfig), nameof(ArtifactPOIConfig.CreateArtifactPOI))]
         public static class AddDerelictInteriorToArtifactPOIs
         {
@@ -27,6 +30,12 @@ namespace Rockets_TinyYetBig.Derelicts
                 HashedString poiType,
                 ref GameObject __result)
             {
+
+                var firstLineBreak = desc.IndexOf("\n");
+                if (firstLineBreak != -1)
+                {
+                    desc = desc.Substring(0, firstLineBreak);
+                }
 
                 __result.AddOrGet<InfoDescription>().description = desc;// Strings.Get("STRINGS.UI.SPACEDESTINATIONS.ARTIFACT_POI." + spst.poiID.ToUpperInvariant() + ".DESC");
 
@@ -54,6 +63,57 @@ namespace Rockets_TinyYetBig.Derelicts
                 {
                     if(SpaceStationManager.IsSpaceStationAt(__instance.Location))
                         __result = !loreBearer.BeenClicked;
+                }
+
+            }
+        }
+        [HarmonyPatch(typeof(ArtifactHarvestModule.StatesInstance), nameof(ArtifactHarvestModule.StatesInstance.CheckIfCanHarvest))]
+        public static class ArtifactHarvestModule_AllowHarvestInteriorPOI
+        {
+            public static void Postfix(ArtifactHarvestModule.StatesInstance __instance, ref bool __result)
+            {
+                if (__result)
+                    return;
+
+                var LocationToCheck = __instance.GetComponent<RocketModuleCluster>().CraftInterface.m_clustercraft.Location;
+                
+                if(SpaceStationManager.GetSpaceStationAtLocation(LocationToCheck, out var station))
+                {
+                    var artifact = station.GetSMI<ArtifactPOIStates.Instance>();
+                    if(artifact != null && artifact.CanHarvestArtifact () && __instance.receptacle.Occupant == null)
+                    {
+
+                        __instance.sm.canHarvest.Set(true, __instance);
+                        __result = true;    
+                    }
+                }
+
+            }
+        }
+        [HarmonyPatch(typeof(ArtifactHarvestModule.StatesInstance), nameof(ArtifactHarvestModule.StatesInstance.HarvestFromPOI))]
+        public static class ArtifactHarvestModule_HarvestPOIInterior
+        {
+            public static void Postfix(ArtifactHarvestModule.StatesInstance __instance)
+            {
+                if (__instance.receptacle.Occupant != null)
+                    return;
+
+                var LocationToCheck = __instance.GetComponent<RocketModuleCluster>().CraftInterface.m_clustercraft.Location;
+
+                if (SpaceStationManager.GetSpaceStationAtLocation(LocationToCheck, out var station))
+                {
+                    var artifact = station.GetSMI<ArtifactPOIStates.Instance>();
+                    if (artifact != null && artifact.CanHarvestArtifact() && __instance.receptacle.Occupant == null)
+                    {
+                        string artifactToHarvest = artifact.GetArtifactToHarvest();
+                        if (artifactToHarvest == null)
+                            return;
+                        GameObject gameObject = Util.KInstantiate(Assets.GetPrefab((Tag)artifactToHarvest), __instance.transform.position);
+                        gameObject.SetActive(true);
+                        __instance.receptacle.ForceDeposit(gameObject);
+                        __instance.storage.Store(gameObject);
+                        artifact.HarvestArtifact();
+                    }
                 }
 
             }

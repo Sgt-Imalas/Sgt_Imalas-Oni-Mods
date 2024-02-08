@@ -86,8 +86,14 @@ namespace Rockets_TinyYetBig.Derelicts
             var traveler = entity.AddOrGet<ClusterTraveler>();
             traveler.stopAndNotifyWhenPathChanges = false;
 
-            entity.AddOrGet<CraftModuleInterface>(); 
-            entity.AddOrGet<InfoDescription>().description = Strings.Get("STRINGS.UI.SPACEDESTINATIONS.ARTIFACT_POI." + spst.poiID.ToUpperInvariant() + ".DESC");
+            entity.AddOrGet<CraftModuleInterface>();
+            var desc = Strings.Get("STRINGS.UI.SPACEDESTINATIONS.ARTIFACT_POI." + spst.poiID.ToUpperInvariant() + ".DESC").String;
+            var firstLineBreak = desc.IndexOf("\n");
+            if (firstLineBreak != -1)
+            {
+                desc = desc.Substring(0, firstLineBreak);
+            }
+            entity.AddOrGet<InfoDescription>().description = desc;
 
             return entity;
         }
