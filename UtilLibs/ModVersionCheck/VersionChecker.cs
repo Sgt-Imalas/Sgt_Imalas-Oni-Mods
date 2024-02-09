@@ -23,7 +23,7 @@ namespace UtilLibs.ModVersionCheck
         public const string CurrentlyFetchingKey = "Sgt_Imalas_ModVersionData_CurrentlyFetching";
         public const string VersionDataURL = "https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/master/ModVersionData.json";
 
-        public const int CurrentVersion = 2;
+        public const int CurrentVersion = 3;
 
         public static bool OlderVersion => CurrentVersion < (PRegistry.GetData<int>(VersionCheckerVersion));
 

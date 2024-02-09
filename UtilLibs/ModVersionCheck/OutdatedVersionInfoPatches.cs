@@ -48,15 +48,20 @@ namespace UtilLibs.ModVersionCheck
             {
 
                 if (VersionChecker.OlderVersion
-                    || VersionChecker.UI_Built()
-                    || !VersionChecker.ModsOutOfDate(50, out var infoString, out int linecount)
-                    
+                    || VersionChecker.UI_Built()                    
                     )
                 {
-                    //SgtLogger.l("version info already initiated");
+                    SgtLogger.l("version info already initiated");
                     return;
                 }
 
+                VersionChecker.SetUIConstructed(true);
+
+                if (!VersionChecker.ModsOutOfDate(50, out var infoString, out int linecount))
+                {
+                    SgtLogger.l("no mods out of date");
+                    return;
+                }
 
                 SgtLogger.l(PRegistry.GetData<int>(VersionChecker.VersionCheckerVersion).ToString(), "Current UI handler version:");
 
@@ -132,7 +137,6 @@ namespace UtilLibs.ModVersionCheck
                     rect.SetInsetAndSizeFromParentEdge(horizontalEdge, horizontalInset, 298);
                     rect.SetInsetAndSizeFromParentEdge(verticalEdge , verticalInset, height );
                 }
-                VersionChecker.SetUIConstructed(true);
             }
         }
     }
