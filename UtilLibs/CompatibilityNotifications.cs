@@ -44,13 +44,12 @@ namespace UtilLibs
             {
                 Debug.Log("DebugConsole detected, disabling");
                 //faultyMod.SetCrashCount(3);
+                faultyMod.SetCrashed();
                 faultyMod.SetEnabledForDlc("", false);
                 faultyMod.SetEnabledForDlc("EXPANSION1_ID", false);
 
                 //App.instance.Restart();
             }
-            else
-                Debug.Log("DebugConsole not found, gj on that");
         }
         public static void FlagLoggingPrevention(IReadOnlyList<KMod.Mod> _mods)
         {
