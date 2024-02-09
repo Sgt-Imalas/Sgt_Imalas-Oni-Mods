@@ -10,6 +10,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using static PeterHan.PLib.AVC.JsonURLVersionChecker;
+using static ResearchTypes;
 
 namespace UtilLibs.ModVersionCheck
 {
@@ -23,7 +24,7 @@ namespace UtilLibs.ModVersionCheck
         public const string CurrentlyFetchingKey = "Sgt_Imalas_ModVersionData_CurrentlyFetching";
         public const string VersionDataURL = "https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/master/ModVersionData.json";
 
-        public const int CurrentVersion = 3;
+        public const int CurrentVersion = 4;
 
         public static bool OlderVersion => CurrentVersion < (PRegistry.GetData<int>(VersionCheckerVersion));
 
@@ -36,7 +37,7 @@ namespace UtilLibs.ModVersionCheck
             PRegistry.PutData(ModVersionDataKey_Client, currentVersionData);
 
             int currentMaxVersion = PRegistry.GetData<int>(VersionCheckerVersion);
-            if (currentMaxVersion< CurrentVersion)
+            if (currentMaxVersion < CurrentVersion)
                 PRegistry.PutData(VersionCheckerVersion, CurrentVersion);
 
             if (!userMod.mod.IsDev)
@@ -84,7 +85,7 @@ namespace UtilLibs.ModVersionCheck
             {
                 PRegistry.PutData(CurrentlyFetchingKey, true);
 
-                SgtLogger.l("Mod Version Data was null, trying to fetch it","SgtImalas_VersionCheck");
+                SgtLogger.l("Mod Version Data was null, trying to fetch it", "SgtImalas_VersionCheck");
                 using (var client = new WebClient())
                 {
                     var fetched = client.DownloadStringTaskAsync(VersionDataURL);
@@ -110,6 +111,60 @@ namespace UtilLibs.ModVersionCheck
                 PRegistry.PutData(CurrentlyFetchingKey, false);
             }
         }
+        private static List<ModVersionCheckResults> PlibVersionChecks()
+        {
+
+            IEnumerable<PForwardedComponent> allComponents = PRegistry.Instance.GetAllComponents("PeterHan.PLib.AVC.PVersionCheck");
+            List <ModVersionCheckResults> versionChecks = new List<ModVersionCheckResults>();
+            List<string> usedIDs = new List<string>();
+            if (allComponents != null)
+            {
+
+                foreach (PForwardedComponent item in allComponents)
+                {
+                    ICollection<ModVersionCheckResults> instanceDataSerialized = item.GetInstanceDataSerialized<ICollection<ModVersionCheckResults>>();
+                    if (instanceDataSerialized == null)
+                    {
+                        SgtLogger.l("no data found on " + item.ToString());
+                        continue;
+                    }
+                    SgtLogger.l(instanceDataSerialized.Count.ToString(), item.ToString());
+                    foreach (ModVersionCheckResults item2 in instanceDataSerialized)
+                    {
+                        if (usedIDs.Contains(item2.ModChecked))
+                            continue;
+
+                        usedIDs.Add(item2.ModChecked);
+                        versionChecks.Add(item2);
+                    }
+                }
+            }
+            else
+                SgtLogger.l("no plib components found");
+            SgtLogger.l(versionChecks.Count.ToString(), "plib mod count");
+            return versionChecks;
+        }
+
+        private static void AppendOutdatedMod(StringBuilder stringBuilder, string modTitle, string latestModVersion, string currentModVersion, ref int linecount, ref int modsOverLineCount, int maxLines)
+        {
+            if (linecount < maxLines)
+            {
+                stringBuilder.Append("<b>");
+                stringBuilder.Append(modTitle);
+                stringBuilder.Append(":</b>");
+                stringBuilder.AppendLine();
+
+                stringBuilder.Append("installed: ");
+                stringBuilder.Append(currentModVersion);
+                stringBuilder.Append(", latest: ");
+                stringBuilder.AppendLine(latestModVersion);
+                linecount += 2;
+            }
+            else
+            {
+                modsOverLineCount++;
+            }
+        }
 
         public static bool ModsOutOfDate(int maxLines, out string missingModsInfo, out int linecount)
         {
@@ -127,20 +182,41 @@ namespace UtilLibs.ModVersionCheck
                 SgtLogger.l("starting version check");
                 var manager = Global.Instance.modManager;
                 StringBuilder stringBuilder = new StringBuilder();
+                foreach (var versionEntry in PlibVersionChecks())
+                {
+                    var localMod = manager.mods.Find(mod => mod.staticID == versionEntry.ModChecked);
+
+                    SgtLogger.l(versionEntry.ModChecked + " " + versionEntry.NewVersion + " " + versionEntry.IsUpToDate + " loc " + localMod, "plib check test");
+
+                    if (localMod == null)
+                        continue;
+
+                    if (versionEntry.IsUpToDate)
+                        continue;
+
+                    AppendOutdatedMod(stringBuilder, localMod.title, versionEntry.NewVersion, localMod.label.version.ToString(), ref linecount, ref modsOverLineCount, maxLines);
+                    outdatedModFound = true;
+
+                }
 
                 foreach (var localModId in localVersionData.Keys)
                 {
-                    SgtLogger.l(localModId.ToString());
+
+                    //SgtLogger.l(localModId.ToString());
 
                     var localMod = manager.mods.Find(mod => mod.staticID == localModId);
                     SgtLogger.Assert(localModId + " mod data was null!", localMod);
+                    if (localMod == null)
+                    {
+                        continue;
+                    }
+
                     //SgtLogger.l("containsKey "+ serverVersionData.ContainsKey(localModId));
                     //SgtLogger.l("parse1 "+ Version.TryParse(localVersionData[localModId], out var sss));
                     //SgtLogger.l("parse2 "+ Version.TryParse(serverVersionData[localModId], out var ss));
 
 
-                    if (localMod != null
-                        && serverVersionData.ContainsKey(localModId)
+                    if (serverVersionData.ContainsKey(localModId)
                         && Version.TryParse(localVersionData[localModId], out var SourceVersion)
                         && Version.TryParse(serverVersionData[localModId], out var TargetVersion))
                     {
@@ -148,26 +224,9 @@ namespace UtilLibs.ModVersionCheck
                         //SgtLogger.l(SourceVersion + "<->" +  TargetVersion , SourceVersion.CompareTo(TargetVersion));
                         if (SourceVersion.CompareTo(TargetVersion) < 0)
                         {
+                            AppendOutdatedMod(stringBuilder, localMod.title, TargetVersion.ToString(), SourceVersion.ToString(), ref linecount, ref modsOverLineCount, maxLines);
+                            SgtLogger.warning(localMod.title + " is outdated! Found local version is " + SourceVersion.ToString() + ", but latest is " + TargetVersion.ToString());
                             outdatedModFound = true;
-                            if (linecount < maxLines)
-                            {
-                                stringBuilder.Append("<b>");
-                                stringBuilder.Append(localMod.title);
-                                stringBuilder.Append(":</b>");
-                                stringBuilder.AppendLine();
-
-                                stringBuilder.Append("installed: ");
-                                stringBuilder.Append(SourceVersion.ToString());
-                                stringBuilder.Append(", latest: ");
-                                stringBuilder.AppendLine(TargetVersion.ToString());
-                                SgtLogger.warning(localMod.title + " is outdated! Found local version is " + SourceVersion.ToString() + ", but latest is " + TargetVersion.ToString());
-                                linecount += 2;
-                            }
-                            else
-                            {
-                                modsOverLineCount++;
-                            }
-
                         }
                     }
                 }
@@ -221,6 +280,6 @@ namespace UtilLibs.ModVersionCheck
 
         internal static bool UI_Built() => PRegistry.GetData<bool>(UIInitializedKey);
 
-        internal static void SetUIConstructed(bool constructed)=> PRegistry.PutData(UIInitializedKey, constructed);
+        internal static void SetUIConstructed(bool constructed) => PRegistry.PutData(UIInitializedKey, constructed);
     }
 }
