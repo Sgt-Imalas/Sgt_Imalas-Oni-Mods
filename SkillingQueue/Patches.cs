@@ -64,6 +64,9 @@ namespace SkillingQueue
             {
 
                 __instance.skillsScreen.GetMinionIdentity(__instance.skillsScreen.CurrentlySelectedMinion, out var minionIdentity, out _);
+                if (minionIdentity == null)
+                    return;
+
                 if (minionIdentity.TryGetComponent<MinionResume>(out var resume) && ResumeQueues.ContainsKey(resume))
                 {
                     string keyCode = GameUtil.GetKeycodeLocalized(KKeyCode.LeftShift) ??
@@ -144,6 +147,10 @@ namespace SkillingQueue
                     return;
                 }
                 __instance.GetMinionIdentity(__instance.currentlySelectedMinion, out var minionIdentity, out _);
+                if (minionIdentity == null)
+                    return;
+
+
                 if (minionIdentity.TryGetComponent<MinionResume>(out var resume) && ResumeQueues.ContainsKey(resume))
                 {
                     int finalMorale = ResumeQueues[resume].GetFinalMorale();
