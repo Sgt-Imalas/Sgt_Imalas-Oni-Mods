@@ -17,10 +17,13 @@ namespace BathTub
         public int absoluteDiseaseRemoval;
         private SimUtil.DiseaseInfo accumulatedDisease;
 
-        public BathTub batTub;
+        public BathTub bathTub;
         private bool faceLeft;
 
-        private BathTubWorkable() => this.SetReportType(ReportManager.ReportType.PersonalTime);
+        private BathTubWorkable() 
+        {
+            this.SetReportType(ReportManager.ReportType.PersonalTime); 
+        }
 
         public override void OnPrefabInit()
         {
@@ -43,7 +46,7 @@ namespace BathTub
                 };
                 component.ModifyDiseaseCount(-b.count, "Shower.RemoveDisease");
                 this.accumulatedDisease = SimUtil.CalculateFinalDiseaseInfo(this.accumulatedDisease, b);
-                PrimaryElement primaryElement = this.GetComponent<Storage>().FindPrimaryElement(this.outputTargetElement);
+                PrimaryElement primaryElement = bathTub.waterStorage.FindPrimaryElement(this.outputTargetElement);
                 if ((UnityEngine.Object)primaryElement != (UnityEngine.Object)null)
                 {
                     primaryElement.GetComponent<PrimaryElement>().AddDisease(this.accumulatedDisease.idx, this.accumulatedDisease.count, "Shower.RemoveDisease");
@@ -61,6 +64,8 @@ namespace BathTub
         {
             this.faceLeft = UnityEngine.Random.value > 0.5f;
             worker.GetComponent<Effects>().Add("HotTubRelaxing", false);
+            this.WorkTimeRemaining = this.workTime * worker.GetSMI<HygieneMonitor.Instance>().GetDirtiness();
+            this.accumulatedDisease = SimUtil.DiseaseInfo.Invalid;
         }
 
         public override void OnStopWork(Worker worker) => worker.GetComponent<Effects>().Remove("HotTubRelaxing");
@@ -83,15 +88,13 @@ namespace BathTub
 
         public bool GetWorkerPriority(Worker worker, out int priority)
         {
-            priority = this.hotTub.basePriority;
+            priority = this.bathTub.basePriority;
             Effects component = worker.GetComponent<Effects>();
-            if (!string.IsNullOrEmpty(this.hotTub.trackingEffect) && component.HasEffect(this.hotTub.trackingEffect))
+            if (!string.IsNullOrEmpty(Shower.SHOWER_EFFECT) && component.HasEffect(Shower.SHOWER_EFFECT))
             {
                 priority = 0;
                 return false;
             }
-            if (!string.IsNullOrEmpty(this.hotTub.specificEffect) && component.HasEffect(this.hotTub.specificEffect))
-                priority = RELAXATION.PRIORITY.RECENTLY_USED;
             return true;
         }
     }

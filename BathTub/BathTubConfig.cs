@@ -17,7 +17,6 @@ namespace BathTub
 
         public override BuildingDef CreateBuildingDef()
         {
-            string id = ShowerConfig.ID; 
             float[] construction_mass = new float[2] { 500f, 200f };
             string[] construction_materials = new string[2]
             {
@@ -27,7 +26,10 @@ namespace BathTub
             EffectorValues tieR3 = NOISE_POLLUTION.NOISY.TIER3;
             EffectorValues tieR1 = BUILDINGS.DECOR.BONUS.TIER3;
             EffectorValues noise = tieR3;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(id, 5, 2, "hottub_kanim", 30, 10f, construction_mass, construction_materials, 1600f, BuildLocationRule.OnFloor, tieR1, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 2, "hottub_kanim", 30, 10f, construction_mass, construction_materials, 1600f, BuildLocationRule.OnFloor, tieR1, noise);
+            buildingDef.SceneLayer = Grid.SceneLayer.BuildingFront;
+
+
             buildingDef.Overheatable = false;
             buildingDef.EnergyConsumptionWhenActive = 240f;
             buildingDef.SelfHeatKilowattsWhenActive = 2f;
@@ -48,23 +50,26 @@ namespace BathTub
             go.AddOrGet<LoopingSounds>();
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.WashStation);
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.AdvancedWashStation);
-            Shower shower = go.AddOrGet<Shower>();
-            shower.overrideAnims = new KAnimFile[1]
-            {
-                Assets.GetAnim((HashedString) "anim_interacts_shower_kanim")
-            };
-            shower.workTime = 15f;
-            shower.outputTargetElement = SimHashes.DirtyWater;
-            shower.fractionalDiseaseRemoval = 0.99f;
-            shower.absoluteDiseaseRemoval = -2000;
-            shower.workLayer = Grid.SceneLayer.BuildingFront;
-            shower.trackUses = true;
+
+
+            //Shower shower = go.AddComponent<Shower>();
+            //shower.overrideAnims = new KAnimFile[1]
+            //{
+            //    Assets.GetAnim((HashedString) "anim_interacts_shower_kanim")
+            //};
+            //shower.workTime = 15f;
+            //shower.outputTargetElement = SimHashes.DirtyWater;
+            //shower.fractionalDiseaseRemoval = 0.99f;
+            //shower.absoluteDiseaseRemoval = -2000;
+            //shower.workLayer = Grid.SceneLayer.BuildingFront;
+            //shower.trackUses = true;
+
 
             ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
             conduitConsumer.conduitType = ConduitType.Liquid;
             conduitConsumer.capacityTag = ElementLoader.FindElementByHash(SimHashes.Water).tag;
             conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Store;
-            conduitConsumer.capacityKG = 5f;
+            conduitConsumer.capacityKG = 100f;
             ConduitDispenser conduitDispenser = go.AddOrGet<ConduitDispenser>();
             conduitDispenser.conduitType = ConduitType.Liquid;
             conduitDispenser.invertElementFilter = true;
@@ -79,16 +84,20 @@ namespace BathTub
             };
             elementConverter.outputElements = new ElementConverter.OutputElement[1]
             {
-                new ElementConverter.OutputElement(1f, SimHashes.DirtyWater, 0.0f, storeOutput: true)
+                new ElementConverter.OutputElement(WaterConsumedPerBath/BathingTime, SimHashes.DirtyWater, 0.0f, storeOutput: true)
             };
             Storage storage = go.AddOrGet<Storage>();
-            storage.capacityKg = 10f;
+            storage.capacityKg = 200f;
             storage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
             go.AddOrGet<RequireOutputs>().ignoreFullPipe = true;
 
             RoomTracker roomTracker = go.AddOrGet<RoomTracker>();
             roomTracker.requiredRoomType = Db.Get().RoomTypes.PlumbedBathroom.Id;
             roomTracker.requirement = RoomTracker.Requirement.Recommended;
+
+            var bathtub = go.AddOrGet<BathTub>();
+            bathtub.waterStorage   = storage;
+
 
             go.AddOrGetDef<RocketUsageRestriction.Def>();
         }

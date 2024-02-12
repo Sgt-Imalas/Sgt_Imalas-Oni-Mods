@@ -24,7 +24,7 @@ namespace BathTub
 
             public static void Prefix()
             {
-                //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
+                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Plumbing, BathTubConfig.ID, ShowerConfig.ID);
             }
         }
         /// <summary>

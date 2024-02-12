@@ -12,8 +12,8 @@ namespace BathTub
     [SerializationConfig(MemberSerialization.OptIn)]
     internal class BathTub : StateMachineComponent<BathTub.StatesInstance>, IGameObjectEffectDescriptor
     {
-        public string specificEffect;
-        public string trackingEffect;
+        //public string specificEffect;
+        //public string trackingEffect;
         public int basePriority;
         public CellOffset[] choreOffsets = new CellOffset[4]
         {
@@ -25,7 +25,6 @@ namespace BathTub
         private BathTubWorkable[] workables;
         private Chore[] chores;
         public HashSet<int> occupants = new HashSet<int>();
-        public float waterCoolingRate;
         public float BathTubCapacity = 100f;
 
 
@@ -48,12 +47,11 @@ namespace BathTub
                 KSelectable kselectable = locator.AddOrGet<KSelectable>();
                 kselectable.SetName(this.GetProperName());
                 kselectable.IsSelectable = false;
-                BathTubWorkable BathTubWorkable1 = locator.AddOrGet<BathTubWorkable>();
+                BathTubWorkable BathTubWorkable = locator.AddOrGet<BathTubWorkable>();
                 int player_index = index;
-                BathTubWorkable BathTubWorkable2 = BathTubWorkable1;
-                BathTubWorkable2.OnWorkableEventCB = BathTubWorkable2.OnWorkableEventCB + ((workable, ev) => this.OnWorkableEvent(player_index, ev));
-                this.workables[index] = BathTubWorkable1;
-                this.workables[index].batTub = this;
+                BathTubWorkable.OnWorkableEventCB = BathTubWorkable.OnWorkableEventCB + ((workable, ev) => this.OnWorkableEvent(player_index, ev));
+                this.workables[index] = BathTubWorkable;
+                this.workables[index].bathTub = this;
             }
             this.waterMeter = new MeterController(this.GetComponent<KBatchedAnimController>(), "meter_water_target", "meter_water", Meter.Offset.Infront, Grid.SceneLayer.NoLayer, new string[1]
             {
@@ -85,12 +83,10 @@ namespace BathTub
         private Chore CreateChore(int i)
         {
             Workable workable = this.workables[i];
-            ChoreType relax = Db.Get().ChoreTypes.Relax;
             Workable target = workable;
-            ScheduleBlockType recreation = Db.Get().ScheduleBlockTypes.Recreation;
             Action<Chore> on_end = new Action<Chore>(this.OnSocialChoreEnd);
-            ScheduleBlockType schedule_block = recreation;
-            WorkChore<BathTubWorkable> chore = new WorkChore<BathTubWorkable>(relax, target, on_end: on_end, allow_in_red_alert: false, schedule_block: schedule_block, allow_prioritization: false, priority_class: PriorityScreen.PriorityClass.high);
+            ScheduleBlockType schedule_block = Db.Get().ScheduleBlockTypes.Hygiene;
+            WorkChore<BathTubWorkable> chore = new WorkChore<BathTubWorkable>(Db.Get().ChoreTypes.Shower, target, on_end: on_end, allow_in_red_alert: false, schedule_block: schedule_block, allow_prioritization: false, priority_class: PriorityScreen.PriorityClass.high);
             chore.AddPrecondition(ChorePreconditions.instance.CanDoWorkerPrioritizable, workable);
             return chore;
         }
@@ -134,10 +130,10 @@ namespace BathTub
         {
             List<Descriptor> descs = new List<Descriptor>();
             Element elementByHash = ElementLoader.FindElementByHash(SimHashes.Water);
-            descs.Add(new Descriptor(BUILDINGS.PREFABS.BathTub.WATER_REQUIREMENT.Replace("{element}", elementByHash.name).Replace("{amount}", GameUtil.GetFormattedMass(this.BathTubCapacity)), BUILDINGS.PREFABS.BathTub.WATER_REQUIREMENT_TOOLTIP.Replace("{element}", elementByHash.name).Replace("{amount}", GameUtil.GetFormattedMass(this.BathTubCapacity)), Descriptor.DescriptorType.Requirement));
-            descs.Add(new Descriptor(BUILDINGS.PREFABS.BathTub.TEMPERATURE_REQUIREMENT.Replace("{element}", elementByHash.name).Replace("{temperature}", GameUtil.GetFormattedTemperature(this.minimumWaterTemperature)), BUILDINGS.PREFABS.BathTub.TEMPERATURE_REQUIREMENT_TOOLTIP.Replace("{element}", elementByHash.name).Replace("{temperature}", GameUtil.GetFormattedTemperature(this.minimumWaterTemperature)), Descriptor.DescriptorType.Requirement));
-            descs.Add(new Descriptor((string)UI.BUILDINGEFFECTS.RECREATION, (string)UI.BUILDINGEFFECTS.TOOLTIPS.RECREATION));
-            Effect.AddModifierDescriptions(this.gameObject, descs, this.specificEffect, true);
+            descs.Add(new Descriptor(global::STRINGS.BUILDINGS.PREFABS.HOTTUB.WATER_REQUIREMENT.Replace("{element}", elementByHash.name).Replace("{amount}", GameUtil.GetFormattedMass(this.BathTubCapacity)), global::STRINGS.BUILDINGS.PREFABS.HOTTUB.WATER_REQUIREMENT_TOOLTIP.Replace("{element}", elementByHash.name).Replace("{amount}", GameUtil.GetFormattedMass(this.BathTubCapacity)), Descriptor.DescriptorType.Requirement));
+
+            descs.Add(new Descriptor((string)global::STRINGS.UI.BUILDINGEFFECTS.RECREATION, (string)global::STRINGS.UI.BUILDINGEFFECTS.TOOLTIPS.RECREATION));
+            //Effect.AddModifierDescriptions(this.gameObject, descs, this.specificEffect, true);
             return descs;
         }
 
@@ -168,9 +164,10 @@ namespace BathTub
                 this.off.filling.DefaultState(this.off.filling.normal)
                     .Transition(ready, smi => (double)smi.master.waterStorage.GetMassAvailable(SimHashes.Water) >= smi.master.BathTubCapacity)
                     .PlayAnim("off").Enter(smi => smi.GetComponent<ConduitConsumer>().SetOnState(true))
-                    .Exit(smi => smi.GetComponent<ConduitConsumer>().SetOnState(false))
-                    .ToggleMainStatusItem(Db.Get().BuildingStatusItems.HotTubFilling, (Func<StatesInstance, object>)(smi => smi.master));
-                this.off.filling.normal
+                    .Enter(smi => smi.GetComponent<ConduitDispenser>().SetOnState(true))
+                    .Exit(smi => smi.GetComponent<ConduitConsumer>().SetOnState(true))
+                    //.ToggleMainStatusItem(Db.Get().BuildingStatusItems.HotTubFilling, (Func<StatesInstance, object>)(smi => smi.master))
+                    ;
                 this.off.draining.Transition(off.filling, smi => (double)smi.master.waterStorage.GetMassAvailable(SimHashes.Water) <= 0.0)
                     .Enter(smi => smi.GetComponent<ConduitDispenser>().SetOnState(true))
                     .Exit(smi => smi.GetComponent<ConduitDispenser>().SetOnState(false));
