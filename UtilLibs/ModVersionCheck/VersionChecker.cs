@@ -113,7 +113,7 @@ namespace UtilLibs.ModVersionCheck
         }
         private static List<ModVersionCheckResults> PlibVersionChecks()
         {
-
+            
             IEnumerable<PForwardedComponent> allComponents = PRegistry.Instance.GetAllComponents("PeterHan.PLib.AVC.PVersionCheck");
             List <ModVersionCheckResults> versionChecks = new List<ModVersionCheckResults>();
             List<string> usedIDs = new List<string>();
@@ -265,7 +265,7 @@ namespace UtilLibs.ModVersionCheck
 
                         if (SourceVersion.CompareTo(TargetVersion) < 0)
                         {
-                            SgtLogger.warning(userMod.mod.label.title + " is outdated!!!!!!");
+                            SgtLogger.warning(userMod.mod.label.title + " is outdated!");
                         }
                     }
 
