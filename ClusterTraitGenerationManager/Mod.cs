@@ -1,6 +1,8 @@
 ﻿using HarmonyLib;
 using Klei;
 using KMod;
+using PeterHan.PLib.Core;
+using PeterHan.PLib.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +15,9 @@ namespace ClusterTraitGenerationManager
         public static Harmony harmonyInstance;
         public override void OnLoad(Harmony harmony)
         {
+            PUtil.InitLibrary(false);
+            new POptions().RegisterOptions(this, typeof(Config));
+
             harmonyInstance = harmony;
             base.OnLoad(harmony);
             ModAssets.LoadAssets(); 

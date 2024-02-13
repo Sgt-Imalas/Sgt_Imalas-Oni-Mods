@@ -140,7 +140,7 @@ namespace ClusterTraitGenerationManager
 
                 CGSMClusterManager.CreateCustomClusterFrom(defaultCluster);
             }
-            LoadCustomCluster = false;
+            //LoadCustomCluster = false;
 
             Screen.transform.SetAsLastSibling();
             Screen.gameObject.SetActive(true);

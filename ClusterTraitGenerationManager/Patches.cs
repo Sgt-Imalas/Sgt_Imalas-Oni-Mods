@@ -339,23 +339,25 @@ namespace ClusterTraitGenerationManager
         }
 
 
-        ///// <summary>
-        ///// </summary>
-        //[HarmonyPatch(typeof(MinionSelectScreen))]
-        //[HarmonyPatch(nameof(MinionSelectScreen.OnProceed))]
-        //public static class Generate_Preset_On_NewGame
-        //{
-        //    public static void Postfix()
-        //    {
+        /// <summary>
+        /// </summary>
+        [HarmonyPatch(typeof(MinionSelectScreen))]
+        [HarmonyPatch(nameof(MinionSelectScreen.OnProceed))]
+        public static class Generate_Preset_On_NewGame
+        {
+            public static void Postfix()
+            {
+                if (!Config.Instance.AutomatedClusterPresets)
+                    return;
 
-        //        if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null)
-        //        {
-        //            string name = SaveGame.Instance.BaseName;
-        //            CustomClusterSettingsPreset tempStats = CustomClusterSettingsPreset.CreateFromCluster(CGSMClusterManager.CustomCluster, name);
-        //            tempStats.WriteToFile();
-        //        }
-        //    }
-        //}
+                if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null)
+                {
+                    string name = SaveGame.Instance.BaseName;
+                    CustomClusterSettingsPreset tempStats = CustomClusterSettingsPreset.CreateFromCluster(CGSMClusterManager.CustomCluster, name);
+                    tempStats.WriteToFile();
+                }
+            }
+        }
 
 
         /// <summary>
@@ -1520,7 +1522,9 @@ namespace ClusterTraitGenerationManager
                     || CGSMClusterManager.CustomCluster == null 
                     || !DlcManager.IsExpansion1Active() 
                     || CustomCluster.SO_Starmap == null 
-                    || CustomCluster.SO_Starmap.UsingCustomLayout == false) return;
+                    //|| CustomCluster.SO_Starmap.UsingCustomLayout == false
+                    ) 
+                    return;
 
                 SgtLogger.l("Applying CGM custom starmap");
                 __instance.poiPlacements.Clear();
@@ -1557,6 +1561,9 @@ namespace ClusterTraitGenerationManager
         {
             public static void Postfix(MinionSelectScreen __instance)
             {
+                if (Config.Instance.AutomatedClusterPresets)
+                    return;
+
                 if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null)
                 {
                     var makeNewClusterPresetButton = Util.KInstantiateUI<KButton>(__instance.backButton.gameObject, __instance.proceedButton.transform.parent.gameObject, true);

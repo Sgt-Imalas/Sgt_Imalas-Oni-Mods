@@ -13,6 +13,14 @@ namespace ClusterTraitGenerationManager
 {
     internal class STRINGS
     {
+        public class MODCONFIG
+        {
+            public class MANUALCLUSTERPRESETS
+            {
+                public static LocString NAME = (LocString)"Automated Cluster Preset";
+                public static LocString TOOLTIP = (LocString)"Each time you start a new CGM cluster, a cluster preset will be created automatically.\nif deactivated, there will be a button for manual creation on the start screen instead.";
+            }
+        }
         public class WORLD_TRAITS
         {
             public class CGM_RANDOMTRAIT
