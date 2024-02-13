@@ -618,7 +618,6 @@ namespace PaintYourPipes
         {
             public static void Prefix(KButtonEvent e)
             {
-
                 if (e.TryConsume(ModAssets.HotKeys.ToggleOverlayColors.GetKAction()))
                 {
                     ColorableConduit.ToggleOverlayTint();
