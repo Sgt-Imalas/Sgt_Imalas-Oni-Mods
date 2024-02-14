@@ -551,23 +551,24 @@ namespace PaintYourPipes
         {
             public static void Postfix(ConduitFlowVisualizer __instance, int cell, ref Color32 __result)
             {
-                if (!ColorableConduit.ShowOverlayTint && ActiveOverlay == ObjectLayer.LiquidConduit)
-                    return;
+                //&& (ActiveOverlay == ObjectLayer.LiquidConduit || ActiveOverlay == ObjectLayer.GasConduit))
+                //    return;
 
                 if (__instance == Game.Instance.liquidFlowVisualizer && ColorableConduit.ConduitsByLayer[(int)ObjectLayer.LiquidConduit].ContainsKey(cell))
                 {
+
                     var colorOverrider = ColorableConduit.ConduitsByLayer[(int)ObjectLayer.LiquidConduit][cell];
-                    if ((int)ActiveOverlay == -1)
+                    if (ActiveOverlay != ObjectLayer.LiquidConduit)
                         __result = __result.Multiply(colorOverrider.TintColor);
-                    else if (ActiveOverlay == ObjectLayer.LiquidConduit)
+                    else if (ColorableConduit.ShowOverlayTint)
                         __result = colorOverrider.TintColor;
                 }
                 else if (__instance == Game.Instance.gasFlowVisualizer && ColorableConduit.ConduitsByLayer[(int)ObjectLayer.GasConduit].ContainsKey(cell))
                 {
                     var colorOverrider = ColorableConduit.ConduitsByLayer[(int)ObjectLayer.GasConduit][cell];
-                    if ((int)ActiveOverlay == -1)
+                    if (ActiveOverlay != ObjectLayer.GasConduit)
                         __result = __result.Multiply(colorOverrider.TintColor);
-                    else if (ActiveOverlay == ObjectLayer.GasConduit)
+                    else if (ColorableConduit.ShowOverlayTint)
                         __result = colorOverrider.TintColor;
                 }
             }
