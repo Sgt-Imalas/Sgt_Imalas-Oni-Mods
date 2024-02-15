@@ -521,7 +521,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
                 float num = 0.0f;
                 foreach (var worldContainer in ClusterManager.Instance.WorldContainers)
                 {
-                    if (worldContainer.TryGetComponent<SpaceStation>(out var component))
+                    if (worldContainer.TryGetComponent<SpaceStation>(out var component) && component.GetType() != typeof(DerelictStation))
                     {
                         if (__instance.m_gridEntityVis.ContainsKey(component))
                             __instance.m_gridEntityVis[component].GetFirstAnimController().Offset = new Vector2(0.0f, __instance.floatCycleOffset + __instance.floatCycleScale * Mathf.Sin(__instance.floatCycleSpeed * (num + GameClock.Instance.GetTime())));

@@ -88,7 +88,8 @@ namespace Rockets_TinyYetBig.Docking
             bool cando =
                 HasDoors()
                 && AvailableConnections() > 0
-                && RocketryUtils.IsRocketInFlight(clustercraft);
+                && world.ParentWorldId == world.id
+                && !RocketryUtils.IsRocketInFlight(clustercraft);
                
             return cando;
         }

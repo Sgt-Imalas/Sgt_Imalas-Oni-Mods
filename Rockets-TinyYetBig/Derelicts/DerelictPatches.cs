@@ -14,7 +14,7 @@ namespace Rockets_TinyYetBig.Derelicts
 {
     internal class DerelictPatches
     {
-        public static readonly string DerelictSubPath  = "derelictInteriors";
+        public static readonly string DerelictSubPath = "derelictInteriors";
         public static readonly string DerelictTemplateName = "_RTB_DerelictInterior";
 
         /// <summary>
@@ -47,73 +47,62 @@ namespace Rockets_TinyYetBig.Derelicts
             public static void Postfix(LoreBearer __instance)
             {
                 ClusterManager.Instance.Trigger(1943181844, (object)"lorebearer revealed");
-                if(__instance.TryGetComponent<ArtifactPOIClusterGridEntity>(out var artifact))
+                if (__instance.TryGetComponent<ArtifactPOIClusterGridEntity>(out var artifact))
                 {
                     DerelictStation.SpawnNewDerelictStation(artifact);
                 }
 
             }
         }
+        [HarmonyPatch(typeof(Clustercraft), nameof(Clustercraft.GetPOIAtCurrentLocation))]
+        public static class Clustercraft_GetPOIAtCurrentLocation_Redirect_DerelictStation
+        {
+            public static void Postfix(ref ClusterGridEntity __result)
+            {
+                if (__result == null) return;
+
+                if (__result.TryGetComponent<DerelictStation>(out var derelictStation))
+                {
+                    foreach (var poi in ClusterGrid.Instance.GetEntitiesOfLayerAtCell(derelictStation.Location, EntityLayer.POI))
+                    {
+                        if (poi.TryGetComponent<ArtifactPOIConfigurator>(out _))
+                        {
+                            __result = poi;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        [HarmonyPatch(typeof(SpacePOISimpleInfoPanel), nameof(SpacePOISimpleInfoPanel.Refresh))]
+        public static class SpacePOISimpleInfoPanel_Redirect_DerelictStation
+        {
+            public static void Prefix(ref GameObject selectedTarget)
+            {
+                if(selectedTarget == null) return;
+
+                if (selectedTarget.TryGetComponent<DerelictStation>(out var derelictStation))
+                {
+                    foreach (var poi in ClusterGrid.Instance.GetEntitiesOfLayerAtCell(derelictStation.Location, EntityLayer.POI))
+                    {
+                        if(poi.TryGetComponent<ArtifactPOIConfigurator>(out _))
+                        {
+                            selectedTarget = poi.gameObject;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
         [HarmonyPatch(typeof(ArtifactPOIClusterGridEntity), nameof(ArtifactPOIClusterGridEntity.IsVisible), MethodType.Getter)]
         public static class ArtifactPOIClusterGridEntity_ReplaceOnReveal
         {
-            public static void Postfix(ArtifactPOIClusterGridEntity __instance,ref bool __result)
+            public static void Postfix(ArtifactPOIClusterGridEntity __instance, ref bool __result)
             {
-                if(__instance.TryGetComponent<LoreBearer>(out var loreBearer))
+                if (__instance.TryGetComponent<LoreBearer>(out var loreBearer))
                 {
-                    if(SpaceStationManager.IsSpaceStationAt(__instance.Location))
+                    if (SpaceStationManager.IsSpaceStationAt(__instance.Location))
                         __result = !loreBearer.BeenClicked;
-                }
-
-            }
-        }
-        [HarmonyPatch(typeof(ArtifactHarvestModule.StatesInstance), nameof(ArtifactHarvestModule.StatesInstance.CheckIfCanHarvest))]
-        public static class ArtifactHarvestModule_AllowHarvestInteriorPOI
-        {
-            public static void Postfix(ArtifactHarvestModule.StatesInstance __instance, ref bool __result)
-            {
-                if (__result)
-                    return;
-
-                var LocationToCheck = __instance.GetComponent<RocketModuleCluster>().CraftInterface.m_clustercraft.Location;
-                
-                if(SpaceStationManager.GetSpaceStationAtLocation(LocationToCheck, out var station))
-                {
-                    var artifact = station.GetSMI<ArtifactPOIStates.Instance>();
-                    if(artifact != null && artifact.CanHarvestArtifact () && __instance.receptacle.Occupant == null)
-                    {
-
-                        __instance.sm.canHarvest.Set(true, __instance);
-                        __result = true;    
-                    }
-                }
-
-            }
-        }
-        [HarmonyPatch(typeof(ArtifactHarvestModule.StatesInstance), nameof(ArtifactHarvestModule.StatesInstance.HarvestFromPOI))]
-        public static class ArtifactHarvestModule_HarvestPOIInterior
-        {
-            public static void Postfix(ArtifactHarvestModule.StatesInstance __instance)
-            {
-                if (__instance.receptacle.Occupant != null)
-                    return;
-
-                var LocationToCheck = __instance.GetComponent<RocketModuleCluster>().CraftInterface.m_clustercraft.Location;
-
-                if (SpaceStationManager.GetSpaceStationAtLocation(LocationToCheck, out var station))
-                {
-                    var artifact = station.GetSMI<ArtifactPOIStates.Instance>();
-                    if (artifact != null && artifact.CanHarvestArtifact() && __instance.receptacle.Occupant == null)
-                    {
-                        string artifactToHarvest = artifact.GetArtifactToHarvest();
-                        if (artifactToHarvest == null)
-                            return;
-                        GameObject gameObject = Util.KInstantiate(Assets.GetPrefab((Tag)artifactToHarvest), __instance.transform.position);
-                        gameObject.SetActive(true);
-                        __instance.receptacle.ForceDeposit(gameObject);
-                        __instance.storage.Store(gameObject);
-                        artifact.HarvestArtifact();
-                    }
                 }
 
             }

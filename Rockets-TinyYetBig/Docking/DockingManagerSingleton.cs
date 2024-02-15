@@ -665,7 +665,7 @@ namespace Rockets_TinyYetBig.Docking
             var values = new List<DockingSpacecraftHandler>();
             foreach (var handler in DockingSpacecraftHandlers)
             {
-                if (handler.clustercraft.Location.Equals(location) && handler.HasDoors())
+                if (handler.clustercraft.Location.Equals(location) && handler.CanDock())
                     values.Add(handler);
             }
             return values;
