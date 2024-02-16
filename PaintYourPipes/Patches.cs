@@ -551,8 +551,6 @@ namespace PaintYourPipes
         {
             public static void Postfix(ConduitFlowVisualizer __instance, int cell, ref Color32 __result)
             {
-                //&& (ActiveOverlay == ObjectLayer.LiquidConduit || ActiveOverlay == ObjectLayer.GasConduit))
-                //    return;
 
                 if (__instance == Game.Instance.liquidFlowVisualizer && ColorableConduit.ConduitsByLayer[(int)ObjectLayer.LiquidConduit].ContainsKey(cell))
                 {
