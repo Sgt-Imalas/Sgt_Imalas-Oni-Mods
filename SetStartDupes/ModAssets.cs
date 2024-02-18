@@ -170,7 +170,7 @@ namespace SetStartDupes
                 foreach (Trait trait in traits.TraitList)
                 {
                     var traitType = GetTraitListOfTrait(trait);
-                    if (traitType == NextType.joy || traitType == NextType.stress )
+                    if (traitType == NextType.joy || traitType == NextType.stress)
                     {
                         traitsToRemove.Add(trait);
                     }
@@ -219,30 +219,18 @@ namespace SetStartDupes
             ApplyOutfit(Skin, Duplicant);
             ApplyJoyResponseOutfit(Skin, Duplicant);
         }
-        public static void ApplyOutfit(Personality personality, GameObject Duplicant)
+        public static void ApplyOutfit(Personality personality, GameObject go)
         {
-            if (Duplicant.TryGetComponent<WearableAccessorizer>(out var component))
+            if (go.TryGetComponent<WearableAccessorizer>(out var component))
             {
-                foreach (KeyValuePair<ClothingOutfitUtility.OutfitType, string> outfitId in personality.outfitIds)
+                Option<ClothingOutfitTarget> option = ClothingOutfitTarget.TryFromTemplateId(personality.GetSelectedTemplateOutfitId(ClothingOutfitUtility.OutfitType.Clothing));
+                if (option.IsSome())
                 {
-                    Option<ClothingOutfitTarget> outfit = ClothingOutfitTarget.TryFromTemplateId(outfitId.Value);
-                    if (outfit.HasValue)
-                    {
-                        component.AddCustomOutfit(outfit);
-                    }
+                    component.ApplyClothingItems(ClothingOutfitUtility.OutfitType.Clothing, option.Unwrap().ReadItemValues());
                 }
-
-                if (personality.outfitIds.ContainsKey(ClothingOutfitUtility.OutfitType.Clothing))
-                {
-                    Option<ClothingOutfitTarget> option = ClothingOutfitTarget.TryFromTemplateId(personality.outfitIds[ClothingOutfitUtility.OutfitType.Clothing]);
-                    if (option.HasValue)
-                    {
-                        component.ApplyClothingItems(option.Value.OutfitType, option.Value.ReadItemValues());
-                    }
-                }
-
             }
         }
+
         public static void ApplyJoyResponseOutfit(Personality personality, GameObject go)
         {
             JoyResponseOutfitTarget joyResponseOutfitTarget = JoyResponseOutfitTarget.FromPersonality(personality);
@@ -492,12 +480,12 @@ namespace SetStartDupes
             SgtLogger.l("Beached Found, initializing...");
             ModAssets.BeachedActive = Beached_API.IsUsingLifeGoals.Invoke();
             SgtLogger.l(Beached_API.IsUsingLifeGoals.Invoke().ToString(), "Using Lifegoals");
-            
-            
+
+
             List<string> Beached_LifegoalTraitsIds = Beached_API.GetPossibleLifegoalTraits.Invoke(null, true);
             var db = Db.Get().traits;
 
-            foreach(var traitID in Beached_LifegoalTraitsIds)
+            foreach (var traitID in Beached_LifegoalTraitsIds)
             {
                 var beachedTrait = db.TryGet(traitID);
                 if (beachedTrait != null)
@@ -570,7 +558,7 @@ namespace SetStartDupes
 
                 if (DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || ModConfig.Instance.AddVaccilatorTraits)
                 {
-                    return 
+                    return
                         //TraitsByType[NextType.special].Concat
                         (TraitsByType[NextType.geneShufflerTrait]).Concat(TraitsByType[NextType.posTrait]).Concat(TraitsByType[NextType.needTrait]).Concat(TraitsByType[NextType.negTrait]).ToList();
                 }
@@ -594,7 +582,7 @@ namespace SetStartDupes
 
         public static NextType GetTraitListOfTrait(string traitId, out List<DUPLICANTSTATS.TraitVal> TraitList)
         {
-            if(BEACHED_LIFEGOALS.FindIndex(t => t.id == traitId) != -1)
+            if (BEACHED_LIFEGOALS.FindIndex(t => t.id == traitId) != -1)
             {
                 TraitList = BEACHED_LIFEGOALS;
                 return NextType.Beached_LifeGoal;

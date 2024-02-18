@@ -323,8 +323,18 @@ namespace SetStartDupes
         private void ApplyCarePackageSprite(CarePackageInfo CarePackage, Image image)
         {
             GameObject prefab = Assets.GetPrefab(CarePackage.id.ToTag());
+
+
             if (prefab == null)
             {
+                var element = CarePackage.id.ToTag();
+                if (ElementLoader.GetElement(element) == null)
+                {
+                    SgtLogger.warning(CarePackage.id + " was neither a valid prefab, nor an element. Couldnt add care package info to selection screen!");
+                }
+                
+
+
                 image.sprite = Def.GetUISpriteFromMultiObjectAnim(ElementLoader.GetElement(CarePackage.id.ToTag()).substance.anim);
                 image.color = (Color)ElementLoader.GetElement(CarePackage.id.ToTag()).substance.uiColour;
                 return;

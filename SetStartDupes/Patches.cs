@@ -483,7 +483,7 @@ namespace SetStartDupes
                     if (SkinButtonGO != null)
                         UnityEngine.Object.Destroy(SkinButtonGO);
 
-                    var SkinButton = Util.KInstantiateUI<KButton>(__instance.ChangeOutfitButton.gameObject, __instance.ChangeOutfitButton.transform.parent.gameObject);
+                    var SkinButton = Util.KInstantiateUI<KButton>(__instance.CodexEntryButton.gameObject, __instance.CodexEntryButton.transform.parent.gameObject);
                     //SkinButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 20, 33f);
                     SkinButton.ClearOnClick();
                     SkinButton.name = "DupeSkinButtonSideScreen";
@@ -503,8 +503,7 @@ namespace SetStartDupes
             }
         }
         [HarmonyPatch(typeof(DetailsScreen))]
-        [HarmonyPatch(nameof(DetailsScreen.SetTitle))]
-        [HarmonyPatch(new Type[] { typeof(int) })]
+        [HarmonyPatch(nameof(DetailsScreen.OnSelectObject))]
         public class ToggleSkinButtonVisibility
         {
             public static void Prefix(DetailsScreen __instance)
