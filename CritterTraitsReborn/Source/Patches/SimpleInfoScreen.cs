@@ -30,7 +30,7 @@ namespace CritterTraitsReborn.Patches
         {
             if (target != null 
                 && target.TryGetComponent<Klei.AI.Traits>(out var traits) 
-                && target.TryGetComponent<KPrefabID>(out var prefab) 
+                && target.TryGetComponent<KPrefabID>(out _) 
                 && traits.TraitList != null 
                 && traits.TraitList.Count > 0
                 && target.HasTag(GameTags.Creature))
@@ -39,21 +39,31 @@ namespace CritterTraitsReborn.Patches
                 bool shouldShow=false;
                 TraitsPanel.gameObject.SetActive(true);
                 TraitsPanel.HeaderLabel.text = global::STRINGS.UI.CHARACTERCONTAINER_TRAITS_TITLE;
+               // TraitsDrawer.BeginDrawing();
+                int count = 0;
 
-                TraitsDrawer.BeginDrawing();
+                foreach(var entry in TraitsPanel.labels)
+                {
+                    entry.Value.used = false;
+                }
+
                 foreach (Trait trait in traits.TraitList)
                 {
                     if (!Traits.AllTraits.IsTraitVisibleInUI(trait.Id)) continue;
 
                     var color = trait.PositiveTrait ? Constants.POSITIVE_COLOR : Constants.NEGATIVE_COLOR;
-                    TraitsDrawer.NewLabel($"<color=#{color.ToHexString()}>{(trait.Name)}</color>").Tooltip(trait.GetTooltip());
+                    //DetailsPanelDrawer drawer = TraitsDrawer.NewLabel($"<color=#{color.ToHexString()}>{(trait.Name)}</color>");
+                    TraitsPanel.SetLabel("traitLabel_" + count, $"<color=#{color.ToHexString()}>{(trait.Name)}</color>", trait.GetTooltip());
+                    ++count;
                     shouldShow = true;
                 }
-                TraitsDrawer.EndDrawing();
+                //TraitsDrawer.EndDrawing();
                 if(!shouldShow)
                 {
                     TraitsPanel.gameObject.SetActive(false);
                 }
+                else
+                    TraitsPanel.Commit();
             }
             else
             {
