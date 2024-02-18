@@ -9,8 +9,6 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
 {
     public class ConstructionProjectAssembly
     {
-        public bool IsUpgrade = false;
-
         public string ProjectName = "Space Project";
         public string ProjectDescription = "Space Project Desc.";
 
@@ -22,7 +20,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
         public List<PartProject> Parts = new List<PartProject>();
 
         public Sprite PreviewSprite = null;
-        public Action<GameObject> OnConstructionFinishedAction = null;
+        public Action<SpaceConstructable> OnConstructionFinishedAction = null;
 
     }
 }

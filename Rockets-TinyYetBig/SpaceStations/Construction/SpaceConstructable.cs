@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
+using UtilLibs;
 using static Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS;
 
 namespace Rockets_TinyYetBig.SpaceStations.Construction
@@ -14,6 +16,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
         [Serialize] List<PartProject> InProgressParts = new List<PartProject>();
         [Serialize] List<PartProject> FinishedParts = new List<PartProject>();
         [Serialize] ConstructionProjectAssembly CurrentProject = null;
+        [Serialize] public bool DerelictStation =false;
 
 
         [MyCmpReq]
@@ -33,11 +36,8 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
             if (!AllPartsFinished())
                 return;
 
-            CurrentProject.OnConstructionFinishedAction.Invoke(this.gameObject);
-            if (!CurrentProject.IsUpgrade)
-            {
-                GameScheduler.Instance.ScheduleNextFrame("RemoveConstructer", (_) => UnityEngine.Object.Destroy(this.gameObject));
-            }
+            CurrentProject.OnConstructionFinishedAction.Invoke(this);
+            CurrentProject = null;
         }
 
         
@@ -56,7 +56,35 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
             OpenParts.Clear();
             return true;
         }
+        public void ForceFinishProject(ConstructionProjectAssembly project)
+        {
 
+            foreach (var part in project.Parts)
+            {
+                FinishedParts.Add(part);
+
+                Element element = ElementLoader.GetElement(part.ResourceTag);
+                var PrefabItem = Assets.GetPrefab(part.ResourceTag);
+
+                if (element != null)
+                {
+                    buildPartStorage.AddElement(element.id, part.ResourceAmountMass, element.defaultValues.temperature, 255, 0);
+                }
+                else if (PrefabItem != null)
+                {
+                    GameObject go = Util.KInstantiate(PrefabItem, new Vector3(-1, -1));
+                    go.SetActive(true);
+                    buildPartStorage.Store(go, true);
+                }
+                else
+                    SgtLogger.warning(part.ResourceTag + " was not a valid resource");
+            }
+            if (CancelCurrentProject())
+            {
+                OpenParts.AddRange(new List<PartProject>(project.Parts));
+                CurrentProject = project;
+            }
+        }
         public void AssignProject(ConstructionProjectAssembly project)
         {
             if (CancelCurrentProject())
@@ -196,6 +224,8 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
 
         public string Description => SPACECONSTRUCTIONSITE.DESC;
 
+        public object GameScheduler { get; internal set; }
+
         public ICheckboxListGroupControl.ListGroup[] GetData()
         {
             var Items = new List<ICheckboxListGroupControl.ListGroup>();
@@ -237,5 +267,15 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
         public bool SidescreenEnabled() => CurrentProject != null;
 
         public int CheckboxSideScreenSortOrder() => 20;
+
+        internal void TransferPartsTo(SpaceConstructable constructable)
+        {
+            this.buildPartStorage.Transfer(constructable.buildPartStorage);
+            while(FinishedParts.Count> 0)
+            {
+                constructable.FinishedParts.Add(FinishedParts[0]);
+                FinishedParts.RemoveAt(0);
+            }
+        }
     }
 }

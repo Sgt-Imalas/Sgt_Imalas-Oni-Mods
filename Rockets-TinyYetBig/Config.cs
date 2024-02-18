@@ -14,7 +14,7 @@ namespace Rockets_TinyYetBig
     [RestartRequired]
     [ConfigFile(SharedConfigLocation: true)]
     [ModInfo("https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods", "preview.png")]
-    public class Config : SingletonOptions<Config>
+    public class Config : SingletonOptions<Config>, PeterHan.PLib.Options.IOptions
     {
         public static bool SpaceStationsPossible =>
 #if DEBUG
@@ -95,7 +95,6 @@ namespace Rockets_TinyYetBig
                 };
             }  
         }
-
 
 
         #region vanillaplus
@@ -320,9 +319,9 @@ namespace Rockets_TinyYetBig
         #endregion
         #region SpaceStations
 
-        [Option("Space Stations & Deep Space Science", "", "(5) Space Expansion")]
+        [Option("[ALPHA] Space Stations & Deep Space Science", "Unlocks space stations. This feature is work in progress, unfinished and might contain bugs.\nRequires Neutronium Alloy, Compressed Interiors, advanced world selector to activate", "(5) Space Expansion")]
         [JsonProperty]
-        protected bool SpaceStationsAndTech { get; set; }
+        public bool SpaceStationsAndTech { get; set; }
 
         [Option("Docking", "Dock rockets in space to transfer dupes and contents of the interiors", "(5) Space Expansion")]
         [JsonProperty]
@@ -406,6 +405,16 @@ namespace Rockets_TinyYetBig
 
             /// EasterEggs
             SpiceEyes = true;
+        }
+
+        public IEnumerable<IOptionsEntry> CreateOptions()
+        {
+            return null;
+        }
+
+        public void OnOptionsChanged()
+        {
+            SpaceStationsAndTech = SpaceStationsPossible;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using KSerialization;
 using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.SpaceStations;
+using Rockets_TinyYetBig.SpaceStations.Construction;
 using Steamworks;
 using System;
 using System.Collections.Generic;
@@ -60,6 +61,8 @@ namespace Rockets_TinyYetBig.Derelicts
                 NameDisplayScreen.Instance.UpdateName(overlay.gameObject);
             }
 
+            if (!RTB_SavegameStoredSettings.Instance.DerelictInteriorWorlds.Contains(SpaceStationInteriorId))
+                RTB_SavegameStoredSettings.Instance.DerelictInteriorWorlds.Add(SpaceStationInteriorId);
 
         }
         public static void SpawnNewDerelictStation(ArtifactPOIClusterGridEntity source)
@@ -79,8 +82,17 @@ namespace Rockets_TinyYetBig.Derelicts
             sat.SetActive(true);
             var spaceStation = sat.GetComponent<DerelictStation>();
             spaceStation.Location = source.Location;
+            var site = sat.AddOrGet<SpaceConstructable>();
+            site.buildPartStorage = sat.AddComponent<Storage>();
+            site.DerelictStation = true;
+            site.ForceFinishProject(ConstructionProjects.DerelictStation);
+        }
+        public override void OnCleanUp()
+        {
+            base.OnCleanUp();
 
-
+            if (RTB_SavegameStoredSettings.Instance.DerelictInteriorWorlds.Contains(SpaceStationInteriorId))
+                RTB_SavegameStoredSettings.Instance.DerelictInteriorWorlds.Remove(SpaceStationInteriorId);
         }
 
         public void Init(AxialI location)

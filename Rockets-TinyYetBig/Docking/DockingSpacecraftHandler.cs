@@ -89,7 +89,7 @@ namespace Rockets_TinyYetBig.Docking
                 HasDoors()
                 && AvailableConnections() > 0
                 && world.ParentWorldId == world.id
-                && !RocketryUtils.IsRocketInFlight(clustercraft);
+                && !RocketryUtils.IsRocketTraveling(clustercraft);
                
             return cando;
         }

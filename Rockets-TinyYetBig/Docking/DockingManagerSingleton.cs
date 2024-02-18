@@ -368,7 +368,7 @@ namespace Rockets_TinyYetBig.Docking
                 return false;
             }
 
-            if(RocketryUtils.IsRocketInFlight(handler.clustercraft))
+            if(RocketryUtils.IsRocketTraveling(handler.clustercraft))
                 return false;
 
 

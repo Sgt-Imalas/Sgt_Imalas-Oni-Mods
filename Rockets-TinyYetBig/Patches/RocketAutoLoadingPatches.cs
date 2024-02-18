@@ -41,7 +41,7 @@ namespace Rockets_TinyYetBig.Patches
 
 
                 System.Action<bool> fillInProgressSetterAction = new Action<bool>((fillingOngoing) => __instance.sm.fillComplete.Set(fillingOngoing, __instance));
-                SgtLogger.l(__instance.gameObject.GetProperName());
+                //SgtLogger.l(__instance.gameObject.GetProperName());
                 ModAssets.ReplacedCargoLoadingMethod(craftInterface,chain, fillInProgressSetterAction);
 
                 //PPatchTools.TryGetFieldValue(__instance.sm, "fillComplete", out StateMachine<LaunchPadMaterialDistributor, LaunchPadMaterialDistributor.Instance, IStateMachineTarget, LaunchPadMaterialDistributor.Def>.BoolParameter fillComplete);

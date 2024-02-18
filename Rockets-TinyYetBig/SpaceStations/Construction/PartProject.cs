@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Rockets_TinyYetBig.SpaceStations.Construction
 {
+    [Serializable]
     public class PartProject : KMonoBehaviour
     {
         [Serialize] Tag _resourceTag = null;

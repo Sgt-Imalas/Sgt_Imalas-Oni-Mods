@@ -188,18 +188,23 @@ namespace Rockets_TinyYetBig.Patches
             {
                 public CargoBayCluster CargoBay;
                 public CritterStasisChamberModule CritterModule;
+                public SpecialCargoBayClusterReceptacle VanillaCritterStorage;
                 public RadiationBatteryOutputHandler HepBatteryModule;
                 public CargoBayAndFriends(ref CargoBayCluster cluster)
                 {
-                    CargoBay = cluster; CritterModule = null; HepBatteryModule = null;
+                    CargoBay = cluster; CritterModule = null; HepBatteryModule = null; VanillaCritterStorage = null;
                 }
                 public CargoBayAndFriends(ref CritterStasisChamberModule cluster)
                 {
-                    CargoBay = null; CritterModule = cluster; HepBatteryModule = null;
+                    CargoBay = null; CritterModule = cluster; HepBatteryModule = null; VanillaCritterStorage = null;
                 }
                 public CargoBayAndFriends(ref RadiationBatteryOutputHandler cluster)
                 {
-                    CargoBay = null; CritterModule = null; HepBatteryModule = cluster;
+                    CargoBay = null; CritterModule = null; HepBatteryModule = cluster; VanillaCritterStorage = null;
+                }
+                public CargoBayAndFriends(ref SpecialCargoBayClusterReceptacle cluster)
+                {
+                    CargoBay = null; CritterModule = null; HepBatteryModule = null; VanillaCritterStorage = cluster;
                 }
             }
 
@@ -344,6 +349,12 @@ namespace Rockets_TinyYetBig.Patches
                             cargoStorage += stasisChamberModule.AmountStored;
                             cargoStorageMax += stasisChamberModule.UserMaxCapacity;
                         }
+                        else if (moduleGet.TryGetComponent<SpecialCargoBayClusterReceptacle>(out var vanillaCritterModule))
+                        {
+                            CargoBays.Add(new CargoBayAndFriends(ref vanillaCritterModule));
+                            cargoStorage += vanillaCritterModule.Occupant == null ? 0 : 1;
+                            cargoStorageMax += 1;
+                        }
                         else if (moduleGet.TryGetComponent<RadiationBatteryOutputHandler>(out var hepChamberModule))
                         {
                             CargoBays.Add(new CargoBayAndFriends(ref hepChamberModule));
@@ -444,7 +455,7 @@ namespace Rockets_TinyYetBig.Patches
                             RequiresOxidizer ? GameUtil.GetFormattedMass(OxidizerRemaining) : string.Empty);
 
                             float RangeRemaining = targetEngine != null ? (RequiresOxidizer ? Mathf.Min(FuelRemaining, OxidizerRemaining) : FuelRemaining) / FuelPerHexEngine : 0;
-                            RangeRemainingTextSTRING = string.Concat(global::STRINGS.UI.CLUSTERMAP.ROCKETS.RANGE.NAME, GameUtil.GetFormattedRocketRange(RangeRemaining * 600f, GameUtil.TimeSlice.None));
+                            RangeRemainingTextSTRING = string.Concat(global::STRINGS.UI.CLUSTERMAP.ROCKETS.RANGE.NAME, GameUtil.GetFormattedRocketRange(Mathf.FloorToInt( (RangeRemaining+ 0.001f) )));
 
                         }
                         else
@@ -473,7 +484,7 @@ namespace Rockets_TinyYetBig.Patches
                             RocketEnginePower.ToString(),
                             "\n    • ", global::STRINGS.UI.CLUSTERMAP.ROCKETS.BURDEN_TOTAL.NAME,
                             RocketBurden.ToString());
-                        SpeedTextSTRING = string.Concat(global::STRINGS.UI.CLUSTERMAP.ROCKETS.SPEED.NAME, GameUtil.GetFormattedRocketRange(Speed, GameUtil.TimeSlice.PerCycle));
+                        SpeedTextSTRING = string.Concat(global::STRINGS.UI.CLUSTERMAP.ROCKETS.SPEED.NAME, GameUtil.GetFormattedRocketRangePerCycle(Speed));
 
                         RocketBurdenPREVIOUS = RocketBurden;
                         RocketEnginePowerPREVIOUS = RocketEnginePower;
@@ -607,12 +618,10 @@ namespace Rockets_TinyYetBig.Patches
                                 rocketStatusContainer.SetLabel("LocalPower", SelectedModuleLocalPowerNAME, SelectedModuleLocalPowerTOOLTIP);
                             }
                         }
-                        rocketStatusContainer.Commit();
                     }
                     
                     if (
-                        redrawPanel||
-                        (!Mathf.Approximately(cargoStorage, CargoStoragePREV)) || (!Mathf.Approximately(cargoStorageMax, CargoStorageMaxPREV)))
+                        redrawPanel|| (!Mathf.Approximately(cargoStorage, CargoStoragePREV)) || (!Mathf.Approximately(cargoStorageMax, CargoStorageMaxPREV)))
                     {
                         CargoStoragePREV = cargoStorage;
                         CargoStorageMaxPREV= cargoStorageMax;
@@ -630,22 +639,11 @@ namespace Rockets_TinyYetBig.Patches
                             for (int j = 0; j < ArtifactModules.Count; ++j)
                             {
                                 var aModule = ArtifactModules[j];
-                                GameObject gameObject = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.artifactModuleLabels, rocketStatusContainer, "artifactModule_" + j);
 
-                                string text2 = string.Empty;
-                                text2 = ((!(aModule.Occupant != null)) ? $"{aModule.GetProperName()}: {(global::STRINGS.UI.CLUSTERMAP.ROCKETS.ARTIFACT_MODULE.EMPTY)}" : (aModule.GetProperName() + ": " + aModule.Occupant.GetProperName()));
+                                string artifactModuleLabel = string.Empty;
+                                artifactModuleLabel = ((!(aModule.Occupant != null)) ? $"{aModule.GetProperName()}: {(global::STRINGS.UI.CLUSTERMAP.ROCKETS.ARTIFACT_MODULE.EMPTY)}" : (aModule.GetProperName() + ": " + aModule.Occupant.GetProperName()));
 
-                                Transform transform = gameObject.transform.Find("removeAttributeButton");
-                                if (transform != null)
-                                {
-                                    KButton kButton = transform.FindComponent<KButton>();
-                                    kButton.enabled = false;
-                                    kButton.gameObject.SetActive(value: false);
-                                    kButton.ClearOnClick();
-                                }
-
-                                gameObject.GetComponentInChildren<LocText>().text = text2;
-                                gameObject.SetActive(value: true);
+                                rocketStatusContainer.SetLabel("artifactModule_" + j, artifactModuleLabel,"" );
                             }
 
 
@@ -667,17 +665,6 @@ namespace Rockets_TinyYetBig.Patches
                                     var currentCargoBay = currentModule.CargoBay;
                                     ListPool<Tuple<string, TextStyleSetting>, SimpleInfoScreen>.PooledList pooledList = ListPool<Tuple<string, TextStyleSetting>, SimpleInfoScreen>.Allocate();
 
-                                    GameObject RowEntry = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.cargoBayLabels, rocketStatusContainer, "cargoBay_" + j);
-
-                                    Transform transform = RowEntry.transform.Find("removeAttributeButton");
-                                    if (transform != null)
-                                    {
-                                        KButton kButton = transform.FindComponent<KButton>();
-                                        kButton.enabled = false;
-                                        kButton.gameObject.SetActive(value: false);
-                                        kButton.ClearOnClick();
-                                    }
-
                                     string CargobayText = $"{currentCargoBay.storage.GetComponent<KPrefabID>().GetProperName()}: {GameUtil.GetFormattedMass(currentCargoBay.storage.MassStored())}/{GameUtil.GetFormattedMass(currentCargoBay.storage.capacityKg)}";
 
                                     foreach (GameObject item2 in currentCargoBay.storage.GetItems())
@@ -696,51 +683,40 @@ namespace Rockets_TinyYetBig.Patches
                                             CarboBayTooltip += "\n";
                                         }
                                     }
-                                    RowEntry.GetComponentInChildren<LocText>().text = CargobayText;
-                                    RowEntry.GetComponentInChildren<ToolTip>().SetSimpleTooltip(CarboBayTooltip);
+                                    rocketStatusContainer.SetLabel("cargoBay_" + j, CargobayText, CarboBayTooltip);
                                     pooledList.Recycle();
+                                }
+                                else if (currentModule.VanillaCritterStorage != null)
+                                {
+                                    var critterHolder = currentModule.VanillaCritterStorage;
+                                    string critterInfo = critterHolder.Occupant != null ? critterHolder.Occupant.GetProperName() : global::STRINGS.UI.CLUSTERMAP.ROCKETS.ARTIFACT_MODULE.EMPTY.ToString();
+                                    string CargobayText = $"{critterHolder.GetComponent<KPrefabID>().GetProperName()}: {critterInfo}";
+                                    string ToolTip = "";
+
+                                    rocketStatusContainer.SetLabel("cargoBay_" + j, CargobayText, ToolTip);
                                 }
                                 else if (currentModule.CritterModule != null)
                                 {
                                     var critterHolder = currentModule.CritterModule;
-                                    GameObject RowEntry = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.cargoBayLabels, rocketStatusContainer, "cargoBay_" + j);
+
                                     string CargobayText = $"{critterHolder.GetComponent<KPrefabID>().GetProperName()}: {Util.FormatWholeNumber(critterHolder.CurrentCapacity)}/{Util.FormatWholeNumber(Config.Instance.CritterStorageCapacity)}";
                                     string ToolTip = critterHolder.GetStatusItem();
 
-                                    Transform transform = RowEntry.transform.Find("removeAttributeButton");
-                                    if (transform != null)
-                                    {
-                                        KButton kButton = transform.FindComponent<KButton>();
-                                        kButton.enabled = false;
-                                        kButton.gameObject.SetActive(value: false);
-                                        kButton.ClearOnClick();
-                                    }
 
-                                    RowEntry.GetComponentInChildren<LocText>().text = CargobayText;
-                                    if (ToolTip != string.Empty)
-                                        RowEntry.GetComponentInChildren<ToolTip>().SetSimpleTooltip(ToolTip);
+                                    rocketStatusContainer.SetLabel("cargoBay_" + j, CargobayText, ToolTip);
                                 }
                                 else if (currentModule.HepBatteryModule != null)
                                 {
                                     var HepBattery = currentModule.HepBatteryModule;
-                                    GameObject RowEntry = __instance.simpleInfoRoot.AddOrGetStorageLabel(__instance.cargoBayLabels, rocketStatusContainer, "cargoBay_" + j);
+
                                     string CargobayText = $"{HepBattery.GetComponent<KPrefabID>().GetProperName()}: {Util.FormatWholeNumber(HepBattery.hepStorage.Particles)}/{Util.FormatWholeNumber(HepBattery.hepStorage.capacity)}";
                                     string ToolTip = string.Empty;
 
-                                    Transform transform = RowEntry.transform.Find("removeAttributeButton");
-                                    if (transform != null)
-                                    {
-                                        KButton kButton = transform.FindComponent<KButton>();
-                                        kButton.enabled = false;
-                                        kButton.gameObject.SetActive(value: false);
-                                        kButton.ClearOnClick();
-                                    }
+                                    rocketStatusContainer.SetLabel("cargoBay_" + j, CargobayText, ToolTip);
 
-                                    RowEntry.GetComponentInChildren<LocText>().text = CargobayText;
-                                    if (ToolTip != string.Empty)
-                                        RowEntry.GetComponentInChildren<ToolTip>().SetSimpleTooltip(ToolTip);
                                 }
                             }
+                            rocketStatusContainer.Commit();
                         }
 
                     }

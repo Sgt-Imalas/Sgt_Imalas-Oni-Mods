@@ -86,11 +86,13 @@ namespace Rockets_TinyYetBig.UI_Unity
         public override float GetSortKey() => 25f;
         public override bool IsValidForTarget(GameObject target)
         {
-            return
+
+            return 
                 target.TryGetComponent<CraftModuleInterface>(out var ModuleInterface)
                 && ModuleInterface.clusterModules.Any( module => module.Get().TryGetComponent<SpaceStationBuilder>(out _))               
                 && ModuleInterface.m_clustercraft.status == Clustercraft.CraftStatus.InFlight
-                && !RocketryUtils.IsRocketInFlight(ModuleInterface.m_clustercraft);
+                && !RocketryUtils.IsRocketTraveling(ModuleInterface.m_clustercraft);
+
         }
         public override void ClearTarget()
         {
@@ -153,8 +155,8 @@ namespace Rockets_TinyYetBig.UI_Unity
                 SpaceStation.SpawnNewSpaceStation(targetCraft.Location);
 #else
 
-                SpaceStation.SpawnNewSpaceStation(targetCraft.Location);
-                //ToggleBuildTargetScreen();
+                //SpaceStation.SpawnNewSpaceStation(targetCraft.Location);
+                ToggleBuildTargetScreen();
 #endif
             };
         }

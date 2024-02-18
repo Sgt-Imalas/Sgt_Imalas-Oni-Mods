@@ -108,7 +108,7 @@ namespace Rockets_TinyYetBig.UI_Unity
 
             bool flying = spaceship != null ? spaceship.Status == Clustercraft.CraftStatus.InFlight : false;
 
-            return manager != null && manager.HasDoors() && manager.CraftType != DockableType.Derelict && flying && !RocketryUtils.IsRocketInFlight(spaceship);
+            return manager != null && manager.HasDoors() && manager.CraftType != DockableType.Derelict && flying && !RocketryUtils.IsRocketTraveling(spaceship);
         }
         public override void ClearTarget()
         {
@@ -342,7 +342,7 @@ namespace Rockets_TinyYetBig.UI_Unity
 
                     continue;
                 }
-                if (manager.CraftType == DockableType.Rocket && RocketryUtils.IsRocketInFlight( manager.clustercraft))
+                if (manager.CraftType == DockableType.Rocket && RocketryUtils.IsRocketTraveling( manager.clustercraft))
                 {
                     kvp.Value.SetActive(false);
 

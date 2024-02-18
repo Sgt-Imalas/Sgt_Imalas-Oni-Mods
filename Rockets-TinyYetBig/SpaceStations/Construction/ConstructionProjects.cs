@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rockets_TinyYetBig.Elements;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,9 +10,8 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
 {
     public static class ConstructionProjects
     {
-        public static ConstructionProjectAssembly SpaceStationInit = new ConstructionProjectAssembly()
+        public static ConstructionProjectAssembly SpaceStationInit => new ConstructionProjectAssembly()
         {
-            IsUpgrade = false,
             Parts = new List<PartProject>()
             {
                 new PartProject(SimHashes.Steel.CreateTag(), 10, 600),
@@ -19,11 +19,38 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
                 new PartProject(SimHashes.Water.CreateTag(), 10, 600)
             },
             PreviewSprite = Assets.GetSprite("unknown"),
-            OnConstructionFinishedAction = new Action<GameObject>((SiteGO) =>
+            OnConstructionFinishedAction = new Action<SpaceConstructable>((originSite) =>
             {
-                if (SiteGO != null && SiteGO.TryGetComponent<ClusterGridEntity>(out var entity))
+                if (originSite != null && originSite.TryGetComponent<ClusterGridEntity>(out var entity))
                 {
-                    SpaceStation.SpawnNewSpaceStation(entity.Location);
+                    var station = SpaceStation.SpawnNewSpaceStation(entity.Location);
+                    if (station != null && station.TryGetComponent<SpaceConstructable>(out var constructable))
+                    {
+                        originSite.TransferPartsTo(constructable);
+                        GameScheduler.Instance.ScheduleNextFrame("RemoveConstructer", (_) => UnityEngine.Object.Destroy(originSite.gameObject));
+                    }
+                }
+            }
+            )
+        };
+        public static ConstructionProjectAssembly DerelictStation => new ConstructionProjectAssembly()
+        {
+            Parts = new List<PartProject>()
+            {
+                new PartProject(SimHashes.Steel.CreateTag(), 100, 600),
+                new PartProject(ModElements.UnobtaniumAlloy.Tag, 100, 600),
+            },
+            PreviewSprite = Assets.GetSprite("unknown"),
+            OnConstructionFinishedAction = new Action<SpaceConstructable>((originSite) =>
+            {
+                if (originSite != null && originSite.TryGetComponent<ClusterGridEntity>(out var entity))
+                {
+                    var station = SpaceStation.SpawnNewSpaceStation(entity.Location);
+                    if (station != null && station.TryGetComponent<SpaceConstructable>(out var constructable))
+                    {
+                        originSite.TransferPartsTo(constructable);
+                        GameScheduler.Instance.ScheduleNextFrame("RemoveConstructer", (_) => UnityEngine.Object.Destroy(originSite.gameObject));
+                    }
                 }
             }
             )
@@ -34,7 +61,6 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
         {
             new ConstructionProjectAssembly()
             {
-                IsUpgrade = false,
                 Parts = new List<PartProject>()
                 {
                     new PartProject(SimHashes.Steel.CreateTag(), 10, 600),

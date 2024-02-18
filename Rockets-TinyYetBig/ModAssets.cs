@@ -386,7 +386,7 @@ namespace Rockets_TinyYetBig
                         }
                     }
                 }
-                SgtLogger.l(isLoading.ToString(), smi1.gameObject.GetProperName());
+                //SgtLogger.l(isLoading.ToString(), smi1.gameObject.GetProperName());
                 modularConduitPortController?.SetLoading(isLoading);
             }
 

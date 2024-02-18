@@ -22,6 +22,9 @@ namespace Rockets_TinyYetBig.Behaviours
         [Serialize]
         public HashSet<int> StationInteriorWorlds = new HashSet<int>();
 
+        [Serialize]
+        public HashSet<int> DerelictInteriorWorlds = new HashSet<int>();
+
 
         public override void OnSpawn()
         {

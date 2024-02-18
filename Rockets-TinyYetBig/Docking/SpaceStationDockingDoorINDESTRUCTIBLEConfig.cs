@@ -97,6 +97,7 @@ namespace Rockets_TinyYetBig.Buildings
         {
             UnityEngine.Object.DestroyImmediate(go.GetComponent<BuildingEnabledButton>());
             UnityEngine.Object.DestroyImmediate(go.GetComponent<Deconstructable>());
+            UnityEngine.Object.DestroyImmediate(go.GetComponent<Reconstructable>());
 
             AddFakeFloor(go);
             //4go.AddOrGet<MoveToDocked>();

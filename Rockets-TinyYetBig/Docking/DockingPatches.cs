@@ -65,7 +65,7 @@ namespace Rockets_TinyYetBig.Patches
         {
             public static void Postfix(Clustercraft __instance)
             {
-                if (RocketryUtils.IsRocketInFlight(__instance))
+                if (RocketryUtils.IsRocketTraveling(__instance))
                 {
                     if (__instance.TryGetComponent<DockingSpacecraftHandler>(out var manager))
                     {
