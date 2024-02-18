@@ -295,6 +295,8 @@ namespace UtilLibs
                 var newScreen = prefab.AddComponent(typeof(T)) as SideScreenContent;
                 screens.Add(NewSideScreen(name, newScreen));
             }
+            else
+                SgtLogger.error($"Couldnt add custom sidescreen {name}, sidescreen vars not found");
         }
 
         private static bool GetElements(out List<SideScreenRef> screens, out GameObject contentBody)
@@ -307,7 +309,7 @@ namespace UtilLibs
                 //Debug.Log(v.name);
             }
 #endif
-            contentBody = detailsScreen.Field("sideScreenContentBody").GetValue<GameObject>();
+            contentBody = detailsScreen.Field("sideScreenConfigContentBody").GetValue<GameObject>();
             return screens != null && contentBody != null;
         }
 

@@ -35,7 +35,7 @@ namespace UtilLibs
             def.UseWhitePowerOutputConnectorColour = true;
         }
 
-        public static bool IsRocketInFlight(Clustercraft craft)
+        public static bool IsRocketTraveling(Clustercraft craft)
         {
             var LocationCurrent = craft.Location;
             var LocationTarget = craft.ModuleInterface.GetClusterDestinationSelector().GetDestination();
