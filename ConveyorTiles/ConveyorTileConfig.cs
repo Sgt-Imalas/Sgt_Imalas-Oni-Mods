@@ -42,6 +42,7 @@ namespace ConveyorTiles
                 decor: decorValue,
                 noise: noiseLevel);
 
+            BuildingTemplates.CreateFoundationTileDef(buildingDef);
 
             buildingDef.IsFoundation = true;
             buildingDef.Overheatable = false;
@@ -62,7 +63,7 @@ namespace ConveyorTiles
 
             buildingDef.PowerInputOffset = new CellOffset(0, 0);
             buildingDef.EnergyConsumptionWhenActive = 4f;
-            buildingDef.SelfHeatKilowattsWhenActive = 0.05f;
+            buildingDef.SelfHeatKilowattsWhenActive = 0.00f;
             buildingDef.AddLogicPowerPort = false;
             //buildingDef.LogicInputPorts = new List<LogicPorts.Port>()
             //{

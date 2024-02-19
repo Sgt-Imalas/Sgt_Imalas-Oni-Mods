@@ -24,15 +24,16 @@ namespace MoveDupeHere
         private HandleVector<int>.Handle pickupablesChangedEntry;
         private HandleVector<int>.Handle floorSwitchActivatorChangedEntry;
 
-
+        int cell;
 
         public override void OnSpawn()
         {
             base.OnSpawn();
             this.smi.StartSM();
-            int cell = Grid.CellAbove(this.NaturalBuildingCell());
+            cell = Grid.CellAbove(this.NaturalBuildingCell());
             //this.Subscribe(-801688580, new System.Action<object>(this.OnLogicValueChanged));
             //this.solidChangedEntry = GameScenePartitioner.Instance.Add("ConveyorTileSM.SolidChanged", (object) this.gameObject, cell, GameScenePartitioner.Instance.solidChangedLayer, new System.Action<object>(this.OnSolidChanged));
+            //var s =                  GameScenePartitioner.Instance.Add("LadderBed.Constructor", (object)this.gameObject, cell, GameScenePartitioner.Instance.pickupablesChangedLayer, new System.Action<object>(this.OnMoverChanged)));
             //this.pickupablesChangedEntry = GameScenePartitioner.Instance.Add("ConveyorTileSM.PickupablesChanged", (object)this.gameObject, cell, GameScenePartitioner.Instance.pickupablesChangedLayer, new System.Action<object>(this.OnPickupablesChanged));
             //this.floorSwitchActivatorChangedEntry = GameScenePartitioner.Instance.Add("ConveyorTileSM.SwitchActivatorChanged", (object)this.gameObject, cell, GameScenePartitioner.Instance.floorSwitchActivatorChangedLayer, new System.Action<object>(this.OnActivatorsChanged));
         }
@@ -40,25 +41,25 @@ namespace MoveDupeHere
 
         private void OnPickupablesChanged(object data, float dt)
         {
-            int cell = Grid.CellAbove(this.NaturalBuildingCell());
             ListPool<ScenePartitionerEntry, ConveyorTileSM>.PooledList gathered_entries = ListPool<ScenePartitionerEntry, ConveyorTileSM>.Allocate();
             GameScenePartitioner.Instance.GatherEntries(Grid.CellToXY(cell).x, Grid.CellToXY(cell).y, 1, 1, GameScenePartitioner.Instance.pickupablesLayer, (List<ScenePartitionerEntry>)gathered_entries);
             for (int index = 0; index < gathered_entries.Count; ++index)
             {
-                Pickupable pickupable = gathered_entries[index].obj as Pickupable;
-                if (!((UnityEngine.Object)pickupable == (UnityEngine.Object)null) && !pickupable.wasAbsorbed)
+                if (gathered_entries[index].obj is Pickupable pickupable && !pickupable.wasAbsorbed)
                 {
                    
-                    KPrefabID component = pickupable.GetComponent<KPrefabID>();
-                    if (!component.HasTag(GameTags.Creature) || component.HasTag(GameTags.Creatures.Walker) || component.HasTag(GameTags.Creatures.Flopping))
+                    if (true 
+                        // && pickupable.TryGetComponent<KPrefabID>(out var component) &&!component.HasTag(GameTags.Creature) || component.HasTag(GameTags.Creatures.Walker) || component.HasTag(GameTags.Creatures.Flopping)
+                        )
                     {
+                        var transf = pickupable.transform;
                         if (rotatable.IsRotated)
                         {
-                            pickupable.gameObject.transform.position += transform.right * dt * 0.6f;
+                            transf.SetPosition(transf.position+= transf.right * dt * 0.52f);
                         }
                         else
                         {
-                            pickupable.gameObject.transform.position -= transform.right * dt * 0.6f;
+                            transf.SetPosition(transf.position - transf.right * dt * 0.52f);
                         }
                     }
                 }
@@ -114,7 +115,7 @@ namespace MoveDupeHere
                     .Update((smi, dt)=>
                     {
                         smi.master.OnPickupablesChanged(null,dt); 
-                    })
+                    },UpdateRate.SIM_33ms)
                     ;
                     
 
