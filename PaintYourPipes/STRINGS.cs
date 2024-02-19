@@ -11,7 +11,6 @@ namespace PaintYourPipes
     {
         public class PAINTABLEBUILDING
         {
-
             public static LocString TITLE = "Tint Colour";
             public static LocString LABEL = "Paint whole network";
             public static LocString TOOLTIP = "Applies the colour of the currently selected item to its whole network.";
@@ -22,7 +21,13 @@ namespace PaintYourPipes
         public class HOTKEYACTIONS
         {
             public static LocString TOGGLE_OVERLAY_COLOR = "Toggle Color in Overlays";
-            
+
+        }
+        public class MODCONFIG
+        {
+            public static LocString OVERLAYONLYNAME = "Color Overlays Only";
+            public static LocString OVERLAYONLYDESC = "Only show colors in overlays";
+
         }
     }
 }

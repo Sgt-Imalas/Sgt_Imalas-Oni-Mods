@@ -142,10 +142,10 @@ namespace PaintYourPipes
             if (colorHex == null || colorHex == string.Empty)
                 colorHex = "FFFFFF";
 
-            var col = Util.ColorFromHex(colorHex);
-            col.a = ShowOverlayTint&&SameConduitType(Patches.ActiveOverlay, this.buildingComplete.Def.ObjectLayer) ? 0 : 1;
-            return col;
 
+            var col = Util.ColorFromHex(colorHex);
+            col.a = ShowOverlayTint && SameConduitType(Patches.ActiveOverlay, this.buildingComplete.Def.ObjectLayer) ? 0 : 1;
+            return col;
         }
         public void SetColor(Color color)
         {
@@ -164,7 +164,13 @@ namespace PaintYourPipes
 
         public void RefreshColor(Color Override = default)
         {
-            if(Override != default)
+
+            if (Config.Instance.OverlayOnly && !SameConduitType(Patches.ActiveOverlay, this.buildingComplete.Def.ObjectLayer))
+            {
+                Override = Color.white;
+            }
+
+            if (Override != default)
             {
                 _animController.TintColour = Override;
             }

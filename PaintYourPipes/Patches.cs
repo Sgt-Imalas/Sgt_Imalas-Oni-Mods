@@ -557,7 +557,10 @@ namespace PaintYourPipes
 
                     var colorOverrider = ColorableConduit.ConduitsByLayer[(int)ObjectLayer.LiquidConduit][cell];
                     if (ActiveOverlay != ObjectLayer.LiquidConduit)
-                        __result = __result.Multiply(colorOverrider.TintColor);
+                    {
+                        if (!Config.Instance.OverlayOnly)
+                            __result = __result.Multiply(colorOverrider.TintColor); 
+                    }
                     else if (ColorableConduit.ShowOverlayTint)
                         __result = colorOverrider.TintColor;
                 }
@@ -565,7 +568,10 @@ namespace PaintYourPipes
                 {
                     var colorOverrider = ColorableConduit.ConduitsByLayer[(int)ObjectLayer.GasConduit][cell];
                     if (ActiveOverlay != ObjectLayer.GasConduit)
-                        __result = __result.Multiply(colorOverrider.TintColor);
+                    {
+                        if (!Config.Instance.OverlayOnly)
+                            __result = __result.Multiply(colorOverrider.TintColor);
+                    }
                     else if (ColorableConduit.ShowOverlayTint)
                         __result = colorOverrider.TintColor;
                 }
