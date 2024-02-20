@@ -1,12 +1,12 @@
 ## Sgt_Imalas-Oni-Mods
 Mods for Oxygen Not Included and ONI - Spaced Out.
- | This List is probably not up to date)
+ (The List of mods is probably not up to date)
 
 ## How to build this Repository
 1. clone/download repository and open it in visual studio
 2. adjust the variables "ModFolder" and "GameLibsFolder" inside of Directory.Build.Props to reference your local dev folder and your game folder. This will relink all references to the game assemblies.
 3. run "clean" on the 1_CycleComma project. This runs the publicise task to create publicised versions of the game assembly (all variables and functions are made public). If it does not work, try restoring NuGet packages on that mod.
-4. Done. All mods should now be able to compile properly and be copied to the dev-folder on completion. If you want to make a new mod and use this repository as a base, make sure to allow "Unsafe Code" in the new mods project settings as this is required for using publiciser
+4. Done. All mods should now be able to compile properly and be copied to the dev-folder on completion. If you want to make a new mod and use this repository as a base, make sure to allow "Unsafe Code" in the new mods project settings as this is required for using publiciser (Update; this should now happen automatically via solution setting). A project template file is included with "UpdatedOniTemplate.zip".
 
 
 ## released Mods in this Repository
@@ -38,10 +38,12 @@ Mods for Oxygen Not Included and ONI - Spaced Out.
 | MeteorMigration|Meteor Migration [DLC]  | https://steamcommunity.com/sharedfiles/filedetails/?id=2955350267 | 
 | UtilityGlass|Utility Glass  | https://steamcommunity.com/sharedfiles/filedetails/?id=3121297403 | 
 | DebugButton|Debug Buttons  | https://steamcommunity.com/sharedfiles/filedetails/?id=3120193648 | 
-| UL_UniversalLyzer|Universal Electrolyzer  | https://steamcommunity.com/sharedfiles/filedetails/?id=3052201693 | 
+| UL_UniversalLyzer | Universal Electrolyzer  | https://steamcommunity.com/sharedfiles/filedetails/?id=3052201693 | 
 | hiabmripantscolf (folder: BrokenRocketInteriorPortFix)|Help I accidentally broke my rocket interior ports and now the save crashes on load - Fix  | https://steamcommunity.com/sharedfiles/filedetails/?id=3021827424 | 
-| AmogusMorb|Amorbus  | https://steamcommunity.com/sharedfiles/filedetails/?id=2899109675 | 
+| AmogusMorb|Amorbus | https://steamcommunity.com/sharedfiles/filedetails/?id=2899109675 | 
 | WeebPacu | Weeb Pacu  | https://steamcommunity.com/sharedfiles/filedetails/?id=2896083956 | 
+| PaintYourPipes | Paint Your Pipes & Wires  | https://steamcommunity.com/sharedfiles/filedetails/?id=2896083956 | 
+| SkillingQueue | Skill Queue  | https://steamcommunity.com/sharedfiles/filedetails/?id=2896083956 | 
 
 ## unreleased Mods in this Repository
 | Mod Name | Notes |
