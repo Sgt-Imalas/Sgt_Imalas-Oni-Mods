@@ -338,6 +338,36 @@ namespace OniRetroEdition
             }
         }
 
+
+        //[HarmonyPatch(typeof(CO2ScrubberConfig))]
+        //[HarmonyPatch(nameof(CO2ScrubberConfig.CreateBuildingDef))]
+        //public static class CO2Scrubber_CreateBuildingDef_Postfix
+        //{
+        //    public static void Postfix(ref BuildingDef __result)
+        //    {
+        //        BuildLocationRule newBuildingRule = BuildLocationRule.OnCeiling;
+
+        //        __result.BuildLocationRule = newBuildingRule;
+        //        __result.ContinuouslyCheckFoundation = !(
+        //               newBuildingRule == BuildLocationRule.Anywhere
+        //            || newBuildingRule == BuildLocationRule.Tile
+        //            || newBuildingRule == BuildLocationRule.Conduit
+        //            || newBuildingRule == BuildLocationRule.LogicBridge
+        //            || newBuildingRule == BuildLocationRule.WireBridge
+        //            );
+        //    }
+        //}
+        [HarmonyPatch(typeof(MinionConfig))]
+        [HarmonyPatch(nameof(MinionConfig.CreatePrefab))]
+        public static class MinionConfig_AddModNoiseListener
+        {
+            public static void Postfix(ref GameObject __result)
+            {
+                __result.AddOrGetDef< NoiseRecieverSMI.Def>();
+            }
+        }
+
+
         [HarmonyPatch(typeof(MopTool))]
         [HarmonyPatch(nameof(MopTool.OnPrefabInit))]
         public static class Moppable_AlwaysMop
@@ -377,7 +407,7 @@ namespace OniRetroEdition
                             new CodeInstruction(OpCodes.Call, m_InjectedMethod)
                         });
 
-                TranspilerHelper.PrintInstructions(codes);
+                //TranspilerHelper.PrintInstructions(codes);
                 return codes;
             }
 
@@ -793,7 +823,7 @@ namespace OniRetroEdition
             }
         }
 
-        [HarmonyPatch(typeof(SelectToolHoverTextCard), "UpdateHoverElements")]
+       // [HarmonyPatch(typeof(SelectToolHoverTextCard), "UpdateHoverElements")]
         public static class SelectToolHoverTextCard_UpdateHoverElements_Patch
         {
             private static readonly FieldInfo InfoId = AccessTools.Field(typeof(OverlayModes.Sound), nameof(OverlayModes.Sound.ID));
