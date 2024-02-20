@@ -266,6 +266,7 @@ namespace SetStartDupes
                 string description = GetSpawnableDescription(info.id);
                 string amountDesc = GetSpawnableQuantity(info.id, info.quantity);
 
+                
 
                 UIUtils.TryChangeText(PresetHolder.transform, "Label", amountDesc);
 
@@ -276,7 +277,12 @@ namespace SetStartDupes
 
                 PresetHolder.transform.FindOrAddComponent<FButton>().OnClick += () => ChoseThis(info);
                 PresetHolder.transform.Find("CarePackageSprite").TryGetComponent<Image>(out var image);
-                ApplyCarePackageSprite(info, image);
+                bool createdSuccessfully = ApplyCarePackageSprite(info, image);
+
+                if(!createdSuccessfully)
+                {
+                    return;
+                }
 
                 CarePackageContainers[info] = PresetHolder;
                 SearchableCarePackageInfo[info] = new searchableCarePackageContainer(name, description, amountDesc);
@@ -320,7 +326,7 @@ namespace SetStartDupes
                 ? true 
                 : info.requirement.Invoke();
 
-        private void ApplyCarePackageSprite(CarePackageInfo CarePackage, Image image)
+        private bool ApplyCarePackageSprite(CarePackageInfo CarePackage, Image image)
         {
             GameObject prefab = Assets.GetPrefab(CarePackage.id.ToTag());
 
@@ -331,13 +337,14 @@ namespace SetStartDupes
                 if (ElementLoader.GetElement(element) == null)
                 {
                     SgtLogger.warning(CarePackage.id + " was neither a valid prefab, nor an element. Couldnt add care package info to selection screen!");
+                    return false;
                 }
                 
 
 
                 image.sprite = Def.GetUISpriteFromMultiObjectAnim(ElementLoader.GetElement(CarePackage.id.ToTag()).substance.anim);
                 image.color = (Color)ElementLoader.GetElement(CarePackage.id.ToTag()).substance.uiColour;
-                return;
+                return true;
             }
 
 
