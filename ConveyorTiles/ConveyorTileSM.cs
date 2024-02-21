@@ -39,7 +39,7 @@ namespace MoveDupeHere
         }
 
 
-        private void OnPickupablesChanged(object data)
+        private void OnPickupablesChanged(object data, float dt)
         {
             ListPool<ScenePartitionerEntry, ConveyorTileSM>.PooledList gathered_entries = ListPool<ScenePartitionerEntry, ConveyorTileSM>.Allocate();
             GameScenePartitioner.Instance.GatherEntries(Grid.CellToXY(cell).x, Grid.CellToXY(cell).y, 1, 1, GameScenePartitioner.Instance.pickupablesLayer, (List<ScenePartitionerEntry>)gathered_entries);
