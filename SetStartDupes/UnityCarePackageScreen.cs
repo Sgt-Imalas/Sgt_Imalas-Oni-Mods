@@ -377,7 +377,7 @@ namespace SetStartDupes
             }
 
 
-
+            return true;
         }
         private string GetSpawnableName(string CarePackageID)
         {
