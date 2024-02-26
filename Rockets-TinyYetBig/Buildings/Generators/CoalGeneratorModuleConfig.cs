@@ -97,6 +97,7 @@ namespace Rockets_TinyYetBig
             generator.outputProductionRate = 0.050f;
             generator.ElementOutputCellOffset = new Vector3(2, 0);
 
+            go.AddOrGet<AutomatableAutoOn>();
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, 2);
         }
     }

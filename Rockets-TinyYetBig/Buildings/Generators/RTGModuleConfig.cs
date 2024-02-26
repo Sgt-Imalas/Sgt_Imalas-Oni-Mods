@@ -114,6 +114,7 @@ namespace Rockets_TinyYetBig
             generator.AlwaysActive = true;
             generator.OutputToOwnStorage = true;
 
+            go.AddOrGet<AutomatableAutoOn>();
             //WireUtilitySemiVirtualNetworkLink virtualNetworkLink = go.AddOrGet<WireUtilitySemiVirtualNetworkLink>();
             //virtualNetworkLink.visualizeOnly = true;
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, 3);
