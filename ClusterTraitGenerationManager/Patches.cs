@@ -534,14 +534,116 @@ namespace ClusterTraitGenerationManager
         //        SgtLogger.l($"LoadSettings, {in_async_thread}");
         //    }
         //}
-        ////[HarmonyPatch(typeof(ProcGenGame.WorldGen), (nameof(ProcGenGame.WorldGen.LoadSettings_Internal)))]
-        //public class ReplaceForDebug2
-        //{
-        //    public static void Prefix(bool is_playing, bool preloadTemplates)
-        //    {
-        //        SgtLogger.l($"LoadSettings_Internal, {is_playing}, {preloadTemplates}");
-        //    }
-        //}
+
+
+        /// <summary>
+        /// Blocking parallel internal settings loading to avoid foreach crashes inside of the method
+        /// </summary>
+        [HarmonyPatch(typeof(ProcGenGame.WorldGen), (nameof(ProcGenGame.WorldGen.LoadSettings_Internal)))]
+        public class ReplaceForDebug2
+        {
+            static bool blockThread;
+
+            public static void Postfix(ref bool __state)
+            {
+                if (__state)
+                {
+                    SgtLogger.l("Worldgen.LoadSettings_Internal: fetching complete, releasing block.");
+                    blockThread = false;
+                }
+            }
+
+            public static bool Prefix(bool is_playing, bool preloadTemplates, ref bool __state)
+            {
+                if (blockThread)
+                {
+                    SgtLogger.l("Worldgen.LoadSettings_Internal: fetching already in progress, skipping");
+                    __state = false; 
+                    return false;
+                }
+
+                SgtLogger.l("Worldgen.LoadSettings_Internal: starting fetch, blocking other threads");
+                __state = true;
+                blockThread = true;
+                return true;
+
+                //SgtLogger.l($"LoadSettings_Internal, {is_playing}, {preloadTemplates}");
+
+                //ListPool<YamlIO.Error, WorldGen>.PooledList pooledList = ListPool<YamlIO.Error, WorldGen>.Allocate();
+                //if (SettingsCache.LoadFiles(pooledList))
+                //{
+                //    TemplateCache.Init();
+                //    if (preloadTemplates)
+                //    {
+                //        try
+                //        {
+                //            foreach (ProcGen.World value in SettingsCache.worlds.worldCache.Values)
+                //            {
+                //                if (value.worldTemplateRules == null)
+                //                {
+                //                    continue;
+                //                }
+
+                //                foreach (ProcGen.World.TemplateSpawnRules worldTemplateRule in value.worldTemplateRules)
+                //                {
+                //                    foreach (string name in worldTemplateRule.names)
+                //                    {
+                //                        TemplateCache.GetTemplate(name);
+                //                    }
+                //                }
+                //            }
+
+                //        }
+                //        catch (Exception ex)
+                //        {
+                //            SgtLogger.l("world cache threw up");
+                //            SgtLogger.l(ex.Message);
+                //        }
+                //        try
+                //        {
+                //        foreach (SubWorld value2 in SettingsCache.subworlds.Values)
+                //        {
+                //            if (value2.subworldTemplateRules == null)
+                //            {
+                //                continue;
+                //            }
+
+                //            foreach (ProcGen.World.TemplateSpawnRules subworldTemplateRule in value2.subworldTemplateRules)
+                //            {
+                //                foreach (string name2 in subworldTemplateRule.names)
+                //                {
+                //                    TemplateCache.GetTemplate(name2);
+                //                }
+                //            }
+                //        } }
+                //        catch (Exception ex)
+                //        {
+                //            SgtLogger.l("subworlds cache threw up");
+                //            SgtLogger.l(ex.Message);
+                //        }
+                //    }
+                //}
+
+                //if (CustomGameSettings.Instance != null)
+                //{
+                //}
+
+                //if (is_playing)
+                //{
+                //    Global.Instance.modManager.HandleErrors(pooledList);
+                //}
+                //else
+                //{
+                //    foreach (YamlIO.Error item in pooledList)
+                //    {
+                //        YamlIO.LogError(item, force_log_as_warning: false);
+                //    }
+                //}
+
+                //pooledList.Recycle();
+                //return false;
+            }
+        }
 
 
 
@@ -582,7 +684,7 @@ namespace ClusterTraitGenerationManager
 
                         )
                     {
-                        SgtLogger.l("skipping to avoid unlivable planets");
+                        SgtLogger.l($"skipping {sourceWorld.Key} to avoid unlivable planets");
                         continue;
                     }
 
@@ -595,7 +697,7 @@ namespace ClusterTraitGenerationManager
                         || __instance.worldCache.ContainsKey(sourceWorld.Key.Replace("Start", "").Replace("Outer", "") + "Warp")
                         )
                         {
-                            SgtLogger.l("skipping bc there is already a warp and normal asteroid");
+                            SgtLogger.l($"skipping {sourceWorld.Key} bc there is already a warp and normal asteroid");
                             continue;
                         }
                     }
@@ -606,7 +708,7 @@ namespace ClusterTraitGenerationManager
                         || __instance.worldCache.ContainsKey(sourceWorld.Key.Replace("Warp", "").Replace("Outer", "") + "Start")
                         )
                         {
-                            SgtLogger.l("skipping bc there is already a start and outer asteroid");
+                            SgtLogger.l($"skipping {sourceWorld.Key} bc there is already a start and outer asteroid");
                             continue;
                         }
                     }
@@ -617,7 +719,7 @@ namespace ClusterTraitGenerationManager
                         || __instance.worldCache.ContainsKey(sourceWorld.Key + "Start")
                         )
                         {
-                            SgtLogger.l("skipping bc there is already a warp and Start asteroid");
+                            SgtLogger.l($"skipping {sourceWorld.Key} there is already a warp and Start asteroid");
                             continue;
                         }
                     }
@@ -856,7 +958,6 @@ namespace ClusterTraitGenerationManager
                         {
                             for (int i = StartWorld.subworldFiles.Count - 1; i >= 0; --i)
                             {
-                                SgtLogger.l(StartWorld.subworldFiles[i].name);
                                 if (StartWorld.subworldFiles[i].name.Contains("Start"))
                                 {
                                     StartWorld.subworldFiles.RemoveAt(i);
@@ -1511,19 +1612,19 @@ namespace ClusterTraitGenerationManager
         [HarmonyPatch(typeof(Cluster), nameof(Cluster.AssignClusterLocations))]
         public static class Cluster_StarmapInit_Patch
         {
-            
+
             public static void Postfix(bool __result, Cluster __instance)
             {
 
                 //SgtLogger.l($"{!CGSMClusterManager.LoadCustomCluster}, {CGSMClusterManager.CustomCluster == null}, {!DlcManager.IsExpansion1Active()}, {CustomCluster.SO_Starmap == null},{CustomCluster.SO_Starmap.UsingCustomLayout == false} ");
 
                 //SgtLogger.l("AssignClusterLocationsPostfix");
-                if (   !CGSMClusterManager.LoadCustomCluster 
-                    || CGSMClusterManager.CustomCluster == null 
-                    || !DlcManager.IsExpansion1Active() 
-                    || CustomCluster.SO_Starmap == null 
+                if (!CGSMClusterManager.LoadCustomCluster
+                    || CGSMClusterManager.CustomCluster == null
+                    || !DlcManager.IsExpansion1Active()
+                    || CustomCluster.SO_Starmap == null
                     //|| CustomCluster.SO_Starmap.UsingCustomLayout == false
-                    ) 
+                    )
                     return;
 
                 SgtLogger.l("Applying CGM custom starmap");
@@ -1570,7 +1671,7 @@ namespace ClusterTraitGenerationManager
                     UIUtils.AddActionToButton(makeNewClusterPresetButton.transform, "", () =>
                     {
                         CustomClusterSettingsPreset tempStats = CustomClusterSettingsPreset.CreateFromCluster(CGSMClusterManager.CustomCluster);
-                        tempStats.OpenPopUpToChangeName(()=> makeNewClusterPresetButton.interactable = false, __instance.gameObject);
+                        tempStats.OpenPopUpToChangeName(() => makeNewClusterPresetButton.interactable = false, __instance.gameObject);
                     });
                     makeNewClusterPresetButton.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 300);
                     UIUtils.AddSimpleTooltipToObject(makeNewClusterPresetButton.transform, CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP);
