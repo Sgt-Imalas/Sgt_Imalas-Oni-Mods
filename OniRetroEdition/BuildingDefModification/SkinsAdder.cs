@@ -35,6 +35,8 @@ namespace OniRetroEdition.BuildingDefModification
                 SgtLogger.l("Start Skin Patch");
                 var resource = (ResourceSet<BuildingFacadeResource>)__instance;
                 SkinsAdder.Instance.TargetIDWithAnimnameForSoundCopy.Clear();
+                //AddFacade(resource, "RetroReservoirSkin_TEST", "Retro Reservoir", "", PermitRarity.Universal, LiquidReservoirConfig.ID, "old_liquidreservoir_kanim");
+
                 foreach (var entry in SkinsAdder.Instance.newSkins)
                 {
                     if(Assets.GetAnim(entry.Anim) == null)

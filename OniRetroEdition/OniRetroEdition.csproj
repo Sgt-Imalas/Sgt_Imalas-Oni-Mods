@@ -26,7 +26,7 @@
 		<ModName>OniRetroEdition</ModName>
 		<ModDescription></ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
-		<MinimumSupportedBuild>535211</MinimumSupportedBuild>
+		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 
@@ -45,12 +45,19 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <Folder Include="ModAssets\anim\assets\" />
-	  <Folder Include="ModAssets\anim\assets\" />
 	  <Folder Include="ModPatches\" />
 	</ItemGroup>
 	
 	<ItemGroup>
+	  <None Update="ModAssets\anim\assets\old_liquidreservoir\liquidreservoir_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\old_liquidreservoir\liquidreservoir_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\old_liquidreservoir\liquidreservoir_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\assets\conveyor_box_retro.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>

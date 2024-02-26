@@ -52,10 +52,10 @@ namespace OniRetroEdition.BuildingDefModification
             {
                 if (__instance.TryGetComponent<KPrefabID>(out var kPrefabID))
                 {
-                    SgtLogger.l("Testing any overrides for " + kPrefabID.PrefabID());
+                    //SgtLogger.l("Testing any overrides for " + kPrefabID.PrefabID());
                     if (!BuildingModifications.Instance.LoadedBuildingOverrides.ContainsKey(kPrefabID.PrefabID().ToString()))
                     {
-                        SgtLogger.l("no anim override for this building found..");
+                        //SgtLogger.l("no anim override for this building found..");
                         return;
                     }
                     BuildingModification overrideParams = BuildingModifications.Instance.LoadedBuildingOverrides[kPrefabID.PrefabID().ToString()];

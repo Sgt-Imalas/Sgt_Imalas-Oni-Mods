@@ -27,7 +27,7 @@ namespace OniRetroEdition
                 .Transition(AllQuiet, smi => smi.GetLoudness() < 20)
                 .Transition(LoudNoise, smi => smi.GetLoudness() >= 70);
             LoudNoise
-                .Transition(NormalNoise, smi=>smi.GetLoudness() <= 70 )
+                .Transition(NormalNoise, smi=>smi.GetLoudness() < 70 )
                 .Transition(VeryLoudNoise, smi=>smi.GetLoudness() >= 120)
                 .ToggleEffect("NoiseMinor");
             VeryLoudNoise

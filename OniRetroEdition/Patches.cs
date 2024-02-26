@@ -810,6 +810,33 @@ namespace OniRetroEdition
         }
 
 
+        //[HarmonyPatch(typeof(MainCamera), nameof(MainCamera.Awake))]
+        //public static class LightExperiments
+        //{
+        //    public static void Postfix(MainCamera __instance)
+        //    {
+        //        Camera.main.adj
+        //    }
+        //}
+
+        [HarmonyPatch(typeof(MainMenu), nameof(MainMenu.OnSpawn))]
+        public static class UpdateInfo
+        {
+            public static void Postfix(MainMenu __instance)
+            {
+                if(__instance.nextUpdateTimer!=null)
+                {
+                    __instance.nextUpdateTimer.gameObject.SetActive(true);
+                    __instance.nextUpdateTimer.transform.parent. gameObject.SetActive(true);
+                    __instance.nextUpdateTimer.transform.parent.parent.gameObject.SetActive(true);
+                }
+                else
+                {
+                    SgtLogger.error("nextupdatetimer is null");
+                }
+            }
+        }
+
         [HarmonyPatch(typeof(SimDebugView), nameof(SimDebugView.GetOxygenMapColour))]
         public static class OxygenOverlay_Add_ToxicityColor
         {
