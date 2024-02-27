@@ -15,7 +15,7 @@ using static Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
-    class SpaceStation : Clustercraft, ISim4000ms
+    class SpaceStation : Clustercraft, ISim4000ms, ISidescreenButtonControl
     {
         [Serialize]
         public string l_name = "Space Station";
@@ -25,6 +25,8 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         [Serialize]
         public int _currentSpaceStationType = 0;
+        [Serialize]
+        public int lastInteriorSize = 0;
 
         public SpaceStationWithStats CurrentSpaceStationType => ModAssets.SpaceStationTypes[_currentSpaceStationType];
 
@@ -42,8 +44,6 @@ namespace Rockets_TinyYetBig.SpaceStations
 
         [Serialize]
         public bool Upgradeable = true;
-        [Serialize]
-        public int spaceStationLevelUnlock = 0;
 
         [Serialize]
         public Vector2I bottomLeftCorner;
@@ -54,7 +54,7 @@ namespace Rockets_TinyYetBig.SpaceStations
         // public string InteriorTemplate = "emptySpacefor100"; 
         public string InteriorTemplate = Path.Combine("interiors","emptySpaceStationPrefab"); 
 
-        public string ClusterAnimName = "space_station_small_kanim";
+        //public string ClusterAnimName = "space_station_small_kanim";
         public string InitialAnimName = "idle_loop";
         //public string IconAnimName = "station_3";
 
@@ -62,16 +62,33 @@ namespace Rockets_TinyYetBig.SpaceStations
         {
             new AnimConfig
             {
-                animFile = Assets.GetAnim(ClusterAnimName),
+                animFile = Assets.GetAnim(AnimNameByLevel()),
                 initialAnim = InitialAnimName
             }
         };
+
+        public string AnimNameByLevel()
+        {
+            switch (_currentSpaceStationType)
+            {
+                case 0:
+                default:
+                    return ModAssets.SpaceStationTypes[0].Kanim;
+                case 1:
+                    return ModAssets.SpaceStationTypes[1].Kanim;
+                case 2:
+                    return ModAssets.SpaceStationTypes[2].Kanim;
+
+            }
+        }
+
 
         public override string Name => this.l_name;
         //public override bool IsVisible => true;
         public override EntityLayer Layer => EntityLayer.POI;
         public override bool SpaceOutInSameHex() => false;
         public override ClusterRevealLevel IsVisibleInFOW => ClusterRevealLevel.Visible;
+
         //public override Sprite GetUISprite() => Assets.GetSprite("rocket_landing"); //Def.GetUISprite((object)this.gameObject).first;
         public override Sprite GetUISprite()
         {
@@ -95,6 +112,8 @@ namespace Rockets_TinyYetBig.SpaceStations
 
             return sat;
         }
+
+
 
         public override void OnSpawn()
         {
@@ -215,6 +234,39 @@ namespace Rockets_TinyYetBig.SpaceStations
         const int lvl2Width = 70;
         const int lvl3Width = 100;
 
+        bool CanUpgrade => this._currentSpaceStationType == 0 && ModAssets.Techs.SpaceStationTechMedium.IsComplete() || this._currentSpaceStationType == 1 && ModAssets.Techs.SpaceStationTechLarge.IsComplete();
+
+        void UpgradeStation()
+        {
+
+            var vis = ClusterMapScreen.Instance.GetEntityVisAnim(this);
+
+            if (vis == null)
+                SgtLogger.error("vis not found for station");
+
+            if (this._currentSpaceStationType == 0 && ModAssets.Techs.SpaceStationTechMedium.IsComplete())
+            {
+                _currentSpaceStationType = 1;
+                vis.lastRevealLevel = ClusterRevealLevel.Peeked;
+                vis.Show(ClusterRevealLevel.Visible);
+                var world = ClusterManager.Instance.GetWorld(SpaceStationInteriorId);
+                DrawLeveledBarriers(world, lvl1Width, false);
+                DrawLeveledBarriers(world, lvl2Width);
+
+                //Game.Instance.Trigger((int)GameHashes.ActiveChanged);
+            }
+            else if (this._currentSpaceStationType == 1 && ModAssets.Techs.SpaceStationTechLarge.IsComplete())
+            {
+                _currentSpaceStationType = 2;
+                vis.lastRevealLevel = ClusterRevealLevel.Peeked;
+                vis.Show(ClusterRevealLevel.Visible);
+                var world = ClusterManager.Instance.GetWorld(SpaceStationInteriorId);
+                DrawLeveledBarriers(world, lvl2Width, false);
+                DrawLeveledBarriers(world, lvl3Width);
+                //Game.Instance.Trigger((int)GameHashes.ActiveChanged);
+            }
+        }
+
         public void DrawLeveledBarriers(WorldContainer world, int borderSize, bool locking = true)
         {
 
@@ -282,6 +334,10 @@ namespace Rockets_TinyYetBig.SpaceStations
                 SgtLogger.l("No world for space station found, id is -1");
                 return;
             }
+
+            if (_currentSpaceStationType > 0)
+                return;
+
             var world = ClusterManager.Instance.GetWorld(SpaceStationInteriorId);
             DrawOuterBarriers(world);
             DrawLeveledBarriers(world, lvl1Width);
@@ -294,5 +350,32 @@ namespace Rockets_TinyYetBig.SpaceStations
             base.OnCleanUp();
         }
 
+
+        /// <summary>
+        /// Temp upgrading via simple button for testers
+        /// </summary>
+        public string SidescreenButtonText => CanUpgrade ? "Upgrade Space Station" : "No Upgrade Available";
+
+        public string SidescreenButtonTooltip => CanUpgrade ? "Upgrade your space station to the next level, increasing its available space" : this._currentSpaceStationType == 2 ? "station has reached its max size" : "find more artifacts to unlock the next station size";
+        public void SetButtonTextOverride(ButtonMenuTextOverride textOverride)
+        {
+        }
+
+        public bool SidescreenEnabled() => true;
+
+        public bool SidescreenButtonInteractable() => CanUpgrade;
+
+        public void OnSidescreenButtonPressed()
+        {
+            UpgradeStation();
+
+            if (!this.GetComponent<KSelectable>().IsSelected)
+                return;
+            DetailsScreen.Instance.Refresh(this.gameObject);
+        }
+
+        public int HorizontalGroupID() => -1;
+
+        public int ButtonSideScreenSortOrder() => 21;
     }
 }
