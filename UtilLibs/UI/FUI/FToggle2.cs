@@ -4,13 +4,27 @@ using UnityEngine.UI;
 
 namespace UtilLibs.UIcmp //Source: Aki
 {
-    public class FToggle2 : KMonoBehaviour, IEventSystemHandler, IPointerDownHandler, IPointerEnterHandler
+    public class FToggle2 : KMonoBehaviour, IEventSystemHandler, IPointerUpHandler, IPointerEnterHandler
     {
         [SerializeField]
         public Image mark;
 
         public event System.Action OnClick;
         public event System.Action OnChange;
+
+        private bool _interactable;
+
+        public bool Interactable => _interactable;
+
+        public void SetInteractable(bool interactable)
+        {
+            _interactable = interactable;
+            if(mark!= null)
+            {
+                mark.color = _interactable ? Color.white : new Color(1,1,1,0.5f);
+            }
+
+        }
 
         private bool on;
 
@@ -50,7 +64,7 @@ namespace UtilLibs.UIcmp //Source: Aki
         public void Toggle() => On = !On;
         public void SetOn(bool toggleOn) => On = toggleOn;
 
-        public void OnPointerDown(PointerEventData eventData)
+        public void OnPointerUp(PointerEventData eventData)
         {
             if (KInputManager.isFocused)
             {
