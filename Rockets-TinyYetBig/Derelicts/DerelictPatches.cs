@@ -44,6 +44,8 @@ namespace Rockets_TinyYetBig.Derelicts
         [HarmonyPatch(typeof(LoreBearer), nameof(LoreBearer.OnClickRead))]
         public static class RevealDerelictOnLoreRead
         {
+            [HarmonyPrepare]
+            static bool Prepare() => false;
             public static void Postfix(LoreBearer __instance)
             {
                 ClusterManager.Instance.Trigger(1943181844, (object)"lorebearer revealed");
@@ -97,6 +99,8 @@ namespace Rockets_TinyYetBig.Derelicts
         [HarmonyPatch(typeof(ArtifactPOIClusterGridEntity), nameof(ArtifactPOIClusterGridEntity.IsVisible), MethodType.Getter)]
         public static class ArtifactPOIClusterGridEntity_ReplaceOnReveal
         {
+            [HarmonyPrepare]
+            static bool Prepare() => false;
             public static void Postfix(ArtifactPOIClusterGridEntity __instance, ref bool __result)
             {
                 if (__instance.TryGetComponent<LoreBearer>(out var loreBearer))
