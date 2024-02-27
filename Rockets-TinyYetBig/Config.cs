@@ -277,7 +277,7 @@ namespace Rockets_TinyYetBig
         public int EnableNatGasEngineRange { get; set; }
         [Option("Ion Engine Module", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(3) Fuel & Logistics")]
         [JsonProperty]
-        public bool EnableElectricEngine { get; set; }
+        private bool EnableElectricEngine { get; set; }
 
         [Option("Early Game Fuel Tanks", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI, "(3) Fuel & Logistics")]
         [JsonProperty]
@@ -383,7 +383,7 @@ namespace Rockets_TinyYetBig
             /// Fuel&Logistics
             BuffLargeOxidizer = true;
             EthanolEngines = true;
-            EnableElectricEngine = true;
+            EnableElectricEngine = false;
             Boosters = true;
             EnableNatGasEngine = true;
             EnableNatGasEngineRange = 15;
