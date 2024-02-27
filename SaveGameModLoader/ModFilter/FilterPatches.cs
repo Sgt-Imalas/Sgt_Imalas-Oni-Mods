@@ -24,7 +24,7 @@ namespace SaveGameModLoader.ModFilter
         [HarmonyPatch(typeof(MainMenu), "OnPrefabInit")]
         public static class MainMenuSearchBarInit
         {
-            [HarmonyPriority(Priority.LowerThanNormal)] 
+            [HarmonyPriority(Priority.LowerThanNormal)]
             public static void Postfix()
             {
                 var prefabGo = ScreenPrefabs.Instance.RetiredColonyInfoScreen.gameObject;
@@ -40,7 +40,7 @@ namespace SaveGameModLoader.ModFilter
                         if (btn != null)
                         {
                             _copyToClipboardPrefab = Util.KInstantiateUI(btn.gameObject);
-                            
+
                             _buttonPrefab = Util.KInstantiateUI(btn.gameObject);
                             var bgImage = _buttonPrefab.transform.Find("GameObject").GetComponent<Image>();
                             bgImage.sprite = Assets.GetSprite(SpritePatch.pinSymbol);
@@ -63,15 +63,17 @@ namespace SaveGameModLoader.ModFilter
                     Debug.Log("[ModProfileManager] Error creating search prefab!  The searchbar will not function!");
 
 
-
-                //var options = Util.KInstantiateUI<OptionsMenuScreen>(ScreenPrefabs.Instance.OptionsScreen.gameObject);
-                //SgtLogger.Assert("options", options);
-                //var soundClone = Util.KInstantiateUI<GraphicsOptionsScreen>(options.graphicsOptionsScreenPrefab.gameObject);
-                //SgtLogger.Assert("soundClone", soundClone);
-                //_dropDownPrefab = Util.KInstantiateUI(soundClone.resolutionDropdown.transform.parent.gameObject);
-                //SgtLogger.Assert("_dropDownPrefab", _dropDownPrefab);
-                //UnityEngine.Object.Destroy(options.gameObject);
-                //UnityEngine.Object.Destroy(soundClone.gameObject);
+                if (Config.Instance.ButtonStyle == Config.FilterbuttonStyle.Checkbox)
+                {
+                    var options = Util.KInstantiateUI<OptionsMenuScreen>(ScreenPrefabs.Instance.OptionsScreen.gameObject);
+                    SgtLogger.Assert("options", options);
+                    var optionscreenclone = Util.KInstantiateUI<GameOptionsScreen>(options.gameOptionsScreenPrefab.gameObject);
+                    SgtLogger.Assert("optionscreenclone", optionscreenclone);
+                    FilterToggleButtons.togglePrefab = Util.KInstantiateUI(optionscreenclone.unitConfiguration.toggleUnitPrefab.gameObject);
+                    SgtLogger.Assert("togglePrefab", FilterToggleButtons.togglePrefab);
+                    UnityEngine.Object.Destroy(options.gameObject);
+                    UnityEngine.Object.Destroy(optionscreenclone.gameObject);
+                }
             }
         }
 
@@ -110,7 +112,7 @@ namespace SaveGameModLoader.ModFilter
 
                     if (!string.IsNullOrEmpty(text))
                     {
-                        __result = ModAssets.ModWithinTextFilter( text, mod);
+                        __result = ModAssets.ModWithinTextFilter(text, mod);
                     }
                 }
 
@@ -133,7 +135,7 @@ namespace SaveGameModLoader.ModFilter
 
                 if (__result && MPM_Config.Instance.hideInactive)
                     __result = mod.IsActive();
-                
+
             }
         }
 
@@ -174,7 +176,7 @@ namespace SaveGameModLoader.ModFilter
                     var LA = local.GetComponent<LayoutElement>();
                     LA.minHeight = 42;
                     LA.preferredHeight = 42;
-                    
+
                     //side padding
                     var leftPadding = Util.KInstantiateUI(trans.Find("ClearButton/GameObject").gameObject, local, true);
                     var rightPadding = Util.KInstantiateUI(trans.Find("ClearButton/GameObject").gameObject, local, true);
@@ -234,13 +236,17 @@ namespace SaveGameModLoader.ModFilter
 
                 UnityEngine.Object.Destroy(filterButtons.transform.Find("ToggleAllButton").gameObject);
                 UnityEngine.Object.Destroy(filterButtons.transform.Find("WorkshopButton").gameObject);
-                filterButtons.AddOrGet<FilterButtons>().Init(()=>__instance.RebuildDisplay(null));
+
+                if (Config.Instance.ButtonStyle == Config.FilterbuttonStyle.Button)
+                    filterButtons.AddOrGet<FilterButtons>().Init(() => __instance.RebuildDisplay(null));
+                else if (Config.Instance.ButtonStyle == Config.FilterbuttonStyle.Checkbox)
+                    filterButtons.AddOrGet<FilterToggleButtons>().Init(() => __instance.RebuildDisplay(null));
 
 
 
-                HLG.padding = new RectOffset(2,2,2,2);
+                HLG.padding = new RectOffset(2, 2, 2, 2);
                 HLG.spacing = 3;
-              
+
                 filterButtons.SetActive(true);
             }
         }

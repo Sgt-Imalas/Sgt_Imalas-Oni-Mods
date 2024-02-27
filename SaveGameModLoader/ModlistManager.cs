@@ -48,6 +48,7 @@ namespace SaveGameModLoader
         public GameObject ParentObjectRef;
 
         HashSet<string> ActiveModlistModIds = new HashSet<string>();
+        private List<string> _activeModListIdOrder = new();
 
         public bool IsSyncing { get; set; }
         public string ActiveSave = string.Empty;
@@ -286,7 +287,7 @@ namespace SaveGameModLoader
                             if (matches.Count == 1)
                             {
                                 GroupCollection results = matches[0].Groups;
-                                SgtLogger.l(results.Count+"");
+                                SgtLogger.l(results.Count + "");
 
                                 if (results.Count >= 4)
                                 {
@@ -321,7 +322,6 @@ namespace SaveGameModLoader
                 }
             }
         }
-
 
         public void OverwriteGameMods(modsJSON modlist)
         {
@@ -367,6 +367,7 @@ namespace SaveGameModLoader
             }
 
             if (restartAfter)
+                //RestartSyncing(enableAll, restartAfter);
                 NormalSyncing(enableAll, restartAfter, dontDisableActiveMods);
             else
             {
@@ -382,13 +383,13 @@ namespace SaveGameModLoader
         }
         public void RestartSyncing(bool? enableAll, bool restartAfter = true)
         {
-            var ModFileDeserialized = ReadGameMods();
+            modsJSON ModFileDeserialized = ReadGameMods();
             if (ModFileDeserialized == null)
                 return;
 
 
-            foreach (var mod in ModFileDeserialized.mods)
-                SgtLogger.l(mod.enabledForDlc.FirstOrDefault());
+            //foreach (var mod in ModFileDeserialized.mods)
+            //    SgtLogger.l(mod.enabledForDlc.FirstOrDefault());
 
 
             string dlcId = DlcManager.IsExpansion1Active() ? DlcManager.EXPANSION1_ID : DlcManager.VANILLA_ID;
@@ -420,6 +421,8 @@ namespace SaveGameModLoader
             //foreach (var mod in ModFileDeserialized.mods)
             //    SgtLogger.l(mod.enabledForDlc.FirstOrDefault());
 
+
+
             OverwriteGameMods(ModFileDeserialized);
 
             AutoLoadOnRestart();
@@ -432,8 +435,13 @@ namespace SaveGameModLoader
 
             SgtLogger.l($"initiating syncing. EnableAll: {enableAll}, restartAfter: {restartAfter}, dontDisableActives:{dontDisableActives}");
 
-            foreach (var modToEdit in mm.mods)
+            HashSet<int> positionReplacementIndicies = new HashSet<int>();
+            List<KMod.Mod> toSortMods = new List<KMod.Mod>();
+
+
+            for (int index = 0; index < mm.mods.Count; index++)
             {
+                var modToEdit = mm.mods[index];
                 var modID = modToEdit.label.defaultStaticID;
                 bool shouldBeEnabled = enableAll.HasValue ? enableAll.Value : ActiveModlistModIds.Contains(modID);
                 bool isEnabled = modToEdit.IsEnabledForActiveDlc();
@@ -449,19 +457,42 @@ namespace SaveGameModLoader
                     if (modToEdit.available_content != 0)
                     {
                         modToEdit.SetEnabledForActiveDlc(shouldBeEnabled);
-                        //if (shouldBeEnabled)
-                        //{
-                        //    modToEdit.Load((Content)0);
-                        //}
-                        //else
-                        //{
-                        //    modToEdit.Unload((Content)0);
-                        //}
                         SgtLogger.l(shouldBeEnabled ? "enabled Mod: " + modToEdit.title : "disabled Mod: " + modToEdit.title);
                     }
                     else
                         SgtLogger.l("mod not compatible: " + modToEdit.title);
                 }
+
+
+                if (shouldBeEnabled && modToEdit.available_content != 0)
+                {
+                    SgtLogger.l(index + "", modToEdit.label.title);
+                    positionReplacementIndicies.Add(index);
+                    toSortMods.Add(modToEdit);
+                }
+            }
+
+            if (!dontDisableActives)
+            {
+                SgtLogger.l("applying mod order");
+               // for (int s = 0; s < _activeModListIdOrder.Count; s ++)
+               //     SgtLogger.l(_activeModListIdOrder[s], s.ToString());    
+
+                var sortedModsArray = toSortMods.OrderBy(item => _activeModListIdOrder.IndexOf(item.label.defaultStaticID)).ToArray();
+                var ModsArray = mm.mods.ToArray();
+
+                int sortedIndex = 0;
+                for (int i = 0; i < ModsArray.Length; i++)
+                {
+                    if (positionReplacementIndicies.Contains(i))
+                    {
+                        //SgtLogger.l($"placing mod nr {sortedIndex}, {sortedModsArray[sortedIndex].label.title} at {i} in array");
+                        ModsArray[i] = sortedModsArray[sortedIndex];
+                        ++sortedIndex;
+                    }
+                }
+
+                mm.mods = ModsArray.ToList();
             }
 
             if (!restartAfter)
@@ -539,7 +570,7 @@ namespace SaveGameModLoader
         }
         public void AssignModDifferences(List<string> modList)
         {
-
+            _activeModListIdOrder = new(modList);
             ActiveModlistModIds = new(modList);
 
             _differenceCount = 0;
@@ -655,7 +686,7 @@ namespace SaveGameModLoader
                 }
                 catch (Exception e)
                 {
-                    SgtLogger.logError("Couln't load savegamemod list from: " + modlist.FullName + ", Error: " + e);
+                    SgtLogger.warning("Couln't load savegamemod list from: " + modlist.FullName + ", Error: " + e);
                 }
             }
             SgtLogger.log("Found Mod Configs for " + files.Count() + " Colonies");
@@ -698,7 +729,7 @@ namespace SaveGameModLoader
                 }
                 catch (Exception e)
                 {
-                    SgtLogger.logError("Couln't load Mod list from: " + modlist.FullName + ", Error: " + e);
+                    SgtLogger.warning("Couln't load Mod list from: " + modlist.FullName + ", Error: " + e);
                 }
             }
             SgtLogger.log("Found " + files.Count() + " custom profiles");

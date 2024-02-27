@@ -1,6 +1,8 @@
 ﻿using HarmonyLib;
 using Klei;
 using KMod;
+using PeterHan.PLib.Core;
+using PeterHan.PLib.Options;
 using SaveGameModLoader.FastTrack_VirtualScroll;
 using SaveGameModLoader.ModFilter;
 using SaveGameModLoader.Patches;
@@ -21,6 +23,10 @@ namespace SaveGameModLoader
         public static UserMod2 ThisMod;
         public override void OnLoad(Harmony harmony)
         {
+
+            PUtil.InitLibrary(false);
+            new POptions().RegisterOptions(this, typeof(Config));
+
             harmonyInstance = harmony;
             ThisMod = this;
             var LegacyModPath = FileSystem.Normalize(Path.Combine(Manager.GetDirectory(), "[ModSync]StoredModConfigs"));
@@ -28,7 +34,7 @@ namespace SaveGameModLoader
 
 
             SgtLogger.debuglog("Initializing file paths..");
-            ModAssets.ModPath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"), "[ModSync]StoredModConfigs"));
+            ModAssets.ModPath = Config.Instance.ModProfileFolder;
             ModAssets.ModPacksPath = FileSystem.Normalize(Path.Combine(ModAssets.ModPath, "[StandAloneModLists]"));
             ModAssets.ConfigPath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"), "MPM_Config.json"));
 

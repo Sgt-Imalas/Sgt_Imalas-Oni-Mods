@@ -3,6 +3,24 @@ namespace SaveGameModLoader
 {
     public class STRINGS
     {
+        public class MPM_CONFIG
+        {
+            public class FOLDERPATH
+            {
+                public static LocString NAME = "Mod Profile Folder";
+                public static LocString TOOLTIP = "Defines the folder the mod stores and loads the mod profiles";
+            }
+            public class FILTERBUTTONS
+            {
+                public static LocString NAME = "Filter Style";
+                public static LocString TOOLTIP = "change the mod menu filter style.";
+            }
+            public class NEVERDISABLE
+            {
+                public static LocString NAME = "Keep mod enabled on crash";
+                public static LocString TOOLTIP = "any crash during load will wrongfully blame this mod and disable it.\nEnable this option to prevent the mod from getting disabled.";
+            }
+        }
         public class UI
         {
             public class FRONTEND
@@ -27,7 +45,7 @@ namespace SaveGameModLoader
                         public static LocString INCOMPATIBLE = "Incompatibles";
                         public static LocString ACTIVE = "Active";
                         public static LocString INACTIVE = "Inactive";
-                       // public static LocString PINNED = "Pinned";
+                        public static LocString PINNED = "Pinned";
                     }
 
 
@@ -42,7 +60,6 @@ namespace SaveGameModLoader
                     public static LocString HIDE_LOCAL = "Hide Local Mods";
                     public static LocString UNHIDE_LOCAL = "Unhide Local Mods";
                     public static LocString HIDE_LOCAL_TOOLTIP = "Hide or unhide local mods.";
-
 
                     public static LocString HIDE_PLATFORM = "Hide Steam Mods";
                     public static LocString UNHIDE_PLATFORM = "Unhide Steam Mods";

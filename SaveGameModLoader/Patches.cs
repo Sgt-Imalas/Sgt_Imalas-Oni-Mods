@@ -207,6 +207,10 @@ namespace SaveGameModLoader
                 {
                     FilterButtons.Instance.RefreshUIState(false);
                 }
+                if (FilterToggleButtons.Instance != null)
+                {
+                    FilterToggleButtons.Instance.RefreshUIState(false);
+                }
                 ModAssets.ReorderVisualModState(___displayedMods, allMods);
 
             }
@@ -681,17 +685,17 @@ namespace SaveGameModLoader
         ///// Since the Mod patches the load method, it will recieve blame on ANY load crash.
         ///// This Patch keeps it enabled on a crash, so you dont need to reenable it for syncing,
         ///// </summary>
-        //[HarmonyPatch(typeof(KMod.Mod))]
-        //[HarmonyPatch(nameof(KMod.Mod.SetCrashed))]
-        //public static class DontDisableModOnCrash
-        //{
-        //    public static bool Prefix(KMod.Mod __instance)
-        //    {
-        //        if (__instance.label.title == ModAssets.ThisModName)
-        //            return false;
-        //        return true;
-        //    }
-        //}
+        [HarmonyPatch(typeof(KMod.Mod))]
+        [HarmonyPatch(nameof(KMod.Mod.SetCrashed))]
+        public static class DontDisableModOnCrash
+        {
+            [HarmonyPrepare]
+            public static bool Prepare() => Config.Instance.NeverDisable;
+            public static bool Prefix(KMod.Mod __instance)
+            {
+                return __instance != Mod.ThisMod.mod;
+            }
+        }
 
 
 
