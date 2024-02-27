@@ -16,8 +16,14 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
         [Serialize] List<PartProject> InProgressParts = new List<PartProject>();
         [Serialize] List<PartProject> FinishedParts = new List<PartProject>();
         [Serialize] ConstructionProjectAssembly CurrentProject = null;
-        [Serialize] public bool DerelictStation =false;
 
+
+        public bool SetDerelict(bool value) => _derelictStation = value;
+        [Serialize] private bool _derelictStation =false;
+        public bool DerelictStation => _derelictStation;
+
+        [Serialize] public bool _currentlyDeconstructing =false;
+         public bool CurrentlyDeconstructing => _currentlyDeconstructing;
 
         [MyCmpReq]
         public Storage buildPartStorage;
@@ -35,7 +41,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
         {
             if (!AllPartsFinished())
                 return;
-
+            
             CurrentProject.OnConstructionFinishedAction.Invoke(this);
             CurrentProject = null;
         }
@@ -85,10 +91,28 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
                 CurrentProject = project;
             }
         }
+        public void StartCompleteDeconstruction()
+        {
+            if (CancelCurrentProject())
+            {
+                _currentlyDeconstructing = true;
+                List<PartProject> toDeconstruct = new List<PartProject>();
+                foreach(var part in FinishedParts)
+                {
+                    toDeconstruct.Add(part);
+                }
+                CurrentProject = new ConstructionProjectAssembly()
+                {
+                    Parts = toDeconstruct,
+                    ProjectName = "Deconstruct " + this.GetProperName(),
+                };
+            }
+        }
         public void AssignProject(ConstructionProjectAssembly project)
         {
             if (CancelCurrentProject())
             {
+                _currentlyDeconstructing = false;
                 OpenParts.AddRange(new List<PartProject>(project.Parts));
                 CurrentProject = project;
             }
@@ -96,7 +120,10 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
 
         private bool AllPartsFinished()
         {
-            return OpenParts.Count() == 0 && InProgressParts.Count() == 0;
+            if(CurrentlyDeconstructing)
+                return FinishedParts.Count() == 0 && InProgressParts.Count() == 0;
+            else
+                return OpenParts.Count() == 0 && InProgressParts.Count() == 0;
         }
 
         public bool SufficientMaterialInStorage(PartProject part, Storage sourceStorage)

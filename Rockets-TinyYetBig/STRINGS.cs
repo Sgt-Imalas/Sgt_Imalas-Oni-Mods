@@ -241,7 +241,7 @@ namespace Rockets_TinyYetBig
                 {
                     public static LocString NAME = (LocString)FormatAsLink("Vertical Rocket Port Piece", nameof(RTB_VERTICALADAPTERPIECE));
                     public static LocString DESC = (LocString)"Gantry Not Included";
-                    public static LocString EFFECT = (LocString)("A rocket port adapter piece for vertical expansion.\n\nLinks up with other vertical adapter pieces above and below it.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
+                    public static LocString EFFECT = (LocString)("A rocket port adapter piece for vertical expansion.\n\nLinks up with other vertical adapter pieces above and below it.");
                 }
                 public class RTB_WALLCONNECTIONADAPTER
                 {

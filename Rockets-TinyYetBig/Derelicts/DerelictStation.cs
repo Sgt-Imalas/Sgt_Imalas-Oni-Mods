@@ -84,7 +84,7 @@ namespace Rockets_TinyYetBig.Derelicts
             spaceStation.Location = source.Location;
             var site = sat.AddOrGet<SpaceConstructable>();
             site.buildPartStorage = sat.AddComponent<Storage>();
-            site.DerelictStation = true;
+            site.SetDerelict( true);
             site.ForceFinishProject(ConstructionProjects.DerelictStation);
         }
         public override void OnCleanUp()
