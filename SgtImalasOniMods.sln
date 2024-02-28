@@ -139,7 +139,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaintYourPipes", "PaintYour
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BathTub", "BathTub\BathTub.csproj", "{71DE137F-E4A7-4AE3-B395-6F8036F09D84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkinMeterTest", "SkinMeterTest\SkinMeterTest.csproj", "{347433D6-BFE5-428C-8C1D-8A53CDED1A6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkinMeterTest", "SkinMeterTest\SkinMeterTest.csproj", "{347433D6-BFE5-428C-8C1D-8A53CDED1A6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompressedCritters", "CompressedCritters\CompressedCritters.csproj", "{9B2C46FB-19DF-4C18-863A-AD5D6131DF57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -403,6 +405,10 @@ Global
 		{347433D6-BFE5-428C-8C1D-8A53CDED1A6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{347433D6-BFE5-428C-8C1D-8A53CDED1A6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{347433D6-BFE5-428C-8C1D-8A53CDED1A6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B2C46FB-19DF-4C18-863A-AD5D6131DF57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B2C46FB-19DF-4C18-863A-AD5D6131DF57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B2C46FB-19DF-4C18-863A-AD5D6131DF57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B2C46FB-19DF-4C18-863A-AD5D6131DF57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
