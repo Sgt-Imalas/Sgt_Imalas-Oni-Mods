@@ -1,0 +1,25 @@
+2.8:
+
+New Buildings:
+- Vertical Rocket Port Adapter & Vertical Rocket Adapter Piece: allow connecting rocket ports vertically
+
+Fixes and Adjustments:
+- fixed POI Capacity scanner not exchanging heat and being invincible
+- added a patch that prevents a vanilla crash when planning a new  module that would overlap with free floating planned parts
+- changed drillcone and drillcone service module auto load from a button to a checkbox for better clarity
+- liquids and gasses held in the exterior portion of spacefarer modules are now insulated from the exterior
+- Rewrote the entire docking system to fix a number of bugs with it, docking doors should no longer bug out on loading.
+- rocket docking tube now has to be attached to the interior door, but it wont block other buildings anymore
+- Derelict descriptions have been adjusted to not say "requires drillcone for artifact gathering" as this was factually wrong.
+- removed fix for interior ports leaking as this is now fixed in the vanilla game
+- fixed layering of wall adapter
+
+
+Station Alpha:
+- test space stations can no longer be spawned indefinitely on the same hex
+- added ui config option to opt into space station testing
+- rocket platforms can now be built inside space stations
+- once the required science is unlocked, you can now upgrade your space station (currently at no cost for testing), this increases the interior size outwards
+- roundtrip mining with space station docking should now be functioning
+-
+

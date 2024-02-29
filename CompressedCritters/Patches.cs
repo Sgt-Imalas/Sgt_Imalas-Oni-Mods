@@ -33,13 +33,5 @@ namespace CompressedCritters
 
             }
         }
-        [HarmonyPatch(typeof(OvercrowdingMonitor), "Initialize")]
-        public static class OvercrowdingMonitor__Patch
-        {
-            public static void Postfix()
-            {
-
-            }
-        }
     }
 }

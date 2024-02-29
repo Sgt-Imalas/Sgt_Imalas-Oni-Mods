@@ -1,5 +1,0 @@
-- fixed POI Capacity scanner not exchanging heat and being invincible
-- added a patch that prevents a vanilla crash when planning a new  module that would overlap with free floating planned parts
-- changed drillcone and drillcone service module auto load from a button to a checkbox for better clarity
-- liquids and gasses held in the exterior portion of spacefarer modules are now insulated from the exterior
-
