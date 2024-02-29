@@ -80,6 +80,20 @@ namespace CritterTraitsReborn
                 }
                 butcherable.SetDrops(drops);
             }
+
+            // Light for shinebugs
+            if(go.TryGetComponent<Light2D>(out var light))
+            {
+                light.Range *= scale;
+                light.Lux = Mathf.RoundToInt(scale * (float)light.Lux);
+            }
+            //rads for shinebugs
+            if (go.TryGetComponent<RadiationEmitter>(out var radEmitter))
+            {
+                radEmitter.emitRadiusX = (short)Mathf.RoundToInt(scale * (float)radEmitter.emitRadiusX);
+                radEmitter.emitRadiusY = radEmitter.emitRadiusX;
+                radEmitter.emitRads *= scale;
+            }
         }
 
         /**
