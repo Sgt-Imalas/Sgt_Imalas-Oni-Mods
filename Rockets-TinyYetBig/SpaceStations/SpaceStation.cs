@@ -15,7 +15,7 @@ using static Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
-    class SpaceStation : Clustercraft, ISim4000ms, ISidescreenButtonControl
+    class SpaceStation : Clustercraft, ISidescreenButtonControl
     {
         [Serialize]
         public string l_name = "Space Station";
@@ -124,6 +124,9 @@ namespace Rockets_TinyYetBig.SpaceStations
                 SpaceStationInteriorId = interiorWorld.id;
                 SgtLogger.debuglog("new WorldID:" + SpaceStationInteriorId);
                 SgtLogger.debuglog("ADDED NEW SPACE STATION INTERIOR");
+
+                if (ShouldDrawBarriers)
+                    DrawBarriers();
             }
             if (!RTB_SavegameStoredSettings.Instance.StationInteriorWorlds.Contains(SpaceStationInteriorId))
                 RTB_SavegameStoredSettings.Instance.StationInteriorWorlds.Add(SpaceStationInteriorId);
@@ -155,8 +158,6 @@ namespace Rockets_TinyYetBig.SpaceStations
 
 
             this.Subscribe<SpaceStation>(1102426921, NameChangedHandler);
-            if(ShouldDrawBarriers)
-                DrawBarriers();
         }
         private static EventSystem.IntraObjectHandler<SpaceStation> NameChangedHandler = new EventSystem.IntraObjectHandler<SpaceStation>((System.Action<SpaceStation, object>)((cmp, data) => cmp.SetStationName(data)));
         public void SetStationName(object newName)
@@ -295,35 +296,7 @@ namespace Rockets_TinyYetBig.SpaceStations
                 }
             }
         }
-
-        int counter = 0;
-        public new void Sim4000ms(float dt)
-        {
-            return;
-            counter++;
-            counter %= 9;
-
-            if(counter==0)
-            {
-                var world = ClusterManager.Instance.GetWorld(SpaceStationInteriorId);
-                DrawLeveledBarriers(world, lvl1Width);
-            }
-            if (counter == 3)
-            {
-                var world = ClusterManager.Instance.GetWorld(SpaceStationInteriorId);
-                DrawLeveledBarriers(world, lvl1Width,false);
-                DrawLeveledBarriers(world, lvl2Width);                
-            }
-            if(counter == 6)
-            {
-
-                var world = ClusterManager.Instance.GetWorld(SpaceStationInteriorId);
-                DrawLeveledBarriers(world, lvl2Width, false);
-                DrawLeveledBarriers(world, lvl3Width);
-               // DrawOuterBarriers(world);
-            }            
-        }
-
+        
         public void DrawBarriers()
         {
             if (!ShouldDrawBarriers)
