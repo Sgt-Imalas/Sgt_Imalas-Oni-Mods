@@ -688,5 +688,19 @@ namespace SetStartDupes
                 return Strings.Get("STRINGS.DUPLICANTS.CHOREGROUPS." + group.choreGroupID.ToUpperInvariant() + ".NAME");
             return Strings.Get("STRINGS.DUPLICANTS.SKILLGROUPS." + group.Id.ToUpperInvariant() + ".NAME");
         }
+
+        /// <summary>
+        /// removes dgsm to prevent crashes and incompatibilities
+        /// </summary>
+        /// <param name="mods"></param>
+        internal static void RemoveCrashingIncompatibility(IReadOnlyList<KMod.Mod> mods)
+        {
+            var faultyMod = mods.FirstOrDefault(mod => mod.staticID.ToLowerInvariant().Contains("dgsm"));
+            if(faultyMod != null)
+            {
+                faultyMod.SetCrashed();
+                Mod.harmonyInstance.UnpatchAll(faultyMod.staticID);
+            }
+        }
     }
 }

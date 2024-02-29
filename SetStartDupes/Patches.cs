@@ -925,6 +925,7 @@ namespace SetStartDupes
             }
         }
 
+
         [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.OnSpawn))]
         public class AddDeletionButtonForStartScreen_TraitRerolling
         {
