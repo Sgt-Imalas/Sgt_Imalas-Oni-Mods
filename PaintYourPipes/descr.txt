@@ -4,15 +4,16 @@
 
 This mod allows you to color pipes, rails, wires and logic components. This coloring can also be toggled to show in overlays.
 
-[h1]Current latest Version: 1.0.0[/h1]
+[h1]Current latest Version: 1.1.0[/h1]
 
 [hr][/hr]
 
 [h1]Features[/h1]
-[list][*] Paint gas pipes, liquid pipes, shipping rails, power wires, logic wires, logic components
+[list][*] Paint Gas pipes, liquid pipes, shipping rails, power wires, logic wires, logic components
 [*] Overlay Color Toggle: switch between the regular overlay mode and the painted version (also comes with hotkey, by default shift + C, this can be adjusted in the normal hotkey settings)
 [*] Color Sharing: you can copy the color of items of the same type via a "copy settings" button
 [*] Color whole network: share the selected color with all connected pipes/wires in the network (follows vanilla highlighting rules for network definition).
+[*] "Overlay Only" mode (activatable in the config) - only overlays display selectable colors, material color mods take effect
 [/list]
 
 [h1]Mod Integrations[/h1]
