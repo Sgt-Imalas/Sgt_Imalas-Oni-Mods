@@ -10,9 +10,12 @@ namespace SetStartDupes.NewGamePlus
 {
     internal class NewGamePlusPatches
     {
+        /// <summary>
+        /// collect Spaced Out Temporal Tear dupes
+        /// </summary>
         [HarmonyPatch(typeof(TemporalTear))]
         [HarmonyPatch(nameof(TemporalTear.ConsumeCraft))]
-        public class RegisterTearDupe
+        public class RegisterTearDupeDLC
         {
             public static void Prefix(Clustercraft craft, TemporalTear __instance)
             {
@@ -30,9 +33,31 @@ namespace SetStartDupes.NewGamePlus
                         MinionStatConfig.RegisterTearDuplicant(minionIdentity);
                     }
                 }
-
             }
-
         }
+        /// <summary>
+        /// collect base game Temporal Tear dupe
+        /// </summary>
+        [HarmonyPatch(typeof(Spacecraft))]
+        [HarmonyPatch(nameof(Spacecraft.TemporallyTear))]
+        public class RegisterTearDupe
+        {
+            public static void Prefix(Spacecraft __instance)
+            {
+                for (int num = __instance.launchConditions.rocketModules.Count - 1; num >= 0; num--)
+                {                    
+                    if (__instance.launchConditions.rocketModules[num].TryGetComponent<MinionStorage>(out var minionstorage))
+                    {
+                        List<MinionStorage.Info> storedMinionInfo = minionstorage.GetStoredMinionInfo();
+                        for (int num2 = storedMinionInfo.Count - 1; num2 >= 0; num2--)
+                        {
+                            storedMinionInfo[num2].serializedMinion.Get().TryGetComponent<StoredMinionIdentity>(out var identity);
+                            MinionStatConfig.RegisterTearDuplicant(identity);
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }
