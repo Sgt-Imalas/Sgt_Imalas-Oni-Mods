@@ -26,6 +26,7 @@ namespace SetStartDupes
     public class ModAssets
     {
         public static string DupeTemplatePath;
+        public static string DupeTearTemplatePath;
         public static string DupeGroupTemplatePath;
         public static string DupeTemplateName = "UnnamedDuplicantPreset";
         public static bool EditingSingleDupe = false;

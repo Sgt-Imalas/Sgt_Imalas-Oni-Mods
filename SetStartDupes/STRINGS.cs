@@ -76,6 +76,16 @@ namespace SetStartDupes
                     public static LocString NAME = "Pause on \"ready to print\"";
                     public static LocString TOOLTIP = "Pause the game when the printing pod has recharged for a new print";
                 }
+                public class MYSTERIOUSMINIONMODE
+                {
+                    public static LocString NAME = "Mysterious Minion Mode";
+                    public static LocString TOOLTIP = "All Interests and Traits are hidden until printed";
+                }
+                public class NEWGAMEPLUS
+                {
+                    public static LocString NAME = "NewGame+";
+                    public static LocString TOOLTIP = "Start your game with dupes you sent through the tear in previous playthroughs.";
+                }
 
                 public class CAREPACKAGESONLY
                 {

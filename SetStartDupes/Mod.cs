@@ -25,12 +25,14 @@ namespace SetStartDupes
 
             SgtLogger.debuglog("Initializing file paths..");
             ModAssets.DupeTemplatePath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"),"DuplicantStatPresets"));
+            ModAssets.DupeTearTemplatePath = FileSystem.Normalize(Path.Combine(ModAssets.DupeTemplatePath, "TearTravelers"));
             ModAssets.DupeGroupTemplatePath = FileSystem.Normalize(Path.Combine(ModAssets.DupeTemplatePath, "StartingLayoutPresets"));
             SgtLogger.debuglog(ModAssets.DupeTemplatePath,"Stat Preset Folder");
             SgtLogger.debuglog("Initializing folders..");
             try
             {
                 System.IO.Directory.CreateDirectory(ModAssets.DupeTemplatePath);
+                System.IO.Directory.CreateDirectory(ModAssets.DupeTearTemplatePath);
                 System.IO.Directory.CreateDirectory(ModAssets.DupeGroupTemplatePath);
             }
             catch (Exception e)

@@ -41,6 +41,7 @@ The printing pod also gained a handy care package selector.
 [*] Reroll and adjust Stats for Cryopod Duplicants
 [*] Reroll and adjust Stats for the lonely Hermit
 [*] Access to fully coded but hidden "Needs" traits in the "Add a trait"-list
+[*] "Mysterious Minions Mode": Traits and interests are hidden and get only revealed once the dupe has been printed
 [/list] 
 
 Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2869608898]Bio-Inks[/url] 

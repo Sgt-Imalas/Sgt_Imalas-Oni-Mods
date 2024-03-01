@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using UtilLibs;
+using static ModifierSet;
 using static ModInfo;
 using static ResearchTypes;
 using static STRINGS.UI.TOOLS;
@@ -25,7 +26,9 @@ namespace SetStartDupes
         public string joyTrait;
         public List<KeyValuePair<string, int>> StartingLevels = new List<KeyValuePair<string, int>>();
         public List<KeyValuePair<string, float>> skillAptitudes = new List<KeyValuePair<string, float>>();
-
+        public float StarterXP = 0;
+        public float Age = 0;
+        public string PersonalityID;
 
         public void OpenPopUpToChangeName(System.Action callBackAction = null)
         {
@@ -42,7 +45,7 @@ namespace SetStartDupes
                 }
                 this.ChangenName(newName);
 
-                if(callBackAction!=null) 
+                if (callBackAction != null)
                     callBackAction.Invoke();
             });
         }
@@ -50,8 +53,8 @@ namespace SetStartDupes
         public void ChangenName(string newName)
         {
             DeleteFile();
-            ConfigName = newName; 
-            FileName =  FileNameWithHash(newName);
+            ConfigName = newName;
+            FileName = FileNameWithHash(newName);
             WriteToFile();
         }
 
@@ -93,7 +96,74 @@ namespace SetStartDupes
                 return BitConverter.ToString(data).Replace("-", "").Substring(0, 6);
             }
         }
-        
+
+        internal static void RegisterTearDuplicant(MinionIdentity minionIdentity)
+        {
+            CreateFromMinionIdentiy(minionIdentity).WriteToFile(true);
+        }
+        public static MinionStatConfig CreateFromMinionIdentiy(MinionIdentity dupe)
+        {
+            if (dupe.TryGetComponent<MinionResume>(out var resume)
+               && dupe.TryGetComponent<Traits>(out var traits)
+               && dupe.TryGetComponent<AttributeLevels>(out var attributes)
+               )
+            {
+                List<KeyValuePair<string, int>> startingLevels = new List<KeyValuePair<string, int>>();
+                List<KeyValuePair<SkillGroup, float>> skillAptitudes = new List<KeyValuePair<SkillGroup, float>>();
+                List<Trait> traitsId = new List<Trait>();
+                Trait stress=null, joy = null;
+
+                foreach (var trait in traits.TraitList)
+                {
+                    switch (ModAssets.GetTraitListOfTrait(trait))
+                    {
+                        case DupeTraitManager.NextType.joy:
+                            joy = trait;
+                            break;
+                        case DupeTraitManager.NextType.stress:
+                            stress = trait;
+                            break;
+                        default:
+                            traitsId.Add(trait);
+                            break;
+                    }
+                }
+
+                foreach(AttributeLevel attribute in attributes.levels)
+                {
+                    startingLevels.Add(new KeyValuePair<string, int>(attribute.attribute.Attribute.Id, attribute.level));
+                }
+
+                var groups = Db.Get().SkillGroups;
+                foreach (var skillAptitude in resume.AptitudeBySkillGroup)
+                {
+                    var group = groups.Get(skillAptitude.Key);
+
+                    if (group == null)
+                    {
+                        SgtLogger.error(skillAptitude.Key + " was no viable skillgroup!");
+                        continue;
+                    }
+
+                    skillAptitudes.Add(new KeyValuePair<SkillGroup, float>(group, skillAptitude.Value));
+                }
+
+                var config = new MinionStatConfig(
+                    FileNameWithHash(SaveGame.Instance.BaseName+"_"+dupe.name),
+                    dupe.name,
+                    traitsId,
+                    stress,
+                    joy,
+                    startingLevels,
+                    skillAptitudes);
+                config.StarterXP = resume.TotalExperienceGained;
+                config.Age = GameClock.Instance.GetCycle() - dupe.arrivalTime;
+                config.PersonalityID = dupe.nameStringKey;
+
+                return config;
+            }
+            return null;
+        }
 
         public static MinionStatConfig CreateFromStartingStats(MinionStartingStats startingStats)
         {
@@ -102,7 +172,7 @@ namespace SetStartDupes
             {
                 skillAptitudes.Add(new KeyValuePair<string, float>(kvp.Key.Id, kvp.Value));
             }
-            string dupeName = startingStats.Name+ " "+STRINGS.UNNAMEDPRESET;
+            string dupeName = startingStats.Name + " " + STRINGS.UNNAMEDPRESET;
 
             var config = new MinionStatConfig(
                 FileNameWithHash(dupeName),
@@ -123,9 +193,9 @@ namespace SetStartDupes
         static string CHATTY = "Chatty";
         public void ApplyPreset(MinionStartingStats referencedStats)
         {
-            
 
-            referencedStats.Name = this.ConfigName.Replace(STRINGS.UNNAMEDPRESET,string.Empty);
+
+            referencedStats.Name = this.ConfigName.Replace(STRINGS.UNNAMEDPRESET, string.Empty);
             bool HadChatty = referencedStats.Traits.Any(trait => trait.Id == CHATTY);
             bool HadAncientKnowledge = referencedStats.Traits.Any(trait => trait.Id == ANCIENTKNOWLEDGE);
             referencedStats.Traits.Clear();
@@ -157,7 +227,7 @@ namespace SetStartDupes
                 if (Trait != null && ModAssets.GetTraitListOfTrait(Trait) == DupeTraitManager.NextType.Beached_LifeGoal)
                 {
                     Beached_API.RemoveLifeGoal(referencedStats);
-                    Beached_API.SetLifeGoal(referencedStats, Trait,false);
+                    Beached_API.SetLifeGoal(referencedStats, Trait, false);
                     continue;
                 }
 
@@ -169,9 +239,9 @@ namespace SetStartDupes
 
             SgtLogger.l("Applying starting levels");
             referencedStats.StartingLevels.Clear();
-            foreach(var startLevel in this.StartingLevels)
+            foreach (var startLevel in this.StartingLevels)
             {
-                referencedStats.StartingLevels[startLevel.Key] = startLevel.Value; 
+                referencedStats.StartingLevels[startLevel.Key] = startLevel.Value;
             }
 
             SgtLogger.l("Applying joy reaction");
@@ -205,7 +275,7 @@ namespace SetStartDupes
             foreach (var skillAptitude in this.skillAptitudes)
             {
                 SkillGroup targetGroup = AptitudeRef.TryGet(skillAptitude.Key);
-                if(targetGroup != null)
+                if (targetGroup != null)
                 {
                     referencedStats.skillAptitudes[targetGroup] = skillAptitude.Value;
                 }
@@ -248,7 +318,7 @@ namespace SetStartDupes
             {
 
                 var skillGroup = Db.Get().SkillGroups.TryGet(groupID);
-                if(skillGroup == null)
+                if (skillGroup == null)
                 {
                     return STRINGS.MISSINGSKILLGROUP;
                 }
@@ -266,7 +336,7 @@ namespace SetStartDupes
             else
             {
                 var skillGroup = Db.Get().SkillGroups.TryGet(groupID);
-                return ModAssets.GetSkillgroupDescription(skillGroup,id: groupID);
+                return ModAssets.GetSkillgroupDescription(skillGroup, id: groupID);
             }
         }
         public string SkillGroup(SkillGroup group)
@@ -278,15 +348,12 @@ namespace SetStartDupes
             return StartingLevels.Find((skill) => skill.Key == skillID).Value.ToString();
         }
 
-
-
-
-
-        public void WriteToFile()
+        public void WriteToFile(bool tearDupe = false)
         {
             try
             {
-                var path = Path.Combine(ModAssets.DupeTemplatePath, FileName + ".json");
+                string templatePath = tearDupe ? ModAssets.DupeTearTemplatePath : ModAssets.DupeTemplatePath;
+                var path = Path.Combine(templatePath, FileName + ".json");
 
                 var fileInfo = new FileInfo(path);
                 FileStream fcreate = fileInfo.Open(FileMode.Create);
@@ -302,11 +369,12 @@ namespace SetStartDupes
                 SgtLogger.logError("Could not write file, Exception: " + e);
             }
         }
-        public void DeleteFile()
+        public void DeleteFile(bool tearDupe = false)
         {
             try
             {
-                var path = Path.Combine(ModAssets.DupeTemplatePath, FileName + ".json");
+                string templatePath = tearDupe ? ModAssets.DupeTearTemplatePath : ModAssets.DupeTemplatePath;
+                var path = Path.Combine(templatePath, FileName + ".json");
 
                 var fileInfo = new FileInfo(path);
                 fileInfo.Delete();
@@ -316,7 +384,5 @@ namespace SetStartDupes
                 SgtLogger.logError("Could not delete file, Exception: " + e);
             }
         }
-
-        
     }
 }
