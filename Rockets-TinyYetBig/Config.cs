@@ -24,74 +24,74 @@ namespace Rockets_TinyYetBig
             ;
 
 
-        [Option("Vanilla+ Preset", "Load a settings preset: All the bugfixes and qol improvements, everything else disabled")]
-        public Action<object> LoadVanillaPlusSettings { get 
-            {
-                return i =>
-                {
-                    EnableAdvWorldSelector = true;
-                    CompressInteriors = true;
-                    ScannerModuleRangeRadius = 4;
-                    ScannerModuleScanSpeed = 0.33f;
-                    HabitatPowerPlug = true;
-                    EnableExtendedHabs = false;
-                    HabitatInteriorRadiation = false;
-                    HabitatInteriorPortImprovements = true;
-                    SlimLargeEngines = false;
+        //[Option("Vanilla+ Preset", "Load a settings preset: All the bugfixes and qol improvements, everything else disabled")]
+        //public Action<object> LoadVanillaPlusSettings { get 
+        //    {
+        //        return i =>
+        //        {
+        //            EnableAdvWorldSelector = true;
+        //            CompressInteriors = true;
+        //            ScannerModuleRangeRadius = 4;
+        //            ScannerModuleScanSpeed = 0.33f;
+        //            HabitatPowerPlug = true;
+        //            EnableExtendedHabs = false;
+        //            HabitatInteriorRadiation = false;
+        //            HabitatInteriorPortImprovements = true;
+        //            SlimLargeEngines = false;
 
-                    ///Drilling&Shipping
-                    EnableCritterStorage = false;
-                    CritterStorageCapacity = 5;
-                    EnableLaserDrill = false;
-                    LaserDrillconeSpeed = 3.75f;
-                    EnableFridge = false;
-                    InfinitePOI = false;
-                    EnableLargeCargoBays = false;
-                    InsulatedCargoBays = true;
-                    EnableRadboltStorage = false;
-                    EnableDrillSupport = false;
-                    LaserDrillconeSpeed = 25;
-                    DrillconeSupportDiamondMass = 1500;
-                    PilotSkillAffectsDrillSpeed = false;
-                    RefillDrillSupport = false;
-                    EnablePOISensor = false;
+        //            ///Drilling&Shipping
+        //            EnableCritterStorage = false;
+        //            CritterStorageCapacity = 5;
+        //            EnableLaserDrill = false;
+        //            LaserDrillconeSpeed = 3.75f;
+        //            EnableFridge = false;
+        //            InfinitePOI = false;
+        //            EnableLargeCargoBays = false;
+        //            InsulatedCargoBays = true;
+        //            EnableRadboltStorage = false;
+        //            EnableDrillSupport = false;
+        //            LaserDrillconeSpeed = 25;
+        //            DrillconeSupportDiamondMass = 1500;
+        //            PilotSkillAffectsDrillSpeed = false;
+        //            RefillDrillSupport = false;
+        //            EnablePOISensor = false;
 
-                    RebalancedCargoCapacity = false;
-                    GasCargoBayKgPerUnit = 500;
-                    LiquidCargoBayKgPerUnit = 1250;
-                    SolidCargoBayKgPerUnit = 2000;
-                    SmallCargoBayUnits = 9;
-                    MediumCargoBayUnits = 27;
-                    CollossalCargoBayUnits = 64;
+        //            RebalancedCargoCapacity = false;
+        //            GasCargoBayKgPerUnit = 500;
+        //            LiquidCargoBayKgPerUnit = 1250;
+        //            SolidCargoBayKgPerUnit = 2000;
+        //            SmallCargoBayUnits = 9;
+        //            MediumCargoBayUnits = 27;
+        //            CollossalCargoBayUnits = 64;
 
 
-                    /// Fuel&Logistics
-                    BuffLargeOxidizer = true;
-                    EthanolEngines = true;
-                    Boosters = false;
-                    EnableNatGasEngine = false;
-                    EnableNatGasEngineRange = 15;
-                    EnableEarlyGameFuelTanks = false;
-                    EnableFuelLoaders = false;
-                    EnableWallAdapter = false;
-                    EnableBunkerPlatform = false;
+        //            /// Fuel&Logistics
+        //            BuffLargeOxidizer = true;
+        //            EthanolEngines = true;
+        //            Boosters = false;
+        //            EnableNatGasEngine = false;
+        //            EnableNatGasEngineRange = 15;
+        //            EnableEarlyGameFuelTanks = false;
+        //            EnableFuelLoaders = false;
+        //            EnableWallAdapter = false;
+        //            EnableBunkerPlatform = false;
 
-                    /// Power&Utility
-                    EnableSolarNosecone = false;
-                    EnableGenerators = false;
-                    EnableSmolBattery = false;
-                    IsotopeDecayTime = 50;
+        //            /// Power&Utility
+        //            EnableSolarNosecone = false;
+        //            EnableGenerators = false;
+        //            EnableSmolBattery = false;
+        //            IsotopeDecayTime = 50;
 
-                    /// SpaceStations
-                    SpaceStationsAndTech = false;
-                    RocketDocking = false;
-                    NeutroniumMaterial = false;
+        //            /// SpaceStations
+        //            SpaceStationsAndTech = false;
+        //            RocketDocking = false;
+        //            NeutroniumMaterial = false;
 
-                    /// EasterEggs
-                    SpiceEyes = false;
-                };
-            }  
-        }
+        //            /// EasterEggs
+        //            SpiceEyes = false;
+        //        };
+        //    }  
+        //}
 
 
         #region vanillaplus
