@@ -111,6 +111,62 @@ namespace SetStartDupes
         }
         public static MinionStatConfig CreateFromStoredMinionIdentiy(StoredMinionIdentity dupe)
         {
+            List<KeyValuePair<string, int>> startingLevels = new List<KeyValuePair<string, int>>();
+            List<KeyValuePair<string, float>> skillAptitudes = new List<KeyValuePair<string, float>>();
+            List<string> traitsId = new List<string>();
+            string stress = null, joy = null;
+
+            foreach (var trait in dupe.traitIDs)
+            {
+                switch (ModAssets.GetTraitListOfTrait(trait,out _))
+                {
+                    case DupeTraitManager.NextType.joy:
+                        joy = trait;
+                        break;
+                    case DupeTraitManager.NextType.stress:
+                        stress = trait;
+                        break;
+                    default:
+                        traitsId.Add(trait);
+                        break;
+                }
+            }
+
+            foreach (var attribute in dupe.attributeLevels)
+            {
+                startingLevels.Add(new KeyValuePair<string, int>(attribute.attributeId, attribute.level));
+            }
+
+            var groups = Db.Get().SkillGroups;
+            foreach (var skillAptitude in dupe.AptitudeBySkillGroup)
+            {
+                var group = groups.Get(skillAptitude.Key);
+
+                if (group == null)
+                {
+                    SgtLogger.error(skillAptitude.Key + " was no viable skillgroup!");
+                    continue;
+                }
+
+                skillAptitudes.Add(new KeyValuePair<string, float>(group.Id, skillAptitude.Value));
+            }
+
+            var config = new MinionStatConfig(
+                FileNameWithHash(SaveGame.Instance.BaseName + "_" + dupe.name),
+                dupe.name,
+                traitsId,
+                stress,
+                joy,
+                startingLevels,
+                skillAptitudes);
+            config.StarterXP = dupe.TotalExperienceGained;
+            config.Age = GameClock.Instance.GetCycle() - dupe.arrivalTime;
+            config.PersonalityID = dupe.nameStringKey;
+
+            return config;
+        }
+        public static MinionStatConfig CreateFromMinionIdentiy(MinionIdentity dupe)
+        {
             if (dupe.TryGetComponent<MinionResume>(out var resume)
                && dupe.TryGetComponent<Traits>(out var traits)
                && dupe.TryGetComponent<AttributeLevels>(out var attributes)
@@ -158,69 +214,6 @@ namespace SetStartDupes
 
                 var config = new MinionStatConfig(
                     FileNameWithHash(SaveGame.Instance.BaseName + "_" + dupe.name),
-                    dupe.name,
-                    traitsId,
-                    stress,
-                    joy,
-                    startingLevels,
-                    skillAptitudes);
-                config.StarterXP = resume.TotalExperienceGained;
-                config.Age = GameClock.Instance.GetCycle() - dupe.arrivalTime;
-                config.PersonalityID = dupe.nameStringKey;
-
-                return config;
-            }
-            return null;
-        }
-        public static MinionStatConfig CreateFromMinionIdentiy(MinionIdentity dupe)
-        {
-            if (dupe.TryGetComponent<MinionResume>(out var resume)
-               && dupe.TryGetComponent<Traits>(out var traits)
-               && dupe.TryGetComponent<AttributeLevels>(out var attributes)
-               )
-            {
-                List<KeyValuePair<string, int>> startingLevels = new List<KeyValuePair<string, int>>();
-                List<KeyValuePair<SkillGroup, float>> skillAptitudes = new List<KeyValuePair<SkillGroup, float>>();
-                List<Trait> traitsId = new List<Trait>();
-                Trait stress=null, joy = null;
-
-                foreach (var trait in traits.TraitList)
-                {
-                    switch (ModAssets.GetTraitListOfTrait(trait))
-                    {
-                        case DupeTraitManager.NextType.joy:
-                            joy = trait;
-                            break;
-                        case DupeTraitManager.NextType.stress:
-                            stress = trait;
-                            break;
-                        default:
-                            traitsId.Add(trait);
-                            break;
-                    }
-                }
-
-                foreach(AttributeLevel attribute in attributes.levels)
-                {
-                    startingLevels.Add(new KeyValuePair<string, int>(attribute.attribute.Attribute.Id, attribute.level));
-                }
-
-                var groups = Db.Get().SkillGroups;
-                foreach (var skillAptitude in resume.AptitudeBySkillGroup)
-                {
-                    var group = groups.Get(skillAptitude.Key);
-
-                    if (group == null)
-                    {
-                        SgtLogger.error(skillAptitude.Key + " was no viable skillgroup!");
-                        continue;
-                    }
-
-                    skillAptitudes.Add(new KeyValuePair<SkillGroup, float>(group, skillAptitude.Value));
-                }
-
-                var config = new MinionStatConfig(
-                    FileNameWithHash(SaveGame.Instance.BaseName+"_"+dupe.name),
                     dupe.name,
                     traitsId,
                     stress,

@@ -44,13 +44,15 @@ namespace SetStartDupes.NewGamePlus
         {
             public static void Prefix(Spacecraft __instance)
             {
-                for (int num = __instance.launchConditions.rocketModules.Count - 1; num >= 0; num--)
-                {                    
-                    if (__instance.launchConditions.rocketModules[num].TryGetComponent<MinionStorage>(out var minionstorage))
+                LaunchConditionManager launchConditions = __instance.launchConditions;
+                for (int num = launchConditions.rocketModules.Count - 1; num >= 0; num--)
+                {
+                    if (launchConditions.rocketModules[num].TryGetComponent<MinionStorage>(out var minionstorage))
                     {
                         List<MinionStorage.Info> storedMinionInfo = minionstorage.GetStoredMinionInfo();
                         for (int num2 = storedMinionInfo.Count - 1; num2 >= 0; num2--)
                         {
+                            SgtLogger.l("Tear Dupe detected, creating an image...");
                             storedMinionInfo[num2].serializedMinion.Get().TryGetComponent<StoredMinionIdentity>(out var identity);
                             MinionStatConfig.RegisterTearDuplicant(identity);
                         }
