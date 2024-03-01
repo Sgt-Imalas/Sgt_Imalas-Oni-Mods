@@ -17,9 +17,6 @@ namespace Rockets_TinyYetBig
     public class Config : SingletonOptions<Config>, PeterHan.PLib.Options.IOptions
     {
         public static bool SpaceStationsPossible =>
-#if DEBUG
-            true ||
-#endif
                Instance.CompressInteriors
             && Instance.EnableAdvWorldSelector
             && Instance.SpaceStationsAndTech

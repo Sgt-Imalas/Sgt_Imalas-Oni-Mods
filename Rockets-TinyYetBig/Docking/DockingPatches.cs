@@ -2,6 +2,7 @@
 using HarmonyLib;
 using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.Buildings;
+using Rockets_TinyYetBig.Derelicts;
 using Rockets_TinyYetBig.Docking;
 using Rockets_TinyYetBig.SpaceStations;
 using Rockets_TinyYetBig.TwitchEvents.SpaceSpice;
@@ -65,7 +66,7 @@ namespace Rockets_TinyYetBig.Patches
         {
             public static void Postfix(Clustercraft __instance)
             {
-                if (RocketryUtils.IsRocketTraveling(__instance))
+                if (RocketryUtils.IsRocketTraveling(__instance) && !(__instance is SpaceStation))
                 {
                     if (__instance.TryGetComponent<DockingSpacecraftHandler>(out var manager))
                     {
@@ -99,6 +100,9 @@ namespace Rockets_TinyYetBig.Patches
         {
             public static void Postfix(Clustercraft __instance)
             {
+                if (__instance is SpaceStation ||__instance is DerelictStation)
+                    return;
+
                 var clusterDestinationSelector = __instance.m_moduleInterface.GetClusterDestinationSelector();
 
                 if (__instance.status == CraftStatus.InFlight //In space on a station hex
@@ -108,6 +112,7 @@ namespace Rockets_TinyYetBig.Patches
                     && TargetStation.TryGetComponent<DockingSpacecraftHandler>(out var stationHandler)
                     && !DockingManagerSingleton.Instance.HandlersConnected(handler,stationHandler, out _, out _))
                 {
+                    SgtLogger.l("onDestinationReached dock: " + __instance.Name);
                     DockingManagerSingleton.Instance.AddPendingToStationDock(handler.WorldId, stationHandler.WorldId);
                     __instance.UpdateStatusItem();
                 }

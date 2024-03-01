@@ -84,9 +84,9 @@ namespace Rockets_TinyYetBig.Docking
 
         public void RemoveToStationDock(int craftWorldId)
         {
-
             if (PendingToStationDocks.ContainsKey(craftWorldId))
             {
+                //SgtLogger.l(craftWorldId + " removed");
                 PendingToStationDocks.Remove(craftWorldId);
             }
         }
@@ -95,12 +95,13 @@ namespace Rockets_TinyYetBig.Docking
             List<int> ToRemove = new List<int>();
             foreach(var kvp in PendingToStationDocks)
             {
-                if(WorldToDockingSpacecraftHandlers.ContainsKey((int)kvp.Key) || WorldToDockingSpacecraftHandlers.ContainsKey((int)kvp.Value))
+                if(WorldToDockingSpacecraftHandlers.ContainsKey((int)kvp.Key) && WorldToDockingSpacecraftHandlers.ContainsKey((int)kvp.Value))
                 {
                     var RocketHandler = WorldToDockingSpacecraftHandlers[kvp.Key];
                     var StationHandler = WorldToDockingSpacecraftHandlers[(int)kvp.Value];
                     if (TryInitializingDockingBetweenHandlers(RocketHandler, StationHandler))
                     {
+                        //SgtLogger.l(kvp.Key + " intialized");
                         ToRemove.Add(kvp.Key);
                     }
                 }
@@ -257,9 +258,6 @@ namespace Rockets_TinyYetBig.Docking
             {
                 dockedTo = DockingConnections[dockableGUID];
                 bool iscurrentlyDocked = dockedTo != null && dockedTo.Length > 0;
-
-                //SgtLogger.l(dockableGUID + " is currently docked? " + iscurrentlyDocked);
-
                 return iscurrentlyDocked;
             }
             return false;
@@ -320,7 +318,8 @@ namespace Rockets_TinyYetBig.Docking
         //}
         public bool HandlersConnected(DockingSpacecraftHandler first, DockingSpacecraftHandler second, out IDockable firstDock, out IDockable secondDock)
         {
-            SgtLogger.l("Handlers connected? "+first.GetProperName()+" & "+second.GetProperName());
+
+            SgtLogger.l("Handlers connected? "+first.GetProperName() + " " + first.WorldId + " & " +second.GetProperName() + " "+second.WorldId);
             firstDock = null;
             secondDock = null;
 
@@ -330,6 +329,8 @@ namespace Rockets_TinyYetBig.Docking
             if (first == second)
                 SgtLogger.error("first handler was also the second");
 
+            if (first == second)
+                return false;
 
             foreach (var handlerFirst in first.WorldDockables.Values)
             {
@@ -339,11 +340,12 @@ namespace Rockets_TinyYetBig.Docking
                     {
                         firstDock = handlerFirst;
                         secondDock = handlerSecond;
-                        SgtLogger.l("Handlers connected! " + handlerFirst.spacecraftHandler.GetProperName() +" "+ handlerFirst.WorldId+" & " + handlerSecond.spacecraftHandler.GetProperName() + " " + handlerSecond.WorldId );
+                        SgtLogger.l("yes, Handlers connected! " + handlerFirst.spacecraftHandler.GetProperName() +" "+ handlerFirst.WorldId+" & " + handlerSecond.spacecraftHandler.GetProperName() + " " + handlerSecond.WorldId );
                         return true;
                     }
                 }
             }
+            SgtLogger.l("these handlers are not connected");
             return false;
         }
 
@@ -368,7 +370,7 @@ namespace Rockets_TinyYetBig.Docking
                 return false;
             }
 
-            if(RocketryUtils.IsRocketTraveling(handler.clustercraft))
+            if(!handler.IsSpaceStation && RocketryUtils.IsRocketTraveling(handler.clustercraft))
                 return false;
 
 
@@ -389,11 +391,15 @@ namespace Rockets_TinyYetBig.Docking
         public bool TryInitializingDockingBetweenHandlers(DockingSpacecraftHandler first, DockingSpacecraftHandler second, DockingDoor overrideDoor = null)
         {
             SgtLogger.l("trying to dock " + first.GetProperName() + " and " + second.GetProperName());
+            
 
-            if (TryGetAvailableDockable(first, out var firstDock, overrideDoor) && TryGetAvailableDockable(second, out var secondDock, overrideDoor))
+            if (TryGetAvailableDockable(first, out var firstDock, overrideDoor))
             {
-                return AddPendingDock(firstDock.GUID, secondDock.GUID);
+                if (TryGetAvailableDockable(second, out var secondDock, overrideDoor))
+                    return AddPendingDock(firstDock.GUID, secondDock.GUID);
+                SgtLogger.warning("no dockable on " + second);
             }
+            SgtLogger.warning("no dockable on " + first);
             return false;
         }
         public bool TryInitializingUndockingBetweenHandlers(DockingSpacecraftHandler first, DockingSpacecraftHandler second, DockingDoor overrideDoor = null, System.Action UiRefreshActionOnFinished = null)
@@ -665,7 +671,7 @@ namespace Rockets_TinyYetBig.Docking
             var values = new List<DockingSpacecraftHandler>();
             foreach (var handler in DockingSpacecraftHandlers)
             {
-                if (handler.clustercraft.Location.Equals(location) && handler.CanDock())
+                if (handler.clustercraft.Location.Equals(location) && handler.HasDoors() && handler.InSpace)
                     values.Add(handler);
             }
             return values;

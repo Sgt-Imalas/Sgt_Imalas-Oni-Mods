@@ -113,11 +113,11 @@ namespace Rockets_TinyYetBig.Behaviours
                     && this.HasDupeTeleporter && currentDocked.HasDupeTeleporter)
                 {
                     Teleporter.SetTarget(currentDocked.Teleporter);
-                    SgtLogger.l("enabling teleporter");
+                    //SgtLogger.l("enabling teleporter");
                 }
                 else
                 {
-                    SgtLogger.l("disabling teleporter");
+                    //SgtLogger.l("disabling teleporter");
                     Teleporter.SetTarget(null);
                 }
                 EnableAccessAll();

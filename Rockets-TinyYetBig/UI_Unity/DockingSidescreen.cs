@@ -1,5 +1,6 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.Docking;
+using Rockets_TinyYetBig.SpaceStations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -183,6 +184,7 @@ namespace Rockets_TinyYetBig.UI_Unity
 
         private void Build()
         {
+            SgtLogger.l("build docking ui");
             foreach (var uirow in DockingTargets)
             {
                 uirow.Value.SetActive(false);
@@ -190,9 +192,10 @@ namespace Rockets_TinyYetBig.UI_Unity
 
             if (targetSpacecraftHandler == null || headerLabel == null)
                 return;
+            var location = targetSpacecraftHandler.clustercraft.Location;
             //headerLabel.SetText("Docking Ports: " + targetSpacecraftHandler.GetUiDoorInfo());
-            var AllDockers = DockingManagerSingleton.Instance.GetAllAvailableDockingHandlersAtPosition(targetSpacecraftHandler.clustercraft.Location);
-
+            var AllDockers = DockingManagerSingleton.Instance.GetAllAvailableDockingHandlersAtPosition(location);
+            SgtLogger.l(location.Q + ","+location.R+" <- count here: " + AllDockers.Count);
             if (targetSpacecraftHandler.CraftType == DockableType.SpaceStation)
             {
                 AllDockers.RemoveAll(craft => craft.CraftType == DockableType.SpaceStation);
@@ -205,7 +208,7 @@ namespace Rockets_TinyYetBig.UI_Unity
                     AddRowEntry(targetSpacecraftHandler);
                 }
 
-                DockingTargets[targetSpacecraftHandler].SetActive(false);
+                DockingTargets[targetSpacecraftHandler].SetActive(true);
             }
 
 
@@ -325,6 +328,7 @@ namespace Rockets_TinyYetBig.UI_Unity
                 SgtLogger.l("Skipping refresh");
                 return;
             }
+           // SgtLogger.l("refreshing docking screen, target go count: "+DockingTargets.Count() );
             headerLabel.SetText(string.Format(STRINGS.UI.DOCKINGSCREEN.DOCKINGBRIDGES.TITLETEXT, targetSpacecraftHandler.AvailableConnections(), targetSpacecraftHandler.TotalConnections()));
 
             foreach (var kvp in DockingTargets)
@@ -332,6 +336,7 @@ namespace Rockets_TinyYetBig.UI_Unity
                 //if (!kvp.Value.activeInHierarchy)
                 //    continue;
 
+               // SgtLogger.l("trying refreshing " + kvp.Key.GetProperName());
 
                 var manager = kvp.Key;
 
@@ -339,23 +344,25 @@ namespace Rockets_TinyYetBig.UI_Unity
                 {
                     SgtLogger.l( kvp.Key.GetProperName()+" was target, skipping");
                     kvp.Value.SetActive(false);
-
+                   // SgtLogger.l("1");
                     continue;
                 }
                 if (manager.CraftType == DockableType.Rocket && RocketryUtils.IsRocketTraveling( manager.clustercraft))
                 {
                     kvp.Value.SetActive(false);
+                   // SgtLogger.l("2");
 
                     continue;
                 }
                 if (manager.clustercraft.Location != targetSpacecraftHandler.clustercraft.Location)
                 {
                     kvp.Value.SetActive(false);
+                    //SgtLogger.l("3");
                     continue;
                 }
 
                 kvp.Value.SetActive(true);
-                SgtLogger.l("refreshing " + kvp.Key.GetProperName());
+               // SgtLogger.l("refreshing " + kvp.Key.GetProperName());
 
 
                 var DockButton = kvp.Value.transform.Find("Row1/Dock").gameObject.GetComponent<FButton>();

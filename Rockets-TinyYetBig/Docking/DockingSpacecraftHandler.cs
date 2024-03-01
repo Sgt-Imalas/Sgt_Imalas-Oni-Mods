@@ -83,14 +83,16 @@ namespace Rockets_TinyYetBig.Docking
             }
         }
 
+        public bool InSpace => world.ParentWorldId == world.id;
         internal bool CanDock()
         {
             bool cando =
                 HasDoors()
                 && AvailableConnections() > 0
-                && world.ParentWorldId == world.id
-                && !RocketryUtils.IsRocketTraveling(clustercraft);
-               
+                && InSpace;
+            if(Type == DockableType.Rocket)
+                cando = cando && !RocketryUtils.IsRocketTraveling(clustercraft);
+
             return cando;
         }
 
