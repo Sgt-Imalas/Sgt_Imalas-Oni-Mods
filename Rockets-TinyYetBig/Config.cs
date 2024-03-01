@@ -194,6 +194,11 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool EnableRadboltStorage { get; set; }
 
+        [Option("Radbolt Storage Module Capacity", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(2) Mining & Shipping")]
+        [Limit(1000, 10000)]
+        [JsonProperty]
+        public float RadboltStorageCapacity { get; set; }
+
         [Option("Critter Containment Module", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(2) Mining & Shipping")]
         [JsonProperty]
         public bool EnableCritterStorage { get; set; }
@@ -360,7 +365,8 @@ namespace Rockets_TinyYetBig
             InfinitePOI = false;
             EnableLargeCargoBays = true;
             InsulatedCargoBays = true;
-            EnableRadboltStorage = true; 
+            EnableRadboltStorage = true;
+            RadboltStorageCapacity = 3000f;
             EnableDrillSupport = true;
             LaserDrillconeSpeed = 25;
             DrillconeSupportDiamondMass = 1500;

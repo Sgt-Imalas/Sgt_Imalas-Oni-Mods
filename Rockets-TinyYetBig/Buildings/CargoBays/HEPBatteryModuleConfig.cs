@@ -83,14 +83,14 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
             };
 
             HighEnergyParticleStorage energyParticleStorage = go.AddOrGet<HighEnergyParticleStorage>();
-            energyParticleStorage.capacity = 3000f;
+            energyParticleStorage.capacity = Config.Instance.RadboltStorageCapacity;
             energyParticleStorage.autoStore = true;
             energyParticleStorage.PORT_ID = ID;
             energyParticleStorage.showCapacityStatusItem = true;
             energyParticleStorage.showCapacityAsMainStatus = true;
             go.AddOrGet<LoopingSounds>();
             var HEPBatteryModule = go.AddOrGet<RadiationBatteryOutputHandler>();
-            HEPBatteryModule.physicalFuelCapacity = 3000f;
+            HEPBatteryModule.physicalFuelCapacity = Config.Instance.RadboltStorageCapacity;
             go.AddOrGet<DrillConeAssistentModuleHEP>();
         }
 

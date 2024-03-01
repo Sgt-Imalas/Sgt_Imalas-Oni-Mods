@@ -263,7 +263,9 @@ namespace Rockets_TinyYetBig
                 FuelLoaderComponent fuelLoader = smi1.GetComponent<FuelLoaderComponent>();
                 IConduitConsumer conduitConsumerComponent = smi1.GetComponent<IConduitConsumer>();
                 var operational = smi1.GetComponent<Operational>();
-                if (modularConduitPortController == null|| operational == null || conduitConsumerComponent == null)
+
+
+                if (modularConduitPortController == null|| operational == null)
                     continue;
 
                 bool isLoading = false;
@@ -341,7 +343,7 @@ namespace Rockets_TinyYetBig
                         }
                     }
                 }
-                else if (operational.IsOperational && (modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Load || modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Both))
+                else if (operational.IsOperational && (modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Load || modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Both) && conduitConsumerComponent != null)
                 {
                     modularConduitPortController.SetRocket(true);
                     for (int num = conduitConsumerComponent.Storage.items.Count - 1; num >= 0; num--)
