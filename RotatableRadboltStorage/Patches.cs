@@ -82,8 +82,8 @@ namespace RotatableRadboltStorage
                 //go.AddOrGet<HEPStorageThreshold>();
             }
         }
-        [HarmonyPatch(typeof(HighEnergyParticleStorage), "UpdateLogicPorts")]
-        
+
+        [HarmonyPatch(typeof(HighEnergyParticleStorage), "UpdateLogicPorts")]        
         public static class ReplaceNormalPortLogic
         {
             public static bool Prefix(HighEnergyParticleStorage __instance)

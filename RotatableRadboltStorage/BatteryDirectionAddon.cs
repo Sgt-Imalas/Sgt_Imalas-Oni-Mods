@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace RotatableRadboltStorage
 {
@@ -62,8 +63,16 @@ namespace RotatableRadboltStorage
             {
                 _direction = value;
                 if (directionController == null)
-                    return;
-                directionController.SetPositionPercent(45f * EightDirectionUtil.GetDirectionIndex(_direction) / 360f);
+                    return;                
+                directionController.SetPositionPercent((EightDirectionUtil.GetDirectionIndex(_direction) + 1f) / 8f);
+            }
+        }
+        public void OnCopySettings(object data)
+        {
+            GameObject sauceGameObject = data as GameObject;
+            if (sauceGameObject != null && sauceGameObject.TryGetComponent<BatteryDirectionAddon>(out var addon))
+            {
+                this.Direction = addon.Direction;
             }
         }
 
@@ -73,6 +82,7 @@ namespace RotatableRadboltStorage
             directionController = new MeterController(GetComponent<KBatchedAnimController>(), "redirector_target", "redirector", Meter.Offset.Infront, Grid.SceneLayer.NoLayer, Array.Empty<string>());
             directionController.gameObject.GetComponent<KBatchedAnimTracker>().matchParentOffset = true;
             Direction = Direction;
+            Subscribe(-905833192, OnCopySettings);            
         }
     }
 }
