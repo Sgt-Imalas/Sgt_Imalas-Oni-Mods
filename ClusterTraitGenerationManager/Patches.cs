@@ -26,13 +26,9 @@ using System.Threading;
 using static ClusterTraitGenerationManager.STRINGS;
 using System.Text.RegularExpressions;
 using PeterHan.PLib.Options;
-using static Door;
-using static STRINGS.DUPLICANTS.THOUGHTS;
 using Klei;
-using static STRINGS.UI.CLUSTERMAP;
 using System.Security.Cryptography;
 using System.IO;
-using static ResearchTypes;
 
 namespace ClusterTraitGenerationManager
 {
@@ -433,10 +429,6 @@ namespace ClusterTraitGenerationManager
             ///TODO: add for Clusters.UpdateClusterCache
             public static void Postfix(Worlds __instance, ISet<string> referencedWorlds, List<YamlIO.Error> errors)
             {
-                //foreach (var vorld in referencedWorlds)
-                //{
-                //    //SgtLogger.l(vorld, "WORLD");
-                //}
                 var hashSet = new HashSet<string>(referencedWorlds);
                 string path = SettingsCache.GetAbsoluteContentPath(DlcManager.GetHighestActiveDlcId(), "worldgen");
                 var WorldFiles = new DirectoryInfo(FileSystem.Normalize(System.IO.Path.Combine(path, "worlds"))).GetFiles("*.yaml");
@@ -644,9 +636,6 @@ namespace ClusterTraitGenerationManager
                 //return false;
             }
         }
-
-
-
 
 
         ////[HarmonyPatch(typeof(Db),(nameof(Db.Initialize)))]
@@ -909,6 +898,7 @@ namespace ClusterTraitGenerationManager
                         StartWorld.worldTemplateRules.Insert(0, TeleporterSpawn);
 
                         toAdd.Add(new(newStartWorldPath, StartWorld));
+                        ModAssets.ModPlanetOriginPaths.Add(newStartWorldPath, sourceWorld.Key);
 
                         SgtLogger.l(newStartWorldPath, "Created Starter Planet Variant");
 
@@ -1083,6 +1073,7 @@ namespace ClusterTraitGenerationManager
 
 
                         toAdd.Add(new(newStartWorldPath, StartWorld));
+                        ModAssets.ModPlanetOriginPaths.Add(newStartWorldPath, sourceWorld.Key);
 
                         SgtLogger.l(newStartWorldPath, "Created Warp Planet Variant");
 
@@ -1171,6 +1162,8 @@ namespace ClusterTraitGenerationManager
                         //StartWorld.worldTemplateRules.RemoveAll(cellsfilter => cellsfilter.allowedCellsFilter.Any(item=> item.tag=="AtStart"));
 
                         toAdd.Add(new(newStartWorldPath, StartWorld));
+                        ModAssets.ModPlanetOriginPaths.Add(newStartWorldPath, sourceWorld.Key);
+
                         SgtLogger.l(newStartWorldPath, "Created Outer Planet Variant");
                     }
 

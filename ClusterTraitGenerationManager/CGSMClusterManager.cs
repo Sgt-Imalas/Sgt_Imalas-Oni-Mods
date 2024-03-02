@@ -2,6 +2,7 @@
 using Database;
 using FMOD;
 using HarmonyLib;
+using Klei;
 using Klei.AI;
 using Klei.CustomSettings;
 using Newtonsoft.Json;
@@ -25,6 +26,7 @@ using YamlDotNet.Samples;
 using static ClusterTraitGenerationManager.Patches;
 using static ClusterTraitGenerationManager.STRINGS.UI;
 using static Klei.ClusterLayoutSave;
+using static LogicGate.LogicGateDescriptions;
 using static ProcGen.WorldPlacement;
 using static SandboxSettings;
 using static STRINGS.NAMEGEN;
@@ -761,6 +763,8 @@ namespace ClusterTraitGenerationManager
 
             [JsonIgnore] public ProcGen.World world;
             [JsonIgnore] public Vector2I originalWorldDimensions;
+            [JsonIgnore] public string ModName = string.Empty;
+
 
             public WorldPlacement placement;
 
@@ -795,8 +799,8 @@ namespace ClusterTraitGenerationManager
                         if (Strings.TryGet(world.name, out var nameEntry))
                         {
                             var name = nameEntry.ToString();
-                            if (id.ToUpperInvariant().Contains("EVERYTHING"))
-                                name += "-Everything";
+                            if (ModName != string.Empty)
+                                name += " "+UIUtils.ColorText(STRINGS.UI.SPACEDESTINATIONS.MODDEDPLANET,UIUtils.rgb(212, 244, 199));
 
                             return name;
                         }
@@ -817,6 +821,13 @@ namespace ClusterTraitGenerationManager
             {
                 get
                 {
+                    string desc=string.Empty;
+                    if (ModName != string.Empty)
+                    {
+                        desc += UIUtils.ColorText(string.Format(SPACEDESTINATIONS.MODDEDPLANETDESC, ModName), UIUtils.rgb(212, 244, 199));
+                        desc += "\n";
+                        desc += "\n";
+                    }
 
                     if (id.Contains(RandomKey))
                     {
@@ -836,13 +847,17 @@ namespace ClusterTraitGenerationManager
                     if (world != null && world.description != null)
                     {
                         if (Strings.TryGet(world.description, out var description))
-                            return description.String;
+                        {
+                            desc += description.String;
+                            return desc;
+                        }
                     }
                     //else if (_poiID != null)
                     //{
                     //    return _poiDesc;
                     //}
-                    return id;
+                    desc += id;
+                    return desc;
                 }
             }
 
@@ -1146,6 +1161,27 @@ namespace ClusterTraitGenerationManager
                 //this.InitGeyserInfo();
 
                 //XYratio = (float)world.worldsize.X / (float)world.worldsize.Y;
+
+
+                string filepath = world.filePath;
+                ///Dynamically created planets, check for original instead
+                if (ModAssets.ModPlanetOriginPaths.ContainsKey(filepath))
+                    filepath = ModAssets.ModPlanetOriginPaths[filepath];
+
+                string text = SettingsCache.RewriteWorldgenPathYaml(filepath);
+                var directory = FileSystem.file_sources.FirstOrDefault(item => item.FileExists(text));
+                if(directory != null && directory !=default)
+                {
+                    var dir = new DirectoryInfo(directory.GetID()).Name;
+                    if(dir != "StandardFS")
+                    {
+                        var sourceMod = Global.Instance.modManager.mods.FirstOrDefault(mod => mod.label.id == dir && mod.IsEnabledForActiveDlc());
+                        if (sourceMod != null)
+                        {
+                            this.ModName = sourceMod.title;
+                        }
+                    }
+                }
                 return this;
             }
 
@@ -2503,7 +2539,7 @@ namespace ClusterTraitGenerationManager
                             )
                             continue;
 
-                        ///Hardcoded checks due to others not having the correct folder structure
+                        ///Hardcoded checks due to other mods not having the correct folder structure
                         string KeyUpper = WorldFromCache.Key.ToUpperInvariant();
                         bool SkipWorld =
                                KeyUpper.Contains("EMPTERA") && DlcManager.IsExpansion1Active() ? !KeyUpper.Contains("DLC") : KeyUpper.Contains("DLC")
@@ -2518,7 +2554,6 @@ namespace ClusterTraitGenerationManager
                         if (!SkipWorld)
                         {
                             category = DeterminePlanetType(world);
-
                             Sprite sprite = ColonyDestinationAsteroidBeltData.GetUISprite(WorldFromCache.Value.asteroidIcon);
 
                             PlanetsAndPOIs[WorldFromCache.Key] = (new StarmapItem

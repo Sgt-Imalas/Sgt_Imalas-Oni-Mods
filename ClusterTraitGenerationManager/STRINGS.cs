@@ -757,6 +757,8 @@ namespace ClusterTraitGenerationManager
 
             public class SPACEDESTINATIONS
             {
+                public static LocString MODDEDPLANET = "(Modded)";
+                public static LocString MODDEDPLANETDESC = "Added by the mod \"{0}\"";
                 public static class CGM_RANDOM_STARTER
                 {
                     public static LocString NAME = (LocString)"Random Start Asteroid";

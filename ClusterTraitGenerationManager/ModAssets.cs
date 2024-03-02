@@ -43,7 +43,8 @@ namespace ClusterTraitGenerationManager
                 "MiniRadioactiveOcean"
             };
 
-
+        //origin paths of dynamically generated asteroids
+        public static Dictionary<string, string> ModPlanetOriginPaths = new Dictionary<string, string>();
 
         public class POI_Data
         {
