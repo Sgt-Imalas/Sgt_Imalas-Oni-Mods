@@ -28,7 +28,8 @@ namespace Rockets_TinyYetBig.Behaviours
         public HighEnergyParticleStorage hepStorage;
         private MeterController m_meter;
 
-
+        [MyCmpAdd]
+        public CopyBuildingSettings copyBuildingSettings;
 
         public bool AllowSpawnParticles => hasLogicWire && isLogicActive;
         private bool hasLogicWire;
@@ -167,7 +168,7 @@ namespace Rockets_TinyYetBig.Behaviours
                 _direction = value;
                 if (directionController == null)
                     return;
-                directionController.SetPositionPercent(45f * EightDirectionUtil.GetDirectionIndex(_direction) / 360f);
+                directionController.SetPositionPercent((EightDirectionUtil.GetDirectionIndex(_direction) + 1f) / 8f);
             }
         }
 
@@ -214,9 +215,19 @@ namespace Rockets_TinyYetBig.Behaviours
             //this.Subscribe<RadiationBatteryOutputHandler>((int)GameHashes.ParticleStorageCapacityChanged, OnStorageChangedDelegate);
             Subscribe((int)GameHashes.OnParticleStorageChanged, OnStorageChangedDelegate);
             Subscribe((int)GameHashes.LogicEvent, new Action<object>(OnLogicValueChanged));
+            Subscribe(-905833192, OnCopySettings);
 
         }
 
+        public void OnCopySettings(object data)
+        {
+            GameObject sauceGameObject = data as GameObject;
+            if (sauceGameObject != null && sauceGameObject.TryGetComponent<RadiationBatteryOutputHandler>(out var addon))
+            {
+                this.Direction = addon.Direction;
+                this.UserMaxCapacity = addon.UserMaxCapacity;
+            }
+        }
 
         private void OnStorageChange(object data) => m_meter.SetPositionPercent(hepStorage.Particles / Mathf.Max(1f, hepStorage.capacity));
         public override void OnCleanUp()

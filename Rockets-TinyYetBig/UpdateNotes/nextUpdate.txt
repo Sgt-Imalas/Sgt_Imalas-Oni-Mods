@@ -1,0 +1,2 @@
+﻿- fixed rotation display of radbolt storage module
+- added "copy settings" to radbolt storage module
