@@ -10,8 +10,16 @@
 		<Optimize>true</Optimize>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
+  
+  <!--Game Release Versions-->
+  <PropertyGroup>
+    <WhattaBlast>549456</WhattaBlast>
+    <QoL2023June>560597</QoL2023June>
+    <PackedSnacks>581003</PackedSnacks>
+    <QoL2024Feb>596100</QoL2024Feb>
+  </PropertyGroup>
 
-	<ItemGroup Condition="'$(GenerateMetadata)' == 'true' ">
+  <ItemGroup Condition="'$(GenerateMetadata)' == 'true' ">
 		<PackageReference Include="Cairath.ONIMetadataFileGenerator" Version="1.0.0">
 			<ExcludeAssets>runtime</ExcludeAssets>
 		</PackageReference>

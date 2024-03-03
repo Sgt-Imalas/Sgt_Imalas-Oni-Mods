@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace UtilLibs.UIcmp //Source: Aki
 {
-    public class FToggle2 : KMonoBehaviour, IEventSystemHandler, IPointerUpHandler, IPointerEnterHandler
+    public class FToggle2 : KMonoBehaviour, IEventSystemHandler, IPointerDownHandler, IPointerEnterHandler
     {
         [SerializeField]
         public Image mark;
@@ -12,7 +12,7 @@ namespace UtilLibs.UIcmp //Source: Aki
         public event System.Action OnClick;
         public event System.Action OnChange;
 
-        private bool _interactable;
+        private bool _interactable=true;
 
         public bool Interactable => _interactable;
 
@@ -38,8 +38,8 @@ namespace UtilLibs.UIcmp //Source: Aki
                 {
                     mark.enabled = value;
                 }
-
-                OnChange?.Invoke();
+                if(Interactable)
+                    OnChange?.Invoke();
             }
         }
 
@@ -47,7 +47,7 @@ namespace UtilLibs.UIcmp //Source: Aki
         {
             base.OnPrefabInit();
 
-            if(mark==null)
+            if(mark == null)
                 mark = gameObject.GetComponentInChildren<Image>();
         }
 
@@ -64,14 +64,15 @@ namespace UtilLibs.UIcmp //Source: Aki
         public void Toggle() => On = !On;
         public void SetOn(bool toggleOn) => On = toggleOn;
 
-        public void OnPointerUp(PointerEventData eventData)
+        public void OnPointerDown(PointerEventData eventData)
         {
             if (KInputManager.isFocused)
             {
                 KInputManager.SetUserActive();
                 PlaySound(UISoundHelper.Click);
                 Toggle();
-                OnClick?.Invoke();
+                if(_interactable)
+                    OnClick?.Invoke();
             }
         }
 

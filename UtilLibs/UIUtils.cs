@@ -289,7 +289,7 @@ namespace UtilLibs
         /// </summary>
         public static void AddCustomSideScreen<T>(string name, GameObject prefab)
         {
-            bool elementsReady = GetElements(out List<SideScreenRef> screens, out GameObject contentBody);
+            bool elementsReady = GetElements(out List<SideScreenRef> screens, out _);
             if (elementsReady)
             {
                 var newScreen = prefab.AddComponent(typeof(T)) as SideScreenContent;
