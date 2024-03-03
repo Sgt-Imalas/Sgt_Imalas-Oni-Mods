@@ -15,6 +15,17 @@ namespace BathTub
     internal class Patches
     {
         /// <summary>
+        /// register custom status items
+        /// </summary>
+        [HarmonyPatch(typeof(Database.BuildingStatusItems), "CreateStatusItems")]
+        public static class Database_BuildingStatusItems_CreateStatusItems_Patch
+        {
+            public static void Postfix()
+            {
+                BathTub.RegisterStatusItems();
+            }
+        }
+        /// <summary>
         /// add buildings to plan screen
         /// </summary>
         [HarmonyPatch(typeof(GeneratedBuildings))]

@@ -1,4 +1,5 @@
-﻿using Klei.AI;
+﻿using Database;
+using Klei.AI;
 using KSerialization;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static STRINGS.BUILDING.STATUSITEMS;
 
 namespace BathTub
 {
@@ -26,6 +28,7 @@ namespace BathTub
         private Chore[] chores;
         public HashSet<int> occupants = new HashSet<int>();
         public float BathTubCapacity = 100f;
+        public float BathTubWaterThreshold = 60f;
 
 
         [MyCmpGet]
@@ -34,6 +37,28 @@ namespace BathTub
         private MeterController tempMeter;
 
         public float PercentFull => 100f * this.waterStorage.GetMassAvailable(SimHashes.Water) / this.BathTubCapacity;
+        static StatusItem BathtubFilling;
+
+        public static void RegisterStatusItems()
+        {
+            BathtubFilling = new StatusItem(
+                      "BT_BATHTUBFILLING",
+                      "BUILDING",
+                      "",
+                      StatusItem.IconType.Info,
+                      NotificationType.Neutral,
+                      false,
+                      OverlayModes.None.ID,
+                      false
+                      );
+
+            BathtubFilling.resolveStringCallback = delegate (string str, object data)
+            {
+                BathTub hotTub = (BathTub)data;
+                str = str.Replace("{fullness}", GameUtil.GetFormattedPercent(hotTub.PercentFull));
+                return str;
+            };
+        }
 
         public override void OnSpawn()
         {
@@ -57,14 +82,16 @@ namespace BathTub
             {
                 "meter_water_target"
             });
-            this.smi.UpdateWaterMeter();
+
             this.tempMeter = new MeterController(this.GetComponent<KBatchedAnimController>(), "meter_temperature_target", "meter_temp", Meter.Offset.Infront, Grid.SceneLayer.NoLayer, new string[1]
             {
                 "meter_temperature_target"
             });
-            this.smi.TestWaterTemperature();
             this.smi.StartSM();
+            Subscribe((int)GameHashes.OnStorageChange, OnStorageChanged);
         }
+
+        public void OnStorageChanged(object _) => waterMeter.SetPositionPercent(Mathf.Clamp(waterStorage.GetMassAvailable(SimHashes.Water) / BathTubCapacity, 0.0f, 1f));
 
         public override void OnCleanUp()
         {
@@ -132,7 +159,7 @@ namespace BathTub
             Element elementByHash = ElementLoader.FindElementByHash(SimHashes.Water);
             descs.Add(new Descriptor(global::STRINGS.BUILDINGS.PREFABS.HOTTUB.WATER_REQUIREMENT.Replace("{element}", elementByHash.name).Replace("{amount}", GameUtil.GetFormattedMass(this.BathTubCapacity)), global::STRINGS.BUILDINGS.PREFABS.HOTTUB.WATER_REQUIREMENT_TOOLTIP.Replace("{element}", elementByHash.name).Replace("{amount}", GameUtil.GetFormattedMass(this.BathTubCapacity)), Descriptor.DescriptorType.Requirement));
 
-            descs.Add(new Descriptor((string)global::STRINGS.UI.BUILDINGEFFECTS.RECREATION, (string)global::STRINGS.UI.BUILDINGEFFECTS.TOOLTIPS.RECREATION));
+            //descs.Add(new Descriptor((string)global::STRINGS.UI.BUILDINGEFFECTS.RECREATION, (string)global::STRINGS.UI.BUILDINGEFFECTS.TOOLTIPS.RECREATION));
             //Effect.AddModifierDescriptions(this.gameObject, descs, this.specificEffect, true);
             return descs;
         }
@@ -147,14 +174,6 @@ namespace BathTub
             public override void InitializeStates(out BaseState default_state)
             {
                 default_state = ready;
-                this.root.Update((smi, dt) =>
-                {
-                    smi.TestWaterTemperature();
-                }, UpdateRate.SIM_4000ms).EventHandler(GameHashes.OnStorageChange, smi =>
-                {
-                    smi.UpdateWaterMeter();
-                    smi.TestWaterTemperature();
-                });
                 this.unoperational
                     .TagTransition(GameTags.Operational, off)
                     .PlayAnim("off");
@@ -162,21 +181,19 @@ namespace BathTub
                     .TagTransition(GameTags.Operational, this.unoperational, true)
                     .DefaultState(off.filling);
                 this.off.filling.DefaultState(this.off.filling.normal)
-                    .Transition(ready, smi => (double)smi.master.waterStorage.GetMassAvailable(SimHashes.Water) >= smi.master.BathTubCapacity)
-                    .PlayAnim("off").Enter(smi => smi.GetComponent<ConduitConsumer>().SetOnState(true))
+                    .Transition(ready, smi => (double)smi.master.waterStorage.GetMassAvailable(SimHashes.Water) >= smi.master.BathTubWaterThreshold)
+                    .PlayAnim("off")
+                    .Enter(smi => smi.GetComponent<ConduitConsumer>().SetOnState(true))
                     .Enter(smi => smi.GetComponent<ConduitDispenser>().SetOnState(true))
                     .Exit(smi => smi.GetComponent<ConduitConsumer>().SetOnState(true))
-                    //.ToggleMainStatusItem(Db.Get().BuildingStatusItems.HotTubFilling, (Func<StatesInstance, object>)(smi => smi.master))
+                    .ToggleMainStatusItem(BathtubFilling, (Func<StatesInstance, object>)(smi => smi.master))
                     ;
-                this.off.draining.Transition(off.filling, smi => (double)smi.master.waterStorage.GetMassAvailable(SimHashes.Water) <= 0.0)
-                    .Enter(smi => smi.GetComponent<ConduitDispenser>().SetOnState(true))
-                    .Exit(smi => smi.GetComponent<ConduitDispenser>().SetOnState(false));
                 this.ready
                     .DefaultState(this.ready.idle)
                     .Enter("CreateChore", smi => smi.master.UpdateChores())
                     .Exit("CancelChore", smi => smi.master.UpdateChores(false))
                     .TagTransition(GameTags.Operational, this.unoperational, true)
-                    .Transition(off.filling, smi => smi.master.waterStorage.IsEmpty())
+                    .Transition(off.filling, smi => smi.master.waterStorage.GetMassAvailable(SimHashes.Water) < smi.master.BathTubWaterThreshold)
                     .ToggleMainStatusItem(Db.Get().BuildingStatusItems.Normal);
                 this.ready.idle.PlayAnim("on")
                     .ParamTransition(userCount, this.ready.on.pre, (smi, p) => p > 0);
@@ -250,28 +267,7 @@ namespace BathTub
 
             public void SetActive(bool active) => this.operational.SetActive(this.operational.IsOperational & active);
 
-            public void UpdateWaterMeter() => this.smi.master.waterMeter.SetPositionPercent(Mathf.Clamp(this.smi.master.waterStorage.GetMassAvailable(SimHashes.Water) / this.smi.master.BathTubCapacity, 0.0f, 1f));
 
-            public void UpdateTemperatureMeter(float waterTemp)
-            {
-                Element element = ElementLoader.GetElement(SimHashes.Water.CreateTag());
-                //this.smi.master.tempMeter.SetPositionPercent(Mathf.Clamp((float)(((double)waterTemp - (double)this.smi.master.minimumWaterTemperature) / ((double)element.highTemp - (double)this.smi.master.minimumWaterTemperature)), 0.0f, 1f));
-            }
-
-            public void TestWaterTemperature()
-            {
-                GameObject first = this.smi.master.waterStorage.FindFirst(new Tag(1836671383));
-                float waterTemp = 0.0f;
-                if ((bool)first)
-                {
-                    float temperature = first.GetComponent<PrimaryElement>().Temperature;
-                    this.UpdateTemperatureMeter(temperature);
-                }
-                else
-                {
-                    this.UpdateTemperatureMeter(waterTemp);
-                }
-            }
         }
     }
 

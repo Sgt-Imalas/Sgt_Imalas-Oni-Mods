@@ -11,7 +11,7 @@ namespace BathTub
     internal class BathTubConfig : IBuildingConfig
     {
         public static string ID = "SgtImalas_BathTub";
-        public static float BathingTime = 60f;
+        public static float BathingTime = 36f;
         public static float WaterConsumedPerBath = 7 * 16;
 
 
@@ -31,17 +31,17 @@ namespace BathTub
 
 
             buildingDef.Overheatable = false;
-            buildingDef.EnergyConsumptionWhenActive = 240f;
-            buildingDef.SelfHeatKilowattsWhenActive = 2f;
-            buildingDef.ExhaustKilowattsWhenActive = 2f;
+            //buildingDef.EnergyConsumptionWhenActive = 240f;
+            //buildingDef.SelfHeatKilowattsWhenActive = 2f;
+            //buildingDef.ExhaustKilowattsWhenActive = 2f;
             buildingDef.InputConduitType = ConduitType.Liquid;
             buildingDef.OutputConduitType = ConduitType.Liquid;
             buildingDef.ViewMode = OverlayModes.LiquidConduits.ID;
             buildingDef.AudioCategory = "Metal";
             buildingDef.UtilityInputOffset = new CellOffset(-1, 0);
             buildingDef.UtilityOutputOffset = new CellOffset(2, 0);
-            buildingDef.RequiresPowerInput = true;
-            buildingDef.PowerInputOffset = new CellOffset(-2, 0);
+            //buildingDef.RequiresPowerInput = true;
+            //buildingDef.PowerInputOffset = new CellOffset(-2, 0);
             return buildingDef;
         }
 
