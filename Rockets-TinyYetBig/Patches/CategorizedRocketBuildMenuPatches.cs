@@ -396,6 +396,7 @@ namespace Rockets_TinyYetBig
             }
         }
 
+
         /// <summary>
         /// Update buildable states for categorized buttons
         /// </summary>
@@ -427,6 +428,38 @@ namespace Rockets_TinyYetBig
                                 button.Value.SetActive(true);
                         }
                         ___moduleBuildableState[button.Key.first] = __instance.TestBuildable(button.Key.first);
+                        if(button.Value.TryGetComponent<ToolTip>(out var tooltip))
+                        {
+                            __instance.SetupBuildingTooltip(tooltip, button.Key.first);
+                        }
+                    }
+                }
+                foreach (var button in CategoryPatchTest.SearchableButtons)
+                {
+                    if (!button.IsNullOrDestroyed() && !button.Value.IsNullOrDestroyed())
+                    {
+                        if (!___moduleBuildableState.ContainsKey(button.Key))
+                        {
+                            ___moduleBuildableState.Add(button.Key, false);
+                        }
+                        TechItem techItem = Db.Get().TechItems.TryGet(button.Key.PrefabID);
+                        if (techItem != null)
+                        {
+                            bool flag = DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || techItem.IsComplete();
+
+                            if (!button.Value.IsNullOrDestroyed())
+                                button.Value.SetActive(flag);
+                        }
+                        else
+                        {
+                            if (!button.Value.IsNullOrDestroyed())
+                                button.Value.SetActive(true);
+                        }
+                        ___moduleBuildableState[button.Key] = __instance.TestBuildable(button.Key);
+                        if (button.Value.TryGetComponent<ToolTip>(out var tooltip))
+                        {
+                            __instance.SetupBuildingTooltip(tooltip, button.Key);
+                        }
                     }
                 }
                 CategoryPatchTest.ToggleCategoriesSearch(false);

@@ -107,12 +107,6 @@ namespace Rockets_TinyYetBig.Behaviours
             }
         }
 
-        public void RadboltDecay()
-        {
-            if(HasSkyVisibility()) return;
-
-        }
-
         private void OnLogicValueChanged(object data)
         {
             LogicValueChanged logicValueChanged = (LogicValueChanged)data;
@@ -225,7 +219,7 @@ namespace Rockets_TinyYetBig.Behaviours
             if (sauceGameObject != null && sauceGameObject.TryGetComponent<RadiationBatteryOutputHandler>(out var addon))
             {
                 this.Direction = addon.Direction;
-                this.UserMaxCapacity = addon.UserMaxCapacity;
+                this.particleThreshold = addon.particleThreshold;
             }
         }
 
