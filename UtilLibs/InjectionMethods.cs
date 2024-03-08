@@ -20,14 +20,14 @@ namespace UtilLibs
         }
 
         ///Use the following patch to add any custom interact anims;
-        //      HarmonyPatch(typeof(KAnimGroupFile), "Load")]
+        //      [HarmonyPatch(typeof(KAnimGroupFile), "Load")]
         //public class KAnimGroupFile_Load_Patch
         //      {
         //          public static void Prefix(KAnimGroupFile __instance)
         //          {
-        //              Utils.RegisterBatchTag(
+        //              InjectionMethods.RegisterBatchTag(
         //                  __instance,
-        //                  CONSTS.BATCH_TAGS.INTERACTS,
+        //                  InjectionMethods.BATCH_TAGS.INTERACTS,
         //                  new HashSet<HashedString>()
         //                  {
         //                      "aete_interacts_espresso_short_kanim",

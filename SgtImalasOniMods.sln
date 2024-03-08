@@ -141,9 +141,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BathTub", "BathTub\BathTub.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkinMeterTest", "SkinMeterTest\SkinMeterTest.csproj", "{347433D6-BFE5-428C-8C1D-8A53CDED1A6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompressedCritters", "CompressedCritters\CompressedCritters.csproj", "{9B2C46FB-19DF-4C18-863A-AD5D6131DF57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompressedCritters", "CompressedCritters\CompressedCritters.csproj", "{9B2C46FB-19DF-4C18-863A-AD5D6131DF57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuperyFixed", "DuperyFixed\DuperyFixed.csproj", "{FF499E02-4EB5-4912-B574-F3952B9A3C47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DuperyFixed", "DuperyFixed\DuperyFixed.csproj", "{FF499E02-4EB5-4912-B574-F3952B9A3C47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

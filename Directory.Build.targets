@@ -57,6 +57,12 @@
 		<Message Text="Copied build files" Importance="High" />
 		
 	</Target>
+
+
+  <Target Name="PubliciseMKDIR" BeforeTargets ="Clean">
+    <MakeDir
+            Directories="$(SolutionDir)\PublicisedAssembly"/>
+  </Target>
   
   <Target Name="Publicise" AfterTargets="Clean">
     <ItemGroup>
