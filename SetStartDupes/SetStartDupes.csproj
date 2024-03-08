@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>SetStartDupes</PackageId>
-		<Version>6.2.3.0</Version>
+		<Version>6.2.4.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022-2023 Sgt_Imalas</Copyright>
 		<RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
@@ -55,6 +55,15 @@
 	</ItemGroup>
 	
 	<ItemGroup>
+	  <None Update="ModAssets\anim\assets\dss_mystery_minions_dupeselect\crewselect_backdrop_0.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\dss_mystery_minions_dupeselect\crewselect_backdrop_anim.bytes">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\dss_mystery_minions_dupeselect\crewselect_backdrop_build.bytes">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\assets\linux\dss_uiassets">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
@@ -65,6 +74,9 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\translations\de.po">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\translations\fr.po">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\translations\zh.po">

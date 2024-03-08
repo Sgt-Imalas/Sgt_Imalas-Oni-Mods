@@ -42,7 +42,8 @@ namespace SetStartDupes
         /// <param name="voiceIdxOverride"></param>
         public static void AddingCustomVoiceIdx(string nameStringKey, int voiceIdxOverride)
         {
-            if(!VoiceIdxOverrides.ContainsKey(nameStringKey)) 
+            nameStringKey = nameStringKey.ToUpperInvariant();
+            if (!VoiceIdxOverrides.ContainsKey(nameStringKey)) 
             {
                 VoiceIdxOverrides[nameStringKey] = voiceIdxOverride;
             }
@@ -51,7 +52,9 @@ namespace SetStartDupes
 
         public static int GetVoiceIdxOverrideForPersonality(string nameStringKey)
         {
-            if(VoiceIdxOverrides.ContainsKey(nameStringKey))
+            nameStringKey = nameStringKey.ToUpperInvariant();
+            SgtLogger.l($"trying to get custom voiceIDX for personality {nameStringKey}.");
+            if (VoiceIdxOverrides.ContainsKey(nameStringKey))
             {
                 SgtLogger.l($"Applying custom voice idx: {VoiceIdxOverrides[nameStringKey]} for personality {nameStringKey}.");
                 return VoiceIdxOverrides[nameStringKey];

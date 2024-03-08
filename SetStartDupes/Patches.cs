@@ -112,7 +112,7 @@ namespace SetStartDupes
                         }
                     }
                     __instance.stats.voiceIdx = ModApi.GetVoiceIdxOverrideForPersonality(__instance.stats.NameStringKey);
-
+                    SgtLogger.l(__instance.stats.voiceIdx + " <- voiceidx");
                     //Trait ancientKnowledgeTrait = Db.Get().traits.TryGet("AncientKnowledge");
                     //if (ancientKnowledgeTrait != null)
                     //{
@@ -142,6 +142,20 @@ namespace SetStartDupes
                     MinionCrewPreset.ApplySingleMinion(MinionCrewPreset.OpenPresetAssignments.First(), __instance);
                     MinionCrewPreset.OpenPresetAssignments.RemoveAt(0);
                 }
+                //mysterious minion test
+                if (false)
+                {
+                    var animBg = __instance.transform.Find("Details/Top/PortraitContainer/BG");
+                    if (animBg == null)
+                        return;
+                    if (!animBg.TryGetComponent<KBatchedAnimController>(out var kbac))
+                        return;
+
+                    kbac.SwapAnims(new KAnimFile[] { Assets.GetAnim("dss_mystery_minions_dupeselect_kanim") });
+                    kbac.SetDirty();
+                    kbac.UpdateAnim(1);
+                    kbac.Play("crewSelect_bg", KAnim.PlayMode.Loop);
+                }
             }
         }
         [HarmonyPatch(typeof(MinionStartingStats))]
@@ -158,7 +172,55 @@ namespace SetStartDupes
                 //SgtLogger.warning("no mng for " + __instance + " found!");
             }
         }
+        //[HarmonyPatch(typeof(Chatty))]
+        //[HarmonyPatch(nameof(Chatty.OnStartedTalking))]
+        //public class chattytest
+        //{
+        //    [HarmonyPriority(Priority.HigherThanNormal)]
 
+        //    public static void Prefix(object data, Chatty __instance)
+        //    {
+        //        if(data is MinionIdentity other)
+        //        {
+        //            SgtLogger.l("smc other");
+        //            other.TryGetComponent(out StateMachineController smc);
+
+        //        }
+        //        if(data is ConversationManager.StartedTalkingEvent evt)
+        //        {
+        //            SgtLogger.Assert("talker",evt.talker);
+        //            SgtLogger.Assert("talker go",evt.talker.gameObject);
+        //            SgtLogger.Assert("talker tryget", evt.talker.TryGetComponent(out other));
+        //            SgtLogger.Assert("other go", other);
+        //            SgtLogger.l("smc talker");
+        //            other.TryGetComponent(out StateMachineController smc);
+        //        }
+        //    }
+        //}
+        /// <summary>
+		/// Applied before OnStartedTalking runs.
+		/// </summary>
+		[HarmonyPriority(Priority.LowerThanNormal)]
+        internal static bool Prefix(object data, Chatty __instance)
+        {
+            if ((data is MinionIdentity other || (data is ConversationManager.
+                    StartedTalkingEvent evt && evt.talker != null && evt.talker.
+                    TryGetComponent(out other))) &&
+                    other != null && other != __instance.identity)
+            {
+
+                
+                    // Cannot talk to yourself (self)
+                    if (other.TryGetComponent(out StateMachineController smc))
+                        smc.GetSMI<JoyBehaviourMonitor.Instance>()?.GoToOverjoyed();
+                    if (__instance.TryGetComponent(out smc))
+                        smc.GetSMI<JoyBehaviourMonitor.Instance>()?.GoToOverjoyed();
+                
+
+            }
+            __instance.conversationPartners.Clear();
+            return false;
+        }
 
 
         [HarmonyPatch(typeof(ImmigrantScreen))]
@@ -290,15 +352,15 @@ namespace SetStartDupes
                     foreach (var trait in DupeToDeliver.Traits)
                         SgtLogger.l(trait.Name, "Trait ToApply");
 
-                    if (CryoDupeToApplyStatsOn != null)
+                    if (CryoDupeToApplyStatsOn != null && CryoDupeToApplyStatsOn.TryGetComponent<Traits>(out var traits))
                     {
-                        foreach (var trait in CryoDupeToApplyStatsOn.GetComponent<Traits>().GetTraitIds())
+                        foreach (var trait in traits.GetTraitIds())
                         {
                             SgtLogger.l("purging existing trait: " + trait);
                             PurgingTraitComponentIfExists(trait, CryoDupeToApplyStatsOn);
                         }
 
-                        CryoDupeToApplyStatsOn.GetComponent<Traits>().Clear();
+                        traits.Clear();
 
 
                         if (CryoDupeToApplyStatsOn.TryGetComponent<MinionResume>(out var minionRes))
@@ -639,7 +701,7 @@ namespace SetStartDupes
             public static void Prefix(Immigration __instance)
             {
 
-                if(__instance.spawnInterval.Length >= 2)
+                if (__instance.spawnInterval.Length >= 2)
                 {
                     __instance.spawnInterval[0] = Mathf.RoundToInt(ModConfig.Instance.PrintingPodRechargeTimeFirst * 600f);
                     __instance.spawnInterval[1] = Mathf.RoundToInt(ModConfig.Instance.PrintingPodRechargeTime * 600f);
@@ -1394,7 +1456,7 @@ namespace SetStartDupes
             //    __state = __instance.transform.Find("ModifyDupeStats").gameObject.GetComponent<DupeTraitManager>();
 
             //}
-            [HarmonyPriority (Priority.Low-1)]
+            [HarmonyPriority(Priority.Low - 1)]
             public static void Postfix(CharacterContainer __instance, MinionStartingStats ___stats)
             {
                 var mngt = __instance.transform.Find("ModifyDupeStats");
@@ -1405,7 +1467,7 @@ namespace SetStartDupes
                       ; return;
                 }
                 var mng = mngt.gameObject.GetComponent<DupeTraitManager>();
-                if(mng != null)
+                if (mng != null)
                 {
                     mng.SetReferenceStats(___stats);
                 }

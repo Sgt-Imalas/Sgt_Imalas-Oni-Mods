@@ -35,6 +35,7 @@ namespace SetStartDupes.NewGamePlus
                 }
             }
         }
+        
         /// <summary>
         /// collect base game Temporal Tear dupe
         /// </summary>

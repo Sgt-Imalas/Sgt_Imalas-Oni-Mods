@@ -118,9 +118,9 @@ namespace SetStartDupes
         ///Assuming the component added by the Trait has the same class name as the trait, which is the case for all klei traits.
         public static void PurgingTraitComponentIfExists(string id, GameObject minionToRemoveFrom)
         {
-            if (minionToRemoveFrom.TryGetComponent<StateMachineController>(out StateMachineController ctrl))
+            if (minionToRemoveFrom.TryGetComponent(out StateMachineController smc))
             {
-                var traitSMIs = ctrl.stateMachines.FindAll(smi => smi.stateMachine.GetType().Name == id);
+                var traitSMIs = smc.stateMachines.FindAll(smi => smi.stateMachine.GetType().Name == id);
                 foreach (var traitSMI in traitSMIs)
                 {
                     SgtLogger.l("Trait SMI Found, purging... " + id);
@@ -128,12 +128,17 @@ namespace SetStartDupes
                 }
             }
 
-            ///only this part was present
             var traitCmp = minionToRemoveFrom.GetComponent(id);
             if (traitCmp != null)
             {
                 SgtLogger.l("Trait Component Found, purging... " + id);
-                UnityEngine.Object.Destroy(traitCmp);
+
+                if(traitCmp is Chatty behavior)
+                {
+                    behavior.Unsubscribe((int)GameHashes.StartedTalking);
+                }
+
+                UnityEngine.Component.DestroyImmediate(traitCmp);
             }
             if (ModApi.ActionsOnTraitRemoval.ContainsKey(id))
             {
@@ -178,8 +183,8 @@ namespace SetStartDupes
                 }
                 foreach (Trait trait in traitsToRemove)
                 {
-                    PurgingTraitComponentIfExists(trait.Id, Duplicant);
                     traits.Remove(trait);
+                    PurgingTraitComponentIfExists(trait.Id, Duplicant);
                 }
                 if (!ModConfig.Instance.NoJoyReactions)
                 {
