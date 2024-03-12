@@ -35,7 +35,7 @@ namespace WeebPacu
         [HarmonyPatch(typeof(Localization), "Initialize")]
         public static class Localization_Initialize_Patch
         {
-            public static void Prefix()
+            public static void Postfix()
             {
                 CREATURES.FAMILY.PACU = (LocString)UI.FormatAsLink("PacUwU", "PACUSPECIES");
                 CREATURES.FAMILY_PLURAL.PACUSPECIES = (LocString)UI.FormatAsLink("PacUwUs", nameof(CREATURES.FAMILY_PLURAL.PACUSPECIES));
