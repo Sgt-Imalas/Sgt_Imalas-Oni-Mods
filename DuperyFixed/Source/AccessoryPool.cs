@@ -32,6 +32,9 @@ namespace Dupery
 
         public void AddId(string slotId, string accessoryKey, string accessoryId)
         {
+            if(!pool.ContainsKey(slotId)) 
+                pool[slotId] = new Dictionary<string, string>();
+
             pool[slotId][accessoryKey] = accessoryId;
         }
     }
