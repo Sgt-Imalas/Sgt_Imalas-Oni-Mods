@@ -17,6 +17,10 @@ namespace RoboRockets.LearningBrain
 
         public override void OnCleanUp()
         {
+            if (gameObject.GetComponent("ObjectCanMove"))
+                return;
+               
+
             GameObject go = Util.KInstantiate(Assets.GetPrefab(BrainConfig.ID));
             if(go.TryGetComponent<DemolishableDroppable>(out var dropper))
             {

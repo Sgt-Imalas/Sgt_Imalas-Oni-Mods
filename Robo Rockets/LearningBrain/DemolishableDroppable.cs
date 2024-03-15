@@ -40,11 +40,11 @@ namespace RoboRockets.LearningBrain
 
         private void DropOnDestroy()
         {
-            if (this.IsNullOrDestroyed() || !ShouldDrop)
+            if (this.IsNullOrDestroyed())
                 return;
 
-            SpawnItemForRecipes(BrainConfig.ProductionCosts);
-            Debug.Log("Done");
+            if (ShouldDrop)
+                SpawnItemForRecipes(BrainConfig.ProductionCosts);
             UnityEngine.Object.Destroy(this.gameObject);
         }
 
