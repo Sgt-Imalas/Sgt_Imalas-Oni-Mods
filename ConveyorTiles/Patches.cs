@@ -29,6 +29,32 @@ namespace ConveyorTiles
                 InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Shipping, ConveyorTile.ID);
             }
         }
+
+        /// <summary>
+        /// dont connect tiles that are opposite direction
+        /// </summary>
+        [HarmonyPatch(typeof(AnimTileable))]
+        [HarmonyPatch(nameof(AnimTileable.HasTileableNeighbour))]
+        public static class AnimTileable_HasTileableNeighbour_Patch
+        {
+
+            public static void Postfix(AnimTileable __instance, int neighbour_cell, ref bool __result)
+            {
+                var tile = __instance.GetComponent<ConveyorTileSM>();
+                if (tile == null) 
+                    return;
+
+                GameObject gameObject = Grid.Objects[neighbour_cell, (int)__instance.objectLayer];
+                if (gameObject != null)               
+                {
+                    var neighborTile = gameObject.GetComponent<ConveyorTileSM>();
+
+                    if(neighborTile !=null)
+                        __result = neighborTile.flipped == tile.flipped && neighborTile.isOperational == tile.isOperational;
+                }
+            }
+        }
+        
         /// <summary>
         /// Init. auto translation
         /// </summary>

@@ -1,5 +1,4 @@
-﻿using MoveDupeHere;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -52,6 +51,7 @@ namespace ConveyorTiles
             buildingDef.TileLayer = ObjectLayer.FoundationTile;
             buildingDef.ReplacementLayer = ObjectLayer.ReplacementTile;
             buildingDef.SceneLayer = Grid.SceneLayer.TileMain;
+            buildingDef.ForegroundLayer = Grid.SceneLayer.TileFront;
 
             buildingDef.ConstructionOffsetFilter = BuildingDef.ConstructionOffsetFilter_OneDown;
             buildingDef.AudioCategory = "Metal";
@@ -62,12 +62,12 @@ namespace ConveyorTiles
             buildingDef.RequiresPowerInput = true;
 
             buildingDef.PowerInputOffset = new CellOffset(0, 0);
-            buildingDef.EnergyConsumptionWhenActive = 4f;
+            buildingDef.EnergyConsumptionWhenActive = Config.Instance.TileWattage;
             buildingDef.SelfHeatKilowattsWhenActive = 0.00f;
-            buildingDef.AddLogicPowerPort = false;
+            buildingDef.AddLogicPowerPort = true;
             //buildingDef.LogicInputPorts = new List<LogicPorts.Port>()
             //{
-            //    LogicPorts.Port.InputPort(ConveyorTileSM.PORT_ID, new CellOffset(0, 0), (string) global::STRINGS.BUILDINGS.PREFABS.CHECKPOINT.LOGIC_PORT, (string) global::STRINGS.BUILDINGS.PREFABS.CHECKPOINT.LOGIC_PORT_ACTIVE, (string) global::STRINGS.BUILDINGS.PREFABS.CHECKPOINT.LOGIC_PORT_INACTIVE, true)
+            //    LogicPorts.Port.InputPort(ConveyorTileSM.PORT_ID, new CellOffset(0, 0), (string) global::STRINGS.BUILDINGS.PREFABS.CHECKPOINT.LOGIC_PORT, (string) global::STRINGS.BUILDINGS.PREFABS.CHECKPOINT.LOGIC_PORT_ACTIVE, (string) global::STRINGS.BUILDINGS.PREFABS.CHECKPOINT.LOGIC_PORT_INACTIVE, false)
             //};
 
             GeneratedBuildings.RegisterWithOverlay(OverlayModes.Logic.HighlightItemIDs, ID);
@@ -76,10 +76,9 @@ namespace ConveyorTiles
 
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
-            SimCellOccupier simCellOccupier = go.AddOrGet<SimCellOccupier>();
-            simCellOccupier.doReplaceElement = true;
-            simCellOccupier.movementSpeedMultiplier = DUPLICANTSTATS.MOVEMENT.NEUTRAL;
-            simCellOccupier.notifyOnMelt = true;
+            BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
+            go.AddOrGet<SimCellOccupier>().doReplaceElement = false;
+            go.AddOrGet<TileTemperature>();
             go.AddOrGet<AnimTileable>();
 
         }
@@ -88,6 +87,10 @@ namespace ConveyorTiles
         public override void DoPostConfigureComplete(GameObject go)
         {
             go.AddOrGet<ConveyorTileSM>();
+            go.GetComponent<KPrefabID>().AddTag(GameTags.FloorTiles);
+            go.AddComponent<SimTemperatureTransfer>();
+            go.AddComponent<ZoneTile>();
+            // go.AddOrGet<PortAttachment>();
             //mdh.targetCellOffset = new CellOffset(0, 1);
         }
 
@@ -98,7 +101,9 @@ namespace ConveyorTiles
 
         public override void DoPostConfigureUnderConstruction(GameObject go)
         {
-           
+            base.DoPostConfigureUnderConstruction(go);
+            go.GetComponent<Constructable>().requiredSkillPerk = Db.Get().SkillPerks.ConveyorBuild.Id;
+
         }
     }
 }
