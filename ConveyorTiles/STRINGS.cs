@@ -42,9 +42,9 @@ namespace ConveyorTiles
         {
             public class PREFABS
             {
-                public class CONVEYORTILE
+                public class CT_CONVEYORTILE
                 {
-                    public static LocString NAME = UI.FormatAsLink("Conveyor Tile", nameof(CONVEYORTILE));
+                    public static LocString NAME = UI.FormatAsLink("Conveyor Tile", nameof(CT_CONVEYORTILE));
                     public static LocString EFFECT = "Moves items, critters and duplicants when powered and active.\nGasses and liquids can pass through this tile.";
                     public static LocString DESC = "Wheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee!";
                 }

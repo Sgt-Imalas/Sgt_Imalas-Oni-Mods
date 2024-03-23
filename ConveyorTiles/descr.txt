@@ -1,0 +1,47 @@
+﻿[img]https://i.imgur.com/GbFtLZ2.png[/img]
+
+[h1]Conveyor Tiles[/h1]
+
+This mod adds a conveyor tile that allows to move items, critters and unsuspecting dupes.
+
+[h1]Current latest Version: 1.0.0[/h1]
+
+[hr][/hr]
+
+[h1]Features[/h1]
+[list][*] New Building: Conveyor Tile
+[*] Requires 125KG of refined metal.
+[*] Unlocked with the research "Solid Transport".
+[*] Duplicants require the "Mechatronic Engineering" skill to build them.
+[*] Gasses and Liquids will pass through the conveyor tile (similar to a mesh tile)
+[*] When powered, the tile will act as a conveyor belt, moving items towards the chosen direction
+[*] Direction can be swapped via ui button, copy settings can be used to mass-change the direction of conveyor tiles
+[*] each tile has a logic port that can disable it
+[*] doors/solid tiles above the conveyor tile will block items
+[*] if a conveyor tile has no tile next to where it is transporting items, the items will fall over the edge
+[/list]
+
+[h1]Config[/h1]
+[list][*] by default, each tile consumes 4W when active, this can be configured in the mod config
+[*] the speed of the conveyor effect can be adjusted in the config (warning: high speeds might lead to dupes no longer being able to walk into the opposite direction of the tile)
+[*] if needed, the effect of moving dupes can be disabled in the config (this is not in effect by default)[/list]
+
+[hr][/hr]
+[h1]Credits[/h1]
+Conveyor Tile Animation made by 3GuB
+Options made with PLib.
+
+[hr][/hr]
+
+[h1]Bug Reports & Local Download[/h1]
+You can find direct downloads for my mods [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases]here[/url] (please notify me if I forgot to release new versions).
+
+Please post bug reports and issues on [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or on my [url=https://discord.gg/5n7peBCnWZ]Discord Server[/url]. 
+[b]Always include the full player.log in a report: [/b] https://github.com/aki-art/ONI-Mods/wiki/How-to-send-a-log
+
+[b]Make sure you do NOT have the mod "Debug Console" enabled as it breaks the game's logging and makes the log useless for debugging![/b] 
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me on [url=https://www.buymeacoffee.com/sgtimalas]Buy me a coffe[/url] or [url=https://ko-fi.com/sgtimalas]Kofi[/url] :D.
+

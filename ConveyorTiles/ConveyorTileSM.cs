@@ -61,7 +61,12 @@ namespace ConveyorTiles
 
         private void RefreshAnimState(int propagateDirection = 0, float animPercentage = -1)
         {
-            if(animPercentage == -1)
+            if (this.transform == null)
+                return;
+            int myCell = this.NaturalBuildingCell();
+
+
+            if (animPercentage == -1)
             {
                 animPercentage = kbac.GetElapsedTime();
             }
@@ -70,8 +75,8 @@ namespace ConveyorTiles
                 kbac.SetElapsedTime(animPercentage);
             }
 
-            int left = Grid.CellLeft(this.NaturalBuildingCell());
-            int right = Grid.CellRight(this.NaturalBuildingCell());
+            int left = Grid.CellLeft(myCell);
+            int right = Grid.CellRight(myCell);
 
             if (propagateDirection != 2 && TileSMs.ContainsKey(left))
             {

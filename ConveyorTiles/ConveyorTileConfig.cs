@@ -9,7 +9,7 @@ using static LogicGateBase;
 
 namespace ConveyorTiles
 {
-    class ConveyorTile: IBuildingConfig
+    class ConveyorTileConfig: IBuildingConfig
     {
         public const string ID = "CT_ConveyorTile";
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
@@ -17,13 +17,11 @@ namespace ConveyorTiles
         {
             float[] materialMass = new float[]
             {
-                60f,
-                10
+                125f,
             };
             string[] materialType = new string[]
             {
-                MATERIALS.REFINED_METAL,
-                MATERIALS.PLASTIC
+                MATERIALS.REFINED_METAL
             };
             EffectorValues noiseLevel = NOISE_POLLUTION.NONE;
             EffectorValues decorValue = BUILDINGS.DECOR.PENALTY.TIER0;

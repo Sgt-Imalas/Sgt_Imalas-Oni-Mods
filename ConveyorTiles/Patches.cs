@@ -25,8 +25,7 @@ namespace ConveyorTiles
 
             public static void Prefix()
             {
-                //InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
-                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Shipping, ConveyorTile.ID);
+                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Shipping, ConveyorTileConfig.ID);
             }
         }
 
@@ -54,7 +53,16 @@ namespace ConveyorTiles
                 }
             }
         }
-        
+        [HarmonyPatch(typeof(Db))]
+        [HarmonyPatch(nameof(Db.Initialize))]
+        public class Db_Initialize_Patch
+        {
+            public static void Postfix()
+            {
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SolidTransport, ConveyorTileConfig.ID);
+            }
+        }
+
         /// <summary>
         /// Init. auto translation
         /// </summary>
