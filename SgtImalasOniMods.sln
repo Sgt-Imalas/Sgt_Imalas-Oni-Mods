@@ -145,6 +145,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompressedCritters", "Compr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DuperyFixed", "DuperyFixed\DuperyFixed.csproj", "{FF499E02-4EB5-4912-B574-F3952B9A3C47}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeebDupe", "WeebDupe\WeebDupe.csproj", "{D8A73D7A-55C9-44C5-969E-7397EC7350D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cheese", "Cheese\Cheese.csproj", "{19915F3D-9894-44C7-BF68-BC3955D43D0F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -415,6 +419,14 @@ Global
 		{FF499E02-4EB5-4912-B574-F3952B9A3C47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF499E02-4EB5-4912-B574-F3952B9A3C47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF499E02-4EB5-4912-B574-F3952B9A3C47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8A73D7A-55C9-44C5-969E-7397EC7350D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8A73D7A-55C9-44C5-969E-7397EC7350D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8A73D7A-55C9-44C5-969E-7397EC7350D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8A73D7A-55C9-44C5-969E-7397EC7350D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19915F3D-9894-44C7-BF68-BC3955D43D0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19915F3D-9894-44C7-BF68-BC3955D43D0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19915F3D-9894-44C7-BF68-BC3955D43D0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19915F3D-9894-44C7-BF68-BC3955D43D0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

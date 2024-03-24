@@ -1,0 +1,21 @@
+﻿- James May dupe (custom overjoyed where he yeets cheese chunks into the world?): still needs custom hair
+
+- new space poi: "Moon" -> low amount of brackene, high amount of cheese element
+
+- enzyme germs: made at molecular forge from slime, can be released in the world
+
+- lactose intolerance trait: +200% bathroom for half a cycle if eating cheese/cheesed products
+
+Elements:
+	- cheese: made at microbe musher from brackene, enzyme germs makes it flock out of brackene
+	- molten cheese: melt cheese, boils into "salty brackwax" and steam	
+	- salty brackwax: despawns itself on generation of debris, spawns salt and brackwax (might confuse the ingame wiki tho)
+
+
+- Foods:
+	- Sandwich: FrostBun + Cheese
+	- Grilled Cheese: pepper bread + cheese; ALTERNATIVELY: drop pepper bread into molten cheese
+	- CheeseBurger: Cheese + Frostburger?
+
+- "cheese encrusted" spice effect when food falls into molten cheese, +1 food quality, -10% stress/cycle
+
