@@ -62,11 +62,7 @@ namespace ConveyorTiles
             buildingDef.PowerInputOffset = new CellOffset(0, 0);
             buildingDef.EnergyConsumptionWhenActive = Config.Instance.TileWattage;
             buildingDef.SelfHeatKilowattsWhenActive = 0.00f;
-            buildingDef.AddLogicPowerPort = true;
-            //buildingDef.LogicInputPorts = new List<LogicPorts.Port>()
-            //{
-            //    LogicPorts.Port.InputPort(ConveyorTileSM.PORT_ID, new CellOffset(0, 0), (string) global::STRINGS.BUILDINGS.PREFABS.CHECKPOINT.LOGIC_PORT, (string) global::STRINGS.BUILDINGS.PREFABS.CHECKPOINT.LOGIC_PORT_ACTIVE, (string) global::STRINGS.BUILDINGS.PREFABS.CHECKPOINT.LOGIC_PORT_INACTIVE, false)
-            //};
+            buildingDef.AddLogicPowerPort = !Config.Instance.NoLogicInputs;
 
             GeneratedBuildings.RegisterWithOverlay(OverlayModes.Logic.HighlightItemIDs, ID);
             return buildingDef;

@@ -27,11 +27,15 @@ namespace ConveyorTiles
         [Option("STRINGS.MODCONFIG.IMMUNEDUPES.NAME", "STRINGS.MODCONFIG.IMMUNEDUPES.TOOLTIP")]
         [JsonProperty]
         public bool Immunes { get; set; }
+        [Option("STRINGS.MODCONFIG.NOLOGICPORT.NAME", "STRINGS.MODCONFIG.NOLOGICPORT.TOOLTIP")]
+        [JsonProperty]
+        public bool NoLogicInputs { get; set; }
         public Config()
         {
             TileWattage = 4;
             SpeedMultiplier = 1f;
             Immunes = false;
+            NoLogicInputs = false;
         }
     }
 }

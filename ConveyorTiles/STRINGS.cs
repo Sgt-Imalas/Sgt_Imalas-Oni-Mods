@@ -26,6 +26,11 @@ namespace ConveyorTiles
                 public static LocString NAME = "Immune Dupes";
                 public static LocString TOOLTIP = "Duplicants are not affected by the conveyor.\nMight reduce fun.";
             }
+            public class NOLOGICPORT
+            {
+                public static LocString NAME = "No Logic Ports";
+                public static LocString TOOLTIP = "Removes the logic input of conveyor tiles";
+            }
         }
         public class MODBUTTONS
         {
@@ -47,6 +52,7 @@ namespace ConveyorTiles
                     public static LocString NAME = UI.FormatAsLink("Conveyor Tile", nameof(CT_CONVEYORTILE));
                     public static LocString EFFECT = "Moves items, critters and duplicants when powered and active.\nGasses and liquids can pass through this tile.";
                     public static LocString DESC = "Wheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee!";
+
                 }
             }
         }
