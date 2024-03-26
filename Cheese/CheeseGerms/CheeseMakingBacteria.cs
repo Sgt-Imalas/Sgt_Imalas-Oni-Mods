@@ -33,6 +33,7 @@ namespace Cheese.CheeseGerms
         public override void PopulateElemGrowthInfo()
         {
             this.InitializeElemGrowthArray(ref this.elemGrowthInfo, Disease.DEFAULT_GROWTH_INFO);
+            
             this.AddGrowthRule(GermUtils.GrowthRule_Default());
 
             this.AddGrowthRule(GermUtils.ThriveAndSpreadInElement(ModElementRegistration.CheeseMolten));
@@ -42,6 +43,16 @@ namespace Cheese.CheeseGerms
             this.AddGrowthRule(GermUtils.ThriveAndSpreadInElement(SimHashes.SaltWater));
             this.AddGrowthRule(GermUtils.ThriveInElement(SimHashes.SlimeMold));
             this.AddGrowthRule(GermUtils.SurviveInElement(SimHashes.Water));
+
+            this.InitializeElemExposureArray(ref this.elemExposureInfo, Disease.DEFAULT_EXPOSURE_INFO);
+            //this.AddExposureRule(new ElementExposureRule(ModElementRegistration.CheeseMolten)
+            //{
+            //    populationHalfLife = float.PositiveInfinity
+            //}); 
+            //this.AddExposureRule(new ElementExposureRule(SimHashes.Milk)
+            //{
+            //    populationHalfLife = float.PositiveInfinity
+            //});
         }
     }
 }

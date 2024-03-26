@@ -47,14 +47,14 @@ namespace Cheese.ModElements
             {
                 Shuffle();
                 ReshuffleIndex = 0;
-                SgtLogger.l("resetting and shuffling index");
+                //SgtLogger.l("resetting and shuffling index");
             }
 
             UpdateCells();
         }
         public void UpdateCells()
         {
-            SgtLogger.l(RandomCellAccess[ReshuffleIndex]+" <- cell, index -> "+ ReshuffleIndex);
+           // SgtLogger.l(RandomCellAccess[ReshuffleIndex]+" <- cell, index -> "+ ReshuffleIndex);
             Parallel.For(0, chunkCount, (chunk) => MakeCheeseIn(GetRandomCellInChunk(chunk)));
         }
         void MakeCheeseIn(int cell)
@@ -93,7 +93,7 @@ namespace Cheese.ModElements
         private void SpawnCheeseChunk(int cell, float mass, Sim.MassConsumedCallback callback)
         {
             //SgtLogger.l($"{mass} , {callback.temperature} , {callback.diseaseIdx}, {callback.diseaseCount}");
-            CheeseElement.substance.SpawnResource(Grid.CellToPosCCC(cell, Grid.SceneLayer.Ore), mass, callback.temperature, byte.MaxValue, 0);
+            CheeseElement.substance.SpawnResource(Grid.CellToPosCCC(cell, Grid.SceneLayer.Ore), mass, callback.temperature, callback.diseaseIdx, Mathf.RoundToInt( callback.diseaseCount*MilkToCheeseRate));
             
         }
 
