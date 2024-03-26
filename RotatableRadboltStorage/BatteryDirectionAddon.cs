@@ -84,5 +84,11 @@ namespace RotatableRadboltStorage
             Direction = Direction;
             Subscribe(-905833192, OnCopySettings);            
         }
+        public override void OnCleanUp()
+        {
+            base.OnCleanUp();
+
+            Unsubscribe(-905833192, OnCopySettings);
+        }
     }
 }
