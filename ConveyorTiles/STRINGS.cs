@@ -37,7 +37,7 @@ namespace ConveyorTiles
             public class FLIPBUTTON
             {
                 public static LocString LABEL = "Flip direction";
-                public static LocString TOOLTIP = "flip direction of the conveyor tile";
+                public static LocString TOOLTIP = "Flip the direction of the conveyor tile";
             }
         }
 

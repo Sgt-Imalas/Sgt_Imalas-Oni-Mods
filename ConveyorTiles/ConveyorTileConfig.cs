@@ -63,8 +63,8 @@ namespace ConveyorTiles
             buildingDef.EnergyConsumptionWhenActive = Config.Instance.TileWattage;
             buildingDef.SelfHeatKilowattsWhenActive = 0.00f;
             buildingDef.AddLogicPowerPort = !Config.Instance.NoLogicInputs;
-
-            GeneratedBuildings.RegisterWithOverlay(OverlayModes.Logic.HighlightItemIDs, ID);
+            if(!Config.Instance.NoLogicInputs)
+                GeneratedBuildings.RegisterWithOverlay(OverlayModes.Logic.HighlightItemIDs, ID);
             return buildingDef;
         }
 
