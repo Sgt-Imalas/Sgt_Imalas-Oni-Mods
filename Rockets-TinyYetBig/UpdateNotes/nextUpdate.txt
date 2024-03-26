@@ -1,3 +1,5 @@
 ﻿- fixed rotation display of radbolt storage module
 - added "copy settings" to radbolt storage module
 - fixed the building conditions (red list of failures) in the rocket build menu not refreshing properly
+- moved logic port of radbolt loader one tile up
+- added "is currently loading" logic output to rocket loader buildings (disableable in config)

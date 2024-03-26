@@ -34,10 +34,32 @@ namespace Rockets_TinyYetBig.RocketFueling
             buildingDef.ViewMode = OverlayModes.Radiation.ID;
             buildingDef.UseHighEnergyParticleInputPort = true;
             buildingDef.HighEnergyParticleInputOffset = new CellOffset(0, 2);
-            buildingDef.LogicOutputPorts = new List<LogicPorts.Port>()
+
+
+            if (Config.Instance.EnableRocketLoaderLogicOutputs)
             {
-                LogicPorts.Port.OutputPort(HEPEngineConfig.PORT_ID, new CellOffset(0, 1), (string) global::STRINGS.BUILDINGS.PREFABS.HEPENGINE.LOGIC_PORT_STORAGE, (string) global::STRINGS.BUILDINGS.PREFABS.HEPENGINE.LOGIC_PORT_STORAGE_ACTIVE, (string) global::STRINGS.BUILDINGS.PREFABS.HEPENGINE.LOGIC_PORT_STORAGE_INACTIVE)
-            };
+                buildingDef.LogicOutputPorts = new List<LogicPorts.Port>(){
+                    LogicPorts.Port.OutputPort(RocketLoaderPatches.ROCKETPORTLOADER_ACTIVE, new CellOffset(0, 1),
+                    STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER,
+                    STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER_ACTIVE,
+                    STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER_INACTIVE),
+
+                    LogicPorts.Port.OutputPort(HEPEngineConfig.PORT_ID, new CellOffset(0, 2),
+                     global::STRINGS.BUILDINGS.PREFABS.HEPENGINE.LOGIC_PORT_STORAGE,
+                     global::STRINGS.BUILDINGS.PREFABS.HEPENGINE.LOGIC_PORT_STORAGE_ACTIVE,
+                     global::STRINGS.BUILDINGS.PREFABS.HEPENGINE.LOGIC_PORT_STORAGE_INACTIVE)
+                };
+            }
+            else
+            {
+                buildingDef.LogicOutputPorts = new List<LogicPorts.Port>()
+                {
+                    LogicPorts.Port.OutputPort(HEPEngineConfig.PORT_ID, new CellOffset(0, 2),
+                     global::STRINGS.BUILDINGS.PREFABS.HEPENGINE.LOGIC_PORT_STORAGE,
+                     global::STRINGS.BUILDINGS.PREFABS.HEPENGINE.LOGIC_PORT_STORAGE_ACTIVE,
+                    global :: STRINGS.BUILDINGS.PREFABS.HEPENGINE.LOGIC_PORT_STORAGE_INACTIVE)
+                };
+            }
 
             return buildingDef;
         }
@@ -57,7 +79,7 @@ namespace Rockets_TinyYetBig.RocketFueling
             energyParticleStorage.showInUI = false;
             energyParticleStorage.PORT_ID = HEPEngineConfig.PORT_ID;
             energyParticleStorage.showCapacityStatusItem = true;
-            energyParticleStorage.capacity = 500f; 
+            energyParticleStorage.capacity = 500f;
 
             go.AddOrGetDef<ModularConduitPortController.Def>().mode = (ModularConduitPortController.Mode.Load);
             var LoaderComp = go.AddOrGet<FuelLoaderComponent>();

@@ -266,6 +266,11 @@ namespace Rockets_TinyYetBig
                     public static LocString NAME = (LocString)FormatAsLink("Rocket Fuel Loader", nameof(RTB_UNIVERSALFUELLOADER));
                     public static LocString DESC = (LocString)"Fueling Rockets has never been easier!";
                     public static LocString EFFECT = (LocString)("Refuels connected rockets with the appropriate fuel.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
+
+                    public static LocString LOGIC_PORT_ROCKETLOADER = (LocString)"Currently Loading/Unloading";
+                    public static LocString LOGIC_PORT_ROCKETLOADER_ACTIVE = (LocString)("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when building is currently loading or unloading a rocket");
+                    public static LocString LOGIC_PORT_ROCKETLOADER_INACTIVE = (LocString)("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
+
                 }
                 public class RTB_UNIVERSALOXIDIZERLOADER
                 {

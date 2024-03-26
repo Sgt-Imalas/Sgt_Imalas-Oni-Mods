@@ -289,7 +289,10 @@ namespace Rockets_TinyYetBig
         [JsonProperty]
         public bool EnableFuelLoaders { get; set; }
 
-
+        [Option("Loader Logic Output", "Add a logic output to rocket loader buildings that outputs whether or not the loader is currently active", "(3) Fuel & Logistics")]
+        [JsonProperty]
+        public bool EnableRocketLoaderLogicOutputs { get; set; }
+        
         [Option("Loader Adapters", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI, "(3) Fuel & Logistics")]
         [JsonProperty]
         public bool EnableWallAdapter { get; set; }
@@ -394,6 +397,7 @@ namespace Rockets_TinyYetBig
             EnableFuelLoaders = true;
             EnableWallAdapter = true;
             EnableBunkerPlatform = true;
+            EnableRocketLoaderLogicOutputs = true;
 
             /// Power&Utility
             EnableSolarNosecone = true;

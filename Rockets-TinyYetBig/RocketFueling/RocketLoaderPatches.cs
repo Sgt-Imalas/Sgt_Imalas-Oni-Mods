@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static STRINGS.UI;
 
 namespace Rockets_TinyYetBig.RocketFueling
 {
@@ -109,9 +110,59 @@ namespace Rockets_TinyYetBig.RocketFueling
         //        if ((ignoredLink != null && ignoredLink == __instance) || chain.Contains(__instance))
         //            return;
 
-                
+
         //    }
         //}
+        public static readonly HashedString ROCKETPORTLOADER_ACTIVE = "ROCKETPORTLOADER_ACTIVE";
+        [HarmonyPatch]
+        public static class LogicOutputLoaderBuildings_AddLogicPort
+        {
+            [HarmonyPrepare]
+            static bool Prepare() => Config.Instance.EnableRocketLoaderLogicOutputs;
+
+            [HarmonyPostfix]
+            public static void Postfix(BuildingDef __result)
+            {
+                __result.LogicOutputPorts = new List<LogicPorts.Port>(){
+                LogicPorts.Port.OutputPort(ROCKETPORTLOADER_ACTIVE, new CellOffset(0, 1),
+                STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER,
+                STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER_ACTIVE,
+                STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER_INACTIVE)
+                };
+            }
+
+            [HarmonyTargetMethods]
+            internal static IEnumerable<MethodBase> TargetMethods()
+            {
+                yield return typeof(BaseModularLaunchpadPortConfig).GetMethod(nameof(BaseModularLaunchpadPortConfig.CreateBaseLaunchpadPort));
+            }
+        }
+        [HarmonyPatch(typeof(ModularConduitPortController.Instance), nameof(ModularConduitPortController.Instance.SetLoading))]
+        public static class LogicOutputLoaderBuildings_UpdateLogic_Loading
+        {
+            [HarmonyPrepare]
+            static bool Prepare() => Config.Instance.EnableRocketLoaderLogicOutputs;
+            
+            public static void Postfix(ModularConduitPortController.Instance __instance, bool isLoading)
+            {
+               var logicPorts = __instance.GetComponent<LogicPorts>();
+
+                logicPorts.SendSignal(ROCKETPORTLOADER_ACTIVE, isLoading ? 1 : 0);
+            }
+        }
+        [HarmonyPatch(typeof(ModularConduitPortController.Instance), nameof(ModularConduitPortController.Instance.SetUnloading))]
+        public static class LogicOutputLoaderBuildings_UpdateLogic_Unloading
+        {
+            [HarmonyPrepare]
+            static bool Prepare() => Config.Instance.EnableRocketLoaderLogicOutputs;
+
+            public static void Postfix(ModularConduitPortController.Instance __instance, bool isUnloading)
+            {
+                var logicPorts = __instance.GetComponent<LogicPorts>();
+
+                logicPorts.SendSignal(ROCKETPORTLOADER_ACTIVE, isUnloading ? 1 : 0);
+            }
+        }
 
 
         [HarmonyPatch(typeof(LaunchPadConfig))]

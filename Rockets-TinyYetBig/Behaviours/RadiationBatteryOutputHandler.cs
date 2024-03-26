@@ -227,6 +227,9 @@ namespace Rockets_TinyYetBig.Behaviours
         public override void OnCleanUp()
         {
             base.OnCleanUp();
+            Unsubscribe((int)GameHashes.OnParticleStorageChanged, OnStorageChangedDelegate);
+            Unsubscribe((int)GameHashes.LogicEvent, new Action<object>(OnLogicValueChanged));
+            Unsubscribe(-905833192, OnCopySettings);
         }
 
         //private bool OnParticleCaptureAllowed(HighEnergyParticle particle) => true;

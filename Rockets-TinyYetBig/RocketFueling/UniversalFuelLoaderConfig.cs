@@ -36,6 +36,16 @@ namespace Rockets_TinyYetBig.RocketFueling
             buildingDef.SelfHeatKilowattsWhenActive = 0.5f;
             buildingDef.ExhaustKilowattsWhenActive = 0.125f;
 
+            if(Config.Instance.EnableRocketLoaderLogicOutputs)
+            {
+                buildingDef.LogicOutputPorts = new List<LogicPorts.Port>(){
+                LogicPorts.Port.OutputPort(RocketLoaderPatches.ROCKETPORTLOADER_ACTIVE, new CellOffset(0, 1),
+                STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER,
+                STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER_ACTIVE,
+                STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER_INACTIVE)
+                };
+            }
+
             return buildingDef;
         }
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
