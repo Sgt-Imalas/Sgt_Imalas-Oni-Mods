@@ -50,7 +50,7 @@ namespace Cheese.Buildings
                     SgtLogger.l("Start Facade Patch");
                     var artableStages = (ArtableStages)__instance;
 
-                    CheeseSculptureSkins.Add(AddStatueStatueStage(artableStages,
+                    CheeseSculptureSkins.Add(AddStatueStage(artableStages,
                         CheeseSculptureConfig.ID,
                         "Ratatouille",
                         STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_AMAZING_1.NAME,
@@ -58,11 +58,27 @@ namespace Cheese.Buildings
                          "sculpture_cheese_amazing_1_kanim",
                          ArtableStatuses.ArtableStatusType.LookingGreat));
 
+                    CheeseSculptureSkins.Add(AddStatueStage(artableStages,
+                        CheeseSculptureConfig.ID,
+                        "Cheeseception",
+                        STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_GOOD_1.NAME,
+                        STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_GOOD_1.DESC,
+                         "sculpture_cheese_good_1_kanim",
+                         ArtableStatuses.ArtableStatusType.LookingOkay));
+
+                    CheeseSculptureSkins.Add(AddStatueStage(artableStages,
+                        CheeseSculptureConfig.ID,
+                        "HungryBite",
+                        STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_CRAP_1.NAME,
+                        STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_CRAP_1.DESC,
+                         "sculpture_cheese_crap_1_kanim",
+                         ArtableStatuses.ArtableStatusType.LookingUgly));
+
 
                     SgtLogger.l("Patch Executed");
                 }
 
-                private static string AddStatueStatueStage(ArtableStages __instance, string buildingId, string statueId, string name, string description, string kanim, ArtableStatuses.ArtableStatusType level)
+                private static string AddStatueStage(ArtableStages __instance, string buildingId, string statueId, string name, string description, string kanim, ArtableStatuses.ArtableStatusType level)
                 {
                     ArtHelper.GetDefaultDecors(__instance, buildingId, out var greatDecor, out var okayDecor, out var uglyDecor);
                     int decor;

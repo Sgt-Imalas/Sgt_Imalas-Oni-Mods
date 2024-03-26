@@ -1,4 +1,6 @@
-﻿using Cheese.ModElements;
+﻿using Cheese.Entities;
+using Cheese.Foods;
+using Cheese.ModElements;
 using Cheese.Traits;
 using Klei.AI;
 using System;
@@ -22,19 +24,43 @@ namespace Cheese
 
         public static HashSet<CheeseTable> CheeseTableTargets = new HashSet<CheeseTable>();
 
+        public static Color CheeseColor = UIUtils.rgb(240, 180, 0);
+
         public class Foods
         {
+            public static Dictionary<Tag,Tag> CheeseConversions = new Dictionary<Tag, Tag>()
+            {
+                {
+                    BurgerConfig.ID, CheeseBurgerConfig.ID
+                }
+            }
+            ;
+
+
             public const float CHEESE_KCAL_PER_KG = 20f; //200KCal cheese per day per cow, cows make 50kg milk per day and the chosen conversion ratio is 5->1 
+            public const float CHEESEBURGER_KCAL_PER_KG = 6400f; //200KCal cheese per day per cow, cows make 50kg milk per day and the chosen conversion ratio is 5->1 
 
             public static EdiblesManager.FoodInfo CheeseEdible = new(
                 ModElements.ModElementRegistration.Cheese.ToString(),
                 DlcManager.VANILLA_ID,
                 CHEESE_KCAL_PER_KG * 1000f,
-                3,
+                2,
                 255.15f,
                 277.15f,
                 4800f,
                 false);
+
+            public static EdiblesManager.FoodInfo CheeseBurger = 
+                new EdiblesManager.FoodInfo(CheeseBurgerConfig.ID,
+                    DlcManager.VANILLA_ID,
+                    CHEESEBURGER_KCAL_PER_KG * 1000f,
+                    6, 
+                    255.15f,
+                    277.15f, 2800f, 
+                    can_rot: true)
+                .AddEffects(new List<string> { "GoodEats" }, DlcManager.AVAILABLE_ALL_VERSIONS)
+                .AddEffects(new List<string> { "SeafoodRadiationResistance" }, DlcManager.AVAILABLE_EXPANSION1_ONLY);
+
 
         }
         public static class SOUNDS

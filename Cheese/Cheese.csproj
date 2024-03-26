@@ -45,7 +45,7 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <Folder Include="CheeseGerms\" />
+	  <Folder Include="Entities\" />
 	  <Folder Include="ModAssets\assets\textures\" />
 	</ItemGroup>
 	
@@ -108,6 +108,24 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\anim\assets\sculpture_cheese_amazing_1\sculpture_cheese_amazing_1_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\sculpture_cheese_crap_1\sculpture_cheese_crap_1_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\sculpture_cheese_crap_1\sculpture_cheese_crap_1_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\sculpture_cheese_crap_1\sculpture_cheese_crap_1_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\sculpture_cheese_good_1\sculpture_cheese_good_1_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\sculpture_cheese_good_1\sculpture_cheese_good_1_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\sculpture_cheese_good_1\sculpture_cheese_good_1_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\assets\dreamIcon_JamesMay.png">
