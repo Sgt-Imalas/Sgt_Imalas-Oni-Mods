@@ -74,6 +74,7 @@ namespace ConveyorTiles
             go.AddOrGet<SimCellOccupier>().doReplaceElement = false;
             go.AddOrGet<TileTemperature>();
             go.AddOrGet<AnimTileable>();
+            go.AddOrGet<BuildingHP>().destroyOnDamaged = true;
 
         }
 
