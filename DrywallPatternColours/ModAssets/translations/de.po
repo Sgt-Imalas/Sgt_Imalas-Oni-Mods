@@ -91,7 +91,7 @@ msgctxt ""
 "DrywallPatternColours.STRINGS.BUILDINGS."
 "PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES."
 "PINK_FLAMINGO.NAME"
-msgid "<link=\"EXTERIORWALL\">Hearths</link>"
+msgid "<link=\"EXTERIORWALL\">Hearts</link>"
 msgstr "<link=\"EXTERIORWALL\">Herzchen</link>"
 
 #. DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.RED_DEEP.DESC
