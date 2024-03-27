@@ -49,7 +49,7 @@ namespace DrywallPatternColours
 
                         public class PINK_FLAMINGO
                         {
-                            public static LocString NAME = (LocString)UI.FormatAsLink("Hearths", nameof(EXTERIORWALL));
+                            public static LocString NAME = (LocString)UI.FormatAsLink("Hearts", nameof(EXTERIORWALL));
                             public static LocString DESC = (LocString)"A pink wallpaper.";
                         }
 
