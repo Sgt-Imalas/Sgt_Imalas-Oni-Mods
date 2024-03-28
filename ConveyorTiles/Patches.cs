@@ -49,7 +49,7 @@ namespace ConveyorTiles
                     var neighborTile = gameObject.GetComponent<ConveyorTileSM>();
 
                     if(neighborTile !=null)
-                        __result = neighborTile.flipped == tile.flipped && neighborTile.isOperational == tile.isOperational;
+                        __result = ConveyorTileSM.HasTileableNeighbor(tile,neighborTile);
                 }
             }
         }
@@ -72,6 +72,17 @@ namespace ConveyorTiles
             public static void Postfix()
             {
                 LocalisationUtil.Translate(typeof(STRINGS), true);
+            }
+        }
+        /// <summary>
+        /// register custom status items
+        /// </summary>
+        [HarmonyPatch(typeof(Database.BuildingStatusItems), "CreateStatusItems")]
+        public static class Database_BuildingStatusItems_CreateStatusItems_Patch
+        {
+            public static void Postfix()
+            {
+                ConveyorTileSM.RegisterStatusItems();
             }
         }
     }

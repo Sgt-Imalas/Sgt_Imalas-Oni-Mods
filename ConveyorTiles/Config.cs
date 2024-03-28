@@ -24,9 +24,15 @@ namespace ConveyorTiles
         [JsonProperty]
         [Limit(0, 20)]
         public int TileWattage { get; set; }
+
+        [Option("STRINGS.MODCONFIG.COLOREDGEAR.NAME", "STRINGS.MODCONFIG.COLOREDGEAR.TOOLTIP")]
+        [JsonProperty]
+        public bool GearTint { get; set; }
+
         [Option("STRINGS.MODCONFIG.IMMUNEDUPES.NAME", "STRINGS.MODCONFIG.IMMUNEDUPES.TOOLTIP")]
         [JsonProperty]
         public bool Immunes { get; set; }
+
         [Option("STRINGS.MODCONFIG.NOLOGICPORT.NAME", "STRINGS.MODCONFIG.NOLOGICPORT.TOOLTIP")]
         [JsonProperty]
         public bool NoLogicInputs { get; set; }
@@ -34,6 +40,7 @@ namespace ConveyorTiles
         {
             TileWattage = 4;
             SpeedMultiplier = 1f;
+            GearTint = true;
             Immunes = false;
             NoLogicInputs = false;
         }

@@ -3,16 +3,19 @@ using Epic.OnlineServices.Platform;
 using HarmonyLib;
 using KSerialization;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static STRINGS.UI;
+using static STRINGS.UI.DETAILTABS;
 
 namespace ConveyorTiles
 {
-    internal class ConveyorTileSM : StateMachineComponent<ConveyorTileSM.StatesInstance>, ISaveLoadable
+    internal class ConveyorTileSM : StateMachineComponent<ConveyorTileSM.StatesInstance>, ISaveLoadable, ICheckboxControl
     //, IGameObjectEffectDescriptor
     {
         [HarmonyPatch(typeof(Game))]
@@ -24,31 +27,94 @@ namespace ConveyorTiles
                 TileSMs.Clear();
             }
         }
+        static StatusItem ConveyorTilePowerConsumption;
+
+        public static void RegisterStatusItems()
+        {
+            ConveyorTilePowerConsumption = new StatusItem(
+                      "CT_CONVEYORTILE_POWERCONSUMPTION",
+                      "BUILDING",
+                      "",
+                      StatusItem.IconType.Info,
+                      NotificationType.Neutral,
+                      false,
+                      OverlayModes.None.ID,
+                      false
+                      );
+
+            ConveyorTilePowerConsumption.resolveStringCallback = delegate (string str, object data)
+            {
+                ConveyorTileSM conveyor = (ConveyorTileSM)data;
+
+                string config = null;
+                switch (conveyor.TileSpeedInternal)
+                {
+                    default:
+                    case 1:
+                        config = STRINGS.BUILDING.STATUSITEMS.CT_CONVEYORTILE_POWERCONSUMPTION.SPEEDBASE; break;
+                    case 2:
+                        config = STRINGS.BUILDING.STATUSITEMS.CT_CONVEYORTILE_POWERCONSUMPTION.SPEEDFAST; break;
+                    case 3:
+                        config = STRINGS.BUILDING.STATUSITEMS.CT_CONVEYORTILE_POWERCONSUMPTION.SPEEDEXPRESS; break;
+                    case 4:
+                        config = STRINGS.BUILDING.STATUSITEMS.CT_CONVEYORTILE_POWERCONSUMPTION.SPEEDRAPIT; break;
+
+                }
+
+                str = str.Replace("{CONFIG}", config); 
+                str = str.Replace("{WATTS}", GameUtil.GetFormattedWattage(conveyor.Wattage)); 
+                return str;
+            };
+        }
 
 
-        static Dictionary<int,ConveyorTileSM> TileSMs = new Dictionary<int,ConveyorTileSM>();
+        static Dictionary<int, ConveyorTileSM> TileSMs = new Dictionary<int, ConveyorTileSM>();
 
         public static readonly HashedString PORT_ID = (HashedString)nameof(ConveyorTileSM);
         public static readonly CellOffset RelevantDebrisTile = new CellOffset(0, 1);
         [MyCmpGet]
         private Operational operational;
         [MyCmpGet]
+        private LogicPorts logicPorts;
+        [MyCmpGet]
         private Rotatable rotatable;
         [MyCmpGet]
         private AnimTileable animTilable;
         [MyCmpGet]
         private KBatchedAnimController kbac;
+        [MyCmpGet]
+        private EnergyConsumer energyConsumer;
         [MyCmpAdd]
         CopyBuildingSettings buildingSettings;
+        [MyCmpGet]
+        KSelectable selectable;
 
+        [Serialize] bool LogicControllsDirection = false;
+        float TileSpeedInternal = 1;
+
+        /// <summary>
+        /// Factorio belt arrow colors
+        /// </summary>
+        Color tint_base = UIUtils.rgb(236, 163, 38), tint_fast = UIUtils.rgb(228, 49, 22), tint_express = UIUtils.rgb(15, 184, 252), tint_rapid = UIUtils.rgb(34, 196, 37);
+        float speed_base = 1, speed_fast = 2f, speed_express = 3f, speed_rapid = 4f;
+
+        Color gearTint = UIUtils.rgb(236, 163, 38);
+
+        public float BeltSpeed => Config.Instance.SpeedMultiplier * TileSpeedInternal;
         public bool flipped => rotatable.IsRotated;
         public bool isOperational => operational.IsOperational;
+
+        public string CheckboxTitleKey => "STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE.CHECKBOX_LOGICDIRECTION.HEADER";
+
+        public string CheckboxLabel => STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE.CHECKBOX_LOGICDIRECTION.LABEL;
+
+        public string CheckboxTooltip => STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE.CHECKBOX_LOGICDIRECTION.TOOLTIP;
 
         private HandleVector<int>.Handle solidChangedEntry;
         private HandleVector<int>.Handle pickupablesChangedEntry;
         private HandleVector<int>.Handle floorSwitchActivatorChangedEntry;
 
-        int moveItemCell,myCell;
+        int moveItemCell, myCell;
         private static readonly EventSystem.IntraObjectHandler<ConveyorTileSM> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<ConveyorTileSM>((component, data) => component.OnCopySettings(data));
         private static readonly EventSystem.IntraObjectHandler<ConveyorTileSM> OnRefreshUserMenuDelegate = new EventSystem.IntraObjectHandler<ConveyorTileSM>((System.Action<ConveyorTileSM, object>)((component, data) => component.OnRefreshUserMenu(data)));
         public override void OnPrefabInit() => this.Subscribe<ConveyorTileSM>(493375141, OnRefreshUserMenuDelegate);
@@ -60,6 +126,7 @@ namespace ConveyorTiles
             {
                 var source = go.GetComponent<ConveyorTileSM>();
                 rotatable.SetOrientation(source.rotatable.GetOrientation());
+                LogicControllsDirection = source.LogicControllsDirection;
                 RefreshEndCaps();
             }
         }
@@ -97,9 +164,14 @@ namespace ConveyorTiles
             }
         }
 
+        public static bool HasTileableNeighbor(ConveyorTileSM a,ConveyorTileSM b)
+        {
+            return a.flipped == b.flipped && a.isOperational == b.isOperational && Mathf.Approximately(a.TileSpeedInternal,b.TileSpeedInternal);
+        }
+
         public void RefreshEndCaps()
         {
-            if(this.transform == null) return;
+            if (this.transform == null) return;
 
             int left = Grid.CellLeft(myCell);
             int right = Grid.CellRight(myCell);
@@ -114,35 +186,78 @@ namespace ConveyorTiles
             UpdateEndCaps();
         }
 
-        public void UpdateEndCaps()=> animTilable.UpdateEndCaps();
+        public void UpdateEndCaps() => animTilable.UpdateEndCaps();
 
         public override void OnSpawn()
         {
             base.OnSpawn();
-            kbac.PlaySpeedMultiplier = Config.Instance.SpeedMultiplier;
+            selectable.AddStatusItem(ConveyorTilePowerConsumption,this);
             myCell = this.NaturalBuildingCell();
             moveItemCell = Grid.CellAbove(myCell);
+            AdjustTileSpeed();
             this.smi.StartSM();
             //this.Subscribe(-801688580, new System.Action<object>(this.OnLogicValueChanged));
             this.Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
             TileSMs[myCell] = this;
-            //this.solidChangedEntry = GameScenePartitioner.Instance.Add("ConveyorTileSM.SolidChanged", (object) this.gameObject, cell, GameScenePartitioner.Instance.solidChangedLayer, new System.Action<object>(this.OnSolidChanged));
-            //var s =                  GameScenePartitioner.Instance.Add("LadderBed.Constructor", (object)this.gameObject, cell, GameScenePartitioner.Instance.pickupablesChangedLayer, new System.Action<object>(this.OnMoverChanged)));
-            //this.pickupablesChangedEntry = GameScenePartitioner.Instance.Add("ConveyorTileSM.PickupablesChanged", (object)this.gameObject, cell, GameScenePartitioner.Instance.pickupablesChangedLayer, new System.Action<object>(this.OnPickupablesChanged));
-            //this.floorSwitchActivatorChangedEntry = GameScenePartitioner.Instance.Add("ConveyorTileSM.SwitchActivatorChanged", (object)this.gameObject, cell, GameScenePartitioner.Instance.floorSwitchActivatorChangedLayer, new System.Action<object>(this.OnActivatorsChanged));
-            
+            this.Subscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
         }
-        //private void OnLogicValueChanged(object data)
-        //{
-        //    LogicValueChanged logicValueChanged = (LogicValueChanged)data;
-        //    //if (logicValueChanged.portID != ConveyorTileSM.PORT_ID)
-        //    //    return;
+        private void OnLogicValueChanged(object data)
+        {
+            LogicValueChanged logicValueChanged = (LogicValueChanged)data;
+            if (logicValueChanged.portID != LogicOperationalController.PORT_ID)
+                return;
+            ReevaluateLogicState();
+        }
+        void ReevaluateLogicState()
+        {
+            if (LogicControllsDirection && logicPorts.IsPortConnected(LogicOperationalController.PORT_ID))
+            {
+                var inputBitsInt = logicPorts.GetInputValue(LogicOperationalController.PORT_ID);
+                bool shouldBeFlipped = LogicCircuitNetwork.IsBitActive(1, inputBitsInt);
+                if (shouldBeFlipped != flipped)
+                {
+                    Reverse();
+                }
+                float targetInternalSpeed = Config.Instance.SpeedMultiplier;
 
-        //    bool logic_on = LogicCircuitNetwork.IsBitActive(0, logicValueChanged.newValue);
-        //    //operational.SetActive(logic_on);
-        //    //RefreshEndCaps();
-        //}
-        void TogglePause(bool pause) =>kbac.stopped = pause;
+                bool thirdBit = LogicCircuitNetwork.IsBitActive(2, inputBitsInt);
+                bool fourthBit = LogicCircuitNetwork.IsBitActive(3, inputBitsInt);
+                if (thirdBit)
+                {
+                    targetInternalSpeed = fourthBit ? targetInternalSpeed * speed_rapid : targetInternalSpeed * speed_fast;
+                    gearTint = fourthBit ? tint_rapid : tint_fast;
+                }
+                else
+                {
+                    targetInternalSpeed = fourthBit ? targetInternalSpeed * speed_express : targetInternalSpeed * speed_base;
+                    gearTint = fourthBit ? tint_express : tint_base;
+                }
+                if(!Mathf.Approximately(targetInternalSpeed, TileSpeedInternal))
+                {
+                    TileSpeedInternal = targetInternalSpeed;
+                    AdjustTileSpeed();
+                }
+            }
+        }
+
+        public int Wattage => Mathf.RoundToInt(BeltSpeed * Config.Instance.TileWattage);
+
+        void AdjustTileSpeed()
+        {
+            if(Config.Instance.GearTint)
+                kbac.SetSymbolTint("gear", gearTint);
+            kbac.PlaySpeedMultiplier = BeltSpeed;
+            float currentAnimProgression = kbac.GetElapsedTime(); 
+            var currentAnim = kbac.GetCurrentAnim();
+            var mode = kbac.GetMode();
+            kbac.Play(currentAnim.name,mode);
+            energyConsumer.BaseWattageRating = Wattage;
+
+            RefreshAnimState(animPercentage: currentAnimProgression);
+            RefreshEndCaps();
+        }
+
+        void TogglePause(bool pause) => kbac.stopped = pause;
         bool ValidItemCell(int cell) => Grid.IsValidCell(cell) && !Grid.IsSolidCell(cell);
 
         private void OnPickupablesChanged(object data, float dt)
@@ -161,9 +276,9 @@ namespace ConveyorTiles
                 {
 
                     if (pickupable.TryGetComponent<KPrefabID>(out var component)
-                        && component.HasTag(GameTags.DupeBrain) 
+                        && component.HasTag(GameTags.DupeBrain)
                         && (Config.Instance.Immunes || !component.HasTag(GameTags.Asleep))
-                        && (Config.Instance.Immunes || (pickupable.TryGetComponent<Worker>(out var worker) && worker.workable != null && worker.workable.GetPercentComplete()>0))
+                        && (Config.Instance.Immunes || (pickupable.TryGetComponent<Worker>(out var worker) && worker.workable != null && worker.workable.GetPercentComplete() > 0))
                         )
                     {
                         continue;
@@ -171,7 +286,7 @@ namespace ConveyorTiles
 
 
                     var transf = pickupable.transform;
-                    newItemPos = transf.position + (rotatable.IsRotated ? Vector3.right : Vector3.left) * dt * 0.535f * Config.Instance.SpeedMultiplier;
+                    newItemPos = transf.position + (rotatable.IsRotated ? Vector3.right : Vector3.left) * dt * 0.535f * BeltSpeed;
                     if (ValidItemCell(Grid.PosToCell(newItemPos)))
                     {
                         transf.SetPosition(newItemPos);
@@ -186,13 +301,22 @@ namespace ConveyorTiles
 
         public override void OnCleanUp()
         {
-            //GameScenePartitioner.Instance.Free(ref this.solidChangedEntry);
             GameScenePartitioner.Instance.Free(ref this.pickupablesChangedEntry);
             GameScenePartitioner.Instance.Free(ref this.floorSwitchActivatorChangedEntry);
-            //this.Unsubscribe(-801688580, new System.Action<object>(this.OnLogicValueChanged));
-            this.Unsubscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
+
+            Unsubscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
+            Unsubscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
+            Unsubscribe(493375141, OnRefreshUserMenuDelegate);
             TileSMs.Remove(myCell);
             base.OnCleanUp();
+        }
+
+        public bool GetCheckboxValue() => LogicControllsDirection;
+
+        public void SetCheckboxValue(bool value)
+        {
+            LogicControllsDirection = value;
+            ReevaluateLogicState();
         }
         #region StateMachine
 

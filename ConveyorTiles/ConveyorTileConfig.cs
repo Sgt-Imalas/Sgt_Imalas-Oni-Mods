@@ -9,9 +9,10 @@ using static LogicGateBase;
 
 namespace ConveyorTiles
 {
-    class ConveyorTileConfig: IBuildingConfig
+    class ConveyorTileConfig : IBuildingConfig
     {
         public const string ID = "CT_ConveyorTile";
+        //public const string LOGIC_ID = "CT_ConveyorTile_RibbonInput";
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
         public override BuildingDef CreateBuildingDef()
         {
@@ -60,11 +61,21 @@ namespace ConveyorTiles
             buildingDef.RequiresPowerInput = true;
 
             buildingDef.PowerInputOffset = new CellOffset(0, 0);
-            buildingDef.EnergyConsumptionWhenActive = Config.Instance.TileWattage;
+            buildingDef.EnergyConsumptionWhenActive = Config.Instance.TileWattage*4;
             buildingDef.SelfHeatKilowattsWhenActive = 0.00f;
-            buildingDef.AddLogicPowerPort = !Config.Instance.NoLogicInputs;
-            if(!Config.Instance.NoLogicInputs)
+            buildingDef.AddLogicPowerPort = false;
+            if (!Config.Instance.NoLogicInputs)
+            {
+                buildingDef.LogicInputPorts = new List<LogicPorts.Port>()
+                { 
+                    LogicPorts.Port.RibbonInputPort((HashedString) LogicOperationalController.PORT_ID,
+                    new CellOffset(0, 0),
+                    STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE.LOGIC_PORT_INPUT,
+                    STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE.LOGIC_PORT_INPUT_ACTIVE_RIBBON,
+                    STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE.LOGIC_PORT_INPUT_INACTIVE_RIBBON)
+                };
                 GeneratedBuildings.RegisterWithOverlay(OverlayModes.Logic.HighlightItemIDs, ID);
+            }
             return buildingDef;
         }
 
@@ -81,6 +92,7 @@ namespace ConveyorTiles
 
         public override void DoPostConfigureComplete(GameObject go)
         {
+            go.AddOrGet<LogicOperationalController>();
             go.AddOrGet<ConveyorTileSM>();
             go.GetComponent<KPrefabID>().AddTag(GameTags.FloorTiles);
             go.AddComponent<SimTemperatureTransfer>();
@@ -91,7 +103,7 @@ namespace ConveyorTiles
 
         public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
         {
-            
+
         }
 
         public override void DoPostConfigureUnderConstruction(GameObject go)
