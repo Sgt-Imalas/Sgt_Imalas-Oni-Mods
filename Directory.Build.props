@@ -18,6 +18,14 @@
     <PackedSnacks>581003</PackedSnacks>
     <QoL2024Feb>596100</QoL2024Feb>
   </PropertyGroup>
+  <PropertyGroup>
+    <!--Normal Versions of the main dlls-->
+    <AssemblyNormal>$(GameLibsFolder)/Assembly-CSharp.dll</AssemblyNormal>
+    <AssemblyFirstpassNormal>$(GameLibsFolder)/Assembly-CSharp-firstpass.dll</AssemblyFirstpassNormal>
+    <!--Publicized Versions of the main dlls, everything here is made public-->
+    <AssemblyPublicized>$(SolutionDir)/PublicisedAssembly/Assembly-CSharp_public.dll</AssemblyPublicized>
+    <AssemblyFirstpassPublicized>$(SolutionDir)/PublicisedAssembly/Assembly-CSharp-firstpass_public.dll</AssemblyFirstpassPublicized>
+  </PropertyGroup>
 
   <ItemGroup Condition="'$(GenerateMetadata)' == 'true' ">
 		<PackageReference Include="Cairath.ONIMetadataFileGenerator" Version="1.0.0">
@@ -27,16 +35,13 @@
 
 	<ItemGroup>
 		<Reference Include="Assembly-CSharp">
-      <!--Publicizer Path, use the path below if you dont use that/have no idea what that is-->
-      <HintPath>$(SolutionDir)/PublicisedAssembly/Assembly-CSharp_public.dll</HintPath>
-      <!--<HintPath>$(GameLibsFolder)/Assembly-CSharp.dll</HintPath>-->
+      <!--Publicized version, run "Clean" on the 1_CycleComma project once to generate this-->
+      <HintPath>$(AssemblyPublicized)</HintPath>
 			<Private>False</Private>
 		</Reference>
 		<Reference Include="Assembly-CSharp-firstpass">
-      <!--Publicizer Path, use the path below if you dont use that/have no idea what that is-->
-      <HintPath>$(SolutionDir)/PublicisedAssembly/Assembly-CSharp-firstpass_public.dll</HintPath>
-      <!--Regular Path, uncomment if you dont use publicizer /have no idea what that is-->
-      <!--<HintPath>$(GameLibsFolder)/Assembly-CSharp-firstpass.dll</HintPath>-->
+      <!--Publicized version, run "Clean" on the 1_CycleComma project once to generate this-->
+      <HintPath>$(AssemblyFirstpassPublicized)</HintPath>
 			<Private>False</Private>
 		</Reference>
 		<Reference Include="0Harmony">

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
+  <!--Generates the mod yaml files in the output folder-->
 	<Target Name="GenerateYAML" BeforeTargets="Build" Condition="'$(GenerateMetadata)' == 'true'">
 		<GenerateMetadataFiles
 			OutputPath="$(TargetDir)"
@@ -16,6 +17,7 @@
         />
 	</Target>
 
+  <!--Merges all dlls in the output folder into a single dll-->
 	<Target Name="ILRepack" AfterTargets="Build" Condition="'$(IsPacked)' == 'true'">
 		<ItemGroup>
       <InputAssemblies Include="$(TargetPath)" />
@@ -34,6 +36,7 @@
 		  OutputFile="$(TargetPath)"/>
 	</Target>
 
+  <!--Copies the mod dll, the two yaml files and everything inside the ModAssets folder to the target mod folder-->
 	<Target Name="CopyModsToDevFolder" AfterTargets="ILRepack" Condition="'$(AssemblyName)' != 'UtilLibs' and '$(AssemblyName)' != 'Util_TwitchIntegrationLib'">
 		
 		<Message Text="Executing CopyDLLs task" Importance="High" />
@@ -58,12 +61,13 @@
 		
 	</Target>
 
-
+  <!--Create folder for publicized dlls if not existing-->
   <Target Name="PubliciseMKDIR" BeforeTargets ="Clean">
     <MakeDir
             Directories="$(SolutionDir)\PublicisedAssembly"/>
   </Target>
-  
+
+  <!--Creates publicized dlls from the game dlls-->
   <Target Name="Publicise" AfterTargets="Clean">
     <ItemGroup>
       <PubliciseInputAssemblies
