@@ -26,7 +26,7 @@
 		<ModName>Better Rebuilding</ModName>
 		<ModDescription></ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
-		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
+		<MinimumSupportedBuild>$(QoL2024Feb)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 

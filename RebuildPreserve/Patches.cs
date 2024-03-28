@@ -37,16 +37,19 @@ namespace RebuildPreserve
                 {
                     if (comp != null)
                     {
-                        if (cachedSource == null)
+                        if (cachedSource == null) 
+                        { 
                             cachedSource = new GameObject("cachedSource_" + go.name);
-                        cachedSource.SetActive(false);
+                            cachedSource.SetActive(false);
+                        }
 
                         var method = new Traverse(comp).Method("OnCopySettings", new[] { typeof(object) });
-                        if (method.MethodExists())
+                        var method2 = new Traverse(comp).Method("OnCopySettingsDelegate", new[] { typeof(object) });
+                        if (method.MethodExists()||method2.MethodExists())
                         {
                             var cache = cachedSource.AddComponent(comp.GetType());
-                            CopyProperties(comp, cache);
                             //SgtLogger.l(message: "Caching " + comp.GetType().ToString());
+                            CopyProperties(comp, cache);
                         }
                     }
                 }
@@ -55,9 +58,7 @@ namespace RebuildPreserve
                 {
                     //SgtLogger.l(message: "adding to dic ");
                     var targetPos = new Tuple<int, ObjectLayer>(building.NaturalBuildingCell(), building.Def.ObjectLayer);
-
-                    BuildSettingsPreservationData.Instance.ToCopyFromComponents.Remove(targetPos);
-                    BuildSettingsPreservationData.Instance.ToCopyFromComponents.Add(targetPos, cachedSource);
+                    BuildSettingsPreservationData.Instance.ReplaceEntry(targetPos, cachedSource);
 
                     //if (cachedSource.TryGetComponent<TreeFilterable>(out var filter))
                     //{
@@ -76,7 +77,17 @@ namespace RebuildPreserve
                 Type typeDest = destination.GetType();
                 Type typeSrc = source.GetType();
 
-                FieldInfo[] srcProps = typeSrc.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+                var currentParentType = typeDest.BaseType;
+
+                FieldInfo[] srcProps = typeSrc.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy);
+                while(currentParentType != null && currentParentType != typeof(KMonoBehaviour) && currentParentType != typeof(StateMachineComponent))
+                {
+                    //SgtLogger.l(currentParentType.Name,"climbin inheritance");
+                    srcProps = srcProps.Union(currentParentType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy)).ToArray();
+                    currentParentType = currentParentType.BaseType;
+                }
+
+
                 if (srcProps == null || srcProps.Length == 0)
                 {
                     SgtLogger.l("no props found: " + source.ToString());
@@ -88,8 +99,28 @@ namespace RebuildPreserve
                     //SgtLogger.l(source.ToString() + srcProp.Name);
                     //if (srcProp.Name.ToLowerInvariant().Contains("smi")) //crude fix for supress notifications crash
                     //    continue;
+                    var value = Traverse.Create(source).Field(srcProp.Name).GetValue();
+                    //if(value != null)
+                        //SgtLogger.l(value.ToString(), srcProp.Name);
+                    Traverse.Create(destination).Field(srcProp.Name).SetValue(value);
+                }
+            }
+        }
+        [HarmonyPatch(typeof(BuildingDef), nameof(BuildingDef.TryPlace), new Type[] { typeof(GameObject ), typeof(Vector3), typeof(Orientation), typeof(IList < Tag >), typeof(string), typeof(bool), typeof(int) } )]
+        public class BuildingDef_TryPlace
+        {
+            public static void Postfix(BuildingDef __instance,GameObject __result, Vector3 pos)
+            {
+                if (__result == null)
+                    return;
+                int cell = Grid.PosToCell(pos);
 
-                    Traverse.Create(destination).Field(srcProp.Name).SetValue(Traverse.Create(source).Field(srcProp.Name).GetValue());
+                if(BuildSettingsPreservationData.Instance.TryGetEntry(new(cell, __instance.ObjectLayer),out var cachedData)
+                    && cachedData.TryGetComponent<Prioritizable> (out _)                  
+                    )
+                {
+                    if (__result.TryGetComponent<Prioritizable>(out var targetPrio))
+                        targetPrio.OnCopySettings(cachedData);
                 }
             }
         }
@@ -102,6 +133,23 @@ namespace RebuildPreserve
                 BuildSettingsPreservationData.Instance = __instance.gameObject.AddOrGet<BuildSettingsPreservationData>();
             }
         }
+
+        //[HarmonyPatch(typeof(DetailsScreenMaterialPanel), nameof(DetailsScreenMaterialPanel.SetTarget))]
+        //public class DetailsScreenMaterialPanel_SetTarget
+        //{
+        //    public static void Postfix(DetailsScreenMaterialPanel __instance, GameObject target)
+        //    {
+        //        if (target == null)
+        //            return;
+
+        //        GameScheduler.Instance.Schedule("instantly open material selection panel",0.2f, (_) =>
+        //        {
+        //            __instance.OpenMaterialSelectionPanel();
+        //            __instance.RefreshMaterialSelectionPanel();
+        //            __instance.RefreshOrderChangeMaterialButton();
+        //        });
+        //    }
+        //}
         [HarmonyPatch(typeof(BuildingConfigManager), nameof(BuildingConfigManager.OnPrefabInit))]
         public class BuildingConfigManager_OnPrefabInit
         {
@@ -139,22 +187,33 @@ namespace RebuildPreserve
                     var layer = bonusData.building.Def.ObjectLayer;
                     var targetPos = new Tuple<int, ObjectLayer>(pos, layer);
 
-                    if (!BuildSettingsPreservationData.Instance.ToCopyFromComponents.ContainsKey(targetPos))
-                    {
-                        return;
-                    }
-                    var targetBuilding = Grid.Objects[pos, (int)layer];
-                    if (targetBuilding != null)
+                    var targetBuilding = bonusData.building.gameObject;
+                    if (BuildSettingsPreservationData.Instance.TryGetEntry(targetPos, out var cachedGameObject) && targetBuilding != null && cachedGameObject != null)
                     {
                         GameScheduler.Instance.ScheduleNextFrame("delayed settings application", (_) =>
                         {
-                            targetBuilding.Trigger((int)GameHashes.CopySettings, BuildSettingsPreservationData.Instance.ToCopyFromComponents[targetPos]);
-                            BuildSettingsPreservationData.Instance.ToCopyFromComponents.Remove(targetPos);
+                            targetBuilding.Trigger((int)GameHashes.CopySettings, cachedGameObject);
+                            BuildSettingsPreservationData.Instance.RemoveEntry(targetPos);
                         });
                     }
                 }
             }
+            [HarmonyPatch(typeof(Automatable), "OnCopySettings")]
+            public static class Automatable_OnCopySettings
+            {
+                public static bool Prefix(Automatable __instance, object data)
+                {
+                    Automatable component = ((GameObject)data).GetComponent<Automatable>();
+                    SgtLogger.l(component + " : " + (component != null), "automatable existing");
 
+                    if (component != null)
+                    {
+                        SgtLogger.l(__instance.automationOnly + " <-instance, target-> " + component.automationOnly, "automatable");
+                        __instance.automationOnly = component.automationOnly;
+                    }
+                    return false;
+                }
+            }
         }
 
         /// <summary>
@@ -170,7 +229,7 @@ namespace RebuildPreserve
         }
 
 
-        [HarmonyPatch(typeof(DetailsScreenMaterialPanel), "RefreshOrderChangeMaterialButton", new Type[] {typeof(object)})]
+        [HarmonyPatch(typeof(DetailsScreenMaterialPanel), "RefreshOrderChangeMaterialButton", new Type[] { typeof(object) })]
         public static class DetailsScreenMaterialPanel_RefreshOrderChangeMaterialButton
         {
             public static void Postfix(DetailsScreenMaterialPanel __instance)

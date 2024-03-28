@@ -9,7 +9,7 @@ using UtilLibs;
 
 namespace RebuildPreserve
 {
-    internal class AutomatedBrokenRebuild : KMonoBehaviour, ICheckboxControl
+    internal class AutomatedBrokenRebuild : KMonoBehaviour
     {
         [MyCmpGet]
         Reconstructable reconstructable;
@@ -18,16 +18,6 @@ namespace RebuildPreserve
 
         [Serialize]
         public bool RebuildOnBreaking = false;
-
-        public string CheckboxTitleKey => "STRINGS.PRESERVESETTINGSSIDESCREEN.HEADER";
-
-        public string CheckboxLabel => STRINGS.PRESERVESETTINGSSIDESCREEN.LABEL;
-
-        public string CheckboxTooltip => STRINGS.PRESERVESETTINGSSIDESCREEN.TOOLTIP;
-
-        public bool GetCheckboxValue() => RebuildOnBreaking;
-
-        public void SetCheckboxValue(bool value) => RebuildOnBreaking = value;
 
         private static readonly EventSystem.IntraObjectHandler<AutomatedBrokenRebuild> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<AutomatedBrokenRebuild>((component, data) => component.OnCopySettings(data));
 
