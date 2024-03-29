@@ -28,6 +28,8 @@ namespace Cheese
 
         public class Foods
         {
+            public static ComplexRecipe CheeseRecipe;
+
             public static Dictionary<Tag,Tag> CheeseConversions = new Dictionary<Tag, Tag>()
             {
                 {
@@ -38,7 +40,9 @@ namespace Cheese
 
 
             public const float CHEESE_KCAL_PER_KG = 20f; //200KCal cheese per day per cow, cows make 50kg milk per day and the chosen conversion ratio is 5->1 
-            public const float CHEESEBURGER_KCAL_PER_KG = 6400f; //200KCal cheese per day per cow, cows make 50kg milk per day and the chosen conversion ratio is 5->1 
+            public const float CHEESEBURGER_KCAL_PER_KG = 6400f; 
+            public const float CHEESESANDWICH_KCAL_PER_KG = 2800f;
+            public const float GRILLEDCHEESE_KCAL_PER_KG = 4800f;
 
             public static EdiblesManager.FoodInfo CheeseEdible = new(
                 ModElements.ModElementRegistration.Cheese.ToString(),
@@ -61,6 +65,22 @@ namespace Cheese
                 .AddEffects(new List<string> { "GoodEats" }, DlcManager.AVAILABLE_ALL_VERSIONS)
                 .AddEffects(new List<string> { "SeafoodRadiationResistance" }, DlcManager.AVAILABLE_EXPANSION1_ONLY);
 
+            public static EdiblesManager.FoodInfo CheeseSandwich =
+                new EdiblesManager.FoodInfo(CheeseSandwichConfig.ID,
+                    DlcManager.VANILLA_ID,
+                    CHEESESANDWICH_KCAL_PER_KG * 1000f,
+                    3,
+                    255.15f,
+                    277.15f, 2800f,
+                    can_rot: true);
+            public static EdiblesManager.FoodInfo GrilledCheese =
+               new EdiblesManager.FoodInfo(GrilledCheeseConfig.ID,
+                   DlcManager.VANILLA_ID,
+                   GRILLEDCHEESE_KCAL_PER_KG * 1000f,
+                   5,
+                   255.15f,
+                   277.15f, 2800f,
+                   can_rot: true);
 
         }
         public static class SOUNDS

@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static ResearchTypes;
 using UnityEngine;
 using static Cheese.STRINGS;
 
 namespace Cheese.Foods
 {
-    internal class GrilledCheeseConfig : IEntityConfig
+    internal class CheeseSandwichConfig : IEntityConfig
     {
-        public const string ID = "GrilledCheese";
+        public const string ID = "CheeseSandwich";
         public static ComplexRecipe recipe;
 
         public string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
 
-        public GameObject CreatePrefab() => EntityTemplates.ExtendEntityToFood(EntityTemplates.CreateLooseEntity(ID, ITEMS.FOOD.GRILLEDCHEESE.NAME, ITEMS.FOOD.GRILLEDCHEESE.DESC, 1f, false, Assets.GetAnim((HashedString)"grilled_cheese_kanim"), "object", Grid.SceneLayer.Front, EntityTemplates.CollisionShape.RECTANGLE, 0.8f, 0.4f, true), ModAssets.Foods.GrilledCheese);
+        public GameObject CreatePrefab() => EntityTemplates.ExtendEntityToFood(EntityTemplates.CreateLooseEntity(ID, ITEMS.FOOD.CHEESESANDWICH.NAME, ITEMS.FOOD.CHEESESANDWICH.DESC, 1f, false, Assets.GetAnim((HashedString)"cheese_sandwich_kanim"), "object", Grid.SceneLayer.Front, EntityTemplates.CollisionShape.RECTANGLE, 0.8f, 0.4f, true), ModAssets.Foods.CheeseSandwich);
 
         public void OnPrefabInit(GameObject inst)
         {
@@ -28,7 +27,6 @@ namespace Cheese.Foods
 
         public void OnSpawn(GameObject inst)
         {
-
         }
     }
 }

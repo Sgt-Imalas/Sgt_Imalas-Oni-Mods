@@ -76,7 +76,19 @@ namespace Cheese
                 {
                     public static LocString NAME = UI.FormatAsLink("Cheeseburger", nameof(CHEESEBURGER));
                     public static LocString DESC = (LocString)(UI.FormatAsLink("Meat", "MEAT") + " and " + UI.FormatAsLink("Lettuce", "LETTUCE") + " and " + UI.FormatAsLink("Cheese", "CHEESE") + " on a chilled " + UI.FormatAsLink("Frost Bun", "COLDWHEATBREAD") + ".\n\nIt's the only burger best served cold.");
-                    public static LocString RECIPEDESC = (LocString)(UI.FormatAsLink("Meat", "MEAT") + " and " + UI.FormatAsLink("Lettuce", "LETTUCE") + " on a chilled " + UI.FormatAsLink("Frost Bun", "COLDWHEATBREAD") + ".");
+                    public static LocString RECIPEDESC = (LocString)(UI.FormatAsLink("Meat", "MEAT") + " and " + UI.FormatAsLink("Lettuce", "LETTUCE") + " and " + UI.FormatAsLink("Cheese", "CHEESE") + " on a chilled " + UI.FormatAsLink("Frost Bun", "COLDWHEATBREAD") + ".");
+                }
+                public class CHEESESANDWICH
+                {
+                    public static LocString NAME = UI.FormatAsLink("Cheese Sandwich", nameof(CHEESESANDWICH));
+                    public static LocString DESC = "Frostbun with cheese";
+                    public static LocString RECIPEDESC = "Frostbun with cheese";
+                }
+                public class GRILLEDCHEESE
+                {
+                    public static LocString NAME = UI.FormatAsLink("Grilled Cheese", nameof(GRILLEDCHEESE));
+                    public static LocString DESC = "Pepper bread with grilled cheese";
+                    public static LocString RECIPEDESC = "Pepper bread with grilled cheese";
                 }
             }
             public class STATUSITEMS

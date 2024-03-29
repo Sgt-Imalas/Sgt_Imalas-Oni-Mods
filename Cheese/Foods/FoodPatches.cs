@@ -1,4 +1,5 @@
-﻿using Cheese.Traits;
+﻿using Cheese.ModElements;
+using Cheese.Traits;
 using Database;
 using HarmonyLib;
 using Klei.AI;
@@ -9,11 +10,82 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static ComplexRecipe;
 
 namespace Cheese.Foods
 {
     internal class FoodPatches
     {
+        [HarmonyPatch(typeof(MicrobeMusherConfig), nameof(MicrobeMusherConfig.ConfigureRecipes))]
+        public static class MicrobeMusherConfig_ConfigureRecipes
+        {
+            public static void Postfix()
+            {
+                AddCheeseRecipe();
+            }
+            private static void AddCheeseRecipe()
+            {
+                var fabricatorID = MicrobeMusherConfig.ID;
+
+                RecipeElement[] input = new RecipeElement[]
+                {
+                    new RecipeElement(SimHashes.SlimeMold.CreateTag(), 0.5f),
+                    new RecipeElement(SimHashes.Milk.CreateTag(),100)
+                };
+                RecipeElement[] output = new RecipeElement[]
+                {
+                    new RecipeElement(ModElementRegistration.Cheese.SimHash.CreateTag(), 25f,ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature)
+                };
+
+                string recipeID = ComplexRecipeManager.MakeRecipeID(fabricatorID, input, output);
+
+                ModAssets.Foods.CheeseRecipe = new ComplexRecipe(recipeID, input, output)
+                {
+                    time = TUNING.FOOD.RECIPES.SMALL_COOK_TIME,
+                    description = STRINGS.ITEMS.FOOD.CHEESE.DESC,
+                    nameDisplay = RecipeNameDisplay.Result,
+                    fabricators = new List<Tag> { fabricatorID },
+                    sortOrder = 5
+                };
+                ModAssets.Foods.CheeseRecipe.FabricationVisualizer = MushBarConfig.CreateFabricationVisualizer(CheeseDebris.GetPrefabForRecipe());
+            }
+        }
+        [HarmonyPatch(typeof(GourmetCookingStationConfig), nameof(GourmetCookingStationConfig.ConfigureRecipes))]
+        public static class GourmetCookingStationConfig_ConfigureRecipes
+        {
+            public static void Postfix()
+            {
+                //AddGrilledCheeseRecipe();
+                //AddCheeseBurgerRecipe();
+            }
+            private static void AddGrilledCheeseRecipe()
+            {
+                var fabricatorID = MicrobeMusherConfig.ID;
+
+                RecipeElement[] input = new RecipeElement[]
+                {
+                    new RecipeElement(SimHashes.SlimeMold.CreateTag(), 0.5f),
+                    new RecipeElement(SimHashes.Milk.CreateTag(),100)
+                };
+                RecipeElement[] output = new RecipeElement[]
+                {
+                    new RecipeElement(ModElementRegistration.Cheese.SimHash.CreateTag(), 25f,ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature)
+                };
+
+                string recipeID = ComplexRecipeManager.MakeRecipeID(fabricatorID, input, output);
+
+                ModAssets.Foods.CheeseRecipe = new ComplexRecipe(recipeID, input, output)
+                {
+                    time = TUNING.FOOD.RECIPES.SMALL_COOK_TIME,
+                    description = STRINGS.ITEMS.FOOD.CHEESE.DESC,
+                    nameDisplay = RecipeNameDisplay.Result,
+                    fabricators = new List<Tag> { fabricatorID },
+                    sortOrder = 5
+                };
+            }
+        }
+
+
         [HarmonyPatch(typeof(Db))]
         [HarmonyPatch(nameof(Db.Initialize))]
         public static class PatchCarnivoreAchievment

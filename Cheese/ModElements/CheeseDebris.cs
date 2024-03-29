@@ -13,6 +13,13 @@ namespace Cheese.ModElements
 
         public string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
 
+        public static GameObject GetPrefabForRecipe()
+        {
+            GameObject OreEntity = EntityTemplates.CreateSolidOreEntity(ModElementRegistration.Cheese.SimHash);
+            ExtendEntityToFood(OreEntity, ModAssets.Foods.CheeseEdible);
+            return OreEntity;
+        }
+
         public GameObject CreatePrefab()
         {
             GameObject OreEntity = EntityTemplates.CreateSolidOreEntity(this.ElementID);
