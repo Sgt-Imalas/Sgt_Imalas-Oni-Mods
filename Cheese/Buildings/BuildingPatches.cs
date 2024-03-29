@@ -60,6 +60,22 @@ namespace Cheese.Buildings
 
                     CheeseSculptureSkins.Add(AddStatueStage(artableStages,
                         CheeseSculptureConfig.ID,
+                        "Wallace",
+                        STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_AMAZING_2.NAME,
+                        STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_AMAZING_2.DESC,
+                         "sculpture_cheese_amazing_2_kanim",
+                         ArtableStatuses.ArtableStatusType.LookingGreat));
+
+                    CheeseSculptureSkins.Add(AddStatueStage(artableStages,
+                        CheeseSculptureConfig.ID,
+                        "CheeseMoon",
+                        STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_AMAZING_3.NAME,
+                        STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_AMAZING_3.DESC,
+                         "sculpture_cheese_amazing_3_kanim",
+                         ArtableStatuses.ArtableStatusType.LookingGreat));
+
+                    CheeseSculptureSkins.Add(AddStatueStage(artableStages,
+                        CheeseSculptureConfig.ID,
                         "Cheeseception",
                         STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_GOOD_1.NAME,
                         STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_GOOD_1.DESC,

@@ -57,6 +57,16 @@ namespace Cheese
                             public static LocString NAME = (LocString)UI.FormatAsLink("Ratatouille", nameof(SCULPTURE_CHEESE_AMAZING_1));
                             public static LocString DESC = (LocString)"The best head-chef the world has ever seen.";
                         }
+                        public class SCULPTURE_CHEESE_AMAZING_2
+                        {
+                            public static LocString NAME = (LocString)UI.FormatAsLink("Wallace", nameof(SCULPTURE_CHEESE_AMAZING_2));
+                            public static LocString DESC = (LocString)"No cheese, Gromit! We've forgot the cheese!";
+                        }
+                        public class SCULPTURE_CHEESE_AMAZING_3
+                        {
+                            public static LocString NAME = (LocString)UI.FormatAsLink("The Moon", nameof(SCULPTURE_CHEESE_AMAZING_3));
+                            public static LocString DESC = (LocString)"Everyone knows the moon is made out of cheese!";
+                        }
                     }
                 }
 
