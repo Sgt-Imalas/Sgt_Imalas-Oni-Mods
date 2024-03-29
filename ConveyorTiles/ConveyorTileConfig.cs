@@ -92,7 +92,8 @@ namespace ConveyorTiles
 
         public override void DoPostConfigureComplete(GameObject go)
         {
-            go.AddOrGet<LogicOperationalController>();
+            if (!Config.Instance.NoLogicInputs)
+                go.AddOrGet<LogicOperationalController>();
             go.AddOrGet<ConveyorTileSM>();
             go.GetComponent<KPrefabID>().AddTag(GameTags.FloorTiles);
             go.AddComponent<SimTemperatureTransfer>();

@@ -199,7 +199,9 @@ namespace ConveyorTiles
             //this.Subscribe(-801688580, new System.Action<object>(this.OnLogicValueChanged));
             this.Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
             TileSMs[myCell] = this;
-            this.Subscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
+
+            if (!Config.Instance.NoLogicInputs)
+                this.Subscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
         }
         private void OnLogicValueChanged(object data)
         {
@@ -210,7 +212,7 @@ namespace ConveyorTiles
         }
         void ReevaluateLogicState()
         {
-            if (LogicControllsDirection && logicPorts.IsPortConnected(LogicOperationalController.PORT_ID))
+            if (LogicControllsDirection && logicPorts!=null && logicPorts.IsPortConnected(LogicOperationalController.PORT_ID))
             {
                 var inputBitsInt = logicPorts.GetInputValue(LogicOperationalController.PORT_ID);
                 bool shouldBeFlipped = LogicCircuitNetwork.IsBitActive(1, inputBitsInt);
@@ -304,7 +306,8 @@ namespace ConveyorTiles
             GameScenePartitioner.Instance.Free(ref this.pickupablesChangedEntry);
             GameScenePartitioner.Instance.Free(ref this.floorSwitchActivatorChangedEntry);
 
-            Unsubscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
+            if (!Config.Instance.NoLogicInputs)
+                Unsubscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
             Unsubscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
             Unsubscribe(493375141, OnRefreshUserMenuDelegate);
             TileSMs.Remove(myCell);
