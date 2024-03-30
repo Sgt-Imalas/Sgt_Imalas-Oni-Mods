@@ -81,6 +81,7 @@ namespace Rockets_TinyYetBig
             go.AddOrGet<LaunchableRocketCluster>();
             go.AddOrGet<RocketCommandConditions>();
             go.AddOrGet<RocketProcessConditionDisplayTarget>();
+            go.AddOrGet<RocketLaunchConditionVisualizer>();
             go.AddOrGet<CharacterOverlay>().shouldShowName = true;
             Storage storage1 = go.AddComponent<Storage>();
             storage1.showInUI = false;

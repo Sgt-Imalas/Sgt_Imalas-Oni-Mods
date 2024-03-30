@@ -91,6 +91,7 @@ namespace Rockets_TinyYetBig
             go.AddOrGet<LaunchableRocketCluster>();
             go.AddOrGet<RocketCommandConditions>();
             go.AddOrGet<RocketProcessConditionDisplayTarget>();
+            go.AddOrGet<RocketLaunchConditionVisualizer>();
             go.AddOrGet<CharacterOverlay>().shouldShowName = true;
             go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
             {

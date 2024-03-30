@@ -55,6 +55,7 @@ namespace RoboRockets
             //go.AddOrGet<AccessControl>();
 
             go.AddOrGet<RocketProcessConditionDisplayTarget>();
+            go.AddOrGet<RocketLaunchConditionVisualizer>();
             go.AddOrGet<CharacterOverlay>().shouldShowName = true;
 
 

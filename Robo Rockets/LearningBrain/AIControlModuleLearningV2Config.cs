@@ -51,6 +51,7 @@ namespace RoboRockets.LearningBrain
             go.AddOrGet<RocketAiConditions>();
 
             go.AddOrGet<RocketProcessConditionDisplayTarget>();
+            go.AddOrGet<RocketLaunchConditionVisualizer>();
             go.AddOrGet<CharacterOverlay>().shouldShowName = true;
 
 
@@ -58,6 +59,18 @@ namespace RoboRockets.LearningBrain
             {
                 new BuildingAttachPoint.HardPoint(new CellOffset(0, 2), GameTags.Rocket,  null)
             };
+
+
+        }
+        public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
+        {
+            base.DoPostConfigurePreview(def, go);
+            go.AddOrGet<BuildingCellVisualizer>();
+        }
+        public override void DoPostConfigureComplete(GameObject go)
+        {
+
+            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MINOR_PLUS);
 
             Storage storage = go.AddOrGet<Storage>();
             storage.capacityKg = 1f;
@@ -71,17 +84,6 @@ namespace RoboRockets.LearningBrain
             manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
 
             go.AddOrGet<BrainTeacher>().BrainStorage = storage;
-
-        }
-        public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
-        {
-            base.DoPostConfigurePreview(def, go);
-            go.AddOrGet<BuildingCellVisualizer>();
-        }
-        public override void DoPostConfigureComplete(GameObject go)
-        {
-
-            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MINOR_PLUS);
 
             Ownable ownable = go.AddOrGet<Ownable>();
             ownable.slotID = Db.Get().AssignableSlots.HabitatModule.Id;

@@ -1,36 +1,57 @@
-﻿using Database;
-using KnastoronOniMods;
-using RoboRockets;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+
 namespace RoboRockets.LearningBrain
 {
-    class AIControlModuleLearningConfig : IBuildingConfig
+    internal class AIControlModuleLearningV2NoseconeConfig : IBuildingConfig
     {
-        public const string ID = "RR_AILearningControlModule";
+        public const string ID = "RR_AILearningControlModuleNoseconeV2";
+
         public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
         public override BuildingDef CreateBuildingDef()
         {
-            float[] matCosts = { 300f };
-
-            string[] construction_materials = {
-                "Steel"
+            float[] mass = new float[] {
+                300f,
+                200f
+            }; ;
+            string[] construction_materials_ = new string[]
+            {
+                "Steel",
+                "Insulator"
             };
-            EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
+            EffectorValues noiseLevel = NOISE_POLLUTION.NONE;
             EffectorValues none = BUILDINGS.DECOR.NONE;
-            EffectorValues noise = tieR2;
-
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 3, "rocket_habitat_ai_module_kanim", 1000, 400f, matCosts, construction_materials, 9999f, BuildLocationRule.Anywhere, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(
+                id: ID,
+                width: 5,
+                height: 2,
+                anim: "rocket_command_module_remote_kanim",
+                hitpoints: 1000,
+                construction_time: 400f,
+                construction_mass: mass,
+                construction_materials: construction_materials_,
+                melting_point: 9999f,
+                BuildLocationRule.Anywhere,
+                decor: none,
+                noise: noiseLevel);
             BuildingTemplates.CreateRocketBuildingDef(buildingDef);
             buildingDef.AttachmentSlotTag = GameTags.Rocket;
             buildingDef.SceneLayer = Grid.SceneLayer.Building;
-            buildingDef.ForegroundLayer = Grid.SceneLayer.Front;
             buildingDef.OverheatTemperature = 2273.15f;
             buildingDef.Floodable = false;
             buildingDef.ObjectLayer = ObjectLayer.Building;
+            buildingDef.ForegroundLayer = Grid.SceneLayer.Front;
+            buildingDef.RequiresPowerInput = false;
+            buildingDef.attachablePosition = new CellOffset(0, 0);
             buildingDef.CanMove = true;
             buildingDef.Cancellable = false;
+            buildingDef.ShowInBuildMenu = false;
+
 
             return buildingDef;
         }
@@ -40,11 +61,11 @@ namespace RoboRockets.LearningBrain
             go.AddOrGet<LoopingSounds>();
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
             go.GetComponent<KPrefabID>().AddTag(GameTags.LaunchButtonRocketModule);
+            go.GetComponent<KPrefabID>().AddTag(GameTags.NoseRocketModule);
 
             go.AddOrGet<AssignmentGroupController>().generateGroupOnStart = true;
             var aiConfig = go.AddOrGet<AIPassengerModule>();
             aiConfig.interiorReverbSnapshot = AudioMixerSnapshots.Get().SmallRocketInteriorReverbSnapshot;
-            aiConfig.variableSpeed = true;
             go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/AIRocketV2";
             go.AddOrGet<NavTeleporter>();
             go.AddOrGet<LaunchableRocketCluster>();
@@ -55,22 +76,7 @@ namespace RoboRockets.LearningBrain
             go.AddOrGet<CharacterOverlay>().shouldShowName = true;
 
 
-            go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1] //top module attaches here
-            {
-                new BuildingAttachPoint.HardPoint(new CellOffset(0, 3), GameTags.Rocket,  null)
-            };
-
-            Storage storage = go.AddOrGet<Storage>();
-            storage.capacityKg = 1f;
-            storage.showInUI = false;
-            ManualDeliveryKG manualDeliveryKg = go.AddOrGet<ManualDeliveryKG>();
-            manualDeliveryKg.SetStorage(storage);
-            manualDeliveryKg.RequestedItemTag = ModAssets.Tags.SpaceBrain;
-            manualDeliveryKg.capacity = storage.capacityKg;
-            manualDeliveryKg.refillMass = storage.capacityKg;
-            manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
-
-            go.AddOrGet<BrainTeacher>().BrainStorage = storage;
+           
 
         }
         public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
@@ -80,22 +86,31 @@ namespace RoboRockets.LearningBrain
         }
         public override void DoPostConfigureComplete(GameObject go)
         {
+            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MINOR_PLUS);
 
-            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MINOR_PLUS);
+            Storage storage = go.AddOrGet<Storage>();
+            storage.capacityKg = 1f;
+            storage.showInUI = false;
+            storage.useWideOffsets = true;
+            ManualDeliveryKG manualDeliveryKg = go.AddOrGet<ManualDeliveryKG>();
+            manualDeliveryKg.SetStorage(storage);
+            manualDeliveryKg.RequestedItemTag = ModAssets.Tags.SpaceBrain;
+            manualDeliveryKg.capacity = storage.capacityKg;
+            manualDeliveryKg.refillMass = storage.capacityKg;
+            manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
+
+            go.AddOrGet<BrainTeacher>().BrainStorage = storage;
+
+
 
             Ownable ownable = go.AddOrGet<Ownable>();
             ownable.slotID = Db.Get().AssignableSlots.HabitatModule.Id;
             ownable.canBePublic = false;
-            FakeFloorAdder fakeFloorAdder = go.AddOrGet<FakeFloorAdder>();
-            fakeFloorAdder.floorOffsets = new CellOffset[3]
-            {
-      new CellOffset(-1, -1),
-      new CellOffset(0, -1),
-      new CellOffset(1, -1)
-            };
-            fakeFloorAdder.initiallyActive = false;
+
             go.AddOrGet<BuildingCellVisualizer>();
-            go.GetComponent<ReorderableBuilding>().buildConditions.Add(new LimitOneCommandModule());
+
+            go.GetComponent<ReorderableBuilding>().buildConditions.Add((SelectModuleCondition)new TopOnly());
+            go.GetComponent<ReorderableBuilding>().buildConditions.Add((SelectModuleCondition)new LimitOneCommandModule());
         }
 
 
@@ -106,5 +121,4 @@ namespace RoboRockets.LearningBrain
             go.GetComponent<Constructable>().requiredSkillPerk = Db.Get().SkillPerks.ConveyorBuild.Id;
         }
     }
-
 }

@@ -82,7 +82,7 @@ namespace RoboRockets.LearningBrain
         void OnAnimsComplete(HashedString data)
         {
             PreventAnimChanges = false;
-            CurrentlyHasBrain = !CurrentlyHasBrain;
+            CurrentlyHasBrain = BrainStorage.FindFirst(ModAssets.Tags.SpaceBrain);
             controller.onAnimComplete -= OnAnimsComplete;
         }
 
