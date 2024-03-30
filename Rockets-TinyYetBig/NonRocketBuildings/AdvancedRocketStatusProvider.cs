@@ -30,7 +30,14 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
         {
             base.OnSpawn();
 
-            this.Subscribe((int)GameHashes.LogicEvent, new System.Action<object>(this.OnLogicValueChanged));
+            this.Subscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
+        }
+
+        public override void OnCleanUp()
+        {
+            base.OnCleanUp();
+            this.Unsubscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
+
         }
 
         private void OnLogicValueChanged(object data)

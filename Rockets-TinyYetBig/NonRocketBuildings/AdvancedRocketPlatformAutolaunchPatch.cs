@@ -16,30 +16,20 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
     [HarmonyPatch(nameof(CraftModuleInterface.EvaluateConditionSet))]
     public class AdvancedRocketPlatformAutolaunchPatch
     {
-        //public static void Postfix(CraftModuleInterface __instance, ProcessCondition.ProcessConditionType conditionType, ref ProcessCondition.Status __result)
-        //{
-        //    var current = __instance.CurrentPad;
-        //    if(current != null && current.TryGetComponent<AdvancedRocketStatusProvider>(out AdvancedRocketStatusProvider evaluator))
-        //    {
-        //        evaluator.ConvertWarnings(conditionType,ref __result);
-        //        //SgtLogger.l(conditionType.ToString() + ": " + __result.ToString(), "FINAL");
-        //    }
-        //public static ProcessCondition.Status ConvertWarningIfNeeded(ProcessCondition condition ,CraftModuleInterface __instance, ProcessCondition.ProcessConditionType conditionType  )
-        //}
         public static ProcessCondition.Status ConvertWarningIfNeeded(ProcessCondition condition ,CraftModuleInterface craftModuleInterface, ProcessCondition.ProcessConditionType conditionType  )
         {
 
             var current = craftModuleInterface.CurrentPad;
             if (current != null && current.TryGetComponent(out AdvancedRocketStatusProvider evaluator))
             {
-                ///Only convert if it should launch
-                if (evaluator.GetBitMaskValAtIndex(0)|| evaluator.GetBitMaskValAtIndex(3))
+                ///Only convert if it should launch or bit 3 is set (aka apply condition overrides permanently
+                if (evaluator.GetBitMaskValAtIndex(0) || evaluator.GetBitMaskValAtIndex(3))
                 {
                     if (evaluator.GetBitMaskValAtIndex(1) && condition.GetType() == typeof(ConditionProperlyFueled) && condition.EvaluateCondition() != ProcessCondition.Status.Failure)
                     {
                         return ProcessCondition.Status.Ready;
                     }
-                    if (evaluator.GetBitMaskValAtIndex(2) && condition.GetType() != typeof(ConditionProperlyFueled) && condition.EvaluateCondition() != ProcessCondition.Status.Failure)
+                    if (evaluator.GetBitMaskValAtIndex(2) && conditionType == ProcessCondition.ProcessConditionType.RocketStorage && condition.EvaluateCondition() != ProcessCondition.Status.Failur)
                     {
                         return ProcessCondition.Status.Ready;
                     }
@@ -76,6 +66,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                 //code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldarg_0));
                 //TranspilerHelper.PrintInstructions(code);
             }
+            else Debug.LogError("AdvancedRocketPlatformAutolaunchPatch transpiler failed");
 
             return code;
         }
@@ -125,9 +116,10 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
             //InjectionMethods.PrintInstructions(code);
             if (insertionIndex != -1)
             {
-                //SgtLogger.debuglog("FOUNDDDDDDDDDDD");
                 code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, ConverterMethod));
             }
+            else
+                Debug.LogError("Rocketry Expanded: Launchpad transpiler failed");
 
             return code;
         }

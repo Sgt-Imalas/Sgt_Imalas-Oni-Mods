@@ -97,7 +97,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
             {
                 storage = GetComponent<HighEnergyParticleStorage>();
                 GetComponent<RocketModule>().AddModuleCondition(ProcessCondition.ProcessConditionType.RocketStorage, new ConditionHasRadbolts(storage, 6000f));
-                Subscribe(-1697596308, new Action<object>(UpdateMeter));
+                Subscribe(-1697596308, UpdateMeter);
                 meter = new MeterController(GetComponent<KBatchedAnimController>(), "meter_target", nameof(meter), Meter.Offset.Infront, Grid.SceneLayer.NoLayer, Array.Empty<string>());
                 meter.gameObject.GetComponent<KBatchedAnimTracker>().matchParentOffset = true;
                 UpdateMeter();
@@ -106,7 +106,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
             public override void OnCleanUp()
             {
                 base.OnCleanUp();
-                Unsubscribe(-1697596308, new Action<object>(UpdateMeter));
+                Unsubscribe(-1697596308, UpdateMeter);
             }
 
             public void UpdateMeter(object data = null)
