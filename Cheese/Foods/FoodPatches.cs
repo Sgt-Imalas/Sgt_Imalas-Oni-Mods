@@ -154,9 +154,10 @@ namespace Cheese.Foods
         [HarmonyPatch(typeof(WaterCoolerChore.States), "Drink")]
         public static class WaterCoolerChore_Drink_Patch
         {
+            [HarmonyPostfix]
             public static void Postfix(WaterCoolerChore.States __instance, WaterCoolerChore.StatesInstance smi)
             {
-                var worker = __instance.stateTarget.Get<Worker>(smi);
+                var worker = __instance.drinker.Get<Worker>(smi);
                 if (worker.TryGetComponent<Effects>(out var effects) && effects.HasEffect("DuplicantGotMilk"))
                 {
                     BracktoseIntolerant.HandleDupeEffect(worker);

@@ -73,6 +73,14 @@ namespace Cheese.Buildings
                         STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_AMAZING_3.DESC,
                          "sculpture_cheese_amazing_3_kanim",
                          ArtableStatuses.ArtableStatusType.LookingGreat));
+                    
+                    CheeseSculptureSkins.Add(AddStatueStage(artableStages,
+                        CheeseSculptureConfig.ID,
+                        "Sergal",
+                        STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_AMAZING_4.NAME,
+                        STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_AMAZING_4.DESC,
+                         "sculpture_cheese_amazing_4_kanim",
+                         ArtableStatuses.ArtableStatusType.LookingGreat));
 
                     CheeseSculptureSkins.Add(AddStatueStage(artableStages,
                         CheeseSculptureConfig.ID,
