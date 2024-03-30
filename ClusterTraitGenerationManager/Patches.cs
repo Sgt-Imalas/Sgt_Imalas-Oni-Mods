@@ -419,87 +419,42 @@ namespace ClusterTraitGenerationManager
         /// - have "CGM"/"CGSM" in their Name (added)
         /// </summary>
         [HarmonyPatch(typeof(Worlds))]
-        [HarmonyPatch(nameof(Worlds.UpdateWorldCache))]
+        [HarmonyPatch(nameof(Worlds.LoadReferencedWorlds))]
         public static class AllowUnusedWorldTemplatesToLoadIntoCache
         {
             const string DLC_WorldNamePrefix = "expansion1::worlds/";
             const string Base_WorldNamePrefix = "worlds/";
 
-            ///Klei Refactored, transpiler broke:
-            ///TODO: add for Clusters.UpdateClusterCache
-            public static void Postfix(Worlds __instance, ISet<string> referencedWorlds, List<YamlIO.Error> errors)
+            public static void Prefix(ISet<string> referencedWorlds)
             {
-                var hashSet = new HashSet<string>(referencedWorlds);
-                string path = SettingsCache.GetAbsoluteContentPath(DlcManager.GetHighestActiveDlcId(), "worldgen");
-                var WorldFiles = new DirectoryInfo(FileSystem.Normalize(System.IO.Path.Combine(path, "worlds"))).GetFiles("*.yaml");
-
-                foreach (var WorldFile in WorldFiles)
+                SgtLogger.l("checking if any moonlets should be added");
+                List<string> additionalWorlds = new List<string>();
+                foreach(var item in referencedWorlds)
                 {
-                    string WorldCacheName =
-                        (DlcManager.IsExpansion1Active() ? DLC_WorldNamePrefix : Base_WorldNamePrefix)
-                        + System.IO.Path.GetFileNameWithoutExtension(WorldFile.FullName);
 
-                    if (!__instance.worldCache.ContainsKey(WorldCacheName) && !hashSet.Contains(WorldCacheName))
+                    //string WorldCacheName =
+                    //    (DlcManager.IsExpansion1Active() ? DLC_WorldNamePrefix : Base_WorldNamePrefix)
+                    //    + System.IO.Path.GetFileNameWithoutExtension(item);
+                    ////SgtLogger.l(WorldCacheName, item);
+
+                    if (ModAssets.Moonlets.Any(item.Contains))
                     {
-                        string filePath = SettingsCache.RewriteWorldgenPathYaml(WorldCacheName);
-                        //SgtLogger.l(filePath, "Paf");
-                        ProcGen.World world = YamlIO.LoadFile<ProcGen.World>(filePath, delegate (YamlIO.Error error, bool force_log_as_warning)
-                        {
-                            errors.Add(error);
-                        });
-                        if (world == null)
-                        {
-                            DebugUtil.LogWarningArgs("Failed to load world: ", filePath);
-                        }
-                        else if (
-                            //world.skip != ProcGen.World.Skip.Always && world.skip != ProcGen.World.Skip.EditorOnly
-                            //|| DebugHandler.enabled 
-                            //|| 
-                            ModAssets.Moonlets.Any(WorldCacheName.Contains))
-                        {
-                            world.filePath = WorldCacheName;
-                            __instance.worldCache[world.filePath] = world;
-                            SgtLogger.l(WorldCacheName, "Loaded World");
-                        }
+                        string outerWorld = item.Replace("Start", string.Empty).Replace("Warp", string.Empty);
+                        string startWorld = outerWorld + "Start", warpWorld = outerWorld + "Warp";
+                        if (!referencedWorlds.Contains(outerWorld) && !additionalWorlds.Contains(outerWorld))
+                            additionalWorlds.Add(outerWorld);
+                        if (!referencedWorlds.Contains(warpWorld ) && !additionalWorlds.Contains(warpWorld))
+                            additionalWorlds.Add(warpWorld);
+                        if (!referencedWorlds.Contains(startWorld) && !additionalWorlds.Contains(startWorld))
+                            additionalWorlds.Add(startWorld);
                     }
                 }
+                foreach(var item in additionalWorlds)
+                {
+                    SgtLogger.l("adding additional world: " + item);
+                    referencedWorlds.Add(item);
+                }
             }
-
-
-            //public static bool ContainsOrIsPredefined(ISet<string> referencedWorlds, string toContain)
-            //{
-            //    SgtLogger.l(DebugHandler.enabled.ToString(),"Debug enabled?");
-
-            //    return (DebugHandler.enabled 
-            //        || referencedWorlds.Contains(toContain) 
-            //        || toContain.Contains("CGSM") 
-            //        || toContain.Contains("CGM") 
-            //        || ModAssets.Moonlets.Any( moonletName => toContain.Contains(moonletName)));
-            //}
-
-            //private static readonly MethodInfo AllowTemplates = AccessTools.Method(
-            //   typeof(AllowUnusedWorldTemplatesToLoadIntoCache),
-            //   nameof(ContainsOrIsPredefined)
-            //);
-
-            //private static readonly MethodInfo TargetMethod = AccessTools.Method(
-            //        typeof(System.Collections.Generic.ICollection<string>),
-            //        nameof(System.Collections.Generic.ICollection<string>.Contains));
-
-            //static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
-            //{
-            //    var code = instructions.ToList();
-
-            //    var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo f && f == TargetMethod);
-
-            //    if (insertionIndex != -1)
-            //    {
-            //        code[insertionIndex] = new CodeInstruction(OpCodes.Call, AllowTemplates);
-            //    }
-
-            //    return code;
-            //}
-
         }
 
 
@@ -527,120 +482,47 @@ namespace ClusterTraitGenerationManager
         //    }
         //}
 
+        ///// <summary>
+        ///// Blocking parallel internal settings loading to avoid foreach crashes inside of the method
+        ///// </summary>
+        //[HarmonyPatch(typeof(ProcGenGame.WorldGen), (nameof(ProcGenGame.WorldGen.LoadSettings_Internal)))]
+        //public class ReplaceForDebug2
+        //{
+        //    static bool blockThread;
 
-        /// <summary>
-        /// Blocking parallel internal settings loading to avoid foreach crashes inside of the method
-        /// </summary>
-        [HarmonyPatch(typeof(ProcGenGame.WorldGen), (nameof(ProcGenGame.WorldGen.LoadSettings_Internal)))]
-        public class ReplaceForDebug2
-        {
-            static bool blockThread;
 
-            public static void Postfix(ref bool __state)
-            {
-                if (__state)
-                {
-                    SgtLogger.l("Worldgen.LoadSettings_Internal: fetching complete, releasing block.");
-                    blockThread = false;
-                }
-            }
+        //    [HarmonyPriority(Priority.VeryLow)]
+        //    public static void Postfix(ref bool __state)
+        //    {
+        //        if (__state)
+        //        {
+        //            SgtLogger.l("Worldgen.LoadSettings_Internal: fetching complete, releasing block.");
+        //            blockThread = false;
+        //        }
+        //    }
 
-            public static bool Prefix(bool is_playing, bool preloadTemplates, ref bool __state)
-            {
-                if (blockThread)
-                {
-                    SgtLogger.l("Worldgen.LoadSettings_Internal: fetching already in progress, skipping");
-                    __state = false; 
-                    return false;
-                }
+        //    [HarmonyPriority(Priority.VeryHigh)]
+        //    public static bool Prefix(bool is_playing, bool preloadTemplates, ref bool __state)
+        //    {
+        //        if (blockThread)
+        //        {
+        //            SgtLogger.l("Worldgen.LoadSettings_Internal: fetching already in progress, skipping");
+        //            __state = false; 
+        //            return false;
+        //        }
 
-                SgtLogger.l("Worldgen.LoadSettings_Internal: starting fetch, blocking other threads");
-                __state = true;
-                blockThread = true;
-                return true;
-
-                //SgtLogger.l($"LoadSettings_Internal, {is_playing}, {preloadTemplates}");
-
-                //ListPool<YamlIO.Error, WorldGen>.PooledList pooledList = ListPool<YamlIO.Error, WorldGen>.Allocate();
-                //if (SettingsCache.LoadFiles(pooledList))
-                //{
-                //    TemplateCache.Init();
-                //    if (preloadTemplates)
-                //    {
-                //        try
-                //        {
-                //            foreach (ProcGen.World value in SettingsCache.worlds.worldCache.Values)
-                //            {
-                //                if (value.worldTemplateRules == null)
-                //                {
-                //                    continue;
-                //                }
-
-                //                foreach (ProcGen.World.TemplateSpawnRules worldTemplateRule in value.worldTemplateRules)
-                //                {
-                //                    foreach (string name in worldTemplateRule.names)
-                //                    {
-                //                        TemplateCache.GetTemplate(name);
-                //                    }
-                //                }
-                //            }
-
-                //        }
-                //        catch (Exception ex)
-                //        {
-                //            SgtLogger.l("world cache threw up");
-                //            SgtLogger.l(ex.Message);
-                //        }
-                //        try
-                //        {
-                //        foreach (SubWorld value2 in SettingsCache.subworlds.Values)
-                //        {
-                //            if (value2.subworldTemplateRules == null)
-                //            {
-                //                continue;
-                //            }
-
-                //            foreach (ProcGen.World.TemplateSpawnRules subworldTemplateRule in value2.subworldTemplateRules)
-                //            {
-                //                foreach (string name2 in subworldTemplateRule.names)
-                //                {
-                //                    TemplateCache.GetTemplate(name2);
-                //                }
-                //            }
-                //        } }
-                //        catch (Exception ex)
-                //        {
-                //            SgtLogger.l("subworlds cache threw up");
-                //            SgtLogger.l(ex.Message);
-                //        }
-                //    }
-                //}
-
-                //if (CustomGameSettings.Instance != null)
-                //{
-                //}
-
-                //if (is_playing)
-                //{
-                //    Global.Instance.modManager.HandleErrors(pooledList);
-                //}
-                //else
-                //{
-                //    foreach (YamlIO.Error item in pooledList)
-                //    {
-                //        YamlIO.LogError(item, force_log_as_warning: false);
-                //    }
-                //}
-
-                //pooledList.Recycle();
-                //return false;
-            }
-        }
+        //        SgtLogger.l("Worldgen.LoadSettings_Internal: starting fetch, blocking other threads");
+        //        __state = true;
+        //        blockThread = true;
+        //        return true;
+        //    }
+        //}
 
 
         ////[HarmonyPatch(typeof(Db),(nameof(Db.Initialize)))]
         public static class InitExtraWorlds
         {
+            //ProcGenGame.WorldGen.LoadSettings_Internal()
             static bool initialized = false;
             public static void InitWorlds()
             {
@@ -1693,7 +1575,7 @@ namespace ClusterTraitGenerationManager
                 //CustomLayout
                 if (CGSMClusterManager.LoadCustomCluster)
                 {
-                    SgtLogger.l("ClusterConstructor has started");
+                    SgtLogger.l("Custom ClusterConstructor has started");
                     //if (CGSMClusterManager.CustomCluster == null)
                     //{
                     //    ///Generating custom cluster if null
