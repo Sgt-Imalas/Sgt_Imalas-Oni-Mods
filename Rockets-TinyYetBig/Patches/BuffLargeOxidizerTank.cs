@@ -30,6 +30,25 @@ namespace Rockets_TinyYetBig.Patches
                 }
             }
         }
+        [HarmonyPatch(typeof(OxidizerTankClusterConfig), "DoPostConfigureComplete")]
+        public static class IncreaseCapacityto1350Oxidizers_Def
+        {
+            [HarmonyPrepare]
+            public static bool Prepare() => Config.Instance.BuffLargeOxidizer;
+
+            public static void Postfix(GameObject go)
+            {
+                if(go.TryGetComponent<Storage>(out var storage))
+                {
+                    storage.capacityKg = 1350f;
+                }
+                if(go.TryGetComponent<OxidizerTank>(out var oxidizerTank))
+                {
+                    oxidizerTank.targetFillMass = 1350f;
+                    oxidizerTank.maxFillMass = 1350f;
+                }
+            }
+        }
         //[HarmonyPatch(typeof(FuelTank), "OnSpawn")]
         //public static class IncreaseCapacityto1350FuelTanks
         //{
