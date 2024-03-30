@@ -1,6 +1,3 @@
-﻿- fixed demolishing of AI brains being unreachable
-- fixed description of AI brain module containing "need to be at the top of the rocket"
-- fixed a race condition crash when clicking an AI module in the world selector
-- crew assignment screen no longer shows up on AI modules
-- clicking a landed AI module on the world selector now selects it (in addition to the camera panning)
-- added german, portuguese, russian translations
+﻿- fixed automated ai rockets being able to ignore the sky condition
+- added width visualizers
+- added drillcone cargobay check to ai modules

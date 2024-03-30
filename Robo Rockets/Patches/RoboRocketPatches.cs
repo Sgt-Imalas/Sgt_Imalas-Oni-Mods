@@ -17,6 +17,9 @@ namespace RoboRockets
 {
     public class RoboRocketPatches
     {
+        /// <summary>
+        /// Add the tag to the entity so it works for recipes
+        /// </summary>
         [HarmonyPatch(typeof(GeneShufflerRechargeConfig), nameof(GeneShufflerRechargeConfig.CreatePrefab))]
         public static class AddTagToItem
         {
@@ -27,6 +30,9 @@ namespace RoboRockets
             }
         }
 
+        /// <summary>
+        /// Extend the limitOneCommandModule condition to include AI modules as command modules
+        /// </summary>
         [HarmonyPatch(typeof(LimitOneCommandModule), nameof(LimitOneCommandModule.EvaluateCondition))]
         public static class LimitOneCommandModule_AI_Patch
         {
@@ -47,10 +53,10 @@ namespace RoboRockets
                     if (
                         (selectionContext != SelectModuleCondition.SelectionContext.ReplaceModule ||  !(gameObject == existingModule.gameObject))
                         && (
-                        gameObject.GetComponent<RocketCommandConditions>() != null ||
-                        gameObject.GetComponent<RocketAiConditions>() != null ||
-                        gameObject.GetComponent<BuildingUnderConstruction>() != null && gameObject.GetComponent<BuildingUnderConstruction>().Def.BuildingComplete.GetComponent<RocketCommandConditions>() != null ||
-                        gameObject.GetComponent<BuildingUnderConstruction>() != null && gameObject.GetComponent<BuildingUnderConstruction>().Def.BuildingComplete.GetComponent<RocketAiConditions>() != null
+                        gameObject.TryGetComponent<RocketCommandConditions>(out _) ||
+                        gameObject.TryGetComponent<RocketAiConditions>(out _) ||
+                        gameObject.TryGetComponent<BuildingUnderConstruction>(out var underConstruction) && underConstruction.Def.BuildingComplete.TryGetComponent<RocketCommandConditions>(out _) ||
+                        gameObject.TryGetComponent<BuildingUnderConstruction>(out var complete) && complete.Def.BuildingComplete.TryGetComponent<RocketAiConditions>(out _) 
                         )
                      )
                     {
@@ -62,7 +68,9 @@ namespace RoboRockets
             }
         }
 
-
+        /// <summary>
+        /// Skip Passenger check for AI modules
+        /// </summary>
         [HarmonyPatch(typeof(PassengerRocketModule),nameof(PassengerRocketModule.CheckPassengersBoarded))]
         public class PassengerRocketModule_CheckPassengersBoarded_Patch
         {
@@ -75,6 +83,9 @@ namespace RoboRockets
             }
         }
 
+        /// <summary>
+        /// Skip access check for AI modules
+        /// </summary>
         [HarmonyPatch(typeof(PassengerRocketModule), nameof(PassengerRocketModule.RefreshAccessStatus))]
         public class PassengerRocketModule_RefreshAccessStatus_Patch
         {
@@ -88,6 +99,9 @@ namespace RoboRockets
                 return true;
             }
         }
+        /// <summary>
+        /// Hide Crew screen for ai rockets
+        /// </summary>
         [HarmonyPatch(typeof(RequestCrewSideScreen), nameof(RequestCrewSideScreen.IsValidForTarget))]
         public class RequestCrewSideScreen_IsValidForTarget_Patch
         {
@@ -102,6 +116,9 @@ namespace RoboRockets
             }
         }
 
+        /// <summary>
+        /// skip pilot check for ai rockets
+        /// </summary>
         [HarmonyPatch(typeof(PassengerRocketModule), nameof(PassengerRocketModule.CheckPilotBoarded))]
         public class PassengerRocketModule_CheckPilotBoarded_Patch
         {
@@ -244,13 +261,13 @@ namespace RoboRockets
         }
 
 
-
         [HarmonyPatch(typeof(ClustercraftExteriorDoor),nameof(ClustercraftExteriorDoor.OnSpawn))]
         public class AddInteriorToForbiddenListIfAI
         {
             public static void Postfix(ClustercraftExteriorDoor __instance)
             {
-                if (__instance.gameObject.TryGetComponent<AIPassengerModule>(out var aiModue) && __instance.gameObject.TryGetComponent<RocketModuleCluster>(out RocketModuleCluster rocketModuleCluster))
+                if (__instance.gameObject.TryGetComponent<AIPassengerModule>(out var aiModue)
+                    && __instance.gameObject.TryGetComponent<RocketModuleCluster>(out RocketModuleCluster rocketModuleCluster))
                 {
                     rocketModuleCluster.CraftInterface.TryGetComponent<WorldContainer>(out var craftWorld);
                     int worldRefID = craftWorld.id;
@@ -317,9 +334,10 @@ namespace RoboRockets
                 {
                     if(clusterModule.Get().TryGetComponent<AIPassengerModule>(out _))
                     {
-                        __instance.Launch();
+                        if(__instance.ModuleInterface.CheckPreppedForLaunch())
+                            __instance.Launch();
                         return false;
-                    }
+                    }                    
                 }
                 return true;
             }
