@@ -3,3 +3,8 @@
 - fixed the building conditions (red list of failures) in the rocket build menu not refreshing properly
 - moved logic port of radbolt loader one tile up
 - added "is currently loading" logic output to rocket loader buildings (disableable in config)
+- rocket modules in the build menu now show information on what rocket storage they have. Includes cargo bays, batteries, radbolt storages, critter modules, fuel tanks and oxidizer tanks
+- large oxidizer tank now properly starts off with 1350kg set in the filter if the buff is active
+- added the new width visualizer to all rocket modules
+- cleaned up a few lingering handles
+

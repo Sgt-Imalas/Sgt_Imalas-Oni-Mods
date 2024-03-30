@@ -4,13 +4,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
+using static Rockets_TinyYetBig.Patches.StatusItems_InfoPanel_Patches.OptimizedRewriteForInfoPanel;
+using static Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN;
 using static STRINGS.BUILDING.STATUSITEMS.ACCESS_CONTROL;
+using static STRINGS.BUILDINGS.PREFABS;
+using static STRINGS.UI.CLUSTERMAP.ROCKETS;
 using static UtilLibs.RocketryUtils;
 
 namespace Rockets_TinyYetBig
@@ -50,7 +55,7 @@ namespace Rockets_TinyYetBig
         {
             public static void Postfix(SelectModuleSideScreen __instance)
             {
-                if(__instance != null)
+                if (__instance != null)
                     __instance.ConsumeMouseScroll = true;
             }
         }
@@ -329,6 +334,160 @@ namespace Rockets_TinyYetBig
             }
         }
 
+
+        [HarmonyPatch(typeof(SelectModuleSideScreen), nameof(SelectModuleSideScreen.SetupBuildingTooltip))]
+        public class SelectModuleSideScreen_SetupBuildingTooltip_Patch
+        {
+            static BuildingDef currentDef;
+            public static void Prefix(BuildingDef def)
+            {
+                currentDef = def;
+            }
+
+            public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+            {
+                var codes = orig.ToList();
+
+                // find injection point
+                var insertionIndexMethod = AccessTools.Method(typeof(ToolTip), "AddMultiStringTooltip", new Type[] { typeof(string), typeof(TextStyleSetting) });
+                var index = codes.FindLastIndex(ci => ci.Calls(insertionIndexMethod));
+
+
+                if (index == -1)
+                {
+                    SgtLogger.error("no target method found: SelectModuleSideScreen_SetupBuildingTooltip_Patch");
+                    return codes;
+                }
+                var locIndexPos = TranspilerHelper.FindIndexOfNextLocalIndexWithPosition(codes, index);
+                int locIndex = locIndexPos.first, position = locIndexPos.second;
+
+                var m_InjectedMethod = AccessTools.DeclaredMethod(typeof(SelectModuleSideScreen_SetupBuildingTooltip_Patch), "BetterModuleDescription");
+
+
+                // inject right after the found index
+                codes.InsertRange(++position, new[]
+                {
+                            //new CodeInstruction(OpCodes.Ldloc_S,locIndex),
+                            new CodeInstruction(OpCodes.Call, m_InjectedMethod)
+                        });
+
+                return codes;
+            }
+
+            private static string BetterModuleDescription(string input)
+            {
+                var complete = currentDef.BuildingComplete;
+                string cargobayInfo = string.Empty;
+
+                if (complete.TryGetComponent<FuelTank>(out var fuelTank))
+                {
+                    var ele = ElementLoader.GetElement(fuelTank.FuelType);
+                    if (ele == null)
+                    {
+                        //string tag = Strings.Get("STRINGS.MISC.TAGS." + fuelTank.FuelType.ToString().ToUpperInvariant());
+                        if (complete.TryGetComponent<ConduitConsumer>(out var conduitInf))
+                        {
+                            switch (conduitInf.TypeOfConduit)
+                            {
+                                case ConduitType.Gas:
+                                    cargobayInfo += string.Format(STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELGAS, GameUtil.GetFormattedMass(fuelTank.MaxCapacity));
+                                    break;
+                                case ConduitType.Liquid:
+                                    cargobayInfo += string.Format(STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELLIQUID, GameUtil.GetFormattedMass(fuelTank.MaxCapacity));
+                                    break;
+                            }
+                        }
+                        else
+                            cargobayInfo += string.Format(STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELSOLID, GameUtil.GetFormattedMass(fuelTank.MaxCapacity));
+                    }
+                    else
+                    {
+                        cargobayInfo += string.Format(STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELELEMENT, GameUtil.GetFormattedMass(fuelTank.MaxCapacity), ele.name);
+                    }
+                }
+                if (complete.TryGetComponent<OxidizerTank>(out var oxidizerTank))
+                {
+                    if (oxidizerTank.storage != null && oxidizerTank.storage.storageFilters!=null)
+                    {
+                        if (oxidizerTank.storage.storageFilters.Contains(ModAssets.Tags.CorrosiveOxidizer))
+                        {
+                            cargobayInfo += string.Format(STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERTAG, GameUtil.GetFormattedMass(oxidizerTank.MaxCapacity), STRINGS.MISC.TAGS.RTB_OXIDIZERCORROSIVEREQUIREMENT);
+                        }
+                        else if (oxidizerTank.storage.storageFilters.Contains(ModAssets.Tags.LOXTankOxidizer))
+                        {
+                            cargobayInfo += string.Format(STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERTAG, GameUtil.GetFormattedMass(oxidizerTank.MaxCapacity), STRINGS.MISC.TAGS.RTB_OXIDIZERLOXTANK);                           
+                        }
+                    }
+                    else if (complete.TryGetComponent<ConduitConsumer>(out var consumer))
+                    {
+                        switch (consumer.TypeOfConduit)
+                        {
+                            case ConduitType.Gas:
+                                cargobayInfo += string.Format(STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERGAS, GameUtil.GetFormattedMass(oxidizerTank.MaxCapacity));
+                                break;
+                            case ConduitType.Liquid:
+                                cargobayInfo += string.Format(STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERLIQUID, GameUtil.GetFormattedMass(oxidizerTank.MaxCapacity));
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        cargobayInfo += string.Format(STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERSOLID, GameUtil.GetFormattedMass(oxidizerTank.MaxCapacity));
+                    }
+                }
+
+                if (complete.TryGetComponent<CargoBayCluster>(out var cargoBayCluster))
+                {
+                    switch (cargoBayCluster.storageType)
+                    {
+                        case CargoBay.CargoType.Solids:
+                            cargobayInfo += string.Format(STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.SOLIDCARGO, GameUtil.GetFormattedMass(cargoBayCluster.MaxCapacity));
+                            break;
+                        case CargoBay.CargoType.Liquids:
+                            cargobayInfo += string.Format(STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.LIQUIDCARGO, GameUtil.GetFormattedMass(cargoBayCluster.MaxCapacity));
+                            break;
+                        case CargoBay.CargoType.Gasses:
+                            cargobayInfo += string.Format(STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.GASDCARGO, GameUtil.GetFormattedMass(cargoBayCluster.MaxCapacity));
+                            break;
+                        case CargoBay.CargoType.Entities:
+                            cargobayInfo += cargoBayCluster.MaxCapacity == 1 ? (string)STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.CRITTERCARGOSINGLE : string.Format(STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.CRITTERCARGO, GameUtil.GetFormattedMass(cargoBayCluster.MaxCapacity));
+                            break;
+                    }
+                }
+                else if (complete.TryGetComponent<CritterStasisChamberModule>(out var stasisChamberModule))
+                {
+                    cargobayInfo += stasisChamberModule.CurrentMaxCapacity == 1 ? (string)STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.CRITTERCARGOSINGLE : string.Format(string.Format(STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.CRITTERCARGO, stasisChamberModule.UserMaxCapacity));
+                }
+                else if (complete.TryGetComponent<SpecialCargoBayClusterReceptacle>(out _))
+                {
+                    cargobayInfo += STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.CRITTERCARGOSINGLE;
+                }
+                else if (complete.TryGetComponent<RadiationBatteryOutputHandler>(out var hepChamberModule))
+                {
+                    cargobayInfo += string.Format(STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.RADBOLTS, GameUtil.GetFormattedHighEnergyParticles(hepChamberModule.MaxCapacity));
+                }
+                if (complete.TryGetComponent<ArtifactModule>(out _))
+                {
+                    cargobayInfo += STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.ARTIFACT;
+                }
+                if (complete.TryGetComponent<ModuleBattery>(out var batteryModule))
+                {
+                    cargobayInfo += string.Format(STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.POWER, GameUtil.GetFormattedRoundedJoules(batteryModule.Capacity));
+                }
+
+
+                if (cargobayInfo != string.Empty)
+                {
+                    cargobayInfo = "\n\n" + STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.TITLE + cargobayInfo;
+                    input += cargobayInfo;
+                }
+
+                return input;
+            }
+        }
+
+
+
         /// <summary>
         /// Add button color setter to categorized buttons
         /// </summary>
@@ -428,7 +587,7 @@ namespace Rockets_TinyYetBig
                                 button.Value.SetActive(true);
                         }
                         ___moduleBuildableState[button.Key.first] = __instance.TestBuildable(button.Key.first);
-                        if(button.Value.TryGetComponent<ToolTip>(out var tooltip))
+                        if (button.Value.TryGetComponent<ToolTip>(out var tooltip))
                         {
                             __instance.SetupBuildingTooltip(tooltip, button.Key.first);
                         }

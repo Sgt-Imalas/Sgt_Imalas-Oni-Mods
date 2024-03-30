@@ -43,7 +43,7 @@ namespace Rockets_TinyYetBig
 
                 public static LocString RTB_ROCKETFUELMATERIAL = "Rocket Fuel";
                 public static LocString RTB_OXIDIZERCORROSIVEREQUIREMENT = "Corrosive Liquid Oxidizer";
-                public static LocString RTB_OXIDIZERLOXTANK = "Liquid Oxidizer";
+                public static LocString RTB_OXIDIZERLOXTANK = "Supercooled Liquid Oxidizer";
                 public static LocString RTB_OXIDIZEREFFICIENCY_1 = "Oxidizer Efficiency 1";
                 public static LocString RTB_OXIDIZEREFFICIENCY_2 = "Oxidizer Efficiency 2";
                 public static LocString RTB_OXIDIZEREFFICIENCY_3 = "Oxidizer Efficiency 3";
@@ -136,6 +136,31 @@ namespace Rockets_TinyYetBig
                 //production = 7,
                 //utility = 8,
                 //uncategorized = -1
+            }
+            public class CARGOBAYSTORAGE
+            {
+                public static LocString TITLE= "<b>Module Storage:</b>";
+
+                public static LocString FUELGAS = "\n• {0} of gas fuel storage";
+                public static LocString FUELLIQUID = "\n• {0} of liquid fuel storage";
+                public static LocString FUELSOLID = "\n• {0} of solid fuel storage";
+                public static LocString FUELELEMENT = "\n• {0} of {1} fuel storage";
+
+                public static LocString OXIDIZERGAS = "\n• {0} of gas oxidizer storage";
+                public static LocString OXIDIZERLIQUID = "\n• {0} of liquid oxidizer storage";
+                public static LocString OXIDIZERSOLID = "\n• {0} of solid oxidizer storage";
+                public static LocString OXIDIZERELEMENT = "\n• {0} of {1} oxidizer storage";
+                public static LocString OXIDIZERTAG = "\n• {0} of {1} storage";
+
+
+                public static LocString GASDCARGO = "\n• {0} of gas storage";
+                public static LocString LIQUIDCARGO = "\n• {0} of liquid storage";
+                public static LocString SOLIDCARGO = "\n• {0} of solid storage";
+                public static LocString CRITTERCARGO = "\n• {0} Critters storage";
+                public static LocString CRITTERCARGOSINGLE = "\n• 1 Critter storage";
+                public static LocString RADBOLTS = "\n• {0} radbolt storage";
+                public static LocString ARTIFACT = "\n• 1 artifact storage";
+                public static LocString POWER = "\n• {0} power storage";
             }
         }
 
