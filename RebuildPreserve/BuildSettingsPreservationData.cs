@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace RebuildPreserve
 {
@@ -20,6 +21,7 @@ namespace RebuildPreserve
             RemoveEntry(targetPos);
             ToCopyFromComponents.Add(targetPos, newCachedObject);
             newCachedObject.transform.SetParent(this.transform);
+            SgtLogger.l("added cached data for " + ToCopyFromComponents[targetPos] + " at cell " + targetPos.first);
         }
         public bool TryGetEntry(Tuple<int, ObjectLayer> targetPos, out GameObject entry)
         {
@@ -31,6 +33,7 @@ namespace RebuildPreserve
         {
             if (ToCopyFromComponents.ContainsKey(targetPos))
             {
+                SgtLogger.l("removed cached data for " + ToCopyFromComponents[targetPos] + " at cell " + targetPos.first);
                 UnityEngine.Object.Destroy(ToCopyFromComponents[targetPos]);
                 ToCopyFromComponents.Remove(targetPos);
             }

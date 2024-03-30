@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using KMod;
 using System;
+using System.Collections.Generic;
 using UtilLibs;
 
 namespace RebuildPreserve
@@ -11,6 +12,11 @@ namespace RebuildPreserve
         {
             base.OnLoad(harmony);
             SgtLogger.LogVersion(this, harmony);
+        }
+        public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
+        {
+            base.OnAllModsLoaded(harmony, mods);
+            CompatibilityPatches.Compatibility_FluidShipping.ExecutePatch(harmony);
         }
     }
 }

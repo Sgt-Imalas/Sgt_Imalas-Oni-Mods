@@ -29,29 +29,38 @@ namespace RebuildPreserve
             {
                 var go = __instance.gameObject;
                 __instance.TryGetComponent<BuildingComplete>(out var building);
-                List<Traverse> traversed = new List<Traverse>();
-
                 GameObject cachedSource = null;
+
 
                 foreach (var comp in go.GetComponents(typeof(KMonoBehaviour)))
                 {
                     if (comp != null)
                     {
-                        if (cachedSource == null) 
-                        { 
+                        if (cachedSource == null)
+                        {
                             cachedSource = new GameObject("cachedSource_" + go.name);
                             cachedSource.SetActive(false);
                         }
 
                         var method = new Traverse(comp).Method("OnCopySettings", new[] { typeof(object) });
                         var method2 = new Traverse(comp).Method("OnCopySettingsDelegate", new[] { typeof(object) });
-                        if (method.MethodExists()||method2.MethodExists())
+                        if (method.MethodExists() || method2.MethodExists())
                         {
                             var cache = cachedSource.AddComponent(comp.GetType());
                             //SgtLogger.l(message: "Caching " + comp.GetType().ToString());
                             CopyProperties(comp, cache);
                         }
                     }
+                }
+
+                if (go.TryGetComponent<IHaveUtilityNetworkMgr>(out var networkItem))
+                {
+                    if (cachedSource == null)
+                    {
+                        cachedSource = new GameObject("cachedSource_" + go.name);
+                        cachedSource.SetActive(false);
+                    }
+                    cachedSource.AddComponent<ConduitDirectionInfo>().StoreConduitConnections(building.NaturalBuildingCell(), networkItem.GetNetworkManager());
                 }
 
                 if (cachedSource != null)
@@ -80,7 +89,7 @@ namespace RebuildPreserve
                 var currentParentType = typeDest.BaseType;
 
                 FieldInfo[] srcProps = typeSrc.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy);
-                while(currentParentType != null && currentParentType != typeof(KMonoBehaviour) && currentParentType != typeof(StateMachineComponent))
+                while (currentParentType != null && currentParentType != typeof(KMonoBehaviour) && currentParentType != typeof(StateMachineComponent))
                 {
                     //SgtLogger.l(currentParentType.Name,"climbin inheritance");
                     srcProps = srcProps.Union(currentParentType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy)).ToArray();
@@ -101,27 +110,52 @@ namespace RebuildPreserve
                     //    continue;
                     var value = Traverse.Create(source).Field(srcProp.Name).GetValue();
                     //if(value != null)
-                        //SgtLogger.l(value.ToString(), srcProp.Name);
+                    //SgtLogger.l(value.ToString(), srcProp.Name);
                     Traverse.Create(destination).Field(srcProp.Name).SetValue(value);
                 }
             }
         }
-        [HarmonyPatch(typeof(BuildingDef), nameof(BuildingDef.TryPlace), new Type[] { typeof(GameObject ), typeof(Vector3), typeof(Orientation), typeof(IList < Tag >), typeof(string), typeof(bool), typeof(int) } )]
+        [HarmonyPatch(typeof(BuildingDef), nameof(BuildingDef.TryPlace), new Type[] { typeof(GameObject), typeof(Vector3), typeof(Orientation), typeof(IList<Tag>), typeof(string), typeof(bool), typeof(int) })]
         public class BuildingDef_TryPlace
         {
-            public static void Postfix(BuildingDef __instance,GameObject __result, Vector3 pos)
+            public static void Postfix(BuildingDef __instance, GameObject __result, Vector3 pos)
             {
                 if (__result == null)
                     return;
                 int cell = Grid.PosToCell(pos);
 
-                if(BuildSettingsPreservationData.Instance.TryGetEntry(new(cell, __instance.ObjectLayer),out var cachedData)
-                    && cachedData.TryGetComponent<Prioritizable> (out _)                  
+                if (BuildSettingsPreservationData.Instance.TryGetEntry(new(cell, __instance.ObjectLayer), out var cachedData)
                     )
                 {
-                    if (__result.TryGetComponent<Prioritizable>(out var targetPrio))
+                    if (cachedData.TryGetComponent<ConduitDirectionInfo>(out var targetConduitDirectionInfo) && targetConduitDirectionInfo.initialized)
+                    {
+
+                        GameScheduler.Instance.ScheduleNextFrame("delayed conduit applying", (_) =>
+                        {
+                            targetConduitDirectionInfo.ApplyConduitConnections(false);
+                            if (__result.TryGetComponent<KAnimGraphTileVisualizer>(out var targetAnimGraphTileVisualizer))
+                            {
+                                targetAnimGraphTileVisualizer.UpdateConnections(targetConduitDirectionInfo.connectedDirections);
+                            }
+                        });
+                    }
+
+                    if (cachedData.TryGetComponent<Prioritizable>(out _) && __result.TryGetComponent<Prioritizable>(out var targetPrio))
                         targetPrio.OnCopySettings(cachedData);
+
                 }
+            }
+        }
+
+
+        [HarmonyPatch(typeof(Constructable), nameof(Constructable.OnCancel))]
+        public class Constructable_OnCancel
+        {
+            public static void Prefix(Constructable __instance)
+            {
+                var cell = __instance.building.NaturalBuildingCell();
+                var layer = __instance.building.Def.ObjectLayer;
+                BuildSettingsPreservationData.Instance.RemoveEntry(new(cell, layer)); 
             }
         }
 
@@ -193,27 +227,18 @@ namespace RebuildPreserve
                         GameScheduler.Instance.ScheduleNextFrame("delayed settings application", (_) =>
                         {
                             targetBuilding.Trigger((int)GameHashes.CopySettings, cachedGameObject);
+                            if (targetBuilding.TryGetComponent<KAnimGraphTileVisualizer>(out var targetAnimGraphTileVisualizer))
+                            {
+                                targetAnimGraphTileVisualizer.Refresh();
+                            }
+                            else
+                                SgtLogger.l("no visualizer found");
+
                             BuildSettingsPreservationData.Instance.RemoveEntry(targetPos);
                         });
                     }
                 }
-            }
-            [HarmonyPatch(typeof(Automatable), "OnCopySettings")]
-            public static class Automatable_OnCopySettings
-            {
-                public static bool Prefix(Automatable __instance, object data)
-                {
-                    Automatable component = ((GameObject)data).GetComponent<Automatable>();
-                    SgtLogger.l(component + " : " + (component != null), "automatable existing");
-
-                    if (component != null)
-                    {
-                        SgtLogger.l(__instance.automationOnly + " <-instance, target-> " + component.automationOnly, "automatable");
-                        __instance.automationOnly = component.automationOnly;
-                    }
-                    return false;
-                }
-            }
+            }            
         }
 
         /// <summary>
