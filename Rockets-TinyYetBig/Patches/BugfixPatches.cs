@@ -28,6 +28,20 @@ namespace Rockets_TinyYetBig.Patches
                return obj != null;
             }
         }
+        [HarmonyPatch(typeof(ConditionHasResource))]
+        [HarmonyPatch(nameof(ConditionHasResource.EvaluateCondition))]
+        public static class ConditionHasResource_RoundingCheck
+        {
+            public static void Postfix(ref ProcessCondition.Status __result, ConditionHasResource __instance)
+            {
+                if(__result == ProcessCondition.Status.Warning && __instance.resource == SimHashes.Diamond)
+                {
+                    var availableMass = __instance.storage.GetAmountAvailable(__instance.resource.CreateTag());
+                    if (Mathf.Approximately(availableMass, __instance.thresholdMass) || availableMass + (1f / 1000f) >= __instance.thresholdMass)
+                        __result = ProcessCondition.Status.Ready;
+                }
+            }
+        }
 
 
 
