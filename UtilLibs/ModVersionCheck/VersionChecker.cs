@@ -24,7 +24,7 @@ namespace UtilLibs.ModVersionCheck
         public const string CurrentlyFetchingKey = "Sgt_Imalas_ModVersionData_CurrentlyFetching";
         public const string VersionDataURL = "https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/master/ModVersionData.json";
 
-        public const int CurrentVersion = 4;
+        public const int CurrentVersion = 5;
 
         public static bool OlderVersion => CurrentVersion < (PRegistry.GetData<int>(VersionCheckerVersion));
 
@@ -125,10 +125,10 @@ namespace UtilLibs.ModVersionCheck
                     ICollection<ModVersionCheckResults> instanceDataSerialized = item.GetInstanceDataSerialized<ICollection<ModVersionCheckResults>>();
                     if (instanceDataSerialized == null)
                     {
-                        SgtLogger.l("no data found on " + item.ToString());
+                        //SgtLogger.l("no data found on " + item.ToString());
                         continue;
                     }
-                    SgtLogger.l(instanceDataSerialized.Count.ToString(), item.ToString());
+                    //SgtLogger.l(instanceDataSerialized.Count.ToString(), item.ToString());
                     foreach (ModVersionCheckResults item2 in instanceDataSerialized)
                     {
                         if (usedIDs.Contains(item2.ModChecked))
@@ -187,7 +187,6 @@ namespace UtilLibs.ModVersionCheck
                     var localMod = manager.mods.Find(mod => mod.staticID == versionEntry.ModChecked);
 
                     SgtLogger.l(versionEntry.ModChecked + " " + versionEntry.NewVersion + " " + versionEntry.IsUpToDate + " loc " + localMod, "plib check test");
-
                     if (localMod == null)
                         continue;
 

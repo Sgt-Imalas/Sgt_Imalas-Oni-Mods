@@ -12,6 +12,8 @@ namespace UtilLibs
 {
     public class TranspilerHelper
     {
+
+
         public static int FindIndexOfNextLocalIndex(List<CodeInstruction> codeInstructions, int insertionIndex, bool goingBackwards = true) => FindIndicesOfLocalsByIndex(codeInstructions,insertionIndex,1,goingBackwards)[0];
 
         public static int[] FindIndicesOfLocalsByIndex(List<CodeInstruction> codeInstructions, int insertionIndex, int numberOfVarsToFind = 1, bool goingBackwards = true)
@@ -43,6 +45,48 @@ namespace UtilLibs
             }
             return indices.ToArray();
         }
+
+        public static Tuple<int, int> FindIndexOfNextLocalIndexWithPosition(List<CodeInstruction> codeInstructions, int insertionIndex, bool goingBackwards = true)
+        {
+            var array = FindIndicesOfLocalsByIndexWithPositions(codeInstructions, insertionIndex, 1, goingBackwards);
+            return new Tuple<int, int>(array.first[0], array.second[0]);
+        }
+        public static Tuple<int[],int[]> FindIndicesOfLocalsByIndexWithPositions(List<CodeInstruction> codeInstructions, int insertionIndex, int numberOfVarsToFind = 1, bool goingBackwards = true)
+        {
+            var indices = new List<int>();
+            var positions = new List<int>();
+
+            if (insertionIndex != -1)
+            {
+                int direction = goingBackwards ? -1 : 1;
+                for (int i = insertionIndex - 1; i >= 0 && i < codeInstructions.Count && indices.Count < numberOfVarsToFind; i += direction)
+                {
+                    if (CodeInstructionExtensions.IsLdloc(codeInstructions[i]))
+                    {
+                        int locIndex = GiveOpCodeIndexFromLocalBuilder(codeInstructions[i]);
+                        if (!indices.Contains(locIndex))
+                        {
+                            indices.Insert(0, locIndex);
+                            positions.Insert(0, i); break;
+                        }
+                        break;
+                    };
+                }
+
+
+                //SgtLogger.l(codeInstructions[i].operand.GetType().ToString(), "transpilertest");
+                //SgtLogger.l(codeInstructions[i].operand.ToString(), "transpilertest");
+                //SgtLogger.l(((LocalBuilder)codeInstructions[i].operand).LocalIndex.ToString(), "transpilertest");
+            }
+            else
+            {
+                indices.Add(-1);
+            }
+            return new Tuple<int[], int[]> (indices.ToArray(),positions.ToArray());
+        }
+
+
+
         static int GiveOpCodeIndexFromLocalBuilder(CodeInstruction codeInstruction)
         {
             var CheckCode = codeInstruction.opcode;
