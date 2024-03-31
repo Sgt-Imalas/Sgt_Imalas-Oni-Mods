@@ -24,6 +24,9 @@ namespace Rockets_TinyYetBig.Patches
 
                 //disable that stupid prefix skip patch
                 var parentType = AccessTools.TypeByName("HydrocarbonRocketEngines.HydrocarbonRocketEnginesPatches");
+                if (parentType == null)
+                    return;
+
                 var m_TargetType_1 = parentType.GetNestedType("ClusterCraftPatches");
                 var m_TargetType_2 = parentType.GetNestedType("CraftModuleInterfacePatches");
 

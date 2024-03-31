@@ -64,7 +64,7 @@ namespace Rockets_TinyYetBig
                 harmony.Patch(AccessTools.Method(typeof(Grid), nameof(Grid.FreeGridSpace)),new HarmonyMethod(AccessTools.Method(typeof(Grid_FreeGridSpace_BugfixPatch), "Prefix")));                
             }
 
-            if (mods.Any(mod => mod.staticID == "TC-1000's:Hydrocarbon_Rocket_Engines"))
+            if (mods.Any(mod => mod.staticID == "TC-1000's:Hydrocarbon_Rocket_Engines" && mod.IsEnabledForActiveDlc()))
             {
                 CompatibilityPatches.Hydrocarbon_Rocket_Engines.ExecutePatch(harmony);
             }
