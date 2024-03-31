@@ -1,10 +1,12 @@
 ﻿using HarmonyLib;
+using Klei;
 using Klei.AI;
 using MonoMod.Utils;
 using ProcGen;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +45,7 @@ namespace ClusterTraitGenerationManager
                 "MiniRadioactiveOcean"
             };
 
-        //origin paths of dynamically generated asteroids
+        //origin paths of dynamically generated asteroids and modded planets
         public static Dictionary<string, string> ModPlanetOriginPaths = new Dictionary<string, string>();
 
         public class POI_Data
@@ -184,7 +186,24 @@ namespace ClusterTraitGenerationManager
             return null;
         }
 
-
+        public static bool IsModdedAsteroid(string filepath, out KMod.Mod sourceMod)
+        {
+            sourceMod = null;
+            var directory = FileSystem.file_sources.FirstOrDefault(item => item.FileExists(filepath));
+            if (directory != null && directory != default)
+            {
+                var dir = new DirectoryInfo(directory.GetID()).Name;
+                if (dir != "StandardFS")
+                {
+                    sourceMod = Global.Instance.modManager.mods.FirstOrDefault(mod => mod.label.id == dir && mod.IsEnabledForActiveDlc());
+                    if (sourceMod != null)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
 
         public static Sprite GetTraitSprite(WorldTrait trait)
         {

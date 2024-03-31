@@ -186,8 +186,6 @@ namespace ClusterTraitGenerationManager
 
                 if (config.id != "WorldgenSeed" && config.id != "ClusterLayout")
                     return;
-                SgtLogger.l(config.id, "ConfigId");
-
                 RegenerateCGM(__instance, config.id);
             }
         }
@@ -431,11 +429,9 @@ namespace ClusterTraitGenerationManager
                 List<string> additionalWorlds = new List<string>();
                 foreach(var item in referencedWorlds)
                 {
-
-                    //string WorldCacheName =
-                    //    (DlcManager.IsExpansion1Active() ? DLC_WorldNamePrefix : Base_WorldNamePrefix)
-                    //    + System.IO.Path.GetFileNameWithoutExtension(item);
-                    ////SgtLogger.l(WorldCacheName, item);
+                    string path = SettingsCache.RewriteWorldgenPathYaml(item);
+                    if (ModAssets.IsModdedAsteroid(path,out _))
+                        continue;
 
                     if (ModAssets.Moonlets.Any(item.Contains))
                     {
@@ -443,7 +439,7 @@ namespace ClusterTraitGenerationManager
                         string startWorld = outerWorld + "Start", warpWorld = outerWorld + "Warp";
                         if (!referencedWorlds.Contains(outerWorld) && !additionalWorlds.Contains(outerWorld))
                             additionalWorlds.Add(outerWorld);
-                        if (!referencedWorlds.Contains(warpWorld ) && !additionalWorlds.Contains(warpWorld))
+                        if (!referencedWorlds.Contains(warpWorld) && !additionalWorlds.Contains(warpWorld))
                             additionalWorlds.Add(warpWorld);
                         if (!referencedWorlds.Contains(startWorld) && !additionalWorlds.Contains(startWorld))
                             additionalWorlds.Add(startWorld);
@@ -456,68 +452,6 @@ namespace ClusterTraitGenerationManager
                 }
             }
         }
-
-
-        ////[HarmonyPatch(typeof(WorldPlacement))]
-        ////[HarmonyPatch(nameof(WorldPlacement.CompareLocationType))]
-        //public static class help
-        //{
-        //    public static void Prefix(ProcGen.WorldPlacement a, ProcGen.WorldPlacement b)
-        //    {
-        //        SgtLogger.l(a.ToString(), "a");
-        //        SgtLogger.l(b.ToString(), "b");
-
-        //        UtilMethods.ListAllPropertyValues(a);
-        //        UtilMethods.ListAllPropertyValues(b);
-        //    }
-        //}
-
-
-        ////[HarmonyPatch(typeof(ProcGenGame.WorldGen), (nameof(ProcGenGame.WorldGen.LoadSettings)))]
-        //public class ReplaceForDebug
-        //{
-        //    public static void Prefix(bool in_async_thread)
-        //    {
-        //        SgtLogger.l($"LoadSettings, {in_async_thread}");
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Blocking parallel internal settings loading to avoid foreach crashes inside of the method
-        ///// </summary>
-        //[HarmonyPatch(typeof(ProcGenGame.WorldGen), (nameof(ProcGenGame.WorldGen.LoadSettings_Internal)))]
-        //public class ReplaceForDebug2
-        //{
-        //    static bool blockThread;
-
-
-        //    [HarmonyPriority(Priority.VeryLow)]
-        //    public static void Postfix(ref bool __state)
-        //    {
-        //        if (__state)
-        //        {
-        //            SgtLogger.l("Worldgen.LoadSettings_Internal: fetching complete, releasing block.");
-        //            blockThread = false;
-        //        }
-        //    }
-
-        //    [HarmonyPriority(Priority.VeryHigh)]
-        //    public static bool Prefix(bool is_playing, bool preloadTemplates, ref bool __state)
-        //    {
-        //        if (blockThread)
-        //        {
-        //            SgtLogger.l("Worldgen.LoadSettings_Internal: fetching already in progress, skipping");
-        //            __state = false; 
-        //            return false;
-        //        }
-
-        //        SgtLogger.l("Worldgen.LoadSettings_Internal: starting fetch, blocking other threads");
-        //        __state = true;
-        //        blockThread = true;
-        //        return true;
-        //    }
-        //}
-
 
         ////[HarmonyPatch(typeof(Db),(nameof(Db.Initialize)))]
         public static class InitExtraWorlds
@@ -1053,8 +987,7 @@ namespace ClusterTraitGenerationManager
                 }
                 foreach (var item in toAdd)
                 {
-                    if (!__instance.worldCache.ContainsKey(item.Key))
-                        __instance.worldCache.Add(item.Key, item.Value);
+                    __instance.worldCache[item.Key] = item.Value;
                 }
             }
             static void CopyValues<T>(T targetObject, T sourceObject)

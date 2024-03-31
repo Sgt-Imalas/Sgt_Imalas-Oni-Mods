@@ -1168,20 +1168,13 @@ namespace ClusterTraitGenerationManager
                 if (ModAssets.ModPlanetOriginPaths.ContainsKey(filepath))
                     filepath = ModAssets.ModPlanetOriginPaths[filepath];
 
-                string text = SettingsCache.RewriteWorldgenPathYaml(filepath);
-                var directory = FileSystem.file_sources.FirstOrDefault(item => item.FileExists(text));
-                if(directory != null && directory !=default)
+                string path = SettingsCache.RewriteWorldgenPathYaml(filepath);
+
+                if(ModAssets.IsModdedAsteroid(path, out var sourceMod))
                 {
-                    var dir = new DirectoryInfo(directory.GetID()).Name;
-                    if(dir != "StandardFS")
-                    {
-                        var sourceMod = Global.Instance.modManager.mods.FirstOrDefault(mod => mod.label.id == dir && mod.IsEnabledForActiveDlc());
-                        if (sourceMod != null)
-                        {
-                            this.ModName = sourceMod.title;
-                        }
-                    }
+                    this.ModName = sourceMod.title;
                 }
+
                 return this;
             }
 
