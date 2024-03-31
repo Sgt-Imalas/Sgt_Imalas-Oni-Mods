@@ -15,6 +15,7 @@ using Rockets_TinyYetBig._ModuleConfig;
 using static Rockets_TinyYetBig.Patches.BugfixPatches;
 using Klei;
 using System.Runtime.CompilerServices;
+using System.Linq;
 
 namespace Rockets_TinyYetBig
 {
@@ -48,6 +49,7 @@ namespace Rockets_TinyYetBig
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
+            SgtLogger.l("On all mods loaded");
             base.OnAllModsLoaded(harmony, mods);
             CompatibilityNotifications.FlagLoggingPrevention(mods);
 
@@ -60,7 +62,14 @@ namespace Rockets_TinyYetBig
             {
                 PRegistry.PutData("Bugs.FreeGridSpace", true);
                 harmony.Patch(AccessTools.Method(typeof(Grid), nameof(Grid.FreeGridSpace)),new HarmonyMethod(AccessTools.Method(typeof(Grid_FreeGridSpace_BugfixPatch), "Prefix")));                
-            } 
+            }
+
+            if (mods.Any(mod => mod.staticID == "TC-1000's:Hydrocarbon_Rocket_Engines"))
+            {
+                CompatibilityPatches.Hydrocarbon_Rocket_Engines.ExecutePatch(harmony);
+            }
+            else
+                SgtLogger.l("TC-1000's:Hydrocarbon_Rocket_Engines not found");
         }
 
 

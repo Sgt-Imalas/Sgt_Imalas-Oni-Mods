@@ -7,4 +7,5 @@
 - large oxidizer tank now properly starts off with 1350kg set in the filter if the buff is active
 - added the new width visualizer to all rocket modules
 - cleaned up a few lingering handles
+- added compatiblity patch for Hydrocarbon Rocket engines
 

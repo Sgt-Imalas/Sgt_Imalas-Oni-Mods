@@ -29,7 +29,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                     {
                         return ProcessCondition.Status.Ready;
                     }
-                    if (evaluator.GetBitMaskValAtIndex(2) && conditionType == ProcessCondition.ProcessConditionType.RocketStorage && condition.EvaluateCondition() != ProcessCondition.Status.Failur)
+                    if (evaluator.GetBitMaskValAtIndex(2) && conditionType == ProcessCondition.ProcessConditionType.RocketStorage && condition.EvaluateCondition() != ProcessCondition.Status.Failure)
                     {
                         return ProcessCondition.Status.Ready;
                     }
