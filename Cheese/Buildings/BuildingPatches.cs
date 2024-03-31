@@ -84,11 +84,39 @@ namespace Cheese.Buildings
 
                     CheeseSculptureSkins.Add(AddStatueStage(artableStages,
                         CheeseSculptureConfig.ID,
+                        "Spongebob",
+                        STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_AMAZING_5.NAME,
+                        STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_AMAZING_5.DESC,
+                         "sculpture_cheese_amazing_5_kanim",
+                         ArtableStatuses.ArtableStatusType.LookingGreat));
+
+                    CheeseSculptureSkins.Add(AddStatueStage(artableStages,
+                        CheeseSculptureConfig.ID,
+                        "CheezeKitten",
+                        STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_AMAZING_6.NAME,
+                        STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_AMAZING_6.DESC,
+                         "sculpture_cheese_amazing_6_kanim",
+                         ArtableStatuses.ArtableStatusType.LookingGreat));
+
+                    CheeseSculptureSkins.Add(AddStatueStage(artableStages,
+                        CheeseSculptureConfig.ID,
+                        "PileOfWheels",
+                        STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_AMAZING_7.NAME,
+                        STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_AMAZING_7.DESC,
+                         "sculpture_cheese_amazing_7_kanim",
+                         ArtableStatuses.ArtableStatusType.LookingGreat));
+
+
+
+                    CheeseSculptureSkins.Add(AddStatueStage(artableStages,
+                        CheeseSculptureConfig.ID,
                         "Cheeseception",
                         STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_GOOD_1.NAME,
                         STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_GOOD_1.DESC,
                          "sculpture_cheese_good_1_kanim",
                          ArtableStatuses.ArtableStatusType.LookingOkay));
+
+
 
                     CheeseSculptureSkins.Add(AddStatueStage(artableStages,
                         CheeseSculptureConfig.ID,

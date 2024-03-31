@@ -173,6 +173,33 @@
 	  <None Update="ModAssets\anim\assets\sculpture_cheese_amazing_4\sculpture_cheese_amazing_4_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\anim\assets\sculpture_cheese_amazing_5\sculpture_cheese_amazing_5_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\sculpture_cheese_amazing_5\sculpture_cheese_amazing_5_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\sculpture_cheese_amazing_5\sculpture_cheese_amazing_5_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\sculpture_cheese_amazing_6\sculpture_cheese_amazing_6_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\sculpture_cheese_amazing_6\sculpture_cheese_amazing_6_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\sculpture_cheese_amazing_6\sculpture_cheese_amazing_6_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\sculpture_cheese_amazing_7\sculpture_cheese_amazing_7_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\sculpture_cheese_amazing_7\sculpture_cheese_amazing_7_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\sculpture_cheese_amazing_7\sculpture_cheese_amazing_7_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\anim\assets\sculpture_cheese_crap_1\sculpture_cheese_crap_1_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>

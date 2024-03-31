@@ -46,7 +46,8 @@ namespace Cheese.CheesynessStat
         {
             public static void Postfix(MinionVitalsPanel __instance)
             {
-                __instance.AddAmountLine(Cheesyness);
+                AccessTools.Method(typeof(MinionVitalsPanel), "AddAmountLine").Invoke(__instance, new object[] { Cheesyness,null });
+                //__instance.AddAmountLine(Cheesyness);
             }
         }
     }

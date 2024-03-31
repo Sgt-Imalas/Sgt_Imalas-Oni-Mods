@@ -72,6 +72,21 @@ namespace Cheese
                             public static LocString NAME = (LocString)UI.FormatAsLink("Sergal", nameof(SCULPTURE_CHEESE_AMAZING_4));
                             public static LocString DESC = (LocString)"The fluffy cheese";
                         }
+                        public class SCULPTURE_CHEESE_AMAZING_5
+                        {
+                            public static LocString NAME = (LocString)UI.FormatAsLink("Spongebob Squarecheese", nameof(SCULPTURE_CHEESE_AMAZING_5));
+                            public static LocString DESC = (LocString)"He lives in a pineapple under the sea.";
+                        }
+                        public class SCULPTURE_CHEESE_AMAZING_6
+                        {
+                            public static LocString NAME = (LocString)UI.FormatAsLink("Hungry Kitty", nameof(SCULPTURE_CHEESE_AMAZING_6));
+                            public static LocString DESC = (LocString)"Hey Kitty, you can has CheezeBurger - Mreaow.";
+                        }
+                        public class SCULPTURE_CHEESE_AMAZING_7
+                        {
+                            public static LocString NAME = (LocString)UI.FormatAsLink("Pile of Cheese Wheels", nameof(SCULPTURE_CHEESE_AMAZING_7));
+                            public static LocString DESC = (LocString)"Consuming these would probably heal you to full heath.";
+                        }
                     }
                 }
 
@@ -164,6 +179,14 @@ namespace Cheese
                     public static LocString NAME = "Cheese Microbes";
                     public static LocString DESCRIPTION = "These tiny friends turn brackene into delicious cheese.";
                     public static LocString LEGEND_HOVERTEXT = "Tiny cheese makers hard at work.";
+                }
+            }
+            public class STATS
+            {
+                public class CHEESYNESS
+                {
+                    public static LocString NAME = "Cheesyness";
+                    public static LocString DESCRIPTION = "how cheesy is this dupe :D\nincreases when consuming cheese, decreases when not consuming cheese";
                 }
             }
         }
