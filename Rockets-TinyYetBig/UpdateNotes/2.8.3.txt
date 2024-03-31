@@ -1,0 +1,14 @@
+﻿New Features:
+- Module Storage Preview: the build preview of rocket modules now gives information about the modules internal storage capacity. Includes cargo bays, batteries, radbolt storages, critter modules, fuel tanks and oxidizer tanks
+- Rocket Loader Buildings now have a logic output for "currently loading". Note that this should be used with a buffer gate, as it can flicker when used with multiple rockets. This can be toggled off in the config
+
+Fixes & Adjustments
+- fixed rotation display of radbolt storage module
+- added "copy settings" to radbolt storage module
+- fixed the building conditions (red list of failures) in the rocket build menu not refreshing properly
+- moved logic port of radbolt loader one tile up
+- large oxidizer tank now properly starts off with 1350kg set in the filter if the buff is active
+- added the new width visualizer to all new spacefarer rocket modules
+- cleaned up a few lingering handles
+- added compatiblity patch for Hydrocarbon Rocket engines
+
