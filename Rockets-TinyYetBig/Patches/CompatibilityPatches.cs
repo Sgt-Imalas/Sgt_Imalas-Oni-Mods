@@ -116,7 +116,7 @@ namespace Rockets_TinyYetBig.Patches
                 engine.TryGetComponent<Building>(out var building);
                 engine.TryGetComponent<RocketModuleCluster>(out var moduleCluster);
                 var defaultEnginePower = building.Def.BuildingComplete.GetComponent<RocketModuleCluster>().performanceStats.enginePower;
-                moduleCluster.performanceStats.enginePower = ConsumedLiquidMethane ? defaultEnginePower * 1.4f : defaultEnginePower;
+                moduleCluster.performanceStats.enginePower = ConsumedLiquidMethane ? defaultEnginePower * 1.14f : defaultEnginePower;
             }
 
             ///Transpiler replaces calls to reach the same method result as the original without the prefix skip
