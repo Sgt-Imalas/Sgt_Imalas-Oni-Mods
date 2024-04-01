@@ -27,6 +27,9 @@ namespace RebuildPreserve
 
             public static void Prefix(Reconstructable __instance)
             {
+                if (!__instance.reconstructRequested)
+                    return;
+
                 var go = __instance.gameObject;
                 __instance.TryGetComponent<BuildingComplete>(out var building);
                 GameObject cachedSource = null;
@@ -67,7 +70,8 @@ namespace RebuildPreserve
                 {
                     //SgtLogger.l(message: "adding to dic ");
                     var targetPos = new Tuple<int, ObjectLayer>(building.NaturalBuildingCell(), building.Def.ObjectLayer);
-                    BuildSettingsPreservationData.Instance.ReplaceEntry(targetPos, cachedSource);
+                    
+                    BuildSettingsPreservationData.Instance.ReplaceEntry(targetPos, cachedSource, __instance.building.Def.PrefabID);
 
                     //if (cachedSource.TryGetComponent<TreeFilterable>(out var filter))
                     //{
@@ -124,7 +128,7 @@ namespace RebuildPreserve
                     return;
                 int cell = Grid.PosToCell(pos);
 
-                if (BuildSettingsPreservationData.Instance.TryGetEntry(new(cell, __instance.ObjectLayer), out var cachedData)
+                if (BuildSettingsPreservationData.Instance.TryGetEntry(new(cell, __instance.ObjectLayer), out var cachedData, out var cachedPrefabId)
                     )
                 {
                     if (cachedData.TryGetComponent<ConduitDirectionInfo>(out var targetConduitDirectionInfo) && targetConduitDirectionInfo.initialized)
@@ -222,7 +226,7 @@ namespace RebuildPreserve
                     var targetPos = new Tuple<int, ObjectLayer>(pos, layer);
 
                     var targetBuilding = bonusData.building.gameObject;
-                    if (BuildSettingsPreservationData.Instance.TryGetEntry(targetPos, out var cachedGameObject) && targetBuilding != null && cachedGameObject != null)
+                    if (BuildSettingsPreservationData.Instance.TryGetEntry(targetPos, out var cachedGameObject, out var previousPrefabId) && targetBuilding != null && cachedGameObject != null && previousPrefabId == bonusData.building.Def.PrefabID)
                     {
                         GameScheduler.Instance.ScheduleNextFrame("delayed settings application", (_) =>
                         {
@@ -231,9 +235,6 @@ namespace RebuildPreserve
                             {
                                 targetAnimGraphTileVisualizer.Refresh();
                             }
-                            else
-                                SgtLogger.l("no visualizer found");
-
                             BuildSettingsPreservationData.Instance.RemoveEntry(targetPos);
                         });
                     }

@@ -16,17 +16,21 @@ namespace RebuildPreserve
 
         [Serialize]
         public Dictionary<Tuple<int, ObjectLayer>, GameObject> ToCopyFromComponents = new();
-        public void ReplaceEntry(Tuple<int, ObjectLayer> targetPos, GameObject newCachedObject)
+        [Serialize]
+        public Dictionary<Tuple<int, ObjectLayer>, string> ToCopyFromPrefabIds = new();
+        public void ReplaceEntry(Tuple<int, ObjectLayer> targetPos, GameObject newCachedObject, string prefabId)
         {
             RemoveEntry(targetPos);
             ToCopyFromComponents.Add(targetPos, newCachedObject);
+            ToCopyFromPrefabIds.Add(targetPos,prefabId);
             newCachedObject.transform.SetParent(this.transform);
             SgtLogger.l("added cached data for " + ToCopyFromComponents[targetPos] + " at cell " + targetPos.first);
         }
-        public bool TryGetEntry(Tuple<int, ObjectLayer> targetPos, out GameObject entry)
+        public bool TryGetEntry(Tuple<int, ObjectLayer> targetPos, out GameObject entry, out string cachedPrefabId)
         {
             entry = null;
-            return ToCopyFromComponents.TryGetValue(targetPos, out entry);
+            cachedPrefabId = null;
+            return ToCopyFromComponents.TryGetValue(targetPos, out entry) && ToCopyFromPrefabIds.TryGetValue(targetPos, out cachedPrefabId);
         }
 
         public void RemoveEntry(Tuple<int, ObjectLayer> targetPos)
@@ -36,6 +40,10 @@ namespace RebuildPreserve
                 SgtLogger.l("removed cached data for " + ToCopyFromComponents[targetPos] + " at cell " + targetPos.first);
                 UnityEngine.Object.Destroy(ToCopyFromComponents[targetPos]);
                 ToCopyFromComponents.Remove(targetPos);
+            }
+            if (ToCopyFromPrefabIds.ContainsKey(targetPos))
+            {
+                ToCopyFromPrefabIds.Remove(targetPos);
             }
         }
     }

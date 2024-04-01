@@ -16,7 +16,6 @@ namespace RebuildPreserve
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
             base.OnAllModsLoaded(harmony, mods);
-            CompatibilityPatches.Compatibility_FluidShipping.ExecutePatch(harmony);
         }
     }
 }
