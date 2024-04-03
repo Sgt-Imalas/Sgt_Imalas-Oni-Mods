@@ -186,7 +186,7 @@ namespace Cheese
                 public class CHEESYNESS
                 {
                     public static LocString NAME = "Cheesyness";
-                    public static LocString DESCRIPTION = "how cheesy is this dupe :D\nincreases when consuming cheese, decreases when not consuming cheese";
+                    public static LocString TOOLTIP = "how cheesy is this dupe :D\nincreases when consuming cheese, decreases when not consuming cheese";
                 }
             }
         }
