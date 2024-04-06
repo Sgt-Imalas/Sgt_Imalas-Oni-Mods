@@ -61,8 +61,8 @@ namespace ConveyorTiles
 
                 }
 
-                str = str.Replace("{CONFIG}", config); 
-                str = str.Replace("{WATTS}", GameUtil.GetFormattedWattage(conveyor.Wattage)); 
+                str = str.Replace("{CONFIG}", config);
+                str = str.Replace("{WATTS}", GameUtil.GetFormattedWattage(conveyor.Wattage));
                 return str;
             };
         }
@@ -164,9 +164,9 @@ namespace ConveyorTiles
             }
         }
 
-        public static bool HasTileableNeighbor(ConveyorTileSM a,ConveyorTileSM b)
+        public static bool HasTileableNeighbor(ConveyorTileSM a, ConveyorTileSM b)
         {
-            return a.flipped == b.flipped && a.isOperational == b.isOperational && Mathf.Approximately(a.TileSpeedInternal,b.TileSpeedInternal);
+            return a.flipped == b.flipped && a.isOperational == b.isOperational && Mathf.Approximately(a.TileSpeedInternal, b.TileSpeedInternal);
         }
 
         public void RefreshEndCaps()
@@ -191,7 +191,7 @@ namespace ConveyorTiles
         public override void OnSpawn()
         {
             base.OnSpawn();
-            selectable.AddStatusItem(ConveyorTilePowerConsumption,this);
+            selectable.AddStatusItem(ConveyorTilePowerConsumption, this);
             myCell = this.NaturalBuildingCell();
             moveItemCell = Grid.CellAbove(myCell);
             AdjustTileSpeed();
@@ -212,7 +212,7 @@ namespace ConveyorTiles
         }
         void ReevaluateLogicState()
         {
-            if (LogicControllsDirection && logicPorts!=null && logicPorts.IsPortConnected(LogicOperationalController.PORT_ID))
+            if (LogicControllsDirection && logicPorts != null && logicPorts.IsPortConnected(LogicOperationalController.PORT_ID))
             {
                 var inputBitsInt = logicPorts.GetInputValue(LogicOperationalController.PORT_ID);
                 bool shouldBeFlipped = LogicCircuitNetwork.IsBitActive(1, inputBitsInt);
@@ -234,7 +234,7 @@ namespace ConveyorTiles
                     targetInternalSpeed = fourthBit ? targetInternalSpeed * speed_express : targetInternalSpeed * speed_base;
                     gearTint = fourthBit ? tint_express : tint_base;
                 }
-                if(!Mathf.Approximately(targetInternalSpeed, TileSpeedInternal))
+                if (!Mathf.Approximately(targetInternalSpeed, TileSpeedInternal))
                 {
                     TileSpeedInternal = targetInternalSpeed;
                     AdjustTileSpeed();
@@ -246,13 +246,13 @@ namespace ConveyorTiles
 
         void AdjustTileSpeed()
         {
-            if(Config.Instance.GearTint)
+            if (Config.Instance.GearTint)
                 kbac.SetSymbolTint("gear", gearTint);
             kbac.PlaySpeedMultiplier = BeltSpeed;
-            float currentAnimProgression = kbac.GetElapsedTime(); 
+            float currentAnimProgression = kbac.GetElapsedTime();
             var currentAnim = kbac.GetCurrentAnim();
             var mode = kbac.GetMode();
-            kbac.Play(currentAnim.name,mode);
+            kbac.Play(currentAnim.name, mode);
             energyConsumer.BaseWattageRating = Wattage;
 
             RefreshAnimState(animPercentage: currentAnimProgression);
@@ -268,7 +268,7 @@ namespace ConveyorTiles
             {
                 return;
             }
-
+            bool liquidCellAbove = Grid.IsLiquid(moveItemCell);
             ListPool<ScenePartitionerEntry, ConveyorTileSM>.PooledList gathered_entries = ListPool<ScenePartitionerEntry, ConveyorTileSM>.Allocate();
             GameScenePartitioner.Instance.GatherEntries(Grid.CellToXY(moveItemCell).x, Grid.CellToXY(moveItemCell).y, 1, 1, GameScenePartitioner.Instance.pickupablesLayer, (List<ScenePartitionerEntry>)gathered_entries);
             Vector3 newItemPos;
@@ -277,15 +277,24 @@ namespace ConveyorTiles
                 if (gathered_entries[index].obj is Pickupable pickupable && !pickupable.wasAbsorbed)
                 {
 
-                    if (pickupable.TryGetComponent<KPrefabID>(out var component)
-                        && component.HasTag(GameTags.DupeBrain)
-                        && (Config.Instance.Immunes || !component.HasTag(GameTags.Asleep))
-                        && (Config.Instance.Immunes || (pickupable.TryGetComponent<Worker>(out var worker) && worker.workable != null && worker.workable.GetPercentComplete() > 0))
-                        )
+                    if (pickupable.TryGetComponent<KPrefabID>(out var component))
                     {
-                        continue;
+                        ///Fishes that are not flopping (have to check via cell bc flopping tag is always there) and flyers are immune
+                        if (component.HasTag(GameTags.Creatures.Swimmer) && liquidCellAbove || component.HasTag(GameTags.Creatures.Flyer))
+                        {
+                            continue;
+                        }
+                        ///If config disables conveyor for non asleep dupes
+                        if (component.HasTag(GameTags.DupeBrain) && Config.Instance.Immunes && !component.HasTag(GameTags.Asleep))
+                        {
+                            continue;
+                        }
+                        ///Working dupes that have started working are immune (doesnt affect walkers)
+                        if (pickupable.TryGetComponent<Worker>(out var worker) && worker.workable != null && worker.workable.GetPercentComplete() > 0)
+                        {
+                            continue;
+                        }
                     }
-
 
                     var transf = pickupable.transform;
                     newItemPos = transf.position + (rotatable.IsRotated ? Vector3.right : Vector3.left) * dt * 0.535f * BeltSpeed;
@@ -343,9 +352,9 @@ namespace ConveyorTiles
 
                 Off
                     .PlayAnim("off")
-                    .Enter(smi=> smi.master.RefreshEndCaps())
-                    .EventTransition(GameHashes.OperationalChanged, On, smi => smi.master.operational.IsOperational )  
-                    .Exit(smi=>smi.master.RefreshAnimState())
+                    .Enter(smi => smi.master.RefreshEndCaps())
+                    .EventTransition(GameHashes.OperationalChanged, On, smi => smi.master.operational.IsOperational)
+                    .Exit(smi => smi.master.RefreshAnimState())
                     ;
                 On
                     .Enter(smi => smi.master.RefreshEndCaps())
