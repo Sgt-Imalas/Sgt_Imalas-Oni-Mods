@@ -16,6 +16,7 @@ using static Rockets_TinyYetBig.Patches.BugfixPatches;
 using Klei;
 using System.Runtime.CompilerServices;
 using System.Linq;
+using static Rockets_TinyYetBig.Patches.CompatibilityPatches.Rocketry_Interior_WeightLimit;
 
 namespace Rockets_TinyYetBig
 {
@@ -70,6 +71,8 @@ namespace Rockets_TinyYetBig
             }
             else
                 SgtLogger.l("TC-1000's:Hydrocarbon_Rocket_Engines not found");
+
+            RocketInteriorWeightLimitApi.TryInitialize();
         }
 
 

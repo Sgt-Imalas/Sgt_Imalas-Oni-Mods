@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Klei.AI;
 using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Buildings.CargoBays;
 using Rockets_TinyYetBig.Buildings.Utility;
 using System;
 using System.Collections.Generic;
@@ -89,12 +90,30 @@ namespace Rockets_TinyYetBig.Patches
             }
         }
 
+        /// <summary>
+        /// Add drillcone info component to clustercraft prefab
+        /// </summary>
         [HarmonyPatch(typeof(ClustercraftConfig), nameof(ClustercraftConfig.CreatePrefab))]
         public static class MiningBuffStorage
         {
             public static void Postfix(GameObject __result)
             {
                 __result.AddOrGet<Clustercraft_AdditionalComponent>();
+            }
+        }
+
+        /// <summary>
+        /// Exclude food cargo bays from "GetCargoBaysOfType" call to prevent mined resources getting loaded into them
+        /// </summary>
+        [HarmonyPatch(typeof(Clustercraft), nameof(Clustercraft.GetCargoBaysOfType))]
+        public static class Clustercraft_GetCargoBaysOfType
+        {
+            public static void Postfix(CargoBay.CargoType cargoType, List<CargoBayCluster> __result)
+            {
+                if(cargoType == CargoBay.CargoType.Solids)
+                {
+                    __result.RemoveAll(entry => entry.TryGetComponent<FridgeModule>(out _));
+                }
             }
         }
 

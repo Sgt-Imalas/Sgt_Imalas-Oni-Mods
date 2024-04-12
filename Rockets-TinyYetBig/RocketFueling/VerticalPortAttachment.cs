@@ -47,6 +47,8 @@ namespace Rockets_TinyYetBig.RocketFueling
             if (propagate)
                 top.AttachBottom(this, false);
 
+            if (chainedBuilding != null)
+                chainedBuilding.DEBUG_Relink();
             HandleConnectionSymbol();
         }
         public void AttachBottom(VerticalPortAttachment _bottom, bool propagate)
@@ -55,6 +57,8 @@ namespace Rockets_TinyYetBig.RocketFueling
             if(propagate)
                 bottom.AttachTop(this, false);
 
+            if (chainedBuilding != null)
+                chainedBuilding.DEBUG_Relink();
         }
         public void DisconnectTop(bool propagate)
         {

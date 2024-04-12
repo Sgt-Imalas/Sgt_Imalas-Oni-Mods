@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>Rocketry_Expanded</PackageId>
-		<Version>2.8.3.1</Version>
+		<Version>2.8.4.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022-2024 Sgt_Imalas</Copyright>
 		<RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>

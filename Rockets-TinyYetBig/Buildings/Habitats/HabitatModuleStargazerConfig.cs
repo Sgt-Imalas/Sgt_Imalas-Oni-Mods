@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
+using static Rockets_TinyYetBig.Patches.CompatibilityPatches.Rocketry_Interior_WeightLimit;
 
 namespace Rockets_TinyYetBig
 {
@@ -99,6 +100,11 @@ namespace Rockets_TinyYetBig
             rocketConduitSender2.conduitStorage = storage2;
             rocketConduitSender2.conduitPortInfo = this.gasInputPort;
             go.AddComponent<RocketConduitReceiver>().conduitPortInfo = this.gasOutputPort;
+
+            if (RocketInteriorWeightLimitApi.Initialized)
+            {
+                RocketInteriorWeightLimitApi.AddMassLimitConditionToHabitatModule(go, 10000);
+            }
         }
 
         private void AttachPorts(GameObject go)

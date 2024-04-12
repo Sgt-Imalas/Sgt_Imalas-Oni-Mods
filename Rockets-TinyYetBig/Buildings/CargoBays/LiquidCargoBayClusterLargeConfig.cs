@@ -51,7 +51,6 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
             BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 8, "rocket_cluster_storage_liquid_large_kanim", 1000, 60f, cargoMass, construction_materials, 9999f, BuildLocationRule.Anywhere, none, noise);
             BuildingTemplates.CreateRocketBuildingDef(buildingDef);
             buildingDef.SceneLayer = Grid.SceneLayer.Building;
-            buildingDef.Invincible = true;
             buildingDef.OverheatTemperature = 2273.15f;
             buildingDef.Floodable = false;
             buildingDef.AttachmentSlotTag = GameTags.Rocket;

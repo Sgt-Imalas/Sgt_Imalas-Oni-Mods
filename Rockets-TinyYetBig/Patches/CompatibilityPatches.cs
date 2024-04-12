@@ -13,6 +13,53 @@ namespace Rockets_TinyYetBig.Patches
 {
     internal class CompatibilityPatches
     {
+        public class Rocketry_Interior_WeightLimit
+        {
+            public static class RocketInteriorWeightLimitApi
+            {
+                public delegate void AddMassLimitConditionToHabitatModuleDelegate(GameObject prefabGO, float desiredMassLimit);
+
+
+                public static bool Initialized = false;
+                /// <summary>
+                /// Register the prefab of a spacefarer to have a mass limit
+                /// </summary>
+                /// <param name="prefabGO">prefab go </param>
+                /// <param name="desiredMassLimit">max allowed interior mass in kg</param>
+                /// <returns></returns>
+                public static AddMassLimitConditionToHabitatModuleDelegate AddMassLimitConditionToHabitatModule;
+                               
+                public static bool TryInitialize(bool logWarnings = true)
+                {
+                    var type = Type.GetType("RocketryRework.ModMisc.ModAPI, RocketryRework");
+
+                    if (type == null)
+                    {
+                        if (logWarnings)
+                            Debug.LogWarning("RocketryRework.ModMisc.ModAPI does not exist.");
+
+                        return false;
+                    }
+
+                    var m_AddMassLimitConditionToHabitatModule = AccessTools.Method(type, "AddMassLimitConditionToHabitatModule",
+                        new[]
+                        {
+                    typeof(GameObject),
+                    typeof(float)
+                        });
+
+                    if (m_AddMassLimitConditionToHabitatModule == null)
+                    {
+                        if (logWarnings) Debug.LogWarning("AddMassLimitConditionToHabitatModule is not a method.");
+                        return false;
+                    }
+
+                    AddMassLimitConditionToHabitatModule = (AddMassLimitConditionToHabitatModuleDelegate)Delegate.CreateDelegate(typeof(AddMassLimitConditionToHabitatModuleDelegate), m_AddMassLimitConditionToHabitatModule);
+                    Initialized = true;
+                    return true;
+                }
+            }
+        }
         public class Hydrocarbon_Rocket_Engines
         {
             public static void ExecutePatch(Harmony harmony)

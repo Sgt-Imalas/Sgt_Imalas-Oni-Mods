@@ -44,6 +44,13 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
                         StoredItemModifier.Seal
                     });
                 }
+                foreach(var item in fridgeStorage.items)
+                {
+                    if (item != null)
+                    {
+                        fridgeStorage.ApplyStoredItemModifiers(item, true, false);
+                    }
+                }
             }
         }
     }
