@@ -552,7 +552,6 @@ namespace SaveGameModLoader
                 {
                     ModlistManager.Instance.InstantiateModViewForPathOnly(path);
                 };
-
                 ModlistManager.Instance.ParentObjectRef = __instance.gameObject;
                 var SaveGameName = button.transform.Find("SaveNameText").gameObject;
                 UnityEngine.Object.Destroy(SaveGameName);

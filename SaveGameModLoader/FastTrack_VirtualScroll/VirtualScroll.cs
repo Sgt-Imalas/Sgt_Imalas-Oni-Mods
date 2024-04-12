@@ -1,20 +1,20 @@
 ﻿/*
- * Copyright 2023 Peter Han
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- * and associated documentation files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all copies or
- * substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
- * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
+* Copyright 2024 Peter Han
+* Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+* and associated documentation files (the "Software"), to deal in the Software without
+* restriction, including without limitation the rights to use, copy, modify, merge, publish,
+* distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+* Software is furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in all copies or
+* substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+* BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+* NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+* DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+* FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
 
 using System.Collections.Generic;
 using System.Threading;
@@ -150,9 +150,14 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 					virtualLayout.enabled = true;
 					realLayout.enabled = false;
 				}
-				margin = new Vector2(marginX * 1.5f, marginY * 1.5f);
-				// Calculate the margin
-				UpdateScroll();
+                float scalar = KPlayerPrefs.GetFloat(KCanvasScaler.UIScalePrefKey, 0.0f);
+                // 100 = x1.0
+                if (scalar < 100.0f)
+                    scalar = 100.0f;
+                scalar *= 0.015f;
+                margin = new Vector2(marginX * scalar, marginY * scalar);
+                // Calculate the margin
+                UpdateScroll();
 			}
 		}
 
@@ -238,7 +243,7 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 		/// Rebuilds the list of items next frame.
 		/// </summary>
 		internal void Rebuild() {
-			if (gameObject.activeSelf && Interlocked.Increment(ref pendCount) <= 1)
+			if (gameObject.activeInHierarchy && Interlocked.Increment(ref pendCount) <= 1)
 				StartCoroutine(DoRebuild());
 		}
 
@@ -251,10 +256,10 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 				UpdateScroll();
 		}
 
-        /// <summary>
-        /// Updates the visibility of all items based on the ones that should be visible.
-        /// </summary>
-        internal void UpdateScroll() {
+		/// <summary>
+		/// Updates the visibility of all items based on the ones that should be visible.
+		/// </summary>
+		private void UpdateScroll() {
 			int n = components.Count;
 			if (n > 0) {
 				GetViewableRect(out float xl, out float xr, out float yb, out float yt);
@@ -267,8 +272,6 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 				}
 			}
 		}
-
-
 
 		/// <summary>
 		/// Stores information about the virtually scrolled items.

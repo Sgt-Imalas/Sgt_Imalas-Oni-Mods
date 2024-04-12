@@ -120,6 +120,8 @@ namespace SaveGameModLoader
 
             bool FastTrackActive = mods.Any(mod => mod.staticID.Contains("PeterHan.FastTrack") && mod.IsEnabledForActiveDlc());
             bool ModFilterActive = mods.Any(mod => mod.staticID.Contains("asquared31415.ModsFilter") && mod.IsEnabledForActiveDlc());
+
+            CompatibilityNotifications.RemoveCrashingIncompatibility(harmony, mods, "ModManager");
             ModAssets.FastTrackActive = FastTrackActive;
             ModAssets.ModsFilterActive = ModFilterActive;
             if (!FastTrackActive)
