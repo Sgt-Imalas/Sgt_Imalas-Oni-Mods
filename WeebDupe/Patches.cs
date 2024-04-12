@@ -14,19 +14,16 @@ namespace WeebDupe
 {
     internal class Patches
     {
-        /// <summary>
-        /// add buildings to plan screen
-        /// </summary>
-        [HarmonyPatch(typeof(GeneratedBuildings))]
-        [HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
-        public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
-        {
 
-            public static void Prefix()
+        [HarmonyPatch(typeof(Assets), "OnPrefabInit")]
+        public class Assets_OnPrefabInit_Patch
+        {
+            public static void Prefix(Assets __instance)
             {
-                //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
+                InjectionMethods.AddSpriteToAssets(__instance, "hat_role_weeb1");
             }
         }
+
         /// <summary>
         /// Init. auto translation
         /// </summary>

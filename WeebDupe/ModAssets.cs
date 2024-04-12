@@ -93,12 +93,12 @@ namespace WeebDupe
                 Weeb1 = __instance.Add(new SkillAttributePerk(
                     WeebPerk1ID,
                     Db.Get().Attributes.Learning.Id,
-                    2,
+                    1,
                     STRINGS.DUPLICANTS.ROLES.WEEB.NAME));
                 Weeb2 = __instance.Add(new SkillAttributePerk(
                     WeebPerk2ID,
                     Db.Get().Attributes.Decor.Id,
-                    25,
+                    15,
                     STRINGS.DUPLICANTS.ROLES.WEEB.NAME));
 
             }
