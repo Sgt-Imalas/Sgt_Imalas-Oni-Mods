@@ -16,9 +16,6 @@ namespace RebuildPreserve
         {
             public static void Postfix(List<DetailsScreen.SideScreenRef> ___sideScreens)
             {
-                //foreach(var _sideScreen in ___sideScreens)
-                //    SgtLogger.l(_sideScreen.GetType().ToString(), _sideScreen.name);
-
                 UIUtils.AddClonedSideScreen<AutomatedBrokenRebuildSideScreen>
                    ("AutomatedBrokenRebuildSideScreen", "Automatable Side Screen", typeof(AutomatableSideScreen));
 
@@ -40,7 +37,7 @@ namespace RebuildPreserve
 
         public override bool IsValidForTarget(GameObject target)
         {
-            return target.TryGetComponent<AutomatedBrokenRebuild>(out _);
+            return target.TryGetComponent<AutomatedBrokenRebuild>(out var rebuild) && rebuild.IsValidForRebuilding;
         }
         public override void SetTarget(GameObject target)
         {

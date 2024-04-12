@@ -15,11 +15,32 @@ namespace RebuildPreserve
         Reconstructable reconstructable;
         [MyCmpGet]
         PrimaryElement primaryElement;
+        [MyCmpGet]
+        BuildingHP hp;
 
         [Serialize]
         public bool RebuildOnBreaking = false;
 
         private static readonly EventSystem.IntraObjectHandler<AutomatedBrokenRebuild> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<AutomatedBrokenRebuild>((component, data) => component.OnCopySettings(data));
+
+        public bool IsValidForRebuilding => CanRebuild();
+
+        bool CanRebuild()
+        {
+            if(reconstructable == null)
+                return false;
+
+            if(reconstructable.building.Def.Invincible)
+                return false;
+
+            if(!reconstructable.deconstructable.allowDeconstruction)
+                return false;
+
+            if(hp.destroyOnDamaged)
+                return false;
+
+            return true;
+        }
 
         public override void OnSpawn()
         {
