@@ -25,33 +25,65 @@ namespace DuperyFixed.Source.Patch
             {
                 if (__instance.TryGetComponent<MinionIdentity>(out var identity))
                 {
-                    var personality = Db.Get().Personalities.TryGet(identity.personalityResourceId);
+                    var personality = Db.Get().Personalities.TryGet(identity.personalityResourceId); 
                     if (personality != null)
                     {
                         return;
                     }
-                    SgtLogger.l("Personality of "+__instance.gameObject.name+" is missing, defaulting to jorge. for ui keys");
+                    SgtLogger.l("Personality of "+__instance.gameObject.name+" is missing, defaulting to jorge for ui keys");
                     personality = Db.Get().Personalities.GetPersonalityFromNameStringKey("JORGE");
                     identity.personalityResourceId = personality.Id;
                     identity.nameStringKey = LonelyMinionConfig.PERSONALITY_ID;
-                    SwitchToBackupBodyParts(__instance, personality);
-                    //SwitchToBackupBodyParts__instance.bodyData = Accessorizer.UpdateAccessorySlots(identity.nameStringKey, ref __instance.accessories);           
-                    //__instance.accessories.RemoveAll((ResourceRef<Accessory> x) => x.Get() == null);
-                    //SwitchToBackupBodyParts(__instance, personality);
+                   // SwitchToBackupBodyParts(__instance, personality);
+                }
+            }
+            public static void Postfix(Accessorizer __instance)
+            {
+                //PurgeDuplicateEntries(__instance);
+            }
+            static void PurgeDuplicateEntries(Accessorizer __instance)
+            {
+                HashSet<string> addedParts = new HashSet<string>();
+                SgtLogger.l("Checking for duplicate symbols for:" + __instance.gameObject.name);
+                for (int i = __instance.accessories.Count - 1; i >= 0; i--)
+                {
+                    var item = __instance.accessories[i].Get();
+                    if (item == null)
+                    {
+                        SgtLogger.l("removing missing accessory");
+                        __instance.accessories.RemoveAt(i);
+                    }
+                    else
+                    {
+                        if (addedParts.Contains(item.Id))
+                        {
+                            SgtLogger.l("removing duplicate accessory: "+item.Name+ " in "+item.slot.Name);
+                            __instance.accessories.RemoveAt(i);
+                        }
+                        else
+                        {
+                            SgtLogger.l("accessory: " + item.Name + " in " + item.slot.Name);
+                            addedParts.Add(item.Id);
+                        }
+                    }
                 }
             }
             static void SwitchToBackupBodyParts(Accessorizer __instance, Personality fallback)
             {
-                //for (int i = __instance.accessories.Count - 1; i >= 0; i--)
-                //{
-                //    if (__instance.accessories[i].Get() == null)
-                //    {
-                //        SgtLogger.l("removing missing accessory");
-                //    }
-                //}
+                
                 __instance.accessories.RemoveAll(x => x.Get() == null);
                 KCompBuilder.BodyData result = MinionStartingStats.CreateBodyData(fallback);
                 {
+                    var slots = Db.Get().AccessorySlots;
+                    string[] possibleMissings =
+                    {
+                        slots.Eyes.Id,
+                        slots.Hair.Id,
+                        slots.HatHair.Id,
+                        slots.HeadShape.Id,
+                        slots.Body.Id
+
+                    };
                     foreach (AccessorySlot resource in Db.Get().AccessorySlots.resources)
                     {
                         if (resource.accessories.Count == 0)
@@ -63,7 +95,10 @@ namespace DuperyFixed.Source.Patch
                         {
                             continue;
                         }
-
+                        if(!possibleMissings.Contains(resource.Id))
+                        {
+                            continue;
+                        }
 
                         var accessory = resource.accessories.GetRandom();
                         if (accessory == null)
@@ -72,6 +107,8 @@ namespace DuperyFixed.Source.Patch
                         }
                         ResourceRef<Accessory> item = new ResourceRef<Accessory>(accessory);
                         SgtLogger.l(resource.Name + " was not found, adding " + item.Get().Name);
+
+                        __instance.accessories.RemoveAll(a => a.Get()!=null && a.Get().slot == accessory.slot);
                         __instance.accessories.Add(item);
                     }
                 }
