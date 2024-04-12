@@ -19,6 +19,9 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
+	  <Reference Include="Ionic.Zip">
+	    <HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\Ionic.Zip.dll</HintPath>
+	  </Reference>
 	  <Reference Include="System.Net.Http" />
 	</ItemGroup>
 </Project>

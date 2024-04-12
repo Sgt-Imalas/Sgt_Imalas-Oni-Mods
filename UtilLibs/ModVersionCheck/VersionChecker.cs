@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using KMod;
 using Newtonsoft.Json;
 using PeterHan.PLib.AVC;
 using PeterHan.PLib.Core;
@@ -9,22 +10,49 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using static DistributionPlatform;
 using static PeterHan.PLib.AVC.JsonURLVersionChecker;
 using static ResearchTypes;
 
 namespace UtilLibs.ModVersionCheck
 {
-    internal class VersionChecker
+    public class VersionChecker
     {
         public const string Dev_File_Local = "ImalasModVersionData.json";
+        /// <summary>
+        /// PLib registry key for target version information, Dictionary<string,string> with staticModD as key and version string as value. version string as semver
+        /// </summary>
         public const string ModVersionDataKey_Server = "Sgt_Imalas_ServerVersionData";
+
+        /// <summary>
+        /// PLib registry key for current version information, Dictionary<string,string> with staticModD as key and version string as value. version string as semver
+        /// </summary>
         public const string ModVersionDataKey_Client = "Sgt_Imalas_ClientVersionData";
+        /// <summary>
+        /// Version checker version plib key. only latest active version does stuff
+        /// </summary>
         public const string VersionCheckerVersion = "Sgt_Imalas_UI_VersionData";
+        /// <summary>
+        /// plib key for boolean if main menu "outdated mods" screen is initialized
+        /// </summary>
         public const string UIInitializedKey = "Sgt_Imalas_UI_Initialized";
+
+        /// <summary>
+        /// currently fetching version data from sgt_imalas github
+        /// </summary>
         public const string CurrentlyFetchingKey = "Sgt_Imalas_ModVersionData_CurrentlyFetching";
         public const string VersionDataURL = "https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/master/ModVersionData.json";
 
-        public const int CurrentVersion = 5;
+
+        /// <summary>
+        /// keys of mods that require updating
+        /// </summary>
+       // public const string ModsRequireUpdatesDefaultStaticIDsKey = "Sgt_Imalas_ModsRequireUpdatesDefaultStaticIDsKey";
+        /// <summary>
+        /// PLib registry key for download path, Dictionary<string,string> with staticModD as key and direct download link as value
+        /// </summary>
+        //public const string ModDownloadFetchPathsKey = "Sgt_Imalas_ModDownloadFetchPathsKey";
+        public const int CurrentVersion = 6;
 
         public static bool OlderVersion => CurrentVersion < (PRegistry.GetData<int>(VersionCheckerVersion));
 
@@ -70,7 +98,7 @@ namespace UtilLibs.ModVersionCheck
                 SgtLogger.l(ex.Message);
             }
         }
-        public static void HandleVersionChecking(KMod.UserMod2 userMod, Harmony harmony)
+        public static void HandleVersionChecking(KMod.UserMod2 userMod, Harmony harmony )
         {
             RegisterCurrentVersion(userMod);
             OutdatedVersionInfoPatches.MainMenuMissingModsContainerInit.InitMainMenuInfoPatch(harmony);
@@ -165,28 +193,91 @@ namespace UtilLibs.ModVersionCheck
                 modsOverLineCount++;
             }
         }
+        
+        /// <summary>
+        /// doesnt work due to file lock of disabled mods
+        /// </summary>
+        /// <param name="maxLines"></param>
+        /// <param name="missingModsInfo"></param>
+        /// <param name="linecount"></param>
+        /// <returns></returns>
+
+        //public static void StartOutdatedModUpdating()
+        //{
+        //    var ModsToUpdate = PRegistry.GetData<List<string>>(ModsRequireUpdatesDefaultStaticIDsKey); 
+        //    var availableDownloadLinks = PRegistry.GetData<Dictionary<string,string>>(ModDownloadFetchPathsKey);
+            
+        //    //test, RM later
+        //    if (availableDownloadLinks == null ||availableDownloadLinks.Count == 0)
+        //        availableDownloadLinks = new Dictionary<string, string>()
+        //        {
+        //            {"Backwalls","https://github.com/aki-art/ONI-Mods/releases/download/v4.2.0.0-backwalls/backwalls-v1.4.2.zip"}
+        //        };
+        //    if(ModsToUpdate==null || ModsToUpdate.Count ==0)
+        //        ModsToUpdate = new List<string>()
+        //        {
+        //            {"2921809973.Steam"}
+        //        };
+        //    //
+        //    SgtLogger.l("starting oudated updating");
+
+
+        //    var manager = Global.Instance.modManager;
+        //    var state = ModUpdatingState.GetModUpdatingState();
+        //    foreach(var modToUpdate in ModsToUpdate)
+        //    {
+        //        SgtLogger.l("outdated mod: "+modToUpdate);
+        //        if (state.ModInUpdateProcess(modToUpdate))
+        //            continue;
+
+
+        //        var mod = manager.mods.FirstOrDefault(m => m.label.defaultStaticID == modToUpdate);
+        //        if (mod == null)
+        //        {
+        //            SgtLogger.l("outdated mod not found: " + modToUpdate);
+        //            manager.mods.ForEach(m => SgtLogger.l(m.label.defaultStaticID, m.title));
+        //            continue;
+        //        }
+        //        if (!availableDownloadLinks.ContainsKey(mod.staticID))
+        //        {
+        //            SgtLogger.warning("no available download link for outdated mod " + mod.title + " found!", "Mod Updating");
+        //            continue;
+        //        }
+        //        string downloadLink = availableDownloadLinks[mod.staticID];
+        //        state.AddModToUpdate(mod, downloadLink);
+
+        //    }
+        //    if (state.HasModsToUpdate)
+        //    {
+        //        state.WriteModUpdatingState();
+        //        state.InitializeUpdateProcess();
+        //    }
+        //}
+
 
         public static bool ModsOutOfDate(int maxLines, out string missingModsInfo, out int linecount)
         {
             var serverVersionData = PRegistry.GetData<Dictionary<string, string>>(ModVersionDataKey_Server);
-            var localVersionData = PRegistry.GetData<Dictionary<string, string>>(ModVersionDataKey_Client);
-            SgtLogger.Assert("local data was null", localVersionData);
+            //var localVersionData = PRegistry.GetData<Dictionary<string, string>>(ModVersionDataKey_Client);
+           // SgtLogger.Assert("local data was null", localVersionData);
             SgtLogger.Assert("server data was null", serverVersionData);
 
             linecount = 0;
             int modsOverLineCount = 0;
             missingModsInfo = string.Empty;
             bool outdatedModFound = false;
-            if (localVersionData != null && serverVersionData != null)
+            if (
+                //localVersionData != null && 
+                serverVersionData != null)
             {
-                SgtLogger.l("starting version check");
+                SgtLogger.l("starting version check","Sgt_Imalas-VersionChecker");
                 var manager = Global.Instance.modManager;
                 StringBuilder stringBuilder = new StringBuilder();
                 foreach (var versionEntry in PlibVersionChecks())
                 {
                     var localMod = manager.mods.Find(mod => mod.staticID == versionEntry.ModChecked);
 
-                    SgtLogger.l(versionEntry.ModChecked + " " + versionEntry.NewVersion + " " + versionEntry.IsUpToDate + " loc " + localMod, "plib check test");
+                    //SgtLogger.l(versionEntry.ModChecked + " " + versionEntry.NewVersion + " " + versionEntry.IsUpToDate + " loc " + localMod, "plib check test");
                     if (localMod == null)
                         continue;
 
@@ -197,44 +288,55 @@ namespace UtilLibs.ModVersionCheck
                     outdatedModFound = true;
 
                 }
-
-                foreach (var localModId in localVersionData.Keys)
+                List<string> modLabelIdsThatRequireUpdating = new List<string>();
+                foreach (var localModId in serverVersionData.Keys)
                 {
 
                     //SgtLogger.l(localModId.ToString());
 
-                    var localMod = manager.mods.Find(mod => mod.staticID == localModId);
-                    SgtLogger.Assert(localModId + " mod data was null!", localMod);
-                    if (localMod == null)
+                    var modsWithId = manager.mods.FindAll(modEntry => modEntry.staticID == localModId);
+
+                    //var localMod = manager.mods.FirstOrDefault(mod => mod.IsEnabledForActiveDlc() && mod.staticID == localModId);
+                    //SgtLogger.Assert(localModId + " mod data was null!", localMod);
+                    if (modsWithId == null || modsWithId.Count == 0)
                     {
                         continue;
                     }
-
-                    //SgtLogger.l("containsKey "+ serverVersionData.ContainsKey(localModId));
-                    //SgtLogger.l("parse1 "+ Version.TryParse(localVersionData[localModId], out var sss));
-                    //SgtLogger.l("parse2 "+ Version.TryParse(serverVersionData[localModId], out var ss));
-
-
-                    if (serverVersionData.ContainsKey(localModId)
-                        && Version.TryParse(localVersionData[localModId], out var SourceVersion)
-                        && Version.TryParse(serverVersionData[localModId], out var TargetVersion))
+                    foreach(var localMod in modsWithId)
                     {
-
-                        //SgtLogger.l(SourceVersion + "<->" +  TargetVersion , SourceVersion.CompareTo(TargetVersion));
-                        if (SourceVersion.CompareTo(TargetVersion) < 0)
+                        ///Semver version comparison
+                        if (Version.TryParse(localMod.packagedModInfo.version, out var SourceVersion)
+                        &&  Version.TryParse(serverVersionData[localModId], out var TargetVersion))
                         {
-                            AppendOutdatedMod(stringBuilder, localMod.title, TargetVersion.ToString(), SourceVersion.ToString(), ref linecount, ref modsOverLineCount, maxLines);
-                            SgtLogger.warning(localMod.title + " is outdated! Found local version is " + SourceVersion.ToString() + ", but latest is " + TargetVersion.ToString());
+
+                            //SgtLogger.l(SourceVersion + "<->" +  TargetVersion , SourceVersion.CompareTo(TargetVersion));
+                            if (SourceVersion.CompareTo(TargetVersion) < 0)
+                            {
+                                AppendOutdatedMod(stringBuilder, localMod.title, TargetVersion.ToString(), SourceVersion.ToString(), ref linecount, ref modsOverLineCount, maxLines);
+                                SgtLogger.warning(localMod.title + " is outdated! Found local version is " + SourceVersion.ToString() + ", but latest is " + TargetVersion.ToString());
+                                modLabelIdsThatRequireUpdating.Add(localMod.label.defaultStaticID);
+                                outdatedModFound = true;
+                            }
+                        }
+                        ///fallback check for if semver doesnt work
+                        else if (localMod.packagedModInfo.version!= serverVersionData[localModId])
+                        {
+                            var target = serverVersionData[localModId];
+                            var source = localMod.packagedModInfo.version;
+                            AppendOutdatedMod(stringBuilder, localMod.title, target, source, ref linecount, ref modsOverLineCount, maxLines);
+                            SgtLogger.warning(localMod.title + " is not the target version! Found local version is " + source + ", but target is " + target.ToString());
+                            modLabelIdsThatRequireUpdating.Add(localMod.label.defaultStaticID);
                             outdatedModFound = true;
                         }
                     }
+                    
                 }
                 if (modsOverLineCount > 0)
                 {
                     linecount++;
                     stringBuilder.AppendLine($"<b>...and {modsOverLineCount} other</b>");
                 }
-
+                // PRegistry.PutData(ModsRequireUpdatesDefaultStaticIDsKey, modLabelIdsThatRequireUpdating);
                 missingModsInfo = stringBuilder.ToString();
             }
             return outdatedModFound;

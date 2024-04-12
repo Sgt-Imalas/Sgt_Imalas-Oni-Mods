@@ -56,7 +56,6 @@ namespace UtilLibs.ModVersionCheck
                 }
 
                 VersionChecker.SetUIConstructed(true);
-
                 if (!VersionChecker.ModsOutOfDate(50, out var infoString, out int linecount))
                 {
                     SgtLogger.l("no mods out of date");

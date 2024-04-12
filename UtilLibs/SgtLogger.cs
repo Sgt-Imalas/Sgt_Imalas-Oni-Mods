@@ -14,9 +14,22 @@ using UtilLibs.ModVersionCheck;
 
 namespace UtilLibs
 {
-    public static class SgtLogger
+    public class SgtLogger
     {
+
+        public SgtLogger(string log) 
+        {
+            l(log);
+        }
+
         static Harmony harmony;
+
+        public static void LogVersionAndInitUpdating(UserMod2 usermod, Harmony _harmony)
+        {
+            LogVersion (usermod, _harmony);
+           // ModUpdatingState.UpdatingInstance = true;
+        }
+
         public static void LogVersion(UserMod2 usermod, Harmony _harmony)
         {
             harmony = _harmony;

@@ -29,7 +29,19 @@ namespace UtilLibs
             else
                 Debug.Log("mod not found: " + assemblyName);
         }
-
+        public static void RemoveCrashingIncompatibility(Harmony harmony, IReadOnlyList<KMod.Mod> mods, string faultyId)
+        {
+            faultyId = faultyId.ToLowerInvariant();
+            var faultyMod = mods.FirstOrDefault(mod => mod.staticID.ToLowerInvariant().Contains(faultyId));
+            if (faultyMod != null)
+            {
+                faultyMod.SetCrashed();
+                faultyMod.SetEnabledForActiveDlc(false);
+                //Debug.log("Disabling faulty mod " + faultyMod.title + " to prevent issues", "System");
+                harmony.UnpatchAll(faultyMod.staticID);
+                
+            }
+        }
 
         public static void DisableLoggingPrevention(IReadOnlyList<KMod.Mod> _mods)
         {
