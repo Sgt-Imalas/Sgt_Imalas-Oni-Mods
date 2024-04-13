@@ -9,7 +9,7 @@ using UnityEngine;
 using UtilLibs;
 using static STRINGS.UI.CLUSTERMAP;
 
-namespace ExplosiveMaterials
+namespace Twitch_ExplosiveMaterials
 {
     public class ExplosiveBomblet : KMonoBehaviour, ISim200ms
     {
