@@ -18,6 +18,15 @@
     <PackedSnacks>581003</PackedSnacks>
     <QoL2024Feb>596100</QoL2024Feb>
   </PropertyGroup>
+
+
+  <!--Copyright notice-->
+  <PropertyGroup>
+    <CurrentYear>$([System.DateTime]::Now.ToString(`yyyy`))</CurrentYear>
+    <Author>Sgt_Imalas</Author>
+    <AssemblyCopyright>Copyright ©$(Author) $(CurrentYear)</AssemblyCopyright>
+  </PropertyGroup>
+  
   <PropertyGroup>
     <!--Normal Versions of the main dlls-->
     <AssemblyNormal>$(GameLibsFolder)/Assembly-CSharp.dll</AssemblyNormal>

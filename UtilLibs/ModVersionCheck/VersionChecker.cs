@@ -52,7 +52,7 @@ namespace UtilLibs.ModVersionCheck
         /// PLib registry key for download path, Dictionary<string,string> with staticModD as key and direct download link as value
         /// </summary>
         //public const string ModDownloadFetchPathsKey = "Sgt_Imalas_ModDownloadFetchPathsKey";
-        public const int CurrentVersion = 6;
+        public const int CurrentVersion = 7;
 
         public static bool OlderVersion => CurrentVersion < (PRegistry.GetData<int>(VersionCheckerVersion));
 
@@ -98,7 +98,7 @@ namespace UtilLibs.ModVersionCheck
                 SgtLogger.l(ex.Message);
             }
         }
-        public static void HandleVersionChecking(KMod.UserMod2 userMod, Harmony harmony )
+        public static void HandleVersionChecking(KMod.UserMod2 userMod, Harmony harmony)
         {
             RegisterCurrentVersion(userMod);
             OutdatedVersionInfoPatches.MainMenuMissingModsContainerInit.InitMainMenuInfoPatch(harmony);
@@ -137,26 +137,24 @@ namespace UtilLibs.ModVersionCheck
                     PRegistry.PutData(ModVersionDataKey_Server, VersionData);
                 }
                 PRegistry.PutData(CurrentlyFetchingKey, false);
+                SgtLogger.l("version data recieved", "SgtImalas_VersionCheck");
             }
         }
         private static List<ModVersionCheckResults> PlibVersionChecks()
         {
-            
+
             IEnumerable<PForwardedComponent> allComponents = PRegistry.Instance.GetAllComponents("PeterHan.PLib.AVC.PVersionCheck");
-            List <ModVersionCheckResults> versionChecks = new List<ModVersionCheckResults>();
+            List<ModVersionCheckResults> versionChecks = new List<ModVersionCheckResults>();
             List<string> usedIDs = new List<string>();
             if (allComponents != null)
             {
-
                 foreach (PForwardedComponent item in allComponents)
                 {
                     ICollection<ModVersionCheckResults> instanceDataSerialized = item.GetInstanceDataSerialized<ICollection<ModVersionCheckResults>>();
                     if (instanceDataSerialized == null)
                     {
-                        //SgtLogger.l("no data found on " + item.ToString());
                         continue;
                     }
-                    //SgtLogger.l(instanceDataSerialized.Count.ToString(), item.ToString());
                     foreach (ModVersionCheckResults item2 in instanceDataSerialized)
                     {
                         if (usedIDs.Contains(item2.ModChecked))
@@ -167,8 +165,6 @@ namespace UtilLibs.ModVersionCheck
                     }
                 }
             }
-            else
-                SgtLogger.l("no plib components found");
             SgtLogger.l(versionChecks.Count.ToString(), "plib mod count");
             return versionChecks;
         }
@@ -193,7 +189,7 @@ namespace UtilLibs.ModVersionCheck
                 modsOverLineCount++;
             }
         }
-        
+
         /// <summary>
         /// doesnt work due to file lock of disabled mods
         /// </summary>
@@ -206,7 +202,7 @@ namespace UtilLibs.ModVersionCheck
         //{
         //    var ModsToUpdate = PRegistry.GetData<List<string>>(ModsRequireUpdatesDefaultStaticIDsKey); 
         //    var availableDownloadLinks = PRegistry.GetData<Dictionary<string,string>>(ModDownloadFetchPathsKey);
-            
+
         //    //test, RM later
         //    if (availableDownloadLinks == null ||availableDownloadLinks.Count == 0)
         //        availableDownloadLinks = new Dictionary<string, string>()
@@ -258,39 +254,84 @@ namespace UtilLibs.ModVersionCheck
         public static bool ModsOutOfDate(int maxLines, out string missingModsInfo, out int linecount)
         {
             var serverVersionData = PRegistry.GetData<Dictionary<string, string>>(ModVersionDataKey_Server);
-            //var localVersionData = PRegistry.GetData<Dictionary<string, string>>(ModVersionDataKey_Client);
-           // SgtLogger.Assert("local data was null", localVersionData);
+            var localVersionData = PRegistry.GetData<Dictionary<string, string>>(ModVersionDataKey_Client);
+            SgtLogger.Assert("local data was null", localVersionData);
             SgtLogger.Assert("server data was null", serverVersionData);
 
             linecount = 0;
             int modsOverLineCount = 0;
             missingModsInfo = string.Empty;
             bool outdatedModFound = false;
-            if (
-                //localVersionData != null && 
-                serverVersionData != null)
+            if (localVersionData != null && localVersionData.Count > 0 &&
+                serverVersionData != null && serverVersionData.Count > 0)
             {
-                SgtLogger.l("starting version check","Sgt_Imalas-VersionChecker");
+                SgtLogger.l("starting version check", "Sgt_Imalas-VersionChecker");
                 var manager = Global.Instance.modManager;
                 StringBuilder stringBuilder = new StringBuilder();
+
+                SgtLogger.l("checking for outdated plib version checkers", "Sgt_Imalas-VersionChecker");
                 foreach (var versionEntry in PlibVersionChecks())
                 {
+                    if (versionEntry.IsUpToDate)
+                        continue;
+
                     var localMod = manager.mods.Find(mod => mod.staticID == versionEntry.ModChecked);
 
                     //SgtLogger.l(versionEntry.ModChecked + " " + versionEntry.NewVersion + " " + versionEntry.IsUpToDate + " loc " + localMod, "plib check test");
                     if (localMod == null)
                         continue;
 
-                    if (versionEntry.IsUpToDate)
-                        continue;
-
                     AppendOutdatedMod(stringBuilder, localMod.title, versionEntry.NewVersion, localMod.label.version.ToString(), ref linecount, ref modsOverLineCount, maxLines);
                     outdatedModFound = true;
 
                 }
-                List<string> modLabelIdsThatRequireUpdating = new List<string>();
+
+                // List<string> modLabelIdsThatRequireUpdating = new List<string>();
+
+                int counter = 0;
+                SgtLogger.l("checking for enabled outdated mods based on version data", "Sgt_Imalas-VersionChecker");
+                foreach(var localModId in localVersionData.Keys)
+                {
+                    if (!serverVersionData.ContainsKey(localModId))
+                        continue;
+
+                    var localMod = manager.mods.FirstOrDefault(mod => mod.IsEnabledForActiveDlc() && mod.staticID == localModId);
+                    if(localMod == null)
+                        continue;
+
+                    if (Version.TryParse(localVersionData[localModId], out var SourceVersion)
+                            && Version.TryParse(serverVersionData[localModId], out var TargetVersion))
+                    {
+                        counter++;
+                        //SgtLogger.l(localMod.title+": "+SourceVersion + " <- current - target ->" +  TargetVersion , "Sgt_Imalas-VersionChecker");
+                        if (SourceVersion.CompareTo(TargetVersion) < 0)
+                        {
+                            AppendOutdatedMod(stringBuilder, localMod.title, TargetVersion.ToString(), SourceVersion.ToString(), ref linecount, ref modsOverLineCount, maxLines);
+                            SgtLogger.warning(localMod.title + " is outdated! Found local version is " + SourceVersion.ToString() + ", but latest is " + TargetVersion.ToString());
+                            //modLabelIdsThatRequireUpdating.Add(localMod.label.defaultStaticID);
+                            outdatedModFound = true;
+                        }
+                    }
+                    ///fallback check for if semver doesnt work
+                    else if (localMod.packagedModInfo.version != serverVersionData[localModId])
+                    {
+                        var target = serverVersionData[localModId];
+                        var source = localMod.packagedModInfo.version;
+                        AppendOutdatedMod(stringBuilder, localMod.title, target, source, ref linecount, ref modsOverLineCount, maxLines);
+                        SgtLogger.warning(localMod.title + " is not the target version! Found local version is " + source + ", but target is " + target.ToString());
+                        //modLabelIdsThatRequireUpdating.Add(localMod.label.defaultStaticID);
+                        outdatedModFound = true;
+                    }
+                }
+
+
+                SgtLogger.l("checking for disabled outdated mods based on version data", "Sgt_Imalas-VersionChecker");
                 foreach (var localModId in serverVersionData.Keys)
                 {
+                    if(localVersionData.ContainsKey(localModId))
+                    {
+                        continue;
+                    }
 
                     //SgtLogger.l(localModId.ToString());
 
@@ -302,40 +343,45 @@ namespace UtilLibs.ModVersionCheck
                     {
                         continue;
                     }
-                    foreach(var localMod in modsWithId)
+                    foreach (var localMod in modsWithId)
                     {
-                        ///Semver version comparison
-                        if (Version.TryParse(localMod.packagedModInfo.version, out var SourceVersion)
-                        &&  Version.TryParse(serverVersionData[localModId], out var TargetVersion))
+                        if (localMod != null && localMod.packagedModInfo != null)
                         {
-
-                            //SgtLogger.l(SourceVersion + "<->" +  TargetVersion , SourceVersion.CompareTo(TargetVersion));
-                            if (SourceVersion.CompareTo(TargetVersion) < 0)
+                            counter++;
+                            ///Semver version comparison
+                            if (Version.TryParse(localMod.packagedModInfo.version, out var SourceVersion)
+                            && Version.TryParse(serverVersionData[localModId], out var TargetVersion))
                             {
-                                AppendOutdatedMod(stringBuilder, localMod.title, TargetVersion.ToString(), SourceVersion.ToString(), ref linecount, ref modsOverLineCount, maxLines);
-                                SgtLogger.warning(localMod.title + " is outdated! Found local version is " + SourceVersion.ToString() + ", but latest is " + TargetVersion.ToString());
-                                modLabelIdsThatRequireUpdating.Add(localMod.label.defaultStaticID);
+
+                                //SgtLogger.l(SourceVersion + "<->" +  TargetVersion , SourceVersion.CompareTo(TargetVersion));
+                                if (SourceVersion.CompareTo(TargetVersion) < 0)
+                                {
+                                    AppendOutdatedMod(stringBuilder, localMod.title, TargetVersion.ToString(), SourceVersion.ToString(), ref linecount, ref modsOverLineCount, maxLines);
+                                    SgtLogger.warning(localMod.title + " is outdated! Found local version is " + SourceVersion.ToString() + ", but latest is " + TargetVersion.ToString());
+                                    //modLabelIdsThatRequireUpdating.Add(localMod.label.defaultStaticID);
+                                    outdatedModFound = true;
+                                }
+                            }
+                            ///fallback check for if semver doesnt work
+                            else if (localMod.packagedModInfo.version != serverVersionData[localModId])
+                            {
+                                var target = serverVersionData[localModId];
+                                var source = localMod.packagedModInfo.version;
+                                AppendOutdatedMod(stringBuilder, localMod.title, target, source, ref linecount, ref modsOverLineCount, maxLines);
+                                SgtLogger.warning(localMod.title + " is not the target version! Found local version is " + source + ", but target is " + target.ToString());
+                                //modLabelIdsThatRequireUpdating.Add(localMod.label.defaultStaticID);
                                 outdatedModFound = true;
                             }
                         }
-                        ///fallback check for if semver doesnt work
-                        else if (localMod.packagedModInfo.version!= serverVersionData[localModId])
-                        {
-                            var target = serverVersionData[localModId];
-                            var source = localMod.packagedModInfo.version;
-                            AppendOutdatedMod(stringBuilder, localMod.title, target, source, ref linecount, ref modsOverLineCount, maxLines);
-                            SgtLogger.warning(localMod.title + " is not the target version! Found local version is " + source + ", but target is " + target.ToString());
-                            modLabelIdsThatRequireUpdating.Add(localMod.label.defaultStaticID);
-                            outdatedModFound = true;
-                        }
                     }
-                    
+
                 }
                 if (modsOverLineCount > 0)
                 {
                     linecount++;
                     stringBuilder.AppendLine($"<b>...and {modsOverLineCount} other</b>");
                 }
+                SgtLogger.l("version checked "+counter+" mods.", "Sgt_Imalas-VersionChecker");
                 // PRegistry.PutData(ModsRequireUpdatesDefaultStaticIDsKey, modLabelIdsThatRequireUpdating);
                 missingModsInfo = stringBuilder.ToString();
             }

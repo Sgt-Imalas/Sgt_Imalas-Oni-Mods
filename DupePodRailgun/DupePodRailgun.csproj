@@ -5,7 +5,7 @@
 		<PackageId>DupePodRailgun</PackageId>
 		<Version>1.0.0</Version>
 		<Authors>Sgt_Imalas</Authors>
-		<Copyright>2022 Sgt_Imalas</Copyright>
+		     <Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
 	</PropertyGroup>
 

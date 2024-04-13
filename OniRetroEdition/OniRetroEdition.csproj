@@ -5,7 +5,7 @@
 		<PackageId>OniRetroEdition</PackageId>
 		<Version>1.0.0</Version>
 		<Authors>Sgt_Imalas</Authors>
-		<Copyright>2022-2023 Sgt_Imalas</Copyright>
+    <Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Knastoron/Knastoron-Oni-Mods</RepositoryUrl>
 	</PropertyGroup>
 
@@ -49,6 +49,15 @@
 	</ItemGroup>
 	
 	<ItemGroup>
+	  <None Update="ModAssets\anim\assets\hat_swap\hat_swap_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\hat_swap\hat_swap_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\hat_swap\hat_swap_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\anim\assets\old_liquidreservoir\liquidreservoir_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
