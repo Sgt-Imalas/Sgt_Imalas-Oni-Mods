@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using UtilLibs;
+using UtilLibs.UIcmp;
 using YamlDotNet.Core.Tokens;
 
 namespace PaintYourPipes
@@ -54,11 +56,20 @@ namespace PaintYourPipes
 
                     SwatchColorsHighlightsDictionary[new(color.r,color.g,color.b)] = references.GetReference("selected").gameObject;
                 }
-
+                
                 button.onClick += (() =>
                 {
+
+                    SgtLogger.l("onclick");
                     if (Target != null)
                         Target.SetColor(color);
+                    RefreshActiveIndicators();
+                }); 
+                button.onDoubleClick += (() =>
+                {
+                    SgtLogger.l("ondouble");
+                    if (Target != null)
+                        Target.SetSecondaryColor(color);
                     RefreshActiveIndicators();
                 });
             }
@@ -77,9 +88,34 @@ namespace PaintYourPipes
                 return;
 
             var colorTuple = new Tuple<float, float, float>(Target.TintColor.r, Target.TintColor.g, Target.TintColor.b);
+
+            Tuple<float, float, float> colorTupleSecondary=null;
+            var sec = Target.GetSecondaryColor();
+            if (sec.HasValue)
+                colorTupleSecondary = new Tuple<float, float, float>((sec).Value.r, (sec).Value.g, (sec).Value.b);
             if (SwatchColorsHighlightsDictionary.ContainsKey(colorTuple))
             {
+                var entry = SwatchColorsHighlightsDictionary[colorTuple];
+                if(entry.TryGetComponent<Image>(out var img))
+                {
+                    img.color = Color.white;
+                }
+                
                 SwatchColorsHighlightsDictionary[colorTuple].SetActive(true);
+            }
+            if (
+                Target.TintColor.Equals(Target.SecondaryTintColor) ||
+                !Target.SecondaryTintColor.HasValue)
+                return;
+
+            if (colorTupleSecondary != null && SwatchColorsHighlightsDictionary.ContainsKey(colorTupleSecondary))
+            {
+                var entry = SwatchColorsHighlightsDictionary[colorTupleSecondary];
+                if (entry.TryGetComponent<Image>(out var img))
+                {
+                    img.color = Color.gray;
+                }
+                SwatchColorsHighlightsDictionary[colorTupleSecondary].SetActive(true);
             }
         }
 

@@ -128,6 +128,8 @@ namespace PaintYourPipes
 
         [Serialize]
         private string colorHex = string.Empty;
+        [Serialize]
+        private string secondaryColorHex = string.Empty;
 
         [MyCmpGet]
         KBatchedAnimController _animController;
@@ -135,8 +137,18 @@ namespace PaintYourPipes
         private static readonly EventSystem.IntraObjectHandler<ColorableConduit> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<ColorableConduit>((component, data) => component.OnCopySettings(data));
 
         public Color TintColor => GetColor();
+        public Color? SecondaryTintColor => GetSecondaryColor();
         public string ColorHex => colorHex;
+        public string SecondaryColorHex => secondaryColorHex;
+        public Color? GetSecondaryColor()
+        {
+            if (secondaryColorHex == null || secondaryColorHex == string.Empty)
+                return null;
 
+            var col = Util.ColorFromHex(secondaryColorHex);
+            col.a = ShowOverlayTint && SameConduitType(Patches.ActiveOverlay, this.buildingComplete.Def.ObjectLayer) ? 0 : 1;
+            return col;
+        }
         public Color GetColor()
         {
             if (colorHex == null || colorHex == string.Empty)
@@ -153,11 +165,25 @@ namespace PaintYourPipes
             RefreshColor();
         }
 
+        public void ClearSecondaryColor()
+        {
+            secondaryColorHex = null;
+        }
+
+        public void SetSecondaryColor(Color color)
+        {
+            if (color == default || color.ToHexString() == secondaryColorHex)
+                ClearSecondaryColor();
+            else
+                secondaryColorHex = color.ToHexString();
+        }
         private void OnCopySettings(object obj)
         {
             if (obj != null && obj is GameObject go && go.TryGetComponent<ColorableConduit>(out var SourceBuilding) && SameConduitType(SourceBuilding, this))
             {
                 SetColor(SourceBuilding.TintColor);
+                if(SourceBuilding.SecondaryTintColor.HasValue)
+                    SetSecondaryColor(SourceBuilding.SecondaryTintColor.Value);
                 RefreshColor();
             }
         }
@@ -366,6 +392,8 @@ namespace PaintYourPipes
 
         public int ButtonSideScreenSortOrder() => 22;
 
+        public bool SizeOneByOne => buildingComplete.PlacementCells.Min() == buildingComplete.PlacementCells.Max();
+
         #region PaintNetworks
         HashSet<int> VisitedCells = new HashSet<int>();
         HashSet<UtilityNetwork> allNetworks = new HashSet<UtilityNetwork>();
@@ -412,22 +440,53 @@ namespace PaintYourPipes
                 GetAllConnectedNetworks(NetworkItem.GetNetworkCell(),mgr);
             else
                 GetAllConnectedNetworks(Grid.PosToCell(solidConduit), mgr);
-            
+
+            bool secondaryExisting = SecondaryTintColor.HasValue;
+            Color targetColor = GetColor();
+            Color targetAltColor = targetColor;
+            Color TargetPaint = targetColor;
+            Color SecondaryTargetPaint = targetColor;
+            if (secondaryExisting)
+                targetAltColor = GetSecondaryColor().Value;
 
             foreach (var targetLayer in GetRelevantObjectLayers(buildingComplete.Def.ObjectLayer))
             {
                 if (!ConduitsByLayer.ContainsKey((int)targetLayer))
                     continue;
+
                 foreach (var target in ConduitsByLayer[(int)targetLayer].Values)
                 {
-                    if(NetworkItem !=null && target.NetworkItem != null && target.NetworkItem.IsConnectedToNetworks(allNetworks))
+                    var coord = Grid.CellToXY(target.NaturalBuildingCell());
+
+                    bool gridEvenCell = (coord.x+coord.y)%2 == 0;
+                    if (gridEvenCell)
                     {
-                        target.SetColor(this.GetColor());
+                        TargetPaint = targetColor;
+                        SecondaryTargetPaint = targetAltColor;
+                    }
+                    else
+                    {
+                        TargetPaint = targetAltColor;
+                        SecondaryTargetPaint = targetColor;
+                    }
+
+                    if (NetworkItem !=null && target.NetworkItem != null && target.NetworkItem.IsConnectedToNetworks(allNetworks))
+                    {
+                        target.SetColor(TargetPaint);
+                        if(secondaryExisting)
+                            target.SetSecondaryColor(SecondaryTargetPaint);
+                        else
+                            target.ClearSecondaryColor();
                     }
                     else if(solidConduit!=null && target.solidConduit!=null && allNetworks.Contains(target.solidConduit.GetNetwork()))
                     {
-                        target.SetColor(this.GetColor());
+                        target.SetColor(TargetPaint);
+                        if (secondaryExisting)
+                            target.SetSecondaryColor(SecondaryTargetPaint);
+                        else
+                            target.ClearSecondaryColor();
                     }
+
                 }
             }
 
