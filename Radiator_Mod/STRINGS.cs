@@ -9,6 +9,19 @@ namespace Radiator_Mod
 {
     public class STRINGS
     {
+        public class MODCONFIG
+        {
+            public class OLDFORMULA
+            {
+                public static LocString NAME = "Old Functionality (v2.2.1 and earlier)";
+                public static LocString TOOLTIP = "restore the old deletion method that made the radiator up to 5x as powerful as intended for low shc materials";
+            }
+            public class DELETIONMULTIPLIER
+            {
+                public static LocString NAME = "Radiation Multiplier";
+                public static LocString TOOLTIP = "Set a custom multiplier that affects the radiation rate.\n1 is the scientificially most accurate value.";
+            }
+        }
         public class BUILDINGS
         {
             public class PREFABS
@@ -44,12 +57,12 @@ namespace Radiator_Mod
                 public class RM_INSPACERADIATING
                 {
                     public static LocString NAME = (LocString)"Radiating {0}";
-                    public static LocString TOOLTIP = (LocString)("This radiator is currently radiating heat at {0}.");
+                    public static LocString TOOLTIP = (LocString)("This radiator is currently radiating heat at {0} with {AREAPERCENTAGE}% of its area.");
                 }
                 public class RM_NOTINSPACE
                 {
                     public static LocString NAME = (LocString)"Not in space";
-                    public static LocString TOOLTIP = (LocString)("This radiators panels are not fully exposed to space, thus it won't radiate any heat into space.");
+                    public static LocString TOOLTIP = (LocString)("This radiators panels are not exposed to space, thus it won't radiate any heat away.");
                 }
                 public class RM_BUNKERDOWN
                 {

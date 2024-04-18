@@ -48,9 +48,14 @@ namespace Radiator_Mod
             return buildingDef;
         }
 
+        public static Tag SpaceStationOnlyInteriorBuilding = TagManager.Create("RTB_SpaceStationInteriorOnly");
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
-            go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
+            var prefab = go.GetComponent<KPrefabID>();
+            prefab.AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
+            prefab.AddTag(SpaceStationOnlyInteriorBuilding);
+
+
             go.AddOrGet<RadiatorBase>();
             //GeneratedBuildings.MakeBuildingAlwaysOperational(go);
             go.AddOrGet<LoopingSounds>();
