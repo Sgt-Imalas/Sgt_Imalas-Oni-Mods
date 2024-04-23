@@ -145,62 +145,109 @@ namespace SaveGameModLoader
             public static void ExecutePatch(Harmony harmony)
             {
                 var m_TargetMethod = AccessTools.Method("ModsScreen, Assembly-CSharp:BuildDisplay");
+                var m_Prefix = AccessTools.Method(typeof(ModsScreen_BuildDisplay_Patch_Pin_Button), "Prefix");
                 var m_Postfix = AccessTools.Method(typeof(ModsScreen_BuildDisplay_Patch_Pin_Button), "Postfix");
-                harmony.Patch(m_TargetMethod, null, new HarmonyMethod(m_Postfix, Priority.LowerThanNormal), null);
+                harmony.Patch(m_TargetMethod, new HarmonyMethod(m_Prefix, Priority.HigherThanNormal), new HarmonyMethod(m_Postfix, Priority.LowerThanNormal), null);
             }
 
 
             static ColorStyleSetting blue = null;
-            public static Dictionary<RectTransform, int> OriginalOrder = new Dictionary<RectTransform, int>();
             /// <summary>
             /// Applied after BuildDisplay runs.
             /// </summary>
             /// 
 
+            internal static void Prefix(ModsScreen __instance)
+            {
+                var transf = __instance.entryPrefab.transform;
+                if (blue == null)
+                {
+                    SgtLogger.l("preparing color");
+                    transf.Find("ManageButton").TryGetComponent<KImage>(out var mngButtonImage);
+                    var defaultStyle = mngButtonImage.colorStyleSetting;
+                    blue = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
+                    blue.inactiveColor = UIUtils.HSVShift(defaultStyle.inactiveColor, 70f);
+                    blue.activeColor = UIUtils.HSVShift(defaultStyle.activeColor, 70f);
+                    blue.disabledColor = UIUtils.HSVShift(defaultStyle.disabledColor, 70f);
+                    blue.hoverColor = UIUtils.HSVShift(defaultStyle.hoverColor, 70f);
+                }
+                if (!__instance.entryPrefab.transform.Find("PinBtn") && __instance.entryPrefab.TryGetComponent<HierarchyReferences>(out var hr))
+                {
+
+                    SgtLogger.l("preparing prefab");
+                    var btn = Util.KInstantiateUI(FilterPatches._buttonPrefab, __instance.entryPrefab, true);
+                    btn.name = "PinBtn";
+                    var tr = btn.transform;
+                    //tr.SetSiblingIndex(2);
+
+                    if(!tr.Find("GameObject").TryGetComponent<Image>(out var img))
+                        SgtLogger.warning("button image failed!");
+                    ElementReference buttonImage = new() { behaviour = img, Name = PinButtonImageBg };
+                    if (!transf.Find("BG").TryGetComponent<Image>(out var bgImg))
+                        SgtLogger.warning("Bg image failed!");
+                    ElementReference backgroundImage = new() { behaviour = bgImg, Name = BgImage };
+                    if(!btn.TryGetComponent<KButton>(out var button))
+                        SgtLogger.warning("button failed!");
+
+                    if (!hr.GetReference<KButton>("ManageButton").TryGetComponent<KImage>(out var mngButtonImg))
+                        SgtLogger.warning("manage button failed!");
+                    ElementReference managebtn = new() { behaviour = mngButtonImg, Name = MngBtImage };
+
+                    button.ClearOnClick();
+                    ElementReference pinButton = new() { behaviour = button, Name = PinButton };
+                    ElementReference pinButtonTransform = new() { behaviour = tr, Name = PinTransform };
+
+                    ElementReference[] refs = new ElementReference[5];
+                    refs[0] = buttonImage;
+                    refs[1] = backgroundImage;
+                    refs[2] = pinButton;
+                    refs[3] = managebtn;
+                    refs[4] = pinButtonTransform;
 
 
-            internal static void Postfix(ModsScreen __instance, KButton ___closeButton, List<DisplayedMod> ___displayedMods)
+                    hr.references = hr.references.AddRangeToArray(refs);
+                }
+            }
+            const string PinButtonImageBg = "MPM_PinButtonBg", PinButton = "MPM_PinButton", BgImage = "MPM_BackgroundImage", MngBtImage = "MPM_ManageBtnImage", PinTransform="MPM_PinTransform";
+
+            internal static void Postfix(ModsScreen __instance, List<DisplayedMod> ___displayedMods)
             {
                 var allMods = Global.Instance.modManager.mods;
-                OriginalOrder.Clear();
+
                 foreach (DisplayedMod displayedMod in ___displayedMods)
                 {
                     var transf = displayedMod.rect_transform;
-                    if (blue == null)
-                    {
-                        transf.Find("ManageButton").TryGetComponent<KImage>(out var mngButtonImage);
-                        var defaultStyle = mngButtonImage.colorStyleSetting;
-                        blue = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
-                        blue.inactiveColor = UIUtils.HSVShift(defaultStyle.inactiveColor, 70f);
-                        blue.activeColor = UIUtils.HSVShift(defaultStyle.activeColor, 70f);
-                        blue.disabledColor = UIUtils.HSVShift(defaultStyle.disabledColor, 70f);
-                        blue.hoverColor = UIUtils.HSVShift(defaultStyle.hoverColor, 70f);
-                    }
+
                     var mod = allMods[displayedMod.mod_index];
-                    var go = transf.gameObject;
 
-                    if (mod.IsLocal)
+
+                    if(transf.TryGetComponent<HierarchyReferences>(out var hier))
                     {
-                        transf.Find("ManageButton").TryGetComponent<KImage>(out var mngButtonImage);
-                        mngButtonImage.colorStyleSetting = blue;
-                        mngButtonImage.ApplyColorStyleSetting();
-                    }
+                        if (mod.IsLocal)
+                        {
+                            var modButtonBg = hier.GetReference<KImage>(MngBtImage);
+                            modButtonBg.colorStyleSetting = blue;
+                            modButtonBg.ApplyColorStyleSetting();
+                        }
 
-                    var btn = Util.KInstantiateUI(FilterPatches._buttonPrefab, go, true);
-                    var tr = btn.transform;
-                    tr.SetSiblingIndex(2);
-                    tr.Find("GameObject").TryGetComponent<Image>(out var img);
-                    transf.Find("BG").TryGetComponent<Image>(out var bgImg);
-                    HandleListEntry(transf, mod,  img, bgImg);
 
-                    if (btn.TryGetComponent<KButton>(out var button))
-                    {
-                        button.ClearOnClick();
-                        button.onClick += () =>
+                        var pinButton = hier.GetReference<KButton>(PinButton); 
+                        pinButton.onClick += () =>
                         {
                             MPM_Config.Instance.TogglePinnedMod(mod.label.defaultStaticID);
                             __instance.RebuildDisplay("pinned mod changed");
                         };
+
+                        if (MPM_Config.Instance.ModPinned(mod.label.defaultStaticID) && mod.contentCompatability == ModContentCompatability.OK)
+                        {
+                            var bgImage = hier.GetReference<Image>(PinButtonImageBg);
+                            bgImage.color = pinnedActive;
+                            transf.SetAsFirstSibling();
+                            
+                            var pinButtonBg = hier.GetReference<Image>(BgImage);
+                            pinButtonBg.color = pinnedBg;
+                        }
+                        hier.GetReference<Transform>(PinTransform).SetSiblingIndex(2);
                     }
                 }
                 if (FilterButtons.Instance != null)
@@ -211,7 +258,7 @@ namespace SaveGameModLoader
                 {
                     FilterToggleButtons.Instance.RefreshUIState(false);
                 }
-                ModAssets.ReorderVisualModState(___displayedMods, allMods);
+                //ModAssets.ReorderVisualModState(___displayedMods, allMods);
 
             }
             static Color 
