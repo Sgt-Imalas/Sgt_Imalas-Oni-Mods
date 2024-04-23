@@ -46,10 +46,9 @@ namespace ClusterTraitGenerationManager
         {
             base.OnAllModsLoaded(harmony, mods);
             CompatibilityNotifications.FlagLoggingPrevention(mods);
-
-            CompatibilityNotifications.CheckAndAddIncompatibles("CGSMMerged", "Cluster Generation Manager", "Cluster Generation Settings Manager");
-            CompatibilityNotifications.CheckAndAddIncompatibles("Mod.WGSM", "Cluster Generation Manager","WGSM - World Generation Settings Manager");
-
+            
+            CompatibilityNotifications.RemoveCrashingIncompatibility(harmony,mods,"CGSMMerged");
+            CompatibilityNotifications.RemoveCrashingIncompatibility(harmony,mods, "WGSM");
         }
     }
 }

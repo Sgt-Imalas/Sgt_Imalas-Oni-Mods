@@ -1,3 +1,7 @@
-﻿
+﻿Base Game POI selector:
+- override "random" rare elements via selection
+
+
+
 Geysers:
 - dedicated geyser selector
