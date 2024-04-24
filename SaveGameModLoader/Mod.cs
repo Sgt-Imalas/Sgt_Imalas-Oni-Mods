@@ -27,6 +27,8 @@ namespace SaveGameModLoader
             PUtil.InitLibrary(false);
             new POptions().RegisterOptions(this, typeof(Config));
 
+            SgtLogger.LogVersion(this, harmony);
+
             harmonyInstance = harmony;
             ThisMod = this;
             var LegacyModPath = FileSystem.Normalize(Path.Combine(Manager.GetDirectory(), "[ModSync]StoredModConfigs"));
@@ -34,7 +36,7 @@ namespace SaveGameModLoader
 
 
             SgtLogger.debuglog("Initializing file paths..");
-            ModAssets.ModPath = Config.Instance.ModProfileFolder;
+            ModAssets.ModPath = Config.Instance.UseCustomFolderPath ? Config.Instance.ModProfileFolder : FileSystem.Normalize(Path.Combine(Path.Combine(KMod.Manager.GetDirectory(), "config"), "[ModSync]StoredModConfigs"));
             ModAssets.ModPacksPath = FileSystem.Normalize(Path.Combine(ModAssets.ModPath, "[StandAloneModLists]"));
             ModAssets.ConfigPath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"), "MPM_Config.json"));
 
@@ -112,7 +114,6 @@ namespace SaveGameModLoader
             ModAssets.ReadOrRegisterBrowserSetting();
             base.OnLoad(harmony);
             Steam_MakeMod.TryPatchingSteam(harmony);
-            SgtLogger.LogVersion(this, harmony);
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {

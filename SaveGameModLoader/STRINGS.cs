@@ -5,9 +5,14 @@ namespace SaveGameModLoader
     {
         public class MPM_CONFIG
         {
+            public class USECUSTOMFOLDERPATH
+            {
+                public static LocString NAME = "Use Custom Folder";
+                public static LocString TOOLTIP = "Use a custom folder path for mod profiles";
+            }
             public class FOLDERPATH
             {
-                public static LocString NAME = "Mod Profile Folder";
+                public static LocString NAME = "Custom Mod Profile Folder";
                 public static LocString TOOLTIP = "Defines the folder the mod stores and loads the mod profiles";
             }
             public class FILTERBUTTONS
