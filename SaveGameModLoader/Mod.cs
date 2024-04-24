@@ -34,7 +34,7 @@ namespace SaveGameModLoader
 
 
             SgtLogger.debuglog("Initializing file paths..");
-            ModAssets.ModPath = Config.Instance.ModProfileFolder;
+            ModAssets.ModPath = Config.Instance.UseCustomFolderPath ? Config.Instance.ModProfileFolder : FileSystem.Normalize(Path.Combine(Path.Combine(KMod.Manager.GetDirectory(), "config"), "[ModSync]StoredModConfigs"));
             ModAssets.ModPacksPath = FileSystem.Normalize(Path.Combine(ModAssets.ModPath, "[StandAloneModLists]"));
             ModAssets.ConfigPath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"), "MPM_Config.json"));
 
