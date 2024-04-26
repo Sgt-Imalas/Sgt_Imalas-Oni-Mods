@@ -41,7 +41,7 @@ namespace Rockets_TinyYetBig.Science
                 {
                     TechUtils.AddNode(__instance,
                     ModAssets.Techs.FuelLoaderTechID,
-                    ModAssets.Techs.DockingTechID,
+                    Config.Instance.RocketDocking ? ModAssets.Techs.DockingTechID : GameStrings.Technology.ColonyDevelopment.CelestialDetection,
                     xDiff: 2,
                     yDiff: 0
                     );

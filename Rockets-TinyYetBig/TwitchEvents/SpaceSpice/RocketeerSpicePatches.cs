@@ -62,7 +62,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
                     var symbolName = HashCache.Get().Get(build.symbols[i].hash);
                     if (symbolName.StartsWith(id))
                     {
-                        var accessory = new Accessory(symbolName, parent, slot, file.batchTag, build.symbols[i]);
+                        var accessory = new Accessory(symbolName, parent, slot, file.batchTag, build.symbols[i], animFile: file);
                         slot.accessories.Add(accessory);
                         HashCache.Get().Add(accessory.IdHash.HashValue, accessory.Id);
                     }

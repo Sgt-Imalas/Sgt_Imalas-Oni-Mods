@@ -50,6 +50,8 @@ namespace Rockets_TinyYetBig
                 public static LocString RTB_OXIDIZEREFFICIENCY_4 = "Oxidizer Efficiency 4";
                 public static LocString RTB_OXIDIZEREFFICIENCY_5 = "Oxidizer Efficiency 5";
                 public static LocString RTB_OXIDIZEREFFICIENCY_6 = "Oxidizer Efficiency 6";
+
+                public static LocString KATAIRITE = global::STRINGS.ELEMENTS.KATAIRITE.NAME;
             }
 
         }

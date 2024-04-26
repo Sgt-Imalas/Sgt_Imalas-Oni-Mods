@@ -416,12 +416,13 @@ namespace Rockets_TinyYetBig
 
         public IEnumerable<IOptionsEntry> CreateOptions()
         {
-            return null;
+            return new List<IOptionsEntry>();
         }
 
         public void OnOptionsChanged()
         {
             SpaceStationsAndTech = SpaceStationsPossible;
+            POptions.WriteSettings(this);
         }
     }
 }
