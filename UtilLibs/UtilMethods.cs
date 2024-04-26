@@ -64,7 +64,6 @@ namespace UtilLibs
         {
             if (!Grid.IsValidCell(_cell) || !Grid.AreCellsInSameWorld(_cell,root))
                 return true;
-            //SgtLogger.l(_cell+ ": "+Grid.IsCellOpenToSpace(_cell).ToString() + ", " + IsCellInRocket(_cell).ToString() + ", " + (Grid.Element[_cell].id == SimHashes.Vacuum) + ", " + (Grid.Element[_cell].id == SimHashes.Unobtanium).ToString());
 
             return (Grid.IsCellOpenToSpace(_cell) || IsCellInRocket(_cell)) && (Grid.Element[_cell].id == SimHashes.Vacuum || Grid.Element[_cell].id == SimHashes.Unobtanium);
         }

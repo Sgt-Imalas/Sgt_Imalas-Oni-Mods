@@ -73,6 +73,7 @@ namespace UtilLibs.UI.FUI
             }
 
             this.interactable = interactable;
+            SetColorState();
         }
 
         
