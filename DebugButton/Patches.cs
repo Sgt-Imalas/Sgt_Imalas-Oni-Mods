@@ -122,7 +122,8 @@ namespace DebugButton
 
                 if(DebugHandler.enabled)
                 {
-                    SetSuperSpeed(false);
+                    if(!SpeedControlScreen.Instance.IsPaused)
+                        SetSuperSpeed(false);
                     ToggleInstaBuild(true);
                 }
                 DebugHandler.SetDebugEnabled(!DebugHandler.enabled);
