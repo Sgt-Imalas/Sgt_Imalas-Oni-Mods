@@ -4,6 +4,7 @@ using HarmonyLib;
 using Klei.AI;
 using OniRetroEdition.Behaviors;
 using OniRetroEdition.BuildingDefModification;
+using OniRetroEdition.SlurpTool;
 using PeterHan.PLib.Actions;
 using PeterHan.PLib.Core;
 using ProcGenGame;
@@ -363,59 +364,59 @@ namespace OniRetroEdition
         {
             public static void Postfix(ref GameObject __result)
             {
-                __result.AddOrGetDef< NoiseRecieverSMI.Def>();
+                __result.AddOrGetDef<NoiseRecieverSMI.Def>();
             }
         }
 
 
-        [HarmonyPatch(typeof(MopTool))]
-        [HarmonyPatch(nameof(MopTool.OnPrefabInit))]
-        public static class Moppable_AlwaysMop
-        {
-            [HarmonyPrepare]
-            public static bool Prepare() => Config.Instance.succmop;
-            public static void Postfix(MopTool __instance)
-            {
-                MopTool.maxMopAmt = float.PositiveInfinity;
-            }
-        }
+        //[HarmonyPatch(typeof(MopTool))]
+        //[HarmonyPatch(nameof(MopTool.OnPrefabInit))]
+        //public static class Moppable_AlwaysMop
+        //{
+        //    [HarmonyPrepare]
+        //    public static bool Prepare() => Config.Instance.succmop;
+        //    public static void Postfix(MopTool __instance)
+        //    {
+        //        MopTool.maxMopAmt = float.PositiveInfinity;
+        //    }
+        //}
 
 
-        [HarmonyPatch(typeof(MopTool), "OnDragTool")]
-        public class MopTool_OnDragTool_Patch
-        {
-            [HarmonyPrepare]
-            public static bool Prepare() => Config.Instance.succmop;
-            public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
-            {
-                var codes = orig.ToList();
+        //[HarmonyPatch(typeof(MopTool), "OnDragTool")]
+        //public class MopTool_OnDragTool_Patch
+        //{
+        //    [HarmonyPrepare]
+        //    public static bool Prepare() => Config.Instance.succmop;
+        //    public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+        //    {
+        //        var codes = orig.ToList();
 
-                // find injection point
-                var index = codes.FindIndex(ci => ci.opcode == OpCodes.Stloc_1);
+        //        // find injection point
+        //        var index = codes.FindIndex(ci => ci.opcode == OpCodes.Stloc_1);
 
-                if (index == -1)
-                {
-                    SgtLogger.error("mop transpiler found no target!");
-                    return codes;
-                }
+        //        if (index == -1)
+        //        {
+        //            SgtLogger.error("mop transpiler found no target!");
+        //            return codes;
+        //        }
 
-                var m_InjectedMethod = AccessTools.DeclaredMethod(typeof(MopTool_OnDragTool_Patch), "InjectedMethod");
+        //        var m_InjectedMethod = AccessTools.DeclaredMethod(typeof(MopTool_OnDragTool_Patch), "InjectedMethod");
 
-                // inject right after the found index
-                codes.InsertRange(index, new[]
-                {
-                            new CodeInstruction(OpCodes.Call, m_InjectedMethod)
-                        });
+        //        // inject right after the found index
+        //        codes.InsertRange(index, new[]
+        //        {
+        //                    new CodeInstruction(OpCodes.Call, m_InjectedMethod)
+        //                });
 
-                //TranspilerHelper.PrintInstructions(codes);
-                return codes;
-            }
+        //        //TranspilerHelper.PrintInstructions(codes);
+        //        return codes;
+        //    }
 
-            private static bool InjectedMethod(bool old)
-            {
-                return true;
-            }
-        }
+        //    private static bool InjectedMethod(bool old)
+        //    {
+        //        return true;
+        //    }
+        //}
         [HarmonyPatch(typeof(Moppable))]
         [HarmonyPatch(nameof(Moppable.OnSpawn))]
         public static class Moppable_Watergun
@@ -434,49 +435,49 @@ namespace OniRetroEdition
         /// <summary>
         /// Teleports "mopped" liquids to the dupe
         /// </summary>
-        [HarmonyPatch(typeof(Moppable), "OnCellMopped")]
-        public class Moppable_OnCellMopped_Patch
-        {
-            [HarmonyPrepare]
-            public static bool Prepare() => Config.Instance.succmop;
+        //[HarmonyPatch(typeof(Moppable), "OnCellMopped")]
+        //public class Moppable_OnCellMopped_Patch
+        //{
+        //    [HarmonyPrepare]
+        //    public static bool Prepare() => Config.Instance.succmop;
 
 
-            public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
-            {
-                var codes = orig.ToList();
+        //    public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+        //    {
+        //        var codes = orig.ToList();
 
-                // find injection point
-                var index = codes.FindIndex(ci => ci.Calls(AccessTools.Method(typeof(TransformExtensions), nameof(TransformExtensions.SetPosition))));
+        //        // find injection point
+        //        var index = codes.FindIndex(ci => ci.Calls(AccessTools.Method(typeof(TransformExtensions), nameof(TransformExtensions.SetPosition))));
 
-                if (index == -1)
-                {
-                    SgtLogger.error("mop transpiler found no target!");
-                    TranspilerHelper.PrintInstructions(codes);
-                    return codes;
-                }
+        //        if (index == -1)
+        //        {
+        //            SgtLogger.error("mop transpiler found no target!");
+        //            TranspilerHelper.PrintInstructions(codes);
+        //            return codes;
+        //        }
 
-                var m_InjectedMethod = AccessTools.DeclaredMethod(typeof(Moppable_OnCellMopped_Patch), "InjectedMethod");
+        //        var m_InjectedMethod = AccessTools.DeclaredMethod(typeof(Moppable_OnCellMopped_Patch), "InjectedMethod");
 
-                // inject right after the found index
-                codes.InsertRange(index, new[]
-                {
-                            new CodeInstruction(OpCodes.Ldarg_0),
-                            new CodeInstruction(OpCodes.Call, m_InjectedMethod)
-                        });
+        //        // inject right after the found index
+        //        codes.InsertRange(index, new[]
+        //        {
+        //                    new CodeInstruction(OpCodes.Ldarg_0),
+        //                    new CodeInstruction(OpCodes.Call, m_InjectedMethod)
+        //                });
 
 
-                return codes;
-            }
+        //        return codes;
+        //    }
 
-            private static Vector3 InjectedMethod(Vector3 toConsume, Moppable instance)
-            {
-                if (instance == null || instance.worker == null)
-                    return toConsume;
+        //    private static Vector3 InjectedMethod(Vector3 toConsume, Moppable instance)
+        //    {
+        //        if (instance == null || instance.worker == null)
+        //            return toConsume;
 
-                return instance.worker.transform.GetPosition();
+        //        return instance.worker.transform.GetPosition();
 
-            }
-        }
+        //    }
+        //}
 
 
 
@@ -593,9 +594,88 @@ namespace OniRetroEdition
         [HarmonyPatch(nameof(AlgaeDistilleryConfig.ConfigureBuildingTemplate))]
         public static class ManualAlgaeDestillery
         {
+            public class AlgaeDestilleryWorkable: ComplexFabricatorWorkable
+            {
+                //public override Vector3 GetWorkOffset()
+                //{
+                //    return new(-1, 0);
+                //}
+                public override void OnSpawn()
+                {
+                    base.OnSpawn();
+
+                    this.SetOffsets(new[] { new CellOffset(-1, 0) });
+                }
+            }
+
 
             public static bool Prepare() => Config.Instance.manualSlimemachine;
-            public static void Postfix(GameObject go)
+            public static bool Prefix(GameObject go)
+            {
+                go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
+                go.AddOrGet<DropAllWorkable>();
+                go.AddOrGet<BuildingComplete>().isManuallyOperated = true;
+                ComplexFabricator fabricator = go.AddOrGet<ComplexFabricator>();
+                fabricator.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
+                fabricator.duplicantOperated = true;
+                fabricator.outputOffset = new(1, 0);
+                go.AddOrGet<FabricatorIngredientStatusManager>();
+                go.AddOrGet<CopyBuildingSettings>();
+                AlgaeDestilleryWorkable fabricatorWorkable = go.AddOrGet<AlgaeDestilleryWorkable>();
+                fabricatorWorkable.SetOffsets(new[] { new CellOffset(-1, 0) });
+                fabricatorWorkable.workLayer = Grid.SceneLayer.BuildingUse;
+                BuildingTemplates.CreateComplexFabricatorStorage(go, fabricator);
+
+                foreach(var fab in go.GetComponents<Storage>())
+                {
+                    fab.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
+                }
+
+                fabricatorWorkable.overrideAnims = new KAnimFile[1]
+                {
+                    Assets.GetAnim((HashedString) "anim_interacts_algae_distillery_kanim")
+                };
+                //fabricatorWorkable.workingPstComplete = new HashedString[1]
+                //{
+                //    (HashedString) "working_pst_complete"
+                //};
+                ConduitDispenser conduitDispenser = go.AddOrGet<ConduitDispenser>();
+                conduitDispenser.conduitType = ConduitType.Liquid;
+                conduitDispenser.alwaysDispense = true;
+                conduitDispenser.elementFilter = (SimHashes[])null;
+                conduitDispenser.storage = go.GetComponent<ComplexFabricator>().outStorage;
+                ;
+                Prioritizable.AddRef(go);
+                ConfigureAlgaeRecipes();
+
+                return false;
+            }
+
+            private static void ConfigureAlgaeRecipes()
+            {
+                float ratio = 1f / 3f;
+                ComplexRecipe.RecipeElement[] recipeElementArray1 = new ComplexRecipe.RecipeElement[]
+                {
+                    new ComplexRecipe.RecipeElement(SimHashes.SlimeMold.CreateTag(), 100f)
+                };
+                ComplexRecipe.RecipeElement[] recipeElementArray2 = new ComplexRecipe.RecipeElement[]
+                {
+                    new ComplexRecipe.RecipeElement(SimHashes.Algae.CreateTag(), 100f*ratio, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature),
+                    new ComplexRecipe.RecipeElement(SimHashes.DirtyWater.CreateTag(), 100f*(1f-ratio), ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature,true)
+                };
+                MushBarConfig.recipe = new ComplexRecipe(ComplexRecipeManager.MakeRecipeID(AlgaeDistilleryConfig.ID, (IList<ComplexRecipe.RecipeElement>)recipeElementArray1, (IList<ComplexRecipe.RecipeElement>)recipeElementArray2), recipeElementArray1, recipeElementArray2)
+                {
+                    time = 30f,
+                    description = global::STRINGS.ELEMENTS.ALGAE.DESC,
+                    nameDisplay = ComplexRecipe.RecipeNameDisplay.Result,
+                    fabricators = new List<Tag>()
+                    {
+                        (Tag) AlgaeDistilleryConfig.ID
+                    },
+                    sortOrder = 1
+                };                
+            }
+            static void OldCode(GameObject go)
             {
                 go.TryGetComponent<ManualDeliveryKG>(out var manualDeliveryKG);
                 manualDeliveryKG.refillMass = 300f;
@@ -628,38 +708,7 @@ namespace OniRetroEdition
                 manualOperatable.workLayer = Grid.SceneLayer.BuildingUse;
             }
         }
-        [HarmonyPatch(typeof(Turbine), nameof(Turbine.ResolveStrings))]
-        public static class TurbineStringFix
-        {
-            public static void Postfix(ref string __result, object data)
-            {
-                Turbine turbine = (Turbine)data;
-                __result = __result.Replace("{Src_Element}", ElementLoader.FindElementByHash(turbine.srcElem).name);
-                __result = __result.Replace("{Active_Temperature}", GameUtil.GetFormattedTemperature(turbine.minActiveTemperature));
-            }
-        }
-        [HarmonyPatch(typeof(Turbine), nameof(Turbine.InitializeStatusItems))]
-        public static class TurbineStringFix2
-        {
-            public static void Postfix()
-            {
-                SgtLogger.l("patching turbine status");
-                Turbine.insufficientMassStatusItem.resolveTooltipCallback = delegate (string str, object data)
-                {
-                    Turbine turbine = (Turbine)data;
-                    str = str.Replace("{Min_Mass}", GameUtil.GetFormattedMass(turbine.requiredMassFlowDifferential));
-                    str = str.Replace("{Src_Element}", ElementLoader.FindElementByHash(turbine.srcElem).name);
-                    return str;
-                };
-                Turbine.insufficientMassStatusItem.resolveStringCallback = delegate (string str, object data)
-                {
-                    Turbine turbine = (Turbine)data;
-                    str = str.Replace("{Min_Mass}", GameUtil.GetFormattedMass(turbine.requiredMassFlowDifferential));
-                    str = str.Replace("{Src_Element}", ElementLoader.FindElementByHash(turbine.srcElem).name);
-                    return str;
-                };
-            }
-        }
+        
         /// <summary>
         /// Init. auto translation
         /// </summary>
@@ -671,144 +720,9 @@ namespace OniRetroEdition
                 LocalisationUtil.Translate(typeof(STRINGS), true);
             }
         }
-        [HarmonyPatch(typeof(OverlayScreen), "RegisterModes")]
-        public static class OverlayScreen_RegisterModes_Patch
-        {
-            public static void Postfix(OverlayScreen __instance)
-            {
-                __instance.RegisterMode(new OverlayModes.Sound());
-            }
-        }
-        [HarmonyPatch(typeof(NoisePolluter), nameof(NoisePolluter.OnActiveChanged))]
-        public static class NoisePolluter_RegisterModes_Patch
-        {
-            public static bool Prefix(NoisePolluter __instance, object data)
-            {
-                bool _isActive = false;
-                if (data == null)
-                {
-                    return false;
-                }
-                if (data is bool b)
-                {
-                    _isActive = b;
-                }
-                else if (data is Operational operational
-                    )
-                {
-                    _isActive = operational.IsActive;
-                }
-                else return false;
-
-
-                bool isActive = _isActive;
-                __instance.SetActive(isActive);
-                __instance.Refresh();
-                return false;
-            }
-        }
-        /// <summary>
-        /// Initialize spatial splats as soon as they are needed
-        /// </summary>
-        [HarmonyPatch(typeof(AudioEventManager), nameof(AudioEventManager.AddSplat))]
-        public static class CrashDetect
-        {
-            public static void Prefix(AudioEventManager __instance)
-            {
-                if (__instance.spatialSplats.cells == null)
-                {
-                    SgtLogger.l("Resetting noise splat grid");
-
-                    __instance.spatialSplats.Reset(Grid.WidthInCells, Grid.HeightInCells, 16, 16);
-                }
-            }
-        }
-
-        /// <summary>
-        /// skip the method as it gets initialized in AddSplat prefix instead
-        /// </summary>
-        [HarmonyPatch(typeof(AudioEventManager), nameof(AudioEventManager.OnSpawn))]
-        public static class CrashDetect2
-        {
-            public static bool Prefix()
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Exclude items from the overlay that dont have a noise component to prevent crashes
-        /// </summary>
-        [HarmonyPatch(typeof(OverlayModes.Sound), nameof(OverlayModes.Sound.OnSaveLoadRootUnregistered))]
-
-        public static class CrashDetect3
-        {
-            public static bool Prefix(SaveLoadRoot item)
-            {
-                return item != null && item.gameObject != null && item.TryGetComponent<NoisePolluter>(out _);
-            }
-        }
-        /// <summary>
-        /// Sound Overlay
-        /// </summary>
-        [HarmonyPatch(typeof(SimDebugView), "OnPrefabInit")]
-        public static class SimDebugView_OnPrefabInit_Patch
-        {
-            public static void Postfix(Dictionary<HashedString, Func<SimDebugView, int, Color>> ___getColourFuncs)
-            {
-                //sound overlay
-                ___getColourFuncs.Add(OverlayModes.Sound.ID, GetCellColor);
-
-                //old light color
-                GlobalAssets.Instance.colorSet.lightOverlay = UIUtils.rgb(255, 226, 141);
-
-            }
-
-            private static Color GetCellColor(SimDebugView instance, int cell)
-            {
-                var db = AudioEventManager.Get().GetDecibelsAtCell(cell);
-                return Color.Lerp(SoundColors[0], SoundColors[1], Mathf.Clamp(db, 0, 200f) / 200f);
-            }
-        }
-        public static Color32[] SoundColors = new Color32[2]
-        {
-            Color.black, //No Sound
-            new Color(0.75f, 0, 0)  //Very Loud Sound
-        };
-        public static Color32[] ToxicityColors = new Color32[2]
-        {
-            UIUtils.rgb(206, 135, 29), //Slightly Toxic
-            UIUtils.rgb(227, 228, 94)  //Very Toxic
-        };
-        [HarmonyPatch(typeof(OverlayLegend), "OnSpawn")]
-        public static class OverlayLegend_OnSpawn
-        {
-            public static void Prefix(List<OverlayLegend.OverlayInfo> ___overlayInfoList)
-            {
-                var oxygenOverlay = ___overlayInfoList
-                    .Find(info => info.mode == OverlayModes.Oxygen.ID);
-                if (oxygenOverlay == null)
-                {
-                    SgtLogger.error("oxygen overlay not found!");
-                    return;
-                }
-
-                Sprite icon = oxygenOverlay.infoUnits[0].icon;
-                var data = oxygenOverlay.infoUnits[0].formatData;
-                List<OverlayInfoUnit> toxicityValues = new List<OverlayInfoUnit>()
-                {
-                    new OverlayInfoUnit(icon,"STRINGS.UI.RETRO_OVERLAY.TOXICITY.SLIGHTLYTOXIC", ToxicityColors[0], Color.white, data)
-                    {
-                        tooltip = "STRINGS.UI.OVERLAYS.OXYGEN.TOOLTIPS.LEGEND5"
-                    },
-                    new OverlayInfoUnit(icon,"STRINGS.UI.RETRO_OVERLAY.TOXICITY.VERYYTOXIC" ,ToxicityColors[1],Color.white,data){
-                        tooltip = "STRINGS.UI.OVERLAYS.OXYGEN.TOOLTIPS.LEGEND6"
-                    },
-                };
-                oxygenOverlay.infoUnits.AddRange(toxicityValues);
-            }
-        }
-
+        
+        
+        
 
         //[HarmonyPatch(typeof(MainCamera), nameof(MainCamera.Awake))]
         //public static class LightExperiments
@@ -827,7 +741,7 @@ namespace OniRetroEdition
                 if(__instance.nextUpdateTimer!=null)
                 {
                     __instance.nextUpdateTimer.gameObject.SetActive(true);
-                    __instance.nextUpdateTimer.transform.parent. gameObject.SetActive(true);
+                    __instance.nextUpdateTimer.transform.parent.gameObject.SetActive(true);
                     __instance.nextUpdateTimer.transform.parent.parent.gameObject.SetActive(true);
                 }
                 else
@@ -837,200 +751,9 @@ namespace OniRetroEdition
             }
         }
 
-        [HarmonyPatch(typeof(SimDebugView), nameof(SimDebugView.GetOxygenMapColour))]
-        public static class OxygenOverlay_Add_ToxicityColor
-        {
-            public static void Postfix(SimDebugView instance, int cell, ref Color __result)
-            {
-                if (__result == instance.unbreathableColour && Grid.Element[cell].toxicity > 1f)
-                {
-                    float t = Mathf.Clamp((Grid.Pressure[cell] - instance.minPressureExpected) / (instance.maxPressureExpected - (instance.minPressureExpected)), 0.0f, 1f);
-                    __result = Color.Lerp(ToxicityColors[0], ToxicityColors[1], t);
-                }
-            }
-        }
-
-       // [HarmonyPatch(typeof(SelectToolHoverTextCard), "UpdateHoverElements")]
-        public static class SelectToolHoverTextCard_UpdateHoverElements_Patch
-        {
-            private static readonly FieldInfo InfoId = AccessTools.Field(typeof(OverlayModes.Sound), nameof(OverlayModes.Sound.ID));
-
-            private static readonly FieldInfo LogicId = AccessTools.Field(
-                typeof(OverlayModes.Logic),
-                nameof(OverlayModes.Logic.ID)
-            );
-
-            private static readonly MethodInfo HashEq = AccessTools.Method(
-                typeof(HashedString),
-                "op_Equality",
-                new[] { typeof(HashedString), typeof(HashedString) }
-            );
-
-            private static readonly MethodInfo Helper = AccessTools.Method(
-                typeof(SelectToolHoverTextCard_UpdateHoverElements_Patch),
-                nameof(DrawerHelper)
-            );
-
-            public static IEnumerable<CodeInstruction> Transpiler(
-                IEnumerable<CodeInstruction> orig,
-                ILGenerator generator
-            )
-            {
-                List<CodeInstruction> list = orig.ToList<CodeInstruction>();
-                int index1 = list.FindIndex((Predicate<CodeInstruction>)(ci =>
-                {
-                    FieldInfo operand = ci.operand as FieldInfo;
-                    return (object)operand != null && operand == SelectToolHoverTextCard_UpdateHoverElements_Patch.LogicId;
-                }));
-                System.Reflection.Emit.Label label = generator.DefineLabel();
-                list[index1 + 2].operand = (object)label;
-                int index2 = list.FindIndex(index1, (Predicate<CodeInstruction>)(ci => ci.opcode == OpCodes.Endfinally)) + 1;
-                System.Reflection.Emit.Label operand1 = generator.DefineLabel();
-                list[index2].labels.Add(operand1);
-                int index3 = index2;
-                int num1 = index3 + 1;
-                list.Insert(index3, new CodeInstruction(OpCodes.Ldloc_2)
-                {
-                    labels = {
-            label
-          }
-                });
-                int index4 = num1;
-                int num2 = index4 + 1;
-                list.Insert(index4, new CodeInstruction(OpCodes.Ldsfld, (object)SelectToolHoverTextCard_UpdateHoverElements_Patch.InfoId));
-                int index5 = num2;
-                int num3 = index5 + 1;
-                list.Insert(index5, new CodeInstruction(OpCodes.Call, (object)SelectToolHoverTextCard_UpdateHoverElements_Patch.HashEq));
-                int index6 = num3;
-                int num4 = index6 + 1;
-                list.Insert(index6, new CodeInstruction(OpCodes.Brfalse, (object)operand1));
-                int index7 = num4;
-                int num5 = index7 + 1;
-                list.Insert(index7, new CodeInstruction(OpCodes.Ldarg_0));
-                int index8 = num5;
-                int num6 = index8 + 1;
-                list.Insert(index8, new CodeInstruction(OpCodes.Ldloc_0));
-                int index9 = num6;
-                int num7 = index9 + 1;
-                list.Insert(index9, new CodeInstruction(OpCodes.Ldloc_1));
-                int index10 = num7;
-                int num8 = index10 + 1;
-                list.Insert(index10, new CodeInstruction(OpCodes.Call, (object)SelectToolHoverTextCard_UpdateHoverElements_Patch.Helper));
-                int index11 = num8;
-                int num9 = index11 + 1;
-                list.Insert(index11, new CodeInstruction(OpCodes.Br, (object)operand1));
-                return (IEnumerable<CodeInstruction>)list;
-
-            }
-
-            private static void DrawerHelper(SelectToolHoverTextCard inst, int cell, HoverTextDrawer drawer)
-            {
-                if (AudioEventManager.Get() == null) { return; }
-
-                // Cell position info
-                drawer.BeginShadowBar();
-                var db = AudioEventManager.Get().GetDecibelsAtCell(cell);
-                drawer.DrawText(STRINGS.UI.RETRO_OVERLAY.SOUND.OVERLAYNAME, inst.Styles_Title.Standard);
-                drawer.NewLine();
-                drawer.DrawText(string.Format(STRINGS.UI.RETRO_OVERLAY.SOUND.TOOLTIP1, db), inst.Styles_BodyText.Standard);
-                SelectToolHoverTextCard.highlightedObjects.Clear();
-                if (db > 0)
-                {
-                    drawer.NewLine();
-                    drawer.NewLine();
-                    drawer.DrawText(STRINGS.UI.RETRO_OVERLAY.SOUND.TOOLTIP2, inst.Styles_BodyText.Standard);
-                    foreach (AudioEventManager.PolluterDisplay source in AudioEventManager.Get().GetPollutersForCell(cell))
-                    {
-                        drawer.NewLine();
-                        drawer.DrawText($" - {source.name}: {source.value} dB.", inst.Styles_BodyText.Standard);
-                        SelectToolHoverTextCard.highlightedObjects.Add(source.provider.GetGameObject());
-                    }
-                }
-                drawer.EndShadowBar();
-
-
-
-            }
-        }
-
-
-
-
         /// <summary>
-        /// Applied to OverlayMenu to add a button for our overlay.
+        /// old conveyor box
         /// </summary>
-        [HarmonyPatch(typeof(OverlayMenu), "InitializeToggles")]
-        public static class OverlayMenu_InitializeToggles_Patch
-        {
-            private const BindingFlags INSTANCE_ALL = PPatchTools.BASE_FLAGS | BindingFlags.
-                Instance;
-            private static readonly Type OVERLAY_TYPE = typeof(OverlayMenu).GetNestedType(
-                "OverlayToggleInfo", INSTANCE_ALL);
-
-            /// <summary>
-            /// Applied after InitializeToggles runs.
-            /// </summary>
-            internal static void Postfix(ICollection<KIconToggleMenu.ToggleInfo> ___overlayToggleInfos)
-            {
-                var action =
-                    //(OpenOverlay == null) ? 
-                    PAction.MaxAction
-                    //: OpenOverlay.GetKAction()
-                    ;
-                var info = CreateOverlayInfo("Sound Overlay", "overlay_sound", OverlayModes.Sound.ID, action,
-                    global::STRINGS.UI.TOOLTIPS.NOISE_POLLUTION_OVERLAY_STRING);
-                if (info != null)
-                    ___overlayToggleInfos?.Add(info);
-            }
-
-
-            private static KIconToggleMenu.ToggleInfo CreateOverlayInfo(string text,
-                    string icon_name, HashedString sim_view, Action openKey,
-                    string tooltip)
-            {
-                const int KNOWN_PARAMS = 7;
-                KIconToggleMenu.ToggleInfo info = null;
-                ConstructorInfo[] cs;
-                if (OVERLAY_TYPE == null || (cs = OVERLAY_TYPE.GetConstructors(INSTANCE_ALL)).
-                        Length != 1)
-                    PUtil.LogWarning("Unable to add TileOfInterest - missing constructor");
-                else
-                {
-                    var cons = cs[0];
-                    var toggleParams = cons.GetParameters();
-                    int paramCount = toggleParams.Length;
-                    // Manually plug in the knowns
-                    if (paramCount < KNOWN_PARAMS)
-                        PUtil.LogWarning("Unable to add TileOfInterest - parameters missing");
-                    else
-                    {
-                        object[] args = new object[paramCount];
-                        args[0] = text;
-                        args[1] = icon_name;
-                        args[2] = sim_view;
-                        args[3] = "";
-                        args[4] = openKey;
-                        args[5] = tooltip;
-                        args[6] = text;
-                        // 3 and further (if existing) get new optional values
-                        for (int i = KNOWN_PARAMS; i < paramCount; i++)
-                        {
-                            var op = toggleParams[i];
-                            if (op.IsOptional)
-                                args[i] = op.DefaultValue;
-                            else
-                            {
-                                PUtil.LogWarning("Unable to add TileOfInterest - new parameters");
-                                args[i] = null;
-                            }
-                        }
-                        info = cons.Invoke(args) as KIconToggleMenu.ToggleInfo;
-                    }
-                }
-                return info;
-            }
-        }
-
         [HarmonyPatch(typeof(SolidConduitFlowVisualizer))]
         [HarmonyPatch(typeof(SolidConduitFlowVisualizer), MethodType.Constructor)]
         [HarmonyPatch(new Type[] { typeof(SolidConduitFlow), typeof(Game.ConduitVisInfo), typeof(FMODUnity.EventReference), typeof(SolidConduitFlowVisualizer.Tuning) })]
@@ -1079,6 +802,10 @@ namespace OniRetroEdition
                 }
             }
         }
+        
+        /// <summary>
+        /// Make liquids more transparent
+        /// </summary>
         [HarmonyPatch(typeof(WaterCubes), nameof(WaterCubes.Init))]
         public class WaterCubes_Init_Patch
         {
@@ -1087,73 +814,6 @@ namespace OniRetroEdition
                 // make the liquids a little more see-through
                 __instance.material.SetFloat("_BlendScreen", 0.4f); //courtesy of aki; beached
             }
-        }
-        [HarmonyPatch(typeof(ElementLoader), "Load")]
-        public static class Patch_ElementLoader_Load
-        {
-            public static List<SimHashes> ToxicElements = new List<SimHashes>()
-            {
-                SimHashes.Hydrogen,
-                SimHashes.ChlorineGas,
-                SimHashes.EthanolGas,
-                SimHashes.SourGas
-            };
-
-            public static void Postfix()
-            {
-                //foreach (var element in ElementLoader.elements)
-                //{
-                //    if (element.IsLiquid)
-                //    {
-                //        var substance = element.substance;
-
-                //        substance.colour = new Color32(substance.colour.r, substance.colour.g, element.substance.colour.b, (byte)(element.substance.colour.a * 0.5f));
-                //    }
-                //}
-                foreach (var simhash in ToxicElements)
-                {
-
-                    var element = ElementLoader.GetElement(simhash.CreateTag());
-                    element.toxicity += 1.1f;
-                }
-
-
-                //var metalMaterial = ElementLoader.GetElement(SimHashes.Steel.CreateTag()).substance.material;
-
-                // fix lead specular
-                //var lead = ElementLoader.FindElementByHash(SimHashes.Lead);
-                //lead.substance.material.SetTexture("_ShineMask", AssetUtils.LoadTexture("lead_mask_fixed", texturePath));
-
-
-                var aluminium = ElementLoader.GetElement(SimHashes.Aluminum.CreateTag()).substance.material;
-                SgtElementUtil.SetTexture_Main(aluminium, "aluminium_retro");
-                SgtElementUtil.SetTexture_ShineMask(aluminium, "alumiminX_retro_ShineMask");
-
-                var co2Solid = ElementLoader.GetElement(SimHashes.SolidCarbonDioxide.CreateTag()).substance.material;
-                SgtElementUtil.SetTexture_Main(co2Solid, "solid_carbon_dioxide_retro");
-
-
-                var depletedU = ElementLoader.GetElement(SimHashes.DepletedUranium.CreateTag()).substance.material;
-                SgtElementUtil.SetTexture_Main(depletedU, "depleted_uranium_retro");
-
-                var enrichedU = ElementLoader.GetElement(SimHashes.EnrichedUranium.CreateTag()).substance.material;
-                SgtElementUtil.SetTexture_Main(enrichedU, "enriched_uranium_retro");
-
-                var ironORe = ElementLoader.GetElement(SimHashes.IronOre.CreateTag()).substance.material;
-                SgtElementUtil.SetTexture_Main(ironORe, Config.Instance.IronOreTexture == Config.EarlierVersion.Beta ? "hematite_(t)_retro" : "hematite_(alpha)_retro");
-                if (Config.Instance.IronOreTexture == Config.EarlierVersion.Alpha)
-                    SgtElementUtil.SetTexture_ShineMask(ironORe, "hematite_(alpha)_retro_ShineMask");
-                else
-                    SgtElementUtil.SetTexture_ShineMask(ironORe, "hematite_(t)_retro_ShineMask.png");
-
-
-                var bleachstone = ElementLoader.GetElement(SimHashes.BleachStone.CreateTag()).substance.material;
-                SgtElementUtil.SetTexture_Main(bleachstone, "bleach_stone_retro");
-
-                var radEle = ElementLoader.GetElement(SimHashes.Radium.CreateTag()).substance.material;
-                SgtElementUtil.SetTexture_Main(radEle, "radium_retro");
-            }
-
         }
 
     }

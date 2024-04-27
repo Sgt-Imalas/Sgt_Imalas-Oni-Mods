@@ -31,14 +31,14 @@ namespace OniRetroEdition
         [JsonProperty]
         public bool succmop { get; set; }
 
-        [Option("manual space can opener", "")]
-        [JsonProperty]
-        public bool manualRailgunPayloadOpener { get; set; }
+        //[Option("manual space can opener", "")]
+        //[JsonProperty]
+        //public bool manualRailgunPayloadOpener { get; set; }
 
         [Option("manual slime machine", "")]
         [JsonProperty]
         public bool manualSlimemachine { get; set; }
-        [Option("gas element sensor power requirement", "")]
+        [Option("Gas Element Sensor takes power", "")]
         [JsonProperty]
         public bool gassensorpower { get; set; }
         [Option("liquid element sensor power requirement", "")]
@@ -47,8 +47,8 @@ namespace OniRetroEdition
         public Config()
         {
             TileTopsMerge = true;
-            manualRailgunPayloadOpener = true;
-            manualSlimemachine = false;
+            //manualRailgunPayloadOpener = true;
+            manualSlimemachine = true;
             IronOreTexture = EarlierVersion.Beta;
             gassensorpower = true; 
             liquidsensorpower = false;

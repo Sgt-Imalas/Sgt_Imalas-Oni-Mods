@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace OniRetroEdition
+namespace OniRetroEdition.SlurpTool
 {
     internal class WaterSuckEffect : IEntityConfig
     {

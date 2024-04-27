@@ -22,8 +22,16 @@ namespace OniRetroEdition.BuildingDefModification
         //public static void AddBuildingDef_Prefix(BuildingDef def)
         //{
         //    AddLogic.TryAddLogic(def);
-        //}
-
+        //}CreatureDeliveryPointConfig
+        [HarmonyPatch(typeof(CreatureDeliveryPointConfig), "CreateBuildingDef")]
+        public class CreatureDeliveryPointConfig_buildingdef
+        {
+            public static void Postfix(BuildingDef __result)
+            {
+                __result.Deprecated = false;
+                __result.ShowInBuildMenu = true;
+            }
+        }
         [HarmonyPatch(typeof(KAnimGroupFile), "Load")]
         public class KAnimGroupFile_Load_Patch
         {

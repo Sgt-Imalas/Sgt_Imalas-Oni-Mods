@@ -9,8 +9,23 @@ namespace OniRetroEdition
 {
     internal class STRINGS
     {
+        public class MISC
+        {
+            public class PLACERS
+            {
+                public class SLURPPLACER
+                {
+                    public static LocString NAME = (LocString)"Pump";
+                    public static LocString TOOL_NAME = (LocString)"Pumping Tool";
+                    public static LocString ACTION_NAME = (LocString)"Pump Liquids";
+
+                    public static LocString SLURPBUTTON = "Command duplicants to pump liquid";
+                }
+            }
+        }
         public class UI
         {
+
             public class RETRO_OVERLAY
             {
                 public class TOXICITY
