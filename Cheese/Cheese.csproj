@@ -107,6 +107,15 @@
 	  <None Update="ModAssets\anim\assets\grilled_cheese\grilled_cheese_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\anim\assets\gronehog\gronehog_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\gronehog\gronehog_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\gronehog\gronehog_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\anim\assets\saltymilkfat\milkfat.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
