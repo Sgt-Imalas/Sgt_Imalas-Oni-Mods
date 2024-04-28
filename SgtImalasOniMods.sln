@@ -149,7 +149,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeebDupe", "WeebDupe\WeebDu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cheese", "Cheese\Cheese.csproj", "{19915F3D-9894-44C7-BF68-BC3955D43D0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RebuildPreserve", "RebuildPreserve\RebuildPreserve.csproj", "{32490DAC-271C-402A-A90E-91ABE9CAF8EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RebuildPreserve", "RebuildPreserve\RebuildPreserve.csproj", "{32490DAC-271C-402A-A90E-91ABE9CAF8EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillScreenCrashMitigation", "SkillScreenCrashMitigation\SkillScreenCrashMitigation.csproj", "{1A383D59-AD69-4C08-9C04-50DAD9E6F1D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -433,6 +435,10 @@ Global
 		{32490DAC-271C-402A-A90E-91ABE9CAF8EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32490DAC-271C-402A-A90E-91ABE9CAF8EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32490DAC-271C-402A-A90E-91ABE9CAF8EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A383D59-AD69-4C08-9C04-50DAD9E6F1D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A383D59-AD69-4C08-9C04-50DAD9E6F1D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A383D59-AD69-4C08-9C04-50DAD9E6F1D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A383D59-AD69-4C08-9C04-50DAD9E6F1D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
