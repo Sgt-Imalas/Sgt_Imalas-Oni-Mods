@@ -4,6 +4,7 @@ using HarmonyLib;
 using Klei.AI;
 using PeterHan.PLib.Core;
 using ProcGen.Noise;
+using SetStartDupes.DuplicityEditing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,6 +59,24 @@ namespace SetStartDupes
                 }
             }
         }
+        //[HarmonyPatch(typeof(CarePackageInfo), nameof(CarePackageInfo.Deliver))]
+        //public class AdditionalCarePackages_DLC
+        //{
+        //    public static void Postfix(GameObject __result, CarePackageInfo __instance)
+        //    {
+        //        if(__instance.id)
+        //    }
+        //}
+        [HarmonyPatch(typeof(Immigration), nameof(Immigration.ConfigureCarePackages))]
+        public class AdditionalCarePackages
+        {
+            static bool Prepare() => ModConfig.Instance.AddAdditionalCarePackages;
+            public static void Postfix(Immigration __instance)
+            {
+                __instance.carePackages = __instance.carePackages.Concat(ModAssets.GetAdditionalCarePackages(__instance));
+            }
+        }
+
 
         [HarmonyPatch(typeof(CryoTank))]
         [HarmonyPatch(nameof(CryoTank.DropContents))]
@@ -536,6 +555,7 @@ namespace SetStartDupes
         public class AddSkinButtonToDetailScreen
         {
             public static GameObject SkinButtonGO = null;
+            public static GameObject DupeStatEditingButtonGO = null;
             public static void Postfix(DetailsScreen __instance)
             {
                 if (ModConfig.Instance.LiveDupeSkins)
@@ -562,6 +582,30 @@ namespace SetStartDupes
                     SkinButtonGO = SkinButton.gameObject;
                     SkinButtonGO.SetActive(false);
                 }
+                if (ModConfig.Instance.DuplicityDupeEditor)
+                {
+                    SgtLogger.l("adding edit button to detailsScreen");
+
+                    if (DupeStatEditingButtonGO != null)
+                        UnityEngine.Object.Destroy(DupeStatEditingButtonGO);
+
+                    var EditButton = Util.KInstantiateUI<KButton>(__instance.CodexEntryButton.gameObject, __instance.CodexEntryButton.transform.parent.gameObject);
+                    //SkinButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 20, 33f);
+                    EditButton.ClearOnClick();
+                    EditButton.name = "DupeStatEditingSideScreen";
+                    UIUtils.AddSimpleTooltipToObject(EditButton.transform, STRINGS.UI.BUTTONS.DUPELICITYEDITINGBUTTONTOOLTIP, true, onBottom: true);
+                    if (EditButton.transform.Find("Image").TryGetComponent<Image>(out var image))
+                    {
+                        image.sprite = Assets.GetSprite("icon_gear");
+                    }
+
+                    EditButton.onClick += () =>
+                    {
+                        DuplicityMainScreen.ShowWindow(__instance.target, () => { } );
+                    };
+                    DupeStatEditingButtonGO = EditButton.gameObject;
+                    DupeStatEditingButtonGO.SetActive(false);
+                }
             }
         }
         [HarmonyPatch(typeof(DetailsScreen))]
@@ -574,6 +618,10 @@ namespace SetStartDupes
                 {
                     AddSkinButtonToDetailScreen.SkinButtonGO.SetActive(__instance.target.GetComponent<MinionIdentity>());
                     //SgtLogger.l("AddSkinButtonToDetailScreen.SkinButtonGO.Active: " + AddSkinButtonToDetailScreen.SkinButtonGO.activeSelf);
+                }
+                if (AddSkinButtonToDetailScreen.DupeStatEditingButtonGO != null && __instance.target != null)
+                {
+                    AddSkinButtonToDetailScreen.DupeStatEditingButtonGO.SetActive(__instance.target.GetComponent<MinionIdentity>());
                 }
                 //else
                 //    SgtLogger.warning("skin button go was null!");

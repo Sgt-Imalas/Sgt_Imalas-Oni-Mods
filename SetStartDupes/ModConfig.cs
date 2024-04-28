@@ -40,6 +40,10 @@ namespace SetStartDupes
         [JsonProperty]
         public bool RerollDuringGame { get; set; }
 
+        [Option("STRINGS.UI.DSS_OPTIONS.MORECAREPACKAGES.NAME", "STRINGS.UI.DSS_OPTIONS.MORECAREPACKAGES.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
+        [JsonProperty]
+        public bool AddAdditionalCarePackages { get; set; }
+
         [Option("STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIME.NAME", "STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIME.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
         [JsonProperty]
         public float PrintingPodRechargeTime { get; set; }
@@ -75,6 +79,10 @@ namespace SetStartDupes
         [Option("STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.NAME", "STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.D_SKINSETTINGS")]
         [JsonProperty]
         public bool SkinsDoReactions { get; set; }
+
+        [Option("STRINGS.UI.DSS_OPTIONS.LIVEDUPESTATCHANGE.NAME", "STRINGS.UI.DSS_OPTIONS.LIVEDUPESTATCHANGE.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.E_UTIL")]
+        [JsonProperty]
+        public bool DuplicityDupeEditor { get; set; }
 
         [Option("STRINGS.UI.DSS_OPTIONS.REROLLCRYOPODANDJORGE.NAME", "STRINGS.UI.DSS_OPTIONS.REROLLCRYOPODANDJORGE.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.E_UTIL")]
         [JsonProperty]
@@ -122,7 +130,7 @@ namespace SetStartDupes
             CarePackagesOnlyDupeCap = 16;
             CarePackagesOnlyPackageCap = 3;
 
-            LiveDupeSkins = false;
+            LiveDupeSkins = true;
             SkinsDoReactions = true;
             JorgeAndCryopodDupes = true;
             HermitSkin = true;
@@ -132,6 +140,9 @@ namespace SetStartDupes
             BalanceAddRemove = true;
             NoJoyReactions = false;
             NoStressReactions = false;
+
+            AddAdditionalCarePackages = true;
+            DuplicityDupeEditor=true;
         }
     }
 }

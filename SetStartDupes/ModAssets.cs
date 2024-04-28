@@ -52,6 +52,7 @@ namespace SetStartDupes
         public static GameObject PresetWindowPrefab;
         public static GameObject TraitsWindowPrefab;
         public static GameObject CrewDupeEntryPrefab;
+        public static GameObject DuplicityWindowPrefab;
 
 
         public static GameObject ParentScreen
@@ -87,12 +88,48 @@ namespace SetStartDupes
                     UnityEngine.Object.Destroy(UnityCrewPresetScreen.Instance);
                     UnityTraitScreen.Instance = null;
                 }
+                if (UnityDuplicitySelectionScreen.Instance != null)
+                {
+                    // UnityTraitScreen.Instance.transform.SetParent(parentScreen.transform, false);
+                    UnityEngine.Object.Destroy(UnityDuplicitySelectionScreen.Instance);
+                    UnityDuplicitySelectionScreen.Instance = null;
+                }
                 parentScreen = value;
             }
         }
         private static GameObject parentScreen = null;
 
 
+        public static CarePackageInfo[] GetAdditionalCarePackages(Immigration __instance)
+        {
+            bool Dlc1Active = DlcManager.IsExpansion1Active();
+
+            var carePackages = new List<CarePackageInfo>()
+            {                    
+                new CarePackageInfo(EvilFlowerConfig.SEED_ID, 1f, () => __instance.CycleCondition(96) && __instance.DiscoveredCondition((Tag) EvilFlowerConfig.ID) || __instance.CycleCondition(500)),
+                new CarePackageInfo(BeanPlantConfig.SEED_ID, 3f, () => __instance.CycleCondition(48) && __instance.DiscoveredCondition((Tag) BeanPlantConfig.ID) || __instance.CycleCondition(500)),
+                new CarePackageInfo(ColdWheatConfig.SEED_ID, 3f, () => __instance.CycleCondition(48) && __instance.DiscoveredCondition((Tag) ColdWheatConfig.ID) || __instance.CycleCondition(500)),
+                new CarePackageInfo(SeaLettuceConfig.SEED_ID, 3f, () => __instance.CycleCondition(48) && __instance.DiscoveredCondition((Tag) SeaLettuceConfig.ID) || __instance.CycleCondition(500)),
+                
+                new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.IronOre).tag.ToString(), 2000f, (Func<bool>) (() => __instance.CycleCondition(12) && __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.IronOre).tag)|| __instance.CycleCondition(500))),
+                new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Wolframite).tag.ToString(), 1000f, (Func<bool>) (() => __instance.CycleCondition(48) && __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Wolframite).tag)|| __instance.CycleCondition(500))),
+
+            };
+            if (Dlc1Active)
+            {
+                carePackages.AddRange( new List<CarePackageInfo>()
+                {
+                    new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.UraniumOre).tag.ToString(), 100f, () => __instance.CycleCondition(48)&& __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.UraniumOre).tag) || __instance.CycleCondition(500)),
+                    new CarePackageInfo(SwampHarvestPlantConfig.SEED_ID, 3f, () => __instance.CycleCondition(24) && __instance.DiscoveredCondition((Tag) SwampHarvestPlantConfig.ID) || __instance.CycleCondition(500)),
+                    new CarePackageInfo(ToePlantConfig.SEED_ID, 3f, () => __instance.CycleCondition(48) && __instance.DiscoveredCondition((Tag) ToePlantConfig.ID) || __instance.CycleCondition(500)),
+                    new CarePackageInfo("CritterTrapPlantSeed", 1f, () => __instance.CycleCondition(96)&& __instance.DiscoveredCondition((Tag) CritterTrapPlantConfig.ID) || __instance.CycleCondition(500)),
+
+                    new CarePackageInfo(BabyBeeConfig.ID, 1f, () => __instance.CycleCondition(24) && (__instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.UraniumOre).tag)||__instance.DiscoveredCondition((Tag) BabyBeeConfig.ID)) || __instance.CycleCondition(500)),
+
+                });
+            }
+            return carePackages.ToArray();
+        }
         public static void LoadAssets()
         {
             AssetBundle bundle = AssetUtils.LoadAssetBundle("dss_uiassets", platformSpecific: true);
@@ -101,10 +138,13 @@ namespace SetStartDupes
             PresetWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/PresetWindow.prefab");
             TraitsWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DupeSkillsPopUp.prefab");
             CrewDupeEntryPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DupePresetListItem.prefab");
+            DuplicityWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DupeEditing.prefab");
+
 
             SgtLogger.Assert("PresetWindowPrefab was null!", PresetWindowPrefab);
             SgtLogger.Assert("TraitsWindowPrefab was null!", TraitsWindowPrefab);
             SgtLogger.Assert("CrewDupeEntryPrefab was null!", CrewDupeEntryPrefab);
+            SgtLogger.Assert("DuplicityWindowPrefab was null!", DuplicityWindowPrefab);
 
             //UIUtils.ListAllChildren(PresetWindowPrefab.transform);
 
@@ -112,6 +152,7 @@ namespace SetStartDupes
             TMPConverter.ReplaceAllText(PresetWindowPrefab);
             TMPConverter.ReplaceAllText(TraitsWindowPrefab);
             TMPConverter.ReplaceAllText(CrewDupeEntryPrefab);
+            TMPConverter.ReplaceAllText(DuplicityWindowPrefab);
 
         }
 
@@ -550,7 +591,7 @@ namespace SetStartDupes
             }
         };
 
-        public static List<DUPLICANTSTATS.TraitVal> TryGetTraitsOfCategory(NextType type, List<Trait> traitsForCost = null)
+        public static List<DUPLICANTSTATS.TraitVal> TryGetTraitsOfCategory(NextType type, List<Trait> traitsForCost = null, bool overrideShowAll = false)
         {
             if (type != NextType.allTraits)
             {
@@ -562,7 +603,7 @@ namespace SetStartDupes
             else
             {
 
-                if (DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || ModConfig.Instance.AddVaccilatorTraits)
+                if (DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || ModConfig.Instance.AddVaccilatorTraits || overrideShowAll)
                 {
                     return
                         //TraitsByType[NextType.special].Concat

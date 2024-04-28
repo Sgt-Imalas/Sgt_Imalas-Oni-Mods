@@ -20,6 +20,59 @@ namespace SetStartDupes
         public class UI
         {
 
+            public class DUPEEDITING
+            {
+                public class CONFIRMATIONDIALOG
+                {
+                    public static LocString TITLE = "Unsaved Changes";
+                    public static LocString TEXT = "Warning, there are pending changes that have not been applied yet.\nChoose an action on how to proceed:";
+                    public static LocString APPLYCHANGES = "Apply changes";
+                    public static LocString DISCARDCHANGES = "Discard changes";
+                    public static LocString CANCEL = "Cancel";
+                }
+                public class CATEGORIES
+                {
+                    public class HEADER
+                    {
+                        public static LocString LABEL = "Duplicants";
+                    }
+                }
+                public class DETAILS
+                {
+                    public class HEADER
+                    {
+                        public static LocString LABEL = "Duplicants"; 
+                        public class BUTTONS
+                        {
+                            public class ATTRIBUTEBUTTON
+                            {
+                                public static LocString TEXT = "Attributes";
+                                public static LocString TOOLTIP = "";
+                            }
+                            public class APPEARANCEBUTTON
+                            {
+                                public static LocString TEXT = "Appearance";
+                                public static LocString TOOLTIP = "";
+                            }
+                            public class HEALTHBUTTON
+                            {
+                                public static LocString TEXT = "Health";
+                                public static LocString TOOLTIP = "";
+                            }
+                            public class SKILLSBUTTON
+                            {
+                                public static LocString TEXT = "Skills";
+                                public static LocString TOOLTIP = "";
+                            }
+                            public class EFFECTSBUTTON
+                            {
+                                public static LocString TEXT = "Effects";
+                                public static LocString TOOLTIP = "";
+                            }
+                        }
+                    }
+                }
+            }
             public class DSS_OPTIONS
             {
                 public class CATEGORIES
@@ -94,13 +147,8 @@ namespace SetStartDupes
                 }
                 public class MORECAREPACKAGES
                 {
-                    public static LocString NAME = "Additional Care Packages";
-                    public static LocString TOOLTIP = "Adds a number of items to the list of care packages that would otherwise not be obtainable. Those are:\n Nosh Beans, Buddy Buds, Beetinys";
-                }
-                public class NOFINDINGRESTRICTIONCYCLE
-                {
-                    public static LocString NAME = "Remove Care Package Restrictions above Cycle [DLC only]";
-                    public static LocString TOOLTIP = "Adds a number of items to the list of care packages that would otherwise not be obtainable. Those are:\nNosh Bean, Buddy Bud\nDLC only: Beetiny, Saturn Critter Trap";
+                    public static LocString NAME = "Additional Care Package Types";
+                    public static LocString TOOLTIP = "Adds a number of items to the list of care packages that would otherwise not be obtainable.";
                 }
 
                 public class CAREPACKAGESONLYDUPECAP
@@ -113,6 +161,11 @@ namespace SetStartDupes
                 {
                     public static LocString NAME = "Number of care packages for care packages only";
                     public static LocString TOOLTIP = "Only has an effect if \"" + CAREPACKAGESONLY.NAME + "\" is enabled.\nSet the number of care packages that generate when the cap is in effect";
+                }
+                public class LIVEDUPESTATCHANGE
+                {
+                    public static LocString NAME = "Enable Duplicity-style Duplicant Editor";
+                    public static LocString TOOLTIP = "Edit your active duplicants in a new editor similar to the Duplicity-savegame editor";
                 }
                 public class LIVEDUPESKINCHANGE
                 {
@@ -315,6 +368,7 @@ namespace SetStartDupes
                 public static LocString MODIFYBUTTONTOOLTIP2 = "Apply Stat Changes";
                 public static LocString PRESETWINDOWBUTTONTOOLTIP = "Open Duplicant Preset Window\nTo create a preset from this duplicants stats,\nclick the \"" + GENERATEFROMCURRENT.TEXT + "\" button in the preset window.";
                 public static LocString DUPESKINBUTTONTOOLTIP = "Select Duplicant Personality (Skin)";
+                public static LocString DUPELICITYEDITINGBUTTONTOOLTIP = "Edit Duplicants";
 
                 public static LocString APPLYSKIN = "Apply this Personality";
 

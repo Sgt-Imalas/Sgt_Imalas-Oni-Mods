@@ -7,6 +7,7 @@ using Klei.CustomSettings;
 using KMod;
 using ProcGen;
 using rail;
+using SetStartDupes.DuplicityEditing;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -32,58 +33,54 @@ using static STRINGS.UI.DETAILTABS.PERSONALITY.RESUME;
 
 namespace SetStartDupes
 {
-    internal class UnityTraitScreen : FScreen
+    internal class UnityDuplicitySelectionScreen : FScreen
     {
 #pragma warning disable IDE0051 // Remove unused private members
         new bool ConsumeMouseScroll = true; // do not remove!!!!
 #pragma warning restore IDE0051 // Remove unused private members
-        public static UnityTraitScreen Instance = null;
+        public static UnityDuplicitySelectionScreen Instance = null;
 
         public LocText ToReplaceName;
         public Image ToReplaceColour;
 
         public GameObject PresetListContainer;
         public GameObject PresetListPrefab;
+        public GameObject BodypartPrefab;
 
         public FButton ClearSearchBar;
         public FInputField2 Searchbar;
 
         public bool CurrentlyActive;
 
-        ///Referenced Stats to apply stuff to.
-        MinionStartingStats ReferencedStats = null;
         OpenedFrom openedFrom;
-        NextType TraitCategory;
 
 
         Dictionary<Trait, GameObject> TraitContainers = new Dictionary<Trait, GameObject>();
         Dictionary<SkillGroup, GameObject> DupeInterestContainers = new Dictionary<SkillGroup, GameObject>();
+        Dictionary<Effect, GameObject> EffectContainers = new Dictionary<Effect, GameObject>();
+        Dictionary<string, Dictionary<HashedString, GameObject>> BodypartContainers = new();
 
-        SkillGroup CurrentGroup = null;
-        Trait CurrentTrait = null;
-        DupeTraitManager currentStatManager;
+
         public enum OpenedFrom
         {
-            undefined,
+            Undefined = 0,
             Interest,
             Trait,
-            Editor_Interest,
-            Editor_Trait,
-            Editor_Effect
-                
+            Effect,
+            Bodypart,
+
         }
 
 
-        public static void ShowWindow(MinionStartingStats startingStats, System.Action onClose,  SkillGroup currentGroup = null, DupeTraitManager DupeTraitManager = null, Trait currentTrait = null, OpenedFrom openedFrom = default)
+        public static void ShowWindow(System.Action onClose)
         {
             if (Instance == null)
             {
                 var screen = Util.KInstantiateUI(ModAssets.TraitsWindowPrefab, ModAssets.ParentScreen, true);
-                Instance = screen.AddOrGet<UnityTraitScreen>();
+                Instance = screen.AddOrGet<UnityDuplicitySelectionScreen>();
                 Instance.Init();
             }
-            Instance.ReferencedStats = startingStats;
-            Instance.SetOpenedType(currentGroup, currentTrait, DupeTraitManager, openedFrom);
+            //Instance.SetOpenedType(currentGroup, currentTrait, DupeTraitManager, openedFrom);
             Instance.Show(true);
             Instance.ConsumeMouseScroll = true;
             Instance.transform.SetAsLastSibling();
@@ -109,51 +106,9 @@ namespace SetStartDupes
 
             base.OnKeyDown(e);
         }
-        private void SetOpenedType(SkillGroup currentGroup = null, Trait currentTrait = null, DupeTraitManager dupeTraitManager = null, OpenedFrom from = OpenedFrom.undefined)
+        private void SetOpenedType(OpenedFrom from = OpenedFrom.Undefined)
         {
-            var type = currentTrait != null ? OpenedFrom.Trait : currentGroup != null ? OpenedFrom.Interest : from;
-
-            if (from == OpenedFrom.Trait)
-                TraitCategory = NextType.allTraits;
-
-
-            CurrentGroup = currentGroup;
-            CurrentTrait = currentTrait;
-            currentStatManager = dupeTraitManager;
-
-            List<string> allowedTraits = new List<string>();
-
-            if (currentGroup != null)
-            {
-                ToReplaceName.text = ModAssets.GetSkillgroupName(currentGroup);
-                ToReplaceColour.color = UIUtils.Darken(ModAssets.Colors.grey, 40);
-            }
-            else if (currentTrait != null)
-            {
-                var next = ModAssets.GetTraitListOfTrait(currentTrait.Id, out _);
-                TraitCategory = next;
-                ToReplaceName.text = GetTraitName(currentTrait);
-                ToReplaceColour.color = ModAssets.GetColourFromType(next);
-                allowedTraits = GetAllowedTraits();
-            }
-            else
-            {
-                ToReplaceName.text = global::STRINGS.DUPLICANTS.CONGENITALTRAITS.NONE.NAME;
-                ToReplaceColour.color = ModAssets.Colors.grey;
-            }
-            foreach (var go in TraitContainers)
-            {
-                go.Value.SetActive(type == OpenedFrom.Trait && allowedTraits.Contains(go.Key.Id));
-            }
-
-            List<SkillGroup> forbidden = ReferencedStats.skillAptitudes.Keys.ToList();
-            foreach (var go in DupeInterestContainers)
-            {
-                go.Value.SetActive(type == OpenedFrom.Interest && !forbidden.Contains(go.Key));
-            }
-
-
-            openedFrom = type;
+            openedFrom = from;
             ApplyFilter();
         }
 
@@ -183,14 +138,35 @@ namespace SetStartDupes
 
         }
 
-        private GameObject AddUiContainer(string name, string description, System.Action onClickAction, Color overrideColor = default)
+
+
+        private GameObject AddUiContainer(string name, string description, System.Action onClickAction, Color overrideColor = default, GameObject prefabOverride = null, Sprite placeImage = null)
         {
-            var PresetHolder = Util.KInstantiateUI(PresetListPrefab, PresetListContainer, true);
+            if (prefabOverride == null)
+                prefabOverride = PresetListPrefab;
+
+            var PresetHolder = Util.KInstantiateUI(prefabOverride, PresetListContainer, true);
 
             UIUtils.TryChangeText(PresetHolder.transform, "Label", name);
             if (description != null && description.Length > 0)
             {
                 UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("Label"), description, true, onBottom: true);
+            }
+            if (placeImage != null)
+            {
+                var image = PresetHolder.transform.Find("Image").FindOrAddComponent<Image>();
+                image.sprite = placeImage;
+                UnityEngine.Rect rect = image.sprite.rect;
+                if (rect.width > rect.height)
+                {
+                    var size = (rect.height / rect.width) * 55;
+                    image.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size);
+                }
+                else
+                {
+                    var size = (rect.width / rect.height) * 55;
+                    image.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size);
+                }
             }
 
             PresetHolder.transform.FindOrAddComponent<FButton>().OnClick += onClickAction;
@@ -203,29 +179,29 @@ namespace SetStartDupes
 
         private void ChoseThis(Trait trait)
         {
-            switch (TraitCategory)
-            {
-                case NextType.geneShufflerTrait:
-                case NextType.posTrait:
-                case NextType.negTrait:
-                case NextType.needTrait:
-                case NextType.allTraits:
-                    currentStatManager.RemoveTrait(CurrentTrait);
-                    currentStatManager.AddTrait(trait);
-                    break;
-                case NextType.stress:
-                    ReferencedStats.stressTrait = trait;
-                    break;
-                case NextType.joy:
-                    ReferencedStats.joyTrait = trait;
-                    break;
-                case NextType.Beached_LifeGoal:
-                    currentStatManager.RemoveLifeGoal();
-                    currentStatManager.AddLifeGoal(trait);
+            //switch (TraitCategory)
+            //{
+            //    case NextType.geneShufflerTrait:
+            //    case NextType.posTrait:
+            //    case NextType.negTrait:
+            //    case NextType.needTrait:
+            //    case NextType.allTraits:
+            //        currentStatManager.RemoveTrait(CurrentTrait);
+            //        currentStatManager.AddTrait(trait);
+            //        break;
+            //    case NextType.stress:
+            //        ReferencedStats.stressTrait = trait;
+            //        break;
+            //    case NextType.joy:
+            //        ReferencedStats.joyTrait = trait;
+            //        break;
+            //    case NextType.Beached_LifeGoal:
+            //        currentStatManager.RemoveLifeGoal();
+            //        currentStatManager.AddLifeGoal(trait);
 
-                    break;
+            //        break;
 
-            }
+            //}
 
             if (OnCloseAction != null)
                 this.OnCloseAction.Invoke();
@@ -234,12 +210,12 @@ namespace SetStartDupes
         private void ChoseThis(SkillGroup group)
         {
 
-            if (CurrentGroup == null)
-            {
-                currentStatManager.AddInterest(group);
-            }
-            else
-                currentStatManager.ReplaceInterest(CurrentGroup, group);
+            //if (CurrentGroup == null)
+            //{
+            //    currentStatManager.AddInterest(group);
+            //}
+            //else
+            //    currentStatManager.ReplaceInterest(CurrentGroup, group);
 
             if (OnCloseAction != null)
                 this.OnCloseAction.Invoke();
@@ -260,7 +236,7 @@ namespace SetStartDupes
         private void Init()
         {
             if (init) { return; }
-            SgtLogger.l("Initializing TraitWindow");
+            SgtLogger.l("Initializing DupeEditorSelectionWindow");
 
             ToReplaceName = transform.Find("ToReplace/CurrentlyActive/Label").FindComponent<LocText>();
             ToReplaceColour = transform.Find("ToReplace/CurrentlyActive/Background").FindComponent<Image>();
@@ -289,7 +265,8 @@ namespace SetStartDupes
             SgtLogger.Assert("PresetListContainer was null", PresetListContainer);
             SgtLogger.l("initializing ListEntries");
 
-            transform.Find("ScrollArea/Content/DupeSkinPartPrefab").gameObject.SetActive(false);
+            BodypartPrefab = transform.Find("ScrollArea/Content/DupeSkinPartPrefab").gameObject;
+            BodypartPrefab.SetActive(false);
             //hairEntry.gameObject.SetActive(false);
             InitAllContainers();
 
@@ -303,7 +280,7 @@ namespace SetStartDupes
             var interests = Db.Get().SkillGroups.resources;
             foreach (var type in (NextType[])Enum.GetValues(typeof(NextType)))
             {
-                if(type == NextType.allTraits) continue;
+                if (type == NextType.allTraits) continue;
 
                 var TraitsOfCategory = ModAssets.TryGetTraitsOfCategory(type);
                 foreach (var item in TraitsOfCategory)
@@ -319,6 +296,36 @@ namespace SetStartDupes
             {
                 AddUIContainer(item);
             }
+            
+            //foreach (var effect in Db.Get().effects.resources)
+            foreach (var effect in DuplicityEditingPatches.VanillaDupeEffects)
+            {
+                if(AccessorySlotHelper.IsCritterTrait(effect.Id)) continue;
+
+                if (effect != null && !EffectContainers.ContainsKey(effect))
+                    EffectContainers[effect] = AddUiContainer(
+                    effect.Id,
+                    "",
+                    () => SgtLogger.l(""));
+            }
+            foreach(var slot in AccessorySlotHelper.GetAllChangeableSlot())
+            {
+                BodypartContainers[slot.Id] = new Dictionary<HashedString, GameObject>();
+                foreach (var accessory in slot.accessories)
+                {
+                    if (!BodypartContainers[slot.Id].ContainsKey(accessory.IdHash))
+                    {
+                        BodypartContainers[slot.Id].Add(accessory.IdHash,
+                            AddUiContainer(
+                                accessory.Id,
+                                "",
+                                () => SgtLogger.l(""),
+                                prefabOverride: BodypartPrefab,
+                                placeImage: AccessorySlotHelper.GetSpriteFrom(accessory.symbol)
+                            ));
+                    }
+                }
+            }
         }
 
 
@@ -326,7 +333,7 @@ namespace SetStartDupes
         {
             if (openedFrom == OpenedFrom.Interest)
             {
-                List<SkillGroup> forbidden = ReferencedStats.skillAptitudes.Keys.ToList();
+                List<SkillGroup> forbidden = new List<SkillGroup>();// ReferencedStats.skillAptitudes.Keys.ToList();
                 foreach (var go in DupeInterestContainers)
                 {
                     bool isForbidden = !forbidden.Contains(go.Key);
@@ -369,9 +376,11 @@ namespace SetStartDupes
 
         List<string> GetAllowedTraits()
         {
-            var allowedTraits = ModAssets.TryGetTraitsOfCategory(TraitCategory, ReferencedStats.Traits).Select(t => t.id).ToList();
+            var allowedTraits = ModAssets.TryGetTraitsOfCategory(NextType.allTraits, overrideShowAll:true).Select(t => t.id).ToList();
             var finalTraits = new List<string>();
-            var forbiddenTraits = ReferencedStats.Traits.Count > 0 ? ReferencedStats.Traits.Select(allowedTraits => allowedTraits.Id).ToList() : new List<string>();
+            var forbiddenTraits = 
+                //ReferencedStats.Traits.Count > 0 ? ReferencedStats.Traits.Select(allowedTraits => allowedTraits.Id).ToList() : 
+                new List<string>();
 
             foreach (string existing in allowedTraits)
             {

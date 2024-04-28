@@ -77,7 +77,7 @@ namespace SetStartDupes
             }
             else
             {
-                SgtLogger.warning("minionStartingStats was null!");
+                SgtLogger.l("minionStartingStats was null!");
             }
 
             ///if changing minionstartingstats
@@ -97,7 +97,7 @@ namespace SetStartDupes
             }
             else
             {
-                SgtLogger.warning("current container was null!");
+                SgtLogger.l("current container was null!");
             }
 
             ///if changing live dupe

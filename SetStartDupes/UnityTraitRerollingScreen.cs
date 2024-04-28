@@ -232,6 +232,8 @@ namespace SetStartDupes
             //UIUtils.ListAllChildren(CloserButton.transform);
             CloserButton.FindOrAddComponent<FButton>().OnClick += () => this.Show(false);
             CloserButton.transform.Find("Text").GetComponent<LocText>().text = STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TEXT;
+
+            transform.Find("ScrollArea/Content/DupeSkinPartPrefab").gameObject.SetActive(false);
             InitAllContainers();
             init = true;
         }
