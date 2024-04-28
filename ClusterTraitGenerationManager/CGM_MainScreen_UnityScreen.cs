@@ -294,7 +294,7 @@ namespace ClusterTraitGenerationManager
             UIUtils.AddSimpleTooltipToObject(StressBreaksLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.STRESS_BREAKS.TOOLTIP, alignCenter: true, onBottom: true);
 
             StressBreaks.SetCheckmark("Background/Checkmark");
-            StressBreaks.OnClick += () =>
+            StressBreaks.OnClick += (v) =>
             {
                 SetCustomGameSettings(CustomGameSettingConfigs.StressBreaks, StressBreaks.On);
             };
@@ -306,7 +306,7 @@ namespace ClusterTraitGenerationManager
             UIUtils.AddSimpleTooltipToObject(CarePackagesLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.CAREPACKAGES.TOOLTIP, alignCenter: true, onBottom: true);
 
             CarePackages.SetCheckmark("Background/Checkmark");
-            CarePackages.OnClick += () =>
+            CarePackages.OnClick += (v) =>
             {
                 SetCustomGameSettings(CustomGameSettingConfigs.CarePackages, CarePackages.On);
             };
@@ -319,9 +319,9 @@ namespace ClusterTraitGenerationManager
             UIUtils.AddSimpleTooltipToObject(SandboxModeLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.SANDBOXMODE.TOOLTIP, alignCenter: true, onBottom: true);
 
             SandboxMode.SetCheckmark("Background/Checkmark");
-            SandboxMode.OnClick += () =>
+            SandboxMode.OnClick += (v) =>
             {
-                SetCustomGameSettings(CustomGameSettingConfigs.SandboxMode, SandboxMode.On);
+                SetCustomGameSettings(CustomGameSettingConfigs.SandboxMode, v);
             };
 
 
@@ -333,9 +333,9 @@ namespace ClusterTraitGenerationManager
             UIUtils.AddSimpleTooltipToObject(FastWorkersModeLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.FASTWORKERSMODE.TOOLTIP, alignCenter: true, onBottom: true);
 
             FastWorkersMode.SetCheckmark("Background/Checkmark");
-            FastWorkersMode.OnClick += () =>
+            FastWorkersMode.OnClick += (v) =>
             {
-                SetCustomGameSettings(CustomGameSettingConfigs.FastWorkersMode, FastWorkersMode.On);
+                SetCustomGameSettings(CustomGameSettingConfigs.FastWorkersMode, v);
             };
 
             SaveToCloud = Util.KInstantiateUI(TogglePrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FToggle2>();
@@ -345,7 +345,7 @@ namespace ClusterTraitGenerationManager
             UIUtils.AddSimpleTooltipToObject(SaveToCloudLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.SAVETOCLOUD.TOOLTIP, alignCenter: true, onBottom: true);
 
             SaveToCloud.SetCheckmark("Background/Checkmark");
-            SaveToCloud.OnClick += () =>
+            SaveToCloud.OnClick += (v) =>
             {
                 SetCustomGameSettings(CustomGameSettingConfigs.SaveToCloud, SaveToCloud.On);
             };
@@ -359,7 +359,7 @@ namespace ClusterTraitGenerationManager
                 UIUtils.AddSimpleTooltipToObject(TeleportersLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.TELEPORTERS.TOOLTIP, alignCenter: true, onBottom: true);
 
                 Teleporters.SetCheckmark("Background/Checkmark");
-                Teleporters.OnClick += () =>
+                Teleporters.OnClick += (v) =>
                 {
                     SetCustomGameSettings(CustomGameSettingConfigs.Teleporters, Teleporters.On);
                 };
@@ -2067,7 +2067,7 @@ namespace ClusterTraitGenerationManager
             StarmapItemEnabledText = transform.Find("Details/Content/ScrollRectContainer/StarmapItemEnabled/Label").GetComponent<LocText>();
             StarmapItemEnabled = transform.Find("Details/Content/ScrollRectContainer/StarmapItemEnabled").FindOrAddComponent<FToggle2>();
             StarmapItemEnabled.SetCheckmark("Background/Checkmark");
-            StarmapItemEnabled.OnClick += () =>
+            StarmapItemEnabled.OnClick += (v) =>
             {
                 if (CurrentStarmapItem != null)
                 {
@@ -2350,7 +2350,7 @@ namespace ClusterTraitGenerationManager
             SeedRerollsVanillaStarmapToggle = transform.Find("Details/Footer/Seed/SeedAfffectingStarmap").gameObject.AddOrGet<FToggle2>();
             SeedRerollsVanillaStarmapToggle.SetCheckmark("Background/Checkmark");
             SeedRerollsVanillaStarmapToggle.On = CGSMClusterManager.RerollVanillaStarmapWithSeedChange;
-            SeedRerollsVanillaStarmapToggle.OnClick += () =>
+            SeedRerollsVanillaStarmapToggle.OnClick += (v) =>
             {
                 CGSMClusterManager.RerollVanillaStarmapWithSeedChange = SeedRerollsVanillaStarmapToggle.On;
             };
@@ -2363,7 +2363,7 @@ namespace ClusterTraitGenerationManager
             SeedRerollsTraitsToggle_Main = transform.Find("Details/Footer/Seed/SeedAfffectingTraits").FindOrAddComponent<FToggle2>();
             SeedRerollsTraitsToggle_Main.SetCheckmark("Background/Checkmark");
             SeedRerollsTraitsToggle_Main.On = CGSMClusterManager.RerollTraitsWithSeedChange;
-            SeedRerollsTraitsToggle_Main.OnClick += () =>
+            SeedRerollsTraitsToggle_Main.OnClick += (v) =>
             {
                 CGSMClusterManager.RerollTraitsWithSeedChange = SeedRerollsTraitsToggle_Main.On;
             };
@@ -2438,14 +2438,14 @@ namespace ClusterTraitGenerationManager
         {
             POIGroup_AllowDuplicates = transform.Find("Details/Content/ScrollRectContainer/POI_AllowDuplicates").FindOrAddComponent<FToggle2>();
             POIGroup_AllowDuplicates.SetCheckmark("Background/Checkmark");
-            POIGroup_AllowDuplicates.OnClick += () =>
+            POIGroup_AllowDuplicates.OnClick += (v) =>
             {
                 if (CustomCluster.HasStarmapItem(CurrentStarmapItem.id, out var item) && item.category == StarmapItemCategory.POI && item.placementPOI != null)
                 {
-                    if (item.placementPOI.canSpawnDuplicates == POIGroup_AllowDuplicates.On)
+                    if (item.placementPOI.canSpawnDuplicates == v)
                         return;
 
-                    item.placementPOI.canSpawnDuplicates = POIGroup_AllowDuplicates.On;
+                    item.placementPOI.canSpawnDuplicates = v;
                     if (DlcManager.IsExpansion1Active()) ResetSOStarmap(true);
                 }
             };
@@ -2453,13 +2453,13 @@ namespace ClusterTraitGenerationManager
 
             POIGroup_AvoidClumping = transform.Find("Details/Content/ScrollRectContainer/POI_AvoidClumping").FindOrAddComponent<FToggle2>();
             POIGroup_AvoidClumping.SetCheckmark("Background/Checkmark");
-            POIGroup_AvoidClumping.OnClick += () =>
+            POIGroup_AvoidClumping.OnClick += (v) =>
             {
                 if (CustomCluster.HasStarmapItem(CurrentStarmapItem.id, out var item) && item.category == StarmapItemCategory.POI && item.placementPOI != null)
                 {
-                    if (item.placementPOI.avoidClumping == POIGroup_AvoidClumping.On)
+                    if (item.placementPOI.avoidClumping == v)
                         return;
-                    item.placementPOI.avoidClumping = POIGroup_AvoidClumping.On;
+                    item.placementPOI.avoidClumping = v;
                     if (DlcManager.IsExpansion1Active()) ResetSOStarmap(true);
                 }
             };
@@ -2555,7 +2555,7 @@ namespace ClusterTraitGenerationManager
             StoryTraitToggle.SetCheckmark("Background/Checkmark");
             Details_StoryTraitContainer.SetActive(false);
             StoryTraitToggle.OnClick +=
-                () =>
+                (v) =>
                 {
                     if (CurrentlySelectedItemData is SelectedStoryTrait)
                         ToggleStoryTrait(CurrentlySelectedItemData.ID);
@@ -2570,7 +2570,7 @@ namespace ClusterTraitGenerationManager
                 FToggle2 toggle = entry.transform.Find("Background").gameObject.AddOrGet<FToggle2>();
                 toggle.SetCheckmark("Checkmark");
                 toggle.OnClick +=
-                () =>
+                (v) =>
                 {
                     SelectStoryTrait(Story.Id);
                     ToggleStoryTrait(Story.Id);

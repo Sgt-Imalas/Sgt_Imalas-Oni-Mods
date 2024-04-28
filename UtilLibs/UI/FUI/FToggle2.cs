@@ -9,8 +9,8 @@ namespace UtilLibs.UIcmp //Source: Aki
         [SerializeField]
         public Image mark;
 
-        public event System.Action OnClick;
-        public event System.Action OnChange;
+        public event System.Action<bool> OnClick;
+        public event System.Action<bool> OnChange;
 
         private bool _interactable=true;
 
@@ -39,7 +39,7 @@ namespace UtilLibs.UIcmp //Source: Aki
                     mark.enabled = value;
                 }
                 if(Interactable)
-                    OnChange?.Invoke();
+                    OnChange?.Invoke(value);
             }
         }
 
@@ -72,7 +72,7 @@ namespace UtilLibs.UIcmp //Source: Aki
                 PlaySound(UISoundHelper.Click);
                 Toggle();
                 if(_interactable)
-                    OnClick?.Invoke();
+                    OnClick?.Invoke(On);
             }
         }
 

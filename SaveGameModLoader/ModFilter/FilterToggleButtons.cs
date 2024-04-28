@@ -83,7 +83,7 @@ namespace SaveGameModLoader.ModFilter
 
             hidePins_btn = GenerateCheckbox(togglePrefab, gameObject, STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.PINNED, STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PINS_TOOLTIP);
             hidePins_btn.On = !MPM_Config.Instance.hidePins;
-            hidePins_btn.OnClick += () =>
+            hidePins_btn.OnClick += (v) =>
             {
                 MPM_Config.Instance.hidePins = !hidePins_btn.On;
                 MPM_Config.Instance.SaveToFile();
@@ -92,7 +92,7 @@ namespace SaveGameModLoader.ModFilter
 
             hideDev_btn = GenerateCheckbox(togglePrefab, gameObject, STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.DEV, STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_DEV_TOOLTIP);
             hideDev_btn.On = !MPM_Config.Instance.hideDev;
-            hideDev_btn.OnClick += () =>
+            hideDev_btn.OnClick += (v) =>
             {
                 MPM_Config.Instance.hideDev = !hideDev_btn.On;
                 MPM_Config.Instance.SaveToFile();
@@ -101,7 +101,7 @@ namespace SaveGameModLoader.ModFilter
 
             hideLocal_btn = GenerateCheckbox(togglePrefab, gameObject, STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.LOCAL, STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_LOCAL_TOOLTIP);
             hideLocal_btn.On = !MPM_Config.Instance.hideLocal;
-            hideLocal_btn.OnClick += () =>
+            hideLocal_btn.OnClick += (v) =>
             {
                 MPM_Config.Instance.hideLocal = !hideLocal_btn.On;
                 MPM_Config.Instance.SaveToFile();
@@ -110,7 +110,7 @@ namespace SaveGameModLoader.ModFilter
             
             HideSteam_btn = GenerateCheckbox(togglePrefab, gameObject, STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.STEAM, STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PLATFORM_TOOLTIP);
             HideSteam_btn.On = !MPM_Config.Instance.hidePlatform;
-            HideSteam_btn.OnClick += () =>
+            HideSteam_btn.OnClick += (v) =>
             {
                 MPM_Config.Instance.hidePlatform = !HideSteam_btn.On;
                 MPM_Config.Instance.SaveToFile();
@@ -119,7 +119,7 @@ namespace SaveGameModLoader.ModFilter
 
             HideActive_btn = GenerateCheckbox(togglePrefab, gameObject, STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.ACTIVE, STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_ACTIVE_TOOLTIP);
             HideActive_btn.On = !MPM_Config.Instance.hideActive;
-            HideActive_btn.OnClick += () =>
+            HideActive_btn.OnClick += (v) =>
             {
                 MPM_Config.Instance.hideActive = !HideActive_btn.On;
                 if (MPM_Config.Instance.hideActive)
@@ -130,7 +130,7 @@ namespace SaveGameModLoader.ModFilter
 
             HideInactive_btn = GenerateCheckbox(togglePrefab, gameObject, STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.INACTIVE, STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_INACTIVE_TOOLTIP);
             HideInactive_btn.On = !MPM_Config.Instance.hideInactive;
-            HideInactive_btn.OnClick += () =>
+            HideInactive_btn.OnClick += (v) =>
             {
                 MPM_Config.Instance.hideInactive = !HideInactive_btn.On;
                 if (MPM_Config.Instance.hideInactive)
@@ -141,7 +141,7 @@ namespace SaveGameModLoader.ModFilter
 
             hideIncompatible_btn = GenerateCheckbox(togglePrefab, gameObject, STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.INCOMPATIBLE, STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_INCOMPATIBLE_TOOLTIP);
             hideIncompatible_btn.On = !MPM_Config.Instance.hideIncompatible;
-            hideIncompatible_btn.OnClick += () =>
+            hideIncompatible_btn.OnClick += (v) =>
             {
                 MPM_Config.Instance.hideIncompatible = !hideIncompatible_btn.On;
                 MPM_Config.Instance.SaveToFile();
