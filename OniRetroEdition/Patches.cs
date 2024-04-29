@@ -54,11 +54,9 @@ namespace OniRetroEdition
                         string buildingId = config.Key;
                         string category = config.Value.buildMenuCategory;
 
-                        string relativeBuildingId = null;
-
                         if (config.Value.placedBehindBuildingId != null && config.Value.placedBehindBuildingId.Length > 0)
                         {
-                            relativeBuildingId = config.Value.placedBehindBuildingId;
+                            string relativeBuildingId = config.Value.placedBehindBuildingId;
                             if (relativeBuildingId == null || relativeBuildingId.Length == 0)
                                 continue;
 
@@ -674,38 +672,6 @@ namespace OniRetroEdition
                     },
                     sortOrder = 1
                 };                
-            }
-            static void OldCode(GameObject go)
-            {
-                go.TryGetComponent<ManualDeliveryKG>(out var manualDeliveryKG);
-                manualDeliveryKG.refillMass = 300f;
-                manualDeliveryKG.capacity = 1000f;
-
-                go.TryGetComponent<AlgaeDistillery>(out var distillery);
-                UnityEngine.Object.Destroy(distillery);
-
-                ElementConverter elementConverter = go.AddOrGet<ElementConverter>();
-                elementConverter.consumedElements = new ElementConverter.ConsumedElement[1]
-                {
-                    new ElementConverter.ConsumedElement(SimHashes.SlimeMold.CreateTag(), 1.8f)
-                };
-                elementConverter.outputElements = new ElementConverter.OutputElement[2]
-                {
-                    new ElementConverter.OutputElement(0.6f, SimHashes.Algae, 303.15f, useEntityTemperature: false, storeOutput: false, 1f, 1f),
-                    new ElementConverter.OutputElement(1.2f, SimHashes.DirtyWater, 303.15f, useEntityTemperature: false, storeOutput: true)
-                };
-
-                elementConverter.OperationalRequirement = Operational.State.Operational;
-
-
-                var manualOperatable = go.AddComponent<GenericWorkableComponent>();
-                manualOperatable.overrideAnims = new KAnimFile[1]
-                {
-                    Assets.GetAnim((HashedString) "anim_interacts_algae_distillery_kanim")
-                };
-                manualOperatable.workOffset = new CellOffset(-1, 0);
-                manualOperatable.WorkTime = (30f);
-                manualOperatable.workLayer = Grid.SceneLayer.BuildingUse;
             }
         }
         

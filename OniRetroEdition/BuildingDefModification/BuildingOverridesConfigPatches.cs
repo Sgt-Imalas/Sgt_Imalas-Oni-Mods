@@ -32,7 +32,7 @@ namespace OniRetroEdition.BuildingDefModification
                 __result.ShowInBuildMenu = true;
             }
         }
-        [HarmonyPatch(typeof(KAnimGroupFile), "Load")]
+        [HarmonyPatch(typeof(KAnimGroupFile), nameof(KAnimGroupFile.Load))]
         public class KAnimGroupFile_Load_Patch
         {
             public static void Prefix(KAnimGroupFile __instance)
@@ -40,15 +40,17 @@ namespace OniRetroEdition.BuildingDefModification
                 var interacts = new HashSet<HashedString>();
                 BuildingModifications.Instance.LoadedBuildingOverrides.Values.ToList().ForEach(item =>
                 {
-                    if (item.workableAnimOverride != null && item.workableAnimOverride.Length > 0)
+                    if (item!=null && item.workableAnimOverride != null && item.workableAnimOverride.Length > 0)
                     {
                         interacts.Add(item.workableAnimOverride);
                     }
                 });
 
-
-                InjectionMethods.RegisterCustomInteractAnim(
-                    __instance, interacts);
+                if(interacts.Count > 0)
+                {
+                    InjectionMethods.RegisterCustomInteractAnim(
+                        __instance, interacts);
+                }
             }
         }
 
@@ -68,8 +70,7 @@ namespace OniRetroEdition.BuildingDefModification
                     }
                     BuildingModification overrideParams = BuildingModifications.Instance.LoadedBuildingOverrides[kPrefabID.PrefabID().ToString()];
 
-                    SgtLogger.l("building override config found!");
-
+                    //SgtLogger.l("building override config found!");
 
                     if (overrideParams.requiresMinionWorker.HasValue)
                     {
@@ -90,9 +91,70 @@ namespace OniRetroEdition.BuildingDefModification
 
                 }
             }
+            private static void Postfix(Workable __instance)
+            {
+                if (__instance.TryGetComponent<KPrefabID>(out var kPrefabID))
+                {
+                    //SgtLogger.l("Testing any overrides for " + kPrefabID.PrefabID());
+                    if (!BuildingModifications.Instance.LoadedBuildingOverrides.ContainsKey(kPrefabID.PrefabID().ToString()))
+                    {
+                        //SgtLogger.l("no anim override for this building found..");
+                        return;
+                    }
+                    BuildingModification overrideParams = BuildingModifications.Instance.LoadedBuildingOverrides[kPrefabID.PrefabID().ToString()];
+
+                    
+                    if (overrideParams.WorkableOffsetOverride.HasValue)
+                    {
+                        __instance.SetOffsets(new[] { overrideParams.WorkableOffsetOverride.Value });
+                    }
+                }
+            }
         }
 
 
+        [HarmonyPatch (typeof(Building),nameof(Building.OnSpawn))]
+        public static class AnimOverrides_OnSpawn
+        {
+            private static void Postfix(Building __instance)
+            {
+                if (__instance.TryGetComponent<KBatchedAnimController>(out var kbac))
+                {
+                    //SgtLogger.l("Testing any overrides for " + kPrefabID.PrefabID());
+                    if (!BuildingModifications.Instance.LoadedBuildingOverrides.ContainsKey(__instance.Def.PrefabID.ToString()))
+                    {
+                        //SgtLogger.l("no anim override for this building found..");
+                        return;
+                    }
+                    BuildingModification overrideParams = BuildingModifications.Instance.LoadedBuildingOverrides[__instance.Def.PrefabID.ToString()];
+
+                    if (overrideParams.AnimOffsetOverrideX.HasValue || overrideParams.AnimOffsetOverrideY.HasValue)
+                    {
+                        float x,y;
+                        x = overrideParams.AnimOffsetOverrideX.HasValue ? overrideParams.AnimOffsetOverrideX.Value : 1;
+                        y = overrideParams.AnimOffsetOverrideY.HasValue ? overrideParams.AnimOffsetOverrideY.Value : 1;
+
+                        SgtLogger.l("changing anim offset to "+ new Vector2(x, y), __instance.name);
+                        kbac.Offset = new(x,y);
+                    }
+                    if (overrideParams.AnimScaleWidthOverride.HasValue)
+                    {
+                        SgtLogger.l("changing anim scale width to "+ overrideParams.AnimScaleWidthOverride.Value, __instance.name);
+                        kbac.animWidth = overrideParams.AnimScaleWidthOverride.Value;
+                    }
+                    if (overrideParams.AnimScaleHeightOverride.HasValue)
+                    {
+                        SgtLogger.l("changing anim scale height to " + overrideParams.AnimScaleHeightOverride.Value, __instance.name);
+                        kbac.animHeight = overrideParams.AnimScaleHeightOverride.Value;
+                    }
+                    if (overrideParams.animRotation.HasValue)
+                    {
+                        SgtLogger.l("changing animRotation to " + overrideParams.animRotation.Value, __instance.name);
+                        kbac.Rotation = overrideParams.animRotation.Value;
+                    }
+                }
+            }
+        }
 
         [HarmonyPatch(typeof(BuildingConfigManager), "RegisterBuilding")]
         public class BuildingConfigManager_RegisterBuilding_Patch
@@ -250,23 +312,31 @@ namespace OniRetroEdition.BuildingDefModification
                         component.AddTag(GameTags.FloorTiles);
                     }
 
-                    //if (go.TryGetComponent<Workable>(out var workable))
-                    //{
-                    //    if (overrideParams.requiresMinionWorker.HasValue)
-                    //    {
-                    //        workable.requireMinionToWork = overrideParams.requiresMinionWorker.Value;
-                    //    }
-                    //    if (overrideParams.workableAnimOverride != null && overrideParams.workableAnimOverride.Length > 0)
-                    //    {
-                    //        var anim = Assets.GetAnim(overrideParams.workableAnimOverride);
-                    //        if (anim != null)
-                    //        {
-                    //            workable.overrideAnims = new KAnimFile[] { anim };
-                    //        }
-                    //        else
-                    //            SgtLogger.error($"WorkingOverride Animfile {overrideParams.workableAnimOverride} not found!");
-                    //    }
-                    //}
+                    if (overrideParams.requiresMinionWorker.HasValue)
+                    {
+                        if (go.TryGetComponent<BuildingComplete>(out var building) && go.TryGetComponent<ComplexFabricator>(out var fab))
+                        {
+                            building.isManuallyOperated = overrideParams.requiresMinionWorker.Value;
+                            fab.duplicantOperated = overrideParams.requiresMinionWorker.Value;
+                        }
+                        else
+                            SgtLogger.warning("could not override minion worker requirement for " + go.name);
+                    }
+
+                    if (go.TryGetComponent<Workable>(out var workable))
+                    {
+                        
+                        if (overrideParams.workableAnimOverride != null && overrideParams.workableAnimOverride.Length > 0)
+                        {
+                            var anim = Assets.GetAnim(overrideParams.workableAnimOverride);
+                            if (anim != null)
+                            {
+                                workable.overrideAnims = new KAnimFile[] { anim };
+                            }
+                            else
+                                SgtLogger.error($"WorkingOverride Animfile {overrideParams.workableAnimOverride} not found!");
+                        }
+                    }
 
                 }
             }

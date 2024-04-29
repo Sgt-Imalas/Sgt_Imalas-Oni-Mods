@@ -45,15 +45,6 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <None Update="ModAssets\anim\assets\hat_swap\hat_swap_0.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\hat_swap\hat_swap_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\hat_swap\hat_swap_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
 	  <None Update="ModAssets\anim\assets\old_liquidreservoir\liquidreservoir_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UtilLibs;
 
 namespace OniRetroEdition.BuildingDefModification
@@ -39,7 +40,11 @@ namespace OniRetroEdition.BuildingDefModification
                         {
                             HeightOverride = 3,
                             WidthOverride = 2,
-                            UtilityInputOffsetOverride = new CellOffset(1, 2)
+                            UtilityInputOffsetOverride = new CellOffset(1, 2),
+                            AnimOffsetOverrideX = 0.1f,AnimOffsetOverrideY = 2f,
+                            animRotation = 90,
+                            AnimScaleWidthOverride = 1.5f,
+                            AnimScaleHeightOverride = 0.5f,
                         }
                     }
                     ,{
@@ -241,12 +246,14 @@ namespace OniRetroEdition.BuildingDefModification
         public string techOverride;
         public string buildMenuCategory, placedBehindBuildingId;
 
-        public CellOffset? UtilityInputOffsetOverride, UtilityOutputOffsetOverride, PowerInputOffsetOverride;
+
+
+        public CellOffset? UtilityInputOffsetOverride, UtilityOutputOffsetOverride, PowerInputOffsetOverride, WorkableOffsetOverride;
+        public float? AnimOffsetOverrideX, AnimOffsetOverrideY;
+        public float? AnimScaleWidthOverride, AnimScaleHeightOverride, animRotation;
         public bool? placeBefore;
 
         public bool? requiresMinionWorker;
         public string workableAnimOverride;
-
-
     }
 }
