@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OniRetroEdition.ModPatches;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,13 @@ namespace OniRetroEdition.SlurpTool
     internal class SlurpPlacerConfig : CommonPlacerConfig, IEntityConfig
     {
         public static string ID = "SlurpPlacer";
-
+        static Material slurpPlacerMaterial;
         public GameObject CreatePrefab()
         {
-            GameObject prefab = this.CreatePrefab(SlurpPlacerConfig.ID, STRINGS.MISC.PLACERS.SLURPPLACER.NAME, Assets.instance.mopPlacerAssets.material);
+            slurpPlacerMaterial = new Material(Assets.instance.mopPlacerAssets.material);
+            slurpPlacerMaterial.mainTexture = Assets.GetSprite(SpritePatch.SlurpIcon).texture;
+
+            GameObject prefab = this.CreatePrefab(SlurpPlacerConfig.ID, STRINGS.MISC.PLACERS.SLURPPLACER.NAME, slurpPlacerMaterial);
             prefab.AddTag(GameTags.NotConversationTopic);
             Slurpable moppable = prefab.AddOrGet<Slurpable>();
             moppable.synchronizeAnims = false;

@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using OniRetroEdition.ModPatches;
 using PeterHan.PLib.Actions;
 using System;
 using System.Collections.Generic;
@@ -58,7 +59,7 @@ namespace OniRetroEdition.SlurpTool
 
                 SgtLogger.l("Adding SlurpTool to basic tools");
                 __instance.basicTools.Add(ToolMenu.CreateToolCollection(STRINGS.MISC.PLACERS.SLURPPLACER.TOOL_NAME
-                    , "icon_action_mop", SlurpAction.GetKAction(), "SlurpTool", STRINGS.MISC.PLACERS.SLURPPLACER.SLURPBUTTON, largeIcon: false));
+                    , SpritePatch.SlurpActionIcon, SlurpAction.GetKAction(), "SlurpTool", STRINGS.MISC.PLACERS.SLURPPLACER.SLURPBUTTON, largeIcon: false));
 
             }
         }

@@ -27,9 +27,9 @@ namespace OniRetroEdition
         [JsonProperty]
         public bool TileTopsMerge { get; set; }
 
-        [Option("mop becomes water succ", "")]
-        [JsonProperty]
-        public bool succmop { get; set; }
+        //[Option("mop becomes water succ", "")]
+        //[JsonProperty]
+        //public bool succmop { get; set; }
 
         //[Option("manual space can opener", "")]
         //[JsonProperty]
@@ -44,6 +44,9 @@ namespace OniRetroEdition
         [Option("liquid element sensor power requirement", "")]
         [JsonProperty]
         public bool liquidsensorpower { get; set; }
+        [Option("Duplicants rot forever", "when activated, unburied duplicants will rot forever. otherwise they will decompose into bones.")]
+        [JsonProperty]
+        public bool endlessRotting { get; set; }
         public Config()
         {
             TileTopsMerge = true;
@@ -52,7 +55,9 @@ namespace OniRetroEdition
             IronOreTexture = EarlierVersion.Beta;
             gassensorpower = true; 
             liquidsensorpower = false;
-            succmop = true;
+            endlessRotting = false;
+
+            //succmop = true;
 
         }
     }

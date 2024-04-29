@@ -19,8 +19,16 @@ namespace OniRetroEdition
                     public static LocString TOOL_NAME = (LocString)"Pumping Tool";
                     public static LocString ACTION_NAME = (LocString)"Pump Liquids";
 
-                    public static LocString SLURPBUTTON = "Command duplicants to pump liquid";
+                    public static LocString SLURPBUTTON = "Command duplicants to pump liquid\nRequires a duplicant with plumbing skill";
                 }
+            }
+        }
+        public class ITEMS
+        {
+            public class RETROONI_BONES
+            {
+                public static LocString NAME = "Bones";
+                public static LocString DESC = "The last remains of a lost friend.";
             }
         }
         public class UI

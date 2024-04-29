@@ -415,21 +415,21 @@ namespace OniRetroEdition
         //        return true;
         //    }
         //}
-        [HarmonyPatch(typeof(Moppable))]
-        [HarmonyPatch(nameof(Moppable.OnSpawn))]
-        public static class Moppable_Watergun
-        {
-            [HarmonyPrepare]
-            public static bool Prepare() => Config.Instance.succmop;
-            public static void Postfix(Moppable __instance)
-            {
-                __instance.overrideAnims = null;
-                __instance.faceTargetWhenWorking = true;
-                __instance.multitoolContext = "fetchliquid";
-                __instance.multitoolHitEffectTag = WaterSuckEffect.ID;
-                __instance.SetOffsetTable(OffsetGroups.InvertedStandardTable);
-            }
-        }
+        //[HarmonyPatch(typeof(Moppable))]
+        //[HarmonyPatch(nameof(Moppable.OnSpawn))]
+        //public static class Moppable_Watergun
+        //{
+        //    [HarmonyPrepare]
+        //    public static bool Prepare() => Config.Instance.succmop;
+        //    public static void Postfix(Moppable __instance)
+        //    {
+        //        __instance.overrideAnims = null;
+        //        __instance.faceTargetWhenWorking = true;
+        //        __instance.multitoolContext = "fetchliquid";
+        //        __instance.multitoolHitEffectTag = WaterSuckEffect.ID;
+        //        __instance.SetOffsetTable(OffsetGroups.InvertedStandardTable);
+        //    }
+        //}
         /// <summary>
         /// Teleports "mopped" liquids to the dupe
         /// </summary>

@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using OniRetroEdition.ModPatches;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace OniRetroEdition.SlurpTool
 {
@@ -26,11 +28,11 @@ namespace OniRetroEdition.SlurpTool
 
             GameObject offsetObject = new GameObject();
             SpriteRenderer spriteRenderer = offsetObject.AddComponent<SpriteRenderer>();
-            spriteRenderer.color = Color.yellow;
-            spriteRenderer.sprite = Assets.GetSprite("mopIcon");
+            spriteRenderer.color = UIUtils.rgb(251, 176, 59);
+            spriteRenderer.sprite = Assets.GetSprite(SpritePatch.SlurpIcon);
 
             offsetObject.transform.SetParent(visualizer.transform);
-            offsetObject.transform.localPosition = new Vector3(0, Grid.HalfCellSizeInMeters);
+            offsetObject.transform.localPosition = new Vector3(-Grid.HalfCellSizeInMeters,0 );
             var sprite = spriteRenderer.sprite;
             offsetObject.transform.localScale = new Vector3(
                 Grid.CellSizeInMeters / (sprite.texture.width / sprite.pixelsPerUnit),
@@ -49,8 +51,8 @@ namespace OniRetroEdition.SlurpTool
             areaVisualizer.name = "SlurpAreaVisualizer";
             areaVisualizerSpriteRendererField.SetValue(this, areaVisualizer.GetComponent<SpriteRenderer>());
             areaVisualizer.transform.SetParent(transform);
-            areaVisualizer.GetComponent<SpriteRenderer>().color = Color.yellow;
-            areaVisualizer.GetComponent<SpriteRenderer>().material.color = Color.yellow;
+            areaVisualizer.GetComponent<SpriteRenderer>().color = UIUtils.rgb(251, 176, 59);
+            areaVisualizer.GetComponent<SpriteRenderer>().material.color = UIUtils.rgb(251, 176, 59);
 
             areaVisualizerField.SetValue(this, areaVisualizer);
         }
