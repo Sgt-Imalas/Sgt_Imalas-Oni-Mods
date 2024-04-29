@@ -22,8 +22,8 @@ namespace OniRetroEdition.SlurpTool
         private CellOffset[] offsets = new CellOffset[]
         {
             new CellOffset(0, 0),
-            //new CellOffset(1, 0),
-            //new CellOffset(-1, 0)
+            new CellOffset(1, 0),
+            new CellOffset(-1, 0)
         };
         private static readonly EventSystem.IntraObjectHandler<Slurpable> OnRefreshUserMenuDelegate = new EventSystem.IntraObjectHandler<Slurpable>((System.Action<Slurpable, object>)((component, data) => component.OnRefreshUserMenu(data)));
         private static readonly EventSystem.IntraObjectHandler<Slurpable> OnReachableChangedDelegate = new EventSystem.IntraObjectHandler<Slurpable>((System.Action<Slurpable, object>)((component, data) => component.OnReachableChanged(data)));
@@ -34,6 +34,7 @@ namespace OniRetroEdition.SlurpTool
         {
             base.OnPrefabInit();
             this.workerStatusItem = Db.Get().DuplicantStatusItems.Mopping;
+            this.requiredSkillPerk = Db.Get().SkillPerks.CanDoPlumbing.Id;
             this.attributeConverter = Db.Get().AttributeConverters.TidyingSpeed;
             this.attributeExperienceMultiplier = DUPLICANTSTATS.ATTRIBUTE_LEVELING.PART_DAY_EXPERIENCE;
             this.skillExperienceSkillGroup = Db.Get().SkillGroups.Basekeeping.Id;
@@ -161,7 +162,7 @@ namespace OniRetroEdition.SlurpTool
             for (int index = 0; index < this.offsets.Length; ++index)
             {
                 int i = Grid.OffsetCell(cell, this.offsets[index]);
-                if (Grid.Element[i].IsLiquid && (double)Grid.Mass[i] <= (double)MopTool.maxMopAmt)
+                if (Grid.Element[i].IsLiquid)
                     flag = true;
             }
             return flag;

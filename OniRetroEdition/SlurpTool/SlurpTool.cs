@@ -1,6 +1,8 @@
-﻿using System;
+﻿using HarmonyLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -17,11 +19,45 @@ namespace OniRetroEdition.SlurpTool
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
-            this.Placer = Util.KInstantiate(Assets.GetPrefab(new Tag(SlurpPlacerConfig.ID)));
-            this.interceptNumberKeysForPriority = true;
-            SlurpTool.Instance = this;
-        }
+            this.Placer = Assets.GetPrefab(new Tag(SlurpPlacerConfig.ID));
 
+            visualizer = new GameObject("SlurpVisualizer");
+            visualizer.SetActive(false);
+
+            GameObject offsetObject = new GameObject();
+            SpriteRenderer spriteRenderer = offsetObject.AddComponent<SpriteRenderer>();
+            spriteRenderer.color = Color.yellow;
+            spriteRenderer.sprite = Assets.GetSprite("mopIcon");
+
+            offsetObject.transform.SetParent(visualizer.transform);
+            offsetObject.transform.localPosition = new Vector3(0, Grid.HalfCellSizeInMeters);
+            var sprite = spriteRenderer.sprite;
+            offsetObject.transform.localScale = new Vector3(
+                Grid.CellSizeInMeters / (sprite.texture.width / sprite.pixelsPerUnit),
+                Grid.CellSizeInMeters / (sprite.texture.height / sprite.pixelsPerUnit)
+            );
+
+            offsetObject.SetLayerRecursively(LayerMask.NameToLayer("Overlay"));
+            visualizer.transform.SetParent(transform);
+
+            FieldInfo areaVisualizerField = AccessTools.Field(typeof(DragTool), "areaVisualizer");
+            FieldInfo areaVisualizerSpriteRendererField = AccessTools.Field(typeof(DragTool), "areaVisualizerSpriteRenderer");
+
+            GameObject areaVisualizer = Util.KInstantiate((GameObject)AccessTools.Field(typeof(DeconstructTool), "areaVisualizer").GetValue(DeconstructTool.Instance));
+            areaVisualizer.SetActive(false);
+
+            areaVisualizer.name = "SlurpAreaVisualizer";
+            areaVisualizerSpriteRendererField.SetValue(this, areaVisualizer.GetComponent<SpriteRenderer>());
+            areaVisualizer.transform.SetParent(transform);
+            areaVisualizer.GetComponent<SpriteRenderer>().color = Color.yellow;
+            areaVisualizer.GetComponent<SpriteRenderer>().material.color = Color.yellow;
+
+            areaVisualizerField.SetValue(this, areaVisualizer);
+        }
+        public SlurpTool()
+        {
+            Instance = this;
+        }
         public void Activate() => PlayerController.Instance.ActivateTool(this);
 
         public override void OnDragTool(int cell, int distFromOrigin)
@@ -40,13 +76,12 @@ namespace OniRetroEdition.SlurpTool
                 gameObject.transform.SetPosition(posCbc);
                 gameObject.SetActive(true);
             }
-            if (!(gameObject != null))
+            if (gameObject==null)
                 return;
             Prioritizable component = gameObject.GetComponent<Prioritizable>();
             if (!(component != null))
                 return;
             component.SetMasterPriority(ToolMenu.Instance.PriorityScreen.GetLastSelectedPriority());
-
         }
 
         public override void OnActivateTool()
