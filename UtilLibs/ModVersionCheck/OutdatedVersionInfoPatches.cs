@@ -4,6 +4,7 @@ using PeterHan.PLib.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -46,26 +47,23 @@ namespace UtilLibs.ModVersionCheck
 
             public static void Postfix(MainMenu __instance)
             {
-
-                if (VersionChecker.OlderVersion
-                    || VersionChecker.UI_Built()                    
-                    )
+                if (VersionChecker.OlderVersion || VersionChecker.UI_Built())
                 {
-                    SgtLogger.l("version info already initiated");
                     return;
                 }
 
+                string versionCheckOverride = Assembly.GetExecutingAssembly().GetName().Name + "/Sgt_Imalas-VersionChecker";
                 VersionChecker.SetUIConstructed(true);
+                SgtLogger.l("Current UI handler version: "+PRegistry.GetData<int>(VersionChecker.VersionCheckerVersion).ToString(), versionCheckOverride);
                 if (!VersionChecker.ModsOutOfDate(50, out var infoString, out int linecount))
                 {
-                    SgtLogger.l("no mods out of date");
+                    SgtLogger.l("no mods out of date", versionCheckOverride);
                     return;
                 }
 
-                SgtLogger.l(PRegistry.GetData<int>(VersionChecker.VersionCheckerVersion).ToString(), "Current UI handler version:");
 
                 //UIUtils.ListAllChildrenPath(__instance.transform);
-                SgtLogger.l("grabbing ref.");
+                SgtLogger.l("grabbing ref.", versionCheckOverride);
                 var options = Util.KInstantiateUI<OptionsMenuScreen>(ScreenPrefabs.Instance.OptionsScreen.gameObject);                
                 SgtLogger.Assert("options", options); 
                 if (options == null)
