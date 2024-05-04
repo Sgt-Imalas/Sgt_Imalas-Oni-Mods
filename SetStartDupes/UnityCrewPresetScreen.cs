@@ -313,7 +313,7 @@ namespace SetStartDupes
 
         void ApplyColorToTraitContainer(GameObject container, string traitID)
         {
-            var type = ModAssets.GetTraitListOfTrait(traitID, out _);
+            var type = ModAssets.GetTraitListOfTrait(traitID);
             var bg = container.transform.Find("Background");
             if(bg != null && bg.TryGetComponent<Image>(out var image))
             {

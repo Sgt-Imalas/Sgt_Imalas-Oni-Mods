@@ -118,7 +118,7 @@ namespace SetStartDupes
 
             foreach (var trait in dupe.traitIDs)
             {
-                switch (ModAssets.GetTraitListOfTrait(trait,out _))
+                switch (ModAssets.GetTraitListOfTrait(trait))
                 {
                     case DupeTraitManager.NextType.joy:
                         joy = trait;

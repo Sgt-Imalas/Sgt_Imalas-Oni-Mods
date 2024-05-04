@@ -1,6 +1,7 @@
 ﻿using Klei.AI;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace SetStartDupes.DuplicityEditing
         float totalExperience;
         Dictionary<string, bool> MasteryBySkillID ;
         Dictionary<string, int> AttributeLevels;
-        Dictionary<HashedString,float> AptitudeBySkillGroup;
+        public Dictionary<HashedString,float> AptitudeBySkillGroup;
         public string JoyTraitId, StressTraitId;
         public HashSet<string> Traits;
 
@@ -82,7 +83,7 @@ namespace SetStartDupes.DuplicityEditing
         public bool HasJoyTrait => JoyTraitId != null;
         public bool HasStressTrait => StressTraitId != null;
 
-        public void RemoveAptitude(string id)
+        public void RemoveAptitude(HashedString id)
         {
             if (AptitudeBySkillGroup.ContainsKey(id))
             {

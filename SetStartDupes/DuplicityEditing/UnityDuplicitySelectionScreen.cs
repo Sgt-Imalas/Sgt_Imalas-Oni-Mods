@@ -60,6 +60,7 @@ namespace SetStartDupes
         Dictionary<Effect, GameObject> EffectContainers = new Dictionary<Effect, GameObject>();
         Dictionary<string, Dictionary<HashedString, GameObject>> BodypartContainers = new();
 
+        Dictionary<OpenedFrom, List<GameObject>> CategoryEntries = new();
 
         public enum OpenedFrom
         {
@@ -72,15 +73,16 @@ namespace SetStartDupes
         }
 
 
-        public static void ShowWindow(System.Action onClose)
+        public static void ShowWindow(OpenedFrom from, System.Action<object> OnSelect, System.Action onClose, string bodyPartGroup = null)
         {
             if (Instance == null)
             {
-                var screen = Util.KInstantiateUI(ModAssets.TraitsWindowPrefab, ModAssets.ParentScreen, true);
+                var screen = Util.KInstantiateUI(ModAssets.TraitsWindowPrefab, DuplicityMainScreen.Instance.gameObject, true);
                 Instance = screen.AddOrGet<UnityDuplicitySelectionScreen>();
                 Instance.Init();
             }
-            //Instance.SetOpenedType(currentGroup, currentTrait, DupeTraitManager, openedFrom);
+            Instance.OnSelect = OnSelect;
+            Instance.SetOpenedType(from);
             Instance.Show(true);
             Instance.ConsumeMouseScroll = true;
             Instance.transform.SetAsLastSibling();
@@ -91,6 +93,7 @@ namespace SetStartDupes
 
         private bool init;
         private System.Action OnCloseAction;
+        private System.Action<object> OnSelect;
 
 
         public override void OnKeyDown(KButtonEvent e)
@@ -109,6 +112,20 @@ namespace SetStartDupes
         private void SetOpenedType(OpenedFrom from = OpenedFrom.Undefined)
         {
             openedFrom = from;
+
+            foreach(var cat in CategoryEntries)
+            {
+                bool enable = cat.Key == openedFrom;
+
+                if (!enable)
+                {
+                    foreach(var entry in cat.Value)
+                    {
+                        entry.SetActive(false);
+                    }
+                }
+            }
+
             ApplyFilter();
         }
 
@@ -118,23 +135,31 @@ namespace SetStartDupes
             return trait.Name;
         }
 
-        private void AddUIContainer(SkillGroup group)
+        private GameObject AddUIContainer(SkillGroup group)
         {
             if (group != null && !DupeInterestContainers.ContainsKey(group))
+            {
                 DupeInterestContainers[group] = AddUiContainer(
                 ModAssets.GetSkillgroupName(group),
                 ModAssets.GetSkillgroupDescription(group),
-                () => ChoseThis(group));
+                () => SelectItem(group.Id));
+                return DupeInterestContainers[group];
+            }
+            return null;
         }
 
-        private void AddUIContainer(Trait trait2, NextType next)
+        private GameObject AddUIContainer(Trait trait2, NextType next)
         {
             if (trait2 != null && !TraitContainers.ContainsKey(trait2))
+            {
                 TraitContainers[trait2] = AddUiContainer(
                 GetTraitName(trait2),
                 ModAssets.GetTraitTooltip(trait2, trait2.Id),
-                () => ChoseThis(trait2),
+                () => SelectItem(trait2.Id),
                  ModAssets.GetColourFromType(next));
+                return TraitContainers[trait2];
+            }
+            return null;
 
         }
 
@@ -176,47 +201,9 @@ namespace SetStartDupes
             return PresetHolder;
         }
 
-
-        private void ChoseThis(Trait trait)
+        private void SelectItem(object obj)
         {
-            //switch (TraitCategory)
-            //{
-            //    case NextType.geneShufflerTrait:
-            //    case NextType.posTrait:
-            //    case NextType.negTrait:
-            //    case NextType.needTrait:
-            //    case NextType.allTraits:
-            //        currentStatManager.RemoveTrait(CurrentTrait);
-            //        currentStatManager.AddTrait(trait);
-            //        break;
-            //    case NextType.stress:
-            //        ReferencedStats.stressTrait = trait;
-            //        break;
-            //    case NextType.joy:
-            //        ReferencedStats.joyTrait = trait;
-            //        break;
-            //    case NextType.Beached_LifeGoal:
-            //        currentStatManager.RemoveLifeGoal();
-            //        currentStatManager.AddLifeGoal(trait);
-
-            //        break;
-
-            //}
-
-            if (OnCloseAction != null)
-                this.OnCloseAction.Invoke();
-            this.Show(false);
-        }
-        private void ChoseThis(SkillGroup group)
-        {
-
-            //if (CurrentGroup == null)
-            //{
-            //    currentStatManager.AddInterest(group);
-            //}
-            //else
-            //    currentStatManager.ReplaceInterest(CurrentGroup, group);
-
+            OnSelect(obj);
             if (OnCloseAction != null)
                 this.OnCloseAction.Invoke();
             this.Show(false);
@@ -224,7 +211,7 @@ namespace SetStartDupes
 
         void ApplyColorToTraitContainer(GameObject container, string traitID)
         {
-            var type = ModAssets.GetTraitListOfTrait(traitID, out var list);
+            var type = ModAssets.GetTraitListOfTrait(traitID);
             container.FindOrAddComponent<Image>().color = ModAssets.GetColourFromType(type);
         }
 
@@ -276,6 +263,12 @@ namespace SetStartDupes
 
         private void InitAllContainers()
         {
+            CategoryEntries.Add(OpenedFrom.Interest, new());
+            CategoryEntries.Add(OpenedFrom.Trait, new());
+            CategoryEntries.Add(OpenedFrom.Effect, new());
+            CategoryEntries.Add(OpenedFrom.Bodypart, new());
+
+
             var traitsDb = Db.Get().traits;
             var interests = Db.Get().SkillGroups.resources;
             foreach (var type in (NextType[])Enum.GetValues(typeof(NextType)))
@@ -286,7 +279,7 @@ namespace SetStartDupes
                 foreach (var item in TraitsOfCategory)
                 {
                     if (ModAssets.TraitAllowedInCurrentDLC(item))
-                        AddUIContainer(traitsDb.TryGet(item.id), type);
+                        CategoryEntries[OpenedFrom.Trait].Add( AddUIContainer(traitsDb.TryGet(item.id), type));
                     else
                         SgtLogger.l(item.id, "Filtered, not active dlc");
 
@@ -294,7 +287,7 @@ namespace SetStartDupes
             }
             foreach (var item in interests)
             {
-                AddUIContainer(item);
+                CategoryEntries[OpenedFrom.Interest].Add(AddUIContainer(item));
             }
             
             //foreach (var effect in Db.Get().effects.resources)
@@ -303,10 +296,13 @@ namespace SetStartDupes
                 if(AccessorySlotHelper.IsCritterTrait(effect.Id)) continue;
 
                 if (effect != null && !EffectContainers.ContainsKey(effect))
+                {
                     EffectContainers[effect] = AddUiContainer(
                     effect.Id,
                     "",
-                    () => SgtLogger.l(""));
+                    () => SelectItem(effect.Id));
+                    CategoryEntries[OpenedFrom.Effect].Add(EffectContainers[effect]);
+                }
             }
             foreach(var slot in AccessorySlotHelper.GetAllChangeableSlot())
             {
@@ -323,6 +319,7 @@ namespace SetStartDupes
                                 prefabOverride: BodypartPrefab,
                                 placeImage: AccessorySlotHelper.GetSpriteFrom(accessory.symbol)
                             ));
+                        CategoryEntries[OpenedFrom.Bodypart].Add(BodypartContainers[slot.Id][accessory.Id]);
                     }
                 }
             }
@@ -340,7 +337,7 @@ namespace SetStartDupes
                     go.Value.SetActive(filterstring == string.Empty ? isForbidden : isForbidden && ShowInFilter(filterstring, go.Key.Name));
                 }
             }
-            else
+            else if( openedFrom == OpenedFrom.Trait)
             {
                 var allowedTraits = GetAllowedTraits();
                 foreach (var go in TraitContainers)

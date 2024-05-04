@@ -43,11 +43,11 @@ namespace SetStartDupes.DuplicityEditing
 
         GameObject MinionButtonContainer, MinionButtonPrefab;
         Dictionary<MinionAssignablesProxy, MinionSelectButton> MinionButtons = new Dictionary<MinionAssignablesProxy, MinionSelectButton>();
-        Dictionary<Tab,List<GameObject>> CategoryGameObjects = new Dictionary<Tab,List<GameObject>>();
+        Dictionary<Tab, List<GameObject>> CategoryGameObjects = new Dictionary<Tab, List<GameObject>>();
         MinionAssignablesProxy SelectedMinion;
         public DuplicantEditableStats Stats;
 
-        Dictionary<Tab,FToggleButton> Tabs = new Dictionary<Tab,FToggleButton>();
+        Dictionary<Tab, FToggleButton> Tabs = new Dictionary<Tab, FToggleButton>();
         Tab lastCategory = Tab.undefined;
 
         //Prefabs:
@@ -61,7 +61,13 @@ namespace SetStartDupes.DuplicityEditing
 
         //Attribute-Tab:
         Dictionary<Klei.AI.Attribute, NumberInput> attributeEditors;
+        Dictionary<string, DeletableListEntry> TraitEntries = new();
+        Dictionary<HashedString, DeletableListEntry> AptitudeEntries = new();
+        FButton AddNewTrait, AddNewAptitude;
+        GameObject TraitContainer, AptitudeContainer;
+        DeletableListEntry TraitPrefab, AptitudePrefab;
 
+        //
 
         public static void ShowWindow(GameObject SourceDupe, System.Action onClose)
         {
@@ -79,7 +85,7 @@ namespace SetStartDupes.DuplicityEditing
             Instance.OnCloseAction = onClose;
 
             Instance.UpdateMinionButtons(true);
-            if(SourceDupe.TryGetComponent<MinionIdentity>(out var identity))
+            if (SourceDupe.TryGetComponent<MinionIdentity>(out var identity))
             {
                 Instance.TryChangeMinion(identity.assignableProxy.Get());
             }
@@ -154,7 +160,7 @@ namespace SetStartDupes.DuplicityEditing
             MinionButtonPrefab = MinionButtonContainer.transform.Find("Item").gameObject;
             MinionButtonPrefab.SetActive(false);
 
-            InitPrefabs(); 
+            InitPrefabs();
 
             InitTabs();
             init = true;
@@ -187,21 +193,22 @@ namespace SetStartDupes.DuplicityEditing
             transform.Find("Details/Content/ScrollRectContainer/TraitInterestContainer").gameObject.SetActive(false);
             transform.Find("Details/Content/ScrollRectContainer/NewButtonPrefab").gameObject.SetActive(false);
 
+
         }
         private void InitTabs()
         {
-            Tabs.Add(Tab.Attributes,transform.Find("Details/Header/Buttons/AttributeButton").FindOrAddComponent<FToggleButton>());
-            Tabs.Add(Tab.Appearance,transform.Find("Details/Header/Buttons/AppearanceButton").FindOrAddComponent<FToggleButton>());
-            Tabs.Add(Tab.Health,transform.Find("Details/Header/Buttons/HealthButton").FindOrAddComponent<FToggleButton>());
-            Tabs.Add(Tab.Skills,transform.Find("Details/Header/Buttons/SkillsButton").FindOrAddComponent<FToggleButton>());
-            Tabs.Add(Tab.Effects,transform.Find("Details/Header/Buttons/EffectsButton").FindOrAddComponent<FToggleButton>());
-            
-            foreach(var tab in Tabs)
+            Tabs.Add(Tab.Attributes, transform.Find("Details/Header/Buttons/AttributeButton").FindOrAddComponent<FToggleButton>());
+            Tabs.Add(Tab.Appearance, transform.Find("Details/Header/Buttons/AppearanceButton").FindOrAddComponent<FToggleButton>());
+            Tabs.Add(Tab.Health, transform.Find("Details/Header/Buttons/HealthButton").FindOrAddComponent<FToggleButton>());
+            Tabs.Add(Tab.Skills, transform.Find("Details/Header/Buttons/SkillsButton").FindOrAddComponent<FToggleButton>());
+            Tabs.Add(Tab.Effects, transform.Find("Details/Header/Buttons/EffectsButton").FindOrAddComponent<FToggleButton>());
+
+            foreach (var tab in Tabs)
             {
                 tab.Value.OnClick += () => ShowCategory(tab.Key);
             }
 
-            foreach(var category in Tabs.Keys)
+            foreach (var category in Tabs.Keys)
             {
                 CategoryGameObjects[category] = new List<GameObject>();
             }
@@ -212,7 +219,7 @@ namespace SetStartDupes.DuplicityEditing
 
         void TryChangeAttribute(string number, Klei.AI.Attribute attribute)
         {
-            if(!int.TryParse(number, out var newVal))
+            if (!int.TryParse(number, out var newVal))
             {
                 attributeEditors[attribute].SetInputFieldValue("0");
                 return;
@@ -224,9 +231,30 @@ namespace SetStartDupes.DuplicityEditing
         }
         void InitAttributeTab()
         {
+            var TraitsInterestContainer = transform.Find("Details/Content/ScrollRectContainer/TraitInterestContainer").gameObject;
+            TraitsInterestContainer.SetActive(true);
+
+            AptitudeContainer = TraitsInterestContainer.transform.Find("Content/grp/InterestContainer/ScrollArea/Content").gameObject;
+            TraitContainer = TraitsInterestContainer.transform.Find("Content/grp/TraitContainer/ScrollArea/Content").gameObject;
+
+            TraitPrefab = TraitContainer.transform.Find("ListViewEntryPrefab").gameObject.AddOrGet<DeletableListEntry>();
+            TraitPrefab.gameObject.SetActive(false);
+
+            AptitudePrefab = AptitudeContainer.transform.Find("ListViewEntryPrefab").gameObject.AddOrGet<DeletableListEntry>();
+            AptitudePrefab.gameObject.SetActive(false);
+
+            TraitsInterestContainer.SetActive(false);
+            TraitsInterestContainer.transform.SetAsFirstSibling();
+            CategoryGameObjects[Tab.Attributes].Add(TraitsInterestContainer);
+
             attributeEditors = new();
 
-            foreach(var attribute in AttributeHelper.GetEditableAttributes())
+            FButton addTraits = TraitsInterestContainer.transform.Find("Content/grp2/AddTraitButton").gameObject.AddOrGet<FButton>();
+            addTraits.OnClick += () => UnityDuplicitySelectionScreen.ShowWindow(UnityDuplicitySelectionScreen.OpenedFrom.Trait, (obj) => OnAddTrait((string)obj), () => RebuildTraitsAptitudes());
+            FButton addAptitudes = TraitsInterestContainer.transform.Find("Content/grp2/AddInterestButton").gameObject.AddOrGet<FButton>();
+            addAptitudes.OnClick += () => UnityDuplicitySelectionScreen.ShowWindow(UnityDuplicitySelectionScreen.OpenedFrom.Interest, (obj) => OnAddAptitude((string)obj), () => RebuildTraitsAptitudes());
+
+            foreach (var attribute in AttributeHelper.GetEditableAttributes())
             {
                 var attributeInput = Util.KInstantiateUI<NumberInput>(NumberInputPrefab.gameObject, ParentContainer);
                 attributeInput.Text = attribute.Name;
@@ -242,12 +270,12 @@ namespace SetStartDupes.DuplicityEditing
             lastCategory = key;
             foreach (var tab in Tabs)
             {
-                tab.Value.ChangeSelection(tab.Key==key);
+                tab.Value.ChangeSelection(tab.Key == key);
             }
 
-            foreach(var tabtype in (Tab[])Enum.GetValues(typeof(Tab)))
+            foreach (var tabtype in (Tab[])Enum.GetValues(typeof(Tab)))
             {
-                if(CategoryGameObjects.ContainsKey(tabtype))
+                if (CategoryGameObjects.ContainsKey(tabtype))
                 {
                     bool setActive = tabtype == key;
 
@@ -258,7 +286,7 @@ namespace SetStartDupes.DuplicityEditing
                 }
             }
 
-            
+
             switch (key)
             {
                 default:
@@ -266,19 +294,123 @@ namespace SetStartDupes.DuplicityEditing
 
                 case Tab.Attributes:
                     RefreshAttributeTab();
-                        break;
+                    break;
             }
         }
 
         private void RefreshAttributeTab()
         {
             SgtLogger.Assert("stats were null", Stats);
-            if(Stats==null)
+            if (Stats == null)
                 return;
+            RebuildTraitsAptitudes();
             foreach (var attribute in AttributeHelper.GetEditableAttributes())
             {
                 attributeEditors[attribute].SetInputFieldValue(Stats.GetAttributeLevel(attribute).ToString());
             }
+        }
+        private void RebuildTraitsAptitudes()
+        {
+            foreach (var traitEntry in TraitEntries.Values)
+            {
+                traitEntry.gameObject.SetActive(false);
+            }
+            foreach (var traitEntry in AptitudeEntries.Values)
+            {
+                traitEntry.gameObject.SetActive(false);
+            }
+
+            if (Stats.StressTraitId.Length > 0)
+            {
+                var stress = AddOrGetTraitContainer(Stats.StressTraitId);
+                stress.gameObject.SetActive(true);
+                stress.transform.SetAsFirstSibling();
+            }
+
+            if (Stats.JoyTraitId.Length>0)
+            {
+                var joy = AddOrGetTraitContainer(Stats.JoyTraitId);
+                joy.gameObject.SetActive(true);
+                joy.transform.SetAsFirstSibling();
+            }
+
+            foreach (var trait in Stats.Traits)
+            {
+                var traitInfo = AddOrGetTraitContainer(trait);
+                traitInfo.gameObject.SetActive(true);
+            }
+            foreach (var apt in Stats.AptitudeBySkillGroup.Keys)
+            {
+                var aptitudeInfo = AddOrGetAptitudeContainer(apt);
+                aptitudeInfo.gameObject.SetActive(true);
+            }
+        }
+        DeletableListEntry AddOrGetTraitContainer(string traitID)
+        {
+            var trait = Db.Get().traits.TryGet(traitID);
+            if (trait == null)
+            {
+                SgtLogger.error("trait with the id " + traitID + " not found!");
+                return null;
+            }
+
+            if (!TraitEntries.ContainsKey(traitID))
+            {
+                var go = Util.KInstantiateUI(TraitPrefab.gameObject, TraitContainer);
+                var entry = go.AddOrGet<DeletableListEntry>();
+                entry.Text = trait.Name;
+                entry.Tooltip = trait.description;
+                entry.backgroundColor = ModAssets.GetColourFromType(ModAssets.GetTraitListOfTrait(traitID));
+                entry.OnDeleteClicked = () => OnRemoveTrait(traitID);
+                go.SetActive(true);
+                TraitEntries[traitID] = entry;
+            }
+
+            return TraitEntries[traitID];
+        }
+        void OnRemoveTrait(string id)
+        {
+            Stats?.RemoveTrait(id);
+            RebuildTraitsAptitudes();
+        }
+        void OnAddTrait(string id)
+        {
+            Stats?.AddTrait(id);
+            RebuildTraitsAptitudes();
+        }
+
+
+        DeletableListEntry AddOrGetAptitudeContainer(HashedString aptiudeID)
+        {
+            var aptitude = Db.Get().SkillGroups.TryGet(aptiudeID);
+            if (aptitude == null)
+            {
+                SgtLogger.error("aptitude with the id " + aptitude + " not found!");
+                return null;
+            }
+
+            if (!AptitudeEntries.ContainsKey(aptiudeID))
+            {
+                var go = Util.KInstantiateUI(AptitudePrefab.gameObject, AptitudeContainer);
+                var entry = go.AddOrGet<DeletableListEntry>();
+                entry.Text = ModAssets.GetSkillgroupName(aptitude);
+                entry.Tooltip = ModAssets.GetSkillgroupDescription(aptitude);
+                entry.OnDeleteClicked = () => OnRemoveAptitude(aptiudeID);
+                AptitudeEntries[aptiudeID] = entry;
+                go.SetActive(true);
+            }
+
+            return AptitudeEntries[aptiudeID];
+        }
+        void OnRemoveAptitude(HashedString id)
+        {
+            Stats?.RemoveAptitude(id);
+            RebuildTraitsAptitudes();
+        }
+        void OnAddAptitude(string id)
+        {
+            Stats?.AddAptitude(id);
+            RebuildTraitsAptitudes();
         }
 
         public override void OnShow(bool show)
@@ -386,7 +518,7 @@ namespace SetStartDupes.DuplicityEditing
         }
         public void TryChangeMinion(MinionAssignablesProxy newMinion)
         {
-            foreach(var btn in MinionButtons)
+            foreach (var btn in MinionButtons)
             {
                 btn.Value.SetActiveState(btn.Key == SelectedMinion);
             }

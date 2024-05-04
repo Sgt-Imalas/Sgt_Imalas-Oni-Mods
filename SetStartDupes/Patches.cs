@@ -1079,7 +1079,7 @@ namespace SetStartDupes
                         UnityTraitRerollingScreen.ShowWindow(() =>
                         {
                             __instance.Reshuffle(IsStartDupe);
-                            var type = GetTraitListOfTrait(UnityTraitRerollingScreen.GetTraitId(__instance), out _);
+                            var type = GetTraitListOfTrait(UnityTraitRerollingScreen.GetTraitId(__instance));
                             ApplyTraitStyleByKey(rerollTraitBtn.GetComponent<KImage>(), type);
                             UIUtils.TryChangeText(text, "", UnityTraitRerollingScreen.GetTraitName(__instance));
                         },

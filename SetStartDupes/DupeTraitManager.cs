@@ -444,7 +444,7 @@ namespace SetStartDupes
                 if (trait.Id == MinionConfig.MINION_BASE_TRAIT_ID)
                     return;
 
-                var type = ModAssets.GetTraitListOfTrait(trait.Id, out _);
+                var type = ModAssets.GetTraitListOfTrait(trait.Id);
                 var traitEntry = AddTraitContainerUI(trait,  TraitContainer, type);
                 traitEntry.TryGetComponent<LayoutElement>(out var LE);
                 UI_TraitEntries[trait] = traitEntry;

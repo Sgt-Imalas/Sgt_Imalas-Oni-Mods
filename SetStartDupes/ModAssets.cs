@@ -616,57 +616,74 @@ namespace SetStartDupes
             }
 
         }
-        static Dictionary<Trait, NextType> NextTypesPerTrait = new();
-        public static NextType GetTraitListOfTrait(Trait trait)
+        static Dictionary<string, NextType> NextTypesPerTrait = new();
+        public static NextType GetTraitListOfTrait(Trait trait) => GetTraitListOfTrait(trait.Id);
+        public static NextType GetTraitListOfTrait(string traitId)
         {
-            if (!NextTypesPerTrait.ContainsKey(trait))
+            if (!NextTypesPerTrait.ContainsKey(traitId))
             {
-                var type = GetTraitListOfTrait(trait.Id, out _);
-                NextTypesPerTrait.Add(trait, type);
+                return GetTraitListOfTrait(traitId, out _);
             }
-            return NextTypesPerTrait[trait];
+            return NextTypesPerTrait[traitId];
         }
+
 
         public static NextType GetTraitListOfTrait(string traitId, out List<DUPLICANTSTATS.TraitVal> TraitList)
         {
             if (BEACHED_LIFEGOALS.FindIndex(t => t.id == traitId) != -1)
             {
                 TraitList = BEACHED_LIFEGOALS;
+                if(!NextTypesPerTrait.ContainsKey(traitId))
+                    NextTypesPerTrait.Add(traitId, NextType.Beached_LifeGoal);
                 return NextType.Beached_LifeGoal;
             }
             if (DUPLICANTSTATS.GENESHUFFLERTRAITS.FindIndex(t => t.id == traitId) != -1)
             {
                 TraitList = DUPLICANTSTATS.GENESHUFFLERTRAITS;
+                if(!NextTypesPerTrait.ContainsKey(traitId))
+                    NextTypesPerTrait.Add(traitId, NextType.geneShufflerTrait);
                 return NextType.geneShufflerTrait;
             }
             else if (DUPLICANTSTATS.GOODTRAITS.FindIndex(t => t.id == traitId) != -1)
             {
                 TraitList = DUPLICANTSTATS.GOODTRAITS;
+                if(!NextTypesPerTrait.ContainsKey(traitId))
+                    NextTypesPerTrait.Add(traitId, NextType.posTrait);
                 return NextType.posTrait;
             }
             else if (DUPLICANTSTATS.BADTRAITS.FindIndex(t => t.id == traitId) != -1)
             {
                 TraitList = DUPLICANTSTATS.BADTRAITS;
+                if(!NextTypesPerTrait.ContainsKey(traitId))
+                    NextTypesPerTrait.Add(traitId, NextType.negTrait);
                 return NextType.negTrait;
             }
             else if (DUPLICANTSTATS.NEEDTRAITS.FindIndex(t => t.id == traitId) != -1)
             {
                 TraitList = DUPLICANTSTATS.NEEDTRAITS;
+                if(!NextTypesPerTrait.ContainsKey(traitId))
+                    NextTypesPerTrait.Add(traitId, NextType.needTrait);
                 return NextType.needTrait;
             }
             else if (DUPLICANTSTATS.JOYTRAITS.FindIndex(t => t.id == traitId) != -1)
             {
                 TraitList = DUPLICANTSTATS.JOYTRAITS;
+                if(!NextTypesPerTrait.ContainsKey(traitId))
+                    NextTypesPerTrait.Add(traitId, NextType.joy);
                 return NextType.joy;
             }
             else if (DUPLICANTSTATS.STRESSTRAITS.FindIndex(t => t.id == traitId) != -1)
             {
                 TraitList = DUPLICANTSTATS.STRESSTRAITS;
+                if(!NextTypesPerTrait.ContainsKey(traitId))
+                    NextTypesPerTrait.Add(traitId, NextType.stress);
                 return NextType.stress;
             }
             else if (DUPLICANTSTATS.SPECIALTRAITS.FindIndex(t => t.id == traitId) != -1)
             {
                 TraitList = new List<DUPLICANTSTATS.TraitVal>() { DUPLICANTSTATS.SPECIALTRAITS.Find(t => t.id == traitId) };
+                if(!NextTypesPerTrait.ContainsKey(traitId))
+                    NextTypesPerTrait.Add(traitId, NextType.special);
                 return NextType.undefined;
             }
             TraitList = null;

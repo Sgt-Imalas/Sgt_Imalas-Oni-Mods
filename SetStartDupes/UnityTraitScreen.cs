@@ -130,7 +130,7 @@ namespace SetStartDupes
             }
             else if (currentTrait != null)
             {
-                var next = ModAssets.GetTraitListOfTrait(currentTrait.Id, out _);
+                var next = ModAssets.GetTraitListOfTrait(currentTrait.Id);
                 TraitCategory = next;
                 ToReplaceName.text = GetTraitName(currentTrait);
                 ToReplaceColour.color = ModAssets.GetColourFromType(next);
