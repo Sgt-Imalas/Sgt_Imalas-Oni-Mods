@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		ModThatBroke.txt = ModThatBroke.txt
 		ModVersionData.json = ModVersionData.json
 		README.md = README.md
+		TODOs.txt = TODOs.txt
 		UpdatedOniTemplate.zip = UpdatedOniTemplate.zip
 	EndProjectSection
 EndProject
@@ -151,7 +152,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cheese", "Cheese\Cheese.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RebuildPreserve", "RebuildPreserve\RebuildPreserve.csproj", "{32490DAC-271C-402A-A90E-91ABE9CAF8EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillScreenCrashMitigation", "SkillScreenCrashMitigation\SkillScreenCrashMitigation.csproj", "{1A383D59-AD69-4C08-9C04-50DAD9E6F1D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillScreenCrashMitigation", "SkillScreenCrashMitigation\SkillScreenCrashMitigation.csproj", "{1A383D59-AD69-4C08-9C04-50DAD9E6F1D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
