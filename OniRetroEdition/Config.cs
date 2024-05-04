@@ -47,6 +47,11 @@ namespace OniRetroEdition
         [Option("Duplicants rot forever", "when activated, unburied duplicants will rot forever. otherwise they will decompose into bones.")]
         [JsonProperty]
         public bool endlessRotting { get; set; }
+
+
+        [Option("Old Pipe Icons", "pipe input and output icons are replaced with older versions that change based on the connection state")]
+        [JsonProperty]
+        public bool oldPipeIcons { get; set; }
         public Config()
         {
             TileTopsMerge = true;
@@ -57,6 +62,7 @@ namespace OniRetroEdition
             liquidsensorpower = false;
             endlessRotting = false;
 
+            oldPipeIcons = true;
             //succmop = true;
 
         }

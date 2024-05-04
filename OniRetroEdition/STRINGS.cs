@@ -29,11 +29,22 @@ namespace OniRetroEdition
             {
                 public static LocString NAME = "Bones";
                 public static LocString DESC = "The last remains of a lost friend.";
+                public static LocString RECIPEDESC = "Crushing bones into "+global::STRINGS.ELEMENTS.LIME.NAME;
+            }
+        }
+        public class CREATURES
+        {
+            public class SPECIES
+            {
+                public static LocString SHOCKWORMSPECIES = "Shock Worm";
+            }
+            public class FAMILY_PLURAL
+            {
+                public static LocString SHOCKWORMSPECIES = "Shock Worms";
             }
         }
         public class UI
         {
-
             public class RETRO_OVERLAY
             {
                 public class TOXICITY

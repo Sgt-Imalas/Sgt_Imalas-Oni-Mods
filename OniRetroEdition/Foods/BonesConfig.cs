@@ -10,10 +10,11 @@ namespace OniRetroEdition.Foods
     internal class BonesConfig : IEntityConfig
     {
         public static string ID = "OniRetro_MinionBones";
+        public static ComplexRecipe recipe;
 
         public GameObject CreatePrefab()
         {
-            return EntityTemplates.CreateLooseEntity(ID, STRINGS.ITEMS.RETROONI_BONES.NAME, STRINGS.ITEMS.RETROONI_BONES.DESC, 30f, true, Assets.GetAnim((HashedString)"retro_bones_kanim"), "working_pre", Grid.SceneLayer.Front, EntityTemplates.CollisionShape.RECTANGLE, 0.8f, 0.8f, true);
+            return EntityTemplates.CreateLooseEntity(ID, STRINGS.ITEMS.RETROONI_BONES.NAME, STRINGS.ITEMS.RETROONI_BONES.DESC, 10f, true, Assets.GetAnim((HashedString)"retro_bones_kanim"), "working_pre", Grid.SceneLayer.Front, EntityTemplates.CollisionShape.RECTANGLE, 0.8f, 0.8f, true);
 
         }
 

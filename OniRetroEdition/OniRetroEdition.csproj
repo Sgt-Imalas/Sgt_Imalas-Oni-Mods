@@ -63,13 +63,34 @@
 	  <None Update="ModAssets\anim\assets\retro_bones\bones_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\anim\assets\shockworm\shockworm_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\shockworm\shockworm_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\shockworm\shockworm_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\assets\conveyor_box_retro.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\assets\ReplacementSprites\tiles_glass.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\assets\RetroOni_Gas_Input_Connected.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\assets\RetroOni_Gas_Input_Disconnected.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\assets\RetroOni_icon_action_slurp.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\assets\RetroOni_Liquid_Input_Connected.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\assets\RetroOni_Liquid_Input_Disconnected.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\assets\RetroOni_SlurpIcon.png">
