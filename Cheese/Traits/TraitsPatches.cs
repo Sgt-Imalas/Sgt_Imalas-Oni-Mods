@@ -21,30 +21,20 @@ namespace Cheese.Traits
                 TRAITS.TRAIT_CREATORS.Add(TraitUtil.CreateNamedTrait(BracktoseIntolerant.ID, (string)STRINGS.DUPLICANTS.TRAITS.BRACKTOSEINTOLERANT.NAME, (string)STRINGS.DUPLICANTS.TRAITS.BRACKTOSEINTOLERANT.DESC));
                 TRAITS.TRAIT_CREATORS.Add(TraitUtil.CreateTrait(CheeseThrower.ID, (string)STRINGS.DUPLICANTS.TRAITS.CHEESETHROWER.NAME, (string)STRINGS.DUPLICANTS.TRAITS.CHEESETHROWER.DESC, new System.Action<GameObject>(OnAddCheeseThrower)));
             }
-
+            public static void Postfix()
+            {
+                if (!DUPLICANTSTATS.BADTRAITS.Contains(BracktoseIntolerant.GetTrait()))
+                {
+                    DUPLICANTSTATS.BADTRAITS.Add(BracktoseIntolerant.GetTrait());
+                    DUPLICANTSTATS.JOYTRAITS.Add(CheeseThrower.GetTrait());
+                }
+            }
             static void OnAddCheeseThrower(GameObject go)
             {
                 go.TryGetComponent<KMonoBehaviour>(out var kb);
 
                 new CheeseThrower.Instance(kb).StartSM();
                 new JoyBehaviourMonitor.Instance(kb, "anim_loco_stickers_kanim", (string)null, Db.Get().Expressions.Sticker).StartSM();
-            }
-        }
-
-        [HarmonyPatch(typeof(MinionStartingStats))]
-        [HarmonyPatch("GenerateTraits")]
-        public static class MinionStartingStats_GenerateTraits_Patch
-        {
-            private static bool TraitsAdded = false;
-
-            public static void Prefix()
-            {
-                if (!TraitsAdded)
-                {
-                    DUPLICANTSTATS.BADTRAITS.Add(BracktoseIntolerant.GetTrait());
-                    DUPLICANTSTATS.JOYTRAITS.Add(CheeseThrower.GetTrait());
-                    TraitsAdded = true;
-                }
             }
         }
     }
