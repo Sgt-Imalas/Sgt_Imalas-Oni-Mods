@@ -216,7 +216,7 @@ namespace Radiator_Mod
         public void ConduitUpdate(float dt)
         {
             var flowManager = Conduit.GetFlowManager(type);
-            if (!flowManager.HasConduit(inputCell)) return;
+            if (!flowManager.HasConduit(inputCell)|| !flowManager.HasConduit(outputCell)) return;
             if (!flowManager.GetContents(outputCell).Equals(ConduitFlow.ConduitContents.Empty))
             {
                 return;
@@ -224,67 +224,77 @@ namespace Radiator_Mod
 
             var contents = flowManager.GetContents(inputCell);
             if (contents.mass <= 0f) return;
-            var panel_mat_temperature = panel_mat.Temperature;
+            float panel_mat_temperature = panel_mat.Temperature;
+            float content_mat_temperature = contents.temperature;
 
+            if (panel_mat_temperature <= 0f) return;
             var element = ElementLoader.FindElementByHash(contents.element);
 
-            var potentialHeatTransfer =
-                conductive_heat(element,
+            var maxWattsTransferred =
+                MaxWattsTransferedPerSecond(element,
                 contents.temperature,
                 panel_mat.Element,
                 panel_mat_temperature);
 
-            potentialHeatTransfer *= dt;
+            //SgtLogger.l("potential heat transfer: " + maxWattsTransferred);
 
-
-            var panel_heat_capacity = Config.Instance.UseOldHeatDeletion ? building.Def.MassForTemperatureModification : building.Def.MassForTemperatureModification * panel_mat.Element.specificHeatCapacity;// (RadiatorBaseConfig.matCosts[0] * panel_mat.Element.specificHeatCapacity);
+            var panel_heat_capacity = Config.Instance.UseOldHeatDeletion 
+                ? building.Def.MassForTemperatureModification 
+                : building.Def.MassForTemperatureModification * panel_mat.Element.specificHeatCapacity;// (RadiatorBaseConfig.matCosts[0] * panel_mat.Element.specificHeatCapacity);
             var liquid_heat_capacity = contents.mass * element.specificHeatCapacity;
 
-            float minimumTemperature = Mathf.Min(panel_mat_temperature, contents.temperature);
-            float maximumTemperature = Mathf.Max(panel_mat_temperature, contents.temperature);
+            float actualKJtransferred = ActualWattsTransferred(dt, maxWattsTransferred, panel_mat_temperature, content_mat_temperature, panel_heat_capacity, liquid_heat_capacity);
+            //SgtLogger.l("actual heat transfer: " + actualKJtransferred);
 
-            var delta_temp_panel = (potentialHeatTransfer / panel_heat_capacity) * dt;
-            var delta_temp_liquid = (-potentialHeatTransfer / liquid_heat_capacity) * dt;
+            float newLiquidTemperature = ContactConductivePipeBridge.GetFinalContentTemperature(actualKJtransferred, panel_mat_temperature, panel_heat_capacity, content_mat_temperature, liquid_heat_capacity);
+            float newPanelTemperature = ContactConductivePipeBridge.GetFinalBuildingTemperature(content_mat_temperature, newLiquidTemperature, liquid_heat_capacity, panel_mat_temperature, panel_heat_capacity);
 
-            float newLiquidTemperature = (contents.temperature + delta_temp_liquid);
-            float newPanelTemperature = panel_mat_temperature + delta_temp_panel;
-
-            if (newLiquidTemperature < minimumTemperature)
-            {
-                delta_temp_panel *= -((contents.temperature - minimumTemperature) / (delta_temp_liquid));
-                newLiquidTemperature = minimumTemperature;
-                newPanelTemperature = panel_mat_temperature + delta_temp_panel;
-            }
-            else if(newLiquidTemperature > maximumTemperature)
-            {
-                delta_temp_panel *= -((contents.temperature - maximumTemperature) / (delta_temp_liquid));
-                newLiquidTemperature = maximumTemperature;
-                newPanelTemperature = panel_mat_temperature + delta_temp_panel;
-            }
-
-            else if (newPanelTemperature < minimumTemperature)
-            {
-                delta_temp_liquid *= -((panel_mat_temperature - minimumTemperature) / (delta_temp_panel));
-                newPanelTemperature = minimumTemperature;
-                newLiquidTemperature = (contents.temperature + delta_temp_liquid);
-            }
-            else if (newPanelTemperature > maximumTemperature)
-            {
-                delta_temp_liquid *= -((panel_mat_temperature - maximumTemperature) / (delta_temp_panel));
-                newPanelTemperature = maximumTemperature;
-                newLiquidTemperature = (contents.temperature + delta_temp_liquid);
-            }
-
-            var delta = flowManager.AddElement(outputCell, contents.element, contents.mass, newLiquidTemperature,
-                contents.diseaseIdx, contents.diseaseCount);
+            //SgtLogger.l(content_mat_temperature+ "<- old liquid temp, new liquid temp->" + newLiquidTemperature);
+            //SgtLogger.l(panel_mat_temperature+"<- old panel temp, new panel temp->" + newPanelTemperature);
             
-            panel_mat.Temperature = newPanelTemperature;
+            if (newPanelTemperature<=0f ||  newLiquidTemperature <= 0f || newPanelTemperature>=10000f || newLiquidTemperature >= 10000f)
+            {
+                var delta = flowManager.AddElement(outputCell, contents.element, contents.mass, contents.temperature,
+                    contents.diseaseIdx, contents.diseaseCount);
 
-            if (delta <= 0f) return;
-            flowManager.RemoveElement(inputCell, delta);
-            Game.Instance.accumulators.Accumulate(accumulator, contents.mass);
+                if (delta <= 0f) return;
+                flowManager.RemoveElement(inputCell, delta);
+
+                Game.Instance.accumulators.Accumulate(accumulator, contents.mass);
+            }
+            else
+            {
+                var delta = flowManager.AddElement(outputCell, contents.element, contents.mass, newLiquidTemperature,
+                    contents.diseaseIdx, contents.diseaseCount);
+
+                panel_mat.Temperature = newPanelTemperature;
+
+                if (delta <= 0f) return;
+                flowManager.RemoveElement(inputCell, delta);
+
+                Game.Instance.accumulators.Accumulate(accumulator, contents.mass);
+            }
         }
-        private static float conductive_heat(Element from, float from_temp, Element panel_material, float panel_temp)
+        
+        public static float ActualWattsTransferred(float dt, float maxWattsTransferred,float panel_mat_temperature,float content_mat_temperature,float panel_heat_capacity, float liquid_heat_capacity)
+        {
+            float wattsTransferredDt = maxWattsTransferred * dt;
+
+            float lowTemp = Mathf.Min(panel_mat_temperature, content_mat_temperature);
+            float highTemp = Mathf.Max(panel_mat_temperature, content_mat_temperature);
+
+            var delta_temp_panel = (wattsTransferredDt / panel_heat_capacity);
+            var delta_temp_liquid = (-wattsTransferredDt / liquid_heat_capacity);
+
+            float clampedNewLiquidTemp = Mathf.Clamp((content_mat_temperature + delta_temp_liquid), lowTemp, highTemp);
+            float clampedNewPanelTemperature = Mathf.Clamp((panel_mat_temperature + delta_temp_panel), lowTemp, highTemp);
+
+            float clampDiffLiquid = Mathf.Abs(clampedNewLiquidTemp - content_mat_temperature);
+            float clampDiffPanel = Mathf.Abs(clampedNewPanelTemperature - panel_mat_temperature);
+
+            return Mathf.Min(clampDiffLiquid * liquid_heat_capacity, clampDiffPanel * panel_heat_capacity) * Mathf.Sign(maxWattsTransferred);
+        }
+        public static float MaxWattsTransferedPerSecond(Element from, float from_temp, Element panel_material, float panel_temp)
         {
             //var conductivity = Math.Min(from.thermalConductivity, panel_material.thermalConductivity);
             var conductivity = (from.thermalConductivity + panel_material.thermalConductivity)/2f;

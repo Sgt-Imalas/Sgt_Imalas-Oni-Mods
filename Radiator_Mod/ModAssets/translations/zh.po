@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.0\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_CN\n"
+
+#. Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_BUNKERDOWN.NAME
+msgctxt "Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_BUNKERDOWN.NAME"
+msgid "Bunkered down"
+msgstr "掩蔽状态"
+
+#. Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_BUNKERDOWN.TOOLTIP
+msgctxt "Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_BUNKERDOWN.TOOLTIP"
+msgid "This radiator is currently protected from meteor impacts."
+msgstr "这个散热器正在保护自己免受流星伤害。"
+
+#. Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_INSPACERADIATING.NAME
+msgctxt "Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_INSPACERADIATING.NAME"
+msgid "Radiating {0}"
+msgstr "辐射{0}"
+
+#. Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_INSPACERADIATING.TOOLTIP
+msgctxt "Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_INSPACERADIATING.TOOLTIP"
+msgid "This radiator is currently radiating heat at {0} with {AREAPERCENTAGE}% of its area."
+msgstr "这个散热器正在用{AREAPERCENTAGE}%的面积辐射{0}的热量。"
+
+#. Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_NOTINSPACE.NAME
+msgctxt "Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_NOTINSPACE.NAME"
+msgid "Not in space"
+msgstr "不在太空中"
+
+#. Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_NOTINSPACE.TOOLTIP
+msgctxt "Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_NOTINSPACE.TOOLTIP"
+msgid "This radiators panels are not exposed to space, thus it won't radiate any heat away."
+msgstr "这个散热器的面板并没有在太空完全展开，所以不会向太空辐射任何热量。"
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORBASE.DESC
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORBASE.DESC"
+msgid "Radiates off heat energy into space as infrared radiation."
+msgstr "将热能以红外辐射的形式辐射到太空中。"
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORBASE.EFFECT
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORBASE.EFFECT"
+msgid ""
+"Exchanges heat with the liquid pumped through it.\n"
+"\n"
+"If in space, radiates off infrared energy based off the Stefan–Boltzmann law."
+msgstr ""
+"与通过它的液体交换热量。\n"
+"\n"
+"如果处在太空中，则根据斯蒂芬-玻尔兹曼定律辐射红外能量。"
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORBASE.NAME
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORBASE.NAME"
+msgid "Space Radiator"
+msgstr "太空散热器"
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORUPDATED.DESC
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORUPDATED.DESC"
+msgid "Radiates off heat energy into space as infrared radiation."
+msgstr "将热能以红外辐射的形式辐射到太空中。"
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORUPDATED.EFFECT
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORUPDATED.EFFECT"
+msgid ""
+"Exchanges heat with the liquid pumped through it.\n"
+"\n"
+"If in space, radiates off infrared energy based off the Stefan–Boltzmann law."
+msgstr ""
+"与通过它的液体交换热量。\n"
+"\n"
+"如果处在太空中，则根据斯蒂芬-玻尔兹曼定律辐射红外能量。"
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORUPDATED.NAME
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORUPDATED.NAME"
+msgid "Space Radiator"
+msgstr "太空散热器"
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RM_RADIATORROCKETWALLBUILDABLE.DESC
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RM_RADIATORROCKETWALLBUILDABLE.DESC"
+msgid "Radiates off heat energy into space as infrared radiation."
+msgstr "将热能以红外辐射的形式辐射到太空中。"
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RM_RADIATORROCKETWALLBUILDABLE.EFFECT
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RM_RADIATORROCKETWALLBUILDABLE.EFFECT"
+msgid ""
+"Exchanges heat with the liquid pumped through it.\n"
+"\n"
+"If in space, radiates off infrared energy based off the Stefan–Boltzmann law.\n"
+"\n"
+"Has to be attached to the rocket interior wall."
+msgstr ""
+"与通过它的液体交换热量。\n"
+"\n"
+"如果处在太空中，则根据斯蒂芬-玻尔兹曼定律辐射红外能量。\n"
+"\n"
+"必须连接火箭内壁。"
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RM_RADIATORROCKETWALLBUILDABLE.NAME
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RM_RADIATORROCKETWALLBUILDABLE.NAME"
+msgid "Space Radiator (Rocket)"
+msgstr "太空散热器（火箭）"
+
+#. Radiator_Mod.STRINGS.MODCONFIG.DELETIONMULTIPLIER.NAME
+msgctxt "Radiator_Mod.STRINGS.MODCONFIG.DELETIONMULTIPLIER.NAME"
+msgid "Radiation Multiplier"
+msgstr "辐射倍数"
+
+#. Radiator_Mod.STRINGS.MODCONFIG.DELETIONMULTIPLIER.TOOLTIP
+msgctxt "Radiator_Mod.STRINGS.MODCONFIG.DELETIONMULTIPLIER.TOOLTIP"
+msgid ""
+"Set a custom multiplier that affects the radiation rate.\n"
+"1 is the scientificially most accurate value."
+msgstr ""
+"设置影响辐射速率的自定义倍数。\n"
+"1 是科学上最准确的值。"
+
+#. Radiator_Mod.STRINGS.MODCONFIG.OLDFORMULA.NAME
+msgctxt "Radiator_Mod.STRINGS.MODCONFIG.OLDFORMULA.NAME"
+msgid "Old Functionality (v2.2.1 and earlier)"
+msgstr "旧功能（v2.2.1 及更早版本）"
+
+#. Radiator_Mod.STRINGS.MODCONFIG.OLDFORMULA.TOOLTIP
+msgctxt "Radiator_Mod.STRINGS.MODCONFIG.OLDFORMULA.TOOLTIP"
+msgid "restore the old deletion method that made the radiator up to 5x as powerful as intended for low shc materials"
+msgstr "恢复旧版本的方法，使散热器的功率达到低 SHC 材料的 5 倍"
