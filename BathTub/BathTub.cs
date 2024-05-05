@@ -17,12 +17,12 @@ namespace BathTub
         //public string specificEffect;
         //public string trackingEffect;
         public int basePriority;
-        public CellOffset[] choreOffsets = new CellOffset[4]
+        public CellOffset[] choreOffsets = new CellOffset[]
         {
             new CellOffset(-1, 0),
             new CellOffset(1, 0),
             new CellOffset(0, 0),
-            new CellOffset(2, 0)
+            //new CellOffset(2, 0)
         };
         private BathTubWorkable[] workables;
         private Chore[] chores;

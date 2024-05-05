@@ -25,6 +25,15 @@ namespace BathTub
                 BathTub.RegisterStatusItems();
             }
         }
+        [HarmonyPatch(typeof(Db))]
+        [HarmonyPatch(nameof(Db.Initialize))]
+        public class Db_Initialize_Patch
+        {
+            public static void Postfix()
+            {
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.Sanitation, BathTubConfig.ID);
+            }
+        }
         /// <summary>
         /// add buildings to plan screen
         /// </summary>

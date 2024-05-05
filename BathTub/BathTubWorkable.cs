@@ -32,7 +32,7 @@ namespace BathTub
             this.showProgressBar = true;
             this.resetProgressOnStop = true;
             this.faceTargetWhenWorking = true;
-            this.SetWorkTime(60f);
+            this.SetWorkTime(35f);
         }
         public override bool OnWorkTick(Worker worker, float dt)
         {

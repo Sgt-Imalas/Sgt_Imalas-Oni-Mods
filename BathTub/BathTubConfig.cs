@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace BathTub
 {
@@ -17,6 +18,7 @@ namespace BathTub
 
         public override BuildingDef CreateBuildingDef()
         {
+            SoundUtils.CopySoundsToAnim("bathtub_kanim", "hottub_kanim");
             float[] construction_mass = new float[2] { 500f, 200f };
             string[] construction_materials = new string[2]
             {
@@ -26,7 +28,7 @@ namespace BathTub
             EffectorValues tieR3 = NOISE_POLLUTION.NOISY.TIER3;
             EffectorValues tieR1 = BUILDINGS.DECOR.BONUS.TIER3;
             EffectorValues noise = tieR3;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 2, "hottub_kanim", 30, 10f, construction_mass, construction_materials, 1600f, BuildLocationRule.OnFloor, tieR1, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 2, "bathtub_kanim", 30, 10f, construction_mass, construction_materials, 1600f, BuildLocationRule.OnFloor, tieR1, noise);
             buildingDef.SceneLayer = Grid.SceneLayer.BuildingFront;
 
 
@@ -39,7 +41,7 @@ namespace BathTub
             buildingDef.ViewMode = OverlayModes.LiquidConduits.ID;
             buildingDef.AudioCategory = "Metal";
             buildingDef.UtilityInputOffset = new CellOffset(-1, 0);
-            buildingDef.UtilityOutputOffset = new CellOffset(2, 0);
+            buildingDef.UtilityOutputOffset = new CellOffset(1, 0);
             //buildingDef.RequiresPowerInput = true;
             //buildingDef.PowerInputOffset = new CellOffset(-2, 0);
             return buildingDef;

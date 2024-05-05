@@ -27,8 +27,8 @@ namespace BathTub
                 public class SGTIMALAS_BATHTUB
                 {
                     public static LocString NAME = "Bathtub";
-                    public static LocString DESC = "Stores and delivers Satellites to orbit.";
-                    public static LocString EFFECT = "The Satellite Carrier Module is used to deploy and retrieve satellites on the star map\n\nA satellite can be constructed from satellite parts, made at the " + global::STRINGS.UI.FormatAsLink(global::STRINGS.BUILDINGS.PREFABS.CRAFTINGTABLE.NAME, CraftingTableConfig.ID);
+                    public static LocString DESC = "When showers aren't enough!";
+                    public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.SHOWER.EFFECT;
                 }
             }
         }
