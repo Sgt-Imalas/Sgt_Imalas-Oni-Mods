@@ -74,7 +74,8 @@ namespace _WorldGenStateCapture
             string storyTraitSettingsCode = CustomGameSettings.Instance.GetStoryTraitSettingsCode();
 
 
-            DataItem.Seed = SaveLoader.Instance.clusterDetailSave.globalWorldSeed;
+            int.TryParse(currentQualitySetting2.id, out int seed);
+            DataItem.Seed = seed;
             DataItem.Coordinate = clusterData.GetCoordinatePrefix();
             DataItem.FullCoordinate = CustomGameSettings.Instance.GetSettingsCoordinate();
             DataItem.StoryTraits = new(CustomGameSettings.Instance.GetCurrentStories());
