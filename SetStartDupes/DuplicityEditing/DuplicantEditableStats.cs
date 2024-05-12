@@ -25,6 +25,7 @@ namespace SetStartDupes.DuplicityEditing
         Dictionary<string, int> AttributeLevels;
         public Dictionary<HashedString,float> AptitudeBySkillGroup;
         public Dictionary<string, float> HealthAmounts;
+        public Dictionary<string, float> Effects;
 
         public string JoyTraitId, StressTraitId;
         public HashSet<string> Traits;
@@ -80,6 +81,19 @@ namespace SetStartDupes.DuplicityEditing
                         }
                         else
                             stats.Traits.Add(traitId);
+                    }
+                }
+                //Effects
+                if (minionIdentity.TryGetComponent<Effects>(out var effects))
+                {
+                    stats.Effects = new();
+                    foreach (var effect in effects.effects)
+                    {
+                        stats.Effects[effect.effect.Id] = 0;
+                    }
+                    foreach (var effect in effects.effectsThatExpire)
+                    {
+                        stats.Effects[effect.effect.Id] = effect.GetTimeRemaining();
                     }
                 }
                 //Health Amounts
@@ -296,11 +310,66 @@ namespace SetStartDupes.DuplicityEditing
                 //Interests
                 minionResume.AptitudeBySkillGroup = new (AptitudeBySkillGroup);
             }
+            //Effects
+            if (go.TryGetComponent<Effects>(out Effects effects))
+            {
+                HashSet<string> toRemove = new();
+                foreach (var effectInstance in effects.effects)
+                {
+                    string id = effectInstance.effect.Id;
+                    if (!Effects.ContainsKey(id) && !toRemove.Contains(id))
+                        toRemove.Add(id);
+
+                }
+                foreach (var effectInstance in effects.effectsThatExpire)
+                {
+                    string id = effectInstance.effect.Id;
+                    if (!Effects.ContainsKey(id) && !toRemove.Contains(id))
+                        toRemove.Add(id);
+                }
+
+                foreach (var effectId in toRemove)
+                {
+                    effects.Remove(effectId);
+                }
+                foreach(var effect in Effects)
+                {
+                    var inst = effects.Add(effect.Key,true);
+                    if(effect.Value>0)
+                        inst.timeRemaining = effect.Value;
+                }
+            }
         }
         
         internal void SetAmount(Amount target, float newAmount)
         {
             HealthAmounts[target.Id] =newAmount;
+            EditsPending = true;
+        }
+
+        internal void AddEffect(string id)
+        {
+            if (!Effects.ContainsKey(id))
+            {
+                var effect = Db.Get().effects.Get(id);
+                
+                Effects[id] = effect.duration > 0 ? effect.duration : 0;
+                EditsPending = true;
+            }
+
+        }
+        internal void EditEffect(string id, float newVal)
+        {
+            if (Effects.ContainsKey(id))
+            {
+                Effects[id] = newVal;
+                EditsPending = true;
+            }
+        }
+
+        internal void RemoveEffect(string id)
+        {
+            Effects.Remove(id);
             EditsPending = true;
         }
     }

@@ -428,7 +428,7 @@ namespace SetStartDupes
 
             foreach (var text in stringsToInclude)
             {
-                if (text.Length > 0 && text.ToLowerInvariant().Contains(filtertext))
+                if (text != null && text.Length > 0 && text.ToLowerInvariant().Contains(filtertext))
                 {
                     show = true;
                     break;

@@ -18,6 +18,7 @@ using static STRINGS.BUILDINGS.PREFABS.DOOR.CONTROL_STATE;
 using UtilLibs.UI.FUI;
 using Epic.OnlineServices.Lobby;
 using SetStartDupes.DuplicityEditing.Helpers;
+using static SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER;
 
 namespace SetStartDupes.DuplicityEditing
 {
@@ -58,6 +59,7 @@ namespace SetStartDupes.DuplicityEditing
         HeaderDescriptor HeaderDescriptorPrefab;
         CheckboxInput CheckboxInputPrefab;
         SliderInput SliderInputPrefab;
+        DeletableNumberInputListEntry DeletableNumberInputListEntryPrefab;
 
         GameObject ParentContainer;
 
@@ -79,6 +81,10 @@ namespace SetStartDupes.DuplicityEditing
         //Skills-Tab:
         NumberInput XP;
         Dictionary<Skill,CheckboxInput> SkillToggles = new();
+
+        //Effects-Tab:
+        Dictionary<string, DeletableNumberInputListEntry> EffectEntries = new();
+        FButton AddNewEffectButton;
 
         //Footer
         FButton CloseBtn, ResetBtn, SaveBtn;
@@ -208,6 +214,10 @@ namespace SetStartDupes.DuplicityEditing
 
             SliderInputPrefab = transform.Find("Details/Content/ScrollRectContainer/SliderPrefab").FindOrAddComponent<SliderInput>();
             SliderInputPrefab.gameObject.SetActive(false);
+            
+            DeletableNumberInputListEntryPrefab = transform.Find("Details/Content/ScrollRectContainer/DeletableNumberInputPrefab").FindOrAddComponent<DeletableNumberInputListEntry>();
+            DeletableNumberInputListEntryPrefab.gameObject.SetActive(false);
+
 
             ParentContainer = transform.Find("Details/Content/ScrollRectContainer").gameObject;
 
@@ -217,7 +227,6 @@ namespace SetStartDupes.DuplicityEditing
             transform.Find("Details/Content/ScrollRectContainer/Appearence").gameObject.SetActive(false);
             transform.Find("Details/Content/ScrollRectContainer/SingleListPrefab").gameObject.SetActive(false);
             transform.Find("Details/Content/ScrollRectContainer/TraitInterestContainer").gameObject.SetActive(false);
-            transform.Find("Details/Content/ScrollRectContainer/NewButtonPrefab").gameObject.SetActive(false);
 
 
         }
@@ -238,8 +247,10 @@ namespace SetStartDupes.DuplicityEditing
                 CategoryGameObjects[category] = new List<GameObject>();
             }
             InitAttributeTab();
+            InitAppearanceTab();
             InitHealthTab();
             InitSkillsTab();
+            InitEffectsTab();
 
         }
         void TrySetSkillLearned(Skill target,bool learned)
@@ -260,6 +271,18 @@ namespace SetStartDupes.DuplicityEditing
 
             Stats?.SetExperience(newVal);
         }
+        void TryChangeEffectLength(string effectID, string number)
+        {
+            if (!float.TryParse(number, out var newVal))
+            {
+                return;
+            }
+            if (newVal <= 0)
+                newVal = 1;
+
+            Stats?.EditEffect(effectID,newVal);
+            RebuildEffects();
+        }
 
         void TryChangeAttribute(string number, Klei.AI.Attribute attribute)
         {
@@ -273,6 +296,25 @@ namespace SetStartDupes.DuplicityEditing
 
             Stats?.SetAttributeLevel(attribute, Mathf.RoundToInt(newVal));
         }
+        void InitEffectsTab()
+        {
+            //header
+            var tableHeader = Util.KInstantiateUI<HeaderDescriptor>(HeaderDescriptorPrefab.gameObject, ParentContainer);
+            tableHeader.TextLeft = STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.EFFECTS.EFFECT;
+            tableHeader.TextRight = STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.EFFECTS.TIMEREMAINING;
+            CategoryGameObjects[Tab.Effects].Add(tableHeader.gameObject);
+
+            //AddNewButton
+
+            AddNewEffectButton = transform.Find("Details/Content/ScrollRectContainer/NewButtonPrefab").gameObject.AddOrGet<FButton>();
+            AddNewEffectButton.OnClick += ()=> UnityDuplicitySelectionScreen.ShowWindow(UnityDuplicitySelectionScreen.OpenedFrom.Effect, (obj) => OnAddEffect((string)obj), RebuildEffects);
+            CategoryGameObjects[Tab.Effects].Add(AddNewEffectButton.gameObject);
+        }
+        void InitAppearanceTab()
+        {
+
+        }
+
         void InitSkillsTab()
         {
             //xp input
@@ -382,6 +424,9 @@ namespace SetStartDupes.DuplicityEditing
                 case Tab.Skills:
                     RefreshSkillsTab();
                     break;
+                case Tab.Effects:
+                    RebuildEffects();
+                    break;
             }
         }
 
@@ -391,6 +436,16 @@ namespace SetStartDupes.DuplicityEditing
             if(Stats!=null)
             {
                 list.AddRange(Stats.AptitudeBySkillGroup.Keys);
+            }
+
+            return list;
+        }
+        public List<string> CurrentEffectIDs()
+        {
+            var list = new List<string>();
+            if (Stats != null)
+            {
+                list.AddRange(Stats.Effects.Keys);
             }
 
             return list;
@@ -449,6 +504,34 @@ namespace SetStartDupes.DuplicityEditing
             {
                 attributeEditors[attribute].SetInputFieldValue(Stats.GetAttributeLevel(attribute).ToString());
             }
+        }
+        private void RebuildEffects()
+        {
+            foreach (var entry in EffectEntries.Values)
+            {
+                entry.gameObject.SetActive(false);
+            }
+            if (Stats == null)
+                return;
+            foreach(var effect in Stats.Effects)
+            {
+                var effectContainer = AddOrGetEffectContainer(effect.Key);
+                effectContainer.gameObject.SetActive(true);
+                
+                if(effect.Value>0)
+                {
+                    effectContainer.SetInputFieldVisibility(true);
+                    effectContainer.SetInputFieldValue(effect.Value.ToString());
+                }
+                else
+                {
+                    effectContainer.SetInputFieldVisibility(false);
+                }
+
+                effectContainer.transform.SetAsLastSibling();
+            }
+            AddNewEffectButton.transform.SetAsLastSibling();
+
         }
         private void RebuildTraitsAptitudes()
         {
@@ -511,6 +594,31 @@ namespace SetStartDupes.DuplicityEditing
 
             return TraitEntries[traitID];
         }
+
+
+        DeletableNumberInputListEntry AddOrGetEffectContainer(string effectId)
+        {
+            var effect = Db.Get().effects.TryGet(effectId);
+            if (effect == null)
+            {
+                SgtLogger.error("effect with the id " + effectId + " not found!");
+                return null;
+            }
+
+            if (!EffectEntries.ContainsKey(effectId))
+            {
+                var go = Util.KInstantiateUI(DeletableNumberInputListEntryPrefab.gameObject, ParentContainer);
+                var entry = go.AddOrGet<DeletableNumberInputListEntry>();
+                entry.Text = effect.Name.Contains("MISSING.STRINGS")? effect.Id:effect.Name;
+                entry.Tooltip = effect.description;
+                entry.OnDeleteClicked = () => OnRemoveEffect(effectId);
+                entry.OnInputChanged = newVal => TryChangeEffectLength(effectId, newVal);
+                go.SetActive(true);
+                EffectEntries[effectId] = entry;
+                CategoryGameObjects[Tab.Effects].Add(entry.gameObject);
+            }
+            return EffectEntries[effectId];
+        }
         void OnRemoveTrait(string id)
         {
             Stats?.RemoveTrait(id);
@@ -554,6 +662,16 @@ namespace SetStartDupes.DuplicityEditing
         {
             Stats?.AddAptitude(id);
             RebuildTraitsAptitudes();
+        }
+        void OnRemoveEffect(string id)
+        {
+            Stats?.RemoveEffect(id);
+            RebuildEffects();
+        }
+        void OnAddEffect(string id)
+        {
+            Stats?.AddEffect(id);
+            RebuildEffects();
         }
 
         public override void OnShow(bool show)

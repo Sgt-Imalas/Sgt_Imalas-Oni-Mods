@@ -102,6 +102,12 @@ namespace SetStartDupes.DuplicityEditing.Helpers
             "InteractedWithAirborneCondo",
             "InteractedWithCritterCondo",
             "InteractedWithUnderwaterCondo",
+            "Charging",
+            "BotSweeping",
+            "BotMopping",
+            "ScoutBotCharging",
+            "MachineTinker",
+            "FarmTinker"
         };
 
         internal static bool IsCritterTrait(string id)

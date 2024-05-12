@@ -21,8 +21,13 @@ namespace SetStartDupes.DuplicityEditing.Helpers
                 amounts.Breath,
                 amounts.Bladder,
                 amounts.Stress,
-                //amounts.Decor,
+                amounts.Decor,
             };
+            if (DlcManager.IsExpansion1Active())
+            {
+                output.Add(amounts.RadiationBalance);
+            }
+
             return output;
         }
     }

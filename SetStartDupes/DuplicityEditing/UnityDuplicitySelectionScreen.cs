@@ -305,17 +305,23 @@ namespace SetStartDupes
             {
                 CategoryEntries[OpenedFrom.Interest].Add(AddUIContainer(item));
             }
-            
-            //foreach (var effect in Db.Get().effects.resources)
-            foreach (var effect in DuplicityEditingPatches.VanillaDupeEffects)
+            HashSet<string> validMinionAttributes = new(AttributeHelper.GetValidMinionAttributeIDs());
+            foreach (var effect in Db.Get().effects.resources)
             {
-                if(AccessorySlotHelper.IsCritterTrait(effect.Id)) continue;
+                //filter out any effects that 
+                if(effect.SelfModifiers.Count == 0 || effect.SelfModifiers.Any( modifier => !validMinionAttributes.Contains(modifier.AttributeId)))
+                {
+                    SgtLogger.l("skipping effect " + effect.Id + ": " + effect.Name);
+                    continue;
+                }
 
                 if (effect != null && !EffectContainers.ContainsKey(effect))
                 {
+                    string effectName = effect.Name.Contains("MISSING.STRINGS") ? effect.Id : effect.Name;
+
                     EffectContainers[effect] = AddUiContainer(
-                    effect.Id,
-                    "",
+                    effectName,
+                    effect.description,
                     () => SelectItem(effect.Id));
                     CategoryEntries[OpenedFrom.Effect].Add(EffectContainers[effect]);
                 }
@@ -349,17 +355,26 @@ namespace SetStartDupes
                 var forbidden = DuplicityMainScreen.Instance.CurrentInterestIDs();// new List<SkillGroup>();// ReferencedStats.skillAptitudes.Keys.ToList();
                 foreach (var go in DupeInterestContainers)
                 {
-                    bool isForbidden = !forbidden.Contains(go.Key.Id);
-                    go.Value.SetActive(filterstring == string.Empty ? isForbidden : isForbidden && ShowInFilter(filterstring, go.Key.Name));
+                    bool notYetAdded = !forbidden.Contains(go.Key.Id);
+                    go.Value.SetActive(filterstring == string.Empty ? notYetAdded : notYetAdded && ShowInFilter(filterstring, go.Key.Name));
                 }
             }
-            else if( openedFrom == OpenedFrom.Trait)
+            else if(openedFrom == OpenedFrom.Trait)
             {
                 var allowedTraits = GetAllowedTraits();
                 foreach (var go in TraitContainers)
                 {
                     bool Contained = allowedTraits.Contains(go.Key.Id);
                     go.Value.SetActive(filterstring == string.Empty ? Contained : Contained && ShowInFilter(filterstring, new string[] { go.Key.Name, go.Key.description }));
+                }
+            }
+            else if (openedFrom == OpenedFrom.Effect)
+            {
+                var forbiddenEffects = DuplicityMainScreen.Instance.CurrentEffectIDs();
+                foreach (var go in EffectContainers)
+                {
+                    bool notYetAdded = !forbiddenEffects.Contains(go.Key.Id);
+                    go.Value.SetActive(filterstring == string.Empty ? notYetAdded : notYetAdded && ShowInFilter(filterstring, new string[] { go.Key.Name, go.Key.description }));
                 }
             }
 
@@ -377,7 +392,7 @@ namespace SetStartDupes
 
             foreach (var text in stringsToInclude)
             {
-                if (text.Length > 0 && text.ToLowerInvariant().Contains(filtertext))
+                if (text !=null && text.Length > 0 && text.ToLowerInvariant().Contains(filtertext))
                 {
                     show = true;
                     break;

@@ -77,11 +77,21 @@ namespace SetStartDupes
                     {
                         public class SCROLLRECTCONTAINER
                         {
+                            public class NEWBUTTONPREFAB
+                            {
+                                public static LocString LABEL = "Add new effect";
+                                public static LocString TOOLTIP = "Choose another effect to add to the duplicant";
+                            }
                             public class SKILLS
                             {
                                 public static LocString EXPERIENCE = "Experience:";
-                                public static LocString SKILL = "Skill:";
-                                public static LocString MASTERY = "Learned:";
+                                public static LocString SKILL = "Skill";
+                                public static LocString MASTERY = "Mastered";
+                            }
+                            public class EFFECTS
+                            {
+                                public static LocString EFFECT = "Effect";
+                                public static LocString TIMEREMAINING = "Remaining time in seconds|Remove Effect";
                             }
                             public class TRAITINTERESTCONTAINER
                             {
