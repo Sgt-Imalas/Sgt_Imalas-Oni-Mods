@@ -41,7 +41,8 @@ namespace SetStartDupes
                 {
                     public class HEADER
                     {
-                        public static LocString LABEL = "Duplicants"; 
+                        public static LocString LABEL = "Duplicants";
+                        public static LocString LABEL_FILLED = "Selected Duplicant: {0}";
                         public class BUTTONS
                         {
                             public class ATTRIBUTEBUTTON

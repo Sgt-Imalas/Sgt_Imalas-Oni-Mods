@@ -59,6 +59,9 @@ namespace SetStartDupes.DuplicityEditing
         SliderInput SliderInputPrefab;
 
         GameObject ParentContainer;
+        //Header:
+        LocText HeaderLabel;
+
 
         //Attribute-Tab:
         Dictionary<Klei.AI.Attribute, NumberInput> attributeEditors;
@@ -117,6 +120,7 @@ namespace SetStartDupes.DuplicityEditing
         {
             SelectedMinion = minion;
             Stats = DuplicantEditableStats.GenerateFromMinion(minion);
+            HeaderLabel.SetText(string.Format(STRINGS.UI.DUPEEDITING.DETAILS.HEADER.LABEL_FILLED, SelectedMinion.GetProperName()));
             UpdateMinionButtons();
             UpdateCategoryButtons();
         }
@@ -197,6 +201,8 @@ namespace SetStartDupes.DuplicityEditing
             SliderInputPrefab.gameObject.SetActive(false);
 
             ParentContainer = transform.Find("Details/Content/ScrollRectContainer").gameObject;
+
+            HeaderLabel = transform.Find("Details/Header/Label").GetComponent<LocText>();
 
             //temp:
             transform.Find("Details/Content/ScrollRectContainer/Appearence").gameObject.SetActive(false);

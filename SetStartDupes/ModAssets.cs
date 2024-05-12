@@ -105,25 +105,37 @@ namespace SetStartDupes
             bool Dlc1Active = DlcManager.IsExpansion1Active();
 
             var carePackages = new List<CarePackageInfo>()
-            {                    
+            {          
+                ///missing seeds:
                 new CarePackageInfo(EvilFlowerConfig.SEED_ID, 1f, () => __instance.CycleCondition(96) && __instance.DiscoveredCondition((Tag) EvilFlowerConfig.ID) || __instance.CycleCondition(500)),
                 new CarePackageInfo(BeanPlantConfig.SEED_ID, 3f, () => __instance.CycleCondition(48) && __instance.DiscoveredCondition((Tag) BeanPlantConfig.ID) || __instance.CycleCondition(500)),
                 new CarePackageInfo(ColdWheatConfig.SEED_ID, 3f, () => __instance.CycleCondition(48) && __instance.DiscoveredCondition((Tag) ColdWheatConfig.ID) || __instance.CycleCondition(500)),
                 new CarePackageInfo(SeaLettuceConfig.SEED_ID, 3f, () => __instance.CycleCondition(48) && __instance.DiscoveredCondition((Tag) SeaLettuceConfig.ID) || __instance.CycleCondition(500)),
-                
+
+                ///missing minerals:
+                new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Granite).tag.ToString(), 1000f, (Func<bool>) (() => __instance.CycleCondition(24) && __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Granite).tag)|| __instance.CycleCondition(500))),
+                new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Katairite).tag.ToString(), 500f, (Func<bool>) (() => __instance.CycleCondition(48) && __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Katairite).tag)|| __instance.CycleCondition(500))),
+
+                ///missing ores+metals
                 new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.IronOre).tag.ToString(), 2000f, (Func<bool>) (() => __instance.CycleCondition(12) && __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.IronOre).tag)|| __instance.CycleCondition(500))),
                 new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Wolframite).tag.ToString(), 1000f, (Func<bool>) (() => __instance.CycleCondition(48) && __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Wolframite).tag)|| __instance.CycleCondition(500))),
+                new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Tungsten).tag.ToString(), 200f, (Func<bool>) (() => __instance.CycleCondition(48) && __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Tungsten).tag)|| __instance.CycleCondition(500))),
 
+      
             };
             if (Dlc1Active)
             {
                 carePackages.AddRange( new List<CarePackageInfo>()
                 {
+                    ///missing ores
                     new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.UraniumOre).tag.ToString(), 100f, () => __instance.CycleCondition(48)&& __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.UraniumOre).tag) || __instance.CycleCondition(500)),
+                    
+                    ///missing seeds
                     new CarePackageInfo(SwampHarvestPlantConfig.SEED_ID, 3f, () => __instance.CycleCondition(24) && __instance.DiscoveredCondition((Tag) SwampHarvestPlantConfig.ID) || __instance.CycleCondition(500)),
                     new CarePackageInfo(ToePlantConfig.SEED_ID, 3f, () => __instance.CycleCondition(48) && __instance.DiscoveredCondition((Tag) ToePlantConfig.ID) || __instance.CycleCondition(500)),
                     new CarePackageInfo("CritterTrapPlantSeed", 1f, () => __instance.CycleCondition(96)&& __instance.DiscoveredCondition((Tag) CritterTrapPlantConfig.ID) || __instance.CycleCondition(500)),
 
+                    ///missing critters
                     new CarePackageInfo(BabyBeeConfig.ID, 1f, () => __instance.CycleCondition(24) && (__instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.UraniumOre).tag)||__instance.DiscoveredCondition((Tag) BabyBeeConfig.ID)) || __instance.CycleCondition(500)),
 
                 });

@@ -219,11 +219,10 @@ namespace SetStartDupes
             tt2.enabled = true;
             tt2.SetSimpleTooltip(STRINGS.UI.BUTTONS.ADDTOSTATS);
 
-            //UIUtils.TryChangeText(InterestPointBonus.transform, "", STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOL + " " + DupeTraitMng.PointPool);
-            //var TraitBalanceHeaderGO = Util.KInstantiateUI(SpacerPrefab, TraitContainer, true);
-            //TraitBalanceHeaderGO.name = "TraitBalanceInfoHeader";
-            //TraitBalanceHeader = TraitBalanceHeaderGO.GetComponent<LocText>();
-            //TraitBalanceTooltipCMP = UIUtils.AddSimpleTooltipToObject(TraitBalanceHeaderGO.gameObject, "tt");
+            var TraitBalanceHeaderGO = Util.KInstantiateUI(SpacerPrefab, TraitContainer, true);
+            TraitBalanceHeaderGO.name = "TraitBalanceInfoHeader";
+            TraitBalanceHeader = TraitBalanceHeaderGO.GetComponent<LocText>();
+            TraitBalanceTooltipCMP = UIUtils.AddSimpleTooltipToObject(TraitBalanceHeaderGO.gameObject, "tt");
             RebuildUI();
         }
 
@@ -525,9 +524,7 @@ namespace SetStartDupes
         }
         void UpdateTraitInfoHeader()
         {
-
-            return;
-            if (ToEditMinionStats == null|| TraitBalanceHeader == null)
+            if (ToEditMinionStats == null || TraitBalanceHeader == null)
                 return;
             TraitBalanceHeader.transform.SetSiblingIndex(2);
 
@@ -552,11 +549,11 @@ namespace SetStartDupes
                 }
             }
             string balanceString=string.Empty;
-            if (totalRarityBalance >= -1 && totalRarityBalance <= 1)
+            if (totalRarityBalance >= -3 && totalRarityBalance <= 3)
                 balanceString = UIUtils.ColorText(STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_BALANCED, UIUtils.number_green);
-            else if(totalRarityBalance > 1)
+            else if(totalRarityBalance > 3)
                 balanceString = UIUtils.ColorText(STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_WEAKER, UIUtils.number_red);
-            else if (totalRarityBalance < -1)
+            else if (totalRarityBalance < -3)
                 balanceString = UIUtils.ColorText(STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_STRONGER, UIUtils.number_red);
 
 
@@ -579,12 +576,6 @@ namespace SetStartDupes
 
         void RebuildUI()
         {
-            //var Spacer2AndInterestHolder = Util.KInstantiateUI(SpacerPrefab, ListEntryButtonContainer, true);
-            //Spacer2AndInterestHolder.name = "InterestsHeader";
-            //UIUtils.AddSimpleTooltipToObject(Spacer2AndInterestHolder.transform, global::STRINGS.UI.CHARACTERCONTAINER_APTITUDES_TITLE_TOOLTIP, alignCenter: true, onBottom: true);
-            //UI_Entries.Add(new DSS_SortEntry(DSS_ListEntryPrimarySort.InterestHeader), Spacer2AndInterestHolder.AddOrGet<DSS_ListEntry>());
-
-
             if (ToEditMinionStats == null)
                 return;
             SgtLogger.l("Rebuilding UI");

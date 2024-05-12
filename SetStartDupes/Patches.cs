@@ -70,6 +70,7 @@ namespace SetStartDupes
         [HarmonyPatch(typeof(Immigration), nameof(Immigration.ConfigureCarePackages))]
         public class AdditionalCarePackages
         {
+            [HarmonyPrepare]
             static bool Prepare() => ModConfig.Instance.AddAdditionalCarePackages;
             public static void Postfix(Immigration __instance)
             {
