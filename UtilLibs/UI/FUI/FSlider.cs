@@ -50,6 +50,7 @@ namespace UtilLibs.UIcmp //Source: Aki
             {
                 slider.value = current;
             }
+            SetOutputText();
         }
         public void SetMax(float value)
         {
@@ -80,7 +81,6 @@ namespace UtilLibs.UIcmp //Source: Aki
             SetMin(min);
             SetMax(max);
             SetCurrent(current);
-            SetOutputText();
         }
         public void SetInteractable(bool interactable)
         {
