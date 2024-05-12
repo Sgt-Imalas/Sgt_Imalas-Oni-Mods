@@ -16,7 +16,7 @@ namespace SetStartDupes.DuplicityEditing
         public bool EditsPending;
 
         float totalExperience;
-        Dictionary<string, bool> MasteryBySkillID ;
+        Dictionary<string, bool> MasteryBySkillID;
         Dictionary<string, int> AttributeLevels;
         public Dictionary<HashedString,float> AptitudeBySkillGroup;
         public string JoyTraitId, StressTraitId;
@@ -171,7 +171,41 @@ namespace SetStartDupes.DuplicityEditing
                     }
                 }
             }
+            if (go.TryGetComponent<Traits>(out var traits))
+            {
+                var targetTraits = new List<string>(Traits);
+                if (JoyTraitId != null)
+                    targetTraits.Add(JoyTraitId);
+                if (StressTraitId != null)
+                    targetTraits.Add(StressTraitId);
 
+                List<string> ToAdd = targetTraits.Except(traits.TraitIds).ToList(), ToRemove = traits.TraitIds .Except(targetTraits).ToList();
+
+                var traitDb = Db.Get().traits;
+                foreach(var toAddTrait in ToAdd)
+                {
+                    var trait = traitDb.Get(toAddTrait);
+
+                    if(trait == null)
+                    {
+                        SgtLogger.warning("trait to add not existing: "+ toAddTrait);
+                        continue;
+                    }
+
+                    traits.Add(trait);
+                }
+                foreach(var toRemoveTrait in ToRemove)
+                {
+                    var trait = traitDb.Get(toRemoveTrait); 
+                    if(trait == null)
+                    {
+                        SgtLogger.warning("trait to remove not existing: " + toRemoveTrait);
+                        continue;
+                    }
+                    traits.Remove(trait);
+                    ModAssets.PurgingTraitComponentIfExists(toRemoveTrait, go);
+                }
+            }
         }
     }
 }

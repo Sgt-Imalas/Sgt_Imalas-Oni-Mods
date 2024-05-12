@@ -50,6 +50,7 @@ namespace SetStartDupes.DuplicityEditing
         Dictionary<Tab, FToggleButton> Tabs = new Dictionary<Tab, FToggleButton>();
         Tab lastCategory = Tab.undefined;
 
+
         //Prefabs:
         NumberInput NumberInputPrefabWide, NumberInputPrefab;
         HeaderMain HeaderMainPrefab;
@@ -67,7 +68,8 @@ namespace SetStartDupes.DuplicityEditing
         GameObject TraitContainer, AptitudeContainer;
         DeletableListEntry TraitPrefab, AptitudePrefab;
 
-        //
+        //Footer
+        FButton CloseBtn, ResetBtn, SaveBtn;
 
         public static void ShowWindow(GameObject SourceDupe, System.Action onClose)
         {
@@ -159,6 +161,15 @@ namespace SetStartDupes.DuplicityEditing
             MinionButtonContainer = transform.Find("Categories/Content/ScrollRectContainer").gameObject;
             MinionButtonPrefab = MinionButtonContainer.transform.Find("Item").gameObject;
             MinionButtonPrefab.SetActive(false);
+
+            SaveBtn  = transform.Find("Details/Footer/Buttons/SaveChangesButton").gameObject.AddOrGet<FButton>();
+            SaveBtn.OnClick += () => Stats.Apply(SelectedMinion);
+
+            ResetBtn = transform.Find("Details/Footer/Buttons/ResetButton").gameObject.AddOrGet<FButton>();
+            ResetBtn.OnClick += () => GenerateMinionEditStats(SelectedMinion);
+
+            CloseBtn = transform.Find("Details/Footer/Buttons/ExitButton").gameObject.AddOrGet<FButton>();
+            CloseBtn.OnClick += TryClose;
 
             InitPrefabs();
 
@@ -298,6 +309,38 @@ namespace SetStartDupes.DuplicityEditing
             }
         }
 
+        public List<HashedString> CurrentInterestIDs()
+        {
+            var list = new List<HashedString>();
+            if(Stats!=null)
+            {
+                list.AddRange(Stats.AptitudeBySkillGroup.Keys);
+            }
+
+            return list;
+        }
+
+        public List<string> CurrentTraitIDs()
+        {
+            var list = new List<string>();
+            if(Stats!=null)
+                list.AddRange(Stats.Traits);
+
+            return list;
+        }
+
+        public void ReactionInfo(out bool hasJoy, out bool hasStress)
+        {
+            hasJoy = true;
+            hasStress = true;
+
+            if(Stats!=null)
+            {
+                hasJoy = Stats.HasJoyTrait;
+                hasStress = Stats.HasStressTrait;
+            }
+        }
+
         private void RefreshAttributeTab()
         {
             SgtLogger.Assert("stats were null", Stats);
@@ -319,15 +362,17 @@ namespace SetStartDupes.DuplicityEditing
             {
                 traitEntry.gameObject.SetActive(false);
             }
+            if (Stats == null)
+                return;
 
-            if (Stats.StressTraitId.Length > 0)
+            if (Stats.HasStressTrait)
             {
                 var stress = AddOrGetTraitContainer(Stats.StressTraitId);
                 stress.gameObject.SetActive(true);
                 stress.transform.SetAsFirstSibling();
             }
 
-            if (Stats.JoyTraitId.Length>0)
+            if (Stats.HasJoyTrait)
             {
                 var joy = AddOrGetTraitContainer(Stats.JoyTraitId);
                 joy.gameObject.SetActive(true);
@@ -427,6 +472,9 @@ namespace SetStartDupes.DuplicityEditing
                 ScreenResize.Instance.OnResize += () => OnResize();
             else
                 ScreenResize.Instance.OnResize -= () => OnResize();
+
+            if (!show)
+                SelectedMinion = null;
 
         }
         public void OnResize()

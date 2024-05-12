@@ -71,6 +71,58 @@ namespace SetStartDupes
                             }
                         }
                     }
+
+                    public class CONTENT
+                    {
+                        public class SCROLLRECTCONTAINER
+                        {
+                            public class TRAITINTERESTCONTAINER
+                            {
+                                public class DESCRIPTOR
+                                {
+                                    public static LocString TRAITLABEL = "Traits:";
+                                    public static LocString INTERESTLABEL = "Interests:";
+                                }
+                                public class CONTENT
+                                {
+                                    public class GRP2
+                                    {
+                                        public class ADDTRAITBUTTON
+                                        {
+                                            public static LocString TEXT = "Add new trait";
+                                            public static LocString TOOLTIP = "Choose another trait to add to the duplicant";
+                                        }
+                                        public class ADDINTERESTBUTTON
+                                        {
+                                            public static LocString TEXT = "Add new interest";
+                                            public static LocString TOOLTIP = "Choose another interest to add to the duplicant";
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    public class FOOTER
+                    {
+                        public class BUTTONS
+                        {
+                            public class EXITBUTTON
+                            {
+                                public static LocString TEXT = "Exit";
+                                public static LocString TOOLTIP = "";
+                            }
+                            public class RESETBUTTON
+                            {
+                                public static LocString TEXT = "Reset Changes";
+                                public static LocString TOOLTIP = "";
+                            }
+                            public class SAVECHANGESBUTTON
+                            {
+                                public static LocString TEXT = "Save Changes";
+                                public static LocString TOOLTIP = "";
+                            }
+                        }
+                    }
                 }
             }
             public class DSS_OPTIONS

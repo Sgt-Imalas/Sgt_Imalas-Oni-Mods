@@ -29,6 +29,7 @@ using static SetStartDupes.STRINGS.UI.PRESETWINDOW;
 using static SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST;
 using static STRINGS.DUPLICANTS;
 using static STRINGS.DUPLICANTS.CHORES;
+using static STRINGS.MISC.NOTIFICATIONS;
 using static STRINGS.UI.DETAILTABS.PERSONALITY.RESUME;
 
 namespace SetStartDupes
@@ -77,7 +78,7 @@ namespace SetStartDupes
         {
             if (Instance == null)
             {
-                var screen = Util.KInstantiateUI(ModAssets.TraitsWindowPrefab, DuplicityMainScreen.Instance.gameObject, true);
+                var screen = Util.KInstantiateUI(ModAssets.TraitsWindowPrefab, DuplicityMainScreen.Instance.transform.parent.gameObject, true);
                 Instance = screen.AddOrGet<UnityDuplicitySelectionScreen>();
                 Instance.Init();
             }
@@ -225,6 +226,7 @@ namespace SetStartDupes
             if (init) { return; }
             SgtLogger.l("Initializing DupeEditorSelectionWindow");
 
+            transform.Find("ToReplace").gameObject.SetActive(false);
             ToReplaceName = transform.Find("ToReplace/CurrentlyActive/Label").FindComponent<LocText>();
             ToReplaceColour = transform.Find("ToReplace/CurrentlyActive/Background").FindComponent<Image>();
 
@@ -271,7 +273,20 @@ namespace SetStartDupes
 
             var traitsDb = Db.Get().traits;
             var interests = Db.Get().SkillGroups.resources;
-            foreach (var type in (NextType[])Enum.GetValues(typeof(NextType)))
+
+            var orderedNextTypes = new List<NextType>()
+            {
+                NextType.joy,
+                NextType.stress,
+                NextType.special,
+                NextType.geneShufflerTrait,
+                NextType.posTrait,
+                NextType.needTrait,
+                NextType.negTrait,
+                NextType.undefined,
+            };
+
+            foreach (var type in orderedNextTypes)
             {
                 if (type == NextType.allTraits) continue;
 
@@ -330,10 +345,10 @@ namespace SetStartDupes
         {
             if (openedFrom == OpenedFrom.Interest)
             {
-                List<SkillGroup> forbidden = new List<SkillGroup>();// ReferencedStats.skillAptitudes.Keys.ToList();
+                var forbidden = DuplicityMainScreen.Instance.CurrentInterestIDs();// new List<SkillGroup>();// ReferencedStats.skillAptitudes.Keys.ToList();
                 foreach (var go in DupeInterestContainers)
                 {
-                    bool isForbidden = !forbidden.Contains(go.Key);
+                    bool isForbidden = !forbidden.Contains(go.Key.Id);
                     go.Value.SetActive(filterstring == string.Empty ? isForbidden : isForbidden && ShowInFilter(filterstring, go.Key.Name));
                 }
             }
@@ -373,11 +388,20 @@ namespace SetStartDupes
 
         List<string> GetAllowedTraits()
         {
-            var allowedTraits = ModAssets.TryGetTraitsOfCategory(NextType.allTraits, overrideShowAll:true).Select(t => t.id).ToList();
+            var traits = ModAssets.TryGetTraitsOfCategory(NextType.allTraits, overrideShowAll: true);
+
+            DuplicityMainScreen.Instance.ReactionInfo(out var hasJoy, out var hasStress);
+
+            if(!hasJoy) 
+                traits = ModAssets.TryGetTraitsOfCategory(NextType.joy).Concat(traits).ToList();
+            if(!hasStress)
+                traits = ModAssets.TryGetTraitsOfCategory(NextType.stress).Concat(traits).ToList();
+
+
+            var allowedTraits = traits.Select(t => t.id).ToList();
             var finalTraits = new List<string>();
-            var forbiddenTraits = 
+            var forbiddenTraits = DuplicityMainScreen.Instance.CurrentTraitIDs();
                 //ReferencedStats.Traits.Count > 0 ? ReferencedStats.Traits.Select(allowedTraits => allowedTraits.Id).ToList() : 
-                new List<string>();
 
             foreach (string existing in allowedTraits)
             {
