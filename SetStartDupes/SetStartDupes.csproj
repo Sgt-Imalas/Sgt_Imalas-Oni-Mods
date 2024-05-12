@@ -51,7 +51,6 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <Folder Include="DuplicityEditing\Tabs\" />
 	  <Folder Include="ModAssets\assets\linux\" />
 	</ItemGroup>
 	

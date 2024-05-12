@@ -11,7 +11,7 @@ using static DetailsScreen;
 using static KAnimControllerBase;
 using static STRINGS.NAMEGEN;
 
-namespace SetStartDupes.DuplicityEditing.ScreenComponents
+namespace SetStartDupes.DuplicityEditing.Helpers
 {
     public class MinionPortraitHelper : MonoBehaviour
     {
@@ -37,7 +37,7 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
 
                         crewPortraitPrefab.AddOrGet<MinionPortraitHelper>();
 
-                        UnityEngine.Object.Destroy(clone);
+                        Destroy(clone);
                     }
                     // ERROR!
                     else
@@ -51,7 +51,7 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
                 ///other option for a portrait, but kinda breaks that sourcescreen so its not used
                 if (crewPortraitPrefab == null)
                 {
-                    foreach (SideScreenRef screen in DetailsScreen.Instance.sideScreens)
+                    foreach (SideScreenRef screen in Instance.sideScreens)
                     {
                         if (screen.screenPrefab.TryGetComponent<AccessControlSideScreen>(out var accessControl))
                         {
@@ -97,7 +97,7 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
                 }
             }
             soc.ApplyOverrides();
-            this.StartCoroutine(this.ActivatePortraitsWhenReady());
+            StartCoroutine(ActivatePortraitsWhenReady());
         }
         private IEnumerator ActivatePortraitsWhenReady()
         {

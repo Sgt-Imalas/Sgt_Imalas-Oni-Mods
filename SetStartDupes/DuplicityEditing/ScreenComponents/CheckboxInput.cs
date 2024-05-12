@@ -12,7 +12,7 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
     {
         public string Text;
         LocText label;
-        System.Action<bool> OnCheckboxToggled;
+        public System.Action<bool> OnCheckboxToggled;
         FToggle2 checkboxToggle;
 
         public override void OnPrefabInit()

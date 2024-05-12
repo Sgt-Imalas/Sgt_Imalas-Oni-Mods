@@ -17,6 +17,7 @@ using static STRINGS.UI.UISIDESCREENS.AUTOPLUMBERSIDESCREEN.BUTTONS;
 using static STRINGS.BUILDINGS.PREFABS.DOOR.CONTROL_STATE;
 using UtilLibs.UI.FUI;
 using Epic.OnlineServices.Lobby;
+using SetStartDupes.DuplicityEditing.Helpers;
 
 namespace SetStartDupes.DuplicityEditing
 {
@@ -59,9 +60,9 @@ namespace SetStartDupes.DuplicityEditing
         SliderInput SliderInputPrefab;
 
         GameObject ParentContainer;
-        //Header:
-        LocText HeaderLabel;
 
+        //Details Header:
+        LocText HeaderLabel;
 
         //Attribute-Tab:
         Dictionary<Klei.AI.Attribute, NumberInput> attributeEditors;
@@ -70,6 +71,14 @@ namespace SetStartDupes.DuplicityEditing
         FButton AddNewTrait, AddNewAptitude;
         GameObject TraitContainer, AptitudeContainer;
         DeletableListEntry TraitPrefab, AptitudePrefab;
+
+        
+        //Health-Tab:
+        Dictionary<Amount, SliderInput> AmountSliders = new();
+
+        //Skills-Tab:
+        NumberInput XP;
+        Dictionary<Skill,CheckboxInput> SkillToggles = new();
 
         //Footer
         FButton CloseBtn, ResetBtn, SaveBtn;
@@ -224,19 +233,37 @@ namespace SetStartDupes.DuplicityEditing
             {
                 tab.Value.OnClick += () => ShowCategory(tab.Key);
             }
-
             foreach (var category in Tabs.Keys)
             {
                 CategoryGameObjects[category] = new List<GameObject>();
             }
             InitAttributeTab();
+            InitHealthTab();
+            InitSkillsTab();
 
+        }
+        void TrySetSkillLearned(Skill target,bool learned)
+        {
+            Stats?.SetSkillLearned(target,learned);
+        }
+        void TryChangeAmount(float newAmount, Amount target)
+        {
+            Stats?.SetAmount(target,newAmount);
+        }
+        void TryChangeXP(string number)
+        {
+            if (!float.TryParse(number, out var newVal))
+            {
+                XP.SetInputFieldValue("0");
+                return;
+            }
 
+            Stats?.SetExperience(newVal);
         }
 
         void TryChangeAttribute(string number, Klei.AI.Attribute attribute)
         {
-            if (!int.TryParse(number, out var newVal))
+            if (!float.TryParse(number, out var newVal))
             {
                 attributeEditors[attribute].SetInputFieldValue("0");
                 return;
@@ -244,7 +271,44 @@ namespace SetStartDupes.DuplicityEditing
 
             if (newVal > 10000) newVal = 10000;
 
-            Stats?.SetAttributeLevel(attribute, newVal);
+            Stats?.SetAttributeLevel(attribute, Mathf.RoundToInt(newVal));
+        }
+        void InitSkillsTab()
+        {
+            //xp input
+            XP = Util.KInstantiateUI<NumberInput>(NumberInputPrefabWide.gameObject, ParentContainer);
+            XP.Text = STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.SKILLS.EXPERIENCE;
+            XP.OnInputChanged += (text) => TryChangeXP(text);
+            XP.WholeNumbers = false;
+            CategoryGameObjects[Tab.Skills].Add(XP.gameObject);
+
+            //header
+            var tableHeader = Util.KInstantiateUI<HeaderDescriptor>(HeaderDescriptorPrefab.gameObject, ParentContainer);
+            tableHeader.TextLeft = STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.SKILLS.SKILL;
+            tableHeader.TextRight= STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.SKILLS.MASTERY;
+            CategoryGameObjects[Tab.Skills].Add(tableHeader.gameObject);
+
+            foreach (var skill in SkillHelper.GetAllSkills())
+            {
+                var input = Util.KInstantiateUI<CheckboxInput>(CheckboxInputPrefab.gameObject, ParentContainer);
+                input.Text = skill.Name;
+                input.OnCheckboxToggled += (bool skillActive) => TrySetSkillLearned(skill, skillActive);
+                SkillToggles[skill] = input;
+                CategoryGameObjects[Tab.Skills].Add(input.gameObject);
+            }
+        }
+        void InitHealthTab()
+        {
+            foreach (Amount amount in AmountHelper.GetEditableAmounts())
+            {
+                var input = Util.KInstantiateUI<SliderInput>(SliderInputPrefab.gameObject, ParentContainer);
+                input.Text = amount.Name;
+                input.wholeNumbers = false;
+                input.SetMinMaxCurrent(amount.minAttribute.BaseValue, amount.maxAttribute.BaseValue, amount.minAttribute.BaseValue);
+                input.OnSliderValueChanged += (newVal) =>  TryChangeAmount(newVal, amount);
+                AmountSliders[amount] = input;
+                CategoryGameObjects[Tab.Health].Add(input.gameObject);
+            }
         }
         void InitAttributeTab()
         {
@@ -312,6 +376,12 @@ namespace SetStartDupes.DuplicityEditing
                 case Tab.Attributes:
                     RefreshAttributeTab();
                     break;
+                case Tab.Health:
+                    RefreshHealthTab();
+                    break;
+                case Tab.Skills:
+                    RefreshSkillsTab();
+                    break;
             }
         }
 
@@ -346,7 +416,29 @@ namespace SetStartDupes.DuplicityEditing
                 hasStress = Stats.HasStressTrait;
             }
         }
+        private void RefreshHealthTab()
+        {
+            SgtLogger.Assert("stats were null", Stats);
+            if (Stats == null)
+                return;
+            foreach (var amount in AmountHelper.GetEditableAmounts())
+            { 
+                var instance = amount.Lookup(SelectedMinion.GetTargetGameObject());
+                AmountSliders[amount].SetMinMaxCurrent(instance.GetMin(),instance.GetMax(),instance.value);
+            }
+        }
+        private void RefreshSkillsTab()
+        {
+            SgtLogger.Assert("stats were null", Stats);
+            if (Stats == null)
+                return;
+            XP.SetInputFieldValue(Stats.GetExperience().ToString());
 
+            foreach(var skill in SkillHelper.GetAllSkills())
+            {
+                SkillToggles[skill].SetCheckboxValue(Stats.HasMasteredSkill(skill));
+            }
+        }
         private void RefreshAttributeTab()
         {
             SgtLogger.Assert("stats were null", Stats);

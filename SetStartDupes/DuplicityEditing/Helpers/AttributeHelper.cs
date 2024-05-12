@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetStartDupes.DuplicityEditing
+namespace SetStartDupes.DuplicityEditing.Helpers
 {
     public static class AttributeHelper
     {
@@ -29,7 +29,7 @@ namespace SetStartDupes.DuplicityEditing
                 output.Add(attributes.SpaceNavigation);
             if (ModAssets.BeachedActive)
             {
-                if (attributes.TryGet("Beached_Precision")!=null)
+                if (attributes.TryGet("Beached_Precision") != null)
                     output.Add(attributes.Get("Beached_Precision"));
             }
 

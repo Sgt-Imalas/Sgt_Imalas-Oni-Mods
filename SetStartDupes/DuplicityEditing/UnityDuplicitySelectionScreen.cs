@@ -8,6 +8,7 @@ using KMod;
 using ProcGen;
 using rail;
 using SetStartDupes.DuplicityEditing;
+using SetStartDupes.DuplicityEditing.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

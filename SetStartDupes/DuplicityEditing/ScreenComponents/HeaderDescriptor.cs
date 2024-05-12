@@ -16,7 +16,7 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
             label = transform.Find("Label").GetComponent<LocText>();
             label.SetText(TextLeft);
             labelRight = transform.Find("Output").GetComponent<LocText>();
-            labelRight.SetText(TextLeft);
+            labelRight.SetText(TextRight);
         }
     }
 }

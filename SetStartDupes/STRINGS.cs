@@ -77,6 +77,12 @@ namespace SetStartDupes
                     {
                         public class SCROLLRECTCONTAINER
                         {
+                            public class SKILLS
+                            {
+                                public static LocString EXPERIENCE = "Experience:";
+                                public static LocString SKILL = "Skill:";
+                                public static LocString MASTERY = "Learned:";
+                            }
                             public class TRAITINTERESTCONTAINER
                             {
                                 public class DESCRIPTOR

@@ -7,17 +7,17 @@ using UnityEngine;
 using UtilLibs;
 using static KCompBuilder;
 
-namespace SetStartDupes.DuplicityEditing
+namespace SetStartDupes.DuplicityEditing.Helpers
 {
     internal static class AccessorySlotHelper
     {
         public static List<Accessory> GetAccessories(AccessorySlot slot)
         {
-            return slot.accessories.ToList();   
+            return slot.accessories.ToList();
         }
         public static List<AccessorySlot> GetAllChangeableSlot()
         {
-            List<AccessorySlot>result = new List<AccessorySlot>();
+            List<AccessorySlot> result = new List<AccessorySlot>();
             var slots = Db.Get().AccessorySlots;
             result.Add(slots.Eyes);
             result.Add(slots.Hair);
@@ -25,7 +25,7 @@ namespace SetStartDupes.DuplicityEditing
             result.Add(slots.HeadShape);
             //result.Add(slots.Mouth); //all mouths are the same
             result.Add(slots.Body);
-            result.Add(slots.Arm); 
+            result.Add(slots.Arm);
             result.Add(slots.ArmLower);
             result.Add(slots.Neck);
             result.Add(slots.Pelvis);
@@ -42,13 +42,13 @@ namespace SetStartDupes.DuplicityEditing
         }
         public static Dictionary<KeyValuePair<KAnimFile, KAnim.Build.Symbol>, Sprite> SymbolSprites
             = new Dictionary<KeyValuePair<KAnimFile, KAnim.Build.Symbol>, Sprite>();
-        public static Sprite GetSpriteFrom( KAnim.Build.Symbol symbol)
+        public static Sprite GetSpriteFrom(KAnim.Build.Symbol symbol)
         {
             ////var SpriteKey = new KeyValuePair<KAnimFile, KAnim.Build.Symbol>(animFile, symbol);
             //if (SymbolSprites.TryGetValue(SpriteKey, out var spriteFound))
             //    return spriteFound;
 
-            if (symbol==null)
+            if (symbol == null)
                 return null;
 
             //KAnimFileData data = animFile.GetData();
@@ -70,18 +70,18 @@ namespace SetStartDupes.DuplicityEditing
             float x2 = symbolFrame.uvMax.x;
             float y = symbolFrame.uvMax.y;
             float y2 = symbolFrame.uvMin.y;
-            int num = (int)((float)texture.width * Mathf.Abs(x2 - x));
-            int num2 = (int)((float)texture.height * Mathf.Abs(y2 - y));
+            int num = (int)(texture.width * Mathf.Abs(x2 - x));
+            int num2 = (int)(texture.height * Mathf.Abs(y2 - y));
             float num3 = Mathf.Abs(symbolFrame.bboxMax.x - symbolFrame.bboxMin.x);
-            Rect rect = default(Rect);
+            Rect rect = default;
             rect.width = num;
             rect.height = num2;
-            rect.x = (int)((float)texture.width * x);
-            rect.y = (int)((float)texture.height * y);
+            rect.x = (int)(texture.width * x);
+            rect.y = (int)(texture.height * y);
             float pixelsPerUnit = 100f;
             if (num != 0)
             {
-                pixelsPerUnit = 100f / (num3 / (float)num);
+                pixelsPerUnit = 100f / (num3 / num);
             }
 
             Sprite sprite = Sprite.Create(texture, rect, false ? new Vector2(0.5f, 0.5f) : Vector2.zero, pixelsPerUnit, 0u, SpriteMeshType.FullRect);
