@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
-using static AnimExportTool.ModAssets;
+using static ResearchTypes;
 
 namespace AnimExportTool
 {
@@ -77,6 +77,7 @@ namespace AnimExportTool
         static void WriteUISpriteToFile(Sprite sprite, string folder, string id)
         {
             Directory.CreateDirectory(folder);
+
             string fileName = Path.Combine(folder, id + ".png");
             var tex = GetSingleSpriteFromTexture(sprite);
             if (tex == null)
@@ -96,13 +97,13 @@ namespace AnimExportTool
                 var kanim = Assets.GetAnim(anim);
                 if(kanim == null) return;
 
-                var exportLocation = Path.Combine(UtilMethods.ModPath, "BuildingUISprites");
 
                 var UISprite = Def.GetUISpriteFromMultiObjectAnim(kanim);
 
                 if (UISprite != null && UISprite != Assets.GetSprite("unknown"))
                 {
-                    WriteUISpriteToFile(UISprite, exportLocation, id);
+                    WriteUISpriteToFile(UISprite, Path.Combine(UtilMethods.ModPath, "BuildingUISpritesById"), id);
+                    WriteUISpriteToFile(UISprite, Path.Combine(UtilMethods.ModPath, "BuildingUISpritesByName"), STRINGS.UI.StripLinkFormatting(Strings.Get($"STRINGS.BUILDINGS.PREFABS.{id.ToUpperInvariant()}.NAME")));
                 }
                 //var defaultAnim = __result.DefaultAnimState;
                 //var symbol = UIUtils.GetSymbolFromMultiObjectAnim(kanim, defaultAnim);
@@ -114,7 +115,7 @@ namespace AnimExportTool
         {
             private static readonly MethodInfo InjectBehind = AccessTools.Method(
                 typeof(IEntityConfig),
-                nameof(IEntityConfig.CreatePrefab)
+                nameof(IEntityConfig.CreatePrefab) 
                 );
 
             private static readonly MethodInfo RegisterSpriteMethod = AccessTools.Method(
@@ -183,24 +184,22 @@ namespace AnimExportTool
         }
         static void GetAnimsFromEntity(GameObject instance)
         {
-            var exportLocation = Path.Combine(UtilMethods.ModPath, "EntityUISprites");
             if (!instance.TryGetComponent<KAnimControllerBase>(out var kbac) || kbac.animFiles.Length==0)
                 return;
 
             if (!instance.TryGetComponent<KPrefabID>(out var kPrefab))
                 return;
 
-
-            SgtLogger.l(instance.name);
             var UISpriteDef = Def.GetUISprite(instance);
             if (UISpriteDef == null)
                 return;
             var UISprite = UISpriteDef.first;
-
+            var id = kPrefab.PrefabID().ToString();
 
             if (UISprite != null && UISprite != Assets.GetSprite("unknown"))
             {
-                WriteUISpriteToFile(UISprite, exportLocation, kPrefab.PrefabID().ToString());
+                WriteUISpriteToFile(UISprite, Path.Combine(UtilMethods.ModPath, "EntityUISpritesById"), id);
+                WriteUISpriteToFile(UISprite, Path.Combine(UtilMethods.ModPath, "EntityUISpritesByName"), TagManager.GetProperName(id,true));
             }
         }
     }
