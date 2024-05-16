@@ -12,11 +12,23 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static ResearchTypes;
+using TMPro;
 
 namespace AnimExportTool
 {
     internal class Patches
     {
+        //static Texture2D BuildImageFromFrame(KAnimFile animFile, string animName = "ui", int frameIdx = 0)
+        //{
+        //    var go = UnityEngine.Object.Instantiate<GameObject>(EntityTemplates.unselectableEntityTemplate);
+        //    var kbac = go.AddOrGet<KBatchedAnimController>();
+        //    kbac.animFiles = new[]{ animFile };
+        //    kbac.initialAnim = animName;
+        //    kbac.Play(animName,speed:0);
+
+
+        //}
+
         static Dictionary<Texture2D, Texture2D> Copies = new Dictionary<Texture2D, Texture2D>();
         public static Texture2D GetReadableCopy(Texture2D source)
         {
@@ -47,15 +59,16 @@ namespace AnimExportTool
         }
 
         static Dictionary<Sprite, Texture2D> Copies2 = new Dictionary<Sprite, Texture2D>();
-        static Texture2D GetSingleSpriteFromTexture(Sprite sprite)
+        static Texture2D GetSingleSpriteFromTexture(Sprite sprite, Color tint = default)
         {
-            if (sprite == null)
+            if (sprite == null || sprite.rect == null || sprite.rect.width <= 0|| sprite.rect.height <=0)
                 return null;
 
-            if (!Copies2.ContainsKey(sprite))
-            {
+            bool useTint = tint != default;
 
-                var output = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
+            if (useTint || !Copies2.ContainsKey(sprite))
+            {
+                var output = new Texture2D(Mathf.RoundToInt(sprite.textureRect.width), Mathf.RoundToInt(sprite.textureRect.height));
                 var r = sprite.textureRect;
                 if (r.width == 0 || r.height == 0)
                     return null;
@@ -65,26 +78,74 @@ namespace AnimExportTool
                 if (readableTexture == null)
                     return null;
 
-                var pixels = readableTexture.GetPixels((int)r.x, (int)r.y, (int)r.width, (int)r.height);
-                output.SetPixels(pixels);
+                var pixels = readableTexture.GetPixels(Mathf.RoundToInt(r.x), Mathf.RoundToInt(r.y), Mathf.RoundToInt(r.width), Mathf.RoundToInt(r.height));
+                if (useTint)
+                {
+                    var tintedPixels = new Color[pixels.Length];
+                    for (int i = 0; i < pixels.Length; i++)
+                    {
+                        tintedPixels[i] = pixels[i] * tint;
+                    }
+                    SgtLogger.l(Mathf.RoundToInt(output.width)* Mathf.RoundToInt(output.height)+" > "+tintedPixels.Length+" ?");
+                    output.SetPixels(tintedPixels);
+                }
+                else
+                {
+                    output.SetPixels(pixels);
+                }                
                 output.Apply();
                 output.name = sprite.texture.name + " " + sprite.name;
+
+                if(useTint)
+                    return output;
+
                 Copies2.Add(sprite, output);
             }
             return Copies2[sprite];
         }
-
-        static void WriteUISpriteToFile(Sprite sprite, string folder, string id)
+        static void WriteUISpriteToFile(Sprite sprite, string folder, string id, Color tint = default)
         {
             Directory.CreateDirectory(folder);
-
             string fileName = Path.Combine(folder, id + ".png");
-            var tex = GetSingleSpriteFromTexture(sprite);
+            var tex = GetSingleSpriteFromTexture(sprite,tint);
+
             if (tex == null)
                 return;
 
             var imageBytes = tex.EncodeToPNG();
             File.WriteAllBytes(fileName, imageBytes);
+        }
+
+        [HarmonyPatch(typeof(ElementLoader))]
+        [HarmonyPatch(nameof(ElementLoader.Load))]
+        public static class AnimsFromElements
+        {
+
+            public static void Postfix()
+            {
+                var unknown = Assets.GetSprite("unknown_far");
+                foreach (var element in ElementLoader.elements)
+                {
+                    var UISpriteDef = Def.GetUISprite(element);
+
+                    if (UISpriteDef == null)
+                    {
+                        SgtLogger.warning("element sprite for " + element.name + " not found");
+
+                        continue;
+                    }
+
+                    var UISprite = UISpriteDef.first;
+
+                    if (UISprite != null && UISprite != Assets.GetSprite("unknown") && UISprite != unknown)
+                    {
+                        WriteUISpriteToFile(UISprite, Path.Combine(UtilMethods.ModPath, "ElementUISpritesById"), element.tag.ToString(), UISpriteDef.second);
+                        //WriteUISpriteToFile(UISprite, Path.Combine(UtilMethods.ModPath, "ElementUISpritesByName"), STRINGS.UI.StripLinkFormatting(element.name), UISpriteDef.second);
+                    }
+                    
+                }
+
+            }
         }
 
         [HarmonyPatch(typeof(BuildingTemplates))]
@@ -96,7 +157,6 @@ namespace AnimExportTool
             {
                 var kanim = Assets.GetAnim(anim);
                 if(kanim == null) return;
-
 
                 var UISprite = Def.GetUISpriteFromMultiObjectAnim(kanim);
 
