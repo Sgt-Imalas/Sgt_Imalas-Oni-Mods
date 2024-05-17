@@ -214,9 +214,9 @@ namespace UtilLibs
         {
             Db.Get().Techs.Get(techId).unlockedItemIDs.Add(buildingId);
         }
-        public static void AddSpriteToAssets(Assets instance, string spriteid, bool overrideExisting = false)
+        public static Sprite AddSpriteToAssets(Assets instance, string spriteid, bool overrideExisting = false)
         {
-            AssetUtils.AddSpriteToAssets(instance, spriteid, overrideExisting);
+            return AssetUtils.AddSpriteToAssets(instance, spriteid, overrideExisting);
         }
 
 

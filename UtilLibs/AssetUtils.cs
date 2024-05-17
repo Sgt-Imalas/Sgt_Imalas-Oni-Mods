@@ -15,7 +15,7 @@ namespace UtilLibs
     /// </summary>
     public class AssetUtils
     {
-        public static void AddSpriteToAssets(Assets instance, string spriteid, bool overrideExisting = false)
+        public static Sprite AddSpriteToAssets(Assets instance, string spriteid, bool overrideExisting = false)
         {
             var path = Path.Combine(UtilMethods.ModPath, "assets");
             var texture = LoadTexture(spriteid, path);
@@ -24,12 +24,13 @@ namespace UtilLibs
             if (!overrideExisting && instance.SpriteAssets.Any(spritef => spritef != null && spritef.name == spriteid))
             {
                 SgtLogger.l("Sprite " + spriteid + " was already existent in the sprite assets");
-                return;
+                return null;
             }
             if (overrideExisting)
                 instance.SpriteAssets.RemoveAll(foundsprite2 => foundsprite2 != null && foundsprite2.name == spriteid);            
 
             instance.SpriteAssets.Add(sprite);
+            return sprite;
         }
         public static void OverrideSpriteTextures(Assets instance, FileInfo file)
         {
