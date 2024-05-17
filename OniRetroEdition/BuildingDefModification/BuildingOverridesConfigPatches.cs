@@ -210,7 +210,7 @@ namespace OniRetroEdition.BuildingDefModification
                     new CodeInstruction(OpCodes.Call, m_postconfigurecomplete_postfix)
                         });
 
-                TranspilerHelper.PrintInstructions(codes);
+                //TranspilerHelper.PrintInstructions(codes);
 
                 return codes;
             }

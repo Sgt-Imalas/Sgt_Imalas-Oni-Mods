@@ -55,8 +55,6 @@ namespace OniRetroEdition.SlurpTool
             internal static void Postfix(ToolMenu __instance)
             {
                 
-
-
                 SgtLogger.l("Adding SlurpTool to basic tools");
                 __instance.basicTools.Add(ToolMenu.CreateToolCollection(STRINGS.MISC.PLACERS.SLURPPLACER.TOOL_NAME
                     , SpritePatch.SlurpActionIcon, SlurpAction.GetKAction(), "SlurpTool", STRINGS.MISC.PLACERS.SLURPPLACER.SLURPBUTTON, largeIcon: false));
