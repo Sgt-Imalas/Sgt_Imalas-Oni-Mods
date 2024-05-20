@@ -8,11 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 using static HoverTextDrawer;
+using static ModInfo;
+using static PixelPack;
 
 namespace BlueprintsV2.BlueprintsV2.BlueprintData
 {
-    internal class SensorTransferHelper
+    internal class DataTransferHelpers
     {
 
         internal class DataTransfer_LogicClusterLocationSensor
@@ -54,6 +57,89 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
                     targetComponent.activeInSpace = activeInSpace;
 
                     //activeLocations.ForEach(entry => targetComponent.SetLocationEnabled(new(entry.first, entry.second), true));
+                }
+            }
+        }
+        internal class DataTransfer_PixelPack
+        {
+            class PixelPackColorData
+            {
+                public float r1, g1, b1, a1;
+                public float r2, g2, b2, a2;
+
+                public PixelPackColorData(Color a, Color b)
+                {
+                    r1 = a.r; g1 = a.g; b1 = a.b; a1 = a.a;
+
+                    r2 = b.r; g2 = b.g; b2 = b.b; a2 = b.a;
+                }
+                public PixelPack.ColorPair GetData()
+                {
+                    return new PixelPack.ColorPair()
+                    {
+                        activeColor = new Color(r1, g1, b1, a1),
+                        standbyColor = new Color(r2, g2, b2, a2)
+                    };
+                }
+            }
+
+            internal static JObject TryGetData(GameObject arg)
+            {
+                if (arg.TryGetComponent<PixelPack>(out var component))
+                {
+                    PixelPackColorData[] transferedData = new PixelPackColorData[component.colorSettings.Count];
+                    for (int i = 0; i < component.colorSettings.Count; ++i)
+                    {
+                        var col = component.colorSettings[i];
+                        transferedData[i] = new PixelPackColorData(col.activeColor, col.standbyColor);
+                    }
+                    SgtLogger.l(JsonConvert.SerializeObject(transferedData));
+                    return new JObject()
+                    {
+                        { "colorSettings", JsonConvert.SerializeObject(transferedData)},
+                    };
+                }
+                return null;
+            }
+            public static void TryApplyData(GameObject building, JObject jObject)
+            {
+                if (jObject == null)
+                    return;
+                if (building.TryGetComponent<PixelPack>(out var targetComponent))
+                {
+
+                    var t1 = jObject.GetValue("colorSettings");
+                    if (t1 == null)
+                        return;
+                    var colorSettingsJson = t1.Value<string>();
+                    var colorSettings = JsonConvert.DeserializeObject<PixelPackColorData[]>(colorSettingsJson);
+
+                    SgtLogger.l(colorSettingsJson);
+                    //applying values
+                    if (targetComponent.colorSettings == null)
+                    {
+                        //filling with temp empty items
+                        var p1 = new PixelPack.ColorPair();
+                        p1.activeColor = targetComponent.defaultActive;
+                        p1.standbyColor = targetComponent.defaultStandby;
+                        var p2 = p1;
+                        var p3 = p1;
+                        var p4 = p1;
+                        targetComponent.colorSettings = new List<PixelPack.ColorPair>
+                        {
+                            p1,
+                            p2,
+                            p3,
+                            p4
+                        };
+                    }
+
+
+                    for (int index = 0; index < colorSettings.Length; ++index)
+                    {
+                        targetComponent.colorSettings[index] = colorSettings[index].GetData();
+                    }
+                    targetComponent.UpdateColors();
                 }
             }
         }
@@ -453,7 +539,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
             internal static JObject TryGetData(GameObject arg)
             {
                 var component = arg.GetSMI<HEPBattery.Instance>();
-                if (component!=null)
+                if (component != null)
                 {
                     return new JObject()
                     {

@@ -92,7 +92,9 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
         }
         static bool ValidFacadeId(string facadeID)
         {
-            return !facadeID.IsNullOrWhiteSpace() && facadeID != "DEFAULT_FACADE" && Db.GetBuildingFacades().Get(facadeID) != null;
+            return !facadeID.IsNullOrWhiteSpace() && facadeID != "DEFAULT_FACADE" && Db.GetBuildingFacades().Get(facadeID) != null 
+               // && Db.GetBuildingFacades().Get(facadeID).IsUnlocked()
+                ;
         }
     }
 }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using UnityEngine;
 using UtilLibs;
-using static BlueprintsV2.BlueprintsV2.BlueprintData.SensorTransferHelper;
+using static BlueprintsV2.BlueprintsV2.BlueprintData.DataTransferHelpers;
 
 namespace BlueprintsV2.BlueprintsV2.ModAPI
 {
@@ -276,6 +276,7 @@ namespace BlueprintsV2.BlueprintsV2.ModAPI
 
             RegisterInternally(nameof(LogicRibbonReader), DataTransfer_GenericRibbonData<LogicRibbonReader>.TryGetData, DataTransfer_GenericRibbonData<LogicRibbonReader>.TryApplyData);
             RegisterInternally(nameof(LogicRibbonWriter), DataTransfer_GenericRibbonData<LogicRibbonWriter>.TryGetData, DataTransfer_GenericRibbonData<LogicRibbonWriter>.TryApplyData);
+            RegisterInternally(nameof(PixelPack), DataTransfer_PixelPack.TryGetData, DataTransfer_PixelPack.TryApplyData);
 
 
             RegisterInternally(nameof(HighEnergyParticleSpawner), DataTransfer_HighEnergyParticleSpawner.TryGetData, DataTransfer_HighEnergyParticleSpawner.TryApplyData);
