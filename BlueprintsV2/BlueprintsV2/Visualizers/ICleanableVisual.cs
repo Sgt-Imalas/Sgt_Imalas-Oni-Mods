@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlueprintsV2.BlueprintsV2.Visualizers
 {
-    public interface ICleanableVisual : IVisual
+    public interface ICleanableVisual
     {
         int DirtyCell { get; }
         void Clean();

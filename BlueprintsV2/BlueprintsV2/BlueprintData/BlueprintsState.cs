@@ -58,7 +58,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
             Blueprint blueprint = new Blueprint("unnamed", "");
 
             int blueprintHeight = (topLeft.y - bottomRight.y);
-            bool collectingGasTiles = filter!=null? filter.AllowedLayer(SolidTileFiltering.ObjectLayerFilterKey):false;
+            bool collectingGasTiles = filter!=null && filter.AllowedLayer(SolidTileFiltering.ObjectLayerFilterKey);
 
             for (int x = topLeft.x; x <= bottomRight.x; ++x)
             {
