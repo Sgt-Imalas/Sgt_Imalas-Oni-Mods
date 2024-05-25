@@ -60,6 +60,7 @@ namespace SetStartDupes.DuplicityEditing
         CheckboxInput CheckboxInputPrefab;
         SliderInput SliderInputPrefab;
         DeletableNumberInputListEntry DeletableNumberInputListEntryPrefab;
+        AppearanceEntry AppearanceEntryPrefab;
 
         GameObject ParentContainer;
 
@@ -85,6 +86,10 @@ namespace SetStartDupes.DuplicityEditing
         //Effects-Tab:
         Dictionary<string, DeletableNumberInputListEntry> EffectEntries = new();
         FButton AddNewEffectButton;
+
+        //Appearance-Tab:
+        public GameObject AnimEntryContainer;
+        Dictionary<AccessorySlot, AppearanceEntry> MinionAnimCategories = new();
 
         //Footer
         FButton CloseBtn, ResetBtn, SaveBtn;
@@ -218,6 +223,8 @@ namespace SetStartDupes.DuplicityEditing
             DeletableNumberInputListEntryPrefab = transform.Find("Details/Content/ScrollRectContainer/DeletableNumberInputPrefab").FindOrAddComponent<DeletableNumberInputListEntry>();
             DeletableNumberInputListEntryPrefab.gameObject.SetActive(false);
 
+            AppearanceEntryPrefab = transform.Find("Details/Content/ScrollRectContainer/Appearence/Item").gameObject.AddOrGet<AppearanceEntry>();
+            AppearanceEntryPrefab.gameObject.SetActive(false);
 
             ParentContainer = transform.Find("Details/Content/ScrollRectContainer").gameObject;
 
@@ -312,7 +319,25 @@ namespace SetStartDupes.DuplicityEditing
         }
         void InitAppearanceTab()
         {
-
+            AnimEntryContainer = transform.Find("Details/Content/ScrollRectContainer/Appearence").gameObject;
+            CategoryGameObjects[Tab.Appearance].Add(AnimEntryContainer);
+            foreach (var slot in AccessorySlotHelper.GetAllChangeableSlot())
+            {
+                var entry = Util.KInstantiateUI< AppearanceEntry>(AppearanceEntryPrefab.gameObject, AnimEntryContainer);
+                entry.CategoryText = slot.Id;
+                entry.OnEntryClicked = () => UnityDuplicitySelectionScreen.ShowWindow(UnityDuplicitySelectionScreen.OpenedFrom.Bodypart, (obj) => OnChangeAccessory(slot,obj), () => RebuildAccessories(), slot);
+                entry.gameObject.SetActive(true);
+                MinionAnimCategories[slot] = entry;
+                CategoryGameObjects[Tab.Appearance].Add(entry.gameObject);
+            }
+        }
+        void OnChangeAccessory(AccessorySlot slot, object newAccessoryObj)
+        {
+            if(newAccessoryObj is Accessory accessory)
+            {
+                Stats.SetAccessory(slot, accessory);
+            }
+            UpdateMinionButtons();
         }
 
         void InitSkillsTab()
@@ -424,6 +449,9 @@ namespace SetStartDupes.DuplicityEditing
                 case Tab.Skills:
                     RefreshSkillsTab();
                     break;
+                case Tab.Appearance:
+                    RebuildAccessories();
+                    break;
                 case Tab.Effects:
                     RebuildEffects();
                     break;
@@ -531,6 +559,28 @@ namespace SetStartDupes.DuplicityEditing
                 effectContainer.transform.SetAsLastSibling();
             }
             AddNewEffectButton.transform.SetAsLastSibling();
+
+        }
+        private void RebuildAccessories()
+        {
+            if (Stats == null)
+                return;
+            foreach (var entry in MinionAnimCategories)
+            {
+                entry.Value.SetItemIcon(Assets.GetSprite("unknown"));
+                entry.Value.SetItemName("None");
+                
+            }
+
+            foreach (var slotEntry in Stats.Accessories)
+            {
+                if (MinionAnimCategories.ContainsKey(slotEntry.Key))
+                {
+                    var entry = MinionAnimCategories[slotEntry.Key];
+                    entry.SetItemIcon(AccessorySlotHelper.GetSpriteFrom(slotEntry.Value.symbol));
+                    entry.SetItemName(slotEntry.Value.Name);
+                }
+            }
 
         }
         private void RebuildTraitsAptitudes()

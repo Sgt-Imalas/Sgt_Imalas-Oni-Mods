@@ -114,6 +114,7 @@ namespace SetStartDupes
 
                 ///missing minerals:
                 new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Granite).tag.ToString(), 1000f, (Func<bool>) (() => __instance.CycleCondition(24) && __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Granite).tag)|| __instance.CycleCondition(500))),
+                new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Obsidian).tag.ToString(), 1000f, (Func<bool>) (() => __instance.CycleCondition(24) && __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Obsidian).tag)|| __instance.CycleCondition(500))),
                 new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Katairite).tag.ToString(), 500f, (Func<bool>) (() => __instance.CycleCondition(48) && __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Katairite).tag)|| __instance.CycleCondition(500))),
 
                 ///missing ores+metals

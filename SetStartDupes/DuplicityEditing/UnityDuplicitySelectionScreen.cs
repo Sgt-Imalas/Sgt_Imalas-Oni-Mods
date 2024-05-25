@@ -55,12 +55,13 @@ namespace SetStartDupes
         public bool CurrentlyActive;
 
         OpenedFrom openedFrom;
+        AccessorySlot openedFromSlot;
 
 
         Dictionary<Trait, GameObject> TraitContainers = new Dictionary<Trait, GameObject>();
         Dictionary<SkillGroup, GameObject> DupeInterestContainers = new Dictionary<SkillGroup, GameObject>();
         Dictionary<Effect, GameObject> EffectContainers = new Dictionary<Effect, GameObject>();
-        Dictionary<string, Dictionary<HashedString, GameObject>> BodypartContainers = new();
+        Dictionary<AccessorySlot, Dictionary<HashedString, GameObject>> BodypartContainers = new();
 
         Dictionary<OpenedFrom, List<GameObject>> CategoryEntries = new();
 
@@ -75,7 +76,7 @@ namespace SetStartDupes
         }
 
 
-        public static void ShowWindow(OpenedFrom from, System.Action<object> OnSelect, System.Action onClose, string bodyPartGroup = null)
+        public static void ShowWindow(OpenedFrom from, System.Action<object> OnSelect, System.Action onClose, AccessorySlot accessorySlot = null)
         {
             if (Instance == null)
             {
@@ -84,7 +85,7 @@ namespace SetStartDupes
                 Instance.Init();
             }
             Instance.OnSelect = OnSelect;
-            Instance.SetOpenedType(from);
+            Instance.SetOpenedType(from, accessorySlot);
             Instance.Show(true);
             Instance.ConsumeMouseScroll = true;
             Instance.transform.SetAsLastSibling();
@@ -111,11 +112,11 @@ namespace SetStartDupes
 
             base.OnKeyDown(e);
         }
-        private void SetOpenedType(OpenedFrom from = OpenedFrom.Undefined)
+        private void SetOpenedType(OpenedFrom from = OpenedFrom.Undefined, AccessorySlot slot = null)
         {
             openedFrom = from;
-
-            foreach(var cat in CategoryEntries)
+            openedFromSlot = slot;
+            foreach (var cat in CategoryEntries)
             {
                 bool enable = cat.Key == openedFrom;
 
@@ -328,20 +329,20 @@ namespace SetStartDupes
             }
             foreach(var slot in AccessorySlotHelper.GetAllChangeableSlot())
             {
-                BodypartContainers[slot.Id] = new Dictionary<HashedString, GameObject>();
+                BodypartContainers[slot] = new Dictionary<HashedString, GameObject>();
                 foreach (var accessory in slot.accessories)
                 {
-                    if (!BodypartContainers[slot.Id].ContainsKey(accessory.IdHash))
+                    if (!BodypartContainers[slot].ContainsKey(accessory.IdHash))
                     {
-                        BodypartContainers[slot.Id].Add(accessory.IdHash,
+                        BodypartContainers[slot].Add(accessory.IdHash,
                             AddUiContainer(
                                 accessory.Id,
                                 "",
-                                () => SgtLogger.l(""),
+                                ()=>SelectItem(accessory),
                                 prefabOverride: BodypartPrefab,
                                 placeImage: AccessorySlotHelper.GetSpriteFrom(accessory.symbol)
                             ));
-                        CategoryEntries[OpenedFrom.Bodypart].Add(BodypartContainers[slot.Id][accessory.Id]);
+                        CategoryEntries[OpenedFrom.Bodypart].Add(BodypartContainers[slot][accessory.Id]);
                     }
                 }
             }
@@ -375,6 +376,23 @@ namespace SetStartDupes
                 {
                     bool notYetAdded = !forbiddenEffects.Contains(go.Key.Id);
                     go.Value.SetActive(filterstring == string.Empty ? notYetAdded : notYetAdded && ShowInFilter(filterstring, new string[] { go.Key.Name, go.Key.description }));
+                }
+            }
+            else if(openedFrom == OpenedFrom.Bodypart)
+            {
+                foreach (var kvp in BodypartContainers)
+                {
+                    foreach(var entry in kvp.Value)
+                    {
+                        if(openedFromSlot != kvp.Key)
+                        {
+                            entry.Value.SetActive(false);
+                        }
+                        else
+                        {
+                            entry.Value.SetActive(ShowInFilter(filterstring,new string[] { entry.Key.ToString()}));
+                        }
+                    }
                 }
             }
 

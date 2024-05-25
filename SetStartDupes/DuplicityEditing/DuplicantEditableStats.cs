@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UtilLibs;
 using YamlDotNet.Core.Tokens;
+using static STRINGS.NAMEGEN;
 using static UnityEngine.GraphicsBuffer;
 
 namespace SetStartDupes.DuplicityEditing
@@ -26,6 +27,7 @@ namespace SetStartDupes.DuplicityEditing
         public Dictionary<HashedString,float> AptitudeBySkillGroup;
         public Dictionary<string, float> HealthAmounts;
         public Dictionary<string, float> Effects;
+        public Dictionary<AccessorySlot, Accessory> Accessories;
 
         public string JoyTraitId, StressTraitId;
         public HashSet<string> Traits;
@@ -54,7 +56,13 @@ namespace SetStartDupes.DuplicityEditing
                 if(minionIdentity.TryGetComponent<Accessorizer>(out var accessorizer))
                 {
                     //Looks
-                    //TODO
+                    stats.Accessories = new();
+                    var sourceAccessories = accessorizer.GetAccessories();
+                    foreach (var itemRef in sourceAccessories)
+                    {
+                        var item = itemRef.Get();
+                        stats.Accessories[item.slot] = item;
+                    }
                 }
                 if (minionIdentity.TryGetComponent<MinionResume>(out var minionResume))
                 {
@@ -236,6 +244,59 @@ namespace SetStartDupes.DuplicityEditing
                     }
                 }
             }
+            if (go.TryGetComponent<Accessorizer>(out var accessorizer))
+            {
+                //Looks
+                var sourceAccessories = accessorizer.GetAccessories();
+                List<Accessory> ToRemove = new(),ToAdd = new();
+                HashSet<AccessorySlot> NotExistingSlots = new(AccessorySlotHelper.GetAllChangeableSlot());
+                foreach (var itemRef in sourceAccessories)
+                {
+                    var oldItem = itemRef.Get();
+                    if(Accessories.ContainsKey(oldItem.slot))
+                    {
+                        var newItem = Accessories[oldItem.slot];
+                        NotExistingSlots.Remove(newItem.slot);
+                        if (newItem!= oldItem)
+                        {
+                            ToRemove.Add(oldItem);
+                            ToAdd.Add(newItem);
+                        }
+                    }
+                }
+                foreach (var slot in NotExistingSlots)
+                {
+                    if (Accessories.ContainsKey(slot))
+                    {
+                        ToAdd.Add(Accessories[slot]);
+                    }
+                }
+                for (int i = ToRemove.Count - 1; i >= 0; i--)
+                {
+                    accessorizer.RemoveAccessory(ToRemove[i]);
+                }
+                for (int i = ToAdd.Count - 1; i >= 0; i--)
+                {
+                    accessorizer.AddAccessory(ToAdd[i]);
+                }
+
+                if (go.TryGetComponent<SymbolOverrideController>(out var symbolOverride))
+                {
+                    var headshape_symbolName = (KAnimHashedString)HashCache.Get().Get(accessorizer.GetAccessory(Db.Get().AccessorySlots.HeadShape).symbol.hash).Replace("headshape", "cheek");
+                    var cheek_symbol_snapTo = (HashedString)"snapto_cheek";
+                    var hair_symbol_snapTo = (HashedString)"snapto_hair_always";
+
+                    symbolOverride.RemoveSymbolOverride(headshape_symbolName);
+                    symbolOverride.RemoveSymbolOverride(cheek_symbol_snapTo);
+                    symbolOverride.RemoveSymbolOverride(hair_symbol_snapTo);
+
+                    symbolOverride.AddSymbolOverride(cheek_symbol_snapTo, Assets.GetAnim((HashedString)"head_swap_kanim").GetData().build.GetSymbol((KAnimHashedString)headshape_symbolName), 1);
+                    symbolOverride.AddSymbolOverride(hair_symbol_snapTo, accessorizer.GetAccessory(Db.Get().AccessorySlots.Hair).symbol, 1);
+                    symbolOverride.AddSymbolOverride((HashedString)Db.Get().AccessorySlots.HatHair.targetSymbolId, Db.Get().AccessorySlots.HatHair.Lookup("hat_" + HashCache.Get().Get(accessorizer.GetAccessory(Db.Get().AccessorySlots.Hair).symbol.hash)).symbol, 1);
+                }
+
+                accessorizer.UpdateHairBasedOnHat();
+            }
             //Traits
             if (go.TryGetComponent<Traits>(out var traits))
             {
@@ -370,6 +431,12 @@ namespace SetStartDupes.DuplicityEditing
         internal void RemoveEffect(string id)
         {
             Effects.Remove(id);
+            EditsPending = true;
+        }
+
+        internal void SetAccessory(AccessorySlot slot, Accessory accessory)
+        {
+            Accessories[slot] = accessory;
             EditsPending = true;
         }
     }

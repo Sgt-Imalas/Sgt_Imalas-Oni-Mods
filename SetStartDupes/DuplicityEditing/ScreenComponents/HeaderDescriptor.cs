@@ -12,7 +12,7 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
         LocText label, labelRight;
         public override void OnPrefabInit()
         {
-            base.OnSpawn();
+            base.OnPrefabInit();
             label = transform.Find("Label").GetComponent<LocText>();
             label.SetText(TextLeft);
             labelRight = transform.Find("Output").GetComponent<LocText>();
