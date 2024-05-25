@@ -231,9 +231,9 @@ namespace SetStartDupes.DuplicityEditing
             HeaderLabel = transform.Find("Details/Header/Label").GetComponent<LocText>();
 
             //temp:
-            transform.Find("Details/Content/ScrollRectContainer/Appearence").gameObject.SetActive(false);
+            //transform.Find("Details/Content/ScrollRectContainer/Appearence").gameObject.SetActive(false);
             transform.Find("Details/Content/ScrollRectContainer/SingleListPrefab").gameObject.SetActive(false);
-            transform.Find("Details/Content/ScrollRectContainer/TraitInterestContainer").gameObject.SetActive(false);
+            //transform.Find("Details/Content/ScrollRectContainer/TraitInterestContainer").gameObject.SetActive(false);
 
 
         }

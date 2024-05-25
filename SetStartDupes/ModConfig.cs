@@ -130,7 +130,6 @@ namespace SetStartDupes
             CarePackagesOnlyDupeCap = 16;
             CarePackagesOnlyPackageCap = 3;
 
-            LiveDupeSkins = true;
             SkinsDoReactions = true;
             JorgeAndCryopodDupes = true;
             HermitSkin = true;
@@ -142,7 +141,8 @@ namespace SetStartDupes
             NoStressReactions = false;
 
             AddAdditionalCarePackages = true;
-            DuplicityDupeEditor=true;
+            LiveDupeSkins = false;
+            DuplicityDupeEditor = false;
         }
     }
 }

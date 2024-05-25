@@ -559,7 +559,7 @@ namespace SetStartDupes
             public static GameObject DupeStatEditingButtonGO = null;
             public static void Postfix(DetailsScreen __instance)
             {
-                if (ModConfig.Instance.LiveDupeSkins)
+                if (true)
                 {
                     SgtLogger.l("adding skin button to detailsScreen");
 
@@ -583,7 +583,7 @@ namespace SetStartDupes
                     SkinButtonGO = SkinButton.gameObject;
                     SkinButtonGO.SetActive(false);
                 }
-                if (ModConfig.Instance.DuplicityDupeEditor)
+                if (true)
                 {
                     SgtLogger.l("adding edit button to detailsScreen");
 
@@ -615,14 +615,21 @@ namespace SetStartDupes
         {
             public static void Prefix(DetailsScreen __instance)
             {
-                if (AddSkinButtonToDetailScreen.SkinButtonGO != null && __instance.target != null)
+                if (__instance.target == null || !__instance.target.TryGetComponent<MinionIdentity>(out _))
+                    return;
+
+                bool debugActive = DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive;
+
+                bool ShowDupeEditing = ModConfig.Instance.DuplicityDupeEditor || debugActive;
+                bool ShowSkinEditing = ModConfig.Instance.LiveDupeSkins || debugActive;
+
+                if (AddSkinButtonToDetailScreen.SkinButtonGO != null)
                 {
-                    AddSkinButtonToDetailScreen.SkinButtonGO.SetActive(__instance.target.GetComponent<MinionIdentity>());
-                    //SgtLogger.l("AddSkinButtonToDetailScreen.SkinButtonGO.Active: " + AddSkinButtonToDetailScreen.SkinButtonGO.activeSelf);
+                    AddSkinButtonToDetailScreen.SkinButtonGO.SetActive(ShowSkinEditing);
                 }
-                if (AddSkinButtonToDetailScreen.DupeStatEditingButtonGO != null && __instance.target != null)
+                if (AddSkinButtonToDetailScreen.DupeStatEditingButtonGO != null)
                 {
-                    AddSkinButtonToDetailScreen.DupeStatEditingButtonGO.SetActive(__instance.target.GetComponent<MinionIdentity>());
+                    AddSkinButtonToDetailScreen.DupeStatEditingButtonGO.SetActive(ShowDupeEditing);
                 }
                 //else
                 //    SgtLogger.warning("skin button go was null!");

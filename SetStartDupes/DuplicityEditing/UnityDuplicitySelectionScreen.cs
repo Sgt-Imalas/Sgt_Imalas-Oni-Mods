@@ -212,12 +212,6 @@ namespace SetStartDupes
             this.Show(false);
         }
 
-        void ApplyColorToTraitContainer(GameObject container, string traitID)
-        {
-            var type = ModAssets.GetTraitListOfTrait(traitID);
-            container.FindOrAddComponent<Image>().color = ModAssets.GetColourFromType(type);
-        }
-
         public string SkillGroup(SkillGroup group)
         {
             return Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME");
