@@ -616,23 +616,19 @@ namespace SetStartDupes
             public static void Prefix(DetailsScreen __instance)
             {
                 if (__instance.target == null || !__instance.target.TryGetComponent<MinionIdentity>(out _))
+                {
+                    AddSkinButtonToDetailScreen.SkinButtonGO?.SetActive(false);
+                    AddSkinButtonToDetailScreen.DupeStatEditingButtonGO?.SetActive(false);
                     return;
+                }
 
                 bool debugActive = DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive;
 
                 bool ShowDupeEditing = ModConfig.Instance.DuplicityDupeEditor || debugActive;
                 bool ShowSkinEditing = ModConfig.Instance.LiveDupeSkins || debugActive;
-
-                if (AddSkinButtonToDetailScreen.SkinButtonGO != null)
-                {
-                    AddSkinButtonToDetailScreen.SkinButtonGO.SetActive(ShowSkinEditing);
-                }
-                if (AddSkinButtonToDetailScreen.DupeStatEditingButtonGO != null)
-                {
-                    AddSkinButtonToDetailScreen.DupeStatEditingButtonGO.SetActive(ShowDupeEditing);
-                }
-                //else
-                //    SgtLogger.warning("skin button go was null!");
+                
+                AddSkinButtonToDetailScreen.SkinButtonGO?.SetActive(ShowSkinEditing);
+                AddSkinButtonToDetailScreen.DupeStatEditingButtonGO?.SetActive(ShowDupeEditing);
             }
         }
 

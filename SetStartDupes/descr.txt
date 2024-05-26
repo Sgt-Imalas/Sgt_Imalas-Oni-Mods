@@ -1,23 +1,24 @@
-﻿[h1]Duplicant Stat Selector - DSS [/h1]
+﻿[h1]Duplicant Stat Selector - DSS[/h1]
 
 When you start up a new game, there are a lot of dangers for your dupes so you want to prepare carefully.
 This mod allows you to adjust the amount of duplicants you start your game with and what Traits and Interests they should have.
 You can add more Traits & Interests or just remove those you don't want, all from a handy searchable list.
-Furtermore you can store your favourite Stat-Loadouts as Preset-Templates that you can then load and apply to any dupes created after.
+Furtermore you can store your favourite Stat- or Crew-loadouts as Preset-Templates that you can then load and apply to any dupes created after.
 The mod also allows to customize the Personality (Skin) of a dupe without changing any of its stats (for when you want a Pei-Only Colony, but there is no Meep-Mod equivalent).
 You can now also modify any dupe that emerges from a cryopod and the mysterious hermit.
 The printing pod also gained a handy care package selector.
+Furthermore, in sandbox worlds you have now access to a Duplicity style dupe editor.
 
 [img]https://i.imgur.com/GbFtLZ2.png[/img]
 
-[h1]Current latest Version: 6.1.0[/h1]
+[h1]Current latest Version: 7.0.0[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
-[list]
-[*] Between 1 and 100 starting duplicants (default: 3), with dynamical count adjustments:
+[h2]Duplicant Editing[/h2][list]
+[*] Dynamically change the number of duplciants you want to start with
 [/list][img]https://i.imgur.com/RPJxqjV.gif[/img][list]
-[*] Individually change the different Traits, Interests and Reactions of a Duplicant: ([strike] similar to DGSM but via searchable list -> no longer a need for endless "click to next"[/strike] Feature so good, dgsm copied it :D )
+[*] Individually add, remove or change the different Traits, Interests and Reactions of a Duplicant (similar to dgsm, but better):
 [/list][img]https://i.imgur.com/zJcOWLS.gif[/img][list]
 [*] Option to store and load crew presets:
 [/list][img]https://i.imgur.com/S2rAxjo.gif[/img][list]
@@ -25,40 +26,52 @@ The printing pod also gained a handy care package selector.
 [/list][img]https://i.imgur.com/uRNo2Ji.gif[/img][list]
 [*] Redistribute Interest Points (this resets each time the interest bonus changes, so do it after you have selected traits and interest types):
 [/list][img]https://i.imgur.com/WfNtqid.gif[/img][list]
-[*] Feature to guarantee rolling one trait when rerolling (in addition to one interest)
-[*] Option to override interest bonus point limit (for those experimental super dupes)
-[*] Changing printing pod dupe stats during the game can be disabled in the config (this also disables the preset function)
+[*] Trait selector to guarantee rolling one trait when rerolling naturally (in addition to one interest)
+[*] Trait rarity information to allow making "balanced" trait compositions (or to completely ignore :D)
+[*] Skin Selector -> Change the looks of a Starter/Printing pod Dupe without any rerolling
+[*] Add Neural Vaccilator traits (config disabled by default)
+[*] Edit Cryopod Duplicants and the lonely Hermit
+[*] Config Option: enable infinite interest bonus points (for those experimental super dupes, disabled by default)
+[*] Printing pod stat editing during the game (config enabled by default)
+[*] Change personalities (appearance) of live duplicants (config disabled by default)
+[*] Duplicity-style duplicant editor for live duplicants (config disabled by default, also available in sandbox/debug):
+[/list][img]https://i.imgur.com/NNt2lLA.gif[/img][list]
+
+[/list][h2]Care Packages[/h2][list]
+[*] Reroll Care Packages
+[*] Select Care Packages from a list of all currently unlocked packages
+[*] Config Option: Add a few items to the care package list that can be otherwise unobtainable. (using Care Package Manager will override this)
+
+[/list][h2]Additional Features[/h2][list]
 [*] Option to start the game with additional food and oxylite for every additional start dupe above 3.
-[*] Option to enable rerolling the printing pod dupes AND Care Packages (care packages can additionally be selected via a list of all unlocked packages in a care package selector)
-[*] Ability to apply personalities (= skins) to dupes without changing its interests and traits (stress and overjoyed reaction get applied by default, this can be disabled to only apply visual changes) (see the steam image how this works)
-[*] Change appearance of live duplicants (needs to be enabled in the config)
-[*] Ability to add additional Traits & Interests 
-[*] Ability to remove existing Traits & Interests
-[*] Ability to disable Stress Reactions & Joy Responses
 [*] Change the printing pod interval (default is every 3 cycles)
 [*] Pause game on "New Print available" (requires activation in config)
 [*] Option to only print care packages if you have over a certain amount of duplicants.
 [*] Reroll and adjust Stats for Cryopod Duplicants
 [*] Reroll and adjust Stats for the lonely Hermit
 [*] Access to fully coded but hidden "Needs" traits in the "Add a trait"-list
-[*] "Mysterious Minions Mode": Traits and interests are hidden and get only revealed once the dupe has been printed
+[*] generally disable overjoyed and/or stress reactions
+[*] Apply the hermit skin to duplicants if you have finished the story trait once
 [/list] 
 
+[h1]Compatibility[/h1]
 Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2869608898]Bio-Inks[/url] 
 Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2455735197]Artifacts in Care Packages[/url] 
 Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1872801058]Raincheck (Printing Pod Time Refund)[/url] 
-Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1833878154]Care Package Manager[/url] 
-Incompatible with "Duplicant Generation Settings Manager (DGSM)" (all features included with better UI)
-Incompatible with "RePrint" (Functionality is integrated)
+Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1833878154]Care Package Manager[/url]
+
+Incompatible with "DGSM - Duplicants Generation Settings Manager // by @Ony 👾" (all features included with better UI and less bugs)
+Incompatible with "RePrint" (Functionality is integrated) 
 
 [h1]Localisation[/h1]
 - English
 - German
-- Chinese 
+- Chinese (by [url=https://steamcommunity.com/profiles/76561198037403104/myworkshopfiles/?appid=457140]tyrian[/url])
+- French (by Ghultath)
 
 [h1]Credits[/h1]
 Mod Config made with PLib by PeterHan/Stephen
-Chinese translation provided by [url=https://steamcommunity.com/profiles/76561198037403104/myworkshopfiles/?appid=457140] tyrian[/url]
+Chinese translation provided by 
 
 [h1]Known Issues[/h1]
 [list]
@@ -73,7 +86,7 @@ You can find direct downloads for my mods [url=https://github.com/Sgt-Imalas/Sgt
 Please post bug reports and issues on [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or on my [url=https://discord.gg/5n7peBCnWZ]Discord Server[/url]. 
 [b]Always include the full player.log in a report: [/b] https://github.com/aki-art/ONI-Mods/wiki/How-to-send-a-log
 
-[b]Make sure you do NOT have the mod "Debug Console" enabled as it breaks the game's logging and makes the log useless for debugging![/b] 
+[b]Make sure you do NOT have the mod "Debug Console // by @Ony 👾" enabled as it breaks the game internally and makes the log useless for debugging![/b] 
 
 [hr][/hr]
 

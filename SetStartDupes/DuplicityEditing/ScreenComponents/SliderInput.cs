@@ -16,6 +16,8 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
         public bool wholeNumbers = true;
         public System.Action<float> OnSliderValueChanged;
         public float min, max, current;
+        public int TrailingNumbersCount = 2;
+        public string SliderUnits = string.Empty;
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
@@ -23,7 +25,8 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
             label.SetText(Text);
 
             slider = transform.Find("Slider").FindOrAddComponent<FSlider>();
-
+            slider.TrailingOutputNumbers = TrailingNumbersCount;
+            slider.UnitString = SliderUnits;
             slider.SetWholeNumbers(wholeNumbers);
             slider.AttachOutputField(transform.Find("Descriptor/Output").GetComponent<LocText>());
             slider.OnChange += OnSliderValueChanged;

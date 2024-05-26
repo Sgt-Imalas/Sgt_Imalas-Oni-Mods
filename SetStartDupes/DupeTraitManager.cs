@@ -539,26 +539,29 @@ namespace SetStartDupes
                 if (traitVal.id == DUPLICANTSTATS.INVALID_TRAIT_VAL.id)
                     continue;
 
-                int rarity = trait.PositiveTrait ? -traitVal.rarity : traitVal.rarity;
+                int rarity = trait.PositiveTrait ? traitVal.rarity : -traitVal.rarity;
 
                 totalRarityBalance += rarity;
 
                 if (rarity.ToString() != string.Empty)
                 {
-                    TraitBalanceTooltip += "\n" + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, trait.Name, rarity);
+                    TraitBalanceTooltip += "\n  " + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, trait.Name, ModAssets.GetTraitRarityString(rarity));
                 }
             }
-            string balanceString=string.Empty;
-            if (totalRarityBalance >= -3 && totalRarityBalance <= 3)
-                balanceString = UIUtils.ColorText(STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_BALANCED, UIUtils.number_green);
-            else if(totalRarityBalance > 3)
-                balanceString = UIUtils.ColorText(STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_WEAKER, UIUtils.number_red);
-            else if (totalRarityBalance < -3)
-                balanceString = UIUtils.ColorText(STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_STRONGER, UIUtils.number_red);
+
+            //int balanceThreshold = 3;
+            //string balanceString=string.Empty;
+            //if (totalRarityBalance >= -balanceThreshold && totalRarityBalance <= balanceThreshold)
+            //    balanceString = UIUtils.ColorText(STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_BALANCED, UIUtils.number_green);
+            //else if(totalRarityBalance > balanceThreshold)
+            //    balanceString = UIUtils.ColorText(STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_WEAKER, UIUtils.number_red);
+            //else if (totalRarityBalance < -balanceThreshold)
+            //    balanceString = UIUtils.ColorText(STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_STRONGER, UIUtils.number_red);
 
 
-            TraitBalanceTooltip = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_TOOLTIP, balanceString,totalRarityBalance) + TraitBalanceTooltip;
-            TraitBalanceHeader.text = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAITBALANCEHEADER, balanceString);
+            //TraitBalanceTooltip = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_TOOLTIP, balanceString,totalRarityBalance, -balanceThreshold,balanceThreshold) + TraitBalanceTooltip; 
+            TraitBalanceTooltip = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_TOOLTIP_SIMPLE,totalRarityBalance) + TraitBalanceTooltip;
+            TraitBalanceHeader.text = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAITBALANCEHEADER, totalRarityBalance);
             TraitBalanceTooltipCMP.SetSimpleTooltip(TraitBalanceTooltip);
         }
 

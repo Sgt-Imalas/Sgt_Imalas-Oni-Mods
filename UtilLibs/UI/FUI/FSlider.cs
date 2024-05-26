@@ -24,6 +24,7 @@ namespace UtilLibs.UIcmp //Source: Aki
         bool wholeNumbers;
         public int TrailingOutputNumbers = 3;
         public bool WholeNumbers => wholeNumbers;
+        public string UnitString = string.Empty;
 
         public override void OnPrefabInit()
         {
@@ -123,7 +124,9 @@ namespace UtilLibs.UIcmp //Source: Aki
         private void SetOutputText()
         {
             if (outputTarget != null)
-                outputTarget.text = slider.value.ToString(!wholeNumbers ? "0."+new string('0', TrailingOutputNumbers) : "0");
+            {
+                outputTarget.text = slider.value.ToString(!wholeNumbers ? "0." + new string('0', TrailingOutputNumbers) : "0") + UnitString;                
+            }
         }
 
         public void OnDrag(PointerEventData eventData)

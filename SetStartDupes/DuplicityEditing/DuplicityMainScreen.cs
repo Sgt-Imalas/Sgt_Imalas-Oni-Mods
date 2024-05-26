@@ -373,6 +373,8 @@ namespace SetStartDupes.DuplicityEditing
                 input.wholeNumbers = false;
                 input.SetMinMaxCurrent(amount.minAttribute.BaseValue, amount.maxAttribute.BaseValue, amount.minAttribute.BaseValue);
                 input.OnSliderValueChanged += (newVal) =>  TryChangeAmount(newVal, amount);
+                input.TrailingNumbersCount = 2;
+
                 AmountSliders[amount] = input;
                 CategoryGameObjects[Tab.Health].Add(input.gameObject);
             }

@@ -17,6 +17,7 @@ using UnityEngine.UI;
 using UtilLibs;
 using static KSerialization.DebugLog;
 using static SetStartDupes.DupeTraitManager;
+using static SetStartDupes.STRINGS.UI;
 using static SetStartDupes.STRINGS.UI.DSS_OPTIONS;
 using static STRINGS.DUPLICANTS;
 using static STRINGS.UI.DETAILTABS;
@@ -424,6 +425,46 @@ namespace SetStartDupes
             return trait.Name;
         }
 
+        public static Color[] Rarities = new Color[]
+        {
+            UIUtils.rgb(127, 127, 127), //Trash, grey
+            Color.white, //Common
+            UIUtils.rgb(30, 255, 0), //uncommon, green
+            UIUtils.rgb(0, 112, 221), //rare, blue
+            UIUtils.rgb(163, 53, 238), //epic, purple
+            UIUtils.rgb(255, 128, 0), //legendary, golden/orange
+        };
+
+        public static string GetTraitRarityString(int rarityVal)
+        {
+            bool negative = rarityVal < 0;
+            int rarity = negative ? -rarityVal : rarityVal;
+
+            if (rarity < 1)
+                rarity = 1;
+            if(rarity > 5)
+                rarity = 5;
+            string rarityLevelName = rarity.ToString();
+            switch (rarity)
+            {
+                case 1:
+                    rarityLevelName = UIUtils.ColorText(DUPESETTINGSSCREEN.TRAIT_RARITY_COMMON, Rarities[rarity]) + $" ({rarityVal})";
+                    break;
+                case 2:
+                    rarityLevelName = UIUtils.ColorText(DUPESETTINGSSCREEN.TRAIT_RARITY_UNCOMMON, Rarities[rarity]) + $" ({rarityVal})";
+                    break;
+                case 3:
+                    rarityLevelName = UIUtils.ColorText(DUPESETTINGSSCREEN.TRAIT_RARITY_RARE, Rarities[rarity]) + $" ({rarityVal})";
+                    break;
+                case 4:
+                    rarityLevelName = UIUtils.ColorText(DUPESETTINGSSCREEN.TRAIT_RARITY_EPIC, Rarities[rarity]) + $" ({rarityVal})";
+                    break;
+                case 5:
+                    rarityLevelName = UIUtils.ColorText(DUPESETTINGSSCREEN.TRAIT_RARITY_LEGENDARY, Rarities[rarity]) + $" ({rarityVal})";
+                    break;
+            }
+            return rarityLevelName;
+        }
 
         public static string GetTraitTooltip(Trait trait, string id)
         {
@@ -437,10 +478,18 @@ namespace SetStartDupes
                 return tooltip;
 
             var traitBonusHolder = list.Find(traitTo => traitTo.id == trait.Id);
+            if (traitBonusHolder.statBonus != 0 || traitBonusHolder.rarity != 0)
+                tooltip += "\n";
 
             if (traitBonusHolder.statBonus != 0)
             {
-                tooltip += "\n\n" + GetTraitStatBonusTooltip(trait);
+                tooltip += "\n" + GetTraitStatBonusTooltip(trait);
+            }
+            if(traitBonusHolder.rarity != 0)
+            {
+                int rarity = traitBonusHolder.rarity;
+                string rarityLevelName = GetTraitRarityString(rarity);
+                tooltip += "\n" + string.Format(DUPESETTINGSSCREEN.TRAIT_RARITYLEVEL, rarityLevelName);
             }
 
             return tooltip;
@@ -459,7 +508,7 @@ namespace SetStartDupes
 
             if (withDescriptor)
                 tooltip += STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOINTS + " ";
-            tooltip += UIUtils.ColorNumber(traitBonusHolder.statBonus);
+            tooltip += "<b>"+UIUtils.ColorNumber(traitBonusHolder.statBonus)+"</b>";
             return tooltip;
         }
         public static string GetSkillgroupName(SkillGroup group)

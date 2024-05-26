@@ -424,7 +424,16 @@ namespace SetStartDupes
                 public static LocString BALANCE_STRONGER = "<b>stronger</b>";
                 public static LocString BALANCE_WEAKER = "<b>weaker</b>";
 
-                public static LocString BALANCE_TOOLTIP = "The current trait composition is {0} compared to vanilla balancing.\nThe trait balance value is {1}, for vanilla balancing it's usually between -1 and 1\nBalance Composition:";
+                public static LocString BALANCE_TOOLTIP = "The current trait composition is {0}.\nThe trait balance value is {1}, for vanilla balancing it's usually between {2} and {3}\nBalance Composition:";
+                public static LocString BALANCE_TOOLTIP_SIMPLE = "The current trait balance value is {0}.\nValues above 0 indicate a trait balance favouring positive traits (overall stronger duplicant),\nvalues below 0 indicate a trait balance favouring negative traits (overall weaker duplicant).\nThis is purely informational and does not limit your ability to edit traits\n\nBalance Composition:";
+
+                public static LocString TRAIT_RARITYLEVEL = "Trait Rarity: {0}";
+
+                public static LocString TRAIT_RARITY_LEGENDARY = "<b>Legendary</b>";
+                public static LocString TRAIT_RARITY_EPIC = "<b>Epic</b>";
+                public static LocString TRAIT_RARITY_RARE = "<b>Rare</b>";
+                public static LocString TRAIT_RARITY_UNCOMMON = "<b>Uncommon</b>";
+                public static LocString TRAIT_RARITY_COMMON = "<b>Common</b>";
             }
             public class BUTTONS
             {
