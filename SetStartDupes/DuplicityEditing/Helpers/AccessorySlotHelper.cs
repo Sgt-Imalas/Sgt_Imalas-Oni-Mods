@@ -23,7 +23,7 @@ namespace SetStartDupes.DuplicityEditing.Helpers
             result.Add(slots.Hair);
             //result.Add(slots.HatHair); //depends on hair
             result.Add(slots.HeadShape);
-            //result.Add(slots.Mouth); //all mouths are the same
+            //result.Add(slots.Mouth); //depending on HeadShape
             result.Add(slots.Body);
             result.Add(slots.Arm);
             result.Add(slots.ArmLower);

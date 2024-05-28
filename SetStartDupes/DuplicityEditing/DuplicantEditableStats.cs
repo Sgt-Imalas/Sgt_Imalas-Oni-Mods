@@ -252,6 +252,12 @@ namespace SetStartDupes.DuplicityEditing
                 var sourceAccessories = accessorizer.GetAccessories();
                 List<Accessory> ToRemove = new(), ToAdd = new();
                 HashSet<AccessorySlot> NotExistingSlots = new(AccessorySlotHelper.GetAllChangeableSlot());
+
+
+                var slotDb = Db.Get().AccessorySlots;
+                var mouthSlot = slotDb.Mouth;
+                Accessory mouth=null;
+
                 foreach (var itemRef in sourceAccessories)
                 {
                     var oldItem = itemRef.Get();
@@ -265,6 +271,11 @@ namespace SetStartDupes.DuplicityEditing
                             ToAdd.Add(newItem);
                         }
                     }
+
+                    ///finding old mouth to replace later if headshape has changed
+                    if (oldItem.slot == mouthSlot)
+                        mouth = oldItem;
+
                 }
                 foreach (var slot in NotExistingSlots)
                 {
@@ -275,11 +286,27 @@ namespace SetStartDupes.DuplicityEditing
                 }
                 for (int i = ToRemove.Count - 1; i >= 0; i--)
                 {
-                    accessorizer.RemoveAccessory(ToRemove[i]);
+                    var accessory = ToRemove[i];
+                    accessorizer.RemoveAccessory(accessory);
                 }
                 for (int i = ToAdd.Count - 1; i >= 0; i--)
                 {
-                    accessorizer.AddAccessory(ToAdd[i]);
+                    var accessory = ToAdd[i];
+                    accessorizer.AddAccessory(accessory);
+
+                    ///replacing mouth based on head since that can't be visualized based on normal dupe animations (it only affects the lips in interact anims like sleeping, other)
+                    if (accessory.slot == slotDb.HeadShape)
+                    {
+                        string accessoryNumber = accessory.Id.Replace("headshape_",string.Empty);
+                        var newMouth = slotDb.Mouth.accessories.FirstOrDefault(mouthAccessory => mouthAccessory.Id.Replace("mouth_",string.Empty) == accessoryNumber);
+                            
+                        if(newMouth != null)
+                        {
+                            //SgtLogger.l("replacing mouth based on headshape");
+                            accessorizer.RemoveAccessory(mouth);
+                            accessorizer.AddAccessory(newMouth);
+                        }
+                    }
                 }
 
                 if (go.TryGetComponent<SymbolOverrideController>(out var symbolOverride))
@@ -409,6 +436,12 @@ namespace SetStartDupes.DuplicityEditing
                         inst.timeRemaining = effect.Value;
                 }
             }
+
+            AttributesPending = false;
+            AppearancePending = false;
+            HealthPending = false;
+            SkillsPending = false;
+            EffectsPending = false;
         }
 
         internal void SetAmount(Amount target, float newAmount)
