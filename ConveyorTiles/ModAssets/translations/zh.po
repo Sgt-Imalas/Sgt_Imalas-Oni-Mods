@@ -1,0 +1,209 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.0\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_CN\n"
+
+#. ConveyorTiles.STRINGS.BUILDING.STATUSITEMS.CT_CONVEYORTILE_POWERCONSUMPTION.NAME
+msgctxt ""
+"ConveyorTiles.STRINGS.BUILDING.STATUSITEMS.CT_CONVEYORTILE_POWERCONSUMPTION."
+"NAME"
+msgid "{CONFIG}: {WATTS}"
+msgstr "{CONFIG}: {WATTS}"
+
+#. ConveyorTiles.STRINGS.BUILDING.STATUSITEMS.CT_CONVEYORTILE_POWERCONSUMPTION.SPEEDBASE
+msgctxt ""
+"ConveyorTiles.STRINGS.BUILDING.STATUSITEMS.CT_CONVEYORTILE_POWERCONSUMPTION."
+"SPEEDBASE"
+msgid "Normal Speed"
+msgstr "常速"
+
+#. ConveyorTiles.STRINGS.BUILDING.STATUSITEMS.CT_CONVEYORTILE_POWERCONSUMPTION.SPEEDEXPRESS
+msgctxt ""
+"ConveyorTiles.STRINGS.BUILDING.STATUSITEMS.CT_CONVEYORTILE_POWERCONSUMPTION."
+"SPEEDEXPRESS"
+msgid "Express Speed"
+msgstr "急速"
+
+#. ConveyorTiles.STRINGS.BUILDING.STATUSITEMS.CT_CONVEYORTILE_POWERCONSUMPTION.SPEEDFAST
+msgctxt ""
+"ConveyorTiles.STRINGS.BUILDING.STATUSITEMS.CT_CONVEYORTILE_POWERCONSUMPTION."
+"SPEEDFAST"
+msgid "Fast Speed"
+msgstr "快速"
+
+#. ConveyorTiles.STRINGS.BUILDING.STATUSITEMS.CT_CONVEYORTILE_POWERCONSUMPTION.SPEEDRAPIT
+msgctxt ""
+"ConveyorTiles.STRINGS.BUILDING.STATUSITEMS.CT_CONVEYORTILE_POWERCONSUMPTION."
+"SPEEDRAPIT"
+msgid "Rapit Speed"
+msgstr "超急速"
+
+#. ConveyorTiles.STRINGS.BUILDING.STATUSITEMS.CT_CONVEYORTILE_POWERCONSUMPTION.TOOLTIP
+msgctxt ""
+"ConveyorTiles.STRINGS.BUILDING.STATUSITEMS.CT_CONVEYORTILE_POWERCONSUMPTION."
+"TOOLTIP"
+msgid ""
+"This conveyor tile is currently in the {CONFIG} configuration, consuming "
+"{WATTS} while active."
+msgstr "传送带砖块正处于{CONFIG}模式，在运行过程中会消耗{WATTS}电量"
+
+#. ConveyorTiles.STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE.CHECKBOX_LOGICDIRECTION.HEADER
+msgctxt ""
+"ConveyorTiles.STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE."
+"CHECKBOX_LOGICDIRECTION.HEADER"
+msgid "Conveyor Direction"
+msgstr "输送方向"
+
+#. ConveyorTiles.STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE.CHECKBOX_LOGICDIRECTION.LABEL
+msgctxt ""
+"ConveyorTiles.STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE."
+"CHECKBOX_LOGICDIRECTION.LABEL"
+msgid "Logic controls conveyor direction"
+msgstr "自动化控制输送方向"
+
+#. ConveyorTiles.STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE.CHECKBOX_LOGICDIRECTION.TOOLTIP
+msgctxt ""
+"ConveyorTiles.STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE."
+"CHECKBOX_LOGICDIRECTION.TOOLTIP"
+msgid ""
+"When enabled, the second logic input bit will control the direction of the "
+"conveyor.\n"
+"Check the bit description in the logic overlay for that."
+msgstr ""
+"当启用的时候，第二个逻辑接口输入的信息会控制输送的方向。\n"
+"详情请看自动化页面对于信号的描述。"
+
+#. ConveyorTiles.STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE.DESC
+msgctxt "ConveyorTiles.STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE.DESC"
+msgid "Wheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee!"
+msgstr "哇啊啊啊啊啊啊啊啊啊啊啊啊啊啊！"
+
+#. ConveyorTiles.STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE.EFFECT
+msgctxt "ConveyorTiles.STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE.EFFECT"
+msgid ""
+"Moves items, critters and duplicants when powered and active.\n"
+"Gasses and liquids can pass through this tile."
+msgstr ""
+"当激活并且接通电源时，移动物体、小动物和复制人。\n"
+"气体和液体会透过这个砖块。"
+
+#. ConveyorTiles.STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE.LOGIC_PORT_INPUT
+msgctxt ""
+"ConveyorTiles.STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE.LOGIC_PORT_INPUT"
+msgid "Toggle the tile state and the direction"
+msgstr "同步砖块的状态和方向"
+
+#. ConveyorTiles.STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE.LOGIC_PORT_INPUT_ACTIVE_RIBBON
+msgctxt ""
+"ConveyorTiles.STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE."
+"LOGIC_PORT_INPUT_ACTIVE_RIBBON"
+msgid ""
+"<b><style=\"logic_on\">Bit 1</style></b>: Enable building\n"
+"<b><style=\"logic_on\">Bit 2</style></b>: change the conveyor tile to move "
+"items from left to right\n"
+"<b><style=\"logic_on\">Bit 3 and 4</style></b>: increase the speed and power "
+"consumption of the conveyor tile."
+msgstr ""
+"<b><style=\"logic_on\">位 1</style></b>: 启用建筑\n"
+"<b><style=\"logic_on\">位 2</style></b>: 控制传送带砖块从左到右移动物体\n"
+"<b><style=\"logic_on\">位 3 和 4</style></b>: 增加传送带砖块的速度和能耗。"
+
+#. ConveyorTiles.STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE.LOGIC_PORT_INPUT_INACTIVE_RIBBON
+msgctxt ""
+"ConveyorTiles.STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE."
+"LOGIC_PORT_INPUT_INACTIVE_RIBBON"
+msgid ""
+"<b><style=\"logic_off\">Bit 1</style></b>: Disable building\n"
+"<b><style=\"logic_off\">Bit 2</style></b>: change the conveyor tile to move "
+"items from right to left\n"
+"<b><style=\"logic_off\">Bit 3 and 4</style></b>: decrease the speed and "
+"power consumption of the conveyor tile"
+msgstr ""
+"<b><style=\"logic_off\">位 1</style></b>: 禁用建筑\n"
+"<b><style=\"logic_off\">位 2</style></b>: 控制传送带砖块从右到左移动物体\n"
+"<b><style=\"logic_off\">位 3 和 4</style></b>: 降低传送带砖块的速度和能耗"
+
+#. ConveyorTiles.STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE.NAME
+msgctxt "ConveyorTiles.STRINGS.BUILDINGS.PREFABS.CT_CONVEYORTILE.NAME"
+msgid "<link=\"CTCONVEYORTILE\">Conveyor Tile</link>"
+msgstr "<link=\"CTCONVEYORTILE\">传送带砖块</link>"
+
+#. ConveyorTiles.STRINGS.MODBUTTONS.FLIPBUTTON.LABEL
+msgctxt "ConveyorTiles.STRINGS.MODBUTTONS.FLIPBUTTON.LABEL"
+msgid "Flip direction"
+msgstr "翻转方向"
+
+#. ConveyorTiles.STRINGS.MODBUTTONS.FLIPBUTTON.TOOLTIP
+msgctxt "ConveyorTiles.STRINGS.MODBUTTONS.FLIPBUTTON.TOOLTIP"
+msgid "Flip the direction of the conveyor tile"
+msgstr "翻转传送带砖块的方向\v"
+
+#. ConveyorTiles.STRINGS.MODCONFIG.COLOREDGEAR.NAME
+msgctxt "ConveyorTiles.STRINGS.MODCONFIG.COLOREDGEAR.NAME"
+msgid "Speed defines gear colour"
+msgstr "速度决定齿轮颜色"
+
+#. ConveyorTiles.STRINGS.MODCONFIG.COLOREDGEAR.TOOLTIP
+msgctxt "ConveyorTiles.STRINGS.MODCONFIG.COLOREDGEAR.TOOLTIP"
+msgid ""
+"Tint the gear of the conveyor tile based on its speed, color is based on "
+"Factorio belt coloring."
+msgstr "根据传送带砖块的速度给齿轮上色，颜色基于异星工场的传送带颜色方案。"
+
+#. ConveyorTiles.STRINGS.MODCONFIG.CONVEYORSPEEDMULTIPLIER.NAME
+msgctxt "ConveyorTiles.STRINGS.MODCONFIG.CONVEYORSPEEDMULTIPLIER.NAME"
+msgid "Speed Multiplier"
+msgstr "速度控制"
+
+#. ConveyorTiles.STRINGS.MODCONFIG.CONVEYORSPEEDMULTIPLIER.TOOLTIP
+msgctxt "ConveyorTiles.STRINGS.MODCONFIG.CONVEYORSPEEDMULTIPLIER.TOOLTIP"
+msgid ""
+"Speed at which the conveyor tile moves items. Value defines default belt "
+"speed"
+msgstr "传送带砖块移动物品的速度。该值定义了默认的传送带速度。"
+
+#. ConveyorTiles.STRINGS.MODCONFIG.CONVEYORUSESPOWER.NAME
+msgctxt "ConveyorTiles.STRINGS.MODCONFIG.CONVEYORUSESPOWER.NAME"
+msgid "Tile Power Consumption"
+msgstr "砖块能耗"
+
+#. ConveyorTiles.STRINGS.MODCONFIG.CONVEYORUSESPOWER.TOOLTIP
+msgctxt "ConveyorTiles.STRINGS.MODCONFIG.CONVEYORUSESPOWER.TOOLTIP"
+msgid ""
+"Set the amount of power each conveyor tile consumes. Value defines default "
+"belt speed"
+msgstr "设置每个传送带砖块消耗的电量。该值定义了默认的传送带速度。"
+
+#. ConveyorTiles.STRINGS.MODCONFIG.IMMUNEDUPES.NAME
+msgctxt "ConveyorTiles.STRINGS.MODCONFIG.IMMUNEDUPES.NAME"
+msgid "Immune Dupes"
+msgstr "不传送复制人"
+
+#. ConveyorTiles.STRINGS.MODCONFIG.IMMUNEDUPES.TOOLTIP
+msgctxt "ConveyorTiles.STRINGS.MODCONFIG.IMMUNEDUPES.TOOLTIP"
+msgid ""
+"Duplicants are not affected by the conveyor.\n"
+"Might reduce fun."
+msgstr ""
+"复制人不会被传送带传送。\n"
+"这样多无聊啊。"
+
+#. ConveyorTiles.STRINGS.MODCONFIG.NOLOGICPORT.NAME
+msgctxt "ConveyorTiles.STRINGS.MODCONFIG.NOLOGICPORT.NAME"
+msgid "No Logic Ports"
+msgstr "不需要自动化接口"
+
+#. ConveyorTiles.STRINGS.MODCONFIG.NOLOGICPORT.TOOLTIP
+msgctxt "ConveyorTiles.STRINGS.MODCONFIG.NOLOGICPORT.TOOLTIP"
+msgid "Removes the logic input of conveyor tiles"
+msgstr "移除传动带砖块的自动化输入接口"

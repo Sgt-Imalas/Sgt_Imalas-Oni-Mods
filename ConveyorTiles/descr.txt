@@ -1,10 +1,10 @@
 ﻿[img]https://i.imgur.com/GbFtLZ2.png[/img]
 
-[h1]Conveyor Tiles[/h1]
+[h1]Conveyor Tile[/h1]
 
 This mod adds a conveyor tile that allows to move items, critters and unsuspecting dupes.
 
-[h1]Current latest Version: 1.0.0[/h1]
+[h1]Current latest Version: 1.1.3[/h1]
 
 [hr][/hr]
 
@@ -15,21 +15,28 @@ This mod adds a conveyor tile that allows to move items, critters and unsuspecti
 [*] Duplicants require the "Mechatronic Engineering" skill to build them.
 [*] Gasses and Liquids will pass through the conveyor tile (similar to a mesh tile)
 [*] When powered, the tile will act as a conveyor belt, moving items towards the chosen direction
-[*] Direction can be swapped via ui button, copy settings can be used to mass-change the direction of conveyor tiles
-[*] each tile has a logic port that can disable it
+[*] Direction can be swapped via ui button or logic input, copy settings can be used to mass-change the direction of conveyor tiles
+[*] each tile has a logic input ribbon port that can disable it (bit 1), change its direction (bit 2), or increase its speed and power consumption (bit 3 and 4) 
+[*] different speeds will be indicated by the tint of the gear, this can be disabled in the config
 [*] doors/solid tiles above the conveyor tile will block items
 [*] if a conveyor tile has no tile next to where it is transporting items, the items will fall over the edge
 [/list]
 
 [h1]Config[/h1]
-[list][*] by default, each tile consumes 4W when active, this can be configured in the mod config
+[list][*] by default, each tile consumes 4W - 16W (depending on Speed, 4W is at default speeds) when active, this can be configured in the mod config
 [*] the speed of the conveyor effect can be adjusted in the config (warning: high speeds might lead to dupes no longer being able to walk into the opposite direction of the tile)
 [*] if needed, the effect of moving dupes can be disabled in the config (this is not in effect by default)[/list]
 
 [hr][/hr]
 [h1]Credits[/h1]
-Conveyor Tile Animation made by 3GuB
+Conveyor Tile Animation made by Klei and 3GuB
 Options made with PLib.
+
+[h1]Localisations[/h1]
+[list]
+[*]English
+[*]Chinese (by [url=https://steamcommunity.com/profiles/76561198846927580/myworkshopfiles/?appid=457140]Chinchou[/url])
+[/list] 
 
 [hr][/hr]
 
