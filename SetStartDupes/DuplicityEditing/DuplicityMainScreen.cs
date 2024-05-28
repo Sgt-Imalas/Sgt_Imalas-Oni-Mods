@@ -546,6 +546,9 @@ namespace SetStartDupes.DuplicityEditing
             foreach(var effect in Stats.Effects)
             {
                 var effectContainer = AddOrGetEffectContainer(effect.Key);
+                if (effectContainer == null)
+                    continue;
+
                 effectContainer.gameObject.SetActive(true);
                 
                 if(effect.Value>0)
@@ -650,19 +653,35 @@ namespace SetStartDupes.DuplicityEditing
 
         DeletableNumberInputListEntry AddOrGetEffectContainer(string effectId)
         {
-            var effect = Db.Get().effects.TryGet(effectId);
-            if (effect == null)
+            var effectFromDb = Db.Get().effects.TryGet(effectId);
+            string effectTooltip = string.Empty, effectName = effectId;
+
+            if (effectFromDb != null)
             {
-                SgtLogger.error("effect with the id " + effectId + " not found!");
-                return null;
+                effectTooltip = effectFromDb.description;
+                effectName = effectFromDb.Name.Contains("MISSING.STRINGS") ? effectFromDb.Id : effectFromDb.Name;
+            }
+            else
+            {
+                SgtLogger.warning("effect with the id " + effectId + " not found!");
+                if (Strings.TryGet($"STRINGS.DUPLICANTS.MODIFIERS.{effectId.ToUpperInvariant()}.NAME", out var nameEntry))
+                {
+                    effectName = nameEntry.String;
+                }
+                if (Strings.TryGet($"STRINGS.DUPLICANTS.MODIFIERS.{effectId.ToUpperInvariant()}.TOOLTIP", out var ttEntry))
+                {
+                    effectTooltip = ttEntry.String;
+                    effectTooltip += "\n\n";
+                }
+                effectTooltip += STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.EFFECTS.DYNAMIC_EFFECT_TOOLTIP;
             }
 
             if (!EffectEntries.ContainsKey(effectId))
             {
                 var go = Util.KInstantiateUI(DeletableNumberInputListEntryPrefab.gameObject, ParentContainer);
                 var entry = go.AddOrGet<DeletableNumberInputListEntry>();
-                entry.Text = effect.Name.Contains("MISSING.STRINGS")? effect.Id:effect.Name;
-                entry.Tooltip = effect.description;
+                entry.Text = effectName;
+                entry.Tooltip = effectTooltip;
                 entry.OnDeleteClicked = () => OnRemoveEffect(effectId);
                 entry.OnInputChanged = newVal => TryChangeEffectLength(effectId, newVal);
                 go.SetActive(true);

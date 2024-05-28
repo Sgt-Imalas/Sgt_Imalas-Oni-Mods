@@ -306,7 +306,7 @@ namespace SetStartDupes
                 //filter out any effects that 
                 if(effect.SelfModifiers.Count == 0 || effect.SelfModifiers.Any( modifier => !validMinionAttributes.Contains(modifier.AttributeId)))
                 {
-                    SgtLogger.l("skipping effect " + effect.Id + ": " + effect.Name);
+                    //SgtLogger.l("skipping effect " + effect.Id + ": " + effect.Name);
                     continue;
                 }
 

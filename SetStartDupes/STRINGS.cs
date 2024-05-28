@@ -91,7 +91,8 @@ namespace SetStartDupes
                             public class EFFECTS
                             {
                                 public static LocString EFFECT = "Effect";
-                                public static LocString TIMEREMAINING = "Remaining time in seconds|Remove Effect";
+                                public static LocString TIMEREMAINING = "Remaining time in seconds | Remove Effect";
+                                public static LocString DYNAMIC_EFFECT_TOOLTIP = "This effect has been created dynamically by the game without registering as a resource.\nThus you won't be able to readd it from the list if you decide to remove it.";
                             }
                             public class TRAITINTERESTCONTAINER
                             {

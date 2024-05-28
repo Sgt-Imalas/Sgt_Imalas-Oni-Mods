@@ -19,12 +19,13 @@ namespace SetStartDupes.DuplicityEditing
 {
     internal class DuplicantEditableStats
     {
-        public bool EditsPending;
+        public bool EditsPending => AttributesPending || AppearancePending || HealthPending || SkillsPending || EffectsPending;
+        public bool AttributesPending = false, AppearancePending = false, HealthPending = false, SkillsPending = false, EffectsPending = false;
 
         float totalExperience;
         Dictionary<string, bool> MasteryBySkillID;
         Dictionary<string, int> AttributeLevels;
-        public Dictionary<HashedString,float> AptitudeBySkillGroup;
+        public Dictionary<HashedString, float> AptitudeBySkillGroup;
         public Dictionary<string, float> HealthAmounts;
         public Dictionary<string, float> Effects;
         public Dictionary<AccessorySlot, Accessory> Accessories;
@@ -37,23 +38,23 @@ namespace SetStartDupes.DuplicityEditing
             var go = minion.GetTargetGameObject();
             var stats = new DuplicantEditableStats();
 
-            if(go.TryGetComponent<StoredMinionIdentity>(out var storedMinionIdentity))
+            if (go.TryGetComponent<StoredMinionIdentity>(out var storedMinionIdentity))
             {
-                
+
             }
-            else if(go.TryGetComponent<MinionIdentity>(out var minionIdentity))
+            else if (go.TryGetComponent<MinionIdentity>(out var minionIdentity))
             {
-                if(minionIdentity.TryGetComponent<AttributeLevels>(out var attributeLevels))
+                if (minionIdentity.TryGetComponent<AttributeLevels>(out var attributeLevels))
                 {
                     var attributes = Db.Get().Attributes;
                     //Attribute Levels
                     stats.AttributeLevels = new();
-                    foreach(var attribute in AttributeHelper.GetEditableAttributes())
+                    foreach (var attribute in AttributeHelper.GetEditableAttributes())
                     {
                         stats.AttributeLevels[attribute.Id] = attributeLevels.GetLevel(attribute);
                     }
                 }
-                if(minionIdentity.TryGetComponent<Accessorizer>(out var accessorizer))
+                if (minionIdentity.TryGetComponent<Accessorizer>(out var accessorizer))
                 {
                     //Looks
                     stats.Accessories = new();
@@ -73,13 +74,13 @@ namespace SetStartDupes.DuplicityEditing
                     //Interests
                     stats.AptitudeBySkillGroup = new(minionResume.AptitudeBySkillGroup);
                 }
-                if(minionIdentity.TryGetComponent<Traits>(out var traits))
+                if (minionIdentity.TryGetComponent<Traits>(out var traits))
                 {
                     //Traits
                     stats.Traits = new HashSet<string>();
                     foreach (var traitId in traits.TraitIds)
                     {
-                        if (DUPLICANTSTATS.JOYTRAITS.Any( trait => trait.id == traitId))
+                        if (DUPLICANTSTATS.JOYTRAITS.Any(trait => trait.id == traitId))
                         {
                             stats.JoyTraitId = traitId;
                         }
@@ -105,11 +106,11 @@ namespace SetStartDupes.DuplicityEditing
                     }
                 }
                 //Health Amounts
-                stats.HealthAmounts = new ();
+                stats.HealthAmounts = new();
                 foreach (var amount in AmountHelper.GetEditableAmounts())
                 {
                     var instance = amount.Lookup(go);
-                    if(instance == null)
+                    if (instance == null)
                     {
                         SgtLogger.error("amount instance " + amount.Name + " not found for dupe " + go.GetProperName());
                         continue;
@@ -129,7 +130,7 @@ namespace SetStartDupes.DuplicityEditing
             if (AptitudeBySkillGroup.ContainsKey(id))
             {
                 AptitudeBySkillGroup.Remove(id);
-                EditsPending = true;
+                AttributesPending = true;
             }
         }
         public void AddAptitude(HashedString id)
@@ -137,7 +138,7 @@ namespace SetStartDupes.DuplicityEditing
             if (!AptitudeBySkillGroup.ContainsKey(id))
             {
                 AptitudeBySkillGroup[id] = DUPLICANTSTATS.APTITUDE_BONUS;
-                EditsPending = true;
+                AttributesPending = true;
             }
         }
 
@@ -145,22 +146,22 @@ namespace SetStartDupes.DuplicityEditing
         public void SetExperience(float xp)
         {
             totalExperience = xp;
-            EditsPending = true;
+            SkillsPending = true;
         }
         public float GetExperience()
         {
             return totalExperience;
         }
 
-        public void SetAttributeLevel(Klei.AI.Attribute attribute,int level)
+        public void SetAttributeLevel(Klei.AI.Attribute attribute, int level)
         {
-            if(!AttributeLevels.ContainsKey(attribute.Id))
+            if (!AttributeLevels.ContainsKey(attribute.Id))
             {
                 SgtLogger.error(attribute.Name + " was not a viable attribute");
                 return;
             }
             AttributeLevels[attribute.Id] = level;
-            EditsPending = true;
+            AttributesPending = true;
         }
 
         public int GetAttributeLevel(Klei.AI.Attribute attribute)
@@ -177,12 +178,12 @@ namespace SetStartDupes.DuplicityEditing
         {
             if (StressTraitId == id)
                 StressTraitId = null;
-            else if(JoyTraitId == id)
+            else if (JoyTraitId == id)
                 JoyTraitId = null;
             else
                 Traits.Remove(id);
 
-            EditsPending = true;
+            AttributesPending = true;
         }
         public void AddTrait(string id)
         {
@@ -194,10 +195,9 @@ namespace SetStartDupes.DuplicityEditing
             {
                 StressTraitId = id;
             }
-            else if(!Traits.Contains(id))
+            else if (!Traits.Contains(id))
                 Traits.Add(id);
-
-            EditsPending = true;
+            AttributesPending = true;
         }
         internal bool HasMasteredSkill(Skill skill)
         {
@@ -208,26 +208,28 @@ namespace SetStartDupes.DuplicityEditing
             }
             return MasteryBySkillID[skill.Id];
         }
-        internal void SetSkillLearned(Skill target,bool skillLearned)
+        internal void SetSkillLearned(Skill target, bool skillLearned)
         {
             //if (!MasteryBySkillID.ContainsKey(target.Id))
-                //SgtLogger.warning(target.Name + ":" + target.Id + " was not found in the saved list","set mastered");
+            //SgtLogger.warning(target.Name + ":" + target.Id + " was not found in the saved list","set mastered");
 
             if (MasteryBySkillID.ContainsKey(target.Id) && MasteryBySkillID[target.Id] == skillLearned)
                 return;
 
             MasteryBySkillID[target.Id] = skillLearned;
-            EditsPending = true;
+            SkillsPending = true;
         }
 
         internal void Apply(MinionAssignablesProxy minion)
         {
             var go = minion.GetTargetGameObject();
-            EditsPending = false;
+            if (!EditsPending)
+                return;
+
             if (go == null)
                 return;
 
-            if (go.TryGetComponent<AttributeLevels>(out var attributeLevels))
+            if (AttributesPending && go.TryGetComponent<AttributeLevels>(out var attributeLevels))
             {
                 //Attribute Levels
 
@@ -237,27 +239,27 @@ namespace SetStartDupes.DuplicityEditing
                         continue;
 
                     int level = attributeLevels.GetLevel(attribute);
-                    if(level!= AttributeLevels[attribute.Id])
+                    if (level != AttributeLevels[attribute.Id])
                     {
                         attributeLevels.SetLevel(attribute.Id, AttributeLevels[attribute.Id]);
                         attributeLevels.SetExperience(attribute.Id, 0);
                     }
                 }
             }
-            if (go.TryGetComponent<Accessorizer>(out var accessorizer))
+            if (AppearancePending && go.TryGetComponent<Accessorizer>(out var accessorizer))
             {
                 //Looks
                 var sourceAccessories = accessorizer.GetAccessories();
-                List<Accessory> ToRemove = new(),ToAdd = new();
+                List<Accessory> ToRemove = new(), ToAdd = new();
                 HashSet<AccessorySlot> NotExistingSlots = new(AccessorySlotHelper.GetAllChangeableSlot());
                 foreach (var itemRef in sourceAccessories)
                 {
                     var oldItem = itemRef.Get();
-                    if(Accessories.ContainsKey(oldItem.slot))
+                    if (Accessories.ContainsKey(oldItem.slot))
                     {
                         var newItem = Accessories[oldItem.slot];
                         NotExistingSlots.Remove(newItem.slot);
-                        if (newItem!= oldItem)
+                        if (newItem != oldItem)
                         {
                             ToRemove.Add(oldItem);
                             ToAdd.Add(newItem);
@@ -298,7 +300,7 @@ namespace SetStartDupes.DuplicityEditing
                 accessorizer.UpdateHairBasedOnHat();
             }
             //Traits
-            if (go.TryGetComponent<Traits>(out var traits))
+            if (AttributesPending && go.TryGetComponent<Traits>(out var traits))
             {
                 var targetTraits = new List<string>(Traits);
                 if (JoyTraitId != null)
@@ -306,26 +308,26 @@ namespace SetStartDupes.DuplicityEditing
                 if (StressTraitId != null)
                     targetTraits.Add(StressTraitId);
 
-                List<string> ToAdd = targetTraits.Except(traits.TraitIds).ToList(), 
+                List<string> ToAdd = targetTraits.Except(traits.TraitIds).ToList(),
                             ToRemove = traits.TraitIds.Except(targetTraits).ToList();
 
                 var traitDb = Db.Get().traits;
-                foreach(var toAddTrait in ToAdd)
+                foreach (var toAddTrait in ToAdd)
                 {
                     var trait = traitDb.Get(toAddTrait);
 
-                    if(trait == null)
+                    if (trait == null)
                     {
-                        SgtLogger.warning("trait to add not existing: "+ toAddTrait);
+                        SgtLogger.warning("trait to add not existing: " + toAddTrait);
                         continue;
                     }
 
                     traits.Add(trait);
                 }
-                foreach(var toRemoveTrait in ToRemove)
+                foreach (var toRemoveTrait in ToRemove)
                 {
-                    var trait = traitDb.Get(toRemoveTrait); 
-                    if(trait == null)
+                    var trait = traitDb.Get(toRemoveTrait);
+                    if (trait == null)
                     {
                         SgtLogger.warning("trait to remove not existing: " + toRemoveTrait);
                         continue;
@@ -335,26 +337,29 @@ namespace SetStartDupes.DuplicityEditing
                 }
             }
             //Health Amounts
-            foreach (var amount in AmountHelper.GetEditableAmounts())
+            if (HealthPending)
             {
-                var instance = amount.Lookup(go);
-                if (instance == null || !HealthAmounts.ContainsKey(amount.Id))
+                foreach (var amount in AmountHelper.GetEditableAmounts())
                 {
-                    SgtLogger.error("amount instance " + amount.Name + " not found for dupe " + go.GetProperName());
-                    continue;
+                    var instance = amount.Lookup(go);
+                    if (instance == null || !HealthAmounts.ContainsKey(amount.Id))
+                    {
+                        SgtLogger.error("amount instance " + amount.Name + " not found for dupe " + go.GetProperName());
+                        continue;
+                    }
+                    instance.SetValue(HealthAmounts[amount.Id]);
                 }
-                instance.SetValue(HealthAmounts[amount.Id]); 
             }
-            if (go.TryGetComponent<MinionResume>(out var minionResume))
+            if ((SkillsPending||AttributesPending) && go.TryGetComponent<MinionResume>(out var minionResume))
             {
                 //XP
                 minionResume.totalExperienceGained = totalExperience;
                 //Skills
-                foreach(var skill in MasteryBySkillID)
+                foreach (var skill in MasteryBySkillID)
                 {
                     bool hasSkill = minionResume.HasMasteredSkill(skill.Key);
                     bool shouldHaveSkill = skill.Value;
-                    if (hasSkill!=shouldHaveSkill)
+                    if (hasSkill != shouldHaveSkill)
                     {
                         if (shouldHaveSkill)
                         {
@@ -369,10 +374,10 @@ namespace SetStartDupes.DuplicityEditing
                     }
                 }
                 //Interests
-                minionResume.AptitudeBySkillGroup = new (AptitudeBySkillGroup);
+                minionResume.AptitudeBySkillGroup = new(AptitudeBySkillGroup);
             }
             //Effects
-            if (go.TryGetComponent<Effects>(out Effects effects))
+            if (EffectsPending && go.TryGetComponent<Effects>(out Effects effects))
             {
                 HashSet<string> toRemove = new();
                 foreach (var effectInstance in effects.effects)
@@ -393,19 +398,23 @@ namespace SetStartDupes.DuplicityEditing
                 {
                     effects.Remove(effectId);
                 }
-                foreach(var effect in Effects)
+                var effectDb = Db.Get().effects;
+                foreach (var effect in Effects)
                 {
-                    var inst = effects.Add(effect.Key,true);
-                    if(effect.Value>0)
+                    if (!effectDb.Exists(effect.Key))
+                        continue;
+
+                    var inst = effects.Add(effect.Key, true);
+                    if (inst !=null && effect.Value > 0 && !Mathf.Approximately(inst.timeRemaining,effect.Value))
                         inst.timeRemaining = effect.Value;
                 }
             }
         }
-        
+
         internal void SetAmount(Amount target, float newAmount)
         {
-            HealthAmounts[target.Id] =newAmount;
-            EditsPending = true;
+            HealthAmounts[target.Id] = newAmount;
+            HealthPending = true;
         }
 
         internal void AddEffect(string id)
@@ -413,9 +422,9 @@ namespace SetStartDupes.DuplicityEditing
             if (!Effects.ContainsKey(id))
             {
                 var effect = Db.Get().effects.Get(id);
-                
+
                 Effects[id] = effect.duration > 0 ? effect.duration : 0;
-                EditsPending = true;
+                EffectsPending = true;
             }
 
         }
@@ -424,20 +433,20 @@ namespace SetStartDupes.DuplicityEditing
             if (Effects.ContainsKey(id))
             {
                 Effects[id] = newVal;
-                EditsPending = true;
+                EffectsPending = true;
             }
         }
 
         internal void RemoveEffect(string id)
         {
             Effects.Remove(id);
-            EditsPending = true;
+            EffectsPending = true;
         }
 
         internal void SetAccessory(AccessorySlot slot, Accessory accessory)
         {
             Accessories[slot] = accessory;
-            EditsPending = true;
+            AppearancePending = true;
         }
     }
 }
