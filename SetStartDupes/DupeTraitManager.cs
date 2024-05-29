@@ -635,7 +635,8 @@ namespace SetStartDupes
             cogenital,
             allTraits,
 
-            Beached_LifeGoal
+            Beached_LifeGoal,
+            RainbowFart
         }
         internal void SetReferenceStats(MinionStartingStats referencedStats)
         {

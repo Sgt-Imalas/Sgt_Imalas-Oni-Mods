@@ -11,7 +11,7 @@ Furthermore, in sandbox worlds you have now access to a Duplicity style dupe edi
 
 [img]https://i.imgur.com/GbFtLZ2.png[/img]
 
-[h1]Current latest Version: 7.0.0[/h1]
+[h1]Current latest Version: 7.0.3[/h1]
 
 [hr][/hr]
 [h1]Features[/h1]
@@ -59,6 +59,7 @@ Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2869
 Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2455735197]Artifacts in Care Packages[/url] 
 Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1872801058]Raincheck (Printing Pod Time Refund)[/url] 
 Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1833878154]Care Package Manager[/url]
+Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2306600428]Rainbow Farts[/url]
 
 Incompatible with "DGSM - Duplicants Generation Settings Manager // by @Ony 👾" (all features included with better UI and less bugs)
 Incompatible with "RePrint" (Functionality is integrated) 

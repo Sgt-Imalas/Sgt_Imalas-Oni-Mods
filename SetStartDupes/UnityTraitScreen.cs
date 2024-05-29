@@ -210,6 +210,7 @@ namespace SetStartDupes
                 case NextType.negTrait:
                 case NextType.needTrait:
                 case NextType.allTraits:
+                case NextType.RainbowFart:
                     currentStatManager.RemoveTrait(CurrentTrait);
                     currentStatManager.AddTrait(trait);
                     break;

@@ -3,6 +3,7 @@ using Database;
 using Epic.OnlineServices;
 using Klei.AI;
 using Microsoft.Build.Utilities;
+using SetStartDupes.API_IO;
 using STRINGS;
 using System;
 using System.Collections;
@@ -54,6 +55,12 @@ namespace SetStartDupes
         public static GameObject TraitsWindowPrefab;
         public static GameObject CrewDupeEntryPrefab;
         public static GameObject DuplicityWindowPrefab;
+
+        public static bool BeachedActive = false;
+        public static List<DUPLICANTSTATS.TraitVal> BEACHED_LIFEGOALS = new List<DUPLICANTSTATS.TraitVal>();
+
+        public static bool RainbowFartsActive = false;
+        public static List<DUPLICANTSTATS.TraitVal> RAINBOWFARTS_FARTTRAITS = new List<DUPLICANTSTATS.TraitVal>();
 
 
         public static GameObject ParentScreen
@@ -328,7 +335,6 @@ namespace SetStartDupes
             stats.voiceIdx = ModApi.GetVoiceIdxOverrideForPersonality(personality.nameStringKey);
         }
 
-        public static bool BeachedActive = false;
 
 
         public static int MinimumPointsPerInterest(MinionStartingStats stats, SkillGroup checkForMultiplesOf = null)
@@ -568,12 +574,11 @@ namespace SetStartDupes
             return trait.dlcId == null || trait.dlcId == "" || trait.dlcId == DlcManager.GetHighestActiveDlcId();
         }
 
-
-
         public static class Colors
         {
             public static Color gold = UIUtils.Darken(Util.ColorFromHex("ffdb6e"), 40);
             public static Color purple = Util.ColorFromHex("a961f9");
+            public static Color darkPurple = UIUtils.rgb(114, 59, 157);
             public static Color magenta = Util.ColorFromHex("fd43ff");
             public static Color green = Util.ColorFromHex("367d48");
             public static Color red = Util.ColorFromHex("802024");
@@ -585,7 +590,31 @@ namespace SetStartDupes
             ///Color.Lerp(originalColor, Color.white, .5f); To lighten by 50% 
         }
 
-        public static List<DUPLICANTSTATS.TraitVal> BEACHED_LIFEGOALS = new List<DUPLICANTSTATS.TraitVal>();
+        public static void InitRainbowFarts()
+        {
+            SgtLogger.l("Rainbow Farts Found, initializing...");
+            RainbowFartsActive = true;
+
+            List<string> FartTraitIDs = RainbowFarts_API.GetFartIDs();
+            var db = Db.Get().traits;
+
+            foreach (var traitID in FartTraitIDs)
+            {
+                var fartTrait = db.TryGet(traitID);
+                if (fartTrait != null)
+                {
+                    var val = new DUPLICANTSTATS.TraitVal()
+                    {
+                        id = traitID,
+                        dlcId = DlcManager.VANILLA_ID,
+                    };
+                    RAINBOWFARTS_FARTTRAITS.Add(val);
+                }
+                else
+                    SgtLogger.warning(traitID, "Trait was null");
+            }
+
+        }
         public static void InitBeached()
         {
             SgtLogger.l("Beached Found, initializing...");
@@ -617,6 +646,10 @@ namespace SetStartDupes
 
         private static Dictionary<NextType, List<DUPLICANTSTATS.TraitVal>> TraitsByType = new Dictionary<NextType, List<DUPLICANTSTATS.TraitVal>>()
         {
+            {
+                NextType.RainbowFart,
+                RAINBOWFARTS_FARTTRAITS
+            },
             {
                 NextType.Beached_LifeGoal,
                 BEACHED_LIFEGOALS
@@ -666,17 +699,23 @@ namespace SetStartDupes
             }
             else
             {
+                List<DUPLICANTSTATS.TraitVal> returnValues = new();
 
                 if (DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || ModConfig.Instance.AddVaccilatorTraits || overrideShowAll)
                 {
+                    returnValues.AddRange(TraitsByType[NextType.geneShufflerTrait]);
                     return
                         //TraitsByType[NextType.special].Concat
                         (TraitsByType[NextType.geneShufflerTrait]).Concat(TraitsByType[NextType.posTrait]).Concat(TraitsByType[NextType.needTrait]).Concat(TraitsByType[NextType.negTrait]).ToList();
                 }
-                else
-                {
-                    return TraitsByType[NextType.posTrait].Concat(TraitsByType[NextType.needTrait]).Concat(TraitsByType[NextType.negTrait]).ToList();
-                }
+                if(ModAssets.RainbowFartsActive)
+                    returnValues.AddRange(TraitsByType[NextType.RainbowFart]);
+
+                returnValues.AddRange(TraitsByType[NextType.posTrait]);
+                returnValues.AddRange(TraitsByType[NextType.needTrait]);
+                returnValues.AddRange(TraitsByType[NextType.negTrait]);
+                return returnValues;
+
             }
 
         }
@@ -694,14 +733,21 @@ namespace SetStartDupes
 
         public static NextType GetTraitListOfTrait(string traitId, out List<DUPLICANTSTATS.TraitVal> TraitList)
         {
-            if (BEACHED_LIFEGOALS.FindIndex(t => t.id == traitId) != -1)
+            if (RAINBOWFARTS_FARTTRAITS.FindIndex(t => t.id == traitId) != -1)
+            {
+                TraitList = RAINBOWFARTS_FARTTRAITS;
+                if (!NextTypesPerTrait.ContainsKey(traitId))
+                    NextTypesPerTrait.Add(traitId, NextType.RainbowFart);
+                return NextType.RainbowFart;
+            }
+            else if(BEACHED_LIFEGOALS.FindIndex(t => t.id == traitId) != -1)
             {
                 TraitList = BEACHED_LIFEGOALS;
                 if(!NextTypesPerTrait.ContainsKey(traitId))
                     NextTypesPerTrait.Add(traitId, NextType.Beached_LifeGoal);
                 return NextType.Beached_LifeGoal;
             }
-            if (DUPLICANTSTATS.GENESHUFFLERTRAITS.FindIndex(t => t.id == traitId) != -1)
+            else if(DUPLICANTSTATS.GENESHUFFLERTRAITS.FindIndex(t => t.id == traitId) != -1)
             {
                 TraitList = DUPLICANTSTATS.GENESHUFFLERTRAITS;
                 if(!NextTypesPerTrait.ContainsKey(traitId))
@@ -771,6 +817,10 @@ namespace SetStartDupes
                 case DupeTraitManager.NextType.needTrait:
                 case DupeTraitManager.NextType.Beached_LifeGoal:
                     colorToPaint = Colors.gold;
+                    break;
+
+                case DupeTraitManager.NextType.RainbowFart:
+                    colorToPaint = Colors.darkPurple;
                     break;
                 case DupeTraitManager.NextType.geneShufflerTrait:
                     colorToPaint = Colors.purple;
