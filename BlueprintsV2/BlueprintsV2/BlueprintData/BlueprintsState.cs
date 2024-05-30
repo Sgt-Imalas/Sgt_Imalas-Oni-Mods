@@ -1,7 +1,6 @@
-﻿using Blueprints;
-using BlueprintsV2.BlueprintsV2.ModAPI;
+﻿using BlueprintsV2.BlueprintsV2.ModAPI;
+using BlueprintsV2.BlueprintsV2.Tools;
 using BlueprintsV2.BlueprintsV2.Visualizers;
-using ModFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +11,19 @@ using UtilLibs;
 
 namespace BlueprintsV2.BlueprintsV2.BlueprintData
 {
+    public struct CellColorPayload
+    {
+        public Color Color { get; private set; }
+        public ObjectLayer TileLayer { get; private set; }
+        public ObjectLayer ReplacementLayer { get; private set; }
+
+        public CellColorPayload(Color color, ObjectLayer tileLayer, ObjectLayer replacementLayer)
+        {
+            Color = color;
+            TileLayer = tileLayer;
+            ReplacementLayer = replacementLayer;
+        }
+    }
 
     public static class BlueprintsState
     {

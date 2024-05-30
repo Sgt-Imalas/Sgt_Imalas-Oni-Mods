@@ -1,4 +1,4 @@
-﻿using Blueprints;
+﻿
 using BlueprintsV2.BlueprintsV2.BlueprintData;
 using System;
 using System.Collections.Generic;
@@ -119,7 +119,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
                         {
                             if (!ValidCell(cell))
                             {
-                                VisualsUtilities.SetVisualizerColor(cell, BlueprintsAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT, Visualizer, buildingConfig);
+                                VisualsUtilities.SetVisualizerColor(cell, ModAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT, Visualizer, buildingConfig);
                             }
 
                             bool replacing = hasReplacementLayer && CanReplace(cell);

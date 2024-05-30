@@ -1,10 +1,12 @@
-﻿using Blueprints;
+﻿
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static BlueprintsV2.ModAssets;
 
 namespace BlueprintsV2.BlueprintsV2.BlueprintData
 {
@@ -84,7 +86,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
                 //Delete the backing folder if it is not the default folder.
                 if (Name != "")
                 {
-                    string path = Path.Combine(Utilities.GetBlueprintDirectory(), Name);
+                    string path = Path.Combine(BlueprintFileHandling.GetBlueprintDirectory(), Name);
 
                     if (Directory.Exists(path))
                     {

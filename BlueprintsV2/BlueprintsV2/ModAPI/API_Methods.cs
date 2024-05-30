@@ -1,4 +1,4 @@
-﻿using Blueprints;
+﻿
 using BlueprintsV2.BlueprintsV2.BlueprintData;
 using HarmonyLib;
 using Newtonsoft.Json.Linq;
@@ -109,7 +109,7 @@ namespace BlueprintsV2.BlueprintsV2.ModAPI
 
         public static bool IsBuildable(BuildingDef buildingDef)
         {
-            if (!BlueprintsAssets.Options.RequireConstructable || SaveGame.Instance.sandboxEnabled)
+            if (!Config.Instance.RequireConstructable || SaveGame.Instance.sandboxEnabled)
             {
                 return true;//todo: register as oneOf
             }

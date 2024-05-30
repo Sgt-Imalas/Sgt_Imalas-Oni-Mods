@@ -1,4 +1,4 @@
-﻿using Blueprints;
+﻿
 using BlueprintsV2.BlueprintsV2.BlueprintData;
 using PeterHan.PLib.UI;
 using ProcGen.Noise;
@@ -8,9 +8,11 @@ using System.Linq;
 using TUNING;
 using UnityEngine;
 
-namespace ModFramework {
+namespace BlueprintsV2.BlueprintsV2.Tools
+{
     [AddComponentMenu("KMonoBehaviour/scripts/ToolParameterMenu")]
-    public class MultiToolParameterMenu : KMonoBehaviour {
+    public class MultiToolParameterMenu : KMonoBehaviour
+    {
         public delegate void SyncChanged(bool synced);
 
         public static MultiToolParameterMenu Instance;
@@ -24,7 +26,8 @@ namespace ModFramework {
 
         private MultiToggle syncMultiToggle;
 
-        public override void OnPrefabInit() {
+        public override void OnPrefabInit()
+        {
             base.OnPrefabInit();
 
             GameObject baseContent = ToolMenu.Instance.toolParameterMenu.content;
@@ -33,7 +36,8 @@ namespace ModFramework {
             content = Util.KInstantiateUI(baseContent, baseContent.transform.parent.gameObject);
             content.transform.GetChild(1).gameObject.SetActive(false);
 
-            var buttonsPanel = new PRelativePanel {
+            var buttonsPanel = new PRelativePanel
+            {
                 BackColor = PUITuning.Colors.ButtonPinkStyle.inactiveColor
             };
 
@@ -43,28 +47,35 @@ namespace ModFramework {
                 OnClick = (_) => SetAll(ToolParameterMenu.ToggleState.On)
             }.SetKleiPinkStyle();
 
-            var noneButton = new PButton {
+            var noneButton = new PButton
+            {
                 Text = "None"
             };
 
-            noneButton.OnClick += source => {
+            noneButton.OnClick += source =>
+            {
                 Instance.SetAll(ToolParameterMenu.ToggleState.Off);
             };
 
-            PCheckBox syncCheckBox = new PCheckBox {
+            PCheckBox syncCheckBox = new PCheckBox
+            {
                 Text = "Auto. Sync"
             };
 
             syncCheckBox.SetKleiPinkStyle();
-            syncCheckBox.OnRealize += realized => {
+            syncCheckBox.OnRealize += realized =>
+            {
                 syncMultiToggle = realized.GetComponent<MultiToggle>();
             };
-            syncCheckBox.OnChecked += (source, state) => {
-                if (state == PCheckBox.STATE_UNCHECKED) {
+            syncCheckBox.OnChecked += (source, state) =>
+            {
+                if (state == PCheckBox.STATE_UNCHECKED)
+                {
                     syncMultiToggle.ChangeState(PCheckBox.STATE_CHECKED);
                 }
 
-                else if(state == PCheckBox.STATE_CHECKED) {
+                else if (state == PCheckBox.STATE_CHECKED)
+                {
                     syncMultiToggle.ChangeState(PCheckBox.STATE_UNCHECKED);
                 }
 
@@ -82,23 +93,26 @@ namespace ModFramework {
             buttonsPanel.AddChild(syncCheckBox);
             buttonsPanel.SetLeftEdge(syncCheckBox, 0.5F)
                 .SetRightEdge(syncCheckBox, 1F);
-         
+
             widgetContainer = Util.KInstantiateUI(baseWidgetContainer, content, true);
             buttonsPanel.AddTo(content, 3);
 
             content.SetActive(false);
         }
 
-        public void PopulateMenu(Dictionary<string, ToolParameterMenu.ToggleState> inputParameters) {
+        public void PopulateMenu(Dictionary<string, ToolParameterMenu.ToggleState> inputParameters)
+        {
             ClearMenu();
-            this.parameters = new Dictionary<string, ToolParameterMenu.ToggleState>(inputParameters);
+            parameters = new Dictionary<string, ToolParameterMenu.ToggleState>(inputParameters);
 
-            foreach (KeyValuePair<string, ToolParameterMenu.ToggleState> parameter in inputParameters) {
+            foreach (KeyValuePair<string, ToolParameterMenu.ToggleState> parameter in inputParameters)
+            {
                 GameObject widetPrefab = Util.KInstantiateUI(ToolMenu.Instance.toolParameterMenu.widgetPrefab, widgetContainer, true);
                 widetPrefab.GetComponentInChildren<LocText>().text = Strings.Get("STRINGS.UI.TOOLS.FILTERLAYERS." + parameter.Key);
 
                 MultiToggle toggle = widetPrefab.GetComponentInChildren<MultiToggle>();
-                switch (parameter.Value) {
+                switch (parameter.Value)
+                {
                     case ToolParameterMenu.ToggleState.On:
                         toggle.ChangeState(1);
                         break;
@@ -112,19 +126,25 @@ namespace ModFramework {
                         break;
                 }
 
-                toggle.onClick += () => {
-                    foreach (KeyValuePair<string, GameObject> widget in widgets) {
-                        if (widget.Value == toggle.transform.parent.gameObject) {
-                            if (this.parameters[widget.Key] == ToolParameterMenu.ToggleState.Disabled) {
+                toggle.onClick += () =>
+                {
+                    foreach (KeyValuePair<string, GameObject> widget in widgets)
+                    {
+                        if (widget.Value == toggle.transform.parent.gameObject)
+                        {
+                            if (parameters[widget.Key] == ToolParameterMenu.ToggleState.Disabled)
+                            {
                                 break;
                             }
 
-                            if (this.parameters[widget.Key] == ToolParameterMenu.ToggleState.On) {
-                                this.parameters[widget.Key] = ToolParameterMenu.ToggleState.Off;
+                            if (parameters[widget.Key] == ToolParameterMenu.ToggleState.On)
+                            {
+                                parameters[widget.Key] = ToolParameterMenu.ToggleState.Off;
                             }
 
-                            else {
-                                this.parameters[widget.Key] = ToolParameterMenu.ToggleState.On;
+                            else
+                            {
+                                parameters[widget.Key] = ToolParameterMenu.ToggleState.On;
                             }
 
                             OnChange();
@@ -139,15 +159,18 @@ namespace ModFramework {
             content.SetActive(true);
         }
 
-        public void SetAll(ToolParameterMenu.ToggleState toggleState) {
-            foreach (string key in parameters.Keys.ToList()) {
+        public void SetAll(ToolParameterMenu.ToggleState toggleState)
+        {
+            foreach (string key in parameters.Keys.ToList())
+            {
                 parameters[key] = toggleState;
             }
 
             OnChange();
         }
 
-        public virtual Dictionary<string, ToolParameterMenu.ToggleState> GetParameters() {
+        public virtual Dictionary<string, ToolParameterMenu.ToggleState> GetParameters()
+        {
             return new Dictionary<string, ToolParameterMenu.ToggleState>(parameters);
         }
         public bool BuildingDefAllowedWithCurrentFilters(BuildingDef def)
@@ -182,7 +205,7 @@ namespace ModFramework {
             }
             return false;
         }
-        
+
         public bool AllowedLayer(ObjectLayer objectLayer)
         {
             var currentParams = GetParameters();
@@ -233,15 +256,20 @@ namespace ModFramework {
             return false;
         }
 
-        public void SetOverlaySync(bool synced) {
-            if (syncMultiToggle != null) {
+        public void SetOverlaySync(bool synced)
+        {
+            if (syncMultiToggle != null)
+            {
                 syncMultiToggle.ChangeState(synced ? PCheckBox.STATE_CHECKED : PCheckBox.STATE_UNCHECKED);
             }
         }
 
-        private void OnChange() {
-            foreach (KeyValuePair<string, GameObject> widget in widgets) {
-                switch (parameters[widget.Key]) {
+        private void OnChange()
+        {
+            foreach (KeyValuePair<string, GameObject> widget in widgets)
+            {
+                switch (parameters[widget.Key])
+                {
                     case ToolParameterMenu.ToggleState.On:
                         widget.Value.GetComponentInChildren<MultiToggle>().ChangeState(1);
                         continue;
@@ -257,25 +285,30 @@ namespace ModFramework {
             }
         }
 
-        public void ClearMenu() {
+        public void ClearMenu()
+        {
             content.SetActive(false);
 
-            foreach (KeyValuePair<string, GameObject> widget in widgets) {
+            foreach (KeyValuePair<string, GameObject> widget in widgets)
+            {
                 Util.KDestroyGameObject(widget.Value);
             }
 
             widgets.Clear();
         }
 
-        public void ShowMenu() {
+        public void ShowMenu()
+        {
             content.SetActive(true);
         }
 
-        public void HideMenu() {
+        public void HideMenu()
+        {
             content.SetActive(false);
         }
 
-        public static void CreateInstance() {
+        public static void CreateInstance()
+        {
             GameObject parameterMenu = new GameObject("", typeof(MultiToolParameterMenu));
             parameterMenu.transform.SetParent(ToolMenu.Instance.toolParameterMenu.transform.parent);
             parameterMenu.gameObject.SetActive(true);
@@ -284,7 +317,8 @@ namespace ModFramework {
             Instance = parameterMenu.GetComponent<MultiToolParameterMenu>();
         }
 
-        public static void DestroyInstance() {
+        public static void DestroyInstance()
+        {
             Instance = null;
         }
 

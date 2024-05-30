@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PeterHan.PLib.Options;
+using System;
 
 namespace BlueprintsV2
 {
@@ -8,8 +9,10 @@ namespace BlueprintsV2
         All, None
     }
 
-    [JsonObject]
-    public class Config
+    [Serializable]
+    [RestartRequired]
+    [ConfigFile(SharedConfigLocation: true)]
+    public class Config : SingletonOptions<Config>
     {
         [Option("Default Menu Selections", "The default selections made when an advanced filter menu is opened.")]
         public DefaultSelections DefaultMenuSelections { get; set; } = DefaultSelections.All;

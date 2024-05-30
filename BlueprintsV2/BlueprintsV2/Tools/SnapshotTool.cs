@@ -1,27 +1,34 @@
 ﻿
+
+using BlueprintsV2;
 using BlueprintsV2.BlueprintsV2.BlueprintData;
 using HarmonyLib;
-using ModFramework;
 using PeterHan.PLib.Options;
 using System.Reflection;
 using UnityEngine;
 
-namespace Blueprints {
-    public sealed class SnapshotTool : MultiFilteredDragTool {
+namespace BlueprintsV2.BlueprintsV2.Tools
+{
+    public sealed class SnapshotTool : MultiFilteredDragTool
+    {
         private Blueprint blueprint;
 
         public static SnapshotTool Instance { get; private set; }
 
-        public SnapshotTool() {
+        public SnapshotTool()
+        {
             Instance = this;
         }
 
-        public static void DestroyInstance() {
+        public static void DestroyInstance()
+        {
             Instance = null;
         }
 
-        public void CreateVisualizer() {
-            if (visualizer != null) {
+        public void CreateVisualizer()
+        {
+            if (visualizer != null)
+            {
                 Destroy(visualizer);
             }
 
@@ -30,8 +37,8 @@ namespace Blueprints {
 
             GameObject offsetObject = new GameObject();
             SpriteRenderer spriteRenderer = offsetObject.AddComponent<SpriteRenderer>();
-            spriteRenderer.color = BlueprintsAssets.BLUEPRINTS_COLOR_BLUEPRINT_DRAG;
-            spriteRenderer.sprite = BlueprintsAssets.BLUEPRINTS_SNAPSHOT_VISUALIZER_SPRITE;
+            spriteRenderer.color = ModAssets.BLUEPRINTS_COLOR_BLUEPRINT_DRAG;
+            spriteRenderer.sprite = ModAssets.BLUEPRINTS_SNAPSHOT_VISUALIZER_SPRITE;
 
             offsetObject.transform.SetParent(visualizer.transform);
             offsetObject.transform.localPosition = new Vector3(0, Grid.HalfCellSizeInMeters);
@@ -48,12 +55,14 @@ namespace Blueprints {
             OnMouseMove(PlayerController.GetCursorPos(KInputManager.GetMousePos()));
         }
 
-        public void DestroyVisualizer() {
+        public void DestroyVisualizer()
+        {
             Destroy(visualizer);
             visualizer = null;
         }
 
-        public void DeleteBlueprint() {
+        public void DeleteBlueprint()
+        {
             blueprint = null;
 
             gameObject.GetComponent<SnapshotToolHoverCard>().UsingSnapshot = false;
@@ -66,7 +75,8 @@ namespace Blueprints {
             CreateVisualizer();
         }
 
-        public override void OnPrefabInit() {
+        public override void OnPrefabInit()
+        {
             base.OnPrefabInit();
 
             FieldInfo areaVisualizerField = AccessTools.Field(typeof(DragTool), "areaVisualizer");
@@ -78,25 +88,28 @@ namespace Blueprints {
             areaVisualizer.name = "SnapshotAreaVisualizer";
             areaVisualizerSpriteRendererField.SetValue(this, areaVisualizer.GetComponent<SpriteRenderer>());
             areaVisualizer.transform.SetParent(transform);
-            areaVisualizer.GetComponent<SpriteRenderer>().color = BlueprintsAssets.BLUEPRINTS_COLOR_BLUEPRINT_DRAG;
-            areaVisualizer.GetComponent<SpriteRenderer>().material.color = BlueprintsAssets.BLUEPRINTS_COLOR_BLUEPRINT_DRAG;
+            areaVisualizer.GetComponent<SpriteRenderer>().color = ModAssets.BLUEPRINTS_COLOR_BLUEPRINT_DRAG;
+            areaVisualizer.GetComponent<SpriteRenderer>().material.color = ModAssets.BLUEPRINTS_COLOR_BLUEPRINT_DRAG;
 
             areaVisualizerField.SetValue(this, areaVisualizer);
 
             gameObject.AddComponent<SnapshotToolHoverCard>();
         }
 
-        public override void OnActivateTool() {
+        public override void OnActivateTool()
+        {
             base.OnActivateTool();
 
-            if (visualizer == null) {
+            if (visualizer == null)
+            {
                 CreateVisualizer();
             }
 
             gameObject.GetComponent<SnapshotToolHoverCard>().UsingSnapshot = false;
         }
 
-        public override void OnDeactivateTool(InterfaceTool newTool) {
+        public override void OnDeactivateTool(InterfaceTool newTool)
+        {
             base.OnDeactivateTool(newTool);
 
             BlueprintsState.ClearVisuals();
@@ -107,27 +120,33 @@ namespace Blueprints {
             GridCompositor.Instance.ToggleMajor(false);
         }
 
-        public override void OnDragComplete(Vector3 cursorDown, Vector3 cursorUp) {
+        public override void OnDragComplete(Vector3 cursorDown, Vector3 cursorUp)
+        {
             base.OnDragComplete(cursorDown, cursorUp);
 
-            if (hasFocus) {
+            if (hasFocus)
+            {
                 Grid.PosToXY(cursorDown, out int x0, out int y0);
                 Grid.PosToXY(cursorUp, out int x1, out int y1);
 
-                if (x0 > x1) {
+                if (x0 > x1)
+                {
                     Util.Swap(ref x0, ref x1);
                 }
 
-                if (y0 < y1) {
+                if (y0 < y1)
+                {
                     Util.Swap(ref y0, ref y1);
                 }
 
                 var blueprint1 = BlueprintsState.CreateBlueprint(new Vector2I(x0, y0), new Vector2I(x1, y1), MultiToolParameterMenu.Instance);
-                if (blueprint1.IsEmpty()) {
-                    PopFXManager.Instance.SpawnFX(BlueprintsAssets.BLUEPRINTS_CREATE_ICON_SPRITE, BlueprintsStrings.STRING_BLUEPRINTS_SNAPSHOT_EMPTY, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), BlueprintsAssets.Options.FXTime);
+                if (blueprint1.IsEmpty())
+                {
+                    PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.SNAPSHOT_TOOL.EMPTY, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
                 }
 
-                else {
+                else
+                {
                     BlueprintsState.VisualizeBlueprint(Grid.PosToXY(PlayerController.GetCursorPos(KInputManager.GetMousePos())), blueprint1);
 
                     MultiToolParameterMenu.Instance.HideMenu();
@@ -136,41 +155,51 @@ namespace Blueprints {
                     gameObject.GetComponent<SnapshotToolHoverCard>().UsingSnapshot = true;
                     DestroyVisualizer();
 
-                    PopFXManager.Instance.SpawnFX(BlueprintsAssets.BLUEPRINTS_CREATE_ICON_SPRITE, BlueprintsStrings.STRING_BLUEPRINTS_SNAPSHOT_TAKEN, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), BlueprintsAssets.Options.FXTime);
+                    PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.SNAPSHOT_TOOL.TAKEN, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
                     GridCompositor.Instance.ToggleMajor(true);
                     blueprint = blueprint1;
                 }
             }
         }
 
-        public override void OnLeftClickDown(Vector3 cursorPos) {
-            if (blueprint == null) {
+        public override void OnLeftClickDown(Vector3 cursorPos)
+        {
+            if (blueprint == null)
+            {
                 base.OnLeftClickDown(cursorPos);
             }
 
-            else if (hasFocus) {
+            else if (hasFocus)
+            {
                 BlueprintsState.UseBlueprint(Grid.PosToXY(cursorPos));
             }
         }
 
-        public override void OnLeftClickUp(Vector3 cursorPos) {
-            if (blueprint == null) {
+        public override void OnLeftClickUp(Vector3 cursorPos)
+        {
+            if (blueprint == null)
+            {
                 base.OnLeftClickUp(cursorPos);
             }
         }
 
-        public override void OnMouseMove(Vector3 cursorPos) {
-            if (blueprint == null) {
+        public override void OnMouseMove(Vector3 cursorPos)
+        {
+            if (blueprint == null)
+            {
                 base.OnMouseMove(cursorPos);
             }
 
-            else if (hasFocus) {
+            else if (hasFocus)
+            {
                 BlueprintsState.UpdateVisual(Grid.PosToXY(cursorPos));
             }
         }
 
-        public override void OnKeyDown(KButtonEvent buttonEvent) {
-            if (buttonEvent.TryConsume(Integration.BlueprintsDeleteAction.GetKAction())) {
+        public override void OnKeyDown(KButtonEvent buttonEvent)
+        {
+            if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsDeleteAction.GetKAction()))
+            {
                 Instance.DeleteBlueprint();
                 GridCompositor.Instance.ToggleMajor(false);
             }
@@ -178,11 +207,12 @@ namespace Blueprints {
             base.OnKeyDown(buttonEvent);
         }
 
-        public override void OnSyncChanged(bool synced) {
+        public override void OnSyncChanged(bool synced)
+        {
             base.OnSyncChanged(synced);
 
-            BlueprintsAssets.Options.SnapshotToolSync = synced;
-            POptions.WriteSettings(BlueprintsAssets.Options);
+            Config.Instance.SnapshotToolSync = synced;
+            POptions.WriteSettings(Config.Instance);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Blueprints;
+﻿
 using BlueprintsV2.BlueprintsV2.ModAPI;
 using HarmonyLib;
 using KMod;
@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using static Blueprints.Integration;
+using static BlueprintsV2.ModAssets;
 
 namespace BlueprintsV2
 {
@@ -21,34 +21,13 @@ namespace BlueprintsV2
     {
         public override void OnLoad(Harmony harmony)
         {
-            base.OnLoad(harmony);
             PUtil.InitLibrary();
             new POptions().RegisterOptions(this, typeof(Config));
-            new PPatchManager(harmony).RegisterPatchClass(typeof(Integration));
-            new PLocalization().Register();
+            base.OnLoad(harmony);
 
-            BlueprintsCreateAction = new PActionManager().CreateAction(BlueprintsStrings.ACTION_CREATE_KEY,
-                BlueprintsStrings.ACTION_CREATE_TITLE, new PKeyBinding());
-            BlueprintsUseAction = new PActionManager().CreateAction(BlueprintsStrings.ACTION_USE_KEY,
-                BlueprintsStrings.ACTION_USE_TITLE, new PKeyBinding());
-            BlueprintsCreateFolderAction = new PActionManager().CreateAction(BlueprintsStrings.ACTION_CREATEFOLDER_KEY,
-                BlueprintsStrings.ACTION_CREATEFOLDER_TITLE, new PKeyBinding(KKeyCode.Home));
-            BlueprintsRenameAction = new PActionManager().CreateAction(BlueprintsStrings.ACTION_RENAME_KEY,
-                BlueprintsStrings.ACTION_RENAME_TITLE, new PKeyBinding(KKeyCode.End));
-            BlueprintsCycleFoldersNextAction = new PActionManager().CreateAction(BlueprintsStrings.ACTION_CYCLEFOLDERS_NEXT_KEY,
-                BlueprintsStrings.ACTION_CYCLEFOLDERS_NEXT_TITLE, new PKeyBinding(KKeyCode.UpArrow));
-            BlueprintsCycleFoldersPrevAction = new PActionManager().CreateAction(BlueprintsStrings.ACTION_CYCLEFOLDERS_PREV_KEY,
-                BlueprintsStrings.ACTION_CYCLEFOLDERS_PREV_TITLE, new PKeyBinding(KKeyCode.DownArrow));
-            BlueprintsCycleBlueprintsNextAction = new PActionManager().CreateAction(BlueprintsStrings.ACTION_CYCLEBLUEPRINTS_NEXT_KEY,
-                BlueprintsStrings.ACTION_CYCLEBLUEPRINTS_NEXT_TITLE, new PKeyBinding(KKeyCode.RightArrow));
-            BlueprintsCycleBlueprintsPrevAction = new PActionManager().CreateAction(BlueprintsStrings.ACTION_CYCLEBLUEPRINTS_PREV_KEY,
-                BlueprintsStrings.ACTION_CYCLEBLUEPRINTS_PREV_TITLE, new PKeyBinding(KKeyCode.LeftArrow));
-            BlueprintsSnapshotAction = new PActionManager().CreateAction(BlueprintsStrings.ACTION_SNAPSHOT_KEY,
-                BlueprintsStrings.ACTION_SNAPSHOT_TITLE, new PKeyBinding());
-            BlueprintsDeleteAction = new PActionManager().CreateAction(BlueprintsStrings.ACTION_DELETE_KEY,
-                BlueprintsStrings.ACTION_DELETE_TITLE, new PKeyBinding(KKeyCode.Delete));
+            ModAssets.RegisterActions();
 
-            Utilities.AttachFileWatcher();
+            BlueprintFileHandling.AttachFileWatcher();
 
             new PVersionCheck().Register(this, new SteamVersionChecker());
             Debug.Log("Blueprints fixed loaded: Version " + Assembly.GetExecutingAssembly().GetName().Version + " mod.label.id:" + mod.label.id);

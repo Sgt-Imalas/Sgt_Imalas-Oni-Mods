@@ -1,23 +1,29 @@
-﻿using BlueprintsV2.BlueprintsV2.BlueprintData;
+﻿
+using BlueprintsV2;
+using BlueprintsV2.BlueprintsV2.BlueprintData;
 using HarmonyLib;
-using ModFramework;
 using PeterHan.PLib.Options;
 using System.Reflection;
 using UnityEngine;
 
-namespace Blueprints {
-    public sealed class CreateBlueprintTool : MultiFilteredDragTool {
+namespace BlueprintsV2.BlueprintsV2.Tools
+{
+    public sealed class CreateBlueprintTool : MultiFilteredDragTool
+    {
         public static CreateBlueprintTool Instance { get; private set; }
 
-        public CreateBlueprintTool() {
+        public CreateBlueprintTool()
+        {
             Instance = this;
         }
 
-        public static void DestroyInstance() {
+        public static void DestroyInstance()
+        {
             Instance = null;
         }
 
-        public override void OnPrefabInit() {
+        public override void OnPrefabInit()
+        {
             base.OnPrefabInit();
 
             visualizer = new GameObject("CreateBlueprintVisualizer");
@@ -25,8 +31,8 @@ namespace Blueprints {
 
             GameObject offsetObject = new GameObject();
             SpriteRenderer spriteRenderer = offsetObject.AddComponent<SpriteRenderer>();
-            spriteRenderer.color = BlueprintsAssets.BLUEPRINTS_COLOR_BLUEPRINT_DRAG;
-            spriteRenderer.sprite = BlueprintsAssets.BLUEPRINTS_CREATE_VISUALIZER_SPRITE;
+            spriteRenderer.color = ModAssets.BLUEPRINTS_COLOR_BLUEPRINT_DRAG;
+            spriteRenderer.sprite = ModAssets.BLUEPRINTS_CREATE_VISUALIZER_SPRITE;
 
             offsetObject.transform.SetParent(visualizer.transform);
             offsetObject.transform.localPosition = new Vector3(0, Grid.HalfCellSizeInMeters);
@@ -49,52 +55,60 @@ namespace Blueprints {
             areaVisualizer.name = "CreateBlueprintAreaVisualizer";
             areaVisualizerSpriteRendererField.SetValue(this, areaVisualizer.GetComponent<SpriteRenderer>());
             areaVisualizer.transform.SetParent(transform);
-            areaVisualizer.GetComponent<SpriteRenderer>().color = BlueprintsAssets.BLUEPRINTS_COLOR_BLUEPRINT_DRAG;
-            areaVisualizer.GetComponent<SpriteRenderer>().material.color = BlueprintsAssets.BLUEPRINTS_COLOR_BLUEPRINT_DRAG;
+            areaVisualizer.GetComponent<SpriteRenderer>().color = ModAssets.BLUEPRINTS_COLOR_BLUEPRINT_DRAG;
+            areaVisualizer.GetComponent<SpriteRenderer>().material.color = ModAssets.BLUEPRINTS_COLOR_BLUEPRINT_DRAG;
 
             areaVisualizerField.SetValue(this, areaVisualizer);
 
             gameObject.AddComponent<CreateBlueprintToolHoverCard>();
         }
 
-        public override void OnDragComplete(Vector3 cursorDown, Vector3 cursorUp) {
+        public override void OnDragComplete(Vector3 cursorDown, Vector3 cursorUp)
+        {
             base.OnDragComplete(cursorDown, cursorUp);
 
-            if (hasFocus) {
+            if (hasFocus)
+            {
                 Grid.PosToXY(cursorDown, out int x0, out int y0);
                 Grid.PosToXY(cursorUp, out int x1, out int y1);
 
-                if (x0 > x1) {
+                if (x0 > x1)
+                {
                     Util.Swap(ref x0, ref x1);
                 }
 
-                if (y0 < y1) {
+                if (y0 < y1)
+                {
                     Util.Swap(ref y0, ref y1);
                 }
 
                 var blueprint = BlueprintsState.CreateBlueprint(new Vector2I(x0, y0), new Vector2I(x1, y1), MultiToolParameterMenu.Instance);
-                if (blueprint.IsEmpty()) {
-                    PopFXManager.Instance.SpawnFX(BlueprintsAssets.BLUEPRINTS_CREATE_ICON_SPRITE, BlueprintsStrings.STRING_BLUEPRINTS_CREATE_EMPTY, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), BlueprintsAssets.Options.FXTime);
+                if (blueprint.IsEmpty())
+                {
+                    PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.CREATE_TOOL.EMPTY, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
                 }
 
-                else {
-                    void OnConfirmDelegate(string blueprintName, FileNameDialog parent) {
+                else
+                {
+                    void OnConfirmDelegate(string blueprintName, FileNameDialog parent)
+                    {
                         blueprint.Rename(blueprintName, false);
                         blueprint.SetFolder("");
 
                         SpeedControlScreen.Instance.Unpause(false);
 
-                        PopFXManager.Instance.SpawnFX(BlueprintsAssets.BLUEPRINTS_CREATE_ICON_SPRITE, BlueprintsStrings.STRING_BLUEPRINTS_CREATE_CREATED, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), BlueprintsAssets.Options.FXTime);
+                        PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.CREATE_TOOL.CREATED, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
                         parent.Deactivate();
                     }
 
-                    FileNameDialog blueprintNameDialog = UIUtilities.CreateTextDialog(BlueprintsStrings.STRING_BLUEPRINTS_NAMEBLUEPRINT_TITLE, false, OnConfirmDelegate);
+                    FileNameDialog blueprintNameDialog = ModAssets.DialogHandling.CreateTextDialog(STRINGS.UI.TOOLS.NAMEBLUEPRINT_TITLE, false, OnConfirmDelegate);
                     SpeedControlScreen.Instance.Pause(false);
 
-                    blueprintNameDialog.onCancel = delegate {
+                    blueprintNameDialog.onCancel = delegate
+                    {
                         SpeedControlScreen.Instance.Unpause(false);
 
-                        PopFXManager.Instance.SpawnFX(BlueprintsAssets.BLUEPRINTS_CREATE_ICON_SPRITE, BlueprintsStrings.STRING_BLUEPRINTS_CREATE_CANCELLED, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), BlueprintsAssets.Options.FXTime);
+                        PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.CREATE_TOOL.CANCELLED, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
                         blueprintNameDialog.Deactivate();
                     };
 
@@ -103,11 +117,12 @@ namespace Blueprints {
             }
         }
 
-        public override void OnSyncChanged(bool synced) {
+        public override void OnSyncChanged(bool synced)
+        {
             base.OnSyncChanged(synced);
 
-            BlueprintsAssets.Options.CreateBlueprintToolSync = synced;
-            POptions.WriteSettings(BlueprintsAssets.Options);
+            Config.Instance.CreateBlueprintToolSync = synced;
+            POptions.WriteSettings(Config.Instance);
         }
     }
 }

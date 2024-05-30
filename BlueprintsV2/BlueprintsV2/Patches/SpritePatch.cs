@@ -1,4 +1,4 @@
-﻿using Blueprints;
+﻿
 using HarmonyLib;
 using PeterHan.PLib.UI;
 using System;
@@ -27,14 +27,14 @@ namespace BlueprintsV2.BlueprintsV2.Patches
             public static void Prefix(Assets __instance)
             {
 
-                BlueprintsAssets.BLUEPRINTS_CREATE_ICON_SPRITE = InjectionMethods.AddSpriteToAssets(__instance, createblueprint_button);
-                BlueprintsAssets.BLUEPRINTS_CREATE_VISUALIZER_SPRITE = InjectionMethods.AddSpriteToAssets(__instance, createblueprint_visualizer);
+                ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE = InjectionMethods.AddSpriteToAssets(__instance, createblueprint_button);
+                ModAssets.BLUEPRINTS_CREATE_VISUALIZER_SPRITE = InjectionMethods.AddSpriteToAssets(__instance, createblueprint_visualizer);
 
-                BlueprintsAssets.BLUEPRINTS_SNAPSHOT_ICON_SPRITE = InjectionMethods.AddSpriteToAssets(__instance, snapshot_button);
-                BlueprintsAssets.BLUEPRINTS_SNAPSHOT_VISUALIZER_SPRITE = InjectionMethods.AddSpriteToAssets(__instance, snapshot_visualizer);
+                ModAssets.BLUEPRINTS_SNAPSHOT_ICON_SPRITE = InjectionMethods.AddSpriteToAssets(__instance, snapshot_button);
+                ModAssets.BLUEPRINTS_SNAPSHOT_VISUALIZER_SPRITE = InjectionMethods.AddSpriteToAssets(__instance, snapshot_visualizer);
 
-                BlueprintsAssets.BLUEPRINTS_USE_ICON_SPRITE = InjectionMethods.AddSpriteToAssets(__instance, useblueprint_button);
-                BlueprintsAssets.BLUEPRINTS_USE_VISUALIZER_SPRITE = InjectionMethods.AddSpriteToAssets(__instance, useblueprint_visualizer);
+                ModAssets.BLUEPRINTS_USE_ICON_SPRITE = InjectionMethods.AddSpriteToAssets(__instance, useblueprint_button);
+                ModAssets.BLUEPRINTS_USE_VISUALIZER_SPRITE = InjectionMethods.AddSpriteToAssets(__instance, useblueprint_visualizer);
             }
         }
     }

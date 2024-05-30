@@ -1,4 +1,4 @@
-﻿using Blueprints;
+﻿
 using BlueprintsV2.BlueprintsV2.BlueprintData;
 using System;
 using System.Collections.Generic;
@@ -102,7 +102,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
 
             if (Visualizer.TryGetComponent<KBatchedAnimController>(out var vis))
             {
-                vis.TintColour = BlueprintsAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT;
+                vis.TintColour = ModAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT;
             }
             if (buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null && building.GetComponent<KAnimGraphTileVisualizer>() != null && buildingConfig.GetPipeFlags(out var flags))
             {
@@ -139,7 +139,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
 
             if (Visualizer.TryGetComponent<KBatchedAnimController>(out var kbac))
             {
-                kbac.TintColour = BlueprintsAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT;
+                kbac.TintColour = ModAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT;
                 kbac.Play("place");
             }
             if (buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null && building.TryGetComponent<KAnimGraphTileVisualizer>(out var vis) && buildingConfig.GetPipeFlags(out var flags))
@@ -251,7 +251,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
 
         //    if (Visualizer.TryGetComponent<KBatchedAnimController>(out var kbac))
         //    {
-        //        kbac.TintColour = BlueprintsAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT;
+        //        kbac.TintColour = ModAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT;
         //        kbac.Play("place");
         //    }
         //    if (buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null && builtItem.TryGetComponent<KAnimGraphTileVisualizer>(out var vis) && buildingConfig.GetPipeFlags(out var flags))
@@ -262,7 +262,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
 
         public virtual bool HasTech()
         {
-            return (BlueprintsState.InstantBuild || !BlueprintsAssets.Options.RequireConstructable || Db.Get().TechItems.IsTechItemComplete(buildingConfig.BuildingDef.PrefabID));
+            return (BlueprintsState.InstantBuild || !Config.Instance.RequireConstructable || Db.Get().TechItems.IsTechItemComplete(buildingConfig.BuildingDef.PrefabID));
         }
         public virtual bool ValidCell(int cellParam)
         {
@@ -281,17 +281,17 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
         {
             if (!ValidCell(cellParam))
             {
-                return BlueprintsAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT;
+                return ModAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT;
             }
 
             else if (!HasTech())
             {
-                return BlueprintsAssets.BLUEPRINTS_COLOR_NOTECH;
+                return ModAssets.BLUEPRINTS_COLOR_NOTECH;
             }
 
             else
             {
-                return BlueprintsAssets.BLUEPRINTS_COLOR_VALIDPLACEMENT;
+                return ModAssets.BLUEPRINTS_COLOR_VALIDPLACEMENT;
             }
         }
     }

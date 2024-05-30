@@ -1,5 +1,5 @@
-﻿using BlueprintsV2.BlueprintsV2;
-using BlueprintsV2.BlueprintsV2.BlueprintData;
+﻿
+using BlueprintsV2.BlueprintsV2;
 using BlueprintsV2.BlueprintsV2.ModAPI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
@@ -10,9 +10,10 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using UtilLibs;
+using static BlueprintsV2.ModAssets;
 using static STRINGS.UI.CLUSTERMAP;
 
-namespace Blueprints
+namespace BlueprintsV2.BlueprintsV2.BlueprintData
 {
 
     /// <summary>
@@ -59,7 +60,7 @@ namespace Blueprints
         /// <param name="fileLocation">The location for the blueprint on the file system</param>
         public Blueprint(string fileLocation)
         {
-            int blueprintsDirectoryLength = Utilities.GetBlueprintDirectory().Length + 1;
+            int blueprintsDirectoryLength = BlueprintFileHandling.GetBlueprintDirectory().Length + 1;
             int folderLength = fileLocation.Length - (blueprintsDirectoryLength + Path.GetFileName(fileLocation).Length + 1);
 
             FilePath = fileLocation;
@@ -126,7 +127,7 @@ namespace Blueprints
             for (int i = 0; i < file.Length; ++i)
             {
                 char character = file[i];
-                returnString += BlueprintsAssets.BLUEPRINTS_FILE_DISALLOWEDCHARACTERS.Contains(character) ? '_' : character;
+                returnString += ModAssets.BLUEPRINTS_FILE_DISALLOWEDCHARACTERS.Contains(character) ? '_' : character;
             }
 
             return returnString.Trim().ToLowerInvariant();
@@ -170,7 +171,7 @@ namespace Blueprints
                     return true;
                 }
 
-                catch (System.Exception exception)
+                catch (Exception exception)
                 {
                     Debug.Log("Error when loading blueprint: " + FilePath + ",\n" + nameof(exception) + ": " + exception.Message);
                 }
@@ -245,7 +246,7 @@ namespace Blueprints
                     CacheCost();
                 }
 
-                catch (System.Exception exception)
+                catch (Exception exception)
                 {
                     Debug.Log("Error when loading blueprint: " + FilePath + ",\n" + nameof(exception) + ": " + exception.Message);
                 }
@@ -257,7 +258,7 @@ namespace Blueprints
         /// </summary>
         public void Write()
         {
-            BlueprintsAssets.BLUEPRINTS_AUTOFILE_IGNORE.Add(FilePath);
+            ModAssets.BLUEPRINTS_AUTOFILE_IGNORE.Add(FilePath);
             string folder = Path.GetDirectoryName(FilePath);
 
             if (!Directory.Exists(folder))
@@ -266,7 +267,7 @@ namespace Blueprints
             }
 
             ////Use the smaller, binary format if blueprint compression is enabled, use JSON otherwise.
-            //if (BlueprintsAssets.Options.CompressBlueprints)
+            //if (Config.Instance.CompressBlueprints)
             //{
             //    WriteBinary();
             //}
@@ -395,7 +396,7 @@ namespace Blueprints
             InferFileLocation();
 
             //Place the blueprint into its new folder.
-            Utilities.PlaceIntoFolder(this);
+            BlueprintFileHandling.PlaceIntoFolder(this);
 
             if (rewrite)
             {
@@ -454,11 +455,11 @@ namespace Blueprints
             //If the index is -1, there's no repetition.
             if (index == -1)
             {
-                return Path.Combine(Path.Combine(Utilities.GetBlueprintDirectory(), Folder), sanitizedFriendlyName + ".blueprint");
+                return Path.Combine(Path.Combine(BlueprintFileHandling.GetBlueprintDirectory(), Folder), sanitizedFriendlyName + ".blueprint");
             }
 
             //There is repetition. Append -x to the end of the name, where x is the index.
-            return Path.Combine(Path.Combine(Utilities.GetBlueprintDirectory(), Folder), sanitizedFriendlyName + '-' + index + ".blueprint");
+            return Path.Combine(Path.Combine(BlueprintFileHandling.GetBlueprintDirectory(), Folder), sanitizedFriendlyName + '-' + index + ".blueprint");
         }
 
         /// <summary>
