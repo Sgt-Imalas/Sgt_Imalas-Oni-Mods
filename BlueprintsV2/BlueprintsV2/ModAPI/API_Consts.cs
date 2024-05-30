@@ -9,7 +9,6 @@ namespace BlueprintsV2.BlueprintsV2.ModAPI
 {
     internal class API_Consts
     {
-        public const string PipeOrientationID = "BlueprintsV2_PipeOrientationID";
-        public const string BuildingSkinID = "BlueprintsV2_BuildingBlueprintID";
+        public const string ConduitFlagID = "ConduitFlags";
     }
 }

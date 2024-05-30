@@ -27,7 +27,7 @@ namespace LaserMeteorBlasterCannon
 
             public static void Prefix()
             {
-                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LaserMeteorBlasterConfig.ID);
+                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, LaserMeteorBlasterConfig.ID, MissileLauncherConfig.ID);
             }
         }
         /// <summary>

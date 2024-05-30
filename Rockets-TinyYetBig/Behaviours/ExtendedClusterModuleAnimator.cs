@@ -101,7 +101,9 @@ namespace Rockets_TinyYetBig.Behaviours
                     .Transition(this.burning, new Transition.ConditionCallback(this.IsRocketAirborne))
                     .Transition((State)this.idle, new Transition.ConditionCallback(this.IsRocketGrounded));
                 this.idle.DefaultState(this.idle.grounded).EventTransition(GameHashes.RocketLaunched, this.burning_pre);
-                this.idle.grounded.EventTransition(GameHashes.LaunchConditionChanged, this.idle.ready, new Transition.ConditionCallback(this.IsReadyToLaunch)).QueueAnim("grounded", true);
+                this.idle.grounded
+                    .EventTransition(GameHashes.LaunchConditionChanged, this.idle.ready, new Transition.ConditionCallback(this.IsReadyToLaunch))
+                    .QueueAnim("grounded", true);
                 this.idle.ready
                     .EventTransition(GameHashes.LaunchConditionChanged, this.idle.grounded, Not(new Transition.ConditionCallback(this.IsReadyToLaunch)))
                     .PlayAnim("pre_ready_to_launch", KAnim.PlayMode.Once)
@@ -126,7 +128,8 @@ namespace Rockets_TinyYetBig.Behaviours
                 this.space
                     .EventTransition(GameHashes.DoReturnRocket, this.burning);
                 this.burnComplete
-                    .PlayAnim("launch_pst", KAnim.PlayMode.Loop).GoTo((State)this.idle);
+                    .PlayAnim("launch_pst", KAnim.PlayMode.Once)
+                    .OnAnimQueueComplete(this.idle);
             }
 
             public bool IsReadyToLaunch(StatesInstance smi) => smi.GetComponent<RocketModuleCluster>().CraftInterface.CheckPreppedForLaunch();

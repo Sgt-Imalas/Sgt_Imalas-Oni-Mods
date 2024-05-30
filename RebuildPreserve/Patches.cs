@@ -226,7 +226,10 @@ namespace RebuildPreserve
                     var targetPos = new Tuple<int, ObjectLayer>(pos, layer);
 
                     var targetBuilding = bonusData.building.gameObject;
-                    if (BuildSettingsPreservationData.Instance.TryGetEntry(targetPos, out var cachedGameObject, out var previousPrefabId) && targetBuilding != null && cachedGameObject != null && previousPrefabId == bonusData.building.Def.PrefabID)
+                    if (BuildSettingsPreservationData.Instance.TryGetEntry(targetPos, out var cachedGameObject, out var previousPrefabId) 
+                        && targetBuilding != null 
+                        && cachedGameObject != null 
+                        && previousPrefabId == bonusData.building.Def.PrefabID)
                     {
                         GameScheduler.Instance.ScheduleNextFrame("delayed settings application", (_) =>
                         {

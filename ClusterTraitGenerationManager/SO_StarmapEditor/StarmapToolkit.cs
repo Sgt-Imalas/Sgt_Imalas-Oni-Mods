@@ -249,7 +249,7 @@ namespace ClusterTraitGenerationManager.SO_StarmapEditor
             alwaysShowNames = transform.Find("Footer/Toolbox/TrashCanContainer/ShowPermaLabels").gameObject.AddOrGet<FToggle2>();
             alwaysShowNames.SetCheckmark("Background/Checkmark");
             alwaysShowNames.On = Grid.AlwaysShowNames;
-            alwaysShowNames.OnClick += () => Grid.AlwaysShowNames = alwaysShowNames.On;
+            alwaysShowNames.OnClick += (b) => Grid.AlwaysShowNames = b;
 
             ToolboxItems = new Dictionary<string, ToolkitItem>();
             if (!DlcManager.IsExpansion1Active())

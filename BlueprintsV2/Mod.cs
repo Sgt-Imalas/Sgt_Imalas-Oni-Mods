@@ -23,7 +23,7 @@ namespace BlueprintsV2
         {
             base.OnLoad(harmony);
             PUtil.InitLibrary();
-            new POptions().RegisterOptions(this, typeof(BlueprintsOptions));
+            new POptions().RegisterOptions(this, typeof(Config));
             new PPatchManager(harmony).RegisterPatchClass(typeof(Integration));
             new PLocalization().Register();
 

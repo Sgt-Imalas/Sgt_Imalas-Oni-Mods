@@ -307,6 +307,32 @@ namespace SaveGameModLoader
             TryChangeText(entry, "ManageButton/Text", "<!> Missing");
         }
 
+        void QueueGetMissingModName(Transform entry,string mod)
+        {
+            SteamInfoQuery.AddModIdToQuery(mod,
+                            (name)
+                            =>
+                            {
+                                var platform = KMod.Label.DistributionPlatform.Local;
+                                string ID = mod;
+                                if (ulong.TryParse(mod.Replace(".Steam", string.Empty), out var modId))
+                                {
+                                    ID = modId.ToString();
+                                    platform = KMod.Label.DistributionPlatform.Steam;
+                                }
+
+                                var tmpLabel = new KMod.Label()
+                                {
+                                    id = modId.ToString(),
+                                    distribution_platform = platform,
+                                    title = name,
+                                    version = 404
+                                };
+                                TryChangeText(entry, "Title", name);
+                                TryChangeText(entry, "Version", "404");
+                            }
+                          );
+        }
 
         void RebuildList(List<string> modsForSingleView = null)
         {
@@ -328,9 +354,11 @@ namespace SaveGameModLoader
                     //TryChangeText(entry, "Version", "internal mod Version: " + mod..ToString());
 
                     MarkEntryAsMissing(entry, mod);
-
+                    QueueGetMissingModName(entry,mod);
                     Entries.Add(entry.gameObject);
                 }
+                SteamInfoQuery.InstantiateMissingModQuery();
+
                 AddActionToButton(
                     transform,
                     "Panel/DetailsView/ToggleAllButton",
@@ -354,7 +382,6 @@ namespace SaveGameModLoader
 
                 var allMods = modManager.mods.Select(mod => mod.label).ToList();
 
-
                 ModlistManager.Instance.AssignModDifferences(modsForSingleView);
                 //MissingModsList = modsForSingleView.Except(allMods, new ModlistManager.ModDifferencesByIdComparer()).ToList();
 
@@ -367,29 +394,7 @@ namespace SaveGameModLoader
                         TryChangeText(entry, "Title", mod);
                         TryChangeText(entry, "Version", "404");
                         MarkEntryAsMissing(entry, mod);
-                        SteamInfoQuery.AddModIdToQuery(mod, 
-                            (name)  
-                            =>
-                            {
-                                var platform = KMod.Label.DistributionPlatform.Local;
-                                string ID = mod;
-                                if (ulong.TryParse(mod.Replace(".Steam", string.Empty), out var modId))
-                                {
-                                    ID = modId.ToString();
-                                    platform = KMod.Label.DistributionPlatform.Steam;
-                                }
-
-                                var tmpLabel = new KMod.Label()
-                                {
-                                    id = modId.ToString(),
-                                    distribution_platform = platform,
-                                    title = name,
-                                    version = 404
-                                };
-                                currentMods.Add(tmpLabel);
-                                TryChangeText(entry, "Title", name);
-                            }
-                          );
+                        QueueGetMissingModName(entry, mod);
                     }
                     else
                     {
@@ -530,7 +535,7 @@ namespace SaveGameModLoader
         }
         public void InstantiateMissing(List<string> missingMods, System.Action onclose =null)
         {
-            missingMods.ForEach(i => SgtLogger.l(i, "missing mod:"));
+            //missingMods.ForEach(i => SgtLogger.l(i, "missing mod:"));
 
             Title = STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSTITLE;
             IsMissingModsOnly = true;

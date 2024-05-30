@@ -172,7 +172,7 @@ namespace ShockWormMob
 
             }
         }
-        [HarmonyPatch(typeof(CodexEntryGenerator), "GenerateCreatureEntries")]
+        [HarmonyPatch(typeof(CodexEntryGenerator_Creatures), "GenerateEntries")]
         public class CodexEntryGenerator_GenerateCreatureEntries_Patch
         {
             internal delegate void GenerateImageContainers(Sprite[] sprites,
@@ -238,8 +238,9 @@ namespace ShockWormMob
             }
             public static void Postfix(Dictionary<string, CodexEntry> __result)
             {
-                AddToCodex(ShockwormConfigSpeciesID, "Shock worms", __result);
-                AddToCodex(GroneHogSpeciesID, "Volgus", __result);
+                var brains = Assets.GetPrefabsWithComponent<CreatureBrain>();
+                __result.Add(ShockwormConfigSpeciesID.ToString(), CodexEntryGenerator_Creatures.GenerateCritterEntry(ShockwormConfigSpeciesID, "Shock worms", brains));
+                __result.Add(GroneHogSpeciesID.ToString(), CodexEntryGenerator_Creatures.GenerateCritterEntry(GroneHogSpeciesID, "Volgus", brains));
             }
         }
 

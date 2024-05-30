@@ -17,6 +17,8 @@ namespace OniRetroEdition.Behaviors
     {
         [MyCmpGet]
         DecorProvider DecorProvider;
+        [MyCmpGet]
+        KPrefabID kPrefabID;
 
 
         public float DecompositionPerSecond  = 0.5f/600f;
@@ -25,6 +27,10 @@ namespace OniRetroEdition.Behaviors
         public override void OnSpawn()
         {
             smi.StartSM();
+        }
+        public bool IsExposed()
+        {
+            return kPrefabID == null || !kPrefabID.HasTag(GameTags.Preserved);
         }
 
         private void DropBones()
@@ -48,6 +54,7 @@ namespace OniRetroEdition.Behaviors
 
             }
             public bool IsSubmerged() => PathFinder.IsSubmerged(Grid.PosToCell(this.master.transform.GetPosition()));
+            
         }
 
         public class States : GameStateMachine<States, StatesInstance, Retro_RottingMinion>
@@ -56,6 +63,7 @@ namespace OniRetroEdition.Behaviors
             public FloatParameter decomposition;
 
             public State alive;
+            public State stored;
             public DeadStates dead;
             public class DeadStates : State
             {
@@ -76,12 +84,15 @@ namespace OniRetroEdition.Behaviors
                 this.alive
                     .TagTransition(GameTags.Dead, this.dead);
                 this.dead
-                    .defaultState= dead.decomposing
+                    .EventTransition(GameHashes.OnStore, this.stored, smi => !smi.master.IsExposed())
+                    .defaultState = dead.decomposing
                     .Update((smi, dt) =>
                     {
                         decomposition.Delta(smi.master.DecompositionPerSecond * dt,smi);
                     })
                     ;
+                this.stored
+                    .EventTransition(GameHashes.OnStore, dead.decomposing, smi => smi.master.IsExposed());
                 this.dead.decomposing
                     .ToggleAttributeModifier("Dead", smi => smi.satisfiedDecorModifier)
                     .ToggleAttributeModifier("Dead", smi => smi.satisfiedDecorRadiusModifier)

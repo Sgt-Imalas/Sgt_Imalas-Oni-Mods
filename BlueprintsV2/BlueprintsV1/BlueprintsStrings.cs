@@ -1,4 +1,5 @@
 ﻿
+using BlueprintsV2;
 using BlueprintsV2.BlueprintsV2;
 using BlueprintsV2.BlueprintsV2.ModAPI;
 using BlueprintsV2.BlueprintsV2.Visualizers;
@@ -95,7 +96,7 @@ namespace Blueprints
 
     public static class BlueprintsAssets
     {
-        public static BlueprintsOptions Options { get; set; } = new();
+        public static Config Options { get; set; } = new();
 
         public static Sprite BLUEPRINTS_CREATE_ICON_SPRITE;
         public static Sprite BLUEPRINTS_CREATE_VISUALIZER_SPRITE;

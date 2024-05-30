@@ -161,13 +161,12 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
             {
                 if (ValidCell(cellParam))
                 {
-                    foreach (var cellOffset in buildingConfig.BuildingDef.PlacementOffsets)
+                    for (int index = 0; index < buildingConfig.BuildingDef.PlacementOffsets.Length; ++index)
                     {
-                        if (Grid.IsSolidCell(Grid.OffsetCell(cellParam,cellOffset)))
-                        {
-                            WorldDamage.Instance.DestroyCell(cellParam);
-                        }
+                        CellOffset rotatedCellOffset = Rotatable.GetRotatedCellOffset(buildingConfig.BuildingDef.PlacementOffsets[index], buildingConfig.Orientation);
+                        int offsetCell = Grid.OffsetCell(cell, rotatedCellOffset);
 
+                        WorldDamage.Instance.DestroyCell(offsetCell);
                     }
                     return PlaceFinishedBuilding(cellParam);
                 }

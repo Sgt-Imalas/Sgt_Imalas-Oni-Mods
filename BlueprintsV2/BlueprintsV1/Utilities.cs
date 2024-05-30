@@ -89,12 +89,6 @@ namespace Blueprints
 
         public static bool LoadBlueprint(string blueprintLocation, out Blueprint blueprint)
         {
-            try
-            {
-                if (IO_Utils.ReadFromFile(blueprintLocation, out blueprint))
-                    return true;
-            }
-            catch { };
             blueprint = new Blueprint(blueprintLocation);
             if (!blueprint.ReadBinary())
             {

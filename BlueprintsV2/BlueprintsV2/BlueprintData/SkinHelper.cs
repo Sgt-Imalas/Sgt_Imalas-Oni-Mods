@@ -34,7 +34,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 
             }
         }
-
+        
         internal static JObject TryStoreBackwall(GameObject arg)
         {
             JObject data = null;
@@ -55,11 +55,96 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
             return data;
         }
 
+        internal static void TryApplyMoodLamp(GameObject arg1, JObject arg2)
+        {
+            var moodLampCmp = arg1.GetComponent("MoodLamp");
+
+            if (moodLampCmp != null)
+            {
+                string currentVariantID = arg2.GetValue("currentVariantID").Value<string>();
+
+                Traverse.Create(moodLampCmp).Method("SetVariant", new[] { typeof(string) }).GetValue(currentVariantID);
+
+            }
+        }
+
+        internal static JObject TryStoreMoodLamp(GameObject arg)
+        {
+            JObject data = null;
+            var moodLampCmp = arg.GetComponent("MoodLamp");
+            if (moodLampCmp != null)
+            {
+                var currentVariantID = Traverse.Create(moodLampCmp).Field("currentVariantID").GetValue() as string;
+
+                //SgtLogger.l($"Pattern: {pattern}, colorHex: {colorHex}");
+                data = new JObject()
+                {
+                    {"currentVariantID", currentVariantID}
+                };
+            }
+            return data;
+        }
+
+
+        internal static JObject TryStoreArtableSkin(GameObject arg)
+        {
+            string skinId = string.Empty;
+            if (arg.TryGetComponent<Artable>(out var artable))
+            {
+                if (!string.IsNullOrEmpty(artable.userChosenTargetStage))
+                {
+                    skinId = artable.userChosenTargetStage;
+                }
+                else if (!string.IsNullOrEmpty(artable.CurrentStage))
+                {
+                    skinId = artable.CurrentStage;
+                }
+                else
+                    skinId = "Default";
+            }
+            if (!ValidArtableId(skinId))
+            {
+                return null;
+            }
+            return new JObject()
+            {
+                { "CurrentStage", skinId }
+            };
+        }
+        public static void TryApplyArtableSkin(GameObject building, JObject facadeObj)
+        {
+            if (facadeObj == null)
+                return;
+
+            var token = facadeObj.SelectToken("CurrentStage");
+            if (token == null)
+                return;
+
+            string facadeID = token.Value<string>();
+
+            if (building.TryGetComponent<Artable>(out var sculpture))
+            {
+                if (ValidArtableId(facadeID))
+                {
+                    if (BlueprintsState.InstantBuild)
+                    {
+                        sculpture.SetStage(facadeID,true);
+                        sculpture.userChosenTargetStage = null;
+                    }
+                    else
+                    {
+                        sculpture.chore?.Cancel("blueprint applied");
+                        sculpture.SetUserChosenTargetState(facadeID);
+                    }
+                }
+            }
+        }
         internal static JObject TryStoreBuildingSkin(GameObject arg)
         {
             string skinId = string.Empty;
             if(arg.TryGetComponent<BuildingFacade>(out var buildingFacade) && !buildingFacade.IsOriginal)
             {
+
                 skinId = buildingFacade.CurrentFacade;
             }
             if(!ValidFacadeId(skinId))
@@ -68,7 +153,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
             }
             return new JObject()
             {
-                { API_Consts.BuildingSkinID, skinId }
+                { "CurrentFacade", skinId }
             };
         }
         public static void TryApplyBuildingSkin(GameObject building, JObject facadeObj)
@@ -76,7 +161,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
             if (facadeObj == null)
                 return;
 
-            var token = facadeObj.SelectToken(API_Consts.BuildingSkinID);
+            var token = facadeObj.SelectToken("CurrentFacade");
             if (token == null)
                 return;
 
@@ -92,8 +177,14 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
         }
         static bool ValidFacadeId(string facadeID)
         {
-            return !facadeID.IsNullOrWhiteSpace() && facadeID != "DEFAULT_FACADE" && Db.GetBuildingFacades().Get(facadeID) != null 
+            return !facadeID.IsNullOrWhiteSpace() && facadeID != "DEFAULT_FACADE" && Db.GetBuildingFacades().TryGet(facadeID) != null 
                // && Db.GetBuildingFacades().Get(facadeID).IsUnlocked()
+                ;
+        }
+        static bool ValidArtableId(string artableID)
+        {
+            return !artableID.IsNullOrWhiteSpace() && artableID != "Default" && Db.GetArtableStages().TryGet(artableID) != null
+                // && Db.GetBuildingFacades().Get(facadeID).IsUnlocked()
                 ;
         }
     }

@@ -4,13 +4,13 @@
 
 This mod adds Window Walls and Reinforced Window Tiles.
 
-[h1]Current latest Version: 1.0.0[/h1]
+[h1]Current latest Version: 1.1.1[/h1]
 
 [hr][/hr]
 
 [h1]Features[/h1]
 [list][*] Window Wall: made from 100kg transparent (glass or diamond). Works like drywall, but is transparent so you can see the stars behind it in space.
-[*] Reinforced Window Tile: made from 50kg steel and 50kg transparent (glass or diamond). light and decor can pass through it, immune to meteor damage.
+[*] Reinforced Window Tile: made from 100kg steel and 50kg transparent (glass or diamond). light and decor can pass through it, immune to meteor damage.
 [/list]
 
 [hr][/hr]
@@ -18,6 +18,14 @@ This mod adds Window Walls and Reinforced Window Tiles.
 
 [h1]Credits[/h1]
 The animations of this mod were drawn by the wonderful Aki, make sure to check out his mods [url=https://steamcommunity.com/id/akisnothere/myworkshopfiles/?appid=457140]here[/url]
+
+[h1]Localisations[/h1]
+[list]
+[*]English
+[*]Russian (by DarkEvil)
+[/list] 
+
+
 
 [h1]Bug Reports & Local Download[/h1]
 You can find direct downloads for my mods [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases]here[/url] (please notify me if I forgot to release new versions).

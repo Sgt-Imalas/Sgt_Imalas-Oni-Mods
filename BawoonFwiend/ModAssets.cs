@@ -25,12 +25,13 @@ namespace BawoonFwiend
         public static Dictionary<KeyValuePair<KAnimFile, KAnim.Build.Symbol>, Sprite> BalloonSprites
             = new Dictionary<KeyValuePair<KAnimFile, KAnim.Build.Symbol>, Sprite>();
 
-
         static Dictionary<Texture2D, Texture2D> Copies = new Dictionary<Texture2D, Texture2D>();
         public static Texture2D GetReadableCopy(Texture2D source)
         {
-            if(Copies.ContainsKey(source)) 
+            if (Copies.ContainsKey(source))
                 return Copies[source];
+
+            if (source == null || source.width == 0 || source.height == 0) return null;
 
             RenderTexture renderTex = RenderTexture.GetTemporary(
                         source.width,
@@ -43,6 +44,8 @@ namespace BawoonFwiend
             RenderTexture previous = RenderTexture.active;
             RenderTexture.active = renderTex;
             Texture2D readableText = new Texture2D(source.width, source.height);
+
+
             readableText.ReadPixels(new Rect(0, 0, renderTex.width, renderTex.height), 0, 0);
             readableText.Apply();
             RenderTexture.active = previous;
@@ -51,15 +54,42 @@ namespace BawoonFwiend
             return readableText;
         }
 
+        static Dictionary<Sprite, Texture2D> Copies2 = new Dictionary<Sprite, Texture2D>();
+        static Texture2D GetSingleSpriteFromTexture(Sprite sprite)
+        {
+            if (sprite == null)
+                return null;
+
+            if (!Copies2.ContainsKey(sprite))
+            {
+
+                var output = new Texture2D((int)sprite.textureRect.width, (int)sprite.textureRect.height);
+                var r = sprite.textureRect;
+                if (r.width == 0 || r.height == 0)
+                    return null;
+
+                var readableTexture = GetReadableCopy(sprite.texture);
+
+                if (readableTexture == null)
+                    return null;
+
+                var pixels = readableTexture.GetPixels((int)r.x, (int)r.y, (int)r.width, (int)r.height);
+                output.SetPixels(pixels);
+                output.Apply();
+                output.name = sprite.texture.name + " " + sprite.name;
+                Copies2.Add(sprite, output);
+            }
+            return Copies2[sprite];
+        }
 
         static Dictionary<BalloonOverrideSymbol, Color> OverrideColors = new Dictionary<BalloonOverrideSymbol, Color>();
         public static Color GetColourFrom(BalloonOverrideSymbol SkinOverride)
         {
-            if(OverrideColors.ContainsKey(SkinOverride))
+            if (OverrideColors.ContainsKey(SkinOverride))
                 return OverrideColors[SkinOverride];
 
             Sprite BallonSprite = ModAssets.GetSpriteFrom(SkinOverride.animFile.Unwrap(), SkinOverride.symbol.Unwrap());
-            Texture2D texture = GetReadableCopy(BallonSprite.texture);
+            Texture2D texture = GetSingleSpriteFromTexture(BallonSprite);
             Dictionary<Color, int> colors = new Dictionary<Color, int>();
 
             for (int x = 0; x < texture.width; ++x)

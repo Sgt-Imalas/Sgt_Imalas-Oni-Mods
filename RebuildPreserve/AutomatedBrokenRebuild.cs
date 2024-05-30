@@ -36,7 +36,7 @@ namespace RebuildPreserve
             if(!reconstructable.deconstructable.allowDeconstruction)
                 return false;
 
-            if(hp.destroyOnDamaged)
+            if(hp == null || hp.destroyOnDamaged)
                 return false;
 
             return true;
@@ -50,17 +50,19 @@ namespace RebuildPreserve
                 this.enabled = false;
                 return;
             }
-            Subscribe((int)GameHashes.BuildingBroken, OnBuildingBroken);
+            if (CanRebuild())
+                Subscribe((int)GameHashes.BuildingBroken, OnBuildingBroken);
         }
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
-            Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
+            if (CanRebuild())
+                Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
         }
         public override void OnCleanUp()
         {
             base.OnCleanUp();
-            if (reconstructable == null)
+            if (!CanRebuild())
             {
                 return;
             }
@@ -78,8 +80,7 @@ namespace RebuildPreserve
 
         public void OnCopySettings(object data)
         {
-            GameObject sauceGameObject = data as GameObject;
-            if (sauceGameObject != null && sauceGameObject.TryGetComponent<AutomatedBrokenRebuild>(out var addon))
+            if (data is GameObject sauceGameObject && sauceGameObject.TryGetComponent<AutomatedBrokenRebuild>(out var addon))
             {
                 this.RebuildOnBreaking = addon.RebuildOnBreaking;
             }

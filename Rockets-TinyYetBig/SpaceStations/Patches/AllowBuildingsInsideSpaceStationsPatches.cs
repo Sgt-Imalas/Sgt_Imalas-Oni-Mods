@@ -11,6 +11,15 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
 {
     public class AllowBuildingsInsideSpaceStationsPatches
     {
+        [HarmonyPatch(typeof(LaunchPadConfig), "ConfigureBuildingTemplate")]
+        public static class AllowLaunchpadInSpaceStation
+        {
+            public static void Postfix(GameObject go)
+            {
+                KPrefabID component = go.GetComponent<KPrefabID>();
+                component.AddTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding);
+            }
+        }
         [HarmonyPatch(typeof(BaseModularLaunchpadPortConfig), "ConfigureBuildingTemplate")]
         public static class AllowPortLoadersInSpaceStation
         {

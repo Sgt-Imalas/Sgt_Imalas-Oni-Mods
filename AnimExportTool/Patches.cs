@@ -13,6 +13,7 @@ using UnityEngine;
 using UtilLibs;
 using static ResearchTypes;
 using TMPro;
+using Newtonsoft.Json;
 
 namespace AnimExportTool
 {
@@ -86,7 +87,7 @@ namespace AnimExportTool
                     {
                         tintedPixels[i] = pixels[i] * tint;
                     }
-                    SgtLogger.l(Mathf.RoundToInt(output.width)* Mathf.RoundToInt(output.height)+" > "+tintedPixels.Length+" ?");
+                    //SgtLogger.l(Mathf.RoundToInt(output.width)* Mathf.RoundToInt(output.height)+" > "+tintedPixels.Length+" ?");
                     output.SetPixels(tintedPixels);
                 }
                 else
@@ -115,6 +116,55 @@ namespace AnimExportTool
             var imageBytes = tex.EncodeToPNG();
             File.WriteAllBytes(fileName, imageBytes);
         }
+        [HarmonyPatch(typeof(MainMenu))]
+        [HarmonyPatch(nameof(MainMenu.OnPrefabInit))]
+        public static class AnimsFromWorldTraits
+        {
+            class SerializableWorldTrait
+            {
+                public string name;
+                public string desc;
+                public List<string> forbiddenDLCIds;
+
+                public List<string> exclusiveWith;
+                public List<string> exclusiveWithTags;
+                public List<string> traitTags;
+
+            }
+            public static void Postfix()
+            {
+                List<SerializableWorldTrait> traitdata = new();
+                var unknown = Assets.GetSprite("unknown_far");
+                foreach (var traitKvp in ProcGen.SettingsCache.worldTraits)
+                {
+                    ProcGen.WorldTrait trait = traitKvp.Value;
+                    string traitID = trait.filePath.Substring(trait.filePath.LastIndexOf("/") + 1);
+                    var UISprite = Assets.GetSprite(traitID);
+
+
+                    if (UISprite != null && UISprite != Assets.GetSprite("unknown") && UISprite != unknown)
+                    {
+                        WriteUISpriteToFile(UISprite, Path.Combine(UtilMethods.ModPath, "WorldTraits"), traitID, Util.ColorFromHex(trait.colorHex));
+                        //WriteUISpriteToFile(UISprite, Path.Combine(UtilMethods.ModPath, "ElementUISpritesByName"), STRINGS.UI.StripLinkFormatting(element.name), UISpriteDef.second);
+                    }
+                    traitdata.Add(new SerializableWorldTrait()
+                    {
+                        name = Strings.Get(trait.name),
+                        desc = Strings.Get(trait.description),
+                        forbiddenDLCIds = trait.forbiddenDLCIds,
+                        exclusiveWith = trait.exclusiveWith,
+                        exclusiveWithTags = trait.exclusiveWithTags,
+                        traitTags = trait.traitTags
+
+                        
+                    });
+
+                }
+                IO_Utils.WriteToFile(traitdata, Path.Combine(UtilMethods.ModPath, "WorldTraits","worldtraitdata.json"));
+
+            }
+        }
+
 
         [HarmonyPatch(typeof(ElementLoader))]
         [HarmonyPatch(nameof(ElementLoader.Load))]

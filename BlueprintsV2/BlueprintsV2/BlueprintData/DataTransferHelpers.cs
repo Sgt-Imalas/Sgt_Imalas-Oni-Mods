@@ -62,23 +62,36 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
         }
         internal class DataTransfer_PixelPack
         {
+            class PixelPackColor
+            {
+                public float r, g, b, a;
+                public PixelPackColor(Color original)
+                {
+                    r = original.r; 
+                    g = original.g;
+                    b = original.b;
+                    a = original.a;
+                }
+                public Color ToColor()
+                {
+                    return new Color(r, g, b, a);
+                }
+            }
             class PixelPackColorData
             {
-                public float r1, g1, b1, a1;
-                public float r2, g2, b2, a2;
+                public PixelPackColor activeColor, standbyColor;
 
                 public PixelPackColorData(Color a, Color b)
                 {
-                    r1 = a.r; g1 = a.g; b1 = a.b; a1 = a.a;
-
-                    r2 = b.r; g2 = b.g; b2 = b.b; a2 = b.a;
+                    activeColor = new PixelPackColor(a);
+                    standbyColor = new PixelPackColor(b);
                 }
                 public PixelPack.ColorPair GetData()
                 {
                     return new PixelPack.ColorPair()
                     {
-                        activeColor = new Color(r1, g1, b1, a1),
-                        standbyColor = new Color(r2, g2, b2, a2)
+                        activeColor = this.activeColor.ToColor(),
+                        standbyColor = this.standbyColor.ToColor()
                     };
                 }
             }

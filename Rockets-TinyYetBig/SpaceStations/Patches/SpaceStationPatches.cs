@@ -48,7 +48,18 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
                 }
             }
         }
-
+        /// <summary>
+        /// prevents a crash when a rocket starts from inside a station and its control station was selected previously
+        /// </summary>
+        [HarmonyPatch(typeof(RocketRestrictionSideScreen))]
+        [HarmonyPatch(nameof(RocketRestrictionSideScreen.UpdateButtonStates))]
+        public static class RocketRestrictionSideScreen_UpdateButtonStates
+        {
+            public static bool Prefix(RocketRestrictionSideScreen __instance, object data)
+            {
+                return __instance.controlStation != null;
+            }
+        }
         /// <summary>
         /// No Boosting
         /// </summary>

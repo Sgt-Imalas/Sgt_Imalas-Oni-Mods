@@ -30,11 +30,6 @@
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 	<ItemGroup>
-	  <Compile Remove="ModAssets\translations\**" />
-	  <EmbeddedResource Remove="ModAssets\translations\**" />
-	  <None Remove="ModAssets\translations\**" />
-	</ItemGroup>
-	<ItemGroup>
 	  <None Remove="SpaceStations\SpaceStation.cs~RF14458d6.TMP" />
 	</ItemGroup>
 
@@ -561,6 +556,9 @@
 	  <None Update="ModAssets\templates\storytraits\RTB_CrashedUFOStoryTrait.yaml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\translations\zh.po">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\worldgen\storytraits\RTB_CrashedUFOStoryTrait.yaml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
@@ -573,6 +571,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="ModAssets\translations\" />
 	  <Folder Include="SpaceStations\Construction\ModuleItems\" />
 	  <Folder Include="TwitchEvents\TwitchEventAddons\" />
 	</ItemGroup>

@@ -197,6 +197,7 @@ namespace OniRetroEdition.SlurpTool
         {
             base.OnCleanUp();
             GameScenePartitioner.Instance.Free(ref this.partitionerEntry);
+            this.Unsubscribe<Slurpable>(493375141, Slurpable.OnRefreshUserMenuDelegate);
         }
 
         private void OnReachableChanged(object data)

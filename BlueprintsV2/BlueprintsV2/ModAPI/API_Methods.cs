@@ -251,8 +251,11 @@ namespace BlueprintsV2.BlueprintsV2.ModAPI
         {
             RegisterAdditionalStorableBuildingData(ID, (GetBlueprintDataDelegate)Delegate.CreateDelegate(typeof(GetBlueprintDataDelegate), GetDataToStore.Method), (SetBlueprintDataDelegate)Delegate.CreateDelegate(typeof(SetBlueprintDataDelegate), ApplyStoredData.Method), OverridePriority);
         }
-        private static void RegisterLogicSensors()
+        private static void RegisterVanillaBuildings()
         {
+            RegisterInternally(nameof(Artable), SkinHelper.TryStoreArtableSkin, SkinHelper.TryApplyArtableSkin);
+            RegisterInternally(nameof(BuildingFacade), SkinHelper.TryStoreBuildingSkin, SkinHelper.TryApplyBuildingSkin);
+
             RegisterInternally(nameof(Filterable), DataTransfer_Filterable.TryGetData, DataTransfer_Filterable.TryApplyData);
             RegisterInternally(nameof(TreeFilterable), DataTransfer_TreeFilterable.TryGetData, DataTransfer_TreeFilterable.TryApplyData);
             RegisterInternally(nameof(LogicCritterCountSensor), DataTransfer_LogicCritterCountSensor.TryGetData, DataTransfer_LogicCritterCountSensor.TryApplyData);
@@ -287,9 +290,10 @@ namespace BlueprintsV2.BlueprintsV2.ModAPI
 
         internal static void RegisterExtraData()
         {
-            RegisterInternally(API_Consts.BuildingSkinID, SkinHelper.TryStoreBuildingSkin, SkinHelper.TryApplyBuildingSkin);
             RegisterInternally("Backwalls_Backwall", SkinHelper.TryStoreBackwall, SkinHelper.TryApplyBackwall);
-            RegisterLogicSensors();
+            RegisterInternally("DecorPackA_MoodLamp", SkinHelper.TryStoreMoodLamp, SkinHelper.TryApplyMoodLamp);
+
+            RegisterVanillaBuildings();
 
             var q = AppDomain.CurrentDomain.GetAssemblies()
                    .SelectMany(t => t.GetTypes());

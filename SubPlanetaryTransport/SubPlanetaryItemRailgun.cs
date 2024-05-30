@@ -224,6 +224,8 @@ namespace SubPlanetaryTransport
         public override void OnCleanUp()
         {
             //Conduit.GetNetworkManager(this.portInfo.conduitType).RemoveFromNetworks(this.secondaryInputCell, (object)this.flowNetworkItem, true);
+
+            //this.Unsubscribe(493375141, OnRefreshUserMenuDelegate);
             base.OnCleanUp();
         }
 

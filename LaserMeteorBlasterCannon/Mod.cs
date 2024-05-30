@@ -10,7 +10,7 @@ namespace LaserMeteorBlasterCannon
         public override void OnLoad(Harmony harmony)
         {
             base.OnLoad(harmony);
-            SgtLogger.LogVersion(this);
+            SgtLogger.LogVersion(this, harmony);
         }
     }
 }

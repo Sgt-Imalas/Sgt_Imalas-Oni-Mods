@@ -1,4 +1,5 @@
 ﻿using KSerialization;
+using Newtonsoft.Json.Linq;
 using STRINGS;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static UnityEngine.UISystemProfilerApi;
 
 namespace RotatableRadboltStorage
 {
@@ -74,6 +76,29 @@ namespace RotatableRadboltStorage
             {
                 this.Direction = addon.Direction;
             }
+        }
+        public static void Blueprints_SetData(GameObject source, JObject data)
+        {
+            if (source.TryGetComponent<BatteryDirectionAddon>(out var behavior))
+            {
+                var t1 = data.GetValue("Direction");
+                if (t1 == null)
+                    return;
+                var Direction = t1.Value<int>();
+                behavior.Direction = (EightDirection)Direction;
+
+            }
+        }
+        public static JObject Blueprints_GetData(GameObject source)
+        {
+            if (source.TryGetComponent<BatteryDirectionAddon>(out var behavior))
+            {
+                return new JObject()
+                {
+                    { "Direction", (int)behavior.Direction},
+                };
+            }
+            return null;
         }
 
         public override void OnSpawn()

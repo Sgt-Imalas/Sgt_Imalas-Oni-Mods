@@ -234,7 +234,7 @@ namespace CustomGameSettingsModifier
             UIUtils.AddSimpleTooltipToObject(StressBreaksLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.STRESS_BREAKS.TOOLTIP);
 
             StressBreaks.SetCheckmark("Background/Checkmark");
-            StressBreaks.OnClick += () =>
+            StressBreaks.OnClick += (v) =>
             {
                 SetCustomGameSettings(CustomGameSettingConfigs.StressBreaks, StressBreaks.On);
             };
@@ -246,7 +246,7 @@ namespace CustomGameSettingsModifier
             UIUtils.AddSimpleTooltipToObject(CarePackagesLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.CAREPACKAGES.TOOLTIP);
 
             CarePackages.SetCheckmark("Background/Checkmark");
-            CarePackages.OnClick += () =>
+            CarePackages.OnClick += (v) =>
             {
                 SetCustomGameSettings(CustomGameSettingConfigs.CarePackages, CarePackages.On);
             };
@@ -272,7 +272,7 @@ namespace CustomGameSettingsModifier
             UIUtils.AddSimpleTooltipToObject(FastWorkersModeLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.FASTWORKERSMODE.TOOLTIP);
 
             FastWorkersMode.SetCheckmark("Background/Checkmark");
-            FastWorkersMode.OnClick += () =>
+            FastWorkersMode.OnClick += (v) =>
             {
                 SetCustomGameSettings(CustomGameSettingConfigs.FastWorkersMode, FastWorkersMode.On);
             };

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace BlueprintsV2.BlueprintsV2.UnityUI
+namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 {
-    internal class BlueprintElementEntry:KMonoBehaviour
+    internal class BlueprintElementEntry : KMonoBehaviour
     {
         LocText ElementName;
         LocText ElementAmount;
@@ -23,6 +23,10 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
             warningIndicator = transform.Find("Warning").gameObject;
             severeWarningIndicator = transform.Find("WarningSevere").gameObject;
 
+        }
+        public override void OnSpawn()
+        {
+            base.OnSpawn();
         }
 
         public void SetWarningIndicatorLevel(int level)

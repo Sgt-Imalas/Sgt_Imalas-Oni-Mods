@@ -36,8 +36,6 @@ namespace Rockets_TinyYetBig.UI_Unity
         protected SpaceStationBuilder stationBuilder;
 
 
-
-
         private class PartListUIEntry : KMonoBehaviour
         {
             public FButton ToggleConstruction;
@@ -154,8 +152,8 @@ namespace Rockets_TinyYetBig.UI_Unity
 #if DEBUG
                 SpaceStation.SpawnNewSpaceStation(targetCraft.Location);
 #else
-
-                SpaceStation.SpawnNewSpaceStation(targetCraft.Location);
+                if(targetCraft!=null)
+                    SpaceStation.SpawnNewSpaceStation(targetCraft.Location);
                 //ToggleBuildTargetScreen();
 #endif
             };

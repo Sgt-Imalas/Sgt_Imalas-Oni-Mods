@@ -1,3 +1,2 @@
 ﻿- center bp around cursor instead of bottom left corner
 - on bp placed, replace stuff that can be replaced (ladders with tiles)
-- in debug, auto dig area 

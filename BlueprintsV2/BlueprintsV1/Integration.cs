@@ -1,6 +1,7 @@
 ﻿
 // This code took inspiration from https://github.com/peterhaneve/ONIMods
 
+using BlueprintsV2;
 using BlueprintsV2.BlueprintsV2.BlueprintData;
 using BlueprintsV2.BlueprintsV2.ModAPI;
 using HarmonyLib;
@@ -18,7 +19,8 @@ using TMPro;
 using UnityEngine;
 // ReSharper disable InconsistentNaming
 
-namespace Blueprints {
+namespace Blueprints
+{
     public class Integration {
 
         public static PAction BlueprintsCreateAction { get; set; }
@@ -71,7 +73,7 @@ namespace Blueprints {
                 __instance.tools = interfaceTools.ToArray();
 
                 //Настройки всего мода
-                BlueprintsAssets.Options = POptions.ReadSettings<BlueprintsOptions>() ?? new BlueprintsOptions();
+                BlueprintsAssets.Options = POptions.ReadSettings<Config>() ?? new Config();
                 //Настройки синхронизации слоев при использовании инструмента Создать
                 CreateBlueprintTool.Instance.OverlaySynced = BlueprintsAssets.Options.CreateBlueprintToolSync;
                 //Настройки синхронизации слоев при использовании инструмента Снимок
