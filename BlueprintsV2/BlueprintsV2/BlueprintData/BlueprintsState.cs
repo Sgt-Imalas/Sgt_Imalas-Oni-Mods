@@ -95,10 +95,11 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 
                             bool hasConstructable = gameObject.TryGetComponent<Constructable>(out var constructable);
                             bool hasDeconstructable = gameObject.TryGetComponent<Deconstructable>(out var deconstructable);
-
+                            SgtLogger.l(gameObject.name, "name");
                             if (hasConstructable || hasDeconstructable)
                             {
                                 Building building = null;
+                                SgtLogger.l(gameObject.name, "has construct");
 
                                 if (gameObject.TryGetComponent<BuildingComplete>(out var complete))
                                 {
@@ -112,7 +113,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
                                 {
                                     gameObject.TryGetComponent(out building);
                                 }
-
+                                SgtLogger.l($"{gameObject != null} && {building != null} && {API_Methods.IsBuildable(building.Def)} && {(filter == null || filter.BuildingDefAllowedWithCurrentFilters(building.Def))}");
                                 if (gameObject != null && building != null && API_Methods.IsBuildable(building.Def) && (filter == null || filter.BuildingDefAllowedWithCurrentFilters(building.Def)))
                                 {
                                     Vector2I centre = Grid.CellToXY(GameUtil.NaturalBuildingCell(building));
@@ -195,7 +196,6 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
                         {
                             AddVisual(new UtilityVisual(buildingConfig, cell), buildingConfig.BuildingDef);
                         }
-
                         else
                         {
                             AddVisual(new TileVisual(buildingConfig, cell), buildingConfig.BuildingDef);
@@ -249,6 +249,26 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
         public static void UseBlueprint(Vector2I topLeft)
         {
             CleanDirtyVisuals();
+            //float delay = 0;
+
+
+            //var scheduler =
+            //    GameScheduler.Instance;
+            //foreach (var visual in FoundationVisuals)
+            //{
+            //    int cell = Grid.XYToCell(topLeft.x + visual.Offset.x, topLeft.y + visual.Offset.y);
+
+            //    scheduler.Schedule("delayed placing", delay, (_)=>visual.TryUse(cell));
+            //    delay += 0.2f;
+            //}
+            //foreach (var visual in DependentVisuals)
+            //{
+            //    int cell = Grid.XYToCell(topLeft.x + visual.Offset.x, topLeft.y + visual.Offset.y);
+
+            //    scheduler.Schedule("delayed placing", delay, (_) => visual.TryUse(cell));
+            //    delay += 0.2f;
+            //}
+
 
             FoundationVisuals.ForEach(foundationVisual => foundationVisual.TryUse(Grid.XYToCell(topLeft.x + foundationVisual.Offset.x, topLeft.y + foundationVisual.Offset.y)));
             DependentVisuals.ForEach(dependentVisual => dependentVisual.TryUse(Grid.XYToCell(topLeft.x + dependentVisual.Offset.x, topLeft.y + dependentVisual.Offset.y)));

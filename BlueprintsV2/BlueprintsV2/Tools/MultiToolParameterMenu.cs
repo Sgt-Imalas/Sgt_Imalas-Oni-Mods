@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace BlueprintsV2.BlueprintsV2.Tools
 {
@@ -175,6 +176,7 @@ namespace BlueprintsV2.BlueprintsV2.Tools
         }
         public bool BuildingDefAllowedWithCurrentFilters(BuildingDef def)
         {
+            //SgtLogger.l(def.ObjectLayer.ToString());
             return AllowedLayer(def.ObjectLayer) || AllowedOverlay(def.ViewMode);
         }
         public bool AllowedOverlay(HashedString viewMode)
@@ -218,6 +220,7 @@ namespace BlueprintsV2.BlueprintsV2.Tools
                     return currentParams.TryGetValue(ToolParameterMenu.FILTERLAYERS.BUILDINGS, out toggleState) && toggleState == ToolParameterMenu.ToggleState.On;
 
                 case ObjectLayer.Backwall:
+                case ObjectLayer.Canvases:
                 case ObjectLayer.ReplacementBackwall:
                     return currentParams.TryGetValue(ToolParameterMenu.FILTERLAYERS.BACKWALL, out toggleState) && toggleState == ToolParameterMenu.ToggleState.On;
 

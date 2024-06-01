@@ -333,17 +333,11 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
                 {
                     jsonWriter.WriteStartObject();
 
-                    if (digLocation.x != 0)
-                    {
-                        jsonWriter.WritePropertyName("x");
-                        jsonWriter.WriteValue(digLocation.x);
-                    }
+                    jsonWriter.WritePropertyName("x");
+                    jsonWriter.WriteValue(digLocation.x);
 
-                    if (digLocation.y != 0)
-                    {
-                        jsonWriter.WritePropertyName("y");
-                        jsonWriter.WriteValue(digLocation.y);
-                    }
+                    jsonWriter.WritePropertyName("y");
+                    jsonWriter.WriteValue(digLocation.y);
 
                     jsonWriter.WriteEndObject();
                 }

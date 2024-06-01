@@ -109,10 +109,11 @@ namespace BlueprintsV2.BlueprintsV2.ModAPI
 
         public static bool IsBuildable(BuildingDef buildingDef)
         {
-            if (!Config.Instance.RequireConstructable || SaveGame.Instance.sandboxEnabled)
+            if (!buildingDef.ShowInBuildMenu)
             {
-                return true;//todo: register as oneOf
+                return false;
             }
+
             if (buildingDef.BuildingComplete.HasTag("DecorPackA_StainedGlass"))
             {
                 return true;//todo: either me or aki; register as oneOf
@@ -130,7 +131,10 @@ namespace BlueprintsV2.BlueprintsV2.ModAPI
                     return false;
             }
 
-            return PlanScreen.Instance.IsDefBuildable(buildingDef);
+
+            var buildableState = PlanScreen.Instance.GetBuildableStateForDef(buildingDef);
+            //SgtLogger.l(buildableState.ToString(), "buildablestate");
+            return buildableState == PlanScreen.RequirementsState.Complete || (!Config.Instance.RequireConstructable && buildableState == PlanScreen.RequirementsState.Materials);
         }
 
         public class BuildingDataStorage
