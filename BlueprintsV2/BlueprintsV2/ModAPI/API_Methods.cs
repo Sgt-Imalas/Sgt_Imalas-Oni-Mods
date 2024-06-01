@@ -134,7 +134,7 @@ namespace BlueprintsV2.BlueprintsV2.ModAPI
 
             var buildableState = PlanScreen.Instance.GetBuildableStateForDef(buildingDef);
             //SgtLogger.l(buildableState.ToString(), "buildablestate");
-            return buildableState == PlanScreen.RequirementsState.Complete || (!Config.Instance.RequireConstructable && buildableState == PlanScreen.RequirementsState.Materials);
+            return buildableState == PlanScreen.RequirementsState.Complete || (!Config.Instance.RequireConstructable && (buildableState == PlanScreen.RequirementsState.Materials|| buildableState == PlanScreen.RequirementsState.Tech));
         }
 
         public class BuildingDataStorage
@@ -296,6 +296,7 @@ namespace BlueprintsV2.BlueprintsV2.ModAPI
         {
             RegisterInternally("Backwalls_Backwall", SkinHelper.TryStoreBackwall, SkinHelper.TryApplyBackwall);
             RegisterInternally("DecorPackA_MoodLamp", SkinHelper.TryStoreMoodLamp, SkinHelper.TryApplyMoodLamp);
+            RegisterInternally("SignsTagsAndRibbons_SelectableSign", SkinHelper.TryStoreSelectableSign, SkinHelper.TryApplySelectableSign);
 
             RegisterVanillaBuildings();
 

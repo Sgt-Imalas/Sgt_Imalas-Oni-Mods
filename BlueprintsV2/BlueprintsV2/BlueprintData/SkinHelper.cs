@@ -16,6 +16,53 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 {
     internal class SkinHelper
     {
+        ///checks for both SignsTagsAndRibbons and WoodenSetFurniture
+        internal static void TryApplySelectableSign(GameObject arg1, JObject arg2)
+        {
+            var SelectableSignCmp = arg1.GetComponent("SignsTagsAndRibbons.SelectableSign"); 
+
+            if(SelectableSignCmp == null)
+            {
+                SelectableSignCmp = arg1.GetComponent("WoodenSetFurniture.SelectableSign");                
+            }
+
+            if (SelectableSignCmp != null)
+            {
+                string variant = arg2.GetValue("variant").Value<string>();
+
+                Traverse.Create(SelectableSignCmp).Method("SetVariant", new[] { typeof(string) }).GetValue(variant);
+            }
+        }
+
+        internal static JObject TryStoreSelectableSign(GameObject arg)
+        {
+            JObject data = null;
+            var SelectableSignCmp = arg.GetComponent("SignsTagsAndRibbons.SelectableSign");
+
+            if (SelectableSignCmp == null)
+            {
+                SelectableSignCmp = arg.GetComponent("WoodenSetFurniture.SelectableSign");
+            }
+
+            if (SelectableSignCmp != null)
+            {
+                var selectedIndex = (int)Traverse.Create(SelectableSignCmp).Field("selectedIndex").GetValue();
+                var AnimationNames = (List<string>)Traverse.Create(SelectableSignCmp).Field("AnimationNames").GetValue();
+
+                SgtLogger.l(selectedIndex.ToString(), "index");
+                if (selectedIndex >= 0 && selectedIndex < AnimationNames.Count)
+                {
+                    data = new JObject()
+                    {
+                        {"variant", AnimationNames[selectedIndex]}
+                    };
+                }
+            }
+            return data;
+        }
+
+
+
         internal static void TryApplyBackwall(GameObject arg1, JObject arg2)
         {
             var backwallCmp = arg1.GetComponent("Backwall");
@@ -34,7 +81,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 
             }
         }
-        
+
         internal static JObject TryStoreBackwall(GameObject arg)
         {
             JObject data = null;
@@ -85,7 +132,6 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
             return data;
         }
 
-
         internal static JObject TryStoreArtableSkin(GameObject arg)
         {
             string skinId = string.Empty;
@@ -128,7 +174,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
                 {
                     if (BlueprintsState.InstantBuild)
                     {
-                        sculpture.SetStage(facadeID,true);
+                        sculpture.SetStage(facadeID, true);
                         sculpture.userChosenTargetStage = null;
                     }
                     else
@@ -142,12 +188,12 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
         internal static JObject TryStoreBuildingSkin(GameObject arg)
         {
             string skinId = string.Empty;
-            if(arg.TryGetComponent<BuildingFacade>(out var buildingFacade) && !buildingFacade.IsOriginal)
+            if (arg.TryGetComponent<BuildingFacade>(out var buildingFacade) && !buildingFacade.IsOriginal)
             {
 
                 skinId = buildingFacade.CurrentFacade;
             }
-            if(!ValidFacadeId(skinId))
+            if (!ValidFacadeId(skinId))
             {
                 return null;
             }
@@ -177,8 +223,8 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
         }
         static bool ValidFacadeId(string facadeID)
         {
-            return !facadeID.IsNullOrWhiteSpace() && facadeID != "DEFAULT_FACADE" && Db.GetBuildingFacades().TryGet(facadeID) != null 
-               // && Db.GetBuildingFacades().Get(facadeID).IsUnlocked()
+            return !facadeID.IsNullOrWhiteSpace() && facadeID != "DEFAULT_FACADE" && Db.GetBuildingFacades().TryGet(facadeID) != null
+                // && Db.GetBuildingFacades().Get(facadeID).IsUnlocked()
                 ;
         }
         static bool ValidArtableId(string artableID)

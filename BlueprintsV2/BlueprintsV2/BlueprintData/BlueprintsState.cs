@@ -95,11 +95,10 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 
                             bool hasConstructable = gameObject.TryGetComponent<Constructable>(out var constructable);
                             bool hasDeconstructable = gameObject.TryGetComponent<Deconstructable>(out var deconstructable);
-                            SgtLogger.l(gameObject.name, "name");
+
                             if (hasConstructable || hasDeconstructable)
                             {
                                 Building building = null;
-                                SgtLogger.l(gameObject.name, "has construct");
 
                                 if (gameObject.TryGetComponent<BuildingComplete>(out var complete))
                                 {
@@ -113,7 +112,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
                                 {
                                     gameObject.TryGetComponent(out building);
                                 }
-                                SgtLogger.l($"{gameObject != null} && {building != null} && {API_Methods.IsBuildable(building.Def)} && {(filter == null || filter.BuildingDefAllowedWithCurrentFilters(building.Def))}");
+                                //SgtLogger.l($"{gameObject != null} && {building != null} && {API_Methods.IsBuildable(building.Def)} && {(filter == null || filter.BuildingDefAllowedWithCurrentFilters(building.Def))}");
                                 if (gameObject != null && building != null && API_Methods.IsBuildable(building.Def) && (filter == null || filter.BuildingDefAllowedWithCurrentFilters(building.Def)))
                                 {
                                     Vector2I centre = Grid.CellToXY(GameUtil.NaturalBuildingCell(building));

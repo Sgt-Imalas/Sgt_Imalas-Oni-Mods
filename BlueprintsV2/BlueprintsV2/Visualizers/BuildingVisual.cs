@@ -196,6 +196,12 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
             World.Instance.blockTileRenderer.RemoveBlock(def, true, SimHashes.Void, cell);
             TileVisualizer.RefreshCell(cell, def.TileLayer, def.ReplacementLayer);
         }
+
+        /// <summary>
+        /// experiment to allow replace building over stuff based on regular build tool, not in use.
+        /// </summary>
+        /// <param name="cellParam"></param>
+        /// <returns></returns>
         public virtual bool TryBuild(int cellParam)
         {
             ClearTilePreview(cellParam);
@@ -307,7 +313,15 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
             if (Grid.IsValidCell(cellParam)
                 && Grid.IsVisible(cellParam))
             {
-                return buildingConfig.BuildingDef.IsValidPlaceLocation(Visualizer, cellParam, buildingConfig.Orientation, out string _);
+                bool IsValidPlaceLocation = buildingConfig.BuildingDef.IsValidPlaceLocation(Visualizer, cellParam, buildingConfig.Orientation, out string faiReason);
+                bool IgnorableFailReason =
+                    faiReason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_WALL
+                    || faiReason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_CORNER
+                    || faiReason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_CORNER_FLOOR;
+
+
+
+                return IsValidPlaceLocation || IgnorableFailReason;
                 //replacement = buildingConfig.BuildingDef.IsValidReplaceLocation(pos, buildingConfig.Orientation, buildingConfig.BuildingDef.ReplacementLayer, buildingConfig.BuildingDef.ObjectLayer);
                 //return (validCell || replacement);
             }
