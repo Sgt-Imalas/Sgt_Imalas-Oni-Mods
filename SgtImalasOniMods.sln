@@ -154,9 +154,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RebuildPreserve", "RebuildP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillScreenCrashMitigation", "SkillScreenCrashMitigation\SkillScreenCrashMitigation.csproj", "{1A383D59-AD69-4C08-9C04-50DAD9E6F1D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimExportTool", "AnimExportTool\AnimExportTool.csproj", "{97B1E1CC-3FA5-4BFF-8381-1DFACC9E7E9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnimExportTool", "AnimExportTool\AnimExportTool.csproj", "{97B1E1CC-3FA5-4BFF-8381-1DFACC9E7E9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueprintsV2", "BlueprintsV2\BlueprintsV2.csproj", "{6BA42FF5-8943-42EF-93F6-9EA7CA5A66C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlueprintsV2", "BlueprintsV2\BlueprintsV2.csproj", "{6BA42FF5-8943-42EF-93F6-9EA7CA5A66C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PedestalFilter", "PedestalFilter\PedestalFilter.csproj", "{F8FFB8F7-BDC5-4D7F-B920-3780DB389A64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -452,6 +454,10 @@ Global
 		{6BA42FF5-8943-42EF-93F6-9EA7CA5A66C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BA42FF5-8943-42EF-93F6-9EA7CA5A66C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BA42FF5-8943-42EF-93F6-9EA7CA5A66C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8FFB8F7-BDC5-4D7F-B920-3780DB389A64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8FFB8F7-BDC5-4D7F-B920-3780DB389A64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8FFB8F7-BDC5-4D7F-B920-3780DB389A64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8FFB8F7-BDC5-4D7F-B920-3780DB389A64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

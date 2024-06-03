@@ -1,0 +1,34 @@
+﻿[img]https://i.imgur.com/GbFtLZ2.png[/img]
+
+[h1]Pedestal Filter[/h1]
+
+This mod adds a text filter and an artifact filter
+
+[h1]Current latest Version: 1.0.0[/h1]
+
+[hr][/hr]
+
+[h1]Features[/h1]
+[list][*] Pedestal Text Filter: Filter items in the pedestal selection
+[*] Pedestal Artifact Filter: toggle only showing artifacts
+[*] Gas+Liquid Tints: liquid and gas icons are no longer white
+[*] Mod Config: toggle the artifact filter to be enabled by default
+[/list]
+
+[hr][/hr]
+[h1]Credits[/h1]
+Options made with PLib.
+
+
+[h1]Bug Reports & Local Download[/h1]
+You can find direct downloads for my mods [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases]here[/url] (please notify me if I forgot to release new versions).
+
+Please post bug reports and issues on [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or on my [url=https://discord.gg/5n7peBCnWZ]Discord Server[/url]. 
+[b]Always include the full player.log in a report: [/b] https://github.com/aki-art/ONI-Mods/wiki/How-to-send-a-log
+
+[b]Make sure you do NOT have the mod "Debug Console // by @Ony 👾" enabled as it breaks the game internally and makes the log useless for debugging![/b] 
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me on [url=https://www.buymeacoffee.com/sgtimalas]Buy me a coffe[/url] or [url=https://ko-fi.com/sgtimalas]Kofi[/url] :D.
+
