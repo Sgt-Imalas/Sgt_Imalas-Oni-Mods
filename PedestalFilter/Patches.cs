@@ -84,6 +84,10 @@ namespace PedestalFilter
             }
             public static void Postfix(ReceptacleSideScreen __instance)
             {
+                if (__instance.GetType() != typeof(ReceptacleSideScreen))
+                    return;
+
+
                 if (SearchBar != null)
                 {
                     FilterArtifacts = Config.Instance.DefaultToArtifactsOnly;
@@ -165,7 +169,11 @@ namespace PedestalFilter
         {
             public static bool Prefix(ReceptacleSideScreen __instance)
             {
-                return __instance.requestObjectList.GetComponent("VirtualScroll")!=null;
+                if (__instance.GetType() != typeof(ReceptacleSideScreen))
+                    return true;
+
+
+                return __instance.requestObjectList.GetComponent("VirtualScroll") !=null;
             }
             
             ///<summary>
@@ -178,36 +186,40 @@ namespace PedestalFilter
             {
 
             }
-            [HarmonyTranspiler]
-            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
-            {
-                var code = instructions.ToList();
+            //[HarmonyTranspiler]
+            //static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+            //{
+            //    var code = instructions.ToList();
 
-                var SetActive = AccessTools.Method(
-                    typeof(FilterFromSearchBar),
-                    nameof(FilterFromSearchBar.ConsumeSetActive));
-
-
-                var ConsumptionMethod = AccessTools.Method(
-                    typeof(GameObject),
-                    nameof(GameObject.SetActive));
+            //    var SetActive = AccessTools.Method(
+            //        typeof(FilterFromSearchBar),
+            //        nameof(FilterFromSearchBar.ConsumeSetActive));
 
 
-                for (int index = 0; index < code.Count; ++index)
-                {
-                    var ci = code[index];
-                    if (ci.Calls(SetActive))
-                    {
-                        code[index] = new CodeInstruction(OpCodes.Call, ConsumptionMethod);
-                    }
-                }
-                return code;
-            }
+            //    var ConsumptionMethod = AccessTools.Method(
+            //        typeof(GameObject),
+            //        nameof(GameObject.SetActive));
+
+
+            //    for (int index = 0; index < code.Count; ++index)
+            //    {
+            //        var ci = code[index];
+            //        if (ci.Calls(SetActive))
+            //        {
+            //            code[index] = new CodeInstruction(OpCodes.Call, ConsumptionMethod);
+            //        }
+            //    }
+            //    return code;
+            //}
             
             [HarmonyPostfix]
             [HarmonyPriority(90)]
             public static void Postfix(ReceptacleSideScreen __instance, ref bool __result)
             {
+                if (__instance.GetType().IsSubclassOf(typeof(ReceptacleSideScreen)))
+                    return;
+
+
                 Component fastTrackVirtualScroll = __instance.requestObjectList.GetComponent("VirtualScroll");
                 FastTrackFound = (fastTrackVirtualScroll!= null);
 
@@ -321,13 +333,13 @@ namespace PedestalFilter
                                 availableAmount <= 0.0f)
                             // Disable items which cannot fit in this orientation or are
                             // unavailable
-                            SetImageToggleState(__instance, toggle, selected != key
+                            SetImageToggleState(tag,__instance, toggle, selected != key
                                 ? ImageToggleState.State.Disabled
                                 : ImageToggleState.State.DisabledActive);
                         else if (selected != key)
-                            SetImageToggleState(__instance, toggle, ImageToggleState.State.Inactive);
+                            SetImageToggleState(tag, __instance, toggle, ImageToggleState.State.Inactive);
                         else
-                            SetImageToggleState(__instance, toggle, ImageToggleState.State.Active);
+                            SetImageToggleState(tag, __instance, toggle, ImageToggleState.State.Active);
                     }
                 }
 
@@ -343,12 +355,20 @@ namespace PedestalFilter
                 initializing = false;
             }
 
-
-            private static void SetImageToggleState(ReceptacleSideScreen instance,
+            static Dictionary<Tag, ImageToggleState.State> PrevToggleStates = new();
+            private static void SetImageToggleState(Tag targetTag, ReceptacleSideScreen instance,
                     KToggle toggle, ImageToggleState.State state)
             {
+                bool newlyAdded = !PrevToggleStates.ContainsKey(targetTag);
+
+                if(newlyAdded)
+                {
+                    PrevToggleStates[targetTag] = state;
+                }
+
                 if (toggle.TryGetComponent(out ImageToggleState its)
-                    //&& (initializing ||state != its.currentState)
+                   //&& (initializing ||state != its.currentState)
+                   && (newlyAdded || PrevToggleStates[targetTag] != state)
                    )
                 {
                     // SetState provides no feedback on whether the state actually changed

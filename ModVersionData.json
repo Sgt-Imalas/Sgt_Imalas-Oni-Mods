@@ -77,6 +77,10 @@
       "version": "7.0.3.0"
     },
     {
+      "staticID": "PedestalFilter",
+      "version": "1.0.1.0"
+    },
+    {
       "staticID": "YamlTemplateExportFix",
       "version": "1.0.1.0"
     },

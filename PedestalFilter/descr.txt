@@ -2,7 +2,7 @@
 
 [h1]Pedestal Filter[/h1]
 
-This mod adds a text filter and an artifact filter
+This mod adds a text filter and an artifact filter to the pedestal screen
 
 [h1]Current latest Version: 1.0.0[/h1]
 
