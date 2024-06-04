@@ -42,4 +42,9 @@
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="ClothingLocker\" />
+	  <Folder Include="PillDispenser\" />
+	</ItemGroup>
 </Project>

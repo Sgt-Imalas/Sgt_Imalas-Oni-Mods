@@ -1,4 +1,5 @@
 ﻿using Database;
+using DupeStations.PajamasLocker;
 using HarmonyLib;
 using Klei.AI;
 using System;
@@ -23,7 +24,11 @@ namespace DupeStations
         {
 
             public static void Prefix()
+
+            
             {
+                GameTags.MaterialBuildingElements.Add(PajamasDispenserConfig.PajamasMaterialTag);
+                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Stations,PajamasDispenserConfig.ID,SuitMarkerConfig.ID);
                 //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
             }
         }
@@ -36,6 +41,15 @@ namespace DupeStations
             public static void Postfix()
             {
                 LocalisationUtil.Translate(typeof(STRINGS), true);
+            }
+        }
+        [HarmonyPatch(typeof(SleepClinicPajamas), nameof(SleepClinicPajamas.DoPostConfigure))]
+        public static class SleepClinicPajamas_AddBuildableTag
+        {
+            public static void Postfix(GameObject go)
+            {
+                KPrefabID component = go.GetComponent<KPrefabID>();
+                component.AddTag(PajamasDispenserConfig.PajamasMaterialTag);
             }
         }
     }
