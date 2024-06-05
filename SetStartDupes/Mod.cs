@@ -21,7 +21,7 @@ namespace SetStartDupes
 
             ModAssets.LoadAssets();
             PUtil.InitLibrary(false);
-            new POptions().RegisterOptions(this, typeof(ModConfig));
+            new POptions().RegisterOptions(this, typeof(Config));
 
             SgtLogger.debuglog("Initializing file paths..");
             ModAssets.DupeTemplatePath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"),"DuplicantStatPresets"));
@@ -43,7 +43,7 @@ namespace SetStartDupes
 
 
             SgtLogger.log("Current Config Settings:");
-            UtilMethods.ListAllPropertyValues(ModConfig.Instance);
+            UtilMethods.ListAllPropertyValues(Config.Instance);
 
             SgtLogger.LogVersion(this, harmony);
             base.OnLoad(harmony);

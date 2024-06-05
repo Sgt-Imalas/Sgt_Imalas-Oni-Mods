@@ -14,7 +14,7 @@ namespace SetStartDupes
     [RestartRequired]
     [ConfigFile(SharedConfigLocation: true)]
     [ModInfo("Duplicant Stat Selector")]
-    class ModConfig : SingletonOptions<ModConfig>
+    class Config : SingletonOptions<Config>
     {
 
 
@@ -69,7 +69,7 @@ namespace SetStartDupes
         [Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYPACKAGECAP.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYPACKAGECAP.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
         [JsonProperty]
         [Limit(1, 5)]
-        public int CarePackagesOnlyPackageCap { get; set; }
+        public int CarePackagesOnlyPackageCount { get; set; }
 
 
         [Option("STRINGS.UI.DSS_OPTIONS.LIVEDUPESKINCHANGE.NAME", "STRINGS.UI.DSS_OPTIONS.LIVEDUPESKINCHANGE.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.D_SKINSETTINGS")]
@@ -114,7 +114,7 @@ namespace SetStartDupes
         public bool NoStressReactions { get; set; }
 
 
-        public ModConfig()
+        public Config()
         {
             DuplicantStartAmount = 3;
             PrintingPodRechargeTime = 3;
@@ -128,7 +128,7 @@ namespace SetStartDupes
 
             CarePackagesOnly = false;
             CarePackagesOnlyDupeCap = 16;
-            CarePackagesOnlyPackageCap = 3;
+            CarePackagesOnlyPackageCount = 3;
 
             SkinsDoReactions = true;
             JorgeAndCryopodDupes = true;

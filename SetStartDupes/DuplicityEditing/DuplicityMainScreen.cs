@@ -637,12 +637,22 @@ namespace SetStartDupes.DuplicityEditing
 
             if (!TraitEntries.ContainsKey(traitID))
             {
+                var Type = ModAssets.GetTraitListOfTrait(traitID);
+
                 var go = Util.KInstantiateUI(TraitPrefab.gameObject, TraitContainer);
                 var entry = go.AddOrGet<DeletableListEntry>();
                 entry.Text = trait.Name;
                 entry.Tooltip = trait.description;
-                entry.backgroundColor = ModAssets.GetColourFromType(ModAssets.GetTraitListOfTrait(traitID));
-                entry.OnDeleteClicked = () => OnRemoveTrait(traitID);
+                entry.backgroundColor = ModAssets.GetColourFromType(Type);
+                if(Type==NextType.undefined||Type==NextType.special)
+                {
+                    entry.HideDelete = true;
+                }
+                else
+                {
+                    entry.OnDeleteClicked = () => OnRemoveTrait(traitID);
+                }
+
                 go.SetActive(true);
                 TraitEntries[traitID] = entry;
             }

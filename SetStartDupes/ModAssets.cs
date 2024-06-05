@@ -233,7 +233,7 @@ namespace SetStartDupes
             }
 
             //Changing Joy/Stress Traits if applicable
-            if (ModConfig.Instance.SkinsDoReactions && Duplicant.TryGetComponent(out Traits traits))
+            if (Config.Instance.SkinsDoReactions && Duplicant.TryGetComponent(out Traits traits))
             {
                 List<Trait> traitsToRemove = new List<Trait>();
 
@@ -250,13 +250,13 @@ namespace SetStartDupes
                     traits.Remove(trait);
                     PurgingTraitComponentIfExists(trait.Id, Duplicant);
                 }
-                if (!ModConfig.Instance.NoJoyReactions)
+                if (!Config.Instance.NoJoyReactions)
                 {
                     var newJoyTrait = Db.Get().traits.TryGet(Skin.stresstrait);
                     if (newJoyTrait != null)
                         traits.Add(newJoyTrait);
                 }
-                if (!ModConfig.Instance.NoStressReactions)
+                if (!Config.Instance.NoStressReactions)
                 {
                     var newStressTrait = Db.Get().traits.TryGet(Skin.joyTrait);
                     if (newStressTrait != null)
@@ -309,13 +309,13 @@ namespace SetStartDupes
 
         public static void ApplySkinFromPersonality(Personality personality, MinionStartingStats stats)
         {
-            if (ModConfig.Instance.SkinsDoReactions)
+            if (Config.Instance.SkinsDoReactions)
             {
-                if (!ModConfig.Instance.NoJoyReactions)
+                if (!Config.Instance.NoJoyReactions)
                 {
                     stats.stressTrait = Db.Get().traits.TryGet(personality.stresstrait);
                 }
-                if (!ModConfig.Instance.NoStressReactions)
+                if (!Config.Instance.NoStressReactions)
                 {
                     stats.joyTrait = Db.Get().traits.TryGet(personality.joyTrait);
                 }
@@ -701,7 +701,7 @@ namespace SetStartDupes
             {
                 List<DUPLICANTSTATS.TraitVal> returnValues = new();
 
-                if (DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || ModConfig.Instance.AddVaccilatorTraits || overrideShowAll)
+                if (DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || Config.Instance.AddVaccilatorTraits || overrideShowAll)
                 {
                     returnValues.AddRange(TraitsByType[NextType.geneShufflerTrait]);
                     return

@@ -113,12 +113,12 @@ namespace SetStartDupes
             OverjoyedContainer = Util.KInstantiateUI(TraitContainer, TraitContainer.transform.parent.gameObject, true);
             OverjoyedContainer.name = "OverjoyedContainer";
             UIUtils.TryChangeText(OverjoyedContainer.transform, "Title", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_JOYTRAIT, string.Empty));
-            OverjoyedContainer.SetActive(!ModConfig.Instance.NoJoyReactions);
+            OverjoyedContainer.SetActive(!Config.Instance.NoJoyReactions);
 
             StressContainer = Util.KInstantiateUI(TraitContainer, TraitContainer.transform.parent.gameObject, true);
             StressContainer.name = "StressContainer";
             UIUtils.TryChangeText(StressContainer.transform, "Title", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_STRESSTRAIT, string.Empty));
-            StressContainer.SetActive(!ModConfig.Instance.NoStressReactions);
+            StressContainer.SetActive(!Config.Instance.NoStressReactions);
 
             LifeGoalContainer = Util.KInstantiateUI(TraitContainer, TraitContainer.transform.parent.gameObject, true);
             LifeGoalContainer.name = "LifeGoalContainer";
@@ -197,7 +197,7 @@ namespace SetStartDupes
             InterestBonusHeader = InterestPointBonus.GetComponent<LocText>();
             interestBonusTooltipCMP = UIUtils.AddSimpleTooltipToObject(InterestPointBonus.gameObject, "tt");
 
-            AddNewInterest = Util.KInstantiateUI(ModAssets.AddNewToTraitsButtonPrefab, InterestContainer,ModConfig.Instance.AddAndRemoveTraitsAndInterests);
+            AddNewInterest = Util.KInstantiateUI(ModAssets.AddNewToTraitsButtonPrefab, InterestContainer,Config.Instance.AddAndRemoveTraitsAndInterests);
             AddNewInterest.TryGetComponent<LayoutElement>(out var addbtnLE);
             addbtnLE.preferredWidth = 262;
             var imgAddinterest = AddNewInterest.transform.Find("Image").rectTransform();
@@ -209,7 +209,7 @@ namespace SetStartDupes
 
             
             
-            AddNewTrait = Util.KInstantiateUI(ModAssets.AddNewToTraitsButtonPrefab, TraitContainer, ModConfig.Instance.AddAndRemoveTraitsAndInterests);
+            AddNewTrait = Util.KInstantiateUI(ModAssets.AddNewToTraitsButtonPrefab, TraitContainer, Config.Instance.AddAndRemoveTraitsAndInterests);
             AddNewTrait.TryGetComponent<LayoutElement>(out var addtraitbtnLE);
             addtraitbtnLE.preferredWidth = 262;
             var imgAdd = AddNewTrait.transform.Find("Image").rectTransform();
@@ -236,7 +236,7 @@ namespace SetStartDupes
             {
                 JoyLabel.text = ToEditMinionStats.joyTrait.Name;
             }
-            if(!ModConfig.Instance.NoJoyReactions)
+            if(!Config.Instance.NoJoyReactions)
             {
                 if (JoyTT == null)
                 {
@@ -255,7 +255,7 @@ namespace SetStartDupes
                 StressLabel.text = ToEditMinionStats.stressTrait.Name;
             }
 
-            if (!ModConfig.Instance.NoStressReactions)
+            if (!Config.Instance.NoStressReactions)
             {
                 if (StressTT == null)
                 {
@@ -307,9 +307,9 @@ namespace SetStartDupes
 
             InterestBonusTooltip = string.Empty;
 
-            InterestBonusTooltip = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOLTOOLTIP, ModConfig.Instance.BalanceAddRemove ? AdditionalSkillPoints : "∞");
+            InterestBonusTooltip = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOLTOOLTIP, Config.Instance.BalanceAddRemove ? AdditionalSkillPoints : "∞");
 
-            if (!ModConfig.Instance.BalanceAddRemove)
+            if (!Config.Instance.BalanceAddRemove)
                 InterestBonusTooltip += "\n" + string.Format(global::STRINGS.UI.MODIFIER_ITEM_TEMPLATE, STRINGS.UI.DUPESETTINGSSCREEN.CONFIGBALANCINGDISABLED, UIUtils.ColorText("∞", UIUtils.number_green));
 
 
@@ -378,7 +378,7 @@ namespace SetStartDupes
                 UIUtils.TryChangeText(AptitudeEntry.transform, "Label",  string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY2, GetSkillGroupName(interest), FirstSkillGroupStat(interest), this.GetBonusValue(interest)));
 
                 var removeButton = AptitudeEntry.transform.Find("RemoveButton");
-                removeButton.gameObject.SetActive(ModConfig.Instance.AddAndRemoveTraitsAndInterests);
+                removeButton.gameObject.SetActive(Config.Instance.AddAndRemoveTraitsAndInterests);
                 UIUtils.AddActionToButton(AptitudeEntry.transform, "RemoveButton", () =>
                 {
                     this.RemoveInterest(interest);
@@ -476,7 +476,7 @@ namespace SetStartDupes
             });
 
             UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, trait.Name));
-            traitEntry.transform.Find("RemoveButton").gameObject.SetActive(ModConfig.Instance.AddAndRemoveTraitsAndInterests && type != NextType.undefined && enableDeleteButton);
+            traitEntry.transform.Find("RemoveButton").gameObject.SetActive(Config.Instance.AddAndRemoveTraitsAndInterests && type != NextType.undefined && enableDeleteButton);
 
             ModAssets.ApplyTraitStyleByKey(traitEntry.transform.Find("RemoveButton").gameObject.GetComponent<KImage>(), type);
 
@@ -620,7 +620,7 @@ namespace SetStartDupes
         public int ExternalModPoints => _externalModPoints;
         int _externalModPoints = 0;
 
-        public string PointPool => ModConfig.Instance.BalanceAddRemove ? UIUtils.ColorNumber(skillPointPool) : UIUtils.ColorText("∞", UIUtils.number_green);
+        public string PointPool => Config.Instance.BalanceAddRemove ? UIUtils.ColorNumber(skillPointPool) : UIUtils.ColorText("∞", UIUtils.number_green);
 
         public enum NextType
         {
@@ -821,7 +821,7 @@ namespace SetStartDupes
 
         public bool CanIncreaseInterest()
         {
-            return skillPointPool > 0 || !ModConfig.Instance.BalanceAddRemove;
+            return skillPointPool > 0 || !Config.Instance.BalanceAddRemove;
         }
         public bool CanReduceInterest(SkillGroup interest)
         {

@@ -309,7 +309,7 @@ namespace SetStartDupes
             }
 
             SgtLogger.l("Applying joy reaction");
-            if (!ModConfig.Instance.NoJoyReactions)
+            if (!Config.Instance.NoJoyReactions)
             {
                 referencedStats.joyTrait = traitRef.Get(this.joyTrait);
             }
@@ -318,7 +318,7 @@ namespace SetStartDupes
                 referencedStats.joyTrait = traitRef.Get("None");
             }
             SgtLogger.l("Applying stress reaction");
-            if (!ModConfig.Instance.NoStressReactions)
+            if (!Config.Instance.NoStressReactions)
             {
                 referencedStats.stressTrait = traitRef.Get(this.stressTrait);
             }

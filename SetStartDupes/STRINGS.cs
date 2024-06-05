@@ -224,7 +224,7 @@ namespace SetStartDupes
                 public class CAREPACKAGESONLYDUPECAP
                 {
                     public static LocString NAME = "Duplicant Threshold for care packages only";
-                    public static LocString TOOLTIP = "Only has an effect if \"" + CAREPACKAGESONLY.NAME + "\" is enabled.\nWhile above this number of duplicants, the printer will only give care packages.";
+                    public static LocString TOOLTIP = "Only has an effect if \"" + CAREPACKAGESONLY.NAME + "\" is enabled.\nWhile above or at this number of duplicants, the printer will only give care packages.";
                 }
 
                 public class CAREPACKAGESONLYPACKAGECAP

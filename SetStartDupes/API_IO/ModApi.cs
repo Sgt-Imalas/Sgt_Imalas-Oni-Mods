@@ -75,7 +75,7 @@ namespace SetStartDupes
             AddingCustomVoiceIdx(nameStringKey, -2);
         }
 
-        public static bool HermitTraitCompletedOnce() => (Game.Instance != null && Game.Instance.unlocks != null && Game.Instance.unlocks.IsUnlocked("LonelyMinion_STORY_COMPLETE") && ModConfig.Instance.HermitSkin);
+        public static bool HermitTraitCompletedOnce() => (Game.Instance != null && Game.Instance.unlocks != null && Game.Instance.unlocks.IsUnlocked("LonelyMinion_STORY_COMPLETE") && Config.Instance.HermitSkin);
 
         public static Dictionary<string, System.Func<bool>> HiddenPersonalitiesWithUnlockCondition = new Dictionary<string, Func<bool>>();
 

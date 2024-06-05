@@ -71,7 +71,7 @@ namespace SetStartDupes
         public class AdditionalCarePackages
         {
             [HarmonyPrepare]
-            static bool Prepare() => ModConfig.Instance.AddAdditionalCarePackages;
+            static bool Prepare() => Config.Instance.AddAdditionalCarePackages;
             public static void Postfix(Immigration __instance)
             {
                 __instance.carePackages = __instance.carePackages.Concat(ModAssets.GetAdditionalCarePackages(__instance));
@@ -85,7 +85,7 @@ namespace SetStartDupes
         {
             public static void Prefix()
             {
-                if (ModConfig.Instance.JorgeAndCryopodDupes)
+                if (Config.Instance.JorgeAndCryopodDupes)
                 {
                     ModAssets.EditingSingleDupe = true;
                     ImmigrantScreen.InitializeImmigrantScreen(null);
@@ -93,7 +93,7 @@ namespace SetStartDupes
             }
             public static void Postfix(CryoTank __instance)
             {
-                if (ModConfig.Instance.JorgeAndCryopodDupes)
+                if (Config.Instance.JorgeAndCryopodDupes)
                 {
                     SgtLogger.l("Getting CryoDupe gameobject");
                     CryoDupeToApplyStatsOn = __instance.smi.sm.defrostedDuplicant.Get(__instance.smi);
@@ -252,7 +252,7 @@ namespace SetStartDupes
             {
                 EditingSingleDupe = telepad == null;
 
-                if ((EditingSingleDupe && ModConfig.Instance.JorgeAndCryopodDupes) || ModConfig.Instance.RerollDuringGame)
+                if ((EditingSingleDupe && Config.Instance.JorgeAndCryopodDupes) || Config.Instance.RerollDuringGame)
                 {
                     if (Spacer == null)
                     {
@@ -447,7 +447,7 @@ namespace SetStartDupes
         {
             public static void Postfix(Telepad telepad, ImmigrantScreen __instance)
             {
-                if (ModConfig.Instance.RerollDuringGame)
+                if (Config.Instance.RerollDuringGame)
                 {
                     if (__instance.containers != null && __instance.containers.Count > 0)
                     {
@@ -501,7 +501,7 @@ namespace SetStartDupes
 
 
 
-                if (__instance.reshuffleButton == null || !ModConfig.Instance.RerollDuringGame)
+                if (__instance.reshuffleButton == null || !Config.Instance.RerollDuringGame)
                     return;
 
                 var selectButton = Util.KInstantiateUI<KButton>(__instance.reshuffleButton.gameObject, __instance.reshuffleButton.transform.parent.gameObject, true);
@@ -624,8 +624,8 @@ namespace SetStartDupes
 
                 bool debugActive = DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive;
 
-                bool ShowDupeEditing = ModConfig.Instance.DuplicityDupeEditor || debugActive;
-                bool ShowSkinEditing = ModConfig.Instance.LiveDupeSkins || debugActive;
+                bool ShowDupeEditing = Config.Instance.DuplicityDupeEditor || debugActive;
+                bool ShowSkinEditing = Config.Instance.LiveDupeSkins || debugActive;
                 
                 AddSkinButtonToDetailScreen.SkinButtonGO?.SetActive(ShowSkinEditing);
                 AddSkinButtonToDetailScreen.DupeStatEditingButtonGO?.SetActive(ShowDupeEditing);
@@ -717,7 +717,7 @@ namespace SetStartDupes
             }
             public static void Prefix(Immigration __instance, float dt)
             {
-                if (__instance.bImmigrantAvailable == false && Mathf.Approximately(Math.Max(__instance.timeBeforeSpawn - dt, 0.0f), 0.0f) && ModConfig.Instance.PauseOnReadyToPrint)
+                if (__instance.bImmigrantAvailable == false && Mathf.Approximately(Math.Max(__instance.timeBeforeSpawn - dt, 0.0f), 0.0f) && Config.Instance.PauseOnReadyToPrint)
                 {
                     SgtLogger.l("Paused the game - new printables available");
                     DoWithDelay(() => SpeedControlScreen.Instance.Pause(true), (3 - SpeedControlScreen.Instance.speed) * 500);
@@ -738,7 +738,7 @@ namespace SetStartDupes
 
                 for (int i = 0; i < __instance.spawnInterval.Length; i++)
                 {
-                    __instance.spawnInterval[i] = Mathf.RoundToInt(ModConfig.Instance.PrintingPodRechargeTime * 600f);
+                    __instance.spawnInterval[i] = Mathf.RoundToInt(Config.Instance.PrintingPodRechargeTime * 600f);
                 }
                 //for(int i = 0; i < __instance.spawnInterval.Length; i++)
                 //{
@@ -755,8 +755,8 @@ namespace SetStartDupes
 
                 if (__instance.spawnInterval.Length >= 2)
                 {
-                    __instance.spawnInterval[0] = Mathf.RoundToInt(ModConfig.Instance.PrintingPodRechargeTimeFirst * 600f);
-                    __instance.spawnInterval[1] = Mathf.RoundToInt(ModConfig.Instance.PrintingPodRechargeTime * 600f);
+                    __instance.spawnInterval[0] = Mathf.RoundToInt(Config.Instance.PrintingPodRechargeTimeFirst * 600f);
+                    __instance.spawnInterval[1] = Mathf.RoundToInt(Config.Instance.PrintingPodRechargeTime * 600f);
 
                 }
                 //for (int i = 0; i < __instance.spawnInterval.Length; i++)
@@ -809,7 +809,7 @@ namespace SetStartDupes
         {
             public static void GrabJorgeGameObject(MinionIdentity minionIdentity)
             {
-                if (ModConfig.Instance.JorgeAndCryopodDupes)
+                if (Config.Instance.JorgeAndCryopodDupes)
                 {
                     SgtLogger.l("Getting Jorge Gameobject");
                     CryoDupeToApplyStatsOn = minionIdentity.gameObject;
@@ -818,7 +818,7 @@ namespace SetStartDupes
             public static void Postfix()
             {
                 SgtLogger.l("Start Editing Jorge");
-                if (CryoDupeToApplyStatsOn && ModConfig.Instance.JorgeAndCryopodDupes)
+                if (CryoDupeToApplyStatsOn && Config.Instance.JorgeAndCryopodDupes)
                 {
 
                     ModAssets.EditingSingleDupe = true;
@@ -906,9 +906,9 @@ namespace SetStartDupes
             //}
             public static void CarePackagesOnly()
             {
-                if (ModConfig.Instance.CarePackagesOnly && Components.MinionIdentities.Count > ModConfig.Instance.CarePackagesOnlyDupeCap)
+                if (Config.Instance.CarePackagesOnly && Components.LiveMinionIdentities.Count >= Config.Instance.CarePackagesOnlyDupeCap)
                 {
-                    instance.numberOfCarePackageOptions = ModConfig.Instance.CarePackagesOnlyPackageCap;
+                    instance.numberOfCarePackageOptions = Config.Instance.CarePackagesOnlyPackageCount;
                     instance.numberOfDuplicantOptions = 0;
                 }
             }
@@ -939,6 +939,10 @@ namespace SetStartDupes
 
                     //TranspilerHelper.PrintInstructions(code);
                 }
+                else
+                {
+                    SgtLogger.error("CarePackagesOnly Transpiler failed!");
+                }
                 return code;
             }
         }
@@ -953,13 +957,13 @@ namespace SetStartDupes
             const float FoodBarsPerDupePerDay = 1000 / 800f; //in Units
             static void Postfix()
             {
-                if (ModConfig.Instance.StartupResources && ModConfig.Instance.DuplicantStartAmount > 3)
+                int dupeCount = Components.LiveMinionIdentities.Count;
+
+                if (Config.Instance.StartupResources && dupeCount > 3)
                 {
                     GameObject telepad = GameUtil.GetTelepad(ClusterManager.Instance.GetStartWorld().id);
-                    float dupeCount = ModConfig.Instance.DuplicantStartAmount;
-
-                    float OxiliteNeeded = OxilitePerDupePerDay * ModConfig.Instance.SupportedDays * (dupeCount - 3);
-                    float FoodeNeeded = FoodBarsPerDupePerDay * ModConfig.Instance.SupportedDays * (dupeCount - 3);
+                    float OxiliteNeeded = OxilitePerDupePerDay * Config.Instance.SupportedDays * (dupeCount - 3);
+                    float FoodeNeeded = FoodBarsPerDupePerDay * Config.Instance.SupportedDays * (dupeCount - 3);
                     Vector3 SpawnPos = telepad.transform.position;
 
                     while (OxiliteNeeded > 0)
@@ -1067,7 +1071,7 @@ namespace SetStartDupes
                         }
                     });
                 }
-                if (!EditingSingleDupe && (ModConfig.Instance.RerollDuringGame || IsStartDupe))
+                if (!EditingSingleDupe && (Config.Instance.RerollDuringGame || IsStartDupe))
                 {
                     GameObject rerollTraitBtn = Util.KInstantiateUI(__instance.reshuffleButton.gameObject, __instance.reshuffleButton.transform.parent.gameObject, true);
                     rerollTraitBtn.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 120, 80f);
@@ -1110,7 +1114,7 @@ namespace SetStartDupes
             {
                 bool is_starter = __instance.controller is MinionSelectScreen;
 
-                bool AllowModification = ModConfig.Instance.ModifyDuringGame || (EditingSingleDupe && ModConfig.Instance.JorgeAndCryopodDupes);
+                bool AllowModification = Config.Instance.ModifyDuringGame || (EditingSingleDupe && Config.Instance.JorgeAndCryopodDupes);
                 if (!buttonsToDeactivateOnEdit.ContainsKey(__instance))
                 {
                     buttonsToDeactivateOnEdit[__instance] = new List<KButton>();
@@ -1271,11 +1275,11 @@ namespace SetStartDupes
         {
             public static void Postfix(MinionStartingStats __instance)
             {
-                if (ModConfig.Instance.NoJoyReactions)
+                if (Config.Instance.NoJoyReactions)
                 {
                     __instance.joyTrait = Db.Get().traits.Get("None");
                 }
-                if (ModConfig.Instance.NoStressReactions)
+                if (Config.Instance.NoStressReactions)
                 {
                     __instance.stressTrait = Db.Get().traits.Get("None");
                 }
@@ -1321,7 +1325,7 @@ namespace SetStartDupes
             public static int CustomStartingDupeCount(int dupeCount) ///int requirement to consume previous "3" on stack
             {
                 if (dupeCount == 3 && CharacterSelectionController_Patch2.instance is MinionSelectScreen)
-                    return ModConfig.Instance.DuplicantStartAmount; ///push new value to the stack
+                    return Config.Instance.DuplicantStartAmount; ///push new value to the stack
                 else return dupeCount;
             }
 
@@ -1380,7 +1384,7 @@ namespace SetStartDupes
                             layout.transform.parent.TryGetComponent<VerticalLayoutGroup>(out var verticalLayoutGroup);
                             verticalLayoutGroup.padding = new RectOffset(00, 00, 50, 50);
                             layout.childAlignment = TextAnchor.UpperCenter;
-                            int countPerRow = ModConfig.Instance.DuplicantStartAmount;
+                            int countPerRow = Config.Instance.DuplicantStartAmount;
 
                             layout.constraintCount = 5;
                         }
@@ -1420,7 +1424,7 @@ namespace SetStartDupes
                     {
                         if (locText.key == "STRINGS.UI.IMMIGRANTSCREEN.SELECTYOURCREW" || locText.key == "STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURLONECREWMAN")
                         {
-                            locText.key = ModConfig.Instance.DuplicantStartAmount == 1 ? "STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURLONECREWMAN" : "STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURCREW";
+                            locText.key = Config.Instance.DuplicantStartAmount == 1 ? "STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURLONECREWMAN" : "STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURCREW";
                             break;
                         }
                     }

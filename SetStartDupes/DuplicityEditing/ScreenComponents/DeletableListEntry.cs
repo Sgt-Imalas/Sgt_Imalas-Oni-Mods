@@ -16,6 +16,7 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
         public System.Action OnDeleteClicked;
         FButton deleteButton;
         public UnityEngine.Color? backgroundColor =null;
+        public bool HideDelete = false;
 
         public override void OnPrefabInit()
         {
@@ -23,8 +24,16 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
             label = transform.Find("Label").GetComponent<LocText>();
             label.SetText(Text);
 
-            deleteButton = transform.Find("DeleteButton").gameObject.AddOrGet<FButton>();
-            deleteButton.OnClick += OnDeleteClicked;
+            if (!HideDelete)
+            {
+                deleteButton = transform.Find("DeleteButton").gameObject.AddOrGet<FButton>();
+                deleteButton.OnClick += OnDeleteClicked;
+            }
+            else
+            {
+                transform.Find("DeleteButton").gameObject.SetActive(false);
+            }
+
 
             if(Tooltip != null && Tooltip.Length > 0)
             {
