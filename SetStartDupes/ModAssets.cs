@@ -116,6 +116,7 @@ namespace SetStartDupes
             {          
                 ///missing seeds:
                 new CarePackageInfo(EvilFlowerConfig.SEED_ID, 1f, () => __instance.CycleCondition(96) && __instance.DiscoveredCondition((Tag) EvilFlowerConfig.ID) || __instance.CycleCondition(500)),
+                new CarePackageInfo(BulbPlantConfig.SEED_ID, 1f, () => __instance.CycleCondition(36) && __instance.DiscoveredCondition((Tag) BulbPlantConfig.ID) || __instance.CycleCondition(500)),
                 new CarePackageInfo(BeanPlantConfig.SEED_ID, 3f, () => __instance.CycleCondition(48) && __instance.DiscoveredCondition((Tag) BeanPlantConfig.ID) || __instance.CycleCondition(500)),
                 new CarePackageInfo(ColdWheatConfig.SEED_ID, 3f, () => __instance.CycleCondition(48) && __instance.DiscoveredCondition((Tag) ColdWheatConfig.ID) || __instance.CycleCondition(500)),
                 new CarePackageInfo(SeaLettuceConfig.SEED_ID, 3f, () => __instance.CycleCondition(48) && __instance.DiscoveredCondition((Tag) SeaLettuceConfig.ID) || __instance.CycleCondition(500)),
@@ -124,7 +125,7 @@ namespace SetStartDupes
                 ///missing minerals:
                 new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Granite).tag.ToString(), 1000f, (Func<bool>) (() => __instance.CycleCondition(24) && __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Granite).tag)|| __instance.CycleCondition(500))),
                 new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Obsidian).tag.ToString(), 1000f, (Func<bool>) (() => __instance.CycleCondition(24) && __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Obsidian).tag)|| __instance.CycleCondition(500))),
-                new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Katairite).tag.ToString(), 500f, (Func<bool>) (() => __instance.CycleCondition(48) && __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Katairite).tag)|| __instance.CycleCondition(500))),
+                new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Katairite).tag.ToString(), 1000f, (Func<bool>) (() => __instance.CycleCondition(48) && __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Katairite).tag)|| __instance.CycleCondition(500))),
 
                 ///missing ores+metals
                 new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.IronOre).tag.ToString(), 2000f, (Func<bool>) (() => __instance.CycleCondition(12) && __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.IronOre).tag)|| __instance.CycleCondition(500))),
