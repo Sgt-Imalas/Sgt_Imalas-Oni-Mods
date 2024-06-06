@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
+using static Rockets_TinyYetBig.Patches.DrillConeSupportModulePatches;
 using static Rockets_TinyYetBig.RocketFueling.FuelLoaderComponent;
 using static Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS;
 using static StateMachine<LaunchPadMaterialDistributor, LaunchPadMaterialDistributor.Instance, IStateMachineTarget, LaunchPadMaterialDistributor.Def>;
@@ -38,7 +39,7 @@ namespace Rockets_TinyYetBig
 
         public static GameObject ModuleSettingsWindowPrefab;
         public static GameObject DockingSideScreenWindowPrefab;
-        public static GameObject DupeTransferSecondarySideScreenWindowPrefab; 
+        public static GameObject DupeTransferSecondarySideScreenWindowPrefab;
         public static KScreen DupeTransferSecondarySideScreen;
 
         public static GameObject SpaceConstructionSideScreenWindowPrefab;
@@ -50,7 +51,7 @@ namespace Rockets_TinyYetBig
             AssetBundle bundle = AssetUtils.LoadAssetBundle("rocketryexpanded_ui_assets", platformSpecific: true);
             ModuleSettingsWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/ModuleSettings.prefab");
             DupeTransferSecondarySideScreenWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DockingTransferScreen.prefab");
-            DockingSideScreenWindowPrefab  = bundle.LoadAsset<GameObject>("Assets/UIs/DockingScreen.prefab");
+            DockingSideScreenWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DockingScreen.prefab");
             SpaceConstructionSideScreenWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/SpaceAssembleMenu_Sidescreen.prefab");
             SpaceConstructionTargetScreenWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/ConstructionSelector_SecondarySidescreen.prefab");
 
@@ -68,10 +69,11 @@ namespace Rockets_TinyYetBig
             TMPConverter.ReplaceAllText(SpaceConstructionSideScreenWindowPrefab);
             TMPConverter.ReplaceAllText(SpaceConstructionTargetScreenWindowPrefab);
 
-            DupeTransferSecondarySideScreen  = DupeTransferSecondarySideScreenWindowPrefab.AddComponent<CrewAssignmentSidescreen>();
+            DupeTransferSecondarySideScreen = DupeTransferSecondarySideScreenWindowPrefab.AddComponent<CrewAssignmentSidescreen>();
             SpaceConstructionTargetSecondarySideScreen = SpaceConstructionTargetScreenWindowPrefab.AddComponent<SpaceConstructionTargetScreen>();
         }
 
+        public static float DefaultDrillconeHarvestSpeed  = ROCKETRY.SOLID_CARGO_BAY_CLUSTER_CAPACITY * ROCKETRY.CARGO_CAPACITY_SCALE / 3600f;
 
         /// <summary>
         /// Second value is when rebalance is on, first is when off
@@ -126,8 +128,8 @@ namespace Rockets_TinyYetBig
             {
                 float flyingSpeedMultiplier = clustercraft.PilotSkillMultiplier;
                 float miningSpeedMultiplier = clustercraft.GetComponent<Clustercraft_AdditionalComponent>().Drillcone_MiningSkillMultiplier;
-               
-                multiplier = Mathf.Max(0.75f, (flyingSpeedMultiplier*0.5f + miningSpeedMultiplier * 0.5f));
+
+                multiplier = Mathf.Max(0.75f, (flyingSpeedMultiplier * 0.5f + miningSpeedMultiplier * 0.5f));
                 //SgtLogger.l($"Total MiningMultiplier: {multiplier}, flying: {flyingSpeedMultiplier}, mining: {miningSpeedMultiplier}.");
                 multiplier = (multiplier - 1) * 2 + 1;
                 //SgtLogger.l($"Total MiningMultiplier adjusted: {multiplier}.");
@@ -265,11 +267,11 @@ namespace Rockets_TinyYetBig
                 var operational = smi1.GetComponent<Operational>();
 
 
-                if (modularConduitPortController == null|| operational == null)
+                if (modularConduitPortController == null || operational == null)
                     continue;
 
                 bool isLoading = false;
-                if (fuelLoader != null && operational.IsOperational &&  (modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Load || modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Both))
+                if (fuelLoader != null && operational.IsOperational && (modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Load || modularConduitPortController.SelectedMode == ModularConduitPortController.Mode.Both))
                 {
                     //shouldDoNormal = false;
                     modularConduitPortController.SetRocket(true);
@@ -446,7 +448,7 @@ namespace Rockets_TinyYetBig
             ///By default it is attached to Lead, depleted uranium, thermium, tungsten and neutronium alloy
             /// </summary>
             public static Tag RadiationShieldingRocketConstructionMaterial = TagManager.Create("RTB_RadiationShieldingRocketConstructionMaterial");
-            
+
             /// <summary>
             /// add this tag to any liquid material that is a rocket fuel, by default it is attached to every material with the "Combustible Liquid" Tag and Hydrogen
             /// </summary>
@@ -456,7 +458,7 @@ namespace Rockets_TinyYetBig
             /// Liquid Oxidizer that is corrosive, requires storing in Plated Liquid Oxidizer Tank
             /// </summary>
             public static Tag CorrosiveOxidizer = TagManager.Create("RTB_OxidizerCorrosiveRequirement");
-            
+
             /// <summary>
             /// Liquid Oxidizer that is non corrosive, thus stored in a normal Liquid oxygen tank
             /// </summary>
@@ -500,7 +502,7 @@ namespace Rockets_TinyYetBig
             private static Dictionary<Tag, float> oxidizerEfficiencies;
             public static Dictionary<Tag, float> GetOxidizerEfficiencies()
             {
-                if(oxidizerEfficiencies== null)
+                if (oxidizerEfficiencies == null)
                 {
                     oxidizerEfficiencies = new Dictionary<Tag, float>()
                     {
@@ -512,7 +514,7 @@ namespace Rockets_TinyYetBig
                         { Tags.OxidizerEfficiency_6, 6 },
                     };
                 }
-                return oxidizerEfficiencies;                
+                return oxidizerEfficiencies;
             }
         }
 
@@ -601,6 +603,7 @@ namespace Rockets_TinyYetBig
             public static StatusItem RTB_AlwaysActiveOff;
             public static StatusItem RTB_CritterModuleContent;
             public static StatusItem RTB_AccessHatchStorage;
+            public static StatusItem RTB_MiningInformationBoons;
 
 
             public static StatusItem RTB_SpaceStationConstruction_Status;
@@ -678,8 +681,15 @@ namespace Rockets_TinyYetBig
                      NotificationType.Neutral,
                      false,
                      OverlayModes.Power.ID);
-                
 
+                RTB_MiningInformationBoons = new StatusItem(
+                     "RTB_MININGINFORMATIONBOONS",
+                     "BUILDING",
+                     string.Empty,
+                     StatusItem.IconType.Info,
+                     NotificationType.Neutral,
+                false,
+                     OverlayModes.None.ID);
 
                 RTB_CritterModuleContent = new StatusItem(
                      "RTB_CRITTERMODULECONTENT",
@@ -723,10 +733,10 @@ namespace Rockets_TinyYetBig
                 {
                     var StationConstructior = (SpaceStationBuilder)data;
 
-                    if(StationConstructior.ConstructionTimes(out bool isConstructing, out var remainingTime))
+                    if (StationConstructior.ConstructionTimes(out bool isConstructing, out var remainingTime))
                     {
                         if (isConstructing)
-                        {                            
+                        {
                             str = str.Replace("{STATUS}", RTB_STATIONCONSTRUCTORSTATUS.CONSTRUCTING);
                             str = str.Replace("{TIME}", GameUtil.GetFormattedTime(remainingTime));
                         }
@@ -761,6 +771,15 @@ namespace Rockets_TinyYetBig
                     str = str.Replace("{CritterContentStatus}", CritterData);
                     return str;
                 });
+                RTB_MiningInformationBoons.resolveStringCallback = (Func<string, object, string>)((str, data) =>
+                {
+                    if (data is Tuple<float,string> tooltipData)
+                    {
+                        str = str.Replace("{RATEPERCENTAGE}", tooltipData.first.ToString("0%"));
+                        str = str.Replace("{TOOLTIP}", tooltipData.second);
+                    }
+                    return str;
+                });
 
                 RTB_RocketBatteryStatus.resolveStringCallback = (Func<string, object, string>)((str, data) =>
                 {
@@ -776,16 +795,16 @@ namespace Rockets_TinyYetBig
                 {
                     var worldIDs = (List<int>)data;
 
-                    string worldsList=string.Empty;
+                    string worldsList = string.Empty;
 
-                    foreach(var id in worldIDs)
+                    foreach (var id in worldIDs)
                     {
                         var world = ClusterManager.Instance.GetWorld(id);
                         if (world != null)
                         {
                             worldsList += string.Format(RTB_DOCKEDSTATUS.DOCKEDINFO, world.GetProperName());
                         }
-                        if(worldIDs.Count  == 1)
+                        if (worldIDs.Count == 1)
                         {
                             str = str.Replace("{SINGLEDOCKED}", world.GetProperName());
                         }
@@ -843,7 +862,7 @@ namespace Rockets_TinyYetBig
                     str = str.Replace("{REMAININGMASS}", hatch.TotalKCAL.ToString());
                     return str;
                 });
-                
+
                 SgtLogger.debuglog("[Rocketry Expanded] Status items initialized");
 
             }

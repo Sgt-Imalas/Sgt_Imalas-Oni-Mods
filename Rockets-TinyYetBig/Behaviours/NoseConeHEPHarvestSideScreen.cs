@@ -25,11 +25,13 @@ namespace Rockets_TinyYetBig.Behaviours
             lastMassStored = -2f;
             drillerStorage = null;
             moduleInstance = null;
+            hepStorages= null;
         }
 
         float lastPercentageState = -1f;
         float lastMassStored = -1f;
         public HighEnergyParticleStorage drillerStorage = null;
+        public List<HighEnergyParticleStorage> hepStorages = null;
         public NoseConeHEPHarvest.StatesInstance moduleInstance;
 
 
@@ -48,7 +50,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
         public override float GetSortKey() => 21f;
 
-        public override bool IsValidForTarget(GameObject target) => target.TryGetComponent<Clustercraft>(out var clustercraft) && this.GetResourceHarvestModule(clustercraft) != null;
+        public override bool IsValidForTarget(GameObject target) => target.TryGetComponent<Clustercraft>(out var clustercraft) && this.HasResourceHarvestModule(clustercraft);
 
         public override void OnSpawn()
         {
@@ -63,21 +65,39 @@ namespace Rockets_TinyYetBig.Behaviours
             base.SetTarget(target);
             TryGetComponent(out hierarchyReferences);
             target.TryGetComponent<Clustercraft>(out targetCraft);
-            moduleInstance = GetResourceHarvestModule(targetCraft);
-            moduleInstance.gameObject.TryGetComponent(out drillerStorage);
+            GetResourceHarvestModule(targetCraft);
             RefreshModulePanel(moduleInstance);
         }
 
-        private NoseConeHEPHarvest.StatesInstance GetResourceHarvestModule(
+        private bool HasResourceHarvestModule(
           Clustercraft craft)
         {
             foreach (Ref<RocketModuleCluster> clusterModule in craft.GetComponent<CraftModuleInterface>().ClusterModules)
             {
                 GameObject gameObject = clusterModule.Get().gameObject;
                 if (gameObject.GetDef<NoseConeHEPHarvest.Def>() != null)
-                    return gameObject.GetSMI<NoseConeHEPHarvest.StatesInstance>();
+                    return gameObject.GetSMI<NoseConeHEPHarvest.StatesInstance>()!=null;
             }
-            return (NoseConeHEPHarvest.StatesInstance)null;
+            return false;
+        }
+        private void GetResourceHarvestModule(
+          Clustercraft craft)
+        {
+            hepStorages = new List<HighEnergyParticleStorage>();
+            foreach (Ref<RocketModuleCluster> clusterModule in craft.GetComponent<CraftModuleInterface>().ClusterModules)
+            {
+                GameObject gameObject = clusterModule.Get().gameObject;
+                if (gameObject.GetDef<NoseConeHEPHarvest.Def>() != null)
+                {
+                    moduleInstance = gameObject.GetSMI<NoseConeHEPHarvest.StatesInstance>();
+                    moduleInstance.gameObject.TryGetComponent(out drillerStorage);
+                    hepStorages.Add(drillerStorage);
+                }
+                if (gameObject.TryGetComponent<DrillConeAssistentModuleHEP>(out var moduleHEP))
+                {
+                    hepStorages.Add(moduleHEP.HEPStorage);
+                }
+            }
         }
         private void RefreshModulePanel(StateMachine.Instance module)
         {
@@ -98,12 +118,26 @@ namespace Rockets_TinyYetBig.Behaviours
                 progressBar.label.SetText(miningProgress > -1f ? (string)global::STRINGS.UI.UISIDESCREENS.HARVESTMODULESIDESCREEN.MINING_IN_PROGRESS : (string)global::STRINGS.UI.UISIDESCREENS.HARVESTMODULESIDESCREEN.MINING_STOPPED);
                 lastPercentageState = miningProgress;
             }
-            
-            if (!Mathf.Approximately(drillerStorage.Particles, lastMassStored))
+            GetParticleCounts(out var capacity, out var currentBolts);
+            if (!Mathf.Approximately(currentBolts, lastMassStored))
             {
-                diamondProgressBar.SetFillPercentage(drillerStorage.Particles / drillerStorage.Capacity());
-                diamondProgressBar.label.SetText(UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES + ": " + drillerStorage.Particles.ToString("0.#"));
-                lastMassStored = drillerStorage.Particles;
+                diamondProgressBar.SetFillPercentage(currentBolts / capacity);
+                diamondProgressBar.label.SetText(UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES + ": " + currentBolts.ToString("0.#"));
+                lastMassStored = currentBolts;
+            }
+        }
+        public void GetParticleCounts(out float max, out float current)
+        {
+            current = 0;
+            max = 0;    
+
+            if(hepStorages==null)
+                return;
+
+            foreach(var hepStorage in hepStorages)
+            {
+                current += hepStorage.Particles;
+                max += hepStorage.Capacity();
             }
         }
     }

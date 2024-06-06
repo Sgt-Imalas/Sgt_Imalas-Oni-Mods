@@ -1,4 +1,5 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Buildings.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS;
 
 namespace Rockets_TinyYetBig.Buildings.Nosecones
 {
@@ -27,11 +29,13 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
             not_grounded
                 .DefaultState(not_grounded.not_harvesting)
                 .EventHandler(GameHashes.ClusterLocationChanged, smi => Game.Instance, smi => smi.CheckIfCanHarvest()).EventHandler(GameHashes.OnStorageChange, smi => smi.CheckIfCanHarvest()).TagTransition(GameTags.RocketNotOnGround, grounded, true);
-            not_grounded.not_harvesting.PlayAnim("loaded")
+            not_grounded.not_harvesting
+                .PlayAnim("loaded")
                 .ParamTransition(canHarvest, not_grounded.harvesting, IsTrue)
                 .Enter(smi => StatesInstance.RemoveHarvestStatusItems(smi.master.gameObject.GetComponent<RocketModuleCluster>().CraftInterface.gameObject))
                 .Update((smi, dt) => smi.CheckIfCanHarvest(), UpdateRate.SIM_4000ms);
-            not_grounded.harvesting.PlayAnim("deploying")
+            not_grounded.harvesting
+                .PlayAnim("deploying")
                 .Exit(smi =>
                 {
                     StatesInstance.RemoveHarvestStatusItems(smi.master.gameObject.GetComponent<RocketModuleCluster>().CraftInterface.gameObject);
@@ -58,7 +62,6 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
                         SgtLogger.warning("Laser drillcone has encountered an error:");
                         SgtLogger.error(ex.Message);
                     }
-                        SgtLogger.l("Laser drillcone started drilling");
                     clustercraft.Trigger(-1762453998, null);
                     StatesInstance.AddHarvestStatusItems(clustercraft.ModuleInterface.gameObject, smi.def.harvestSpeed * ModAssets.GetMiningPilotSkillMultiplier(clustercraft));
                 })
@@ -134,17 +137,20 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
                     if (!DiscoveredResources.Instance.IsDiscovered(elementByHash.tag))
                         DiscoveredResources.Instance.Discover(elementByHash.tag, elementByHash.GetMaterialCategoryTag());
                 }
-                float harvestSpeedDT = Mathf.Min(GetMaxExtractKGFromHEPsAvailable(), def.harvestSpeed * dt * ModAssets.GetMiningPilotSkillMultiplier(component));
+
+                float PilotDrillSpeedMultiplier = ModAssets.GetMiningPilotSkillMultiplier(component);
+
+                float harvestSpeedDT = Mathf.Min(GetMaxExtractKGFromHEPsAvailable(), def.harvestSpeed * dt * PilotDrillSpeedMultiplier);
                 float consumptionMass = 0.0f;
                 float num4 = 0.0f;
                 float wastedHarvestingMass = 0.0f;
                 foreach (KeyValuePair<SimHashes, float> keyValuePair in elementsWithWeights)
                 {
-                    if ((double)consumptionMass < (double)harvestSpeedDT)
+                    if (consumptionMass < harvestSpeedDT)
                     {
                         SimHashes key = keyValuePair.Key;
                         float elementDropPercentage = keyValuePair.Value / percentageSum;
-                        float elementMassPerTick = def.harvestSpeed * ModAssets.GetMiningPilotSkillMultiplier(component) * dt * elementDropPercentage;
+                        float elementMassPerTick = harvestSpeedDT * elementDropPercentage;
                         consumptionMass += elementMassPerTick;
                         Element elementByHash = ElementLoader.FindElementByHash(key);
                         CargoBay.CargoType stateToCargoType = CargoBay.ElementStateToCargoTypes[elementByHash.state & Element.State.Solid];
@@ -180,8 +186,9 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
                 }
                 smi.DeltaPOICapacity(-consumptionMass);
                 ConsumeParticles(consumptionMass * HEPConsumptionRate);
-                if ((double)wastedHarvestingMass > 0.0)
-                    component.GetComponent<KSelectable>().AddStatusItem(Db.Get().BuildingStatusItems.SpacePOIWasting, (float)((double)wastedHarvestingMass / (double)dt));
+
+                if (wastedHarvestingMass > 0.0)
+                    component.GetComponent<KSelectable>().AddStatusItem(Db.Get().BuildingStatusItems.SpacePOIWasting, wastedHarvestingMass / dt);
                 else
                     component.GetComponent<KSelectable>().RemoveStatusItem(Db.Get().BuildingStatusItems.SpacePOIWasting);
                 SaveGame.Instance.GetComponent<ColonyAchievementTracker>().totalMaterialsHarvestFromPOI += consumptionMass;
@@ -237,11 +244,51 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
                 return flag;
             }
 
-            public static void AddHarvestStatusItems(GameObject statusTarget, float harvestRate) => statusTarget.GetComponent<KSelectable>().AddStatusItem(Db.Get().BuildingStatusItems.SpacePOIHarvesting, harvestRate);
+            public static void AddHarvestStatusItems(GameObject statusTarget, float harvestRate)
+            {
+                if (statusTarget.TryGetComponent<KSelectable>(out var selectable))
+                {
+                    selectable.AddStatusItem(Db.Get().BuildingStatusItems.SpacePOIHarvesting, harvestRate);
+                    BuildBoostStatusString(statusTarget, harvestRate, selectable);
+                }
+            }
 
-            public static void RemoveHarvestStatusItems(GameObject statusTarget) => statusTarget.GetComponent<KSelectable>().RemoveStatusItem(Db.Get().BuildingStatusItems.SpacePOIHarvesting);
+            public static void RemoveHarvestStatusItems(GameObject statusTarget)
+            {
+                if (statusTarget.TryGetComponent<KSelectable>(out var selectable))
+                {
+                    selectable.RemoveStatusItem(Db.Get().BuildingStatusItems.SpacePOIHarvesting);
+                    selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_MiningInformationBoons);
+                }
+            }
+            static void BuildBoostStatusString(GameObject statusTarget, float harvestRate, KSelectable selectable)
+            {
+                statusTarget.TryGetComponent<CraftModuleInterface>(out var CraftInterface);
+                float pilotBoost = ModAssets.GetMiningPilotSkillMultiplier(CraftInterface.m_clustercraft);
+                float totalBoostPercentage = pilotBoost;
+
+                float boostPercentagePilot = pilotBoost < 1f ? (1f - pilotBoost) * -100f : (pilotBoost - 1) * 100f;
+                float totalSupportBoostPercentage = totalBoostPercentage < 1f ? (1f - totalBoostPercentage) * -1 : (totalBoostPercentage - 1);
+
+                string tooltipString = RTB_MININGINFORMATIONBOONS.TOOLTIPINFO
+                    .Replace("{RATEPERCENTAGE}", totalSupportBoostPercentage.ToString("0%"))
+                    .Replace("{YIELDMASS}", harvestRate.ToString("0.00 Kg"))
+                    .Replace("{DRILLMATERIALMASS}", (harvestRate * HEPConsumptionRate).ToString("0.0"))
+                    .Replace("{DRILLMATERIAL}", global::STRINGS.ITEMS.RADIATION.HIGHENERGYPARITCLE.NAME);
+
+                if (!Mathf.Approximately(boostPercentagePilot, 0f))
+                {
+                    tooltipString += RTB_MININGINFORMATIONBOONS.PILOTSKILL
+                        .Replace("{BOOSTPERCENTAGE}", boostPercentagePilot.ToString("0"));
+                    tooltipString += "\n";
+                }
+
+
+                selectable.AddStatusItem(ModAssets.StatusItems.RTB_MiningInformationBoons, new Tuple<float, string>(totalSupportBoostPercentage, tooltipString));
+
+                //selectable.SetStatusItem(Db.Get().StatusItemCategories.Suffocation, ModAssets.StatusItems.RTB_MiningInformationBoons, new Tuple<float, string>(harvestRate, tooltipString));
+
+            }
         }
     }
-
-
 }

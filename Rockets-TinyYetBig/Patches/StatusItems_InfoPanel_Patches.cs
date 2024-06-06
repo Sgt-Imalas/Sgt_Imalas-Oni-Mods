@@ -685,7 +685,9 @@ namespace Rockets_TinyYetBig.Patches
                                             CarboBayTooltip += "\n";
                                         }
                                     }
-                                    rocketStatusContainer.SetLabel("cargoBay_" + j, CargobayText, CarboBayTooltip);
+                                    string labelID = "cargoBay_" + j;
+                                    rocketStatusContainer.SetLabel(labelID, CargobayText, CarboBayTooltip);
+                                    rocketStatusContainer.labels[labelID].obj.toolTip.toolTipPosition = ToolTip.TooltipPosition.TopCenter;
                                     pooledList.Recycle();
                                 }
                                 else if (currentModule.VanillaCritterStorage != null)

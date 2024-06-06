@@ -167,7 +167,7 @@ namespace Rockets_TinyYetBig
         public bool RefillDrillSupport { get; set; }
 
 
-        [Option("Pilot Skill Mining Speed", "The pilots skills affect the drilling speed of the drillcone.\nApplies to both drillcone types", "(2) Mining & Shipping")]
+        [Option("Pilot Skill Mining Speed", "The pilots piloting and digging skills affect the drilling speed of the drillcone.\nApplies to both drillcone types", "(2) Mining & Shipping")]
         [JsonProperty]
         public bool PilotSkillAffectsDrillSpeed { get; set; }
 
@@ -363,7 +363,7 @@ namespace Rockets_TinyYetBig
             EnableCritterStorage = true;
             CritterStorageCapacity = 5;
             EnableLaserDrill = true;
-            LaserDrillconeSpeed = 3.75f;
+            LaserDrillconeSpeed = 4.875f;
             EnableFridge = true;
             InfinitePOI = false;
             EnableLargeCargoBays = true;
@@ -372,6 +372,7 @@ namespace Rockets_TinyYetBig
             RadboltStorageCapacity = 3000f;
             EnableDrillSupport = true;
             LaserDrillconeSpeed = 25;
+            DrillconeSupportBoost = 20;
             DrillconeSupportDiamondMass = 1500;
             PilotSkillAffectsDrillSpeed = true;
             RefillDrillSupport = false;

@@ -437,7 +437,8 @@ namespace Rockets_TinyYetBig
                     public static LocString DESC = (LocString)"Particles packed up and ready to visit the stars.";
                     public static LocString EFFECT = (LocString)("Stores Radbolts in a high-energy state, ready for transport.\n\n" +
                         "Requires a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " to release radbolts from storage when the Radbolt threshold is reached.\n\n" +
-                        "Radbolts in storage won't decay as long as the modules solar panels can function.");
+                        "Radbolts in storage won't decay as long as the modules solar panels can function.\n\n"+
+                        "Automatically refills a "+RYB_NOSECONEHEPHARVEST.NAME);
                 }
 
                 public class RTB_HABITATMODULEPLATEDLARGE
@@ -525,6 +526,18 @@ namespace Rockets_TinyYetBig
                     public static LocString DROPITBUTTONTOOLTIP = "Drop it like its hot";
                     public static LocString UNITS = " Critters";
                 }
+                public class RTB_MININGINFORMATIONBOONS
+                {
+                    public static LocString NAME = "Mining Boost: {RATEPERCENTAGE}";
+                    public static LocString TOOLTIP = "{TOOLTIP}";
+                    public static LocString TOOLTIPINFO = ("This mining operation is boosted by {RATEPERCENTAGE},\ncurrently mining {YIELDMASS} and consuming {DRILLMATERIALMASS} {DRILLMATERIAL} per second.\nBoosting Factors:\n");
+
+                    public static LocString PILOTSKILL = " • Pilot skills: {BOOSTPERCENTAGE}% (affected by piloting and digging skill)";
+                    public static LocString SUPPORTMODULE = " • Drillcone Maintainance Modules: {BOOSTPERCENTAGE}% (x{COUNT} Modules)";
+                    public static LocString SUPPORTMODULESINGULAR = " • Drillcone Maintainance Module: {BOOSTPERCENTAGE}% (x1 Module)";
+
+                }
+
                 public class RTB_STATIONCONSTRUCTORSTATUS
                 {
                     public static LocString NAME = (LocString)"Module Status: {STATUS}";

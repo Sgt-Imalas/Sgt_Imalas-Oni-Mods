@@ -28,7 +28,7 @@ namespace Rockets_TinyYetBig.Buildings.Utility
             }
             if(clustercraft.Status == Clustercraft.CraftStatus.InFlight)
             {
-                if (TargetStorage != null || !TargetStorage.IsNullOrDestroyed())
+                if (TargetStorage != null && !TargetStorage.IsNullOrDestroyed())
                 {
                     TransferDiamond();
                 }
@@ -73,8 +73,7 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 
         private void CheckTarget()
         {
-
-            if (TargetStorage != null && TargetStorage.IsNullOrDestroyed())
+            if (TargetStorage != null && !TargetStorage.IsNullOrDestroyed())
                 return;
 
             foreach (var otherModule in module.CraftInterface.ClusterModules)

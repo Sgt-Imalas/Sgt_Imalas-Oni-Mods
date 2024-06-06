@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace Rockets_TinyYetBig.Behaviours
 {
@@ -15,6 +16,8 @@ namespace Rockets_TinyYetBig.Behaviours
         //IUserControlledCapacity, 
         ISingleSliderControl
     {
+        [MyCmpGet] RocketModuleCluster module;
+
         [MyCmpReq]
         private KSelectable selectable;
         [Serialize]
@@ -38,13 +41,13 @@ namespace Rockets_TinyYetBig.Behaviours
         private readonly float minLaunchInterval = 1f;
         public void Sim200ms(float dt)
         {
-            bool hasSky = HasSkyVisibility();
-            if (!hasSky)
+            bool shouldDecay = ShouldDecay();
+            if (shouldDecay)
                 DoConsumeParticlesWhileDisabled(dt);
             else
                 m_skipFirstUpdate = 10;
 
-            UpdateDecayStatusItem(hasSky);
+            UpdateDecayStatusItem(shouldDecay);
             launchTimer += dt;
             if (launchTimer < (double)minLaunchInterval || !AllowSpawnParticles || (double)hepStorage.Particles < particleThreshold)
                 return;
@@ -56,7 +59,7 @@ namespace Rockets_TinyYetBig.Behaviours
         private Guid statusHandle = Guid.Empty;
         public void UpdateDecayStatusItem(bool decaying)
         {
-            if (!decaying)
+            if (decaying)
             {
                 if ((double)this.hepStorage.Particles > 0.0)
                 {
@@ -79,6 +82,15 @@ namespace Rockets_TinyYetBig.Behaviours
                 this.GetComponent<KSelectable>().RemoveStatusItem(this.statusHandle);
                 this.statusHandle = Guid.Empty;
             }
+        }
+
+        public bool ShouldDecay()
+        {
+            if (!HasSkyVisibility() && module.CraftInterface.m_clustercraft.Status == Clustercraft.CraftStatus.Grounded)
+            {
+                return true;
+            }
+            return false;
         }
 
         public bool HasSkyVisibility()

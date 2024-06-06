@@ -1,1 +1,8 @@
-﻿
+﻿- fixed radbolt chamber losing bolts on start / landing of rocket
+- adjusted tooltip of radbolt chamber to indicate that it can refuel the laser drillcone
+- the laser drillcone sidescreen now shows radbolt chamber module contents in its total capacity
+- fixed drillcone service module not having the 20% boost configured by default
+- added tooltip that displays the current drillcone boost
+- fixed some small bugs with the laser drillcone
+
+- added chinese localisation by Chinchou

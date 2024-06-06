@@ -41,6 +41,7 @@ namespace Rockets_TinyYetBig
                         CategoryPatchTest.SearchBar.Select();
                         CategoryPatchTest.SearchBar.ActivateInputField();
                         KScreenManager.Instance.RefreshStack();
+                        CategoryPatchTest.EditingSearch = true;
                     }
                 }
             }
