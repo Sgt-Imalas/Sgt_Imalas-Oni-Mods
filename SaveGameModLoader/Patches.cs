@@ -30,9 +30,6 @@ namespace SaveGameModLoader
             }
         }
 
-
-
-
         [HarmonyPatch(typeof(LoadScreen), "ShowColony")]
         public static class AddModSyncButtonLogic
         {
@@ -135,7 +132,6 @@ namespace SaveGameModLoader
                 public long Size;
             }
         }
-
 
 
         //[HarmonyPatch(typeof(ModsScreen), nameof(ModsScreen.BuildDisplay))]
@@ -267,22 +263,7 @@ namespace SaveGameModLoader
                 incompatibleBg = UIUtils.rgb(26, 28, 33), 
                 pinnedActive = UIUtils.Lighten(Color.red, 50),
                 pinnedInactive = Color.grey;
-            static void HandleListEntry(Transform transform, KMod.Mod modData, Image img, Image BgImg)
-            {
-                bool isPinned = MPM_Config.Instance.ModPinned(modData.label.defaultStaticID);
-                if (modData.contentCompatability == ModContentCompatability.OK)
-                    BgImg.color = isPinned ? pinnedBg : normal;
-                img.color = isPinned ? pinnedActive : pinnedInactive;
-
-                if (isPinned)
-                {
-                    transform.SetAsFirstSibling();                    
-                }
-            }
         }
-
-
-
 
         [HarmonyPatch(typeof(KMod.Manager), nameof(KMod.Manager.NotifyDialog))]
         public static class OnLoad_BetterModDifferenceScreen_Patch
@@ -430,6 +411,8 @@ namespace SaveGameModLoader
         {
             public static void Postfix(ModsScreen __instance)
             {
+                UIUtils.ListAllChildren(__instance.transform);
+
                 if(ModAssets.ModsFilterActive)
                 {
                     var modsFilterGO = __instance.transform.Find("Panel/Search/LocTextInputField");
@@ -594,10 +577,11 @@ namespace SaveGameModLoader
 
                 button.isInteractable = interactable;
                 button.ClearOnClick();
+                var autoResumeOnSync = () => __instance.ResumeGame();
                 button.onClick +=
                 () =>
                 {
-                    ModlistManager.Instance.InstantiateModViewForPathOnly(path);
+                    ModlistManager.Instance.InstantiateModViewForPathOnly(path, autoResumeOnSync);
                 };
                 ModlistManager.Instance.ParentObjectRef = __instance.gameObject;
                 var SaveGameName = button.transform.Find("SaveNameText").gameObject;

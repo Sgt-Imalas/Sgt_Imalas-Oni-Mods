@@ -91,11 +91,17 @@ namespace SaveGameModLoader
         /// Create a modified Modview for syncing
         /// </summary>
         /// <param name="mods"></param>
-        public void InstantiateModView(List<KMod.Label> mods, string activeSaveToLoad = "", GameObject parent = null, bool LoadOnCLose = true)
+        public void InstantiateModView(List<KMod.Label> mods, string activeSaveToLoad = "", GameObject parent = null, bool LoadOnCLose = true, System.Action AutoResumeOnSync =null)
         {
             ActiveSave = activeSaveToLoad;
             IsSyncing = true;
             AssignModDifferences(mods);
+
+            //mods are synced:
+            if(ModListDifferencesPublic == 0 && MissingModsPublic.Count == 0 && AutoResumeOnSync!=null)
+            {
+                AutoResumeOnSync();
+            }
 
 
             var assignAction = () => { AssignModDifferences(mods); };
@@ -566,7 +572,6 @@ namespace SaveGameModLoader
         {
             AssignModDifferences(new List<string>(modList.Select(mod => mod.defaultStaticID)));
 
-
         }
         public void AssignModDifferences(List<string> modList)
         {
@@ -645,7 +650,7 @@ namespace SaveGameModLoader
         }
 
 
-        public void InstantiateModViewForPathOnly(string referencedPath)
+        public void InstantiateModViewForPathOnly(string referencedPath, System.Action autoResumeAction = null)
         {
             var mods = TryGetColonyModlist(SaveGameModList.GetModListFileName(referencedPath));
             if (mods == null)
@@ -660,7 +665,7 @@ namespace SaveGameModLoader
                 SgtLogger.logError("No ModConfig found for " + referencedPath);
                 return;
             }
-            InstantiateModView(list, referencedPath);
+            InstantiateModView(list, referencedPath, AutoResumeOnSync: autoResumeAction);
         }
 
         public void GetAllStoredModlists()
