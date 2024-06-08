@@ -25,19 +25,11 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
         }
     }
 
-    public static class BlueprintsState
+    public static class BlueprintState
     {
-        private static int _selectedBlueprintFolderIndex;
-        public static int SelectedBlueprintFolderIndex
-        {
-            get => _selectedBlueprintFolderIndex;
+        public static string SelectedBlueprintFolder=string.Empty;
 
-            set => _selectedBlueprintFolderIndex = Mathf.Clamp(value, 0, LoadedBlueprints.Count - 1);
-        }
 
-        public static List<BlueprintFolder> LoadedBlueprints { get; } = new();
-        public static BlueprintFolder SelectedFolder => LoadedBlueprints[SelectedBlueprintFolderIndex];
-        public static Blueprint SelectedBlueprint => SelectedFolder.SelectedBlueprint;
 
         public static bool InstantBuild => DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive && SandboxToolParameterMenu.instance.settings.InstantBuild;
 
@@ -46,24 +38,14 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
         private static readonly List<ICleanableVisual> CleanableVisuals = new();
 
         public static readonly Dictionary<int, CellColorPayload> ColoredCells = new();
+        private static Dictionary<Tag,Tag> LiveReplacementCandidates = new();
 
-        public static bool HasBlueprints()
+        public static void AddReplacementCandidate(Tag tag, Tag replacement)
         {
-            if (LoadedBlueprints.Count == 0)
-            {
-                return false;
-            }
-
-            foreach (BlueprintFolder blueprintFolder in LoadedBlueprints)
-            {
-                if (blueprintFolder.BlueprintCount > 0)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            LiveReplacementCandidates[tag] = replacement;
         }
+        public static void ClearReplacementCandidates() => LiveReplacementCandidates.Clear();
+
 
         public static Blueprint CreateBlueprint(Vector2I topLeft, Vector2I bottomRight, MultiToolParameterMenu filter = null)
         {
@@ -296,5 +278,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
             ColoredCells.Clear();
             CleanableVisuals.ForEach(cleanableVisual => cleanableVisual.Clean());
         }
+
+        
     }
 }

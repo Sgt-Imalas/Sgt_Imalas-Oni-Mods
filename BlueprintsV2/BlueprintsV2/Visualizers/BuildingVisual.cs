@@ -155,7 +155,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
         public virtual bool TryUse(int cellParam)
         {
             //return TryBuild(cellParam);
-            if (BlueprintsState.InstantBuild)
+            if (BlueprintState.InstantBuild)
             {
                 if (ValidCell(cellParam))
                 {
@@ -305,7 +305,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
 
         public virtual bool HasTech()
         {
-            return (BlueprintsState.InstantBuild || !Config.Instance.RequireConstructable || Db.Get().TechItems.IsTechItemComplete(buildingConfig.BuildingDef.PrefabID));
+            return (BlueprintState.InstantBuild || !Config.Instance.RequireConstructable || Db.Get().TechItems.IsTechItemComplete(buildingConfig.BuildingDef.PrefabID));
         }
         public virtual bool ValidCell(int cellParam)
         {

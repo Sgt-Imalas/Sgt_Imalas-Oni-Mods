@@ -70,7 +70,7 @@ namespace BlueprintsV2.BlueprintsV2.Tools
             MultiToolParameterMenu.Instance.PopulateMenu(DefaultParameters);
             MultiToolParameterMenu.Instance.ShowMenu();
             ToolMenu.Instance.PriorityScreen.Show(false);
-            BlueprintsState.ClearVisuals();
+            BlueprintState.ClearVisuals();
 
             CreateVisualizer();
         }
@@ -112,7 +112,7 @@ namespace BlueprintsV2.BlueprintsV2.Tools
         {
             base.OnDeactivateTool(newTool);
 
-            BlueprintsState.ClearVisuals();
+            BlueprintState.ClearVisuals();
             blueprint = null;
 
             MultiToolParameterMenu.Instance.HideMenu();
@@ -139,7 +139,7 @@ namespace BlueprintsV2.BlueprintsV2.Tools
                     Util.Swap(ref y0, ref y1);
                 }
 
-                var blueprint1 = BlueprintsState.CreateBlueprint(new Vector2I(x0, y0), new Vector2I(x1, y1), MultiToolParameterMenu.Instance);
+                var blueprint1 = BlueprintState.CreateBlueprint(new Vector2I(x0, y0), new Vector2I(x1, y1), MultiToolParameterMenu.Instance);
                 if (blueprint1.IsEmpty())
                 {
                     PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.SNAPSHOT_TOOL.EMPTY, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
@@ -147,7 +147,7 @@ namespace BlueprintsV2.BlueprintsV2.Tools
 
                 else
                 {
-                    BlueprintsState.VisualizeBlueprint(Grid.PosToXY(PlayerController.GetCursorPos(KInputManager.GetMousePos())), blueprint1);
+                    BlueprintState.VisualizeBlueprint(Grid.PosToXY(PlayerController.GetCursorPos(KInputManager.GetMousePos())), blueprint1);
 
                     MultiToolParameterMenu.Instance.HideMenu();
                     ToolMenu.Instance.PriorityScreen.Show();
@@ -171,7 +171,7 @@ namespace BlueprintsV2.BlueprintsV2.Tools
 
             else if (hasFocus)
             {
-                BlueprintsState.UseBlueprint(Grid.PosToXY(cursorPos));
+                BlueprintState.UseBlueprint(Grid.PosToXY(cursorPos));
             }
         }
 
@@ -192,7 +192,7 @@ namespace BlueprintsV2.BlueprintsV2.Tools
 
             else if (hasFocus)
             {
-                BlueprintsState.UpdateVisual(Grid.PosToXY(cursorPos));
+                BlueprintState.UpdateVisual(Grid.PosToXY(cursorPos));
             }
         }
 

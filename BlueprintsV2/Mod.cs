@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using UtilLibs;
 using static BlueprintsV2.ModAssets;
 
 namespace BlueprintsV2
@@ -26,12 +27,11 @@ namespace BlueprintsV2
             base.OnLoad(harmony);
 
             ModAssets.RegisterActions();
+            SgtLogger.l("Loading Mod Assets...");
+            LoadAssets();
 
+            SgtLogger.LogVersion(this, harmony);
             BlueprintFileHandling.AttachFileWatcher();
-
-            new PVersionCheck().Register(this, new SteamVersionChecker());
-            Debug.Log("Blueprints fixed loaded: Version " + Assembly.GetExecutingAssembly().GetName().Version + " mod.label.id:" + mod.label.id);
-
 
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)

@@ -11,6 +11,7 @@ using TMPro;
 using UnityEngine;
 using UtilLibs;
 using static BlueprintsV2.STRINGS;
+using static FMODUnity.FMODEventPlayableBehavior;
 
 namespace BlueprintsV2
 {
@@ -65,8 +66,16 @@ namespace BlueprintsV2
             TMPConverter.ReplaceAllText(BlueprintSelectionScreen);
         }
 
+
+        public static BlueprintFolder SelectedFolder;
+        public static Blueprint SelectedBlueprint;
         public static class BlueprintFileHandling
         {
+            public static BlueprintFolder RootFolder;
+            public static HashSet<BlueprintFolder> BlueprintFolders = new();
+            public static HashSet<Blueprint> Blueprints = new();
+
+
             public static string GetBlueprintDirectory()
             {
                 string folderLocation = Path.Combine(Util.RootFolder(), "blueprints");
@@ -100,10 +109,7 @@ namespace BlueprintsV2
 
                     if (eventArgs.FullPath.EndsWith(".blueprint") || eventArgs.FullPath.EndsWith(".json"))
                     {
-                        if (LoadBlueprint(eventArgs.FullPath, out Blueprint blueprint))
-                        {
-                            PlaceIntoFolder(blueprint);
-                        }
+                        HandleBlueprintLoading(eventArgs.FullPath);                        
                     }
                 };
 
@@ -113,18 +119,74 @@ namespace BlueprintsV2
 
             public static void ReloadBlueprints(bool ingame)
             {
-                BlueprintsState.LoadedBlueprints.Clear();
+                BlueprintFolders.Clear();
+                Blueprints.Clear();
                 LoadFolder(GetBlueprintDirectory());
 
-                if (ingame && BlueprintsState.HasBlueprints())
+                if (ingame)
                 {
-                    BlueprintsState.ClearVisuals();
-                    BlueprintsState.VisualizeBlueprint(Grid.PosToXY(PlayerController.GetCursorPos(KInputManager.GetMousePos())), BlueprintsState.SelectedBlueprint);
+                    BlueprintState.ClearVisuals();
+                    if(HasBlueprints())
+                        BlueprintState.VisualizeBlueprint(Grid.PosToXY(PlayerController.GetCursorPos(KInputManager.GetMousePos())), SelectedBlueprint);
                 }
             }
-
-            public static void LoadFolder(string folder)
+            public static bool TryGetFolder(Blueprint bp, out BlueprintFolder folder)
             {
+                if(RootFolder.ContainsBlueprint(bp))
+                {
+                    folder = RootFolder;
+                    return true;
+                }
+                folder = BlueprintFolders.FirstOrDefault(x => x.ContainsBlueprint(bp));
+                return folder != null;
+            }
+            public static bool TryGetFolder(string folderName, out BlueprintFolder folder)
+            {
+                if (folderName == null || folderName == "")
+                {
+                    folder = RootFolder;
+                    return true;
+                }
+                folder = BlueprintFolders.FirstOrDefault(x => x.Name == folderName);
+                return folder != null;
+            }
+
+            public static bool HasBlueprints()
+            {
+                if (BlueprintFolders.Count == 0 && !RootFolder.HasBlueprints)
+                {
+                    return false;
+                }
+
+                if (RootFolder.HasBlueprints)
+                    return true;
+
+                foreach (var blueprintFolder in BlueprintFolders)
+                {
+                    if (blueprintFolder.HasBlueprints)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            public static void LoadFolder(string folder, string ParentFolder = null)
+            {
+                BlueprintFolder CurrentFolder;
+                //root
+                if (ParentFolder == null)
+                {
+                    CurrentFolder = new BlueprintFolder("");
+                }
+                else
+                {
+                    CurrentFolder = new BlueprintFolder(Path.GetFileName(folder));
+                }
+                
+                string parentName = Path.GetFileName(Path.GetDirectoryName(folder));
+
                 string[] files = Directory.GetFiles(folder);
                 string[] subfolders = Directory.GetDirectories(folder);
 
@@ -134,14 +196,48 @@ namespace BlueprintsV2
                     {
                         if (LoadBlueprint(file, out Blueprint blueprint))
                         {
-                            PlaceIntoFolder(blueprint);
+                            CurrentFolder.AddBlueprint(blueprint);
                         }
                     }
                 }
 
                 foreach (string subfolder in subfolders)
                 {
-                    LoadFolder(subfolder);
+                    LoadFolder(subfolder, folder);
+                }
+
+                if (ParentFolder == null)
+                {
+                    RootFolder = CurrentFolder;
+                }
+                else if(CurrentFolder.HasBlueprints)
+                {
+                    BlueprintFolders.Add(CurrentFolder);
+                }
+            }
+            public static BlueprintFolder CreateFolder(string folderName)
+            {
+                var folder = new BlueprintFolder(folderName);
+                BlueprintFolders.Add(folder);
+                return folder;  
+            }
+            public static void HandleBlueprintLoading(string filePath)
+            {                
+                if (LoadBlueprint(filePath, out Blueprint blueprint))
+                {
+                    if(blueprint.Folder== Path.GetDirectoryName(GetBlueprintDirectory()))
+                    {
+                        RootFolder.AddBlueprint(blueprint);
+                    }
+                    else
+                    {
+                        var folder = BlueprintFolders.FirstOrDefault(f => f.Name == blueprint.Folder);
+                        if (folder == null)
+                        {
+                            folder = CreateFolder(blueprint.Folder);
+                        }
+                        folder.AddBlueprint(blueprint);
+                    }
                 }
             }
 
@@ -156,32 +252,6 @@ namespace BlueprintsV2
                 return !blueprint.IsEmpty();
             }
 
-            public static void PlaceIntoFolder(Blueprint blueprint)
-            {
-                int index = -1;
-
-                for (int i = 0; i < BlueprintsState.LoadedBlueprints.Count; ++i)
-                {
-                    if (BlueprintsState.LoadedBlueprints[i].Name == blueprint.Folder)
-                    {
-                        index = i;
-                        break;
-                    }
-                }
-
-                if (index == -1)
-                {
-                    BlueprintFolder newFolder = new BlueprintFolder(blueprint.Folder);
-                    newFolder.AddBlueprint(blueprint);
-
-                    BlueprintsState.LoadedBlueprints.Add(newFolder);
-                }
-
-                else
-                {
-                    BlueprintsState.LoadedBlueprints[index].AddBlueprint(blueprint);
-                }
-            }
         }
         public static class DialogHandling
         {
@@ -238,22 +308,22 @@ namespace BlueprintsV2
                 STRINGS.UI.ACTIONS.CREATE_TITLE, new PKeyBinding());
             Actions.BlueprintsUseAction = new PActionManager().CreateAction(ActionKeys.ACTION_USE_KEY,
                 STRINGS.UI.ACTIONS.USE_TITLE, new PKeyBinding());
-            Actions.BlueprintsCreateFolderAction = new PActionManager().CreateAction(ActionKeys.ACTION_CREATEFOLDER_KEY,
-                STRINGS.UI.ACTIONS.CREATEFOLDER_TITLE, new PKeyBinding(KKeyCode.Home));
-            Actions.BlueprintsRenameAction = new PActionManager().CreateAction(ActionKeys.ACTION_RENAME_KEY,
-                STRINGS.UI.ACTIONS.RENAME_TITLE, new PKeyBinding(KKeyCode.End));
-            Actions.BlueprintsCycleFoldersNextAction = new PActionManager().CreateAction(ActionKeys.ACTION_CYCLEFOLDERS_NEXT_KEY,
-                STRINGS.UI.ACTIONS.CYCLEFOLDERS_NEXT_TITLE, new PKeyBinding(KKeyCode.UpArrow));
-            Actions.BlueprintsCycleFoldersPrevAction = new PActionManager().CreateAction(ActionKeys.ACTION_CYCLEFOLDERS_PREV_KEY,
-                STRINGS.UI.ACTIONS.CYCLEFOLDERS_PREV_TITLE, new PKeyBinding(KKeyCode.DownArrow));
-            Actions.BlueprintsCycleBlueprintsNextAction = new PActionManager().CreateAction(ActionKeys.ACTION_CYCLEBLUEPRINTS_NEXT_KEY,
-                STRINGS.UI.ACTIONS.CYCLEBLUEPRINTS_NEXT_TITLE, new PKeyBinding(KKeyCode.RightArrow));
-            Actions.BlueprintsCycleBlueprintsPrevAction = new PActionManager().CreateAction(ActionKeys.ACTION_CYCLEBLUEPRINTS_PREV_KEY,
-                STRINGS.UI.ACTIONS.CYCLEBLUEPRINTS_PREV_TITLE, new PKeyBinding(KKeyCode.LeftArrow));
+            //Actions.BlueprintsCreateFolderAction = new PActionManager().CreateAction(ActionKeys.ACTION_CREATEFOLDER_KEY,
+            //    STRINGS.UI.ACTIONS.CREATEFOLDER_TITLE, new PKeyBinding(KKeyCode.Home));
+            //Actions.BlueprintsRenameAction = new PActionManager().CreateAction(ActionKeys.ACTION_RENAME_KEY,
+            //    STRINGS.UI.ACTIONS.RENAME_TITLE, new PKeyBinding(KKeyCode.End));
+            //Actions.BlueprintsCycleFoldersNextAction = new PActionManager().CreateAction(ActionKeys.ACTION_CYCLEFOLDERS_NEXT_KEY,
+            //    STRINGS.UI.ACTIONS.CYCLEFOLDERS_NEXT_TITLE, new PKeyBinding(KKeyCode.UpArrow));
+            //Actions.BlueprintsCycleFoldersPrevAction = new PActionManager().CreateAction(ActionKeys.ACTION_CYCLEFOLDERS_PREV_KEY,
+            //    STRINGS.UI.ACTIONS.CYCLEFOLDERS_PREV_TITLE, new PKeyBinding(KKeyCode.DownArrow));
+            //Actions.BlueprintsCycleBlueprintsNextAction = new PActionManager().CreateAction(ActionKeys.ACTION_CYCLEBLUEPRINTS_NEXT_KEY,
+            //    STRINGS.UI.ACTIONS.CYCLEBLUEPRINTS_NEXT_TITLE, new PKeyBinding(KKeyCode.RightArrow));
+            //Actions.BlueprintsCycleBlueprintsPrevAction = new PActionManager().CreateAction(ActionKeys.ACTION_CYCLEBLUEPRINTS_PREV_KEY,
+            //    STRINGS.UI.ACTIONS.CYCLEBLUEPRINTS_PREV_TITLE, new PKeyBinding(KKeyCode.LeftArrow));
             Actions.BlueprintsSnapshotAction = new PActionManager().CreateAction(ActionKeys.ACTION_SNAPSHOT_KEY,
                 STRINGS.UI.ACTIONS.SNAPSHOT_TITLE, new PKeyBinding());
-            Actions.BlueprintsDeleteAction = new PActionManager().CreateAction(ActionKeys.ACTION_DELETE_KEY,
-                STRINGS.UI.ACTIONS.DELETE_TITLE, new PKeyBinding(KKeyCode.Delete));
+            //Actions.BlueprintsDeleteAction = new PActionManager().CreateAction(ActionKeys.ACTION_DELETE_KEY,
+            //    STRINGS.UI.ACTIONS.DELETE_TITLE, new PKeyBinding(KKeyCode.Delete));
         }
 
         public static class ActionKeys
@@ -274,7 +344,7 @@ namespace BlueprintsV2
             public static PAction BlueprintsCreateAction { get; set; }
             public static PAction BlueprintsUseAction { get; set; }
             public static PAction BlueprintsCreateFolderAction { get; set; }
-            public static PAction BlueprintsRenameAction { get; set; }
+            //public static PAction BlueprintsRenameAction { get; set; }
             public static PAction BlueprintsCycleFoldersNextAction { get; set; }
             public static PAction BlueprintsCycleFoldersPrevAction { get; set; }
             public static PAction BlueprintsCycleBlueprintsNextAction { get; set; }

@@ -1,5 +1,6 @@
 ﻿
 using BlueprintsV2.BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintsV2.UnityUI;
 using PeterHan.PLib.UI;
 using System.IO;
 using UnityEngine;
@@ -62,21 +63,27 @@ namespace BlueprintsV2.BlueprintsV2.Tools
 
             ToolMenu.Instance.PriorityScreen.Show();
 
-            if (BlueprintsState.HasBlueprints())
+            BlueprintSelectionScreen.ShowWindow(OnBlueprintSelected);
+
+            
+        }
+
+        public void OnBlueprintSelected()
+        {
+            if (ModAssets.BlueprintFileHandling.HasBlueprints())
             {
                 GridCompositor.Instance.ToggleMajor(true);
             }
 
-            if (BlueprintsState.HasBlueprints())
+            if (ModAssets.SelectedBlueprint != null)
             {
-                BlueprintsState.VisualizeBlueprint(Grid.PosToXY(PlayerController.GetCursorPos(KInputManager.GetMousePos())), BlueprintsState.SelectedBlueprint);
+                BlueprintState.VisualizeBlueprint(Grid.PosToXY(PlayerController.GetCursorPos(KInputManager.GetMousePos())), ModAssets.SelectedBlueprint);
                 if (visualizer != null)
                 {
                     Destroy(visualizer);
                     visualizer = null;
                 }
             }
-
             else
             {
                 CreateVisualizer();
@@ -87,7 +94,7 @@ namespace BlueprintsV2.BlueprintsV2.Tools
         {
             base.OnDeactivateTool(newTool);
 
-            BlueprintsState.ClearVisuals();
+            BlueprintState.ClearVisuals();
             ToolMenu.Instance.PriorityScreen.Show(false);
             GridCompositor.Instance.ToggleMajor(false);
         }
@@ -98,7 +105,7 @@ namespace BlueprintsV2.BlueprintsV2.Tools
 
             if (hasFocus)
             {
-                BlueprintsState.UseBlueprint(Grid.PosToXY(cursorPos));
+                BlueprintState.UseBlueprint(Grid.PosToXY(cursorPos));
             }
         }
 
@@ -108,141 +115,42 @@ namespace BlueprintsV2.BlueprintsV2.Tools
 
             if (hasFocus)
             {
-                BlueprintsState.UpdateVisual(Grid.PosToXY(cursorPos));
+                BlueprintState.UpdateVisual(Grid.PosToXY(cursorPos));
             }
         }
 
         public override void OnKeyDown(KButtonEvent buttonEvent)
         {
-            if (BlueprintsState.LoadedBlueprints.Count > 0)
-            {
-                bool blueprintChanged = false;
+            //if (BlueprintState.LoadedBlueprints.Count > 0)
+            //{
+            //    if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsCreateFolderAction.GetKAction()))
+            //    {
+            //        static void OnConfirmDelegate(string blueprintFolder, FileNameDialog parent)
+            //        {
+            //            string newFolder = blueprintFolder.Trim(' ', '/', '\\', Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 
-                if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsCreateFolderAction.GetKAction()))
-                {
-                    static void OnConfirmDelegate(string blueprintFolder, FileNameDialog parent)
-                    {
-                        string newFolder = blueprintFolder.Trim(' ', '/', '\\', Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            //            if (newFolder == BlueprintState.SelectedBlueprint.Folder)
+            //            {
+            //                PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.USE_TOOL.FOLDERBLUEPRINT_NA, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
+            //            }
 
-                        if (newFolder == BlueprintsState.SelectedBlueprint.Folder)
-                        {
-                            PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.USE_TOOL.FOLDERBLUEPRINT_NA, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
-                        }
+            //            else
+            //            {
+            //                string blueprintName = BlueprintState.SelectedBlueprint.FriendlyName;
 
-                        else
-                        {
-                            string blueprintName = BlueprintsState.SelectedBlueprint.FriendlyName;
+            //                BlueprintState.SelectedBlueprint.SetFolder(newFolder);
+            //                PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, string.Format(STRINGS.UI.TOOLS.USE_TOOL.MOVEDBLUEPRINT, blueprintName, newFolder), null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
+            //            }
 
-                            BlueprintsState.SelectedBlueprint.SetFolder(newFolder);
-                            PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, string.Format(STRINGS.UI.TOOLS.USE_TOOL.MOVEDBLUEPRINT, blueprintName, newFolder), null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
-                        }
+            //            SpeedControlScreen.Instance.Unpause(false);
+            //            parent.Deactivate();
+            //        }
 
-                        SpeedControlScreen.Instance.Unpause(false);
-                        parent.Deactivate();
-                    }
-
-                    FileNameDialog blueprintFolderDialog = ModAssets.DialogHandling.CreateFolderDialog(OnConfirmDelegate);
-                    SpeedControlScreen.Instance.Pause(false);
-                    blueprintFolderDialog.Activate();
-                }
-
-                else if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsRenameAction.GetKAction()))
-                {
-                    static void OnConfirmDelegate(string blueprintName, FileNameDialog parent)
-                    {
-                        BlueprintsState.SelectedBlueprint.Rename(blueprintName);
-
-                        SpeedControlScreen.Instance.Unpause(false);
-                        parent.Deactivate();
-                    }
-
-                    FileNameDialog blueprintNameDialog = ModAssets.DialogHandling.CreateTextDialog(STRINGS.UI.TOOLS.NAMEBLUEPRINT_TITLE, false, OnConfirmDelegate);
-                    SpeedControlScreen.Instance.Pause(false);
-                    blueprintNameDialog.Activate();
-                }
-
-                else if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsDeleteAction.GetKAction()))
-                {
-                    static void OnConfirmDelegate()
-                    {
-                        BlueprintsState.SelectedBlueprint.DeleteFile();
-                        BlueprintsState.SelectedFolder.RemoveBlueprint(BlueprintsState.SelectedBlueprint);
-
-                        if (!BlueprintsState.HasBlueprints())
-                        {
-                            GridCompositor.Instance.ToggleMajor(false);
-                        }
-
-                        BlueprintsState.ClearVisuals();
-
-                        if (BlueprintsState.HasBlueprints())
-                        {
-                            BlueprintsState.VisualizeBlueprint(Grid.PosToXY(PlayerController.GetCursorPos(KInputManager.GetMousePos())), BlueprintsState.SelectedBlueprint);
-                        }
-
-                        else
-                        {
-                            Instance.CreateVisualizer();
-                        }
-                    }
-
-                    PUIElements.ShowConfirmDialog(GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay), "Are you sure you want to delete \"" + BlueprintsState.SelectedBlueprint.FriendlyName + "\"?", OnConfirmDelegate, null, "YES", "NO");
-                }
-
-                else if (BlueprintsState.LoadedBlueprints.Count > 0)
-                {
-                    if (BlueprintsState.SelectedFolder.BlueprintCount > 1)
-                    {
-                        if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsCycleBlueprintsNextAction.GetKAction()))
-                        {
-                            blueprintChanged = BlueprintsState.SelectedFolder.NextBlueprint();
-                        }
-
-                        else if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsCycleBlueprintsPrevAction.GetKAction()))
-                        {
-                            blueprintChanged = BlueprintsState.SelectedFolder.PreviousBlueprint();
-                        }
-                    }
-
-                    if (!blueprintChanged && BlueprintsState.LoadedBlueprints.Count > 1)
-                    {
-                        if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsCycleFoldersNextAction.GetKAction()))
-                        {
-                            if (++BlueprintsState.SelectedBlueprintFolderIndex >= BlueprintsState.LoadedBlueprints.Count)
-                            {
-                                BlueprintsState.SelectedBlueprintFolderIndex = 0;
-                            }
-
-                            blueprintChanged = true;
-                        }
-
-                        else if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsCycleFoldersPrevAction.GetKAction()))
-                        {
-                            if (--BlueprintsState.SelectedBlueprintFolderIndex < 0)
-                            {
-                                BlueprintsState.SelectedBlueprintFolderIndex = BlueprintsState.LoadedBlueprints.Count - 1;
-                            }
-
-                            blueprintChanged = true;
-                        }
-                    }
-                }
-
-                if (blueprintChanged)
-                {
-                    BlueprintsState.ClearVisuals();
-
-                    if (BlueprintsState.HasBlueprints())
-                    {
-                        BlueprintsState.VisualizeBlueprint(Grid.PosToXY(PlayerController.GetCursorPos(KInputManager.GetMousePos())), BlueprintsState.SelectedBlueprint);
-                    }
-
-                    else
-                    {
-                        Instance.CreateVisualizer();
-                    }
-                }
-            }
+            //        FileNameDialog blueprintFolderDialog = ModAssets.DialogHandling.CreateFolderDialog(OnConfirmDelegate);
+            //        SpeedControlScreen.Instance.Pause(false);
+            //        blueprintFolderDialog.Activate();
+            //    }                 
+            //}
 
             base.OnKeyDown(buttonEvent);
         }

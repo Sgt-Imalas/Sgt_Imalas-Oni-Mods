@@ -17,9 +17,9 @@ namespace BlueprintsV2.BlueprintsV2.Patches
         {
             public static void Postfix(int cell, SimHashes element, ref Color __result)
             {
-                if (__result != Color.red && element == SimHashes.Void && BlueprintsState.ColoredCells.ContainsKey(cell))
+                if (__result != Color.red && element == SimHashes.Void && BlueprintState.ColoredCells.ContainsKey(cell))
                 {
-                    __result = BlueprintsState.ColoredCells[cell].Color;
+                    __result = BlueprintState.ColoredCells[cell].Color;
                 }
             }
         }

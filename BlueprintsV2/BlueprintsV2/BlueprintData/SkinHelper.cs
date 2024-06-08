@@ -172,7 +172,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
             {
                 if (ValidArtableId(facadeID))
                 {
-                    if (BlueprintsState.InstantBuild)
+                    if (BlueprintState.InstantBuild)
                     {
                         sculpture.SetStage(facadeID, true);
                         sculpture.userChosenTargetStage = null;

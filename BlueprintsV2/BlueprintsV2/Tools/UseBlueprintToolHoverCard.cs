@@ -32,45 +32,36 @@ namespace BlueprintsV2.BlueprintsV2.Tools
             drawer.DrawText(STRINGS.UI.TOOLS.USE_TOOL.ACTION_BACK, Styles_Instruction.Standard);
             drawer.NewLine(32);
 
-            if (BlueprintsState.HasBlueprints())
-            {
-                if (BlueprintsState.SelectedFolder.BlueprintCount > 0)
-                {
-                    drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.CYCLEFOLDERS, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsCycleFoldersNextAction.GetKAction()) + "]"), UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsCycleFoldersPrevAction.GetKAction()) + "]")), Styles_Instruction.Standard);
-                    drawer.NewLine(20);
+            //if (ModAssets.BlueprintFileHandling.HasBlueprints() && ModAssets.SelectedFolder != null)
+            //{
+            //    if (BlueprintState.SelectedFolder.BlueprintCount > 0)
+            //    {
+            //        drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.FOLDERBLUEPRINT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsCreateFolderAction.GetKAction()) + "]")), Styles_Instruction.Standard);
+            //        drawer.NewLine(20);
 
-                    drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.CYCLEBLUEPRINTS, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsCycleBlueprintsNextAction.GetKAction()) + "]"), UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsCycleBlueprintsPrevAction.GetKAction()) + "]")), Styles_Instruction.Standard);
-                    drawer.NewLine(32);
+            //        drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.DELETEBLUEPRINT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsDeleteAction.GetKAction()) + "]")), Styles_Instruction.Standard);
 
-                    drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.FOLDERBLUEPRINT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsCreateFolderAction.GetKAction()) + "]")), Styles_Instruction.Standard);
-                    drawer.NewLine(20);
+            //        if (prefabErrorCount > 0)
+            //        {
+            //            drawer.NewLine(32);
+            //            drawer.DrawIcon(screenInstance.GetSprite("iconWarning"));
+            //            drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.ERRORMESSAGE, prefabErrorCount), Styles_Instruction.Selected);
+            //        }
 
-                    drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.NAMEBLUEPRINT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsRenameAction.GetKAction()) + "]")), Styles_Instruction.Standard);
-                    drawer.NewLine(20);
+            //        //drawer.NewLine(32);
+            //        //drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.SELECTEDBLUEPRINT, BlueprintState.SelectedBlueprint.FriendlyName, BlueprintState.SelectedFolder.SelectedBlueprintIndex + 1, BlueprintState.SelectedFolder.BlueprintCount, BlueprintState.SelectedFolder.Name, BlueprintState.SelectedBlueprintFolderIndex + 1, BlueprintState.LoadedBlueprints.Count), Styles_Instruction.Standard);
+            //    }
 
-                    drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.DELETEBLUEPRINT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsDeleteAction.GetKAction()) + "]")), Styles_Instruction.Standard);
+            //    else
+            //    {
+            //        drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.FOLDEREMPTY, BlueprintState.SelectedFolder.Name), Styles_Instruction.Standard);
+            //    }
+            //}
 
-                    if (prefabErrorCount > 0)
-                    {
-                        drawer.NewLine(32);
-                        drawer.DrawIcon(screenInstance.GetSprite("iconWarning"));
-                        drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.ERRORMESSAGE, prefabErrorCount), Styles_Instruction.Selected);
-                    }
-
-                    drawer.NewLine(32);
-                    drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.SELECTEDBLUEPRINT, BlueprintsState.SelectedBlueprint.FriendlyName, BlueprintsState.SelectedFolder.SelectedBlueprintIndex + 1, BlueprintsState.SelectedFolder.BlueprintCount, BlueprintsState.SelectedFolder.Name, BlueprintsState.SelectedBlueprintFolderIndex + 1, BlueprintsState.LoadedBlueprints.Count), Styles_Instruction.Standard);
-                }
-
-                else
-                {
-                    drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.FOLDEREMPTY, BlueprintsState.SelectedFolder.Name), Styles_Instruction.Standard);
-                }
-            }
-
-            else
-            {
+            //else
+            //{
                 drawer.DrawText(STRINGS.UI.TOOLS.USE_TOOL.NOBLUEPRINTS, Styles_Instruction.Standard);
-            }
+            //}
 
             drawer.EndShadowBar();
             drawer.EndDrawing();

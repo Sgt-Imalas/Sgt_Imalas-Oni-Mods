@@ -36,7 +36,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
         {
             if (IsPlaceable(cellParam))
             {
-                if (BlueprintsState.InstantBuild)
+                if (BlueprintState.InstantBuild)
                 {
                     WorldDamage.Instance.DestroyCell(cellParam);
                 }

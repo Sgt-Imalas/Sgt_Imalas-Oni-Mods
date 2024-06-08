@@ -60,11 +60,8 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
         /// <param name="fileLocation">The location for the blueprint on the file system</param>
         public Blueprint(string fileLocation)
         {
-            int blueprintsDirectoryLength = BlueprintFileHandling.GetBlueprintDirectory().Length + 1;
-            int folderLength = fileLocation.Length - (blueprintsDirectoryLength + Path.GetFileName(fileLocation).Length + 1);
-
             FilePath = fileLocation;
-            Folder = fileLocation.Substring(blueprintsDirectoryLength, Mathf.Max(0, folderLength)).ToLower();
+            Folder = Path.GetFileName(Path.GetDirectoryName(fileLocation)).ToLowerInvariant();
             InferFriendlyName();
         }
 
@@ -76,8 +73,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
         public Blueprint(string friendlyName, string folder)
         {
             FriendlyName = friendlyName;
-            Folder = SanitizeFolder(folder).ToLower();
-
+            Folder = SanitizeFolder(folder).ToLowerInvariant();
             InferFileLocation();
         }
 
@@ -266,7 +262,6 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
                 Directory.CreateDirectory(folder!);
             }
 
-            ////Use the smaller, binary format if blueprint compression is enabled, use JSON otherwise.
             //if (Config.Instance.CompressBlueprints)
             //{
             //    WriteBinary();
@@ -280,7 +275,9 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 
         /// <summary>
         /// Writes the blueprint to a file using binary formatting.
+        /// retired for good
         /// </summary>
+        [Obsolete]
         public void WriteBinary()
         {
             using BinaryWriter binaryWriter = new BinaryWriter(File.Open(FilePath, FileMode.OpenOrCreate));
@@ -308,6 +305,8 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
             };
 
             jsonWriter.WriteStartObject();
+            jsonWriter.WritePropertyName("blueprintVersion");
+            jsonWriter.WriteValue(2);
 
             jsonWriter.WritePropertyName("friendlyname");
             jsonWriter.WriteValue(FriendlyName);
@@ -376,13 +375,9 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
             }
 
             //Remove the blueprint from its parent folder.
-            for (int i = 0; i < BlueprintsState.LoadedBlueprints.Count; ++i)
+            if (BlueprintFileHandling.TryGetFolder(this,out var folder))
             {
-                if (BlueprintsState.LoadedBlueprints[i].Name == Folder)
-                {
-                    BlueprintsState.SelectedFolder.RemoveBlueprint(this);
-                    break;
-                }
+                folder.RemoveBlueprint(this);
             }
 
             //Generate the new folder and file path.
@@ -390,7 +385,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
             InferFileLocation();
 
             //Place the blueprint into its new folder.
-            BlueprintFileHandling.PlaceIntoFolder(this);
+            BlueprintFileHandling.CreateFolder(Folder).AddBlueprint(this);
 
             if (rewrite)
             {

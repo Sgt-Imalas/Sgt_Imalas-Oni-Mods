@@ -10,6 +10,97 @@ namespace BlueprintsV2
     {
         public class UI
         {
+            public class BLUEPRINTSELECTOR
+            {
+                public class FILEHIERARCHY
+                {
+                    public class SEARCHBAR
+                    {
+                        public static LocString CLEARTOOLTIP = "Clear search bar";
+                        public static LocString OPENFOLDERTOOLTIP = "Open the folder where the Blueprints are stored.";
+                        public class INPUT
+                        {
+                            public class TEXTAREA
+                            {
+                                public static LocString PLACEHOLDER = "Enter text to filter Blueprints...";
+                                public static LocString TEXT = "";
+                            }
+                        }
+                    }
+                    public class SCROLLAREA
+                    {
+                        public class CONTENT
+                        {
+                            public class NONEAVAILABLE
+                            {
+                                public static LocString LABEL = "No Blueprints available";
+                            }
+                        }
+                    }
+                }
+                public class MATERIALSWITCH
+                {
+                    public class MATERIALSHEADER
+                    {
+                        public static LocString LABEL = "Materials in Blueprint:";
+                    }
+                    public class SCROLLAREA
+                    {
+                        public class CONTENT
+                        {
+                            public class NOELEMENTSINBLUEPRINT
+                            {
+                                public static LocString LABEL = "No elements in blueprint";
+                            }
+                        }
+                    }
+                    public class BUTTONS
+                    {
+                        public class RESETBUTTON
+                        {
+                            public static LocString TEXT = "Reset Replacements";
+                        }
+                        public class PLACEBPBTN
+                        {
+                            public static LocString TEXT = "Place Blueprint";
+                        }
+                    }
+
+                }
+                public class MATERIALREPLACER
+                {
+                    public class TOREPLACE
+                    {
+                        public static LocString LABEL = "To replace:";
+                    }
+                    internal class SEARCHBAR
+                    {
+                        public static LocString CLEARTOOLTIP = "Clear search bar";
+                        internal class INPUT
+                        {
+                            public class TEXTAREA
+                            {
+                                public static LocString PLACEHOLDER = "Enter text to filter elements...";
+                                public static LocString TEXT = "";
+                            }
+                        }
+                    }
+                    public class SCROLLAREA
+                    {
+                        public class CONTENT
+                        {
+                            public class NOREPLACEELEMENTS
+                            {
+                                public static LocString LABEL = "No suitable elements for replacement found";
+                            }
+                        }
+                    }
+                }
+                public class CLOSEBUTTON
+                {
+                    public static LocString TEXT = "Close";
+                }
+            }
             public class ACTIONS
             {
                 public static LocString CREATE_TITLE = "Create Blueprint";

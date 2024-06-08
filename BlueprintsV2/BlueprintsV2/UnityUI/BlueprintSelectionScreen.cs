@@ -1,210 +1,371 @@
-﻿//using Database;
-//using Klei.AI;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using UnityEngine;
-//using UtilLibs.UIcmp;
-//using UtilLibs;
-//using BlueprintsV2.BlueprintsV2.UnityUI.Components;
+﻿using Database;
+using Klei.AI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
+using UtilLibs.UIcmp;
+using UtilLibs;
+using BlueprintsV2.BlueprintsV2.UnityUI.Components;
+using UnityEngine.UI;
+using static Database.MonumentPartResource;
+using TemplateClasses;
+using BlueprintsV2.BlueprintsV2.BlueprintData;
 
-//namespace BlueprintsV2.BlueprintsV2.UnityUI
-//{
-//    internal class BlueprintSelectionScreen : FScreen
-//    {
-//#pragma warning disable IDE0051 // Remove unused private members
-//        new bool ConsumeMouseScroll = true; // do not remove!!!!
-//#pragma warning restore IDE0051 // Remove unused private members
-//        public static BlueprintSelectionScreen Instance = null;
-
-
-//        //Main Areas
-//        public GameObject BlueprintsList;
-//        public GameObject BlueprintsElements;
-//        public GameObject ReplaceBlueprintElements;
-//        public FButton CloseBtn;
-
-//        //BlueprintList
-//        public FInputField2 BlueprintSearchbar;
-//        public FButton ClearBlueprintSearchbar;
-//        public FileHierarchyEntry FolderUpBtn;
-//        public GameObject HierarchyContainer;
-//        public FileHierarchyEntry HierarchyEntryPrefab;
-//        public FileHierarchyEntry HierarchyFolderPrefab;
-//        public Dictionary<string, GameObject> BlueprintEntriesByPath = new();
-
-//        //MaterialList
-//        public Dictionary<Tag, BlueprintElementEntry> ElementEntries = new();
-//        public BlueprintElementEntry ElementEntryPrefab;
-//        public GameObject ElementEntryContainer;
-//        public GameObject SevereErrorGO, ErrorGO;
-//        public ToolTip SevereErrorTooltip, ErrorTooltip;
-
-//        //ReplacementList
-//        public FInputField2 ReplacementElementSearchbar;
-//        public Dictionary<SimHashes, ReplaceElementEntry> ReplacementElementEntries = new();
-//        public FButton ClearReplacementElementSearchbar;
-//        public GameObject ReplacementElementsContainer;
-//        public GameObject ReplacementElementsPrefab;
-//        public LocText ToReplaceName;
+namespace BlueprintsV2.BlueprintsV2.UnityUI
+{
+    internal class BlueprintSelectionScreen : FScreen
+    {
+#pragma warning disable IDE0051 // Remove unused private members
+        new bool ConsumeMouseScroll = true; // do not remove!!!!
+#pragma warning restore IDE0051 // Remove unused private members
+        public static BlueprintSelectionScreen Instance = null;
 
 
-//        public bool CurrentlyActive;
+        //Main Areas
+        public GameObject BlueprintsList;
+        public GameObject BlueprintsElements;
+        public GameObject ReplaceBlueprintElements;
+        public FButton CloseBtn;
 
-//        private void Init()
-//        {
-//            if (init) { return; }
-//            SgtLogger.l("Initializing BlueprintWindow");
+        //BlueprintList
+        public FInputField2 BlueprintSearchbar;
+        public FButton ClearBlueprintSearchbar;
+        public FileHierarchyEntry FolderUpBtn;
+        public GameObject HierarchyContainer;
+        public FileHierarchyEntry HierarchyEntryPrefab;
+        public FileHierarchyEntry HierarchyFolderPrefab;
+        public FileHierarchyEntry HierarchyUpPrefab;
+        public Dictionary<BlueprintFolder, FileHierarchyEntry> FolderEntries = new();
+        public Dictionary<Blueprint, FileHierarchyEntry> BlueprintEntries = new();
 
-//            BlueprintsList = transform.Find("FileHierarchy").gameObject;
-//            BlueprintsElements = transform.Find("MaterialSwitch").gameObject;
-//            ReplaceBlueprintElements = transform.Find("MaterialReplacer").gameObject;
-
-//            CloseBtn = transform.Find("CloseButton").gameObject.AddOrGet<FButton>();
-//            CloseBtn.OnClick += () => Show(false);
-//            //blueprint files
-
-//            BlueprintSearchbar = transform.Find("FileHierarchy/SearchBar/Input").FindOrAddComponent<FInputField2>();
-//            BlueprintSearchbar.OnValueChanged.AddListener(ApplyBlueprintFilter);
-//            BlueprintSearchbar.Text = string.Empty;
-
-//            ClearBlueprintSearchbar = transform.Find("FileHierarchy/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
-//            ClearBlueprintSearchbar.OnClick += () => BlueprintSearchbar.Text = string.Empty;
-
-//            FolderUpBtn = transform.Find("FileHierarchy/ScrollArea/Content/FolderUp").FindOrAddComponent<FileHierarchyEntry>();
-//            FolderUpBtn.Type = FileHierarchyEntry.HierarchyEntryType.goUp;
-
-
-//            InitAllContainers();
-
-//            init = true;
-//        }
-
-//        private void InitAllContainers()
-//        {
-
-//        }
-
-//        public static void ShowWindow()
-//        {
-//            if (Instance == null)
-//            {
-//                var screen = Util.KInstantiateUI(ModAssets.BlueprintSelectionScreen, GameScreenManager.Instance.transform.Find("ScreenSpaceOverlayCanvas/MiddleCenter - InFrontOfEverything").gameObject, true);
-//                Instance = screen.AddOrGet<BlueprintSelectionScreen>();
-//                Instance.Init();
-//            }
-//            Instance.Show(true);
-//            Instance.ConsumeMouseScroll = true;
-//            Instance.transform.SetAsLastSibling();
-//            Instance.ClearSearchbars();
-
-//        }
-
-//        private void ClearSearchbars()
-//        {
-//            BlueprintSearchbar.Text = string.Empty;
-//            ReplacementElementSearchbar.Text = string.Empty;
-//        }
-
-//        private bool init;
-
-//        public override void OnKeyDown(KButtonEvent e)
-//        {
-//            if (e.TryConsume(Action.Escape) || e.TryConsume(Action.MouseRight))
-//            {
-//                this.Show(false);
-//            }
-//            if (e.TryConsume(Action.DebugToggleClusterFX))
-//            {
-//                BlueprintSearchbar.ExternalStartEditing();
-//            }
-
-//            base.OnKeyDown(e);
-//        }
+        //MaterialList
+        public Dictionary<Tag, BlueprintElementEntry> ElementEntries = new();
+        public GameObject ElementEntryContainer;
+        public GameObject SevereErrorGO, ErrorGO;
+        public ToolTip SevereErrorTooltip, ErrorTooltip;
+        public BlueprintElementEntry ElementEntryPrefab;
+        public FButton ClearOverrides, PlaceBlueprint;
 
 
-//        private GameObject AddUiContainer(string name, string description, System.Action onClickAction, Color overrideColor = default, GameObject prefabOverride = null, Sprite placeImage = null)
-//        {
-//            if (prefabOverride == null)
-//                prefabOverride = PresetListPrefab;
+        //ReplacementList
+        public FInputField2 ReplacementElementSearchbar;
+        public Dictionary<Tag, ReplaceElementEntry> ReplacementElementEntries = new();
+        public FButton ClearReplacementElementSearchbar;
+        public GameObject ReplacementElementsContainer;
+        public ReplaceElementEntry ReplacementElementsPrefab;
+        public LocText ToReplaceName;
 
-//            var PresetHolder = Util.KInstantiateUI(prefabOverride, PresetListContainer, true);
+        System.Action onCloseAction;
 
-//            UIUtils.TryChangeText(PresetHolder.transform, "Label", name);
-//            if (description != null && description.Length > 0)
-//            {
-//                UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("Label"), description, true, onBottom: true);
-//            }
-//            if (placeImage != null)
-//            {
-//                var image = PresetHolder.transform.Find("Image").FindOrAddComponent<Image>();
-//                image.sprite = placeImage;
-//                UnityEngine.Rect rect = image.sprite.rect;
-//                if (rect.width > rect.height)
-//                {
-//                    var size = (rect.height / rect.width) * 55;
-//                    image.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size);
-//                }
-//                else
-//                {
-//                    var size = (rect.width / rect.height) * 55;
-//                    image.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size);
-//                }
-//            }
+        public bool CurrentlyActive;
 
-//            PresetHolder.transform.FindOrAddComponent<FButton>().OnClick += onClickAction;
-//            if (overrideColor != default)
-//                PresetHolder.transform.Find("Background").FindOrAddComponent<Image>().color = overrideColor;
+        private void Init()
+        {
+            if (init) { return; }
+            SgtLogger.l("Initializing BlueprintWindow");
 
-//            return PresetHolder;
-//        }
+            BlueprintsList = transform.Find("FileHierarchy").gameObject;
+            BlueprintsElements = transform.Find("MaterialSwitch").gameObject;
+            ReplaceBlueprintElements = transform.Find("MaterialReplacer").gameObject;
 
+            CloseBtn = transform.Find("CloseButton").gameObject.AddOrGet<FButton>();
+            CloseBtn.OnClick += () => Show(false);
+            //blueprint files
 
+            BlueprintSearchbar = transform.Find("FileHierarchy/SearchBar/Input").FindOrAddComponent<FInputField2>();
+            BlueprintSearchbar.OnValueChanged.AddListener(ApplyBlueprintFilter);
+            BlueprintSearchbar.Text = string.Empty;
 
+            ClearBlueprintSearchbar = transform.Find("FileHierarchy/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
+            ClearBlueprintSearchbar.OnClick += () => BlueprintSearchbar.Text = string.Empty;
 
-//        public void ApplyBlueprintFilter(string filterstring = "")
-//        {
-//            var forbidden = DuplicityMainScreen.Instance.CurrentInterestIDs();// new List<SkillGroup>();// ReferencedStats.skillAptitudes.Keys.ToList();
-//            foreach (var go in DupeInterestContainers)
-//            {
-//                bool notYetAdded = !forbidden.Contains(go.Key.Id);
-//                go.Value.SetActive(filterstring == string.Empty ? notYetAdded : notYetAdded && ShowInFilter(filterstring, go.Key.Name));
-//            }
-//        }
+            FolderUpBtn = transform.Find("FileHierarchy/ScrollArea/Content/FolderUp").FindOrAddComponent<FileHierarchyEntry>();
+            FolderUpBtn.Type = FileHierarchyEntry.HierarchyEntryType.goUp;
 
-//        bool ShowInFilter(string filtertext, string stringsToInclude)
-//        {
-//            return ShowInFilter(filtertext, new string[] { stringsToInclude });
-//        }
+            HierarchyContainer = transform.Find("FileHierarchy/ScrollArea/Content").gameObject;
 
-//        bool ShowInFilter(string filtertext, string[] stringsToInclude)
-//        {
-//            bool show = false;
-//            filtertext = filtertext.ToLowerInvariant();
+            ClearOverrides = transform.Find("MaterialSwitch/Buttons/ResetButton").FindOrAddComponent<FButton>();
+            PlaceBlueprint = transform.Find("MaterialSwitch/Buttons/PlaceBPbtn").FindOrAddComponent<FButton>();
 
-//            foreach (var text in stringsToInclude)
-//            {
-//                if (text != null && text.Length > 0 && text.ToLowerInvariant().Contains(filtertext))
-//                {
-//                    show = true;
-//                    break;
-//                }
-//            }
-//            return show;
-//        }
+            var hierarchyEntryGO = transform.Find("FileHierarchy/ScrollArea/Content/BlueprintEntryPrefab").gameObject;
+            hierarchyEntryGO.SetActive(false);
+            HierarchyEntryPrefab = hierarchyEntryGO.AddOrGet<FileHierarchyEntry>();
+            HierarchyEntryPrefab.Type = FileHierarchyEntry.HierarchyEntryType.blueprint;
 
 
-//        public override void OnShow(bool show)
-//        {
-//            base.OnShow(show);
-//            if (!init)
-//            {
-//                Init();
-//            }
-//            CurrentlyActive = show;
-//        }
-//    }
-//}
+            var hierarchyFolderGO = transform.Find("FileHierarchy/ScrollArea/Content/FolderPrefab").gameObject;
+            hierarchyFolderGO.SetActive(false);
+            HierarchyFolderPrefab = hierarchyEntryGO.AddOrGet<FileHierarchyEntry>();
+            HierarchyFolderPrefab.Type = FileHierarchyEntry.HierarchyEntryType.folder;
+
+            var hierarchyUpGO = transform.Find("FileHierarchy/ScrollArea/Content/FolderUp").gameObject;
+            hierarchyUpGO.SetActive(false);
+            HierarchyUpPrefab = hierarchyEntryGO.AddOrGet<FileHierarchyEntry>();
+            HierarchyUpPrefab.Type = FileHierarchyEntry.HierarchyEntryType.goUp;
+
+            ElementEntryContainer = transform.Find("MaterialSwitch/ScrollArea/Content").gameObject;
+
+            SevereErrorGO = transform.Find("MaterialSwitch/MaterialsHeader/WarningSevere").gameObject;
+            SevereErrorTooltip = UIUtils.AddSimpleTooltipToObject(SevereErrorGO.transform, string.Empty);
+            SevereErrorGO.SetActive(false);
+
+
+            ErrorGO = transform.Find("MaterialSwitch/MaterialsHeader/Warning").gameObject;
+            ErrorTooltip = UIUtils.AddSimpleTooltipToObject(ErrorGO.transform, string.Empty);
+            ErrorGO.SetActive(false);
+
+            var ElementEntryPrefabGo = transform.Find("MaterialSwitch/ScrollArea/Content/PresetEntryPrefab").gameObject;
+            ElementEntryPrefabGo.SetActive(false);
+            ElementEntryPrefab = ElementEntryPrefabGo.AddOrGet<BlueprintElementEntry>();
+
+
+            ReplacementElementSearchbar = transform.Find("MaterialReplacer/SearchBar/Input").FindOrAddComponent<FInputField2>();
+            ReplacementElementSearchbar.OnValueChanged.AddListener(ApplyBlueprintFilter);
+            ReplacementElementSearchbar.Text = string.Empty;
+
+            ClearReplacementElementSearchbar = transform.Find("MaterialReplacer/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
+            ClearReplacementElementSearchbar.OnClick += () => ReplacementElementSearchbar.Text = string.Empty;
+            ReplacementElementsContainer = transform.Find("MaterialReplacer/ScrollArea/Content").gameObject;
+            ToReplaceName = transform.Find("MaterialReplacer/ToReplace/CurrentlyActive/Label").gameObject.GetComponent<LocText>();
+
+            var ReplaceElementEntryGo = transform.Find("MaterialReplacer/ScrollArea/Content/CarePackagePrefab").gameObject;
+            ReplaceElementEntryGo.SetActive(false);
+            ReplacementElementsPrefab = ReplaceElementEntryGo.AddComponent<ReplaceElementEntry>();
+
+            InitAllContainers();
+
+            init = true;
+        }
+
+        private void InitAllContainers()
+        {
+            InitBlueprintFolders();
+            InitReplacementElements();
+        }
+        private void InitBlueprintFolders()
+        {
+        }
+        private void InitReplacementElements()
+        {
+        }
+
+        public static void ShowWindow(System.Action OnClose)
+        {
+            if (Instance == null)
+            {
+                var screen = Util.KInstantiateUI(ModAssets.BlueprintSelectionScreen, GameScreenManager.Instance.transform.Find("ScreenSpaceOverlayCanvas/MiddleCenter - InFrontOfEverything").gameObject, true);
+                Instance = screen.AddOrGet<BlueprintSelectionScreen>();
+                Instance.Init();
+            }
+            Instance.onCloseAction = OnClose;
+            Instance.Show(true);
+            Instance.ConsumeMouseScroll = true;
+            Instance.transform.SetAsLastSibling();
+            Instance.ClearUIState();
+        }
+        private void ClearSearchbars()
+        {
+            BlueprintSearchbar.Text = string.Empty;
+            ReplacementElementSearchbar.Text = string.Empty;
+        }
+
+        private bool init;
+
+        public override void OnKeyDown(KButtonEvent e)
+        {
+            if (e.TryConsume(Action.Escape) || e.TryConsume(Action.MouseRight))
+            {
+                this.Show(false);
+            }
+            if (e.TryConsume(Action.DebugToggleClusterFX))
+            {
+                BlueprintSearchbar.ExternalStartEditing();
+            }
+
+            base.OnKeyDown(e);
+        }
+
+        public void ClearUIState()
+        {
+            ClearSearchbars();
+            UpdateBlueprintButtons();
+            ToReplaceTag = null;
+            ShowReplacementItems(false);
+        }
+
+        void UpdateBlueprintButtons()
+        {
+            foreach(var kvp in FolderEntries)
+            {
+                kvp.Value.SetActive(false);
+            }
+
+            var targetFolder = ModAssets.SelectedFolder;
+            bool root= targetFolder == null;
+            if(root)
+            {
+                targetFolder = ModAssets.BlueprintFileHandling.RootFolder;
+                foreach (var folder in ModAssets.BlueprintFileHandling.BlueprintFolders)
+                {
+                    var folderEntry = AddOrGetFolderEntry(folder);
+                }
+            }
+        }
+        private FileHierarchyEntry AddOrGetFolderEntry(BlueprintFolder folder)
+        {
+            if (!FolderEntries.ContainsKey(folder))
+            {
+                var folderEntry = Util.KInstantiateUI<FileHierarchyEntry>(HierarchyFolderPrefab.gameObject, ReplacementElementsContainer);
+                folderEntry.Type = FileHierarchyEntry.HierarchyEntryType.folder;
+                FolderEntry.Name = folder.Name;
+                FolderEntry.OnSelectFolder = OnSelectFolder(folder);
+                FolderEntries[folder] = folderEntry;
+            }
+            return FolderEntries[folder];
+        }
+
+        public static bool HasReplacementCandidates(Tag original) => MaterialSelector.GetValidMaterials(original).Count() > 1;
+
+        Tag ToReplaceTag = null;
+        List<GameObject> PreviouslyActiveMaterialReplacementButtons = new();
+        private void SetReplacementMaterials(Tag materialTypeTag)
+        {
+            foreach (var prev in PreviouslyActiveMaterialReplacementButtons)
+            {
+                prev.SetActive(false);
+            }
+            PreviouslyActiveMaterialReplacementButtons.Clear();
+
+            var replacementTags = MaterialSelector.GetValidMaterials(materialTypeTag);
+
+            foreach (var replacementTag in replacementTags)
+            {
+                var btn = AddOrGetReplaceMaterialContainer(replacementTag);
+                if (btn == null)
+                {
+                    SgtLogger.logError(replacementTag + " go was null!");
+                    continue;
+                }
+                PreviouslyActiveMaterialReplacementButtons.Add(btn.gameObject);
+                btn.gameObject.SetActive(true);
+            }
+        }
+        private ReplaceElementEntry AddOrGetReplaceMaterialContainer(Tag material)
+        {
+            if (!ReplacementElementEntries.ContainsKey(material))
+            {
+                var elementEntry = Util.KInstantiateUI<ReplaceElementEntry>(ReplacementElementsPrefab.gameObject, ReplacementElementsContainer);
+                elementEntry.targetTag = material;
+                elementEntry.OnSelectElement = OnSelectReplacementTag;
+                ReplacementElementEntries[material] = elementEntry;
+            }
+            return ReplacementElementEntries[material];
+        }
+        private void OnSelectReplacementTag(Tag replacement)
+        {
+            BlueprintState.AddReplacementCandidate(ToReplaceTag, replacement);
+            ToReplaceTag = null;
+            ShowReplacementItems(false);
+        }
+
+        public void StartSelectingReplacementTag(Tag materialToReplace)
+        {
+            ToReplaceTag = materialToReplace;
+            ShowReplacementItems(true);
+        }
+
+        void ShowReplacementItems(bool show)
+        {
+            ReplaceBlueprintElements.SetActive(show);
+        }
+
+        private GameObject AddUiContainer(GameObject prefab, GameObject parent, string name, string description, System.Action onClickAction, Color overrideColor = default, Sprite placeImage = null)
+        {
+
+            var PresetHolder = Util.KInstantiateUI(prefab, parent, true);
+
+            UIUtils.TryChangeText(PresetHolder.transform, "Label", name);
+            if (description != null && description.Length > 0)
+            {
+                UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("Label"), description, true, onBottom: true);
+            }
+            if (placeImage != null)
+            {
+                var image = PresetHolder.transform.Find("Image").FindOrAddComponent<Image>();
+                image.sprite = placeImage;
+                UnityEngine.Rect rect = image.sprite.rect;
+                if (rect.width > rect.height)
+                {
+                    var size = (rect.height / rect.width) * 55;
+                    image.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size);
+                }
+                else
+                {
+                    var size = (rect.width / rect.height) * 55;
+                    image.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size);
+                }
+            }
+
+            PresetHolder.transform.FindOrAddComponent<FButton>().OnClick += onClickAction;
+            if (overrideColor != default)
+                PresetHolder.transform.Find("Background").FindOrAddComponent<Image>().color = overrideColor;
+
+            return PresetHolder;
+        }
+
+
+        public void ApplyElementsFilter(string filterstring = "")
+        {
+            foreach (var go in ReplacementElementEntries)
+            {
+                go.Value.gameObject.SetActive(filterstring == string.Empty ? true : ShowInFilter(filterstring, go.Key.name));
+            }
+        }
+
+        public void ApplyBlueprintFilter(string filterstring = "")
+        {
+            foreach (var go in BlueprintEntries)
+            {
+                go.Value.SetActive(filterstring == string.Empty ? true : ShowInFilter(filterstring, go.Key.FriendlyName));
+            }
+        }
+
+        bool ShowInFilter(string filtertext, string stringsToInclude)
+        {
+            return ShowInFilter(filtertext, new string[] { stringsToInclude });
+        }
+
+        bool ShowInFilter(string filtertext, string[] stringsToInclude)
+        {
+            bool show = false;
+            filtertext = filtertext.ToLowerInvariant();
+
+            foreach (var text in stringsToInclude)
+            {
+                if (text != null && text.Length > 0 && text.ToLowerInvariant().Contains(filtertext))
+                {
+                    show = true;
+                    break;
+                }
+            }
+            return show;
+        }
+
+
+        public override void OnShow(bool show)
+        {
+            base.OnShow(show);
+            if (!init)
+            {
+                Init();
+            }
+            CurrentlyActive = show;
+            if (!show && onCloseAction != null)
+                onCloseAction();
+        }
+    }
+}
 

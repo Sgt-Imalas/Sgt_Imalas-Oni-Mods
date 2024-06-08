@@ -82,7 +82,7 @@ namespace BlueprintsV2.BlueprintsV2.Tools
                     Util.Swap(ref y0, ref y1);
                 }
 
-                var blueprint = BlueprintsState.CreateBlueprint(new Vector2I(x0, y0), new Vector2I(x1, y1), MultiToolParameterMenu.Instance);
+                var blueprint = BlueprintState.CreateBlueprint(new Vector2I(x0, y0), new Vector2I(x1, y1), MultiToolParameterMenu.Instance);
                 if (blueprint.IsEmpty())
                 {
                     PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.CREATE_TOOL.EMPTY, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);

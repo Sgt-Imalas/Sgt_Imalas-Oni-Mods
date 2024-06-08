@@ -28,7 +28,7 @@ namespace BlueprintsV2
 
         [Option("Snapshot Tool Overlay Sync", "Whether the Snapshot Tool syncs with the current overlay. (configurable in game too)")]
         public bool SnapshotToolSync { get; set; } = true;
-        [Option("Legacy Blueprint Navigation", "Navigate blueprints with the old system (arrow keys) instead of the new UI")]
-        public bool LegacyNavigation { get; set; } = false;
+        //[Option("Legacy Blueprint Navigation", "Navigate blueprints with the old system (arrow keys) instead of the new UI")]
+        //public bool LegacyNavigation { get; set; } = false;
     }
 }
