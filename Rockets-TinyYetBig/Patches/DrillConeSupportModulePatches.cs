@@ -279,7 +279,7 @@ namespace Rockets_TinyYetBig.Patches
                     }
                 }
 
-                TranspilerHelper.PrintInstructions(code);
+                //TranspilerHelper.PrintInstructions(code);
                 return code;
             }
             private static readonly FieldInfo ResourceHarvestModuleDef_harvestSpeed = AccessTools.Field(
