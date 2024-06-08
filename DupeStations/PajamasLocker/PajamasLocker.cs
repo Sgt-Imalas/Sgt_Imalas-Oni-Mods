@@ -210,8 +210,6 @@ namespace DupeStations.PajamasLocker
                 component1.Play((HashedString)"working_pre");
                 component1.Queue((HashedString)"working_loop");
                 component1.Queue((HashedString)"working_pst");
-                if (!this.PajamasLocker.HasTag(GameTags.JetSuitBlocker))
-                    return;
                 KBatchedAnimController component2 = this.PajamasLocker.GetComponent<KBatchedAnimController>();
                 component2.Play((HashedString)"working_pre");
                 component2.Queue((HashedString)"working_loop");
@@ -223,7 +221,7 @@ namespace DupeStations.PajamasLocker
                 Facing facing = (bool)reactor ? this.reactor.GetComponent<Facing>() : null;
                 if ((bool)facing && (bool)PajamasLocker)
                     facing.SetFacing(this.PajamasLocker.GetComponent<Rotatable>().GetOrientation() == Orientation.FlipH);
-                if ((double)Time.time - startTime <= 3)
+                if (Time.time - startTime <= 2.4f)
                     return;
                 if (reactor != null && PajamasLocker != null)
                 {
