@@ -310,9 +310,10 @@ namespace SetStartDupes
             }
 
             SgtLogger.l("Applying joy reaction");
-            if (!Config.Instance.NoJoyReactions && Config.Instance.PresetsDoReactions)
+            if (!Config.Instance.NoJoyReactions)
             {
-                referencedStats.joyTrait = traitRef.Get(this.joyTrait);
+                if (Config.Instance.PresetsDoReactions)
+                    referencedStats.joyTrait = traitRef.Get(this.joyTrait);
             }
             else
             {
@@ -326,9 +327,10 @@ namespace SetStartDupes
 
 
             SgtLogger.l("Applying stress reaction");
-            if (!Config.Instance.NoStressReactions && Config.Instance.PresetsDoReactions)
+            if (!Config.Instance.NoStressReactions)
             {
-                referencedStats.stressTrait = traitRef.Get(this.stressTrait);
+                if (Config.Instance.PresetsDoReactions)
+                    referencedStats.stressTrait = traitRef.Get(this.stressTrait);
             }
             else
             {
