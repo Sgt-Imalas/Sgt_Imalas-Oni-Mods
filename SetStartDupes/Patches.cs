@@ -42,6 +42,14 @@ namespace SetStartDupes
         {
             public static void Postfix(Traits __instance)
             {
+                if(__instance.HasTrait("StickerBomber")
+                    && __instance.TryGetComponent<MinionIdentity>(out var identity)
+                    && (identity.stickerType==null||identity.stickerType.Length==0))
+                {
+                    SgtLogger.l("fixing stickerType");
+                    identity.stickerType = ModAssets.GetRandomStickerType();
+                }
+
                 if (__instance.TryGetComponent<MinionIdentity>(out _)
                     && __instance.TryGetComponent<Health>(out var helt)
                     && helt.hitPoints == 0
@@ -161,20 +169,6 @@ namespace SetStartDupes
                 {
                     MinionCrewPreset.ApplySingleMinion(MinionCrewPreset.OpenPresetAssignments.First(), __instance);
                     MinionCrewPreset.OpenPresetAssignments.RemoveAt(0);
-                }
-                //mysterious minion test
-                if (false)
-                {
-                    var animBg = __instance.transform.Find("Details/Top/PortraitContainer/BG");
-                    if (animBg == null)
-                        return;
-                    if (!animBg.TryGetComponent<KBatchedAnimController>(out var kbac))
-                        return;
-
-                    kbac.SwapAnims(new KAnimFile[] { Assets.GetAnim("dss_mystery_minions_dupeselect_kanim") });
-                    kbac.SetDirty();
-                    kbac.UpdateAnim(1);
-                    kbac.Play("crewSelect_bg", KAnim.PlayMode.Loop);
                 }
             }
         }

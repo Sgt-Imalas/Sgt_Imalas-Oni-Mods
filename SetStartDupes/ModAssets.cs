@@ -881,5 +881,11 @@ namespace SetStartDupes
                 Mod.harmonyInstance.UnpatchAll(faultyMod.staticID);
             }
         }
+
+        static string[] possibleStickerTypes = new string[3] { "sticker", "glitter", "glowinthedark" };
+        internal static string GetRandomStickerType()
+        {
+            return possibleStickerTypes.GetRandom();
+        }
     }
 }

@@ -253,6 +253,7 @@ namespace SetStartDupes
             return config;
         }
 
+        static string STICKERBOMBER = "StickerBomber";
         static string ANCIENTKNOWLEDGE = "AncientKnowledge";
         static string CHATTY = "Chatty";
         public void ApplyPreset(MinionStartingStats referencedStats)
@@ -309,7 +310,7 @@ namespace SetStartDupes
             }
 
             SgtLogger.l("Applying joy reaction");
-            if (!Config.Instance.NoJoyReactions)
+            if (!Config.Instance.NoJoyReactions && Config.Instance.PresetsDoReactions)
             {
                 referencedStats.joyTrait = traitRef.Get(this.joyTrait);
             }
@@ -317,8 +318,15 @@ namespace SetStartDupes
             {
                 referencedStats.joyTrait = traitRef.Get("None");
             }
+            ///fixes invis stickers;
+            if(joyTrait == STICKERBOMBER && referencedStats.stickerType.IsNullOrWhiteSpace())
+            {
+                referencedStats.stickerType = ModAssets.GetRandomStickerType();
+            }
+
+
             SgtLogger.l("Applying stress reaction");
-            if (!Config.Instance.NoStressReactions)
+            if (!Config.Instance.NoStressReactions && Config.Instance.PresetsDoReactions)
             {
                 referencedStats.stressTrait = traitRef.Get(this.stressTrait);
             }

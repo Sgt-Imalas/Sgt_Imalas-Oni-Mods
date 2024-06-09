@@ -182,6 +182,11 @@ namespace SetStartDupes
                     public static LocString NAME = "Reroll printing pod";
                     public static LocString TOOLTIP = "Enable this option to add the reroll button to printing pod Duplicants and care packages.\nCare Packages allow selecting from all currently available package configurations.";
                 }
+                public class PRESETSOVERRIDEREACTIONS
+                {
+                    public static LocString NAME = "Presets override Reactions";
+                    public static LocString TOOLTIP = "If enabled, applying presets to duplicants also overrides their inherited stress reaction and overjoyed response.";
+                }
 
                 public class PRINTINGPODRECHARGETIME
                 {

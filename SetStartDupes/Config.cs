@@ -105,6 +105,10 @@ namespace SetStartDupes
         [JsonProperty]
         public bool BalanceAddRemove { get; set; }
 
+        [Option("STRINGS.UI.DSS_OPTIONS.PRESETSOVERRIDEREACTIONS.NAME", "STRINGS.UI.DSS_OPTIONS.PRESETSOVERRIDEREACTIONS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
+        [JsonProperty]
+        public bool PresetsDoReactions { get; set; }
+
         [Option("STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.NAME", "STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
         [JsonProperty]
         public bool NoJoyReactions { get; set; }
@@ -137,6 +141,7 @@ namespace SetStartDupes
             AddAndRemoveTraitsAndInterests = true;
             AddVaccilatorTraits = false;
             BalanceAddRemove = true;
+            PresetsDoReactions = false;
             NoJoyReactions = false;
             NoStressReactions = false;
 
