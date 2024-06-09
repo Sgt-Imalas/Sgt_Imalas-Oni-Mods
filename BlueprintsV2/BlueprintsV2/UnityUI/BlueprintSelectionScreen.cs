@@ -19,7 +19,9 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
     internal class BlueprintSelectionScreen : FScreen
     {
 #pragma warning disable IDE0051 // Remove unused private members
+#pragma warning disable CS0414 // Remove unused private members
         new bool ConsumeMouseScroll = true; // do not remove!!!!
+#pragma warning restore CS0414 // Remove unused private members
 #pragma warning restore IDE0051 // Remove unused private members
         public static BlueprintSelectionScreen Instance = null;
 
@@ -60,6 +62,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
         System.Action onCloseAction;
 
         public bool CurrentlyActive;
+        public bool DialogueCurrentlyOpen;
 
         private void Init()
         {
@@ -83,6 +86,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 
             FolderUpBtn = transform.Find("FileHierarchy/ScrollArea/Content/FolderUp").FindOrAddComponent<FButton>();
             FolderUpBtn.gameObject.SetActive(true);
+            FolderUpBtn.OnClick += ()=>SelectFolder(null);
 
             HierarchyContainer = transform.Find("FileHierarchy/ScrollArea/Content").gameObject;
 
@@ -148,7 +152,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
         {
             if (Instance == null)
             {
-                var screen = Util.KInstantiateUI(ModAssets.BlueprintSelectionScreen, GameScreenManager.Instance.transform.Find("ScreenSpaceOverlayCanvas/MiddleCenter - InFrontOfEverything").gameObject, true);
+                var screen = Util.KInstantiateUI(ModAssets.BlueprintSelectionScreen, ModAssets.ParentScreen, true);
                 Instance = screen.AddOrGet<BlueprintSelectionScreen>();
                 Instance.Init();
             }
@@ -170,7 +174,8 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
         {
             if (e.TryConsume(Action.Escape) || e.TryConsume(Action.MouseRight))
             {
-                this.Show(false);
+                if(!DialogueCurrentlyOpen)
+                    this.Show(false);
             }
             if (e.TryConsume(Action.DebugToggleClusterFX))
             {
@@ -190,7 +195,11 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 
         void UpdateBlueprintButtons()
         {
-            foreach(var kvp in FolderEntries)
+            foreach(var kvp in BlueprintEntries)
+            {
+                kvp.Value.gameObject.SetActive(false);
+            }
+            foreach (var kvp in FolderEntries)
             {
                 kvp.Value.gameObject.SetActive(false);
             }
@@ -222,6 +231,26 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
                 uiEntry.gameObject.SetActive(true);
 
             }
+            this.ConsumeMouseScroll = true;
+            LockCam();
+        }
+
+        public void LockCam()
+        {
+            Task.Run(() =>
+            {
+                Task.Delay(25);
+                if(this.isActive)
+                {
+                    CameraController.Instance.DisableUserCameraControl = true;
+                }
+            });
+        }
+
+        public void SelectFolder(BlueprintFolder folder)
+        {
+            ModAssets.SelectedFolder = folder;
+            UpdateBlueprintButtons();
         }
         private FolderHierarchyEntry AddOrGetFolderEntry(BlueprintFolder folder)
         {
@@ -230,7 +259,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
                 var folderEntry = Util.KInstantiateUI<FolderHierarchyEntry>(HierarchyFolderPrefab.gameObject, HierarchyContainer);
                 folderEntry.folder = folder;
                 //folderEntry.Name = folder.Name;
-                //folderEntry.OnSelectFolder = OnSelectFolder(folder);
+                folderEntry.OnEntryClicked += ()=>SelectFolder(folder);
                 FolderEntries[folder] = folderEntry;
             }
             return FolderEntries[folder];
@@ -243,9 +272,27 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
                 bpEntry.blueprint = blueprint;
                 //folderEntry.Name = folder.Name;
                 //folderEntry.OnSelectFolder = OnSelectFolder(folder);
+                bpEntry.OnRenamed = (_)=>UpdateBlueprintButtons();
+                bpEntry.OnMoved = (_)=> OnBlueprintMoved();
+                bpEntry.OnDeleted = UpdateBlueprintButtons;
+                bpEntry.OnDialogueToggled = DialogueOpen;
+
                 BlueprintEntries[blueprint] = bpEntry;
             }
             return BlueprintEntries[blueprint];
+        }
+
+        private void DialogueOpen(bool obj)
+        {
+            DialogueCurrentlyOpen = obj;
+        }
+
+        void OnBlueprintMoved()
+        {
+            if(ModAssets.SelectedFolder !=null && !ModAssets.SelectedFolder.HasBlueprints)
+                SelectFolder(null);
+            else
+                UpdateBlueprintButtons();
         }
 
         public static bool HasReplacementCandidates(Tag original) => MaterialSelector.GetValidMaterials(original).Count() > 1;

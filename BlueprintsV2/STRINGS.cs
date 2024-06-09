@@ -10,13 +10,17 @@ namespace BlueprintsV2
     {
         public class UI
         {
-            public class DIALOGE
+            public class DIALOGUE
             {
                 public class CONFIRMDELETE
                 {
                     public static LocString TITLE = "Confirm Delete";
                     public static LocString TEXT = "Do you really want to delete the blueprint {0}?";
                 }
+                public static LocString NAMEBLUEPRINT_TITLE = "NAME BLUEPRINT";
+                public static LocString FOLDERBLUEPRINT_TITLE = "ASSIGN FOLDER";
+                public static LocString MOVETOFOLDER_TITLE = "MOVE TO FOLDER";
+                public static LocString RENAMEBLUEPRINT_TITLE = "RENAME BLUEPRINT";                
             }
 
             public class BLUEPRINTSELECTOR
@@ -125,7 +129,6 @@ namespace BlueprintsV2
                 public static LocString CREATE_TITLE = "Create Blueprint";
                 public static LocString USE_TITLE = "Use Blueprint";
                 public static LocString CREATEFOLDER_TITLE = "Create Folder";
-                public static LocString RENAME_TITLE = "Rename Blueprint";
                 public static LocString CYCLEFOLDERS_NEXT_TITLE = "Next Folder";
                 public static LocString CYCLEFOLDERS_PREV_TITLE = "Previous Folder";
                 public static LocString CYCLEBLUEPRINTS_NEXT_TITLE = "Next Blueprint";
@@ -180,8 +183,6 @@ namespace BlueprintsV2
                     public static LocString ACTION_BACK = "BACK";
                     public static LocString NEWSNAPSHOT = "Press {0} to take new snapshot.";
                 }
-                public static LocString NAMEBLUEPRINT_TITLE = "NAME BLUEPRINT";
-                public static LocString FOLDERBLUEPRINT_TITLE = "ASSIGN FOLDER";
                 public class FILTERLAYERS
                 {
                     public static LocString GASTILES = "Gas Tiles";

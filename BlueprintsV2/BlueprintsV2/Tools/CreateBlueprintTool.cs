@@ -100,7 +100,7 @@ namespace BlueprintsV2.BlueprintsV2.Tools
                         PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.CREATE_TOOL.CREATED, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
                     }
 
-                    FileNameDialog blueprintNameDialog = DialogUtil.CreateTextInputDialog(STRINGS.UI.TOOLS.NAMEBLUEPRINT_TITLE, false, OnConfirmDelegate);
+                    FileNameDialog blueprintNameDialog = DialogUtil.CreateTextInputDialog(STRINGS.UI.DIALOGUE.NAMEBLUEPRINT_TITLE, blueprint.Folder, true, OnConfirmDelegate);
                     SpeedControlScreen.Instance.Pause(false);
 
                     blueprintNameDialog.onCancel = delegate

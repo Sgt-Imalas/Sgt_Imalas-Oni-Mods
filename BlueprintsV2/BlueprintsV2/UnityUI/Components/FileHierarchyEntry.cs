@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using UtilLibs.UIcmp;
 using UtilLibs;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT;
-using static BlueprintsV2.STRINGS.UI.DIALOGE;
+using static BlueprintsV2.STRINGS.UI.DIALOGUE;
 
 namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 {
@@ -15,8 +15,9 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
     {
         public Blueprint blueprint;
 
-        public System.Action OnEntryClicked, OnDeleteClicked;
-        public System.Action<string> OnRenameClicked, OnMoveClicked;
+        public System.Action<bool> OnDialogueToggled;
+        public System.Action OnEntryClicked, OnDeleted;
+        public System.Action<string> OnRenamed, OnMoved;
         FButton button, deleteButton, renameButton, moveButton;
         LocText Label;
 
@@ -40,38 +41,63 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
                 deleteButton.OnClick += ConfirmDelete;
                 renameButton.OnClick += OpenRenameDialogue;
                 moveButton.OnClick += OpenFolderChangeDialogue;
-
+                button.OnClick += SelectBlueprint;
             }
         }
+
+        private void  SelectBlueprint()
+        {
+            ModAssets.SelectedBlueprint = blueprint;
+        }
+
         void OpenFolderChangeDialogue()
         {
-            var OnDeleteAction = () =>
+            SetDialogueState(true);
+            var ChangeFolderAction = (string result) =>
             {
-                DeleteBlueprint();
-                if (OnDeleteClicked != null)
-                    OnDeleteClicked();
+                SetDialogueState(false);
+                if (result == blueprint.Folder)
+                    return;
+
+                blueprint.SetFolder(result);
+                if (OnMoved != null)
+                    OnMoved(result);
             };
-            DialogUtil.CreateConfirmDialog(CONFIRMDELETE.TITLE, string.Format(CONFIRMDELETE.TEXT, blueprint?.FriendlyName), on_confirm: OnDeleteAction);
+            DialogUtil.CreateTextInputDialog(MOVETOFOLDER_TITLE, blueprint.Folder,true, ChangeFolderAction, () =>SetDialogueState(false), ModAssets.ParentScreen);
         }
+        void SetDialogueState(bool state)
+        {
+            if(OnDialogueToggled!=null)
+                OnDialogueToggled(state);
+        }
+
         void OpenRenameDialogue()
         {
-            var OnDeleteAction = () =>
+            SetDialogueState(true);
+            var RenameAction = (string result) =>
             {
-                DeleteBlueprint();
-                if (OnDeleteClicked != null)
-                    OnDeleteClicked();
+                SetDialogueState(false);
+                if (result == blueprint.FriendlyName)
+                    return;
+
+                blueprint.Rename(result);
+                Label.SetText(blueprint.FriendlyName);
+                if (OnRenamed != null)
+                    OnRenamed(result);
             };
-            DialogUtil.CreateConfirmDialog(CONFIRMDELETE.TITLE, string.Format(CONFIRMDELETE.TEXT, blueprint?.FriendlyName), on_confirm: OnDeleteAction);
+            DialogUtil.CreateTextInputDialog(RENAMEBLUEPRINT_TITLE, blueprint.FriendlyName, false, RenameAction, () => SetDialogueState(false),ModAssets.ParentScreen);
         }
         void ConfirmDelete()
         {
+            SetDialogueState(true);
             var OnDeleteAction = () =>
             {
+                SetDialogueState(false);
                 DeleteBlueprint();
-                if (OnDeleteClicked != null)
-                    OnDeleteClicked();
+                if (OnDeleted != null)
+                    OnDeleted();
             };
-            DialogUtil.CreateConfirmDialog(CONFIRMDELETE.TITLE, string.Format(CONFIRMDELETE.TEXT, blueprint?.FriendlyName),on_confirm: OnDeleteAction);
+            DialogUtil.CreateConfirmDialog(CONFIRMDELETE.TITLE, string.Format(CONFIRMDELETE.TEXT, blueprint?.FriendlyName),on_confirm: OnDeleteAction, on_cancel: () => SetDialogueState(false));
         }
 
         void DeleteBlueprint()

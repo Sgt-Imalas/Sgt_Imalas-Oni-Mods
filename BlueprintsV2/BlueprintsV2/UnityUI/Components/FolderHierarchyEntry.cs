@@ -12,8 +12,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
     {
         public BlueprintFolder folder;
 
-        public System.Action OnEntryClicked, OnDeleteClicked;
-        public System.Action<string> OnRenameClicked, OnMoveClicked;
+        public System.Action OnEntryClicked;
         FButton button;
         LocText Label;
 
@@ -26,7 +25,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
             if (folder != null)
             {
                 Label.SetText(folder.Name);
-
+                button.OnClick += OnEntryClicked;
             }
         }
     }

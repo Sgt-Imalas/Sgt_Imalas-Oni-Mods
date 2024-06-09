@@ -18,28 +18,25 @@ namespace BlueprintsV2.BlueprintsV2.Patches
         {
             public static void Postfix(PlayerController __instance)
             {
-                //Добавляем инструменты (не конопки): Создать, Использовать, Снимок.
                 var interfaceTools = new List<InterfaceTool>(__instance.tools);
+
                 var createBlueprintTool = new GameObject(nameof(CreateBlueprintTool), typeof(CreateBlueprintTool));
                 createBlueprintTool.transform.SetParent(__instance.gameObject.transform);
                 createBlueprintTool.gameObject.SetActive(true);
                 createBlueprintTool.gameObject.SetActive(false);
-
-                interfaceTools.Add(createBlueprintTool.GetComponent<InterfaceTool>());
+                interfaceTools.Add(createBlueprintTool.GetComponent<CreateBlueprintTool>());
 
                 var useBlueprintTool = new GameObject(typeof(UseBlueprintTool).Name, typeof(UseBlueprintTool));
                 useBlueprintTool.transform.SetParent(__instance.gameObject.transform);
                 useBlueprintTool.gameObject.SetActive(true);
                 useBlueprintTool.gameObject.SetActive(false);
-
-                interfaceTools.Add(useBlueprintTool.GetComponent<InterfaceTool>());
+                interfaceTools.Add(useBlueprintTool.GetComponent<UseBlueprintTool>());
 
                 var snapshotTool = new GameObject(typeof(SnapshotTool).Name, typeof(SnapshotTool));
                 snapshotTool.transform.SetParent(__instance.gameObject.transform);
                 snapshotTool.gameObject.SetActive(true);
                 snapshotTool.gameObject.SetActive(false);
-
-                interfaceTools.Add(snapshotTool.GetComponent<InterfaceTool>());
+                interfaceTools.Add(snapshotTool.GetComponent<SnapshotTool>());
 
                 __instance.tools = interfaceTools.ToArray();
 

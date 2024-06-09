@@ -70,6 +70,9 @@ namespace BlueprintsV2
 
         public static BlueprintFolder SelectedFolder;
         public static Blueprint SelectedBlueprint;
+
+        public static GameObject ParentScreen => PauseScreen.Instance.transform.parent.gameObject;// GameScreenManager.Instance.transform.Find("ScreenSpaceOverlayCanvas/MiddleCenter - InFrontOfEverything").gameObject;
+
         public static class BlueprintFileHandling
         {
             public static BlueprintFolder RootFolder;
@@ -120,6 +123,7 @@ namespace BlueprintsV2
 
             public static void ReloadBlueprints(bool ingame)
             {
+                RootFolder = null;
                 BlueprintFolders.Clear();
                 Blueprints.Clear();
                 LoadFolder(GetBlueprintDirectory());
@@ -226,7 +230,34 @@ namespace BlueprintsV2
                     BlueprintFolders.Add(CurrentFolder);
                 }
             }
-            public static BlueprintFolder CreateFolder(string folderName)
+            public static BlueprintFolder AddOrGetFolder(string folderName)
+            {
+                if(TryGetBlueprintFolder(folderName, out var folder))
+                {
+                    return folder;
+                }
+                return CreateFolder(folderName);
+            }
+            public static bool TryGetBlueprintFolder(string folderName, out BlueprintFolder folder)
+            {
+                folder = null;
+                if (folderName.IsNullOrWhiteSpace())
+                {
+                    folder = RootFolder;
+                    return true;
+                }
+                foreach (var f in BlueprintFolders)
+                {
+                    if (f.Name == folderName)
+                    {
+                        folder = f;
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            private static BlueprintFolder CreateFolder(string folderName)
             {
                 var folder = new BlueprintFolder(folderName);
                 BlueprintFolders.Add(folder);
@@ -263,18 +294,6 @@ namespace BlueprintsV2
                 return !blueprint.IsEmpty();
             }
 
-        }
-        public static class DialogHandling
-        {
-            public static FileNameDialog CreateFolderDialog(System.Action<string> onConfirm = null)
-            {
-                string title = STRINGS.UI.TOOLS.FOLDERBLUEPRINT_TITLE;
-
-                FileNameDialog folderDialog = DialogUtil.CreateTextInputDialog(title, true, onConfirm);
-                folderDialog.name = "BlueprintsMod_FolderDialog_" + title;
-
-                return folderDialog;
-            }
         }
 
         internal static void RegisterActions()

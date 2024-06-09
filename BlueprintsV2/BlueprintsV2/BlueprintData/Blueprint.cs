@@ -61,7 +61,11 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
         public Blueprint(string fileLocation)
         {
             FilePath = fileLocation;
-            Folder = Path.GetFileName(Path.GetDirectoryName(fileLocation)).ToLowerInvariant();
+            string parentFolder = Path.GetDirectoryName(fileLocation);
+            if (parentFolder == BlueprintFileHandling.GetBlueprintDirectory())
+                Folder = string.Empty;
+            else
+                Folder = Path.GetFileName(Path.GetDirectoryName(fileLocation)).ToLowerInvariant();
             InferFriendlyName();
         }
 
@@ -382,7 +386,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
             InferFileLocation();
 
             //Place the blueprint into its new folder.
-            BlueprintFileHandling.CreateFolder(Folder).AddBlueprint(this);
+            BlueprintFileHandling.AddOrGetFolder(Folder).AddBlueprint(this);
 
             if (rewrite)
             {

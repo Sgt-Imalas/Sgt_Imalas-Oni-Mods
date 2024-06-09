@@ -4,6 +4,7 @@ using BlueprintsV2.BlueprintsV2.UnityUI;
 using PeterHan.PLib.UI;
 using System.IO;
 using UnityEngine;
+using UtilLibs;
 
 namespace BlueprintsV2.BlueprintsV2.Tools
 {
@@ -62,7 +63,7 @@ namespace BlueprintsV2.BlueprintsV2.Tools
             base.OnActivateTool();
 
             ToolMenu.Instance.PriorityScreen.Show();
-
+            ModAssets.SelectedBlueprint = null;
             BlueprintSelectionScreen.ShowWindow(OnBlueprintSelected);
 
             
@@ -70,23 +71,24 @@ namespace BlueprintsV2.BlueprintsV2.Tools
 
         public void OnBlueprintSelected()
         {
-            if (ModAssets.BlueprintFileHandling.HasBlueprints())
-            {
-                GridCompositor.Instance.ToggleMajor(true);
-            }
-
+            SgtLogger.l("blueprint selected ? " + (ModAssets.SelectedBlueprint != null));
             if (ModAssets.SelectedBlueprint != null)
             {
-                BlueprintState.VisualizeBlueprint(Grid.PosToXY(PlayerController.GetCursorPos(KInputManager.GetMousePos())), ModAssets.SelectedBlueprint);
-                if (visualizer != null)
-                {
-                    Destroy(visualizer);
-                    visualizer = null;
-                }
+                GridCompositor.Instance.ToggleMajor(true);
+                BlueprintState.VisualizeBlueprint(Grid.PosToXY(PlayerController.GetCursorPos(KInputManager.GetMousePos())), ModAssets.SelectedBlueprint);                
             }
             else
             {
-                CreateVisualizer();
+                if (visualizer != null)
+                {
+                    Destroy(visualizer);
+                }
+                //deactivate tool if no bp selected:
+                this.DeactivateTool();
+                ToolMenu.Instance.ClearSelection();
+                string sound = GlobalAssets.GetSound(PlayerController.Instance.ActiveTool.GetDeactivateSound());
+                if (sound != null)
+                    KMonoBehaviour.PlaySound(sound);
             }
         }
 
