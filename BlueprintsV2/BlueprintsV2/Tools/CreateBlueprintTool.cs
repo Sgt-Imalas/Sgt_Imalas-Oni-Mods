@@ -5,6 +5,7 @@ using HarmonyLib;
 using PeterHan.PLib.Options;
 using System.Reflection;
 using UnityEngine;
+using UtilLibs;
 
 namespace BlueprintsV2.BlueprintsV2.Tools
 {
@@ -90,18 +91,16 @@ namespace BlueprintsV2.BlueprintsV2.Tools
 
                 else
                 {
-                    void OnConfirmDelegate(string blueprintName, FileNameDialog parent)
+                    void OnConfirmDelegate(string blueprintName)
                     {
                         blueprint.Rename(blueprintName, false);
-                        blueprint.SetFolder("");
 
                         SpeedControlScreen.Instance.Unpause(false);
 
                         PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.CREATE_TOOL.CREATED, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
-                        parent.Deactivate();
                     }
 
-                    FileNameDialog blueprintNameDialog = ModAssets.DialogHandling.CreateTextDialog(STRINGS.UI.TOOLS.NAMEBLUEPRINT_TITLE, false, OnConfirmDelegate);
+                    FileNameDialog blueprintNameDialog = DialogUtil.CreateTextInputDialog(STRINGS.UI.TOOLS.NAMEBLUEPRINT_TITLE, false, OnConfirmDelegate);
                     SpeedControlScreen.Instance.Pause(false);
 
                     blueprintNameDialog.onCancel = delegate

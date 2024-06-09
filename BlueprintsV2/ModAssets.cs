@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UtilLibs;
+using YamlDotNet.Serialization;
 using static BlueprintsV2.STRINGS;
 using static FMODUnity.FMODEventPlayableBehavior;
 
@@ -130,6 +131,16 @@ namespace BlueprintsV2
                         BlueprintState.VisualizeBlueprint(Grid.PosToXY(PlayerController.GetCursorPos(KInputManager.GetMousePos())), SelectedBlueprint);
                 }
             }
+
+            public static void DeleteBlueprint(Blueprint bp)
+            {
+                bp.RemoveFromFolder();
+                Blueprints.Remove(bp);
+                if(SelectedBlueprint == bp)
+                    SelectedBlueprint = null;
+                bp.DeleteFile();
+            }
+
             public static bool TryGetFolder(Blueprint bp, out BlueprintFolder folder)
             {
                 if(RootFolder.ContainsBlueprint(bp))
@@ -255,47 +266,11 @@ namespace BlueprintsV2
         }
         public static class DialogHandling
         {
-            public static FileNameDialog CreateTextDialog(string title, bool allowEmpty = false, System.Action<string, FileNameDialog> onConfirm = null)
-            {
-                GameObject textDialogParent = GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay);
-                FileNameDialog textDialog = Util.KInstantiateUI<FileNameDialog>(ScreenPrefabs.Instance.FileNameDialog.gameObject, textDialogParent);
-                textDialog.name = "BlueprintsMod_TextDialog_" + title;
-
-                TMP_InputField inputField = Traverse.Create(textDialog).Field("inputField").GetValue<TMP_InputField>();
-                KButton confirmButton = Traverse.Create(textDialog).Field("confirmButton").GetValue<KButton>();
-                if (inputField != null && confirmButton && confirmButton != null && allowEmpty)
-                {
-                    confirmButton.onClick += delegate
-                    {
-                        if (textDialog.onConfirm != null && inputField.text != null && inputField.text.Length == 0)
-                        {
-                            textDialog.onConfirm.Invoke(inputField.text);
-                        }
-                    };
-                }
-
-                if (onConfirm != null)
-                {
-                    textDialog.onConfirm += delegate (string result)
-                    {
-                        onConfirm.Invoke(result.Substring(0, Mathf.Max(0, result.Length - 4)), textDialog);
-                    };
-                }
-
-                Transform titleTransform = textDialog.transform.Find("Panel")?.Find("Title_BG")?.Find("Title");
-                if (titleTransform != null && titleTransform.GetComponent<LocText>() != null)
-                {
-                    titleTransform.GetComponent<LocText>().text = title;
-                }
-
-                return textDialog;
-            }
-
-            public static FileNameDialog CreateFolderDialog(System.Action<string, FileNameDialog> onConfirm = null)
+            public static FileNameDialog CreateFolderDialog(System.Action<string> onConfirm = null)
             {
                 string title = STRINGS.UI.TOOLS.FOLDERBLUEPRINT_TITLE;
 
-                FileNameDialog folderDialog = CreateTextDialog(title, true, onConfirm);
+                FileNameDialog folderDialog = DialogUtil.CreateTextInputDialog(title, true, onConfirm);
                 folderDialog.name = "BlueprintsMod_FolderDialog_" + title;
 
                 return folderDialog;

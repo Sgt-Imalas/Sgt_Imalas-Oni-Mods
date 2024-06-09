@@ -31,8 +31,8 @@ namespace BlueprintsV2.BlueprintsV2.Tools
 
             if (UsingSnapshot)
             {
-                drawer.NewLine(32);
-                drawer.DrawText(string.Format(STRINGS.UI.TOOLS.SNAPSHOT_TOOL.NEWSNAPSHOT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsDeleteAction.GetKAction()) + "]")), Styles_Instruction.Standard);
+               // drawer.NewLine(32);
+                //drawer.DrawText(string.Format(STRINGS.UI.TOOLS.SNAPSHOT_TOOL.NEWSNAPSHOT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsDeleteAction.GetKAction()) + "]")), Styles_Instruction.Standard);
             }
 
             drawer.EndShadowBar();

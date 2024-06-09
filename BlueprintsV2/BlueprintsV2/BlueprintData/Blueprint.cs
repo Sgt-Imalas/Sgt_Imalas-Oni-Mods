@@ -375,10 +375,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
             }
 
             //Remove the blueprint from its parent folder.
-            if (BlueprintFileHandling.TryGetFolder(this,out var folder))
-            {
-                folder.RemoveBlueprint(this);
-            }
+            RemoveFromFolder();
 
             //Generate the new folder and file path.
             Folder = SanitizeFolder(newFolder);
@@ -390,6 +387,14 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
             if (rewrite)
             {
                 Write();
+            }
+        }
+
+        public void RemoveFromFolder()
+        {
+            if (BlueprintFileHandling.TryGetFolder(this, out var folder))
+            {
+                folder.RemoveBlueprint(this);
             }
         }
 

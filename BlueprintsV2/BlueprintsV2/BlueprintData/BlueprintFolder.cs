@@ -32,7 +32,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 
         //Backing list storing the contents of the folder.
         private HashSet<Blueprint> contents = new ();
-
+        public HashSet<Blueprint> Blueprints => contents;
 
         /// <summary>
         /// Create a new blueprint folder with the given name.

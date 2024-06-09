@@ -33,12 +33,11 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
         //BlueprintList
         public FInputField2 BlueprintSearchbar;
         public FButton ClearBlueprintSearchbar;
-        public FileHierarchyEntry FolderUpBtn;
+        public FButton FolderUpBtn;
         public GameObject HierarchyContainer;
         public FileHierarchyEntry HierarchyEntryPrefab;
-        public FileHierarchyEntry HierarchyFolderPrefab;
-        public FileHierarchyEntry HierarchyUpPrefab;
-        public Dictionary<BlueprintFolder, FileHierarchyEntry> FolderEntries = new();
+        public FolderHierarchyEntry HierarchyFolderPrefab;
+        public Dictionary<BlueprintFolder, FolderHierarchyEntry> FolderEntries = new();
         public Dictionary<Blueprint, FileHierarchyEntry> BlueprintEntries = new();
 
         //MaterialList
@@ -82,8 +81,8 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
             ClearBlueprintSearchbar = transform.Find("FileHierarchy/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
             ClearBlueprintSearchbar.OnClick += () => BlueprintSearchbar.Text = string.Empty;
 
-            FolderUpBtn = transform.Find("FileHierarchy/ScrollArea/Content/FolderUp").FindOrAddComponent<FileHierarchyEntry>();
-            FolderUpBtn.Type = FileHierarchyEntry.HierarchyEntryType.goUp;
+            FolderUpBtn = transform.Find("FileHierarchy/ScrollArea/Content/FolderUp").FindOrAddComponent<FButton>();
+            FolderUpBtn.gameObject.SetActive(true);
 
             HierarchyContainer = transform.Find("FileHierarchy/ScrollArea/Content").gameObject;
 
@@ -93,18 +92,11 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
             var hierarchyEntryGO = transform.Find("FileHierarchy/ScrollArea/Content/BlueprintEntryPrefab").gameObject;
             hierarchyEntryGO.SetActive(false);
             HierarchyEntryPrefab = hierarchyEntryGO.AddOrGet<FileHierarchyEntry>();
-            HierarchyEntryPrefab.Type = FileHierarchyEntry.HierarchyEntryType.blueprint;
 
 
             var hierarchyFolderGO = transform.Find("FileHierarchy/ScrollArea/Content/FolderPrefab").gameObject;
             hierarchyFolderGO.SetActive(false);
-            HierarchyFolderPrefab = hierarchyEntryGO.AddOrGet<FileHierarchyEntry>();
-            HierarchyFolderPrefab.Type = FileHierarchyEntry.HierarchyEntryType.folder;
-
-            var hierarchyUpGO = transform.Find("FileHierarchy/ScrollArea/Content/FolderUp").gameObject;
-            hierarchyUpGO.SetActive(false);
-            HierarchyUpPrefab = hierarchyEntryGO.AddOrGet<FileHierarchyEntry>();
-            HierarchyUpPrefab.Type = FileHierarchyEntry.HierarchyEntryType.goUp;
+            HierarchyFolderPrefab = hierarchyFolderGO.AddOrGet<FolderHierarchyEntry>();
 
             ElementEntryContainer = transform.Find("MaterialSwitch/ScrollArea/Content").gameObject;
 
@@ -200,31 +192,60 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
         {
             foreach(var kvp in FolderEntries)
             {
-                kvp.Value.SetActive(false);
+                kvp.Value.gameObject.SetActive(false);
             }
 
             var targetFolder = ModAssets.SelectedFolder;
-            bool root= targetFolder == null;
-            if(root)
+            bool root = targetFolder == null;
+            FolderUpBtn.SetInteractable(!root);
+            SgtLogger.l("rebuilding folders");
+            if (root)
             {
                 targetFolder = ModAssets.BlueprintFileHandling.RootFolder;
                 foreach (var folder in ModAssets.BlueprintFileHandling.BlueprintFolders)
                 {
-                    var folderEntry = AddOrGetFolderEntry(folder);
+                    var uiEntry = AddOrGetFolderEntry(folder);
+                    uiEntry.transform.SetAsLastSibling();
+                    uiEntry.gameObject.SetActive(true);
                 }
+
+                SgtLogger.l(ModAssets.BlueprintFileHandling.BlueprintFolders.Count + "", "folder count");
+            }
+            else
+                SgtLogger.l("not root");
+
+            SgtLogger.l(targetFolder.BlueprintCount + "", "count");
+            foreach (var bp in targetFolder.Blueprints)
+            {
+                var uiEntry = AddOrGetBlueprintEntry(bp);
+                uiEntry.transform.SetAsLastSibling();
+                uiEntry.gameObject.SetActive(true);
+
             }
         }
-        private FileHierarchyEntry AddOrGetFolderEntry(BlueprintFolder folder)
+        private FolderHierarchyEntry AddOrGetFolderEntry(BlueprintFolder folder)
         {
             if (!FolderEntries.ContainsKey(folder))
             {
-                var folderEntry = Util.KInstantiateUI<FileHierarchyEntry>(HierarchyFolderPrefab.gameObject, ReplacementElementsContainer);
-                folderEntry.Type = FileHierarchyEntry.HierarchyEntryType.folder;
-                FolderEntry.Name = folder.Name;
-                FolderEntry.OnSelectFolder = OnSelectFolder(folder);
+                var folderEntry = Util.KInstantiateUI<FolderHierarchyEntry>(HierarchyFolderPrefab.gameObject, HierarchyContainer);
+                folderEntry.folder = folder;
+                //folderEntry.Name = folder.Name;
+                //folderEntry.OnSelectFolder = OnSelectFolder(folder);
                 FolderEntries[folder] = folderEntry;
             }
             return FolderEntries[folder];
+        }
+        private FileHierarchyEntry AddOrGetBlueprintEntry(Blueprint blueprint)
+        {
+            if (!BlueprintEntries.ContainsKey(blueprint))
+            {
+                var bpEntry = Util.KInstantiateUI<FileHierarchyEntry>(HierarchyEntryPrefab.gameObject, HierarchyContainer);
+                bpEntry.blueprint = blueprint;
+                //folderEntry.Name = folder.Name;
+                //folderEntry.OnSelectFolder = OnSelectFolder(folder);
+                BlueprintEntries[blueprint] = bpEntry;
+            }
+            return BlueprintEntries[blueprint];
         }
 
         public static bool HasReplacementCandidates(Tag original) => MaterialSelector.GetValidMaterials(original).Count() > 1;
@@ -329,7 +350,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
         {
             foreach (var go in BlueprintEntries)
             {
-                go.Value.SetActive(filterstring == string.Empty ? true : ShowInFilter(filterstring, go.Key.FriendlyName));
+                go.Value.gameObject.SetActive(filterstring == string.Empty ? true : ShowInFilter(filterstring, go.Key.FriendlyName));
             }
         }
 

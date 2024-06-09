@@ -10,6 +10,15 @@ namespace BlueprintsV2
     {
         public class UI
         {
+            public class DIALOGE
+            {
+                public class CONFIRMDELETE
+                {
+                    public static LocString TITLE = "Confirm Delete";
+                    public static LocString TEXT = "Do you really want to delete the blueprint {0}?";
+                }
+            }
+
             public class BLUEPRINTSELECTOR
             {
                 public class FILEHIERARCHY
@@ -31,9 +40,19 @@ namespace BlueprintsV2
                     {
                         public class CONTENT
                         {
+                            public class FOLDERUP
+                            {
+                                public static LocString LABEL = "Go to parent folder";
+                            }
                             public class NONEAVAILABLE
                             {
                                 public static LocString LABEL = "No Blueprints available";
+                            }
+                            public class BLUEPRINTENTRY
+                            {
+                                public static LocString TOOLTIP_DELETE = "Delete Blueprint.\nDeleting the last blueprint in a sub folder will also delete the folder.";
+                                public static LocString TOOLTIP_MOVE = "Move Blueprint to other folder.\nWill create new folder if it does not exist\nleaving the new folder name empty will move the blueprint to the main folder";
+                                public static LocString TOOLTIP_RENAME = "Rename Blueprint";
                             }
                         }
                     }

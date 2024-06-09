@@ -35,12 +35,12 @@ using UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Animation;
 //SOFTWARE
 namespace UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.DropdownEx
 {
-    internal class DropdownEx : Selectable, IPointerClickHandler, ISubmitHandler, ICancelHandler
+    public class DropdownEx : Selectable, IPointerClickHandler, ISubmitHandler, ICancelHandler
     {
         /// <summary>
         /// Visual representation of OptionData
         /// </summary>
-        protected internal class DropdownItem : MonoBehaviour, IPointerEnterHandler, ICancelHandler
+        public class DropdownItem : MonoBehaviour, IPointerEnterHandler, ICancelHandler
         {
             [SerializeField]
             private Text m_Text;
@@ -172,12 +172,12 @@ namespace UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.DropdownEx
 
         // Text to be used as a caption for the current value. It's not required, but it's kept here for convenience.
         [SerializeField]
-        private Text m_CaptionText;
+        private LocText m_CaptionText;
 
         /// <summary>
         /// The Text component to hold the text of the currently selected option.
         /// </summary>
-        public Text captionText { get { return m_CaptionText; } set { m_CaptionText = value; RefreshShownValue(); } }
+        public LocText captionText { get { return m_CaptionText; } set { m_CaptionText = value; RefreshShownValue(); } }
 
         [SerializeField]
         private Image m_CaptionImage;

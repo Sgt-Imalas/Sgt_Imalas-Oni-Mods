@@ -198,11 +198,11 @@ namespace BlueprintsV2.BlueprintsV2.Tools
 
         public override void OnKeyDown(KButtonEvent buttonEvent)
         {
-            if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsDeleteAction.GetKAction()))
-            {
-                Instance.DeleteBlueprint();
-                GridCompositor.Instance.ToggleMajor(false);
-            }
+            //if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsDeleteAction.GetKAction()))
+            //{
+            //    Instance.DeleteBlueprint();
+            //    GridCompositor.Instance.ToggleMajor(false);
+            //}
 
             base.OnKeyDown(buttonEvent);
         }
