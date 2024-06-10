@@ -41,7 +41,7 @@ namespace SaveGameModLoader.ModFilter
             buttonPrefab.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 96);
             //buttonPrefab.TryGetComponent<KImage>(out var referenceImg);
 
-            UIUtils.ListAllChildren(transform.parent);
+            //UIUtils.ListAllChildren(transform.parent);
 
             ///normal styling from X button in the title bar
             transform.parent.Find("Title/CloseButton").TryGetComponent<KImage>(out var referenceImg);

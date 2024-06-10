@@ -13,6 +13,8 @@ namespace SaveGameModLoader.Patches
         public static string pinSymbol = "MPM_Pin";
         public static string delSymbol = "MPM_DEL";
         public static string copySymbol = "MPM_CLIPBOARD";
+        public static string flagSymbol = "MPM_Flag";
+        public static string tagSymbol = "MPM_TAG";
 
 
         [HarmonyPatch(typeof(Assets), "OnPrefabInit")]
@@ -23,6 +25,8 @@ namespace SaveGameModLoader.Patches
                 InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.pinSymbol);
                 InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.delSymbol);
                 InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.copySymbol);
+                InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.flagSymbol);
+                InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.tagSymbol);
             }
         }
     }

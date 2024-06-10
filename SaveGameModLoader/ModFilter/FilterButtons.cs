@@ -17,13 +17,16 @@ namespace SaveGameModLoader.ModFilter
 {
     internal class FilterButtons : KMonoBehaviour
     {
-        KButton hideIncompatible_btn, hideDev_btn, hideLocal_btn, HideSteam_btn, HideActive_btn, HideInactive_btn, hidePins_btn;
-        LocText hideIncompatible_lbl, hideDev_lbl, hideLocal_lbl, hideSteam_lbl, HideActive_lbl, HideInactive_lbl, hidePins_lbl;
-        KImage hideIncompatible_img, hideDev_img, hideLocal_img, hideSteam_img, HideActive_img, HideInactive_img, hidePins_img;
+        KButton hideIncompatible_btn, hideDev_btn, hideLocal_btn, HideSteam_btn, HideActive_btn, HideInactive_btn;//, hidePins_btn;
+        LocText hideIncompatible_lbl, hideDev_lbl, hideLocal_lbl, hideSteam_lbl, HideActive_lbl, HideInactive_lbl;//, hidePins_lbl;
+        KImage hideIncompatible_img, hideDev_img, hideLocal_img, hideSteam_img, HideActive_img, HideInactive_img;//, hidePins_img;
+
+        KButton ShowTagEditor;
+        ToolTip TagFilterTooltip;
 
         GameObject devFiller, localFiller, pinFiller, steamFiller;
 
-        ColorStyleSetting normal, highlighted;
+        ColorStyleSetting normal, highlighted, blue;
         System.Action RefreshModList = null;
 
         Dropdown PlatformDropDown;
@@ -50,6 +53,7 @@ namespace SaveGameModLoader.ModFilter
             normal.disabledColor = style.disabledColor;
             normal.hoverColor = style.hoverColor;
 
+            
 
             highlighted = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
             highlighted.inactiveColor = UIUtils.Lerp(style.inactiveColor, Color.red, 40f);
@@ -103,15 +107,37 @@ namespace SaveGameModLoader.ModFilter
 
             #region buttons
 
-            var pinButton = Util.KInstantiateUI(buttonPrefab, gameObject, true);
-            hidePins_lbl = pinButton.transform.Find("Text").GetComponent<LocText>();
-            hidePins_btn = pinButton.GetComponent<KButton>();
-            hidePins_btn.onClick += () =>
+            var TagFilterButton = Util.KInstantiateUI(buttonPrefab, gameObject, true);
+            TagFilterButton.transform.Find("Text").GetComponent<LocText>().SetText(STRINGS.UI.FRONTEND.FILTERSTRINGS.ADJUST_TAG_FILTERS);
+            ShowTagEditor = TagFilterButton.GetComponent<KButton>();
+            ShowTagEditor.onClick += () =>
             {
-                MPM_Config.Instance.hidePins ^= true;
-                MPM_Config.Instance.SaveToFile();
-                RefreshUIState();
+                Dialog_EditFilterTags.ShowFilterDialog(null, () => RefreshUIState(), false);
             };
+            TagFilterTooltip = UIUtils.AddSimpleTooltipToObject(TagFilterButton.transform, MPM_Config.Instance.GetModTagConfigUIString(null));
+
+            if (blue == null)
+            {
+                var img = ShowTagEditor.GetComponent<KImage>();
+                var defaultStyle = ShowTagEditor.GetComponent<KImage>().colorStyleSetting;
+                blue = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
+                blue.inactiveColor = UIUtils.HSVShift(defaultStyle.inactiveColor, 70f);
+                blue.activeColor = UIUtils.HSVShift(defaultStyle.activeColor, 70f);
+                blue.disabledColor = UIUtils.HSVShift(defaultStyle.disabledColor, 70f);
+                blue.hoverColor = UIUtils.HSVShift(defaultStyle.hoverColor, 70f);
+                img.colorStyleSetting = blue;
+                img.ApplyColorStyleSetting();
+            }
+
+            //var pinButton = Util.KInstantiateUI(buttonPrefab, gameObject, true);
+            //hidePins_lbl = pinButton.transform.Find("Text").GetComponent<LocText>();
+            //hidePins_btn = pinButton.GetComponent<KButton>();
+            //hidePins_btn.onClick += () =>
+            //{
+            //    MPM_Config.Instance.hidePins ^= true;
+            //    MPM_Config.Instance.SaveToFile();
+            //    RefreshUIState();
+            //};
             //HideInactive_btn.onDoubleClick += () =>
             //{
             //    MPM_Config.Instance.ToggleAll();
@@ -119,8 +145,8 @@ namespace SaveGameModLoader.ModFilter
             //    MPM_Config.Instance.SaveToFile();
             //    RefreshUIState();
             //};
-            UIUtils.AddSimpleTooltipToObject(pinButton, STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PINS_TOOLTIP);
-            pinButton.TryGetComponent<KImage>(out hidePins_img);
+            //UIUtils.AddSimpleTooltipToObject(pinButton, STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PINS_TOOLTIP);
+            //pinButton.TryGetComponent<KImage>(out hidePins_img);
 
             var devButton = Util.KInstantiateUI(buttonPrefab, gameObject, true);
             hideDev_lbl = devButton.transform.Find("Text").GetComponent<LocText>();
@@ -266,7 +292,7 @@ namespace SaveGameModLoader.ModFilter
             HideSteam_btn.gameObject.name = "Steam_Filter";
             HideActive_btn.gameObject.name = "Active_Filter";
             HideInactive_btn.gameObject.name = "Inactive_Filter";
-            hidePins_btn.gameObject.name = "Pinned_Filter";
+            //hidePins_btn.gameObject.name = "Pinned_Filter";
         }
 
 
@@ -279,7 +305,7 @@ namespace SaveGameModLoader.ModFilter
             hasPins = MPM_Config.Instance.HasPinned;
 
 
-            hidePins_img.gameObject.SetActive(hasPins);
+            //hidePins_img.gameObject.SetActive(hasPins);
             hideLocal_img.gameObject.SetActive(hasLocal);
             hideSteam_img.gameObject.SetActive(hasSteam);
             hideDev_img.gameObject.SetActive(hasDev);
@@ -301,14 +327,14 @@ namespace SaveGameModLoader.ModFilter
             hideSteam_lbl.SetText(MPM_Config.Instance.hidePlatform ? STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_PLATFORM : STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PLATFORM);
             HideSteam_btn.interactable = hasSteam;
             
-            hidePins_lbl.SetText(MPM_Config.Instance.hidePins ? STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_PINS : STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PINS);
-            hidePins_btn.interactable = hasPins;
+            //hidePins_lbl.SetText(MPM_Config.Instance.hidePins ? STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_PINS : STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PINS);
+            //hidePins_btn.interactable = hasPins;
             
             hideDev_lbl.SetText(MPM_Config.Instance.hideDev ? STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_DEV : STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_DEV);
             hideDev_btn.interactable = hasDev;
 
-            hidePins_img.colorStyleSetting = (MPM_Config.Instance.hidePins ? highlighted : normal);
-            hidePins_img.ApplyColorStyleSetting();
+            //hidePins_img.colorStyleSetting = (MPM_Config.Instance.hidePins ? highlighted : normal);
+            //hidePins_img.ApplyColorStyleSetting();
 
             hideIncompatible_img.colorStyleSetting = (MPM_Config.Instance.hideIncompatible ? highlighted : normal);
             hideIncompatible_img.ApplyColorStyleSetting();
@@ -327,10 +353,10 @@ namespace SaveGameModLoader.ModFilter
 
             hideDev_img.colorStyleSetting = (MPM_Config.Instance.hideDev ? highlighted : normal);
             hideDev_img.ApplyColorStyleSetting();
-           // hideDev_img.gameObject.SetActive(hasDev);
+            // hideDev_img.gameObject.SetActive(hasDev);
 
 
-
+            TagFilterTooltip.SetSimpleTooltip(MPM_Config.Instance.GetModTagConfigUIString(null));
 
 
             if (RefreshModList != null && rebuildAfter)

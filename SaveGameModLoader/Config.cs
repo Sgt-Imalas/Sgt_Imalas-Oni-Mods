@@ -15,16 +15,11 @@ namespace SaveGameModLoader
     [ConfigFile(SharedConfigLocation: true)]
     public class Config : SingletonOptions<Config>
     {
-        public enum FilterbuttonStyle
-        {
-            Button = 0,
-            Checkbox = 1,
-        }
 
 
        // [Option("STRINGS.MPM_CONFIG.FILTERBUTTONS.NAME", "STRINGS.MPM_CONFIG.FILTERBUTTONS.TOOLTIP")]
         //[JsonProperty]
-        public FilterbuttonStyle ButtonStyle { get; set; }
+        //public FilterbuttonStyle ButtonStyle { get; set; }
 
         [Option("STRINGS.MPM_CONFIG.FOLDERPATH.NAME", "STRINGS.MPM_CONFIG.FOLDERPATH.TOOLTIP")]
         [JsonProperty]
@@ -40,7 +35,6 @@ namespace SaveGameModLoader
 
         public Config()
         {
-            ButtonStyle = FilterbuttonStyle.Button;
             ModProfileFolder = FileSystem.Normalize(Path.Combine(Path.Combine(KMod.Manager.GetDirectory(), "config"), "[ModSync]StoredModConfigs"));
             NeverDisable = true;
             UseCustomFolderPath = false;

@@ -81,8 +81,29 @@ namespace SaveGameModLoader
                     public static LocString HIDE_PINS = "Hide pinned Mods";
                     public static LocString UNHIDE_PINS = "Unhide pinned Mods";
                     public static LocString HIDE_PINS_TOOLTIP = "Hide or unhide pinned mods.";
-                }
 
+
+                    public static LocString ADJUST_TAG_FILTERS = "Tag Filters";
+                }
+                public class MODTAGS
+                {
+                    public class TAGEDITWINDOW
+                    {
+                        public static LocString TITLE_MOD = "EDIT MOD TAGS";
+                        public static LocString TITLE_SELECTOR = "TAG FILTERS";
+                        public static LocString FILTERTAGS = "Filter Mod Tags";
+                        public static LocString ADDNEWTAGLABEL = "Create new Tag";
+                        public static LocString ADDNEWTAGBTN = "Add Tag";
+                        public static LocString DELETETAG = "Delete";
+                        public static LocString CURRENTTAGS = "Current mod tags:";
+                        public static LocString NOTAGS = "No mod tags set";
+                        public static LocString ADJUST_TAG_FILTERS_TOOLTIP = "Toggle and manage your mod tag filters.\nCurrently enabled Tag Filters:";
+                        public static LocString NOFILTERS = "None";
+                        public static LocString ALLFILTERS = "All";
+                        public static LocString CLEARFILTERS = "Disable all Tag filters";
+
+                    }
+                }
                 public class MODSYNCING
                 {
                     public static LocString CONTINUEANDSYNC = "SYNC AND RESUME";

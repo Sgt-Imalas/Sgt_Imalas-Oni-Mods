@@ -16,6 +16,9 @@ using static ModsScreen;
 using SaveGameModLoader.ModsFilter;
 using SaveGameModLoader.ModFilter;
 using Steamworks;
+using PeterHan.PLib.UI;
+using SaveGameModLoader.Patches;
+using static SaveGameModLoader.STRINGS.UI.FRONTEND.MODTAGS;
 
 namespace SaveGameModLoader
 {
@@ -171,53 +174,100 @@ namespace SaveGameModLoader
                 {
 
                     SgtLogger.l("preparing prefab");
+
+
+                    var tagSprite = Assets.GetSprite(SpritePatch.tagSymbol);
+                    var tagButtonGO = Util.KInstantiateUI(FilterPatches._buttonPrefab, __instance.entryPrefab, true);
+                    tagButtonGO.name = "tagBtn";
+                    var flatTransform = tagButtonGO.transform;
+
+                    if (!flatTransform.Find("GameObject").TryGetComponent<Image>(out var tagImg))
+                        SgtLogger.warning("button image failed!");
+                    tagImg.sprite = tagSprite;
+                    tagImg.color = HasNoTags;
+
+                    if (!tagButtonGO.TryGetComponent<KButton>(out var tagBg))
+                        SgtLogger.warning("button failed!");
+                    tagBg.ClearOnClick();
+                    var cmp_tagBgnTT = UIUtils.AddSimpleTooltipToObject(flatTransform, TAGEDITWINDOW.NOTAGS);
+
+                    ElementReference er_tagBg = new() { behaviour = tagBg, Name = tagBgn };
+                    ElementReference er_flagtt = new() { behaviour = cmp_tagBgnTT, Name = tagBgnText };
+                    ElementReference er_flagimg = new() { behaviour = tagImg, Name = tagBgnImg };
+                    ElementReference er_tagBgTransf = new() { behaviour = flatTransform.transform, Name = tagBgnTransform };
+
+
                     var btn = Util.KInstantiateUI(FilterPatches._buttonPrefab, __instance.entryPrefab, true);
                     btn.name = "PinBtn";
                     var tr = btn.transform;
                     //tr.SetSiblingIndex(2);
 
-                    if(!tr.Find("GameObject").TryGetComponent<Image>(out var img))
+                    if (!tr.Find("GameObject").TryGetComponent<Image>(out var img))
                         SgtLogger.warning("button image failed!");
-                    ElementReference buttonImage = new() { behaviour = img, Name = PinButtonImageBg };
+                    ElementReference buttonImageBg = new() { behaviour = img, Name = PinButtonImageBg };
                     if (!transf.Find("BG").TryGetComponent<Image>(out var bgImg))
                         SgtLogger.warning("Bg image failed!");
                     ElementReference backgroundImage = new() { behaviour = bgImg, Name = BgImage };
-                    if(!btn.TryGetComponent<KButton>(out var button))
+                    if (!btn.TryGetComponent<KButton>(out var button))
                         SgtLogger.warning("button failed!");
 
                     if (!hr.GetReference<KButton>("ManageButton").TryGetComponent<KImage>(out var mngButtonImg))
                         SgtLogger.warning("manage button failed!");
-                    ElementReference managebtn = new() { behaviour = mngButtonImg, Name = MngBtImage };
 
                     button.ClearOnClick();
+
+                    ElementReference managebtnImage = new() { behaviour = mngButtonImg, Name = MngBtImage };
+
                     ElementReference pinButton = new() { behaviour = button, Name = PinButton };
                     ElementReference pinButtonTransform = new() { behaviour = tr, Name = PinTransform };
 
-                    ElementReference[] refs = new ElementReference[5];
-                    refs[0] = buttonImage;
-                    refs[1] = backgroundImage;
-                    refs[2] = pinButton;
-                    refs[3] = managebtn;
-                    refs[4] = pinButtonTransform;
-
+                    ElementReference[] refs = new ElementReference[]
+                    {
+                        buttonImageBg,
+                        backgroundImage,
+                        pinButton,
+                        managebtnImage,
+                        pinButtonTransform,
+                        er_tagBgTransf,
+                        er_tagBg,
+                        er_flagimg,
+                        er_flagtt
+                    };
 
                     hr.references = hr.references.AddRangeToArray(refs);
                 }
             }
-            const string PinButtonImageBg = "MPM_PinButtonBg", PinButton = "MPM_PinButton", BgImage = "MPM_BackgroundImage", MngBtImage = "MPM_ManageBtnImage", PinTransform="MPM_PinTransform";
+            const string
+                PinButtonImageBg = "MPM_PinButtonBg",
+                PinButton = "MPM_PinButton",
+                BgImage = "MPM_BackgroundImage",
+                MngBtImage = "MPM_ManageBtnImage",
+                PinTransform = "MPM_PinTransform",
+                tagBgnTransform = "MPM_tagBgnTransform",
+                tagBgn = "MPM_tagBgn",
+                tagBgnImg = "MPM_tagBgnImage",
+                tagBgnText = "MPM_FlagText"
+                ;
+
+            private static readonly RectOffset BUTTON_MARGIN = new RectOffset(3, 3, 3, 3);
+            private static readonly Vector2 ICON_SIZE = new Vector2(20.0f, 20.0f);
+
 
             internal static void Postfix(ModsScreen __instance, List<DisplayedMod> ___displayedMods)
             {
                 var allMods = Global.Instance.modManager.mods;
-
+                var modStateConfig = MPM_Config.Instance;
+                //new Dialog_EditFilterTags(mod.label.defaultStaticID, () => __instance.RebuildDisplay("pinned mod changed")).CreateAndShow(null);
                 foreach (DisplayedMod displayedMod in ___displayedMods)
                 {
                     var transf = displayedMod.rect_transform;
+                    var go = transf.gameObject;
 
                     var mod = allMods[displayedMod.mod_index];
+                    string staticModId = mod.label.defaultStaticID;
 
 
-                    if(transf.TryGetComponent<HierarchyReferences>(out var hier))
+                    if (transf.TryGetComponent<HierarchyReferences>(out var hier))
                     {
                         if (mod.IsLocal)
                         {
@@ -227,23 +277,36 @@ namespace SaveGameModLoader
                         }
 
 
-                        var pinButton = hier.GetReference<KButton>(PinButton); 
+                        var pinButton = hier.GetReference<KButton>(PinButton);
                         pinButton.onClick += () =>
                         {
-                            MPM_Config.Instance.TogglePinnedMod(mod.label.defaultStaticID);
+                            modStateConfig.TogglePinnedMod(staticModId);
                             __instance.RebuildDisplay("pinned mod changed");
                         };
 
-                        if (MPM_Config.Instance.ModPinned(mod.label.defaultStaticID) && mod.contentCompatability == ModContentCompatability.OK)
+                        if (modStateConfig.ModPinned(staticModId) && mod.contentCompatability == ModContentCompatability.OK)
                         {
                             var bgImage = hier.GetReference<Image>(PinButtonImageBg);
                             bgImage.color = pinnedActive;
                             transf.SetAsFirstSibling();
-                            
+
                             var pinButtonBg = hier.GetReference<Image>(BgImage);
                             pinButtonBg.color = pinnedBg;
                         }
+                        if (modStateConfig.ModHasAnyTags(staticModId))
+                        {
+                            string tooltip = modStateConfig.GetModTagConfigUIString(staticModId);
+                            if (tooltip.Length > 0)
+                            {
+                                hier.GetReference<ToolTip>(tagBgnText).SetSimpleTooltip(tooltip);
+                            }
+
+                            var img = hier.GetReference<Image>(tagBgnImg);
+                            img.color = HasTags;
+                        }
+                        hier.GetReference<KButton>(tagBgn).onClick += () => Dialog_EditFilterTags.ShowFilterDialog(mod.label.defaultStaticID, () => __instance.RebuildDisplay("pinned mod changed"));
                         hier.GetReference<Transform>(PinTransform).SetSiblingIndex(2);
+                        hier.GetReference<Transform>(tagBgnTransform).SetSiblingIndex(3);
                     }
                 }
                 if (FilterButtons.Instance != null)
@@ -257,12 +320,14 @@ namespace SaveGameModLoader
                 //ModAssets.ReorderVisualModState(___displayedMods, allMods);
 
             }
-            static Color 
+            static Color
                 normal = UIUtils.rgb(62, 67, 87),
-                pinnedBg = UIUtils.Darken(normal, 15), 
-                incompatibleBg = UIUtils.rgb(26, 28, 33), 
+                pinnedBg = UIUtils.Darken(normal, 15),
+                incompatibleBg = UIUtils.rgb(26, 28, 33),
                 pinnedActive = UIUtils.Lighten(Color.red, 50),
-                pinnedInactive = Color.grey;
+                pinnedInactive = Color.gray,
+                HasTags = UIUtils.Lighten(Color.blue, 50),
+                HasNoTags = Color.gray;
         }
 
         [HarmonyPatch(typeof(KMod.Manager), nameof(KMod.Manager.NotifyDialog))]
@@ -274,6 +339,19 @@ namespace SaveGameModLoader
                 {
 
                     var eventList = __instance.events.OrderBy(entry => entry.mod.title).Distinct().ToList();
+
+                    HashSet<string> changedModIDs = new();
+                    foreach (var entry in eventList)
+                    {
+                        if (entry.event_type == EventType.ExpectedInactive || entry.event_type == EventType.ExpectedActive)
+                        {
+                            if (!changedModIDs.Contains(entry.mod.id))
+                                changedModIDs.Add(entry.mod.id);
+                            else
+                                changedModIDs.Remove(entry.mod.id);
+
+                        }
+                    }
 
                     var newlyEnabled = new StringBuilder();
                     var newlyDisabled = new StringBuilder();
@@ -296,6 +374,11 @@ namespace SaveGameModLoader
 
                     foreach (Event @event in eventList)
                     {
+                        if (!changedModIDs.Contains(@event.mod.id))
+                        {
+                            continue;
+                        }
+
                         if (@event.event_type == EventType.ExpectedInactive)
                         {
                             hadNewlyEnabled = true;
@@ -411,12 +494,11 @@ namespace SaveGameModLoader
         {
             public static void Postfix(ModsScreen __instance)
             {
-                UIUtils.ListAllChildren(__instance.transform);
 
-                if(ModAssets.ModsFilterActive)
+                if (ModAssets.ModsFilterActive)
                 {
                     var modsFilterGO = __instance.transform.Find("Panel/Search/LocTextInputField");
-                    if(modsFilterGO != null)
+                    if (modsFilterGO != null)
                     {
                         modsFilterGO.gameObject.TryGetComponent(out FilterManager.ModFilterTextCmp);
                     }
@@ -597,7 +679,7 @@ namespace SaveGameModLoader
                         .Where(mod => mod.label.distribution_platform == KMod.Label.DistributionPlatform.Steam)
                         .Select(mod => mod.label.id)
                         .ToList();
-                    if(steamMods.Count> 0) 
+                    if (steamMods.Count > 0)
                         SteamInfoQuery.InitModAuthorQuery(steamMods);
                 }
             }

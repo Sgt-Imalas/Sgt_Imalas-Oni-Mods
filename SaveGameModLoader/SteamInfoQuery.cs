@@ -198,6 +198,8 @@ namespace SaveGameModLoader
                         if (!FetchedModData.ContainsKey(modID))
                             FetchedModData[modID] = new FetchedModData(details.m_nPublishedFileId.m_PublishedFileId, details.m_rgchTitle.ToString());
 
+                        MPM_Config.Instance.AddAutoFetchedSteamTags(modID, details.m_rgchTags);
+
                         if (SteamFriends.RequestUserInformation(new(details.m_ulSteamIDOwner), true))
                         {
                             var authorID = details.m_ulSteamIDOwner.ToString();
@@ -221,6 +223,7 @@ namespace SaveGameModLoader
                         }
                     }
                 }
+                MPM_Config.Instance.SaveToFile();
             }
 
 

@@ -63,17 +63,17 @@ namespace SaveGameModLoader.ModFilter
                     Debug.Log("[ModProfileManager] Error creating search prefab!  The searchbar will not function!");
 
 
-                if (Config.Instance.ButtonStyle == Config.FilterbuttonStyle.Checkbox)
-                {
-                    var options = Util.KInstantiateUI<OptionsMenuScreen>(ScreenPrefabs.Instance.OptionsScreen.gameObject);
-                    SgtLogger.Assert("options", options);
-                    var optionscreenclone = Util.KInstantiateUI<GameOptionsScreen>(options.gameOptionsScreenPrefab.gameObject);
-                    SgtLogger.Assert("optionscreenclone", optionscreenclone);
-                    FilterToggleButtons.togglePrefab = Util.KInstantiateUI(optionscreenclone.unitConfiguration.toggleUnitPrefab.gameObject);
-                    SgtLogger.Assert("togglePrefab", FilterToggleButtons.togglePrefab);
-                    UnityEngine.Object.Destroy(options.gameObject);
-                    UnityEngine.Object.Destroy(optionscreenclone.gameObject);
-                }
+                //if (Config.Instance.ButtonStyle == Config.FilterbuttonStyle.Checkbox)
+                //{
+                //    var options = Util.KInstantiateUI<OptionsMenuScreen>(ScreenPrefabs.Instance.OptionsScreen.gameObject);
+                //    SgtLogger.Assert("options", options);
+                //    var optionscreenclone = Util.KInstantiateUI<GameOptionsScreen>(options.gameOptionsScreenPrefab.gameObject);
+                //    SgtLogger.Assert("optionscreenclone", optionscreenclone);
+                //    FilterToggleButtons.togglePrefab = Util.KInstantiateUI(optionscreenclone.unitConfiguration.toggleUnitPrefab.gameObject);
+                //    SgtLogger.Assert("togglePrefab", FilterToggleButtons.togglePrefab);
+                //    UnityEngine.Object.Destroy(options.gameObject);
+                //    UnityEngine.Object.Destroy(optionscreenclone.gameObject);
+                //}
             }
         }
 
@@ -117,24 +117,8 @@ namespace SaveGameModLoader.ModFilter
                 }
 
 
-
-                if (__result && MPM_Config.Instance.hideLocal)
-                    __result = label.distribution_platform != Label.DistributionPlatform.Local;
-
-                if (__result && MPM_Config.Instance.hideDev)
-                    __result = label.distribution_platform != Label.DistributionPlatform.Dev;
-
-                if (__result && MPM_Config.Instance.hidePlatform)
-                    __result = label.distribution_platform == Label.DistributionPlatform.Dev || label.distribution_platform == Label.DistributionPlatform.Local;
-
-                if (__result && MPM_Config.Instance.hideIncompatible)
-                    __result = mod.contentCompatability == ModContentCompatability.OK;
-
-                if (__result && MPM_Config.Instance.hideActive)
-                    __result = !mod.IsActive();
-
-                if (__result && MPM_Config.Instance.hideInactive)
-                    __result = mod.IsActive();
+                if (__result)
+                    __result = MPM_Config.Instance.ApplyFilters(mod);
 
             }
         }
@@ -237,10 +221,10 @@ namespace SaveGameModLoader.ModFilter
                 UnityEngine.Object.Destroy(filterButtons.transform.Find("ToggleAllButton").gameObject);
                 UnityEngine.Object.Destroy(filterButtons.transform.Find("WorkshopButton").gameObject);
 
-                if (Config.Instance.ButtonStyle == Config.FilterbuttonStyle.Button)
+                //if (Config.Instance.ButtonStyle == Config.FilterbuttonStyle.Button)
                     filterButtons.AddOrGet<FilterButtons>().Init(() => __instance.RebuildDisplay(null));
-                else if (Config.Instance.ButtonStyle == Config.FilterbuttonStyle.Checkbox)
-                    filterButtons.AddOrGet<FilterToggleButtons>().Init(() => __instance.RebuildDisplay(null));
+                //else if (Config.Instance.ButtonStyle == Config.FilterbuttonStyle.Checkbox)
+                    //filterButtons.AddOrGet<FilterToggleButtons>().Init(() => __instance.RebuildDisplay(null));
 
 
 
