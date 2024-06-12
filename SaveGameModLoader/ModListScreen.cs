@@ -222,7 +222,7 @@ namespace SaveGameModLoader
 
 
                 //contentbutton.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 150f);
-                contentbutton.transform.Find("Label").GetComponent<LocText>().text = ModListInfoBuilder(exportedList.Key, exportedList.Value.SavePoints);
+                contentbutton.transform.Find("Label").GetComponent<LocText>().text = ModListInfoBuilder(exportedList.Key, exportedList.Value.GetSavePoints());
                 ListEntries.Add(contentbutton, exportedList.Value.ReferencedColonySaveName);
                 contentbutton.GetComponent<KButton>().onClick += () => InstantiateSingleModlistView(gameObject, exportedList, this);//ModlistManager.Instance.InstantiateSyncViewWithoutRestart(exportedList.Value.SavePoints.Last().Value, this.gameObject);
                 contentbutton.GetComponent<KButton>().isInteractable = DlcManager.IsExpansion1Active() ? exportedList.Value.Type != SaveGameModList.DLCType.baseGame : exportedList.Value.Type != SaveGameModList.DLCType.spacedOut;
@@ -236,7 +236,7 @@ namespace SaveGameModLoader
                 //SgtLogger.log(saveGameList.Key);
 #endif
                 var contentbutton = Util.KInstantiateUI(ButtonPrefab, ContentParentSaveGame, true);
-                contentbutton.transform.Find("Label").GetComponent<LocText>().text = ModListInfoBuilder(saveGameList.Key, saveGameList.Value.SavePoints);
+                contentbutton.transform.Find("Label").GetComponent<LocText>().text = ModListInfoBuilder(saveGameList.Key, saveGameList.Value.GetSavePoints());
                 ListEntries.Add(contentbutton, saveGameList.Value.ReferencedColonySaveName);
                 contentbutton.GetComponent<KButton>().onClick += () => InstantiateSingleModlistView(gameObject, saveGameList, this);//ModlistManager.Instance.InstantiateSyncViewWithoutRestart(saveGameList.Value.SavePoints.Last().Value, this.gameObject);
                 contentbutton.GetComponent<KButton>().isInteractable = DlcManager.IsExpansion1Active() ? saveGameList.Value.Type != SaveGameModList.DLCType.baseGame : saveGameList.Value.Type != SaveGameModList.DLCType.spacedOut;

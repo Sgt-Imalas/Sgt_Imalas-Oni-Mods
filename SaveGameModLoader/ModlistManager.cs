@@ -682,6 +682,7 @@ namespace SaveGameModLoader
                     //SgtLogger.log("Trying to load: " + modlist);
                     var list = SaveGameModList.ReadModlistListFromFile(modlist);
 
+                    list.CleanupDuplicates();
                     ReadModTitles(list);
 
                     if (list != null)
@@ -699,7 +700,7 @@ namespace SaveGameModLoader
 
         private void ReadModTitles(SaveGameModList list)
         {
-            foreach (var modlist in list.SavePoints.Values)
+            foreach (var modlist in list.GetSavePoints().Values)
             {
                 foreach (var mod in modlist)
                 {
@@ -716,10 +717,7 @@ namespace SaveGameModLoader
             ModPacks.Clear();
             //MissingMods.Clear();
             var files = new DirectoryInfo(ModAssets.ModPacksPath).GetFiles();
-            foreach (FileInfo modlist in files)
-            {
-                SgtLogger.l(modlist.ToString(), "FilePathModProfile");
-            }
+            
             foreach (FileInfo modlist in files)
             {
                 try
@@ -780,7 +778,7 @@ namespace SaveGameModLoader
                 ModPackFile = new SaveGameModList(savePath, true);
             }
 
-            int versionNumber = ModPackFile.SavePoints.Count + 1;
+            int versionNumber = ModPackFile.GetSavePoints().Count + 1;
 
             var VersionString = "Version " + versionNumber.ToString();
 

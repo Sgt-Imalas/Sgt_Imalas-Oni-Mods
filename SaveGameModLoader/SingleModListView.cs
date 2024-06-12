@@ -453,7 +453,7 @@ namespace SaveGameModLoader
             {
                 //SgtLogger.log("All View");
                 if (Mods == null) return;
-                foreach (var mod in Mods.SavePoints.Reverse())
+                foreach (var mod in Mods.GetSavePoints().Reverse())
                 {
                     var entry = Util.KInstantiateUI(EntryPrefab.gameObject, InsertLocation.gameObject, true).transform;
                     TryChangeText(entry, "Title", mod.Key);

@@ -102,6 +102,13 @@ namespace SaveGameModLoader
                         public static LocString ALLFILTERS = "All";
                         public static LocString CLEARFILTERS = "Disable all Tag filters";
 
+
+                        public static LocString FILTERMODE_NORMAL = "Show when active";
+                        public static LocString FILTERMODE_NORMAL_TOOLTIP = "Mods with this tag will be shown in the mod list if the filter is enabled.";
+                        public static LocString FILTERMODE_INVERTED = "Hide when active";
+                        public static LocString FILTERMODE_INVERTED_TOOLTIP = "Mods with this tag will be hidden in the mod list if the filter is enabled.";
+                        public static LocString INVERTEDFILTER = " (mods hidden)";
+
                     }
                 }
                 public class MODSYNCING

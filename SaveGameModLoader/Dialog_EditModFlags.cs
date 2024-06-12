@@ -18,7 +18,7 @@ namespace SaveGameModLoader
     {
         private class EditFilterTagsDialog_Item
         {
-            public string FlagName { get; set; }
+            public string TagName { get; set; }
             public int IsChecked { get; set; }
         }
 
@@ -154,7 +154,7 @@ namespace SaveGameModLoader
                 var rec = new EditFilterTagsDialog_Item()
                 {
                     IsChecked = 1,
-                    FlagName = Flag
+                    TagName = Flag
                 };
                 _dialogData.Add(rec);
                 _TagTargetData.Add(Flag, true);
@@ -165,7 +165,7 @@ namespace SaveGameModLoader
                 var rec = new EditFilterTagsDialog_Item()
                 {
                     IsChecked = 0,
-                    FlagName = uncheckedFlag
+                    TagName = uncheckedFlag
                 };
                 _dialogData.Add(rec);
                 _TagTargetData.Add(uncheckedFlag, false);
@@ -180,8 +180,8 @@ namespace SaveGameModLoader
             {
                 if (!string.IsNullOrEmpty(FilterText))
                 {
-                    if ((string.IsNullOrEmpty(entry.FlagName) || !entry.FlagName.ToLowerInvariant().Contains(FilterText.ToLower()))
-                        && (string.IsNullOrEmpty(entry.FlagName) || !entry.FlagName.ToLowerInvariant().Contains(FilterText.ToLower()))
+                    if ((string.IsNullOrEmpty(entry.TagName) || !entry.TagName.ToLowerInvariant().Contains(FilterText.ToLower()))
+                        && (string.IsNullOrEmpty(entry.TagName) || !entry.TagName.ToLowerInvariant().Contains(FilterText.ToLower()))
                        )
                     {
                         continue;
@@ -191,7 +191,7 @@ namespace SaveGameModLoader
             }
 
 
-            var sortedList = _dialogData_Filtered.OrderBy(x => x.FlagName).OrderByDescending(y => y.IsChecked).ToList();
+            var sortedList = _dialogData_Filtered.OrderBy(x => x.TagName).OrderByDescending(y => y.IsChecked).ToList();
             _dialogData_Filtered.Clear();
             _dialogData_Filtered.AddRange(sortedList);
 
@@ -207,7 +207,7 @@ namespace SaveGameModLoader
             {
                 Text = FilterText,
                 MinWidth = 450,
-                TextAlignment = TMPro.TextAlignmentOptions.Left,
+                TextAlignment = TMPro.TextAlignmentOptions.CenterGeoAligned,
                 OnTextChanged = OnTextChanged_Filter
             };
             addRemoveDialogSettingsPanel.AddChild(txtFilter);
@@ -227,7 +227,7 @@ namespace SaveGameModLoader
             {
                 Text = NewFlagText,
                 MinWidth = 386,
-                TextAlignment = TMPro.TextAlignmentOptions.Left,
+                TextAlignment = TMPro.TextAlignmentOptions.CenterGeoAligned,
                 OnTextChanged = OnTextChanged_AddNew
             };
             addNewTagPanel.AddChild(txt_AddTag);
@@ -267,7 +267,7 @@ namespace SaveGameModLoader
                 contents.AddColumn(new GridColumnSpec(550));
 
                 var lCheckbox = new PCheckBox(name: TAGEDITWINDOW.ALLFILTERS);
-                int activeFilters = _dialogData_Filtered.Where(i => _TagTargetData[i.FlagName]).Count();
+                int activeFilters = _dialogData_Filtered.Where(i => _TagTargetData[i.TagName]).Count();
                 int allFilters = _dialogData_Filtered.Count();
 
                 if (activeFilters == 0)
@@ -296,19 +296,28 @@ namespace SaveGameModLoader
                 contents.AddRow(new GridRowSpec());
                 contents.AddColumn(new GridColumnSpec(520));
 
-                var lCheckbox = new PCheckBox(name: entry.FlagName);
-                lCheckbox.InitialState = _TagTargetData[entry.FlagName] ? 1 : 0; // entry.IsChecked;
+                var lCheckbox = new PCheckBox(name: entry.TagName);
+                lCheckbox.InitialState = _TagTargetData[entry.TagName] ? 1 : 0; // entry.IsChecked;
 
-                lCheckbox.Text = entry.FlagName;
+                lCheckbox.Text = entry.TagName;
 
                 lCheckbox.OnChecked = OnChecked_RecordItem;
                 contents.AddChild(lCheckbox, new GridComponentSpec(0, 0) { Alignment = TextAnchor.MiddleLeft });
                 if (!targetsMod)
                 {
-                    var deleteFlagBtn = new PButton("deleteFlagBtn");
+                    var inverted = MPM_Config.Instance.IsFilterInverted(entry.TagName);
+
+                    var invertFilterBtn = new PButton("invertTagFilterBtn");
+                    invertFilterBtn.Text = inverted ? TAGEDITWINDOW.FILTERMODE_INVERTED : TAGEDITWINDOW.FILTERMODE_NORMAL;
+                    invertFilterBtn.OnClick = (bt) => ToggleInverted(bt,entry.TagName);
+                    invertFilterBtn.ToolTip = inverted ? TAGEDITWINDOW.FILTERMODE_INVERTED_TOOLTIP : TAGEDITWINDOW.FILTERMODE_NORMAL_TOOLTIP;
+                    invertFilterBtn.Color = UIUtils.BuildColorStyleFromColor(UIUtils.Darken(inverted ? Color.red : Color.green, 50));
+                    contents.AddChild(invertFilterBtn, new GridComponentSpec(0, 1) { Alignment = TextAnchor.MiddleCenter });
+
+                    var deleteFlagBtn = new PButton("deleteTagBtn");
                     deleteFlagBtn.Text = TAGEDITWINDOW.DELETETAG;
-                    deleteFlagBtn.OnClick = (_) => OnRemoveFlag(entry.FlagName);
-                    contents.AddChild(deleteFlagBtn, new GridComponentSpec(0, 1) { Alignment = TextAnchor.MiddleRight });
+                    deleteFlagBtn.OnClick = (_) => OnRemoveFlag(entry.TagName);
+                    contents.AddChild(deleteFlagBtn, new GridComponentSpec(0, 3) { Alignment = TextAnchor.MiddleRight });
                 }
 
                 scrollBody.AddChild(contents);
@@ -329,12 +338,12 @@ namespace SaveGameModLoader
 
         private bool TryGetRecord(string name, out EditFilterTagsDialog_Item record)
         {
-            if (!_dialogData_Filtered.Any(x => x.FlagName == name))
+            if (!_dialogData_Filtered.Any(x => x.TagName == name))
             {
                 record = null;
                 return false;
             }
-            record = _dialogData.Where(x => x.FlagName == name).First();
+            record = _dialogData.Where(x => x.TagName == name).First();
             return true;
         }
 
@@ -379,7 +388,7 @@ namespace SaveGameModLoader
             foreach (var entry in _dialogData_Filtered)
             {
                 entry.IsChecked = newState;
-                _TagTargetData[entry.FlagName] = (newState==1);
+                _TagTargetData[entry.TagName] = (newState==1);
 
             }
             RebuildAndShow();
@@ -387,7 +396,7 @@ namespace SaveGameModLoader
         static GameObject AllCheckbox;
         void RefreshAllCheckbox()
         {
-            int activeFilters = _dialogData_Filtered.Where(i => _TagTargetData[i.FlagName]).Count();
+            int activeFilters = _dialogData_Filtered.Where(i => _TagTargetData[i.TagName]).Count();
             int allFilters = _dialogData_Filtered.Count();
 
             //if (AllCheckbox == null)
@@ -436,6 +445,13 @@ namespace SaveGameModLoader
             NewFlagText = string.Empty;
             RebuildAndShow(rebuildData: true);
         }
+
+        private void ToggleInverted(GameObject source, string tagId)
+        {
+            MPM_Config.Instance.SetFilterInverted(tagId);
+            RebuildAndShow();
+        }
+
         private void OnRemoveFlag(string flag)
         {
             MPM_Config.Instance.RemoveFilterTag(flag);

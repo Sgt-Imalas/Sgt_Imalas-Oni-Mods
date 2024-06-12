@@ -27,8 +27,10 @@ namespace SaveGameModLoader
         public bool IsModPack = false;
         public DLCType Type = 0;
 
+
         public Dictionary<string, List<KMod.Label>> SavePoints = new();
 
+        public Dictionary<string, List<KMod.Label>> GetSavePoints() => SavePoints;
         public static SaveGameModList ReadModlistListFromFile(FileInfo filePath)
         {
 
@@ -47,6 +49,31 @@ namespace SaveGameModLoader
                     SaveGameModList modlist = JsonConvert.DeserializeObject<SaveGameModList>(jsonString);
                     return modlist;
                 }
+            }
+        }
+
+        private Dictionary<string, SaveLoader.SaveFileEntry> _saveLoaderFiles=null;
+
+        public void CleanupDuplicates()
+        {
+            List<string> savePointsToCleanup = new List<string>(16);
+            foreach (var entry in this.SavePoints)
+            {
+                string currentSavePoint = entry.Key;               
+                if (!File.Exists(currentSavePoint))
+                {
+                    savePointsToCleanup.Add(currentSavePoint);
+                }
+            }
+
+            if (savePointsToCleanup.Count > 0)
+            {
+                SgtLogger.l($"cleaning {savePointsToCleanup.Count} obsolete entries from mod profile {ReferencedColonySaveName}");
+                foreach (var savePointKey in savePointsToCleanup)
+                {
+                    SavePoints.Remove(savePointKey);
+                }
+                WriteModlistToFile();
             }
         }
 
@@ -139,6 +166,5 @@ namespace SaveGameModLoader
             this.WriteModlistToFile();
             return hasBeenInitialized;
         }
-
     }
 }

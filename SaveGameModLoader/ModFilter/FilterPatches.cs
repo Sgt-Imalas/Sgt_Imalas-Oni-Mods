@@ -85,7 +85,7 @@ namespace SaveGameModLoader.ModFilter
             [HarmonyPriority(Priority.Low)]
             public static void Postfix(KMod.Mod mod, ref bool __result)
             {
-                var label = mod.label;
+                bool skipCategoryFilters = false;
 
                 ///Modsfilter is active
                 if (FilterManager.ModFilterTextCmp != null && !__result)
@@ -100,10 +100,12 @@ namespace SaveGameModLoader.ModFilter
                 if (__result && ModlistManager.Instance.IsSyncing)
                 {
                     __result = ModlistManager.Instance.ModIsNotInSync(mod);
+                    skipCategoryFilters = true;
                 }
 
-                if (__result && MPM_Config.Instance.hidePins)
-                    __result = !MPM_Config.Instance.PinnedMods.Contains(mod.label.defaultStaticID);
+                //no longer in ui, replaced with tags
+                //if (__result && MPM_Config.Instance.hidePins)
+                //    __result = !MPM_Config.Instance.PinnedMods.Contains(mod.label.defaultStaticID);
 
 
                 if (__result && _filterManager != null)
@@ -113,12 +115,12 @@ namespace SaveGameModLoader.ModFilter
                     if (!string.IsNullOrEmpty(text))
                     {
                         __result = ModAssets.ModWithinTextFilter(text, mod);
+                        skipCategoryFilters = true;
                     }
                 }
 
-
                 if (__result)
-                    __result = MPM_Config.Instance.ApplyFilters(mod);
+                    __result = MPM_Config.Instance.ApplyFilters(mod, skipCategoryFilters);
 
             }
         }

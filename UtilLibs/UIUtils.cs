@@ -14,7 +14,16 @@ namespace UtilLibs
 {
     public class UIUtils
     {
+        public static ColorStyleSetting BuildColorStyleFromColor(Color color)
+        {
+            var ColorStyle = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
+            ColorStyle.inactiveColor = color;
+            ColorStyle.hoverColor = UIUtils.Lighten(color,20);
+            ColorStyle.activeColor = UIUtils.Lighten(color, 40);
+            ColorStyle.disabledColor = Lerp(color, Color.gray, 50);
+            return ColorStyle;
 
+        }
         public static void GiveAllChildObjects(GameObject start)
         {
             var SubObjects = start.GetComponentsInChildren<UnityEngine.Object>(); //finding the pesky tooltip; maybe usefull l8er

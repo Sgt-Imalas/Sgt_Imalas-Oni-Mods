@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UtilLibs;
 using static Operational;
+using static ResearchTypes;
 using static SaveGameModLoader.STRINGS.UI.FRONTEND.MODTAGS;
 using static STRINGS.CODEX;
 
@@ -16,6 +17,18 @@ namespace SaveGameModLoader
 {
     public class MPM_Config
     {
+        public class TagFilterState
+        {
+            public bool FilterEnabled;
+            public bool FilterInverted;
+            public TagFilterState()
+            {
+                FilterEnabled = false;
+                FilterInverted = false;
+            }
+        }
+
+
         [JsonIgnore]
         private static MPM_Config _instance;
         [JsonIgnore]
@@ -55,7 +68,7 @@ namespace SaveGameModLoader
         [JsonIgnore] public bool HasPinned => PinnedMods.Count > 0;
 
         public HashSet<string> PinnedMods = new HashSet<string>();
-        public Dictionary<string, bool> FilterTags = new();
+        public Dictionary<string, TagFilterState> FilterTags = new();
 
         public Dictionary<string, HashSet<string>> ModTagConfig = new Dictionary<string, HashSet<string>>();
 
@@ -85,7 +98,7 @@ namespace SaveGameModLoader
         public void AddFilterTag(string flag, bool save = false)
         {
             if (!FilterTags.ContainsKey(flag))
-                FilterTags.Add(flag, false);
+                FilterTags.Add(flag, new());
 
             if (save)
                 SaveToFile();
@@ -107,11 +120,24 @@ namespace SaveGameModLoader
             SaveToFile();
         }
 
+        public bool IsFilterInverted(string id)
+        {
+            return FilterTags.TryGetValue(id, out var filter) && filter.FilterInverted;
+        }
+        public void SetFilterInverted(string id)
+        {
+            if (!FilterTags.TryGetValue(id, out var filter))
+                return;
+
+            filter.FilterInverted = !filter.FilterInverted;
+            SaveToFile();
+        }
+
         internal List<string> GetCheckedTags(string targetModId)
         {
             if (targetModId == null)
             {
-                return FilterTags.Keys.Where(filter => FilterTags[filter]).ToList();
+                return FilterTags.Keys.Where(filter => FilterTags[filter].FilterEnabled).ToList();
             }
             else
             {
@@ -159,7 +185,7 @@ namespace SaveGameModLoader
             {
                 foreach (var record in modifiedRecords)
                 {
-                    FilterTags[record.first] = record.second;
+                    FilterTags[record.first].FilterEnabled = record.second;
                 }
             }
             SaveToFile();
@@ -179,11 +205,17 @@ namespace SaveGameModLoader
                 for (int i = 0; i < tags.Count; i++)
                 {
                     var taginfo = tags[i];
-                    if (FilterTags[taginfo])
+                    if (FilterTags[taginfo].FilterEnabled)
                     {
-                        hasTagFiltersActive =true ;
+                        hasTagFiltersActive = true;
                         sb.Append("• ");
-                        sb.AppendLine(taginfo);
+                        if (FilterTags[taginfo].FilterInverted)
+                        {
+                            sb.Append(taginfo);
+                            sb.AppendLine(TAGEDITWINDOW.INVERTEDFILTER);
+                        }
+                        else
+                            sb.AppendLine(taginfo);
                     }
                 }
                 if (!hasTagFiltersActive)
@@ -293,10 +325,16 @@ namespace SaveGameModLoader
             }
         }
 
-        internal bool ApplyFilters(KMod.Mod mod)
+        internal bool ApplyFilters(KMod.Mod mod, bool noCategoryFilters)
         {
             var label = mod.label;
             bool showMod = true;
+
+            if (showMod && hideIncompatible)
+                showMod = mod.contentCompatability == ModContentCompatability.OK;
+
+            if (noCategoryFilters)
+                return showMod;
 
             if (showMod && hideLocal)
                 showMod = label.distribution_platform != Label.DistributionPlatform.Local;
@@ -306,9 +344,6 @@ namespace SaveGameModLoader
 
             if (showMod && hidePlatform)
                 showMod = label.distribution_platform == Label.DistributionPlatform.Dev || label.distribution_platform == Label.DistributionPlatform.Local;
-
-            if (showMod && hideIncompatible)
-                showMod = mod.contentCompatability == ModContentCompatability.OK;
 
             bool modIsActive = mod.IsActive();
 
@@ -329,27 +364,39 @@ namespace SaveGameModLoader
         private bool ShouldFilterMod(string defaultStaticID)
         {
             //while syncing , no filter tags created or no filter tags enabled
-            if (ModlistManager.Instance.IsSyncing || FilterTags.Count == 0 || FilterTags.All(f => !f.Value))
+            if (ModlistManager.Instance.IsSyncing || FilterTags.Count == 0 || FilterTags.All(f => !f.Value.FilterEnabled))
                 return true;
 
 
             if (ModTagConfig.TryGetValue(defaultStaticID, out var Taglist))
             {
+                bool showMod = !ActiveShowFilters;
                 foreach (var Tag in Taglist)
                 {
-                    if (FilterTags.TryGetValue(Tag, out var showTag) && showTag)
-                        return true;
+                    if (FilterTags.TryGetValue(Tag, out var tagState))
+                    {
+                        if (tagState.FilterEnabled)
+                        {
+                            if (tagState.FilterInverted)
+                                return false;
+                            else
+                                showMod = true;
+                        }
+                    }
                 }
+                return showMod;
             }
-            return false;
+            return !ActiveShowFilters;
         }
+
+        [JsonIgnore] bool ActiveShowFilters => FilterTags.Any(state => state.Value.FilterEnabled && !state.Value.FilterInverted);
 
         internal void ToggleAllFilters(bool v)
         {
             var keys = new List<string>(FilterTags.Keys);
             foreach (var key in keys)
             {
-                FilterTags[key] = v;
+                FilterTags[key].FilterEnabled = v;
             }
             SaveToFile();
         }
