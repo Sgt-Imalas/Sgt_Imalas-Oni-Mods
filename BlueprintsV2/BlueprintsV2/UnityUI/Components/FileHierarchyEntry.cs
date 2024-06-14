@@ -16,10 +16,11 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
         public Blueprint blueprint;
 
         public System.Action<bool> OnDialogueToggled;
-        public System.Action OnEntryClicked, OnDeleted;
+        public System.Action OnEntryClicked;
         public System.Action<string> OnRenamed, OnMoved;
         FButton button, deleteButton, renameButton, moveButton;
         LocText Label;
+        public System.Action<Blueprint> OnSelectBlueprint, OnDeleted;
 
         public override void OnPrefabInit()
         {
@@ -45,9 +46,11 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
             }
         }
 
-        private void  SelectBlueprint()
+        private void SelectBlueprint()
         {
-            ModAssets.SelectedBlueprint = blueprint;
+            if(OnSelectBlueprint!=null)
+                OnSelectBlueprint(blueprint);
+            //ModAssets.SelectedBlueprint = blueprint;
         }
 
         void OpenFolderChangeDialogue()
@@ -94,19 +97,14 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
             {
                 SetDialogueState(false);
                 DeleteBlueprint();
-                if (OnDeleted != null)
-                    OnDeleted();
             };
             DialogUtil.CreateConfirmDialog(CONFIRMDELETE.TITLE, string.Format(CONFIRMDELETE.TEXT, blueprint?.FriendlyName),on_confirm: OnDeleteAction, on_cancel: () => SetDialogueState(false));
         }
 
         void DeleteBlueprint()
         {
-            if(blueprint != null)
-            {
-                ModAssets.BlueprintFileHandling.DeleteBlueprint(blueprint);
-            }
-            UnityEngine.Object.Destroy(this.gameObject);
+            if (OnDeleted != null)
+                OnDeleted(blueprint);
         }
 
     }

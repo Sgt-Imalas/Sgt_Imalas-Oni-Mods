@@ -70,6 +70,39 @@ namespace BlueprintsV2
 
         public static BlueprintFolder SelectedFolder;
         public static Blueprint SelectedBlueprint;
+        public static Dictionary<BlueprintSelectedMaterial, Tag> DynamicReplacementTags = new();
+
+        public static void RemoveReplacementTag(BlueprintSelectedMaterial tag)
+        {
+            DynamicReplacementTags.Remove(tag);
+        }
+        public static void AddOrSetReplacementTag(BlueprintSelectedMaterial tag, Tag replacement)
+        {
+            if(!DynamicReplacementTags.ContainsKey(tag)) 
+                DynamicReplacementTags.Add(tag, replacement);
+            else
+            {
+                if (replacement == tag.SelectedTag)
+                    DynamicReplacementTags.Remove(tag);
+                else
+                    DynamicReplacementTags[tag] = replacement;
+            }
+        }
+        public static bool HasReplacementTag(BlueprintSelectedMaterial mat) => DynamicReplacementTags.ContainsKey(mat);
+        public static void ClearReplacementTags()
+        {
+            DynamicReplacementTags.Clear();
+        }
+        public static bool TryGetReplacementTag(BlueprintSelectedMaterial tag, out Tag replacement)
+        {
+            replacement = null;
+            if (DynamicReplacementTags.ContainsKey(tag))
+            {
+                replacement = DynamicReplacementTags[tag];
+                return true;
+            }
+            return false;
+        }
 
         public static GameObject ParentScreen => PauseScreen.Instance.transform.parent.gameObject;// GameScreenManager.Instance.transform.Find("ScreenSpaceOverlayCanvas/MiddleCenter - InFrontOfEverything").gameObject;
 
@@ -105,6 +138,7 @@ namespace BlueprintsV2
 
                 ModAssets.BLUEPRINTS_AUTOFILE_WATCHER.Created += (sender, eventArgs) =>
                 {
+                    SgtLogger.l("file watcher triggered on "+eventArgs.Name+", "+eventArgs.FullPath, "BP FileWatcher");
                     if (ModAssets.BLUEPRINTS_AUTOFILE_IGNORE.Contains(eventArgs.FullPath))
                     {
                         ModAssets.BLUEPRINTS_AUTOFILE_IGNORE.Remove(eventArgs.FullPath);
@@ -113,7 +147,7 @@ namespace BlueprintsV2
 
                     if (eventArgs.FullPath.EndsWith(".blueprint") || eventArgs.FullPath.EndsWith(".json"))
                     {
-                        HandleBlueprintLoading(eventArgs.FullPath);                        
+                        HandleBlueprintLoading(eventArgs.FullPath);
                     }
                 };
 
@@ -264,15 +298,17 @@ namespace BlueprintsV2
                 return folder;  
             }
             public static void HandleBlueprintLoading(string filePath)
-            {                
+            {
                 if (LoadBlueprint(filePath, out Blueprint blueprint))
                 {
-                    if(blueprint.Folder== Path.GetDirectoryName(GetBlueprintDirectory()))
+                    if (blueprint.Folder == Path.GetDirectoryName(GetBlueprintDirectory()) || blueprint.Folder == string.Empty)
                     {
+                        SgtLogger.l("adding to root folder", blueprint.FriendlyName);
                         RootFolder.AddBlueprint(blueprint);
                     }
                     else
                     {
+                        SgtLogger.l("putting in folder", blueprint.FriendlyName);
                         var folder = BlueprintFolders.FirstOrDefault(f => f.Name == blueprint.Folder);
                         if (folder == null)
                         {
@@ -280,7 +316,10 @@ namespace BlueprintsV2
                         }
                         folder.AddBlueprint(blueprint);
                     }
+                    BlueprintsV2.UnityUI.BlueprintSelectionScreen.RefreshOnBpAdded();
                 }
+                else
+                    SgtLogger.warning("not a blueprint");
             }
 
             public static bool LoadBlueprint(string blueprintLocation, out Blueprint blueprint)
@@ -290,7 +329,7 @@ namespace BlueprintsV2
                 {
                     blueprint.ReadJson();
                 }
-
+                SgtLogger.l(blueprint.IsEmpty() + "", "BP EMPTY?");
                 return !blueprint.IsEmpty();
             }
 
@@ -318,6 +357,83 @@ namespace BlueprintsV2
                 STRINGS.UI.ACTIONS.SNAPSHOT_TITLE, new PKeyBinding());
             //Actions.BlueprintsDeleteAction = new PActionManager().CreateAction(ActionKeys.ACTION_DELETE_KEY,
             //    STRINGS.UI.ACTIONS.DELETE_TITLE, new PKeyBinding(KKeyCode.Delete));
+        }
+
+        internal static bool IsStaticTag(Tag selectedTag, out string name, out string desc, out Sprite icon)
+        {
+            name = string.Empty;
+            desc = string.Empty;
+            icon = Assets.GetSprite("unknown");
+
+            if (selectedTag == GameTags.BuildingWood)
+            {
+                name = global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.WOOD.NAME;
+                desc = global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.WOOD.DESC;
+                var prefab = Assets.TryGetPrefab(WoodLogConfig.ID);
+                if (prefab.TryGetComponent<KBatchedAnimController>(out var kbac))
+                {
+                    icon = Def.GetUISpriteFromMultiObjectAnim(kbac.animFiles[0]);
+                }
+                return true;
+            }
+            else if(selectedTag == GameTags.BuildingFiber)
+            {
+                name = global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.BASIC_FABRIC.NAME;
+                desc = global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.BASIC_FABRIC.DESC;
+                var prefab = Assets.TryGetPrefab(BasicFabricConfig.ID);
+                if (prefab.TryGetComponent<KBatchedAnimController>(out var kbac))
+                {
+                    icon = Def.GetUISpriteFromMultiObjectAnim(kbac.animFiles[0]);
+                }
+                return true;
+            }
+
+            return false;
+        }
+
+        public static Tag GetFirstAvailableMaterial(Tag materialType, float mass)
+        {
+            var mats = GetValidMaterials(materialType);
+            foreach (var mat in mats)
+            {
+                if(ClusterManager.Instance.activeWorld.worldInventory.GetAmount(mat, true) >= mass || DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || MaterialSelector.AllowInsufficientMaterialBuild())
+                    return mat;
+            }
+            SgtLogger.error("could not find viable replacementTag for materialType " + materialType);
+            return materialType;
+        }
+
+        public static List<Tag> GetValidMaterials(Tag materialTypeTag, bool omitDisabledElements = true)
+        {
+            List<Tag> list = new List<Tag>();
+            foreach (Element element in ElementLoader.elements)
+            {
+                if (!(element.disabled && omitDisabledElements) 
+                    && (element.IsSolid || BlueprintsV2.ModAPI.API_Methods.AllowNonSolids(materialTypeTag))
+                    && (element.tag == materialTypeTag || element.HasTag(materialTypeTag)))
+                {
+                    list.Add(element.tag);
+                }
+            }
+
+            foreach (Tag materialBuildingElement in GameTags.MaterialBuildingElements)
+            {
+                if (!(materialBuildingElement == materialTypeTag))
+                {
+                    continue;
+                }
+
+                foreach (GameObject item in Assets.GetPrefabsWithTag(materialBuildingElement))
+                {
+                    KPrefabID component = item.GetComponent<KPrefabID>();
+                    if (component != null && !list.Contains(component.PrefabTag))
+                    {
+                        list.Add(component.PrefabTag);
+                    }
+                }
+            }
+
+            return list;
         }
 
         public static class ActionKeys

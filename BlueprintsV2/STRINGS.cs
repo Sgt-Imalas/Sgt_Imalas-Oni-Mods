@@ -65,7 +65,7 @@ namespace BlueprintsV2
                 {
                     public class MATERIALSHEADER
                     {
-                        public static LocString LABEL = "Materials in Blueprint:";
+                        public static LocString LABEL = "Materials in {0}:";
                     }
                     public class SCROLLAREA
                     {
@@ -74,6 +74,13 @@ namespace BlueprintsV2
                             public class NOELEMENTSINBLUEPRINT
                             {
                                 public static LocString LABEL = "No elements in blueprint";
+                            }
+                            public class PRESETENTRYPREFAB
+                            {
+                                public static LocString MASSTEXT = "Total Mass:";
+                                public static LocString LABEL = "{0} ( as {1})";
+                                public static LocString LOCALLYREPLACE= "Replace Locally: ";
+                                public static LocString NONE = "No";
                             }
                         }
                     }
@@ -94,7 +101,7 @@ namespace BlueprintsV2
                 {
                     public class TOREPLACE
                     {
-                        public static LocString LABEL = "To replace:";
+                        public static LocString LABEL = "Material Type:";
                     }
                     internal class SEARCHBAR
                     {
@@ -114,7 +121,12 @@ namespace BlueprintsV2
                         {
                             public class NOREPLACEELEMENTS
                             {
-                                public static LocString LABEL = "No suitable elements for replacement found";
+                                public static LocString LABEL = "No suitable elements found";
+                            }
+                            public class ELEMENTSTATE
+                            {
+                                public static LocString NOTFOUND = "This material has not been found in the current game!";
+                                public static LocString NOTENOUGH = "You don't have enough of that material on the current asteroid!\nCurrently available: {0}\nRequired when selecting this: {1}";
                             }
                         }
                     }

@@ -38,14 +38,6 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
         private static readonly List<ICleanableVisual> CleanableVisuals = new();
 
         public static readonly Dictionary<int, CellColorPayload> ColoredCells = new();
-        private static Dictionary<Tag,Tag> LiveReplacementCandidates = new();
-
-        public static void AddReplacementCandidate(Tag tag, Tag replacement)
-        {
-            LiveReplacementCandidates[tag] = replacement;
-        }
-        public static void ClearReplacementCandidates() => LiveReplacementCandidates.Clear();
-
 
         public static Blueprint CreateBlueprint(Vector2I topLeft, Vector2I bottomRight, MultiToolParameterMenu filter = null)
         {
@@ -143,6 +135,11 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
                         }
                     }
                 }
+            }
+            //empty blueprint that caught some gas/liquid pockets, clear to not spam quasi empty blueprints
+            if(blueprint.BuildingConfiguration.Count==0 && blueprint.DigLocations.Count>0)
+            {
+                blueprint.DigLocations.Clear();
             }
 
             blueprint.CacheCost();

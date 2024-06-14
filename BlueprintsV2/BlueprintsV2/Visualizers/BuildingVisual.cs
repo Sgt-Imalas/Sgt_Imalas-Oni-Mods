@@ -75,7 +75,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
         public virtual bool PlaceFinishedBuilding(int cellParam)
         {
             Vector3 positionCbc = Grid.CellToPosCBC(cellParam, buildingConfig.BuildingDef.SceneLayer);
-            GameObject building = buildingConfig.BuildingDef.Create(positionCbc, null, selected_elements: buildingConfig.SelectedElements, buildingConfig.BuildingDef.CraftRecipe, 293.15f, buildingConfig.BuildingDef.BuildingComplete);
+            GameObject building = buildingConfig.BuildingDef.Create(positionCbc, null, selected_elements: GetConstructionElements(), buildingConfig.BuildingDef.CraftRecipe, 293.15f, buildingConfig.BuildingDef.BuildingComplete);
             if (building == null)
             {
                 return false;
@@ -87,7 +87,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
 
             if (building.GetComponent<Deconstructable>() != null)
             {
-                building.GetComponent<Deconstructable>().constructionElements = buildingConfig.SelectedElements.ToArray();
+                building.GetComponent<Deconstructable>().constructionElements = this.GetConstructionElements();
             }
 
             if (building.GetComponent<Rotatable>() != null)
@@ -110,11 +110,40 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
             return true;
         }
 
+        private Tag[] GetConstructionElements()
+        {
+            var ingredients = buildingConfig.BuildingDef.CraftRecipe.Ingredients;
+            var elements = new List<Tag>(buildingConfig.SelectedElements.Count);
+            for (int i = 0; i < ingredients.Count; ++i)
+            {
+                var ingredient = ingredients[i];
+                Tag selectedElement;
+                if (i < buildingConfig.SelectedElements.Count)
+                {
+                    selectedElement = buildingConfig.SelectedElements[i];
+                }
+                else
+                {
+                    //should never happen, just in case to prevent crash.
+                    selectedElement = ModAssets.GetFirstAvailableMaterial(ingredient.tag, ingredient.amount);
+                }
+                var key = new BlueprintSelectedMaterial(selectedElement, ingredient.tag);
+
+                if(ModAssets.TryGetReplacementTag(key, out var replacement))
+                {
+                    selectedElement = replacement;
+                }
+                elements.Add(selectedElement);
+            }
+
+            return elements.ToArray();
+        }
+
         private bool ViableReplacementCandidate(GameObject toReplace)
         {
             if (toReplace.TryGetComponent<BuildingComplete>(out var component))
             {
-                return (component.Def.Replaceable && buildingConfig.BuildingDef.CanReplace(toReplace) && (component.Def != buildingConfig.BuildingDef || buildingConfig.SelectedElements[0] != component.GetComponent<PrimaryElement>().Element.tag));
+                return (component.Def.Replaceable && buildingConfig.BuildingDef.CanReplace(toReplace) && (component.Def != buildingConfig.BuildingDef || GetConstructionElements()[0] != component.GetComponent<PrimaryElement>().Element.tag));
             }
             return false;
         }
@@ -122,7 +151,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
         public virtual bool PlacePlannedBuilding(int cellParam)
         {
             Vector3 positionCbc = Grid.CellToPosCBC(cellParam, buildingConfig.BuildingDef.SceneLayer);
-            GameObject building = buildingConfig.BuildingDef.Instantiate(positionCbc, buildingConfig.Orientation, buildingConfig.SelectedElements);
+            GameObject building = buildingConfig.BuildingDef.Instantiate(positionCbc, buildingConfig.Orientation, this.GetConstructionElements());
             if (building == null)
             {
                 return false;
@@ -209,7 +238,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
             GameObject builtItem = null;
             var def = buildingConfig.BuildingDef;
             var buildingOrientation = buildingConfig.Orientation;
-            var selectedElements = buildingConfig.SelectedElements;
+            var selectedElements = GetConstructionElements();
             var visualizer = Visualizer;
 
             SgtLogger.l("Visualizer test");
@@ -262,7 +291,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
         {
             var def = buildingConfig.BuildingDef;
             var buildingOrientation = buildingConfig.Orientation;
-            var selectedElements = buildingConfig.SelectedElements;
+            var selectedElements = GetConstructionElements();
 
             if (!tile.TryGetComponent<SimCellOccupier>(out var SCO))
             {

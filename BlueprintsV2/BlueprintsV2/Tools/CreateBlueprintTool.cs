@@ -93,7 +93,8 @@ namespace BlueprintsV2.BlueprintsV2.Tools
                 {
                     void OnConfirmDelegate(string blueprintName)
                     {
-                        blueprint.Rename(blueprintName, false);
+                        blueprint.Rename(blueprintName, true);
+                        ModAssets.BlueprintFileHandling.HandleBlueprintLoading(blueprint.FilePath);
 
                         SpeedControlScreen.Instance.Unpause(false);
 

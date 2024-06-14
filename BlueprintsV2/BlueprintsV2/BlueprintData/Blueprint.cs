@@ -46,7 +46,15 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
         /// <summary>
         /// The true cost of the blueprint given the current game's configuration and the contents of the blueprint.
         /// </summary>
-        public Dictionary<Tag, float> BlueprintCost { get; private set; } = new Dictionary<Tag, float>();
+        public Dictionary<BlueprintSelectedMaterial, float> BlueprintCost { get; private set; } = new ();
+
+        /// <summary>
+        /// Tag cost including replacements
+        /// </summary>
+        public Dictionary<Tag, float> CachedAbsTagCost { get; private set; } = new();
+
+
+        //public Dictionary<Tag, Tag> SelectedBlueprintMaterials { get; private set; } = new();
 
         /// <summary>
         /// The dig locations contained inside the blueprint.
@@ -478,60 +486,75 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
             return BuildingConfiguration.Count == 0 && DigLocations.Count == 0;
         }
 
+
         public void CacheCost()
         {
             BlueprintCost.Clear();
+            CachedAbsTagCost.Clear();
 
             foreach (BuildingConfig buildingConfig in BuildingConfiguration)
             {
                 Recipe buildingRecipe = buildingConfig.BuildingDef.CraftRecipe;
+                List<Tag> selectedElements = buildingConfig.SelectedElements;
 
                 if (buildingRecipe != null)
                 {
-                    foreach (Recipe.Ingredient ingredient in buildingRecipe.Ingredients)
+                    for(int i = 0; i < buildingRecipe.Ingredients.Count; i++)
                     {
-                        if (BlueprintCost.ContainsKey(ingredient.tag))
+                        var ingredient = buildingRecipe.Ingredients[i];
+                        Tag selectedElement = null;
+                        if(i < selectedElements.Count)
                         {
-                            BlueprintCost[ingredient.tag] += ingredient.amount;
+                            selectedElement = selectedElements[i];
                         }
-
                         else
                         {
-                            BlueprintCost.Add(ingredient.tag, ingredient.amount);
+                            selectedElement = ingredient.tag;
                         }
+                        var key = new BlueprintSelectedMaterial(selectedElement,ingredient.tag);
+                        
+                        if (BlueprintCost.ContainsKey(key))
+                            BlueprintCost[key] += ingredient.amount;
+                        else
+                            BlueprintCost.Add(key, ingredient.amount);
+
+                        if (CachedAbsTagCost.ContainsKey(selectedElement))
+                            CachedAbsTagCost[selectedElement] += ingredient.amount;
+                        else
+                            CachedAbsTagCost.Add(selectedElement, ingredient.amount);
                     }
                 }
             }
         }
 
-        public bool CanAffordToPlace(out Dictionary<Tag, float> remaining)
-        {
-            //Dictionary<Tag, float> accessibleResources = WorldInventory.Instance.GetAccessibleAmounts();
+        //public bool CanAffordToPlace(out Dictionary<Tuple<Tag,Tag>, float> remaining)
+        //{
+        //    //Dictionary<Tag, float> accessibleResources = WorldInventory.Instance.GetAccessibleAmounts();
 
-            WorldInventory instance = ClusterManager.Instance.activeWorld.worldInventory;
-            Dictionary<Tag, float> accessibleResources = instance.GetAccessibleAmounts();
+        //    WorldInventory instance = ClusterManager.Instance.activeWorld.worldInventory;
+        //    Dictionary<Tag, float> accessibleResources = instance.GetAccessibleAmounts();
 
-            remaining = BlueprintCost;
+        //    remaining = BlueprintCost;
 
-            foreach (KeyValuePair<Tag, float> accessibleResource in accessibleResources)
-            {
-                if (remaining.ContainsKey(accessibleResource.Key))
-                {
-                    remaining[accessibleResource.Key] -= accessibleResource.Value;
+        //    foreach (KeyValuePair<Tag, float> accessibleResource in accessibleResources)
+        //    {
+        //        if (remaining.ContainsKey(accessibleResource.Key))
+        //        {
+        //            remaining[accessibleResource.Key] -= accessibleResource.Value;
 
-                    if (remaining[accessibleResource.Key] <= 0)
-                    {
-                        remaining.Remove(accessibleResource.Key);
+        //            if (remaining[accessibleResource.Key] <= 0)
+        //            {
+        //                remaining.Remove(accessibleResource.Key);
 
-                        if (remaining.Count == 0)
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
+        //                if (remaining.Count == 0)
+        //                {
+        //                    return true;
+        //                }
+        //            }
+        //        }
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlueprintsV2.BlueprintsV2.BlueprintData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,38 +11,94 @@ using UtilLibs.UIcmp;
 
 namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 {
-    internal class ReplaceElementEntry:KMonoBehaviour
+    internal class ReplaceElementEntry : KMonoBehaviour
     {
         public Tag targetTag;
         public System.Action<Tag> OnSelectElement;
         LocText ElementName;
         Image ElementIcon;
+        Image buttonBg;
         FButton button;
+        ToolTip toolTip;
 
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
             ElementName = transform.Find("Label").gameObject.GetComponent<LocText>();
             ElementIcon = transform.Find("CarePackageSprite").gameObject.GetComponent<Image>();
+            buttonBg = transform.Find("Background").gameObject.GetComponent<Image>();
             button = gameObject.AddComponent<FButton>();
             if (targetTag != null)
             {
                 var prefab = Assets.TryGetPrefab(targetTag);
-                if(prefab.TryGetComponent<KBatchedAnimController>(out var kbac))
+
+                var icoSprite = Def.GetUISprite(prefab);
+                if (icoSprite != null)
                 {
-                    ElementIcon.sprite = Def.GetUISpriteFromMultiObjectAnim(kbac.animFiles[0]); 
+                    ElementIcon.sprite = icoSprite.first;
+                    ElementIcon.color = icoSprite.second;
+                }
+                else
+                    SgtLogger.warning("no ui sprite found for " + prefab.name);
+
+                UnityEngine.Rect rect = ElementIcon.sprite.rect;
+                if (rect.width > rect.height)
+                {
+                    var size = (rect.height / rect.width) * 30;
+                    ElementIcon.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size);
+                }
+                else
+                {
+                    var size = (rect.width / rect.height) * 30;
+                    ElementIcon.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size);
                 }
 
                 ElementName?.SetText(prefab.GetProperName());
                 button.OnClick += OnClick;
-                UIUtils.AddSimpleTooltipToObject(this.gameObject, GameUtil.GetMaterialTooltips(targetTag));
+                toolTip = UIUtils.AddSimpleTooltipToObject(this.gameObject, GameUtil.GetMaterialTooltips(targetTag));
             }
         }
         void OnClick()
         {
             OnSelectElement?.Invoke(targetTag);
         }
+        public void Refresh(Blueprint current, float requiredAmount, Tag original)
+        {            
+            if (current.CachedAbsTagCost.TryGetValue(targetTag, out float costs))
+            {
+                if(targetTag != original)
+                    requiredAmount += costs;
+            }
 
+            float currentWorldAmount = ClusterManager.Instance.activeWorld.worldInventory.GetAmount(targetTag, true);
+
+            bool materialUnlocked = BlueprintState.InstantBuild ||DiscoveredResources.Instance.IsDiscovered(targetTag);
+            bool enoughMaterial = BlueprintState.InstantBuild || requiredAmount <= currentWorldAmount;
+
+            //button.SetInteractable(materialUnlocked);
+            StringBuilder sb  = new StringBuilder();
+            sb.AppendLine(GameUtil.GetMaterialTooltips(targetTag));
+            if (materialUnlocked)
+            {
+                if(enoughMaterial)
+                {
+                    buttonBg.color = UIUtils.rgb(138, 140, 152);
+                }
+                else
+                {
+                    buttonBg.color = UIUtils.Lerp(Color.yellow, Color.black, 60);
+                    sb.AppendLine();
+                    sb.AppendLine(string.Format(STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SCROLLAREA.CONTENT.ELEMENTSTATE.NOTENOUGH, GameUtil.GetFormattedMass(currentWorldAmount), GameUtil.GetFormattedMass(requiredAmount)));
+                }
+            }
+            else
+            {
+                buttonBg.color = UIUtils.Lerp(Color.red, Color.black, 60);
+                sb.AppendLine();
+                sb.AppendLine(STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SCROLLAREA.CONTENT.ELEMENTSTATE.NOTFOUND);
+            }
+            toolTip.SetSimpleTooltip(sb.ToString());
+        }
         public override void OnSpawn()
         {
             base.OnSpawn();

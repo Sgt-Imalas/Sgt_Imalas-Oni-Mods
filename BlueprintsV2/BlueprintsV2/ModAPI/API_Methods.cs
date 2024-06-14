@@ -80,6 +80,18 @@ namespace BlueprintsV2.BlueprintsV2.ModAPI
     internal class API_Methods
     {
         /// <summary>
+        /// Recipe Tags that have NonSolid materials selectable, example: decor pack I stained glass tiles
+        /// </summary>
+        public static HashSet<Tag> TagsWithNonSolids = new();
+
+        public static void RegisterNonSolidTag(Tag tag)
+        {
+            if(!TagsWithNonSolids.Contains(tag))
+                TagsWithNonSolids.Add(tag);
+        }
+        public static bool AllowNonSolids(Tag tag) => TagsWithNonSolids.Contains(tag);
+
+        /// <summary>
         /// if atleast one of these is true, the building is considered constructable
         /// </summary>
         public static Dictionary<string, System.Func<BuildingDef, bool>> OneOf_IsBuildableExtensions = new();
@@ -294,6 +306,7 @@ namespace BlueprintsV2.BlueprintsV2.ModAPI
 
         internal static void RegisterExtraData()
         {
+            RegisterNonSolidTag("DecorPackA_StainedGlass");
             RegisterInternally("Backwalls_Backwall", SkinHelper.TryStoreBackwall, SkinHelper.TryApplyBackwall);
             RegisterInternally("DecorPackA_MoodLamp", SkinHelper.TryStoreMoodLamp, SkinHelper.TryApplyMoodLamp);
             RegisterInternally("SignsTagsAndRibbons_SelectableSign", SkinHelper.TryStoreSelectableSign, SkinHelper.TryApplySelectableSign);

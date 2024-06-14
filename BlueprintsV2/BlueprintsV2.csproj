@@ -75,6 +75,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="BlueprintData\" />
     <Folder Include="BlueprintsV2\MaterialReplacement\" />
   </ItemGroup>
 </Project>
