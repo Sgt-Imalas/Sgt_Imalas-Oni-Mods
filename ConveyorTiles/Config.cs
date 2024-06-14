@@ -33,6 +33,10 @@ namespace ConveyorTiles
         [JsonProperty]
         public bool Immunes { get; set; }
 
+        [Option("STRINGS.MODCONFIG.IMMUNECRITTERS.NAME", "STRINGS.MODCONFIG.IMMUNECRITTERS.TOOLTIP")]
+        [JsonProperty]
+        public bool ImmuneCritters { get; set; }
+
         [Option("STRINGS.MODCONFIG.NOLOGICPORT.NAME", "STRINGS.MODCONFIG.NOLOGICPORT.TOOLTIP")]
         [JsonProperty]
         public bool NoLogicInputs { get; set; }
@@ -43,6 +47,7 @@ namespace ConveyorTiles
             GearTint = true;
             Immunes = false;
             NoLogicInputs = false;
+            ImmuneCritters = false;
         }
     }
 }

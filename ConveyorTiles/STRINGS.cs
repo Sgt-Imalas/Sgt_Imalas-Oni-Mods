@@ -27,6 +27,11 @@ namespace ConveyorTiles
                 public static LocString NAME = "Immune Dupes";
                 public static LocString TOOLTIP = "Duplicants are not affected by the conveyor.\nMight reduce fun.";
             }
+            public class IMMUNECRITTERS
+            {
+                public static LocString NAME = "Immune Critters";
+                public static LocString TOOLTIP = "Critters are not affected by the conveyor.\nMight reduce fun.";
+            }
             public class NOLOGICPORT
             {
                 public static LocString NAME = "No Logic Ports";
