@@ -1,2 +1,9 @@
 ﻿- center bp around cursor instead of bottom left corner
 - on bp placed, replace stuff that can be replaced (ladders with tiles)
+- folder btn
+- search bar fix
+- "save overridden bp" - button?;
+- move BPs to blueprintsV2 folder so old BP mod doesnt break them on save
+- move folders to top after search
+- hide no elements info GO
+- put pipe state into old json field for compatibility!

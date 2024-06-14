@@ -65,7 +65,7 @@ namespace BlueprintsV2
                 {
                     public class MATERIALSHEADER
                     {
-                        public static LocString LABEL = "Materials in {0}:";
+                        public static LocString LABEL = "Materials in \"{0}\":";
                     }
                     public class SCROLLAREA
                     {

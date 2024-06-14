@@ -78,7 +78,7 @@ namespace BlueprintsV2
         }
         public static void AddOrSetReplacementTag(BlueprintSelectedMaterial tag, Tag replacement)
         {
-            if(!DynamicReplacementTags.ContainsKey(tag)) 
+            if(!DynamicReplacementTags.ContainsKey(tag) && replacement != tag.SelectedTag) 
                 DynamicReplacementTags.Add(tag, replacement);
             else
             {
@@ -329,10 +329,8 @@ namespace BlueprintsV2
                 {
                     blueprint.ReadJson();
                 }
-                SgtLogger.l(blueprint.IsEmpty() + "", "BP EMPTY?");
                 return !blueprint.IsEmpty();
             }
-
         }
 
         internal static void RegisterActions()
@@ -359,35 +357,28 @@ namespace BlueprintsV2
             //    STRINGS.UI.ACTIONS.DELETE_TITLE, new PKeyBinding(KKeyCode.Delete));
         }
 
-        internal static bool IsStaticTag(Tag selectedTag, out string name, out string desc, out Sprite icon)
+        internal static bool IsStaticTag(BlueprintSelectedMaterial tagMaterial, out string name, out string desc, out Sprite icon)
         {
-            name = string.Empty;
+            name = tagMaterial.CategoryTag.Name;
             desc = string.Empty;
             icon = Assets.GetSprite("unknown");
-
-            if (selectedTag == GameTags.BuildingWood)
+            var possibleItems = GetValidMaterials(tagMaterial.CategoryTag, false);
+            
+            if (possibleItems.Count<2)
             {
-                name = global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.WOOD.NAME;
-                desc = global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.WOOD.DESC;
-                var prefab = Assets.TryGetPrefab(WoodLogConfig.ID);
-                if (prefab.TryGetComponent<KBatchedAnimController>(out var kbac))
-                {
-                    icon = Def.GetUISpriteFromMultiObjectAnim(kbac.animFiles[0]);
-                }
+                //SgtLogger.l(possibleItems.Count + "", "possibruh");
+                if(possibleItems.Count == 0)
+                    return true;
+                var tag = possibleItems.First();
+                var prefab = Assets.GetPrefab(tag);
+                name = prefab.GetProperName();
+                desc = GameUtil.GetMaterialTooltips(tag);
+                icon = Def.GetUISprite(prefab).first; 
+                //SgtLogger.l($"{name}: {desc}","DESC");
+
                 return true;
             }
-            else if(selectedTag == GameTags.BuildingFiber)
-            {
-                name = global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.BASIC_FABRIC.NAME;
-                desc = global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.BASIC_FABRIC.DESC;
-                var prefab = Assets.TryGetPrefab(BasicFabricConfig.ID);
-                if (prefab.TryGetComponent<KBatchedAnimController>(out var kbac))
-                {
-                    icon = Def.GetUISpriteFromMultiObjectAnim(kbac.animFiles[0]);
-                }
-                return true;
-            }
-
+            
             return false;
         }
 

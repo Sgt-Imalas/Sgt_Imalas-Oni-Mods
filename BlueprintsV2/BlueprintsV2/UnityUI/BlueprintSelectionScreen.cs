@@ -15,6 +15,7 @@ using TemplateClasses;
 using BlueprintsV2.BlueprintsV2.BlueprintData;
 using UtilLibs.UI.FUI;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR;
+using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SCROLLAREA.CONTENT;
 
 namespace BlueprintsV2.BlueprintsV2.UnityUI
 {
@@ -61,6 +62,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
         public GameObject ReplacementElementsContainer;
         public ReplaceElementEntry ReplacementElementsPrefab;
         public LocText ToReplaceName;
+        public GameObject NoItems;
 
         System.Action onCloseAction;
 
@@ -136,6 +138,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
             ClearReplacementElementSearchbar.OnClick += () => ReplacementElementSearchbar.Text = string.Empty;
             ReplacementElementsContainer = transform.Find("MaterialReplacer/ScrollArea/Content").gameObject;
             ToReplaceName = transform.Find("MaterialReplacer/ToReplace/CurrentlyActive/Label").gameObject.GetComponent<LocText>();
+            NoItems = transform.Find("MaterialReplacer/ScrollArea/NoReplaceElements")?.gameObject; 
 
             var ReplaceElementEntryGo = transform.Find("MaterialReplacer/ScrollArea/Content/CarePackagePrefab").gameObject;
             ReplaceElementEntryGo.SetActive(false);
@@ -164,6 +167,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
             Instance.transform.SetAsLastSibling();
             Instance.ClearUIState();
             ModAssets.SelectedBlueprint = null;
+            
         }
         private void ClearSearchbars()
         {
@@ -221,7 +225,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
                     Tag replacementTag = null;
                     var uiEntry = AddOrGetBlueprintElementEntry(kvp.Key);
                     uiEntry.gameObject.SetActive(true);
-                    uiEntry.SetReplacementTag();
+                    uiEntry.Refresh(TargetBlueprint);
                     uiEntry.SetTotalAmount(kvp.Value);
                     uiEntry.transform.SetAsLastSibling();
 
@@ -297,7 +301,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
         {
             if (ElementEntries.TryGetValue(original, out var UIcmp))
             {
-                UIcmp.SetReplacementTag();
+                UIcmp.Refresh(TargetBlueprint);
             }
         }
         private BlueprintElementEntry AddOrGetBlueprintElementEntry(BlueprintSelectedMaterial elementTag)
@@ -400,6 +404,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
             PreviouslyActiveMaterialReplacementButtons.Clear();
 
             var replacementTags = ModAssets.GetValidMaterials(materialTypeTag.CategoryTag);
+            NoItems?.SetActive(replacementTags.Count() == 0);
 
             foreach (var replacementTag in replacementTags)
             {

@@ -30,6 +30,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
             button = gameObject.AddComponent<FButton>();
             if (targetTag != null)
             {
+                this.gameObject.name = targetTag.name;
                 var prefab = Assets.TryGetPrefab(targetTag);
 
                 var icoSprite = Def.GetUISprite(prefab);
@@ -63,7 +64,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
             OnSelectElement?.Invoke(targetTag);
         }
         public void Refresh(Blueprint current, float requiredAmount, Tag original)
-        {            
+        {
             if (current.CachedAbsTagCost.TryGetValue(targetTag, out float costs))
             {
                 if(targetTag != original)

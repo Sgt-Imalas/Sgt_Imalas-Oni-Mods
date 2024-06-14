@@ -161,7 +161,6 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
                             BuildingConfig buildingConfig = new BuildingConfig();
                             if (!buildingConfig.ReadBinary(reader))
                             {
-                                SgtLogger.l("failed at building");
                                 return false;
                             }
 
@@ -181,7 +180,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 
                 catch (Exception exception)
                 {
-                    Debug.Log("Error when loading blueprint: " + FilePath + ",\n" + nameof(exception) + ": " + exception.Message);
+                    //Debug.Log("Error when loading blueprint: " + FilePath + ",\n" + nameof(exception) + ": " + exception.Message);
                 }
             }
 
