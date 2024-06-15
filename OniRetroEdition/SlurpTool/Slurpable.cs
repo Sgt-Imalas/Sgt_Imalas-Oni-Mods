@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace OniRetroEdition.SlurpTool
 {
@@ -124,13 +125,20 @@ namespace OniRetroEdition.SlurpTool
 
         private void OnCellMopped(Sim.MassConsumedCallback mass_cb_info, object data)
         {
-            if ((UnityEngine.Object)this == (UnityEngine.Object)null || (double)mass_cb_info.mass <= 0.0)
+            if (this == null || mass_cb_info.mass <= 0.0f)
                 return;
             this.amountMopped += mass_cb_info.mass;
-            int cell = Grid.PosToCell((KMonoBehaviour)this);
+            int cell = Grid.PosToCell(this);
             SubstanceChunk chunk = LiquidSourceManager.Instance.CreateChunk(ElementLoader.elements[(int)mass_cb_info.elemIdx], mass_cb_info.mass, mass_cb_info.temperature, mass_cb_info.diseaseIdx, mass_cb_info.diseaseCount, Grid.CellToPosCCC(cell, Grid.SceneLayer.Ore));
 
-            worker.GetComponent<Storage>().Store(chunk.gameObject);
+            if(worker!=null && worker.TryGetComponent<Storage>(out var storage))
+            {
+                storage.Store(chunk.gameObject);
+            }
+            else
+            {
+                SgtLogger.warning("worker was null on slurpable");
+            }
             //chunk.transform.SetPosition(chunk.transform.GetPosition() + new Vector3((float)(((double)UnityEngine.Random.value - 0.5) * 0.5), 0.0f, 0.0f));
         }
 
