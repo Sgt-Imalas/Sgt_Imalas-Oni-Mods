@@ -76,12 +76,30 @@ namespace SaveGameModLoader
                 WriteModlistToFile();
             }
         }
+        public bool DeleteFileIfEmpty()
+        {
+            var path = !IsModPack ? Path.Combine(ModAssets.ModPath, ModlistPath + ".json") : Path.Combine(ModAssets.ModPacksPath, ModlistPath + ".json");
+
+            if (SavePoints.Count == 0)
+            {
+                if (File.Exists(path))
+                    File.Delete(path);
+                return true;
+            }
+            return false;
+        }
+
 
         public void WriteModlistToFile()
         {
             try
             {
                 var path = !IsModPack ? Path.Combine(ModAssets.ModPath, ModlistPath + ".json") : Path.Combine(ModAssets.ModPacksPath, ModlistPath + ".json");
+
+                if (DeleteFileIfEmpty())
+                    return;
+
+
 
                 var fileInfo = new FileInfo(path);
 

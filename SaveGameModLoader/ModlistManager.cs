@@ -685,7 +685,7 @@ namespace SaveGameModLoader
                     list.CleanupDuplicates();
                     ReadModTitles(list);
 
-                    if (list != null)
+                    if (list != null && list.SavePoints.Count>0)
                     {
                         Modlists.Add(list.ReferencedColonySaveName, list);
                     }
@@ -725,7 +725,7 @@ namespace SaveGameModLoader
                     //SgtLogger.log("Trying to load: " + modlist);
                     var list = SaveGameModList.ReadModlistListFromFile(modlist);
                     ReadModTitles(list);
-                    if (list != null)
+                    if (list != null && list.SavePoints.Count > 0)
                     {
                         ModPacks.Add(list.ReferencedColonySaveName, list);
                     }
