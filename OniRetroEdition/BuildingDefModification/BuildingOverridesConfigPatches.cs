@@ -106,7 +106,15 @@ namespace OniRetroEdition.BuildingDefModification
                     
                     if (overrideParams.WorkableOffsetOverride.HasValue)
                     {
-                        __instance.SetOffsets(new[] { overrideParams.WorkableOffsetOverride.Value });
+
+                        var offsetOverride = overrideParams.WorkableOffsetOverride.Value;
+
+                        if(__instance.TryGetComponent<Rotatable>(out var rot) && rot.Orientation == Orientation.FlipH)
+                        {
+                            offsetOverride.x = -offsetOverride.x;
+                        }
+
+                        __instance.SetOffsets(new[] { offsetOverride });
                     }
                 }
             }

@@ -5,19 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace OniRetroEdition.SlurpTool
+namespace OniRetroEdition.MultiTools.FX
 {
-    internal class WaterSuckEffect : IEntityConfig
+    internal class DigIceEffect : IEntityConfig
     {
-        public const string ID = "WaterSuckFx";
+        public const string ID = "DigIceFx";
 
         public GameObject CreatePrefab()
         {
             var go = EntityTemplates.CreateEntity(ID, ID, false);
             var kbac = go.AddOrGet<KBatchedAnimController>();
-            kbac.AnimFiles = new KAnimFile[] { Assets.GetAnim("whirlpool_fx_kanim") };
+            kbac.AnimFiles = new KAnimFile[] { Assets.GetAnim("dig_ice_kanim") };
             kbac.materialType = KAnimBatchGroup.MaterialType.Simple;
-            kbac.initialAnim = "loop";
+            kbac.initialAnim = "idle";
             kbac.initialMode = KAnim.PlayMode.Loop;
             kbac.isMovable = true;
             kbac.destroyOnAnimComplete = false;

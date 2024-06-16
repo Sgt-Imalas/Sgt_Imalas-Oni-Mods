@@ -2,6 +2,7 @@
 using KMod;
 using Microsoft.Win32;
 using OniRetroEdition.BuildingDefModification;
+using OniRetroEdition.SlurpTool;
 using PeterHan.PLib.Actions;
 using PeterHan.PLib.AVC;
 using PeterHan.PLib.Core;
@@ -29,7 +30,7 @@ namespace OniRetroEdition
             base.OnLoad(harmony);
             SgtLogger.LogVersion(this, harmony);
 
-            SlurpTool.SlurpToolPatches.SlurpAction = new PActionManager().CreateAction(SlurpTool.SlurpToolPatches.ACTION_KEY,
+            SlurpToolPatches.SlurpAction = new PActionManager().CreateAction(SlurpToolPatches.ACTION_KEY,
                 STRINGS.MISC.PLACERS.SLURPPLACER.ACTION_NAME, new PKeyBinding(KKeyCode.M, Modifier.Shift));
 
             var overlayBitsField = typeof(StatusItem).GetFieldSafe("overlayBitfieldMap", true);
