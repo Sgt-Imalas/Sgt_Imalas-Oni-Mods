@@ -1,15 +1,4 @@
-﻿using Database;
-using ProcGenGame;
-using STRINGS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UtilLibs;
-using static STRINGS.BUILDINGS.PREFABS;
-
-namespace ClusterTraitGenerationManager
+﻿namespace ClusterTraitGenerationManager
 {
     internal class STRINGS
     {
@@ -369,8 +358,8 @@ namespace ClusterTraitGenerationManager
                                         }
                                     }
                                 }
-                                public static LocString SIZEWARNING = (LocString)"Warning!\nThe planet size you have selected has {0}% more area than a normal vanilla size asteroid.\nThis might lead to a low game performance!";
-                                public static LocString BIOMEMISSINGWARNING = (LocString)"Warning!\nThe selected planet dimensions are very low, this can lead to not all biomes generating!";
+                                public static LocString SIZEWARNING = (LocString)"Warning!\nThe planet size you have selected has {0}% more area than a normal vanilla size asteroid.\nThis might lead to low game performance!";
+                                public static LocString BIOMEMISSINGWARNING = (LocString)"Warning!\nThe selected planet dimensions are too small, making it very likely to fail worldgen.\nIncrease them to avoid that!";
 
 
                                 public class SIZESELECTOR

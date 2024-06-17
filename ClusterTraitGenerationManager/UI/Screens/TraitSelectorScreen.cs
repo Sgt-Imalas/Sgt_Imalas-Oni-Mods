@@ -1,20 +1,14 @@
 ﻿using ProcGen;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using UtilLibs.UIcmp;
-using static ClusterTraitGenerationManager.STRINGS.UI;
-using static ClusterTraitGenerationManager.CGSMClusterManager;
 using UnityEngine.UI;
-using STRINGS;
-using static STRINGS.BUILDINGS.PREFABS.DOOR.CONTROL_STATE;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGMEXPORT_SIDEMENUS.TRAITPOPUP.SCROLLAREA.CONTENT.LISTVIEWENTRYPREFAB;
+using ClusterTraitGenerationManager.ClusterData;
+using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
 
-namespace ClusterTraitGenerationManager
+namespace ClusterTraitGenerationManager.UI.Screens
 {
     internal class TraitSelectorScreen : FScreen
     {
@@ -103,7 +97,7 @@ namespace ClusterTraitGenerationManager
                     Instance.Traits[activeTrait.filePath].SetActive(true);
                 }
             }
-            if(editingRandomBlacklist)
+            if (editingRandomBlacklist)
             {
                 foreach (var traitContainer in Instance.Traits.Values)
                 {
@@ -144,7 +138,7 @@ namespace ClusterTraitGenerationManager
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
-            this.ConsumeMouseScroll = true;
+            ConsumeMouseScroll = true;
 
             Init();
         }
@@ -209,7 +203,7 @@ namespace ClusterTraitGenerationManager
         public override void Show(bool show = true)
         {
             base.Show(show);
-            this.IsCurrentlyActive = show;
+            IsCurrentlyActive = show;
         }
         void CloseThis()
         {

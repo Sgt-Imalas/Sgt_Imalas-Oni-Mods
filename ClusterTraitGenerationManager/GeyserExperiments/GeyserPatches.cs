@@ -1,15 +1,4 @@
-﻿using HarmonyLib;
-using Klei.CustomSettings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using UtilLibs;
-using static GeyserGenericConfig;
-
-namespace ClusterTraitGenerationManager.GeyserExperiments
+﻿namespace ClusterTraitGenerationManager.GeyserExperiments
 {
     //[HarmonyPatch(typeof(GeyserGenericConfig))]
     //[HarmonyPatch(nameof(GeyserGenericConfig.CreatePrefabs))]
@@ -21,7 +10,7 @@ namespace ClusterTraitGenerationManager.GeyserExperiments
 
     //        foreach (var entry in __result)
     //        {
-               
+
     //        }
     //    }
     //}

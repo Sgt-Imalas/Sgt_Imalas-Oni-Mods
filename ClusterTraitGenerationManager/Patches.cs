@@ -1,34 +1,20 @@
-﻿using Database;
-using HarmonyLib;
-using Klei.AI;
-using KMod;
+﻿using HarmonyLib;
 using ProcGenGame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
-using static ClusterTraitGenerationManager.ModAssets;
 
 using ProcGen;
-using static STRINGS.BUILDINGS.PREFABS.DOOR.CONTROL_STATE;
 using static ClusterTraitGenerationManager.STRINGS.UI;
-using STRINGS;
 using Klei.CustomSettings;
-using static STRINGS.UI.FRONTEND;
-using static ClusterTraitGenerationManager.CGSMClusterManager;
-using System.Threading;
-using static ClusterTraitGenerationManager.STRINGS;
-using System.Text.RegularExpressions;
-using PeterHan.PLib.Options;
-using Klei;
+using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
 using System.Security.Cryptography;
-using System.IO;
+using ClusterTraitGenerationManager.ClusterData;
 
 namespace ClusterTraitGenerationManager
 {

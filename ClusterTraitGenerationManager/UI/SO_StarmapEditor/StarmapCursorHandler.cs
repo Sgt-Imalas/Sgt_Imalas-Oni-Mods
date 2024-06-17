@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine.EventSystems;
+﻿using UnityEngine.EventSystems;
 
-namespace ClusterTraitGenerationManager.SO_StarmapEditor
+namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 {
     internal class StarmapCursorHandler : KMonoBehaviour, IPointerExitHandler, IPointerEnterHandler
     {

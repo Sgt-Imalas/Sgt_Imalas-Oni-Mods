@@ -1,20 +1,14 @@
-﻿using ProcGen;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UtilLibs;
 using UtilLibs.UIcmp;
-using static ClusterTraitGenerationManager.CGSMClusterManager;
+using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
 using UnityEngine.UI;
 using Klei.AI;
-using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER;
-using TemplateClasses;
+using ClusterTraitGenerationManager.ClusterData;
 
-namespace ClusterTraitGenerationManager
+namespace ClusterTraitGenerationManager.UI.Screens
 {
     internal class SeasonSelectorScreen : FScreen
     {
@@ -29,7 +23,7 @@ namespace ClusterTraitGenerationManager
 
         public static void InitializeView(StarmapItem _planet, System.Action onclose, string seasonToReplace = "")
         {
-            if(Instance == null)
+            if (Instance == null)
             {
                 var screen = Util.KInstantiateUI(ModAssets.TraitPopup, FrontEndManager.Instance.gameObject, true);
                 Instance = screen.AddOrGet<SeasonSelectorScreen>();
@@ -58,11 +52,11 @@ namespace ClusterTraitGenerationManager
 
         private GameObject SeasonPrefab;
         private GameObject PossibleSeasonContainer;
-        private bool init=false;
+        private bool init = false;
         private void Init()
         {
-            if(init) return;
-            init=true;
+            if (init) return;
+            init = true;
             SeasonPrefab = transform.Find("ScrollArea/Content/ListViewEntryPrefab").gameObject;
             PossibleSeasonContainer = transform.Find("ScrollArea/Content").gameObject;
 
@@ -81,8 +75,8 @@ namespace ClusterTraitGenerationManager
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
-            this.ConsumeMouseScroll = true;
-            
+            ConsumeMouseScroll = true;
+
             Init();
         }
 
@@ -104,7 +98,7 @@ namespace ClusterTraitGenerationManager
 
                 foreach (var meteorShower in meteorSeason.events)
                 {
-                    var shower = (meteorShower as MeteorShowerEvent);
+                    var shower = meteorShower as MeteorShowerEvent;
                     description += "\n • ";
                     description += shower.Id;// Assets.GetPrefab((Tag)meteor.prefab).GetProperName();
                     description += ":";
@@ -133,7 +127,7 @@ namespace ClusterTraitGenerationManager
                 {
                     if (CustomCluster.HasStarmapItem(SelectedPlanet.id, out var item))
                     {
-                        if(ReplaceOldSeason != string.Empty)
+                        if (ReplaceOldSeason != string.Empty)
                         {
                             item.RemoveMeteorSeason(ReplaceOldSeason);
                         }
@@ -150,7 +144,7 @@ namespace ClusterTraitGenerationManager
         public override void Show(bool show = true)
         {
             base.Show(show);
-            this.IsCurrentlyActive = show;
+            IsCurrentlyActive = show;
         }
         void CloseThis()
         {

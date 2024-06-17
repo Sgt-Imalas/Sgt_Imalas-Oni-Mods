@@ -1,16 +1,10 @@
 ﻿using ProcGen;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static ResearchTypes;
 using UnityEngine;
-using Klei.CustomSettings;
-using UtilLibs;
-using PeterHan.PLib.UI;
+using ClusterTraitGenerationManager.ClusterData;
 
-namespace ClusterTraitGenerationManager.SO_StarmapEditor
+namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 {
     public class SO_StarmapLayout
     {

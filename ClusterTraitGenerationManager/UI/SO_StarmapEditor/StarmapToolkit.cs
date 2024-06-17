@@ -1,21 +1,13 @@
-﻿using FMOD;
-using System;
+﻿using ClusterTraitGenerationManager.ClusterData;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION;
-using static Database.MonumentPartResource;
-using static ResearchTypes;
-using static STRINGS.ELEMENTS;
-using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS;
 
-namespace ClusterTraitGenerationManager.SO_StarmapEditor
+namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 {
     internal class StarmapToolkit : KMonoBehaviour
     {

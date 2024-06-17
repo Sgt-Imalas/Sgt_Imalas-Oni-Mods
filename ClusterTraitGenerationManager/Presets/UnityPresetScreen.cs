@@ -1,45 +1,21 @@
 ﻿using Database;
-using Epic.OnlineServices.Sessions;
-using FMOD;
-using Klei.AI;
 using Klei.CustomSettings;
-using KMod;
-using ProcGen;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using TMPro;
-using TUNING;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
-using static ResearchTypes;
-using static SandboxSettings;
-using static STRINGS.DUPLICANTS;
-using static STRINGS.DUPLICANTS.CHORES;
-using static STRINGS.UI.DETAILTABS.PERSONALITY.RESUME;
 using static ClusterTraitGenerationManager.STRINGS.UI;
-using Satsuma;
-using static Operational;
-using System.Security.Policy;
-using static BestFit;
-using YamlDotNet.Serialization;
-using static STRINGS.UI.FRONTEND;
-using static ClusterTraitGenerationManager.CGSMClusterManager;
-using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS;
-using static STRINGS.DUPLICANTS.TRAITS;
+using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
 using static ClusterTraitGenerationManager.CustomClusterSettingsPreset;
-using System.Net;
-using static STRINGS.CODEX;
-using static ClusterTraitGenerationManager.STRINGS.UI.CGMEXPORT_SIDEMENUS.TRAITPOPUP.SCROLLAREA.CONTENT;
-using static KTabMenuHeader;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGMEXPORT_SIDEMENUS;
-using static STRINGS.UI.CLUSTERMAP;
+using ClusterTraitGenerationManager.ClusterData;
+using ClusterTraitGenerationManager.UI.Screens;
 
 namespace ClusterTraitGenerationManager
 {

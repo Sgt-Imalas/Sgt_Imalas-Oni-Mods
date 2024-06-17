@@ -1,25 +1,16 @@
-﻿using ProcGen;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using UtilLibs.UIcmp;
-using static ClusterTraitGenerationManager.CGSMClusterManager;
+using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
 using UnityEngine.UI;
-using Klei.AI;
-using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT;
-using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER;
-using TemplateClasses;
 using static ClusterTraitGenerationManager.ModAssets;
-using Satsuma;
-using static STRINGS.UI.CLUSTERMAP;
-using static ResearchTypes;
 using static ClusterTraitGenerationManager.STRINGS.UI;
+using ClusterTraitGenerationManager.ClusterData;
 
-namespace ClusterTraitGenerationManager
+namespace ClusterTraitGenerationManager.UI.Screens
 {
     internal class VanillaPOISelectorScreen : FScreen
     {
@@ -36,7 +27,7 @@ namespace ClusterTraitGenerationManager
         {
             if (Instance == null)
             {
-                var screen = Util.KInstantiateUI(ModAssets.TraitPopup, FrontEndManager.Instance.gameObject, true);
+                var screen = Util.KInstantiateUI(TraitPopup, FrontEndManager.Instance.gameObject, true);
                 Instance = screen.AddOrGet<VanillaPOISelectorScreen>();
                 Instance.Init();
             }
@@ -56,21 +47,21 @@ namespace ClusterTraitGenerationManager
                 item.SetActive(true);
             }
 
-            if (StarmapItems.ContainsKey(ModAssets.TemporalTearId))
+            if (StarmapItems.ContainsKey(TemporalTearId))
             {
-                StarmapItems[ModAssets.TemporalTearId].SetActive(CustomCluster != null && !CustomCluster.HasTear);
+                StarmapItems[TemporalTearId].SetActive(CustomCluster != null && !CustomCluster.HasTear);
             }
-            if (StarmapItems.ContainsKey(ModAssets.TeapotId))
+            if (StarmapItems.ContainsKey(TeapotId))
             {
-                StarmapItems[ModAssets.TeapotId].SetActive(CustomCluster != null && !CustomCluster.HasTeapot);
+                StarmapItems[TeapotId].SetActive(CustomCluster != null && !CustomCluster.HasTeapot);
             }
             if (CurrentPOIGroup != null && CurrentPOIGroup.placementPOI != null && CurrentPOIGroup.placementPOI.pois != null)
             {
-                if (StarmapItems.ContainsKey(ModAssets.RandomPOIId))
+                if (StarmapItems.ContainsKey(RandomPOIId))
                 {
-                    StarmapItems[ModAssets.RandomPOIId].SetActive(CurrentPOIGroup.placementPOI.pois.Count == 0);
+                    StarmapItems[RandomPOIId].SetActive(CurrentPOIGroup.placementPOI.pois.Count == 0);
                 }
-                if (CurrentPOIGroup.placementPOI.pois.Any(id => id == ModAssets.RandomPOIId))
+                if (CurrentPOIGroup.placementPOI.pois.Any(id => id == RandomPOIId))
                 {
                     foreach (var item in StarmapItems.Values)
                     {
@@ -95,7 +86,7 @@ namespace ClusterTraitGenerationManager
         {
             if (Instance == null)
             {
-                var screen = Util.KInstantiateUI(ModAssets.TraitPopup, FrontEndManager.Instance.gameObject, true);
+                var screen = Util.KInstantiateUI(TraitPopup, FrontEndManager.Instance.gameObject, true);
                 Instance = screen.AddOrGet<VanillaPOISelectorScreen>();
                 Instance.Init();
             }
@@ -132,7 +123,7 @@ namespace ClusterTraitGenerationManager
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
-            this.ConsumeMouseScroll = true;
+            ConsumeMouseScroll = true;
 
             Init();
         }
@@ -141,7 +132,7 @@ namespace ClusterTraitGenerationManager
         {
             if (DlcManager.IsExpansion1Active())
             {
-                foreach (POI_Data poiType in ModAssets.SO_POIs.Values)
+                foreach (POI_Data poiType in SO_POIs.Values)
                 {
                     //if (poiType.Id == "Wormhole")
                     //    continue;
@@ -204,7 +195,7 @@ namespace ClusterTraitGenerationManager
         public override void Show(bool show = true)
         {
             base.Show(show);
-            this.IsCurrentlyActive = show;
+            IsCurrentlyActive = show;
         }
         void CloseThis()
         {

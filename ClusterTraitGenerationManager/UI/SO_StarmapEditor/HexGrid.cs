@@ -1,25 +1,14 @@
-﻿using EventSystem2Syntax;
-using Klei.CustomSettings;
-using System;
+﻿using ClusterTraitGenerationManager.ClusterData;
+using ClusterTraitGenerationManager.UI.Screens;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
-using YamlDotNet.Core.Tokens;
-using static AnimEventHandler;
-using static ClusterTraitGenerationManager.SO_StarmapEditor.StarmapToolkit;
-using static Database.MonumentPartResource;
-using static NameDisplayScreen;
-using static ResearchTypes;
-using static STRINGS.DUPLICANTS.TRAITS;
-using static UnityEngine.UI.StencilMaterial;
+using static ClusterTraitGenerationManager.UI.SO_StarmapEditor.StarmapToolkit;
 
-namespace ClusterTraitGenerationManager.SO_StarmapEditor
+namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 {
     internal class HexGrid : FScreen
     {

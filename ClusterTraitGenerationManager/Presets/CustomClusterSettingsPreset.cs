@@ -1,25 +1,16 @@
-﻿using Database;
-using Klei.AI;
+﻿using ClusterTraitGenerationManager.ClusterData;
 using Klei.CustomSettings;
 using Newtonsoft.Json;
-using ProcGenGame;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
-using static ClusterTraitGenerationManager.CGSMClusterManager;
-using static ClusterTraitGenerationManager.STRINGS.UI;
+using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
 using static CustomGameSettings;
-using static ModInfo;
-using static ResearchTypes;
-using static STRINGS.UI.CLUSTERMAP;
-using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS;
-using static STRINGS.UI.TOOLS;
 
 namespace ClusterTraitGenerationManager
 {

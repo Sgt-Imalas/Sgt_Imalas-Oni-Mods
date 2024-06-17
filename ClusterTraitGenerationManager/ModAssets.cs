@@ -1,23 +1,13 @@
-﻿using HarmonyLib;
+﻿using ClusterTraitGenerationManager.ClusterData;
 using Klei;
-using Klei.AI;
 using MonoMod.Utils;
 using ProcGen;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
-using YamlDotNet.Core.Tokens;
-using static ClusterTraitGenerationManager.CGSMClusterManager;
-using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER;
-using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.VANILLAPOI_RESOURCES;
-using static ClusterTraitGenerationManager.STRINGS.WORLD_TRAITS;
-using static STRINGS.CREATURES.STATS;
+using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
 
 namespace ClusterTraitGenerationManager
 {
