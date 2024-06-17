@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using PeterHan.PLib.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,7 +55,10 @@ namespace Rockets_TinyYetBig.Patches
             {
                 if (!__instance.supportsMultipleOxidizers && __instance.meter != null)
                 {
-                    __instance.meter.SetPositionPercent(__instance.storage.MassStored() / __instance.storage.capacityKg);
+                    float percentage = __instance.storage.MassStored() / __instance.storage.capacityKg;
+                    if (percentage.IsNaNOrInfinity())
+                        percentage = 0f;
+                    __instance.meter.SetPositionPercent(percentage);
                 }
             }
         }

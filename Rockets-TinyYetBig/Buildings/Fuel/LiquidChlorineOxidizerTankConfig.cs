@@ -100,6 +100,8 @@ namespace Rockets_TinyYetBig.Buildings.Fuel
             BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MAJOR_PLUS);
             storage.showUnreachableStatus = false;
 
+
+
             //go.GetComponent<KPrefabID>().prefabInitFn += (KPrefabID.PrefabFn)(inst =>
             //{
             //    Element elementByHash = ElementLoader.FindElementByHash(SimHashes.Chlorine);

@@ -63,7 +63,6 @@ namespace BlueprintsV2.BlueprintsV2.Tools
             base.OnActivateTool();
 
             ToolMenu.Instance.PriorityScreen.Show();
-            ModAssets.SelectedBlueprint = null;
             BlueprintSelectionScreen.ShowWindow(OnBlueprintSelected);
 
             
@@ -84,6 +83,7 @@ namespace BlueprintsV2.BlueprintsV2.Tools
                     Destroy(visualizer);
                 }
                 //deactivate tool if no bp selected:
+
                 this.DeactivateTool();
                 ToolMenu.Instance.ClearSelection();
                 string sound = GlobalAssets.GetSound(PlayerController.Instance.ActiveTool.GetDeactivateSound());
@@ -99,6 +99,7 @@ namespace BlueprintsV2.BlueprintsV2.Tools
             BlueprintState.ClearVisuals();
             ToolMenu.Instance.PriorityScreen.Show(false);
             GridCompositor.Instance.ToggleMajor(false);
+            ModAssets.SelectedBlueprint = null;
         }
 
         public override void OnLeftClickDown(Vector3 cursorPos)

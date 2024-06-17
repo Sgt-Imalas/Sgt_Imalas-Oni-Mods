@@ -229,23 +229,31 @@ namespace BlueprintsV2.BlueprintsV2.ModAPI
             foreach (var kvp in AdditionalBuildingDataEntries)
             {
                 var DataHandler = kvp.Value;
+                string key = kvp.Key;
 
-                if (buildingConfig.TryGetDataValue(kvp.Key, out var data))
+                if (buildingConfig.TryGetDataValue(key, out var data))
                 {
                     if(data == null)
                     {
-                        SgtLogger.l("data was null for " + kvp.Key); return;
+                        SgtLogger.l("data was null for " + key); return;
                     }
 
                     if (isUnderConstruction)
                     {
                         //storing on component to be applied on finished construction
-                        transfer.SetDataToApply(kvp.Key, data);
+                        transfer.SetDataToApply(key, data);
                     }
                     else
                     {
                         //directly apply data to finished gameObject
-                        DataHandler.ApplyStoredData(gameObject, data);
+                        try
+                        {
+                            DataHandler.ApplyStoredData(gameObject, data);
+                        }
+                        catch (Exception e)
+                        {
+                            SgtLogger.error($"Error while trying to apply data for {key}:\n{e.Message}");
+                        }
                     }
                 }
             }
@@ -254,7 +262,14 @@ namespace BlueprintsV2.BlueprintsV2.ModAPI
         {
             if (AdditionalBuildingDataEntries.TryGetValue(Key, out var Methods) && data !=null)
             {
-                Methods.ApplyStoredData(gameObject, data);
+                try
+                {
+                    Methods.ApplyStoredData(gameObject, data);
+                }
+                catch (Exception e)
+                {
+                    SgtLogger.error($"Error while trying to apply data for {Key}:\n{e.Message}");
+                }
             }
         }
 

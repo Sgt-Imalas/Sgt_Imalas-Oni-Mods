@@ -130,11 +130,12 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
                 jsonWriter.WritePropertyName("orientation");
                 jsonWriter.WriteValue((int)Orientation);
             }
-
-            //if (Flags != 0) {
-            //    jsonWriter.WritePropertyName("flags");
-            //    jsonWriter.WriteValue(Flags);
-            //}
+            //compatibility for old bp mod
+            if (GetConduitFlags(out int flags))
+            {
+                jsonWriter.WritePropertyName("flags");
+                jsonWriter.WriteValue(flags);
+            }
             if (AdditionalBuildingData != null)
             {
                 jsonWriter.WritePropertyName("buildingData");
@@ -187,7 +188,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
                 int oldFlagSystemValue = binaryReader.ReadInt32();
                 if (oldFlagSystemValue != -1)
                 {
-                    SetUtilityFlags(oldFlagSystemValue);
+                    SetConduitFlags(oldFlagSystemValue);
                 }
                 return true;
                 int buildingDataCount = binaryReader.ReadInt32();
@@ -265,7 +266,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
                 var value = flagsToken.Value<int>();
                 if (value != -1)
                 {
-                    SetUtilityFlags(value);
+                    SetConduitFlags(value);
                 }
             }
             if (buildingDataToken != null)
@@ -306,7 +307,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
             AdditionalBuildingData[Id] = data;
 
         }
-        internal void SetUtilityFlags(int flag)
+        internal void SetConduitFlags(int flag)
         {
             AddBuildingData(API_Consts.ConduitFlagID,
                 new JObject()
@@ -314,7 +315,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
                     { API_Consts.ConduitFlagID, flag }
                 });
         }
-        internal bool GetPipeFlags(out int flags)
+        internal bool GetConduitFlags(out int flags)
         {
             flags = -1;
             if (AdditionalBuildingData != null && AdditionalBuildingData.TryGetValue(API_Consts.ConduitFlagID, out var value)

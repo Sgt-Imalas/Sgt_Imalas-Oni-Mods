@@ -280,11 +280,14 @@ namespace ConveyorTiles
                     if (pickupable.TryGetComponent<KPrefabID>(out var component))
                     {
                         ///Fishes that are not flopping (have to check via cell bc flopping tag is always there) and flyers are immune
-                        if ((component.HasTag(GameTags.Creatures.Swimmer) && liquidCellAbove) || component.HasTag(GameTags.Creatures.Flyer) || component.HasTag(GameTags.Creatures.Hoverer))
+                        if ((component.HasTag(GameTags.Creatures.Swimmer) && liquidCellAbove) || component.HasTag(GameTags.Creatures.Flyer)
+                           // || component.HasTag(GameTags.Creatures.Hoverer)
+                            )
                         {
                             continue;
                         }
-                        if (component.HasTag(GameTags.Creatures.Walker) && Config.Instance.ImmuneCritters)
+                        //if config disables conveyor for critters
+                        if (component.HasTag(GameTags.Creature) && Config.Instance.ImmuneCritters)
                         {
                             continue;
                         }

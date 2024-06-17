@@ -53,14 +53,6 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
             ToApplyData[id] = JsonConvert.SerializeObject(value);
         }
 
-        [Obsolete]
-        internal void TransferDataTo(GameObject targetBuilding)
-        {
-            foreach(var data in ToApplyData)
-            {
-                API_Methods.TryApplyingStoredData(targetBuilding, data.Key, JObject.Parse(data.Value));
-            }
-        }
         public Dictionary<string,string> GetStoredData()
         {
             return new(ToApplyData);

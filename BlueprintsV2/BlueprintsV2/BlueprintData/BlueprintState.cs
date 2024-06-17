@@ -110,7 +110,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
                                     IHaveUtilityNetworkMgr networkMngCmp = building.Def.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>();
                                     if (networkMngCmp != null)
                                     {
-                                        buildingConfig.SetUtilityFlags((int)networkMngCmp.GetNetworkManager()?.GetConnections(cell, false));
+                                        buildingConfig.SetConduitFlags((int)networkMngCmp.GetNetworkManager()?.GetConnections(cell, false));
                                     }
                                     API_Methods.StoreAdditionalBuildingData(gameObject, buildingConfig);
 

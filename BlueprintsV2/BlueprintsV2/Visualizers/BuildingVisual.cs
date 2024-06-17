@@ -101,7 +101,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
             {
                 vis.TintColour = ModAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT;
             }
-            if (buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null && building.GetComponent<KAnimGraphTileVisualizer>() != null && buildingConfig.GetPipeFlags(out var flags))
+            if (buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null && building.GetComponent<KAnimGraphTileVisualizer>() != null && buildingConfig.GetConduitFlags(out var flags))
             {
                 building.GetComponent<KAnimGraphTileVisualizer>().UpdateConnections((UtilityConnections)flags);
             }
@@ -168,7 +168,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
                 kbac.TintColour = ModAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT;
                 kbac.Play("place");
             }
-            if (buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null && building.TryGetComponent<KAnimGraphTileVisualizer>(out var vis) && buildingConfig.GetPipeFlags(out var flags))
+            if (buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null && building.TryGetComponent<KAnimGraphTileVisualizer>(out var vis) && buildingConfig.GetConduitFlags(out var flags))
             {
                 vis.UpdateConnections((UtilityConnections)flags);
             }
@@ -326,7 +326,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
                 kbac.TintColour = ModAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT;
                 kbac.Play("place");
             }
-            if (buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null && builtItem.TryGetComponent<KAnimGraphTileVisualizer>(out var vis) && buildingConfig.GetPipeFlags(out var flags))
+            if (buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null && builtItem.TryGetComponent<KAnimGraphTileVisualizer>(out var vis) && buildingConfig.GetConduitFlags(out var flags))
             {
                 vis.UpdateConnections((UtilityConnections)flags);
             }

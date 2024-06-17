@@ -20,7 +20,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
             {
                 IUtilityNetworkMgr utilityNetworkManager = buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>().GetNetworkManager();
 
-                if (utilityNetworkManager != null && buildingConfig.GetPipeFlags(out int flags))
+                if (utilityNetworkManager != null && buildingConfig.GetConduitFlags(out int flags))
                 {
                     string animation = utilityNetworkManager.GetVisualizerString((UtilityConnections)flags) + "_place";
 

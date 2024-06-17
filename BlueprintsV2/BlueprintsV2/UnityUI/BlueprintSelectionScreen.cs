@@ -161,12 +161,12 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
                 Instance = screen.AddOrGet<BlueprintSelectionScreen>();
                 Instance.Init();
             }
+            Instance.TargetBlueprint = ModAssets.SelectedBlueprint;
             Instance.onCloseAction = OnClose;
             Instance.Show(true);
             Instance.ConsumeMouseScroll = true;
             Instance.transform.SetAsLastSibling();
             Instance.ClearUIState();
-            ModAssets.SelectedBlueprint = null;
             
         }
         private void ClearSearchbars()
