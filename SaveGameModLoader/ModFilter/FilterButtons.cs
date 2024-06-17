@@ -313,7 +313,8 @@ namespace SaveGameModLoader.ModFilter
             steamFiller.SetActive(!hasSteam);
             localFiller.SetActive(!hasLocal);
             devFiller.SetActive(!hasDev);
-            pinFiller.SetActive(!hasPins);
+            //pinFiller.SetActive(!hasPins);
+            pinFiller.SetActive(false);
 
 
 
