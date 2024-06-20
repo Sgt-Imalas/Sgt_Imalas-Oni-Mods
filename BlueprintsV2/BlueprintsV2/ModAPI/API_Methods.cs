@@ -330,16 +330,10 @@ namespace BlueprintsV2.ModAPI
         }
         public static bool 
             Aki_DecorPackA_API_Integrated = false,
-            Aki_Backwalls_API_Integrated = false,
-            Pether_STAR_API_Integrated = false
+            Aki_Backwalls_API_Integrated = false
                 ;
         internal static void RegisterExtraData()
         {
-            // RegisterNonSolidTag("DecorPackA_StainedGlass");
-            // RegisterInternally("Backwalls_Backwall", SkinHelper.TryStoreBackwall, SkinHelper.TryApplyBackwall);
-            // RegisterInternally("DecorPackA_MoodLamp", SkinHelper.TryStoreMoodLamp, SkinHelper.TryApplyMoodLamp);
-            // 
-
             RegisterVanillaBuildings();
 
             var q = AppDomain.CurrentDomain.GetAssemblies()
@@ -363,7 +357,9 @@ namespace BlueprintsV2.ModAPI
                     typeof(GameObject)
                     , typeof(JObject)
                 });
-                string typeName = type.FullName;
+                string typeName = type.Assembly.FullName +"_" + type.Name;
+                
+                
                 if (DataGetter != null && DataApplier != null)
                 {
                     SgtLogger.l("trying to register additional blueprint data for type " + typeName);
@@ -382,16 +378,16 @@ namespace BlueprintsV2.ModAPI
             if (!Aki_DecorPackA_API_Integrated)
             {
                 RegisterNonSolidTag("DecorPackA_StainedGlass");
-                RegisterInternally("DecorPackA_MoodLamp", SkinHelper.TryStoreMoodLamp, SkinHelper.TryApplyMoodLamp);
+                RegisterInternally("DecorPackA_MoodLamp", SkinHelper.TryStoreMoodLamp, SkinHelper.TryApplyMoodLamp, -10);
             }
             if (!Aki_Backwalls_API_Integrated)
             {
-                RegisterInternally("Backwalls_Backwall", SkinHelper.TryStoreBackwall, SkinHelper.TryApplyBackwall);
+                RegisterInternally("Backwalls_Backwall", SkinHelper.TryStoreBackwall, SkinHelper.TryApplyBackwall, -10);
             }
-            if (!Pether_STAR_API_Integrated)
-            {
-                RegisterInternally("SignsTagsAndRibbons_SelectableSign", SkinHelper.TryStoreSelectableSign, SkinHelper.TryApplySelectableSign);
-            }
+            //if (!false)
+            //{
+            //    RegisterInternally("SignsTagsAndRibbons_SelectableSign", SkinHelper.TryStoreSelectableSign, SkinHelper.TryApplySelectableSign, -10);
+            //}
         }
 
     }

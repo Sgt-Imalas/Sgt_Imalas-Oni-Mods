@@ -23,11 +23,11 @@ namespace BlueprintsV2.Tools
             drawer.NewLine();
 
             drawer.DrawIcon(screenInstance.GetSprite("icon_mouse_left"), 20);
-            drawer.DrawText(UsingSnapshot ? STRINGS.UI.TOOLS.SNAPSHOT_TOOL.ACTION_CLICK : STRINGS.UI.TOOLS.CREATE_TOOL.ACTION_DRAG, Styles_Instruction.Standard);
+            drawer.DrawText(UsingSnapshot ? STRINGS.UI.TOOLS.USE_TOOL.ACTION_CLICK : STRINGS.UI.TOOLS.CREATE_TOOL.ACTION_DRAG, Styles_Instruction.Standard);
             drawer.AddIndent(8);
 
             drawer.DrawIcon(screenInstance.GetSprite("icon_mouse_right"), 20);
-            drawer.DrawText(STRINGS.UI.TOOLS.SNAPSHOT_TOOL.ACTION_BACK, Styles_Instruction.Standard);
+            drawer.DrawText(STRINGS.UI.TOOLS.USE_TOOL.ACTION_BACK, Styles_Instruction.Standard);
 
             if (UsingSnapshot)
             {

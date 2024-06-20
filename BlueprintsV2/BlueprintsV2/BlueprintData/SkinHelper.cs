@@ -61,8 +61,6 @@ namespace BlueprintsV2.BlueprintData
             return data;
         }
 
-
-
         internal static void TryApplyBackwall(GameObject arg1, JObject arg2)
         {
             var backwallCmp = arg1.GetComponent("Backwall");

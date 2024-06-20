@@ -163,12 +163,10 @@ namespace BlueprintsV2
                 {
                     public static LocString NAME = "Use Blueprint";
                     public static LocString TOOLTIP = "Use blueprint {0}";
-                    public static LocString LOADEDBLUEPRINTS = "Loaded {0} blueprints! ({1} total)";
-                    public static LocString LOADEDBLUEPRINTS_ADDITIONAL = "additional";
-                    public static LocString LOADEDBLUEPRINTS_FEWER = "fewer";
                     public static LocString TOOLTIP_TITLE = "USE BLUEPRINT TOOL";
                     public static LocString ACTION_CLICK = "PLACE";
                     public static LocString ACTION_BACK = "CANCEL";
+                    public static LocString ACTION_DRAG = "DRAG";
 
                     public static LocString ACTION_SELECT = "Adjust selected blueprint: {0}";
                     public static LocString ACTION_CHANGE_ANCHOR = "Change blueprint anchor point: {0}";
@@ -185,9 +183,6 @@ namespace BlueprintsV2
                     public static LocString EMPTY = "Snapshot would have been empty!";
                     public static LocString TAKEN = "Snapshot taken!";
                     public static LocString TOOLTIP_TITLE = "SNAPSHOT TOOL";
-                    public static LocString ACTION_CLICK = "CLICK";
-                    public static LocString ACTION_DRAG = "DRAG";
-                    public static LocString ACTION_BACK = "CANCEL";
                     public static LocString NEWSNAPSHOT = "Press {0} to take new snapshot.";
                 }
                 public class FILTERLAYERS
