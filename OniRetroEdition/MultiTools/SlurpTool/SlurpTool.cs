@@ -55,6 +55,7 @@ namespace OniRetroEdition.SlurpTool
             areaVisualizer.GetComponent<SpriteRenderer>().material.color = UIUtils.rgb(251, 176, 59);
 
             areaVisualizerField.SetValue(this, areaVisualizer);
+            interceptNumberKeysForPriority = true;
         }
         public SlurpTool()
         {

@@ -20,6 +20,7 @@ namespace BlueprintsV2.UnityUI.Components
         Image buttonBg;
         FButton button;
         ToolTip toolTip;
+        public string Name=string.Empty;
 
         public override void OnPrefabInit()
         {
@@ -55,6 +56,7 @@ namespace BlueprintsV2.UnityUI.Components
                 }
 
                 ElementName?.SetText(prefab.GetProperName());
+                Name = prefab.GetProperName();
                 button.OnClick += OnClick;
                 toolTip = UIUtils.AddSimpleTooltipToObject(this.gameObject, GameUtil.GetMaterialTooltips(targetTag));
             }

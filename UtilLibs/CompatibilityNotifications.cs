@@ -29,6 +29,21 @@ namespace UtilLibs
             else
                 Debug.Log("mod not found: " + assemblyName);
         }
+
+        //public static void ImproveUserExperience(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
+        //{
+        //    var buggyMods = mods.Where(mod => mod.label.title.Contains("// by @Ony"));
+        //    if (buggyMods.Count() == 0)
+        //        return;
+
+        //    HashSet<string> mistakes = new HashSet<string>(buggyMods.Select(mod => mod.staticID).ToList());
+
+        //    foreach(var mistake in mistakes)
+        //    {
+        //        harmony.UnpatchAll(mistake);
+        //    }
+        //}
+
         public static void RemoveCrashingIncompatibility(Harmony harmony, IReadOnlyList<KMod.Mod> mods, string faultyId)
         {
             faultyId = faultyId.ToLowerInvariant();
@@ -37,9 +52,7 @@ namespace UtilLibs
             {
                 faultyMod.SetCrashed();
                 faultyMod.SetEnabledForActiveDlc(false);
-                //Debug.log("Disabling faulty mod " + faultyMod.title + " to prevent issues", "System");
-                harmony.UnpatchAll(faultyMod.staticID);
-                
+                harmony.UnpatchAll(faultyMod.staticID);                
             }
         }
 
@@ -55,7 +68,6 @@ namespace UtilLibs
             if (faultyMod != null && faultyMod.IsEnabledForActiveDlc())
             {
                 Debug.Log("DebugConsole detected, disabling");
-                //faultyMod.SetCrashCount(3);
                 faultyMod.SetCrashed();
                 faultyMod.SetEnabledForDlc("", false);
                 faultyMod.SetEnabledForDlc("EXPANSION1_ID", false);

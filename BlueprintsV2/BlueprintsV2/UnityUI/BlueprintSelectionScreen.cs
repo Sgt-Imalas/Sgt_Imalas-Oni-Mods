@@ -16,6 +16,7 @@ using BlueprintsV2.BlueprintData;
 using UtilLibs.UI.FUI;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SCROLLAREA.CONTENT;
+using System.Diagnostics;
 
 namespace BlueprintsV2.UnityUI
 {
@@ -38,6 +39,7 @@ namespace BlueprintsV2.UnityUI
         //BlueprintList
         public FInputField2 BlueprintSearchbar;
         public FButton ClearBlueprintSearchbar;
+        public FButton OpenBlueprintFolder;
         public FButton FolderUpBtn;
         public GameObject HierarchyContainer;
         public FileHierarchyEntry HierarchyEntryPrefab;
@@ -89,6 +91,9 @@ namespace BlueprintsV2.UnityUI
             BlueprintSearchbar.OnValueChanged.AddListener(ApplyBlueprintFilter);
             BlueprintSearchbar.Text = string.Empty;
 
+            OpenBlueprintFolder = transform.Find("FileHierarchy/SearchBar/FolderButton").FindOrAddComponent<FButton>();
+            OpenBlueprintFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.BlueprintFileHandling.GetBlueprintDirectory()) { UseShellExecute = true });
+
             ClearBlueprintSearchbar = transform.Find("FileHierarchy/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
             ClearBlueprintSearchbar.OnClick += () => BlueprintSearchbar.Text = string.Empty;
 
@@ -131,7 +136,7 @@ namespace BlueprintsV2.UnityUI
 
 
             ReplacementElementSearchbar = transform.Find("MaterialReplacer/SearchBar/Input").FindOrAddComponent<FInputField2>();
-            ReplacementElementSearchbar.OnValueChanged.AddListener(ApplyBlueprintFilter);
+            ReplacementElementSearchbar.OnValueChanged.AddListener(ApplyElementsFilter);
             ReplacementElementSearchbar.Text = string.Empty;
 
             ClearReplacementElementSearchbar = transform.Find("MaterialReplacer/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
@@ -281,12 +286,12 @@ namespace BlueprintsV2.UnityUI
                     uiEntry.gameObject.SetActive(true);
                 }
 
-                SgtLogger.l(ModAssets.BlueprintFileHandling.BlueprintFolders.Count + "", "folder count");
+                //SgtLogger.l(ModAssets.BlueprintFileHandling.BlueprintFolders.Count + "", "folder count");
             }
             else
                 SgtLogger.l("not root");
 
-            SgtLogger.l(targetFolder.BlueprintCount + "", "count");
+            //SgtLogger.l(targetFolder.BlueprintCount + "", "count");
             var bps = targetFolder.Blueprints.OrderBy(bp => bp.FriendlyName);
             foreach (var bp in bps)
             {
@@ -412,14 +417,14 @@ namespace BlueprintsV2.UnityUI
         public static bool HasReplacementCandidates(Tag original) => MaterialSelector.GetValidMaterials(original).Count() > 1;
 
         BlueprintSelectedMaterial ToReplaceTag = null;
-        List<GameObject> PreviouslyActiveMaterialReplacementButtons = new();
+        List<ReplaceElementEntry> PreviouslyActiveMaterialReplacementButtons = new();
         private void SetReplacementMaterials(BlueprintSelectedMaterial materialTypeTag, float amount)
         {
             ToReplaceTag = materialTypeTag;
             ToReplaceName.SetText(ToReplaceTag.CategoryTag.Name);
             foreach (var prev in PreviouslyActiveMaterialReplacementButtons)
             {
-                prev.SetActive(false);
+                prev.gameObject.SetActive(false);
             }
             PreviouslyActiveMaterialReplacementButtons.Clear();
 
@@ -433,7 +438,7 @@ namespace BlueprintsV2.UnityUI
                     SgtLogger.logError(replacementTag + " go was null!");
                     continue;
                 }
-                PreviouslyActiveMaterialReplacementButtons.Add(btn.gameObject);
+                PreviouslyActiveMaterialReplacementButtons.Add(btn);
                 btn.gameObject.SetActive(true);
                 btn.Refresh(TargetBlueprint, amount, ToReplaceTag.SelectedTag);
             }
@@ -456,6 +461,7 @@ namespace BlueprintsV2.UnityUI
             ApplyReplacementMaterialUI(ToReplaceTag);
             ToReplaceTag = null;
             ShowReplacementItems(false);
+            SetMaterialState();
         }
 
         public void StartSelectingReplacementTag(BlueprintSelectedMaterial materialToReplace, float amount)
@@ -506,14 +512,20 @@ namespace BlueprintsV2.UnityUI
 
         public void ApplyElementsFilter(string filterstring = "")
         {
-            foreach (var go in ReplacementElementEntries)
+            foreach (ReplaceElementEntry entry in PreviouslyActiveMaterialReplacementButtons)
             {
-                go.Value.gameObject.SetActive(filterstring == string.Empty ? true : ShowInFilter(filterstring, go.Key.name));
+                entry.gameObject.SetActive(filterstring == string.Empty ? true : ShowInFilter(filterstring, entry.Name));
             }
         }
 
         public void ApplyBlueprintFilter(string filterstring = "")
         {
+            if(filterstring.Length==0)
+            {
+                UpdateBlueprintButtons();
+                return;
+            }
+
             foreach (var go in BlueprintEntries)
             {
                 go.Value.gameObject.SetActive(filterstring == string.Empty ? true : ShowInFilter(filterstring, go.Key.FriendlyName));

@@ -250,7 +250,6 @@ namespace BlueprintsV2.BlueprintData
             float diffY = current.second;
 
             var dimensions = bp.Dimensions;
-            SgtLogger.l(dimensions.ToString());
             int shiftX = (int)(dimensions.X * diffX);
             int shiftY = (int)(dimensions.Y * diffY);
 
