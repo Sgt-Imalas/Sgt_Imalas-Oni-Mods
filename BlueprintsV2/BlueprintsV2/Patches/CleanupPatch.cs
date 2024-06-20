@@ -1,4 +1,4 @@
-﻿using BlueprintsV2.BlueprintsV2.Tools;
+﻿using BlueprintsV2.Tools;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlueprintsV2.BlueprintsV2.Patches
+namespace BlueprintsV2.Patches
 {
     internal class CleanupPatch
     {

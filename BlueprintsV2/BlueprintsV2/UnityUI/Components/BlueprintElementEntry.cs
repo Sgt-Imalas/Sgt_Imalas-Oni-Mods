@@ -7,11 +7,11 @@ using UnityEngine;
 using UtilLibs;
 using UtilLibs.UIcmp;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.SCROLLAREA.CONTENT;
-using BlueprintsV2.BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintData;
 using UnityEngine.UI;
 using static UnityEngine.UI.Image;
 
-namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
+namespace BlueprintsV2.UnityUI.Components
 {
     internal class BlueprintElementEntry : KMonoBehaviour
     {
@@ -116,11 +116,11 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
         }
 
 
-        public void Refresh(Blueprint current)
+        public int Refresh(Blueprint current)
         {
 
             if (current == null)
-                return;
+                return 0 ;
 
             Tag targetTag = SelectedAndCategory.SelectedTag;
             
@@ -133,7 +133,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
                 if (prefab == null)
                 {
                     SgtLogger.warning(replacement + " prefab was null!");
-                    return;
+                    return 0;
                 }
 
 
@@ -173,14 +173,18 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(staticTag ? staticTooltip : GameUtil.GetMaterialTooltips(targetTag));
+            int materialState = 0;
+
             if (!materialUnlocked)
             {
                 sb.AppendLine();
                 sb.AppendLine(STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SCROLLAREA.CONTENT.ELEMENTSTATE.NOTFOUND);
+                materialState = 2;
                 SetWarningIndicatorLevel(2);
             }
             else if(!enoughMaterial)
             {
+                materialState = 1;
                 SetWarningIndicatorLevel(1); 
                 sb.AppendLine();
                 sb.AppendLine(string.Format(STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SCROLLAREA.CONTENT.ELEMENTSTATE.NOTENOUGH, 
@@ -188,12 +192,9 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
                     GameUtil.GetFormattedMass(requiredAmount)));
 
             }
-            else
-            {
-                SetWarningIndicatorLevel(0);
-            }
+            SetWarningIndicatorLevel(materialState);
             tooltip?.SetSimpleTooltip(sb.ToString());
-
+            return materialState;
         }
 
         public void SetTotalAmount(float amount)

@@ -1,14 +1,14 @@
 ﻿
-using BlueprintsV2.BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintData;
 using STRINGS;
 using System.Collections.Generic;
 using UnityEngine.Serialization;
 
-namespace BlueprintsV2.BlueprintsV2.Tools
+namespace BlueprintsV2.Tools
 {
     public sealed class UseBlueprintToolHoverCard : HoverTextConfiguration
     {
-        [FormerlySerializedAs("PrefabErrorCount")] public int prefabErrorCount;
+        public int prefabErrorCount = 0;
 
         public UseBlueprintToolHoverCard()
         {
@@ -32,36 +32,36 @@ namespace BlueprintsV2.BlueprintsV2.Tools
             drawer.DrawText(STRINGS.UI.TOOLS.USE_TOOL.ACTION_BACK, Styles_Instruction.Standard);
             drawer.NewLine(32);
 
-            //if (ModAssets.BlueprintFileHandling.HasBlueprints() && ModAssets.SelectedFolder != null)
-            //{
-            //    if (BlueprintState.SelectedFolder.BlueprintCount > 0)
-            //    {
-            //        drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.FOLDERBLUEPRINT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsCreateFolderAction.GetKAction()) + "]")), Styles_Instruction.Standard);
-            //        drawer.NewLine(20);
+            if (ModAssets.BlueprintFileHandling.HasBlueprints())
+            {
+                if (ModAssets.SelectedBlueprint!=null)
+                {
+                    drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.ACTION_SELECT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsReopenSelectionAction.GetKAction()) + "]")), Styles_Instruction.Standard);
+                    drawer.NewLine(20);
 
-            //        drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.DELETEBLUEPRINT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsDeleteAction.GetKAction()) + "]")), Styles_Instruction.Standard);
+                    drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.ACTION_CHANGE_ANCHOR, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSwapAnchorAction.GetKAction()) + "]")), Styles_Instruction.Standard);
 
-            //        if (prefabErrorCount > 0)
-            //        {
-            //            drawer.NewLine(32);
-            //            drawer.DrawIcon(screenInstance.GetSprite("iconWarning"));
-            //            drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.ERRORMESSAGE, prefabErrorCount), Styles_Instruction.Selected);
-            //        }
+                    if (prefabErrorCount > 0)
+                    {
+                        drawer.NewLine(32);
+                        drawer.DrawIcon(screenInstance.GetSprite("iconWarning"));
+                        drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.ERRORMESSAGE, prefabErrorCount), Styles_Instruction.Selected);
+                    }
 
-            //        //drawer.NewLine(32);
-            //        //drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.SELECTEDBLUEPRINT, BlueprintState.SelectedBlueprint.FriendlyName, BlueprintState.SelectedFolder.SelectedBlueprintIndex + 1, BlueprintState.SelectedFolder.BlueprintCount, BlueprintState.SelectedFolder.Name, BlueprintState.SelectedBlueprintFolderIndex + 1, BlueprintState.LoadedBlueprints.Count), Styles_Instruction.Standard);
-            //    }
+                    drawer.NewLine(32);
+                    drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.SELECTEDBLUEPRINT, ModAssets.SelectedBlueprint.FriendlyName), Styles_Instruction.Standard);
+                }
 
-            //    else
-            //    {
-            //        drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.FOLDEREMPTY, BlueprintState.SelectedFolder.Name), Styles_Instruction.Standard);
-            //    }
-            //}
+                else
+                {
+                    drawer.DrawText(STRINGS.UI.TOOLS.USE_TOOL.NONESELECTED, Styles_Instruction.Standard);
+                }
+            }
 
-            //else
-            //{
+            else
+            {
                 drawer.DrawText(STRINGS.UI.TOOLS.USE_TOOL.NOBLUEPRINTS, Styles_Instruction.Standard);
-            //}
+            }
 
             drawer.EndShadowBar();
             drawer.EndDrawing();

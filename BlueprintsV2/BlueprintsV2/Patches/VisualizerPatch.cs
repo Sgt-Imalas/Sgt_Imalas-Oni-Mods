@@ -1,4 +1,4 @@
-﻿using BlueprintsV2.BlueprintsV2.BlueprintData;
+﻿using BlueprintsV2.BlueprintData;
 using HarmonyLib;
 using Rendering;
 using System;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace BlueprintsV2.BlueprintsV2.Patches
+namespace BlueprintsV2.Patches
 {
     internal class VisualizerPatch
     {

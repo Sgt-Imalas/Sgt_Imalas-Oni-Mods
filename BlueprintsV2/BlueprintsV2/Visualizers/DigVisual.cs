@@ -1,5 +1,5 @@
 ﻿
-using BlueprintsV2.BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace BlueprintsV2.BlueprintsV2.Visualizers
+namespace BlueprintsV2.Visualizers
 {
     public sealed class DigVisual : IVisual
     {
@@ -26,7 +26,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
             return Grid.IsValidCell(cellParam) && Grid.IsVisible(cellParam) && Grid.Solid[cellParam] && !Grid.Foundation[cellParam] && Grid.Objects[cellParam, 7] == null;
         }
 
-        public void MoveVisualizer(int cellParam)
+        public void MoveVisualizer(int cellParam, bool forceRedraw)
         {
             Visualizer.transform.SetPosition(Grid.CellToPosCBC(cellParam, DigTool.Instance.visualizerLayer));
             Visualizer.SetActive(IsPlaceable(cellParam));

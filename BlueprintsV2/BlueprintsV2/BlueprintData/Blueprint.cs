@@ -1,6 +1,6 @@
 ﻿
-using BlueprintsV2.BlueprintsV2;
-using BlueprintsV2.BlueprintsV2.ModAPI;
+using BlueprintsV2;
+using BlueprintsV2.ModAPI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Linq;
@@ -13,7 +13,7 @@ using UtilLibs;
 using static BlueprintsV2.ModAssets;
 using static STRINGS.UI.CLUSTERMAP;
 
-namespace BlueprintsV2.BlueprintsV2.BlueprintData
+namespace BlueprintsV2.BlueprintData
 {
 
     /// <summary>
@@ -41,7 +41,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
         /// <summary>
         /// The buildings contained inside the blueprint.
         /// </summary>
-        public List<BuildingConfig> BuildingConfiguration { get; } = new List<BuildingConfig>();
+        public List<BuildingConfig> BuildingConfigurations { get; } = new List<BuildingConfig>();
 
         /// <summary>
         /// The true cost of the blueprint given the current game's configuration and the contents of the blueprint.
@@ -74,8 +74,43 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
                 Folder = string.Empty;
             else
                 Folder = Path.GetFileName(Path.GetDirectoryName(fileLocation)).ToLowerInvariant();
-            InferFriendlyName();
+            InferFriendlyName(); 
         }
+
+        void CalculateDimensions()
+        {
+            int x = 0;
+            int y = 0;
+            foreach(var building in BuildingConfigurations)
+            {
+                var offset = building.Offset;
+                if (offset.y > y)
+                    y = offset.y;
+                if(offset.x > x)
+                    x = offset.x;
+            }
+            foreach(var digSpot in DigLocations)
+            {
+                if (digSpot.y > y)
+                    y = digSpot.y;
+                if (digSpot.x > x)
+                    x = digSpot.x;
+            }
+            _dimensionX = x; _dimensionY = y;
+        }
+
+        /// <summary>
+        /// tile of interest dimensions of the blueprint
+        /// </summary>
+        [JsonIgnore]
+        public Vector2I Dimensions
+        {
+            get 
+            {
+                return new(_dimensionX,_dimensionY); 
+            }
+        }
+        private int _dimensionX,_dimensionY;
 
         /// <summary>
         /// Creates a new blueprint with the given name and folder.
@@ -164,7 +199,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
                                 return false;
                             }
 
-                            BuildingConfiguration.Add(buildingConfig);
+                            BuildingConfigurations.Add(buildingConfig);
                         }
 
                         int digLocationCount = reader.ReadInt32();
@@ -221,7 +256,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
                                 BuildingConfig buildingConfig = new BuildingConfig();
                                 buildingConfig.ReadJson((JObject)buildingToken);
 
-                                BuildingConfiguration.Add(buildingConfig);
+                                BuildingConfigurations.Add(buildingConfig);
                             }
                         }
                     }
@@ -295,8 +330,8 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 
             binaryWriter.Write(FriendlyName);
 
-            binaryWriter.Write(BuildingConfiguration.Count);
-            BuildingConfiguration.ForEach(buildingConfig => buildingConfig.WriteBinary(binaryWriter));
+            binaryWriter.Write(BuildingConfigurations.Count);
+            BuildingConfigurations.ForEach(buildingConfig => buildingConfig.WriteBinary(binaryWriter));
 
             binaryWriter.Write(DigLocations.Count);
             DigLocations.ForEach(digLocation => { binaryWriter.Write(digLocation.x); binaryWriter.Write(digLocation.y); });
@@ -322,12 +357,12 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
             jsonWriter.WritePropertyName("friendlyname");
             jsonWriter.WriteValue(FriendlyName);
 
-            if (BuildingConfiguration.Count > 0)
+            if (BuildingConfigurations.Count > 0)
             {
                 jsonWriter.WritePropertyName("buildings");
                 jsonWriter.WriteStartArray();
 
-                foreach (BuildingConfig buildingConfig in BuildingConfiguration)
+                foreach (BuildingConfig buildingConfig in BuildingConfigurations)
                 {
                     buildingConfig.WriteJson(jsonWriter);
                 }
@@ -482,16 +517,17 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
         /// <returns>True if the blueprint is empty, false otherwise</returns>
         public bool IsEmpty()
         {
-            return BuildingConfiguration.Count == 0 && DigLocations.Count == 0;
+            return BuildingConfigurations.Count == 0 && DigLocations.Count == 0;
         }
 
 
         public void CacheCost()
         {
+            CalculateDimensions();
             BlueprintCost.Clear();
             CachedAbsTagCost.Clear();
 
-            foreach (BuildingConfig buildingConfig in BuildingConfiguration)
+            foreach (BuildingConfig buildingConfig in BuildingConfigurations)
             {
                 Recipe buildingRecipe = buildingConfig.BuildingDef.CraftRecipe;
                 List<Tag> selectedElements = buildingConfig.SelectedElements;

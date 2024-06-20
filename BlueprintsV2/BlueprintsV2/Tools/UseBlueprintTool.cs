@@ -1,14 +1,14 @@
 ﻿
-using BlueprintsV2.BlueprintsV2.BlueprintData;
-using BlueprintsV2.BlueprintsV2.UnityUI;
+using BlueprintsV2.BlueprintData;
+using BlueprintsV2.UnityUI;
 using PeterHan.PLib.UI;
 using System.IO;
 using UnityEngine;
 using UtilLibs;
 
-namespace BlueprintsV2.BlueprintsV2.Tools
+namespace BlueprintsV2.Tools
 {
-    public sealed class UseBlueprintTool : InterfaceTool
+    public class UseBlueprintTool : InterfaceTool
     {
         public static UseBlueprintTool Instance { get; private set; }
 
@@ -16,6 +16,9 @@ namespace BlueprintsV2.BlueprintsV2.Tools
         {
             Instance = this;
         }
+
+        public UseBlueprintToolHoverCard HoverCard;
+
 
         public static void DestroyInstance()
         {
@@ -55,7 +58,7 @@ namespace BlueprintsV2.BlueprintsV2.Tools
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
-            gameObject.AddComponent<UseBlueprintToolHoverCard>();
+            HoverCard = gameObject.AddComponent<UseBlueprintToolHoverCard>();
         }
 
         public override void OnActivateTool()
@@ -63,14 +66,16 @@ namespace BlueprintsV2.BlueprintsV2.Tools
             base.OnActivateTool();
 
             ToolMenu.Instance.PriorityScreen.Show();
+            ShowBlueprintsWindow();
+        }
+        void ShowBlueprintsWindow()
+        {
             BlueprintSelectionScreen.ShowWindow(OnBlueprintSelected);
-
-            
         }
 
         public void OnBlueprintSelected()
         {
-            SgtLogger.l("blueprint selected ? " + (ModAssets.SelectedBlueprint != null));
+            //SgtLogger.l("blueprint selected ? " + (ModAssets.SelectedBlueprint != null));
             if (ModAssets.SelectedBlueprint != null)
             {
                 GridCompositor.Instance.ToggleMajor(true);
@@ -99,7 +104,6 @@ namespace BlueprintsV2.BlueprintsV2.Tools
             BlueprintState.ClearVisuals();
             ToolMenu.Instance.PriorityScreen.Show(false);
             GridCompositor.Instance.ToggleMajor(false);
-            ModAssets.SelectedBlueprint = null;
         }
 
         public override void OnLeftClickDown(Vector3 cursorPos)
@@ -124,36 +128,18 @@ namespace BlueprintsV2.BlueprintsV2.Tools
 
         public override void OnKeyDown(KButtonEvent buttonEvent)
         {
-            //if (BlueprintState.LoadedBlueprints.Count > 0)
-            //{
-            //    if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsCreateFolderAction.GetKAction()))
-            //    {
-            //        static void OnConfirmDelegate(string blueprintFolder, FileNameDialog parent)
-            //        {
-            //            string newFolder = blueprintFolder.Trim(' ', '/', '\\', Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-
-            //            if (newFolder == BlueprintState.SelectedBlueprint.Folder)
-            //            {
-            //                PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.USE_TOOL.FOLDERBLUEPRINT_NA, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
-            //            }
-
-            //            else
-            //            {
-            //                string blueprintName = BlueprintState.SelectedBlueprint.FriendlyName;
-
-            //                BlueprintState.SelectedBlueprint.SetFolder(newFolder);
-            //                PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, string.Format(STRINGS.UI.TOOLS.USE_TOOL.MOVEDBLUEPRINT, blueprintName, newFolder), null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
-            //            }
-
-            //            SpeedControlScreen.Instance.Unpause(false);
-            //            parent.Deactivate();
-            //        }
-
-            //        FileNameDialog blueprintFolderDialog = ModAssets.DialogHandling.CreateFolderDialog(OnConfirmDelegate);
-            //        SpeedControlScreen.Instance.Pause(false);
-            //        blueprintFolderDialog.Activate();
-            //    }                 
-            //}
+            if(ModAssets.BlueprintFileHandling.HasBlueprints())
+            {
+                if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsReopenSelectionAction.GetKAction()))
+                {
+                    ShowBlueprintsWindow();
+                }
+                
+                if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSwapAnchorAction.GetKAction()))
+                {
+                    BlueprintState.NextAnchorState();
+                }
+            }
 
             base.OnKeyDown(buttonEvent);
         }

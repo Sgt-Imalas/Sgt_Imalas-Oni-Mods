@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace BlueprintsV2.BlueprintsV2.Visualizers
+namespace BlueprintsV2.Visualizers
 {
     public interface IVisual
     {
@@ -13,7 +13,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
         Vector2I Offset { get; }
 
         bool IsPlaceable(int cellParam);
-        void MoveVisualizer(int cellParam);
+        void MoveVisualizer(int cellParam, bool forceRedraw);
         bool TryUse(int cellParam);
                 
     }

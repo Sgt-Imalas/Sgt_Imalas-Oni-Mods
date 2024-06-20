@@ -1,5 +1,5 @@
 ﻿
-using BlueprintsV2.BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintData;
 using HarmonyLib;
 using Newtonsoft.Json.Linq;
 using System;
@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using UnityEngine;
 using UtilLibs;
-using static BlueprintsV2.BlueprintsV2.BlueprintData.DataTransferHelpers;
+using static BlueprintsV2.BlueprintData.DataTransferHelpers;
 
-namespace BlueprintsV2.BlueprintsV2.ModAPI
+namespace BlueprintsV2.ModAPI
 {
 
     /// <summary>
@@ -86,7 +86,7 @@ namespace BlueprintsV2.BlueprintsV2.ModAPI
 
         public static void RegisterNonSolidTag(Tag tag)
         {
-            if(!TagsWithNonSolids.Contains(tag))
+            if (!TagsWithNonSolids.Contains(tag))
                 TagsWithNonSolids.Add(tag);
         }
         public static bool AllowNonSolids(Tag tag) => TagsWithNonSolids.Contains(tag);
@@ -146,7 +146,7 @@ namespace BlueprintsV2.BlueprintsV2.ModAPI
 
             var buildableState = PlanScreen.Instance.GetBuildableStateForDef(buildingDef);
             //SgtLogger.l(buildableState.ToString(), "buildablestate");
-            return buildableState == PlanScreen.RequirementsState.Complete || (!Config.Instance.RequireConstructable && (buildableState == PlanScreen.RequirementsState.Materials|| buildableState == PlanScreen.RequirementsState.Tech));
+            return buildableState == PlanScreen.RequirementsState.Complete || (!Config.Instance.RequireConstructable && (buildableState == PlanScreen.RequirementsState.Materials || buildableState == PlanScreen.RequirementsState.Tech));
         }
 
         public class BuildingDataStorage
@@ -233,7 +233,7 @@ namespace BlueprintsV2.BlueprintsV2.ModAPI
 
                 if (buildingConfig.TryGetDataValue(key, out var data))
                 {
-                    if(data == null)
+                    if (data == null)
                     {
                         SgtLogger.l("data was null for " + key); return;
                     }
@@ -260,7 +260,7 @@ namespace BlueprintsV2.BlueprintsV2.ModAPI
         }
         public static void TryApplyingStoredData(GameObject gameObject, string Key, JObject data)
         {
-            if (AdditionalBuildingDataEntries.TryGetValue(Key, out var Methods) && data !=null)
+            if (AdditionalBuildingDataEntries.TryGetValue(Key, out var Methods) && data != null)
             {
                 try
                 {
@@ -318,18 +318,24 @@ namespace BlueprintsV2.BlueprintsV2.ModAPI
             RegisterInternally(nameof(HEPBattery), DataTransfer_HEPBattery.TryGetData, DataTransfer_HEPBattery.TryApplyData);
 
         }
-
+        public static bool 
+            Aki_DecorPackA_API_Integrated = false,
+            Aki_Backwalls_API_Integrated = false,
+            Pether_STAR_API_Integrated = false
+                ;
         internal static void RegisterExtraData()
         {
-            RegisterNonSolidTag("DecorPackA_StainedGlass");
-            RegisterInternally("Backwalls_Backwall", SkinHelper.TryStoreBackwall, SkinHelper.TryApplyBackwall);
-            RegisterInternally("DecorPackA_MoodLamp", SkinHelper.TryStoreMoodLamp, SkinHelper.TryApplyMoodLamp);
-            RegisterInternally("SignsTagsAndRibbons_SelectableSign", SkinHelper.TryStoreSelectableSign, SkinHelper.TryApplySelectableSign);
+            // RegisterNonSolidTag("DecorPackA_StainedGlass");
+            // RegisterInternally("Backwalls_Backwall", SkinHelper.TryStoreBackwall, SkinHelper.TryApplyBackwall);
+            // RegisterInternally("DecorPackA_MoodLamp", SkinHelper.TryStoreMoodLamp, SkinHelper.TryApplyMoodLamp);
+            // 
 
             RegisterVanillaBuildings();
 
             var q = AppDomain.CurrentDomain.GetAssemblies()
                    .SelectMany(t => t.GetTypes());
+
+            
 
             foreach (var type in q)
             {
@@ -347,19 +353,35 @@ namespace BlueprintsV2.BlueprintsV2.ModAPI
                     typeof(GameObject)
                     , typeof(JObject)
                 });
-
+                string typeName = type.FullName;
                 if (DataGetter != null && DataApplier != null)
                 {
-                    SgtLogger.l("trying to register additional blueprint data for type " + type.AssemblyQualifiedName);
+                    SgtLogger.l("trying to register additional blueprint data for type " + typeName);
                     var getterDelegate = (GetBlueprintDataDelegate)Delegate.CreateDelegate(typeof(GetBlueprintDataDelegate), DataGetter);
                     var setterDelegate = (SetBlueprintDataDelegate)Delegate.CreateDelegate(typeof(SetBlueprintDataDelegate), DataApplier);
                     if (getterDelegate != null && setterDelegate != null)
-                        RegisterAdditionalStorableBuildingData(type.AssemblyQualifiedName, getterDelegate, setterDelegate);
+                    {
+                        RegisterAdditionalStorableBuildingData(typeName, getterDelegate, setterDelegate);
+                    }
                     else
-                        SgtLogger.warning("failed to create delegates for " + type.AssemblyQualifiedName);
+                    {
+                        SgtLogger.warning("failed to create delegates for " + typeName);
+                    }
                 }
             }
-
+            if (!Aki_DecorPackA_API_Integrated)
+            {
+                RegisterNonSolidTag("DecorPackA_StainedGlass");
+                RegisterInternally("DecorPackA_MoodLamp", SkinHelper.TryStoreMoodLamp, SkinHelper.TryApplyMoodLamp);
+            }
+            if (!Aki_Backwalls_API_Integrated)
+            {
+                RegisterInternally("Backwalls_Backwall", SkinHelper.TryStoreBackwall, SkinHelper.TryApplyBackwall);
+            }
+            if (!Pether_STAR_API_Integrated)
+            {
+                RegisterInternally("SignsTagsAndRibbons_SelectableSign", SkinHelper.TryStoreSelectableSign, SkinHelper.TryApplySelectableSign);
+            }
         }
 
     }

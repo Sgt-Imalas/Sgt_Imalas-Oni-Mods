@@ -1,17 +1,18 @@
 ﻿
 
 using BlueprintsV2;
-using BlueprintsV2.BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintData;
 using HarmonyLib;
 using PeterHan.PLib.Options;
 using System.Reflection;
 using UnityEngine;
 
-namespace BlueprintsV2.BlueprintsV2.Tools
+namespace BlueprintsV2.Tools
 {
     public sealed class SnapshotTool : MultiFilteredDragTool
     {
         private Blueprint blueprint;
+        private SnapshotToolHoverCard hoverCard;
 
         public static SnapshotTool Instance { get; private set; }
 
@@ -65,7 +66,7 @@ namespace BlueprintsV2.BlueprintsV2.Tools
         {
             blueprint = null;
 
-            gameObject.GetComponent<SnapshotToolHoverCard>().UsingSnapshot = false;
+            hoverCard.UsingSnapshot = false;
 
             MultiToolParameterMenu.Instance.PopulateMenu(DefaultParameters);
             MultiToolParameterMenu.Instance.ShowMenu();
@@ -93,7 +94,7 @@ namespace BlueprintsV2.BlueprintsV2.Tools
 
             areaVisualizerField.SetValue(this, areaVisualizer);
 
-            gameObject.AddComponent<SnapshotToolHoverCard>();
+            hoverCard = gameObject.AddComponent<SnapshotToolHoverCard>();
         }
 
         public override void OnActivateTool()
@@ -105,7 +106,7 @@ namespace BlueprintsV2.BlueprintsV2.Tools
                 CreateVisualizer();
             }
 
-            gameObject.GetComponent<SnapshotToolHoverCard>().UsingSnapshot = false;
+            hoverCard.UsingSnapshot = false;
         }
 
         public override void OnDeactivateTool(InterfaceTool newTool)
@@ -152,7 +153,7 @@ namespace BlueprintsV2.BlueprintsV2.Tools
                     MultiToolParameterMenu.Instance.HideMenu();
                     ToolMenu.Instance.PriorityScreen.Show();
 
-                    gameObject.GetComponent<SnapshotToolHoverCard>().UsingSnapshot = true;
+                    hoverCard.UsingSnapshot = true;
                     DestroyVisualizer();
 
                     PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.SNAPSHOT_TOOL.TAKEN, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
@@ -198,11 +199,15 @@ namespace BlueprintsV2.BlueprintsV2.Tools
 
         public override void OnKeyDown(KButtonEvent buttonEvent)
         {
-            //if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsDeleteAction.GetKAction()))
-            //{
-            //    Instance.DeleteBlueprint();
-            //    GridCompositor.Instance.ToggleMajor(false);
-            //}
+            if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsReopenSelectionAction.GetKAction()))
+            {
+                DeleteBlueprint();
+                GridCompositor.Instance.ToggleMajor(false);
+            }
+            if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSwapAnchorAction.GetKAction()))
+            {
+                BlueprintState.NextAnchorState();
+            }
 
             base.OnKeyDown(buttonEvent);
         }

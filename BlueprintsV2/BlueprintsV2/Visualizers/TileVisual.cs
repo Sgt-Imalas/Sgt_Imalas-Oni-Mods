@@ -1,5 +1,5 @@
 ﻿
-using BlueprintsV2.BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace BlueprintsV2.BlueprintsV2.Visualizers
+namespace BlueprintsV2.Visualizers
 {
 
     public class TileVisual : BuildingVisual, ICleanableVisual
@@ -26,9 +26,9 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
         }
 
 
-        public override void MoveVisualizer(int cellParam)
+        public override void MoveVisualizer(int cellParam, bool forceRedraw)
         {
-            if (cellParam != cell)
+            if (cellParam != cell || forceRedraw)
             {
                 Visualizer.transform.SetPosition(Grid.CellToPosCBC(cellParam, buildingConfig.BuildingDef.SceneLayer));
                 VisualsUtilities.SetVisualizerColor(cellParam, GetVisualizerColor(cellParam), Visualizer, buildingConfig);

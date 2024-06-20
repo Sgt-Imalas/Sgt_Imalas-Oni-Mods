@@ -1,5 +1,5 @@
 ﻿
-using BlueprintsV2.BlueprintsV2.ModAPI;
+using BlueprintsV2.ModAPI;
 using HarmonyLib;
 using KMod;
 using PeterHan.PLib.Actions;

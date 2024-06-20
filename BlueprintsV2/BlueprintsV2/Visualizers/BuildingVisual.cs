@@ -1,5 +1,6 @@
 ﻿
-using BlueprintsV2.BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintData;
+using BlueprintsV2.ModAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 
-namespace BlueprintsV2.BlueprintsV2.Visualizers
+namespace BlueprintsV2.Visualizers
 {
     public class BuildingVisual : IVisual
     {
@@ -54,12 +55,12 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
 
         public virtual bool IsPlaceable(int cellParam)
         {
-            return ValidCell(cellParam) && HasTech();
+            return ValidCell(cellParam) && HasTech() && AllowedInWorld();
         }
 
-        public virtual void MoveVisualizer(int cellParam)
+        public virtual void MoveVisualizer(int cellParam, bool forceRedraw=false)
         {
-            if (cell != cellParam)
+            if (cell != cellParam || forceRedraw)
             {
                 Visualizer.transform.SetPosition(Grid.CellToPosCBC(cellParam, buildingConfig.BuildingDef.SceneLayer));
 
@@ -67,7 +68,6 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
                 {
                     Visualizer.GetComponent<KBatchedAnimController>().TintColour = GetVisualizerColor(cellParam);
                 }
-
                 cell = cellParam;
             }
         }
@@ -186,7 +186,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
             //return TryBuild(cellParam);
             if (BlueprintState.InstantBuild)
             {
-                if (ValidCell(cellParam))
+                if (ValidCell(cellParam) && AllowedInWorld())
                 {
                     for (int index = 0; index < buildingConfig.BuildingDef.PlacementOffsets.Length; ++index)
                     {
@@ -331,6 +331,10 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
                 vis.UpdateConnections((UtilityConnections)flags);
             }
         }
+        public virtual bool AllowedInWorld()
+        {
+            return API_Methods.IsBuildable(buildingConfig.BuildingDef);
+        }
 
         public virtual bool HasTech()
         {
@@ -349,8 +353,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
                     || faiReason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_CORNER_FLOOR;
 
 
-
-                return IsValidPlaceLocation || IgnorableFailReason;
+                return ( IsValidPlaceLocation || IgnorableFailReason);
                 //replacement = buildingConfig.BuildingDef.IsValidReplaceLocation(pos, buildingConfig.Orientation, buildingConfig.BuildingDef.ReplacementLayer, buildingConfig.BuildingDef.ObjectLayer);
                 //return (validCell || replacement);
             }
@@ -368,6 +371,8 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
             {
                 return ModAssets.BLUEPRINTS_COLOR_NOTECH;
             }
+            else if(!AllowedInWorld())
+                return ModAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT;
 
             else
             {

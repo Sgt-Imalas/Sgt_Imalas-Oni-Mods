@@ -1,4 +1,4 @@
-﻿using BlueprintsV2.BlueprintsV2.BlueprintData;
+﻿using BlueprintsV2.BlueprintData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UtilLibs.UIcmp;
 
-namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
+namespace BlueprintsV2.UnityUI.Components
 {
     internal class FolderHierarchyEntry : KMonoBehaviour
     {

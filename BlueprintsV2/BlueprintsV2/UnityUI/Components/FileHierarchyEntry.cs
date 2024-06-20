@@ -1,4 +1,4 @@
-﻿using BlueprintsV2.BlueprintsV2.BlueprintData;
+﻿using BlueprintsV2.BlueprintData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using UtilLibs;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT;
 using static BlueprintsV2.STRINGS.UI.DIALOGUE;
 
-namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
+namespace BlueprintsV2.UnityUI.Components
 {
     public class FileHierarchyEntry:KMonoBehaviour
     {

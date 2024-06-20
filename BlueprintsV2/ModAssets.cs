@@ -1,4 +1,4 @@
-﻿using BlueprintsV2.BlueprintsV2.BlueprintData;
+﻿using BlueprintsV2.BlueprintData;
 using HarmonyLib;
 using PeterHan.PLib.Actions;
 using System;
@@ -336,25 +336,15 @@ namespace BlueprintsV2
         internal static void RegisterActions()
         {
             Actions.BlueprintsCreateAction = new PActionManager().CreateAction(ActionKeys.ACTION_CREATE_KEY,
-                STRINGS.UI.ACTIONS.CREATE_TITLE, new PKeyBinding());
+                STRINGS.UI.ACTIONS.CREATE_TITLE ,new PKeyBinding());
             Actions.BlueprintsUseAction = new PActionManager().CreateAction(ActionKeys.ACTION_USE_KEY,
                 STRINGS.UI.ACTIONS.USE_TITLE, new PKeyBinding());
-            //Actions.BlueprintsCreateFolderAction = new PActionManager().CreateAction(ActionKeys.ACTION_CREATEFOLDER_KEY,
-            //    STRINGS.UI.ACTIONS.CREATEFOLDER_TITLE, new PKeyBinding(KKeyCode.Home));
-            //Actions.BlueprintsRenameAction = new PActionManager().CreateAction(ActionKeys.ACTION_RENAME_KEY,
-            //    STRINGS.UI.ACTIONS.RENAME_TITLE, new PKeyBinding(KKeyCode.End));
-            //Actions.BlueprintsCycleFoldersNextAction = new PActionManager().CreateAction(ActionKeys.ACTION_CYCLEFOLDERS_NEXT_KEY,
-            //    STRINGS.UI.ACTIONS.CYCLEFOLDERS_NEXT_TITLE, new PKeyBinding(KKeyCode.UpArrow));
-            //Actions.BlueprintsCycleFoldersPrevAction = new PActionManager().CreateAction(ActionKeys.ACTION_CYCLEFOLDERS_PREV_KEY,
-            //    STRINGS.UI.ACTIONS.CYCLEFOLDERS_PREV_TITLE, new PKeyBinding(KKeyCode.DownArrow));
-            //Actions.BlueprintsCycleBlueprintsNextAction = new PActionManager().CreateAction(ActionKeys.ACTION_CYCLEBLUEPRINTS_NEXT_KEY,
-            //    STRINGS.UI.ACTIONS.CYCLEBLUEPRINTS_NEXT_TITLE, new PKeyBinding(KKeyCode.RightArrow));
-            //Actions.BlueprintsCycleBlueprintsPrevAction = new PActionManager().CreateAction(ActionKeys.ACTION_CYCLEBLUEPRINTS_PREV_KEY,
-            //    STRINGS.UI.ACTIONS.CYCLEBLUEPRINTS_PREV_TITLE, new PKeyBinding(KKeyCode.LeftArrow));
             Actions.BlueprintsSnapshotAction = new PActionManager().CreateAction(ActionKeys.ACTION_SNAPSHOT_KEY,
                 STRINGS.UI.ACTIONS.SNAPSHOT_TITLE, new PKeyBinding());
-            //Actions.BlueprintsDeleteAction = new PActionManager().CreateAction(ActionKeys.ACTION_DELETE_KEY,
-            //    STRINGS.UI.ACTIONS.DELETE_TITLE, new PKeyBinding(KKeyCode.Delete));
+            Actions.BlueprintsReopenSelectionAction = new PActionManager().CreateAction(ActionKeys.ACTION_RESELECT_KEY,
+                STRINGS.UI.ACTIONS.SELECT_DIFFERENT_TITLE, new PKeyBinding(KKeyCode.E, Modifier.Shift));
+            Actions.BlueprintsSwapAnchorAction = new PActionManager().CreateAction(ActionKeys.ACTION_SWAP_ANCHOR_KEY,
+                STRINGS.UI.ACTIONS.CHANGE_ANCHOR_TITLE, new PKeyBinding(KKeyCode.R, Modifier.Shift));
         }
 
         internal static bool IsStaticTag(BlueprintSelectedMaterial tagMaterial, out string name, out string desc, out Sprite icon)
@@ -431,27 +421,17 @@ namespace BlueprintsV2
         {
             public static string ACTION_CREATE_KEY = "Blueprints.create.opentool";
             public static string ACTION_USE_KEY = "Blueprints.use.opentool";
-            public static string ACTION_CREATEFOLDER_KEY = "Blueprints.use.assignfolder";
-            public static string ACTION_RENAME_KEY = "Blueprints.use.rename";
-            public static string ACTION_CYCLEFOLDERS_NEXT_KEY = "Blueprints.use.cyclefolders.next";
-            public static string ACTION_CYCLEFOLDERS_PREV_KEY = "Blueprints.use.cyclefolders.previous";
-            public static string ACTION_CYCLEBLUEPRINTS_NEXT_KEY = "Blueprints.use.cycleblueprints.next";
-            public static string ACTION_CYCLEBLUEPRINTS_PREV_KEY = "Blueprints.use.cycleblueprints.previous";
             public static string ACTION_SNAPSHOT_KEY = "Blueprints.snapshot.opentool";
-            public static string ACTION_DELETE_KEY = "Blueprints.multi.delete";
+            public static string ACTION_RESELECT_KEY = "Blueprints.reselect.opentool";
+            public static string ACTION_SWAP_ANCHOR_KEY = "Blueprints.anchorswap.opentool";
         }
         public static class Actions
         {
             public static PAction BlueprintsCreateAction { get; set; }
             public static PAction BlueprintsUseAction { get; set; }
-            public static PAction BlueprintsCreateFolderAction { get; set; }
-            //public static PAction BlueprintsRenameAction { get; set; }
-            public static PAction BlueprintsCycleFoldersNextAction { get; set; }
-            public static PAction BlueprintsCycleFoldersPrevAction { get; set; }
-            public static PAction BlueprintsCycleBlueprintsNextAction { get; set; }
-            public static PAction BlueprintsCycleBlueprintsPrevAction { get; set; }
             public static PAction BlueprintsSnapshotAction { get; set; }
-            public static PAction BlueprintsDeleteAction { get; set; }
+            public static PAction BlueprintsReopenSelectionAction { get; set; }
+            public static PAction BlueprintsSwapAnchorAction { get; set; }
         }
     }
 }

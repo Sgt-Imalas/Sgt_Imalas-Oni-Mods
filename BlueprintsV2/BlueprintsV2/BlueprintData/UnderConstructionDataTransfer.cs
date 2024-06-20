@@ -1,4 +1,4 @@
-﻿using BlueprintsV2.BlueprintsV2.ModAPI;
+﻿using BlueprintsV2.ModAPI;
 using Klei.AI;
 using KSerialization;
 using Newtonsoft.Json;
@@ -13,7 +13,7 @@ using UnityEngine;
 using UtilLibs;
 using static ResearchTypes;
 
-namespace BlueprintsV2.BlueprintsV2.BlueprintData
+namespace BlueprintsV2.BlueprintData
 {
     internal class UnderConstructionDataTransfer : KMonoBehaviour
     {

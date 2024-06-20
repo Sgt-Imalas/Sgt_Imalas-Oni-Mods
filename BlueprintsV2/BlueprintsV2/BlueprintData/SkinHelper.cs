@@ -1,5 +1,5 @@
 ﻿
-using BlueprintsV2.BlueprintsV2.ModAPI;
+using BlueprintsV2.ModAPI;
 using HarmonyLib;
 using Newtonsoft.Json.Linq;
 using System;
@@ -12,7 +12,7 @@ using UtilLibs;
 using static LogicGateVisualizer;
 using static STRINGS.UI.BUILDCATEGORIES;
 
-namespace BlueprintsV2.BlueprintsV2.BlueprintData
+namespace BlueprintsV2.BlueprintData
 {
     internal class SkinHelper
     {
@@ -108,9 +108,20 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 
             if (moodLampCmp != null)
             {
-                string currentVariantID = arg2.GetValue("currentVariantID").Value<string>();
+                string currentVariantID = arg2.GetValue("currentVariantID")?.Value<string>();
 
-                Traverse.Create(moodLampCmp).Method("SetVariant", new[] { typeof(string) }).GetValue(currentVariantID);
+                if (currentVariantID != null) 
+                    Traverse.Create(moodLampCmp).Method("SetVariant", new[] { typeof(string) }).GetValue(currentVariantID);
+            }
+            if(arg2.TryGetValue("colorHex", out var colorHexToken))
+            {
+                var tintableLampCmp = arg1.GetComponent("TintableLamp");
+                if(tintableLampCmp != null)                {
+
+                    string colorHex = colorHexToken.Value<string>();
+                    var color = Util.ColorFromHex(colorHex);
+                    Traverse.Create(tintableLampCmp).Method("SetColor", new[] { typeof(Color) }).GetValue(color);
+                }
 
             }
         }
@@ -118,17 +129,32 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
         internal static JObject TryStoreMoodLamp(GameObject arg)
         {
             JObject data = null;
+            string currentVariantID = null;
+            string colorHex = null;
+
             var moodLampCmp = arg.GetComponent("MoodLamp");
             if (moodLampCmp != null)
             {
-                var currentVariantID = Traverse.Create(moodLampCmp).Field("currentVariantID").GetValue() as string;
+                currentVariantID = Traverse.Create(moodLampCmp).Field("currentVariantID").GetValue() as string;                
+            }
+            var tintableLampCmp = arg.GetComponent("TintableLamp"); 
+            if (tintableLampCmp != null)
+            {
+                colorHex = Traverse.Create(tintableLampCmp).Field("colorHex").GetValue() as string;
+            }
 
-                //SgtLogger.l($"Pattern: {pattern}, colorHex: {colorHex}");
+            if (currentVariantID != null)
+            {
                 data = new JObject()
                 {
                     {"currentVariantID", currentVariantID}
                 };
+
+                if(colorHex != null)
+                    data.Add("colorHex",colorHex);
             }
+
+
             return data;
         }
 

@@ -1,4 +1,4 @@
-﻿using BlueprintsV2.BlueprintsV2.ModAPI;
+﻿using BlueprintsV2.ModAPI;
 using HarmonyLib;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -13,7 +13,7 @@ using static HoverTextDrawer;
 using static ModInfo;
 using static PixelPack;
 
-namespace BlueprintsV2.BlueprintsV2.BlueprintData
+namespace BlueprintsV2.BlueprintData
 {
     internal class DataTransferHelpers
     {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using static BlueprintsV2.ModAssets;
 
-namespace BlueprintsV2.BlueprintsV2.BlueprintData
+namespace BlueprintsV2.BlueprintData
 {
     /// <summary>
     /// Represents a folder of unsorted blueprints. 

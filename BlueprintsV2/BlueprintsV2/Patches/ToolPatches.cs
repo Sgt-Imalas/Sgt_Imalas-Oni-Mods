@@ -1,5 +1,5 @@
-﻿using BlueprintsV2.BlueprintsV2.BlueprintData;
-using BlueprintsV2.BlueprintsV2.Tools;
+﻿using BlueprintsV2.BlueprintData;
+using BlueprintsV2.Tools;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using TMPro;
 using static BlueprintsV2.ModAssets;
 using static BlueprintsV2.STRINGS;
 
-namespace BlueprintsV2.BlueprintsV2.Patches
+namespace BlueprintsV2.Patches
 {
     internal class ToolPatches
     {

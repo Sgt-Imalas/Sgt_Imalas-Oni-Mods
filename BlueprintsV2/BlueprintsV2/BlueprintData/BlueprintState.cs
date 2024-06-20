@@ -1,6 +1,7 @@
-﻿using BlueprintsV2.BlueprintsV2.ModAPI;
-using BlueprintsV2.BlueprintsV2.Tools;
-using BlueprintsV2.BlueprintsV2.Visualizers;
+﻿using BlueprintsV2.ModAPI;
+using BlueprintsV2.Tools;
+using BlueprintsV2.Visualizers;
+using Mono.Cecil.Cil;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static STRINGS.BUILDING.STATUSITEMS;
 
-namespace BlueprintsV2.BlueprintsV2.BlueprintData
+namespace BlueprintsV2.BlueprintData
 {
     public struct CellColorPayload
     {
@@ -27,9 +29,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 
     public static class BlueprintState
     {
-        public static string SelectedBlueprintFolder=string.Empty;
-
-
+        public static string SelectedBlueprintFolder = string.Empty;
 
         public static bool InstantBuild => DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive && SandboxToolParameterMenu.instance.settings.InstantBuild;
 
@@ -44,7 +44,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
             Blueprint blueprint = new Blueprint("unnamed", "");
 
             int blueprintHeight = (topLeft.y - bottomRight.y);
-            bool collectingGasTiles = filter!=null && filter.AllowedLayer(SolidTileFiltering.ObjectLayerFilterKey);
+            bool collectingGasTiles = filter != null && filter.AllowedLayer(SolidTileFiltering.ObjectLayerFilterKey);
 
             for (int x = topLeft.x; x <= bottomRight.x; ++x)
             {
@@ -82,7 +82,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
                                 {
                                     building = underConstruction;
                                 }
-                                else if(building == null)
+                                else if (building == null)
                                 {
                                     gameObject.TryGetComponent(out building);
                                 }
@@ -114,9 +114,9 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
                                     }
                                     API_Methods.StoreAdditionalBuildingData(gameObject, buildingConfig);
 
-                                    if (!blueprint.BuildingConfiguration.Contains(buildingConfig))
+                                    if (!blueprint.BuildingConfigurations.Contains(buildingConfig))
                                     {
-                                        blueprint.BuildingConfiguration.Add(buildingConfig);
+                                        blueprint.BuildingConfigurations.Add(buildingConfig);
                                     }
 
                                     emptyCell = false;
@@ -137,7 +137,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
                 }
             }
             //empty blueprint that caught some gas/liquid pockets, clear to not spam quasi empty blueprints
-            if(blueprint.BuildingConfiguration.Count==0 && blueprint.DigLocations.Count>0)
+            if (blueprint.BuildingConfigurations.Count == 0 && blueprint.DigLocations.Count > 0)
             {
                 blueprint.DigLocations.Clear();
             }
@@ -156,7 +156,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
             int errors = 0;
             ClearVisuals();
 
-            foreach (BuildingConfig buildingConfig in blueprint.BuildingConfiguration)
+            foreach (BuildingConfig buildingConfig in blueprint.BuildingConfigurations)
             {
                 if (buildingConfig.BuildingDef == null || buildingConfig.SelectedElements.Count == 0)
                 {
@@ -192,9 +192,9 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
                 FoundationVisuals.Add(new DigVisual(Grid.XYToCell(topLeft.x + digLocation.x, topLeft.y + digLocation.y), digLocation));
             }
 
-            if (UseBlueprintTool.Instance.GetComponent<UseBlueprintToolHoverCard>() != null)
+            if (UseBlueprintTool.Instance.HoverCard != null)
             {
-                UseBlueprintTool.Instance.GetComponent<UseBlueprintToolHoverCard>().prefabErrorCount = errors;
+                UseBlueprintTool.Instance.HoverCard.prefabErrorCount = errors;
             }
         }
 
@@ -216,41 +216,83 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
             }
         }
 
-        public static void UpdateVisual(Vector2I topLeft)
-        {
-            CleanDirtyVisuals();
+        static int _state = 0;
 
-            FoundationVisuals.ForEach(foundationVisual => foundationVisual.MoveVisualizer(Grid.XYToCell(topLeft.x + foundationVisual.Offset.x, topLeft.y + foundationVisual.Offset.y)));
-            DependentVisuals.ForEach(dependentVisual => dependentVisual.MoveVisualizer(Grid.XYToCell(topLeft.x + dependentVisual.Offset.x, topLeft.y + dependentVisual.Offset.y)));
+        static List<Tuple<float, float>> ShiftStates = new List<Tuple<float, float>>()
+        {
+            new (0,0),
+            new (0,1),
+            new (1,1),
+            new (1,0),
+            new(0.5f,0.5f)
+
+        };
+
+        public static void NextAnchorState()
+        {
+            _state = (_state + 1) % ShiftStates.Count;
+            var mousePos = PlayerController.GetCursorPos(KInputManager.GetMousePos());
+
+            UpdateVisual(new((int)mousePos.x, (int)mousePos.y),true);
         }
 
+        static Vector2I GetShiftedPositions(Vector2I startPos, Blueprint bp = null)
+        {
+            if (bp == null)
+                bp = ModAssets.SelectedBlueprint;
+            if (bp == null)
+                return startPos;
+
+
+            var current = ShiftStates[_state];
+
+            float diffX = current.first;
+            float diffY = current.second;
+
+            var dimensions = bp.Dimensions;
+            SgtLogger.l(dimensions.ToString());
+            int shiftX = (int)(dimensions.X * diffX);
+            int shiftY = (int)(dimensions.Y * diffY);
+
+
+            var newVector = new Vector2I(startPos.X - shiftX, startPos.Y - shiftY);
+
+            return newVector;
+        }
+
+
+        public static void UpdateVisual(Vector2I topLeft, bool forcingRedraw = false)
+        {
+            CleanDirtyVisuals();
+            topLeft = GetShiftedPositions(topLeft);
+
+            FoundationVisuals.ForEach(foundationVisual =>
+            {
+                var newPos = (topLeft + foundationVisual.Offset);
+                foundationVisual.MoveVisualizer(Grid.XYToCell(newPos.x, newPos.y), forcingRedraw);
+            });
+            DependentVisuals.ForEach(dependentVisual =>
+            {
+                var newPos = (topLeft + dependentVisual.Offset);
+                dependentVisual.MoveVisualizer(Grid.XYToCell(newPos.x, newPos.y), forcingRedraw);
+            });
+        }
         public static void UseBlueprint(Vector2I topLeft)
         {
             CleanDirtyVisuals();
-            //float delay = 0;
-
-
-            //var scheduler =
-            //    GameScheduler.Instance;
-            //foreach (var visual in FoundationVisuals)
-            //{
-            //    int cell = Grid.XYToCell(topLeft.x + visual.Offset.x, topLeft.y + visual.Offset.y);
-
-            //    scheduler.Schedule("delayed placing", delay, (_)=>visual.TryUse(cell));
-            //    delay += 0.2f;
-            //}
-            //foreach (var visual in DependentVisuals)
-            //{
-            //    int cell = Grid.XYToCell(topLeft.x + visual.Offset.x, topLeft.y + visual.Offset.y);
-
-            //    scheduler.Schedule("delayed placing", delay, (_) => visual.TryUse(cell));
-            //    delay += 0.2f;
-            //}
-
-
-            FoundationVisuals.ForEach(foundationVisual => foundationVisual.TryUse(Grid.XYToCell(topLeft.x + foundationVisual.Offset.x, topLeft.y + foundationVisual.Offset.y)));
-            DependentVisuals.ForEach(dependentVisual => dependentVisual.TryUse(Grid.XYToCell(topLeft.x + dependentVisual.Offset.x, topLeft.y + dependentVisual.Offset.y)));
+            topLeft = GetShiftedPositions(topLeft);
+            FoundationVisuals.ForEach(foundationVisual =>
+            {
+                var newPos = (topLeft + foundationVisual.Offset);
+                foundationVisual.TryUse(Grid.XYToCell(newPos.x, newPos.y));
+            });
+            DependentVisuals.ForEach(dependentVisual =>
+            {
+                var newPos = (topLeft + dependentVisual.Offset);
+                dependentVisual.TryUse(Grid.XYToCell(newPos.x, newPos.y));
+            });
         }
+
 
         public static void ClearVisuals()
         {
@@ -276,6 +318,6 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
             CleanableVisuals.ForEach(cleanableVisual => cleanableVisual.Clean());
         }
 
-        
+
     }
 }

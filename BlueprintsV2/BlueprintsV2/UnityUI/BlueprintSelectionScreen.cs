@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs.UIcmp;
 using UtilLibs;
-using BlueprintsV2.BlueprintsV2.UnityUI.Components;
+using BlueprintsV2.UnityUI.Components;
 using UnityEngine.UI;
 using static Database.MonumentPartResource;
 using TemplateClasses;
-using BlueprintsV2.BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintData;
 using UtilLibs.UI.FUI;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SCROLLAREA.CONTENT;
 
-namespace BlueprintsV2.BlueprintsV2.UnityUI
+namespace BlueprintsV2.UnityUI
 {
     internal class BlueprintSelectionScreen : FScreen
     {
@@ -117,12 +117,12 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
             MaterialHeaderTitle = transform.Find("MaterialSwitch/MaterialsHeader/Label").gameObject.AddOrGet<LocText>();
 
             SevereErrorGO = transform.Find("MaterialSwitch/MaterialsHeader/WarningSevere").gameObject;
-            SevereErrorTooltip = UIUtils.AddSimpleTooltipToObject(SevereErrorGO.transform, string.Empty);
+            SevereErrorTooltip = UIUtils.AddSimpleTooltipToObject(SevereErrorGO.transform,MATERIALSWITCH.WARNINGSEVERE);
             SevereErrorGO.SetActive(false);
 
 
             ErrorGO = transform.Find("MaterialSwitch/MaterialsHeader/Warning").gameObject;
-            ErrorTooltip = UIUtils.AddSimpleTooltipToObject(ErrorGO.transform, string.Empty);
+            ErrorTooltip = UIUtils.AddSimpleTooltipToObject(ErrorGO.transform, MATERIALSWITCH.WARNING);
             ErrorGO.SetActive(false);
 
             var ElementEntryPrefabGo = transform.Find("MaterialSwitch/ScrollArea/Content/PresetEntryPrefab").gameObject;
@@ -138,7 +138,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
             ClearReplacementElementSearchbar.OnClick += () => ReplacementElementSearchbar.Text = string.Empty;
             ReplacementElementsContainer = transform.Find("MaterialReplacer/ScrollArea/Content").gameObject;
             ToReplaceName = transform.Find("MaterialReplacer/ToReplace/CurrentlyActive/Label").gameObject.GetComponent<LocText>();
-            NoItems = transform.Find("MaterialReplacer/ScrollArea/NoReplaceElements")?.gameObject; 
+            NoItems = transform.Find("MaterialSwitch/ScrollArea/Content/NoElementsInBlueprint")?.gameObject; 
 
             var ReplaceElementEntryGo = transform.Find("MaterialReplacer/ScrollArea/Content/CarePackagePrefab").gameObject;
             ReplaceElementEntryGo.SetActive(false);
@@ -201,6 +201,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
         }
         void SetMaterialState()
         {
+            int allMaterialsState = 0;
             ShowReplacementItems(false);
             if (TargetBlueprint == null)
             {
@@ -216,6 +217,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 
                 var blueprintMaterials = TargetBlueprint.BlueprintCost.OrderByDescending(kvp => kvp.Value).ToList();
 
+                NoItems.SetActive(blueprintMaterials.Count() == 0);
                 BlueprintsElements.SetActive(true);
                 MaterialHeaderTitle.SetText(string.Format(MATERIALSWITCH.MATERIALSHEADER.LABEL, TargetBlueprint.FriendlyName));
                 foreach (var kvp in blueprintMaterials)
@@ -225,11 +227,28 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
                     Tag replacementTag = null;
                     var uiEntry = AddOrGetBlueprintElementEntry(kvp.Key);
                     uiEntry.gameObject.SetActive(true);
-                    uiEntry.Refresh(TargetBlueprint);
+                    int materialState = uiEntry.Refresh(TargetBlueprint);
+                    if(materialState>allMaterialsState)
+                        allMaterialsState = materialState;
                     uiEntry.SetTotalAmount(kvp.Value);
                     uiEntry.transform.SetAsLastSibling();
 
                 }
+            }
+            switch(allMaterialsState)
+            {
+                case 0:
+                    SevereErrorGO.SetActive(false); 
+                    ErrorGO.SetActive(false);
+                    break;
+                case 1:
+                    SevereErrorGO.SetActive(false);
+                    ErrorGO.SetActive(true);
+                    break;
+                case 2:
+                    SevereErrorGO.SetActive(true);
+                    ErrorGO.SetActive(false);
+                    break;
             }
         }
         void UpdateBlueprintButtons()
@@ -351,6 +370,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
         void OnPlaceBlueprint()
         {
             ModAssets.SelectedBlueprint = TargetBlueprint;
+            TargetBlueprint = null;
             Show(false);
         }
 
@@ -404,7 +424,6 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
             PreviouslyActiveMaterialReplacementButtons.Clear();
 
             var replacementTags = ModAssets.GetValidMaterials(materialTypeTag.CategoryTag);
-            NoItems?.SetActive(replacementTags.Count() == 0);
 
             foreach (var replacementTag in replacementTags)
             {

@@ -1,4 +1,4 @@
-﻿using BlueprintsV2.BlueprintsV2.BlueprintData;
+﻿using BlueprintsV2.BlueprintData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
 
-namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
+namespace BlueprintsV2.UnityUI.Components
 {
     internal class ReplaceElementEntry : KMonoBehaviour
     {

@@ -1,4 +1,4 @@
-﻿using BlueprintsV2.BlueprintsV2.Tools;
+﻿using BlueprintsV2.Tools;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace BlueprintsV2.BlueprintsV2.Patches
+namespace BlueprintsV2.Patches
 {
     internal class InputPatches
     {

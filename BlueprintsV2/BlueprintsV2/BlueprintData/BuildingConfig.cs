@@ -1,4 +1,4 @@
-﻿using BlueprintsV2.BlueprintsV2.ModAPI;
+﻿using BlueprintsV2.ModAPI;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UtilLibs;
 
-namespace BlueprintsV2.BlueprintsV2.BlueprintData
+namespace BlueprintsV2.BlueprintData
 {
 
     /// <summary>

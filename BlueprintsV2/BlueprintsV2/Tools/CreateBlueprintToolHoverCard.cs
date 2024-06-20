@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BlueprintsV2.BlueprintsV2.Tools
+namespace BlueprintsV2.Tools
 {
     public sealed class CreateBlueprintToolHoverCard : HoverTextConfiguration
     {

@@ -1,5 +1,5 @@
 ﻿
-using BlueprintsV2.BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintData;
 using PeterHan.PLib.UI;
 using ProcGen.Noise;
 using System;
@@ -9,7 +9,7 @@ using TUNING;
 using UnityEngine;
 using UtilLibs;
 
-namespace BlueprintsV2.BlueprintsV2.Tools
+namespace BlueprintsV2.Tools
 {
     [AddComponentMenu("KMonoBehaviour/scripts/ToolParameterMenu")]
     public class MultiToolParameterMenu : KMonoBehaviour

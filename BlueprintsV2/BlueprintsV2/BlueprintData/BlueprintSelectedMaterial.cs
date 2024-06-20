@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using YamlDotNet.Core.Tokens;
 
-namespace BlueprintsV2.BlueprintsV2.BlueprintData
+namespace BlueprintsV2.BlueprintData
 {
     public class BlueprintSelectedMaterial : IEquatable<BlueprintSelectedMaterial>
     {

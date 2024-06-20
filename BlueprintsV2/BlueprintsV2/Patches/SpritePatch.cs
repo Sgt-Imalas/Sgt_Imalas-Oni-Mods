@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UtilLibs;
 
-namespace BlueprintsV2.BlueprintsV2.Patches
+namespace BlueprintsV2.Patches
 {
     internal class SpritePatch
     {

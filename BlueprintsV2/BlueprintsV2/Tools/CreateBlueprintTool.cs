@@ -1,13 +1,13 @@
 ﻿
 using BlueprintsV2;
-using BlueprintsV2.BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintData;
 using HarmonyLib;
 using PeterHan.PLib.Options;
 using System.Reflection;
 using UnityEngine;
 using UtilLibs;
 
-namespace BlueprintsV2.BlueprintsV2.Tools
+namespace BlueprintsV2.Tools
 {
     public sealed class CreateBlueprintTool : MultiFilteredDragTool
     {

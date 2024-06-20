@@ -1,4 +1,4 @@
-﻿using BlueprintsV2.BlueprintsV2.BlueprintData;
+﻿using BlueprintsV2.BlueprintData;
 using HarmonyLib;
 using Klei.AI;
 using System;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 
-namespace BlueprintsV2.BlueprintsV2.Patches
+namespace BlueprintsV2.Patches
 {
     internal class DataTransferPatches
     {

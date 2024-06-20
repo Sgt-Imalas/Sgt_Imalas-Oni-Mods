@@ -2,7 +2,7 @@
 using STRINGS;
 using System.Collections.Generic;
 
-namespace BlueprintsV2.BlueprintsV2.Tools
+namespace BlueprintsV2.Tools
 {
     public sealed class SnapshotToolHoverCard : HoverTextConfiguration
     {
@@ -31,8 +31,12 @@ namespace BlueprintsV2.BlueprintsV2.Tools
 
             if (UsingSnapshot)
             {
-               // drawer.NewLine(32);
-                //drawer.DrawText(string.Format(STRINGS.UI.TOOLS.SNAPSHOT_TOOL.NEWSNAPSHOT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsDeleteAction.GetKAction()) + "]")), Styles_Instruction.Standard);
+                drawer.NewLine(32);
+                drawer.DrawText(string.Format(STRINGS.UI.TOOLS.SNAPSHOT_TOOL.NEWSNAPSHOT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsReopenSelectionAction.GetKAction()) + "]")), Styles_Instruction.Standard);
+
+                drawer.NewLine(32);
+                drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.ACTION_CHANGE_ANCHOR, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSwapAnchorAction.GetKAction()) + "]")), Styles_Instruction.Standard);
+
             }
 
             drawer.EndShadowBar();

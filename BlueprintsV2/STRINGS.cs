@@ -63,6 +63,8 @@ namespace BlueprintsV2
                 }
                 public class MATERIALSWITCH
                 {
+                    public static LocString WARNING = "Some materials in the blueprint require more mass than available on the current asteroid!";
+                    public static LocString WARNINGSEVERE = "Some materials in the blueprint are not unlocked yet!";
                     public class MATERIALSHEADER
                     {
                         public static LocString LABEL = "Materials in \"{0}\":";
@@ -140,13 +142,9 @@ namespace BlueprintsV2
             {
                 public static LocString CREATE_TITLE = "Create Blueprint";
                 public static LocString USE_TITLE = "Use Blueprint";
-                public static LocString CREATEFOLDER_TITLE = "Create Folder";
-                public static LocString CYCLEFOLDERS_NEXT_TITLE = "Next Folder";
-                public static LocString CYCLEFOLDERS_PREV_TITLE = "Previous Folder";
-                public static LocString CYCLEBLUEPRINTS_NEXT_TITLE = "Next Blueprint";
-                public static LocString CYCLEBLUEPRINTS_PREV_TITLE = "Previous Blueprint";
                 public static LocString SNAPSHOT_TITLE = "Take Snapshot";
-                public static LocString DELETE_TITLE = "Delete Blueprint/Snapshot";
+                public static LocString SELECT_DIFFERENT_TITLE = "Select different Blueprint";
+                public static LocString CHANGE_ANCHOR_TITLE = "Change Blueprint Anchor";
             }
             public class TOOLS
             {
@@ -169,19 +167,16 @@ namespace BlueprintsV2
                     public static LocString LOADEDBLUEPRINTS_ADDITIONAL = "additional";
                     public static LocString LOADEDBLUEPRINTS_FEWER = "fewer";
                     public static LocString TOOLTIP_TITLE = "USE BLUEPRINT TOOL";
-                    public static LocString ACTION_CLICK = "CLICK";
-                    public static LocString ACTION_BACK = "BACK";
-                    public static LocString CYCLEFOLDERS = "Use {0} and {1} to cycle folders.";
-                    public static LocString CYCLEBLUEPRINTS = "Use {0} and {1} to cycle blueprints.";
-                    public static LocString FOLDERBLUEPRINT = "Press {0} to assign folder.";
-                    public static LocString FOLDERBLUEPRINT_NA = "Same folder provided - no change made.";
-                    public static LocString MOVEDBLUEPRINT = "Moved \"{0}\" to \"{1}\"";
-                    public static LocString NAMEBLUEPRINT = "Press {0} to rename blueprint.";
-                    public static LocString DELETEBLUEPRINT = "Press {0} to delete blueprint.";
+                    public static LocString ACTION_CLICK = "PLACE";
+                    public static LocString ACTION_BACK = "CANCEL";
+
+                    public static LocString ACTION_SELECT = "Adjust selected blueprint: {0}";
+                    public static LocString ACTION_CHANGE_ANCHOR = "Change blueprint anchor point: {0}";
+
                     public static LocString ERRORMESSAGE = "This blueprint contained {0} misconfigured or missing prefabs which have been omitted!";
-                    public static LocString SELECTEDBLUEPRINT = "Selected \"{0}\" ({1}/{2}) from \"{3}\" ({4}/{5})";
-                    public static LocString FOLDEREMPTY = "Selected folder \"{0}\" is empty!";
                     public static LocString NOBLUEPRINTS = "No blueprints loaded!";
+                    public static LocString NONESELECTED = "No blueprint selected!";
+                    public static LocString SELECTEDBLUEPRINT = "Selected blueprint: {0}";
                 }
                 public class SNAPSHOT_TOOL
                 {
@@ -192,12 +187,11 @@ namespace BlueprintsV2
                     public static LocString TOOLTIP_TITLE = "SNAPSHOT TOOL";
                     public static LocString ACTION_CLICK = "CLICK";
                     public static LocString ACTION_DRAG = "DRAG";
-                    public static LocString ACTION_BACK = "BACK";
+                    public static LocString ACTION_BACK = "CANCEL";
                     public static LocString NEWSNAPSHOT = "Press {0} to take new snapshot.";
                 }
                 public class FILTERLAYERS
                 {
-                    public static LocString GASTILES = "Gas Tiles";
                     public static LocString ALL = "All";
                     public static LocString NONE = "None";
                     public static LocString BLUEPRINTV2_PRESERVEAIRTILES = "Air Pockets";
