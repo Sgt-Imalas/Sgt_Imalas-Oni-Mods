@@ -6,6 +6,7 @@ using HarmonyLib;
 using PeterHan.PLib.Options;
 using System.Reflection;
 using UnityEngine;
+using UtilLibs;
 
 namespace BlueprintsV2.Tools
 {
@@ -130,6 +131,13 @@ namespace BlueprintsV2.Tools
                 Grid.PosToXY(cursorDown, out int x0, out int y0);
                 Grid.PosToXY(cursorUp, out int x1, out int y1);
 
+                float shiftX=0, shiftY=0;
+                if(x0<x1)
+                    shiftX = 1;
+                if (y0 < y1)
+                    shiftY = 1;
+
+
                 if (x0 > x1)
                 {
                     Util.Swap(ref x0, ref x1);
@@ -143,12 +151,12 @@ namespace BlueprintsV2.Tools
                 var blueprint1 = BlueprintState.CreateBlueprint(new Vector2I(x0, y0), new Vector2I(x1, y1), MultiToolParameterMenu.Instance);
                 if (blueprint1.IsEmpty())
                 {
-                    PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.SNAPSHOT_TOOL.EMPTY, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
+                    PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.SNAPSHOT_TOOL.EMPTY, null, offset: PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
                 }
-
                 else
                 {
                     BlueprintState.VisualizeBlueprint(Grid.PosToXY(PlayerController.GetCursorPos(KInputManager.GetMousePos())), blueprint1);
+                    BlueprintState.SetAnchorState(shiftX, shiftY, blueprint1);
 
                     MultiToolParameterMenu.Instance.HideMenu();
                     ToolMenu.Instance.PriorityScreen.Show();
@@ -193,7 +201,7 @@ namespace BlueprintsV2.Tools
 
             else if (hasFocus)
             {
-                BlueprintState.UpdateVisual(Grid.PosToXY(cursorPos));
+                BlueprintState.UpdateVisual(Grid.PosToXY(cursorPos),false, blueprint);
             }
         }
 
@@ -206,7 +214,7 @@ namespace BlueprintsV2.Tools
             }
             if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSwapAnchorAction.GetKAction()))
             {
-                BlueprintState.NextAnchorState();
+                BlueprintState.NextAnchorState(blueprint);
             }
 
             base.OnKeyDown(buttonEvent);

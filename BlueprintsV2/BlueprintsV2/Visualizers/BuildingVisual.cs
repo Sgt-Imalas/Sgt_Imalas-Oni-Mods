@@ -13,8 +13,11 @@ namespace BlueprintsV2.Visualizers
 {
     public class BuildingVisual : IVisual
     {
+
         public GameObject Visualizer { get; protected set; }
         public Vector2I Offset { get; protected set; }
+
+        public PlanScreen.RequirementsState RequirementsState { get; protected set; }
 
         protected int cell;
 
@@ -51,6 +54,7 @@ namespace BlueprintsV2.Visualizers
             {
                 Visualizer.SetLayerRecursively(LayerMask.NameToLayer("Place"));
             }
+            UpdateRequirementsState();
         }
 
         public virtual bool IsPlaceable(int cellParam)
@@ -148,10 +152,31 @@ namespace BlueprintsV2.Visualizers
             return false;
         }
 
+        bool ReplacementLayerOccupied(int cellParam)
+        {
+            var def = buildingConfig.BuildingDef;
+            var objOnLayer = Grid.Objects[cellParam, (int)def.ReplacementLayer];
+
+            if (objOnLayer != null && objOnLayer != Visualizer)
+                return true;
+            if (def.EquivalentReplacementLayers != null)
+            {
+                foreach (ObjectLayer replacementLayer in def.EquivalentReplacementLayers)
+                {
+                    objOnLayer = Grid.Objects[cellParam, (int)replacementLayer];
+                    if (objOnLayer != null && objOnLayer != Visualizer)
+                        return true;
+                }
+            }
+            return false;
+        }
+
         public virtual bool PlacePlannedBuilding(int cellParam)
         {
-            Vector3 positionCbc = Grid.CellToPosCBC(cellParam, buildingConfig.BuildingDef.SceneLayer);
-            GameObject building = buildingConfig.BuildingDef.Instantiate(positionCbc, buildingConfig.Orientation, this.GetConstructionElements());
+            var def = buildingConfig.BuildingDef;
+            var orientation = buildingConfig.Orientation;
+            Vector3 positionCbc = Grid.CellToPosCBC(cellParam, def.SceneLayer);
+            GameObject building = def.Instantiate(positionCbc, orientation, this.GetConstructionElements());
             if (building == null)
             {
                 return false;
@@ -159,7 +184,7 @@ namespace BlueprintsV2.Visualizers
 
             if (building.GetComponent<Rotatable>() != null)
             {
-                building.GetComponent<Rotatable>().SetOrientation(buildingConfig.Orientation);
+                building.GetComponent<Rotatable>().SetOrientation(orientation);
             }
             ModAPI.API_Methods.ApplyAdditionalBuildingData(building, buildingConfig);
 
@@ -168,7 +193,7 @@ namespace BlueprintsV2.Visualizers
                 kbac.TintColour = ModAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT;
                 kbac.Play("place");
             }
-            if (buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null && building.TryGetComponent<KAnimGraphTileVisualizer>(out var vis) && buildingConfig.GetConduitFlags(out var flags))
+            if (def.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null && building.TryGetComponent<KAnimGraphTileVisualizer>(out var vis) && buildingConfig.GetConduitFlags(out var flags))
             {
                 vis.UpdateConnections((UtilityConnections)flags);
             }
@@ -192,8 +217,8 @@ namespace BlueprintsV2.Visualizers
                     {
                         CellOffset rotatedCellOffset = Rotatable.GetRotatedCellOffset(buildingConfig.BuildingDef.PlacementOffsets[index], buildingConfig.Orientation);
                         int offsetCell = Grid.OffsetCell(cellParam, rotatedCellOffset);
-
-                        WorldDamage.Instance.DestroyCell(offsetCell);
+                        if (!Grid.Objects[offsetCell,(int)ObjectLayer.FoundationTile])
+                            WorldDamage.Instance.DestroyCell(offsetCell);
                     }
                     return PlaceFinishedBuilding(cellParam);
                 }
@@ -353,27 +378,38 @@ namespace BlueprintsV2.Visualizers
                     || faiReason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_CORNER_FLOOR;
 
 
-                return ( IsValidPlaceLocation || IgnorableFailReason);
-                //replacement = buildingConfig.BuildingDef.IsValidReplaceLocation(pos, buildingConfig.Orientation, buildingConfig.BuildingDef.ReplacementLayer, buildingConfig.BuildingDef.ObjectLayer);
-                //return (validCell || replacement);
+                bool validCell = (IsValidPlaceLocation || IgnorableFailReason);
+
+                bool replacement = false;
+                    //BlueprintState.InstantBuild ? false : buildingConfig.BuildingDef.IsValidReplaceLocation(pos, buildingConfig.Orientation, buildingConfig.BuildingDef.ReplacementLayer, buildingConfig.BuildingDef.ObjectLayer);
+
+                return (validCell || replacement);
             }
 
             return false;
         }
+
+        public virtual void UpdateRequirementsState()
+        {
+            API_Methods.BuildableStateValid(buildingConfig.BuildingDef, out var state);
+            RequirementsState = state;
+        }
+
         public virtual Color GetVisualizerColor(int cellParam)
         {
+            UpdateRequirementsState();
             if (!ValidCell(cellParam))
             {
                 return ModAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT;
             }
-
             else if (!HasTech())
             {
                 return ModAssets.BLUEPRINTS_COLOR_NOTECH;
             }
+            else if (RequirementsState == PlanScreen.RequirementsState.Materials && Config.Instance.RequireConstructable)
+                return ModAssets.BLUEPRINTS_COLOR_NOMATERIALS;
             else if(!AllowedInWorld())
-                return ModAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT;
-
+                return ModAssets.BLUEPRINTS_COLOR_NOTALLOWEDINWORLD;
             else
             {
                 return ModAssets.BLUEPRINTS_COLOR_VALIDPLACEMENT;

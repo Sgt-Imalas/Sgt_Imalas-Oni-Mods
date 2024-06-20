@@ -119,7 +119,8 @@ namespace BlueprintsV2.ModAPI
             }
         }
 
-        public static bool IsBuildable(BuildingDef buildingDef)
+
+        public static bool AllowedByRules(BuildingDef buildingDef)
         {
             if (!buildingDef.ShowInBuildMenu)
             {
@@ -142,11 +143,20 @@ namespace BlueprintsV2.ModAPI
                 if (!check.Value(buildingDef))
                     return false;
             }
+            return true;
+        }
 
-
-            var buildableState = PlanScreen.Instance.GetBuildableStateForDef(buildingDef);
+        public static bool BuildableStateValid (BuildingDef buildingDef, out PlanScreen.RequirementsState buildableState)
+        {
+            buildableState = PlanScreen.Instance.GetBuildableStateForDef(buildingDef);
             //SgtLogger.l(buildableState.ToString(), "buildablestate");
             return buildableState == PlanScreen.RequirementsState.Complete || (!Config.Instance.RequireConstructable && (buildableState == PlanScreen.RequirementsState.Materials || buildableState == PlanScreen.RequirementsState.Tech));
+        }
+        public static bool IsBuildable(BuildingDef buildingDef)
+        {
+            if(!AllowedByRules(buildingDef))
+                return false;
+            return BuildableStateValid(buildingDef, out _);
         }
 
         public class BuildingDataStorage

@@ -87,7 +87,7 @@ namespace BlueprintsV2.BlueprintData
                                     gameObject.TryGetComponent(out building);
                                 }
                                 //SgtLogger.l($"{gameObject != null} && {building != null} && {API_Methods.IsBuildable(building.Def)} && {(filter == null || filter.BuildingDefAllowedWithCurrentFilters(building.Def))}");
-                                if (gameObject != null && building != null && API_Methods.IsBuildable(building.Def) && (filter == null || filter.BuildingDefAllowedWithCurrentFilters(building.Def)))
+                                if (gameObject != null && building != null && API_Methods.AllowedByRules(building.Def) && (filter == null || filter.BuildingDefAllowedWithCurrentFilters(building.Def)))
                                 {
                                     Vector2I centre = Grid.CellToXY(GameUtil.NaturalBuildingCell(building));
 
@@ -204,7 +204,6 @@ namespace BlueprintsV2.BlueprintData
             {
                 FoundationVisuals.Add(visual);
             }
-
             else
             {
                 DependentVisuals.Add(visual);
@@ -217,23 +216,46 @@ namespace BlueprintsV2.BlueprintData
         }
 
         static int _state = 0;
-
-        static List<Tuple<float, float>> ShiftStates = new List<Tuple<float, float>>()
+        static float diffX = 0, diffY = 0;
+        static List<AnchorState> ShiftStates = new ()
         {
-            new (0,0),
-            new (0,1),
-            new (1,1),
-            new (1,0),
-            new(0.5f,0.5f)
+            new ("bottomLeft",0,0),
+            new ("topLeft",0,1),
+            new ("topRight",1,1),
+            new ("bottomRight",1,0),
+            new("middle",0.5f,0.5f)
 
         };
 
-        public static void NextAnchorState()
+        public class AnchorState
+        {
+            public string Name;
+            public float diffX,diffY;   
+            public AnchorState(string name, float diffX, float diffY)
+            {
+                Name = name;
+                this.diffX = diffX;
+                this.diffY = diffY;
+            }
+        }
+        public static void SetAnchorState(float newDiffX = -1 ,float newDiffY = -1,Blueprint snapshotBlueprint = null)
+        {
+            if(newDiffX != -1)
+                diffX = newDiffX;
+            if(newDiffY != -1)
+                diffY = newDiffY;
+            var mousePos = PlayerController.GetCursorPos(KInputManager.GetMousePos());
+            UpdateVisual(new((int)mousePos.x, (int)mousePos.y), true, snapshotBlueprint);
+        }
+        public static void NextAnchorState(Blueprint snapshotBlueprint = null)
         {
             _state = (_state + 1) % ShiftStates.Count;
+            diffX = ShiftStates[_state].diffX;
+            diffY = ShiftStates[_state].diffY;
+
             var mousePos = PlayerController.GetCursorPos(KInputManager.GetMousePos());
 
-            UpdateVisual(new((int)mousePos.x, (int)mousePos.y),true);
+            UpdateVisual(new((int)mousePos.x, (int)mousePos.y),true, snapshotBlueprint);
         }
 
         static Vector2I GetShiftedPositions(Vector2I startPos, Blueprint bp = null)
@@ -242,12 +264,6 @@ namespace BlueprintsV2.BlueprintData
                 bp = ModAssets.SelectedBlueprint;
             if (bp == null)
                 return startPos;
-
-
-            var current = ShiftStates[_state];
-
-            float diffX = current.first;
-            float diffY = current.second;
 
             var dimensions = bp.Dimensions;
             int shiftX = (int)(dimensions.X * diffX);
@@ -260,10 +276,10 @@ namespace BlueprintsV2.BlueprintData
         }
 
 
-        public static void UpdateVisual(Vector2I topLeft, bool forcingRedraw = false)
+        public static void UpdateVisual(Vector2I topLeft, bool forcingRedraw = false, Blueprint snapshotBp = null)
         {
             CleanDirtyVisuals();
-            topLeft = GetShiftedPositions(topLeft);
+            topLeft = GetShiftedPositions(topLeft, snapshotBp);
 
             FoundationVisuals.ForEach(foundationVisual =>
             {

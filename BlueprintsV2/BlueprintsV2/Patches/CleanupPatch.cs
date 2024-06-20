@@ -19,7 +19,8 @@ namespace BlueprintsV2.Patches
                 UseBlueprintTool.DestroyInstance();
                 SnapshotTool.DestroyInstance();
                 MultiToolParameterMenu.DestroyInstance();
-
+                ModAssets.SelectedBlueprint = null;
+                ModAssets.SelectedFolder = null;    
                 ModAssets.BLUEPRINTS_AUTOFILE_WATCHER.Dispose();
             }
         }
