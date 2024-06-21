@@ -5,19 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace OniRetroEdition.MultiTools.FX
+namespace OniRetroEdition.FX
 {
-    internal class WaterSuckEffect : IEntityConfig
+    internal class BurnEffectLarge : IEntityConfig
     {
-        public const string ID = "WaterSuckFx";
+        public const string ID = "pyroFireLargeFx";
 
         public GameObject CreatePrefab()
         {
             var go = EntityTemplates.CreateEntity(ID, ID, false);
             var kbac = go.AddOrGet<KBatchedAnimController>();
-            kbac.AnimFiles = new KAnimFile[] { Assets.GetAnim("whirlpool_fx_kanim") };
+            kbac.AnimFiles = new KAnimFile[] { Assets.GetAnim("pyro_fire_fx_kanim") };
             kbac.materialType = KAnimBatchGroup.MaterialType.Simple;
-            kbac.initialAnim = "loop";
+            kbac.initialAnim = "fire_lg_loop";
             kbac.initialMode = KAnim.PlayMode.Loop;
             kbac.isMovable = true;
             kbac.destroyOnAnimComplete = false;

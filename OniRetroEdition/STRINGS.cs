@@ -4,11 +4,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static STRINGS.UI;
 
 namespace OniRetroEdition
 {
     internal class STRINGS
     {
+        public class BUILDINGS
+        {
+            public class PREFABS
+            {
+                public class RETROONI_WALLLAMP
+                {
+                    public static LocString NAME = FormatAsLink("Wall Lamp", nameof(RETROONI_WALLLAMP));
+                    public static LocString DESC = "The light helps imitate the Duplicants' natural aboveground habitat.\nSort of. Maybe.";
+                    public static LocString EFFECT = "Improves "+ FormatAsLink("Decor", "DECOR")+" and reduces "+ FormatAsLink("Stress", "STRESS")+" by providing "+ FormatAsLink("light", "LIGHT")+".";
+                }
+            }
+        }
         public class MISC
         {
             public class PLACERS
@@ -79,7 +92,7 @@ namespace OniRetroEdition
             }
             public class TOOLTIPS
             {
-                public static LocString MANAGEMENTMENU_REQUIRES_SKILL_STATION_RETRO = (LocString)("Build a Skills Board to unlock this menu\n\nThe " + (string)BUILDINGS.PREFABS.ROLESTATION.NAME + " can be found in the " + global::STRINGS.UI.FormatAsBuildMenuTab("Stations Tab", Action.Plan10) + " of the Build Menu");
+                public static LocString MANAGEMENTMENU_REQUIRES_SKILL_STATION_RETRO = (LocString)("Build a Skills Board to unlock this menu\n\nThe " + (string)global::STRINGS.BUILDINGS.PREFABS.ROLESTATION.NAME + " can be found in the " + global::STRINGS.UI.FormatAsBuildMenuTab("Stations Tab", Action.Plan10) + " of the Build Menu");
             }
 
         }

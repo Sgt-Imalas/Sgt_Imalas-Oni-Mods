@@ -4,6 +4,7 @@ using HarmonyLib;
 using Klei.AI;
 using OniRetroEdition.Behaviors;
 using OniRetroEdition.BuildingDefModification;
+using OniRetroEdition.Buildings;
 using OniRetroEdition.SlurpTool;
 using PeterHan.PLib.Actions;
 using PeterHan.PLib.Core;
@@ -45,6 +46,11 @@ namespace OniRetroEdition
 
             public static void Prefix()
             {
+                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, WallLampConfig.ID, CeilingLightConfig.ID);
+
+
+
+
                 foreach (var config in BuildingModifications.Instance.LoadedBuildingOverrides)
                 {
 
@@ -74,7 +80,9 @@ namespace OniRetroEdition
                     }
                 }
             }
-        }// <summary>
+
+        }
+        /// <summary>
         /// Register Buildings to existing Technologies (newly added techs are in "ResearchTreePatches" class
         /// </summary>
         [HarmonyPatch(typeof(Db))]
@@ -84,6 +92,10 @@ namespace OniRetroEdition
             public static void Postfix(Db __instance)
             {
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.Employment, RoleStationConfig.ID);
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Decor.GlassBlowing, WallLampConfig.ID);
+
+
+
                 foreach (var config in BuildingModifications.Instance.LoadedBuildingOverrides)
                 {
                     if (config.Value.techOverride != null && config.Value.techOverride.Length > 0)

@@ -5,17 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace OniRetroEdition.MultiTools.FX
+namespace OniRetroEdition.FX
 {
-    internal class DigIceEffect : IEntityConfig
+    internal class DigRockEffect : IEntityConfig
     {
-        public const string ID = "DigIceFx";
+        public const string ID = "DigRockFx";
 
         public GameObject CreatePrefab()
         {
             var go = EntityTemplates.CreateEntity(ID, ID, false);
             var kbac = go.AddOrGet<KBatchedAnimController>();
-            kbac.AnimFiles = new KAnimFile[] { Assets.GetAnim("dig_ice_kanim") };
+            kbac.AnimFiles = new KAnimFile[] { Assets.GetAnim("dig_rock_kanim") };
             kbac.materialType = KAnimBatchGroup.MaterialType.Simple;
             kbac.initialAnim = "idle";
             kbac.initialMode = KAnim.PlayMode.Loop;

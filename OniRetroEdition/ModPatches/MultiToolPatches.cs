@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
 using OniRetroEdition.Behaviors;
-using OniRetroEdition.MultiTools.FX;
+using OniRetroEdition.FX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
