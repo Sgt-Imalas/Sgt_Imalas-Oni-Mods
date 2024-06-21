@@ -180,7 +180,7 @@ namespace BlueprintsV2.Tools
 
             else if (hasFocus)
             {
-                BlueprintState.UseBlueprint(Grid.PosToXY(cursorPos));
+                BlueprintState.UseBlueprint(Grid.PosToXY(cursorPos), blueprint);
             }
         }
 

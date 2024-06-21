@@ -292,10 +292,10 @@ namespace BlueprintsV2.BlueprintData
                 dependentVisual.MoveVisualizer(Grid.XYToCell(newPos.x, newPos.y), forcingRedraw);
             });
         }
-        public static void UseBlueprint(Vector2I topLeft)
+        public static void UseBlueprint(Vector2I topLeft, Blueprint snapshotBp = null)
         {
             CleanDirtyVisuals();
-            topLeft = GetShiftedPositions(topLeft);
+            topLeft = GetShiftedPositions(topLeft, snapshotBp);
             FoundationVisuals.ForEach(foundationVisual =>
             {
                 var newPos = (topLeft + foundationVisual.Offset);
