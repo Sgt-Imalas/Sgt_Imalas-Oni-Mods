@@ -60,6 +60,45 @@ namespace BlueprintsV2.BlueprintData
                 }
             }
         }
+        internal class DataTransfer_LogicCounter
+        {
+            internal static JObject TryGetData(GameObject arg)
+            {
+                if (arg.TryGetComponent<LogicCounter>(out var component))
+                {
+                    return new JObject()
+                    {
+                        { "maxCount", JsonConvert.SerializeObject(component.maxCount)},
+                        { "resetCountAtMax", JsonConvert.SerializeObject(component.resetCountAtMax)},
+                        { "advancedMode", JsonConvert.SerializeObject(component.advancedMode)},
+                    };
+                }
+                return null;
+            }
+            public static void TryApplyData(GameObject building, JObject jObject)
+            {
+                if (jObject == null)
+                    return;
+                if (building.TryGetComponent<LogicCounter>(out var targetComponent))
+                {
+
+                    var t1 = jObject.GetValue("maxCount");
+                    if (t1 == null)
+                        return;
+                    targetComponent.maxCount = t1.Value<int>();
+
+                    var t2 = jObject.GetValue("resetCountAtMax");
+                    if (t2 == null)
+                        return;
+                    targetComponent.resetCountAtMax = t2.Value<bool>();
+
+                    var t3 = jObject.GetValue("advancedMode");
+                    if (t3 == null)
+                        return;
+                    targetComponent.advancedMode = t3.Value<bool>();
+                }
+            }
+        }
         internal class DataTransfer_PixelPack
         {
             class PixelPackColor
@@ -194,10 +233,40 @@ namespace BlueprintsV2.BlueprintData
                 }
             }
         }
+        internal class DataTransfer_SmartReservoir
+        {
+            internal static JObject TryGetData(GameObject arg)
+            {
+                if (arg.TryGetComponent<SmartReservoir>(out var component))
+                {
+                    return new JObject()
+                    {
+                        { "ActivateValue", component.ActivateValue},
+                        { "DeactivateValue", component.DeactivateValue},
+                    };
+                }
+                return null;
+            }
+            public static void TryApplyData(GameObject building, JObject jObject)
+            {
+                if (jObject == null)
+                    return;
+                if (building.TryGetComponent<SmartReservoir>(out var targetComponent))
+                {
+                    var t1 = jObject.GetValue("DeactivateValue");
+                    if (t1 == null)
+                        return;
+                    targetComponent.DeactivateValue = t1.Value<int>();
 
+                    var t2 = jObject.GetValue("DeactivateValue");
+                    if (t2 == null)
+                        return;
+                    targetComponent.ActivateValue = t2.Value<int>();
+                }
+            }
+        }
         internal class DataTransfer_TreeFilterable
         {
-            //active locations are disabled since those vary for each game
             internal static JObject TryGetData(GameObject arg)
             {
                 if (arg.TryGetComponent<TreeFilterable>(out var component))
@@ -206,7 +275,6 @@ namespace BlueprintsV2.BlueprintData
                         return null;
                     return new JObject()
                     {
-                        //{ "activeLocations", JsonConvert.SerializeObject(component.activeLocations.Select(axial => new Tuple<int,int>(axial.Q,axial.R)))},
                         { "acceptedTagSet", JsonConvert.SerializeObject(component.GetTags())},
                     };
                 }
@@ -257,6 +325,65 @@ namespace BlueprintsV2.BlueprintData
 
                     //applying values
                     targetComponent.SelectedTag = selectedTag;
+                }
+            }
+        }
+
+        internal class DataTransfer_LimitValve
+        {
+            internal static JObject TryGetData(GameObject arg)
+            {
+                if (arg.TryGetComponent<LimitValve>(out var component))
+                {
+                    return new JObject()
+                    {
+                        { "Limit", component.Limit}
+                    };
+                }
+                return null;
+            }
+            public static void TryApplyData(GameObject building, JObject jObject)
+            {
+                if (jObject == null)
+                    return;
+                if (building.TryGetComponent<LimitValve>(out var targetComponent))
+                {
+                    var t1 = jObject.GetValue("Limit");
+                    if (t1 == null)
+                        return;
+                    var Limit = t1.Value<float>();
+
+                    //applying values
+                    targetComponent.Limit = Limit;
+                }
+            }
+        }
+        internal class DataTransfer_Valve
+        {
+            internal static JObject TryGetData(GameObject arg)
+            {
+                if (arg.TryGetComponent<Valve>(out var component))
+                {
+                    return new JObject()
+                    {
+                        { "DesiredFlow", component.DesiredFlow}
+                    };
+                }
+                return null;
+            }
+            public static void TryApplyData(GameObject building, JObject jObject)
+            {
+                if (jObject == null)
+                    return;
+                if (building.TryGetComponent<Valve>(out var targetComponent))
+                {
+                    var t1 = jObject.GetValue("DesiredFlow");
+                    if (t1 == null)
+                        return;
+                    var DesiredFlow = t1.Value<float>();
+
+                    //applying values
+                    targetComponent.ChangeFlow(DesiredFlow);
                 }
             }
         }

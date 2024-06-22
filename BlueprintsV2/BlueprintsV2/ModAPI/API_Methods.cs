@@ -245,7 +245,8 @@ namespace BlueprintsV2.ModAPI
                 {
                     if (data == null)
                     {
-                        SgtLogger.l("data was null for " + key); return;
+                        SgtLogger.l("data was null for " + key); 
+                        return;
                     }
 
                     if (isUnderConstruction)
@@ -299,10 +300,15 @@ namespace BlueprintsV2.ModAPI
 
             RegisterInternally(nameof(Filterable), DataTransfer_Filterable.TryGetData, DataTransfer_Filterable.TryApplyData);
             RegisterInternally(nameof(TreeFilterable), DataTransfer_TreeFilterable.TryGetData, DataTransfer_TreeFilterable.TryApplyData);
+            RegisterInternally(nameof(SmartReservoir), DataTransfer_SmartReservoir.TryGetData, DataTransfer_SmartReservoir.TryApplyData);
+            RegisterInternally(nameof(Valve), DataTransfer_Valve.TryGetData, DataTransfer_Valve.TryApplyData);
+            RegisterInternally(nameof(LimitValve), DataTransfer_LimitValve.TryGetData, DataTransfer_LimitValve.TryApplyData);
+
             RegisterInternally(nameof(LogicCritterCountSensor), DataTransfer_LogicCritterCountSensor.TryGetData, DataTransfer_LogicCritterCountSensor.TryApplyData);
             RegisterInternally(nameof(LogicTimeOfDaySensor), DataTransfer_LogicTimeOfDaySensor.TryGetData, DataTransfer_LogicTimeOfDaySensor.TryApplyData);
             RegisterInternally(nameof(LogicTimerSensor), DataTransfer_LogicTimerSensor.TryGetData, DataTransfer_LogicTimerSensor.TryApplyData);
             RegisterInternally(nameof(LogicClusterLocationSensor), DataTransfer_LogicClusterLocationSensor.TryGetData, DataTransfer_LogicClusterLocationSensor.TryApplyData);
+            RegisterInternally(nameof(LogicCounter), DataTransfer_LogicCounter.TryGetData, DataTransfer_LogicCounter.TryApplyData);
 
 
             RegisterInternally(nameof(ConduitThresholdSensor), DataTransfer_GenericThresholdSensor<ConduitThresholdSensor>.TryGetData, DataTransfer_GenericThresholdSensor<ConduitThresholdSensor>.TryApplyData);
