@@ -195,6 +195,58 @@ namespace BlueprintsV2.BlueprintData
                 }
             }
         }
+        internal class DataTransfer_IUserControlledCapacity
+        {
+            internal static JObject TryGetData(GameObject arg)
+            {
+                if (arg.TryGetComponent<IUserControlledCapacity>(out var component))
+                {
+                    return new JObject()
+                    {
+                        { "UserMaxCapacity", component.UserMaxCapacity},
+                    };
+                }
+                return null;
+            }
+            public static void TryApplyData(GameObject building, JObject jObject)
+            {
+                if (jObject == null)
+                    return;
+                if (building.TryGetComponent<IUserControlledCapacity>(out var targetComponent))
+                {
+                    var t1 = jObject.GetValue("UserMaxCapacity");
+                    if (t1 == null)
+                        return;
+                    targetComponent.UserMaxCapacity = t1.Value<float>();
+                }
+            }
+        }
+        internal class DataTransfer_Automatable
+        {
+            internal static JObject TryGetData(GameObject arg)
+            {
+                if (arg.TryGetComponent<Automatable>(out var component))
+                {
+                    return new JObject()
+                    {
+                        { "automationOnly", component.automationOnly},
+                    };
+                }
+                return null;
+            }
+            public static void TryApplyData(GameObject building, JObject jObject)
+            {
+                if (jObject == null)
+                    return;
+                if (building.TryGetComponent<Automatable>(out var targetComponent))
+                {
+                    var t1 = jObject.GetValue("automationOnly");
+                    if (t1 == null)
+                        return;
+                    targetComponent.automationOnly = t1.Value<bool>();
+                }
+            }
+        }
         internal class DataTransfer_LogicTimeOfDaySensor
         {
             internal static JObject TryGetData(GameObject arg)
@@ -233,11 +285,12 @@ namespace BlueprintsV2.BlueprintData
                 }
             }
         }
-        internal class DataTransfer_SmartReservoir
+                
+        internal class DataTransfer_IActivationRangeTarget
         {
             internal static JObject TryGetData(GameObject arg)
             {
-                if (arg.TryGetComponent<SmartReservoir>(out var component))
+                if (arg.TryGetComponent<IActivationRangeTarget>(out var component))
                 {
                     return new JObject()
                     {
@@ -251,17 +304,50 @@ namespace BlueprintsV2.BlueprintData
             {
                 if (jObject == null)
                     return;
-                if (building.TryGetComponent<SmartReservoir>(out var targetComponent))
+                if (building.TryGetComponent<IActivationRangeTarget>(out var targetComponent))
                 {
                     var t1 = jObject.GetValue("DeactivateValue");
                     if (t1 == null)
                         return;
                     targetComponent.DeactivateValue = t1.Value<int>();
 
-                    var t2 = jObject.GetValue("DeactivateValue");
+                    var t2 = jObject.GetValue("ActivateValue");
                     if (t2 == null)
                         return;
                     targetComponent.ActivateValue = t2.Value<int>();
+                }
+            }
+        }
+        internal class DataTransfer_EnergyGenerator 
+        { 
+            internal static JObject TryGetData(GameObject arg)
+            {
+                if (arg.TryGetComponent<EnergyGenerator>(out var component))
+                {
+                    if (component.ignoreBatteryRefillPercent)
+                        return null;
+                    return new JObject()
+                    {
+                        { "batteryRefillPercent", component.batteryRefillPercent},
+                    };
+                }
+                return null;
+            }
+            public static void TryApplyData(GameObject building, JObject jObject)
+            {
+                if (jObject == null)
+                    return;
+                if (building.TryGetComponent<EnergyGenerator>(out var targetComponent))
+                {
+                    if (targetComponent.ignoreBatteryRefillPercent)
+                        return;
+
+                    var t1 = jObject.GetValue("batteryRefillPercent");
+                    if (t1 == null)
+                        return;
+
+                    var batteryRefillPercent = t1.Value<float>();
+                    targetComponent.batteryRefillPercent = batteryRefillPercent;
                 }
             }
         }
@@ -328,7 +414,35 @@ namespace BlueprintsV2.BlueprintData
                 }
             }
         }
+        internal class DataTransfer_AccessControl
+        {
+            internal static JObject TryGetData(GameObject arg)
+            {
+                if (arg.TryGetComponent<AccessControl>(out var component) && component.controlEnabled)
+                {
+                    return new JObject()
+                    {
+                        { "DefaultPermission", (int)component.DefaultPermission}
+                    };
+                }
+                return null;
+            }
+            public static void TryApplyData(GameObject building, JObject jObject)
+            {
+                if (jObject == null)
+                    return;
+                if (building.TryGetComponent<AccessControl>(out var targetComponent) && targetComponent.controlEnabled)
+                {
+                    var t1 = jObject.GetValue("DefaultPermission");
+                    if (t1 == null)
+                        return;
+                    var DefaultPermission = t1.Value<int>();
 
+                    //applying values
+                    targetComponent.DefaultPermission = (AccessControl.Permission)DefaultPermission;
+                }
+            }
+        }
         internal class DataTransfer_LimitValve
         {
             internal static JObject TryGetData(GameObject arg)
@@ -492,26 +606,16 @@ namespace BlueprintsV2.BlueprintData
             }
         }
 
-        internal class DataTransfer_GenericThresholdSensor<T>
+        internal class DataTransfer_IThresholdSwitch
         {
             internal static JObject TryGetData(GameObject arg)
             {
-                if (arg.TryGetComponent<T>(out var sourceComponent))
+                if (arg.TryGetComponent<IThresholdSwitch>(out var sourceComponent))
                 {
-                    bool wholeNumbers = Traverse.Create(sourceComponent).Property("Threshold").GetValueType() == typeof(int);
-
-                    if (wholeNumbers)
-                        return new JObject()
+                    return new JObject()
                     {
-                        { "Threshold", (int)Traverse.Create(sourceComponent).Property("Threshold").GetValue()},
-                        { "ActivateAboveThreshold", (bool)Traverse.Create(sourceComponent).Property("ActivateAboveThreshold").GetValue()}
-                    };
-
-                    else
-                        return new JObject()
-                    {
-                        { "Threshold", (float)Traverse.Create(sourceComponent).Property("Threshold").GetValue()},
-                        { "ActivateAboveThreshold", (bool)Traverse.Create(sourceComponent).Property("ActivateAboveThreshold").GetValue()}
+                        { "Threshold", sourceComponent.Threshold},
+                        { "ActivateAboveThreshold", sourceComponent.ActivateAboveThreshold}
                     };
                 }
                 return null;
@@ -520,7 +624,7 @@ namespace BlueprintsV2.BlueprintData
             {
                 if (jObject == null)
                     return;
-                if (building.TryGetComponent<T>(out var targetComponent))
+                if (building.TryGetComponent<IThresholdSwitch>(out var targetComponent))
                 {
                     var t1 = jObject.GetValue("Threshold");
                     if (t1 == null)
@@ -532,19 +636,11 @@ namespace BlueprintsV2.BlueprintData
                     if (t2 == null)
                         return;
                     var activateAboveThreshold = t2.Value<bool>();
-
-
-                    //applying values
-                    if (Traverse.Create(targetComponent).Property("Threshold").GetValueType() == typeof(int))
-                        Traverse.Create(targetComponent).Property("Threshold").SetValue(Mathf.RoundToInt(Threshold));
-                    else
-                        Traverse.Create(targetComponent).Property("Threshold").SetValue(Threshold);
-
-                    Traverse.Create(targetComponent).Property("ActivateAboveThreshold").SetValue(activateAboveThreshold);
+                    targetComponent.ActivateAboveThreshold = activateAboveThreshold;
+                    targetComponent.Threshold = Threshold;
                 }
             }
         }
-
         internal class DataTransfer_GenericLogicGateDelay<T>
         {
             internal static JObject TryGetData(GameObject arg)

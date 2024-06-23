@@ -315,6 +315,17 @@ namespace BlueprintsV2.UnityUI
                 }
             });
         }
+        public void UnlockCam()
+        {
+            Task.Run(() =>
+            {
+                Task.Delay(26);
+                if (this.isActive)
+                {
+                    CameraController.Instance.DisableUserCameraControl = true;
+                }
+            });
+        }
 
         public void SelectFolder(BlueprintFolder folder)
         {
@@ -539,18 +550,16 @@ namespace BlueprintsV2.UnityUI
 
         bool ShowInFilter(string filtertext, string[] stringsToInclude)
         {
-            bool show = false;
             filtertext = filtertext.ToLowerInvariant();
 
             foreach (var text in stringsToInclude)
             {
                 if (text != null && text.Length > 0 && text.ToLowerInvariant().Contains(filtertext))
                 {
-                    show = true;
-                    break;
+                    return true;
                 }
             }
-            return show;
+            return false;
         }
 
 
@@ -563,7 +572,10 @@ namespace BlueprintsV2.UnityUI
             }
             CurrentlyActive = show;
             if (!show && onCloseAction != null)
+            {
                 onCloseAction();
+                UnlockCam();
+            }
         }
 
         internal static void RefreshOnBpAdded()

@@ -300,26 +300,20 @@ namespace BlueprintsV2.ModAPI
 
             RegisterInternally(nameof(Filterable), DataTransfer_Filterable.TryGetData, DataTransfer_Filterable.TryApplyData);
             RegisterInternally(nameof(TreeFilterable), DataTransfer_TreeFilterable.TryGetData, DataTransfer_TreeFilterable.TryApplyData);
-            RegisterInternally(nameof(SmartReservoir), DataTransfer_SmartReservoir.TryGetData, DataTransfer_SmartReservoir.TryApplyData);
             RegisterInternally(nameof(Valve), DataTransfer_Valve.TryGetData, DataTransfer_Valve.TryApplyData);
             RegisterInternally(nameof(LimitValve), DataTransfer_LimitValve.TryGetData, DataTransfer_LimitValve.TryApplyData);
+            RegisterInternally(nameof(AccessControl), DataTransfer_AccessControl.TryGetData, DataTransfer_AccessControl.TryApplyData);
 
             RegisterInternally(nameof(LogicCritterCountSensor), DataTransfer_LogicCritterCountSensor.TryGetData, DataTransfer_LogicCritterCountSensor.TryApplyData);
             RegisterInternally(nameof(LogicTimeOfDaySensor), DataTransfer_LogicTimeOfDaySensor.TryGetData, DataTransfer_LogicTimeOfDaySensor.TryApplyData);
             RegisterInternally(nameof(LogicTimerSensor), DataTransfer_LogicTimerSensor.TryGetData, DataTransfer_LogicTimerSensor.TryApplyData);
             RegisterInternally(nameof(LogicClusterLocationSensor), DataTransfer_LogicClusterLocationSensor.TryGetData, DataTransfer_LogicClusterLocationSensor.TryApplyData);
             RegisterInternally(nameof(LogicCounter), DataTransfer_LogicCounter.TryGetData, DataTransfer_LogicCounter.TryApplyData);
+            RegisterInternally(nameof(Automatable), DataTransfer_Automatable.TryGetData, DataTransfer_Automatable.TryApplyData);
 
-
-            RegisterInternally(nameof(ConduitThresholdSensor), DataTransfer_GenericThresholdSensor<ConduitThresholdSensor>.TryGetData, DataTransfer_GenericThresholdSensor<ConduitThresholdSensor>.TryApplyData);
-            RegisterInternally(nameof(LogicDiseaseSensor), DataTransfer_GenericThresholdSensor<LogicDiseaseSensor>.TryGetData, DataTransfer_GenericThresholdSensor<LogicDiseaseSensor>.TryApplyData);
-            RegisterInternally(nameof(LogicWattageSensor), DataTransfer_GenericThresholdSensor<LogicWattageSensor>.TryGetData, DataTransfer_GenericThresholdSensor<LogicWattageSensor>.TryApplyData);
-            RegisterInternally(nameof(LogicHEPSensor), DataTransfer_GenericThresholdSensor<LogicHEPSensor>.TryGetData, DataTransfer_GenericThresholdSensor<LogicHEPSensor>.TryApplyData);
-            RegisterInternally(nameof(LogicLightSensor), DataTransfer_GenericThresholdSensor<LogicLightSensor>.TryGetData, DataTransfer_GenericThresholdSensor<LogicLightSensor>.TryApplyData);
-            RegisterInternally(nameof(LogicMassSensor), DataTransfer_GenericThresholdSensor<LogicMassSensor>.TryGetData, DataTransfer_GenericThresholdSensor<LogicMassSensor>.TryApplyData);
-            RegisterInternally(nameof(LogicPressureSensor), DataTransfer_GenericThresholdSensor<LogicPressureSensor>.TryGetData, DataTransfer_GenericThresholdSensor<LogicPressureSensor>.TryApplyData);
-            RegisterInternally(nameof(LogicRadiationSensor), DataTransfer_GenericThresholdSensor<LogicRadiationSensor>.TryGetData, DataTransfer_GenericThresholdSensor<LogicRadiationSensor>.TryApplyData);
-            RegisterInternally(nameof(LogicTemperatureSensor), DataTransfer_GenericThresholdSensor<LogicTemperatureSensor>.TryGetData, DataTransfer_GenericThresholdSensor<LogicTemperatureSensor>.TryApplyData);
+            RegisterInternally(nameof(IUserControlledCapacity), DataTransfer_IUserControlledCapacity.TryGetData, DataTransfer_IUserControlledCapacity.TryApplyData);
+            RegisterInternally(nameof(IActivationRangeTarget), DataTransfer_IActivationRangeTarget.TryGetData, DataTransfer_IActivationRangeTarget.TryApplyData);
+            RegisterInternally(nameof(IThresholdSwitch), DataTransfer_IThresholdSwitch.TryGetData, DataTransfer_IThresholdSwitch.TryApplyData);
 
             RegisterInternally(nameof(LogicGateBuffer), DataTransfer_GenericLogicGateDelay<LogicGateBuffer>.TryGetData, DataTransfer_GenericLogicGateDelay<LogicGateBuffer>.TryApplyData);
             RegisterInternally(nameof(LogicGateFilter), DataTransfer_GenericLogicGateDelay<LogicGateFilter>.TryGetData, DataTransfer_GenericLogicGateDelay<LogicGateFilter>.TryApplyData);
