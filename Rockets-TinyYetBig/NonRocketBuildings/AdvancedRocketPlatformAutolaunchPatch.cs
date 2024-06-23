@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using static Rockets_TinyYetBig.OldPatches;
 using UtilLibs;
 using UnityEngine;
+using Rockets_TinyYetBig.Behaviours;
 
 namespace Rockets_TinyYetBig.NonRocketBuildings
 {
@@ -29,7 +30,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
                     {
                         return ProcessCondition.Status.Ready;
                     }
-                    if (evaluator.GetBitMaskValAtIndex(2) && conditionType == ProcessCondition.ProcessConditionType.RocketStorage && condition.EvaluateCondition() != ProcessCondition.Status.Failure)
+                    if (evaluator.GetBitMaskValAtIndex(2) && (conditionType == ProcessCondition.ProcessConditionType.RocketStorage||condition.GetType() == typeof(ConditionHasRadbolts)) && condition.EvaluateCondition() != ProcessCondition.Status.Failure)
                     {
                         return ProcessCondition.Status.Ready;
                     }

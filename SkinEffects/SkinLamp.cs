@@ -23,7 +23,6 @@ namespace SkinEffects
         internal void ToggleLamp()
         {
             light.enabled=(!skin.currentFacade.IsNullOrWhiteSpace() && skin.currentFacade.Contains("shineornaments"));
-            SgtLogger.l(light.enabled + "", "Light Enabled");
             light.FullRefresh();
         }
     }

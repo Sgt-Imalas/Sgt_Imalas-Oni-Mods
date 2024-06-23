@@ -74,7 +74,9 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
                     smi.HarvestFromPOI(dt);
                     lastHarvestTime.Set(Time.time, smi);
                 }, UpdateRate.SIM_4000ms)
-                .ParamTransition(canHarvest, not_grounded.not_harvesting, IsFalse);
+                .ParamTransition(canHarvest, not_grounded.not_harvesting, IsFalse)
+                .Exit((smi) =>   smi.GetComponent<RocketModuleCluster>().CraftInterface.m_clustercraft.GetComponent<KSelectable>().RemoveStatusItem(Db.Get().BuildingStatusItems.SpacePOIWasting))
+                ;
         }
 
         public class Def : BaseDef
@@ -121,7 +123,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 
             public void HarvestFromPOI(float dt)
             {
-                Clustercraft component = GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
+                Clustercraft component = GetComponent<RocketModuleCluster>().CraftInterface.m_clustercraft;
                 if (!CheckIfCanHarvest())
                     return;
                 ClusterGridEntity atCurrentLocation = component.GetPOIAtCurrentLocation();
