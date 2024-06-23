@@ -35,14 +35,7 @@ namespace BlueprintsV2.Visualizers
                 UpdateGrid(cellParam);
             }
         }
-
-
-        public override bool TryUse(int cellParam)
-        {
-            //Clean();
-            return base.TryUse(cellParam);
-            
-        }
+        
         public void Clean()
         {
             if (DirtyCell != -1 && Grid.IsValidBuildingCell(DirtyCell))

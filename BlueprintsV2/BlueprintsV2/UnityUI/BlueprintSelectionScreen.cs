@@ -319,11 +319,8 @@ namespace BlueprintsV2.UnityUI
         {
             Task.Run(() =>
             {
-                Task.Delay(26);
-                if (this.isActive)
-                {
-                    CameraController.Instance.DisableUserCameraControl = true;
-                }
+                Task.Delay(30);
+                CameraController.Instance.DisableUserCameraControl = false;
             });
         }
 
@@ -571,9 +568,10 @@ namespace BlueprintsV2.UnityUI
                 Init();
             }
             CurrentlyActive = show;
-            if (!show && onCloseAction != null)
+            if (!show)
             {
-                onCloseAction();
+                if (onCloseAction != null)
+                    onCloseAction();
                 UnlockCam();
             }
         }
