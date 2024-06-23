@@ -21,11 +21,11 @@ namespace OniRetroEdition
 
         [Option("Iron Ore Tile version", "")]
         [JsonProperty]
-        public EarlierVersion IronOreTexture { get; set; }
+        public EarlierVersion IronOreTexture { get; set; } = EarlierVersion.Beta;
 
         [Option("Connect certain tile tops", "")]
         [JsonProperty]
-        public bool TileTopsMerge { get; set; }
+        public bool TileTopsMerge { get; set; } = true;
 
         //[Option("mop becomes water succ", "")]
         //[JsonProperty]
@@ -37,34 +37,25 @@ namespace OniRetroEdition
 
         [Option("manual slime machine", "")]
         [JsonProperty]
-        public bool manualSlimemachine { get; set; }
+        public bool manualSlimemachine { get; set; } = true;
+
         [Option("Gas Element Sensor takes power", "")]
         [JsonProperty]
-        public bool gassensorpower { get; set; }
+        public bool gassensorpower { get; set; } = true;
+
+        [Option("Gamma Ray Oven uses radbolts", "")]
+        [JsonProperty]
+        public bool GammaRayOvenRadbolts { get; set; } = true;
         [Option("liquid element sensor power requirement", "")]
         [JsonProperty]
-        public bool liquidsensorpower { get; set; }
+        public bool liquidsensorpower { get; set; } = false;
         [Option("Duplicants rot forever", "when activated, unburied duplicants will rot forever. otherwise they will decompose into bones.")]
         [JsonProperty]
-        public bool endlessRotting { get; set; }
+        public bool endlessRotting { get; set; } = false;
 
 
         [Option("Old Pipe Icons", "pipe input and output icons are replaced with older versions that change based on the connection state")]
         [JsonProperty]
-        public bool oldPipeIcons { get; set; }
-        public Config()
-        {
-            TileTopsMerge = true;
-            //manualRailgunPayloadOpener = true;
-            manualSlimemachine = true;
-            IronOreTexture = EarlierVersion.Beta;
-            gassensorpower = true; 
-            liquidsensorpower = false;
-            endlessRotting = false;
-
-            oldPipeIcons = true;
-            //succmop = true;
-
-        }
+        public bool oldPipeIcons { get; set; } = true;        
     }
 }

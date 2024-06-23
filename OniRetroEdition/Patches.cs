@@ -47,7 +47,7 @@ namespace OniRetroEdition
             public static void Prefix()
             {
                 InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, WallLampConfig.ID, CeilingLightConfig.ID);
-
+                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Food, GammaRayOvenConfig.ID, MicrobeMusherConfig.ID);
 
 
 
