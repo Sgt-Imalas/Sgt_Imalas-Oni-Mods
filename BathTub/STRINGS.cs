@@ -29,6 +29,14 @@ namespace BathTub
                     public static LocString NAME = "Bathtub";
                     public static LocString DESC = "When showers aren't enough!";
                     public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.SHOWER.EFFECT;
+                    public class FACADES
+                    {
+                        public class HANDY_RETRO_TUB
+                        {
+                            public static LocString NAME = "Handy Retro Tub";
+                            public static LocString DESC = "No, there are no duplicants buried beneath that hold it...";
+                        }
+                    }
                 }
             }
         }
