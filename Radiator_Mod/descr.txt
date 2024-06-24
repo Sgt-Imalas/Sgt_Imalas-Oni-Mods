@@ -39,7 +39,7 @@ New Building: Space Radiator
 Thanks again to the Oni Modding Discord who again helped me with debugging, feature implementation and brainstorming.  Much thanks to Sky for letting me use her radiator code [url=https://github.com/skairunner/sky-oni-mods/tree/master/Radiator] -> skys github[/url].
 
 [h1]Bug Reports[/h1]
-Please post bug reports and issues on my [url=https://github.com/Knastoron/Knastoron-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
 
 [hr][/hr]
 

@@ -56,7 +56,7 @@ Much Thanks to NOUS for creating the redesign of the AI Brain Module
 [hr][/hr]
 
 [h1]Bug Reports[/h1]
-Please post crash reports and issues on my [url=https://github.com/Knastoron/Knastoron-Oni-Mods/issues] GitHub[/url] with the crash log.
+Please post crash reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] with the crash log.
 
 Where to find the Log:
 [list]
