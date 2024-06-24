@@ -55,6 +55,7 @@ namespace OniRetroEdition.Buildings
             go.AddOrGet<LoopingSounds>();
             Light2D light2D = go.AddOrGet<Light2D>();
             light2D.overlayColour = LIGHT2D.FLOORLAMP_OVERLAYCOLOR;
+            light2D.Offset = new Vector2(0, 0.5f);
             light2D.Color = LIGHT2D.FLOORLAMP_COLOR;
             light2D.Range = 4f;
             light2D.Angle = 0.0f;

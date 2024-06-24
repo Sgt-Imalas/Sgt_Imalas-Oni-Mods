@@ -85,10 +85,10 @@ namespace OniRetroEdition.ModPatches
 
                 Vector3 targetPoint = collider != null ? new(collider.bounds.center.x, target.transform.GetPosition().y+0.5f) : new Vector3(target.transform.GetPosition().x, target.transform.GetPosition().y+0.5f);
 
-                var hitEffect = GameUtil.KInstantiate(Assets.GetPrefab(effectId), targetPoint, Grid.SceneLayer.FXFront2);
+                var hitEffect = GameUtil.KInstantiate(Assets.GetPrefab(effectId), targetPoint, Grid.SceneLayer.Ore);
                 hitEffect.TryGetComponent<KBatchedAnimController>(out var component2);
                 hitEffect.SetActive(true);
-                component2.sceneLayer = Grid.SceneLayer.FXFront2;
+                component2.sceneLayer = Grid.SceneLayer.Ore;
                 component2.enabled = false;
                 component2.enabled = true;
                 return hitEffect;
