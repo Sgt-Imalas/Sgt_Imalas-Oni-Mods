@@ -36,6 +36,9 @@ namespace Rockets_TinyYetBig.Patches
                     SgtLogger.l("Start Skin Patch");
                     var resource = (ResourceSet<BuildingFacadeResource>)__instance;
                     //AddFacade(resource, "steamRocketTest", "Skin Test", "skin Test", PermitRarity.Universal, SteamEngineClusterConfig.ID, "rocket_natgas_engine_kanim");
+                    //AddFacade(resource, "RTB_SolarPanelModule_Wide",
+                    //    STRINGS.BUILDINGS.PREFABS.SOLARPANELMODULE.FACADES.RTB_SOLARPANELMODULE_WIDE.NAME,
+                    //    STRINGS.BUILDINGS.PREFABS.SOLARPANELMODULE.FACADES.RTB_SOLARPANELMODULE_WIDE.DESC, PermitRarity.Universal, SolarPanelModuleConfig.ID, "rocket_solar_panel_module_wide_kanim");
 
                     SgtLogger.l("Patch Executed");
                 }
@@ -57,7 +60,7 @@ namespace Rockets_TinyYetBig.Patches
         }
 
         [HarmonyPatch(typeof(Db), "Initialize")]
-        public static class Assets_OnPrefabInit_Patch
+        public static class Db_Initialize_Patch_Skins
         {
             public static void Prefix()
             {
@@ -81,7 +84,7 @@ namespace Rockets_TinyYetBig.Patches
             }
             public static void PostfixMethod()
             {
-                SupplyClosetUtils.AddSubcategory(InventoryPermitCategories.BUILDINGS, "BUILDING_CORNER_MOULDING", Def.GetUISprite(CornerMouldingConfig.ID).first, 132, RocketSkins.ToArray());
+                SupplyClosetUtils.AddSubcategory(InventoryPermitCategories.BUILDINGS, "RTB_MODULE_SKINS", Assets.GetSprite("icon_category_rocketry"), 132, RocketSkins.ToArray());
             }
         }
 

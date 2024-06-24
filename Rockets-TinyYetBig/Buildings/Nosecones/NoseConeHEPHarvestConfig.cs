@@ -63,7 +63,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
             go.GetComponent<KPrefabID>().AddTag(TagManager.Create(NoseconeHarvestConfig.ID));
 
             HighEnergyParticleStorage energyParticleStorage = go.AddOrGet<HighEnergyParticleStorage>();
-            energyParticleStorage.capacity = 6000f;
+            energyParticleStorage.capacity = Config.Instance.LaserDrillconeCapacity;
             energyParticleStorage.autoStore = true;
             energyParticleStorage.PORT_ID = ID;
             energyParticleStorage.showCapacityStatusItem = true;

@@ -84,7 +84,7 @@ namespace Rockets_TinyYetBig
 
         //            /// SpaceStations
         //            SpaceStationsAndTech = false;
-        //            RocketDocking = false;
+        //            RocketDocking =  false;
         //            NeutroniumMaterial = false;
 
         //            /// EasterEggs
@@ -95,325 +95,261 @@ namespace Rockets_TinyYetBig
 
 
         #region vanillaplus
-        [Option("Advanced World Selector", "Enable a better world selector.", "(1) Rocketry Vanilla+")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEADVWORLDSELECTOR.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEADVWORLDSELECTOR.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.A_ROCKETRYPLUS")]
         [JsonProperty]
-        public bool EnableAdvWorldSelector { get; set; }
+        public bool EnableAdvWorldSelector { get; set; } = true;
 
-        [Option("Compress Interiors & Remove Rocket Limit", "Disable this Option to use the default 32x32 size rocket interiors. This will also reenable the Rocket Limit of 16 (changing this option only affects new Rockets)", "(1) Rocketry Vanilla+")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.COMPRESSINTERIORS.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.COMPRESSINTERIORS.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.A_ROCKETRYPLUS")]
         [JsonProperty]
-        public bool CompressInteriors { get; set; }
+        public bool CompressInteriors { get; set; } = true;
 
-        [Option("Extended Spacefarer Modules", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI, "(1) Rocketry Vanilla+")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEEXTENDEDHABS.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.A_ROCKETRYPLUS")]
         [JsonProperty]
-        public bool EnableExtendedHabs { get; set; }
+        public bool EnableExtendedHabs { get; set; }=true;
 
-        [Option("Cartographic Module Scan Range", "Cartographic Modules will scan hexes in this radius.", "(1) Rocketry Vanilla+")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULERANGERADIUS.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULERANGERADIUS.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.A_ROCKETRYPLUS")]
         [Limit(0, 6)]
         [JsonProperty]
-        public int ScannerModuleRangeRadius { get; set; }
-        [Option("Cartographic Module Scan Speed", "Time it takes for the module to reveal one hex in cycles.", "(1) Rocketry Vanilla+")]
+        public int ScannerModuleRangeRadius { get; set; } = 4;
+
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULESCANSPEED.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULESCANSPEED.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.A_ROCKETRYPLUS")]
         [Limit(0.1f, 1f)]
         [JsonProperty]
-        public float ScannerModuleScanSpeed { get; set; }
+        public float ScannerModuleScanSpeed { get; set; } = 0.4f;
 
-        [Option("Habitat Power Connector", "Add a power connector to the habitat modules.", "(1) Rocketry Vanilla+")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATPOWERPLUG.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATPOWERPLUG.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.A_ROCKETRYPLUS")]
         [JsonProperty]
-        public bool HabitatPowerPlug { get; set; }
+        public bool HabitatPowerPlug { get; set; } = true;
 
-        [Option("Habitat Radiation", "Rocket interior radiation reflects the radiation outside when landed.", "(1) Rocketry Vanilla+")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORRADIATION.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORRADIATION.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.A_ROCKETRYPLUS")]
         [JsonProperty]
-        public bool HabitatInteriorRadiation { get; set; }
+        public bool HabitatInteriorRadiation { get; set; } = true;
 
-        [Option("Habitat Interior Port Improvements", "Rocket Connectors count as Rocket Wall for buildings that can only be attached to it.\nRocket Ports block the same amount of radiation as rocket wall", "(1) Rocketry Vanilla+")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORPORTIMPROVEMENTS.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORPORTIMPROVEMENTS.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.A_ROCKETRYPLUS")]
+        [JsonProperty] 
+        public bool HabitatInteriorPortImprovements { get; set; } = true;
+
+
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.SLIMLARGEENGINES.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.SLIMLARGEENGINES.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.A_ROCKETRYPLUS")]
         [JsonProperty]
-        public bool HabitatInteriorPortImprovements { get; set; }
-
-
-        [Option("Slim Rockets", "Rocket Modules that are wider than 5 tiles (Steam, Hydrogen, Petrol Engine) are reduced to 5 width.", "(1) Rocketry Vanilla+")]
-        [JsonProperty]
-        public bool SlimLargeEngines { get; set; }
+        public bool SlimLargeEngines { get; set; } = false;
 
         #endregion
 
         #region mining&shipping
 
-        [Option("Laser Drillcone", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(2) Mining & Shipping")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLELASERDRILL.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
         [JsonProperty]
-        public bool EnableLaserDrill { get; set; }
+        public bool EnableLaserDrill { get; set; } = true;
 
-        [Option("Laser Drillcone Speed", "Mining speed in Kg/s for the Laser Drillcone. (The Basic Drillcone mines at 7.5kg/s).", "(2) Mining & Shipping")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONESPEED.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONESPEED.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
         [Limit(1f, 15f)]
         [JsonProperty]
-        public float LaserDrillconeSpeed { get; set; }
+        public float LaserDrillconeSpeed { get; set; } = 4.875f;
 
-
-        [Option("Drillcone Service Module", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(2) Mining & Shipping")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONECAPACITY.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONECAPACITY.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
+        [Limit(1000f, 20000f)]
         [JsonProperty]
-        public bool EnableDrillSupport { get; set; }
+        public float LaserDrillconeCapacity { get; set; } = 6000f;
 
 
-        [Option("Service Module Speed boost", "Determines the speed boost the drillcone service module provides to the drillcone in percent", "(2) Mining & Shipping")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEDRILLSUPPORT.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
         [JsonProperty]
-        [Limit(10, 200)]
-        public int DrillconeSupportBoost { get; set; }
+        public bool EnableDrillSupport { get; set; } = true;
 
-        [Option("Service Module Diamond Capacity", "Determines the diamond capacity of the drillcone service module in KG", "(2) Mining & Shipping")]
+
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTBOOST.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTBOOST.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
+        [JsonProperty]
+        [Limit(0, 100)]
+        public int DrillconeSupportSpeedBoost { get; set; } = 20;
+
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTDIAMONDMASS.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTDIAMONDMASS.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
         [JsonProperty]
         [Limit(1000, 10000)]
-        public int DrillconeSupportDiamondMass { get; set; }
+        public int DrillconeSupportDiamondMass { get; set; } = 1500;
 
-        [Option("Refill Service Module via Conveyor", "Refill the module during flight", "(2) Mining & Shipping")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.REFILLDRILLSUPPORT.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.REFILLDRILLSUPPORT.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
         [JsonProperty]
-        public bool RefillDrillSupport { get; set; }
+        public bool RefillDrillSupport { get; set; } = false;
 
 
-        [Option("Pilot Skill Mining Speed", "The pilots piloting and digging skills affect the drilling speed of the drillcone.\nApplies to both drillcone types", "(2) Mining & Shipping")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.PILOTSKILLAFFECTSDRILLSPEED.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.PILOTSKILLAFFECTSDRILLSPEED.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
         [JsonProperty]
-        public bool PilotSkillAffectsDrillSpeed { get; set; }
+        public bool PilotSkillAffectsDrillSpeed { get; set; } = true;
 
 
-        [Option("Infinite Mining Capacity", "Mining POI become infinite. Does not affect artifacts.", "(2) Mining & Shipping")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.INFINITEPOI.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.INFINITEPOI.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
         [JsonProperty]
-        public bool InfinitePOI { get; set; }
+        public bool InfinitePOI { get; set; } = false;
 
 
-        [Option("Enable Fridge Module", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(2) Mining & Shipping")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEFRIDGE.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
         [JsonProperty]
-        public bool EnableFridge { get; set; }
-        
+        public bool EnableFridge { get; set; } = true;
 
-        [Option("Large Cargo Modules", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI, "(2) Mining & Shipping")]
+
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLELARGECARGOBAYS.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
         [JsonProperty]
-        public bool EnableLargeCargoBays { get; set; }
+        public bool EnableLargeCargoBays { get; set; } = true;
 
-        [Option("Insulated Cargo Bays", "Contents of Cargo Bay modules are insulated from their surroundings", "(2) Mining & Shipping")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.INSULATEDCARGOBAYS.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.INSULATEDCARGOBAYS.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
         [JsonProperty]
-        public bool InsulatedCargoBays { get; set; }
+        public bool InsulatedCargoBays { get; set; } = true;
 
-        [Option("Radbolt Storage Module", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(2) Mining & Shipping")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLERADBOLTSTORAGE.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
         [JsonProperty]
-        public bool EnableRadboltStorage { get; set; }
+        public bool EnableRadboltStorage { get; set; } = true;
 
-        [Option("Radbolt Storage Module Capacity", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(2) Mining & Shipping")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.RADBOLTSTORAGECAPACITY.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.RADBOLTSTORAGECAPACITY.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
         [Limit(1000, 10000)]
         [JsonProperty]
-        public float RadboltStorageCapacity { get; set; }
+        public float RadboltStorageCapacity { get; set; } = 3000;
 
-        [Option("Critter Containment Module", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(2) Mining & Shipping")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEPOISENSOR.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
         [JsonProperty]
-        public bool EnableCritterStorage { get; set; }
+        public bool EnablePOISensor { get; set; } = true;
 
-        [Option("POI Capacity Sensor", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(2) Mining & Shipping")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLECRITTERSTORAGE.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
         [JsonProperty]
-        public bool EnablePOISensor { get; set; }
+        public bool EnableCritterStorage { get; set; } = true;
 
-        [Option("Critter Containment Module Capacity", "Amount of critters the module can hold at once", "(2) Mining & Shipping")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.CRITTERSTORAGECAPACITY.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CRITTERSTORAGECAPACITY.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
         [Limit(1, 15)]
         [JsonProperty]
-        public int CritterStorageCapacity { get; set; }
+        public int CritterStorageCapacity { get; set; } = 5;
 
-        [Option("Rebalanced Cargobay Capacity", "Cargo Bays have increased and rebalanced Cargo Capacity", "(2) Mining & Shipping")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.REBALANCEDCARGOCAPACITY.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.REBALANCEDCARGOCAPACITY.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
         [JsonProperty]
-        public bool RebalancedCargoCapacity { get; set; }
+        public bool RebalancedCargoCapacity { get; set; } = true;
 
-        [Option("Gas Cargobay KG/Unit", STRINGS.OPTIONS_ROCKETRYEXPANDED.UNITDESCRIPTION, "(2) Mining & Shipping")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.GASCARGOBAYKGPERUNIT", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.UNITDESCRIPTION", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
         [Limit(200, 1500)]
         [JsonProperty]
-        public int GasCargoBayKgPerUnit { get; set; }
+        public int GasCargoBayKgPerUnit { get; set; } = 500;
 
 
-        [Option("Liquid Cargobay KG/Unit", STRINGS.OPTIONS_ROCKETRYEXPANDED.UNITDESCRIPTION, "(2) Mining & Shipping")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.LIQUIDCARGOBAYKGPERUNIT", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.UNITDESCRIPTION", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
         [Limit(500, 2000)]
         [JsonProperty]
-        public int LiquidCargoBayKgPerUnit { get; set; }
+        public int LiquidCargoBayKgPerUnit { get; set; } = 1250;
 
-        [Option("Solid Cargobay KG/Unit", STRINGS.OPTIONS_ROCKETRYEXPANDED.UNITDESCRIPTION, "(2) Mining & Shipping")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.SOLIDCARGOBAYKGPERUNIT", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.UNITDESCRIPTION", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
         [Limit(800, 6000)]
         [JsonProperty]
-        public int SolidCargoBayKgPerUnit { get; set; }
+        public int SolidCargoBayKgPerUnit { get; set; } = 2000;
 
 
-        [Option("Small Cargobay Units", "Amount of Cargo Units in this Cargo Bay Size", "(2) Mining & Shipping")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.SMALLCARGOBAYUNITS", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
         [Limit(3, 32)]
         [JsonProperty]
-        public float SmallCargoBayUnits { get; set; }
+        public float SmallCargoBayUnits { get; set; } = 9;
 
 
-        [Option("Large Cargobay Units", "Amount of Cargo Units in this Cargo Bay Size", "(2) Mining & Shipping")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.MEDIUMCARGOBAYUNITS", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
         [Limit(6, 64)]
         [JsonProperty]
-        public float MediumCargoBayUnits { get; set; }
+        public float MediumCargoBayUnits { get; set; } = 27;
 
-        [Option("Collossal Cargo Bay Units", "Amount of Cargo Units in this Cargo Bay Size", "(2) Mining & Shipping")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.COLLOSSALCARGOBAYUNITS", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING")]
         [Limit(9, 128)]
         [JsonProperty]
-        public float CollossalCargoBayUnits { get; set; }
-
+        public float CollossalCargoBayUnits { get; set; } = 64;
 
         #endregion
 
         #region Fuel&Logistics
 
-        [Option("Buff Large Oxidizer Module", "Buff storage capacity of the large Oxidizer Module from 900kg to 1350kg.", "(3) Fuel & Logistics")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.BUFFLARGEOXIDIZER.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.BUFFLARGEOXIDIZER.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.C_FUELLOGISTICS")]
         [JsonProperty]
-        public bool BuffLargeOxidizer { get; set; }
+        public bool BuffLargeOxidizer { get; set; } = true;
 
-        [Option("Burn Ethanol as fuel", "Allows Petroleum Engines to also burn Ethanol as fuel.", "(3) Fuel & Logistics")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ETHANOLENGINES.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.ETHANOLENGINES.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.C_FUELLOGISTICS")]
         [JsonProperty]
-        public bool EthanolEngines { get; set; }
+        public bool EthanolEngines { get; set; } = true;
 
-        [Option("Booster Modules", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI, "(3) Fuel & Logistics")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEBOOSTERS.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.C_FUELLOGISTICS")]
         [JsonProperty]
 #if DEBUG
-        public bool Boosters { get; set; }
+        public bool EnableBoosters { get; set; }
 #else
-        private bool Boosters { get; set; }
+        private bool EnableBoosters { get; set; }
 #endif
-        [Option("Natural Gas Engine Module", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(3) Fuel & Logistics")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLENATGASENGINE.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.C_FUELLOGISTICS")]
         [JsonProperty]
-        public bool EnableNatGasEngine { get; set; }
+        public bool EnableNatGasEngine { get; set; } = true;
 
-        [Option("Natural Gas Engine Range", "Set the max range of a natural gas engine.", "(3) Fuel & Logistics")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.NATGASENGINERANGE.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.NATGASENGINERANGE.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.C_FUELLOGISTICS")]
         [JsonProperty]
-        [Limit(8, 18)]
-        public int EnableNatGasEngineRange { get; set; }
-        [Option("Ion Engine Module", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(3) Fuel & Logistics")]
+        [Limit(8, 20)]
+        public int NatGasEngineRange { get; set; } = 15;
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEELECTRICENGINE.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.C_FUELLOGISTICS")]
         [JsonProperty]
         private bool EnableElectricEngine { get; set; }
 
-        [Option("Early Game Fuel Tanks", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI, "(3) Fuel & Logistics")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEEARLYGAMEFUELTANKS.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.C_FUELLOGISTICS")]
         [JsonProperty]
-        public bool EnableEarlyGameFuelTanks { get; set; }
+        public bool EnableEarlyGameFuelTanks { get; set; } = true;
 
-        [Option("Fuel Loaders", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI, "(3) Fuel & Logistics")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEFUELLOADERS.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.C_FUELLOGISTICS")]
         [JsonProperty]
-        public bool EnableFuelLoaders { get; set; }
+        public bool EnableFuelLoaders { get; set; } = true;
 
-        [Option("Loader Logic Output", "Add a logic output to rocket loader buildings that outputs whether or not the loader is currently active", "(3) Fuel & Logistics")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEROCKETLOADERLOGICOUTPUTS.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEROCKETLOADERLOGICOUTPUTS.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.C_FUELLOGISTICS")]
         [JsonProperty]
-        public bool EnableRocketLoaderLogicOutputs { get; set; }
-        
-        [Option("Loader Adapters", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI, "(3) Fuel & Logistics")]
-        [JsonProperty]
-        public bool EnableWallAdapter { get; set; }
+        public bool EnableRocketLoaderLogicOutputs { get; set; } = true;
 
-        [Option("Fortified & Advanced Rocket Platform", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI, "(3) Fuel & Logistics")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEWALLADAPTER.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.C_FUELLOGISTICS")]
         [JsonProperty]
-        public bool EnableBunkerPlatform { get; set; }
-#endregion
+        public bool EnableWallAdapter { get; set; } = true;
+
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEBUNKERPLATFORM.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.C_FUELLOGISTICS")]
+        [JsonProperty]
+        public bool EnableBunkerPlatform { get; set; } = true;
+        #endregion
 
         #region Power&Utility
 
-        [Option("Solar Nosecone", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(4) Power & Utility")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLESOLARNOSECONE.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.D_POWERUTILITY")]
         [JsonProperty]
-        public bool EnableSolarNosecone { get; set; }
+        public bool EnableSolarNosecone { get; set; } = true;
 
-        [Option("Generator Modules", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI, "(4) Power & Utility")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEGENERATORS.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.D_POWERUTILITY")]
         [JsonProperty]
-        public bool EnableGenerators { get; set; }
-        
+        public bool EnableGenerators { get; set; } = true;
 
-        [Option("Small Battery Module", STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE, "(4) Power & Utility")]
+
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLESMOLBATTERY.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.D_POWERUTILITY")]
         [JsonProperty]
-        public bool EnableSmolBattery { get; set; }
-        
-        [Option("Radioisotope Decay time", "Time in cycles for all the enriched uranium in the RTG to decay into depleted uranium. RTG needs a refill if all enriched uranium has decayed.", "(4) Power & Utility")]
+        public bool EnableSmolBattery { get; set; } = true;
+
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ISOTOPEDECAYTIME.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.ISOTOPEDECAYTIME.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.D_POWERUTILITY")]
         [Limit(10f, 200f)]
         [JsonProperty]
-        public float IsotopeDecayTime { get; set; }
+        public float IsotopeDecayTime { get; set; } = 50;
         #endregion
         #region SpaceStations
 
-        [Option("[ALPHA] Space Stations & Deep Space Science", "Unlocks space stations. This feature is work in progress, unfinished and might contain bugs.\nRequires Neutronium Alloy, Compressed Interiors, advanced world selector to activate", "(5) Space Expansion")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.SPACESTATIONSANDTECH.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.SPACESTATIONSANDTECH.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.E_SPACEEXPANSION")]
         [JsonProperty]
-        public bool SpaceStationsAndTech { get; set; }
+        public bool SpaceStationsAndTech { get; set; } = false;
 
-        [Option("Docking", "Dock rockets in space to transfer dupes and contents of the interiors", "(5) Space Expansion")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETDOCKING.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETDOCKING.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.E_SPACEEXPANSION")]
         [JsonProperty]
-        public bool RocketDocking { get; set; }
+        public bool RocketDocking { get; set; } = true;
 
-        [Option("Neutronium Alloy", "Gather Neutronium Dust by analyzing artifacts and refine it into Neutronium Alloy.\nNeutronium Alloys are required in the construction of large space structures", "(5) Space Expansion")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.NEUTRONIUMMATERIAL.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.NEUTRONIUMMATERIAL.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.E_SPACEEXPANSION")]
         [JsonProperty]
-        public bool NeutroniumMaterial { get; set; }
+        public bool NeutroniumMaterial { get; set; } = true;
 
         #endregion
 
         #region EasterEggs
 
-        [Option("Dune Spice", "When consuming Rocketeer Spice, Dupes will gain the spice eyes from Dune.", "(6) Easter Eggs")]
+        [Option("STRINGS.OPTIONS_ROCKETRYEXPANDED.SPICEEYES.TITLE", "STRINGS.OPTIONS_ROCKETRYEXPANDED.SPICEEYES.TOOLTIP", "STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.F_EASTEREGGS")]
         [JsonProperty]
-        public bool SpiceEyes { get; set; }
+        public bool SpiceEyes { get; set; } = true;
 
         #endregion
-
-        public Config()
-        {
-            ///Vanilla+
-            EnableAdvWorldSelector = true;
-            CompressInteriors = true;
-            ScannerModuleRangeRadius = 4;
-            ScannerModuleScanSpeed = 0.33f;
-            HabitatPowerPlug = true;
-            EnableExtendedHabs = true;
-            HabitatInteriorRadiation = true;
-            HabitatInteriorPortImprovements = true;
-            SlimLargeEngines = false;
-
-            ///Drilling&Shipping
-            EnableCritterStorage = true;
-            CritterStorageCapacity = 5;
-            EnableLaserDrill = true;
-            LaserDrillconeSpeed = 4.875f;
-            EnableFridge = true;
-            InfinitePOI = false;
-            EnableLargeCargoBays = true;
-            InsulatedCargoBays = true;
-            EnableRadboltStorage = true;
-            RadboltStorageCapacity = 3000f;
-            EnableDrillSupport = true;
-            LaserDrillconeSpeed = 25;
-            DrillconeSupportBoost = 20;
-            DrillconeSupportDiamondMass = 1500;
-            PilotSkillAffectsDrillSpeed = true;
-            RefillDrillSupport = false;
-            EnablePOISensor = true;
-
-            RebalancedCargoCapacity = true;
-            GasCargoBayKgPerUnit = 500;
-            LiquidCargoBayKgPerUnit = 1250;
-            SolidCargoBayKgPerUnit = 2000;
-            SmallCargoBayUnits = 9;
-            MediumCargoBayUnits = 27;
-            CollossalCargoBayUnits = 64;
-
-
-            /// Fuel&Logistics
-            BuffLargeOxidizer = true;
-            EthanolEngines = true;
-            EnableElectricEngine = false;
-            Boosters = true;
-            EnableNatGasEngine = true;
-            EnableNatGasEngineRange = 15;
-            EnableEarlyGameFuelTanks = true;
-            EnableFuelLoaders = true;
-            EnableWallAdapter = true;
-            EnableBunkerPlatform = true;
-            EnableRocketLoaderLogicOutputs = true;
-
-            /// Power&Utility
-            EnableSolarNosecone = true;
-            EnableGenerators = true;
-            EnableSmolBattery = true;
-            IsotopeDecayTime = 50;
-
-            /// SpaceStations
-            SpaceStationsAndTech = false;
-            RocketDocking = true;
-            NeutroniumMaterial = true;
-
-            /// EasterEggs
-            SpiceEyes = true;
-        }
 
         public IEnumerable<IOptionsEntry> CreateOptions()
         {

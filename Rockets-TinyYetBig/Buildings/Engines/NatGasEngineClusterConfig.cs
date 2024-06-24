@@ -112,7 +112,7 @@ namespace Rockets_TinyYetBig.Buildings.Engines
             conduitConsumer.forceAlwaysSatisfied = true;
             conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
-            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MODERATE_PLUS, 40f, TankCapacity / Config.Instance.EnableNatGasEngineRange / 600f);
+            BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MODERATE_PLUS, 40f, TankCapacity / Config.Instance.NatGasEngineRange / 600f);
             go.GetComponent<KPrefabID>().prefabInitFn += inst => { };
         }
     }

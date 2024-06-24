@@ -51,12 +51,12 @@ namespace Rockets_TinyYetBig
                 var insertionIndex = code.FindIndex(ci => ci.operand is MethodInfo f && f == SuitableMethodInfo);
 
 
-                //InjectionMethods.PrintInstructions(code);
                 if (insertionIndex != -1)
                 {
-                    //SgtLogger.debuglog("FOUNDDDDDDDDDDD");
                     code[insertionIndex] = new CodeInstruction(OpCodes.Call, BackgroundHelper);
                 }
+                else
+                    Debug.LogError("TRANSPILER BROKE: RocketBackgroundGeneration");
 
                 return code;
             }
@@ -99,20 +99,18 @@ namespace Rockets_TinyYetBig
         //}
         
 
-
+        /// <summary>
+        /// Reduces width of rocket modules over 5 width (mainly engines) to 5 width if the config option for it is enabled
+        /// </summary>
         [HarmonyPatch(typeof(BuildingTemplates), nameof(BuildingTemplates.CreateRocketBuildingDef))]
         public static class RocketEngineWidthIsReduced
         {
             public static void Postfix(BuildingDef def)
             {
                   
-                if (
-                    //Config.Instance.SlimLargeEngines
-                    //&& 
-                    def.WidthInCells>5
-                    )
+                if (Config.Instance.SlimLargeEngines && def.WidthInCells>5)
                 {
-                    SgtLogger.l(def.name, "SQUISH");
+                    SgtLogger.l("squishing module "+def.name);
                     def.WidthInCells = 5;
                     def.GenerateOffsets();
                 }
@@ -169,7 +167,7 @@ namespace Rockets_TinyYetBig
         }
 
         /// <summary>
-        /// Add Custom Sidescreen for Nosecone
+        /// Add Custom Sidescreen for laser drillcone
         /// </summary>
         [HarmonyPatch(typeof(DetailsScreen), "OnPrefabInit")]
         public static class CustomSideScreenPatch_LaserDrillcone
@@ -181,7 +179,7 @@ namespace Rockets_TinyYetBig
         }
 
         /// <summary>
-        /// add destination selection sidescreen to rad battery
+        /// add direction selection sidescreen to rad battery
         /// </summary>
         [HarmonyPatch(typeof(HighEnergyParticleDirectionSideScreen))]
         [HarmonyPatch(nameof(HighEnergyParticleDirectionSideScreen.IsValidForTarget))]

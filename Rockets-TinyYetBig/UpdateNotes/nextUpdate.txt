@@ -4,5 +4,9 @@
 - fixed drillcone service module not having the 20% boost configured by default
 - added tooltip that displays the current drillcone boost
 - fixed some small bugs with the laser drillcone
+- fixed "slim rockets"-config being always active regardless of settings
+- added wide solar panel module: same stats as the regular solar panel module, but 5 tiles wide, for people who dont like the visuals of the small module on wide rockets ;)
+- added config option for laser drillcone radbolt capacity
+- config options are now translatable
 
 - added chinese localisation by Chinchou

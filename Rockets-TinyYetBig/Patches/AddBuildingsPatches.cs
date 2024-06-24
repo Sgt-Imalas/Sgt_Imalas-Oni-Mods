@@ -44,6 +44,8 @@ namespace RoboRockets.Rockets_TinyYetBig
                 //Assign categories to each vanilla module
                 CategorizeVanillaModules();
 
+                AddRocketModuleToBuildList(SolarPanelModuleWideConfig.ID, RocketCategory.power, SolarPanelModuleConfig.ID);
+
 
                 if (Config.Instance.EnableExtendedHabs)
                 {
@@ -175,6 +177,7 @@ namespace RoboRockets.Rockets_TinyYetBig
         {
             public static void Postfix()
             {
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.SpacePower, SolarPanelModuleWideConfig.ID);
                 if (Config.Instance.EnableExtendedHabs)
                 {
                     InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.CrashPlan, HabitatModuleSmallExpandedConfig.ID);

@@ -81,10 +81,6 @@ namespace Rockets_TinyYetBig.Patches
 
             public static void Prefix(ResourceHarvestModule.StatesInstance __instance,GameObject statusTarget, ref float harvestRate)
             {
-                //fix for missing boost value
-                if (Config.Instance.DrillconeSupportBoost == 0)
-                    Config.Instance.DrillconeSupportBoost = 20;
-
                 if (statusTarget == null)
                     return;
 
@@ -99,7 +95,7 @@ namespace Rockets_TinyYetBig.Patches
                 }
                 //SgtLogger.debuglog(__instance + ", BooserCount: " + SupportModuleCount);
 
-                float supportBoost = ((float)Config.Instance.DrillconeSupportBoost) / 100f;
+                float supportBoost = ((float)Config.Instance.DrillconeSupportSpeedBoost) / 100f;
                 float totalSupportBoost = (1f + ((float)SupportModuleCount)* supportBoost);
                 float pilotBoost = ModAssets.GetMiningPilotSkillMultiplier(CraftInterface.m_clustercraft);
                 float totalBoostPercentage = totalSupportBoost * pilotBoost;
@@ -256,7 +252,7 @@ namespace Rockets_TinyYetBig.Patches
                     }
                     //SgtLogger.debuglog(__instance + ", BooserCount: " + SupportModuleCount);
                     // __instance.def.harvestSpeed;
-                        actualMiningSpeed = (1f + (SupportModuleCount * ((float)Config.Instance.DrillconeSupportBoost) / 100f)) * ModAssets.DefaultDrillconeHarvestSpeed * ModAssets.GetMiningPilotSkillMultiplier(Module.CraftInterface.m_clustercraft);
+                        actualMiningSpeed = (1f + (SupportModuleCount * ((float)Config.Instance.DrillconeSupportSpeedBoost) / 100f)) * ModAssets.DefaultDrillconeHarvestSpeed * ModAssets.GetMiningPilotSkillMultiplier(Module.CraftInterface.m_clustercraft);
                 }
             }
             /// <summary>
