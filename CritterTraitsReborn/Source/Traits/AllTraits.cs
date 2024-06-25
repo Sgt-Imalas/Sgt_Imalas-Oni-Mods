@@ -35,7 +35,7 @@ namespace CritterTraitsReborn.Traits
             if (traitsInitialized == true) return;
             foreach(var trait in traits)
             {
-                if (trait.RequiresDLC && !DlcManager.IsContentActive("EXPANSION1_ID"))
+                if (trait.RequiresDLC && !DlcManager.IsExpansion1Active())
                     continue;
 
                 if(trait!=null )

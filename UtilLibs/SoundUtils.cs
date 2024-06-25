@@ -61,7 +61,7 @@ namespace UtilLibs
                         for (int i = 0; i < n; i++)
                         {
                             var soundInfo = infos[i];
-                            if (DlcManager.IsContentActive(soundInfo.RequiredDlcId) &&
+                            if (DlcManager.IsContentEnabled(soundInfo.RequiredDlcId) &&
                                     soundInfo.File == srcAnim)
                                 CreateAllSounds(audioSheet, dstAnim, soundInfo, sheet.
                                     defaultType);

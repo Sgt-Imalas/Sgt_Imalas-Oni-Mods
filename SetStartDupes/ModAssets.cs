@@ -108,29 +108,29 @@ namespace SetStartDupes
         private static GameObject parentScreen = null;
 
 
-        public static CarePackageInfo[] GetAdditionalCarePackages(Immigration __instance)
+        public static CarePackageInfo[] GetAdditionalCarePackages()
         {
             bool Dlc1Active = DlcManager.IsExpansion1Active();
 
             var carePackages = new List<CarePackageInfo>()
             {          
                 ///missing seeds:
-                new CarePackageInfo(EvilFlowerConfig.SEED_ID, 1f, () => __instance.CycleCondition(96) && __instance.DiscoveredCondition((Tag) EvilFlowerConfig.ID) || __instance.CycleCondition(500)),
-                new CarePackageInfo(BulbPlantConfig.SEED_ID, 1f, () => __instance.CycleCondition(36) && __instance.DiscoveredCondition((Tag) BulbPlantConfig.ID) || __instance.CycleCondition(500)),
-                new CarePackageInfo(BeanPlantConfig.SEED_ID, 3f, () => __instance.CycleCondition(48) && __instance.DiscoveredCondition((Tag) BeanPlantConfig.ID) || __instance.CycleCondition(500)),
-                new CarePackageInfo(ColdWheatConfig.SEED_ID, 3f, () => __instance.CycleCondition(48) && __instance.DiscoveredCondition((Tag) ColdWheatConfig.ID) || __instance.CycleCondition(500)),
-                new CarePackageInfo(SeaLettuceConfig.SEED_ID, 3f, () => __instance.CycleCondition(48) && __instance.DiscoveredCondition((Tag) SeaLettuceConfig.ID) || __instance.CycleCondition(500)),
-                new CarePackageInfo(SaltPlantConfig.SEED_ID, 3f, () => __instance.CycleCondition(48) && __instance.DiscoveredCondition((Tag) SaltPlantConfig.ID) || __instance.CycleCondition(500)),
+                new CarePackageInfo(EvilFlowerConfig.SEED_ID, 1f, () => Immigration.CycleCondition(96) && Immigration.DiscoveredCondition((Tag) EvilFlowerConfig.ID) || Immigration.CycleCondition(500)),
+                new CarePackageInfo(BulbPlantConfig.SEED_ID, 1f, () => Immigration.CycleCondition(36) && Immigration.DiscoveredCondition((Tag) BulbPlantConfig.ID) || Immigration.CycleCondition(500)),
+                new CarePackageInfo(BeanPlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) BeanPlantConfig.ID) || Immigration.CycleCondition(500)),
+                new CarePackageInfo(ColdWheatConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) ColdWheatConfig.ID) || Immigration.CycleCondition(500)),
+                new CarePackageInfo(SeaLettuceConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) SeaLettuceConfig.ID) || Immigration.CycleCondition(500)),
+                new CarePackageInfo(SaltPlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) SaltPlantConfig.ID) || Immigration.CycleCondition(500)),
 
                 ///missing minerals:
-                new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Granite).tag.ToString(), 1000f, (Func<bool>) (() => __instance.CycleCondition(24) && __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Granite).tag)|| __instance.CycleCondition(500))),
-                new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Obsidian).tag.ToString(), 1000f, (Func<bool>) (() => __instance.CycleCondition(24) && __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Obsidian).tag)|| __instance.CycleCondition(500))),
-                new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Katairite).tag.ToString(), 1000f, (Func<bool>) (() => __instance.CycleCondition(48) && __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Katairite).tag)|| __instance.CycleCondition(500))),
+                new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Granite).tag.ToString(), 1000f, (Func<bool>) (() => Immigration.CycleCondition(24) && Immigration.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Granite).tag)|| Immigration.CycleCondition(500))),
+                new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Obsidian).tag.ToString(), 1000f, (Func<bool>) (() => Immigration.CycleCondition(24) && Immigration.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Obsidian).tag)|| Immigration.CycleCondition(500))),
+                new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Katairite).tag.ToString(), 1000f, (Func<bool>) (() => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Katairite).tag)|| Immigration.CycleCondition(500))),
 
                 ///missing ores+metals
-                new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.IronOre).tag.ToString(), 2000f, (Func<bool>) (() => __instance.CycleCondition(12) && __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.IronOre).tag)|| __instance.CycleCondition(500))),
-                new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Wolframite).tag.ToString(), 1000f, (Func<bool>) (() => __instance.CycleCondition(48) && __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Wolframite).tag)|| __instance.CycleCondition(500))),
-                new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Tungsten).tag.ToString(), 200f, (Func<bool>) (() => __instance.CycleCondition(48) && __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Tungsten).tag)|| __instance.CycleCondition(500))),
+                new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.IronOre).tag.ToString(), 2000f, (Func<bool>) (() => Immigration.CycleCondition(12) && Immigration.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.IronOre).tag)|| Immigration.CycleCondition(500))),
+                new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Wolframite).tag.ToString(), 1000f, (Func<bool>) (() => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Wolframite).tag)|| Immigration.CycleCondition(500))),
+                new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Tungsten).tag.ToString(), 200f, (Func<bool>) (() => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Tungsten).tag)|| Immigration.CycleCondition(500))),
 
       
             };
@@ -139,15 +139,15 @@ namespace SetStartDupes
                 carePackages.AddRange( new List<CarePackageInfo>()
                 {
                     ///missing ores
-                    new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.UraniumOre).tag.ToString(), 100f, () => __instance.CycleCondition(48)&& __instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.UraniumOre).tag) || __instance.CycleCondition(500)),
+                    new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.UraniumOre).tag.ToString(), 100f, () => Immigration.CycleCondition(48)&& Immigration.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.UraniumOre).tag) || Immigration.CycleCondition(500)),
                     
                     ///missing seeds
-                    new CarePackageInfo(SwampHarvestPlantConfig.SEED_ID, 3f, () => __instance.CycleCondition(24) && __instance.DiscoveredCondition((Tag) SwampHarvestPlantConfig.ID) || __instance.CycleCondition(500)),
-                    new CarePackageInfo(ToePlantConfig.SEED_ID, 3f, () => __instance.CycleCondition(48) && __instance.DiscoveredCondition((Tag) ToePlantConfig.ID) || __instance.CycleCondition(500)),
-                    new CarePackageInfo("CritterTrapPlantSeed", 1f, () => __instance.CycleCondition(96)&& __instance.DiscoveredCondition((Tag) CritterTrapPlantConfig.ID) || __instance.CycleCondition(500)),
+                    new CarePackageInfo(SwampHarvestPlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(24) && Immigration.DiscoveredCondition((Tag) SwampHarvestPlantConfig.ID) || Immigration.CycleCondition(500)),
+                    new CarePackageInfo(ToePlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) ToePlantConfig.ID) || Immigration.CycleCondition(500)),
+                    new CarePackageInfo("CritterTrapPlantSeed", 1f, () => Immigration.CycleCondition(96)&& Immigration.DiscoveredCondition((Tag) CritterTrapPlantConfig.ID) || Immigration.CycleCondition(500)),
 
                     ///missing critters
-                    new CarePackageInfo(BabyBeeConfig.ID, 1f, () => __instance.CycleCondition(24) && (__instance.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.UraniumOre).tag)||__instance.DiscoveredCondition((Tag) BabyBeeConfig.ID)) || __instance.CycleCondition(500)),
+                    new CarePackageInfo(BabyBeeConfig.ID, 1f, () => Immigration.CycleCondition(24) && (Immigration.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.UraniumOre).tag)||Immigration.DiscoveredCondition((Tag) BabyBeeConfig.ID)) || Immigration.CycleCondition(500)),
 
                 });
             }
@@ -572,7 +572,7 @@ namespace SetStartDupes
             if (trait.id == DUPLICANTSTATS.INVALID_TRAIT_VAL.id)
                 return false;
 
-            return trait.dlcId == null || trait.dlcId == "" || trait.dlcId == DlcManager.GetHighestActiveDlcId();
+            return string.IsNullOrEmpty(trait.dlcId) || DlcManager.IsDlcListValidForCurrentContent (new string[] { trait.dlcId });
         }
 
         public static class Colors

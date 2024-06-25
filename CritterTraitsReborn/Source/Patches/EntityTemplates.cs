@@ -1,9 +1,26 @@
 ﻿using HarmonyLib;
+using System;
 using UnityEngine;
 
 namespace CritterTraitsReborn.Patches
 {
-  [HarmonyPatch(typeof(EntityTemplates), "ExtendEntityToBasicCreature")]
+  [HarmonyPatch(typeof(EntityTemplates), nameof(EntityTemplates.ExtendEntityToBasicCreature), new Type[]{
+      typeof(GameObject),
+      typeof(FactionManager.FactionID),
+      typeof(string) ,
+      typeof(string) ,
+      typeof(NavType) ,
+      typeof(int) ,
+      typeof(float ),
+      typeof(string) ,
+      typeof(int),
+      typeof(bool ) ,
+      typeof(bool) ,
+      typeof(float ),
+      typeof(float ),
+      typeof(float ),
+      typeof(float )
+})]
   class EntityTemplates_ExtendEntityToBasicCreature {
     static void Postfix(ref GameObject __result,
       GameObject template,

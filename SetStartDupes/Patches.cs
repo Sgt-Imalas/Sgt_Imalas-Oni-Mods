@@ -82,7 +82,7 @@ namespace SetStartDupes
             static bool Prepare() => Config.Instance.AddAdditionalCarePackages;
             public static void Postfix(Immigration __instance)
             {
-                __instance.carePackages = __instance.carePackages.Concat(ModAssets.GetAdditionalCarePackages(__instance));
+                __instance.carePackages.AddRange(ModAssets.GetAdditionalCarePackages());
             }
         }
 
@@ -108,8 +108,7 @@ namespace SetStartDupes
                 }
             }
         }
-        [HarmonyPatch(typeof(CharacterContainer))]
-        [HarmonyPatch(nameof(CharacterContainer.GenerateCharacter))]
+        [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.GenerateCharacter))]
         public class OverwriteRngGeneration
         {
             public static bool Prefix(CharacterContainer __instance, KButton ___selectButton, string guaranteedAptitudeID)
@@ -159,8 +158,7 @@ namespace SetStartDupes
             }
         }
 
-        [HarmonyPatch(typeof(CharacterContainer))]
-        [HarmonyPatch(nameof(CharacterContainer.GenerateCharacter))]
+        [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.GenerateCharacter))]
         public class ApplyCrewPresetIfAvailable
         {
             public static void Postfix(CharacterContainer __instance, KButton ___selectButton)
@@ -1464,6 +1462,29 @@ namespace SetStartDupes
                 }
             }
         }
+        [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.SetMinion))]
+        public static class RefreshStatsForFreyja
+        {
+            [HarmonyPriority(Priority.Low - 1)]
+            public static void Postfix(CharacterContainer __instance, MinionStartingStats ___stats)
+            {
+                var mngt = __instance.transform.Find("ModifyDupeStats");
+                if (mngt == null)
+                {
+                    SgtLogger.log("StatManager not found, skipping assignment..")
+                      ; return;
+                }
+                var mng = mngt.gameObject.GetComponent<DupeTraitManager>();
+                if (mng != null)
+                {
+                    mng.SetReferenceStats(___stats);
+                }
+                else
+                    SgtLogger.warning("dupe mng was null!");
+            }
+        }
+
+
         [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.GenerateCharacter))]
         public static class AddChangeButtonToCharacterContainer
         {

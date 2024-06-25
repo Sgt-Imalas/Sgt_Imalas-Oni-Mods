@@ -40,7 +40,7 @@ namespace CritterTraitsReborn.Traits
             Groups[SizeGroupId] = new Group(SizeGroupId, 0.3f);
             Groups[NoiseGroupId] = new Group(NoiseGroupId, 0.05f);
             Groups[SmellGroupId] = new Group(SmellGroupId, 0.05f, inst => !inst.HasTag(GameTags.Creatures.Swimmer));
-            Groups[GlowGroupId] = new Group(GlowGroupId, DlcManager.IsContentActive("EXPANSION1_ID") ? 0.16f : 0.08f, inst => inst.GetComponent<Light2D>() == null);
+            Groups[GlowGroupId] = new Group(GlowGroupId, DlcManager.IsExpansion1Active() ? 0.16f : 0.08f, inst => inst.GetComponent<Light2D>() == null);
             Groups[SpeedGroupId] = new Group(SpeedGroupId, 0.2f, inst => inst.GetComponent<Navigator>() != null);
             Groups[LifespanGroupId] = new Group(LifespanGroupId, 0.15f, inst => HasAmount(inst, Db.Get().Amounts.Age));
             Groups[FertilityGroupId] = new Group(FertilityGroupId, 0.1f, inst => HasAmount(inst, Db.Get().Amounts.Fertility));
