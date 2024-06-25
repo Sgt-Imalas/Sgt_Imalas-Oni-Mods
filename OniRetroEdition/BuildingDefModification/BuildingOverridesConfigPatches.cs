@@ -60,6 +60,9 @@ namespace OniRetroEdition.BuildingDefModification
         {
             private static void Prefix(Workable __instance)
             {
+                if (__instance is Toggleable)
+                    return;
+
                 if (__instance.TryGetComponent<KPrefabID>(out var kPrefabID))
                 {
                     //SgtLogger.l("Testing any overrides for " + kPrefabID.PrefabID());
