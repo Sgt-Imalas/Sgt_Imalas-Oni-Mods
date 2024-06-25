@@ -269,7 +269,7 @@ namespace ClusterTraitGenerationManager.ClusterData
             CurrentClassicOuterPlanets = 0;
 
 
-            string setting = selectScreen.newGameSettings.GetSetting(CustomGameSettingConfigs.WorldgenSeed);
+            string setting = selectScreen.newGameSettingsPanel.GetSetting(CustomGameSettingConfigs.WorldgenSeed);
             int seed = int.Parse(setting);
             if (log)
                 SgtLogger.l(setting, "CurrentSeed");
@@ -640,9 +640,9 @@ namespace ClusterTraitGenerationManager.ClusterData
                 return;
             ClusterLayout Reference = SettingsCache.clusterLayouts.GetClusterData(clusterID);
 
-            if (Reference == null || selectScreen == null || selectScreen.newGameSettings == null)
+            if (Reference == null || selectScreen == null || selectScreen.newGameSettingsPanel == null)
                 return;
-            string setting = selectScreen.newGameSettings.GetSetting(CustomGameSettingConfigs.WorldgenSeed);
+            string setting = selectScreen.newGameSettingsPanel.GetSetting(CustomGameSettingConfigs.WorldgenSeed);
 
             if (setting == null || setting.Length == 0)
                 return;

@@ -223,10 +223,10 @@ namespace ClusterTraitGenerationManager
             public static void Postfix(ColonyDestinationSelectScreen __instance)
             {
                 CGSMClusterManager.selectScreen = __instance;
-                if (__instance.newGameSettings == null)
+                if (__instance.newGameSettingsPanel == null)
                     return;
 
-                RegenerateCGM(__instance.newGameSettings.settings, "Coordinate");
+                RegenerateCGM(__instance.newGameSettingsPanel.settings, "Coordinate");
             }
         }
 
@@ -300,9 +300,9 @@ namespace ClusterTraitGenerationManager
             public static void Postfix(ColonyDestinationSelectScreen __instance)
             {
                 CGSMClusterManager.selectScreen = __instance;
-                if (__instance.newGameSettings == null)
+                if (__instance.newGameSettingsPanel == null)
                     return;
-                RegenerateCGM(__instance.newGameSettings.settings, "Coordinate");
+                RegenerateCGM(__instance.newGameSettingsPanel.settings, "Coordinate");
             }
         }
 
@@ -1015,7 +1015,7 @@ namespace ClusterTraitGenerationManager
 
                     }
                 }
-                if (e is TemplateSpawningException)
+                if (e is WorldgenException)
                 {
                     errorMessage = e.Message;
                 }
@@ -1205,8 +1205,7 @@ namespace ClusterTraitGenerationManager
 
 
 
-        [HarmonyPatch(typeof(Worlds))]
-        [HarmonyPatch(nameof(Worlds.GetWorldData))]
+        [HarmonyPatch(typeof(Worlds), nameof(Worlds.GetWorldData),new Type[] { typeof(string) })]
         public static class OverrideWorldSizeOnDataGetting
         {
             public static Dictionary<string, Vector2I> OriginalPlanetSizes = new Dictionary<string, Vector2I>();
@@ -1223,7 +1222,7 @@ namespace ClusterTraitGenerationManager
                 }
                 //OriginalPlanetSizes.Clear();
             }
-            public static void Postfix(Worlds __instance, string name, ref ProcGen.World __result)
+            public static void Postfix(string name, ref ProcGen.World __result)
             {
                 if (__result != null && name != null)
                 {
@@ -1481,7 +1480,7 @@ namespace ClusterTraitGenerationManager
 
         [HarmonyPatch(typeof(Cluster))]
         [HarmonyPatch(typeof(Cluster), MethodType.Constructor)]
-        [HarmonyPatch(new Type[] { typeof(string), typeof(int), typeof(List<string>), typeof(bool), typeof(bool) })]
+        [HarmonyPatch(new Type[] { typeof(string), typeof(int), typeof(List<string>), typeof(bool), typeof(bool), typeof(bool) })]
         public static class ApplyCustomGen
         {
             public static bool IsGenerating = false;
@@ -1489,7 +1488,7 @@ namespace ClusterTraitGenerationManager
             /// Setting ClusterID to custom cluster if it should load
             /// 
             /// </summary>
-            public static void Prefix(ref string name)
+            public static void Prefix(ref string clusterName)
             {
                 //CustomLayout
                 if (CGSMClusterManager.LoadCustomCluster)
@@ -1500,7 +1499,7 @@ namespace ClusterTraitGenerationManager
                     //    ///Generating custom cluster if null
                     //    CGSMClusterManager.AddCustomClusterAndInitializeClusterGen();
                     //}
-                    name = CGSMClusterManager.CustomClusterID;
+                    clusterName = CGSMClusterManager.CustomClusterID;
                     IsGenerating = true;
                 }
             }

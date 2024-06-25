@@ -442,7 +442,7 @@ namespace ClusterTraitGenerationManager.ClusterData
         {
             if (SomeStarmapitemsMissing(out var missingIds))
             {
-                string setting = selectScreen.newGameSettings.GetSetting(CustomGameSettingConfigs.WorldgenSeed);
+                string setting = selectScreen.newGameSettingsPanel.GetSetting(CustomGameSettingConfigs.WorldgenSeed);
                 int seed = int.Parse(setting);
                 SgtLogger.l(setting, "seed");
                 var random = new System.Random(seed);
@@ -468,7 +468,7 @@ namespace ClusterTraitGenerationManager.ClusterData
         void GenerateVanillaStarmapDestinations()
         {
 
-            string setting = selectScreen.newGameSettings.GetSetting(CustomGameSettingConfigs.WorldgenSeed);
+            string setting = selectScreen.newGameSettingsPanel.GetSetting(CustomGameSettingConfigs.WorldgenSeed);
             int seed = int.Parse(setting);
             SpaceDestinationTypes destinationTypes = Db.Get().SpaceDestinationTypes;
 
