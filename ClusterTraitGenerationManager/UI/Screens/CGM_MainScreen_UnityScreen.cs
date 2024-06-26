@@ -2796,7 +2796,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
                     TogglePlanetoid(CurrentStarmapItem);
                     RefreshView();
 
-                    if (DlcManager.IsExpansion1Active()) ResetSOStarmap(true);
+                    if (DlcManager.IsExpansion1Active()) 
+                        ResetSOStarmap(true);
                 }
             };
 

@@ -1331,6 +1331,7 @@ namespace ClusterTraitGenerationManager.ClusterData
         
         static HashSet<string> DevWorlds = new HashSet<string>()
         {
+            //SO:
             "Moon_Barren",
             "SulfurMoonlet",
             "SpaceshipInterior",
@@ -1339,7 +1340,10 @@ namespace ClusterTraitGenerationManager.ClusterData
             "TinyMagma",
             "TinyStart",
             "TwinMoonlet",
-            "OilyMoonlet"
+            "OilyMoonlet",
+            //basegame:
+            "TinySurface",
+
         };
 
         internal static bool SkipWorldForDlcReasons(string world, ProcGen.World worldItem)

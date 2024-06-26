@@ -9,6 +9,9 @@ using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
 using UnityEngine;
 using UtilLibs;
 using ClusterTraitGenerationManager.UI.SO_StarmapEditor;
+using HarmonyLib;
+using System.Reflection.Emit;
+using static ClusterTraitGenerationManager.Patches;
 
 namespace ClusterTraitGenerationManager.ClusterData
 {
@@ -289,6 +292,7 @@ namespace ClusterTraitGenerationManager.ClusterData
             GenerateVanillaStarmapDestinations();
         }
 
+        //Copied from GenerateRandomDestinations;
         void PopulateVanillaStarmapLocations()
         {
             SpaceDestinationTypes destinationTypes = Db.Get().SpaceDestinationTypes;
@@ -438,6 +442,80 @@ namespace ClusterTraitGenerationManager.ClusterData
         [JsonIgnore]
         Dictionary<string, List<int>> _possibleVanillaStarmapLocations = null;
 
+
+
+        [HarmonyPatch(typeof(SpacecraftManager), nameof(SpacecraftManager.GenerateRandomDestinations))]
+        public class SpacecraftManager_GenerateRandomDestinations_Patch
+        {
+            ///nullable check for the seed
+            public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+            {
+                var codes = orig.ToList();
+
+                // find injection point
+                var index = codes.FindIndex(ci => ci.LoadsField(AccessTools.Field(typeof(Klei.WorldDetailSave), "globalWorldSeed")));
+                var index2 = codes.FindIndex(ci => ci.Calls(AccessTools.Method(typeof(SaveLoader), "get_clusterDetailSave")));
+                var index3 = codes.FindIndex(ci => ci.Calls(AccessTools.Method(typeof(SaveLoader), "get_Instance")));
+
+                if (index == -1)
+                {
+                    SgtLogger.error("SPACECRAFTMANAGER TRANSPILER FAILED");
+                    return codes;
+                }
+
+                var m_InjectedMethod = AccessTools.DeclaredMethod(typeof(SpacecraftManager_GenerateRandomDestinations_Patch), "InjectedMethod");
+
+                // inject right after the found index
+                codes[index].opcode = OpCodes.Callvirt;
+                codes[index].operand = m_InjectedMethod;
+                if(index2 == -1)
+                {
+                    SgtLogger.error("SPACECRAFTMANAGER TRANSPILER FAILED");
+                    return codes;
+                }
+
+                var m_InjectedMethod2 = AccessTools.DeclaredMethod(typeof(SpacecraftManager_GenerateRandomDestinations_Patch), "InjectedMethod2");
+
+                // inject right after the found index
+                codes[index2].opcode = OpCodes.Callvirt;
+                codes[index2].operand = m_InjectedMethod2;
+
+                if (index3 == -1)
+                {
+                    SgtLogger.error("SPACECRAFTMANAGER TRANSPILER FAILED");
+                    return codes;
+                }
+
+                var m_InjectedMethod3 = AccessTools.DeclaredMethod(typeof(SpacecraftManager_GenerateRandomDestinations_Patch), "InjectedMethod3");
+
+                // inject right after the found index
+                codes[index3].opcode = OpCodes.Callvirt;
+                codes[index3].operand = m_InjectedMethod3;
+
+                TranspilerHelper.PrintInstructions(codes);
+                return codes;
+            }
+            private static object InjectedMethod3()
+            {
+                if(SaveLoader.Instance != null)
+                    return SaveLoader.Instance;
+                return new object();
+            }
+            private static object InjectedMethod2(object prev)
+            {
+                if (prev == null || prev is not SaveLoader instance)
+                    return new object();
+                return instance.clusterDetailSave;
+            }
+            private static int InjectedMethod(object prev)
+            {
+
+                if (prev == null || prev is not Klei.WorldDetailSave existing)
+                    return Seed;
+                return existing.globalWorldSeed;
+            }
+            public static int Seed=0;
+        }
         public void AddMissingStarmapItems()
         {
             if (SomeStarmapitemsMissing(out var missingIds))
@@ -467,60 +545,48 @@ namespace ClusterTraitGenerationManager.ClusterData
         /// </summary>
         void GenerateVanillaStarmapDestinations()
         {
-
             string setting = selectScreen.newGameSettingsPanel.GetSetting(CustomGameSettingConfigs.WorldgenSeed);
             int seed = int.Parse(setting);
             SpaceDestinationTypes destinationTypes = Db.Get().SpaceDestinationTypes;
+            SpacecraftManager_GenerateRandomDestinations_Patch.Seed = seed;
+            VanillaStarmap_InsertModified.SkipPatch = true;
 
-            List<Tuple<string, int>> destinationsWithDistance = new List<Tuple<string, int>>();
-            ///Fixed Items:
-            destinationsWithDistance.Add(new(destinationTypes.CarbonaceousAsteroid.Id, 0));
-            destinationsWithDistance.Add(new(destinationTypes.CarbonaceousAsteroid.Id, 0));
-            destinationsWithDistance.Add(new(destinationTypes.MetallicAsteroid.Id, 1));
-            destinationsWithDistance.Add(new(destinationTypes.RockyAsteroid.Id, 2));
-            destinationsWithDistance.Add(new(destinationTypes.IcyDwarf.Id, 3));
-            destinationsWithDistance.Add(new(destinationTypes.OrganicDwarf.Id, 4));
+            var managerCarrier = Util.NewGameObject(null, "SpacecraftManagerCarrier");
+            var manager = managerCarrier.AddComponent<SpacecraftManager>();
+            manager.destinationsGenerated = false;
+            SgtLogger.l("starting vanilla gen");
+            manager.RestoreDestinations();
 
-            destinationsWithDistance.Add(new(destinationTypes.Earth.Id, 4));
-            ///Random Items:
-            KRandom krandom = new KRandom(seed);
-
-
-            List<int> intList = new List<int>();
-            int num1 = 3;
-            int minValue = 15;
-            int maxValue = 25;
-            for (int index1 = 0; index1 < VanillaSpawns.Count; ++index1)
+            MaxStarmapDistance = 0;
+            foreach(var destination in manager.destinations)
             {
-                if (VanillaSpawns[index1].Count != 0)
+                SgtLogger.l(destination.type, "dest");
+                if(destination.distance > MaxStarmapDistance)
                 {
-                    for (int index2 = 0; index2 < num1; ++index2)
-                        intList.Add(index1);
+                    MaxStarmapDistance = destination.distance; 
+                }
+                if(VanillaStarmapItems.TryGetValue(destination.distance, out var destinations))
+                {
+                    destinations.Add(destination.type);
+                }
+                else
+                {
+                    VanillaStarmapItems[destination.distance] = new() { destination.type };
                 }
             }
-            int num2 = krandom.Next(minValue, maxValue);
-            for (int index3 = 0; index3 < num2; ++index3)
-            {
-                int index4 = krandom.Next(0, intList.Count - 1);
-                int num3 = intList[index4];
-                intList.RemoveAt(index4);
-                List<string> stringList = VanillaSpawns[num3];
-                destinationsWithDistance.Add(new(stringList[krandom.Next(0, stringList.Count)], num3));
-            }
-
-            destinationsWithDistance.Add(new(destinationTypes.Wormhole.Id, VanillaSpawns.Count));
-            MaxStarmapDistance = VanillaSpawns.Count;
 
             for (int distance = 0; distance <= MaxStarmapDistance; distance++)
             {
-                VanillaStarmapItems[distance] = new List<string>();
+                if(!VanillaStarmapItems.TryGetValue(distance, out _))
+                    VanillaStarmapItems[distance] = new List<string>();
             }
 
-            foreach (var entry in destinationsWithDistance)
-            {
-                VanillaStarmapItems[entry.second].Add(entry.first);
-            }
+            SpacecraftManager.DestroyInstance();
+            UnityEngine.Object.Destroy(managerCarrier);
+
+            VanillaStarmap_InsertModified.SkipPatch = false;
         }
+
 
         public void RemovePoiGroup(string key)
         {

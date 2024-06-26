@@ -107,10 +107,10 @@ namespace ClusterTraitGenerationManager
             {
                 if (Game.clusterId == CustomClusterID)
                 {
-                    string settingsCoordinate = CustomGameSettings.Instance.GetSettingsCoordinate().Replace("SNDST-C", "CGM");
+                    string settingsCoordinate = CustomGameSettings.Instance.GetSettingsCoordinate().Replace("SNDST-C", "CGM").Replace("SNDST-A", "CGM");
                     string[] settingCoordinate = CustomGameSettings.ParseSettingCoordinate(settingsCoordinate);
                     __instance.worldSeed.SetText(string.Format((string)global::STRINGS.UI.FRONTEND.PAUSE_SCREEN.WORLD_SEED, (object)settingsCoordinate));
-                    __instance.worldSeed.GetComponent<ToolTip>().toolTip = string.Format((string)global::STRINGS.UI.FRONTEND.PAUSE_SCREEN.WORLD_SEED_TOOLTIP, (object)"CGM", (object)settingCoordinate[2], (object)settingCoordinate[3], (object)settingCoordinate[4]);
+                    __instance.worldSeed.GetComponent<ToolTip>().toolTip = string.Format((string)global::STRINGS.UI.FRONTEND.PAUSE_SCREEN.WORLD_SEED_TOOLTIP, "CGM", settingCoordinate[2], (object)settingCoordinate[3], (object)settingCoordinate[4], settingCoordinate[5]);
 
                 }
             }
@@ -234,8 +234,12 @@ namespace ClusterTraitGenerationManager
         [HarmonyPatch(nameof(SpacecraftManager.RestoreDestinations))]
         public static class VanillaStarmap_InsertModified
         {
+            public static bool SkipPatch = false;
             public static bool Prefix(SpacecraftManager __instance)
             {
+                if (SkipPatch) 
+                    return true;
+
                 SgtLogger.l("SpacecraftManager.RestoreDestinations");
                 if (CGSMClusterManager.LoadCustomCluster && CustomCluster != null)
                 {
