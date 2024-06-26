@@ -89,8 +89,9 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
         public bool AssignClusterLocations(int seed)
         {
             _failedGenerationPlanetId = string.Empty;
-            var myRandom = new SeededRandom(seed);
             ClusterLayout clusterLayout = CGSMClusterManager.GeneratedLayout;
+
+            var myRandom = new SeededRandom(seed);
             List<WorldPlacement> asteroidPlacements = new List<WorldPlacement>(clusterLayout.worldPlacements);
             List<SpaceMapPOIPlacement> poiPlacements = ((clusterLayout.poiPlacements == null) ? new List<SpaceMapPOIPlacement>() : new List<SpaceMapPOIPlacement>(clusterLayout.poiPlacements));
             // currentWorld.SetClusterLocation(AxialI.ZERO);

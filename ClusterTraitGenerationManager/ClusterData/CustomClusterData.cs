@@ -560,7 +560,6 @@ namespace ClusterTraitGenerationManager.ClusterData
             MaxStarmapDistance = 0;
             foreach(var destination in manager.destinations)
             {
-                SgtLogger.l(destination.type, "dest");
                 if(destination.distance > MaxStarmapDistance)
                 {
                     MaxStarmapDistance = destination.distance; 

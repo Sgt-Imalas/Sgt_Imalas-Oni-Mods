@@ -784,7 +784,7 @@ namespace ClusterTraitGenerationManager.ClusterData
                     }
                 }
             }
-            else
+            else if(DlcManager.IsExpansion1Active())
                 SgtLogger.l("poi placements were null");
 
             CustomCluster.SO_Starmap = null;

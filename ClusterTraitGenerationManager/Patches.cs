@@ -156,14 +156,25 @@ namespace ClusterTraitGenerationManager
                 }
             }
         }
-
+        [HarmonyPatch(typeof(CustomGameSettings))]
+        [HarmonyPatch(nameof(CustomGameSettings.SetMixingSetting))]
+        [HarmonyPatch(new Type[] { typeof(SettingConfig), typeof(string) })]
+        public static class RegenerateOnMixingSettingsChanged
+        {
+            public static void Postfix(CustomGameSettings __instance, SettingConfig config, string value)
+            {
+                if (__instance == null || LoadCustomCluster)
+                    return;
+                RegenerateCGM(__instance, "Mixing Setting "+config.id);
+            }
+        }
         /// <summary>
         /// Regenerates Custom cluster with newly created traits on seed shuffle
         /// </summary>
         [HarmonyPatch(typeof(CustomGameSettings))]
         [HarmonyPatch(nameof(CustomGameSettings.SetQualitySetting))]
         [HarmonyPatch(new Type[] { typeof(SettingConfig), typeof(string) })]
-        public static class TraitShuffler
+        public static class RegenerateOnSeedOrClusterChanged
         {
             public static void Postfix(CustomGameSettings __instance, SettingConfig config, string value)
             {
@@ -183,7 +194,6 @@ namespace ClusterTraitGenerationManager
 
                 return;
             }
-
             string clusterPath = __instance.GetCurrentQualitySetting(CustomGameSettingConfigs.ClusterLayout).id;
             if (clusterPath == null || clusterPath.Count() == 0)
             {

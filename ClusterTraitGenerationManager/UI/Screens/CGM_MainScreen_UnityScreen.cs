@@ -853,6 +853,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
             if (!show)
                 return;
 
+            RebuildVanillaStarmapUIIfPending();
+
         }
         static async Task DoWithDelay(System.Action task, int ms)
         {
@@ -1672,20 +1674,29 @@ namespace ClusterTraitGenerationManager.UI.Screens
                 RebuildVanillaStarmap(reset);
         }
 
-        public void RebuildVanillaStarmap(bool reset)
-        {
-            if (DlcManager.IsExpansion1Active())
-                return;
 
+        bool pendingRebuild = false;
+        public void TryRebuildStarmapUI()
+        {
+            if (!IsCurrentlyActive)
+                pendingRebuild = true;
+            else
+                RebuildVanillaStarmapUI();
+        }
+        public void RebuildVanillaStarmapUIIfPending()
+        {
+            if(pendingRebuild)
+            {
+                pendingRebuild = false;
+                RebuildVanillaStarmapUI();
+            }
+        }
+        private void RebuildVanillaStarmapUI()
+        {
             bool currentlyActive = VanillaStarmapItemContent.activeSelf;
             VanillaStarmapItemContent.SetActive(true);
-
-
-            if (reset)
-                CustomCluster.ResetVanillaStarmap();
-
             var list = VanillaStarmapEntries.Values.ToList();
-            for (int i = VanillaStarmapEntries.Count - 1; i >= 0; i--)
+            for (int i = list.Count - 1; i >= 0; i--)
             {
                 Destroy(list[i].gameObject);
             }
@@ -1703,6 +1714,16 @@ namespace ClusterTraitGenerationManager.UI.Screens
             VanillaStarmapItemContent.SetActive(currentlyActive);
             if (SelectedCategory == StarmapItemCategory.VanillaStarmap)
                 CurrentlySelectedItemData = null;
+        }
+
+        public void RebuildVanillaStarmap(bool reset)
+        {
+            if (DlcManager.IsExpansion1Active())
+                return;
+
+            if (reset)
+                CustomCluster.ResetVanillaStarmap();
+            TryRebuildStarmapUI();
         }
         void RefreshMissingItemsButton()
         {
