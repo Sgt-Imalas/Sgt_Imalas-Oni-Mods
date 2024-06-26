@@ -90,7 +90,6 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
         {
             _failedGenerationPlanetId = string.Empty;
             ClusterLayout clusterLayout = CGSMClusterManager.GeneratedLayout;
-
             var myRandom = new SeededRandom(seed);
             List<WorldPlacement> asteroidPlacements = new List<WorldPlacement>(clusterLayout.worldPlacements);
             List<SpaceMapPOIPlacement> poiPlacements = ((clusterLayout.poiPlacements == null) ? new List<SpaceMapPOIPlacement>() : new List<SpaceMapPOIPlacement>(clusterLayout.poiPlacements));

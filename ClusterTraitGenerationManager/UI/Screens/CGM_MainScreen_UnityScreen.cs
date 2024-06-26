@@ -854,7 +854,6 @@ namespace ClusterTraitGenerationManager.UI.Screens
                 return;
 
             RebuildVanillaStarmapUIIfPending();
-
         }
         static async Task DoWithDelay(System.Action task, int ms)
         {
