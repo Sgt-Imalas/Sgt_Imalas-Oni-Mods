@@ -398,13 +398,11 @@ namespace ClusterTraitGenerationManager
         }
 
         /// <summary>
-        /// Allow planets to load into the world cache if 
-        /// - they are in a cluster (default condition)
-        /// - have "CGM"/"CGSM" in their Name (added)
+        /// Load missing moonlet type
         /// </summary>
         [HarmonyPatch(typeof(Worlds))]
         [HarmonyPatch(nameof(Worlds.LoadReferencedWorlds))]
-        public static class AllowUnusedWorldTemplatesToLoadIntoCache
+        public static class LoadAdditionalWorlds
         {
             const string DLC_WorldNamePrefix = "expansion1::worlds/";
             const string Base_WorldNamePrefix = "worlds/";
@@ -460,6 +458,14 @@ namespace ClusterTraitGenerationManager
                 foreach (var sourceWorld in __instance.worldCache)
                 {
                     ///Moonlets already exist in all 3 configurations
+
+                    if ((int)sourceWorld.Value.skip >= 99 || sourceWorld.Value.moduleInterior)
+                        continue;
+
+                    if (CGSMClusterManager.SkipWorldForDlcReasons(sourceWorld.Key, sourceWorld.Value))
+                    {
+                        continue;
+                    }
 
                     string BaseName = sourceWorld.Key.Replace("Start", "").Replace("Outer", "").Replace("Warp", "");
 
@@ -973,6 +979,7 @@ namespace ClusterTraitGenerationManager
                 }
                 foreach (var item in toAdd)
                 {
+                    item.Value.isModded = true;
                     __instance.worldCache[item.Key] = item.Value;
                 }
             }
@@ -1209,15 +1216,20 @@ namespace ClusterTraitGenerationManager
         public static class OverrideWorldSizeOnDataGetting
         {
             public static Dictionary<string, Vector2I> OriginalPlanetSizes = new Dictionary<string, Vector2I>();
+            static Dictionary<string, float> OriginalWorldTraitScales = new();
 
             public static void ResetCustomSizes()
             {
                 foreach (var world in SettingsCache.worlds.worldCache)
                 {
-                    if (OriginalPlanetSizes.ContainsKey(world.Key))
+                    if (OriginalPlanetSizes.TryGetValue(world.Key, out var originalSize))
                     {
-                        SgtLogger.l("Resetting custom planet size to " + world.Key + ", new size: " + OriginalPlanetSizes[world.Key].X + "x" + OriginalPlanetSizes[world.Key].Y, "CGM WorldgenModifier");
-                        world.Value.worldsize = OriginalPlanetSizes[world.Key];
+                        SgtLogger.l("Resetting custom planet size to " + world.Key + ", new size: " + originalSize.X + "x" + originalSize.Y, "CGM WorldgenModifier");
+                        world.Value.worldsize = originalSize;
+                    }
+                    if(OriginalWorldTraitScales.TryGetValue(world.Key, out var originalScale))
+                    {
+                        world.Value.worldTraitScale = originalScale;
                     }
                 }
                 //OriginalPlanetSizes.Clear();
@@ -1228,7 +1240,8 @@ namespace ClusterTraitGenerationManager
                 {
                     if (!OriginalPlanetSizes.ContainsKey(name))
                         OriginalPlanetSizes.Add(name, __result.worldsize);
-
+                    if (!OriginalWorldTraitScales.ContainsKey(name))
+                        OriginalWorldTraitScales.Add(name, __result.worldTraitScale);
 
                     if (CGSMClusterManager.CustomCluster != null && CGSMClusterManager.CustomCluster.HasStarmapItem(name, out var item))
                     {
@@ -1236,6 +1249,10 @@ namespace ClusterTraitGenerationManager
                         {
                             __result.worldsize = item.CustomPlanetDimensions;
                             SgtLogger.l("CGM generating, applied custom planet size to " + item.DisplayName + ", new size: " + __result.worldsize.ToString(), "CGM WorldgenModifier");
+                        }
+                        if (OriginalWorldTraitScales.TryGetValue(name, out var originalTraitScale))
+                        {
+                            __result.worldTraitScale = item.ApplySizeMultiplierToValue(originalTraitScale);
                         }
                     }
                     else
@@ -1247,6 +1264,10 @@ namespace ClusterTraitGenerationManager
                                 __result.worldsize = OriginalPlanetSizes[name];
                                 SgtLogger.l("CGM not generating, worlgen size for " + name + " set to default: " + __result.worldsize.ToString(), "CGM WorldgenModifier");
                             }
+                        }
+                        if (OriginalWorldTraitScales.TryGetValue(name, out var originalTraitScale))
+                        {
+                            __result.worldTraitScale = originalTraitScale;                            
                         }
                     }
                 }

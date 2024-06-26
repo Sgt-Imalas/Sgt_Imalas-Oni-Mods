@@ -1618,7 +1618,6 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
             foreach (var rangeEntry in CustomCluster.POIs)
             {
-                SgtLogger.l(rangeEntry.Value.id, rangeEntry.Key);
                 AddSO_POIGroup(rangeEntry.Value);
             }
             AddRemoveStarmapButtons.gameObject.SetActive(false);
@@ -2443,7 +2442,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
             ///SeasonContainer
             foreach (var gameplaySeason in Db.Get().GameplaySeasons.resources)
             {
-                if (!(gameplaySeason is MeteorShowerSeason) || gameplaySeason.Id.Contains("Fullerene") || gameplaySeason.Id.Contains("TemporalTear") || gameplaySeason.dlcId != DlcManager.GetHighestActiveDlcId())
+                if (!(gameplaySeason is MeteorShowerSeason) || gameplaySeason.Id.Contains("Fullerene") || gameplaySeason.Id.Contains("TemporalTear") || !DlcManager.IsContentEnabled(gameplaySeason.dlcId))
                     continue;
 
                 var meteorSeason = gameplaySeason as MeteorShowerSeason;

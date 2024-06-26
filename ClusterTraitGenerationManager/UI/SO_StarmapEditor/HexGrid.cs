@@ -377,7 +377,6 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 
         public override void OnKeyDown(KButtonEvent e)
         {
-            SgtLogger.l("cursor inside: " + CursorInside);
             if (!e.Consumed && CursorInside && (e.IsAction(Action.ZoomIn) || e.IsAction(Action.ZoomOut)))
             {
                 if (e.IsAction(Action.ZoomIn) && currentZoomStep < zoomStepMax)
