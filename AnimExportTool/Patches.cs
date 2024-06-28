@@ -14,6 +14,7 @@ using UtilLibs;
 using static ResearchTypes;
 using TMPro;
 using Newtonsoft.Json;
+using static KAnim;
 
 namespace AnimExportTool
 {
@@ -131,7 +132,7 @@ namespace AnimExportTool
                 public List<string> traitTags;
 
             }
-            public static void Postfix()
+            public static void GetWorldTraits()
             {
                 List<SerializableWorldTrait> traitdata = new();
                 var unknown = Assets.GetSprite("unknown_far");
@@ -155,13 +156,23 @@ namespace AnimExportTool
                         exclusiveWith = trait.exclusiveWith,
                         exclusiveWithTags = trait.exclusiveWithTags,
                         traitTags = trait.traitTags
-
-                        
                     });
-
                 }
-                IO_Utils.WriteToFile(traitdata, Path.Combine(UtilMethods.ModPath, "WorldTraits","worldtraitdata.json"));
+                IO_Utils.WriteToFile(traitdata, Path.Combine(UtilMethods.ModPath, "WorldTraits", "worldtraitdata.json"));
+            }
+            public static void GetEggs()
+            {
+                foreach(var egg in Assets.GetPrefabsWithTag(GameTags.Egg))
+                {
+                    GetAnimsFromEntity(egg);
+                }
 
+            }
+
+            public static void Postfix()
+            {
+                GetEggs();
+                GetWorldTraits();
             }
         }
 
