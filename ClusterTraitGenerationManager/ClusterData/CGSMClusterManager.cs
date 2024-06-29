@@ -1443,8 +1443,8 @@ namespace ClusterTraitGenerationManager.ClusterData
         //    }
         //    if (dlcInfoData.TryGetValue(planetID, out var info))
         //    {
-        //        bool requiredsEnabled = info.requiredDlcIds.All(DlcManager.IsContentEnabled);
-        //        bool forbiddenEnabled = info.forbiddenDlcIds.Any(DlcManager.IsContentEnabled);
+        //        bool requiredsEnabled = info.requiredDlcIds.All(DlcManager.IsContentSubscribed);
+        //        bool forbiddenEnabled = info.forbiddenDlcIds.Any(DlcManager.IsContentSubscribed);
         //        //SgtLogger.l($" {planetID}: all requireds enabled: {requiredsEnabled}, no forbiddenEnabled: {!forbiddenEnabled}");
         //        return requiredsEnabled && !forbiddenEnabled && !info.SkipCluster;
         //    }

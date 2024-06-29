@@ -84,7 +84,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
         {
             foreach (var gameplaySeason in Db.Get().GameplaySeasons.resources)
             {
-                if (!(gameplaySeason is MeteorShowerSeason) || gameplaySeason.Id.Contains("Fullerene") || gameplaySeason.Id.Contains("TemporalTear") || !DlcManager.IsContentEnabled(gameplaySeason.dlcId))
+                if (!(gameplaySeason is MeteorShowerSeason) || gameplaySeason.Id.Contains("Fullerene") || gameplaySeason.Id.Contains("TemporalTear") || !DlcManager.IsContentSubscribed(gameplaySeason.dlcId))
                     continue;
                 var meteorSeason = gameplaySeason as MeteorShowerSeason;
 
