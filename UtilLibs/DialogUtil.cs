@@ -24,14 +24,15 @@ namespace UtilLibs
             dialogue.PopupConfirmDialog(text, on_confirm, on_cancel, configurable_text, on_configurable_clicked, title, confirm_text, cancel_text, image_sprite);
             
         }
-        public static FileNameDialog CreateTextInputDialog(string title, string startText = null, bool allowEmpty = false, System.Action<string> onConfirm = null, System.Action onCancel = null,GameObject parent =null)
+        public static FileNameDialog CreateTextInputDialog(string title, string startText = null, bool allowEmpty = false, System.Action<string> onConfirm = null, System.Action onCancel = null, GameObject parent = null, bool lockCam = true, bool unlockCam = true)
         {
 
             GameObject dialogueParent = parent != null ? parent : GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay);
             FileNameDialog textDialog = Util.KInstantiateUI<FileNameDialog>(ScreenPrefabs.Instance.FileNameDialog.gameObject, dialogueParent);
             textDialog.transform.SetAsLastSibling();
             textDialog.name = Assembly.GetExecutingAssembly().GetName().Name +"_"+ title;
-
+            if(lockCam)
+                CameraController.Instance.DisableUserCameraControl = true;
             TMP_InputField inputField = textDialog.inputField;
             KButton confirmButton = textDialog.confirmButton;
 
@@ -66,8 +67,14 @@ namespace UtilLibs
             if(onCancel!=null)
             {
                 textDialog.onCancel += onCancel;
-            }                
-            textDialog.Subscribe(476357528, (_) => CameraController.Instance.DisableUserCameraControl = true);
+            }         
+            
+            if(unlockCam)
+                textDialog.Subscribe(476357528, (_) => CameraController.Instance.DisableUserCameraControl = false);
+            else
+                textDialog.Subscribe(476357528, (_) => CameraController.Instance.DisableUserCameraControl = true);
+
+
             Transform titleTransform = textDialog.transform.Find("Panel")?.Find("Title_BG")?.Find("Title");
             if (titleTransform != null && titleTransform.TryGetComponent<LocText>( out var titleText))
             {
