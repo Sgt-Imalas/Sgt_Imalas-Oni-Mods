@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 using UnityEngine;
 using static EdiblesManager;
 
-namespace OniRetroEdition.Foods
+namespace OniRetroEdition.Entities.Foods
 {
     internal class MicrowavedSaladConfig : IEntityConfig
     {
         public const string ID = "MicrowavedLettuce";
         public static ComplexRecipe recipe;
-        public static EdiblesManager.FoodInfo MICROWAVEDLETTUCE;
+        public static FoodInfo MICROWAVEDLETTUCE;
 
         public GameObject CreatePrefab()
         {
-            MICROWAVEDLETTUCE = new EdiblesManager.FoodInfo(ID, "", 600000f, 1, 255.15f, 277.15f, 9600f, can_rot: true);
+            MICROWAVEDLETTUCE = new FoodInfo(ID, "", 600000f, 1, 255.15f, 277.15f, 9600f, can_rot: true);
 
             List<string> effects1 = new List<string>
             {

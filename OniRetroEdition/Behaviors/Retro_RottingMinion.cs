@@ -1,6 +1,6 @@
 ﻿using Klei.AI;
 using KSerialization;
-using OniRetroEdition.Foods;
+using OniRetroEdition.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -40,9 +40,10 @@ namespace OniRetroEdition.BuildingDefModification
                 var interacts = new HashSet<HashedString>();
                 BuildingModifications.Instance.LoadedBuildingOverrides.Values.ToList().ForEach(item =>
                 {
-                    if (item!=null && item.workableAnimOverride != null && item.workableAnimOverride.Length > 0)
+                    if (item!=null && item.WorkableAnimOverrides != null && item.WorkableAnimOverrides.Count > 0)
                     {
-                        interacts.Add(item.workableAnimOverride);
+                        foreach(var anim in item.WorkableAnimOverrides)
+                        interacts.Add(anim.Value);
                     }
                 });
 
@@ -60,8 +61,6 @@ namespace OniRetroEdition.BuildingDefModification
         {
             private static void Prefix(Workable __instance)
             {
-                if (__instance is Toggleable)
-                    return;
 
                 if (__instance.TryGetComponent<KPrefabID>(out var kPrefabID))
                 {
@@ -73,25 +72,27 @@ namespace OniRetroEdition.BuildingDefModification
                     }
                     BuildingModification overrideParams = BuildingModifications.Instance.LoadedBuildingOverrides[kPrefabID.PrefabID().ToString()];
 
-                    //SgtLogger.l("building override config found!");
+                    SgtLogger.l("building override config found for: !");
 
                     if (overrideParams.requiresMinionWorker.HasValue)
                     {
                         __instance.requireMinionToWork = overrideParams.requiresMinionWorker.Value;
                     }
-                    if (overrideParams.workableAnimOverride != null && overrideParams.workableAnimOverride.Length > 0)
+                    if (overrideParams.WorkableAnimOverrides != null && overrideParams.WorkableAnimOverrides.Count > 0)
                     {
-                        SgtLogger.l("anim override config found, name of the override anim: " + overrideParams.workableAnimOverride);
-                        var anim = Assets.GetAnim(overrideParams.workableAnimOverride);
-                        if (anim != null)
+                        string typeName = __instance.GetType().Name;
+                        if (overrideParams.WorkableAnimOverrides.TryGetValue(typeName, out string workableOverride))
                         {
-                            __instance.overrideAnims = new KAnimFile[] { anim };
-                        }
-                        else
-                            SgtLogger.error($"WorkingOverride Animfile {overrideParams.workableAnimOverride} not found!");
+                            SgtLogger.l("anim override config for " + typeName + " found, name of the override anim: " + workableOverride);
+                            var anim = Assets.GetAnim(workableOverride);
+                            if (anim != null)
+                            {
+                                __instance.overrideAnims = new KAnimFile[] { anim };
+                            }
+                            else
+                                SgtLogger.error($"WorkingOverride Animfile {workableOverride} not found!");
+                        } 
                     }
-
-
                 }
             }
             private static void Postfix(Workable __instance)
@@ -334,20 +335,20 @@ namespace OniRetroEdition.BuildingDefModification
                             SgtLogger.warning("could not override minion worker requirement for " + go.name);
                     }
 
-                    if (go.TryGetComponent<Workable>(out var workable))
-                    {
+                    //if (go.TryGetComponent<Workable>(out var workable))
+                    //{
                         
-                        if (overrideParams.workableAnimOverride != null && overrideParams.workableAnimOverride.Length > 0)
-                        {
-                            var anim = Assets.GetAnim(overrideParams.workableAnimOverride);
-                            if (anim != null)
-                            {
-                                workable.overrideAnims = new KAnimFile[] { anim };
-                            }
-                            else
-                                SgtLogger.error($"WorkingOverride Animfile {overrideParams.workableAnimOverride} not found!");
-                        }
-                    }
+                    //    if (overrideParams.workableAnimOverride != null && overrideParams.workableAnimOverride.Length > 0)
+                    //    {
+                    //        var anim = Assets.GetAnim(overrideParams.workableAnimOverride);
+                    //        if (anim != null)
+                    //        {
+                    //            workable.overrideAnims = new KAnimFile[] { anim };
+                    //        }
+                    //        else
+                    //            SgtLogger.error($"WorkingOverride Animfile {overrideParams.workableAnimOverride} not found!");
+                    //    }
+                    //}
 
                 }
             }
