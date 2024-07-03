@@ -1,9 +1,13 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using PeterHan.PLib.Core;
+using PeterHan.PLib.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UtilLibs;
@@ -28,6 +32,7 @@ namespace SaveGameModLoader
         public DLCType Type = 0;
 
 
+        public Dictionary<string, Dictionary<string, MPM_POptionDataEntry>> PlibModConfigSettings = new();
         public Dictionary<string, List<KMod.Label>> SavePoints = new();
 
         public Dictionary<string, List<KMod.Label>> GetSavePoints() => SavePoints;
@@ -52,14 +57,14 @@ namespace SaveGameModLoader
             }
         }
 
-        private Dictionary<string, SaveLoader.SaveFileEntry> _saveLoaderFiles=null;
+        private Dictionary<string, SaveLoader.SaveFileEntry> _saveLoaderFiles = null;
 
         public void CleanupDuplicates()
         {
             List<string> savePointsToCleanup = new List<string>(16);
             foreach (var entry in this.SavePoints)
             {
-                string currentSavePoint = entry.Key;               
+                string currentSavePoint = entry.Key;
                 if (!File.Exists(currentSavePoint))
                 {
                     savePointsToCleanup.Add(currentSavePoint);
@@ -72,6 +77,7 @@ namespace SaveGameModLoader
                 foreach (var savePointKey in savePointsToCleanup)
                 {
                     SavePoints.Remove(savePointKey);
+                    PlibModConfigSettings.Remove(savePointKey);
                 }
                 WriteModlistToFile();
             }
@@ -167,22 +173,124 @@ namespace SaveGameModLoader
         }
 
 
-        public List<KMod.Label> TryGetModListEntry(string path)
-        {
-            this.SavePoints.TryGetValue(path, out var result);
-            return result;
-        }
+        public bool TryGetModListEntry(string path, out List<KMod.Label> result) => this.SavePoints.TryGetValue(path, out result);
+
         public bool AddOrUpdateEntryToModList(string subSavePath, List<KMod.Label> mods, bool isModPack = false)
         {
             this.IsModPack = isModPack;
             bool hasBeenInitialized = false;
-            if (TryGetModListEntry(subSavePath) == null)
+            if (!TryGetModListEntry(subSavePath, out _))
             {
                 hasBeenInitialized = true;
             }
             SavePoints[subSavePath] = mods;
+
+            var plibConfigs = ReadPlibOptions();
+            if(plibConfigs != null && plibConfigs.Count() > 0)
+            {
+                PlibModConfigSettings[subSavePath] = plibConfigs;
+            }
             this.WriteModlistToFile();
             return hasBeenInitialized;
+        }
+
+        public class MPM_POptionDataEntry
+        {
+            public string ConfigFilePath;
+            public bool SharedLocation=false;
+            public JObject ModConfigData;
+            public MPM_POptionDataEntry(string path, bool shared,JObject data)
+            {
+                ConfigFilePath = path;
+                ModConfigData = data;
+                SharedLocation = shared;
+            }
+        }
+
+        public bool TryGetPlibOptionsEntry(string path, out Dictionary<string, MPM_POptionDataEntry> entry)
+        {
+            entry = null;
+            return (PlibModConfigSettings != null && PlibModConfigSettings.TryGetValue(path, out entry));
+        }
+
+        public static void WritePlibOptions(Dictionary<string, MPM_POptionDataEntry> modConfigEntries)
+        {
+            if (!Config.Instance.SavePlibOptions)
+                return;
+            var manager = Global.Instance.modManager;
+            if(modConfigEntries!=null)
+            {
+                SgtLogger.l("applying mod options, " + modConfigEntries.Count() + " entries in profile");
+
+
+                foreach(var modConfig in modConfigEntries)
+                {
+                    string modID = modConfig.Key;
+                    var mod = manager.mods.FirstOrDefault(m => m.staticID == modID);
+                    if(mod == null)
+                    {
+                        SgtLogger.l(modID + " not found.");
+                        continue;
+                    }
+
+                    var config = modConfig.Value;
+                    var fileName = Path.GetFileName(config.ConfigFilePath);
+                    var parentFolder = config.SharedLocation ? Path.Combine(KMod.Manager.GetDirectory(), "config") : mod.ContentPath;
+                    var TargetConfigFilePath = Path.Combine(parentFolder, fileName);
+                    SgtLogger.l(TargetConfigFilePath, modID);
+                }
+            }
+        }
+
+        public Dictionary<string, MPM_POptionDataEntry> ReadPlibOptions()
+        {
+            IEnumerable<PForwardedComponent> allComponents = PRegistry.Instance.GetAllComponents("PeterHan.PLib.Options.POptions");
+
+            //static id + data object
+            Dictionary<string, MPM_POptionDataEntry> ModConfigs = new();
+            SgtLogger.l("fetching plib config settings for mod profile");
+            SgtLogger.l(allComponents.Count()+" components found");
+
+            foreach (var component in allComponents)
+            {
+                IDictionary<string, Type> instanceData = component.GetInstanceData<IDictionary<string, Type>>();
+                foreach (var op in instanceData)
+                {
+                    string modID = op.Key;
+                    
+                    var configFilePath = POptions.GetConfigFilePath(op.Value);
+                    var attribute = op.Value.GetCustomAttribute<ConfigFileAttribute>();
+                    bool shared = false; 
+                    if (attribute != null)
+                    {
+                        shared = attribute.UseSharedConfigLocation;
+                    }
+
+
+                    if (!File.Exists(configFilePath))
+                    {
+                        SgtLogger.l("config file for " + op.Key + " not found");
+                        continue;
+                    }
+                    try
+                    {
+                        using (StreamReader file = File.OpenText(configFilePath))
+                        {
+                            using (JsonTextReader reader = new JsonTextReader(file))
+                            {
+                                JObject o2 = (JObject)JToken.ReadFrom(reader);
+                                SgtLogger.l(o2.ToString(), modID);
+                                ModConfigs.Add(modID, new(configFilePath, shared, o2));
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        SgtLogger.warning(ex.Message);
+                    }
+                }
+            }
+            return ModConfigs;
         }
     }
 }
