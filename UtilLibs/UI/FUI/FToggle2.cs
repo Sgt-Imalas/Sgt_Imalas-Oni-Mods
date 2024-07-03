@@ -64,6 +64,15 @@ namespace UtilLibs.UIcmp //Source: Aki
         public void Toggle() => On = !On;
         public void SetOn(bool toggleOn) => On = toggleOn;
 
+        public void SetOnFromCode(bool setOn)
+        {
+            on = setOn;            
+            if (mark != null)
+            {
+                mark.enabled = on;
+            }
+        }
+
         public void OnPointerDown(PointerEventData eventData)
         {
             if (KInputManager.isFocused)

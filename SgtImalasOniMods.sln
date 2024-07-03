@@ -162,7 +162,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PedestalFilter", "PedestalF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicRoomMassSensor", "LogicRoomMassSensor\LogicRoomMassSensor.csproj", "{24A41A6E-E56F-4195-B873-16FA0446CD51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkinEffects", "SkinEffects\SkinEffects.csproj", "{2E65D336-3245-4B56-A1A1-769BADAEBDD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkinEffects", "SkinEffects\SkinEffects.csproj", "{2E65D336-3245-4B56-A1A1-769BADAEBDD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModPresetManager_Addon", "ModProfileManager_Addon\ModPresetManager_Addon.csproj", "{50BAD491-4EE4-41F1-B93E-E6BA2785EBB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -470,6 +472,10 @@ Global
 		{2E65D336-3245-4B56-A1A1-769BADAEBDD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E65D336-3245-4B56-A1A1-769BADAEBDD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E65D336-3245-4B56-A1A1-769BADAEBDD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50BAD491-4EE4-41F1-B93E-E6BA2785EBB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50BAD491-4EE4-41F1-B93E-E6BA2785EBB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50BAD491-4EE4-41F1-B93E-E6BA2785EBB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50BAD491-4EE4-41F1-B93E-E6BA2785EBB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
