@@ -16,6 +16,7 @@ This mod works both independent and as a supplimentary addition to Mod Profile M
 [*] Compatible with existing profiles from Mod Profile Manager
 [/list] 
 
+[img]https://i.imgur.com/kB6V3mk.gif[/img]
 
 [h1]Complimentary Mods:[/h1]
 [list]

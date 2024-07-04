@@ -1,0 +1,22 @@
+{
+  "MeshTile": {
+    "UnobtaniumAlloy": {
+      "MainTex": "neutronium_alloy_mesh_main",
+      "TopTex": "neutronium_alloy_mesh_top",
+      "MainSpecular": "neutronium_alloy_mesh_spec"
+    }
+  },
+  "GasPermeableMembrane": {
+    "UnobtaniumAlloy": {
+      "MainTex": "neutronium_alloy_airflow_main",
+      "TopTex": "neutronium_alloy_airflow_top"
+    }
+  },
+  "MetalTile": {
+    "UnobtaniumAlloy": {
+      "MainTex": "neutronium_alloy_metal_main",
+      "TopTex": "neutronium_alloy_metal_top",
+      "MainSpecular": "neutronium_alloy_metal_spec"
+    }
+  }
+}
