@@ -155,8 +155,7 @@ namespace ModProfileManager_Addon
         public static void SyncMods()
         {
             if((SelectedModPack.ModList.TryGetModListEntry(SelectedModPack.Path, out var mods)))
-            {            
-
+            {  
                 if (SelectedModPack.ModList.TryGetPlibOptionsEntry(SelectedModPack.Path, out var configs))
                     SaveGameModList.WritePlibOptions(configs);
                 SyncMods(mods);
@@ -166,7 +165,7 @@ namespace ModProfileManager_Addon
         {
             var mm = Global.Instance.modManager;
 
-            SgtLogger.l($"initiating syncing. EnableAll: {enableAll}, restartAfter: {restartAfter}, dontDisableActives:{dontDisableActives}");
+            SgtLogger.l($"initiating syncing.");
 
             HashSet<int> positionReplacementIndicies = new HashSet<int>();
             List<KMod.Mod> toSortMods = new List<KMod.Mod>();
@@ -182,8 +181,8 @@ namespace ModProfileManager_Addon
                 bool shouldBeEnabled = enableAll.HasValue ? enableAll.Value : ActiveModlistModIds.Contains(modID);
                 bool isEnabled = modToEdit.IsEnabledForActiveDlc();
 
-                if (modID == "SaveGameModLoader"|| modID == "ModProfileManager_Addon")
-                    shouldBeEnabled = true;
+                if (ModSyncUtils.IsModSyncMod(modID))
+                    shouldBeEnabled = true;                
 
                 if (shouldBeEnabled == false && dontDisableActives && isEnabled)
                     shouldBeEnabled = true;

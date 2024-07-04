@@ -13,7 +13,7 @@ namespace ModProfileManager_Addon
         {
             public static LocString LOCAL_MOD = "Local";
             public static LocString PRESET_APPLIED_TITLE = "MODS PRESET APPLIED";
-            public static LocString PLIB_CONFIG_FOUND = "Mod options detected:";
+            public static LocString PLIB_CONFIG_FOUND = "Modified Mod Config detected:";
             public class PRESETOVERVIEW
             {
                 public class TOPBAR

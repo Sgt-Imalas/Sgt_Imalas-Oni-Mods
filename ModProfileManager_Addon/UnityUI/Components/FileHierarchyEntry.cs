@@ -56,20 +56,20 @@ namespace ModProfileManager_Addon.UnityUI.Components
         {
             editButton.ChangeSelection(ModAssets.SelectedModPack == ModProfile);
         }
-        private void ApplyPreset()
-        {
-            if (ModProfile!=null && ModProfile.ModList.TryGetModListEntry(ModProfile.Path, out var modsState))
-            {
-                ModAssets.SyncMods(modsState);
+        //private void ApplyPreset()
+        //{
+        //    if (ModProfile!=null && ModProfile.ModList.TryGetModListEntry(ModProfile.Path, out var modsState))
+        //    {
+        //        ModAssets.SyncMods(modsState);
 
-                if(ModProfile.ModList.TryGetPlibOptionsEntry(ModProfile.Path, out var plibOptions))
-                {
-                    SaveGameModList.WritePlibOptions(plibOptions);
-                }
-            }
-            OnApplyPreset(ModProfile);
-            //ModAssets.SelectedBlueprint = blueprint;
-        }
+        //        if(ModProfile.ModList.TryGetPlibOptionsEntry(ModProfile.Path, out var plibOptions))
+        //        {
+        //            SaveGameModList.WritePlibOptions(plibOptions);
+        //        }
+        //    }
+        //    OnApplyPreset(ModProfile);
+        //    //ModAssets.SelectedBlueprint = blueprint;
+        //}
 
         void EditPreset()
         {
@@ -94,7 +94,7 @@ namespace ModProfileManager_Addon.UnityUI.Components
                 if (RefreshUI != null)
                     RefreshUI();
             };
-            DialogUtil.CreateTextInputDialog(RENAME_POPUP.TITLE, ModProfile.Path, false, RenameAction, () => SetDialogueState(false), FrontEndManager.Instance.gameObject, false, false, true);
+            DialogUtil.CreateTextInputDialog(RENAME_POPUP.TITLE, FriendlyName, false, RenameAction, () => SetDialogueState(false), FrontEndManager.Instance.gameObject, false, false, true);
         }
         void ConfirmDelete()
         {
