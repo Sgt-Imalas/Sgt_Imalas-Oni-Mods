@@ -31,11 +31,11 @@ namespace SaveGameModLoader
 
         [Option("STRINGS.MPM_CONFIG.NEVERDISABLE.NAME", "STRINGS.MPM_CONFIG.NEVERDISABLE.TOOLTIP")]
         [JsonProperty]
-        public bool NeverDisable { get; set; }
+        public bool NeverDisable { get; set; } = true;
 
         [Option("STRINGS.MPM_CONFIG.APPLYPLIBCONFIG.NAME", "STRINGS.MPM_CONFIG.APPLYPLIBCONFIG.TOOLTIP")]
         [JsonProperty]
-        public bool SavePlibOptions { get; set; }
+        public bool SavePlibOptions { get; set; }  = true;
 
         public Config()
         {
