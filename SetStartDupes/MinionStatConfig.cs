@@ -258,9 +258,9 @@ namespace SetStartDupes
         static string CHATTY = "Chatty";
         public void ApplyPreset(MinionStartingStats referencedStats)
         {
+            if(Config.Instance.PresetsDoNames)
+                referencedStats.Name = this.ConfigName.Replace(STRINGS.UNNAMEDPRESET, string.Empty);
 
-
-            referencedStats.Name = this.ConfigName.Replace(STRINGS.UNNAMEDPRESET, string.Empty);
             bool HadChatty = referencedStats.Traits.Any(trait => trait.Id == CHATTY);
             bool HadAncientKnowledge = referencedStats.Traits.Any(trait => trait.Id == ANCIENTKNOWLEDGE);
             referencedStats.Traits.Clear();
