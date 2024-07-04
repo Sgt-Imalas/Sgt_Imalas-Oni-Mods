@@ -8,7 +8,7 @@ using static ModProfileManager_Addon.SaveGameModList;
 
 namespace ModProfileManager_Addon.ModProfileData
 {
-    public class ModPresetEntry : IEqualityComparer<ModPresetEntry>
+    public class ModPresetEntry :  IEquatable<ModPresetEntry>
     {
         public string Path;
         public SaveGameModList ModList;
@@ -35,14 +35,17 @@ namespace ModProfileManager_Addon.ModProfileData
 
             return result;
         }
-        public bool Equals(ModPresetEntry x, ModPresetEntry y)
+        public bool Equals(ModPresetEntry other)
         {
-            return x.ModList == y.ModList && x.Path == y.Path;
+            return other?.ModList?.ModlistPath == this.ModList.ModlistPath && other?.Path == this.Path;
         }
+        public override bool Equals(object obj) => obj is ModPresetEntry other && Equals(other);
 
-        public int GetHashCode(ModPresetEntry obj)
+        public static bool operator ==(ModPresetEntry a, ModPresetEntry b) => a?.ModList?.ModlistPath == b?.ModList?.ModlistPath && a?.Path == b?.Path;
+        public static bool operator !=(ModPresetEntry a, ModPresetEntry b) => !(a == b);
+        public override int GetHashCode()
         {
-            return obj.Path.GetHashCode() + obj.ModList.GetHashCode();
+            return Path.GetHashCode() + ModList.ModlistPath.GetHashCode();
         }
     }
 }

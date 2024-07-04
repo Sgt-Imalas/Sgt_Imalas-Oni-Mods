@@ -54,7 +54,9 @@ namespace ModProfileManager_Addon.UnityUI.Components
         }
         public void UpdateSelected()
         {
-            editButton.ChangeSelection(ModAssets.SelectedModPack == ModProfile);
+            bool selected = (ModAssets.SelectedModPack.Path == ModProfile.Path && ModAssets.SelectedModPack.ModList.ModlistPath == ModProfile.ModList.ModlistPath);
+
+            editButton.ChangeSelection(selected);
         }
         //private void ApplyPreset()
         //{
