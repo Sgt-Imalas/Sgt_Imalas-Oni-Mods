@@ -492,7 +492,6 @@ namespace ClusterTraitGenerationManager.ClusterData
                 codes[index3].opcode = OpCodes.Callvirt;
                 codes[index3].operand = m_InjectedMethod3;
 
-                TranspilerHelper.PrintInstructions(codes);
                 return codes;
             }
             private static object InjectedMethod3()

@@ -183,11 +183,15 @@ namespace ClusterTraitGenerationManager
 
                 if (config.id != "WorldgenSeed" && config.id != "ClusterLayout")
                     return;
+                SgtLogger.l(config.id, "cgm setting changed");
                 RegenerateCGM(__instance, config.id);
             }
         }
         public static void RegenerateCGM(CustomGameSettings __instance, string changedConfigID)
         {
+            if (StillLoading)
+                return;
+
             if (CGSMClusterManager.LastGenFailed)
             {
                 SgtLogger.l("Skipping regenerating due to failed previous worldgen.");
@@ -195,7 +199,7 @@ namespace ClusterTraitGenerationManager
                 return;
             }
             string clusterPath = __instance.GetCurrentQualitySetting(CustomGameSettingConfigs.ClusterLayout).id;
-            if (clusterPath == null || clusterPath.Count() == 0)
+            if (clusterPath == null || clusterPath.Length == 0)
             {
                 ///default is no path selected, this picks either classic Terra on "classic" selection/base game or Terrania on "spaced out" selection
                 if (DlcManager.IsExpansion1Active())
@@ -1550,7 +1554,9 @@ namespace ClusterTraitGenerationManager
                 borderSizeMultiplier = 1f;
                 WorldSizeMultiplier = 1f;
                 LoadCustomCluster = false;
+                StillLoading = false;
             }
         }
+        public static bool StillLoading = true;
     }
 }
