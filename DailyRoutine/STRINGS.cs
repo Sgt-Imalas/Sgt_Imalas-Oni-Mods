@@ -11,6 +11,8 @@ namespace DailyRoutine
     {
         public class UISTRINGS
         {
+            public static LocString ENABLE = "Enable Daily Routine";
+            public static LocString DISABLE = "Disable Daily Routine";
             public static LocString TIMELEFTTEXT = "Time when the tasks reset every day (in seconds):";
             public class TOGGLECUSTOMTIME
             {

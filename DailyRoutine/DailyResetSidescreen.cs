@@ -206,7 +206,7 @@ namespace DailyRoutine
         }
         void UpdateButtons()
         {
-            UIUtils.TryChangeText(transform, "Contents/Buttons/ResetButton/Label", targetComponent.IsActive ? "Disable Daily Routine" : "Enable Daily Routine");
+            UIUtils.TryChangeText(transform, "Contents/Buttons/ResetButton/Label", targetComponent.IsActive ? STRINGS.UISTRINGS.DISABLE : STRINGS.UISTRINGS.ENABLE);
 
             bool enabled = targetComponent.IsActive;
             //ActiveRecipesCountInfo.gameObject.GetComponent<KButton>().isInteractable = enabled;

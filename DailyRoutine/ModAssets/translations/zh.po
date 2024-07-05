@@ -12,6 +12,16 @@ msgstr ""
 "Application: Oxygen Not IncludedPOT Version: 2.0\n"
 "X-Generator: Poedit 3.4.4\n"
 
+#. DailyRoutine.STRINGS.UISTRINGS.DISABLE
+msgctxt "DailyRoutine.STRINGS.UISTRINGS.DISABLE"
+msgid "Disable Daily Routine"
+msgstr "禁用每日生产"
+
+#. DailyRoutine.STRINGS.UISTRINGS.ENABLE
+msgctxt "DailyRoutine.STRINGS.UISTRINGS.ENABLE"
+msgid "Enable Daily Routine"
+msgstr "启用每日生产"
+
 #. DailyRoutine.STRINGS.UISTRINGS.FORMATTEDCOUNTEXT.LABEL
 msgctxt "DailyRoutine.STRINGS.UISTRINGS.FORMATTEDCOUNTEXT.LABEL"
 msgid "{0} items set as daily task."
@@ -43,18 +53,18 @@ msgid ""
 "Update Daily Tasks\n"
 "(Hover to see current)"
 msgstr ""
-"更新每日生产目标的总数\n"
-"(悬浮鼠标查看目前的设置)"
+"更新生产指标\n"
+"(悬浮鼠标查看)"
 
 #. DailyRoutine.STRINGS.UISTRINGS.TIMELEFTTEXT
 msgctxt "DailyRoutine.STRINGS.UISTRINGS.TIMELEFTTEXT"
 msgid "Time when the tasks reset every day (in seconds):"
-msgstr "每日任务重置的时间 (按秒) :"
+msgstr "每日生产重置的时间 (按秒) :"
 
 #. DailyRoutine.STRINGS.UISTRINGS.TOGGLECUSTOMTIME.LABEL
 msgctxt "DailyRoutine.STRINGS.UISTRINGS.TOGGLECUSTOMTIME.LABEL"
 msgid "Toggle Custom Time"
-msgstr "切换自定义的时间"
+msgstr "更改自定义重置点"
 
 #. DailyRoutine.STRINGS.UISTRINGS.TOGGLECUSTOMTIME.TOOLTIP
 msgctxt "DailyRoutine.STRINGS.UISTRINGS.TOGGLECUSTOMTIME.TOOLTIP"
@@ -63,14 +73,15 @@ msgid ""
 "the start of each cycle.\n"
 "Toggle to adjust the time of that reset."
 msgstr ""
-"默认每日任务重置于\n"
-"每一个新的周期.\n"
-"点选更改重置的时间点."
+"默认夜晚结束时每日任务会重置.\n"
+"拖拽更改重置的时间点."
 
 #. DailyRoutine.STRINGS.UISTRINGS.TOGGLEQUEUEING.LABEL
 msgctxt "DailyRoutine.STRINGS.UISTRINGS.TOGGLEQUEUEING.LABEL"
 msgid "Toggle Recipe Queueing"
-msgstr "切换任务排队模式 (默认停用)"
+msgstr ""
+"切换任务模式 \n"
+"(默认停用)"
 
 #. DailyRoutine.STRINGS.UISTRINGS.TOGGLEQUEUEING.TOOLTIP
 msgctxt "DailyRoutine.STRINGS.UISTRINGS.TOGGLEQUEUEING.TOOLTIP"
