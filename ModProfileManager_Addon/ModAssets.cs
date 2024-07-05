@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using UtilLibs.ModSyncing;
 using static ModProfileManager_Addon.SaveGameModList;
 
 namespace ModProfileManager_Addon

@@ -8,10 +8,11 @@ using UtilLibs;
 using static ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW;
 using UtilLibs.UI.FUI;
 using ModProfileManager_Addon.ModProfileData;
+using UnityEngine.EventSystems;
 
 namespace ModProfileManager_Addon.UnityUI.Components
 {
-    public class FileHierarchyEntry:KMonoBehaviour
+    public class FileHierarchyEntry:KMonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         public ModPresetEntry ModProfile;
 
@@ -50,6 +51,9 @@ namespace ModProfileManager_Addon.UnityUI.Components
                 editButton.OnClick += EditPreset;
                 //button.OnClick += ApplyPreset;
                 UpdateSelected();
+
+                deleteButton.gameObject.SetActive(false);
+                renameButton.gameObject.SetActive(false);
             }
         }
         public void UpdateSelected()
@@ -114,6 +118,18 @@ namespace ModProfileManager_Addon.UnityUI.Components
             ModAssets.HandleDeletion(ModProfile);
             if (RefreshUI != null)
                 RefreshUI();
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            deleteButton.gameObject.SetActive(false);
+            renameButton.gameObject.SetActive(false);
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            deleteButton.gameObject.SetActive(true);
+            renameButton.gameObject.SetActive(true);
         }
     }
 }

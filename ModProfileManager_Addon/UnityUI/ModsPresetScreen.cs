@@ -21,6 +21,7 @@ using ModProfileManager_Addon.UnityUI.FastTrack_VirtualScroll;
 using static KInputController;
 using static ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.MODENTRYVIEW;
 using static ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW;
+using System.Data.SqlClient;
 
 namespace ModProfileManager_Addon.UnityUI
 {
@@ -53,7 +54,8 @@ namespace ModProfileManager_Addon.UnityUI
 
         //ModView
         public FInputField2 ModEntrySearchbar;
-        public Dictionary<KMod.Mod, ModScreenEntry> ModEntryEntries = new();
+        public Dictionary<string, ModScreenEntry> ModEntryEntries = new();
+        public Dictionary<string, string> ModFilterStrings = new();
         public FButton ClearModEntrySearchbar;
         public GameObject ModEntrysContainer;
         public ModScreenEntry ModEntryPrefab;
@@ -299,7 +301,7 @@ namespace ModProfileManager_Addon.UnityUI
                 if (data != null)
                     dataString = data.ModConfigData.ToString();
                 modEntry.transform.SetAsLastSibling();
-                modEntry.gameObject.SetActive(true);
+                modEntry.gameObject.SetActive(ShowModByStaticID(mod.label.defaultStaticID));
                 modEntry.Refresh(enabled, hasPlib, dataString);
             }
             scroll.Rebuild();
@@ -359,52 +361,20 @@ namespace ModProfileManager_Addon.UnityUI
 
         private ModScreenEntry AddOrGetModEntry(KMod.Mod mod)
         {
-            if (!ModEntryEntries.ContainsKey(mod))
+            if (!ModEntryEntries.ContainsKey(mod.label.defaultStaticID))
             {
                 var elementEntry = Util.KInstantiateUI<ModScreenEntry>(ModEntryPrefab.gameObject, ModEntrysContainer);
                 elementEntry.TargetMod = mod;
-                ModEntryEntries[mod] = elementEntry;
+                ModEntryEntries[mod.label.defaultStaticID] = elementEntry;
+                ModFilterStrings[mod.label.defaultStaticID] = mod.title;
             }
-            return ModEntryEntries[mod];
+            return ModEntryEntries[mod.label.defaultStaticID];
         }
 
-        private GameObject AddUiContainer(GameObject prefab, GameObject parent, string name, string description, System.Action onClickAction, Color overrideColor = default, Sprite placeImage = null)
-        {
-
-            var PresetHolder = Util.KInstantiateUI(prefab, parent, true);
-
-            UIUtils.TryChangeText(PresetHolder.transform, "Label", name);
-            if (description != null && description.Length > 0)
-            {
-                UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("Label"), description, true, onBottom: true);
-            }
-            if (placeImage != null)
-            {
-                var image = PresetHolder.transform.Find("Image").FindOrAddComponent<Image>();
-                image.sprite = placeImage;
-                UnityEngine.Rect rect = image.sprite.rect;
-                if (rect.width > rect.height)
-                {
-                    var size = (rect.height / rect.width) * 55;
-                    image.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size);
-                }
-                else
-                {
-                    var size = (rect.width / rect.height) * 55;
-                    image.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size);
-                }
-            }
-
-            PresetHolder.transform.FindOrAddComponent<FButton>().OnClick += onClickAction;
-            if (overrideColor != default)
-                PresetHolder.transform.Find("Background").FindOrAddComponent<Image>().color = overrideColor;
-
-            return PresetHolder;
-        }
-
-
+        string ModsFilterString = string.Empty;
         public void ApplyModsFilter(string filterstring = "")
         {
+            ModsFilterString=filterstring;
             if (filterstring.Length == 0)
             {
                 RebuildModsScreen();
@@ -413,10 +383,20 @@ namespace ModProfileManager_Addon.UnityUI
             foreach (var go in ModEntryEntries)
             {
                 scroll.OnBuild();
-                go.Value.gameObject.SetActive(ShowInFilter(filterstring, new string[] { go.Key.title, go.Key.description }));
+                go.Value.gameObject.SetActive(ShowModByStaticID(go.Key));
                 scroll.Rebuild();
             }
-
+        }
+        public bool ShowModByStaticID(string staticModID)
+        {
+            if (ModFilterStrings.TryGetValue(staticModID, out var titleString))
+            {
+                return ShowInFilter(ModsFilterString, new string[] { staticModID, titleString });
+            }
+            else
+            {
+                return ShowInFilter(ModsFilterString, staticModID);
+            }
         }
 
         public void ApplyPresetsFilter(string filterstring = "")

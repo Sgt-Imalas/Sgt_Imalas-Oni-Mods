@@ -4,6 +4,7 @@ using KMod;
 using System;
 using System.IO;
 using UtilLibs;
+using UtilLibs.ModSyncing;
 
 namespace ModProfileManager_Addon
 {
@@ -17,6 +18,8 @@ namespace ModProfileManager_Addon
             ModAssets.ModPath =  FileSystem.Normalize(Path.Combine(Path.Combine(KMod.Manager.GetDirectory(), "config"), "[ModSync]StoredModConfigs"));
             ModAssets.ModPacksPath = FileSystem.Normalize(Path.Combine(ModAssets.ModPath, "[StandAloneModLists]"));
             ModAssets.LoadAssets();
+
+            ModSyncUtils.RegisterModAsSyncMod(this.mod);
         }
     }
 }

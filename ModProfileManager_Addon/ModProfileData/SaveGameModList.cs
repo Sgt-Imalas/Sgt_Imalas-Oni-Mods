@@ -14,8 +14,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UtilLibs;
-using static SaveGame;
-using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.METEORSHOWERS.LEVELS;
 
 namespace ModProfileManager_Addon
 {
@@ -27,7 +25,6 @@ namespace ModProfileManager_Addon
             baseGame = 1,
             spacedOut = 2,
             modPack = 3
-
         }
 
         public string ReferencedColonySaveName;
