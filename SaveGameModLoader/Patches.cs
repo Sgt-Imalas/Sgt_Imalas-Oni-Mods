@@ -19,6 +19,7 @@ using Steamworks;
 using PeterHan.PLib.UI;
 using SaveGameModLoader.Patches;
 using static SaveGameModLoader.STRINGS.UI.FRONTEND.MODTAGS;
+using UtilLibs.ModSyncing;
 
 namespace SaveGameModLoader
 {

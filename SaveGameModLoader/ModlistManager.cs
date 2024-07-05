@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using UtilLibs.ModSyncing;
 using YamlDotNet.Core.Events;
 using static KMod.Label;
 using static SaveGameModLoader.STRINGS.UI.FRONTEND;

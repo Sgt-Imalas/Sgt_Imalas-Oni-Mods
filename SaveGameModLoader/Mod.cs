@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using UtilLibs;
+using UtilLibs.ModSyncing;
 using static SaveGameModLoader.AllPatches;
 using Directory = System.IO.Directory;
 
@@ -110,9 +111,11 @@ namespace SaveGameModLoader
             ModlistManager.Instance.GetAllStoredModlists();
             ModlistManager.Instance.GetAllModPacks();
 
+            ModSyncUtils.RegisterModAsSyncMod(this.mod);
             ModAssets.ReadOrRegisterBrowserSetting();
             base.OnLoad(harmony);
             Steam_MakeMod.TryPatchingSteam(harmony);
+
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
