@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static DailyRoutine.STRINGS.UISTRINGS;
 
 namespace DailyRoutine
 {
@@ -42,7 +43,6 @@ namespace DailyRoutine
             //Debug.Log("Current Seconds: " + currentTime + ", Time at reset: " + SetTime + ", Current Cycle: "+ CurrentCycle+", Last Cycle: "+LastCycle);
             if ((int)currentTime == SetTime && CurrentCycle != LastCycle)
             {
-                //Debug.Log("CHAAAAAAAAAAAAAAAAAAAAAAAAAAAANGE");
                 OverrideRecipeCount();
                 LastCycle = CurrentCycle;
             }
@@ -115,13 +115,13 @@ namespace DailyRoutine
                     }
                 }
                 if (isTooltip)
-                    sb.Append(string.Format("{0} items over {1} recipes set as daily tasks", amount, types));
+                    sb.Append(string.Format(FORMATTEDCOUNTEXT.TOOLTIP, amount, types));
                 else
-                    sb.Append(amount.ToString() + " items set as daily task.");
+                    sb.Append(string.Format(FORMATTEDCOUNTEXT.LABEL,amount));
             }
             else
             {
-                sb.Append("No recipes queued.");
+                sb.Append(FORMATTEDCOUNTEXT.NONE);
             }
             return sb.ToString();
         }
@@ -131,7 +131,7 @@ namespace DailyRoutine
             StringBuilder sb = new();
             if (StoredRecipes.Count > 0)
             {
-                sb.AppendLine("Daily Routine Recipes:");
+                sb.AppendLine(FORMATTEDRECIPETEXT.LABEL);
                 foreach (var recipeCount in StoredRecipes)
                 {
                     sb.Append(TagManager.GetProperName(recipeCount.Key.FirstResult.Name)) ;sb.Append(" x");sb.AppendLine(recipeCount.Value.ToString());
@@ -139,7 +139,7 @@ namespace DailyRoutine
             }
             else
             {
-                sb.Append("No recipes queued.");
+                sb.Append(FORMATTEDRECIPETEXT.NONE);
             }
             return sb.ToString();
         }
