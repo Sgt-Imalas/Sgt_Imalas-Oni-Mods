@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UtilLibs;
+using static ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES;
 using static ProcGen.World;
 
 namespace ClusterTraitGenerationManager
@@ -11,6 +12,14 @@ namespace ClusterTraitGenerationManager
         {
             /// <summary>
             /// Traits with this tag will be shown in the selection screen, even if world rules forbid it.
+            /// 
+            /// The main purpose of this trait tag is to have traits that cannot appear
+            /// by default on planets, but that can be manually added through CGM.This
+            /// can be accomplished with the following trait tags:
+            /// 
+            /// - CGM_OverrideWorldRules_AlwaysAllow
+            /// - StartWorldOnly
+            /// - NonStartWorld
             /// </summary>
             public static readonly string OverrideWorldRules_AlwaysAllow = "CGM_OverrideWorldRules_AlwaysAllow";
         }
