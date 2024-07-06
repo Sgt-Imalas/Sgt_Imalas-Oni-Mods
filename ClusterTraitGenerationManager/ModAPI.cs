@@ -7,6 +7,16 @@ namespace ClusterTraitGenerationManager
 {
     public static class ModAPI
     {
+        public static class CGM_TraitTags
+        {
+            /// <summary>
+            /// Traits with this tag will be shown in the selection screen, even if world rules forbid it.
+            /// </summary>
+            public static readonly string OverrideWorldRules_AlwaysAllow = "CGM_OverrideWorldRules_AlwaysAllow";
+        }
+
+
+
         /// <summary>
         /// you can put custom data for the following settings in each world template by adding it under that key to defaultsOverride.data to override the default selected templates and biomes for your world
         /// CGM will generate an alternative version of each planet, depending on its origin those are 

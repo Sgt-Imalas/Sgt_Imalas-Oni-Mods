@@ -589,14 +589,13 @@ namespace ClusterTraitGenerationManager.ClusterData
                 return new List<WorldTrait>();
             }
 
-            List<WorldTrait> AlwaysAvailableTraits = AllTraits.FindAll((WorldTrait trait) => trait.traitTags.Contains(ModAssets.OverrideWorldRules_AlwaysAllow));
+            List<WorldTrait> AlwaysAvailableTraits = AllTraits.FindAll((WorldTrait trait) => trait.traitTags.Contains(ModAPI.CGM_TraitTags.OverrideWorldRules_AlwaysAllow));
 
-            List<string> ExclusiveWithTags
-                = new List<string>();
+            List<string> ExclusiveWithTags = new List<string>();
 
             if (currentTraits.Count > 0 || (world != null && world.disableWorldTraits))
             {
-                AllTraits.RemoveAll((WorldTrait trait) => trait.filePath == ModAssets.CustomTraitID);
+                AllTraits.RemoveAll((WorldTrait trait) => trait.filePath == ModAssets.CGM_RandomTrait);
             }
 
 
@@ -606,7 +605,7 @@ namespace ClusterTraitGenerationManager.ClusterData
                 {
                     ExclusiveWithTags.AddRange(SettingsCache.worldTraits[trait].exclusiveWithTags);
                 }
-                if (trait == ModAssets.CustomTraitID)
+                if (trait == ModAssets.CGM_RandomTrait) //random trait is mutually exclusive with everything else
                     return new List<WorldTrait>();
             }
 

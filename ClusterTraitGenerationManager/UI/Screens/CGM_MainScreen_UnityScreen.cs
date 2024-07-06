@@ -2552,7 +2552,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
                 icon.sprite = ModAssets.GetTraitSprite(kvp.Value);
                 icon.color = Util.ColorFromHex(kvp.Value.colorHex);
-                if (kvp.Key == ModAssets.CustomTraitID)
+                if (kvp.Key == ModAssets.CGM_RandomTrait)
                 {
                     combined = UIUtils.RainbowColorText(name.ToString());
                     TraitHolder.transform.Find("AwailableRandomTraits").gameObject.SetActive(true);
@@ -2577,7 +2577,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
                     RefreshTraitList();
                 };
 
-                if (kvp.Key == ModAssets.CustomTraitID)
+                if (kvp.Key == ModAssets.CGM_RandomTrait)
                 {
                     RandomTraitDeleteButton = RemoveButton;
                 }
@@ -2662,7 +2662,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
             }
             if (CurrentStarmapItem.IsRandom)
             {
-                Traits[ModAssets.CustomTraitID].SetActive(true);
+                Traits[ModAssets.CGM_RandomTrait].SetActive(true);
             }
             else
             {

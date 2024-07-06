@@ -134,7 +134,7 @@ namespace ClusterTraitGenerationManager.ClusterData
                 return AddRandomTraitsForWorld(randomSelectedTraits, world, count, seed);
             }
 
-            if (list.Any(id => id == ModAssets.CustomTraitID))
+            if (list.Any(id => id == ModAssets.CGM_RandomTrait))
             {
                 int random = new System.Random(seed).Next(101);
                 int count = 1;
@@ -162,7 +162,7 @@ namespace ClusterTraitGenerationManager.ClusterData
             {
                 var possibleTraits = StarmapItem.AllowedWorldTraitsFor(existing, world)
                     .Where(item =>
-                    item.filePath != ModAssets.CustomTraitID
+                    item.filePath != ModAssets.CGM_RandomTrait
                     //&& !item.filePath.ToUpperInvariant().Contains("SPACEHOLE")
                     && !RandomTraitInBlacklist(item.filePath));
                 if (possibleTraits.Count() == 0)
@@ -170,9 +170,9 @@ namespace ClusterTraitGenerationManager.ClusterData
                 else
                 {
                     possibleTraits = possibleTraits.Shuffle(new System.Random(seed));
-                    string randTrait = possibleTraits.First().filePath == ModAssets.CustomTraitID ? possibleTraits.Last().filePath : possibleTraits.First().filePath;
+                    string randTrait = possibleTraits.First().filePath == ModAssets.CGM_RandomTrait ? possibleTraits.Last().filePath : possibleTraits.First().filePath;
 
-                    if (randTrait != ModAssets.CustomTraitID)
+                    if (randTrait != ModAssets.CGM_RandomTrait)
                     {
                         existing.Add(randTrait);
                         SgtLogger.l(seed + " rolled " + randTrait, Strings.Get(world.name));

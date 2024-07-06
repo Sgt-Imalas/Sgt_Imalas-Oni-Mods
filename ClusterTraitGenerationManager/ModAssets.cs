@@ -291,12 +291,11 @@ namespace ClusterTraitGenerationManager
             RandomizedTraitsTrait.name = "STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT.NAME";
             RandomizedTraitsTrait.description = "STRINGS.WORLD_TRAITS.CGM_RANDOMTRAIT.DESCRIPTION";
             RandomizedTraitsTrait.colorHex = "FFFFFF";
-            RandomizedTraitsTrait.filePath = CustomTraitID;
+            RandomizedTraitsTrait.filePath = CGM_RandomTrait;
         }
-        public static readonly string CustomTraitID = "traits/CGMRandomTraits";
+        public static readonly string CGM_RandomTrait = "traits/CGMRandomTraits";
         public static WorldTrait RandomizedTraitsTrait;
 
-        public static readonly string OverrideWorldRules_AlwaysAllow = "CGM_OverrideWorldRules_AlwaysAllow";
 
         public static Dictionary<ProcGen.World, List<string>> ChangedMeteorSeasons = new Dictionary<ProcGen.World, List<string>>();
 
@@ -306,7 +305,7 @@ namespace ClusterTraitGenerationManager
             {
                 Dictionary<string, WorldTrait> traits = new Dictionary<string, WorldTrait>
                 {
-                    { ModAssets.CustomTraitID, ModAssets.RandomizedTraitsTrait }
+                    { ModAssets.CGM_RandomTrait, ModAssets.RandomizedTraitsTrait }
                 };
                 traits.AddRange(SettingsCache.worldTraits);
                 return traits;
@@ -319,7 +318,7 @@ namespace ClusterTraitGenerationManager
             {
                 List<KeyValuePair<string, WorldTrait>> traits = new List<KeyValuePair<string, WorldTrait>>
                 {
-                    new KeyValuePair<string, WorldTrait>(ModAssets.CustomTraitID, ModAssets.RandomizedTraitsTrait)
+                    new KeyValuePair<string, WorldTrait>(ModAssets.CGM_RandomTrait, ModAssets.RandomizedTraitsTrait)
                 };
                 traits.AddRange(SettingsCache.worldTraits.ToList());
                 return traits;
