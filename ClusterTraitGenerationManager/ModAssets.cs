@@ -296,6 +296,8 @@ namespace ClusterTraitGenerationManager
         public static readonly string CustomTraitID = "traits/CGMRandomTraits";
         public static WorldTrait RandomizedTraitsTrait;
 
+        public static readonly string OverrideWorldRules_AlwaysAllow = "CGM_OverrideWorldRules_AlwaysAllow";
+
         public static Dictionary<ProcGen.World, List<string>> ChangedMeteorSeasons = new Dictionary<ProcGen.World, List<string>>();
 
         public static Dictionary<string, WorldTrait> AllTraitsWithRandomDict

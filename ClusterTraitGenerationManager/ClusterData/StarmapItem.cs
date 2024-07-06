@@ -588,6 +588,9 @@ namespace ClusterTraitGenerationManager.ClusterData
             {
                 return new List<WorldTrait>();
             }
+
+            List<WorldTrait> AlwaysAvailableTraits = AllTraits.FindAll((WorldTrait trait) => trait.traitTags.Contains(ModAssets.OverrideWorldRules_AlwaysAllow));
+
             List<string> ExclusiveWithTags
                 = new List<string>();
 
@@ -620,6 +623,7 @@ namespace ClusterTraitGenerationManager.ClusterData
                     || !trait.IsValid(world, logErrors: true));
 
             }
+            AllTraits = AllTraits.Union(AlwaysAvailableTraits).ToList();
             AllTraits.RemoveAll((WorldTrait trait) =>
                  !trait.IsValid(world, logErrors: true)
                 || trait.exclusiveWithTags.Any(x => ExclusiveWithTags.Any(y => y == x))
