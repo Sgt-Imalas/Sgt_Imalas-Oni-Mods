@@ -94,6 +94,7 @@ namespace ModProfileManager_Addon.UnityUI.Components
             SetDialogueState(true);
             var RenameAction = (string result) =>
             {
+                result = SanitationUtils.SanitizeName(result);
                 SetDialogueState(false);
                 ModAssets.HandleRenaming(ModProfile, result);
                 Label.SetText(result);
