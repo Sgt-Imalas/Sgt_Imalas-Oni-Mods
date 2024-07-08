@@ -325,13 +325,24 @@ namespace SaveGameModLoader
             }
         }
 
+        /// <summary>
+        /// marked as virt so no compiler optimisation inlining
+        /// for other mods to patch so they can override the compatibility check
+        /// note to self: do not change/move this method
+        /// </summary>
+        /// <param name="mod"></param>
+        /// <returns></returns>
+        public virtual bool ModContentCompatible(KMod.Mod mod)
+        {
+            return mod.contentCompatability == ModContentCompatability.OK;
+        }
         internal bool ApplyFilters(KMod.Mod mod, bool noCategoryFilters)
         {
             var label = mod.label;
             bool showMod = true;
 
             if (showMod && hideIncompatible)
-                showMod = mod.contentCompatability == ModContentCompatability.OK;
+                showMod = ModContentCompatible(mod);
 
             if (noCategoryFilters)
                 return showMod;
