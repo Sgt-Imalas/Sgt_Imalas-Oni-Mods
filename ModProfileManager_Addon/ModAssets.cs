@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using UtilLibs.ModSyncing;
-using static ModProfileManager_Addon.SaveGameModList;
 
 namespace ModProfileManager_Addon
 {
@@ -35,6 +34,7 @@ namespace ModProfileManager_Addon
 
         public static string ModPath;
         public static string ModPacksPath;
+        public static string PendingCustomDataPath;
 
         public static GameObject ModPresetScreen;
 
@@ -67,41 +67,16 @@ namespace ModProfileManager_Addon
             public static Color DarkBlue = UIUtils.Darken(Blue, 40);
         }
 
-        #region pathSanitisation
-        public static string GetSanitizedNamePath(string source)
-        {
-            //SgtLogger.l("Sanitizing...");
-            //SgtLogger.l(source, "1");
-            source = Path.GetFileName(source);
-            //SgtLogger.l(source, "2");
-            source = ReplaceInvalidChars(source);
-            //SgtLogger.l(source, "3");
 
-            if (forbiddenNames.Contains(source.ToUpperInvariant()))
-            {
-                SgtLogger.l("file name was one of the forbidden ones, replacing..");
-                source = Path.GetRandomFileName();
-                //SgtLogger.l(source, "4");
-            }
-
-            return source;
-        }
-
-        public static string ReplaceInvalidChars(string filename)
-        {
-            return string.Join("_", filename.Split(Path.GetInvalidFileNameChars()));
-        }
-        #endregion
-
-        public static List<ModPresetEntry> GetAllModPresets()
+        public static List<ModProfileData.ModPresetEntry> GetAllModPresets()
         {
             GetAllModPacks();
-            var result = new List<ModPresetEntry>();
+            var result = new List<ModProfileData.ModPresetEntry>();
             foreach (var modPackCollection in ModPacks.Values)
             {
                 foreach (var preset in modPackCollection.GetSavePoints())
                 {
-                    result.Add(new ModPresetEntry(modPackCollection, preset.Key));
+                    result.Add(new ModProfileData.ModPresetEntry(modPackCollection, preset.Key));
                 }
             }
             foreach (var modPackCollection in ClonePresets.Values)
@@ -149,6 +124,16 @@ namespace ModProfileManager_Addon
 
         }
 
+
+        public static void ExportToClipboard(SaveGameModList ModList)
+        {
+            if (ModList != null)
+            {
+                string ToCopy = StringCompression.CompressString(ModList.GetSerialized(false));
+                IO_Utils.PutToClipboard(ToCopy);
+                DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.PRESETOVERVIEW.EXPORT_POPUP.TITLE, STRINGS.UI.PRESETOVERVIEW.EXPORT_POPUP.TEXT);
+            }
+        }
         public static void GetAllModPacks()
         {
             ModPacks.Clear();
@@ -295,7 +280,7 @@ namespace ModProfileManager_Addon
 
         }
 
-        internal static void HandleRenaming(ModPresetEntry modProfileTuple, string newModProfilePath)
+        internal static void HandleRenaming(ModProfileData.ModPresetEntry modProfileTuple, string newModProfilePath)
         {
             var modProfile = modProfileTuple.ModList;
             var modProfilePath = modProfileTuple.Path;
@@ -328,7 +313,7 @@ namespace ModProfileManager_Addon
 
         }
 
-        internal static void HandleDeletion(ModPresetEntry modProfileTuple)
+        internal static void HandleDeletion(ModProfileData.ModPresetEntry modProfileTuple)
         {
             var modProfile = modProfileTuple.ModList;
             var modProfilePath = modProfileTuple.Path;

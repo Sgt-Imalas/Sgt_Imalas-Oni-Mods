@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Klei;
 using KMod;
+using ModProfileManager_Addon.API;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,6 +19,7 @@ namespace ModProfileManager_Addon
 
             ModAssets.ModPath =  FileSystem.Normalize(Path.Combine(Path.Combine(KMod.Manager.GetDirectory(), "config"), "[ModSync]StoredModConfigs"));
             ModAssets.ModPacksPath = FileSystem.Normalize(Path.Combine(ModAssets.ModPath, "[StandAloneModLists]"));
+            ModAssets.PendingCustomDataPath = Path.Combine(this.path, "PendingCustomData.json");
 
             System.IO.Directory.CreateDirectory(ModAssets.ModPath);
             System.IO.Directory.CreateDirectory(ModAssets.ModPacksPath);
@@ -29,7 +31,8 @@ namespace ModProfileManager_Addon
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
             base.OnAllModsLoaded(harmony, mods);
-            SgtLogger.l(mods.Count.ToString(), "Mod Count");
+            Mod_API.RegisterCustomModOptionHandlers();
+            Mod_API.ApplyCustomDataIfPossible(mods);
         }
     }
 }

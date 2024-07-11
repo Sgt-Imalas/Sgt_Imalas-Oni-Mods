@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using ModProfileManager_Addon.API;
 using ModProfileManager_Addon.ModProfileData;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -177,8 +178,8 @@ namespace ModProfileManager_Addon
             }
             else
             {
-                ReferencedColonySaveName = ModAssets.GetSanitizedNamePath(referencedColonySave);
-                ModlistPath = ModAssets.GetSanitizedNamePath(referencedColonySave);
+                ReferencedColonySaveName = SanitationUtils.GetSanitizedNamePath(referencedColonySave);
+                ModlistPath = SanitationUtils.GetSanitizedNamePath(referencedColonySave);
                 Type = DLCType.modPack;
             }
         }
@@ -313,7 +314,8 @@ namespace ModProfileManager_Addon
                     var mod = manager.mods.FirstOrDefault(m => m.staticID == modID);
                     if (mod == null)
                     {
-                        SgtLogger.warning(modID + " not found for writing config.");
+                        //SgtLogger.warning(modID + " not found for writing config.");
+                        Mod_API.ApplyCustomData(modID, modConfig.Value.ModConfigData);
                         continue;
                     }
 
@@ -361,6 +363,7 @@ namespace ModProfileManager_Addon
                     }
                 }
             }
+            Mod_API.PrepareDataForOnLoadApplication(modConfigEntries);
         }
 
         public Dictionary<string, MPM_POptionDataEntry> ReadPlibOptions()
@@ -454,6 +457,7 @@ namespace ModProfileManager_Addon
                     }
                 }
             }
+            Mod_API.StoreData(ref ModConfigs);
             return ModConfigs;
         }
 

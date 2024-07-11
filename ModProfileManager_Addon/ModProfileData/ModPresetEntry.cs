@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using ModProfileManager_Addon.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,16 +48,6 @@ namespace ModProfileManager_Addon.ModProfileData
         public override int GetHashCode()
         {
             return Path.GetHashCode() + ModList.ModlistPath.GetHashCode() + ModList.IsClone().GetHashCode();
-        }
-
-        internal void ExportToClipboard()
-        {
-            if(ModList!=null)
-            {
-                string ToCopy = StringCompression.CompressString(ModList.GetSerialized(false));
-                IO_Utils.PutToClipboard(ToCopy);
-                DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.PRESETOVERVIEW.EXPORT_POPUP.TITLE, STRINGS.UI.PRESETOVERVIEW.EXPORT_POPUP.TEXT);
-            }
         }
     }
 }
