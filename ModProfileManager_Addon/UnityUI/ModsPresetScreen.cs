@@ -23,6 +23,7 @@ using static ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.MODENTRYVIEW;
 using static ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW;
 using System.Data.SqlClient;
 using static ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.FILEHIERARCHY;
+using System.Collections;
 
 namespace ModProfileManager_Addon.UnityUI
 {
@@ -39,7 +40,7 @@ namespace ModProfileManager_Addon.UnityUI
         //Main Areas
         public FButton CloseBtn;
 
-        public FButton NewPreset,ApplyPreset;
+        public FButton NewPreset, ApplyPreset;
 
 
         //ProfileListing
@@ -81,7 +82,7 @@ namespace ModProfileManager_Addon.UnityUI
             ModProfileSearchbar.Text = string.Empty;
 
             OpenPresetFolder = transform.Find("FileHierarchy/SearchBar/FolderButton").FindOrAddComponent<FButton>();
-            ImportPreset = Util.KInstantiateUI(OpenPresetFolder.gameObject, OpenPresetFolder.transform.parent.gameObject,true).FindOrAddComponent<FButton>();
+            ImportPreset = Util.KInstantiateUI(OpenPresetFolder.gameObject, OpenPresetFolder.transform.parent.gameObject, true).FindOrAddComponent<FButton>();
             var img = ImportPreset.transform.Find("Image").GetComponent<Image>();
             img.sprite = ModAssets.ImportSprite;
             var imgRec = img.rectTransform();
@@ -93,7 +94,7 @@ namespace ModProfileManager_Addon.UnityUI
                 UpdatePresetButtons();
             };
 
-            ImportPreset.OnClick += () => DialogUtil.CreateTextInputDialog(IMPORT_POPUP.TITLE, parent: FrontEndManager.Instance.gameObject, frontEnd: true, onConfirm: onConfirmImport, maxCharCount:0,fillerText: UIUtils.ColorText(IMPORT_POPUP.FILLER,Color.grey),high:true,undoStripping:true);
+            ImportPreset.OnClick += () => DialogUtil.CreateTextInputDialog(IMPORT_POPUP.TITLE, parent: FrontEndManager.Instance.gameObject, frontEnd: true, onConfirm: onConfirmImport, maxCharCount: 0, fillerText: UIUtils.ColorText(IMPORT_POPUP.FILLER, Color.grey), high: true, undoStripping: true);
             OpenPresetFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.ModPacksPath) { UseShellExecute = true });
             UIUtils.AddSimpleTooltipToObject(OpenPresetFolder.gameObject, FOLDERBUTTON.TOOLTIP);
             UIUtils.AddSimpleTooltipToObject(ImportPreset.gameObject, IMPORTBUTTON.TOOLTIP);
@@ -102,7 +103,7 @@ namespace ModProfileManager_Addon.UnityUI
             ClearModProfileSearchBar.OnClick += () => ModProfileSearchbar.Text = string.Empty;
 
             SgtLogger.l(OpenPresetFolder.rectTransform().sizeDelta.x.ToString(), "WIDT");
-            ModProfileSearchbar.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left,3, 280);
+            ModProfileSearchbar.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 3, 280);
             OpenPresetFolder.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 42, 35);
             ClearModProfileSearchBar.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 82, 35);
 
@@ -111,11 +112,11 @@ namespace ModProfileManager_Addon.UnityUI
             var hierarchyEntryGO = transform.Find("FileHierarchy/ScrollArea/Content/BlueprintEntryPrefab").gameObject;
             hierarchyEntryGO.SetActive(false);
             HierarchyEntryPrefab = hierarchyEntryGO.AddOrGet<FileHierarchyEntry>();
-            var export = Util.KInstantiateUI(HierarchyEntryPrefab.transform.Find("RenameButton").gameObject, hierarchyEntryGO,true);
+            var export = Util.KInstantiateUI(HierarchyEntryPrefab.transform.Find("RenameButton").gameObject, hierarchyEntryGO, true);
             export.name = "ExportButton";
             export.transform.Find("Image").gameObject.GetComponent<Image>().sprite = ModAssets.ExportSprite;
             int index = export.transform.GetSiblingIndex();
-            export.transform.SetSiblingIndex(index-1);
+            export.transform.SetSiblingIndex(index - 1);
 
             var hierarchyFolderGO = transform.Find("FileHierarchy/ScrollArea/Content/FolderPrefab").gameObject;
             hierarchyFolderGO.SetActive(false);
@@ -164,16 +165,16 @@ namespace ModProfileManager_Addon.UnityUI
                 CloneSingleEntryFromExisting(ModAssets.SelectedModPack, result);
                 UpdatePresetButtons();
             };
-            DialogUtil.CreateTextInputDialog(CREATE_POPUP.TITLE, "", null,false, NameAction, null, FrontEndManager.Instance.gameObject, false, false, true );
-            
+            DialogUtil.CreateTextInputDialog(CREATE_POPUP.TITLE, "", null, false, NameAction, null, FrontEndManager.Instance.gameObject, false, false, true);
+
         }
         void ApplyCurrentPreset()
         {
             ModAssets.SyncMods();
             var mm = Global.Instance.modManager;
             mm.events.Add(new Event() { event_type = EventType.RestartRequested });
-            
-            mm.RestartDialog((string)STRINGS.UI.PRESET_APPLIED_TITLE,global::STRINGS.UI.FRONTEND.MOD_DIALOGS.MODS_SCREEN_CHANGES.MESSAGE, new System.Action(()=>this.Show(false)), true, this.gameObject);
+
+            mm.RestartDialog((string)STRINGS.UI.PRESET_APPLIED_TITLE, global::STRINGS.UI.FRONTEND.MOD_DIALOGS.MODS_SCREEN_CHANGES.MESSAGE, new System.Action(() => this.Show(false)), true, this.gameObject);
         }
 
         public static void ShowWindow(System.Action OnClose)
@@ -240,7 +241,7 @@ namespace ModProfileManager_Addon.UnityUI
 
         public void ClearUIState()
         {
-            ClearSearchbars(); 
+            ClearSearchbars();
             RebuildUI();
         }
         public void RebuildUI()
@@ -266,27 +267,34 @@ namespace ModProfileManager_Addon.UnityUI
             }
             this.ConsumeMouseScroll = true;
         }
-        
+
         public void RebuildModsScreen()
         {
             scroll.OnBuild();
             var mods = Global.Instance.modManager.mods;
 
-            HashSet<string> activeMods=new();
+            HashSet<string> activeMods = new();
+            List<Label> presetMods = new();
+
             if (ModAssets.SelectedModPack != null)
             {
+                presetMods = ModAssets.SelectedModPack.GetActiveMods();
                 activeMods = new(ModAssets.SelectedModPack.GetActiveMods().Select(e => e.defaultStaticID));
             }
 
-            foreach(var mod in mods)
+            foreach (var mod in mods)
             {
                 ModAssets.RegisterModMapping(mod);
-
-                if (mod.status == KMod.Mod.Status.NotInstalled || mod.status == KMod.Mod.Status.UninstallPending || mod.HasOnlyTranslationContent() || mod.contentCompatability != ModContentCompatability.OK)
+                if(mod.status == KMod.Mod.Status.NotInstalled || mod.status == KMod.Mod.Status.UninstallPending)
                 {
-                    continue; 
+                    RemoveUIMod(mod.label);
+                    continue;
                 }
-                ModScreenEntry modEntry = AddOrGetModEntry(mod);
+                if (mod.HasOnlyTranslationContent() || mod.contentCompatability != ModContentCompatability.OK)
+                {
+                    continue;
+                }
+                ModScreenEntry modEntry = AddOrGetModEntry(mod, default);
 
                 bool enabled = ModAssets.SelectedModPack == null ? mod.IsEnabledForActiveDlc() : activeMods.Contains(mod.label.defaultStaticID);
                 MPM_POptionDataEntry data = null;
@@ -294,12 +302,30 @@ namespace ModProfileManager_Addon.UnityUI
 
                 bool hasPlib = ModAssets.SelectedModPack != null && ModAssets.SelectedModPack.GetActivePlibConfig().TryGetValue(mod.staticID, out data);
 
-                string dataString=null;
+                string dataString = null;
                 if (data != null)
                     dataString = data.ModConfigData.ToString();
-                modEntry.transform.SetAsLastSibling();
                 modEntry.gameObject.SetActive(ShowModByStaticID(mod.label.defaultStaticID));
                 modEntry.Refresh(enabled, hasPlib, dataString);
+                if (activeMods.Contains(mod.label.defaultStaticID))
+                    activeMods.Remove(mod.label.defaultStaticID);
+            }
+            for ( int i = presetMods.Count-1; i>0; i--)
+            {
+                Label potentiallyMissing = presetMods[i];
+                if (activeMods.Contains(potentiallyMissing.defaultStaticID))
+                {
+                    ModScreenEntry modEntryMissing = AddOrGetModEntry(null, potentiallyMissing);
+
+                    bool enabled = true;
+                    bool hasPlib = false;
+                    modEntryMissing.gameObject.SetActive(ShowModByStaticID(potentiallyMissing.defaultStaticID));
+                    modEntryMissing.Refresh(enabled, hasPlib, string.Empty);
+                }
+                if (ModEntryEntries.TryGetValue(potentiallyMissing.defaultStaticID, out var e))
+                {
+                    e.transform.SetAsFirstSibling();
+                }
             }
             scroll.Rebuild();
         }
@@ -354,35 +380,59 @@ namespace ModProfileManager_Addon.UnityUI
         {
             DialogueCurrentlyOpen = obj;
         }
-
-
-        private ModScreenEntry AddOrGetModEntry(KMod.Mod mod)
+        public void RemoveUIEntryForMod(KMod.Label label)
         {
-            if (!ModEntryEntries.ContainsKey(mod.label.defaultStaticID))
+            if(CurrentlyActive)
+                StartCoroutine(RemoveUICoroutine(label));
+        }
+        private IEnumerator RemoveUICoroutine(KMod.Label label)
+        {
+            yield return null;
+            scroll.OnBuild();
+            RemoveUIMod(label);
+            scroll.Rebuild();
+            RebuildModsScreen();
+        }
+        private void RemoveUIMod(Label label)
+        {
+            if (ModEntryEntries.TryGetValue(label.defaultStaticID, out var UIEntry))
             {
+                ModEntryEntries.Remove(label.defaultStaticID);
+                UnityEngine.Object.Destroy(UIEntry.gameObject);
+            }
+        }
+        private ModScreenEntry AddOrGetModEntry(KMod.Mod mod, KMod.Label label)
+        {
+            if (mod != null)
+                label = mod.label;
+
+            if (!ModEntryEntries.ContainsKey(label.defaultStaticID))
+            {
+
                 var elementEntry = Util.KInstantiateUI<ModScreenEntry>(ModEntryPrefab.gameObject, ModEntrysContainer);
                 elementEntry.TargetMod = mod;
-                ModEntryEntries[mod.label.defaultStaticID] = elementEntry;
-                ModFilterStrings[mod.label.defaultStaticID] = mod.title;
+                elementEntry.MissingLabel = label;
+                ModEntryEntries[label.defaultStaticID] = elementEntry;
+                ModFilterStrings[label.defaultStaticID] = label.title;
             }
-            return ModEntryEntries[mod.label.defaultStaticID];
+            return ModEntryEntries[label.defaultStaticID];
         }
 
         string ModsFilterString = string.Empty;
         public void ApplyModsFilter(string filterstring = "")
         {
-            ModsFilterString=filterstring;
+            ModsFilterString = filterstring;
             if (filterstring.Length == 0)
             {
                 RebuildModsScreen();
                 return;
             }
+            scroll.OnBuild();
             foreach (var go in ModEntryEntries)
             {
-                scroll.OnBuild();
                 go.Value.gameObject.SetActive(ShowModByStaticID(go.Key));
-                scroll.Rebuild();
             }
+            scroll.Rebuild();
         }
         public bool ShowModByStaticID(string staticModID)
         {
@@ -406,7 +456,7 @@ namespace ModProfileManager_Addon.UnityUI
 
             foreach (var go in ModPresetEntries)
             {
-                go.Value.gameObject.SetActive( ShowInFilter(filterstring, new string[]{ go.Key.Path, go.Key.ModList.ModlistPath }));
+                go.Value.gameObject.SetActive(ShowInFilter(filterstring, new string[] { go.Key.Path, go.Key.ModList.ModlistPath }));
             }
         }
 
@@ -442,7 +492,11 @@ namespace ModProfileManager_Addon.UnityUI
             {
                 if (onCloseAction != null)
                     onCloseAction();
-                
+
+            }
+            if(CurrentlyActive)
+            {
+                RebuildModsScreen();
             }
         }
 
@@ -451,6 +505,22 @@ namespace ModProfileManager_Addon.UnityUI
             if (Instance != null && Instance.CurrentlyActive)
             {
                 Instance.ClearUIState();
+            }
+        }
+
+        internal static void NewModInstalled(KMod.Mod mod)
+        {
+            if (Instance != null)
+            {
+                Instance.RemoveUIEntryForMod(mod.label);
+            }
+        }
+
+        internal static void ModUninstalled(KMod.Mod mod)
+        {
+            if (Instance != null)
+            {
+                Instance.RemoveUIEntryForMod(mod.label);
             }
         }
     }

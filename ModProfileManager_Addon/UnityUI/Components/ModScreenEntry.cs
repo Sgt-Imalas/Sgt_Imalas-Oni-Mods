@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +17,14 @@ namespace ModProfileManager_Addon.UnityUI.Components
     {
         FToggle2 ModEnabled;
         public KMod.Mod TargetMod;
+        public KMod.Label? MissingLabel = null;
         LocText ModName;
 
         GameObject PlibConfigHighlight;
         ToolTip plibTooltip;
 
-        public string Name=string.Empty;
+        public string Name = string.Empty;
+
 
         public override void OnPrefabInit()
         {
@@ -32,17 +35,22 @@ namespace ModProfileManager_Addon.UnityUI.Components
             PlibConfigHighlight = transform.Find("HasPLibData").gameObject;
             plibTooltip = UIUtils.AddSimpleTooltipToObject(PlibConfigHighlight, "");
 
+            var TypeGO = transform.Find("ModType").gameObject;
             if (TargetMod != null)
             {
                 Name = TargetMod.label.title;
                 this.gameObject.name = Name;
-
+                var bt =
+                    TypeGO.AddOrGet<FButton>();
+                bt.OnClick += TargetMod.on_managed;
+                bt.normalColor = TargetMod.IsLocal ? ModAssets.Colors.Blue : ModAssets.Colors.Red;
+                bt.hoverColor = TargetMod.IsLocal ? UIUtils.Lighten(ModAssets.Colors.Blue, 20):UIUtils.Lighten(ModAssets.Colors.Red, 20);
 
                 ModName?.SetText(Name);
                 var label = transform.Find("ModType/Label").gameObject.GetComponent<LocText>();
                 if (TargetMod.IsLocal)
                 {
-                    transform.Find("ModType").gameObject.GetComponent<Image>().color = ModAssets.Colors.Blue;
+                    TypeGO.gameObject.GetComponent<Image>().color = ModAssets.Colors.Blue;
                     label.SetText(STRINGS.UI.LOCAL_MOD);
                 }
                 else
@@ -54,13 +62,40 @@ namespace ModProfileManager_Addon.UnityUI.Components
                     ModAssets.ToggleModActive(TargetMod.label, active);
                 };
             }
+            else if (MissingLabel != null)
+            {
+                var m_missingLabel = MissingLabel.Value;
+                bool isMissingSteam = ulong.TryParse(m_missingLabel.id, out ulong steamId);
+
+                Name = m_missingLabel.title;
+                this.gameObject.name = Name;
+
+                ModName?.SetText(Name);
+                TypeGO.GetComponent<Image>().color = isMissingSteam ? ModAssets.Colors.DarkRed : ModAssets.Colors.DarkBlue;
+
+                var label = transform.Find("ModType/Label").gameObject.GetComponent<LocText>();
+                label.SetText(STRINGS.UI.MISSING);
+                UIUtils.AddSimpleTooltipToObject(label.gameObject, isMissingSteam ? STRINGS.UI.STEAM_MISSING_TOOLTIP : STRINGS.UI.LOCAL_MISSING_TOOLTIP);
+
+                if (isMissingSteam)
+                {
+                    var bt =
+                    TypeGO.AddOrGet<FButton>();
+                    bt.OnClick += () => ModAssets.SubToMissingMod(steamId);
+                    bt.normalColor = ModAssets.Colors.DarkRed;
+                    bt.hoverColor = UIUtils.Lighten(ModAssets.Colors.Red, 10);
+                }
+
+                ModEnabled.SetInteractable(false);
+            }
         }
+
         public void Refresh(bool enabled, bool hasPlibConfig, string plibData)
         {
             PlibConfigHighlight.SetActive(hasPlibConfig);
-            if(hasPlibConfig)
+            if (hasPlibConfig)
             {
-                plibTooltip.SetSimpleTooltip(STRINGS.UI.PLIB_CONFIG_FOUND+"\n"+plibData);
+                plibTooltip.SetSimpleTooltip(STRINGS.UI.PLIB_CONFIG_FOUND + "\n" + plibData);
             }
             ModEnabled.SetOnFromCode(enabled);
         }

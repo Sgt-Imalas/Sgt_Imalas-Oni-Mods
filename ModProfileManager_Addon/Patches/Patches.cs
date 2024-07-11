@@ -86,5 +86,21 @@ namespace ModProfileManager_Addon.Patches
                 return true;
             }
         }
+        [HarmonyPatch(typeof(KMod.Mod), nameof(KMod.Mod.Install))]
+        public static class ModManager_Install
+        {
+            public static void Postfix(KMod.Mod __instance)
+            {
+                ModsPresetScreen.NewModInstalled(__instance);
+            }
+        }
+        [HarmonyPatch(typeof(KMod.Mod), nameof(KMod.Mod.Uninstall))]
+        public static class ModManager_Uninstall
+        {
+            public static void Postfix(KMod.Mod __instance)
+            {
+                ModsPresetScreen.ModUninstalled(__instance);
+            }
+        }
     }
 }

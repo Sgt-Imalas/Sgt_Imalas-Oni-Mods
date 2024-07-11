@@ -3,6 +3,7 @@ using KMod;
 using ModProfileManager_Addon.IO;
 using ModProfileManager_Addon.ModProfileData;
 using Newtonsoft.Json;
+using Steamworks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,10 +24,10 @@ namespace ModProfileManager_Addon
 
         public static ModPresetEntry SelectedModPack;
         public static Sprite ImportSprite, ExportSprite;
-       
+
         public static void ToggleModActive(KMod.Label label, bool active)
         {
-            SelectedModPack.ModList.SetModEnabledForDlc(label, active,SelectedModPack.Path);
+            SelectedModPack.ModList.SetModEnabledForDlc(label, active, SelectedModPack.Path);
 
             var id = label.defaultStaticID;
         }
@@ -61,6 +62,9 @@ namespace ModProfileManager_Addon
         {
             public static Color Red = UIUtils.rgb(134, 69, 101);
             public static Color Blue = UIUtils.HSVShift(Red, 70f);
+
+            public static Color DarkRed = UIUtils.Darken(Red, 40);
+            public static Color DarkBlue = UIUtils.Darken(Blue, 40);
         }
 
         #region pathSanitisation
@@ -93,9 +97,9 @@ namespace ModProfileManager_Addon
         {
             GetAllModPacks();
             var result = new List<ModPresetEntry>();
-            foreach(var modPackCollection in ModPacks.Values)
+            foreach (var modPackCollection in ModPacks.Values)
             {
-                foreach(var preset in modPackCollection.GetSavePoints())
+                foreach (var preset in modPackCollection.GetSavePoints())
                 {
                     result.Add(new ModPresetEntry(modPackCollection, preset.Key));
                 }
@@ -118,7 +122,7 @@ namespace ModProfileManager_Addon
                 string decompressed = StringCompression.DecompressString(import);
 
                 SaveGameModList modlist = JsonConvert.DeserializeObject<SaveGameModList>(decompressed);
-                if(modlist.SavePoints.Count==0 || modlist.SavePoints.Count == 1 && modlist.SavePoints.First().Value.Count == 0)
+                if (modlist.SavePoints.Count == 0 || modlist.SavePoints.Count == 1 && modlist.SavePoints.First().Value.Count == 0)
                 {
                     DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.TITLE_ERROR, STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.EMPTY);
 
@@ -134,7 +138,7 @@ namespace ModProfileManager_Addon
                 else
                 {
                     modlist.WriteModlistToFile();
-                    DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.TITLE, string.Format(STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.SUCCESS,modlist.ModlistPath));
+                    DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.TITLE, string.Format(STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.SUCCESS, modlist.ModlistPath));
                 }
             }
             catch (Exception e)
@@ -185,7 +189,7 @@ namespace ModProfileManager_Addon
 
             int versionNumber = ModPackFile.GetSavePoints().Count + 1;
 
-            var VersionString = versionNumber == 1 ? savePath : savePath+"_"+versionNumber;
+            var VersionString = versionNumber == 1 ? savePath : savePath + "_" + versionNumber;
 
             bool subListInitialized = ModPackFile.AddOrUpdateEntryToModList(VersionString, list, true);
 
@@ -201,14 +205,14 @@ namespace ModProfileManager_Addon
 
         public static void SyncMods()
         {
-            if((SelectedModPack.ModList.TryGetModListEntry(SelectedModPack.Path, out var mods)))
-            {  
+            if ((SelectedModPack.ModList.TryGetModListEntry(SelectedModPack.Path, out var mods)))
+            {
                 if (SelectedModPack.ModList.TryGetPlibOptionsEntry(SelectedModPack.Path, out var configs))
                     SaveGameModList.WritePlibOptions(configs);
                 SyncMods(mods);
             }
         }
-        internal static void SyncMods(List<Label> modsState,bool? enableAll = null, bool restartAfter = false, bool dontDisableActives = false)
+        internal static void SyncMods(List<Label> modsState, bool? enableAll = null, bool restartAfter = false, bool dontDisableActives = false)
         {
             var mm = Global.Instance.modManager;
 
@@ -229,7 +233,7 @@ namespace ModProfileManager_Addon
                 bool isEnabled = modToEdit.IsEnabledForActiveDlc();
 
                 if (ModSyncUtils.IsModSyncMod(modID))
-                    shouldBeEnabled = true;                
+                    shouldBeEnabled = true;
 
                 if (shouldBeEnabled == false && dontDisableActives && isEnabled)
                     shouldBeEnabled = true;
@@ -298,7 +302,7 @@ namespace ModProfileManager_Addon
 
             if (modProfile != null)
             {
-                if(modProfile.SavePoints.Count == 1)
+                if (modProfile.SavePoints.Count == 1)
                 {
                     modProfile.DeleteFileIfEmpty(true);
                     modProfile.ModlistPath = newModProfilePath;
@@ -307,11 +311,11 @@ namespace ModProfileManager_Addon
                     ModPacks.Remove(modProfilePath);
                     ModPacks.Add(newModProfilePath, modProfile);
                 }
-                else if(modProfile.SavePoints.Count > 1 && modProfile.TryGetModListEntry(modProfilePath, out var mods))
+                else if (modProfile.SavePoints.Count > 1 && modProfile.TryGetModListEntry(modProfilePath, out var mods))
                 {
 
                     var newPack = CreateOrAddToModPacks(newModProfilePath, mods);
-                    if (modProfile.TryGetPlibOptionsEntry(modProfilePath,out var data))
+                    if (modProfile.TryGetPlibOptionsEntry(modProfilePath, out var data))
                     {
                         newPack.SetPlibSettings(newModProfilePath, data);
                     }
@@ -321,7 +325,7 @@ namespace ModProfileManager_Addon
                     newPack.WriteModlistToFile();
                 }
             }
-            
+
         }
 
         internal static void HandleDeletion(ModPresetEntry modProfileTuple)
@@ -341,6 +345,18 @@ namespace ModProfileManager_Addon
         {
             ModDefaultIDToPlibModID[mod.label.defaultStaticID] = mod.staticID;
         }
-        
+
+        public static void SubToMissingMod(ulong modId)
+        {
+            try
+            {
+                SteamUGC.SubscribeItem(new PublishedFileId_t(modId));
+            }
+            catch
+            {
+                SgtLogger.warning("subscribing to " + modId + " failed!");
+            }
+        }
+
     }
 }

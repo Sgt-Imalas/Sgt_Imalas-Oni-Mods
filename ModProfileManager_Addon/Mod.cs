@@ -2,6 +2,7 @@
 using Klei;
 using KMod;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UtilLibs;
 using UtilLibs.ModSyncing;
@@ -24,6 +25,11 @@ namespace ModProfileManager_Addon
             DialogUtil.PatchDialogCrash();
 
             ModSyncUtils.RegisterModAsSyncMod(this.mod);
+        }
+        public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
+        {
+            base.OnAllModsLoaded(harmony, mods);
+            SgtLogger.l(mods.Count.ToString(), "Mod Count");
         }
     }
 }
