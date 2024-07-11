@@ -1,0 +1,36 @@
+﻿[h1]Bubbles Bathtub[/h1]
+
+This mod adds a fancy bathtub to the game duplicants can use as an alternative to showering.
+
+[img]https://i.imgur.com/GbFtLZ2.png[/img]
+
+[h1]Current latest Version: 1.0.0/h1]
+
+[hr][/hr]
+
+[h1]Features[/h1]
+[list][*] New Building: Bathtub
+[*] Requires 500kg of precious rock (obsidian/granite) and 200kg of ore.
+[*] Unlocked with the research "Sanitation".
+[*] Up to 3 duplicants can fit in one bathtub.
+[*] Bathing takes a longer than a quick shower, it's simply too cozy in there (35secs).
+[*] During bathing duplicants will receive the hottub relax buff (-20% stress per cycle for the bathing duration).
+[*] Comes with an extra handy retro tub skin.
+[/list]
+
+[hr][/hr]
+[h1]Credits[/h1]
+Main Animation created by 3GuB
+
+[h1]Bug Reports & Local Download[/h1]
+You can find direct downloads for my mods [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases]here[/url] (please notify me if I forgot to release new versions).
+
+Please post bug reports and issues on [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or on my [url=https://discord.gg/5n7peBCnWZ]Discord Server[/url]. 
+[b]Always include the full player.log in a report: [/b] https://github.com/aki-art/ONI-Mods/wiki/How-to-send-a-log
+
+[b]Make sure you do NOT have the mod "Debug Console" enabled as it breaks the game's logging and makes the log useless for fixing bugs![/b] 
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me on [url=https://www.buymeacoffee.com/sgtimalas]Buy me a coffe[/url] or [url=https://ko-fi.com/sgtimalas]Kofi[/url] :D.
+Do u like 3GuB's art and animations? you can support him on [url=https://ko-fi.com/03gub]Kofi[/url].
