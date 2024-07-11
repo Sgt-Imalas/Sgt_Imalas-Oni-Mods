@@ -56,5 +56,35 @@ namespace ModProfileManager_Addon.Patches
                 LocalisationUtil.Translate(typeof(STRINGS), true);
             }
         }
+        [HarmonyPatch(typeof(FileNameDialog))]
+        [HarmonyPatch(nameof(FileNameDialog.OnActivate))]
+        public static class FixCrashOnActivate
+        {
+            public static bool Prefix(FileNameDialog __instance)
+            {
+                if (CameraController.Instance == null)
+                {
+                    __instance.OnShow(show: true);
+                    __instance.inputField.Select();
+                    __instance.inputField.ActivateInputField();
+                    return false;
+                }
+                return true;
+            }
+        }
+        [HarmonyPatch(typeof(FileNameDialog))]
+        [HarmonyPatch(nameof(FileNameDialog.OnDeactivate))]
+        public static class FixCrashOnDeactivate
+        {
+            public static bool Prefix(FileNameDialog __instance)
+            {
+                if (CameraController.Instance == null)
+                {
+                    __instance.OnShow(show: false);
+                    return false;
+                }
+                return true;
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using PeterHan.PLib.Core;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections;
@@ -9,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UtilLibs.ElementUtilNamespace;
 using static STRINGS.UI.TOOLS;
 
 namespace UtilLibs
@@ -32,12 +34,94 @@ namespace UtilLibs
             await Task.Delay(ms);
             action.Invoke();
         }
+        public static void PatchDialogCrash() => FileNameDialogCrashFix.PatchDialog();
+        public static class FileNameDialogCrashFix
+        {
+            static string FileNameDialoguePatchedKey = "SgtUtil_FileNameDialoguePatched";
+            public static void PatchDialog()
+            {
+                return;
+                if (PRegistry.GetData<bool>(FileNameDialoguePatchedKey))
+                    return;
+
+                PRegistry.PutData(FileNameDialoguePatchedKey, true);
+
+                var harmony = new Harmony("FileNameDialogCrashFix_PatchDialog");
+                Debug.Assert(harmony != null, "Harmony Instance null!!");
+
+                var m_TargetMethod_OnActivate = AccessTools.Method(typeof(FileNameDialog),nameof(FileNameDialog.OnActivate));
+                if (m_TargetMethod_OnActivate == null)
+                {
+                    Debug.LogError("FileNameDialog.OnActivate was null!");
+                    return;
+                }
+
+                //var m_Transpiler = AccessTools.Method(typeof(LoadModConfigPatch), "Transpiler");
+                var m_Prefix_OnActivate = AccessTools.Method(typeof(FixCrashOnActivate), nameof(FixCrashOnActivate.Prefix));
+                if (m_Prefix_OnActivate == null)
+                {
+                    Debug.LogError("m_Prefix_OnActivate was null!");
+                    return;
+                }
+                harmony.Patch(m_TargetMethod_OnActivate,
+                    prefix: new HarmonyMethod(m_Prefix_OnActivate)
+                    );
+
+                var m_TargetMethod_OnDeactivate = AccessTools.Method(typeof(FileNameDialog), nameof(FileNameDialog.OnDeactivate));
+                var m_Prefix_OnDeactivate = AccessTools.Method(typeof(FixCrashOnDeactivate), nameof(FixCrashOnDeactivate.Prefix));
+
+                if (m_TargetMethod_OnDeactivate == null)
+                {
+                    Debug.LogError("m_TargetMethod_OnDeactivate was null!");
+                    return;
+                }
+                if (m_TargetMethod_OnDeactivate == null)
+                {
+                    Debug.LogError("m_TargetMethod_OnDeactivate was null!");
+                    return;
+                }
+
+                harmony.Patch(m_TargetMethod_OnDeactivate,
+                    prefix: new HarmonyMethod(m_TargetMethod_OnDeactivate)
+                    );
+            }
+            //[HarmonyPatch(typeof(FileNameDialog))]
+            //[HarmonyPatch(nameof(FileNameDialog.OnActivate))]
+            public static class FixCrashOnActivate
+            {
+                public static bool Prefix(FileNameDialog __instance)
+                {
+                    if (CameraController.Instance == null)
+                    {
+                        __instance.OnShow(show: true);
+                        __instance.inputField.Select();
+                        __instance.inputField.ActivateInputField();
+                        return false;
+                    }
+                    return true;
+                }
+            }
+            //[HarmonyPatch(typeof(FileNameDialog))]
+            //[HarmonyPatch(nameof(FileNameDialog.OnDeactivate))]
+            public static class FixCrashOnDeactivate
+            {
+                public static bool Prefix(FileNameDialog __instance)
+                {
+                    if (CameraController.Instance == null)
+                    {
+                        __instance.OnShow(show: false);
+                        return false;
+                    }
+                    return true;
+                }
+            }
+        }
         public static FileNameDialog CreateTextInputDialog(string title, string startText = null, string fillerText = null, bool allowEmpty = false, System.Action<string> onConfirm = null, System.Action onCancel = null, GameObject parent = null, bool lockCam = true, bool unlockCam = true, bool frontEnd = false, int maxCharCount = 48, bool high = false, bool undoStripping = false)
         {
             if (startText == null)
                 startText = string.Empty;
             GameObject dialogueParent = parent != null ? parent : GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay);
-            FileNameDialog textDialog = Util.KInstantiateUI<FileNameDialog>(ScreenPrefabs.Instance.FileNameDialog.gameObject, dialogueParent, true);
+            FileNameDialog textDialog = Util.KInstantiateUI<FileNameDialog>(ScreenPrefabs.Instance.FileNameDialog.gameObject, dialogueParent);
             textDialog.transform.SetAsLastSibling();
             textDialog.name = Assembly.GetExecutingAssembly().GetName().Name + "_" + title;
             var tmp = textDialog.inputField;
@@ -61,18 +145,13 @@ namespace UtilLibs
                     tmp.onValueChanged.RemoveAllListeners();
                 }
             }
-            //ExecuteWithDelay(20,() =>
-            //{
-            //    tmp?.onValueChanged?.RemoveAllListeners();
-            //});
 
             if (fillerText != null)
             {
-                //
-                textDialog.inputField.transform.Find("Text Area/Placeholder").GetComponent<LocText>().text = fillerText;
+                var text = textDialog?.inputField?.transform?.Find("Text Area/Placeholder")?.GetComponent<LocText>()?.text;
+                if(text!=null) 
+                    text= fillerText;
             }
-            UtilMethods.ListAllPropertyValues(textDialog.inputField);
-            UtilMethods.ListAllFieldValues(textDialog.inputField);
             //if (high)
             //    textDialog.inputField.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 200);
 
