@@ -22,6 +22,7 @@ using static KInputController;
 using static ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.MODENTRYVIEW;
 using static ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW;
 using System.Data.SqlClient;
+using static ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.FILEHIERARCHY;
 
 namespace ModProfileManager_Addon.UnityUI
 {
@@ -44,8 +45,9 @@ namespace ModProfileManager_Addon.UnityUI
         //ProfileListing
         public FInputField2 ModProfileSearchbar;
         public FButton ClearModProfileSearchBar;
-        public FButton OpenBlueprintFolder;
-        //public FButton FolderUpBtn;
+        public FButton OpenPresetFolder;
+        public FButton ImportPreset;
+
         public GameObject HierarchyContainer;
         public FileHierarchyEntry HierarchyEntryPrefab;
         public FolderHierarchyEntry HierarchyFolderPrefab;
@@ -70,8 +72,6 @@ namespace ModProfileManager_Addon.UnityUI
             if (init) { return; }
             SgtLogger.l("Initializing ModPresetWindow");
 
-
-            UIUtils.ListAllChildrenPath(this.transform);
             CloseBtn = transform.Find("TopBar/CloseButton").gameObject.AddOrGet<FButton>();
             CloseBtn.OnClick += () => Show(false);
             //blueprint files
@@ -80,49 +80,46 @@ namespace ModProfileManager_Addon.UnityUI
             ModProfileSearchbar.OnValueChanged.AddListener(ApplyPresetsFilter);
             ModProfileSearchbar.Text = string.Empty;
 
-            OpenBlueprintFolder = transform.Find("FileHierarchy/SearchBar/FolderButton").FindOrAddComponent<FButton>();
-            OpenBlueprintFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.ModPacksPath) { UseShellExecute = true });
+            OpenPresetFolder = transform.Find("FileHierarchy/SearchBar/FolderButton").FindOrAddComponent<FButton>();
+            ImportPreset = Util.KInstantiateUI(OpenPresetFolder.gameObject, OpenPresetFolder.transform.parent.gameObject,true).FindOrAddComponent<FButton>();
+            var img = ImportPreset.transform.Find("Image").GetComponent<Image>();
+            img.sprite = ModAssets.ImportSprite;
+            var imgRec = img.rectTransform();
+            imgRec.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, imgRec.sizeDelta.x);
+
+            Action<string> onConfirmImport = (importString) =>
+            {
+                ModAssets.ImportPresetFromImportString(importString);
+                UpdatePresetButtons();
+            };
+
+            ImportPreset.OnClick += () => DialogUtil.CreateTextInputDialog(IMPORT_POPUP.TITLE, parent: FrontEndManager.Instance.gameObject, frontEnd: true, onConfirm: onConfirmImport, maxCharCount:0,fillerText: UIUtils.ColorText(IMPORT_POPUP.FILLER,Color.grey),high:true,undoStripping:true);
+            OpenPresetFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.ModPacksPath) { UseShellExecute = true });
+            UIUtils.AddSimpleTooltipToObject(OpenPresetFolder.gameObject, FOLDERBUTTON.TOOLTIP);
+            UIUtils.AddSimpleTooltipToObject(ImportPreset.gameObject, IMPORTBUTTON.TOOLTIP);
 
             ClearModProfileSearchBar = transform.Find("FileHierarchy/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
             ClearModProfileSearchBar.OnClick += () => ModProfileSearchbar.Text = string.Empty;
 
-            //FolderUpBtn = transform.Find("FileHierarchy/ScrollArea/Content/FolderUp").FindOrAddComponent<FButton>();
-            //FolderUpBtn.gameObject.SetActive(false);
-            //FolderUpBtn.OnClick += () => SelectFolder(null);
+            SgtLogger.l(OpenPresetFolder.rectTransform().sizeDelta.x.ToString(), "WIDT");
+            ModProfileSearchbar.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left,3, 280);
+            OpenPresetFolder.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 42, 35);
+            ClearModProfileSearchBar.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 82, 35);
 
             HierarchyContainer = transform.Find("FileHierarchy/ScrollArea/Content").gameObject;
-
-            //ClearOverrides = transform.Find("MaterialSwitch/Buttons/ResetButton").FindOrAddComponent<FButton>();
-            //ClearOverrides.OnClick += OnClearOverrides;
-
-            //PlaceBlueprint = transform.Find("MaterialSwitch/Buttons/PlaceBPbtn").FindOrAddComponent<FButton>();
-            //PlaceBlueprint.OnClick += OnPlaceBlueprint;
 
             var hierarchyEntryGO = transform.Find("FileHierarchy/ScrollArea/Content/BlueprintEntryPrefab").gameObject;
             hierarchyEntryGO.SetActive(false);
             HierarchyEntryPrefab = hierarchyEntryGO.AddOrGet<FileHierarchyEntry>();
+            var export = Util.KInstantiateUI(HierarchyEntryPrefab.transform.Find("RenameButton").gameObject, hierarchyEntryGO,true);
+            export.name = "ExportButton";
+            export.transform.Find("Image").gameObject.GetComponent<Image>().sprite = ModAssets.ExportSprite;
+            int index = export.transform.GetSiblingIndex();
+            export.transform.SetSiblingIndex(index-1);
 
             var hierarchyFolderGO = transform.Find("FileHierarchy/ScrollArea/Content/FolderPrefab").gameObject;
             hierarchyFolderGO.SetActive(false);
             HierarchyFolderPrefab = hierarchyFolderGO.AddOrGet<FolderHierarchyEntry>();
-
-
-            //ElementEntryContainer = transform.Find("MaterialSwitch/ScrollArea/Content").gameObject;
-            //MaterialHeaderTitle = transform.Find("MaterialSwitch/MaterialsHeader/Label").gameObject.AddOrGet<LocText>();
-
-            //SevereErrorGO = transform.Find("MaterialSwitch/MaterialsHeader/WarningSevere").gameObject;
-            //SevereErrorTooltip = UIUtils.AddSimpleTooltipToObject(SevereErrorGO.transform, MATERIALSWITCH.WARNINGSEVERE);
-            //SevereErrorGO.SetActive(false);
-
-
-            //ErrorGO = transform.Find("MaterialSwitch/MaterialsHeader/Warning").gameObject;
-            //ErrorTooltip = UIUtils.AddSimpleTooltipToObject(ErrorGO.transform, MATERIALSWITCH.WARNING);
-            //ErrorGO.SetActive(false);
-
-            //var ElementEntryPrefabGo = transform.Find("MaterialSwitch/ScrollArea/Content/PresetEntryPrefab").gameObject;
-            //ElementEntryPrefabGo.SetActive(false);
-            //ElementEntryPrefab = ElementEntryPrefabGo.AddOrGet<BlueprintElementEntry>();
-
 
             ModEntrySearchbar = transform.Find("ModEntryView/SearchBar/Input").FindOrAddComponent<FInputField2>();
 
@@ -130,12 +127,12 @@ namespace ModProfileManager_Addon.UnityUI
 
             ModEntrySearchbar.Text = string.Empty;
 
-
             ClearModEntrySearchbar = transform.Find("ModEntryView/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
 
             ClearModEntrySearchbar.OnClick += () => ModEntrySearchbar.Text = string.Empty;
 
             ModEntrysContainer = transform.Find("ModEntryView/ScrollArea/Content").gameObject;
+
 
             //ToReplaceName = transform.Find("ModEntryView/ToReplace/CurrentlyActive/Label").gameObject.GetComponent<LocText>();
             //NoItems = transform.Find("MaterialSwitch/ScrollArea/Content/NoElementsInBlueprint")?.gameObject;
@@ -167,7 +164,7 @@ namespace ModProfileManager_Addon.UnityUI
                 CloneSingleEntryFromExisting(ModAssets.SelectedModPack, result);
                 UpdatePresetButtons();
             };
-            DialogUtil.CreateTextInputDialog(CREATE_POPUP.TITLE, "", false, NameAction, null, FrontEndManager.Instance.gameObject, false, false, true );
+            DialogUtil.CreateTextInputDialog(CREATE_POPUP.TITLE, "", null,false, NameAction, null, FrontEndManager.Instance.gameObject, false, false, true );
             
         }
         void ApplyCurrentPreset()

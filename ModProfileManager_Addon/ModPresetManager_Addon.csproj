@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>ModProfileManager_Addon</PackageId>
-		<Version>1.0.3</Version>
+		<Version>1.1.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022-2024 Sgt_Imalas</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -55,6 +55,12 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\assets\mac\mpm_ui">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\assets\MPM_EXPORT.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\assets\MPM_IMPORT.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\assets\windows\mpm_ui">

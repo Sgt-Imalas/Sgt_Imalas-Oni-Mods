@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using HarmonyLib;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,6 +15,20 @@ namespace UtilLibs
         public static string ModPath => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         public static string ModsFolder => System.IO.Directory.GetParent(System.IO.Directory.GetParent(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)).FullName).ToString() + "\\"; 
         public static string ConfigFolder => Path.Combine(ModsFolder,"config");
+        
+        public static void PutToClipboard(string toPut)
+        {
+            var TextEditorType = Type.GetType("UnityEngine.TextEditor, UnityEngine");
+            if (TextEditorType != null)
+            {
+                var editor = Activator.CreateInstance(TextEditorType);
+                var tr = Traverse.Create(editor);
+                tr.Property("text").SetValue(toPut);
+                tr.Method("SelectAll").GetValue();
+                tr.Method("Copy").GetValue();
+            }
+        }
+        
         public static bool ReadFromFile<T>(string FileOrigin, out T output, string forceExtensionTo = "")
         {
             var filePath = new FileInfo(FileOrigin);

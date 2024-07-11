@@ -1,6 +1,8 @@
 ﻿using Klei.AI;
 using KMod;
+using ModProfileManager_Addon.IO;
 using ModProfileManager_Addon.ModProfileData;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,9 +22,8 @@ namespace ModProfileManager_Addon
         public static string TMP_PRESET = "MPM_TMP_PRESET";
 
         public static ModPresetEntry SelectedModPack;
+        public static Sprite ImportSprite, ExportSprite;
        
-
-
         public static void ToggleModActive(KMod.Label label, bool active)
         {
             SelectedModPack.ModList.SetModEnabledForDlc(label, active,SelectedModPack.Path);
@@ -38,6 +39,7 @@ namespace ModProfileManager_Addon
 
 
         public static Dictionary<string, SaveGameModList> ModPacks = new();
+        public static Dictionary<string, SaveGameModList> ClonePresets = new();
 
 
         public static void LoadAssets()
@@ -64,7 +66,7 @@ namespace ModProfileManager_Addon
         #region pathSanitisation
         public static string GetSanitizedNamePath(string source)
         {
-            SgtLogger.l("Sanitizing...");
+            //SgtLogger.l("Sanitizing...");
             //SgtLogger.l(source, "1");
             source = Path.GetFileName(source);
             //SgtLogger.l(source, "2");
@@ -98,8 +100,51 @@ namespace ModProfileManager_Addon
                     result.Add(new ModPresetEntry(modPackCollection, preset.Key));
                 }
             }
+            foreach (var modPackCollection in ClonePresets.Values)
+            {
+                foreach (var preset in modPackCollection.GetSavePoints())
+                {
+                    result.Add(new ModPresetEntry(modPackCollection, preset.Key));
+                }
+            }
             return result;
         }
+        public static void ImportPresetFromImportString(string import)
+        {
+            try
+            {
+                SgtLogger.l(import, "ToImport");
+
+                string decompressed = StringCompression.DecompressString(import);
+
+                SaveGameModList modlist = JsonConvert.DeserializeObject<SaveGameModList>(decompressed);
+                if(modlist.SavePoints.Count==0 || modlist.SavePoints.Count == 1 && modlist.SavePoints.First().Value.Count == 0)
+                {
+                    DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.TITLE_ERROR, STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.EMPTY);
+
+                }
+                if (ModPacks.ContainsKey(modlist.ReferencedColonySaveName))
+                {
+                    DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.TITLE_ERROR,
+                        string.Format(STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.DUPLICATE, modlist.ModlistPath),
+                        STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.DUPLICATE_REPLACE,
+                        modlist.WriteModlistToFile, on_cancel: () => { }
+                        );
+                }
+                else
+                {
+                    modlist.WriteModlistToFile();
+                    DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.TITLE, string.Format(STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.SUCCESS,modlist.ModlistPath));
+                }
+            }
+            catch (Exception e)
+            {
+                SgtLogger.l(e.Message);
+                DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.TITLE_ERROR, STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.ERROR);
+            }
+
+        }
+
         public static void GetAllModPacks()
         {
             ModPacks.Clear();
@@ -124,6 +169,7 @@ namespace ModProfileManager_Addon
                 }
             }
             SgtLogger.log("Found " + files.Count() + " custom profiles");
+            CloneImport.ImportFromClone();
         }
         public static SaveGameModList CreateOrAddToModPacks(string savePath, List<KMod.Label> list)
         {
@@ -256,8 +302,10 @@ namespace ModProfileManager_Addon
                 {
                     modProfile.DeleteFileIfEmpty(true);
                     modProfile.ModlistPath = newModProfilePath;
-                    modProfile.ReferencedColonySaveName = modProfilePath;
+                    modProfile.ReferencedColonySaveName = newModProfilePath;
                     modProfile.WriteModlistToFile();
+                    ModPacks.Remove(modProfilePath);
+                    ModPacks.Add(newModProfilePath, modProfile);
                 }
                 else if(modProfile.SavePoints.Count > 1 && modProfile.TryGetModListEntry(modProfilePath, out var mods))
                 {

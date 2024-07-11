@@ -26,12 +26,13 @@ namespace ModProfileManager_Addon
             spacedOut = 2,
             modPack = 3
         }
-
         public string ReferencedColonySaveName;
         public string ModlistPath;
         public bool IsModPack = false;
         public DLCType Type = 0;
-
+        private bool isClone = false;
+        public void SetClone(bool cl) => isClone = cl;
+        public bool IsClone() => isClone;
 
         public Dictionary<string, Dictionary<string, MPM_POptionDataEntry>> PlibModConfigSettings = new();
         public Dictionary<string, List<KMod.Label>> SavePoints = new();
@@ -116,10 +117,13 @@ namespace ModProfileManager_Addon
             return false;
         }
 
-
+        public string GetSerialized(bool indented = true)
+        {
+            return JsonConvert.SerializeObject(this, indented ? Formatting.Indented:Formatting.None);
+        }
         public void WriteModlistToFile()
         {
-            if (ModlistPath == null || ModlistPath == string.Empty || ModlistPath == ModAssets.TMP_PRESET)
+            if (ModlistPath == null || ModlistPath == string.Empty || ModlistPath == ModAssets.TMP_PRESET || isClone)
                 return;
 
             try

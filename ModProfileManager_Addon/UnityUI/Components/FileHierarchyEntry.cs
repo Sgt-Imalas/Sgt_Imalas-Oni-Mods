@@ -9,6 +9,7 @@ using static ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW;
 using UtilLibs.UI.FUI;
 using ModProfileManager_Addon.ModProfileData;
 using UnityEngine.EventSystems;
+using static ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.FILEHIERARCHY;
 
 namespace ModProfileManager_Addon.UnityUI.Components
 {
@@ -19,25 +20,27 @@ namespace ModProfileManager_Addon.UnityUI.Components
 
         public System.Action<bool> OnDialogueToggled;
         public System.Action RefreshUI;
-        FButton deleteButton, renameButton
-            //, editButton
+        FButton deleteButton, renameButton, exportButton
             ;
-        FToggleButton editButton; 
+        FToggleButton selectButton; 
         LocText Label;
         public System.Action<ModPresetEntry> OnApplyPreset;
+        ToolTip selectButtonTT;
 
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
             Label = transform.Find("Label").gameObject.GetComponent<LocText>();
-            editButton = gameObject.AddComponent<FToggleButton>();
+            selectButton = gameObject.AddComponent<FToggleButton>();
             renameButton  = transform.Find("RenameButton").gameObject.AddComponent<FButton>();
             deleteButton = transform.Find("DeleteButton").gameObject.AddComponent<FButton>();
-            //editButton = transform.Find("EditButton").gameObject.AddComponent<FButton>();
+            exportButton = transform.Find("ExportButton").gameObject.AddComponent<FButton>();
 
-            UIUtils.AddSimpleTooltipToObject(editButton.transform, PRESETHIERARCHYENTRY.TOOLTIP_EDIT);
+            selectButtonTT =
+            UIUtils.AddSimpleTooltipToObject(selectButton.transform, PRESETHIERARCHYENTRY.TOOLTIP_SELECT);
             UIUtils.AddSimpleTooltipToObject(renameButton.transform, PRESETHIERARCHYENTRY.TOOLTIP_RENAME);
             UIUtils.AddSimpleTooltipToObject(deleteButton.transform, PRESETHIERARCHYENTRY.TOOLTIP_DELETE);
+            UIUtils.AddSimpleTooltipToObject(exportButton.transform, PRESETHIERARCHYENTRY.TOOLTIP_EXPORT);
 
             if (ModProfile != null)
             {
@@ -45,22 +48,42 @@ namespace ModProfileManager_Addon.UnityUI.Components
                     Label.SetText(ModProfile.ModList.ModlistPath);
                 else
                     Label.SetText(ModProfile.ModList.ModlistPath + ": " + ModProfile.Path);
-
+                bool isCloneEntry = ModProfile.Clone;
                 deleteButton.OnClick += ConfirmDelete;
+                deleteButton.SetInteractable(!isCloneEntry);
+
                 renameButton.OnClick += OpenRenameDialogue;
-                editButton.OnClick += EditPreset;
+                renameButton.SetInteractable(!isCloneEntry);
+
+                selectButton.OnClick += EditPreset;
                 //button.OnClick += ApplyPreset;
                 UpdateSelected();
 
+                exportButton.SetInteractable(!isCloneEntry);
+                exportButton.OnClick += ExportToString;
+
                 deleteButton.gameObject.SetActive(false);
                 renameButton.gameObject.SetActive(false);
+                exportButton.gameObject.SetActive(false);
+
+                if (isCloneEntry)
+                    selectButtonTT.SetSimpleTooltip(PRESETHIERARCHYENTRY.TOOLTIP_CLONE);
             }
         }
+
+        private void ExportToString()
+        {
+            if(ModProfile!=null && ModProfile.ModList != null)
+            {
+                ModProfile.ExportToClipboard();
+            }
+        }
+
         public void UpdateSelected()
         {
             bool selected = (ModAssets.SelectedModPack.Path == ModProfile.Path && ModAssets.SelectedModPack.ModList.ModlistPath == ModProfile.ModList.ModlistPath);
 
-            editButton.ChangeSelection(selected);
+            selectButton.ChangeSelection(selected);
         }
         //private void ApplyPreset()
         //{
@@ -101,7 +124,7 @@ namespace ModProfileManager_Addon.UnityUI.Components
                 if (RefreshUI != null)
                     RefreshUI();
             };
-            DialogUtil.CreateTextInputDialog(RENAME_POPUP.TITLE, FriendlyName, false, RenameAction, () => SetDialogueState(false), FrontEndManager.Instance.gameObject, false, false, true);
+            DialogUtil.CreateTextInputDialog(RENAME_POPUP.TITLE, FriendlyName,null, false, RenameAction, () => SetDialogueState(false), FrontEndManager.Instance.gameObject, false, false, true);
         }
         void ConfirmDelete()
         {
@@ -125,11 +148,13 @@ namespace ModProfileManager_Addon.UnityUI.Components
         {
             deleteButton.gameObject.SetActive(false);
             renameButton.gameObject.SetActive(false);
+            exportButton.gameObject.SetActive(false);
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
             deleteButton.gameObject.SetActive(true);
+            exportButton.gameObject.SetActive(true);
             renameButton.gameObject.SetActive(true);
         }
     }

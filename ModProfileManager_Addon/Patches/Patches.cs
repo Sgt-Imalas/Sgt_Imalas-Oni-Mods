@@ -13,7 +13,7 @@ using UnityEngine;
 using UtilLibs;
 using static ModProfileManager_Addon.ModAssets;
 
-namespace ModProfileManager_Addon
+namespace ModProfileManager_Addon.Patches
 {
     internal class Patches
     {
@@ -24,14 +24,14 @@ namespace ModProfileManager_Addon
 
             public static void Postfix(MainMenu __instance, MainMenu.ButtonInfo info, KButton __result)
             {
-                if(info.text.ToString() == global::STRINGS.UI.FRONTEND.MODS.TITLE.ToString())
+                if (info.text.ToString() == global::STRINGS.UI.FRONTEND.MODS.TITLE.ToString())
                 {
                     var presetButton = Util.KInstantiateUI<KButton>(__result.gameObject, __result.gameObject);
                     presetButton.gameObject.name = "PresetButton";
                     var rec = presetButton.rectTransform();
                     bool SO = DlcManager.IsExpansion1Active();
                     rec.SetInsetAndSizeFromParentEdge(SO ? RectTransform.Edge.Right : RectTransform.Edge.Left, -63, 60);
-                    rec.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top,SO?7:4, 50);
+                    rec.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, SO ? 7 : 4, 50);
                     UIUtils.TryChangeText(rec, "Text", "Presets");
                     presetButton.bgImage.colorStyleSetting = PUITuning.Colors.ButtonPinkStyle;
 
