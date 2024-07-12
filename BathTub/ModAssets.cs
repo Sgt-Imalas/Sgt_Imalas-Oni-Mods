@@ -12,27 +12,29 @@ namespace BathTub
 {
     internal class ModAssets
     {
+        public static bool RoomsExpandedActive = false;
+
         public static GameObject FoamFX;
 
         internal static void InitFoam()
         {
-            SgtLogger.l("initiating foam particle system");
-            var movingGo = FoamFX.transform.Find("SparkleStreakMovement")?.gameObject;
-            var stationaryGo = FoamFX.transform.Find("SparkleStreakIdle")?.gameObject;
+            //SgtLogger.l("initiating foam particle system");
+            //var movingGo = FoamFX.transform.Find("SparkleStreakMovement")?.gameObject;
+            //var stationaryGo = FoamFX.transform.Find("SparkleStreakIdle")?.gameObject;
 
-            if (movingGo != null 
-                && movingGo.TryGetComponent<ParticleSystem>(out var ps_moving) 
-                && movingGo.TryGetComponent<ParticleSystemRenderer>(out var psr_moving))
-            {
-                UtilMethods.ListAllPropertyValues(psr_moving);
-                UtilMethods.ListAllFieldValues(psr_moving);
-            }
-            if (stationaryGo != null 
-                && stationaryGo.TryGetComponent<ParticleSystem>(out var ps_stationary)
-                && stationaryGo.TryGetComponent<ParticleSystemRenderer>(out var psr_stationary))
-            {
+            //if (movingGo != null 
+            //    && movingGo.TryGetComponent<ParticleSystem>(out var ps_moving) 
+            //    && movingGo.TryGetComponent<ParticleSystemRenderer>(out var psr_moving))
+            //{
+            //    UtilMethods.ListAllPropertyValues(psr_moving);
+            //    UtilMethods.ListAllFieldValues(psr_moving);
+            //}
+            //if (stationaryGo != null 
+            //    && stationaryGo.TryGetComponent<ParticleSystem>(out var ps_stationary)
+            //    && stationaryGo.TryGetComponent<ParticleSystemRenderer>(out var psr_stationary))
+            //{
                 
-            }
+            //}
         }
     }
 }
