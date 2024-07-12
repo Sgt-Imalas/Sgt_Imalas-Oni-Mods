@@ -40,30 +40,25 @@ namespace ModProfileManager_Addon.API
             var q = AppDomain.CurrentDomain.GetAssemblies()
                    .SelectMany(t => t.GetTypes());
 
-
+            SgtLogger.l("Loading custom option handlers");
 
             foreach (var type in q)
             {
-                ///This method should return a JObject that contains all data the component on the given gameobject transfers to the blueprint, see the example at the top
-                var DataGetter = AccessTools.Method(type, "ModOptions_GetData",
-                new[]
-                {
-                    typeof(GameObject)
-                });
+                ///This method should return a JObject that contains all custom option data you want to store
+                var DataGetter = AccessTools.Method(type, "ModOptions_GetData");
 
-                ///This method recieves the target gameobject and the JObject data it stored with the method above. it should apply the data from that JObject to the given gameobject, see the example at the top
+                ///This method recieves the the JObject data that got stored with the method above.
                 var DataApplier = AccessTools.Method(type, "ModOptions_SetData",
                 new[]
                 {
-                    typeof(GameObject)
-                    , typeof(JObject)
+                    typeof(JObject)
                 });
-                string typeName = type.Assembly.FullName + "_" + type.Name;
+                string typeName = type.Assembly.GetName().Name + "_" + type.Name;
 
 
                 if (DataGetter != null && DataApplier != null)
                 {
-                    SgtLogger.l("trying to register additional blueprint data for type " + typeName);
+                    SgtLogger.l("trying to register additional mod option data for type " + typeName);
                     var getterDelegate = (GetCustomModOptionDataDelegate)Delegate.CreateDelegate(typeof(GetCustomModOptionDataDelegate), DataGetter);
                     var setterDelegate = (ApplyCustomModOptionData)Delegate.CreateDelegate(typeof(ApplyCustomModOptionData), DataApplier);
                     if (getterDelegate != null && setterDelegate != null)
@@ -141,6 +136,10 @@ namespace ModProfileManager_Addon.API
 
         internal static void StoreData(ref Dictionary<string, SaveGameModList.MPM_POptionDataEntry> modConfigs)
         {
+            if (CustomModOptionDataEntries.Count == 0)
+                return;
+
+            SgtLogger.l("fetching custom data, count: " + CustomModOptionDataEntries.Count);
             foreach (var entry in CustomModOptionDataEntries)
             {
                 try
@@ -149,6 +148,10 @@ namespace ModProfileManager_Addon.API
                     if (data != null)
                     {
                         modConfigs.Add(entry.Key, new(entry.Key, false, false, data));
+                    }
+                    else
+                    {
+                        SgtLogger.warning("data object for " + entry.Key + " was null");
                     }
                 }
                 catch (Exception ex)
@@ -166,7 +169,6 @@ namespace ModProfileManager_Addon.API
             {
                 customData.Add(entry.Key, entry.Value.ModConfigData);
             }
-            Directory.CreateDirectory(ModAssets.PendingCustomDataPath);
             IO_Utils.WriteToFile(customData, ModAssets.PendingCustomDataPath);
         }
     }

@@ -434,7 +434,7 @@ namespace ModProfileManager_Addon
 
                     if (!File.Exists(configFilePath))
                     {
-                        SgtLogger.l("no Config file found for " + modID + " on path: " + configFilePath);
+                        //SgtLogger.l("no Config file found for " + modID + " on path: " + configFilePath);
                         continue;
                     }
                     try
@@ -444,7 +444,7 @@ namespace ModProfileManager_Addon
                         {
                             using (JsonTextReader reader = new JsonTextReader(file))
                             {
-                                SgtLogger.l(modID + "\n" + configFilePath, "FilePathToRead");
+                                //SgtLogger.l(modID + "\n" + configFilePath, "FilePathToRead");
                                 JObject data = (JObject)JToken.ReadFrom(reader);
                                 //SgtLogger.l(o2.ToString(), modID);
                                 ModConfigs.Add(modID, new MPM_POptionDataEntry(fileName, UseSharedConfigLocation, intentedFormat, data));

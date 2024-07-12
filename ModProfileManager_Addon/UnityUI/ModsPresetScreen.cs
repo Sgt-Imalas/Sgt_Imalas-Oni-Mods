@@ -102,7 +102,6 @@ namespace ModProfileManager_Addon.UnityUI
             ClearModProfileSearchBar = transform.Find("FileHierarchy/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
             ClearModProfileSearchBar.OnClick += () => ModProfileSearchbar.Text = string.Empty;
 
-            SgtLogger.l(OpenPresetFolder.rectTransform().sizeDelta.x.ToString(), "WIDT");
             ModProfileSearchbar.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 3, 280);
             OpenPresetFolder.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 42, 35);
             ClearModProfileSearchBar.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 82, 35);
@@ -211,7 +210,7 @@ namespace ModProfileManager_Addon.UnityUI
             TMP.IsModPack = true;
             TMP.ModlistPath = ModAssets.TMP_PRESET;
             TMP.ReferencedColonySaveName = ModAssets.TMP_PRESET;
-            TMP.AddOrUpdateEntryToModList(ModAssets.TMP_PRESET, currentMods);
+            TMP.AddOrUpdateEntryToModList(ModAssets.TMP_PRESET, currentMods,true);
 
             ModAssets.SelectedModPack = new ModPresetEntry(TMP, ModAssets.TMP_PRESET);
         }

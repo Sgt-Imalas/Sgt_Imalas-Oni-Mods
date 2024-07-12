@@ -75,7 +75,7 @@ namespace ModProfileManager_Addon.UnityUI.Components
         {
             if(ModProfile!=null && ModProfile.ModList != null)
             {
-                ModProfile.ExportToClipboard();
+                ModAssets.ExportToClipboard(ModProfile.ModList);
             }
         }
 

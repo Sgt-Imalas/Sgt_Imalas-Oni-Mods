@@ -2,9 +2,12 @@
 using Klei;
 using KMod;
 using ModProfileManager_Addon.API;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml.Linq;
+using UnityEngine;
 using UtilLibs;
 using UtilLibs.ModSyncing;
 
@@ -32,7 +35,35 @@ namespace ModProfileManager_Addon
         {
             base.OnAllModsLoaded(harmony, mods);
             Mod_API.RegisterCustomModOptionHandlers();
-            Mod_API.ApplyCustomDataIfPossible(mods);
+            Mod_API.ApplyCustomDataOnLoad();
         }
+
+        /// <summary>
+        /// Example for how to store custom mod data
+        /// 1 registration per type possible
+        /// </summary>
+        /// <param name="data"></param>
+#if DEBUG
+        public static void ModOptions_SetData(JObject data)
+        {
+            if(data != null)
+            {
+                var t1 = data.GetValue("CheeseKey");
+                if (t1 == null)
+                    return;
+                var text = t1.Value<string>();
+                SgtLogger.l("OnApplyModData: " + text);
+
+            }
+        }
+        public static JObject ModOptions_GetData()
+        {
+            SgtLogger.l("Writing Cheese");
+            return new JObject()
+            {
+               { "CheeseKey", "CheeseHasBeenWritten"}
+            };
+        }
+#endif
     }
 }

@@ -49,7 +49,7 @@ namespace ModProfileManager_Addon
             ModPresetScreen = bundle.LoadAsset<GameObject>("Assets/UIs/PresetOverview.prefab");
             var TMPConverter = new TMPConverter();
             TMPConverter.ReplaceAllText(ModPresetScreen);
-            UIUtils.ListAllChildren(ModPresetScreen.transform);
+            //UIUtils.ListAllChildren(ModPresetScreen.transform);
         }
         static List<string> forbiddenNames = new List<string>()
         {
